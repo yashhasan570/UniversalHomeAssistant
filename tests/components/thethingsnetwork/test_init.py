@@ -3,12 +3,12 @@
 import pytest
 from ttn_client import TTNAuthError
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(("exception_class"), [TTNAuthError, Exception])
 async def test_init_exceptions(
-    hass: UniversalAssistant, mock_ttnclient, exception_class, mock_config_entry
+    hass: __HAC_KEEP__, mock_ttnclient, exception_class, mock_config_entry
 ) -> None:
     """Test TTN Exceptions."""
 

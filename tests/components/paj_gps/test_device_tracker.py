@@ -20,7 +20,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.paj_gps.const import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -37,7 +37,7 @@ def device_tracker_only() -> Generator[None]:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -50,7 +50,7 @@ async def test_all_entities(
 
 
 async def test_entity_unavailable_on_coordinator_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -72,7 +72,7 @@ async def test_entity_unavailable_on_coordinator_error(
 
 
 async def test_entity_recovers_after_coordinator_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -96,7 +96,7 @@ async def test_entity_recovers_after_coordinator_error(
 
 
 async def test_device_removed_from_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -117,7 +117,7 @@ async def test_device_removed_from_account(
 
 
 async def test_new_device_added_dynamically(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -157,7 +157,7 @@ async def test_new_device_added_dynamically(
     ids=["no_latitude", "no_longitude", "valid_position"],
 )
 async def test_position_none_when_coordinates_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     lat: float | None,

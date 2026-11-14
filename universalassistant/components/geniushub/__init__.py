@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -47,13 +47,13 @@ type GeniusHubConfigEntry = ConfigEntry[GeniusBroker]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Genius Hub services."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: GeniusHubConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: GeniusHubConfigEntry) -> None:
     """Create a Genius Hub system."""
     if CONF_TOKEN in entry.data and CONF_MAC in entry.data:
         entity_registry = er.async_get(hass)
@@ -101,7 +101,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GeniusHubConfigEntr
 class GeniusBroker:
     """Container for geniushub client and data."""
 
-    def __init__(self, hass: UniversalAssistant, client: GeniusHub, hub_uid: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, client: GeniusHub, hub_uid: str) -> None:
         """Initialize the geniushub client."""
         self.hass = hass
         self.client = client

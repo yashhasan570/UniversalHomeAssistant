@@ -6,13 +6,13 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import CONF_LISTEN_PORT, DEFAULT_NAME, DEFAULT_PORT, DOMAIN
 
 
 @callback
-def configured_servers(hass: UniversalAssistant) -> set[str]:
+def configured_servers(hass: __HAC_KEEP__) -> set[str]:
     """Return a set of the configured servers."""
     return {
         entry.data[CONF_NAME] for entry in hass.config_entries.async_entries(DOMAIN)

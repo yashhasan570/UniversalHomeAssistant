@@ -6,7 +6,7 @@ import logging
 from typing import Any
 
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import Context, UniversalAssistant, State
+from universalassistant.core import Context, __HAC_KEEP__, State
 
 from .const import DOMAIN, InputTextService, InputTextServiceArgument
 
@@ -14,7 +14,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def _async_reproduce_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state: State,
     *,
     context: Context | None = None,
@@ -43,7 +43,7 @@ async def _async_reproduce_state(
 
 
 async def async_reproduce_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     states: Iterable[State],
     *,
     context: Context | None = None,

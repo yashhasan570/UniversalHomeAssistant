@@ -21,14 +21,14 @@ from universalassistant.components.transmission.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PATH, CONF_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import MOCK_CONFIG_DATA_VERSION_1_1, OLD_MOCK_CONFIG_DATA
 
 
 async def test_config_flow_entry_migrate_1_1_to_1_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
 ) -> None:
     """Test that config flow entry is migrated correctly from v1.1 to v1.2."""
@@ -52,7 +52,7 @@ async def test_config_flow_entry_migrate_1_1_to_1_2(
 
 
 async def test_setup_failed_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_setup_failed_connection_error(
 
 
 async def test_setup_failed_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_setup_failed_auth_error(
     ],
 )
 async def test_setup_failed_too_old(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     version: str,
@@ -106,7 +106,7 @@ async def test_setup_failed_too_old(
 
 
 async def test_setup_failed_unexpected_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_setup_failed_unexpected_error(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -175,7 +175,7 @@ async def test_unload_entry(
     ],
 )
 async def test_migrate_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     entity_registry: er.EntityRegistry,
     domain: str,
@@ -206,7 +206,7 @@ async def test_migrate_unique_id(
 
 
 async def test_coordinator_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

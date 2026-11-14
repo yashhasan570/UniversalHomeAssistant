@@ -1,4 +1,4 @@
-"""Version functions for Universal Universal Home Assistant templates."""
+"""Version functions for __HA_KEEP__ templates."""
 
 from typing import TYPE_CHECKING
 

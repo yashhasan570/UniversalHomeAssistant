@@ -22,7 +22,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -31,7 +31,7 @@ ENTITY_ID = "binary_sensor.ab12_cde_ignition"
 
 
 async def test_ignition_binary_sensor_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_scorpiontrack_client: AsyncMock,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_ignition_binary_sensor_state(
 
 
 async def test_ignition_binary_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -70,7 +70,7 @@ async def test_ignition_binary_sensor_snapshot(
     ],
 )
 async def test_ignition_binary_sensor_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,
@@ -97,7 +97,7 @@ async def test_ignition_binary_sensor_availability(
 
 
 async def test_removed_vehicle_removes_ignition_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
@@ -117,7 +117,7 @@ async def test_removed_vehicle_removes_ignition_binary_sensor(
 
 
 async def test_ignition_binary_sensor_uses_existing_vehicle_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

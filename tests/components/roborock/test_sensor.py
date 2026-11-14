@@ -19,7 +19,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.roborock.const import A01_UPDATE_INTERVAL, DOMAIN
 from universalassistant.components.roborock.coordinator import MIN_UNAVAILABLE_DURATION
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -33,7 +33,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     setup_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -66,7 +66,7 @@ def setup_coordinator_side_effect(
     ],
 )
 async def test_sensors_coordinator_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
     side_effect: Any,
@@ -104,7 +104,7 @@ async def test_sensors_coordinator_state(
 
 
 async def test_dock_cleaning_brush_sensor_not_created_and_cleaned_up(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bypass_api_client_fixture: None,
     entity_registry: er.EntityRegistry,
     mock_roborock_entry: MockConfigEntry,
@@ -149,7 +149,7 @@ async def test_dock_cleaning_brush_sensor_not_created_and_cleaned_up(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dock_cleaning_brush_sensor_created_when_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bypass_api_client_fixture: None,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
@@ -167,7 +167,7 @@ async def test_dock_cleaning_brush_sensor_created_when_supported(
 
 
 async def test_dyad_follows_reported_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
 ) -> None:
@@ -183,7 +183,7 @@ async def test_dyad_follows_reported_state(
 
 
 async def test_dyad_unsubscribed_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
 ) -> None:
@@ -198,7 +198,7 @@ async def test_dyad_unsubscribed_on_unload(
 
 
 async def test_dyad_unreported_protocol_is_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_devices: list[FakeDevice],
     mock_roborock_entry: MockConfigEntry,
 ) -> None:
@@ -214,7 +214,7 @@ async def test_dyad_unreported_protocol_is_unknown(
 
 
 async def test_dyad_update_does_not_postpone_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
     freezer: FrozenDateTimeFactory,
@@ -242,7 +242,7 @@ async def test_dyad_update_does_not_postpone_poll(
     ],
 )
 async def test_dyad_availability_follows_last_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
     freezer: FrozenDateTimeFactory,

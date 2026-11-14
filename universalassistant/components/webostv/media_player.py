@@ -13,8 +13,8 @@ from universalassistant.components.media_player import (
     MediaType,
 )
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import UniversalAssistant, ServiceResponse, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceResponse, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, format_mac
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -51,7 +51,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WebOsTvConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -326,7 +326,7 @@ class LgWebOSMediaPlayerEntity(WebOsTvEntity, RestoreEntity, MediaPlayerEntity):
     async def async_select_source(self, source: str) -> None:
         """Select input source."""
         if (source_dict := self._source_list.get(source)) is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="source_not_found",
                 translation_placeholders={

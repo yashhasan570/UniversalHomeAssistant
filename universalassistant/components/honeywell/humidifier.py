@@ -11,7 +11,7 @@ from universalassistant.components.humidifier import (
     HumidifierEntity,
     HumidifierEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -69,7 +69,7 @@ HUMIDIFIERS: dict[str, HoneywellHumidifierEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HoneywellConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

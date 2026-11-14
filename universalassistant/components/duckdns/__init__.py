@@ -2,7 +2,7 @@
 
 import logging
 
-from universalassistant.core import UniversalAssistant, async_noop
+from universalassistant.core import __HAC_KEEP__, async_noop
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Initialize the DuckDNS component."""
 
     async_setup_services(hass)
@@ -23,7 +23,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: DuckDnsConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: DuckDnsConfigEntry) -> None:
     """Set up Duck DNS from a config entry."""
 
     coordinator = DuckDnsUpdateCoordinator(hass, entry)
@@ -34,5 +34,5 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DuckDnsConfigEntry)
     entry.async_on_unload(coordinator.async_add_listener(async_noop))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: DuckDnsConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: DuckDnsConfigEntry) -> None:
     """Unload a config entry."""

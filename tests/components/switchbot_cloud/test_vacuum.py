@@ -29,14 +29,14 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 
 from . import configure_integration
 
 
 async def test_coordinator_data_is_none(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test coordinator data is none."""
     mock_list_devices.return_value = [
@@ -59,7 +59,7 @@ async def test_coordinator_data_is_none(
 
 
 async def test_k10_plus_set_fan_speed(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test K10 plus set fan speed."""
 
@@ -98,7 +98,7 @@ async def test_k10_plus_set_fan_speed(
 
 
 async def test_k10_plus_return_to_base(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test k10 plus return to base."""
     mock_list_devices.return_value = [
@@ -139,7 +139,7 @@ async def test_k10_plus_return_to_base(
 
 
 async def test_k10_plus_pause(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test k10 plus pause."""
     mock_list_devices.return_value = [
@@ -177,7 +177,7 @@ async def test_k10_plus_pause(
 
 
 async def test_k10_plus_set_start(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test K10 plus start."""
 
@@ -216,7 +216,7 @@ async def test_k10_plus_set_start(
 
 
 async def test_k10_plus_webhook_updates_state_after_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_list_devices,
     mock_get_status,
     mock_get_webook_configuration,
@@ -295,7 +295,7 @@ async def test_k10_plus_webhook_updates_state_after_reload(
 
 
 async def test_webhook_partial_payload_keeps_known_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_list_devices: AsyncMock,
     mock_get_status: AsyncMock,
     mock_get_webook_configuration: AsyncMock,
@@ -362,7 +362,7 @@ async def test_webhook_partial_payload_keeps_known_state(
 
 
 async def test_k20_plus_pro_set_fan_speed(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test K10 plus set fan speed."""
 
@@ -408,7 +408,7 @@ async def test_k20_plus_pro_set_fan_speed(
 
 
 async def test_k20_plus_pro_return_to_base(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test K20+ Pro return to base."""
     mock_list_devices.side_effect = [
@@ -450,7 +450,7 @@ async def test_k20_plus_pro_return_to_base(
 
 
 async def test_k20_plus_pro_pause(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test K20+ Pro pause."""
     mock_list_devices.side_effect = [
@@ -489,7 +489,7 @@ async def test_k20_plus_pro_pause(
 
 
 async def test_k20_plus_pro_start(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test K20+ Pro start."""
 
@@ -537,7 +537,7 @@ async def test_k20_plus_pro_start(
 
 
 async def test_k10_plus_pro_combo_set_fan_speed(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test k10+ Pro Combo set fan speed."""
 
@@ -582,7 +582,7 @@ async def test_k10_plus_pro_combo_set_fan_speed(
 
 
 async def test_s20_start(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test s20 start."""
 
@@ -631,7 +631,7 @@ async def test_s20_start(
 
 
 async def test_s20_set_fan_speed(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test s20 set fan speed."""
 

@@ -24,7 +24,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.hassio import DOMAIN, get_addons_info
 from universalassistant.components.hassio.const import ADDONS_COORDINATOR
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -96,7 +96,7 @@ def mock_all(
     ],
 )
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     expected: str,
     addon_state: str,
@@ -131,7 +131,7 @@ async def test_binary_sensor(
 
 
 async def test_addon_state_from_supervisor_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -188,7 +188,7 @@ async def test_addon_state_from_supervisor_event(
 
 
 async def test_addon_state_event_during_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_supervisor_ws_client: WebSocketGenerator,
     addon_installed: AsyncMock,
@@ -255,7 +255,7 @@ async def test_addon_state_event_during_poll(
 
 
 async def test_addon_state_event_during_forced_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_supervisor_ws_client: WebSocketGenerator,
     addon_installed: AsyncMock,
@@ -333,7 +333,7 @@ async def test_addon_state_event_during_forced_refresh(
     ],
 )
 async def test_addon_state_event_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_supervisor_ws_client: WebSocketGenerator,
     event_data: dict[str, str],
@@ -411,7 +411,7 @@ async def test_addon_state_event_ignored(
     ],
 )
 async def test_mount_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     supervisor_client: AsyncMock,
@@ -489,7 +489,7 @@ async def test_mount_binary_sensor(
 
 
 async def test_mount_refresh_after_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,

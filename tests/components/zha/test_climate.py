@@ -48,7 +48,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 
 from .common import find_entity_id, send_attributes_report
@@ -150,7 +150,7 @@ def climate_platform_only():
 
 @pytest.fixture
 def device_climate_mock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ):
@@ -212,7 +212,7 @@ def test_sequence_mappings() -> None:
             assert Thermostat.SystemMode(HVAC_MODE_2_SYSTEM[hvac_mode]) is not None
 
 
-async def test_climate_local_temperature(hass: UniversalAssistant, device_climate) -> None:
+async def test_climate_local_temperature(hass: __HAC_KEEP__, device_climate) -> None:
     """Test local temperature."""
 
     thrm_cluster = device_climate.device.device.endpoints[1].thermostat
@@ -227,7 +227,7 @@ async def test_climate_local_temperature(hass: UniversalAssistant, device_climat
 
 
 async def test_climate_hvac_action_running_state(
-    hass: UniversalAssistant, device_climate_sinope
+    hass: __HAC_KEEP__, device_climate_sinope
 ) -> None:
     """Test hvac action via running state."""
 
@@ -292,7 +292,7 @@ async def test_climate_hvac_action_running_state(
 
 
 async def test_climate_hvac_action_pi_demand(
-    hass: UniversalAssistant, device_climate
+    hass: __HAC_KEEP__, device_climate
 ) -> None:
     """Test hvac action based on pi_heating/cooling_demand attrs."""
 
@@ -341,7 +341,7 @@ async def test_climate_hvac_action_pi_demand(
     ],
 )
 async def test_hvac_mode(
-    hass: UniversalAssistant, device_climate, sys_mode, hvac_mode
+    hass: __HAC_KEEP__, device_climate, sys_mode, hvac_mode
 ) -> None:
     """Test HVAC mode."""
 
@@ -379,7 +379,7 @@ async def test_hvac_mode(
     ],
 )
 async def test_hvac_modes(
-    hass: UniversalAssistant, device_climate_mock, seq_of_op, modes
+    hass: __HAC_KEEP__, device_climate_mock, seq_of_op, modes
 ) -> None:
     """Test HVAC modes from sequence of operations."""
 
@@ -401,7 +401,7 @@ async def test_hvac_modes(
     ],
 )
 async def test_target_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_climate_mock,
     sys_mode: Thermostat.SystemMode,
     preset: Literal[PRESET_AWAY] | None,
@@ -443,7 +443,7 @@ async def test_target_temperature(
     ],
 )
 async def test_target_temperature_high(
-    hass: UniversalAssistant, device_climate_mock, preset, unoccupied, target_temp
+    hass: __HAC_KEEP__, device_climate_mock, preset, unoccupied, target_temp
 ) -> None:
     """Test target temperature high property."""
 
@@ -479,7 +479,7 @@ async def test_target_temperature_high(
     ],
 )
 async def test_target_temperature_low(
-    hass: UniversalAssistant, device_climate_mock, preset, unoccupied, target_temp
+    hass: __HAC_KEEP__, device_climate_mock, preset, unoccupied, target_temp
 ) -> None:
     """Test target temperature low property."""
 
@@ -518,7 +518,7 @@ async def test_target_temperature_low(
     ],
 )
 async def test_set_hvac_mode(
-    hass: UniversalAssistant, device_climate, hvac_mode, sys_mode
+    hass: __HAC_KEEP__, device_climate, hvac_mode, sys_mode
 ) -> None:
     """Test setting hvac mode."""
 
@@ -569,7 +569,7 @@ async def test_set_hvac_mode(
     }
 
 
-async def test_set_temperature_hvac_mode(hass: UniversalAssistant, device_climate) -> None:
+async def test_set_temperature_hvac_mode(hass: __HAC_KEEP__, device_climate) -> None:
     """Test setting HVAC mode in temperature service call."""
 
     entity_id = find_entity_id(Platform.CLIMATE, device_climate, hass)
@@ -598,7 +598,7 @@ async def test_set_temperature_hvac_mode(hass: UniversalAssistant, device_climat
 
 
 async def test_set_temperature_heat_cool(
-    hass: UniversalAssistant, device_climate_mock
+    hass: __HAC_KEEP__, device_climate_mock
 ) -> None:
     """Test setting temperature service call in heating/cooling HVAC mode."""
 
@@ -685,7 +685,7 @@ async def test_set_temperature_heat_cool(
     }
 
 
-async def test_set_temperature_heat(hass: UniversalAssistant, device_climate_mock) -> None:
+async def test_set_temperature_heat(hass: __HAC_KEEP__, device_climate_mock) -> None:
     """Test setting temperature service call in heating HVAC mode."""
 
     device_climate = await device_climate_mock(
@@ -764,7 +764,7 @@ async def test_set_temperature_heat(hass: UniversalAssistant, device_climate_moc
     }
 
 
-async def test_set_temperature_cool(hass: UniversalAssistant, device_climate_mock) -> None:
+async def test_set_temperature_cool(hass: __HAC_KEEP__, device_climate_mock) -> None:
     """Test setting temperature service call in cooling HVAC mode."""
 
     device_climate = await device_climate_mock(
@@ -844,7 +844,7 @@ async def test_set_temperature_cool(hass: UniversalAssistant, device_climate_moc
 
 
 async def test_set_temperature_wrong_mode(
-    hass: UniversalAssistant, device_climate_mock
+    hass: __HAC_KEEP__, device_climate_mock
 ) -> None:
     """Test setting temperature service call for wrong HVAC mode."""
 
@@ -884,7 +884,7 @@ async def test_set_temperature_wrong_mode(
     assert thrm_cluster.write_attributes.await_count == 0
 
 
-async def test_fan_mode(hass: UniversalAssistant, device_climate_fan) -> None:
+async def test_fan_mode(hass: __HAC_KEEP__, device_climate_fan) -> None:
     """Test fan mode."""
 
     entity_id = find_entity_id(Platform.CLIMATE, device_climate_fan, hass)
@@ -914,7 +914,7 @@ async def test_fan_mode(hass: UniversalAssistant, device_climate_fan) -> None:
 
 
 async def test_set_fan_mode_not_supported(
-    hass: UniversalAssistant, device_climate_fan
+    hass: __HAC_KEEP__, device_climate_fan
 ) -> None:
     """Test fan setting unsupported mode."""
 
@@ -931,7 +931,7 @@ async def test_set_fan_mode_not_supported(
     assert fan_cluster.write_attributes.await_count == 0
 
 
-async def test_set_fan_mode(hass: UniversalAssistant, device_climate_fan) -> None:
+async def test_set_fan_mode(hass: __HAC_KEEP__, device_climate_fan) -> None:
     """Test fan mode setting."""
 
     entity_id = find_entity_id(Platform.CLIMATE, device_climate_fan, hass)

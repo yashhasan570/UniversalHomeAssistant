@@ -7,8 +7,8 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import async_get_flo_api
 from .const import CONF_USE_SSO, DOMAIN, LOGGER
@@ -21,7 +21,7 @@ DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data) -> bool:
+async def validate_input(hass: __HAC_KEEP__, data) -> bool:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -69,5 +69,5 @@ class FloConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

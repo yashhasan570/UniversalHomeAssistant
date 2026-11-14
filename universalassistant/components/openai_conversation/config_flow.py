@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_PROMPT,
     EntityStateAttribute,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import llm
 from universalassistant.helpers.field_visibility import FieldCondition
 from universalassistant.helpers.httpx_client import get_async_client
@@ -116,7 +116,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> None:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> None:
     """Validate the user input allows us to connect.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.

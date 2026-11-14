@@ -19,8 +19,8 @@ from universalassistant.components.notify import (
 )
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.httpx_client import get_async_client
@@ -44,7 +44,7 @@ PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
 
 
 async def async_get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> ProwlNotificationService:
@@ -67,7 +67,7 @@ async def async_get_service(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -101,19 +101,19 @@ async def _async_post(
                 url=url,
             )
     except TimeoutError as ex:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="api_timeout"
         ) from ex
     except prowlpy.APIError as ex:
         if str(ex).startswith("Invalid API key"):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="invalid_api_key"
             ) from ex
         if str(ex).startswith("Not accepted"):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="rate_limit_exceeded"
             ) from ex
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="api_error",
             translation_placeholders={"error": str(ex)},
@@ -128,7 +128,7 @@ class ProwlNotificationService(BaseNotificationService):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         api_key: str,
         httpx_client: httpx2.AsyncClient,
         legacy_setup: tuple[str, object] | None = None,
@@ -185,7 +185,7 @@ class ProwlNotificationEntity(NotifyEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         name: str,
         unique_id: str,
         api_key: str,

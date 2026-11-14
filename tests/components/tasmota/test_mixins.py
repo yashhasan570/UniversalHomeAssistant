@@ -10,13 +10,13 @@ from pytest_universalassistant.common import async_fire_mqtt_message
 from pytest_universalassistant.typing import MqttMockHAClient, MqttMockPahoClient
 
 from universalassistant.components.tasmota.const import DEFAULT_PREFIX
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .test_common import DEFAULT_CONFIG
 
 
 async def test_availability_poll_state_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_mock: MqttMockHAClient,
     setup_tasmota,

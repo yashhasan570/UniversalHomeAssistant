@@ -15,7 +15,7 @@ from hyponcloud import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONF_OEM, DEFAULT_OEM, DOMAIN, LOGGER
@@ -49,7 +49,7 @@ class HypontechDataCoordinator(DataUpdateCoordinator[HypontechCoordinatorData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: HypontechConfigEntry,
         api: HyponCloud,
         account_id: str,

@@ -1,6 +1,6 @@
 """Provides triggers for valves."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.trigger import Trigger, make_entity_transition_trigger
 
@@ -21,6 +21,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for valves."""
     return TRIGGERS

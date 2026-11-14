@@ -1,1 +1,1 @@
-"""Tests for the Universal Universal Home Assistant Hardware integration."""
+"""Tests for the __HA_KEEP__ Hardware integration."""

@@ -67,7 +67,7 @@ rules:
   reconfiguration-flow: done
   repair-issues:
     status: exempt
-    comment: Integration raises ConfigEntryAuthFailed and relies on Universal Universal Home Assistant core to surface reauth/repair issues, no custom repairs are defined.
+    comment: Integration raises ConfigEntryAuthFailed and relies on __HA_KEEP__ core to surface reauth/repair issues, no custom repairs are defined.
   stale-devices: done
 
   # Platinum

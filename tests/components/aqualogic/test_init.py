@@ -9,13 +9,13 @@ from universalassistant.components.aqualogic import AquaLogicProcessor
 from universalassistant.components.aqualogic.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_processor: MagicMock,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_load_unload_entry(
 
 @pytest.mark.usefixtures("mock_aqualogic_device")
 async def test_import_from_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_processor: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_import_from_yaml(
 
 
 async def test_import_from_yaml_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_processor: MagicMock,
     mock_aqualogic_device: MagicMock,
     issue_registry: ir.IssueRegistry,

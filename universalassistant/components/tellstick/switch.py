@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -17,7 +17,7 @@ from .entity import TellstickDevice
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

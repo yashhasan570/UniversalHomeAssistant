@@ -16,11 +16,11 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_user_flow(hass: UniversalAssistant) -> None:
+async def test_user_flow(hass: __HAC_KEEP__) -> None:
     """Test the full happy path user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -63,7 +63,7 @@ async def test_user_flow(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_egauge_client: MagicMock,
     side_effect: Exception,
     expected_error: str,
@@ -118,7 +118,7 @@ async def test_user_flow_errors(
 
 
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test configuration flow aborts when device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -146,7 +146,7 @@ async def test_user_flow_already_configured(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_egauge_client: MagicMock,
 ) -> None:
@@ -188,7 +188,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_egauge_client: MagicMock,
     side_effect: type[Exception] | Exception,
@@ -221,7 +221,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_egauge_client: MagicMock,
 ) -> None:

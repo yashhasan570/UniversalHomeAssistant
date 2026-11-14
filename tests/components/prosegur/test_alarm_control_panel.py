@@ -19,7 +19,7 @@ from universalassistant.const import (
     SERVICE_ALARM_DISARM,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_component, entity_registry as er
 
 from .conftest import CONTRACT
@@ -48,7 +48,7 @@ def mock_status(request: pytest.FixtureRequest) -> Generator[None]:
 
 
 async def test_entity_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration,
     mock_auth,
@@ -68,7 +68,7 @@ async def test_entity_registry(
 
 
 async def test_connection_error(
-    hass: UniversalAssistant, init_integration, mock_auth, mock_config_entry
+    hass: __HAC_KEEP__, init_integration, mock_auth, mock_config_entry
 ) -> None:
     """Test alarm panel when cloud connection fails."""
 
@@ -103,7 +103,7 @@ async def test_connection_error(
     ],
 )
 async def test_arm(
-    hass: UniversalAssistant, init_integration, mock_auth, code, alarm_service, alarm_state
+    hass: __HAC_KEEP__, init_integration, mock_auth, code, alarm_service, alarm_state
 ) -> None:
     """Test the alarm control panel can be set to away."""
 

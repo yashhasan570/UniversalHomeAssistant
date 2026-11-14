@@ -23,8 +23,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
@@ -39,7 +39,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.parametrize("device_fixture", ["rgb_single_segment", "rgb"])
 async def test_snapshots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -90,7 +90,7 @@ async def test_snapshots(
     ],
 )
 async def test_switch_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -126,7 +126,7 @@ async def test_switch_state(
 
     # Test invalid response, not becoming unavailable
     method_mock.side_effect = WLEDError
-    with pytest.raises(UniversalAssistantError, match="Invalid response from WLED API"):
+    with pytest.raises(__HAC_KEEP__Error, match="Invalid response from WLED API"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -140,7 +140,7 @@ async def test_switch_state(
 
     # Test connection error, leading to becoming unavailable
     method_mock.side_effect = WLEDConnectionError
-    with pytest.raises(UniversalAssistantError, match="Error communicating with WLED API"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error communicating with WLED API"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -155,7 +155,7 @@ async def test_switch_state(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_single_segment"])
 async def test_switch_dynamically_handle_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
 ) -> None:
@@ -213,7 +213,7 @@ async def test_switch_dynamically_handle_segments(
 
 
 async def test_audio_reactive_switch_follows_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
 ) -> None:
@@ -244,7 +244,7 @@ async def test_audio_reactive_switch_follows_device(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_single_segment"])
 async def test_audio_reactive_switch_once_usermod_shows_up(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
     caplog: pytest.LogCaptureFixture,

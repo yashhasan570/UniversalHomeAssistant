@@ -17,8 +17,8 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory, UnitOfElectricPotential
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -45,7 +45,7 @@ _STATE_CLASS_MAP: dict[ZoneType, SensorStateClass] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ElkM1ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -100,27 +100,27 @@ class ElkSensor(ElkAttachedEntity, SensorEntity):
     async def async_counter_refresh(self) -> None:
         """Refresh the value of a counter from the panel."""
         if not isinstance(self, ElkCounter):
-            raise UniversalAssistantError("supported only on ElkM1 Counter sensors")
+            raise __HAC_KEEP__Error("supported only on ElkM1 Counter sensors")
         self._element.get()
 
     async def async_counter_set(self, value: int | None = None) -> None:
         """Set the value of a counter on the panel."""
         if not isinstance(self, ElkCounter):
-            raise UniversalAssistantError("supported only on ElkM1 Counter sensors")
+            raise __HAC_KEEP__Error("supported only on ElkM1 Counter sensors")
         if value is not None:
             self._element.set(value)
 
     async def async_zone_bypass(self, code: int | None = None) -> None:
         """Bypass zone."""
         if not isinstance(self, ElkZone):
-            raise UniversalAssistantError("supported only on ElkM1 Zone sensors")
+            raise __HAC_KEEP__Error("supported only on ElkM1 Zone sensors")
         if code is not None:
             self._element.bypass(code)
 
     async def async_zone_trigger(self) -> None:
         """Trigger zone."""
         if not isinstance(self, ElkZone):
-            raise UniversalAssistantError("supported only on ElkM1 Zone sensors")
+            raise __HAC_KEEP__Error("supported only on ElkM1 Zone sensors")
         self._element.trigger()
 
 

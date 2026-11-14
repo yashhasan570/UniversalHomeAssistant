@@ -12,7 +12,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_load_json_object_fixture
 
 from universalassistant.components.energyzero.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -37,7 +37,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture
-async def mock_energyzero(hass: UniversalAssistant) -> AsyncGenerator[MagicMock]:
+async def mock_energyzero(hass: __HAC_KEEP__) -> AsyncGenerator[MagicMock]:
     """Return a mocked EnergyZero client."""
     with patch(
         "universalassistant.components.energyzero.coordinator.EnergyZero", autospec=True
@@ -92,7 +92,7 @@ async def mock_energyzero(hass: UniversalAssistant) -> AsyncGenerator[MagicMock]
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_energyzero: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_energyzero: MagicMock
 ) -> MockConfigEntry:
     """Set up the EnergyZero integration for testing."""
     mock_config_entry.add_to_hass(hass)

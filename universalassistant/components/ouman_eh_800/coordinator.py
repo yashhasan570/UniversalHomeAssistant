@@ -20,11 +20,11 @@ from ouman_eh_800_api import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
 )
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import ChildDeviceInfo, DeviceInfo
@@ -53,7 +53,7 @@ class OumanEh800Coordinator(DataUpdateCoordinator[OumanEh800Data]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: OumanEh800ConfigEntry,
     ) -> None:
         """Initialize the coordinator."""
@@ -122,11 +122,11 @@ class OumanEh800Coordinator(DataUpdateCoordinator[OumanEh800Data]):
             # Reload the config entry; setup re-validates the credentials and
             # starts a reauth flow if they are no longer valid.
             self.hass.config_entries.async_schedule_reload(self.config_entry.entry_id)
-            raise UniversalAssistantError("Authentication failed") from err
+            raise __HAC_KEEP__Error("Authentication failed") from err
         except OumanClientCommunicationError as err:
-            raise UniversalAssistantError("Error communicating with API") from err
+            raise __HAC_KEEP__Error("Error communicating with API") from err
         except OumanClientError as err:
-            raise UniversalAssistantError("Unexpected response from device") from err
+            raise __HAC_KEEP__Error("Unexpected response from device") from err
 
         self.async_set_updated_data(
             replace(self.data, values={**self.data.values, endpoint: result})

@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant Prana integration entry point.
+"""__HA_KEEP__ Prana integration entry point.
 
 Sets up the update coordinator and forwards platform setups.
 """
@@ -6,7 +6,7 @@ Sets up the update coordinator and forwards platform setups.
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import PranaConfigEntry, PranaCoordinator
 
@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.FAN, Platform.NUMBER, Platform.SENSOR, Platform.SWITCH]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PranaConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PranaConfigEntry) -> None:
     """Set up Prana from a config entry."""
     coordinator = PranaCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -24,7 +24,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PranaConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: PranaConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: PranaConfigEntry) -> None:
     """Unload Prana integration platforms and coordinator."""
     _LOGGER.info("Unloading Prana integration")
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

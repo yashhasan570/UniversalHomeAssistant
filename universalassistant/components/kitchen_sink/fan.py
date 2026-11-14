@@ -7,7 +7,7 @@ from infrared_protocols.commands.nec import NECCommand
 from universalassistant.components.fan import FanEntity, FanEntityFeature
 from universalassistant.components.infrared import InfraredEmitterConsumerEntity
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -26,7 +26,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

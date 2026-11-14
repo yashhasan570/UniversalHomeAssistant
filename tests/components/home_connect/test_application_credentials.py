@@ -5,7 +5,7 @@ import pytest
 from universalassistant.components.home_connect.application_credentials import (
     async_get_description_placeholders,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -17,7 +17,7 @@ from universalassistant.core import UniversalAssistant
     ],
 )
 async def test_description_placeholders(
-    hass: UniversalAssistant, country: str | None, domain: str
+    hass: __HAC_KEEP__, country: str | None, domain: str
 ) -> None:
     """Test description placeholders use the region specific developer portal."""
     hass.config.country = country

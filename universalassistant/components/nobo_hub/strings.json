@@ -75,7 +75,7 @@
   },
   "exceptions": {
     "cannot_connect": {
-      "message": "Unable to connect to Nobø Ecohub with serial {serial} at {ip}; will retry. If the hub is on a different network from Universal Universal Home Assistant and has changed IP address, reconfigure the integration with the new IP address."
+      "message": "Unable to connect to Nobø Ecohub with serial {serial} at {ip}; will retry. If the hub is on a different network from __HA_KEEP__ and has changed IP address, reconfigure the integration with the new IP address."
     },
     "set_disable_global_override_failed": {
       "message": "Failed to change whether global overrides are disabled for the zone."

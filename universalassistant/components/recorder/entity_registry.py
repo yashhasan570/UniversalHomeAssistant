@@ -3,8 +3,8 @@
 import logging
 from typing import TYPE_CHECKING
 
-from universalassistant.core import Event, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.event import async_has_entity_registry_updated_listeners
 from universalassistant.helpers.recorder import get_instance, session_scope
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the entity hooks."""
 
     @callback
@@ -44,7 +44,7 @@ def async_setup(hass: UniversalAssistant) -> None:
         return event_data["action"] == "update" and "old_entity_id" in event_data
 
     if async_has_entity_registry_updated_listeners(hass):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             "The recorder entity registry listener must be installed"
             " before async_track_entity_registry_updated_event is called"
         )

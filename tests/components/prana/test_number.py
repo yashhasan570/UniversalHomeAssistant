@@ -12,14 +12,14 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import async_init_integration
 
 
 async def test_numbers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_prana_api: MagicMock,
@@ -45,7 +45,7 @@ async def test_numbers(
     ],
 )
 async def test_number_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_prana_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

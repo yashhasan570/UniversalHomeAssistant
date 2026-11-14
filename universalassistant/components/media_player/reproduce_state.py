@@ -13,7 +13,7 @@ from universalassistant.const import (
     STATE_PLAYING,
     EntityStateAttribute,
 )
-from universalassistant.core import Context, UniversalAssistant, State
+from universalassistant.core import Context, __HAC_KEEP__, State
 
 from .const import (
     DOMAIN,
@@ -35,7 +35,7 @@ _STATE_ATTRIBUTE_TO_SERVICE_ARG: dict[MediaPlayerEntityStateAttribute, str] = {
 
 
 async def _async_reproduce_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state: State,
     *,
     context: Context | None = None,
@@ -157,7 +157,7 @@ async def _async_reproduce_states(
 
 
 async def async_reproduce_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     states: Iterable[State],
     *,
     context: Context | None = None,

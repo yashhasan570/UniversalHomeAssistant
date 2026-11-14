@@ -13,7 +13,7 @@ from universalassistant.components.light import (
     LightEntity,
     filter_supported_color_modes,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.color import value_to_brightness
 from universalassistant.util.scaling import scale_ranged_value_to_int_range
@@ -23,7 +23,7 @@ from .entity import CyncBaseEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

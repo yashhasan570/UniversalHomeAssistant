@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     CONTENT_TYPE_JSON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.setup import async_setup_component
 
@@ -127,17 +127,17 @@ def mock_connection(aioclient_mock: AiohttpClientMocker) -> None:
 
 
 @pytest.fixture(name="config_entry")
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
-    """Create Lidarr entry in Universal Universal Home Assistant."""
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Create Lidarr entry in __HA_KEEP__."""
     return MockConfigEntry(domain=DOMAIN, data=CONF_DATA)
 
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> Generator[ComponentSetup]:
-    """Set up the lidarr integration in Universal Universal Home Assistant."""
+    """Set up the lidarr integration in __HA_KEEP__."""
     config_entry.add_to_hass(hass)
 
     async def func() -> None:

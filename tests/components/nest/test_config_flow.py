@@ -15,7 +15,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant import config_entries
 from universalassistant.components.nest.const import DOMAIN, OAUTH2_AUTHORIZE, OAUTH2_TOKEN
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -72,7 +72,7 @@ class OAuthFixture:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         hass_client_no_auth: ClientSessionGenerator,
         aioclient_mock: AiohttpClientMocker,
     ) -> None:
@@ -246,7 +246,7 @@ class OAuthFixture:
 
 @pytest.fixture
 async def oauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     current_request_with_host: None,
@@ -524,7 +524,7 @@ def mock_pubsub_api_responses_fixture(
 )
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     mock_pubsub_api_responses: MockPubSubAPIResponses,
     topic_args: dict[str, str],
@@ -675,7 +675,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_config_flow_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     topic_args: dict[str, str],
     expected_config_entry_data: dict[str, Any],
@@ -737,7 +737,7 @@ async def test_config_flow_restart(
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 @pytest.mark.parametrize(("sdm_managed_topic"), [True])
 async def test_config_flow_wrong_project_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
 ) -> None:
     """Check the case where the wrong project ids are entered."""
@@ -802,7 +802,7 @@ async def test_config_flow_wrong_project_id(
 )
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_config_flow_pubsub_create_subscription_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     aioclient_mock: AiohttpClientMocker,
     auth: FakeAuth,
@@ -914,7 +914,7 @@ async def test_config_flow_pubsub_create_subscription_failure(
 )
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_multiple_config_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     setup_platform: Callable[[], Awaitable[None]],
     topic_args: dict[str, str],
@@ -951,7 +951,7 @@ async def test_multiple_config_entries(
     [(TEST_CONFIG_APP_CREDS, True), (TEST_CONFIG_APP_CREDS, False)],
 )
 async def test_duplicate_config_entries(
-    hass: UniversalAssistant, oauth, setup_platform
+    hass: __HAC_KEEP__, oauth, setup_platform
 ) -> None:
     """Verify that config entries must be for unique projects."""
     await setup_platform()
@@ -979,7 +979,7 @@ async def test_duplicate_config_entries(
     [(TEST_CONFIG_APP_CREDS, True), (TEST_CONFIG_APP_CREDS, False)],
 )
 async def test_reauth_multiple_config_entries(
-    hass: UniversalAssistant, oauth, setup_platform, config_entry
+    hass: __HAC_KEEP__, oauth, setup_platform, config_entry
 ) -> None:
     """Test Nest reauthentication with multiple existing config entries."""
     await setup_platform()
@@ -1035,7 +1035,7 @@ async def test_reauth_multiple_config_entries(
     [(TEST_CONFIG_APP_CREDS, True), (TEST_CONFIG_APP_CREDS, False)],
 )
 async def test_pubsub_subscriber_config_entry_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     setup_platform: PlatformSetup,
     config_entry: MockConfigEntry,
@@ -1069,7 +1069,7 @@ async def test_pubsub_subscriber_config_entry_reauth(
 @pytest.mark.parametrize(("sdm_managed_topic"), [(True)])
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_config_entry_title_from_home(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     auth: FakeAuth,
 ) -> None:
@@ -1119,7 +1119,7 @@ async def test_config_entry_title_from_home(
 )
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_config_entry_title_multiple_homes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     auth: FakeAuth,
     topic_args: dict[str, str],
@@ -1166,7 +1166,7 @@ async def test_config_entry_title_multiple_homes(
 
 @pytest.mark.parametrize(("sdm_managed_topic"), [(True)])
 async def test_title_failure_fallback(
-    hass: UniversalAssistant, oauth, mock_subscriber
+    hass: __HAC_KEEP__, oauth, mock_subscriber
 ) -> None:
     """Test exception handling when determining the structure names."""
     result = await hass.config_entries.flow.async_init(
@@ -1198,7 +1198,7 @@ async def test_title_failure_fallback(
 @pytest.mark.parametrize(("sdm_managed_topic"), [(True)])
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_structure_missing_trait(
-    hass: UniversalAssistant, oauth: OAuthFixture, auth: FakeAuth
+    hass: __HAC_KEEP__, oauth: OAuthFixture, auth: FakeAuth
 ) -> None:
     """Test handling the case where a structure has no name set."""
 
@@ -1230,7 +1230,7 @@ async def test_structure_missing_trait(
 
 @pytest.mark.parametrize("nest_test_config", [NestTestConfig()])
 async def test_dhcp_discovery(
-    hass: UniversalAssistant, oauth: OAuthFixture, nest_test_config: NestTestConfig
+    hass: __HAC_KEEP__, oauth: OAuthFixture, nest_test_config: NestTestConfig
 ) -> None:
     """Exercise discovery dhcp starts the config flow via frontend."""
     result = await hass.config_entries.flow.async_init(
@@ -1256,7 +1256,7 @@ async def test_dhcp_discovery(
     [(TEST_CONFIG_APP_CREDS, True, "project-id-2")],
 )
 async def test_dhcp_discovery_already_setup(
-    hass: UniversalAssistant, oauth: OAuthFixture, setup_platform
+    hass: __HAC_KEEP__, oauth: OAuthFixture, setup_platform
 ) -> None:
     """Exercise discovery dhcp with existing config entry."""
     await setup_platform()
@@ -1368,7 +1368,7 @@ async def test_dhcp_discovery_already_setup(
 )
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_dhcp_discovery_with_creds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     topic_args: dict[str, str],
     expected_config_entry_data: dict[str, Any],
@@ -1428,7 +1428,7 @@ async def test_dhcp_discovery_with_creds(
     ],
 )
 async def test_token_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     status_code: HTTPStatus,
     error_reason: str,
@@ -1464,7 +1464,7 @@ async def test_token_error(
 )
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_existing_topic_and_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
 ) -> None:
     """Test selecting existing user managed topic and subscription."""
@@ -1508,7 +1508,7 @@ async def test_existing_topic_and_subscription(
 
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_no_eligible_topics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
 ) -> None:
     """Test no eligible pub/sub topics where the topic is created."""
@@ -1560,7 +1560,7 @@ async def test_no_eligible_topics(
 
 
 async def test_list_topics_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     aioclient_mock: AiohttpClientMocker,
     auth: FakeAuth,
@@ -1585,7 +1585,7 @@ async def test_list_topics_failure(
 
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_create_topic_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     aioclient_mock: AiohttpClientMocker,
     cloud_project_id: str,
@@ -1677,7 +1677,7 @@ async def test_create_topic_failed(
 @pytest.mark.parametrize(("sdm_managed_topic"), [(True)])
 @pytest.mark.usefixtures("mock_subscriber_refresh")
 async def test_list_subscriptions_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     aioclient_mock: AiohttpClientMocker,
     auth: FakeAuth,
@@ -1790,7 +1790,7 @@ def _delete_calls(aioclient_mock: AiohttpClientMocker) -> list[str]:
 
 
 async def _async_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     result: FlowResult,
     topic_name: str,
     subscription_name: str,
@@ -1839,7 +1839,7 @@ async def _async_reconfigure(
     ],
 )
 async def test_reconfigure_create_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     expected_deletes: list[str],
@@ -1887,7 +1887,7 @@ async def test_reconfigure_create_topic(
     ],
 )
 async def test_reconfigure_existing_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1961,7 +1961,7 @@ async def test_reconfigure_existing_subscription(
     ],
 )
 async def test_reconfigure_same_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     expected_imported: bool,
@@ -1990,7 +1990,7 @@ async def test_reconfigure_same_subscription(
 
 @pytest.mark.parametrize("nest_test_config", [TEST_CONFIG_LEGACY_TOPIC])
 async def test_reconfigure_delete_subscription_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -2019,7 +2019,7 @@ async def test_reconfigure_delete_subscription_failure(
     ],
 )
 async def test_reconfigure_token_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     token_response_args: dict[str, Any],
@@ -2042,7 +2042,7 @@ async def test_reconfigure_token_refresh_failure(
 )
 @pytest.mark.parametrize("token_expiration_time", [EXPIRED_TOKEN_TIMESTAMP])
 async def test_reconfigure_token_revoked(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
@@ -2078,7 +2078,7 @@ async def test_reconfigure_token_revoked(
 
 @pytest.mark.parametrize("nest_test_config", [TEST_CONFIG_LEGACY_TOPIC])
 async def test_reconfigure_implementation_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure aborts when the OAuth implementation is unavailable."""
@@ -2096,7 +2096,7 @@ async def test_reconfigure_implementation_unavailable(
 @pytest.mark.parametrize("nest_test_config", [TEST_CONFIG_NO_CLOUD_PROJECT])
 @pytest.mark.parametrize("subscriber_id", ["invalid-subscriber-format"])
 async def test_reconfigure_missing_cloud_project(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure prompts for the cloud project when it can't be determined."""
@@ -2123,7 +2123,7 @@ async def test_reconfigure_missing_cloud_project(
 @pytest.mark.parametrize("subscriber_id", ["invalid-subscriber-format"])
 @pytest.mark.parametrize("token_expiration_time", [EXPIRED_TOKEN_TIMESTAMP])
 async def test_reconfigure_missing_cloud_project_token_revoked(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oauth: OAuthFixture,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,

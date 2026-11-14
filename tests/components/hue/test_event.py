@@ -7,7 +7,7 @@ from universalassistant.components.event import (
     EventEntityStateAttribute,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.json import JsonArrayType
 
@@ -16,7 +16,7 @@ from .const import FAKE_DEVICE, FAKE_ROTARY, FAKE_ZIGBEE_CONNECTIVITY
 
 
 async def test_event(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test event entity for Hue integration."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -71,7 +71,7 @@ async def test_event(
     assert state.attributes[EventEntityStateAttribute.EVENT_TYPE] == "long_release"
 
 
-async def test_sensor_add_update(hass: UniversalAssistant, mock_bridge_v2: Mock) -> None:
+async def test_sensor_add_update(hass: __HAC_KEEP__, mock_bridge_v2: Mock) -> None:
     """Test Event entity for newly added Relative Rotary resource."""
     await mock_bridge_v2.api.load_test_data([FAKE_DEVICE, FAKE_ZIGBEE_CONNECTIVITY])
     await setup_platform(hass, mock_bridge_v2, Platform.EVENT)
@@ -124,7 +124,7 @@ async def test_sensor_add_update(hass: UniversalAssistant, mock_bridge_v2: Mock)
 
 
 async def test_button_without_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,

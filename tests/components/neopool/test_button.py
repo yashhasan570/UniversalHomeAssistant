@@ -11,15 +11,15 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 def _button_entity_id(
-    hass: UniversalAssistant, entry: MockConfigEntry, key_lower: str
+    hass: __HAC_KEEP__, entry: MockConfigEntry, key_lower: str
 ) -> str:
     """Resolve a button entity by its trailing unique_id segment."""
     registry = er.async_get(hass)
@@ -32,7 +32,7 @@ def _button_entity_id(
     return entries[0].entity_id
 
 
-async def _press(hass: UniversalAssistant, entity_id: str) -> None:
+async def _press(hass: __HAC_KEEP__, entity_id: str) -> None:
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
@@ -42,7 +42,7 @@ async def _press(hass: UniversalAssistant, entity_id: str) -> None:
 
 
 async def test_sync_time_button_writes_time_and_commit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -62,7 +62,7 @@ async def test_sync_time_button_writes_time_and_commit(
 
 
 async def test_escape_button_writes_clear_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_escape_button_writes_clear_register(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_reset_cell_partial_button_writes_reset_and_save(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_reset_cell_partial_button_writes_reset_and_save(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_reset_cell_partial_button_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_reset_cell_partial_button_disabled_by_default(
 
 
 async def test_reset_cell_partial_button_skipped_without_wear_modules(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
@@ -142,7 +142,7 @@ async def test_reset_cell_partial_button_skipped_without_wear_modules(
     ],
 )
 async def test_reset_cell_partial_button_registers_for_wear_modules(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
@@ -175,23 +175,23 @@ async def test_reset_cell_partial_button_registers_for_wear_modules(
     ],
 )
 async def test_button_press_maps_communication_error_to_universal_assistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     write_error: Exception,
 ) -> None:
-    """Communication errors on button press are surfaced as translated UniversalAssistantError."""
+    """Communication errors on button press are surfaced as translated __HAC_KEEP__Error."""
     await setup_integration(hass, mock_config_entry)
     entity_id = _button_entity_id(hass, mock_config_entry, "sync_time")
 
     mock_neopool_client.async_sync_device_time.side_effect = write_error
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _press(hass, entity_id)
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_neopool_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -204,7 +204,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup_when_modules_absent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,

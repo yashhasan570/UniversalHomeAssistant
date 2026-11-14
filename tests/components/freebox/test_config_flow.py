@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.freebox.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -42,7 +42,7 @@ MOCK_ZEROCONF_DATA = ZeroconfServiceInfo(
 )
 
 
-async def test_user(hass: UniversalAssistant) -> None:
+async def test_user(hass: __HAC_KEEP__) -> None:
     """Test user config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -60,7 +60,7 @@ async def test_user(hass: UniversalAssistant) -> None:
     assert result["step_id"] == "link"
 
 
-async def test_zeroconf(hass: UniversalAssistant) -> None:
+async def test_zeroconf(hass: __HAC_KEEP__) -> None:
     """Test zeroconf step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -71,7 +71,7 @@ async def test_zeroconf(hass: UniversalAssistant) -> None:
     assert result["step_id"] == "link"
 
 
-async def internal_test_link(hass: UniversalAssistant) -> None:
+async def internal_test_link(hass: __HAC_KEEP__) -> None:
     """Test linking internal, common to both router modes."""
     with patch(
         "universalassistant.components.freebox.async_setup_entry",
@@ -109,19 +109,19 @@ async def internal_test_link(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("router")
-async def test_link(hass: UniversalAssistant) -> None:
+async def test_link(hass: __HAC_KEEP__) -> None:
     """Test link with standard router mode."""
     await internal_test_link(hass)
 
 
 @pytest.mark.usefixtures("router_bridge_mode")
-async def test_link_bridge_mode(hass: UniversalAssistant) -> None:
+async def test_link_bridge_mode(hass: __HAC_KEEP__) -> None:
     """Test linking for a freebox in bridge mode."""
     await internal_test_link(hass)
 
 
 async def test_link_bridge_mode_error(
-    hass: UniversalAssistant, mock_router_bridge_mode_error: MagicMock
+    hass: __HAC_KEEP__, mock_router_bridge_mode_error: MagicMock
 ) -> None:
     """Test linking for a freebox in bridge mode, unknown error received from API."""
     result = await hass.config_entries.flow.async_init(
@@ -157,7 +157,7 @@ async def test_link_bridge_mode_error(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
+async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
     """Test we abort if component is already setup."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -194,7 +194,7 @@ async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_on_link_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     router: MagicMock,
     side_effect: type[Exception],
     error_msg: str,
@@ -234,7 +234,7 @@ async def test_on_link_failed(
 
 
 async def test_on_link_failed_forgets_registration_on_invalid_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     router: MagicMock,
 ) -> None:
     """Test that an invalid app token clears the stored registration."""
@@ -272,7 +272,7 @@ async def test_on_link_failed_forgets_registration_on_invalid_token(
 
 
 async def test_on_link_failed_keeps_registration_on_other_authorization_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     router: MagicMock,
 ) -> None:
     """An AuthorizationError unrelated to the app token must not clear it.
@@ -315,7 +315,7 @@ async def test_on_link_failed_keeps_registration_on_other_authorization_error(
 
 
 async def test_zeroconf_missing_api_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test zeroconf flow aborts if api_domain is missing from properties."""
 

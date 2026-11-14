@@ -10,7 +10,7 @@ from pybalboa.exceptions import SpaConnectionError
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.schema_config_entry_flow import (
     SchemaFlowFormStep,
@@ -131,5 +131,5 @@ class BalboaSpaClientFlowHandler(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

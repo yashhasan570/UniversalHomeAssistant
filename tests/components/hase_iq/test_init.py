@@ -7,14 +7,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_client")
 async def test_setup_and_unload(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the entry loads and unloads."""
     await setup_integration(hass, mock_config_entry)
@@ -27,7 +27,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_retry(
-    hass: UniversalAssistant, mock_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test an unreachable stove puts the entry in retry."""
     mock_client.get_status.side_effect = ConnectionFailedError("unreachable")

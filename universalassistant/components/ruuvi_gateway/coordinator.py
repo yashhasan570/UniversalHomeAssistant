@@ -7,7 +7,7 @@ from aioruuvigateway.api import get_gateway_history_data
 from aioruuvigateway.models import TagData
 
 from universalassistant.const import CONF_HOST, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -24,7 +24,7 @@ class RuuviGatewayUpdateCoordinator(DataUpdateCoordinator[list[TagData]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: RuuviGatewayConfigEntry,
         logger: logging.Logger,
     ) -> None:

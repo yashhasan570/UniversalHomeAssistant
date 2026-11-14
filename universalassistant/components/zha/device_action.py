@@ -9,7 +9,7 @@ from zigpy.zcl.clusters.security import IasWd
 
 from universalassistant.components.device_automation import InvalidDeviceAutomationConfig
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_TYPE
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, TemplateVarsType
 
@@ -131,7 +131,7 @@ SERVICE_NAMES = {
 
 
 async def async_call_action_from_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     variables: TemplateVarsType,
     context: Context | None,
@@ -143,14 +143,14 @@ async def async_call_action_from_config(
 
 
 async def async_validate_action_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     return ACTION_SCHEMA(config)
 
 
 async def async_get_actions(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device actions."""
     try:
@@ -176,7 +176,7 @@ async def async_get_actions(
 
 
 async def async_get_action_capabilities(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List action capabilities."""
     if (fields := DEVICE_ACTION_SCHEMAS.get(config[CONF_TYPE])) is None:
@@ -185,7 +185,7 @@ async def async_get_action_capabilities(
 
 
 async def _execute_siren_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     context: Context | None,
 ) -> None:
@@ -202,7 +202,7 @@ async def _execute_siren_service(
     )
 
 
-def _find_inovelli_cluster(hass: UniversalAssistant, config: dict[str, Any]) -> Any:
+def _find_inovelli_cluster(hass: __HAC_KEEP__, config: dict[str, Any]) -> Any:
     try:
         zha_device = async_get_zha_device_proxy(hass, config[CONF_DEVICE_ID]).device
     except (KeyError, AttributeError) as err:
@@ -218,7 +218,7 @@ def _find_inovelli_cluster(hass: UniversalAssistant, config: dict[str, Any]) -> 
 
 
 async def _execute_inovelli_all_led_effect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     context: Context | None,
 ) -> None:
@@ -236,7 +236,7 @@ async def _execute_inovelli_all_led_effect(
 
 
 async def _execute_inovelli_individual_led_effect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     context: Context | None,
 ) -> None:

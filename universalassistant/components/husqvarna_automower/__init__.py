@@ -3,7 +3,7 @@
 from aioautomower.session import AutomowerSession
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import (
     aiohttp_client,
@@ -33,13 +33,13 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AutomowerConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AutomowerConfigEntry) -> None:
     """Set up this integration using UI."""
     implementation = (
         await config_entry_oauth2_flow.async_get_config_entry_implementation(
@@ -76,6 +76,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AutomowerConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AutomowerConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AutomowerConfigEntry) -> None:
     """Handle unload of an entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

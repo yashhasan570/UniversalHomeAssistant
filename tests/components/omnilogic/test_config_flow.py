@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.omnilogic.const import DEFAULT_PH_OFFSET, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 DATA = {"username": "test-username", "password": "test-password"}
@@ -31,7 +31,7 @@ def _patch_success() -> Iterator[None]:
         yield
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -63,7 +63,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_already_configured(hass: UniversalAssistant) -> None:
+async def test_already_configured(hass: __HAC_KEEP__) -> None:
     """Test config flow when Omnilogic component is already setup."""
     MockConfigEntry(domain=DOMAIN, data=DATA).add_to_hass(hass)
 
@@ -75,7 +75,7 @@ async def test_already_configured(hass: UniversalAssistant) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_with_invalid_credentials(hass: UniversalAssistant) -> None:
+async def test_with_invalid_credentials(hass: __HAC_KEEP__) -> None:
     """Test with invalid credentials."""
 
     result = await hass.config_entries.flow.async_init(
@@ -105,7 +105,7 @@ async def test_with_invalid_credentials(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test if invalid response or no connection returned from Hayward."""
 
     result = await hass.config_entries.flow.async_init(
@@ -135,7 +135,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_with_unknown_error(hass: UniversalAssistant) -> None:
+async def test_with_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test with unknown error response from Hayward."""
 
     result = await hass.config_entries.flow.async_init(
@@ -165,7 +165,7 @@ async def test_with_unknown_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_option_flow(hass: UniversalAssistant) -> None:
+async def test_option_flow(hass: __HAC_KEEP__) -> None:
     """Test option flow."""
     entry = MockConfigEntry(domain=DOMAIN, data=DATA)
     entry.add_to_hass(hass)

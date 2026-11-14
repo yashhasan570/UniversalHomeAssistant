@@ -1,9 +1,9 @@
-"""Universal Universal Home Assistant integration for indevolt device."""
+"""__HA_KEEP__ integration for indevolt device."""
 
 from typing import Any
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 import universalassistant.helpers.config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -23,7 +23,7 @@ PLATFORMS: list[Platform] = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: IndevoltConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: IndevoltConfigEntry) -> None:
     """Migrate old entry."""
     if entry.version == 1 and entry.minor_version < 2:
         # 1.1 -> 1.2: indevolt-api 1.8.3 changed IndevoltBattery.MAIN_HEATING_STATE
@@ -43,7 +43,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: IndevoltConfigEnt
         hass.config_entries.async_update_entry(entry, version=1, minor_version=2)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IndevoltConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IndevoltConfigEntry) -> None:
     """Set up indevolt integration entry using given configuration."""
     coordinator = IndevoltCoordinator(hass, entry)
 
@@ -54,7 +54,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IndevoltConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up indevolt services (actions)."""
 
     async_setup_services(hass)
@@ -62,7 +62,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IndevoltConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IndevoltConfigEntry) -> None:
     """Unload a config entry.
 
     Clean up resources when integration is removed or reloaded.

@@ -7,7 +7,7 @@ from typing import override
 from hydropeak_opendata import OpenDataClient, OpenDataError, PeakEvent
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_track_point_in_utc_time
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -29,7 +29,7 @@ class HydroQuebecPeakCoordinator(DataUpdateCoordinator[tuple[PeakEvent, ...]]):
     config_entry: HydroQuebecPeakConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: HydroQuebecPeakConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: HydroQuebecPeakConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

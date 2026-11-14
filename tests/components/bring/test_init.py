@@ -23,14 +23,14 @@ from universalassistant.config_entries import (
     ConfigEntryDisabler,
     ConfigEntryState,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import UUID
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
 ) -> None:
     """Mock setup of the bring integration."""
@@ -41,7 +41,7 @@ async def setup_integration(
 
 @pytest.mark.usefixtures("mock_bring_client")
 async def test_load_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading of the config entry."""
@@ -65,7 +65,7 @@ async def test_load_unload(
     ],
 )
 async def test_init_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bring_client: AsyncMock,
     status: ConfigEntryState,
     exception: Exception,
@@ -97,7 +97,7 @@ async def test_init_failure(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
     exception: Exception,
@@ -114,7 +114,7 @@ async def test_config_entry_not_ready(
 
 @pytest.mark.parametrize("exception", [BringRequestException, BringParseException])
 async def test_config_entry_not_ready_udpdate_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
     exception: Exception,
@@ -140,7 +140,7 @@ async def test_config_entry_not_ready_udpdate_failed(
     ],
 )
 async def test_activity_coordinator_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
     exception: Exception,
@@ -165,7 +165,7 @@ async def test_activity_coordinator_errors(
     ],
 )
 async def test_config_entry_not_ready_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
     exception: Exception | None,
@@ -187,7 +187,7 @@ async def test_config_entry_not_ready_auth_error(
 
 @pytest.mark.usefixtures("mock_bring_client")
 async def test_coordinator_skips_deactivated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_bring_client: AsyncMock,
@@ -216,7 +216,7 @@ async def test_coordinator_skips_deactivated(
 
 
 async def test_purge_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -251,7 +251,7 @@ async def test_purge_devices(
 
 
 async def test_create_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -289,7 +289,7 @@ async def test_create_devices(
 
 @pytest.mark.usefixtures("mock_bring_client")
 async def test_coordinator_update_intervals(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_bring_client: AsyncMock,

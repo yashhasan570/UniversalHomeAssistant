@@ -8,7 +8,7 @@ from airgradient import AirGradientConnectionError
 from propcache.api import cached_property
 
 from universalassistant.components.update import UpdateDeviceClass, UpdateEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AirGradientConfigEntry, AirGradientCoordinator
@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AirGradientConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

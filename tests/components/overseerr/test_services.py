@@ -17,14 +17,14 @@ from universalassistant.components.overseerr.services import (
     parse_seasons_input,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from . import setup_integration
 
 
 async def test_service_get_requests(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -54,7 +54,7 @@ async def test_service_get_requests(
 
 
 async def test_service_get_requests_no_meta(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -77,7 +77,7 @@ async def test_service_get_requests_no_meta(
 
 
 async def test_service_search_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_service_search_media(
 
 
 async def test_service_request_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -143,7 +143,7 @@ async def test_service_request_media(
             {},
             "get_requests",
             OverseerrConnectionError("Timeout"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Error connecting to the Seerr instance: Timeout",
         ),
         (
@@ -151,7 +151,7 @@ async def test_service_request_media(
             {OverseerrServiceArgument.QUERY: "test"},
             "search",
             OverseerrConnectionError("Timeout"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Error connecting to the Seerr instance: Timeout",
         ),
         (
@@ -163,7 +163,7 @@ async def test_service_request_media(
             },
             "create_request",
             OverseerrConnectionError("Timeout"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Error connecting to the Seerr instance: Timeout",
         ),
         (
@@ -181,7 +181,7 @@ async def test_service_request_media(
     ],
 )
 async def test_services_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -224,7 +224,7 @@ async def test_services_connection_error(
     ],
 )
 async def test_service_entry_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,

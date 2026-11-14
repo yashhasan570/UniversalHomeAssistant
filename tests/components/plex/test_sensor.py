@@ -12,7 +12,7 @@ import requests_mock
 from universalassistant.components.plex.const import PLEX_UPDATE_LIBRARY_SIGNAL
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.util import dt as dt_util
@@ -72,7 +72,7 @@ class MockPlexTVEpisode(MockPlexMedia):
 
 
 async def test_library_sensor_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     setup_plex_server,

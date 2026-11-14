@@ -17,7 +17,7 @@ from universalassistant.components.alarm_control_panel import (
 )
 from universalassistant.components.homee.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -34,7 +34,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def setup_alarm_control_panel(
-    hass: UniversalAssistant, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Setups the integration for select tests."""
     mock_homee.nodes = [build_mock_node("homee.json")]
@@ -52,7 +52,7 @@ async def setup_alarm_control_panel(
     ],
 )
 async def test_alarm_control_panel_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -71,7 +71,7 @@ async def test_alarm_control_panel_services(
 
 
 async def test_alarm_control_panel_service_disarm_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_alarm_control_panel_service_disarm_error(
 
 
 async def test_alarm_control_panel_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

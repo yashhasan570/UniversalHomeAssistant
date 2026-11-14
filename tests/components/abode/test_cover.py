@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.cover import DOMAIN as COVER_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_CLOSE_COVER, SERVICE_OPEN_COVER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_platform
@@ -16,7 +16,7 @@ DEVICE_ID = "cover.garage_door"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -26,7 +26,7 @@ async def test_all_entities(
     await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
 
 
-async def test_open(hass: UniversalAssistant) -> None:
+async def test_open(hass: __HAC_KEEP__) -> None:
     """Test the cover can be opened."""
     await setup_platform(hass, COVER_DOMAIN)
 
@@ -38,7 +38,7 @@ async def test_open(hass: UniversalAssistant) -> None:
         mock_open.assert_called_once()
 
 
-async def test_close(hass: UniversalAssistant) -> None:
+async def test_close(hass: __HAC_KEEP__) -> None:
     """Test the cover can be closed."""
     await setup_platform(hass, COVER_DOMAIN)
 

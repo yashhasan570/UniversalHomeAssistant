@@ -13,7 +13,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import WebsocketDataType
 
@@ -31,7 +31,7 @@ from .conftest import WebsocketDataType
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_sirens(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     light_ws_data: WebsocketDataType,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
 ) -> None:

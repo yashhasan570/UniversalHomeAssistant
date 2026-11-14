@@ -1,4 +1,4 @@
-"""Tests for the Universal Universal Home Assistant auth jwt_wrapper module."""
+"""Tests for the __HA_KEEP__ auth jwt_wrapper module."""
 
 import jwt
 import pytest

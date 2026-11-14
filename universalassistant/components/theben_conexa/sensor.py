@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfEnergy
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import OBIS_IN, OBIS_OUT
@@ -39,7 +39,7 @@ KNOWN_OBIS_CODES: dict[str, SensorEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ThebenConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

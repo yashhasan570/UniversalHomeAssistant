@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.novy_cooker_hood.const import CONF_TRANSMITTER, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_CODE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import TRANSMITTER_ENTITY_ID
@@ -16,7 +16,7 @@ UNKNOWN_TRANSMITTER_UUID = "0123456789abcdef0123456789abcdef"
 
 @pytest.mark.usefixtures("mock_rf_entity")
 async def test_migrate_transmitter_uuid_to_entity_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test migrating the stored transmitter UUID to its entity ID."""
     entity_entry = entity_registry.async_get(TRANSMITTER_ENTITY_ID)
@@ -41,7 +41,7 @@ async def test_migrate_transmitter_uuid_to_entity_id(
     assert entry.unique_id == f"{entity_entry.id}_1"
 
 
-async def test_migrate_unknown_transmitter(hass: UniversalAssistant) -> None:
+async def test_migrate_unknown_transmitter(hass: __HAC_KEEP__) -> None:
     """Test migration fails when the stored transmitter UUID is unknown."""
     entry = MockConfigEntry(
         domain=DOMAIN,

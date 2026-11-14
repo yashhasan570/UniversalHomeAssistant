@@ -20,7 +20,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolumetricFlux,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -119,7 +119,7 @@ SENSOR_TYPES: dict[str, SensorEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TelldusLiveConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

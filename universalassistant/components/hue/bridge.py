@@ -15,7 +15,7 @@ from universalassistant import core
 from universalassistant.components import persistent_notification
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_API_VERSION, CONF_HOST, Platform
-from universalassistant.exceptions import ConfigEntryNotReady, UniversalAssistantError
+from universalassistant.exceptions import ConfigEntryNotReady, __HAC_KEEP__Error
 from universalassistant.helpers import aiohttp_client, device_registry as dr
 
 from .const import DOMAIN
@@ -43,7 +43,7 @@ type HueConfigEntry = ConfigEntry[HueBridge]
 class HueBridge:
     """Manages a single Hue bridge."""
 
-    def __init__(self, hass: core.UniversalAssistant, config_entry: HueConfigEntry) -> None:
+    def __init__(self, hass: core.__HAC_KEEP__, config_entry: HueConfigEntry) -> None:
         """Initialize the system."""
         self.config_entry = config_entry
         self.hass = hass
@@ -148,9 +148,9 @@ class HueBridge:
                 # log only
                 self.logger.debug(msg)
                 return None
-            raise UniversalAssistantError(msg) from err
+            raise __HAC_KEEP__Error(msg) from err
         except aiohttp.ClientError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Request failed due connection error: {err}"
             ) from err
 
@@ -195,7 +195,7 @@ class HueBridge:
 
 @core.callback
 def _async_register_bridge_device(
-    hass: core.UniversalAssistant,
+    hass: core.__HAC_KEEP__,
     config_entry: HueConfigEntry,
     api: HueBridgeV1 | HueBridgeV2,
     api_version: int,
@@ -243,12 +243,12 @@ def _async_register_bridge_device(
         )
 
 
-async def _update_listener(hass: core.UniversalAssistant, entry: HueConfigEntry) -> None:
+async def _update_listener(hass: core.__HAC_KEEP__, entry: HueConfigEntry) -> None:
     """Handle ConfigEntry options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-def create_config_flow(hass: core.UniversalAssistant, host: str) -> None:
+def create_config_flow(hass: core.__HAC_KEEP__, host: str) -> None:
     """Start a config flow."""
     hass.async_create_task(
         hass.config_entries.flow.async_init(

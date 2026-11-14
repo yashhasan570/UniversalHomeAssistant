@@ -22,7 +22,7 @@ from universalassistant.const import (
     EntityCategory,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -214,7 +214,7 @@ HDD_SENSORS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ReolinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

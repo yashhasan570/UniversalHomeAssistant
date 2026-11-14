@@ -5,7 +5,7 @@ from dataclasses import dataclass
 import pytest
 
 from universalassistant.components.matrix import MatrixBot
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 
 from .conftest import TEST_DEVICE_ID, TEST_MXID, TEST_PASSWORD, TEST_TOKEN
 
@@ -112,6 +112,6 @@ async def test_get_auth_tokens(matrix_bot: MatrixBot, mock_load_json) -> None:
     assert loaded_tokens == {TEST_MXID: TEST_TOKEN}
 
     # Test miscellaneous error from hass.
-    mock_load_json.side_effect = UniversalAssistantError()
+    mock_load_json.side_effect = __HAC_KEEP__Error()
     loaded_tokens = await matrix_bot._get_auth_tokens()
     assert loaded_tokens == {}

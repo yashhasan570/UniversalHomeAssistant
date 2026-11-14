@@ -18,7 +18,7 @@ from universalassistant.components.calendar import (
     SERVICE_GET_EVENTS,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "calendar.sonarr"
@@ -32,7 +32,7 @@ ENTITY_ID = "calendar.sonarr"
     ],
 )
 async def test_calendar_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_sonarr: MagicMock,
@@ -53,7 +53,7 @@ async def test_calendar_state(
 
 
 async def test_calendar_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_sonarr: MagicMock,
@@ -73,7 +73,7 @@ async def test_calendar_attributes(
 
 
 async def test_calendar_get_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_sonarr: MagicMock,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_calendar_get_events(
 
 
 async def test_calendar_get_events_without_overview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_sonarr: MagicMock,
 ) -> None:

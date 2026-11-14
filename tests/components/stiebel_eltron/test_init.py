@@ -19,13 +19,13 @@ from universalassistant.components.stiebel_eltron.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 CLIMATE_ENTITY_ID = "climate.stiebel_eltron_lwz"
 
 
 async def test_async_setup_entry_success(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful setup of the integration."""
     mock_config_entry.add_to_hass(hass)
@@ -52,7 +52,7 @@ async def test_async_setup_entry_success(
     ],
 )
 async def test_async_setup_entry_requests_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_modbus_connection_class: MagicMock,
     entry_data: dict[str, Any],
     expected_params: ModbusTcpParams,
@@ -72,7 +72,7 @@ async def test_async_setup_entry_requests_unit(
 
 
 async def test_async_setup_entry_conflicting_link_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup fails with a reason when the device is held over other settings."""
@@ -95,7 +95,7 @@ async def test_async_setup_entry_conflicting_link_settings(
 
 
 async def test_async_setup_entry_modbus_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_get_controller_model: MagicMock,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_async_setup_entry_modbus_error(
 
 
 async def test_async_setup_entry_coordinator_update_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_lwz_api: MagicMock,
     mock_modbus_connection: MockModbusConnection,
@@ -127,7 +127,7 @@ async def test_async_setup_entry_coordinator_update_fails(
 
 
 async def test_entities_unavailable_when_update_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_lwz_api: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -150,7 +150,7 @@ async def test_entities_unavailable_when_update_fails(
 
 
 async def test_unload_entry_closes_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_connection: MockModbusConnection,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_unload_entry_closes_connection(
 
 
 async def test_unload_entry_does_not_close_connection_if_platform_unload_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_connection: MockModbusConnection,
 ) -> None:

@@ -1,4 +1,4 @@
-"""Offer API to configure Universal Universal Home Assistant auth."""
+"""Offer API to configure __HA_KEEP__ auth."""
 
 from typing import Any
 
@@ -6,12 +6,12 @@ import probatio
 
 from universalassistant.auth.models import User
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> bool:
-    """Enable the Universal Universal Home Assistant views."""
+def async_setup(hass: __HAC_KEEP__) -> bool:
+    """Enable the __HA_KEEP__ views."""
     websocket_api.async_register_command(hass, websocket_list)
     websocket_api.async_register_command(hass, websocket_delete)
     websocket_api.async_register_command(hass, websocket_create)
@@ -23,7 +23,7 @@ def async_setup(hass: UniversalAssistant) -> bool:
 @websocket_api.websocket_command({probatio.Required("type"): "config/auth/list"})
 @websocket_api.async_response
 async def websocket_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -39,7 +39,7 @@ async def websocket_list(
 )
 @websocket_api.async_response
 async def websocket_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -92,7 +92,7 @@ async def websocket_delete(
 )
 @websocket_api.async_response
 async def websocket_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -119,7 +119,7 @@ async def websocket_create(
 )
 @websocket_api.async_response
 async def websocket_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

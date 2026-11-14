@@ -30,7 +30,7 @@ from universalassistant.components.zwave_js.triggers.value_updated import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import MATCH_ALL, SERVICE_RELOAD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, trigger
 from universalassistant.helpers.translation import async_get_translations
 from universalassistant.setup import async_setup_component
@@ -39,7 +39,7 @@ from .common import COMMAND_CLASS_MARKERS, SCHLAGE_BE469_LOCK_ENTITY
 
 
 async def test_zwave_js_value_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -301,7 +301,7 @@ async def test_zwave_js_value_updated(
 
 
 async def test_zwave_js_value_updated_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -392,7 +392,7 @@ async def test_zwave_js_value_updated_child_device(
 
 
 async def test_zwave_js_value_updated_child_device_endpoint_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -444,7 +444,7 @@ async def test_zwave_js_value_updated_child_device_endpoint_validation(
 
 
 async def test_zwave_js_value_updated_child_device_endpoint_mismatch_warns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -507,7 +507,7 @@ async def test_zwave_js_value_updated_child_device_endpoint_mismatch_warns(
 
 
 async def test_zwave_js_value_updated_child_device_unavailable_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -592,7 +592,7 @@ async def test_zwave_js_value_updated_child_device_unavailable_target(
 
 
 async def test_zwave_js_value_updated_multiple_child_targets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -671,7 +671,7 @@ async def test_zwave_js_value_updated_multiple_child_targets(
 
 
 async def test_zwave_js_value_updated_child_devices_across_networks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -788,7 +788,7 @@ async def test_zwave_js_value_updated_child_devices_across_networks(
 
 
 async def test_zwave_js_value_updated_child_device_endpoint_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -856,7 +856,7 @@ async def test_zwave_js_value_updated_child_device_endpoint_mismatch(
 
 
 async def test_zwave_js_value_updated_bypass_dynamic_validation(
-    hass: UniversalAssistant, client, lock_schlage_be469, integration
+    hass: __HAC_KEEP__, client, lock_schlage_be469, integration
 ) -> None:
     """Test zwave_js.value_updated trigger when bypassing dynamic validation."""
     trigger_type = f"{DOMAIN}.value_updated"
@@ -916,7 +916,7 @@ async def test_zwave_js_value_updated_bypass_dynamic_validation(
 
 
 async def test_zwave_js_value_updated_bypass_dynamic_validation_no_nodes(
-    hass: UniversalAssistant, client, lock_schlage_be469, integration
+    hass: __HAC_KEEP__, client, lock_schlage_be469, integration
 ) -> None:
     """Test value_updated trigger when bypassing dynamic validation with no nodes."""
     trigger_type = f"{DOMAIN}.value_updated"
@@ -976,7 +976,7 @@ async def test_zwave_js_value_updated_bypass_dynamic_validation_no_nodes(
 
 
 async def test_zwave_js_value_updated_bypass_dynamic_validation_no_driver(
-    hass: UniversalAssistant, client, lock_schlage_be469, integration
+    hass: __HAC_KEEP__, client, lock_schlage_be469, integration
 ) -> None:
     """Test zwave_js.value_updated trigger without driver."""
     trigger_type = f"{DOMAIN}.value_updated"
@@ -1037,7 +1037,7 @@ async def test_zwave_js_value_updated_bypass_dynamic_validation_no_driver(
 
 
 async def test_zwave_js_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -1443,7 +1443,7 @@ async def test_zwave_js_event(
 
 
 async def test_zwave_js_event_bypass_dynamic_validation(
-    hass: UniversalAssistant, client, lock_schlage_be469, integration
+    hass: __HAC_KEEP__, client, lock_schlage_be469, integration
 ) -> None:
     """Test zwave_js.event trigger when bypassing dynamic config validation."""
     trigger_type = f"{DOMAIN}.event"
@@ -1496,7 +1496,7 @@ async def test_zwave_js_event_bypass_dynamic_validation(
 
 
 async def test_zwave_js_event_bypass_dynamic_validation_no_nodes(
-    hass: UniversalAssistant, client, lock_schlage_be469, integration
+    hass: __HAC_KEEP__, client, lock_schlage_be469, integration
 ) -> None:
     """Test event trigger when bypassing dynamic validation with no nodes."""
     trigger_type = f"{DOMAIN}.event"
@@ -1549,7 +1549,7 @@ async def test_zwave_js_event_bypass_dynamic_validation_no_nodes(
 
 
 async def test_zwave_js_event_invalid_config_entry_id(
-    hass: UniversalAssistant, client, integration, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, client, integration, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test zwave_js.event automation trigger fails when config entry ID is invalid."""
     trigger_type = f"{DOMAIN}.event"
@@ -1580,7 +1580,7 @@ async def test_zwave_js_event_invalid_config_entry_id(
     caplog.clear()
 
 
-async def test_invalid_trigger_configs(hass: UniversalAssistant) -> None:
+async def test_invalid_trigger_configs(hass: __HAC_KEEP__) -> None:
     """Test invalid trigger configs."""
     with pytest.raises(probatio.Invalid):
         await TRIGGERS["event"].async_validate_complete_config(
@@ -1650,7 +1650,7 @@ async def test_invalid_trigger_configs(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_zwave_js_event_source_target_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     lock_schlage_be469: Node,
@@ -1688,7 +1688,7 @@ async def test_zwave_js_event_source_target_validation(
 
 
 async def test_zwave_js_trigger_config_entry_unloaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -1813,7 +1813,7 @@ async def test_zwave_js_trigger_config_entry_unloaded(
     ],
 )
 async def test_bypass_dynamic_config_validation_scoped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     lock_schlage_be469: Node,
@@ -1870,7 +1870,7 @@ async def test_bypass_dynamic_config_validation_scoped(
 
 
 async def test_server_reconnect_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     lock_schlage_be469_state,
@@ -1952,7 +1952,7 @@ async def test_server_reconnect_event(
 
 
 async def test_server_reconnect_value_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     lock_schlage_be469_state,
@@ -2034,7 +2034,7 @@ async def test_server_reconnect_value_updated(
 
 
 async def test_server_reconnect_value_updated_missing_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     lock_schlage_be469_state,
@@ -2133,7 +2133,7 @@ async def test_server_reconnect_value_updated_missing_value(
 
 
 async def test_zwave_js_old_syntax(
-    hass: UniversalAssistant, client, lock_schlage_be469, integration
+    hass: __HAC_KEEP__, client, lock_schlage_be469, integration
 ) -> None:
     """Test zwave_js triggers work with the old syntax."""
     node: Node = lock_schlage_be469
@@ -2208,7 +2208,7 @@ async def test_zwave_js_old_syntax(
 
 
 @pytest.mark.usefixtures("integration")
-async def test_value_updated_command_class_options(hass: UniversalAssistant) -> None:
+async def test_value_updated_command_class_options(hass: __HAC_KEEP__) -> None:
     """Test the command class options and translations match the CommandClass enum."""
     expected = {str(cc.value) for cc in CommandClass if cc not in COMMAND_CLASS_MARKERS}
 
@@ -2239,7 +2239,7 @@ async def test_value_updated_command_class_options(hass: UniversalAssistant) -> 
 )
 @pytest.mark.usefixtures("integration")
 async def test_trigger_description_fields_match_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_type: str,
     options_schema: dict[probatio.Marker, object],
 ) -> None:

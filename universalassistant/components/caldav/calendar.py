@@ -25,8 +25,8 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity import async_generate_entity_id
 from universalassistant.helpers.entity_platform import (
@@ -82,7 +82,7 @@ PLATFORM_SCHEMA = CALENDAR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     disc_info: DiscoveryInfoType | None = None,
@@ -161,7 +161,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CalDavConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -236,7 +236,7 @@ class WebDavCalendarEntity(CoordinatorEntity[CalDavUpdateCoordinator], CalendarE
 
     @override
     async def async_get_events(
-        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
+        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
         return await self.coordinator.async_get_events(hass, start_date, end_date)
@@ -269,7 +269,7 @@ class WebDavCalendarEntity(CoordinatorEntity[CalDavUpdateCoordinator], CalendarE
             caldav_requests.exceptions.Timeout,
             DAVError,
         ) as err:
-            raise UniversalAssistantError(f"CalDAV save error: {err}") from err
+            raise __HAC_KEEP__Error(f"CalDAV save error: {err}") from err
 
     @callback
     @override

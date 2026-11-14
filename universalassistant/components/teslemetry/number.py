@@ -26,7 +26,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfElectricCurrent,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CHARGE_LIMIT_SOC_KEY, CHARGE_ON_SOLAR_LOWER_LIMIT_KEY
@@ -147,7 +147,7 @@ ENERGY_INFO_DESCRIPTIONS: tuple[TeslemetryNumberBatteryEntityDescription, ...] =
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

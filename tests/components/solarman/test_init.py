@@ -6,18 +6,18 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize("device_fixture", ["SP-2W-EU"], indirect=True)
 async def test_load_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_solarman: AsyncMock,
 ) -> None:
     """Test setting up and removing a config entry."""
 
-    # Add the mock config entry to Universal Universal Home Assistant
+    # Add the mock config entry to __HA_KEEP__
     mock_config_entry.add_to_hass(hass)
 
     # Set up the integration using the config entry
@@ -38,7 +38,7 @@ async def test_load_unload(
 
 @pytest.mark.parametrize("device_fixture", ["SP-2W-EU"], indirect=True)
 async def test_load_failure(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_solarman: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_solarman: AsyncMock
 ) -> None:
     """Test setup failure."""
     mock_solarman.fetch_data.side_effect = TimeoutError

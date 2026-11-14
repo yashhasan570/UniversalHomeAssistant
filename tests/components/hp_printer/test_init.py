@@ -15,7 +15,7 @@ from universalassistant.components.hp_printer.const import DOMAIN
 from universalassistant.components.hp_printer.coordinator import UPDATE_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_SSL, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -42,7 +42,7 @@ UNUSABLE_DATA = [
 
 @pytest.mark.usefixtures("mock_hp_printer")
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a config entry loads and unloads cleanly."""
@@ -55,7 +55,7 @@ async def test_load_unload_entry(
 
 @pytest.mark.usefixtures("mock_hp_printer")
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -71,7 +71,7 @@ async def test_device_info(
 
 @pytest.mark.parametrize("unusable_data", UNUSABLE_DATA)
 async def test_setup_is_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_data: HpPrinterData,
@@ -89,7 +89,7 @@ async def test_setup_is_retried(
 
 @pytest.mark.parametrize("unusable_data", UNUSABLE_DATA)
 async def test_entities_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_data: HpPrinterData,
@@ -119,7 +119,7 @@ async def test_entities_unavailable(
 
 
 async def test_offline_logged_at_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -142,7 +142,7 @@ async def test_offline_logged_at_info(
 
 
 @pytest.mark.usefixtures("mock_hp_printer")
-async def test_migrate_entry_minor_version_1(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_minor_version_1(hass: __HAC_KEEP__) -> None:
     """Test a version 1.1 entry is migrated to plain HTTP."""
     entry = MockConfigEntry(
         domain=DOMAIN,

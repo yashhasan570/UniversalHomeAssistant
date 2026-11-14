@@ -23,7 +23,7 @@ from universalassistant.components.light import (
 )
 from universalassistant.components.qbus.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 # 186 = 73% (rounded)
@@ -104,7 +104,7 @@ _CONTROLLER_MAC = "001122334455"
 
 
 async def test_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration_deferred: Callable[[], Awaitable],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -120,7 +120,7 @@ async def test_light(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_light_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -142,7 +142,7 @@ async def test_light_via_device_id(
 
 
 async def test_dimmer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     setup_integration: None,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_dimmer(
 
 
 async def test_dimmer_ignore_missing_percentage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     setup_integration: None,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_dimmer_ignore_missing_percentage(
 
 
 async def test_color(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     setup_integration: None,
 ) -> None:
@@ -378,7 +378,7 @@ def _assert_set_state(mqtt_mock: MqttMockHAClient, topic: str, payload: str) -> 
 
 
 async def _async_simulate_qbus_response(
-    hass: UniversalAssistant, topic: str, payload: str
+    hass: __HAC_KEEP__, topic: str, payload: str
 ) -> None:
     async_fire_mqtt_message(hass, topic, payload)
     await hass.async_block_till_done()

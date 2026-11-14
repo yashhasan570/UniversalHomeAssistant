@@ -14,10 +14,10 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.components.airgradient.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
 
@@ -40,7 +40,7 @@ def load_config_fixture(
 
 
 async def async_load_measures_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     filename: str,
     api_version: ApiVersion = ApiVersion.LEGACY,
 ) -> Measures:
@@ -52,7 +52,7 @@ async def async_load_measures_fixture(
 
 
 async def async_load_config_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     filename: str,
     api_version: ApiVersion = ApiVersion.LEGACY,
 ) -> Config:

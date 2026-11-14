@@ -18,7 +18,7 @@ from universalassistant.components.actron_air.coordinator import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -35,7 +35,7 @@ def connection_event(state: RealtimeConnectionState) -> RealtimeConnectionEvent:
 
 
 async def test_coordinator_update_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -57,7 +57,7 @@ async def test_coordinator_update_auth_error(
 
 
 async def test_coordinator_update_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -81,7 +81,7 @@ async def test_coordinator_update_api_error(
 
 
 async def test_coordinator_update_status_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -106,7 +106,7 @@ async def test_coordinator_update_status_none(
 
 
 async def test_push_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_push_update(
 
 
 async def test_push_update_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_push_update_offline(
 
 
 async def test_reconnect_resync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -196,7 +196,7 @@ async def test_reconnect_resync(
 
 
 async def test_push_unavailable_falls_back_to_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

@@ -37,7 +37,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -50,7 +50,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -140,7 +140,7 @@ async def test_all_entities(
     ],
 )
 async def test_turn_on_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     data: dict[str, Any],
@@ -188,7 +188,7 @@ async def test_turn_on_light(
     ],
 )
 async def test_turn_off_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     data: dict[str, Any],
@@ -208,7 +208,7 @@ async def test_turn_off_light(
 
 @pytest.mark.parametrize("device_fixture", ["hue_rgbw_color_bulb"])
 async def test_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -231,7 +231,7 @@ async def test_state_update(
 
 @pytest.mark.parametrize("device_fixture", ["hue_rgbw_color_bulb"])
 async def test_updating_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_updating_brightness(
 
 @pytest.mark.parametrize("device_fixture", ["hue_rgbw_color_bulb"])
 async def test_updating_hs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -303,7 +303,7 @@ async def test_updating_hs(
 
 @pytest.mark.parametrize("device_fixture", ["hue_rgbw_color_bulb"])
 async def test_updating_color_temp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -346,7 +346,7 @@ async def test_updating_color_temp(
 
 @pytest.mark.parametrize("device_fixture", ["hue_rgbw_color_bulb"])
 async def test_color_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -391,7 +391,7 @@ async def test_color_modes(
 
 @pytest.mark.parametrize("device_fixture", ["hue_rgbw_color_bulb"])
 async def test_color_mode_after_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -423,7 +423,7 @@ async def test_color_mode_after_startup(
 
 @pytest.mark.parametrize("device_fixture", ["hue_rgbw_color_bulb"])
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -447,7 +447,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["hue_rgbw_color_bulb"])
 async def test_availability_at_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -465,7 +465,7 @@ async def test_availability_at_start(
     ],
 )
 async def test_lamp_with_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -510,7 +510,7 @@ async def test_lamp_with_switch(
     ],
 )
 async def test_lamp_component_with_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -543,7 +543,7 @@ async def test_lamp_component_with_brightness(
     [(SERVICE_TURN_ON, "extraHigh"), (SERVICE_TURN_OFF, "off")],
 )
 async def test_lamp_without_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -569,7 +569,7 @@ async def test_lamp_without_switch(
 
 @pytest.mark.parametrize("device_fixture", ["da_ks_hood_01001"])
 async def test_lamp_from_off(
-    hass: UniversalAssistant, devices: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, devices: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test samsungce.lamp on with brightness level from off state."""
     set_attribute_value(
@@ -604,7 +604,7 @@ async def test_lamp_from_off(
 
 @pytest.mark.parametrize("device_fixture", ["da_ks_hood_01001"])
 async def test_lamp_unknown_switch(
-    hass: UniversalAssistant, devices: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, devices: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test lamp state becomes unknown when switch state is unknown."""
     await setup_integration(hass, mock_config_entry)
@@ -626,7 +626,7 @@ async def test_lamp_unknown_switch(
 
 @pytest.mark.parametrize("device_fixture", ["da_ks_range_0101x"])
 async def test_lamp_unknown_brightness(
-    hass: UniversalAssistant, devices: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, devices: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test lamp state becomes unknown when brightness level is unknown."""
 
@@ -652,7 +652,7 @@ async def test_lamp_unknown_brightness(
     [(SERVICE_TURN_ON, "high"), (SERVICE_TURN_OFF, "off")],
 )
 async def test_lamp_switch_not_used_when_off_in_supported_levels(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,

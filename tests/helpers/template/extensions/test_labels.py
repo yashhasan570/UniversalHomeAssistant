@@ -2,7 +2,7 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -14,7 +14,7 @@ from tests.helpers.template.helpers import assert_result_info, render_to_info
 
 
 async def test_labels(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     label_registry: lr.LabelRegistry,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -142,7 +142,7 @@ async def test_labels(
 
 
 async def test_label_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     label_registry: lr.LabelRegistry,
 ) -> None:
     """Test label_id function."""
@@ -176,7 +176,7 @@ async def test_label_id(
 
 
 async def test_label_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     label_registry: lr.LabelRegistry,
 ) -> None:
     """Test label_name function."""
@@ -210,7 +210,7 @@ async def test_label_name(
 
 
 async def test_label_description(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     label_registry: lr.LabelRegistry,
 ) -> None:
     """Test label_description function."""
@@ -244,7 +244,7 @@ async def test_label_description(
 
 
 async def test_label_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
 ) -> None:
@@ -302,7 +302,7 @@ async def test_label_entities(
 
 
 async def test_label_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     label_registry: lr.LabelRegistry,
 ) -> None:
@@ -358,7 +358,7 @@ async def test_label_devices(
 
 
 async def test_label_areas(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     label_registry: lr.LabelRegistry,
 ) -> None:

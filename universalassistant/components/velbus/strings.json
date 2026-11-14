@@ -50,7 +50,7 @@
         "data_description": {
           "vlp_file": "Select the VLP file from your filesystem."
         },
-        "description": "You can optionally provide a VLP file to improve module detection. The VLP file is the config file from VelbusLink that contains all module information. If you do not provide it now, you can always add it later in the integration options. Without this file, Universal Universal Home Assistant will try to detect the modules automatically, but this can take longer time and some modules might not be detected correctly.",
+        "description": "You can optionally provide a VLP file to improve module detection. The VLP file is the config file from VelbusLink that contains all module information. If you do not provide it now, you can always add it later in the integration options. Without this file, __HA_KEEP__ will try to detect the modules automatically, but this can take longer time and some modules might not be detected correctly.",
         "title": "Optional VLP file"
       }
     }
@@ -151,7 +151,7 @@
       "name": "Set memo text"
     },
     "sync_clock": {
-      "description": "Syncs the clock of the Velbus modules to the Universal Universal Home Assistant clock, this is the same as the 'sync clock' from VelbusLink.",
+      "description": "Syncs the clock of the Velbus modules to the __HA_KEEP__ clock, this is the same as the 'sync clock' from VelbusLink.",
       "fields": {
         "config_entry": {
           "description": "The config entry of the Velbus integration",

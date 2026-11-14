@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -41,7 +41,7 @@ class Forecast(TypedDict):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Stookwijzer integration."""
 
     async def async_get_forecast(call: ServiceCall) -> ServiceResponse:

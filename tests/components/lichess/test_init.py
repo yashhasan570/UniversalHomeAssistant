@@ -10,14 +10,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.lichess.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
 async def test_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_lichess_client: AsyncMock,
@@ -34,7 +34,7 @@ async def test_device(
 
 
 async def test_setup_entry_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lichess_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_setup_entry_failed(
 
 
 async def test_setup_entry_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lichess_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_setup_entry_auth_failed(
 
 
 async def test_update_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lichess_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

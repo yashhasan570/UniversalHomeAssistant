@@ -19,7 +19,7 @@ from universalassistant.components.tts import (
     async_get_media_source_audio,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 ENTITY_ID = "tts.demo_tts"
@@ -37,7 +37,7 @@ def tts_only() -> Generator[None]:
 
 @pytest.fixture(autouse=True)
 async def setup_config_entry(
-    hass: UniversalAssistant, tts_only: None, mock_tts_cache_dir: Path
+    hass: __HAC_KEEP__, tts_only: None, mock_tts_cache_dir: Path
 ) -> None:
     """Set up demo component from config entry."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -47,7 +47,7 @@ async def setup_config_entry(
     await hass.async_block_till_done()
 
 
-async def test_speak(hass: UniversalAssistant) -> None:
+async def test_speak(hass: __HAC_KEEP__) -> None:
     """Test the demo entity returns the demo audio."""
     calls = async_mock_service(hass, MEDIA_PLAYER_DOMAIN, SERVICE_PLAY_MEDIA)
 

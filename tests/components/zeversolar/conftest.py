@@ -9,7 +9,7 @@ from zeversolar import StatusEnum, ZeverSolarData
 
 from universalassistant.components.zeversolar.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_HOST_ZEVERSOLAR, MOCK_SERIAL_NUMBER
 
@@ -63,7 +63,7 @@ def mock_zeversolar_client(zeversolar_data: ZeverSolarData) -> Generator[MagicMo
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_zeversolar_client: MagicMock,
 ) -> AsyncGenerator[MockConfigEntry]:

@@ -11,7 +11,7 @@ from requests_mock import ANY, Mocker
 from universalassistant.components.soundtouch.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -26,7 +26,7 @@ from .conftest import (
 
 
 async def test_user_flow_create_entry(
-    hass: UniversalAssistant, device1_requests_mock_standby: Mocker
+    hass: __HAC_KEEP__, device1_requests_mock_standby: Mocker
 ) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
@@ -60,7 +60,7 @@ async def test_user_flow_create_entry(
 
 
 async def test_user_flow_cannot_connect(
-    hass: UniversalAssistant, requests_mock: requests_mock.Mocker, device1_info: str
+    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker, device1_info: str
 ) -> None:
     """Test a manual user flow with an invalid host."""
     requests_mock.get(ANY, exc=RequestException())
@@ -88,7 +88,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_zeroconf_flow_create_entry(
-    hass: UniversalAssistant, device1_requests_mock_standby: Mocker
+    hass: __HAC_KEEP__, device1_requests_mock_standby: Mocker
 ) -> None:
     """Test the zeroconf flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
@@ -134,7 +134,7 @@ async def test_zeroconf_flow_create_entry(
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requests_mock: requests_mock.Mocker,
     device1_config: MockConfigEntry,
     device1_info: str,
@@ -160,7 +160,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requests_mock: requests_mock.Mocker,
     device1_config: MockConfigEntry,
     device1_info: str,
@@ -193,7 +193,7 @@ async def test_reconfigure_flow_cannot_connect(
 
 
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requests_mock: requests_mock.Mocker,
     device1_config: MockConfigEntry,
     device2_info: str,

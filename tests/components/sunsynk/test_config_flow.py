@@ -9,7 +9,7 @@ from sunsynk.exceptions import SunsynkAuthenticationError, SunsynkConnectionErro
 from universalassistant.components.sunsynk.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -21,7 +21,7 @@ DHCP_SERVICE_INFO = DhcpServiceInfo(
 
 
 async def test_full_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sunsynk_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_full_user_flow(
 
 @pytest.mark.usefixtures("mock_sunsynk_client", "mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the flow aborts when the account is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -71,7 +71,7 @@ async def test_duplicate_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sunsynk_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -97,7 +97,7 @@ async def test_user_flow_errors(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sunsynk_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -131,7 +131,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sunsynk_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -158,7 +158,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_sunsynk_client", "mock_setup_entry")
 async def test_reauth_flow_wrong_account(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the reauthentication flow aborts for a different account."""
     mock_config_entry.add_to_hass(hass)

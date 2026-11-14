@@ -1,4 +1,4 @@
-"""Definition and setup of the Omnilogic Sensors for Universal Universal Home Assistant."""
+"""Definition and setup of the Omnilogic Sensors for __HA_KEEP__."""
 
 from typing import Any, override
 
@@ -10,7 +10,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import check_guard
@@ -20,7 +20,7 @@ from .entity import OmniLogicEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OmniLogicConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

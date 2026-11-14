@@ -15,7 +15,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util import dt as dt_util
@@ -38,7 +38,7 @@ class AcaiaCoordinator(DataUpdateCoordinator[None]):
 
     config_entry: AcaiaConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: AcaiaConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: AcaiaConfigEntry) -> None:
         """Initialize coordinator."""
         super().__init__(
             hass,

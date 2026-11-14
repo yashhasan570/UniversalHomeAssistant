@@ -31,7 +31,7 @@ from universalassistant.const import (
     CONF_PIN,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import Undefined
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -99,14 +99,14 @@ TEST_DEVICE_NAME = "test_vehicle_2"
 TEST_ENTITY_ID = f"sensor.{TEST_DEVICE_NAME}_odometer"
 
 
-def advance_time_to_next_fetch(hass: UniversalAssistant) -> None:
+def advance_time_to_next_fetch(hass: __HAC_KEEP__) -> None:
     """Fast forward time to next fetch."""
     future = dt_util.utcnow() + timedelta(seconds=FETCH_INTERVAL + 30)
     async_fire_time_changed(hass, future)
 
 
 async def setup_subaru_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry,
     vehicle_list: list[str] | Undefined = Undefined,
     vehicle_data: dict[str, Any] | Undefined = Undefined,
@@ -180,7 +180,7 @@ async def setup_subaru_config_entry(
 
 
 @pytest.fixture
-async def subaru_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def subaru_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create a Subaru config entry prior to setup."""
     await async_setup_component(hass, HA_DOMAIN, {})
     config_entry = MockConfigEntry(**TEST_CONFIG_ENTRY)
@@ -190,7 +190,7 @@ async def subaru_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture
 async def ev_entry(
-    hass: UniversalAssistant, subaru_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, subaru_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Create a Subaru entry for an EV with full STARLINK subscription."""
     await setup_subaru_config_entry(hass, subaru_config_entry)

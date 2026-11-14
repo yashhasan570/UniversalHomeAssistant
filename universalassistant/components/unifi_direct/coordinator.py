@@ -8,7 +8,7 @@ from unifi_ap import UniFiAP, UniFiAPConnectionException, UniFiAPDataException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_SSH_PORT, DOMAIN
@@ -26,7 +26,7 @@ class UniFiDirectDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict]]):
     config_entry: UniFiDirectConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: UniFiDirectConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: UniFiDirectConfigEntry
     ) -> None:
         """Initialize the coordinator using config entry."""
         self.host = config_entry.data[CONF_HOST]

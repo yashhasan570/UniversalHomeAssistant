@@ -17,7 +17,7 @@ from universalassistant.components.alarm_control_panel import (
 )
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.const import CONF_PLATFORM, STATE_UNKNOWN, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -76,7 +76,7 @@ from .common import MockAlarm
     ],
 )
 async def test_get_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     set_state: bool,
@@ -130,7 +130,7 @@ async def test_get_actions(
     ],
 )
 async def test_get_actions_hidden_auxiliary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hidden_by: er.RegistryEntryHider | None,
@@ -170,7 +170,7 @@ async def test_get_actions_hidden_auxiliary(
 
 
 async def test_get_actions_arm_night_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_get_actions_arm_night_only(
 
 
 async def test_get_action_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_alarm_control_panel_entities: dict[str, MockAlarm],
@@ -260,7 +260,7 @@ async def test_get_action_capabilities(
 
 
 async def test_get_action_capabilities_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_alarm_control_panel_entities: dict[str, MockAlarm],
@@ -311,7 +311,7 @@ async def test_get_action_capabilities_legacy(
 
 
 async def test_get_action_capabilities_arm_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_alarm_control_panel_entities: dict[str, MockAlarm],
@@ -377,7 +377,7 @@ async def test_get_action_capabilities_arm_code(
 
 
 async def test_get_action_capabilities_arm_code_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_alarm_control_panel_entities: dict[str, MockAlarm],
@@ -444,7 +444,7 @@ async def test_get_action_capabilities_arm_code_legacy(
 
 
 async def test_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_alarm_control_panel_entities: dict[str, MockAlarm],
@@ -593,7 +593,7 @@ async def test_action(
 
 
 async def test_action_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_alarm_control_panel_entities: dict[str, MockAlarm],

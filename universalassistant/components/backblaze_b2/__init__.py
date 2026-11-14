@@ -7,7 +7,7 @@ from typing import Any
 from b2sdk.v2 import Bucket, exception
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.event import async_track_time_interval
 
@@ -32,7 +32,7 @@ _LOGGER = logging.getLogger(__name__)
 type BackblazeConfigEntry = ConfigEntry[Bucket]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BackblazeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BackblazeConfigEntry) -> None:
     """Set up Backblaze B2 from a config entry."""
 
     info = InMemoryAccountInfo()
@@ -115,7 +115,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BackblazeConfigEntr
     hass.async_create_task(async_check_for_repair_issues(hass, entry))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BackblazeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BackblazeConfigEntry) -> None:
     """Unload a Backblaze B2 config entry.
 
     Any resources directly managed by this entry that need explicit shutdown

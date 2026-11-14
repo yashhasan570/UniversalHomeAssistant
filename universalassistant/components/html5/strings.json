@@ -60,7 +60,7 @@
     "actions": {
       "fields": {
         "action": {
-          "description": "The identifier of the action. This will be sent back to Universal Universal Home Assistant when the user clicks the button.",
+          "description": "The identifier of the action. This will be sent back to __HA_KEEP__ when the user clicks the button.",
           "name": "Action identifier"
         },
         "icon": {
@@ -103,7 +103,7 @@
       "description": "Sends a message via HTML5 Push Notifications",
       "fields": {
         "actions": {
-          "description": "Adds action buttons to the notification. When the user clicks a button, an event is sent back to Universal Universal Home Assistant. Amount of actions supported may vary between platforms.",
+          "description": "Adds action buttons to the notification. When the user clicks a button, an event is sent back to __HA_KEEP__. Amount of actions supported may vary between platforms.",
           "name": "Action buttons"
         },
         "badge": {

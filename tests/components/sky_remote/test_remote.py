@@ -12,8 +12,8 @@ from universalassistant.components.remote import (
 )
 from universalassistant.components.sky_remote.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from . import setup_mock_entry
 
@@ -21,7 +21,7 @@ ENTITY_ID = "remote.example_com"
 
 
 async def test_send_command(
-    hass: UniversalAssistant, mock_config_entry, mock_remote_control
+    hass: __HAC_KEEP__, mock_config_entry, mock_remote_control
 ) -> None:
     """Test "send_command" method."""
     await setup_mock_entry(hass, mock_config_entry)
@@ -35,7 +35,7 @@ async def test_send_command(
 
 
 async def test_send_invalid_command(
-    hass: UniversalAssistant, mock_config_entry, mock_remote_control
+    hass: __HAC_KEEP__, mock_config_entry, mock_remote_control
 ) -> None:
     """Test "send_command" method."""
     await setup_mock_entry(hass, mock_config_entry)
@@ -51,7 +51,7 @@ async def test_send_invalid_command(
 
 
 async def test_send_command_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_remote_control: MagicMock,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_send_command_failure(
     await setup_mock_entry(hass, mock_config_entry)
     mock_remote_control._instance_mock.send_keys.side_effect = ValueError("Bad key")
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             REMOTE_DOMAIN,
             SERVICE_SEND_COMMAND,
@@ -78,7 +78,7 @@ async def test_send_command_failure(
     ],
 )
 async def test_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_remote_control: MagicMock,
     service: str,

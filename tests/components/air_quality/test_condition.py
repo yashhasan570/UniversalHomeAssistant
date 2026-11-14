@@ -30,7 +30,7 @@ from universalassistant.const import (
     UnitOfRadiationConcentration,
     UnitOfRatio,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 _UGM3_UNIT_ATTRIBUTES = {
     ATTR_UNIT_OF_MEASUREMENT: UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
@@ -43,13 +43,13 @@ _BQM3_UNIT_ATTRIBUTES = {
 
 
 @pytest.fixture
-async def target_binary_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_binary_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple binary sensor entities associated with different targets."""
     return await target_entities(hass, "binary_sensor")
 
 
 @pytest.fixture
-async def target_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple sensor entities associated with different targets."""
     return await target_entities(hass, "sensor")
 
@@ -141,7 +141,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_air_quality_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -212,7 +212,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_air_quality_binary_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_binary_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -284,7 +284,7 @@ async def test_air_quality_binary_condition_behavior_any(
     ],
 )
 async def test_air_quality_binary_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_binary_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -364,7 +364,7 @@ async def test_air_quality_binary_condition_behavior_all(
     ],
 )
 async def test_air_quality_numerical_with_unit_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -444,7 +444,7 @@ async def test_air_quality_numerical_with_unit_condition_behavior_any(
     ],
 )
 async def test_air_quality_numerical_with_unit_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -506,7 +506,7 @@ async def test_air_quality_numerical_with_unit_condition_behavior_all(
     ],
 )
 async def test_air_quality_numerical_no_unit_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -571,7 +571,7 @@ async def test_air_quality_numerical_no_unit_condition_behavior_any(
     ],
 )
 async def test_air_quality_numerical_no_unit_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -597,7 +597,7 @@ async def test_air_quality_numerical_no_unit_condition_behavior_all(
 
 
 async def test_air_quality_condition_unit_conversion_co(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the CO condition converts units correctly."""
     _unit_ugm3 = {ATTR_UNIT_OF_MEASUREMENT: UnitOfDensity.MICROGRAMS_PER_CUBIC_METER}
@@ -686,7 +686,7 @@ async def test_air_quality_condition_unit_conversion_co(
 
 
 async def test_air_quality_condition_unit_conversion_radon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the radon condition converts units correctly."""
     _unit_bqm3 = {

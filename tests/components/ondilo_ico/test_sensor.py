@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ondilo_client: MagicMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -29,7 +29,7 @@ async def test_sensors(
 
 
 async def test_no_ico_for_one_pool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ondilo_client: MagicMock,
     config_entry: MockConfigEntry,
     two_pools: list[dict[str, Any]],
@@ -52,7 +52,7 @@ async def test_no_ico_for_one_pool(
 
 
 async def test_error_retrieving_ico(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ondilo_client: MagicMock,
     config_entry: MockConfigEntry,
     pool1: dict[str, Any],
@@ -68,7 +68,7 @@ async def test_error_retrieving_ico(
 
 
 async def test_error_retrieving_measures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ondilo_client: MagicMock,
     config_entry: MockConfigEntry,
     pool1: dict[str, Any],

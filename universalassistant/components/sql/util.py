@@ -21,8 +21,8 @@ from universalassistant.components.recorder import (
     get_instance,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, TemplateError
+from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, TemplateError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.template import Template
 
@@ -41,7 +41,7 @@ def redact_credentials(data: str | None) -> str:
     return DB_URL_RE.sub("//****:****@", data)
 
 
-def resolve_db_url(hass: UniversalAssistant, db_url: str | None) -> str:
+def resolve_db_url(hass: __HAC_KEEP__, db_url: str | None) -> str:
     """Return the db_url provided if not empty, otherwise return the recorder db_url."""
     _LOGGER.debug("db_url: %s", redact_credentials(db_url))
     if db_url and not db_url.isspace():
@@ -59,7 +59,7 @@ def validate_sql_select(value: Template) -> Template:
 
 
 async def async_create_sessionmaker(
-    hass: UniversalAssistant, db_url: str
+    hass: __HAC_KEEP__, db_url: str
 ) -> tuple[scoped_session | None, bool, bool]:
     """Create a session maker for the given db_url.
 
@@ -68,7 +68,7 @@ async def async_create_sessionmaker(
     case for the default recorder's database to use the correct executor.
 
     Args:
-        hass: The Universal Universal Home Assistant instance.
+        hass: The __HA_KEEP__ instance.
         db_url: The database URL to connect to.
 
     Returns:
@@ -114,7 +114,7 @@ async def async_create_sessionmaker(
 
 
 def validate_query(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     query_template: str | Template,
     uses_recorder_db: bool,
     unique_id: str | None = None,
@@ -123,7 +123,7 @@ def validate_query(
     """Validate the query against common performance issues.
 
     Args:
-        hass: The Universal Universal Home Assistant instance.
+        hass: The __HA_KEEP__ instance.
         query_template: The SQL query string to be validated.
         uses_recorder_db: A boolean indicating if the query is
             against the recorder database.
@@ -176,7 +176,7 @@ def validate_query(
 
 
 @callback
-def _async_get_or_init_domain_data(hass: UniversalAssistant) -> SQLData:
+def _async_get_or_init_domain_data(hass: __HAC_KEEP__) -> SQLData:
     """Get or initialize domain data."""
     if DOMAIN in hass.data:
         sql_data: SQLData = hass.data[DOMAIN]
@@ -251,7 +251,7 @@ def convert_value(value: Any) -> Any:
             return value
 
 
-def check_and_render_sql_query(hass: UniversalAssistant, query: Template | str) -> str:
+def check_and_render_sql_query(hass: __HAC_KEEP__, query: Template | str) -> str:
     """Check and render SQL query."""
     if isinstance(query, str):
         query = query.strip()
@@ -277,7 +277,7 @@ def check_and_render_sql_query(hass: UniversalAssistant, query: Template | str) 
     return str(rendered_queries[0])
 
 
-class InvalidSqlQuery(UniversalAssistantError):
+class InvalidSqlQuery(__HAC_KEEP__Error):
     """SQL query is invalid error."""
 
 

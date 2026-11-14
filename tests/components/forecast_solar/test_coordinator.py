@@ -29,7 +29,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import async_next_update
@@ -76,7 +76,7 @@ AZIMUTH_SENSOR_PLANE = {
 
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_coordinator_rereads_azimuth_sensor_on_each_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test the azimuth sensor is read at setup and a changed value on refresh.
@@ -99,7 +99,7 @@ async def test_coordinator_rereads_azimuth_sensor_on_each_update(
 
 
 @pytest.mark.usefixtures("mock_forecast_solar")
-async def test_coordinator_normalises_compass_azimuth(hass: UniversalAssistant) -> None:
+async def test_coordinator_normalises_compass_azimuth(hass: __HAC_KEEP__) -> None:
     """Test a compass sensor reporting -180..180 is normalised, not rejected."""
     hass.states.async_set(AZIMUTH_SENSOR, "-90", DEGREES)
     entry = _config_entry(AZIMUTH_SENSOR_PLANE, entry_data=FIXED_LOCATION)
@@ -126,7 +126,7 @@ async def test_coordinator_normalises_compass_azimuth(hass: UniversalAssistant) 
 )
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_coordinator_setup_retries_on_unusable_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     states: dict[str, str],
     translation_key: str,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_coordinator_setup_retries_on_unusable_sensor(
     ],
 )
 async def test_coordinator_uses_last_reading_while_sensor_unreadable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_forecast_solar: MagicMock,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -188,7 +188,7 @@ async def test_coordinator_uses_last_reading_while_sensor_unreadable(
 
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_last_reading_is_not_kept_across_a_reload(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a reload needs a readable sensor again, as the form text says."""
     hass.states.async_set(AZIMUTH_SENSOR, "100", DEGREES)
@@ -210,7 +210,7 @@ async def test_last_reading_is_not_kept_across_a_reload(
 
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_coordinator_resolves_declination_sensor_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the coordinator reads the declination sensor's value at setup."""
     hass.states.async_set(DECLINATION_SENSOR, "42", DEGREES)
@@ -231,7 +231,7 @@ async def test_coordinator_resolves_declination_sensor_on_setup(
 
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_coordinator_resolves_extra_plane_sensors_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a sensor-backed extra plane's angles resolve from its sensors."""
     hass.states.async_set("sensor.extra_declination", "20", DEGREES)
@@ -283,7 +283,7 @@ async def test_coordinator_resolves_extra_plane_sensors_on_setup(
     ],
 )
 async def test_coordinator_follows_home_location(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_forecast_solar: MagicMock,
     entry_data: dict[str, Any],
     core_configs: list[dict[str, Any]],
@@ -311,7 +311,7 @@ async def test_coordinator_follows_home_location(
 
 
 async def test_coordinator_skips_queued_refresh_after_periodic_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_forecast_solar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -356,7 +356,7 @@ async def test_coordinator_skips_queued_refresh_after_periodic_update(
 
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_coordinator_keeps_configured_angles_integral(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test fixed angles stay ints, so the request URL is unchanged for existing users."""
     entry = _config_entry(

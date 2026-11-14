@@ -4,7 +4,7 @@ from enum import StrEnum
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.util import slugify
 
@@ -112,7 +112,7 @@ def update_account(service: ServiceCall) -> None:
         _get_account(service.hass, account).keep_alive()
 
 
-def _get_account(hass: UniversalAssistant, account_identifier: str) -> IcloudAccount:
+def _get_account(hass: __HAC_KEEP__, account_identifier: str) -> IcloudAccount:
     if account_identifier is None:
         return None
 
@@ -125,7 +125,7 @@ def _get_account(hass: UniversalAssistant, account_identifier: str) -> IcloudAcc
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register iCloud services."""
 
     hass.services.async_register(

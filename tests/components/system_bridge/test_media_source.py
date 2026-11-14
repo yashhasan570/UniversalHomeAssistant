@@ -25,7 +25,7 @@ from universalassistant.components.media_source import (
 from universalassistant.components.system_bridge.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -33,7 +33,7 @@ from . import FIXTURE_USER_INPUT
 
 
 @pytest.fixture(autouse=True)
-async def setup_component(hass: UniversalAssistant) -> None:
+async def setup_component(hass: __HAC_KEEP__) -> None:
     """Set up component."""
     assert await async_setup_component(
         hass,
@@ -43,7 +43,7 @@ async def setup_component(hass: UniversalAssistant) -> None:
 
 
 async def test_root(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_root(
 
 
 async def test_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_entry(
 
 
 async def test_directory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_directory(
 
 
 async def test_directory_children_content_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test subdirectories have a string media content type."""
@@ -110,7 +110,7 @@ async def test_directory_children_content_type(
 
 
 async def test_subdirectory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_subdirectory(
 
 
 async def test_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -166,7 +166,7 @@ def signed_url_backend(mock_websocket_client: MagicMock) -> Generator[None]:
 
 @pytest.mark.usefixtures("signed_url_backend")
 async def test_file_signed_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test hosts that accept signed URLs get one, without the API token."""
@@ -205,7 +205,7 @@ async def test_file_signed_url(
     ],
 )
 @pytest.mark.usefixtures("init_integration")
-async def test_bad_entry(hass: UniversalAssistant, entry_id: str) -> None:
+async def test_bad_entry(hass: __HAC_KEEP__, entry_id: str) -> None:
     """Test invalid entry raises BrowseError."""
     MockConfigEntry(
         domain="other", entry_id="other_entry", state=ConfigEntryState.LOADED

@@ -60,7 +60,7 @@ from universalassistant.components import usb
 from universalassistant.components.assist_satellite import AssistSatelliteConfiguration
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers import discovery_flow, entity_registry as er
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.service_info.esphome import ESPHomeServiceInfo
@@ -125,7 +125,7 @@ INFO_TYPE_TO_PLATFORM: dict[type[EntityInfo], Platform] = {
 
 
 @callback
-def async_notify_serial_ports_changed(hass: UniversalAssistant) -> None:
+def async_notify_serial_ports_changed(hass: __HAC_KEEP__) -> None:
     """Have the usb integration rescan, as a udev event would for a local port."""
     if "usb" in hass.config.components:
         usb.async_notify_serial_ports_changed(hass)
@@ -300,7 +300,7 @@ class RuntimeEntryData:
 
     @callback
     def async_remove_entities(
-        self, hass: UniversalAssistant, static_infos: Iterable[EntityInfo], mac: str
+        self, hass: __HAC_KEEP__, static_infos: Iterable[EntityInfo], mac: str
     ) -> None:
         """Schedule the removal of an entity."""
         # Remove from entity registry first so the entity is fully removed
@@ -355,7 +355,7 @@ class RuntimeEntryData:
 
     async def _ensure_platforms_loaded(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ESPHomeConfigEntry,
         platforms: set[Platform],
     ) -> None:
@@ -366,7 +366,7 @@ class RuntimeEntryData:
 
     async def async_update_static_infos(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ESPHomeConfigEntry,
         infos: list[EntityInfo],
         mac: str,
@@ -416,13 +416,13 @@ class RuntimeEntryData:
                 )
             else:
                 _LOGGER.warning(
-                    "Entity type %s is not supported in this version of Universal Universal Home Assistant",
+                    "Entity type %s is not supported in this version of __HA_KEEP__",
                     info_type,
                 )
         if unsupported_device_ids:
             _LOGGER.warning(
                 "The relation of sub devices %s to the main device is not supported "
-                "in this version of Universal Universal Home Assistant, ignoring them and their entities",
+                "in this version of __HA_KEEP__, ignoring them and their entities",
                 sorted(unsupported_device_ids),
             )
         await self._ensure_platforms_loaded(hass, entry, needed_platforms)
@@ -655,7 +655,7 @@ class RuntimeEntryData:
             await self.store.async_save(self._pending_storage())
 
     @callback
-    def async_on_disconnect(self, hass: UniversalAssistant) -> None:
+    def async_on_disconnect(self, hass: __HAC_KEEP__) -> None:
         """Call when the entry has been disconnected.
 
         Safe to call multiple times.
@@ -681,7 +681,7 @@ class RuntimeEntryData:
 
     @callback
     def async_on_connect(
-        self, hass: UniversalAssistant, device_info: DeviceInfo, api_version: APIVersion
+        self, hass: __HAC_KEEP__, device_info: DeviceInfo, api_version: APIVersion
     ) -> None:
         """Call when the entry has been connected."""
         self.available = True
@@ -715,7 +715,7 @@ class RuntimeEntryData:
         self.async_create_zwave_js_flow(hass, device_info, device_info.zwave_home_id)
 
     def async_create_zwave_js_flow(
-        self, hass: UniversalAssistant, device_info: DeviceInfo, zwave_home_id: int
+        self, hass: __HAC_KEEP__, device_info: DeviceInfo, zwave_home_id: int
     ) -> None:
         """Create a zwave_js config flow for a Z-Wave JS Proxy device."""
         assert self.client.connected_address is not None

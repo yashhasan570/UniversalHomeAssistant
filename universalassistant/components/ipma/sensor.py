@@ -12,7 +12,7 @@ from pyipma.rcm import RCM
 from pyipma.uv import UV
 
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import Throttle
 
@@ -84,7 +84,7 @@ SENSOR_TYPES: tuple[IPMASensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IpmaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

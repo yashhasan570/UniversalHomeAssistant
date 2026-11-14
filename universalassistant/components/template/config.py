@@ -49,7 +49,7 @@ from universalassistant.const import (
     CONF_VARIABLES,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.condition import async_validate_conditions_config
 from universalassistant.helpers.issue_registry import IssueSeverity
@@ -169,7 +169,7 @@ def ensure_domains_do_not_have_trigger_or_action(*keys: str) -> Callable[[dict],
 
 
 def create_trigger_format_issue(
-    hass: UniversalAssistant, config: ConfigType, option: str
+    hass: __HAC_KEEP__, config: ConfigType, option: str
 ) -> None:
     """Create a warning when a rogue trigger or action is found."""
     issue_id = hex(hash(frozenset(config)))
@@ -186,7 +186,7 @@ def create_trigger_format_issue(
 
 
 def validate_trigger_format(
-    hass: UniversalAssistant, config_section: ConfigType, raw_config: ConfigType
+    hass: __HAC_KEEP__, config_section: ConfigType, raw_config: ConfigType
 ) -> None:
     """Validate the config section."""
     options = set(config_section.keys())
@@ -319,7 +319,7 @@ def _merge_section_variables(config: ConfigType, section_variables: ConfigType) 
 
 
 async def _async_resolve_template_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
 ) -> TemplateConfig:
     """If a config item requires a blueprint, resolve that item to an actual config."""
@@ -399,7 +399,7 @@ async def _async_resolve_template_config(
 
 
 async def _async_validate_triggers_and_conditions(
-    hass: UniversalAssistant, config: TemplateConfig
+    hass: __HAC_KEEP__, config: TemplateConfig
 ) -> None:
     """Validate the triggers and conditions of a resolved config section."""
     if CONF_TRIGGERS in config:
@@ -422,7 +422,7 @@ async def _async_validate_triggers_and_conditions(
 
 
 async def async_validate_config_section(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> TemplateConfig:
     """Validate an entire config section for the template integration."""
 
@@ -431,7 +431,7 @@ async def async_validate_config_section(
     return validated_config
 
 
-async def async_validate_config(hass: UniversalAssistant, config: ConfigType) -> ConfigType:
+async def async_validate_config(hass: __HAC_KEEP__, config: ConfigType) -> ConfigType:
     """Validate config."""
 
     configs = []

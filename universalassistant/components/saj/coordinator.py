@@ -7,7 +7,7 @@ from typing import override
 import aiosaj
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -27,7 +27,7 @@ class SAJDataUpdateCoordinator(DataUpdateCoordinator[aiosaj.Sensors]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SAJConfigEntry,
         saj: aiosaj.SAJ,
         sensor_def: aiosaj.Sensors,

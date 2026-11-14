@@ -4,7 +4,7 @@ from dataclasses import asdict
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import YaleConfigEntry
 
@@ -21,7 +21,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: YaleConfigEntry
+    hass: __HAC_KEEP__, entry: YaleConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

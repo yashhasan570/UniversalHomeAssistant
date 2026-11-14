@@ -23,7 +23,7 @@ from universalassistant.components.ruckus_unleashed.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import utcnow
@@ -53,7 +53,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -81,7 +81,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert result2["result"].unique_id == DEFAULT_UNIQUEID
 
 
-async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -107,7 +107,7 @@ async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_user_reauth(hass: UniversalAssistant) -> None:
+async def test_form_user_reauth(hass: __HAC_KEEP__) -> None:
     """Test reauth."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -137,7 +137,7 @@ async def test_form_user_reauth(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "reauth_successful"
 
 
-async def test_form_user_reauth_different_unique_id(hass: UniversalAssistant) -> None:
+async def test_form_user_reauth_different_unique_id(hass: __HAC_KEEP__) -> None:
     """Test reauth."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -169,7 +169,7 @@ async def test_form_user_reauth_different_unique_id(hass: UniversalAssistant) ->
     assert result2["reason"] == "invalid_host"
 
 
-async def test_form_user_reauth_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_user_reauth_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test reauth."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -215,7 +215,7 @@ async def test_form_user_reauth_invalid_auth(hass: UniversalAssistant) -> None:
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_form_user_reauth_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_user_reauth_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test reauth."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -261,7 +261,7 @@ async def test_form_user_reauth_cannot_connect(hass: UniversalAssistant) -> None
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_form_user_reauth_general_exception(hass: UniversalAssistant) -> None:
+async def test_form_user_reauth_general_exception(hass: __HAC_KEEP__) -> None:
     """Test reauth."""
     entry = mock_config_entry()
     entry.add_to_hass(hass)
@@ -306,7 +306,7 @@ async def test_form_user_reauth_general_exception(hass: UniversalAssistant) -> N
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -332,7 +332,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_general_exception(hass: UniversalAssistant) -> None:
+async def test_form_general_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -357,7 +357,7 @@ async def test_form_general_exception(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unexpected_response(hass: UniversalAssistant) -> None:
+async def test_form_unexpected_response(hass: __HAC_KEEP__) -> None:
     """Test we handle unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -385,7 +385,7 @@ async def test_form_unexpected_response(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_duplicate_error(hass: UniversalAssistant) -> None:
+async def test_form_duplicate_error(hass: __HAC_KEEP__) -> None:
     """Test we handle duplicate error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -416,7 +416,7 @@ async def test_form_duplicate_error(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "already_configured"
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test options flow shows form and accepts selection."""
     entry = await init_integration(hass)
 
@@ -437,7 +437,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
     assert entry.options[CONF_MAC_FILTER] == [TEST_CLIENT[API_CLIENT_MAC]]
 
 
-async def test_options_flow_offline_clients_preserved(hass: UniversalAssistant) -> None:
+async def test_options_flow_offline_clients_preserved(hass: __HAC_KEEP__) -> None:
     """Test previously selected but now-offline clients remain selectable."""
     offline_mac = "FF:EE:DD:CC:BB:AA"
     entry = await init_integration(hass)
@@ -461,7 +461,7 @@ async def test_options_flow_offline_clients_preserved(hass: UniversalAssistant) 
 
 
 async def test_options_flow_removes_deselected_entities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that deselected devices have their entities removed."""
     entry = await init_integration(hass)
@@ -498,7 +498,7 @@ async def test_options_flow_removes_deselected_entities(
 
 
 async def test_options_flow_clear_filter_keeps_entities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that clearing the filter does not remove entities."""
     entry = await init_integration(hass)

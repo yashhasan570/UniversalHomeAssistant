@@ -14,11 +14,11 @@ from universalassistant.components.threshold.const import (
     ThresholdEntityStateAttribute,
 )
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_config_flow(hass: UniversalAssistant) -> None:
+async def test_config_flow(hass: __HAC_KEEP__) -> None:
     """Test the config flow."""
     input_sensor = "sensor.input"
 
@@ -69,7 +69,7 @@ async def test_config_flow(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize(("extra_input_data", "error"), [({}, "need_lower_upper")])
 async def test_fail(
-    hass: UniversalAssistant, extra_input_data: dict[str, Any], error: str
+    hass: __HAC_KEEP__, extra_input_data: dict[str, Any], error: str
 ) -> None:
     """Test not providing lower or upper limit fails."""
     input_sensor = "sensor.input"
@@ -109,7 +109,7 @@ async def test_fail(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options(hass: UniversalAssistant) -> None:
+async def test_options(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring."""
     input_sensor = "sensor.input"
     hass.states.async_set(input_sensor, "10")
@@ -219,7 +219,7 @@ async def test_options(hass: UniversalAssistant) -> None:
     ),
 )
 async def test_config_flow_preview_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     user_input: str,
     snapshot: SnapshotAssertion,
@@ -260,7 +260,7 @@ async def test_config_flow_preview_success(
 
 
 async def test_options_flow_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -319,7 +319,7 @@ async def test_options_flow_preview(
 
 
 async def test_options_flow_sensor_preview_config_entry_removed(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the option flow preview where the config entry is removed."""
     client = await hass_ws_client(hass)

@@ -5,7 +5,7 @@ from typing import Any
 
 from aiohomekit.characteristic_cache import Pairing, StorageLayout
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.storage import Store
 
 from .const import DOMAIN, ENTITY_MAP
@@ -31,7 +31,7 @@ class EntityMapStorage:
     very slow for these devices.
     """
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Create a new entity map store."""
         self.hass = hass
         self.store = Store[StorageLayout](
@@ -98,7 +98,7 @@ class EntityMapStorage:
         return StorageLayout(pairings=self.storage_data)
 
 
-async def async_get_entity_storage(hass: UniversalAssistant) -> EntityMapStorage:
+async def async_get_entity_storage(hass: __HAC_KEEP__) -> EntityMapStorage:
     """Get entity storage."""
     if ENTITY_MAP in hass.data:
         map_storage: EntityMapStorage = hass.data[ENTITY_MAP]

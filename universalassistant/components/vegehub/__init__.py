@@ -8,7 +8,7 @@ from aiohttp.hdrs import METH_POST
 from aiohttp.web import Request, Response
 from vegehub import VegeHub
 
-from universalassistant.components.http import UniversalAssistantView
+from universalassistant.components.http import __HAC_KEEP__View
 from universalassistant.components.webhook import (
     async_register as webhook_register,
     async_unregister as webhook_unregister,
@@ -20,13 +20,13 @@ from universalassistant.const import (
     CONF_WEBHOOK_ID,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DOMAIN, NAME, PLATFORMS
 from .coordinator import VegeHubConfigEntry, VegeHubCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: VegeHubConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: VegeHubConfigEntry) -> None:
     """Set up VegeHub from a config entry."""
 
     device_mac = entry.data[CONF_MAC]
@@ -70,7 +70,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: VegeHubConfigEntry)
     await register_webhook()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: VegeHubConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: VegeHubConfigEntry) -> None:
     """Unload a VegeHub config entry."""
     webhook_unregister(hass, entry.data[CONF_WEBHOOK_ID])
 
@@ -80,15 +80,15 @@ async def async_unload_entry(hass: UniversalAssistant, entry: VegeHubConfigEntry
 
 def get_webhook_handler(
     device_mac: str, entry_id: str, coordinator: VegeHubCoordinator
-) -> Callable[[UniversalAssistant, str, Request], Awaitable[Response | None]]:
+) -> Callable[[__HAC_KEEP__, str, Request], Awaitable[Response | None]]:
     """Return webhook handler."""
 
     async def async_webhook_handler(
-        hass: UniversalAssistant, webhook_id: str, request: Request
+        hass: __HAC_KEEP__, webhook_id: str, request: Request
     ) -> Response | None:
         # Handle http post calls to the path.
         if not request.body_exists:
-            return UniversalAssistantView.json(
+            return __HAC_KEEP__View.json(
                 result="No Body", status_code=HTTPStatus.BAD_REQUEST
             )
         data = await request.json()
@@ -96,6 +96,6 @@ def get_webhook_handler(
         if coordinator:
             await coordinator.update_from_webhook(data)
 
-        return UniversalAssistantView.json(result="OK", status_code=HTTPStatus.OK)
+        return __HAC_KEEP__View.json(result="OK", status_code=HTTPStatus.OK)
 
     return async_webhook_handler

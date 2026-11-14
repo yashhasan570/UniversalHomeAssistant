@@ -8,7 +8,7 @@ from universalassistant.components.climate import (
     DOMAIN as CLIMATE_DOMAIN,
     ClimateEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -27,7 +27,7 @@ class NestServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register services for the Nest integration."""
     service.async_register_platform_entity_service(
         hass,

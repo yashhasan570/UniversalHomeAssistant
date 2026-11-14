@@ -30,8 +30,8 @@ from universalassistant.const import (
     Platform,
     __version__ as HAVERSION,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -408,7 +408,7 @@ class MarketplaceManager:
     """The Marketplace, its state and everything it manages."""
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: MarketplaceConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: MarketplaceConfigEntry
     ) -> None:
         """Set up the Marketplace of a config entry, nothing runs yet."""
         self.hass = hass
@@ -793,7 +793,7 @@ class MarketplaceManager:
 
     @staticmethod
     def _refuse_what_is_not_managed(repository_full_name: str) -> None:
-        """Refuse Universal Universal Home Assistant itself and the repositories of apps."""
+        """Refuse __HA_KEEP__ itself and the repositories of apps."""
         if repository_full_name == "universal-assistant/core":
             raise CoreRepositoryError
 
@@ -914,7 +914,7 @@ class MarketplaceManager:
             self.common.custom_repositories.add(repository.data.id)
         return None
 
-    async def startup_tasks(self, _: UniversalAssistant | None = None) -> None:
+    async def startup_tasks(self, _: __HAC_KEEP__ | None = None) -> None:
         """Tasks that are started after setup."""
         self.set_stage(MarketplaceStage.STARTUP)
 
@@ -1198,7 +1198,7 @@ class MarketplaceManager:
 
         self._async_catalog_reached(category)
 
-        # The Marketplace is part of Universal Universal Home Assistant, it does not manage itself
+        # The Marketplace is part of __HA_KEEP__, it does not manage itself
         category_data = {
             repo_id: repo_data
             for repo_id, repo_data in category_data.items()
@@ -1537,7 +1537,7 @@ class MarketplaceManager:
         await async_save_to_storage(self.hass, "critical", stored_critical)
 
         if was_installed:
-            LOGGER.critical("Restarting Universal Universal Home Assistant")
+            LOGGER.critical("Restarting __HA_KEEP__")
             self.hass.async_create_task(self.hass.async_stop(100))
 
 
@@ -1545,7 +1545,7 @@ type MarketplaceConfigEntry = ConfigEntry[MarketplaceManager]
 
 
 @callback
-def async_get_marketplace(hass: UniversalAssistant) -> MarketplaceManager:
+def async_get_marketplace(hass: __HAC_KEEP__) -> MarketplaceManager:
     """Return the Marketplace of the loaded config entry.
 
     For the code that has no config entry at hand, like the WebSocket API and
@@ -1553,7 +1553,7 @@ def async_get_marketplace(hass: UniversalAssistant) -> MarketplaceManager:
     never more than one entry to pick from.
     """
     if not (entries := hass.config_entries.async_loaded_entries(DOMAIN)):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="not_loaded"
         )
 

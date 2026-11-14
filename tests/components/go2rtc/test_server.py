@@ -12,8 +12,8 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.go2rtc.server import Server
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 TEST_BINARY = "/bin/go2rtc"
 
@@ -44,7 +44,7 @@ def mock_session() -> AsyncMock:
 
 @pytest.fixture
 def server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: AsyncMock,
     enable_ui: bool,
     username: str,
@@ -127,7 +127,7 @@ def _watch_spawn(mock_create_subprocess: AsyncMock) -> asyncio.Event:
 
 
 async def _wait_for_respawn(spawned: asyncio.Event) -> None:
-    """Wait for the watchdog, which runs outside the tasks Universal Universal Home Assistant tracks."""
+    """Wait for the watchdog, which runs outside the tasks __HA_KEEP__ tracks."""
     async with asyncio.timeout(5):
         await spawned.wait()
 
@@ -221,7 +221,7 @@ async def test_server_failed_to_start(
     """Test server raises exception when expected log not received."""
     with (
         patch("universalassistant.components.go2rtc.server._SETUP_TIMEOUT", new=0.1),
-        pytest.raises(UniversalAssistantError, match="Go2rtc server didn't start correctly"),
+        pytest.raises(__HAC_KEEP__Error, match="Go2rtc server didn't start correctly"),
     ):
         await server.start()
 
@@ -280,7 +280,7 @@ async def test_server_failed_to_start(
 )
 @patch("universalassistant.components.go2rtc.server._RESPAWN_COOLDOWN", 0)
 async def test_log_level_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_subprocess: MagicMock,
     server_stdout: list[str],
     rest_client: AsyncMock,
@@ -319,7 +319,7 @@ async def test_log_level_mapping(
 
 @patch("universalassistant.components.go2rtc.server._RESPAWN_COOLDOWN", 0)
 async def test_server_restart_process_exit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_subprocess: AsyncMock,
     server_stdout: list[str],
     rest_client: AsyncMock,
@@ -357,7 +357,7 @@ async def test_server_restart_process_exit(
 
 @patch("universalassistant.components.go2rtc.server._RESPAWN_COOLDOWN", 0)
 async def test_server_restart_process_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_subprocess: AsyncMock,
     server_stdout: list[str],
     rest_client: AsyncMock,
@@ -386,7 +386,7 @@ async def test_server_restart_process_error(
 
 @patch("universalassistant.components.go2rtc.server._RESPAWN_COOLDOWN", 0)
 async def test_server_restart_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_subprocess: AsyncMock,
     server_stdout: list[str],
     rest_client: AsyncMock,
@@ -415,7 +415,7 @@ async def test_server_restart_api_error(
 
 @patch("universalassistant.components.go2rtc.server._RESPAWN_COOLDOWN", 0)
 async def test_server_restart_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_subprocess: AsyncMock,
     server_stdout: list[str],
     rest_client: AsyncMock,
@@ -472,7 +472,7 @@ async def test_server_restart_error(
 )
 @pytest.mark.usefixtures("mock_tempfile", "rest_client")
 async def test_credentials_redacted_from_server_output(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_subprocess: MagicMock,
     server: Server,
     caplog: pytest.LogCaptureFixture,

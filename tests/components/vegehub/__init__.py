@@ -1,11 +1,11 @@
 """Tests for the Vegetronix VegeHub integration."""
 
 from universalassistant.components.vegehub.coordinator import VegeHubConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VegeHubConfigEntry,
 ) -> None:
     """Load the VegeHub integration."""

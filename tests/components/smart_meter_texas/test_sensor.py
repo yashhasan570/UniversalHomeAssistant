@@ -14,14 +14,14 @@ from universalassistant.components.smart_meter_texas.const import (
     METER_NUMBER,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .conftest import TEST_ENTITY_ID, refresh_data, setup_integration
 
 
 async def test_sensor(
-    hass: UniversalAssistant, config_entry, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, config_entry, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that the sensor is setup."""
     await setup_integration(hass, config_entry, aioclient_mock)
@@ -33,7 +33,7 @@ async def test_sensor(
 
 
 async def test_name(
-    hass: UniversalAssistant, config_entry, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, config_entry, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test sensor name property."""
     await setup_integration(hass, config_entry, aioclient_mock)
@@ -44,7 +44,7 @@ async def test_name(
 
 
 async def test_attributes(
-    hass: UniversalAssistant, config_entry, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, config_entry, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test meter attributes."""
     await setup_integration(hass, config_entry, aioclient_mock)
@@ -57,7 +57,7 @@ async def test_attributes(
 
 
 async def test_generic_entity_update_service(
-    hass: UniversalAssistant, config_entry, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, config_entry, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test generic update entity service homeasasistant/update_entity."""
     await setup_integration(hass, config_entry, aioclient_mock)

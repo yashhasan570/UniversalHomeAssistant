@@ -14,7 +14,7 @@ from universalassistant.components.vera.const import (
     CONF_LEGACY_UNIQUE_ID,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 type SetupCallback = Callable[[pv.VeraController, dict], None]
 
@@ -84,7 +84,7 @@ class ComponentFactory:
 
     async def configure_component(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         controller_config: ControllerConfig = None,
         controller_configs: tuple[ControllerConfig] = (),
     ) -> ComponentData:
@@ -104,7 +104,7 @@ class ComponentFactory:
         )
 
     async def _configure_component(
-        self, hass: UniversalAssistant, controller_config: ControllerConfig
+        self, hass: __HAC_KEEP__, controller_config: ControllerConfig
     ) -> ControllerData:
         """Configure the component with specific mock data."""
         component_config = {

@@ -8,10 +8,10 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.omnilogic.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_setup_login_failed(hass: UniversalAssistant) -> None:
+async def test_setup_login_failed(hass: __HAC_KEEP__) -> None:
     """Test setup fails when logging in fails."""
     entry = MockConfigEntry(
         domain=DOMAIN,

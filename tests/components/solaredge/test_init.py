@@ -11,7 +11,7 @@ from universalassistant.components.recorder import Recorder
 from universalassistant.components.solaredge.const import CONF_SITE_ID, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_API_KEY, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -26,7 +26,7 @@ from .conftest import API_KEY, PASSWORD, SITE_ID, USERNAME
 async def test_setup_unload_api_key(
     mock_unload_platforms: AsyncMock,
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     solaredge_api: Mock,
 ) -> None:
     """Test successful setup and unload of a config entry with API key."""
@@ -57,7 +57,7 @@ async def test_setup_unload_api_key(
 async def test_setup_unload_web_login(
     mock_unload_platforms: AsyncMock,
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     solaredge_web_api: AsyncMock,
 ) -> None:
     """Test successful setup and unload of a config entry with web login."""
@@ -93,7 +93,7 @@ async def test_setup_unload_web_login(
 async def test_setup_unload_both(
     mock_unload_platforms: AsyncMock,
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     solaredge_api: Mock,
     solaredge_web_api: AsyncMock,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_setup_unload_both(
 
 
 async def test_api_key_config_not_ready(
-    recorder_mock: Recorder, hass: UniversalAssistant, solaredge_api: Mock
+    recorder_mock: Recorder, hass: __HAC_KEEP__, solaredge_api: Mock
 ) -> None:
     """Test for setup failure with API key."""
     solaredge_api.get_details.side_effect = ClientError()
@@ -142,7 +142,7 @@ async def test_api_key_config_not_ready(
 
 
 async def test_web_login_config_not_ready(
-    recorder_mock: Recorder, hass: UniversalAssistant, solaredge_web_api: AsyncMock
+    recorder_mock: Recorder, hass: __HAC_KEEP__, solaredge_web_api: AsyncMock
 ) -> None:
     """Test for setup failure with web login."""
     solaredge_web_api.async_get_equipment.side_effect = ClientError()
@@ -174,7 +174,7 @@ async def test_web_login_config_not_ready(
 )
 async def test_setup_api_key_failure(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
     get_details_response: dict,
@@ -190,7 +190,7 @@ async def test_setup_api_key_failure(
 
 async def test_setup_site_not_active(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_setup_site_not_active(
 
 async def test_remove_device(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,

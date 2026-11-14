@@ -4,14 +4,14 @@ from gps3.agps3threaded import AGPS3mechanism
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 type GPSDConfigEntry = ConfigEntry[AGPS3mechanism]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: GPSDConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: GPSDConfigEntry) -> None:
     """Set up GPSD from a config entry."""
     agps_thread = AGPS3mechanism()
     entry.runtime_data = agps_thread
@@ -27,7 +27,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GPSDConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: GPSDConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: GPSDConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     agps_thread = entry.runtime_data

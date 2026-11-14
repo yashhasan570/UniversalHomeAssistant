@@ -13,8 +13,8 @@ from modbus_connection import ModbusError, ModbusTcpParams
 
 from universalassistant.components.modbus import async_get_unit
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import (
@@ -45,7 +45,7 @@ class FroniusModbus:
     """
 
     def __init__(
-        self, hass: UniversalAssistant, entry: FroniusConfigEntry, solar_net: FroniusSolarNet
+        self, hass: __HAC_KEEP__, entry: FroniusConfigEntry, solar_net: FroniusSolarNet
     ) -> None:
         """Initialize the Modbus side of a SolarNet."""
         self._hass = hass
@@ -77,7 +77,7 @@ class FroniusModbus:
                 return
             try:
                 unit = async_get_unit(self._hass, self._config_entry, params, unit_id)
-            except UniversalAssistantError as err:
+            except __HAC_KEEP__Error as err:
                 # another integration holds the device on different link settings
                 _LOGGER.debug("No Modbus unit for inverter %s: %s", unit_id, err)
                 return

@@ -16,8 +16,8 @@ from pyezvizapi.exceptions import (
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EzvizConfigEntry, EzvizDataUpdateCoordinator
@@ -48,7 +48,7 @@ NUMBER_TYPE = EzvizNumberEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: EzvizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -108,7 +108,7 @@ class EzvizNumber(EzvizBaseEntity, NumberEntity):
             )
 
         except (HTTPError, PyEzvizError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Cannot set detection sensitivity level on {self.name}"
             ) from err
 
@@ -131,4 +131,4 @@ class EzvizNumber(EzvizBaseEntity, NumberEntity):
             return
 
         except (InvalidURL, HTTPError, PyEzvizError) as error:
-            raise UniversalAssistantError(f"Invalid response from API: {error}") from error
+            raise __HAC_KEEP__Error(f"Invalid response from API: {error}") from error

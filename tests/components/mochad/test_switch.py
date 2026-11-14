@@ -8,8 +8,8 @@ from pytest_universalassistant.common import MockEntityPlatform
 
 from universalassistant.components import switch
 from universalassistant.components.mochad import DOMAIN, switch as mochad
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.setup import async_setup_component
 
 
@@ -24,7 +24,7 @@ def pymochad_mock():
 
 
 @pytest.fixture
-def switch_mock(hass: UniversalAssistant) -> mochad.MochadSwitch:
+def switch_mock(hass: __HAC_KEEP__) -> mochad.MochadSwitch:
     """Mock switch."""
     controller_mock = mock.MagicMock()
     dev_dict = {"address": "a1", "name": "fake_switch"}
@@ -33,7 +33,7 @@ def switch_mock(hass: UniversalAssistant) -> mochad.MochadSwitch:
     return entity
 
 
-async def test_setup_adds_proper_devices(hass: UniversalAssistant) -> None:
+async def test_setup_adds_proper_devices(hass: __HAC_KEEP__) -> None:
     """Test if setup adds devices."""
     good_config = {
         "mochad": {},
@@ -75,7 +75,7 @@ async def test_action_raises_on_communication_error(
         MochadException,
     ):
         switch_mock.switch.send_cmd.side_effect = MochadException("boom")
-        with pytest.raises(UniversalAssistantError) as exc_info:
+        with pytest.raises(__HAC_KEEP__Error) as exc_info:
             getattr(switch_mock, action)()
 
     assert exc_info.value.translation_domain == DOMAIN

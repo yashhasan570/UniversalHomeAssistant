@@ -2,7 +2,7 @@
 
 A ``LightEntity`` must report **both** ``supported_color_modes`` and
 a current ``color_mode``; setting one without the other raises
-``UniversalAssistantError`` at runtime. These two checks flag each half of that
+``__HAC_KEEP__Error`` at runtime. These two checks flag each half of that
 inconsistency. A light that sets *neither* is deliberately not flagged: the
 realistic both-missing class is an abstract base (which the concrete
 subclass completes), so flagging it would produce false positives — the
@@ -28,7 +28,7 @@ runtime entity (and may supply the missing half itself).
 ``W7436`` (``universal-assistant-light-missing-color-mode``)
 -------------------------------------------------------
 Fires when ``supported_color_modes`` is provided but ``color_mode`` is not.
-At runtime ``LightEntity.state_attributes`` raises ``UniversalAssistantError``
+At runtime ``LightEntity.state_attributes`` raises ``__HAC_KEEP__Error``
 ("does not report a color mode") whenever the light is on and
 ``color_mode`` is ``None`` — there is no inference of the mode from a
 single supported mode, so this holds even for lights that support only
@@ -38,7 +38,7 @@ single supported mode, so this holds even for lights that support only
 ------------------------------------------------------------------
 Fires when ``color_mode`` is provided but ``supported_color_modes`` is not.
 At runtime ``LightEntity._light_internal_supported_color_modes`` raises
-``UniversalAssistantError`` ("does not set supported color modes") from both
+``__HAC_KEEP__Error`` ("does not set supported color modes") from both
 ``state_attributes`` and ``capability_attributes`` whenever
 ``supported_color_modes`` is ``None``.
 
@@ -216,7 +216,7 @@ class HassLightColorModeChecker(BaseChecker):
                 "supported_color_modes (via _attr_supported_color_modes or a "
                 "supported_color_modes override) but neither sets "
                 "_attr_color_mode nor overrides the color_mode property. Such "
-                "a light raises UniversalAssistantError at runtime because it does "
+                "a light raises __HAC_KEEP__Error at runtime because it does "
                 "not report a color mode when turned on."
             ),
         ),
@@ -233,7 +233,7 @@ class HassLightColorModeChecker(BaseChecker):
                 "_attr_color_mode or a color_mode override) but neither sets "
                 "_attr_supported_color_modes nor overrides the "
                 "supported_color_modes property. Such a light raises "
-                "UniversalAssistantError at runtime because it does not set "
+                "__HAC_KEEP__Error at runtime because it does not set "
                 "supported color modes."
             ),
         ),

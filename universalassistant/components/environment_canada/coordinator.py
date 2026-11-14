@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from env_canada import ECAirQuality, ECMap, ECWeather, ECWeatherUpdateFailed, ec_exc
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -37,7 +37,7 @@ class ECDataUpdateCoordinator[DataT: ECDataType](DataUpdateCoordinator[DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ECConfigEntry,
         ec_data: DataT,
         name: str,

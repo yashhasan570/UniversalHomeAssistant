@@ -27,7 +27,7 @@ from universalassistant.components.fressnapf_tracker.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_PHONE_NUMBER = "+491234567890"
 MOCK_EMAIL = "test@example.com"
@@ -214,7 +214,7 @@ def mock_email_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client_init: MagicMock,
     mock_api_client_coordinator: MagicMock,

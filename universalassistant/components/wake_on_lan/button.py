@@ -9,7 +9,7 @@ import wakeonlan
 from universalassistant.components.button import ButtonEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_BROADCAST_ADDRESS, CONF_BROADCAST_PORT, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

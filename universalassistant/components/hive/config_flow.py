@@ -32,7 +32,7 @@ class HiveFlowHandler(ConfigFlow, domain=DOMAIN):
         self.data: dict[str, Any] = {}
         self.tokens: dict[str, Any] = {}
         self.device_registration: bool = False
-        self.device_name = "Universal Universal Home Assistant"
+        self.device_name = "__HA_KEEP__"
 
     @override
     async def async_step_user(

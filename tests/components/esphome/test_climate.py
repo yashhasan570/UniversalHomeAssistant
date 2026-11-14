@@ -47,7 +47,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -55,7 +55,7 @@ from .conftest import MockGenericDeviceEntryType
 
 
 async def test_climate_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_climate_entity(
     ],
 )
 async def test_climate_entity_hvac_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     action: ClimateAction,
@@ -145,7 +145,7 @@ async def test_climate_entity_hvac_action(
 
 
 async def test_climate_entity_with_step_and_two_point(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_climate_entity_with_step_and_two_point(
 
 
 async def test_climate_entity_with_step_and_target_temp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -383,7 +383,7 @@ async def test_climate_entity_with_step_and_target_temp(
 
 
 async def test_climate_entity_with_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -444,7 +444,7 @@ async def test_climate_entity_with_humidity(
 
 
 async def test_climate_entity_with_heat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -493,7 +493,7 @@ async def test_climate_entity_with_heat(
 
 
 async def test_climate_entity_with_heat_cool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -553,7 +553,7 @@ async def test_climate_entity_with_heat_cool(
 
 
 async def test_climate_set_temperature_unsupported_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -600,7 +600,7 @@ async def test_climate_set_temperature_unsupported_mode(
 
 
 async def test_climate_entity_with_inf_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -652,7 +652,7 @@ async def test_climate_entity_with_inf_value(
 
 
 async def test_climate_entity_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     snapshot: SnapshotAssertion,
@@ -705,7 +705,7 @@ async def test_climate_entity_attributes(
 
 
 async def test_climate_entity_attribute_current_temperature_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -735,7 +735,7 @@ async def test_climate_entity_attribute_current_temperature_unsupported(
 
 
 async def test_climate_entity_single_setpoint_target_temp_in_auto_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -781,7 +781,7 @@ async def test_climate_entity_single_setpoint_target_temp_in_auto_mode(
 
 
 async def test_climate_entity_two_point_target_temp_in_auto_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -828,7 +828,7 @@ async def test_climate_entity_two_point_target_temp_in_auto_mode(
 
 
 async def test_climate_entity_two_point_target_temp_in_heat_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -871,7 +871,7 @@ async def test_climate_entity_two_point_target_temp_in_heat_mode(
 
 
 async def test_climate_entity_requires_two_point_keeps_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -921,7 +921,7 @@ async def test_climate_entity_requires_two_point_keeps_range(
     ],
 )
 async def test_climate_entity_temperature_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     temperature_unit: TemperatureUnit | int | None,
@@ -948,7 +948,7 @@ async def test_climate_entity_temperature_unit(
 
 
 async def test_climate_entity_fahrenheit_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -990,7 +990,7 @@ async def test_climate_entity_fahrenheit_unit(
 
 
 async def test_climate_entity_fahrenheit_unit_fahrenheit_system(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:

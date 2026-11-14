@@ -15,7 +15,7 @@ from universalassistant.components.imou.const import DOMAIN
 from universalassistant.components.imou.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import create_offline_device, create_online_device, default_mock_devices
@@ -30,7 +30,7 @@ EXPECTED_TRANSLATION_KEYS = {
 
 @pytest.mark.usefixtures("init_integration")
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the config entry."""
@@ -65,7 +65,7 @@ async def test_setup_and_unload_entry(
 )
 @pytest.mark.usefixtures("mock_imou_openapi_client", "mock_imou_ha_device_manager")
 async def test_setup_entry_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: AsyncMock,
     exception: Exception,
@@ -86,7 +86,7 @@ async def test_setup_entry_exceptions(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_device_registry_identifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_device_registry_identifiers(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_multiple_channels_create_separate_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -187,7 +187,7 @@ async def test_multiple_channels_create_separate_devices(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_multiple_channels_enabled_entities_have_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     unique_id: str,
@@ -208,7 +208,7 @@ async def test_multiple_channels_enabled_entities_have_state(
 @pytest.mark.parametrize("imou_mock_devices", [[]], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_adds_entities_after_initial_empty_device_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -243,7 +243,7 @@ async def test_coordinator_adds_entities_after_initial_empty_device_list(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_adds_entities_for_new_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -296,7 +296,7 @@ async def test_coordinator_adds_entities_for_new_device(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_removes_device_updates_registries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -356,7 +356,7 @@ async def test_coordinator_removes_device_updates_registries(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_offline_device_marked_unavailable_after_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -388,7 +388,7 @@ async def test_offline_device_marked_unavailable_after_refresh(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_update_fails_when_all_devices_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -422,7 +422,7 @@ async def test_coordinator_update_fails_when_all_devices_fail(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_poll_list_devices_keeps_entry_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -440,7 +440,7 @@ async def test_coordinator_poll_list_devices_keeps_entry_loaded(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_poll_status_refresh_timeout_translation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -459,7 +459,7 @@ async def test_coordinator_poll_status_refresh_timeout_translation(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_status_refresh_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -491,7 +491,7 @@ async def test_coordinator_status_refresh_invalid_auth(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_offline_device_unavailable_at_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -518,7 +518,7 @@ async def test_offline_device_unavailable_at_setup(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_remove_config_entry_device_rejects_active_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -537,7 +537,7 @@ async def test_remove_config_entry_device_rejects_active_device(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_remove_config_entry_device_allows_stale_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

@@ -10,8 +10,8 @@ from universalassistant.components.valve import (
     ValveEntityFeature,
     ValveState,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -23,7 +23,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WatergateConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -87,7 +87,7 @@ class SonicValve(WatergateEntity, ValveEntity):
         try:
             await self._api_client.async_set_valve_state(ValveState.OPEN)
         except WatergateApiException as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="valve_action_failed",
             ) from exc
@@ -100,7 +100,7 @@ class SonicValve(WatergateEntity, ValveEntity):
         try:
             await self._api_client.async_set_valve_state(ValveState.CLOSED)
         except WatergateApiException as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="valve_action_failed",
             ) from exc

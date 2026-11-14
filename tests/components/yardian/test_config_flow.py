@@ -7,13 +7,13 @@ from pyyardian import NetworkException, NotAuthorizedException
 
 from universalassistant.components.yardian.const import DOMAIN, PRODUCT_NAME
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry", "mock_yardian_client")
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -46,7 +46,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yardian_client: AsyncMock,
     exception: Exception,
     error: str,

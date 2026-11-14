@@ -1,6 +1,6 @@
 """Provides conditions for to-do lists."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.condition import (
     Condition,
     make_entity_numerical_condition,
@@ -15,6 +15,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
     """Return the to-do list conditions."""
     return CONDITIONS

@@ -30,7 +30,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -80,7 +80,7 @@ def patch_demo_open_close_delay():
 
 @pytest.fixture
 async def setup_comp(
-    hass: UniversalAssistant, config_count: tuple[dict[str, Any], int]
+    hass: __HAC_KEEP__, config_count: tuple[dict[str, Any], int]
 ) -> None:
     """Set up group valve component."""
     config, count = config_count
@@ -93,7 +93,7 @@ async def setup_comp(
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ATTRIBUTES, 1)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_state(hass: UniversalAssistant) -> None:
+async def test_state(hass: __HAC_KEEP__) -> None:
     """Test handling of state.
 
     The group state is unknown if all group members are unknown or unavailable.
@@ -258,7 +258,7 @@ async def test_state(hass: UniversalAssistant) -> None:
 @pytest.mark.parametrize("config_count", [(CONFIG_ATTRIBUTES, 1)])
 @pytest.mark.usefixtures("setup_comp")
 async def test_attributes(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test handling of state attributes."""
     state = hass.states.get(VALVE_GROUP)
@@ -348,7 +348,7 @@ async def test_attributes(
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_open_valves(hass: UniversalAssistant) -> None:
+async def test_open_valves(hass: __HAC_KEEP__) -> None:
     """Test open valve function."""
     await hass.services.async_call(
         VALVE_DOMAIN, SERVICE_OPEN_VALVE, {ATTR_ENTITY_ID: VALVE_GROUP}, blocking=True
@@ -370,7 +370,7 @@ async def test_open_valves(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_close_valves(hass: UniversalAssistant) -> None:
+async def test_close_valves(hass: __HAC_KEEP__) -> None:
     """Test close valve function."""
     await hass.services.async_call(
         VALVE_DOMAIN, SERVICE_CLOSE_VALVE, {ATTR_ENTITY_ID: VALVE_GROUP}, blocking=True
@@ -392,7 +392,7 @@ async def test_close_valves(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_toggle_valves(hass: UniversalAssistant) -> None:
+async def test_toggle_valves(hass: __HAC_KEEP__) -> None:
     """Test toggle valve function."""
     # Start valves in open state
     await hass.services.async_call(
@@ -443,7 +443,7 @@ async def test_toggle_valves(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_stop_valves(hass: UniversalAssistant) -> None:
+async def test_stop_valves(hass: __HAC_KEEP__) -> None:
     """Test stop valve function."""
     await hass.services.async_call(
         VALVE_DOMAIN, SERVICE_OPEN_VALVE, {ATTR_ENTITY_ID: VALVE_GROUP}, blocking=True
@@ -473,7 +473,7 @@ async def test_stop_valves(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ALL, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_set_valve_position(hass: UniversalAssistant) -> None:
+async def test_set_valve_position(hass: __HAC_KEEP__) -> None:
     """Test set valve position function."""
     await hass.services.async_call(
         VALVE_DOMAIN,
@@ -497,7 +497,7 @@ async def test_set_valve_position(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_POS, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_is_opening_closing(hass: UniversalAssistant) -> None:
+async def test_is_opening_closing(hass: __HAC_KEEP__) -> None:
     """Test is_opening property."""
     await hass.services.async_call(
         VALVE_DOMAIN, SERVICE_OPEN_VALVE, {ATTR_ENTITY_ID: VALVE_GROUP}, blocking=True
@@ -585,7 +585,7 @@ async def test_is_opening_closing(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ATTRIBUTES, 1)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_assumed_state(hass: UniversalAssistant) -> None:
+async def test_assumed_state(hass: __HAC_KEEP__) -> None:
     """Test assumed_state attribute behavior."""
     # No members with assumed_state -> group doesn't have assumed_state in attributes
     hass.states.async_set(DEMO_VALVE1, ValveState.OPEN, {})
@@ -639,7 +639,7 @@ async def test_assumed_state(hass: UniversalAssistant) -> None:
     assert ATTR_ASSUMED_STATE not in state.attributes
 
 
-async def test_nested_group(hass: UniversalAssistant) -> None:
+async def test_nested_group(hass: __HAC_KEEP__) -> None:
     """Test nested valve group."""
     await async_setup_component(
         hass,

@@ -15,7 +15,7 @@ from universalassistant.components.bluetooth import (
 from universalassistant.components.bluetooth.passive_update_coordinator import (
     PassiveBluetoothDataUpdateCoordinator,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -32,7 +32,7 @@ class OpenDisplayUpdate:
 class OpenDisplayCoordinator(PassiveBluetoothDataUpdateCoordinator):
     """Coordinator for passive BLE advertisement updates from an OpenDisplay device."""
 
-    def __init__(self, hass: UniversalAssistant, address: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, address: str) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

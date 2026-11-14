@@ -5,7 +5,7 @@
       "not_xiaomi_aqara": "Not a Xiaomi Aqara Gateway, discovered device did not match known gateways"
     },
     "error": {
-      "discovery_error": "Failed to discover a Xiaomi Aqara Gateway, try using the IP of the device running Universal Universal Home Assistant as interface",
+      "discovery_error": "Failed to discover a Xiaomi Aqara Gateway, try using the IP of the device running __HA_KEEP__ as interface",
       "invalid_host": "Invalid hostname or IP address, see {invalid_host_url}",
       "invalid_interface": "Invalid network interface",
       "invalid_key": "Invalid Gateway key",

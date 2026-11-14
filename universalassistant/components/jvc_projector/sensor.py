@@ -12,7 +12,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import EntityCategory, UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -113,7 +113,7 @@ SENSORS: tuple[JvcProjectorSensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: JVCConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

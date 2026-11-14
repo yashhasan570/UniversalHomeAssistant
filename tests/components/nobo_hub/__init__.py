@@ -2,7 +2,7 @@
 
 from unittest.mock import MagicMock
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -34,14 +34,14 @@ def dispatch_hub_update(hub: MagicMock) -> None:
         call.args[0](hub)
 
 
-async def fire_hub_update(hass: UniversalAssistant, hub: MagicMock) -> None:
+async def fire_hub_update(hass: __HAC_KEEP__, hub: MagicMock) -> None:
     """Fire the hub's registered push-update callbacks and wait for state to settle."""
     dispatch_hub_update(hub)
     await hass.async_block_till_done()
 
 
 async def fire_hub_connection(
-    hass: UniversalAssistant, hub: MagicMock, connected: bool
+    hass: __HAC_KEEP__, hub: MagicMock, connected: bool
 ) -> None:
     """Fire the hub's registered connection-state callbacks and wait for state to settle."""
     hub.connected = connected

@@ -12,7 +12,7 @@ from universalassistant.components.minecraft_server.api import MinecraftServerTy
 from universalassistant.components.minecraft_server.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ADDRESS, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -65,7 +65,7 @@ SERVER_EDITION_CASE_IDS = ["legacy_java", "java", "bedrock"]
     ids=SERVER_EDITION_CASE_IDS,
 )
 async def test_full_config_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     server_type: MinecraftServerType,
     lookup_target: str,
     lookup_result: callable,
@@ -104,7 +104,7 @@ async def test_full_config_flow(
     ids=SERVER_EDITION_CASE_IDS,
 )
 async def test_config_flow_service_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     server_type: MinecraftServerType,
     lookup_target: str,
     lookup_result: callable,
@@ -147,7 +147,7 @@ async def test_config_flow_service_already_configured(
     ids=SERVER_EDITION_CASE_IDS,
 )
 async def test_config_flow_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     server_type: MinecraftServerType,
     lookup_target: str,
     lookup_result: callable,
@@ -200,7 +200,7 @@ async def test_config_flow_recovery(
     ids=SERVER_EDITION_CASE_IDS,
 )
 async def test_config_flow_address_lookup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     server_type: MinecraftServerType,
     lookup_target: str,
     lookup_result: Callable[[], Any],
@@ -244,7 +244,7 @@ async def test_config_flow_address_lookup_error(
 
 
 async def test_reconfiguration_flow_edition_change(
-    hass: UniversalAssistant, java_mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, java_mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguration changes the server edition but keeps the same address."""
     java_mock_config_entry.add_to_hass(hass)
@@ -280,7 +280,7 @@ async def test_reconfiguration_flow_edition_change(
 
 
 async def test_reconfiguration_flow_address_change(
-    hass: UniversalAssistant, java_mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, java_mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguration changes the address but keeps the same edition."""
     java_mock_config_entry.add_to_hass(hass)
@@ -318,7 +318,7 @@ async def test_reconfiguration_flow_address_change(
 
 
 async def test_reconfiguration_flow_service_already_configured(
-    hass: UniversalAssistant, java_mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, java_mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguration aborts if another entry has the requested address."""
     java_mock_config_entry.add_to_hass(hass)
@@ -361,7 +361,7 @@ async def test_reconfiguration_flow_service_already_configured(
     ids=SERVER_EDITION_CASE_IDS,
 )
 async def test_reconfiguration_flow_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     java_mock_config_entry: MockConfigEntry,
     server_type: MinecraftServerType,
     lookup_target: str,
@@ -411,7 +411,7 @@ async def test_reconfiguration_flow_recovery(
     ids=SERVER_EDITION_CASE_IDS,
 )
 async def test_reconfiguration_flow_address_lookup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     java_mock_config_entry: MockConfigEntry,
     server_type: MinecraftServerType,
     lookup_target: str,

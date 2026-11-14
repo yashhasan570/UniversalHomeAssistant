@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.karakeep.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_TOKEN, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import NEW_TOKEN, TEST_TOKEN, TEST_URL
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_karakeep_client: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_karakeep_client: AsyncMock) -> None:
     """Test the full user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -48,7 +48,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_karakeep_client: AsyncMo
 
 @pytest.mark.parametrize("invalid_url", ["karakeep.example.com", "http://["])
 @pytest.mark.usefixtures("mock_setup_entry", "mock_karakeep_client")
-async def test_invalid_url(hass: UniversalAssistant, invalid_url: str) -> None:
+async def test_invalid_url(hass: __HAC_KEEP__, invalid_url: str) -> None:
     """Test invalid URL errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -93,7 +93,7 @@ async def test_invalid_url(hass: UniversalAssistant, invalid_url: str) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_karakeep_client: AsyncMock,
     side_effect: Exception,
     error: str,
@@ -137,7 +137,7 @@ async def test_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_karakeep_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_duplicate(
 
 @pytest.mark.usefixtures("mock_karakeep_client")
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reauthentication flow updates the token."""
@@ -200,7 +200,7 @@ async def test_reauth(
     ],
 )
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_karakeep_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,

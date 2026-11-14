@@ -20,7 +20,7 @@ from universalassistant.components.device_tracker.legacy import (
     async_load_config,
 )
 from universalassistant.const import CONF_SCAN_INTERVAL, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -51,7 +51,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_scanner(  # noqa: C901
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_see: AsyncSeeCallback,
     discovery_info: DiscoveryInfoType | None = None,

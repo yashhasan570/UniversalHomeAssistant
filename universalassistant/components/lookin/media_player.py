@@ -12,7 +12,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import TYPE_TO_PLATFORM
@@ -40,7 +40,7 @@ _FUNCTION_NAME_TO_FEATURE = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LookinConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

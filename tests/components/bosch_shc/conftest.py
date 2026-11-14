@@ -76,7 +76,7 @@ from universalassistant.components.bosch_shc.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
@@ -166,7 +166,7 @@ def mock_session(device_buckets: dict[str, Any]) -> Generator[MagicMock]:
 
 
 async def setup_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the bosch_shc integration for testing."""
     mock_config_entry.add_to_hass(hass)

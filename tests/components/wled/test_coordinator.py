@@ -28,11 +28,11 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_not_supporting_websocket(
-    hass: UniversalAssistant, init_integration: MockConfigEntry, mock_wled: MagicMock
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry, mock_wled: MagicMock
 ) -> None:
     """Ensure no WebSocket attempt is made if non-WebSocket device."""
     assert mock_wled.connect.call_count == 0
@@ -40,7 +40,7 @@ async def test_not_supporting_websocket(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_websocket_already_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_wled: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -59,7 +59,7 @@ async def test_websocket_already_connected(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_websocket_connect_error_no_listen(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_wled: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -79,7 +79,7 @@ async def test_websocket_connect_error_no_listen(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_websocket(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_wled: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -114,7 +114,7 @@ async def test_websocket(
     callback = await connection_connected
 
     # Connected to WebSocket, disconnect not called
-    # listening for Universal Universal Home Assistant to stop
+    # listening for __HA_KEEP__ to stop
     assert mock_wled.connect.call_count == 2
     assert mock_wled.listen.call_count == 2
     assert mock_wled.disconnect.call_count == 1
@@ -152,7 +152,7 @@ async def test_websocket(
     connection_finished.set_exception(WLEDConnectionClosedError)
     await hass.async_block_till_done()
 
-    # Disconnect called, unsubbed Universal Universal Home Assistant stop listener
+    # Disconnect called, unsubbed __HA_KEEP__ stop listener
     assert mock_wled.disconnect.call_count == 2
     assert mock_bus.async_listen_once.return_value.call_count == 1
 
@@ -164,7 +164,7 @@ async def test_websocket(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_websocket_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_wled: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -212,12 +212,12 @@ async def test_websocket_error(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_websocket_disconnect_on_universal_assistant_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_wled: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
-    """Ensure WebSocket is disconnected when Universal Universal Home Assistant stops."""
+    """Ensure WebSocket is disconnected when __HA_KEEP__ stops."""
     assert mock_wled.disconnect.call_count == 1
     connection_connected = asyncio.Future()
     connection_finished = asyncio.Future()
@@ -240,7 +240,7 @@ async def test_websocket_disconnect_on_universal_assistant_stop(
 
 
 async def test_fail_when_other_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_fail_when_other_device(
 
 
 async def test_fail_when_unsupported_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -289,7 +289,7 @@ async def test_fail_when_unsupported_version(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_websocket_update_with_other_led_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_wled: MagicMock,
     freezer: FrozenDateTimeFactory,

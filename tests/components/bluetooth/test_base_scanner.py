@@ -35,9 +35,9 @@ from universalassistant.components.bluetooth.const import (
     SCANNER_WATCHDOG_TIMEOUT,
     UNAVAILABLE_TRACK_SECONDS,
 )
-from universalassistant.components.bluetooth.manager import UniversalAssistantBluetoothManager
+from universalassistant.components.bluetooth.manager import __HAC_KEEP__BluetoothManager
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -45,7 +45,7 @@ from universalassistant.util import dt as dt_util
 
 @pytest.mark.parametrize("name_2", [None, "w"])
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_remote_scanner(hass: UniversalAssistant, name_2: str | None) -> None:
+async def test_remote_scanner(hass: __HAC_KEEP__, name_2: str | None) -> None:
     """Test the remote scanner base class merges advertisement_data."""
     manager = _get_manager()
 
@@ -134,7 +134,7 @@ async def test_remote_scanner(hass: UniversalAssistant, name_2: str | None) -> N
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_remote_scanner_expires_connectable(hass: UniversalAssistant) -> None:
+async def test_remote_scanner_expires_connectable(hass: __HAC_KEEP__) -> None:
     """Test the remote scanner expires stale connectable data."""
     manager = _get_manager()
 
@@ -186,7 +186,7 @@ async def test_remote_scanner_expires_connectable(hass: UniversalAssistant) -> N
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_remote_scanner_expires_non_connectable(hass: UniversalAssistant) -> None:
+async def test_remote_scanner_expires_non_connectable(hass: __HAC_KEEP__) -> None:
     """Test the remote scanner expires stale non connectable data."""
     manager = _get_manager()
 
@@ -258,7 +258,7 @@ async def test_remote_scanner_expires_non_connectable(hass: UniversalAssistant) 
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_base_scanner_connecting_behavior(hass: UniversalAssistant) -> None:
+async def test_base_scanner_connecting_behavior(hass: __HAC_KEEP__) -> None:
     """Test scanner is marked as not scanning when connecting."""
     manager = _get_manager()
 
@@ -301,7 +301,7 @@ async def test_base_scanner_connecting_behavior(hass: UniversalAssistant) -> Non
 
 
 async def test_restore_history_remote_adapter(
-    hass: UniversalAssistant, hass_storage: dict[str, Any], disable_new_discovery_flows
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any], disable_new_discovery_flows
 ) -> None:
     """Test we can restore history for a remote adapter."""
 
@@ -363,7 +363,7 @@ async def test_restore_history_remote_adapter(
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_device_with_ten_minute_advertising_interval(hass: UniversalAssistant) -> None:
+async def test_device_with_ten_minute_advertising_interval(hass: __HAC_KEEP__) -> None:
     """Test a device with a 10 minute advertising interval."""
     manager = _get_manager()
 
@@ -465,7 +465,7 @@ async def test_device_with_ten_minute_advertising_interval(hass: UniversalAssist
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_scanner_stops_responding(hass: UniversalAssistant) -> None:
+async def test_scanner_stops_responding(hass: __HAC_KEEP__) -> None:
     """Test we mark a scanner are not scanning when it stops responding."""
     manager = _get_manager()
 
@@ -527,13 +527,13 @@ async def test_scanner_stops_responding(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_remote_scanner_bluetooth_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     manufacturer: str,
     source: str,
 ) -> None:
     """Test the remote scanner gets a bluetooth config entry."""
-    manager: UniversalAssistantBluetoothManager = _get_manager()
+    manager: __HAC_KEEP__BluetoothManager = _get_manager()
 
     switchbot_device = generate_ble_device(
         "44:44:33:11:23:45",

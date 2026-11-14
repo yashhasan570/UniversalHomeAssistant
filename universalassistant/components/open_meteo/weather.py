@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
@@ -41,7 +41,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OpenMeteoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

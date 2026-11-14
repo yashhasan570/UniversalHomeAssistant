@@ -25,7 +25,7 @@ from universalassistant.components.netatmo.device_trigger import (
     async_validate_trigger_config,
 )
 from universalassistant.const import ATTR_DEVICE_ID
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -40,7 +40,7 @@ from universalassistant.setup import async_setup_component
     ],
 )
 async def test_get_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     platform,
@@ -110,7 +110,7 @@ async def test_get_triggers(
     ],
 )
 async def test_if_fires_on_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -197,7 +197,7 @@ async def test_if_fires_on_event(
     ],
 )
 async def test_if_fires_on_event_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -280,7 +280,7 @@ async def test_if_fires_on_event_legacy(
     ],
 )
 async def test_if_fires_on_event_with_subtype(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -365,7 +365,7 @@ async def test_if_fires_on_event_with_subtype(
     [("climate", "NAPlug", trigger) for trigger in CLIMATE_TRIGGERS],
 )
 async def test_if_invalid_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     platform,
@@ -417,7 +417,7 @@ async def test_if_invalid_device(
 
 
 async def test_validate_trigger_config(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a trigger for a supported model and trigger type is valid."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={})
@@ -457,7 +457,7 @@ async def test_validate_trigger_config(
     ],
 )
 async def test_validate_trigger_config_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     model: str | None,
     trigger_type: str,
@@ -485,7 +485,7 @@ async def test_validate_trigger_config_invalid(
         )
 
 
-async def test_validate_trigger_config_unknown_device(hass: UniversalAssistant) -> None:
+async def test_validate_trigger_config_unknown_device(hass: __HAC_KEEP__) -> None:
     """Test a trigger is invalid for an unknown device."""
     with pytest.raises(InvalidDeviceAutomationConfig, match="not found"):
         await async_validate_trigger_config(

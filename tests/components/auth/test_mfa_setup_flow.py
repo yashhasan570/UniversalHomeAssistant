@@ -5,13 +5,13 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.auth import auth_manager_from_config
 from universalassistant.components.auth import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
 
 async def test_ws_setup_depose_mfa(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test set up mfa module for current user."""
     hass.auth = await auth_manager_from_config(

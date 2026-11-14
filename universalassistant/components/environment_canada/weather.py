@@ -33,7 +33,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, ServiceResponse, callback
+from universalassistant.core import __HAC_KEEP__, ServiceResponse, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -59,7 +59,7 @@ ICON_CONDITION_MAP = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ECConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

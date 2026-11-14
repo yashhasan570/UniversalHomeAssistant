@@ -9,8 +9,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_TENTHS, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.unit_conversion import TemperatureConverter
 
@@ -98,7 +98,7 @@ def _find_valid_target_temp(target: float, valid_targets: list[int]) -> int:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SensiboConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -277,7 +277,7 @@ class SensiboClimate(SensiboDeviceBaseEntity, ClimateEntity):
     async def async_set_fan_mode(self, fan_mode: str) -> None:
         """Set new target fan mode."""
         if fan_mode not in AVAILABLE_FAN_MODES:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="fan_mode_not_supported",
                 translation_placeholders={"fan_mode": fan_mode},
@@ -324,7 +324,7 @@ class SensiboClimate(SensiboDeviceBaseEntity, ClimateEntity):
     async def async_set_swing_mode(self, swing_mode: str) -> None:
         """Set new target swing operation."""
         if swing_mode not in AVAILABLE_SWING_MODES:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="swing_not_supported",
                 translation_placeholders={"swing_mode": swing_mode},
@@ -343,7 +343,7 @@ class SensiboClimate(SensiboDeviceBaseEntity, ClimateEntity):
     async def async_set_swing_horizontal_mode(self, swing_horizontal_mode: str) -> None:
         """Set new target horizontal swing operation."""
         if swing_horizontal_mode not in AVAILABLE_HORIZONTAL_SWING_MODES:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="horizontal_swing_not_supported",
                 translation_placeholders={

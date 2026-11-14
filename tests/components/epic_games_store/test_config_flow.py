@@ -7,7 +7,7 @@ from universalassistant import config_entries
 from universalassistant.components.epic_games_store.config_flow import get_default_language
 from universalassistant.components.epic_games_store.const import DOMAIN
 from universalassistant.const import CONF_COUNTRY, CONF_LANGUAGE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -19,7 +19,7 @@ from .const import (
 )
 
 
-async def test_default_language(hass: UniversalAssistant) -> None:
+async def test_default_language(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     hass.config.language = "fr"
     hass.config.country = "FR"
@@ -34,7 +34,7 @@ async def test_default_language(hass: UniversalAssistant) -> None:
     assert get_default_language(hass) is None
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -67,7 +67,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -110,7 +110,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect_wrong_param(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect_wrong_param(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -153,7 +153,7 @@ async def test_form_cannot_connect_wrong_param(hass: UniversalAssistant) -> None
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_service_error(hass: UniversalAssistant) -> None:
+async def test_form_service_error(hass: __HAC_KEEP__) -> None:
     """Test we handle service error gracefully."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

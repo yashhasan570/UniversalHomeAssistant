@@ -1,4 +1,4 @@
-"""Plugwise Climate component for Universal Universal Home Assistant."""
+"""Plugwise Climate component for __HA_KEEP__."""
 
 from dataclasses import asdict, dataclass
 from typing import Any, override
@@ -13,8 +13,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, STATE_OFF, STATE_ON, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import ExtraStoredData, RestoreEntity
 
@@ -31,7 +31,7 @@ def _check_for_schedule(active: bool, last_active: str) -> None:
     """Raise a HAError when no thermostat schedule has been set."""
     # last_active can be stored as None from before the plugwise v1.14.3 bump
     if not active and last_active == STATE_OFF:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key=ERROR_NO_SCHEDULE,
         )
@@ -59,7 +59,7 @@ class PlugwiseClimateExtraStoredData(ExtraStoredData):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PlugwiseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -2,7 +2,7 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -12,7 +12,7 @@ from universalassistant.helpers import (
 from tests.helpers.template.helpers import assert_result_info, render_to_info
 
 
-async def test_areas(hass: UniversalAssistant, area_registry: ar.AreaRegistry) -> None:
+async def test_areas(hass: __HAC_KEEP__, area_registry: ar.AreaRegistry) -> None:
     """Test areas function."""
     # Test no areas
     info = render_to_info(hass, "{{ areas() }}")
@@ -33,7 +33,7 @@ async def test_areas(hass: UniversalAssistant, area_registry: ar.AreaRegistry) -
 
 
 async def test_area_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -141,7 +141,7 @@ async def test_area_id(
 
 
 async def test_area_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -224,7 +224,7 @@ async def test_area_name(
 
 
 async def test_area_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -281,7 +281,7 @@ async def test_area_entities(
 
 
 async def test_area_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -316,7 +316,7 @@ async def test_area_devices(
 
 
 async def test_area_functions_with_child_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

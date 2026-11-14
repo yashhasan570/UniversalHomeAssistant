@@ -4,7 +4,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -12,7 +12,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_wolflink")
 async def test_device_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -31,7 +31,7 @@ async def test_device_entry(
 
 @pytest.mark.usefixtures("mock_wolflink")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

@@ -10,7 +10,7 @@ from universalassistant.components.octoprint.services import (
     OctoPrintServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
@@ -22,7 +22,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_connect_default(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the connect to printer service."""
     device = dr.async_entries_for_config_entry(device_registry, "uuid")[0]
@@ -46,7 +46,7 @@ async def test_connect_default(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_connect_all_arguments(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the connect to printer service."""
     device = dr.async_entries_for_config_entry(device_registry, "uuid")[0]

@@ -7,7 +7,7 @@ import logging
 from typing import override
 
 from universalassistant.components.device_tracker import TrackerEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PajGpsConfigEntry, PajGpsCoordinator
@@ -18,7 +18,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: PajGpsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

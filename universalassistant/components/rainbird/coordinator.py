@@ -15,7 +15,7 @@ from pyrainbird.async_client import (
 from pyrainbird.data import ModelAndVersion, Schedule
 
 from universalassistant.const import CONF_MAC
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -63,7 +63,7 @@ class RainbirdUpdateCoordinator(DataUpdateCoordinator[RainbirdDeviceState]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: RainbirdConfigEntry,
         controller: AsyncRainbirdController,
         model_info: ModelAndVersion,
@@ -156,7 +156,7 @@ class RainbirdScheduleUpdateCoordinator(DataUpdateCoordinator[Schedule]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: RainbirdConfigEntry,
         controller: AsyncRainbirdController,
         device_lock: asyncio.Lock,

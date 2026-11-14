@@ -14,7 +14,7 @@ from universalassistant.components.lektrico.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -26,7 +26,7 @@ from .conftest import (
 )
 
 
-async def test_user_setup(hass: UniversalAssistant, mock_device, mock_setup_entry) -> None:
+async def test_user_setup(hass: __HAC_KEEP__, mock_device, mock_setup_entry) -> None:
     """Test manually setting up."""
 
     result = await hass.config_entries.flow.async_init(
@@ -59,7 +59,7 @@ async def test_user_setup(hass: UniversalAssistant, mock_device, mock_setup_entr
 
 
 async def test_user_setup_already_exists(
-    hass: UniversalAssistant, mock_device, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_device, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test manually setting up when the device already exists."""
     mock_config_entry.add_to_hass(hass)
@@ -81,7 +81,7 @@ async def test_user_setup_already_exists(
     assert result["reason"] == "already_configured"
 
 
-async def test_user_setup_device_offline(hass: UniversalAssistant, mock_device) -> None:
+async def test_user_setup_device_offline(hass: __HAC_KEEP__, mock_device) -> None:
     """Test manually setting up when device is offline."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -115,7 +115,7 @@ async def test_user_setup_device_offline(hass: UniversalAssistant, mock_device) 
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_discovered_zeroconf(hass: UniversalAssistant, mock_device) -> None:
+async def test_discovered_zeroconf(hass: __HAC_KEEP__, mock_device) -> None:
     """Test we can setup when discovered from zeroconf."""
 
     result = await hass.config_entries.flow.async_init(
@@ -140,7 +140,7 @@ async def test_discovered_zeroconf(hass: UniversalAssistant, mock_device) -> Non
 
 
 async def test_zeroconf_setup_already_exists(
-    hass: UniversalAssistant, mock_device, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_device, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort zeroconf flow if device already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -157,7 +157,7 @@ async def test_zeroconf_setup_already_exists(
 
 
 async def test_discovered_zeroconf_device_connection_error(
-    hass: UniversalAssistant, mock_device
+    hass: __HAC_KEEP__, mock_device
 ) -> None:
     """Test we can setup when discovered from zeroconf but device went offline."""
 

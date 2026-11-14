@@ -35,7 +35,7 @@ from universalassistant.components.squeezebox.const import (
     STATUS_UPDATE_NEWVERSION,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 VOLUME_STEP = 10
@@ -184,7 +184,7 @@ def dhcp_info():
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Add the squeezebox mock config entry to hass."""
     config_entry = MockConfigEntry(
         domain=const.DOMAIN,
@@ -412,7 +412,7 @@ def mock_pysqueezebox_server(
 
 
 async def configure_squeezebox_media_player_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     lms: MagicMock,
 ) -> None:
@@ -429,7 +429,7 @@ async def configure_squeezebox_media_player_platform(
 
 
 async def configure_squeezebox_media_player_button_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     lms: MagicMock,
 ) -> None:
@@ -447,7 +447,7 @@ async def configure_squeezebox_media_player_button_platform(
 
 @pytest.fixture
 async def setup_squeezebox(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, lms: MagicMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, lms: MagicMock
 ) -> MockConfigEntry:
     """Fixture setting up a squeezebox config entry with one player."""
     with patch("universalassistant.components.squeezebox.Server", return_value=lms):
@@ -458,7 +458,7 @@ async def setup_squeezebox(
 
 @pytest.fixture
 async def configured_player(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_squeezebox: MockConfigEntry,  # depend on your setup fixture
     lms: MagicMock,
 ) -> MagicMock:
@@ -469,7 +469,7 @@ async def configured_player(
 
 @pytest.fixture
 async def configured_players(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     lms_factory: MagicMock,
 ) -> list[MagicMock]:

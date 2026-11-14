@@ -13,8 +13,8 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
     VacuumEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -39,7 +39,7 @@ ATTR_LAUNCHED_FROM = "launched_from"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NeatoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -276,7 +276,7 @@ class NeatoConnectedVacuum(NeatoEntity, StateVacuumEntity):
                 elif self._state["state"] == 3:
                     self.robot.resume_cleaning()
             except NeatoRobotException as ex:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="start_failed",
                 ) from ex
@@ -287,7 +287,7 @@ class NeatoConnectedVacuum(NeatoEntity, StateVacuumEntity):
         try:
             self.robot.pause_cleaning()
         except NeatoRobotException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="pause_failed",
             ) from ex
@@ -301,7 +301,7 @@ class NeatoConnectedVacuum(NeatoEntity, StateVacuumEntity):
             self._attr_activity = VacuumActivity.RETURNING
             self.robot.send_to_base()
         except NeatoRobotException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="return_to_base_failed",
             ) from ex
@@ -312,7 +312,7 @@ class NeatoConnectedVacuum(NeatoEntity, StateVacuumEntity):
         try:
             self.robot.stop_cleaning()
         except NeatoRobotException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="stop_failed",
             ) from ex
@@ -323,7 +323,7 @@ class NeatoConnectedVacuum(NeatoEntity, StateVacuumEntity):
         try:
             self.robot.locate()
         except NeatoRobotException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="locate_failed",
             ) from ex
@@ -334,7 +334,7 @@ class NeatoConnectedVacuum(NeatoEntity, StateVacuumEntity):
         try:
             self.robot.start_spot_cleaning()
         except NeatoRobotException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="clean_spot_failed",
             ) from ex

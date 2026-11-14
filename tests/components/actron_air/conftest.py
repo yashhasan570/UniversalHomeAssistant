@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.actron_air.const import DOMAIN
 from universalassistant.const import CONF_API_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -157,7 +157,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def init_integration_with_zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_actron_api: AsyncMock,
     mock_zone: MagicMock,

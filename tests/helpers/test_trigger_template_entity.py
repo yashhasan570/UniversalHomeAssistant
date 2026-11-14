@@ -16,7 +16,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import template
 from universalassistant.helpers.trigger_template_entity import (
     CONF_ATTRIBUTES,
@@ -57,7 +57,7 @@ _PICTURE_TEMPLATE = '/local/picture_o{{ "n" if value=="on" else "ff" }}'
     ],
 )
 async def test_value_template_object(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     value: Any,
     test_template: str,
     error_value: Any,
@@ -87,7 +87,7 @@ async def test_value_template_object(
         assert error in caplog.text
 
 
-async def test_template_entity_requires_hass_set(hass: UniversalAssistant) -> None:
+async def test_template_entity_requires_hass_set(hass: __HAC_KEEP__) -> None:
     """Test manual trigger template entity."""
     config = {
         "name": template.Template("test_entity", hass),
@@ -139,7 +139,7 @@ async def test_template_entity_requires_hass_set(hass: UniversalAssistant) -> No
     ],
 )
 async def test_trigger_template_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_template: str,
     test_entity_state: str,
     expected: bool,
@@ -165,7 +165,7 @@ async def test_trigger_template_availability(
 
 
 async def test_trigger_no_availability_template(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test manual trigger template entity when availability template isn't used."""
     config = {
@@ -209,7 +209,7 @@ async def test_trigger_no_availability_template(
 
 
 async def test_trigger_template_availability_with_syntax_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test manual trigger template entity when availability render fails."""
     config = {
@@ -228,7 +228,7 @@ async def test_trigger_template_availability_with_syntax_error(
 
 
 async def test_attribute_order(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test manual trigger template entity when availability render fails."""
     config = {
@@ -257,7 +257,7 @@ async def test_attribute_order(
     )
 
 
-async def test_trigger_template_complex(hass: UniversalAssistant) -> None:
+async def test_trigger_template_complex(hass: __HAC_KEEP__) -> None:
     """Test manual trigger template entity complex template."""
     complex_template = """
     {% set d = {'test_key':'test_data'} %}
@@ -305,7 +305,7 @@ async def test_trigger_template_complex(hass: UniversalAssistant) -> None:
     [SensorDeviceClass.TIMESTAMP, SensorDeviceClass.UPTIME],
 )
 async def test_manual_trigger_sensor_entity_with_date(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_class: SensorDeviceClass,
 ) -> None:
@@ -346,7 +346,7 @@ async def test_manual_trigger_sensor_entity_with_date(
     [None, SensorDeviceClass.TEMPERATURE, SensorDeviceClass.TIMESTAMP],
 )
 async def test_manual_trigger_sensor_entity_with_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_class: SensorDeviceClass | None,
 ) -> None:
     """Test manual trigger sensor entity sets native value to None for "None"."""

@@ -9,7 +9,7 @@ from pyrympro import CannotConnectError, RymPro, UnauthorizedError
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_TOKEN, CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN
@@ -24,7 +24,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.

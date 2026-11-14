@@ -11,14 +11,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 async def test_default_state(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test button group default state."""
     hass.states.async_set("button.notify_light", "2021-01-01T23:59:59.123+00:00")
@@ -51,7 +51,7 @@ async def test_default_state(
     assert entry.unique_id == "unique_identifier"
 
 
-async def test_state_reporting(hass: UniversalAssistant) -> None:
+async def test_state_reporting(hass: __HAC_KEEP__) -> None:
     """Test the state reporting.
 
     The group state is unavailable if all group members are unavailable.
@@ -89,7 +89,7 @@ async def test_state_reporting(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_service_calls(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test service calls."""
     await async_setup_component(

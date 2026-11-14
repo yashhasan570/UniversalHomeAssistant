@@ -14,7 +14,7 @@ from universalassistant.components.seventeentrack.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 ACCOUNT_ID = "1234"
@@ -32,7 +32,7 @@ VALID_CONFIG_OLD = {
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_create_entry(
-    hass: UniversalAssistant, mock_seventeentrack: AsyncMock
+    hass: __HAC_KEEP__, mock_seventeentrack: AsyncMock
 ) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
@@ -72,7 +72,7 @@ async def test_create_entry(
     ],
 )
 async def test_flow_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seventeentrack: AsyncMock,
     return_value,
     side_effect,
@@ -112,7 +112,7 @@ async def test_flow_fails(
     }
 
 
-async def test_option_flow(hass: UniversalAssistant, mock_seventeentrack: AsyncMock) -> None:
+async def test_option_flow(hass: __HAC_KEEP__, mock_seventeentrack: AsyncMock) -> None:
     """Test option flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,

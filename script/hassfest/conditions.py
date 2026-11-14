@@ -11,7 +11,7 @@ import probatio
 from probatio.humanize import humanize_error
 
 from universalassistant.const import CONF_SELECTOR
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import condition, config_validation as cv, selector
 from universalassistant.util.yaml import load_yaml_dict
 
@@ -181,7 +181,7 @@ def validate_conditions(config: Config, integration: Integration) -> None:  # no
                 "conditions", "Registers conditions but has no conditions.yaml"
             )
         return
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         integration.add_error("conditions", "Invalid conditions.yaml")
         return
 

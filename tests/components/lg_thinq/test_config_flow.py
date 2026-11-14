@@ -10,7 +10,7 @@ from thinqconnect import ThinQAPIException
 from universalassistant.components.lg_thinq.const import CONF_CONNECT_CLIENT_ID, DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_COUNTRY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -26,7 +26,7 @@ DHCP_DISCOVERY = DhcpServiceInfo(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow(
-    hass: UniversalAssistant, mock_config_thinq_api: AsyncMock, mock_uuid: AsyncMock
+    hass: __HAC_KEEP__, mock_config_thinq_api: AsyncMock, mock_uuid: AsyncMock
 ) -> None:
     """Test that an thinq entry is normally created."""
     result = await hass.config_entries.flow.async_init(
@@ -52,7 +52,7 @@ async def test_config_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_invalid_pat(
-    hass: UniversalAssistant, mock_invalid_thinq_api: AsyncMock
+    hass: __HAC_KEEP__, mock_invalid_thinq_api: AsyncMock
 ) -> None:
     """Test that an thinq flow should be aborted with an invalid PAT."""
     result = await hass.config_entries.flow.async_init(
@@ -80,7 +80,7 @@ async def test_config_flow_invalid_pat(
 
 
 async def test_config_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_thinq_api: AsyncMock,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_config_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_config_flow(
-    hass: UniversalAssistant, mock_config_thinq_api: AsyncMock, mock_uuid: AsyncMock
+    hass: __HAC_KEEP__, mock_config_thinq_api: AsyncMock, mock_uuid: AsyncMock
 ) -> None:
     """Test that a thinq entry is normally created."""
     result = await hass.config_entries.flow.async_init(
@@ -129,7 +129,7 @@ async def test_dhcp_config_flow(
 
 
 async def test_dhcp_config_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_thinq_api: AsyncMock,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_dhcp_config_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_thinq_api: AsyncMock,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_reconfigure(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_thinq_api: AsyncMock,
     side_effect: Exception,

@@ -26,7 +26,7 @@ from universalassistant.components.climate import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     entity_registry as er,
@@ -44,7 +44,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -53,11 +53,11 @@ def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-def mock_setup_integration(hass: UniversalAssistant) -> None:
+def mock_setup_integration(hass: __HAC_KEEP__) -> None:
     """Fixture to set up a mock integration."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -65,7 +65,7 @@ def mock_setup_integration(hass: UniversalAssistant) -> None:
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
     ) -> None:
         await hass.config_entries.async_unload_platforms(config_entry, [Platform.TODO])
@@ -82,13 +82,13 @@ def mock_setup_integration(hass: UniversalAssistant) -> None:
 
 
 async def create_mock_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entities: list[ClimateEntity],
 ) -> MockConfigEntry:
     """Create a todo platform with the specified entities."""
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -155,7 +155,7 @@ class MockClimateEntityNoFanModes(MockClimateEntityWithFanMode):
 
 
 async def setup_fan_mode_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -197,7 +197,7 @@ async def setup_fan_mode_entities(
 
 
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -377,7 +377,7 @@ async def test_set_temperature(
 
 
 async def test_set_temperature_no_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HassClimateSetTemperature intent with no climate entities."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -396,7 +396,7 @@ async def test_set_temperature_no_entities(
     assert err.value.result.no_match_reason is intent.MatchFailedReason.DOMAIN
 
 
-async def test_set_temperature_not_supported(hass: UniversalAssistant) -> None:
+async def test_set_temperature_not_supported(hass: __HAC_KEEP__) -> None:
     """Test HassClimateSetTemperature intent without support."""
     assert await async_setup_component(hass, "universalassistant", {})
     await climate_intent.async_setup_intents(hass)
@@ -432,7 +432,7 @@ async def test_set_temperature_not_supported(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_set_fan_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requested_fan_mode: str,
     expected_fan_mode: str,
 ) -> None:
@@ -461,7 +461,7 @@ async def test_set_fan_mode(
     assert state.attributes[ATTR_FAN_MODE] == expected_fan_mode
 
 
-async def test_set_fan_mode_localized(hass: UniversalAssistant) -> None:
+async def test_set_fan_mode_localized(hass: __HAC_KEEP__) -> None:
     """Test HassClimateSetFanMode intent with a localized fan mode name."""
     assert await async_setup_component(hass, "universalassistant", {})
     await climate_intent.async_setup_intents(hass)
@@ -494,7 +494,7 @@ async def test_set_fan_mode_localized(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_FAN_MODE] == "Low"
 
 
-async def test_set_fan_mode_unsupported_mode(hass: UniversalAssistant) -> None:
+async def test_set_fan_mode_unsupported_mode(hass: __HAC_KEEP__) -> None:
     """Test HassClimateSetFanMode intent with a mode the entity does not have."""
     assert await async_setup_component(hass, "universalassistant", {})
     await climate_intent.async_setup_intents(hass)
@@ -519,7 +519,7 @@ async def test_set_fan_mode_unsupported_mode(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_FAN_MODE] == "auto"
 
 
-async def test_set_fan_mode_not_supported(hass: UniversalAssistant) -> None:
+async def test_set_fan_mode_not_supported(hass: __HAC_KEEP__) -> None:
     """Test HassClimateSetFanMode intent on an entity without fan mode support."""
     assert await async_setup_component(hass, "universalassistant", {})
     await climate_intent.async_setup_intents(hass)
@@ -551,7 +551,7 @@ async def test_set_fan_mode_not_supported(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_set_fan_mode_targeting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -582,7 +582,7 @@ async def test_set_fan_mode_targeting(
 
 
 async def test_set_fan_mode_preferred_area_and_floor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -649,7 +649,7 @@ async def test_set_fan_mode_preferred_area_and_floor(
     ],
 )
 async def test_set_fan_mode_unresolvable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_class: type[ClimateEntity],
     requested_fan_mode: str,
 ) -> None:

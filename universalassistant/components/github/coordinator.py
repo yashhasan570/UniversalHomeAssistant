@@ -15,7 +15,7 @@ from aiogithubapi import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import FALLBACK_UPDATE_INTERVAL, LOGGER, REFRESH_EVENT_TYPES
@@ -130,7 +130,7 @@ class GitHubUserDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GithubConfigEntry,
         client: GitHubAPI,
     ) -> None:
@@ -167,7 +167,7 @@ class GitHubDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GithubConfigEntry,
         client: GitHubAPI,
         repository: str,

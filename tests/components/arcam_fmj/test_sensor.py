@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -23,7 +23,7 @@ def sensor_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "player_setup")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -34,7 +34,7 @@ async def test_setup(
 
 @pytest.mark.usefixtures("player_setup")
 async def test_sensor_video_parameters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state_1: State,
     client: Mock,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_sensor_video_parameters(
 
 @pytest.mark.usefixtures("player_setup")
 async def test_sensor_audio_parameters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state_1: State,
     client: Mock,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_sensor_audio_parameters(
 
 @pytest.mark.usefixtures("player_setup")
 async def test_sensor_enum_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state_1: State,
     client: Mock,
 ) -> None:

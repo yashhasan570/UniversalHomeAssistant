@@ -15,7 +15,7 @@ from universalassistant.components.switch import (
     SwitchEntity,
     SwitchEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 from universalassistant.helpers.typing import StateType
@@ -160,7 +160,7 @@ CHARGE_ON_SOLAR_SWITCH_DESCRIPTION = SwitchEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

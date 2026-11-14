@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.notify import ATTR_TARGET, BaseNotificationService
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import CONF_LANGUAGE_CODE, DOMAIN
@@ -39,7 +39,7 @@ def broadcast_commands(language_code: str) -> tuple[str, str]:
 
 
 async def async_get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> BaseNotificationService:
@@ -50,7 +50,7 @@ async def async_get_service(
 class BroadcastNotificationService(BaseNotificationService):
     """Implement broadcast notification service."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the service."""
         self.hass = hass
 

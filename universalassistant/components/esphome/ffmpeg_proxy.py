@@ -15,8 +15,8 @@ from aiohttp.abc import AbstractStreamWriter, BaseRequest
 
 from universalassistant.components import ffmpeg
 from universalassistant.components.ffmpeg import FFmpegManager
-from universalassistant.components.http import UniversalAssistantView
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.util.hass_dict import HassKey
 
 from .const import DOMAIN
@@ -34,7 +34,7 @@ _SENSITIVE_QUERY_PARAMS: Final[re.Pattern[str]] = re.compile(
 
 @callback
 def async_create_proxy_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_id: str,
     media_url: str,
     media_format: str,
@@ -321,7 +321,7 @@ class FFmpegConvertResponse(web.StreamResponse):
             )
 
 
-class FFmpegProxyView(UniversalAssistantView):
+class FFmpegProxyView(__HAC_KEEP__View):
     """FFmpeg web view to convert audio and stream back to client."""
 
     requires_auth = False
@@ -379,7 +379,7 @@ DATA_FFMPEG_PROXY: HassKey[FFmpegProxyData] = HassKey(f"{DOMAIN}.ffmpeg_proxy")
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the ffmpeg proxy."""
     proxy_data = FFmpegProxyData()
     hass.data[DATA_FFMPEG_PROXY] = proxy_data

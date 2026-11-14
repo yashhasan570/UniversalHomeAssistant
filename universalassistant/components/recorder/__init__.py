@@ -8,7 +8,7 @@ from sqlalchemy import URL, make_url
 from sqlalchemy.exc import ArgumentError
 
 from universalassistant.const import CONF_EXCLUDE, EVENT_STATE_CHANGED
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entityfilter import (
     INCLUDE_EXCLUDE_BASE_FILTER_SCHEMA,
@@ -154,7 +154,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the recorder."""
     conf = config[DOMAIN]
     _filter = convert_include_exclude_filter(conf)
@@ -200,13 +200,13 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def _async_setup_integration_platform(
-    hass: UniversalAssistant, instance: Recorder
+    hass: __HAC_KEEP__, instance: Recorder
 ) -> None:
     """Set up a recorder integration platform."""
 
     @callback
     def _process_recorder_platform(
-        hass: UniversalAssistant, domain: str, platform: Any
+        hass: __HAC_KEEP__, domain: str, platform: Any
     ) -> None:
         """Process a recorder platform."""
         # If the platform has a compile_statistics method, we need to
@@ -217,7 +217,7 @@ async def _async_setup_integration_platform(
     await async_process_integration_platforms(hass, DOMAIN, _process_recorder_platform)
 
 
-def get_default_url(hass: UniversalAssistant) -> str:
+def get_default_url(hass: __HAC_KEEP__) -> str:
     """Return the default URL."""
     return URL.create(
         "sqlite", database=hass.config.path(DEFAULT_DB_FILE)

@@ -71,7 +71,7 @@ rules:
     status: exempt
     comment: |
       Rejected App ID or App secret uses the reauthentication flow.
-      A used-up Open Platform monthly quota is not fixable inside Universal Universal Home Assistant.
+      A used-up Open Platform monthly quota is not fixable inside __HA_KEEP__.
       Setup shows it on the config entry. Diagnostics report it after the entry has loaded.
   stale-devices:
     status: done

@@ -14,7 +14,7 @@ from universalassistant.components.plaato.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_TOKEN, CONF_WEBHOOK_ID
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -39,7 +39,7 @@ def mock_webhook_id():
         yield
 
 
-async def test_show_config_form(hass: UniversalAssistant) -> None:
+async def test_show_config_form(hass: __HAC_KEEP__) -> None:
     """Test show configuration form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -50,7 +50,7 @@ async def test_show_config_form(hass: UniversalAssistant) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_show_config_form_device_type_airlock(hass: UniversalAssistant) -> None:
+async def test_show_config_form_device_type_airlock(hass: __HAC_KEEP__) -> None:
     """Test show configuration form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -73,7 +73,7 @@ async def test_show_config_form_device_type_airlock(hass: UniversalAssistant) ->
     assert result["data_schema"].schema.get(CONF_USE_WEBHOOK) is bool
 
 
-async def test_show_config_form_device_type_keg(hass: UniversalAssistant) -> None:
+async def test_show_config_form_device_type_keg(hass: __HAC_KEEP__) -> None:
     """Test show configuration form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -97,7 +97,7 @@ async def test_show_config_form_device_type_keg(hass: UniversalAssistant) -> Non
 
 
 async def test_show_config_form_validate_webhook(
-    hass: UniversalAssistant, webhook_id
+    hass: __HAC_KEEP__, webhook_id
 ) -> None:
     """Test show configuration form."""
 
@@ -145,7 +145,7 @@ async def test_show_config_form_validate_webhook(
 
 
 async def test_show_config_form_validate_webhook_not_connected(
-    hass: UniversalAssistant, webhook_id
+    hass: __HAC_KEEP__, webhook_id
 ) -> None:
     """Test validating webhook when not connected aborts."""
 
@@ -193,7 +193,7 @@ async def test_show_config_form_validate_webhook_not_connected(
     assert result["translation_domain"] == HOMEASSISTANT_DOMAIN
 
 
-async def test_show_config_form_validate_token(hass: UniversalAssistant) -> None:
+async def test_show_config_form_validate_token(hass: __HAC_KEEP__) -> None:
     """Test show configuration form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -228,7 +228,7 @@ async def test_show_config_form_validate_token(hass: UniversalAssistant) -> None
 
 
 async def test_show_config_form_no_cloud_webhook(
-    hass: UniversalAssistant, webhook_id
+    hass: __HAC_KEEP__, webhook_id
 ) -> None:
     """Test show configuration form."""
 
@@ -269,7 +269,7 @@ async def test_show_config_form_no_cloud_webhook(
 )
 @pytest.mark.usefixtures("webhook_id")
 async def test_show_config_form_api_method_no_auth_token(
-    hass: UniversalAssistant, device_type: PlaatoDeviceType, error: str
+    hass: __HAC_KEEP__, device_type: PlaatoDeviceType, error: str
 ) -> None:
     """Test the empty token error per device type, then a token finishes the flow."""
     result = await hass.config_entries.flow.async_init(
@@ -304,7 +304,7 @@ async def test_show_config_form_api_method_no_auth_token(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options(hass: UniversalAssistant) -> None:
+async def test_options(hass: __HAC_KEEP__) -> None:
     """Test updating options."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -327,7 +327,7 @@ async def test_options(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_options"
 
 
-async def test_options_webhook(hass: UniversalAssistant, webhook_id) -> None:
+async def test_options_webhook(hass: __HAC_KEEP__, webhook_id) -> None:
     """Test updating options."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

@@ -14,7 +14,7 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -71,7 +71,7 @@ SWITCH_DESCRIPTIONS: dict[AttributeType, HomeeSwitchEntityDescription] = {
 
 
 async def add_switch_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -93,7 +93,7 @@ async def add_switch_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -115,7 +115,7 @@ class HomeeSwitch(HomeeEntity, SwitchEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         attribute: HomeeAttribute,
         entry: HomeeConfigEntry,
         description: HomeeSwitchEntityDescription,
@@ -162,7 +162,7 @@ class HomeegramSwitch(SwitchEntity):
     _attr_should_poll = False
 
     def __init__(
-        self, hass: UniversalAssistant, homeegram: HomeeGram, entry: HomeeConfigEntry
+        self, hass: __HAC_KEEP__, homeegram: HomeeGram, entry: HomeeConfigEntry
     ) -> None:
         """Initialize a homee Homeegram switch entity."""
         self._homeegram = homeegram

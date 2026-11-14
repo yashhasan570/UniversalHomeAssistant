@@ -28,7 +28,7 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -38,7 +38,7 @@ from .conftest import NAM_SENSORS
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_nam_client")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     freezer: FrozenDateTimeFactory,
@@ -56,7 +56,7 @@ async def test_sensor(
 
 @pytest.mark.usefixtures("mock_nam_client")
 async def test_sensor_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_sensor_disabled(
 
 
 async def test_incomplete_data_after_device_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_nam_client: MagicMock,
@@ -115,7 +115,7 @@ async def test_incomplete_data_after_device_restart(
     ],
 )
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_nam_client: MagicMock,
@@ -150,7 +150,7 @@ async def test_availability(
 
 
 async def test_manual_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nam_client: MagicMock,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_manual_update_entity(
 
 @pytest.mark.usefixtures("mock_nam_client")
 async def test_unique_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

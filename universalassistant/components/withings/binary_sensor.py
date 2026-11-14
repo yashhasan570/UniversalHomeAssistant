@@ -8,7 +8,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -19,7 +19,7 @@ from .entity import WithingsEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WithingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

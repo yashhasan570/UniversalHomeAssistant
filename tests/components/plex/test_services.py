@@ -22,14 +22,14 @@ from universalassistant.components.plex.const import (
 )
 from universalassistant.components.plex.services import PlexService, process_plex_payload
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DEFAULT_DATA, DEFAULT_OPTIONS, SECONDARY_DATA
 
 
 async def test_refresh_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_plex_server,
     setup_plex_server,
     requests_mock: requests_mock.Mocker,
@@ -44,7 +44,7 @@ async def test_refresh_library(
     )
 
     # Test with non-existent server
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             PlexService.REFRESH_LIBRARY,
@@ -95,7 +95,7 @@ async def test_refresh_library(
     await setup_plex_server(config_entry=entry_2)
 
     # Test multiple servers available but none specified
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             PlexService.REFRESH_LIBRARY,
@@ -107,7 +107,7 @@ async def test_refresh_library(
 
 
 async def test_lookup_media_for_other_integrations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry,
     setup_plex_server,
     requests_mock: requests_mock.Mocker,
@@ -136,7 +136,7 @@ async def test_lookup_media_for_other_integrations(
     )
 
     # Test with no Plex integration available
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         process_plex_payload(hass, MediaType.MUSIC, CONTENT_ID)
     assert "Plex integration not configured" in str(excinfo.value)
 
@@ -148,7 +148,7 @@ async def test_lookup_media_for_other_integrations(
             await setup_plex_server()
 
         # Test with no Plex servers available
-        with pytest.raises(UniversalAssistantError) as excinfo:
+        with pytest.raises(__HAC_KEEP__Error) as excinfo:
             process_plex_payload(hass, MediaType.MUSIC, CONTENT_ID)
         assert "No Plex servers available" in str(excinfo.value)
 
@@ -198,7 +198,7 @@ async def test_lookup_media_for_other_integrations(
         return_value=None,
         __qualname__="search",
     ):
-        with pytest.raises(UniversalAssistantError) as excinfo:
+        with pytest.raises(__HAC_KEEP__Error) as excinfo:
             process_plex_payload(hass, MediaType.MUSIC, CONTENT_ID_BAD_MEDIA)
         assert f"No {MediaType.MUSIC} results in 'Music' for" in str(excinfo.value)
 
@@ -211,7 +211,7 @@ async def test_lookup_media_for_other_integrations(
     requests_mock.get(
         "https://1.2.3.4:32400/playQueues/1235", status_code=HTTPStatus.NOT_FOUND
     )
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         process_plex_payload(hass, MediaType.MUSIC, CONTENT_ID_BAD_PLAYQUEUE)
     assert "PlayQueue '1235' could not be found" in str(excinfo.value)
 
@@ -225,7 +225,7 @@ async def test_lookup_media_for_other_integrations(
     assert isinstance(result.media, plexapi.playqueue.PlayQueue)
 
 
-async def test_lookup_media_with_urls(hass: UniversalAssistant, mock_plex_server) -> None:
+async def test_lookup_media_with_urls(hass: __HAC_KEEP__, mock_plex_server) -> None:
     """Test media lookup for media_player.play_media calls from cast/sonos."""
     CONTENT_ID_URL = f"{PLEX_URI_SCHEME}{DEFAULT_DATA[CONF_SERVER_IDENTIFIER]}/100"
 
@@ -256,7 +256,7 @@ async def test_lookup_media_with_urls(hass: UniversalAssistant, mock_plex_server
 
 
 async def test_play_show_resumes_on_deck_episode(
-    hass: UniversalAssistant, mock_plex_server
+    hass: __HAC_KEEP__, mock_plex_server
 ) -> None:
     """Test a show resolves to its on deck episode only when resume is set."""
     content_id = f"{PLEX_URI_SCHEME}{DEFAULT_DATA[CONF_SERVER_IDENTIFIER]}/30"

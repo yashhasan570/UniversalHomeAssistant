@@ -30,7 +30,7 @@ from universalassistant.components.dropbox.backup import (
 )
 from universalassistant.components.dropbox.const import DATA_BACKUP_AGENT_LISTENERS, DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .conftest import CONFIG_ENTRY_TITLE, TEST_AGENT_ID
@@ -101,7 +101,7 @@ def _setup_list_folder_with_backup(
 
 @pytest.fixture(autouse=True)
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_dropbox_client,
 ) -> None:
@@ -115,7 +115,7 @@ async def setup_integration(
 
 
 async def test_agents_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -161,7 +161,7 @@ async def test_agents_info(
 
 
 async def test_agents_list_backups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -180,7 +180,7 @@ async def test_agents_list_backups(
 
 
 async def test_agents_list_multiple_backups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -232,7 +232,7 @@ async def test_agents_list_multiple_backups(
 
 
 async def test_agents_list_backups_metadata_without_tar(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_dropbox_client: Mock,
     caplog: pytest.LogCaptureFixture,
@@ -254,7 +254,7 @@ async def test_agents_list_backups_metadata_without_tar(
 
 
 async def test_agents_list_backups_invalid_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_dropbox_client: Mock,
     caplog: pytest.LogCaptureFixture,
@@ -283,7 +283,7 @@ async def test_agents_list_backups_invalid_metadata(
 
 
 async def test_agents_list_backups_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -305,7 +305,7 @@ async def test_agents_list_backups_fail(
 
 
 async def test_agents_list_backups_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_dropbox_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -343,7 +343,7 @@ async def test_agents_list_backups_reauth(
     ids=["found", "not_found"],
 )
 async def test_agents_get_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_dropbox_client: Mock,
     backup_id: str,
@@ -365,7 +365,7 @@ async def test_agents_get_backup(
 
 
 async def test_agents_download(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -397,7 +397,7 @@ async def test_agents_download(
 
 
 async def test_agents_download_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -418,7 +418,7 @@ async def test_agents_download_fail(
 
 
 async def test_agents_download_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -447,7 +447,7 @@ async def test_agents_download_not_found(
 
 
 async def test_agents_download_file_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -466,7 +466,7 @@ async def test_agents_download_file_not_found(
 
 
 async def test_agents_download_metadata_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -484,7 +484,7 @@ async def test_agents_download_metadata_not_found(
 
 
 async def test_agents_upload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     mock_dropbox_client: Mock,
@@ -518,7 +518,7 @@ async def test_agents_upload(
 
 
 async def test_agents_upload_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     mock_dropbox_client: Mock,
@@ -566,7 +566,7 @@ async def test_agents_upload_fail(
 
 
 async def test_agents_upload_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_dropbox_client: Mock,
     freezer: FrozenDateTimeFactory,
@@ -613,7 +613,7 @@ async def test_agents_upload_progress(
 
 
 async def test_agents_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -637,7 +637,7 @@ async def test_agents_delete(
 
 
 async def test_agents_delete_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -670,7 +670,7 @@ async def test_agents_delete_fail(
 
 
 async def test_agents_delete_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_dropbox_client: Mock,
 ) -> None:
@@ -692,7 +692,7 @@ async def test_agents_delete_not_found(
 
 
 async def test_listeners_get_cleaned_up(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test removing a backup agent listener."""
     listener = Mock()

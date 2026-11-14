@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import MockEntity, MockPlatform, mock_platform
 
 from universalassistant.components.button import DOMAIN, ButtonEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -24,11 +24,11 @@ class MockButtonEntity(MockEntity, ButtonEntity):
 
 
 @pytest.fixture
-async def setup_platform(hass: UniversalAssistant) -> None:
+async def setup_platform(hass: __HAC_KEEP__) -> None:
     """Set up the button entity platform."""
 
     async def async_setup_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         async_add_entities: AddConfigEntryEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,

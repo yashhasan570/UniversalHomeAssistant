@@ -4,13 +4,13 @@ from unittest.mock import patch
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import DummyDevice
 
 
 async def setup_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, device: DummyDevice
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, device: DummyDevice
 ) -> None:
     """Set up a Midea config entry backed by a fake device."""
     config_entry.add_to_hass(hass)

@@ -7,7 +7,7 @@ import RFXtrx as rfxtrxmod
 
 from universalassistant.components.siren import ATTR_TONE, SirenEntity, SirenEntityFeature
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
@@ -49,7 +49,7 @@ def get_first_key(data: dict[int, str], entry: str) -> int:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RfxtrxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

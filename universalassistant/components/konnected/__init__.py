@@ -3,7 +3,7 @@
 import probatio
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.typing import ConfigType
 
@@ -12,29 +12,29 @@ from .const import DOMAIN
 CONFIG_SCHEMA = probatio.Schema({DOMAIN: cv.match_all}, extra=probatio.ALLOW_EXTRA)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Konnected.io integration."""
     if DOMAIN in config:
         _create_issue(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up Konnected.io from a config entry."""
     _create_issue(hass)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Remove a config entry."""
     if not hass.config_entries.async_loaded_entries(DOMAIN):
         ir.async_delete_issue(hass, DOMAIN, DOMAIN)
 
 
-def _create_issue(hass: UniversalAssistant) -> None:
+def _create_issue(hass: __HAC_KEEP__) -> None:
     """Create the integration removed repair issue."""
     ir.async_create_issue(
         hass,

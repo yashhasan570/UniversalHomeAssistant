@@ -8,7 +8,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.enum import try_parse_enum
 
@@ -17,7 +17,7 @@ from .entity import AbodeDevice
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AbodeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

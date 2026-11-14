@@ -47,7 +47,7 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.midea.climate import FAN_FULL_SPEED, FAN_SILENT
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -57,7 +57,7 @@ from .const import TEST_DEVICE_ID
 
 
 async def _assert_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     service: str,
     service_data: dict,
@@ -76,7 +76,7 @@ async def _assert_service_calls(
 
 
 async def test_midea_ac_climate_setup_and_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test AC climate entities are created and service calls reach the device."""
@@ -225,7 +225,7 @@ async def test_midea_ac_climate_setup_and_services(
 
 
 async def test_ac_min_max_temperature_from_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test AC min/max temperature are read from the device attributes."""
@@ -254,7 +254,7 @@ async def test_ac_min_max_temperature_from_device(
 
 
 async def test_midea_cc_climate_setup_and_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test CC climate entities are created and exposed through hass.states."""
@@ -306,7 +306,7 @@ async def test_midea_cc_climate_setup_and_services(
 
 
 async def test_midea_cf_climate_setup_and_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test CF climate entities are created and control calls are routed."""
@@ -363,7 +363,7 @@ async def test_midea_cf_climate_setup_and_services(
 
 
 async def test_midea_c3_climate_setup_and_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test C3 climate entities are created and zone-specific services work."""
@@ -439,7 +439,7 @@ async def test_midea_c3_climate_setup_and_services(
 
 
 async def test_midea_fb_climate_setup_and_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test FB climate entities are created and preset calls are routed."""
@@ -504,7 +504,7 @@ async def test_midea_fb_climate_setup_and_services(
     ],
 )
 async def test_ac_fan_mode_read_thresholds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     fan_speed: int,
     expected_fan_mode: str,
@@ -543,7 +543,7 @@ async def test_ac_fan_mode_read_thresholds(
     ],
 )
 async def test_ac_fan_mode_write_speeds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     fan_mode: str,
     expected_speed: int,
@@ -576,7 +576,7 @@ async def test_ac_fan_mode_write_speeds(
 
 
 async def test_ac_set_temperature_without_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test set_temperature without hvac_mode leaves the protocol mode unset."""
@@ -619,7 +619,7 @@ async def test_ac_set_temperature_without_hvac_mode(
     ],
 )
 async def test_ac_current_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     humidity: int | None,
     expected_humidity: float | None,
@@ -647,7 +647,7 @@ async def test_ac_current_humidity(
 
 
 async def test_base_set_temperature_without_target_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test set_temperature without ATTR_TEMPERATURE is ignored."""
@@ -675,7 +675,7 @@ async def test_base_set_temperature_without_target_noop(
 
 
 async def test_set_preset_mode_none_when_already_none_is_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test setting preset mode to none while already none writes nothing."""
@@ -711,7 +711,7 @@ async def test_set_preset_mode_none_when_already_none_is_noop(
 
 
 async def test_ac_set_hvac_mode_off_calls_power_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test AC HVAC off delegates to turn_off."""
@@ -810,7 +810,7 @@ async def test_ac_set_hvac_mode_off_calls_power_off(
     ],
 )
 async def test_ac_hvac_mode_branches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     attributes: dict[str, Any],
     expected_state: str,
@@ -831,7 +831,7 @@ async def test_ac_hvac_mode_branches(
 
 
 async def test_ac_fan_mode_invalid_type_returns_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test AC fan_mode returns None for an unexpected attribute type."""
@@ -856,7 +856,7 @@ async def test_ac_fan_mode_invalid_type_returns_none(
 
 
 async def test_cf_min_max_temperature_from_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test CF min/max temperature are read from the device attributes."""
@@ -881,7 +881,7 @@ async def test_cf_min_max_temperature_from_device(
 
 
 async def test_set_temperature_unsupported_hvac_mode_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test set_temperature with an hvac_mode unsupported by the device raises."""
@@ -915,7 +915,7 @@ async def test_set_temperature_unsupported_hvac_mode_raises(
 
 
 async def test_c3_temperature_fallback_and_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test C3 fallback temperatures and turn_on path for zone power."""
@@ -951,7 +951,7 @@ async def test_c3_temperature_fallback_and_turn_on(
 
 
 async def test_c3_zero_temperature_limits_use_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test C3 min/max fall back to defaults when the device reports [0.0, 0.0].
@@ -984,7 +984,7 @@ async def test_c3_zero_temperature_limits_use_fallback(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_c3_zero_temperature_limit_uses_fallback_per_zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test C3 min/max fall back per zone when only one zone reports 0.0.
@@ -1020,7 +1020,7 @@ async def test_c3_zero_temperature_limit_uses_fallback_per_zone(
 
 
 async def test_c3_temperature_limit_list_too_short_uses_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test C3 min/max fall back when the reported list has fewer than 2 entries."""
@@ -1097,7 +1097,7 @@ async def test_c3_temperature_limit_list_too_short_uses_fallback(
     ],
 )
 async def test_c3_zone_hvac_mode_branches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     attributes: dict[str, Any],
     expected_state: str,
@@ -1113,7 +1113,7 @@ async def test_c3_zone_hvac_mode_branches(
 
 
 async def test_cf_set_hvac_mode_falls_back_to_min_temp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test CF set_hvac_mode falls back to min_temp when target_temperature is unset."""
@@ -1147,7 +1147,7 @@ async def test_cf_set_hvac_mode_falls_back_to_min_temp(
 
 
 async def test_fb_set_hvac_off_calls_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test FB HVAC off delegates to turn_off."""
@@ -1174,7 +1174,7 @@ async def test_fb_set_hvac_off_calls_turn_off(
 
 
 async def test_fb_set_temperature_with_heat_mode_turns_on_when_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test FB set_temperature turns the device on when off and hvac_mode is heat."""
@@ -1211,7 +1211,7 @@ async def test_fb_set_temperature_with_heat_mode_turns_on_when_off(
 
 
 async def test_cf_set_hvac_mode_off_calls_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test CF set_hvac_mode with OFF delegates to turn_off."""
@@ -1240,7 +1240,7 @@ async def test_cf_set_hvac_mode_off_calls_turn_off(
 
 
 async def test_cf_temperature_range_fallback_when_unset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test CF min/max temperature fall back to defaults when attributes are unset."""
@@ -1258,7 +1258,7 @@ async def test_cf_temperature_range_fallback_when_unset(
 
 
 async def test_cc_fan_and_swing_invalid_types_return_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test CC fan_mode/swing_mode return None for unexpected attribute types."""
@@ -1283,7 +1283,7 @@ async def test_cc_fan_and_swing_invalid_types_return_none(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_c3_zone2_service_calls_address_zone_two(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test C3 zone2 service calls use zone index 1 and the zone2_power attribute."""
@@ -1340,7 +1340,7 @@ async def test_c3_zone2_service_calls_address_zone_two(
 
 
 async def test_c3_temperature_fallback_when_attribute_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test C3 min/max/target temperature fall back when attributes are missing."""
@@ -1364,7 +1364,7 @@ async def test_c3_temperature_fallback_when_attribute_missing(
 
 
 async def test_fb_invalid_attribute_types_return_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test FB preset_mode/hvac_mode return None for unexpected attribute types."""
@@ -1465,7 +1465,7 @@ async def test_fb_invalid_attribute_types_return_none(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_state_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,

@@ -8,7 +8,7 @@ import pytest
 from universalassistant import config_entries
 from universalassistant.components.todoist.const import DOMAIN
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TOKEN
@@ -28,7 +28,7 @@ async def patch_api(
 
 
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test we get the form."""
@@ -55,7 +55,7 @@ async def test_form(
 
 
 @pytest.mark.parametrize("todoist_api_status", [HTTPStatus.UNAUTHORIZED])
-async def test_form_invalid_auth(hass: UniversalAssistant, api: AsyncMock) -> None:
+async def test_form_invalid_auth(hass: __HAC_KEEP__, api: AsyncMock) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -82,7 +82,7 @@ async def test_form_invalid_auth(hass: UniversalAssistant, api: AsyncMock) -> No
 
 
 @pytest.mark.parametrize("todoist_api_status", [HTTPStatus.INTERNAL_SERVER_ERROR])
-async def test_form_cannot_connect(hass: UniversalAssistant, api: AsyncMock) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__, api: AsyncMock) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -109,7 +109,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant, api: AsyncMock) -> 
 
 
 @pytest.mark.parametrize("todoist_api_status", [HTTPStatus.UNAUTHORIZED])
-async def test_unknown_error(hass: UniversalAssistant, api: AsyncMock) -> None:
+async def test_unknown_error(hass: __HAC_KEEP__, api: AsyncMock) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -137,7 +137,7 @@ async def test_unknown_error(hass: UniversalAssistant, api: AsyncMock) -> None:
     assert result3.get("type") is FlowResultType.CREATE_ENTRY
 
 
-async def test_already_configured(hass: UniversalAssistant, setup_integration: None) -> None:
+async def test_already_configured(hass: __HAC_KEEP__, setup_integration: None) -> None:
     """Test that only a single instance can be configured."""
 
     entries = hass.config_entries.async_entries(DOMAIN)

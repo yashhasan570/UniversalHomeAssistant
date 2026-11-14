@@ -10,7 +10,7 @@ from evohomeasync.auth import (
 )
 from evohomeasync2.auth import AbstractTokenManager
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.storage import Store
 from universalassistant.util import dt as dt_util
 
@@ -31,7 +31,7 @@ class TokenManager(AbstractTokenManager, AbstractSessionManager):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         *args: Any,
         **kwargs: Any,
     ) -> None:

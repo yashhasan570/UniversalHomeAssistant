@@ -9,7 +9,7 @@ from universalassistant.components.todo import (
     TodoListEntity,
     TodoListEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 from universalassistant.util import dt as dt_util
@@ -68,7 +68,7 @@ def _convert_api_item(item: dict[str, str]) -> TodoItem:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GoogleTasksConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -160,7 +160,7 @@ def _order_tasks(tasks: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
     All tasks have an order amongst their siblings based on position.
 
-    Universal Universal Home Assistant To-do items do not support the Google Task parent/sibling
+    __HA_KEEP__ To-do items do not support the Google Task parent/sibling
     relationships and the desired behavior is for them to be filtered.
     """
     parents = [task for task in tasks if task.get("parent") is None]

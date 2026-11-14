@@ -19,13 +19,13 @@ from universalassistant.components.history_stats.const import (
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.sensor import CONF_STATE_CLASS
 from universalassistant.const import CONF_ENTITY_ID, CONF_NAME, CONF_STATE, CONF_TYPE
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.util import dt as dt_util
 
 
 async def test_form(
-    recorder_mock: Recorder, hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    recorder_mock: Recorder, hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form."""
 
@@ -75,7 +75,7 @@ async def test_form(
 
 
 async def test_options_flow(
-    recorder_mock: Recorder, hass: UniversalAssistant, loaded_entry: MockConfigEntry
+    recorder_mock: Recorder, hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
 ) -> None:
     """Test options flow."""
 
@@ -115,7 +115,7 @@ async def test_options_flow(
 
 
 async def test_validation_options(
-    recorder_mock: Recorder, hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    recorder_mock: Recorder, hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test validation."""
 
@@ -187,7 +187,7 @@ async def test_validation_options(
 
 
 async def test_entry_already_exist(
-    recorder_mock: Recorder, hass: UniversalAssistant, loaded_entry: MockConfigEntry
+    recorder_mock: Recorder, hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
 ) -> None:
     """Test abort when entry already exist."""
 
@@ -230,7 +230,7 @@ async def test_entry_already_exist(
 
 async def test_config_flow_preview_success(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -329,7 +329,7 @@ async def test_config_flow_preview_success(
 
 async def test_options_flow_preview(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the options flow preview."""
@@ -443,7 +443,7 @@ async def test_options_flow_preview(
 
 async def test_options_flow_preview_errors(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the options flow preview."""
@@ -532,7 +532,7 @@ async def test_options_flow_preview_errors(
 
 
 async def test_options_flow_sensor_preview_config_entry_removed(
-    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the option flow preview where the config entry is removed."""
     client = await hass_ws_client(hass)

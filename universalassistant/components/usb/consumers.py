@@ -7,7 +7,7 @@ from typing import Any
 
 from universalassistant.components.hassio import HassioNotReadyError, get_addons_info
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.loader import Integration, async_get_integrations
 
@@ -121,7 +121,7 @@ def _resolve_paths(paths: set[str]) -> dict[str, str]:
 
 
 async def _async_get_config_entry_consumers(
-    hass: UniversalAssistant, known_devices: set[str]
+    hass: __HAC_KEEP__, known_devices: set[str]
 ) -> dict[str, list[SerialPortConsumer]]:
     """Return serial ports configured in config entries of `usb` integrations."""
     entries = hass.config_entries.async_entries(include_ignore=False)
@@ -176,7 +176,7 @@ def _iter_option_device_paths(value: Any) -> Iterator[str]:
 
 @callback
 def _async_get_app_consumers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, list[SerialPortConsumer]]:
     """Return devices configured in the options of apps.
 
@@ -213,7 +213,7 @@ def _async_get_app_consumers(
 
 
 async def async_get_serial_port_consumers(
-    hass: UniversalAssistant, ports: Sequence[USBDevice | SerialDevice]
+    hass: __HAC_KEEP__, ports: Sequence[USBDevice | SerialDevice]
 ) -> dict[str, list[SerialPortConsumer]]:
     """Return the consumers of every serial port, keyed by device path.
 

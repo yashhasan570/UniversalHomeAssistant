@@ -5,7 +5,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import recorder as recorder_helper
 from universalassistant.helpers.recorder import get_instance
 
@@ -13,7 +13,7 @@ from . import get_default_url
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the recorder websocket API."""
     websocket_api.async_register_command(hass, ws_info)
 
@@ -25,7 +25,7 @@ def async_setup(hass: UniversalAssistant) -> None:
 )
 @websocket_api.async_response
 async def ws_info(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return status of the recorder."""
     # Wait for db_connected to ensure the recorder instance is created and the

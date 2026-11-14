@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -31,7 +31,7 @@ from . import (
 
 
 async def test_migrate_camera_entities_unique_ids(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that camera entities unique ids get migrated properly."""
     config_entry = MockConfigEntry(domain=DOMAIN, unique_id=MAC)
@@ -119,7 +119,7 @@ async def test_migrate_camera_entities_unique_ids(
     assert entity_unexisting_index.unique_id == f"{MAC}_9"
 
 
-async def test_setup_entry(hass: UniversalAssistant) -> None:
+async def test_setup_entry(hass: __HAC_KEEP__) -> None:
     """Test setting up the config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -149,7 +149,7 @@ async def test_setup_entry(hass: UniversalAssistant) -> None:
     assert (host, port, username, password) == (HOST, PORT, USERNAME, PASSWORD)
 
 
-async def test_setup_entry_snapshot_probe_timeout(hass: UniversalAssistant) -> None:
+async def test_setup_entry_snapshot_probe_timeout(hass: __HAC_KEEP__) -> None:
     """Test a snapshot probe that times out does not hold up setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.scorpiontrack.const import DEFAULT_SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -31,7 +31,7 @@ IGNITION_ENTITY_ID = "binary_sensor.ab12_cde_ignition"
     ],
 )
 async def test_missing_measurement_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
@@ -92,7 +92,7 @@ async def test_missing_measurement_recovers(
     ],
 )
 async def test_failed_share_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_scorpiontrack_client: AsyncMock,

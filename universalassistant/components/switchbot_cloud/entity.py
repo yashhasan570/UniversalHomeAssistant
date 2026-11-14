@@ -10,7 +10,7 @@ from switchbot_api.exceptions import (
 )
 
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -57,10 +57,10 @@ class SwitchBotCloudEntity(CoordinatorEntity[SwitchBotCoordinator]):
     ) -> None:
         """Send command to device.
 
-        Translate SwitchBot library exceptions into ``UniversalAssistantError`` so
+        Translate SwitchBot library exceptions into ``__HAC_KEEP__Error`` so
         device-communication failures follow the developer-docs guidance and
         can be suppressed by script-level flags such as ``continue_on_error``,
-        which only catches ``UniversalAssistantError`` subclasses.
+        which only catches ``__HAC_KEEP__Error`` subclasses.
         """
         try:
             await self._api.send_command(
@@ -70,18 +70,18 @@ class SwitchBotCloudEntity(CoordinatorEntity[SwitchBotCoordinator]):
                 parameters,
             )
         except SwitchBotDeviceOfflineError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_offline",
             ) from err
         except SwitchBotConnectionError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_error",
                 translation_placeholders={"error": str(err)},
             ) from err
         except SwitchBotError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"error": str(err)},

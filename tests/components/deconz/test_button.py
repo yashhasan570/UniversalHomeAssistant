@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType
@@ -76,7 +76,7 @@ TEST_DATA = [
 
 @pytest.mark.parametrize(("deconz_payload", "expected"), TEST_DATA)
 async def test_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
     config_entry_factory: ConfigEntryFactoryType,

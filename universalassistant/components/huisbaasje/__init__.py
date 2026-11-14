@@ -3,7 +3,7 @@
 from energyflip import EnergyFlip, EnergyFlipException
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 
 from .const import DOMAIN, FETCH_TIMEOUT, SOURCE_TYPES
@@ -12,7 +12,7 @@ from .coordinator import EnergyFlipConfigEntry, EnergyFlipUpdateCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: EnergyFlipConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: EnergyFlipConfigEntry) -> None:
     """Set up EnergyFlip from a config entry."""
     # Create the EnergyFlip client
     energyflip = EnergyFlip(
@@ -52,7 +52,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: EnergyFlipConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: EnergyFlipConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: EnergyFlipConfigEntry) -> None:
     """Unload a config entry."""
     # Forward the unloading of the entry to the platform
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

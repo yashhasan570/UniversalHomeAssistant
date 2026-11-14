@@ -21,7 +21,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -56,7 +56,7 @@ PLATFORM_SCHEMA = MEDIA_PLAYER_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

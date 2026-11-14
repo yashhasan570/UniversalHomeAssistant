@@ -1,13 +1,13 @@
 """Util functions for the dwd_weather_warnings integration."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.location import Coordinates, get_state_coordinates
 
 from .exceptions import CoordinatesNotFoundError, EntityNotFoundError
 
 
-def get_position_data(hass: UniversalAssistant, registry_id: str) -> Coordinates:
+def get_position_data(hass: __HAC_KEEP__, registry_id: str) -> Coordinates:
     """Extract coordinates from a device tracker."""
     registry = er.async_get(hass)
     registry_entry = registry.async_get(registry_id)

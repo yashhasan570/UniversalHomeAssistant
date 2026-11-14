@@ -24,9 +24,9 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_ADDRESS, CONF_NAME, CONF_PIN
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.schema_config_entry_flow import (
@@ -61,7 +61,7 @@ OPTIONS_FLOW = {
 
 
 async def device_scan(
-    hass: UniversalAssistant, identifier: str | None, loop: asyncio.AbstractEventLoop
+    hass: __HAC_KEEP__, identifier: str | None, loop: asyncio.AbstractEventLoop
 ) -> tuple[BaseConfig | None, list[str] | None]:
     """Scan for a specific device using identifier as filter."""
 
@@ -127,7 +127,7 @@ class AppleTVConfigFlow(ConfigFlow, domain=DOMAIN):
     def device_identifier(self) -> str | None:
         """Return a identifier for the config entry.
 
-        A device has multiple unique identifiers, but Universal Universal Home Assistant only supports one
+        A device has multiple unique identifiers, but __HA_KEEP__ only supports one
         per config entry. Normally, a "main identifier" is determined by pyatv by
         first collecting all identifiers and then picking one in a pre-determine order.
         Under normal circumstances, this works fine but if a service is missing or
@@ -465,7 +465,7 @@ class AppleTVConfigFlow(ConfigFlow, domain=DOMAIN):
         # Protocol specific arguments
         pair_args: dict[str, Any] = {}
         if self.protocol in {Protocol.AirPlay, Protocol.Companion, Protocol.DMAP}:
-            pair_args["name"] = "Universal Universal Home Assistant"
+            pair_args["name"] = "__HA_KEEP__"
         if self.protocol is Protocol.DMAP:
             pair_args["zeroconf"] = await zeroconf.async_get_instance(self.hass)
 
@@ -629,9 +629,9 @@ class AppleTVConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_create_entry(title=self.atv.name, data=data)
 
 
-class DeviceNotFound(UniversalAssistantError):
+class DeviceNotFound(__HAC_KEEP__Error):
     """Error to indicate device could not be found."""
 
 
-class DeviceAlreadyConfigured(UniversalAssistantError):
+class DeviceAlreadyConfigured(__HAC_KEEP__Error):
     """Error to indicate device is already configured."""

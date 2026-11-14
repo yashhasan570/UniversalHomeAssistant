@@ -17,7 +17,7 @@ from universalassistant.components.tts import (
     Voice,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.setup import async_when_setup
@@ -220,7 +220,7 @@ def _prepare_voice_args(
 
 
 async def async_get_engine(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> CloudProvider | None:
@@ -238,11 +238,11 @@ async def async_get_engine(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: CloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up Universal Universal Home Assistant Cloud text-to-speech platform."""
+    """Set up __HA_KEEP__ Cloud text-to-speech platform."""
     tts_platform_loaded = hass.data[DATA_PLATFORMS_SETUP][Platform.TTS]
     tts_platform_loaded.set()
     cloud = hass.data[DATA_CLOUD]
@@ -250,9 +250,9 @@ async def async_setup_entry(
 
 
 class CloudTTSEntity(TextToSpeechEntity):
-    """Universal Universal Home Assistant Cloud text-to-speech entity."""
+    """__HA_KEEP__ Cloud text-to-speech entity."""
 
-    _attr_name = "Universal Universal Home Assistant Link"
+    _attr_name = "__HA_KEEP__ Link"
     _attr_unique_id = TTS_ENTITY_UNIQUE_ID
 
     def __init__(self, cloud: Cloud[CloudClient]) -> None:
@@ -295,7 +295,7 @@ class CloudTTSEntity(TextToSpeechEntity):
         """Handle entity which will be added."""
         await super().async_added_to_hass()
 
-        async def pipeline_setup(hass: UniversalAssistant, _comp: str) -> None:
+        async def pipeline_setup(hass: __HAC_KEEP__, _comp: str) -> None:
             """When assist_pipeline is set up."""
             assert self.platform.config_entry
             self.platform.config_entry.async_create_task(
@@ -354,7 +354,7 @@ class CloudTTSEntity(TextToSpeechEntity):
     async def async_get_tts_audio(
         self, message: str, language: str, options: dict[str, Any]
     ) -> TtsAudioType:
-        """Load TTS from Universal Universal Home Assistant Cloud."""
+        """Load TTS from __HA_KEEP__ Cloud."""
         # Process TTS
         try:
             data = await self.cloud.voice.process_tts(
@@ -402,14 +402,14 @@ class CloudTTSEntity(TextToSpeechEntity):
 
 
 class CloudProvider(Provider):
-    """Universal Universal Home Assistant Cloud speech API provider."""
+    """__HA_KEEP__ Cloud speech API provider."""
 
     has_entity = True
 
     def __init__(self, cloud: Cloud[CloudClient]) -> None:
         """Initialize cloud provider."""
         self.cloud = cloud
-        self.name = "Universal Universal Home Assistant Link"
+        self.name = "__HA_KEEP__ Link"
         self._language, self._voice = cloud.client.prefs.tts_default_voice
         cloud.client.prefs.async_listen_updates(self._sync_prefs)
 
@@ -486,7 +486,7 @@ class CloudProvider(Provider):
     async def async_get_tts_audio(
         self, message: str, language: str, options: dict[str, Any]
     ) -> TtsAudioType:
-        """Load TTS from Universal Universal Home Assistant Cloud."""
+        """Load TTS from __HA_KEEP__ Cloud."""
         assert self.hass is not None
         # Process TTS
         try:

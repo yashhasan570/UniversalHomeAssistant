@@ -5,10 +5,10 @@ from pytest_universalassistant.common import MockUser
 from universalassistant import auth, data_entry_flow
 from universalassistant.auth.mfa_modules import auth_mfa_module_from_config
 from universalassistant.auth.models import Credentials
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_validate(hass: UniversalAssistant) -> None:
+async def test_validate(hass: __HAC_KEEP__) -> None:
     """Test validating pin."""
     auth_module = await auth_mfa_module_from_config(
         hass,
@@ -28,7 +28,7 @@ async def test_validate(hass: UniversalAssistant) -> None:
     assert result is False
 
 
-async def test_setup_user(hass: UniversalAssistant) -> None:
+async def test_setup_user(hass: __HAC_KEEP__) -> None:
     """Test setup user."""
     auth_module = await auth_mfa_module_from_config(
         hass, {"type": "insecure_example", "data": []}
@@ -41,7 +41,7 @@ async def test_setup_user(hass: UniversalAssistant) -> None:
     assert result is True
 
 
-async def test_depose_user(hass: UniversalAssistant) -> None:
+async def test_depose_user(hass: __HAC_KEEP__) -> None:
     """Test despose user."""
     auth_module = await auth_mfa_module_from_config(
         hass,
@@ -56,7 +56,7 @@ async def test_depose_user(hass: UniversalAssistant) -> None:
     assert len(auth_module._data) == 0
 
 
-async def test_is_user_setup(hass: UniversalAssistant) -> None:
+async def test_is_user_setup(hass: __HAC_KEEP__) -> None:
     """Test is user setup."""
     auth_module = await auth_mfa_module_from_config(
         hass,
@@ -69,7 +69,7 @@ async def test_is_user_setup(hass: UniversalAssistant) -> None:
     assert await auth_module.async_is_user_setup("invalid-user") is False
 
 
-async def test_login(hass: UniversalAssistant) -> None:
+async def test_login(hass: __HAC_KEEP__) -> None:
     """Test login flow with auth module."""
     hass.auth = await auth.auth_manager_from_config(
         hass,
@@ -136,7 +136,7 @@ async def test_login(hass: UniversalAssistant) -> None:
     assert result["data"].id == "mock-id"
 
 
-async def test_setup_flow(hass: UniversalAssistant) -> None:
+async def test_setup_flow(hass: __HAC_KEEP__) -> None:
     """Test validating pin."""
     auth_module = await auth_mfa_module_from_config(
         hass,

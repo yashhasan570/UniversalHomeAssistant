@@ -32,7 +32,7 @@ from universalassistant.components.mobile_app.live_activity.store import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import ATTR_DEVICE_ID, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -41,7 +41,7 @@ from .const import CALL_SERVICE, REGISTER_CLEARTEXT
 
 
 @pytest.mark.usefixtures("create_registrations")
-async def test_unload_unloads(hass: UniversalAssistant, webhook_client) -> None:
+async def test_unload_unloads(hass: __HAC_KEEP__, webhook_client) -> None:
     """Test we clean up when we unload."""
     # Second config entry is the one without encryption
     config_entry = hass.config_entries.async_entries("mobile_app")[1]
@@ -61,7 +61,7 @@ async def test_unload_unloads(hass: UniversalAssistant, webhook_client) -> None:
 
 @pytest.mark.usefixtures("create_registrations")
 async def test_remove_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_remove_entry(
 
 
 async def _test_create_cloud_hook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     additional_config: dict[str, Any],
     async_active_subscription_return_value: bool,
@@ -100,7 +100,7 @@ async def _test_create_cloud_hook(
     cloudhook_change_callback = None
 
     def mock_listen_cloudhook_change(
-        _: UniversalAssistant, _webhook_id: str, callback: Callable[[Any], None]
+        _: __HAC_KEEP__, _webhook_id: str, callback: Callable[[Any], None]
     ):
         """Mock the cloudhook change listener."""
         nonlocal cloudhook_change_callback
@@ -109,7 +109,7 @@ async def _test_create_cloud_hook(
 
     cloud_hook = "https://hook-url"
 
-    async def mock_get_or_create_cloudhook(_hass: UniversalAssistant, _webhook_id: str):
+    async def mock_get_or_create_cloudhook(_hass: __HAC_KEEP__, _webhook_id: str):
         """Mock creating a cloudhook and trigger the change callback."""
         assert cloudhook_change_callback is not None
         cloudhook_change_callback({CONF_CLOUDHOOK_URL: cloud_hook})
@@ -146,7 +146,7 @@ async def _test_create_cloud_hook(
 
 
 async def test_create_cloud_hook_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test creating a cloud hook during setup."""
@@ -167,7 +167,7 @@ async def test_create_cloud_hook_on_setup(
 
 @pytest.mark.parametrize("exception", [CloudNotAvailable, ValueError])
 async def test_remove_cloudhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     caplog: pytest.LogCaptureFixture,
     exception: Exception,
@@ -195,7 +195,7 @@ async def test_remove_cloudhook(
 
 
 async def test_create_cloud_hook_aleady_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test creating a cloud hook is not called, when a cloud hook already exists."""
@@ -216,7 +216,7 @@ async def test_create_cloud_hook_aleady_exists(
 
 
 async def test_create_cloud_hook_after_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test creating a cloud hook when connected to the cloud."""
@@ -250,7 +250,7 @@ async def test_create_cloud_hook_after_connection(
     [(True, True), (False, False)],
 )
 async def test_delete_cloud_hook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     cloud_logged_in: bool,
     should_cloudhook_exist: bool,
@@ -284,7 +284,7 @@ async def test_delete_cloud_hook(
 
 
 async def test_setup_entry_local_only_user_no_cloudhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test that cloudhook is not created for local_only users during setup."""
@@ -324,7 +324,7 @@ async def test_setup_entry_local_only_user_no_cloudhook(
 
 
 async def test_setup_entry_local_only_user_cleans_existing_cloudhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test that existing cloudhook is cleaned up for local_only users during setup."""
@@ -362,7 +362,7 @@ async def test_setup_entry_local_only_user_cleans_existing_cloudhook(
 
 
 async def test_remove_entry_on_user_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test removing related config entry, when a user gets removed from HA."""
@@ -396,7 +396,7 @@ async def test_remove_entry_on_user_remove(
 
 
 async def test_cloudhook_cleanup_on_disconnect_and_logout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test cloudhook is cleaned up when cloud disconnects and user is logged out."""
@@ -447,7 +447,7 @@ async def test_cloudhook_cleanup_on_disconnect_and_logout(
 
 
 async def test_cloudhook_persists_on_disconnect_when_logged_in(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test cloudhook persists when cloud disconnects but user is still logged in."""
@@ -494,7 +494,7 @@ async def test_cloudhook_persists_on_disconnect_when_logged_in(
 
 
 async def test_cloudhook_change_listener_deletion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test cloudhook listener removes cloudhook from entry on deletion."""
@@ -516,7 +516,7 @@ async def test_cloudhook_change_listener_deletion(
     cloudhook_change_callback = None
 
     def mock_listen_cloudhook_change(
-        _: UniversalAssistant, _webhook_id: str, callback: Callable[[Any], None]
+        _: __HAC_KEEP__, _webhook_id: str, callback: Callable[[Any], None]
     ):
         """Mock the cloudhook change listener."""
         nonlocal cloudhook_change_callback
@@ -558,7 +558,7 @@ async def test_cloudhook_change_listener_deletion(
 
 
 async def test_cloudhook_change_listener_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test cloudhook change listener updates cloudhook URL in config entry."""
@@ -630,7 +630,7 @@ async def test_cloudhook_change_listener_update(
 
 @pytest.mark.usefixtures("create_registrations")
 async def test_reload_preserves_live_activity_tokens(
-    hass: UniversalAssistant, webhook_client: TestClient
+    hass: __HAC_KEEP__, webhook_client: TestClient
 ) -> None:
     """Test that live activity tokens survive a reload so the same token is reused."""
     config_entry = hass.config_entries.async_entries("mobile_app")[1]
@@ -669,7 +669,7 @@ async def test_reload_preserves_live_activity_tokens(
 
 @pytest.mark.usefixtures("create_registrations")
 async def test_remove_entry_cleans_live_activity_tokens(
-    hass: UniversalAssistant, webhook_client: TestClient
+    hass: __HAC_KEEP__, webhook_client: TestClient
 ) -> None:
     """Test that live activity tokens are removed when the entry is deleted."""
     config_entry = hass.config_entries.async_entries("mobile_app")[1]
@@ -705,7 +705,7 @@ async def test_remove_entry_cleans_live_activity_tokens(
 
 
 async def test_storage_migration_adds_live_activity_tokens(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_admin_user: MockUser,
 ) -> None:
@@ -731,7 +731,7 @@ async def test_storage_migration_adds_live_activity_tokens(
 
 
 async def test_live_activity_expired_tokens_cleaned_at_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_admin_user: MockUser,
 ) -> None:
@@ -777,7 +777,7 @@ async def test_live_activity_expired_tokens_cleaned_at_startup(
 
 
 async def test_live_activity_cleanup_task_removes_expired_tokens(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
 ) -> None:
     """Test that the cleanup task removes expired tokens and saves the store."""

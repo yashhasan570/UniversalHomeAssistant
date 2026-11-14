@@ -1,13 +1,13 @@
 """Intents for the cover integration."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import intent
 
 from . import INTENT_CLOSE_COVER, INTENT_OPEN_COVER, CoverDeviceClass
 from .const import DOMAIN, CoverService
 
 
-async def async_setup_intents(hass: UniversalAssistant) -> None:
+async def async_setup_intents(hass: __HAC_KEEP__) -> None:
     """Set up the cover intents."""
     intent.async_register(
         hass,

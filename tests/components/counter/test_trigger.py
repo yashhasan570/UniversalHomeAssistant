@@ -27,7 +27,7 @@ from universalassistant.components.counter import (
 )
 from universalassistant.components.counter.trigger import TRIGGERS
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 BEHAVIOR_AWARE_TRIGGERS = [
     *parametrize_trigger_states(
@@ -49,7 +49,7 @@ BEHAVIOR_AWARE_TRIGGERS = [
 
 
 @pytest.fixture
-async def target_counters(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_counters(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple counter entities associated with different targets."""
     return await target_entities(hass, DOMAIN)
 
@@ -74,7 +74,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_counter_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -143,7 +143,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_counter_state_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_counters: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -187,7 +187,7 @@ async def test_counter_state_trigger(
     ("trigger", "trigger_options", "states"), BEHAVIOR_AWARE_TRIGGERS
 )
 async def test_counter_state_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_counters: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -217,7 +217,7 @@ async def test_counter_state_trigger_behavior_each(
     ("trigger", "trigger_options", "states"), BEHAVIOR_AWARE_TRIGGERS
 )
 async def test_counter_state_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_counters: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -247,7 +247,7 @@ async def test_counter_state_trigger_behavior_first(
     ("trigger", "trigger_options", "states"), BEHAVIOR_AWARE_TRIGGERS
 )
 async def test_counter_state_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_counters: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,

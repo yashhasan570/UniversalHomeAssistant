@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, override
 
 from ld2410_ble import LD2410BLE, LD2410BLEState
 
-from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -29,7 +29,7 @@ class LD2410BLECoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LD2410BLEConfigEntry,
         ld2410_ble: LD2410BLE,
     ) -> None:

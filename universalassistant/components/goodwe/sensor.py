@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_point_in_time
@@ -55,7 +55,7 @@ BATTERY_SOC = "battery_soc"
 # inverter is restored.
 # This makes sure daily values are reset at midnight instead
 # of at sunrise.
-# When the inverter has a battery connected, UniversalAssistant
+# When the inverter has a battery connected, __HAC_KEEP__
 # will not reset the values but let the inverter reset them
 # by looking at the unavailable state of the inverter.
 DAILY_RESET = ["e_day", "e_load_day"]
@@ -170,7 +170,7 @@ TEXT_SENSOR = GoodweSensorEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: GoodweConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

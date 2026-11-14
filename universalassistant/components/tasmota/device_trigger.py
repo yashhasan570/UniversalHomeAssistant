@@ -13,8 +13,8 @@ from universalassistant.components.universalassistant.triggers import event as e
 from universalassistant.components.universalassistant.triggers.event import EventTriggerArgument
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -86,7 +86,7 @@ class Trigger:
 
     device_id: str = attr.ib()
     discovery_hash: DiscoveryHashType | None = attr.ib()
-    hass: UniversalAssistant = attr.ib()
+    hass: __HAC_KEEP__ = attr.ib()
     remove_update_signal: Callable[[], None] | None = attr.ib()
     subtype: str = attr.ib()
     tasmota_trigger: TasmotaTrigger | None = attr.ib()
@@ -108,7 +108,7 @@ class Trigger:
         def async_remove() -> None:
             """Remove trigger."""
             if instance not in self.trigger_instances:
-                raise UniversalAssistantError("Can't remove trigger twice")
+                raise __HAC_KEEP__Error("Can't remove trigger twice")
 
             if instance.remove:
                 instance.remove()
@@ -169,7 +169,7 @@ class Trigger:
 
 
 async def async_setup_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tasmota_trigger: TasmotaTrigger,
     config_entry: ConfigEntry,
     discovery_hash: DiscoveryHashType,
@@ -250,7 +250,7 @@ async def async_setup_trigger(
     await device_trigger.arm_tasmota_trigger()
 
 
-async def async_remove_triggers(hass: UniversalAssistant, device_id: str) -> None:
+async def async_remove_triggers(hass: __HAC_KEEP__, device_id: str) -> None:
     """Cleanup any device triggers for a Tasmota device."""
     triggers = await async_get_triggers(hass, device_id)
 
@@ -271,7 +271,7 @@ async def async_remove_triggers(hass: UniversalAssistant, device_id: str) -> Non
 
 
 async def async_get_triggers(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for a Tasmota device."""
     triggers: list[dict[str, str]] = []
@@ -298,7 +298,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

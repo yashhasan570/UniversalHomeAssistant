@@ -29,7 +29,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.util import dt as dt_util
 
@@ -57,7 +57,7 @@ async def mock_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def mock_light(
-    hass: UniversalAssistant, mock_entry: MockConfigEntry, mock_ble_device: MagicMock
+    hass: __HAC_KEEP__, mock_entry: MockConfigEntry, mock_ble_device: MagicMock
 ) -> Generator[AsyncMock]:
     """Mock pykulersky light."""
     light = AsyncMock()
@@ -79,7 +79,7 @@ async def mock_light(
         yield light
 
 
-async def test_init(hass: UniversalAssistant, mock_light: AsyncMock) -> None:
+async def test_init(hass: __HAC_KEEP__, mock_light: AsyncMock) -> None:
     """Test platform setup."""
     state = hass.states.get("light.bedroom")
     assert state.state == STATE_OFF
@@ -97,7 +97,7 @@ async def test_init(hass: UniversalAssistant, mock_light: AsyncMock) -> None:
 
 
 async def test_remove_entry(
-    hass: UniversalAssistant, mock_light: MagicMock, mock_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_light: MagicMock, mock_entry: MockConfigEntry
 ) -> None:
     """Test platform setup."""
     await hass.config_entries.async_remove(mock_entry.entry_id)
@@ -106,7 +106,7 @@ async def test_remove_entry(
 
 
 async def test_remove_entry_exceptions_caught(
-    hass: UniversalAssistant, mock_light: MagicMock, mock_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_light: MagicMock, mock_entry: MockConfigEntry
 ) -> None:
     """Assert that disconnect exceptions are caught."""
     mock_light.disconnect.side_effect = pykulersky.PykulerskyException("Mock error")
@@ -115,7 +115,7 @@ async def test_remove_entry_exceptions_caught(
     assert mock_light.disconnect.called
 
 
-async def test_update_exception(hass: UniversalAssistant, mock_light: MagicMock) -> None:
+async def test_update_exception(hass: __HAC_KEEP__, mock_light: MagicMock) -> None:
     """Test platform setup."""
 
     mock_light.get_color.side_effect = pykulersky.PykulerskyException
@@ -125,7 +125,7 @@ async def test_update_exception(hass: UniversalAssistant, mock_light: MagicMock)
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_light_turn_on(hass: UniversalAssistant, mock_light: MagicMock) -> None:
+async def test_light_turn_on(hass: __HAC_KEEP__, mock_light: MagicMock) -> None:
     """Test KulerSkyLight turn_on."""
     mock_light.get_color.return_value = (255, 255, 255, 255)
     await hass.services.async_call(
@@ -182,7 +182,7 @@ async def test_light_turn_on(hass: UniversalAssistant, mock_light: MagicMock) ->
     mock_light.set_color.assert_called_with(50, 41, 0, 50)
 
 
-async def test_light_turn_off(hass: UniversalAssistant, mock_light: MagicMock) -> None:
+async def test_light_turn_off(hass: __HAC_KEEP__, mock_light: MagicMock) -> None:
     """Test KulerSkyLight turn_on."""
     mock_light.get_color.return_value = (0, 0, 0, 0)
     await hass.services.async_call(
@@ -195,7 +195,7 @@ async def test_light_turn_off(hass: UniversalAssistant, mock_light: MagicMock) -
     mock_light.set_color.assert_called_with(0, 0, 0, 0)
 
 
-async def test_light_update(hass: UniversalAssistant, mock_light: MagicMock) -> None:
+async def test_light_update(hass: __HAC_KEEP__, mock_light: MagicMock) -> None:
     """Test KulerSkyLight update."""
     utcnow = dt_util.utcnow()
 

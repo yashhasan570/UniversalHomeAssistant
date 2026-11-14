@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries, setup
 from universalassistant.components.mullvad.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form_user(hass: UniversalAssistant) -> None:
+async def test_form_user(hass: __HAC_KEEP__) -> None:
     """Test we can setup by the user."""
     await setup.async_setup_component(hass, DOMAIN, {})
     result = await hass.config_entries.flow.async_init(
@@ -42,7 +42,7 @@ async def test_form_user(hass: UniversalAssistant) -> None:
     assert len(mock_mullvad_api.mock_calls) == 1
 
 
-async def test_form_user_only_once(hass: UniversalAssistant) -> None:
+async def test_form_user_only_once(hass: __HAC_KEEP__) -> None:
     """Test we can setup by the user only once."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
 
@@ -53,7 +53,7 @@ async def test_form_user_only_once(hass: UniversalAssistant) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_connection_error(hass: UniversalAssistant) -> None:
+async def test_connection_error(hass: __HAC_KEEP__) -> None:
     """Test we show an error when we have trouble connecting."""
     await setup.async_setup_component(hass, DOMAIN, {})
     result = await hass.config_entries.flow.async_init(
@@ -89,7 +89,7 @@ async def test_connection_error(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_unknown_error(hass: UniversalAssistant) -> None:
+async def test_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test we show an error when an unknown error occurs."""
     await setup.async_setup_component(hass, DOMAIN, {})
     result = await hass.config_entries.flow.async_init(

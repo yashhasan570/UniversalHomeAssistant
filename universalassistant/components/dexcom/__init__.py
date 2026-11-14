@@ -4,14 +4,14 @@ from pydexcom import Dexcom, Region
 from pydexcom.errors import AccountError, SessionError
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .const import CONF_SERVER, DOMAIN, PLATFORMS, SERVER_OUS
 from .coordinator import DexcomConfigEntry, DexcomCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: DexcomConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: DexcomConfigEntry) -> None:
     """Set up Dexcom from a config entry."""
     try:
         dexcom = await hass.async_add_executor_job(
@@ -39,6 +39,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DexcomConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: DexcomConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: DexcomConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

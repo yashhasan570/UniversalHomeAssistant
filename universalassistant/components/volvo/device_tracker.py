@@ -9,7 +9,7 @@ from universalassistant.components.device_tracker import (
     TrackerEntity,
     TrackerEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import VolvoConfigEntry
@@ -32,7 +32,7 @@ _DESCRIPTIONS: tuple[VolvoTrackerDescription, ...] = (
 
 
 async def async_setup_entry(
-    _: UniversalAssistant,
+    _: __HAC_KEEP__,
     entry: VolvoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -6,7 +6,7 @@ from homevolt.const import CONTROLLABLE_SCHEDULE_TYPE
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import HomevoltConfigEntry, HomevoltDataUpdateCoordinator
@@ -25,7 +25,7 @@ SELECT_DESCRIPTION = SelectEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HomevoltConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

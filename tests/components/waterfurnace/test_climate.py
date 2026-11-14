@@ -26,8 +26,8 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.waterfurnace.const import UPDATE_INTERVAL
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "climate.test_abc_type"
@@ -41,7 +41,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_climate_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -63,7 +63,7 @@ async def test_climate_snapshot(
     ids=["Off", "Auto", "Cool", "Heat", "E-Heat"],
 )
 async def test_hvac_mode_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
     active_mode_index: int,
@@ -113,7 +113,7 @@ async def test_hvac_mode_mapping(
     ],
 )
 async def test_hvac_action_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
     mode_index: int,
@@ -142,7 +142,7 @@ async def test_hvac_action_mapping(
     ids=["Off", "Auto", "Cool", "Heat"],
 )
 async def test_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     hvac_mode: HVACMode,
     expected_wf_mode: int,
@@ -159,7 +159,7 @@ async def test_set_hvac_mode(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_set_temperature_single_heat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
 ) -> None:
     """Test setting temperature in heat mode sets heating setpoint."""
@@ -179,7 +179,7 @@ async def test_set_temperature_single_heat(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_set_temperature_single_cool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_set_temperature_single_cool(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_set_temperature_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_set_temperature_range(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_set_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
 ) -> None:
     """Test setting target humidity."""
@@ -252,7 +252,7 @@ async def test_set_humidity(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_target_temperature_cool_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -270,7 +270,7 @@ async def test_target_temperature_cool_mode(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_target_temperature_range_auto_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -290,12 +290,12 @@ async def test_target_temperature_range_auto_mode(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_set_hvac_mode_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
 ) -> None:
-    """Test that a library error raises UniversalAssistantError."""
+    """Test that a library error raises __HAC_KEEP__Error."""
     mock_waterfurnace_client.set_mode.side_effect = WFException("connection lost")
-    with pytest.raises(UniversalAssistantError, match="Failed to set HVAC mode"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to set HVAC mode"):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -306,12 +306,12 @@ async def test_set_hvac_mode_error(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_set_temperature_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
 ) -> None:
-    """Test that a library error raises UniversalAssistantError."""
+    """Test that a library error raises __HAC_KEEP__Error."""
     mock_waterfurnace_client.set_heating_setpoint.side_effect = WFException("timeout")
-    with pytest.raises(UniversalAssistantError, match="Failed to set temperature"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to set temperature"):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -322,12 +322,12 @@ async def test_set_temperature_error(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_set_humidity_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
 ) -> None:
-    """Test that a library error raises UniversalAssistantError."""
+    """Test that a library error raises __HAC_KEEP__Error."""
     mock_waterfurnace_client.set_humidity.side_effect = WFException("timeout")
-    with pytest.raises(UniversalAssistantError, match="Failed to set humidity"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to set humidity"):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HUMIDITY,
@@ -338,7 +338,7 @@ async def test_set_humidity_error(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_set_temperature_with_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
 ) -> None:
     """Test that ATTR_HVAC_MODE in set_temperature switches mode first."""

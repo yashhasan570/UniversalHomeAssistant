@@ -8,12 +8,12 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.freeze_time("2024-09-05 15:00:00")
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,

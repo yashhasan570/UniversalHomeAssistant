@@ -12,7 +12,7 @@ from pyintelliclima import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN, FILTER_SCAN_INTERVAL, LOGGER
@@ -24,7 +24,7 @@ class IntelliClimaCoordinator(DataUpdateCoordinator[IntelliClimaDevices]):
     """Coordinator to manage fetching IntelliClima data."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: IntelliClimaConfigEntry, api: IntelliClimaAPI
+        self, hass: __HAC_KEEP__, entry: IntelliClimaConfigEntry, api: IntelliClimaAPI
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(
@@ -63,7 +63,7 @@ class IntelliClimaFilterCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: IntelliClimaConfigEntry,
         api: IntelliClimaAPI,
         device_serials: list[str],

@@ -2,11 +2,11 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def async_init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the Aidot integration for testing."""
     mock_config_entry.add_to_hass(hass)

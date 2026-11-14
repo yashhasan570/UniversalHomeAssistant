@@ -20,8 +20,8 @@ from universalassistant.components.media_player import (
     RepeatMode,
     async_process_play_media_url,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
     async_dispatcher_send,
@@ -112,7 +112,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LinkPlayConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -285,7 +285,7 @@ class LinkPlayMediaPlayerEntity(LinkPlayBaseEntity, MediaPlayerEntity):
         try:
             await self._active_player.play_preset(preset_number)
         except ValueError as err:
-            raise UniversalAssistantError(err) from err
+            raise __HAC_KEEP__Error(err) from err
 
     @exception_wrap
     @override

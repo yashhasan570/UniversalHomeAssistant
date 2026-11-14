@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -34,7 +34,7 @@ _PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: AnglianWaterConfigEntry
+    hass: __HAC_KEEP__, entry: AnglianWaterConfigEntry
 ) -> None:
     """Set up Anglian Water from a config entry."""
     auth = MSOB2CAuth(
@@ -86,7 +86,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: AnglianWaterConfigEntry
+    hass: __HAC_KEEP__, entry: AnglianWaterConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

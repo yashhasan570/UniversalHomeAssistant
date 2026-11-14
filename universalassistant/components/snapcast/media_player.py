@@ -15,7 +15,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -40,7 +40,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SnapcastConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

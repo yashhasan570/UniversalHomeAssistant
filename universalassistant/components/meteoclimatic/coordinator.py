@@ -7,7 +7,7 @@ from meteoclimatic import MeteoclimaticClient, Observation
 from meteoclimatic.exceptions import MeteoclimaticError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONF_STATION_CODE, SCAN_INTERVAL
@@ -22,7 +22,7 @@ class MeteoclimaticUpdateCoordinator(DataUpdateCoordinator[Observation]):
 
     config_entry: MeteoclimaticConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: MeteoclimaticConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: MeteoclimaticConfigEntry) -> None:
         """Initialize the coordinator."""
         self._station_code = entry.data[CONF_STATION_CODE]
         super().__init__(

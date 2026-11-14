@@ -4,14 +4,14 @@ import logging
 
 from universalassistant.components import persistent_notification
 from universalassistant.const import CONF_ID, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_USER_ID, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 
-async def filter_yaml_data(hass: UniversalAssistant, persons: list[dict]) -> list[dict]:
+async def filter_yaml_data(hass: __HAC_KEEP__, persons: list[dict]) -> list[dict]:
     """Validate YAML data that we can't validate via schema."""
     filtered = []
     person_invalid_user = []

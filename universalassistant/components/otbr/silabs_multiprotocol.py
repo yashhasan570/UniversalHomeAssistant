@@ -13,8 +13,8 @@ from universalassistant.components.universalassistant_hardware.silabs_multiproto
     is_multiprotocol_url,
 )
 from universalassistant.components.thread import async_add_dataset
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DOMAIN
 from .util import OTBRData
@@ -28,22 +28,22 @@ _LOGGER = logging.getLogger(__name__)
 def async_get_otbr_data[**_P, _R, _R_Def](
     retval: _R_Def,
 ) -> Callable[
-    [Callable[Concatenate[UniversalAssistant, OTBRData, _P], Coroutine[Any, Any, _R]]],
-    Callable[Concatenate[UniversalAssistant, _P], Coroutine[Any, Any, _R | _R_Def]],
+    [Callable[Concatenate[__HAC_KEEP__, OTBRData, _P], Coroutine[Any, Any, _R]]],
+    Callable[Concatenate[__HAC_KEEP__, _P], Coroutine[Any, Any, _R | _R_Def]],
 ]:
     """Decorate function to get OTBR data."""
 
     def _async_get_otbr_data(
         orig_func: Callable[
-            Concatenate[UniversalAssistant, OTBRData, _P],
+            Concatenate[__HAC_KEEP__, OTBRData, _P],
             Coroutine[Any, Any, _R],
         ],
-    ) -> Callable[Concatenate[UniversalAssistant, _P], Coroutine[Any, Any, _R | _R_Def]]:
+    ) -> Callable[Concatenate[__HAC_KEEP__, _P], Coroutine[Any, Any, _R | _R_Def]]:
         """Decorate function to get OTBR data."""
 
         @wraps(orig_func)
         async def async_get_otbr_data_wrapper(
-            hass: UniversalAssistant, *args: _P.args, **kwargs: _P.kwargs
+            hass: __HAC_KEEP__, *args: _P.args, **kwargs: _P.kwargs
         ) -> _R | _R_Def:
             """Fetch OTBR data and pass to orig_func."""
             config_entry: OTBRConfigEntry
@@ -61,7 +61,7 @@ def async_get_otbr_data[**_P, _R, _R_Def](
 
 @async_get_otbr_data(None)
 async def async_change_channel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     data: OTBRData,
     channel: int,
     delay: float,
@@ -89,7 +89,7 @@ async def async_change_channel(
 
 
 @async_get_otbr_data(None)
-async def async_get_channel(hass: UniversalAssistant, data: OTBRData) -> int | None:
+async def async_get_channel(hass: __HAC_KEEP__, data: OTBRData) -> int | None:
     """Return the channel.
 
     Returns None if not configured.
@@ -97,7 +97,7 @@ async def async_get_channel(hass: UniversalAssistant, data: OTBRData) -> int | N
     try:
         dataset = await data.get_active_dataset()
     except (
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         aiohttp.ClientError,
         TimeoutError,
     ) as err:
@@ -111,7 +111,7 @@ async def async_get_channel(hass: UniversalAssistant, data: OTBRData) -> int | N
 
 
 @async_get_otbr_data(False)
-async def async_using_multipan(hass: UniversalAssistant, data: OTBRData) -> bool:
+async def async_using_multipan(hass: __HAC_KEEP__, data: OTBRData) -> bool:
     """Return if the multiprotocol device is used.
 
     Returns False if not configured.

@@ -21,7 +21,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -32,7 +32,7 @@ UPDATE_ENTITY_ID = "update.smarla_firmware"
 
 @pytest.mark.usefixtures("mock_federwiege")
 async def test_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -47,7 +47,7 @@ async def test_update(
 
 
 async def test_update_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_federwiege: MagicMock,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_update_available(
 
 
 async def test_update_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_federwiege: MagicMock,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_update_install(
 
 @pytest.mark.parametrize("status", [UpdateStatus.DOWNLOADING, UpdateStatus.INSTALLING])
 async def test_update_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_federwiege: MagicMock,
     status: UpdateStatus,
@@ -119,7 +119,7 @@ async def test_update_in_progress(
 
 
 async def test_update_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_federwiege: MagicMock,
 ) -> None:

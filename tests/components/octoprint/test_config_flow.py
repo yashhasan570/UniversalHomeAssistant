@@ -10,13 +10,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.octoprint.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -80,7 +80,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -158,7 +158,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_exception(hass: UniversalAssistant) -> None:
+async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle a random error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -236,7 +236,7 @@ async def test_form_unknown_exception(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_show_zerconf_form(hass: UniversalAssistant) -> None:
+async def test_show_zerconf_form(hass: __HAC_KEEP__) -> None:
     """Test that the zeroconf confirmation form is served."""
 
     result = await hass.config_entries.flow.async_init(
@@ -306,7 +306,7 @@ async def test_show_zerconf_form(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "uuid"
 
 
-async def test_show_ssdp_form(hass: UniversalAssistant) -> None:
+async def test_show_ssdp_form(hass: __HAC_KEEP__) -> None:
     """Test that the zeroconf confirmation form is served."""
 
     result = await hass.config_entries.flow.async_init(
@@ -376,7 +376,7 @@ async def test_show_ssdp_form(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "uuid"
 
 
-async def test_import_yaml(hass: UniversalAssistant) -> None:
+async def test_import_yaml(hass: __HAC_KEEP__) -> None:
     """Test that the yaml import works."""
     with (
         patch(
@@ -414,7 +414,7 @@ async def test_import_yaml(hass: UniversalAssistant) -> None:
     assert "errors" not in result
 
 
-async def test_import_duplicate_yaml(hass: UniversalAssistant) -> None:
+async def test_import_duplicate_yaml(hass: __HAC_KEEP__) -> None:
     """Test that the yaml import works."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -451,7 +451,7 @@ async def test_import_duplicate_yaml(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_failed_auth(hass: UniversalAssistant) -> None:
+async def test_failed_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle a random error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -483,7 +483,7 @@ async def test_failed_auth(hass: UniversalAssistant) -> None:
     assert result["reason"] == "auth_failed"
 
 
-async def test_failed_auth_unexpected_error(hass: UniversalAssistant) -> None:
+async def test_failed_auth_unexpected_error(hass: __HAC_KEEP__) -> None:
     """Test we handle a random error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -515,7 +515,7 @@ async def test_failed_auth_unexpected_error(hass: UniversalAssistant) -> None:
     assert result["reason"] == "auth_failed"
 
 
-async def test_user_duplicate_entry(hass: UniversalAssistant) -> None:
+async def test_user_duplicate_entry(hass: __HAC_KEEP__) -> None:
     """Test that duplicate entries abort."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -575,7 +575,7 @@ async def test_user_duplicate_entry(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_duplicate_zerconf_ignored(hass: UniversalAssistant) -> None:
+async def test_duplicate_zerconf_ignored(hass: __HAC_KEEP__) -> None:
     """Test that the duplicate zeroconf isn't shown."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -601,7 +601,7 @@ async def test_duplicate_zerconf_ignored(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_duplicate_ssdp_ignored(hass: UniversalAssistant) -> None:
+async def test_duplicate_ssdp_ignored(hass: __HAC_KEEP__) -> None:
     """Test that duplicate ssdp form is note shown."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -627,7 +627,7 @@ async def test_duplicate_ssdp_ignored(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth_form(hass: UniversalAssistant) -> None:
+async def test_reauth_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -681,7 +681,7 @@ RECONFIGURE_INPUT = {
 
 
 @pytest.fixture
-def mock_reconfigure_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_reconfigure_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a config entry to reconfigure."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -711,7 +711,7 @@ def mock_setup_entry() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: UniversalAssistant, mock_reconfigure_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_reconfigure_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring the connection settings."""
     result = await mock_reconfigure_entry.start_reconfigure_flow(hass)
@@ -749,7 +749,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_reconfigure_entry: MockConfigEntry,
     side_effect: type[Exception],
     error: str,
@@ -783,7 +783,7 @@ async def test_reconfigure_errors(
 
 
 async def test_reconfigure_unique_id_mismatch(
-    hass: UniversalAssistant, mock_reconfigure_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_reconfigure_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure aborts when the address points to another instance."""
     result = await mock_reconfigure_entry.start_reconfigure_flow(hass)

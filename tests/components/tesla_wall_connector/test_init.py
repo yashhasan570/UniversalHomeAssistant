@@ -8,7 +8,7 @@ from universalassistant.components.tesla_wall_connector.const import (
     WALLCONNECTOR_DEVICE_MODEL,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import (
@@ -20,7 +20,7 @@ from .conftest import (
 
 
 async def test_init_success(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test setup and that we get the device info, including firmware version."""
 
@@ -43,7 +43,7 @@ async def test_init_success(
     assert device.sw_version == "1.2.3"
 
 
-async def test_init_while_offline(hass: UniversalAssistant) -> None:
+async def test_init_while_offline(hass: __HAC_KEEP__) -> None:
     """Test init with the wall connector offline."""
     entry = await create_wall_connector_entry(
         hass, side_effect=WallConnectorConnectionError
@@ -52,7 +52,7 @@ async def test_init_while_offline(hass: UniversalAssistant) -> None:
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_load_unload(hass: UniversalAssistant) -> None:
+async def test_load_unload(hass: __HAC_KEEP__) -> None:
     """Config entry can be unloaded."""
 
     entry = await create_wall_connector_entry(

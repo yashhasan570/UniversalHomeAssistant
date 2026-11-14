@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service as service_helper
 
@@ -87,7 +87,7 @@ async def _async_clean_area(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the vacuum services."""
     component = hass.data[DATA_COMPONENT]
 

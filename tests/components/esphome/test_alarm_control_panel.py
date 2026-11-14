@@ -24,13 +24,13 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import MockGenericDeviceEntryType
 
 
 async def test_generic_alarm_control_panel_requires_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_generic_alarm_control_panel_requires_code(
 
 
 async def test_generic_alarm_control_panel_no_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_generic_alarm_control_panel_no_code(
 
 
 async def test_generic_alarm_control_panel_missing_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:

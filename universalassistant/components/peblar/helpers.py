@@ -10,7 +10,7 @@ from peblar import (
     PeblarUserConfiguration,
 )
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DOMAIN
 from .entity import PeblarEntity
@@ -50,20 +50,20 @@ def peblar_exception_handler[_PeblarEntityT: PeblarEntity, **_P](
             self.hass.config_entries.async_schedule_reload(
                 self.coordinator.config_entry.entry_id
             )
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="authentication_error",
             ) from error
 
         except PeblarConnectionError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
                 translation_placeholders={"error": str(error)},
             ) from error
 
         except PeblarError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unknown_error",
                 translation_placeholders={"error": str(error)},

@@ -11,7 +11,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.google_mail import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     OAuth2TokenRequestError,
     OAuth2TokenRequestReauthError,
@@ -26,7 +26,7 @@ from .conftest import GOOGLE_TOKEN_URI, ComponentSetup
 
 
 async def test_setup_success(
-    hass: UniversalAssistant, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup
 ) -> None:
     """Test successful setup and unload."""
     await setup_integration()
@@ -41,7 +41,7 @@ async def test_setup_success(
 
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 async def test_expired_token_refresh_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_expired_token_refresh_success(
     ],
 )
 async def test_expired_token_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     status: http.HTTPStatus,
@@ -121,7 +121,7 @@ async def test_expired_token_refresh_failure(
 
 
 async def test_expired_token_refresh_client_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test failure while refreshing token with a client error."""
@@ -138,7 +138,7 @@ async def test_expired_token_refresh_client_error(
 
 
 async def test_token_refresh_reauth_error_during_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test setup starts reauth for OAuth reauth errors."""
@@ -163,7 +163,7 @@ async def test_token_refresh_reauth_error_during_setup(
 
 
 async def test_token_refresh_transient_error_during_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test setup retries for transient OAuth token refresh errors."""
@@ -182,7 +182,7 @@ async def test_token_refresh_transient_error_during_setup(
 
 
 async def test_token_refresh_error_during_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test generic OAuth token refresh errors retry setup."""
@@ -201,7 +201,7 @@ async def test_token_refresh_error_during_setup(
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     setup_integration: ComponentSetup,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_device_info(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

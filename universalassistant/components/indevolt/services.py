@@ -12,8 +12,8 @@ from indevolt_api import (
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 import universalassistant.helpers.config_validation as cv
 from universalassistant.helpers.service import async_extract_config_entry_ids
 
@@ -54,7 +54,7 @@ RT_ACTION_SERVICE_SCHEMA: Final = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for Indevolt integration."""
 
     async def charge(call: ServiceCall) -> None:
@@ -76,7 +76,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
 
 
 async def _async_handle_realtime_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     call: ServiceCall,
     action: IndevoltRealtimeAction,
 ) -> None:
@@ -91,7 +91,7 @@ async def _async_handle_realtime_action(
 
 
 async def _async_get_coordinators_from_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     call: ServiceCall,
 ) -> list[IndevoltCoordinator]:
     """Resolve coordinator(s) targeted by a service call."""
@@ -182,7 +182,7 @@ async def _execute_realtime_action(
             errors.append(f"{coordinator.friendly_name}: {result}")
 
     if errors:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="multi_device_errors",
             translation_placeholders={"errors": "; ".join(errors)},

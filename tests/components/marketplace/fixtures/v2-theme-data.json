@@ -1,7 +1,7 @@
 {
   "457458731": {
     "manifest": { "name": "Material 3 Dark & Light Theme 07: DarkOliveGreen" },
-    "description": "Material Design 3 based theme (dark olive green) for Universal Universal Home Assistant",
+    "description": "Material Design 3 based theme (dark olive green) for __HA_KEEP__",
     "etag_releases": "W/\"9261138b57be60ecdc9d2ae5d4e82221ea84024bb9e8e29fc3d35e9c1de6f1e7\"",
     "etag_repository": "W/\"68d57388914a633667d9617692be2ebb4141bb19eef5d107aaa4d9bde7b9ecb4\"",
     "full_name": "AmoebeLabs/HA-Theme_M3-07-DarkOliveGreen",
@@ -21,7 +21,7 @@
   },
   "214664317": {
     "manifest": { "name": "Midnight Theme" },
-    "description": "Midnight theme for Universal Universal Home Assistant",
+    "description": "Midnight theme for __HA_KEEP__",
     "etag_repository": "W/\"9a10c09a16c14099bc980f9efcbccaae00f965373b07d1024d4effea15f26fca\"",
     "full_name": "universal-assistant-community-themes/midnight",
     "last_commit": "8f7c619",
@@ -32,7 +32,7 @@
   },
   "214979604": {
     "manifest": { "name": "Dark Mint Theme" },
-    "description": "Another Dark theme for Universal Universal Home Assistant",
+    "description": "Another Dark theme for __HA_KEEP__",
     "etag_repository": "W/\"93526d28d565c59cc1cc1e81f67d6636266912e7dabae3915b87fc62912305fa\"",
     "full_name": "universal-assistant-community-themes/dark-mint",
     "last_commit": "40a3600",
@@ -55,7 +55,7 @@
   },
   "202203063": {
     "manifest": {},
-    "description": "Synthwave inspired theme for Universal Universal Home Assistant",
+    "description": "Synthwave inspired theme for __HA_KEEP__",
     "etag_releases": "W/\"5fdfb046ba54821477d7648720c9f9b170cd47350ba10b6b89882bbdba411913\"",
     "etag_repository": "W/\"a1487444211cf629633faa3847102fc758d5db14d1b38cf7ff1a3387cf258bed\"",
     "full_name": "bbbenji/synthwave-hass",
@@ -68,7 +68,7 @@
   },
   "197006509": {
     "manifest": { "name": "Slate Theme" },
-    "description": "A Dark Theme for Universal Universal Home Assistant",
+    "description": "A Dark Theme for __HA_KEEP__",
     "etag_repository": "W/\"342af8429165d85b5afcbc6c78be2d9e4e97cf82bab1df8bffb6db3e7ac0f1a4\"",
     "full_name": "seangreen2/slate_theme",
     "last_commit": "01db05b",
@@ -79,7 +79,7 @@
   },
   "221288367": {
     "manifest": { "name": "Clear Theme Dark" },
-    "description": "Dark variant of Clear Theme for Universal Universal Home Assistant",
+    "description": "Dark variant of Clear Theme for __HA_KEEP__",
     "etag_releases": "W/\"283dd2b1eed5ee967d1a9bc3a070ccaa0698a3d46d17cf5eca8ea1a2b6abf1f0\"",
     "etag_repository": "W/\"5abe85679485f4828c0504f9d75f1b889d80c9dd90978857a4f48450f29767bd\"",
     "full_name": "naofireblade/clear-theme-dark",
@@ -91,7 +91,7 @@
   },
   "236318024": {
     "manifest": { "name": "iOS Themes - Dark Mode and Light Mode" },
-    "description": "\u2764\ufe0f\ud83d\udcf1\ud83c\udfe0\ud83e\udd16 Themes inspired by iOS Dark \u2b1b\ufe0f and Light \u25fb\ufe0f Mode for Lovelace Universal Universal Home Assistant with different backgrounds by @basnijholt",
+    "description": "\u2764\ufe0f\ud83d\udcf1\ud83c\udfe0\ud83e\udd16 Themes inspired by iOS Dark \u2b1b\ufe0f and Light \u25fb\ufe0f Mode for Lovelace __HA_KEEP__ with different backgrounds by @basnijholt",
     "etag_releases": "W/\"12cf7fb1ebc669caa7d8892a5c185db05d290626db8d553e2f455224cfc755cf\"",
     "etag_repository": "W/\"f1d20053a06d08fea1ac69a3e8f57e195c482b06ac07adb363fabdff0465e864\"",
     "full_name": "basnijholt/lovelace-ios-themes",
@@ -104,7 +104,7 @@
   },
   "222422187": {
     "manifest": { "name": "iOS Dark Mode Theme" },
-    "description": "\ud83c\udfe0\ud83e\udd16 Theme by @basnijholt based on iOS Dark Mode for Lovelace Universal Universal Home Assistant ",
+    "description": "\ud83c\udfe0\ud83e\udd16 Theme by @basnijholt based on iOS Dark Mode for Lovelace __HA_KEEP__ ",
     "etag_repository": "W/\"87a9135cf24ff294f5d79c907dba68fe249fac38c3f5abc6a80043632af0f3ae\"",
     "full_name": "basnijholt/lovelace-ios-dark-mode-theme",
     "last_commit": "2805f18",
@@ -129,7 +129,7 @@
   },
   "387055527": {
     "manifest": { "name": "Waves" },
-    "description": "This is a blend of 2 themes found within the Universal Universal Home Assistant community. Inspired mostly by Noctis, I've adjust colours slightly and have also opted to pull some features from Caule Theme packs to build my own 'ultimate' theme. I will continue to update overtime and do my best to credit those whom I have 'referenced' ",
+    "description": "This is a blend of 2 themes found within the __HA_KEEP__ community. Inspired mostly by Noctis, I've adjust colours slightly and have also opted to pull some features from Caule Theme packs to build my own 'ultimate' theme. I will continue to update overtime and do my best to credit those whom I have 'referenced' ",
     "etag_releases": "W/\"8912c3d580a83294f4d7ed2312dc2fdef68bd04874db67e26a4e5aadaf95f8b0\"",
     "etag_repository": "W/\"c6fbd3d136fe029cb2d74c8f0f06120816d21b26b1c3c371d4b47361c823a4af\"",
     "full_name": "tgcowell/waves",
@@ -142,7 +142,7 @@
   },
   "215075805": {
     "manifest": { "name": "Blue Night Theme" },
-    "description": "Blue Night theme for Universal Universal Home Assistant",
+    "description": "Blue Night theme for __HA_KEEP__",
     "etag_repository": "W/\"fe6baa96c6f0382894efc3f9b1158b6b6828d9fefefa026309826e8d1ac41dad\"",
     "full_name": "universal-assistant-community-themes/blue-night",
     "last_commit": "d8631df",
@@ -153,7 +153,7 @@
   },
   "274111031": {
     "manifest": { "name": "Animated Weather Card" },
-    "description": "Animated icons for default Universal Universal Home Assistant weather card",
+    "description": "Animated icons for default __HA_KEEP__ weather card",
     "etag_releases": "W/\"36db107311e366a881b5836a11f6acd52a0e2f840d6a1ba080539f6e1cce56ab\"",
     "etag_repository": "W/\"81bc5409f558978bb1f30185dee59285585be16e58c72c8bcd25ff991b0172d2\"",
     "full_name": "wowgamr/animated-weather-card",
@@ -167,7 +167,7 @@
   },
   "236277163": {
     "manifest": { "name": "Reeder Dark Theme" },
-    "description": "Reeder Dark Theme for Universal Universal Home Assistant",
+    "description": "Reeder Dark Theme for __HA_KEEP__",
     "etag_repository": "W/\"c6dc81711f6e7e835b0289dfae6b683934f34d92e2f700ed480e31280670d50d\"",
     "full_name": "hekm77/reeder_dark_theme",
     "last_commit": "dbd319f",
@@ -177,7 +177,7 @@
   },
   "292621909": {
     "manifest": { "name": "Windows 10 themes" },
-    "description": "Universal Universal Home Assistant Windows 10 inspired themes",
+    "description": "__HA_KEEP__ Windows 10 inspired themes",
     "etag_releases": "W/\"d6123fbf57e9cabbc62771c45c376d4b62024313fe7920d5fc81430e7242c342\"",
     "etag_repository": "W/\"75a989b4967e266fbd65e5dd6b7479befadcfa6d133d18a7392be7d3b08e1d58\"",
     "full_name": "mikosoft83/hass-windows10-themes",
@@ -191,7 +191,7 @@
   },
   "458817847": {
     "manifest": { "name": "Material 3 Dark & Light Theme 04: Magenta" },
-    "description": "Material Design 3 / Material YOU theme for Universal Universal Home Assistant",
+    "description": "Material Design 3 / Material YOU theme for __HA_KEEP__",
     "etag_releases": "W/\"988a1525f0efcecb6fcf0daea8871c89fee6e74321e6cc643ebe6fd86f4fa342\"",
     "etag_repository": "W/\"9bbb5155925b5c265097b60c1cd1f4f6547bf6ea62f8a38e269b233bf1bcd7bc\"",
     "full_name": "AmoebeLabs/HA-Theme_M3-04-Magenta",
@@ -203,7 +203,7 @@
   },
   "309056232": {
     "manifest": { "name": "GitHub Dark Theme" },
-    "description": "A Universal Universal Home Assistant theme inspired on Github.",
+    "description": "A __HA_KEEP__ theme inspired on Github.",
     "etag_releases": "W/\"6c8a8f0480661965f794833969931ac3965bd2879a14bfc1122e243f4e2807e3\"",
     "etag_repository": "W/\"c44a4ca96c19a8efcaac8dca911e0ed638889a467e622ba4b0be07b9ecc6699c\"",
     "full_name": "einschmidt/github_dark_theme",
@@ -217,7 +217,7 @@
   },
   "223938651": {
     "manifest": { "name": "Midnight Blue Theme" },
-    "description": "Midnight Blue theme for Universal Universal Home Assistant",
+    "description": "Midnight Blue theme for __HA_KEEP__",
     "etag_repository": "W/\"414e5a17bfd3001d7fc82f4f28793df898f4e20b8ec5ad55e6457b68c655b815\"",
     "full_name": "universal-assistant-community-themes/midnight-blue",
     "last_commit": "80e087a",
@@ -241,7 +241,7 @@
   },
   "216165131": {
     "manifest": { "name": "Solarized Light Theme" },
-    "description": "Solarized Light theme for Universal Universal Home Assistant",
+    "description": "Solarized Light theme for __HA_KEEP__",
     "etag_repository": "W/\"dc8fb60a6d420b1fc6088f27a09a4f89acf933616b56fa80c1e6496b8191654b\"",
     "full_name": "universal-assistant-community-themes/solarized-light",
     "last_commit": "00e0701",
@@ -252,7 +252,7 @@
   },
   "574163721": {
     "manifest": { "name": "Graphite Theme" },
-    "description": "Calm and clean dark theme for Universal Universal Home Assistant",
+    "description": "Calm and clean dark theme for __HA_KEEP__",
     "etag_releases": "W/\"1269c5c69abe08cce3353ac448226fc8c3e1e8f64380da9eaadb571082a292b9\"",
     "etag_repository": "W/\"5581d436f92a67de2506ad15b550ab5c060fe90199211883c78210114420a7af\"",
     "full_name": "TilmanGriesel/graphite",
@@ -290,7 +290,7 @@
   },
   "261924981": {
     "manifest": { "name": "Swart Ninja Dark Theme" },
-    "description": "\ud83c\udfa8 Green, dark mode theme for Universal Universal Home Assistant, Enjoy.\ud83e\udd18\ud83c\udffb",
+    "description": "\ud83c\udfa8 Green, dark mode theme for __HA_KEEP__, Enjoy.\ud83e\udd18\ud83c\udffb",
     "etag_releases": "W/\"be9a2f233d598a3c5573773ff2f6d506cbedd36d34c1079ac0b5fd90f747ed93\"",
     "etag_repository": "W/\"cb6e616bde3b90ee9d6155b539068a1c7e7271671cec32138b90d30eb803a877\"",
     "full_name": "DickSwart/swart_ninja_dark_theme",
@@ -306,7 +306,7 @@
     "manifest": {
       "name": "Material Rounded Theme - Based on Material You by Google on Android"
     },
-    "description": "A Material You and Google Home app influenced theme for Universal Universal Home Assistant",
+    "description": "A Material You and Google Home app influenced theme for __HA_KEEP__",
     "etag_releases": "W/\"772dec0ee7298ca32fffebec9aafa458f629d7c3b99b259569cfe18f026abea8\"",
     "etag_repository": "W/\"db21c903beac4dc8fbb37bf22d86c4a7b40291b404095c7f71da6abc850d0923\"",
     "full_name": "Nerwyn/material-rounded-theme",
@@ -320,7 +320,7 @@
   },
   "216173358": {
     "manifest": { "name": "Christmas Theme" },
-    "description": "Christmas theme for Universal Universal Home Assistant",
+    "description": "Christmas theme for __HA_KEEP__",
     "etag_repository": "W/\"a5776ad02f2d8e1a86707a898655c908df79335f7837834bb6cf5060a12cc3e7\"",
     "full_name": "universal-assistant-community-themes/christmas",
     "last_commit": "57d3aee",
@@ -343,7 +343,7 @@
   },
   "309053262": {
     "manifest": { "name": "GitHub Light Theme" },
-    "description": "A Universal Universal Home Assistant theme inspired on Github.",
+    "description": "A __HA_KEEP__ theme inspired on Github.",
     "etag_releases": "W/\"620f940050af4dd210d40323f88d0a468b42045568d7ac165a61d22e98e8d87c\"",
     "etag_repository": "W/\"4a40abcd80cd0c58f2a4f8b5a8f31b9f80699188f45707aa4467369ff0e483fc\"",
     "full_name": "einschmidt/github_light_theme",
@@ -373,7 +373,7 @@
   },
   "306914292": {
     "manifest": { "name": "Transparent Blue" },
-    "description": "A transparent blue theme for Universal Universal Home Assistant",
+    "description": "A transparent blue theme for __HA_KEEP__",
     "etag_releases": "W/\"53bb2f75430ce009b8ba16fa57cdaca55e84a46014a6d84d59fad9ce05fda150\"",
     "etag_repository": "W/\"11a3b821482b21016c4c87f0f591b8ba4b5421af42fa872c4d64068715040671\"",
     "full_name": "JOHLC/transparentblue",
@@ -419,7 +419,7 @@
   },
   "498774862": {
     "manifest": { "name": "Material 3 Dark & Light Theme C11: Purple" },
-    "description": "Material Design 3 / Material YOU theme for Universal Universal Home Assistant",
+    "description": "Material Design 3 / Material YOU theme for __HA_KEEP__",
     "etag_releases": "W/\"4d230e88fa1dd8a3f75714c6f385dacc20e7baeb8aaff61d066b89a6e4b59eb6\"",
     "etag_repository": "W/\"3bb0cb34bb322bd8bcb0644c39a3edcf269b34accb300a24459e3f02a94e9941\"",
     "full_name": "AmoebeLabs/HA-Theme_M3-C11-Purple",
@@ -440,7 +440,7 @@
   },
   "230974064": {
     "manifest": { "name": "Oxford Blue" },
-    "description": "Oxford blue theme for Universal Universal Home Assistant",
+    "description": "Oxford blue theme for __HA_KEEP__",
     "etag_repository": "W/\"76bed705c2b41abc51aa8cdc91c409b7b54e5b21bb0c4aba3ed2f07ebe7596f1\"",
     "full_name": "arsaboo/oxford_blue_theme",
     "last_commit": "ce33c91",
@@ -451,7 +451,7 @@
   },
   "221287384": {
     "manifest": { "name": "Clear Theme" },
-    "description": "Clear Theme for Universal Universal Home Assistant",
+    "description": "Clear Theme for __HA_KEEP__",
     "etag_releases": "W/\"83af3eb6400315af69e528430b0eddc64e9e4c2e83292474f2a7889424e86b99\"",
     "etag_repository": "W/\"f18916a28b50012422d8a5fb4512e728f6fa54ea247035e4509126b5d30a2388\"",
     "full_name": "naofireblade/clear-theme",
@@ -473,7 +473,7 @@
   },
   "464998514": {
     "manifest": { "name": "Cyberpunk 2077 Theme" },
-    "description": "Cyberpunk 2077 GUI inspied Universal Universal Home Assistant theme",
+    "description": "Cyberpunk 2077 GUI inspied __HA_KEEP__ theme",
     "etag_releases": "W/\"101eedd077b74c8afc67813aec6099d088a595706386df22ac1a2a86fbf6874c\"",
     "etag_repository": "W/\"6f9c7bfa748e75943526de01404f92cd4f2e985171c6aa5ec04a1ce5bba94bc6\"",
     "full_name": "flejz/hass-cyberpunk-2077-theme",
@@ -487,7 +487,7 @@
   },
   "235057110": {
     "manifest": { "name": "Material Dark Red Theme" },
-    "description": "Material Dark Red theme for Universal Universal Home Assistant",
+    "description": "Material Dark Red theme for __HA_KEEP__",
     "etag_repository": "W/\"f2e17a8b1d08db97ad99f598032d6b540882e08e84af0e35aefa42a20df42201\"",
     "full_name": "universal-assistant-community-themes/material-dark-red",
     "last_commit": "88e9656",
@@ -498,7 +498,7 @@
   },
   "234581410": {
     "manifest": { "name": "UX Goodie Theme" },
-    "description": "\ud83c\udfa8 Theme for Universal Universal Home Assistant inspired by iOS Dark Mode \ud83c\udf16",
+    "description": "\ud83c\udfa8 Theme for __HA_KEEP__ inspired by iOS Dark Mode \ud83c\udf16",
     "etag_releases": "W/\"7b7dd08a9eeab4462cf7a3d8dd806ce269b85fc5a51f375198243d2d4a004915\"",
     "etag_repository": "W/\"0218899a41579b572b9a94eeeb5a84aa89b4086938fd026665ce8d9ff53f455a\"",
     "full_name": "fi-sch/ux_goodie_theme",
@@ -512,7 +512,7 @@
   },
   "216183299": {
     "manifest": { "name": "Material Dark Pink Theme" },
-    "description": "Material Dark Pink theme for Universal Universal Home Assistant",
+    "description": "Material Dark Pink theme for __HA_KEEP__",
     "etag_repository": "W/\"91cb1e496f85cec117a2673eca5c521154bc713d7e7401919c22412887ff48d6\"",
     "full_name": "universal-assistant-community-themes/material-dark-pink",
     "last_commit": "386a3b2",
@@ -523,7 +523,7 @@
   },
   "443651710": {
     "manifest": { "name": "Midnight Teal" },
-    "description": "A dark teal theme for UniversalAssistant.",
+    "description": "A dark teal theme for __HAC_KEEP__.",
     "etag_releases": "W/\"5dc0c93380ba1421d5c4f6d5e77a7356e686a5d6269393582fe5af03a17a6d09\"",
     "etag_repository": "W/\"178ccec8b981c7de5ba9bc753b5ff6705a4bc33a49f1ce37c1ffed07604d147b\"",
     "full_name": "Neekster/MidnightTeal",
@@ -536,7 +536,7 @@
   },
   "216181396": {
     "manifest": { "name": "Teal Theme" },
-    "description": "Teal theme for Universal Universal Home Assistant",
+    "description": "Teal theme for __HA_KEEP__",
     "etag_repository": "W/\"0f70ee5f30a4ec71d595f89b708e60b69b4c1441189c4cbdad8684f4e43c0f28\"",
     "full_name": "universal-assistant-community-themes/teal",
     "last_commit": "8b9a363",
@@ -560,7 +560,7 @@
   },
   "216178553": {
     "manifest": { "name": "Material Dark Green Theme" },
-    "description": "Material Dark Green theme for Universal Universal Home Assistant",
+    "description": "Material Dark Green theme for __HA_KEEP__",
     "etag_repository": "W/\"1fae6fb7e8d31a3092aa545c090332da710e5d81b17dd6b73ef2f5126ceb5ea1\"",
     "full_name": "universal-assistant-community-themes/material-dark-green",
     "last_commit": "37fe700",
@@ -571,7 +571,7 @@
   },
   "441738040": {
     "manifest": { "country": ["US"], "name": "Soft Theme" },
-    "description": "\ud83c\udfa8 A new, simple soft theme for Universal Universal Home Assistant.",
+    "description": "\ud83c\udfa8 A new, simple soft theme for __HA_KEEP__.",
     "etag_repository": "W/\"984087174da8b1d73eef883b419152ce2f5a92a1d100e9635ea4f5be07b76881\"",
     "full_name": "KTibow/lovelace-soft-theme",
     "last_commit": "54bc8a1",
@@ -593,7 +593,7 @@
   },
   "270638476": {
     "manifest": { "name": "Nord Theme" },
-    "description": "Nord theme for Universal Universal Home Assistant",
+    "description": "Nord theme for __HA_KEEP__",
     "etag_repository": "W/\"e1a8a73b71ffe6ec387bb148b8fd1f5e763156c8e54d6d5148078924146e85ab\"",
     "full_name": "universal-assistant-community-themes/nord",
     "last_commit": "c391d2d",
@@ -604,7 +604,7 @@
   },
   "284293899": {
     "manifest": { "name": "iOS Dark Mode" },
-    "description": "\ud83c\udfa8 By JuanMTech -- A Universal Universal Home Assistant theme inspired on the iOS dark mode interface.",
+    "description": "\ud83c\udfa8 By JuanMTech -- A __HA_KEEP__ theme inspired on the iOS dark mode interface.",
     "etag_releases": "W/\"744350080ae6646f2ce858e297239dc6a11becaa55150b38bdfb46e2fd994f09\"",
     "etag_repository": "W/\"b4d65ef327a94e78d1297b3cae752bbfe28d0d86360b5b6fbb29fe71becfa6a5\"",
     "full_name": "JuanMTech/ios_dark_mode_theme",
@@ -618,7 +618,7 @@
   },
   "234022648": {
     "manifest": { "name": "Google Dark Theme" },
-    "description": "\ud83c\udfa8 By JuanMTech -- A Universal Universal Home Assistant theme inspired on the Google app dark mode.",
+    "description": "\ud83c\udfa8 By JuanMTech -- A __HA_KEEP__ theme inspired on the Google app dark mode.",
     "etag_releases": "W/\"d4542bb16ac49eaa6e0f26700de4838ce3229c2c4d65f695f0d5a99dd37c745b\"",
     "etag_repository": "W/\"1337b4015d7d4a29172dce21da6cabd049bfe213e59a6a11fecd671f6db971f4\"",
     "full_name": "JuanMTech/google_dark_theme",
@@ -630,7 +630,7 @@
   },
   "534353896": {
     "manifest": { "country": ["US", "GB"], "name": "HA LCARS" },
-    "description": "LCARS theme for Universal Universal Home Assistant",
+    "description": "LCARS theme for __HA_KEEP__",
     "etag_releases": "W/\"bf3b2c8037027d0d632dda1dc5017e62f92b2983626ee9910680c488b2a13e6b\"",
     "etag_repository": "W/\"fcda0d3e9f8a75c8e9389eb99c531e5a4e8946371beeb66c16813bba463743ae\"",
     "full_name": "th3jesta/ha-lcars",
@@ -652,7 +652,7 @@
   },
   "234375294": {
     "manifest": { "name": "Vaporwave Pink Theme" },
-    "description": "Vaporwave Pink Theme for Universal Universal Home Assistant",
+    "description": "Vaporwave Pink Theme for __HA_KEEP__",
     "etag_releases": "W/\"9a83cd37231e3bcf0fd74279a62a07c85bf29a56899c0c0e37ceaadb2eb51a30\"",
     "etag_repository": "W/\"b7adaba770cd0991aade5d05bc7fec95daa10379c072590b7da7ed93103953fc\"",
     "full_name": "universal-assistant-community-themes/vaporwave-pink",
@@ -666,7 +666,7 @@
   },
   "255270395": {
     "manifest": { "name": "Stell Blue with Colors Theme" },
-    "description": "Stell Blue with Colors theme for Universal Universal Home Assistant",
+    "description": "Stell Blue with Colors theme for __HA_KEEP__",
     "etag_repository": "W/\"89f683d6a928a847a5659ef589346641df797547693faf34e63b94dbd8e2b150\"",
     "full_name": "universal-assistant-community-themes/stell-blue-with-colors",
     "last_commit": "d5d209c",
@@ -691,7 +691,7 @@
   },
   "234032927": {
     "manifest": { "name": "Google Light Theme" },
-    "description": "\ud83c\udfa8 By JuanMTech -- A Universal Universal Home Assistant theme inspired on the Google app light mode.",
+    "description": "\ud83c\udfa8 By JuanMTech -- A __HA_KEEP__ theme inspired on the Google app light mode.",
     "etag_releases": "W/\"f6c61c42cea5189e9cc763cc313326b2756667f5ded3cc09fb670934c54b9d59\"",
     "etag_repository": "W/\"23b4d9ce2ac58e8c15a608e069bbcfe9b0907bb30137a90ef79881e7f04a2a45\"",
     "full_name": "JuanMTech/google_light_theme",
@@ -717,7 +717,7 @@
   },
   "235984421": {
     "manifest": { "name": "Blackened Theme" },
-    "description": "Blackened theme for Universal Universal Home Assistant",
+    "description": "Blackened theme for __HA_KEEP__",
     "etag_repository": "W/\"4d28453e9024dc88ec982e9e8cff4ebb6fb4a10da845ec34abeb1f15c11f70f9\"",
     "full_name": "universal-assistant-community-themes/blackened",
     "last_commit": "4393cc3",
@@ -728,7 +728,7 @@
   },
   "479056577": {
     "manifest": { "name": "Green and Dark Theme: Simple, clean, and green" },
-    "description": "A dark theme with green accents for Universal Universal Home Assistant based off green_dark_mode by JuanMTech, with mods by dmyoung9",
+    "description": "A dark theme with green accents for __HA_KEEP__ based off green_dark_mode by JuanMTech, with mods by dmyoung9",
     "etag_releases": "W/\"86be8f0cff71698ef502268d696ec0eab6668eb57dd5c850d3bab796f2fbba01\"",
     "etag_repository": "W/\"f93f1f0f14a65457c7b1d65297f9f443e93862f2d83e24fade6216fca0639804\"",
     "full_name": "Matt-PMCT/Green-and-Dark-HA-Theme",
@@ -754,7 +754,7 @@
   },
   "448355900": {
     "manifest": { "name": "Vastayan Bond" },
-    "description": "\ud83c\udfa8 Universal Universal Home Assistant Theme inspired by the color schemes of Xayah & Rakan!",
+    "description": "\ud83c\udfa8 __HA_KEEP__ Theme inspired by the color schemes of Xayah & Rakan!",
     "etag_releases": "W/\"1472b18733eeaea8a66aa5a8853a2dd78871e50ce459b80a0b6785353d27cb97\"",
     "etag_repository": "W/\"6e5c837e7ab405ded4c7bf6c0a9d0dc569cb0116b315da1a879a4e9b8ae007ab\"",
     "full_name": "SnakeFist007/ha_vastayan_bond",
@@ -768,7 +768,7 @@
   },
   "249722008": {
     "manifest": { "name": "Your Name." },
-    "description": "Universal Universal Home Assistant theme - A dark, electric blue theme that reminds the movie Your Name. ",
+    "description": "__HA_KEEP__ theme - A dark, electric blue theme that reminds the movie Your Name. ",
     "etag_repository": "W/\"8148fe992d039c77426355f9e33083fb36aae262b2e4dc5edde778e2be6886a7\"",
     "full_name": "Nihvel/your_name",
     "last_commit": "ecd0eec",
@@ -779,7 +779,7 @@
   },
   "407627914": {
     "manifest": { "name": "Google Dark Theme" },
-    "description": "A fork of popular Universal Universal Home Assistant Google dark theme with animated icons",
+    "description": "A fork of popular __HA_KEEP__ Google dark theme with animated icons",
     "etag_releases": "W/\"f6f529654cdc3ee7e6765590904f4a9a6b367c89e9b911e25cb510ee7f474026\"",
     "etag_repository": "W/\"f740a4ad583600171f0b0403cecb5cfe249717984561c3c9b11bcf14ea9d4cd7\"",
     "full_name": "pacjo/google_dark_animated",
@@ -793,7 +793,7 @@
   },
   "284294048": {
     "manifest": { "name": "iOS Light Mode" },
-    "description": "\ud83c\udfa8 By JuanMTech -- A Universal Universal Home Assistant theme inspired on the iOS light mode interface.",
+    "description": "\ud83c\udfa8 By JuanMTech -- A __HA_KEEP__ theme inspired on the iOS light mode interface.",
     "etag_releases": "W/\"3a88557feb17b3af4d512583559d3174ad4b42478f7d5026057dd4f442d8fdbc\"",
     "etag_repository": "W/\"adb89058e5e20958040829e2797a95bd582dda1755a4120e5cda52b175da3869\"",
     "full_name": "JuanMTech/ios_light_mode_theme",
@@ -805,7 +805,7 @@
   },
   "220641275": {
     "manifest": { "name": "Dark Orange Theme" },
-    "description": "Dark Orange theme for Universal Universal Home Assistant",
+    "description": "Dark Orange theme for __HA_KEEP__",
     "etag_repository": "W/\"f35d1fbca3e67f3c09d2ccb44f102f693ba3dfd75ca8ce84b915ac122ab8c142\"",
     "full_name": "universal-assistant-community-themes/dark-orange",
     "last_commit": "e74397d",
@@ -815,8 +815,8 @@
     "last_fetched": 1708078410.433487
   },
   "162468030": {
-    "manifest": { "name": "Dark Theme Pack for Universal Universal Home Assistant" },
-    "description": "A collection of modern, clean but colorfull dark themes for the Universal Universal Home Assistant UI. Comes in six different colors (Blue / Green / Orange / Pink / Turqoise / Yellow).",
+    "manifest": { "name": "Dark Theme Pack for __HA_KEEP__" },
+    "description": "A collection of modern, clean but colorfull dark themes for the __HA_KEEP__ UI. Comes in six different colors (Blue / Green / Orange / Pink / Turqoise / Yellow).",
     "etag_releases": "W/\"d60428cc8065260e182b6ec9c0920c655c54321b0626c6198ac5e91708b6b975\"",
     "etag_repository": "W/\"5a6016eba8d4b1a324998ede7fce49c858608128a3fe6bee7d5671dcae36fe5b\"",
     "full_name": "awolkers/universal-assistant-themes",
@@ -837,7 +837,7 @@
     "manifest": {
       "name": "Metrology - Metro + Fluent + Windows Themes - by mmak.es"
     },
-    "description": "\ud83c\udfa8 Give your Universal Universal Home Assistant a modern and clean facelift. \ud83d\udfe5\ud83d\udfe7\ud83d\udfe9\ud83d\udfe6\ud83d\udfea 24 Variations with 2 Styles + 6 Colors (Magenta Red / Orange / Green / Blue / Purple) + \ud83c\udf1e Light and \ud83c\udf1a Dark modes included. Based on Metro and Fluent UI Design Systems from Microsoft Windows.",
+    "description": "\ud83c\udfa8 Give your __HA_KEEP__ a modern and clean facelift. \ud83d\udfe5\ud83d\udfe7\ud83d\udfe9\ud83d\udfe6\ud83d\udfea 24 Variations with 2 Styles + 6 Colors (Magenta Red / Orange / Green / Blue / Purple) + \ud83c\udf1e Light and \ud83c\udf1a Dark modes included. Based on Metro and Fluent UI Design Systems from Microsoft Windows.",
     "etag_releases": "W/\"6389973712d614170248133e06467bc8732e6f8c9672ef749b0f168c375612f0\"",
     "etag_repository": "W/\"497426fa61d51c47011eb7a727ce0fdc6b0de6dc2585f9fbf8152b6df9e9535e\"",
     "full_name": "Madelena/Metrology-for-Hass",
@@ -851,7 +851,7 @@
   },
   "233715171": {
     "manifest": { "name": "Darkish Theme" },
-    "description": "Darkish-Theme for Universal Universal Home Assistant",
+    "description": "Darkish-Theme for __HA_KEEP__",
     "etag_repository": "W/\"36a93b86f4bf7d59a97e48b31bd95880e170d332d36500d1ba85ef645efc1d59\"",
     "full_name": "78wesley/Universal-Assistant-Darkish-Theme",
     "last_commit": "505d536",
@@ -861,7 +861,7 @@
   },
   "234750356": {
     "manifest": { "name": "iOS Light Mode Theme" },
-    "description": "\ud83c\udfe0\ud83e\udd16 Theme based on iOS Light Mode for Lovelace Universal Universal Home Assistant ",
+    "description": "\ud83c\udfe0\ud83e\udd16 Theme based on iOS Light Mode for Lovelace __HA_KEEP__ ",
     "etag_repository": "W/\"fabb7cb43d982b8a4aa67ac7a87cec948db76a5120da0a491bab49afc420c2a7\"",
     "full_name": "basnijholt/lovelace-ios-light-mode-theme",
     "last_commit": "d3d404b",
@@ -872,7 +872,7 @@
   },
   "231829137": {
     "manifest": { "name": "Noctis" },
-    "description": "\ud83d\udc35 Dark Blue Theme for Universal Universal Home Assistant",
+    "description": "\ud83d\udc35 Dark Blue Theme for __HA_KEEP__",
     "etag_releases": "W/\"097880929a409b48c3497ad56268bbb2028800cc5a821d976d64e8735f45f683\"",
     "etag_repository": "W/\"b9e1c44a6a1da9b27258f91c5f53850c3ea3220de67de3de4da1e54ae33f7510\"",
     "full_name": "aFFekopp/noctis",
@@ -899,7 +899,7 @@
   },
   "461936688": {
     "manifest": { "name": "Whatsapp Theme" },
-    "description": "Universal Universal Home Assistant theme based on Whatsapp's colors",
+    "description": "__HA_KEEP__ theme based on Whatsapp's colors",
     "etag_releases": "W/\"e83ce70b5624bc893008650f95a83bd025636fca4e77c45a0b3592ffdeb9a001\"",
     "etag_repository": "W/\"839415820995b2dc5e6ed2aeeef8cd67fef185fd4ed98b7d9a818a5cf1833c30\"",
     "full_name": "robinwittebol/whatsapp-theme",
@@ -913,7 +913,7 @@
   },
   "209891408": {
     "manifest": { "name": "Amoled Theme" },
-    "description": "Amoled theme for Universal Universal Home Assistant",
+    "description": "Amoled theme for __HA_KEEP__",
     "etag_repository": "W/\"3b95d30f5f9bb32cca9e85d2bcd0a5ca7f981b5451838919bc6e3a345565bc41\"",
     "full_name": "universal-assistant-community-themes/amoled",
     "last_commit": "42302e1",
@@ -924,7 +924,7 @@
   },
   "703332819": {
     "manifest": { "name": "Dracula-ish Theme for HA" },
-    "description": "Dracula-Inspired Theme for Universal Universal Home Assistant with light and dark modes. ",
+    "description": "Dracula-Inspired Theme for __HA_KEEP__ with light and dark modes. ",
     "etag_releases": "W/\"7c3034c322697012ce4d83038cefa3af7d9f21a5ecef2427ed38596499fdcfbc\"",
     "etag_repository": "W/\"48bd07db71b4d954a0729f271a0e2b0ed4c7fec355923dcf3dab97362263e83a\"",
     "full_name": "malcolmturnbull/draculaish-ha-theme",
@@ -938,7 +938,7 @@
   },
   "570909059": {
     "manifest": { "name": "Catppuccin Theme" },
-    "description": "\ud83c\udfe0 Soothing pastel theme for Universal Universal Home Assistant",
+    "description": "\ud83c\udfe0 Soothing pastel theme for __HA_KEEP__",
     "etag_releases": "W/\"3c9427418669db3e37a414f197cf3f484727380162cff6b948d891ead73f1571\"",
     "etag_repository": "W/\"c05c3df2960fa0db9c8e94f16c949d75e63f1b5bfdb063c76e4184c949abea8c\"",
     "full_name": "catppuccin/universal-assistant",
@@ -968,7 +968,7 @@
   },
   "225969186": {
     "manifest": { "name": "Aqua Fiesta Theme" },
-    "description": "Aqua Fiesta theme for Universal Universal Home Assistant",
+    "description": "Aqua Fiesta theme for __HA_KEEP__",
     "etag_releases": "W/\"ae774046a554d38f09d4b2984cdf54b2b6fbb07479e9e4421116189f52842dba\"",
     "etag_repository": "W/\"651cfaf4f10305f2a150077cb7261968364cf1c02302191d8acb88a99bdf7d4a\"",
     "full_name": "universal-assistant-community-themes/aqua-fiesta",
@@ -981,7 +981,7 @@
   },
   "217374413": {
     "manifest": { "name": "Halloween Theme" },
-    "description": "Halloween theme for Universal Universal Home Assistant",
+    "description": "Halloween theme for __HA_KEEP__",
     "etag_repository": "W/\"aa028e761efdc1d457b08520e7e4a27db4431ef5e1789c09c55c64d081635995\"",
     "full_name": "universal-assistant-community-themes/halloween",
     "last_commit": "9859e42",
@@ -992,7 +992,7 @@
   },
   "215075899": {
     "manifest": { "name": "Grey Night Theme" },
-    "description": "Grey Night theme for Universal Universal Home Assistant",
+    "description": "Grey Night theme for __HA_KEEP__",
     "etag_repository": "W/\"30037cf975e43d277b039f0df2cf0833d0dfd8082dfd4904e72e4fe8f7af5955\"",
     "full_name": "universal-assistant-community-themes/grey-night",
     "last_commit": "38ae52a",

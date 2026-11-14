@@ -14,7 +14,7 @@ from universalassistant.components.rachio.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_KEY, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import (
     ATTR_PROPERTIES_ID,
@@ -31,7 +31,7 @@ def _mock_rachio_return_value(get=None, info=None):
     return rachio_mock
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -76,7 +76,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -120,7 +120,7 @@ async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     assert result2["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -164,7 +164,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result2["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_homekit(hass: UniversalAssistant) -> None:
+async def test_form_homekit(hass: __HAC_KEEP__) -> None:
     """Test that we abort from homekit if rachio is already setup."""
 
     result = await hass.config_entries.flow.async_init(
@@ -209,7 +209,7 @@ async def test_form_homekit(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_form_homekit_ignored(hass: UniversalAssistant) -> None:
+async def test_form_homekit_ignored(hass: __HAC_KEEP__) -> None:
     """Test that we abort from homekit if rachio is ignored."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -235,7 +235,7 @@ async def test_form_homekit_ignored(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test option flow."""
     entry = MockConfigEntry(domain=DOMAIN, data={CONF_API_KEY: "api_key"})
     entry.add_to_hass(hass)
@@ -248,7 +248,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
     hass.config_entries.options.async_abort(result["flow_id"])
 
 
-async def test_reauth(hass: UniversalAssistant) -> None:
+async def test_reauth(hass: __HAC_KEEP__) -> None:
     """Test reauth updates the API key and unique ID."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -311,7 +311,7 @@ async def test_reauth(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: UniversalAssistant, rachio_patch: dict[str, Any], error: str
+    hass: __HAC_KEEP__, rachio_patch: dict[str, Any], error: str
 ) -> None:
     """Test reauth handles errors and can recover."""
     entry = MockConfigEntry(
@@ -350,7 +350,7 @@ async def test_reauth_errors(
     assert entry.data[CONF_API_KEY] == "new_api_key"
 
 
-async def test_reauth_api_key_used_by_other_entry(hass: UniversalAssistant) -> None:
+async def test_reauth_api_key_used_by_other_entry(hass: __HAC_KEEP__) -> None:
     """Test reauth aborts when the new API key belongs to another entry."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_API_KEY: "old_api_key"}, unique_id="old_api_key"

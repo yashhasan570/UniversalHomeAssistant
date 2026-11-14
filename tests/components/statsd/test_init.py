@@ -8,7 +8,7 @@ import pytest
 
 from universalassistant.components import statsd
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
@@ -29,7 +29,7 @@ def test_invalid_config() -> None:
         statsd.CONFIG_SCHEMA(config)
 
 
-async def test_statsd_setup_full(hass: UniversalAssistant) -> None:
+async def test_statsd_setup_full(hass: __HAC_KEEP__) -> None:
     """Test setup with all data."""
     config = {"statsd": {"host": "host", "port": 123, "rate": 1, "prefix": "foo"}}
     with patch("statsd.StatsClient") as mock_init:
@@ -43,7 +43,7 @@ async def test_statsd_setup_full(hass: UniversalAssistant) -> None:
         assert len(mock_init.mock_calls) == 3
 
 
-async def test_statsd_setup_defaults(hass: UniversalAssistant) -> None:
+async def test_statsd_setup_defaults(hass: __HAC_KEEP__) -> None:
     """Test setup with defaults."""
     config = {"statsd": {"host": "host"}}
 
@@ -60,7 +60,7 @@ async def test_statsd_setup_defaults(hass: UniversalAssistant) -> None:
         assert len(mock_init.mock_calls) == 3
 
 
-async def test_event_listener_defaults(hass: UniversalAssistant, mock_client) -> None:
+async def test_event_listener_defaults(hass: __HAC_KEEP__, mock_client) -> None:
     """Test event listener."""
     config = {"statsd": {"host": "host", "value_mapping": {"custom": 3}}}
 
@@ -91,7 +91,7 @@ async def test_event_listener_defaults(hass: UniversalAssistant, mock_client) ->
         assert mock_client.incr.called
 
 
-async def test_event_listener_attr_details(hass: UniversalAssistant, mock_client) -> None:
+async def test_event_listener_attr_details(hass: __HAC_KEEP__, mock_client) -> None:
     """Test event listener."""
     config = {"statsd": {"host": "host", "log_attributes": True}}
 

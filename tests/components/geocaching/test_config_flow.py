@@ -19,7 +19,7 @@ from universalassistant.components.geocaching.const import (
     ENVIRONMENT_URLS,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
@@ -30,7 +30,7 @@ CURRENT_ENVIRONMENT_URLS = ENVIRONMENT_URLS[ENVIRONMENT]
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -42,7 +42,7 @@ async def setup_credentials(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_geocaching_config_flow: MagicMock,
@@ -92,7 +92,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_existing_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_geocaching_config_flow: MagicMock,
@@ -137,7 +137,7 @@ async def test_existing_entry(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_oauth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_geocaching_config_flow: MagicMock,
@@ -184,7 +184,7 @@ async def test_oauth_error(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauthentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_geocaching_config_flow: MagicMock,

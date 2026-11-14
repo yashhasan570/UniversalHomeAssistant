@@ -12,7 +12,7 @@ from universalassistant.components import webhook
 from universalassistant.components.google_assistant.http import (  # pylint: disable=universal-assistant-component-root-import
     async_get_users as async_get_google_assistant_users,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.storage import Store
 from universalassistant.helpers.typing import Undefined
 from universalassistant.util import dt as dt_util
@@ -115,7 +115,7 @@ class CloudPreferences:
 
     _prefs: dict[str, Any]
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize cloud prefs."""
         self._hass = hass
         self._store = CloudPreferencesStore(
@@ -411,18 +411,18 @@ class CloudPreferences:
         return cloud_ice_servers_enabled
 
     async def get_cloud_user(self) -> str:
-        """Return ID of Universal Universal Home Assistant Cloud system user."""
+        """Return ID of __HA_KEEP__ Cloud system user."""
         user = await self._load_cloud_user()
 
         if user:
-            if user.name == "Universal Universal Home Assistant Cloud":
+            if user.name == "__HA_KEEP__ Cloud":
                 await self._hass.auth.async_update_user(
-                    user, name="Universal Universal Home Assistant Link"
+                    user, name="__HA_KEEP__ Link"
                 )
             return user.id
 
         user = await self._hass.auth.async_create_system_user(
-            "Universal Universal Home Assistant Link", group_ids=[GROUP_ID_ADMIN], local_only=True
+            "__HA_KEEP__ Link", group_ids=[GROUP_ID_ADMIN], local_only=True
         )
         assert user is not None
         await self.async_update(cloud_user=user.id)

@@ -7,7 +7,7 @@ import pytest
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.squeezebox.const import DOMAIN
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import TEST_MAC
@@ -21,7 +21,7 @@ def squeezebox_button_platform():
 
 
 async def test_squeezebox_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     configured_player: MagicMock,
 ) -> None:

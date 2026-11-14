@@ -21,7 +21,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -233,7 +233,7 @@ BOX_SENSOR_DESCRIPTIONS: tuple[DucoBoxSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DucoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.palazzetti.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_user_flow(
-    hass: UniversalAssistant, mock_palazzetti_client: AsyncMock
+    hass: __HAC_KEEP__, mock_palazzetti_client: AsyncMock
 ) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
@@ -40,7 +40,7 @@ async def test_full_user_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_invalid_host(
-    hass: UniversalAssistant, mock_palazzetti_client: AsyncMock
+    hass: __HAC_KEEP__, mock_palazzetti_client: AsyncMock
 ) -> None:
     """Test cannot connect error."""
 
@@ -71,7 +71,7 @@ async def test_invalid_host(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_palazzetti_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_flow(
-    hass: UniversalAssistant, mock_palazzetti_client: AsyncMock
+    hass: __HAC_KEEP__, mock_palazzetti_client: AsyncMock
 ) -> None:
     """Test the DHCP flow."""
     result = await hass.config_entries.flow.async_init(
@@ -125,7 +125,7 @@ async def test_dhcp_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_flow_error(
-    hass: UniversalAssistant, mock_palazzetti_client: AsyncMock
+    hass: __HAC_KEEP__, mock_palazzetti_client: AsyncMock
 ) -> None:
     """Test the DHCP flow."""
     mock_palazzetti_client.connect.side_effect = CommunicationError()

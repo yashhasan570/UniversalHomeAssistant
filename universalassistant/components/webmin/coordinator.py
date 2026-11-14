@@ -3,7 +3,7 @@
 from typing import TYPE_CHECKING, Any, override
 
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import (
     CONNECTION_NETWORK_MAC,
     DeviceInfo,
@@ -26,7 +26,7 @@ class WebminUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     mac_address: str
     unique_id: str
 
-    def __init__(self, hass: UniversalAssistant, config_entry: WebminConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: WebminConfigEntry) -> None:
         """Initialize the Webmin data update coordinator."""
 
         super().__init__(

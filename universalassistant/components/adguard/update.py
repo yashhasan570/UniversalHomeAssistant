@@ -5,8 +5,8 @@ from typing import Any, override
 from adguardhome import AdGuardHomeError
 
 from universalassistant.components.update import UpdateEntity, UpdateEntityFeature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AdGuardConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -80,7 +80,7 @@ class AdGuardHomeUpdate(AdGuardHomeEntity[AdGuardHomeUpdateCoordinator], UpdateE
         try:
             await self.coordinator.client.update.install()
         except AdGuardHomeError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="install_update_failed",
             ) from err

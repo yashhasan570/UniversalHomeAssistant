@@ -13,7 +13,7 @@ from pytest_universalassistant.components.bluetooth import (
 
 from universalassistant.components.snooz.const import CONF_FIRMWARE_VERSION, DOMAIN
 from universalassistant.const import CONF_ADDRESS, CONF_MODEL, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
 TEST_ADDRESS = "00:00:00:00:AB:CD"
@@ -117,7 +117,7 @@ async def create_mock_snooz(
 
 
 async def create_mock_snooz_config_entry(
-    hass: UniversalAssistant, device: MockSnoozDevice
+    hass: __HAC_KEEP__, device: MockSnoozDevice
 ) -> MockConfigEntry:
     """Create a mock config entry."""
 

@@ -33,9 +33,9 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import (
     MOCK_ENTRY_DATA,
@@ -58,7 +58,7 @@ def _patch_temporary_unit(connection: MockModbusConnection) -> _patch:
 
     @asynccontextmanager
     async def _get_temporary_unit(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         params: ModbusSerialParams | ModbusTcpParams,
         unit_id: int,
     ) -> AsyncIterator[MockModbusUnit]:
@@ -84,7 +84,7 @@ class _RaisingTemporaryUnit:
         """No cleanup: entry never succeeded."""
 
 
-async def _start_flow(hass: UniversalAssistant, connection_type: str) -> str:
+async def _start_flow(hass: __HAC_KEEP__, connection_type: str) -> str:
     """Open the flow, pick a connection type, and return the flow ID."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -125,7 +125,7 @@ async def _start_flow(hass: UniversalAssistant, connection_type: str) -> str:
     ],
 )
 async def test_user_step_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     connection_type: str,
     user_input: dict[str, Any],
@@ -171,7 +171,7 @@ def _seed_detected_from_masks(unit: MockModbusUnit) -> None:
     ],
 )
 async def test_user_step_success_without_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     seed: Callable[[MockModbusUnit], None],
     serial: str,
@@ -223,7 +223,7 @@ def _seed_unrecognized(connection: MockModbusConnection) -> None:
     ],
 )
 async def test_user_step_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     seed: Callable[[MockModbusConnection], None],
     expected_error: str,
@@ -252,10 +252,10 @@ async def test_user_step_errors(
 
 
 async def test_user_step_link_settings_conflict(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test a shared-connection link-settings clash surfaces its own message."""
-    error = UniversalAssistantError(
+    error = __HAC_KEEP__Error(
         "Modbus device ('192.168.1.100', 502) is already in use with different "
         "link settings"
     )
@@ -280,7 +280,7 @@ async def test_user_step_link_settings_conflict(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_step_already_configured(hass: UniversalAssistant) -> None:
+async def test_user_step_already_configured(hass: __HAC_KEEP__) -> None:
     """Test aborting when the inverter is already configured."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=MOCK_SERIAL, data=MOCK_ENTRY_DATA)
     entry.add_to_hass(hass)
@@ -300,7 +300,7 @@ _NEW_TCP_INPUT = {**MOCK_TCP_INPUT, CONF_HOST: "192.168.1.200"}
 
 
 async def _start_reconfigure(
-    hass: UniversalAssistant, entry: MockConfigEntry, step_id: str
+    hass: __HAC_KEEP__, entry: MockConfigEntry, step_id: str
 ) -> ConfigFlowResult:
     """Open the reconfigure flow, pick a connection, and return its form."""
     result = await entry.start_reconfigure_flow(hass)
@@ -333,7 +333,7 @@ async def _start_reconfigure(
     ],
 )
 async def test_reconfigure_updates_the_entry(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, stored: dict[str, Any]
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, stored: dict[str, Any]
 ) -> None:
     """Test reconfigure updates the entry, keeping what it detected."""
     entry = MockConfigEntry(
@@ -356,7 +356,7 @@ async def test_reconfigure_updates_the_entry(
 
 
 async def test_reconfigure_keeps_a_fault_handled_while_probing(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test a fault the entry handles during the probe stays handled."""
     entry = MockConfigEntry(
@@ -372,7 +372,7 @@ async def test_reconfigure_keeps_a_fault_handled_while_probing(
 
     @asynccontextmanager
     async def _get_temporary_unit(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         params: ModbusSerialParams | ModbusTcpParams,
         unit_id: int,
     ) -> AsyncIterator[MockModbusUnit]:
@@ -396,7 +396,7 @@ async def test_reconfigure_keeps_a_fault_handled_while_probing(
 
 
 async def test_reconfigure_offers_the_current_settings(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the link an entry is on comes back prefilled."""
     entry = _serial_entry()
@@ -423,7 +423,7 @@ async def test_reconfigure_offers_the_current_settings(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfigure_unmigrated_entry(hass: UniversalAssistant) -> None:
+async def test_reconfigure_unmigrated_entry(hass: __HAC_KEEP__) -> None:
     """Test a disabled entry that skipped migration is treated as TCP."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -441,7 +441,7 @@ async def test_reconfigure_unmigrated_entry(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_reconfigure_rejects_a_different_serial(hass: UniversalAssistant) -> None:
+async def test_reconfigure_rejects_a_different_serial(hass: __HAC_KEEP__) -> None:
     """Test reconfigure aborts if the inverter's serial doesn't match."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=MOCK_SERIAL, data=MOCK_ENTRY_DATA)
     entry.add_to_hass(hass)
@@ -479,7 +479,7 @@ async def test_reconfigure_rejects_a_different_serial(hass: UniversalAssistant) 
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     seed: Callable[[MockModbusConnection], None],
     expected_error: str,
@@ -547,7 +547,7 @@ def _serial_entry() -> MockConfigEntry:
 )
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_reconfigure_new_line_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockModbusConnection,
     setup_error: Exception | None,
     setup_state: ConfigEntryState,
@@ -559,7 +559,7 @@ async def test_reconfigure_new_line_settings(
 
     @asynccontextmanager
     async def _probe_watching_the_entry(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         params: ModbusSerialParams | ModbusTcpParams,
         unit_id: int,
     ) -> AsyncIterator[MockModbusUnit]:
@@ -592,7 +592,7 @@ async def test_reconfigure_new_line_settings(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_reconfigure_new_line_settings_silent_inverter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockModbusConnection,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -631,7 +631,7 @@ async def test_reconfigure_new_line_settings_silent_inverter(
 
 @pytest.mark.usefixtures("mock_get_unit")
 async def test_reconfigure_new_line_settings_wrong_device(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
 ) -> None:
     """Test a different inverter on the new settings restores the entry."""
     entry = _serial_entry()
@@ -678,7 +678,7 @@ async def test_reconfigure_new_line_settings_wrong_device(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_moves_between_connections(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockModbusConnection,
     entry_data: dict[str, Any],
     step_id: str,
@@ -704,7 +704,7 @@ async def test_reconfigure_moves_between_connections(
     assert entry.unique_id == MOCK_SERIAL
 
 
-async def test_reconfigure_other_connection_starts_empty(hass: UniversalAssistant) -> None:
+async def test_reconfigure_other_connection_starts_empty(hass: __HAC_KEEP__) -> None:
     """Test the other connection's form is not filled from the current one."""
     entry = _serial_entry()
     entry.add_to_hass(hass)

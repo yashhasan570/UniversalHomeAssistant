@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_NAME,
     CONF_SOURCE,
 )
-from universalassistant.core import UniversalAssistant, split_entity_id
+from universalassistant.core import __HAC_KEEP__, split_entity_id
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -51,7 +51,7 @@ PLATFORM_SCHEMA = IMAGE_PROCESSING_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

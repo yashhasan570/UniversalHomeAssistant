@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -43,7 +43,7 @@ def _sunrise_readout(value: float, sampled_at: datetime | None = None) -> Readou
 @pytest.mark.freeze_time("2026-06-12 12:00:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_hortos_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -56,7 +56,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("mock_hortos_client")
 async def test_unclassified_readouts_are_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_unclassified_readouts_are_disabled(
     assert temperature is not None
     assert temperature.disabled_by is None
 
-    # A measurement Universal Universal Home Assistant has no device class for is still a
+    # A measurement __HA_KEEP__ has no device class for is still a
     # measurement, so it stays enabled on the strength of its state class.
     screen = entity_registry.async_get("sensor.ov1_tropen_screen_screen_position")
     assert screen is not None
@@ -88,7 +88,7 @@ async def test_unclassified_readouts_are_disabled(
 
 @pytest.mark.usefixtures("mock_hortos_client")
 async def test_ph_has_a_device_class_but_no_unit(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test pH gets its device class rather than a unit, since pH is dimensionless."""
     await setup_integration(hass, mock_config_entry)
@@ -102,7 +102,7 @@ async def test_ph_has_a_device_class_but_no_unit(
 
 @pytest.mark.usefixtures("mock_hortos_client")
 async def test_new_readouts_are_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -137,7 +137,7 @@ async def test_new_readouts_are_added(
 
 @pytest.mark.usefixtures("mock_hortos_client")
 async def test_update_failure_makes_entities_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -161,7 +161,7 @@ async def test_update_failure_makes_entities_unavailable(
 
 @pytest.mark.usefixtures("mock_hortos_client")
 async def test_disappearing_readout_becomes_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -184,7 +184,7 @@ async def test_disappearing_readout_becomes_unknown(
 
 
 async def test_disappearing_device_becomes_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -226,7 +226,7 @@ async def test_disappearing_device_becomes_unavailable(
     ],
 )
 async def test_wind_direction_codes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     code: float | str,
@@ -260,7 +260,7 @@ async def test_wind_direction_codes(
     ],
 )
 async def test_unusable_double_is_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     value: float | str,
@@ -294,7 +294,7 @@ async def test_unusable_double_is_unknown(
     ],
 )
 async def test_time_of_day_outside_the_day_is_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     value: float,
@@ -325,7 +325,7 @@ async def test_time_of_day_outside_the_day_is_unknown(
     ],
 )
 async def test_time_of_day_follows_the_local_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -352,7 +352,7 @@ async def test_time_of_day_follows_the_local_day(
 
 @pytest.mark.usefixtures("mock_hortos_client")
 async def test_readout_without_a_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hortos_client: AsyncMock,
 ) -> None:

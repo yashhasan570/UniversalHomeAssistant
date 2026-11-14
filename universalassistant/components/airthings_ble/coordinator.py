@@ -11,7 +11,7 @@ from bleak_retry_connector import close_stale_connections_by_address
 from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothReachabilityIntent
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -38,7 +38,7 @@ class AirthingsBLEDataUpdateCoordinator(DataUpdateCoordinator[AirthingsDevice]):
     ble_device: BLEDevice
     config_entry: AirthingsBLEConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: AirthingsBLEConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: AirthingsBLEConfigEntry) -> None:
         """Initialize the coordinator."""
         self.airthings = AirthingsBluetoothDeviceData(_LOGGER, is_metric=True)
 

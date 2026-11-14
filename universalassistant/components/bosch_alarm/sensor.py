@@ -9,7 +9,7 @@ from bosch_alarm_mode2.const import ALARM_MEMORY_PRIORITIES
 from bosch_alarm_mode2.panel import Area
 
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import BoschAlarmAreaEntity
@@ -72,7 +72,7 @@ SENSOR_TYPES: list[BoschAlarmSensorEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BoschAlarmConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -100,7 +100,7 @@ class BoschAreaSensor(BoschAlarmAreaEntity, SensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         panel: Panel,
         area_id: int,
         unique_id: str,

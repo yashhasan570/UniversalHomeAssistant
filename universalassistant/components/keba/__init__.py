@@ -7,7 +7,7 @@ from keba_kecontact.connection import KebaKeContact
 import probatio
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
 
@@ -46,7 +46,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Check connectivity and version of KEBA charging station."""
     host = config[DOMAIN][CONF_HOST]
     rfid = config[DOMAIN][CONF_RFID]
@@ -59,7 +59,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
         _LOGGER.error("Could not find a charging station at %s", host)
         return False
 
-    # Set failsafe mode at start up of Universal Universal Home Assistant
+    # Set failsafe mode at start up of __HA_KEEP__
     failsafe = config[DOMAIN][CONF_FS]
     timeout = config[DOMAIN][CONF_FS_TIMEOUT] if failsafe else 0
     fallback = config[DOMAIN][CONF_FS_FALLBACK] if failsafe else 0

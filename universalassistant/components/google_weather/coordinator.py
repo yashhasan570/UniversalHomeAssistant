@@ -18,7 +18,7 @@ from google_weather_api import (
 
 from universalassistant.config_entries import ConfigEntry, ConfigSubentry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import (
     TimestampDataUpdateCoordinator,
@@ -66,7 +66,7 @@ class GoogleWeatherBaseCoordinator[T: _GoogleWeatherDataType](
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GoogleWeatherConfigEntry,
         subentry: ConfigSubentry,
         data_type_name: str,
@@ -117,7 +117,7 @@ class GoogleWeatherCurrentConditionsCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GoogleWeatherConfigEntry,
         subentry: ConfigSubentry,
         api: GoogleWeatherApi,
@@ -140,7 +140,7 @@ class GoogleWeatherDailyForecastCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GoogleWeatherConfigEntry,
         subentry: ConfigSubentry,
         api: GoogleWeatherApi,
@@ -163,7 +163,7 @@ class GoogleWeatherHourlyForecastCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GoogleWeatherConfigEntry,
         subentry: ConfigSubentry,
         api: GoogleWeatherApi,

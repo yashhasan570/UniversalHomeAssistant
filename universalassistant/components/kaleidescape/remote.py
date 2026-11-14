@@ -6,8 +6,8 @@ from typing import Any, override
 from kaleidescape import const as kaleidescape_const
 
 from universalassistant.components.remote import RemoteEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import KaleidescapeConfigEntry
@@ -15,7 +15,7 @@ from .entity import KaleidescapeEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: KaleidescapeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -75,5 +75,5 @@ class KaleidescapeRemote(KaleidescapeEntity, RemoteEntity):
         """Send a command to a device."""
         for cmd in command:
             if cmd not in VALID_COMMANDS:
-                raise UniversalAssistantError(f"{cmd} is not a known command")
+                raise __HAC_KEEP__Error(f"{cmd} is not a known command")
             await getattr(self._device, cmd)()

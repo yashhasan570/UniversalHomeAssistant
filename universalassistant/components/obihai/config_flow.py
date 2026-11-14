@@ -8,7 +8,7 @@ from pyobihai import PyObihai
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -31,7 +31,7 @@ DATA_SCHEMA = probatio.Schema(
 
 
 async def async_validate_creds(
-    hass: UniversalAssistant, user_input: dict[str, Any]
+    hass: __HAC_KEEP__, user_input: dict[str, Any]
 ) -> PyObihai | None:
     """Manage Obihai options."""
 

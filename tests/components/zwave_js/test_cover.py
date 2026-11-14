@@ -43,7 +43,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import replace_value_of_zwave_value
 
@@ -86,7 +86,7 @@ def window_covering_outbound_bottom_no_position_fixture(
 
 
 async def test_window_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     chain_actuator_zws12: Node,
     integration: MockConfigEntry,
@@ -272,7 +272,7 @@ async def test_window_cover(
 
 
 async def test_fibaro_fgr222_shutter_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     fibaro_fgr222_shutter: Node,
     integration: MockConfigEntry,
@@ -376,7 +376,7 @@ async def test_fibaro_fgr222_shutter_cover(
 
 
 async def test_fibaro_fgr223_shutter_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     fibaro_fgr223_shutter: Node,
     integration: MockConfigEntry,
@@ -473,7 +473,7 @@ async def test_fibaro_fgr223_shutter_cover(
 
 
 async def test_shelly_wave_shutter_cover_with_tilt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     qubino_shutter_firmware_14_2_0: Node,
     integration: MockConfigEntry,
@@ -575,7 +575,7 @@ async def test_shelly_wave_shutter_cover_with_tilt(
 
 
 async def test_aeotec_nano_shutter_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     aeotec_nano_shutter: Node,
     integration: MockConfigEntry,
@@ -696,7 +696,7 @@ async def test_aeotec_nano_shutter_cover(
 
 
 async def test_blind_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     iblinds_v2: Node,
     integration: MockConfigEntry,
@@ -709,7 +709,7 @@ async def test_blind_cover(
 
 
 async def test_shutter_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     qubino_shutter: Node,
     integration: MockConfigEntry,
@@ -722,7 +722,7 @@ async def test_shutter_cover(
 
 
 async def test_motor_barrier_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     gdc_zw062: Node,
     integration: MockConfigEntry,
@@ -903,7 +903,7 @@ async def test_motor_barrier_cover(
 
 
 async def test_motor_barrier_cover_no_primary_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     gdc_zw062_state: dict[str, Any],
     integration: MockConfigEntry,
@@ -932,7 +932,7 @@ async def test_motor_barrier_cover_no_primary_value(
 
 
 async def test_fibaro_fgr222_shutter_cover_no_tilt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     fibaro_fgr222_shutter_state: dict[str, Any],
     integration: MockConfigEntry,
@@ -974,7 +974,7 @@ async def test_fibaro_fgr222_shutter_cover_no_tilt(
     ],
 )
 async def test_fibaro_fgr222_shutter_cover_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     fibaro_fgr222_shutter_state: dict[str, Any],
     integration: MockConfigEntry,
@@ -1004,7 +1004,7 @@ async def test_fibaro_fgr222_shutter_cover_device_class(
 
 
 async def test_fibaro_fgr222_venetian_blind_without_tilt_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     fibaro_fgr222_shutter_state: dict[str, Any],
     integration: MockConfigEntry,
@@ -1028,7 +1028,7 @@ async def test_fibaro_fgr222_venetian_blind_without_tilt_value(
 
 @pytest.mark.parametrize("product_id", [0x0082, 0x0085])
 async def test_shelly_wave_shutter_cover_venetian(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     shelly_europe_ltd_qnsh_001p10_state: dict[str, Any],
     integration: MockConfigEntry,
@@ -1057,7 +1057,7 @@ async def test_shelly_wave_shutter_cover_venetian(
     ],
 )
 async def test_fibaro_fgr223_variant_single_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     fibaro_fgr223_shutter_state: dict[str, Any],
     integration: MockConfigEntry,
@@ -1095,7 +1095,7 @@ async def test_fibaro_fgr223_variant_single_cover(
     ],
 )
 async def test_shelly_wave_shutter_cover_no_tilt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     shelly_europe_ltd_qnsh_001p10_state: dict[str, Any],
     integration: MockConfigEntry,
@@ -1142,7 +1142,7 @@ async def test_shelly_wave_shutter_cover_no_tilt(
     ],
 )
 async def test_fibaro_fgr223_shutter_cover_no_tilt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     fibaro_fgr223_shutter_state: dict[str, Any],
     integration: MockConfigEntry,
@@ -1174,7 +1174,7 @@ async def test_fibaro_fgr223_shutter_cover_no_tilt(
 
 
 async def test_iblinds_v3_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     iblinds_v3: Node,
     integration: MockConfigEntry,
@@ -1281,7 +1281,7 @@ async def test_iblinds_v3_cover(
 
 
 async def test_nice_ibt4zwave_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     nice_ibt4zwave: Node,
     integration: MockConfigEntry,
@@ -1344,7 +1344,7 @@ async def test_nice_ibt4zwave_cover(
 
 
 async def test_window_covering_open_close(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     window_covering_outbound_bottom: Node,
     integration: MockConfigEntry,
@@ -1450,7 +1450,7 @@ async def test_window_covering_open_close(
 
 
 async def test_multilevel_switch_cover_moving_state_working(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     chain_actuator_zws12: Node,
     integration: MockConfigEntry,
@@ -1545,7 +1545,7 @@ async def test_multilevel_switch_cover_moving_state_working(
 
 
 async def test_multilevel_switch_cover_moving_state_closing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     chain_actuator_zws12: Node,
     integration: MockConfigEntry,
@@ -1594,7 +1594,7 @@ async def test_multilevel_switch_cover_moving_state_closing(
 
 
 async def test_multilevel_switch_cover_moving_state_success_no_moving(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     chain_actuator_zws12: Node,
     integration: MockConfigEntry,
@@ -1621,7 +1621,7 @@ async def test_multilevel_switch_cover_moving_state_success_no_moving(
 
 
 async def test_multilevel_switch_cover_moving_state_unsupervised(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     chain_actuator_zws12: Node,
     integration: MockConfigEntry,
@@ -1649,7 +1649,7 @@ async def test_multilevel_switch_cover_moving_state_unsupervised(
 
 
 async def test_multilevel_switch_cover_moving_state_stop_clears(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     chain_actuator_zws12: Node,
     integration: MockConfigEntry,
@@ -1694,7 +1694,7 @@ async def test_multilevel_switch_cover_moving_state_stop_clears(
 
 
 async def test_multilevel_switch_cover_moving_state_set_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     chain_actuator_zws12: Node,
     integration: MockConfigEntry,
@@ -1751,7 +1751,7 @@ async def test_multilevel_switch_cover_moving_state_set_position(
 
 
 async def test_window_covering_cover_moving_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     window_covering_outbound_bottom: Node,
     integration: MockConfigEntry,
@@ -1848,7 +1848,7 @@ async def test_window_covering_cover_moving_state(
 
 
 async def test_multilevel_switch_cover_moving_state_none_result(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     chain_actuator_zws12: Node,
     integration: MockConfigEntry,
@@ -1875,7 +1875,7 @@ async def test_multilevel_switch_cover_moving_state_none_result(
 
 
 async def test_multilevel_switch_cover_v3_no_moving_state_supervised(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     chain_actuator_zws12_state: dict[str, Any],
     integration: MockConfigEntry,
@@ -1986,7 +1986,7 @@ async def test_multilevel_switch_cover_v3_no_moving_state_supervised(
 
 
 async def test_multilevel_switch_cover_v3_no_moving_state_unsupervised(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     chain_actuator_zws12_state: dict[str, Any],
     integration: MockConfigEntry,
@@ -2094,7 +2094,7 @@ async def test_multilevel_switch_cover_v3_no_moving_state_unsupervised(
 
 
 async def test_window_covering_cover_moving_state_position_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     window_covering_outbound_bottom: Node,
     integration: MockConfigEntry,
@@ -2369,7 +2369,7 @@ async def test_window_covering_cover_moving_state_position_support(
 
 
 async def test_window_covering_cover_moving_state_no_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     window_covering_outbound_bottom_no_position: Node,
     integration: MockConfigEntry,

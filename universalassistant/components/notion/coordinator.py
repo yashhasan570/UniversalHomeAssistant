@@ -14,7 +14,7 @@ from aionotion.user.models import UserPreferences
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_USERNAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -33,7 +33,7 @@ type NotionConfigEntry = ConfigEntry[NotionDataUpdateCoordinator]
 
 @callback
 def _async_register_new_bridge(
-    hass: UniversalAssistant, entry: NotionConfigEntry, bridge: Bridge
+    hass: __HAC_KEEP__, entry: NotionConfigEntry, bridge: Bridge
 ) -> None:
     """Register a new bridge."""
     if name := bridge.name:
@@ -56,7 +56,7 @@ def _async_register_new_bridge(
 class NotionData:
     """Define a manager class for Notion data."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     entry: NotionConfigEntry
 
     # Define a dict of bridges, indexed by bridge ID (an integer):
@@ -110,7 +110,7 @@ class NotionDataUpdateCoordinator(DataUpdateCoordinator[NotionData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         *,
         entry: NotionConfigEntry,
         client: Client,

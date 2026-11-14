@@ -9,7 +9,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from aiohasupervisor import SupervisorError
 from aiohasupervisor.models import (
     CreateSessionOptions,
-    UniversalAssistantUpdateOptions,
+    __HAC_KEEP__UpdateOptions,
     IngressPanel,
     StoreAddonUpdate,
 )
@@ -37,7 +37,7 @@ from universalassistant.components.hassio.const import (
     WS_TYPE_SUBSCRIBE,
 )
 from universalassistant.const import __version__ as HAVERSION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.setup import async_setup_component
 
@@ -100,7 +100,7 @@ def mock_all(
 
 @pytest.mark.usefixtures("hassio_env")
 async def test_ws_subscription(
-    hass: UniversalAssistant, hass_supervisor_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_supervisor_ws_client: WebSocketGenerator
 ) -> None:
     """Test websocket subscription."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -138,7 +138,7 @@ async def test_ws_subscription(
 
 @pytest.mark.usefixtures("hassio_env")
 async def test_admin_non_supervisor_publish_supervisor_event_failure(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test non admin user cannot publish supervisor event."""
     hass_admin_user.groups = []
@@ -159,7 +159,7 @@ async def test_admin_non_supervisor_publish_supervisor_event_failure(
 
 @pytest.mark.usefixtures("hassio_env")
 async def test_websocket_supervisor_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_websocket_supervisor_api(
 
 @pytest.mark.usefixtures("hassio_env")
 async def test_websocket_supervisor_api_with_params(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -234,7 +234,7 @@ async def test_websocket_supervisor_api_with_params(
 
 @pytest.mark.usefixtures("hassio_env")
 async def test_websocket_supervisor_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_websocket_supervisor_api_error(
 )
 @pytest.mark.usefixtures("hassio_env")
 async def test_websocket_supervisor_api_error_log_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
@@ -311,7 +311,7 @@ async def test_websocket_supervisor_api_error_log_level(
 
 @pytest.mark.usefixtures("hassio_env")
 async def test_websocket_supervisor_api_error_without_msg(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -340,7 +340,7 @@ async def test_websocket_supervisor_api_error_without_msg(
 
 @pytest.mark.usefixtures("hassio_env")
 async def test_websocket_non_admin_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     hass_admin_user: MockUser,
@@ -414,7 +414,7 @@ def ws_user_fixture(
     indirect=True,
 )
 async def test_websocket_ingress_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     ws_user: tuple[str, MockUser],
@@ -466,7 +466,7 @@ async def test_websocket_ingress_commands(
     "command", ["supervisor/ingress/info", "supervisor/ingress/session"]
 )
 async def test_websocket_ingress_commands_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
     supervisor_client: AsyncMock,
@@ -506,7 +506,7 @@ async def test_websocket_ingress_commands_unauthorized(
     ],
 )
 async def test_websocket_ingress_commands_supervisor_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     addon_info: AsyncMock,
     supervisor_client: AsyncMock,
@@ -535,7 +535,7 @@ async def test_websocket_ingress_commands_supervisor_error(
     "command", ["supervisor/ingress/info", "supervisor/ingress/session"]
 )
 async def test_websocket_ingress_commands_panels_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
     ingress_panels: AsyncMock,
@@ -552,7 +552,7 @@ async def test_websocket_ingress_commands_panels_error(
 
 
 async def test_store_reloaded_event_refreshes_update_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     addons_list: AsyncMock,
 ) -> None:
@@ -594,7 +594,7 @@ async def test_store_reloaded_event_refreshes_update_entities(
 
 
 async def test_store_reloaded_event_ignored_without_listeners(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addons_list: AsyncMock,
 ) -> None:
     """Test a store_reloaded event does not refresh without add-on entities."""
@@ -620,7 +620,7 @@ async def test_store_reloaded_event_ignored_without_listeners(
 
 
 async def test_update_addon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     update_addon: AsyncMock,
 ) -> None:
@@ -650,7 +650,7 @@ async def test_update_addon(
     update_addon.assert_called_once_with("test", StoreAddonUpdate(backup=False))
 
 
-async def setup_backup_integration(hass: UniversalAssistant) -> None:
+async def setup_backup_integration(hass: __HAC_KEEP__) -> None:
     """Set up the backup integration."""
     assert await async_setup_component(hass, "backup", {})
     await hass.async_block_till_done()
@@ -720,7 +720,7 @@ async def setup_backup_integration(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_update_addon_with_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     update_addon: AsyncMock,
@@ -863,7 +863,7 @@ async def test_update_addon_with_backup(
     ],
 )
 async def test_update_addon_with_backup_removes_old_backups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     update_addon: AsyncMock,
@@ -929,7 +929,7 @@ async def test_update_addon_with_backup_removes_old_backups(
 
 
 async def test_update_core(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -956,7 +956,7 @@ async def test_update_core(
         assert result["success"]
     mock_create_backup.assert_not_called()
     supervisor_client.universalassistant.update.assert_called_once_with(
-        UniversalAssistantUpdateOptions(version=None, backup=False)
+        __HAC_KEEP__UpdateOptions(version=None, backup=False)
     )
 
 
@@ -973,7 +973,7 @@ async def test_update_core(
                 "include_database": True,
                 "include_folders": None,
                 "include_universalassistant": True,
-                "name": f"Universal Universal Home Assistant Core {HAVERSION}",
+                "name": f"__HA_KEEP__ Core {HAVERSION}",
                 "password": None,
             },
         ),
@@ -987,7 +987,7 @@ async def test_update_core(
                 "include_database": True,
                 "include_folders": None,
                 "include_universalassistant": True,
-                "name": f"Universal Universal Home Assistant Core {HAVERSION}",
+                "name": f"__HA_KEEP__ Core {HAVERSION}",
                 "password": None,
             },
         ),
@@ -1022,7 +1022,7 @@ async def test_update_core(
     ],
 )
 async def test_update_core_with_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     commands: list[dict[str, Any]],
@@ -1058,12 +1058,12 @@ async def test_update_core_with_backup(
         assert result["success"]
     mock_create_backup.assert_called_once_with(**expected_kwargs)
     supervisor_client.universalassistant.update.assert_called_once_with(
-        UniversalAssistantUpdateOptions(version=None, backup=False)
+        __HAC_KEEP__UpdateOptions(version=None, backup=False)
     )
 
 
 async def test_update_addon_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     update_addon: AsyncMock,
 ) -> None:
@@ -1100,7 +1100,7 @@ async def test_update_addon_with_error(
     ],
 )
 async def test_update_addon_with_backup_and_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     create_backup_error: Exception | None,
@@ -1142,7 +1142,7 @@ async def test_update_addon_with_backup_and_error(
 
 
 async def test_update_core_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1165,12 +1165,12 @@ async def test_update_core_with_error(
     assert not result["success"]
     assert result["error"] == {
         "code": "universal_assistant_error",
-        "message": "Error updating Universal Universal Home Assistant Core: ",
+        "message": "Error updating __HA_KEEP__ Core: ",
     }
 
 
 async def test_update_core_with_backup_and_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1207,7 +1207,7 @@ async def test_update_core_with_backup_and_error(
 
 @pytest.mark.usefixtures("hassio_env")
 async def test_read_update_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -1238,7 +1238,7 @@ async def test_read_update_config(
 
 @pytest.mark.usefixtures("hassio_env")
 async def test_update_config_keeps_other_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
 ) -> None:

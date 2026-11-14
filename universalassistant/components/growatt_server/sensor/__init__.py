@@ -6,7 +6,7 @@ import logging
 from typing import override
 
 from universalassistant.components.sensor import SensorEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -60,7 +60,7 @@ def _create_sensors_for_device(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: GrowattConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

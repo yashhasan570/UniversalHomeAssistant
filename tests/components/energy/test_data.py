@@ -14,11 +14,11 @@ from universalassistant.components.energy.data import (
     WATER_SOURCE_SCHEMA,
     EnergyManager,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, storage
 
 
-async def test_energy_preferences_no_migration_needed(hass: UniversalAssistant) -> None:
+async def test_energy_preferences_no_migration_needed(hass: __HAC_KEEP__) -> None:
     """Test that new data format doesn't get migrated."""
     # Create new format data (already has device_consumption_water field)
     new_data = {
@@ -45,7 +45,7 @@ async def test_energy_preferences_no_migration_needed(hass: UniversalAssistant) 
 
 
 async def test_energy_preferences_load_resolves_renamed_power_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_energy_preferences_load_resolves_renamed_power_sensor(
     assert manager.data["energy_sources"][0]["stat_rate"] == "sensor.renamed_power"
 
 
-async def test_energy_preferences_default(hass: UniversalAssistant) -> None:
+async def test_energy_preferences_default(hass: __HAC_KEEP__) -> None:
     """Test default preferences include device_consumption_water."""
     defaults = EnergyManager.default_preferences()
 
@@ -92,7 +92,7 @@ async def test_energy_preferences_default(hass: UniversalAssistant) -> None:
     assert defaults["device_consumption_water"] == []
 
 
-async def test_energy_preferences_empty_store(hass: UniversalAssistant) -> None:
+async def test_energy_preferences_empty_store(hass: __HAC_KEEP__) -> None:
     """Test loading with no existing data."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -102,7 +102,7 @@ async def test_energy_preferences_empty_store(hass: UniversalAssistant) -> None:
 
 
 async def test_energy_preferences_migration_from_version_1_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that device_consumption_water is added when migrating from v1.1 to v1.2."""
     # Create version 1.1 data without device_consumption_water (old version)
@@ -126,7 +126,7 @@ async def test_energy_preferences_migration_from_version_1_1(
 
 
 async def test_energy_preferences_migration_from_version_1_3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that device_consumption_gas is added when migrating from v1.3 to v1.4."""
     # Create version 1.3 data without device_consumption_gas (old version)
@@ -151,7 +151,7 @@ async def test_energy_preferences_migration_from_version_1_3(
 
 
 async def test_battery_power_config_inverted_sets_stat_rate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test battery with inverted power_config sets stat_rate."""
     manager = EnergyManager(hass)
@@ -183,7 +183,7 @@ async def test_battery_power_config_inverted_sets_stat_rate(
 
 
 async def test_battery_power_config_two_sensors_sets_stat_rate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that battery with two-sensor power_config sets stat_rate."""
     manager = EnergyManager(hass)
@@ -216,7 +216,7 @@ async def test_battery_power_config_two_sensors_sets_stat_rate(
 
 
 async def test_battery_stat_soc_round_trip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that battery stat_soc is preserved through async_update."""
     manager = EnergyManager(hass)
@@ -242,7 +242,7 @@ async def test_battery_stat_soc_round_trip(
 
 
 async def test_battery_capacity_round_trip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that battery capacity is preserved through async_update."""
     manager = EnergyManager(hass)
@@ -268,7 +268,7 @@ async def test_battery_capacity_round_trip(
 
 
 async def test_grid_power_config_inverted_sets_stat_rate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that grid with inverted power_config sets stat_rate."""
     manager = EnergyManager(hass)
@@ -303,7 +303,7 @@ async def test_grid_power_config_inverted_sets_stat_rate(
 
 
 async def test_power_config_standard_uses_stat_rate_directly(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that power_config with standard stat_rate uses it directly."""
     manager = EnergyManager(hass)
@@ -331,7 +331,7 @@ async def test_power_config_standard_uses_stat_rate_directly(
     assert source["stat_rate"] == "sensor.battery_power"
 
 
-async def test_battery_without_power_config_unchanged(hass: UniversalAssistant) -> None:
+async def test_battery_without_power_config_unchanged(hass: __HAC_KEEP__) -> None:
     """Test that battery without power_config is unchanged."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -357,7 +357,7 @@ async def test_battery_without_power_config_unchanged(hass: UniversalAssistant) 
 
 
 async def test_power_config_takes_precedence_over_stat_rate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that power_config takes precedence when both are provided."""
     manager = EnergyManager(hass)
@@ -487,7 +487,7 @@ async def test_power_config_validation_passes() -> None:
     }
 
 
-async def test_grid_power_config_standard_stat_rate(hass: UniversalAssistant) -> None:
+async def test_grid_power_config_standard_stat_rate(hass: __HAC_KEEP__) -> None:
     """Test that grid with power_config using standard stat_rate works correctly."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -558,7 +558,7 @@ async def test_grid_new_format_validates_correctly() -> None:
     assert result[0]["stat_energy_to"] is None
 
 
-async def test_async_update_when_data_is_none(hass: UniversalAssistant) -> None:
+async def test_async_update_when_data_is_none(hass: __HAC_KEEP__) -> None:
     """Test async_update when manager.data is None uses default preferences."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -588,7 +588,7 @@ async def test_async_update_when_data_is_none(hass: UniversalAssistant) -> None:
     assert manager.data["device_consumption_water"] == []
 
 
-async def test_grid_power_without_power_config(hass: UniversalAssistant) -> None:
+async def test_grid_power_without_power_config(hass: __HAC_KEEP__) -> None:
     """Test that grid without power_config is preserved unchanged."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -622,7 +622,7 @@ async def test_grid_power_without_power_config(hass: UniversalAssistant) -> None
     assert "power_config" not in grid_source
 
 
-async def test_grid_migration_single_import_export(hass: UniversalAssistant) -> None:
+async def test_grid_migration_single_import_export(hass: __HAC_KEEP__) -> None:
     """Test migration from legacy format with 1 import + 1 export creates 1 grid."""
     # Create legacy format data (v1.2) with flow_from/flow_to arrays
     old_data = {
@@ -680,7 +680,7 @@ async def test_grid_migration_single_import_export(hass: UniversalAssistant) -> 
 
 
 async def test_grid_migration_multiple_imports_exports_paired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test migration with 2 imports + 2 exports creates 2 paired grids."""
     old_data = {
@@ -746,7 +746,7 @@ async def test_grid_migration_multiple_imports_exports_paired(
     assert grid2["number_energy_price_export"] == 0.05
 
 
-async def test_grid_migration_more_imports_than_exports(hass: UniversalAssistant) -> None:
+async def test_grid_migration_more_imports_than_exports(hass: __HAC_KEEP__) -> None:
     """Test migration with 3 imports + 1 export creates 3 grids (first has export)."""
     old_data = {
         "energy_sources": [
@@ -791,7 +791,7 @@ async def test_grid_migration_more_imports_than_exports(hass: UniversalAssistant
     assert grid3["stat_energy_to"] is None
 
 
-async def test_grid_migration_with_power(hass: UniversalAssistant) -> None:
+async def test_grid_migration_with_power(hass: __HAC_KEEP__) -> None:
     """Test migration preserves power config from first grid.
 
     Note: stat_rate is regenerated from power_config when the preferences are
@@ -835,7 +835,7 @@ async def test_grid_migration_with_power(hass: UniversalAssistant) -> None:
     assert grid["stat_rate"] == "sensor.grid_power_inverted"
 
 
-async def test_grid_migration_import_only(hass: UniversalAssistant) -> None:
+async def test_grid_migration_import_only(hass: __HAC_KEEP__) -> None:
     """Test migration with imports but no exports creates import-only grids."""
     old_data = {
         "energy_sources": [
@@ -866,7 +866,7 @@ async def test_grid_migration_import_only(hass: UniversalAssistant) -> None:
     assert grid["stat_energy_to"] is None
 
 
-async def test_grid_migration_power_only(hass: UniversalAssistant) -> None:
+async def test_grid_migration_power_only(hass: __HAC_KEEP__) -> None:
     """Test migration with only power configured (no import/export meters)."""
     old_data = {
         "energy_sources": [
@@ -903,7 +903,7 @@ async def test_grid_migration_power_only(hass: UniversalAssistant) -> None:
     assert grid["cost_adjustment_day"] == 0.5
 
 
-async def test_grid_new_format_no_migration_needed(hass: UniversalAssistant) -> None:
+async def test_grid_new_format_no_migration_needed(hass: __HAC_KEEP__) -> None:
     """Test that new format data doesn't get migrated."""
     new_data = {
         "energy_sources": [

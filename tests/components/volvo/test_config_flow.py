@@ -17,7 +17,7 @@ from universalassistant import config_entries
 from universalassistant.components.volvo.const import CONF_VIN, DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_API_KEY, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -34,7 +34,7 @@ from .const import (
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow: ConfigFlowResult,
     mock_setup_entry: AsyncMock,
     mock_config_flow_api: VolvoCarsApi,
@@ -54,7 +54,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_single_vin_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow: ConfigFlowResult,
     mock_setup_entry: AsyncMock,
     mock_config_flow_api: VolvoCarsApi,
@@ -79,7 +79,7 @@ async def test_single_vin_flow(
 @pytest.mark.parametrize(("api_key_failure"), [pytest.param(True), pytest.param(False)])
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_flow_api: VolvoCarsApi,
@@ -119,7 +119,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_no_stale_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_flow_api: VolvoCarsApi,
@@ -165,7 +165,7 @@ async def test_reauth_no_stale_data(
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_flow_api: VolvoCarsApi,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_config_entry")
 async def test_unique_id_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow: ConfigFlowResult,
     mock_config_flow_api: VolvoCarsApi,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_unique_id_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_api_failure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow: ConfigFlowResult,
     mock_config_flow_api: VolvoCarsApi,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_api_failure_flow(
 
 @pytest.fixture
 async def config_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> config_entries.ConfigFlowResult:
     """Initialize a new config flow."""
@@ -262,7 +262,7 @@ async def config_flow(
 
 
 @pytest.fixture
-async def mock_config_flow_api(hass: UniversalAssistant) -> AsyncGenerator[AsyncMock]:
+async def mock_config_flow_api(hass: __HAC_KEEP__) -> AsyncGenerator[AsyncMock]:
     """Mock API used in config flow."""
     with patch(
         "universalassistant.components.volvo.config_flow.VolvoCarsApi",
@@ -294,7 +294,7 @@ async def mock_auth_client(
 
 
 async def _async_run_flow_to_completion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow: ConfigFlowResult,
     mock_config_flow_api: VolvoCarsApi,
     *,

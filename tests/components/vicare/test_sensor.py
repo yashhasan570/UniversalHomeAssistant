@@ -20,7 +20,7 @@ from universalassistant.components.fan import DOMAIN as FAN_DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.vicare.const import DEFAULT_CACHE_DURATION, DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -30,7 +30,7 @@ from .conftest import Fixture, MockPyViCare
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -71,7 +71,7 @@ async def test_all_entities(
 
 
 async def test_room_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_room_devices(
 
 
 async def test_room_control_without_rooms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_room_control_without_rooms(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_no_api_read_on_event_loop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

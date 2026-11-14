@@ -1,14 +1,14 @@
-"""Temperature helpers for Universal Universal Home Assistant."""
+"""Temperature helpers for __HA_KEEP__."""
 
 from numbers import Number
 
 from universalassistant.const import PRECISION_HALVES, PRECISION_TENTHS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.unit_conversion import TemperatureConverter
 
 
 def display_temp(
-    hass: UniversalAssistant, temperature: float | None, unit: str, precision: float
+    hass: __HAC_KEEP__, temperature: float | None, unit: str, precision: float
 ) -> float | None:
     """Convert temperature into preferred units/precision for display."""
     temperature_unit = unit

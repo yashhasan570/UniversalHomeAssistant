@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.homekit_controller.const import KNOWN_DEVICES
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .common import setup_accessories_from_file, setup_test_accessories
@@ -22,7 +22,7 @@ IP_CONNECTION_DATA = {
 
 
 async def test_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -41,7 +41,7 @@ async def test_config_entry(
 
 
 async def test_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,

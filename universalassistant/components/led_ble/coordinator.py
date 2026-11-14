@@ -8,7 +8,7 @@ from typing import override
 from led_ble import BLEAK_EXCEPTIONS, LEDBLE
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import UPDATE_SECONDS
@@ -35,7 +35,7 @@ class LEDBLECoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: LEDBLEConfigEntry,
         led_ble: LEDBLE,
     ) -> None:

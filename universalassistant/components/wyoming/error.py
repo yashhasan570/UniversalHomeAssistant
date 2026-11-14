@@ -2,10 +2,10 @@
 
 from wyoming.error import Error
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
-class WyomingError(UniversalAssistantError):
+class WyomingError(__HAC_KEEP__Error):
     """Base class for Wyoming errors."""
 
 

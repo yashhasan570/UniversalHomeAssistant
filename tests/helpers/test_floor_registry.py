@@ -9,7 +9,7 @@ from freezegun.api import FrozenDateTimeFactory
 import pytest
 from pytest_universalassistant.common import async_capture_events, flush_store
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import area_registry as ar, floor_registry as fr
 from universalassistant.util.dt import utcnow
 
@@ -22,7 +22,7 @@ async def test_list_floors(floor_registry: fr.FloorRegistry) -> None:
 
 @pytest.mark.usefixtures("freezer")
 async def test_create_floor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
 ) -> None:
     """Make sure that we can create floors."""
@@ -56,7 +56,7 @@ async def test_create_floor(
 
 
 async def test_create_floor_with_name_already_in_use(
-    hass: UniversalAssistant, floor_registry: fr.FloorRegistry
+    hass: __HAC_KEEP__, floor_registry: fr.FloorRegistry
 ) -> None:
     """Make sure that we can't create a floor with a name already in use."""
     update_events = async_capture_events(hass, fr.EVENT_FLOOR_REGISTRY_UPDATED)
@@ -89,7 +89,7 @@ async def test_create_floor_with_id_already_in_use(
 
 
 async def test_delete_floor(
-    hass: UniversalAssistant, floor_registry: fr.FloorRegistry
+    hass: __HAC_KEEP__, floor_registry: fr.FloorRegistry
 ) -> None:
     """Make sure that we can delete a floor."""
     update_events = async_capture_events(hass, fr.EVENT_FLOOR_REGISTRY_UPDATED)
@@ -124,7 +124,7 @@ async def test_delete_non_existing_floor(floor_registry: fr.FloorRegistry) -> No
 
 
 async def test_update_floor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_update_floor(
 
 
 async def test_update_floor_with_same_data(
-    hass: UniversalAssistant, floor_registry: fr.FloorRegistry
+    hass: __HAC_KEEP__, floor_registry: fr.FloorRegistry
 ) -> None:
     """Make sure that we can reapply the same data to a floor and it won't update."""
     update_events = async_capture_events(hass, fr.EVENT_FLOOR_REGISTRY_UPDATED)
@@ -260,7 +260,7 @@ async def test_update_floor_with_normalized_name_already_in_use(
 
 
 async def test_load_floors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -301,7 +301,7 @@ async def test_load_floors(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_loading_floors_from_storage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test loading stored floors on start."""
@@ -402,7 +402,7 @@ async def test_async_get_floor_by_name_not_found(
 
 
 async def test_floor_removed_from_areas(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
 ) -> None:
@@ -425,7 +425,7 @@ async def test_floor_removed_from_areas(
 
 
 async def test_async_create_thread_safety(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
 ) -> None:
     """Test async_create raises when called from wrong thread."""
@@ -437,7 +437,7 @@ async def test_async_create_thread_safety(
 
 
 async def test_async_delete_thread_safety(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
 ) -> None:
     """Test async_delete raises when called from wrong thread."""
@@ -451,7 +451,7 @@ async def test_async_delete_thread_safety(
 
 
 async def test_async_update_thread_safety(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
 ) -> None:
     """Test async_update raises when called from wrong thread."""
@@ -468,7 +468,7 @@ async def test_async_update_thread_safety(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_from_1_1(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test migration from version 1.1."""
     hass_storage[fr.STORAGE_KEY] = {

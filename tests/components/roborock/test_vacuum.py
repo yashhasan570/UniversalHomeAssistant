@@ -40,9 +40,9 @@ from universalassistant.components.vacuum import (
     SERVICE_STOP,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceNotSupported,
     ServiceValidationError,
 )
@@ -75,7 +75,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_registry_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     setup_entry: MockConfigEntry,
@@ -90,7 +90,7 @@ async def test_registry_entries(
 
 
 async def test_vacuum_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     setup_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -123,7 +123,7 @@ async def test_vacuum_state(
     ],
 )
 async def test_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     service: str,
     command: str,
@@ -156,7 +156,7 @@ async def test_commands(
     ],
 )
 async def test_set_fan_speed_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_set_fan_speed_invalid(
     ],
 )
 async def test_resume_cleaning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
     in_cleaning_int: int,
     in_returning_int: int,
@@ -215,15 +215,15 @@ async def test_resume_cleaning(
 
 
 async def test_failed_user_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     vacuum_command: Mock,
 ) -> None:
-    """Test that when a user sends an invalid command, we raise UniversalAssistantError."""
+    """Test that when a user sends an invalid command, we raise __HAC_KEEP__Error."""
     data = {ATTR_ENTITY_ID: ENTITY_ID, "command": "fake_command"}
     vacuum_command.send.side_effect = RoborockException()
     with (
-        pytest.raises(UniversalAssistantError, match="Error while calling fake_command"),
+        pytest.raises(__HAC_KEEP__Error, match="Error while calling fake_command"),
     ):
         await hass.services.async_call(
             VACUUM_DOMAIN,
@@ -234,7 +234,7 @@ async def test_failed_user_command(
 
 
 async def test_get_maps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -256,7 +256,7 @@ async def test_get_maps(
     ],
 )
 async def test_get_maps_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
@@ -274,7 +274,7 @@ async def test_get_maps_not_supported(
 
 
 async def test_goto(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     vacuum_command: Mock,
 ) -> None:
@@ -302,7 +302,7 @@ async def test_goto(
     ],
 )
 async def test_goto_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
@@ -320,7 +320,7 @@ async def test_goto_not_supported(
 
 
 async def test_zoned_cleaning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     vacuum_command: Mock,
 ) -> None:
@@ -351,7 +351,7 @@ async def test_zoned_cleaning(
     ],
 )
 async def test_zoned_cleaning_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
@@ -376,7 +376,7 @@ async def test_zoned_cleaning_not_supported(
 
 
 async def test_get_current_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     fake_vacuum: FakeDevice,
@@ -400,7 +400,7 @@ async def test_get_current_position(
 
 
 async def test_get_current_position_no_map_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -409,7 +409,7 @@ async def test_get_current_position_no_map_data(
 
     with (
         pytest.raises(
-            UniversalAssistantError, match="Something went wrong creating the map"
+            __HAC_KEEP__Error, match="Something went wrong creating the map"
         ),
     ):
         await hass.services.async_call(
@@ -422,7 +422,7 @@ async def test_get_current_position_no_map_data(
 
 
 async def test_get_current_position_no_robot_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -430,7 +430,7 @@ async def test_get_current_position_no_robot_position(
     fake_vacuum.v1_properties.map_content.map_data.vacuum_position = None
 
     with (
-        pytest.raises(UniversalAssistantError, match="Robot position not found"),
+        pytest.raises(__HAC_KEEP__Error, match="Robot position not found"),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -448,7 +448,7 @@ async def test_get_current_position_no_robot_position(
     ],
 )
 async def test_get_current_position_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
@@ -467,7 +467,7 @@ async def test_get_current_position_not_supported(
 
 
 async def test_get_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -491,7 +491,7 @@ async def test_get_segments(
 
 
 async def test_get_segments_no_map(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
     hass_ws_client: WebSocketGenerator,
@@ -509,7 +509,7 @@ async def test_get_segments_no_map(
 
 
 async def test_clean_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     fake_vacuum: FakeDevice,
@@ -548,7 +548,7 @@ async def test_clean_segments(
 
 
 async def test_clean_segments_different_map(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     fake_vacuum: FakeDevice,
@@ -582,7 +582,7 @@ async def test_clean_segments_different_map(
 
 
 async def test_clean_segments_mixed_maps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     vacuum_command: Mock,
@@ -619,7 +619,7 @@ async def test_clean_segments_mixed_maps(
 
 
 async def test_segments_changed_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -652,7 +652,7 @@ async def test_segments_changed_issue(
 
 
 async def test_segments_changed_issue_no_map_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -705,7 +705,7 @@ def fake_q7_vacuum_api_fixture(
 
 
 async def test_q7_registry_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     setup_entry: MockConfigEntry,
@@ -728,7 +728,7 @@ async def test_q7_registry_entries(
     ],
 )
 async def test_q7_state_changing_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     service: str,
     api_method: str,
@@ -764,7 +764,7 @@ async def test_q7_state_changing_commands(
 
 
 async def test_q7_locate_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_vacuum_api: Mock,
 ) -> None:
@@ -783,7 +783,7 @@ async def test_q7_locate_command(
 
 
 async def test_q7_set_fan_speed_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_vacuum_api: Mock,
 ) -> None:
@@ -803,7 +803,7 @@ async def test_q7_set_fan_speed_command(
 
 
 async def test_q7_send_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_vacuum_api: Mock,
 ) -> None:
@@ -836,14 +836,14 @@ async def test_q7_send_command(
 )
 @pytest.mark.parametrize("send_message_exception", [RoborockException()])
 async def test_q7_failed_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     service: str,
     api_method: str,
     service_params: dict[str, Any] | None,
     q7_vacuum_api: Mock,
 ) -> None:
-    """Test that when Q7 commands fail, we raise UniversalAssistantError."""
+    """Test that when Q7 commands fail, we raise __HAC_KEEP__Error."""
     vacuum = hass.states.get(Q7_ENTITY_ID)
     assert vacuum
     # Store the original state to verify it doesn't change on error
@@ -854,7 +854,7 @@ async def test_q7_failed_commands(
         service_params.get("command", api_method) if service_params else api_method
     )
 
-    with pytest.raises(UniversalAssistantError, match=f"Error while calling {command_name}"):
+    with pytest.raises(__HAC_KEEP__Error, match=f"Error while calling {command_name}"):
         await hass.services.async_call(
             VACUUM_DOMAIN,
             service,
@@ -870,7 +870,7 @@ async def test_q7_failed_commands(
 
 
 async def test_q7_activity_none_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
     freezer: FrozenDateTimeFactory,
@@ -891,7 +891,7 @@ async def test_q7_activity_none_status(
 
 
 async def test_q7_working_sleep_is_paused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
     freezer: FrozenDateTimeFactory,
@@ -912,7 +912,7 @@ async def test_q7_working_sleep_is_paused(
 
 
 async def test_q7_get_maps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
 ) -> None:
@@ -948,7 +948,7 @@ async def test_q7_get_maps(
 
 
 async def test_q7_get_maps_empty(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
 ) -> None:
@@ -972,17 +972,17 @@ async def test_q7_get_maps_empty(
 
 
 async def test_q7_get_maps_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
 ) -> None:
-    """Test that get_maps raises UniversalAssistantError on failure."""
+    """Test that get_maps raises __HAC_KEEP__Error on failure."""
     assert fake_q7_vacuum.b01_q7_properties is not None
     api = fake_q7_vacuum.b01_q7_properties
     api.map.refresh.side_effect = RoborockException()
 
     with pytest.raises(
-        UniversalAssistantError, match="Something went wrong creating the map"
+        __HAC_KEEP__Error, match="Something went wrong creating the map"
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -994,7 +994,7 @@ async def test_q7_get_maps_exception(
 
 
 async def test_q7_get_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
     hass_ws_client: WebSocketGenerator,
@@ -1024,7 +1024,7 @@ async def test_q7_get_segments(
 
 
 async def test_q7_get_segments_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
     hass_ws_client: WebSocketGenerator,
@@ -1048,7 +1048,7 @@ async def test_q7_get_segments_refresh_failure(
 
 
 async def test_q7_get_segments_partial_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
     hass_ws_client: WebSocketGenerator,
@@ -1077,7 +1077,7 @@ async def test_q7_get_segments_partial_refresh_failure(
 
 
 async def test_q7_get_segments_no_current_map(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
     hass_ws_client: WebSocketGenerator,
@@ -1102,7 +1102,7 @@ async def test_q7_get_segments_no_current_map(
 
 
 async def test_q7_get_segments_first_map_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
     hass_ws_client: WebSocketGenerator,
@@ -1125,7 +1125,7 @@ async def test_q7_get_segments_first_map_fallback(
 
 
 async def test_q7_get_segments_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q7_vacuum: FakeDevice,
     hass_ws_client: WebSocketGenerator,
@@ -1145,7 +1145,7 @@ async def test_q7_get_segments_no_data(
 
 
 async def test_q7_clean_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     fake_q7_vacuum: FakeDevice,
@@ -1181,13 +1181,13 @@ async def test_q7_clean_segments(
 
 @pytest.mark.parametrize("send_message_exception", [RoborockException()])
 async def test_q7_clean_segments_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     fake_q7_vacuum: FakeDevice,
     q7_vacuum_api: Mock,
 ) -> None:
-    """Test that a clean_segments failure raises UniversalAssistantError."""
+    """Test that a clean_segments failure raises __HAC_KEEP__Error."""
     assert fake_q7_vacuum.b01_q7_properties is not None
     seed_q7_map(fake_q7_vacuum.b01_q7_properties, [(1, True)])
     fake_q7_vacuum.b01_q7_properties.map.refresh.reset_mock()
@@ -1202,7 +1202,7 @@ async def test_q7_clean_segments_failed(
         },
     )
 
-    with pytest.raises(UniversalAssistantError, match="Error while calling clean_segments"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while calling clean_segments"):
         await hass.services.async_call(
             VACUUM_DOMAIN,
             SERVICE_CLEAN_AREA,
@@ -1213,7 +1213,7 @@ async def test_q7_clean_segments_failed(
 
 
 async def test_q7_clean_segments_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     fake_q7_vacuum: FakeDevice,
@@ -1236,7 +1236,7 @@ async def test_q7_clean_segments_refresh_failure(
     )
 
     with pytest.raises(
-        UniversalAssistantError, match="Something went wrong creating the map"
+        __HAC_KEEP__Error, match="Something went wrong creating the map"
     ):
         await hass.services.async_call(
             VACUUM_DOMAIN,
@@ -1249,7 +1249,7 @@ async def test_q7_clean_segments_refresh_failure(
 
 
 async def test_q7_clean_segments_ignores_other_map(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     fake_q7_vacuum: FakeDevice,
@@ -1281,12 +1281,12 @@ async def test_q7_clean_segments_ignores_other_map(
 
 
 async def test_q7_clean_segments_invalid_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     fake_q7_vacuum: FakeDevice,
 ) -> None:
-    """Test that a malformed segment id raises UniversalAssistantError."""
+    """Test that a malformed segment id raises __HAC_KEEP__Error."""
     assert fake_q7_vacuum.b01_q7_properties is not None
     seed_q7_map(fake_q7_vacuum.b01_q7_properties, [(1, True)])
 
@@ -1301,7 +1301,7 @@ async def test_q7_clean_segments_invalid_id(
         },
     )
 
-    with pytest.raises(UniversalAssistantError, match="Invalid segment ID format"):
+    with pytest.raises(__HAC_KEEP__Error, match="Invalid segment ID format"):
         await hass.services.async_call(
             VACUUM_DOMAIN,
             SERVICE_CLEAN_AREA,
@@ -1332,7 +1332,7 @@ def fake_q10_vacuum_api_fixture(
 
 
 async def test_q10_get_current_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q10_vacuum_api: Mock,
 ) -> None:
@@ -1351,14 +1351,14 @@ async def test_q10_get_current_position(
 
 
 async def test_q10_get_current_position_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q10_vacuum_api: Mock,
 ) -> None:
     """Test the Q10 position service before a trace has been received."""
     q10_vacuum_api.map.robot_position = None
 
-    with pytest.raises(UniversalAssistantError, match="Robot position not found"):
+    with pytest.raises(__HAC_KEEP__Error, match="Robot position not found"):
         await hass.services.async_call(
             DOMAIN,
             RoborockService.GET_VACUUM_CURRENT_POSITION,
@@ -1369,7 +1369,7 @@ async def test_q10_get_current_position_not_available(
 
 
 async def test_q10_zoned_cleaning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q10_vacuum_api: Mock,
 ) -> None:
@@ -1396,7 +1396,7 @@ async def test_q10_zoned_cleaning(
 
 
 async def test_q10_goto(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q10_vacuum_api: Mock,
 ) -> None:
@@ -1431,7 +1431,7 @@ async def test_q10_goto(
             {"x": 29900, "y": 28650},
             "goto_position",
             RoborockException(),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             id="goto-command",
         ),
         pytest.param(
@@ -1447,13 +1447,13 @@ async def test_q10_goto(
             {"x1": 28582, "y1": 21363, "x2": 27425, "y2": 22816, "repeats": 1},
             "clean_zone",
             RoborockException(),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             id="zone-command",
         ),
     ],
 )
 async def test_q10_targeted_action_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q10_vacuum_api: Mock,
     service: str,
@@ -1475,7 +1475,7 @@ async def test_q10_targeted_action_errors(
 
 
 async def test_q10_registry_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     setup_entry: MockConfigEntry,
@@ -1498,7 +1498,7 @@ async def test_q10_registry_entries(
     ],
 )
 async def test_q10_vacuum_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     service: str,
     api_attr: str,
@@ -1524,7 +1524,7 @@ async def test_q10_vacuum_commands(
 
 
 async def test_q10_locate_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q10_vacuum_api: Mock,
 ) -> None:
@@ -1543,7 +1543,7 @@ async def test_q10_locate_command(
 
 
 async def test_q10_set_fan_speed_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q10_vacuum_api: Mock,
 ) -> None:
@@ -1570,7 +1570,7 @@ async def test_q10_set_fan_speed_command(
     ],
 )
 async def test_q10_send_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q10_vacuum_api: Mock,
     command: str,
@@ -1590,11 +1590,11 @@ async def test_q10_send_command(
 
 
 async def test_q10_send_command_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q10_vacuum_api: Mock,
 ) -> None:
-    """Test that an invalid command raises UniversalAssistantError."""
+    """Test that an invalid command raises __HAC_KEEP__Error."""
     vacuum = hass.states.get(Q10_ENTITY_ID)
     assert vacuum
 
@@ -1621,7 +1621,7 @@ async def test_q10_send_command_invalid(
 )
 @pytest.mark.parametrize("send_message_exception", [RoborockException()])
 async def test_q10_failed_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     service: str,
     api_attr: str,
@@ -1629,13 +1629,13 @@ async def test_q10_failed_commands(
     service_params: dict[str, Any] | None,
     q10_vacuum_api: Mock,
 ) -> None:
-    """Test that when Q10 commands fail, we raise UniversalAssistantError."""
+    """Test that when Q10 commands fail, we raise __HAC_KEEP__Error."""
     vacuum = hass.states.get(Q10_ENTITY_ID)
     assert vacuum
 
     data = {ATTR_ENTITY_ID: Q10_ENTITY_ID, **(service_params or {})}
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             VACUUM_DOMAIN,
             service,
@@ -1645,7 +1645,7 @@ async def test_q10_failed_commands(
 
 
 async def test_q10_activity_none_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -1663,7 +1663,7 @@ async def test_q10_activity_none_status(
 
 
 async def test_q10_push_status_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -1701,7 +1701,7 @@ async def test_q10_push_status_update(
 
 
 async def test_q10_ha_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -1730,7 +1730,7 @@ async def test_q10_ha_refresh(
 
 
 async def test_q10_get_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1750,7 +1750,7 @@ async def test_q10_get_segments(
 
 
 async def test_q10_get_segments_no_rooms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
     hass_ws_client: WebSocketGenerator,
@@ -1769,7 +1769,7 @@ async def test_q10_get_segments_no_rooms(
 
 
 async def test_q10_clean_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     q10_vacuum_api: Mock,
@@ -1800,12 +1800,12 @@ async def test_q10_clean_segments(
 
 @pytest.mark.parametrize("send_message_exception", [RoborockException()])
 async def test_q10_clean_segments_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     q10_vacuum_api: Mock,
 ) -> None:
-    """Test that a clean_segments failure raises UniversalAssistantError."""
+    """Test that a clean_segments failure raises __HAC_KEEP__Error."""
     entity_registry.async_update_entity_options(
         Q10_ENTITY_ID,
         VACUUM_DOMAIN,
@@ -1817,7 +1817,7 @@ async def test_q10_clean_segments_failed(
         },
     )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             VACUUM_DOMAIN,
             SERVICE_CLEAN_AREA,

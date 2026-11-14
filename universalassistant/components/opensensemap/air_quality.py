@@ -8,7 +8,7 @@ from universalassistant.components.air_quality import (
 )
 from universalassistant.components.automation import automations_with_entity
 from universalassistant.components.script import scripts_with_entity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -18,7 +18,7 @@ from .coordinator import OpenSenseMapConfigEntry, OpenSenseMapCoordinator
 
 
 def _automations_and_scripts_using_entity(
-    hass: UniversalAssistant, entity_id: str
+    hass: __HAC_KEEP__, entity_id: str
 ) -> list[str]:
     """Return markdown links to automations and scripts referencing an entity."""
     automations = automations_with_entity(hass, entity_id)
@@ -41,7 +41,7 @@ def _automations_and_scripts_using_entity(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OpenSenseMapConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -8,7 +8,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.doorbird.event import DoorBirdEventEntity
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import mock_webhook_call
@@ -16,7 +16,7 @@ from .conftest import DoorbirdMockerType
 
 
 async def test_doorbell_ring_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_doorbell_ring_event(
 
 
 async def test_motion_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_motion_event(
     ],
 )
 async def test_event_entity_id_after_image_rename(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
     entity_registry: er.EntityRegistry,
@@ -93,7 +93,7 @@ async def test_event_entity_id_after_image_rename(
     ],
 )
 async def test_event_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
     entity_registry: er.EntityRegistry,

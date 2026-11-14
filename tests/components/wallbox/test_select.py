@@ -12,7 +12,7 @@ from universalassistant.components.select import (
 )
 from universalassistant.components.wallbox.const import EcoSmartMode
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, __HAC_KEEP__Error
 
 from .conftest import http_404_error, http_429_error, setup_integration
 from .const import (
@@ -32,7 +32,7 @@ TEST_OPTIONS = [
 
 @pytest.mark.parametrize(("mode", "response"), TEST_OPTIONS)
 async def test_wallbox_select_solar_charging_class(
-    hass: UniversalAssistant, entry: MockConfigEntry, mode, response, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mode, response, mock_wallbox
 ) -> None:
     """Test wallbox select class."""
     with patch.object(mock_wallbox, "getChargerStatus", return_value=response):
@@ -53,7 +53,7 @@ async def test_wallbox_select_solar_charging_class(
 
 
 async def test_wallbox_select_no_power_boost_class(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox select class."""
 
@@ -70,7 +70,7 @@ async def test_wallbox_select_no_power_boost_class(
 
 @pytest.mark.parametrize(("mode", "response"), TEST_OPTIONS)
 async def test_wallbox_select_class_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     mode,
     response,
@@ -84,7 +84,7 @@ async def test_wallbox_select_class_error(
         patch.object(mock_wallbox, "getChargerStatus", return_value=response),
         patch.object(mock_wallbox, "disableEcoSmart", side_effect=http_404_error),
         patch.object(mock_wallbox, "enableEcoSmart", side_effect=http_404_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -99,7 +99,7 @@ async def test_wallbox_select_class_error(
 
 @pytest.mark.parametrize(("mode", "response"), TEST_OPTIONS)
 async def test_wallbox_select_too_many_requests_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     mode,
     response,
@@ -113,7 +113,7 @@ async def test_wallbox_select_too_many_requests_error(
         patch.object(mock_wallbox, "getChargerStatus", return_value=response),
         patch.object(mock_wallbox, "disableEcoSmart", side_effect=http_429_error),
         patch.object(mock_wallbox, "enableEcoSmart", side_effect=http_429_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -128,7 +128,7 @@ async def test_wallbox_select_too_many_requests_error(
 
 @pytest.mark.parametrize(("mode", "response"), TEST_OPTIONS)
 async def test_wallbox_select_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     mode,
     response,
@@ -142,7 +142,7 @@ async def test_wallbox_select_connection_error(
         patch.object(mock_wallbox, "getChargerStatus", return_value=response),
         patch.object(mock_wallbox, "disableEcoSmart", side_effect=ConnectionError),
         patch.object(mock_wallbox, "enableEcoSmart", side_effect=ConnectionError),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,

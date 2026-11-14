@@ -8,7 +8,7 @@ from universalassistant.components.notify import (
     NotifyEntityFeature,
 )
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -18,7 +18,7 @@ from .entity import TelegramBotEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TelegramBotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

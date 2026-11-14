@@ -1,9 +1,9 @@
 """Errors for media source."""
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
-class MediaSourceError(UniversalAssistantError):
+class MediaSourceError(__HAC_KEEP__Error):
     """Base class for media source errors."""
 
 

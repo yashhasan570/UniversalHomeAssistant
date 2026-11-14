@@ -5,7 +5,7 @@ from typing import Any, override
 from ihcsdk.ihccontroller import IHCController
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -15,7 +15,7 @@ from .util import async_pulse, async_set_bool, async_set_int
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

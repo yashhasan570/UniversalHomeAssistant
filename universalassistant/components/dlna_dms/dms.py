@@ -25,7 +25,7 @@ from universalassistant.components.media_source import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_ID, CONF_URL
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
@@ -50,7 +50,7 @@ from .const import (
 class DlnaDmsData:
     """Storage class for domain global data."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     requester: UpnpRequester
     upnp_factory: UpnpFactory
     devices: dict[str, DmsDeviceSource]  # Indexed by config_entry.unique_id
@@ -58,7 +58,7 @@ class DlnaDmsData:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> None:
         """Initialize global data."""
         self.hass = hass
@@ -90,7 +90,7 @@ class DlnaDmsData:
 
 
 @callback
-def get_domain_data(hass: UniversalAssistant) -> DlnaDmsData:
+def get_domain_data(hass: __HAC_KEEP__) -> DlnaDmsData:
     """Obtain this integration's domain data, creating it if needed.
 
     Creation is deferred to the first caller rather than done at setup, to
@@ -182,7 +182,7 @@ class DmsDeviceSource:
     # Track BOOTID in SSDP advertisements for device changes
     _bootid: int | None = None
 
-    def __init__(self, hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
         """Initialize a DMS Source."""
         self.hass = hass
         self.config_entry = config_entry

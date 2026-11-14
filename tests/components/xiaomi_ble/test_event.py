@@ -10,7 +10,7 @@ from pytest_universalassistant.components.bluetooth import (
 from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.components.xiaomi_ble.const import DOMAIN
 from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import make_advertisement
 
@@ -143,7 +143,7 @@ from . import make_advertisement
     ],
 )
 async def test_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mac_address: str,
     advertisement: BluetoothServiceInfoBleak,
     bind_key: str | None,
@@ -208,7 +208,7 @@ async def test_events(
     await hass.async_block_till_done()
 
 
-async def test_xiaomi_fingerprint(hass: UniversalAssistant) -> None:
+async def test_xiaomi_fingerprint(hass: __HAC_KEEP__) -> None:
     """Make sure that fingerprint reader events are correctly mapped."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -251,7 +251,7 @@ async def test_xiaomi_fingerprint(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_xiaomi_lock(hass: UniversalAssistant) -> None:
+async def test_xiaomi_lock(hass: __HAC_KEEP__) -> None:
     """Make sure that lock events are correctly mapped."""
     entry = MockConfigEntry(
         domain=DOMAIN,

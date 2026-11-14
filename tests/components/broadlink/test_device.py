@@ -9,7 +9,7 @@ from universalassistant.components.broadlink.const import BROADLINK_DATA, DOMAIN
 from universalassistant.components.broadlink.device import get_domains
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_FRIENDLY_NAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import get_device
@@ -17,7 +17,7 @@ from . import get_device
 DEVICE_FACTORY = "universalassistant.components.broadlink.device.blk.gendevice"
 
 
-async def test_device_setup(hass: UniversalAssistant) -> None:
+async def test_device_setup(hass: __HAC_KEEP__) -> None:
     """Test a successful setup."""
     device = get_device("Office")
 
@@ -40,7 +40,7 @@ async def test_device_setup(hass: UniversalAssistant) -> None:
     assert mock_init.call_count == 0
 
 
-async def test_device_setup_rm5plus(hass: UniversalAssistant) -> None:
+async def test_device_setup_rm5plus(hass: __HAC_KEEP__) -> None:
     """Test an RM5 Plus sets up with the IR remote platforms and no sensors."""
     device = get_device("Study")
 
@@ -57,7 +57,7 @@ async def test_device_setup_rm5plus(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_device_setup_authentication_error(hass: UniversalAssistant) -> None:
+async def test_device_setup_authentication_error(hass: __HAC_KEEP__) -> None:
     """Test we handle an authentication error."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -79,7 +79,7 @@ async def test_device_setup_authentication_error(hass: UniversalAssistant) -> No
     assert mock_init.mock_calls[0][2]["data"] == device.get_entry_data()
 
 
-async def test_device_setup_network_timeout(hass: UniversalAssistant) -> None:
+async def test_device_setup_network_timeout(hass: __HAC_KEEP__) -> None:
     """Test we handle a network timeout."""
     device = get_device("Office")
     mock_api = device.get_mock_api()
@@ -101,7 +101,7 @@ async def test_device_setup_network_timeout(hass: UniversalAssistant) -> None:
     assert mock_init.call_count == 0
 
 
-async def test_device_setup_os_error(hass: UniversalAssistant) -> None:
+async def test_device_setup_os_error(hass: __HAC_KEEP__) -> None:
     """Test we handle an OS error."""
     device = get_device("Office")
     mock_api = device.get_mock_api()
@@ -123,7 +123,7 @@ async def test_device_setup_os_error(hass: UniversalAssistant) -> None:
     assert mock_init.call_count == 0
 
 
-async def test_device_setup_broadlink_exception(hass: UniversalAssistant) -> None:
+async def test_device_setup_broadlink_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle a Broadlink exception."""
     device = get_device("Office")
     mock_api = device.get_mock_api()
@@ -143,7 +143,7 @@ async def test_device_setup_broadlink_exception(hass: UniversalAssistant) -> Non
     assert mock_init.call_count == 0
 
 
-async def test_device_setup_update_network_timeout(hass: UniversalAssistant) -> None:
+async def test_device_setup_update_network_timeout(hass: __HAC_KEEP__) -> None:
     """Test we handle a network timeout in the update step."""
     device = get_device("Office")
     mock_api = device.get_mock_api()
@@ -163,7 +163,7 @@ async def test_device_setup_update_network_timeout(hass: UniversalAssistant) -> 
     assert mock_init.call_count == 0
 
 
-async def test_device_request_endpoint_closed(hass: UniversalAssistant) -> None:
+async def test_device_request_endpoint_closed(hass: __HAC_KEEP__) -> None:
     """Test a request on a closed endpoint is raised without a retry."""
     device = get_device("Office")
     mock_api = device.get_mock_api()
@@ -183,7 +183,7 @@ async def test_device_request_endpoint_closed(hass: UniversalAssistant) -> None:
     assert mock_api.auth.call_count == 0
 
 
-async def test_device_setup_update_authorization_error(hass: UniversalAssistant) -> None:
+async def test_device_setup_update_authorization_error(hass: __HAC_KEEP__) -> None:
     """Test we handle an authorization error in the update step."""
     device = get_device("Office")
     mock_api = device.get_mock_api()
@@ -209,7 +209,7 @@ async def test_device_setup_update_authorization_error(hass: UniversalAssistant)
     assert mock_init.call_count == 0
 
 
-async def test_device_setup_update_authentication_error(hass: UniversalAssistant) -> None:
+async def test_device_setup_update_authentication_error(hass: __HAC_KEEP__) -> None:
     """Test we handle an authentication error in the update step."""
     device = get_device("Garage")
     mock_api = device.get_mock_api()
@@ -232,7 +232,7 @@ async def test_device_setup_update_authentication_error(hass: UniversalAssistant
     assert mock_init.mock_calls[0][2]["data"] == device.get_entry_data()
 
 
-async def test_device_setup_update_broadlink_exception(hass: UniversalAssistant) -> None:
+async def test_device_setup_update_broadlink_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle a Broadlink exception in the update step."""
     device = get_device("Garage")
     mock_api = device.get_mock_api()
@@ -253,7 +253,7 @@ async def test_device_setup_update_broadlink_exception(hass: UniversalAssistant)
 
 
 async def test_device_setup_get_fwversion_broadlink_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we load the device even if we cannot read the firmware version."""
     device = get_device("Office")
@@ -272,7 +272,7 @@ async def test_device_setup_get_fwversion_broadlink_exception(
     assert forward_entries == domains
 
 
-async def test_device_setup_get_fwversion_os_error(hass: UniversalAssistant) -> None:
+async def test_device_setup_get_fwversion_os_error(hass: __HAC_KEEP__) -> None:
     """Test we load the device even if we cannot read the firmware version."""
     device = get_device("Office")
     mock_api = device.get_mock_api()
@@ -291,7 +291,7 @@ async def test_device_setup_get_fwversion_os_error(hass: UniversalAssistant) -> 
 
 
 async def test_device_setup_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -320,7 +320,7 @@ async def test_device_setup_registry(
         )
 
 
-async def test_device_unload_works(hass: UniversalAssistant) -> None:
+async def test_device_unload_works(hass: __HAC_KEEP__) -> None:
     """Test we unload the device."""
     device = get_device("Office")
 
@@ -340,7 +340,7 @@ async def test_device_unload_works(hass: UniversalAssistant) -> None:
     assert forward_entries == domains
 
 
-async def test_device_unload_failed(hass: UniversalAssistant) -> None:
+async def test_device_unload_failed(hass: __HAC_KEEP__) -> None:
     """Test unloading fails when the device platforms cannot be unloaded."""
     device = get_device("Office")
 
@@ -357,7 +357,7 @@ async def test_device_unload_failed(hass: UniversalAssistant) -> None:
     assert mock_setup.api.aclose.await_count == 0
 
 
-async def test_device_unload_authentication_error(hass: UniversalAssistant) -> None:
+async def test_device_unload_authentication_error(hass: __HAC_KEEP__) -> None:
     """Test we unload a device that failed the authentication step."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -378,7 +378,7 @@ async def test_device_unload_authentication_error(hass: UniversalAssistant) -> N
     assert mock_forward.call_count == 0
 
 
-async def test_device_unload_update_failed(hass: UniversalAssistant) -> None:
+async def test_device_unload_update_failed(hass: __HAC_KEEP__) -> None:
     """Test we unload a device that failed the update step."""
     device = get_device("Office")
     mock_api = device.get_mock_api()
@@ -397,7 +397,7 @@ async def test_device_unload_update_failed(hass: UniversalAssistant) -> None:
 
 
 async def test_device_update_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

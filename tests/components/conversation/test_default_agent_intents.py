@@ -33,7 +33,7 @@ from universalassistant.const import (
     STATE_PAUSED,
     STATE_PLAYING,
 )
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     entity_registry as er,
@@ -66,7 +66,7 @@ class MockTodoListEntity(todo.TodoListEntity):
 
 
 @pytest.fixture
-async def init_components(hass: UniversalAssistant):
+async def init_components(hass: __HAC_KEEP__):
     """Initialize relevant components with empty configs."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {})
@@ -74,7 +74,7 @@ async def init_components(hass: UniversalAssistant):
 
 
 async def test_cover_set_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
 ) -> None:
     """Test the open/close/set position for covers."""
@@ -128,7 +128,7 @@ async def test_cover_set_position(
 
 
 async def test_cover_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
@@ -166,7 +166,7 @@ async def test_cover_device_class(
 
 
 async def test_valve_intents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
 ) -> None:
     """Test open/close/set position for valves."""
@@ -218,7 +218,7 @@ async def test_valve_intents(
 
 
 async def test_vacuum_intents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
 ) -> None:
     """Test start/return to base for vacuums."""
@@ -265,7 +265,7 @@ async def test_vacuum_intents(
 
 
 async def test_media_player_intents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
 ) -> None:
     """Test pause/unpause/next/set volume for media players."""
@@ -354,7 +354,7 @@ async def test_media_player_intents(
 
 
 async def test_turn_floor_lights_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
@@ -443,7 +443,7 @@ async def test_turn_floor_lights_on_off(
 
 
 async def test_todo_add_item_fr(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
 ) -> None:
     """Test that wildcard matches prioritize results with more literal text matched."""
@@ -469,7 +469,7 @@ async def test_todo_add_item_fr(
 
 
 async def test_climate_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
 ) -> None:
     """Test turning a climate device on and off."""
@@ -512,7 +512,7 @@ async def test_climate_turn_on_off(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_climate_set_fan_mode(hass: UniversalAssistant) -> None:
+async def test_climate_set_fan_mode(hass: __HAC_KEEP__) -> None:
     """Test setting the fan mode of a climate device by name."""
     await climate_intent.async_setup_intents(hass)
 
@@ -552,7 +552,7 @@ async def test_climate_set_fan_mode(hass: UniversalAssistant) -> None:
     )
 )
 async def test_date_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
 ) -> None:
     """Test the date and time intents."""

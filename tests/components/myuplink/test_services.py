@@ -13,8 +13,8 @@ from universalassistant.components.myuplink.services import (
     MyUplinkServiceArgument,
 )
 from universalassistant.const import ATTR_DEVICE_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceRegistry
 
 from . import setup_integration
@@ -23,7 +23,7 @@ TEST_DEVICE = "robin-r-1234-20240201-123456-aa-bb-cc-dd-ee-ff"
 
 
 async def test_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_myuplink_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_services(
 
 
 async def test_get_service_api_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_myuplink_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -65,7 +65,7 @@ async def test_get_service_api_errors(
     mock_myuplink_client.async_set_device_points.side_effect = ClientResponseError(
         Mock(), Mock()
     )
-    with pytest.raises(UniversalAssistantError, match="Failed to set new value"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to set new value"):
         await hass.services.async_call(
             DOMAIN,
             MyUplinkService.SET_DATAPOINT,
@@ -80,7 +80,7 @@ async def test_get_service_api_errors(
 
 
 async def test_service_validation_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_myuplink_client: MagicMock,
     mock_config_entry: MockConfigEntry,

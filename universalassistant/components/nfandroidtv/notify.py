@@ -23,8 +23,8 @@ from universalassistant.components.notify import (
     NotifyEntityFeature,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -72,7 +72,7 @@ def nl2br(message: str) -> str:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: NFAndroidTVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -107,7 +107,7 @@ class NFAndroidTVNotifyEntity(NotifyEntity):
         try:
             self.client.send(message=nl2br(message), title=title)
         except ConnectError as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="notify_connection_error",
                 translation_placeholders={"name": self.entry.title},
@@ -139,13 +139,13 @@ class NFAndroidTVNotifyEntity(NotifyEntity):
                 lambda: self.client.send(message=nl2br(message), **kwargs)
             )
         except (ConnectError, requests.RequestException) as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="notify_connection_error",
                 translation_placeholders={"name": self.entry.title},
             ) from e
         if not sent:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="notify_failed",
                 translation_placeholders={"name": self.entry.title},
@@ -153,7 +153,7 @@ class NFAndroidTVNotifyEntity(NotifyEntity):
         self._async_record_notification()
 
 
-async def _resolve_media(hass: UniversalAssistant, media_source: dict[str, Any]) -> bytes:
+async def _resolve_media(hass: __HAC_KEEP__, media_source: dict[str, Any]) -> bytes:
     """Resolve media from a media source."""
     media_content_id: str = media_source["media_content_id"]
 
@@ -174,7 +174,7 @@ async def _resolve_media(hass: UniversalAssistant, media_source: dict[str, Any])
 
 
 async def async_get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> NFAndroidTVNotificationService | None:
@@ -210,7 +210,7 @@ class NFAndroidTVNotificationService(BaseNotificationService):
                 self.notify = Notifications(self.host)
             except ConnectError as err:
                 _LOGGER.debug("Full exception:", exc_info=True)
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="connection_failed",
                     translation_placeholders={"host": self.host},
@@ -336,7 +336,7 @@ class NFAndroidTVNotificationService(BaseNotificationService):
             )
         except ConnectError as err:
             _LOGGER.debug("Full exception:", exc_info=True)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_failed",
                 translation_placeholders={"host": self.host},

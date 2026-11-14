@@ -15,12 +15,12 @@ from universalassistant.components.generic_hygrostat.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_DEVICE_CLASS, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 SNAPSHOT_FLOW_PROPS = props("type", "title", "result", "error")
 
 
-async def test_config_flow(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_config_flow(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test the config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -52,7 +52,7 @@ async def test_config_flow(hass: UniversalAssistant, snapshot: SnapshotAssertion
     assert config_entry.title == "My hygrostat"
 
 
-async def test_options(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_options(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test reconfiguring."""
 
     config_entry = MockConfigEntry(

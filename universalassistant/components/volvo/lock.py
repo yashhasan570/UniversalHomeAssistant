@@ -7,8 +7,8 @@ from typing import Any, cast, override
 from volvocarsapi.models import VolvoApiException, VolvoCarsApiBaseModel, VolvoCarsValue
 
 from universalassistant.components.lock import LockEntity, LockEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -42,7 +42,7 @@ _DESCRIPTIONS: tuple[VolvoLockDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VolvoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -128,12 +128,12 @@ class VolvoLock(VolvoEntity, LockEntity):
 
     def _reset_and_create_error(
         self, command: str, *, status: str = "", message: str = ""
-    ) -> UniversalAssistantError:
+    ) -> __HAC_KEEP__Error:
         self._attr_is_locking = False
         self._attr_is_unlocking = False
         self.async_write_ha_state()
 
-        return UniversalAssistantError(
+        return __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="command_failure",
             translation_placeholders={

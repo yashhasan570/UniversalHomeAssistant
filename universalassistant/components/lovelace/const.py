@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_URL,
     EVENT_LOVELACE_UPDATED,  # noqa: F401
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import VolDictType
 from universalassistant.util.hass_dict import HassKey
@@ -98,5 +98,5 @@ STORAGE_DASHBOARD_CREATE_FIELDS: VolDictType = {
 STORAGE_DASHBOARD_UPDATE_FIELDS = DASHBOARD_BASE_UPDATE_FIELDS
 
 
-class ConfigNotFound(UniversalAssistantError):
+class ConfigNotFound(__HAC_KEEP__Error):
     """When no config available."""

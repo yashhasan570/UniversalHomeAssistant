@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ ENTITY_ID = "button.stove_silent"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_palazzetti_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -33,7 +33,7 @@ async def test_all_entities(
 
 
 async def test_async_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_palazzetti_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -50,7 +50,7 @@ async def test_async_press(
 
 
 async def test_async_press_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_palazzetti_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_async_press_error(
 
     mock_palazzetti_client.set_fan_silent.side_effect = CommunicationError()
     error_message = "Could not connect to the device"
-    with pytest.raises(UniversalAssistantError, match=error_message):
+    with pytest.raises(__HAC_KEEP__Error, match=error_message):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

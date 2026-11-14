@@ -13,7 +13,7 @@ from universalassistant.components.wemo.binary_sensor import (
     MakerBinarySensor,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -30,7 +30,7 @@ class TestMotion(EntityTestHelpers):
 
     async def test_binary_sensor_registry_state_callback(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         pywemo_registry: pywemo.SubscriptionRegistry,
         pywemo_device: pywemo.WeMoDevice,
         wemo_entity: er.RegistryEntry,
@@ -50,7 +50,7 @@ class TestMotion(EntityTestHelpers):
 
     async def test_binary_sensor_update_entity(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         pywemo_registry: pywemo.SubscriptionRegistry,
         pywemo_device: pywemo.WeMoDevice,
         wemo_entity: er.RegistryEntry,
@@ -94,7 +94,7 @@ class TestMaker(EntityTestHelpers):
 
     async def test_registry_state_callback(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         pywemo_registry: pywemo.SubscriptionRegistry,
         pywemo_device: pywemo.WeMoDevice,
         wemo_entity: er.RegistryEntry,
@@ -128,7 +128,7 @@ class TestInsight(EntityTestHelpers):
 
     async def test_registry_state_callback(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         pywemo_registry: pywemo.SubscriptionRegistry,
         pywemo_device: pywemo.WeMoDevice,
         wemo_entity: er.RegistryEntry,

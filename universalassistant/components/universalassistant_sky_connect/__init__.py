@@ -1,4 +1,4 @@
-"""The Universal Universal Home Assistant SkyConnect integration."""
+"""The __HA_KEEP__ SkyConnect integration."""
 
 from dataclasses import dataclass
 import logging
@@ -24,11 +24,11 @@ from universalassistant.components.usb import (
     async_scan_serial_ports,
 )
 from universalassistant.config_entries import SOURCE_IGNORE, ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryError,
     ConfigEntryNotReady,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
 )
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -50,11 +50,11 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
-type UniversalAssistantSkyConnectConfigEntry = ConfigEntry[UniversalAssistantSkyConnectData]
+type __HAC_KEEP__SkyConnectConfigEntry = ConfigEntry[__HAC_KEEP__SkyConnectData]
 
 
 @dataclass
-class UniversalAssistantSkyConnectData:
+class __HAC_KEEP__SkyConnectData:
     """Runtime data definition."""
 
     coordinator: FirmwareUpdateCoordinator
@@ -64,7 +64,7 @@ class UniversalAssistantSkyConnectData:
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the ZBT-1 integration."""
 
     @callback
@@ -95,9 +95,9 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: UniversalAssistantSkyConnectConfigEntry
+    hass: __HAC_KEEP__, entry: __HAC_KEEP__SkyConnectConfigEntry
 ) -> None:
-    """Set up a Universal Universal Home Assistant SkyConnect config entry."""
+    """Set up a __HA_KEEP__ SkyConnect config entry."""
 
     # Postpone loading the config entry if the device is missing
     device_path = entry.data[DEVICE]
@@ -109,7 +109,7 @@ async def async_setup_entry(
 
     try:
         uses_multi_pan = await multi_pan_addon_using_device(hass, device_path)
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         raise ConfigEntryNotReady from err
 
     if uses_multi_pan:
@@ -125,7 +125,7 @@ async def async_setup_entry(
         session,
         NABU_CASA_FIRMWARE_RELEASES_URL,
     )
-    entry.runtime_data = UniversalAssistantSkyConnectData(
+    entry.runtime_data = __HAC_KEEP__SkyConnectData(
         coordinator=coordinator,
         via_device_id=async_get_serial_port_via_device_id(hass, device_path),
     )
@@ -134,7 +134,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: UniversalAssistantSkyConnectConfigEntry
+    hass: __HAC_KEEP__, entry: __HAC_KEEP__SkyConnectConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
@@ -143,7 +143,7 @@ async def async_unload_entry(
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: UniversalAssistantSkyConnectConfigEntry
+    hass: __HAC_KEEP__, config_entry: __HAC_KEEP__SkyConnectConfigEntry
 ) -> None:
     """Migrate old entry."""
 
@@ -196,7 +196,7 @@ async def async_migrate_entry(
                 device = config_entry.data[DEVICE]
 
                 if not (usb_info := serial_ports_info.get(device)):
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="device_missing_migration",
                         translation_placeholders={"device": device},

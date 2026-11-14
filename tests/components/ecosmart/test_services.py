@@ -19,8 +19,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.ecosmart.const import DOMAIN, FORECAST_HOURS
 from universalassistant.components.ecosmart.services import EcosmartService
 from universalassistant.const import ATTR_DEVICE_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -45,7 +45,7 @@ def _device_id(
     return device.id
 
 
-async def _get_forecasts(hass: UniversalAssistant, device_id: str) -> dict[str, object]:
+async def _get_forecasts(hass: __HAC_KEEP__, device_id: str) -> dict[str, object]:
     """Call the action and return its response."""
     response = await hass.services.async_call(
         DOMAIN,
@@ -59,7 +59,7 @@ async def _get_forecasts(hass: UniversalAssistant, device_id: str) -> dict[str, 
 
 
 async def test_get_forecasts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -77,7 +77,7 @@ async def test_get_forecasts(
 
 
 async def test_get_forecasts_leaves_the_spot_poll_alone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -93,7 +93,7 @@ async def test_get_forecasts_leaves_the_spot_poll_alone(
 
 
 async def test_get_forecasts_empty(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -110,7 +110,7 @@ async def test_get_forecasts_empty(
 
 
 async def test_get_forecasts_negative_price(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -158,7 +158,7 @@ async def test_get_forecasts_negative_price(
     ],
 )
 async def test_get_forecasts_api_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -166,11 +166,11 @@ async def test_get_forecasts_api_errors(
     translation_key: str,
     placeholders: dict[str, str] | None,
 ) -> None:
-    """Test an API failure is raised as a translated Universal Universal Home Assistant error."""
+    """Test an API failure is raised as a translated __HA_KEEP__ error."""
     await setup_integration(hass, mock_config_entry)
     mock_ecosmart_client.forecast.side_effect = error
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await _get_forecasts(hass, _device_id(device_registry, mock_config_entry))
 
     # An API failure is not the caller's mistake, so never a validation error.
@@ -181,7 +181,7 @@ async def test_get_forecasts_api_errors(
 
 
 async def test_get_forecasts_second_grid_exit_point(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -206,7 +206,7 @@ async def test_get_forecasts_second_grid_exit_point(
 
 
 async def test_get_forecasts_requires_a_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_get_forecasts_requires_a_device(
 
 
 async def test_get_forecasts_unknown_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_get_forecasts_unknown_device(
 
 
 async def test_get_forecasts_other_integration_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -263,7 +263,7 @@ async def test_get_forecasts_other_integration_device(
 
 
 async def test_get_forecasts_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -282,7 +282,7 @@ async def test_get_forecasts_entry_not_loaded(
 
 
 async def test_get_forecasts_icp_no_longer_on_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -309,7 +309,7 @@ async def test_get_forecasts_icp_no_longer_on_key(
 
 
 async def test_get_forecasts_device_without_icp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

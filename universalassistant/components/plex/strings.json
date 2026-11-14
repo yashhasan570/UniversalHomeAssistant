@@ -45,7 +45,7 @@
         "title": "Select Plex server"
       },
       "user": {
-        "description": "A Plex server can be set up in Universal Universal Home Assistant in two different ways.\n\nYou can link your Plex account by logging in via plex.tv, which will automatically discover and connect your servers, or you can manually enter the server address and token.",
+        "description": "A Plex server can be set up in __HA_KEEP__ in two different ways.\n\nYou can link your Plex account by logging in via plex.tv, which will automatically discover and connect your servers, or you can manually enter the server address and token.",
         "menu_options": {
           "manual_setup": "Enter manually",
           "website_auth": "Link Plex account (recommended)"

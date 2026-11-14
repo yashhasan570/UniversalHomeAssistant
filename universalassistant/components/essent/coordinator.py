@@ -15,7 +15,7 @@ from essent_dynamic_pricing import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_track_point_in_utc_time
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -32,7 +32,7 @@ class EssentDataUpdateCoordinator(DataUpdateCoordinator[EssentPrices]):
 
     config_entry: EssentConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: EssentConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: EssentConfigEntry) -> None:
         """Initialize."""
         super().__init__(
             hass,

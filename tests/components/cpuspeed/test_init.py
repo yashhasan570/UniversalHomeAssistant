@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.cpuspeed.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_cpuinfo: MagicMock,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_config_entry_not_compatible(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_cpuinfo: MagicMock,
 ) -> None:

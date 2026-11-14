@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
@@ -24,7 +24,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("fixtures_with_data")
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -39,7 +39,7 @@ async def test_binary_sensors(
 @pytest.mark.usefixtures("fixtures_with_no_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_binary_sensor_empty(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -54,7 +54,7 @@ async def test_binary_sensor_empty(
 @pytest.mark.usefixtures("fixtures_with_invalid_upstream_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_binary_sensor_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -69,7 +69,7 @@ async def test_binary_sensor_errors(
 @pytest.mark.usefixtures("fixtures_with_access_denied_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_binary_sensor_access_denied(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_binary_sensor_access_denied(
 @pytest.mark.usefixtures("fixtures_with_not_supported_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_binary_sensor_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

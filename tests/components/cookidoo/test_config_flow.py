@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_TOKEN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import AUTH_DATA, COUNTRY, EMAIL, LANGUAGE, PASSWORD, TEST_UUID
@@ -62,7 +62,7 @@ ROTATED_AUTH_DATA = CookidooAuthData(
     ],
 )
 async def test_flow_user_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     arrange_validation_tokens: Callable[
         [CookidooAuthData | None, CookidooAuthData | None], None
@@ -111,7 +111,7 @@ async def test_flow_user_success(
 
 
 async def test_flow_reauth_drops_tokens_of_a_failed_attempt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_flow_reauth_drops_tokens_of_a_failed_attempt(
     ],
 )
 async def test_flow_user_init_data_unknown_error_and_recover_on_step_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cookidoo_client: AsyncMock,
     login_success: Callable[[], None],
     raise_error: Exception,
@@ -216,7 +216,7 @@ async def test_flow_user_init_data_unknown_error_and_recover_on_step_1(
     ],
 )
 async def test_flow_user_init_data_unknown_error_and_recover_on_step_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cookidoo_client: AsyncMock,
     raise_error: Exception,
     text_error: str,
@@ -261,7 +261,7 @@ async def test_flow_user_init_data_unknown_error_and_recover_on_step_2(
 
 
 async def test_flow_user_init_data_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:
@@ -283,7 +283,7 @@ async def test_flow_user_init_data_already_configured(
 
 
 async def test_flow_reconfigure_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: AsyncMock,
     mock_cookidoo_client: AsyncMock,
 ) -> None:
@@ -339,7 +339,7 @@ async def test_flow_reconfigure_success(
     ],
 )
 async def test_flow_reconfigure_init_data_unknown_error_and_recover_on_step_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: AsyncMock,
     mock_cookidoo_client: AsyncMock,
     login_success: Callable[[], None],
@@ -402,7 +402,7 @@ async def test_flow_reconfigure_init_data_unknown_error_and_recover_on_step_1(
     ],
 )
 async def test_flow_reconfigure_init_data_unknown_error_and_recover_on_step_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: AsyncMock,
     mock_cookidoo_client: AsyncMock,
     raise_error: Exception,
@@ -456,7 +456,7 @@ async def test_flow_reconfigure_init_data_unknown_error_and_recover_on_step_2(
 
 
 async def test_flow_reconfigure_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:
@@ -485,7 +485,7 @@ async def test_flow_reconfigure_id_mismatch(
 
 
 async def test_flow_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:
@@ -526,7 +526,7 @@ async def test_flow_reauth(
     ],
 )
 async def test_flow_reauth_error_and_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
     login_success: Callable[[], None],
@@ -570,7 +570,7 @@ async def test_flow_reauth_error_and_recover(
 
 
 async def test_flow_reauth_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:

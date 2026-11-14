@@ -9,7 +9,7 @@ from librouteros.exceptions import ConnectionClosed, LibRouterosError
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
 )
 from universalassistant.helpers.update_coordinator import UpdateFailed
 from universalassistant.util.dt import utcnow
@@ -90,14 +90,14 @@ def mikrotik_config_entry_errors(
         ) from err
     except LibRouterosError as err:
         if not suppress_errors:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="mikrotik_api_error",
                 translation_placeholders={"error": repr(err)},
             ) from err
 
         if "no such command prefix" not in str(err):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="mikrotik_api_error",
                 translation_placeholders={"error": repr(err)},

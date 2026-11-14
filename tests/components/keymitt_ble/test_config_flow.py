@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_IGNORE, SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -26,7 +26,7 @@ def patch_microbot_api():
     )
 
 
-async def test_bluetooth_discovery(hass: UniversalAssistant) -> None:
+async def test_bluetooth_discovery(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -48,7 +48,7 @@ async def test_bluetooth_discovery(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_bluetooth_discovery_already_setup(hass: UniversalAssistant) -> None:
+async def test_bluetooth_discovery_already_setup(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth with a valid device when already setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -68,7 +68,7 @@ async def test_bluetooth_discovery_already_setup(hass: UniversalAssistant) -> No
         assert result["reason"] == "already_configured"
 
 
-async def test_user_setup(hass: UniversalAssistant) -> None:
+async def test_user_setup(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form with valid mac."""
 
     with (
@@ -115,7 +115,7 @@ async def test_user_setup(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_setup_already_configured(hass: UniversalAssistant) -> None:
+async def test_user_setup_already_configured(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form with valid mac."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -136,7 +136,7 @@ async def test_user_setup_already_configured(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_no_devices(hass: UniversalAssistant) -> None:
+async def test_user_no_devices(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form with valid mac."""
     with (
         patch_microbot_api(),
@@ -152,7 +152,7 @@ async def test_user_no_devices(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_no_link(hass: UniversalAssistant) -> None:
+async def test_no_link(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form with invalid response."""
 
     with (
@@ -206,7 +206,7 @@ async def test_no_link(hass: UniversalAssistant) -> None:
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_setup_replaces_ignored_device(hass: UniversalAssistant) -> None:
+async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form can replace an ignored device."""
     entry = MockConfigEntry(
         domain=DOMAIN,

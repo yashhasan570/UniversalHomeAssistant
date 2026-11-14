@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import MqttMockHAClient
 from universalassistant.components.greencell.const import GREENCELL_DISC_TOPIC
 from universalassistant.components.mqtt import ReceiveMessage
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import TEST_SERIAL_NUMBER, TEST_VOLTAGE_TOPIC
 
@@ -32,7 +32,7 @@ async def _mock_subscribe_fires(messages: list[tuple[str, str]]):
     """Return a mock async_subscribe that fires given messages on subscription."""
 
     async def _subscribe(
-        hass: UniversalAssistant, topic: str, msg_callback, *args, **kwargs
+        hass: __HAC_KEEP__, topic: str, msg_callback, *args, **kwargs
     ) -> Callable[[], None]:
         for msg_topic, payload in messages:
             if msg_topic == topic:
@@ -60,7 +60,7 @@ async def _mock_subscribe_fires(messages: list[tuple[str, str]]):
     ],
 )
 async def test_async_setup_entry_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
     messages: list[tuple[str, str]],
@@ -100,7 +100,7 @@ async def test_async_setup_entry_ready(
     ],
 )
 async def test_async_setup_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
     messages: list[tuple[str, str]],
@@ -125,7 +125,7 @@ async def test_async_setup_entry_not_ready(
 
 
 async def test_async_unload_entry_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
 ) -> None:

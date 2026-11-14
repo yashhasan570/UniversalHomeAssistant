@@ -10,7 +10,7 @@ from pykmtronic.hub import KMTronicHubAPI
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import MANUFACTURER
@@ -28,7 +28,7 @@ class KMtronicCoordinator(DataUpdateCoordinator[None]):
     entry: KMTronicConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, entry: KMTronicConfigEntry, hub: KMTronicHubAPI
+        self, hass: __HAC_KEEP__, entry: KMTronicConfigEntry, hub: KMTronicHubAPI
     ) -> None:
         """Initialize the KMTronic coordinator."""
         super().__init__(

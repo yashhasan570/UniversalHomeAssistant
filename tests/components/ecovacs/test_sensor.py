@@ -19,7 +19,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.ecovacs.const import DOMAIN
 from universalassistant.components.ecovacs.controller import EcovacsController
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .util import block_till_done
@@ -33,7 +33,7 @@ def platforms() -> Platform | list[Platform]:
     return Platform.SENSOR
 
 
-async def notify_events(hass: UniversalAssistant, event_bus: EventBus):
+async def notify_events(hass: __HAC_KEEP__, event_bus: EventBus):
     """Notify events."""
     event_bus.notify(StatsEvent(10, 300, "spotArea"))
     event_bus.notify(TotalStatsEvent(60, 144000, 123))
@@ -172,7 +172,7 @@ async def notify_events(hass: UniversalAssistant, event_bus: EventBus):
     ids=["yna5x1", "5xu9h3", "qhe2o2", "9eamof", "twunby"],
 )
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -224,7 +224,7 @@ async def test_sensors(
     ids=["yna5x1", "5xu9h3"],
 )
 async def test_disabled_by_default_sensors(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_ids: list[str]
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_ids: list[str]
 ) -> None:
     """Test the disabled by default sensors."""
     for entity_id in entity_ids:
@@ -240,7 +240,7 @@ async def test_disabled_by_default_sensors(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_vacbot")
 @pytest.mark.parametrize(("device_fixture"), ["123"])
 async def test_legacy_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

@@ -16,7 +16,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import PRECISION_WHOLE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -80,7 +80,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AdvantageAirDataConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

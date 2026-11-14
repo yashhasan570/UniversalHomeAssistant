@@ -6,7 +6,7 @@ import logging
 from todoist_api_python.api_async import TodoistAPIAsync
 
 from universalassistant.const import CONF_TOKEN, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -24,13 +24,13 @@ PLATFORMS: list[Platform] = [Platform.CALENDAR, Platform.TODO]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TodoistConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TodoistConfigEntry) -> None:
     """Set up todoist from a config entry."""
 
     token = entry.data[CONF_TOKEN]
@@ -45,8 +45,8 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TodoistConfigEntry)
         await api.close()
         raise
 
-    # Universal Universal Home Assistant shutdown does not unload config entries, so close the
-    # SDK's HTTP client explicitly when Universal Universal Home Assistant stops.
+    # __HA_KEEP__ shutdown does not unload config entries, so close the
+    # SDK's HTTP client explicitly when __HA_KEEP__ stops.
     async def _close_api(_: Event) -> None:
         await api.close()
 
@@ -55,7 +55,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TodoistConfigEntry)
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TodoistConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TodoistConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.api.close()

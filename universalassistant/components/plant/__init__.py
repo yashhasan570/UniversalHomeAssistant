@@ -9,7 +9,7 @@ import logging
 import probatio
 
 from universalassistant.const import CONF_SENSORS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.typing import ConfigType
@@ -90,7 +90,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Plant component."""
     component = EntityComponent[Plant](_LOGGER, DOMAIN, hass)
 

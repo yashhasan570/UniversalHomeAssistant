@@ -10,8 +10,8 @@ from teslemetry_stream.const import Signal
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, reload_platform, setup_platform
@@ -19,7 +19,7 @@ from .const import COMMAND_ERRORS, COMMAND_OK, VEHICLE_DATA_ALT
 
 
 async def test_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_legacy: AsyncMock,
@@ -31,7 +31,7 @@ async def test_lock(
 
 
 async def test_lock_alt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -45,7 +45,7 @@ async def test_lock_alt(
 
 
 async def test_lock_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Tests that the lock services work."""
 
@@ -107,8 +107,8 @@ async def test_lock_services(
 
 
 @pytest.mark.parametrize("response", COMMAND_ERRORS)
-async def test_lock_command_errors(hass: UniversalAssistant, response: dict) -> None:
-    """Tests that vehicle command failures raise UniversalAssistantError."""
+async def test_lock_command_errors(hass: __HAC_KEEP__, response: dict) -> None:
+    """Tests that vehicle command failures raise __HAC_KEEP__Error."""
 
     await setup_platform(hass, [Platform.LOCK])
 
@@ -117,7 +117,7 @@ async def test_lock_command_errors(hass: UniversalAssistant, response: dict) -> 
             "tesla_fleet_api.teslemetry.Vehicle.door_lock",
             return_value=response,
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             LOCK_DOMAIN,
@@ -138,9 +138,9 @@ async def test_lock_command_errors(hass: UniversalAssistant, response: dict) -> 
     ],
 )
 async def test_lock_command_exception(
-    hass: UniversalAssistant, side_effect: type[BaseException], translation_key: str
+    hass: __HAC_KEEP__, side_effect: type[BaseException], translation_key: str
 ) -> None:
-    """Tests that a command exception raises a translated UniversalAssistantError."""
+    """Tests that a command exception raises a translated __HAC_KEEP__Error."""
 
     await setup_platform(hass, [Platform.LOCK])
 
@@ -149,7 +149,7 @@ async def test_lock_command_exception(
             "tesla_fleet_api.teslemetry.Vehicle.door_lock",
             side_effect=side_effect,
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             LOCK_DOMAIN,
@@ -161,7 +161,7 @@ async def test_lock_command_exception(
 
 
 async def test_lock_streaming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
 ) -> None:

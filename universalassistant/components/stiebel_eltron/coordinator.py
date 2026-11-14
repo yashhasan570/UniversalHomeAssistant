@@ -9,7 +9,7 @@ from pystiebeleltron import ControllerModel
 from pystiebeleltron.lwz import LwzStiebelEltronAPI
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -25,7 +25,7 @@ class StiebelEltronDataCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: StiebelEltronConfigEntry,
         model: ControllerModel,
         unit: ModbusUnit,

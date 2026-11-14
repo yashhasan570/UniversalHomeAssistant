@@ -21,8 +21,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -41,7 +41,7 @@ from . import (
 
 
 async def test_effects_speed_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a number unique id."""
     config_entry = MockConfigEntry(
@@ -60,7 +60,7 @@ async def test_effects_speed_unique_id(
 
 
 async def test_effects_speed_unique_id_no_discovery(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a number unique id."""
     config_entry = MockConfigEntry(
@@ -77,7 +77,7 @@ async def test_effects_speed_unique_id_no_discovery(
     assert entity_registry.async_get(entity_id).unique_id == config_entry.entry_id
 
 
-async def test_rgb_light_effect_speed(hass: UniversalAssistant) -> None:
+async def test_rgb_light_effect_speed(hass: __HAC_KEEP__) -> None:
     """Test an rgb light with an effect."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -99,7 +99,7 @@ async def test_rgb_light_effect_speed(hass: UniversalAssistant) -> None:
 
     light_entity_id = "light.bulb_rgbcw_ddeeff"
     number_entity_id = "number.bulb_rgbcw_ddeeff_effect_speed"
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -148,7 +148,7 @@ async def test_rgb_light_effect_speed(hass: UniversalAssistant) -> None:
     assert state.state == "50"
 
 
-async def test_original_addressable_light_effect_speed(hass: UniversalAssistant) -> None:
+async def test_original_addressable_light_effect_speed(hass: __HAC_KEEP__) -> None:
     """Test an original addressable light with an effect."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -182,7 +182,7 @@ async def test_original_addressable_light_effect_speed(hass: UniversalAssistant)
 
     await async_mock_device_turn_off(hass, bulb)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -211,7 +211,7 @@ async def test_original_addressable_light_effect_speed(hass: UniversalAssistant)
     assert state.state == "100"
 
 
-async def test_addressable_light_effect_speed(hass: UniversalAssistant) -> None:
+async def test_addressable_light_effect_speed(hass: __HAC_KEEP__) -> None:
     """Test an addressable light with an effect."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -275,7 +275,7 @@ async def test_addressable_light_effect_speed(hass: UniversalAssistant) -> None:
     assert state.state == "100"
 
 
-async def test_addressable_light_pixel_config(hass: UniversalAssistant) -> None:
+async def test_addressable_light_pixel_config(hass: __HAC_KEEP__) -> None:
     """Test an addressable light pixel config."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -423,7 +423,7 @@ async def test_addressable_light_pixel_config(hass: UniversalAssistant) -> None:
 
 
 async def test_addressable_light_pixel_config_music_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test an addressable light pixel config with music pixels disabled."""
     config_entry = MockConfigEntry(

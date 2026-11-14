@@ -17,8 +17,8 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_DEVICE_CLASS, ATTR_FRIENDLY_NAME
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .common import (
     ATTR_ARGS,
@@ -49,7 +49,7 @@ def mock_device() -> Mock:
     return mock_dev
 
 
-async def test_cover_setup(hass: UniversalAssistant, mock_device: Mock) -> None:
+async def test_cover_setup(hass: __HAC_KEEP__, mock_device: Mock) -> None:
     """Test a successful setup."""
     await create_entity_from_device(hass, mock_device)
     entity_state = hass.states.get("cover.name")
@@ -88,11 +88,11 @@ async def test_cover_setup(hass: UniversalAssistant, mock_device: Mock) -> None:
     )
 
 
-async def test_cover_without_tilt(hass: UniversalAssistant, mock_device: Mock) -> None:
+async def test_cover_without_tilt(hass: __HAC_KEEP__, mock_device: Mock) -> None:
     """Test a cover with no tilt."""
     mock_device.has_tilt = False
     await create_entity_from_device(hass, mock_device)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "cover", "open_cover_tilt", {"entity_id": "cover.name"}, blocking=True
         )
@@ -101,7 +101,7 @@ async def test_cover_without_tilt(hass: UniversalAssistant, mock_device: Mock) -
 
 
 async def check_cover_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     update_func: Callable[[DynaliteBaseDevice | None], None],
     device: Mock,
     closing: bool,
@@ -119,7 +119,7 @@ async def check_cover_position(
     assert entity_state.state == expected
 
 
-async def test_cover_positions(hass: UniversalAssistant, mock_device: Mock) -> None:
+async def test_cover_positions(hass: __HAC_KEEP__, mock_device: Mock) -> None:
     """Test that the state updates in the various positions."""
     update_func = await create_entity_from_device(hass, mock_device)
     await check_cover_position(
@@ -136,7 +136,7 @@ async def test_cover_positions(hass: UniversalAssistant, mock_device: Mock) -> N
     )
 
 
-async def test_cover_restore_state(hass: UniversalAssistant, mock_device: Mock) -> None:
+async def test_cover_restore_state(hass: __HAC_KEEP__, mock_device: Mock) -> None:
     """Test restore from cache."""
     mock_restore_cache(
         hass,
@@ -149,7 +149,7 @@ async def test_cover_restore_state(hass: UniversalAssistant, mock_device: Mock) 
 
 
 async def test_cover_restore_state_bad_cache(
-    hass: UniversalAssistant, mock_device: Mock
+    hass: __HAC_KEEP__, mock_device: Mock
 ) -> None:
     """Test restore from a cache without the attribute."""
     mock_restore_cache(

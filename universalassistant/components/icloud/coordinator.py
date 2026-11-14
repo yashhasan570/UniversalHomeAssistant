@@ -13,7 +13,7 @@ from pyicloud.services.reminders.service import RemindersService
 
 from universalassistant.components.calendar import CalendarEvent
 from universalassistant.const import CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -56,7 +56,7 @@ def localize(value: date | datetime) -> datetime:
 class IcloudCalendarCoordinator(DataUpdateCoordinator[dict[str, IcloudCalendarData]]):
     """Keep a rolling window of events cached for the current/next lookup."""
 
-    def __init__(self, hass: UniversalAssistant, entry: IcloudConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: IcloudConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,
@@ -161,7 +161,7 @@ def _event_timezone(event: EventObject) -> tzinfo:
 
     iCloud reports naive local times alongside a `tz` field. "Floating" means
     the event has no zone of its own and should follow the viewer, so fall
-    back to Universal Universal Home Assistant's timezone in that case.
+    back to __HA_KEEP__'s timezone in that case.
     """
     if (name := event.tz) and name != "Floating":
         try:
@@ -174,7 +174,7 @@ def _event_timezone(event: EventObject) -> tzinfo:
 
 
 def _as_calendar_event(event: EventObject) -> CalendarEvent | None:
-    """Convert a pyicloud event into a Universal Universal Home Assistant calendar event."""
+    """Convert a pyicloud event into a __HA_KEEP__ calendar event."""
     start = _parse_apple_date(event.local_start_date) or _parse_apple_date(
         event.start_date
     )
@@ -190,7 +190,7 @@ def _as_calendar_event(event: EventObject) -> CalendarEvent | None:
     if event.all_day:
         start_value = start.date()
         end_value = end.date()
-        # Universal Universal Home Assistant treats the end of an all-day event as exclusive.
+        # __HA_KEEP__ treats the end of an all-day event as exclusive.
         if end_value <= start_value:
             end_value = start_value + timedelta(days=1)
     else:
@@ -287,7 +287,7 @@ class IcloudReminderList:
 class IcloudRemindersCoordinator(DataUpdateCoordinator[dict[str, IcloudReminderList]]):
     """Fetch reminder lists and their contents."""
 
-    def __init__(self, hass: UniversalAssistant, entry: IcloudConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: IcloudConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

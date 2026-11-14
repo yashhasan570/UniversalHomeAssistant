@@ -22,7 +22,7 @@ from universalassistant.components.marketplace.exceptions import (
     MarketplaceError,
     NotModifiedError,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import (
     CategoryTestData,
@@ -263,7 +263,7 @@ async def test_empty_section_is_valid(
 
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_invalid_repository_data_is_not_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     response_mocker: MarketplaceResponses,
     category_test_data: CategoryTestData,

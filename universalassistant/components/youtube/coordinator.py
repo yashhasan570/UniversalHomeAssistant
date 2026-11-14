@@ -9,7 +9,7 @@ from youtubeaio.types import UnauthorizedError, YouTubeBackendError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -67,7 +67,7 @@ class YouTubeDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: YouTubeConfigEntry,
         auth: AsyncConfigEntryAuth,
     ) -> None:

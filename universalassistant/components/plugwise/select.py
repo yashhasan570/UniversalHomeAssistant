@@ -1,4 +1,4 @@
-"""Plugwise Select component for Universal Universal Home Assistant."""
+"""Plugwise Select component for __HA_KEEP__."""
 
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
@@ -8,7 +8,7 @@ from plugwise import Smile
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import STATE_ON, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -96,7 +96,7 @@ SELECT_TYPES = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PlugwiseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

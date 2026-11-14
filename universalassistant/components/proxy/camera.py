@@ -17,8 +17,8 @@ from universalassistant.components.camera import (
     async_get_still_stream,
 )
 from universalassistant.const import CONF_ENTITY_ID, CONF_MODE, CONF_NAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -67,7 +67,7 @@ PLATFORM_SCHEMA = CAMERA_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -312,7 +312,7 @@ class ProxyCamera(Camera):
             image = await async_get_image(self.hass, self._proxied_camera)
             if not image:
                 return None
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             raise asyncio.CancelledError from err
 
         if self._mode == MODE_RESIZE:

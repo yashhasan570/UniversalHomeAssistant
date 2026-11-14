@@ -37,7 +37,7 @@
         "data_description": {
           "password": "[%key:component::devolo_home_network::config::step::user::data_description::password%]"
         },
-        "description": "Do you want to add the devolo Home Network device with the hostname `{host_name}` to Universal Universal Home Assistant?",
+        "description": "Do you want to add the devolo Home Network device with the hostname `{host_name}` to __HA_KEEP__?",
         "title": "Discovered devolo Home Network device"
       }
     }

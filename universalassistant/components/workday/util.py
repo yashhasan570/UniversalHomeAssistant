@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from holidays import PUBLIC, DateLike, HolidayBase, country_holidays
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.issue_registry import (
     IssueSeverity,
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
 
 async def async_validate_country_and_province(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WorkdayConfigEntry,
     country: str | None,
     province: str | None,
@@ -192,7 +192,7 @@ def get_holidays_object(
 
 
 def add_remove_custom_holidays(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WorkdayConfigEntry,
     country: str | None,
     calc_add_holidays: list[DateLike],

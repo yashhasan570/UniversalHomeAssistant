@@ -21,15 +21,15 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_watts_client: AsyncMock,
@@ -43,7 +43,7 @@ async def test_entities(
 
 
 async def test_switch_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_switch_state(
     ],
 )
 async def test_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -85,7 +85,7 @@ async def test_turn_on_off(
 
 
 async def test_fast_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -137,7 +137,7 @@ async def test_fast_polling(
     [SERVICE_TURN_ON, SERVICE_TURN_OFF],
 )
 async def test_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -148,7 +148,7 @@ async def test_api_error(
     mock_watts_client.set_switch_state.side_effect = RuntimeError("API Error")
 
     with pytest.raises(
-        UniversalAssistantError, match="An error occurred while setting the switch state"
+        __HAC_KEEP__Error, match="An error occurred while setting the switch state"
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,

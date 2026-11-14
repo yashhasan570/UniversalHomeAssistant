@@ -6,13 +6,13 @@ import pytest
 
 from universalassistant.components.netgear_lte.const import DOMAIN
 from universalassistant.components.netgear_lte.services import NetgearLTEServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 
 from .conftest import HOST
 
 
-async def test_set_option(hass: UniversalAssistant, setup_integration: None) -> None:
+async def test_set_option(hass: __HAC_KEEP__, setup_integration: None) -> None:
     """Test service call set option."""
     with patch(
         "universalassistant.components.netgear_lte.eternalegypt.Modem.set_failover_mode"

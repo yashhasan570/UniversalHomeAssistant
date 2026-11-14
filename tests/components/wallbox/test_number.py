@@ -12,8 +12,8 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.wallbox.coordinator import InsufficientRights
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .conftest import http_403_error, http_404_error, http_429_error, setup_integration
 from .const import (
@@ -25,7 +25,7 @@ from .const import (
 
 
 async def test_wallbox_number_power_class(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox sensor class."""
     await setup_integration(hass, entry)
@@ -46,7 +46,7 @@ async def test_wallbox_number_power_class(
 
 
 async def test_wallbox_number_power_class_bidir(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox sensor class."""
     with patch.object(
@@ -60,7 +60,7 @@ async def test_wallbox_number_power_class_bidir(
 
 
 async def test_wallbox_number_energy_class(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox sensor class."""
 
@@ -78,7 +78,7 @@ async def test_wallbox_number_energy_class(
 
 
 async def test_wallbox_number_icp_power_class(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox sensor class."""
 
@@ -96,7 +96,7 @@ async def test_wallbox_number_icp_power_class(
 
 
 async def test_wallbox_number_power_class_error_handling(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox sensor class."""
 
@@ -104,7 +104,7 @@ async def test_wallbox_number_power_class_error_handling(
 
     with (
         patch.object(mock_wallbox, "setMaxChargingCurrent", side_effect=http_404_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             "number",
@@ -118,7 +118,7 @@ async def test_wallbox_number_power_class_error_handling(
 
     with (
         patch.object(mock_wallbox, "setMaxChargingCurrent", side_effect=http_429_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             "number",
@@ -146,7 +146,7 @@ async def test_wallbox_number_power_class_error_handling(
 
 
 async def test_wallbox_number_energy_class_error_handling(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox sensor class."""
 
@@ -154,7 +154,7 @@ async def test_wallbox_number_energy_class_error_handling(
 
     with (
         patch.object(mock_wallbox, "setEnergyCost", side_effect=http_429_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             "number",
@@ -168,7 +168,7 @@ async def test_wallbox_number_energy_class_error_handling(
 
     with (
         patch.object(mock_wallbox, "setEnergyCost", side_effect=http_404_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             "number",
@@ -182,7 +182,7 @@ async def test_wallbox_number_energy_class_error_handling(
 
     with (
         patch.object(mock_wallbox, "setEnergyCost", side_effect=http_429_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             "number",
@@ -196,7 +196,7 @@ async def test_wallbox_number_energy_class_error_handling(
 
 
 async def test_wallbox_number_icp_power_class_error_handling(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox sensor class."""
 
@@ -218,7 +218,7 @@ async def test_wallbox_number_icp_power_class_error_handling(
 
     with (
         patch.object(mock_wallbox, "setIcpMaxCurrent", side_effect=http_404_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,
@@ -232,7 +232,7 @@ async def test_wallbox_number_icp_power_class_error_handling(
 
     with (
         patch.object(mock_wallbox, "setIcpMaxCurrent", side_effect=http_429_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,

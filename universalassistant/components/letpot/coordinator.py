@@ -11,7 +11,7 @@ from letpot.exceptions import LetPotAuthenticationException, LetPotException
 from letpot.models import LetPotDevice, LetPotDeviceStatus, LetPotGardenStatus
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -34,7 +34,7 @@ class LetPotDeviceCoordinator[_DataT: LetPotDeviceStatus](
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LetPotConfigEntry,
         device: LetPotDevice,
         device_client: LetPotDeviceClient,

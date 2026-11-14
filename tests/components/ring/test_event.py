@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.event import DoorbellEventType, EventEntityStateAttribute
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import MockConfigEntry, setup_platform
@@ -21,7 +21,7 @@ from .device_mocks import FRONT_DOOR_DEVICE_ID, INGRESS_DEVICE_ID
 
 
 async def test_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client: Mock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -71,7 +71,7 @@ async def test_states(
     ],
 )
 async def test_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client: Ring,
     mock_ring_event_listener_class: RingEventListener,
     freezer: FrozenDateTimeFactory,

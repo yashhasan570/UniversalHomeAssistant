@@ -7,7 +7,7 @@ from aiohttp import ClientError
 from pyenphase import EnvoyData
 from pyenphase.exceptions import EnvoyError
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
@@ -56,7 +56,7 @@ def exception_handler[_EntityT: EnvoyBaseEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except ACTIONERRORS as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="action_error",
                 translation_placeholders={

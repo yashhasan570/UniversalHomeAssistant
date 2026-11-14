@@ -6,7 +6,7 @@
     },
     "step": {
       "bluetooth_confirm": {
-        "description": "Do you want to add the Melnor Bluetooth valve `{name}` to Universal Universal Home Assistant?",
+        "description": "Do you want to add the Melnor Bluetooth valve `{name}` to __HA_KEEP__?",
         "title": "Discovered Melnor Bluetooth valve"
       },
       "pick_device": {

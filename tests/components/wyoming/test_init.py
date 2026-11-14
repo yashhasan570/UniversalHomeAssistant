@@ -3,11 +3,11 @@
 from unittest.mock import patch
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_cannot_connect(
-    hass: UniversalAssistant, stt_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, stt_config_entry: ConfigEntry
 ) -> None:
     """Test we handle cannot connect error."""
     with patch(
@@ -18,7 +18,7 @@ async def test_cannot_connect(
 
 
 async def test_unload(
-    hass: UniversalAssistant, stt_config_entry: ConfigEntry, init_wyoming_stt
+    hass: __HAC_KEEP__, stt_config_entry: ConfigEntry, init_wyoming_stt
 ) -> None:
     """Test unload."""
     assert await hass.config_entries.async_unload(stt_config_entry.entry_id)

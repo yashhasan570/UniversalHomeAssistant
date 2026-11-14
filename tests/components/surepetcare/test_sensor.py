@@ -3,7 +3,7 @@
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
 
@@ -38,7 +38,7 @@ DEFAULT_DISABLED_ENTITIES = [
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     surepetcare,
     mock_config_entry_setup: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_sensors(
 
 
 async def test_default_disabled_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     surepetcare,
     mock_config_entry_setup: MockConfigEntry,

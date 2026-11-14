@@ -4,12 +4,12 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("mock_pyotp")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     otp_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:

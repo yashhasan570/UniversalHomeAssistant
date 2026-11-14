@@ -9,14 +9,14 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.opentherm_gw import DOMAIN
 from universalassistant.components.opentherm_gw.const import OpenThermDeviceIdentifier
 from universalassistant.const import CONF_ID, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MINIMAL_STATUS
 
 
 async def test_cancel_room_setpoint_override_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pyotgw: MagicMock,
@@ -50,7 +50,7 @@ async def test_cancel_room_setpoint_override_button(
 
 
 async def test_hot_water_push_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pyotgw: MagicMock,
@@ -84,7 +84,7 @@ async def test_hot_water_push_button(
 
 
 async def test_restart_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pyotgw: MagicMock,

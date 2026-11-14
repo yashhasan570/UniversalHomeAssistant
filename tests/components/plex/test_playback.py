@@ -15,8 +15,8 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.plex.const import CONF_SERVER_IDENTIFIER, PLEX_URI_SCHEME
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DEFAULT_DATA, PLEX_DIRECT_URL
 
@@ -46,7 +46,7 @@ class MockPlexLibrarySection:
 
 
 async def test_media_player_playback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_plex_server,
     requests_mock: requests_mock.Mocker,
     playqueue_created,
@@ -71,7 +71,7 @@ async def test_media_player_playback(
             return_value=None,
             __qualname__="search",
         ),
-        pytest.raises(UniversalAssistantError) as excinfo,
+        pytest.raises(__HAC_KEEP__Error) as excinfo,
     ):
         await hass.services.async_call(
             MP_DOMAIN,
@@ -202,7 +202,7 @@ async def test_media_player_playback(
     playmedia_mock.reset()
     movies = [movie2, movie3]
     with (
-        pytest.raises(UniversalAssistantError) as excinfo,
+        pytest.raises(__HAC_KEEP__Error) as excinfo,
         patch(
             "plexapi.library.LibrarySection.search",
             return_value=movies,

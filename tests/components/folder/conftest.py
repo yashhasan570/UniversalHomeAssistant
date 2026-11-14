@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.folder.const import CONF_FILTER, CONF_FOLDER_PATHS, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import TEST_FILE_CONTENT, TEST_FILE_NAME, TEST_FOLDER_NAME
 
@@ -21,7 +21,7 @@ def mock_setup_entry() -> Generator[None]:
 
 
 @pytest.fixture
-def folder_path(hass: UniversalAssistant, tmp_path: Path) -> str:
+def folder_path(hass: __HAC_KEEP__, tmp_path: Path) -> str:
     """Return an allowed folder containing one file."""
     folder = tmp_path / TEST_FOLDER_NAME
     folder.mkdir()

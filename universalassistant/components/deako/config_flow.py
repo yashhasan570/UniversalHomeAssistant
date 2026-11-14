@@ -3,13 +3,13 @@
 from pydeako import DeakoDiscoverer, DevicesNotFoundException
 
 from universalassistant.components import zeroconf
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_flow
 
 from .const import DOMAIN, NAME
 
 
-async def _async_has_devices(hass: UniversalAssistant) -> bool:
+async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
     """Return if there are devices that can be discovered."""
     _zc = await zeroconf.async_get_instance(hass)
     discoverer = DeakoDiscoverer(_zc)

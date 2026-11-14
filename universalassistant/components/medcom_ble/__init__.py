@@ -2,7 +2,7 @@
 
 from universalassistant.components import bluetooth
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .coordinator import MedcomBleConfigEntry, MedcomBleUpdateCoordinator
@@ -11,7 +11,7 @@ from .coordinator import MedcomBleConfigEntry, MedcomBleUpdateCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MedcomBleConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MedcomBleConfigEntry) -> None:
     """Set up Medcom BLE radiation monitor from a config entry."""
 
     address = entry.unique_id
@@ -32,6 +32,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: MedcomBleConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MedcomBleConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MedcomBleConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

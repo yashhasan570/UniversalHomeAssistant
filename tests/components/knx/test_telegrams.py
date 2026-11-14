@@ -42,7 +42,7 @@ from universalassistant.components.knx.telegrams import (
     Telegrams,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.util import dt as dt_util
 
@@ -78,7 +78,7 @@ MOCK_TELEGRAMS = [
         "dpt_name": None,
         "payload": [1, 2, 3, 4],
         "source": "0.0.0",
-        "source_name": "Universal Universal Home Assistant",
+        "source_name": "__HA_KEEP__",
         "telegramtype": "GroupValueWrite",
         "timestamp": MOCK_TIMESTAMP,
         "unit": None,
@@ -102,7 +102,7 @@ def assert_telegram_history(telegrams: list[TelegramDict]) -> bool:
 
 
 async def test_store_telegram_history(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Test storing telegram history."""
@@ -145,7 +145,7 @@ async def test_store_telegram_history(
     ],
 )
 async def test_store_telegram_history_sqlite(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     freezer: FrozenDateTimeFactory,
     time_zone: str,
@@ -180,7 +180,7 @@ async def test_store_telegram_history_sqlite(
     ],
 )
 async def test_store_telegram_history_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     issue_registry: ir.IssueRegistry,
     side_effect: Exception,
@@ -209,10 +209,10 @@ async def test_store_telegram_history_error_handling(
 
 
 async def test_sqlite_store_is_told_the_configured_timezone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
-    """Test the SQLite store receives Universal Universal Home Assistant's configured time zone."""
+    """Test the SQLite store receives __HA_KEEP__'s configured time zone."""
     await hass.config.async_set_time_zone("Europe/Berlin")
     await knx.setup_integration(real_telegram_store=True)
 
@@ -225,7 +225,7 @@ async def test_sqlite_store_is_told_the_configured_timezone(
 
 
 async def test_store_initializes_in_background(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_store_initializes_in_background(
 
 
 async def test_stop_cancels_in_flight_store_init(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Unloading while the store is still initializing cancels it cleanly."""
@@ -287,7 +287,7 @@ async def test_stop_cancels_in_flight_store_init(
 
 
 async def test_failed_setup_stops_the_store_initialization(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """A setup that fails after the store started initializing tears the store down.
@@ -324,7 +324,7 @@ async def test_failed_setup_stops_the_store_initialization(
 
 
 async def test_migrate_telegrams_from_json(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Test legacy JSON telegram history is migrated into the store."""
@@ -358,7 +358,7 @@ async def test_migrate_telegrams_from_json(
     ],
 )
 async def test_stop_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     side_effect: Exception,
 ) -> None:
@@ -375,7 +375,7 @@ async def test_stop_error_handling(
 
 @pytest.mark.usefixtures("load_knxproj")
 async def test_model_to_dict_resolution(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Test model_to_dict name resolution and DPT handling."""
@@ -408,7 +408,7 @@ async def test_model_to_dict_resolution(
     assert result["dpt_name"] is None
     assert result["unit"] is None
 
-    # Outgoing telegram from an unknown source falls back to "Universal Universal Home Assistant".
+    # Outgoing telegram from an unknown source falls back to "__HA_KEEP__".
     outgoing = StoredTelegram(
         timestamp=dt_util.now(),
         source="0.0.0",
@@ -425,7 +425,7 @@ async def test_model_to_dict_resolution(
         data_secure=False,
     )
     result = telegrams_module.model_to_dict(outgoing)
-    assert result["source_name"] == "Universal Universal Home Assistant"
+    assert result["source_name"] == "__HA_KEEP__"
 
     # A telegram with DPT info resolves the transcoder name and unit, and
     # explicit names are preserved as-is.
@@ -453,7 +453,7 @@ async def test_model_to_dict_resolution(
 
 @pytest.mark.usefixtures("load_knxproj")
 async def test_telegram_to_dict_dpt_from_project(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Test undecodable telegrams get their DPT from the project."""
@@ -496,7 +496,7 @@ async def test_telegram_to_dict_dpt_from_project(
     ],
 )
 async def test_load_history_runs_in_its_own_task(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     needs_migration: bool,
 ) -> None:
@@ -532,7 +532,7 @@ async def test_load_history_runs_in_its_own_task(
     ],
 )
 async def test_load_history_hydrate_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     side_effect: Exception,
 ) -> None:
@@ -549,7 +549,7 @@ async def test_load_history_hydrate_error(
 
 
 async def test_migrate_telegrams_no_json(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Test migration is a no-op when there is no legacy JSON history."""
@@ -562,7 +562,7 @@ async def test_migrate_telegrams_no_json(
 
 
 async def test_migrate_telegrams_unexpected_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Test migration skips an unexpected legacy JSON payload format."""
@@ -583,7 +583,7 @@ async def test_migrate_telegrams_unexpected_format(
 
 
 async def test_migrate_telegrams_store_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Test migration errors are logged without failing setup."""
@@ -624,7 +624,7 @@ async def test_migrate_telegrams_store_error(
 
 
 async def test_nightly_eviction_calls_evict_expired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -653,7 +653,7 @@ async def test_nightly_eviction_calls_evict_expired(
 
 
 async def test_nightly_eviction_zero_retention_deletes_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -684,7 +684,7 @@ async def test_nightly_eviction_zero_retention_deletes_all(
 
 
 async def test_nightly_eviction_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -711,7 +711,7 @@ async def test_nightly_eviction_error_handling(
 
 
 async def test_postgres_backend_init_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -783,7 +783,7 @@ def _patch_postgres_store(initialize: AsyncMock) -> AbstractContextManager[None]
     ],
 )
 async def test_postgres_store_init_retries_unreachable_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     issue_registry: ir.IssueRegistry,
     cause: BaseException | None,
@@ -815,7 +815,7 @@ async def test_postgres_store_init_retries_unreachable_server(
 
 
 async def test_postgres_store_init_gives_up_after_retries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -846,7 +846,7 @@ async def test_postgres_store_init_gives_up_after_retries(
 
 
 async def test_postgres_backend_flushes_more_often_than_sqlite(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Postgres flushes every second; sqlite keeps the original 10 minute interval.
@@ -875,7 +875,7 @@ async def test_postgres_backend_flushes_more_often_than_sqlite(
 
 
 async def test_sqlite_backend_keeps_long_flush_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Sqlite's flush interval is unaffected by the Postgres-specific tuning."""

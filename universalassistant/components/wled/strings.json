@@ -24,10 +24,10 @@
         "data_description": {
           "host": "Hostname or IP address of your WLED device."
         },
-        "description": "Set up your WLED to integrate with Universal Universal Home Assistant."
+        "description": "Set up your WLED to integrate with __HA_KEEP__."
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add the WLED named `{name}` to Universal Universal Home Assistant?",
+        "description": "Do you want to add the WLED named `{name}` to __HA_KEEP__?",
         "title": "Discovered WLED device"
       }
     }

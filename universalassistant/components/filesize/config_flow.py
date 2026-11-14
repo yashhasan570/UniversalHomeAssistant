@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_FILE_PATH
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DOMAIN
 
@@ -17,7 +17,7 @@ DATA_SCHEMA = probatio.Schema({probatio.Required(CONF_FILE_PATH): str})
 _LOGGER = logging.getLogger(__name__)
 
 
-def validate_path(hass: UniversalAssistant, path: str) -> tuple[str | None, dict[str, str]]:
+def validate_path(hass: __HAC_KEEP__, path: str) -> tuple[str | None, dict[str, str]]:
     """Validate path."""
     get_path = pathlib.Path(path)
     if not get_path.exists() or not get_path.is_file():

@@ -16,7 +16,7 @@ from zeroconf import (
 from zeroconf.asyncio import AsyncServiceInfo, AsyncZeroconf
 
 from universalassistant.components import zeroconf
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -31,8 +31,8 @@ KNOWN_BRANDS: dict[str | None, str] = {
     "GL.iNET Inc.": "glinet",
     "Google Inc.": "google",
     "Heffeix": "heffeix",
-    "UniversalAssistant": "universalassistant",
-    "Universal Universal Home Assistant": "universalassistant",
+    "__HAC_KEEP__": "universalassistant",
+    "__HA_KEEP__": "universalassistant",
     "IKEA": "ikea",
     "Nanoleaf": "nanoleaf",
     "OpenThread": "openthread",
@@ -160,7 +160,7 @@ class ThreadRouterDiscovery:
 
         def __init__(
             self,
-            hass: UniversalAssistant,
+            hass: __HAC_KEEP__,
             aiozc: AsyncZeroconf,
             router_discovered: Callable,
             router_removed: Callable,
@@ -237,7 +237,7 @@ class ThreadRouterDiscovery:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         router_discovered: Callable[[str, ThreadRouterDiscoveryData], None],
         router_removed: Callable[[str], None],
     ) -> None:

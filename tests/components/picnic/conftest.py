@@ -11,7 +11,7 @@ from python_picnic_api2.models import Cart, DeliverySummary, Eta, User
 
 from universalassistant.components.picnic import CONF_COUNTRY_CODE, DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 ENTITY_ID = "todo.mock_title_shopping_cart"
@@ -56,7 +56,7 @@ def mock_picnic_api():
 
 @pytest.fixture
 def setup_delivery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_picnic_api: MagicMock,
 ) -> SetupDeliveryFixture:
@@ -90,7 +90,7 @@ def setup_delivery(
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_picnic_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_picnic_api: MagicMock
 ) -> MockConfigEntry:
     """Set up the Picnic integration for testing."""
     mock_config_entry.add_to_hass(hass)

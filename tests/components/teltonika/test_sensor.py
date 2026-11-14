@@ -15,12 +15,12 @@ from teltasync import TeltonikaAuthenticationError, TeltonikaConnectionError
 
 from universalassistant.components.teltonika.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -31,7 +31,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_modem_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_modems: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -65,7 +65,7 @@ async def test_sensor_modem_removed(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_update_failure_and_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_modems: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_sensor_update_failure_and_recovery(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_update_exception_paths(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_modems: AsyncMock,
     freezer: FrozenDateTimeFactory,
     side_effect: Exception,
@@ -135,7 +135,7 @@ async def test_sensor_update_exception_paths(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_update_unsuccessful_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_modems: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

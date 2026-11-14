@@ -6,7 +6,7 @@ from asyncpysupla import SuplaAPI
 import probatio
 
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.discovery import async_load_platform
@@ -51,7 +51,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, base_config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, base_config: ConfigType) -> bool:
     """Set up the Supla component."""
 
     server_confs = base_config[DOMAIN][CONF_SERVERS]

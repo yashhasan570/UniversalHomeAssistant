@@ -11,9 +11,9 @@ from aiohttp import web
 from aiohttp.web_exceptions import HTTPServiceUnavailable
 
 from universalassistant import config_entries
-from universalassistant.components.http import UniversalAssistantView, require_admin
+from universalassistant.components.http import __HAC_KEEP__View, require_admin
 from universalassistant.const import ATTR_SERVICE, EVENT_HOMEASSISTANT_START
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
@@ -25,7 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_setup_discovery_view(hass: UniversalAssistant) -> None:
+def async_setup_discovery_view(hass: __HAC_KEEP__) -> None:
     """Discovery setup."""
     hassio_discovery = HassIODiscovery(hass)
     supervisor_client = get_supervisor_client(hass)
@@ -69,13 +69,13 @@ def async_setup_discovery_view(hass: UniversalAssistant) -> None:
     )
 
 
-class HassIODiscovery(UniversalAssistantView):
+class HassIODiscovery(__HAC_KEEP__View):
     """Hass.io view to handle base part."""
 
     name = "api:hassio_push:discovery"
     url = "/api/hassio_push/discovery/{uuid}"
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize WebView."""
         self.hass = hass
         self._supervisor_client = get_supervisor_client(hass)

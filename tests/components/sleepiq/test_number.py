@@ -25,7 +25,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -48,7 +48,7 @@ FAVORITE_L_ENTITY_ID = (
 
 
 async def test_firmness(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_asyncsleepiq
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_asyncsleepiq
 ) -> None:
     """Test the SleepIQ firmness number values for a bed with two sides."""
     entry = await setup_platform(hass, NUMBER_DOMAIN)
@@ -110,7 +110,7 @@ async def test_firmness(
 
 
 async def test_favorite_firmness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     mock_asyncsleepiq: MagicMock,
@@ -173,7 +173,7 @@ async def test_favorite_firmness(
     ],
 )
 async def test_favorite_firmness_unavailable_when_update_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_asyncsleepiq: MagicMock,
     error: Exception,
@@ -192,7 +192,7 @@ async def test_favorite_firmness_unavailable_when_update_fails(
 
 
 async def test_actuators(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_asyncsleepiq
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_asyncsleepiq
 ) -> None:
     """Test SleepIQ actuator position values for adjustable bed."""
     entry = await setup_platform(hass, NUMBER_DOMAIN)
@@ -277,7 +277,7 @@ async def test_actuators(
 
 
 async def test_foot_warmer_timer(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_asyncsleepiq
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_asyncsleepiq
 ) -> None:
     """Test the SleepIQ foot warmer number values for a bed with two sides."""
     entry = await setup_platform(hass, NUMBER_DOMAIN)
@@ -321,7 +321,7 @@ async def test_foot_warmer_timer(
 
 
 async def test_core_climate_timer(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_asyncsleepiq
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_asyncsleepiq
 ) -> None:
     """Test the SleepIQ core climate number values for a bed with two sides."""
     entry = await setup_platform(hass, NUMBER_DOMAIN)

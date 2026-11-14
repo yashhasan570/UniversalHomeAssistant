@@ -6,7 +6,7 @@ from pyoverkiz.client import OverkizClient
 from pyoverkiz.models import PersistedActionGroup
 
 from universalassistant.components.scene import Scene
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import OverkizDataConfigEntry
@@ -15,7 +15,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OverkizDataConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

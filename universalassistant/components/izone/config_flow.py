@@ -80,7 +80,7 @@ class IZoneConfigFlow(ConfigFlow, domain=DOMAIN):
     ) -> ConfigFlowResult:
         """YAML import: start discovery and let runtime discovery offer flows.
 
-        The import step runs exactly once (Universal Universal Home Assistant calls it only when the YAML
+        The import step runs exactly once (__HA_KEEP__ calls it only when the YAML
         key is present at startup). We start the discovery service so every controller
         surfaced by the service's normal listener appears in discovered devices and
         still requires normal confirmation.

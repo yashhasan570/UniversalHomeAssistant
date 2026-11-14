@@ -9,7 +9,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     TextSelector,
@@ -42,7 +42,7 @@ STEP_REAUTH_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def _validate_credentials(hass: UniversalAssistant, email: str, password: str) -> str:
+async def _validate_credentials(hass: __HAC_KEEP__, email: str, password: str) -> str:
     """Authenticate and return the account's stable user id."""
     api = VitesyApi(email, password, async_get_clientsession(hass))
     await api.login()

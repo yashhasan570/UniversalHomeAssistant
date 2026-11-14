@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory, UnitOfInformation
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -56,7 +56,7 @@ SENSOR_TYPES = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FileSizeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

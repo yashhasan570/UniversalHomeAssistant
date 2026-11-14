@@ -1,4 +1,4 @@
-"""Constants used by Universal Universal Home Assistant components."""
+"""Constants used by __HA_KEEP__ components."""
 
 from enum import StrEnum
 from functools import partial
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from .core import EventStateChangedData, EventStateReportedData
     from .helpers.typing import NoEventData
 
-APPLICATION_NAME: Final = "UniversalAssistant"
+APPLICATION_NAME: Final = "__HAC_KEEP__"
 MAJOR_VERSION: Final = 2026
 MINOR_VERSION: Final = 12
 PATCH_VERSION: Final = "0.dev0"
@@ -1050,9 +1050,9 @@ class EntityCategory(StrEnum):
 
 ENTITY_CATEGORIES: Final[list[str]] = [cls.value for cls in EntityCategory]
 
-# The ID of the Universal Universal Home Assistant Media Player Cast App
+# The ID of the __HA_KEEP__ Media Player Cast App
 CAST_APP_ID_HOMEASSISTANT_MEDIA: Final = "B45F4572"
-# The ID of the Universal Universal Home Assistant Lovelace Cast App
+# The ID of the __HA_KEEP__ Lovelace Cast App
 CAST_APP_ID_HOMEASSISTANT_LOVELACE: Final = "A078F6B0"
 
 # User used by Supervisor

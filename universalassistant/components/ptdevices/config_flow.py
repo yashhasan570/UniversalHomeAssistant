@@ -10,8 +10,8 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DEFAULT_URL, DOMAIN
@@ -25,7 +25,7 @@ _CONF_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> tuple[str, str]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> tuple[str, str]:
     """Validate the user input allows us to connect.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
@@ -107,13 +107,13 @@ class PTDevicesConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""
 
 
-class NoDevicesFound(UniversalAssistantError):
+class NoDevicesFound(__HAC_KEEP__Error):
     """No devices were found in the account."""

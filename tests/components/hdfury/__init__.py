@@ -5,11 +5,11 @@ from unittest.mock import patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def setup_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, platforms: list[Platform]
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, platforms: list[Platform]
 ) -> None:
     """Fixture for setting up the integration."""
     config_entry.add_to_hass(hass)

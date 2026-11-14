@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, override
 from aioautomower.model import MowerModes, StayOutZones, Zone
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AutomowerConfigEntry, AutomowerDataUpdateCoordinator
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AutomowerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

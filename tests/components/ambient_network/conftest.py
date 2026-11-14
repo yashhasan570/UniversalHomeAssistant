@@ -13,7 +13,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.components.ambient_network.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -76,7 +76,7 @@ def config_entry_fixture(request: pytest.FixtureRequest) -> MockConfigEntry:
 
 async def setup_platform(
     expected_outcome: bool,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Load the Ambient Network integration.

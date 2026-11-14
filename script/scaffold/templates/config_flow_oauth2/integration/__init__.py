@@ -2,7 +2,7 @@
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.config_entry_oauth2_flow import (
     OAuth2Session,
@@ -21,7 +21,7 @@ type New_NameConfigEntry = ConfigEntry[api.AsyncConfigEntryAuth]
 
 
 # # TODO Update entry annotation
-async def async_setup_entry(hass: UniversalAssistant, entry: New_NameConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: New_NameConfigEntry) -> None:
     """Set up NEW_NAME from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
 
@@ -39,6 +39,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: New_NameConfigEntry
 
 
 # TODO Update entry annotation
-async def async_unload_entry(hass: UniversalAssistant, entry: New_NameConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: New_NameConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

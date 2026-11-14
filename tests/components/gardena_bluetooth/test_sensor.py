@@ -23,7 +23,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -60,7 +60,7 @@ pytestmark = pytest.mark.usefixtures("constant_advertisements")
     ],
 )
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_read_char_raw: dict[str, bytes],
     scan_step: Callable[[], Awaitable[None]],
@@ -134,7 +134,7 @@ async def test_setup(
     ],
 )
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_read_char_raw: dict[str, bytes],
@@ -151,7 +151,7 @@ async def test_sensors(
 
 
 async def test_missing_connected_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     mock_read_char_raw: dict[str, bytes],
     scan_step: Callable[[], Awaitable[None]],
@@ -177,7 +177,7 @@ async def test_missing_connected_state(
 
 
 async def test_connected_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
     mock_read_char_raw: dict[str, bytes],

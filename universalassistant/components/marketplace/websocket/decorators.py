@@ -5,8 +5,8 @@ from functools import wraps
 from typing import Any
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from ..base import MarketplaceConfigEntry, MarketplaceManager
 from ..const import DOMAIN
@@ -27,9 +27,9 @@ def send_translated_error(
     translation_placeholders: dict[str, str] | None = None,
 ) -> None:
     """Answer with an error the panel shows as is, so it has to be translated."""
-    # The exception renders the message in the language of Universal Universal Home Assistant
+    # The exception renders the message in the language of __HA_KEEP__
     message = str(
-        UniversalAssistantError(
+        __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key=translation_key,
             translation_placeholders=translation_placeholders,
@@ -90,11 +90,11 @@ def send_repository_not_found(
 
 
 type MarketplaceCommandHandler = Callable[
-    [UniversalAssistant, websocket_api.ActiveConnection, dict[str, Any], MarketplaceManager],
+    [__HAC_KEEP__, websocket_api.ActiveConnection, dict[str, Any], MarketplaceManager],
     Awaitable[None],
 ]
 type CommandHandler = Callable[
-    [UniversalAssistant, websocket_api.ActiveConnection, dict[str, Any]],
+    [__HAC_KEEP__, websocket_api.ActiveConnection, dict[str, Any]],
     Awaitable[None],
 ]
 
@@ -111,7 +111,7 @@ def marketplace_command(
     def decorator(handler: MarketplaceCommandHandler) -> CommandHandler:
         @wraps(handler)
         async def with_marketplace(
-            hass: UniversalAssistant,
+            hass: __HAC_KEEP__,
             connection: websocket_api.ActiveConnection,
             msg: dict[str, Any],
         ) -> None:

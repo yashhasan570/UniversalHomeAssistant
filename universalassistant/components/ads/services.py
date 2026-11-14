@@ -6,7 +6,7 @@ import logging
 import probatio
 import pyads
 
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import config_validation as cv
 
 from .const import ADS_TYPEMAP, DATA_ADS, DOMAIN, AdsType
@@ -50,7 +50,7 @@ def _handle_write_data_by_name(call: ServiceCall) -> None:
         _LOGGER.error(err)
 
 
-def setup_services(hass: UniversalAssistant) -> None:
+def setup_services(hass: __HAC_KEEP__) -> None:
     """Register the ADS services."""
     hass.services.register(
         DOMAIN,

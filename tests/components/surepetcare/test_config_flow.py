@@ -10,7 +10,7 @@ from surepy.exceptions import SurePetcareAuthenticationError, SurePetcareError
 from universalassistant import config_entries
 from universalassistant.components.surepetcare.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 INPUT_DATA = {
@@ -35,7 +35,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_form(hass: UniversalAssistant, surepetcare: NonCallableMagicMock) -> None:
+async def test_form(hass: __HAC_KEEP__, surepetcare: NonCallableMagicMock) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -68,7 +68,7 @@ async def test_form(hass: UniversalAssistant, surepetcare: NonCallableMagicMock)
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -97,7 +97,7 @@ async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -126,7 +126,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_error(hass: UniversalAssistant) -> None:
+async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test we handle unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -156,7 +156,7 @@ async def test_form_unknown_error(hass: UniversalAssistant) -> None:
 
 
 async def test_flow_entry_already_exists(
-    hass: UniversalAssistant, surepetcare: NonCallableMagicMock
+    hass: __HAC_KEEP__, surepetcare: NonCallableMagicMock
 ) -> None:
     """Test user input for config_entry that already exists."""
     first_entry = MockConfigEntry(
@@ -193,7 +193,7 @@ async def test_flow_entry_already_exists(
 
 
 async def test_reauthentication(
-    hass: UniversalAssistant, surepetcare: NonCallableMagicMock
+    hass: __HAC_KEEP__, surepetcare: NonCallableMagicMock
 ) -> None:
     """Test surepetcare reauthentication."""
     old_entry = MockConfigEntry(
@@ -231,7 +231,7 @@ async def test_reauthentication(
     }
 
 
-async def test_reauthentication_failure(hass: UniversalAssistant) -> None:
+async def test_reauthentication_failure(hass: __HAC_KEEP__) -> None:
     """Test surepetcare reauthentication failure."""
     old_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -270,7 +270,7 @@ async def test_reauthentication_failure(hass: UniversalAssistant) -> None:
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_reauthentication_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_reauthentication_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test surepetcare reauthentication failure."""
     old_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -309,7 +309,7 @@ async def test_reauthentication_cannot_connect(hass: UniversalAssistant) -> None
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_reauthentication_unknown_failure(hass: UniversalAssistant) -> None:
+async def test_reauthentication_unknown_failure(hass: __HAC_KEEP__) -> None:
     """Test surepetcare reauthentication failure."""
     old_entry = MockConfigEntry(
         domain=DOMAIN,

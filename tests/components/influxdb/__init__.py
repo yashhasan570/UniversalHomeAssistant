@@ -52,7 +52,7 @@ BASE_V2_CONFIG = {
     CONF_URL: "https://us-west-2-1.aws.cloud2.influxdata.com",
     CONF_TOKEN: "token",
     CONF_ORG: "org",
-    CONF_BUCKET: "Universal Universal Home Assistant",
+    CONF_BUCKET: "__HA_KEEP__",
     CONF_VERIFY_SSL: True,
     CONF_SSL_CA_CERT: None,
 }

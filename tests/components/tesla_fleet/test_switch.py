@@ -16,7 +16,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -25,7 +25,7 @@ from .const import COMMAND_OK, VEHICLE_DATA_ALT
 
 
 async def test_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_switch(
 
 
 async def test_switch_alt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -51,7 +51,7 @@ async def test_switch_alt(
 
 
 async def test_switch_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_switch_offline(
     ],
 )
 async def test_switch_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     name: str,
     on: str,
     off: str,
@@ -147,7 +147,7 @@ async def test_switch_services(
 
 
 async def test_switch_auto_seat_climate_off_seat_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
 ) -> None:
     """Tests that turning off auto seat climate sends the 1-indexed AutoSeat position."""
@@ -168,7 +168,7 @@ async def test_switch_auto_seat_climate_off_seat_position(
 
 
 async def test_switch_no_scope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     readonly_config_entry: MockConfigEntry,
 ) -> None:

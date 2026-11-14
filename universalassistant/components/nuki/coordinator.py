@@ -14,7 +14,7 @@ from requests.exceptions import RequestException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -45,7 +45,7 @@ class NukiCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: NukiConfigEntry,
         bridge: NukiBridge,
         locks: list[NukiLock],

@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.mystrom.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import (
@@ -25,7 +25,7 @@ from .conftest import DEVICE_MAC
 
 
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_type: int,
 ) -> None:
@@ -55,7 +55,7 @@ async def init_integration(
 
 
 async def test_init_pir_and_unload(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test the initialization of a myStrom pir motion sensor."""
     await init_integration(hass, config_entry, 110)
@@ -70,7 +70,7 @@ async def test_init_pir_and_unload(
 
 
 async def test_device_registry_bulb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -85,7 +85,7 @@ async def test_device_registry_bulb(
 
 
 async def test_init_switch_and_unload(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test the initialization of a myStrom switch."""
     await init_integration(hass, config_entry, 106)
@@ -116,7 +116,7 @@ async def test_init_switch_and_unload(
     ],
 )
 async def test_init_bulb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_type: int,
     platform: str,
@@ -131,7 +131,7 @@ async def test_init_bulb(
 
 
 async def test_init_of_unknown_bulb(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test the initialization of a unknown myStrom bulb."""
     with (
@@ -159,7 +159,7 @@ async def test_init_of_unknown_bulb(
 
 
 async def test_init_of_unknown_device(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test the initialization of a unsupported myStrom device."""
     with patch(
@@ -174,7 +174,7 @@ async def test_init_of_unknown_device(
 
 
 async def test_init_cannot_connect_because_of_device_info(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test error handling for failing get_device_info."""
     with (
@@ -192,7 +192,7 @@ async def test_init_cannot_connect_because_of_device_info(
 
 
 async def test_init_cannot_connect_because_of_get_state(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test error handling for failing get_state."""
     with (

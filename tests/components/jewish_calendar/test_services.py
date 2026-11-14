@@ -8,7 +8,7 @@ from universalassistant.components.jewish_calendar.const import DOMAIN
 from universalassistant.components.jewish_calendar.services import (
     JewishCalendarServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -87,7 +87,7 @@ from universalassistant.core import UniversalAssistant
 )
 @pytest.mark.usefixtures("setup_at_time")
 async def test_get_omer_blessing(
-    hass: UniversalAssistant, service_data: dict[str, str | dt.date | bool], expected: str
+    hass: __HAC_KEEP__, service_data: dict[str, str | dt.date | bool], expected: str
 ) -> None:
     """Test get omer blessing."""
 

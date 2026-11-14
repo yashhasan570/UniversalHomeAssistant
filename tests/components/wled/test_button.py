@@ -22,8 +22,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = [
@@ -40,7 +40,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_snapshots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_snapshots(
 
 
 async def test_device_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -65,7 +65,7 @@ async def test_device_snapshot(
 
 
 async def test_button_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_wled: MagicMock,
@@ -96,7 +96,7 @@ async def test_button_restart(
     ],
 )
 async def test_button_restart_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_wled: MagicMock,
@@ -107,7 +107,7 @@ async def test_button_restart_errors(
     """Test the error handling of the restart button."""
     # Test with WLED connection error
     mock_wled.reset.side_effect = side_effect
-    with pytest.raises(UniversalAssistantError) as ex:
+    with pytest.raises(__HAC_KEEP__Error) as ex:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -125,7 +125,7 @@ async def test_button_restart_errors(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_button_next_playlist_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
 ) -> None:
     """Test the next playlist entry button skips to the next entry."""
@@ -143,7 +143,7 @@ async def test_button_next_playlist_entry(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_button_next_playlist_entry_without_playlist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
 ) -> None:
     """Test the next playlist entry button tells there is no playlist running."""
@@ -170,7 +170,7 @@ async def test_button_next_playlist_entry_without_playlist(
 )
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_button_next_playlist_entry_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
     side_effect: Exception,
     expected_state: str,
@@ -179,7 +179,7 @@ async def test_button_next_playlist_entry_errors(
     """Test the error handling of the next playlist entry button."""
     mock_wled.update.return_value.state.playlist_id = 1
     mock_wled.next_playlist_entry.side_effect = side_effect
-    with pytest.raises(UniversalAssistantError) as ex:
+    with pytest.raises(__HAC_KEEP__Error) as ex:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -195,7 +195,7 @@ async def test_button_next_playlist_entry_errors(
 
 
 async def test_button_next_playlist_entry_after_firmware_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
     caplog: pytest.LogCaptureFixture,

@@ -20,7 +20,7 @@ from universalassistant.components.todoist.services import (
     TodoistServiceArgument,
 )
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
@@ -48,7 +48,7 @@ def platforms() -> list[Platform]:
 
 
 @pytest.fixture(autouse=True)
-async def set_time_zone(hass: UniversalAssistant):
+async def set_time_zone(hass: __HAC_KEEP__):
     """Set the time zone for the tests."""
     await hass.config.async_set_time_zone(TZ_NAME)
 
@@ -85,7 +85,7 @@ def mock_todoist_config() -> dict[str, Any]:
 
 @pytest.fixture(name="setup_platform", autouse=True)
 async def mock_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     api: AsyncMock,
     todoist_config: dict[str, Any],
 ) -> None:
@@ -111,7 +111,7 @@ async def mock_setup_platform(
 
 
 async def test_calendar_entity_unique_id(
-    hass: UniversalAssistant, api: AsyncMock, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, api: AsyncMock, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique id is set to project id."""
     entity = entity_registry.async_get("calendar.name")
@@ -123,7 +123,7 @@ async def test_calendar_entity_unique_id(
     [{"custom_projects": [{"name": "All projects", "labels": ["Label1"]}]}],
 )
 async def test_update_entity_for_custom_project_with_labels_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     api: AsyncMock,
 ) -> None:
     """Test that the calendar's state is on for a custom project using labels."""
@@ -135,7 +135,7 @@ async def test_update_entity_for_custom_project_with_labels_on(
 
 @pytest.mark.parametrize("due", [None])
 async def test_update_entity_for_custom_project_no_due_date_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     api: AsyncMock,
 ) -> None:
     """Test that a task without an explicit due date is in an on state."""
@@ -161,7 +161,7 @@ async def test_update_entity_for_custom_project_no_due_date_on(
     ],
 )
 async def test_update_entity_for_calendar_with_due_date_in_the_future(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     api: AsyncMock,
     due: Due,
@@ -179,7 +179,7 @@ async def test_update_entity_for_calendar_with_due_date_in_the_future(
 
 
 @pytest.mark.parametrize("setup_platform", [None])
-async def test_failed_coordinator_update(hass: UniversalAssistant, api: AsyncMock) -> None:
+async def test_failed_coordinator_update(hass: __HAC_KEEP__, api: AsyncMock) -> None:
     """Test a failed data coordinator update is handled correctly."""
     api.get_tasks.side_effect = Exception("API error")
 
@@ -209,7 +209,7 @@ async def test_failed_coordinator_update(hass: UniversalAssistant, api: AsyncMoc
     [{"custom_projects": [{"name": "All projects"}]}],
 )
 async def test_calendar_custom_project_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique id is None for any custom projects."""
     entity = entity_registry.async_get("calendar.all_projects")
@@ -233,7 +233,7 @@ async def test_calendar_custom_project_unique_id(
     ids=("all_day", "timed"),
 )
 async def test_event_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     expected_start: dict[str, str],
     expected_end: dict[str, str],
@@ -306,7 +306,7 @@ async def test_event_duration(
     ),
 )
 async def test_all_day_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     start: str,
     end: str,
@@ -321,7 +321,7 @@ async def test_all_day_event(
     assert await response.json() == expected_response
 
 
-async def test_create_task_service_call(hass: UniversalAssistant, api: AsyncMock) -> None:
+async def test_create_task_service_call(hass: __HAC_KEEP__, api: AsyncMock) -> None:
     """Test api is called correctly after a new task service call."""
     await hass.services.async_call(
         DOMAIN,
@@ -341,7 +341,7 @@ async def test_create_task_service_call(hass: UniversalAssistant, api: AsyncMock
 
 
 async def test_create_task_service_call_raises(
-    hass: UniversalAssistant, api: AsyncMock
+    hass: __HAC_KEEP__, api: AsyncMock
 ) -> None:
     """Test adding an item to an invalid project raises an error."""
 
@@ -361,7 +361,7 @@ async def test_create_task_service_call_raises(
 
 
 async def test_create_task_service_call_with_section(
-    hass: UniversalAssistant, api: AsyncMock
+    hass: __HAC_KEEP__, api: AsyncMock
 ) -> None:
     """Test api is called correctly when section is included."""
     await hass.services.async_call(
@@ -387,7 +387,7 @@ async def test_create_task_service_call_with_section(
 
 
 async def test_create_task_service_call_with_none_section(
-    hass: UniversalAssistant, api: AsyncMock
+    hass: __HAC_KEEP__, api: AsyncMock
 ) -> None:
     """Test a `None` section is ignored rather than raising an error."""
     await hass.services.async_call(
@@ -430,7 +430,7 @@ async def test_create_task_service_call_with_none_section(
     ids=("in_local_timezone", "in_other_timezone", "floating"),
 )
 async def test_task_due_datetime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test for task due at a specific time, using different time formats."""
@@ -559,7 +559,7 @@ async def test_task_due_datetime(
     ],
 )
 async def test_events_filtered_for_custom_projects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     start: str,
     end: str,
@@ -589,7 +589,7 @@ async def test_events_filtered_for_custom_projects(
     ],
 )
 async def test_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
 ) -> None:

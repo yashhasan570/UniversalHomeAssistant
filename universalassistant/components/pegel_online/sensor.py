@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PegelOnlineConfigEntry, PegelOnlineDataUpdateCoordinator
@@ -94,7 +94,7 @@ SENSORS: tuple[PegelOnlineSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PegelOnlineConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

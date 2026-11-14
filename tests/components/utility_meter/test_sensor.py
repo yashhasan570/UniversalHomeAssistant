@@ -46,7 +46,7 @@ from universalassistant.const import (
     UnitOfEnergy,
     UnitOfVolume,
 )
-from universalassistant.core import CoreState, UniversalAssistant, State
+from universalassistant.core import CoreState, __HAC_KEEP__, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.setup import async_setup_component
@@ -54,7 +54,7 @@ from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture(autouse=True)
-async def set_utc(hass: UniversalAssistant):
+async def set_utc(hass: __HAC_KEEP__):
     """Set timezone to UTC."""
     await hass.config.async_set_time_zone("UTC")
 
@@ -88,7 +88,7 @@ async def set_utc(hass: UniversalAssistant):
         ),
     ],
 )
-async def test_state(hass: UniversalAssistant, yaml_config, config_entry_config) -> None:
+async def test_state(hass: __HAC_KEEP__, yaml_config, config_entry_config) -> None:
     """Test utility sensor state."""
     if yaml_config:
         assert await async_setup_component(hass, DOMAIN, yaml_config)
@@ -270,7 +270,7 @@ async def test_state(hass: UniversalAssistant, yaml_config, config_entry_config)
     ],
 )
 async def test_state_always_available(
-    hass: UniversalAssistant, yaml_config, config_entry_config
+    hass: __HAC_KEEP__, yaml_config, config_entry_config
 ) -> None:
     """Test utility sensor state."""
     if yaml_config:
@@ -355,7 +355,7 @@ async def test_state_always_available(
         ),
     ],
 )
-async def test_not_unique_tariffs(hass: UniversalAssistant, yaml_config) -> None:
+async def test_not_unique_tariffs(hass: __HAC_KEEP__, yaml_config) -> None:
     """Test utility sensor state initialization."""
     assert not await async_setup_component(hass, DOMAIN, yaml_config)
 
@@ -389,7 +389,7 @@ async def test_not_unique_tariffs(hass: UniversalAssistant, yaml_config) -> None
         ),
     ],
 )
-async def test_init(hass: UniversalAssistant, yaml_config, config_entry_config) -> None:
+async def test_init(hass: __HAC_KEEP__, yaml_config, config_entry_config) -> None:
     """Test utility sensor state initialization."""
     if yaml_config:
         assert await async_setup_component(hass, DOMAIN, yaml_config)
@@ -436,7 +436,7 @@ async def test_init(hass: UniversalAssistant, yaml_config, config_entry_config) 
 
 
 async def test_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique_id configuration option."""
     yaml_config = {
@@ -501,7 +501,7 @@ async def test_unique_id(
         ),
     ],
 )
-async def test_entity_name(hass: UniversalAssistant, yaml_config, entity_id, name) -> None:
+async def test_entity_name(hass: __HAC_KEEP__, yaml_config, entity_id, name) -> None:
     """Test utility sensor state initialization."""
     assert await async_setup_component(hass, DOMAIN, yaml_config)
     await hass.async_block_till_done()
@@ -612,7 +612,7 @@ async def test_entity_name(hass: UniversalAssistant, yaml_config, entity_id, nam
     ],
 )
 async def test_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     yaml_config,
     config_entry_configs,
     energy_sensor_attributes,
@@ -662,7 +662,7 @@ async def test_device_class(
         assert state.attributes.get(attr) == value
 
 
-async def test_state_class_monetary_device_class(hass: UniversalAssistant) -> None:
+async def test_state_class_monetary_device_class(hass: __HAC_KEEP__) -> None:
     """Test that monetary device class uses state_class total, not total_increasing."""
     assert await async_setup_component(
         hass,
@@ -738,7 +738,7 @@ async def test_state_class_monetary_device_class(hass: UniversalAssistant) -> No
     ],
 )
 async def test_restore_state(
-    hass: UniversalAssistant, yaml_config, config_entry_config
+    hass: __HAC_KEEP__, yaml_config, config_entry_config
 ) -> None:
     """Test utility sensor restore state."""
     # Universal assistant is not runnit yet
@@ -913,7 +913,7 @@ def test_extra_restore_state_data_roundtrip(last_valid_state: Decimal | None) ->
     ],
 )
 async def test_service_reset_no_tariffs(
-    hass: UniversalAssistant, yaml_config, config_entry_config
+    hass: __HAC_KEEP__, yaml_config, config_entry_config
 ) -> None:
     """Test utility sensor service reset for sensor with no tariffs."""
     # Universal assistant is not runnit yet
@@ -1035,7 +1035,7 @@ async def test_service_reset_no_tariffs(
     ],
 )
 async def test_service_reset_no_tariffs_correct_with_multi(
-    hass: UniversalAssistant, yaml_config, config_entry_configs
+    hass: __HAC_KEEP__, yaml_config, config_entry_configs
 ) -> None:
     """Test complex utility sensor service reset for multiple sensors with no tarrifs.
 
@@ -1175,7 +1175,7 @@ async def test_service_reset_no_tariffs_correct_with_multi(
     ],
 )
 async def test_net_consumption(
-    hass: UniversalAssistant, yaml_config, config_entry_config
+    hass: __HAC_KEEP__, yaml_config, config_entry_config
 ) -> None:
     """Test utility sensor state."""
     if yaml_config:
@@ -1246,7 +1246,7 @@ async def test_net_consumption(
     ],
 )
 async def test_non_net_consumption(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     yaml_config,
     config_entry_config,
     caplog: pytest.LogCaptureFixture,
@@ -1332,7 +1332,7 @@ async def test_non_net_consumption(
     ],
 )
 async def test_delta_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     yaml_config,
     config_entry_config,
     caplog: pytest.LogCaptureFixture,
@@ -1444,7 +1444,7 @@ async def test_delta_values(
     ],
 )
 async def test_non_periodically_resetting(
-    hass: UniversalAssistant, yaml_config, config_entry_config
+    hass: __HAC_KEEP__, yaml_config, config_entry_config
 ) -> None:
     """Test utility meter "non periodically resetting" mode."""
     # Universal assistant is not runnit yet
@@ -1585,7 +1585,7 @@ async def test_non_periodically_resetting(
     ],
 )
 async def test_non_periodically_resetting_meter_with_tariffs(
-    hass: UniversalAssistant, yaml_config, config_entry_config
+    hass: __HAC_KEEP__, yaml_config, config_entry_config
 ) -> None:
     """Test test_non_periodically_resetting_meter_with_tariffs."""
     if yaml_config:
@@ -1725,7 +1725,7 @@ def gen_config(cycle, offset=None):
 
 
 async def _test_self_reset(
-    hass: UniversalAssistant, config, start_time, expect_reset=True
+    hass: __HAC_KEEP__, config, start_time, expect_reset=True
 ) -> None:
     """Test energy sensor self reset."""
     now = dt_util.parse_datetime(start_time)
@@ -1829,7 +1829,7 @@ async def _test_self_reset(
         assert state.state == "9"
 
 
-async def test_self_reset_cron_pattern(hass: UniversalAssistant) -> None:
+async def test_self_reset_cron_pattern(hass: __HAC_KEEP__) -> None:
     """Test cron pattern reset of meter."""
     config = {
         "utility_meter": {
@@ -1840,28 +1840,28 @@ async def test_self_reset_cron_pattern(hass: UniversalAssistant) -> None:
     await _test_self_reset(hass, config, "2017-01-31T23:59:00.000000+00:00")
 
 
-async def test_self_reset_quarter_hourly(hass: UniversalAssistant) -> None:
+async def test_self_reset_quarter_hourly(hass: __HAC_KEEP__) -> None:
     """Test quarter-hourly reset of meter."""
     await _test_self_reset(
         hass, gen_config("quarter-hourly"), "2017-12-31T23:59:00.000000+00:00"
     )
 
 
-async def test_self_reset_quarter_hourly_first_quarter(hass: UniversalAssistant) -> None:
+async def test_self_reset_quarter_hourly_first_quarter(hass: __HAC_KEEP__) -> None:
     """Test quarter-hourly reset of meter."""
     await _test_self_reset(
         hass, gen_config("quarter-hourly"), "2017-12-31T23:14:00.000000+00:00"
     )
 
 
-async def test_self_reset_quarter_hourly_second_quarter(hass: UniversalAssistant) -> None:
+async def test_self_reset_quarter_hourly_second_quarter(hass: __HAC_KEEP__) -> None:
     """Test quarter-hourly reset of meter."""
     await _test_self_reset(
         hass, gen_config("quarter-hourly"), "2017-12-31T23:29:00.000000+00:00"
     )
 
 
-async def test_self_reset_quarter_hourly_third_quarter(hass: UniversalAssistant) -> None:
+async def test_self_reset_quarter_hourly_third_quarter(hass: __HAC_KEEP__) -> None:
     """Test quarter-hourly reset of meter."""
     await _test_self_reset(
         hass, gen_config("quarter-hourly"), "2017-12-31T23:44:00.000000+00:00"
@@ -1882,7 +1882,7 @@ async def test_self_reset_quarter_hourly_third_quarter(hass: UniversalAssistant)
 )
 @freeze_time("2024-01-03T12:52:00+00:00")
 async def test_quarter_hourly_offset(
-    hass: UniversalAssistant, offset: timedelta, next_reset: str
+    hass: __HAC_KEEP__, offset: timedelta, next_reset: str
 ) -> None:
     """Test a quarter-hourly meter with an offset of 15 minutes or more resets every quarter."""
     assert await async_setup_component(
@@ -1897,14 +1897,14 @@ async def test_quarter_hourly_offset(
     )
 
 
-async def test_self_reset_hourly(hass: UniversalAssistant) -> None:
+async def test_self_reset_hourly(hass: __HAC_KEEP__) -> None:
     """Test hourly reset of meter."""
     await _test_self_reset(
         hass, gen_config("hourly"), "2017-12-31T23:59:00.000000+00:00"
     )
 
 
-async def test_self_reset_hourly_dst(hass: UniversalAssistant) -> None:
+async def test_self_reset_hourly_dst(hass: __HAC_KEEP__) -> None:
     """Test hourly reset of meter in DST change conditions."""
 
     hass.config.time_zone = "Europe/Lisbon"
@@ -1914,7 +1914,7 @@ async def test_self_reset_hourly_dst(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_self_reset_hourly_dst2(hass: UniversalAssistant) -> None:
+async def test_self_reset_hourly_dst2(hass: __HAC_KEEP__) -> None:
     """Test weekly reset of meter in DST change conditions."""
 
     hass.config.time_zone = "Europe/Berlin"
@@ -1940,7 +1940,7 @@ async def test_self_reset_hourly_dst2(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_tz_changes(hass: UniversalAssistant) -> None:
+async def test_tz_changes(hass: __HAC_KEEP__) -> None:
     """Test that a timezone change changes the scheduler."""
 
     await hass.config.async_update(time_zone="Europe/Prague")
@@ -1963,7 +1963,7 @@ async def test_tz_changes(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_next_reset_not_shifted_on_restore(hass: UniversalAssistant) -> None:
+async def test_next_reset_not_shifted_on_restore(hass: __HAC_KEEP__) -> None:
     """Test that a missed reset fires on restore after entity rename.
 
     When an entity is restored (e.g. after rename) and a reset was missed,
@@ -2022,14 +2022,14 @@ async def test_next_reset_not_shifted_on_restore(hass: UniversalAssistant) -> No
     assert state.state == "0"
 
 
-async def test_self_reset_daily(hass: UniversalAssistant) -> None:
+async def test_self_reset_daily(hass: __HAC_KEEP__) -> None:
     """Test daily reset of meter."""
     await _test_self_reset(
         hass, gen_config("daily"), "2017-12-31T23:59:00.000000+00:00"
     )
 
 
-async def test_self_reset_weekly(hass: UniversalAssistant) -> None:
+async def test_self_reset_weekly(hass: __HAC_KEEP__) -> None:
     """Test weekly reset of meter."""
     await _test_self_reset(
         hass, gen_config("weekly"), "2017-12-31T23:59:00.000000+00:00"
@@ -2054,7 +2054,7 @@ async def test_self_reset_weekly(hass: UniversalAssistant) -> None:
 )
 @freeze_time("2024-01-03T12:00:00+00:00")
 async def test_weekly_offset(
-    hass: UniversalAssistant, offset: timedelta, next_reset: str
+    hass: __HAC_KEEP__, offset: timedelta, next_reset: str
 ) -> None:
     """Test a weekly meter with an offset of a week or more still resets weekly."""
     assert await async_setup_component(hass, DOMAIN, gen_config("weekly", offset))
@@ -2067,21 +2067,21 @@ async def test_weekly_offset(
     )
 
 
-async def test_self_reset_monthly(hass: UniversalAssistant) -> None:
+async def test_self_reset_monthly(hass: __HAC_KEEP__) -> None:
     """Test monthly reset of meter."""
     await _test_self_reset(
         hass, gen_config("monthly"), "2017-12-31T23:59:00.000000+00:00"
     )
 
 
-async def test_self_reset_bimonthly(hass: UniversalAssistant) -> None:
+async def test_self_reset_bimonthly(hass: __HAC_KEEP__) -> None:
     """Test bimonthly reset of meter occurs on even months."""
     await _test_self_reset(
         hass, gen_config("bimonthly"), "2017-12-31T23:59:00.000000+00:00"
     )
 
 
-async def test_self_no_reset_bimonthly(hass: UniversalAssistant) -> None:
+async def test_self_no_reset_bimonthly(hass: __HAC_KEEP__) -> None:
     """Test bimonthly reset of meter does not occur on odd months."""
     await _test_self_reset(
         hass,
@@ -2091,21 +2091,21 @@ async def test_self_no_reset_bimonthly(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_self_reset_quarterly(hass: UniversalAssistant) -> None:
+async def test_self_reset_quarterly(hass: __HAC_KEEP__) -> None:
     """Test quarterly reset of meter."""
     await _test_self_reset(
         hass, gen_config("quarterly"), "2017-03-31T23:59:00.000000+00:00"
     )
 
 
-async def test_self_reset_yearly(hass: UniversalAssistant) -> None:
+async def test_self_reset_yearly(hass: __HAC_KEEP__) -> None:
     """Test yearly reset of meter."""
     await _test_self_reset(
         hass, gen_config("yearly"), "2017-12-31T23:59:00.000000+00:00"
     )
 
 
-async def test_self_no_reset_yearly(hass: UniversalAssistant) -> None:
+async def test_self_no_reset_yearly(hass: __HAC_KEEP__) -> None:
     """Test yearly reset of meter does not occur after 1st January."""
     await _test_self_reset(
         hass,
@@ -2115,7 +2115,7 @@ async def test_self_no_reset_yearly(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_reset_yearly_offset(hass: UniversalAssistant) -> None:
+async def test_reset_yearly_offset(hass: __HAC_KEEP__) -> None:
     """Test yearly reset of meter."""
     await _test_self_reset(
         hass,
@@ -2124,7 +2124,7 @@ async def test_reset_yearly_offset(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_no_reset_yearly_offset(hass: UniversalAssistant) -> None:
+async def test_no_reset_yearly_offset(hass: __HAC_KEEP__) -> None:
     """Test yearly reset of meter."""
     await _test_self_reset(
         hass,
@@ -2134,7 +2134,7 @@ async def test_no_reset_yearly_offset(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_bad_offset(hass: UniversalAssistant) -> None:
+async def test_bad_offset(hass: __HAC_KEEP__) -> None:
     """Test bad offset of meter."""
     assert not await async_setup_component(
         hass, DOMAIN, gen_config("monthly", timedelta(days=31))
@@ -2167,7 +2167,7 @@ def test_calculate_adjustment_invalid_new_state(
 
 
 async def test_unit_of_measurement_missing_invalid_new_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test suggestion is created when new_state has no unit_of_measurement."""
@@ -2200,7 +2200,7 @@ async def test_unit_of_measurement_missing_invalid_new_state(
 
 
 async def test_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -2282,7 +2282,7 @@ async def test_device_id(
 
 
 async def test_device_id_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,

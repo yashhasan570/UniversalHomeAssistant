@@ -17,7 +17,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.helpers.typing import ConfigType
@@ -36,7 +36,7 @@ from .views import (
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Map tiles integration."""
     # Two live at a time, so a URL minted just before a rotation still loads.
     access_tokens: deque[str] = deque([secrets.token_hex(TOKEN_SIZE)], maxlen=2)
@@ -69,7 +69,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 @callback
 @websocket_api.websocket_command({probatio.Required("type"): "map_tiles/access_token"})
 def ws_access_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

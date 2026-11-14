@@ -15,7 +15,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory, UnitOfRatio, UnitOfTime, UnitOfVolume
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util import dt as dt_util, slugify
@@ -629,7 +629,7 @@ def _get_entities_for_appliance(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HomeConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -26,7 +26,7 @@ from universalassistant.components.universalassistant_hardware.util import (
     OwningAddon,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
 from universalassistant.setup import async_setup_component
@@ -106,7 +106,7 @@ def otbr_addon_info_fixture(addon_info: AsyncMock, addon_installed) -> AsyncMock
     "get_border_agent_id",
 )
 async def test_user_flow(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, url: str
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, url: str
 ) -> None:
     """Test the user flow."""
     await _finish_user_flow(hass, url)
@@ -117,7 +117,7 @@ async def test_user_flow(
     "get_extended_address",
 )
 async def test_user_flow_additional_entry(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test more than a single entry is allowed."""
     url1 = "http://custom_url:1234"
@@ -148,7 +148,7 @@ async def test_user_flow_additional_entry(
     "get_coprocessor_version",
 )
 async def test_user_flow_additional_entry_fail_get_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_user_flow_additional_entry_fail_get_address(
 
 
 async def _finish_user_flow(
-    hass: UniversalAssistant, url: str = "http://custom_url:1234"
+    hass: __HAC_KEEP__, url: str = "http://custom_url:1234"
 ) -> None:
     """Finish a user flow."""
     stripped_url = "http://custom_url:1234"
@@ -226,7 +226,7 @@ async def _finish_user_flow(
     "get_coprocessor_version",
 )
 async def test_user_flow_additional_entry_same_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     get_border_agent_id: AsyncMock,
 ) -> None:
@@ -281,7 +281,7 @@ async def test_user_flow_additional_entry_same_address(
 @pytest.mark.parametrize("key_format", [KeyFormat.PASCAL_CASE, KeyFormat.CAMEL_CASE])
 @pytest.mark.usefixtures("get_border_agent_id")
 async def test_user_flow_router_not_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     key_format: KeyFormat,
 ) -> None:
@@ -347,7 +347,7 @@ async def test_user_flow_router_not_setup(
 
 @pytest.mark.usefixtures("get_border_agent_id")
 async def test_user_flow_get_dataset_404(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the user flow."""
     url = "http://custom_url:1234"
@@ -396,7 +396,7 @@ async def test_user_flow_get_dataset_404(
 )
 @pytest.mark.usefixtures("get_active_dataset_tlvs", "get_border_agent_id")
 async def test_user_flow_get_ba_id_connect_error(
-    hass: UniversalAssistant, error: type[Exception]
+    hass: __HAC_KEEP__, error: type[Exception]
 ) -> None:
     """Test the user flow."""
     await _test_user_flow_connect_error(hass, "get_border_agent_id", error)
@@ -412,14 +412,14 @@ async def test_user_flow_get_ba_id_connect_error(
     ],
 )
 async def test_user_flow_get_dataset_connect_error(
-    hass: UniversalAssistant, error: type[Exception]
+    hass: __HAC_KEEP__, error: type[Exception]
 ) -> None:
     """Test the user flow."""
     await _test_user_flow_connect_error(hass, "get_active_dataset_tlvs", error)
 
 
 async def _test_user_flow_connect_error(
-    hass: UniversalAssistant, func: str, error: type[Exception]
+    hass: __HAC_KEEP__, func: str, error: type[Exception]
 ) -> None:
     """Test the user flow."""
     result = await hass.config_entries.flow.async_init(
@@ -454,7 +454,7 @@ async def _test_user_flow_connect_error(
 
 @pytest.mark.usefixtures("get_border_agent_id")
 async def test_hassio_discovery_flow(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, otbr_addon_info
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, otbr_addon_info
 ) -> None:
     """Test the hassio discovery flow."""
     url = "http://core-silabs-multiprotocol:8081"
@@ -487,7 +487,7 @@ async def test_hassio_discovery_flow(
 
 @pytest.mark.usefixtures("get_border_agent_id")
 async def test_hassio_discovery_flow_yellow(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, otbr_addon_info
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, otbr_addon_info
 ) -> None:
     """Test the hassio discovery flow."""
     url = "http://core-silabs-multiprotocol:8081"
@@ -512,7 +512,7 @@ async def test_hassio_discovery_flow_yellow(
     }
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == "Universal Universal Home Assistant Yellow (Silicon Labs Multiprotocol)"
+    assert result["title"] == "__HA_KEEP__ Yellow (Silicon Labs Multiprotocol)"
     assert result["data"] == expected_data
     assert result["options"] == {}
     assert len(mock_setup_entry.mock_calls) == 1
@@ -520,7 +520,7 @@ async def test_hassio_discovery_flow_yellow(
     config_entry = hass.config_entries.async_entries(otbr.DOMAIN)[0]
     assert config_entry.data == expected_data
     assert config_entry.options == {}
-    assert config_entry.title == "Universal Universal Home Assistant Yellow (Silicon Labs Multiprotocol)"
+    assert config_entry.title == "__HA_KEEP__ Yellow (Silicon Labs Multiprotocol)"
     assert config_entry.unique_id == HASSIO_DATA.uuid
 
 
@@ -529,15 +529,15 @@ async def test_hassio_discovery_flow_yellow(
     [
         (
             "/dev/serial/by-id/usb-Nabu_Casa_SkyConnect_v1.0_9e2adbd75b8beb119fe564a0f320645d-if00-port0",
-            "Universal Universal Home Assistant Connect ZBT-1 (Silicon Labs Multiprotocol)",
+            "__HA_KEEP__ Connect ZBT-1 (Silicon Labs Multiprotocol)",
         ),
         (
             "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_9e2adbd75b8beb119fe564a0f320645d-if00-port0",
-            "Universal Universal Home Assistant Connect ZBT-1 (Silicon Labs Multiprotocol)",
+            "__HA_KEEP__ Connect ZBT-1 (Silicon Labs Multiprotocol)",
         ),
         (
             "/dev/serial/by-id/usb-Nabu_Casa_ZBT-2_10B41DE58A94-if00",
-            "Universal Universal Home Assistant Connect ZBT-2 (Silicon Labs Multiprotocol)",
+            "__HA_KEEP__ Connect ZBT-2 (Silicon Labs Multiprotocol)",
         ),
     ],
 )
@@ -545,7 +545,7 @@ async def test_hassio_discovery_flow_yellow(
 async def test_hassio_discovery_flow_sky_connect(
     device: str,
     title: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_addon_info,
 ) -> None:
@@ -583,7 +583,7 @@ async def test_hassio_discovery_flow_sky_connect(
 
 @pytest.mark.usefixtures("get_active_dataset_tlvs", "get_extended_address")
 async def test_hassio_discovery_flow_2x_addons(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, otbr_addon_info
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, otbr_addon_info
 ) -> None:
     """Test the hassio discovery flow when the user has 2 addons with otbr support."""
     url1 = "http://core-silabs-multiprotocol:8081"
@@ -635,7 +635,7 @@ async def test_hassio_discovery_flow_2x_addons(
     assert results[0]["type"] is FlowResultType.CREATE_ENTRY
     assert (
         results[0]["title"]
-        == "Universal Universal Home Assistant Connect ZBT-1 (Silicon Labs Multiprotocol)"
+        == "__HA_KEEP__ Connect ZBT-1 (Silicon Labs Multiprotocol)"
     )
     assert results[0]["data"] == expected_data
     assert results[0]["options"] == {}
@@ -643,7 +643,7 @@ async def test_hassio_discovery_flow_2x_addons(
     assert results[1]["type"] is FlowResultType.CREATE_ENTRY
     assert (
         results[1]["title"]
-        == "Universal Universal Home Assistant Connect ZBT-1 (Silicon Labs Multiprotocol)"
+        == "__HA_KEEP__ Connect ZBT-1 (Silicon Labs Multiprotocol)"
     )
     assert results[1]["data"] == expected_data_2
     assert results[1]["options"] == {}
@@ -655,7 +655,7 @@ async def test_hassio_discovery_flow_2x_addons(
     assert config_entry.options == {}
     assert (
         config_entry.title
-        == "Universal Universal Home Assistant Connect ZBT-1 (Silicon Labs Multiprotocol)"
+        == "__HA_KEEP__ Connect ZBT-1 (Silicon Labs Multiprotocol)"
     )
     assert config_entry.unique_id == HASSIO_DATA.uuid
 
@@ -664,7 +664,7 @@ async def test_hassio_discovery_flow_2x_addons(
     assert config_entry.options == {}
     assert (
         config_entry.title
-        == "Universal Universal Home Assistant Connect ZBT-1 (Silicon Labs Multiprotocol)"
+        == "__HA_KEEP__ Connect ZBT-1 (Silicon Labs Multiprotocol)"
     )
     assert config_entry.unique_id == HASSIO_DATA_2.uuid
 
@@ -675,7 +675,7 @@ async def test_hassio_discovery_flow_2x_addons(
     "get_coprocessor_version",
 )
 async def test_hassio_discovery_flow_2x_addons_same_ext_address(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, otbr_addon_info
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, otbr_addon_info
 ) -> None:
     """Test the hassio discovery flow when the user has 2 addons with otbr support."""
     url1 = "http://core-silabs-multiprotocol:8081"
@@ -724,7 +724,7 @@ async def test_hassio_discovery_flow_2x_addons_same_ext_address(
     assert results[0]["type"] is FlowResultType.CREATE_ENTRY
     assert (
         results[0]["title"]
-        == "Universal Universal Home Assistant Connect ZBT-1 (Silicon Labs Multiprotocol)"
+        == "__HA_KEEP__ Connect ZBT-1 (Silicon Labs Multiprotocol)"
     )
     assert results[0]["data"] == expected_data
     assert results[0]["options"] == {}
@@ -737,7 +737,7 @@ async def test_hassio_discovery_flow_2x_addons_same_ext_address(
     assert config_entry.options == {}
     assert (
         config_entry.title
-        == "Universal Universal Home Assistant Connect ZBT-1 (Silicon Labs Multiprotocol)"
+        == "__HA_KEEP__ Connect ZBT-1 (Silicon Labs Multiprotocol)"
     )
     assert config_entry.unique_id == HASSIO_DATA.uuid
 
@@ -745,7 +745,7 @@ async def test_hassio_discovery_flow_2x_addons_same_ext_address(
 @pytest.mark.parametrize("key_format", [KeyFormat.PASCAL_CASE, KeyFormat.CAMEL_CASE])
 @pytest.mark.usefixtures("get_border_agent_id")
 async def test_hassio_discovery_flow_router_not_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     multiprotocol_addon_manager_mock,
     otbr_addon_info,
@@ -804,7 +804,7 @@ async def test_hassio_discovery_flow_router_not_setup(
 
 @pytest.mark.usefixtures("get_border_agent_id")
 async def test_hassio_discovery_flow_router_not_setup_has_preferred(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     multiprotocol_addon_manager_mock,
     otbr_addon_info,
@@ -861,7 +861,7 @@ async def test_hassio_discovery_flow_router_not_setup_has_preferred(
 @pytest.mark.parametrize("key_format", [KeyFormat.PASCAL_CASE, KeyFormat.CAMEL_CASE])
 @pytest.mark.usefixtures("get_border_agent_id")
 async def test_hassio_discovery_flow_router_not_setup_has_preferred_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     multiprotocol_addon_manager_mock,
     otbr_addon_info,
@@ -923,7 +923,7 @@ async def test_hassio_discovery_flow_router_not_setup_has_preferred_2(
 
 @pytest.mark.usefixtures("get_border_agent_id")
 async def test_hassio_discovery_flow_404(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the user and discovery flows."""
     url = "http://core-silabs-multiprotocol:8081"
@@ -973,7 +973,7 @@ async def test_hassio_discovery_flow_404(
 )
 @pytest.mark.usefixtures("get_border_agent_id")
 async def test_hassio_discovery_flow_updates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_url: str,
     entry_unique_id: str | None,
     entry_state: ConfigEntryState,
@@ -1015,7 +1015,7 @@ async def test_hassio_discovery_flow_updates_entry(
     "get_extended_address",
 )
 async def test_hassio_discovery_flow_entry_without_unique_id_kept(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test an entry without a unique id is left alone when the uuid is taken.
 
@@ -1063,7 +1063,7 @@ async def test_hassio_discovery_flow_entry_without_unique_id_kept(
     "get_border_agent_id",
     "get_extended_address",
 )
-async def test_hassio_discovery_flow_new_port_other_addon(hass: UniversalAssistant) -> None:
+async def test_hassio_discovery_flow_new_port_other_addon(hass: __HAC_KEEP__) -> None:
     """Test the port is not updated if we get data for another addon hosting OTBR."""
     mock_integration(hass, MockModule("hassio"))
 
@@ -1109,7 +1109,7 @@ async def test_hassio_discovery_flow_new_port_other_addon(hass: UniversalAssista
     "get_extended_address",
 )
 async def test_hassio_discovery_flow_addon_restarted_entry_not_loaded(
-    hass: UniversalAssistant, entry_state: ConfigEntryState, expected_reloads: int
+    hass: __HAC_KEEP__, entry_state: ConfigEntryState, expected_reloads: int
 ) -> None:
     """Test no duplicate entry is created when the add-on restarts while unloaded.
 
@@ -1163,7 +1163,7 @@ async def test_hassio_discovery_flow_addon_restarted_entry_not_loaded(
     "get_extended_address",
 )
 async def test_config_flow_additional_entry(
-    hass: UniversalAssistant, source: str, data: Any, expected_result: FlowResultType
+    hass: __HAC_KEEP__, source: str, data: Any, expected_result: FlowResultType
 ) -> None:
     """Test more than a single entry is allowed."""
     mock_integration(hass, MockModule("hassio"))
@@ -1192,7 +1192,7 @@ async def test_config_flow_additional_entry(
     "get_border_agent_id", "get_extended_address", "get_coprocessor_version"
 )
 async def test_hassio_discovery_reload(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, otbr_addon_info
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, otbr_addon_info
 ) -> None:
     """Test the hassio discovery flow."""
     await async_setup_component(hass, HOMEASSISTANT_HARDWARE_DOMAIN, {})
@@ -1240,7 +1240,7 @@ async def test_hassio_discovery_reload(
         assert len(hass.config_entries.async_entries(otbr.DOMAIN)) == 1
 
 
-async def _setup_user_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def _setup_user_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Set up a config entry created by the user flow."""
     mock_integration(hass, MockModule("hassio"))
     config_entry = MockConfigEntry(
@@ -1263,7 +1263,7 @@ async def _setup_user_entry(hass: UniversalAssistant) -> MockConfigEntry:
     "get_coprocessor_version",
     "fast_border_agent_discovery",
 )
-async def test_reconfigure_flow(hass: UniversalAssistant) -> None:
+async def test_reconfigure_flow(hass: __HAC_KEEP__) -> None:
     """Test the reconfigure flow."""
     config_entry = await _setup_user_entry(hass)
 
@@ -1289,7 +1289,7 @@ async def test_reconfigure_flow(hass: UniversalAssistant) -> None:
     "fast_border_agent_discovery",
 )
 async def test_reconfigure_flow_setup_retry(
-    hass: UniversalAssistant, get_border_agent_id: AsyncMock
+    hass: __HAC_KEEP__, get_border_agent_id: AsyncMock
 ) -> None:
     """Test the reconfigure flow reloads an entry that failed to set up."""
     mock_integration(hass, MockModule("hassio"))
@@ -1334,7 +1334,7 @@ async def test_reconfigure_flow_setup_retry(
     "fast_border_agent_discovery",
 )
 async def test_reconfigure_flow_cannot_connect(
-    hass: UniversalAssistant, get_border_agent_id: AsyncMock, error: type[Exception]
+    hass: __HAC_KEEP__, get_border_agent_id: AsyncMock, error: type[Exception]
 ) -> None:
     """Test the reconfigure flow recovers from a connection error."""
     config_entry = await _setup_user_entry(hass)
@@ -1367,7 +1367,7 @@ async def test_reconfigure_flow_cannot_connect(
     "fast_border_agent_discovery",
 )
 async def test_reconfigure_flow_already_configured(
-    hass: UniversalAssistant, get_border_agent_id: AsyncMock
+    hass: __HAC_KEEP__, get_border_agent_id: AsyncMock
 ) -> None:
     """Test the reconfigure flow when another entry uses the same router."""
     config_entry = await _setup_user_entry(hass)
@@ -1412,7 +1412,7 @@ async def test_reconfigure_flow_already_configured(
     "fast_border_agent_discovery",
 )
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: UniversalAssistant, get_border_agent_id: AsyncMock
+    hass: __HAC_KEEP__, get_border_agent_id: AsyncMock
 ) -> None:
     """Test the reconfigure flow aborts when pointed at another router."""
     config_entry = await _setup_user_entry(hass)
@@ -1428,7 +1428,7 @@ async def test_reconfigure_flow_unique_id_mismatch(
     assert config_entry.data == {"url": "http://custom_url:1234"}
 
 
-async def test_reconfigure_flow_addon_managed(hass: UniversalAssistant) -> None:
+async def test_reconfigure_flow_addon_managed(hass: __HAC_KEEP__) -> None:
     """Test the reconfigure flow aborts for entries managed by an app."""
     config_entry = MockConfigEntry(
         data={"url": "http://core-silabs-multiprotocol:8081"},

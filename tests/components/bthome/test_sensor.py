@@ -22,7 +22,7 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import make_bthome_v1_adv, make_bthome_v2_adv, make_encrypted_bthome_v1_adv
@@ -345,7 +345,7 @@ _LOGGER = logging.getLogger(__name__)
     ],
 )
 async def test_v1_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mac_address,
     advertisement,
     bind_key,
@@ -1123,7 +1123,7 @@ async def test_v1_sensors(
     ],
 )
 async def test_v2_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mac_address,
     advertisement,
     bind_key,
@@ -1164,7 +1164,7 @@ async def test_v2_sensors(
     await hass.async_block_till_done()
 
 
-async def test_unavailable(hass: UniversalAssistant) -> None:
+async def test_unavailable(hass: __HAC_KEEP__) -> None:
     """Test normal device goes to unavailable after 60 minutes."""
     start_monotonic = time.monotonic()
 
@@ -1217,7 +1217,7 @@ async def test_unavailable(hass: UniversalAssistant) -> None:
     assert CONF_SLEEPY_DEVICE not in entry.data
 
 
-async def test_sleepy_device(hass: UniversalAssistant) -> None:
+async def test_sleepy_device(hass: __HAC_KEEP__) -> None:
     """Test sleepy device does not go to unavailable after 60 minutes."""
     start_monotonic = time.monotonic()
 
@@ -1270,7 +1270,7 @@ async def test_sleepy_device(hass: UniversalAssistant) -> None:
     assert entry.data[CONF_SLEEPY_DEVICE] is True
 
 
-async def test_sleepy_device_restore_state(hass: UniversalAssistant) -> None:
+async def test_sleepy_device_restore_state(hass: __HAC_KEEP__) -> None:
     """Test sleepy device does not go unavailable after 60 min and restores state."""
     start_monotonic = time.monotonic()
 

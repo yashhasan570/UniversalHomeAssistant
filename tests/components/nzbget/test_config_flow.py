@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.nzbget.const import CONF_MORE_OPTIONS, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -21,7 +21,7 @@ from . import (
 )
 
 
-async def test_user_form(hass: UniversalAssistant) -> None:
+async def test_user_form(hass: __HAC_KEEP__) -> None:
     """Test we get the user initiated form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -49,7 +49,7 @@ async def test_user_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_form_with_verify_ssl(hass: UniversalAssistant) -> None:
+async def test_user_form_with_verify_ssl(hass: __HAC_KEEP__) -> None:
     """Test the user flow with verify SSL option."""
 
     result = await hass.config_entries.flow.async_init(
@@ -82,7 +82,7 @@ async def test_user_form_with_verify_ssl(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_user_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -115,7 +115,7 @@ async def test_user_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_form_unexpected_exception(hass: UniversalAssistant) -> None:
+async def test_user_form_unexpected_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle unexpected exception."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -134,7 +134,7 @@ async def test_user_form_unexpected_exception(hass: UniversalAssistant) -> None:
     assert result["reason"] == "unknown"
 
 
-async def test_user_form_single_instance_allowed(hass: UniversalAssistant) -> None:
+async def test_user_form_single_instance_allowed(hass: __HAC_KEEP__) -> None:
     """Test that configuring more than one instance is rejected."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRY_CONFIG)
     entry.add_to_hass(hass)

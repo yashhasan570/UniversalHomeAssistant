@@ -9,7 +9,7 @@ from universalassistant.components.repairs import (
     RepairsFlow,
     RepairsFlowResult,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.issue_registry import async_delete_issue
 
@@ -46,7 +46,7 @@ class DeprecatedEntityRepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant, issue_id: str, data: dict[str, str | int | float | None] | None
+    hass: __HAC_KEEP__, issue_id: str, data: dict[str, str | int | float | None] | None
 ) -> RepairsFlow:
     """Create flow."""
     if not data or "entity_id" not in data:

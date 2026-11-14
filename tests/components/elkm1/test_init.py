@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.elkm1.const import CONF_AUTO_CONFIGURE, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PREFIX, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import MOCK_MAC, _patch_discovery, mock_elk
@@ -46,7 +46,7 @@ def _mocked_elk_with_light() -> MagicMock:
 
 
 async def test_light_via_device_links_to_system_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """A child (light) device links to the system device registered at setup.
 
@@ -92,7 +92,7 @@ async def test_light_via_device_links_to_system_device(
     assert light_device.via_device_id == system_device.id
 
 
-async def test_login_failed(hass: UniversalAssistant) -> None:
+async def test_login_failed(hass: __HAC_KEEP__) -> None:
     """Test setup fails when login to the panel fails."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -121,7 +121,7 @@ async def test_login_failed(hass: UniversalAssistant) -> None:
     assert config_entry.reason == "ElkM1 login failed for elks://1.2.3.4"
 
 
-async def test_invalid_config_item(hass: UniversalAssistant) -> None:
+async def test_invalid_config_item(hass: __HAC_KEEP__) -> None:
     """Test setup fails when a configured range is invalid."""
     disabled = {"enabled": False, "exclude": [], "include": []}
     config_entry = MockConfigEntry(

@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.solaredge_modbus.const import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -30,7 +30,7 @@ LIFETIME_ENERGY_ENTITY = "sensor.solaredge_se10000h_energy"
 DER_STORAGE_ENTITY = "sensor.solaredge_se10000h_storage_state_of_charge"
 
 
-async def _setup_sensor_platform(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def _setup_sensor_platform(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     with patch(
         "universalassistant.components.solaredge_modbus.PLATFORMS", [Platform.SENSOR]
     ):
@@ -39,7 +39,7 @@ async def _setup_sensor_platform(hass: UniversalAssistant, entry: MockConfigEntr
         await hass.async_block_till_done()
 
 
-async def _tick(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+async def _tick(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     freezer.tick(SCAN_INTERVAL)
     async_fire_time_changed(hass)
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -47,7 +47,7 @@ async def _tick(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> Non
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -59,7 +59,7 @@ async def test_sensors(
 
 
 async def test_diagnostic_tail_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_diagnostic_tail_disabled_by_default(
 
 
 async def test_sensors_unavailable_on_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -115,7 +115,7 @@ async def test_sensors_unavailable_on_update_failure(
 
 
 async def test_no_phase_currents_on_single_phase(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """A single-phase inverter gets a total current sensor, but no phase ones."""
     await _setup_sensor_platform(hass, mock_config_entry)
@@ -125,7 +125,7 @@ async def test_no_phase_currents_on_single_phase(
 
 
 async def test_phase_currents_on_three_phase(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -140,7 +140,7 @@ async def test_phase_currents_on_three_phase(
 
 
 async def test_two_meters_are_told_apart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -184,7 +184,7 @@ async def test_two_meters_are_told_apart(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_delta_meter_measures_nothing_against_a_neutral(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_delta_meter_measures_nothing_against_a_neutral(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_split_phase_meter_has_two_phases(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -224,7 +224,7 @@ async def test_split_phase_meter_has_two_phases(
 
 
 async def test_meter_energy_ignores_transient_zero(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -249,7 +249,7 @@ async def test_meter_energy_ignores_transient_zero(
 
 
 async def test_lifetime_energy_never_goes_backwards(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -296,7 +296,7 @@ async def test_lifetime_energy_never_goes_backwards(
 
 
 async def test_lifetime_energy_restored_after_restart(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """The last seen maximum survives a restart and beats a lower device reading."""
     # A previous run saw a higher lifetime energy than the device reports now.
@@ -321,7 +321,7 @@ async def test_lifetime_energy_restored_after_restart(
 
 
 async def test_der_storage_state_of_charge(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -350,7 +350,7 @@ async def test_der_storage_state_of_charge(
     ],
 )
 async def test_no_der_storage_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
     state_of_charge: int,
@@ -373,7 +373,7 @@ async def test_no_der_storage_sensor(
 
 
 async def test_der_storage_unavailable_when_its_block_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,

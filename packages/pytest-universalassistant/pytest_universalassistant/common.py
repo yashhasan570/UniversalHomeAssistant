@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant test helpers."""
+"""__HA_KEEP__ test helpers."""
 
 import asyncio
 from collections.abc import (
@@ -65,7 +65,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     CoreState,
     Event,
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     State,
@@ -148,7 +148,7 @@ class QualityScaleStatus(StrEnum):
 
 
 async def async_get_device_automations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     automation_type: device_automation.DeviceAutomationType,
     device_id: str,
 ) -> Any:
@@ -223,9 +223,9 @@ async def async_test_universal_assistant(
     load_registries: bool = True,
     config_dir: str | None = None,
     initial_state: CoreState = CoreState.running,
-) -> AsyncGenerator[UniversalAssistant]:
-    """Return a Universal Universal Home Assistant object pointing at test config dir."""
-    hass = UniversalAssistant(config_dir or get_test_config_dir())
+) -> AsyncGenerator[__HAC_KEEP__]:
+    """Return a __HA_KEEP__ object pointing at test config dir."""
+    hass = __HAC_KEEP__(config_dir or get_test_config_dir())
     store = auth_store.AuthStore(hass)
     hass.auth = auth.AuthManager(hass, store, {}, {})
     ensure_auth_manager_loaded(hass.auth)
@@ -377,7 +377,7 @@ async def async_test_universal_assistant(
 
 
 def async_mock_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     service: str,
     schema: probatio.Schema | None = None,
@@ -417,7 +417,7 @@ mock_service = threadsafe_callback_factory(async_mock_service)
 
 
 @callback
-def async_mock_intent(hass: UniversalAssistant, intent_typ: str) -> list[intent.Intent]:
+def async_mock_intent(hass: __HAC_KEEP__, intent_typ: str) -> list[intent.Intent]:
     """Set up a fake intent handler."""
     intents: list[intent.Intent] = []
 
@@ -457,7 +457,7 @@ class MockMqttReasonCode:
 
 @callback
 def async_fire_mqtt_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     topic: str,
     payload: bytes | str,
     qos: int = 0,
@@ -487,7 +487,7 @@ fire_mqtt_message = threadsafe_callback_factory(async_fire_mqtt_message)
 
 @callback
 def async_fire_time_changed_exact(
-    hass: UniversalAssistant, datetime_: datetime | None = None, fire_all: bool = False
+    hass: __HAC_KEEP__, datetime_: datetime | None = None, fire_all: bool = False
 ) -> None:
     """Fire a time changed event at an exact microsecond.
 
@@ -506,14 +506,14 @@ def async_fire_time_changed_exact(
 
 @callback
 def async_fire_time_changed(
-    hass: UniversalAssistant, datetime_: datetime | None = None, fire_all: bool = False
+    hass: __HAC_KEEP__, datetime_: datetime | None = None, fire_all: bool = False
 ) -> None:
     """Fire a time changed event.
 
     If called within the first 500  ms of a second, time will be bumped to exactly
     500 ms to match the async_track_utc_time_change event listeners and
     DataUpdateCoordinator which spreads all updates between 0.05..0.50.
-    Background in PR https://github.com/yashhasan570/UniversalUniversalAssistant/pull/82233
+    Background in PR https://github.com/yashhasan570/__HAC_KEEP__/pull/82233
 
     As asyncio is cooperative, we can't guarantee that the event loop will
     run an event at the exact time we want. If you need to fire time changed
@@ -536,7 +536,7 @@ _MONOTONIC_RESOLUTION = time.get_clock_info("monotonic").resolution
 
 @callback
 def _async_fire_time_changed(
-    hass: UniversalAssistant, utc_datetime: datetime | None, fire_all: bool
+    hass: __HAC_KEEP__, utc_datetime: datetime | None, fire_all: bool
 ) -> None:
     timestamp = utc_datetime.timestamp()
     for task in list(get_scheduled_timer_handles(hass.loop)):
@@ -596,7 +596,7 @@ def load_fixture(filename: str, integration: str | None = None) -> str:
 
 
 async def async_load_fixture(
-    hass: UniversalAssistant, filename: str, integration: str | None = None
+    hass: __HAC_KEEP__, filename: str, integration: str | None = None
 ) -> str:
     """Load a fixture."""
     return await hass.async_add_executor_job(load_fixture, filename, integration)
@@ -617,7 +617,7 @@ def load_json_array_fixture(
 
 
 async def async_load_json_array_fixture(
-    hass: UniversalAssistant, filename: str, integration: str | None = None
+    hass: __HAC_KEEP__, filename: str, integration: str | None = None
 ) -> JsonArrayType:
     """Load a JSON array from a fixture."""
     return json_loads_array(await async_load_fixture(hass, filename, integration))
@@ -631,7 +631,7 @@ def load_json_object_fixture(
 
 
 async def async_load_json_object_fixture(
-    hass: UniversalAssistant, filename: str, integration: str | None = None
+    hass: __HAC_KEEP__, filename: str, integration: str | None = None
 ) -> JsonObjectType:
     """Load a JSON object from a fixture."""
     return json_loads_object(await async_load_fixture(hass, filename, integration))
@@ -643,7 +643,7 @@ def json_round_trip(obj: Any) -> Any:
 
 
 def mock_state_change_event(
-    hass: UniversalAssistant, new_state: State, old_state: State | None = None
+    hass: __HAC_KEEP__, new_state: State, old_state: State | None = None
 ) -> None:
     """Mock state change event."""
     event_data = {
@@ -655,7 +655,7 @@ def mock_state_change_event(
 
 
 @callback
-def mock_component(hass: UniversalAssistant, component: str) -> None:
+def mock_component(hass: __HAC_KEEP__, component: str) -> None:
     """Mock a component is setup."""
     if component in hass.config.components:
         raise AssertionError(f"Integration {component} is already setup")
@@ -664,7 +664,7 @@ def mock_component(hass: UniversalAssistant, component: str) -> None:
 
 
 def mock_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entries: dict[str, er.RegistryEntry] | None = None,
 ) -> er.EntityRegistry:
     """Mock the Entity Registry.
@@ -724,7 +724,7 @@ class RegistryEntryWithDefaults(er.RegistryEntry):
 
 
 def mock_area_registry(
-    hass: UniversalAssistant, mock_entries: dict[str, ar.AreaEntry] | None = None
+    hass: __HAC_KEEP__, mock_entries: dict[str, ar.AreaEntry] | None = None
 ) -> ar.AreaRegistry:
     """Mock the Area Registry.
 
@@ -748,7 +748,7 @@ def mock_area_registry(
 
 
 def mock_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entries: dict[str, dr.DeviceEntry] | None = None,
     mock_child_entries: dict[str, dr.ChildDeviceEntry] | None = None,
 ) -> dr.DeviceRegistry:
@@ -785,7 +785,7 @@ def mock_device_registry(
 
 
 class MockGroup(auth_models.Group):
-    """Mock a group in Universal Universal Home Assistant."""
+    """Mock a group in __HA_KEEP__."""
 
     def __init__(self, id: str | None = None, name: str | None = "Mock Group") -> None:
         """Mock a group."""
@@ -795,8 +795,8 @@ class MockGroup(auth_models.Group):
 
         super().__init__(**kwargs)
 
-    def add_to_hass(self, hass: UniversalAssistant) -> MockGroup:
-        """Add the group to Universal Universal Home Assistant."""
+    def add_to_hass(self, hass: __HAC_KEEP__) -> MockGroup:
+        """Add the group to __HA_KEEP__."""
         return self.add_to_auth_manager(hass.auth)
 
     def add_to_auth_manager(self, auth_mgr: auth.AuthManager) -> MockGroup:
@@ -807,7 +807,7 @@ class MockGroup(auth_models.Group):
 
 
 class MockUser(auth_models.User):
-    """Mock a user in Universal Universal Home Assistant."""
+    """Mock a user in __HA_KEEP__."""
 
     def __init__(
         self,
@@ -831,8 +831,8 @@ class MockUser(auth_models.User):
             kwargs["id"] = id
         super().__init__(**kwargs)
 
-    def add_to_hass(self, hass: UniversalAssistant) -> MockUser:
-        """Add the user to Universal Universal Home Assistant."""
+    def add_to_hass(self, hass: __HAC_KEEP__) -> MockUser:
+        """Add the user to __HA_KEEP__."""
         return self.add_to_auth_manager(hass.auth)
 
     def add_to_auth_manager(self, auth_mgr: auth.AuthManager) -> MockUser:
@@ -847,7 +847,7 @@ class MockUser(auth_models.User):
 
 
 async def register_auth_provider(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> auth_providers.AuthProvider:
     """Register an auth provider."""
     provider = await auth_providers.auth_provider_from_config(
@@ -880,32 +880,32 @@ class MockModule:
         domain: str | None = None,
         *,
         dependencies: list[str] | None = None,
-        setup: Callable[[UniversalAssistant, ConfigType], bool] | None = None,
+        setup: Callable[[__HAC_KEEP__, ConfigType], bool] | None = None,
         requirements: list[str] | None = None,
         config_schema: probatio.Schema | None = None,
         platform_schema: probatio.Schema | None = None,
         platform_schema_base: probatio.Schema | None = None,
-        async_setup: Callable[[UniversalAssistant, ConfigType], Coroutine[Any, Any, bool]]
+        async_setup: Callable[[__HAC_KEEP__, ConfigType], Coroutine[Any, Any, bool]]
         | None = None,
         async_setup_entry: Callable[
-            [UniversalAssistant, ConfigEntry], Coroutine[Any, Any, None]
+            [__HAC_KEEP__, ConfigEntry], Coroutine[Any, Any, None]
         ]
         | None = None,
         async_unload_entry: Callable[
-            [UniversalAssistant, ConfigEntry], Coroutine[Any, Any, None]
+            [__HAC_KEEP__, ConfigEntry], Coroutine[Any, Any, None]
         ]
         | None = None,
         async_migrate_entry: Callable[
-            [UniversalAssistant, ConfigEntry], Coroutine[Any, Any, None]
+            [__HAC_KEEP__, ConfigEntry], Coroutine[Any, Any, None]
         ]
         | None = None,
         async_remove_entry: Callable[
-            [UniversalAssistant, ConfigEntry], Coroutine[Any, Any, None]
+            [__HAC_KEEP__, ConfigEntry], Coroutine[Any, Any, None]
         ]
         | None = None,
         partial_manifest: dict[str, Any] | None = None,
         async_remove_config_entry_device: Callable[
-            [UniversalAssistant, ConfigEntry, dr.DeviceEntry], Coroutine[Any, Any, bool]
+            [__HAC_KEEP__, ConfigEntry, dr.DeviceEntry], Coroutine[Any, Any, bool]
         ]
         | None = None,
     ) -> None:
@@ -972,19 +972,19 @@ class MockPlatform:
         self,
         *,
         setup_platform: Callable[
-            [UniversalAssistant, ConfigType, AddEntitiesCallback, DiscoveryInfoType | None],
+            [__HAC_KEEP__, ConfigType, AddEntitiesCallback, DiscoveryInfoType | None],
             None,
         ]
         | None = None,
         dependencies: list[str] | None = None,
         platform_schema: probatio.Schema | None = None,
         async_setup_platform: Callable[
-            [UniversalAssistant, ConfigType, AddEntitiesCallback, DiscoveryInfoType | None],
+            [__HAC_KEEP__, ConfigType, AddEntitiesCallback, DiscoveryInfoType | None],
             Coroutine[Any, Any, None],
         ]
         | None = None,
         async_setup_entry: Callable[
-            [UniversalAssistant, ConfigEntry, AddEntitiesCallback], Coroutine[Any, Any, None]
+            [__HAC_KEEP__, ConfigEntry, AddEntitiesCallback], Coroutine[Any, Any, None]
         ]
         | None = None,
         scan_interval: timedelta | None = None,
@@ -1018,7 +1018,7 @@ class MockEntityPlatform(entity_platform.EntityPlatform):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger=None,
         domain="test_domain",
         platform_name="test_platform",
@@ -1150,7 +1150,7 @@ class MockConfigEntry(config_entries.ConfigEntry):
         if reason is not None:
             object.__setattr__(self, "reason", reason)
 
-    def add_to_hass(self, hass: UniversalAssistant) -> None:
+    def add_to_hass(self, hass: __HAC_KEEP__) -> None:
         """Test helper to add entry to hass."""
         hass.config_entries._entries[self.entry_id] = self
 
@@ -1160,7 +1160,7 @@ class MockConfigEntry(config_entries.ConfigEntry):
 
     def mock_state(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         state: config_entries.ConfigEntryState,
         reason: str | None = None,
     ) -> None:
@@ -1181,7 +1181,7 @@ class MockConfigEntry(config_entries.ConfigEntry):
 
     async def start_reauth_flow(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         context: dict[str, Any] | None = None,
         data: dict[str, Any] | None = None,
     ) -> ConfigFlowResult:
@@ -1192,7 +1192,7 @@ class MockConfigEntry(config_entries.ConfigEntry):
 
     async def start_reconfigure_flow(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> ConfigFlowResult:
         """Start a reconfiguration flow."""
         if self.entry_id not in hass.config_entries._entries:
@@ -1209,7 +1209,7 @@ class MockConfigEntry(config_entries.ConfigEntry):
 
     async def start_subentry_reconfigure_flow(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         subentry_id: str,
     ) -> ConfigFlowResult:
         """Start a subentry reconfiguration flow."""
@@ -1229,7 +1229,7 @@ class MockConfigEntry(config_entries.ConfigEntry):
 
 
 async def start_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     context: dict[str, Any] | None = None,
     data: dict[str, Any] | None = None,
@@ -1303,7 +1303,7 @@ def assert_setup_component(count, domain=None):
     config = {}
 
     async def mock_psc(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_input: ConfigType,
         integration: loader.Integration,
         component: loader.ComponentProtocol | None = None,
@@ -1341,7 +1341,7 @@ def assert_setup_component(count, domain=None):
 
 
 def _mock_restore_cache(
-    hass: UniversalAssistant, states: Sequence[tuple[State, Mapping[str, Any] | None]]
+    hass: __HAC_KEEP__, states: Sequence[tuple[State, Mapping[str, Any] | None]]
 ) -> None:
     """Mock the DATA_RESTORE_CACHE."""
     data = rs.async_get(hass)
@@ -1370,20 +1370,20 @@ def _mock_restore_cache(
     ) == len(states), f"Duplicate entity_id? {states}"
 
 
-def mock_restore_cache(hass: UniversalAssistant, states: Sequence[State]) -> None:
+def mock_restore_cache(hass: __HAC_KEEP__, states: Sequence[State]) -> None:
     """Mock the DATA_RESTORE_CACHE."""
     _mock_restore_cache(hass, [(state, None) for state in states])
 
 
 def mock_restore_cache_with_extra_data(
-    hass: UniversalAssistant, states: Sequence[tuple[State, Mapping[str, Any]]]
+    hass: __HAC_KEEP__, states: Sequence[tuple[State, Mapping[str, Any]]]
 ) -> None:
     """Mock the DATA_RESTORE_CACHE."""
     _mock_restore_cache(hass, states)
 
 
 async def async_mock_restore_state_shutdown_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> rs.RestoreStateData:
     """Mock shutting down and saving restore state and restoring."""
     data = rs.async_get(hass)
@@ -1393,7 +1393,7 @@ async def async_mock_restore_state_shutdown_restart(
 
 
 async def async_mock_load_restore_state_from_storage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Mock loading restore state from storage.
 
@@ -1564,7 +1564,7 @@ async def flush_store(store: storage.Store) -> None:
     await store._async_handle_write_data()
 
 
-async def get_system_health_info(hass: UniversalAssistant, domain: str) -> dict[str, Any]:
+async def get_system_health_info(hass: __HAC_KEEP__, domain: str) -> dict[str, Any]:
     """Get system health info."""
     from universalassistant.components.system_health import (  # noqa: PLC0415
         DATA_SYSTEM_HEALTH_PLATFORMS,
@@ -1591,7 +1591,7 @@ def mock_config_flow(domain: str, config_flow: type[ConfigFlow]) -> Iterator[Non
 
 
 def mock_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     module: MockModule,
     built_in: bool = True,
     top_level_files: set[str] | None = None,
@@ -1631,7 +1631,7 @@ def mock_integration(
 
 
 def mock_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_path: str,
     module: Mock | MockPlatform | None = None,
     built_in=True,
@@ -1653,7 +1653,7 @@ def mock_platform(
 
 
 def async_capture_events[_DataT: Mapping[str, Any] = dict[str, Any]](
-    hass: UniversalAssistant, event_name: EventType[_DataT] | str
+    hass: __HAC_KEEP__, event_name: EventType[_DataT] | str
 ) -> list[Event[_DataT]]:
     """Create a helper that captures events."""
     events: list[Event[_DataT]] = []
@@ -1669,7 +1669,7 @@ def async_capture_events[_DataT: Mapping[str, Any] = dict[str, Any]](
 
 @callback
 def async_mock_signal[*_Ts](
-    hass: UniversalAssistant, signal: SignalType[*_Ts] | str
+    hass: __HAC_KEEP__, signal: SignalType[*_Ts] | str
 ) -> list[tuple[*_Ts]]:
     """Catch all dispatches to a signal."""
     calls: list[tuple[*_Ts]] = []
@@ -1732,13 +1732,13 @@ def raise_contains_mocks(val: Any) -> None:
 
 @callback
 def async_get_persistent_notifications(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, pn.Notification]:
     """Get the current persistent notifications."""
     return pn._async_get_or_create_notifications(hass)
 
 
-def async_mock_cloud_connection_status(hass: UniversalAssistant, connected: bool) -> None:
+def async_mock_cloud_connection_status(hass: __HAC_KEEP__, connected: bool) -> None:
     """Mock a signal the cloud disconnected."""
     from universalassistant.components.cloud import (  # noqa: PLC0415
         SIGNAL_CLOUD_CONNECTION_STATE,
@@ -1757,7 +1757,7 @@ async def async_call_logger_set_level(
     logger: str,
     level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "FATAL", "CRITICAL"],
     *,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> AsyncGenerator[None]:
     """Context manager to reset loggers after logger.set_level call."""
@@ -1903,7 +1903,7 @@ def extract_stack_to_frame(extract_stack: list[Mock]) -> FrameType:
 
 
 def setup_test_component_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     entities: Iterable[Entity],
     from_config_entry: bool = False,
@@ -1912,7 +1912,7 @@ def setup_test_component_platform(
     """Mock a test component platform for tests."""
 
     async def _async_setup_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         async_add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -1928,7 +1928,7 @@ def setup_test_component_platform(
     if from_config_entry:
 
         async def _async_setup_entry(
-            hass: UniversalAssistant,
+            hass: __HAC_KEEP__,
             entry: ConfigEntry,
             async_add_entities: AddConfigEntryEntitiesCallback,
         ) -> None:
@@ -1943,7 +1943,7 @@ def setup_test_component_platform(
 
 
 async def snapshot_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     config_entry_id: str,
@@ -1995,7 +1995,7 @@ def get_schema_suggested_value(schema: probatio.Schema, key: str) -> Any | None:
 
 
 def get_sensor_display_state(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_id: str
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_id: str
 ) -> str:
     """Return the state rounded for presentation."""
     state = hass.states.get(entity_id)
@@ -2020,7 +2020,7 @@ def get_sensor_display_state(
 
 
 async def assert_platform_setup_creates_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_domain: str,
     integration_domain: str,
     issue_registry: ir.IssueRegistry,

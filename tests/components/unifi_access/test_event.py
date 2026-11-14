@@ -34,7 +34,7 @@ from unifi_access_api.models.websocket import (
 )
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -60,7 +60,7 @@ def only_event_platform() -> Generator[None]:
 
 
 async def test_event_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -74,7 +74,7 @@ async def test_event_entities(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_doorbell_ring_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_doorbell_ring_event(
 
 
 async def test_doorbell_ring_event_wrong_door(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_doorbell_ring_event_wrong_door(
 )
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_access_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     result: str,
@@ -205,7 +205,7 @@ async def test_access_event(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_access_event_minimal_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_access_event_minimal_metadata(
 
 
 async def test_insights_no_door_id_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -276,7 +276,7 @@ async def test_insights_no_door_id_ignored(
 )
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_access_event_result_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     result: str,
@@ -315,7 +315,7 @@ async def test_access_event_result_mapping(
 
 
 async def test_insights_empty_door_list_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -341,7 +341,7 @@ async def test_insights_empty_door_list_ignored(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_insights_multiple_doors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -381,7 +381,7 @@ async def test_insights_multiple_doors(
 
 
 async def test_unload_entry_removes_listeners(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -426,7 +426,7 @@ async def _populate_device_mapping(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_logs_add_access_granted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -467,7 +467,7 @@ async def test_logs_add_access_granted(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_logs_add_access_denied(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -503,7 +503,7 @@ async def test_logs_add_access_denied(
 
 
 async def test_logs_add_unknown_device_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -536,7 +536,7 @@ async def test_logs_add_unknown_device_ignored(
 
 
 async def test_logs_add_without_location_update_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -569,7 +569,7 @@ async def test_logs_add_without_location_update_ignored(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_logs_add_empty_result_dispatches_access_denied(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -604,7 +604,7 @@ async def test_logs_add_empty_result_dispatches_access_denied(
 
 
 async def test_logs_add_no_device_config_target_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -638,7 +638,7 @@ async def test_logs_add_no_device_config_target_ignored(
 
 
 async def test_logs_add_empty_targets_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -666,7 +666,7 @@ async def test_logs_add_empty_targets_ignored(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_logs_add_stale_device_mapping_cleared(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -740,7 +740,7 @@ async def test_logs_add_stale_device_mapping_cleared(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_logs_add_device_mapping_pruned_on_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -789,7 +789,7 @@ async def test_logs_add_device_mapping_pruned_on_refresh(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_remote_view_doorbell_ring_by_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -812,7 +812,7 @@ async def test_remote_view_doorbell_ring_by_device_id(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_remote_view_doorbell_ring_by_door_name_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -833,7 +833,7 @@ async def test_remote_view_doorbell_ring_by_door_name_fallback(
 
 
 async def test_remote_view_unknown_device_and_door_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -854,7 +854,7 @@ async def test_remote_view_unknown_device_and_door_ignored(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_remote_view_device_mapping_via_device_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -886,7 +886,7 @@ async def test_remote_view_device_mapping_via_device_update(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_remote_view_device_mapping_via_v2_device_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -918,7 +918,7 @@ async def test_remote_view_device_mapping_via_v2_device_update(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_v2_device_update_multiple_location_states_maps_to_first_door(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -958,7 +958,7 @@ async def test_v2_device_update_multiple_location_states_maps_to_first_door(
 
 
 async def test_device_update_without_door_does_not_map(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -986,7 +986,7 @@ async def test_device_update_without_door_does_not_map(
 
 
 async def test_device_update_empty_unique_id_does_not_pollute_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1017,7 +1017,7 @@ async def test_device_update_empty_unique_id_does_not_pollute_mapping(
 
 
 async def test_v2_device_update_empty_id_does_not_pollute_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1049,7 +1049,7 @@ async def test_v2_device_update_empty_id_does_not_pollute_mapping(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_logs_add_uah_door_via_enriched_door_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1091,7 +1091,7 @@ async def test_logs_add_uah_door_via_enriched_door_id(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_logs_add_uah_door_access_denied(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1126,7 +1126,7 @@ async def test_logs_add_uah_door_access_denied(
 
 
 async def test_logs_add_uah_door_unknown_door_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1159,7 +1159,7 @@ async def test_logs_add_uah_door_unknown_door_ignored(
 
 
 async def test_logs_add_no_device_and_no_enriched_door_id_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1192,7 +1192,7 @@ async def test_logs_add_no_device_and_no_enriched_door_id_ignored(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_insights_add_direction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1223,7 +1223,7 @@ async def test_insights_add_direction(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_logs_add_direction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1336,7 +1336,7 @@ def _make_logs_add(
 )
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_duplicate_access_event_dispatched_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     first_event: str,
@@ -1389,7 +1389,7 @@ async def test_duplicate_access_event_dispatched_once(
 )
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_distinct_access_events_not_suppressed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     insights: InsightsAdd,
@@ -1411,7 +1411,7 @@ async def test_distinct_access_events_not_suppressed(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_same_second_different_doors_not_suppressed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1446,7 +1446,7 @@ async def test_same_second_different_doors_not_suppressed(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_unusable_insights_copy_does_not_suppress_logs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1482,7 +1482,7 @@ async def test_unusable_insights_copy_does_not_suppress_logs(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_unusable_logs_copy_does_not_suppress_insights(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1521,7 +1521,7 @@ async def test_unusable_logs_copy_does_not_suppress_insights(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_null_issuer_still_suppressed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1562,7 +1562,7 @@ async def test_null_issuer_still_suppressed(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_none_insights_auth_id_still_suppressed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1599,7 +1599,7 @@ async def test_none_insights_auth_id_still_suppressed(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_missing_published_not_suppressed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -1619,7 +1619,7 @@ async def test_missing_published_not_suppressed(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_access_event_redelivered_after_window(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:

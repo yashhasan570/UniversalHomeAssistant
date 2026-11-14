@@ -4,12 +4,12 @@ import pytest
 from pytrafikverket import CameraInfoModel
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: ConfigEntry,
     get_camera: CameraInfoModel,
 ) -> None:

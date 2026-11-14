@@ -28,7 +28,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import ERROR_BAD_REQUEST, ERROR_NOT_AUTHORIZED
@@ -69,7 +69,7 @@ USER_INPUT_RECONFIGURE = {
 
 
 @pytest.mark.usefixtures("habitica")
-async def test_form_login(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form_login(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the login form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -115,7 +115,7 @@ async def test_form_login(hass: UniversalAssistant, mock_setup_entry: AsyncMock)
     ],
 )
 async def test_form_login_errors(
-    hass: UniversalAssistant, habitica: AsyncMock, raise_error, text_error
+    hass: __HAC_KEEP__, habitica: AsyncMock, raise_error, text_error
 ) -> None:
     """Test we handle invalid credentials error."""
 
@@ -160,7 +160,7 @@ async def test_form_login_errors(
 
 @pytest.mark.usefixtures("habitica")
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort form login when entry is already configured."""
@@ -189,7 +189,7 @@ async def test_form_already_configured(
 
 
 @pytest.mark.usefixtures("habitica")
-async def test_form_advanced(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form_advanced(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -235,7 +235,7 @@ async def test_form_advanced(hass: UniversalAssistant, mock_setup_entry: AsyncMo
     ],
 )
 async def test_form_advanced_errors(
-    hass: UniversalAssistant, habitica: AsyncMock, raise_error, text_error
+    hass: __HAC_KEEP__, habitica: AsyncMock, raise_error, text_error
 ) -> None:
     """Test we handle invalid credentials error."""
 
@@ -281,7 +281,7 @@ async def test_form_advanced_errors(
 
 @pytest.mark.usefixtures("habitica")
 async def test_form_advanced_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort user data set when entry is already configured."""
@@ -319,7 +319,7 @@ async def test_form_advanced_already_configured(
 )
 @pytest.mark.usefixtures("habitica")
 async def test_flow_reauth(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, user_input: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, user_input: dict[str, Any]
 ) -> None:
     """Test reauth flow."""
     config_entry.add_to_hass(hass)
@@ -381,7 +381,7 @@ async def test_flow_reauth(
     ],
 )
 async def test_flow_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     habitica: AsyncMock,
     config_entry: MockConfigEntry,
     raise_error: Exception,
@@ -419,7 +419,7 @@ async def test_flow_reauth_errors(
 
 
 @pytest.mark.usefixtures("habitica")
-async def test_flow_reauth_unique_id_mismatch(hass: UniversalAssistant) -> None:
+async def test_flow_reauth_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
     """Test reauth flow."""
 
     config_entry = MockConfigEntry(
@@ -451,7 +451,7 @@ async def test_flow_reauth_unique_id_mismatch(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("habitica")
 async def test_flow_reconfigure(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow."""
     config_entry.add_to_hass(hass)
@@ -482,7 +482,7 @@ async def test_flow_reconfigure(
     ],
 )
 async def test_flow_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     habitica: AsyncMock,
     config_entry: MockConfigEntry,
     raise_error: Exception,
@@ -521,7 +521,7 @@ async def test_flow_reconfigure_errors(
 
 @pytest.mark.usefixtures("habitica")
 async def test_add_party_member_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test add party member subentry flow."""
@@ -557,7 +557,7 @@ async def test_add_party_member_flow(
 
 @pytest.mark.usefixtures("habitica")
 async def test_add_party_member_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_subentry: MockConfigEntry,
 ) -> None:
     """Test add party member subentry flow abort when already configured."""
@@ -584,7 +584,7 @@ async def test_add_party_member_already_configured(
 
 @pytest.mark.usefixtures("habitica")
 async def test_add_party_member_already_configured_as_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test add party member subentry flow abort when already configured entry."""
@@ -614,7 +614,7 @@ async def test_add_party_member_already_configured_as_entry(
 
 
 async def test_add_party_member_not_in_a_party(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
 ) -> None:
@@ -637,7 +637,7 @@ async def test_add_party_member_not_in_a_party(
 
 
 @pytest.mark.usefixtures("habitica")
-async def test_add_party_member_entry_disabled(hass: UniversalAssistant) -> None:
+async def test_add_party_member_entry_disabled(hass: __HAC_KEEP__) -> None:
     """Test we abort add party member subentry flow.
 
     Specifically when the main config entry is disabled.

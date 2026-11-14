@@ -22,7 +22,7 @@ from universalassistant.components.light import (
     filter_supported_color_modes,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import color as color_util
 
@@ -48,7 +48,7 @@ COLOR_MODE_MAP = {
 
 # there's a bug in (at least) Espressif's implementation of light transitions
 # on devices based on Matter 1.0. Mark potential devices with this issue.
-# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/113775
+# https://github.com/yashhasan570/__HAC_KEEP__/issues/113775
 # vendorid (attributeKey 0/40/2)
 # productid (attributeKey 0/40/4)
 # hw version (attributeKey 0/40/8)
@@ -89,7 +89,7 @@ def _level_range(level_control: clusters.LevelControl) -> tuple[int, int]:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MatterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

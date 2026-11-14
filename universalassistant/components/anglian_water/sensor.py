@@ -15,7 +15,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory, UnitOfVolume
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AnglianWaterConfigEntry, AnglianWaterUpdateCoordinator
@@ -87,7 +87,7 @@ ENTITY_DESCRIPTIONS: tuple[AnglianWaterSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AnglianWaterConfigEntry,
     async_add_devices: AddConfigEntryEntitiesCallback,
 ) -> None:

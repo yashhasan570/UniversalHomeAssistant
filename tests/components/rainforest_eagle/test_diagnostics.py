@@ -8,13 +8,13 @@ from universalassistant.components.rainforest_eagle.const import (
     CONF_CLOUD_ID,
     CONF_INSTALL_CODE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_200_RESPONSE_WITHOUT_PRICE
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     setup_rainforest_200,
     config_entry_200,

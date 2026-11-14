@@ -14,7 +14,7 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import UniversalAssistant, callback, valid_entity_id
+from universalassistant.core import __HAC_KEEP__, callback, valid_entity_id
 
 from . import data
 from .const import DOMAIN
@@ -79,7 +79,7 @@ WATER_UNIT_ERROR = "entity_unexpected_unit_water"
 WATER_PRICE_UNIT_ERROR = "entity_unexpected_unit_water_price"
 
 
-def _get_placeholders(hass: UniversalAssistant, issue_type: str) -> dict[str, str] | None:
+def _get_placeholders(hass: __HAC_KEEP__, issue_type: str) -> dict[str, str] | None:
     currency = hass.config.currency
     if issue_type == ENERGY_UNIT_ERROR:
         return {
@@ -146,7 +146,7 @@ class ValidationIssues:
 
     def add_issue(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         issue_type: str,
         affected_entity: str,
         detail: float | str | None = None,
@@ -195,7 +195,7 @@ class EnergyPreferencesValidation:
 
 @callback
 def _async_validate_stat_common(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     stat_id: str,
     allowed_device_classes: Sequence[str],
@@ -255,7 +255,7 @@ def _async_validate_stat_common(
 
 @callback
 def _async_validate_usage_stat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     stat_id: str,
     allowed_device_classes: Sequence[str],
@@ -303,7 +303,7 @@ def _async_validate_usage_stat(
 
 @callback
 def _async_validate_price_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     issues: ValidationIssues,
     allowed_units: tuple[str, ...],
@@ -328,7 +328,7 @@ def _async_validate_price_entity(
 
 @callback
 def _async_validate_gas_price_unit_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     usage_entity_id: str,
     price_entity_id: str,
     issues: ValidationIssues,
@@ -358,7 +358,7 @@ def _async_validate_gas_price_unit_mismatch(
 
 @callback
 def _async_validate_power_stat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     stat_id: str,
     allowed_device_classes: Sequence[str],
@@ -393,7 +393,7 @@ def _async_validate_power_stat(
 
 @callback
 def _async_validate_cost_stat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     stat_id: str,
     issues: ValidationIssues,
@@ -435,7 +435,7 @@ def _async_validate_cost_stat(
 
 @callback
 def _async_validate_auto_generated_cost_entity(
-    hass: UniversalAssistant, energy_entity_id: str, issues: ValidationIssues
+    hass: __HAC_KEEP__, energy_entity_id: str, issues: ValidationIssues
 ) -> None:
     """Validate that the auto generated cost entity is correct."""
     if energy_entity_id not in hass.data[DOMAIN]["cost_sensors"]:
@@ -448,7 +448,7 @@ def _async_validate_auto_generated_cost_entity(
 
 
 def _validate_grid_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: data.GridSourceType,
     statistics_metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     wanted_statistics_metadata: set[str],
@@ -586,7 +586,7 @@ def _validate_grid_source(
 
 
 def _validate_gas_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: data.GasSourceType,
     statistics_metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     wanted_statistics_metadata: set[str],
@@ -670,7 +670,7 @@ def _validate_gas_source(
 
 
 def _validate_water_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: data.WaterSourceType,
     statistics_metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]],
     wanted_statistics_metadata: set[str],
@@ -744,7 +744,7 @@ def _validate_water_source(
         )
 
 
-async def async_validate(hass: UniversalAssistant) -> EnergyPreferencesValidation:
+async def async_validate(hass: __HAC_KEEP__) -> EnergyPreferencesValidation:
     """Validate the energy configuration."""
     manager: data.EnergyManager = await data.async_get_manager(hass)
     statistics_metadata: dict[str, tuple[int, recorder.models.StatisticMetaData]] = {}

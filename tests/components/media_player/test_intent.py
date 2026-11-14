@@ -34,8 +34,8 @@ from universalassistant.const import (
     STATE_PAUSED,
     STATE_PLAYING,
 )
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     area_registry as ar,
     entity_registry as er,
@@ -46,7 +46,7 @@ from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.setup import async_setup_component
 
 
-async def test_pause_media_player_intent(hass: UniversalAssistant) -> None:
+async def test_pause_media_player_intent(hass: __HAC_KEEP__) -> None:
     """Test HassMediaPause intent for media players."""
     await media_player_intent.async_setup_intents(hass)
 
@@ -99,7 +99,7 @@ async def test_pause_media_player_intent(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_unpause_media_player_intent(hass: UniversalAssistant) -> None:
+async def test_unpause_media_player_intent(hass: __HAC_KEEP__) -> None:
     """Test HassMediaUnpause intent for media players."""
     await media_player_intent.async_setup_intents(hass)
 
@@ -122,7 +122,7 @@ async def test_unpause_media_player_intent(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_next_media_player_intent(hass: UniversalAssistant) -> None:
+async def test_next_media_player_intent(hass: __HAC_KEEP__) -> None:
     """Test HassMediaNext intent for media players."""
     await media_player_intent.async_setup_intents(hass)
 
@@ -173,7 +173,7 @@ async def test_next_media_player_intent(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_previous_media_player_intent(hass: UniversalAssistant) -> None:
+async def test_previous_media_player_intent(hass: __HAC_KEEP__) -> None:
     """Test HassMediaPrevious intent for media players."""
     await media_player_intent.async_setup_intents(hass)
 
@@ -224,7 +224,7 @@ async def test_previous_media_player_intent(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_volume_media_player_intent(hass: UniversalAssistant) -> None:
+async def test_volume_media_player_intent(hass: __HAC_KEEP__) -> None:
     """Test HassSetVolume intent for media players."""
     await media_player_intent.async_setup_intents(hass)
 
@@ -265,7 +265,7 @@ async def test_volume_media_player_intent(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_media_player_mute_intent(hass: UniversalAssistant) -> None:
+async def test_media_player_mute_intent(hass: __HAC_KEEP__) -> None:
     """Test HassMediaPlayerMute intent for media players."""
     await media_player_intent.async_setup_intents(hass)
 
@@ -306,7 +306,7 @@ async def test_media_player_mute_intent(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_media_player_unmute_intent(hass: UniversalAssistant) -> None:
+async def test_media_player_unmute_intent(hass: __HAC_KEEP__) -> None:
     """Test HassMediaPlayerMute intent for media players."""
     await media_player_intent.async_setup_intents(hass)
 
@@ -348,7 +348,7 @@ async def test_media_player_unmute_intent(hass: UniversalAssistant) -> None:
 
 
 async def test_multiple_media_players(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -637,7 +637,7 @@ async def test_multiple_media_players(
 
 
 async def test_manual_pause_unpause(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -736,7 +736,7 @@ async def test_manual_pause_unpause(
     assert calls[0].data == {"entity_id": device_2.entity_id}
 
 
-async def test_search_and_play_media_player_intent(hass: UniversalAssistant) -> None:
+async def test_search_and_play_media_player_intent(hass: __HAC_KEEP__) -> None:
     """Test HassMediaSearchAndPlay intent for media players."""
     await media_player_intent.async_setup_intents(hass)
 
@@ -855,7 +855,7 @@ async def test_search_and_play_media_player_intent(hass: UniversalAssistant) -> 
         hass,
         DOMAIN,
         SERVICE_PLAY_MEDIA,
-        raise_exception=UniversalAssistantError("Play failed"),
+        raise_exception=__HAC_KEEP__Error("Play failed"),
     )
     with pytest.raises(intent.MatchFailedError):
         await intent.async_handle(
@@ -871,7 +871,7 @@ async def test_search_and_play_media_player_intent(hass: UniversalAssistant) -> 
         hass,
         DOMAIN,
         SERVICE_SEARCH_MEDIA,
-        raise_exception=UniversalAssistantError("Search failed"),
+        raise_exception=__HAC_KEEP__Error("Search failed"),
     )
     with pytest.raises(intent.IntentHandleError, match="Error searching media"):
         await intent.async_handle(
@@ -883,7 +883,7 @@ async def test_search_and_play_media_player_intent(hass: UniversalAssistant) -> 
 
 
 async def test_search_and_play_media_player_intent_with_media_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HassMediaSearchAndPlay intent with media_class parameter."""
     await media_player_intent.async_setup_intents(hass)
@@ -968,7 +968,7 @@ async def test_search_and_play_media_player_intent_with_media_class(
     [("up", 0.1, 20), ("down", -0.1, -20)],
 )
 async def test_volume_relative_media_player_intent(
-    hass: UniversalAssistant, direction: str, volume_change: float, volume_change_int: int
+    hass: __HAC_KEEP__, direction: str, volume_change: float, volume_change_int: int
 ) -> None:
     """Test relative volume intents for media players."""
     assert await async_setup_component(hass, DOMAIN, {})

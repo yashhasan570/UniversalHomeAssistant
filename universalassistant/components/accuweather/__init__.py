@@ -7,7 +7,7 @@ from accuweather import AccuWeather
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -25,7 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.SENSOR, Platform.WEATHER]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AccuWeatherConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AccuWeatherConfigEntry) -> None:
     """Set up AccuWeather as config entry."""
     api_key: str = entry.data[CONF_API_KEY]
 
@@ -76,7 +76,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AccuWeatherConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: AccuWeatherConfigEntry
+    hass: __HAC_KEEP__, entry: AccuWeatherConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

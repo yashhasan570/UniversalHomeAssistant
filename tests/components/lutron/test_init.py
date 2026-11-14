@@ -10,13 +10,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.lutron.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -39,7 +39,7 @@ async def test_setup_entry(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test unloading the integration."""
     mock_config_entry.add_to_hass(hass)
@@ -72,7 +72,7 @@ async def test_unload_entry(
     ],
 )
 async def test_setup_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
     method: str,
@@ -90,7 +90,7 @@ async def test_setup_entry_not_ready(
 
 
 async def test_unique_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_lutron: MagicMock,
@@ -148,7 +148,7 @@ async def test_unique_id_migration(
 
 
 async def test_keypad_integer_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -189,7 +189,7 @@ async def test_keypad_integer_migration(
 
 
 async def test_keypad_uuid_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -232,7 +232,7 @@ async def test_keypad_uuid_migration(
 
 
 async def test_keypad_integer_to_uuid_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -273,7 +273,7 @@ async def test_keypad_integer_to_uuid_migration(
 
 
 async def test_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -309,7 +309,7 @@ async def test_via_device_id(
 
 
 async def test_via_device_id_main_repeater_keypad(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,

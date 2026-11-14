@@ -9,8 +9,8 @@ from iaqualink.exception import (
     AqualinkServiceUnauthorizedException,
 )
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 
 if TYPE_CHECKING:
     from . import AqualinkConfigEntry
@@ -24,7 +24,7 @@ def error_detail(err: Exception) -> str:
 
 
 async def await_or_reraise(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AqualinkConfigEntry | None,
     awaitable: Awaitable,
 ) -> None:
@@ -38,10 +38,10 @@ async def await_or_reraise(
             "Invalid credentials for iAquaLink"
         ) from auth_exception
     except TimeoutError as timeout_exception:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Aqualink error: {error_detail(timeout_exception)}"
         ) from timeout_exception
     except (AqualinkServiceException, httpx2.HTTPError) as svc_exception:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Aqualink error: {error_detail(svc_exception)}"
         ) from svc_exception

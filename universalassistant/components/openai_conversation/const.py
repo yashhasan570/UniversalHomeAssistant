@@ -58,7 +58,7 @@ RECOMMENDED_WEB_SEARCH_CONTEXT_SIZE = "medium"
 RECOMMENDED_WEB_SEARCH_USER_LOCATION = False
 RECOMMENDED_WEB_SEARCH_INLINE_CITATIONS = False
 DEFAULT_STT_PROMPT = (
-    "The following conversation is a smart home user talking to Universal Universal Home Assistant."
+    "The following conversation is a smart home user talking to __HA_KEEP__."
 )
 
 UNSUPPORTED_MODELS: list[str] = [

@@ -8,8 +8,8 @@ from aiohomeconnect.model.error import HomeConnectError
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import Undefined
@@ -201,7 +201,7 @@ def _get_option_entities_for_appliance(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HomeConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -229,7 +229,7 @@ class HomeConnectSwitch(HomeConnectEntity, SwitchEntity):
             )
         except HomeConnectError as err:
             self._attr_available = False
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_on",
                 translation_placeholders={
@@ -250,7 +250,7 @@ class HomeConnectSwitch(HomeConnectEntity, SwitchEntity):
             )
         except HomeConnectError as err:
             self._attr_available = False
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_off",
                 translation_placeholders={
@@ -282,7 +282,7 @@ class HomeConnectPowerSwitch(HomeConnectEntity, SwitchEntity):
             )
         except HomeConnectError as err:
             self._attr_is_on = False
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="power_on",
                 translation_placeholders={
@@ -297,7 +297,7 @@ class HomeConnectPowerSwitch(HomeConnectEntity, SwitchEntity):
         if self.power_off_state is Undefined:
             await self.async_fetch_power_off_state()
             if self.power_off_state is Undefined:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="unable_to_retrieve_turn_off",
                     translation_placeholders={
@@ -306,7 +306,7 @@ class HomeConnectPowerSwitch(HomeConnectEntity, SwitchEntity):
                 )
 
         if self.power_off_state is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_off_not_supported",
                 translation_placeholders={"appliance_name": self.appliance.info.name},
@@ -319,7 +319,7 @@ class HomeConnectPowerSwitch(HomeConnectEntity, SwitchEntity):
             )
         except HomeConnectError as err:
             self._attr_is_on = True
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="power_off",
                 translation_placeholders={

@@ -7,7 +7,7 @@ from simplefin4py import FinancialData, SimpleFin
 from simplefin4py.exceptions import SimpleFinAuthError, SimpleFinPaymentRequiredError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -22,7 +22,7 @@ class SimpleFinDataUpdateCoordinator(DataUpdateCoordinator[FinancialData]):
     config_entry: SimpleFinConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: SimpleFinConfigEntry, client: SimpleFin
+        self, hass: __HAC_KEEP__, config_entry: SimpleFinConfigEntry, client: SimpleFin
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

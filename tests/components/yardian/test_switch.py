@@ -20,14 +20,14 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -41,7 +41,7 @@ async def test_all_entities(
 
 
 async def test_turn_on_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -60,7 +60,7 @@ async def test_turn_on_switch(
 
 
 async def test_turn_off_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -80,7 +80,7 @@ async def test_turn_off_switch(
 
 @pytest.mark.usefixtures("switch_platform_only")
 async def test_switch_unavailable_on_failed_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

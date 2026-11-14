@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonObjectType
 
@@ -68,7 +68,7 @@ def config_location_type_fixture() -> dict[str, Any]:
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: UniversalAssistant, config_auth: dict[str, Any], config_coordinates: dict[str, Any]
+    hass: __HAC_KEEP__, config_auth: dict[str, Any], config_coordinates: dict[str, Any]
 ) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
@@ -107,7 +107,7 @@ def get_grid_region_fixture(data_grid_region: JsonObjectType) -> AsyncMock:
 
 @pytest.fixture(name="setup_watttime")
 async def setup_watttime_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: Mock,
     config_auth: dict[str, Any],
     config_coordinates: dict[str, Any],

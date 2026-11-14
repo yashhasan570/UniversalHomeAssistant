@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.components.bluetooth import inject_bluetooth_service_info
 
 from universalassistant.components.event import ButtonEventType
-from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.event import async_track_state_change_event
 
@@ -18,7 +18,7 @@ from . import (
 )
 
 
-def _track_event_types(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def _track_event_types(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return a list that collects the event types fired by an entity."""
     event_types: list[str] = []
 
@@ -32,7 +32,7 @@ def _track_event_types(hass: UniversalAssistant, entity_id: str) -> list[str]:
 
 
 async def test_no_entities_without_binary_inputs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_no_entities_without_binary_inputs(
 
 
 async def test_entities_created_per_active_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_three_button_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_entities_created_per_active_button(
 
 
 async def test_multiple_binary_input_instances(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_multi_instance_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_multiple_binary_input_instances(
 
 
 async def test_stale_entities_removed_on_config_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_two_button_config_entry: MockConfigEntry,
     mock_opendisplay_device: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -147,7 +147,7 @@ async def test_stale_entities_removed_on_config_change(
 
 
 async def test_press_start_event_fired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_button_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -186,7 +186,7 @@ async def test_press_start_event_fired(
 
 
 async def test_press_end_event_fired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_button_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_press_end_event_fired(
 
 
 async def test_no_event_for_wrong_button_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_two_button_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

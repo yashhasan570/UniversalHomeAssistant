@@ -22,8 +22,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_time_interval
@@ -37,7 +37,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HegelConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -113,7 +113,7 @@ class HegelMediaPlayer(MediaPlayerEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle entity added to Universal Universal Home Assistant."""
+        """Handle entity added to __HA_KEEP__."""
         await super().async_added_to_hass()
         _LOGGER.debug("Hegel media player added to hass: %s", self.entity_id)
 
@@ -217,7 +217,7 @@ class HegelMediaPlayer(MediaPlayerEntity):
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """Handle entity removal from Universal Universal Home Assistant.
+        """Handle entity removal from __HA_KEEP__.
 
         Note: Push callback cleanup is handled by async_on_remove.
         _connected_watcher_task cleanup is handled automatically by
@@ -299,7 +299,7 @@ class HegelMediaPlayer(MediaPlayerEntity):
         try:
             await self._client.send(COMMANDS["power_on"], expect_reply=False)
         except (HegelConnectionError, TimeoutError, OSError) as err:
-            raise UniversalAssistantError(f"Failed to turn on: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to turn on: {err}") from err
 
     @override
     async def async_turn_off(self) -> None:
@@ -307,7 +307,7 @@ class HegelMediaPlayer(MediaPlayerEntity):
         try:
             await self._client.send(COMMANDS["power_off"], expect_reply=False)
         except (HegelConnectionError, TimeoutError, OSError) as err:
-            raise UniversalAssistantError(f"Failed to turn off: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to turn off: {err}") from err
 
     @override
     async def async_set_volume_level(self, volume: float) -> None:
@@ -317,7 +317,7 @@ class HegelMediaPlayer(MediaPlayerEntity):
         try:
             await self._client.send(COMMANDS["volume_set"](amp_vol), expect_reply=False)
         except (HegelConnectionError, TimeoutError, OSError) as err:
-            raise UniversalAssistantError(f"Failed to set volume: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to set volume: {err}") from err
 
     @override
     async def async_mute_volume(self, mute: bool) -> None:
@@ -327,7 +327,7 @@ class HegelMediaPlayer(MediaPlayerEntity):
                 COMMANDS["mute_on" if mute else "mute_off"], expect_reply=False
             )
         except (HegelConnectionError, TimeoutError, OSError) as err:
-            raise UniversalAssistantError(f"Failed to set mute: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to set mute: {err}") from err
 
     @override
     async def async_volume_up(self) -> None:
@@ -335,7 +335,7 @@ class HegelMediaPlayer(MediaPlayerEntity):
         try:
             await self._client.send(COMMANDS["volume_up"], expect_reply=False)
         except (HegelConnectionError, TimeoutError, OSError) as err:
-            raise UniversalAssistantError(f"Failed to increase volume: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to increase volume: {err}") from err
 
     @override
     async def async_volume_down(self) -> None:
@@ -343,7 +343,7 @@ class HegelMediaPlayer(MediaPlayerEntity):
         try:
             await self._client.send(COMMANDS["volume_down"], expect_reply=False)
         except (HegelConnectionError, TimeoutError, OSError) as err:
-            raise UniversalAssistantError(f"Failed to decrease volume: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to decrease volume: {err}") from err
 
     @override
     async def async_select_source(self, source: str) -> None:
@@ -355,6 +355,6 @@ class HegelMediaPlayer(MediaPlayerEntity):
         try:
             await self._client.send(COMMANDS["input_set"](idx), expect_reply=False)
         except (HegelConnectionError, TimeoutError, OSError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to select source {source}: {err}"
             ) from err

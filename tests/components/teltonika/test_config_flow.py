@@ -19,14 +19,14 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_user_flow(hass: UniversalAssistant, mock_teltasync: MagicMock) -> None:
+async def test_form_user_flow(hass: __HAC_KEEP__, mock_teltasync: MagicMock) -> None:
     """Test we get the form and can create an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -69,7 +69,7 @@ async def test_form_user_flow(hass: UniversalAssistant, mock_teltasync: MagicMoc
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_error_with_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync_client: MagicMock,
     exception: Exception,
     error_key: str,
@@ -121,7 +121,7 @@ async def test_form_error_with_recovery(
 
 
 async def test_form_duplicate_entry(
-    hass: UniversalAssistant, mock_teltasync: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_teltasync: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test duplicate config entry is handled."""
     mock_config_entry.add_to_hass(hass)
@@ -186,7 +186,7 @@ async def test_form_duplicate_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_host_url_construction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync: MagicMock,
     mock_teltasync_client: MagicMock,
     host_input: str,
@@ -222,7 +222,7 @@ async def test_host_url_construction(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_user_flow_http_fallback(
-    hass: UniversalAssistant, mock_teltasync_client: MagicMock
+    hass: __HAC_KEEP__, mock_teltasync_client: MagicMock
 ) -> None:
     """Test we fall back to HTTP when HTTPS fails."""
     result = await hass.config_entries.flow.async_init(
@@ -272,7 +272,7 @@ async def test_form_user_flow_http_fallback(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery(
-    hass: UniversalAssistant, mock_teltasync_client: MagicMock
+    hass: __HAC_KEEP__, mock_teltasync_client: MagicMock
 ) -> None:
     """Test DHCP discovery flow."""
     result = await hass.config_entries.flow.async_init(
@@ -323,7 +323,7 @@ async def test_dhcp_discovery(
 )
 @pytest.mark.usefixtures("mock_teltasync")
 async def test_dhcp_discovery_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     ssl: bool,
     port: int,
@@ -349,7 +349,7 @@ async def test_dhcp_discovery_already_configured(
 
 
 @pytest.mark.usefixtures("mock_teltasync")
-async def test_dhcp_discovery_ignored(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_ignored(hass: __HAC_KEEP__) -> None:
     """Test rediscovery of an ignored device without a configured host."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -375,7 +375,7 @@ async def test_dhcp_discovery_ignored(hass: UniversalAssistant) -> None:
 
 
 async def test_dhcp_discovery_cannot_connect(
-    hass: UniversalAssistant, mock_teltasync_client: MagicMock
+    hass: __HAC_KEEP__, mock_teltasync_client: MagicMock
 ) -> None:
     """Test DHCP discovery when device is not reachable."""
     # Simulate device not reachable via API
@@ -409,7 +409,7 @@ async def test_dhcp_discovery_cannot_connect(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_confirm_error_with_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync_client: MagicMock,
     exception: Exception,
     error_key: str,
@@ -466,7 +466,7 @@ async def test_dhcp_confirm_error_with_recovery(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_validate_credentials_false(
-    hass: UniversalAssistant, mock_teltasync_client: MagicMock
+    hass: __HAC_KEEP__, mock_teltasync_client: MagicMock
 ) -> None:
     """Test config flow when validate_credentials returns False."""
     result = await hass.config_entries.flow.async_init(
@@ -508,7 +508,7 @@ async def test_validate_credentials_false(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -539,7 +539,7 @@ async def test_reauth_flow_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_success_rut240(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     rut240_device_info: UnauthorizedStatusData,
@@ -579,7 +579,7 @@ async def test_reauth_flow_success_rut240(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors_with_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -623,7 +623,7 @@ async def test_reauth_flow_errors_with_recovery(
 
 
 async def test_reauth_flow_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -652,7 +652,7 @@ async def test_reauth_flow_wrong_account(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_user_flow_rut240(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync_client: MagicMock,
     rut240_device_info: UnauthorizedStatusData,
 ) -> None:
@@ -681,7 +681,7 @@ async def test_form_user_flow_rut240(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_rut240(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync_client: MagicMock,
     rut240_device_info: UnauthorizedStatusData,
 ) -> None:
@@ -724,7 +724,7 @@ async def test_dhcp_discovery_rut240(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_rut240_repeated_advertisement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync_client: MagicMock,
     rut240_device_info: UnauthorizedStatusData,
 ) -> None:
@@ -755,7 +755,7 @@ async def test_dhcp_discovery_rut240_repeated_advertisement(
     [(True, 443), (True, 8443), (False, 80), (False, 8080)],
 )
 async def test_dhcp_discovery_rut240_already_configured_updates_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     rut240_device_info: UnauthorizedStatusData,
@@ -796,7 +796,7 @@ async def test_dhcp_discovery_rut240_already_configured_updates_host(
 
 
 async def test_dhcp_discovery_apiv1_already_configured_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_teltasync_client: MagicMock,
     mock_config_entry: MockConfigEntry,

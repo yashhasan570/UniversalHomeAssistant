@@ -13,13 +13,13 @@ from universalassistant.components.yalexs_ble.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 
 from . import YALE_ACCESS_LOCK_DISCOVERY_INFO
 
 
 async def test_setup_retries_when_not_advertising_at_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test setup is retried with a diagnostic reason when not advertising at startup."""

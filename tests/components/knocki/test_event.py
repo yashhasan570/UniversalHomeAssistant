@@ -14,14 +14,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.knocki.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_knocki_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -35,7 +35,7 @@ async def test_entities(
 
 @pytest.mark.freeze_time("2022-01-01T12:00:00Z")
 async def test_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_knocki_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_subscription(
 
 
 async def test_adding_runtime_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_knocki_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_adding_runtime_entities(
 
 
 async def test_removing_runtime_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_knocki_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

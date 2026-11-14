@@ -7,7 +7,7 @@ from motionmount import MotionMountSystemError
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MotionMountConfigEntry
@@ -25,7 +25,7 @@ ERROR_MESSAGES: Final = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MotionMountConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

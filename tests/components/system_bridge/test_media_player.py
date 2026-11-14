@@ -56,8 +56,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import FIXTURE_REQUEST_ID
@@ -92,7 +92,7 @@ def player_details_backend(mock_websocket_client: MagicMock) -> Generator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -174,7 +174,7 @@ async def test_media_player_platform(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_media_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
     service: str,
     service_data: dict[str, Any],
@@ -193,7 +193,7 @@ async def test_media_control(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_without_player(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test seek, volume, shuffle and repeat are not offered without the player.
@@ -259,7 +259,7 @@ async def test_media_without_player(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_audio_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
     entity_id: str,
     service: str,
@@ -279,7 +279,7 @@ async def test_audio_control(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -346,7 +346,7 @@ async def test_media_player_source(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_source_cleared(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     module: Module,
     gone: Media | System,
@@ -377,7 +377,7 @@ async def test_media_player_source_cleared(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_source_named_automatic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a player named like the automatic source can still be picked."""
@@ -405,7 +405,7 @@ async def test_media_player_source_named_automatic(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_source_needs_player_details(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test players can't be picked from backends that list them without details."""
@@ -441,7 +441,7 @@ async def test_media_player_source_needs_player_details(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_unknown_source(
-    hass: UniversalAssistant, entity_id: str, source: str, message: str
+    hass: __HAC_KEEP__, entity_id: str, source: str, message: str
 ) -> None:
     """Test picking a source that isn't reported raises."""
     with pytest.raises(ServiceValidationError, match=message):
@@ -455,7 +455,7 @@ async def test_select_unknown_source(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_default_output_follows_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -506,7 +506,7 @@ async def test_default_output_follows_default(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_audio_device_added_and_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a new audio device is added, and is unavailable once it's gone."""
@@ -555,7 +555,7 @@ async def test_audio_device_added_and_disconnected(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_control_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
     entity_id: str,
     service: str,
@@ -571,7 +571,7 @@ async def test_control_error(
         data={},
     )
 
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             service,
@@ -601,7 +601,7 @@ async def test_control_error(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_control_connection_closed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
     entity_id: str,
     service: str,
@@ -614,7 +614,7 @@ async def test_control_connection_closed(
     ).side_effect = ConnectionClosedException("Connection is closed")
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=r"A connection error occurred for TestSystem \(127\.0\.0\.1\)",
     ):
         await hass.services.async_call(
@@ -626,7 +626,7 @@ async def test_control_connection_closed(
 
 
 async def test_media_player_image_data_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -706,7 +706,7 @@ async def test_media_player_image_data_url(
 
 
 async def test_media_player_image_http_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -750,7 +750,7 @@ async def test_media_player_image_http_url(
     ],
 )
 async def test_media_player_image_invalid_or_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     thumbnail: str | None,
@@ -777,7 +777,7 @@ async def test_media_player_image_invalid_or_none(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_image_follows_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:

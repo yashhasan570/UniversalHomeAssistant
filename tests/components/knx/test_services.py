@@ -10,8 +10,8 @@ from xknx.telegram.apci import GroupValueResponse, GroupValueWrite
 from universalassistant.components.knx import async_unload_entry as knx_async_unload_entry
 from universalassistant.components.knx.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from .conftest import KNXTestKit
 
@@ -105,7 +105,7 @@ from .conftest import KNXTestKit
     ],
 )
 async def test_send(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     service_payload,
     expected_telegrams,
@@ -126,7 +126,7 @@ async def test_send(
         await knx.assert_telegram(group_address, payload, expected_apci)
 
 
-async def test_read(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_read(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test `knx.read` service."""
     await knx.setup_integration()
 
@@ -198,7 +198,7 @@ async def test_read(hass: UniversalAssistant, knx: KNXTestKit) -> None:
 )
 @pytest.mark.usefixtures("load_knxproj")
 async def test_read_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     address: str,
     response: int | tuple[int, ...],
@@ -223,7 +223,7 @@ async def test_read_response(
 
 
 async def test_read_response_accepts_write(
-    hass: UniversalAssistant, knx: KNXTestKit
+    hass: __HAC_KEEP__, knx: KNXTestKit
 ) -> None:
     """Test `knx.read` service accepting a GroupValueWrite as answer."""
     await knx.setup_integration()
@@ -243,13 +243,13 @@ async def test_read_response_accepts_write(
     assert (await read_task)["payload"] == [0x2A]
 
 
-async def test_read_response_timeout(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_read_response_timeout(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test `knx.read` service raising when nothing answers."""
     await knx.setup_integration()
 
     with (
         patch("universalassistant.components.knx.services.READ_RESPONSE_TIMEOUT", 0),
-        pytest.raises(UniversalAssistantError, match="No response received for `1/1/1`"),
+        pytest.raises(__HAC_KEEP__Error, match="No response received for `1/1/1`"),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -262,7 +262,7 @@ async def test_read_response_timeout(hass: UniversalAssistant, knx: KNXTestKit) 
 
 
 async def test_read_response_single_address(
-    hass: UniversalAssistant, knx: KNXTestKit
+    hass: __HAC_KEEP__, knx: KNXTestKit
 ) -> None:
     """Test `knx.read` service rejecting response data for multiple addresses."""
     await knx.setup_integration()
@@ -281,7 +281,7 @@ async def test_read_response_single_address(
     await knx.assert_no_telegram()
 
 
-async def test_event_register(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_event_register(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test `knx.event_register` service."""
     events = async_capture_events(hass, "knx_event")
     test_address = "1/2/3"
@@ -330,7 +330,7 @@ async def test_event_register(hass: UniversalAssistant, knx: KNXTestKit) -> None
     assert untyped_event_1.data["value"] is None
 
     # remove event for non-registered address - raise error
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             "event_register",
@@ -342,7 +342,7 @@ async def test_event_register(hass: UniversalAssistant, knx: KNXTestKit) -> None
     assert exc_info.value.translation_placeholders == {"group_addresses": "4/4/4"}
 
 
-async def test_exposure_register(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_exposure_register(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test `knx.exposure_register` service."""
     test_address = "1/2/3"
     test_entity = "fake.entity"
@@ -410,7 +410,7 @@ async def test_exposure_register(hass: UniversalAssistant, knx: KNXTestKit) -> N
 
 
 async def test_reload_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Test reload service."""
@@ -432,12 +432,12 @@ async def test_reload_service(
         mock_setup_entry.assert_called_once()
 
 
-async def test_service_setup_failed(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_service_setup_failed(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test service setup failed."""
     await knx.setup_integration()
     await hass.config_entries.async_unload(knx.mock_config_entry.entry_id)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             "send",

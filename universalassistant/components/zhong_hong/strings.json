@@ -51,11 +51,11 @@
   },
   "issues": {
     "deprecated_yaml_import_issue_cannot_connect": {
-      "description": "Configuring {integration_title} using YAML is being removed, but the gateway at {host} could not be reached, so the configuration could not be imported.\n\nCheck that the gateway is switched on and reachable at that address, then restart Universal Universal Home Assistant. If it is gone for good, remove the {domain} YAML configuration from your configuration.yaml file.",
+      "description": "Configuring {integration_title} using YAML is being removed, but the gateway at {host} could not be reached, so the configuration could not be imported.\n\nCheck that the gateway is switched on and reachable at that address, then restart __HA_KEEP__. If it is gone for good, remove the {domain} YAML configuration from your configuration.yaml file.",
       "title": "The {integration_title} YAML configuration could not be imported"
     },
     "deprecated_yaml_import_issue_no_devices_found": {
-      "description": "Configuring {integration_title} using YAML is being removed, but the gateway at {host} did not report any air conditioners, so the configuration could not be imported.\n\nCheck that the air conditioners are switched on and addressed on the gateway, then restart Universal Universal Home Assistant.",
+      "description": "Configuring {integration_title} using YAML is being removed, but the gateway at {host} did not report any air conditioners, so the configuration could not be imported.\n\nCheck that the air conditioners are switched on and addressed on the gateway, then restart __HA_KEEP__.",
       "title": "[%key:component::zhong_hong::issues::deprecated_yaml_import_issue_cannot_connect::title%]"
     }
   }

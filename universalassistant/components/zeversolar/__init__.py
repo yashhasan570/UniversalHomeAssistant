@@ -1,12 +1,12 @@
 """The Zeversolar integration."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import PLATFORMS
 from .coordinator import ZeversolarConfigEntry, ZeversolarCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ZeversolarConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ZeversolarConfigEntry) -> None:
     """Set up Zeversolar from a config entry."""
     coordinator = ZeversolarCoordinator(hass=hass, entry=entry)
     await coordinator.async_config_entry_first_refresh()
@@ -15,6 +15,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ZeversolarConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ZeversolarConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ZeversolarConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

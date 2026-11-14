@@ -8,7 +8,7 @@ import probatio
 from universalassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from universalassistant.config_entries import ConfigSubentryFlow, SubentryFlowResult
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.selector import EntitySelector, EntitySelectorConfig
 
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def _get_suggested_entities(hass: UniversalAssistant) -> list[str]:
+def _get_suggested_entities(hass: __HAC_KEEP__) -> list[str]:
     """Return a sorted list of suggested sensor entity IDs for mapping."""
     ent_reg = er.async_get(hass)
     suitable_entities = []

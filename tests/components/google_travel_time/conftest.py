@@ -9,12 +9,12 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.google_travel_time.const import DEFAULT_NAME, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(name="mock_config")
 async def mock_config_fixture(
-    hass: UniversalAssistant, data: dict[str, Any], options: dict[str, Any]
+    hass: __HAC_KEEP__, data: dict[str, Any], options: dict[str, Any]
 ) -> MockConfigEntry:
     """Mock a Google Travel Time config entry."""
     config_entry = MockConfigEntry(

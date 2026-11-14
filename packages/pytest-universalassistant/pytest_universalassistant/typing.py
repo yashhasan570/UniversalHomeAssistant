@@ -1,4 +1,4 @@
-"""Typing helpers for Universal Universal Home Assistant tests."""
+"""Typing helpers for __HA_KEEP__ tests."""
 
 from collections.abc import Callable, Coroutine
 from contextlib import AbstractAsyncContextManager

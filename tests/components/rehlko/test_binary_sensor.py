@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.rehlko.const import GENERATOR_DATA_DEVICE
 from universalassistant.components.rehlko.coordinator import SCAN_INTERVAL_MINUTES
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -29,7 +29,7 @@ async def platform_binary_sensor_fixture():
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     rehlko_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_sensors(
 
 
 async def test_binary_sensor_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     generator: dict[str, Any],
     mock_rehlko: AsyncMock,
     load_rehlko_config_entry: None,
@@ -75,7 +75,7 @@ async def test_binary_sensor_states(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_loadshed_binary_sensor_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     generator: dict[str, Any],
     mock_rehlko: AsyncMock,
     load_rehlko_config_entry: None,
@@ -107,7 +107,7 @@ async def test_loadshed_binary_sensor_states(
 
 
 async def test_binary_sensor_connectivity_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     generator: dict[str, Any],
     mock_rehlko: AsyncMock,
     load_rehlko_config_entry: None,

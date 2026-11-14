@@ -9,7 +9,7 @@ from universalassistant import config_entries
 from universalassistant.components.nasweb.const import DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.network import NoURLAvailableError
 
@@ -30,7 +30,7 @@ TEST_USER_INPUT = {
 }
 
 
-async def _add_test_config_entry(hass: UniversalAssistant) -> ConfigFlowResult:
+async def _add_test_config_entry(hass: __HAC_KEEP__) -> ConfigFlowResult:
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
@@ -45,7 +45,7 @@ async def _add_test_config_entry(hass: UniversalAssistant) -> ConfigFlowResult:
 
 
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     validate_input_all_ok: dict[str, AsyncMock | MagicMock],
 ) -> None:
@@ -63,7 +63,7 @@ async def test_form(
 
 
 @pytest.mark.usefixtures("validate_input_all_ok")
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -85,7 +85,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("validate_input_all_ok")
-async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -110,7 +110,7 @@ async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("validate_input_all_ok")
-async def test_form_missing_internal_url(hass: UniversalAssistant) -> None:
+async def test_form_missing_internal_url(hass: __HAC_KEEP__) -> None:
     """Test missing internal url."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -133,7 +133,7 @@ async def test_form_missing_internal_url(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("validate_input_all_ok")
-async def test_form_missing_nasweb_data(hass: UniversalAssistant) -> None:
+async def test_form_missing_nasweb_data(hass: __HAC_KEEP__) -> None:
     """Test invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -163,7 +163,7 @@ async def test_form_missing_nasweb_data(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("validate_input_all_ok")
-async def test_missing_status(hass: UniversalAssistant) -> None:
+async def test_missing_status(hass: __HAC_KEEP__) -> None:
     """Test missing status update."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -187,7 +187,7 @@ async def test_missing_status(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("validate_input_all_ok")
-async def test_form_exception(hass: UniversalAssistant) -> None:
+async def test_form_exception(hass: __HAC_KEEP__) -> None:
     """Test other exceptions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -211,7 +211,7 @@ async def test_form_exception(hass: UniversalAssistant) -> None:
 
 
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     validate_input_all_ok: dict[str, AsyncMock | MagicMock],
 ) -> None:
     """Test already configured device."""

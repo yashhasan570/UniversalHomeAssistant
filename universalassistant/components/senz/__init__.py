@@ -9,7 +9,7 @@ import jwt
 from pysenz import SENZAPI
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, httpx_client
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -28,7 +28,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS = [Platform.CLIMATE, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SENZConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SENZConfigEntry) -> None:
     """Set up SENZ from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
     session = OAuth2Session(hass, entry, implementation)
@@ -82,13 +82,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SENZConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SENZConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SENZConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: SENZConfigEntry
+    hass: __HAC_KEEP__, config_entry: SENZConfigEntry
 ) -> None:
     """Migrate old entry."""
 

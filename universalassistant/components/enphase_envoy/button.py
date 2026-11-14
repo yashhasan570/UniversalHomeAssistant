@@ -7,8 +7,8 @@ from typing import Any, override
 from pyenphase import Envoy
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -47,7 +47,7 @@ ACB_BUTTONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: EnphaseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -83,7 +83,7 @@ class EnvoyACBButtonEntity(EnvoyACBAggregateControlEntity, ButtonEntity):
         except ValueError as err:
             # pyenphase raises ValueError for validation failures and Envoy
             # HTTP 400 responses, which exception_handler does not cover.
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="action_error",
                 translation_placeholders={

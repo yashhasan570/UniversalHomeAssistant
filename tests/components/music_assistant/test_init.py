@@ -26,7 +26,7 @@ from universalassistant.components.music_assistant.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -60,7 +60,7 @@ EXPOSE_TO_HA_VALUE = {
     ["d5369777-music-assistant", "d5369777-music-assistant-beta"],
 )
 async def test_offline_app_setup_retries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     error: type[Exception],
@@ -107,7 +107,7 @@ async def test_offline_app_setup_retries(
     ],
 )
 async def test_connection_failure_without_offline_app(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     on_supervisor: bool,
@@ -155,7 +155,7 @@ async def test_connection_failure_without_offline_app(
     ],
 )
 async def test_connection_failure_without_app_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     app_info: dict[str, None],
@@ -185,7 +185,7 @@ async def test_connection_failure_without_app_info(
 
 
 async def test_successful_connection_does_not_check_app_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_successful_connection_does_not_check_app_state(
 
 
 async def test_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     music_assistant_client: MagicMock,
@@ -257,7 +257,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_remove_dashboard_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -307,7 +307,7 @@ async def test_remove_dashboard_device(
 
 
 async def test_dashboard_device_survives_reload_with_empty_cache(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     music_assistant_client: MagicMock,
 ) -> None:
@@ -340,7 +340,7 @@ async def test_dashboard_device_survives_reload_with_empty_cache(
 
 
 async def test_dashboard_device_id_namespaced(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -412,7 +412,7 @@ async def test_dashboard_device_id_namespaced(
     ],
 )
 async def test_player_config_toggle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     music_assistant_client: MagicMock,
@@ -473,7 +473,7 @@ async def test_player_config_toggle(
 
 
 async def test_player_config_hides_unregistered_player(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     music_assistant_client: MagicMock,
 ) -> None:
@@ -511,7 +511,7 @@ async def test_player_config_hides_unregistered_player(
     ],
 )
 async def test_player_added_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     music_assistant_client: MagicMock,
     enabled: bool,
@@ -549,7 +549,7 @@ async def test_player_added_event(
     ],
 )
 async def test_setup_removes_hidden_player(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     music_assistant_client: MagicMock,
     enabled: bool,
@@ -597,7 +597,7 @@ async def test_setup_removes_hidden_player(
     ],
 )
 async def test_setup_stale_device_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     music_assistant_client: MagicMock,
     extra_configs: list[PlayerConfig],
@@ -625,7 +625,7 @@ async def test_setup_stale_device_cleanup(
 
 
 async def test_authentication_required_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     music_assistant_client: MagicMock,
 ) -> None:
@@ -652,7 +652,7 @@ async def test_authentication_required_triggers_reauth(
 
 
 async def test_authentication_required_addon_no_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     music_assistant_client: MagicMock,
 ) -> None:
@@ -681,7 +681,7 @@ async def test_authentication_required_addon_no_reauth(
 
 
 async def test_server_lost_during_setup_retries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     music_assistant_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -708,7 +708,7 @@ async def test_server_lost_during_setup_retries(
 
 
 async def test_server_lost_late_in_setup_retries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -743,7 +743,7 @@ async def test_server_lost_late_in_setup_retries(
 
 
 async def test_invalid_server_version_issue_per_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     music_assistant_client: MagicMock,
 ) -> None:

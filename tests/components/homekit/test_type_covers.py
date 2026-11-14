@@ -39,12 +39,12 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import CoreState, Event, UniversalAssistant
+from universalassistant.core import CoreState, Event, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_garage_door_open_close(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "cover.garage_door"
@@ -133,7 +133,7 @@ async def test_garage_door_open_close(
     assert events[-1].data[ATTR_VALUE] is None
 
 
-async def test_door_instantiate_set_position(hass: UniversalAssistant, hk_driver) -> None:
+async def test_door_instantiate_set_position(hass: __HAC_KEEP__, hk_driver) -> None:
     """Test if Door accessory is instantiated correctly and can set position."""
     entity_id = "cover.door"
 
@@ -184,7 +184,7 @@ async def test_door_instantiate_set_position(hass: UniversalAssistant, hk_driver
 
 
 async def test_windowcovering_set_cover_position(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "cover.window"
@@ -298,7 +298,7 @@ async def test_windowcovering_set_cover_position(
 
 
 async def test_windowcovering_target_position_while_moving(
-    hass: UniversalAssistant, hk_driver
+    hass: __HAC_KEEP__, hk_driver
 ) -> None:
     """Test the target position while the cover is moving.
 
@@ -376,7 +376,7 @@ async def test_windowcovering_target_position_while_moving(
 
 
 async def test_windowcovering_tilt_only_target_position_stays_closed(
-    hass: UniversalAssistant, hk_driver
+    hass: __HAC_KEEP__, hk_driver
 ) -> None:
     """Test that a tilt-only cover keeps its target position locked at closed."""
     entity_id = "cover.window"
@@ -400,7 +400,7 @@ async def test_windowcovering_tilt_only_target_position_stays_closed(
     assert acc.char_target_position.value == 0
 
 
-async def test_window_instantiate_set_position(hass: UniversalAssistant, hk_driver) -> None:
+async def test_window_instantiate_set_position(hass: __HAC_KEEP__, hk_driver) -> None:
     """Test if Window accessory is instantiated correctly and can set position."""
     entity_id = "cover.window"
 
@@ -451,7 +451,7 @@ async def test_window_instantiate_set_position(hass: UniversalAssistant, hk_driv
 
 
 async def test_windowcovering_cover_set_tilt(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA update slat tilt accordingly."""
     entity_id = "cover.window"
@@ -529,7 +529,7 @@ async def test_windowcovering_cover_set_tilt(
     assert events[-1].data[ATTR_VALUE] == 75
 
 
-async def test_windowcovering_tilt_only(hass: UniversalAssistant, hk_driver) -> None:
+async def test_windowcovering_tilt_only(hass: __HAC_KEEP__, hk_driver) -> None:
     """Test we lock the window covering closed when its tilt only."""
     entity_id = "cover.window"
 
@@ -553,7 +553,7 @@ async def test_windowcovering_tilt_only(hass: UniversalAssistant, hk_driver) -> 
 
 
 async def test_windowcovering_open_close(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "cover.window"
@@ -636,7 +636,7 @@ async def test_windowcovering_open_close(
 
 
 async def test_windowcovering_open_close_stop(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "cover.window"
@@ -685,7 +685,7 @@ async def test_windowcovering_open_close_stop(
 
 
 async def test_windowcovering_open_close_with_position_and_stop(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     entity_id = "cover.stop_window"
@@ -719,7 +719,7 @@ async def test_windowcovering_open_close_with_position_and_stop(
 
 
 async def test_windowcovering_basic_restore(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, hk_driver
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, hk_driver
 ) -> None:
     """Test setting up an entity from state in the event registry."""
     hass.set_state(CoreState.not_running)
@@ -757,7 +757,7 @@ async def test_windowcovering_basic_restore(
 
 
 async def test_windowcovering_restore(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, hk_driver
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, hk_driver
 ) -> None:
     """Test setting up an entity from state in the event entity_registry."""
     hass.set_state(CoreState.not_running)
@@ -795,7 +795,7 @@ async def test_windowcovering_restore(
 
 
 async def test_garage_door_with_linked_obstruction_sensor(
-    hass: UniversalAssistant, hk_driver
+    hass: __HAC_KEEP__, hk_driver
 ) -> None:
     """Test accessory and HA update with linked obstruction sensor."""
     linked_obstruction_sensor_entity_id = "binary_sensor.obstruction"

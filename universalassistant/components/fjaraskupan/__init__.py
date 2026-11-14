@@ -15,7 +15,7 @@ from universalassistant.components.bluetooth import (
     async_register_callback,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import (
@@ -41,7 +41,7 @@ _LOGGER = logging.getLogger(__name__)
 _UUID = str(UUID_SERVICE).lower()
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FjaraskupanConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FjaraskupanConfigEntry) -> None:
     """Set up Fjäråskupan from a config entry."""
 
     entry.runtime_data = {}
@@ -111,7 +111,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FjaraskupanConfigEn
 
 @callback
 def async_setup_entry_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FjaraskupanConfigEntry,
     async_add_entities: AddEntitiesCallback,
     constructor: Callable[[FjaraskupanCoordinator], list[Entity]],
@@ -136,7 +136,7 @@ def async_setup_entry_platform(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: FjaraskupanConfigEntry
+    hass: __HAC_KEEP__, entry: FjaraskupanConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -149,7 +149,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FjaraskupanConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

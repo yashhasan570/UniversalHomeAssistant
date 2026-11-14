@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Literal, TypedDict, override
 
-from universalassistant.core import Event, UniversalAssistant, callback, verify_event_loop_thread
+from universalassistant.core import Event, __HAC_KEEP__, callback, verify_event_loop_thread
 from universalassistant.util.dt import utc_from_timestamp, utcnow
 from universalassistant.util.event_type import EventType
 from universalassistant.util.hass_dict import HassKey
@@ -97,7 +97,7 @@ class LabelRegistry(BaseRegistry[LabelRegistryStoreData]):
     labels: NormalizedNameBaseRegistryItems[LabelEntry]
     _label_data: dict[str, LabelEntry]
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the label registry."""
         self.hass = hass
         self._store = LabelRegistryStore(
@@ -265,14 +265,14 @@ class LabelRegistry(BaseRegistry[LabelRegistryStoreData]):
 
 @callback
 @singleton(DATA_REGISTRY)
-def async_get(hass: UniversalAssistant) -> LabelRegistry:
+def async_get(hass: __HAC_KEEP__) -> LabelRegistry:
     """Get label registry."""
     return LabelRegistry(hass)
 
 
 @callback
 def async_get_missing_label_ids(
-    hass: UniversalAssistant, label_ids: Iterable[str]
+    hass: __HAC_KEEP__, label_ids: Iterable[str]
 ) -> set[str]:
     """Return the label ids which are missing from the label registry."""
     registry = async_get(hass)
@@ -281,7 +281,7 @@ def async_get_missing_label_ids(
     }
 
 
-async def async_load(hass: UniversalAssistant, *, load_empty: bool = False) -> None:
+async def async_load(hass: __HAC_KEEP__, *, load_empty: bool = False) -> None:
     """Load label registry."""
     assert DATA_REGISTRY not in hass.data
     await async_get(hass).async_load(load_empty=load_empty)

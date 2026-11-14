@@ -13,12 +13,12 @@ from universalassistant.components.edifier_infrared.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_MODEL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test setting up and unloading a config entry."""
     entry = init_integration
@@ -50,7 +50,7 @@ async def test_setup_and_unload_entry(
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity", "mock_edifier_code_to_command")
 async def test_migrate_entry_from_v1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     old_model: str,
     old_command_set: str,
     expected_model: str,
@@ -93,7 +93,7 @@ async def test_migrate_entry_from_v1(
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity", "mock_edifier_code_to_command")
 async def test_migrate_entry_from_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     model: str,
     old_command_set: str,
     expected_command_set: str,
@@ -132,7 +132,7 @@ async def test_migrate_entry_from_v2(
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity", "mock_edifier_code_to_command")
 async def test_migrate_entry_from_v3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     model: str,
     old_command_set: str,
     expected_command_set: str,
@@ -182,7 +182,7 @@ async def test_migrate_entry_from_v3(
     ],
 )
 async def test_migrate_entry_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     version: int,
     model: str,

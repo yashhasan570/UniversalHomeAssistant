@@ -9,14 +9,14 @@ from hdate.parasha import Parasha
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import TimeValue, TimeValueSequence
 
 
 @pytest.mark.parametrize("language", ["en", "he"])
-async def test_min_config(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def test_min_config(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Test minimum jewish calendar configuration."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -158,7 +158,7 @@ TEST_PARAMS = [
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup_at_time")
 async def test_jewish_calendar_sensor(
-    hass: UniversalAssistant, results: dict[str, Any], sensor: str
+    hass: __HAC_KEEP__, results: dict[str, Any], sensor: str
 ) -> None:
     """Test Jewish calendar sensor output."""
     result = results["state"]
@@ -495,7 +495,7 @@ SHABBAT_PARAMS = [
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup_at_time")
 async def test_shabbat_times_sensor(
-    hass: UniversalAssistant, results: dict[str, Any], language: str
+    hass: __HAC_KEEP__, results: dict[str, Any], language: str
 ) -> None:
     """Test sensor output for upcoming shabbat/yomtov times."""
     for sensor_type, result_value in results.items():
@@ -525,7 +525,7 @@ async def test_shabbat_times_sensor(
     indirect=True,
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup_at_time")
-async def test_omer_sensor(hass: UniversalAssistant, results: str) -> None:
+async def test_omer_sensor(hass: __HAC_KEEP__, results: str) -> None:
     """Test Omer Count sensor output."""
     assert hass.states.get("sensor.jewish_calendar_day_of_the_omer").state == results
 
@@ -542,7 +542,7 @@ async def test_omer_sensor(hass: UniversalAssistant, results: str) -> None:
     indirect=True,
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup_at_time")
-async def test_dafyomi_sensor(hass: UniversalAssistant, results: str) -> None:
+async def test_dafyomi_sensor(hass: __HAC_KEEP__, results: str) -> None:
     """Test Daf Yomi sensor output."""
     assert hass.states.get("sensor.jewish_calendar_daf_yomi").state == results
 
@@ -562,7 +562,7 @@ async def test_dafyomi_sensor(hass: UniversalAssistant, results: str) -> None:
     indirect=True,
 )
 async def test_sensor_date_changes_with_time(
-    hass: UniversalAssistant, test_sequence: AsyncGenerator[Any]
+    hass: __HAC_KEEP__, test_sequence: AsyncGenerator[Any]
 ) -> None:
     """Test the date sensor updates when time crosses boundaries."""
     async for expected_state in test_sequence():
@@ -584,7 +584,7 @@ async def test_sensor_date_changes_with_time(
     indirect=True,
 )
 async def test_sensor_holiday_changes_at_candle_lighting(
-    hass: UniversalAssistant, test_sequence: AsyncGenerator[Any]
+    hass: __HAC_KEEP__, test_sequence: AsyncGenerator[Any]
 ) -> None:
     """Test that the holiday sensor updates at candle lighting when available."""
     async for expected_state in test_sequence():
@@ -606,7 +606,7 @@ async def test_sensor_holiday_changes_at_candle_lighting(
     indirect=True,
 )
 async def test_sensor_holiday_changes_at_havdalah(
-    hass: UniversalAssistant, test_sequence: AsyncGenerator[Any]
+    hass: __HAC_KEEP__, test_sequence: AsyncGenerator[Any]
 ) -> None:
     """Test that the holiday sensor updates at havdalah when available."""
     async for expected_state in test_sequence():

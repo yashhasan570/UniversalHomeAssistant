@@ -230,7 +230,7 @@
 # name: test_setup_config_entry
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.ATTRIBUTION: 'attribution'>: 'Powered by Universal Universal Home Assistant',
+      <EntityStateAttribute.ATTRIBUTION: 'attribution'>: 'Powered by __HA_KEEP__',
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'My template',
       <WeatherEntityStateAttribute.HUMIDITY: 'humidity'>: 50,
       <WeatherEntityCapabilityAttribute.PRECIPITATION_UNIT: 'precipitation_unit'>: <UnitOfPrecipitationDepth.MILLIMETERS: 'mm'>,

@@ -16,7 +16,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_CODE, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.selector import (
     TextSelector,
@@ -68,7 +68,7 @@ STEP_RECONFIGURE = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
 
     session = aiohttp_client.async_create_clientsession(hass)

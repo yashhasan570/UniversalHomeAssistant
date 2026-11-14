@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.fronius.const import DOMAIN, SOLAR_NET_RESCAN_TIMER
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -19,7 +19,7 @@ from . import mock_responses, setup_fronius_integration
 
 
 async def test_unload_config_entry(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that configuration entry supports unloading."""
     mock_responses(aioclient_mock)
@@ -39,7 +39,7 @@ async def test_unload_config_entry(
 
 
 async def test_migrate_config_entry(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test migration adds the Modbus settings to old config entries."""
     mock_responses(aioclient_mock)
@@ -52,7 +52,7 @@ async def test_migrate_config_entry(
 
 
 async def test_logger_error(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup when logger reports an error."""
     # gen24 dataset will raise FroniusError when logger is called
@@ -62,7 +62,7 @@ async def test_logger_error(
 
 
 async def test_inverter_error(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup when inverter_info reports an error."""
     mock_responses(aioclient_mock)
@@ -75,7 +75,7 @@ async def test_inverter_error(
 
 
 async def test_inverter_night_rescan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
@@ -112,7 +112,7 @@ async def test_inverter_night_rescan(
 
 
 async def test_inverter_rescan_interruption(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
@@ -158,7 +158,7 @@ async def test_inverter_rescan_interruption(
 
 
 async def test_device_remove_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

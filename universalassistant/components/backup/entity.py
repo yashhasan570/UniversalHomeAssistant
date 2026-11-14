@@ -22,8 +22,8 @@ class BackupManagerBaseEntity(CoordinatorEntity[BackupDataUpdateCoordinator]):
         super().__init__(coordinator)
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, "backup_manager")},
-            manufacturer="Universal Universal Home Assistant",
-            model="Universal Universal Home Assistant Backup",
+            manufacturer="__HA_KEEP__",
+            model="__HA_KEEP__ Backup",
             sw_version=HA_VERSION,
             name="Backup",
             entry_type=DeviceEntryType.SERVICE,

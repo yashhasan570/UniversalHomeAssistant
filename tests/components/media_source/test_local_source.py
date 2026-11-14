@@ -19,13 +19,13 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.media_source import const
 from universalassistant.components.media_source.local_source import MAX_SEARCH_RESULTS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-async def temp_dir(hass: UniversalAssistant) -> AsyncGenerator[str]:
+async def temp_dir(hass: __HAC_KEEP__) -> AsyncGenerator[str]:
     """Return a temp dir."""
     with TemporaryDirectory() as tmpdirname:
         target_dir = Path(tmpdirname) / "another_subdir"
@@ -38,7 +38,7 @@ async def temp_dir(hass: UniversalAssistant) -> AsyncGenerator[str]:
         yield str(target_dir)
 
 
-async def test_async_browse_media(hass: UniversalAssistant) -> None:
+async def test_async_browse_media(hass: __HAC_KEEP__) -> None:
     """Test browse media."""
     local_media = hass.config.path("media")
     await async_process_ha_core_config(
@@ -94,7 +94,7 @@ async def test_async_browse_media(hass: UniversalAssistant) -> None:
     assert media
 
 
-async def test_async_search_media(hass: UniversalAssistant) -> None:
+async def test_async_search_media(hass: __HAC_KEEP__) -> None:
     """Test searching local media."""
     local_media = hass.config.path("media")
     await async_process_ha_core_config(
@@ -167,7 +167,7 @@ async def test_async_search_media(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_async_search_media_limit_and_hidden(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     suffix: str,
     create: Callable[[Path], None],
@@ -214,7 +214,7 @@ FILE_RESULT = (
     ],
 )
 async def test_async_search_media_folders(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     media_filter_classes: list[MediaClass] | None,
     expected: list[tuple[str, MediaClass, str, bool, bool, bool]],
@@ -254,7 +254,7 @@ async def test_async_search_media_folders(
     ]
 
 
-async def test_browse_media_can_search(hass: UniversalAssistant) -> None:
+async def test_browse_media_can_search(hass: __HAC_KEEP__) -> None:
     """Test that browsable directories advertise search support."""
     local_media = hass.config.path("media")
     await async_process_ha_core_config(
@@ -281,7 +281,7 @@ async def test_browse_media_can_search(hass: UniversalAssistant) -> None:
 
 
 async def test_media_view(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test media view."""
     local_media = hass.config.path("media")
@@ -340,7 +340,7 @@ async def test_media_view(
 
 
 async def test_upload_view(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     temp_dir: str,
     tmp_path: Path,
@@ -465,7 +465,7 @@ async def test_upload_view(
 
 
 async def test_remove_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     temp_dir: str,
     hass_admin_user: MockUser,
@@ -585,7 +585,7 @@ async def test_remove_file(
     ],
 )
 async def test_media_view_serves_media_inline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     tmp_path: Path,
     filename: str,
@@ -614,12 +614,12 @@ async def test_media_view_serves_media_inline(
 
 
 async def test_media_view_serves_svg_as_attachment(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, tmp_path: Path
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, tmp_path: Path
 ) -> None:
     """Test an SVG is downloaded rather than rendered.
 
     An SVG is a document a browser executes, and these are served from the
-    Universal Universal Home Assistant origin.
+    __HA_KEEP__ origin.
     """
     (tmp_path / "drawing.svg").write_text(
         '<svg xmlns="http://www.w3.org/2000/svg"></svg>'

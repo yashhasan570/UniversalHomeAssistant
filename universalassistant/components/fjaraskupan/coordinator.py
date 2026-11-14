@@ -21,8 +21,8 @@ from universalassistant.components.bluetooth import (
     async_ble_device_from_address,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -40,26 +40,26 @@ def exception_converter():
     try:
         yield
     except FjaraskupanWriteError as exception:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="write_error"
         ) from exception
     except FjaraskupanReadError as exception:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="read_error"
         ) from exception
     except FjaraskupanConnectionError as exception:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="connection_error"
         ) from exception
     except FjaraskupanError as exception:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="unexpected_error",
             translation_placeholders={"msg": str(exception)},
         ) from exception
 
 
-class UnableToConnect(UniversalAssistantError):
+class UnableToConnect(__HAC_KEEP__Error):
     """Exception to indicate that we cannot connect to device."""
 
 
@@ -70,7 +70,7 @@ class FjaraskupanCoordinator(DataUpdateCoordinator[State]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: FjaraskupanConfigEntry,
         device: Device,
         device_info: DeviceInfo,

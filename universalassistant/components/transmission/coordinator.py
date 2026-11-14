@@ -12,7 +12,7 @@ from transmission_rpc.session import SessionStats
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_ID, ATTR_NAME, CONF_HOST
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -56,7 +56,7 @@ class TransmissionDataUpdateCoordinator(DataUpdateCoordinator[SessionStats]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: TransmissionConfigEntry,
         api: transmission_rpc.Client,
     ) -> None:

@@ -7,7 +7,7 @@ from pyenvisalink.alarm_state import AlarmState
 import pytest
 
 from universalassistant.components.envisalink import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
 
@@ -58,7 +58,7 @@ def mock_controller() -> Generator[MagicMock]:
 
 
 async def setup_envisalink(
-    hass: UniversalAssistant, config: ConfigType | None = None
+    hass: __HAC_KEEP__, config: ConfigType | None = None
 ) -> bool:
     """Set up the envisalink component and wait for it to finish."""
     result = await async_setup_component(hass, DOMAIN, config or MOCK_CONFIG)

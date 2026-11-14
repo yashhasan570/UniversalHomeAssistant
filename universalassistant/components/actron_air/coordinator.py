@@ -15,7 +15,7 @@ from actron_neo_api.models.system import ActronAirSystemInfo
 from actron_neo_api.rt import RealtimeConnectionEvent, RealtimeConnectionState
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -54,7 +54,7 @@ class ActronAirSystemCoordinator(DataUpdateCoordinator[ActronAirStatus]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ActronAirConfigEntry,
         api: ActronAirAPI,
         system: ActronAirSystemInfo,

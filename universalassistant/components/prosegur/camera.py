@@ -8,8 +8,8 @@ from pyprosegur.exceptions import ProsegurException
 from pyprosegur.installation import Camera as InstallationCamera, Installation
 
 from universalassistant.components.camera import Camera
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ProsegurConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -74,7 +74,7 @@ class ProsegurCamera(Camera):
         try:
             return await self._installation.get_image(self._auth, self._camera.id)
         except ProsegurException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="image_not_available",
                 translation_placeholders={"camera": self._camera.description},
@@ -87,7 +87,7 @@ class ProsegurCamera(Camera):
         try:
             await self._installation.request_image(self._auth, self._camera.id)
         except ProsegurException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="request_image_failed",
                 translation_placeholders={"camera": self._camera.description},

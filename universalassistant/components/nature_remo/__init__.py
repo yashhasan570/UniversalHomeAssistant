@@ -3,7 +3,7 @@
 from aionatureremo import APPLIANCE_TYPE_SMART_METER, NatureRemoClient
 
 from universalassistant.const import CONF_API_TOKEN, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -14,7 +14,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 @callback
-def _async_register_devices(hass: UniversalAssistant, entry: NatureRemoConfigEntry) -> None:
+def _async_register_devices(hass: __HAC_KEEP__, entry: NatureRemoConfigEntry) -> None:
     """Register the Remo hubs and the appliances this platform exposes.
 
     Registration is eager because an energy-only hub (Remo E / E lite)
@@ -43,7 +43,7 @@ def _async_register_devices(hass: UniversalAssistant, entry: NatureRemoConfigEnt
         )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NatureRemoConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NatureRemoConfigEntry) -> None:
     """Set up Nature Remo from a config entry."""
     client = NatureRemoClient(entry.data[CONF_API_TOKEN], async_get_clientsession(hass))
     coordinator = NatureRemoCoordinator(hass, entry, client)
@@ -55,6 +55,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NatureRemoConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NatureRemoConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NatureRemoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

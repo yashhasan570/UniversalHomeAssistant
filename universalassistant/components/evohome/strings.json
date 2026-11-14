@@ -27,7 +27,7 @@
   },
   "issues": {
     "deprecated_refresh_system_service": {
-      "description": "The `refresh_system` action is deprecated and will stop working in Universal Universal Home Assistant {breaks_in_ha_version}. Instead, use the `universalassistant.update_entity` action, targeting the controller's climate entity.",
+      "description": "The `refresh_system` action is deprecated and will stop working in __HA_KEEP__ {breaks_in_ha_version}. Instead, use the `universalassistant.update_entity` action, targeting the controller's climate entity.",
       "title": "Evohome 'Refresh system' action is deprecated"
     }
   },

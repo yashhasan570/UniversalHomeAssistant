@@ -13,7 +13,7 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.sofar.const import DOMAIN
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -28,7 +28,7 @@ from . import (
 
 
 async def _setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     serial: str,
     model: str,
     seed: Callable[[MockModbusUnit], None],
@@ -57,7 +57,7 @@ async def _setup(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_pv_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_pv_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_hybrid_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -87,7 +87,7 @@ async def test_hybrid_entities(
     ],
 )
 async def test_button_press(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, key: str, register: int
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, key: str, register: int
 ) -> None:
     """Test pressing a button writes its trigger register."""
     _, connection = await _setup(
@@ -118,7 +118,7 @@ async def test_button_press(
     ],
 )
 async def test_rtc_sync_reported_to_hass(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     serial: str,
     model: str,
@@ -151,7 +151,7 @@ async def test_rtc_sync_reported_to_hass(
 
 
 async def test_press_modbus_error(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a write failure propagates as-is."""
     _, connection = await _setup(hass, MOCK_SERIAL, MOCK_MODEL, seed_pv_inverter)

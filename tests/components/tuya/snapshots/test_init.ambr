@@ -10942,7 +10942,7 @@
     'manufacturer': 'Tuya',
     'model': 'Smart plug',
     'model_id': 'gjnozsaz',
-    'name': 'Raspy4 - Universal Universal Home Assistant',
+    'name': 'Raspy4 - __HA_KEEP__',
     'name_by_user': None,
     'serial_number': None,
     'sw_version': None,

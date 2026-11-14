@@ -40,7 +40,7 @@ from unifi_access_api.models.websocket import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -92,7 +92,7 @@ class UnifiAccessCoordinator(DataUpdateCoordinator[UnifiAccessData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: UnifiAccessConfigEntry,
         client: UnifiAccessApiClient,
     ) -> None:

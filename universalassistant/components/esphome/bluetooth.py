@@ -18,7 +18,7 @@ from universalassistant.components.bluetooth import (
     BluetoothScanningMode,
     async_register_scanner,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback as hass_callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback as hass_callback
 
 from .const import CONF_BLUETOOTH_SCANNING_MODE, DEFAULT_BLUETOOTH_SCANNING_MODE, DOMAIN
 from .entry_data import ESPHomeConfigEntry, RuntimeEntryData
@@ -39,7 +39,7 @@ def _async_unload(unload_callbacks: list[CALLBACK_TYPE]) -> None:
 
 @hass_callback
 def async_connect_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ESPHomeConfigEntry,
     entry_data: RuntimeEntryData,
     cli: APIClient,
@@ -78,7 +78,7 @@ def async_connect_scanner(
 
 @hass_callback
 def _async_apply_scanning_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ESPHomeConfigEntry,
     scanner: ESPHomeScanner,
     cli: APIClient,

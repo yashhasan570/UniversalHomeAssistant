@@ -28,7 +28,7 @@ from universalassistant.components.universalassistant import (
 )
 from universalassistant.components.smart_meter_texas.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 TEST_ENTITY_ID = "sensor.electric_meter_123456789"
@@ -48,7 +48,7 @@ def load_smt_fixture(name):
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     **kwargs: Any,
@@ -60,7 +60,7 @@ async def setup_integration(
 
 
 async def refresh_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -135,7 +135,7 @@ def mock_connection(
 
 
 @pytest.fixture(name="config_entry")
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a mock config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

@@ -10,7 +10,7 @@ import pytest
 
 from universalassistant import config_entries
 from universalassistant.components.evil_genius_labs.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.util.json import JsonObjectType
 
@@ -37,7 +37,7 @@ def _patch_device(
 
 
 async def test_form(
-    hass: UniversalAssistant, all_fixture, info_fixture, product_fixture
+    hass: __HAC_KEEP__, all_fixture, info_fixture, product_fixture
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -82,7 +82,7 @@ async def test_form(
 
 
 async def test_form_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     all_fixture: dict[str, Any],
     info_fixture: JsonObjectType,
@@ -118,7 +118,7 @@ async def test_form_cannot_connect(
 
 
 async def test_form_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     all_fixture: dict[str, Any],
     info_fixture: JsonObjectType,
     product_fixture: dict[str, str],
@@ -152,7 +152,7 @@ async def test_form_timeout(
 
 
 async def test_form_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     all_fixture: dict[str, Any],
     info_fixture: JsonObjectType,
     product_fixture: dict[str, str],

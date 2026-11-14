@@ -22,7 +22,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.husqvarna_automower.const import DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -48,7 +48,7 @@ def mock_scope() -> str:
 
 
 @pytest.fixture(name="mower_time_zone")
-async def mock_time_zone(hass: UniversalAssistant) -> dict[str, MowerAttributes]:
+async def mock_time_zone(hass: __HAC_KEEP__) -> dict[str, MowerAttributes]:
     """Fixture to set correct scope for the token."""
     return await dt_util.async_get_time_zone("Europe/Berlin")
 
@@ -97,7 +97,7 @@ def mock_config_entry(jwt: str, expires_at: int, scope: str) -> MockConfigEntry:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(

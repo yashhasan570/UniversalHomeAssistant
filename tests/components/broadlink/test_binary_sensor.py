@@ -7,7 +7,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.components.broadlink.updater import BroadlinkThermostatUpdateManager
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import get_device
@@ -23,7 +23,7 @@ ENTITY_ID = "binary_sensor.guest_room_heating"
     ],
 )
 async def test_heating(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     active: int,
     expected_state: str,
@@ -43,7 +43,7 @@ async def test_heating(
 
 
 async def test_heating_follows_device(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the heating output state follows the device on each poll."""
     device = get_device("Guest room")
@@ -61,7 +61,7 @@ async def test_heating_follows_device(
 
 
 async def test_heating_not_created_for_other_devices(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test devices other than thermostats get no binary sensors."""
     device = get_device("Office")

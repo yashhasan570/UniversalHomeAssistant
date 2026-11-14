@@ -7,11 +7,11 @@ from universalassistant import config_entries
 from universalassistant.components.weatherflow_cloud.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_config(hass: UniversalAssistant, mock_get_stations) -> None:
+async def test_config(hass: __HAC_KEEP__, mock_get_stations) -> None:
     """Test the config flow for the ideal case."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -29,7 +29,7 @@ async def test_config(hass: UniversalAssistant, mock_get_stations) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_abort(hass: UniversalAssistant, mock_get_stations) -> None:
+async def test_config_flow_abort(hass: __HAC_KEEP__, mock_get_stations) -> None:
     """Test an abort case."""
 
     entry = MockConfigEntry(
@@ -62,7 +62,7 @@ async def test_config_flow_abort(hass: UniversalAssistant, mock_get_stations) ->
     ],
 )
 async def test_config_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request: pytest.FixtureRequest,
     expected_error: str,
     mock_fixture: str,
@@ -96,7 +96,7 @@ async def test_config_errors(
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth(hass: UniversalAssistant, mock_get_stations_401_error) -> None:
+async def test_reauth(hass: __HAC_KEEP__, mock_get_stations_401_error) -> None:
     """Test a reauth_flow."""
 
     entry = MockConfigEntry(

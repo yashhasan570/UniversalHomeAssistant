@@ -4,13 +4,13 @@ from typing import Any
 
 from pylaunches.types import Event, Launch
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import LaunchLibraryConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LaunchLibraryConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

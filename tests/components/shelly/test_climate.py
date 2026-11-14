@@ -59,8 +59,8 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
@@ -96,7 +96,7 @@ def fixture_platforms():
 
 
 async def test_climate_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -169,7 +169,7 @@ async def test_climate_hvac_mode(
     [pytest.param(22, id="int"), pytest.param(22.5, id="float")],
 )
 async def test_climate_hvac_mode_off_remembers_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     target_temp: float,
@@ -202,7 +202,7 @@ async def test_climate_hvac_mode_off_remembers_target(
 
 
 async def test_climate_set_temperature(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test climate set temperature service."""
     monkeypatch.delattr(mock_block_device.blocks[DEVICE_BLOCK_ID], "targetTemp")
@@ -255,7 +255,7 @@ async def test_climate_set_temperature(
 
 
 async def test_climate_set_preset_mode(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test climate set preset mode service."""
     monkeypatch.delattr(mock_block_device.blocks[DEVICE_BLOCK_ID], "targetTemp")
@@ -308,7 +308,7 @@ async def test_climate_set_preset_mode(
 
 
 async def test_block_restored_climate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -383,7 +383,7 @@ async def test_block_restored_climate(
 
 
 async def test_block_restored_climate_us_customary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -549,7 +549,7 @@ _LEGACY_EXTRA_DATA = {"last_target_temp": 15.0}
     ],
 )
 async def test_block_restored_climate_temperature_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
@@ -629,7 +629,7 @@ def test_extra_stored_data_without_last_target_temp() -> None:
 
 
 async def test_block_restored_climate_no_last_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -659,7 +659,7 @@ async def test_block_restored_climate_no_last_state(
 
 
 async def test_block_restored_climate_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -688,7 +688,7 @@ async def test_block_restored_climate_unavailable(
 
 
 async def test_block_restored_climate_set_preset_before_online(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -727,7 +727,7 @@ async def test_block_restored_climate_set_preset_before_online(
 
 
 async def test_block_set_mode_connection_error(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device set mode connection error."""
     monkeypatch.delattr(mock_block_device.blocks[DEVICE_BLOCK_ID], "targetTemp")
@@ -746,7 +746,7 @@ async def test_block_set_mode_connection_error(
     await hass.async_block_till_done(wait_background_tasks=True)
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Device communication error occurred while calling action"
         " for climate.test_name of Test name",
     ):
@@ -759,7 +759,7 @@ async def test_block_set_mode_connection_error(
 
 
 async def test_block_set_mode_auth_error(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device set mode authentication error."""
     monkeypatch.delattr(mock_block_device.blocks[DEVICE_BLOCK_ID], "targetTemp")
@@ -801,7 +801,7 @@ async def test_block_set_mode_auth_error(
 
 
 async def test_block_restored_climate_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -850,7 +850,7 @@ async def test_block_restored_climate_auth_error(
 
 
 async def test_device_not_calibrated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     issue_registry: ir.IssueRegistry,
@@ -894,7 +894,7 @@ async def test_device_not_calibrated(
 
 
 async def test_rpc_climate_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -931,7 +931,7 @@ async def test_rpc_climate_hvac_mode(
 
 
 async def test_rpc_climate_without_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -956,7 +956,7 @@ async def test_rpc_climate_without_humidity(
 
 
 async def test_rpc_climate_set_temperature(
-    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test climate set target temperature."""
     entity_id = "climate.test_name"
@@ -981,7 +981,7 @@ async def test_rpc_climate_set_temperature(
 
 
 async def test_rpc_climate_hvac_mode_cool(
-    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test climate with hvac mode cooling."""
     entity_id = "climate.test_name"
@@ -1008,7 +1008,7 @@ async def test_rpc_climate_hvac_mode_cool(
     ],
 )
 async def test_rpc_climate_hvac_action_inverted_output(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     thermostat_type: str,
@@ -1032,7 +1032,7 @@ async def test_rpc_climate_hvac_action_inverted_output(
 
 
 async def test_wall_display_thermostat_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1058,7 +1058,7 @@ async def test_wall_display_thermostat_mode(
 
 
 async def test_wall_display_thermostat_mode_external_actuator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1089,7 +1089,7 @@ async def test_wall_display_thermostat_mode_external_actuator(
 
 
 async def test_blu_trv_climate_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blu_trv: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1124,7 +1124,7 @@ async def test_blu_trv_climate_set_temperature(
 
 
 async def test_blu_trv_climate_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blu_trv: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1148,7 +1148,7 @@ async def test_blu_trv_climate_disabled(
 
 
 async def test_blu_trv_climate_hvac_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blu_trv: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1185,7 +1185,7 @@ async def test_blu_trv_climate_hvac_action(
     ],
 )
 async def test_blu_trv_set_target_temp_exc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blu_trv: Mock,
     exception: Exception,
     error: str,
@@ -1195,7 +1195,7 @@ async def test_blu_trv_set_target_temp_exc(
 
     mock_blu_trv.blu_trv_set_target_temperature.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -1205,7 +1205,7 @@ async def test_blu_trv_set_target_temp_exc(
 
 
 async def test_blu_trv_set_target_temp_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blu_trv: Mock,
 ) -> None:
     """BLU TRV target temperature setting test with authentication error."""
@@ -1235,7 +1235,7 @@ async def test_blu_trv_set_target_temp_auth_error(
 
 
 async def test_rpc_linkedgo_st802_thermostat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1376,7 +1376,7 @@ async def test_rpc_linkedgo_st802_thermostat(
 
 
 async def test_rpc_linkedgo_st802_thermostat_floor_heating(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1429,7 +1429,7 @@ async def test_rpc_linkedgo_st802_thermostat_floor_heating(
 
 
 async def test_rpc_linkedgo_st1820_thermostat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,

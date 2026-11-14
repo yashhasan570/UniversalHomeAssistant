@@ -25,7 +25,7 @@
         }
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add ROMY Vacuum Cleaner {name} to Universal Universal Home Assistant?"
+        "description": "Do you want to add ROMY Vacuum Cleaner {name} to __HA_KEEP__?"
       }
     }
   },

@@ -31,7 +31,7 @@ from universalassistant.components.unifi.hub import get_unifi_api
 from universalassistant.components.unifi.hub.connection import REQUEST_TIMEOUT
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import EVENT_STATE_REPORTED, Platform
-from universalassistant.core import Event, EventStateReportedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateReportedData, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import dt as dt_util
 
@@ -117,7 +117,7 @@ async def test_get_data_update_coordinator_requires_registered_handler(
 
 
 async def test_polling_coordinator_refreshes_after_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
 ) -> None:
     """Ensure polling coordinators refresh when their interval elapses."""
@@ -147,7 +147,7 @@ async def test_polling_coordinator_refreshes_after_interval(
 
 
 async def test_endpoint_not_found_disables_object_oriented_network_config_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -214,7 +214,7 @@ async def test_endpoint_not_found_disables_object_oriented_network_config_pollin
     ],
 )
 async def test_entity_unavailable_on_polling_coordinator_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
 ) -> None:
     """Ensure polling failures make entities unavailable until recovery."""
@@ -301,7 +301,7 @@ async def test_setup_retries_when_network_application_not_ready(
     ],
 )
 async def test_setup_asks_for_reauth_when_account_needs_mfa(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_factory: ConfigEntryFactoryType,
     target: str,
 ) -> None:
@@ -347,7 +347,7 @@ async def test_setup_continues_when_system_information_answers_an_error(
     ],
 )
 async def test_setup_gives_up_on_hanging_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_factory: ConfigEntryFactoryType,
     target: str,
     timeout: int,
@@ -427,7 +427,7 @@ async def test_websocket_updates_notify_coordinator(
 
 
 async def test_coordinator_filters_websocket_listeners_and_broadcasts_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     mock_websocket_message: WebsocketMessageMock,
 ) -> None:
@@ -534,7 +534,7 @@ async def test_coordinator_filters_websocket_listeners_and_broadcasts_polling(
     ],
 )
 async def test_coordinator_update_only_refreshes_changed_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     mock_websocket_message: WebsocketMessageMock,
 ) -> None:
@@ -598,7 +598,7 @@ def site(name: str, site_id: str) -> list[dict[str, Any]]:
     ],
 )
 async def test_site_id_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     config_entry_factory: ConfigEntryFactoryType,
@@ -652,7 +652,7 @@ async def test_site_id_changed(
     ],
 )
 async def test_site_id_changed_not_followed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     config_entry_factory: ConfigEntryFactoryType,
     unique_id: str,
@@ -690,7 +690,7 @@ async def test_site_id_changed_not_followed(
     ],
 )
 async def test_get_unifi_api_fails_to_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     raised_exception: Exception,
     config_entry_data: MappingProxyType[str, Any],
@@ -704,7 +704,7 @@ async def test_get_unifi_api_fails_to_connect(
 
 
 async def test_reset_after_successful_setup(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Calling reset when the entry has been setup."""
     assert config_entry_setup.state is ConfigEntryState.LOADED
@@ -714,7 +714,7 @@ async def test_reset_after_successful_setup(
 
 
 async def test_reset_fails(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Calling reset when the entry has been setup can return false."""
     assert config_entry_setup.state is ConfigEntryState.LOADED
@@ -729,7 +729,7 @@ async def test_reset_fails(
 
 
 async def test_get_unifi_api_mfa_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config_entry_data: MappingProxyType[str, Any],
 ) -> None:

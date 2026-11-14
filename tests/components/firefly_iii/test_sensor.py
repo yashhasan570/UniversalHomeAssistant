@@ -23,7 +23,7 @@ from universalassistant.components.firefly_iii.const import DOMAIN
 from universalassistant.components.firefly_iii.coordinator import DEFAULT_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -31,7 +31,7 @@ from . import setup_integration
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_firefly_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_all_entities(
     ],
 )
 async def test_refresh_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_firefly_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -79,7 +79,7 @@ async def test_refresh_exceptions(
 
 
 async def test_budget_sensor_updates_after_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_firefly_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

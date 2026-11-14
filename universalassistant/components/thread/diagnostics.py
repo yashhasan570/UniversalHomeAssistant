@@ -29,7 +29,7 @@ from python_otbr_api.tlv_parser import MeshcopTLVType
 
 from universalassistant.components import zeroconf
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .dataset_store import async_get_store
 from .discovery import async_read_zeroconf_cache
@@ -134,7 +134,7 @@ def _get_routes_and_neighbors():
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ConfigEntry
+    hass: __HAC_KEEP__, entry: ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for all known thread networks."""
     networks: dict[str, Network] = {}

@@ -24,8 +24,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import TWIST_ADDRESS, setup_integration
@@ -43,7 +43,7 @@ def platforms() -> list[Platform]:
 
 
 async def setup_twist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     push_twist_mode: PushTwistMode,
 ) -> None:
@@ -66,7 +66,7 @@ async def setup_twist(
     "push_twist_mode", [PushTwistMode.DEFAULT, PushTwistMode.SELECTOR]
 )
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -134,7 +134,7 @@ def _registered_keys(
     ],
 )
 async def test_push_twist_mode_change_replaces_numbers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     from_mode: PushTwistMode,
@@ -162,7 +162,7 @@ async def test_push_twist_mode_change_replaces_numbers(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.FLIC2, DeviceType.DUO])
 async def test_no_number_entities_without_selector(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_no_number_entities_without_selector(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 async def test_rotate_event_updates_own_mode_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_rotate_event_updates_own_mode_only(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 async def test_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -227,7 +227,7 @@ async def test_set_value(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 async def test_set_value_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_set_value_error(
         "Session not established"
     )
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -272,7 +272,7 @@ def _restore(entity_id: str, value: float) -> tuple[State, dict[str, Any]]:
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 @pytest.mark.parametrize("position", [40.0, 0.0])
 async def test_position_restored_and_sent_to_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     position: float,
@@ -295,7 +295,7 @@ async def test_position_restored_and_sent_to_device(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 async def test_restore_keeps_position_when_device_rejects_it(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -317,7 +317,7 @@ async def test_restore_keeps_position_when_device_rejects_it(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 async def test_position_restored_when_device_connects_later(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -17,7 +17,7 @@ from universalassistant.const import (
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -29,7 +29,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -138,7 +138,7 @@ class RingSensorEntityDescription(
 # so for now the [RingGeneric] subscript needs to be specified.
 # Once https://github.com/python/mypy/issues/14851 is closed this should hopefully
 # be fixed and the [RingGeneric] subscript can be removed.
-# https://github.com/yashhasan570/UniversalUniversalAssistant/pull/115276#discussion_r1560106576
+# https://github.com/yashhasan570/__HAC_KEEP__/pull/115276#discussion_r1560106576
 SENSOR_TYPES: tuple[RingSensorEntityDescription[Any], ...] = (
     RingSensorEntityDescription[RingGeneric](
         key="battery",

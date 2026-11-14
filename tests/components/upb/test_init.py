@@ -5,10 +5,10 @@ from unittest.mock import patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.upb.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_migrate_entry_minor_version_1_3(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_minor_version_1_3(hass: __HAC_KEEP__) -> None:
     """Test migrating a 1.1 config entry to 1.3."""
     with patch("universalassistant.components.upb.async_setup_entry", return_value=None):
         entry = MockConfigEntry(
@@ -26,7 +26,7 @@ async def test_migrate_entry_minor_version_1_3(hass: UniversalAssistant) -> None
         assert entry.data == {"device": "tcp://1.2.3.4", "file_path": "upb.upe"}
 
 
-async def test_migrate_entry_minor_version_2_3(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_minor_version_2_3(hass: __HAC_KEEP__) -> None:
     """Test migrating a 1.2 config entry to 1.3."""
     with patch("universalassistant.components.upb.async_setup_entry", return_value=None):
         entry = MockConfigEntry(

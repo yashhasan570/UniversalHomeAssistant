@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.cielo_home.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 MOCK_TOKEN = "valid-test-token"
@@ -27,7 +27,7 @@ def _devices_payload(parsed: dict | None) -> MagicMock:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_config_flow_success(hass: UniversalAssistant) -> None:
+async def test_full_config_flow_success(hass: __HAC_KEEP__) -> None:
     """Test successful config flow with valid API key."""
     mock_client = MagicMock()
     mock_client.user_id = "test-user"
@@ -56,7 +56,7 @@ async def test_full_config_flow_success(hass: UniversalAssistant) -> None:
 
 
 async def test_full_config_flow_abort_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the flow aborts when the account is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -91,7 +91,7 @@ async def test_full_config_flow_abort_already_configured(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_error_mapping(
-    hass: UniversalAssistant, api_error: type[Exception], flow_error_key: str
+    hass: __HAC_KEEP__, api_error: type[Exception], flow_error_key: str
 ) -> None:
     """Test we handle various API errors correctly.
 
@@ -129,7 +129,7 @@ async def test_form_error_mapping(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_error_mapping_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_error_mapping_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test AuthenticationError maps to invalid_auth."""
 
     mock_client = MagicMock()
@@ -176,7 +176,7 @@ def _mock_client(user_id: str = "test-user-1") -> MagicMock:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication updates the API key and token."""
     mock_config_entry.add_to_hass(hass)
@@ -234,7 +234,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     method: str,
     side_effect: type[Exception] | None,
@@ -274,7 +274,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_wrong_account(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication aborts when the API key belongs to another account."""
     mock_config_entry.add_to_hass(hass)

@@ -15,8 +15,8 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import PERCENTAGE, UnitOfTime
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -196,7 +196,7 @@ NUMBERS: tuple[FlexitNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FlexitConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -281,7 +281,7 @@ class FlexitNumber(FlexitEntity, NumberEntity):
         try:
             await set_native_value_fn(int(value))
         except (asyncio.exceptions.TimeoutError, ConnectionError, DecodingError) as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_value_error",
                 translation_placeholders={

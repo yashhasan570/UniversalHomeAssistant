@@ -18,11 +18,11 @@ from universalassistant.components.scorpiontrack.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 
 
-async def _async_start_user_flow(hass: UniversalAssistant) -> FlowResult:
+async def _async_start_user_flow(hass: __HAC_KEEP__) -> FlowResult:
     """Start the user config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -40,7 +40,7 @@ async def _async_start_user_flow(hass: UniversalAssistant) -> FlowResult:
 
 
 async def test_user_flow_creates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_scorpiontrack_client: AsyncMock,
 ) -> None:
     """A valid token should create a config entry."""
@@ -64,7 +64,7 @@ async def test_user_flow_creates_entry(
 
 
 async def test_user_flow_uses_vehicle_display_name_without_share_title(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_user_flow_uses_vehicle_display_name_without_share_title(
 
 
 async def test_user_flow_uses_default_name_without_title_or_vehicles(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_share: ScorpionTrackShare,
     mock_scorpiontrack_client: AsyncMock,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_user_flow_uses_default_name_without_title_or_vehicles(
 
 
 async def test_user_flow_aborts_for_existing_share(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The same share should not be configured twice."""
@@ -136,7 +136,7 @@ async def test_user_flow_aborts_for_existing_share(
     ],
 )
 async def test_user_flow_shows_validation_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_scorpiontrack_client: AsyncMock,
     side_effect: Exception,
     expected_error: str,
@@ -168,7 +168,7 @@ async def test_user_flow_shows_validation_errors(
 
 
 async def test_user_flow_maps_malformed_input_to_invalid_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Malformed pasted values should show the invalid-token form error."""
     with patch(
@@ -194,7 +194,7 @@ async def test_user_flow_maps_malformed_input_to_invalid_token(
 
 
 async def test_user_flow_recovers_after_invalid_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """The user flow should recover after an invalid token error."""
     result = await _async_start_user_flow(hass)

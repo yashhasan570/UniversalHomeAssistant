@@ -1,7 +1,7 @@
 """The gogogate2 component."""
 
 from universalassistant.const import CONF_DEVICE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import create_data_update_coordinator
 from .const import DEVICE_TYPE_GOGOGATE2
@@ -10,7 +10,7 @@ from .coordinator import GogoGateConfigEntry
 PLATFORMS = [Platform.COVER, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: GogoGateConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: GogoGateConfigEntry) -> None:
     """Do setup of Gogogate2."""
 
     # Update the config entry.
@@ -32,6 +32,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GogoGateConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: GogoGateConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: GogoGateConfigEntry) -> None:
     """Unload Gogogate2 config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

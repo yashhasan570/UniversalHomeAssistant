@@ -39,7 +39,7 @@
 # name: test_notify_platform[notify.universal_assistant_recipient-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Universal Home Assistant Recipient',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Recipient',
       <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <NotifyEntityFeature: 1>,
     }),
     'context': <ANY>,
@@ -55,12 +55,12 @@
   Content-Type: text/plain; charset="utf-8"
   Content-Transfer-Encoding: 7bit
   MIME-Version: 1.0
-  Subject: Universal Universal Home Assistant
-  From: Universal Universal Home Assistant <email@example.com>
+  Subject: __HA_KEEP__
+  From: __HA_KEEP__ <email@example.com>
   To: Recipient <recipient@example.com>
   Reply-To: Reply To Name <replyto@example.com>
-  X-Mailer: Universal Universal Home Assistant
-  User-Agent: UniversalAssistant/2026.10.0
+  X-Mailer: __HA_KEEP__
+  User-Agent: __HAC_KEEP__/2026.10.0
   Date: Sat, 02 May 2026 20:09:37 -0700
   Message-Id: <177777777700.12345.12345678901234567890@mock>
   
@@ -71,15 +71,15 @@
 # name: test_smtp_send_message
   '''
   MIME-Version: 1.0
-  Subject: Universal Universal Home Assistant
+  Subject: __HA_KEEP__
   X-Priority: 1 (Highest)
   Content-Type: multipart/alternative;
    boundary="===============0000000000000000001=="
-  From: Universal Universal Home Assistant <email@example.com>
+  From: __HA_KEEP__ <email@example.com>
   To: Recipient <recipient@example.com>
   Reply-To: Reply To Name <replyto@example.com>
-  X-Mailer: Universal Universal Home Assistant
-  User-Agent: UniversalAssistant/2026.10.0
+  X-Mailer: __HA_KEEP__
+  User-Agent: __HAC_KEEP__/2026.10.0
   Date: Sat, 02 May 2026 20:09:37 -0700
   Message-Id: <177777777700.12345.12345678901234567890@mock>
   
@@ -103,14 +103,14 @@
 # name: test_smtp_send_message_camera_source
   '''
   MIME-Version: 1.0
-  Subject: Universal Universal Home Assistant
+  Subject: __HA_KEEP__
   Content-Type: multipart/alternative;
    boundary="===============0000000000000000002=="
-  From: Universal Universal Home Assistant <email@example.com>
+  From: __HA_KEEP__ <email@example.com>
   To: Recipient <recipient@example.com>
   Reply-To: Reply To Name <replyto@example.com>
-  X-Mailer: Universal Universal Home Assistant
-  User-Agent: UniversalAssistant/2026.10.0
+  X-Mailer: __HA_KEEP__
+  User-Agent: __HAC_KEEP__/2026.10.0
   Date: Sat, 02 May 2026 20:09:37 -0700
   Message-Id: <177777777700.12345.12345678901234567890@mock>
   
@@ -149,13 +149,13 @@
 # name: test_smtp_send_message_image_source
   '''
   MIME-Version: 1.0
-  Subject: Universal Universal Home Assistant
+  Subject: __HA_KEEP__
   Content-Type: multipart/mixed; boundary="===============0000000000000000003=="
-  From: Universal Universal Home Assistant <email@example.com>
+  From: __HA_KEEP__ <email@example.com>
   To: Recipient <recipient@example.com>
   Reply-To: Reply To Name <replyto@example.com>
-  X-Mailer: Universal Universal Home Assistant
-  User-Agent: UniversalAssistant/2026.10.0
+  X-Mailer: __HA_KEEP__
+  User-Agent: __HAC_KEEP__/2026.10.0
   Date: Sat, 02 May 2026 20:09:37 -0700
   Message-Id: <177777777700.12345.12345678901234567890@mock>
   
@@ -208,13 +208,13 @@
 # name: test_smtp_send_message_local_media_source
   '''
   MIME-Version: 1.0
-  Subject: Universal Universal Home Assistant
+  Subject: __HA_KEEP__
   Content-Type: multipart/mixed; boundary="===============0000000000000000001=="
-  From: Universal Universal Home Assistant <email@example.com>
+  From: __HA_KEEP__ <email@example.com>
   To: Recipient <recipient@example.com>
   Reply-To: Reply To Name <replyto@example.com>
-  X-Mailer: Universal Universal Home Assistant
-  User-Agent: UniversalAssistant/2026.10.0
+  X-Mailer: __HA_KEEP__
+  User-Agent: __HAC_KEEP__/2026.10.0
   Date: Sat, 02 May 2026 20:09:37 -0700
   Message-Id: <177777777700.12345.12345678901234567890@mock>
   
@@ -239,13 +239,13 @@
 # name: test_smtp_send_message_tts_source
   '''
   MIME-Version: 1.0
-  Subject: Universal Universal Home Assistant
+  Subject: __HA_KEEP__
   Content-Type: multipart/mixed; boundary="===============0000000000000000002=="
-  From: Universal Universal Home Assistant <email@example.com>
+  From: __HA_KEEP__ <email@example.com>
   To: Recipient <recipient@example.com>
   Reply-To: Reply To Name <replyto@example.com>
-  X-Mailer: Universal Universal Home Assistant
-  User-Agent: UniversalAssistant/2026.10.0
+  X-Mailer: __HA_KEEP__
+  User-Agent: __HAC_KEEP__/2026.10.0
   Date: Sat, 02 May 2026 20:09:37 -0700
   Message-Id: <177777777700.12345.12345678901234567890@mock>
   

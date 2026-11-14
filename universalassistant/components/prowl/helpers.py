@@ -4,11 +4,11 @@ import asyncio
 
 import prowlpy
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.httpx_client import get_async_client
 
 
-async def async_verify_key(hass: UniversalAssistant, api_key: str) -> bool:
+async def async_verify_key(hass: __HAC_KEEP__, api_key: str) -> bool:
     """Validate API key."""
     prowl = prowlpy.AsyncProwl(api_key, client=get_async_client(hass))
     try:

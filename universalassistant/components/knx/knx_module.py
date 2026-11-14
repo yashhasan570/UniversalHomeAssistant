@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_TYPE,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers.storage import STORAGE_DIR
 from universalassistant.helpers.typing import ConfigType
 
@@ -69,7 +69,7 @@ class KNXModule:
     """Representation of KNX Object."""
 
     def __init__(
-        self, hass: UniversalAssistant, config: ConfigType, entry: ConfigEntry
+        self, hass: __HAC_KEEP__, config: ConfigType, entry: ConfigEntry
     ) -> None:
         """Initialize KNX module."""
         self.hass = hass
@@ -113,7 +113,7 @@ class KNXModule:
 
         self._address_filter_transcoder: dict[AddressFilter, type[DPTBase]] = {}
         self.group_address_transcoder: dict[DeviceGroupAddress, type[DPTBase]] = {}
-        # entities added to Universal Universal Home Assistant
+        # entities added to __HA_KEEP__
         self.group_address_entities: dict[
             DeviceGroupAddress, set[KnxEntityIdentifier]
         ] = {}

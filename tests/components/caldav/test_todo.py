@@ -25,8 +25,8 @@ from universalassistant.components.todo import (
     TodoServices,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_component import async_update_entity
 
 CALENDAR_NAME = "My Tasks"
@@ -116,7 +116,7 @@ def platforms() -> list[Platform]:
 
 
 @pytest.fixture(autouse=True)
-async def set_tz(hass: UniversalAssistant) -> None:
+async def set_tz(hass: __HAC_KEEP__) -> None:
     """Fixture to set timezone with fixed offset year round."""
     await hass.config.async_set_time_zone("America/Regina")
 
@@ -178,7 +178,7 @@ def mock_calendars(calendar: Mock) -> list[Mock]:
 
 @pytest.fixture(autouse=True)
 async def mock_add_to_hass(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Fixture to add the ConfigEntry."""
@@ -223,7 +223,7 @@ def compact_ics(ics: str) -> list[str]:
     ),
 )
 async def test_todo_list_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     expected_state: str,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_todo_list_state(
     ids=["completed_at", "no_completed", "reopened"],
 )
 async def test_completed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     expected_item: dict[str, Any],
 ) -> None:
@@ -287,7 +287,7 @@ async def test_completed(
     [([], False), (["VTODO"], True), (["VEVENT"], False), (["VEVENT", "VTODO"], True)],
 )
 async def test_supported_components(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     has_entity: bool,
 ) -> None:
@@ -338,7 +338,7 @@ async def test_supported_components(
     ],
 )
 async def test_add_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -377,7 +377,7 @@ async def test_add_item(
 
 
 async def test_add_item_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     calendar: Mock,
 ) -> None:
@@ -386,7 +386,7 @@ async def test_add_item_failure(
 
     calendar.add_todo.side_effect = DAVError()
 
-    with pytest.raises(UniversalAssistantError, match="CalDAV save error"):
+    with pytest.raises(__HAC_KEEP__Error, match="CalDAV save error"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.ADD_ITEM,
@@ -561,7 +561,7 @@ async def test_add_item_failure(
     ],
 )
 async def test_update_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -656,7 +656,7 @@ async def test_update_item(
     ],
 )
 async def test_update_item_completed_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -687,7 +687,7 @@ async def test_update_item_completed_time(
 
 
 async def test_update_item_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -702,7 +702,7 @@ async def test_update_item_failure(
     calendar.get_todo_by_uid = MagicMock(return_value=item)
     dav_client.put.side_effect = DAVError()
 
-    with pytest.raises(UniversalAssistantError, match="CalDAV save error"):
+    with pytest.raises(__HAC_KEEP__Error, match="CalDAV save error"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.UPDATE_ITEM,
@@ -720,7 +720,7 @@ async def test_update_item_failure(
     [(DAVError, "CalDAV lookup error"), (NotFoundError, "Could not find")],
 )
 async def test_update_item_lookup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -736,7 +736,7 @@ async def test_update_item_lookup_failure(
 
     calendar.get_todo_by_uid.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError, match=match):
+    with pytest.raises(__HAC_KEEP__Error, match=match):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.UPDATE_ITEM,
@@ -760,7 +760,7 @@ async def test_update_item_lookup_failure(
     ids=("none", "item1-only", "item2-only", "both-items"),
 )
 async def test_remove_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -810,7 +810,7 @@ async def test_remove_item(
     ],
 )
 async def test_remove_item_lookup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     calendar: Mock,
     side_effect: Any,
@@ -822,7 +822,7 @@ async def test_remove_item_lookup_failure(
 
     calendar.get_todo_by_uid.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError, match=match):
+    with pytest.raises(__HAC_KEEP__Error, match=match):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -833,7 +833,7 @@ async def test_remove_item_lookup_failure(
 
 
 async def test_remove_item_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -851,7 +851,7 @@ async def test_remove_item_failure(
     calendar.get_todo_by_uid = Mock(side_effect=lookup)
     dav_client.delete.return_value.status = 500
 
-    with pytest.raises(UniversalAssistantError, match="CalDAV delete error"):
+    with pytest.raises(__HAC_KEEP__Error, match="CalDAV delete error"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -862,7 +862,7 @@ async def test_remove_item_failure(
 
 
 async def test_remove_item_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -879,7 +879,7 @@ async def test_remove_item_not_found(
 
     calendar.get_todo_by_uid.side_effect = NotFoundError()
 
-    with pytest.raises(UniversalAssistantError, match="Could not find"):
+    with pytest.raises(__HAC_KEEP__Error, match="Could not find"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -890,7 +890,7 @@ async def test_remove_item_not_found(
 
 
 async def test_subscribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -1008,7 +1008,7 @@ async def test_subscribe(
     ],
 )
 async def test_update_after_sync_report(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     calendar: Mock,
     reports: list[SynchronizableCalendarObjectCollection | Exception],
@@ -1040,7 +1040,7 @@ async def test_update_after_sync_report(
     ],
 )
 async def test_update_reads_in_full_every_fourth_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     calendar: Mock,
     server_todos: list[str],
@@ -1084,7 +1084,7 @@ async def test_update_reads_in_full_every_fourth_update(
     ],
 )
 async def test_update_after_failed_read(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     calendar: Mock,
     reports: list[SynchronizableCalendarObjectCollection],
@@ -1131,7 +1131,7 @@ async def test_update_after_failed_read(
     ],
 )
 async def test_update_after_write(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -1169,7 +1169,7 @@ async def test_update_after_write(
     assert calendar.search.call_count == reads
 
 
-def add_item_from_executor(hass: UniversalAssistant) -> None:
+def add_item_from_executor(hass: __HAC_KEEP__) -> None:
     """Add an item from an executor job, as during a running update."""
     asyncio.run_coroutine_threadsafe(
         hass.services.async_call(
@@ -1184,7 +1184,7 @@ def add_item_from_executor(hass: UniversalAssistant) -> None:
 
 
 async def test_update_after_write_during_report(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     calendar: Mock,
 ) -> None:
@@ -1208,7 +1208,7 @@ async def test_update_after_write_during_report(
 
 
 async def test_update_after_write_during_read(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     calendar: Mock,
 ) -> None:
@@ -1239,7 +1239,7 @@ async def test_update_after_write_during_read(
 
 
 async def test_update_after_partial_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     dav_client: Mock,
     calendar: Mock,
@@ -1255,7 +1255,7 @@ async def test_update_after_partial_delete(
     await hass.config_entries.async_setup(config_entry.entry_id)
 
     calendar.search.return_value = [item2]
-    with pytest.raises(UniversalAssistantError, match="CalDAV delete error"):
+    with pytest.raises(__HAC_KEEP__Error, match="CalDAV delete error"):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,

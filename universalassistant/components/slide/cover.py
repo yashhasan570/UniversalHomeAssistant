@@ -5,7 +5,7 @@ from typing import Any, override
 
 from universalassistant.components.cover import ATTR_POSITION, CoverDeviceClass, CoverEntity
 from universalassistant.const import ATTR_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -19,7 +19,7 @@ OPENING = "opening"
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

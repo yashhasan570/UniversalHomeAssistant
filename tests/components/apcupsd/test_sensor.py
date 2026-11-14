@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import slugify
@@ -43,7 +43,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -67,7 +67,7 @@ async def test_sensor(
 
 
 async def test_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_request_status: AsyncMock,
 ) -> None:
     """Ensure the sensor state changes after updating the data."""
@@ -89,7 +89,7 @@ async def test_state_update(
 
 
 async def test_manual_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_request_status: AsyncMock,
 ) -> None:
     """Test multiple simultaneous manual update entity.
@@ -180,7 +180,7 @@ async def test_manual_update_entity(
     indirect=["mock_request_status"],
 )
 async def test_sensor_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_request_status: AsyncMock,
     entity_id: str,
     known_status: dict[str, str],

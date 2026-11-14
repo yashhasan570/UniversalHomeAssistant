@@ -8,15 +8,15 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.util import dt as dt_util
 
 from .const import DATA_HARDWARE
 
 
-async def async_setup(hass: UniversalAssistant) -> None:
+async def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the hardware websocket API."""
     websocket_api.async_register_command(hass, ws_info)
     websocket_api.async_register_command(hass, ws_subscribe_system_status)
@@ -29,7 +29,7 @@ async def async_setup(hass: UniversalAssistant) -> None:
 )
 @websocket_api.async_response
 async def ws_info(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return hardware info."""
     hardware_info = []
@@ -37,7 +37,7 @@ async def ws_info(
     platforms = await hass.data[DATA_HARDWARE].hardware_platforms.async_get_platforms()
     for platform in platforms.values():
         if hasattr(platform, "async_info"):
-            with contextlib.suppress(UniversalAssistantError):
+            with contextlib.suppress(__HAC_KEEP__Error):
                 hardware_info.extend([asdict(hw) for hw in platform.async_info(hass)])
 
     connection.send_result(msg["id"], {"hardware": hardware_info})
@@ -50,7 +50,7 @@ async def ws_info(
     }
 )
 def ws_subscribe_system_status(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Subscribe to system status updates."""
 

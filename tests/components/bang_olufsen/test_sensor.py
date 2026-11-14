@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.bang_olufsen.sensor import SCAN_INTERVAL
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import mock_websocket_connection
 from .const import (
@@ -22,7 +22,7 @@ from .const import (
 
 
 async def test_battery_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mozart_client: AsyncMock,
     mock_config_entry_a5: MockConfigEntry,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_battery_level(
 
 
 async def test_remote_battery_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     integration: None,
     mock_config_entry: MockConfigEntry,

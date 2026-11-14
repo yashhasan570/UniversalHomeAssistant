@@ -9,8 +9,8 @@ from rf_protocols import RadioFrequencyCommand
 
 from universalassistant.components.radio_frequency import RadioFrequencyTransmitterEntity
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import BROADLINK_DATA, DOMAIN
@@ -40,7 +40,7 @@ def _type_byte_for_frequency(frequency: int) -> int:
         return _RF_433_TYPE_BYTE
     if _RF_315_RANGE[0] <= frequency <= _RF_315_RANGE[1]:
         return _RF_315_TYPE_BYTE
-    raise UniversalAssistantError(
+    raise __HAC_KEEP__Error(
         translation_domain=DOMAIN,
         translation_key="frequency_not_supported",
         translation_placeholders={"frequency": f"{frequency / 1_000_000:g}"},
@@ -82,7 +82,7 @@ def encode_rf_packet(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -128,7 +128,7 @@ class BroadlinkRadioFrequency(BroadlinkEntity, RadioFrequencyTransmitterEntity):
         try:
             await device.async_request(device.api.send_data, packet)
         except (BroadlinkException, OSError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="transmit_failed",
                 translation_placeholders={"error": str(err)},

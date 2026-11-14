@@ -10,8 +10,8 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     AlarmControlPanelState,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -32,7 +32,7 @@ _UIPROTECT_TO_HA: dict[NvrArmModeStatus, AlarmControlPanelState] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UFPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -110,7 +110,7 @@ class ProtectNVRAlarmControlPanel(ProtectNVREntity, AlarmControlPanelEntity):
         try:
             await self.data.api.disable_arm_alarm_public()
         except GlobalAlarmManagerError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="global_alarm_manager",
             ) from err
@@ -122,7 +122,7 @@ class ProtectNVRAlarmControlPanel(ProtectNVREntity, AlarmControlPanelEntity):
         try:
             await self.data.api.enable_arm_alarm_public()
         except GlobalAlarmManagerError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="global_alarm_manager",
             ) from err

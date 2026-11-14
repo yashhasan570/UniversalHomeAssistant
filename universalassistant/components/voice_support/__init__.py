@@ -12,7 +12,7 @@ from universalassistant.components.labs import (
 )
 from universalassistant.config_entries import SOURCE_SYSTEM, ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, discovery_flow
 from universalassistant.helpers.event import async_track_time_interval
@@ -57,7 +57,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_is_enabled(hass: UniversalAssistant) -> bool:
+def async_is_enabled(hass: __HAC_KEEP__) -> bool:
     """Whether the person has turned voice support on."""
     return async_is_preview_feature_enabled(
         hass, DOMAIN, PREVIEW_FEATURE_NEXT_GENERATION_VOICE
@@ -65,7 +65,7 @@ def async_is_enabled(hass: UniversalAssistant) -> bool:
 
 
 @callback
-def async_verifies_wake_word(hass: UniversalAssistant, wake_word: str) -> bool:
+def async_verifies_wake_word(hass: __HAC_KEEP__, wake_word: str) -> bool:
     """Whether the app can second-guess this wake word right now.
 
     False is the answer for every reason there might not be one: no app, an
@@ -81,7 +81,7 @@ def async_verifies_wake_word(hass: UniversalAssistant, wake_word: str) -> bool:
 
 @callback
 def async_on_wake_words_changed(
-    hass: UniversalAssistant, listener: CALLBACK_TYPE
+    hass: __HAC_KEEP__, listener: CALLBACK_TYPE
 ) -> CALLBACK_TYPE:
     """Listen for verification support changes and return a removal callback."""
     listeners = hass.data.setdefault(DATA_LISTENERS, [])
@@ -95,13 +95,13 @@ def async_on_wake_words_changed(
 
 
 @callback
-def _async_wake_words_changed(hass: UniversalAssistant) -> None:
+def _async_wake_words_changed(hass: __HAC_KEEP__) -> None:
     """Tell satellites the answer may have moved."""
     for listener in hass.data.get(DATA_LISTENERS, []).copy():
         listener()
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up voice support."""
 
     async def _async_preview_feature_updated(event_data: EventLabsUpdatedData) -> None:
@@ -123,7 +123,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Connect to the app at the entry's address."""
     client = VoiceSupportClient(hass, entry.data[CONF_HOST], entry.data[CONF_PORT])
     try:
@@ -170,13 +170,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
     _async_wake_words_changed(hass)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload the entry."""
     hass.data.pop(DATA_CLIENT)
     _async_wake_words_changed(hass)
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Uninstall the app along with the entry, if this integration installed it."""
     if not entry.data.get(CONF_INTEGRATION_CREATED_APP):
         return
@@ -191,7 +191,7 @@ async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> No
 
 
 @callback
-def _async_provision(hass: UniversalAssistant) -> None:
+def _async_provision(hass: __HAC_KEEP__) -> None:
     """Put what voice support needs in place, unless that is done or underway.
 
     On a Supervised system that is the app. Nothing happens on a system
@@ -211,7 +211,7 @@ def _async_provision(hass: UniversalAssistant) -> None:
 
 
 async def async_start_run(
-    hass: UniversalAssistant, request: AudioRunRequest, audio: AsyncIterable[bytes]
+    hass: __HAC_KEEP__, request: AudioRunRequest, audio: AsyncIterable[bytes]
 ) -> AudioRun | None:
     """Open an audio run if the app is available and the preview is enabled."""
     if (client := hass.data.get(DATA_CLIENT)) is None:

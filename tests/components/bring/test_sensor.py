@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.bring.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -30,7 +30,7 @@ def sensor_only() -> Generator[None]:
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -66,7 +66,7 @@ async def test_setup(
     ],
 )
 async def test_list_access_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
     fixture: str,

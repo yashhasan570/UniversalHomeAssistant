@@ -35,7 +35,7 @@ from universalassistant.const import (
     UnitOfTime,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util.dt import UTC
@@ -399,7 +399,7 @@ WF_SENSORS: tuple[WeatherFlowCloudSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WeatherFlowCloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

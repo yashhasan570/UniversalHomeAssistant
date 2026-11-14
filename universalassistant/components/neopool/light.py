@@ -13,8 +13,8 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_USE_LIGHT, DOMAIN
@@ -46,7 +46,7 @@ LIGHT_DESCRIPTIONS: dict[str, NeoPoolLightEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NeoPoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -120,7 +120,7 @@ class NeoPoolLight(NeoPoolEntity, LightEntity):
                 translation_key="relay_in_auto_mode",
             ) from err
         except (NeoPoolError, OSError, TimeoutError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="modbus_communication_error",
                 translation_placeholders={"error": str(err)},

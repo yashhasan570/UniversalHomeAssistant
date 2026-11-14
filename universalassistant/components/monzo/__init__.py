@@ -9,7 +9,7 @@ from monzopy import AuthorisationExpiredError, InvalidMonzoAPIResponseError
 from universalassistant.components import cloud
 from universalassistant.components.webhook import async_generate_id
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_WEBHOOK_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import OAuth2TokenRequestError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -33,7 +33,7 @@ PLATFORMS: list[Platform] = [Platform.EVENT, Platform.SENSOR]
 
 
 async def _async_create_api(
-    hass: UniversalAssistant, entry: MonzoConfigEntry
+    hass: __HAC_KEEP__, entry: MonzoConfigEntry
 ) -> AuthenticatedMonzoAPI:
     """Create an authenticated Monzo API client."""
     implementation = await async_get_config_entry_implementation(hass, entry)
@@ -42,7 +42,7 @@ async def _async_create_api(
 
 
 async def _async_create_removal_api(
-    hass: UniversalAssistant, entry: MonzoConfigEntry
+    hass: __HAC_KEEP__, entry: MonzoConfigEntry
 ) -> MonzoAPI:
     """Create a Monzo API client without updating a deleted config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
@@ -56,13 +56,13 @@ async def _async_create_removal_api(
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Monzo integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: MonzoConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: MonzoConfigEntry) -> None:
     """Migrate entry."""
     _LOGGER.debug("Migrating from version %s.%s", entry.version, entry.minor_version)
 
@@ -91,7 +91,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: MonzoConfigEntry)
     _LOGGER.debug("Migration successful")
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MonzoConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MonzoConfigEntry) -> None:
     """Set up Monzo from a config entry."""
     external_api = await _async_create_api(hass, entry)
 
@@ -111,13 +111,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: MonzoConfigEntry) -
     await webhook_manager.async_setup()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MonzoConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MonzoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.webhook_manager.async_unload()
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: MonzoConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: MonzoConfigEntry) -> None:
     """Remove webhooks for a deleted config entry."""
     if webhook_url := entry.data.get(CONF_WEBHOOK_URL):
         try:

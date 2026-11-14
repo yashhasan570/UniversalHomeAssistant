@@ -20,7 +20,7 @@ from universalassistant.config_entries import (
     ConfigEntry,
     ConfigEntryState,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
@@ -46,7 +46,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def _setup_with_account_not_found(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Load the entry, then fail setup because its account no longer exists."""
     assert await async_setup_component(hass, "repairs", {})
@@ -70,7 +70,7 @@ async def _setup_with_account_not_found(
     ],
 )
 async def test_account_not_found_repair(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     config_entry: ConfigEntry,
@@ -105,7 +105,7 @@ async def test_account_not_found_repair(
 
 
 async def test_account_not_found_repair_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: ConfigEntry,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_account_not_found_repair_already_configured(
     ],
 )
 async def test_account_not_found_repair_login_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: ConfigEntry,
     side_effect: Exception | type[Exception],

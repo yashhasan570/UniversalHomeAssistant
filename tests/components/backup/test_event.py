@@ -10,14 +10,14 @@ from universalassistant.components.backup.const import DOMAIN
 from universalassistant.components.backup.event import ATTR_BACKUP_STAGE, ATTR_FAILED_REASON
 from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_backup_integration
 
 
 async def test_event_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -32,7 +32,7 @@ async def test_event_entity(
 
 
 async def test_event_entity_backup_completed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test completed automatic backup event."""
@@ -63,7 +63,7 @@ async def test_event_entity_backup_completed(
 
 
 async def test_event_entity_backup_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     create_backup: AsyncMock,
 ) -> None:

@@ -10,7 +10,7 @@ from samsung_exlink import SamsungTVError
 from universalassistant.components.samsung_exlink.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_DEVICE, CONF_MODEL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_DEVICE, MOCK_MODEL
@@ -28,7 +28,7 @@ def mock_async_setup_entry(mock_samsung_tv: MagicMock) -> Generator[AsyncMock]:
 
 
 async def test_user_form_creates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_samsung_tv: MagicMock,
     mock_async_setup_entry: AsyncMock,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_user_form_creates_entry(
 
 
 async def test_user_form_without_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_samsung_tv: MagicMock,
     mock_async_setup_entry: AsyncMock,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_user_form_without_model(
     [TimeoutError, SamsungTVError("garbled response")],
 )
 async def test_user_form_no_tv_shows_troubleshooting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_samsung_tv: MagicMock,
     mock_async_setup_entry: AsyncMock,
     exception: Exception,
@@ -127,7 +127,7 @@ async def test_user_form_no_tv_shows_troubleshooting(
 
 
 async def test_user_form_query_unexpected_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_samsung_tv: MagicMock,
     mock_async_setup_entry: AsyncMock,
 ) -> None:
@@ -175,7 +175,7 @@ async def test_user_form_query_unexpected_error(
     ],
 )
 async def test_user_form_bad_port_shows_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     error: str,
     mock_samsung_tv: MagicMock,
@@ -214,7 +214,7 @@ async def test_user_form_bad_port_shows_error(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_duplicate_aborts(hass: UniversalAssistant) -> None:
+async def test_user_duplicate_aborts(hass: __HAC_KEEP__) -> None:
     """Test we abort if the same port is already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_DEVICE: MOCK_DEVICE, CONF_MODEL: MOCK_MODEL}

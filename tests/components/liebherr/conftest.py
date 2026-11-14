@@ -34,7 +34,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.liebherr.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 # Complete multi-zone device for comprehensive testing
 MOCK_DEVICE = Device(
@@ -163,7 +163,7 @@ class SSEStreamHelper:
     update without terminating the stream.
     """
 
-    def __init__(self, hass: UniversalAssistant, client: MagicMock) -> None:
+    def __init__(self, hass: __HAC_KEEP__, client: MagicMock) -> None:
         """Initialize the helper."""
         self._hass = hass
         self._client = client
@@ -230,7 +230,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 def mock_liebherr_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> Generator[MagicMock]:
     """Return a mocked Liebherr client."""
     with (
@@ -279,7 +279,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_liebherr_client: MagicMock,
     platforms: list[Platform],

@@ -19,7 +19,7 @@ from pyprusalink import (
 from pyprusalink.types import InvalidAuth, PrusaLinkError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -49,7 +49,7 @@ class PrusaLinkUpdateCoordinator[T: _PrusaDataType](DataUpdateCoordinator[T], AB
     expect_change_until = 0.0
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: PrusaLinkConfigEntry, api: PrusaLink
+        self, hass: __HAC_KEEP__, config_entry: PrusaLinkConfigEntry, api: PrusaLink
     ) -> None:
         """Initialize the update coordinator."""
         self.api = api

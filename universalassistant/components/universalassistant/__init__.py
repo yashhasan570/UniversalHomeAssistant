@@ -7,7 +7,7 @@ import struct
 from typing import Any
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED, RESTART_EXIT_CODE
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.issue_registry import IssueSeverity
 from universalassistant.helpers.signal import KEY_HA_STOP
@@ -27,19 +27,19 @@ from .const import (
     DOMAIN,
     SERVICE_HOMEASSISTANT_RESTART,
     SERVICE_HOMEASSISTANT_STOP,
-    UniversalAssistantService,
+    __HAC_KEEP__Service,
 )
 from .exposed_entities import ExposedEntities, async_should_expose
 from .services import async_setup_services
 
-# To be deprecated at a later stage, replaced by UniversalAssistantService
-SERVICE_RELOAD_CORE_CONFIG = UniversalAssistantService.RELOAD_CORE_CONFIG.value
-SERVICE_RELOAD_CONFIG_ENTRY = UniversalAssistantService.RELOAD_CONFIG_ENTRY.value
-SERVICE_RELOAD_CUSTOM_TEMPLATES = UniversalAssistantService.RELOAD_CUSTOM_TEMPLATES.value
-SERVICE_CHECK_CONFIG = UniversalAssistantService.CHECK_CONFIG.value
-SERVICE_UPDATE_ENTITY = UniversalAssistantService.UPDATE_ENTITY.value
-SERVICE_SET_LOCATION = UniversalAssistantService.SET_LOCATION.value
-SERVICE_RELOAD_ALL = UniversalAssistantService.RELOAD_ALL.value
+# To be deprecated at a later stage, replaced by __HAC_KEEP__Service
+SERVICE_RELOAD_CORE_CONFIG = __HAC_KEEP__Service.RELOAD_CORE_CONFIG.value
+SERVICE_RELOAD_CONFIG_ENTRY = __HAC_KEEP__Service.RELOAD_CONFIG_ENTRY.value
+SERVICE_RELOAD_CUSTOM_TEMPLATES = __HAC_KEEP__Service.RELOAD_CUSTOM_TEMPLATES.value
+SERVICE_CHECK_CONFIG = __HAC_KEEP__Service.CHECK_CONFIG.value
+SERVICE_UPDATE_ENTITY = __HAC_KEEP__Service.UPDATE_ENTITY.value
+SERVICE_SET_LOCATION = __HAC_KEEP__Service.SET_LOCATION.value
+SERVICE_RELOAD_ALL = __HAC_KEEP__Service.RELOAD_ALL.value
 
 DEPRECATION_URL = (
     "https://www.universalassistant.io/blog/2025/05/22/"
@@ -60,7 +60,7 @@ __all__ = [
     "SERVICE_RELOAD_CONFIG_ENTRY",
     "SERVICE_RELOAD_CORE_CONFIG",
     "SERVICE_RELOAD_CUSTOM_TEMPLATES",
-    "UniversalAssistantService",
+    "__HAC_KEEP__Service",
     "async_set_stop_handler",
     "async_should_expose",
 ]
@@ -71,8 +71,8 @@ def _is_32_bit() -> bool:
     return size * 8 == 32
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
-    """Set up general services related to Universal Universal Home Assistant."""
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    """Set up general services related to __HA_KEEP__."""
 
     async_setup_services(hass)
 
@@ -142,7 +142,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def _async_remove_legacy_almond_user_and_data(hass: UniversalAssistant) -> None:
+async def _async_remove_legacy_almond_user_and_data(hass: __HAC_KEEP__) -> None:
     """Remove the system user left behind by the removed almond integration."""
     store = Store[dict[str, Any]](
         hass, LEGACY_ALMOND_STORAGE_VERSION, LEGACY_ALMOND_STORAGE_KEY
@@ -159,7 +159,7 @@ async def _async_remove_legacy_almond_user_and_data(hass: UniversalAssistant) ->
     await store.async_remove()
 
 
-async def _async_stop(hass: UniversalAssistant, restart: bool) -> None:
+async def _async_stop(hass: __HAC_KEEP__, restart: bool) -> None:
     """Stop universal assistant."""
     exit_code = RESTART_EXIT_CODE if restart else 0
     # Track trask in hass.data. No need to cleanup, we're stopping.
@@ -168,8 +168,8 @@ async def _async_stop(hass: UniversalAssistant, restart: bool) -> None:
 
 @callback
 def async_set_stop_handler(
-    hass: UniversalAssistant,
-    stop_handler: Callable[[UniversalAssistant, bool], Coroutine[Any, Any, None]]
+    hass: __HAC_KEEP__,
+    stop_handler: Callable[[__HAC_KEEP__, bool], Coroutine[Any, Any, None]]
     | None = None,
 ) -> None:
     """Set function which is called by the stop and restart services.

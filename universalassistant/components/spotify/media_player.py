@@ -27,7 +27,7 @@ from universalassistant.components.media_player import (
     MediaType,
     RepeatMode,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .browse_media import async_browse_media_internal
@@ -72,7 +72,7 @@ AFTER_REQUEST_SLEEP = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SpotifyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

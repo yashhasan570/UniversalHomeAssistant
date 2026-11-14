@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.firmata.const import CONF_SERIAL_PORT, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_setup_board_failed(hass: UniversalAssistant) -> None:
+async def test_setup_board_failed(hass: __HAC_KEEP__) -> None:
     """Test setup fails when the board can't be set up."""
     entry = MockConfigEntry(
         domain=DOMAIN,

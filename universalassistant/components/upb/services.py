@@ -6,7 +6,7 @@ import probatio
 
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.typing import VolDictType
 
@@ -64,7 +64,7 @@ UPB_BLINK_RATE_SCHEMA: VolDictType = {
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Universal Powerline Bus (UPB) integration."""
 
     service.async_register_platform_entity_service(

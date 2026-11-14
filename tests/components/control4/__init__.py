@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def mock_director_variables(
@@ -31,7 +31,7 @@ def mock_director_variables(
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> MockConfigEntry:
     """Set up the Control4 integration for testing."""

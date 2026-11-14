@@ -17,13 +17,13 @@ from whoisdomain.exceptions import (
 from universalassistant.components.whois.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_whois")
 async def test_full_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_whois: MagicMock,
     snapshot: SnapshotAssertion,
@@ -80,7 +80,7 @@ async def test_full_user_flow(
     ],
 )
 async def test_full_flow_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_whois: MagicMock,
     snapshot: SnapshotAssertion,
@@ -132,7 +132,7 @@ async def test_full_flow_with_error(
 
 @pytest.mark.usefixtures("mock_whois")
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

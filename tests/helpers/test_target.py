@@ -28,8 +28,8 @@ from universalassistant.const import (
     STATE_ON,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant, State, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -44,7 +44,7 @@ from universalassistant.setup import async_setup_component
 
 
 async def set_states_and_check_target_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     events: list[target.TargetStateChangedData],
     state: str,
     entities_to_set_state: list[str],
@@ -67,7 +67,7 @@ async def set_states_and_check_target_events(
 
 
 @pytest.fixture
-def registries_mock(hass: UniversalAssistant) -> None:
+def registries_mock(hass: __HAC_KEEP__) -> None:
     """Mock including floor and area info."""
     hass.states.async_set("light.Bowl", STATE_ON)
     hass.states.async_set("light.Ceiling", STATE_OFF)
@@ -491,7 +491,7 @@ def registries_mock(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("registries_mock")
 async def test_extract_referenced_entity_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     selector_config: ConfigType,
     expand_group: bool,
     expected_selected: target.SelectedEntities,
@@ -672,7 +672,7 @@ async def test_extract_referenced_entity_ids(
 )
 @pytest.mark.usefixtures("registries_mock")
 async def test_extract_referenced_entity_ids_exclude(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     selector_config: ConfigType,
     expand_group: bool,
     expected_selected: target.SelectedEntities,
@@ -703,7 +703,7 @@ async def test_extract_referenced_entity_ids_exclude(
 
 @pytest.mark.usefixtures("registries_mock")
 async def test_extract_referenced_entity_ids_exclude_non_primary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test excluding an area also excludes its config entities."""
     target_selection = target.TargetSelection(
@@ -733,7 +733,7 @@ async def test_extract_referenced_entity_ids_exclude_non_primary(
 )
 @pytest.mark.usefixtures("registries_mock")
 async def test_extract_excluded_entity_ids(
-    hass: UniversalAssistant, config: ConfigType, expected_excluded: set[str]
+    hass: __HAC_KEEP__, config: ConfigType, expected_excluded: set[str]
 ) -> None:
     """Test extracting the entities matched by the exclude block."""
     assert (
@@ -743,7 +743,7 @@ async def test_extract_excluded_entity_ids(
 
 
 @pytest.mark.usefixtures("registries_mock")
-async def test_explain_target(hass: UniversalAssistant) -> None:
+async def test_explain_target(hass: __HAC_KEEP__) -> None:
     """Test explaining what each exclude takes out of each targeted item."""
     target_selection = target.TargetSelection(
         {
@@ -812,7 +812,7 @@ async def test_explain_target(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("registries_mock")
-async def test_explain_target_without_exclude(hass: UniversalAssistant) -> None:
+async def test_explain_target_without_exclude(hass: __HAC_KEEP__) -> None:
     """Test explaining a target selection without an exclude block."""
     assert target.async_explain_target(
         hass, target.TargetSelection({ATTR_DEVICE_ID: "device-no-area-id"})
@@ -830,7 +830,7 @@ async def test_explain_target_without_exclude(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("registries_mock")
-async def test_explain_target_all_entities(hass: UniversalAssistant) -> None:
+async def test_explain_target_all_entities(hass: __HAC_KEEP__) -> None:
     """Test explaining an exclude when all entities are targeted."""
     hass.states.async_set("light.in_area", STATE_ON)
     explanation = target.async_explain_target(
@@ -873,7 +873,7 @@ async def test_explain_target_all_entities(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("registries_mock")
 async def test_explain_target_expand_group(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expand_group: bool,
     expected_removed: list[target.TargetItemEntities],
 ) -> None:
@@ -909,7 +909,7 @@ async def test_explain_target_expand_group(
 )
 @pytest.mark.usefixtures("registries_mock")
 async def test_extract_referenced_entity_ids_primary_entities_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     selector_config: ConfigType,
     non_primary_entities: set[str],
 ) -> None:
@@ -931,7 +931,7 @@ async def test_extract_referenced_entity_ids_primary_entities_only(
 
 
 async def test_async_track_target_selector_state_change_event_empty_selector(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test async_track_target_selector_state_change_event with empty selector."""
 
@@ -939,7 +939,7 @@ async def test_async_track_target_selector_state_change_event_empty_selector(
     def state_change_callback(event):
         """Handle state change events."""
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await target.async_track_target_selector_state_change_event(
             hass, {}, state_change_callback
         )
@@ -949,7 +949,7 @@ async def test_async_track_target_selector_state_change_event_empty_selector(
 
 
 async def test_async_track_target_selector_state_change_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_track_target_selector_state_change_event with multiple targets."""
     events: list[target.TargetStateChangedData] = []
@@ -1108,7 +1108,7 @@ async def test_async_track_target_selector_state_change_event(
 
 
 async def test_async_track_target_selector_state_change_event_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_track_target_selector_state_change_event with entity filter."""
     events: list[target.TargetStateChangedData] = []
@@ -1196,7 +1196,7 @@ async def test_async_track_target_selector_state_change_event_filter(
 
 
 async def test_async_track_target_selector_state_change_event_on_entities_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test on_entities_update callback reports added and removed entities."""
     entity_updates: list[tuple[set[str], set[str], set[str]]] = []
@@ -1299,7 +1299,7 @@ async def test_async_track_target_selector_state_change_event_on_entities_update
 
 
 async def test_async_track_target_selector_state_change_event_exclude(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test entities matching the exclude block are tracked dynamically."""
     entity_updates: list[tuple[set[str], set[str], set[str]]] = []
@@ -1379,7 +1379,7 @@ async def test_async_track_target_selector_state_change_event_exclude(
 
 
 async def test_async_track_target_selector_cancels_update_task_on_unsubscribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Unsubscribing cancels an in-flight registry-driven update task."""
     started = asyncio.Event()
@@ -1436,7 +1436,7 @@ async def test_async_track_target_selector_cancels_update_task_on_unsubscribe(
 
 
 async def test_async_track_target_selector_no_on_entities_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that on_entities_update is optional and defaults to no callback."""
     events: list[target.TargetStateChangedData] = []
@@ -1468,7 +1468,7 @@ COMPOSITE_ID = "composite0000000000000000000000"
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_target_trickle_down_to_splits(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Targeting the legacy id reaches the split devices' entities."""
     entry_a = MockConfigEntry(domain="domain_a")
@@ -1584,7 +1584,7 @@ async def test_target_trickle_down_to_splits(
 
 @pytest.fixture
 def child_device_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> dict[str, str]:
@@ -1655,7 +1655,7 @@ def child_device_setup(
 
 
 async def test_extract_parent_device_includes_child_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     child_device_setup: dict[str, str],
 ) -> None:
     """Test targeting a parent device expands to its child devices' entities."""
@@ -1688,7 +1688,7 @@ async def test_extract_parent_device_includes_child_devices(
 
 
 async def test_extract_area_with_child_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     child_device_setup: dict[str, str],
 ) -> None:
     """Test area targeting includes child devices by effective area."""
@@ -1714,7 +1714,7 @@ async def test_extract_area_with_child_devices(
 
 
 async def test_extract_label_with_child_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     child_device_setup: dict[str, str],
 ) -> None:
     """Test a labeled parent device expands to its child devices when targeting.

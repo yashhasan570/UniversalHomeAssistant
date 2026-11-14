@@ -8,8 +8,8 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_platform
 
 from . import ObihaiConfigEntry
@@ -25,7 +25,7 @@ BUTTON_DESCRIPTION = ButtonEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ObihaiConfigEntry,
     async_add_entities: entity_platform.AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -53,4 +53,4 @@ class ObihaiButton(ButtonEntity):
         """Press button."""
 
         if not self._pyobihai.call_reboot():
-            raise UniversalAssistantError("Reboot failed!")
+            raise __HAC_KEEP__Error("Reboot failed!")

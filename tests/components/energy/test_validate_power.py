@@ -7,7 +7,7 @@ import pytest
 from universalassistant.components.energy import validate
 from universalassistant.components.energy.data import EnergyManager
 from universalassistant.const import UnitOfPower
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 POWER_UNITS_STRING = ", ".join(tuple(UnitOfPower))
 
@@ -21,7 +21,7 @@ async def setup_energy_for_validation(
 
 
 async def test_validation_grid_power_valid(
-    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
+    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating grid with valid power sensor."""
     await mock_energy_manager.async_update(
@@ -55,7 +55,7 @@ async def test_validation_grid_power_valid(
 
 
 async def test_validation_grid_power_wrong_unit(
-    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
+    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating grid with power sensor having wrong unit."""
     await mock_energy_manager.async_update(
@@ -128,7 +128,7 @@ async def test_validation_grid_power_wrong_unit(
     ],
 )
 async def test_validation_home_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_energy_manager: EnergyManager,
     unit: str,
     state_class: str,
@@ -174,7 +174,7 @@ async def test_validation_home_power(
 
 
 async def test_validation_grid_power_wrong_state_class(
-    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
+    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating grid with power sensor having wrong state class."""
     await mock_energy_manager.async_update(
@@ -216,7 +216,7 @@ async def test_validation_grid_power_wrong_state_class(
 
 
 async def test_validation_grid_power_entity_missing(
-    hass: UniversalAssistant, mock_energy_manager
+    hass: __HAC_KEEP__, mock_energy_manager
 ) -> None:
     """Test validating grid with missing power sensor."""
     await mock_energy_manager.async_update(
@@ -254,7 +254,7 @@ async def test_validation_grid_power_entity_missing(
 
 
 async def test_validation_grid_power_entity_unavailable(
-    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
+    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating grid with unavailable power sensor."""
     await mock_energy_manager.async_update(
@@ -288,7 +288,7 @@ async def test_validation_grid_power_entity_unavailable(
 
 
 async def test_validation_grid_power_entity_non_numeric(
-    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
+    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating grid with non-numeric power sensor."""
     await mock_energy_manager.async_update(
@@ -330,7 +330,7 @@ async def test_validation_grid_power_entity_non_numeric(
 
 
 async def test_validation_grid_power_wrong_device_class(
-    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
+    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating grid with power sensor having wrong device class."""
     await mock_energy_manager.async_update(
@@ -374,7 +374,7 @@ async def test_validation_grid_power_wrong_device_class(
 
 
 async def test_validation_grid_power_different_units(
-    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
+    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating grid with power sensors using different valid units."""
     # With unified format, each grid has one power sensor, so we use two grids
@@ -423,7 +423,7 @@ async def test_validation_grid_power_different_units(
 
 
 async def test_validation_grid_power_external_statistics(
-    hass: UniversalAssistant, mock_energy_manager, mock_get_metadata
+    hass: __HAC_KEEP__, mock_energy_manager, mock_get_metadata
 ) -> None:
     """Test validating grid with external power statistics (non-entity)."""
     mock_get_metadata["external:power_stat"] = None
@@ -458,7 +458,7 @@ async def test_validation_grid_power_external_statistics(
 
 
 async def test_validation_grid_power_recorder_untracked(
-    hass: UniversalAssistant, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
+    hass: __HAC_KEEP__, mock_energy_manager, mock_is_entity_recorded, mock_get_metadata
 ) -> None:
     """Test validating grid with power sensor not tracked by recorder."""
     mock_is_entity_recorded["sensor.untracked_power"] = False

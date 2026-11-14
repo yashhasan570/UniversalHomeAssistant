@@ -21,7 +21,7 @@ from universalassistant.components.light import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -30,7 +30,7 @@ ENTITY_ID = "light.light0"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_all_entities(
     ],
 )
 async def test_light_set_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
     service: str,
@@ -84,7 +84,7 @@ async def test_light_set_state(
 
 
 async def test_light_dynamic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,

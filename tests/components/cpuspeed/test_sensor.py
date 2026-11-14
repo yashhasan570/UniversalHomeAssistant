@@ -17,13 +17,13 @@ from universalassistant.const import (
     ATTR_FRIENDLY_NAME,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_cpuinfo: MagicMock,
@@ -71,7 +71,7 @@ async def test_sensor(
 
 
 async def test_sensor_partial_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cpuinfo: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

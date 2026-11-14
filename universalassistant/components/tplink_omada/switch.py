@@ -31,8 +31,8 @@ from tplink_omada_client.exceptions import OmadaClientException
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import Undefined
@@ -51,7 +51,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: OmadaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -336,7 +336,7 @@ class OmadaDevicePortSwitchEntity[
                 enable,
             )
         except OmadaClientException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="switch_action_failed",
             ) from ex
@@ -445,7 +445,7 @@ class OmadaVpnSwitch(
                 self._policy_id, enabled
             )
         except OmadaClientException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="switch_action_failed",
             ) from ex

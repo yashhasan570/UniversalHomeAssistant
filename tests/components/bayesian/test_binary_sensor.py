@@ -27,13 +27,13 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Context, UniversalAssistant, callback
+from universalassistant.core import Context, __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.setup import async_setup_component
 
 
-async def test_load_values_when_added_to_hass(hass: UniversalAssistant) -> None:
+async def test_load_values_when_added_to_hass(hass: __HAC_KEEP__) -> None:
     """Test that sensor initializes with observations of relevant entities."""
 
     config = {
@@ -69,7 +69,7 @@ async def test_load_values_when_added_to_hass(hass: UniversalAssistant) -> None:
 
 
 async def test_unknown_state_does_not_influence_probability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that an unknown state does not change the output probability."""
     prior = 0.2
@@ -104,7 +104,7 @@ async def test_unknown_state_does_not_influence_probability(
 
 
 async def test_sensor_numeric_state(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test sensor on numeric state platform observations."""
     config = {
@@ -139,7 +139,7 @@ async def test_sensor_numeric_state(
 
 
 async def test_sensor_numeric_state_config_entry(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test sensor on template platform observations."""
     config_entry = MockConfigEntry(
@@ -191,7 +191,7 @@ async def test_sensor_numeric_state_config_entry(
 
 
 async def _test_sensor_numeric_state(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     hass.states.async_set("sensor.test_monitored", 6)
     await hass.async_block_till_done()
@@ -269,7 +269,7 @@ async def _test_sensor_numeric_state(
     assert len(issue_registry.issues) == 0
 
 
-async def test_sensor_state(hass: UniversalAssistant) -> None:
+async def test_sensor_state(hass: __HAC_KEEP__) -> None:
     """Test sensor on state platform observations."""
     prior = 0.2
     config = {
@@ -296,7 +296,7 @@ async def test_sensor_state(hass: UniversalAssistant) -> None:
     await _test_sensor_state(hass, prior)
 
 
-async def test_sensor_state_config_entry(hass: UniversalAssistant) -> None:
+async def test_sensor_state_config_entry(hass: __HAC_KEEP__) -> None:
     """Test sensor on template platform observations."""
     prior = 0.2
     config_entry = MockConfigEntry(
@@ -332,7 +332,7 @@ async def test_sensor_state_config_entry(hass: UniversalAssistant) -> None:
     await _test_sensor_state(hass, prior)
 
 
-async def _test_sensor_state(hass: UniversalAssistant, prior: float) -> None:
+async def _test_sensor_state(hass: __HAC_KEEP__, prior: float) -> None:
     """Common test code for state-based observations."""
     hass.states.async_set("sensor.test_monitored", "on")
     await hass.async_block_till_done()
@@ -387,7 +387,7 @@ async def _test_sensor_state(hass: UniversalAssistant, prior: float) -> None:
     assert state.state == "off"
 
 
-async def test_sensor_value_template(hass: UniversalAssistant) -> None:
+async def test_sensor_value_template(hass: __HAC_KEEP__) -> None:
     """Test sensor on template platform observations."""
     config = {
         "binary_sensor": {
@@ -412,7 +412,7 @@ async def test_sensor_value_template(hass: UniversalAssistant) -> None:
     await _test_sensor_value_template(hass)
 
 
-async def test_sensor_value_template_config_entry(hass: UniversalAssistant) -> None:
+async def test_sensor_value_template_config_entry(hass: __HAC_KEEP__) -> None:
     """Test sensor on template platform observations."""
     template_config_entry = MockConfigEntry(
         data={},
@@ -446,7 +446,7 @@ async def test_sensor_value_template_config_entry(hass: UniversalAssistant) -> N
     await _test_sensor_value_template(hass)
 
 
-async def _test_sensor_value_template(hass: UniversalAssistant) -> None:
+async def _test_sensor_value_template(hass: __HAC_KEEP__) -> None:
     hass.states.async_set("sensor.test_monitored", "on")
 
     state = hass.states.get("binary_sensor.test_binary")
@@ -482,7 +482,7 @@ async def _test_sensor_value_template(hass: UniversalAssistant) -> None:
     assert state.state == "off"
 
 
-async def test_mixed_states(hass: UniversalAssistant) -> None:
+async def test_mixed_states(hass: __HAC_KEEP__) -> None:
     """Test sensor on probability threshold limits."""
     config = {
         "binary_sensor": {
@@ -520,7 +520,7 @@ async def test_mixed_states(hass: UniversalAssistant) -> None:
     await _test_mixed_states(hass)
 
 
-async def test_mixed_states_config_entry(hass: UniversalAssistant) -> None:
+async def test_mixed_states_config_entry(hass: __HAC_KEEP__) -> None:
     """Test sensor on template platform observations."""
     config_entry = MockConfigEntry(
         data={},
@@ -580,7 +580,7 @@ async def test_mixed_states_config_entry(hass: UniversalAssistant) -> None:
     await _test_mixed_states(hass)
 
 
-async def _test_mixed_states(hass: UniversalAssistant) -> None:
+async def _test_mixed_states(hass: __HAC_KEEP__) -> None:
     """Common test code for mixed states."""
     hass.states.async_set("sensor.guest_sensor", "UNKNOWN")
     hass.states.async_set("sensor.anyone_home", "on")
@@ -617,7 +617,7 @@ async def _test_mixed_states(hass: UniversalAssistant) -> None:
     # P(A) = 0.91139240, P(B|A) = (1-0.1) , P(B|notA) = (1-0.6), result = 0.95857988
 
 
-async def test_threshold(hass: UniversalAssistant, issue_registry: ir.IssueRegistry) -> None:
+async def test_threshold(hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry) -> None:
     """Test sensor on probability threshold limits."""
     config = {
         "binary_sensor": {
@@ -643,7 +643,7 @@ async def test_threshold(hass: UniversalAssistant, issue_registry: ir.IssueRegis
 
 
 async def test_threshold_config_entry(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test sensor on template platform observations."""
     config_entry = MockConfigEntry(
@@ -679,7 +679,7 @@ async def test_threshold_config_entry(
 
 
 async def _test_threshold(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Common test code for threshold testing."""
     hass.states.async_set("sensor.test_monitored", "on")
@@ -692,7 +692,7 @@ async def _test_threshold(
     assert len(issue_registry.issues) == 0
 
 
-async def test_multiple_observations(hass: UniversalAssistant) -> None:
+async def test_multiple_observations(hass: __HAC_KEEP__) -> None:
     """Test sensor with multiple observations of same entity.
 
     these entries should be labelled as 'state' and negative
@@ -734,7 +734,7 @@ async def test_multiple_observations(hass: UniversalAssistant) -> None:
     await _test_multiple_observations(hass, prior)
 
 
-async def test_multiple_observations_config_entry(hass: UniversalAssistant) -> None:
+async def test_multiple_observations_config_entry(hass: __HAC_KEEP__) -> None:
     """Test sensor on multiple observations."""
     prior = 0.2
     config_entry = MockConfigEntry(
@@ -782,7 +782,7 @@ async def test_multiple_observations_config_entry(hass: UniversalAssistant) -> N
     await _test_multiple_observations(hass, prior)
 
 
-async def _test_multiple_observations(hass: UniversalAssistant, prior: float) -> None:
+async def _test_multiple_observations(hass: __HAC_KEEP__, prior: float) -> None:
     """Common test code for multiple observations."""
     hass.states.async_set("sensor.test_monitored", "off")
     await hass.async_block_till_done()
@@ -826,7 +826,7 @@ async def _test_multiple_observations(hass: UniversalAssistant, prior: float) ->
 
 
 async def test_multiple_numeric_observations(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test sensor on numeric state platform observations with more than one range.
 
@@ -890,7 +890,7 @@ async def test_multiple_numeric_observations(
 
 
 async def test_multiple_numeric_observations_config_entry(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test sensor on multiple numeric state observations."""
     config_entry = MockConfigEntry(
@@ -981,7 +981,7 @@ async def test_multiple_numeric_observations_config_entry(
 
 
 async def _test_multiple_numeric_observations(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Common test code for multiple numeric state observations."""
     hass.states.async_set("sensor.test_temp", -5)
@@ -1124,7 +1124,7 @@ async def _test_multiple_numeric_observations(
 
 
 async def test_mirrored_observations(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test whether mirrored entries are detected and appropriate issues are created."""
 
@@ -1345,7 +1345,7 @@ def _mirrored_observations_config_entry(name: str = "Test_Binary") -> MockConfig
 
 
 async def test_mirrored_observations_config_entry(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test sensor on legacy mirrored observations."""
     config_entry = _mirrored_observations_config_entry()
@@ -1374,7 +1374,7 @@ async def test_mirrored_observations_config_entry(
 
 
 async def test_mirrored_observations_same_name_config_entries(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test two config entries with the same name get separate issues."""
     config_entries = [_mirrored_observations_config_entry() for _ in range(2)]
@@ -1401,7 +1401,7 @@ async def test_mirrored_observations_same_name_config_entries(
 
 
 async def test_mirrored_observations_subentry_removed(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the issue is deleted when one of the mirrored observations is removed."""
     config_entry = _mirrored_observations_config_entry()
@@ -1425,7 +1425,7 @@ async def test_mirrored_observations_subentry_removed(
 
 
 async def test_mirrored_observations_ignored_after_reload(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test an ignored issue stays ignored when the config entry is reloaded."""
     config_entry = _mirrored_observations_config_entry()
@@ -1446,7 +1446,7 @@ async def test_mirrored_observations_ignored_after_reload(
 
 
 async def test_mirrored_observations_config_entry_removed(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test issues are deleted when the config entry is removed."""
     config_entry = _mirrored_observations_config_entry()
@@ -1462,7 +1462,7 @@ async def test_mirrored_observations_config_entry_removed(
 
 
 async def _test_mirrored_observations(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry, issue_id_prefix: str
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry, issue_id_prefix: str
 ) -> None:
     """Common test code for mirrored observations."""
     hass.states.async_set("sensor.test_monitored2", "on")
@@ -1497,7 +1497,7 @@ async def _test_mirrored_observations(
     ids=["state", "template", "numeric_state"],
 )
 async def test_missing_prob_given_false(
-    hass: UniversalAssistant, observation: dict[str, Any]
+    hass: __HAC_KEEP__, observation: dict[str, Any]
 ) -> None:
     """Test that prob_given_false is required in YAML."""
     config = {
@@ -1515,7 +1515,7 @@ async def test_missing_prob_given_false(
 
 
 async def test_bad_multi_numeric(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1581,7 +1581,7 @@ async def test_bad_multi_numeric(
 
 
 async def test_inverted_numeric(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1617,7 +1617,7 @@ async def test_inverted_numeric(
 
 
 async def test_no_value_numeric(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1647,7 +1647,7 @@ async def test_no_value_numeric(
     assert "at least one of 'above' or 'below' must be specified" in caplog.text
 
 
-async def test_probability_updates(hass: UniversalAssistant) -> None:
+async def test_probability_updates(hass: __HAC_KEEP__) -> None:
     """Test probability update function."""
     prob_given_true = [0.3, 0.6, 0.8]
     prob_given_false = [0.7, 0.4, 0.2]
@@ -1668,7 +1668,7 @@ async def test_probability_updates(hass: UniversalAssistant) -> None:
     assert round(abs(0.9130434782608695 - prior), 7) == 0
 
 
-async def test_observed_entities(hass: UniversalAssistant) -> None:
+async def test_observed_entities(hass: __HAC_KEEP__) -> None:
     """Test the observation attributes."""
     config = {
         "binary_sensor": {
@@ -1705,7 +1705,7 @@ async def test_observed_entities(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_observed_entities_config_entry(hass: UniversalAssistant) -> None:
+async def test_observed_entities_config_entry(hass: __HAC_KEEP__) -> None:
     """Test the observation attributes using config entry."""
     config_entry = MockConfigEntry(
         data={},
@@ -1755,7 +1755,7 @@ async def test_observed_entities_config_entry(hass: UniversalAssistant) -> None:
     await _test_observed_entities(hass)
 
 
-async def _test_observed_entities(hass: UniversalAssistant) -> None:
+async def _test_observed_entities(hass: __HAC_KEEP__) -> None:
     """Common test code for occurred_observation_entities.
 
     This test reveals some interesting historic behaviour -
@@ -1790,7 +1790,7 @@ async def _test_observed_entities(hass: UniversalAssistant) -> None:
     ]
 
 
-async def test_state_attributes_are_serializable(hass: UniversalAssistant) -> None:
+async def test_state_attributes_are_serializable(hass: __HAC_KEEP__) -> None:
     """Test sensor on observed entities."""
     config = {
         "binary_sensor": {
@@ -1854,7 +1854,7 @@ async def test_state_attributes_are_serializable(hass: UniversalAssistant) -> No
 
 
 async def test_template_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test sensor with template error."""
     config = {
@@ -1881,7 +1881,7 @@ async def test_template_error(
 
 
 async def test_template_error_config_entry(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test template sensor with template error using config entry."""
     config_entry = MockConfigEntry(
@@ -1916,7 +1916,7 @@ async def test_template_error_config_entry(
 
 
 async def _test_template_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Common test code for template error."""
     assert hass.states.get("binary_sensor.test_binary").state == "off"
@@ -1925,7 +1925,7 @@ async def _test_template_error(
     assert "xyz" in caplog.text
 
 
-async def test_update_request_with_template(hass: UniversalAssistant) -> None:
+async def test_update_request_with_template(hass: __HAC_KEEP__) -> None:
     """Test sensor on template platform observations that gets an update request."""
     config = {
         "binary_sensor": {
@@ -1949,7 +1949,7 @@ async def test_update_request_with_template(hass: UniversalAssistant) -> None:
     await _test_update_request_with_template(hass)
 
 
-async def test_update_request_with_template_config_entry(hass: UniversalAssistant) -> None:
+async def test_update_request_with_template_config_entry(hass: __HAC_KEEP__) -> None:
     """Test template sensor with template error using config entry."""
     config_entry = MockConfigEntry(
         data={},
@@ -1982,7 +1982,7 @@ async def test_update_request_with_template_config_entry(hass: UniversalAssistan
     await _test_update_request_with_template(hass)
 
 
-async def _test_update_request_with_template(hass: UniversalAssistant) -> None:
+async def _test_update_request_with_template(hass: __HAC_KEEP__) -> None:
     """Common test code for template update."""
     await async_setup_component(hass, HA_DOMAIN, {})
 
@@ -2000,7 +2000,7 @@ async def _test_update_request_with_template(hass: UniversalAssistant) -> None:
     assert hass.states.get("binary_sensor.test_binary").state == "off"
 
 
-async def test_update_request_without_template(hass: UniversalAssistant) -> None:
+async def test_update_request_without_template(hass: __HAC_KEEP__) -> None:
     """Test sensor on state platform observations that gets an update request."""
     config = {
         "binary_sensor": {
@@ -2026,7 +2026,7 @@ async def test_update_request_without_template(hass: UniversalAssistant) -> None
 
 
 async def test_update_request_without_template_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test template sensor with template error using config entry."""
     config_entry = MockConfigEntry(
@@ -2061,7 +2061,7 @@ async def test_update_request_without_template_config_entry(
     await _test_update_request_without_template(hass)
 
 
-async def _test_update_request_without_template(hass: UniversalAssistant) -> None:
+async def _test_update_request_without_template(hass: __HAC_KEEP__) -> None:
     """Common test code for state update."""
     await async_setup_component(hass, HA_DOMAIN, {})
 
@@ -2082,7 +2082,7 @@ async def _test_update_request_without_template(hass: UniversalAssistant) -> Non
     assert hass.states.get("binary_sensor.test_binary").state == "off"
 
 
-async def test_monitored_sensor_goes_away(hass: UniversalAssistant) -> None:
+async def test_monitored_sensor_goes_away(hass: __HAC_KEEP__) -> None:
     """Test sensor on state platform observations that goes away."""
     prior = 0.2
     config = {
@@ -2109,7 +2109,7 @@ async def test_monitored_sensor_goes_away(hass: UniversalAssistant) -> None:
 
 
 async def test_monitored_sensor_goes_away_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test template sensor with template error using config entry."""
     prior = 0.2
@@ -2145,7 +2145,7 @@ async def test_monitored_sensor_goes_away_config_entry(
     await _test_monitored_sensor_goes_away(hass, prior)
 
 
-async def _test_monitored_sensor_goes_away(hass: UniversalAssistant, prior: float) -> None:
+async def _test_monitored_sensor_goes_away(hass: __HAC_KEEP__, prior: float) -> None:
     """Common test code for state update."""
 
     await async_setup_component(hass, HA_DOMAIN, {})
@@ -2176,7 +2176,7 @@ async def _test_monitored_sensor_goes_away(hass: UniversalAssistant, prior: floa
     assert hass.states.get("binary_sensor.test_binary").state == "off"
 
 
-async def test_reload(hass: UniversalAssistant) -> None:
+async def test_reload(hass: __HAC_KEEP__) -> None:
     """Verify we can reload YAML bayesian sensors."""
 
     config = {
@@ -2221,7 +2221,7 @@ async def test_reload(hass: UniversalAssistant) -> None:
     assert hass.states.get("binary_sensor.test2")
 
 
-async def test_template_triggers(hass: UniversalAssistant) -> None:
+async def test_template_triggers(hass: __HAC_KEEP__) -> None:
     """Test sensor with template triggers."""
     hass.states.async_set("input_boolean.test", STATE_OFF)
     config = {
@@ -2248,7 +2248,7 @@ async def test_template_triggers(hass: UniversalAssistant) -> None:
 
 
 async def test_template_triggers_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test template sensor with template error using config entry."""
     config_entry = MockConfigEntry(
@@ -2282,7 +2282,7 @@ async def test_template_triggers_config_entry(
     await _test_template_triggers(hass)
 
 
-async def _test_template_triggers(hass: UniversalAssistant) -> None:
+async def _test_template_triggers(hass: __HAC_KEEP__) -> None:
     """Common test code for template triggers."""
 
     assert hass.states.get("binary_sensor.test_binary").state == STATE_OFF
@@ -2303,7 +2303,7 @@ async def _test_template_triggers(hass: UniversalAssistant) -> None:
     assert events[0].context == context
 
 
-async def test_state_triggers(hass: UniversalAssistant) -> None:
+async def test_state_triggers(hass: __HAC_KEEP__) -> None:
     """Test sensor with state triggers."""
     hass.states.async_set("sensor.test_monitored", STATE_OFF)
 
@@ -2331,7 +2331,7 @@ async def test_state_triggers(hass: UniversalAssistant) -> None:
 
 
 async def test_state_triggers_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test template sensor with template error using config entry."""
     config_entry = MockConfigEntry(
@@ -2366,7 +2366,7 @@ async def test_state_triggers_config_entry(
     await _test_state_triggers(hass)
 
 
-async def _test_state_triggers(hass: UniversalAssistant) -> None:
+async def _test_state_triggers(hass: __HAC_KEEP__) -> None:
     assert hass.states.get("binary_sensor.test_binary").state == STATE_OFF
 
     events = []

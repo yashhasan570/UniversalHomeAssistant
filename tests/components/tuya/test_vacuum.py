@@ -19,7 +19,7 @@ from universalassistant.components.vacuum import (
     SERVICE_STOP,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import initialize_entry
@@ -34,7 +34,7 @@ def platform_autouse():
 
 @pytest.mark.usefixtures("no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -103,7 +103,7 @@ async def test_platform_setup_and_discovery(
     ],
 )
 async def test_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

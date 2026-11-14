@@ -10,7 +10,7 @@ from universalassistant.components import hue
 from universalassistant.components.hue.const import ATTR_HUE_EVENT
 from universalassistant.components.hue.v1 import sensor_base
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import create_mock_bridge, setup_platform
@@ -281,7 +281,7 @@ SENSOR_RESPONSE = {
 }
 
 
-async def test_no_sensors(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
+async def test_no_sensors(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
     """Test the update_items function when no sensors are found."""
     mock_bridge_v1.mock_sensor_responses.append({})
     await setup_platform(
@@ -292,7 +292,7 @@ async def test_no_sensors(hass: UniversalAssistant, mock_bridge_v1: Mock) -> Non
 
 
 async def test_sensors_with_multiple_bridges(
-    hass: UniversalAssistant, mock_bridge_v1: Mock
+    hass: __HAC_KEEP__, mock_bridge_v1: Mock
 ) -> None:
     """Test the update_items function with some sensors."""
     mock_bridge_2 = create_mock_bridge(hass, api_version=1)
@@ -320,7 +320,7 @@ async def test_sensors_with_multiple_bridges(
 
 
 async def test_sensors(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_bridge_v1: Mock
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_bridge_v1: Mock
 ) -> None:
     """Test the update_items function with some sensors."""
     mock_bridge_v1.mock_sensor_responses.append(SENSOR_RESPONSE)
@@ -368,7 +368,7 @@ async def test_sensors(
     )
 
 
-async def test_unsupported_sensors(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
+async def test_unsupported_sensors(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
     """Test that unsupported sensors don't get added and don't fail."""
     response_with_unsupported = dict(SENSOR_RESPONSE)
     response_with_unsupported["7"] = UNSUPPORTED_SENSOR
@@ -382,7 +382,7 @@ async def test_unsupported_sensors(hass: UniversalAssistant, mock_bridge_v1: Moc
 
 
 async def test_new_sensor_discovered(
-    hass: UniversalAssistant, mock_bridge_v1: Mock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_bridge_v1: Mock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test if 2nd update has a new sensor."""
     mock_bridge_v1.mock_sensor_responses.append(SENSOR_RESPONSE)
@@ -420,7 +420,7 @@ async def test_new_sensor_discovered(
 
 
 async def test_sensor_removed(
-    hass: UniversalAssistant, mock_bridge_v1: Mock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_bridge_v1: Mock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test if 2nd update has removed sensor."""
     mock_bridge_v1.mock_sensor_responses.append(SENSOR_RESPONSE)
@@ -449,7 +449,7 @@ async def test_sensor_removed(
     assert removed_sensor is None
 
 
-async def test_update_timeout(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
+async def test_update_timeout(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
     """Test bridge marked as not available if timeout error during update."""
     mock_bridge_v1.api.sensors.update = Mock(side_effect=TimeoutError)
     await setup_platform(
@@ -459,7 +459,7 @@ async def test_update_timeout(hass: UniversalAssistant, mock_bridge_v1: Mock) ->
     assert len(hass.states.async_all()) == 0
 
 
-async def test_update_unauthorized(hass: UniversalAssistant, mock_bridge_v1: Mock) -> None:
+async def test_update_unauthorized(hass: __HAC_KEEP__, mock_bridge_v1: Mock) -> None:
     """Test bridge marked as not authorized if unauthorized during update."""
     mock_bridge_v1.api.sensors.update = Mock(side_effect=aiohue.Unauthorized)
     await setup_platform(
@@ -471,7 +471,7 @@ async def test_update_unauthorized(hass: UniversalAssistant, mock_bridge_v1: Moc
 
 
 async def test_hue_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_bridge_v1: Mock,
     device_registry: dr.DeviceRegistry,

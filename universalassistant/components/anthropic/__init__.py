@@ -4,7 +4,7 @@ from functools import partial
 
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -27,13 +27,13 @@ PLATFORMS = (Platform.AI_TASK, Platform.CONVERSATION)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Anthropic."""
     await async_migrate_integration(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AnthropicConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AnthropicConfigEntry) -> None:
     """Set up Anthropic from a config entry."""
     coordinator = AnthropicCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -53,7 +53,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AnthropicConfigEntr
 
 @callback
 def _async_check_model_lifecycle(
-    hass: UniversalAssistant, entry: AnthropicConfigEntry
+    hass: __HAC_KEEP__, entry: AnthropicConfigEntry
 ) -> None:
     """Update the entry's repair issue for deprecated or retired models."""
     issue_id = f"model_deprecated_{entry.entry_id}"
@@ -80,19 +80,19 @@ def _async_check_model_lifecycle(
     ir.async_delete_issue(hass, DOMAIN, issue_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AnthropicConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AnthropicConfigEntry) -> None:
     """Unload Anthropic."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_update_options(
-    hass: UniversalAssistant, entry: AnthropicConfigEntry
+    hass: __HAC_KEEP__, entry: AnthropicConfigEntry
 ) -> None:
     """Update options."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_migrate_integration(hass: UniversalAssistant) -> None:
+async def async_migrate_integration(hass: __HAC_KEEP__) -> None:
     """Migrate integration entry structure."""
 
     # Make sure we get enabled config entries first
@@ -189,12 +189,12 @@ async def async_migrate_integration(hass: UniversalAssistant) -> None:
             )
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: AnthropicConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: AnthropicConfigEntry) -> None:
     """Migrate entry."""
     LOGGER.debug("Migrating from version %s:%s", entry.version, entry.minor_version)
 
     if entry.version == 2 and entry.minor_version == 1:
-        # Devices left in both the config entry and its subentry by Universal Universal Home Assistant Core
+        # Devices left in both the config entry and its subentry by __HA_KEEP__ Core
         # 2025.7.0b0-2025.7.0b1 are collapsed onto the subentry by the device registry
         # migration, so there's nothing to correct here.
         hass.config_entries.async_update_entry(entry, minor_version=2)

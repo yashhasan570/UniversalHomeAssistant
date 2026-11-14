@@ -4,13 +4,13 @@ from dataclasses import asdict
 from typing import Any
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .models import DATA_WEMO
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ConfigEntry
+    hass: __HAC_KEEP__, entry: ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     wemo_data = hass.data[DATA_WEMO]

@@ -8,7 +8,7 @@ from rabbitair import Quality
 
 from universalassistant.components.rabbitair.const import DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .test_config_flow import (
@@ -24,7 +24,7 @@ pytestmark = pytest.mark.usefixtures("mock_async_zeroconf")
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a mock config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -41,7 +41,7 @@ def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 
 async def test_air_quality_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_air_quality_sensor(
 
 
 async def test_no_air_quality_sensor_when_quality_is_none(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the air quality sensor is not created when quality is unavailable."""
     with patch(

@@ -23,7 +23,7 @@ from universalassistant.components.recorder.auto_repairs.statistics.duplicates i
 from universalassistant.components.recorder.models import StatisticMeanType
 from universalassistant.components.recorder.statistics import async_add_external_statistics
 from universalassistant.components.recorder.util import session_scope
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -36,7 +36,7 @@ async def mock_recorder_before_hass(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_delete_duplicates_no_duplicates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test removal of duplicated statistics."""
@@ -51,7 +51,7 @@ async def test_delete_duplicates_no_duplicates(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_duplicate_statistics_handle_integrity_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test the recorder does not blow up if statistics is duplicated."""
@@ -170,7 +170,7 @@ async def test_delete_metadata_duplicates(
         "unit_of_measurement": "%",
     }
 
-    def add_statistics_meta(hass: UniversalAssistant) -> None:
+    def add_statistics_meta(hass: __HAC_KEEP__) -> None:
         with session_scope(hass=hass) as session:
             session.add(
                 recorder.db_schema.StatisticsMeta.from_meta(external_energy_metadata_1)
@@ -182,7 +182,7 @@ async def test_delete_metadata_duplicates(
                 recorder.db_schema.StatisticsMeta.from_meta(external_co2_metadata)
             )
 
-    def get_statistics_meta(hass: UniversalAssistant) -> list:
+    def get_statistics_meta(hass: __HAC_KEEP__) -> list:
         with session_scope(hass=hass, read_only=True) as session:
             return list(
                 session.query(recorder.db_schema.StatisticsMeta)
@@ -287,7 +287,7 @@ async def test_delete_metadata_duplicates_many(
         "unit_of_measurement": "%",
     }
 
-    def add_statistics_meta(hass: UniversalAssistant) -> None:
+    def add_statistics_meta(hass: __HAC_KEEP__) -> None:
         with session_scope(hass=hass) as session:
             session.add(
                 recorder.db_schema.StatisticsMeta.from_meta(external_energy_metadata_1)
@@ -311,7 +311,7 @@ async def test_delete_metadata_duplicates_many(
                 recorder.db_schema.StatisticsMeta.from_meta(external_co2_metadata)
             )
 
-    def get_statistics_meta(hass: UniversalAssistant) -> list:
+    def get_statistics_meta(hass: __HAC_KEEP__) -> list:
         with session_scope(hass=hass, read_only=True) as session:
             return list(
                 session.query(recorder.db_schema.StatisticsMeta)
@@ -375,7 +375,7 @@ async def test_delete_metadata_duplicates_many(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_delete_metadata_duplicates_no_duplicates(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test removal of duplicated statistics."""
     await async_wait_recording_done(hass)

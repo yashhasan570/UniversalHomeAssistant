@@ -60,8 +60,8 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -134,7 +134,7 @@ CHANNEL_ATTRIBUTES = {
 
 @pytest.mark.usefixtures("mock_braviatv_client")
 async def test_media_player(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -226,7 +226,7 @@ async def test_media_player(
     ],
 )
 async def test_media_player_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     power_status: str,
@@ -288,7 +288,7 @@ async def test_media_player_state(
     ],
 )
 async def test_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     service: str,
@@ -327,7 +327,7 @@ async def test_services(
     ],
 )
 async def test_next_previous_track(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     playing_info: dict[str, Any],
@@ -346,7 +346,7 @@ async def test_next_previous_track(
 
 
 async def test_select_source_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -371,7 +371,7 @@ async def test_select_source_not_found(
 
 
 async def test_source_list_skips_incomplete_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -392,7 +392,7 @@ async def test_source_list_skips_incomplete_items(
 
 
 async def test_source_list_adds_label(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -430,7 +430,7 @@ async def test_source_list_adds_label(
     ],
 )
 async def test_select_source_by_label(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     source: str,
@@ -482,7 +482,7 @@ async def test_select_source_by_label(
     ],
 )
 async def test_play_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     media_type: MediaType,
@@ -513,7 +513,7 @@ async def test_play_media(
 
 
 async def test_play_media_invalid_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -552,7 +552,7 @@ async def test_play_media_invalid_type(
     ],
 )
 async def test_command_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     exception: type[Exception],
@@ -563,7 +563,7 @@ async def test_command_error(
 
     mock_braviatv_client.turn_on.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         await hass.services.async_call(
             MP_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True
         )
@@ -584,7 +584,7 @@ async def test_command_error(
     ],
 )
 async def test_browse_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
@@ -611,7 +611,7 @@ async def test_browse_media(
 
 @pytest.mark.usefixtures("mock_braviatv_client")
 async def test_browse_media_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -682,7 +682,7 @@ async def test_browse_media_not_found(
 )
 @pytest.mark.usefixtures("mock_braviatv_client")
 async def test_get_browse_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,

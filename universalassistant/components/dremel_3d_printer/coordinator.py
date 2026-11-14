@@ -6,7 +6,7 @@ from typing import override
 from dremel3dpy import Dremel3DPrinter
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, LOGGER
@@ -20,7 +20,7 @@ class Dremel3DPrinterDataUpdateCoordinator(DataUpdateCoordinator[None]):
     config_entry: DremelConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: DremelConfigEntry, api: Dremel3DPrinter
+        self, hass: __HAC_KEEP__, config_entry: DremelConfigEntry, api: Dremel3DPrinter
     ) -> None:
         """Initialize Dremel 3D Printer data update coordinator."""
         super().__init__(

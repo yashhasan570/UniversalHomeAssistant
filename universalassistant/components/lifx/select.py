@@ -6,7 +6,7 @@ from lifx import ThemeLibrary
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import INFRARED_BRIGHTNESS, INFRARED_LEVELS
@@ -35,7 +35,7 @@ THEME_ENTITY = SelectEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LIFXConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

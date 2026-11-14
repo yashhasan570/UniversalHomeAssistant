@@ -5,7 +5,7 @@ import logging
 from israelrailapi import TrainSchedule
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_DESTINATION, CONF_START, DOMAIN
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IsraelRailConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IsraelRailConfigEntry) -> None:
     """Set up Israel rail from a config entry."""
     config = entry.data
 
@@ -47,6 +47,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IsraelRailConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IsraelRailConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IsraelRailConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

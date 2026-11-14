@@ -37,7 +37,7 @@ def create_config_entry(
     implementation: str = DOMAIN,
     region: str = "NA",
 ) -> MockConfigEntry:
-    """Create Tesla Fleet entry in Universal Universal Home Assistant."""
+    """Create Tesla Fleet entry in __HA_KEEP__."""
     access_token = jwt.encode(
         {
             "sub": UID,
@@ -69,19 +69,19 @@ def create_config_entry(
 
 @pytest.fixture
 def normal_config_entry(expires_at: int) -> MockConfigEntry:
-    """Create Tesla Fleet entry in Universal Universal Home Assistant."""
+    """Create Tesla Fleet entry in __HA_KEEP__."""
     return create_config_entry(expires_at, SCOPES)
 
 
 @pytest.fixture
 def noscope_config_entry(expires_at: int) -> MockConfigEntry:
-    """Create Tesla Fleet entry in Universal Universal Home Assistant without scopes."""
+    """Create Tesla Fleet entry in __HA_KEEP__ without scopes."""
     return create_config_entry(expires_at, [Scope.OPENID, Scope.OFFLINE_ACCESS])
 
 
 @pytest.fixture
 def readonly_config_entry(expires_at: int) -> MockConfigEntry:
-    """Create Tesla Fleet entry in Universal Universal Home Assistant without scopes."""
+    """Create Tesla Fleet entry in __HA_KEEP__ without scopes."""
     return create_config_entry(
         expires_at,
         [
@@ -95,7 +95,7 @@ def readonly_config_entry(expires_at: int) -> MockConfigEntry:
 
 @pytest.fixture
 def bad_config_entry(expires_at: int) -> MockConfigEntry:
-    """Create Tesla Fleet entry in Universal Universal Home Assistant."""
+    """Create Tesla Fleet entry in __HA_KEEP__."""
     return create_config_entry(expires_at, SCOPES, "bad")
 
 

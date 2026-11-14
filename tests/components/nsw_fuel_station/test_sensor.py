@@ -7,7 +7,7 @@ from pytest_universalassistant.common import assert_setup_component
 
 from universalassistant.components import sensor
 from universalassistant.components.nsw_fuel_station import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 VALID_CONFIG = {
@@ -76,7 +76,7 @@ MOCK_FUEL_PRICES_RESPONSE = MockGetFuelPricesResponse(
     "universalassistant.components.nsw_fuel_station.FuelCheckClient.get_fuel_prices",
     return_value=MOCK_FUEL_PRICES_RESPONSE,
 )
-async def test_setup(get_fuel_prices, hass: UniversalAssistant) -> None:
+async def test_setup(get_fuel_prices, hass: __HAC_KEEP__) -> None:
     """Test the setup with custom settings."""
     with assert_setup_component(1, sensor.DOMAIN):
         assert await async_setup_component(
@@ -98,7 +98,7 @@ def raise_fuel_check_error():
     "universalassistant.components.nsw_fuel_station.FuelCheckClient.get_fuel_prices",
     side_effect=raise_fuel_check_error,
 )
-async def test_setup_error(get_fuel_prices, hass: UniversalAssistant) -> None:
+async def test_setup_error(get_fuel_prices, hass: __HAC_KEEP__) -> None:
     """Test the setup with client throwing error."""
     with assert_setup_component(1, sensor.DOMAIN):
         assert await async_setup_component(
@@ -115,7 +115,7 @@ async def test_setup_error(get_fuel_prices, hass: UniversalAssistant) -> None:
     "universalassistant.components.nsw_fuel_station.FuelCheckClient.get_fuel_prices",
     return_value=MOCK_FUEL_PRICES_RESPONSE,
 )
-async def test_setup_error_no_station(get_fuel_prices, hass: UniversalAssistant) -> None:
+async def test_setup_error_no_station(get_fuel_prices, hass: __HAC_KEEP__) -> None:
     """Test the setup with specified station not existing."""
     with assert_setup_component(2, sensor.DOMAIN):
         assert await async_setup_component(
@@ -146,7 +146,7 @@ async def test_setup_error_no_station(get_fuel_prices, hass: UniversalAssistant)
     "universalassistant.components.nsw_fuel_station.FuelCheckClient.get_fuel_prices",
     return_value=MOCK_FUEL_PRICES_RESPONSE,
 )
-async def test_sensor_values(get_fuel_prices, hass: UniversalAssistant) -> None:
+async def test_sensor_values(get_fuel_prices, hass: __HAC_KEEP__) -> None:
     """Test retrieval of sensor values."""
     assert await async_setup_component(hass, DOMAIN, {})
     assert await async_setup_component(hass, sensor.DOMAIN, {"sensor": VALID_CONFIG})

@@ -13,7 +13,7 @@
     },
     "step": {
       "confirm_discovery": {
-        "description": "Do you want to add your HEOS devices to Universal Universal Home Assistant?",
+        "description": "Do you want to add your HEOS devices to __HA_KEEP__?",
         "title": "Discovered HEOS System"
       },
       "reauth_confirm": {

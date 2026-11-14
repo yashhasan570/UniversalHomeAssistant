@@ -1,4 +1,4 @@
-"""Hanna Instruments sensor integration for Universal Universal Home Assistant.
+"""Hanna Instruments sensor integration for __HA_KEEP__.
 
 This module provides sensor entities for various Hanna Instruments devices,
 including pH, ORP, temperature, and chemical sensors. It uses the Hanna API
@@ -15,7 +15,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfElectricPotential, UnitOfTemperature, UnitOfVolume
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -72,7 +72,7 @@ SENSOR_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HannaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

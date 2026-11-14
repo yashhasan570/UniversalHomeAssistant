@@ -18,7 +18,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_json_ob
 
 from universalassistant.components.aosmith.const import DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 FIXTURE_USER_INPUT = {
@@ -177,7 +177,7 @@ def get_devices_fixture_supports_hot_water_plus() -> bool:
 
 @pytest.fixture
 async def mock_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_devices_fixture_heat_pump: bool,
     get_devices_fixture_mode_pending: bool,
     get_devices_fixture_setpoint_pending: bool,
@@ -210,7 +210,7 @@ async def mock_client(
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> MockConfigEntry:

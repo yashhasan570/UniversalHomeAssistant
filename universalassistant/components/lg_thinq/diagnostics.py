@@ -6,7 +6,7 @@ from thinqconnect import ConnectBaseDevice
 from thinqconnect.devices.connect_device import ConnectDeviceProfile
 
 from universalassistant.const import CONF_COUNTRY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import ThinqConfigEntry
 
@@ -20,7 +20,7 @@ def _properties(profile: ConnectDeviceProfile, device: ConnectBaseDevice) -> dic
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ThinqConfigEntry
+    hass: __HAC_KEEP__, entry: ThinqConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     devices = []

@@ -19,7 +19,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_json_ob
 from universalassistant.components.iometer.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import (
@@ -31,7 +31,7 @@ from . import (
 
 
 async def test_new_firmware_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_iometer_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -60,7 +60,7 @@ async def test_new_firmware_version(
 
 
 async def test_first_data_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_iometer_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_first_data_timeout(
     ],
 )
 async def test_reading_error_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_iometer_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -125,7 +125,7 @@ async def test_reading_error_callback(
     ],
 )
 async def test_status_error_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_iometer_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -142,7 +142,7 @@ async def test_status_error_callback(
 
 
 async def test_error_before_first_data_does_not_mark_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_iometer_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -178,7 +178,7 @@ async def test_error_before_first_data_does_not_mark_unavailable(
 
 @pytest.mark.usefixtures("mock_iometer_client")
 async def test_async_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unloading an entry succeeds and cleans up the coordinator."""
@@ -188,7 +188,7 @@ async def test_async_unload_entry(
 
 
 async def test_async_stop_calls_cancel_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_iometer_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

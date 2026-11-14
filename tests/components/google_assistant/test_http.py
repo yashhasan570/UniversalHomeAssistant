@@ -36,7 +36,7 @@ from universalassistant.components.google_assistant.http import (
     async_get_users,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -90,7 +90,7 @@ MOCK_HEADER = {
 }
 
 
-async def test_sync_google_does_not_block_startup(hass: UniversalAssistant) -> None:
+async def test_sync_google_does_not_block_startup(hass: __HAC_KEEP__) -> None:
     """Test that Google entity sync runs after startup, not during."""
     hass.set_state(CoreState.not_running)
     config = GoogleConfig(hass, DUMMY_CONFIG)
@@ -109,7 +109,7 @@ async def test_sync_google_does_not_block_startup(hass: UniversalAssistant) -> N
         mock_sync.assert_called_once()
 
 
-async def test_get_jwt(hass: UniversalAssistant) -> None:
+async def test_get_jwt(hass: __HAC_KEEP__) -> None:
     """Test signing of key."""
 
     jwt = (
@@ -134,7 +134,7 @@ async def test_get_jwt(hass: UniversalAssistant) -> None:
 
 
 async def test_get_access_token(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the function to get access token."""
     jwt = "dummyjwt"
@@ -153,7 +153,7 @@ async def test_get_access_token(
     }
 
 
-async def test_update_access_token(hass: UniversalAssistant) -> None:
+async def test_update_access_token(hass: __HAC_KEEP__) -> None:
     """Test the function to update access token when expired."""
     jwt = "dummyjwt"
 
@@ -193,7 +193,7 @@ async def test_update_access_token(hass: UniversalAssistant) -> None:
 
 
 async def test_call_homegraph_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
@@ -221,7 +221,7 @@ async def test_call_homegraph_api(
 
 
 async def test_call_homegraph_api_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -250,7 +250,7 @@ async def test_call_homegraph_api_retry(
 
 
 async def test_report_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -275,7 +275,7 @@ async def test_report_state(
 
 
 async def test_report_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -307,7 +307,7 @@ async def test_report_event(
 
 
 async def test_google_config_local_fulfillment(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -340,7 +340,7 @@ async def test_google_config_local_fulfillment(
     assert config.get_local_user_id("INCORRECT") is None
 
 
-async def test_secure_device_pin_config(hass: UniversalAssistant) -> None:
+async def test_secure_device_pin_config(hass: __HAC_KEEP__) -> None:
     """Test the setting of the secure device pin configuration."""
     secure_pin = "TEST"
     secure_config = GOOGLE_ASSISTANT_SCHEMA(
@@ -358,7 +358,7 @@ async def test_secure_device_pin_config(hass: UniversalAssistant) -> None:
     assert config.secure_devices_pin == secure_pin
 
 
-async def test_missing_service_account(hass: UniversalAssistant) -> None:
+async def test_missing_service_account(hass: __HAC_KEEP__) -> None:
     """Test the google config _async_request_sync_devices."""
     incorrect_config = GOOGLE_ASSISTANT_SCHEMA(
         {
@@ -382,7 +382,7 @@ async def test_missing_service_account(hass: UniversalAssistant) -> None:
 
 
 async def test_async_enable_local_sdk(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
@@ -529,7 +529,7 @@ async def test_async_enable_local_sdk(
 
 
 async def test_agent_user_id_storage(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test a disconnect message."""
 
@@ -594,7 +594,7 @@ async def test_agent_user_id_storage(
     )
 
 
-async def test_async_get_users_no_store(hass: UniversalAssistant) -> None:
+async def test_async_get_users_no_store(hass: __HAC_KEEP__) -> None:
     """Test async_get_users when there is no store."""
     assert await async_get_users(hass) == []
 
@@ -725,7 +725,7 @@ async def test_async_get_users(
     ],
 )
 async def test_google_config_migrate_entity_names(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
     storage: dict[str, Any],

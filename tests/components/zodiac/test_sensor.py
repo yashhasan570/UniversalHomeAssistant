@@ -21,7 +21,7 @@ from universalassistant.components.zodiac.const import (
     SIGN_TAURUS,
 )
 from universalassistant.const import ATTR_DEVICE_CLASS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -40,7 +40,7 @@ DAY3 = datetime(2020, 4, 21, tzinfo=dt_util.UTC)
     ],
 )
 async def test_zodiac_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     now: datetime,
     sign: str,

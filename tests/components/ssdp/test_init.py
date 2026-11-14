@@ -22,7 +22,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     MATCH_ALL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.discovery_flow import DiscoveryKey
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_DEVICE_TYPE,
@@ -41,7 +41,7 @@ from . import _ssdp_headers, init_ssdp_component
 )
 async def test_ssdp_flow_dispatched_on_st(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_flow_init,
     aioclient_mock: AiohttpClientMocker,
@@ -88,7 +88,7 @@ async def test_ssdp_flow_dispatched_on_st(
 )
 async def test_ssdp_flow_dispatched_on_manufacturer_url(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_flow_init,
     aioclient_mock: AiohttpClientMocker,
@@ -136,7 +136,7 @@ async def test_ssdp_flow_dispatched_on_manufacturer_url(
 )
 async def test_scan_match_upnp_devicedesc_manufacturer(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init,
 ) -> None:
@@ -181,7 +181,7 @@ async def test_scan_match_upnp_devicedesc_manufacturer(
 )
 async def test_scan_match_upnp_devicedesc_devicetype(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init,
 ) -> None:
@@ -234,7 +234,7 @@ async def test_scan_match_upnp_devicedesc_devicetype(
 )
 async def test_scan_not_all_present(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init,
 ) -> None:
@@ -277,7 +277,7 @@ async def test_scan_not_all_present(
 )
 async def test_scan_not_all_match(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init,
 ) -> None:
@@ -316,7 +316,7 @@ async def test_scan_not_all_match(
 )
 async def test_flow_start_only_alive(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init,
 ) -> None:
@@ -412,7 +412,7 @@ async def test_flow_start_only_alive(
 )
 async def test_discovery_from_advertisement_sets_ssdp_st(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init,
 ) -> None:
@@ -463,7 +463,7 @@ async def test_discovery_from_advertisement_sets_ssdp_st(
     "universalassistant.components.ssdp.common.async_build_source_set",
     return_value={IPv4Address("192.168.1.1")},
 )
-async def test_start_stop_scanner(mock_source_set, hass: UniversalAssistant) -> None:
+async def test_start_stop_scanner(mock_source_set, hass: __HAC_KEEP__) -> None:
     """Test we start and stop the scanner."""
     ssdp_listener = await init_ssdp_component(hass)
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
@@ -488,7 +488,7 @@ async def test_start_stop_scanner(mock_source_set, hass: UniversalAssistant) -> 
 @patch("universalassistant.components.ssdp.async_get_ssdp", return_value={})
 async def test_scan_with_registered_callback(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -585,7 +585,7 @@ async def test_scan_with_registered_callback(
 )
 async def test_getting_existing_headers(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init,
 ) -> None:
@@ -726,7 +726,7 @@ _ADAPTERS_WITH_MANUAL_CONFIG = [
     return_value=_ADAPTERS_WITH_MANUAL_CONFIG,
 )
 async def test_async_detect_interfaces_setting_empty_route(
-    mock_get_adapters, mock_get_ssdp, hass: UniversalAssistant
+    mock_get_adapters, mock_get_ssdp, hass: __HAC_KEEP__
 ) -> None:
     """Test without default interface config and the route returns nothing."""
     await init_ssdp_component(hass)
@@ -753,7 +753,7 @@ async def test_async_detect_interfaces_setting_empty_route(
 async def test_bind_failure_skips_adapter(
     mock_get_adapters,
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test that an adapter with a bind failure is skipped."""
@@ -805,7 +805,7 @@ async def test_bind_failure_skips_adapter(
     return_value=_ADAPTERS_WITH_MANUAL_CONFIG,
 )
 async def test_ipv4_does_additional_search_for_sonos(
-    mock_get_adapters, mock_get_ssdp, hass: UniversalAssistant
+    mock_get_adapters, mock_get_ssdp, hass: __HAC_KEEP__
 ) -> None:
     """Test that only ipv4 does an additional search for Sonos."""
     ssdp_listener = await init_ssdp_component(hass)
@@ -831,7 +831,7 @@ async def test_ipv4_does_additional_search_for_sonos(
 )
 async def test_flow_dismiss_on_byebye(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init,
 ) -> None:
@@ -959,7 +959,7 @@ async def test_flow_dismiss_on_byebye(
 )
 async def test_ssdp_rediscover(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init,
     entry_domain: str,
@@ -1056,7 +1056,7 @@ async def test_ssdp_rediscover(
 )
 async def test_ssdp_rediscover_no_match(
     mock_get_ssdp,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_flow_init,
     entry_domain: str,

@@ -8,8 +8,8 @@ from cookidoo_api import CookidooAuthException, CookidooException
 from cookidoo_api.types import CookidooCalendarDayRecipe
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -23,7 +23,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: CookidooConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -82,19 +82,19 @@ class CookidooCalendarEntity(CookidooBaseEntity, CalendarEntity):
                     week_day
                 )
             except CookidooException as exc:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="calendar_fetch_failed",
                 ) from exc
         except CookidooException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="calendar_fetch_failed",
             ) from e
 
     @override
     async def async_get_events(
-        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
+        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
         events: list[CalendarEvent] = []

@@ -25,7 +25,7 @@
         }
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add the TV ({name}) to Universal Universal Home Assistant? It will turn on and a pairing code will be displayed on it that you will need to enter in the next screen.",
+        "description": "Do you want to add the TV ({name}) to __HA_KEEP__? It will turn on and a pairing code will be displayed on it that you will need to enter in the next screen.",
         "title": "Discovered Philips TV"
       }
     }

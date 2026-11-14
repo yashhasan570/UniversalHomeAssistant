@@ -23,7 +23,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
 
@@ -84,7 +84,7 @@ SHUTTER_CONTACT_DESCRIPTION = SHCShutterContactSensorEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BoschConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -168,7 +168,7 @@ class SHCBinarySensor[_DeviceT: SHCDevice](SHCEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: _DeviceT,
         parent_id: str,
         entry_id: str,
@@ -200,7 +200,7 @@ class ShutterContactSensor(SHCEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: SHCDevice,
         parent_id: str,
         entry_id: str,
@@ -233,7 +233,7 @@ class BatterySensor(SHCEntity, BinarySensorEntity):
     _device: SHCBatteryDevice
 
     def __init__(
-        self, hass: UniversalAssistant, device: SHCDevice, parent_id: str, entry_id: str
+        self, hass: __HAC_KEEP__, device: SHCDevice, parent_id: str, entry_id: str
     ) -> None:
         """Initialize an SHC battery reporting sensor."""
         super().__init__(hass, device, parent_id, entry_id)
@@ -258,7 +258,7 @@ class TwinguardAlarmTracker:
     """
 
     def __init__(
-        self, hass: UniversalAssistant, smoke_detection_system: SHCSmokeDetectionSystem
+        self, hass: __HAC_KEEP__, smoke_detection_system: SHCSmokeDetectionSystem
     ) -> None:
         """Initialize the tracker and subscribe to the alarm state."""
         self._hass = hass
@@ -340,7 +340,7 @@ class TwinguardSmokeSensor(SHCEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: SHCDevice,
         parent_id: str,
         entry_id: str,

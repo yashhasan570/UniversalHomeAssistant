@@ -9,7 +9,7 @@ from regenmaschine.errors import RainMachineError
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_PORT, CONF_SSL
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -26,7 +26,7 @@ from .util import get_client_controller
 
 
 async def async_get_controller(
-    hass: UniversalAssistant, ip_address: str, password: str, port: int, ssl: bool
+    hass: __HAC_KEEP__, ip_address: str, password: str, port: int, ssl: bool
 ) -> Controller | None:
     """Auth and fetch the mac address from the controller."""
     websession = aiohttp_client.async_get_clientsession(hass)

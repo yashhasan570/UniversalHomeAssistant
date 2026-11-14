@@ -9,7 +9,7 @@ into child devices) show up directly as a diff of the snapshot.
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import snapshot_matter_devices
@@ -56,7 +56,7 @@ from .common import snapshot_matter_devices
     ],
 )
 async def test_multi_endpoint_device_topology(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

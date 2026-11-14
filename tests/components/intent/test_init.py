@@ -32,13 +32,13 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import area_registry as ar, entity_registry as er, intent
 from universalassistant.setup import async_setup_component
 
 
 async def test_http_handle_intent(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test handle intent via HTTP API."""
 
@@ -90,7 +90,7 @@ async def test_http_handle_intent(
 
 
 async def test_http_language_device_satellite_id(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test handle intent with language, device id, and satellite id."""
     device_id = "test-device-id"
@@ -154,7 +154,7 @@ async def test_http_language_device_satellite_id(
 
 
 async def test_http_handle_intent_match_failure(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test handle intent match failure via HTTP API."""
 
@@ -183,7 +183,7 @@ async def test_http_handle_intent_match_failure(
 
 
 async def test_http_assistant(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test handle intent only targets exposed entities with 'assistant' set."""
 
@@ -236,7 +236,7 @@ async def test_http_assistant(
     assert data["response_type"] == intent.IntentResponseType.ACTION_DONE.value
 
 
-async def test_cover_intents_loading(hass: UniversalAssistant) -> None:
+async def test_cover_intents_loading(hass: __HAC_KEEP__) -> None:
     """Test Cover Intents Loading."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -263,7 +263,7 @@ async def test_cover_intents_loading(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": "cover.garage_door"}
 
 
-async def test_turn_on_intent(hass: UniversalAssistant) -> None:
+async def test_turn_on_intent(hass: __HAC_KEEP__) -> None:
     """Test HassTurnOn intent."""
     result = await async_setup_component(hass, "universalassistant", {})
     result = await async_setup_component(hass, DOMAIN, {})
@@ -287,7 +287,7 @@ async def test_turn_on_intent(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("domain", ["button", "input_button"])
 async def test_turn_on_intent_button(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, domain
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, domain
 ) -> None:
     """Test HassTurnOn intent on button domains."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -314,7 +314,7 @@ async def test_turn_on_intent_button(
 
 
 async def test_turn_on_off_intent_valve(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test HassTurnOn/Off intent on valve domains."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -347,7 +347,7 @@ async def test_turn_on_off_intent_valve(
 
 
 async def test_turn_on_off_intent_cover(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test HassTurnOn/Off intent on cover domains."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -380,7 +380,7 @@ async def test_turn_on_off_intent_cover(
 
 
 async def test_turn_on_off_intent_lock(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test HassTurnOn/Off intent on lock domains."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -412,7 +412,7 @@ async def test_turn_on_off_intent_lock(
     assert call.data == {"entity_id": lock.entity_id}
 
 
-async def test_turn_off_intent(hass: UniversalAssistant) -> None:
+async def test_turn_off_intent(hass: __HAC_KEEP__) -> None:
     """Test HassTurnOff intent."""
     result = await async_setup_component(hass, "universalassistant", {})
     result = await async_setup_component(hass, DOMAIN, {})
@@ -433,7 +433,7 @@ async def test_turn_off_intent(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": ["light.test_light"]}
 
 
-async def test_toggle_intent(hass: UniversalAssistant) -> None:
+async def test_toggle_intent(hass: __HAC_KEEP__) -> None:
     """Test HassToggle intent."""
     result = await async_setup_component(hass, "universalassistant", {})
     result = await async_setup_component(hass, DOMAIN, {})
@@ -454,7 +454,7 @@ async def test_toggle_intent(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": ["light.test_light"]}
 
 
-async def test_turn_on_multiple_intent(hass: UniversalAssistant) -> None:
+async def test_turn_on_multiple_intent(hass: __HAC_KEEP__) -> None:
     """Test HassTurnOn intent with multiple similar entities.
 
     This tests that matching finds the proper entity among similar names.
@@ -480,7 +480,7 @@ async def test_turn_on_multiple_intent(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": ["light.test_lights_2"]}
 
 
-async def test_turn_on_all(hass: UniversalAssistant) -> None:
+async def test_turn_on_all(hass: __HAC_KEEP__) -> None:
     """Test HassTurnOn intent with "all" name."""
     result = await async_setup_component(hass, "universalassistant", {})
     result = await async_setup_component(hass, DOMAIN, {})
@@ -510,7 +510,7 @@ async def test_turn_on_all(hass: UniversalAssistant) -> None:
 
 
 async def test_get_state_intent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -705,7 +705,7 @@ async def test_get_state_intent(
         )
 
 
-async def test_set_position_intent_unsupported_domain(hass: UniversalAssistant) -> None:
+async def test_set_position_intent_unsupported_domain(hass: __HAC_KEEP__) -> None:
     """Test that HassSetPosition intent fails with unsupported domain."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {})
@@ -722,7 +722,7 @@ async def test_set_position_intent_unsupported_domain(hass: UniversalAssistant) 
         )
 
 
-async def test_intents_with_no_responses(hass: UniversalAssistant) -> None:
+async def test_intents_with_no_responses(hass: __HAC_KEEP__) -> None:
     """Test intents that should not return a response during handling."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {})
@@ -733,7 +733,7 @@ async def test_intents_with_no_responses(hass: UniversalAssistant) -> None:
         assert not response.speech
 
 
-async def test_intents_respond_intent(hass: UniversalAssistant) -> None:
+async def test_intents_respond_intent(hass: __HAC_KEEP__) -> None:
     """Test HassRespond intent with a response slot value."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {})
@@ -744,7 +744,7 @@ async def test_intents_respond_intent(hass: UniversalAssistant) -> None:
     assert response.speech["plain"]["speech"] == "Hello World"
 
 
-async def test_stop_moving_valve(hass: UniversalAssistant) -> None:
+async def test_stop_moving_valve(hass: __HAC_KEEP__) -> None:
     """Test HassStopMoving intent for valves."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -772,7 +772,7 @@ async def test_stop_moving_valve(hass: UniversalAssistant) -> None:
         ({"device_class": {"value": "shade"}}),
     ],
 )
-async def test_stop_moving_cover(hass: UniversalAssistant, slots: dict[str, Any]) -> None:
+async def test_stop_moving_cover(hass: __HAC_KEEP__, slots: dict[str, Any]) -> None:
     """Test HassStopMoving intent for covers."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -793,7 +793,7 @@ async def test_stop_moving_cover(hass: UniversalAssistant, slots: dict[str, Any]
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_stop_moving_intent_unsupported_domain(hass: UniversalAssistant) -> None:
+async def test_stop_moving_intent_unsupported_domain(hass: __HAC_KEEP__) -> None:
     """Test that HassStopMoving intent fails with unsupported domain."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, DOMAIN, {})

@@ -11,7 +11,7 @@ from toonapi import (
 )
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ToonConfigEntry, ToonDataUpdateCoordinator
@@ -20,7 +20,7 @@ from .helpers import toon_exception_handler
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ToonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

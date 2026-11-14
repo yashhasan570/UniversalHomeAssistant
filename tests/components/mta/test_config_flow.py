@@ -17,14 +17,14 @@ from universalassistant.components.mta.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_BUS_STOPS
 
 
 async def test_main_entry_flow_without_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test the main config flow without API key."""
@@ -43,7 +43,7 @@ async def test_main_entry_flow_without_token(
 
 
 async def test_main_entry_flow_with_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_bus_feed: MagicMock,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_main_entry_flow_with_token(
 
 
 async def test_main_entry_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if MTA is already configured."""
@@ -85,7 +85,7 @@ async def test_main_entry_already_configured(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bus_feed: MagicMock,
 ) -> None:
@@ -113,7 +113,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bus_feed: MagicMock,
     side_effect: Exception,
@@ -148,7 +148,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_subway_subentry_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_subway_feed: MagicMock,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_subway_subentry_flow(
 
 
 async def test_subway_subentry_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_subway_subentry: MockConfigEntry,
     mock_subway_feed: MagicMock,
 ) -> None:
@@ -213,7 +213,7 @@ async def test_subway_subentry_already_configured(
 
 
 async def test_subway_subentry_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_subway_feed: MagicMock,
 ) -> None:
@@ -252,7 +252,7 @@ async def test_subway_subentry_connection_error(
 
 
 async def test_subway_subentry_cannot_get_stops(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_subway_feed: MagicMock,
 ) -> None:
@@ -277,7 +277,7 @@ async def test_subway_subentry_cannot_get_stops(
 
 
 async def test_subway_subentry_no_stops_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_subway_feed: MagicMock,
 ) -> None:
@@ -305,7 +305,7 @@ async def test_subway_subentry_no_stops_found(
 
 
 async def test_bus_subentry_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_api_key: MockConfigEntry,
     mock_bus_feed: MagicMock,
 ) -> None:
@@ -341,7 +341,7 @@ async def test_bus_subentry_flow(
 
 
 async def test_bus_subentry_flow_without_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bus_feed: MagicMock,
 ) -> None:
@@ -371,7 +371,7 @@ async def test_bus_subentry_flow_without_token(
 
 
 async def test_bus_subentry_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_bus_subentry: MockConfigEntry,
     mock_bus_feed: MagicMock,
 ) -> None:
@@ -398,7 +398,7 @@ async def test_bus_subentry_already_configured(
 
 
 async def test_bus_subentry_invalid_route(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_api_key: MockConfigEntry,
     mock_bus_feed: MagicMock,
 ) -> None:
@@ -438,7 +438,7 @@ async def test_bus_subentry_invalid_route(
 
 
 async def test_bus_subentry_route_fetch_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_api_key: MockConfigEntry,
     mock_bus_feed: MagicMock,
 ) -> None:
@@ -475,7 +475,7 @@ async def test_bus_subentry_route_fetch_error(
 
 
 async def test_bus_subentry_connection_test_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_api_key: MockConfigEntry,
     mock_bus_feed: MagicMock,
 ) -> None:
@@ -517,7 +517,7 @@ async def test_bus_subentry_connection_test_error(
 
 
 async def test_bus_subentry_with_direction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_api_key: MockConfigEntry,
     mock_bus_feed_with_direction: MagicMock,
 ) -> None:

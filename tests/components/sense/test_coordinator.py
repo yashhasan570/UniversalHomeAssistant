@@ -11,7 +11,7 @@ from sense_energy import SenseAuthenticationException, SenseMFARequiredException
 from universalassistant.components.sense.const import DOMAIN, TREND_UPDATE_RATE
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_platform
 from .const import MONITOR_ID
@@ -25,7 +25,7 @@ from .const import MONITOR_ID
     ],
 )
 async def test_trend_coordinator_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

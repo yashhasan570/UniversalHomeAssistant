@@ -19,8 +19,8 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Context, CoreState, UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Context, CoreState, __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_component import EntityComponent
@@ -44,7 +44,7 @@ DOMAIN = "test_domain"
 PLATFORM = "test_platform"
 
 
-async def test_caching_data(hass: UniversalAssistant) -> None:
+async def test_caching_data(hass: __HAC_KEEP__) -> None:
     """Test that we cache data."""
     now = dt_util.utcnow()
     stored_states = [
@@ -63,7 +63,7 @@ async def test_caching_data(hass: UniversalAssistant) -> None:
     with (
         patch(
             "universalassistant.helpers.restore_state.Store.async_load",
-            side_effect=UniversalAssistantError,
+            side_effect=__HAC_KEEP__Error,
         ),
         patch("universalassistant.helpers.restore_state.Store.async_save"),
     ):
@@ -96,7 +96,7 @@ async def test_caching_data(hass: UniversalAssistant) -> None:
     assert mock_write_data.called
 
 
-async def test_periodic_write(hass: UniversalAssistant) -> None:
+async def test_periodic_write(hass: __HAC_KEEP__) -> None:
     """Test that we write periodiclly but not after stop."""
     data = async_get(hass)
     await hass.async_block_till_done()
@@ -144,7 +144,7 @@ async def test_periodic_write(hass: UniversalAssistant) -> None:
     assert not mock_write_data.called
 
 
-async def test_save_persistent_states(hass: UniversalAssistant) -> None:
+async def test_save_persistent_states(hass: __HAC_KEEP__) -> None:
     """Test we cancel the running job, save data, and verify periodic job continues."""
     data = async_get(hass)
     await hass.async_block_till_done()
@@ -202,7 +202,7 @@ async def test_save_persistent_states(hass: UniversalAssistant) -> None:
     assert mock_write_data.called
 
 
-async def test_hass_starting(hass: UniversalAssistant) -> None:
+async def test_hass_starting(hass: __HAC_KEEP__) -> None:
     """Test that we cache data."""
     hass.set_state(CoreState.starting)
 
@@ -257,7 +257,7 @@ async def test_hass_starting(hass: UniversalAssistant) -> None:
     assert mock_write_data.called
 
 
-async def test_dump_data(hass: UniversalAssistant) -> None:
+async def test_dump_data(hass: __HAC_KEEP__) -> None:
     """Test that we cache data."""
     states = [
         State("input_boolean.b0", "on"),
@@ -348,9 +348,9 @@ async def test_dump_data(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize(
     "exception",
-    [UniversalAssistantError, RuntimeError],
+    [__HAC_KEEP__Error, RuntimeError],
 )
-async def test_dump_error(hass: UniversalAssistant, exception: type[Exception]) -> None:
+async def test_dump_error(hass: __HAC_KEEP__, exception: type[Exception]) -> None:
     """Test that errors during save are caught."""
     states = [
         State("input_boolean.b0", "on"),
@@ -383,7 +383,7 @@ async def test_dump_error(hass: UniversalAssistant, exception: type[Exception]) 
     assert mock_write_data.called
 
 
-async def test_load_error(hass: UniversalAssistant) -> None:
+async def test_load_error(hass: __HAC_KEEP__) -> None:
     """Test that we cache data."""
     entity = RestoreEntity()
     entity.hass = hass
@@ -391,14 +391,14 @@ async def test_load_error(hass: UniversalAssistant) -> None:
 
     with patch(
         "universalassistant.helpers.storage.Store.async_load",
-        side_effect=UniversalAssistantError,
+        side_effect=__HAC_KEEP__Error,
     ):
         state = await entity.async_get_last_state()
 
     assert state is None
 
 
-async def test_state_saved_on_remove(hass: UniversalAssistant) -> None:
+async def test_state_saved_on_remove(hass: __HAC_KEEP__) -> None:
     """Test that we save entity state on removal."""
     platform = MockEntityPlatform(hass, domain="input_boolean")
     entity = RestoreEntity()
@@ -426,7 +426,7 @@ async def test_state_saved_on_remove(hass: UniversalAssistant) -> None:
 
 
 async def test_restoring_invalid_entity_id(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test restoring invalid entity IDs."""
     entity = RestoreEntity()
@@ -459,7 +459,7 @@ async def test_restoring_invalid_entity_id(
 
 
 async def test_restore_entity_end_to_end(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test restoring an entity end-to-end."""
     component_setup = Mock(return_value=True)
@@ -491,7 +491,7 @@ async def test_restore_entity_end_to_end(
             self._state = (await self.async_get_last_state()).state
 
     async def async_setup_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         async_add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -545,7 +545,7 @@ async def test_restore_entity_end_to_end(
 
 
 async def test_dump_states_with_failing_extra_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test that a failing extra_restore_state_data skips only that entity."""
@@ -597,7 +597,7 @@ async def test_dump_states_with_failing_extra_data(
 
 
 async def test_entity_removal_with_failing_extra_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test that entity removal succeeds even if extra_restore_state_data raises."""
@@ -724,7 +724,7 @@ class _NoUniqueIdRestoreEntity(_RenameRestoreEntity):
 
 
 async def _async_add_rename_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entity: _RenameRestoreEntity,
 ) -> MockEntityPlatform:
@@ -738,7 +738,7 @@ async def _async_add_rename_entity(
 
 
 async def _async_add_no_registry_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entity: _RenameRestoreEntity,
 ) -> MockEntityPlatform:
@@ -749,7 +749,7 @@ async def _async_add_no_registry_entity(
 
 
 async def test_restore_after_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -788,7 +788,7 @@ async def test_restore_after_entity_id_change(
 
 
 async def test_entity_id_change_while_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -829,7 +829,7 @@ async def test_entity_id_change_while_not_loaded(
     ],
 )
 async def test_entity_id_change_and_disable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entity_class: type[_RenameRestoreEntity],
     expected_restored: tuple[str, str | None, dict[str, Any] | None],
@@ -874,7 +874,7 @@ async def test_entity_id_change_and_disable(
     ],
 )
 async def test_entity_id_change_ignores_leftover_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entity_class: type[_RenameRestoreEntity],
     expected_restored: tuple[str, str | None, dict[str, Any] | None],
@@ -896,7 +896,7 @@ async def test_entity_id_change_ignores_leftover_state(
 
 
 async def test_entity_id_change_and_back(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test changing the entity_id back restores the latest state."""
     entity = _RenameRestoreEntity()
@@ -928,7 +928,7 @@ async def test_entity_id_change_and_back(
 
 
 async def test_restore_after_registry_entry_recreated(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the state is restored when a removed registry entry is recreated."""
     entity = _RenameRestoreEntity()
@@ -955,7 +955,7 @@ async def test_restore_after_registry_entry_recreated(
 
 
 async def test_dump_during_entity_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -986,7 +986,7 @@ async def test_dump_during_entity_removal(
 
 
 async def test_dump_during_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1020,7 +1020,7 @@ async def test_dump_during_entity_id_change(
     ],
 )
 async def test_entity_id_change_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     disabled_by: er.RegistryEntryDisabler | None,
 ) -> None:
@@ -1055,7 +1055,7 @@ async def test_entity_id_change_not_loaded(
 
 
 async def test_entity_id_change_after_unload(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test changing the entity_id of an entity removed without a dump since."""
     entity = _RenameRestoreEntity()
@@ -1073,7 +1073,7 @@ async def test_entity_id_change_after_unload(
 
 
 async def test_restore_after_unique_id_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1100,7 +1100,7 @@ async def test_restore_after_unique_id_added(
 
 
 async def test_state_stored_with_registry_entry_not_restored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1172,13 +1172,13 @@ def _stored_state_item(**kwargs: Any) -> dict[str, Any]:
     ],
 )
 async def test_load_stored_state_without_entity_registry_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
     register: Callable[[er.EntityRegistry], None],
     entity_class: type[_RenameRestoreEntity],
     add_entity: Callable[
-        [UniversalAssistant, er.EntityRegistry, _RenameRestoreEntity],
+        [__HAC_KEEP__, er.EntityRegistry, _RenameRestoreEntity],
         Coroutine[Any, Any, MockEntityPlatform],
     ],
     expected_last_states: list[str],
@@ -1203,7 +1203,7 @@ async def test_load_stored_state_without_entity_registry_id(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_load_waits_for_entity_registry(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test stored states are indexed only once the entity registry is loaded."""
     hass_storage[STORAGE_KEY] = {
@@ -1226,7 +1226,7 @@ async def test_load_waits_for_entity_registry(
 
 
 async def test_dump_drops_stored_state_of_entity_with_failing_extra_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1246,7 +1246,7 @@ async def test_dump_drops_stored_state_of_entity_with_failing_extra_data(
 
 
 async def test_load_stored_state_without_registry_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1278,7 +1278,7 @@ async def test_load_stored_state_without_registry_entry(
     ],
 )
 async def test_async_get_stored_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entity_id: str,
     expected: str | None,
@@ -1316,7 +1316,7 @@ async def test_async_get_stored_state(
 
 
 async def test_async_get_stored_state_entity_id_changed(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the stored state follows a changed entity_id."""
     registry_entry = entity_registry.async_get_or_create(
@@ -1352,7 +1352,7 @@ async def test_async_get_stored_state_entity_id_changed(
 
 
 async def test_entity_id_change_in_place(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test restore state follows an entity whose entity_id changes in place."""
 

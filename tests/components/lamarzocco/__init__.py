@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.lamarzocco.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
 HOST_SELECTION = {
@@ -37,7 +37,7 @@ WAKE_UP_SLEEP_ENTRY_IDS = ["Os2OswX", "aXFz5bJ"]
 
 
 async def async_init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the La Marzocco integration for testing."""
     mock_config_entry.add_to_hass(hass)

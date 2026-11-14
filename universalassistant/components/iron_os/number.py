@@ -20,7 +20,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.unit_conversion import TemperatureConverter
 
@@ -366,7 +366,7 @@ PINECIL_SETPOINT_NUMBER_DESCRIPTION = IronOSNumberEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IronOSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

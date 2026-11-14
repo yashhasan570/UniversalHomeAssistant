@@ -5195,7 +5195,7 @@
 # name: test_platform_setup_and_discovery[select.raspy4_universal_assistant_indicator_light_mode-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - Universal Universal Home Assistant Indicator light mode',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - __HA_KEEP__ Indicator light mode',
       <SelectEntityCapabilityAttribute.OPTIONS: 'options'>: list([
         'none',
         'relay',
@@ -5256,7 +5256,7 @@
 # name: test_platform_setup_and_discovery[select.raspy4_universal_assistant_power_on_behavior-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - Universal Universal Home Assistant Power-on behavior',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - __HA_KEEP__ Power-on behavior',
       <SelectEntityCapabilityAttribute.OPTIONS: 'options'>: list([
         'power_off',
         'power_on',

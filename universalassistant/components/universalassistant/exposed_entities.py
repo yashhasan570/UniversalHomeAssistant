@@ -13,8 +13,8 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
 )
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorDeviceClass
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback, split_entity_id
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback, split_entity_id
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity import get_device_class
 from universalassistant.helpers.storage import Store
@@ -110,7 +110,7 @@ class ExposedEntities:
     _assistants: dict[str, AssistantPreferences]
     entities: dict[str, ExposedEntity]
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize."""
         self._hass = hass
         self._listeners: dict[str, list[Callable[[], None]]] = {}
@@ -235,7 +235,7 @@ class ExposedEntities:
         elif exposed_entity := self.entities.get(entity_id):
             assistant_settings = exposed_entity.assistants
         else:
-            raise UniversalAssistantError("Unknown entity")
+            raise __HAC_KEEP__Error("Unknown entity")
 
         for assistant in KNOWN_ASSISTANTS:
             if options := assistant_settings.get(assistant):
@@ -342,7 +342,7 @@ class ExposedEntities:
 
         try:
             device_class = get_device_class(self._hass, entity_id)
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             # The entity no longer exists
             return False
         if (
@@ -428,7 +428,7 @@ class ExposedEntities:
     }
 )
 def ws_expose_entity(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Expose an entity to an assistant."""
     exposed_entities = hass.data[DATA_EXPOSED_ENTITIES]
@@ -457,7 +457,7 @@ def ws_expose_entity(
     }
 )
 def ws_list_exposed_entities(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """List entities which are exposed to assistants."""
     result: dict[str, Any] = {}
@@ -486,7 +486,7 @@ def ws_list_exposed_entities(
     }
 )
 def ws_expose_new_entities_get(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Check if new entities are exposed to an assistant."""
     exposed_entities = hass.data[DATA_EXPOSED_ENTITIES]
@@ -504,7 +504,7 @@ def ws_expose_new_entities_get(
     }
 )
 def ws_expose_new_entities_set(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Expose new entities to an assistant."""
     exposed_entities = hass.data[DATA_EXPOSED_ENTITIES]
@@ -514,7 +514,7 @@ def ws_expose_new_entities_set(
 
 @callback
 def async_listen_entity_updates(
-    hass: UniversalAssistant, assistant: str, listener: Callable[[], None]
+    hass: __HAC_KEEP__, assistant: str, listener: Callable[[], None]
 ) -> CALLBACK_TYPE:
     """Listen for updates to entity expose settings."""
     exposed_entities = hass.data[DATA_EXPOSED_ENTITIES]
@@ -523,7 +523,7 @@ def async_listen_entity_updates(
 
 @callback
 def async_get_assistant_settings(
-    hass: UniversalAssistant, assistant: str
+    hass: __HAC_KEEP__, assistant: str
 ) -> dict[str, Mapping[str, Any]]:
     """Get all entity expose settings for an assistant."""
     exposed_entities = hass.data[DATA_EXPOSED_ENTITIES]
@@ -532,7 +532,7 @@ def async_get_assistant_settings(
 
 @callback
 def async_get_entity_settings(
-    hass: UniversalAssistant, entity_id: str
+    hass: __HAC_KEEP__, entity_id: str
 ) -> dict[str, Mapping[str, Any]]:
     """Get assistant expose settings for an entity."""
     exposed_entities = hass.data[DATA_EXPOSED_ENTITIES]
@@ -541,7 +541,7 @@ def async_get_entity_settings(
 
 @callback
 def async_expose_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     assistant: str,
     entity_id: str,
     should_expose: bool,
@@ -553,7 +553,7 @@ def async_expose_entity(
 
 
 @callback
-def async_should_expose(hass: UniversalAssistant, assistant: str, entity_id: str) -> bool:
+def async_should_expose(hass: __HAC_KEEP__, assistant: str, entity_id: str) -> bool:
     """Return True if an entity should be exposed to an assistant."""
     exposed_entities = hass.data[DATA_EXPOSED_ENTITIES]
     return exposed_entities.async_should_expose(assistant, entity_id)
@@ -561,7 +561,7 @@ def async_should_expose(hass: UniversalAssistant, assistant: str, entity_id: str
 
 @callback
 def async_set_assistant_option(
-    hass: UniversalAssistant, assistant: str, entity_id: str, option: str, value: Any
+    hass: __HAC_KEEP__, assistant: str, entity_id: str, option: str, value: Any
 ) -> None:
     """Set an option for an assistant.
 

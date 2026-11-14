@@ -17,7 +17,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -130,7 +130,7 @@ def mock_dummy_device_from_host_color():
 
 
 async def test_loading_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     dummy_device_from_host_light_fan,
     dummy_get_components_from_model_light,
@@ -154,7 +154,7 @@ async def test_loading_light(
 
 
 async def test_on_off_light_state(
-    hass: UniversalAssistant, dummy_device_from_host_pb
+    hass: __HAC_KEEP__, dummy_device_from_host_pb
 ) -> None:
     """Test the change of state of the light switches."""
     await setup_integration(hass)
@@ -187,7 +187,7 @@ async def test_on_off_light_state(
 
 
 async def test_dimmer_light_state(
-    hass: UniversalAssistant, dummy_device_from_host_dimmer
+    hass: __HAC_KEEP__, dummy_device_from_host_dimmer
 ) -> None:
     """Test the change of state of the light switches."""
     await setup_integration(hass)
@@ -257,7 +257,7 @@ async def test_dimmer_light_state(
 
 
 async def test_color_light_state(
-    hass: UniversalAssistant, dummy_device_from_host_color
+    hass: __HAC_KEEP__, dummy_device_from_host_color
 ) -> None:
     """Test the change of state of the light switches."""
     await setup_integration(hass)

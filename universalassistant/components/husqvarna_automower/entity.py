@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any, Concatenate, overload, override
 from aioautomower.exceptions import ApiError
 from aioautomower.model import MowerActivities, MowerAttributes, MowerStates, WorkArea
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import ChildDeviceInfo, DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -72,7 +72,7 @@ def handle_sending_exception[_Entity: AutomowerBaseEntity, **_P](
             try:
                 await func(self, *args, **kwargs)
             except ApiError as exception:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="command_send_failed",
                     translation_placeholders={"exception": str(exception)},

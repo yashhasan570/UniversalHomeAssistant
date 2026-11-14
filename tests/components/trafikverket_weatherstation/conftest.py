@@ -10,16 +10,16 @@ from pytrafikverket import WeatherStationInfoModel
 
 from universalassistant.components.trafikverket_weatherstation.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import ENTRY_CONFIG
 
 
 @pytest.fixture
 async def load_int(
-    hass: UniversalAssistant, mock_response: WeatherStationInfoModel
+    hass: __HAC_KEEP__, mock_response: WeatherStationInfoModel
 ) -> MockConfigEntry:
-    """Set up the Trafikverket Weatherstation integration in Universal Universal Home Assistant."""
+    """Set up the Trafikverket Weatherstation integration in __HA_KEEP__."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         source=SOURCE_USER,
@@ -47,7 +47,7 @@ async def mock_weather_response(
 
 
 @pytest.fixture(name="get_data")
-async def get_data_from_library(hass: UniversalAssistant) -> WeatherStationInfoModel:
+async def get_data_from_library(hass: __HAC_KEEP__) -> WeatherStationInfoModel:
     """Retrieve data from Trafikverket Weatherstation library."""
     return WeatherStationInfoModel(
         station_name="Arlanda",

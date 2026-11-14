@@ -10,12 +10,12 @@ from universalassistant.const import (
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 
 from .conftest import create_rfx_test_entry
 
 
-async def test_default_config(hass: UniversalAssistant, rfxtrx) -> None:
+async def test_default_config(hass: __HAC_KEEP__, rfxtrx) -> None:
     """Test with 0 sensor."""
     mock_entry = create_rfx_test_entry(devices={})
     mock_entry.add_to_hass(hass)
@@ -26,7 +26,7 @@ async def test_default_config(hass: UniversalAssistant, rfxtrx) -> None:
     assert len(hass.states.async_all()) == 0
 
 
-async def test_one_sensor(hass: UniversalAssistant, rfxtrx) -> None:
+async def test_one_sensor(hass: __HAC_KEEP__, rfxtrx) -> None:
     """Test with 1 sensor."""
     mock_entry = create_rfx_test_entry(devices={"0a52080705020095220269": {}})
     mock_entry.add_to_hass(hass)
@@ -48,7 +48,7 @@ async def test_one_sensor(hass: UniversalAssistant, rfxtrx) -> None:
     ("state", "event"),
     [("18.4", "0a520801070100b81b0279"), ("17.9", "0a52085e070100b31b0279")],
 )
-async def test_state_restore(hass: UniversalAssistant, rfxtrx, state, event) -> None:
+async def test_state_restore(hass: __HAC_KEEP__, rfxtrx, state, event) -> None:
     """State restoration."""
 
     entity_id = "sensor.wt260_wt260h_wt440h_wt450_wt450h_07_01_temperature"
@@ -64,7 +64,7 @@ async def test_state_restore(hass: UniversalAssistant, rfxtrx, state, event) -> 
     assert hass.states.get(entity_id).state == state
 
 
-async def test_one_sensor_no_datatype(hass: UniversalAssistant, rfxtrx) -> None:
+async def test_one_sensor_no_datatype(hass: __HAC_KEEP__, rfxtrx) -> None:
     """Test with 1 sensor."""
     mock_entry = create_rfx_test_entry(devices={"0a52080705020095220269": {}})
     mock_entry.add_to_hass(hass)
@@ -109,7 +109,7 @@ async def test_one_sensor_no_datatype(hass: UniversalAssistant, rfxtrx) -> None:
     assert state.attributes.get(ATTR_UNIT_OF_MEASUREMENT) == PERCENTAGE
 
 
-async def test_several_sensors(hass: UniversalAssistant, rfxtrx) -> None:
+async def test_several_sensors(hass: __HAC_KEEP__, rfxtrx) -> None:
     """Test with 3 sensors."""
     mock_entry = create_rfx_test_entry(
         devices={
@@ -151,7 +151,7 @@ async def test_several_sensors(hass: UniversalAssistant, rfxtrx) -> None:
     assert state.attributes.get(ATTR_UNIT_OF_MEASUREMENT) == PERCENTAGE
 
 
-async def test_discover_sensor(hass: UniversalAssistant, rfxtrx_automatic) -> None:
+async def test_discover_sensor(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
     """Test with discovery of sensor."""
     rfxtrx = rfxtrx_automatic
 
@@ -254,7 +254,7 @@ async def test_discover_sensor(hass: UniversalAssistant, rfxtrx_automatic) -> No
     assert len(hass.states.async_all()) == 10
 
 
-async def test_update_of_sensors(hass: UniversalAssistant, rfxtrx) -> None:
+async def test_update_of_sensors(hass: __HAC_KEEP__, rfxtrx) -> None:
     """Test with 3 sensors."""
     mock_entry = create_rfx_test_entry(
         devices={
@@ -296,7 +296,7 @@ async def test_update_of_sensors(hass: UniversalAssistant, rfxtrx) -> None:
     assert state.state == "15"
 
 
-async def test_rssi_sensor(hass: UniversalAssistant, rfxtrx) -> None:
+async def test_rssi_sensor(hass: __HAC_KEEP__, rfxtrx) -> None:
     """Test with 1 sensor."""
     mock_entry = create_rfx_test_entry(
         devices={

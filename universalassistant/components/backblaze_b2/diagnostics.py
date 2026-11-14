@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import BackblazeConfigEntry
 from .const import CONF_APPLICATION_KEY, CONF_KEY_ID
@@ -13,7 +13,7 @@ TO_REDACT_ACCOUNT_DATA_ALLOWED = {"bucketId", "bucketName", "namePrefix"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: BackblazeConfigEntry
+    hass: __HAC_KEEP__, entry: BackblazeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     bucket = entry.runtime_data

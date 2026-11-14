@@ -20,8 +20,8 @@ from uiprotect.data.public_devices import (
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import PERCENTAGE, EntityCategory, Platform, UnitOfTime
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -69,7 +69,7 @@ def _get_chime_duration(obj: Camera) -> int:
 async def _set_chime_volume(obj: Chime, value: float) -> None:
     """Set the ring volume of every paired camera on the public chime."""
     if (public := obj.api.public_bootstrap.chimes.get(obj.id)) is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_not_available",
             translation_placeholders={"device_name": obj.display_name},
@@ -260,7 +260,7 @@ def _async_ring_volume_device(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UFPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -428,7 +428,7 @@ class ChimeRingVolumeNumber(
         except ChimeRingtoneNotSetError as err:
             # The library checks every paired camera, so name the one it reports.
             camera = self.data.api.public_bootstrap.cameras.get(err.camera_id)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="chime_ringtone_not_set",
                 translation_placeholders={

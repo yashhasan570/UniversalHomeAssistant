@@ -13,7 +13,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 ENTITY_ID = "switch.camera_1_camera_motion_detection"
 
@@ -26,7 +26,7 @@ ENTITY_ID = "switch.camera_1_camera_motion_detection"
     ],
 )
 async def test_motion_state_updates_when_refresh_is_skipped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,

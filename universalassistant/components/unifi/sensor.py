@@ -49,7 +49,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import Event as core_Event, UniversalAssistant, callback
+from universalassistant.core import Event as core_Event, __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -355,7 +355,7 @@ def async_firewall_policy_schedule_status_value_fn(
 ) -> FirewallPolicyScheduleStatus | None:
     """Calculate whether a firewall policy currently applies.
 
-    The schedule follows the controller's clock, not Universal Universal Home Assistant's.
+    The schedule follows the controller's clock, not __HA_KEEP__'s.
     """
     if not policy.enabled:
         return FirewallPolicyScheduleStatus.DISABLED
@@ -1021,7 +1021,7 @@ def _async_should_add_sensor(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: UnifiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

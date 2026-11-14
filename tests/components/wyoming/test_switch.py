@@ -3,13 +3,13 @@
 from universalassistant.components.wyoming.devices import SatelliteDevice
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import reload_satellite
 
 
 async def test_muted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     satellite_config_entry: ConfigEntry,
     satellite_device: SatelliteDevice,
 ) -> None:

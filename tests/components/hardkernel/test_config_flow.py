@@ -5,11 +5,11 @@ from unittest.mock import patch
 from pytest_universalassistant.common import MockConfigEntry, MockModule, mock_integration
 
 from universalassistant.components.hardkernel.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_config_flow(hass: UniversalAssistant) -> None:
+async def test_config_flow(hass: __HAC_KEEP__) -> None:
     """Test the config flow."""
     mock_integration(hass, MockModule("hassio"))
 
@@ -33,7 +33,7 @@ async def test_config_flow(hass: UniversalAssistant) -> None:
     assert config_entry.title == "Hardkernel"
 
 
-async def test_config_flow_single_entry(hass: UniversalAssistant) -> None:
+async def test_config_flow_single_entry(hass: __HAC_KEEP__) -> None:
     """Test only a single entry is allowed."""
     mock_integration(hass, MockModule("hassio"))
 

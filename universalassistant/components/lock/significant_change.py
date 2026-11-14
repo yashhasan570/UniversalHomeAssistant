@@ -2,12 +2,12 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 
 @callback
 def async_check_significant_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     old_state: str,
     old_attrs: dict,
     new_state: str,

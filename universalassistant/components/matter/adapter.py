@@ -1,4 +1,4 @@
-"""Matter to Universal Universal Home Assistant adapter."""
+"""Matter to __HA_KEEP__ adapter."""
 
 from typing import TYPE_CHECKING, cast
 
@@ -7,7 +7,7 @@ from matter_server.client.models.device_types import BridgedNode
 from matter_server.common.models import EventType, ServerInfoMessage
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import Undefined
@@ -39,11 +39,11 @@ def get_clean_name(name: str | None) -> str | None:
 
 
 class MatterAdapter:
-    """Connect Matter into Universal Universal Home Assistant."""
+    """Connect Matter into __HA_KEEP__."""
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         matter_client: MatterClient,
         config_entry: MatterConfigEntry,
     ) -> None:

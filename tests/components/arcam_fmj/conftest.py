@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.arcam_fmj.const import DEFAULT_NAME, DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.setup import async_setup_component
 
 MOCK_HOST = "127.0.0.1"
@@ -118,7 +118,7 @@ def state_2_fixture(client: Mock) -> State:
 
 
 @pytest.fixture(name="mock_config_entry")
-def mock_config_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Get a mock config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -132,7 +132,7 @@ def mock_config_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture(name="player_setup")
 async def player_setup_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     state_1: State,
     state_2: State,

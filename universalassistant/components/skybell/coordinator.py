@@ -6,7 +6,7 @@ from typing import override
 from aioskybell import SkybellDevice, SkybellException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import LOGGER
@@ -21,7 +21,7 @@ class SkybellDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SkybellConfigEntry,
         device: SkybellDevice,
     ) -> None:

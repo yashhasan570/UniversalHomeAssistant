@@ -26,7 +26,7 @@ from universalassistant.components.recorder.statistics import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import UnitOfVolume
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -51,7 +51,7 @@ class AnglianWaterUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         api: AnglianWater,
         config_entry: AnglianWaterConfigEntry,
     ) -> None:
@@ -100,7 +100,7 @@ class AnglianWaterUpdateCoordinator(DataUpdateCoordinator[None]):
             )
 
     async def _insert_statistics(self) -> None:
-        """Insert statistics for water meters into Universal Universal Home Assistant."""
+        """Insert statistics for water meters into __HA_KEEP__."""
         for meter in self.api.meters.values():
             id_prefix = (
                 f"{self.config_entry.data[CONF_ACCOUNT_NUMBER]}_{meter.serial_number}"

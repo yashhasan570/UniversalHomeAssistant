@@ -16,8 +16,8 @@ from universalassistant.components.bluetooth import (
 from universalassistant.components.bluetooth.active_update_processor import (
     ActiveBluetoothProcessorCoordinator,
 )
-from universalassistant.components.bluetooth.manager import UniversalAssistantBluetoothManager
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.components.bluetooth.manager import __HAC_KEEP__BluetoothManager
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 from universalassistant.setup import async_setup_component
@@ -48,7 +48,7 @@ GENERIC_BLUETOOTH_SERVICE_INFO_2 = BluetoothServiceInfo(
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_basic_usage(hass: UniversalAssistant) -> None:
+async def test_basic_usage(hass: __HAC_KEEP__) -> None:
     """Test basic usage of the ActiveBluetoothProcessorCoordinator."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -94,7 +94,7 @@ async def test_basic_usage(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_poll_can_be_skipped(hass: UniversalAssistant) -> None:
+async def test_poll_can_be_skipped(hass: __HAC_KEEP__) -> None:
     """Test need_poll callback works and can skip a poll if its not needed."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -151,7 +151,7 @@ async def test_poll_can_be_skipped(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
 async def test_bleak_error_and_recover(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test bleak error handling and recovery."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -213,7 +213,7 @@ async def test_bleak_error_and_recover(
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_poll_failure_and_recover(hass: UniversalAssistant) -> None:
+async def test_poll_failure_and_recover(hass: __HAC_KEEP__) -> None:
     """Test error handling and recovery."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -269,7 +269,7 @@ async def test_poll_failure_and_recover(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_second_poll_needed(hass: UniversalAssistant) -> None:
+async def test_second_poll_needed(hass: __HAC_KEEP__) -> None:
     """If a poll is queued, by the time it starts it may no longer be needed."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -317,7 +317,7 @@ async def test_second_poll_needed(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_rate_limit(hass: UniversalAssistant) -> None:
+async def test_rate_limit(hass: __HAC_KEEP__) -> None:
     """Test error handling and recovery."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -366,7 +366,7 @@ async def test_rate_limit(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_no_polling_after_stop_event(hass: UniversalAssistant) -> None:
+async def test_no_polling_after_stop_event(hass: __HAC_KEEP__) -> None:
     """Test we do not poll after the stop event."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     needs_poll_calls = 0
@@ -425,7 +425,7 @@ async def test_no_polling_after_stop_event(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_bleak_scanner_start", "mock_bluetooth_adapters")
-async def test_scan_interval_and_duration_forwarded(hass: UniversalAssistant) -> None:
+async def test_scan_interval_and_duration_forwarded(hass: __HAC_KEEP__) -> None:
     """Test scan_interval and scan_duration reach the bluetooth manager."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -452,7 +452,7 @@ async def test_scan_interval_and_duration_forwarded(hass: UniversalAssistant) ->
 
     cancel_scan = MagicMock()
     with patch.object(
-        UniversalAssistantBluetoothManager,
+        __HAC_KEEP__BluetoothManager,
         "async_register_active_scan",
         return_value=cancel_scan,
     ) as mock_register:

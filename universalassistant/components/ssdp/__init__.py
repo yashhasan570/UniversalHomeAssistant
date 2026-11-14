@@ -4,7 +4,7 @@ from collections.abc import Callable, Coroutine
 from functools import partial
 from typing import Any
 
-from universalassistant.core import HassJob, UniversalAssistant
+from universalassistant.core import HassJob, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo as _SsdpServiceInfo
 from universalassistant.helpers.typing import ConfigType
@@ -27,7 +27,7 @@ ATTR_SSDP_SERVER = "ssdp_server"
 ATTR_SSDP_BOOTID = "BOOTID.UPNP.ORG"
 ATTR_SSDP_NEXTBOOTID = "NEXTBOOTID.UPNP.ORG"
 
-# Attributes for accessing info added by Universal Universal Home Assistant
+# Attributes for accessing info added by __HA_KEEP__
 ATTR_HA_MATCHING_DOMAINS = "x_universalassistant_matching_domains"
 
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
@@ -50,7 +50,7 @@ def _format_err(name: str, *args: Any) -> str:
 
 
 async def async_register_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callback: Callable[
         [_SsdpServiceInfo, SsdpChange], Coroutine[Any, Any, None] | None
     ],
@@ -72,7 +72,7 @@ async def async_register_callback(
 
 
 async def async_get_discovery_info_by_udn_st(
-    hass: UniversalAssistant, udn: str, st: str
+    hass: __HAC_KEEP__, udn: str, st: str
 ) -> _SsdpServiceInfo | None:
     """Fetch the discovery info cache."""
     scanner: Scanner = hass.data[DOMAIN][SSDP_SCANNER]
@@ -80,7 +80,7 @@ async def async_get_discovery_info_by_udn_st(
 
 
 async def async_get_discovery_info_by_st(
-    hass: UniversalAssistant, st: str
+    hass: __HAC_KEEP__, st: str
 ) -> list[_SsdpServiceInfo]:
     """Fetch all the entries matching the st."""
     scanner: Scanner = hass.data[DOMAIN][SSDP_SCANNER]
@@ -88,14 +88,14 @@ async def async_get_discovery_info_by_st(
 
 
 async def async_get_discovery_info_by_udn(
-    hass: UniversalAssistant, udn: str
+    hass: __HAC_KEEP__, udn: str
 ) -> list[_SsdpServiceInfo]:
     """Fetch all the entries matching the udn."""
     scanner: Scanner = hass.data[DOMAIN][SSDP_SCANNER]
     return await scanner.async_get_discovery_info_by_udn(udn)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the SSDP integration."""
 
     integration_matchers = IntegrationMatchers()

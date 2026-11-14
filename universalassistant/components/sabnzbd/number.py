@@ -12,8 +12,8 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -45,7 +45,7 @@ NUMBER_DESCRIPTIONS: tuple[SabnzbdNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SabnzbdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -74,7 +74,7 @@ class SabnzbdNumber(SabnzbdEntity, NumberEntity):
         try:
             await self.entity_description.set_fn(self.coordinator, value)
         except SabnzbdApiException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="service_call_exception",
             ) from e

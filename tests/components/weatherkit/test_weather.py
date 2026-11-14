@@ -11,12 +11,12 @@ from universalassistant.components.weather import (
 )
 from universalassistant.components.weatherkit.const import ATTRIBUTION
 from universalassistant.const import ATTR_ATTRIBUTION, ATTR_SUPPORTED_FEATURES
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import init_integration, mock_weather_response
 
 
-async def test_current_weather(hass: UniversalAssistant) -> None:
+async def test_current_weather(hass: __HAC_KEEP__) -> None:
     """Test states of the current weather."""
     with mock_weather_response():
         await init_integration(hass)
@@ -38,7 +38,7 @@ async def test_current_weather(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_ATTRIBUTION] == ATTRIBUTION
 
 
-async def test_current_weather_nighttime(hass: UniversalAssistant) -> None:
+async def test_current_weather_nighttime(hass: __HAC_KEEP__) -> None:
     """Test that the condition is clear-night when it's sunny and night time."""
     with mock_weather_response(is_night_time=True):
         await init_integration(hass)
@@ -48,7 +48,7 @@ async def test_current_weather_nighttime(hass: UniversalAssistant) -> None:
     assert state.state == "clear-night"
 
 
-async def test_daily_forecast_missing(hass: UniversalAssistant) -> None:
+async def test_daily_forecast_missing(hass: __HAC_KEEP__) -> None:
     """Test that daily forecast is not supported when WeatherKit doesn't support it."""
     with mock_weather_response(has_daily_forecast=False):
         await init_integration(hass)
@@ -60,7 +60,7 @@ async def test_daily_forecast_missing(hass: UniversalAssistant) -> None:
     ) == 0
 
 
-async def test_hourly_forecast_missing(hass: UniversalAssistant) -> None:
+async def test_hourly_forecast_missing(hass: __HAC_KEEP__) -> None:
     """Test that hourly forecast is not supported when WeatherKit doesn't support it."""
     with mock_weather_response(has_hourly_forecast=False):
         await init_integration(hass)
@@ -77,7 +77,7 @@ async def test_hourly_forecast_missing(hass: UniversalAssistant) -> None:
     [WeatherService.GET_FORECASTS],
 )
 async def test_hourly_forecast(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, service: str
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, service: str
 ) -> None:
     """Test states of the hourly forecast."""
     with mock_weather_response():
@@ -101,7 +101,7 @@ async def test_hourly_forecast(
     [WeatherService.GET_FORECASTS],
 )
 async def test_daily_forecast(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, service: str
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, service: str
 ) -> None:
     """Test states of the daily forecast."""
     with mock_weather_response():

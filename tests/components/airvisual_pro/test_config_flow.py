@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.airvisual_pro.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
@@ -29,7 +29,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
     ],
 )
 async def test_create_entry(
-    hass: UniversalAssistant, config, connect_errors, connect_mock, pro, setup_airvisual_pro
+    hass: __HAC_KEEP__, config, connect_errors, connect_mock, pro, setup_airvisual_pro
 ) -> None:
     """Test creating an entry."""
     result = await hass.config_entries.flow.async_init(
@@ -58,7 +58,7 @@ async def test_create_entry(
 
 
 async def test_duplicate_error(
-    hass: UniversalAssistant, config, config_entry, setup_airvisual_pro
+    hass: __HAC_KEEP__, config, config_entry, setup_airvisual_pro
 ) -> None:
     """Test that errors are shown when duplicates are added."""
     result = await hass.config_entries.flow.async_init(
@@ -74,7 +74,7 @@ async def test_duplicate_error(
     assert result["reason"] == "already_configured"
 
 
-async def test_step_import(hass: UniversalAssistant, config, setup_airvisual_pro) -> None:
+async def test_step_import(hass: __HAC_KEEP__, config, setup_airvisual_pro) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_IMPORT}, data=config
@@ -98,7 +98,7 @@ async def test_step_import(hass: UniversalAssistant, config, setup_airvisual_pro
     ],
 )
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config,
     config_entry: MockConfigEntry,
     connect_errors,

@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import EntityCategory, UnitOfSpeed
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HomeeConfigEntry
@@ -139,7 +139,7 @@ NUMBER_DESCRIPTIONS = {
 
 
 async def add_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -154,7 +154,7 @@ async def add_number_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -172,7 +172,7 @@ class HomeeNumber(HomeeEntity, NumberEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         attribute: HomeeAttribute,
         entry: HomeeConfigEntry,
         description: HomeeNumberEntityDescription,

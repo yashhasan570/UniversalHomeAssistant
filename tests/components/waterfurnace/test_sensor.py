@@ -15,7 +15,7 @@ from waterfurnace.waterfurnace import WFException
 
 from universalassistant.components.waterfurnace.const import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -27,7 +27,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_sensor(
     ],
 )
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     freezer: FrozenDateTimeFactory,
     side_effect: Exception,
@@ -99,7 +99,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["device_data_dhw.json"])
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
-async def test_hardware_specific_sensors(hass: UniversalAssistant) -> None:
+async def test_hardware_specific_sensors(hass: __HAC_KEEP__) -> None:
     """Test sensors only some hardware reports are created when reported."""
     assert hass.states.get("sensor.test_abc_type_load_tank_temperature")
     assert hass.states.get("sensor.test_abc_type_hot_water_temperature")

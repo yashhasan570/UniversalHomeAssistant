@@ -21,7 +21,7 @@ from tenacity import RetryError
 
 from universalassistant.config_entries import ConfigEntry, ConfigSubentry
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -91,13 +91,13 @@ COORDINATORS: list[tuple[str, type[NextDnsUpdateCoordinator]]] = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up NextDNS."""
     await async_migrate_integration(hass)
     return True
 
 
-async def async_migrate_integration(hass: UniversalAssistant) -> None:
+async def async_migrate_integration(hass: __HAC_KEEP__) -> None:
     """Migrate integration entry structure."""
     # Make sure we get enabled config entries first
     entries = sorted(
@@ -190,7 +190,7 @@ async def async_migrate_integration(hass: UniversalAssistant) -> None:
             )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NextDnsConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NextDnsConfigEntry) -> None:
     """Set up NextDNS as config entry."""
     api_key = entry.data[CONF_API_KEY]
 
@@ -242,12 +242,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NextDnsConfigEntry)
 
 
 async def _async_update_listener(
-    hass: UniversalAssistant, entry: NextDnsConfigEntry
+    hass: __HAC_KEEP__, entry: NextDnsConfigEntry
 ) -> None:
     """Reload the config entry when subentries change."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NextDnsConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NextDnsConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

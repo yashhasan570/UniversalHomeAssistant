@@ -20,7 +20,7 @@ from homematicip.exceptions.connection_exceptions import (
 
 import universalassistant
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -43,7 +43,7 @@ type HomematicIPConfigEntry = ConfigEntry[HomematicipHAP]
 
 
 async def build_context_async(
-    hass: UniversalAssistant, hapid: str | None, authtoken: str | None
+    hass: __HAC_KEEP__, hapid: str | None, authtoken: str | None
 ):
     """Create a HomematicIP context object."""
     ssl_ctx = universalassistant.util.ssl.get_default_context()
@@ -62,7 +62,7 @@ class HomematicipAuth:
 
     auth: Auth
 
-    def __init__(self, hass: UniversalAssistant, config: dict[str, str]) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: dict[str, str]) -> None:
         """Initialize HomematicIP Cloud client registration."""
         self.hass = hass
         self.config = config
@@ -93,7 +93,7 @@ class HomematicipAuth:
             return False
         return authtoken
 
-    async def get_auth(self, hass: UniversalAssistant, hapid, pin):
+    async def get_auth(self, hass: __HAC_KEEP__, hapid, pin):
         """Create a HomematicIP access point object."""
         context = await build_context_async(hass, hapid, None)
         connection = RestConnection(
@@ -122,7 +122,7 @@ class HomematicipHAP:
     home: AsyncHome
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: HomematicIPConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: HomematicIPConfigEntry
     ) -> None:
         """Initialize HomematicIP Cloud connection."""
         self.hass = hass
@@ -317,7 +317,7 @@ class HomematicipHAP:
         )
 
     async def get_state(self) -> None:
-        """Update HMIP state and tell Universal Universal Home Assistant."""
+        """Update HMIP state and tell __HA_KEEP__."""
         await self.home.get_current_state_async()
         self._post_state_refresh()
 
@@ -354,7 +354,7 @@ class HomematicipHAP:
             )
 
     def set_all_to_unavailable(self) -> None:
-        """Set all devices to unavailable and tell Universal Universal Home Assistant."""
+        """Set all devices to unavailable and tell __HA_KEEP__."""
         for device in self.home.devices:
             device.unreach = True
         self.update_all()
@@ -428,7 +428,7 @@ class HomematicipHAP:
 
     async def get_hap(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         hapid: str | None,
         authtoken: str | None,
         name: str | None,

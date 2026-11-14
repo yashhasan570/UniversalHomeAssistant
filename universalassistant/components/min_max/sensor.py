@@ -23,8 +23,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityStateAttribute,
 )
-from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity import get_device_class
 from universalassistant.helpers.entity_platform import (
@@ -80,7 +80,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -106,7 +106,7 @@ async def async_setup_entry(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -369,7 +369,7 @@ class MinMaxSensor(SensorEntity):
                     device_classes.append(SensorDeviceClass(device_class))
                 else:
                     device_classes.append(None)
-            except UniversalAssistantError, ValueError:
+            except __HAC_KEEP__Error, ValueError:
                 # If we can't get device class for any entity, don't set it
                 device_classes.append(None)
 

@@ -12,7 +12,7 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ElgatoConfigEntry, ElgatoDataUpdateCoordinator
@@ -46,7 +46,7 @@ BUTTONS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ElgatoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

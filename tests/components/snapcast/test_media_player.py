@@ -24,7 +24,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -32,7 +32,7 @@ from . import setup_integration
 
 
 async def test_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -59,7 +59,7 @@ async def test_state(
     ],
 )
 async def test_join(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_group_1: AsyncMock,
@@ -86,7 +86,7 @@ async def test_join(
 
 
 async def test_unjoin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_client_1: AsyncMock,
@@ -112,7 +112,7 @@ async def test_unjoin(
 
 
 async def test_join_non_snapcast_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
@@ -152,7 +152,7 @@ async def test_join_non_snapcast_client(
 
 
 async def test_join_different_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
@@ -194,7 +194,7 @@ async def test_join_different_server(
 
 
 async def test_join_client_key_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
@@ -226,7 +226,7 @@ async def test_join_client_key_error(
 
 
 async def test_join_client_identifier_underscore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
@@ -256,7 +256,7 @@ async def test_join_client_identifier_underscore(
 
 
 async def test_stream_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_group_2: AsyncMock,
@@ -274,7 +274,7 @@ async def test_stream_not_found(
 
 
 async def test_state_stream_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_group_1: AsyncMock,
@@ -294,7 +294,7 @@ async def test_state_stream_not_found(
 
 
 async def test_attributes_group_is_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_client_1: AsyncMock,
@@ -321,7 +321,7 @@ async def test_attributes_group_is_none(
 
 
 async def test_select_source_group_is_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_client_1: AsyncMock,
@@ -350,7 +350,7 @@ async def test_select_source_group_is_none(
 
 
 async def test_join_group_is_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_group_1: AsyncMock,
@@ -379,7 +379,7 @@ async def test_join_group_is_none(
 
 
 async def test_unjoin_group_is_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_client_1: AsyncMock,
@@ -418,7 +418,7 @@ async def test_unjoin_group_is_none(
     ],
 )
 async def test_stream_transport_controls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_stream_1: AsyncMock,
@@ -457,7 +457,7 @@ async def test_stream_transport_controls(
 
 
 async def test_stream_transport_supported_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_stream_1: AsyncMock,
@@ -490,7 +490,7 @@ async def test_stream_transport_supported_features(
 
 
 async def test_stream_transport_not_supported_without_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_stream_1: AsyncMock,
@@ -521,7 +521,7 @@ async def test_stream_transport_not_supported_without_control(
 
 
 async def test_stream_playback_status_paused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_server: AsyncMock,
     mock_stream_1: AsyncMock,

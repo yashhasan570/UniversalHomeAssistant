@@ -2,7 +2,7 @@
 
 from universalassistant.components.camera import CameraEntityDescription
 from universalassistant.components.mjpeg import MjpegCamera
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import Dremel3DPrinterDataUpdateCoordinator, DremelConfigEntry
@@ -15,7 +15,7 @@ CAMERA_TYPE = CameraEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DremelConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

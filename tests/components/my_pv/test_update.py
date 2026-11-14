@@ -30,8 +30,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -48,7 +48,7 @@ def mock_my_pv_client(mock_my_pv_client: AsyncMock) -> AsyncMock:
 
 
 async def test_update_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -66,7 +66,7 @@ async def test_update_not_available(
 
 @pytest.mark.usefixtures("mock_my_pv_client")
 async def test_update_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -79,7 +79,7 @@ async def test_update_available(
 
 
 async def test_update_unavailable_not_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_update_unavailable_not_connected(
 
 
 async def test_update_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -151,7 +151,7 @@ async def test_update_install(
 
 
 async def test_update_in_progress_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_update_in_progress_on_setup(
     assert state.attributes.get(ATTR_UPDATE_PERCENTAGE) == 40
 
     # A second install is rejected while the update is in progress
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -177,15 +177,15 @@ async def test_update_in_progress_on_setup(
 
 
 async def test_update_install_firmware_returns_false(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
-    """Test for UniversalAssistantError when update_firmware returns False."""
+    """Test for __HAC_KEEP__Error when update_firmware returns False."""
     await setup_integration(hass, mock_config_entry)
 
     mock_my_pv_client.update_firmware.return_value = False
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -208,19 +208,19 @@ async def test_update_install_firmware_returns_false(
 @pytest.mark.parametrize(
     ("error", "expected_ha_error"),
     [
-        (MyPVConnectionError(), UniversalAssistantError),
+        (MyPVConnectionError(), __HAC_KEEP__Error),
         (MyPVAuthenticationError(), ConfigEntryAuthFailed),
-        (MyPVTooManyRequestsError(), UniversalAssistantError),
+        (MyPVTooManyRequestsError(), __HAC_KEEP__Error),
     ],
 )
 async def test_update_install_firmware_raises_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     error: MyPVConnectionError | MyPVAuthenticationError,
-    expected_ha_error: type[UniversalAssistantError],
+    expected_ha_error: type[__HAC_KEEP__Error],
 ) -> None:
-    """Test for UniversalAssistantError when update_firmware raises an error."""
+    """Test for __HAC_KEEP__Error when update_firmware raises an error."""
     await setup_integration(hass, mock_config_entry)
 
     mock_my_pv_client.update_firmware.side_effect = error

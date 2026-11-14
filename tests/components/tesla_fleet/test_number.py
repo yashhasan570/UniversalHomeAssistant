@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, setup_platform
@@ -22,7 +22,7 @@ from .const import COMMAND_OK, VEHICLE_DATA_ALT
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -34,7 +34,7 @@ async def test_number(
 
 
 async def test_number_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_number_offline(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_services(
-    hass: UniversalAssistant, mock_vehicle_data, normal_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_vehicle_data, normal_config_entry: MockConfigEntry
 ) -> None:
     """Tests that the number services work."""
     mock_vehicle_data.return_value = VEHICLE_DATA_ALT

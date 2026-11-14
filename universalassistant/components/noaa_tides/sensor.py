@@ -12,7 +12,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
 )
 from universalassistant.const import CONF_NAME, CONF_TIME_ZONE, CONF_UNIT_SYSTEM
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -50,7 +50,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

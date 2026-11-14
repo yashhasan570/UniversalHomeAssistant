@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -38,7 +38,7 @@ from universalassistant.core import UniversalAssistant
     ],
 )
 async def test_setup_entry_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
     expected_state: ConfigEntryState,

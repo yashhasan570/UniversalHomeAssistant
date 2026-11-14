@@ -4,7 +4,7 @@ from enum import StrEnum
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import service
 
 from .const import DATA_ZONE, DOMAIN
@@ -26,7 +26,7 @@ async def _async_reload_service(service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the zone services."""
     service.async_register_admin_service(
         hass,

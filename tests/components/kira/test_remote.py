@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 from pytest_universalassistant.common import MockEntityPlatform
 
 from universalassistant.components.kira import remote as kira
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 SERVICE_SEND_COMMAND = "send_command"
 
@@ -21,7 +21,7 @@ def add_entities(devices):
     DEVICES.extend(devices)
 
 
-def test_service_call(hass: UniversalAssistant) -> None:
+def test_service_call(hass: __HAC_KEEP__) -> None:
     """Test Kira's ability to send commands."""
     mock_kira = MagicMock()
     hass.data[kira.DOMAIN] = {kira.CONF_REMOTE: {}}

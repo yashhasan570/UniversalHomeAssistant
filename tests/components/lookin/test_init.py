@@ -8,7 +8,7 @@ from universalassistant.components.lookin import UDP_MANAGER
 from universalassistant.components.lookin.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import DEVICE_ID, DEVICE_NAME, IP_ADDRESS, MODULE
@@ -47,7 +47,7 @@ def _mocked_protocol(device: MagicMock, remote: MagicMock) -> MagicMock:
 
 
 async def test_controlled_device_links_to_lookin_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a controlled device links to the lookin device via via_device_id."""
     device = _mocked_device()
@@ -84,7 +84,7 @@ async def test_controlled_device_links_to_lookin_device(
     assert controlled_device.via_device_id == lookin_device.id
 
 
-async def test_udp_manager_outlives_the_config_entry(hass: UniversalAssistant) -> None:
+async def test_udp_manager_outlives_the_config_entry(hass: __HAC_KEEP__) -> None:
     """Test the shared UDP manager is reused rather than rebuilt per entry."""
     device = _mocked_device()
     remote = _mocked_remote()

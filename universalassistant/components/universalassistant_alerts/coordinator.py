@@ -1,4 +1,4 @@
-"""Coordinator for the Universal Universal Home Assistant alerts integration."""
+"""Coordinator for the __HA_KEEP__ alerts integration."""
 
 import dataclasses
 import logging
@@ -8,7 +8,7 @@ from awesomeversion import AwesomeVersion, AwesomeVersionStrategy
 
 from universalassistant.components.hassio import HassioNotReadyError, get_supervisor_info
 from universalassistant.const import __version__
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
@@ -36,7 +36,7 @@ class IntegrationAlert:
 class AlertUpdateCoordinator(DataUpdateCoordinator[dict[str, IntegrationAlert]]):
     """Data fetcher for HA Alerts."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the data updater."""
         super().__init__(
             hass,

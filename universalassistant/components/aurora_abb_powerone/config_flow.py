@@ -10,7 +10,7 @@ import probatio
 from universalassistant.components import usb
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_ADDRESS, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     CONF_FIRMWARE,
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def validate_and_connect(
-    hass: UniversalAssistant, data: Mapping[str, Any]
+    hass: __HAC_KEEP__, data: Mapping[str, Any]
 ) -> dict[str, str]:
     """Validate the user input allows us to connect.
 
@@ -57,7 +57,7 @@ def validate_and_connect(
 
 
 async def async_scan_comports(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> tuple[list[str] | None, str | None]:
     """Find and store available com ports for the GUI dropdown."""
     com_ports = await usb.async_scan_serial_ports(hass)

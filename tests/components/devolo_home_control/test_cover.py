@@ -19,8 +19,8 @@ from universalassistant.const import (
     SERVICE_SET_COVER_POSITION,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_integration
@@ -28,7 +28,7 @@ from .mocks import HomeControlMock, HomeControlMockCover
 
 
 async def test_cover(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup and state change of a cover device."""
     entry = configure_integration(hass)
@@ -87,7 +87,7 @@ async def test_cover(
             "devolo_home_control_api.properties.multi_level_switch_property.MultiLevelSwitchProperty.set",
             return_value=False,
         ),
-        pytest.raises(UniversalAssistantError) as error,
+        pytest.raises(__HAC_KEEP__Error) as error,
     ):
         await hass.services.async_call(
             COVER_DOMAIN,
@@ -105,7 +105,7 @@ async def test_cover(
     assert hass.states.get(f"{COVER_DOMAIN}.test_test").state == STATE_UNAVAILABLE
 
 
-async def test_remove_from_hass(hass: UniversalAssistant) -> None:
+async def test_remove_from_hass(hass: __HAC_KEEP__) -> None:
     """Test removing entity."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMockCover()

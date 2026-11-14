@@ -1,7 +1,7 @@
 """Config flow."""
 
 from universalassistant.config_entries import ConfigFlow
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 class MockConfigFlow(
@@ -10,6 +10,6 @@ class MockConfigFlow(
     """Mock config flow."""
 
 
-async def _async_has_devices(hass: UniversalAssistant) -> bool:
+async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
     """Return if there are devices that can be discovered."""
     return True

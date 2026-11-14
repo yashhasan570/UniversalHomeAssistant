@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.freebox import SCAN_INTERVAL
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_platform
@@ -24,7 +24,7 @@ from .const import (
 
 @pytest.mark.usefixtures("router")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -35,7 +35,7 @@ async def test_sensors(
 
 
 async def test_network_speed(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, router: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, router: Mock
 ) -> None:
     """Test missed call sensor."""
     await setup_platform(hass, SENSOR_DOMAIN)
@@ -58,7 +58,7 @@ async def test_network_speed(
 
 
 async def test_connection_down(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, router: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, router: Mock
 ) -> None:
     """Test IP sensors become unknown when the API stops returning them."""
     await setup_platform(hass, SENSOR_DOMAIN)
@@ -88,7 +88,7 @@ async def test_connection_down(
 
 
 async def test_call(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, router: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, router: Mock
 ) -> None:
     """Test missed call sensor."""
     await setup_platform(hass, SENSOR_DOMAIN)
@@ -107,7 +107,7 @@ async def test_call(
 
 
 async def test_disk(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, router: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, router: Mock
 ) -> None:
     """Test disk sensor."""
     await setup_platform(hass, SENSOR_DOMAIN)
@@ -138,7 +138,7 @@ async def test_disk(
 
 
 async def test_battery(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, router: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, router: Mock
 ) -> None:
     """Test battery sensor."""
     await setup_platform(hass, SENSOR_DOMAIN)

@@ -4,7 +4,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.search import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -16,7 +16,7 @@ from universalassistant.setup import async_setup_component
 
 @pytest.fixture(name="search_item_ids")
 async def search_item_ids_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

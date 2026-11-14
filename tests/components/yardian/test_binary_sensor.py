@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.yardian.const import DOMAIN
 from universalassistant.components.yardian.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -23,7 +23,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_all_entities(
 
 
 async def test_disabled_by_default_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -68,7 +68,7 @@ async def test_disabled_by_default_sensors(
 
 
 async def test_standby_sensor_edge_cases(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -112,7 +112,7 @@ async def test_standby_sensor_edge_cases(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_freeze_prevent_sensor_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

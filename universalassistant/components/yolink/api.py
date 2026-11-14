@@ -1,9 +1,9 @@
-"""API for yolink bound to Universal Universal Home Assistant OAuth."""
+"""API for yolink bound to __HA_KEEP__ OAuth."""
 
 from aiohttp import ClientSession
 from yolink.auth_mgr import YoLinkAuthMgr
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 
 
@@ -12,7 +12,7 @@ class ConfigEntryAuth(YoLinkAuthMgr):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         websession: ClientSession,
         oauth2Session: config_entry_oauth2_flow.OAuth2Session,
     ) -> None:

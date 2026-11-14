@@ -22,7 +22,7 @@
         "description": "Please enter your Kodi user name and password. These can be found in System/Settings/Network/Services."
       },
       "discovery_confirm": {
-        "description": "Do you want to add Kodi (`{name}`) to Universal Universal Home Assistant?",
+        "description": "Do you want to add Kodi (`{name}`) to __HA_KEEP__?",
         "title": "Discovered Kodi"
       },
       "reauth_confirm": {
@@ -101,7 +101,7 @@
       "name": "Add to playlist"
     },
     "call_method": {
-      "description": "Calls a Kodi JSONRPC API method with optional parameters. Results of the Kodi API call will be redirected in a Universal Universal Home Assistant event: `kodi_call_method_result`.",
+      "description": "Calls a Kodi JSONRPC API method with optional parameters. Results of the Kodi API call will be redirected in a __HA_KEEP__ event: `kodi_call_method_result`.",
       "fields": {
         "method": {
           "description": "Name of the Kodi JSONRPC API method to be called.",

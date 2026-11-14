@@ -18,7 +18,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import FixtureDevice, MockOverkizClient, SetupOverkizIntegration
@@ -98,7 +98,7 @@ def fixture_platforms() -> Generator[None]:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_button_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -111,7 +111,7 @@ async def test_button_entities_snapshot(
 
 
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_button_press(
     ],
 )
 async def test_button_press_with_args(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     device: FixtureDevice,
@@ -173,7 +173,7 @@ async def test_button_press_with_args(
 
 
 async def test_button_unavailability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -200,7 +200,7 @@ async def test_button_unavailability(
 
 
 async def test_no_button_without_supported_aliases_attribute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
     """Test that no goToAlias button is created when SupportedAliases attribute is missing."""
@@ -214,7 +214,7 @@ async def test_no_button_without_supported_aliases_attribute(
 
 
 async def test_one_alias_button_per_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -236,7 +236,7 @@ async def test_one_alias_button_per_type(
 
 
 async def test_button_alias_without_translation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

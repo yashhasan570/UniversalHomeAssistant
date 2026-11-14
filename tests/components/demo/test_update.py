@@ -24,7 +24,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.setup import async_setup_component
 
@@ -40,7 +40,7 @@ async def update_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_demo_update(hass: UniversalAssistant, update_only) -> None:
+async def setup_demo_update(hass: __HAC_KEEP__, update_only) -> None:
     """Initialize setup demo update entity."""
     assert await async_setup_component(
         hass, UPDATE_DOMAIN, {"update": {"platform": "demo"}}
@@ -48,7 +48,7 @@ async def setup_demo_update(hass: UniversalAssistant, update_only) -> None:
     await hass.async_block_till_done()
 
 
-def test_setup_params(hass: UniversalAssistant) -> None:
+def test_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the initial parameters."""
     state = hass.states.get("update.demo_update_no_install")
     assert state
@@ -129,7 +129,7 @@ def test_setup_params(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_update_with_progress(
-    hass: UniversalAssistant, entity_id: str, steps: int
+    hass: __HAC_KEEP__, entity_id: str, steps: int
 ) -> None:
     """Test update with progress."""
     state = hass.states.get(entity_id)
@@ -175,7 +175,7 @@ async def test_update_with_progress(
     ],
 )
 async def test_update_with_progress_raising(
-    hass: UniversalAssistant, entity_id: str, steps: int
+    hass: __HAC_KEEP__, entity_id: str, steps: int
 ) -> None:
     """Test update with progress failing to install."""
     state = hass.states.get(entity_id)

@@ -14,8 +14,8 @@ from serialx import SerialException
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_PROTOCOL
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import SerialPortSelector
 
 from . import DsmrConfigEntry
@@ -79,7 +79,7 @@ class DSMRConnection:
             return identifier
         return None
 
-    async def validate_connect(self, hass: UniversalAssistant) -> bool:
+    async def validate_connect(self, hass: __HAC_KEEP__) -> bool:
         """Test if we can validate connection with the device."""
 
         def update_telegram(telegram: dict[str, DSMRObject]) -> None:
@@ -142,7 +142,7 @@ class DSMRConnection:
 
 
 async def _validate_dsmr_connection(
-    hass: UniversalAssistant, data: dict[str, Any], protocol: str
+    hass: __HAC_KEEP__, data: dict[str, Any], protocol: str
 ) -> dict[str, str | None]:
     """Validate the user input allows us to connect."""
     conn = DSMRConnection(
@@ -352,13 +352,13 @@ class DSMROptionFlowHandler(OptionsFlow):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class CannotCommunicate(UniversalAssistantError):
+class CannotCommunicate(__HAC_KEEP__Error):
     """Error to indicate we cannot communicate with the device."""
 
 
-class InvalidKey(UniversalAssistantError):
+class InvalidKey(__HAC_KEEP__Error):
     """Error to indicate the decryption key is invalid."""

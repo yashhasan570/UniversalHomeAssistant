@@ -16,7 +16,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_ON,
 )
-from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -25,7 +25,7 @@ from .entity import BaseInvertableEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

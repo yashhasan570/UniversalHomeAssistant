@@ -50,7 +50,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -69,7 +69,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -78,11 +78,11 @@ def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-def mock_setup_integration(hass: UniversalAssistant) -> None:
+def mock_setup_integration(hass: __HAC_KEEP__) -> None:
     """Fixture to set up a mock integration."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -90,7 +90,7 @@ def mock_setup_integration(hass: UniversalAssistant) -> None:
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
     ) -> None:
         await hass.config_entries.async_unload_platforms(
@@ -109,7 +109,7 @@ def mock_setup_integration(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture(name="config_entry")
-def config_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return the config entry used for the tests."""
     config_entry = MockConfigEntry(domain=TEST_DOMAIN)
     config_entry.add_to_hass(hass)
@@ -117,7 +117,7 @@ def config_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
 
 
 async def create_mock_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entities: list[Entity],
     config_subentry_id: str | None = None,
@@ -125,7 +125,7 @@ async def create_mock_platform(
     """Create a device tracker platform with the specified entities."""
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -434,7 +434,7 @@ def scanner_entity_fixture(
 
 
 async def test_load_unload_entry_base_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_id: str,
     base_scanner_entity: MockBaseScannerEntity,
@@ -455,7 +455,7 @@ async def test_load_unload_entry_base_scanner(
 
 
 async def test_load_unload_entry_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_id: str,
     scanner_entity: MockScannerEntity,
@@ -476,7 +476,7 @@ async def test_load_unload_entry_scanner(
 
 
 async def test_load_unload_entry_tracker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_id: str,
     tracker_entity: MockTrackerEntity,
@@ -760,7 +760,7 @@ def test_tracking_type_capability_attribute() -> None:
     ],
 )
 async def test_tracker_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_id: str,
     tracker_entity: MockTrackerEntity,
@@ -808,7 +808,7 @@ async def test_tracker_entity_state(
 
 
 async def test_base_scanner_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_id: str,
     base_scanner_entity: MockBaseScannerEntity,
@@ -917,7 +917,7 @@ async def test_base_scanner_entity_state(
     ],
 )
 async def test_base_scanner_entity_in_zones_when_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_id: str,
     base_scanner_entity: MockBaseScannerEntity,
@@ -950,7 +950,7 @@ async def test_base_scanner_entity_in_zones_when_connected(
 
 @pytest.mark.parametrize("unique_id", ["unique_scanner"])
 async def test_base_scanner_entity_associated_zone_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     entity_id: str,
@@ -1016,7 +1016,7 @@ async def test_base_scanner_entity_associated_zone_option(
 
 @pytest.mark.parametrize("unique_id", ["unique_scanner"])
 async def test_base_scanner_entity_associated_zone_removed_after_set(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -1097,7 +1097,7 @@ async def test_base_scanner_entity_associated_zone_removed_after_set(
 
 @pytest.mark.parametrize("unique_id", ["unique_scanner"])
 async def test_base_scanner_entity_associated_zone_entity_id_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -1165,7 +1165,7 @@ async def test_base_scanner_entity_associated_zone_entity_id_changed(
 
 @pytest.mark.parametrize("unique_id", ["unique_scanner"])
 async def test_base_scanner_entity_associated_zone_missing_at_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -1212,7 +1212,7 @@ async def test_base_scanner_entity_associated_zone_missing_at_setup(
 
 @pytest.mark.parametrize("unique_id", ["unique_scanner"])
 async def test_base_scanner_entity_associated_zone_issue_cleared_on_option_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -1255,7 +1255,7 @@ async def test_base_scanner_entity_associated_zone_issue_cleared_on_option_chang
 
 @pytest.mark.parametrize("unique_id", ["unique_scanner"])
 async def test_base_scanner_entity_associated_zone_issue_cleared_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -1294,7 +1294,7 @@ async def test_base_scanner_entity_associated_zone_issue_cleared_on_unload(
 
 @pytest.mark.parametrize("unique_id", ["unique_scanner"])
 async def test_base_scanner_entity_associated_zone_option_set_before_add(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     entity_id: str,
@@ -1344,7 +1344,7 @@ async def test_base_scanner_entity_associated_zone_option_set_before_add(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_scanner_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_id: str,
     ip_address: str,
@@ -1390,7 +1390,7 @@ async def test_scanner_entity_state(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_scanner_entity_entity_id_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     entity_id: str,
@@ -1542,7 +1542,7 @@ def test_battery_level_override_deprecation_warning(
 
 
 async def test_attr_location_name_deprecation_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test that setting _attr_location_name logs a deprecation warning."""
@@ -1615,7 +1615,7 @@ def test_location_name_override_deprecation_warning(
     ("mac_address", "unique_id"), [(TEST_MAC_ADDRESS, f"{TEST_MAC_ADDRESS}_yo1")]
 )
 async def test_scanner_entity_not_enabled_when_mac_becomes_known(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -1663,7 +1663,7 @@ def allow_deprecated_device_registry_apis() -> Generator[None]:
 
 @pytest.mark.usefixtures("allow_deprecated_device_registry_apis")
 async def test_scanner_entity_attaches_to_split_of_composite_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -1710,7 +1710,7 @@ async def test_scanner_entity_attaches_to_split_of_composite_device(
 
 @pytest.mark.usefixtures("allow_deprecated_device_registry_apis")
 async def test_scanner_entity_composite_device_without_own_split(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -1757,7 +1757,7 @@ async def test_scanner_entity_composite_device_without_own_split(
 
 
 async def test_scanner_entity_attaches_to_own_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -1793,7 +1793,7 @@ async def test_scanner_entity_attaches_to_own_device(
     ],
 )
 async def test_scanner_entity_registers_own_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -1832,7 +1832,7 @@ async def test_scanner_entity_registers_own_device(
 
 
 async def test_scanner_entity_own_device_in_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1877,7 +1877,7 @@ async def test_scanner_entity_own_device_in_subentry(
 
 
 async def test_scanner_entity_prunes_composite_identifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -1914,7 +1914,7 @@ async def test_scanner_entity_prunes_composite_identifiers(
 
 
 async def test_scanner_entity_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -1963,7 +1963,7 @@ async def test_scanner_entity_device_info(
     ],
 )
 async def test_scanner_entity_default_device_info_new_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -2006,7 +2006,7 @@ async def test_scanner_entity_default_device_info_new_device(
     ],
 )
 async def test_scanner_entity_default_device_info_existing_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hostname: str | None,
@@ -2063,7 +2063,7 @@ def _empty_device_info_scanner_entity() -> MockScannerEntity:
     ],
 )
 async def test_scanner_entity_without_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     scanner_entity_factory: Callable[[], MockScannerEntity],
@@ -2087,7 +2087,7 @@ async def test_scanner_entity_without_device(
     [pytest.param(False, id="mac_unknown"), pytest.param(True, id="mac_known")],
 )
 async def test_scanner_entity_device_created_before_registry_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -2124,7 +2124,7 @@ async def test_scanner_entity_device_created_before_registry_entry(
 
 
 async def test_scanner_entity_existing_entry_linked_to_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -2154,7 +2154,7 @@ async def test_scanner_entity_existing_entry_linked_to_device(
 
 
 async def test_connected_device_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -2214,7 +2214,7 @@ async def test_connected_device_registered(
 
 
 async def test_entity_has_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -2248,7 +2248,7 @@ async def test_entity_has_device_info(
 
 
 async def test_tracker_entity_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:

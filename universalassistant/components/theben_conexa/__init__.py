@@ -1,14 +1,14 @@
 """The Theben Conexa Smartmeter gateway integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import SmgwSensorCoordinator, ThebenConfigEntry
 
 _PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ThebenConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ThebenConfigEntry) -> None:
     """Set up Theben Conexa Smartmeter gateway from a config entry."""
 
     coordinator = SmgwSensorCoordinator(hass, entry)
@@ -21,7 +21,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ThebenConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ThebenConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ThebenConfigEntry) -> None:
     """Unload a config entry.
 
     The Conexa http based query protocol does not need any cleanup

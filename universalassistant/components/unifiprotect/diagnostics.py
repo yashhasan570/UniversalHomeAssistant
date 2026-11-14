@@ -5,7 +5,7 @@ from typing import Any
 from uiprotect.anonymize import anonymize_data
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .data import UFPConfigEntry
 
@@ -14,7 +14,7 @@ TO_REDACT = {"rtspsStreams"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: UFPConfigEntry
+    hass: __HAC_KEEP__, config_entry: UFPConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

@@ -12,8 +12,8 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -32,7 +32,7 @@ RESTART_BUTTON: ButtonEntityDescription = ButtonEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NAMConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -54,7 +54,7 @@ class NAMButton(NAMEntity, ButtonEntity):
         try:
             await self.coordinator.nam.async_restart()
         except (ApiError, ClientError, TimeoutError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_communication_action_error",
                 translation_placeholders={
@@ -64,7 +64,7 @@ class NAMButton(NAMEntity, ButtonEntity):
             ) from err
         except AuthFailedError as err:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="auth_error",
                 translation_placeholders={

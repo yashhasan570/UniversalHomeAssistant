@@ -10,12 +10,12 @@ from universalassistant.components.recorder import Recorder
 from universalassistant.components.waterfurnace.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_setup_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -32,7 +32,7 @@ async def test_setup_auth_failure(
 
 
 async def test_setup_multi_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client_multi_device: Mock,
     device_registry: dr.DeviceRegistry,
@@ -51,7 +51,7 @@ async def test_setup_multi_device(
 
 
 async def test_migrate_unique_id(
-    hass: UniversalAssistant, mock_waterfurnace_client: Mock
+    hass: __HAC_KEEP__, mock_waterfurnace_client: Mock
 ) -> None:
     """Test migration from gwid to account_id unique_id."""
     old_entry = MockConfigEntry(
@@ -91,7 +91,7 @@ async def test_migrate_unique_id(
     ],
 )
 async def test_migrate_unique_id_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     side_effect: Exception,
     reason: str,
@@ -120,7 +120,7 @@ async def test_migrate_unique_id_auth_failure(
 
 
 async def test_migrate_unique_id_invalid_account_id(
-    hass: UniversalAssistant, mock_waterfurnace_client: Mock
+    hass: __HAC_KEEP__, mock_waterfurnace_client: Mock
 ) -> None:
     """Test migration fails when the account ID is invalid."""
     mock_waterfurnace_client.account_id = None
@@ -147,7 +147,7 @@ async def test_migrate_unique_id_invalid_account_id(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unloading a config entry."""
@@ -161,7 +161,7 @@ async def test_unload_entry(
 
 @pytest.mark.usefixtures("seed_statistics", "init_integration")
 async def test_reload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_reload_entry(
 @pytest.mark.usefixtures("seed_statistics")
 async def test_setup_creates_energy_coordinator(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
 ) -> None:
@@ -196,7 +196,7 @@ async def test_setup_creates_energy_coordinator(
 
 async def test_setup_multi_device_energy_coordinators(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client_multi_device: Mock,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_setup_multi_device_energy_coordinators(
 
 async def test_setup_energy_statistic_ids_per_device(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client_multi_device: Mock,
 ) -> None:

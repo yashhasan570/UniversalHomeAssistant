@@ -26,8 +26,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -40,7 +40,7 @@ from . import setup_integration
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
@@ -54,7 +54,7 @@ async def test_select(
 
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 async def test_acb_sleep_soc_band_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_acb_sleep_soc_band_default(
     indirect=True,
 )
 async def test_no_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -122,7 +122,7 @@ async def test_no_select(
 )
 @pytest.mark.parametrize("action", ["powered", "not_powered", "schedule", "none"])
 async def test_select_relay_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     target: str,
@@ -163,7 +163,7 @@ async def test_select_relay_actions(
 @pytest.mark.parametrize("relay_mode", ["battery", "standard"])
 @pytest.mark.parametrize("relay", ["NC1", "NC2", "NC3"])
 async def test_select_relay_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     relay_mode: str,
@@ -203,7 +203,7 @@ async def test_select_relay_modes(
     indirect=["mock_envoy"],
 )
 async def test_update_dry_contact_actions_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     target: str,
@@ -223,7 +223,7 @@ async def test_update_dry_contact_actions_with_error(
 
     mock_envoy.update_dry_contact.side_effect = EnvoyError("Test")
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f"Failed to execute async_select_option for {test_entity}, host",
     ):
         await hass.services.async_call(
@@ -247,7 +247,7 @@ async def test_update_dry_contact_actions_with_error(
 )
 @pytest.mark.parametrize(("mode"), ["backup", "self_consumption", "savings"])
 async def test_select_storage_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     use_serial: str,
@@ -287,7 +287,7 @@ async def test_select_storage_modes(
 )
 @pytest.mark.parametrize(("mode"), ["backup"])
 async def test_set_storage_modes_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     use_serial: str,
@@ -301,7 +301,7 @@ async def test_set_storage_modes_with_error(
 
     mock_envoy.set_storage_mode.side_effect = EnvoyError("Test")
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f"Failed to execute async_select_option for {test_entity}, host",
     ):
         await hass.services.async_call(
@@ -324,7 +324,7 @@ async def test_set_storage_modes_with_error(
     indirect=["mock_envoy"],
 )
 async def test_select_storage_modes_if_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     use_serial: str,

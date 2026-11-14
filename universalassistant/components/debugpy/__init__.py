@@ -3,7 +3,7 @@
 import probatio
 
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -26,7 +26,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Remote Python Debugger component."""
     conf = config[DOMAIN]
     hass.data[DATA_DEBUGPY_CONFIG] = conf

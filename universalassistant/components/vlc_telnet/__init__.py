@@ -10,7 +10,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 
 from .const import LOGGER
@@ -28,7 +28,7 @@ class VlcData:
     available: bool
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: VlcConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: VlcConfigEntry) -> None:
     """Set up VLC media player Telnet from a config entry."""
     config = entry.data
 
@@ -73,6 +73,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: VlcConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: VlcConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: VlcConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

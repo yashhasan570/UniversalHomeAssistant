@@ -30,7 +30,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -41,7 +41,7 @@ CLIMATE_ENTITY_ID = "climate.heating_circuit_1"
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_setup_minimal_mode_creates_outdated_firmware_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -90,7 +90,7 @@ async def test_setup_minimal_mode_creates_outdated_firmware_issue(
 
 
 async def test_reload_keeps_ignored_outdated_firmware_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -112,7 +112,7 @@ async def test_reload_keeps_ignored_outdated_firmware_issue(
 
 
 async def test_setup_minimal_mode_restricts_to_single_circuit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_dual_circuit: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_setup_minimal_mode_restricts_to_single_circuit(
 
 
 async def test_setup_full_mode_no_outdated_firmware_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -163,7 +163,7 @@ async def test_setup_full_mode_no_outdated_firmware_issue(
 
 
 async def test_setup_version_error_raises_config_entry_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -186,7 +186,7 @@ async def test_setup_version_error_raises_config_entry_error(
 
 
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_auth_failed_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -273,7 +273,7 @@ async def test_config_entry_auth_failed_triggers_reauth(
     ],
 )
 async def test_config_entry_setup_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     method: str,
@@ -295,7 +295,7 @@ async def test_config_entry_setup_errors(
 
 
 async def test_coordinator_dhw_config_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -328,7 +328,7 @@ async def test_coordinator_dhw_config_update_error(
 
 
 async def test_slow_interval_poll_preserves_cached_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -372,7 +372,7 @@ async def test_slow_interval_poll_preserves_cached_schedule(
     ids=["connection-error", "auth-error", "timeout"],
 )
 async def test_slow_interval_poll_retries_missing_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -410,7 +410,7 @@ async def test_slow_interval_poll_retries_missing_schedule(
 
 
 async def test_heating_only_slow_interval_retries_missing_heating_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -438,7 +438,7 @@ async def test_heating_only_slow_interval_retries_missing_heating_schedule(
 
 
 async def test_slow_interval_poll_does_not_retry_unsupported_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -464,7 +464,7 @@ async def test_slow_interval_poll_does_not_retry_unsupported_schedule(
 
 
 async def test_slow_interval_poll_does_not_retry_unsupported_heating_schedule_after_write(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -500,7 +500,7 @@ async def test_slow_interval_poll_does_not_retry_unsupported_heating_schedule_af
 
 
 async def test_slow_interval_poll_stops_retrying_unsupported_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -524,7 +524,7 @@ async def test_slow_interval_poll_stops_retrying_unsupported_schedule(
 
 
 async def test_setup_does_not_block_on_slow_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -555,7 +555,7 @@ async def test_setup_does_not_block_on_slow_fetch(
 
 
 async def test_coordinator_slow_first_fetch_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -575,7 +575,7 @@ async def test_coordinator_slow_first_fetch_failure(
 
 
 async def test_config_entry_timeout_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -591,7 +591,7 @@ async def test_config_entry_timeout_error(
 
 
 async def test_coordinator_fast_no_dhw_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -623,7 +623,7 @@ async def test_coordinator_fast_no_dhw_support(
 
 
 async def test_coordinator_fast_dhw_fails_on_refresh_preserves_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -654,7 +654,7 @@ async def test_coordinator_fast_dhw_fails_on_refresh_preserves_state(
 
 
 async def test_coordinator_fast_sensor_fails_on_refresh_preserves_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -680,7 +680,7 @@ async def test_coordinator_fast_sensor_fails_on_refresh_preserves_state(
 
 
 async def test_coordinator_fast_state_error_marks_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -711,7 +711,7 @@ async def test_coordinator_fast_state_error_marks_update_failed(
 
 
 async def test_coordinator_slow_no_dhw_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -733,7 +733,7 @@ async def test_coordinator_slow_no_dhw_support(
 
 
 async def test_configuration_url_default_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
@@ -751,7 +751,7 @@ async def test_configuration_url_default_port(
 
 
 async def test_configuration_url_non_default_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -791,7 +791,7 @@ def _legacy_entry_data() -> dict:
 
 
 async def test_migrate_entry_discovers_circuits(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test migration from 1.1 to 1.2 discovers available circuits."""
@@ -816,7 +816,7 @@ async def test_migrate_entry_discovers_circuits(
 
 
 async def test_migrate_entry_empty_discovery_falls_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test migration falls back to [1] when discovery returns no circuits."""
@@ -841,7 +841,7 @@ async def test_migrate_entry_empty_discovery_falls_back(
 
 
 async def test_migrate_entry_discovery_failure_falls_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test migration falls back to [1] when circuit discovery fails."""
@@ -866,7 +866,7 @@ async def test_migrate_entry_discovery_failure_falls_back(
 
 
 async def test_migrate_entry_discovery_timeout_falls_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test migration falls back to [1] when circuit discovery times out."""
@@ -890,7 +890,7 @@ async def test_migrate_entry_discovery_timeout_falls_back(
 
 
 async def test_migrate_entry_stored_empty_circuits_falls_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test migration repairs stored empty heating circuits."""
@@ -915,7 +915,7 @@ async def test_migrate_entry_stored_empty_circuits_falls_back(
 
 
 async def test_migrate_entry_future_version_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test migration refuses to downgrade from a future major version."""
@@ -935,7 +935,7 @@ async def test_migrate_entry_future_version_aborts(
 
 
 async def test_migrate_entry_already_current(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:

@@ -6,7 +6,7 @@ from mysensors import Message
 from mysensors.const import SYSTEM_CHILD_ID
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.util import decorator
 
@@ -19,13 +19,13 @@ from .helpers import (
 from .models import MySensorsConfigEntry
 
 HANDLERS: decorator.Registry[
-    str, Callable[[UniversalAssistant, MySensorsConfigEntry, Message], None]
+    str, Callable[[__HAC_KEEP__, MySensorsConfigEntry, Message], None]
 ] = decorator.Registry()
 
 
 @HANDLERS.register("set")
 @callback
-def handle_set(hass: UniversalAssistant, entry: MySensorsConfigEntry, msg: Message) -> None:
+def handle_set(hass: __HAC_KEEP__, entry: MySensorsConfigEntry, msg: Message) -> None:
     """Handle a mysensors set message."""
     validated = validate_set_msg(entry.entry_id, msg)
     _handle_child_update(hass, entry, validated)
@@ -34,7 +34,7 @@ def handle_set(hass: UniversalAssistant, entry: MySensorsConfigEntry, msg: Messa
 @HANDLERS.register("internal")
 @callback
 def handle_internal(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry, msg: Message
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry, msg: Message
 ) -> None:
     """Handle a mysensors internal message."""
     internal = msg.gateway.const.Internal(msg.sub_type)
@@ -46,7 +46,7 @@ def handle_internal(
 @HANDLERS.register("I_BATTERY_LEVEL")
 @callback
 def handle_battery_level(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry, msg: Message
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry, msg: Message
 ) -> None:
     """Handle an internal battery level message."""
     _handle_node_update(hass, entry, msg)
@@ -55,7 +55,7 @@ def handle_battery_level(
 @HANDLERS.register("I_HEARTBEAT_RESPONSE")
 @callback
 def handle_heartbeat(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry, msg: Message
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry, msg: Message
 ) -> None:
     """Handle an heartbeat."""
     _handle_node_update(hass, entry, msg)
@@ -64,7 +64,7 @@ def handle_heartbeat(
 @HANDLERS.register("I_SKETCH_NAME")
 @callback
 def handle_sketch_name(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry, msg: Message
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry, msg: Message
 ) -> None:
     """Handle an internal sketch name message."""
     _handle_node_update(hass, entry, msg)
@@ -73,7 +73,7 @@ def handle_sketch_name(
 @HANDLERS.register("I_SKETCH_VERSION")
 @callback
 def handle_sketch_version(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry, msg: Message
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry, msg: Message
 ) -> None:
     """Handle an internal sketch version message."""
     _handle_node_update(hass, entry, msg)
@@ -82,7 +82,7 @@ def handle_sketch_version(
 @HANDLERS.register("presentation")
 @callback
 def handle_presentation(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry, msg: Message
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry, msg: Message
 ) -> None:
     """Handle an internal presentation message."""
     if msg.child_id == SYSTEM_CHILD_ID:
@@ -91,7 +91,7 @@ def handle_presentation(
 
 @callback
 def _handle_child_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MySensorsConfigEntry,
     validated: dict[Platform, list[DevId]],
 ) -> None:
@@ -118,7 +118,7 @@ def _handle_child_update(
 
 @callback
 def _handle_node_update(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry, msg: Message
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry, msg: Message
 ) -> None:
     """Handle a node update."""
     signal = NODE_CALLBACK.format(entry.entry_id, msg.node_id)

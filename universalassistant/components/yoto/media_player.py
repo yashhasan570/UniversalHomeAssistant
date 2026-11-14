@@ -16,8 +16,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -41,7 +41,7 @@ PLAYBACK_STATE_MAP = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: YotoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -232,7 +232,7 @@ class YotoMediaPlayer(YotoPlayerEntity, MediaPlayerEntity):
                 try:
                     await client.update_card_detail(card_id)
                 except YotoError as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="card_detail_failed",
                     ) from err
@@ -271,7 +271,7 @@ class YotoMediaPlayer(YotoPlayerEntity, MediaPlayerEntity):
                 seconds_in=seconds_in,
             )
         except YotoError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="play_failed",
             ) from err
@@ -465,7 +465,7 @@ class YotoMediaPlayer(YotoPlayerEntity, MediaPlayerEntity):
         try:
             await func(*args)
         except YotoError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
             ) from err

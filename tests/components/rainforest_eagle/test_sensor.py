@@ -10,12 +10,12 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.rainforest_eagle.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_200_RESPONSE_WITH_PRICE, MOCK_200_RESPONSE_WITHOUT_PRICE
 
 
-async def test_sensors_200(hass: UniversalAssistant, setup_rainforest_200) -> None:
+async def test_sensors_200(hass: __HAC_KEEP__, setup_rainforest_200) -> None:
     """Test the sensors."""
     assert len(hass.states.async_all()) == 3
 
@@ -48,7 +48,7 @@ async def test_sensors_200(hass: UniversalAssistant, setup_rainforest_200) -> No
     assert price.attributes["unit_of_measurement"] == "USD/kWh"
 
 
-async def test_sensors_100(hass: UniversalAssistant, setup_rainforest_100) -> None:
+async def test_sensors_100(hass: __HAC_KEEP__, setup_rainforest_100) -> None:
     """Test the sensors."""
     assert len(hass.states.async_all()) == 3
 
@@ -68,7 +68,7 @@ async def test_sensors_100(hass: UniversalAssistant, setup_rainforest_100) -> No
     assert received.attributes["unit_of_measurement"] == "kWh"
 
 
-async def _refresh(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+async def _refresh(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     """Advance to the next coordinator poll."""
     freezer.tick(timedelta(seconds=30))
     async_fire_time_changed(hass)
@@ -93,7 +93,7 @@ async def _refresh(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> 
     ],
 )
 async def test_invalid_summation_200(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_rainforest_200: Mock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -120,7 +120,7 @@ async def test_invalid_summation_200(
 
 
 async def test_non_numeric_summation_200(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_rainforest_200: Mock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

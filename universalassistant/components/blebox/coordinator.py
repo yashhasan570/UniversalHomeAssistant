@@ -8,7 +8,7 @@ from blebox_uniapi.box import Box
 from blebox_uniapi.error import Error, UnauthorizedRequest
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -26,7 +26,7 @@ class BleBoxCoordinator(DataUpdateCoordinator[None]):
     config_entry: BleBoxConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: BleBoxConfigEntry, box: Box
+        self, hass: __HAC_KEEP__, config_entry: BleBoxConfigEntry, box: Box
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

@@ -5,7 +5,7 @@ from unittest.mock import patch
 import pytest
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import intent
 from universalassistant.setup import async_setup_component
 
@@ -15,7 +15,7 @@ from tests.components.tts.common import MockResultStream
 
 
 @pytest.fixture
-async def mock_tts(hass: UniversalAssistant):
+async def mock_tts(hass: __HAC_KEEP__):
     """Mock TTS service."""
     assert await async_setup_component(hass, "tts", {})
     with (
@@ -32,7 +32,7 @@ async def mock_tts(hass: UniversalAssistant):
 
 
 async def test_broadcast_intent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     entity2: MockAssistSatellite,
@@ -107,7 +107,7 @@ async def test_broadcast_intent(
 
 
 async def test_broadcast_intent_excluded_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     entity2: MockAssistSatellite,

@@ -10,8 +10,8 @@ from nextdns import ApiError, InvalidApiKeyError, Settings
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import NextDnsConfigEntry
@@ -594,7 +594,7 @@ SWITCHES = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NextDnsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -650,7 +650,7 @@ class NextDnsSwitch(NextDnsEntity, SwitchEntity):
             TimeoutError,
             ClientError,
         ) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="method_error",
                 translation_placeholders={
@@ -660,7 +660,7 @@ class NextDnsSwitch(NextDnsEntity, SwitchEntity):
             ) from err
         except InvalidApiKeyError as err:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="auth_error",
                 translation_placeholders={
@@ -669,7 +669,7 @@ class NextDnsSwitch(NextDnsEntity, SwitchEntity):
             ) from err
 
         if not result:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_setting_error",
                 translation_placeholders={"entity": self.entity_id},

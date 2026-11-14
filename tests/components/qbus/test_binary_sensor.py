@@ -13,12 +13,12 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration_deferred: Callable[[], Awaitable],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_binary_sensor(
     ],
 )
 async def test_weather_binary_sensor_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     property_name: str,
     on_value: bool | str,
     off_value: bool | str,

@@ -94,7 +94,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     MATCH_ALL,
 )
-from universalassistant.core import Context, CoreState, Event, UniversalAssistant, State, callback
+from universalassistant.core import Context, CoreState, Event, __HAC_KEEP__, State, callback
 from universalassistant.helpers import (
     entity_registry as er,
     issue_registry as ir,
@@ -129,7 +129,7 @@ def small_cache_size() -> Generator[None]:
         yield
 
 
-def _default_recorder(hass: UniversalAssistant) -> Recorder:
+def _default_recorder(hass: __HAC_KEEP__) -> Recorder:
     """Return a recorder with reasonable defaults."""
     return Recorder(
         hass,
@@ -147,7 +147,7 @@ def _default_recorder(hass: UniversalAssistant) -> Recorder:
 
 @pytest.mark.parametrize("persistent_database", [True])
 async def test_shutdown_before_startup_finishes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test shutdown before recorder starts is clean.
@@ -186,7 +186,7 @@ async def test_shutdown_before_startup_finishes(
 
 
 async def test_canceled_before_startup_finishes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -211,7 +211,7 @@ async def test_canceled_before_startup_finishes(
 
 
 async def test_shutdown_closes_connections(
-    hass: UniversalAssistant, setup_recorder: None
+    hass: __HAC_KEEP__, setup_recorder: None
 ) -> None:
     """Test shutdown closes connections."""
 
@@ -238,7 +238,7 @@ async def test_shutdown_closes_connections(
 
 
 async def test_state_gets_saved_when_set_before_start_event(
-    hass: UniversalAssistant, async_setup_recorder_instance: RecorderInstanceGenerator
+    hass: __HAC_KEEP__, async_setup_recorder_instance: RecorderInstanceGenerator
 ) -> None:
     """Test we can record an event when starting with not running."""
 
@@ -265,11 +265,11 @@ async def test_state_gets_saved_when_set_before_start_event(
 
 
 async def test_commit_future_covers_startup_batch(
-    hass: UniversalAssistant, async_setup_recorder_instance: RecorderInstanceGenerator
+    hass: __HAC_KEEP__, async_setup_recorder_instance: RecorderInstanceGenerator
 ) -> None:
     """Test a commit future is returned while the startup batch is processed.
 
-    Once Universal Universal Home Assistant has started, the recorder drains its whole queue into a
+    Once __HA_KEEP__ has started, the recorder drains its whole queue into a
     startup batch before processing it. The queue is then empty although the
     batch is not committed yet.
     """
@@ -313,7 +313,7 @@ async def test_commit_future_covers_startup_batch(
 
 
 async def test_queued_states_until_ready(
-    hass: UniversalAssistant, async_setup_recorder_instance: RecorderInstanceGenerator
+    hass: __HAC_KEEP__, async_setup_recorder_instance: RecorderInstanceGenerator
 ) -> None:
     """Test state changes queued before the recorder is ready are indexed."""
     hass.set_state(CoreState.not_running)
@@ -353,7 +353,7 @@ async def test_queued_states_until_ready(
 
 
 async def test_queued_states_frozen_when_recording_stops(
-    hass: UniversalAssistant, async_setup_recorder_instance: RecorderInstanceGenerator
+    hass: __HAC_KEEP__, async_setup_recorder_instance: RecorderInstanceGenerator
 ) -> None:
     """Test the queued states are kept when recording stops.
 
@@ -376,7 +376,7 @@ async def test_queued_states_frozen_when_recording_stops(
     assert [state and state.state for state in queued["test.recorder"]] == ["on"]
 
 
-async def test_saving_state(hass: UniversalAssistant, setup_recorder: None) -> None:
+async def test_saving_state(hass: __HAC_KEEP__, setup_recorder: None) -> None:
     """Test saving and restoring a state."""
     entity_id = "test.recorder"
     state = "restoring_from_db"
@@ -414,7 +414,7 @@ async def test_saving_state(hass: UniversalAssistant, setup_recorder: None) -> N
     ],
 )
 async def test_saving_state_with_nul(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     db_engine: str,
     recorder_dialect_name: None,
     setup_recorder: None,
@@ -450,7 +450,7 @@ async def test_saving_state_with_nul(
 
 
 async def test_saving_many_states(
-    hass: UniversalAssistant, async_setup_recorder_instance: RecorderInstanceGenerator
+    hass: __HAC_KEEP__, async_setup_recorder_instance: RecorderInstanceGenerator
 ) -> None:
     """Test we expire after many commits."""
     instance = await async_setup_recorder_instance(
@@ -479,7 +479,7 @@ async def test_saving_many_states(
 
 
 async def test_saving_state_with_intermixed_time_changes(
-    hass: UniversalAssistant, setup_recorder: None
+    hass: __HAC_KEEP__, setup_recorder: None
 ) -> None:
     """Test saving states with intermixed time changes."""
     entity_id = "test.recorder"
@@ -503,7 +503,7 @@ async def test_saving_state_with_intermixed_time_changes(
 
 
 async def test_saving_state_with_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     setup_recorder: None,
 ) -> None:
@@ -546,7 +546,7 @@ async def test_saving_state_with_exception(
 
 
 async def test_saving_state_with_sqlalchemy_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     setup_recorder: None,
 ) -> None:
@@ -589,7 +589,7 @@ async def test_saving_state_with_sqlalchemy_exception(
 
 
 async def test_force_shutdown_with_queue_of_writes_that_generate_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -623,7 +623,7 @@ async def test_force_shutdown_with_queue_of_writes_that_generate_exceptions(
     assert "Error saving events" not in caplog.text
 
 
-async def test_saving_event(hass: UniversalAssistant, setup_recorder: None) -> None:
+async def test_saving_event(hass: __HAC_KEEP__, setup_recorder: None) -> None:
     """Test saving and restoring an event."""
     event_type = "EVENT_TEST"
     event_data = {"test_attr": 5, "test_attr_10": "nice"}
@@ -677,7 +677,7 @@ async def test_saving_event(hass: UniversalAssistant, setup_recorder: None) -> N
 
 
 async def test_saving_state_with_commit_interval_zero(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving a state with a commit interval of zero."""
@@ -698,7 +698,7 @@ async def test_saving_state_with_commit_interval_zero(
         assert db_states[0].event_id is None
 
 
-async def _add_entities(hass: UniversalAssistant, entity_ids: list[str]) -> list[State]:
+async def _add_entities(hass: __HAC_KEEP__, entity_ids: list[str]) -> list[State]:
     """Add entities."""
     attributes = {"test_attr": 5, "test_attr_10": "nice"}
     for idx, entity_id in enumerate(entity_ids):
@@ -722,21 +722,21 @@ async def _add_entities(hass: UniversalAssistant, entity_ids: list[str]) -> list
         return states
 
 
-def _state_with_context(hass: UniversalAssistant, entity_id: str) -> State | None:
+def _state_with_context(hass: __HAC_KEEP__, entity_id: str) -> State | None:
     # We don't restore context unless we need it by joining the
     # events table on the event_id for state_changed events
     return hass.states.get(entity_id)
 
 
 async def test_setup_without_migration(
-    hass: UniversalAssistant, setup_recorder: None
+    hass: __HAC_KEEP__, setup_recorder: None
 ) -> None:
     """Verify the schema version without a migration."""
     assert recorder.get_instance(hass).schema_version == SCHEMA_VERSION
 
 
 async def test_saving_state_include_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring a state."""
@@ -747,7 +747,7 @@ async def test_saving_state_include_domains(
 
 
 async def test_saving_state_include_domains_globs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring a state."""
@@ -771,7 +771,7 @@ async def test_saving_state_include_domains_globs(
 
 
 async def test_saving_state_incl_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring a state."""
@@ -784,7 +784,7 @@ async def test_saving_state_incl_entities(
 
 
 async def test_saving_event_exclude_event_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring an event."""
@@ -807,7 +807,7 @@ async def test_saving_event_exclude_event_type(
 
     await async_wait_recording_done(hass)
 
-    def _get_events(hass: UniversalAssistant, event_type_list: list[str]) -> list[Event]:
+    def _get_events(hass: __HAC_KEEP__, event_type_list: list[str]) -> list[Event]:
         with session_scope(hass=hass, read_only=True) as session:
             events = []
             for event, event_data, event_types in (
@@ -835,7 +835,7 @@ async def test_saving_event_exclude_event_type(
 
 
 async def test_saving_state_exclude_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring a state."""
@@ -846,7 +846,7 @@ async def test_saving_state_exclude_domains(
 
 
 async def test_saving_state_exclude_domains_globs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring a state."""
@@ -861,7 +861,7 @@ async def test_saving_state_exclude_domains_globs(
 
 
 async def test_saving_state_exclude_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring a state."""
@@ -874,7 +874,7 @@ async def test_saving_state_exclude_entities(
 
 
 async def test_saving_state_exclude_domain_include_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring a state."""
@@ -890,7 +890,7 @@ async def test_saving_state_exclude_domain_include_entity(
 
 
 async def test_saving_state_exclude_domain_glob_include_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring a state."""
@@ -908,7 +908,7 @@ async def test_saving_state_exclude_domain_glob_include_entity(
 
 
 async def test_saving_state_include_domain_exclude_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring a state."""
@@ -926,7 +926,7 @@ async def test_saving_state_include_domain_exclude_entity(
 
 
 async def test_saving_state_include_domain_glob_exclude_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test saving and restoring a state."""
@@ -946,7 +946,7 @@ async def test_saving_state_include_domain_glob_exclude_entity(
 
 
 async def test_saving_state_and_removing_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
 ) -> None:
     """Test saving the state of a removed entity."""
@@ -973,7 +973,7 @@ async def test_saving_state_and_removing_entity(
 
 
 async def test_saving_state_with_oversized_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     setup_recorder: None,
 ) -> None:
@@ -1008,7 +1008,7 @@ async def test_saving_state_with_oversized_attributes(
 
 
 async def test_saving_event_with_oversized_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     setup_recorder: None,
 ) -> None:
@@ -1040,7 +1040,7 @@ async def test_saving_event_with_oversized_data(
 
 
 async def test_saving_event_invalid_context_ulid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     setup_recorder: None,
 ) -> None:
@@ -1066,7 +1066,7 @@ async def test_saving_event_invalid_context_ulid(
     assert json_loads(events["test_event"]) == event_data
 
 
-async def test_recorder_setup_failure(hass: UniversalAssistant) -> None:
+async def test_recorder_setup_failure(hass: __HAC_KEEP__) -> None:
     """Test some exceptions."""
     recorder_helper.async_initialize_recorder(hass)
     with (
@@ -1086,7 +1086,7 @@ async def test_recorder_setup_failure(hass: UniversalAssistant) -> None:
     "function_to_patch", ["_get_current_schema_version", "_get_initial_schema_version"]
 )
 async def test_recorder_validate_schema_failure(
-    hass: UniversalAssistant, function_to_patch: str
+    hass: __HAC_KEEP__, function_to_patch: str
 ) -> None:
     """Test some exceptions."""
     recorder_helper.async_initialize_recorder(hass)
@@ -1106,7 +1106,7 @@ async def test_recorder_validate_schema_failure(
 
 
 async def test_recorder_setup_failure_without_event_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test recorder setup failure when the event listener is not setup."""
     recorder_helper.async_initialize_recorder(hass)
@@ -1122,11 +1122,11 @@ async def test_recorder_setup_failure_without_event_listener(
     hass.stop()
 
 
-async def test_defaults_set(hass: UniversalAssistant) -> None:
+async def test_defaults_set(hass: __HAC_KEEP__) -> None:
     """Test the config defaults are set."""
     recorder_config = None
 
-    async def mock_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         nonlocal recorder_config
         recorder_config = config["recorder"]
@@ -1141,7 +1141,7 @@ async def test_defaults_set(hass: UniversalAssistant) -> None:
     assert recorder_config["purge_keep_days"] == 10
 
 
-async def run_tasks_at_time(hass: UniversalAssistant, test_time: datetime) -> None:
+async def run_tasks_at_time(hass: __HAC_KEEP__, test_time: datetime) -> None:
     """Advance the clock and wait for any callbacks to finish."""
     async_fire_time_changed(hass, test_time)
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -1150,7 +1150,7 @@ async def run_tasks_at_time(hass: UniversalAssistant, test_time: datetime) -> No
 
 
 @pytest.mark.parametrize("enable_nightly_purge", [True])
-async def test_auto_purge(hass: UniversalAssistant, setup_recorder: None) -> None:
+async def test_auto_purge(hass: __HAC_KEEP__, setup_recorder: None) -> None:
     """Test periodic purge scheduling."""
     timezone = "Europe/Copenhagen"
     await hass.config.async_set_time_zone(timezone)
@@ -1210,7 +1210,7 @@ async def test_auto_purge(hass: UniversalAssistant, setup_recorder: None) -> Non
 
 @pytest.mark.parametrize("enable_nightly_purge", [True])
 async def test_auto_purge_auto_repack_on_second_sunday(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
 ) -> None:
     """Test periodic purge scheduling does a repack on the 2nd sunday."""
@@ -1253,7 +1253,7 @@ async def test_auto_purge_auto_repack_on_second_sunday(
 
 @pytest.mark.parametrize("enable_nightly_purge", [True])
 async def test_auto_purge_auto_repack_disabled_on_second_sunday(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test periodic purge scheduling skips repack when disabled."""
@@ -1297,7 +1297,7 @@ async def test_auto_purge_auto_repack_disabled_on_second_sunday(
 
 @pytest.mark.parametrize("enable_nightly_purge", [True])
 async def test_auto_purge_no_auto_repack_on_not_second_sunday(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
 ) -> None:
     """Test periodic purge scheduling does not do a repack unless its the 2nd sunday."""
@@ -1341,7 +1341,7 @@ async def test_auto_purge_no_auto_repack_on_not_second_sunday(
 
 @pytest.mark.parametrize("enable_nightly_purge", [True])
 async def test_auto_purge_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test periodic db cleanup still run when auto purge is disabled."""
@@ -1382,7 +1382,7 @@ async def test_auto_purge_disabled(
 
 @pytest.mark.parametrize("enable_statistics", [True])
 async def test_auto_statistics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1466,7 +1466,7 @@ async def test_auto_statistics(
 
 
 async def test_statistics_runs_initiated(
-    hass: UniversalAssistant, async_setup_recorder_instance: RecorderInstanceGenerator
+    hass: __HAC_KEEP__, async_setup_recorder_instance: RecorderInstanceGenerator
 ) -> None:
     """Test statistics_runs is initiated when DB is created."""
     now = dt_util.utcnow()
@@ -1496,7 +1496,7 @@ async def test_compile_missing_statistics(
     """Test missing statistics are compiled on startup."""
     now = dt_util.utcnow().replace(minute=0, second=0, microsecond=0)
 
-    def get_statistic_runs(hass: UniversalAssistant) -> list:
+    def get_statistic_runs(hass: __HAC_KEEP__) -> list:
         with session_scope(hass=hass, read_only=True) as session:
             return list(session.query(StatisticsRuns))
 
@@ -1519,7 +1519,7 @@ async def test_compile_missing_statistics(
         await async_wait_recording_done(hass)
         await hass.async_stop()
 
-    # Start Universal Universal Home Assistant one hour later
+    # Start __HA_KEEP__ one hour later
     stats_5min = []
     stats_hourly = []
 
@@ -1563,7 +1563,7 @@ async def test_compile_missing_statistics(
         await hass.async_stop()
 
 
-async def test_saving_sets_old_state(hass: UniversalAssistant, setup_recorder: None) -> None:
+async def test_saving_sets_old_state(hass: __HAC_KEEP__, setup_recorder: None) -> None:
     """Test saving sets old state."""
     hass.states.async_set("test.one", "s1", {})
     hass.states.async_set("test.two", "s2", {})
@@ -1592,7 +1592,7 @@ async def test_saving_sets_old_state(hass: UniversalAssistant, setup_recorder: N
 
 
 async def test_saving_state_with_serializable_data(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, setup_recorder: None
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, setup_recorder: None
 ) -> None:
     """Test saving data that cannot be serialized does not crash."""
     hass.bus.async_fire("bad_event", {"fail": CannotSerializeMe()})
@@ -1617,7 +1617,7 @@ async def test_saving_state_with_serializable_data(
     assert "State is not JSON serializable" in caplog.text
 
 
-async def test_has_services(hass: UniversalAssistant, setup_recorder: None) -> None:
+async def test_has_services(hass: __HAC_KEEP__, setup_recorder: None) -> None:
     """Test the services exist."""
     assert hass.services.has_service(DOMAIN, RecorderService.DISABLE)
     assert hass.services.has_service(DOMAIN, RecorderService.ENABLE)
@@ -1626,7 +1626,7 @@ async def test_has_services(hass: UniversalAssistant, setup_recorder: None) -> N
 
 
 async def test_service_disable_events_not_recording(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
 ) -> None:
     """Test that events are not recorded when recorder is disabled using service."""
@@ -1709,7 +1709,7 @@ async def test_service_disable_events_not_recording(
 
 
 async def test_service_disable_states_not_recording(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
 ) -> None:
     """Test state changes are not recorded when recorder is disabled."""
@@ -1754,7 +1754,7 @@ async def test_service_disable_run_information_recorded(
 ) -> None:
     """Test that runs are still recorded when recorder is disabled."""
 
-    def get_recorder_runs(hass: UniversalAssistant) -> list:
+    def get_recorder_runs(hass: __HAC_KEEP__) -> list:
         with session_scope(hass=hass, read_only=True) as session:
             return list(session.query(RecorderRuns))
 
@@ -1806,7 +1806,7 @@ class CannotSerializeMe:
 @pytest.mark.parametrize("persistent_database", [True])
 @pytest.mark.parametrize("recorder_config", [{CONF_COMMIT_INTERVAL: 0}])
 async def test_database_corruption_while_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_db_url: str,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1875,7 +1875,7 @@ async def test_database_corruption_while_running(
 
 
 async def test_entity_id_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test that entity ID filtering filters string and list."""
@@ -1929,7 +1929,7 @@ async def test_entity_id_filter(
 @pytest.mark.usefixtures("skip_by_db_engine")
 @pytest.mark.parametrize("persistent_database", [True])
 async def test_database_lock_and_unlock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test writing events during lock getting written after unlocking.
@@ -1981,7 +1981,7 @@ async def test_database_lock_and_unlock(
 @pytest.mark.usefixtures("skip_by_db_engine")
 @pytest.mark.parametrize("persistent_database", [True])
 async def test_database_lock_and_overflow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
@@ -2046,7 +2046,7 @@ async def test_database_lock_and_overflow(
 @pytest.mark.usefixtures("skip_by_db_engine")
 @pytest.mark.parametrize("persistent_database", [True])
 async def test_database_lock_and_overflow_checks_available_memory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
@@ -2153,7 +2153,7 @@ async def test_database_lock_and_overflow_checks_available_memory(
 @pytest.mark.skip_on_db_engine(["mysql", "postgresql"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_database_lock_timeout(
-    hass: UniversalAssistant, setup_recorder: None, recorder_db_url: str
+    hass: __HAC_KEEP__, setup_recorder: None, recorder_db_url: str
 ) -> None:
     """Test locking database timeout when recorder stopped.
 
@@ -2182,7 +2182,7 @@ async def test_database_lock_timeout(
 
 
 async def test_database_lock_without_instance(
-    hass: UniversalAssistant, setup_recorder: None
+    hass: __HAC_KEEP__, setup_recorder: None
 ) -> None:
     """Test database lock doesn't fail if instance is not initialized."""
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -2196,7 +2196,7 @@ async def test_database_lock_without_instance(
 
 
 async def test_in_memory_database(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test connecting to an in-memory recorder is not allowed."""
     assert not await async_setup_component(
@@ -2207,7 +2207,7 @@ async def test_in_memory_database(
 
 @pytest.mark.parametrize("db_engine", ["mysql"])
 async def test_database_connection_keep_alive(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_dialect_name: None,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     caplog: pytest.LogCaptureFixture,
@@ -2229,7 +2229,7 @@ async def test_database_connection_keep_alive(
 @pytest.mark.skip_on_db_engine(["mysql", "postgresql"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_database_connection_keep_alive_disabled_on_sqlite(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     caplog: pytest.LogCaptureFixture,
     recorder_db_url: str,
@@ -2251,7 +2251,7 @@ async def test_database_connection_keep_alive_disabled_on_sqlite(
 
 
 async def test_deduplication_event_data_inside_commit_interval(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, setup_recorder: None
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, setup_recorder: None
 ) -> None:
     """Test deduplication of event data inside the commit interval."""
     for _ in range(10):
@@ -2275,7 +2275,7 @@ async def test_deduplication_event_data_inside_commit_interval(
 
 async def test_deduplication_state_attributes_inside_commit_interval(
     small_cache_size: None,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     setup_recorder: None,
 ) -> None:
@@ -2308,7 +2308,7 @@ async def test_deduplication_state_attributes_inside_commit_interval(
 
 
 async def test_async_block_till_done(
-    hass: UniversalAssistant, async_setup_recorder_instance: RecorderInstanceGenerator
+    hass: __HAC_KEEP__, async_setup_recorder_instance: RecorderInstanceGenerator
 ) -> None:
     """Test we can block until recordering is done."""
     instance = await async_setup_recorder_instance(hass)
@@ -2343,7 +2343,7 @@ async def test_async_block_till_done(
     ],
 )
 async def test_disable_echo(
-    hass: UniversalAssistant, db_url, echo, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, db_url, echo, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test echo is disabled for non sqlite databases."""
     recorder_helper.async_initialize_recorder(hass)
@@ -2402,7 +2402,7 @@ async def test_disable_echo(
     ],
 )
 async def test_mysql_missing_utf8mb4(
-    hass: UniversalAssistant, config_url, expected_connect_args
+    hass: __HAC_KEEP__, config_url, expected_connect_args
 ) -> None:
     """Test recorder fails to setup if charset=utf8mb4 is missing from db_url."""
     recorder_helper.async_initialize_recorder(hass)
@@ -2426,7 +2426,7 @@ async def test_mysql_missing_utf8mb4(
             assert connect_args[key] == value
 
 
-async def test_postgresql_url_uses_psycopg2(hass: UniversalAssistant) -> None:
+async def test_postgresql_url_uses_psycopg2(hass: __HAC_KEEP__) -> None:
     """Test the engine for a driverless PostgreSQL URL uses psycopg2."""
     recorder_helper.async_initialize_recorder(hass)
 
@@ -2514,7 +2514,7 @@ async def test_postgresql_url_uses_psycopg2(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_engine_options_for_backend_and_driver(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_url: str,
     poolclass: type[MutexPool | RecorderPool] | None,
     charset: str | None,
@@ -2613,7 +2613,7 @@ def test_validate_db_url_invalid(db_url: str, message: str) -> None:
     ],
 )
 async def test_default_url(
-    hass: UniversalAssistant, tmp_path: Path, config_dir: str
+    hass: __HAC_KEEP__, tmp_path: Path, config_dir: str
 ) -> None:
     """Test the default URL points at the database file in the config directory."""
     hass.config.config_dir = str(tmp_path / config_dir)
@@ -2629,7 +2629,7 @@ async def test_default_url(
         "mysql://user:password@SERVER_IP/DB_NAME?blah=bleh&charset=other",
     ],
 )
-async def test_connect_args_priority(hass: UniversalAssistant, config_url) -> None:
+async def test_connect_args_priority(hass: __HAC_KEEP__, config_url) -> None:
     """Test connect_args has priority over URL query."""
     connect_params = []
     recorder_helper.async_initialize_recorder(hass)
@@ -2700,7 +2700,7 @@ async def test_connect_args_priority(hass: UniversalAssistant, config_url) -> No
 
 
 async def test_excluding_attributes_by_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     setup_recorder: None,
 ) -> None:
@@ -2753,7 +2753,7 @@ async def test_excluding_attributes_by_integration(
 
 
 async def test_excluding_all_attributes_by_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     setup_recorder: None,
 ) -> None:
@@ -2818,7 +2818,7 @@ async def test_excluding_all_attributes_by_integration(
 
 
 async def test_lru_increases_with_many_entities(
-    small_cache_size: None, hass: UniversalAssistant, setup_recorder: None
+    small_cache_size: None, hass: __HAC_KEEP__, setup_recorder: None
 ) -> None:
     """Test that the recorder's internal LRU cache increases with many entities."""
     mock_entity_count = 16
@@ -2834,7 +2834,7 @@ async def test_lru_increases_with_many_entities(
 
 
 async def test_clean_shutdown_when_recorder_thread_raises_during_initialize_database(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test clean shutdown when recorder raises during initialize_database."""
     with (
@@ -2862,7 +2862,7 @@ async def test_clean_shutdown_when_recorder_thread_raises_during_initialize_data
 
 
 async def test_clean_shutdown_when_recorder_thread_raises_during_validate_db_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test clean shutdown when recorder raises during validate_db_schema."""
     with (
@@ -2897,7 +2897,7 @@ async def test_clean_shutdown_when_recorder_thread_raises_during_validate_db_sch
     ],
 )
 async def test_clean_shutdown_when_schema_migration_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     func_to_patch: str,
     expected_setup_result: bool,
     caplog: pytest.LogCaptureFixture,
@@ -2938,7 +2938,7 @@ async def test_clean_shutdown_when_schema_migration_fails(
 
 
 async def test_setup_fails_after_downgrade(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we fail to setup after a downgrade.
 
@@ -2973,12 +2973,12 @@ async def test_setup_fails_after_downgrade(
     assert (
         f"The database schema version {SCHEMA_VERSION + 1} is newer "
         f"than {SCHEMA_VERSION} which is the maximum database schema "
-        "version supported by the installed version of Universal Universal Home Assistant Core"
+        "version supported by the installed version of __HA_KEEP__ Core"
     ) in caplog.text
 
 
 async def test_events_are_recorded_until_final_write(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
     """Test that events are recorded until the final write."""
@@ -3024,7 +3024,7 @@ async def test_events_are_recorded_until_final_write(
 
 
 async def test_commit_before_commits_pending_writes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     recorder_db_url: str,
 ) -> None:
@@ -3089,14 +3089,14 @@ async def test_commit_before_commits_pending_writes(
     await verify_session_commit_future
 
 
-async def test_all_tables_use_default_table_args(hass: UniversalAssistant) -> None:
+async def test_all_tables_use_default_table_args(hass: __HAC_KEEP__) -> None:
     """Test that all tables use the default table args."""
     for table in db_schema.Base.metadata.tables.values():
         assert table.kwargs.items() >= db_schema._DEFAULT_TABLE_ARGS.items()
 
 
 async def test_empty_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -3113,7 +3113,7 @@ async def test_empty_entity_id(
 
 
 async def test_setting_up_recorder_fails_entity_registry_listener(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test recorder setup fails if an entity registry listener is in place."""
     async_track_entity_registry_updated_event(hass, "test.test", lambda x: x)
@@ -3132,7 +3132,7 @@ async def test_setting_up_recorder_fails_entity_registry_listener(
 
 
 async def test_setup_connection_after_connection_closed(
-    hass: UniversalAssistant, setup_recorder: None
+    hass: __HAC_KEEP__, setup_recorder: None
 ) -> None:
     """Test the connect listener does not raise once the engine is gone.
 

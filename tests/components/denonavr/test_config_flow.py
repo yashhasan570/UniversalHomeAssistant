@@ -21,7 +21,7 @@ from universalassistant.components.denonavr.config_flow import (
     AvrTimoutError,
 )
 from universalassistant.const import CONF_HOST, CONF_MODEL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_MANUFACTURER,
@@ -89,7 +89,7 @@ def denonavr_connect_fixture():
         yield
 
 
-async def test_config_flow_manual_host_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_manual_host_success(hass: __HAC_KEEP__) -> None:
     """Successful flow manually initialized by the user.
 
     Host specified.
@@ -120,7 +120,7 @@ async def test_config_flow_manual_host_success(hass: UniversalAssistant) -> None
     assert result["options"] == {CONF_USE_TELNET: True}
 
 
-async def test_config_flow_manual_discover_1_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_manual_discover_1_success(hass: __HAC_KEEP__) -> None:
     """Successful flow manually initialized by the user.
 
     Without the host specified and 1 receiver discovered.
@@ -155,7 +155,7 @@ async def test_config_flow_manual_discover_1_success(hass: UniversalAssistant) -
     assert result["options"] == {CONF_USE_TELNET: True}
 
 
-async def test_config_flow_manual_discover_2_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_manual_discover_2_success(hass: __HAC_KEEP__) -> None:
     """Successful flow manually initialized by the user.
 
     Without the host specified and 2 receiver discovered.
@@ -199,7 +199,7 @@ async def test_config_flow_manual_discover_2_success(hass: UniversalAssistant) -
     assert result["options"] == {CONF_USE_TELNET: True}
 
 
-async def test_config_flow_manual_discover_error(hass: UniversalAssistant) -> None:
+async def test_config_flow_manual_discover_error(hass: __HAC_KEEP__) -> None:
     """Failed flow manually initialized by the user.
 
     Without the host specified and no receiver discovered.
@@ -237,7 +237,7 @@ async def test_config_flow_manual_discover_error(hass: UniversalAssistant) -> No
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_manual_host_no_serial(hass: UniversalAssistant) -> None:
+async def test_config_flow_manual_host_no_serial(hass: __HAC_KEEP__) -> None:
     """Successful flow manually initialized by the user.
 
     Host specified and an error getting the serial number.
@@ -271,7 +271,7 @@ async def test_config_flow_manual_host_no_serial(hass: UniversalAssistant) -> No
     }
 
 
-async def test_config_flow_manual_host_connection_error(hass: UniversalAssistant) -> None:
+async def test_config_flow_manual_host_connection_error(hass: __HAC_KEEP__) -> None:
     """Failed flow manually initialized by the user.
 
     Host specified and a connection error.
@@ -303,7 +303,7 @@ async def test_config_flow_manual_host_connection_error(hass: UniversalAssistant
     assert result["reason"] == "cannot_connect"
 
 
-async def test_config_flow_manual_host_no_device_info(hass: UniversalAssistant) -> None:
+async def test_config_flow_manual_host_no_device_info(hass: __HAC_KEEP__) -> None:
     """Failed flow manually initialized by the user.
 
     Host specified and no device info (due to receiver power off).
@@ -329,7 +329,7 @@ async def test_config_flow_manual_host_no_device_info(hass: UniversalAssistant) 
     assert result["reason"] == "cannot_connect"
 
 
-async def test_config_flow_ssdp(hass: UniversalAssistant) -> None:
+async def test_config_flow_ssdp(hass: __HAC_KEEP__) -> None:
     """Successful flow initialized by ssdp discovery."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -367,7 +367,7 @@ async def test_config_flow_ssdp(hass: UniversalAssistant) -> None:
     assert result["options"] == {CONF_USE_TELNET: True}
 
 
-async def test_config_flow_ssdp_not_denon(hass: UniversalAssistant) -> None:
+async def test_config_flow_ssdp_not_denon(hass: __HAC_KEEP__) -> None:
     """Failed flow initialized by ssdp discovery.
 
     Not supported manufacturer.
@@ -391,7 +391,7 @@ async def test_config_flow_ssdp_not_denon(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_denonavr_manufacturer"
 
 
-async def test_config_flow_ssdp_missing_info(hass: UniversalAssistant) -> None:
+async def test_config_flow_ssdp_missing_info(hass: __HAC_KEEP__) -> None:
     """Failed flow initialized by ssdp discovery.
 
     Missing information.
@@ -413,7 +413,7 @@ async def test_config_flow_ssdp_missing_info(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_denonavr_missing"
 
 
-async def test_config_flow_ssdp_no_receiver_api(hass: UniversalAssistant) -> None:
+async def test_config_flow_ssdp_no_receiver_api(hass: __HAC_KEEP__) -> None:
     """Failed flow initialized by ssdp discovery.
 
     HEOS-only devices (like a Denon Home speaker) are discovered, but don't
@@ -442,7 +442,7 @@ async def test_config_flow_ssdp_no_receiver_api(hass: UniversalAssistant) -> Non
     assert result["reason"] == "cannot_connect"
 
 
-async def test_config_flow_ssdp_ignored_model(hass: UniversalAssistant) -> None:
+async def test_config_flow_ssdp_ignored_model(hass: __HAC_KEEP__) -> None:
     """Failed flow initialized by ssdp discovery.
 
     Model in the ignored models list.
@@ -466,7 +466,7 @@ async def test_config_flow_ssdp_ignored_model(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_denonavr_manufacturer"
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test specifying non default settings using options flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -512,7 +512,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
 
 
 async def test_config_flow_manual_host_no_serial_double_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Failed flow manually initialized by the user twice.
 
@@ -593,7 +593,7 @@ def _reconfigure_entry(
     ],
 )
 async def test_reconfigure(
-    hass: UniversalAssistant, unique_id: str | None, serial_number: str | None
+    hass: __HAC_KEEP__, unique_id: str | None, serial_number: str | None
 ) -> None:
     """Test reconfiguring the receiver host."""
     entry = _reconfigure_entry(unique_id, serial_number)
@@ -633,7 +633,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_cannot_connect(
-    hass: UniversalAssistant, target: str, patch_kwargs: dict[str, Any]
+    hass: __HAC_KEEP__, target: str, patch_kwargs: dict[str, Any]
 ) -> None:
     """Test a connection error during reconfiguration and recovering from it."""
     entry = _reconfigure_entry(TEST_UNIQUE_ID, TEST_SERIALNUMBER)
@@ -669,7 +669,7 @@ async def test_reconfigure_cannot_connect(
     ],
 )
 async def test_reconfigure_unique_id_mismatch(
-    hass: UniversalAssistant, serial_number: str | None
+    hass: __HAC_KEEP__, serial_number: str | None
 ) -> None:
     """Test reconfiguring to a different receiver aborts."""
     entry = _reconfigure_entry(TEST_UNIQUE_ID, TEST_SERIALNUMBER)
@@ -690,7 +690,7 @@ async def test_reconfigure_unique_id_mismatch(
     assert entry.data[CONF_HOST] == TEST_HOST
 
 
-async def test_reconfigure_host_already_configured(hass: UniversalAssistant) -> None:
+async def test_reconfigure_host_already_configured(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring to the host of another entry aborts."""
     entry = _reconfigure_entry(None, None)
     entry.add_to_hass(hass)

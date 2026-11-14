@@ -8,7 +8,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from universalassistant.const import STATE_ON
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -20,7 +20,7 @@ from .util import build_event_entity_names
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ONVIFConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

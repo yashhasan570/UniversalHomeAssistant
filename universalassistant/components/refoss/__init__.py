@@ -4,7 +4,7 @@ from datetime import timedelta
 from typing import Final
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.event import async_track_time_interval
 
 from .bridge import DiscoveryService, RefossConfigEntry
@@ -17,7 +17,7 @@ PLATFORMS: Final = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: RefossConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: RefossConfigEntry) -> None:
     """Set up Refoss from a config entry."""
     discover = await refoss_discovery_server(hass)
     refoss_discovery = DiscoveryService(hass, entry, discover)
@@ -37,7 +37,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: RefossConfigEntry) 
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: RefossConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: RefossConfigEntry) -> None:
     """Unload a config entry."""
     entry.runtime_data.discovery.clean_up()
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

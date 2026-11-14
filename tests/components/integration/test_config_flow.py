@@ -13,13 +13,13 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfPower
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import selector
 
 
 @pytest.mark.parametrize("platform", ["sensor"])
-async def test_config_flow(hass: UniversalAssistant, platform) -> None:
+async def test_config_flow(hass: __HAC_KEEP__, platform) -> None:
     """Test the config flow."""
     input_sensor_entity_id = "sensor.input"
 
@@ -84,7 +84,7 @@ async def test_config_flow(hass: UniversalAssistant, platform) -> None:
 
 
 @pytest.mark.parametrize("platform", ["sensor"])
-async def test_options(hass: UniversalAssistant, platform) -> None:
+async def test_options(hass: __HAC_KEEP__, platform) -> None:
     """Test reconfiguring."""
     # Setup the config entry
     config_entry = MockConfigEntry(
@@ -173,7 +173,7 @@ async def test_options(hass: UniversalAssistant, platform) -> None:
 
 
 async def test_options_source_selector_with_missing_source_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test reconfiguring when the current source unit is missing."""
     config_entry = MockConfigEntry(

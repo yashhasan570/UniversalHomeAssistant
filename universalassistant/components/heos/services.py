@@ -8,7 +8,7 @@ from typing import Final
 import probatio
 
 from universalassistant.components.media_player import DOMAIN as MEDIA_PLAYER_DOMAIN
-from universalassistant.core import UniversalAssistant, SupportsResponse, callback
+from universalassistant.core import __HAC_KEEP__, SupportsResponse, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_register_platform_entity_service
 from universalassistant.helpers.typing import VolDictType, VolSchemaType
@@ -38,7 +38,7 @@ class HeosServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register HEOS services."""
     for description in MEDIA_PLAYER_ENTITY_SERVICES:
         async_register_platform_entity_service(

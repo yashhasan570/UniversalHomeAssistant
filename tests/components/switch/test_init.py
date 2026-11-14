@@ -7,7 +7,7 @@ from universalassistant import core
 from universalassistant.components import switch
 from universalassistant.components.switch import DOMAIN
 from universalassistant.const import CONF_PLATFORM
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import common
@@ -16,7 +16,7 @@ from .common import MockSwitch
 
 @pytest.fixture(autouse=True)
 def entities(
-    hass: UniversalAssistant, mock_switch_entities: list[MockSwitch]
+    hass: __HAC_KEEP__, mock_switch_entities: list[MockSwitch]
 ) -> list[MockSwitch]:
     """Initialize the test switch."""
     setup_test_component_platform(hass, switch.DOMAIN, mock_switch_entities)
@@ -24,7 +24,7 @@ def entities(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_methods(hass: UniversalAssistant, entities: list[MockSwitch]) -> None:
+async def test_methods(hass: __HAC_KEEP__, entities: list[MockSwitch]) -> None:
     """Test is_on, turn_on, turn_off methods."""
     switch_1, switch_2, switch_3 = entities
     assert await async_setup_component(
@@ -58,7 +58,7 @@ async def test_methods(hass: UniversalAssistant, entities: list[MockSwitch]) -> 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_switch_context(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entities,
     hass_admin_user: MockUser,
 ) -> None:

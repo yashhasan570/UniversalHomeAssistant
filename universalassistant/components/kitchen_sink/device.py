@@ -1,13 +1,13 @@
 """Create device without entities."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN
 
 
 def async_create_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_id: str,
     device_name: str | None,
     device_translation_key: str | None,

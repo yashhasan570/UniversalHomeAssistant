@@ -23,7 +23,7 @@ from sqlalchemy.engine.row import Row
 from sqlalchemy.orm.session import Session
 
 from universalassistant.const import COMPRESSED_STATE_LAST_UPDATED, COMPRESSED_STATE_STATE
-from universalassistant.core import UniversalAssistant, State, split_entity_id
+from universalassistant.core import __HAC_KEEP__, State, split_entity_id
 from universalassistant.helpers.recorder import get_instance, session_scope
 from universalassistant.util import dt as dt_util
 from universalassistant.util.collection import chunked_or_all
@@ -145,7 +145,7 @@ def _select_from_subquery(
 
 
 def get_significant_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     start_time: datetime,
     end_time: datetime | None = None,
     entity_ids: list[str] | None = None,
@@ -241,7 +241,7 @@ def _significant_states_stmt(
 
 
 def get_significant_states_with_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     session: Session,
     start_time: datetime,
     end_time: datetime | None = None,
@@ -327,7 +327,7 @@ def get_significant_states_with_session(
         return execute_stmt_lambda_element_streamed(
             session, _stmt(metadata_ids), lambda rows, _: to_dict(rows)
         )
-    # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/137178
+    # https://github.com/yashhasan570/__HAC_KEEP__/issues/137178
     # If we include the start time state we need to limit the
     # number of metadata_ids we query for at a time to avoid
     # hitting limits in the MySQL optimizer that prevent
@@ -384,7 +384,7 @@ def _generate_significant_states_with_session_stmt(
 
 
 def get_full_significant_states_with_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     session: Session,
     start_time: datetime,
     end_time: datetime | None = None,
@@ -481,7 +481,7 @@ def _state_changed_during_period_stmt(
 
 
 def state_changes_during_period(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     start_time: datetime,
     end_time: datetime | None = None,
     entity_id: str | None = None,
@@ -602,7 +602,7 @@ def _get_last_state_changes_multiple_stmt(
 
 
 def get_last_state_changes(
-    hass: UniversalAssistant, number_of_states: int, entity_id: str
+    hass: __HAC_KEEP__, number_of_states: int, entity_id: str
 ) -> dict[str, list[State]]:
     """Return the last number_of_states."""
     entity_id_lower = entity_id.lower()
@@ -655,7 +655,7 @@ def _get_start_time_state_for_entities_stmt_dependent_sub_query(
     """Baked query to get states for specific entities."""
     # Engine has a fast dependent subquery optimizer
     # This query is the result of significant research in
-    # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/132865
+    # https://github.com/yashhasan570/__HAC_KEEP__/issues/132865
     # A reverse index scan with a limit 1 is the fastest way to get the
     # last state change before a specific point in time for all supported
     # databases. Since all databases support this query as a join
@@ -745,7 +745,7 @@ def _get_start_time_state_for_entities_stmt_group_by(
 
 
 def _get_oldest_possible_ts(
-    hass: UniversalAssistant, utc_point_in_time: datetime
+    hass: __HAC_KEEP__, utc_point_in_time: datetime
 ) -> float | None:
     """Return the oldest possible timestamp.
 

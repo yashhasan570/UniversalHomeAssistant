@@ -8,7 +8,7 @@ from openwrt.ubus import Ubus
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -27,7 +27,7 @@ class UbusDataUpdateCoordinator(DataUpdateCoordinator[dict[str, str | None]]):
 
     config_entry: UbusConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: UbusConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: UbusConfigEntry) -> None:
         """Initialize the coordinator from a config entry."""
         self.host: str = config_entry.data[CONF_HOST]
         self.dhcp_software: str = config_entry.data[CONF_DHCP_SOFTWARE]

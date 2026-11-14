@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant template extensions."""
+"""__HA_KEEP__ template extensions."""
 
 from .areas import AreaExtension
 from .base64 import Base64Extension

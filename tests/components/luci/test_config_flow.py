@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 REAUTH_INPUT = {
@@ -42,7 +42,7 @@ CONNECT_ERRORS = [
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow(hass: UniversalAssistant, mock_luci_client: MagicMock) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, mock_luci_client: MagicMock) -> None:
     """Test the happy path of the user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -60,7 +60,7 @@ async def test_user_flow(hass: UniversalAssistant, mock_luci_client: MagicMock) 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_luci_client")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the user flow aborts when the host is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -80,7 +80,7 @@ async def test_user_flow_already_configured(
 @pytest.mark.parametrize(("client_config", "base_error"), CONNECT_ERRORS)
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_luci_client: MagicMock,
     client_config: dict[str, Any],
     base_error: str,
@@ -107,7 +107,7 @@ async def test_user_flow_errors(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_import_flow(hass: UniversalAssistant, mock_luci_client: MagicMock) -> None:
+async def test_import_flow(hass: __HAC_KEEP__, mock_luci_client: MagicMock) -> None:
     """Test the happy path of the import flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_IMPORT}, data=USER_INPUT
@@ -119,7 +119,7 @@ async def test_import_flow(hass: UniversalAssistant, mock_luci_client: MagicMock
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_luci_client")
 async def test_import_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the import flow aborts when the host is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -134,7 +134,7 @@ async def test_import_flow_already_configured(
 @pytest.mark.parametrize(("client_config", "reason"), CONNECT_ERRORS)
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_luci_client: MagicMock,
     client_config: dict[str, Any],
     reason: str,
@@ -151,7 +151,7 @@ async def test_import_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
 ) -> None:
@@ -173,7 +173,7 @@ async def test_reauth_flow(
 @pytest.mark.parametrize(("client_config", "base_error"), CONNECT_ERRORS)
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     client_config: dict[str, Any],

@@ -9,7 +9,7 @@ from pywaze.route_calculator import CalcRoutesResponse, WRCError
 
 from universalassistant.components.waze_travel_time.config_flow import WazeConfigFlow
 from universalassistant.components.waze_travel_time.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
@@ -23,7 +23,7 @@ def no_api_call_delay() -> Generator[None]:
 
 
 @pytest.fixture(name="mock_config")
-async def mock_config_fixture(hass: UniversalAssistant, data, options):
+async def mock_config_fixture(hass: __HAC_KEEP__, data, options):
     """Mock a Waze Travel Time config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

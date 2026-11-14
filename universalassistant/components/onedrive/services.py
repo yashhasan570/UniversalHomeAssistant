@@ -12,13 +12,13 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.os_error import os_read_error
 
@@ -77,7 +77,7 @@ def _split_glob_pattern(pattern: str) -> tuple[str, str]:
 
 
 def _expand_filenames(
-    hass: UniversalAssistant, filenames: list[str]
+    hass: __HAC_KEEP__, filenames: list[str]
 ) -> list[tuple[str, str]]:
     """Expand wildcard patterns, preserving subfolder structure."""
     expanded: dict[str, str] = {}
@@ -89,7 +89,7 @@ def _expand_filenames(
         base, relative_pattern = _split_glob_pattern(filename)
 
         if not hass.config.is_allowed_path(base):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="no_access_to_path",
                 translation_placeholders={"filename": base},
@@ -107,7 +107,7 @@ def _expand_filenames(
             relative_path = str(PurePosixPath(*Path(match).parts))
             expanded.setdefault(full_path, relative_path)
     if no_matches:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="no_files_match_pattern",
             translation_placeholders={
@@ -125,14 +125,14 @@ def _destination_parts(relative_path: str) -> tuple[str, str]:
 
 
 def _read_file_contents(
-    hass: UniversalAssistant, filenames: list[str]
+    hass: __HAC_KEEP__, filenames: list[str]
 ) -> list[tuple[str, bytes]]:
     """Return the destination-relative path and file contents for each file."""
     files = _expand_filenames(hass, filenames)
     missing: list[str] = []
     for full_path, _ in files:
         if not hass.config.is_allowed_path(full_path):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="no_access_to_path",
                 translation_placeholders={"filename": full_path},
@@ -140,7 +140,7 @@ def _read_file_contents(
         if not Path(full_path).exists():
             missing.append(full_path)
     if missing:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="filenames_do_not_exist",
             translation_placeholders={
@@ -155,7 +155,7 @@ def _read_file_contents(
         except OSError as err:
             raise os_read_error(err, full_path) from err
         if file_size > CONTENT_SIZE_LIMIT:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="file_too_large",
                 translation_placeholders={
@@ -173,7 +173,7 @@ def _read_file_contents(
 
 
 def _raise_invalid_destination_path(destination_path: str) -> None:
-    raise UniversalAssistantError(
+    raise __HAC_KEEP__Error(
         translation_domain=DOMAIN,
         translation_key="invalid_destination_path",
         translation_placeholders={"destination_path": destination_path},
@@ -183,7 +183,7 @@ def _raise_invalid_destination_path(destination_path: str) -> None:
 def _validate_destination_path(destination_path: str) -> str:
     """Validate and normalize a remote destination path.
 
-    Returns the normalized path or raises UniversalAssistantError.
+    Returns the normalized path or raises __HAC_KEEP__Error.
     """
     normalized = destination_path.strip("/")
     if not normalized:
@@ -196,7 +196,7 @@ def _validate_destination_path(destination_path: str) -> str:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register OneDrive services."""
 
     async def async_handle_upload(call: ServiceCall) -> ServiceResponse:
@@ -235,7 +235,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
                         ).id
                     parent_id = folder_ids[accumulated]
         except OneDriveException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="create_folder_error",
                 translation_placeholders={"message": str(err)},
@@ -250,7 +250,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
         try:
             upload_results = await asyncio.gather(*upload_tasks)
         except OneDriveException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="upload_error",
                 translation_placeholders={"message": str(err)},
@@ -277,7 +277,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
         try:
             approot_id = (await client.get_approot()).id
         except OneDriveException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_error",
             ) from err
@@ -296,7 +296,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
             if isinstance(result, OneDriveException):
                 failures.append((file_path, result))
         if failures:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="delete_error",
                 translation_placeholders={

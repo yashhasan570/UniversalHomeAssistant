@@ -8,7 +8,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.google_assistant_sdk.const import CONF_LANGUAGE_CODE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
@@ -19,7 +19,7 @@ def freeze_the_time():
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

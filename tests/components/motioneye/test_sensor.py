@@ -15,7 +15,7 @@ from universalassistant.components.motioneye.const import (
 )
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -29,7 +29,7 @@ from . import (
 
 
 async def test_sensor_actions(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the actions sensor."""
     register_test_entity(
@@ -74,7 +74,7 @@ async def test_sensor_actions(
 
 
 async def test_sensor_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_sensor_device_info(
 
 
 async def test_sensor_actions_can_be_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

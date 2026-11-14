@@ -2,14 +2,14 @@
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_FRIENDLY_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import BED_ID, BED_NAME, BED_NAME_LOWER, setup_platform
 
 
 async def test_button_calibrate(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_asyncsleepiq
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_asyncsleepiq
 ) -> None:
     """Test the SleepIQ calibrate button."""
     await setup_platform(hass, BUTTON_DOMAIN)
@@ -44,7 +44,7 @@ async def test_button_calibrate(
 
 
 async def test_button_stop_pump(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_asyncsleepiq
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_asyncsleepiq
 ) -> None:
     """Test the SleepIQ stop pump button."""
     await setup_platform(hass, BUTTON_DOMAIN)

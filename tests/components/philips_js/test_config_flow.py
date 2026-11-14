@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.philips_js.const import CONF_ALLOW_NOTIFY, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -44,7 +44,7 @@ async def mock_tv_pairable(mock_tv):
     return mock_tv
 
 
-async def test_form(hass: UniversalAssistant, mock_setup_entry) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -66,7 +66,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry) -> None:
 
 
 async def test_reauth(
-    hass: UniversalAssistant, mock_setup_entry, mock_config_entry: MockConfigEntry, mock_tv
+    hass: __HAC_KEEP__, mock_setup_entry, mock_config_entry: MockConfigEntry, mock_tv
 ) -> None:
     """Test we get the form."""
 
@@ -93,7 +93,7 @@ async def test_reauth(
     assert len(mock_setup_entry.mock_calls) == 2
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant, mock_tv: MagicMock) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__, mock_tv: MagicMock) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -115,7 +115,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant, mock_tv: MagicMock)
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_pairing(hass: UniversalAssistant, mock_tv_pairable, mock_setup_entry) -> None:
+async def test_pairing(hass: __HAC_KEEP__, mock_tv_pairable, mock_setup_entry) -> None:
     """Test we get the form."""
     mock_tv = mock_tv_pairable
 
@@ -166,7 +166,7 @@ async def test_pairing(hass: UniversalAssistant, mock_tv_pairable, mock_setup_en
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_pair_request_failed(hass: UniversalAssistant, mock_tv_pairable) -> None:
+async def test_pair_request_failed(hass: __HAC_KEEP__, mock_tv_pairable) -> None:
     """Test we get the form."""
     mock_tv = mock_tv_pairable
     mock_tv.pairRequest.side_effect = PairingFailure({})
@@ -191,7 +191,7 @@ async def test_pair_request_failed(hass: UniversalAssistant, mock_tv_pairable) -
     }
 
 
-async def test_pair_grant_failed(hass: UniversalAssistant, mock_tv_pairable) -> None:
+async def test_pair_grant_failed(hass: __HAC_KEEP__, mock_tv_pairable) -> None:
     """Test we get the form."""
     mock_tv = mock_tv_pairable
 
@@ -236,7 +236,7 @@ async def test_pair_grant_failed(hass: UniversalAssistant, mock_tv_pairable) -> 
     }
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test config flow options."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -266,7 +266,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
     [(True, "_philipstv_s_rpc._tcp.local."), (False, "_philipstv_rpc._tcp.local.")],
 )
 async def test_zeroconf_discovery(
-    hass: UniversalAssistant, mock_tv_pairable, secured_transport, discovery_type
+    hass: __HAC_KEEP__, mock_tv_pairable, secured_transport, discovery_type
 ) -> None:
     """Test we can setup from zeroconf discovery."""
 
@@ -302,7 +302,7 @@ async def test_zeroconf_discovery(
 
 
 async def test_zeroconf_probe_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tv_pairable,
 ) -> None:
     """Test we can setup from zeroconf discovery."""

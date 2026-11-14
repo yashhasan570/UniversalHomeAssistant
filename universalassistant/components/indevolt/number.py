@@ -12,8 +12,8 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import PERCENTAGE, UnitOfPower
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -84,7 +84,7 @@ NUMBERS: Final = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IndevoltConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -142,7 +142,7 @@ class IndevoltNumberEntity(IndevoltEntity, NumberEntity):
             )
 
         else:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="write_error",
                 translation_placeholders={"name": str(self.name)},

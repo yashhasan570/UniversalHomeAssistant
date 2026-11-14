@@ -5,11 +5,11 @@ from unittest.mock import patch
 from plexapi.exceptions import NotFound
 import requests_mock
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_plex_tv_clients(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry,
     setup_plex_server,
     requests_mock: requests_mock.Mocker,

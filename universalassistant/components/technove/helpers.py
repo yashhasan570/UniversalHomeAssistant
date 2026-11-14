@@ -5,7 +5,7 @@ from typing import Any, Concatenate
 
 from technove import TechnoVEConnectionError, TechnoVEError
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DOMAIN
 from .entity import TechnoVEEntity
@@ -29,13 +29,13 @@ def technove_exception_handler[_TechnoVEEntityT: TechnoVEEntity, **_P](
         except TechnoVEConnectionError as error:
             self.coordinator.last_update_success = False
             self.coordinator.async_update_listeners()
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from error
 
         except TechnoVEError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="invalid_response",
             ) from error

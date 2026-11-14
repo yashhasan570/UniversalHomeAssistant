@@ -12,7 +12,7 @@ from universalassistant import config_entries
 from universalassistant.components.yamaha_musiccast.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_MODEL_NAME,
@@ -129,7 +129,7 @@ def mock_empty_discovery_information():
 @pytest.mark.usefixtures(
     "mock_get_device_info_mc_exception", "mock_valid_discovery_information"
 )
-async def test_user_input_device_not_found(hass: UniversalAssistant) -> None:
+async def test_user_input_device_not_found(hass: __HAC_KEEP__) -> None:
     """Test when user specifies a non-existing device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -155,7 +155,7 @@ async def test_user_input_device_not_found(hass: UniversalAssistant) -> None:
 @pytest.mark.usefixtures(
     "mock_get_device_info_invalid", "mock_valid_discovery_information"
 )
-async def test_user_input_non_yamaha_device_found(hass: UniversalAssistant) -> None:
+async def test_user_input_non_yamaha_device_found(hass: __HAC_KEEP__) -> None:
     """Test when device does not provide the musiccast API."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -179,7 +179,7 @@ async def test_user_input_non_yamaha_device_found(hass: UniversalAssistant) -> N
 
 
 async def test_user_input_device_already_existing(
-    hass: UniversalAssistant, mock_get_device_info_valid
+    hass: __HAC_KEEP__, mock_get_device_info_valid
 ) -> None:
     """Test when user specifies an existing device."""
     mock_entry = MockConfigEntry(
@@ -205,7 +205,7 @@ async def test_user_input_device_already_existing(
 @pytest.mark.usefixtures(
     "mock_get_device_info_exception", "mock_valid_discovery_information"
 )
-async def test_user_input_unknown_error(hass: UniversalAssistant) -> None:
+async def test_user_input_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test when device info raises an unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -229,7 +229,7 @@ async def test_user_input_unknown_error(hass: UniversalAssistant) -> None:
 
 
 async def test_user_input_device_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_device_info_valid,
     mock_valid_discovery_information,
 ) -> None:
@@ -255,7 +255,7 @@ async def test_user_input_device_found(
 
 
 async def test_user_input_device_found_no_ssdp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_device_info_valid,
     mock_empty_discovery_information,
 ) -> None:
@@ -283,7 +283,7 @@ async def test_user_input_device_found_no_ssdp(
 # SSDP Flows
 
 
-async def test_ssdp_discovery_failed(hass: UniversalAssistant, mock_ssdp_no_yamaha) -> None:
+async def test_ssdp_discovery_failed(hass: __HAC_KEEP__, mock_ssdp_no_yamaha) -> None:
     """Test when an SSDP discovered device is not a musiccast device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -304,7 +304,7 @@ async def test_ssdp_discovery_failed(hass: UniversalAssistant, mock_ssdp_no_yama
 
 
 async def test_ssdp_discovery_successful_add_device(
-    hass: UniversalAssistant, mock_ssdp_yamaha
+    hass: __HAC_KEEP__, mock_ssdp_yamaha
 ) -> None:
     """Test SSDP discovered musiccast device is confirmed by user."""
     result = await hass.config_entries.flow.async_init(
@@ -341,7 +341,7 @@ async def test_ssdp_discovery_successful_add_device(
 
 
 async def test_ssdp_discovery_existing_device_update(
-    hass: UniversalAssistant, mock_ssdp_yamaha
+    hass: __HAC_KEEP__, mock_ssdp_yamaha
 ) -> None:
     """Test SSDP discovered device already exists with another IP."""
     mock_entry = MockConfigEntry(
@@ -370,7 +370,7 @@ async def test_ssdp_discovery_existing_device_update(
 
 
 @pytest.fixture
-def mock_reconfigure_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_reconfigure_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a config entry to reconfigure."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -389,7 +389,7 @@ def mock_reconfigure_entry(hass: UniversalAssistant) -> MockConfigEntry:
     "mock_get_device_info_valid", "mock_valid_discovery_information"
 )
 async def test_reconfigure(
-    hass: UniversalAssistant, mock_reconfigure_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_reconfigure_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring the device host."""
     result = await mock_reconfigure_entry.start_reconfigure_flow(hass)
@@ -415,7 +415,7 @@ async def test_reconfigure(
     "mock_get_device_info_valid", "mock_valid_discovery_information"
 )
 async def test_reconfigure_with_update_listener(
-    hass: UniversalAssistant, mock_reconfigure_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_reconfigure_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring a loaded entry leaves the reload to its update listener."""
     update_listener = AsyncMock()
@@ -453,7 +453,7 @@ async def test_reconfigure_with_update_listener(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_reconfigure_entry: MockConfigEntry,
     side_effect: Exception | None,
     return_value: dict[str, str] | None,
@@ -489,7 +489,7 @@ async def test_reconfigure_errors(
 
 @pytest.mark.usefixtures("mock_valid_discovery_information")
 async def test_reconfigure_unique_id_mismatch(
-    hass: UniversalAssistant, mock_reconfigure_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_reconfigure_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure aborts when the host points to another device."""
     result = await mock_reconfigure_entry.start_reconfigure_flow(hass)

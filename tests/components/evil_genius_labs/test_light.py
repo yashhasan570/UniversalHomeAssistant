@@ -11,11 +11,11 @@ from universalassistant.components.light import (
     LightEntityFeature,
 )
 from universalassistant.const import ATTR_SUPPORTED_FEATURES
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize("platforms", [("light",)])
-async def test_works(hass: UniversalAssistant, setup_evil_genius_labs) -> None:
+async def test_works(hass: __HAC_KEEP__, setup_evil_genius_labs) -> None:
     """Test it works."""
     state = hass.states.get("light.fibonacci256_23d4")
     assert state is not None
@@ -27,7 +27,7 @@ async def test_works(hass: UniversalAssistant, setup_evil_genius_labs) -> None:
 
 
 @pytest.mark.parametrize("platforms", [("light",)])
-async def test_turn_on_color(hass: UniversalAssistant, setup_evil_genius_labs) -> None:
+async def test_turn_on_color(hass: __HAC_KEEP__, setup_evil_genius_labs) -> None:
     """Test turning on with a color."""
     with (
         patch("pyevilgenius.EvilGeniusDevice.set_path_value") as mock_set_path_value,
@@ -53,7 +53,7 @@ async def test_turn_on_color(hass: UniversalAssistant, setup_evil_genius_labs) -
 
 
 @pytest.mark.parametrize("platforms", [("light",)])
-async def test_turn_on_effect(hass: UniversalAssistant, setup_evil_genius_labs) -> None:
+async def test_turn_on_effect(hass: __HAC_KEEP__, setup_evil_genius_labs) -> None:
     """Test turning on with an effect."""
     with patch("pyevilgenius.EvilGeniusDevice.set_path_value") as mock_set_path_value:
         await hass.services.async_call(
@@ -72,7 +72,7 @@ async def test_turn_on_effect(hass: UniversalAssistant, setup_evil_genius_labs) 
 
 
 @pytest.mark.parametrize("platforms", [("light",)])
-async def test_turn_off(hass: UniversalAssistant, setup_evil_genius_labs) -> None:
+async def test_turn_off(hass: __HAC_KEEP__, setup_evil_genius_labs) -> None:
     """Test turning off."""
     with patch("pyevilgenius.EvilGeniusDevice.set_path_value") as mock_set_path_value:
         await hass.services.async_call(

@@ -8,14 +8,14 @@ from universalassistant.components.weather import (
     DOMAIN as WEATHER_DOMAIN,
     WeatherEntityStateAttribute,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_new_config_entry(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_weather
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_weather
 ) -> None:
     """Test the expected entities are created."""
     await hass.config_entries.flow.async_init(DOMAIN, context={"source": "onboarding"})
@@ -27,7 +27,7 @@ async def test_new_config_entry(
 
 
 async def test_legacy_config_entry(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_weather
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_weather
 ) -> None:
     """Test the expected entities are created."""
     entity_registry.async_get_or_create(
@@ -43,7 +43,7 @@ async def test_legacy_config_entry(
     assert len(er.async_entries_for_config_entry(entity_registry, entry.entry_id)) == 1
 
 
-async def test_weather(hass: UniversalAssistant, mock_weather) -> None:
+async def test_weather(hass: __HAC_KEEP__, mock_weather) -> None:
     """Test states of the weather."""
 
     await init_integration(hass)
@@ -62,7 +62,7 @@ async def test_weather(hass: UniversalAssistant, mock_weather) -> None:
     assert state.attributes[WeatherEntityStateAttribute.UV_INDEX] == 1.1
 
 
-async def test_tracking_home(hass: UniversalAssistant, mock_weather) -> None:
+async def test_tracking_home(hass: __HAC_KEEP__, mock_weather) -> None:
     """Test we track home."""
     await hass.config_entries.flow.async_init(DOMAIN, context={"source": "onboarding"})
     await hass.async_block_till_done()
@@ -86,7 +86,7 @@ async def test_tracking_home(hass: UniversalAssistant, mock_weather) -> None:
     assert len(hass.states.async_entity_ids("weather")) == 0
 
 
-async def test_not_tracking_home(hass: UniversalAssistant, mock_weather) -> None:
+async def test_not_tracking_home(hass: __HAC_KEEP__, mock_weather) -> None:
     """Test when we not track home."""
 
     entry = MockConfigEntry(
@@ -111,7 +111,7 @@ async def test_not_tracking_home(hass: UniversalAssistant, mock_weather) -> None
 
 
 async def test_remove_hourly_entity(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_weather
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_weather
 ) -> None:
     """Test removing the hourly entity."""
 

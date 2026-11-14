@@ -8,7 +8,7 @@ from gardena_bluetooth.parse import CharacteristicNullString
 
 from universalassistant.components.text import TextEntity, TextEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import GardenaBluetoothConfigEntry
@@ -56,7 +56,7 @@ DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GardenaBluetoothConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

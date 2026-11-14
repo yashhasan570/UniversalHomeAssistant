@@ -8,7 +8,7 @@ from pysensibo.exceptions import AuthenticationError
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.selector import TextSelector
 
 from .const import DOMAIN
@@ -22,7 +22,7 @@ DATA_SCHEMA = probatio.Schema(
 
 
 async def validate_api(
-    hass: UniversalAssistant, api_key: str
+    hass: __HAC_KEEP__, api_key: str
 ) -> tuple[str | None, dict[str, str]]:
     """Validate the API key."""
     errors: dict[str, str] = {}

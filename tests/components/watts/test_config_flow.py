@@ -10,14 +10,14 @@ from yarl import URL
 
 from universalassistant import config_entries
 from universalassistant.components.watts.const import DOMAIN, OAUTH2_AUTHORIZE, OAUTH2_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_invalid_token_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -113,7 +113,7 @@ async def test_invalid_token_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_oauth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_oauth_error(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_oauth_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -174,7 +174,7 @@ async def test_oauth_timeout(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_oauth_invalid_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_oauth_invalid_response(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -258,7 +258,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_account_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -306,7 +306,7 @@ async def test_reauth_account_mismatch(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -356,7 +356,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reconfigure_account_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -399,7 +399,7 @@ async def test_reconfigure_account_mismatch(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_unique_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

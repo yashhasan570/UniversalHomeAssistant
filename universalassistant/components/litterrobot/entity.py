@@ -7,7 +7,7 @@ from pylitterbot import Pet, Robot
 from pylitterbot.exceptions import LitterRobotException
 from pylitterbot.robot import EVENT_UPDATE
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -29,7 +29,7 @@ def whisker_command[_WhiskerEntityT2: LitterRobotEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except LitterRobotException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"error": str(ex)},
@@ -40,7 +40,7 @@ def whisker_command[_WhiskerEntityT2: LitterRobotEntity, **_P](
 
 def raise_update_failed(entity_id: str) -> NoReturn:
     """Raise when the robot rejected an update without an error response."""
-    raise UniversalAssistantError(
+    raise __HAC_KEEP__Error(
         translation_domain=DOMAIN,
         translation_key="update_failed",
         translation_placeholders={"entity_id": entity_id},

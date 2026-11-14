@@ -12,14 +12,14 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -35,7 +35,7 @@ async def test_entities(
     ("set_program"), [("none"), ("summer"), ("winter"), ("holiday")]
 )
 async def test_select_program(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_select: AsyncMock,
     config_entry: MockConfigEntry,
     set_program: str,

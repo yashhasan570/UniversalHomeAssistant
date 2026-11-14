@@ -18,7 +18,7 @@ from universalassistant.components.airzone.config_flow import short_mac
 from universalassistant.components.airzone.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_ID, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -44,7 +44,7 @@ TEST_IP = DHCP_SERVICE_INFO.ip
 TEST_PORT = 3000
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test that the form is served with valid input."""
 
     with (
@@ -104,7 +104,7 @@ async def test_form(hass: UniversalAssistant) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_system_id(hass: UniversalAssistant) -> None:
+async def test_form_invalid_system_id(hass: __HAC_KEEP__) -> None:
     """Test Invalid System ID 0."""
 
     with (
@@ -181,7 +181,7 @@ async def test_form_invalid_system_id(hass: UniversalAssistant) -> None:
         mock_setup_entry.assert_called_once()
 
 
-async def test_form_duplicated_id(hass: UniversalAssistant) -> None:
+async def test_form_duplicated_id(hass: __HAC_KEEP__) -> None:
     """Test setting up duplicated entry."""
 
     config_entry = MockConfigEntry(
@@ -208,7 +208,7 @@ async def test_form_duplicated_id(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_connection_error(hass: UniversalAssistant) -> None:
+async def test_connection_error(hass: __HAC_KEEP__) -> None:
     """Test connection to host error."""
 
     with patch(
@@ -248,7 +248,7 @@ async def test_connection_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_dhcp_flow(hass: UniversalAssistant) -> None:
+async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
     """Test that DHCP discovery works."""
 
     with patch(
@@ -310,7 +310,7 @@ async def test_dhcp_flow(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_flow_error(hass: UniversalAssistant) -> None:
+async def test_dhcp_flow_error(hass: __HAC_KEEP__) -> None:
     """Test that DHCP discovery fails."""
 
     with patch(
@@ -327,7 +327,7 @@ async def test_dhcp_flow_error(hass: UniversalAssistant) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_dhcp_connection_error(hass: UniversalAssistant) -> None:
+async def test_dhcp_connection_error(hass: __HAC_KEEP__) -> None:
     """Test DHCP connection to host error."""
 
     with patch(
@@ -407,7 +407,7 @@ async def test_dhcp_connection_error(hass: UniversalAssistant) -> None:
         mock_setup_entry.assert_called_once()
 
 
-async def test_dhcp_invalid_system_id(hass: UniversalAssistant) -> None:
+async def test_dhcp_invalid_system_id(hass: __HAC_KEEP__) -> None:
     """Test Invalid System ID 0."""
 
     with patch(

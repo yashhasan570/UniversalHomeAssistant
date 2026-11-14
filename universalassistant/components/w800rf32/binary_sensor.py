@@ -14,7 +14,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from universalassistant.const import CONF_DEVICE_CLASS, CONF_DEVICES, CONF_NAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, event as evt
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -45,7 +45,7 @@ PLATFORM_SCHEMA = BINARY_SENSOR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

@@ -21,12 +21,12 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("electricity_maps")
-async def test_form_home(hass: UniversalAssistant) -> None:
+async def test_form_home(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_form_home(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("electricity_maps")
-async def test_form_coordinates(hass: UniversalAssistant) -> None:
+async def test_form_coordinates(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -101,7 +101,7 @@ async def test_form_coordinates(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("electricity_maps")
-async def test_form_country(hass: UniversalAssistant) -> None:
+async def test_form_country(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -154,7 +154,7 @@ async def test_form_country(hass: UniversalAssistant) -> None:
     ids=["invalid auth", "generic error", "json decode error", "no data error"],
 )
 async def test_form_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     electricity_maps: AsyncMock,
     side_effect: Exception,
     err_code: str,
@@ -197,7 +197,7 @@ async def test_form_error_handling(
 
 
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     electricity_maps: AsyncMock,
 ) -> None:
@@ -227,7 +227,7 @@ async def test_reauth(
 
 
 @pytest.mark.usefixtures("electricity_maps")
-async def test_reconfigure_home(hass: UniversalAssistant) -> None:
+async def test_reconfigure_home(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring to the home location."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -254,7 +254,7 @@ async def test_reconfigure_home(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("electricity_maps")
-async def test_reconfigure_coordinates(hass: UniversalAssistant) -> None:
+async def test_reconfigure_coordinates(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring the coordinates."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -290,7 +290,7 @@ async def test_reconfigure_coordinates(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("electricity_maps")
 async def test_reconfigure_country(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring to a zone key."""
     config_entry.add_to_hass(hass)
@@ -329,7 +329,7 @@ async def test_reconfigure_country(
     ],
 )
 async def test_reconfigure_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     electricity_maps: AsyncMock,
     side_effect: Exception,

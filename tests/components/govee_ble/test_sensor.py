@@ -21,7 +21,7 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 from universalassistant.util import dt as dt_util
 
@@ -37,7 +37,7 @@ from . import (
 )
 
 
-async def test_sensors(hass: UniversalAssistant) -> None:
+async def test_sensors(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -64,7 +64,7 @@ async def test_sensors(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_gvh5178_error(hass: UniversalAssistant) -> None:
+async def test_gvh5178_error(hass: __HAC_KEEP__) -> None:
     """Test H5178 Remote in error marks state as unavailable."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -87,7 +87,7 @@ async def test_gvh5178_error(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_gvh5178_multi_sensor(hass: UniversalAssistant) -> None:
+async def test_gvh5178_multi_sensor(hass: __HAC_KEEP__) -> None:
     """Test H5178 with a primary and remote sensor.
 
     The gateway sensor is responsible for broadcasting the state for
@@ -168,7 +168,7 @@ async def test_gvh5178_multi_sensor(hass: UniversalAssistant) -> None:
     assert primary_temp_sensor.state == STATE_UNAVAILABLE
 
 
-async def test_gv5140(hass: UniversalAssistant) -> None:
+async def test_gv5140(hass: __HAC_KEEP__) -> None:
     """Test CO2, temperature and humidity sensors for a GV5140 device."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -277,7 +277,7 @@ async def test_gv5140(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_probe_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_info: BluetoothServiceInfo,
     expected_sensors: list[tuple[str, str, str]],
 ) -> None:
@@ -305,7 +305,7 @@ async def test_probe_sensors(
     await hass.async_block_till_done()
 
 
-async def test_gvh5106(hass: UniversalAssistant) -> None:
+async def test_gvh5106(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors for a device with PM25."""
     entry = MockConfigEntry(
         domain=DOMAIN,

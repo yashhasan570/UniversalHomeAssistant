@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.samsungtv.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_samsungtv_entry
 from .const import ENTRYDATA_ENCRYPTED_WEBSOCKET, ENTRYDATA_WEBSOCKET
@@ -19,7 +19,7 @@ from .const import ENTRYDATA_ENCRYPTED_WEBSOCKET, ENTRYDATA_WEBSOCKET
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -33,7 +33,7 @@ async def test_entry_diagnostics(
 
 @pytest.mark.usefixtures("remote_encrypted_websocket")
 async def test_entry_diagnostics_encrypted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rest_api: Mock,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
@@ -51,7 +51,7 @@ async def test_entry_diagnostics_encrypted(
 
 @pytest.mark.usefixtures("remote_encrypted_websocket")
 async def test_entry_diagnostics_encrypte_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rest_api: Mock,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,

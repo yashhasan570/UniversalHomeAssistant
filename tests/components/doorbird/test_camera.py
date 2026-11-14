@@ -17,8 +17,8 @@ from universalassistant.components.doorbird.const import (
     DOMAIN,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -36,7 +36,7 @@ LAST_MOTION_CAMERA_ENTITY_ID = "camera.mydoorbird_last_motion"
 LAST_RING_ISSUE_ID = "deprecated_camera_1234ABCD_last_ring"
 
 
-def create_stale_issue(hass: UniversalAssistant, issue_id: str) -> None:
+def create_stale_issue(hass: __HAC_KEEP__, issue_id: str) -> None:
     """Create a repair issue left over from an earlier setup."""
     ir.async_create_issue(
         hass,
@@ -54,7 +54,7 @@ def create_stale_issue(hass: UniversalAssistant, issue_id: str) -> None:
 
 
 async def test_doorbird_live_camera(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -64,10 +64,10 @@ async def test_doorbird_live_camera(
     assert await async_get_stream_source(hass, LIVE_CAMERA_ENTITY_ID) is not None
     api = doorbird_entry.api
     api.get_image.side_effect = mock_not_found_exception()
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await async_get_image(hass, LIVE_CAMERA_ENTITY_ID)
     api.get_image.side_effect = TimeoutError()
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await async_get_image(hass, LIVE_CAMERA_ENTITY_ID)
     api.get_image.side_effect = None
     assert (await async_get_image(hass, LIVE_CAMERA_ENTITY_ID)).content == b"image"
@@ -80,7 +80,7 @@ async def test_doorbird_live_camera(
 
 
 async def test_live_1080p_camera_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_live_1080p_camera_disabled_by_default(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_live_1080p_camera(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
     """Test the 1080p camera streams from the 1080p RTSP URL."""
@@ -116,7 +116,7 @@ async def test_live_1080p_camera(
     ],
 )
 async def test_deprecated_camera_not_created_for_new_installs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -149,7 +149,7 @@ async def test_deprecated_camera_not_created_for_new_installs(
     ],
 )
 async def test_deprecated_camera_kept_and_flagged(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -177,7 +177,7 @@ async def test_deprecated_camera_kept_and_flagged(
 
 
 async def test_deprecated_camera_issue_names_renamed_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -207,7 +207,7 @@ async def test_deprecated_camera_issue_names_renamed_entity(
     ],
 )
 async def test_deprecated_camera_removed_when_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -238,7 +238,7 @@ async def test_deprecated_camera_removed_when_disabled(
 
 
 async def test_deprecated_camera_kept_when_disabled_by_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -285,7 +285,7 @@ async def test_deprecated_camera_kept_when_disabled_by_device(
     ],
 )
 async def test_deprecated_camera_issue_lists_automations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,

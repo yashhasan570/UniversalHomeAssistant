@@ -2,13 +2,13 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import SleepAsAndroidConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: SleepAsAndroidConfigEntry
+    hass: __HAC_KEEP__, config_entry: SleepAsAndroidConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

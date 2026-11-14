@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DISPLAY_OPTIONS, EVENT_CORE_CONFIG_UPDATE
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
     AddEntitiesCallback,
@@ -40,14 +40,14 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
     """Set up the Time and Date sensor."""
     if hass.config.time_zone is None:
-        _LOGGER.error("Timezone is not set in Universal Universal Home Assistant configuration")  # type: ignore[unreachable]
+        _LOGGER.error("Timezone is not set in __HA_KEEP__ configuration")  # type: ignore[unreachable]
         return
 
     async_add_entities(
@@ -56,7 +56,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -1,6 +1,6 @@
 """Support for Hue sensors."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .bridge import HueConfigEntry
@@ -9,7 +9,7 @@ from .v2.sensor import async_setup_entry as setup_entry_v2
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HueConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

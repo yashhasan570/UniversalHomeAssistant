@@ -19,7 +19,7 @@ from universalassistant.const import (
     MAX_LENGTH_STATE_STATE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 ENTITY_TEXT = "text.text"
@@ -36,7 +36,7 @@ def text_only() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_demo_text(hass: UniversalAssistant, text_only: None) -> None:
+async def setup_demo_text(hass: __HAC_KEEP__, text_only: None) -> None:
     """Initialize setup demo text."""
     assert await async_setup_component(
         hass, TEXT_DOMAIN, {"text": {"platform": "demo"}}
@@ -44,7 +44,7 @@ async def setup_demo_text(hass: UniversalAssistant, text_only: None) -> None:
     await hass.async_block_till_done()
 
 
-def test_setup_params(hass: UniversalAssistant) -> None:
+def test_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the initial parameters."""
     state = hass.states.get(ENTITY_TEXT)
     assert state.state == "Hello world"
@@ -54,7 +54,7 @@ def test_setup_params(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_MODE] == "text"
 
 
-async def test_set_value(hass: UniversalAssistant) -> None:
+async def test_set_value(hass: __HAC_KEEP__) -> None:
     """Test set value service."""
     await hass.services.async_call(
         TEXT_DOMAIN,

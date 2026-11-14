@@ -122,7 +122,7 @@ rules:
     status: todo
     comment: |
       Exceptions raised in the config flow (e.g. invalid auth, connection errors)
-      do not use translated messages via UniversalAssistantError or similar.
+      do not use translated messages via __HAC_KEEP__Error or similar.
   icon-translations: done
   reconfiguration-flow:
     status: todo

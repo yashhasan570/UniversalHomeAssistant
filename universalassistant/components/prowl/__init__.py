@@ -8,7 +8,7 @@ from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN, SERVIC
 from universalassistant.config import config_per_platform
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_NAME, Platform
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
@@ -45,7 +45,7 @@ def _yaml_name(p_config: ConfigType) -> str | None:
     return str(name)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Prowl component."""
     async_setup_services(hass)
     hass.data[DATA_HASS_CONFIG] = config
@@ -92,7 +92,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a Prowl service."""
     try:
         if not await async_verify_key(hass, entry.data[CONF_API_KEY]):
@@ -142,6 +142,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

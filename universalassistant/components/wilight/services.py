@@ -6,7 +6,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import service
 
 from .const import DOMAIN
@@ -69,7 +69,7 @@ async def _async_set_pause_time(entity, service_call: Any) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the WiLight integration."""
 
     service.async_register_platform_entity_service(

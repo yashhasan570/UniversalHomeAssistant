@@ -26,14 +26,14 @@ from universalassistant.components.volvo.coordinator import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import configure_mock
 
 
 @pytest.mark.freeze_time("2025-05-31T10:00:00+00:00")
 async def test_coordinator_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
@@ -61,7 +61,7 @@ async def test_coordinator_update(
 
 @pytest.mark.freeze_time("2025-05-31T10:00:00+00:00")
 async def test_coordinator_with_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
@@ -120,7 +120,7 @@ async def test_coordinator_with_errors(
 
 @pytest.mark.freeze_time("2025-05-31T10:00:00+00:00")
 async def test_update_coordinator_all_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
@@ -140,7 +140,7 @@ async def test_update_coordinator_all_error(
 
 @pytest.mark.freeze_time("2025-05-31T10:00:00+00:00")
 async def test_coordinator_location_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
@@ -167,7 +167,7 @@ async def test_coordinator_location_exception(
 
 @pytest.mark.freeze_time("2025-05-31T10:00:00+00:00")
 async def test_engine_off_triggers_location_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
@@ -196,7 +196,7 @@ async def test_engine_off_triggers_location_update(
 
 @pytest.mark.freeze_time("2025-05-31T10:00:00+00:00")
 async def test_engine_stays_running_no_extra_location(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
@@ -220,7 +220,7 @@ async def test_engine_stays_running_no_extra_location(
 
 @pytest.mark.freeze_time("2025-05-31T10:00:00+00:00")
 async def test_physical_lock_triggers_location_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
@@ -245,7 +245,7 @@ async def test_physical_lock_triggers_location_update(
 
 @pytest.mark.freeze_time("2025-05-31T10:00:00+00:00")
 async def test_physical_unlock_does_not_trigger_location_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
@@ -267,7 +267,7 @@ async def test_physical_unlock_does_not_trigger_location_update(
 
 @pytest.mark.freeze_time("2025-05-31T10:00:00+00:00")
 async def test_location_update_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
@@ -295,7 +295,7 @@ async def test_location_update_not_supported(
 
 
 async def test_coordinator_setup_auth_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_config_entry: MockConfigEntry,
     mock_api: VolvoCarsApi,
@@ -311,7 +311,7 @@ async def test_coordinator_setup_auth_exception(
 
 
 async def test_coordinator_setup_not_ready_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_config_entry: MockConfigEntry,
     mock_api: VolvoCarsApi,
@@ -333,7 +333,7 @@ async def test_coordinator_setup_not_ready_exception(
     ],
 )
 async def test_update_location_exception_logs_debug(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
     caplog: pytest.LogCaptureFixture,
@@ -354,7 +354,7 @@ async def test_update_location_exception_logs_debug(
 
 
 async def test_schedule_location_update_is_coalesced(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
 ) -> None:

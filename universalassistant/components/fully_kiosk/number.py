@@ -5,7 +5,7 @@ from typing import override
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import EntityCategory, UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FullyKioskConfigEntry, FullyKioskDataUpdateCoordinator
@@ -50,7 +50,7 @@ ENTITY_TYPES: tuple[NumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FullyKioskConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

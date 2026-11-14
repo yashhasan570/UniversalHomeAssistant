@@ -15,14 +15,14 @@ from universalassistant.components.nextdns.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigSubentry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import init_integration
 
 
 async def test_form_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_nextdns_client: AsyncMock,
     mock_nextdns: AsyncMock,
@@ -69,7 +69,7 @@ async def test_form_create_entry(
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_nextdns_client: AsyncMock,
     mock_nextdns: AsyncMock,
@@ -115,7 +115,7 @@ async def test_form_errors(
 
 
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
     mock_nextdns: AsyncMock,
@@ -139,7 +139,7 @@ async def test_form_already_configured(
 
 
 async def test_reauth_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
     mock_nextdns: AsyncMock,
@@ -162,7 +162,7 @@ async def test_reauth_successful(
 
 
 async def test_reauth_no_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_reauth_no_profile(
     ],
 )
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: Exception,
     base_error: str,
     mock_config_entry: MockConfigEntry,
@@ -234,7 +234,7 @@ async def test_reauth_errors(
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -267,7 +267,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfiguration_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: Exception,
     base_error: str,
     mock_config_entry: MockConfigEntry,
@@ -305,7 +305,7 @@ async def test_reconfiguration_errors(
 
 
 async def test_reconfigure_flow_no_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_reconfigure_flow_no_profile(
 
 
 async def test_subentry_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -367,7 +367,7 @@ async def test_subentry_flow(
 
 
 async def test_subentry_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -417,7 +417,7 @@ async def test_subentry_flow_already_configured(
 
 
 async def test_subentry_flow_all_profiles_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -435,7 +435,7 @@ async def test_subentry_flow_all_profiles_configured(
 
 
 async def test_subentry_flow_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test subentry flow when the entry is not loaded."""

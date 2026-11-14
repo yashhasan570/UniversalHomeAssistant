@@ -8,18 +8,18 @@ from universalassistant.components import media_source
 from universalassistant.components.camera import CameraCapabilities
 from universalassistant.components.camera.const import StreamType
 from universalassistant.components.stream import FORMAT_CONTENT_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_media_source(hass: UniversalAssistant) -> None:
+async def setup_media_source(hass: __HAC_KEEP__) -> None:
     """Set up media source."""
     assert await async_setup_component(hass, "media_source", {})
 
 
 @pytest.mark.usefixtures("mock_camera_with_device", "mock_camera")
-async def test_device_with_device(hass: UniversalAssistant) -> None:
+async def test_device_with_device(hass: __HAC_KEEP__) -> None:
     """Test browsing when camera has a device and a name."""
     item = await media_source.async_browse_media(hass, "media-source://camera")
     assert item.not_shown == 2
@@ -28,7 +28,7 @@ async def test_device_with_device(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_camera_with_no_name", "mock_camera")
-async def test_device_with_no_name(hass: UniversalAssistant) -> None:
+async def test_device_with_no_name(hass: __HAC_KEEP__) -> None:
     """Test browsing when camera has device and name == None."""
     item = await media_source.async_browse_media(hass, "media-source://camera")
     assert item.not_shown == 2
@@ -37,7 +37,7 @@ async def test_device_with_no_name(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_camera_hls")
-async def test_browsing_hls(hass: UniversalAssistant) -> None:
+async def test_browsing_hls(hass: __HAC_KEEP__) -> None:
     """Test browsing HLS camera media source."""
     item = await media_source.async_browse_media(hass, "media-source://camera")
     assert item is not None
@@ -55,7 +55,7 @@ async def test_browsing_hls(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_browsing_mjpeg(hass: UniversalAssistant) -> None:
+async def test_browsing_mjpeg(hass: __HAC_KEEP__) -> None:
     """Test browsing MJPEG camera media source."""
     item = await media_source.async_browse_media(hass, "media-source://camera")
     assert item is not None
@@ -67,7 +67,7 @@ async def test_browsing_mjpeg(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_camera_webrtc")
-async def test_browsing_webrtc(hass: UniversalAssistant) -> None:
+async def test_browsing_webrtc(hass: __HAC_KEEP__) -> None:
     """Test browsing WebRTC camera media source."""
     # 3 cameras:
     # one only supports WebRTC (no stream source)
@@ -93,7 +93,7 @@ async def test_browsing_webrtc(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_resolving(hass: UniversalAssistant) -> None:
+async def test_resolving(hass: __HAC_KEEP__) -> None:
     """Test resolving."""
     # Adding stream enables HLS camera
     hass.config.components.add("stream")
@@ -111,7 +111,7 @@ async def test_resolving(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_resolving_errors(hass: UniversalAssistant) -> None:
+async def test_resolving_errors(hass: __HAC_KEEP__) -> None:
     """Test resolving."""
 
     with pytest.raises(media_source.Unresolvable) as exc_info:
@@ -150,7 +150,7 @@ async def test_resolving_errors(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_get_media_image(hass: UniversalAssistant) -> None:
+async def test_get_media_image(hass: __HAC_KEEP__) -> None:
     """Test getting a snapshot of a camera."""
     assert await media_source.async_get_media_image(
         hass, "media-source://camera/camera.demo_camera"
@@ -158,7 +158,7 @@ async def test_get_media_image(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_get_media_image_non_existing_camera(hass: UniversalAssistant) -> None:
+async def test_get_media_image_non_existing_camera(hass: __HAC_KEEP__) -> None:
     """Test getting a snapshot of a non existing camera."""
     with pytest.raises(
         media_source.Unresolvable,
@@ -170,7 +170,7 @@ async def test_get_media_image_non_existing_camera(hass: UniversalAssistant) -> 
 
 
 @pytest.mark.usefixtures("mock_camera")
-async def test_get_media_image_camera_off(hass: UniversalAssistant) -> None:
+async def test_get_media_image_camera_off(hass: __HAC_KEEP__) -> None:
     """Test getting a snapshot of a camera that is off."""
     with (
         patch(

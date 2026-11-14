@@ -10,7 +10,7 @@ from universalassistant.components.abode.const import DOMAIN
 from universalassistant.components.abode.services import AbodeService
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_platform
@@ -20,7 +20,7 @@ DEVICE_ID = "switch.test_switch"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_all_entities(
     await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
 
 
-async def test_switch_on(hass: UniversalAssistant) -> None:
+async def test_switch_on(hass: __HAC_KEEP__) -> None:
     """Test the switch can be turned on."""
     await setup_platform(hass, SWITCH_DOMAIN)
 
@@ -46,7 +46,7 @@ async def test_switch_on(hass: UniversalAssistant) -> None:
         mock_switch_on.assert_called_once()
 
 
-async def test_switch_off(hass: UniversalAssistant) -> None:
+async def test_switch_off(hass: __HAC_KEEP__) -> None:
     """Test the switch can be turned off."""
     await setup_platform(hass, SWITCH_DOMAIN)
 
@@ -62,7 +62,7 @@ async def test_switch_off(hass: UniversalAssistant) -> None:
         mock_switch_off.assert_called_once()
 
 
-async def test_turn_automation_off(hass: UniversalAssistant) -> None:
+async def test_turn_automation_off(hass: __HAC_KEEP__) -> None:
     """Test the automation can be turned off."""
     with patch("jaraco.abode.automation.Automation.enable") as mock_trigger:
         await setup_platform(hass, SWITCH_DOMAIN)
@@ -78,7 +78,7 @@ async def test_turn_automation_off(hass: UniversalAssistant) -> None:
         mock_trigger.assert_called_once_with(False)
 
 
-async def test_turn_automation_on(hass: UniversalAssistant) -> None:
+async def test_turn_automation_on(hass: __HAC_KEEP__) -> None:
     """Test the automation can be turned on."""
     with patch("jaraco.abode.automation.Automation.enable") as mock_trigger:
         await setup_platform(hass, SWITCH_DOMAIN)
@@ -94,7 +94,7 @@ async def test_turn_automation_on(hass: UniversalAssistant) -> None:
         mock_trigger.assert_called_once_with(True)
 
 
-async def test_trigger_automation(hass: UniversalAssistant) -> None:
+async def test_trigger_automation(hass: __HAC_KEEP__) -> None:
     """Test the trigger automation service."""
     await setup_platform(hass, SWITCH_DOMAIN)
 
@@ -111,7 +111,7 @@ async def test_trigger_automation(hass: UniversalAssistant) -> None:
 
 
 async def test_entity_id_tracking_after_removal(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a removed switch is no longer tracked in the Abode entity ids."""
     config_entry = await setup_platform(hass, SWITCH_DOMAIN)
@@ -124,7 +124,7 @@ async def test_entity_id_tracking_after_removal(
 
 
 async def test_entity_id_tracking_after_entity_id_change(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a renamed switch is tracked by its new entity id only."""
     config_entry = await setup_platform(hass, SWITCH_DOMAIN)
@@ -138,7 +138,7 @@ async def test_entity_id_tracking_after_entity_id_change(
 
 
 async def test_trigger_automation_after_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

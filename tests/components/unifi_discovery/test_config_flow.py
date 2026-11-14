@@ -6,7 +6,7 @@ import pytest
 
 from universalassistant import config_entries
 from universalassistant.components.unifi_discovery.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
@@ -37,7 +37,7 @@ SSDP_DISCOVERY = SsdpServiceInfo(
     ],
 )
 async def test_dhcp_ssdp_abort_with_discovery_started(
-    hass: UniversalAssistant, source: str, data: DhcpServiceInfo | SsdpServiceInfo
+    hass: __HAC_KEEP__, source: str, data: DhcpServiceInfo | SsdpServiceInfo
 ) -> None:
     """Test DHCP and SSDP discovery triggers scanner and aborts."""
     with _patch_discovery() as mock_scanner:
@@ -61,7 +61,7 @@ async def test_dhcp_ssdp_abort_with_discovery_started(
     ],
 )
 async def test_dhcp_ssdp_abort_already_in_progress(
-    hass: UniversalAssistant, source: str, data: DhcpServiceInfo | SsdpServiceInfo
+    hass: __HAC_KEEP__, source: str, data: DhcpServiceInfo | SsdpServiceInfo
 ) -> None:
     """Test DHCP and SSDP abort when another flow is already in progress."""
     with (
@@ -82,7 +82,7 @@ async def test_dhcp_ssdp_abort_already_in_progress(
     assert result["reason"] == "already_in_progress"
 
 
-async def test_user_flow_aborts(hass: UniversalAssistant) -> None:
+async def test_user_flow_aborts(hass: __HAC_KEEP__) -> None:
     """Test user-initiated flow aborts."""
     with _patch_discovery() as mock_scanner:
         result = await hass.config_entries.flow.async_init(

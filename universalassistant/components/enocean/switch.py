@@ -11,7 +11,7 @@ from universalassistant.components.switch import (
     SwitchEntity,
 )
 from universalassistant.const import CONF_ID, CONF_NAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -38,7 +38,7 @@ def generate_unique_id(dev_id: list[int], channel: int) -> str:
     return f"{combine_hex(dev_id)}-{channel}"
 
 
-def _migrate_to_new_unique_id(hass: UniversalAssistant, dev_id, channel) -> None:
+def _migrate_to_new_unique_id(hass: __HAC_KEEP__, dev_id, channel) -> None:
     """Migrate old unique ids to new unique ids."""
     old_unique_id = f"{combine_hex(dev_id)}"
 
@@ -64,7 +64,7 @@ def _migrate_to_new_unique_id(hass: UniversalAssistant, dev_id, channel) -> None
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

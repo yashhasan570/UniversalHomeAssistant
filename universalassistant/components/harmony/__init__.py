@@ -6,7 +6,7 @@ from pathlib import Path
 
 from universalassistant.components.remote import ATTR_ACTIVITY, ATTR_DELAY_SECS
 from universalassistant.const import CONF_HOST, CONF_NAME, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.typing import ConfigType
@@ -22,13 +22,13 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Logitech Harmony Hub integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HarmonyConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HarmonyConfigEntry) -> None:
     """Set up Logitech Harmony Hub from a config entry."""
     # As there currently is no way to import options from yaml
     # when setting up a config entry, we fallback to adding
@@ -57,7 +57,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HarmonyConfigEntry)
 
 
 async def _migrate_old_unique_ids(
-    hass: UniversalAssistant, entry_id: str, data: HarmonyData
+    hass: __HAC_KEEP__, entry_id: str, data: HarmonyData
 ) -> None:
     names_to_ids = {activity["label"]: activity["id"] for activity in data.activities}
 
@@ -85,7 +85,7 @@ async def _migrate_old_unique_ids(
 
 @callback
 def _async_import_options_from_data_if_missing(
-    hass: UniversalAssistant, entry: HarmonyConfigEntry
+    hass: __HAC_KEEP__, entry: HarmonyConfigEntry
 ) -> None:
     options = dict(entry.options)
     modified = 0
@@ -98,7 +98,7 @@ def _async_import_options_from_data_if_missing(
         hass.config_entries.async_update_entry(entry, options=options)
 
 
-async def _update_listener(hass: UniversalAssistant, entry: HarmonyConfigEntry) -> None:
+async def _update_listener(hass: __HAC_KEEP__, entry: HarmonyConfigEntry) -> None:
     """Reload when the host changes and pass options updates to the entities."""
     if entry.data[CONF_HOST] != entry.runtime_data.address:
         await hass.config_entries.async_reload(entry.entry_id)
@@ -108,7 +108,7 @@ async def _update_listener(hass: UniversalAssistant, entry: HarmonyConfigEntry) 
     )
 
 
-def _move_legacy_config_file(hass: UniversalAssistant, unique_id: str | None) -> None:
+def _move_legacy_config_file(hass: __HAC_KEEP__, unique_id: str | None) -> None:
     """Move the hub configuration file from the config root into .storage."""
     old_file = Path(hass.config.path(f"harmony_{unique_id}.conf"))
     if not old_file.exists():
@@ -118,7 +118,7 @@ def _move_legacy_config_file(hass: UniversalAssistant, unique_id: str | None) ->
     old_file.replace(new_file)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: HarmonyConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: HarmonyConfigEntry) -> None:
     """Migrate old entry."""
     if entry.version == 1 and entry.minor_version < 2:
         await hass.async_add_executor_job(
@@ -127,7 +127,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: HarmonyConfigEntr
         hass.config_entries.async_update_entry(entry, minor_version=2)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: HarmonyConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: HarmonyConfigEntry) -> None:
     """Unload a config entry."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -136,7 +136,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: HarmonyConfigEntry
         await entry.runtime_data.shutdown()
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: HarmonyConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: HarmonyConfigEntry) -> None:
     """Remove the hub configuration file."""
     await hass.async_add_executor_job(
         partial(Path(config_file_path(hass, entry.unique_id)).unlink, missing_ok=True)

@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components.alarm_control_panel import (
     DOMAIN as ALARM_CONTROL_PANEL_DOMAIN,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -28,8 +28,8 @@ class AlarmDecoderServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
-    """Universal Universal Home Assistant services."""
+def async_setup_services(hass: __HAC_KEEP__) -> None:
+    """__HA_KEEP__ services."""
 
     service.async_register_platform_entity_service(
         hass,

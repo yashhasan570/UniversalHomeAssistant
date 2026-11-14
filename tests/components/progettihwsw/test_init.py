@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.progettihwsw.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_STATUS_XML = """
 <response>
@@ -19,7 +19,7 @@ MOCK_STATUS_XML = """
 """
 
 
-async def test_get_states_by_tag_prefix(hass: UniversalAssistant) -> None:
+async def test_get_states_by_tag_prefix(hass: __HAC_KEEP__) -> None:
     """Test the get_states_by_tag_prefix method provided by the package."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -9,20 +9,20 @@ from universalassistant.components.automation import ATTR_LAST_TRIGGERED
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.recorder.history import get_significant_states
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_FRIENDLY_NAME, ATTR_MODE, CONF_ID
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers.script import ATTR_CUR, ATTR_MAX
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture
-def calls(hass: UniversalAssistant) -> list[ServiceCall]:
+def calls(hass: __HAC_KEEP__) -> list[ServiceCall]:
     """Track calls to a mock service."""
     return async_mock_service(hass, "test", "automation")
 
 
 async def test_exclude_attributes(
-    recorder_mock: Recorder, hass: UniversalAssistant, calls: list[ServiceCall]
+    recorder_mock: Recorder, hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test automation registered attributes to be excluded."""
     now = dt_util.utcnow()

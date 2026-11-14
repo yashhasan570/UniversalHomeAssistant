@@ -4,13 +4,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.switcher_kis.const import DOMAIN
 from universalassistant.const import CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def init_integration(
-    hass: UniversalAssistant, username: str | None = None, token: str | None = None
+    hass: __HAC_KEEP__, username: str | None = None, token: str | None = None
 ) -> MockConfigEntry:
-    """Set up the Switcher integration in Universal Universal Home Assistant."""
+    """Set up the Switcher integration in __HA_KEEP__."""
     data = {}
     if username is not None:
         data[CONF_USERNAME] = username

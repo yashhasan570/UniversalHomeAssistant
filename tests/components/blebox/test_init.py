@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import (
@@ -32,7 +32,7 @@ from .conftest import (
     ],
 )
 async def test_setup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     exception: type[Exception],
     expected_state: ConfigEntryState,
@@ -44,7 +44,7 @@ async def test_setup_failure(
 
 
 async def test_setup_auth_failure_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that UnauthorizedRequest during setup triggers a reauth flow."""
@@ -59,7 +59,7 @@ async def test_setup_auth_failure_triggers_reauth(
 
 
 async def test_unload_config_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test that unloading works properly."""
     setup_product_mock("switches", [])
@@ -75,7 +75,7 @@ async def test_unload_config_entry(
 
 
 async def test_device_registry_model_and_hw_version(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test device registry has correct model and hardware version."""
     feature_mock = mock_feature(

@@ -7,7 +7,7 @@ import logging
 from ismartgate import AbstractGateApi, GogoGate2InfoResponse, ISmartGateInfoResponse
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -23,7 +23,7 @@ class DeviceDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GogoGateConfigEntry,
         logger: logging.Logger,
         api: AbstractGateApi,

@@ -34,7 +34,7 @@ from growattServer import GrowattV1ApiErrorCode
 from requests import RequestException
 
 from universalassistant.const import CONF_PASSWORD, CONF_TOKEN, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -74,7 +74,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 _CACHED_APIS: dict[str, growattServer.GrowattApi] = {}
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Growatt Server integration."""
     # Register services
     async_setup_services(hass)
@@ -82,7 +82,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: GrowattConfigEntry
+    hass: __HAC_KEEP__, config_entry: GrowattConfigEntry
 ) -> None:
     """Migrate old config entries.
 
@@ -211,7 +211,7 @@ async def async_migrate_entry(
 
 
 async def _create_api_and_login(
-    hass: UniversalAssistant, username: str, password: str, url: str
+    hass: __HAC_KEEP__, username: str, password: str, url: str
 ) -> tuple[growattServer.GrowattApi, dict]:
     """Create API instance and perform login.
 
@@ -313,7 +313,7 @@ def get_device_list_v1(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: GrowattConfigEntry
+    hass: __HAC_KEEP__, config_entry: GrowattConfigEntry
 ) -> None:
     """Set up Growatt from a config entry."""
 
@@ -492,7 +492,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: GrowattConfigEntry
+    hass: __HAC_KEEP__, config_entry: GrowattConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

@@ -17,7 +17,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -30,7 +30,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -44,7 +44,7 @@ async def test_all_entities(
 
 @pytest.mark.parametrize("device_fixture", ["da_ks_microwave_0101x"])
 async def test_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -69,7 +69,7 @@ async def test_press(
 
 @pytest.mark.parametrize("device_fixture", ["da_ks_microwave_0101x"])
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["da_ks_microwave_0101x"])
 async def test_availability_at_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_availability_at_start(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_dw_01011"])
 async def test_turn_on_without_remote_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_turn_on_without_remote_control(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_dw_01011"])
 async def test_turn_on_with_wrong_dishwasher_machine_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

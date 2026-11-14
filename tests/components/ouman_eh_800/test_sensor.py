@@ -5,7 +5,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import SCENARIOS
@@ -15,7 +15,7 @@ from .conftest import SCENARIOS
 @pytest.mark.parametrize("init_integration", [Platform.SENSOR], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

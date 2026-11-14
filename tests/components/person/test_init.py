@@ -28,14 +28,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityStateAttribute,
 )
-from universalassistant.core import Context, CoreState, UniversalAssistant, State
+from universalassistant.core import Context, CoreState, __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 from .conftest import DEVICE_TRACKER, DEVICE_TRACKER_2
 
 
-async def test_minimal_setup(hass: UniversalAssistant) -> None:
+async def test_minimal_setup(hass: __HAC_KEEP__) -> None:
     """Test minimal config with only name."""
     config = {DOMAIN: {"id": "1234", "name": "test person"}}
     assert await async_setup_component(hass, DOMAIN, config)
@@ -51,19 +51,19 @@ async def test_minimal_setup(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_setup_no_id(hass: UniversalAssistant) -> None:
+async def test_setup_no_id(hass: __HAC_KEEP__) -> None:
     """Test config with no id."""
     config = {DOMAIN: {"name": "test user"}}
     assert not await async_setup_component(hass, DOMAIN, config)
 
 
-async def test_setup_no_name(hass: UniversalAssistant) -> None:
+async def test_setup_no_name(hass: __HAC_KEEP__) -> None:
     """Test config with no name."""
     config = {DOMAIN: {"id": "1234"}}
     assert not await async_setup_component(hass, DOMAIN, config)
 
 
-async def test_setup_user_id(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_setup_user_id(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test config with user id."""
     user_id = hass_admin_user.id
     config = {DOMAIN: {"id": "1234", "name": "test person", "user_id": user_id}}
@@ -82,7 +82,7 @@ async def test_setup_user_id(hass: UniversalAssistant, hass_admin_user: MockUser
 
 
 async def test_valid_invalid_user_ids(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test a person with valid user id and a person with invalid user id ."""
     user_id = hass_admin_user.id
@@ -108,7 +108,7 @@ async def test_valid_invalid_user_ids(
     assert state is None
 
 
-async def test_setup_tracker(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_setup_tracker(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test set up person with one device tracker."""
     hass.set_state(CoreState.not_running)
     user_id = hass_admin_user.id
@@ -215,7 +215,7 @@ async def test_setup_tracker(hass: UniversalAssistant, hass_admin_user: MockUser
 
 
 async def test_setup_two_trackers(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test set up person with two device trackers."""
     hass.set_state(CoreState.not_running)
@@ -330,7 +330,7 @@ async def test_setup_two_trackers(
 
 
 async def test_setup_router_ble_trackers(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test router and BLE trackers."""
     # BLE trackers are considered stationary trackers; however unlike
@@ -495,7 +495,7 @@ _LEGACY_GPS_WORK: tuple[str, dict[str, Any]] = (
 )
 
 
-async def _async_setup_person_two_trackers(hass: UniversalAssistant, user_id: str) -> None:
+async def _async_setup_person_two_trackers(hass: __HAC_KEEP__, user_id: str) -> None:
     """Set up a person tracked by two device trackers, with hass running."""
     hass.set_state(CoreState.not_running)
     config = {
@@ -557,7 +557,7 @@ async def _async_setup_person_two_trackers(hass: UniversalAssistant, user_id: st
     ],
 )
 async def test_state_priority_overrides_recency(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     freezer: FrozenDateTimeFactory,
     high_priority: tuple[str, dict[str, Any]],
@@ -665,7 +665,7 @@ async def test_state_priority_overrides_recency(
     ],
 )
 async def test_most_recent_state_in_bucket_wins(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     freezer: FrozenDateTimeFactory,
     older: tuple[str, dict[str, Any]],
@@ -703,7 +703,7 @@ async def test_most_recent_state_in_bucket_wins(
 
 
 async def test_scanner_associated_with_other_zone(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test a person tracked by a scanner associated with a non-home zone.
 
@@ -798,7 +798,7 @@ async def test_scanner_associated_with_other_zone(
     ],
 )
 async def test_legacy_device_tracker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     tracker: tuple[str, dict[str, Any]],
     expected_state: str,
@@ -856,7 +856,7 @@ async def test_legacy_device_tracker(
     ],
 )
 async def test_scanner_in_zone_has_highest_priority(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     freezer: FrozenDateTimeFactory,
     scanner: tuple[str, dict[str, Any]],
@@ -894,7 +894,7 @@ async def test_scanner_in_zone_has_highest_priority(
 
 
 async def test_scanner_without_in_zones_not_prioritized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -928,7 +928,7 @@ async def test_scanner_without_in_zones_not_prioritized(
 
 
 async def test_ignore_unavailable_states(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test set up person with two device trackers, one unavailable."""
     hass.set_state(CoreState.not_running)
@@ -990,7 +990,7 @@ async def test_ignore_unavailable_states(
 
 
 async def test_restore_home_state(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test that the state is restored for a person on startup."""
     user_id = hass_admin_user.id
@@ -1034,7 +1034,7 @@ async def test_restore_home_state(
     }
 
 
-async def test_duplicate_ids(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_duplicate_ids(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test we don't allow duplicate IDs."""
     config = {
         DOMAIN: [
@@ -1049,7 +1049,7 @@ async def test_duplicate_ids(hass: UniversalAssistant, hass_admin_user: MockUser
     assert hass.states.get("person.test_user_2") is None
 
 
-async def test_create_person_during_run(hass: UniversalAssistant) -> None:
+async def test_create_person_during_run(hass: __HAC_KEEP__) -> None:
     """Test that person is updated if created while hass is running."""
     config = {DOMAIN: {}}
     assert await async_setup_component(hass, DOMAIN, config)
@@ -1066,7 +1066,7 @@ async def test_create_person_during_run(hass: UniversalAssistant) -> None:
 
 
 async def test_load_person_storage(
-    hass: UniversalAssistant, hass_admin_user: MockUser, storage_setup
+    hass: __HAC_KEEP__, hass_admin_user: MockUser, storage_setup
 ) -> None:
     """Test set up person from storage."""
     expected_attributes = {
@@ -1100,7 +1100,7 @@ async def test_load_person_storage(
 
 
 async def test_load_person_storage_two_nonlinked(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading two users with both not having a user linked."""
     hass_storage[DOMAIN] = {
@@ -1131,7 +1131,7 @@ async def test_load_person_storage_two_nonlinked(
 
 
 async def test_ws_list(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test listing via WS."""
     manager = hass.data[DATA_PERSON].storage_collection
@@ -1147,7 +1147,7 @@ async def test_ws_list(
 
 
 async def test_ws_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
     hass_read_only_user: MockUser,
@@ -1177,7 +1177,7 @@ async def test_ws_create(
 
 
 async def test_ws_create_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
     hass_admin_user: MockUser,
@@ -1207,7 +1207,7 @@ async def test_ws_create_requires_admin(
 
 
 async def test_ws_update(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test updating via WS."""
     manager = hass.data[DATA_PERSON].storage_collection
@@ -1256,7 +1256,7 @@ async def test_ws_update(
 
 
 async def test_ws_update_require_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
     hass_admin_user: MockUser,
@@ -1286,7 +1286,7 @@ async def test_ws_update_require_admin(
 
 
 async def test_ws_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     storage_setup,
@@ -1318,7 +1318,7 @@ async def test_ws_delete(
 
 
 async def test_ws_delete_require_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
     hass_admin_user: MockUser,
@@ -1346,7 +1346,7 @@ async def test_ws_delete_require_admin(
     assert len(persons) == 1
 
 
-async def test_create_invalid_user_id(hass: UniversalAssistant, storage_collection) -> None:
+async def test_create_invalid_user_id(hass: __HAC_KEEP__, storage_collection) -> None:
     """Test we do not allow invalid user ID during creation."""
     with pytest.raises(ValueError):
         await storage_collection.async_create_item(
@@ -1355,7 +1355,7 @@ async def test_create_invalid_user_id(hass: UniversalAssistant, storage_collecti
 
 
 async def test_create_duplicate_user_id(
-    hass: UniversalAssistant, hass_admin_user: MockUser, storage_collection
+    hass: __HAC_KEEP__, hass_admin_user: MockUser, storage_collection
 ) -> None:
     """Test we do not allow duplicate user ID during creation."""
     await storage_collection.async_create_item(
@@ -1369,7 +1369,7 @@ async def test_create_duplicate_user_id(
 
 
 async def test_update_double_user_id(
-    hass: UniversalAssistant, hass_admin_user: MockUser, storage_collection
+    hass: __HAC_KEEP__, hass_admin_user: MockUser, storage_collection
 ) -> None:
     """Test we do not allow double user ID during update."""
     await storage_collection.async_create_item(
@@ -1383,7 +1383,7 @@ async def test_update_double_user_id(
         )
 
 
-async def test_update_invalid_user_id(hass: UniversalAssistant, storage_collection) -> None:
+async def test_update_invalid_user_id(hass: __HAC_KEEP__, storage_collection) -> None:
     """Test updating to invalid user ID."""
     person = await storage_collection.async_create_item({"name": "Hello"})
 
@@ -1394,7 +1394,7 @@ async def test_update_invalid_user_id(hass: UniversalAssistant, storage_collecti
 
 
 async def test_update_person_when_user_removed(
-    hass: UniversalAssistant, storage_setup, hass_read_only_user: MockUser
+    hass: __HAC_KEEP__, storage_setup, hass_read_only_user: MockUser
 ) -> None:
     """Update person when user is removed."""
     storage_collection = hass.data[DATA_PERSON].storage_collection
@@ -1410,7 +1410,7 @@ async def test_update_person_when_user_removed(
 
 
 async def test_removing_device_tracker(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, storage_setup
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, storage_setup
 ) -> None:
     """Test we automatically remove removed device trackers."""
     storage_collection = hass.data[DATA_PERSON].storage_collection
@@ -1429,7 +1429,7 @@ async def test_removing_device_tracker(
 
 
 async def test_add_user_device_tracker(
-    hass: UniversalAssistant, storage_setup, hass_read_only_user: MockUser
+    hass: __HAC_KEEP__, storage_setup, hass_read_only_user: MockUser
 ) -> None:
     """Test adding a device tracker to a person tied to a user."""
     storage_collection = hass.data[DATA_PERSON].storage_collection
@@ -1451,7 +1451,7 @@ async def test_add_user_device_tracker(
     ]
 
 
-async def test_reload(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_reload(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test reloading the YAML config."""
     assert await async_setup_component(
         hass,
@@ -1519,7 +1519,7 @@ async def test_person_storage_fixing_device_trackers(storage_collection) -> None
     assert storage_collection.data["bla"]["device_trackers"] == []
 
 
-async def test_persons_with_entity(hass: UniversalAssistant) -> None:
+async def test_persons_with_entity(hass: __HAC_KEEP__) -> None:
     """Test finding persons with an entity."""
     assert await async_setup_component(
         hass,
@@ -1550,7 +1550,7 @@ async def test_persons_with_entity(hass: UniversalAssistant) -> None:
     ]
 
 
-async def test_entities_in_person(hass: UniversalAssistant) -> None:
+async def test_entities_in_person(hass: __HAC_KEEP__) -> None:
     """Test finding entities tracked by person."""
     assert await async_setup_component(
         hass,
@@ -1581,7 +1581,7 @@ IMAGE_URL = f"/api/image/serve/{IMAGE_ID}/512x512"
 
 @pytest.fixture
 async def own_profile_setup(
-    hass: UniversalAssistant, hass_storage: dict[str, Any], hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any], hass_admin_user: MockUser
 ) -> None:
     """Set up a person linked to a regular user, and an uploaded image."""
     hass_admin_user.groups = []
@@ -1619,7 +1619,7 @@ async def own_profile_setup(
 
 @pytest.mark.usefixtures("own_profile_setup")
 async def test_ws_update_own_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1676,12 +1676,12 @@ async def test_ws_update_own_profile(
     ],
 )
 async def test_ws_update_own_profile_invalid_picture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     picture: str,
 ) -> None:
-    """Test only images uploaded to Universal Universal Home Assistant are accepted."""
+    """Test only images uploaded to __HA_KEEP__ are accepted."""
     client = await hass_ws_client(hass)
 
     await client.send_json_auto_id(
@@ -1703,7 +1703,7 @@ async def test_ws_update_own_profile_invalid_picture(
 
 
 async def test_ws_update_own_profile_no_person(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1731,7 +1731,7 @@ async def test_ws_update_own_profile_no_person(
 
 
 async def test_ws_update_own_profile_yaml_person(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1764,7 +1764,7 @@ async def test_ws_update_own_profile_yaml_person(
 
 @pytest.mark.usefixtures("own_profile_setup")
 async def test_ws_update_own_profile_empty_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1781,7 +1781,7 @@ async def test_ws_update_own_profile_empty_name(
 
 @pytest.mark.usefixtures("own_profile_setup")
 async def test_ws_update_own_profile_only_own_fields(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test other person fields cannot be changed through this command."""
@@ -1804,7 +1804,7 @@ async def test_ws_update_own_profile_only_own_fields(
 
 
 async def test_ws_update_own_profile_system_generated_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test system-generated users cannot update a profile."""

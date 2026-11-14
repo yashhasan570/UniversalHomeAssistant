@@ -8,7 +8,7 @@ import jwt
 from myuplink import MyUplinkAPI, get_manufacturer, get_model, get_system_name
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -39,14 +39,14 @@ PLATFORMS: list[Platform] = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: MyUplinkConfigEntry
+    hass: __HAC_KEEP__, config_entry: MyUplinkConfigEntry
 ) -> None:
     """Set up myUplink from a config entry."""
 
@@ -91,14 +91,14 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MyUplinkConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MyUplinkConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 @callback
 def create_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MyUplinkConfigEntry,
     coordinator: MyUplinkDataCoordinator,
 ) -> None:
@@ -121,7 +121,7 @@ def create_devices(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, config_entry: MyUplinkConfigEntry, device_entry: AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: MyUplinkConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove myuplink config entry from a device."""
 
@@ -132,7 +132,7 @@ async def async_remove_config_entry_device(
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: MyUplinkConfigEntry
+    hass: __HAC_KEEP__, config_entry: MyUplinkConfigEntry
 ) -> None:
     """Migrate old entry."""
 

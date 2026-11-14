@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfReactivePower,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -207,7 +207,7 @@ def get_counter_entity_description(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IskraConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

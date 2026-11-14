@@ -16,12 +16,12 @@ from universalassistant import config_entries, loader
 from universalassistant.components.logger import DOMAIN
 from universalassistant.components.logger.helpers import DATA_LOGGER
 from universalassistant.components.websocket_api import TYPE_RESULT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 async def test_integration_log_info(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test fetching integration log info."""
 
@@ -41,7 +41,7 @@ async def test_integration_log_info(
 
 
 async def test_integration_log_info_discovered_flows(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test that log info includes discovered flows."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -106,7 +106,7 @@ async def test_integration_log_info_discovered_flows(
 
 
 async def test_integration_log_info_with_settings(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test that log info includes integrations with custom log settings."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -140,7 +140,7 @@ async def test_integration_log_info_with_settings(
 
 
 async def test_integration_log_level_logger_not_loaded(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test setting integration log level."""
     websocket_client = await hass_ws_client()
@@ -161,7 +161,7 @@ async def test_integration_log_level_logger_not_loaded(
 
 
 async def test_integration_log_level(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test setting integration log level."""
     websocket_client = await hass_ws_client()
@@ -188,7 +188,7 @@ async def test_integration_log_level(
 
 
 async def test_custom_integration_log_level(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test setting integration log level."""
     websocket_client = await hass_ws_client()
@@ -240,7 +240,7 @@ async def test_custom_integration_log_level(
 
 
 async def test_integration_log_level_unknown_integration(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test setting integration log level for an unknown integration."""
     websocket_client = await hass_ws_client()
@@ -263,7 +263,7 @@ async def test_integration_log_level_unknown_integration(
 
 
 async def test_module_log_level(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test setting integration log level."""
     websocket_client = await hass_ws_client()
@@ -295,7 +295,7 @@ async def test_module_log_level(
 
 
 async def test_module_log_level_override(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test override yaml integration log level."""
     websocket_client = await hass_ws_client()
@@ -368,7 +368,7 @@ async def test_module_log_level_override(
 
 
 async def test_integration_log_level_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -392,7 +392,7 @@ async def test_integration_log_level_requires_admin(
 
 
 async def test_module_log_level_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:

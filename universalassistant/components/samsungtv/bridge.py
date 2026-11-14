@@ -40,8 +40,8 @@ from universalassistant.const import (
     CONF_TIMEOUT,
     CONF_TOKEN,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_component
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
@@ -108,7 +108,7 @@ def model_may_require_encryption(model: str | None) -> bool:
 
 
 async def async_get_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     host: str,
 ) -> tuple[str, int | None, str | None, dict[str, Any] | None]:
     """Fetch the port, method, and device info."""
@@ -151,7 +151,7 @@ class SamsungTVBridge(ABC):
 
     @staticmethod
     def get_bridge(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         method: str,
         host: str,
         port: int | None = None,
@@ -165,7 +165,7 @@ class SamsungTVBridge(ABC):
         return SamsungTVWSBridge(hass, method, host, port, entry_data)
 
     def __init__(
-        self, hass: UniversalAssistant, method: str, host: str, port: int | None = None
+        self, hass: __HAC_KEEP__, method: str, host: str, port: int | None = None
     ) -> None:
         """Initialize Bridge."""
         self.hass = hass
@@ -273,7 +273,7 @@ class SamsungTVLegacyBridge(SamsungTVBridge):
     """The Bridge for Legacy TVs."""
 
     def __init__(
-        self, hass: UniversalAssistant, method: str, host: str, port: int | None
+        self, hass: __HAC_KEEP__, method: str, host: str, port: int | None
     ) -> None:
         """Initialize Bridge."""
         super().__init__(hass, method, host, port)
@@ -374,7 +374,7 @@ class SamsungTVLegacyBridge(SamsungTVBridge):
                     await remote.control(key)
             except (ResponseError, UnauthorizedError) as err:
                 # We got a response so it's on.
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="error_sending_command",
                     translation_placeholders={"error": repr(err), "host": self.host},
@@ -382,7 +382,7 @@ class SamsungTVLegacyBridge(SamsungTVBridge):
             except ConnectionFailure as err:
                 self._remote = None
                 if attempt == retry_count:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="send_command_failed",
                         translation_placeholders={"host": self.host},
@@ -411,7 +411,7 @@ class SamsungTVWSBaseBridge[
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         method: str,
         host: str,
         port: int | None = None,
@@ -442,14 +442,14 @@ class SamsungTVWSBaseBridge[
                 # WebSocketException can occur when timed out
                 self._remote = None
                 if attempt == retry_count:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="send_command_failed",
                         translation_placeholders={"host": self.host},
                     ) from err
             except OSError as err:
                 # Different reasons, e.g. hostname not resolveable
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="send_command_failed",
                     translation_placeholders={"host": self.host},
@@ -491,7 +491,7 @@ class SamsungTVWSBridge(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         method: str,
         host: str,
         port: int | None = None,
@@ -744,7 +744,7 @@ class SamsungTVEncryptedBridge(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         method: str,
         host: str,
         port: int | None = None,

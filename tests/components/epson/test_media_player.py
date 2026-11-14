@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.epson.const import CONF_CONNECTION_TYPE, DOMAIN, HTTP
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_set_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

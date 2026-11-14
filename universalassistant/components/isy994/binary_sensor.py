@@ -18,7 +18,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from universalassistant.const import STATE_ON, Platform
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
@@ -50,7 +50,7 @@ DEVICE_PARENT_REQUIRED = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IsyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

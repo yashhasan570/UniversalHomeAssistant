@@ -3,7 +3,7 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import CONF_UNIT_OF_MEASUREMENT, UnitOfPower
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import setup_integration
 from .const import (
@@ -14,7 +14,7 @@ from .const import (
 
 
 async def test_wallbox_sensor_class(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox sensor class."""
 

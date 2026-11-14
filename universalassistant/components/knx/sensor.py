@@ -28,7 +28,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
     async_get_current_platform,
@@ -130,7 +130,7 @@ SYSTEM_ENTITY_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: config_entries.ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

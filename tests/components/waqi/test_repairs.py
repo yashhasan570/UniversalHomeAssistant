@@ -15,7 +15,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
 from universalassistant.components.waqi.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -23,7 +23,7 @@ from . import setup_integration
 
 
 async def test_station_not_found_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     mock_waqi: AsyncMock,
@@ -75,7 +75,7 @@ async def test_station_not_found_fix_flow(
 
 
 async def test_issue_cleared_on_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -100,7 +100,7 @@ async def test_issue_cleared_on_recovery(
 
 
 async def test_issue_removed_with_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -121,7 +121,7 @@ async def test_issue_removed_with_config_entry(
 
 
 async def test_issue_removed_with_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,

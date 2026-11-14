@@ -20,7 +20,7 @@ from pytest_universalassistant.plugins import WebSocketGenerator
 from universalassistant.components import template
 from universalassistant.components.device_automation import toggle_entity
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant, ServiceCall, State
+from universalassistant.core import __HAC_KEEP__, ServiceCall, State
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
@@ -102,7 +102,7 @@ def make_mock_device_actions(
 
 
 async def setup_mock_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -113,7 +113,7 @@ async def setup_mock_devices(
     hass.config.components.add(FAKE_DOMAIN)
 
     async def _async_get_actions(
-        hass: UniversalAssistant, device_id: str
+        hass: __HAC_KEEP__, device_id: str
     ) -> list[dict[str, str]]:
         """List device actions."""
         return await toggle_entity.async_get_actions(hass, device_id, FAKE_DOMAIN)
@@ -169,7 +169,7 @@ def assert_action(
 
 
 async def async_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     state: str | None = None,
     attributes: dict | None = None,
@@ -180,7 +180,7 @@ async def async_trigger(
 
 
 async def async_setup_modern_state_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     count: int,
     config: ConfigType | list[ConfigType],
@@ -200,7 +200,7 @@ async def async_setup_modern_state_format(
 
 
 async def async_setup_modern_trigger_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     trigger: dict,
     count: int,
@@ -237,7 +237,7 @@ class TemplatePlatformSetup:
 
 
 async def setup_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_setup: TemplatePlatformSetup,
     style: ConfigurationStyle,
     count: int,
@@ -271,7 +271,7 @@ async def setup_entity(
 
 
 async def setup_and_test_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_setup: TemplatePlatformSetup,
     style: ConfigurationStyle,
     entity_config: ConfigType | None,
@@ -302,7 +302,7 @@ async def setup_and_test_unique_id(
 
 
 async def setup_and_test_nested_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_setup: TemplatePlatformSetup,
     style: ConfigurationStyle,
     entity_registry: er.EntityRegistry,
@@ -347,14 +347,14 @@ async def setup_and_test_nested_unique_id(
 
 
 @pytest.fixture
-def calls(hass: UniversalAssistant) -> list[ServiceCall]:
+def calls(hass: __HAC_KEEP__) -> list[ServiceCall]:
     """Track calls to a mock service."""
     return async_mock_service(hass, "test", "automation")
 
 
 @pytest.fixture
 async def start_ha(
-    hass: UniversalAssistant, count: int, domain: str, config: ConfigType
+    hass: __HAC_KEEP__, count: int, domain: str, config: ConfigType
 ) -> None:
     """Do setup of integration."""
     with assert_setup_component(count, domain):
@@ -389,7 +389,7 @@ def _create_bad_action_config(action: str, config: ConfigType) -> ConfigType:
 
 
 async def assert_invalid_yaml_actions_do_not_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_setup: TemplatePlatformSetup,
     style: ConfigurationStyle,
     config: ConfigType,
@@ -415,7 +415,7 @@ async def assert_invalid_yaml_actions_do_not_create_entities(
 
 
 async def assert_invalid_config_entry_actions_do_not_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_setup: TemplatePlatformSetup,
     config: ConfigType,
     action: str,
@@ -444,7 +444,7 @@ async def assert_invalid_config_entry_actions_do_not_create_entities(
 
 
 async def async_get_flow_preview_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     domain: str,
     user_input: ConfigType,
@@ -484,7 +484,7 @@ async def async_get_flow_preview_state(
 
 
 def assert_state_and_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_setup: TemplatePlatformSetup,
     expected_state: str | None = None,
     expected_attributes: ConfigType | None = None,
@@ -523,7 +523,7 @@ def make_restore_state_built_in_attribute_templates(jinja_test: str) -> dict:
 
 
 def setup_mock_template_entity_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_setup: TemplatePlatformSetup,
     saved_state: str,
     saved_extra_data: ConfigType | None = None,
@@ -547,7 +547,7 @@ def setup_mock_template_entity_restore_state(
 
 
 async def setup_restore_template_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_setup: TemplatePlatformSetup,
     style: ConfigurationStyle,
     config: ConfigType,
@@ -570,7 +570,7 @@ async def setup_restore_template_entity(
 
 
 async def assert_extra_template_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_setup: TemplatePlatformSetup,
     style: ConfigurationStyle,
     config: ConfigType,
@@ -647,7 +647,7 @@ async def assert_extra_template_attributes(
 
 
 async def assert_attributes_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_setup: TemplatePlatformSetup,
     style: ConfigurationStyle,
     config: ConfigType,

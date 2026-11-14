@@ -2,8 +2,8 @@
 
 from typing import override
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.condition import (
     Condition,
@@ -15,11 +15,11 @@ from universalassistant.helpers.entity import get_supported_features
 from .const import DOMAIN, AlarmControlPanelEntityFeature, AlarmControlPanelState
 
 
-def supports_feature(hass: UniversalAssistant, entity_id: str, features: int) -> bool:
+def supports_feature(hass: __HAC_KEEP__, entity_id: str, features: int) -> bool:
     """Test if an entity supports the specified features."""
     try:
         return bool(get_supported_features(hass, entity_id) & features)
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         return False
 
 
@@ -92,6 +92,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
     """Return the alarm control panel conditions."""
     return CONDITIONS

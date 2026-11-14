@@ -6,11 +6,11 @@ from aioesphomeapi import APIClient, ButtonInfo
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_button_generic_entity(
-    hass: UniversalAssistant, mock_client: APIClient, mock_esphome_device
+    hass: __HAC_KEEP__, mock_client: APIClient, mock_esphome_device
 ) -> None:
     """Test a generic button entity."""
     entity_info = [

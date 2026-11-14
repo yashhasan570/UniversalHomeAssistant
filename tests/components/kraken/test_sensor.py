@@ -15,7 +15,7 @@ from universalassistant.components.kraken.const import (
     SCAN_INTERVAL,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_START
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import (
@@ -28,7 +28,7 @@ from .const import (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that sensor has a value."""
@@ -152,7 +152,7 @@ async def test_sensor(
 
 
 async def test_sensors_available_after_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_sensors_available_after_restart(
 
 
 async def test_sensors_added_after_config_update(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that sensors are added when another tracked asset pair is added."""
     with (
@@ -241,7 +241,7 @@ async def test_sensors_added_after_config_update(
 
 
 async def test_missing_pair_marks_sensor_unavailable(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that a missing tradable asset pair marks the sensor unavailable."""
     with (

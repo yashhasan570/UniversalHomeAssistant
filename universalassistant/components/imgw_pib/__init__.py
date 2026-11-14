@@ -8,7 +8,7 @@ from imgw_pib.exceptions import ApiError
 
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -21,7 +21,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ImgwPibConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ImgwPibConfigEntry) -> None:
     """Set up IMGW-PIB from a config entry."""
     station_id: str = entry.data[CONF_STATION_ID]
 
@@ -62,6 +62,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ImgwPibConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ImgwPibConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ImgwPibConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

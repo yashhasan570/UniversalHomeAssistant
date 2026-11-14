@@ -4,7 +4,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.holiday.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_CONFIG_DATA = {
     "country": "Germany",
@@ -12,7 +12,7 @@ MOCK_CONFIG_DATA = {
 }
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test removing integration."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG_DATA)
     entry.add_to_hass(hass)

@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import PLATFORMS
@@ -13,7 +13,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: GeoJsonConfigEntry
+    hass: __HAC_KEEP__, config_entry: GeoJsonConfigEntry
 ) -> None:
     """Set up the GeoJSON events component as config entry."""
     # Create feed entity manager for all platforms.
@@ -27,12 +27,12 @@ async def async_setup_entry(
     await manager.async_init()
 
 
-async def remove_orphaned_entities(hass: UniversalAssistant, entry_id: str) -> None:
+async def remove_orphaned_entities(hass: __HAC_KEEP__, entry_id: str) -> None:
     """Remove orphaned geo_location entities.
 
     This is needed because when fetching data from the external feed this integration is
     determining which entities need to be added, updated or removed by comparing the
-    current with the previous data. After a restart of Universal Universal Home Assistant the integration
+    current with the previous data. After a restart of __HA_KEEP__ the integration
     has no previous data to compare against, and thus all entities managed by this
     integration are removed after startup.
     """
@@ -45,6 +45,6 @@ async def remove_orphaned_entities(hass: UniversalAssistant, entry_id: str) -> N
                 entity_registry.async_remove(entry.entity_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: GeoJsonConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: GeoJsonConfigEntry) -> None:
     """Unload the GeoJSON events config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

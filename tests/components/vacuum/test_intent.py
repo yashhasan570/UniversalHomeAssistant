@@ -14,11 +14,11 @@ from universalassistant.components.vacuum import (
     intent as vacuum_intent,
 )
 from universalassistant.const import ATTR_SUPPORTED_FEATURES, STATE_IDLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import area_registry as ar, intent
 
 
-async def test_start(hass: UniversalAssistant) -> None:
+async def test_start(hass: __HAC_KEEP__) -> None:
     """Test HassVacuumStart intent."""
     await vacuum_intent.async_setup_intents(hass)
 
@@ -44,7 +44,7 @@ async def test_start(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_start_without_name(hass: UniversalAssistant) -> None:
+async def test_start_without_name(hass: __HAC_KEEP__) -> None:
     """Test HassVacuumStart intent without specifying the name."""
     await vacuum_intent.async_setup_intents(hass)
 
@@ -67,7 +67,7 @@ async def test_start_without_name(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_return_to_base(hass: UniversalAssistant) -> None:
+async def test_return_to_base(hass: __HAC_KEEP__) -> None:
     """Test HassVacuumReturnToBase intent."""
     await vacuum_intent.async_setup_intents(hass)
 
@@ -95,7 +95,7 @@ async def test_return_to_base(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_return_to_base_without_name(hass: UniversalAssistant) -> None:
+async def test_return_to_base_without_name(hass: __HAC_KEEP__) -> None:
     """Test HassVacuumReturnToBase intent without specifying the name."""
     await vacuum_intent.async_setup_intents(hass)
 
@@ -120,7 +120,7 @@ async def test_return_to_base_without_name(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_clean_area(hass: UniversalAssistant, area_registry: ar.AreaRegistry) -> None:
+async def test_clean_area(hass: __HAC_KEEP__, area_registry: ar.AreaRegistry) -> None:
     """Test HassVacuumCleanArea intent."""
     await vacuum_intent.async_setup_intents(hass)
 
@@ -178,7 +178,7 @@ async def test_clean_area(hass: UniversalAssistant, area_registry: ar.AreaRegist
 
 
 async def test_clean_area_no_matching_vacuum(
-    hass: UniversalAssistant, area_registry: ar.AreaRegistry
+    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
 ) -> None:
     """Test HassVacuumCleanArea intent with no matching vacuum."""
     await vacuum_intent.async_setup_intents(hass)
@@ -212,7 +212,7 @@ async def test_clean_area_no_matching_vacuum(
     assert err.value.result.no_match_reason is intent.MatchFailedReason.FEATURE
 
 
-async def test_clean_area_invalid_area(hass: UniversalAssistant) -> None:
+async def test_clean_area_invalid_area(hass: __HAC_KEEP__) -> None:
     """Test HassVacuumCleanArea intent with an invalid area."""
     await vacuum_intent.async_setup_intents(hass)
 
@@ -234,7 +234,7 @@ async def test_clean_area_invalid_area(hass: UniversalAssistant) -> None:
 
 
 async def test_clean_area_service_failure(
-    hass: UniversalAssistant, area_registry: ar.AreaRegistry
+    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
 ) -> None:
     """Test HassVacuumCleanArea intent when the service call fails."""
     await vacuum_intent.async_setup_intents(hass)

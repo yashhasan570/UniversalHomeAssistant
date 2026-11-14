@@ -13,8 +13,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 # Each test says which device it wants, and when the integration is set up.
@@ -30,7 +30,7 @@ from universalassistant.helpers import device_registry as dr, entity_registry as
     ],
 )
 async def test_numbers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_elgato: MagicMock,
@@ -66,7 +66,7 @@ async def test_numbers(
     mock_elgato.power_on_behavior.side_effect = ElgatoError
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="An unknown error occurred while communicating with the Elgato device",
     ):
         await hass.services.async_call(
@@ -84,7 +84,7 @@ async def test_numbers(
 
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("device_fixtures", ["light-strip"])
-async def test_power_on_temperature_unknown(hass: UniversalAssistant) -> None:
+async def test_power_on_temperature_unknown(hass: __HAC_KEEP__) -> None:
     """Test a light that powers on to a color instead of a temperature.
 
     It reports a power-on temperature of zero, which is not a temperature.
@@ -106,7 +106,7 @@ async def test_power_on_temperature_unknown(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_power_on_temperature_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_range: tuple[int, int],
 ) -> None:
     """Test the number stays inside what the device can actually do.
@@ -123,7 +123,7 @@ async def test_power_on_temperature_range(
 
 @pytest.mark.parametrize("device_fixtures", ["light-strip"])
 async def test_power_on_temperature_at_the_edge(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_elgato: MagicMock,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_power_on_temperature_at_the_edge(
 
 @pytest.mark.parametrize("device_fixtures", ["light-strip"])
 async def test_power_on_temperature_absent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_elgato: MagicMock,
 ) -> None:

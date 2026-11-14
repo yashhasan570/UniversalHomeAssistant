@@ -1,4 +1,4 @@
-"""Selectors for Universal Universal Home Assistant."""
+"""Selectors for __HA_KEEP__."""
 
 from collections.abc import Callable, Mapping, Sequence
 from copy import deepcopy

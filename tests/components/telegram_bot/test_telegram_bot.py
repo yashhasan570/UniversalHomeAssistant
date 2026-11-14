@@ -63,23 +63,23 @@ from universalassistant.const import (
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     Context,
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceResponse,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util, json as json_util
 from universalassistant.util.file import write_utf8_file
 
 
-async def test_webhook_platform_init(hass: UniversalAssistant, webhook_bot) -> None:
+async def test_webhook_platform_init(hass: __HAC_KEEP__, webhook_bot) -> None:
     """Test initialization of the webhooks platform."""
     assert hass.services.has_service(DOMAIN, TelegramBotService.SEND_MESSAGE) is True
 
 
 @pytest.mark.usefixtures("mock_external_calls", "mock_polling_calls")
 async def test_polling_platform_init(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_polling_config_entry: MockConfigEntry,
 ) -> None:
     """Test initialization of the polling platform."""
@@ -91,7 +91,7 @@ async def test_polling_platform_init(
 
 
 async def test_polling_platform_init_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_polling_config_entry: MockConfigEntry,
 ) -> None:
     """Test failed initialization of the polling platform."""
@@ -109,7 +109,7 @@ async def test_polling_platform_init_failed(
 
 @pytest.mark.usefixtures("mock_external_calls")
 async def test_polling_platform_setup_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_polling_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup fails when the bot platform cannot be set up."""
@@ -126,7 +126,7 @@ async def test_polling_platform_setup_failed(
 
 
 async def test_polling_platform_init_failed_does_not_log_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_polling_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_polling_platform_init_failed_does_not_log_token(
         await hass.async_block_till_done()
 
     assert mock_polling_config_entry.state is ConfigEntryState.SETUP_RETRY
-    # Universal Universal Home Assistant strips the trailing period from translated messages.
+    # __HA_KEEP__ strips the trailing period from translated messages.
     assert mock_polling_config_entry.reason == "Could not connect to Telegram"
 
     # Nothing at any level may carry the token: not the info line, not the
@@ -211,7 +211,7 @@ async def test_polling_platform_init_failed_does_not_log_token(
     ],
 )
 async def test_send_message(
-    hass: UniversalAssistant, webhook_bot, service: str, input: dict[str, Any]
+    hass: __HAC_KEEP__, webhook_bot, service: str, input: dict[str, Any]
 ) -> None:
     """Test services that do not require files to be sent."""
     context = Context()
@@ -286,7 +286,7 @@ async def test_send_message(
     ],
 )
 async def test_send_message_with_inline_keyboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot,
     input: dict[str, Any],
     expected: InlineKeyboardMarkup,
@@ -344,7 +344,7 @@ async def test_send_message_with_inline_keyboard(
 
 
 async def test_send_sticker_partial_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -364,7 +364,7 @@ async def test_send_sticker_partial_error(
     ):
         mock_send_sticker.side_effect = NetworkError("mock network error")
 
-        with pytest.raises(UniversalAssistantError) as err:
+        with pytest.raises(__HAC_KEEP__Error) as err:
             await hass.services.async_call(
                 DOMAIN,
                 TelegramBotService.SEND_STICKER,
@@ -391,14 +391,14 @@ async def test_send_sticker_partial_error(
     }
 
 
-async def test_send_sticker_error(hass: UniversalAssistant, webhook_bot) -> None:
+async def test_send_sticker_error(hass: __HAC_KEEP__, webhook_bot) -> None:
     """Test the send_message service with an error."""
     with patch(
         "universalassistant.components.telegram_bot.bot.Bot.send_sticker",
     ) as mock_bot:
         mock_bot.side_effect = NetworkError("mock network error")
 
-        with pytest.raises(UniversalAssistantError) as err:
+        with pytest.raises(__HAC_KEEP__Error) as err:
             await hass.services.async_call(
                 DOMAIN,
                 TelegramBotService.SEND_STICKER,
@@ -411,14 +411,14 @@ async def test_send_sticker_error(hass: UniversalAssistant, webhook_bot) -> None
     await hass.async_block_till_done()
 
     mock_bot.assert_called_once()
-    assert err.typename == "UniversalAssistantError"
+    assert err.typename == "__HAC_KEEP__Error"
     assert "mock network error" in str(err.value)
     assert err.value.translation_domain == DOMAIN
     assert err.value.translation_key == "action_failed"
 
 
 async def test_send_message_with_invalid_inline_keyboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot,
 ) -> None:
     """Test the send_message service with invalid inline keyboard."""
@@ -462,7 +462,7 @@ def _read_file_as_bytesio_mock(file_path):
 
 
 @pytest.fixture
-def allowlist_tmp_path(hass: UniversalAssistant, tmp_path: Path) -> Path:
+def allowlist_tmp_path(hass: __HAC_KEEP__, tmp_path: Path) -> Path:
     """Allow download_file to write into the temporary directory."""
     hass.config.allowlist_external_dirs = {
         *hass.config.allowlist_external_dirs,
@@ -472,7 +472,7 @@ def allowlist_tmp_path(hass: UniversalAssistant, tmp_path: Path) -> Path:
 
 
 async def _run_download_file_service_with_mocks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     schema_request: dict[str, Any],
     telegram_file: File,
     download_bytes: Any,
@@ -537,7 +537,7 @@ def _assert_download_file_response(
 
 
 async def test_send_chat_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -580,7 +580,7 @@ async def test_send_chat_action(
         TelegramBotService.SEND_DOCUMENT,
     ],
 )
-async def test_send_file(hass: UniversalAssistant, webhook_bot, service: str) -> None:
+async def test_send_file(hass: __HAC_KEEP__, webhook_bot, service: str) -> None:
     """Test the send_file service (photo, animation, video, document...)."""
     context = Context()
     events = async_capture_events(hass, "telegram_sent")
@@ -619,7 +619,7 @@ async def test_send_file(hass: UniversalAssistant, webhook_bot, service: str) ->
     }
 
 
-async def test_send_message_thread(hass: UniversalAssistant, webhook_bot) -> None:
+async def test_send_message_thread(hass: __HAC_KEEP__, webhook_bot) -> None:
     """Test the send_message service for threads."""
     context = Context()
     events = async_capture_events(hass, "telegram_sent")
@@ -661,7 +661,7 @@ async def test_send_message_thread(hass: UniversalAssistant, webhook_bot) -> Non
     ],
 )
 async def test_webhook_endpoint_generates_telegram_text_reply_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot: None,
     hass_client: ClientSessionGenerator,
     update_message_text: dict[str, Any],
@@ -699,7 +699,7 @@ async def test_webhook_endpoint_generates_telegram_text_reply_event(
 
 
 async def test_webhook_endpoint_generates_telegram_command_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot,
     hass_client: ClientSessionGenerator,
     update_message_command,
@@ -726,7 +726,7 @@ async def test_webhook_endpoint_generates_telegram_command_event(
 
 
 async def test_webhook_callback_inline_query(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot,
     hass_client: ClientSessionGenerator,
     update_callback_query,
@@ -753,7 +753,7 @@ async def test_webhook_callback_inline_query(
 
 
 async def test_webhook_callback_inline_keyboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot: None,
     hass_client: ClientSessionGenerator,
     update_callback_inline_keyboard,
@@ -801,7 +801,7 @@ async def test_webhook_callback_inline_keyboard(
     ],
 )
 async def test_webhook_endpoint_generates_telegram_attachment_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot: None,
     hass_client: ClientSessionGenerator,
     mock_generate_secret_token: str,
@@ -840,7 +840,7 @@ async def test_webhook_endpoint_generates_telegram_attachment_event(
 
 
 async def test_polling_platform_allowed_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_polling_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -873,7 +873,7 @@ async def test_polling_platform_allowed_updates(
 
 
 async def test_polling_platform_message_text_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_polling_config_entry: MockConfigEntry,
     update_message_text,
     mock_external_calls: None,
@@ -940,7 +940,7 @@ async def test_polling_platform_message_text_update(
     ],
 )
 async def test_polling_platform_add_error_handler(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_polling_config_entry: MockConfigEntry,
     update_message_text: dict[str, Any],
     mock_external_calls: None,
@@ -987,7 +987,7 @@ async def test_polling_platform_add_error_handler(
     ],
 )
 async def test_polling_platform_start_polling_error_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_polling_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
     mock_external_calls: None,
@@ -1022,7 +1022,7 @@ async def test_polling_platform_start_polling_error_callback(
 
 
 async def test_webhook_endpoint_unauthorized_update_doesnt_generate_telegram_text_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot,
     hass_client: ClientSessionGenerator,
     unauthorized_update_message_text,
@@ -1047,7 +1047,7 @@ async def test_webhook_endpoint_unauthorized_update_doesnt_generate_telegram_tex
 
 
 async def test_webhook_endpoint_without_secret_token_is_denied(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot,
     hass_client: ClientSessionGenerator,
     update_message_text,
@@ -1064,7 +1064,7 @@ async def test_webhook_endpoint_without_secret_token_is_denied(
 
 
 async def test_webhook_endpoint_invalid_secret_token_is_denied(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot,
     hass_client: ClientSessionGenerator,
     update_message_text,
@@ -1083,7 +1083,7 @@ async def test_webhook_endpoint_invalid_secret_token_is_denied(
 
 
 async def test_multiple_config_entries_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_polling_config_entry: MockConfigEntry,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
@@ -1125,7 +1125,7 @@ async def test_multiple_config_entries_error(
 
 
 async def test_send_message_with_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -1136,7 +1136,7 @@ async def test_send_message_with_config_entry(
 
     # test: send message to invalid chat id
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         response = await hass.services.async_call(
             DOMAIN,
             TelegramBotService.SEND_MESSAGE,
@@ -1182,7 +1182,7 @@ async def test_send_message_with_config_entry(
 
 
 async def test_send_message_no_chat_id_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_external_calls: None,
 ) -> None:
     """Test send message using config entry with no whitelisted chat id."""
@@ -1216,7 +1216,7 @@ async def test_send_message_no_chat_id_error(
 
 
 async def test_send_message_config_entry_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -1246,7 +1246,7 @@ async def test_send_message_config_entry_error(
 
 
 async def test_send_message_config_entry_wrong_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -1279,7 +1279,7 @@ async def test_send_message_config_entry_wrong_domain(
 
 
 async def test_delete_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -1371,7 +1371,7 @@ async def test_delete_message(
     ],
 )
 async def test_edit_message_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     media_type: str,
@@ -1417,7 +1417,7 @@ async def test_edit_message_media(
 
 
 async def test_edit_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -1499,7 +1499,7 @@ async def test_edit_message(
 
 
 async def test_async_setup_entry_failed(
-    hass: UniversalAssistant, mock_broadcast_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_broadcast_config_entry: MockConfigEntry
 ) -> None:
     """Test setup entry failed."""
     mock_broadcast_config_entry.add_to_hass(hass)
@@ -1517,7 +1517,7 @@ async def test_async_setup_entry_failed(
 
 
 async def test_answer_callback_query(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -1550,7 +1550,7 @@ async def test_answer_callback_query(
 
 
 async def test_leave_chat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -1580,7 +1580,7 @@ async def test_leave_chat(
 
 
 async def test_send_video(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -1655,7 +1655,7 @@ async def test_send_video(
     ):
         mock_get.return_value = AsyncMock(status_code=404, text="Success")
 
-        with pytest.raises(UniversalAssistantError) as err:
+        with pytest.raises(__HAC_KEEP__Error) as err:
             await hass.services.async_call(
                 DOMAIN,
                 TelegramBotService.SEND_VIDEO,
@@ -1685,7 +1685,7 @@ async def test_send_video(
     ):
         mock_get.return_value = AsyncMock(status_code=200, content=b"")
 
-        with pytest.raises(UniversalAssistantError) as err:
+        with pytest.raises(__HAC_KEEP__Error) as err:
             await hass.services.async_call(
                 DOMAIN,
                 TelegramBotService.SEND_VIDEO,
@@ -1707,7 +1707,7 @@ async def test_send_video(
 
     # test: invalid url
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             TelegramBotService.SEND_VIDEO,
@@ -1749,7 +1749,7 @@ async def test_send_video(
 
     hass.config.allowlist_external_dirs.add("/tmp/")  # noqa: S108
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             TelegramBotService.SEND_VIDEO,
@@ -1825,7 +1825,7 @@ async def test_send_video(
 
 
 async def test_set_message_reaction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -1860,7 +1860,7 @@ async def test_set_message_reaction(
 
 
 async def test_send_message_draft(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -1970,7 +1970,7 @@ async def test_send_message_draft(
     ],
 )
 async def test_send_message_multi_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     service: str,
@@ -2012,7 +2012,7 @@ async def test_send_message_multi_target(
 
 
 async def test_notify_entity_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -2045,7 +2045,7 @@ async def test_notify_entity_send_message(
 
 
 async def test_notify_entity_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -2074,7 +2074,7 @@ async def test_notify_entity_not_found(
 
 
 async def test_notify_entity_other_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
@@ -2135,7 +2135,7 @@ async def test_notify_entity_other_integration(
     ],
 )
 async def test_download_file_no_custom_dir(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     telegram_file_name: str,
@@ -2211,7 +2211,7 @@ async def test_download_file_no_custom_dir(
 @pytest.mark.usefixtures("allowlist_tmp_path")
 async def test_download_file_custom_dir(
     tmp_path: Path,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     telegram_file_name: str,
@@ -2259,7 +2259,7 @@ async def test_download_file_custom_dir(
 @pytest.mark.usefixtures("allowlist_tmp_path")
 async def test_download_file_directory_created_successfully(
     tmp_path: Path,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -2309,7 +2309,7 @@ async def test_download_file_directory_created_successfully(
 @pytest.mark.usefixtures("allowlist_tmp_path")
 async def test_download_file_when_bot_failed_to_get_file(
     tmp_path: Path,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -2329,7 +2329,7 @@ async def test_download_file_when_bot_failed_to_get_file(
             "universalassistant.components.telegram_bot.bot.Bot.get_file",
             AsyncMock(side_effect=TelegramError("failed to get file")),
         ),
-        pytest.raises(UniversalAssistantError) as err,
+        pytest.raises(__HAC_KEEP__Error) as err,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -2339,7 +2339,7 @@ async def test_download_file_when_bot_failed_to_get_file(
         )
     await hass.async_block_till_done()
 
-    assert err.typename == "UniversalAssistantError"
+    assert err.typename == "__HAC_KEEP__Error"
     assert err.value.translation_key == "action_failed"
     assert "failed to get file" in str(err.value)
 
@@ -2347,7 +2347,7 @@ async def test_download_file_when_bot_failed_to_get_file(
 @pytest.mark.usefixtures("allowlist_tmp_path")
 async def test_download_file_when_empty_file_path(
     tmp_path: Path,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -2366,7 +2366,7 @@ async def test_download_file_when_empty_file_path(
         file_unique_id="file_unique_id",
     )
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await _run_download_file_service_with_mocks(
             hass, schema_request, telegram_file, "file_content"
         )
@@ -2385,7 +2385,7 @@ async def test_download_file_when_empty_file_path(
 @pytest.mark.usefixtures("allowlist_tmp_path")
 async def test_download_file_when_error_when_downloading(
     tmp_path: Path,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     exception_class: type[Exception],
@@ -2416,7 +2416,7 @@ async def test_download_file_when_error_when_downloading(
             "telegram.File.download_as_bytearray",
             AsyncMock(side_effect=exception_class("failed to download file")),
         ),
-        pytest.raises(UniversalAssistantError) as err,
+        pytest.raises(__HAC_KEEP__Error) as err,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -2445,7 +2445,7 @@ async def test_download_file_when_error_when_downloading(
 )
 @pytest.mark.usefixtures("mock_external_calls")
 async def test_download_file_write_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     allowlist_tmp_path: Path,
     error: int,
@@ -2473,7 +2473,7 @@ async def test_download_file_write_error(
             AsyncMock(return_value=bytearray(b"file_content")),
         ) as download_mock,
         patch("pathlib.Path.write_bytes", side_effect=OSError(error, "Error")),
-        pytest.raises(UniversalAssistantError) as err,
+        pytest.raises(__HAC_KEEP__Error) as err,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -2497,7 +2497,7 @@ async def test_download_file_write_error(
 
 @pytest.mark.usefixtures("mock_external_calls")
 async def test_download_file_create_directory_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     allowlist_tmp_path: Path,
 ) -> None:
@@ -2523,7 +2523,7 @@ async def test_download_file_create_directory_error(
             "universalassistant.components.telegram_bot.bot.os.makedirs",
             side_effect=OSError(errno.EACCES, "Error"),
         ),
-        pytest.raises(UniversalAssistantError) as err,
+        pytest.raises(__HAC_KEEP__Error) as err,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -2553,7 +2553,7 @@ async def test_download_file_create_directory_error(
     ],
 )
 async def test_download_file_rejects_invalid_directory_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     directory_path: str,
@@ -2601,7 +2601,7 @@ async def test_download_file_rejects_invalid_directory_path(
 @pytest.mark.usefixtures("allowlist_tmp_path")
 async def test_download_file_rejects_invalid_file_name(
     tmp_path: Path,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     file_name: str,
@@ -2637,7 +2637,7 @@ async def test_download_file_rejects_invalid_file_name(
 
 
 async def test_send_media_group(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -2694,7 +2694,7 @@ async def test_send_media_group(
 
 
 async def test_send_media_group_caption_parse_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -2754,7 +2754,7 @@ async def test_send_media_group_caption_parse_mode(
 )
 async def test_download_file_rejects_directory_outside_allowlist(
     tmp_path: Path,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
     subdirectory: str,
@@ -2795,7 +2795,7 @@ async def test_download_file_rejects_directory_outside_allowlist(
 
 async def test_download_file_rejects_symlink_out_of_allowlist(
     tmp_path: Path,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_broadcast_config_entry: MockConfigEntry,
     mock_external_calls: None,
 ) -> None:
@@ -2852,7 +2852,7 @@ def test_read_file_errors(error: OSError, translation_key: str) -> None:
     """Test reading a file maps OS errors to translated messages."""
     with (
         patch("builtins.open", side_effect=error),
-        pytest.raises(UniversalAssistantError) as err,
+        pytest.raises(__HAC_KEEP__Error) as err,
     ):
         _read_file_as_bytesio("/some/file.jpg")
 

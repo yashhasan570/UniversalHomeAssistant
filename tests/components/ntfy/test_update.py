@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -39,7 +39,7 @@ def update_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_aiontfy", "mock_update_checker")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -78,7 +78,7 @@ async def test_setup(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_update_checker_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_checker: AsyncMock,
 ) -> None:
     """Test update entity update checker error."""
@@ -116,7 +116,7 @@ async def test_update_checker_error(
 )
 @pytest.mark.usefixtures("mock_update_checker")
 async def test_version_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aiontfy: AsyncMock,
     exception: Exception,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_version_errors(
 
 
 @pytest.mark.usefixtures("mock_aiontfy", "mock_update_checker")
-async def test_with_official_server(hass: UniversalAssistant) -> None:
+async def test_with_official_server(hass: __HAC_KEEP__) -> None:
     """Test update entity is not created when using official ntfy server."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

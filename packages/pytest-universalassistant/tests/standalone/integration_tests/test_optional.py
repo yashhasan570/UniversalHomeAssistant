@@ -5,7 +5,7 @@ import pytest
 
 from universalassistant.components import bluetooth, infrared, radio_frequency
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from pytest_universalassistant.components.bluetooth import (
     HCI0_SOURCE_ADDRESS,
@@ -23,7 +23,7 @@ from pytest_universalassistant.components.radio_frequency.common import (
 
 
 @pytest.fixture
-async def bluetooth_manager(hass: UniversalAssistant) -> None:
+async def bluetooth_manager(hass: __HAC_KEEP__) -> None:
     """Set up the Bluetooth manager."""
     assert await async_setup_component(hass, bluetooth.DOMAIN, {})
     await hass.async_block_till_done()
@@ -35,7 +35,7 @@ async def bluetooth_manager(hass: UniversalAssistant) -> None:
     "register_hci1_scanner",
     "register_non_connectable_scanner",
 )
-async def test_bluetooth_scanners(hass: UniversalAssistant) -> None:
+async def test_bluetooth_scanners(hass: __HAC_KEEP__) -> None:
     """Test registration of connectable and non-connectable scanners."""
     scanners = {
         scanner.source: scanner for scanner in bluetooth.async_current_scanners(hass)
@@ -46,7 +46,7 @@ async def test_bluetooth_scanners(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
-async def test_bluetooth_macos_adapter(hass: UniversalAssistant) -> None:
+async def test_bluetooth_macos_adapter(hass: __HAC_KEEP__) -> None:
     """Test reloading Bluetooth with a mocked macOS adapter."""
     entry = hass.config_entries.async_entries(bluetooth.DOMAIN)[0]
     assert await hass.config_entries.async_reload(entry.entry_id)
@@ -55,7 +55,7 @@ async def test_bluetooth_macos_adapter(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_infrared_setup(hass: UniversalAssistant) -> None:
+async def test_infrared_setup(hass: __HAC_KEEP__) -> None:
     """Test infrared setup without entities."""
     assert infrared.DOMAIN in hass.config.components
     assert infrared.async_get_emitters(hass) == []
@@ -63,7 +63,7 @@ async def test_infrared_setup(hass: UniversalAssistant) -> None:
 
 
 async def test_infrared_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
@@ -80,14 +80,14 @@ async def test_infrared_entities(
 
 
 @pytest.mark.usefixtures("init_radio_frequency")
-async def test_radio_frequency_setup(hass: UniversalAssistant) -> None:
+async def test_radio_frequency_setup(hass: __HAC_KEEP__) -> None:
     """Test radio frequency setup without entities."""
     assert radio_frequency.DOMAIN in hass.config.components
     assert not hass.data[radio_frequency.DATA_COMPONENT].entities
 
 
 async def test_radio_frequency_entity(
-    hass: UniversalAssistant, mock_rf_entity: MockRadioFrequencyEntity
+    hass: __HAC_KEEP__, mock_rf_entity: MockRadioFrequencyEntity
 ) -> None:
     """Test radio frequency entity discovery and command delivery."""
     command = MockRadioFrequencyCommand()

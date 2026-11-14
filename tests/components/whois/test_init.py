@@ -13,11 +13,11 @@ from whoisdomain.exceptions import (
 
 from universalassistant.components.whois.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_whois: MagicMock,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_load_unload_config_entry(
     ],
 )
 async def test_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_whois: MagicMock,
     side_effect: Exception,

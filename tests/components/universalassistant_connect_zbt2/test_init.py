@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant Connect ZBT-2 integration."""
+"""Test the __HA_KEEP__ Connect ZBT-2 integration."""
 
 from datetime import timedelta
 from unittest.mock import patch
@@ -14,7 +14,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -25,7 +25,7 @@ from tests.components.usb import async_request_scan, patch_scanned_serial_ports
 from tests.components.usb.conftest import force_usb_polling_watcher  # noqa: F401
 
 
-async def test_config_entry_migration_v2(hass: UniversalAssistant) -> None:
+async def test_config_entry_migration_v2(hass: __HAC_KEEP__) -> None:
     """Test migrating config entries from v1.1 to v1.2 for serial unique ID."""
 
     config_entry = MockConfigEntry(
@@ -99,7 +99,7 @@ async def test_config_entry_migration_v2(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_config_entry_migration_v2_collapses_duplicates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     older: dict,
     newer: dict,
@@ -156,7 +156,7 @@ async def test_config_entry_migration_v2_collapses_duplicates(
     ],
 )
 async def test_config_entry_migration_v2_prefers_active_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sibling_source: str,
     sibling_disabled_by: ConfigEntryDisabler | None,
 ) -> None:
@@ -208,7 +208,7 @@ async def test_config_entry_migration_v2_prefers_active_entry(
 
 
 async def test_config_entry_migration_v2_removes_duplicates_of_migrated_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test v1.2 migration removes duplicates of an already migrated entry.
 
@@ -276,7 +276,7 @@ async def test_config_entry_migration_v2_removes_duplicates_of_migrated_entry(
     assert hass.config_entries.async_get_entry(duplicate_entry.entry_id) is None
 
 
-async def test_setup_fails_on_missing_usb_port(hass: UniversalAssistant) -> None:
+async def test_setup_fails_on_missing_usb_port(hass: __HAC_KEEP__) -> None:
     """Test setup failing when the USB port is missing."""
 
     config_entry = MockConfigEntry(
@@ -318,7 +318,7 @@ async def test_setup_fails_on_missing_usb_port(hass: UniversalAssistant) -> None
 
 
 @pytest.mark.usefixtures("force_usb_polling_watcher")
-async def test_usb_device_reactivity(hass: UniversalAssistant) -> None:
+async def test_usb_device_reactivity(hass: __HAC_KEEP__) -> None:
     """Test setting up USB monitoring."""
     assert await async_setup_component(hass, USB_DOMAIN, {"usb": {}})
 
@@ -395,7 +395,7 @@ async def test_usb_device_reactivity(hass: UniversalAssistant) -> None:
 
 
 async def test_device_via_esphome_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the device is linked to the ESPHome device proxying its serial port."""
     esphome_entry = MockConfigEntry(domain="esphome", unique_id="11:22:33:44:55:66")

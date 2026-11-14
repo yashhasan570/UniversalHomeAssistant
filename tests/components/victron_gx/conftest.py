@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import MOCK_HOST, MOCK_INSTALLATION_ID, MOCK_MODEL, MOCK_SERIAL
 
@@ -58,7 +58,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 async def _async_init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
 ) -> tuple[VictronVenusHub, MockConfigEntry]:
@@ -83,7 +83,7 @@ async def _async_init_integration(
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> tuple[VictronVenusHub, MockConfigEntry]:
     """Set up the Victron GX metric platforms for testing."""
     return await _async_init_integration(
@@ -95,7 +95,7 @@ async def init_integration(
 
 @pytest.fixture
 async def init_integration_with_update(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> tuple[VictronVenusHub, MockConfigEntry]:
     """Set up all Victron GX platforms, including firmware updates."""
     return await _async_init_integration(hass, mock_config_entry, PLATFORMS)

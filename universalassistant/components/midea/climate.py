@@ -38,7 +38,7 @@ from universalassistant.const import (
     PRECISION_WHOLE,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -120,7 +120,7 @@ _SWING_STATE_MAP: dict[tuple[bool, bool], str] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MideaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -197,13 +197,13 @@ class MideaClimate(MideaEntity, ClimateEntity):
         return None
 
     def _protocol_mode_to_hvac(self, mode: int) -> HVACMode | None:
-        """Convert protocol mode value to Universal Universal Home Assistant HVAC mode."""
+        """Convert protocol mode value to __HA_KEEP__ HVAC mode."""
         if mode in self._protocol_hvac_modes:
             return self._protocol_hvac_modes[mode]
         return None
 
     def _hvac_to_protocol_mode(self, hvac_mode: HVACMode) -> int:
-        """Convert Universal Universal Home Assistant HVAC mode to protocol mode value."""
+        """Convert __HA_KEEP__ HVAC mode to protocol mode value."""
         for key, value in self._protocol_hvac_modes.items():
             if value == hvac_mode:
                 return key

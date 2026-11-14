@@ -14,7 +14,7 @@ from universalassistant.components.homematicip_cloud.const import (
     HMIPC_NAME,
     HMIPC_PIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 DEFAULT_CONFIG = {HMIPC_HAPID: "ABC123", HMIPC_PIN: "123", HMIPC_NAME: "hmip"}
@@ -22,7 +22,7 @@ DEFAULT_CONFIG = {HMIPC_HAPID: "ABC123", HMIPC_PIN: "123", HMIPC_NAME: "hmip"}
 IMPORT_CONFIG = {HMIPC_HAPID: "ABC123", HMIPC_AUTHTOKEN: "123", HMIPC_NAME: "hmip"}
 
 
-async def test_flow_works(hass: UniversalAssistant, simple_mock_home) -> None:
+async def test_flow_works(hass: __HAC_KEEP__, simple_mock_home) -> None:
     """Test config flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -84,7 +84,7 @@ async def test_flow_works(hass: UniversalAssistant, simple_mock_home) -> None:
     assert result["result"].unique_id == "ABC123"
 
 
-async def test_flow_init_connection_error(hass: UniversalAssistant) -> None:
+async def test_flow_init_connection_error(hass: __HAC_KEEP__) -> None:
     """Test config flow with accesspoint connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -131,7 +131,7 @@ async def test_flow_init_connection_error(hass: UniversalAssistant) -> None:
 
 
 async def test_flow_init_rejected_pin(
-    hass: UniversalAssistant, simple_mock_auth: AsyncMock
+    hass: __HAC_KEEP__, simple_mock_auth: AsyncMock
 ) -> None:
     """Test the flow stays on the first step when the cloud rejects the PIN."""
     result = await hass.config_entries.flow.async_init(
@@ -190,7 +190,7 @@ async def test_flow_init_rejected_pin(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_link_connection_error(hass: UniversalAssistant) -> None:
+async def test_flow_link_connection_error(hass: __HAC_KEEP__) -> None:
     """Test config flow client registration connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -221,7 +221,7 @@ async def test_flow_link_connection_error(hass: UniversalAssistant) -> None:
     assert result["reason"] == "connection_aborted"
 
 
-async def test_flow_link_press_button(hass: UniversalAssistant) -> None:
+async def test_flow_link_press_button(hass: __HAC_KEEP__) -> None:
     """Test config flow ask for pressing the blue button."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -269,7 +269,7 @@ async def test_flow_link_press_button(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_init_flow_show_form(hass: UniversalAssistant) -> None:
+async def test_init_flow_show_form(hass: __HAC_KEEP__) -> None:
     """Test config flow shows up with a form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -279,7 +279,7 @@ async def test_init_flow_show_form(hass: UniversalAssistant) -> None:
     assert result["step_id"] == "init"
 
 
-async def test_init_already_configured(hass: UniversalAssistant) -> None:
+async def test_init_already_configured(hass: __HAC_KEEP__) -> None:
     """Test accesspoint is already configured."""
     MockConfigEntry(domain=DOMAIN, unique_id="ABC123").add_to_hass(hass)
 
@@ -302,7 +302,7 @@ async def test_init_already_configured(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_import_config(hass: UniversalAssistant, simple_mock_home) -> None:
+async def test_import_config(hass: __HAC_KEEP__, simple_mock_home) -> None:
     """Test importing a host with an existing config file."""
     with (
         patch(
@@ -333,7 +333,7 @@ async def test_import_config(hass: UniversalAssistant, simple_mock_home) -> None
     assert result["result"].unique_id == "ABC123"
 
 
-async def test_reauth_flow(hass: UniversalAssistant) -> None:
+async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     """Test reauth flow re-registers and updates the auth token."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -394,7 +394,7 @@ async def test_reauth_flow(hass: UniversalAssistant) -> None:
     assert entry.data[HMIPC_AUTHTOKEN] == "new_token"
 
 
-async def test_reauth_flow_register_failure(hass: UniversalAssistant) -> None:
+async def test_reauth_flow_register_failure(hass: __HAC_KEEP__) -> None:
     """Test reauth flow keeps form alive when registration fails."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -469,7 +469,7 @@ async def test_reauth_flow_register_failure(hass: UniversalAssistant) -> None:
     assert entry.data[HMIPC_AUTHTOKEN] == "new_token"
 
 
-async def test_reauth_flow_connection_error(hass: UniversalAssistant) -> None:
+async def test_reauth_flow_connection_error(hass: __HAC_KEEP__) -> None:
     """Test reauth flow with connection error shows form again."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -527,7 +527,7 @@ async def test_reauth_flow_connection_error(hass: UniversalAssistant) -> None:
     assert entry.data[HMIPC_AUTHTOKEN] == "new_token"
 
 
-async def test_import_existing_config(hass: UniversalAssistant) -> None:
+async def test_import_existing_config(hass: __HAC_KEEP__) -> None:
     """Test abort of an existing accesspoint from config."""
     MockConfigEntry(domain=DOMAIN, unique_id="ABC123").add_to_hass(hass)
     with (

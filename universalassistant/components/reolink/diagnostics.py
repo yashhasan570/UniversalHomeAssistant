@@ -2,13 +2,13 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import ReolinkConfigEntry, ReolinkData
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: ReolinkConfigEntry
+    hass: __HAC_KEEP__, config_entry: ReolinkConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     reolink_data: ReolinkData = config_entry.runtime_data

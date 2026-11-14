@@ -8,14 +8,14 @@ dynamic = ["version", "requires-python"]
 dependencies = ["ruff"]
 license = "Apache-2.0"
 license-files = ["LICENSE.md"]
-description = "Validate Universal Universal Home Assistant integrations."
+description = "Validate __HA_KEEP__ integrations."
 readme = "README.md"
 authors = [
-  { name = "The Universal Universal Home Assistant Authors", email = "hello@universalassistant.io" },
+  { name = "The __HA_KEEP__ Authors", email = "hello@universalassistant.io" },
 ]
 
 [project.urls]
-Repository = "https://github.com/yashhasan570/UniversalUniversalAssistant"
+Repository = "https://github.com/yashhasan570/__HAC_KEEP__"
 Documentation = "https://contributors.universalassistant.io"
 
 [tool.setuptools.packages.find]

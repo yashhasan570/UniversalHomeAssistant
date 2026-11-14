@@ -12,7 +12,7 @@ import pytest
 from universalassistant import config_entries, setup
 from universalassistant.components.sleepiq.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 
@@ -21,7 +21,7 @@ from .conftest import SLEEPIQ_CONFIG, setup_platform
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_import(hass: UniversalAssistant, issue_registry: ir.IssueRegistry) -> None:
+async def test_import(hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry) -> None:
     """Test that we can import a config entry."""
     with patch("asyncsleepiq.AsyncSleepIQ.login"):
         assert await setup.async_setup_component(hass, DOMAIN, {DOMAIN: SLEEPIQ_CONFIG})
@@ -43,7 +43,7 @@ async def test_import(hass: UniversalAssistant, issue_registry: ir.IssueRegistry
 
 
 async def test_import_already_configured(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test importing an already configured account raises the YAML issue."""
     entry = await setup_platform(hass)
@@ -70,7 +70,7 @@ async def test_import_already_configured(
     ],
 )
 async def test_import_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     side_effect: type[Exception],
     reason: str,
@@ -95,7 +95,7 @@ async def test_import_failure(
     )
 
 
-async def test_show_set_form(hass: UniversalAssistant) -> None:
+async def test_show_set_form(hass: __HAC_KEEP__) -> None:
     """Test that the setup form is served."""
     with patch("asyncsleepiq.AsyncSleepIQ.login"):
         result = await hass.config_entries.flow.async_init(
@@ -114,7 +114,7 @@ async def test_show_set_form(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_login_failure(
-    hass: UniversalAssistant, side_effect: type[Exception], error: str
+    hass: __HAC_KEEP__, side_effect: type[Exception], error: str
 ) -> None:
     """Test that we show user form with appropriate error on login failure."""
     with patch(
@@ -144,7 +144,7 @@ async def test_login_failure(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_success(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_success(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test successful flow provides entry creation data."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -165,7 +165,7 @@ async def test_success(hass: UniversalAssistant, mock_setup_entry: AsyncMock) ->
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_reauth_password(hass: UniversalAssistant) -> None:
+async def test_reauth_password(hass: __HAC_KEEP__) -> None:
     """Test reauth form."""
 
     # set up initially

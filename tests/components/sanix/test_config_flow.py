@@ -13,14 +13,14 @@ from universalassistant.components.sanix.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 CONFIG = {CONF_SERIAL_NUMBER: "1810088", CONF_TOKEN: "75868dcf8ea4c64e2063f6c4e70132d2"}
 
 
 async def test_create_entry(
-    hass: UniversalAssistant, mock_sanix: MagicMock, mock_setup_entry
+    hass: __HAC_KEEP__, mock_sanix: MagicMock, mock_setup_entry
 ) -> None:
     """Test that the user step works."""
 
@@ -53,7 +53,7 @@ async def test_create_entry(
     ],
 )
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     error: str,
     mock_sanix: MagicMock,
@@ -92,7 +92,7 @@ async def test_form_exceptions(
 
 
 async def test_duplicate_error(
-    hass: UniversalAssistant, mock_sanix: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_sanix: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that errors are shown when duplicates are added."""
 

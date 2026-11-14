@@ -20,7 +20,7 @@ from universalassistant.components.motioneye.const import DEFAULT_SCAN_INTERVAL
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -35,7 +35,7 @@ from . import (
 
 
 async def test_switch_turn_on_off(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test turning the switch on and off."""
     client = create_mock_motioneye_client()
@@ -98,7 +98,7 @@ async def test_switch_turn_on_off(
     assert entity_state.state == "on"
 
 
-async def test_switch_state_updates_right_after_toggling(hass: UniversalAssistant) -> None:
+async def test_switch_state_updates_right_after_toggling(hass: __HAC_KEEP__) -> None:
     """Test the switch shows the new state without waiting for the next poll."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -136,7 +136,7 @@ async def test_switch_state_updates_right_after_toggling(hass: UniversalAssistan
 
 
 async def test_switch_state_update_from_coordinator(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that coordinator data impacts state."""
     client = create_mock_motioneye_client()
@@ -161,7 +161,7 @@ async def test_switch_state_update_from_coordinator(
     assert entity_state.state == "off"
 
 
-async def test_switch_has_correct_entities(hass: UniversalAssistant) -> None:
+async def test_switch_has_correct_entities(hass: __HAC_KEEP__) -> None:
     """Test that the correct switch entities are created."""
     client = create_mock_motioneye_client()
     await setup_mock_motioneye_config_entry(hass, client=client)
@@ -189,7 +189,7 @@ async def test_switch_has_correct_entities(hass: UniversalAssistant) -> None:
 
 
 async def test_disabled_switches_can_be_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_disabled_switches_can_be_enabled(
 
 
 async def test_switch_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

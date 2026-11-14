@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfRatio, UnitOfTemperature, UnitOfVolumeFlowRate
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -93,7 +93,7 @@ SENSOR_TYPES: dict[DeviceType, tuple[FreshrSensorEntityDescription, ...]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FreshrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

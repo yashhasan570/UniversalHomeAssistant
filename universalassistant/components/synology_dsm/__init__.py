@@ -9,7 +9,7 @@ from synology_dsm.api.surveillance_station.camera import SynoCamera
 from synology_dsm.exceptions import SynologyDSMNotLoggedInException
 
 from universalassistant.const import CONF_MAC, CONF_SCAN_INTERVAL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -41,7 +41,7 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Synology DSM component."""
 
     async_setup_services(hass)
@@ -49,7 +49,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SynologyDSMConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SynologyDSMConfigEntry) -> None:
     """Set up Synology DSM sensors."""
 
     # Migrate device identifiers
@@ -192,7 +192,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SynologyDSMConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: SynologyDSMConfigEntry
+    hass: __HAC_KEEP__, entry: SynologyDSMConfigEntry
 ) -> None:
     """Unload Synology DSM sensors."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -201,7 +201,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, entry: SynologyDSMConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: SynologyDSMConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove synology_dsm config entry from a device."""
     data = entry.runtime_data

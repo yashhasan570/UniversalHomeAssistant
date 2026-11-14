@@ -11,7 +11,7 @@ from universalassistant.components.ffmpeg import get_ffmpeg_manager
 from universalassistant.components.stream import CONF_USE_WALLCLOCK_AS_TIMESTAMPS
 from universalassistant.config_entries import SOURCE_IGNORE, SOURCE_INTEGRATION_DISCOVERY
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -29,7 +29,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: EzvizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -107,7 +107,7 @@ class EzvizCamera(EzvizEntity, Camera):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: EzvizDataUpdateCoordinator,
         serial: str,
         camera_username: str,

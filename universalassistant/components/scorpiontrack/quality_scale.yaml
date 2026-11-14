@@ -57,7 +57,7 @@ rules:
       Vehicles are exposed through a ScorpionTrack cloud shared-location/API
       link generated from the ScorpionTrack website. The trackers are standalone
       units that communicate over their SIM/cellular connection rather than
-      Wi-Fi or the local network, so Universal Universal Home Assistant has no local discovery
+      Wi-Fi or the local network, so __HA_KEEP__ has no local discovery
       mechanism.
   discovery-update-info:
     status: exempt
@@ -65,7 +65,7 @@ rules:
       Vehicles are exposed through a ScorpionTrack cloud shared-location/API
       link generated from the ScorpionTrack website. The trackers are standalone
       units that communicate over their SIM/cellular connection rather than
-      Wi-Fi or the local network, so Universal Universal Home Assistant has no local discovery
+      Wi-Fi or the local network, so __HA_KEEP__ has no local discovery
       mechanism.
   docs-data-update: done
   docs-examples: done

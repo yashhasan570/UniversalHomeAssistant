@@ -20,9 +20,9 @@ from universalassistant.config import (  # type: ignore[attr-defined]
     load_yaml_config_file,
     merge_packages_config,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.core_config import CORE_CONFIG_SCHEMA
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.requirements import (
     RequirementsNotFound,
     async_clear_install_history,
@@ -41,7 +41,7 @@ class CheckConfigError(NamedTuple):
     config: ConfigType | None
 
 
-class UniversalAssistantConfig(OrderedDict):
+class __HAC_KEEP__Config(OrderedDict):
     """Configuration result with errors attribute."""
 
     def __init__(self) -> None:
@@ -82,13 +82,13 @@ class UniversalAssistantConfig(OrderedDict):
 
 
 async def async_check_ha_config_file(  # noqa: C901
-    hass: UniversalAssistant,
-) -> UniversalAssistantConfig:
-    """Load and check if Universal Universal Home Assistant configuration file is valid.
+    hass: __HAC_KEEP__,
+) -> __HAC_KEEP__Config:
+    """Load and check if __HA_KEEP__ configuration file is valid.
 
     This method is a coroutine.
     """
-    result = UniversalAssistantConfig()
+    result = __HAC_KEEP__Config()
     async_clear_install_history(hass)
 
     # Set up condition and trigger helpers needed for config validation.
@@ -98,7 +98,7 @@ async def async_check_ha_config_file(  # noqa: C901
         await trigger.async_setup(hass)
 
     def _pack_error(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         package: str,
         component: str | None,
         config: ConfigType,
@@ -114,7 +114,7 @@ async def async_check_ha_config_file(  # noqa: C901
         result.add_warning(message, domain, pack_config)
 
     def _comp_error(
-        ex: probatio.Invalid | UniversalAssistantError,
+        ex: probatio.Invalid | __HAC_KEEP__Error,
         domain: str,
         component_config: ConfigType,
         config_to_attach: ConfigType,
@@ -130,7 +130,7 @@ async def async_check_ha_config_file(  # noqa: C901
             result.add_warning(message, domain, config_to_attach)
 
     async def _get_integration(
-        hass: UniversalAssistant, domain: str
+        hass: __HAC_KEEP__, domain: str
     ) -> loader.Integration | None:
         """Get an integration."""
         integration: loader.Integration | None = None
@@ -160,7 +160,7 @@ async def async_check_ha_config_file(  # noqa: C901
         )
     except FileNotFoundError:
         return result.add_error(f"File not found: {config_path}")
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         return result.add_error(f"Error loading {config_path}: {err}")
 
     # Extract and validate core [universalassistant] config
@@ -224,7 +224,7 @@ async def async_check_ha_config_file(  # noqa: C901
                     await config_validator.async_validate_config(hass, config)
                 )[domain]
                 continue
-            except (probatio.Invalid, UniversalAssistantError) as ex:
+            except (probatio.Invalid, __HAC_KEEP__Error) as ex:
                 _comp_error(ex, domain, config, config[domain])
                 continue
             except Exception as err:

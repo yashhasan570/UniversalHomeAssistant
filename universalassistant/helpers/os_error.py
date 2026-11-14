@@ -3,7 +3,7 @@
 import errno
 
 from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 # OS error texts aren't translatable, so the common causes get their own message
 _WRITE_ERROR_TRANSLATION_KEYS: dict[int | None, str] = {
@@ -20,16 +20,16 @@ _READ_ERROR_TRANSLATION_KEYS: dict[int | None, str] = {
 }
 
 
-def os_write_error(err: OSError, path: str) -> UniversalAssistantError:
+def os_write_error(err: OSError, path: str) -> __HAC_KEEP__Error:
     """Return a translated error for an OSError raised while writing path."""
-    return UniversalAssistantError(
+    return __HAC_KEEP__Error(
         translation_domain=HOMEASSISTANT_DOMAIN,
         translation_key=_WRITE_ERROR_TRANSLATION_KEYS.get(err.errno, "os_write_error"),
         translation_placeholders={"path": path},
     )
 
 
-def os_read_error(err: OSError, path: str) -> UniversalAssistantError:
+def os_read_error(err: OSError, path: str) -> __HAC_KEEP__Error:
     """Return a translated error for an OSError raised while reading path."""
     # A missing file is usually a wrong path given by the user
     if err.errno == errno.ENOENT:
@@ -38,7 +38,7 @@ def os_read_error(err: OSError, path: str) -> UniversalAssistantError:
             translation_key="os_read_not_found",
             translation_placeholders={"path": path},
         )
-    return UniversalAssistantError(
+    return __HAC_KEEP__Error(
         translation_domain=HOMEASSISTANT_DOMAIN,
         translation_key=_READ_ERROR_TRANSLATION_KEYS.get(err.errno, "os_read_error"),
         translation_placeholders={"path": path},

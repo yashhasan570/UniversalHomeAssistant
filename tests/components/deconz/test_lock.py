@@ -7,7 +7,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import WebsocketDataType
 
@@ -32,7 +32,7 @@ from .conftest import WebsocketDataType
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_lock_from_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
     light_ws_data: WebsocketDataType,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_lock_from_light(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_lock_from_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
     sensor_ws_data: WebsocketDataType,
 ) -> None:

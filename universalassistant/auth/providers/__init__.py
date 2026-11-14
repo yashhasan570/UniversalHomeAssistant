@@ -1,4 +1,4 @@
-"""Auth providers for Universal Universal Home Assistant."""
+"""Auth providers for __HA_KEEP__."""
 
 from collections.abc import Mapping
 import logging
@@ -10,9 +10,9 @@ from probatio.humanize import humanize_error
 
 from universalassistant import requirements
 from universalassistant.const import CONF_ID, CONF_NAME, CONF_TYPE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import FlowHandler
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.importlib import async_import_module
 from universalassistant.util import dt as dt_util
 from universalassistant.util.decorator import Registry
@@ -45,7 +45,7 @@ AUTH_PROVIDER_SCHEMA = probatio.Schema(
 )
 
 
-class InvalidStepUpError(UniversalAssistantError):
+class InvalidStepUpError(__HAC_KEEP__Error):
     """Raised when a signed in user could not be verified again."""
 
 
@@ -55,7 +55,7 @@ class AuthProvider:
     DEFAULT_TITLE = "Unnamed auth provider"
 
     def __init__(
-        self, hass: UniversalAssistant, store: AuthStore, config: dict[str, Any]
+        self, hass: __HAC_KEEP__, store: AuthStore, config: dict[str, Any]
     ) -> None:
         """Initialize an auth provider."""
         self.hass = hass
@@ -156,7 +156,7 @@ class AuthProvider:
 
 
 async def auth_provider_from_config(
-    hass: UniversalAssistant, store: AuthStore, config: dict[str, Any]
+    hass: __HAC_KEEP__, store: AuthStore, config: dict[str, Any]
 ) -> AuthProvider:
     """Initialize an auth provider from a config."""
     provider_name: str = config[CONF_TYPE]
@@ -176,7 +176,7 @@ async def auth_provider_from_config(
 
 
 async def load_auth_provider_module(
-    hass: UniversalAssistant, provider: str
+    hass: __HAC_KEEP__, provider: str
 ) -> types.ModuleType:
     """Load an auth provider."""
     try:
@@ -185,7 +185,7 @@ async def load_auth_provider_module(
         )
     except ImportError as err:
         _LOGGER.error("Unable to load auth provider %s: %s", provider, err)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Unable to load auth provider {provider}: {err}"
         ) from err
 
@@ -313,7 +313,7 @@ class MfaLoginFlow[_AuthProviderT: AuthProvider = AuthProvider](
         ):
             try:
                 await auth_module.async_initialize_login_mfa_step(self.user.id)
-            except UniversalAssistantError:
+            except __HAC_KEEP__Error:
                 _LOGGER.exception("Error initializing MFA step")
                 return self.async_abort(reason="unknown_error")
 

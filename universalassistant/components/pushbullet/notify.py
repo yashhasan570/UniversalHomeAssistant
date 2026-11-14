@@ -16,8 +16,8 @@ from universalassistant.components.notify import (
     ATTR_TITLE_DEFAULT,
     BaseNotificationService,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.os_error import os_read_error
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> PushBulletNotificationService | None:
@@ -51,7 +51,7 @@ def _open_file(filepath: str) -> BufferedReader:
 class PushBulletNotificationService(BaseNotificationService):
     """Implement the notification service for Pushbullet."""
 
-    def __init__(self, hass: UniversalAssistant, pushbullet: PushBullet) -> None:
+    def __init__(self, hass: __HAC_KEEP__, pushbullet: PushBullet) -> None:
         """Initialize the service."""
         self.hass = hass
         self.pushbullet = pushbullet
@@ -163,4 +163,4 @@ class PushBulletNotificationService(BaseNotificationService):
             else:
                 pusher.push_note(**kwargs)
         except PushError as err:
-            raise UniversalAssistantError(f"Notify failed: {err}") from err
+            raise __HAC_KEEP__Error(f"Notify failed: {err}") from err

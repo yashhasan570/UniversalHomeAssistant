@@ -10,13 +10,13 @@ from universalassistant.components.time import (
     TimeServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import MockGenericDeviceEntryType
 
 
 async def test_generic_time_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_generic_time_entity(
 
 
 async def test_generic_time_missing_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:

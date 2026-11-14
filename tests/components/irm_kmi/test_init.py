@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.irm_kmi.const import CONF_LANGUAGE_OVERRIDE, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -20,7 +20,7 @@ from .const import WEATHER_ENTITY_ID
 
 @pytest.mark.usefixtures("mock_irm_kmi_api")
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the IRM KMI configuration entry loading/unloading."""
@@ -59,7 +59,7 @@ async def test_load_unload_config_entry(
 )
 @pytest.mark.usefixtures("mock_irm_kmi_api")
 async def test_device_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_language: str,
@@ -83,7 +83,7 @@ async def test_device_entry(
 
 
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_irm_kmi_api: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -101,7 +101,7 @@ async def test_config_entry_not_ready(
 
 @pytest.mark.freeze_time("2023-12-28T15:30:00+01:00")
 async def test_entity_unavailable_after_grace_period(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_get_forecasts_coord: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -142,7 +142,7 @@ async def test_entity_unavailable_after_grace_period(
 
 @pytest.mark.freeze_time("2023-12-28T15:30:00+01:00")
 async def test_grace_period_starts_at_the_last_usable_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_irm_kmi_api: MagicMock,
     freezer: FrozenDateTimeFactory,

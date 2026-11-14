@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 from pyqvrpro import Client
 
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import config_validation as cv
 
 from .const import DOMAIN
@@ -43,7 +43,7 @@ def _handle_stop_record(call: ServiceCall) -> None:
     qvrpro.stop_recording(guid)
 
 
-def setup_services(hass: UniversalAssistant) -> None:
+def setup_services(hass: __HAC_KEEP__) -> None:
     """Register the QVR Pro services."""
     hass.services.register(
         DOMAIN,

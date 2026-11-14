@@ -18,11 +18,11 @@ from universalassistant.components.lg_infrared.const import (
     LGDeviceType,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test setting up and unloading a config entry."""
     entry = init_integration
@@ -35,7 +35,7 @@ async def test_setup_and_unload_entry(
 
 
 async def test_migrate_v1_to_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     mock_lg_tv_code_to_command: None,

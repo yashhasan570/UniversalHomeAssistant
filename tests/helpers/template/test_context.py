@@ -1,4 +1,4 @@
-"""Test template context management for Universal Universal Home Assistant."""
+"""Test template context management for __HA_KEEP__."""
 
 import jinja2
 

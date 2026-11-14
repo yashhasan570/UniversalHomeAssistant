@@ -6,7 +6,7 @@ from py_dormakaba_dkey.models import AssociationData
 from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth.match import ADDRESS, BluetoothCallbackMatcher
 from universalassistant.const import CONF_ADDRESS, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_ASSOCIATION_DATA
@@ -16,7 +16,7 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.LOCK, Platform.SEN
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: DormakabaDkeyConfigEntry
+    hass: __HAC_KEEP__, entry: DormakabaDkeyConfigEntry
 ) -> None:
     """Set up Dormakaba dKey from a config entry."""
     address: str = entry.data[CONF_ADDRESS]
@@ -66,7 +66,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: DormakabaDkeyConfigEntry
+    hass: __HAC_KEEP__, entry: DormakabaDkeyConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

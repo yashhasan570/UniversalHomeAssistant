@@ -1,4 +1,4 @@
-"""Coordinator for Universal Universal Home Assistant Backup integration."""
+"""Coordinator for __HA_KEEP__ Backup integration."""
 
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import override
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN, LOGGER
@@ -39,7 +39,7 @@ class BackupDataUpdateCoordinator(DataUpdateCoordinator[BackupCoordinatorData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: BackupConfigEntry,
         backup_manager: BackupManager,
     ) -> None:

@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.light import ColorMode
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -29,7 +29,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_lights(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_lights(
     ],
 )
 async def test_light_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -132,7 +132,7 @@ async def test_light_turn_on_off(
     ],
 )
 async def test_dimmable_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -207,7 +207,7 @@ async def test_dimmable_light(
     ],
 )
 async def test_color_temperature_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -330,7 +330,7 @@ async def test_color_temperature_light(
     ],
 )
 async def test_extended_color_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -498,7 +498,7 @@ async def test_extended_color_light(
 
 @pytest.mark.parametrize("node_fixture", ["color_temperature_light"])
 async def test_light_null_color_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -530,7 +530,7 @@ async def test_light_null_color_temperature(
 )
 @pytest.mark.parametrize("node_fixture", ["extended_color_light"])
 async def test_light_unexpected_color_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     color_mode: Any,
@@ -575,7 +575,7 @@ async def test_light_unexpected_color_mode(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_dimmable_light_without_level_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

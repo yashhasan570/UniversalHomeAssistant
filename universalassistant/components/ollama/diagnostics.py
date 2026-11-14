@@ -3,13 +3,13 @@
 from typing import Any
 
 from universalassistant.const import CONF_API_KEY, CONF_PROMPT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import OllamaConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: OllamaConfigEntry
+    hass: __HAC_KEEP__, entry: OllamaConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

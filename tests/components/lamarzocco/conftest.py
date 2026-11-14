@@ -18,7 +18,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.lamarzocco.const import CONF_INSTALLATION_KEY, DOMAIN
 from universalassistant.const import CONF_ADDRESS, CONF_MAC, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import (
     MOCK_INSTALLATION_KEY,
@@ -31,7 +31,7 @@ from . import (
 
 @pytest.fixture
 def mock_config_entry(
-    hass: UniversalAssistant, mock_lamarzocco: MagicMock
+    hass: __HAC_KEEP__, mock_lamarzocco: MagicMock
 ) -> MockConfigEntry:
     """Return the default mocked config entry."""
     return MockConfigEntry(
@@ -50,7 +50,7 @@ def mock_config_entry(
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_lamarzocco: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_lamarzocco: MagicMock
 ) -> MockConfigEntry:
     """Set up the La Marzocco integration for testing."""
     await async_init_integration(hass, mock_config_entry)

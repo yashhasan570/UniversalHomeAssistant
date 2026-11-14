@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 import universalassistant.helpers.entity_registry as er
 
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

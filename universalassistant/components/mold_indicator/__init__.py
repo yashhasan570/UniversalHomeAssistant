@@ -5,7 +5,7 @@ import logging
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device import async_entity_id_to_device_id
 from universalassistant.helpers.event import async_track_entity_registry_updated_event
@@ -25,7 +25,7 @@ __all__ = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up Mold indicator from a config entry."""
 
     def set_source_entity_id_or_uuid(source_entity_id: str) -> None:
@@ -86,12 +86,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload Mold indicator config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
     """Migrate old entry."""
 
     _LOGGER.debug(

@@ -20,11 +20,11 @@ from habluetooth import (
 )
 from universal_assistant_bluetooth import BluetoothServiceInfoBleak
 
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback as hass_callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback as hass_callback
 from universalassistant.helpers.singleton import singleton
 
 from .const import DATA_MANAGER
-from .manager import UniversalAssistantBluetoothManager
+from .manager import __HAC_KEEP__BluetoothManager
 from .match import BluetoothCallbackMatcher
 from .models import (
     BluetoothCallback,
@@ -38,13 +38,13 @@ if TYPE_CHECKING:
 
 
 @singleton(DATA_MANAGER)
-def _get_manager(hass: UniversalAssistant) -> UniversalAssistantBluetoothManager:
+def _get_manager(hass: __HAC_KEEP__) -> __HAC_KEEP__BluetoothManager:
     """Get the bluetooth manager."""
-    return cast(UniversalAssistantBluetoothManager, get_manager())
+    return cast(__HAC_KEEP__BluetoothManager, get_manager())
 
 
 @hass_callback
-def async_get_scanner(hass: UniversalAssistant) -> BleakScanner:
+def async_get_scanner(hass: __HAC_KEEP__) -> BleakScanner:
     """Return a HaBleakScannerWrapper cast to BleakScanner.
 
     This is a wrapper around our BleakScanner singleton that allows
@@ -57,7 +57,7 @@ def async_get_scanner(hass: UniversalAssistant) -> BleakScanner:
 
 
 @hass_callback
-def async_scanner_by_source(hass: UniversalAssistant, source: str) -> BaseHaScanner | None:
+def async_scanner_by_source(hass: __HAC_KEEP__, source: str) -> BaseHaScanner | None:
     """Return a scanner for a given source.
 
     This method is only intended to be used by integrations that implement
@@ -70,20 +70,20 @@ def async_scanner_by_source(hass: UniversalAssistant, source: str) -> BaseHaScan
 
 
 @hass_callback
-def async_scanner_count(hass: UniversalAssistant, connectable: bool = True) -> int:
+def async_scanner_count(hass: __HAC_KEEP__, connectable: bool = True) -> int:
     """Return the number of scanners currently in use."""
     return _get_manager(hass).async_scanner_count(connectable)
 
 
 @hass_callback
-def async_current_scanners(hass: UniversalAssistant) -> list[BaseHaScanner]:
+def async_current_scanners(hass: __HAC_KEEP__) -> list[BaseHaScanner]:
     """Return the list of currently active scanners.
 
     This method returns a list of all active Bluetooth scanners registered
-    with Universal Universal Home Assistant, including both connectable and non-connectable scanners.
+    with __HA_KEEP__, including both connectable and non-connectable scanners.
 
     Args:
-        hass: Universal Universal Home Assistant instance
+        hass: __HA_KEEP__ instance
 
     Returns:
         List of all active scanner instances
@@ -93,7 +93,7 @@ def async_current_scanners(hass: UniversalAssistant) -> list[BaseHaScanner]:
 
 @hass_callback
 def async_discovered_service_info(
-    hass: UniversalAssistant, connectable: bool = True
+    hass: __HAC_KEEP__, connectable: bool = True
 ) -> Iterable[BluetoothServiceInfoBleak]:
     """Return the discovered devices list."""
     return _get_manager(hass).async_discovered_service_info(connectable)
@@ -101,7 +101,7 @@ def async_discovered_service_info(
 
 @hass_callback
 def async_last_service_info(
-    hass: UniversalAssistant, address: str, connectable: bool = True
+    hass: __HAC_KEEP__, address: str, connectable: bool = True
 ) -> BluetoothServiceInfoBleak | None:
     """Return the last service info for an address."""
     return _get_manager(hass).async_last_service_info(address, connectable)
@@ -109,7 +109,7 @@ def async_last_service_info(
 
 @hass_callback
 def async_ble_device_from_address(
-    hass: UniversalAssistant, address: str, connectable: bool = True
+    hass: __HAC_KEEP__, address: str, connectable: bool = True
 ) -> BLEDevice | None:
     """Return BLEDevice for an address if its present."""
     return _get_manager(hass).async_ble_device_from_address(address, connectable)
@@ -117,7 +117,7 @@ def async_ble_device_from_address(
 
 @hass_callback
 def async_address_reachability_diagnostics(
-    hass: UniversalAssistant, address: str, intent: BluetoothReachabilityIntent
+    hass: __HAC_KEEP__, address: str, intent: BluetoothReachabilityIntent
 ) -> str:
     """Return a human readable explanation of why an address may be unreachable."""
     return _get_manager(hass).async_address_reachability_diagnostics(address, intent)
@@ -125,7 +125,7 @@ def async_address_reachability_diagnostics(
 
 @hass_callback
 def async_scanner_devices_by_address(
-    hass: UniversalAssistant, address: str, connectable: bool = True
+    hass: __HAC_KEEP__, address: str, connectable: bool = True
 ) -> list[BluetoothScannerDevice]:
     """Return all discovered BluetoothScannerDevice for an address."""
     return _get_manager(hass).async_scanner_devices_by_address(address, connectable)
@@ -133,7 +133,7 @@ def async_scanner_devices_by_address(
 
 @hass_callback
 def async_address_present(
-    hass: UniversalAssistant, address: str, connectable: bool = True
+    hass: __HAC_KEEP__, address: str, connectable: bool = True
 ) -> bool:
     """Check if an address is present in the bluetooth device list."""
     return _get_manager(hass).async_address_present(address, connectable)
@@ -141,7 +141,7 @@ def async_address_present(
 
 @hass_callback
 def async_register_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callback: BluetoothCallback,
     match_dict: BluetoothCallbackMatcher | None,
     mode: BluetoothScanningMode,
@@ -172,7 +172,7 @@ def async_register_callback(
 
 
 async def async_process_advertisements(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callback: ProcessAdvertisementCallback,
     match_dict: BluetoothCallbackMatcher,
     mode: BluetoothScanningMode,
@@ -206,7 +206,7 @@ async def async_process_advertisements(
 
 @hass_callback
 def async_track_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callback: Callable[[BluetoothServiceInfoBleak], None],
     address: str,
     connectable: bool = True,
@@ -220,7 +220,7 @@ def async_track_unavailable(
 
 @hass_callback
 def async_register_advertisement_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callback: Callable[[BluetoothServiceInfoBleak], None],
     address: str,
 ) -> Callable[[], None]:
@@ -233,13 +233,13 @@ def async_register_advertisement_callback(
 
 
 @hass_callback
-def async_rediscover_address(hass: UniversalAssistant, address: str) -> None:
+def async_rediscover_address(hass: __HAC_KEEP__, address: str) -> None:
     """Trigger discovery of devices which have already been seen."""
     _get_manager(hass).async_rediscover_address(address)
 
 
 @hass_callback
-def async_clear_address_from_match_history(hass: UniversalAssistant, address: str) -> None:
+def async_clear_address_from_match_history(hass: __HAC_KEEP__, address: str) -> None:
     """Clear an address from the integration matcher history.
 
     This allows future advertisements from this address to trigger discovery
@@ -253,7 +253,7 @@ def async_clear_address_from_match_history(hass: UniversalAssistant, address: st
 
 
 @hass_callback
-def async_clear_advertisement_history(hass: UniversalAssistant, address: str) -> None:
+def async_clear_advertisement_history(hass: __HAC_KEEP__, address: str) -> None:
     """Clear cached advertisement history for a device.
 
     Causes the next advertisement from this address to be treated as new
@@ -267,7 +267,7 @@ def async_clear_advertisement_history(hass: UniversalAssistant, address: str) ->
 
 @hass_callback
 def async_register_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     scanner: BaseHaScanner,
     connection_slots: int | None = None,
     source_domain: str | None = None,
@@ -287,14 +287,14 @@ def async_register_scanner(
 
 
 @hass_callback
-def async_remove_scanner(hass: UniversalAssistant, source: str) -> None:
+def async_remove_scanner(hass: __HAC_KEEP__, source: str) -> None:
     """Permanently remove a BleakScanner by source address."""
     return _get_manager(hass).async_remove_scanner(source)
 
 
 @hass_callback
 def async_get_advertisement_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> Callable[[BluetoothServiceInfoBleak], None]:
     """Get the advertisement callback."""
     return _get_manager(hass).scanner_adv_received
@@ -302,7 +302,7 @@ def async_get_advertisement_callback(
 
 @hass_callback
 def async_get_learned_advertising_interval(
-    hass: UniversalAssistant, address: str
+    hass: __HAC_KEEP__, address: str
 ) -> float | None:
     """Get the learned advertising interval for a MAC address."""
     return _get_manager(hass).async_get_learned_advertising_interval(address)
@@ -310,7 +310,7 @@ def async_get_learned_advertising_interval(
 
 @hass_callback
 def async_get_fallback_availability_interval(
-    hass: UniversalAssistant, address: str
+    hass: __HAC_KEEP__, address: str
 ) -> float | None:
     """Get the fallback availability timeout for a MAC address."""
     return _get_manager(hass).async_get_fallback_availability_interval(address)
@@ -318,14 +318,14 @@ def async_get_fallback_availability_interval(
 
 @hass_callback
 def async_set_fallback_availability_interval(
-    hass: UniversalAssistant, address: str, interval: float
+    hass: __HAC_KEEP__, address: str, interval: float
 ) -> None:
     """Override the fallback availability timeout for a MAC address."""
     _get_manager(hass).async_set_fallback_availability_interval(address, interval)
 
 
 async def async_request_active_scan(
-    hass: UniversalAssistant, duration: float | None = None
+    hass: __HAC_KEEP__, duration: float | None = None
 ) -> None:
     """Run an on-demand active sweep across every AUTO scanner.
 

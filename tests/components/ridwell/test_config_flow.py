@@ -14,7 +14,7 @@ from universalassistant.components.ridwell.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_PASSWORD, TEST_USERNAME
@@ -29,7 +29,7 @@ from .conftest import TEST_PASSWORD, TEST_USERNAME
 )
 @pytest.mark.usefixtures("mock_aioridwell")
 async def test_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     errors: str,
     side_effect: type[Exception],
@@ -67,7 +67,7 @@ async def test_create_entry(
 
 
 @pytest.mark.usefixtures("setup_config_entry")
-async def test_duplicate_error(hass: UniversalAssistant, config: dict[str, Any]) -> None:
+async def test_duplicate_error(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
     """Test that errors are shown when duplicate entries are added."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -84,7 +84,7 @@ async def test_duplicate_error(hass: UniversalAssistant, config: dict[str, Any])
 
 
 @pytest.mark.usefixtures("setup_config_entry")
-async def test_step_reauth(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def test_step_reauth(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Test a full reauth flow."""
     result = await config_entry.start_reauth_flow(hass)
     result = await hass.config_entries.flow.async_configure(
@@ -99,7 +99,7 @@ async def test_step_reauth(hass: UniversalAssistant, config_entry: MockConfigEnt
 
 
 async def test_option_flow_event_title(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test option flow for event title."""
@@ -120,7 +120,7 @@ async def test_option_flow_event_title(
 
 @pytest.mark.usefixtures("mock_aioridwell")
 async def test_successful_config_flow(
-    hass: UniversalAssistant, config: dict[str, Any]
+    hass: __HAC_KEEP__, config: dict[str, Any]
 ) -> None:
     """Test the happy path of a successful config flow."""
     result = await hass.config_entries.flow.async_init(

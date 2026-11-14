@@ -17,8 +17,8 @@ from mcp import types
 from mcp.server import Server, ServerRequestContext
 import probatio
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import llm
 
 from .const import DOMAIN, STATELESS_LLM_API
@@ -67,7 +67,7 @@ def _format_tool(
 
 
 async def async_get_api_instance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_api_id: str | list[str],
     llm_context: llm.LLMContext,
     read_only: bool,
@@ -85,7 +85,7 @@ async def async_get_api_instance(
 
 
 async def create_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_api_id: str | list[str],
     llm_context: llm.LLMContext,
     read_only: bool,
@@ -117,7 +117,7 @@ async def create_server(
             prompts=[
                 types.Prompt(
                     name=llm_api.api.name,
-                    description=f"Default prompt for Universal Universal Home Assistant {llm_api.api.name} API",
+                    description=f"Default prompt for __HA_KEEP__ {llm_api.api.name} API",
                 )
             ]
         )
@@ -131,7 +131,7 @@ async def create_server(
             raise ValueError(f"Unknown prompt: {params.name}")
 
         return types.GetPromptResult(
-            description=f"Default prompt for Universal Universal Home Assistant {llm_api.api.name} API",
+            description=f"Default prompt for __HA_KEEP__ {llm_api.api.name} API",
             messages=[
                 types.PromptMessage(
                     role="assistant",
@@ -182,7 +182,7 @@ async def create_server(
             llm.ToolInput(tool_name=LIVE_CONTEXT_TOOL_NAME, tool_args={})
         )
         if tool_response.error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="snapshot_error",
             )
@@ -222,7 +222,7 @@ async def create_server(
 
         try:
             tool_response = await llm_api.async_call_tool(tool_input)
-        except (UniversalAssistantError, probatio.Invalid) as e:
+        except (__HAC_KEEP__Error, probatio.Invalid) as e:
             return types.CallToolResult(
                 content=[
                     types.TextContent(type="text", text=f"Error calling tool: {e}")

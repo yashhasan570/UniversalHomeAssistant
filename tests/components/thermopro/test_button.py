@@ -16,14 +16,14 @@ from universalassistant.components.bluetooth import (
     FALLBACK_MAXIMUM_STALE_ADVERTISEMENT_SECONDS,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import TP357_SERVICE_INFO, TP358_SERVICE_INFO
 
 
 @pytest.mark.usefixtures("setup_thermopro")
-async def test_buttons_tp357(hass: UniversalAssistant) -> None:
+async def test_buttons_tp357(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors."""
     assert not hass.states.async_all()
     assert not hass.states.get("button.tp358_4221_set_date_time")
@@ -33,7 +33,7 @@ async def test_buttons_tp357(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_thermopro")
-async def test_buttons_tp358_discovery(hass: UniversalAssistant) -> None:
+async def test_buttons_tp358_discovery(hass: __HAC_KEEP__) -> None:
     """Test discovery of device with button."""
     assert not hass.states.async_all()
     assert not hass.states.get("button.tp358_4221_set_date_time")
@@ -46,7 +46,7 @@ async def test_buttons_tp358_discovery(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_thermopro")
-async def test_buttons_tp358_unavailable(hass: UniversalAssistant) -> None:
+async def test_buttons_tp358_unavailable(hass: __HAC_KEEP__) -> None:
     """Test tp358 set date&time button goes to unavailability."""
     start_monotonic = time.monotonic()
     assert not hass.states.async_all()
@@ -75,7 +75,7 @@ async def test_buttons_tp358_unavailable(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_thermopro")
-async def test_buttons_tp358_reavailable(hass: UniversalAssistant) -> None:
+async def test_buttons_tp358_reavailable(hass: __HAC_KEEP__) -> None:
     """Test TP358/TP393 set date&time button goes to unavailablity and recovers."""
     start_monotonic = time.monotonic()
     assert not hass.states.async_all()
@@ -112,7 +112,7 @@ async def test_buttons_tp358_reavailable(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_thermopro")
 async def test_buttons_tp358_press(
-    hass: UniversalAssistant, mock_now: datetime, mock_thermoprodevice: ThermoProDevice
+    hass: __HAC_KEEP__, mock_now: datetime, mock_thermoprodevice: ThermoProDevice
 ) -> None:
     """Test TP358/TP393 set date&time button press."""
     assert not hass.states.async_all()

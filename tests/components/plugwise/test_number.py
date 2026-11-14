@@ -13,7 +13,7 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.plugwise.const import DOMAIN
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
@@ -25,7 +25,7 @@ ADAM_DHW_NUMBER_ISSUE_ID = "deprecated_dhw_temperature_056ee145a816487eaa69243c3
 @pytest.mark.parametrize("platforms", [(NUMBER_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -35,7 +35,7 @@ async def test_adam_number_entities(
 
 
 async def test_adam_temperature_offset_change(
-    hass: UniversalAssistant, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test changing an Adam temperature_offset number."""
     await hass.services.async_call(
@@ -56,7 +56,7 @@ async def test_adam_temperature_offset_change(
 
 @pytest.mark.usefixtures("mock_smile_adam")
 async def test_adam_temperature_offset_out_of_bounds_change(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test changing an Adam temperature_offset number beyond limits."""
     with pytest.raises(ServiceValidationError, match="valid range"):
@@ -72,7 +72,7 @@ async def test_adam_temperature_offset_out_of_bounds_change(
 
 
 async def test_adam_preset_temperature_change(
-    hass: UniversalAssistant, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test changing of a preset temperature number."""
     await hass.services.async_call(
@@ -96,7 +96,7 @@ async def test_adam_preset_temperature_change(
 
 @pytest.mark.usefixtures("mock_smile_adam")
 async def test_adam_preset_temperature_out_of_bounds_change(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test changing of a preset temperature number beyond limits."""
     with pytest.raises(ServiceValidationError, match="valid range"):
@@ -117,7 +117,7 @@ async def test_adam_preset_temperature_out_of_bounds_change(
 @pytest.mark.parametrize("platforms", [(NUMBER_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_cooling_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -129,7 +129,7 @@ async def test_adam_cooling_number_entities(
 @pytest.mark.parametrize("chosen_env", ["m_adam_cooling"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_adam_preset_cooling_temperature_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smile_adam_heat_cool: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -156,7 +156,7 @@ async def test_adam_preset_cooling_temperature_change(
 @pytest.mark.parametrize("chosen_env", ["m_adam_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 async def test_adam_dhw_setpoint_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smile_adam_heat_cool: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -201,7 +201,7 @@ async def test_adam_dhw_setpoint_change(
 @pytest.mark.parametrize("chosen_env", ["m_adam_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 async def test_adam_dhw_number_not_created_for_new_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smile_adam_heat_cool: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -228,7 +228,7 @@ async def test_adam_dhw_number_not_created_for_new_install(
 @pytest.mark.parametrize("platforms", [(NUMBER_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_anna_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -240,7 +240,7 @@ async def test_anna_number_entities(
 @pytest.mark.parametrize("chosen_env", ["anna_heatpump_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_anna_boiler_temperature_change(
-    hass: UniversalAssistant, mock_smile_anna: MagicMock, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, mock_smile_anna: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test changing an Anna maximum_boiler_temperature_setpoint number."""
     await hass.services.async_call(
@@ -262,7 +262,7 @@ async def test_anna_boiler_temperature_change(
 @pytest.mark.parametrize("chosen_env", ["anna_heatpump_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_anna_preset_temperature_change(
-    hass: UniversalAssistant, mock_smile_anna: MagicMock, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, mock_smile_anna: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test changing of an Anna preset temperature number."""
     await hass.services.async_call(
@@ -285,7 +285,7 @@ async def test_anna_preset_temperature_change(
 
 
 async def test_anna_preset_cooling_temperature_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smile_anna_loria: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:

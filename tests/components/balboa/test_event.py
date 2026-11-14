@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -19,7 +19,7 @@ FAULT_DATE = "fault_date"
 
 
 async def test_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -31,7 +31,7 @@ async def test_events(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_event(hass: UniversalAssistant, client: MagicMock) -> None:
+async def test_event(hass: __HAC_KEEP__, client: MagicMock) -> None:
     """Test spa fault event."""
     await init_integration(hass)
 

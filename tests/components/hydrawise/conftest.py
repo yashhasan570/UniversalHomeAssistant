@@ -24,7 +24,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.hydrawise.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -233,7 +233,7 @@ async def mock_added_config_entry(
 
 @pytest.fixture
 async def mock_add_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
 ) -> Callable[[], Awaitable[MockConfigEntry]]:

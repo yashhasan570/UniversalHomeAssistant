@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.geosphere_austria_warnings.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_LATITUDE, TEST_LONGITUDE
@@ -25,7 +25,7 @@ USER_INPUT = {
 }
 
 
-async def test_full_flow(hass: UniversalAssistant, mock_client: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_client: AsyncMock) -> None:
     """Test the happy path of the user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -62,7 +62,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_client: AsyncMock) -> No
     ],
 )
 async def test_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     side_effect: type[Exception],
     error: str,
@@ -87,7 +87,7 @@ async def test_flow_errors(
 
 
 async def test_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that a municipality can only be configured once."""
     mock_config_entry.add_to_hass(hass)

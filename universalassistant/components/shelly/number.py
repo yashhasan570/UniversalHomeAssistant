@@ -18,8 +18,8 @@ from universalassistant.components.number import (
     RestoreNumber,
 )
 from universalassistant.const import EntityCategory, UnitOfRatio, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.entity_registry import RegistryEntry
 
@@ -389,7 +389,7 @@ RPC_NUMBERS: Final = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -402,7 +402,7 @@ async def async_setup_entry(
 
 @callback
 def _async_setup_block_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -419,7 +419,7 @@ def _async_setup_block_entry(
 
 @callback
 def _async_setup_rpc_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -491,7 +491,7 @@ class BlockSleepingNumber(ShellySleepingBlockAttributeEntity, RestoreNumber):
             await self.coordinator.device.set_thermostat_state(TRV_CHANNEL, pos=value)
         except DeviceConnectionError as err:
             self.coordinator.last_update_success = False
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_communication_action_error",
                 translation_placeholders={

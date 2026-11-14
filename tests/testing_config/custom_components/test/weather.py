@@ -24,7 +24,7 @@ from universalassistant.components.weather import (
     Forecast,
     WeatherEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 ENTITIES = []
 
@@ -37,7 +37,7 @@ def init(empty=False):
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant, config, async_add_entities_callback, discovery_info=None
+    hass: __HAC_KEEP__, config, async_add_entities_callback, discovery_info=None
 ):
     """Return mock entities."""
     async_add_entities_callback(ENTITIES)

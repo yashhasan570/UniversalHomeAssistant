@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import UPDATE_DEBOUNCE_TIME, init_integration
 
@@ -16,7 +16,7 @@ EXPECTED_INITIAL_HEIGHT = "1"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_height_sensor(
-    hass: UniversalAssistant, mock_desk_api: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_desk_api: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test height sensor."""
     await init_integration(hass)
@@ -45,7 +45,7 @@ async def test_height_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_desk_api: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

@@ -21,7 +21,7 @@ from universalassistant.components.energyzero.const import (
     SCAN_INTERVAL,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -31,7 +31,7 @@ pytestmark = [pytest.mark.freeze_time("2026-04-10 20:32:59")]
 
 
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -54,7 +54,7 @@ async def test_sensor(
 
 
 async def test_sensor_ignores_missing_tomorrow_prices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_energyzero: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_sensor_ignores_missing_tomorrow_prices(
     ],
 )
 async def test_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_energyzero: MagicMock,
     freezer: FrozenDateTimeFactory,
     service: str,
@@ -113,7 +113,7 @@ async def test_no_data(
 @pytest.mark.usefixtures("mock_energyzero")
 @pytest.mark.parametrize("disabled_by", [None, er.RegistryEntryDisabler.USER])
 async def test_existing_market_registry_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     disabled_by: er.RegistryEntryDisabler | None,
@@ -195,7 +195,7 @@ async def test_existing_market_registry_entries(
     ],
 )
 async def test_gas_prices_after_fresh_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     moment: str,
@@ -231,7 +231,7 @@ async def test_gas_prices_after_fresh_start(
     ],
 )
 async def test_gas_price_expires_at_boundary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     block_count: int,
@@ -268,7 +268,7 @@ async def test_gas_price_expires_at_boundary(
 
 
 async def test_gas_price_survives_calendar_rollover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

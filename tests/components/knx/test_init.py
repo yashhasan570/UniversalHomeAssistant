@@ -53,7 +53,7 @@ from universalassistant.components.knx.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import KnxEntityGenerator
 from .conftest import KNXTestKit
@@ -218,7 +218,7 @@ from .conftest import KNXTestKit
     ],
 )
 async def test_init_connection_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     config_entry_data: KNXConfigEntryData,
     connection_config: ConnectionConfig,
@@ -270,7 +270,7 @@ async def test_init_connection_handling(
 
 
 async def _init_switch_and_wait_for_first_state_updater_run(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
     freezer: FrozenDateTimeFactory,
@@ -306,7 +306,7 @@ async def _init_switch_and_wait_for_first_state_updater_run(
 
 
 async def test_default_state_updater_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
     freezer: FrozenDateTimeFactory,
@@ -324,7 +324,7 @@ async def test_default_state_updater_enabled(
 
 
 async def test_default_state_updater_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
     freezer: FrozenDateTimeFactory,
@@ -341,7 +341,7 @@ async def test_default_state_updater_disabled(
 
 
 async def test_async_remove_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Test async_setup_entry (for coverage)."""
@@ -367,7 +367,7 @@ async def test_async_remove_entry(
     assert config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_async_migrate_entry_v1_to_v2(hass: UniversalAssistant) -> None:
+async def test_async_migrate_entry_v1_to_v2(hass: __HAC_KEEP__) -> None:
     """Test KNX config entry migration from v1 to v2."""
     config_entry = MockConfigEntry(
         title="KNX",
@@ -407,7 +407,7 @@ async def test_async_migrate_entry_v1_to_v2(hass: UniversalAssistant) -> None:
     assert config_entry.data["other_setting"] == "some_value"
 
 
-async def test_async_migrate_entry_already_v2(hass: UniversalAssistant) -> None:
+async def test_async_migrate_entry_already_v2(hass: __HAC_KEEP__) -> None:
     """Test that migration does not run if already version 2."""
     config_entry = MockConfigEntry(
         title="KNX",
@@ -426,7 +426,7 @@ async def test_async_migrate_entry_already_v2(hass: UniversalAssistant) -> None:
     assert config_entry.data == {"other_setting": "some_value"}
 
 
-async def test_async_migrate_entry_future_version(hass: UniversalAssistant) -> None:
+async def test_async_migrate_entry_future_version(hass: __HAC_KEEP__) -> None:
     """Test that migration returns False for future versions."""
     config_entry = MockConfigEntry(
         title="KNX",
@@ -440,7 +440,7 @@ async def test_async_migrate_entry_future_version(hass: UniversalAssistant) -> N
         assert not await hass.config_entries.async_setup(config_entry.entry_id)
 
 
-async def test_async_migrate_entry_v2_to_v2_2(hass: UniversalAssistant) -> None:
+async def test_async_migrate_entry_v2_to_v2_2(hass: __HAC_KEEP__) -> None:
     """Test KNX config entry migration from v2.x to v2.2."""
     config_entry = MockConfigEntry(
         title="KNX",

@@ -11,8 +11,8 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.const import CONF_ID, CONF_RESOURCES, CONF_TYPE, CONF_URL
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import collection, storage
 from universalassistant.helpers.typing import ConfigType
 
@@ -57,7 +57,7 @@ class ResourceStorageCollection(collection.DictStorageCollection):
     CREATE_SCHEMA = probatio.Schema(RESOURCE_CREATE_FIELDS)
     UPDATE_SCHEMA = probatio.Schema(RESOURCE_UPDATE_FIELDS)
 
-    def __init__(self, hass: UniversalAssistant, ll_config: LovelaceConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, ll_config: LovelaceConfig) -> None:
         """Initialize the storage collection."""
         super().__init__(
             storage.Store(hass, RESOURCES_STORAGE_VERSION, RESOURCE_STORAGE_KEY),
@@ -102,7 +102,7 @@ class ResourceStorageCollection(collection.DictStorageCollection):
         # Import it from config.
         try:
             conf = await self.ll_config.async_load(False)
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             return None
 
         if CONF_RESOURCES not in conf:
@@ -157,12 +157,12 @@ class ResourceStorageCollectionWebsocket(collection.DictStorageCollectionWebsock
 
     @callback
     @override
-    def async_setup(self, hass: UniversalAssistant) -> None:
+    def async_setup(self, hass: __HAC_KEEP__) -> None:
         """Set up the websocket commands."""
         super().async_setup(hass)
 
         # Register lovelace/resources for backwards compatibility, remove in
-        # Universal Universal Home Assistant Core 2025.1
+        # __HA_KEEP__ Core 2025.1
         websocket_api.async_register_command(
             hass,
             self.api_prefix,
@@ -176,7 +176,7 @@ class ResourceStorageCollectionWebsocket(collection.DictStorageCollectionWebsock
     @websocket_api.async_response
     @override
     async def ws_list_item(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -185,14 +185,14 @@ class ResourceStorageCollectionWebsocket(collection.DictStorageCollectionWebsock
 
 
 async def create_yaml_resource_col(
-    hass: UniversalAssistant, yaml_resources: list[ConfigType] | None
+    hass: __HAC_KEEP__, yaml_resources: list[ConfigType] | None
 ) -> ResourceYAMLCollection:
     """Create yaml resources collection."""
     if yaml_resources is None:
         default_config = LovelaceYAML(hass, None, None)
         try:
             ll_conf = await default_config.async_load(False)
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             pass
         else:
             if CONF_RESOURCES in ll_conf:
@@ -214,7 +214,7 @@ def _missing_resource_files(candidates: dict[str, str]) -> list[tuple[str, str]]
 
 
 async def _async_warn_missing_local_resources(
-    hass: UniversalAssistant, yaml_resources: list[ConfigType]
+    hass: __HAC_KEEP__, yaml_resources: list[ConfigType]
 ) -> None:
     """Warn for /local resource URLs that have no backing file in www."""
     candidates: dict[str, str] = {}

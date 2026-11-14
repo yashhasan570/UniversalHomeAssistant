@@ -1,4 +1,4 @@
-"""Stream the raw Universal Universal Home Assistant log to websocket subscribers."""
+"""Stream the raw __HA_KEEP__ log to websocket subscribers."""
 
 from collections import deque
 from collections.abc import AsyncIterator, Callable, Iterable
@@ -11,14 +11,14 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.const import KEY_DATA_LOGGING
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.loader import IntegrationNotFound, async_get_integration
 from universalassistant.util.hass_dict import HassKey
 from universalassistant.util.logging import (
     LOG_FORMAT,
-    UniversalAssistantLogFormatter,
-    UniversalAssistantQueueHandler,
+    __HAC_KEEP__LogFormatter,
+    __HAC_KEEP__QueueHandler,
 )
 
 from .const import (
@@ -33,7 +33,7 @@ _LOGGER = logging.getLogger(__name__)
 
 DATA_RAW_LOG_STREAM: HassKey[RawLogStreamHandler] = HassKey("system_log_raw")
 
-# Streams the last lines of the log since Universal Universal Home Assistant started
+# Streams the last lines of the log since __HA_KEEP__ started
 type LogReader = Callable[[int], AsyncIterator[str]]
 
 # Logs every message it sends, including the streamed lines
@@ -50,14 +50,14 @@ ANSI_ESCAPE = re.compile(r"\x1b\[[0-9;]*m")
 def _console_formatter() -> logging.Formatter:
     """Return the formatter of the console log, which may add colors."""
     for handler in logging.root.handlers:
-        if isinstance(handler, UniversalAssistantQueueHandler) and handler.listener:
+        if isinstance(handler, __HAC_KEEP__QueueHandler) and handler.listener:
             for listener_handler in handler.listener.handlers:
                 if (
                     type(listener_handler) is logging.StreamHandler
                     and listener_handler.formatter
                 ):
                     return listener_handler.formatter
-    return UniversalAssistantLogFormatter(LOG_FORMAT)
+    return __HAC_KEEP__LogFormatter(LOG_FORMAT)
 
 
 def _read_log_tail(path: str, lines: int) -> list[str]:
@@ -130,7 +130,7 @@ def _read_log_records(path: str, loggers: tuple[str, ...], lines: int) -> list[s
 class RawLogStreamHandler(logging.Handler):
     """Collect formatted log lines while there are subscribers."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the handler."""
         super().__init__()
         self.hass = hass
@@ -236,7 +236,7 @@ class RawLogStreamHandler(logging.Handler):
 
 
 @callback
-def async_setup_raw_log_stream(hass: UniversalAssistant) -> RawLogStreamHandler:
+def async_setup_raw_log_stream(hass: __HAC_KEEP__) -> RawLogStreamHandler:
     """Set up the raw log stream."""
     handler = hass.data[DATA_RAW_LOG_STREAM] = RawLogStreamHandler(hass)
     websocket_api.async_register_command(hass, subscribe_raw_log)
@@ -244,7 +244,7 @@ def async_setup_raw_log_stream(hass: UniversalAssistant) -> RawLogStreamHandler:
 
 
 @callback
-def async_register_log_reader(hass: UniversalAssistant, reader: LogReader) -> None:
+def async_register_log_reader(hass: __HAC_KEEP__, reader: LogReader) -> None:
     """Register a reader of the log since start, used when there is no log file.
 
     The reader is called with the number of lines wanted from the end of the log.
@@ -254,7 +254,7 @@ def async_register_log_reader(hass: UniversalAssistant, reader: LogReader) -> No
 
 
 async def _async_read_backlog(
-    hass: UniversalAssistant, loggers: tuple[str, ...] | None
+    hass: __HAC_KEEP__, loggers: tuple[str, ...] | None
 ) -> list[str]:
     """Return the end of the log, only the lines of the loggers if given."""
     if path := hass.data.get(KEY_DATA_LOGGING):
@@ -284,7 +284,7 @@ async def _async_read_backlog(
 )
 @websocket_api.async_response
 async def subscribe_raw_log(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Subscribe to the raw log, starting with the end of the log.
 

@@ -45,7 +45,7 @@ from universalassistant.const import (
     EVENT_STATE_CHANGED,
     EntityStateAttribute,
 )
-from universalassistant.core import Context, CoreState, Event, UniversalAssistant, State, callback
+from universalassistant.core import Context, CoreState, Event, __HAC_KEEP__, State, callback
 from universalassistant.exceptions import ServiceValidationError, Unauthorized
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.restore_state import StoredState, async_get
@@ -56,7 +56,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @pytest.fixture
-def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
+def storage_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
     """Storage setup."""
 
     async def _storage(items=None, config=None):
@@ -89,13 +89,13 @@ def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
 
 
 @pytest.mark.parametrize("invalid_config", [None, 1, {"name with space": None}])
-async def test_config(hass: UniversalAssistant, invalid_config) -> None:
+async def test_config(hass: __HAC_KEEP__, invalid_config) -> None:
     """Test config."""
 
     assert not await async_setup_component(hass, DOMAIN, {DOMAIN: invalid_config})
 
 
-async def test_config_options(hass: UniversalAssistant) -> None:
+async def test_config_options(hass: __HAC_KEEP__) -> None:
     """Test configuration options."""
     count_start = len(hass.states.async_entity_ids())
 
@@ -152,7 +152,7 @@ async def test_config_options(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.freeze_time("2023-06-05 17:47:50")
-async def test_methods_and_events(hass: UniversalAssistant) -> None:
+async def test_methods_and_events(hass: __HAC_KEEP__) -> None:
     """Test methods and events."""
     hass.set_state(CoreState.starting)
 
@@ -390,7 +390,7 @@ async def test_methods_and_events(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.freeze_time("2023-06-05 17:47:50")
-async def test_start_service(hass: UniversalAssistant) -> None:
+async def test_start_service(hass: __HAC_KEEP__) -> None:
     """Test the start/stop service."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {"test1": {CONF_DURATION: 10}}})
 
@@ -566,7 +566,7 @@ async def test_start_service(hass: UniversalAssistant) -> None:
 
 @pytest.mark.freeze_time("2023-06-05 17:47:50")
 async def test_wait_till_timer_expires(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test for a timer to end."""
     hass.set_state(CoreState.starting)
@@ -674,7 +674,7 @@ async def test_wait_till_timer_expires(
     assert len(results) == 3
 
 
-async def test_no_initial_state_and_no_restore_state(hass: UniversalAssistant) -> None:
+async def test_no_initial_state_and_no_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure that entity is create without initial and restore feature."""
     hass.set_state(CoreState.starting)
 
@@ -691,7 +691,7 @@ async def test_no_initial_state_and_no_restore_state(hass: UniversalAssistant) -
 
 
 async def test_config_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_admin_user: MockUser,
     hass_read_only_user: MockUser,
@@ -805,7 +805,7 @@ async def test_config_reload(
 
 
 @pytest.mark.freeze_time("2023-06-05 17:47:50")
-async def test_timer_restarted_event(hass: UniversalAssistant) -> None:
+async def test_timer_restarted_event(hass: __HAC_KEEP__) -> None:
     """Ensure restarted event is called after starting a paused or running timer."""
     hass.set_state(CoreState.starting)
 
@@ -912,7 +912,7 @@ async def test_timer_restarted_event(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.freeze_time("2023-06-05 17:47:50")
-async def test_state_changed_when_timer_restarted(hass: UniversalAssistant) -> None:
+async def test_state_changed_when_timer_restarted(hass: __HAC_KEEP__) -> None:
     """Ensure timer's state changes when it restarted."""
     hass.set_state(CoreState.starting)
 
@@ -979,7 +979,7 @@ async def test_state_changed_when_timer_restarted(hass: UniversalAssistant) -> N
 
 @pytest.mark.freeze_time("2023-06-05 17:47:50")
 async def test_last_transition_after_restarted_timer_expires(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test last_transition changes from restarted to finished on expiry."""
     hass.set_state(CoreState.starting)
@@ -1014,7 +1014,7 @@ async def test_last_transition_after_restarted_timer_expires(
 
 @pytest.mark.freeze_time("2023-06-05 17:47:50")
 async def test_last_transition_persists_across_config_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that last_transition is preserved when the timer config is updated."""
     hass.set_state(CoreState.starting)
@@ -1049,7 +1049,7 @@ async def test_last_transition_persists_across_config_update(
     assert state.attributes[TimerEntityStateAttribute.LAST_TRANSITION] == "cancelled"
 
 
-async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> None:
+async def test_load_from_storage(hass: __HAC_KEEP__, storage_setup) -> None:
     """Test set up from storage."""
     assert await storage_setup()
     state = hass.states.get(f"{DOMAIN}.timer_from_storage")
@@ -1062,7 +1062,7 @@ async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> Non
     }
 
 
-async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup) -> None:
+async def test_editable_state_attribute(hass: __HAC_KEEP__, storage_setup) -> None:
     """Test editable attribute."""
     assert await storage_setup(config={DOMAIN: {"from_yaml": None}})
 
@@ -1085,7 +1085,7 @@ async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup)
 
 
 async def test_ws_list(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test listing via WS."""
     assert await storage_setup(config={DOMAIN: {"from_yaml": None}})
@@ -1107,7 +1107,7 @@ async def test_ws_list(
 
 
 async def test_ws_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -1137,7 +1137,7 @@ async def test_ws_delete(
 
 
 async def test_ws_delete_running_timer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
 ) -> None:
@@ -1167,7 +1167,7 @@ async def test_ws_delete_running_timer(
 
 
 async def test_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -1227,7 +1227,7 @@ async def test_update(
 
 
 async def test_ws_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -1268,7 +1268,7 @@ async def test_ws_create(
     )
 
 
-async def test_setup_no_config(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_setup_no_config(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test component setup with no config."""
     count_start = len(hass.states.async_entity_ids())
     assert await async_setup_component(hass, DOMAIN, {})
@@ -1288,7 +1288,7 @@ async def test_setup_no_config(hass: UniversalAssistant, hass_admin_user: MockUs
 
 
 @pytest.mark.parametrize("last_transition", [None, "cancelled", "finished"])
-async def test_restore_idle(hass: UniversalAssistant, last_transition: str | None) -> None:
+async def test_restore_idle(hass: __HAC_KEEP__, last_transition: str | None) -> None:
     """Test entity restore logic when timer is idle."""
     utc_now = utcnow()
     attrs: dict[str, Any] = {TimerEntityStateAttribute.DURATION: "0:00:30"}
@@ -1328,7 +1328,7 @@ async def test_restore_idle(hass: UniversalAssistant, last_transition: str | Non
 
 
 @pytest.mark.freeze_time("2023-06-05 17:47:50")
-async def test_restore_paused(hass: UniversalAssistant) -> None:
+async def test_restore_paused(hass: __HAC_KEEP__) -> None:
     """Test entity restore logic when timer is paused."""
     utc_now = utcnow()
     stored_state = StoredState(
@@ -1375,7 +1375,7 @@ async def test_restore_paused(hass: UniversalAssistant) -> None:
 @pytest.mark.freeze_time("2023-06-05 17:47:50")
 @pytest.mark.parametrize("last_transition", [None, "started", "restarted"])
 async def test_restore_active_resume(
-    hass: UniversalAssistant, last_transition: str | None
+    hass: __HAC_KEEP__, last_transition: str | None
 ) -> None:
     """Test entity restore logic when timer is active and end time is after startup."""
     events = async_capture_events(hass, EVENT_TIMER_RESTARTED)
@@ -1434,7 +1434,7 @@ async def test_restore_active_resume(
 
 @pytest.mark.parametrize("last_transition", [None, "started", "restarted"])
 async def test_restore_active_finished_outside_grace(
-    hass: UniversalAssistant, last_transition: str | None
+    hass: __HAC_KEEP__, last_transition: str | None
 ) -> None:
     """Test entity restore: timer active, ended while HA was stopped."""
     events = async_capture_events(hass, EVENT_TIMER_FINISHED)
@@ -1525,7 +1525,7 @@ def _recorded_expiries() -> Iterator[list[datetime]]:
 
 
 async def test_reentrant_start_does_not_orphan_the_expiry_callback(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """One active timer expires once, however it was restarted."""
     with _recorded_expiries() as expiries:
@@ -1549,7 +1549,7 @@ async def test_reentrant_start_does_not_orphan_the_expiry_callback(
 
 
 async def test_timer_kept_alive_by_restarts_never_finishes(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """A timer restarted well inside its duration never expires."""
     assert await async_setup_component(
@@ -1599,7 +1599,7 @@ REARM_ON_DEADLINE_MOVE = {
 
 
 async def test_change_does_not_orphan_the_expiry_callback(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Changing a timer a consumer answers with a start expires it once."""
     with _recorded_expiries() as expiries:

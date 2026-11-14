@@ -6,7 +6,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.atag import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 USER_INPUT = {
     CONF_HOST: "127.0.0.1",
@@ -90,12 +90,12 @@ def mock_connection(
 
 
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     skip_setup: bool = False,
     unique_id: str = UID,
 ) -> MockConfigEntry:
-    """Set up the Atag integration in Universal Universal Home Assistant."""
+    """Set up the Atag integration in __HA_KEEP__."""
     mock_connection(aioclient_mock)
     entry = MockConfigEntry(domain=DOMAIN, data=USER_INPUT, unique_id=unique_id)
     entry.add_to_hass(hass)

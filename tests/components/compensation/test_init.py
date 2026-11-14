@@ -13,14 +13,14 @@ from universalassistant.components.compensation.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 ENTITY_ID = "sensor.my_compensation"
 
 
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting up and unloading a config entry."""
     mock_config_entry.add_to_hass(hass)
@@ -49,7 +49,7 @@ async def test_setup_and_unload_entry(
     ],
 )
 async def test_setup_entry_polyfit_error(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup fails when no polynomial can be fitted to the data points."""
     mock_config_entry.add_to_hass(hass)
@@ -62,7 +62,7 @@ async def test_setup_entry_polyfit_error(
 
 
 async def test_source_entity_new_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_source_entity_new_entity_id(
 
 
 async def _setup_linked_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     sensor_device: dr.DeviceEntry,
@@ -107,7 +107,7 @@ async def _setup_linked_entry(
 
 
 async def test_source_entity_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -133,7 +133,7 @@ async def test_source_entity_removed(
 
 
 async def test_source_entity_removed_from_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     sensor_device: dr.DeviceEntry,
@@ -159,7 +159,7 @@ async def test_source_entity_removed_from_device(
 
 
 async def test_source_entity_moved_to_other_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,

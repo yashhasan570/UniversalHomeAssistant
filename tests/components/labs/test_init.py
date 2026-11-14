@@ -1,4 +1,4 @@
-"""Tests for the Universal Universal Home Assistant Labs integration setup."""
+"""Tests for the __HA_KEEP__ Labs integration setup."""
 
 from typing import Any
 from unittest.mock import Mock, patch
@@ -16,14 +16,14 @@ from universalassistant.components.labs import (
 )
 from universalassistant.components.labs.const import DOMAIN, LABS_DATA
 from universalassistant.components.labs.models import LabPreviewFeature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.loader import Integration
 from universalassistant.setup import async_setup_component
 
 from . import assert_stored_labs_data
 
 
-async def test_async_setup(hass: UniversalAssistant) -> None:
+async def test_async_setup(hass: __HAC_KEEP__) -> None:
     """Test the Labs integration setup."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -33,7 +33,7 @@ async def test_async_setup(hass: UniversalAssistant) -> None:
     assert "labs/update" in hass.data["websocket_api"]
 
 
-async def test_async_is_preview_feature_enabled_not_setup(hass: UniversalAssistant) -> None:
+async def test_async_is_preview_feature_enabled_not_setup(hass: __HAC_KEEP__) -> None:
     """Test checking if preview feature is enabled before setup returns False."""
     # Don't set up labs integration
     result = async_is_preview_feature_enabled(hass, "kitchen_sink", "special_repair")
@@ -41,7 +41,7 @@ async def test_async_is_preview_feature_enabled_not_setup(hass: UniversalAssista
 
 
 async def test_async_is_preview_feature_enabled_nonexistent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test checking if non-existent preview feature is enabled."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -54,7 +54,7 @@ async def test_async_is_preview_feature_enabled_nonexistent(
 
 
 async def test_async_is_preview_feature_enabled_when_enabled(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test checking if preview feature is enabled."""
     # Load kitchen_sink integration so preview feature exists
@@ -80,7 +80,7 @@ async def test_async_is_preview_feature_enabled_when_enabled(
 
 
 async def test_async_is_preview_feature_enabled_when_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test checking if preview feature is disabled (not in storage)."""
     # Load kitchen_sink integration so preview feature exists
@@ -137,7 +137,7 @@ async def test_async_is_preview_feature_enabled_when_disabled(
     ],
 )
 async def test_storage_cleanup_stale_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     features_to_store: list[dict[str, str]],
     expected_enabled: list[tuple[str, str]],
@@ -179,7 +179,7 @@ async def test_storage_cleanup_stale_features(
     ],
 )
 async def test_async_is_preview_feature_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     domain: str,
     preview_feature: str,
@@ -205,7 +205,7 @@ async def test_async_is_preview_feature_enabled(
     assert result is expected
 
 
-async def test_preview_feature_full_key(hass: UniversalAssistant) -> None:
+async def test_preview_feature_full_key(hass: __HAC_KEEP__) -> None:
     """Test that preview feature full_key property returns correct format."""
     feature = LabPreviewFeature(
         domain="test_domain",
@@ -216,7 +216,7 @@ async def test_preview_feature_full_key(hass: UniversalAssistant) -> None:
     assert feature.full_key == "test_domain.test_feature"
 
 
-async def test_preview_feature_to_dict_with_all_urls(hass: UniversalAssistant) -> None:
+async def test_preview_feature_to_dict_with_all_urls(hass: __HAC_KEEP__) -> None:
     """Test LabPreviewFeature.to_dict with all URLs populated."""
     feature = LabPreviewFeature(
         domain="test_domain",
@@ -239,7 +239,7 @@ async def test_preview_feature_to_dict_with_all_urls(hass: UniversalAssistant) -
     }
 
 
-async def test_preview_feature_to_dict_with_no_urls(hass: UniversalAssistant) -> None:
+async def test_preview_feature_to_dict_with_no_urls(hass: __HAC_KEEP__) -> None:
     """Test LabPreviewFeature.to_dict with no URLs (all None)."""
     feature = LabPreviewFeature(
         domain="test_domain",
@@ -260,7 +260,7 @@ async def test_preview_feature_to_dict_with_no_urls(hass: UniversalAssistant) ->
 
 
 async def test_custom_integration_with_preview_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that custom integrations with preview features are loaded."""
     # Create a mock custom integration with preview features
@@ -293,7 +293,7 @@ async def test_custom_integration_with_preview_features(
     ],
 )
 async def test_preview_feature_is_built_in_flag(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     is_custom: bool,
     expected_is_built_in: bool,
 ) -> None:
@@ -334,7 +334,7 @@ async def test_preview_feature_is_built_in_flag(
     ],
 )
 async def test_preview_feature_to_dict_is_built_in(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     is_built_in: bool | None,
     expected_default: bool,
 ) -> None:
@@ -358,7 +358,7 @@ async def test_preview_feature_to_dict_is_built_in(
 
 
 async def test_async_listen_helper(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the async_listen helper function for preview feature events."""
     # Load kitchen_sink integration
@@ -444,7 +444,7 @@ async def test_async_listen_helper(
     assert len(listener_calls) == 1
 
 
-async def test_async_subscribe_preview_feature_helper(hass: UniversalAssistant) -> None:
+async def test_async_subscribe_preview_feature_helper(hass: __HAC_KEEP__) -> None:
     """Test async_subscribe_preview_feature helper."""
     hass.config.components.add("kitchen_sink")
 
@@ -535,7 +535,7 @@ async def test_async_subscribe_preview_feature_helper(hass: UniversalAssistant) 
 
 
 async def test_async_update_preview_feature(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test enabling and disabling a preview feature using the helper function."""
     hass.config.components.add("kitchen_sink")
@@ -577,7 +577,7 @@ async def test_async_update_preview_feature(
     assert_stored_labs_data(hass_storage, [])
 
 
-async def test_async_update_preview_feature_not_found(hass: UniversalAssistant) -> None:
+async def test_async_update_preview_feature_not_found(hass: __HAC_KEEP__) -> None:
     """Test updating a preview feature that doesn't exist raises."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()

@@ -14,7 +14,7 @@ from universalassistant.components.switch import (
 )
 from universalassistant.components.tado import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 CHILD_LOCK_SWITCH_ENTITY = "switch.baseboard_heater_baseboard_heater_child_lock"
@@ -29,7 +29,7 @@ def setup_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test creation of switch entities."""
 
@@ -42,7 +42,7 @@ async def test_entities(
     ("method", "expected"), [(SERVICE_TURN_ON, True), (SERVICE_TURN_OFF, False)]
 )
 @pytest.mark.usefixtures("init_integration")
-async def test_set_child_lock(hass: UniversalAssistant, method, expected) -> None:
+async def test_set_child_lock(hass: __HAC_KEEP__, method, expected) -> None:
     """Test enable child lock on switch."""
 
     with patch(

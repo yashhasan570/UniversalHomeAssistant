@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.airgradient.const import DOMAIN, get_model_capabilities
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -24,7 +24,7 @@ def test_outdoor_model_alias() -> None:
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     airgradient_devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -41,7 +41,7 @@ async def test_device_info(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_diy_legacy_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_diy_legacy_entities(
 
 
 async def test_new_firmware_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -100,7 +100,7 @@ async def test_new_firmware_version(
 
 
 async def test_setup_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

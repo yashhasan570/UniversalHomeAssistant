@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any, override
 from pysensibo.model import SensiboDevice
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SensiboConfigEntry
@@ -40,7 +40,7 @@ DEVICE_SELECT_TYPES = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SensiboConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

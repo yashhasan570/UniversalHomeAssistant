@@ -12,7 +12,7 @@ from universalassistant.components.calendar import (
     CalendarEvent,
     CalendarEventStatus,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 from universalassistant.util import dt as dt_util
@@ -35,7 +35,7 @@ MAX_LOOKAHEAD_TIME = timedelta(days=365)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RemoteCalendarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -81,7 +81,7 @@ class RemoteCalendarEntity(
 
     @override
     async def async_get_events(
-        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
+        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
 

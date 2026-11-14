@@ -5,7 +5,7 @@ from typing import override
 
 from boschshcpy import SHCDevice
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -14,7 +14,7 @@ from .const import DOMAIN
 
 
 async def async_remove_devices(
-    hass: UniversalAssistant, entity: SHCBaseEntity, entry_id: str
+    hass: __HAC_KEEP__, entity: SHCBaseEntity, entry_id: str
 ) -> None:
     """Get item that is removed from session."""
     dev_registry = dr.async_get(hass)
@@ -62,7 +62,7 @@ class SHCEntity(SHCBaseEntity):
     _device: SHCDevice
 
     def __init__(
-        self, hass: UniversalAssistant, device: SHCDevice, parent_id: str, entry_id: str
+        self, hass: __HAC_KEEP__, device: SHCDevice, parent_id: str, entry_id: str
     ) -> None:
         """Initialize generic SHC device."""
         self._attr_unique_id = device.serial

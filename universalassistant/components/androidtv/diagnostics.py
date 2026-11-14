@@ -8,7 +8,7 @@ from universalassistant.components.diagnostics import (
     entity_entry_as_dict,
 )
 from universalassistant.const import CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import AndroidTVConfigEntry
@@ -20,7 +20,7 @@ TO_REDACT_DEV_PROP = {PROP_ETHMAC, PROP_SERIALNO, PROP_WIFIMAC}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: AndroidTVConfigEntry
+    hass: __HAC_KEEP__, entry: AndroidTVConfigEntry
 ) -> dict[str, dict[str, Any]]:
     """Return diagnostics for a config entry."""
     data = {"entry": async_redact_data(entry.as_dict(), TO_REDACT)}
@@ -32,7 +32,7 @@ async def async_get_config_entry_diagnostics(
         "device_class": aftv.DEVICE_CLASS,
     }
 
-    # Gather information how this AndroidTV device is represented in Universal Universal Home Assistant
+    # Gather information how this AndroidTV device is represented in __HA_KEEP__
     device_registry = dr.async_get(hass)
     entity_registry = er.async_get(hass)
     hass_device = device_registry.async_get_device_by_identifier(

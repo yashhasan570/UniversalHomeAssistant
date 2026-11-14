@@ -13,11 +13,11 @@ from universalassistant.components.met_eireann.coordinator import UPDATE_INTERVA
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN, WeatherService
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LOCATION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
-async def setup_config_entry(hass: UniversalAssistant) -> ConfigEntry:
+async def setup_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
     """Create a mock configuration for testing."""
     mock_data = MockConfigEntry(
         domain=DOMAIN,
@@ -36,7 +36,7 @@ async def setup_config_entry(hass: UniversalAssistant) -> ConfigEntry:
 
 
 async def test_new_config_entry(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_weather
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_weather
 ) -> None:
     """Test the expected entities are created."""
     await setup_config_entry(hass)
@@ -46,7 +46,7 @@ async def test_new_config_entry(
     assert len(er.async_entries_for_config_entry(entity_registry, entry.entry_id)) == 1
 
 
-async def test_weather(hass: UniversalAssistant, mock_weather) -> None:
+async def test_weather(hass: __HAC_KEEP__, mock_weather) -> None:
     """Test weather entity."""
     await setup_config_entry(hass)
     assert len(hass.states.async_entity_ids("weather")) == 1
@@ -69,7 +69,7 @@ async def test_weather(hass: UniversalAssistant, mock_weather) -> None:
     [WeatherService.GET_FORECASTS],
 )
 async def test_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_weather,
     snapshot: SnapshotAssertion,
     service: str,
@@ -119,7 +119,7 @@ async def test_forecast_service(
 
 @pytest.mark.parametrize("forecast_type", ["daily", "hourly"])
 async def test_forecast_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     mock_weather,

@@ -9,7 +9,7 @@ from tesla_fleet_api.router import VehicleRouter
 from tesla_fleet_api.teslemetry import Vehicle
 
 from universalassistant.components.lock import LockEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -29,7 +29,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -4,11 +4,11 @@ import asyncio
 
 from ihcsdk.ihccontroller import IHCController
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 
 async def async_pulse(
-    hass: UniversalAssistant, ihc_controller: IHCController, ihc_id: int
+    hass: __HAC_KEEP__, ihc_controller: IHCController, ihc_id: int
 ) -> None:
     """Send a short on/off pulse to an IHC controller resource."""
     await async_set_bool(hass, ihc_controller, ihc_id, True)
@@ -18,7 +18,7 @@ async def async_pulse(
 
 @callback
 def async_set_bool(
-    hass: UniversalAssistant, ihc_controller: IHCController, ihc_id: int, value: bool
+    hass: __HAC_KEEP__, ihc_controller: IHCController, ihc_id: int, value: bool
 ) -> asyncio.Future[bool]:
     """Set a bool value on an IHC controller resource."""
     return hass.async_add_executor_job(
@@ -28,7 +28,7 @@ def async_set_bool(
 
 @callback
 def async_set_int(
-    hass: UniversalAssistant, ihc_controller: IHCController, ihc_id: int, value: int
+    hass: __HAC_KEEP__, ihc_controller: IHCController, ihc_id: int, value: int
 ) -> asyncio.Future[bool]:
     """Set a int value on an IHC controller resource."""
     return hass.async_add_executor_job(
@@ -38,7 +38,7 @@ def async_set_int(
 
 @callback
 def async_set_float(
-    hass: UniversalAssistant, ihc_controller: IHCController, ihc_id: int, value: float
+    hass: __HAC_KEEP__, ihc_controller: IHCController, ihc_id: int, value: float
 ) -> asyncio.Future[bool]:
     """Set a float value on an IHC controller resource."""
     return hass.async_add_executor_job(

@@ -4,12 +4,12 @@ from freezegun.api import FrozenDateTimeFactory
 from pyhaversion.exceptions import HaVersionException
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import MOCK_VERSION, mock_get_version_update, setup_version_integration
 
 
-async def test_version_sensor(hass: UniversalAssistant) -> None:
+async def test_version_sensor(hass: __HAC_KEEP__) -> None:
     """Test the Version sensor with different sources."""
     await setup_version_integration(hass)
 
@@ -20,7 +20,7 @@ async def test_version_sensor(hass: UniversalAssistant) -> None:
 
 
 async def test_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:

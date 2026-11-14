@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries, setup
 from universalassistant.components.demo import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("disable_platforms")
-async def test_import(hass: UniversalAssistant) -> None:
+async def test_import(hass: __HAC_KEEP__) -> None:
     """Test that we can import a config entry."""
     with patch("universalassistant.components.demo.async_setup_entry", return_value=None):
         assert await setup.async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -24,7 +24,7 @@ async def test_import(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("disable_platforms")
-async def test_import_once(hass: UniversalAssistant) -> None:
+async def test_import_once(hass: __HAC_KEEP__) -> None:
     """Test that we don't create multiple config entries."""
     with patch(
         "universalassistant.components.demo.async_setup_entry",
@@ -54,7 +54,7 @@ async def test_import_once(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("disable_platforms")
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test config flow options."""
     config_entry = MockConfigEntry(domain=DOMAIN)
     config_entry.add_to_hass(hass)

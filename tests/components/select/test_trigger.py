@@ -16,17 +16,17 @@ from pytest_universalassistant.components.common import (
 
 from universalassistant.components.select.trigger import TRIGGERS
 from universalassistant.const import CONF_ENTITY_ID, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_selects(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_selects(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple select entities associated with different targets."""
     return await target_entities(hass, "select")
 
 
 @pytest.fixture
-async def target_input_selects(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_input_selects(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple input_select entities associated with different targets."""
     return await target_entities(hass, "input_select")
 
@@ -43,7 +43,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_select_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -120,7 +120,7 @@ STATE_SEQUENCE = [
 )
 @pytest.mark.parametrize(("trigger", "states"), STATE_SEQUENCE)
 async def test_select_state_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_selects: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -146,7 +146,7 @@ async def test_select_state_trigger(
 )
 @pytest.mark.parametrize(("trigger", "states"), STATE_SEQUENCE)
 async def test_input_select_state_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_input_selects: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -167,7 +167,7 @@ async def test_input_select_state_trigger(
 
 
 async def _assert_select_trigger_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_entities: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -207,7 +207,7 @@ async def _assert_select_trigger_fires(
 
 
 async def test_select_trigger_fires_for_both_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the select trigger fires for both select and input_select entities."""
     calls: list[str] = []

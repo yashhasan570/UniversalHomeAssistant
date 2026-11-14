@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -62,7 +62,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ZimiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -84,7 +84,7 @@ class ZimiSensor(ZimiEntity, SensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: ControlPointDevice,
         description: ZimiSensorEntityDescription,
         api: ControlPoint,

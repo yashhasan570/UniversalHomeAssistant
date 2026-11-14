@@ -13,7 +13,7 @@ from universalassistant.const import (
     EntityCategory,
     UnitOfElectricCurrent,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_SERIAL_NUMBER
@@ -56,7 +56,7 @@ NUMBERS: tuple[LektricoNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LektricoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

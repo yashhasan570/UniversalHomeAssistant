@@ -14,13 +14,13 @@ from universalassistant.components.ondilo_ico.const import (
     OAUTH2_CLIENT_ID as CLIENT_ID,
     OAUTH2_TOKEN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
 
 async def test_abort_if_existing_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Check flow abort when an entry already exist."""
     config_entry.add_to_hass(hass)
@@ -34,7 +34,7 @@ async def test_abort_if_existing_entry(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,

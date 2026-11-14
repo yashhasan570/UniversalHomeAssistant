@@ -8,7 +8,7 @@ from samsung_exlink import MODELS, InputSource, PowerState, SamsungTV, TVModel, 
 
 from universalassistant.components.samsung_exlink.const import DOMAIN
 from universalassistant.const import CONF_DEVICE, CONF_MODEL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_DEVICE, MOCK_MODEL
 
@@ -80,7 +80,7 @@ def mock_samsung_tv(
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create a mock config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -93,14 +93,14 @@ def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 
 @pytest.fixture(autouse=True)
-async def mock_usb_component(hass: UniversalAssistant) -> None:
+async def mock_usb_component(hass: __HAC_KEEP__) -> None:
     """Mock the USB component to prevent setup failures."""
     hass.config.components.add("usb")
 
 
 @pytest.fixture
 async def init_components(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_usb_component: None,
     mock_samsung_tv: MockSamsungTV,
     mock_config_entry: MockConfigEntry,

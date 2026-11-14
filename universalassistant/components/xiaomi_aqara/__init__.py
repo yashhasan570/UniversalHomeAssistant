@@ -14,7 +14,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util.hass_dict import HassKey
@@ -39,7 +39,7 @@ GATEWAY_PLATFORMS_NO_KEY = [Platform.BINARY_SENSOR, Platform.SENSOR]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Xiaomi component."""
     setup_services(hass)
     return True
@@ -59,7 +59,7 @@ class XiaomiAqaraData:
 XIAOMI_AQARA_DATA: HassKey[XiaomiAqaraData] = HassKey(DOMAIN)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: XiaomiAqaraConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: XiaomiAqaraConfigEntry) -> None:
     """Set up the xiaomi aqara components from a config entry."""
     if (data := hass.data.get(XIAOMI_AQARA_DATA)) is None:
         data = hass.data[XIAOMI_AQARA_DATA] = XiaomiAqaraData()
@@ -123,7 +123,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: XiaomiAqaraConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: XiaomiAqaraConfigEntry
+    hass: __HAC_KEEP__, config_entry: XiaomiAqaraConfigEntry
 ) -> None:
     """Unload a config entry."""
     if config_entry.data[CONF_KEY] is not None:

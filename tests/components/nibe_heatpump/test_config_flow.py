@@ -14,7 +14,7 @@ import pytest
 
 from universalassistant import config_entries
 from universalassistant.components.nibe_heatpump import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 MOCK_FLOW_NIBEGW_USERDATA = {
@@ -37,7 +37,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def _get_connection_form(
-    hass: UniversalAssistant, connection_type: str
+    hass: __HAC_KEEP__, connection_type: str
 ) -> config_entries.ConfigFlowResult:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -55,7 +55,7 @@ async def _get_connection_form(
 
 
 async def test_nibegw_form(
-    hass: UniversalAssistant, coils: dict[int, Any], mock_setup_entry: Mock
+    hass: __HAC_KEEP__, coils: dict[int, Any], mock_setup_entry: Mock
 ) -> None:
     """Test we get the form."""
     result = await _get_connection_form(hass, "nibegw")
@@ -82,7 +82,7 @@ async def test_nibegw_form(
 
 
 async def test_modbus_form(
-    hass: UniversalAssistant, coils: dict[int, Any], mock_setup_entry: Mock
+    hass: __HAC_KEEP__, coils: dict[int, Any], mock_setup_entry: Mock
 ) -> None:
     """Test we get the form."""
     result = await _get_connection_form(hass, "modbus")
@@ -106,7 +106,7 @@ async def test_modbus_form(
 
 
 async def test_modbus_invalid_url(
-    hass: UniversalAssistant, mock_connection_construct: Mock
+    hass: __HAC_KEEP__, mock_connection_construct: Mock
 ) -> None:
     """Test we handle invalid auth."""
     result = await _get_connection_form(hass, "modbus")
@@ -127,7 +127,7 @@ async def test_modbus_invalid_url(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_nibegw_address_inuse(hass: UniversalAssistant, mock_connection: Mock) -> None:
+async def test_nibegw_address_inuse(hass: __HAC_KEEP__, mock_connection: Mock) -> None:
     """Test we handle invalid auth."""
     result = await _get_connection_form(hass, "nibegw")
 
@@ -167,7 +167,7 @@ async def test_nibegw_address_inuse(hass: UniversalAssistant, mock_connection: M
     ],
 )
 async def test_read_timeout(
-    hass: UniversalAssistant, mock_connection: Mock, connection_type: str, data: dict
+    hass: __HAC_KEEP__, mock_connection: Mock, connection_type: str, data: dict
 ) -> None:
     """Test we handle cannot connect error."""
     result = await _get_connection_form(hass, connection_type)
@@ -194,7 +194,7 @@ async def test_read_timeout(
     ],
 )
 async def test_write_timeout(
-    hass: UniversalAssistant, mock_connection: Mock, connection_type: str, data: dict
+    hass: __HAC_KEEP__, mock_connection: Mock, connection_type: str, data: dict
 ) -> None:
     """Test we handle cannot connect error."""
     result = await _get_connection_form(hass, connection_type)
@@ -221,7 +221,7 @@ async def test_write_timeout(
     ],
 )
 async def test_unexpected_exception(
-    hass: UniversalAssistant, mock_connection: Mock, connection_type: str, data: dict
+    hass: __HAC_KEEP__, mock_connection: Mock, connection_type: str, data: dict
 ) -> None:
     """Test we handle cannot connect error."""
     result = await _get_connection_form(hass, connection_type)
@@ -248,7 +248,7 @@ async def test_unexpected_exception(
     ],
 )
 async def test_nibegw_invalid_host(
-    hass: UniversalAssistant, mock_connection: Mock, connection_type: str, data: dict
+    hass: __HAC_KEEP__, mock_connection: Mock, connection_type: str, data: dict
 ) -> None:
     """Test we handle cannot connect error."""
     result = await _get_connection_form(hass, connection_type)
@@ -278,7 +278,7 @@ async def test_nibegw_invalid_host(
     ],
 )
 async def test_model_missing_coil(
-    hass: UniversalAssistant, mock_connection: Mock, connection_type: str, data: dict
+    hass: __HAC_KEEP__, mock_connection: Mock, connection_type: str, data: dict
 ) -> None:
     """Test we handle cannot connect error."""
     result = await _get_connection_form(hass, connection_type)

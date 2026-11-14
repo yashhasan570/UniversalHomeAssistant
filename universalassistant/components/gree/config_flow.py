@@ -3,13 +3,13 @@
 from greeclimate.discovery import Discovery
 
 from universalassistant.components.network import async_get_ipv4_broadcast_addresses
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_flow
 
 from .const import DISCOVERY_TIMEOUT, DOMAIN
 
 
-async def _async_has_devices(hass: UniversalAssistant) -> bool:
+async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
     """Return if there are devices that can be discovered."""
     gree_discovery = Discovery(DISCOVERY_TIMEOUT)
     bcast_addr = list(await async_get_ipv4_broadcast_addresses(hass))

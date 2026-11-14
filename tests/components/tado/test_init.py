@@ -11,11 +11,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.tado import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
-async def test_v1_migration(hass: UniversalAssistant) -> None:
+async def test_v1_migration(hass: __HAC_KEEP__) -> None:
     """Test migration from v1 to v2 config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -35,7 +35,7 @@ async def test_v1_migration(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_device_via_device_links(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that child devices link to the bridge via via_device_id."""
     config_entry = hass.config_entries.async_entries(DOMAIN)[0]
@@ -52,7 +52,7 @@ async def test_device_via_device_links(
     assert child_device.via_device_id == bridge_device.id
 
 
-async def test_refresh_token_threading_lock(hass: UniversalAssistant) -> None:
+async def test_refresh_token_threading_lock(hass: __HAC_KEEP__) -> None:
     """Test that threading.Lock in Http._refresh_token serializes concurrent calls."""
 
     timestamps: list[tuple[str, float]] = []

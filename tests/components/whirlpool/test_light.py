@@ -10,8 +10,8 @@ from universalassistant.components.light import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration, snapshot_whirlpool_entities
@@ -45,7 +45,7 @@ def oven_light_entity(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
 ) -> None:
     """Test all entities."""
     await init_integration(hass)
@@ -57,7 +57,7 @@ async def test_all_entities(
     [(SERVICE_TURN_ON, True), (SERVICE_TURN_OFF, False)],
 )
 async def test_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oven_light_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
     service: str,
@@ -79,18 +79,18 @@ async def test_turn_on_off(
 
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_turn_on_off_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     oven_light_entity: tuple[str, str, whirlpool.oven.Cavity],
     request: pytest.FixtureRequest,
     service: str,
 ) -> None:
-    """Test a failed light request raises UniversalAssistantError."""
+    """Test a failed light request raises __HAC_KEEP__Error."""
     entity_id, mock_fixture, _ = oven_light_entity
     mock = request.getfixturevalue(mock_fixture)
     mock.set_light.return_value = False
     await init_integration(hass)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             service,

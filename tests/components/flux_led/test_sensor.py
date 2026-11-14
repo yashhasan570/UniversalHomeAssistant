@@ -1,7 +1,7 @@
 """Tests for flux_led sensor platform."""
 
 from universalassistant.components import flux_led
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import (
@@ -13,7 +13,7 @@ from . import (
 )
 
 
-async def test_paired_remotes_sensor(hass: UniversalAssistant) -> None:
+async def test_paired_remotes_sensor(hass: __HAC_KEEP__) -> None:
     """Test that the paired remotes sensor has the correct value."""
     _mock_config_entry_for_bulb(hass)
     bulb = _mocked_bulb()

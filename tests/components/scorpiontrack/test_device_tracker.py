@@ -15,14 +15,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.scorpiontrack.const import DEFAULT_SCAN_INTERVAL
 from universalassistant.const import STATE_NOT_HOME, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_device_tracker_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -37,7 +37,7 @@ async def test_device_tracker_state(
 
 
 async def test_removed_vehicle_removes_tracker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,
@@ -57,7 +57,7 @@ async def test_removed_vehicle_removes_tracker(
 
 
 async def test_connection_error_makes_tracker_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_scorpiontrack_client: AsyncMock,
@@ -82,7 +82,7 @@ async def test_connection_error_makes_tracker_unavailable(
     [(51.5074, STATE_NOT_HOME), (None, STATE_UNAVAILABLE)],
 )
 async def test_new_vehicle_tracker_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_share: ScorpionTrackShare,

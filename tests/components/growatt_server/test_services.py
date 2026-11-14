@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.growatt_server.const import DOMAIN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_read_time_segments_single_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_read_time_segments_single_device(
 
 
 async def test_update_time_segment_charge_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -81,7 +81,7 @@ async def test_update_time_segment_charge_mode(
 
 
 async def test_update_time_segment_discharge_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -115,7 +115,7 @@ async def test_update_time_segment_discharge_mode(
 
 
 async def test_update_time_segment_standby_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -149,7 +149,7 @@ async def test_update_time_segment_standby_mode(
 
 
 async def test_update_time_segment_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -183,7 +183,7 @@ async def test_update_time_segment_disabled(
 
 
 async def test_update_time_segment_with_seconds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -218,7 +218,7 @@ async def test_update_time_segment_with_seconds(
 
 
 async def test_update_time_segment_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -243,7 +243,7 @@ async def test_update_time_segment_api_error(
         )
     )
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             "update_time_segment",
@@ -266,7 +266,7 @@ async def test_update_time_segment_api_error(
 
 
 async def test_no_min_devices_skips_service_registration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_classic: MockConfigEntry,
     mock_growatt_classic_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -311,7 +311,7 @@ async def test_no_min_devices_skips_service_registration(
 
 
 async def test_multiple_devices_with_valid_device_id_works(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -367,7 +367,7 @@ async def test_multiple_devices_with_valid_device_id_works(
 
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_update_time_segment_invalid_time_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -403,7 +403,7 @@ async def test_update_time_segment_invalid_time_format(
 
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_update_time_segment_invalid_segment_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -459,7 +459,7 @@ async def test_update_time_segment_invalid_segment_id(
 
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_update_time_segment_invalid_batt_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -497,7 +497,7 @@ async def test_update_time_segment_invalid_batt_mode(
 
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_read_time_segments_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -516,7 +516,7 @@ async def test_read_time_segments_api_error(
     with (
         patch(
             "universalassistant.components.growatt_server.coordinator.GrowattCoordinator.read_time_segments",
-            side_effect=UniversalAssistantError(
+            side_effect=__HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_error_with_code",
                 translation_placeholders={
@@ -525,7 +525,7 @@ async def test_read_time_segments_api_error(
                 },
             ),
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -538,7 +538,7 @@ async def test_read_time_segments_api_error(
 
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_service_with_invalid_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test service with device ID that doesn't exist in registry."""
@@ -568,7 +568,7 @@ async def test_service_with_invalid_device_id(
 
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_service_with_non_growatt_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -606,7 +606,7 @@ async def test_service_with_non_growatt_device(
 
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_service_with_non_min_growatt_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -653,7 +653,7 @@ async def test_service_with_non_min_growatt_device(
 )
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_update_time_segment_invalid_end_time_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     invalid_time: str,
@@ -689,7 +689,7 @@ async def test_update_time_segment_invalid_end_time_format(
 
 
 async def test_service_with_unloaded_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_classic: MockConfigEntry,
     mock_growatt_classic_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -737,7 +737,7 @@ async def test_service_with_unloaded_config_entry(
 
 
 async def _setup_sph_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry,
     mock_growatt_v1_api: MagicMock,
 ) -> None:
@@ -752,7 +752,7 @@ async def _setup_sph_integration(
 
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_read_ac_charge_times(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -779,7 +779,7 @@ async def test_read_ac_charge_times(
 
 @pytest.mark.usefixtures("mock_growatt_v1_api")
 async def test_read_ac_discharge_times(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -805,7 +805,7 @@ async def test_read_ac_discharge_times(
 
 
 async def test_write_ac_charge_times(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -837,7 +837,7 @@ async def test_write_ac_charge_times(
 
 
 async def test_write_ac_charge_times_with_seconds_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -869,7 +869,7 @@ async def test_write_ac_charge_times_with_seconds_format(
 
 
 async def test_write_ac_discharge_times(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -900,7 +900,7 @@ async def test_write_ac_discharge_times(
 
 
 async def test_write_ac_charge_times_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -917,7 +917,7 @@ async def test_write_ac_charge_times_api_error(
         growattServer.GrowattV1ApiError("Write failed", error_code=1, error_msg="Error")
     )
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             "write_ac_charge_times",
@@ -934,7 +934,7 @@ async def test_write_ac_charge_times_api_error(
 
 
 async def test_write_ac_discharge_times_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -951,7 +951,7 @@ async def test_write_ac_discharge_times_api_error(
         growattServer.GrowattV1ApiError("Write failed", error_code=1, error_msg="Error")
     )
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             "write_ac_discharge_times",
@@ -967,7 +967,7 @@ async def test_write_ac_discharge_times_api_error(
 
 
 async def test_write_ac_charge_times_invalid_charge_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -998,7 +998,7 @@ async def test_write_ac_charge_times_invalid_charge_power(
 
 
 async def test_write_ac_charge_times_invalid_charge_stop_soc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -1029,7 +1029,7 @@ async def test_write_ac_charge_times_invalid_charge_stop_soc(
 
 
 async def test_write_ac_discharge_times_invalid_discharge_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -1059,7 +1059,7 @@ async def test_write_ac_discharge_times_invalid_discharge_power(
 
 
 async def test_write_ac_discharge_times_invalid_discharge_stop_soc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -1089,7 +1089,7 @@ async def test_write_ac_discharge_times_invalid_discharge_stop_soc(
 
 
 async def test_write_ac_charge_times_invalid_period_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -1122,7 +1122,7 @@ async def test_write_ac_charge_times_invalid_period_time(
 
 
 async def test_no_sph_devices_fails_gracefully(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_classic: MockConfigEntry,
     mock_growatt_classic_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -1161,7 +1161,7 @@ async def test_no_sph_devices_fails_gracefully(
 
 
 async def test_sph_service_with_non_sph_growatt_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -1197,7 +1197,7 @@ async def test_sph_service_with_non_sph_growatt_device(
 
 
 async def test_write_ac_charge_times_uses_cached_periods_for_unspecified(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_growatt_v1_api: MagicMock,
     device_registry: dr.DeviceRegistry,

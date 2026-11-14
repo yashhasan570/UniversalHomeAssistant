@@ -10,7 +10,7 @@ from solax.inverters import X1MiniV34
 from universalassistant.components.solax.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_IP_ADDRESS, CONF_MODEL, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
@@ -45,7 +45,7 @@ def __mock_get_data() -> InverterResponse:
     ],
 )
 async def test_setup_entry_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_data: dict[str, str | int],
     expected_inverters: list[type] | None,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_setup_entry_success(
 
 
 async def test_device_info_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_device_info_model(
 
 
 async def test_setup_entry_not_ready(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test ConfigEntryNotReady is raised when discovery fails."""
     mock_config_entry.add_to_hass(hass)

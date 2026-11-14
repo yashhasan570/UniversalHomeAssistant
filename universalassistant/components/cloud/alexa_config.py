@@ -1,4 +1,4 @@
-"""Alexa configuration for Universal Universal Home Assistant Cloud."""
+"""Alexa configuration for __HA_KEEP__ Cloud."""
 
 import asyncio
 from collections.abc import Callable
@@ -36,8 +36,8 @@ from universalassistant.components.universalassistant.exposed_entities import (
 )
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorDeviceClass
 from universalassistant.const import CONF_NAME
-from universalassistant.core import Event, UniversalAssistant, callback, split_entity_id
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Event, __HAC_KEEP__, callback, split_entity_id
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, start
 from universalassistant.helpers.entity import get_device_class
 from universalassistant.helpers.entityfilter import EntityFilter
@@ -107,7 +107,7 @@ SUPPORTED_SENSOR_DEVICE_CLASSES = {
 }
 
 
-def entity_supported(hass: UniversalAssistant, entity_id: str) -> bool:
+def entity_supported(hass: __HAC_KEEP__, entity_id: str) -> bool:
     """Return if the entity is supported.
 
     This is called when migrating from legacy config format to avoid exposing
@@ -119,7 +119,7 @@ def entity_supported(hass: UniversalAssistant, entity_id: str) -> bool:
 
     try:
         device_class = get_device_class(hass, entity_id)
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         # The entity no longer exists
         return False
     if (
@@ -136,7 +136,7 @@ def entity_supported(hass: UniversalAssistant, entity_id: str) -> bool:
 
 @callback
 def _async_should_expose_legacy(
-    hass: UniversalAssistant, prefs: CloudPreferences, entity_id: str
+    hass: __HAC_KEEP__, prefs: CloudPreferences, entity_id: str
 ) -> bool:
     """Return if an entity should be exposed according to the legacy settings."""
     entity_configs = prefs.alexa_entity_configs
@@ -167,7 +167,7 @@ def _async_should_expose_legacy(
 
 @callback
 def _async_migrate_entity_settings_v1(
-    hass: UniversalAssistant, config: dict[str, Any], prefs: CloudPreferences
+    hass: __HAC_KEEP__, config: dict[str, Any], prefs: CloudPreferences
 ) -> None:
     """Migrate alexa entity settings to entity registry options."""
     if not config[CONF_FILTER].empty_filter:
@@ -187,7 +187,7 @@ def _async_migrate_entity_settings_v1(
 
 
 async def _async_migrate_entity_settings_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     prefs: CloudPreferences,
     cloud: Cloud[CloudClient],
@@ -207,7 +207,7 @@ async def _async_migrate_entity_settings_v2(
 
 
 async def async_migrate_entity_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     prefs: CloudPreferences,
     cloud: Cloud[CloudClient],
@@ -250,7 +250,7 @@ class CloudAlexaConfig(alexa_config.AbstractConfig):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: dict,
         cloud_user: str,
         prefs: CloudPreferences,
@@ -326,14 +326,14 @@ class CloudAlexaConfig(alexa_config.AbstractConfig):
         """Initialize the Alexa config."""
         await super().async_initialize()
 
-        async def on_hass_started(hass: UniversalAssistant) -> None:
+        async def on_hass_started(hass: __HAC_KEEP__) -> None:
             self._on_deinitialize.append(
                 async_listen_entity_updates(
                     self.hass, CLOUD_ALEXA, self._async_exposed_entities_updated
                 )
             )
 
-        async def on_hass_start(hass: UniversalAssistant) -> None:
+        async def on_hass_start(hass: __HAC_KEEP__) -> None:
             if self.enabled and ALEXA_DOMAIN not in self.hass.config.components:
                 await async_setup_component(self.hass, ALEXA_DOMAIN, {})
 

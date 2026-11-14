@@ -9,8 +9,8 @@ import requests
 from requests_mock import Mocker
 
 from universalassistant.components.downloader.const import DOMAIN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.setup import async_setup_component
 
 
@@ -28,7 +28,7 @@ from universalassistant.setup import async_setup_component
     ],
 )
 async def test_download_invalid_subdir(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     download_completed: asyncio.Event,
     download_failed: asyncio.Event,
     download_url: str,
@@ -60,7 +60,7 @@ async def test_download_invalid_subdir(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_download_headers_passed_through(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requests_mock: Mocker,
     download_completed: asyncio.Event,
     download_url: str,
@@ -100,7 +100,7 @@ async def test_download_headers_passed_through(
     ],
 )
 async def test_download_headers_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     download_completed: asyncio.Event,
     download_failed: asyncio.Event,
     download_url: str,
@@ -137,7 +137,7 @@ async def test_download_headers_schema(
     [
         pytest.param(
             requests.exceptions.ConnectionError,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             id="connection_error",
         ),
         pytest.param(
@@ -148,7 +148,7 @@ async def test_download_headers_schema(
     ],
 )
 async def test_download_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requests_mock: Mocker,
     download_url: str,
     download_failed: asyncio.Event,
@@ -164,7 +164,7 @@ async def test_download_exceptions(
     await download_failed.wait()
 
 
-async def test_download_not_loaded(hass: UniversalAssistant) -> None:
+async def test_download_not_loaded(hass: __HAC_KEEP__) -> None:
     """Test the action raises when no config entry is loaded."""
     assert await async_setup_component(hass, DOMAIN, {})
 

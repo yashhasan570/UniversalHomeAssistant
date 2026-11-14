@@ -9,7 +9,7 @@ from surepy.enums import EntityType
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import ATTR_VOLTAGE, PERCENTAGE, EntityCategory, UnitOfVolume
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import SURE_BATT_VOLTAGE_DIFF, SURE_BATT_VOLTAGE_LOW
@@ -18,7 +18,7 @@ from .entity import SurePetcareEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SurePetcareConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

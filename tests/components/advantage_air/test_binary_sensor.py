@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, patch
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -14,7 +14,7 @@ from . import add_mock_config
 
 
 async def test_binary_sensor_async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_get: AsyncMock,
 ) -> None:

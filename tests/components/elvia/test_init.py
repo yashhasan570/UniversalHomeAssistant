@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.elvia.const import CONF_METERING_POINT_ID, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_setup_import_failed(hass: UniversalAssistant) -> None:
+async def test_setup_import_failed(hass: __HAC_KEEP__) -> None:
     """Test setup fails when the initial import of meter values fails."""
     entry = MockConfigEntry(
         domain=DOMAIN,

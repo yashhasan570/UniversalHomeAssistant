@@ -9,8 +9,8 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.blink.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
 @pytest.mark.parametrize(
@@ -36,7 +36,7 @@ from universalassistant.exceptions import UniversalAssistantError
     ],
 )
 async def test_write_error_raises_translated_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_write_error_raises_translated_error(
     hass.config.allowlist_external_dirs = {tmp_path}
     getattr(camera, api_method).side_effect = OSError(error_no, "error")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             service_name,

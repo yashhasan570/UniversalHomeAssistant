@@ -15,8 +15,8 @@ DATA_EXPOSED_ENTITIES: HassKey[ExposedEntities] = HassKey(f"{DOMAIN}.exposed_ent
 DATA_STOP_HANDLER = f"{DOMAIN}.stop_handler"
 
 
-class UniversalAssistantService(StrEnum):
-    """Store keys for Universal Universal Home Assistant services."""
+class __HAC_KEEP__Service(StrEnum):
+    """Store keys for __HA_KEEP__ services."""
 
     CHECK_CONFIG = "check_config"
     RELOAD_ALL = "reload_all"
@@ -33,8 +33,8 @@ class UniversalAssistantService(StrEnum):
     UPDATE_ENTITY = "update_entity"
 
 
-class UniversalAssistantServiceArgument(StrEnum):
-    """Store keys for Universal Universal Home Assistant service arguments."""
+class __HAC_KEEP__ServiceArgument(StrEnum):
+    """Store keys for __HA_KEEP__ service arguments."""
 
     ELEVATION = "elevation"
     ENTRY_ID = "entry_id"
@@ -43,6 +43,6 @@ class UniversalAssistantServiceArgument(StrEnum):
     SAFE_MODE = "safe_mode"
 
 
-# To be deprecated at a later stage, replaced by UniversalAssistantService
-SERVICE_HOMEASSISTANT_STOP: Final = UniversalAssistantService.STOP.value
-SERVICE_HOMEASSISTANT_RESTART: Final = UniversalAssistantService.RESTART.value
+# To be deprecated at a later stage, replaced by __HAC_KEEP__Service
+SERVICE_HOMEASSISTANT_STOP: Final = __HAC_KEEP__Service.STOP.value
+SERVICE_HOMEASSISTANT_RESTART: Final = __HAC_KEEP__Service.RESTART.value

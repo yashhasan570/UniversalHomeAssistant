@@ -20,8 +20,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.kiosker.const import DOMAIN
 from universalassistant.components.kiosker.services import KioskerServiceArgument
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -30,7 +30,7 @@ KIOSKER_DEVICE_ID = "A98BE1CE-5FE7-4A8D-B2C3-123456789ABC"
 
 
 async def _setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -43,7 +43,7 @@ async def _setup(
 
 
 async def test_navigate_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -96,7 +96,7 @@ async def test_navigate_url(
     ],
 )
 async def test_set_blackout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -122,12 +122,12 @@ async def test_set_blackout(
 
 
 async def test_service_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
-    """Test services raise UniversalAssistantError when the config entry is not loaded."""
+    """Test services raise __HAC_KEEP__Error when the config entry is not loaded."""
     await _setup(hass, mock_kiosker_api, mock_config_entry)
 
     device = device_registry.async_get_device_by_identifier(
@@ -137,7 +137,7 @@ async def test_service_entry_not_loaded(
 
     await hass.config_entries.async_unload(mock_config_entry.entry_id)
 
-    with pytest.raises(UniversalAssistantError, match="is not loaded"):
+    with pytest.raises(__HAC_KEEP__Error, match="is not loaded"):
         await hass.services.async_call(
             DOMAIN,
             "navigate_url",
@@ -175,7 +175,7 @@ async def test_service_entry_not_loaded(
     ],
 )
 async def test_schema_rejects_invalid_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -205,7 +205,7 @@ async def test_schema_rejects_invalid_input(
 @pytest.mark.parametrize(
     ("exception", "expected"),
     [
-        pytest.param(ConnectionError, UniversalAssistantError, id="connection_error"),
+        pytest.param(ConnectionError, __HAC_KEEP__Error, id="connection_error"),
         pytest.param(AuthenticationError, ServiceValidationError, id="auth_error"),
         pytest.param(IPAuthenticationError, ServiceValidationError, id="ip_auth_error"),
         pytest.param(TLSVerificationError, ServiceValidationError, id="tls_error"),
@@ -213,7 +213,7 @@ async def test_schema_rejects_invalid_input(
     ],
 )
 async def test_api_errors_are_wrapped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -243,7 +243,7 @@ async def test_api_errors_are_wrapped(
 
 
 async def test_service_non_kiosker_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

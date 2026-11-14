@@ -28,7 +28,7 @@ from universalassistant.components.jewish_calendar.const import (
     DOMAIN,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CONF_LANGUAGE, CONF_TIME_ZONE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import GetCalendarEvents, TimeValue
@@ -67,7 +67,7 @@ def location_data(request: pytest.FixtureRequest) -> _LocationData | None:
 
 
 @pytest.fixture
-def tz_info(hass: UniversalAssistant, location_data: _LocationData | None) -> dt.tzinfo:
+def tz_info(hass: __HAC_KEEP__, location_data: _LocationData | None) -> dt.tzinfo:
     """Return time zone info."""
     if location_data is None:
         return dt_util.get_time_zone(hass.config.time_zone)
@@ -137,8 +137,8 @@ def calendar_events() -> dict[str, list[str]] | None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_hass(hass: UniversalAssistant, location_data: _LocationData | None) -> None:
-    """Set up Universal Universal Home Assistant for testing the jewish_calendar integration."""
+async def setup_hass(hass: __HAC_KEEP__, location_data: _LocationData | None) -> None:
+    """Set up __HA_KEEP__ for testing the jewish_calendar integration."""
 
     if location_data:
         await hass.config.async_set_time_zone(location_data.timezone)
@@ -189,7 +189,7 @@ def config_entry(
 
 @pytest.fixture
 async def setup_at_time(
-    test_time: dt.datetime, hass: UniversalAssistant, config_entry: MockConfigEntry
+    test_time: dt.datetime, hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> AsyncGenerator[None]:
     """Set up the jewish_calendar integration at a specific time."""
     with freeze_time(test_time):
@@ -200,7 +200,7 @@ async def setup_at_time(
 
 
 @pytest.fixture
-async def setup(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Set up the jewish_calendar integration."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -212,7 +212,7 @@ def get_calendar_events() -> GetCalendarEvents:
     """Fixture that returns a function to get calendar events for a date range."""
 
     async def _get_events(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entity_id: str,
         start_date: dt.datetime,
         end_date: dt.datetime | None = None,
@@ -246,7 +246,7 @@ def get_calendar_events() -> GetCalendarEvents:
 @pytest.fixture
 async def test_sequence(
     request: pytest.FixtureRequest,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     tz_info: dt.tzinfo,

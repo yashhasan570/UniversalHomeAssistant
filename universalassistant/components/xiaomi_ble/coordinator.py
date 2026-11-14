@@ -16,7 +16,7 @@ from universalassistant.components.bluetooth.active_update_processor import (
 from universalassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothDataProcessor,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.debounce import Debouncer
 
 from .const import CONF_SLEEPY_DEVICE
@@ -30,7 +30,7 @@ class XiaomiActiveBluetoothProcessorCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: Logger,
         *,
         address: str,

@@ -12,7 +12,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -39,14 +39,14 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: LitterRobotConfigEntry
+    hass: __HAC_KEEP__, entry: LitterRobotConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug(
@@ -90,7 +90,7 @@ async def async_migrate_entry(
     )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LitterRobotConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LitterRobotConfigEntry) -> None:
     """Set up Litter-Robot from a config entry."""
     coordinator = LitterRobotDataUpdateCoordinator(hass, entry)
 
@@ -109,7 +109,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LitterRobotConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: LitterRobotConfigEntry
+    hass: __HAC_KEEP__, entry: LitterRobotConfigEntry
 ) -> None:
     """Unload a config entry."""
     await entry.runtime_data.account.disconnect()
@@ -117,7 +117,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, entry: LitterRobotConfigEntry, device_entry: AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: LitterRobotConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove a config entry from a device."""
     return not any(

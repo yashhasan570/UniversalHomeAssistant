@@ -8,8 +8,8 @@ from pyprusalink import JobInfo, LegacyPrinterStatus, PrinterStatus, PrusaLink
 from pyprusalink.types import Conflict, PrinterState
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PrusaLinkConfigEntry, PrusaLinkUpdateCoordinator
@@ -68,7 +68,7 @@ BUTTONS: dict[str, tuple[PrusaLinkButtonEntityDescription, ...]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PrusaLinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -110,7 +110,7 @@ class PrusaLinkButtonEntity(PrusaLinkEntity, ButtonEntity):
         try:
             await func(job_id)
         except Conflict as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Action conflicts with current printer state"
             ) from err
 

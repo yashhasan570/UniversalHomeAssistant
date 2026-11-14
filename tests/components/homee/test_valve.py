@@ -17,7 +17,7 @@ from universalassistant.components.valve import (
     ValveEntityFeature,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import build_mock_node, setup_integration
@@ -31,7 +31,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def test_valve_set_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_valve_set_position(
     ],
 )
 async def test_opening_closing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     current_value: float,
@@ -80,7 +80,7 @@ async def test_opening_closing(
 
 
 async def test_supported_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_supported_features(
 
 
 async def test_valve_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

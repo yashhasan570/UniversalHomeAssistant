@@ -5,7 +5,7 @@ import logging
 from pytouchline_extended import PyTouchline
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .data import TouchlineConfigEntry, TouchlineData
@@ -24,7 +24,7 @@ def _fetch_devices(py_touchline: PyTouchline, host: str) -> list[PyTouchline]:
     return devices
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TouchlineConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TouchlineConfigEntry) -> None:
     """Set up touchline from a config entry."""
     host = entry.data[CONF_HOST]
     _LOGGER.debug(
@@ -43,6 +43,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TouchlineConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TouchlineConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TouchlineConfigEntry) -> None:
     """Unload a touchline config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -16,7 +16,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import AbortFlow
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device_registry import format_mac
@@ -42,7 +42,7 @@ def _get_friendly_name(name: str | None) -> str:
     return instance or DEFAULT_NAME
 
 
-async def _async_test_port(hass: UniversalAssistant, port: int) -> None:
+async def _async_test_port(hass: __HAC_KEEP__, port: int) -> None:
     """Verify the UDP port can be bound."""
 
     if async_get_listener_registry(hass).has_listener(port):
@@ -51,7 +51,7 @@ async def _async_test_port(hass: UniversalAssistant, port: int) -> None:
     await async_verify_udp_port_bindable(port)
 
 
-async def _async_discover_mac_address(hass: UniversalAssistant, host: str, port: int) -> str:
+async def _async_discover_mac_address(hass: __HAC_KEEP__, host: str, port: int) -> str:
     """Wait for a UDP message from the device and return its MAC address."""
     resolved_ips = await async_resolve_host(host)
     listener_registry = async_get_listener_registry(hass)

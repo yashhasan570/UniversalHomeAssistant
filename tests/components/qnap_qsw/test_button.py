@@ -4,12 +4,12 @@ from unittest.mock import patch
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import SYSTEM_COMMAND_MOCK, USERS_VERIFICATION_MOCK, async_init_integration
 
 
-async def test_qnap_buttons(hass: UniversalAssistant) -> None:
+async def test_qnap_buttons(hass: __HAC_KEEP__) -> None:
     """Test buttons."""
 
     await async_init_integration(hass)

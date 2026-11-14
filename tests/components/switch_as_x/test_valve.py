@@ -20,11 +20,11 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_default_state(hass: UniversalAssistant) -> None:
+async def test_default_state(hass: __HAC_KEEP__) -> None:
     """Test valve switch default state."""
     config_entry = MockConfigEntry(
         data={},
@@ -48,7 +48,7 @@ async def test_default_state(hass: UniversalAssistant) -> None:
     assert state.attributes["supported_features"] == 3
 
 
-async def test_service_calls(hass: UniversalAssistant) -> None:
+async def test_service_calls(hass: __HAC_KEEP__) -> None:
     """Test service calls to valve."""
     await async_setup_component(hass, "switch", {"switch": [{"platform": "demo"}]})
     await hass.async_block_till_done()
@@ -137,7 +137,7 @@ async def test_service_calls(hass: UniversalAssistant) -> None:
     assert hass.states.get("valve.decorative_lights").state == ValveState.OPEN
 
 
-async def test_service_calls_inverted(hass: UniversalAssistant) -> None:
+async def test_service_calls_inverted(hass: __HAC_KEEP__) -> None:
     """Test service calls to valve."""
     await async_setup_component(hass, "switch", {"switch": [{"platform": "demo"}]})
     await hass.async_block_till_done()

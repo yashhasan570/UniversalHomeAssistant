@@ -7,8 +7,8 @@ from typing import Any, override
 from unifi_access_api import EmergencyStatus, UnifiAccessError
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -43,7 +43,7 @@ SWITCH_DESCRIPTIONS: tuple[UnifiAccessSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UnifiAccessConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -94,7 +94,7 @@ class UnifiAccessEmergencySwitch(UnifiAccessHubEntity, SwitchEntity):
         try:
             await self.coordinator.client.set_emergency_status(new_status)
         except UnifiAccessError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="emergency_failed",
             ) from err

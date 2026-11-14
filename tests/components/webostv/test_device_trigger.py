@@ -10,8 +10,8 @@ from universalassistant.components.device_automation import (
 )
 from universalassistant.components.webostv import DOMAIN, device_trigger
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant, ServiceCall
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -20,7 +20,7 @@ from .const import ENTITY_ID, FAKE_UUID
 
 
 async def test_get_triggers(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, client
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, client
 ) -> None:
     """Test we get the expected triggers."""
     entry = await setup_webostv(hass)
@@ -44,7 +44,7 @@ async def test_get_triggers(
 
 
 async def test_if_fires_on_turn_on_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     client,
@@ -108,13 +108,13 @@ async def test_if_fires_on_turn_on_request(
 
 
 async def test_invalid_trigger_raises(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, client
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, client
 ) -> None:
     """Test invalid trigger platform or device id raises."""
     await setup_webostv(hass)
 
     # Test wrong trigger platform type
-    with pytest.raises(UniversalAssistantError, match="Unhandled trigger type: wrong.type"):
+    with pytest.raises(__HAC_KEEP__Error, match="Unhandled trigger type: wrong.type"):
         await device_trigger.async_attach_trigger(
             hass, {"type": "wrong.type", "device_id": "invalid_device_id"}, None, {}
         )
@@ -150,7 +150,7 @@ async def test_invalid_trigger_raises(
     ],
 )
 async def test_invalid_entry_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     domain: str,

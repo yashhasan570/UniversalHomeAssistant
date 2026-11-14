@@ -13,8 +13,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 PRESET_ENTITY_ID = "select.my_motionmount_preset"
 
@@ -31,7 +31,7 @@ def mock_presets(mock_motionmount: MagicMock) -> MagicMock:
 
 
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_presets: MagicMock,
 ) -> None:
@@ -62,18 +62,18 @@ async def test_select_option(
     ],
 )
 async def test_select_option_communication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_presets: MagicMock,
     exception: type[Exception],
 ) -> None:
-    """Test a communication error while selecting a preset raises UniversalAssistantError."""
+    """Test a communication error while selecting a preset raises __HAC_KEEP__Error."""
     mock_config_entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
 
     mock_presets.go_to_preset.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

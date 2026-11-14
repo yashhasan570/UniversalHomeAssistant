@@ -11,7 +11,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.enum import try_parse_enum
 
@@ -30,7 +30,7 @@ HVAC_MODES = [HVACMode.AUTO, HVACMode.HEAT]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AtagConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -15,14 +15,14 @@ from universalassistant.components.google_assistant import (
 )
 from universalassistant.components.google_assistant.services import GoogleAssistantService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
 from .test_http import DUMMY_CONFIG
 
 
-async def test_import(hass: UniversalAssistant) -> None:
+async def test_import(hass: __HAC_KEEP__) -> None:
     """Test import."""
 
     await async_setup_component(
@@ -36,7 +36,7 @@ async def test_import(hass: UniversalAssistant) -> None:
     assert entries[0].data[ga.const.CONF_PROJECT_ID] == "1234"
 
 
-async def test_import_changed(hass: UniversalAssistant) -> None:
+async def test_import_changed(hass: __HAC_KEEP__) -> None:
     """Test import with changed project id."""
 
     old_entry = MockConfigEntry(
@@ -56,7 +56,7 @@ async def test_import_changed(hass: UniversalAssistant) -> None:
     assert entries[0].data[ga.const.CONF_PROJECT_ID] == "1234"
 
 
-async def test_import_changed_setup_error(hass: UniversalAssistant) -> None:
+async def test_import_changed_setup_error(hass: __HAC_KEEP__) -> None:
     """Test setup of an imported entry fails when the project id changed."""
     old_entry = MockConfigEntry(
         domain=ga.DOMAIN, data={ga.const.CONF_PROJECT_ID: "4321"}, source="import"
@@ -79,7 +79,7 @@ async def test_import_changed_setup_error(hass: UniversalAssistant) -> None:
 
 
 async def test_request_sync_service(
-    aioclient_mock: AiohttpClientMocker, hass: UniversalAssistant
+    aioclient_mock: AiohttpClientMocker, hass: __HAC_KEEP__
 ) -> None:
     """Test that it posts to the request_sync url."""
     aioclient_mock.post(
@@ -112,14 +112,14 @@ def _yaml_config(**config) -> dict:
     return {DOMAIN: GOOGLE_ASSISTANT_SCHEMA({**DUMMY_CONFIG, **config})}
 
 
-async def _async_setup(hass: UniversalAssistant) -> GoogleConfig:
+async def _async_setup(hass: __HAC_KEEP__) -> GoogleConfig:
     """Set up Google Assistant from YAML and return its config."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: DUMMY_CONFIG})
     await hass.async_block_till_done()
     return hass.config_entries.async_entries(DOMAIN)[0].runtime_data
 
 
-async def test_reload_service(hass: UniversalAssistant) -> None:
+async def test_reload_service(hass: __HAC_KEEP__) -> None:
     """Test reloading the YAML configuration applies it and syncs to Google."""
     google_config = await _async_setup(hass)
     assert google_config.entity_config == {}
@@ -147,7 +147,7 @@ async def test_reload_service(hass: UniversalAssistant) -> None:
     mock_sync.assert_called_once_with()
 
 
-async def test_reload_service_report_state(hass: UniversalAssistant) -> None:
+async def test_reload_service_report_state(hass: __HAC_KEEP__) -> None:
     """Test reloading enables and disables reporting state."""
     google_config = await _async_setup(hass)
     assert not google_config.is_reporting_state
@@ -170,7 +170,7 @@ async def test_reload_service_report_state(hass: UniversalAssistant) -> None:
         assert not google_config.is_reporting_state
 
 
-async def test_reload_service_invalid_config(hass: UniversalAssistant) -> None:
+async def test_reload_service_invalid_config(hass: __HAC_KEEP__) -> None:
     """Test an invalid YAML configuration keeps the current one."""
     google_config = await _async_setup(hass)
 
@@ -207,7 +207,7 @@ async def test_reload_service_invalid_config(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reload_service_restart_required(
-    hass: UniversalAssistant, yaml_config: dict, option: str
+    hass: __HAC_KEEP__, yaml_config: dict, option: str
 ) -> None:
     """Test reloading refuses changes that need a restart."""
     google_config = await _async_setup(hass)

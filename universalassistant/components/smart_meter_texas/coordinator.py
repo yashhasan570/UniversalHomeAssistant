@@ -11,7 +11,7 @@ from smart_meter_texas.exceptions import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.debounce import Debouncer
@@ -28,7 +28,7 @@ class SmartMeterTexasData:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         account: Account,
     ) -> None:
         """Initialize the data coordinator."""
@@ -70,7 +70,7 @@ class SmartMeterTexasCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: SmartMeterTexasConfigEntry,
         smart_meter_texas_data: SmartMeterTexasData,
     ) -> None:

@@ -12,8 +12,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.async_ import create_eager_task
@@ -49,7 +49,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SamsungTVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -233,7 +233,7 @@ class SamsungTVDevice(SamsungTVEntity, MediaPlayerEntity):
         if self._dmr is None:
             if TYPE_CHECKING:
                 assert self._host is not None
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="upnp_not_available",
                 translation_placeholders={"host": self._host},
@@ -302,7 +302,7 @@ class SamsungTVDevice(SamsungTVEntity, MediaPlayerEntity):
         try:
             cv.positive_int(media_id)
         except probatio.Invalid as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="media_id_invalid",
             ) from err
@@ -322,7 +322,7 @@ class SamsungTVDevice(SamsungTVEntity, MediaPlayerEntity):
             await self._async_send_keys([SOURCES[source]])
             return
 
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="source_unsupported",
             translation_placeholders={"entity": self.entity_id, "source": source},

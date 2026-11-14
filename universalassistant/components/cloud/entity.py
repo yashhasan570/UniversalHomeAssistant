@@ -45,7 +45,7 @@ from openai.types.responses.response_output_item import ImageGenerationCall
 import probatio
 
 from universalassistant.components import conversation
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import llm
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.json import json_dumps
@@ -171,7 +171,7 @@ def _format_tool(
     tool: llm.Tool,
     custom_serializer: Callable[[Any], Any] | None,
 ) -> ToolParam:
-    """Format a Universal Universal Home Assistant tool for the OpenAI Responses API."""
+    """Format a __HA_KEEP__ tool for the OpenAI Responses API."""
     parameters = probatio.to_openapi(
         tool.parameters,
         custom_serializer=custom_serializer,
@@ -437,7 +437,7 @@ async def _transform_stream(  # noqa: C901 - This is complex, but better to have
             elif reason == "content_filter":
                 reason = "content filter triggered"
 
-            raise UniversalAssistantError(f"OpenAI response incomplete: {reason}")
+            raise __HAC_KEEP__Error(f"OpenAI response incomplete: {reason}")
 
         elif isinstance(event, LLMResponseFailedEvent):
             response = event.response
@@ -454,10 +454,10 @@ async def _transform_stream(  # noqa: C901 - This is complex, but better to have
             reason = "unknown reason"
             if isinstance(error := response.get("error"), dict):
                 reason = error.get("message") or reason
-            raise UniversalAssistantError(f"OpenAI response failed: {reason}")
+            raise __HAC_KEEP__Error(f"OpenAI response failed: {reason}")
 
         elif isinstance(event, LLMResponseErrorEvent):
-            raise UniversalAssistantError(f"OpenAI response error: {event.message}")
+            raise __HAC_KEEP__Error(f"OpenAI response error: {event.message}")
 
 
 class BaseCloudLLMEntity(Entity):
@@ -544,7 +544,7 @@ class BaseCloudLLMEntity(Entity):
                 mime_type = attachment.mime_type
                 path = attachment.path
                 if not path.exists():
-                    raise UniversalAssistantError(f"`{path}` does not exist")
+                    raise __HAC_KEEP__Error(f"`{path}` does not exist")
 
                 data = base64.b64encode(path.read_bytes()).decode("utf-8")
                 if mime_type and mime_type.startswith("image/"):
@@ -564,7 +564,7 @@ class BaseCloudLLMEntity(Entity):
                         }
                     )
                 else:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         "Only images and PDF are currently supported as attachments"
                     )
 
@@ -632,15 +632,15 @@ class BaseCloudLLMEntity(Entity):
                 )
 
             except LLMAuthenticationError as err:
-                raise UniversalAssistantError("Cloud LLM authentication failed") from err
+                raise __HAC_KEEP__Error("Cloud LLM authentication failed") from err
             except LLMRateLimitError as err:
-                raise UniversalAssistantError("Cloud LLM is rate limited") from err
+                raise __HAC_KEEP__Error("Cloud LLM is rate limited") from err
             except LLMResponseError as err:
-                raise UniversalAssistantError(str(err)) from err
+                raise __HAC_KEEP__Error(str(err)) from err
             except LLMServiceError as err:
-                raise UniversalAssistantError("Error talking to Cloud LLM") from err
+                raise __HAC_KEEP__Error("Error talking to Cloud LLM") from err
             except NabuCasaBaseError as err:
-                raise UniversalAssistantError(str(err)) from err
+                raise __HAC_KEEP__Error(str(err)) from err
 
             if not chat_log.unresponded_tool_results:
                 break

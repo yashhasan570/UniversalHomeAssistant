@@ -17,7 +17,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.kiosker.const import DOMAIN
 from universalassistant.const import CONF_API_TOKEN, CONF_HOST, CONF_SSL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -48,7 +48,7 @@ DISCOVERY_INFO_NO_UUID = ZeroconfServiceInfo(
 
 
 async def test_user_flow_creates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_kiosker_api: MagicMock,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_user_flow_creates_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors_and_recovery(
-    hass: UniversalAssistant, mock_kiosker_api: MagicMock, exception: Exception, error: str
+    hass: __HAC_KEEP__, mock_kiosker_api: MagicMock, exception: Exception, error: str
 ) -> None:
     """Test user flow handles all validation errors and can recover."""
     result = await hass.config_entries.flow.async_init(
@@ -130,7 +130,7 @@ async def test_user_flow_errors_and_recovery(
 
 
 async def test_zeroconf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
 ) -> None:
     """Test the zeroconf discovery happy flow creates a config entry."""
@@ -167,7 +167,7 @@ async def test_zeroconf(
 
 
 async def test_zeroconf_error_and_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
 ) -> None:
     """Test zeroconf discovery handles errors and recovers."""
@@ -200,7 +200,7 @@ async def test_zeroconf_error_and_recovery(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zeroconf_no_uuid(hass: UniversalAssistant) -> None:
+async def test_zeroconf_no_uuid(hass: __HAC_KEEP__) -> None:
     """Test zeroconf discovery without UUID aborts with cannot_connect."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -212,7 +212,7 @@ async def test_zeroconf_no_uuid(hass: UniversalAssistant) -> None:
 
 
 async def test_abort_if_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_kiosker_api: MagicMock,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_abort_if_already_configured(
 
 
 async def test_zeroconf_abort_if_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort zeroconf discovery if already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -254,7 +254,7 @@ async def test_zeroconf_abort_if_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_no_device_id(
-    hass: UniversalAssistant, mock_kiosker_api: MagicMock
+    hass: __HAC_KEEP__, mock_kiosker_api: MagicMock
 ) -> None:
     """Test user flow shows cannot_connect error when device reports no device ID."""
     mock_kiosker_api.status.return_value.device_id = None
@@ -291,7 +291,7 @@ async def test_user_flow_no_device_id(
 
 
 async def test_reauth_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -313,7 +313,7 @@ async def test_reauth_flow_success(
 
 
 async def test_reauth_flow_wrong_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -342,7 +342,7 @@ async def test_reauth_flow_wrong_device(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],

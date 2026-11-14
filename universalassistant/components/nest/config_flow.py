@@ -1,7 +1,7 @@
 """Config flow to configure Nest.
 
 This configuration flow supports the following:
-  - SDM API with Web OAuth flow with redirect back to Universal Universal Home Assistant
+  - SDM API with Web OAuth flow with redirect back to __HA_KEEP__
   - Legacy Nest API auth flow with where user enters an auth code manually
 
 NestFlowHandler is an implementation of AbstractOAuth2FlowHandler with

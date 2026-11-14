@@ -16,7 +16,7 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.fritz.const import DOMAIN, SCAN_INTERVAL, MeshRoles
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import MOCK_MESH_DATA, MOCK_NEW_DEVICE_NODE, MOCK_USER_DATA
@@ -24,7 +24,7 @@ from .const import MOCK_MESH_DATA, MOCK_NEW_DEVICE_NODE, MOCK_USER_DATA
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_button_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     fc_class_mock,
     fh_class_mock,
@@ -52,7 +52,7 @@ async def test_button_setup(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     wrapper_method: str,
     fc_class_mock,
@@ -87,7 +87,7 @@ async def test_buttons(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_wol_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -121,7 +121,7 @@ async def test_wol_button(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_wol_button_new_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     fc_class_mock,
     fh_class_mock,
@@ -152,7 +152,7 @@ async def test_wol_button_new_device(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_wol_button_absent_for_mesh_slave(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -174,7 +174,7 @@ async def test_wol_button_absent_for_mesh_slave(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_wol_button_absent_for_non_lan_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,

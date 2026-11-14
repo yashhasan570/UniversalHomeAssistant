@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bashio
 # ==============================================================================
-# Start Universal Universal Home Assistant service
+# Start __HA_KEEP__ service
 # ==============================================================================
 
 cd /config || bashio::exit.nok "Can't find config folder!"

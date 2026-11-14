@@ -1,7 +1,7 @@
 """The Immich integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -14,13 +14,13 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.UPDATE]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up immich integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ImmichConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ImmichConfigEntry) -> None:
     """Set up Immich from a config entry."""
 
     coordinator = ImmichDataUpdateCoordinator(hass, entry)
@@ -30,6 +30,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ImmichConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ImmichConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ImmichConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

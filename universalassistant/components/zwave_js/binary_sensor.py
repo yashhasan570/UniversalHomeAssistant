@@ -28,7 +28,7 @@ from universalassistant.components.binary_sensor import (
 )
 from universalassistant.components.script import scripts_with_entity
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity import Entity
@@ -411,7 +411,7 @@ def is_valid_notification_binary_sensor(
 
 
 @callback
-def _async_delete_legacy_entity_repairs(hass: UniversalAssistant, entity_id: str) -> None:
+def _async_delete_legacy_entity_repairs(hass: __HAC_KEEP__, entity_id: str) -> None:
     """Delete all stale legacy door state repair issues for an entity."""
     for issue_key in LEGACY_DOOR_STATE_REPAIR_ISSUE_KEYS:
         async_delete_issue(hass, DOMAIN, f"{issue_key}.{entity_id}")
@@ -419,14 +419,14 @@ def _async_delete_legacy_entity_repairs(hass: UniversalAssistant, entity_id: str
 
 @callback
 def _async_check_legacy_entity_repair(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     driver: Driver,
     entity: ZWaveLegacyDoorStateBinarySensor,
 ) -> None:
     """Schedule a repair issue check once HA has fully started."""
 
     @callback
-    def _async_do_check(hass: UniversalAssistant) -> None:
+    def _async_do_check(hass: __HAC_KEEP__) -> None:
         """Create or delete a repair issue for a deprecated legacy door state entity."""
         ent_reg = er.async_get(hass)
         if entity.unique_id is None:
@@ -511,7 +511,7 @@ def _async_check_legacy_entity_repair(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ZwaveJSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

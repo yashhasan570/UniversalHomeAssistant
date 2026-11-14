@@ -5,7 +5,7 @@ from unittest.mock import patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
 TOGRILL_SERVICE_INFO = BluetoothServiceInfo(
@@ -30,7 +30,7 @@ TOGRILL_SERVICE_INFO_NO_NAME = BluetoothServiceInfo(
 
 
 async def setup_entry(
-    hass: UniversalAssistant, mock_entry: MockConfigEntry, platforms: list[Platform]
+    hass: __HAC_KEEP__, mock_entry: MockConfigEntry, platforms: list[Platform]
 ) -> None:
     """Make sure the device is available."""
 

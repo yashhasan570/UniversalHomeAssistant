@@ -5,7 +5,7 @@ import pytest
 from universalassistant.components.google_generative_ai_conversation.helpers import (
     _parse_audio_mime_type,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
 def test_parse_audio_mime_type_uppercase() -> None:
@@ -21,6 +21,6 @@ def test_parse_audio_mime_type_lowercase() -> None:
 
 
 def test_parse_audio_mime_type_unsupported_raises() -> None:
-    """Test that an unsupported MIME type raises UniversalAssistantError."""
-    with pytest.raises(UniversalAssistantError):
+    """Test that an unsupported MIME type raises __HAC_KEEP__Error."""
+    with pytest.raises(__HAC_KEEP__Error):
         _parse_audio_mime_type("video/mp4")

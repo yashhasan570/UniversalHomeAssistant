@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.components.sense.const import ACTIVE_UPDATE_RATE, DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -24,7 +24,7 @@ from .const import DEVICE_1_ID, DEVICE_1_NAME, DEVICE_2_NAME, MONITOR_ID
 
 
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -36,7 +36,7 @@ async def test_binary_sensors(
 
 
 async def test_on_off_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
@@ -74,7 +74,7 @@ async def test_on_off_sensors(
 
 
 async def test_realtime_update_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -97,7 +97,7 @@ async def test_realtime_update_exception(
 
 
 async def test_migrate_unique_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sense: MagicMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

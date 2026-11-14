@@ -57,9 +57,9 @@ class OAuth2FlowHandler(
     and may be limited/deprecated in the future similar to App/OOB Auth
     https://developers.googleblog.com/2022/02/making-oauth-flows-safer.html
 
-    Web Auth is the preferred method by Universal Universal Home Assistant and Google, and a benefit
+    Web Auth is the preferred method by __HA_KEEP__ and Google, and a benefit
     is that the same credentials may be used across many Google integrations in
-    Universal Universal Home Assistant. Web Auth is now easier for user to setup using my.universalassistant.io
+    __HA_KEEP__. Web Auth is now easier for user to setup using my.universalassistant.io
     redirect urls.
 
     The Application Credentials integration does not currently record which type

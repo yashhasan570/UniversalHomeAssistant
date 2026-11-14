@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfPressure,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util.unit_conversion import DistanceConverter, VolumeConverter
@@ -216,7 +216,7 @@ EV_SENSORS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SubaruConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

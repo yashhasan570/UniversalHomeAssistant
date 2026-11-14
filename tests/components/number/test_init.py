@@ -49,7 +49,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -260,7 +260,7 @@ class MockNumberEntityDescrDeprecated(NumberEntity):
         return 0.5
 
 
-async def test_step(hass: UniversalAssistant) -> None:
+async def test_step(hass: __HAC_KEEP__) -> None:
     """Test the step calculation."""
     number = MockDefaultNumberEntity()
     number.hass = hass
@@ -271,7 +271,7 @@ async def test_step(hass: UniversalAssistant) -> None:
     assert number_2.step == 0.1
 
 
-async def test_attributes(hass: UniversalAssistant) -> None:
+async def test_attributes(hass: __HAC_KEEP__) -> None:
     """Test the attributes."""
     number = MockDefaultNumberEntity()
     number.hass = hass
@@ -345,7 +345,7 @@ async def test_attributes(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_sync_set_value(hass: UniversalAssistant) -> None:
+async def test_sync_set_value(hass: __HAC_KEEP__) -> None:
     """Test if async set_value calls sync set_value."""
     number = MockDefaultNumberEntity()
     number.hass = hass
@@ -358,7 +358,7 @@ async def test_sync_set_value(hass: UniversalAssistant) -> None:
 
 
 async def test_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_number_entities: list[MockNumberEntity],
 ) -> None:
     """Test we can only set valid values."""
@@ -482,7 +482,7 @@ async def test_set_value(
     ],
 )
 async def test_temperature_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unit_system,
     native_unit,
     state_unit,
@@ -570,7 +570,7 @@ RESTORE_DATA = {
 
 
 async def test_restore_number_save_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test RestoreNumber."""
@@ -637,7 +637,7 @@ async def test_restore_number_save_state(
     ],
 )
 async def test_restore_number_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     native_max_value,
     native_min_value,
@@ -725,7 +725,7 @@ async def test_restore_number_restore_state(
     ],
 )
 async def test_custom_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_class,
     native_unit,
@@ -800,7 +800,7 @@ async def test_custom_unit(
     ],
 )
 async def test_custom_unit_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     native_unit,
     custom_unit,
@@ -858,7 +858,7 @@ async def test_custom_unit_change(
 
 
 async def test_translated_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test translated unit."""
 
@@ -891,7 +891,7 @@ async def test_translated_unit(
 
 
 async def test_translated_unit_with_native_unit_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that translated unit."""
 
@@ -930,7 +930,7 @@ async def test_translated_unit_with_native_unit_raises(
     ],
 )
 async def test_ambiguous_unit_of_measurement_compat(
-    hass: UniversalAssistant, ambiguous_unit: str, normalized_unit: str
+    hass: __HAC_KEEP__, ambiguous_unit: str, normalized_unit: str
 ) -> None:
     """Test ambiguous native_unit_of_measurement values are corrected."""
     entity0 = MockNumber(
@@ -970,7 +970,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -978,11 +978,11 @@ def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
         yield
 
 
-async def test_name(hass: UniversalAssistant) -> None:
+async def test_name(hass: __HAC_KEEP__) -> None:
     """Test number name."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -1023,7 +1023,7 @@ async def test_name(hass: UniversalAssistant) -> None:
     )
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -1083,7 +1083,7 @@ async def test_name(hass: UniversalAssistant) -> None:
     }
 
 
-def test_device_class_units(hass: UniversalAssistant) -> None:
+def test_device_class_units(hass: __HAC_KEEP__) -> None:
     """Test all numeric device classes have unit."""
     # DEVICE_CLASS_UNITS should include all device classes except:
     # - NumberDeviceClass.MONETARY
@@ -1111,7 +1111,7 @@ def test_device_class_units(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_invalid_unit_for_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_class: NumberDeviceClass,
     native_unit: str,
@@ -1132,7 +1132,7 @@ async def test_invalid_unit_for_device_class(
         f"Entity {entity0.entity_id} ({type(entity0)}) is using native unit of "
         f"measurement '{native_unit}' which is not a valid unit for the device "
         f"class ('{device_class}') it is using; expected one of {expected_units}. "
-        "This will stop working in Universal Universal Home Assistant 2027.5"
+        "This will stop working in __HA_KEEP__ 2027.5"
     )
     assert message in caplog.text
 
@@ -1154,7 +1154,7 @@ async def test_invalid_unit_for_device_class(
     ],
 )
 async def test_valid_unit_for_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_class: NumberDeviceClass | None,
     native_unit: str | None,

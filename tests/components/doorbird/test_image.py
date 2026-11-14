@@ -9,7 +9,7 @@ from universalassistant.components.doorbird.const import CONF_EVENTS
 from universalassistant.components.doorbird.image import DoorBirdLastEventImage
 from universalassistant.components.image import DOMAIN as IMAGE_DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import mock_not_found_exception, mock_webhook_call
@@ -21,7 +21,7 @@ VALID_JPEG = b"\xff\xd8\xff\xe0junk"
 
 
 async def test_image_entities_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_image_entities_registered(
 
 
 async def test_image_updates_on_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_image_updates_on_event(
 
 
 async def test_image_entity_fetches_bytes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_image_entity_fetches_bytes(
 
 
 async def test_image_rejects_non_image_body(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_image_rejects_non_image_body(
     ],
 )
 async def test_image_updates_on_event_without_schedule_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
     events: list[str],
@@ -160,7 +160,7 @@ async def test_image_updates_on_event_without_schedule_api(
     ],
 )
 async def test_image_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     doorbird_mocker: DoorbirdMockerType,
     entity_registry: er.EntityRegistry,

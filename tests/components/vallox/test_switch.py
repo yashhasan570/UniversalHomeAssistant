@@ -16,7 +16,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -26,7 +26,7 @@ BYPASS_LOCKED_ENTITY_ID = "switch.vallox_bypass_locked"
 
 @pytest.mark.usefixtures("mock_vallox_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -48,7 +48,7 @@ async def test_all_entities(
     ],
 )
 async def test_bypass_locked_switch_state(
-    hass: UniversalAssistant, expected_state: str
+    hass: __HAC_KEEP__, expected_state: str
 ) -> None:
     """Test the bypass locked switch state."""
     state = hass.states.get(BYPASS_LOCKED_ENTITY_ID)
@@ -65,7 +65,7 @@ async def test_bypass_locked_switch_state(
     ],
 )
 async def test_bypass_locked_switch_set(
-    hass: UniversalAssistant, mock_vallox_client: AsyncMock, service: str, value: int
+    hass: __HAC_KEEP__, mock_vallox_client: AsyncMock, service: str, value: int
 ) -> None:
     """Test setting the bypass locked switch."""
     await hass.services.async_call(

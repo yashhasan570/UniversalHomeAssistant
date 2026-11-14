@@ -1,13 +1,13 @@
 """Issues for HTML5 integration."""
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
 
 from .const import DOMAIN
 
 
 @callback
-def deprecated_event_bus(hass: UniversalAssistant, event: str) -> None:
+def deprecated_event_bus(hass: __HAC_KEEP__, event: str) -> None:
     """Raise a deprecation issue for listeners on the event bus."""
 
     if listeners := hass.bus.async_listeners().get(event):

@@ -9,8 +9,8 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -45,7 +45,7 @@ def create_title(info: FroniusConfigEntryData) -> str:
 
 
 async def validate_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     host: str,
     modbus_port: int = DEFAULT_MODBUS_PORT,
     auto_revert_power_limit: bool = False,
@@ -198,5 +198,5 @@ class FroniusConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

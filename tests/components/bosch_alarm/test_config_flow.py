@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.bosch_alarm.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_MODEL, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -19,7 +19,7 @@ from . import setup_integration
 
 
 async def test_form_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_panel: AsyncMock,
     panel_model: PanelModel,
@@ -68,7 +68,7 @@ async def test_form_user(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     config_flow_data: dict[str, Any],
     exception: Exception,
@@ -117,7 +117,7 @@ async def test_form_exceptions(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_exceptions_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     config_flow_data: dict[str, Any],
     exception: Exception,
@@ -158,7 +158,7 @@ async def test_form_exceptions_user(
 
 @pytest.mark.parametrize("model", ["solution_3000", "amax_3000"])
 async def test_entry_already_configured_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_panel: AsyncMock,
     config_flow_data: dict[str, Any],
@@ -180,7 +180,7 @@ async def test_entry_already_configured_host(
 
 @pytest.mark.parametrize("model", ["b5512"])
 async def test_entry_already_configured_serial(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_panel: AsyncMock,
     config_flow_data: dict[str, Any],
@@ -209,7 +209,7 @@ async def test_entry_already_configured_serial(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_can_finish(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     panel_model: PanelModel,
     serial_number: str,
@@ -257,7 +257,7 @@ async def test_dhcp_can_finish(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     panel_model: PanelModel,
     serial_number: str,
@@ -284,7 +284,7 @@ async def test_dhcp_exceptions(
 @pytest.mark.parametrize("mac_address", ["34ea34b43b5a"])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_updates_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_panel: AsyncMock,
     mac_address: str | None,
@@ -313,7 +313,7 @@ async def test_dhcp_updates_host(
 @pytest.mark.parametrize("serial_number", ["12345678"])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_if_panel_setup_config_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_panel: AsyncMock,
     serial_number: str,
@@ -361,7 +361,7 @@ async def test_dhcp_discovery_if_panel_setup_config_flow(
 
 @pytest.mark.parametrize("model", ["solution_3000", "amax_3000"])
 async def test_dhcp_abort_ongoing_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_panel: AsyncMock,
     config_flow_data: dict[str, Any],
@@ -393,7 +393,7 @@ async def test_dhcp_abort_ongoing_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_updates_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_panel: AsyncMock,
     panel_model: PanelModel,
@@ -422,7 +422,7 @@ async def test_dhcp_updates_mac(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_panel: AsyncMock,
     panel_model: PanelModel,
@@ -457,7 +457,7 @@ async def test_reauth_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_panel: AsyncMock,
     panel_model: PanelModel,
@@ -492,7 +492,7 @@ async def test_reauth_flow_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfig_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_panel: AsyncMock,
     panel_model: PanelModel,
@@ -532,7 +532,7 @@ async def test_reconfig_flow(
 @pytest.mark.parametrize("model", ["b5512"])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfig_flow_incorrect_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_panel: AsyncMock,
     panel_model: PanelModel,

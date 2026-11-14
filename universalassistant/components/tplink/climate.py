@@ -18,7 +18,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import PRECISION_TENTHS, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import legacy_device_id
@@ -66,7 +66,7 @@ CLIMATE_DESCRIPTIONS: tuple[TPLinkClimateEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TPLinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

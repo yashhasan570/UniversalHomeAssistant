@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.medcom_ble.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IGNORE
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -23,7 +23,7 @@ from . import (
 )
 
 
-async def test_bluetooth_discovery(hass: UniversalAssistant) -> None:
+async def test_bluetooth_discovery(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -57,7 +57,7 @@ async def test_bluetooth_discovery(hass: UniversalAssistant) -> None:
         assert result["result"].unique_id == "a0:d9:5a:57:0b:00"
 
 
-async def test_bluetooth_discovery_already_setup(hass: UniversalAssistant) -> None:
+async def test_bluetooth_discovery_already_setup(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth with a valid device when already setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -73,7 +73,7 @@ async def test_bluetooth_discovery_already_setup(hass: UniversalAssistant) -> No
     assert result["reason"] == "already_configured"
 
 
-async def test_user_setup(hass: UniversalAssistant) -> None:
+async def test_user_setup(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form."""
     with patch(
         "universalassistant.components.medcom_ble.config_flow.async_discovered_service_info",
@@ -118,7 +118,7 @@ async def test_user_setup(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "a0:d9:5a:57:0b:00"
 
 
-async def test_user_setup_no_device(hass: UniversalAssistant) -> None:
+async def test_user_setup_no_device(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form without any device detected."""
     with patch(
         "universalassistant.components.medcom_ble.config_flow.async_discovered_service_info",
@@ -131,7 +131,7 @@ async def test_user_setup_no_device(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_setup_existing_and_unknown_device(hass: UniversalAssistant) -> None:
+async def test_user_setup_existing_and_unknown_device(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form with existing devices and unknown ones."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -158,7 +158,7 @@ async def test_user_setup_existing_and_unknown_device(hass: UniversalAssistant) 
         assert result["reason"] == "cannot_connect"
 
 
-async def test_user_setup_unknown_device(hass: UniversalAssistant) -> None:
+async def test_user_setup_unknown_device(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form with only unknown devices."""
     with patch(
         "universalassistant.components.medcom_ble.config_flow.async_discovered_service_info",
@@ -171,7 +171,7 @@ async def test_user_setup_unknown_device(hass: UniversalAssistant) -> None:
         assert result["reason"] == "no_devices_found"
 
 
-async def test_user_setup_unknown_error(hass: UniversalAssistant) -> None:
+async def test_user_setup_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form with an unknown error."""
     with patch(
         "universalassistant.components.medcom_ble.config_flow.async_discovered_service_info",
@@ -197,7 +197,7 @@ async def test_user_setup_unknown_error(hass: UniversalAssistant) -> None:
     assert result["reason"] == "unknown"
 
 
-async def test_user_setup_unable_to_connect(hass: UniversalAssistant) -> None:
+async def test_user_setup_unable_to_connect(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form with a device that's failing connection."""
     with patch(
         "universalassistant.components.medcom_ble.config_flow.async_discovered_service_info",
@@ -228,7 +228,7 @@ async def test_user_setup_unable_to_connect(hass: UniversalAssistant) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_user_setup_replaces_ignored_device(hass: UniversalAssistant) -> None:
+async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form can replace an ignored device."""
     entry = MockConfigEntry(
         domain=DOMAIN,

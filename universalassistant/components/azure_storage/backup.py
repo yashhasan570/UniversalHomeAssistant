@@ -18,7 +18,7 @@ from universalassistant.components.backup import (
     OnProgressCallback,
     suggested_filename,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from . import AzureStorageConfigEntry
 from .const import DATA_BACKUP_AGENT_LISTENERS, DOMAIN
@@ -28,7 +28,7 @@ METADATA_VERSION = "1"
 
 
 async def async_get_backup_agents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> list[BackupAgent]:
     """Return a list of backup agents."""
     entries: list[AzureStorageConfigEntry] = hass.config_entries.async_loaded_entries(
@@ -39,7 +39,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -105,7 +105,7 @@ class AzureStorageBackupAgent(BackupAgent):
 
     domain = DOMAIN
 
-    def __init__(self, hass: UniversalAssistant, entry: AzureStorageConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: AzureStorageConfigEntry) -> None:
         """Initialize the Azure storage backup agent."""
         super().__init__()
         self._client = entry.runtime_data

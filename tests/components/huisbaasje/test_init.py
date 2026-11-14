@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.huisbaasje.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ID, CONF_PASSWORD, CONF_USERNAME, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .test_data import MOCK_CURRENT_MEASUREMENTS
 
 
-async def test_setup_entry(hass: UniversalAssistant) -> None:
+async def test_setup_entry(hass: __HAC_KEEP__) -> None:
     """Test for successfully setting a config entry."""
     with (
         patch(
@@ -58,7 +58,7 @@ async def test_setup_entry(hass: UniversalAssistant) -> None:
         assert len(mock_customer_overview.mock_calls) == 1
 
 
-async def test_setup_entry_error_authenticate(hass: UniversalAssistant) -> None:
+async def test_setup_entry_error_authenticate(hass: __HAC_KEEP__) -> None:
     """Test for unsuccessfully setting a config entry, erroring on authenticate."""
     with (
         patch(
@@ -103,7 +103,7 @@ async def test_setup_entry_error_authenticate(hass: UniversalAssistant) -> None:
         assert len(mock_customer_overview.mock_calls) == 0
 
 
-async def test_setup_entry_error_customer_overview(hass: UniversalAssistant) -> None:
+async def test_setup_entry_error_customer_overview(hass: __HAC_KEEP__) -> None:
     """Test for unsuccessfully setting a config entry, erroring on customer_overview."""
     with (
         patch(
@@ -145,7 +145,7 @@ async def test_setup_entry_error_customer_overview(hass: UniversalAssistant) -> 
         assert len(mock_customer_overview.mock_calls) == 1
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test for successfully unloading the config entry."""
     with (
         patch(

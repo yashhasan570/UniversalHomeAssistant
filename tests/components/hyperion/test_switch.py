@@ -22,7 +22,7 @@ from universalassistant.components.hyperion.const import (
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util, slugify
 
@@ -52,7 +52,7 @@ TEST_SWITCH_COMPONENT_BASE_ENTITY_ID = "switch.test_instance_1_component"
 TEST_SWITCH_COMPONENT_ALL_ENTITY_ID = f"{TEST_SWITCH_COMPONENT_BASE_ENTITY_ID}_all"
 
 
-async def test_switch_turn_on_off(hass: UniversalAssistant) -> None:
+async def test_switch_turn_on_off(hass: __HAC_KEEP__) -> None:
     """Test turning the light on."""
     client = create_mock_client()
     client.async_send_set_component = AsyncMock(return_value=True)
@@ -121,7 +121,7 @@ async def test_switch_turn_on_off(hass: UniversalAssistant) -> None:
     assert entity_state.state == "on"
 
 
-async def test_switch_has_correct_entities(hass: UniversalAssistant) -> None:
+async def test_switch_has_correct_entities(hass: __HAC_KEEP__) -> None:
     """Test that the correct switch entities are created."""
     client = create_mock_client()
     client.components = TEST_COMPONENTS
@@ -145,7 +145,7 @@ async def test_switch_has_correct_entities(hass: UniversalAssistant) -> None:
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_device_info(
 
 
 async def test_switches_can_be_enabled(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Verify switches can be enabled."""
     client = create_mock_client()

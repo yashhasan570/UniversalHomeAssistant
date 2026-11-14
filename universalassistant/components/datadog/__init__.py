@@ -13,7 +13,7 @@ from universalassistant.const import (
     EVENT_STATE_CHANGED,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, state as state_helper
 
 from .const import CONF_RATE, DOMAIN
@@ -25,7 +25,7 @@ type DatadogConfigEntry = ConfigEntry[DogStatsd]
 CONFIG_SCHEMA = cv.removed(DOMAIN, raise_if_present=False)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: DatadogConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: DatadogConfigEntry) -> None:
     """Set up Datadog from a config entry."""
 
     data = entry.data
@@ -47,7 +47,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DatadogConfigEntry)
         message = event.data.get("message")
 
         entry.runtime_data.event(
-            title="Universal Universal Home Assistant",
+            title="__HA_KEEP__",
             message=f"%%% \n **{name}** {message} \n %%%",
             tags=[
                 f"entity:{event.data.get('entity_id')}",
@@ -85,7 +85,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DatadogConfigEntry)
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: DatadogConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: DatadogConfigEntry) -> None:
     """Unload a Datadog config entry."""
     runtime = entry.runtime_data
     runtime.flush()

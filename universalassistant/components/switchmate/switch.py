@@ -11,7 +11,7 @@ from universalassistant.components.switch import (
     SwitchEntity,
 )
 from universalassistant.const import CONF_MAC, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -31,7 +31,7 @@ PLATFORM_SCHEMA = SWITCH_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -56,7 +56,7 @@ class SwitchmateEntity(SwitchEntity):
     @property
     @override
     def unique_id(self) -> str:
-        """Return a unique, Universal Universal Home Assistant friendly identifier for this entity."""
+        """Return a unique, __HA_KEEP__ friendly identifier for this entity."""
         return self._mac.replace(":", "")
 
     @property

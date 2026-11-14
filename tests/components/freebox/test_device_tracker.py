@@ -8,14 +8,14 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.device_tracker import DOMAIN as DEVICE_TRACKER_DOMAIN
 from universalassistant.components.freebox import SCAN_INTERVAL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .common import setup_platform
 
 
 async def test_router_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     router: Mock,
 ) -> None:
@@ -33,7 +33,7 @@ async def test_router_mode(
 
 
 async def test_bridge_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     router_bridge_mode: Mock,
 ) -> None:
@@ -52,7 +52,7 @@ async def test_bridge_mode(
 
 
 async def test_update_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     router: Mock,
@@ -87,7 +87,7 @@ async def test_update_timeout(
     ],
 )
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mac: str,
     expected_name: str,

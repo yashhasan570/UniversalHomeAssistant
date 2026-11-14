@@ -9,7 +9,7 @@ from requests.exceptions import ConnectTimeout, HTTPError
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_PASSWORD, CONF_TIMEOUT, CONF_USERNAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import (
     CONF_FFMPEG_ARGUMENTS,
@@ -22,7 +22,7 @@ from .coordinator import CanaryConfigEntry
 _LOGGER: Final = logging.getLogger(__name__)
 
 
-def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> bool:
+def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> bool:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.

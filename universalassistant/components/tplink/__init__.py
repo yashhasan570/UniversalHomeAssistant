@@ -31,7 +31,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -65,7 +65,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 _LOGGER = logging.getLogger(__name__)
 
 
-def create_async_tplink_clientsession(hass: UniversalAssistant) -> ClientSession:
+def create_async_tplink_clientsession(hass: __HAC_KEEP__) -> ClientSession:
     """Return aiohttp clientsession with cookie jar configured."""
     return async_create_clientsession(
         hass, verify_ssl=False, cookie_jar=get_cookie_jar()
@@ -74,7 +74,7 @@ def create_async_tplink_clientsession(hass: UniversalAssistant) -> ClientSession
 
 @callback
 def async_trigger_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovered_devices: dict[str, Device],
 ) -> None:
     """Trigger config flows for discovered devices."""
@@ -93,7 +93,7 @@ def async_trigger_discovery(
         )
 
 
-async def async_discover_devices(hass: UniversalAssistant) -> dict[str, Device]:
+async def async_discover_devices(hass: __HAC_KEEP__) -> dict[str, Device]:
     """Discover TPLink devices on configured network interfaces."""
 
     credentials = await get_credentials(hass)
@@ -114,7 +114,7 @@ async def async_discover_devices(hass: UniversalAssistant) -> dict[str, Device]:
     return discovered_devices
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the TP-Link component."""
     async_setup_services(hass)
     hass.data.setdefault(DOMAIN, {})
@@ -133,7 +133,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TPLinkConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TPLinkConfigEntry) -> None:
     """Set up TPLink from a config entry."""
     host: str = entry.data[CONF_HOST]
     credentials = await get_credentials(hass)
@@ -256,7 +256,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TPLinkConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TPLinkConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TPLinkConfigEntry) -> None:
     """Unload a config entry."""
     data = entry.runtime_data
     device = data.parent_coordinator.device
@@ -294,7 +294,7 @@ def get_device_name(device: Device, parent: Device | None = None) -> str | None:
     return None
 
 
-async def get_credentials(hass: UniversalAssistant) -> Credentials | None:
+async def get_credentials(hass: __HAC_KEEP__) -> Credentials | None:
     """Retrieve the credentials from hass data."""
     if DOMAIN in hass.data and CONF_AUTHENTICATION in hass.data[DOMAIN]:
         auth = hass.data[DOMAIN][CONF_AUTHENTICATION]
@@ -303,7 +303,7 @@ async def get_credentials(hass: UniversalAssistant) -> Credentials | None:
     return None
 
 
-async def set_credentials(hass: UniversalAssistant, username: str, password: str) -> None:
+async def set_credentials(hass: __HAC_KEEP__, username: str, password: str) -> None:
     """Save the credentials to HASS data."""
     hass.data.setdefault(DOMAIN, {})[CONF_AUTHENTICATION] = {
         CONF_USERNAME: username,
@@ -339,7 +339,7 @@ def _device_id_is_mac_or_none(mac: str, device_ids: Iterable[str]) -> str | None
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: TPLinkConfigEntry
+    hass: __HAC_KEEP__, config_entry: TPLinkConfigEntry
 ) -> None:
     """Migrate old entry."""
     entry_version = config_entry.version

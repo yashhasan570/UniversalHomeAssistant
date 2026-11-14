@@ -14,14 +14,14 @@ from universalassistant.components.google_air_quality.services import (
     GoogleAirQualityServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_get_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -58,7 +58,7 @@ async def test_get_forecast_service(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_get_forecast_service_unknown_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test fetching a forecast for an unknown subentry."""
     with pytest.raises(ServiceValidationError) as exc_info:

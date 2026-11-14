@@ -10,7 +10,7 @@ from requests.exceptions import ConnectionError as RequestConnectionError, HTTPE
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -39,7 +39,7 @@ class FritzboxDataUpdateCoordinator(DataUpdateCoordinator[FritzboxCoordinatorDat
     has_templates: bool
     has_triggers: bool
 
-    def __init__(self, hass: UniversalAssistant, config_entry: FritzboxConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: FritzboxConfigEntry) -> None:
         """Initialize the Fritzbox Smarthome device coordinator."""
         super().__init__(
             hass,
@@ -206,7 +206,7 @@ class FritzboxDataUpdateCoordinator(DataUpdateCoordinator[FritzboxCoordinatorDat
                 device.device_and_unit_id[1] is None
                 or (
                     # workaround for sub units without a main device, e.g. Energy 250
-                    # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/145204
+                    # https://github.com/yashhasan570/__HAC_KEEP__/issues/145204
                     device.device_and_unit_id[1] == "1"
                     and device.device_and_unit_id[0] not in new_data.devices
                 )

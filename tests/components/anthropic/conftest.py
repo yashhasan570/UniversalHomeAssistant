@@ -32,7 +32,7 @@ from universalassistant.components.anthropic.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -41,7 +41,7 @@ from . import model_list
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Mock a config entry."""
     entry = MockConfigEntry(
         title="Claude",
@@ -71,7 +71,7 @@ def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture
 def mock_config_entry_with_assist(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Mock a config entry with assist."""
     hass.config_entries.async_update_subentry(
@@ -108,7 +108,7 @@ def mock_model_list() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def mock_init_component(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
 ) -> None:
@@ -118,8 +118,8 @@ async def mock_init_component(
 
 
 @pytest.fixture(autouse=True)
-async def setup_ha(hass: UniversalAssistant) -> None:
-    """Set up Universal Universal Home Assistant."""
+async def setup_ha(hass: __HAC_KEEP__) -> None:
+    """Set up __HA_KEEP__."""
     assert await async_setup_component(hass, "universalassistant", {})
 
 

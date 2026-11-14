@@ -188,9 +188,9 @@ class OAuth2FlowHandler(
                 ]
                 for webhook in webhook_data:
                     wh_def: ekey_bionyxpy.WebhookData = {
-                        "integrationName": "Universal Universal Home Assistant",
+                        "integrationName": "__HA_KEEP__",
                         "functionName": webhook["name"],
-                        "locationName": "Universal Universal Home Assistant",
+                        "locationName": "__HA_KEEP__",
                         "definition": {
                             "url": user_input[CONF_URL]
                             + webhook_generate_path(webhook["webhook_id"]),

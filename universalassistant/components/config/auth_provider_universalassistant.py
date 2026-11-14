@@ -1,4 +1,4 @@
-"""Offer API to configure the Universal Universal Home Assistant auth provider."""
+"""Offer API to configure the __HA_KEEP__ auth provider."""
 
 import asyncio
 from typing import Any
@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.auth.providers import InvalidStepUpError, universalassistant as auth_ha
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import Unauthorized
 from universalassistant.util.hass_dict import HassKey
 
@@ -17,8 +17,8 @@ CREATE_LOCK: HassKey[asyncio.Lock] = HassKey(
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> bool:
-    """Enable the Universal Universal Home Assistant views."""
+def async_setup(hass: __HAC_KEEP__) -> bool:
+    """Enable the __HA_KEEP__ views."""
     hass.data[CREATE_LOCK] = asyncio.Lock()
     websocket_api.async_register_command(hass, websocket_create)
     websocket_api.async_register_command(hass, websocket_delete)
@@ -39,7 +39,7 @@ def async_setup(hass: UniversalAssistant) -> bool:
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -93,7 +93,7 @@ async def websocket_create(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -135,7 +135,7 @@ async def websocket_delete(
 )
 @websocket_api.async_response
 async def websocket_change_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -179,7 +179,7 @@ async def websocket_change_password(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_admin_change_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -215,7 +215,7 @@ async def websocket_admin_change_password(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_admin_change_username(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

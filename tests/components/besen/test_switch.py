@@ -19,8 +19,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -31,7 +31,7 @@ ENTITY_ID = "switch.garage_charge"
 
 
 async def test_switch_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -46,7 +46,7 @@ async def test_switch_state(
 
 
 async def test_switch_updates_from_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_switch_updates_from_client(
 
 
 async def test_switch_updates_on_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_switch_updates_on_refresh(
     ],
 )
 async def test_switch_unavailable_from_client_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     available: bool,
@@ -110,7 +110,7 @@ async def test_switch_unavailable_from_client_state(
 
 
 async def test_switch_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_switch_services(
     ],
 )
 async def test_switch_command_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     service: str,
@@ -169,7 +169,7 @@ async def test_switch_command_failure(
 
     await setup_integration(hass, mock_config_entry, [Platform.SWITCH])
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,

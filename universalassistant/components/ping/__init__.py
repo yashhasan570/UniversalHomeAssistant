@@ -5,7 +5,7 @@ import logging
 from icmplib import SocketPermissionError, async_ping
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util.hass_dict import HassKey
@@ -21,7 +21,7 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.DEVICE_TRACKER, Platform.SENSOR]
 DATA_PRIVILEGED_KEY: HassKey[bool | None] = HassKey(DOMAIN)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: PingConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: PingConfigEntry) -> None:
     """Migrate old config entries."""
     if entry.version == 1 and entry.minor_version == 1:
         _LOGGER.debug("Migrating to minor version 2")
@@ -41,14 +41,14 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: PingConfigEntry) 
         hass.config_entries.async_update_entry(entry, minor_version=2)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the ping integration."""
     hass.data[DATA_PRIVILEGED_KEY] = await _can_use_icmp_lib_with_privilege()
 
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PingConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PingConfigEntry) -> None:
     """Set up Ping (ICMP) from a config entry."""
     privileged = hass.data[DATA_PRIVILEGED_KEY]
 
@@ -79,7 +79,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PingConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: PingConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: PingConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

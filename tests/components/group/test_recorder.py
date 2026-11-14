@@ -11,7 +11,7 @@ from universalassistant.components.group.const import GroupEntityStateAttribute
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.recorder.history import get_significant_states
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_FRIENDLY_NAME, STATE_ON
-from universalassistant.core import UniversalAssistant, split_entity_id
+from universalassistant.core import __HAC_KEEP__, split_entity_id
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -21,7 +21,7 @@ async def setup_universalassistant():
     """Override the fixture in group.conftest."""
 
 
-async def test_exclude_attributes(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_exclude_attributes(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test number registered attributes to be excluded."""
     now = dt_util.utcnow()
     hass.states.async_set("light.bowl", STATE_ON)

@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, patch
 from aioonkyo import ReceiverInfo, Status
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 RECEIVER_INFO = ReceiverInfo(
     host="192.168.0.101",
@@ -65,7 +65,7 @@ def mock_discovery(receiver_infos: Iterable[ReceiverInfo] | None) -> Generator[N
         yield
 
 
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Set up the component."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)

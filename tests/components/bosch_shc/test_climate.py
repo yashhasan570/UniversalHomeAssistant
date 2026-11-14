@@ -28,7 +28,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 
 from .conftest import climate_control_device, heating_circuit_device, setup_integration
@@ -72,7 +72,7 @@ def room_name(mock_session: MagicMock) -> None:
     ids=["auto", "heating", "manual", "off", "cooling-idle", "cooling"],
 )
 async def test_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
     device_kwargs: dict,
@@ -114,7 +114,7 @@ async def test_states(
     ids=["full", "minimal"],
 )
 async def test_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
     supports_cooling: bool,
@@ -145,7 +145,7 @@ async def test_capabilities(
     ids=["boost", "eco"],
 )
 async def test_active_preset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
     preset: str,
@@ -171,7 +171,7 @@ async def test_active_preset(
     ],
 )
 async def test_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
     hvac_mode: HVACMode,
@@ -194,7 +194,7 @@ async def test_set_hvac_mode(
 
 
 async def test_set_hvac_mode_leaves_summer_mode_and_eco(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
 ) -> None:
@@ -216,7 +216,7 @@ async def test_set_hvac_mode_leaves_summer_mode_and_eco(
 
 
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_set_temperature(
 
 
 async def test_set_temperature_while_off_is_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_set_temperature_while_off_is_ignored(
 
 
 async def test_set_temperature_with_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
 ) -> None:
@@ -282,7 +282,7 @@ async def test_set_temperature_with_hvac_mode(
 
 
 async def test_set_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
 ) -> None:
@@ -315,7 +315,7 @@ async def test_set_preset_mode(
     ids=["cancel-boost", "cancel-eco"],
 )
 async def test_cancel_preset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
     device_kwargs: dict,
@@ -340,7 +340,7 @@ async def test_cancel_preset(
 
 @pytest.mark.parametrize("hvac_mode", [HVACMode.COOL, HVACMode.FAN_ONLY])
 async def test_set_temperature_unsupported_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
     hvac_mode: HVACMode,
@@ -367,7 +367,7 @@ async def test_set_temperature_unsupported_hvac_mode(
 
 
 async def test_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
 ) -> None:
@@ -403,7 +403,7 @@ HC_MANUAL = HeatingCircuitService.OperationMode.MANUAL
     ids=["auto", "heating", "manual"],
 )
 async def test_heating_circuit_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
     device_kwargs: dict,
@@ -430,7 +430,7 @@ async def test_heating_circuit_states(
     ids=["default", "raised-minimum", "unreported"],
 )
 async def test_heating_circuit_temperature_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
     temperature_range: tuple[float, float] | None,
@@ -454,7 +454,7 @@ async def test_heating_circuit_temperature_range(
     [(HVACMode.AUTO, HC_AUTOMATIC), (HVACMode.HEAT, HC_MANUAL)],
 )
 async def test_heating_circuit_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
     hvac_mode: HVACMode,
@@ -476,7 +476,7 @@ async def test_heating_circuit_set_hvac_mode(
 
 
 async def test_heating_circuit_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
 ) -> None:
@@ -496,7 +496,7 @@ async def test_heating_circuit_set_temperature(
 
 
 async def test_heating_circuit_set_temperature_with_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
 ) -> None:
@@ -521,7 +521,7 @@ async def test_heating_circuit_set_temperature_with_hvac_mode(
 
 
 async def test_heating_circuit_set_temperature_unsupported_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
 ) -> None:

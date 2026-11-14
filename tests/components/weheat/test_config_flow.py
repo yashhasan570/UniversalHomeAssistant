@@ -18,7 +18,7 @@ from universalassistant.components.weheat.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_SOURCE, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -35,7 +35,7 @@ from .const import (
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_setup_entry,
@@ -73,7 +73,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_duplicate_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_duplicate_unique_id(
     [(USER_UUID_1, "reauth_successful"), (USER_UUID_2, "wrong_account")],
 )
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_user_id: AsyncMock,
@@ -156,7 +156,7 @@ async def test_reauth(
     [ApiException(status=500, reason="Internal Server Error"), None],
 )
 async def test_api_error_during_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     side_effect: Exception | None,
@@ -180,7 +180,7 @@ async def test_api_error_during_create_entry(
 
 
 async def handle_oauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     result: ConfigFlowResult,

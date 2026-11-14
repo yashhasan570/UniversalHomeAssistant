@@ -18,7 +18,7 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -26,7 +26,7 @@ from . import ENTRY_OPTIONS, init_integration
 
 
 async def test_download_switch(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, nzbget_api: MagicMock
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, nzbget_api: MagicMock
 ) -> None:
     """Test the creation and values of the download switch."""
     instance = nzbget_api.return_value
@@ -55,7 +55,7 @@ async def test_download_switch(
 
 
 async def test_download_switch_services(
-    hass: UniversalAssistant, nzbget_api: MagicMock
+    hass: __HAC_KEEP__, nzbget_api: MagicMock
 ) -> None:
     """Test download switch services."""
     instance = nzbget_api.return_value
@@ -82,7 +82,7 @@ async def test_download_switch_services(
 
 
 @pytest.mark.usefixtures("nzbget_api")
-async def test_switch_name_from_entry_title(hass: UniversalAssistant) -> None:
+async def test_switch_name_from_entry_title(hass: __HAC_KEEP__) -> None:
     """Test the switch is named from the entry title when no legacy name is stored."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -56,7 +56,7 @@ rules:
   action-exceptions:
     status: todo
     comment: |
-      Button presses raise `UniversalAssistantError("Action conflicts with
+      Button presses raise `__HAC_KEEP__Error("Action conflicts with
       current printer state")` with a hard-coded English string when
       the printer rejects the action. We don't register custom service
       actions, but button presses are user-triggered actions in spirit
@@ -149,7 +149,7 @@ rules:
   exception-translations:
     status: todo
     comment: |
-      Buttons raise `UniversalAssistantError("Action conflicts with current
+      Buttons raise `__HAC_KEEP__Error("Action conflicts with current
       printer state")` with a hard-coded English string; switch to
       `translation_key`.
   icon-translations: done

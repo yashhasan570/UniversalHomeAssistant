@@ -6,8 +6,8 @@ from typing import Any, override
 from pylitejet import LiteJet, LiteJetError
 
 from universalassistant.components.scene import Scene
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -20,7 +20,7 @@ ATTR_NUMBER = "number"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LiteJetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -81,4 +81,4 @@ class LiteJetScene(Scene):
         try:
             await self._lj.activate_scene(self._index)
         except LiteJetError as exc:
-            raise UniversalAssistantError from exc
+            raise __HAC_KEEP__Error from exc

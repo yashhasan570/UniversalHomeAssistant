@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.discovery import async_load_platform
@@ -67,7 +67,7 @@ class EvoData:
     tcs: ec2.ControlSystem
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Evohome integration."""
 
     # Remove any (persistent) repair issues for deprecations that have been completed

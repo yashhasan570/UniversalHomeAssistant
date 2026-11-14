@@ -15,7 +15,7 @@ from universalassistant.components.somfy_mylink.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -42,7 +42,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_form_user(hass: UniversalAssistant) -> None:
+async def test_form_user(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -82,7 +82,7 @@ async def test_form_user(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_already_configured(hass: UniversalAssistant) -> None:
+async def test_form_user_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we abort if already configured."""
 
     config_entry = MockConfigEntry(
@@ -120,7 +120,7 @@ async def test_form_user_already_configured(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -150,7 +150,7 @@ async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -180,7 +180,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_error(hass: UniversalAssistant) -> None:
+async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test we handle broad exception."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -210,7 +210,7 @@ async def test_form_unknown_error(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_not_loaded(hass: UniversalAssistant) -> None:
+async def test_options_not_loaded(hass: __HAC_KEEP__) -> None:
     """Test options will not display until loaded."""
 
     config_entry = MockConfigEntry(
@@ -229,7 +229,7 @@ async def test_options_not_loaded(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.parametrize("reversed_target", [True, False])
-async def test_options_with_targets(hass: UniversalAssistant, reversed_target: bool) -> None:
+async def test_options_with_targets(hass: __HAC_KEEP__, reversed_target: bool) -> None:
     """Test we can configure reverse for a target."""
 
     config_entry = MockConfigEntry(
@@ -275,7 +275,7 @@ async def test_options_with_targets(hass: UniversalAssistant, reversed_target: b
         await hass.async_block_till_done()
 
 
-async def test_form_user_already_configured_from_dhcp(hass: UniversalAssistant) -> None:
+async def test_form_user_already_configured_from_dhcp(hass: __HAC_KEEP__) -> None:
     """Test we abort if already configured from dhcp."""
 
     config_entry = MockConfigEntry(
@@ -310,7 +310,7 @@ async def test_form_user_already_configured_from_dhcp(hass: UniversalAssistant) 
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_already_configured_with_ignored(hass: UniversalAssistant) -> None:
+async def test_already_configured_with_ignored(hass: __HAC_KEEP__) -> None:
     """Test ignored entries do not break checking for existing entries."""
 
     config_entry = MockConfigEntry(
@@ -330,7 +330,7 @@ async def test_already_configured_with_ignored(hass: UniversalAssistant) -> None
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_dhcp_discovery(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery(hass: __HAC_KEEP__) -> None:
     """Test we can process the discovery from dhcp."""
 
     result = await hass.config_entries.flow.async_init(

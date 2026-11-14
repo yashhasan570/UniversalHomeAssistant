@@ -22,8 +22,8 @@ from universalassistant.components.switch import (
     SwitchService,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import build_mock_node, setup_integration
@@ -37,7 +37,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def test_switch_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_switch_state(
 
 
 async def test_switch_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_switch_turn_on(
 
 
 async def test_switch_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_switch_turn_off(
 
 
 async def test_switch_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_switch_device_class(
 
 
 async def test_switch_no_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_switch_no_name(
 
 
 async def test_switch_device_class_no_outlet(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_switch_device_class_no_outlet(
 
 
 async def test_send_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_send_error(
     mock_homee.set_value.side_effect = ConnectionClosed(
         rcvd=frames.Close(1002, "Protocol Error"), sent=None
     )
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -176,7 +176,7 @@ async def test_send_error(
 
 # Homeegram buttons
 async def test_homeegram_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_homeegram_button_press(
 
 
 async def test_homeegram_turn_off_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_homeegram_turn_off_not_supported(
 
 
 async def test_homeegram_button_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -237,7 +237,7 @@ async def test_homeegram_button_disabled_by_default(
 
 
 async def test_homeegram_connection_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_homeegram_connection_listener(
 
 
 async def test_homeegram_playing_in_homee(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -299,7 +299,7 @@ async def test_homeegram_playing_in_homee(
 
 
 async def test_homeegram_inactive(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_homeegram_inactive(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

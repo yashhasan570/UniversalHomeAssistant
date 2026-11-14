@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util.dt import utcnow
@@ -136,7 +136,7 @@ def _enum_options_from_mapping(mapping: Mapping[int, str | None]) -> list[str]:
 
 
 async def async_setup_entry(
-    _hass: UniversalAssistant,
+    _hass: __HAC_KEEP__,
     entry: NRGkickConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

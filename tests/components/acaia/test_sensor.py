@@ -13,14 +13,14 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import PERCENTAGE, Platform
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_scale: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -34,7 +34,7 @@ async def test_sensors(
 
 
 async def test_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_scale: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_restore_state(
 
 
 async def test_battery_available_within_session_after_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_scale: MagicMock,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,

@@ -19,7 +19,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     AlarmControlPanelState,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -63,7 +63,7 @@ _TUYA_TO_HA_STATE_MAPPINGS = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TuyaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

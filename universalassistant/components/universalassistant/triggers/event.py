@@ -15,8 +15,8 @@ from universalassistant.const import (
     CONF_PLATFORM,  # noqa: F401
     EVENT_STATE_REPORTED,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, HassJob, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, Event, HassJob, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -71,7 +71,7 @@ TRIGGER_SCHEMA = cv.TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_validate_trigger_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate trigger config.
 
@@ -100,7 +100,7 @@ async def async_validate_trigger_config(
 
 @callback
 def _log_composite_device_id_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     device_id: str,
     split_devices: list[dr.DeviceEntry],
@@ -134,7 +134,7 @@ def _schema_value(value: Any) -> Any:
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -149,7 +149,7 @@ async def async_attach_trigger(
         config[EventTriggerArgument.EVENT_TYPE], variables, limited=True
     )
     if EVENT_STATE_REPORTED in event_types:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Can't listen to {EVENT_STATE_REPORTED} in event trigger"
         )
     event_data_schema: probatio.Schema | None = None

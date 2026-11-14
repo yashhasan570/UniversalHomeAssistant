@@ -8,8 +8,8 @@ from typing import cast
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.reload import async_integration_yaml_config
 from universalassistant.helpers.service import async_register_admin_service
@@ -71,7 +71,7 @@ async def _async_handle_homekit_unpair(service: ServiceCall) -> None:
     dev_reg = dr.async_get(hass)
     for device_id in referenced.referenced_devices:
         if not (dev_reg_ent := dev_reg.async_get(device_id)):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_not_found",
                 translation_placeholders={"device_id": device_id},
@@ -90,7 +90,7 @@ async def _async_handle_homekit_unpair(service: ServiceCall) -> None:
             if homekit.driver and dr.format_mac(homekit.driver.state.mac) in macs
         ]
         if not matching_instances:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="accessory_not_found",
                 translation_placeholders={"device_id": device_id},
@@ -115,7 +115,7 @@ async def _handle_homekit_reload(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the HomeKit integration."""
     hass.services.async_register(
         DOMAIN,

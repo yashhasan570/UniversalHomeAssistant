@@ -13,8 +13,8 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AOSmithConfigEntry, AOSmithStatusCoordinator
@@ -43,7 +43,7 @@ DEFAULT_OPERATION_MODE_PRIORITY = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AOSmithConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -134,7 +134,7 @@ class AOSmithWaterHeaterEntity(AOSmithStatusEntity, WaterHeaterEntity):
     async def async_set_operation_mode(self, operation_mode: str) -> None:
         """Set new target operation mode."""
         if operation_mode not in self.operation_list:
-            raise UniversalAssistantError("Operation mode not supported")
+            raise __HAC_KEEP__Error("Operation mode not supported")
 
         aosmith_mode = MODE_HA_TO_AOSMITH.get(operation_mode)
         if aosmith_mode is not None:

@@ -16,7 +16,7 @@ from aioabrp import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -60,7 +60,7 @@ class AbrpGarageCoordinator(DataUpdateCoordinator[list[AbrpVehicle]]):
     config_entry: AbrpConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, entry: AbrpConfigEntry, client: AbrpClient
+        self, hass: __HAC_KEEP__, entry: AbrpConfigEntry, client: AbrpClient
     ) -> None:
         """Initialize the garage coordinator."""
         super().__init__(
@@ -85,7 +85,7 @@ class AbrpTelemetryCoordinator(DataUpdateCoordinator[dict[int, Telemetry]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: AbrpConfigEntry,
     ) -> None:
         """Initialize the telemetry coordinator."""

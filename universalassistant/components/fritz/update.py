@@ -9,7 +9,7 @@ from universalassistant.components.update import (
     UpdateEntityFeature,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LOGGER
@@ -26,7 +26,7 @@ class FritzUpdateEntityDescription(UpdateEntityDescription, FritzEntityDescripti
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FritzConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

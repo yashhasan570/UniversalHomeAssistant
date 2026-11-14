@@ -18,7 +18,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LOGGER
@@ -37,7 +37,7 @@ STANDARD_SUPPORTED_FEATURES = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AmazonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

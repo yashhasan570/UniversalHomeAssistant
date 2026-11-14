@@ -6,7 +6,7 @@ from zoneminder.monitor import Monitor
 from zoneminder.zm import ZoneMinder
 
 from universalassistant.components.mjpeg import MjpegCamera, filter_urllib3_logging
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

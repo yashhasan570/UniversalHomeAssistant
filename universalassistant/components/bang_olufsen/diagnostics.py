@@ -7,7 +7,7 @@ from universalassistant.components.event import DOMAIN as EVENT_DOMAIN
 from universalassistant.components.media_player import DOMAIN as MEDIA_PLAYER_DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CONF_MODEL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import BeoConfigEntry
@@ -16,7 +16,7 @@ from .util import get_device_buttons, get_remote_keys, get_remotes
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: BeoConfigEntry
+    hass: __HAC_KEEP__, config_entry: BeoConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

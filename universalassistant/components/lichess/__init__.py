@@ -1,7 +1,7 @@
 """The Lichess integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import LichessConfigEntry, LichessCoordinator
 
@@ -10,7 +10,7 @@ _PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LichessConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LichessConfigEntry) -> None:
     """Set up Lichess from a config entry."""
 
     coordinator = LichessCoordinator(hass, entry)
@@ -22,6 +22,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LichessConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LichessConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LichessConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

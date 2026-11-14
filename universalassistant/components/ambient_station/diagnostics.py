@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY, CONF_LOCATION, CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import AmbientStationConfigEntry
 from .const import CONF_APP_KEY
@@ -34,7 +34,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: AmbientStationConfigEntry
+    hass: __HAC_KEEP__, entry: AmbientStationConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

@@ -6,7 +6,7 @@ from freezegun.api import FrozenDateTimeFactory
 import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers import storage
 from universalassistant.helpers.registry import SAVE_DELAY, SAVE_DELAY_LONG, BaseRegistry
 
@@ -14,7 +14,7 @@ from universalassistant.helpers.registry import SAVE_DELAY, SAVE_DELAY_LONG, Bas
 class SampleRegistry(BaseRegistry):
     """Class to hold a registry of X."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the registry."""
         self.hass = hass
         self._store = storage.Store(hass, 1, "test")
@@ -39,7 +39,7 @@ class SampleRegistry(BaseRegistry):
     ],
 )
 async def test_async_schedule_save(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     long_delay_state: CoreState,
     hass_storage: dict[str, Any],

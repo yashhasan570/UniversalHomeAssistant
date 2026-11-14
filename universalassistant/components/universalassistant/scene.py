@@ -26,8 +26,8 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall, State, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, State, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, entity_platform
 from universalassistant.helpers.entity_platform import AddEntitiesCallback, EntityPlatform
 from universalassistant.helpers.service import (
@@ -138,14 +138,14 @@ class SceneConfig(NamedTuple):
 
 
 @callback
-def scenes_with_entity(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def scenes_with_entity(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return all scenes that reference the entity."""
     if DATA_PLATFORM not in hass.data:
         return []
 
     platform: EntityPlatform = hass.data[DATA_PLATFORM]
 
-    scene_entities = cast(ValuesView[UniversalAssistantScene], platform.entities.values())
+    scene_entities = cast(ValuesView[__HAC_KEEP__Scene], platform.entities.values())
     return [
         scene_entity.entity_id
         for scene_entity in scene_entities
@@ -154,7 +154,7 @@ def scenes_with_entity(hass: UniversalAssistant, entity_id: str) -> list[str]:
 
 
 @callback
-def entities_in_scene(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def entities_in_scene(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return all entities in a scene."""
     if DATA_PLATFORM not in hass.data:
         return []
@@ -164,16 +164,16 @@ def entities_in_scene(hass: UniversalAssistant, entity_id: str) -> list[str]:
     if (entity := platform.entities.get(entity_id)) is None:
         return []
 
-    return list(cast(UniversalAssistantScene, entity).scene_config.states)
+    return list(cast(__HAC_KEEP__Scene, entity).scene_config.states)
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
-    """Set up Universal Universal Home Assistant scene entries."""
+    """Set up __HA_KEEP__ scene entries."""
     _process_scenes_config(hass, async_add_entities, config)
 
     # This platform can be loaded multiple times. Only first time register the service.
@@ -187,8 +187,8 @@ async def async_setup_platform(
         """Reload the scene config."""
         try:
             config = await conf_util.async_hass_config_yaml(hass)
-        except (UniversalAssistantError, FileNotFoundError) as err:
-            raise UniversalAssistantError(
+        except (__HAC_KEEP__Error, FileNotFoundError) as err:
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="scene_config_reload_failed",
                 translation_placeholders={"error": str(err)},
@@ -205,7 +205,7 @@ async def async_setup_platform(
 
         await platform.async_reset()
 
-        # Extract only the config for the Universal Universal Home Assistant platform, ignore the rest.
+        # Extract only the config for the __HA_KEEP__ platform, ignore the rest.
         for p_type, p_config in conf_util.config_per_platform(conf, SCENE_DOMAIN):
             if p_type != DOMAIN:
                 continue
@@ -272,11 +272,11 @@ async def async_setup_platform(
         )
         entity_id = f"{SCENE_DOMAIN}.{scene_config.name}"
         if (old := platform.entities.get(entity_id)) is not None:
-            if not isinstance(old, UniversalAssistantScene) or not old.from_service:
+            if not isinstance(old, __HAC_KEEP__Scene) or not old.from_service:
                 _LOGGER.warning("The scene %s already exists", entity_id)
                 return
             await platform.async_remove_entity(entity_id)
-        async_add_entities([UniversalAssistantScene(hass, scene_config, from_service=True)])
+        async_add_entities([__HAC_KEEP__Scene(hass, scene_config, from_service=True)])
 
     # pylint: disable-next=universal-assistant-action-registered-outside-services-module
     hass.services.async_register(
@@ -297,7 +297,7 @@ async def async_setup_platform(
                         "entity_id": entity_id,
                     },
                 )
-            assert isinstance(scene, UniversalAssistantScene)
+            assert isinstance(scene, __HAC_KEEP__Scene)
             if not scene.from_service:
                 raise ServiceValidationError(
                     translation_domain=SCENE_DOMAIN,
@@ -319,7 +319,7 @@ async def async_setup_platform(
 
 
 def _process_scenes_config(
-    hass: UniversalAssistant, async_add_entities: AddEntitiesCallback, config: dict[str, Any]
+    hass: __HAC_KEEP__, async_add_entities: AddEntitiesCallback, config: dict[str, Any]
 ) -> None:
     """Process multiple scenes and add them."""
     # Check empty list
@@ -328,7 +328,7 @@ def _process_scenes_config(
         return
 
     async_add_entities(
-        UniversalAssistantScene(
+        __HAC_KEEP__Scene(
             hass,
             SceneConfig(
                 scene.get(CONF_ID),
@@ -341,11 +341,11 @@ def _process_scenes_config(
     )
 
 
-class UniversalAssistantScene(Scene):
+class __HAC_KEEP__Scene(Scene):
     """A scene is a group of entities and the states we want them to be."""
 
     def __init__(
-        self, hass: UniversalAssistant, scene_config: SceneConfig, from_service: bool = False
+        self, hass: __HAC_KEEP__, scene_config: SceneConfig, from_service: bool = False
     ) -> None:
         """Initialize the scene."""
         self.hass = hass

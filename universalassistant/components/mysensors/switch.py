@@ -4,7 +4,7 @@ from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -15,7 +15,7 @@ from .models import MySensorsConfigEntry
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MySensorsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import override
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -14,7 +14,7 @@ from .entity import CertExpiryEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CertExpiryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

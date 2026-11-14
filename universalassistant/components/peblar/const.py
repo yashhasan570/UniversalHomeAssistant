@@ -71,7 +71,7 @@ PEBLAR_CP_STATE_TO_UNIVERSAL_ASSISTANT = {
     CPState.FAULT: "fault",
     CPState.INVALID: "invalid",
     CPState.NO_EV_CONNECTED: "no_ev_connected",
-    # The charger cannot measure the CP signal, which is Universal Universal Home Assistant's
+    # The charger cannot measure the CP signal, which is __HA_KEEP__'s
     # own unknown state rather than a state of its own.
     CPState.UNKNOWN: None,
 }

@@ -3,11 +3,11 @@
 from pysabnzbd import SabnzbdApi, SabnzbdApiException
 
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.core import _LOGGER, UniversalAssistant
+from universalassistant.core import _LOGGER, __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 
-async def get_client(hass: UniversalAssistant, data):
+async def get_client(hass: __HAC_KEEP__, data):
     """Get Sabnzbd client."""
     api_key = data[CONF_API_KEY]
     url = data[CONF_URL]

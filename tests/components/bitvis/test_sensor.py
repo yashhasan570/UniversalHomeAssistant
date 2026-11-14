@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.bitvis.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 
@@ -79,7 +79,7 @@ def diagnostic_payload() -> PayloadDiagnostic:
 
 @pytest.mark.freeze_time("2026-01-01 12:00:00")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -101,7 +101,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities_added_when_fields_become_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     patch_shared_listener: FakeListener,
@@ -148,7 +148,7 @@ async def test_entities_added_when_fields_become_available(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors_become_available_with_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     patch_shared_listener: FakeListener,
@@ -176,7 +176,7 @@ async def test_sensors_become_available_with_data(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_diagnostic_sensors_update_with_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     patch_shared_listener: FakeListener,
 ) -> None:
@@ -214,7 +214,7 @@ async def test_diagnostic_sensors_update_with_data(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_device_info_updated_from_diagnostic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     patch_shared_listener: FakeListener,
@@ -249,7 +249,7 @@ async def test_device_info_updated_from_diagnostic(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_device_info_kept_when_absent_in_later_payload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     sample_payload: PayloadSample,

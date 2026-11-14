@@ -15,8 +15,8 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import color as color_util
 
@@ -85,7 +85,7 @@ def _get_entities_for_appliance(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HomeConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -151,7 +151,7 @@ class HomeConnectLight(HomeConnectEntity, LightEntity):
                 value=True,
             )
         except HomeConnectError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_on_light",
                 translation_placeholders={
@@ -170,7 +170,7 @@ class HomeConnectLight(HomeConnectEntity, LightEntity):
                         value=self._enable_custom_color_value_key,
                     )
                 except HomeConnectError as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="select_light_custom_color",
                         translation_placeholders={
@@ -188,7 +188,7 @@ class HomeConnectLight(HomeConnectEntity, LightEntity):
                         value=f"#{hex_val}",
                     )
                 except HomeConnectError as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="set_light_color",
                         translation_placeholders={
@@ -220,7 +220,7 @@ class HomeConnectLight(HomeConnectEntity, LightEntity):
                         value=f"#{hex_val}",
                     )
                 except HomeConnectError as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="set_light_color",
                         translation_placeholders={
@@ -243,7 +243,7 @@ class HomeConnectLight(HomeConnectEntity, LightEntity):
                     value=brightness,
                 )
             except HomeConnectError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="set_light_brightness",
                     translation_placeholders={
@@ -262,7 +262,7 @@ class HomeConnectLight(HomeConnectEntity, LightEntity):
                 value=False,
             )
         except HomeConnectError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_off_light",
                 translation_placeholders={

@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
 )
 from universalassistant.const import CONF_NAME, UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -77,7 +77,7 @@ PLATFORM_SCHEMA = probatio.All(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -106,7 +106,7 @@ class MVGLiveSensor(SensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         station_name,
         destinations,
         lines,
@@ -192,7 +192,7 @@ class MVGLiveData:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         station_name,
         destinations,
         lines,

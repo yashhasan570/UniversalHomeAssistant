@@ -47,7 +47,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .utils import (
@@ -80,7 +80,7 @@ SENSE_TAMPERING = next(d for d in SENSE_SENSORS if d.key == "tampering")
 
 
 async def test_binary_sensor_camera_remove(
-    hass: UniversalAssistant, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, doorbell: Camera, unadopted_camera: Camera
 ) -> None:
     """Test removing and re-adding a camera device."""
 
@@ -94,7 +94,7 @@ async def test_binary_sensor_camera_remove(
 
 
 async def test_binary_sensor_light_remove(
-    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Test removing and re-adding a light device."""
 
@@ -108,7 +108,7 @@ async def test_binary_sensor_light_remove(
 
 
 async def test_binary_sensor_sensor_remove(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """Test removing and re-adding a light device."""
 
@@ -122,7 +122,7 @@ async def test_binary_sensor_sensor_remove(
 
 
 async def test_binary_sensor_adopt_adds_only_the_adopted_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
     light: Light,
@@ -141,7 +141,7 @@ async def test_binary_sensor_adopt_adds_only_the_adopted_device(
 
 
 async def test_binary_sensor_setup_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -168,7 +168,7 @@ async def test_binary_sensor_setup_light(
 
 
 async def test_binary_sensor_setup_camera_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -227,7 +227,7 @@ async def test_binary_sensor_setup_camera_all(
 
 
 async def test_binary_sensor_setup_camera_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -255,7 +255,7 @@ async def test_binary_sensor_setup_camera_none(
 
 
 async def test_binary_sensor_setup_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -288,7 +288,7 @@ async def test_binary_sensor_setup_sensor(
 
 
 async def test_binary_sensor_setup_sensor_leak(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor: Sensor,
@@ -328,7 +328,7 @@ async def test_binary_sensor_setup_sensor_leak(
 
 
 async def test_binary_sensor_battery_low_public_ws_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
 ) -> None:
@@ -349,7 +349,7 @@ async def test_binary_sensor_battery_low_public_ws_update(
 
 
 async def test_binary_sensor_battery_low_unavailable_without_public_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
 ) -> None:
@@ -363,7 +363,7 @@ async def test_binary_sensor_battery_low_unavailable_without_public_api(
 
 
 async def test_binary_sensor_sense_motion_public_value(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """The sense motion sensor reads is_motion_detected from a public WS update."""
     setup_public_sensor(ufp)
@@ -382,7 +382,7 @@ async def test_binary_sensor_sense_motion_public_value(
 
 
 async def test_binary_sensor_sense_motion_disabled_unavailable(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """ufp_public_enabled_fn marks the motion sensor unavailable when disabled."""
     setup_public_sensor(ufp)
@@ -401,7 +401,7 @@ async def test_binary_sensor_sense_motion_disabled_unavailable(
 
 
 async def test_binary_sensor_sense_motion_leak_mount_unavailable(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """A leak-mounted sensor reports motion unavailable (mirrors the private gate)."""
     setup_public_sensor(ufp)
@@ -419,7 +419,7 @@ async def test_binary_sensor_sense_motion_leak_mount_unavailable(
 
 
 async def test_binary_sensor_sense_motion_unavailable_without_public(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """The migrated motion sensor is unavailable without a public object."""
     await init_entry(hass, ufp, [sensor_all])
@@ -431,7 +431,7 @@ async def test_binary_sensor_sense_motion_unavailable_without_public(
 
 
 async def test_binary_sensor_sense_door_public_value(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """The contact sensor reads is_opened from a public WS update."""
     setup_public_sensor(ufp)
@@ -450,7 +450,7 @@ async def test_binary_sensor_sense_door_public_value(
 
 
 async def test_binary_sensor_sense_door_unmounted_unavailable(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """A sensor without a contact mount reports the contact sensor unavailable."""
     setup_public_sensor(ufp)
@@ -469,7 +469,7 @@ async def test_binary_sensor_sense_door_unmounted_unavailable(
 
 
 async def test_binary_sensor_sense_door_device_class_follows_public_mount(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """The contact sensor derives its device class from the public mount type."""
     setup_public_sensor(ufp)
@@ -490,7 +490,7 @@ async def test_binary_sensor_sense_door_device_class_follows_public_mount(
 
 
 async def test_binary_sensor_sense_leak_public_value(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """The leak sensor reads is_leak_detected from a public WS update."""
     setup_public_sensor(ufp)
@@ -550,7 +550,7 @@ async def test_binary_sensor_sense_leak_public_value(
     ],
 )
 async def test_binary_sensor_sense_leak_enablement_gate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
     mount_type: MountType,
@@ -581,7 +581,7 @@ async def test_binary_sensor_sense_leak_enablement_gate(
 
 
 async def test_binary_sensor_sense_capability_creation_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -607,7 +607,7 @@ async def test_binary_sensor_sense_capability_creation_filter(
 
 
 async def test_binary_sensor_sense_capability_registry_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -629,7 +629,7 @@ async def test_binary_sensor_sense_capability_registry_cleanup(
 
 
 async def test_binary_sensor_sense_no_capability_map_creates_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -648,7 +648,7 @@ async def test_binary_sensor_sense_no_capability_map_creates_none(
 
 
 async def test_binary_sensor_sense_tampering_public_value(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """The tampering sensor reads is_tampering_detected from a public WS update."""
     setup_public_sensor(ufp)
@@ -675,7 +675,7 @@ async def test_binary_sensor_sense_tampering_public_value(
     ],
 )
 async def test_binary_sensor_sense_unavailable_without_public(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
     description: ProtectBinaryEntityDescription,
@@ -690,7 +690,7 @@ async def test_binary_sensor_sense_unavailable_without_public(
 
 
 async def test_binary_sensor_battery_low_unavailable_on_public_ws_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
 ) -> None:
@@ -711,7 +711,7 @@ async def test_binary_sensor_battery_low_unavailable_on_public_ws_disconnect(
 
 
 async def test_binary_sensor_update_motion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -747,7 +747,7 @@ async def test_binary_sensor_update_motion(
 
 
 async def test_binary_sensor_detection_unavailable_on_events_ws_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -785,7 +785,7 @@ async def test_binary_sensor_detection_unavailable_on_events_ws_disconnect(
 
 
 async def test_binary_sensor_update_light_motion(
-    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
 ) -> None:
     """Test the light motion binary_sensor reads PIR motion from the public API."""
 
@@ -806,7 +806,7 @@ async def test_binary_sensor_update_light_motion(
 
 
 async def test_binary_sensor_light_unavailable_without_public(
-    hass: UniversalAssistant, ufp: MockUFPFixture, light: Light
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, light: Light
 ) -> None:
     """The migrated light binary_sensors are unavailable without a public object."""
 
@@ -820,7 +820,7 @@ async def test_binary_sensor_light_unavailable_without_public(
 
 
 async def test_binary_sensor_update_mount_type_window(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """Test binary_sensor motion entity."""
 
@@ -852,7 +852,7 @@ async def test_binary_sensor_update_mount_type_window(
 
 
 async def test_binary_sensor_update_mount_type_garage(
-    hass: UniversalAssistant, ufp: MockUFPFixture, sensor_all: Sensor
+    hass: __HAC_KEEP__, ufp: MockUFPFixture, sensor_all: Sensor
 ) -> None:
     """Test binary_sensor motion entity."""
 
@@ -887,7 +887,7 @@ async def test_binary_sensor_update_mount_type_garage(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_person_detected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -935,7 +935,7 @@ async def test_binary_sensor_person_detected(
     ],
 )
 async def test_binary_sensor_detection_disabled_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -963,7 +963,7 @@ async def test_binary_sensor_detection_disabled_unavailable(
 
 
 async def test_binary_sensor_doorbell_ring(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
@@ -1010,14 +1010,14 @@ async def test_binary_sensor_doorbell_ring(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_simultaneous_person_and_vehicle_detection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,
 ) -> None:
     """Person and vehicle detected at once both report ON.
 
-    Regression for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/152133 (a second
+    Regression for https://github.com/yashhasan570/__HAC_KEEP__/issues/152133 (a second
     type added to an ongoing detection): on the public path each type's sustained
     state is derived independently by the library, so adding person to an ongoing
     vehicle detection turns both ON without queueing.
@@ -1076,7 +1076,7 @@ async def test_binary_sensor_simultaneous_person_and_vehicle_detection(
 
 
 async def test_public_only_binary_sensors_end_to_end(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -1163,7 +1163,7 @@ async def test_public_only_binary_sensors_end_to_end(
     ],
 )
 async def test_public_only_binary_sensor_added_after_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request: pytest.FixtureRequest,
     entity_registry: er.EntityRegistry,
     ufp_public_only: MockUFPFixture,
@@ -1205,7 +1205,7 @@ async def test_public_only_binary_sensor_added_after_setup(
 
 
 async def test_public_only_binary_sensor_sense_registry_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     sensor_all: Sensor,
     ufp_public_only: MockUFPFixture,
@@ -1231,7 +1231,7 @@ async def test_public_only_binary_sensor_sense_registry_cleanup(
 
 
 async def test_object_detected_needs_advertised_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -1286,7 +1286,7 @@ def _set_private_mirrors_on(camera: Camera) -> None:
 
 @pytest.mark.parametrize("key", _CAMERA_BINARY_MIRRORS)
 async def test_binary_sensor_camera_mirror_reads_public(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -1315,7 +1315,7 @@ async def test_binary_sensor_camera_mirror_reads_public(
 
 
 async def test_binary_sensor_camera_hdr_mirror_on_for_auto(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,

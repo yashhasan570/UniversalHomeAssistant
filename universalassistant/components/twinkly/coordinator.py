@@ -11,7 +11,7 @@ from awesomeversion import AwesomeVersion
 from ttls.client import Twinkly, TwinklyError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -43,7 +43,7 @@ class TwinklyCoordinator(DataUpdateCoordinator[TwinklyData]):
     device_name: str
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: TwinklyConfigEntry, client: Twinkly
+        self, hass: __HAC_KEEP__, config_entry: TwinklyConfigEntry, client: Twinkly
     ) -> None:
         """Initialize global Twinkly data updater."""
         super().__init__(

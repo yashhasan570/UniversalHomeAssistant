@@ -57,7 +57,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.helpers.device_registry import (
     CONNECTION_NETWORK_MAC,
@@ -84,7 +84,7 @@ FIRMWARE_UNSUPPORTED_ID = FIRMWARE_UNSUPPORTED_ISSUE_ID.format(unique=MOCK_MAC)
 
 
 async def test_custom_coap_port(
-    hass: UniversalAssistant, mock_block_device: Mock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_block_device: Mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test custom coap port."""
     assert await async_setup_component(
@@ -99,7 +99,7 @@ async def test_custom_coap_port(
 
 
 async def test_ip_address_with_only_default_interface(
-    hass: UniversalAssistant, mock_block_device: Mock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_block_device: Mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test more local ip addresses with only the default interface.."""
     with (
@@ -128,7 +128,7 @@ async def test_ip_address_with_only_default_interface(
 
 
 async def test_ip_address_without_only_default_interface(
-    hass: UniversalAssistant, mock_block_device: Mock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_block_device: Mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test more local ip addresses without only the default interface.."""
     with (
@@ -157,7 +157,7 @@ async def test_ip_address_without_only_default_interface(
 
 @pytest.mark.parametrize("gen", [1, 2, 3])
 async def test_shared_device_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     gen: int,
     mock_block_device: Mock,
     mock_rpc_device: Mock,
@@ -181,7 +181,7 @@ async def test_shared_device_mac(
     assert other_device is not None
 
 
-async def test_setup_entry_not_shelly(hass: UniversalAssistant) -> None:
+async def test_setup_entry_not_shelly(hass: __HAC_KEEP__) -> None:
     """Test not Shelly entry."""
     entry = await init_integration(hass, 1, data={})
     assert entry.state is ConfigEntryState.SETUP_ERROR
@@ -193,7 +193,7 @@ async def test_setup_entry_not_shelly(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("gen", [1, 2, 3])
 async def test_device_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     gen: int,
     mock_block_device: Mock,
     mock_rpc_device: Mock,
@@ -213,7 +213,7 @@ async def test_device_connection_error(
 
 @pytest.mark.parametrize("gen", [1, 2, 3])
 async def test_device_unsupported_firmware(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     gen: int,
     mock_block_device: Mock,
     mock_rpc_device: Mock,
@@ -246,7 +246,7 @@ async def test_device_unsupported_firmware(
 
 
 async def test_block_device_unsupported_firmware_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -286,7 +286,7 @@ async def test_block_device_unsupported_firmware_updated(
 
 
 async def test_rpc_device_unsupported_firmware_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -335,7 +335,7 @@ async def test_rpc_device_unsupported_firmware_updated(
 
 @pytest.mark.parametrize("gen", [1, 2, 3])
 async def test_mac_mismatch_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     gen: int,
     mock_block_device: Mock,
     mock_rpc_device: Mock,
@@ -355,7 +355,7 @@ async def test_mac_mismatch_error(
 
 @pytest.mark.parametrize("gen", [1, 2, 3])
 async def test_device_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     gen: int,
     mock_block_device: Mock,
     mock_rpc_device: Mock,
@@ -386,7 +386,7 @@ async def test_device_auth_error(
 
 @pytest.mark.parametrize(("entry_sleep", "device_sleep"), [(None, 0), (3600, 3600)])
 async def test_sleeping_block_device_online(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_sleep: int | None,
     device_sleep: int,
     mock_block_device: Mock,
@@ -425,7 +425,7 @@ async def test_sleeping_block_device_online(
 
 @pytest.mark.parametrize(("entry_sleep", "device_sleep"), [(None, 0), (1000, 1000)])
 async def test_sleeping_rpc_device_online(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_sleep: int | None,
     device_sleep: int,
     mock_rpc_device: Mock,
@@ -446,7 +446,7 @@ async def test_sleeping_rpc_device_online(
 
 
 async def test_sleeping_rpc_device_online_new_firmware(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -465,7 +465,7 @@ async def test_sleeping_rpc_device_online_new_firmware(
 
 
 async def test_sleeping_rpc_device_online_during_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sleepy_rpc_device: Mock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -480,7 +480,7 @@ async def test_sleeping_rpc_device_online_during_setup(
 
 
 async def test_sleeping_rpc_device_offline_during_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -516,7 +516,7 @@ async def test_sleeping_rpc_device_offline_during_setup(
     ],
 )
 async def test_entry_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     gen: int,
     entity_id: str,
     mock_block_device: Mock,
@@ -548,7 +548,7 @@ async def test_entry_unload(
     ],
 )
 async def test_entry_unload_device_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     gen: int,
     entity_id: str,
     mock_block_device: Mock,
@@ -567,7 +567,7 @@ async def test_entry_unload_device_not_ready(
 
 
 async def test_entry_unload_not_connected(
-    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test entry unload when not connected."""
     monkeypatch.delitem(mock_rpc_device.status, "cover:0")
@@ -597,7 +597,7 @@ async def test_entry_unload_not_connected(
 
 
 async def test_entry_unload_not_connected_but_we_think_we_are(
-    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test entry unload when not connected but we think we are still connected."""
     monkeypatch.delitem(mock_rpc_device.status, "cover:0")
@@ -628,7 +628,7 @@ async def test_entry_unload_not_connected_but_we_think_we_are(
 
 
 async def test_no_attempt_to_stop_scanner_with_sleepy_devices(
-    hass: UniversalAssistant, mock_rpc_device: Mock
+    hass: __HAC_KEEP__, mock_rpc_device: Mock
 ) -> None:
     """Test we do not try to stop the scanner if its disabled with a sleepy device."""
     with patch(
@@ -643,7 +643,7 @@ async def test_no_attempt_to_stop_scanner_with_sleepy_devices(
         assert not mock_stop_scanner.call_count
 
 
-async def test_entry_missing_gen(hass: UniversalAssistant, mock_block_device: Mock) -> None:
+async def test_entry_missing_gen(hass: __HAC_KEEP__, mock_block_device: Mock) -> None:
     """Test successful Gen1 device init when gen is missing in entry data."""
     entry = await init_integration(hass, None)
 
@@ -654,7 +654,7 @@ async def test_entry_missing_gen(hass: UniversalAssistant, mock_block_device: Mo
     assert state.state == STATE_ON
 
 
-async def test_entry_missing_port(hass: UniversalAssistant) -> None:
+async def test_entry_missing_port(hass: __HAC_KEEP__) -> None:
     """Test successful Gen2 device init when port is missing in entry data."""
     data = {
         CONF_HOST: "192.168.1.37",
@@ -680,7 +680,7 @@ async def test_entry_missing_port(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_rpc_entry_custom_port(hass: UniversalAssistant) -> None:
+async def test_rpc_entry_custom_port(hass: __HAC_KEEP__) -> None:
     """Test successful Gen2 device init using custom port."""
     data = {
         CONF_HOST: "192.168.1.37",
@@ -707,7 +707,7 @@ async def test_rpc_entry_custom_port(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_rpc_entry_https_verify_ssl_disabled(hass: UniversalAssistant) -> None:
+async def test_rpc_entry_https_verify_ssl_disabled(hass: __HAC_KEEP__) -> None:
     """Test Gen2 HTTPS setup passes verify_ssl=False to ConnectionOptions."""
     data = {
         CONF_HOST: "192.168.1.37",
@@ -737,7 +737,7 @@ async def test_rpc_entry_https_verify_ssl_disabled(hass: UniversalAssistant) -> 
 
 @pytest.mark.parametrize(("model"), MODELS_WITH_WRONG_SLEEP_PERIOD)
 async def test_sleeping_block_device_wrong_sleep_period(
-    hass: UniversalAssistant, mock_block_device: Mock, model: str
+    hass: __HAC_KEEP__, mock_block_device: Mock, model: str
 ) -> None:
     """Test sleeping block device with wrong sleep period."""
     entry = await init_integration(
@@ -750,7 +750,7 @@ async def test_sleeping_block_device_wrong_sleep_period(
 
 
 async def test_bluetooth_cleanup_on_remove_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
 ) -> None:
     """Test bluetooth is cleaned up on entry removal."""
@@ -771,7 +771,7 @@ async def test_bluetooth_cleanup_on_remove_entry(
 
 
 async def test_device_script_getcode_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -786,7 +786,7 @@ async def test_device_script_getcode_error(
 
 @pytest.mark.parametrize("method", ["ledstrip_list_effects", "ledstrip_list_palettes"])
 async def test_device_ledstrip_list_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ledstrip_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     method: str,
@@ -801,7 +801,7 @@ async def test_device_ledstrip_list_error(
 
 
 async def test_ble_scanner_unsupported_firmware_fixed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     issue_registry: ir.IssueRegistry,
@@ -835,7 +835,7 @@ async def test_ble_scanner_unsupported_firmware_fixed(
     ids=["active_to_auto", "passive_kept", "disabled_kept", "no_option"],
 )
 async def test_migrate_ble_scanner_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     starting_options: dict[str, Any],
     expected_mode: BLEScannerMode | None,
@@ -863,7 +863,7 @@ async def test_migrate_ble_scanner_mode(
 
 
 async def test_migrate_ble_scanner_mode_future_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
 ) -> None:
     """Future versions are not downgraded."""
@@ -892,7 +892,7 @@ async def test_migrate_ble_scanner_mode_future_version(
 
 
 async def test_migrate_ble_scanner_mode_future_minor_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
 ) -> None:
     """Future minor versions are not downgraded."""
@@ -922,7 +922,7 @@ async def test_migrate_ble_scanner_mode_future_minor_version(
 
 @pytest.mark.parametrize("model", [MODEL_BLU_GATEWAY_G3, MODEL_PLUS_2PM])
 async def test_blu_trv_stale_device_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blu_trv: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -977,7 +977,7 @@ async def test_blu_trv_stale_device_removal(
 )
 @pytest.mark.usefixtures("mock_rpc_device")
 async def test_empty_device_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     register_func: Callable[[DeviceRegistry, ConfigEntry, str], AnyDeviceEntry],
 ) -> None:
@@ -1003,7 +1003,7 @@ async def test_empty_device_removal(
 
 
 async def test_sub_device_kept_on_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -1035,7 +1035,7 @@ async def test_sub_device_kept_on_reload(
 
 
 async def test_legacy_sub_device_converted_to_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -1078,7 +1078,7 @@ async def test_legacy_sub_device_converted_to_child_device(
 
 
 async def test_rpc_waits_for_ble_scanner_at_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
 ) -> None:
     """Test setup waits for the bluetooth scanner to be registered."""
@@ -1119,7 +1119,7 @@ async def test_rpc_waits_for_ble_scanner_at_startup(
 
 
 async def test_rpc_ble_scanner_startup_wait_times_out(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
 ) -> None:
     """Test setup finishes if the bluetooth scanner never registers."""
@@ -1152,7 +1152,7 @@ async def test_rpc_ble_scanner_startup_wait_times_out(
 
 
 async def test_rpc_setup_device_reconnecting_before_platforms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1185,7 +1185,7 @@ async def test_rpc_setup_device_reconnecting_before_platforms(
 
 
 async def test_rpc_disabled_ble_scanner_does_not_wait_at_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
 ) -> None:
     """Test setup does not wait when the BLE scanner is disabled."""

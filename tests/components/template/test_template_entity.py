@@ -10,13 +10,13 @@ from pytest_universalassistant.common import async_capture_events, async_fire_ti
 
 from universalassistant.components.template import template_entity
 from universalassistant.components.template.entity import AbstractTemplateEntity
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er, template
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
 
 
-async def test_template_entity_requires_hass_set(hass: UniversalAssistant) -> None:
+async def test_template_entity_requires_hass_set(hass: __HAC_KEEP__) -> None:
     """Test template entity requires hass to be set before accepting templates."""
     entity = template_entity.TemplateEntity(hass, {}, "something_unique")
 
@@ -29,7 +29,7 @@ async def test_template_entity_requires_hass_set(hass: UniversalAssistant) -> No
     assert len(entity._template_attrs.get(tpl_with_hass, [])) == 1
 
 
-async def test_default_entity_id(hass: UniversalAssistant) -> None:
+async def test_default_entity_id(hass: __HAC_KEEP__) -> None:
     """Test template entity creates suggested entity_id from the default_entity_id."""
 
     class TemplateTest(template_entity.TemplateEntity):
@@ -39,7 +39,7 @@ async def test_default_entity_id(hass: UniversalAssistant) -> None:
     assert entity.entity_id == "test.test"
 
 
-async def test_bad_default_entity_id(hass: UniversalAssistant) -> None:
+async def test_bad_default_entity_id(hass: __HAC_KEEP__) -> None:
     """Test template entity creates suggested entity_id from the default_entity_id."""
 
     class TemplateTest(template_entity.TemplateEntity):
@@ -59,7 +59,7 @@ async def test_bad_default_entity_id(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_this_variable_after_entity_id_change(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, config: ConfigType
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, config: ConfigType
 ) -> None:
     """Test the this variable refers to the entity after its entity_id changed."""
     assert await async_setup_component(
@@ -107,7 +107,7 @@ async def test_this_variable_after_entity_id_change(
 
 
 async def test_this_state_after_entity_id_change(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a template keeping its last value via this.state survives a rename."""
     hass.states.async_set("sensor.source", "5")
@@ -152,7 +152,7 @@ async def test_this_state_after_entity_id_change(
 
 
 async def test_running_action_after_entity_id_change(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a running action continues and its this follows an entity_id change."""
     running = asyncio.Event()
@@ -213,7 +213,7 @@ async def test_running_action_after_entity_id_change(
     ],
 )
 async def test_self_referencing_template_after_external_updates(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, runs: list[list[int]]
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, runs: list[list[int]]
 ) -> None:
     """Test external state writes do not count towards template loop detection."""
     assert await async_setup_component(
@@ -268,7 +268,7 @@ async def test_self_referencing_template_after_external_updates(
 
 
 async def test_self_referencing_rate_limited_loop_with_unlimited_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

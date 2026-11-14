@@ -16,7 +16,7 @@ from universalassistant.components.dropbox.const import (
     OAUTH2_SCOPES,
     OAUTH2_TOKEN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -25,7 +25,7 @@ from .conftest import ACCOUNT_EMAIL, ACCOUNT_ID, CLIENT_ID
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_dropbox_client,
@@ -86,7 +86,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry,
@@ -153,7 +153,7 @@ async def test_already_configured(
     ids=["missing_refresh_token", "missing_scope"],
 )
 async def test_reauth_confirm_step(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry,
     token: dict[str, object],
     expected_step: str,
@@ -201,7 +201,7 @@ async def test_reauth_confirm_step(
     ids=["success", "wrong_account"],
 )
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry,
@@ -281,7 +281,7 @@ async def test_reauth_flow(
     ids=["success", "wrong_account"],
 )
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,

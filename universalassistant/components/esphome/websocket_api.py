@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import CONF_NOISE_PSK, DOMAIN
@@ -37,7 +37,7 @@ _UNAVAILABLE_CAPABILITIES: dict[str, Any] = {
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the websocket API."""
     websocket_api.async_register_command(hass, get_encryption_key)
     websocket_api.async_register_command(hass, get_device_capabilities)
@@ -55,7 +55,7 @@ def async_setup(hass: UniversalAssistant) -> None:
     }
 )
 def get_encryption_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -84,7 +84,7 @@ def get_encryption_key(
     }
 )
 def get_device_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -142,7 +142,7 @@ def get_device_capabilities(
     }
 )
 def get_device_wizard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -183,7 +183,7 @@ def get_device_wizard(
 
 @callback
 def _async_get_main_device_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> ESPHomeConfigEntry | None:
@@ -240,7 +240,7 @@ def _wizard_entity_id(
     )
 
 
-def _zwave_js_config_entry_id(hass: UniversalAssistant, home_id: int) -> str | None:
+def _zwave_js_config_entry_id(hass: __HAC_KEEP__, home_id: int) -> str | None:
     """Return the entry ID of the zwave_js entry whose unique ID is this home ID."""
     if not home_id:
         return None
@@ -264,7 +264,7 @@ def _zwave_js_config_entry_id(hass: UniversalAssistant, home_id: int) -> str | N
 )
 @callback
 def subscribe_sendspin_clients(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -293,7 +293,7 @@ def subscribe_sendspin_clients(
 )
 @websocket_api.async_response
 async def get_sendspin_pairing_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

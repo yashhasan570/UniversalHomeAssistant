@@ -12,12 +12,12 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def _setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Set up the energieleser integration."""
@@ -30,7 +30,7 @@ async def _setup_integration(
     "entity_registry_enabled_by_default", "mock_energieleser_client"
 )
 async def test_stromleser_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_stromleser_config_entry: MockConfigEntry,
@@ -44,7 +44,7 @@ async def test_stromleser_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_gasleser_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_energieleser_client: AsyncMock,
@@ -61,7 +61,7 @@ async def test_gasleser_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_gasleser_pulse_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_energieleser_client: AsyncMock,
@@ -78,7 +78,7 @@ async def test_gasleser_pulse_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_waermeleser_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_energieleser_client: AsyncMock,
@@ -95,7 +95,7 @@ async def test_waermeleser_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_wasserleser_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_energieleser_client: AsyncMock,

@@ -19,7 +19,7 @@ from universalassistant.components.freshr.coordinator import (
     DEVICES_SCAN_INTERVAL,
     READINGS_SCAN_INTERVAL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import DEVICE_ID, MOCK_DEVICE_CURRENT
@@ -27,7 +27,7 @@ from .conftest import DEVICE_ID, MOCK_DEVICE_CURRENT
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -49,7 +49,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_none_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_freshr_client: MagicMock,
@@ -76,7 +76,7 @@ async def test_sensor_none_values(
     [ApiResponseError("api error"), ClientError("network error")],
 )
 async def test_readings_connection_error_makes_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_freshr_client: MagicMock,
     freezer: FrozenDateTimeFactory,
     error: Exception,
@@ -97,7 +97,7 @@ DEVICE_ID_2 = "SN002"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_device_reappears_after_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_freshr_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -141,7 +141,7 @@ async def test_device_reappears_after_removal(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_dynamic_device_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_freshr_client: MagicMock,
     device_registry: dr.DeviceRegistry,

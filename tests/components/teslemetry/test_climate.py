@@ -32,8 +32,8 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
@@ -56,7 +56,7 @@ VIN = "LRW3F7EK4NC700000"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_legacy: AsyncMock,
@@ -215,7 +215,7 @@ async def test_climate(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_legacy")
 async def test_cop_set_temperature_fahrenheit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     temperature: int,
     cop_temp: CabinOverheatProtectionTemp,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_cop_set_temperature_fahrenheit(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_alt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -253,7 +253,7 @@ async def test_climate_alt(
 
 
 async def test_climate_state_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_metadata: AsyncMock,
     mock_vehicle_data: AsyncMock,
 ) -> None:
@@ -283,7 +283,7 @@ async def test_climate_state_unknown(
     ],
 )
 async def test_climate_polling_keeper_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_metadata: AsyncMock,
     mock_vehicle_data: AsyncMock,
     keeper_mode: str | None,
@@ -307,7 +307,7 @@ async def test_climate_polling_keeper_mode(
     )
 
 
-async def test_invalid_error(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_invalid_error(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Tests service error is handled."""
 
     await setup_platform(hass, platforms=[Platform.CLIMATE])
@@ -318,7 +318,7 @@ async def test_invalid_error(hass: UniversalAssistant, snapshot: SnapshotAsserti
             "tesla_fleet_api.teslemetry.Vehicle.auto_conditioning_start",
             side_effect=InvalidCommand,
         ) as mock_on,
-        pytest.raises(UniversalAssistantError) as error,
+        pytest.raises(__HAC_KEEP__Error) as error,
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -331,7 +331,7 @@ async def test_invalid_error(hass: UniversalAssistant, snapshot: SnapshotAsserti
 
 
 @pytest.mark.parametrize("response", COMMAND_ERRORS)
-async def test_errors(hass: UniversalAssistant, response: str) -> None:
+async def test_errors(hass: __HAC_KEEP__, response: str) -> None:
     """Tests service reason is handled."""
 
     await setup_platform(hass, platforms=[Platform.CLIMATE])
@@ -342,7 +342,7 @@ async def test_errors(hass: UniversalAssistant, response: str) -> None:
             "tesla_fleet_api.teslemetry.Vehicle.auto_conditioning_start",
             return_value=response,
         ) as mock_on,
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -354,7 +354,7 @@ async def test_errors(hass: UniversalAssistant, response: str) -> None:
 
 
 async def test_ignored_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Tests ignored error is handled."""
 
@@ -374,7 +374,7 @@ async def test_ignored_error(
 
 
 async def test_climate_noscope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_metadata: AsyncMock,
@@ -400,7 +400,7 @@ async def test_climate_noscope(
             blocking=True,
         )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -411,7 +411,7 @@ async def test_climate_noscope(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_select_streaming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -636,7 +636,7 @@ STORED_COP = {
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_streaming_restore_temperature_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_metadata: AsyncMock,
     entity_id: str,
     units: UnitSystem,
@@ -692,7 +692,7 @@ async def test_streaming_restore_temperature_unit(
     ],
 )
 async def test_cabin_overheat_protection_streaming_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_metadata: AsyncMock,
     config: dict[str, bool],
     supported_features: ClimateEntityFeature,
@@ -711,7 +711,7 @@ async def test_cabin_overheat_protection_streaming_features(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cabin_overheat_protection_streaming_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_metadata: AsyncMock,
 ) -> None:
     """Test setting the streaming cabin overheat protection temperature."""
@@ -747,7 +747,7 @@ async def test_cabin_overheat_protection_streaming_set_temperature(
     ],
 )
 async def test_climate_streaming_drive_side(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_metadata: AsyncMock,
     mock_add_listener: AsyncMock,
     rhd: bool,
@@ -789,7 +789,7 @@ async def test_climate_streaming_drive_side(
     ],
 )
 async def test_climate_streaming_hvac_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_listener: AsyncMock,
     hvac_power: str,
     expected: HVACMode,

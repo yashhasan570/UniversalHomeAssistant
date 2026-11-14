@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components import climate
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_HEATER_STATUS, MOCK_HEATER_STATUS_HEATING
@@ -30,7 +30,7 @@ from .conftest import MOCK_HEATER_STATUS, MOCK_HEATER_STATUS_HEATING
     ids=["modern", "legacy"],
 )
 async def test_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -55,7 +55,7 @@ async def test_setup_platform(
     ids=["idle", "heating"],
 )
 async def test_hvac_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     mock_config_entry: ConfigEntry,
     hvac_action: climate.HVACAction,
@@ -68,7 +68,7 @@ async def test_hvac_state(
 
 
 async def test_target_temp(
-    hass: UniversalAssistant, mock_incomfort: MagicMock, mock_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, mock_incomfort: MagicMock, mock_config_entry: ConfigEntry
 ) -> None:
     """Test changing the target temperature."""
     await hass.config_entries.async_setup(mock_config_entry.entry_id)

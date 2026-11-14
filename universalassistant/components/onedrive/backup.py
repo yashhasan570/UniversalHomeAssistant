@@ -24,7 +24,7 @@ from universalassistant.components.backup import (
     OnProgressCallback,
     suggested_filename,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.json import json_dumps
 from universalassistant.util.async_ import gather_with_limited_concurrency
@@ -42,7 +42,7 @@ METADATA_DOWNLOAD_CONCURRENCY = 10
 
 
 async def async_get_backup_agents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> list[BackupAgent]:
     """Return a list of backup agents."""
     entries: list[OneDriveConfigEntry] = hass.config_entries.async_loaded_entries(
@@ -53,7 +53,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -123,7 +123,7 @@ class OneDriveBackupAgent(BackupAgent):
 
     domain = DOMAIN
 
-    def __init__(self, hass: UniversalAssistant, entry: OneDriveConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: OneDriveConfigEntry) -> None:
         """Initialize the OneDrive backup agent."""
         super().__init__()
         self._hass = hass

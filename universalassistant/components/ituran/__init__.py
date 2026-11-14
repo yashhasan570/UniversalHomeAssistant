@@ -1,7 +1,7 @@
 """The Ituran integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import IturanConfigEntry, IturanDataUpdateCoordinator
 
@@ -12,7 +12,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IturanConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IturanConfigEntry) -> None:
     """Set up Ituran from a config entry."""
 
     coordinator = IturanDataUpdateCoordinator(hass, entry=entry)
@@ -21,6 +21,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IturanConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IturanConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IturanConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

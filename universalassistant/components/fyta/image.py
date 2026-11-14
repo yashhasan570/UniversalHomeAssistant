@@ -13,7 +13,7 @@ from universalassistant.components.image import (
     ImageEntityDescription,
     valid_image_content_type,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -46,7 +46,7 @@ IMAGES: Final[list[FytaImageEntityDescription]] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FytaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

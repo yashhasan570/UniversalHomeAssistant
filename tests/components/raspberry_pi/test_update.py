@@ -17,8 +17,8 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.hassio import DOMAIN as HASSIO_DOMAIN, HassioNotReadyError
 from universalassistant.components.raspberry_pi.const import DOMAIN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import PLATFORM_NOT_READY_BASE_WAIT_TIME
 from universalassistant.setup import async_setup_component
 
@@ -35,7 +35,7 @@ def mock_rpi_power() -> Generator[None]:
         yield
 
 
-async def _setup_rpi(hass: UniversalAssistant, board: str) -> None:
+async def _setup_rpi(hass: __HAC_KEEP__, board: str) -> None:
     """Set up the raspberry_pi config entry on a given board."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -58,7 +58,7 @@ async def _setup_rpi(hass: UniversalAssistant, board: str) -> None:
 
 
 async def test_rpi_firmware_update_entity(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """The firmware update entity is created on its own RPi board device."""
     supervisor_client.os.raspberry_pi_firmware_info.return_value = (
@@ -85,7 +85,7 @@ async def test_rpi_firmware_update_entity(
 
 
 async def test_rpi_firmware_entity_absent_on_older_supervisor(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """No entity when the Supervisor doesn't expose the endpoint (404)."""
     supervisor_client.os.raspberry_pi_firmware_info.side_effect = (
@@ -97,7 +97,7 @@ async def test_rpi_firmware_entity_absent_on_older_supervisor(
 
 
 async def test_rpi_firmware_entity_absent_on_unsupported_board(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """No entity (or firmware probe) on boards without an EEPROM bootloader."""
     await _setup_rpi(hass, "rpi3-64")
@@ -107,7 +107,7 @@ async def test_rpi_firmware_entity_absent_on_unsupported_board(
 
 
 async def test_rpi_firmware_entity_absent_when_update_blocked(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """No entity when the update is blocked on this boot device."""
     supervisor_client.os.raspberry_pi_firmware_info.return_value = (
@@ -126,7 +126,7 @@ async def test_rpi_firmware_entity_absent_when_update_blocked(
 
 
 async def test_rpi_firmware_platform_retries_when_os_info_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -178,7 +178,7 @@ async def test_rpi_firmware_platform_retries_when_os_info_unavailable(
 
 
 async def test_rpi_firmware_install_success(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Installing reports the new version as installed once it is applied."""
     supervisor_client.os.raspberry_pi_firmware_info.return_value = (
@@ -225,9 +225,9 @@ async def test_rpi_firmware_install_success(
 
 
 async def test_rpi_firmware_install_failure(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
-    """A failed update is surfaced to the user as a UniversalAssistantError."""
+    """A failed update is surfaced to the user as a __HAC_KEEP__Error."""
     supervisor_client.os.raspberry_pi_firmware_info.return_value = (
         RaspberryPiFirmwareInfo(
             current_version="1765222194",
@@ -244,7 +244,7 @@ async def test_rpi_firmware_install_failure(
         "boom"
     )
     with pytest.raises(
-        UniversalAssistantError, match="Error updating Raspberry Pi firmware"
+        __HAC_KEEP__Error, match="Error updating Raspberry Pi firmware"
     ):
         await hass.services.async_call(
             "update",
@@ -259,7 +259,7 @@ async def test_rpi_firmware_install_failure(
 
 
 async def test_rpi_firmware_install_refresh_failure_keeps_previous_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

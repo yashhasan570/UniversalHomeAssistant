@@ -9,7 +9,7 @@ from typing import Any, Protocol
 import probatio
 
 from universalassistant.const import CONF_OPTIONS, CONF_TARGET
-from universalassistant.core import CALLBACK_TYPE, Context, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Context, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util.hass_dict import HassKey
@@ -110,11 +110,11 @@ class TriggerAction(Protocol):
 class Trigger(abc.ABC):
     """Trigger class."""
 
-    _hass: UniversalAssistant
+    _hass: __HAC_KEEP__
 
     @classmethod
     async def async_validate_complete_config(
-        cls, hass: UniversalAssistant, complete_config: ConfigType
+        cls, hass: __HAC_KEEP__, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config.
 
@@ -140,11 +140,11 @@ class Trigger(abc.ABC):
     @classmethod
     @abc.abstractmethod
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize trigger."""
         self._hass = hass
 

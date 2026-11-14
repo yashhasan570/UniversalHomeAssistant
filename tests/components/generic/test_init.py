@@ -20,11 +20,11 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     HTTP_BASIC_AUTHENTICATION,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("fakeimg_png")
-async def test_unload_entry(hass: UniversalAssistant, setup_entry: MockConfigEntry) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__, setup_entry: MockConfigEntry) -> None:
     """Test unloading the generic IP Camera entry."""
     assert setup_entry.state is ConfigEntryState.LOADED
 
@@ -34,7 +34,7 @@ async def test_unload_entry(hass: UniversalAssistant, setup_entry: MockConfigEnt
 
 
 async def test_reload_on_title_change(
-    hass: UniversalAssistant, setup_entry: MockConfigEntry
+    hass: __HAC_KEEP__, setup_entry: MockConfigEntry
 ) -> None:
     """Test the integration gets reloaded when the title is updated."""
     assert setup_entry.state is ConfigEntryState.LOADED
@@ -54,7 +54,7 @@ async def test_reload_on_title_change(
 
 
 @pytest.mark.usefixtures("fakeimg_png")
-async def test_migration_to_version_2(hass: UniversalAssistant) -> None:
+async def test_migration_to_version_2(hass: __HAC_KEEP__) -> None:
     """Test the File sensor with JSON entries."""
     entry = MockConfigEntry(
         domain=DOMAIN,

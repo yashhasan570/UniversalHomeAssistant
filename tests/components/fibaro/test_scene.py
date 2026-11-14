@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import init_integration
 
 
 async def test_entity_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -35,7 +35,7 @@ async def test_entity_attributes(
 
 
 async def test_entity_attributes_without_room(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_entity_attributes_without_room(
 
 
 async def test_activate_scene(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_scene: Mock,

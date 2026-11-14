@@ -50,7 +50,7 @@ from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     CoreState,
     Event,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
 from universalassistant.helpers import issue_registry as ir
@@ -114,7 +114,7 @@ def _uniq_entry() -> MockConfigEntry:
 
 
 async def _set_up(
-    hass: UniversalAssistant, fake_input: FakeInput, entry: MockConfigEntry
+    hass: __HAC_KEEP__, fake_input: FakeInput, entry: MockConfigEntry
 ) -> None:
     entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(entry.entry_id)
@@ -148,7 +148,7 @@ def _connected(descriptor: str, name: str = FAKE_DEVICE_NAME) -> dict[str, str]:
     ],
 )
 async def test_yaml_import_creates_entry_and_deprecation_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     issue_registry: ir.IssueRegistry,
     existing: list[MockConfigEntry],
@@ -175,7 +175,7 @@ async def test_yaml_import_creates_entry_and_deprecation_issue(
 
 
 async def test_async_setup_no_yaml_config(
-    hass: UniversalAssistant, fake_input: FakeInput, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, fake_input: FakeInput, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test setup without YAML configuration imports nothing."""
     fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
@@ -188,7 +188,7 @@ async def test_async_setup_no_yaml_config(
 
 
 async def test_async_setup_imports_each_normalized_block(
-    hass: UniversalAssistant, fake_input: FakeInput
+    hass: __HAC_KEEP__, fake_input: FakeInput
 ) -> None:
     """Test each YAML block is imported with coerced values and defaults."""
     fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
@@ -233,7 +233,7 @@ async def test_async_setup_imports_each_normalized_block(
 
 
 async def test_async_setup_accepts_values_the_import_fits(
-    hass: UniversalAssistant, fake_input: FakeInput
+    hass: __HAC_KEEP__, fake_input: FakeInput
 ) -> None:
     """Test YAML with unknown keys or odd numbers still imports.
 
@@ -285,7 +285,7 @@ async def test_async_setup_accepts_values_the_import_fits(
     ],
 )
 async def test_async_setup_rejects_invalid_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     device_block: dict[str, str],
 ) -> None:
@@ -319,7 +319,7 @@ async def test_async_setup_rejects_invalid_yaml(
     ],
 )
 async def test_setup_retries_when_devices_cannot_be_watched(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     inotify_error: OSError | None,
@@ -352,7 +352,7 @@ async def test_setup_retries_when_devices_cannot_be_watched(
 
 
 async def test_by_id_watch_failure_at_setup_is_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -379,11 +379,11 @@ async def test_by_id_watch_failure_at_setup_is_retried(
 
 
 async def test_devices_connect_once_universal_assistant_started(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test devices are only grabbed once Universal Universal Home Assistant has started."""
+    """Test devices are only grabbed once __HA_KEEP__ has started."""
     hass.set_state(CoreState.not_running)
     kbd = fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
     await _set_up(hass, fake_input, mock_config_entry)
@@ -398,11 +398,11 @@ async def test_devices_connect_once_universal_assistant_started(
 
 
 async def test_unload_before_start_closes_watcher(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test an entry unloaded before Universal Universal Home Assistant started closes the watcher.
+    """Test an entry unloaded before __HA_KEEP__ started closes the watcher.
 
     The watcher opens at setup, but devices are only scanned once Home
     Assistant is running.
@@ -483,7 +483,7 @@ async def test_unload_before_start_closes_watcher(
     ],
 )
 async def test_startup_connects_matching_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     entry: MockConfigEntry,
     devices: list[tuple[str, str, str | None]],
@@ -510,7 +510,7 @@ async def test_startup_connects_matching_device(
 
 
 async def test_bluetooth_remote_matched_by_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test an entry with a uniq connects only the remote with that address.
@@ -572,7 +572,7 @@ async def test_bluetooth_remote_matched_by_address(
     ],
 )
 async def test_events_report_the_pre_migration_descriptor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     entry: MockConfigEntry,
     expected_descriptor: str,
@@ -595,7 +595,7 @@ async def test_events_report_the_pre_migration_descriptor(
 
 
 async def test_plugged_device_connects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a device without a by-id link connects when plugged in."""
@@ -616,7 +616,7 @@ async def test_plugged_device_connects(
     ],
 )
 async def test_plugged_device_connects_through_late_link(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     other_links: dict[str, str],
@@ -641,7 +641,7 @@ async def test_plugged_device_connects_through_late_link(
 
 
 async def test_by_id_watch_failure_still_connects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -677,7 +677,7 @@ async def test_by_id_watch_failure_still_connects(
 
 
 async def test_unload_releases_devices_after_the_watcher_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -702,7 +702,7 @@ async def test_unload_releases_devices_after_the_watcher_failed(
 
 
 async def test_watcher_survives_an_event_it_cannot_handle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -738,7 +738,7 @@ async def test_watcher_survives_an_event_it_cannot_handle(
     ],
 )
 async def test_by_id_link_without_matching_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     target: str,
@@ -764,7 +764,7 @@ async def test_by_id_link_without_matching_device(
 
 
 async def test_unrelated_device_is_not_grabbed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a plugged device that no entry identifies is released again."""
@@ -777,7 +777,7 @@ async def test_unrelated_device_is_not_grabbed(
 
 
 async def test_unplug_and_replug(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -805,7 +805,7 @@ async def test_unplug_and_replug(
 
 
 async def test_second_node_does_not_replace_connected_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a same-named node is left alone while the entry has a device.
@@ -829,7 +829,7 @@ async def test_second_node_does_not_replace_connected_device(
 
 
 async def test_entry_added_later_connects_present_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -844,7 +844,7 @@ async def test_entry_added_later_connects_present_device(
 
 
 async def test_entry_added_later_leaves_claimed_node_alone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -875,7 +875,7 @@ async def test_entry_added_later_leaves_claimed_node_alone(
     ],
 )
 async def test_key_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     key_types: list[str],
     expected: list[tuple[int, str]],
@@ -904,13 +904,13 @@ async def test_key_events(
     } == {(FAKE_DEVICE_PATH, FAKE_DEVICE_NAME)}
 
 
-async def _advance(hass: UniversalAssistant, seconds: float) -> None:
+async def _advance(hass: __HAC_KEEP__, seconds: float) -> None:
     async_fire_time_changed(hass, dt_util.utcnow() + timedelta(seconds=seconds))
     await hass.async_block_till_done()
 
 
 async def test_key_hold_emulation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a held key repeats key_hold after the delay until it is released."""
@@ -942,7 +942,7 @@ async def test_key_hold_emulation(
 
 
 async def test_unplug_stops_key_hold(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a key held while the device is unplugged stops repeating."""
@@ -965,7 +965,7 @@ async def test_unplug_stops_key_hold(
 
 
 async def test_unexpected_read_error_releases_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -1007,7 +1007,7 @@ async def test_unexpected_read_error_releases_device(
     ],
 )
 async def test_exclusive_option_decides_the_grab(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     caplog: pytest.LogCaptureFixture,
     options: dict[str, bool],
@@ -1056,7 +1056,7 @@ async def test_exclusive_option_decides_the_grab(
     ],
 )
 async def test_migration_adds_the_exclusive_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     stored_options: dict[str, bool],
     expected_exclusive: bool,
@@ -1089,7 +1089,7 @@ async def test_migration_adds_the_exclusive_option(
 
 
 async def test_grab_failure_warns_and_releases(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -1107,14 +1107,14 @@ async def test_grab_failure_warns_and_releases(
 
 
 async def _stop_universal_assistant(
-    hass: UniversalAssistant, fake_input: FakeInput, entry: MockConfigEntry
+    hass: __HAC_KEEP__, fake_input: FakeInput, entry: MockConfigEntry
 ) -> None:
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
     await fake_input.settle(wait_for_executor=False)
 
 
 async def _unload(
-    hass: UniversalAssistant, fake_input: FakeInput, entry: MockConfigEntry
+    hass: __HAC_KEEP__, fake_input: FakeInput, entry: MockConfigEntry
 ) -> None:
     await hass.config_entries.async_unload(entry.entry_id)
 
@@ -1127,14 +1127,14 @@ async def _unload(
     ],
 )
 async def test_stop_releases_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
-    stop: Callable[[UniversalAssistant, FakeInput, MockConfigEntry], Awaitable[None]],
+    stop: Callable[[__HAC_KEEP__, FakeInput, MockConfigEntry], Awaitable[None]],
 ) -> None:
     """Test devices are ungrabbed and the watcher closed when stopping.
 
-    Config entries are not unloaded when Universal Universal Home Assistant stops, so stopping
+    Config entries are not unloaded when __HA_KEEP__ stops, so stopping
     has to release the devices itself.
     """
     kbd = fake_input.add(FAKE_DEVICE_REAL_PATH, FAKE_DEVICE_NAME, link=FAKE_DEVICE_PATH)
@@ -1176,7 +1176,7 @@ def _fail_ungrab(fake_input: FakeInput, kbd: MagicMock) -> None:
     ],
 )
 async def test_unload_releases_devices_despite_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     fail: Callable[[FakeInput, MagicMock], None],
@@ -1194,7 +1194,7 @@ async def test_unload_releases_devices_despite_errors(
 
 
 async def test_unload_one_entry_keeps_the_other_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1217,7 +1217,7 @@ async def test_unload_one_entry_keeps_the_other_device(
 
 
 async def test_entry_set_up_during_last_unload_gets_new_manager(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1249,7 +1249,7 @@ async def test_entry_set_up_during_last_unload_gets_new_manager(
     remote.grab.assert_called_once()
 
 
-def _next_event(hass: UniversalAssistant, event_type: str) -> asyncio.Future[Any]:
+def _next_event(hass: __HAC_KEEP__, event_type: str) -> asyncio.Future[Any]:
     """Return a future resolved by the next event of this type."""
     future: asyncio.Future[Any] = hass.loop.create_future()
 
@@ -1261,12 +1261,12 @@ def _next_event(hass: UniversalAssistant, event_type: str) -> asyncio.Future[Any
     return future
 
 
-async def _wait_in_executor(hass: UniversalAssistant, event: threading.Event) -> None:
+async def _wait_in_executor(hass: __HAC_KEEP__, event: threading.Event) -> None:
     assert await hass.async_add_executor_job(event.wait, 5)
 
 
 async def test_read_failure_during_unplug_teardown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1300,7 +1300,7 @@ async def test_read_failure_during_unplug_teardown(
 
 
 async def test_device_found_during_teardown_stays_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1352,7 +1352,7 @@ async def test_device_found_during_teardown_stays_connected(
 
 
 async def test_entry_registered_during_startup_scan_connects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1381,17 +1381,17 @@ async def test_entry_registered_during_startup_scan_connects(
 @pytest.mark.parametrize(
     "stop",
     [
-        # Entries stay registered when Universal Universal Home Assistant stops, so only the
+        # Entries stay registered when __HA_KEEP__ stops, so only the
         # manager stopping keeps the check from claiming the device
         pytest.param(_stop_universal_assistant, id="universal_assistant_stop"),
         pytest.param(_unload, id="entry_unloaded"),
     ],
 )
 async def test_device_check_finishing_after_stop_grabs_nothing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
-    stop: Callable[[UniversalAssistant, FakeInput, MockConfigEntry], Awaitable[None]],
+    stop: Callable[[__HAC_KEEP__, FakeInput, MockConfigEntry], Awaitable[None]],
 ) -> None:
     """Test a device check still scanning when its entry stops grabs nothing.
 
@@ -1415,7 +1415,7 @@ async def test_device_check_finishing_after_stop_grabs_nothing(
 
 
 async def test_key_down_without_emulation_does_not_repeat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a held key fires no key_hold events unless emulation is enabled."""
@@ -1437,7 +1437,7 @@ async def test_key_down_without_emulation_does_not_repeat(
 
 
 async def test_repeated_key_down_keeps_one_repeat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a second key_down for a held key replaces its repeat.
@@ -1466,7 +1466,7 @@ async def test_repeated_key_down_keeps_one_repeat(
 
 
 async def test_unload_while_key_held_stops_repeating(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test unloading while a key is held stops its key_hold events."""
@@ -1490,7 +1490,7 @@ async def test_unload_while_key_held_stops_repeating(
 
 
 async def test_reload_one_of_two_entries_reconnects_its_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1511,7 +1511,7 @@ async def test_reload_one_of_two_entries_reconnects_its_device(
 
 
 async def test_grab_failure_is_retried_on_the_next_node_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1529,7 +1529,7 @@ async def test_grab_failure_is_retried_on_the_next_node_event(
 
 
 async def test_device_connects_once_its_permissions_are_set(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a node that cannot be opened when created connects on its ATTRIB.
@@ -1551,7 +1551,7 @@ async def test_device_connects_once_its_permissions_are_set(
     [pytest.param(1, id="path_entry_first"), pytest.param(-1, id="name_first")],
 )
 async def test_path_entry_wins_over_name_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     order: int,
 ) -> None:
@@ -1589,7 +1589,7 @@ async def test_path_entry_wins_over_name_entry(
 
 
 async def test_link_leaves_node_with_the_entry_matching_it_better(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a link event does not move a node to a free, weaker entry.
@@ -1617,7 +1617,7 @@ async def test_link_leaves_node_with_the_entry_matching_it_better(
 
 
 async def test_link_to_held_node_keeps_holder_when_path_entry_busy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a link does not take a node for a path entry that has one already.
@@ -1650,7 +1650,7 @@ async def test_link_to_held_node_keeps_holder_when_path_entry_busy(
 
 
 async def test_same_named_nodes_connect_the_first_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1671,13 +1671,13 @@ async def test_same_named_nodes_connect_the_first_node(
 
 
 async def _keep_running(
-    hass: UniversalAssistant, fake_input: FakeInput, entry: MockConfigEntry
+    hass: __HAC_KEEP__, fake_input: FakeInput, entry: MockConfigEntry
 ) -> None:
     pass
 
 
 async def _reconnect_remote(
-    hass: UniversalAssistant, fake_input: FakeInput, entry: MockConfigEntry
+    hass: __HAC_KEEP__, fake_input: FakeInput, entry: MockConfigEntry
 ) -> None:
     for path in (REMOTE_PATH, REMOTE_PATH_2):
         await fake_input.unplug(path)
@@ -1686,7 +1686,7 @@ async def _reconnect_remote(
 
 
 async def _reload(
-    hass: UniversalAssistant, fake_input: FakeInput, entry: MockConfigEntry
+    hass: __HAC_KEEP__, fake_input: FakeInput, entry: MockConfigEntry
 ) -> None:
     assert await hass.config_entries.async_reload(entry.entry_id)
     await fake_input.settle()
@@ -1701,9 +1701,9 @@ async def _reload(
     ],
 )
 async def test_name_entry_beside_busy_uniq_entry_gets_a_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
-    action: Callable[[UniversalAssistant, FakeInput, MockConfigEntry], Awaitable[None]],
+    action: Callable[[__HAC_KEEP__, FakeInput, MockConfigEntry], Awaitable[None]],
 ) -> None:
     """Test a name entry gets the node an entry matching it better leaves free.
 
@@ -1728,7 +1728,7 @@ async def test_name_entry_beside_busy_uniq_entry_gets_a_node(
 
 
 async def test_path_entry_added_later_takes_node_from_name_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test an entry added for a node a name entry holds gets that node.
@@ -1759,7 +1759,7 @@ async def test_path_entry_added_later_takes_node_from_name_entry(
 
 
 async def test_uniq_entry_added_later_takes_remote_from_name_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test an entry matching a remote by uniq takes it from a name entry."""
@@ -1780,7 +1780,7 @@ async def test_uniq_entry_added_later_takes_remote_from_name_entry(
 
 
 async def test_waiting_entries_each_get_a_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test entries waiting together each get one of the nodes found.
@@ -1800,7 +1800,7 @@ async def test_waiting_entries_each_get_a_node(
 
 
 async def test_node_released_by_unload_goes_to_waiting_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a node an unloaded entry releases goes to an entry waiting for it."""
@@ -1817,7 +1817,7 @@ async def test_node_released_by_unload_goes_to_waiting_entry(
 
 
 async def test_node_event_during_assignment_leaves_no_node_unclaimed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
 ) -> None:
     """Test a node event taking an entry an assignment is about to place.
@@ -1844,7 +1844,7 @@ async def test_node_event_during_assignment_leaves_no_node_unclaimed(
 
 
 async def test_assignment_during_node_event_leaves_no_node_unclaimed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1871,7 +1871,7 @@ async def test_assignment_during_node_event_leaves_no_node_unclaimed(
 
 
 async def test_overflow_rewatches_by_id_directory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1896,7 +1896,7 @@ async def test_overflow_rewatches_by_id_directory(
 
 
 async def test_by_id_watch_failing_after_overflow_is_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -1916,7 +1916,7 @@ async def test_by_id_watch_failing_after_overflow_is_retried(
 
 
 async def test_devices_added_during_queue_overflow_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -1935,7 +1935,7 @@ async def test_devices_added_during_queue_overflow_connect(
 
 
 async def test_link_added_while_unwatched_connects_on_next_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1966,11 +1966,11 @@ async def test_link_added_while_unwatched_connects_on_next_event(
 
 
 async def test_unload_removes_the_stop_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test unloading the last entry removes its Universal Universal Home Assistant stop listener."""
+    """Test unloading the last entry removes its __HA_KEEP__ stop listener."""
     before = hass.bus.async_listeners().get(EVENT_HOMEASSISTANT_STOP, 0)
     await _set_up(hass, fake_input, mock_config_entry)
 
@@ -1981,7 +1981,7 @@ async def test_unload_removes_the_stop_listener(
 
 
 async def test_listing_error_does_not_stop_monitoring(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -2002,7 +2002,7 @@ async def test_listing_error_does_not_stop_monitoring(
 
 
 async def test_event_without_a_node_is_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -2022,7 +2022,7 @@ async def test_event_without_a_node_is_ignored(
 
 
 async def test_unload_during_unplug_teardown_releases_the_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fake_input: FakeInput,
     mock_config_entry: MockConfigEntry,
 ) -> None:

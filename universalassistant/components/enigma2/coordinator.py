@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.device_registry import (
     CONNECTION_NETWORK_MAC,
@@ -42,7 +42,7 @@ class Enigma2UpdateCoordinator(DataUpdateCoordinator[OpenWebIfStatus]):
     device: OpenWebIfDevice
     unique_id: str | None
 
-    def __init__(self, hass: UniversalAssistant, config_entry: Enigma2ConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: Enigma2ConfigEntry) -> None:
         """Initialize the Enigma2 data update coordinator."""
 
         super().__init__(

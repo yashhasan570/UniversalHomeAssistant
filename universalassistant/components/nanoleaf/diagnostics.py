@@ -4,13 +4,13 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import NanoleafConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: NanoleafConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

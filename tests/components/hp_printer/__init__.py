@@ -3,10 +3,10 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Set up the HP Printer integration for testing."""
     config_entry.add_to_hass(hass)
 

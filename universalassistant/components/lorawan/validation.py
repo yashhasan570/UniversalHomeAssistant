@@ -9,22 +9,22 @@ from lorawan_connection import (
     DeviceCollection,
 )
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .connection import DATA_REGISTRY
 
 
-class NoConnectionsError(UniversalAssistantError):
+class NoConnectionsError(__HAC_KEEP__Error):
     """No LoRaWAN connection is available to check for devices."""
 
 
-class NoSupportedDevicesError(UniversalAssistantError):
+class NoSupportedDevicesError(__HAC_KEEP__Error):
     """The available LoRaWAN connections contain no supported devices."""
 
 
 async def async_validate_devices[DeviceT: Device](
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     create_collection: Callable[[Connection], DeviceCollection[DeviceT]],
     is_supported: Callable[[DeviceT], bool] | None = None,

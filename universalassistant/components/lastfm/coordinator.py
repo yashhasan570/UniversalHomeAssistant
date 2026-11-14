@@ -8,7 +8,7 @@ from pylast import LastFMNetwork, PyLastError, Track, WSError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONF_USERS, DOMAIN, ERROR_CODE_LOGIN_REQUIRED, LOGGER
@@ -40,7 +40,7 @@ class LastFMDataUpdateCoordinator(DataUpdateCoordinator[dict[str, LastFMUserData
     config_entry: LastFMConfigEntry
     _client: LastFMNetwork
 
-    def __init__(self, hass: UniversalAssistant, config_entry: LastFMConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: LastFMConfigEntry) -> None:
         """Initialize the LastFM data coordinator."""
         super().__init__(
             hass,

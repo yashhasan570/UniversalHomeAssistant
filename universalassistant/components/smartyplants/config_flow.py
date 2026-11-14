@@ -94,7 +94,7 @@ class SmartyPlantsConfigFlow(ConfigFlow, domain=DOMAIN):
         """Show the push URL and collect the signing secret.
 
         The backend's webhook endpoints are user-authenticated rather than
-        API-key authenticated, so Universal Universal Home Assistant cannot register itself. The
+        API-key authenticated, so __HA_KEEP__ cannot register itself. The
         user pastes this URL into the SmartyPlants app, which hands back the
         secret they enter here.
         """

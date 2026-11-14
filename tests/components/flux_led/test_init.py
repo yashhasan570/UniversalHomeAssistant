@@ -22,7 +22,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
@@ -42,7 +42,7 @@ from . import (
 
 
 @pytest.mark.usefixtures("mock_single_broadcast_address")
-async def test_configuring_flux_led_causes_discovery(hass: UniversalAssistant) -> None:
+async def test_configuring_flux_led_causes_discovery(hass: __HAC_KEEP__) -> None:
     """Test that specifying empty config does discovery."""
     with (
         patch(
@@ -65,7 +65,7 @@ async def test_configuring_flux_led_causes_discovery(hass: UniversalAssistant) -
 
 @pytest.mark.usefixtures("mock_multiple_broadcast_addresses")
 async def test_configuring_flux_led_causes_discovery_multiple_addresses(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that specifying empty config does discovery."""
     with (
@@ -86,7 +86,7 @@ async def test_configuring_flux_led_causes_discovery_multiple_addresses(
         assert len(scan.mock_calls) == 4
 
 
-async def test_config_entry_reload(hass: UniversalAssistant) -> None:
+async def test_config_entry_reload(hass: __HAC_KEEP__) -> None:
     """Test that a config entry can be reloaded."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS}, unique_id=MAC_ADDRESS
@@ -101,7 +101,7 @@ async def test_config_entry_reload(hass: UniversalAssistant) -> None:
         assert config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_config_entry_retry(hass: UniversalAssistant) -> None:
+async def test_config_entry_retry(hass: __HAC_KEEP__) -> None:
     """Test that a config entry can be retried."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS}, unique_id=MAC_ADDRESS
@@ -113,7 +113,7 @@ async def test_config_entry_retry(hass: UniversalAssistant) -> None:
         assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_config_entry_retry_right_away_on_discovery(hass: UniversalAssistant) -> None:
+async def test_config_entry_retry_right_away_on_discovery(hass: __HAC_KEEP__) -> None:
     """Test discovery makes the config entry reload if its in a retry state."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS}, unique_id=MAC_ADDRESS
@@ -135,7 +135,7 @@ async def test_config_entry_retry_right_away_on_discovery(hass: UniversalAssista
 
 
 async def test_coordinator_retry_right_away_on_discovery_already_setup(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test discovery makes the coordinator force poll if its already setup."""
     config_entry = MockConfigEntry(
@@ -184,7 +184,7 @@ async def test_coordinator_retry_right_away_on_discovery_already_setup(
     ],
 )
 async def test_config_entry_fills_unique_id_with_directed_discovery(
-    hass: UniversalAssistant, discovery: dict[str, str], title: str
+    hass: __HAC_KEEP__, discovery: dict[str, str], title: str
 ) -> None:
     """Test unique id is added if missing via directed discovery."""
     config_entry = MockConfigEntry(
@@ -222,7 +222,7 @@ async def test_config_entry_fills_unique_id_with_directed_discovery(
     assert config_entry.title == title
 
 
-async def test_time_sync_startup_and_next_day(hass: UniversalAssistant) -> None:
+async def test_time_sync_startup_and_next_day(hass: __HAC_KEEP__) -> None:
     """Test that time is synced on startup and next day."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS}, unique_id=MAC_ADDRESS
@@ -243,7 +243,7 @@ async def test_time_sync_startup_and_next_day(hass: UniversalAssistant) -> None:
 
 
 async def test_unique_id_migrate_when_mac_discovered(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique id migrated when mac discovered."""
     config_entry = MockConfigEntry(
@@ -287,7 +287,7 @@ async def test_unique_id_migrate_when_mac_discovered(
 
 
 async def test_unique_id_migrate_when_mac_discovered_via_discovery(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique id migrated when mac discovered via discovery.
 
@@ -337,7 +337,7 @@ async def test_unique_id_migrate_when_mac_discovered_via_discovery(
         )
 
 
-async def test_name_removed_when_it_matches_entry_title(hass: UniversalAssistant) -> None:
+async def test_name_removed_when_it_matches_entry_title(hass: __HAC_KEEP__) -> None:
     """Test name is removed when it matches the entry title."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -357,7 +357,7 @@ async def test_name_removed_when_it_matches_entry_title(hass: UniversalAssistant
     assert CONF_NAME not in config_entry.data
 
 
-async def test_entry_is_reloaded_when_title_changes(hass: UniversalAssistant) -> None:
+async def test_entry_is_reloaded_when_title_changes(hass: __HAC_KEEP__) -> None:
     """Test the entry gets reloaded when the title changes."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

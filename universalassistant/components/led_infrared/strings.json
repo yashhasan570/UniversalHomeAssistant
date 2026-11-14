@@ -20,7 +20,7 @@
         "title": "Reconfigure LED Infrared device"
       },
       "test_device": {
-        "description": "Universal Universal Home Assistant sent the on and off commands using code set {variant} of {variant_count}. Did the light turn on and then off again? If it only turned on or only turned off, this is not the right code set.",
+        "description": "__HA_KEEP__ sent the on and off commands using code set {variant} of {variant_count}. Did the light turn on and then off again? If it only turned on or only turned off, this is not the right code set.",
         "menu_options": {
           "finish": "Yes, it turned on and off",
           "next_variant": "No, try the next code set"

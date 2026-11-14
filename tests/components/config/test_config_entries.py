@@ -26,7 +26,7 @@ from universalassistant.components.config import DOMAIN, config_entries
 from universalassistant.components.http import KEY_HASS
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_RADIUS
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import config_entry_flow, config_validation as cv
@@ -38,14 +38,14 @@ from universalassistant.util.dt import utcnow
 
 
 @pytest.fixture(autouse=True)
-def mock_test_component(hass: UniversalAssistant) -> None:
+def mock_test_component(hass: __HAC_KEEP__) -> None:
     """Ensure a component called 'test' exists."""
     mock_integration(hass, MockModule("test"))
 
 
 @pytest.fixture
 async def client(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> TestClient:
     """Fixture that can interact with the config manager API."""
     await async_setup_component(hass, "http", {})
@@ -71,7 +71,7 @@ def mock_flow() -> Generator[None]:
 
 @pytest.mark.usefixtures("freezer")
 @pytest.mark.usefixtures("mock_flow")
-async def test_get_entries(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_get_entries(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test get entries."""
     mock_integration(hass, MockModule("comp1"))
     mock_integration(
@@ -265,7 +265,7 @@ async def test_get_entries(hass: UniversalAssistant, client: TestClient) -> None
     assert data[0]["domain"] == "comp5"
 
 
-async def test_remove_entry(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_remove_entry(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test removing an entry via the API."""
     entry = MockConfigEntry(domain="test", state=core_ce.ConfigEntryState.LOADED)
     entry.add_to_hass(hass)
@@ -277,7 +277,7 @@ async def test_remove_entry(hass: UniversalAssistant, client: TestClient) -> Non
 
 
 async def test_remove_entry_survives_client_disconnect(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test a client disconnect does not truncate the removal.
 
@@ -325,7 +325,7 @@ async def test_remove_entry_survives_client_disconnect(
     assert hass.config_entries.async_entries() == []
 
 
-async def test_reload_entry(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_reload_entry(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test reloading an entry via the API."""
     entry = MockConfigEntry(domain="test", state=core_ce.ConfigEntryState.LOADED)
     entry.add_to_hass(hass)
@@ -340,7 +340,7 @@ async def test_reload_entry(hass: UniversalAssistant, client: TestClient) -> Non
 
 
 async def test_reload_entry_survives_client_disconnect(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test a client disconnect does not truncate the reload.
 
@@ -352,7 +352,7 @@ async def test_reload_entry_survives_client_disconnect(
     disconnected = asyncio.Event()
     setup_calls = 0
 
-    async def mock_setup_entry(hass: UniversalAssistant, entry: core_ce.ConfigEntry) -> None:
+    async def mock_setup_entry(hass: __HAC_KEEP__, entry: core_ce.ConfigEntry) -> None:
         """Stall in the setup after the unload, so the cancel lands on this await."""
         nonlocal setup_calls
         setup_calls += 1
@@ -401,14 +401,14 @@ async def test_reload_entry_survives_client_disconnect(
     assert setup_calls == 2
 
 
-async def test_reload_invalid_entry(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_reload_invalid_entry(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test reloading an invalid entry via the API."""
     resp = await client.post("/api/config/config_entries/entry/invalid/reload")
     assert resp.status == HTTPStatus.NOT_FOUND
 
 
 async def test_remove_entry_unauth(
-    hass: UniversalAssistant, client: TestClient, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test removing an entry via the API."""
     hass_admin_user.groups = []
@@ -420,7 +420,7 @@ async def test_remove_entry_unauth(
 
 
 async def test_reload_entry_unauth(
-    hass: UniversalAssistant, client: TestClient, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test reloading an entry via the API."""
     hass_admin_user.groups = []
@@ -434,7 +434,7 @@ async def test_reload_entry_unauth(
 
 
 async def test_reload_entry_in_failed_state(
-    hass: UniversalAssistant, client: TestClient, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test reloading an entry via the API that has already failed to unload."""
     entry = MockConfigEntry(domain="demo", state=core_ce.ConfigEntryState.FAILED_UNLOAD)
@@ -448,7 +448,7 @@ async def test_reload_entry_in_failed_state(
 
 
 async def test_reload_entry_in_setup_retry(
-    hass: UniversalAssistant, client: TestClient, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test reloading an entry via the API that is in setup retry."""
     mock_setup_entry = AsyncMock(return_value=None)
@@ -490,7 +490,7 @@ async def test_reload_entry_in_setup_retry(
     ],
 )
 async def test_available_flows(
-    hass: UniversalAssistant, client: TestClient, type_filter: str | None, result: set[str]
+    hass: __HAC_KEEP__, client: TestClient, type_filter: str | None, result: set[str]
 ) -> None:
     """Test querying the available flows."""
     with patch.object(
@@ -513,7 +513,7 @@ async def test_available_flows(
 
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
-async def test_initialize_flow(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_initialize_flow(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test we can initialize a flow."""
     mock_platform(hass, "test.config_flow", None)
 
@@ -562,7 +562,7 @@ async def test_initialize_flow(hass: UniversalAssistant, client: TestClient) -> 
 
 
 async def test_initialize_flow_unmet_dependency(
-    hass: UniversalAssistant, client: TestClient
+    hass: __HAC_KEEP__, client: TestClient
 ) -> None:
     """Test unmet dependencies are listed."""
     mock_platform(hass, "test.config_flow", None)
@@ -594,7 +594,7 @@ async def test_initialize_flow_unmet_dependency(
 
 
 async def test_initialize_flow_unauth(
-    hass: UniversalAssistant, client: TestClient, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test we can initialize a flow."""
     hass_admin_user.groups = []
@@ -622,7 +622,7 @@ async def test_initialize_flow_unauth(
 
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
-async def test_abort(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_abort(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test a flow that aborts."""
     mock_platform(hass, "test.config_flow", None)
 
@@ -647,7 +647,7 @@ async def test_abort(hass: UniversalAssistant, client: TestClient) -> None:
 
 
 @pytest.mark.usefixtures("freezer")
-async def test_create_account(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_create_account(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test a flow that creates an account."""
     mock_platform(hass, "test.config_flow", None)
 
@@ -712,7 +712,7 @@ async def test_create_account(hass: UniversalAssistant, client: TestClient) -> N
 
 
 @pytest.mark.usefixtures("freezer")
-async def test_two_step_flow(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_two_step_flow(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test we can finish a two step flow."""
     mock_integration(
         hass, MockModule("test", async_setup_entry=AsyncMock(return_value=None))
@@ -801,7 +801,7 @@ async def test_two_step_flow(hass: UniversalAssistant, client: TestClient) -> No
 
 
 async def test_continue_flow_unauth(
-    hass: UniversalAssistant, client: TestClient, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test we can't finish a two step flow."""
     mock_integration(
@@ -852,7 +852,7 @@ async def test_continue_flow_unauth(
 
 
 async def test_get_progress_index(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test querying for the flows that are in progress."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -921,7 +921,7 @@ async def test_get_progress_index(
 
 
 async def test_get_progress_index_unauth(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test we can't get flows that are in progress."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -936,7 +936,7 @@ async def test_get_progress_index_unauth(
 
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
-async def test_get_progress_flow(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_get_progress_flow(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test we can query the API for same result as we get from init a flow."""
     mock_platform(hass, "test.config_flow", None)
 
@@ -971,7 +971,7 @@ async def test_get_progress_flow(hass: UniversalAssistant, client: TestClient) -
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
 async def test_get_progress_flow_unauth(
-    hass: UniversalAssistant, client: TestClient, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, client: TestClient, hass_admin_user: MockUser
 ) -> None:
     """Test we can can't query the API for result of flow."""
     mock_platform(hass, "test.config_flow", None)
@@ -1005,7 +1005,7 @@ async def test_get_progress_flow_unauth(
 
 
 async def test_get_progress_subscribe(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test querying for the flows that are in progress."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -1119,7 +1119,7 @@ async def test_get_progress_subscribe(
         }
 
 
-async def test_get_progress_subscribe_create_entry(hass: UniversalAssistant) -> None:
+async def test_get_progress_subscribe_create_entry(hass: __HAC_KEEP__) -> None:
     """Test flows creating entry immediately don't trigger subscription notification."""
     assert await async_setup_component(hass, DOMAIN, {})
     mock_platform(hass, "test.config_flow", None)
@@ -1150,7 +1150,7 @@ async def test_get_progress_subscribe_create_entry(hass: UniversalAssistant) -> 
 
 
 async def test_get_progress_subscribe_in_progress(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test querying for the flows that are in progress."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -1270,7 +1270,7 @@ async def test_get_progress_subscribe_in_progress(
 
 
 async def test_get_progress_subscribe_in_progress_bad_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1398,7 +1398,7 @@ async def test_get_progress_subscribe_in_progress_bad_flow(
 
 
 async def test_get_progress_subscribe_unauth(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test we can't subscribe to flows."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -1412,7 +1412,7 @@ async def test_get_progress_subscribe_unauth(
     assert response["error"]["code"] == "unauthorized"
 
 
-async def test_options_flow(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_options_flow(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test we can change options."""
 
     class TestFlow(core_ce.ConfigFlow):
@@ -1472,7 +1472,7 @@ async def test_options_flow(hass: UniversalAssistant, client: TestClient) -> Non
     ],
 )
 async def test_options_flow_unauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: TestClient,
     hass_admin_user: MockUser,
     endpoint: str,
@@ -1513,7 +1513,7 @@ async def test_options_flow_unauth(
     assert resp.status == HTTPStatus.UNAUTHORIZED
 
 
-async def test_two_step_options_flow(hass: UniversalAssistant, client: TestClient) -> None:
+async def test_two_step_options_flow(hass: __HAC_KEEP__, client: TestClient) -> None:
     """Test we can finish a two step options flow."""
     mock_integration(
         hass, MockModule("test", async_setup_entry=AsyncMock(return_value=None))
@@ -1580,7 +1580,7 @@ async def test_two_step_options_flow(hass: UniversalAssistant, client: TestClien
 
 
 async def test_options_flow_with_invalid_data(
-    hass: UniversalAssistant, client: TestClient
+    hass: __HAC_KEEP__, client: TestClient
 ) -> None:
     """Test an options flow with invalid_data."""
     mock_integration(
@@ -1655,7 +1655,7 @@ async def test_options_flow_with_invalid_data(
         assert data == {"errors": {"choices": "invalid is not a valid option"}}
 
 
-async def test_subentry_flow(hass: UniversalAssistant, client) -> None:
+async def test_subentry_flow(hass: __HAC_KEEP__, client) -> None:
     """Test we can start a subentry flow."""
 
     class TestFlow(core_ce.ConfigFlow):
@@ -1706,7 +1706,7 @@ async def test_subentry_flow(hass: UniversalAssistant, client) -> None:
     }
 
 
-async def test_subentry_reconfigure_flow(hass: UniversalAssistant, client) -> None:
+async def test_subentry_reconfigure_flow(hass: __HAC_KEEP__, client) -> None:
     """Test we can start and finish a subentry reconfigure flow."""
 
     class TestFlow(core_ce.ConfigFlow):
@@ -1810,7 +1810,7 @@ async def test_subentry_reconfigure_flow(hass: UniversalAssistant, client) -> No
     }
 
 
-async def test_subentry_flow_abort_duplicate(hass: UniversalAssistant, client) -> None:
+async def test_subentry_flow_abort_duplicate(hass: __HAC_KEEP__, client) -> None:
     """Test we can handle a subentry flow raising due to unique_id collision."""
 
     class TestFlow(core_ce.ConfigFlow):
@@ -1893,7 +1893,7 @@ async def test_subentry_flow_abort_duplicate(hass: UniversalAssistant, client) -
 
 
 async def test_subentry_does_not_support_reconfigure(
-    hass: UniversalAssistant, client: TestClient
+    hass: __HAC_KEEP__, client: TestClient
 ) -> None:
     """Test a subentry flow that does not support reconfigure step."""
 
@@ -1952,7 +1952,7 @@ async def test_subentry_does_not_support_reconfigure(
     ],
 )
 async def test_subentry_flow_unauth(
-    hass: UniversalAssistant, client, hass_admin_user: MockUser, endpoint: str, method: str
+    hass: __HAC_KEEP__, client, hass_admin_user: MockUser, endpoint: str, method: str
 ) -> None:
     """Test unauthorized on subentry flow."""
 
@@ -1989,7 +1989,7 @@ async def test_subentry_flow_unauth(
     assert resp.status == HTTPStatus.UNAUTHORIZED
 
 
-async def test_two_step_subentry_flow(hass: UniversalAssistant, client) -> None:
+async def test_two_step_subentry_flow(hass: __HAC_KEEP__, client) -> None:
     """Test we can finish a two step subentry flow."""
     mock_integration(
         hass, MockModule("test", async_setup_entry=AsyncMock(return_value=None))
@@ -2067,7 +2067,7 @@ async def test_two_step_subentry_flow(hass: UniversalAssistant, client) -> None:
         }
 
 
-async def test_subentry_flow_with_invalid_data(hass: UniversalAssistant, client) -> None:
+async def test_subentry_flow_with_invalid_data(hass: __HAC_KEEP__, client) -> None:
     """Test a subentry flow with invalid_data."""
     mock_integration(
         hass, MockModule("test", async_setup_entry=AsyncMock(return_value=None))
@@ -2143,7 +2143,7 @@ async def test_subentry_flow_with_invalid_data(hass: UniversalAssistant, client)
 
 @pytest.mark.usefixtures("freezer")
 async def test_get_single(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that we can get a config entry."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2203,7 +2203,7 @@ async def test_get_single(
 
 
 async def test_update_prefrences(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that we can update system options."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2255,7 +2255,7 @@ async def test_update_prefrences(
 
 
 async def test_update_entry(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that we can update entry."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2280,7 +2280,7 @@ async def test_update_entry(
 
 
 async def test_update_entry_nonexisting(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that we can update entry."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2301,7 +2301,7 @@ async def test_update_entry_nonexisting(
 
 
 async def test_disable_entry(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that we can disable entry."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2382,7 +2382,7 @@ async def test_disable_entry(
     ],
 )
 async def test_enable_entry_setup_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     side_effect: type[Exception],
     expected_state: core_ce.ConfigEntryState,
@@ -2419,7 +2419,7 @@ async def test_enable_entry_setup_fails(
 
 
 async def test_enable_entry_component_setup_fails(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test enabling an entry whose integration fails setup requires a restart."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2450,7 +2450,7 @@ async def test_enable_entry_component_setup_fails(
         response = await ws_client.receive_json()
 
     assert response["success"]
-    # A failed integration setup is not retried until Universal Universal Home Assistant restarts
+    # A failed integration setup is not retried until __HA_KEEP__ restarts
     assert response["result"] == {"require_restart": True}
     assert entry.disabled_by is None
     assert entry.state is core_ce.ConfigEntryState.NOT_LOADED
@@ -2458,7 +2458,7 @@ async def test_enable_entry_component_setup_fails(
 
 
 async def test_disable_entry_nonexisting(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that we can disable entry."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2479,7 +2479,7 @@ async def test_disable_entry_nonexisting(
 
 
 async def test_enable_entry_removed_during_reload(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test enabling an entry that is removed while it is being reloaded."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2528,7 +2528,7 @@ async def test_enable_entry_removed_during_reload(
     ],
 )
 async def test_ignore_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     flow_context: dict,
     entry_discovery_keys: dict[str, tuple[DiscoveryKey, ...]],
@@ -2582,7 +2582,7 @@ async def test_ignore_flow(
 
 
 async def test_ignore_flow_nonexisting(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can ignore a flow."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2604,7 +2604,7 @@ async def test_ignore_flow_nonexisting(
 
 @pytest.mark.usefixtures("freezer")
 async def test_get_matching_entries_ws(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get entries with the websocket api."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -3070,7 +3070,7 @@ async def test_get_matching_entries_ws(
 
 
 async def test_subscribe_entries_ws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -3294,7 +3294,7 @@ async def test_subscribe_entries_ws(
 
 
 async def test_subscribe_entries_ws_filtered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -3611,7 +3611,7 @@ async def test_subscribe_entries_ws_filtered(
     ],
 )
 async def test_subscribe_entries_ws_disabled_by_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     initial_disabled_by: core_ce.ConfigEntryDisabler | None,
     new_disabled_by: str | None,
@@ -3673,7 +3673,7 @@ async def test_subscribe_entries_ws_disabled_by_changed(
 
 
 async def test_flow_with_multiple_schema_errors(
-    hass: UniversalAssistant, client: TestClient
+    hass: __HAC_KEEP__, client: TestClient
 ) -> None:
     """Test an config flow with multiple schema errors."""
     mock_integration(
@@ -3719,7 +3719,7 @@ async def test_flow_with_multiple_schema_errors(
 
 
 async def test_flow_with_multiple_schema_errors_base(
-    hass: UniversalAssistant, client: TestClient
+    hass: __HAC_KEEP__, client: TestClient
 ) -> None:
     """Test config flow with multiple schema errors."""
     mock_integration(
@@ -3765,7 +3765,7 @@ async def test_flow_with_multiple_schema_errors_base(
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
 @pytest.mark.usefixtures("freezer")
 async def test_supports_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: TestClient,
 ) -> None:
     """Test a flow that support reconfigure step."""
@@ -3841,7 +3841,7 @@ async def test_supports_reconfigure(
 
 
 async def test_does_not_support_reconfigure(
-    hass: UniversalAssistant, client: TestClient
+    hass: __HAC_KEEP__, client: TestClient
 ) -> None:
     """Test a flow that does not support reconfigure step."""
     mock_platform(hass, "test.config_flow", None)
@@ -3870,7 +3870,7 @@ async def test_does_not_support_reconfigure(
 
 
 async def test_list_subentries(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that we can list subentries."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -3929,7 +3929,7 @@ async def test_list_subentries(
 
 
 async def test_update_subentry(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that we can update a subentry."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -4005,7 +4005,7 @@ async def test_update_subentry(
 
 
 async def test_delete_subentry(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that we can delete a subentry."""
     assert await async_setup_component(hass, DOMAIN, {})

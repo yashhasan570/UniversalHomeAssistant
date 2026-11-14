@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.components.bluetooth import inject_bluetooth_service_info
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
 AUTOMOWER_SERVICE_INFO_SERIAL = BluetoothServiceInfo(
@@ -94,7 +94,7 @@ WATER_TIMER_SERVICE_INFO = BluetoothServiceInfo(
 
 
 async def setup_entry(
-    hass: UniversalAssistant, mock_entry: MockConfigEntry, platforms: list[Platform]
+    hass: __HAC_KEEP__, mock_entry: MockConfigEntry, platforms: list[Platform]
 ) -> None:
     """Make sure the device is available."""
 

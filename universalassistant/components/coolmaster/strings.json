@@ -60,7 +60,7 @@
           "heat": "Enable if your units can heat.",
           "heat_cool": "Enable if your units can switch between heating and cooling automatically.",
           "host": "The hostname or IP address of your CoolMasterNet device.",
-          "off": "Allow the units to be turned off from Universal Universal Home Assistant.",
+          "off": "Allow the units to be turned off from __HA_KEEP__.",
           "swing_support": "Expose a swing mode control. This adds one request per unit on every update, so polling is slower."
         },
         "description": "Set up your CoolMasterNet connection details.",

@@ -1,7 +1,7 @@
 """Integration for eGauge energy monitors."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN, MANUFACTURER, MODEL
@@ -10,7 +10,7 @@ from .coordinator import EgaugeConfigEntry, EgaugeDataCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: EgaugeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: EgaugeConfigEntry) -> None:
     """Set up eGauge from a config entry."""
 
     coordinator = EgaugeDataCoordinator(hass, entry)
@@ -34,6 +34,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: EgaugeConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: EgaugeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: EgaugeConfigEntry) -> None:
     """Unload eGauge config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

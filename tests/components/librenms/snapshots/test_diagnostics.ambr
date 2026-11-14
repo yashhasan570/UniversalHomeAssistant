@@ -83,7 +83,7 @@
           'disabled': False,
           'display': '**REDACTED**',
           'display_template': None,
-          'features': 'Universal Universal Home Assistant OS 18.1',
+          'features': '__HA_KEEP__ OS 18.1',
           'hardware': 'QEMU Standard PC (i440FX + PIIX, 1996)',
           'hostname': '**REDACTED**',
           'icon': 'linux.svg',

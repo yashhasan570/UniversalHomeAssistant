@@ -8,13 +8,13 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.glances.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_USER_INPUT
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_api: MagicMock,
     snapshot: SnapshotAssertion,

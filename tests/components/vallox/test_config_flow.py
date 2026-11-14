@@ -9,7 +9,7 @@ from vallox_websocket_api import ValloxApiException, ValloxWebsocketException
 from universalassistant.components.vallox.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import TEST_HOST, TEST_NAME
@@ -20,7 +20,7 @@ INVALID_HOST = "test.host.com"
 
 @pytest.mark.usefixtures("mock_vallox_client")
 async def test_form_create_entry(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test that an entry is created with valid input."""
     result = await hass.config_entries.flow.async_init(
@@ -41,7 +41,7 @@ async def test_form_create_entry(
 
 
 @pytest.mark.usefixtures("mock_vallox_client", "mock_setup_entry")
-async def test_form_invalid_host(hass: UniversalAssistant) -> None:
+async def test_form_invalid_host(hass: __HAC_KEEP__) -> None:
     """Test that an invalid host is rejected and the flow recovers."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -73,7 +73,7 @@ async def test_form_invalid_host(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vallox_client: AsyncMock,
     exception: type[Exception],
     error: str,
@@ -102,7 +102,7 @@ async def test_form_errors(
 
 
 async def test_form_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that a host that is already configured is rejected."""
     mock_config_entry.add_to_hass(hass)
@@ -128,7 +128,7 @@ async def test_form_already_configured(
     ],
 )
 async def test_reconfigure_host(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, host: str
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, host: str
 ) -> None:
     """Test that the host can be reconfigured."""
     mock_config_entry.add_to_hass(hass)
@@ -149,7 +149,7 @@ async def test_reconfigure_host(
 
 @pytest.mark.usefixtures("mock_vallox_client", "mock_setup_entry")
 async def test_reconfigure_host_to_same_host_as_another_fails(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that changing the host to the host of another entry fails."""
     mock_config_entry.add_to_hass(hass)
@@ -170,7 +170,7 @@ async def test_reconfigure_host_to_same_host_as_another_fails(
 
 @pytest.mark.usefixtures("mock_vallox_client", "mock_setup_entry")
 async def test_reconfigure_invalid_host(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that an invalid host is rejected and the reconfigure flow recovers."""
     mock_config_entry.add_to_hass(hass)
@@ -203,7 +203,7 @@ async def test_reconfigure_invalid_host(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vallox_client: AsyncMock,
     exception: type[Exception],

@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -59,7 +59,7 @@ def set_event_state(
 
 
 async def test_events_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_events_created(
 
 
 async def test_events_not_created_for_non_smart_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_events_not_created_for_non_smart_events(
 
 
 async def test_events_no_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_events_no_sensors(
     ],
 )
 async def test_event_triggered_with_detection_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     detection_target: str | None,
@@ -148,7 +148,7 @@ async def test_event_triggered_with_detection_target(
 
 
 async def test_unrecognized_detection_target_logs_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -164,7 +164,7 @@ async def test_unrecognized_detection_target_logs_warning(
 
 
 async def test_event_only_triggered_on_a_new_trip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_event_only_triggered_on_a_new_trip(
 
 
 async def test_event_active_at_setup_is_not_replayed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_event_active_at_setup_is_not_replayed(
 
 
 async def test_event_unavailable_when_stream_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_event_unavailable_when_stream_disconnected(
 
 
 async def test_event_fires_for_a_trip_that_ends_before_the_loop_runs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_event_fires_for_a_trip_that_ends_before_the_loop_runs(
 
 @pytest.mark.parametrize("amount_of_channels", [2])
 async def test_event_duplicate_channels_deduplicated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
     entity_registry: er.EntityRegistry,

@@ -1,17 +1,17 @@
-"""Test Universal Universal Home Assistant thread utils."""
+"""Test __HA_KEEP__ thread utils."""
 
 import asyncio
 from unittest.mock import Mock, patch
 
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import thread
 from universalassistant.util.async_ import run_callback_threadsafe
 from universalassistant.util.thread import ThreadWithException
 
 
-async def test_thread_with_exception_invalid(hass: UniversalAssistant) -> None:
+async def test_thread_with_exception_invalid(hass: __HAC_KEEP__) -> None:
     """Test throwing an invalid thread exception."""
 
     finish_event = asyncio.Event()
@@ -28,7 +28,7 @@ async def test_thread_with_exception_invalid(hass: UniversalAssistant) -> None:
     test_thread.join()
 
 
-async def test_thread_not_started(hass: UniversalAssistant) -> None:
+async def test_thread_not_started(hass: __HAC_KEEP__) -> None:
     """Test throwing when the thread is not started."""
 
     test_thread = ThreadWithException(target=lambda *_: None)

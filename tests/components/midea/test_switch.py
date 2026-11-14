@@ -39,8 +39,8 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -49,7 +49,7 @@ from .const import TEST_DEVICE_ID
 
 
 async def _assert_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     service: str,
     expected_calls: list[tuple],
@@ -216,7 +216,7 @@ def _set_attribute_calls(device: DummyDevice) -> list[tuple]:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_state_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -269,7 +269,7 @@ async def test_switch_state_snapshot(
     ],
 )
 async def test_switch_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     device: DummyDevice,
     attribute: str,
@@ -318,7 +318,7 @@ async def test_switch_services(
     ],
 )
 async def test_prompt_tone_switch_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     device_type: DeviceType,
 ) -> None:
@@ -376,7 +376,7 @@ async def test_prompt_tone_switch_services(
     ],
 )
 async def test_prompt_tone_restored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     device_type: DeviceType,
     entity_id: str,
@@ -409,7 +409,7 @@ async def test_prompt_tone_restored(
     ],
 )
 async def test_prompt_tone_not_restored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     extra_data: dict[str, bool | None] | None,
 ) -> None:
@@ -430,7 +430,7 @@ async def test_prompt_tone_not_restored(
 
 
 async def test_prompt_tone_restored_after_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test a prompt tone turned off stays off when the entry is reloaded."""
@@ -461,7 +461,7 @@ async def test_prompt_tone_restored_after_reload(
 
 
 async def test_reported_switch_not_restored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test switches the device reports are not overwritten from stored state."""
@@ -487,7 +487,7 @@ async def test_reported_switch_not_restored(
     ],
 )
 async def test_prompt_tone_switch_not_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     device_type: DeviceType,
     attributes: dict[str, bool],
@@ -502,7 +502,7 @@ async def test_prompt_tone_switch_not_created(
 
 
 async def test_dc_ai_switch_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test DC ai_switch service calls reach the device."""
@@ -550,7 +550,7 @@ CHILD_LOCK_DEVICE_TYPES = [
 
 @pytest.mark.parametrize("device_type", CHILD_LOCK_DEVICE_TYPES)
 async def test_child_lock_switch_created_and_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     device_type: DeviceType,
 ) -> None:
@@ -592,7 +592,7 @@ async def test_child_lock_switch_created_and_services(
     ],
 )
 async def test_washing_machine_switch_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     device_type: DeviceType,
     switch: str,
@@ -636,7 +636,7 @@ async def test_washing_machine_switch_services(
 
 
 async def test_air_purifier_power_switch_requires_attribute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test a purifier without a power attribute gets no power switch."""
@@ -649,7 +649,7 @@ async def test_air_purifier_power_switch_requires_attribute(
 
 
 async def test_a1_pump_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test the A1 dehumidifier pump switch."""
@@ -691,7 +691,7 @@ async def test_a1_pump_services(
 
 
 async def test_a1_anion_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test the A1 dehumidifier anion switch."""
@@ -731,7 +731,7 @@ async def test_a1_anion_services(
 
 
 async def test_a1_pump_not_created_without_capability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test that unsupported A1 pump switches are not created."""
@@ -759,7 +759,7 @@ async def test_a1_pump_not_created_without_capability(
     ],
 )
 async def test_e2_switch_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     attribute: str,
 ) -> None:
@@ -819,7 +819,7 @@ async def test_e2_switch_services(
 
 
 async def test_switch_unknown_when_attribute_becomes_non_bool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test is_on gracefully reports unknown if a later update clears it."""
@@ -857,10 +857,10 @@ async def test_switch_unknown_when_attribute_becomes_non_bool(
 
 
 async def test_switch_turn_on_raises_on_device_communication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
-    """Test a device communication failure surfaces as a UniversalAssistantError."""
+    """Test a device communication failure surfaces as a __HAC_KEEP__Error."""
     device = DummyDevice(
         DeviceType.AC,
         attributes={
@@ -879,7 +879,7 @@ async def test_switch_turn_on_raises_on_device_communication_error(
 
     with (
         patch.object(device, "set_attribute", side_effect=SocketException("offline")),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -890,7 +890,7 @@ async def test_switch_turn_on_raises_on_device_communication_error(
 
 
 async def test_fb_has_no_switch_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test FB devices, which only expose the climate-owned power attribute, get no switches."""
@@ -903,7 +903,7 @@ async def test_fb_has_no_switch_entities(
 
 
 async def test_switch_not_created_when_attribute_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test a switch is not created when the device does not report the attribute."""
@@ -924,7 +924,7 @@ async def test_switch_not_created_when_attribute_missing(
 
 
 async def test_switch_not_created_for_climate_owned_attribute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test no switch is created for attributes already controlled by climate."""
@@ -963,7 +963,7 @@ async def test_switch_not_created_for_climate_owned_attribute(
 
 
 async def test_switch_not_created_for_other_device_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test a switch scoped to one device type is not created for another."""

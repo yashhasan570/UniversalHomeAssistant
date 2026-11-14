@@ -18,8 +18,8 @@ from universalassistant.components.light import (
     LightService,
     LightServiceArgument,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 
 from .const import DOMAIN
@@ -95,7 +95,7 @@ def _get_color(file_handler: io.BytesIO | str) -> tuple[int, int, int]:
 
 
 async def _async_extract_color_from_url(
-    hass: UniversalAssistant, url: str
+    hass: __HAC_KEEP__, url: str
 ) -> tuple[int, int, int]:
     """Handle call for URL based image."""
     if not hass.config.is_allowed_external_url(url):
@@ -113,7 +113,7 @@ async def _async_extract_color_from_url(
 
         async with asyncio.timeout(10), session.get(url) as response:
             if response.status != HTTPStatus.OK:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="http_error",
                     translation_placeholders={
@@ -124,13 +124,13 @@ async def _async_extract_color_from_url(
             content = await response.read()
 
     except TimeoutError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="timeout",
             translation_placeholders={"url": url},
         ) from err
     except aiohttp.ClientError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="fetch_failed",
             translation_placeholders={"url": url, "error": str(err)},
@@ -144,7 +144,7 @@ async def _async_extract_color_from_url(
 
 
 def _extract_color_from_path(
-    hass: UniversalAssistant, file_path: str
+    hass: __HAC_KEEP__, file_path: str
 ) -> tuple[int, int, int]:
     """Handle call for local file based image."""
     if not hass.config.is_allowed_path(file_path):
@@ -231,7 +231,7 @@ async def async_handle_get_color(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the services."""
 
     hass.services.async_register(

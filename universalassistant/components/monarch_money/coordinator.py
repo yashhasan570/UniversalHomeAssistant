@@ -17,7 +17,7 @@ from typedmonarchmoney.models import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -58,7 +58,7 @@ class MonarchMoneyDataUpdateCoordinator(DataUpdateCoordinator[MonarchData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: MonarchMoneyConfigEntry,
         client: TypedMonarchMoney,
     ) -> None:

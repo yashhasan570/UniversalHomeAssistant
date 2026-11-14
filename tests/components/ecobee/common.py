@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ecobee.const import CONF_REFRESH_TOKEN, DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platforms: str | list[str],
 ) -> MockConfigEntry:
     """Set up the ecobee platform."""

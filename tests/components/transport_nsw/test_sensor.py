@@ -3,7 +3,7 @@
 from unittest.mock import patch
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorStateClass
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 VALID_CONFIG = {
@@ -31,7 +31,7 @@ def get_departuresMock(_stop_id, route, destination, api_key):
 
 
 @patch("TransportNSW.TransportNSW.get_departures", side_effect=get_departuresMock)
-async def test_transportnsw_config(mocked_get_departures, hass: UniversalAssistant) -> None:
+async def test_transportnsw_config(mocked_get_departures, hass: __HAC_KEEP__) -> None:
     """Test minimal TransportNSW configuration."""
     assert await async_setup_component(hass, "sensor", VALID_CONFIG)
     await hass.async_block_till_done()
@@ -64,7 +64,7 @@ def get_departuresMock_notFound(_stop_id, route, destination, api_key):
     "TransportNSW.TransportNSW.get_departures", side_effect=get_departuresMock_notFound
 )
 async def test_transportnsw_config_not_found(
-    mocked_get_departures_not_found, hass: UniversalAssistant
+    mocked_get_departures_not_found, hass: __HAC_KEEP__
 ) -> None:
     """Test minimal TransportNSW configuration."""
     assert await async_setup_component(hass, "sensor", VALID_CONFIG)

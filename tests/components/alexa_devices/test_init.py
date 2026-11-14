@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.storage import STORAGE_DIR
 
@@ -51,7 +51,7 @@ def _fail_history_state(client: AsyncMock, error: Exception) -> None:
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -122,7 +122,7 @@ async def test_device_info(
     ],
 )
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     minor_version: int,
@@ -166,7 +166,7 @@ async def test_migrate_entry(
     ],
 )
 async def test_migrate_settings_to_storage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     tmp_path: Path,
     existing_files: dict[str, str],
@@ -225,7 +225,7 @@ def _vanish(source: Path, target: Path) -> None:
     ],
 )
 async def test_migrate_settings_to_storage_race(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     tmp_path: Path,
     replace_side_effect: Callable[[Path, Path], None],
@@ -253,7 +253,7 @@ async def test_migrate_settings_to_storage_race(
 
 
 async def test_migrate_future_version_returns_false(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test migration failure for downgraded future config entry version."""
@@ -271,7 +271,7 @@ async def test_migrate_future_version_returns_false(
 
 
 async def test_http2_reauth_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -292,7 +292,7 @@ async def test_http2_reauth_required(
 
 
 async def test_http2_reauth_callback_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -322,7 +322,7 @@ async def test_http2_reauth_callback_triggers_reauth(
 
 
 async def test_http2_stop_processing_called_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -336,11 +336,11 @@ async def test_http2_stop_processing_called_on_unload(
 
 
 async def test_http2_stop_processing_called_on_shutdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test stop_http2_processing is awaited when Universal Universal Home Assistant stops."""
+    """Test stop_http2_processing is awaited when __HA_KEEP__ stops."""
     await setup_integration(hass, mock_config_entry)
 
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -350,7 +350,7 @@ async def test_http2_stop_processing_called_on_shutdown(
 
 
 async def test_http2_client_per_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -395,7 +395,7 @@ async def test_http2_client_per_entry(
     ],
 )
 async def test_initial_sync_amazon_api_failure_does_not_block_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -419,7 +419,7 @@ async def test_initial_sync_amazon_api_failure_does_not_block_setup(
 
 
 async def test_initial_sync_failure_does_not_prevent_other_syncs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

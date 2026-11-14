@@ -13,8 +13,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -22,7 +22,7 @@ from . import FAKE_MAC, FAKE_SOCKET, async_push_update, async_setup_integration
 
 
 async def test_switch_operation(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test switch operation."""
     switch, _ = await async_setup_integration(hass, bulb_type=FAKE_SOCKET)
@@ -53,14 +53,14 @@ async def test_switch_operation(
     assert hass.states.get(entity_id).state == STATE_ON
 
 
-async def test_switch_operation_fails(hass: UniversalAssistant) -> None:
-    """Test a switch command raises UniversalAssistantError when the socket does not answer."""
+async def test_switch_operation_fails(hass: __HAC_KEEP__) -> None:
+    """Test a switch command raises __HAC_KEEP__Error when the socket does not answer."""
     switch, _ = await async_setup_integration(hass, bulb_type=FAKE_SOCKET)
     entity_id = "switch.mock_title"
 
     switch.turn_on.side_effect = WizLightConnectionError("Network is unreachable")
     with pytest.raises(
-        UniversalAssistantError, match="Error while communicating with the WiZ device"
+        __HAC_KEEP__Error, match="Error while communicating with the WiZ device"
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -71,7 +71,7 @@ async def test_switch_operation_fails(hass: UniversalAssistant) -> None:
 
 
 async def test_update_fails(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test switch update fails when push updates are not working."""
     switch, _ = await async_setup_integration(hass, bulb_type=FAKE_SOCKET)

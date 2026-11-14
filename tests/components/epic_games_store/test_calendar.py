@@ -12,13 +12,13 @@ from universalassistant.components.calendar import (
     SERVICE_GET_EVENTS,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .common import setup_platform
 
 
-async def test_setup_component(hass: UniversalAssistant, service_multiple: Mock) -> None:
+async def test_setup_component(hass: __HAC_KEEP__, service_multiple: Mock) -> None:
     """Test setup component."""
     await setup_platform(hass, CALENDAR_DOMAIN)
 
@@ -29,7 +29,7 @@ async def test_setup_component(hass: UniversalAssistant, service_multiple: Mock)
 
 
 async def test_discount_games(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_multiple: Mock,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_discount_games(
 
 
 async def test_free_games(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_multiple: Mock,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_free_games(
 
 
 async def test_attribute_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_attribute_not_found: Mock,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_attribute_not_found(
 
 
 async def test_christmas_special(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_christmas_special: Mock,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_christmas_special(
 
 
 async def test_get_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_multiple: Mock,
 ) -> None:

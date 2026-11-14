@@ -37,7 +37,7 @@ from universalassistant.const import (
     STATE_HOME,
     STATE_NOT_HOME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.discovery_flow import DiscoveryKey
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -142,7 +142,7 @@ RAW_DHCP_REQUEST_WITHOUT_HOSTNAME = (
 
 
 async def _async_get_handle_dhcp_packet(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_matchers: dhcp.DhcpMatchers,
     address_data: dict | None = None,
 ) -> Callable[[Any], Awaitable[None]]:
@@ -169,7 +169,7 @@ async def _async_get_handle_dhcp_packet(
 
 
 async def test_dhcp_start_using_multiple_interfaces(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test start using multiple interfaces."""
 
@@ -215,7 +215,7 @@ async def test_dhcp_start_using_multiple_interfaces(
     mock_start.assert_called_with(dhcp_watcher._async_process_dhcp_request, [1, 2])
 
 
-async def test_dhcp_match_hostname_and_macaddress(hass: UniversalAssistant) -> None:
+async def test_dhcp_match_hostname_and_macaddress(hass: __HAC_KEEP__) -> None:
     """Test matching based on hostname and macaddress."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "hostname": "connect", "macaddress": "B8B7F1*"}]
@@ -243,7 +243,7 @@ async def test_dhcp_match_hostname_and_macaddress(hass: UniversalAssistant) -> N
     )
 
 
-async def test_dhcp_renewal_match_hostname_and_macaddress(hass: UniversalAssistant) -> None:
+async def test_dhcp_renewal_match_hostname_and_macaddress(hass: __HAC_KEEP__) -> None:
     """Test renewal matching based on hostname and macaddress."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "hostname": "irobot-*", "macaddress": "501479*"}]
@@ -273,7 +273,7 @@ async def test_dhcp_renewal_match_hostname_and_macaddress(hass: UniversalAssista
 
 
 async def test_registered_devices(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test discovery flows are created for registered devices."""
     integration_matchers = dhcp.async_index_integration_matchers(
@@ -323,7 +323,7 @@ async def test_registered_devices(
 
 
 async def test_registered_devices_multiple_config_entries_same_mac(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test registered-device rediscovery covers every config entry sharing a MAC."""
     integration_matchers = dhcp.async_index_integration_matchers(
@@ -363,7 +363,7 @@ async def test_registered_devices_multiple_config_entries_same_mac(
     }
 
 
-async def test_dhcp_match_hostname(hass: UniversalAssistant) -> None:
+async def test_dhcp_match_hostname(hass: __HAC_KEEP__) -> None:
     """Test matching based on hostname only."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "hostname": "connect"}]
@@ -390,7 +390,7 @@ async def test_dhcp_match_hostname(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_dhcp_match_macaddress(hass: UniversalAssistant) -> None:
+async def test_dhcp_match_macaddress(hass: __HAC_KEEP__) -> None:
     """Test matching based on macaddress only."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "macaddress": "B8B7F1*"}]
@@ -417,7 +417,7 @@ async def test_dhcp_match_macaddress(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_dhcp_multiple_match_only_one_flow(hass: UniversalAssistant) -> None:
+async def test_dhcp_multiple_match_only_one_flow(hass: __HAC_KEEP__) -> None:
     """Test matching the domain multiple times only generates one flow."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [
@@ -447,7 +447,7 @@ async def test_dhcp_multiple_match_only_one_flow(hass: UniversalAssistant) -> No
     )
 
 
-async def test_dhcp_match_macaddress_without_hostname(hass: UniversalAssistant) -> None:
+async def test_dhcp_match_macaddress_without_hostname(hass: __HAC_KEEP__) -> None:
     """Test matching based on macaddress only."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "macaddress": "606BBD*"}]
@@ -474,7 +474,7 @@ async def test_dhcp_match_macaddress_without_hostname(hass: UniversalAssistant) 
     )
 
 
-async def test_dhcp_nomatch(hass: UniversalAssistant) -> None:
+async def test_dhcp_nomatch(hass: __HAC_KEEP__) -> None:
     """Test not matching based on macaddress only."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "macaddress": "ABC123*"}]
@@ -491,7 +491,7 @@ async def test_dhcp_nomatch(hass: UniversalAssistant) -> None:
     assert len(mock_init.mock_calls) == 0
 
 
-async def test_dhcp_nomatch_hostname(hass: UniversalAssistant) -> None:
+async def test_dhcp_nomatch_hostname(hass: __HAC_KEEP__) -> None:
     """Test not matching based on hostname only."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "hostname": "nomatch*"}]
@@ -508,7 +508,7 @@ async def test_dhcp_nomatch_hostname(hass: UniversalAssistant) -> None:
     assert len(mock_init.mock_calls) == 0
 
 
-async def test_dhcp_nomatch_non_dhcp_packet(hass: UniversalAssistant) -> None:
+async def test_dhcp_nomatch_non_dhcp_packet(hass: __HAC_KEEP__) -> None:
     """Test matching does not throw on a non-dhcp packet."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "hostname": "nomatch*"}]
@@ -525,7 +525,7 @@ async def test_dhcp_nomatch_non_dhcp_packet(hass: UniversalAssistant) -> None:
     assert len(mock_init.mock_calls) == 0
 
 
-async def test_dhcp_nomatch_non_dhcp_request_packet(hass: UniversalAssistant) -> None:
+async def test_dhcp_nomatch_non_dhcp_request_packet(hass: __HAC_KEEP__) -> None:
     """Test nothing happens with the wrong message-type."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "hostname": "nomatch*"}]
@@ -551,7 +551,7 @@ async def test_dhcp_nomatch_non_dhcp_request_packet(hass: UniversalAssistant) ->
     assert len(mock_init.mock_calls) == 0
 
 
-async def test_dhcp_invalid_hostname(hass: UniversalAssistant) -> None:
+async def test_dhcp_invalid_hostname(hass: __HAC_KEEP__) -> None:
     """Test we ignore invalid hostnames."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "hostname": "nomatch*"}]
@@ -577,7 +577,7 @@ async def test_dhcp_invalid_hostname(hass: UniversalAssistant) -> None:
     assert len(mock_init.mock_calls) == 0
 
 
-async def test_dhcp_missing_hostname(hass: UniversalAssistant) -> None:
+async def test_dhcp_missing_hostname(hass: __HAC_KEEP__) -> None:
     """Test we ignore missing hostnames."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "hostname": "nomatch*"}]
@@ -603,7 +603,7 @@ async def test_dhcp_missing_hostname(hass: UniversalAssistant) -> None:
     assert len(mock_init.mock_calls) == 0
 
 
-async def test_dhcp_invalid_option(hass: UniversalAssistant) -> None:
+async def test_dhcp_invalid_option(hass: __HAC_KEEP__) -> None:
     """Test we ignore invalid hostname option."""
     integration_matchers = dhcp.async_index_integration_matchers(
         [{"domain": "mock-domain", "hostname": "nomatch*"}]
@@ -629,7 +629,7 @@ async def test_dhcp_invalid_option(hass: UniversalAssistant) -> None:
     assert len(mock_init.mock_calls) == 0
 
 
-async def test_setup_and_stop(hass: UniversalAssistant) -> None:
+async def test_setup_and_stop(hass: __HAC_KEEP__) -> None:
     """Test we can setup and stop."""
 
     assert await async_setup_component(
@@ -656,7 +656,7 @@ async def test_setup_and_stop(hass: UniversalAssistant) -> None:
     resolve_iface_call.assert_called_once()
 
 
-async def test_discovered_service_info(hass: UniversalAssistant) -> None:
+async def test_discovered_service_info(hass: __HAC_KEEP__) -> None:
     """Test getting the discovered DHCP devices from the cache."""
     saved_callback: Callable[[aiodhcpwatcher.DHCPRequest], None] | None = None
 
@@ -697,7 +697,7 @@ async def test_discovered_service_info(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_fails_as_root(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle sniff setup failing as root."""
 
@@ -729,7 +729,7 @@ async def test_setup_fails_as_root(
 
 
 async def test_setup_fails_non_root(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle sniff setup failing as non-root."""
 
@@ -759,7 +759,7 @@ async def test_setup_fails_non_root(
 
 
 async def test_setup_fails_with_broken_libpcap(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we abort if libpcap is missing or broken."""
 
@@ -795,7 +795,7 @@ async def test_setup_fails_with_broken_libpcap(
 
 
 def _make_device_tracker_watcher(
-    hass: UniversalAssistant, matchers: list[dhcp.DHCPMatcher]
+    hass: __HAC_KEEP__, matchers: list[dhcp.DHCPMatcher]
 ) -> dhcp.DeviceTrackerWatcher:
     return dhcp.DeviceTrackerWatcher(
         hass,
@@ -808,7 +808,7 @@ def _make_device_tracker_watcher(
 
 
 def _make_device_tracker_registered_watcher(
-    hass: UniversalAssistant, matchers: list[dhcp.DHCPMatcher]
+    hass: __HAC_KEEP__, matchers: list[dhcp.DHCPMatcher]
 ) -> dhcp.DeviceTrackerRegisteredWatcher:
     return dhcp.DeviceTrackerRegisteredWatcher(
         hass,
@@ -821,7 +821,7 @@ def _make_device_tracker_registered_watcher(
 
 
 def _make_network_watcher(
-    hass: UniversalAssistant, matchers: list[dhcp.DHCPMatcher]
+    hass: __HAC_KEEP__, matchers: list[dhcp.DHCPMatcher]
 ) -> dhcp.NetworkWatcher:
     return dhcp.NetworkWatcher(
         hass,
@@ -834,7 +834,7 @@ def _make_network_watcher(
 
 
 async def test_device_tracker_hostname_and_macaddress_exists_before_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test matching based on hostname and macaddress before start."""
     hass.states.async_set(
@@ -877,7 +877,7 @@ async def test_device_tracker_hostname_and_macaddress_exists_before_start(
     )
 
 
-async def test_device_tracker_registered(hass: UniversalAssistant) -> None:
+async def test_device_tracker_registered(hass: __HAC_KEEP__) -> None:
     """Test matching based on hostname and macaddress when registered."""
     with patch.object(hass.config_entries.flow, "async_init") as mock_init:
         device_tracker_watcher = _make_device_tracker_registered_watcher(
@@ -914,7 +914,7 @@ async def test_device_tracker_registered(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_device_tracker_registered_hostname_none(hass: UniversalAssistant) -> None:
+async def test_device_tracker_registered_hostname_none(hass: __HAC_KEEP__) -> None:
     """Test handle None hostname."""
     with patch.object(hass.config_entries.flow, "async_init") as mock_init:
         device_tracker_watcher = _make_device_tracker_watcher(
@@ -942,7 +942,7 @@ async def test_device_tracker_registered_hostname_none(hass: UniversalAssistant)
 
 
 async def test_device_tracker_hostname_and_macaddress_after_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test matching based on hostname and macaddress after start."""
 
@@ -987,7 +987,7 @@ async def test_device_tracker_hostname_and_macaddress_after_start(
 
 
 async def test_device_tracker_hostname_and_macaddress_after_start_not_home(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test matching based on hostname and macaddress after start but not home."""
 
@@ -1022,7 +1022,7 @@ async def test_device_tracker_hostname_and_macaddress_after_start_not_home(
 
 
 async def test_device_tracker_hostname_and_macaddress_after_start_not_router(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test matching based on hostname and macaddress after start but not router."""
 
@@ -1051,7 +1051,7 @@ async def test_device_tracker_hostname_and_macaddress_after_start_not_router(
 
 
 async def test_device_tracker_hostname_and_macaddress_after_start_hostname_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test matching based on hostname and macaddress after start, missing hostname."""
 
@@ -1079,7 +1079,7 @@ async def test_device_tracker_hostname_and_macaddress_after_start_hostname_missi
 
 
 async def test_device_tracker_invalid_ip_address(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an invalid ip address."""
 
@@ -1108,7 +1108,7 @@ async def test_device_tracker_invalid_ip_address(
 
 
 async def test_device_tracker_ignore_self_assigned_ips_before_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test matching ignores self assigned ip address."""
     hass.states.async_set(
@@ -1141,7 +1141,7 @@ async def test_device_tracker_ignore_self_assigned_ips_before_start(
     assert len(mock_init.mock_calls) == 0
 
 
-async def test_aiodiscover_finds_new_hosts(hass: UniversalAssistant) -> None:
+async def test_aiodiscover_finds_new_hosts(hass: __HAC_KEEP__) -> None:
     """Test aiodiscover finds new host."""
     with (
         patch.object(hass.config_entries.flow, "async_init") as mock_init,
@@ -1185,7 +1185,7 @@ async def test_aiodiscover_finds_new_hosts(hass: UniversalAssistant) -> None:
 
 
 async def test_aiodiscover_does_not_call_again_on_shorter_hostname(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify longer hostnames generate a new flow but shorter ones do not.
 
@@ -1254,7 +1254,7 @@ async def test_aiodiscover_does_not_call_again_on_shorter_hostname(
     )
 
 
-async def test_aiodiscover_finds_new_hosts_after_interval(hass: UniversalAssistant) -> None:
+async def test_aiodiscover_finds_new_hosts_after_interval(hass: __HAC_KEEP__) -> None:
     """Test aiodiscover finds new host after interval."""
     with (
         patch.object(hass.config_entries.flow, "async_init") as mock_init,
@@ -1347,7 +1347,7 @@ async def test_aiodiscover_finds_new_hosts_after_interval(hass: UniversalAssista
     ],
 )
 async def test_dhcp_rediscover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_domain: str,
     entry_discovery_keys: dict[str, tuple[DiscoveryKey, ...]],
     entry_source: str,
@@ -1438,7 +1438,7 @@ async def test_dhcp_rediscover(
     ],
 )
 async def test_dhcp_rediscover_no_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_domain: str,
     entry_discovery_keys: dict[str, tuple[DiscoveryKey, ...]],
     entry_source: str,

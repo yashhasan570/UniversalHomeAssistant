@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ovhcloud_ai_endpoints.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentry
 from universalassistant.const import CONF_API_KEY, CONF_MODEL, CONF_PROMPT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
 
 
 async def test_setup_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_setup_unload(
     ],
 )
 async def test_setup_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -74,7 +74,7 @@ async def test_setup_errors(
 
 
 async def test_new_subentry_creates_entity_and_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,

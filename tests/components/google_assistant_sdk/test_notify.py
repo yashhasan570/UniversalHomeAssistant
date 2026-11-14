@@ -9,8 +9,8 @@ from universalassistant.components import notify
 from universalassistant.components.google_assistant_sdk import DOMAIN
 from universalassistant.components.google_assistant_sdk.const import SUPPORTED_LANGUAGE_CODES
 from universalassistant.components.google_assistant_sdk.notify import broadcast_commands
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .conftest import ComponentSetup, ExpectedCredentials
 
@@ -26,7 +26,7 @@ from .conftest import ComponentSetup, ExpectedCredentials
     ids=["english", "spanish", "korean", "japanese"],
 )
 async def test_broadcast_no_targets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     language_code: str,
     message: str,
@@ -57,7 +57,7 @@ async def test_broadcast_no_targets(
 
 
 async def test_broadcast_grpc_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test broadcast handling when RpcError is raised."""
@@ -68,7 +68,7 @@ async def test_broadcast_grpc_error(
             "universalassistant.components.google_assistant_sdk.helpers.TextAssistantAsync.assist",
             side_effect=RpcError(),
         ) as mock_assist_call,
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             notify.DOMAIN,
@@ -106,7 +106,7 @@ async def test_broadcast_grpc_error(
     ids=["english", "spanish", "korean", "japanese"],
 )
 async def test_broadcast_one_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     language_code: str,
     message: str,
@@ -135,7 +135,7 @@ async def test_broadcast_one_target(
 
 
 async def test_broadcast_two_targets(
-    hass: UniversalAssistant, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup
 ) -> None:
     """Test broadcast to two targets."""
     await setup_integration()
@@ -161,7 +161,7 @@ async def test_broadcast_two_targets(
 
 
 async def test_broadcast_empty_message(
-    hass: UniversalAssistant, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup
 ) -> None:
     """Test broadcast empty message."""
     await setup_integration()
@@ -180,7 +180,7 @@ async def test_broadcast_empty_message(
 
 
 def test_broadcast_language_mapping(
-    hass: UniversalAssistant, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup
 ) -> None:
     """Test all supported languages have a mapped broadcast command."""
     for language_code in SUPPORTED_LANGUAGE_CODES:

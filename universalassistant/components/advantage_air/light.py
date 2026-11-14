@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.light import ColorMode, LightEntity, LightServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -15,7 +15,7 @@ from .helpers import get_system_id
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AdvantageAirDataConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

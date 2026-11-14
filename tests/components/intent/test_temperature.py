@@ -26,7 +26,7 @@ from universalassistant.components.intent import DOMAIN
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import ATTR_DEVICE_CLASS, Platform, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     entity_registry as er,
@@ -44,7 +44,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -53,11 +53,11 @@ def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-def mock_setup_integration(hass: UniversalAssistant) -> None:
+def mock_setup_integration(hass: __HAC_KEEP__) -> None:
     """Fixture to set up a mock integration."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -65,7 +65,7 @@ def mock_setup_integration(hass: UniversalAssistant) -> None:
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
     ) -> None:
         await hass.config_entries.async_unload_platforms(config_entry, [Platform.TODO])
@@ -82,13 +82,13 @@ def mock_setup_integration(hass: UniversalAssistant) -> None:
 
 
 async def create_mock_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entities: list[ClimateEntity],
 ) -> MockConfigEntry:
     """Create a todo platform with the specified entities."""
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -132,7 +132,7 @@ class MockClimateEntityNoSetTemperature(ClimateEntity):
 
 
 async def test_get_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -414,7 +414,7 @@ async def test_get_temperature(
 
 
 async def test_get_temperature_no_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HassClimateGetTemperature intent with no climate entities."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -434,7 +434,7 @@ async def test_get_temperature_no_entities(
 
 
 async def test_not_exposed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

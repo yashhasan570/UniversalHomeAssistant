@@ -13,13 +13,13 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_valid_hostname(
-    hass: UniversalAssistant, mock_send_magic_packet: AsyncMock
+    hass: __HAC_KEEP__, mock_send_magic_packet: AsyncMock
 ) -> None:
     """Test with valid hostname."""
     assert await async_setup_component(
@@ -63,7 +63,7 @@ async def test_valid_hostname(
 
 
 async def test_broadcast_config_ip_and_port(
-    hass: UniversalAssistant, mock_send_magic_packet: AsyncMock
+    hass: __HAC_KEEP__, mock_send_magic_packet: AsyncMock
 ) -> None:
     """Test with broadcast address and broadcast port config."""
     mac = "00:01:02:03:04:05"
@@ -101,7 +101,7 @@ async def test_broadcast_config_ip_and_port(
 
 
 async def test_broadcast_config_ip(
-    hass: UniversalAssistant, mock_send_magic_packet: AsyncMock
+    hass: __HAC_KEEP__, mock_send_magic_packet: AsyncMock
 ) -> None:
     """Test with only broadcast address."""
 
@@ -136,7 +136,7 @@ async def test_broadcast_config_ip(
 
 
 async def test_broadcast_config_port(
-    hass: UniversalAssistant, mock_send_magic_packet: AsyncMock
+    hass: __HAC_KEEP__, mock_send_magic_packet: AsyncMock
 ) -> None:
     """Test with only broadcast port config."""
 
@@ -165,7 +165,7 @@ async def test_broadcast_config_port(
 
 
 async def test_off_script(
-    hass: UniversalAssistant, mock_send_magic_packet: AsyncMock
+    hass: __HAC_KEEP__, mock_send_magic_packet: AsyncMock
 ) -> None:
     """Test with turn off script."""
 
@@ -215,7 +215,7 @@ async def test_off_script(
 
 
 async def test_no_hostname_state(
-    hass: UniversalAssistant, mock_send_magic_packet: AsyncMock
+    hass: __HAC_KEEP__, mock_send_magic_packet: AsyncMock
 ) -> None:
     """Test that the state updates if we do not pass in a hostname."""
 
@@ -258,7 +258,7 @@ async def test_no_hostname_state(
 
 
 async def test_remove_unloads_off_script(
-    hass: UniversalAssistant, mock_send_magic_packet: AsyncMock
+    hass: __HAC_KEEP__, mock_send_magic_packet: AsyncMock
 ) -> None:
     """Test that removing the WOL switch unloads the off script."""
     assert await async_setup_component(
@@ -299,7 +299,7 @@ async def test_remove_unloads_off_script(
 
 
 async def test_changed_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_send_magic_packet: AsyncMock,
 ) -> None:

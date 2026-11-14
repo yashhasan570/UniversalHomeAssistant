@@ -12,8 +12,8 @@ from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth.passive_update_coordinator import (
     PassiveBluetoothCoordinatorEntity,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import ToggleEntity
@@ -99,7 +99,7 @@ class SwitchbotConnectionPolledEntity(SwitchbotEntity):
     """Entity whose value has to be read from the device over a connection.
 
     Reading needs an active connection, which is slow and frequently
-    impossible while Universal Universal Home Assistant is still starting up and competing for the
+    impossible while __HA_KEEP__ is still starting up and competing for the
     Bluetooth adapter, so the first read is deferred until startup is over.
     """
 
@@ -122,7 +122,7 @@ class SwitchbotConnectionPolledEntity(SwitchbotEntity):
         self.async_on_remove(async_at_started(self.hass, self._async_hass_started))
 
     @callback
-    def _async_hass_started(self, _hass: UniversalAssistant) -> None:
+    def _async_hass_started(self, _hass: __HAC_KEEP__) -> None:
         """Read the value now that startup is no longer in the way."""
         # A background task so a stuck connect is cancelled when the entry
         # unloads instead of holding up shutdown.
@@ -164,7 +164,7 @@ def exception_handler[_EntityT: SwitchbotEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except SwitchbotOperationError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="operation_error",
                 translation_placeholders={"error": str(error)},

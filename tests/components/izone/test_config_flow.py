@@ -14,7 +14,7 @@ from universalassistant import config_entries
 from universalassistant.components.izone import config_flow, discovery as izone_discovery
 from universalassistant.components.izone.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -36,7 +36,7 @@ def _make_homekit_info(md: str, host: str | None = None) -> SimpleNamespace:
 
 
 async def _async_submit_reachable_host(
-    hass: UniversalAssistant, result: config_entries.ConfigFlowResult, controller: Mock
+    hass: __HAC_KEEP__, result: config_entries.ConfigFlowResult, controller: Mock
 ) -> None:
     """Submit the host of a reachable controller and assert the entry is created."""
     with patch_discovered_controllers(controller):
@@ -69,7 +69,7 @@ def mock_izone_timeouts() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_discovery_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test user Search hands off to the shelf confirm and creates an entry."""
     controller = create_mock_controller("000000001", "192.0.2.55")
@@ -90,7 +90,7 @@ async def test_user_discovery_success(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_discovery_default_selects_first_and_leaves_other(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Default dropdown selection hands off to first UID; other stays on shelf."""
     first = create_mock_controller("000000001", "192.0.2.1")
@@ -125,7 +125,7 @@ async def test_user_discovery_default_selects_first_and_leaves_other(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_broadcast_skips_already_configured_controller(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Search shelf omits configured controllers and hands off the unconfigured one."""
     configured_controller = create_mock_controller("000000001", "192.0.2.1")
@@ -155,7 +155,7 @@ async def test_broadcast_skips_already_configured_controller(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_broadcast_multiple_unconfigured_shows_choice(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Search shows a controller choice when multiple shelf flows are present."""
     first_controller = create_mock_controller("000000002", "192.0.2.1")
@@ -204,7 +204,7 @@ async def test_broadcast_multiple_unconfigured_shows_choice(
 
 
 async def test_select_controller_rerender_hands_off_when_one_left(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Re-show after the shelf shrinks to one candidate hands off that flow."""
     first_controller = create_mock_controller("000000001", "192.0.2.1")
@@ -232,7 +232,7 @@ async def test_select_controller_rerender_hands_off_when_one_left(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_select_controller_rerender_nudges_manual_host_when_shelf_empty(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Re-show after every shelf flow is gone opens Enter host with an error."""
     first_controller = create_mock_controller("000000001", "192.0.2.1")
@@ -265,7 +265,7 @@ async def test_select_controller_rerender_nudges_manual_host_when_shelf_empty(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_select_controller_hands_off_selected_flow_and_leaves_others(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """A selected shelf flow hands off; non-selected shelf flows remain."""
     first_controller = create_mock_controller("000000002", "192.0.2.1")
@@ -302,7 +302,7 @@ async def test_select_controller_hands_off_selected_flow_and_leaves_others(
 
 
 async def test_select_controller_aborts_when_uid_not_on_shelf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Abort no_devices_found when the submitted UID is unknown to the shelf."""
     first_controller = create_mock_controller("000000001", "192.0.2.1")
@@ -342,7 +342,7 @@ async def test_select_controller_aborts_when_uid_not_on_shelf(
     ],
 )
 async def test_select_controller_aborts_already_configured_when_uid_left_shelf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_source: str,
     entry_data: dict[str, str],
 ) -> None:
@@ -382,7 +382,7 @@ async def test_select_controller_aborts_already_configured_when_uid_left_shelf(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_broadcast_nudges_manual_host_when_all_discovered_are_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Search opens Enter host when every noted controller is already configured."""
     configured_controller = create_mock_controller("000000001", "192.0.2.1")
@@ -411,7 +411,7 @@ async def test_broadcast_nudges_manual_host_when_all_discovered_are_configured(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_flow_nudges_manual_host_when_all_discovered_are_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Search opens Enter host when every noted controller is ignored (no shelf)."""
     ignored_controller = create_mock_controller("000000001", "192.0.2.1")
@@ -438,7 +438,7 @@ async def test_user_flow_nudges_manual_host_when_all_discovered_are_ignored(
 
 
 async def test_import_aborts_when_another_izone_flow_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test YAML import does not overlap discovery with an active user flow."""
     controller = create_mock_controller("000000001", "192.0.2.1")
@@ -459,7 +459,7 @@ async def test_import_aborts_when_another_izone_flow_in_progress(
 
 
 async def test_import_starts_discovery_and_aborts_discovery_started(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """YAML import starts shared discovery then aborts so runtime flows take over."""
     with patch(
@@ -477,7 +477,7 @@ async def test_import_starts_discovery_and_aborts_discovery_started(
     mock_ensure.assert_awaited_once()
 
 
-async def test_import_aborts_when_discovery_bind_fails(hass: UniversalAssistant) -> None:
+async def test_import_aborts_when_discovery_bind_fails(hass: __HAC_KEEP__) -> None:
     """YAML import aborts when discovery cannot bind the UDP socket."""
     with patch(
         "universalassistant.components.izone.discovery.async_ensure_discovery",
@@ -493,7 +493,7 @@ async def test_import_aborts_when_discovery_bind_fails(hass: UniversalAssistant)
     assert result["reason"] == "discovery_failed"
 
 
-async def test_user_flow_aborts_when_discovery_bind_fails(hass: UniversalAssistant) -> None:
+async def test_user_flow_aborts_when_discovery_bind_fails(hass: __HAC_KEEP__) -> None:
     """User flow aborts when discovery cannot bind the UDP socket."""
     with patch(
         "universalassistant.components.izone.discovery.async_scan",
@@ -510,12 +510,12 @@ async def test_user_flow_aborts_when_discovery_bind_fails(hass: UniversalAssista
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_discover_reshows_progress_while_scan_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Re-entering discover while the scan task is pending keeps SHOW_PROGRESS."""
     release = asyncio.Event()
 
-    async def _blocked_scan(_hass: UniversalAssistant) -> None:
+    async def _blocked_scan(_hass: __HAC_KEEP__) -> None:
         await release.wait()
 
     with patch(
@@ -549,7 +549,7 @@ async def test_user_discover_reshows_progress_while_scan_running(
 
 
 async def test_user_search_skips_peer_user_flow_when_building_candidates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Concurrent SOURCE_USER flows are not treated as shelf candidates."""
     controller = create_mock_controller("000000001", "192.0.2.1")
@@ -575,7 +575,7 @@ async def test_user_search_skips_peer_user_flow_when_building_candidates(
 
 
 async def test_user_candidates_skips_discovery_without_host_placeholder(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Discovery flows missing a string host placeholder are not offered."""
     first = create_mock_controller("000000001", "192.0.2.1")
@@ -612,7 +612,7 @@ async def test_user_candidates_skips_discovery_without_host_placeholder(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_homekit_confirm_uses_discovered_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HomeKit flow confirms and uses the discovered controller IP, not the HomeKit host."""
     controller = create_mock_controller(device_ip="192.0.2.3")
@@ -651,7 +651,7 @@ async def test_homekit_confirm_uses_discovered_host(
 
 
 async def test_homekit_fans_out_other_discovered_controllers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HomeKit flow fans out additional discovered controllers."""
     matched_controller = create_mock_controller("000000001", "192.0.2.3")
@@ -688,7 +688,7 @@ async def test_homekit_fans_out_other_discovered_controllers(
 
 
 async def test_homekit_flow_sets_device_uid_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """HomeKit flow sets unique_id to the device UID exactly once (no lock-ID swap)."""
     controller = create_mock_controller("000000001", "192.0.2.3")
@@ -722,7 +722,7 @@ async def test_homekit_flow_sets_device_uid_once(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_homekit_aborts_while_user_select_is_open(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """HomeKit onboarding for same UID is blocked while user Search select is open."""
     first = create_mock_controller("000000001", "192.0.2.3")
@@ -746,7 +746,7 @@ async def test_homekit_aborts_while_user_select_is_open(
 
 
 async def test_user_search_allowed_while_homekit_flow_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """User Search may start while a HomeKit confirm flow is already open."""
     homekit_controller = create_mock_controller("000000001", "192.0.2.3")
@@ -773,7 +773,7 @@ async def test_user_search_allowed_while_homekit_flow_in_progress(
 
 
 async def test_homekit_aborts_when_uid_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HomeKit aborts immediately when the discovered UID is already configured."""
     MockConfigEntry(
@@ -805,13 +805,13 @@ async def test_homekit_aborts_when_uid_already_configured(
 
 
 async def test_homekit_aborts_when_uid_configured_during_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HomeKit aborts if the discovered UID gets configured mid-resolution."""
     controller = create_mock_controller("000000001", "192.0.2.3")
 
     async def _discover_with_midflight_config(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, object]:
         MockConfigEntry(
             domain=DOMAIN,
@@ -855,7 +855,7 @@ async def test_homekit_aborts_when_uid_configured_during_discovery(
     ],
 )
 async def test_homekit_aborts_when_target_uid_not_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     controllers: list[Mock],
     homekit_md: str,
     homekit_host: str | None,
@@ -874,7 +874,7 @@ async def test_homekit_aborts_when_target_uid_not_discovered(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_homekit_resolves_uid_via_discover_endpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """HomeKit falls back to discover_by_uid when the UID is missing from discover_all."""
     target = create_mock_controller("000000001", "192.0.2.1")
@@ -909,7 +909,7 @@ async def test_homekit_resolves_uid_via_discover_endpoint(
 
 
 async def test_homekit_aborts_when_controller_does_not_verify(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """HomeKit aborts with cannot_connect when the UID's address fails the HTTP check."""
     with (
@@ -936,7 +936,7 @@ async def test_homekit_aborts_when_controller_does_not_verify(
     assert result["reason"] == "cannot_connect"
 
 
-async def test_homekit_aborts_when_discovery_bind_fails(hass: UniversalAssistant) -> None:
+async def test_homekit_aborts_when_discovery_bind_fails(hass: __HAC_KEEP__) -> None:
     """HomeKit aborts when discovery cannot bind the UDP socket."""
     with patch(
         "universalassistant.components.izone.discovery.async_discover_all_endpoints",
@@ -953,7 +953,7 @@ async def test_homekit_aborts_when_discovery_bind_fails(hass: UniversalAssistant
 
 
 @pytest.mark.usefixtures("mock_entry_setup")
-async def test_user_search_empty_nudges_manual_host(hass: UniversalAssistant) -> None:
+async def test_user_search_empty_nudges_manual_host(hass: __HAC_KEEP__) -> None:
     """Empty Search shows Enter host with no_devices_found instead of aborting."""
     with patch_discovered_controllers([]):
         result = await hass.config_entries.flow.async_init(
@@ -971,7 +971,7 @@ async def test_user_search_empty_nudges_manual_host(hass: UniversalAssistant) ->
 
 
 async def test_homekit_without_model_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HomeKit flow with a non-iZone model string aborts immediately."""
     result = await hass.config_entries.flow.async_init(
@@ -985,7 +985,7 @@ async def test_homekit_without_model_aborts(
 
 
 async def test_integration_discovery_ignores_yaml_exclude(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Integration discovery offers controllers listed in YAML exclude."""
     await async_load_yaml_exclude(hass, "000000002")
@@ -1004,7 +1004,7 @@ async def test_integration_discovery_ignores_yaml_exclude(
 
 
 async def test_integration_discovery_aborts_for_ignored_uid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Integration discovery should abort for UIDs that have been ignored."""
     MockConfigEntry(
@@ -1029,7 +1029,7 @@ async def test_integration_discovery_aborts_for_ignored_uid(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_runtime_integration_discovery_starts_confirm_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """When the discovery service sees an unconfigured UID, offer setup."""
     MockConfigEntry(
@@ -1056,7 +1056,7 @@ async def test_runtime_integration_discovery_starts_confirm_flow(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_integration_discovery_confirm_creates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Full path: integration-discovery flow confirmed by the user creates an entry."""
     controller = create_mock_controller("000000002", "192.0.2.2")
@@ -1082,7 +1082,7 @@ async def test_integration_discovery_confirm_creates_entry(
 
 
 async def test_runtime_integration_discovery_skips_when_uid_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """No active flow remains when a config entry already exists for the UID."""
     MockConfigEntry(
@@ -1103,7 +1103,7 @@ async def test_runtime_integration_discovery_skips_when_uid_already_configured(
 
 
 async def test_runtime_integration_discovery_skips_for_ignored_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """No active flow remains when the UID matches an ignored entry."""
     MockConfigEntry(
@@ -1123,7 +1123,7 @@ async def test_runtime_integration_discovery_skips_for_ignored_unique_id(
 
 
 async def test_runtime_integration_discovery_allows_during_user_select_controller_step(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Runtime discovery may add shelf flows while the user is choosing controllers."""
     MockConfigEntry(
@@ -1170,7 +1170,7 @@ async def test_runtime_integration_discovery_allows_during_user_select_controlle
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_runtime_integration_discovery_allows_during_user_confirm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Runtime discovery may add shelf flows while a shelf confirm step is open."""
     first = create_mock_controller("000000001", "192.0.2.1")
@@ -1196,7 +1196,7 @@ async def test_runtime_integration_discovery_allows_during_user_confirm(
     }
 
 
-async def test_async_setup_starts_import_flow(hass: UniversalAssistant) -> None:
+async def test_async_setup_starts_import_flow(hass: __HAC_KEEP__) -> None:
     """Test YAML config triggers an import flow."""
     with (
         patch.object(hass.config_entries.flow, "async_init") as mock_async_init,
@@ -1231,7 +1231,7 @@ def test_is_matching_returns_true_for_same_flow_uid() -> None:
 
 
 async def test_confirm_asserts_when_controller_data_is_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Confirm asserts when required controller data is unexpectedly missing."""
     controller = create_mock_controller("000000001", "192.0.2.1")
@@ -1251,7 +1251,7 @@ async def test_confirm_asserts_when_controller_data_is_missing(
 
 
 async def test_confirm_asserts_when_unique_id_is_not_string(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Confirm asserts when flow unique_id is unexpectedly not a string."""
     controller = create_mock_controller("000000001", "192.0.2.1")
@@ -1294,7 +1294,7 @@ def test_async_fan_out_skips_uids_already_in_progress() -> None:
 
 
 async def test_homekit_aborts_for_ignored_uid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """HomeKit setup aborts for UIDs that have been ignored."""
     MockConfigEntry(
@@ -1325,7 +1325,7 @@ async def test_homekit_aborts_for_ignored_uid(
 
 
 async def test_async_migrate_entry_discovers_legacy_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_discovery: AsyncMock,
     mock_discovery_service: Mock,
 ) -> None:
@@ -1358,7 +1358,7 @@ async def test_async_migrate_entry_discovers_legacy_domain(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_menu_always_offers_search_and_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """User start is always a menu, including when an entry is already loaded."""
     MockConfigEntry(
@@ -1379,7 +1379,7 @@ async def test_user_menu_always_offers_search_and_host(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_manual_host_success_shelves_and_handoff(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Probe of an unknown host schedules a shelf flow and hands off."""
     controller = create_mock_controller("000000001", "192.0.2.55")
@@ -1403,7 +1403,7 @@ async def test_user_manual_host_success_shelves_and_handoff(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_manual_host_matching_shelf_skips_probe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Typing a host already on the Discovered shelf hands off without probing."""
     controller = create_mock_controller("000000001", "192.0.2.55")
@@ -1437,7 +1437,7 @@ async def test_user_manual_host_matching_shelf_skips_probe(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_manual_host_handoff_by_uid_when_shelf_host_stale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Stale shelf host is replaced; handoff confirm/create use the probed host."""
     stale = create_mock_controller("000000001", "10.0.0.1")
@@ -1479,7 +1479,7 @@ async def test_user_manual_host_handoff_by_uid_when_shelf_host_stale(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_manual_host_ignores_yaml_exclude(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Enter host sets up a controller listed in YAML exclude."""
     await async_load_yaml_exclude(hass, "000000001")
@@ -1503,7 +1503,7 @@ async def test_user_manual_host_ignores_yaml_exclude(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_manual_host_ignored_uid_confirms_without_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Typed host of an ignored UID confirms in-flow and replaces Ignore on create."""
     ignored = MockConfigEntry(
@@ -1550,7 +1550,7 @@ async def test_user_manual_host_ignored_uid_confirms_without_unique_id(
 
 
 @pytest.mark.usefixtures("mock_entry_setup")
-async def test_user_manual_host_empty_rejected_by_schema(hass: UniversalAssistant) -> None:
+async def test_user_manual_host_empty_rejected_by_schema(hass: __HAC_KEEP__) -> None:
     """Whitespace-only host is a required-field error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1570,7 +1570,7 @@ async def test_user_manual_host_empty_rejected_by_schema(hass: UniversalAssistan
 
 
 @pytest.mark.usefixtures("mock_entry_setup")
-async def test_user_manual_host_unreachable(hass: UniversalAssistant) -> None:
+async def test_user_manual_host_unreachable(hass: __HAC_KEEP__) -> None:
     """Unreachable host redisplays the form with cannot_connect."""
     with patch(
         "universalassistant.components.izone.discovery.async_discover_by_host",
@@ -1599,7 +1599,7 @@ async def test_user_manual_host_unreachable(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_manual_host_already_configured_stays_on_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Loaded entry for the probed UID redisplays Enter host with an error."""
     MockConfigEntry(
@@ -1629,7 +1629,7 @@ async def test_user_manual_host_already_configured_stays_on_form(
 
 
 @pytest.mark.usefixtures("mock_entry_setup")
-async def test_user_manual_host_unpaired_stays_on_form(hass: UniversalAssistant) -> None:
+async def test_user_manual_host_unpaired_stays_on_form(hass: __HAC_KEEP__) -> None:
     """Unpaired placeholder UID redisplays Enter host with an error."""
     with patch(
         "universalassistant.components.izone.discovery.async_discover_by_host",
@@ -1653,7 +1653,7 @@ async def test_user_manual_host_unpaired_stays_on_form(hass: UniversalAssistant)
 
 
 @pytest.mark.usefixtures("mock_entry_setup")
-async def test_user_manual_host_claimed_stays_on_form(hass: UniversalAssistant) -> None:
+async def test_user_manual_host_claimed_stays_on_form(hass: __HAC_KEEP__) -> None:
     """Claimed controller on the discovery service redisplays Enter host."""
     with patch(
         "universalassistant.components.izone.discovery.async_discover_by_host",
@@ -1676,7 +1676,7 @@ async def test_user_manual_host_claimed_stays_on_form(hass: UniversalAssistant) 
     )
 
 
-async def test_user_manual_host_discovery_bind_fails(hass: UniversalAssistant) -> None:
+async def test_user_manual_host_discovery_bind_fails(hass: __HAC_KEEP__) -> None:
     """UDP bind failure during Enter host probe aborts discovery_failed."""
     with patch(
         "universalassistant.components.izone.discovery.async_discover_by_host",
@@ -1696,7 +1696,7 @@ async def test_user_manual_host_discovery_bind_fails(hass: UniversalAssistant) -
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_manual_host_handoff_by_uid_when_typed_host_differs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Typed alias that probes to the shelf host hands off without replacing the card."""
     controller = create_mock_controller("000000001", "192.0.2.55")
@@ -1731,7 +1731,7 @@ async def test_user_manual_host_handoff_by_uid_when_typed_host_differs(
 
 @pytest.mark.usefixtures("mock_entry_setup")
 async def test_user_manual_host_shelve_miss_stays_on_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """If shelving does not produce a shelf card, stay on Enter host."""
     endpoint = endpoint_from_controller(

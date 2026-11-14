@@ -6,7 +6,7 @@ from typing import Any
 
 from pysmartthings import DeviceEvent
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from . import SmartThingsConfigEntry
@@ -16,7 +16,7 @@ EVENT_WAIT_TIME = 5
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmartThingsConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
@@ -25,7 +25,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, entry: SmartThingsConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: SmartThingsConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device entry."""
     client = entry.runtime_data.client

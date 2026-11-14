@@ -18,7 +18,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.proxmoxve.coordinator import DEFAULT_UPDATE_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 import universalassistant.helpers.entity_registry as er
 
 from . import PVEVMUSER_PERMISSIONS, setup_integration
@@ -30,7 +30,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -65,7 +65,7 @@ async def test_all_entities(
     ],
 )
 async def test_refresh_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -86,7 +86,7 @@ async def test_refresh_exceptions(
 
 
 async def test_binary_sensors_according_to_permissions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -108,7 +108,7 @@ async def test_binary_sensors_according_to_permissions(
 
 
 async def test_binary_sensors_absent_according_to_permissions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

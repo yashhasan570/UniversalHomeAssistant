@@ -2,10 +2,10 @@
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up NEW_NAME from a config entry."""
     # TODO Optionally store an object for your platforms to access
     # entry.runtime_data = ...
@@ -19,11 +19,11 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
 
 
 # TODO Remove if the integration does not have an options flow
-async def config_entry_update_listener(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def config_entry_update_listener(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Update listener, called when the config entry options are changed."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, (Platform.SENSOR,))

@@ -20,8 +20,8 @@ from universalassistant.const import (
     CONF_FOR,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity import (
     get_capability,
@@ -240,7 +240,7 @@ TRIGGER_SCHEMA = probatio.All(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -266,7 +266,7 @@ async def async_attach_trigger(
 
 
 async def async_get_triggers(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers."""
     triggers: list[dict[str, str]] = []
@@ -307,14 +307,14 @@ async def async_get_triggers(
 
 
 async def async_get_trigger_capabilities(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List trigger capabilities."""
 
     try:
         entry = async_get_entity_registry_entry_or_raise(hass, config[CONF_ENTITY_ID])
         unit_of_measurement = get_unit_of_measurement(hass, entry.entity_id)
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         unit_of_measurement = None
 
     if not unit_of_measurement:

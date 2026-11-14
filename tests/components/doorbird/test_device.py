@@ -14,7 +14,7 @@ from universalassistant.components.doorbird.const import (
     DEFAULT_MOTION_EVENT,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import VALID_CONFIG
 from .conftest import DoorbirdMockerType
@@ -31,16 +31,16 @@ def doorbird_favorites_with_stale() -> dict[str, dict[str, Any]]:
     return {
         "http": {
             "0": {
-                "title": "Universal Universal Home Assistant (mydoorbird_doorbell)",
+                "title": "__HA_KEEP__ (mydoorbird_doorbell)",
                 "value": "http://127.0.0.1:8123/api/doorbird/mydoorbird_doorbell?token=test-token",
             },
             # Stale favorite from a different HA instance - should be filtered out
             "2": {
-                "title": "Universal Universal Home Assistant (mydoorbird_doorbell)",
+                "title": "__HA_KEEP__ (mydoorbird_doorbell)",
                 "value": "http://old-ha-instance:8123/api/doorbird/mydoorbird_doorbell?token=old-token",
             },
             "5": {
-                "title": "Universal Universal Home Assistant (mydoorbird_motion)",
+                "title": "__HA_KEEP__ (mydoorbird_motion)",
                 "value": "http://127.0.0.1:8123/api/doorbird/mydoorbird_motion?token=test-token",
             },
         }
@@ -86,7 +86,7 @@ def doorbird_schedule_with_stale() -> list[DoorBirdScheduleEntry]:
 
 
 async def test_stale_favorites_filtered_by_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
     doorbird_favorites_with_stale: dict[str, dict[str, Any]],
     doorbird_schedule_with_stale: list[DoorBirdScheduleEntry],
@@ -103,7 +103,7 @@ async def test_stale_favorites_filtered_by_url(
 
 
 async def test_custom_url_used_for_favorites(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
     """Test that custom URL override is used instead of get_url."""
@@ -111,13 +111,13 @@ async def test_custom_url_used_for_favorites(
     favorites = {
         "http": {
             "1": {
-                "title": "Universal Universal Home Assistant (mydoorbird_doorbell)",
+                "title": "__HA_KEEP__ (mydoorbird_doorbell)",
                 "value": (
                     f"{custom_url}/api/doorbird/mydoorbird_doorbell?token=test-token"
                 ),
             },
             "2": {
-                "title": "Universal Universal Home Assistant (mydoorbird_motion)",
+                "title": "__HA_KEEP__ (mydoorbird_motion)",
                 "value": (
                     f"{custom_url}/api/doorbird/mydoorbird_motion?token=test-token"
                 ),
@@ -142,7 +142,7 @@ async def test_custom_url_used_for_favorites(
 
 
 async def test_no_configured_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
     """Test a doorbird with no events configured."""

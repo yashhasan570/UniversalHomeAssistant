@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_PLATFORM = {DOMAIN: {CONF_PLATFORM: "test"}}
 SERVICE_SEND_COMMAND = "send_command"
@@ -30,7 +30,7 @@ SERVICE_DELETE_COMMAND = "delete_command"
 ENTITY_ID = "entity_id_val"
 
 
-async def test_is_on(hass: UniversalAssistant) -> None:
+async def test_is_on(hass: __HAC_KEEP__) -> None:
     """Test is_on."""
     hass.states.async_set("remote.test", STATE_ON)
     assert remote.is_on(hass, "remote.test")
@@ -39,7 +39,7 @@ async def test_is_on(hass: UniversalAssistant) -> None:
     assert not remote.is_on(hass, "remote.test")
 
 
-async def test_turn_on(hass: UniversalAssistant) -> None:
+async def test_turn_on(hass: __HAC_KEEP__) -> None:
     """Test turn_on."""
     turn_on_calls = async_mock_service(hass, DOMAIN, SERVICE_TURN_ON)
     await hass.services.async_call(DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID})
@@ -52,7 +52,7 @@ async def test_turn_on(hass: UniversalAssistant) -> None:
     assert call.domain == DOMAIN
 
 
-async def test_turn_off(hass: UniversalAssistant) -> None:
+async def test_turn_off(hass: __HAC_KEEP__) -> None:
     """Test turn_off."""
     turn_off_calls = async_mock_service(hass, DOMAIN, SERVICE_TURN_OFF)
 
@@ -70,7 +70,7 @@ async def test_turn_off(hass: UniversalAssistant) -> None:
     assert call.data[ATTR_ENTITY_ID] == ENTITY_ID
 
 
-async def test_send_command(hass: UniversalAssistant) -> None:
+async def test_send_command(hass: __HAC_KEEP__) -> None:
     """Test send_command."""
     send_command_calls = async_mock_service(hass, DOMAIN, SERVICE_SEND_COMMAND)
 
@@ -94,7 +94,7 @@ async def test_send_command(hass: UniversalAssistant) -> None:
     assert call.data[ATTR_ENTITY_ID] == ENTITY_ID
 
 
-async def test_learn_command(hass: UniversalAssistant) -> None:
+async def test_learn_command(hass: __HAC_KEEP__) -> None:
     """Test learn_command."""
     learn_command_calls = async_mock_service(hass, DOMAIN, SERVICE_LEARN_COMMAND)
 
@@ -118,7 +118,7 @@ async def test_learn_command(hass: UniversalAssistant) -> None:
     assert call.data[ATTR_ENTITY_ID] == ENTITY_ID
 
 
-async def test_delete_command(hass: UniversalAssistant) -> None:
+async def test_delete_command(hass: __HAC_KEEP__) -> None:
     """Test delete_command."""
     delete_command_calls = async_mock_service(
         hass, remote.DOMAIN, SERVICE_DELETE_COMMAND

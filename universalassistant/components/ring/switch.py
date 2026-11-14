@@ -9,8 +9,8 @@ from ring_doorbell import RingCapability, RingDoorBell
 from ring_doorbell.const import DOORBELL_EXISTING_TYPE
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -56,7 +56,7 @@ async def _async_set_in_home_chime_enabled(device: RingDoorBell, enabled: bool) 
         await device.async_set_existing_doorbell_type_enabled(enabled)
     except KeyError as ex:
         _LOGGER.debug("In-home chime type unknown for %s", device.device_api_id)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="chime_type_unknown"
         ) from ex
 
@@ -98,7 +98,7 @@ SWITCHES: Sequence[RingSwitchEntityDescription[Any]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -145,7 +145,7 @@ class RingSwitch(RingEntity[RingDeviceT], SwitchEntity):
 
     @refresh_after
     async def _async_set_switch(self, switch_on: bool) -> None:
-        """Update switch state, and causes Universal Universal Home Assistant to correctly update."""
+        """Update switch state, and causes __HA_KEEP__ to correctly update."""
         if switch_on:
             await self.entity_description.turn_on_fn(self._device)
         else:

@@ -12,8 +12,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .const import TEST_INSTALLS
@@ -61,7 +61,7 @@ def zone_button_id(zone_id: str, reset_button_id: Callable[[str], str]) -> str:
 @pytest.mark.parametrize("install", [*TEST_INSTALLS, "botched"])
 @pytest.mark.usefixtures("evohome")
 async def test_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test that button entities are created after setup of evohome."""
@@ -76,7 +76,7 @@ async def test_setup_platform(
 @pytest.mark.parametrize("install", ["default"])
 @pytest.mark.usefixtures("evohome")
 async def test_system_reset_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     system_button_id: str,
 ) -> None:
     """Test SERVICE_PRESS on the system reset button."""
@@ -95,7 +95,7 @@ async def test_system_reset_button_press(
 @pytest.mark.parametrize("install", ["default"])
 @pytest.mark.usefixtures("evohome")
 async def test_zone_reset_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_button_id: str,
 ) -> None:
     """Test SERVICE_PRESS on a zone reset button."""
@@ -114,7 +114,7 @@ async def test_zone_reset_button_press(
 @pytest.mark.parametrize("install", ["default"])
 @pytest.mark.usefixtures("evohome")
 async def test_dhw_reset_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dhw_button_id: str,
 ) -> None:
     """Test SERVICE_PRESS on the DHW reset button."""
@@ -133,17 +133,17 @@ async def test_dhw_reset_button_press(
 @pytest.mark.parametrize("install", ["default"])
 @pytest.mark.usefixtures("evohome")
 async def test_button_press_api_call_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     system_button_id: str,
 ) -> None:
-    """Test SERVICE_PRESS raises UniversalAssistantError if the vendor's API call fails."""
+    """Test SERVICE_PRESS raises __HAC_KEEP__Error if the vendor's API call fails."""
 
     with (
         patch(
             "evohomeasync2.control_system.ControlSystem.reset",
             side_effect=evo_exc.ApiCallFailedError("API call failed"),
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,

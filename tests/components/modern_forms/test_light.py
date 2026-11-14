@@ -41,15 +41,15 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration, init_integration_gen4, modern_forms_gen4_call_mock
 
 
 async def test_light_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_light_state(
 
 
 async def test_change_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_change_state(
 
 
 async def test_sleep_timer_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_sleep_timer_services(
 
 
 async def test_light_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test error handling of the Modern Forms lights."""
@@ -145,7 +145,7 @@ async def test_light_error(
         patch(
             "universalassistant.components.modern_forms.coordinator.ModernFormsDevice.update"
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             LIGHT_DOMAIN,
@@ -159,7 +159,7 @@ async def test_light_error(
 
 
 async def test_light_connection_error(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test error handling of the Modern Forms lights."""
     await init_integration(hass, aioclient_mock)
@@ -172,7 +172,7 @@ async def test_light_connection_error(
             "universalassistant.components.modern_forms.coordinator.ModernFormsDevice.light",
             side_effect=ModernFormsConnectionError,
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             LIGHT_DOMAIN,
@@ -189,7 +189,7 @@ async def test_light_connection_error(
 
 
 async def test_light_state_gen4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -218,14 +218,14 @@ async def test_light_state_gen4(
 
 
 async def test_light_name_requires_word_boundary_gen4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test a fixture name isn't stripped without a real device-name boundary."""
 
     async def partial_word_name_mock(
-        hass: UniversalAssistant, method: str, url: URL, data: dict[str, Any]
+        hass: __HAC_KEEP__, method: str, url: URL, data: dict[str, Any]
     ) -> AiohttpClientMockResponse:
         """Serve the normal Gen4 fixtures, with the uplight renamed."""
         if not url.path.endswith("/fixture"):
@@ -253,14 +253,14 @@ async def test_light_name_requires_word_boundary_gen4(
 
 
 async def test_light_name_falls_back_to_device_name_gen4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test a fixture named exactly like the device falls back to that name alone."""
 
     async def exact_match_name_mock(
-        hass: UniversalAssistant, method: str, url: URL, data: dict[str, Any]
+        hass: __HAC_KEEP__, method: str, url: URL, data: dict[str, Any]
     ) -> AiohttpClientMockResponse:
         """Serve the normal Gen4 fixtures, with the uplight renamed."""
         if not url.path.endswith("/fixture"):
@@ -285,7 +285,7 @@ async def test_light_name_falls_back_to_device_name_gen4(
 
 
 async def test_light_unavailable_when_fixture_disappears_gen4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -293,7 +293,7 @@ async def test_light_unavailable_when_fixture_disappears_gen4(
     removed_addresses: set[int] = set()
 
     async def fixture_removal_mock(
-        hass: UniversalAssistant, method: str, url: URL, data: dict[str, Any]
+        hass: __HAC_KEEP__, method: str, url: URL, data: dict[str, Any]
     ) -> AiohttpClientMockResponse:
         """Serve the normal Gen4 fixtures, minus any addresses removed."""
         if not url.path.endswith("/fixture") or not removed_addresses:
@@ -325,7 +325,7 @@ async def test_light_unavailable_when_fixture_disappears_gen4(
 
 
 async def test_light_change_state_gen4(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test Gen4 fixture entities control via light_fixture(), not light()."""
     await init_integration_gen4(hass, aioclient_mock)
@@ -346,13 +346,13 @@ async def test_light_change_state_gen4(
 
 
 async def test_light_sleep_timer_not_supported_gen4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test setting a sleep timer on a Gen4 light fixture raises an error."""
     await init_integration_gen4(hass, aioclient_mock)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ModernFormsService.SET_LIGHT_SLEEP_TIMER,
@@ -368,13 +368,13 @@ async def test_light_sleep_timer_not_supported_gen4(
 
 
 async def test_clear_light_sleep_timer_not_supported_gen4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test clearing a sleep timer on a Gen4 light fixture raises an error."""
     await init_integration_gen4(hass, aioclient_mock)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ModernFormsService.CLEAR_LIGHT_SLEEP_TIMER,
@@ -387,7 +387,7 @@ async def test_clear_light_sleep_timer_not_supported_gen4(
 
 
 async def test_light_color_temp_gen4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test Gen4 light fixtures advertise and control color temperature."""
@@ -415,12 +415,12 @@ async def test_light_color_temp_gen4(
 
 
 async def test_light_color_temp_missing_bounds_gen4(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test a Gen4 fixture missing color-temp bounds falls back to brightness."""
 
     async def missing_bounds_mock(
-        hass: UniversalAssistant, method: str, url: URL, data: dict[str, Any]
+        hass: __HAC_KEEP__, method: str, url: URL, data: dict[str, Any]
     ) -> AiohttpClientMockResponse:
         """Serve the normal Gen4 fixtures, minus the downlight's color-temp bounds."""
         if not url.path.endswith("/fixture"):
@@ -442,7 +442,7 @@ async def test_light_color_temp_missing_bounds_gen4(
 
 
 async def test_light_no_color_temp_on_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test Gen 1/2/3 lights never advertise color temperature."""

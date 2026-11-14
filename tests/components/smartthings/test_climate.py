@@ -50,7 +50,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -64,7 +64,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -78,7 +78,7 @@ async def test_all_entities(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_fan_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_ac_set_fan_mode(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_hvac_mode_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_ac_set_hvac_mode_off(
     ],
 )
 async def test_ac_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hvac_mode: HVACMode,
@@ -172,7 +172,7 @@ async def test_ac_set_hvac_mode(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_hvac_mode_turns_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -208,7 +208,7 @@ async def test_ac_set_hvac_mode_turns_on(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_hvac_mode_auto_uses_aicomfort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_ac_set_hvac_mode_auto_uses_aicomfort(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_hvac_mode_auto_prefers_auto_when_aicomfort_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_ac_set_hvac_mode_auto_prefers_auto_when_aicomfort_supported(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_hvac_mode_auto_turns_on_uses_aicomfort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -320,7 +320,7 @@ async def test_ac_set_hvac_mode_auto_turns_on_uses_aicomfort(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_temperature_and_hvac_mode_auto_uses_aicomfort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -364,7 +364,7 @@ async def test_ac_set_temperature_and_hvac_mode_auto_uses_aicomfort(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_aicomfort_mode_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -383,7 +383,7 @@ async def test_ac_aicomfort_mode_state(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_hvac_modes_includes_auto_for_aicomfort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -404,7 +404,7 @@ async def test_ac_hvac_modes_includes_auto_for_aicomfort(
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 @pytest.mark.parametrize("mode", ["fan", "wind"])
 async def test_ac_set_hvac_mode_fan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mode: str,
@@ -440,7 +440,7 @@ async def test_ac_set_hvac_mode_fan(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -464,7 +464,7 @@ async def test_ac_set_temperature(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_temperature_and_hvac_mode_while_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -513,7 +513,7 @@ async def test_ac_set_temperature_and_hvac_mode_while_off(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_temperature_and_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -551,7 +551,7 @@ async def test_ac_set_temperature_and_hvac_mode(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_temperature_and_hvac_mode_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -595,7 +595,7 @@ async def test_ac_set_temperature_and_hvac_mode_off(
     ],
 )
 async def test_ac_toggle_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -620,7 +620,7 @@ async def test_ac_toggle_power(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_set_swing_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -664,7 +664,7 @@ async def test_ac_set_swing_mode(
     ],
 )
 async def test_ac_set_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mode: str,
     expected_mode: str,
@@ -690,7 +690,7 @@ async def test_ac_set_preset_mode(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -781,7 +781,7 @@ async def test_ac_state_update(
     ],
 )
 async def test_ac_state_attributes_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     capability: Capability,
@@ -816,7 +816,7 @@ async def test_ac_state_attributes_update(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_ac_setpoint_range_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -846,7 +846,7 @@ async def test_ac_setpoint_range_update(
 
 @pytest.mark.parametrize("device_fixture", ["aux_ac"])
 async def test_ac_default_temperature_range_in_device_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -865,7 +865,7 @@ async def test_ac_default_temperature_range_in_device_unit(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_01001"])
 async def test_ac_setpoint_range_converted_to_device_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -885,7 +885,7 @@ async def test_ac_setpoint_range_converted_to_device_unit(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000003"])
 async def test_ac_custom_setpoint_bounds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -900,7 +900,7 @@ async def test_ac_custom_setpoint_bounds(
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000003"])
 @pytest.mark.parametrize("value", [None, -1000])
 async def test_ac_custom_setpoint_bounds_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     value: int | None,
@@ -928,7 +928,7 @@ async def test_ac_custom_setpoint_bounds_unavailable(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_01001"])
 async def test_ac_setpoint_range_takes_precedence(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -948,7 +948,7 @@ async def test_ac_setpoint_range_takes_precedence(
 
 @pytest.mark.parametrize("device_fixture", ["virtual_thermostat"])
 async def test_thermostat_set_fan_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -972,7 +972,7 @@ async def test_thermostat_set_fan_mode(
 
 @pytest.mark.parametrize("device_fixture", ["sensi_thermostat"])
 async def test_thermostat_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1067,7 +1067,7 @@ async def test_thermostat_set_hvac_mode(
     ],
 )
 async def test_thermostat_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     state: str,
@@ -1091,7 +1091,7 @@ async def test_thermostat_set_temperature(
 
 @pytest.mark.parametrize("device_fixture", ["virtual_thermostat"])
 async def test_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1108,7 +1108,7 @@ async def test_humidity(
 
 @pytest.mark.parametrize("device_fixture", ["virtual_thermostat"])
 async def test_updating_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1200,7 +1200,7 @@ async def test_updating_humidity(
     ],
 )
 async def test_thermostat_state_attributes_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     capability: Capability,
@@ -1239,7 +1239,7 @@ async def test_thermostat_state_attributes_update(
 
 @pytest.mark.parametrize("device_fixture", ["da_sac_ehs_000002_sub"])
 async def test_heat_pump_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1263,7 +1263,7 @@ async def test_heat_pump_hvac_mode(
 
 @pytest.mark.parametrize("device_fixture", ["da_sac_ehs_000002_sub"])
 async def test_heat_pump_hvac_mode_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1286,7 +1286,7 @@ async def test_heat_pump_hvac_mode_off(
 
 @pytest.mark.parametrize("device_fixture", ["da_sac_ehs_000002_sub"])
 async def test_heat_pump_hvac_mode_from_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1318,7 +1318,7 @@ async def test_heat_pump_hvac_mode_from_off(
 
 @pytest.mark.parametrize("device_fixture", ["da_sac_ehs_000002_sub"])
 async def test_heat_pump_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1356,7 +1356,7 @@ async def test_heat_pump_set_temperature(
     ],
 )
 async def test_heat_pump_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -1381,7 +1381,7 @@ async def test_heat_pump_turn_on_off(
 
 @pytest.mark.parametrize("device_fixture", ["da_sac_ehs_000002_sub"])
 async def test_heat_pump_hvac_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1455,7 +1455,7 @@ async def test_heat_pump_hvac_update(
     ],
 )
 async def test_heat_pump_state_attributes_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     capability: Capability,
@@ -1492,7 +1492,7 @@ async def test_heat_pump_state_attributes_update(
 @pytest.mark.parametrize("device_fixture", ["da_sac_ehs_000002_sub"])
 @pytest.mark.usefixtures("devices")
 async def test_heat_pump_zone_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1515,7 +1515,7 @@ async def test_heat_pump_zone_via_device_id(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1541,7 +1541,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_availability_at_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

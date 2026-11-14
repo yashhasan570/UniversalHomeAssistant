@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 USER_ID = "test-user-id"
 REFRESH_TOKEN = "refresh-token"
@@ -79,7 +79,7 @@ NOTIFICATIONS_LIST = [NOTIFICATION]
 
 
 @pytest.fixture(name="config_entry")
-def config_entry_fixture(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Fixture to create a config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

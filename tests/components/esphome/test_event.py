@@ -5,12 +5,12 @@ import pytest
 
 from universalassistant.components.event import EventDeviceClass
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.freeze_time("2024-04-24 00:00:00+00:00")
 async def test_generic_event_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device,
 ) -> None:

@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -52,7 +52,7 @@ from .helpers import get_attribute
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MetOfficeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

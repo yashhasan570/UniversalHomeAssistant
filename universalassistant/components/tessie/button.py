@@ -7,7 +7,7 @@ from typing import Any, override
 from tesla_fleet_api.tessie import Vehicle
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import TessieConfigEntry
@@ -49,7 +49,7 @@ DESCRIPTIONS: tuple[TessieButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TessieConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

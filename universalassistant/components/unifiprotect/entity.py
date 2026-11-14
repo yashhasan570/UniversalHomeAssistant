@@ -33,8 +33,8 @@ from uiprotect.data.public_devices import (
 )
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity, EntityDescription
@@ -90,7 +90,7 @@ def _async_capability_supported(
 
 @callback
 def async_remove_unsupported_sense_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: Platform,
     data: ProtectData,
     descs: Sequence[ProtectEntityDescription],
@@ -432,7 +432,7 @@ class BaseProtectEntity(Entity):
         if not self._ufp_uses_public:
             return self.device
         if (public := self._ufp_public_obj) is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_not_available",
                 translation_placeholders={"device_name": self.device.display_name},

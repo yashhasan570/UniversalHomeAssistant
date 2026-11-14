@@ -6,14 +6,14 @@ import pytest
 
 from universalassistant import config_entries
 from universalassistant.components.google_mail import DOMAIN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, OAuth2TokenRequestReauthError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, OAuth2TokenRequestReauthError
 
 from .conftest import BUILD, SENSOR, TOKEN, ComponentSetup
 
 
 async def test_set_vacation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test service call set vacation."""
@@ -59,7 +59,7 @@ async def test_set_vacation(
 
 
 async def test_reauth_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
 ) -> None:
     """Test reauth is triggered after a refresh error during service call."""
@@ -73,7 +73,7 @@ async def test_reauth_trigger(
                 domain=DOMAIN,
             ),
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             DOMAIN,

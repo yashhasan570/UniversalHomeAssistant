@@ -29,14 +29,14 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import CommandStore, setup_integration
 
 
 @pytest.mark.parametrize("device", ["air_purifier"], indirect=True)
 async def test_fan_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     command_store: CommandStore,
     device: Device,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_fan_available(
     ],
 )
 async def test_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     command_store: CommandStore,
     device: Device,
     service: str,
@@ -196,7 +196,7 @@ async def test_services(
 
 @pytest.mark.parametrize("device", ["air_purifier_without_values"], indirect=True)
 @pytest.mark.usefixtures("device")
-async def test_fan_without_values(hass: UniversalAssistant) -> None:
+async def test_fan_without_values(hass: __HAC_KEEP__) -> None:
     """Test a fan whose control reports no values."""
     await setup_integration(hass)
 

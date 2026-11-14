@@ -12,7 +12,7 @@ from universalassistant.components.infrared import (
     InfraredReceiverConsumerEntity,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_DEVICE_TYPE, CONF_INFRARED_RECEIVER_ENTITY_ID, LGDeviceType
@@ -80,7 +80,7 @@ _EVENT_TYPES: list[str] = [*_COMMAND_CODE_TO_EVENT_TYPE.values(), _EVENT_TYPE_UN
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

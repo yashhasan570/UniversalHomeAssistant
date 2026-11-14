@@ -7,7 +7,7 @@ from ohme import OhmeApiClient
 import probatio
 
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -69,7 +69,7 @@ def __get_client(call: ServiceCall) -> OhmeApiClient:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register services."""
 
     async def list_charge_slots(

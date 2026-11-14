@@ -8,7 +8,7 @@ from aiowithings import WithingsClient, WorkoutCategory
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -19,7 +19,7 @@ from .entity import WithingsEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WithingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -87,7 +87,7 @@ class WithingsWorkoutCalendarEntity(
 
     @override
     async def async_get_events(
-        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
+        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
         workouts = await self.client.get_workouts_in_period(

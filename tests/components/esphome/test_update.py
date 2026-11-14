@@ -34,15 +34,15 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import dt as dt_util
 
 from . import DASHBOARD_HOST, DASHBOARD_PORT, DASHBOARD_SLUG
 from .conftest import MockESPHomeDeviceType, MockGenericDeviceEntryType
 
 
-async def _async_dashboard_poll(hass: UniversalAssistant) -> None:
+async def _async_dashboard_poll(hass: __HAC_KEEP__) -> None:
     """Advance the time to the dashboard's next poll."""
     # The next poll is scheduled up to half a second after the interval
     async_fire_time_changed(
@@ -104,7 +104,7 @@ def stub_reconnect():
 )
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dashboard_devices: list[dict[str, Any]],
     expected_state: str,
     expected_attributes: dict[str, Any],
@@ -137,7 +137,7 @@ async def test_update_entity(
             return_value=True,
         ) as mock_upload,
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             match="compiling",
         ),
     ):
@@ -164,7 +164,7 @@ async def test_update_entity(
             return_value=False,
         ) as mock_upload,
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             match="OTA",
         ),
     ):
@@ -219,7 +219,7 @@ async def test_update_entity(
 )
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_update_static_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -265,7 +265,7 @@ async def test_update_static_info(
 )
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_update_device_state_for_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_disconnect: bool,
     expected_state: str,
     has_deep_sleep: bool,
@@ -287,7 +287,7 @@ async def test_update_device_state_for_availability(
 
 
 async def test_update_entity_dashboard_not_available_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -334,7 +334,7 @@ async def test_update_entity_dashboard_not_available_startup(
 
 
 async def test_update_entity_dashboard_discovered_after_startup_but_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -382,7 +382,7 @@ async def test_update_entity_dashboard_discovered_after_startup_but_update_faile
 
 
 async def test_update_entity_not_present_without_dashboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -396,7 +396,7 @@ async def test_update_entity_not_present_without_dashboard(
 
 
 async def test_update_becomes_available_at_runtime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_dashboard: dict[str, Any],
@@ -428,7 +428,7 @@ async def test_update_becomes_available_at_runtime(
 
 
 async def test_update_entity_not_present_with_dashboard_but_unknown_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_dashboard: dict[str, Any],
@@ -456,7 +456,7 @@ async def test_update_entity_not_present_with_dashboard_but_unknown_device(
 
 
 async def test_generic_device_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -489,7 +489,7 @@ async def test_generic_device_update_entity(
 
 
 async def test_generic_device_update_entity_has_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -611,7 +611,7 @@ def test_awesomeversion_cannot_compare_project_versions(
     ids=["newer_base", "same_base_new_build", "older_base", "identical"],
 )
 async def test_generic_device_update_entity_project_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
     current_version: str,
@@ -652,7 +652,7 @@ async def test_generic_device_update_entity_project_version(
 
 
 async def test_generic_device_update_entity_clears_after_ota(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -700,7 +700,7 @@ async def test_generic_device_update_entity_clears_after_ota(
 
 
 async def test_update_entity_release_notes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_ws_client: WebSocketGenerator,
@@ -794,7 +794,7 @@ async def test_update_entity_release_notes(
 )
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_attempt_to_update_twice(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -831,7 +831,7 @@ async def test_attempt_to_update_twice(
             )
         )
 
-        with pytest.raises(UniversalAssistantError, match="update is already in progress"):
+        with pytest.raises(__HAC_KEEP__Error, match="update is already in progress"):
             await hass.services.async_call(
                 UPDATE_DOMAIN,
                 UpdateService.INSTALL,
@@ -839,7 +839,7 @@ async def test_attempt_to_update_twice(
                 blocking=True,
             )
 
-        with pytest.raises(UniversalAssistantError, match="OTA"):
+        with pytest.raises(__HAC_KEEP__Error, match="OTA"):
             await update_task
 
 
@@ -857,7 +857,7 @@ async def test_attempt_to_update_twice(
 )
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_update_dashboard_with_build_queue_skips_global_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -904,7 +904,7 @@ async def test_update_dashboard_with_build_queue_skips_global_lock(
 )
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_update_dashboard_without_build_queue_waits_for_global_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -957,7 +957,7 @@ async def test_update_dashboard_without_build_queue_waits_for_global_lock(
 )
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_update_deep_sleep_already_online(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1003,7 +1003,7 @@ async def test_update_deep_sleep_already_online(
 )
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_update_deep_sleep_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1056,7 +1056,7 @@ async def test_update_deep_sleep_offline(
 )
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_update_deep_sleep_offline_sleep_during_ota(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1138,7 +1138,7 @@ async def test_update_deep_sleep_offline_sleep_during_ota(
 )
 @pytest.mark.usefixtures("mock_dashboard")
 async def test_update_deep_sleep_offline_cancelled_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

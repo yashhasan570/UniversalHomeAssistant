@@ -9,7 +9,7 @@ from yarl import URL
 from universalassistant.components import lorawan
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 
@@ -31,7 +31,7 @@ type TheThingsNetworkConfigEntry = ConfigEntry[TheThingsNetworkData]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: TheThingsNetworkConfigEntry
+    hass: __HAC_KEEP__, entry: TheThingsNetworkConfigEntry
 ) -> None:
     """Connect and register this entry's selected applications with LoRaWAN."""
     connection = TTSConnection(
@@ -83,7 +83,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: TheThingsNetworkConfigEntry
+    hass: __HAC_KEEP__, entry: TheThingsNetworkConfigEntry
 ) -> None:
     """Withdraw the registration before closing the server connection."""
     entry.runtime_data.unsubscribe_disconnect()

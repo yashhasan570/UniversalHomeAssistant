@@ -16,7 +16,7 @@ from universalassistant.components.doorbird.const import (
     DEFAULT_MOTION_EVENT,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import VALID_CONFIG, get_mock_doorbird_api
 
@@ -96,7 +96,7 @@ def patch_doorbird_api_entry_points(api: MagicMock) -> Generator[DoorBird]:
 
 @pytest.fixture
 async def doorbird_mocker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_info: dict[str, Any],
     doorbird_schedule: dict[str, Any],
     doorbird_favorites: dict[str, dict[str, Any]],

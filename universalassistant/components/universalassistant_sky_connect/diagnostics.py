@@ -1,4 +1,4 @@
-"""Diagnostics support for the Universal Universal Home Assistant SkyConnect integration."""
+"""Diagnostics support for the __HA_KEEP__ SkyConnect integration."""
 
 from typing import Any
 
@@ -10,14 +10,14 @@ from universalassistant.components.universalassistant_hardware.util import (
     OwningIntegration,
     guess_hardware_owners,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
-from . import UniversalAssistantSkyConnectConfigEntry
+from . import __HAC_KEEP__SkyConnectConfigEntry
 from .const import DEVICE, FIRMWARE, FIRMWARE_VERSION, MANUFACTURER, PID, PRODUCT, VID
 
 
 def _owner_as_dict(
-    hass: UniversalAssistant, owner: OwningAddon | OwningIntegration
+    hass: __HAC_KEEP__, owner: OwningAddon | OwningIntegration
 ) -> dict[str, Any]:
     """Describe a firmware owner without exposing identifiers."""
     if isinstance(owner, OwningAddon):
@@ -27,7 +27,7 @@ def _owner_as_dict(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: UniversalAssistantSkyConnectConfigEntry
+    hass: __HAC_KEEP__, entry: __HAC_KEEP__SkyConnectConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     device = entry.data[DEVICE]

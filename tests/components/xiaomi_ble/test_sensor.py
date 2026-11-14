@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import (
@@ -35,7 +35,7 @@ from . import (
 )
 
 
-async def test_sensors(hass: UniversalAssistant) -> None:
+async def test_sensors(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -64,7 +64,7 @@ async def test_sensors(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_xiaomi_formaldeyhde(hass: UniversalAssistant) -> None:
+async def test_xiaomi_formaldeyhde(hass: __HAC_KEEP__) -> None:
     """Make sure that formldehyde sensors are correctly mapped."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -100,7 +100,7 @@ async def test_xiaomi_formaldeyhde(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_xiaomi_consumable(hass: UniversalAssistant) -> None:
+async def test_xiaomi_consumable(hass: __HAC_KEEP__) -> None:
     """Make sure that consumable sensors are correctly mapped."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -136,7 +136,7 @@ async def test_xiaomi_consumable(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_xiaomi_score(hass: UniversalAssistant) -> None:
+async def test_xiaomi_score(hass: __HAC_KEEP__) -> None:
     """Make sure that score sensors are correctly mapped."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -170,7 +170,7 @@ async def test_xiaomi_score(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_xiaomi_battery_voltage(hass: UniversalAssistant) -> None:
+async def test_xiaomi_battery_voltage(hass: __HAC_KEEP__) -> None:
     """Make sure that battery voltage sensors are correctly mapped."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -211,7 +211,7 @@ async def test_xiaomi_battery_voltage(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_xiaomi_hhccjcy01(hass: UniversalAssistant) -> None:
+async def test_xiaomi_hhccjcy01(hass: __HAC_KEEP__) -> None:
     """Test HHCCJCY01 multiple advertisements.
 
     This device has multiple advertisements before all sensors are visible.
@@ -292,7 +292,7 @@ async def test_xiaomi_hhccjcy01(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_xiaomi_hhccjcy01_not_connectable(hass: UniversalAssistant) -> None:
+async def test_xiaomi_hhccjcy01_not_connectable(hass: __HAC_KEEP__) -> None:
     """Test HHCCJCY01 when sensors are not connectable.
 
     This device has multiple advertisements before all sensors are
@@ -378,7 +378,7 @@ async def test_xiaomi_hhccjcy01_not_connectable(hass: UniversalAssistant) -> Non
 
 
 async def test_xiaomi_hhccjcy01_only_some_sources_connectable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HHCCJCY01 partial sources.
 
@@ -469,7 +469,7 @@ async def test_xiaomi_hhccjcy01_only_some_sources_connectable(
     await hass.async_block_till_done()
 
 
-async def test_xiaomi_xmosb01xs(hass: UniversalAssistant) -> None:
+async def test_xiaomi_xmosb01xs(hass: __HAC_KEEP__) -> None:
     """Test XMOSB01XS multiple advertisements.
 
     This device has multiple advertisements before all sensors are visible.
@@ -578,7 +578,7 @@ async def test_xiaomi_xmosb01xs(hass: UniversalAssistant) -> None:
     assert entry.data[CONF_SLEEPY_DEVICE] is True
 
 
-async def test_xiaomi_cgdk2_bind_key(hass: UniversalAssistant) -> None:
+async def test_xiaomi_cgdk2_bind_key(hass: __HAC_KEEP__) -> None:
     """Test CGDK2 bind key.
 
     This device has encryption so we need to retrieve its bind key
@@ -619,7 +619,7 @@ async def test_xiaomi_cgdk2_bind_key(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_hhccjcy10_uuid(hass: UniversalAssistant) -> None:
+async def test_hhccjcy10_uuid(hass: __HAC_KEEP__) -> None:
     """Test HHCCJCY10 UUID.
 
     This device uses a different UUID compared to the other Xiaomi sensors.
@@ -677,7 +677,7 @@ async def test_hhccjcy10_uuid(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_miscale_v1_uuid(hass: UniversalAssistant) -> None:
+async def test_miscale_v1_uuid(hass: __HAC_KEEP__) -> None:
     """Test MiScale V1 UUID.
 
     This device uses a different UUID compared to the other Xiaomi sensors.
@@ -719,7 +719,7 @@ async def test_miscale_v1_uuid(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_miscale_v2_uuid(hass: UniversalAssistant) -> None:
+async def test_miscale_v2_uuid(hass: __HAC_KEEP__) -> None:
     """Test MiScale V2 UUID.
 
     This device uses a different UUID compared to the other Xiaomi sensors.
@@ -776,7 +776,7 @@ async def test_miscale_v2_uuid(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_miscale_s400_packet1(hass: UniversalAssistant) -> None:
+async def test_miscale_s400_packet1(hass: __HAC_KEEP__) -> None:
     """Test MiScale S400 first packet: mass + impedance_low + heart_rate + profile_id + stabilized."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -834,7 +834,7 @@ async def test_miscale_s400_packet1(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_miscale_s400_packet2(hass: UniversalAssistant) -> None:
+async def test_miscale_s400_packet2(hass: __HAC_KEEP__) -> None:
     """Test MiScale S400 second packet: impedance_high + profile_id + stabilized."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -876,7 +876,7 @@ async def test_miscale_s400_packet2(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_unavailable(hass: UniversalAssistant) -> None:
+async def test_unavailable(hass: __HAC_KEEP__) -> None:
     """Test normal device goes to unavailable after 60 minutes."""
     start_monotonic = time.monotonic()
 
@@ -929,7 +929,7 @@ async def test_unavailable(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_sleepy_device(hass: UniversalAssistant) -> None:
+async def test_sleepy_device(hass: __HAC_KEEP__) -> None:
     """Test sleepy devices stay available."""
     start_monotonic = time.monotonic()
 
@@ -980,7 +980,7 @@ async def test_sleepy_device(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_sleepy_device_restore_state(hass: UniversalAssistant) -> None:
+async def test_sleepy_device_restore_state(hass: __HAC_KEEP__) -> None:
     """Test sleepy devices stay available."""
     start_monotonic = time.monotonic()
 

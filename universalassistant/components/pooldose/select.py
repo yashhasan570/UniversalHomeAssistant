@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, cast, override
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory, UnitOfVolume, UnitOfVolumeFlowRate
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import UNIT_MAPPING
@@ -93,7 +93,7 @@ SELECT_DESCRIPTIONS: tuple[PooldoseSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: PooldoseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -140,7 +140,7 @@ class PooldoseSelect(PooldoseEntity, SelectEntity):
         data = cast(dict, self.get_data())
         api_value = cast(str, data["value"])
 
-        # Convert API value to Universal Universal Home Assistant unit if unit conversion is enabled
+        # Convert API value to __HA_KEEP__ unit if unit conversion is enabled
         if self.entity_description.use_unit_conversion:
             # Map API value (e.g., "m3") to HA unit (e.g., "m³")
             self._attr_current_option = UNIT_MAPPING.get(api_value, api_value)
@@ -150,7 +150,7 @@ class PooldoseSelect(PooldoseEntity, SelectEntity):
     @override
     async def async_select_option(self, option: str) -> None:
         """Change the selected option."""
-        # Convert Universal Universal Home Assistant unit to API value if unit conversion is enabled
+        # Convert __HA_KEEP__ unit to API value if unit conversion is enabled
         if self.entity_description.use_unit_conversion:
             # Invert UNIT_MAPPING to get API value from HA unit
             reverse_map = {v: k for k, v in UNIT_MAPPING.items()}

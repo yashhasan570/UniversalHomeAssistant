@@ -7,7 +7,7 @@ from typing import override
 from devialet import DevialetApi
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN
@@ -25,7 +25,7 @@ class DevialetCoordinator(DataUpdateCoordinator[None]):
     config_entry: DevialetConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, entry: DevialetConfigEntry, client: DevialetApi
+        self, hass: __HAC_KEEP__, entry: DevialetConfigEntry, client: DevialetApi
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

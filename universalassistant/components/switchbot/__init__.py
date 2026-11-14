@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_SENSOR_TYPE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -306,7 +306,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def _migrate_deprecated_air_purifier_type(
-    hass: UniversalAssistant, entry: SwitchbotConfigEntry
+    hass: __HAC_KEEP__, entry: SwitchbotConfigEntry
 ) -> bool:
     """Migrate deprecated air purifier sensor types introduced before pySwitchbot 2.0.0.
 
@@ -339,13 +339,13 @@ def _migrate_deprecated_air_purifier_type(
     return False
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Switchbot Devices component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SwitchbotConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SwitchbotConfigEntry) -> None:
     """Set up Switchbot from a config entry."""
     assert entry.unique_id is not None
     if CONF_ADDRESS not in entry.data and CONF_MAC in entry.data:
@@ -467,7 +467,7 @@ def _entry_address(entry: SwitchbotConfigEntry) -> str:
 
 
 def _migrate_deprecated_model_type(
-    hass: UniversalAssistant, entry: SwitchbotConfigEntry, sensor_type: str
+    hass: __HAC_KEEP__, entry: SwitchbotConfigEntry, sensor_type: str
 ) -> SupportedModels | None:
     """Resolve a deprecated sensor type from its BLE advertisements."""
     model_migrations = DEPRECATED_MODEL_TYPE_MIGRATIONS[sensor_type]
@@ -496,7 +496,7 @@ def _migrate_deprecated_model_type(
     return None
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: SwitchbotConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: SwitchbotConfigEntry) -> None:
     """Migrate old entry."""
     version = entry.version
     minor_version = entry.minor_version
@@ -550,13 +550,13 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: SwitchbotConfigEn
 
 
 async def _async_update_listener(
-    hass: UniversalAssistant, entry: SwitchbotConfigEntry
+    hass: __HAC_KEEP__, entry: SwitchbotConfigEntry
 ) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SwitchbotConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SwitchbotConfigEntry) -> None:
     """Unload a config entry."""
     sensor_type = entry.data[CONF_SENSOR_TYPE]
     await hass.config_entries.async_unload_platforms_or_raise(

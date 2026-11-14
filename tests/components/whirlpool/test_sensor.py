@@ -17,7 +17,7 @@ from universalassistant.components.automation import DOMAIN as AUTOMATION_DOMAIN
 from universalassistant.components.whirlpool.const import DOMAIN
 from universalassistant.components.whirlpool.sensor import SCAN_INTERVAL
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import as_timestamp, utc_from_timestamp, utcnow
@@ -38,7 +38,7 @@ DRYER_ENTITY_ID_BASE = "sensor.dryer"
 @pytest.mark.freeze_time("2025-05-04 12:00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_all_entities(
 )
 @pytest.mark.freeze_time("2022-11-30 00:00:00")
 async def test_washer_dryer_time_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     mock_fixture: str,
     request: pytest.FixtureRequest,
@@ -139,7 +139,7 @@ async def test_washer_dryer_time_sensor(
 )
 @pytest.mark.freeze_time("2022-11-30 00:00:00")
 async def test_washer_dryer_time_sensor_no_restore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     mock_fixture: str,
     request: pytest.FixtureRequest,
@@ -205,7 +205,7 @@ async def test_washer_dryer_time_sensor_no_restore(
     ],
 )
 async def test_washer_machine_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     machine_state: WasherMachineState,
     expected_state: str,
     mock_washer_api,
@@ -246,7 +246,7 @@ async def test_washer_machine_states(
     ],
 )
 async def test_dryer_machine_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     machine_state: DryerMachineState,
     expected_state: str,
     mock_dryer_api,
@@ -281,7 +281,7 @@ async def test_dryer_machine_states(
     ],
 )
 async def test_washer_running_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     filling: bool,
     rinsing: bool,
     sensing: bool,
@@ -350,7 +350,7 @@ async def test_washer_running_states(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_simple_enum_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     mock_fixture: str,
     mock_method_name: str,
@@ -377,7 +377,7 @@ DEPRECATED_COOK_MODE_ISSUE_ID = "deprecated_oven_cook_mode_said_oven_single"
 
 
 async def test_oven_cook_mode_sensor_not_created_for_new_installs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -395,7 +395,7 @@ async def test_oven_cook_mode_sensor_not_created_for_new_installs(
 
 
 async def test_oven_cook_mode_sensor_deprecated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -416,7 +416,7 @@ async def test_oven_cook_mode_sensor_deprecated(
 
 
 async def test_oven_cook_mode_sensor_removed_when_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -441,7 +441,7 @@ async def test_oven_cook_mode_sensor_removed_when_disabled(
 
 
 async def test_oven_cook_mode_sensor_kept_when_used_by_automation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -498,7 +498,7 @@ DEPRECATED_TARGET_TEMP_ISSUE_ID = "deprecated_oven_target_temperature_said_oven_
 
 
 async def test_oven_target_temperature_sensor_not_created_for_new_installs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -516,7 +516,7 @@ async def test_oven_target_temperature_sensor_not_created_for_new_installs(
 
 
 async def test_oven_target_temperature_sensor_deprecated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -537,7 +537,7 @@ async def test_oven_target_temperature_sensor_deprecated(
 
 
 async def test_oven_target_temperature_sensor_removed_when_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -562,7 +562,7 @@ async def test_oven_target_temperature_sensor_removed_when_disabled(
 
 
 async def test_oven_target_temperature_sensor_kept_when_used_by_automation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:

@@ -20,7 +20,7 @@ from systembridgeconnector.models.modules import Module, ModulesData
 from systembridgeconnector.models.settings import SettingsCommandDefinition
 
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 FIXTURE_TITLE = "TestSystem"
@@ -90,7 +90,7 @@ FIXTURE_COMMAND = SettingsCommandDefinition(
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> bool:
     """Fixture for setting up the component."""

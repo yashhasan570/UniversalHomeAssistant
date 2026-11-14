@@ -13,7 +13,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_DEVICE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
@@ -22,7 +22,7 @@ GLOB_METHOD = "universalassistant.components.enocean.config_flow.glob.glob"
 SETUP_ENTRY_METHOD = "universalassistant.components.enocean.async_setup_entry"
 
 
-async def test_user_flow_cannot_create_multiple_instances(hass: UniversalAssistant) -> None:
+async def test_user_flow_cannot_create_multiple_instances(hass: __HAC_KEEP__) -> None:
     """Test that the user flow aborts if an instance is already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_DEVICE: "/already/configured/path"}
@@ -37,7 +37,7 @@ async def test_user_flow_cannot_create_multiple_instances(hass: UniversalAssista
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_user_flow_with_detected_dongle(hass: UniversalAssistant) -> None:
+async def test_user_flow_with_detected_dongle(hass: __HAC_KEEP__) -> None:
     """Test the user flow with a detected EnOcean dongle."""
     FAKE_DONGLE_PATH = "/fake/dongle"
 
@@ -53,7 +53,7 @@ async def test_user_flow_with_detected_dongle(hass: UniversalAssistant) -> None:
     assert EnOceanFlowHandler.MANUAL_PATH_VALUE in devices
 
 
-async def test_user_flow_with_no_detected_dongle(hass: UniversalAssistant) -> None:
+async def test_user_flow_with_no_detected_dongle(hass: __HAC_KEEP__) -> None:
     """Test the user flow with no detected EnOcean dongle."""
     with patch(GLOB_METHOD, return_value=[]):
         result = await hass.config_entries.flow.async_init(
@@ -64,7 +64,7 @@ async def test_user_flow_with_no_detected_dongle(hass: UniversalAssistant) -> No
     assert result["step_id"] == "manual"
 
 
-async def test_detection_flow_with_valid_path(hass: UniversalAssistant) -> None:
+async def test_detection_flow_with_valid_path(hass: __HAC_KEEP__) -> None:
     """Test the detection flow with a valid path selected."""
     USER_PROVIDED_PATH = "/user/provided/path"
 
@@ -81,7 +81,7 @@ async def test_detection_flow_with_valid_path(hass: UniversalAssistant) -> None:
     assert result["data"][CONF_DEVICE] == USER_PROVIDED_PATH
 
 
-async def test_detection_flow_with_custom_path(hass: UniversalAssistant) -> None:
+async def test_detection_flow_with_custom_path(hass: __HAC_KEEP__) -> None:
     """Test the detection flow with custom path selected."""
     USER_PROVIDED_PATH = EnOceanFlowHandler.MANUAL_PATH_VALUE
 
@@ -95,7 +95,7 @@ async def test_detection_flow_with_custom_path(hass: UniversalAssistant) -> None
     assert result["step_id"] == "manual"
 
 
-async def test_detection_flow_with_invalid_path(hass: UniversalAssistant) -> None:
+async def test_detection_flow_with_invalid_path(hass: __HAC_KEEP__) -> None:
     """Test the detection flow with an invalid path selected."""
     USER_PROVIDED_PATH = "/invalid/path"
 
@@ -126,7 +126,7 @@ async def test_detection_flow_with_invalid_path(hass: UniversalAssistant) -> Non
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_manual_flow_with_valid_path(hass: UniversalAssistant) -> None:
+async def test_manual_flow_with_valid_path(hass: __HAC_KEEP__) -> None:
     """Test the manual flow with a valid path."""
     USER_PROVIDED_PATH = "/user/provided/path"
 
@@ -143,7 +143,7 @@ async def test_manual_flow_with_valid_path(hass: UniversalAssistant) -> None:
     assert result["data"][CONF_DEVICE] == USER_PROVIDED_PATH
 
 
-async def test_manual_flow_with_invalid_path(hass: UniversalAssistant) -> None:
+async def test_manual_flow_with_invalid_path(hass: __HAC_KEEP__) -> None:
     """Test the manual flow with an invalid path."""
     USER_PROVIDED_PATH = "/user/provided/path"
 
@@ -172,7 +172,7 @@ async def test_manual_flow_with_invalid_path(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_import_flow_with_valid_path(hass: UniversalAssistant) -> None:
+async def test_import_flow_with_valid_path(hass: __HAC_KEEP__) -> None:
     """Test the import flow with a valid path."""
     DATA_TO_IMPORT = {CONF_DEVICE: "/valid/path/to/import"}
 
@@ -191,7 +191,7 @@ async def test_import_flow_with_valid_path(hass: UniversalAssistant) -> None:
     assert result["data"][CONF_DEVICE] == DATA_TO_IMPORT[CONF_DEVICE]
 
 
-async def test_import_flow_with_invalid_path(hass: UniversalAssistant) -> None:
+async def test_import_flow_with_invalid_path(hass: __HAC_KEEP__) -> None:
     """Test the import flow with an invalid path."""
     DATA_TO_IMPORT = {CONF_DEVICE: "/invalid/path/to/import"}
 
@@ -212,7 +212,7 @@ async def test_import_flow_with_invalid_path(hass: UniversalAssistant) -> None:
 
 
 async def test_usb_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test usb discovery success path."""
     usb_discovery_info = UsbServiceInfo(
@@ -260,7 +260,7 @@ async def test_usb_discovery(
 
 
 async def test_usb_discovery_already_configured_updates_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test usb discovery aborts when already configured and updates device path."""
     # Existing entry with the same unique_id but an old device path

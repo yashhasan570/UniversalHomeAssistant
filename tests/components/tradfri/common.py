@@ -10,7 +10,7 @@ from pytradfri.device import Device
 from pytradfri.gateway import Gateway
 
 from universalassistant.components import tradfri
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import GATEWAY_ID
 
@@ -44,7 +44,7 @@ class CommandStore:
 
     async def trigger_observe_callback(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: Device,
         new_device_state: dict[str, Any] | None = None,
     ) -> None:
@@ -77,7 +77,7 @@ class CommandStore:
         await hass.async_block_till_done()
 
 
-async def setup_integration(hass: UniversalAssistant) -> MockConfigEntry:
+async def setup_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Load the Tradfri integration with a mock gateway."""
     entry = MockConfigEntry(
         domain=tradfri.DOMAIN,

@@ -14,7 +14,7 @@ from haveniaq import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -31,7 +31,7 @@ class HavenDataUpdateCoordinator(DataUpdateCoordinator[SensorData]):
 
     config_entry: HavenConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: HavenConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: HavenConfigEntry) -> None:
         """Initialize the coordinator."""
         host = entry.data[CONF_HOST]
         super().__init__(

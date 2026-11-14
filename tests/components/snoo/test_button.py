@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import async_init_integration, find_update_callback
@@ -15,7 +15,7 @@ from .const import MOCK_SNOO_DATA
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bypass_api: AsyncMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -27,7 +27,7 @@ async def test_entities(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_button_starts_snoo(hass: UniversalAssistant, bypass_api: AsyncMock) -> None:
+async def test_button_starts_snoo(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
     """Test start_snoo button works correctly."""
     await async_init_integration(hass)
     find_update_callback(bypass_api, "random_num")(MOCK_SNOO_DATA)

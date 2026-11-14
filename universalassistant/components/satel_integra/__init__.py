@@ -5,7 +5,7 @@ import logging
 from satel_integra import SatelIntegraError
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.entity_registry import RegistryEntry, async_migrate_entries
 
@@ -45,7 +45,7 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.removed(DOMAIN, raise_if_present=False)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SatelConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SatelConfigEntry) -> None:
     """Set up  Satel Integra from a config entry."""
 
     client = SatelClient(hass, entry)
@@ -105,7 +105,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SatelConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SatelConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SatelConfigEntry) -> None:
     """Unloading the Satel platforms."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -113,13 +113,13 @@ async def async_unload_entry(hass: UniversalAssistant, entry: SatelConfigEntry) 
     await runtime_data.client.async_close()
 
 
-async def update_listener(hass: UniversalAssistant, entry: SatelConfigEntry) -> None:
+async def update_listener(hass: __HAC_KEEP__, entry: SatelConfigEntry) -> None:
     """Handle options update."""
     hass.config_entries.async_schedule_reload(entry.entry_id)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: SatelConfigEntry
+    hass: __HAC_KEEP__, config_entry: SatelConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug(

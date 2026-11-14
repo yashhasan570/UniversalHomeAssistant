@@ -7,14 +7,14 @@ from zamg.exceptions import ZamgApiError
 
 from universalassistant.components.zamg.const import CONF_STATION_ID, DOMAIN, LOGGER
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_STATION_ID
 
 
 @pytest.mark.usefixtures("mock_zamg", "mock_setup_entry")
-async def test_full_user_flow_implementation(hass: UniversalAssistant) -> None:
+async def test_full_user_flow_implementation(hass: __HAC_KEEP__) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -36,7 +36,7 @@ async def test_full_user_flow_implementation(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_error_closest_station(hass: UniversalAssistant, mock_zamg: MagicMock) -> None:
+async def test_error_closest_station(hass: __HAC_KEEP__, mock_zamg: MagicMock) -> None:
     """Test with error of reading from Zamg."""
     mock_zamg.closest_station.side_effect = ZamgApiError
     result = await hass.config_entries.flow.async_init(
@@ -48,7 +48,7 @@ async def test_error_closest_station(hass: UniversalAssistant, mock_zamg: MagicM
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_error_update(hass: UniversalAssistant, mock_zamg: MagicMock) -> None:
+async def test_error_update(hass: __HAC_KEEP__, mock_zamg: MagicMock) -> None:
     """Test with error of reading from Zamg."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -68,7 +68,7 @@ async def test_error_update(hass: UniversalAssistant, mock_zamg: MagicMock) -> N
 
 
 @pytest.mark.usefixtures("mock_zamg", "mock_setup_entry")
-async def test_user_flow_duplicate(hass: UniversalAssistant) -> None:
+async def test_user_flow_duplicate(hass: __HAC_KEEP__) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

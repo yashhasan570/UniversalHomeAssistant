@@ -17,7 +17,7 @@ from ring_doorbell import (
 from ring_doorbell.listen import RingEventListener
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import (
     BaseDataUpdateCoordinatorProtocol,
@@ -50,7 +50,7 @@ class RingDataCoordinator(DataUpdateCoordinator[RingDevices]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: RingConfigEntry,
         ring_api: Ring,
     ) -> None:
@@ -131,7 +131,7 @@ class RingListenCoordinator(BaseDataUpdateCoordinatorProtocol):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: RingConfigEntry,
         ring_api: Ring,
         listen_credentials: dict[str, Any] | None,

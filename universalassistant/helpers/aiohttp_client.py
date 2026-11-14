@@ -22,7 +22,7 @@ from yarl import URL
 from universalassistant import config_entries
 from universalassistant.components import zeroconf
 from universalassistant.const import APPLICATION_NAME, EVENT_HOMEASSISTANT_CLOSE, __version__
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.util import ssl as ssl_util
 from universalassistant.util.hass_dict import HassKey
 from universalassistant.util.json import json_loads
@@ -49,7 +49,7 @@ SERVER_SOFTWARE = (
     f"aiohttp/{aiohttp.__version__} Python/{sys.version_info[0]}.{sys.version_info[1]}"
 )
 
-WARN_CLOSE_MSG = "closes the Universal Universal Home Assistant aiohttp session"
+WARN_CLOSE_MSG = "closes the __HA_KEEP__ aiohttp session"
 
 _LOCALHOST = "localhost"
 _TRAILING_LOCAL_HOST = f".{_LOCALHOST}"
@@ -132,7 +132,7 @@ async def _async_is_blocked_host(
     with suppress(ValueError):
         return _is_ssrf_address(host)
 
-    if not isinstance(connector, UniversalAssistantTCPConnector):
+    if not isinstance(connector, __HAC_KEEP__TCPConnector):
         return False
 
     try:
@@ -163,10 +163,10 @@ MAXIMUM_HEADER_SIZE = 65536
 
 
 class HassAsyncDNSResolver(AsyncDualMDNSResolver):
-    """Universal Universal Home Assistant AsyncDNSResolver.
+    """__HA_KEEP__ AsyncDNSResolver.
 
     This is a wrapper around the AsyncDualMDNSResolver to only
-    close the resolver when the Universal Universal Home Assistant instance is closed.
+    close the resolver when the __HA_KEEP__ instance is closed.
     """
 
     async def real_close(self) -> None:
@@ -219,7 +219,7 @@ class ChunkAsyncStreamIterator:
 
 @callback
 def async_get_clientsession(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     verify_ssl: bool = True,
     family: socket.AddressFamily = socket.AF_UNSPEC,
     ssl_cipher: ssl_util.SSLCipherList = ssl_util.SSLCipherList.PYTHON_DEFAULT,
@@ -248,7 +248,7 @@ def async_get_clientsession(
 
 @callback
 def async_create_clientsession(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     verify_ssl: bool = True,
     auto_cleanup: bool = True,
     family: socket.AddressFamily = socket.AF_UNSPEC,
@@ -280,9 +280,9 @@ def async_create_clientsession(
 
 @callback
 def _async_create_clientsession(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     verify_ssl: bool = True,
-    auto_cleanup_method: Callable[[UniversalAssistant, aiohttp.ClientSession], None]
+    auto_cleanup_method: Callable[[__HAC_KEEP__, aiohttp.ClientSession], None]
     | None = None,
     family: socket.AddressFamily = socket.AF_UNSPEC,
     ssl_cipher: ssl_util.SSLCipherList = ssl_util.SSLCipherList.PYTHON_DEFAULT,
@@ -305,7 +305,7 @@ def _async_create_clientsession(
         **kwargs,
     )
     # Prevent packages accidentally overriding our default headers
-    # It's important that we identify as Universal Universal Home Assistant
+    # It's important that we identify as __HA_KEEP__
     # If a package requires a different user agent, override it by passing a headers
     # dictionary to the request method.
     default_headers = CIMultiDict(clientsession.headers)
@@ -326,7 +326,7 @@ def _async_create_clientsession(
 
 
 async def async_aiohttp_proxy_web(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request: web.BaseRequest,
     web_coro: Awaitable[aiohttp.ClientResponse],
     buffer_size: int = 102400,
@@ -358,7 +358,7 @@ async def async_aiohttp_proxy_web(
 
 
 async def async_aiohttp_proxy_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request: web.BaseRequest,
     stream: aiohttp.StreamReader,
     content_type: str | None,
@@ -386,9 +386,9 @@ async def async_aiohttp_proxy_stream(
 
 @callback
 def _async_register_clientsession_shutdown(
-    hass: UniversalAssistant, clientsession: aiohttp.ClientSession
+    hass: __HAC_KEEP__, clientsession: aiohttp.ClientSession
 ) -> None:
-    """Register ClientSession close on Universal Universal Home Assistant shutdown or config entry unload.
+    """Register ClientSession close on __HA_KEEP__ shutdown or config entry unload.
 
     This method must be run in the event loop.
     """
@@ -411,9 +411,9 @@ def _async_register_clientsession_shutdown(
 
 @callback
 def _async_register_default_clientsession_shutdown(
-    hass: UniversalAssistant, clientsession: aiohttp.ClientSession
+    hass: __HAC_KEEP__, clientsession: aiohttp.ClientSession
 ) -> None:
-    """Register default ClientSession close on Universal Universal Home Assistant shutdown.
+    """Register default ClientSession close on __HA_KEEP__ shutdown.
 
     This method must be run in the event loop.
     """
@@ -436,13 +436,13 @@ def _make_key(
     return (verify_ssl, family, ssl_cipher)
 
 
-class UniversalAssistantTCPConnector(aiohttp.TCPConnector):
-    """Universal Universal Home Assistant TCP Connector.
+class __HAC_KEEP__TCPConnector(aiohttp.TCPConnector):
+    """__HA_KEEP__ TCP Connector.
 
     Same as aiohttp.TCPConnector but with a longer cleanup_closed timeout.
 
     By default the cleanup_closed timeout is 2 seconds. This is too short
-    for Universal Universal Home Assistant since we churn through a lot of connections. We set
+    for __HA_KEEP__ since we churn through a lot of connections. We set
     it to 60 seconds to reduce the overhead of aborting TLS connections
     that are likely already closed.
     """
@@ -457,7 +457,7 @@ class UniversalAssistantTCPConnector(aiohttp.TCPConnector):
 
 @callback
 def _async_get_connector(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     verify_ssl: bool = True,
     family: socket.AddressFamily = socket.AF_UNSPEC,
     ssl_cipher: ssl_util.SSLCipherList = ssl_util.SSLCipherList.PYTHON_DEFAULT,
@@ -481,7 +481,7 @@ def _async_get_connector(
             ssl_cipher, ssl_util.SSL_ALPN_HTTP11
         )
 
-    connector = UniversalAssistantTCPConnector(
+    connector = __HAC_KEEP__TCPConnector(
         family=family,
         ssl=ssl_context,
         limit=MAXIMUM_CONNECTIONS,
@@ -501,7 +501,7 @@ def _async_get_connector(
 
 @singleton(DATA_RESOLVER)
 @callback
-def _async_get_or_create_resolver(hass: UniversalAssistant) -> HassAsyncDNSResolver:
+def _async_get_or_create_resolver(hass: __HAC_KEEP__) -> HassAsyncDNSResolver:
     """Return the HassAsyncDNSResolver."""
     resolver = _async_make_resolver(hass)
 
@@ -513,5 +513,5 @@ def _async_get_or_create_resolver(hass: UniversalAssistant) -> HassAsyncDNSResol
 
 
 @callback
-def _async_make_resolver(hass: UniversalAssistant) -> HassAsyncDNSResolver:
+def _async_make_resolver(hass: __HAC_KEEP__) -> HassAsyncDNSResolver:
     return HassAsyncDNSResolver(async_zeroconf=zeroconf.async_get_async_zeroconf(hass))

@@ -25,7 +25,7 @@ from universalassistant.const import (
     CONF_PORT,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -65,7 +65,7 @@ _MAX_VOLUME = 50
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

@@ -14,7 +14,7 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import DiscoveryInfoType
@@ -30,7 +30,7 @@ CLIMATE_TRANSLATION_KEY = "thermostat"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: NASwebConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

@@ -54,8 +54,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -67,7 +67,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_paired_depaired_devices_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -149,7 +149,7 @@ async def test_paired_depaired_devices_flow(
     indirect=["appliance"],
 )
 async def test_connected_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -219,7 +219,7 @@ async def test_connected_devices(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_select_entity_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -368,7 +368,7 @@ async def test_filter_programs(
 )
 @pytest.mark.parametrize("program_value", ["A not known program", None])
 async def test_select_program_functionality(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -447,7 +447,7 @@ async def test_select_program_functionality(
     ],
 )
 async def test_select_exception_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client_with_exception: MagicMock,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
     config_entry: MockConfigEntry,
@@ -476,7 +476,7 @@ async def test_select_exception_handling(
     with pytest.raises(HomeConnectError):
         await getattr(client_with_exception, mock_attr)()
 
-    with pytest.raises(UniversalAssistantError, match=exception_match):
+    with pytest.raises(__HAC_KEEP__Error, match=exception_match):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -491,7 +491,7 @@ async def test_select_exception_handling(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_programs_updated_on_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -574,7 +574,7 @@ async def test_programs_updated_on_connect(
     ],
 )
 async def test_select_functionality(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -639,7 +639,7 @@ async def test_select_functionality(
     ],
 )
 async def test_fetch_allowed_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -694,7 +694,7 @@ async def test_fetch_allowed_values(
     ],
 )
 async def test_fetch_allowed_values_after_rate_limit_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -767,7 +767,7 @@ async def test_fetch_allowed_values_after_rate_limit_error(
     ],
 )
 async def test_default_values_after_fetch_allowed_values_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -818,7 +818,7 @@ async def test_default_values_after_fetch_allowed_values_error(
     ],
 )
 async def test_select_entity_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client_with_exception: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -847,7 +847,7 @@ async def test_select_entity_error(
         await getattr(client_with_exception, mock_attr)()
 
     with pytest.raises(
-        UniversalAssistantError, match=r"Error.*assign.*value.*to.*setting.*"
+        __HAC_KEEP__Error, match=r"Error.*assign.*value.*to.*setting.*"
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -934,7 +934,7 @@ async def test_select_entity_error(
     ],
 )
 async def test_options_functionality(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -1002,7 +1002,7 @@ async def test_options_functionality(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_options_unavailable_when_option_is_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -1070,7 +1070,7 @@ async def test_options_unavailable_when_option_is_missing(
     ],
 )
 async def test_options_available_when_program_is_null(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -1132,7 +1132,7 @@ async def test_options_available_when_program_is_null(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_restore_option_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,
@@ -1170,7 +1170,7 @@ async def test_restore_option_entity(
 
 
 async def test_favorite_001_program_not_exposed_as_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -1222,7 +1222,7 @@ async def test_favorite_001_program_not_exposed_as_option(
     ],
 )
 async def test_use_base_program_on_favorite_program(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],

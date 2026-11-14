@@ -24,13 +24,13 @@ from pytest_universalassistant.components.bluetooth import (
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.bluetooth import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.dt import utcnow
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_advertisements(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
     hass_ws_client: WebSocketGenerator,
@@ -132,7 +132,7 @@ async def test_subscribe_advertisements(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_connection_allocations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
     register_non_connectable_scanner: None,
@@ -226,7 +226,7 @@ async def test_subscribe_connection_allocations(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_connection_allocations_specific_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_non_connectable_scanner: None,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_subscribe_connection_allocations_specific_scanner(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_connection_allocations_invalid_config_entry_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test subscribe_connection_allocations, invalid entry."""
@@ -283,7 +283,7 @@ async def test_subscribe_connection_allocations_invalid_config_entry_id(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_connection_allocations_invalid_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test bluetooth subscribe_connection_allocations for an invalid source address."""
@@ -306,7 +306,7 @@ async def test_subscribe_connection_allocations_invalid_scanner(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_scanner_details(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test bluetooth subscribe_connection_allocations."""
@@ -371,7 +371,7 @@ async def test_subscribe_scanner_details(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_scanner_details_specific_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test bluetooth subscribe_scanner_details for a specific source address."""
@@ -423,7 +423,7 @@ async def test_subscribe_scanner_details_specific_scanner(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_scanner_details_invalid_config_entry_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test bluetooth subscribe_scanner_details for an invalid config entry id."""
@@ -444,7 +444,7 @@ async def test_subscribe_scanner_details_invalid_config_entry_id(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_scanner_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test bluetooth subscribe_scanner_state."""
@@ -493,7 +493,7 @@ async def test_subscribe_scanner_state(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_scanner_state_specific_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test bluetooth subscribe_scanner_state for a specific source address."""
@@ -545,7 +545,7 @@ async def test_subscribe_scanner_state_specific_scanner(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_subscribe_scanner_state_invalid_config_entry_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test bluetooth subscribe_scanner_state for an invalid config entry id."""

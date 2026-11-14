@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import ACCESS_TOKEN, ACCOUNT_NUMBER, PASSWORD, USERNAME
@@ -31,7 +31,7 @@ from .const import ACCESS_TOKEN, ACCOUNT_NUMBER, PASSWORD, USERNAME
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_multiple_account_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_multiple_account_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_single_account_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_single_account_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_single_account_flow_with_mfa(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_single_account_flow_with_mfa(
     ],
 )
 async def test_single_account_flow_with_mfa_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
     exception_type,
@@ -246,7 +246,7 @@ async def test_single_account_flow_with_mfa_exception(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_account_fetch_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
     exception_type: Exception,
@@ -310,7 +310,7 @@ async def test_account_fetch_exception(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_mfa_account_fetch_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
     exception_type: Exception,
@@ -370,7 +370,7 @@ async def test_mfa_account_fetch_exception(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
@@ -416,7 +416,7 @@ async def test_already_configured(
     ],
 )
 async def test_auth_recover_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
     exception_type,
@@ -483,7 +483,7 @@ async def test_auth_recover_exception(
     ],
 )
 async def test_account_recover_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
     exception_type,
@@ -542,7 +542,7 @@ async def test_account_recover_exception(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
@@ -582,7 +582,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_auth_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
@@ -625,7 +625,7 @@ async def test_reauth_flow_auth_exception(
 
 
 async def test_reauth_flow_account_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
@@ -671,7 +671,7 @@ async def test_reauth_flow_account_not_found(
 
 
 async def test_reauth_flow_mfa_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
@@ -716,7 +716,7 @@ async def test_reauth_flow_mfa_required(
     ],
 )
 async def test_reauth_flow_mfa_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,
@@ -782,7 +782,7 @@ async def test_reauth_flow_mfa_exception(
     ],
 )
 async def test_reauth_flow_account_fetch_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anglian_water_authenticator: AsyncMock,
     mock_anglian_water_client: AsyncMock,

@@ -101,7 +101,7 @@ class Counter(collection.CollectionEntity, RestoreEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Call when entity about to be added to Universal Universal Home Assistant."""
+        """Call when entity about to be added to __HA_KEEP__."""
         await super().async_added_to_hass()
         # __init__ will set self._state to self._initial, only override
         # if needed.

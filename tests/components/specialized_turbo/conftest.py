@@ -25,7 +25,7 @@ from universalassistant.components.specialized_turbo.const import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_ADDRESS = "DC:DD:BB:4A:D6:55"
 MOCK_ADDRESS_FORMATTED = "dc:dd:bb:4a:d6:55"
@@ -185,7 +185,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
     """Prevent entry setup during config flow tests."""
 
     async def setup_entry(
-        _hass: UniversalAssistant,
+        _hass: __HAC_KEEP__,
         entry: ConfigEntry,
     ) -> None:
         runtime_data = MagicMock()

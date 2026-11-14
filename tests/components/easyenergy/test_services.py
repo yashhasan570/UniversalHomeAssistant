@@ -20,13 +20,13 @@ from universalassistant.components.easyenergy.services import (
     EasyEnergyService,
     EasyEnergyServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_has_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the existence of the easyEnergy Service."""
     assert hass.services.has_service(DOMAIN, EasyEnergyService.GET_GAS_PRICES)
@@ -47,7 +47,7 @@ async def test_has_services(
 @pytest.mark.parametrize("start", [{"start": "2023-01-01"}, {}])
 @pytest.mark.parametrize("end", [{"end": "2023-01-01"}, {}])
 async def test_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     service: str,
@@ -100,7 +100,7 @@ async def test_service(
     ],
 )
 async def test_service_filters_datetime_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_easyenergy: MagicMock,
     service: str,
@@ -162,7 +162,7 @@ async def test_service_filters_datetime_range(
     ],
 )
 async def test_usage_services_invoice_price_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_easyenergy: MagicMock,
     service: str,
@@ -210,7 +210,7 @@ async def test_usage_services_invoice_price_type(
     ],
 )
 async def test_energy_services_quarter_granularity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_easyenergy: MagicMock,
     service: str,
@@ -272,7 +272,7 @@ def config_entry_data(
     indirect=["config_entry_data"],
 )
 async def test_service_schema_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     config_entry_data: dict[str, str],
     service_data: dict[str, str | bool],
@@ -303,7 +303,7 @@ async def test_service_schema_validation(
     ],
 )
 async def test_service_schema_validation_vat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     service: str,
     service_data: dict[str, str | bool],
@@ -344,7 +344,7 @@ async def test_service_schema_validation_vat(
     ],
 )
 async def test_service_schema_validation_usage_price_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     service: str,
     service_data: dict[str, str | bool],
@@ -385,7 +385,7 @@ async def test_service_schema_validation_usage_price_type(
     ],
 )
 async def test_service_schema_validation_granularity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     service: str,
     service_data: dict[str, str | bool],
@@ -410,7 +410,7 @@ async def test_service_schema_validation_granularity(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_service_schema_validation_return_vat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test return prices do not accept VAT selection."""
@@ -438,7 +438,7 @@ async def test_service_schema_validation_return_vat(
     ],
 )
 async def test_service_validation_config_entry_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
 ) -> None:
     """Test config entry validation for easyEnergy services."""
@@ -476,7 +476,7 @@ async def test_service_validation_config_entry_not_found(
 @pytest.mark.parametrize("date_field", ["start", "end"])
 @pytest.mark.parametrize("date_value", ["incorrect date"])
 async def test_service_validation_invalid_date(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_easyenergy: MagicMock,
     service: str,
@@ -536,7 +536,7 @@ async def test_service_validation_invalid_date(
     ],
 )
 async def test_service_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_easyenergy: MagicMock,
     service: str,
@@ -549,7 +549,7 @@ async def test_service_api_error(
     mock_method.reset_mock()
     mock_method.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             service,

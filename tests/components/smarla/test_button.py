@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -24,7 +24,7 @@ BUTTON_ENTITIES = [
 
 @pytest.mark.usefixtures("mock_federwiege")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -42,7 +42,7 @@ async def test_entities(
 
 @pytest.mark.parametrize("entity_info", BUTTON_ENTITIES)
 async def test_button_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_federwiege: MagicMock,
     entity_info: dict[str, str],

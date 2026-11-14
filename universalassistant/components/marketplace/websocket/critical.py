@@ -11,7 +11,7 @@ from ..critical import async_acknowledge_critical_repository
 from ..utils.storage import async_load_from_storage
 
 if TYPE_CHECKING:
-    from universalassistant.core import UniversalAssistant
+    from universalassistant.core import __HAC_KEEP__
 
 
 @websocket_api.websocket_command(
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 @websocket_api.require_admin
 @websocket_api.async_response
 async def marketplace_critical_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -44,7 +44,7 @@ async def marketplace_critical_list(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def marketplace_critical_acknowledge(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

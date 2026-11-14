@@ -33,7 +33,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import GreeIrConfigEntry
@@ -92,7 +92,7 @@ class _GreeAcExtraStoredData(ClimateExtraStoredData):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GreeIrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

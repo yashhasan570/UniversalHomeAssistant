@@ -13,7 +13,7 @@ from universalassistant.components.abode.const import DOMAIN
 from universalassistant.components.abode.services import AbodeService
 from universalassistant.components.camera import DOMAIN as CAMERA_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_platform
@@ -33,7 +33,7 @@ def mock_getrandbits():
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_all_entities(
     await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
 
 
-async def test_capture_image(hass: UniversalAssistant) -> None:
+async def test_capture_image(hass: __HAC_KEEP__) -> None:
     """Test the camera capture image service."""
     await setup_platform(hass, CAMERA_DOMAIN)
 
@@ -58,7 +58,7 @@ async def test_capture_image(hass: UniversalAssistant) -> None:
         mock_capture.assert_called_once()
 
 
-async def test_camera_on(hass: UniversalAssistant) -> None:
+async def test_camera_on(hass: __HAC_KEEP__) -> None:
     """Test the camera turn on service."""
     await setup_platform(hass, CAMERA_DOMAIN)
 
@@ -73,7 +73,7 @@ async def test_camera_on(hass: UniversalAssistant) -> None:
         mock_capture.assert_called_once_with(False)
 
 
-async def test_camera_off(hass: UniversalAssistant) -> None:
+async def test_camera_off(hass: __HAC_KEEP__) -> None:
     """Test the camera turn off service."""
     await setup_platform(hass, CAMERA_DOMAIN)
 
@@ -109,7 +109,7 @@ def _timeline_capture_callbacks(
 
 
 async def _fire_capture(
-    hass: UniversalAssistant, callbacks: list[Callable[[Any], None]]
+    hass: __HAC_KEEP__, callbacks: list[Callable[[Any], None]]
 ) -> None:
     """Fire a capture image timeline event from the jaraco.abode thread."""
     for capture_callback in callbacks:
@@ -118,7 +118,7 @@ async def _fire_capture(
 
 
 async def test_timeline_capture_after_entity_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_update_image_location: MagicMock,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_timeline_capture_after_entity_removed(
 
 
 async def test_timeline_capture_after_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_update_image_location: MagicMock,
 ) -> None:
@@ -161,7 +161,7 @@ async def test_timeline_capture_after_entity_id_change(
 
 
 async def test_capture_image_after_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

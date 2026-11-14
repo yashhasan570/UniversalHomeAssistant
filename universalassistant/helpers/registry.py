@@ -6,7 +6,7 @@ from collections.abc import Mapping, Sequence, ValuesView
 from enum import StrEnum
 from typing import TYPE_CHECKING, Any, Literal, override
 
-from universalassistant.core import CoreState, UniversalAssistant, callback
+from universalassistant.core import CoreState, __HAC_KEEP__, callback
 
 if TYPE_CHECKING:
     from .storage import Store
@@ -77,7 +77,7 @@ class BaseRegistryItems[_DataT](UserDict[str, _DataT], ABC):
 class BaseRegistry[_StoreDataT: Mapping[str, Any] | Sequence[Any]](ABC):
     """Class to implement a registry."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     _store: Store[_StoreDataT]
 
     @callback

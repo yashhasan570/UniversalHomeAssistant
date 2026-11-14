@@ -1,4 +1,4 @@
-"""AirOS Sensor component for Universal Universal Home Assistant."""
+"""AirOS Sensor component for __HA_KEEP__."""
 
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -27,7 +27,7 @@ from universalassistant.const import (
     UnitOfLength,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -174,7 +174,7 @@ AIROS8_SENSORS: tuple[AirOS8SensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AirOSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

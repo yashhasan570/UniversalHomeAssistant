@@ -11,7 +11,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -23,14 +23,14 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the LG webOS TV platform."""
     async_setup_services(hass)
 
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: WebOsTvConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: WebOsTvConfigEntry) -> None:
     """Set the config entry up."""
     host = entry.data[CONF_HOST]
     key = entry.data[CONF_CLIENT_SECRET]
@@ -67,7 +67,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: WebOsTvConfigEntry)
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: WebOsTvConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: WebOsTvConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     client = entry.runtime_data.client

@@ -42,8 +42,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.json import load_json
 
@@ -58,7 +58,7 @@ async def auto_init_components(init_components: None) -> None:
 
 
 async def test_entities_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_samsung_tv: MockSamsungTV,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -69,7 +69,7 @@ async def test_entities_created(
 
 
 async def test_device_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_samsung_tv: MockSamsungTV,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -83,7 +83,7 @@ async def test_device_model(
 
 
 async def test_polling_updates_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_samsung_tv: MockSamsungTV,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_polling_updates_state(
 
 
 async def test_state_updates(
-    hass: UniversalAssistant, mock_samsung_tv: MockSamsungTV
+    hass: __HAC_KEEP__, mock_samsung_tv: MockSamsungTV
 ) -> None:
     """Test the entity updates from TV pushes and disconnects."""
     assert hass.states.get(ENTITY_ID).state == STATE_ON
@@ -122,7 +122,7 @@ async def test_state_updates(
 
 
 async def test_state_unknown_when_not_queried(
-    hass: UniversalAssistant, mock_samsung_tv: MockSamsungTV
+    hass: __HAC_KEEP__, mock_samsung_tv: MockSamsungTV
 ) -> None:
     """Test attributes are cleared when the TV reports no state."""
     mock_samsung_tv.mock_state(TVState())
@@ -134,7 +134,7 @@ async def test_state_unknown_when_not_queried(
 
 
 async def test_power_controls(
-    hass: UniversalAssistant, mock_samsung_tv: MockSamsungTV
+    hass: __HAC_KEEP__, mock_samsung_tv: MockSamsungTV
 ) -> None:
     """Test power services call the right methods."""
     await hass.services.async_call(
@@ -149,7 +149,7 @@ async def test_power_controls(
 
 
 async def test_volume_controls(
-    hass: UniversalAssistant, mock_samsung_tv: MockSamsungTV
+    hass: __HAC_KEEP__, mock_samsung_tv: MockSamsungTV
 ) -> None:
     """Test volume state and controls."""
     assert hass.states.get(ENTITY_ID).attributes[ATTR_MEDIA_VOLUME_LEVEL] == 0.2
@@ -175,7 +175,7 @@ async def test_volume_controls(
 
 
 async def test_mute_controls(
-    hass: UniversalAssistant, mock_samsung_tv: MockSamsungTV
+    hass: __HAC_KEEP__, mock_samsung_tv: MockSamsungTV
 ) -> None:
     """Test mute state and controls."""
     assert hass.states.get(ENTITY_ID).attributes[ATTR_MEDIA_VOLUME_MUTED] is False
@@ -198,7 +198,7 @@ async def test_mute_controls(
 
 
 async def test_volume_features_depend_on_reported_state(
-    hass: UniversalAssistant, mock_samsung_tv: MockSamsungTV
+    hass: __HAC_KEEP__, mock_samsung_tv: MockSamsungTV
 ) -> None:
     """Test volume features drop when the TV does not report volume/mute.
 
@@ -229,7 +229,7 @@ async def test_volume_features_depend_on_reported_state(
 
 
 async def test_no_source_or_volume_controls_when_off(
-    hass: UniversalAssistant, mock_samsung_tv: MockSamsungTV
+    hass: __HAC_KEEP__, mock_samsung_tv: MockSamsungTV
 ) -> None:
     """Test source/volume/mute controls are withheld while the TV is off.
 
@@ -257,7 +257,7 @@ async def test_no_source_or_volume_controls_when_off(
 
 
 async def test_source_state_and_controls(
-    hass: UniversalAssistant, mock_samsung_tv: MockSamsungTV
+    hass: __HAC_KEEP__, mock_samsung_tv: MockSamsungTV
 ) -> None:
     """Test source state and selection."""
     entity_state = hass.states.get(ENTITY_ID)
@@ -285,7 +285,7 @@ async def test_source_state_and_controls(
 
 
 async def test_art_mode_source(
-    hass: UniversalAssistant, mock_samsung_tv: MockSamsungTV
+    hass: __HAC_KEEP__, mock_samsung_tv: MockSamsungTV
 ) -> None:
     """Test Art Mode is exposed as a source on a Frame TV."""
     assert "art_mode" in hass.states.get(ENTITY_ID).attributes[ATTR_INPUT_SOURCE_LIST]
@@ -315,7 +315,7 @@ async def test_art_mode_source(
         pytest.param(None, id="no_model"),
     ],
 )
-async def test_no_art_mode_source_without_art_mode_model(hass: UniversalAssistant) -> None:
+async def test_no_art_mode_source_without_art_mode_model(hass: __HAC_KEEP__) -> None:
     """Test Art Mode is not offered as a source on TVs without Art Mode."""
     assert (
         "art_mode" not in hass.states.get(ENTITY_ID).attributes[ATTR_INPUT_SOURCE_LIST]
@@ -332,12 +332,12 @@ async def test_no_art_mode_source_without_art_mode_model(hass: UniversalAssistan
     ],
 )
 async def test_command_error_raises(
-    hass: UniversalAssistant, mock_samsung_tv: MockSamsungTV, exception: Exception
+    hass: __HAC_KEEP__, mock_samsung_tv: MockSamsungTV, exception: Exception
 ) -> None:
-    """Test library errors raised during an action surface as UniversalAssistantError."""
+    """Test library errors raised during an action surface as __HAC_KEEP__Error."""
     mock_samsung_tv.power_on.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             MP_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True
         )

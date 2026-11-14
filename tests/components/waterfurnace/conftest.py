@@ -18,7 +18,7 @@ from universalassistant.components.recorder.models.statistics import (
 from universalassistant.components.recorder.statistics import async_add_external_statistics
 from universalassistant.components.waterfurnace.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform, UnitOfEnergy
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 from universalassistant.util.unit_conversion import EnergyConverter
 
@@ -138,7 +138,7 @@ def mock_config_entry() -> MockConfigEntry:
 @pytest.fixture
 async def seed_statistics(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Seed a recent energy statistic so the coordinator uses the normal poll path.
 
@@ -163,7 +163,7 @@ def platforms() -> list[Platform]:
 @pytest.fixture
 async def init_integration(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_waterfurnace_client: Mock,
     platforms: list[Platform],

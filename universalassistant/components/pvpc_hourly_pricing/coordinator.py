@@ -8,7 +8,7 @@ from esios_api import BadApiTokenAuthError, EsiosApiData, PVPCData
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -27,7 +27,7 @@ class ElecPricesDataUpdateCoordinator(DataUpdateCoordinator[EsiosApiData]):
     config_entry: PVPCConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, entry: PVPCConfigEntry, sensor_keys: set[str]
+        self, hass: __HAC_KEEP__, entry: PVPCConfigEntry, sensor_keys: set[str]
     ) -> None:
         """Initialize."""
         config = entry.data.copy()

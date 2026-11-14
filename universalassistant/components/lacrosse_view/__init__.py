@@ -5,7 +5,7 @@ import logging
 from lacrosse_view import LaCrosse, LoginError
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -15,7 +15,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LaCrosseConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LaCrosseConfigEntry) -> None:
     """Set up LaCrosse View from a config entry."""
 
     api = LaCrosse(async_get_clientsession(hass))
@@ -37,6 +37,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LaCrosseConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LaCrosseConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LaCrosseConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

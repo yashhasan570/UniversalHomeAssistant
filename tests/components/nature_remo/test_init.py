@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.nature_remo.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_setup_and_unload(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """The entry loads and unloads cleanly."""
     assert init_integration.state is ConfigEntryState.LOADED
@@ -24,7 +24,7 @@ async def test_setup_and_unload(
 
 
 async def test_energy_only_hub_is_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_energy_only_hub_is_registered(
 
 
 async def test_appliance_links_to_its_hub(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_appliance_links_to_its_hub(
 
 
 async def test_setup_retries_on_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_setup_retries_on_connection_error(
 
 
 async def test_setup_auth_error_is_setup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_setup_auth_error_is_setup_error(
 
 
 async def test_appliance_rename_reaches_the_device_registry_on_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: AsyncMock,
     appliances: list[Appliance],

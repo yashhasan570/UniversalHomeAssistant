@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_INCLUDE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -52,13 +52,13 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: VizioConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: VizioConfigEntry) -> None:
     """Migrate old config entries."""
     if entry.version == 1 and entry.minor_version == 1:
         # Settings imported from YAML were stored in data; they belong in options
@@ -82,7 +82,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: VizioConfigEntry)
 
 
 async def _async_resolve_device_type(
-    hass: UniversalAssistant, entry: VizioConfigEntry
+    hass: __HAC_KEEP__, entry: VizioConfigEntry
 ) -> DeviceType:
     """Resolve the vizaio device type for a config entry.
 
@@ -117,7 +117,7 @@ async def _async_resolve_device_type(
     return device_type
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: VizioConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: VizioConfigEntry) -> None:
     """Load the saved entities."""
     host = entry.data[CONF_HOST]
     token = entry.data.get(CONF_ACCESS_TOKEN)
@@ -171,7 +171,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: VizioConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: VizioConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: VizioConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

@@ -4,7 +4,7 @@ from typing import Any
 
 from pyimouapi.ha_device import ImouHaDevice
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_API_URL, CONF_APP_ID, imou_device_identifier
 from .coordinator import ImouConfigEntry
@@ -25,7 +25,7 @@ def _serialize_device(device: ImouHaDevice) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ImouConfigEntry
+    hass: __HAC_KEEP__, entry: ImouConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

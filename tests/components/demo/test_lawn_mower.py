@@ -19,7 +19,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 ENTITY_LAWN_MOWER = "lawn_mower.my_lawn_mower"
@@ -36,7 +36,7 @@ async def lawn_mower_only() -> AsyncGenerator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_demo_lawn_mower(hass: UniversalAssistant, lawn_mower_only: None):
+async def setup_demo_lawn_mower(hass: __HAC_KEEP__, lawn_mower_only: None):
     """Initialize setup demo lawn mower."""
     assert await async_setup_component(
         hass, LAWN_MOWER_DOMAIN, {LAWN_MOWER_DOMAIN: {CONF_PLATFORM: "demo"}}
@@ -44,14 +44,14 @@ async def setup_demo_lawn_mower(hass: UniversalAssistant, lawn_mower_only: None)
     await hass.async_block_till_done()
 
 
-async def test_supported_features(hass: UniversalAssistant) -> None:
+async def test_supported_features(hass: __HAC_KEEP__) -> None:
     """Test lawn mower supported features."""
     state = hass.states.get("lawn_mower.my_lawn_mower")
     assert state.attributes.get(ATTR_SUPPORTED_FEATURES) == 15
     assert state.state == LawnMowerActivity.DOCKED
 
 
-async def test_methods(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+async def test_methods(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     """Test if methods call the services as expected."""
     await hass.services.async_call(
         LAWN_MOWER_DOMAIN,
@@ -110,7 +110,7 @@ async def test_methods(hass: UniversalAssistant, freezer: FrozenDateTimeFactory)
     ],
 )
 async def test_command_cancels_pending_dock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service: str,
     expected_state: LawnMowerActivity,

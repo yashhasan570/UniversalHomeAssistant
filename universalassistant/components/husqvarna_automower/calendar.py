@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, override
 from aioautomower.model import make_name_string
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -20,7 +20,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AutomowerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -87,7 +87,7 @@ class AutomowerCalendarEntity(AutomowerBaseEntity, CalendarEntity):
 
     @override
     async def async_get_events(
-        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
+        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Return calendar events within a datetime range.
 

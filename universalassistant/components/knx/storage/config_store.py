@@ -20,7 +20,7 @@ from probatio import Key
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PLATFORM, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.storage import Store
 from universalassistant.util.ulid import ulid_now
@@ -226,7 +226,7 @@ class KNXConfigStore:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
     ) -> None:
         """Initialize config store."""

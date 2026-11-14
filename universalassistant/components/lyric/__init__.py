@@ -3,7 +3,7 @@
 from aiolyric import Lyric
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     aiohttp_client,
     config_entry_oauth2_flow,
@@ -27,13 +27,13 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.CLIMATE, Platform.SELECT, Platform.SENSOR]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Honeywell Lyric integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LyricConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LyricConfigEntry) -> None:
     """Set up Honeywell Lyric from a config entry."""
     implementation = (
         await config_entry_oauth2_flow.async_get_config_entry_implementation(
@@ -76,6 +76,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LyricConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LyricConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LyricConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

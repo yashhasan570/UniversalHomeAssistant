@@ -7,7 +7,7 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -16,7 +16,7 @@ from .const import NC_DATA, VALID_CONFIG
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:

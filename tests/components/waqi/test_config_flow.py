@@ -18,7 +18,7 @@ from universalassistant.const import (
     ATTR_LONGITUDE,
     CONF_API_KEY,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -45,7 +45,7 @@ def second_mock_config_entry() -> MockConfigEntry:
 
 
 async def test_full_flow(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_waqi: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_waqi: AsyncMock
 ) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
@@ -75,7 +75,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_entry_errors(
-    hass: UniversalAssistant, mock_waqi: AsyncMock, exception: Exception, error: str
+    hass: __HAC_KEEP__, mock_waqi: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
@@ -106,7 +106,7 @@ async def test_entry_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant, mock_waqi: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_waqi: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test duplicate entry handling."""
     mock_config_entry.add_to_hass(hass)
@@ -127,7 +127,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_map_flow(
-    hass: UniversalAssistant, mock_waqi: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_waqi: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we get the form."""
     mock_config_entry.add_to_hass(hass)
@@ -169,7 +169,7 @@ async def test_full_map_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_map_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -220,7 +220,7 @@ async def test_map_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_map_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     second_mock_config_entry: MockConfigEntry,
@@ -257,7 +257,7 @@ async def test_map_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_station_number_flow(
-    hass: UniversalAssistant, mock_waqi: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_waqi: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the station number flow."""
     mock_config_entry.add_to_hass(hass)
@@ -297,7 +297,7 @@ async def test_full_station_number_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_station_number_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -344,7 +344,7 @@ async def test_station_number_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_station_number_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     second_mock_config_entry: MockConfigEntry,
@@ -386,7 +386,7 @@ async def test_station_number_duplicate(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     api_key: str,
@@ -416,7 +416,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_loaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     api_key: str,
@@ -442,7 +442,7 @@ async def test_reauth_flow_loaded_entry(
 
 
 async def test_reauth_flow_setup_failed_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -475,7 +475,7 @@ async def test_reauth_flow_setup_failed_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -508,7 +508,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     second_mock_config_entry: MockConfigEntry,
@@ -537,7 +537,7 @@ async def test_reauth_flow_duplicate(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     api_key: str,
@@ -567,7 +567,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_loaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     api_key: str,
@@ -602,7 +602,7 @@ async def test_reconfigure_flow_loaded_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -635,7 +635,7 @@ async def test_reconfigure_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waqi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     second_mock_config_entry: MockConfigEntry,

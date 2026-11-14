@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant import config_entries
 from universalassistant.components.gardena_bluetooth.const import DOMAIN
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
@@ -28,7 +28,7 @@ from . import (
 pytestmark = pytest.mark.usefixtures("mock_setup_entry", "constant_advertisements")
 
 
-async def test_user_selection(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_user_selection(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test we can select a device."""
 
     inject_bluetooth_service_info(hass, WATER_TIMER_SERVICE_INFO)
@@ -53,7 +53,7 @@ async def test_user_selection(hass: UniversalAssistant, snapshot: SnapshotAssert
     assert result == snapshot
 
 
-async def test_user_selection_replaces_ignored(hass: UniversalAssistant) -> None:
+async def test_user_selection_replaces_ignored(hass: __HAC_KEEP__) -> None:
     """Test setup from service info cache replaces an ignored entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -88,7 +88,7 @@ async def test_user_selection_replaces_ignored(hass: UniversalAssistant) -> None
 
 
 async def test_failed_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: Mock,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_failed_connect(
 
 
 async def test_no_valid_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test no valid candidates."""
@@ -134,7 +134,7 @@ async def test_no_valid_devices(
 
 
 async def test_timeout_manufacturer_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the flow aborts with no_devices_found.
 
@@ -152,7 +152,7 @@ async def test_timeout_manufacturer_data(
 
 
 async def test_no_devices_at_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test missing device."""
@@ -168,7 +168,7 @@ async def test_no_devices_at_all(
     ("service_info"), [WATER_TIMER_SERVICE_INFO, WATER_TIMER_UNNAMED_SERVICE_INFO]
 )
 async def test_bluetooth(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, service_info: BluetoothServiceInfo
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, service_info: BluetoothServiceInfo
 ) -> None:
     """Test bluetooth device discovery."""
 
@@ -188,7 +188,7 @@ async def test_bluetooth(
 
 
 async def test_bluetooth_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test bluetooth device discovery with invalid data."""
@@ -204,7 +204,7 @@ async def test_bluetooth_invalid(
 
 
 async def test_already_configured_discovery(
-    hass: UniversalAssistant, get_product_event: asyncio.Event
+    hass: __HAC_KEEP__, get_product_event: asyncio.Event
 ) -> None:
     """Ensure we can't add the same device twice."""
 

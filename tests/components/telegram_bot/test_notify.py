@@ -14,13 +14,13 @@ from universalassistant.components.notify import (
     SERVICE_SEND_MESSAGE,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
 @pytest.mark.freeze_time("2025-01-09T12:00:00+00:00")
 async def test_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot: None,
 ) -> None:
     """Test send message."""

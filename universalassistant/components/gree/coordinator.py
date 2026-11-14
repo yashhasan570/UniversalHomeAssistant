@@ -12,7 +12,7 @@ from greeclimate.exceptions import DeviceNotBoundError, DeviceTimeoutError
 from greeclimate.network import Response
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.json import json_dumps
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -46,7 +46,7 @@ class DeviceDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: GreeConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: GreeConfigEntry, device: Device
+        self, hass: __HAC_KEEP__, config_entry: GreeConfigEntry, device: Device
     ) -> None:
         """Initialize the data update coordinator."""
         super().__init__(
@@ -147,7 +147,7 @@ class DeviceDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 class DiscoveryService(Listener):
     """Discovery event handler for gree devices."""
 
-    def __init__(self, hass: UniversalAssistant, entry: GreeConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: GreeConfigEntry) -> None:
         """Initialize discovery service."""
         super().__init__()
         self.hass = hass

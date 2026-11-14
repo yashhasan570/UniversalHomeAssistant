@@ -29,7 +29,7 @@ def _body(sha: str | None) -> str:
     if sha is not None:
         body += (
             f"\nChecked at commit "
-            f"[`{sha[:7]}`](https://github.com/yashhasan570/UniversalUniversalAssistant/commit/{sha})."
+            f"[`{sha[:7]}`](https://github.com/yashhasan570/UniversalAssistant/commit/{sha})."
         )
     return body
 

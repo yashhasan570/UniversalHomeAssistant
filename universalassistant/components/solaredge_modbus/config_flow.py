@@ -10,7 +10,7 @@ from universalassistant.components.modbus import async_get_temporary_unit
 from universalassistant.config_entries import ConfigEntryState, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
 from universalassistant.data_entry_flow import section
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
@@ -304,8 +304,8 @@ class SolarEdgeModbusFlowHandler(ConfigFlow, domain=DOMAIN):
                 solaredge = await SolarEdge.async_probe(unit)
                 # Identity (serial number, model name) is read on the first refresh.
                 report = await solaredge.async_update()
-        except UniversalAssistantError, SolarEdgeConnectionError:
-            # UniversalAssistantError: the device is already in use over different
+        except __HAC_KEEP__Error, SolarEdgeConnectionError:
+            # __HAC_KEEP__Error: the device is already in use over different
             # link settings, which one connection cannot honour.
             return {"base": "cannot_connect"}, None
         except SolarEdgeError:

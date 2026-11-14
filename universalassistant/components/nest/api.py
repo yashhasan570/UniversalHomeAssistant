@@ -1,4 +1,4 @@
-"""API for Google Nest Device Access bound to Universal Universal Home Assistant OAuth."""
+"""API for Google Nest Device Access bound to __HA_KEEP__ OAuth."""
 
 import datetime as dt
 import logging
@@ -11,7 +11,7 @@ from google_nest_sdm.auth import AbstractAuth
 from google_nest_sdm.exceptions import ApiException, ConfigurationException
 from google_nest_sdm.google_nest_subscriber import GoogleNestSubscriber
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client, config_entry_oauth2_flow
 
 from .const import (
@@ -106,7 +106,7 @@ class AccessTokenAuthImpl(AbstractAuth):
         )
 
 
-async def new_auth(hass: UniversalAssistant, entry: NestConfigEntry) -> AbstractAuth:
+async def new_auth(hass: __HAC_KEEP__, entry: NestConfigEntry) -> AbstractAuth:
     """Create a GoogleNestSubscriber."""
     implementation = (
         await config_entry_oauth2_flow.async_get_config_entry_implementation(
@@ -126,7 +126,7 @@ async def new_auth(hass: UniversalAssistant, entry: NestConfigEntry) -> Abstract
 
 
 async def new_subscriber(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NestConfigEntry,
     auth: AbstractAuth,
 ) -> GoogleNestSubscriber:
@@ -137,7 +137,7 @@ async def new_subscriber(
 
 
 def new_subscriber_with_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     access_token: str,
     project_id: str,
     subscription_name: str,
@@ -155,7 +155,7 @@ def new_subscriber_with_token(
 
 
 def new_pubsub_admin_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     access_token: str,
     cloud_project_id: str,
 ) -> AdminClient:
@@ -186,7 +186,7 @@ def cloud_project_from_subscription(subscription_name: str) -> str | None:
 async def async_delete_subscription(
     admin_client: AdminClient, subscription_name: str
 ) -> None:
-    """Delete a Pub/Sub subscription created by Universal Universal Home Assistant, best effort."""
+    """Delete a Pub/Sub subscription created by __HA_KEEP__, best effort."""
     _LOGGER.debug("Deleting subscription '%s'", subscription_name)
     try:
         await admin_client.delete_subscription(subscription_name)

@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.elevenlabs.const import CONF_VOICE
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_async_client: MagicMock,
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -27,7 +27,7 @@ async def test_setup(
 
 
 async def test_setup_connect_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_async_client_connect_error: MagicMock,
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_setup_connect_error(
 
 
 async def test_setup_voices_connect_error_retries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_async_client: MagicMock,
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_setup_voices_connect_error_retries(
     ],
 )
 async def test_setup_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_async_client: MagicMock,
     mock_entry: MockConfigEntry,
     error: ApiError,
@@ -85,7 +85,7 @@ async def test_setup_auth_error_starts_reauth(
 
 
 async def test_setup_api_error_retries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_async_client: MagicMock,
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_setup_api_error_retries(
 
 
 async def test_options_update_reloads_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_async_client: MagicMock,
     mock_entry: MockConfigEntry,
 ) -> None:

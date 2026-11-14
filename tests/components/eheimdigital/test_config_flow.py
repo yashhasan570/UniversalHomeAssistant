@@ -14,7 +14,7 @@ from universalassistant.config_entries import (
     SOURCE_ZEROCONF,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -34,7 +34,7 @@ USER_INPUT = {CONF_HOST: "eheimdigital"}
 
 
 @patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
-async def test_full_flow(hass: UniversalAssistant, eheimdigital_hub_mock: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, eheimdigital_hub_mock: AsyncMock) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -64,7 +64,7 @@ async def test_full_flow(hass: UniversalAssistant, eheimdigital_hub_mock: AsyncM
     [(ClientConnectionError(), "cannot_connect"), (Exception(), "unknown")],
 )
 async def test_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     eheimdigital_hub_mock: AsyncMock,
     side_effect: BaseException,
     error_value: str,
@@ -108,7 +108,7 @@ async def test_flow_errors(
 
 @patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
 async def test_zeroconf_flow(
-    hass: UniversalAssistant, eheimdigital_hub_mock: AsyncMock
+    hass: __HAC_KEEP__, eheimdigital_hub_mock: AsyncMock
 ) -> None:
     """Test zeroconf flow."""
     result = await hass.config_entries.flow.async_init(
@@ -142,7 +142,7 @@ async def test_zeroconf_flow(
 )
 @patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
 async def test_zeroconf_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     eheimdigital_hub_mock: MagicMock,
     side_effect: BaseException,
     error_value: str,
@@ -161,7 +161,7 @@ async def test_zeroconf_flow_errors(
 
 
 @patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
-async def test_abort(hass: UniversalAssistant, eheimdigital_hub_mock: AsyncMock) -> None:
+async def test_abort(hass: __HAC_KEEP__, eheimdigital_hub_mock: AsyncMock) -> None:
     """Test flow abort on matching data or unique_id."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -225,7 +225,7 @@ async def test_abort(hass: UniversalAssistant, eheimdigital_hub_mock: AsyncMock)
     [(ClientConnectionError(), "cannot_connect"), (Exception(), "unknown")],
 )
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     eheimdigital_hub_mock: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -265,7 +265,7 @@ async def test_reconfigure(
 
 @patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
 async def test_reconfigure_different_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     eheimdigital_hub_mock: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -292,7 +292,7 @@ async def test_reconfigure_different_device(
 
 @patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
 async def test_reconfigure_already_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     eheimdigital_hub_mock: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -10,7 +10,7 @@ from universalassistant.components.hue.const import (
     CONF_ALLOW_HUE_GROUPS,
     CONF_ALLOW_UNREACHABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.json import JsonArrayType
 
 from .conftest import setup_bridge, setup_component
@@ -49,7 +49,7 @@ SCENE_RESPONSE = {
 }
 
 
-async def test_hue_activate_scene(hass: UniversalAssistant, mock_api_v1: Mock) -> None:
+async def test_hue_activate_scene(hass: __HAC_KEEP__, mock_api_v1: Mock) -> None:
     """Test successful hue_activate_scene."""
     config_entry = MockConfigEntry(
         domain=hue.DOMAIN,
@@ -85,7 +85,7 @@ async def test_hue_activate_scene(hass: UniversalAssistant, mock_api_v1: Mock) -
 
 
 async def test_hue_activate_scene_transition(
-    hass: UniversalAssistant, mock_api_v1: Mock
+    hass: __HAC_KEEP__, mock_api_v1: Mock
 ) -> None:
     """Test successful hue_activate_scene with transition."""
     config_entry = MockConfigEntry(
@@ -122,7 +122,7 @@ async def test_hue_activate_scene_transition(
 
 
 async def test_hue_activate_scene_group_not_found(
-    hass: UniversalAssistant, mock_api_v1: Mock
+    hass: __HAC_KEEP__, mock_api_v1: Mock
 ) -> None:
     """Test failed hue_activate_scene due to missing group."""
     config_entry = MockConfigEntry(
@@ -154,7 +154,7 @@ async def test_hue_activate_scene_group_not_found(
 
 
 async def test_hue_activate_scene_scene_not_found(
-    hass: UniversalAssistant, mock_api_v1: Mock
+    hass: __HAC_KEEP__, mock_api_v1: Mock
 ) -> None:
     """Test failed hue_activate_scene due to missing scene."""
     config_entry = MockConfigEntry(
@@ -186,7 +186,7 @@ async def test_hue_activate_scene_scene_not_found(
 
 
 async def test_hue_multi_bridge_activate_scene_all_respond(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v1: Mock,
     mock_bridge_v2: Mock,
     mock_config_entry_v1: MockConfigEntry,
@@ -223,7 +223,7 @@ async def test_hue_multi_bridge_activate_scene_all_respond(
 
 
 async def test_hue_multi_bridge_activate_scene_one_responds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v1: Mock,
     mock_bridge_v2: Mock,
     mock_config_entry_v1: MockConfigEntry,
@@ -259,7 +259,7 @@ async def test_hue_multi_bridge_activate_scene_one_responds(
 
 
 async def test_hue_multi_bridge_activate_scene_zero_responds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v1: Mock,
     mock_bridge_v2: Mock,
     mock_config_entry_v1: MockConfigEntry,

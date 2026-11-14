@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry, get_schema_suggest
 from universalassistant import config_entries
 from universalassistant.components.derivative.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import selector
 from universalassistant.util import dt as dt_util
 
 
 @pytest.mark.parametrize("platform", ["sensor"])
-async def test_config_flow(hass: UniversalAssistant, platform) -> None:
+async def test_config_flow(hass: __HAC_KEEP__, platform) -> None:
     """Test the config flow."""
     input_sensor_entity_id = "sensor.input"
 
@@ -76,7 +76,7 @@ async def test_config_flow(hass: UniversalAssistant, platform) -> None:
     [("k", "k"), ("\u00b5", "\u03bc"), ("\u03bc", "\u03bc")],
 )
 async def test_options(
-    hass: UniversalAssistant, platform, unit_prefix_entry: str, unit_prefix_used: str
+    hass: __HAC_KEEP__, platform, unit_prefix_entry: str, unit_prefix_used: str
 ) -> None:
     """Test reconfiguring and migrated unit prefix."""
     # Setup the config entry
@@ -165,7 +165,7 @@ async def test_options(
     assert state.attributes["unit_of_measurement"] == "cat/h"
 
 
-async def test_update_unit(hass: UniversalAssistant) -> None:
+async def test_update_unit(hass: __HAC_KEEP__) -> None:
     """Test behavior of changing the unit_time option."""
     # Setup the config entry
     source_id = "sensor.source"

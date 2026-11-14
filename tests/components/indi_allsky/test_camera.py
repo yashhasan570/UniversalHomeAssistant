@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.camera import async_get_image
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -18,7 +18,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_indi_allsky_client")
 async def test_camera_setup_and_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -39,7 +39,7 @@ async def test_camera_setup_and_states(
     ],
 )
 async def test_camera_image_and_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     image_bytes: bytes,
@@ -55,7 +55,7 @@ async def test_camera_image_and_update(
 
 
 async def test_camera_image_fetch_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -64,12 +64,12 @@ async def test_camera_image_fetch_failure(
 
     mock_indi_allsky_client.fetch_image.side_effect = IndiAllSkyError("Fetch error")
 
-    with pytest.raises(UniversalAssistantError, match="Unable to get image"):
+    with pytest.raises(__HAC_KEEP__Error, match="Unable to get image"):
         await async_get_image(hass, "camera.indi_allsky_latest_capture")
 
 
 async def test_camera_image_fetch_auth_failure_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_camera_image_fetch_auth_failure_triggers_reauth(
         patch.object(
             mock_config_entry, "async_start_reauth"
         ) as mock_async_start_reauth,
-        pytest.raises(UniversalAssistantError, match="Unable to get image"),
+        pytest.raises(__HAC_KEEP__Error, match="Unable to get image"),
     ):
         await async_get_image(hass, "camera.indi_allsky_latest_capture")
 

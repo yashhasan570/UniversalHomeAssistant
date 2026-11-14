@@ -8,11 +8,11 @@ import pytest
 from universalassistant.auth.const import GROUP_ID_ADMIN
 from universalassistant.components.cloud.const import DOMAIN, PREF_TTS_DEFAULT_VOICE
 from universalassistant.components.cloud.prefs import STORAGE_KEY, CloudPreferences
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_set_username(hass: UniversalAssistant) -> None:
+async def test_set_username(hass: __HAC_KEEP__) -> None:
     """Test we clear config if we set different username."""
     prefs = CloudPreferences(hass)
     await prefs.async_initialize()
@@ -28,7 +28,7 @@ async def test_set_username(hass: UniversalAssistant) -> None:
     assert prefs.google_enabled
 
 
-async def test_erase_config(hass: UniversalAssistant) -> None:
+async def test_erase_config(hass: __HAC_KEEP__) -> None:
     """Test erasing config."""
     prefs = CloudPreferences(hass)
     await prefs.async_initialize()
@@ -54,7 +54,7 @@ async def test_erase_config(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_set_username_migration(hass: UniversalAssistant) -> None:
+async def test_set_username_migration(hass: __HAC_KEEP__) -> None:
     """Test we do not clear config if we had no username."""
     prefs = CloudPreferences(hass)
 
@@ -73,7 +73,7 @@ async def test_set_username_migration(hass: UniversalAssistant) -> None:
 
 
 async def test_set_new_username(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test if setting new username returns true."""
     hass_storage[STORAGE_KEY] = {"version": 1, "data": {"username": "old-user"}}
@@ -87,7 +87,7 @@ async def test_set_new_username(
 
 
 async def test_load_invalid_cloud_user(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading cloud user with invalid storage."""
     hass_storage[STORAGE_KEY] = {"version": 1, "data": {"cloud_user": "non-existing"}}
@@ -108,7 +108,7 @@ async def test_load_invalid_cloud_user(
 
 
 async def test_setup_remove_cloud_user(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test creating and removing cloud user."""
     hass_storage[STORAGE_KEY] = {"version": 1, "data": {"cloud_user": None}}
@@ -134,12 +134,12 @@ async def test_setup_remove_cloud_user(
 @pytest.mark.parametrize(
     ("user_name", "expected_name"),
     [
-        pytest.param("Universal Universal Home Assistant Cloud", "Universal Universal Home Assistant Link", id="legacy"),
+        pytest.param("__HA_KEEP__ Cloud", "__HA_KEEP__ Link", id="legacy"),
         pytest.param("Custom name", "Custom name", id="custom"),
     ],
 )
 async def test_get_cloud_user_renames_legacy_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     user_name: str,
     expected_name: str,
@@ -162,7 +162,7 @@ async def test_get_cloud_user_renames_legacy_name(
     [([], False), (["cloud-user"], True), (["other-user"], False)],
 )
 async def test_import_google_assistant_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     google_assistant_users: list[str],
     google_connected: bool,
@@ -184,7 +184,7 @@ async def test_import_google_assistant_settings(
     [("en-US", "en-US", "GuyNeural"), ("missing_language", "en-US", "JennyNeural")],
 )
 async def test_tts_default_voice_legacy_gender(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     hass_storage: dict[str, Any],
     stored_language: str,

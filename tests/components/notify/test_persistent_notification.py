@@ -4,11 +4,11 @@ from pytest_universalassistant.common import async_get_persistent_notifications
 
 from universalassistant.components import notify
 from universalassistant.components.persistent_notification import DOMAIN as PN_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_async_send_message(hass: UniversalAssistant) -> None:
+async def test_async_send_message(hass: __HAC_KEEP__) -> None:
     """Test sending a message to notify.persistent_notification service."""
     await async_setup_component(hass, PN_DOMAIN, {"core": {}})
     await async_setup_component(hass, notify.DOMAIN, {})
@@ -28,7 +28,7 @@ async def test_async_send_message(hass: UniversalAssistant) -> None:
     assert notification["title"] == "Test notification"
 
 
-async def test_async_supports_notification_id(hass: UniversalAssistant) -> None:
+async def test_async_supports_notification_id(hass: __HAC_KEEP__) -> None:
     """Test that notify.persistent_notification supports notification_id."""
     await async_setup_component(hass, PN_DOMAIN, {"core": {}})
     await async_setup_component(hass, notify.DOMAIN, {})

@@ -13,7 +13,7 @@ from universalassistant.components.switchbot_cloud.sensor import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_integration
@@ -29,7 +29,7 @@ SENSOR_DESCRIPTIONS_BY_DEVICE_TYPES_WITHOUT_RELAY_SWITCH_2PM.pop("Relay Switch 2
     list(SENSOR_DESCRIPTIONS_BY_DEVICE_TYPES),
 )
 async def test_no_coordinator_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_list_devices,
@@ -62,7 +62,7 @@ async def test_no_coordinator_data(
     list(SENSOR_DESCRIPTIONS_BY_DEVICE_TYPES_WITHOUT_RELAY_SWITCH_2PM),
 )
 async def test_coordinator_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_list_devices,
@@ -100,7 +100,7 @@ async def test_coordinator_data(
 
 
 async def test_relay_switch_2pm_coordinator_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_list_devices,
@@ -139,7 +139,7 @@ async def test_relay_switch_2pm_coordinator_data(
 
 
 async def test_unsupported_device_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_list_devices,
     mock_get_status,

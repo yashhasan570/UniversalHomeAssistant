@@ -7,11 +7,11 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.iotawatt.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-def entry(hass: UniversalAssistant) -> MockConfigEntry:
+def entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Mock config entry added to HA."""
     entry = MockConfigEntry(
         domain=DOMAIN, title="Test Device", data={"host": "1.2.3.4"}

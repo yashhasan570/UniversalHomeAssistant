@@ -40,7 +40,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     CONF_TYPE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -117,7 +117,7 @@ def _patch_cloud_success() -> Generator[None]:
 
 
 async def _async_finish_with_cloud(
-    hass: UniversalAssistant, flow_id: str, user_input: dict[str, Any]
+    hass: __HAC_KEEP__, flow_id: str, user_input: dict[str, Any]
 ) -> ConfigFlowResult:
     """Submit the input with a working cloud and assert the device entry is created."""
     with _patch_cloud_success():
@@ -130,7 +130,7 @@ async def _async_finish_with_cloud(
 
 
 async def _async_finish_with_preset(
-    hass: UniversalAssistant, flow_id: str
+    hass: __HAC_KEEP__, flow_id: str
 ) -> ConfigFlowResult:
     """Select the device, log in with the preset account and assert the entry."""
     result = await hass.config_entries.flow.async_configure(
@@ -142,7 +142,7 @@ async def _async_finish_with_preset(
     )
 
 
-async def test_manual_flow_success(hass: UniversalAssistant) -> None:
+async def test_manual_flow_success(hass: __HAC_KEEP__) -> None:
     """Test a successful manual configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -195,7 +195,7 @@ async def test_manual_flow_success(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == str(TEST_DEVICE_ID)
 
 
-async def test_manual_flow_duplicate_unique_id(hass: UniversalAssistant) -> None:
+async def test_manual_flow_duplicate_unique_id(hass: __HAC_KEEP__) -> None:
     """Test manual flow aborts when device is already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -403,7 +403,7 @@ async def test_manual_flow_duplicate_unique_id(hass: UniversalAssistant) -> None
     ],
 )
 async def test_manual_step_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_input: dict[str, object],
     discover_result: dict[int, dict[str, object]] | None,
     connect_return: bool | None,
@@ -483,7 +483,7 @@ async def test_manual_step_errors(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_manual_step_retains_user_input_on_error(hass: UniversalAssistant) -> None:
+async def test_manual_step_retains_user_input_on_error(hass: __HAC_KEEP__) -> None:
     """Test the manual form keeps the user's entered values after a validation error.
 
     Previously, any error re-render fell back to the (possibly empty)
@@ -528,7 +528,7 @@ async def test_manual_step_retains_user_input_on_error(hass: UniversalAssistant)
 
 
 async def test_manual_step_retries_discovery_after_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test resubmitting corrected data triggers a fresh discovery.
 
@@ -580,7 +580,7 @@ async def test_manual_step_retries_discovery_after_mismatch(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_search_flow_no_new_devices_found(hass: UniversalAssistant) -> None:
+async def test_search_flow_no_new_devices_found(hass: __HAC_KEEP__) -> None:
     """Test the search step reports no_devices when discovery only finds already-configured devices."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -649,7 +649,7 @@ async def test_search_flow_no_new_devices_found(hass: UniversalAssistant) -> Non
 
 
 async def test_auto_flow_cloud_device_info_overrides_name_and_subtype(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test cloud device_info overrides the entry title and subtype on creation."""
     mock_devices = {TEST_DEVICE_ID: {**BASE_DATA, CONF_TYPE: TEST_TYPE}}
@@ -724,7 +724,7 @@ async def test_auto_flow_cloud_device_info_overrides_name_and_subtype(
 
 
 async def test_auto_flow_v3_preset_phase1_cloud_keys_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test phase 1 cloud keys succeed immediately after a preset login."""
     mock_devices = {TEST_DEVICE_ID: {**BASE_DATA, CONF_TYPE: TEST_TYPE}}
@@ -798,7 +798,7 @@ async def test_auto_flow_v3_preset_phase1_cloud_keys_success(
 
 
 async def test_auto_flow_v3_preset_phase1_default_key_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test phase 1 falls back to the well-known default key when cloud keys are empty."""
     mock_devices = {TEST_DEVICE_ID: {**BASE_DATA, CONF_TYPE: TEST_TYPE}}
@@ -868,7 +868,7 @@ async def test_auto_flow_v3_preset_phase1_default_key_success(
 
 
 async def test_auto_flow_v3_default_key_success_after_cloud_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a cloud rejection still lets a device connect with a built-in key.
 
@@ -942,7 +942,7 @@ async def test_auto_flow_v3_default_key_success_after_cloud_error(
 
 
 async def test_auto_flow_phase2_login_false_keeps_phase1_cloud_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a specific phase-1 cloud error survives a plain phase-2 login failure.
 
@@ -1013,7 +1013,7 @@ async def test_auto_flow_phase2_login_false_keeps_phase1_cloud_error(
     await _async_finish_with_preset(hass, flow_id)
 
 
-async def test_auto_flow_v3_token_retrieval_exhausted(hass: UniversalAssistant) -> None:
+async def test_auto_flow_v3_token_retrieval_exhausted(hass: __HAC_KEEP__) -> None:
     """Test both phase 1 and phase 2 key retrieval failing surfaces token_unavailable."""
     mock_devices = {TEST_DEVICE_ID: {**BASE_DATA, CONF_TYPE: TEST_TYPE}}
 
@@ -1090,7 +1090,7 @@ async def test_auto_flow_v3_token_retrieval_exhausted(hass: UniversalAssistant) 
     await _async_finish_with_preset(hass, flow_id)
 
 
-async def test_auto_flow_v3_phase2_login_failed(hass: UniversalAssistant) -> None:
+async def test_auto_flow_v3_phase2_login_failed(hass: __HAC_KEEP__) -> None:
     """Test phase 2's forced preset re-login failing surfaces preset_login_failed."""
     mock_devices = {TEST_DEVICE_ID: {**BASE_DATA, CONF_TYPE: TEST_TYPE}}
 
@@ -1152,7 +1152,7 @@ async def test_auto_flow_v3_phase2_login_failed(hass: UniversalAssistant) -> Non
     await _async_finish_with_preset(hass, flow_id)
 
 
-async def test_auto_flow_v3_phase2_no_keys_available(hass: UniversalAssistant) -> None:
+async def test_auto_flow_v3_phase2_no_keys_available(hass: __HAC_KEEP__) -> None:
     """Test phase 2 succeeding to log in but still finding no keys surfaces token_unavailable."""
     mock_devices = {TEST_DEVICE_ID: {**BASE_DATA, CONF_TYPE: TEST_TYPE}}
 
@@ -1215,7 +1215,7 @@ async def test_auto_flow_v3_phase2_no_keys_available(hass: UniversalAssistant) -
 
 
 async def test_auto_flow_v3_phase2_success_after_phase1_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the two-phase fallback: phase 1 finds no usable key, phase 2's forced preset re-login yields a working key.
 
@@ -1299,7 +1299,7 @@ async def test_auto_flow_v3_phase2_success_after_phase1_failure(
 
 
 async def test_auto_flow_recovers_after_preset_login_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the auto flow returns to auth_method after a login/key failure.
 
@@ -1382,7 +1382,7 @@ async def test_auto_flow_recovers_after_preset_login_error(
     ],
 )
 async def test_auto_flow_v1_v2_success_when_cloud_down(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     protocol: ProtocolVersion,
 ) -> None:
     """Test v1/v2 devices are added without ever using the cloud, even if it is down."""
@@ -1447,7 +1447,7 @@ async def test_auto_flow_v1_v2_success_when_cloud_down(
 
 
 async def test_login_credentials_step_renders_with_cloud_servers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test login_credentials step renders form regardless of cloud server list shape."""
     result = await hass.config_entries.flow.async_init(
@@ -1496,7 +1496,7 @@ async def test_login_credentials_step_renders_with_cloud_servers(
 
 
 async def test_login_credentials_step_login_failed_sets_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test login_credentials failures stay on the step with proper error state."""
     result = await hass.config_entries.flow.async_init(
@@ -1588,7 +1588,7 @@ async def test_login_credentials_step_login_failed_sets_error(
     ids=["specific_login_error", "generic_cloud_error"],
 )
 async def test_login_credentials_step_maps_cloud_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     login_error: MideaCloudError,
     expected_error: str,
     expected_code: str,
@@ -1700,7 +1700,7 @@ async def test_login_credentials_step_maps_cloud_error(
     ],
 )
 async def test_auto_flow_preset_auth_maps_cloud_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     login_side_effect: MideaCloudError | None,
     cloud_keys_side_effect: list[object] | None,
     expected_step: str,
@@ -1783,7 +1783,7 @@ async def test_auto_flow_preset_auth_maps_cloud_error(
 
 
 async def test_login_credentials_step_recovers_after_failed_login(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the user can correct a failed login and complete the flow.
 
@@ -1909,7 +1909,7 @@ async def test_login_credentials_step_recovers_after_failed_login(
     ],
 )
 async def test_list_step_shows_discovery_table(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     all_devices: dict[int, dict[str, object]],
     expected_table_fragment: str,
 ) -> None:
@@ -1935,7 +1935,7 @@ async def test_list_step_shows_discovery_table(
     assert expected_table_fragment in result["description_placeholders"]["table"]
 
 
-async def test_list_step_submit_returns_to_user_menu(hass: UniversalAssistant) -> None:
+async def test_list_step_submit_returns_to_user_menu(hass: __HAC_KEEP__) -> None:
     """Test submitting list step returns user menu."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -1965,7 +1965,7 @@ async def test_list_step_submit_returns_to_user_menu(hass: UniversalAssistant) -
 
 
 async def test_manual_step_v3_missing_token_key_sets_retrieved_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test manual step writes cloud-provided token/key into user_input."""
     result = await hass.config_entries.flow.async_init(
@@ -2052,7 +2052,7 @@ async def test_manual_step_v3_missing_token_key_sets_retrieved_values(
 
 
 async def test_manual_step_v3_missing_token_key_unsupported_device_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test cloud key retrieval surfaces token_unavailable when device_selector() finds no module.
 
@@ -2134,7 +2134,7 @@ async def test_manual_step_v3_missing_token_key_unsupported_device_type(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_manually_flow_success(hass: UniversalAssistant) -> None:
+async def test_manually_flow_success(hass: __HAC_KEEP__) -> None:
     """Test the full manual configuration flow through to entry creation."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -2188,7 +2188,7 @@ async def test_manually_flow_success(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == str(TEST_DEVICE_ID)
 
 
-async def test_manually_flow_unsupported_device_type(hass: UniversalAssistant) -> None:
+async def test_manually_flow_unsupported_device_type(hass: __HAC_KEEP__) -> None:
     """Test entry creation surfaces device_auth_failed when device_selector() finds no module.
 
     device_selector() returns None when there is no device implementation
@@ -2236,7 +2236,7 @@ async def test_manually_flow_unsupported_device_type(hass: UniversalAssistant) -
 
 
 async def test_manually_flow_builds_concrete_device_subclass(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test entry creation builds a concrete device subclass, not the base class.
 
@@ -2289,7 +2289,7 @@ async def test_manually_flow_builds_concrete_device_subclass(
 
 
 async def test_login_credentials_step_falls_back_to_default_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test login_credentials step falls back to DEFAULT_CLOUD with no cloud servers."""
     result = await hass.config_entries.flow.async_init(
@@ -2338,7 +2338,7 @@ async def test_login_credentials_step_falls_back_to_default_cloud(
 
 
 async def test_login_credentials_step_success_resumes_auto_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test login_credentials step stores login data and resumes device processing."""
     result = await hass.config_entries.flow.async_init(
@@ -2429,7 +2429,7 @@ async def test_login_credentials_step_success_resumes_auto_flow(
 
 
 async def test_auth_method_account_mode_redirects_to_login_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test auth_method step routes to login_credentials when account mode is chosen."""
     result = await hass.config_entries.flow.async_init(
@@ -2473,7 +2473,7 @@ async def test_auth_method_account_mode_redirects_to_login_credentials(
     assert result["step_id"] == "login_credentials"
 
 
-async def test_auth_method_preset_login_failed(hass: UniversalAssistant) -> None:
+async def test_auth_method_preset_login_failed(hass: __HAC_KEEP__) -> None:
     """Test auth_method step surfaces preset_login_failed when preset login fails."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -2533,7 +2533,7 @@ async def test_auth_method_preset_login_failed(hass: UniversalAssistant) -> None
 
 
 async def _assert_reconfigure_success(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, result: ConfigFlowResult
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, result: ConfigFlowResult
 ) -> None:
     """Assert reconfigure success."""
     assert result["type"] is FlowResultType.FORM
@@ -2569,7 +2569,7 @@ async def _assert_reconfigure_success(
 
 
 async def test_reconfigure_flow_no_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow with no discovery in the new IP."""
@@ -2599,7 +2599,7 @@ async def test_reconfigure_flow_no_discovery(
 
 
 async def test_reconfigure_flow_wrong_device_id_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow when the new IP belongs to a different device."""
@@ -2636,7 +2636,7 @@ async def test_reconfigure_flow_wrong_device_id_discovery(
 
 
 async def test_dhcp_discovery_updates_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test DHCP discovery of a known device updates its stored host."""
@@ -2662,7 +2662,7 @@ async def test_dhcp_discovery_updates_host(
 
 
 async def test_dhcp_discovery_same_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test DHCP discovery does nothing when the host is already up to date."""
@@ -2687,7 +2687,7 @@ async def test_dhcp_discovery_same_host(
 
 
 async def test_dhcp_discovery_no_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test DHCP discovery aborts when no matching entry is configured."""
@@ -2720,7 +2720,7 @@ async def test_dhcp_discovery_no_match(
     ],
 )
 async def test_subtype_prefers_discovery_over_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovered_subtype: int,
     cloud_model: str,
     expected: int,

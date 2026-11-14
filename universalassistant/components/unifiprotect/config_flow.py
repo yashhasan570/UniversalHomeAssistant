@@ -28,7 +28,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import selector
 from universalassistant.helpers.aiohttp_client import (
     async_create_clientsession,
@@ -87,7 +87,7 @@ def _build_data_without_credentials(entry_data: Mapping[str, Any]) -> dict[str, 
 
 
 async def _async_clear_session_if_credentials_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UFPConfigEntry,
     new_data: Mapping[str, Any],
 ) -> None:
@@ -195,7 +195,7 @@ REAUTH_API_KEY_SCHEMA = probatio.Schema(
 )
 
 
-async def async_local_user_documentation_url(hass: UniversalAssistant) -> str:
+async def async_local_user_documentation_url(hass: __HAC_KEEP__) -> str:
     """Get the documentation url for the full-access (local user) mode."""
     integration = await async_get_integration(hass, DOMAIN)
     return f"{integration.documentation}#full-access"
@@ -207,7 +207,7 @@ def _host_is_direct_connect(host: str) -> bool:
 
 
 async def _async_console_is_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UFPConfigEntry,
 ) -> bool:
     """Check if a console is offline.

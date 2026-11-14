@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.recorder.statistics import statistics_during_period
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import extend_statistics
@@ -19,7 +19,7 @@ from .conftest import extend_statistics
 
 @pytest.mark.usefixtures("recorder_mock", "entity_registry_enabled_by_default")
 async def test_statistics_import(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_ista: MagicMock,
@@ -87,7 +87,7 @@ async def test_statistics_import(
 
 @pytest.mark.usefixtures("recorder_mock", "mock_ista")
 async def test_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
 ) -> None:
     """Test remove config entry and clear statistics."""

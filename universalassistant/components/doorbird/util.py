@@ -2,7 +2,7 @@
 
 from typing import Any, cast
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import DOMAIN
 from .device import ConfiguredDoorBird
@@ -15,7 +15,7 @@ def get_mac_address_from_door_station_info(door_station_info: dict[str, Any]) ->
 
 
 def get_door_station_by_token(
-    hass: UniversalAssistant, token: str
+    hass: __HAC_KEEP__, token: str
 ) -> ConfiguredDoorBird | None:
     """Get door station by token."""
     for entry in async_get_entries(hass):
@@ -26,7 +26,7 @@ def get_door_station_by_token(
 
 
 @callback
-def async_get_entries(hass: UniversalAssistant) -> list[DoorBirdConfigEntry]:
+def async_get_entries(hass: __HAC_KEEP__) -> list[DoorBirdConfigEntry]:
     """Get all the doorbird entries."""
     entries = hass.config_entries.async_entries(
         DOMAIN, include_ignore=True, include_disabled=True

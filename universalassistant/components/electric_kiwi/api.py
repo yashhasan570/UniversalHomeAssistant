@@ -1,11 +1,11 @@
-"""API for Electric Kiwi bound to Universal Universal Home Assistant OAuth."""
+"""API for Electric Kiwi bound to __HA_KEEP__ OAuth."""
 
 from typing import override
 
 from aiohttp import ClientSession
 from electrickiwi_api import AbstractAuth
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client, config_entry_oauth2_flow
 
 from .const import API_BASE_URL
@@ -38,7 +38,7 @@ class ConfigFlowElectricKiwiAuth(AbstractAuth):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         token: str,
     ) -> None:
         """Initialize ConfigFlowFitbitApi."""

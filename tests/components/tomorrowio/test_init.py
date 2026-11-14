@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
@@ -59,7 +59,7 @@ def make_v1_config_entry(
     )
 
 
-async def test_load_and_unload(hass: UniversalAssistant) -> None:
+async def test_load_and_unload(hass: __HAC_KEEP__) -> None:
     """Test loading and unloading entry."""
     config_entry = make_v2_config_entry()
     config_entry.add_to_hass(hass)
@@ -73,7 +73,7 @@ async def test_load_and_unload(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_entry_not_ready(
-    hass: UniversalAssistant, tomorrowio_config_entry_update: AsyncMock
+    hass: __HAC_KEEP__, tomorrowio_config_entry_update: AsyncMock
 ) -> None:
     """Test entry setup retries when the first refresh fails."""
     tomorrowio_config_entry_update.side_effect = CantConnectException
@@ -85,7 +85,7 @@ async def test_setup_entry_not_ready(
 
 
 async def test_update_intervals(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     tomorrowio_config_entry_update: AsyncMock,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_update_intervals(
 
 
 async def test_migrate_entry_v1_to_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_migrate_entry_v1_to_v2(
 
 
 async def test_migrate_entry_v1_to_v2_merge_same_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -281,7 +281,7 @@ async def test_migrate_entry_v1_to_v2_merge_same_api_key(
 
 
 async def test_migrate_entry_v1_to_v2_different_api_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test migration keeps separate entries for different API keys."""
     entry1 = make_v1_config_entry(API_KEY, HOME_LOCATION, "Home", 1)
@@ -307,7 +307,7 @@ async def test_migrate_entry_v1_to_v2_different_api_keys(
 
 
 async def test_migrate_entry_v1_to_v2_disabled_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -366,7 +366,7 @@ async def test_migrate_entry_v1_to_v2_disabled_entry(
     assert migrated_entity_entry.config_subentry_id == work_subentry.subentry_id
 
 
-async def test_migration_resumes_after_interruption(hass: UniversalAssistant) -> None:
+async def test_migration_resumes_after_interruption(hass: __HAC_KEEP__) -> None:
     """Test an interrupted migration completes on the next start.
 
     A previously migrated v2 entry must not crash the migration and must
@@ -390,7 +390,7 @@ async def test_migration_resumes_after_interruption(hass: UniversalAssistant) ->
 
 
 async def test_reconfigure_location_move_keeps_entity_ids(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test moving a location's coordinates preserves entity identities."""
     config_entry = make_v2_config_entry()
@@ -427,7 +427,7 @@ async def test_reconfigure_location_move_keeps_entity_ids(
 
 
 async def test_migration_resumes_after_subentry_persisted(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test resuming when a subentry persisted but its v1 entry remains.
 
@@ -467,7 +467,7 @@ async def test_migration_resumes_after_subentry_persisted(
     assert moved.config_subentry_id == work_subentry_id
 
 
-async def test_migration_uses_customized_entry_title(hass: UniversalAssistant) -> None:
+async def test_migration_uses_customized_entry_title(hass: __HAC_KEEP__) -> None:
     """Test a UI-renamed entry keeps its custom name for the location.
 
     Renames update the entry title but not the stored CONF_NAME, so the
@@ -486,7 +486,7 @@ async def test_migration_uses_customized_entry_title(hass: UniversalAssistant) -
 
 
 async def test_polling_disabled_pref(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tomorrowio_config_entry_update: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

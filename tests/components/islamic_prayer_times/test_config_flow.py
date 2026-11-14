@@ -12,7 +12,7 @@ from universalassistant.components.islamic_prayer_times.const import (
     DOMAIN,
     NAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_CONFIG, MOCK_USER_INPUT
@@ -20,7 +20,7 @@ from . import MOCK_CONFIG, MOCK_USER_INPUT
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_flow_works(hass: UniversalAssistant) -> None:
+async def test_flow_works(hass: __HAC_KEEP__) -> None:
     """Test user config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -38,7 +38,7 @@ async def test_flow_works(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "12.34-23.45"
 
 
-async def test_options(hass: UniversalAssistant) -> None:
+async def test_options(hass: __HAC_KEEP__) -> None:
     """Test updating options."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -69,7 +69,7 @@ async def test_options(hass: UniversalAssistant) -> None:
     assert result["data"][CONF_SCHOOL] == "hanafi"
 
 
-async def test_integration_already_configured(hass: UniversalAssistant) -> None:
+async def test_integration_already_configured(hass: __HAC_KEEP__) -> None:
     """Test integration is already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, options={}, unique_id="12.34-23.45"

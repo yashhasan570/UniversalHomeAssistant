@@ -28,7 +28,7 @@ BOOST_MODE_DURATION: int = 7
 STATE_AUTO = "auto"
 STATE_MANUAL = "manual"
 
-# io:DHWModeState values mapped to Universal Universal Home Assistant operation states.
+# io:DHWModeState values mapped to __HA_KEEP__ operation states.
 OVERKIZ_TO_OPERATION_MODE: dict[str, str] = {
     OverkizCommandParam.AUTO_MODE: STATE_AUTO,
     OverkizCommandParam.MANUAL_ECO_ACTIVE: STATE_ECO,

@@ -25,8 +25,8 @@ from universalassistant.components.roborock.select import (
 )
 from universalassistant.components.select import SelectService
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -69,7 +69,7 @@ def platforms() -> list[Platform]:
     ],
 )
 async def test_update_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_id: str,
     value: str,
@@ -102,7 +102,7 @@ async def test_update_success(
 )
 @patch("universalassistant.components.roborock.select.MAP_SLEEP", 0)
 async def test_update_success_selected_map(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_id: str,
     value: str,
@@ -124,7 +124,7 @@ async def test_update_success_selected_map(
 
 
 async def test_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_update_failure(
     assert fake_vacuum.v1_properties
     fake_vacuum.v1_properties.command.send.side_effect = RoborockException
 
-    with pytest.raises(UniversalAssistantError, match="Error while calling SET_MOP_MOD"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while calling SET_MOP_MOD"):
         await hass.services.async_call(
             "select",
             SelectService.SELECT_OPTION,
@@ -143,7 +143,7 @@ async def test_update_failure(
 
 
 async def test_none_map_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_none_map_select(
 
 
 async def test_selected_map_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
 ) -> None:
     """Test that the selected map is set to the correct map name."""
@@ -167,7 +167,7 @@ async def test_selected_map_name(
 
 
 async def test_selected_map_without_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -185,7 +185,7 @@ async def test_selected_map_without_name(
 
 
 async def test_cleaning_mode_select_current_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_cleaning_mode_select_current_option(
 
 
 async def test_cleaning_mode_select_update_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -221,7 +221,7 @@ async def test_cleaning_mode_select_update_success(
 
 
 async def test_cleaning_mode_select_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -231,7 +231,7 @@ async def test_cleaning_mode_select_update_failure(
     entity_id = "select.roborock_s7_maxv_cleaning_mode"
     assert hass.states.get(entity_id) is not None
 
-    with pytest.raises(UniversalAssistantError, match="cleaning_mode"):
+    with pytest.raises(__HAC_KEEP__Error, match="cleaning_mode"):
         await hass.services.async_call(
             "select",
             SelectService.SELECT_OPTION,
@@ -250,7 +250,7 @@ async def test_cleaning_mode_select_update_failure(
     ],
 )
 async def test_dust_collection_mode_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
     dust_collection_mode: RoborockDockDustCollectionModeCode | None,
@@ -276,7 +276,7 @@ def q7_device(fake_devices: list[FakeDevice]) -> FakeDevice:
 
 
 async def test_update_success_q7_water_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_device: FakeDevice,
 ) -> None:
@@ -301,7 +301,7 @@ async def test_update_success_q7_water_level(
 
 
 async def test_update_failure_q7_water_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_device: FakeDevice,
 ) -> None:
@@ -311,7 +311,7 @@ async def test_update_failure_q7_water_level(
     entity_id = "select.roborock_q7_water_flow"
     assert hass.states.get(entity_id) is not None
 
-    with pytest.raises(UniversalAssistantError, match="Error while calling water_flow"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while calling water_flow"):
         await hass.services.async_call(
             "select",
             SelectService.SELECT_OPTION,
@@ -322,7 +322,7 @@ async def test_update_failure_q7_water_level(
 
 
 async def test_update_failure_q7_cleaning_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_device: FakeDevice,
 ) -> None:
@@ -330,7 +330,7 @@ async def test_update_failure_q7_cleaning_mode(
     assert q7_device.b01_q7_properties
     q7_device.b01_q7_properties.set_mode.side_effect = RoborockException
 
-    with pytest.raises(UniversalAssistantError, match="Error while calling cleaning_mode"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while calling cleaning_mode"):
         await hass.services.async_call(
             "select",
             SelectService.SELECT_OPTION,
@@ -341,7 +341,7 @@ async def test_update_failure_q7_cleaning_mode(
 
 
 async def test_q7_cleaning_route_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
 ) -> None:
     """Test Q7 cleaning route select state and options."""
@@ -354,7 +354,7 @@ async def test_q7_cleaning_route_state(
 
 
 async def test_update_failure_q7_cleaning_route(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_device: FakeDevice,
 ) -> None:
@@ -364,7 +364,7 @@ async def test_update_failure_q7_cleaning_route(
         RoborockException
     )
 
-    with pytest.raises(UniversalAssistantError, match="Error while calling cleaning_route"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while calling cleaning_route"):
         await hass.services.async_call(
             "select",
             SelectService.SELECT_OPTION,
@@ -375,7 +375,7 @@ async def test_update_failure_q7_cleaning_route(
 
 
 async def test_update_success_q7_cleaning_route(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_device: FakeDevice,
 ) -> None:
@@ -399,7 +399,7 @@ async def test_update_success_q7_cleaning_route(
 
 
 async def test_update_success_q7_cleaning_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_device: FakeDevice,
 ) -> None:
@@ -423,7 +423,7 @@ async def test_update_success_q7_cleaning_mode(
 
 
 async def test_update_success_q7_cleaning_cycles(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_device: FakeDevice,
 ) -> None:
@@ -447,7 +447,7 @@ async def test_update_success_q7_cleaning_cycles(
 
 
 async def test_update_failure_q7_cleaning_cycles(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     q7_device: FakeDevice,
 ) -> None:
@@ -457,7 +457,7 @@ async def test_update_failure_q7_cleaning_cycles(
     entity_id = "select.roborock_q7_cleaning_cycles"
     assert hass.states.get(entity_id) is not None
 
-    with pytest.raises(UniversalAssistantError, match="Error while calling cleaning_cycles"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while calling cleaning_cycles"):
         await hass.services.async_call(
             "select",
             SelectService.SELECT_OPTION,
@@ -468,7 +468,7 @@ async def test_update_failure_q7_cleaning_cycles(
 
 
 async def test_q7_cleaning_cycles_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
 ) -> None:
     """Test Q7 cleaning cycles select state and options."""
@@ -487,7 +487,7 @@ def zeo_device(fake_devices: list[FakeDevice]) -> FakeDevice:
 
 
 async def test_update_success_zeo_program(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     zeo_device: FakeDevice,
@@ -534,7 +534,7 @@ async def test_current_option_zeo_program() -> None:
 
 
 async def test_update_failure_zeo_program(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     zeo_device: FakeDevice,
@@ -548,7 +548,7 @@ async def test_update_failure_zeo_program(
     )
     assert entity_id is not None
 
-    with pytest.raises(UniversalAssistantError, match="Error while calling program"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while calling program"):
         await hass.services.async_call(
             "select",
             SelectService.SELECT_OPTION,
@@ -576,7 +576,7 @@ async def test_update_failure_zeo_invalid_option() -> None:
 
 
 async def test_q10_cleaning_mode_select_current_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -601,7 +601,7 @@ async def test_q10_cleaning_mode_select_current_option(
 
 
 async def test_q10_cleaning_mode_select_update_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -626,7 +626,7 @@ async def test_q10_cleaning_mode_select_update_success(
 
 
 async def test_q10_cleaning_mode_select_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -638,7 +638,7 @@ async def test_q10_cleaning_mode_select_update_failure(
     entity_id = "select.roborock_q10_s5_cleaning_mode"
     assert hass.states.get(entity_id) is not None
 
-    with pytest.raises(UniversalAssistantError, match="cleaning_mode"):
+    with pytest.raises(__HAC_KEEP__Error, match="cleaning_mode"):
         await hass.services.async_call(
             "select",
             SelectService.SELECT_OPTION,
@@ -649,7 +649,7 @@ async def test_q10_cleaning_mode_select_update_failure(
 
 
 async def test_q10_cleaning_mode_select_invalid_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -672,7 +672,7 @@ async def test_q10_cleaning_mode_select_invalid_option(
 
 @pytest.mark.parametrize("platforms", [[Platform.SELECT]])
 async def test_zeo_request_protocols_filtered_by_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
     fake_devices: list[FakeDevice],
 ) -> None:

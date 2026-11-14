@@ -9,7 +9,7 @@ from requests.exceptions import ConnectionError as RequestsConnectionError
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 import universalassistant.helpers.entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ def mock_binary_sensor_platform() -> Generator:
 @pytest.mark.freeze_time("2025-09-15 14:30:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nsapi: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -43,7 +43,7 @@ async def test_binary_sensor(
 @pytest.mark.freeze_time("2025-09-15 14:30:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_no_upcoming_trips(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nsapi: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_no_upcoming_trips(
 
 
 async def test_sensor_with_api_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nsapi: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

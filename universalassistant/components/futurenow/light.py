@@ -12,7 +12,7 @@ from universalassistant.components.light import (
     LightEntity,
 )
 from universalassistant.const import CONF_DEVICES, CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -40,7 +40,7 @@ PLATFORM_SCHEMA = LIGHT_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -61,12 +61,12 @@ def setup_platform(
 
 
 def to_futurenow_level(level):
-    """Convert the given Universal Universal Home Assistant light level (0-255) to FutureNow (0-100)."""
+    """Convert the given __HA_KEEP__ light level (0-255) to FutureNow (0-100)."""
     return round((level * 100) / 255)
 
 
 def to_hass_level(level):
-    """Convert the given FutureNow (0-100) light level to Universal Universal Home Assistant (0-255)."""
+    """Convert the given FutureNow (0-100) light level to __HA_KEEP__ (0-255)."""
     return int((level * 255) / 100)
 
 

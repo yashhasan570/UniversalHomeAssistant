@@ -5,13 +5,13 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import setup_integration
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_nexia_home: NexiaHome,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,

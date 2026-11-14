@@ -14,7 +14,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -83,7 +83,7 @@ SCRIPT_EVENT: Final = ShellyRpcEventDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -96,7 +96,7 @@ async def async_setup_entry(
 
 @callback
 def _async_setup_block_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -128,7 +128,7 @@ def _async_setup_block_entry(
 
 @callback
 def _async_setup_rpc_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

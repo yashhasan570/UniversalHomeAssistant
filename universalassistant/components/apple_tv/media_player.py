@@ -39,8 +39,8 @@ from universalassistant.components.media_player import (
     async_process_play_media_url,
 )
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -76,7 +76,7 @@ SUPPORT_APPLE_TV = (
 )
 
 
-# Map features in pyatv to Universal Universal Home Assistant
+# Map features in pyatv to __HA_KEEP__
 SUPPORT_FEATURE_MAPPING = {
     FeatureName.PlayUrl: MediaPlayerEntityFeature.BROWSE_MEDIA
     | MediaPlayerEntityFeature.PLAY_MEDIA,
@@ -101,7 +101,7 @@ SUPPORT_FEATURE_MAPPING = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AppleTvConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -115,7 +115,7 @@ async def async_setup_entry(
 def _catch_command_errors[_T: AppleTvMediaPlayer, **_P](
     func: Callable[Concatenate[_T, _P], Coroutine[Any, Any, None]],
 ) -> Callable[Concatenate[_T, _P], Coroutine[Any, Any, None]]:
-    """Raise a UniversalAssistantError when a command can't be sent to the Apple TV."""
+    """Raise a __HAC_KEEP__Error when a command can't be sent to the Apple TV."""
 
     @wraps(func)
     async def wrapper(self: _T, *args: _P.args, **kwargs: _P.kwargs) -> None:
@@ -129,7 +129,7 @@ def _catch_command_errors[_T: AppleTvMediaPlayer, **_P](
             exceptions.OperationTimeoutError,
             exceptions.ProtocolError,
         ) as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
             ) from ex
@@ -414,12 +414,12 @@ class AppleTvMediaPlayer(
                 _LOGGER.debug("Playing %s via AirPlay", media_id)
                 await self.atv.stream.play_url(media_id)
             else:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="streaming_not_supported",
                 )
         except exceptions.NotSupportedError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="streaming_not_supported",
             ) from ex
@@ -431,7 +431,7 @@ class AppleTvMediaPlayer(
             exceptions.PlaybackError,
             exceptions.ProtocolError,
         ) as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="stream_failed",
             ) from ex

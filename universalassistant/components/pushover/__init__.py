@@ -9,7 +9,7 @@ from urllib3.exceptions import HTTPError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_NAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
@@ -36,7 +36,7 @@ class PushoverRuntimeData:
 type PushoverConfigEntry = ConfigEntry[PushoverRuntimeData]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the pushover component."""
 
     hass.data[DATA_HASS_CONFIG] = config
@@ -46,7 +46,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PushoverConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PushoverConfigEntry) -> None:
     """Set up pushover from a config entry."""
 
     # remove unique_id for beta users

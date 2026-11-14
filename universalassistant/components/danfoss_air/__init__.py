@@ -8,7 +8,7 @@ from pydanfossair.commands import ReadCommand
 from pydanfossair.danfossclient import DanfossClient
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util import Throttle
@@ -26,7 +26,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Danfoss Air component."""
     conf = config[DOMAIN]
 

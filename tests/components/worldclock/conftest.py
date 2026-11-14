@@ -14,7 +14,7 @@ from universalassistant.components.worldclock.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_TIME_ZONE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -42,9 +42,9 @@ async def get_config_to_integration_load() -> dict[str, Any]:
 
 @pytest.fixture(name="loaded_entry")
 async def load_integration(
-    hass: UniversalAssistant, get_config: dict[str, Any]
+    hass: __HAC_KEEP__, get_config: dict[str, Any]
 ) -> MockConfigEntry:
-    """Set up the Worldclock integration in Universal Universal Home Assistant."""
+    """Set up the Worldclock integration in __HA_KEEP__."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         title=get_config[CONF_TIME_ZONE],

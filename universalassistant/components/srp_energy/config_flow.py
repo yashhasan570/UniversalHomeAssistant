@@ -12,13 +12,13 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_ID, CONF_NAME, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import CONF_IS_TOU, DOMAIN, LOGGER
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -113,5 +113,5 @@ class SRPEnergyConfigFlow(ConfigFlow, domain=DOMAIN):
         return await self.async_step_user()
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

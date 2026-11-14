@@ -14,7 +14,7 @@ from universalassistant.components.bluetooth.passive_update_processor import (
     PassiveBluetoothProcessorCoordinator,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import CONF_DEVICE_TYPE, DOMAIN
@@ -29,7 +29,7 @@ ACTIVE_SCAN_DURATION = 30.0
 
 
 def process_service_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GoveeBLEConfigEntry,
     service_info: BluetoothServiceInfoBleak,
 ) -> SensorUpdate:
@@ -68,7 +68,7 @@ class GoveeBLEBluetoothProcessorCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: Logger,
         address: str,
         update_method: Callable[[BluetoothServiceInfoBleak], SensorUpdate],

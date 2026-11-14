@@ -7,7 +7,7 @@ from verisure import Error as VerisureError
 
 from universalassistant.components.lock import LockEntity, LockState
 from universalassistant.const import ATTR_CODE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -24,7 +24,7 @@ from .coordinator import VerisureConfigEntry, VerisureDataUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VerisureConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

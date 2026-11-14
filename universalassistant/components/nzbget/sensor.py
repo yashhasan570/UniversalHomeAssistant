@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import CONF_NAME, UnitOfDataRate, UnitOfInformation
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util.dt import utcnow
@@ -88,7 +88,7 @@ SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NZBGetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

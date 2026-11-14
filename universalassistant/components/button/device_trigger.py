@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
@@ -33,7 +33,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_get_triggers(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for button devices."""
     registry = er.async_get(hass)
@@ -51,7 +51,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

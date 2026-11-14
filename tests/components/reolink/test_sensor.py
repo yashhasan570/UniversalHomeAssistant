@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -17,7 +17,7 @@ from .conftest import TEST_CAM_NAME, TEST_NVR_NAME
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -33,7 +33,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -62,7 +62,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_hdd_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:

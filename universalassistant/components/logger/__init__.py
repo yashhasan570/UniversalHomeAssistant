@@ -6,7 +6,7 @@ from typing import override
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.typing import ConfigType
 
@@ -30,7 +30,7 @@ from .helpers import (
 )
 from .services import async_setup_services
 
-# Universal Universal Home Assistant moved from httpx to httpx2, which logs under new logger names.
+# __HA_KEEP__ moved from httpx to httpx2, which logs under new logger names.
 RENAMED_LOGGERS = {"httpx": "httpx2", "httpcore": "httpcore2"}
 
 CONFIG_SCHEMA = probatio.Schema(
@@ -58,7 +58,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the logger component."""
 
     settings = LoggerSettings(hass, config)
@@ -102,7 +102,7 @@ def _renamed_logger(name: str) -> str | None:
 
 @callback
 def _async_check_renamed_loggers(
-    hass: UniversalAssistant, logger_config: ConfigType
+    hass: __HAC_KEEP__, logger_config: ConfigType
 ) -> None:
     """Create a repair issue if the config uses renamed logger names."""
     renames = {
@@ -146,7 +146,7 @@ def _get_logger_class(hass_overrides: dict[str, int]) -> type[logging.Logger]:
     """
 
     class HassLogger(logging.Logger):
-        """Universal Universal Home Assistant aware logger class."""
+        """__HA_KEEP__ aware logger class."""
 
         @override
         def setLevel(self, level: int | str) -> None:

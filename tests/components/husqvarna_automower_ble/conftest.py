@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.bluetooth import async_last_service_info
 from universalassistant.components.husqvarna_automower_ble.const import DOMAIN
 from universalassistant.const import CONF_ADDRESS, CONF_CLIENT_ID, CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.loader import async_get_bluetooth
 
 from . import AUTOMOWER_SERVICE_INFO_SERIAL
@@ -27,7 +27,7 @@ def only_discover_this_domain() -> Generator[None]:
     waiting for advertisements that won't show up.
     """
 
-    async def filtered_matches(hass: UniversalAssistant):
+    async def filtered_matches(hass: __HAC_KEEP__):
         matchers = await async_get_bluetooth(hass)
         return [matcher for matcher in matchers if matcher["domain"] == DOMAIN]
 
@@ -49,7 +49,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture(autouse=True)
 def mock_get_manufacturer_data(
-    hass: UniversalAssistant, enable_bluetooth: None
+    hass: __HAC_KEEP__, enable_bluetooth: None
 ) -> Generator[None]:
     """Mock async_get_manufacturer_data to return injected data."""
 

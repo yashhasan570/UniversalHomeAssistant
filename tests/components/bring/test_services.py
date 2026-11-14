@@ -16,8 +16,8 @@ from universalassistant.components.bring.const import DOMAIN
 from universalassistant.components.bring.services import BringService, BringServiceArgument
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -31,7 +31,7 @@ from universalassistant.helpers import entity_registry as er
     ],
 )
 async def test_send_reaction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
     reaction: str,
@@ -66,7 +66,7 @@ async def test_send_reaction(
 
 
 async def test_send_reaction_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_send_reaction_exception(
 
     assert bring_config_entry.state is ConfigEntryState.LOADED
     mock_bring_client.notify.side_effect = BringRequestException
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             BringService.SEND_REACTION,
@@ -93,7 +93,7 @@ async def test_send_reaction_exception(
 
 @pytest.mark.usefixtures("mock_bring_client")
 async def test_send_reaction_config_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
 ) -> None:
     """Test send activity stream reaction config entry not loaded exception."""
@@ -122,7 +122,7 @@ async def test_send_reaction_config_entry_not_loaded(
 
 @pytest.mark.usefixtures("mock_bring_client")
 async def test_send_reaction_unknown_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_send_reaction_unknown_entity(
 
 
 async def test_send_reaction_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_send_reaction_not_found(
 
     assert bring_config_entry.state is ConfigEntryState.LOADED
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             BringService.SEND_REACTION,

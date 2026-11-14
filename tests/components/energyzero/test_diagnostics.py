@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.energyzero.const import SCAN_INTERVAL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -19,7 +19,7 @@ pytestmark = pytest.mark.freeze_time("2026-04-10 20:32:59")
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_energyzero: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -36,7 +36,7 @@ async def test_entry_diagnostics(
 
 
 async def test_diagnostics_no_gas_today(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_energyzero: MagicMock,
     init_integration: MockConfigEntry,

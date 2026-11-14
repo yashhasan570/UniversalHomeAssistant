@@ -15,7 +15,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.debounce import Debouncer
@@ -39,7 +39,7 @@ PLATFORMS = [Platform.MEDIA_PLAYER, Platform.REMOTE]
 
 @callback
 def _async_get_device_bridge(
-    hass: UniversalAssistant, data: Mapping[str, Any]
+    hass: __HAC_KEEP__, data: Mapping[str, Any]
 ) -> SamsungTVBridge:
     """Get device bridge."""
     return SamsungTVBridge.get_bridge(
@@ -54,7 +54,7 @@ def _async_get_device_bridge(
 class DebouncedEntryReloader:
     """Reload only after the timer expires."""
 
-    def __init__(self, hass: UniversalAssistant, entry: SamsungTVConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: SamsungTVConfigEntry) -> None:
         """Init the debounced entry reloader."""
         self.hass = hass
         self.entry = entry
@@ -68,7 +68,7 @@ class DebouncedEntryReloader:
         )
 
     async def async_call(
-        self, hass: UniversalAssistant, entry: SamsungTVConfigEntry
+        self, hass: __HAC_KEEP__, entry: SamsungTVConfigEntry
     ) -> None:
         """Start the countdown for a reload."""
         if (new_token := entry.data.get(CONF_TOKEN)) != self.token:
@@ -90,7 +90,7 @@ class DebouncedEntryReloader:
 
 
 async def _async_update_ssdp_locations(
-    hass: UniversalAssistant, entry: SamsungTVConfigEntry
+    hass: __HAC_KEEP__, entry: SamsungTVConfigEntry
 ) -> None:
     """Update ssdp locations from discovery cache."""
     updates = {}
@@ -109,7 +109,7 @@ async def _async_update_ssdp_locations(
         hass.config_entries.async_update_entry(entry, data={**entry.data, **updates})
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SamsungTVConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SamsungTVConfigEntry) -> None:
     """Set up the Samsung TV platform."""
     # Initialize bridge
     if entry.data.get(CONF_METHOD) == METHOD_ENCRYPTED_WEBSOCKET:
@@ -161,7 +161,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SamsungTVConfigEntr
 
 
 async def _async_create_bridge_with_updated_data(
-    hass: UniversalAssistant, entry: SamsungTVConfigEntry
+    hass: __HAC_KEEP__, entry: SamsungTVConfigEntry
 ) -> SamsungTVBridge:
     """Create a bridge object and update any missing data in the config entry."""
     updated_data: dict[str, str] = {}
@@ -217,13 +217,13 @@ async def _async_create_bridge_with_updated_data(
     return bridge
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SamsungTVConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SamsungTVConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: SamsungTVConfigEntry
+    hass: __HAC_KEEP__, config_entry: SamsungTVConfigEntry
 ) -> None:
     """Migrate old entry."""
     version = config_entry.version

@@ -9,7 +9,7 @@ from hdfury import HDFuryAPI, HDFuryError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -34,7 +34,7 @@ class HDFuryData:
 class HDFuryCoordinator(DataUpdateCoordinator[HDFuryData]):
     """HDFury Device Coordinator Class."""
 
-    def __init__(self, hass: UniversalAssistant, entry: HDFuryConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: HDFuryConfigEntry) -> None:
         """Initialize the coordinator."""
 
         super().__init__(

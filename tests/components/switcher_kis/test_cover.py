@@ -17,8 +17,8 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import slugify
 
 from . import init_integration
@@ -92,7 +92,7 @@ ENTITY_ID3_2 = f"{COVER_DOMAIN}.{slugify(DEVICE3.name)}_cover_2"
 )
 @pytest.mark.parametrize("mock_bridge", [[DEVICE, DEVICE2, DEVICE3]], indirect=True)
 async def test_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge,
     mock_api,
     monkeypatch: pytest.MonkeyPatch,
@@ -215,7 +215,7 @@ async def test_cover(
 )
 @pytest.mark.parametrize("mock_bridge", [[DEVICE, DEVICE2, DEVICE3]], indirect=True)
 async def test_cover_control_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge,
     mock_api,
     device,
@@ -235,7 +235,7 @@ async def test_cover_control_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.set_position",
         side_effect=RuntimeError("fake error"),
     ) as mock_control_device:
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 COVER_DOMAIN,
                 SERVICE_SET_COVER_POSITION,
@@ -254,7 +254,7 @@ async def test_cover_control_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.set_position",
         return_value=SwitcherBaseResponse(None),
     ) as mock_control_device:
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 COVER_DOMAIN,
                 SERVICE_SET_COVER_POSITION,
@@ -270,7 +270,7 @@ async def test_cover_control_fail(
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE2, DEVICE3]], indirect=True)
 async def test_cover2_no_token(
-    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test cover with token needed without token specified."""
     await init_integration(hass)

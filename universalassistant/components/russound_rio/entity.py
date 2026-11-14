@@ -8,8 +8,8 @@ from aiorussound.rio import RussoundRIOClient
 from aiorussound.rio.client import Controller, ZoneControlSurface
 from aiorussound.rio.models import CallbackType
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -31,7 +31,7 @@ def command[_EntityT: RussoundBaseEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except RUSSOUND_RIO_EXCEPTIONS as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_error",
                 translation_placeholders={
@@ -51,7 +51,7 @@ class RussoundBaseEntity(Entity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         controller: Controller,
         entry: RussoundConfigEntry,
         zone_id: int | None = None,

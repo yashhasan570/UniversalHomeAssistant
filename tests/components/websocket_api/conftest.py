@@ -11,13 +11,13 @@ from pytest_universalassistant.typing import (
 from universalassistant.components.websocket_api import DOMAIN
 from universalassistant.components.websocket_api.auth import TYPE_AUTH_REQUIRED
 from universalassistant.components.websocket_api.http import URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
 async def websocket_client(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> MockHAClientWebSocket:
     """Create a websocket client."""
     return await hass_ws_client(hass)
@@ -25,7 +25,7 @@ async def websocket_client(
 
 @pytest.fixture
 async def no_auth_websocket_client(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> TestClient:
     """Websocket connection that requires authentication."""
     assert await async_setup_component(hass, DOMAIN, {})

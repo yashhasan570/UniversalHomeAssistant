@@ -25,7 +25,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 
 from . import MockConnection, async_add_model
@@ -68,7 +68,7 @@ def _setup_climate_group(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_basic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockConnection,
     model: Model,
     climate_id: str,
@@ -115,7 +115,7 @@ async def test_basic(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_active_accessory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockConnection,
     model: Model,
     climate_id: str,
@@ -143,7 +143,7 @@ async def test_active_accessory(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_temperature_supported_cooling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockConnection,
     model: Model,
     climate_id: str,
@@ -236,7 +236,7 @@ async def test_set_temperature_supported_cooling(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_temperature_unsupported_cooling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockConnection,
     model: Model,
     climate_id: str,
@@ -301,7 +301,7 @@ async def test_set_temperature_unsupported_cooling(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockConnection,
     model: Model,
     climate_id: str,
@@ -350,7 +350,7 @@ async def test_set_hvac_mode(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_invalid_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockConnection,
     model: Model,
     climate_id: str,

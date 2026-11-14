@@ -1,1 +1,1 @@
-"""Tests for the installed Universal Universal Home Assistant pytest package."""
+"""Tests for the installed __HA_KEEP__ pytest package."""

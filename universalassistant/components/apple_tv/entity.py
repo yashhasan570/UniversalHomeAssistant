@@ -31,7 +31,7 @@ class AppleTVEntity(Entity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle when an entity is about to be added to Universal Universal Home Assistant."""
+        """Handle when an entity is about to be added to __HA_KEEP__."""
 
         @callback
         def _async_connected(atv: AppleTVInterface) -> None:

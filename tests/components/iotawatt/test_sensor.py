@@ -21,7 +21,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfReactivePower,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -29,7 +29,7 @@ from . import INPUT_SENSOR, OUTPUT_SENSOR, VAR_OUTPUT_SENSOR
 
 
 async def test_sensor_type_input(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, mock_iotawatt: MagicMock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, mock_iotawatt: MagicMock
 ) -> None:
     """Test input sensors work."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -64,7 +64,7 @@ async def test_sensor_type_input(
 
 
 async def test_sensor_type_output(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, mock_iotawatt: MagicMock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, mock_iotawatt: MagicMock
 ) -> None:
     """Tests the sensor type of Output."""
     mock_iotawatt.getSensors.return_value["sensors"]["my_watthour_sensor_key"] = (
@@ -93,7 +93,7 @@ async def test_sensor_type_output(
 
 
 async def test_output_sensor_not_attached_to_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -125,7 +125,7 @@ async def test_output_sensor_not_attached_to_device(
 
 
 async def test_sensor_type_output_reactive_power(
-    hass: UniversalAssistant, mock_iotawatt: MagicMock
+    hass: __HAC_KEEP__, mock_iotawatt: MagicMock
 ) -> None:
     """Test reactive power output sensors work."""
     mock_iotawatt.getSensors.return_value["sensors"]["my_var_sensor_key"] = (

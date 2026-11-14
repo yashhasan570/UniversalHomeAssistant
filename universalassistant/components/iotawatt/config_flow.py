@@ -8,8 +8,8 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import httpx_client
 
 from .const import CONNECTION_ERRORS, DOMAIN
@@ -17,7 +17,7 @@ from .const import CONNECTION_ERRORS, DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, str]) -> dict[str, str]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, str]) -> dict[str, str]:
     """Validate the user input allows us to connect."""
     iotawatt = Iotawatt(
         "",
@@ -107,9 +107,9 @@ class IOTaWattConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_create_entry(title=data[CONF_HOST], data=data)
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

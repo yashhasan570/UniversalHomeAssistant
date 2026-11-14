@@ -6,7 +6,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -14,7 +14,7 @@ from .router import KeeneticConfigEntry, KeeneticRouter
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: KeeneticConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

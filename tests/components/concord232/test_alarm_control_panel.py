@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_NAME,
     CONF_PORT,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 VALID_CONFIG = {
@@ -57,7 +57,7 @@ VALID_CONFIG_SILENT_MODE = {
 
 
 async def test_setup_platform(
-    hass: UniversalAssistant, mock_concord232_client: MagicMock
+    hass: __HAC_KEEP__, mock_concord232_client: MagicMock
 ) -> None:
     """Test platform setup."""
     await async_setup_component(hass, ALARM_DOMAIN, VALID_CONFIG)
@@ -69,7 +69,7 @@ async def test_setup_platform(
 
 
 async def test_setup_platform_connection_error(
-    hass: UniversalAssistant, mock_concord232_client: MagicMock
+    hass: __HAC_KEEP__, mock_concord232_client: MagicMock
 ) -> None:
     """Test platform setup with connection error."""
     mock_concord232_client.list_partitions.side_effect = (
@@ -83,7 +83,7 @@ async def test_setup_platform_connection_error(
 
 
 async def test_alarm_disarm(
-    hass: UniversalAssistant, mock_concord232_client: MagicMock
+    hass: __HAC_KEEP__, mock_concord232_client: MagicMock
 ) -> None:
     """Test disarm service."""
     await async_setup_component(hass, ALARM_DOMAIN, VALID_CONFIG)
@@ -99,7 +99,7 @@ async def test_alarm_disarm(
 
 
 async def test_alarm_disarm_with_code(
-    hass: UniversalAssistant, mock_concord232_client: MagicMock
+    hass: __HAC_KEEP__, mock_concord232_client: MagicMock
 ) -> None:
     """Test disarm service with code."""
     await async_setup_component(hass, ALARM_DOMAIN, VALID_CONFIG_WITH_CODE)
@@ -118,7 +118,7 @@ async def test_alarm_disarm_with_code(
 
 
 async def test_alarm_disarm_invalid_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_concord232_client: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_alarm_disarm_invalid_code(
     ],
 )
 async def test_alarm_arm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_concord232_client: MagicMock,
     service: str,
     expected_arm_call: str,
@@ -169,7 +169,7 @@ async def test_alarm_arm(
 
 
 async def test_alarm_arm_home_silent_mode(
-    hass: UniversalAssistant, mock_concord232_client: MagicMock
+    hass: __HAC_KEEP__, mock_concord232_client: MagicMock
 ) -> None:
     """Test arm home service with silent mode."""
     config_with_code = VALID_CONFIG_SILENT_MODE.copy()
@@ -190,7 +190,7 @@ async def test_alarm_arm_home_silent_mode(
 
 
 async def test_update_state_disarmed(
-    hass: UniversalAssistant, mock_concord232_client: MagicMock
+    hass: __HAC_KEEP__, mock_concord232_client: MagicMock
 ) -> None:
     """Test update when alarm is disarmed."""
     mock_concord232_client.list_partitions.return_value = [{"arming_level": "Off"}]
@@ -213,7 +213,7 @@ async def test_update_state_disarmed(
     ],
 )
 async def test_update_state_armed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_concord232_client: MagicMock,
     freezer: FrozenDateTimeFactory,
     arming_level: str,
@@ -243,7 +243,7 @@ async def test_update_state_armed(
 
 
 async def test_update_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_concord232_client: MagicMock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -264,7 +264,7 @@ async def test_update_connection_error(
 
 
 async def test_update_no_partitions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_concord232_client: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

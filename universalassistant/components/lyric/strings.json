@@ -12,7 +12,7 @@
     },
     "step": {
       "oauth_discovery": {
-        "description": "Universal Universal Home Assistant has found a Honeywell Lyric device on your network. Be aware that the setup of the Lyric integration is more complicated than other integrations. Press **Submit** to continue setting up Honeywell Lyric."
+        "description": "__HA_KEEP__ has found a Honeywell Lyric device on your network. Be aware that the setup of the Lyric integration is more complicated than other integrations. Press **Submit** to continue setting up Honeywell Lyric."
       },
       "pick_implementation": {
         "data": {

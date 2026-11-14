@@ -37,8 +37,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityStateAttribute,
 )
-from universalassistant.core import UniversalAssistant, State, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity import (
     get_capability,
@@ -113,7 +113,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -137,7 +137,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -165,7 +165,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_sensor(
-    hass: UniversalAssistant, name: str, validated_config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, validated_config: dict[str, Any]
 ) -> SensorGroup:
     """Create a preview sensor."""
     return SensorGroup(
@@ -181,7 +181,7 @@ def async_create_preview_sensor(
     )
 
 
-def _has_numeric_state(hass: UniversalAssistant, entity_id: str) -> bool:
+def _has_numeric_state(hass: __HAC_KEEP__, entity_id: str) -> bool:
     """Test if state is numeric."""
     if not (state := hass.states.get(entity_id)):
         return False
@@ -348,7 +348,7 @@ class SensorGroup(GroupEntity, SensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         unique_id: str | None,
         name: str,
         entity_ids: list[str],
@@ -420,7 +420,7 @@ class SensorGroup(GroupEntity, SensorEntity):
                     # If we have valid units and the entity's unit does not match
                     # we raise which skips the state and log a warning once
                     if valid_units and uom not in valid_units:
-                        raise UniversalAssistantError("Not a valid unit")  # noqa: TRY301
+                        raise __HAC_KEEP__Error("Not a valid unit")  # noqa: TRY301
 
                     sensor_values.append((entity_id, numeric_state, state))
                     if entity_id in self._state_incorrect:
@@ -442,7 +442,7 @@ class SensorGroup(GroupEntity, SensorEntity):
                             self.entity_id,
                         )
                     continue
-                except KeyError, UniversalAssistantError:
+                except KeyError, __HAC_KEEP__Error:
                     # This exception handling can be simplified
                     # once sensor entity doesn't allow incorrect unit of measurement
                     # with a device class, implementation see PR #107639
@@ -558,7 +558,7 @@ class SensorGroup(GroupEntity, SensorEntity):
         for entity_id in valid_state_entities:
             try:
                 _state_class = get_capability(self.hass, entity_id, "state_class")
-            except UniversalAssistantError:
+            except __HAC_KEEP__Error:
                 return None
             if not _state_class:
                 return None
@@ -614,7 +614,7 @@ class SensorGroup(GroupEntity, SensorEntity):
         for entity_id in valid_state_entities:
             try:
                 _device_class = get_device_class(self.hass, entity_id)
-            except UniversalAssistantError:
+            except __HAC_KEEP__Error:
                 return None
             if not _device_class:
                 return None
@@ -670,7 +670,7 @@ class SensorGroup(GroupEntity, SensorEntity):
         for entity_id in valid_state_entities:
             try:
                 _unit_of_measurement = get_unit_of_measurement(self.hass, entity_id)
-            except UniversalAssistantError:
+            except __HAC_KEEP__Error:
                 return None
             if not _unit_of_measurement:
                 return None

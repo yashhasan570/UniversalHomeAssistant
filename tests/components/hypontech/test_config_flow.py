@@ -11,7 +11,7 @@ from universalassistant.components.hypontech.config_flow import OEM_OPTIONS
 from universalassistant.components.hypontech.const import CONF_OEM, DEFAULT_OEM, DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 NEXEN_OEM = 4
@@ -49,7 +49,7 @@ def test_oem_options_include_portal_url() -> None:
 
 
 async def test_user_flow(
-    hass: UniversalAssistant, mock_hyponcloud: AsyncMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_hyponcloud: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test a successful user flow."""
     result = await hass.config_entries.flow.async_init(
@@ -70,7 +70,7 @@ async def test_user_flow(
 
 
 async def test_user_flow_with_oem(
-    hass: UniversalAssistant, mock_hyponcloud: AsyncMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_hyponcloud: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test a successful user flow with a non-default OEM."""
     result = await hass.config_entries.flow.async_init(
@@ -101,7 +101,7 @@ async def test_user_flow_with_oem(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hyponcloud: AsyncMock,
     side_effect: Exception,
     error_message: str,
@@ -131,7 +131,7 @@ async def test_form_errors(
 
 
 async def test_duplicate_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_hyponcloud: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_hyponcloud: AsyncMock
 ) -> None:
     """Test that duplicate entries are prevented based on account ID."""
     mock_config_entry.add_to_hass(hass)
@@ -147,7 +147,7 @@ async def test_duplicate_entry(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_hyponcloud: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_hyponcloud: AsyncMock
 ) -> None:
     """Test reauthentication flow."""
     mock_config_entry.add_to_hass(hass)
@@ -169,7 +169,7 @@ async def test_reauth_flow(
 
 
 async def test_reauth_flow_uses_stored_oem(
-    hass: UniversalAssistant, mock_hyponcloud: AsyncMock
+    hass: __HAC_KEEP__, mock_hyponcloud: AsyncMock
 ) -> None:
     """Test reauthentication uses the stored OEM without exposing it."""
     mock_config_entry = MockConfigEntry(
@@ -207,7 +207,7 @@ async def test_reauth_flow_uses_stored_oem(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hyponcloud: AsyncMock,
     side_effect: Exception,
@@ -240,7 +240,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_wrong_account(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_hyponcloud: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_hyponcloud: AsyncMock
 ) -> None:
     """Test reauthentication flow with wrong account."""
     mock_config_entry.add_to_hass(hass)

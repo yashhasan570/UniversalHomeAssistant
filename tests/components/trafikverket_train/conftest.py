@@ -9,7 +9,7 @@ from pytrafikverket import StationInfoModel, TrainStopModel
 
 from universalassistant.components.trafikverket_train.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import ENTRY_CONFIG, ENTRY_CONFIG2, OPTIONS_CONFIG
@@ -17,11 +17,11 @@ from . import ENTRY_CONFIG, ENTRY_CONFIG2, OPTIONS_CONFIG
 
 @pytest.fixture(name="load_int")
 async def load_integration_from_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_trains: list[TrainStopModel],
     get_train_stop: TrainStopModel,
 ) -> MockConfigEntry:
-    """Set up the Trafikverket Train integration in Universal Universal Home Assistant."""
+    """Set up the Trafikverket Train integration in __HA_KEEP__."""
 
     async def setup_config_entry_with_mocked_data(config_entry_id: str) -> None:
         """Set up a config entry with mocked trafikverket data."""

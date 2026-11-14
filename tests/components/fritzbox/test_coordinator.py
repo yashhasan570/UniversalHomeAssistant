@@ -12,7 +12,7 @@ from universalassistant.components.fritzbox.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICES
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -28,7 +28,7 @@ from .const import MOCK_CONFIG
 
 
 async def test_coordinator_update_after_reboot(
-    hass: UniversalAssistant, fritz: Mock
+    hass: __HAC_KEEP__, fritz: Mock
 ) -> None:
     """Test coordinator after reboot."""
     entry = MockConfigEntry(
@@ -53,7 +53,7 @@ async def test_coordinator_update_after_reboot(
 
 
 async def test_coordinator_update_after_password_change(
-    hass: UniversalAssistant, fritz: Mock
+    hass: __HAC_KEEP__, fritz: Mock
 ) -> None:
     """Test coordinator after password change."""
     entry = MockConfigEntry(
@@ -69,7 +69,7 @@ async def test_coordinator_update_after_password_change(
 
 
 async def test_coordinator_update_when_unreachable(
-    hass: UniversalAssistant, fritz: Mock
+    hass: __HAC_KEEP__, fritz: Mock
 ) -> None:
     """Test coordinator after reboot."""
     entry = MockConfigEntry(
@@ -86,7 +86,7 @@ async def test_coordinator_update_when_unreachable(
 
 
 async def test_coordinator_automatic_registry_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fritz: Mock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -151,7 +151,7 @@ async def test_coordinator_automatic_registry_cleanup(
 
 
 async def test_coordinator_workaround_sub_units_without_main_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fritz: Mock,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -198,7 +198,7 @@ async def test_coordinator_workaround_sub_units_without_main_device(
     ],
 )
 async def test_coordinator_has_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     fritz: Mock,
     trigger: Mock | None,

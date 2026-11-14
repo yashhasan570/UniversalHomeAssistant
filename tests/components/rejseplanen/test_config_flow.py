@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry, get_schema_suggest
 from universalassistant import config_entries
 from universalassistant.components.rejseplanen.const import CONF_STOP_ID, DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 LOGGER = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ TEST_API_KEY = "api_key"
 
 
 async def test_form_user_step(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_api: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_api: AsyncMock
 ) -> None:
     """Test the user step of the Rejseplanen config flow.
 
@@ -75,7 +75,7 @@ async def test_form_user_step(
     ],
 )
 async def test_config_flow_error_cases(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     side_effect: Exception | None,
     return_value: bool | None,
@@ -119,7 +119,7 @@ async def test_config_flow_error_cases(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reauthentication flow."""
@@ -163,7 +163,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     validate_kwargs: dict[str, Any],
     expected_error: str,
@@ -201,7 +201,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_form_singleton_prevention(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test singleton integration prevents multiple entries."""
 
@@ -298,7 +298,7 @@ async def test_form_singleton_prevention(
     ],
 )
 async def test_stop_subentry_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
     user_input: dict[str, Any],

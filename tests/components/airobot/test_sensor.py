@@ -5,7 +5,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -18,7 +18,7 @@ def platforms() -> list[Platform]:
 @pytest.mark.freeze_time("2024-01-01 00:00:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -29,7 +29,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensor_availability_without_optional_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test sensors are not created when optional hardware is not present."""
     # Default mock has no floor sensor, CO2, or AQI - they should not be created

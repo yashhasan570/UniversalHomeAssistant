@@ -7,7 +7,7 @@ import pytest
 from universalassistant.components.knx.const import DOMAIN, KNX_ADDRESS, FanConf
 from universalassistant.components.knx.schema import FanSchema
 from universalassistant.const import CONF_NAME, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import KnxEntityGenerator
@@ -15,7 +15,7 @@ from .conftest import KNXTestKit
 
 
 async def test_fan_percent(
-    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """Test KNX fan with percentage speed."""
     await knx.setup_integration(
@@ -63,7 +63,7 @@ async def test_fan_percent(
     await knx.assert_telegram_count(0)
 
 
-async def test_fan_step(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_fan_step(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX fan with speed steps."""
     await knx.setup_integration(
         {
@@ -116,7 +116,7 @@ async def test_fan_step(hass: UniversalAssistant, knx: KNXTestKit) -> None:
 
 
 async def test_fan_switch(
-    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """Test KNX fan with switch only."""
     await knx.setup_integration(
@@ -145,7 +145,7 @@ async def test_fan_switch(
 
 
 async def test_fan_switch_step(
-    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """Test KNX fan with speed steps and switch address."""
     await knx.setup_integration(
@@ -191,7 +191,7 @@ async def test_fan_switch_step(
     await knx.assert_write("2/2/2", False)
 
 
-async def test_fan_oscillation(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_fan_oscillation(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX fan oscillation."""
     await knx.setup_integration(
         {
@@ -250,7 +250,7 @@ async def test_fan_oscillation(hass: UniversalAssistant, knx: KNXTestKit) -> Non
     ],
 )
 async def test_fan_unique_id_fix(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     fan_config: dict[str, Any],
@@ -315,7 +315,7 @@ async def test_fan_unique_id_fix(
     ],
 )
 async def test_fan_ui_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
     knx_data: dict[str, Any],

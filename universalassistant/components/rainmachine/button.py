@@ -13,8 +13,8 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -50,7 +50,7 @@ BUTTON_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RainMachineConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -76,7 +76,7 @@ class RainMachineButton(RainMachineEntity, ButtonEntity):
         try:
             await self.entity_description.push_action(self._data.controller)
         except RainMachineError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f'Error while pressing button "{self.entity_id}": {err}'
             ) from err
 

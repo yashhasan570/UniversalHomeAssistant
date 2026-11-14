@@ -1,4 +1,4 @@
-"""Plugwise water heater component for Universal Universal Home Assistant."""
+"""Plugwise water heater component for __HA_KEEP__."""
 
 from dataclasses import dataclass
 from typing import Any, Final, override
@@ -11,8 +11,8 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import ATTR_TEMPERATURE, STATE_OFF, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.unit_conversion import TemperatureConverter
 
@@ -52,7 +52,7 @@ WATERHEATER_TYPES = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PlugwiseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -136,7 +136,7 @@ class PlugwiseWaterHeaterEntity(PlugwiseEntity, WaterHeaterEntity):
         temperature = float(kwargs[ATTR_TEMPERATURE])
         if temperature < self._attr_min_temp or temperature > self._attr_max_temp:
             temperature_unit = self.hass.config.units.temperature_unit
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key=FAIL_SET_TEMP,
                 translation_placeholders={

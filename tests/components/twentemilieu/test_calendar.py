@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
@@ -14,7 +14,7 @@ pytestmark = pytest.mark.usefixtures("init_integration")
 
 @pytest.mark.freeze_time("2022-01-05 00:00:00+00:00")
 async def test_waste_pickup_calendar(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

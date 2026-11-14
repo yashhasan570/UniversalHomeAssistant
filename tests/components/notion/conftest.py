@@ -16,7 +16,7 @@ from universalassistant.components.notion.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_USERNAME = "user@host.com"
 TEST_PASSWORD = "password123"
@@ -72,7 +72,7 @@ def client_fixture(data_bridge, data_listener, data_sensor, data_user_preference
 
 
 @pytest.fixture(name="config_entry")
-def config_entry_fixture(hass: UniversalAssistant, config):
+def config_entry_fixture(hass: __HAC_KEEP__, config):
     """Define a config entry fixture."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=TEST_USERNAME, data=config)
     entry.add_to_hass(hass)
@@ -140,7 +140,7 @@ async def mock_aionotion_fixture(client):
 
 
 @pytest.fixture(name="setup_config_entry")
-async def setup_config_entry_fixture(hass: UniversalAssistant, config_entry, mock_aionotion):
+async def setup_config_entry_fixture(hass: __HAC_KEEP__, config_entry, mock_aionotion):
     """Define a fixture to set up notion."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)
     await hass.async_block_till_done()

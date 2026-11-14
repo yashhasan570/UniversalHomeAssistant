@@ -6,13 +6,13 @@ from universalassistant.components.mobile_app.logbook import (
     IOS_EVENT_ZONE_EXITED,
 )
 from universalassistant.const import ATTR_FRIENDLY_NAME, ATTR_ICON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from tests.components.logbook.common import MockRow, mock_humanify
 
 
-async def test_humanify_ios_events(hass: UniversalAssistant) -> None:
+async def test_humanify_ios_events(hass: __HAC_KEEP__) -> None:
     """Test humanifying ios events."""
     hass.config.components.add("recorder")
     assert await async_setup_component(hass, "logbook", {})

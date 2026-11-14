@@ -2,13 +2,13 @@
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import DoorbirdMockerType
 
 
 async def test_relay_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
     """Test pressing a relay button."""
@@ -26,7 +26,7 @@ async def test_relay_button(
 
 
 async def test_ir_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
     """Test pressing the IR button."""
@@ -44,7 +44,7 @@ async def test_ir_button(
 
 
 async def test_reset_favorites_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_mocker: DoorbirdMockerType,
 ) -> None:
     """Test pressing the reset favorites button."""

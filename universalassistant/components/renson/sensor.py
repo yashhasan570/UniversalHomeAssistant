@@ -39,7 +39,7 @@ from universalassistant.const import (
     UnitOfTime,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import RensonConfigEntry, RensonCoordinator
@@ -266,7 +266,7 @@ class RensonSensor(RensonEntity, SensorEntity):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RensonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

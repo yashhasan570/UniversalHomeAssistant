@@ -11,7 +11,7 @@ import aioonkyo
 from aioonkyo import Instruction, Receiver, ReceiverInfo, Status, connect, query
 
 from universalassistant.components import network
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DEVICE_DISCOVERY_TIMEOUT, DEVICE_INTERVIEW_TIMEOUT, ZONES
 
@@ -39,7 +39,7 @@ class Callbacks:
 class ReceiverManager:
     """Receiver manager."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     entry: OnkyoConfigEntry
     info: ReceiverInfo
     receiver: Receiver | None = None
@@ -49,7 +49,7 @@ class ReceiverManager:
     _started: asyncio.Event
 
     def __init__(
-        self, hass: UniversalAssistant, entry: OnkyoConfigEntry, info: ReceiverInfo
+        self, hass: __HAC_KEEP__, entry: OnkyoConfigEntry, info: ReceiverInfo
     ) -> None:
         """Init receiver manager."""
         self.hass = hass
@@ -141,7 +141,7 @@ async def async_interview(host: str) -> ReceiverInfo:
         return await aioonkyo.interview(host)
 
 
-async def async_discover(hass: UniversalAssistant) -> Iterable[ReceiverInfo]:
+async def async_discover(hass: __HAC_KEEP__) -> Iterable[ReceiverInfo]:
     """Discover receivers."""
     all_infos: dict[str, ReceiverInfo] = {}
 

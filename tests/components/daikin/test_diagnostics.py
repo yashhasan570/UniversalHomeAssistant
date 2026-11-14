@@ -7,13 +7,13 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.daikin.const import KEY_MAC
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .test_config_flow import HOST, MAC
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     zone_device,
     snapshot: SnapshotAssertion,

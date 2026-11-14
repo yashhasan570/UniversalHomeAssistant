@@ -10,7 +10,7 @@ from aiopyarr.lidarr_client import LidarrClient
 from aiopyarr.models.host_configuration import PyArrHostConfiguration
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -40,7 +40,7 @@ class LidarrDataUpdateCoordinator(DataUpdateCoordinator[T], ABC, Generic[T]):  #
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LidarrConfigEntry,
         host_configuration: PyArrHostConfiguration,
         api_client: LidarrClient,

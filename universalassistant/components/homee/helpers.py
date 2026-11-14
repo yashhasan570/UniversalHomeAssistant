@@ -7,7 +7,7 @@ from typing import Any
 
 from pyHomee.model import HomeeNode
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HomeeConfigEntry
@@ -16,10 +16,10 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def setup_homee_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     add_platform_entities: Callable[
         [
-            UniversalAssistant,
+            __HAC_KEEP__,
             HomeeConfigEntry,
             AddConfigEntryEntitiesCallback,
             list[HomeeNode],

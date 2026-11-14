@@ -7,13 +7,13 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 from universalassistant.components.sensirion_ble.const import DOMAIN
 from universalassistant.components.sensor import ATTR_STATE_CLASS
 from universalassistant.const import ATTR_FRIENDLY_NAME, ATTR_UNIT_OF_MEASUREMENT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .fixtures import CONFIGURED_NAME, CONFIGURED_PREFIX, SENSIRION_SERVICE_INFO
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_sensors(hass: UniversalAssistant) -> None:
+async def test_sensors(hass: __HAC_KEEP__) -> None:
     """Test the Sensirion BLE sensors."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=SENSIRION_SERVICE_INFO.address)
     entry.add_to_hass(hass)

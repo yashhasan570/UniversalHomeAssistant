@@ -9,7 +9,7 @@ from zwave_me_ws import ZWaveMeData
 
 from universalassistant.components.zwave_me.const import DOMAIN, ZWaveMePlatform
 from universalassistant.const import CONF_TOKEN, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 DEFAULT_DEVICE_INFO = ZWaveMeData(
@@ -35,7 +35,7 @@ async def mock_connection(controller):
     ],
 )
 async def test_remove_stale_devices(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, identifier, should_exist
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, identifier, should_exist
 ) -> None:
     """Test removing devices with old-format ids."""
 

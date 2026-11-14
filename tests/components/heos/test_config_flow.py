@@ -23,7 +23,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -32,7 +32,7 @@ from . import MockHeos
 
 
 async def test_flow_aborts_already_setup(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test flow aborts when entry already setup."""
     config_entry.add_to_hass(hass)
@@ -45,7 +45,7 @@ async def test_flow_aborts_already_setup(
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_no_host_shows_form(hass: UniversalAssistant) -> None:
+async def test_no_host_shows_form(hass: __HAC_KEEP__) -> None:
     """Test form is shown when host not provided."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -56,7 +56,7 @@ async def test_no_host_shows_form(hass: UniversalAssistant) -> None:
 
 
 async def test_cannot_connect_shows_error_form(
-    hass: UniversalAssistant, controller: MockHeos
+    hass: __HAC_KEEP__, controller: MockHeos
 ) -> None:
     """Test form is shown with error when cannot connect."""
     controller.connect.side_effect = HeosError()
@@ -83,7 +83,7 @@ async def test_cannot_connect_shows_error_form(
 
 
 async def test_create_entry_when_host_valid(
-    hass: UniversalAssistant, controller: MockHeos
+    hass: __HAC_KEEP__, controller: MockHeos
 ) -> None:
     """Test result type is create entry when host is valid."""
     data = {CONF_HOST: "127.0.0.1"}
@@ -104,7 +104,7 @@ async def test_create_entry_when_host_valid(
 
 
 async def test_manual_setup_with_discovery_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_data: SsdpServiceInfo,
     controller: MockHeos,
     system: HeosSystem,
@@ -134,7 +134,7 @@ async def test_manual_setup_with_discovery_in_progress(
 
 
 async def test_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_data: SsdpServiceInfo,
     discovery_data_bedroom: SsdpServiceInfo,
     controller: MockHeos,
@@ -170,7 +170,7 @@ async def test_discovery(
 
 
 async def test_discovery_flow_aborts_already_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_data_bedroom: SsdpServiceInfo,
     config_entry: MockConfigEntry,
     controller: MockHeos,
@@ -190,7 +190,7 @@ async def test_discovery_flow_aborts_already_setup(
 
 
 async def test_discovery_aborts_same_system(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_data_bedroom: SsdpServiceInfo,
     controller: MockHeos,
     config_entry: MockConfigEntry,
@@ -211,7 +211,7 @@ async def test_discovery_aborts_same_system(
 
 
 async def test_discovery_ignored_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_data: SsdpServiceInfo,
 ) -> None:
     """Test discovery aborts when ignored."""
@@ -227,7 +227,7 @@ async def test_discovery_ignored_aborts(
 
 
 async def test_discovery_fails_to_connect_aborts(
-    hass: UniversalAssistant, discovery_data: SsdpServiceInfo, controller: MockHeos
+    hass: __HAC_KEEP__, discovery_data: SsdpServiceInfo, controller: MockHeos
 ) -> None:
     """Test discovery aborts when trying to connect to host."""
     controller.connect.side_effect = HeosError()
@@ -241,7 +241,7 @@ async def test_discovery_fails_to_connect_aborts(
 
 
 async def test_discovery_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_data_bedroom: SsdpServiceInfo,
     controller: MockHeos,
     config_entry: MockConfigEntry,
@@ -261,7 +261,7 @@ async def test_discovery_updates(
 
 
 async def test_discovery_does_not_update_while_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_data_bedroom: SsdpServiceInfo,
     controller: MockHeos,
     config_entry: MockConfigEntry,
@@ -289,7 +289,7 @@ async def test_discovery_does_not_update_while_connected(
 
 
 async def test_zeroconf_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zeroconf_discovery_data: ZeroconfServiceInfo,
     zeroconf_discovery_data_bedroom: ZeroconfServiceInfo,
     controller: MockHeos,
@@ -327,7 +327,7 @@ async def test_zeroconf_discovery(
 
 
 async def test_zeroconf_discovery_flow_aborts_already_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zeroconf_discovery_data_bedroom: ZeroconfServiceInfo,
     config_entry: MockConfigEntry,
     controller: MockHeos,
@@ -349,7 +349,7 @@ async def test_zeroconf_discovery_flow_aborts_already_setup(
 
 
 async def test_zeroconf_discovery_aborts_same_system(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zeroconf_discovery_data_bedroom: ZeroconfServiceInfo,
     controller: MockHeos,
     config_entry: MockConfigEntry,
@@ -372,7 +372,7 @@ async def test_zeroconf_discovery_aborts_same_system(
 
 
 async def test_zeroconf_discovery_ignored_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zeroconf_discovery_data: ZeroconfServiceInfo,
 ) -> None:
     """Test discovery aborts when ignored."""
@@ -388,7 +388,7 @@ async def test_zeroconf_discovery_ignored_aborts(
 
 
 async def test_zeroconf_discovery_fails_to_connect_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zeroconf_discovery_data: ZeroconfServiceInfo,
     controller: MockHeos,
 ) -> None:
@@ -404,7 +404,7 @@ async def test_zeroconf_discovery_fails_to_connect_aborts(
 
 
 async def test_zeroconf_discovery_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zeroconf_discovery_data_bedroom: ZeroconfServiceInfo,
     controller: MockHeos,
     config_entry: MockConfigEntry,
@@ -426,7 +426,7 @@ async def test_zeroconf_discovery_updates(
 
 
 async def test_reconfigure_validates_and_updates_config(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test reconfigure validates host and successfully updates."""
     config_entry.add_to_hass(hass)
@@ -456,7 +456,7 @@ async def test_reconfigure_validates_and_updates_config(
 
 
 async def test_reconfigure_cannot_connect_recovers(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test reconfigure cannot connect and recovers."""
     controller.connect.side_effect = HeosError()
@@ -509,7 +509,7 @@ async def test_reconfigure_cannot_connect_recovers(
     ],
 )
 async def test_options_flow_signs_in(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     controller: MockHeos,
     error: HeosError,
@@ -553,7 +553,7 @@ async def test_options_flow_signs_in(
 
 
 async def test_options_flow_signs_out(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test options flow signs-out when credentials cleared."""
     config_entry.add_to_hass(hass)
@@ -598,7 +598,7 @@ async def test_options_flow_signs_out(
     ],
 )
 async def test_options_flow_missing_one_param_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     controller: MockHeos,
     user_input: dict[str, str],
@@ -637,7 +637,7 @@ async def test_options_flow_missing_one_param_recovers(
 
 
 async def test_options_flow_sign_in_setup_error_saves(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test options can still be updated when the integration failed to set up."""
     config_entry.add_to_hass(hass)
@@ -659,7 +659,7 @@ async def test_options_flow_sign_in_setup_error_saves(
 
 
 async def test_options_flow_sign_out_setup_error_saves(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test options can still be cleared when the integration failed to set up."""
     config_entry.add_to_hass(hass)
@@ -678,7 +678,7 @@ async def test_options_flow_sign_out_setup_error_saves(
 
 
 async def test_options_flow_sign_in_not_connected_saves(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test options can still be updated when not connected to the HEOS device."""
     config_entry.add_to_hass(hass)
@@ -699,7 +699,7 @@ async def test_options_flow_sign_in_not_connected_saves(
 
 
 async def test_options_flow_sign_out_not_connected_saves(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test options can still be cleared when not connected to the HEOS device."""
     config_entry.add_to_hass(hass)
@@ -728,7 +728,7 @@ async def test_options_flow_sign_out_not_connected_saves(
     ],
 )
 async def test_reauth_signs_in_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     controller: MockHeos,
     error: HeosError,
@@ -772,7 +772,7 @@ async def test_reauth_signs_in_aborts(
 
 
 async def test_reauth_signs_out(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test reauth flow signs-out when credentials cleared and aborts."""
     config_entry.add_to_hass(hass)
@@ -819,7 +819,7 @@ async def test_reauth_signs_out(
     ],
 )
 async def test_reauth_flow_missing_one_param_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     controller: MockHeos,
     user_input: dict[str, str],
@@ -859,7 +859,7 @@ async def test_reauth_flow_missing_one_param_recovers(
 
 
 async def test_reauth_updates_when_not_connected(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test reauth flow signs-in with entered credentials and aborts."""
     config_entry.add_to_hass(hass)
@@ -885,7 +885,7 @@ async def test_reauth_updates_when_not_connected(
 
 
 async def test_reauth_clears_when_not_connected(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test reauth flow signs-out with entered credentials and aborts."""
     config_entry.add_to_hass(hass)

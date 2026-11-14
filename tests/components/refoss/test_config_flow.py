@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock, patch
 
 from universalassistant import config_entries
 from universalassistant.components.refoss.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import FakeDiscovery, build_base_device_mock
@@ -12,7 +12,7 @@ from . import FakeDiscovery, build_base_device_mock
 
 @patch("universalassistant.components.refoss.config_flow.DISCOVERY_TIMEOUT", 0)
 async def test_creating_entry_sets_up(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test setting up refoss."""
     with (
@@ -47,7 +47,7 @@ async def test_creating_entry_sets_up(
 
 @patch("universalassistant.components.refoss.config_flow.DISCOVERY_TIMEOUT", 0)
 async def test_creating_entry_has_no_devices(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test setting up Refoss no devices."""
     with patch(

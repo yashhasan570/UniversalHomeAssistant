@@ -3,7 +3,7 @@
 Tests should start these flows with the ``MockConfigEntry`` helpers
 (``start_reauth_flow`` / ``start_reconfigure_flow``) instead of calling
 ``hass.config_entries.flow.async_init`` with a hand-built context. The helpers
-build the same context Universal Universal Home Assistant uses at runtime.
+build the same context __HA_KEEP__ uses at runtime.
 
 ``W7445`` (``universal-assistant-test-flow-start-helper``)
 """

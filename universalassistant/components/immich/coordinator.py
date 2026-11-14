@@ -25,7 +25,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -53,7 +53,7 @@ class ImmichDataUpdateCoordinator(DataUpdateCoordinator[ImmichData]):
 
     config_entry: ImmichConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: ImmichConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: ImmichConfigEntry) -> None:
         """Initialize the data update coordinator."""
         self.api = Immich(
             async_get_clientsession(hass, config_entry.data[CONF_VERIFY_SSL]),

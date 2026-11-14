@@ -5,7 +5,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.tessie.binary_sensor import VEHICLE_DESCRIPTIONS
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import StateType
 
@@ -34,7 +34,7 @@ def test_charging_binary_sensor_state(value: StateType, expected: bool) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensors(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that the binary sensor entities are correct."""
 

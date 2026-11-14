@@ -16,7 +16,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.habitica.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import (
@@ -29,7 +29,7 @@ from .conftest import (
 
 @pytest.mark.usefixtures("habitica")
 async def test_entry_setup_unload(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test integration setup and unload."""
 
@@ -54,7 +54,7 @@ async def test_entry_setup_unload(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     exception: Exception,
@@ -70,7 +70,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_auth_failed(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, habitica: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, habitica: AsyncMock
 ) -> None:
     """Test config entry auth failed setup error."""
 
@@ -95,7 +95,7 @@ async def test_config_entry_auth_failed(
 
 @pytest.mark.parametrize("exception", [ERROR_NOT_FOUND, ClientError])
 async def test_coordinator_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     exception: Exception,
@@ -111,7 +111,7 @@ async def test_coordinator_update_failed(
 
 
 async def test_coordinator_rate_limited(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -136,7 +136,7 @@ async def test_coordinator_rate_limited(
 
 
 async def test_remove_party_and_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -186,7 +186,7 @@ async def test_remove_party_and_reload(
 
 @pytest.mark.usefixtures("habitica")
 async def test_device_via_device_links(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_subentry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

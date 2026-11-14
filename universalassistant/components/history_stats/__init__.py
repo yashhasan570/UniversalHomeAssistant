@@ -6,7 +6,7 @@ import logging
 from universalassistant.components.sensor import CONF_STATE_CLASS, SensorStateClass
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ENTITY_ID, CONF_STATE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device import async_entity_id_to_device_id
 from universalassistant.helpers.helper_integration import (
     async_handle_source_entity_changes,
@@ -36,7 +36,7 @@ __all__ = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: HistoryStatsConfigEntry
+    hass: __HAC_KEEP__, entry: HistoryStatsConfigEntry
 ) -> None:
     """Set up History stats from a config entry."""
 
@@ -97,7 +97,7 @@ async def async_setup_entry(
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: HistoryStatsConfigEntry
+    hass: __HAC_KEEP__, config_entry: HistoryStatsConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug(
@@ -140,7 +140,7 @@ async def async_migrate_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: HistoryStatsConfigEntry
+    hass: __HAC_KEEP__, entry: HistoryStatsConfigEntry
 ) -> None:
     """Unload History stats config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

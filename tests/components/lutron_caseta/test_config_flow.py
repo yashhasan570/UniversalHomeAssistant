@@ -23,7 +23,7 @@ from universalassistant.components.lutron_caseta.const import (
     CONF_KEYFILE,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -46,7 +46,7 @@ MOCK_ASYNC_PAIR_SUCCESS = {
 }
 
 
-async def test_bridge_import_flow(hass: UniversalAssistant) -> None:
+async def test_bridge_import_flow(hass: __HAC_KEEP__) -> None:
     """Test a bridge entry gets created and set up during the import flow."""
 
     entry_mock_data = {
@@ -102,7 +102,7 @@ def _mock_bridge_timeout() -> MockBridge:
     ],
 )
 async def test_bridge_import_cannot_connect(
-    hass: UniversalAssistant, create_tls_kwargs: dict[str, Any]
+    hass: __HAC_KEEP__, create_tls_kwargs: dict[str, Any]
 ) -> None:
     """Test the import flow aborts when it cannot connect to the bridge."""
 
@@ -117,7 +117,7 @@ async def test_bridge_import_cannot_connect(
     assert result["reason"] == "cannot_connect"
 
 
-async def test_duplicate_bridge_import(hass: UniversalAssistant) -> None:
+async def test_duplicate_bridge_import(hass: __HAC_KEEP__) -> None:
     """Test that creating a bridge entry with a duplicate host errors."""
 
     mock_entry = MockConfigEntry(domain=DOMAIN, data=ENTRY_MOCK_DATA)
@@ -139,7 +139,7 @@ async def test_duplicate_bridge_import(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_already_configured_with_ignored(hass: UniversalAssistant) -> None:
+async def test_already_configured_with_ignored(hass: __HAC_KEEP__) -> None:
     """Test ignored entries do not break checking for existing entries."""
 
     config_entry = MockConfigEntry(
@@ -161,7 +161,7 @@ async def test_already_configured_with_ignored(hass: UniversalAssistant) -> None
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_form_user(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_form_user(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test we get the form and can pair."""
     config_dir = tmp_path / "tls_assets"
     await hass.async_add_executor_job(config_dir.mkdir)
@@ -216,7 +216,7 @@ async def test_form_user(hass: UniversalAssistant, tmp_path: Path) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_pairing_fails(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_form_user_pairing_fails(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test we get the form and we handle pairing failure."""
     config_dir = tmp_path / "tls_assets"
     await hass.async_add_executor_job(config_dir.mkdir)
@@ -284,7 +284,7 @@ async def test_form_user_pairing_fails(hass: UniversalAssistant, tmp_path: Path)
 
 
 async def test_form_user_reuses_existing_assets_when_pairing_again(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test the tls assets saved on disk are reused when pairing again."""
     config_dir = tmp_path / "tls_assets"
@@ -391,7 +391,7 @@ async def test_form_user_reuses_existing_assets_when_pairing_again(
 
 
 async def test_zeroconf_host_already_configured(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test starting a flow from discovery when the host is already configured."""
     config_dir = tmp_path / "tls_assets"
@@ -421,7 +421,7 @@ async def test_zeroconf_host_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_zeroconf_lutron_id_already_configured(hass: UniversalAssistant) -> None:
+async def test_zeroconf_lutron_id_already_configured(hass: __HAC_KEEP__) -> None:
     """Test starting a flow from discovery when lutron id already configured."""
 
     config_entry = MockConfigEntry(
@@ -450,7 +450,7 @@ async def test_zeroconf_lutron_id_already_configured(hass: UniversalAssistant) -
     assert config_entry.data[CONF_HOST] == "1.1.1.1"
 
 
-async def test_zeroconf_not_lutron_device(hass: UniversalAssistant) -> None:
+async def test_zeroconf_not_lutron_device(hass: __HAC_KEEP__) -> None:
     """Test starting a flow from discovery when it is not a lutron device."""
 
     result = await hass.config_entries.flow.async_init(
@@ -475,7 +475,7 @@ async def test_zeroconf_not_lutron_device(hass: UniversalAssistant) -> None:
 @pytest.mark.parametrize(
     "source", [config_entries.SOURCE_ZEROCONF, config_entries.SOURCE_HOMEKIT]
 )
-async def test_zeroconf(hass: UniversalAssistant, source, tmp_path: Path) -> None:
+async def test_zeroconf(hass: __HAC_KEEP__, source, tmp_path: Path) -> None:
     """Test starting a flow from discovery."""
     config_dir = tmp_path / "tls_assets"
     await hass.async_add_executor_job(config_dir.mkdir)
@@ -544,7 +544,7 @@ def _bridge_connect_timeout(**kwargs: Any) -> MockBridge:
 
 
 @pytest.fixture
-def mock_reconfigure_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_reconfigure_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a config entry to reconfigure."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -572,7 +572,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: UniversalAssistant, mock_reconfigure_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_reconfigure_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring the bridge host."""
     result = await mock_reconfigure_entry.start_reconfigure_flow(hass)
@@ -604,7 +604,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_reconfigure_entry: MockConfigEntry,
     create_tls_side_effect: Callable[..., MockBridge] | type[Exception],
 ) -> None:
@@ -630,7 +630,7 @@ async def test_reconfigure_errors(
     assert mock_reconfigure_entry.data[CONF_HOST] == "2.2.2.2"
 
 
-async def test_reconfigure_unique_id_mismatch(hass: UniversalAssistant) -> None:
+async def test_reconfigure_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
     """Test reconfigure aborts when the host points to another bridge."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRY_MOCK_DATA, unique_id="abcdef00")
     entry.add_to_hass(hass)
@@ -648,7 +648,7 @@ async def test_reconfigure_unique_id_mismatch(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfigure_entry_without_unique_id(hass: UniversalAssistant) -> None:
+async def test_reconfigure_entry_without_unique_id(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring an entry that never got a unique ID stores it."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRY_MOCK_DATA, unique_id=None)
     entry.add_to_hass(hass)
@@ -667,7 +667,7 @@ async def test_reconfigure_entry_without_unique_id(hass: UniversalAssistant) -> 
 
 
 async def test_reconfigure_entry_without_unique_id_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test reconfiguring an entry without unique ID to another entry's bridge."""
     MockConfigEntry(

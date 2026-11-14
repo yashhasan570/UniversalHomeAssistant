@@ -13,7 +13,7 @@ from universalassistant.components.device_tracker import DOMAIN as DEVICE_TRACKE
 from universalassistant.components.device_tracker.legacy import Device
 from universalassistant.components.traccar import DOMAIN, TRACKER_UPDATE
 from universalassistant.const import STATE_HOME, STATE_NOT_HOME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -31,7 +31,7 @@ def mock_dev_track(mock_device_tracker_conf: list[Device]) -> None:
 
 @pytest.fixture(name="client")
 async def traccar_client(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> TestClient:
     """Mock client for Traccar (unauthenticated)."""
 
@@ -44,7 +44,7 @@ async def traccar_client(
 
 
 @pytest.fixture(autouse=True)
-async def setup_zones(hass: UniversalAssistant) -> None:
+async def setup_zones(hass: __HAC_KEEP__) -> None:
     """Set up Zone config in HA."""
     assert await async_setup_component(
         hass,
@@ -62,7 +62,7 @@ async def setup_zones(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture(name="webhook_id")
-async def webhook_id_fixture(hass: UniversalAssistant, client: TestClient) -> str:
+async def webhook_id_fixture(hass: __HAC_KEEP__, client: TestClient) -> str:
     """Initialize the Traccar component and get the webhook_id."""
     await async_process_ha_core_config(
         hass,
@@ -80,7 +80,7 @@ async def webhook_id_fixture(hass: UniversalAssistant, client: TestClient) -> st
     return result["result"].data["webhook_id"]
 
 
-async def test_missing_data(hass: UniversalAssistant, client, webhook_id) -> None:
+async def test_missing_data(hass: __HAC_KEEP__, client, webhook_id) -> None:
     """Test missing data."""
     url = f"/api/webhook/{webhook_id}"
     data = {"lat": "1.0", "lon": "1.1", "id": "123"}
@@ -106,7 +106,7 @@ async def test_missing_data(hass: UniversalAssistant, client, webhook_id) -> Non
 
 
 async def test_enter_and_exit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client,
@@ -146,7 +146,7 @@ async def test_enter_and_exit(
 
 
 async def test_enter_with_attrs_as_query(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     webhook_id,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_enter_with_attrs_as_query(
 
 
 async def test_enter_with_attrs_as_form(
-    hass: UniversalAssistant, client: TestClient, webhook_id: str
+    hass: __HAC_KEEP__, client: TestClient, webhook_id: str
 ) -> None:
     """Test when the attributes are posted as a form, like Traccar Client 10 does."""
     url = f"/api/webhook/{webhook_id}"
@@ -229,7 +229,7 @@ async def test_enter_with_attrs_as_form(
 
 
 async def test_enter_with_attrs_as_payload(
-    hass: UniversalAssistant, client, webhook_id
+    hass: __HAC_KEEP__, client, webhook_id
 ) -> None:
     """Test when additional attributes are present in JSON payload."""
     url = f"/api/webhook/{webhook_id}"
@@ -267,7 +267,7 @@ async def test_enter_with_attrs_as_payload(
     assert state.attributes["altitude"] == 102.0
 
 
-async def test_two_devices(hass: UniversalAssistant, client, webhook_id) -> None:
+async def test_two_devices(hass: __HAC_KEEP__, client, webhook_id) -> None:
     """Test updating two different devices."""
     url = f"/api/webhook/{webhook_id}"
 
@@ -299,7 +299,7 @@ async def test_two_devices(hass: UniversalAssistant, client, webhook_id) -> None
 @pytest.mark.xfail(
     reason="The device_tracker component does not support unloading yet."
 )
-async def test_load_unload_entry(hass: UniversalAssistant, client, webhook_id) -> None:
+async def test_load_unload_entry(hass: __HAC_KEEP__, client, webhook_id) -> None:
     """Test that the appropriate dispatch signals are added and removed."""
     url = f"/api/webhook/{webhook_id}"
     data = {"lat": str(HOME_LATITUDE), "lon": str(HOME_LONGITUDE), "id": "123"}

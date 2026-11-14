@@ -1,18 +1,18 @@
 """Sonos specific exceptions."""
 
 from universalassistant.components.media_player import BrowseError
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
 class UnknownMediaType(BrowseError):
     """Unknown media type."""
 
 
-class SonosSubscriptionsFailed(UniversalAssistantError):
+class SonosSubscriptionsFailed(__HAC_KEEP__Error):
     """Subscription creation failed."""
 
 
-class SonosUpdateError(UniversalAssistantError):
+class SonosUpdateError(__HAC_KEEP__Error):
     """Update failed."""
 
 

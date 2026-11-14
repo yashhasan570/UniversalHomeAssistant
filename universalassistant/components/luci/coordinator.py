@@ -9,7 +9,7 @@ from openwrt_luci_rpc.exceptions import LuciRpcUnknownError
 from requests.exceptions import ConnectionError as RequestsConnectionError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
@@ -26,7 +26,7 @@ class LuciCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LuciConfigEntry,
         router: OpenWrtRpc,
     ) -> None:

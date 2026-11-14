@@ -28,17 +28,17 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_binary_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_binary_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple binary sensor entities associated with different targets."""
     return await target_entities(hass, "binary_sensor")
 
 
 @pytest.fixture
-async def target_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple sensor entities associated with different targets."""
     return await target_entities(hass, "sensor")
 
@@ -65,7 +65,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_moisture_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -114,7 +114,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_moisture_trigger_binary_sensor_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_binary_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -164,7 +164,7 @@ async def test_moisture_trigger_binary_sensor_behavior_each(
     ],
 )
 async def test_moisture_trigger_binary_sensor_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_binary_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -214,7 +214,7 @@ async def test_moisture_trigger_binary_sensor_behavior_first(
     ],
 )
 async def test_moisture_trigger_binary_sensor_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_binary_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -256,7 +256,7 @@ async def test_moisture_trigger_binary_sensor_behavior_all(
     ],
 )
 async def test_moisture_trigger_sensor_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -293,7 +293,7 @@ async def test_moisture_trigger_sensor_behavior_each(
     ],
 )
 async def test_moisture_trigger_sensor_crossed_threshold_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -330,7 +330,7 @@ async def test_moisture_trigger_sensor_crossed_threshold_behavior_first(
     ],
 )
 async def test_moisture_trigger_sensor_crossed_threshold_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -380,7 +380,7 @@ async def test_moisture_trigger_sensor_crossed_threshold_behavior_all(
     ],
 )
 async def test_moisture_trigger_ignores_limit_entity_with_wrong_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger: str,
     trigger_options: dict[str, Any],
     limit_entities: list[str],

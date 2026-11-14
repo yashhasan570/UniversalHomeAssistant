@@ -8,7 +8,7 @@ import pychromecast.discovery
 import pychromecast.models
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import dispatcher_send
 
 from .const import (
@@ -26,7 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def discover_chromecast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cast_info: pychromecast.models.CastInfo,
     config_entry: CastConfigEntry,
 ) -> None:
@@ -46,7 +46,7 @@ def discover_chromecast(
     dispatcher_send(hass, SIGNAL_CAST_DISCOVERED, info)
 
 
-def _remove_chromecast(hass: UniversalAssistant, info: ChromecastInfo) -> None:
+def _remove_chromecast(hass: __HAC_KEEP__, info: ChromecastInfo) -> None:
     # Removed chromecast
     _LOGGER.debug("Removed chromecast %s", info)
 
@@ -54,7 +54,7 @@ def _remove_chromecast(hass: UniversalAssistant, info: ChromecastInfo) -> None:
 
 
 def setup_internal_discovery(
-    hass: UniversalAssistant, config_entry: CastConfigEntry
+    hass: __HAC_KEEP__, config_entry: CastConfigEntry
 ) -> None:
     """Set up the pychromecast internal discovery."""
     if INTERNAL_DISCOVERY_RUNNING_KEY not in hass.data:
@@ -108,7 +108,7 @@ def setup_internal_discovery(
 
 
 async def config_entry_updated(
-    hass: UniversalAssistant, config_entry: CastConfigEntry
+    hass: __HAC_KEEP__, config_entry: CastConfigEntry
 ) -> None:
     """Handle config entry being updated."""
     if browser := config_entry.runtime_data.browser:

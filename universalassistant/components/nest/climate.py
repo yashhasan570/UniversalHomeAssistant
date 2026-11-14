@@ -27,8 +27,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .device_info import NestDeviceInfo
@@ -75,7 +75,7 @@ MIN_TEMP_RANGE = 1.66667
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NestConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -293,7 +293,7 @@ class ThermostatEntity(ClimateEntity):
         try:
             await trait.set_mode(api_mode)
         except ApiException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error setting {self.entity_id} HVAC mode to {hvac_mode}: {err}"
             ) from err
 
@@ -319,7 +319,7 @@ class ThermostatEntity(ClimateEntity):
 
         # SDM API does not allow setting temperature while in ECO preset mode.
         if self.preset_mode == PRESET_ECO:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error setting {self.entity_id} {temperature_description}: "
                 "Cannot set temperature while in ECO preset mode."
             )
@@ -329,7 +329,7 @@ class ThermostatEntity(ClimateEntity):
             await self.async_set_hvac_mode(hvac_mode)
 
         if ThermostatTemperatureSetpointTrait.NAME not in self._device.traits:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error setting {self.entity_id} {temperature_description}: "
                 "Unable to find ThermostatTemperatureSetpoint trait."
             )
@@ -350,7 +350,7 @@ class ThermostatEntity(ClimateEntity):
             elif hvac_mode == HVACMode.HEAT and temp:
                 await trait.set_heat(temp)
         except ApiException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error setting {self.entity_id} {temperature_description}: {err}"
             ) from err
 
@@ -365,7 +365,7 @@ class ThermostatEntity(ClimateEntity):
         try:
             await trait.set_mode(PRESET_INV_MODE_MAP[preset_mode])
         except ApiException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error setting {self.entity_id} preset mode to {preset_mode}: {err}"
             ) from err
 
@@ -381,14 +381,14 @@ class ThermostatEntity(ClimateEntity):
         try:
             await trait.set_timer(FAN_INV_MODE_MAP[fan_mode], duration=duration)
         except ApiException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error setting {self.entity_id} fan mode to {fan_mode}: {err}"
             ) from err
 
     async def async_set_fan_timer(self, duration: timedelta) -> None:
         """Set a short term fan timer."""
         if not self.supported_features & ClimateEntityFeature.FAN_MODE:
-            raise UniversalAssistantError(f"Entity {self.entity_id} does not support fan")
+            raise __HAC_KEEP__Error(f"Entity {self.entity_id} does not support fan")
 
         seconds = int(duration.total_seconds())
         if seconds <= 0 or seconds > MAX_FAN_DURATION:
@@ -401,6 +401,6 @@ class ThermostatEntity(ClimateEntity):
         try:
             await trait.set_timer(FAN_INV_MODE_MAP[FAN_ON], duration=seconds)
         except ApiException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error setting {self.entity_id} fan timer: {err}"
             ) from err

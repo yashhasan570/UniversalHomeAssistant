@@ -5,13 +5,13 @@ from typing import TYPE_CHECKING, Any
 from oralb_ble import OralBBluetoothDeviceData
 
 from universalassistant.components import bluetooth
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import OralBConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: OralBConfigEntry
+    hass: __HAC_KEEP__, entry: OralBConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

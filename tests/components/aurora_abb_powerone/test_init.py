@@ -12,13 +12,13 @@ from universalassistant.components.aurora_abb_powerone.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .test_sensor import _simulated_returns
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test unloading the aurora_abb_powerone entry."""
 
     with (

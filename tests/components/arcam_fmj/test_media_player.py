@@ -48,8 +48,8 @@ from universalassistant.components.media_player import (
     MediaType,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant, State as CoreState
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, State as CoreState
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_ENTITY_ID
@@ -65,7 +65,7 @@ def platform_fixture() -> Generator[None]:
 @pytest.mark.usefixtures("player_setup")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -76,7 +76,7 @@ async def test_setup(
 
 @pytest.mark.usefixtures("player_setup")
 async def test_browse_media_without_presets(
-    hass: UniversalAssistant, state_1: State
+    hass: __HAC_KEEP__, state_1: State
 ) -> None:
     """Test browsing when the receiver has no preset details."""
     state_1.get_preset_details.return_value = None
@@ -94,7 +94,7 @@ async def test_browse_media_without_presets(
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_disconnect(hass: UniversalAssistant, client: Mock) -> None:
+async def test_disconnect(hass: __HAC_KEEP__, client: Mock) -> None:
     """Test a disconnection is detected."""
     data = hass.states.get(MOCK_ENTITY_ID)
     assert data
@@ -108,7 +108,7 @@ async def test_disconnect(hass: UniversalAssistant, client: Mock) -> None:
     assert data.state == STATE_UNAVAILABLE
 
 
-async def update(hass: UniversalAssistant, client: Mock, entity_id: str) -> CoreState:
+async def update(hass: __HAC_KEEP__, client: Mock, entity_id: str) -> CoreState:
     """Force a update of player and return current state data."""
     client.notify_data_updated()
     await hass.async_block_till_done()
@@ -118,7 +118,7 @@ async def update(hass: UniversalAssistant, client: Mock, entity_id: str) -> Core
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_powered_off(hass: UniversalAssistant, client: Mock, state_1: State) -> None:
+async def test_powered_off(hass: __HAC_KEEP__, client: Mock, state_1: State) -> None:
     """Test properties in powered off state."""
     state_1.get_source.return_value = None
     state_1.get_power.return_value = False
@@ -129,7 +129,7 @@ async def test_powered_off(hass: UniversalAssistant, client: Mock, state_1: Stat
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_power_unknown(hass: UniversalAssistant, client: Mock, state_1: State) -> None:
+async def test_power_unknown(hass: __HAC_KEEP__, client: Mock, state_1: State) -> None:
     """Test that an unreported power state surfaces as unknown, not off."""
     state_1.get_source.return_value = None
     state_1.get_power.return_value = None
@@ -139,7 +139,7 @@ async def test_power_unknown(hass: UniversalAssistant, client: Mock, state_1: St
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_powered_on(hass: UniversalAssistant, client: Mock, state_1: State) -> None:
+async def test_powered_on(hass: __HAC_KEEP__, client: Mock, state_1: State) -> None:
     """Test properties in powered on state."""
     state_1.get_source.return_value = SourceCodes.PVR
     state_1.get_power.return_value = True
@@ -150,7 +150,7 @@ async def test_powered_on(hass: UniversalAssistant, client: Mock, state_1: State
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_turn_on(hass: UniversalAssistant, state_1: State) -> None:
+async def test_turn_on(hass: __HAC_KEEP__, state_1: State) -> None:
     """Test turn on service."""
     state_1.get_power.return_value = None
     await hass.services.async_call(
@@ -172,7 +172,7 @@ async def test_turn_on(hass: UniversalAssistant, state_1: State) -> None:
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_turn_off(hass: UniversalAssistant, state_1: State) -> None:
+async def test_turn_off(hass: __HAC_KEEP__, state_1: State) -> None:
     """Test command to turn off."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -185,7 +185,7 @@ async def test_turn_off(hass: UniversalAssistant, state_1: State) -> None:
 
 @pytest.mark.parametrize("mute", [True, False])
 @pytest.mark.usefixtures("player_setup")
-async def test_mute_volume(hass: UniversalAssistant, state_1: State, mute: bool) -> None:
+async def test_mute_volume(hass: __HAC_KEEP__, state_1: State, mute: bool) -> None:
     """Test mute functionality."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -197,7 +197,7 @@ async def test_mute_volume(hass: UniversalAssistant, state_1: State, mute: bool)
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_update(hass: UniversalAssistant, state_1: State) -> None:
+async def test_update(hass: __HAC_KEEP__, state_1: State) -> None:
     """Test update."""
     await hass.services.async_call(
         HA_DOMAIN,
@@ -217,7 +217,7 @@ async def test_update(hass: UniversalAssistant, state_1: State) -> None:
 )
 @pytest.mark.usefixtures("player_setup")
 async def test_update_unreachable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state_1: State,
     caplog: pytest.LogCaptureFixture,
     exception: Exception,
@@ -246,7 +246,7 @@ async def test_update_unreachable(
 )
 @pytest.mark.usefixtures("player_setup")
 async def test_select_valid_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state_1: State,
     source: str,
     value: SourceCodes,
@@ -264,7 +264,7 @@ async def test_select_valid_source(
 
 @pytest.mark.usefixtures("player_setup")
 async def test_select_invalid_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state_1: State,
 ) -> None:
     """Test selection of source."""
@@ -285,7 +285,7 @@ async def test_select_invalid_source(
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_source_list(hass: UniversalAssistant, client: Mock, state_1: State) -> None:
+async def test_source_list(hass: __HAC_KEEP__, client: Mock, state_1: State) -> None:
     """Test source list."""
     state_1.get_source_list.return_value = [SourceCodes.BD]
     data = await update(hass, client, MOCK_ENTITY_ID)
@@ -301,7 +301,7 @@ async def test_source_list(hass: UniversalAssistant, client: Mock, state_1: Stat
 )
 @pytest.mark.usefixtures("player_setup")
 async def test_select_sound_mode(
-    hass: UniversalAssistant, state_1: State, mode: str
+    hass: __HAC_KEEP__, state_1: State, mode: str
 ) -> None:
     """Test selection sound mode."""
     await hass.services.async_call(
@@ -315,7 +315,7 @@ async def test_select_sound_mode(
 
 @pytest.mark.usefixtures("player_setup")
 async def test_select_invalid_sound_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state_1: State,
 ) -> None:
     """Test selection of source."""
@@ -336,7 +336,7 @@ async def test_select_invalid_sound_mode(
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_volume_up(hass: UniversalAssistant, state_1: State) -> None:
+async def test_volume_up(hass: __HAC_KEEP__, state_1: State) -> None:
     """Test mute functionality."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -348,7 +348,7 @@ async def test_volume_up(hass: UniversalAssistant, state_1: State) -> None:
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_volume_down(hass: UniversalAssistant, state_1: State) -> None:
+async def test_volume_down(hass: __HAC_KEEP__, state_1: State) -> None:
     """Test mute functionality."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -360,7 +360,7 @@ async def test_volume_down(hass: UniversalAssistant, state_1: State) -> None:
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_play_media(hass: UniversalAssistant, state_1: State) -> None:
+async def test_play_media(hass: __HAC_KEEP__, state_1: State) -> None:
     """Test mute functionality."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -376,7 +376,7 @@ async def test_play_media(hass: UniversalAssistant, state_1: State) -> None:
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_play_media_invalid(hass: UniversalAssistant, state_1: State) -> None:
+async def test_play_media_invalid(hass: __HAC_KEEP__, state_1: State) -> None:
     """Test mute functionality."""
     with pytest.raises(
         ServiceValidationError,
@@ -408,7 +408,7 @@ async def test_play_media_invalid(hass: UniversalAssistant, state_1: State) -> N
 )
 @pytest.mark.usefixtures("player_setup")
 async def test_sound_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: Mock,
     state_1: State,
     mode: str | None,
@@ -430,7 +430,7 @@ async def test_sound_mode(
 )
 @pytest.mark.usefixtures("player_setup")
 async def test_sound_mode_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: Mock,
     state_1: State,
     modes: list[str] | None,
@@ -447,7 +447,7 @@ async def test_sound_mode_list(
 
 @pytest.mark.usefixtures("player_setup")
 async def test_is_volume_muted(
-    hass: UniversalAssistant, client: Mock, state_1: State
+    hass: __HAC_KEEP__, client: Mock, state_1: State
 ) -> None:
     """Test muted."""
     state_1.get_mute.return_value = True
@@ -470,7 +470,7 @@ async def test_is_volume_muted(
 
 
 @pytest.mark.usefixtures("player_setup")
-async def test_volume_level(hass: UniversalAssistant, client: Mock, state_1: State) -> None:
+async def test_volume_level(hass: __HAC_KEEP__, client: Mock, state_1: State) -> None:
     """Test volume."""
     state_1.get_volume.return_value = 0
     data = await update(hass, client, MOCK_ENTITY_ID)
@@ -498,7 +498,7 @@ async def test_volume_level(hass: UniversalAssistant, client: Mock, state_1: Sta
 @pytest.mark.parametrize(("volume", "call"), [(0.0, 0), (0.5, 50), (1.0, 99)])
 @pytest.mark.usefixtures("player_setup")
 async def test_set_volume_level(
-    hass: UniversalAssistant, state_1: State, volume: float, call: int
+    hass: __HAC_KEEP__, state_1: State, volume: float, call: int
 ) -> None:
     """Test setting volume."""
     await hass.services.async_call(
@@ -532,7 +532,7 @@ async def test_set_volume_level(
 )
 @pytest.mark.usefixtures("player_setup")
 async def test_set_volume_level_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state_1: State,
     exception: Exception,
     translation_key: str,
@@ -542,7 +542,7 @@ async def test_set_volume_level_error(
     state_1.set_volume.side_effect = exception
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         check=lambda e: (
             e.translation_domain == "arcam_fmj" and e.translation_key == translation_key
         ),
@@ -566,7 +566,7 @@ async def test_set_volume_level_error(
 )
 @pytest.mark.usefixtures("player_setup")
 async def test_media_content_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: Mock,
     state_1: State,
     source: SourceCodes | None,
@@ -593,7 +593,7 @@ async def test_media_content_type(
 )
 @pytest.mark.usefixtures("player_setup")
 async def test_media_channel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: Mock,
     state_1: State,
     source: SourceCodes,
@@ -619,7 +619,7 @@ async def test_media_channel(
 )
 @pytest.mark.usefixtures("player_setup")
 async def test_media_artist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: Mock,
     state_1: State,
     source: SourceCodes,
@@ -643,7 +643,7 @@ async def test_media_artist(
 )
 @pytest.mark.usefixtures("player_setup")
 async def test_media_title(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: Mock,
     state_1: State,
     source: SourceCodes | None,

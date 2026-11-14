@@ -14,7 +14,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_FRIENDLY_NAME,
@@ -51,7 +51,7 @@ SSDP_DATA = SsdpServiceInfo(
 )
 
 
-def _flow_next(hass: UniversalAssistant, flow_id: str) -> ConfigFlowResult:
+def _flow_next(hass: __HAC_KEEP__, flow_id: str) -> ConfigFlowResult:
     return next(
         flow
         for flow in hass.config_entries.flow.async_progress()
@@ -66,7 +66,7 @@ def _patch_setup():
     )
 
 
-async def test_flow_ssdp(hass: UniversalAssistant) -> None:
+async def test_flow_ssdp(hass: __HAC_KEEP__) -> None:
     """Test working ssdp flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -91,7 +91,7 @@ async def test_flow_ssdp(hass: UniversalAssistant) -> None:
         assert result["data"] == CONF_DATA
 
 
-async def test_flow_user(hass: UniversalAssistant) -> None:
+async def test_flow_user(hass: __HAC_KEEP__) -> None:
     """Test working user initialized flow."""
     mocked_device = _create_mocked_device()
 
@@ -121,7 +121,7 @@ async def test_flow_user(hass: UniversalAssistant) -> None:
     mocked_device.get_interface_information.assert_called_once()
 
 
-async def test_flow_import(hass: UniversalAssistant) -> None:
+async def test_flow_import(hass: __HAC_KEEP__) -> None:
     """Test working import flow."""
     mocked_device = _create_mocked_device()
 
@@ -138,7 +138,7 @@ async def test_flow_import(hass: UniversalAssistant) -> None:
     mocked_device.get_interface_information.assert_not_called()
 
 
-async def test_flow_import_without_name(hass: UniversalAssistant) -> None:
+async def test_flow_import_without_name(hass: __HAC_KEEP__) -> None:
     """Test import flow without optional name."""
     mocked_device = _create_mocked_device()
 
@@ -155,7 +155,7 @@ async def test_flow_import_without_name(hass: UniversalAssistant) -> None:
     mocked_device.get_interface_information.assert_called_once()
 
 
-def _create_mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def _create_mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     MockConfigEntry(
         domain=DOMAIN,
         unique_id="uuid:0000",
@@ -163,7 +163,7 @@ def _create_mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     ).add_to_hass(hass)
 
 
-async def test_ssdp_bravia(hass: UniversalAssistant) -> None:
+async def test_ssdp_bravia(hass: __HAC_KEEP__) -> None:
     """Test discovering a bravia TV."""
     ssdp_data = dataclasses.replace(SSDP_DATA)
     ssdp_data.upnp = copy.deepcopy(ssdp_data.upnp)
@@ -179,7 +179,7 @@ async def test_ssdp_bravia(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_songpal_device"
 
 
-async def test_sddp_exist(hass: UniversalAssistant) -> None:
+async def test_sddp_exist(hass: __HAC_KEEP__) -> None:
     """Test discovering existed device."""
     _create_mock_config_entry(hass)
     result = await hass.config_entries.flow.async_init(
@@ -191,7 +191,7 @@ async def test_sddp_exist(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_user_exist(hass: UniversalAssistant) -> None:
+async def test_user_exist(hass: __HAC_KEEP__) -> None:
     """Test user adding existed device."""
     mocked_device = _create_mocked_device()
     _create_mock_config_entry(hass)
@@ -213,7 +213,7 @@ async def test_user_exist(hass: UniversalAssistant) -> None:
     mocked_device.get_interface_information.assert_called_once()
 
 
-async def test_import_exist(hass: UniversalAssistant) -> None:
+async def test_import_exist(hass: __HAC_KEEP__) -> None:
     """Test importing existed device."""
     mocked_device = _create_mocked_device()
     _create_mock_config_entry(hass)
@@ -229,7 +229,7 @@ async def test_import_exist(hass: UniversalAssistant) -> None:
     mocked_device.get_interface_information.assert_not_called()
 
 
-async def test_user_invalid(hass: UniversalAssistant) -> None:
+async def test_user_invalid(hass: __HAC_KEEP__) -> None:
     """Test using adding invalid config."""
     mocked_device = _create_mocked_device(True)
     result = await hass.config_entries.flow.async_init(
@@ -257,7 +257,7 @@ async def test_user_invalid(hass: UniversalAssistant) -> None:
     mocked_device.get_interface_information.assert_not_called()
 
 
-async def test_import_invalid(hass: UniversalAssistant) -> None:
+async def test_import_invalid(hass: __HAC_KEEP__) -> None:
     """Test importing invalid config."""
     mocked_device = _create_mocked_device(True)
 

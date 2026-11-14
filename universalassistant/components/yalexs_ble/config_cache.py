@@ -2,7 +2,7 @@
 
 from yalexs_ble import ValidatedLockConfig
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.util.hass_dict import HassKey
 
 CONFIG_CACHE: HassKey[dict[str, ValidatedLockConfig]] = HassKey(
@@ -12,7 +12,7 @@ CONFIG_CACHE: HassKey[dict[str, ValidatedLockConfig]] = HassKey(
 
 @callback
 def async_add_validated_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     address: str,
     config: ValidatedLockConfig,
 ) -> None:
@@ -22,7 +22,7 @@ def async_add_validated_config(
 
 @callback
 def async_get_validated_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     address: str,
 ) -> ValidatedLockConfig | None:
     """Get the config for a specific address."""

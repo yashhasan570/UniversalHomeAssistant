@@ -12,7 +12,7 @@ from universalassistant.components.event import (
     EventEntityStateAttribute,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import snapshot_matter_entities, trigger_subscription_callback
@@ -26,7 +26,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -36,7 +36,7 @@ async def test_events(
 
 @pytest.mark.parametrize("node_fixture", ["mock_generic_switch"])
 async def test_generic_switch_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_generic_switch_node(
 
 @pytest.mark.parametrize("node_fixture", ["mock_generic_switch_multi"])
 async def test_generic_switch_multi_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_generic_switch_multi_node(
 
 @pytest.mark.parametrize("node_fixture", ["mock_generic_switch"])
 async def test_generic_switch_unknown_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

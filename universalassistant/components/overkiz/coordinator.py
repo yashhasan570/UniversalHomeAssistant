@@ -32,7 +32,7 @@ from pyoverkiz.models import (
     Place,
 )
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     OAuth2TokenRequestError,
@@ -76,7 +76,7 @@ class OverkizDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Device]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: OverkizDataConfigEntry,
         logger: logging.Logger,
         *,
@@ -306,7 +306,7 @@ async def on_execution_registered(
     coordinator: OverkizDataUpdateCoordinator, event: ExecutionRegisteredEvent
 ) -> None:
     """Handle execution registered event."""
-    # Also covers executions started outside Universal Universal Home Assistant (e.g. the TaHoma app)
+    # Also covers executions started outside __HA_KEEP__ (e.g. the TaHoma app)
     coordinator.register_execution(event.exec_id, event.actions)
 
     if not coordinator.is_stateless:

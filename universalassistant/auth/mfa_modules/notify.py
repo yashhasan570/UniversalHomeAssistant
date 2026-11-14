@@ -11,7 +11,7 @@ import attr
 import probatio
 
 from universalassistant.const import CONF_EXCLUDE, CONF_INCLUDE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import FlowResult
 from universalassistant.exceptions import ServiceNotFound
 from universalassistant.helpers import config_validation as cv
@@ -37,7 +37,7 @@ CONFIG_SCHEMA = MULTI_FACTOR_AUTH_MODULE_SCHEMA.extend(
             probatio.EnsureList(), [cv.string]
         ),
         probatio.Optional(
-            CONF_MESSAGE, default="{} is your Universal Universal Home Assistant login code"
+            CONF_MESSAGE, default="{} is your __HA_KEEP__ login code"
         ): str,
     },
     extra=probatio.PREVENT_EXTRA,
@@ -100,7 +100,7 @@ class NotifyAuthModule(MultiFactorAuthModule):
 
     DEFAULT_TITLE = "Notify One-Time Password"
 
-    def __init__(self, hass: UniversalAssistant, config: dict[str, Any]) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
         """Initialize the user data store."""
         super().__init__(hass, config)
         self._user_settings: _UsersDict | None = None

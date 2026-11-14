@@ -21,7 +21,7 @@ from universalassistant.components.lawn_mower import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState, ConfigFlow
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 TEST_DOMAIN = "test"
@@ -51,7 +51,7 @@ class MockLawnMowerEntity(LawnMowerEntity):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -59,11 +59,11 @@ def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
         yield
 
 
-async def test_lawn_mower_setup(hass: UniversalAssistant) -> None:
+async def test_lawn_mower_setup(hass: __HAC_KEEP__) -> None:
     """Test setup and tear down of lawn mower platform and entity."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -71,7 +71,7 @@ async def test_lawn_mower_setup(hass: UniversalAssistant) -> None:
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Unload up test config entry."""
         await hass.config_entries.async_unload_platforms(
@@ -92,7 +92,7 @@ async def test_lawn_mower_setup(hass: UniversalAssistant) -> None:
     entity1.entity_id = "lawn_mower.mock_lawn_mower"
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -124,7 +124,7 @@ async def test_lawn_mower_setup(hass: UniversalAssistant) -> None:
     assert entity_state.state == STATE_UNAVAILABLE
 
 
-async def test_sync_start_mowing(hass: UniversalAssistant) -> None:
+async def test_sync_start_mowing(hass: __HAC_KEEP__) -> None:
     """Test if async mowing calls sync mowing."""
     lawn_mower = MockLawnMowerEntity()
     lawn_mower.hass = hass
@@ -135,7 +135,7 @@ async def test_sync_start_mowing(hass: UniversalAssistant) -> None:
     assert lawn_mower.start_mowing.called
 
 
-async def test_sync_dock(hass: UniversalAssistant) -> None:
+async def test_sync_dock(hass: __HAC_KEEP__) -> None:
     """Test if async dock calls sync dock."""
     lawn_mower = MockLawnMowerEntity()
     lawn_mower.hass = hass
@@ -146,7 +146,7 @@ async def test_sync_dock(hass: UniversalAssistant) -> None:
     assert lawn_mower.dock.called
 
 
-async def test_sync_pause(hass: UniversalAssistant) -> None:
+async def test_sync_pause(hass: __HAC_KEEP__) -> None:
     """Test if async pause calls sync pause."""
     lawn_mower = MockLawnMowerEntity()
     lawn_mower.hass = hass
@@ -157,7 +157,7 @@ async def test_sync_pause(hass: UniversalAssistant) -> None:
     assert lawn_mower.pause.called
 
 
-async def test_sync_stop(hass: UniversalAssistant) -> None:
+async def test_sync_stop(hass: __HAC_KEEP__) -> None:
     """Test if async stop calls sync stop."""
     lawn_mower = MockLawnMowerEntity()
     lawn_mower.hass = hass
@@ -168,7 +168,7 @@ async def test_sync_stop(hass: UniversalAssistant) -> None:
     assert lawn_mower.stop.called
 
 
-async def test_lawn_mower_default(hass: UniversalAssistant) -> None:
+async def test_lawn_mower_default(hass: __HAC_KEEP__) -> None:
     """Test lawn mower entity with defaults."""
     lawn_mower = MockLawnMowerEntity()
     lawn_mower.hass = hass
@@ -176,7 +176,7 @@ async def test_lawn_mower_default(hass: UniversalAssistant) -> None:
     assert lawn_mower.state is None
 
 
-async def test_lawn_mower_state(hass: UniversalAssistant) -> None:
+async def test_lawn_mower_state(hass: __HAC_KEEP__) -> None:
     """Test lawn mower entity returns state."""
     lawn_mower = MockLawnMowerEntity(
         "lawn_mower_1", "Test lawn mower", LawnMowerActivity.MOWING

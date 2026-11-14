@@ -7,7 +7,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EzvizConfigEntry, EzvizDataUpdateCoordinator
@@ -32,7 +32,7 @@ BINARY_SENSOR_TYPES: dict[str, BinarySensorEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: EzvizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

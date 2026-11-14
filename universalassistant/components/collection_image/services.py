@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.image import DOMAIN as IMAGE_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import service
 import universalassistant.helpers.config_validation as cv
 from universalassistant.helpers.selector import MediaSelector
@@ -32,7 +32,7 @@ class CollectionImageServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register Collection image services."""
 
     service.async_register_platform_entity_service(

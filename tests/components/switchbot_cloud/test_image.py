@@ -7,14 +7,14 @@ from switchbot_api import Device
 from universalassistant.components.switchbot_cloud.image import SwitchBotCloudImage
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import configure_integration
 
 
 async def test_coordinator_data_is_none(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test coordinator data is none."""
 
@@ -36,7 +36,7 @@ async def test_coordinator_data_is_none(
 
 
 async def test_async_image(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test coordinator data is none."""
 
@@ -85,7 +85,7 @@ async def test_async_image(
 
 
 async def test_image_state_is_timezone_aware(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test the image state carries a timezone.
 

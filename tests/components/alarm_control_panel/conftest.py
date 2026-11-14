@@ -21,7 +21,7 @@ from universalassistant.components.alarm_control_panel import (
 from universalassistant.components.alarm_control_panel.const import CodeFormat
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, frame
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -108,7 +108,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(name="mock_as_custom_component")
-async def mock_frame(hass: UniversalAssistant) -> AsyncGenerator[None]:
+async def mock_frame(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
     """Mock frame."""
     with patch(
         "universalassistant.helpers.frame.get_integration_frame",
@@ -124,7 +124,7 @@ async def mock_frame(hass: UniversalAssistant) -> AsyncGenerator[None]:
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -159,7 +159,7 @@ async def alarm_control_panel_supported_features() -> AlarmControlPanelEntityFea
 
 @pytest.fixture(name="mock_alarm_control_panel_entity")
 async def setup_alarm_control_panel_platform_test_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     code_format: CodeFormat | None,
     supported_features: AlarmControlPanelEntityFeature,
@@ -168,7 +168,7 @@ async def setup_alarm_control_panel_platform_test_entity(
     """Set up alarm control panel entity using an entity platform."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -191,7 +191,7 @@ async def setup_alarm_control_panel_platform_test_entity(
     )
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

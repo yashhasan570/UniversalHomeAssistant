@@ -1,7 +1,7 @@
 """The Rollease Acmeda Automate integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import entity_registry as er
 
@@ -14,7 +14,7 @@ PLATFORMS = [Platform.COVER, Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: AcmedaConfigEntry
+    hass: __HAC_KEEP__, config_entry: AcmedaConfigEntry
 ) -> None:
     """Set up Rollease Acmeda Automate hub from a config entry."""
 
@@ -28,7 +28,7 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-async def _migrate_unique_ids(hass: UniversalAssistant, entry: AcmedaConfigEntry) -> None:
+async def _migrate_unique_ids(hass: __HAC_KEEP__, entry: AcmedaConfigEntry) -> None:
     """Migrate pre-config flow unique ids."""
     entity_registry = er.async_get(hass)
     registry_entries = er.async_entries_for_config_entry(
@@ -42,7 +42,7 @@ async def _migrate_unique_ids(hass: UniversalAssistant, entry: AcmedaConfigEntry
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: AcmedaConfigEntry
+    hass: __HAC_KEEP__, config_entry: AcmedaConfigEntry
 ) -> None:
     """Unload a config entry."""
     hub = config_entry.runtime_data

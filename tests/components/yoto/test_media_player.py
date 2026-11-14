@@ -25,8 +25,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -59,7 +59,7 @@ def _build_chapters(structure: list[tuple[str, int]]) -> dict[str, Chapter]:
 
 @pytest.mark.usefixtures("mock_token_hex", "mock_yoto_client")
 async def test_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -83,7 +83,7 @@ async def test_entity_state(
     ],
 )
 async def test_playback_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -103,7 +103,7 @@ async def test_playback_commands(
 
 
 async def test_set_volume(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_set_volume(
 
 
 async def test_seek(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_seek(
 
 
 async def test_state_unavailable_when_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_state_unavailable_when_offline(
 
 
 async def test_no_card_metadata_when_card_id_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -173,7 +173,7 @@ async def test_no_card_metadata_when_card_id_missing(
 
 
 async def test_state_idle_before_first_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_state_idle_before_first_event(
     ],
 )
 async def test_play_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     media_content_id: str,
@@ -244,7 +244,7 @@ async def test_play_media(
     ],
 )
 async def test_play_media_invalid_uri_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     media_content_id: str,
 ) -> None:
@@ -273,7 +273,7 @@ async def test_play_media_invalid_uri_raises(
     ],
 )
 async def test_play_media_unknown_target_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     media_content_id: str,
@@ -297,18 +297,18 @@ async def test_play_media_unknown_target_raises(
 
 
 async def test_play_media_card_detail_failure_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """A failure fetching card chapters surfaces as UniversalAssistantError."""
+    """A failure fetching card chapters surfaces as __HAC_KEEP__Error."""
     card = mock_yoto_client.library["card-test"]
     card.chapters = {}
     mock_yoto_client.update_card_detail.side_effect = YotoError("offline")
 
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             SERVICE_PLAY_MEDIA,
@@ -325,7 +325,7 @@ async def test_play_media_card_detail_failure_raises(
 
 @pytest.mark.usefixtures("mock_yoto_client")
 async def test_browse_media_root_lists_cards_and_groups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -350,7 +350,7 @@ async def test_browse_media_root_lists_cards_and_groups(
 
 @pytest.mark.usefixtures("mock_yoto_client")
 async def test_browse_group_lists_cards(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -378,7 +378,7 @@ async def test_browse_group_lists_cards(
 
 
 async def test_browse_group_skips_cards_missing_from_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_yoto_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -406,7 +406,7 @@ async def test_browse_group_skips_cards_missing_from_library(
 
 @pytest.mark.usefixtures("mock_yoto_client")
 async def test_browse_unknown_group_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -436,7 +436,7 @@ async def test_browse_unknown_group_raises(
     ],
 )
 async def test_browse_invalid_group_uri_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
     media_content_id: str,
@@ -459,7 +459,7 @@ async def test_browse_invalid_group_uri_raises(
 
 
 async def test_browse_card_with_multiple_chapters_and_multiple_tracks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -489,7 +489,7 @@ async def test_browse_card_with_multiple_chapters_and_multiple_tracks(
 
 
 async def test_browse_card_with_multiple_chapters_and_single_track(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -519,7 +519,7 @@ async def test_browse_card_with_multiple_chapters_and_single_track(
 
 
 async def test_browse_card_with_single_chapter_collapses_to_tracks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -554,7 +554,7 @@ async def test_browse_card_with_single_chapter_collapses_to_tracks(
 
 @pytest.mark.usefixtures("mock_yoto_client")
 async def test_browse_media_chapter_shows_tracks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -580,7 +580,7 @@ async def test_browse_media_chapter_shows_tracks(
 
 
 async def test_browse_media_fetches_card_detail_lazily(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -614,7 +614,7 @@ async def test_browse_media_fetches_card_detail_lazily(
 
 @pytest.mark.usefixtures("mock_yoto_client")
 async def test_browse_media_unknown_card_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -637,7 +637,7 @@ async def test_browse_media_unknown_card_raises(
 
 @pytest.mark.usefixtures("mock_yoto_client")
 async def test_browse_media_unknown_chapter_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -659,7 +659,7 @@ async def test_browse_media_unknown_chapter_raises(
 
 
 async def test_browse_media_card_detail_failure_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -701,18 +701,18 @@ async def test_browse_media_card_detail_failure_raises(
     ],
 )
 async def test_command_error_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     client_method: str,
     service: str,
     service_data: dict[str, Any],
 ) -> None:
-    """Yoto command failures surface as UniversalAssistantError."""
+    """Yoto command failures surface as __HAC_KEEP__Error."""
     await setup_integration(hass, mock_config_entry)
     getattr(mock_yoto_client, client_method).side_effect = YotoError("nope")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             service,

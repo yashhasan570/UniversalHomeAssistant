@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -26,7 +26,7 @@ FILTER_SENSOR_ENTITY_ID = "sensor.vallox_remaining_time_for_filter"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_vallox_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -63,7 +63,7 @@ async def test_all_entities(
     ],
 )
 async def test_remaining_time_for_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     time_zone: str,
     expected_state: str,
@@ -87,7 +87,7 @@ async def test_remaining_time_for_filter(
         pytest.param(METRICS_PROFILE_UNKNOWN, STATE_UNKNOWN, id="unknown_profile"),
     ],
 )
-async def test_current_profile_sensor(hass: UniversalAssistant, expected_state: str) -> None:
+async def test_current_profile_sensor(hass: __HAC_KEEP__, expected_state: str) -> None:
     """Test the current profile sensor."""
     state = hass.states.get("sensor.vallox_current_profile")
     assert state
@@ -111,7 +111,7 @@ async def test_current_profile_sensor(hass: UniversalAssistant, expected_state: 
     ],
 )
 async def test_fan_speed_sensors(
-    hass: UniversalAssistant, expected_states: tuple[str, str, str]
+    hass: __HAC_KEEP__, expected_states: tuple[str, str, str]
 ) -> None:
     """Test the fan speed sensors in each power state of the unit."""
     states = tuple(
@@ -137,7 +137,7 @@ async def test_fan_speed_sensors(
         pytest.param({"A_CYC_CELL_STATE": None}, STATE_UNKNOWN, id="missing"),
     ],
 )
-async def test_cell_state_sensor(hass: UniversalAssistant, expected_state: str) -> None:
+async def test_cell_state_sensor(hass: __HAC_KEEP__, expected_state: str) -> None:
     """Test cell state sensor in different states."""
     state = hass.states.get("sensor.vallox_cell_state")
     assert state
@@ -156,7 +156,7 @@ async def test_cell_state_sensor(hass: UniversalAssistant, expected_state: str) 
     ],
 )
 async def test_profile_duration_sensor(
-    hass: UniversalAssistant, expected_state: str
+    hass: __HAC_KEEP__, expected_state: str
 ) -> None:
     """Test profile duration sensor in different profiles."""
     state = hass.states.get("sensor.vallox_profile_duration")

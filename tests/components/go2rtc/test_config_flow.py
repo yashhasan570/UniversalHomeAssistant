@@ -1,15 +1,15 @@
-"""Test the Universal Universal Home Assistant Cloud config flow."""
+"""Test the __HA_KEEP__ Cloud config flow."""
 
 from unittest.mock import patch
 
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.go2rtc.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_config_flow(hass: UniversalAssistant) -> None:
+async def test_config_flow(hass: __HAC_KEEP__) -> None:
     """Test create cloud entry."""
 
     with (
@@ -33,7 +33,7 @@ async def test_config_flow(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_multiple_entries(hass: UniversalAssistant) -> None:
+async def test_multiple_entries(hass: __HAC_KEEP__) -> None:
     """Test creating multiple cloud entries."""
     config_entry = MockConfigEntry(domain=DOMAIN)
     config_entry.add_to_hass(hass)

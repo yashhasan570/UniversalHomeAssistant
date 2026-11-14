@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfElectricCurrent, UnitOfEnergy, UnitOfPower
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -87,7 +87,7 @@ def _build_device_info(coordinator: BRouteUpdateCoordinator) -> DeviceInfo:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BRouteConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.homewizard.const import DOMAIN, UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -393,7 +393,7 @@ def _cleanup_external_migration_devices(
     ],
 )
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -413,7 +413,7 @@ async def test_sensors(
 
 
 async def test_external_device_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -593,7 +593,7 @@ async def test_external_device_via_device_id(
     ],
 )
 async def test_disabled_by_default_sensors(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_ids: list[str]
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_ids: list[str]
 ) -> None:
     """Test the disabled by default sensors."""
     for entity_id in entity_ids:
@@ -606,7 +606,7 @@ async def test_disabled_by_default_sensors(
 
 @pytest.mark.parametrize("exception", [RequestError])
 async def test_sensors_unreachable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     exception: Exception,
 ) -> None:
@@ -624,7 +624,7 @@ async def test_sensors_unreachable(
 
 @pytest.mark.parametrize("exception", [RequestError])
 async def test_external_sensors_unreachable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     exception: Exception,
 ) -> None:
@@ -641,7 +641,7 @@ async def test_external_sensors_unreachable(
 
 
 async def test_external_device_registry_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -676,7 +676,7 @@ async def test_external_device_registry_migration(
 
 
 async def test_external_device_registry_migration_old_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -705,7 +705,7 @@ async def test_external_device_registry_migration_old_only(
 
 
 async def test_external_device_registry_migration_new_only_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -1154,7 +1154,7 @@ async def test_external_device_registry_migration_new_only_noop(
     ],
 )
 async def test_entities_not_created_for_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_ids: list[str],
 ) -> None:
     """Ensures entities for a specific device are not created."""
@@ -1166,7 +1166,7 @@ async def test_entities_not_created_for_device(
 @pytest.mark.freeze_time("2021-01-01 12:00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_uptime_sensor_does_not_update_timestamp_on_data_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
 ) -> None:
     """Test uptime sensor does not update its timestamp when refreshing."""
@@ -1203,7 +1203,7 @@ async def test_uptime_sensor_does_not_update_timestamp_on_data_update(
 @pytest.mark.freeze_time("2021-01-01 12:00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_uptime_sensor_does_not_update_timestamp_on_minor_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
 ) -> None:
     """Test that the uptime sensor does not update its timestamp on minor changes."""
@@ -1240,7 +1240,7 @@ async def test_uptime_sensor_does_not_update_timestamp_on_minor_change(
 @pytest.mark.freeze_time("2021-01-01 12:00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_uptime_sensor_refreshes_when_detecting_reboot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
 ) -> None:
     """Test that the uptime sensor updates its timestamp on reboot."""
@@ -1274,7 +1274,7 @@ async def test_uptime_sensor_refreshes_when_detecting_reboot(
 @pytest.mark.freeze_time("2021-01-01 12:00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_uptime_sensor_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
 ) -> None:
     """Test that the uptime sensor reports unavailable when uptime is None."""

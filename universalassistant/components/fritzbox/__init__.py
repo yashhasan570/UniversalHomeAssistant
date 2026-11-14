@@ -10,7 +10,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     UnitOfTemperature,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 from universalassistant.helpers.entity_registry import RegistryEntry, async_migrate_entries
 
@@ -18,7 +18,7 @@ from .const import DEFAULT_VERIFY_SSL, DOMAIN, LOGGER, PLATFORMS
 from .coordinator import FritzboxConfigEntry, FritzboxDataUpdateCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FritzboxConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FritzboxConfigEntry) -> None:
     """Set up the AVM FRITZ!SmartHome platforms."""
 
     def _update_unique_id(entry: RegistryEntry) -> dict[str, str] | None:
@@ -59,7 +59,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FritzboxConfigEntry
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FritzboxConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FritzboxConfigEntry) -> None:
     """Unloading the AVM FRITZ!SmartHome platforms."""
     try:
         await hass.async_add_executor_job(entry.runtime_data.fritz.logout)
@@ -70,7 +70,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: FritzboxConfigEntr
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: FritzboxConfigEntry
+    hass: __HAC_KEEP__, config_entry: FritzboxConfigEntry
 ) -> None:
     """Migrate old config entry to a new format."""
     LOGGER.debug(
@@ -108,7 +108,7 @@ async def async_migrate_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, entry: FritzboxConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: FritzboxConfigEntry, device: AnyDeviceEntry
 ) -> bool:
     """Remove Fritzbox config entry from a device."""
     coordinator = entry.runtime_data

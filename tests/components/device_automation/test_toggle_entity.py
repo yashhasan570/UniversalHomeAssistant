@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components import automation
 from universalassistant.components.device_automation import toggle_entity
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 async def test_if_fires_on_state_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -132,7 +132,7 @@ async def test_if_fires_on_state_change(
 
 @pytest.mark.parametrize("trigger", ["turned_off", "changed_states"])
 async def test_if_fires_on_state_change_with_for(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],

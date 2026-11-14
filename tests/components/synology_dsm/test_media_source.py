@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.aiohttp import MockRequest
 
 from .common import mock_dsm_hardware, mock_dsm_information
@@ -69,7 +69,7 @@ def dsm_with_photos() -> MagicMock:
 
 
 @pytest.mark.usefixtures("setup_media_source")
-async def test_get_media_source(hass: UniversalAssistant) -> None:
+async def test_get_media_source(hass: __HAC_KEEP__) -> None:
     """Test async_get_media_source and SynologyPhotosMediaSource."""
 
     source = await async_get_media_source(hass)
@@ -88,7 +88,7 @@ async def test_get_media_source(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_resolve_media_bad_identifier(
-    hass: UniversalAssistant, identifier: str, exception_msg: str
+    hass: __HAC_KEEP__, identifier: str, exception_msg: str
 ) -> None:
     """Test resolve_media with bad identifiers."""
     source = await async_get_media_source(hass)
@@ -124,7 +124,7 @@ async def test_resolve_media_bad_identifier(
     ],
 )
 async def test_resolve_media_success(
-    hass: UniversalAssistant, identifier: str, url: str, mime_type: str
+    hass: __HAC_KEEP__, identifier: str, url: str, mime_type: str
 ) -> None:
     """Test successful resolving an item."""
     source = await async_get_media_source(hass)
@@ -136,7 +136,7 @@ async def test_resolve_media_success(
 
 
 @pytest.mark.usefixtures("setup_media_source")
-async def test_browse_media_unconfigured(hass: UniversalAssistant) -> None:
+async def test_browse_media_unconfigured(hass: __HAC_KEEP__) -> None:
     """Test browse_media without any devices being configured."""
     source = await async_get_media_source(hass)
     item = MediaSourceItem(
@@ -148,7 +148,7 @@ async def test_browse_media_unconfigured(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_media_source")
 async def test_browse_media_album_error(
-    hass: UniversalAssistant, dsm_with_photos: MagicMock
+    hass: __HAC_KEEP__, dsm_with_photos: MagicMock
 ) -> None:
     """Test browse_media with unknown album."""
     with (
@@ -190,7 +190,7 @@ async def test_browse_media_album_error(
 
 @pytest.mark.usefixtures("setup_media_source")
 async def test_browse_media_get_root(
-    hass: UniversalAssistant, dsm_with_photos: MagicMock
+    hass: __HAC_KEEP__, dsm_with_photos: MagicMock
 ) -> None:
     """Test browse_media returning root media sources."""
     with (
@@ -227,7 +227,7 @@ async def test_browse_media_get_root(
 
 @pytest.mark.usefixtures("setup_media_source")
 async def test_browse_media_get_albums(
-    hass: UniversalAssistant, dsm_with_photos: MagicMock
+    hass: __HAC_KEEP__, dsm_with_photos: MagicMock
 ) -> None:
     """Test browse_media returning albums."""
     with (
@@ -271,7 +271,7 @@ async def test_browse_media_get_albums(
 
 @pytest.mark.usefixtures("setup_media_source")
 async def test_browse_media_get_items_error(
-    hass: UniversalAssistant, dsm_with_photos: MagicMock
+    hass: __HAC_KEEP__, dsm_with_photos: MagicMock
 ) -> None:
     """Test browse_media returning albums."""
     with (
@@ -332,7 +332,7 @@ async def test_browse_media_get_items_error(
 
 @pytest.mark.usefixtures("setup_media_source")
 async def test_browse_media_get_items_thumbnail_error(
-    hass: UniversalAssistant, dsm_with_photos: MagicMock
+    hass: __HAC_KEEP__, dsm_with_photos: MagicMock
 ) -> None:
     """Test browse_media returning albums."""
     with (
@@ -374,7 +374,7 @@ async def test_browse_media_get_items_thumbnail_error(
 
 @pytest.mark.usefixtures("setup_media_source")
 async def test_browse_media_get_items(
-    hass: UniversalAssistant, dsm_with_photos: MagicMock
+    hass: __HAC_KEEP__, dsm_with_photos: MagicMock
 ) -> None:
     """Test browse_media returning albums."""
     with (
@@ -444,7 +444,7 @@ async def test_browse_media_get_items(
 
 @pytest.mark.usefixtures("setup_media_source")
 async def test_media_view(
-    hass: UniversalAssistant, tmp_path: Path, dsm_with_photos: MagicMock
+    hass: __HAC_KEEP__, tmp_path: Path, dsm_with_photos: MagicMock
 ) -> None:
     """Test SynologyDsmMediaView returning albums."""
     view = SynologyDsmMediaView(hass)

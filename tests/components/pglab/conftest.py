@@ -8,25 +8,25 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.components.pglab.const import DISCOVERY_TOPIC, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 CONF_DISCOVERY_PREFIX = "discovery_prefix"
 
 
 @pytest.fixture
-def device_reg(hass: UniversalAssistant):
+def device_reg(hass: __HAC_KEEP__):
     """Return an empty, loaded, registry."""
     return mock_device_registry(hass)
 
 
 @pytest.fixture
-def entity_reg(hass: UniversalAssistant):
+def entity_reg(hass: __HAC_KEEP__):
     """Return an empty, loaded, registry."""
     return mock_registry(hass)
 
 
 @pytest.fixture
-async def setup_pglab(hass: UniversalAssistant):
+async def setup_pglab(hass: __HAC_KEEP__):
     """Set up PG LAB Electronics."""
     hass.config.components.add("pglab")
 

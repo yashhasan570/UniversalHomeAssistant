@@ -15,7 +15,7 @@
         "data": {
           "station_id": "Station ID (Defaults to nearest station)"
         },
-        "description": "Set up GeoSphere Austria to integrate with Universal Universal Home Assistant."
+        "description": "Set up GeoSphere Austria to integrate with __HA_KEEP__."
       }
     }
   }

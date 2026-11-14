@@ -27,7 +27,7 @@ from universalassistant.components.http import KEY_HASS
 from universalassistant.components.http.const import MAX_UNAUTHENTICATED_BODY_SIZE
 from universalassistant.components.onboarding import DOMAIN, const, views
 from universalassistant.const import EVENT_COMPONENT_LOADED
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import area_registry as ar
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import (
@@ -41,14 +41,14 @@ from . import mock_storage
 
 
 @pytest.fixture(autouse=True)
-async def auth_active(hass: UniversalAssistant) -> None:
+async def auth_active(hass: __HAC_KEEP__) -> None:
     """Ensure auth is always active."""
     await register_auth_provider(hass, {"type": "universalassistant"})
 
 
 @pytest.fixture(name="rpi")
 async def rpi_fixture(
-    hass: UniversalAssistant, universalassistant_info: AsyncMock, mock_supervisor: None
+    hass: __HAC_KEEP__, universalassistant_info: AsyncMock, mock_supervisor: None
 ) -> None:
     """Mock core info with rpi."""
     universalassistant_info.return_value = replace(
@@ -60,7 +60,7 @@ async def rpi_fixture(
 
 @pytest.fixture(name="no_rpi")
 async def no_rpi_fixture(
-    hass: UniversalAssistant, universalassistant_info: AsyncMock, mock_supervisor: None
+    hass: __HAC_KEEP__, universalassistant_info: AsyncMock, mock_supervisor: None
 ) -> None:
     """Mock core info with rpi."""
     universalassistant_info.return_value = replace(
@@ -113,7 +113,7 @@ def mock_default_integrations():
 
 
 async def test_onboarding_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_onboarding_progress(
 
 
 async def test_onboarding_user_already_done(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_onboarding_user_already_done(
 
 
 async def test_onboarding_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client_no_auth: ClientSessionGenerator,
     area_registry: ar.AreaRegistry,
@@ -234,7 +234,7 @@ async def test_onboarding_user(
     "url", ["/api/onboarding/users", "/api/onboarding/integration/wait"]
 )
 async def test_onboarding_body_too_large(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client_no_auth: ClientSessionGenerator,
     url: str,
@@ -257,7 +257,7 @@ async def test_onboarding_body_too_large(
 
 
 async def test_onboarding_user_invalid_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -291,7 +291,7 @@ async def test_onboarding_user_invalid_name(
     ],
 )
 async def test_onboarding_user_invalid_username(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client_no_auth: ClientSessionGenerator,
     username: str,
@@ -334,7 +334,7 @@ async def test_onboarding_user_invalid_username(
 
 
 async def test_onboarding_user_race(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -373,7 +373,7 @@ async def test_onboarding_user_race(
 
 
 async def test_onboarding_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
@@ -417,7 +417,7 @@ async def test_onboarding_integration(
 
 
 async def test_onboarding_integration_missing_credential(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     hass_access_token: str,
@@ -442,7 +442,7 @@ async def test_onboarding_integration_missing_credential(
 
 
 async def test_onboarding_integration_invalid_redirect_uri(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -476,7 +476,7 @@ async def test_onboarding_integration_invalid_redirect_uri(
 
 
 async def test_onboarding_integration_requires_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -496,7 +496,7 @@ async def test_onboarding_integration_requires_auth(
 
 
 async def test_onboarding_installation_type_client_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test a client disconnect does not break the pending hassio setup.
@@ -535,7 +535,7 @@ async def test_onboarding_installation_type_client_disconnect(
 
 
 async def test_onboarding_core_sets_up_met(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     mock_default_integrations,
@@ -556,7 +556,7 @@ async def test_onboarding_core_sets_up_met(
 
 
 async def test_onboarding_core_sets_up_shopping_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     mock_default_integrations,
@@ -577,7 +577,7 @@ async def test_onboarding_core_sets_up_shopping_list(
 
 
 async def test_onboarding_core_sets_up_google_translate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     mock_default_integrations,
@@ -598,7 +598,7 @@ async def test_onboarding_core_sets_up_google_translate(
 
 
 async def test_onboarding_core_sets_up_radio_browser(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     mock_default_integrations,
@@ -619,7 +619,7 @@ async def test_onboarding_core_sets_up_radio_browser(
 
 
 async def test_onboarding_core_no_rpi_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     no_rpi,
@@ -644,7 +644,7 @@ async def test_onboarding_core_no_rpi_power(
 
 
 async def test_onboarding_core_ensures_analytics_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     mock_default_integrations,
@@ -666,7 +666,7 @@ async def test_onboarding_core_ensures_analytics_loaded(
 
 
 async def test_onboarding_analytics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
@@ -690,7 +690,7 @@ async def test_onboarding_analytics(
 
 
 async def test_onboarding_installation_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -704,23 +704,23 @@ async def test_onboarding_installation_type(
 
     with patch(
         "universalassistant.components.onboarding.views.async_get_system_info",
-        return_value={"installation_type": "Universal Universal Home Assistant Core"},
+        return_value={"installation_type": "__HA_KEEP__ Core"},
     ):
         resp = await client.get("/api/onboarding/installation_type")
 
         assert resp.status == 200
 
         resp_content = await resp.json()
-        assert resp_content["installation_type"] == "Universal Universal Home Assistant Core"
+        assert resp_content["installation_type"] == "__HA_KEEP__ Core"
 
 
 def _instrumented_wait_component() -> tuple[
-    asyncio.Event, Callable[[UniversalAssistant, str], Coroutine[Any, Any, bool]]
+    asyncio.Event, Callable[[__HAC_KEEP__, str], Coroutine[Any, Any, bool]]
 ]:
     """Wrap async_wait_component with an event set when the wait is entered."""
     entered = asyncio.Event()
 
-    async def _wait_component(hass: UniversalAssistant, domain: str) -> bool:
+    async def _wait_component(hass: __HAC_KEEP__, domain: str) -> bool:
         entered.set()
         return await async_wait_component(hass, domain)
 
@@ -728,7 +728,7 @@ def _instrumented_wait_component() -> tuple[
 
 
 async def test_onboarding_installation_type_waits_for_hassio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -755,7 +755,7 @@ async def test_onboarding_installation_type_waits_for_hassio(
         ),
         patch(
             "universalassistant.components.onboarding.views.async_get_system_info",
-            return_value={"installation_type": "Universal Universal Home Assistant OS"},
+            return_value={"installation_type": "__HA_KEEP__ OS"},
         ),
     ):
         req_task = asyncio.create_task(client.get("/api/onboarding/installation_type"))
@@ -770,11 +770,11 @@ async def test_onboarding_installation_type_waits_for_hassio(
 
     assert resp.status == 200
     resp_content = await resp.json()
-    assert resp_content["installation_type"] == "Universal Universal Home Assistant OS"
+    assert resp_content["installation_type"] == "__HA_KEEP__ OS"
 
 
 async def test_onboarding_installation_type_done_while_waiting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -806,7 +806,7 @@ async def test_onboarding_installation_type_done_while_waiting(
 
 
 async def test_onboarding_installation_type_no_hassio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -820,18 +820,18 @@ async def test_onboarding_installation_type_no_hassio(
 
     with patch(
         "universalassistant.components.onboarding.views.async_get_system_info",
-        return_value={"installation_type": "Universal Universal Home Assistant Container"},
+        return_value={"installation_type": "__HA_KEEP__ Container"},
     ):
         resp = await client.get("/api/onboarding/installation_type")
 
     assert resp.status == 200
     resp_content = await resp.json()
-    assert resp_content["installation_type"] == "Universal Universal Home Assistant Container"
+    assert resp_content["installation_type"] == "__HA_KEEP__ Container"
 
 
 @pytest.mark.usefixtures("mock_supervisor", "universalassistant_info")
 async def test_onboarding_installation_type_during_bootstrap(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client_no_auth: ClientSessionGenerator,
     supervisor_client: AsyncMock,
@@ -864,7 +864,7 @@ async def test_onboarding_installation_type_during_bootstrap(
     hassio_setup_gate = asyncio.Event()
     real_hassio_setup = hassio.async_setup
 
-    async def gated_hassio_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def gated_hassio_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         await hassio_setup_gate.wait()
         return await real_hassio_setup(hass, config)
 
@@ -896,7 +896,7 @@ async def test_onboarding_installation_type_during_bootstrap(
 
     assert resp.status == 200
     resp_content = await resp.json()
-    assert resp_content["installation_type"] == "Universal Universal Home Assistant OS"
+    assert resp_content["installation_type"] == "__HA_KEEP__ OS"
 
 
 @pytest.mark.parametrize(
@@ -906,7 +906,7 @@ async def test_onboarding_installation_type_during_bootstrap(
     ],
 )
 async def test_onboarding_view_after_done(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     method: str,
@@ -927,7 +927,7 @@ async def test_onboarding_view_after_done(
 
 
 async def test_complete_onboarding(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test completing onboarding calls listeners."""
     listener_1 = Mock()
@@ -995,7 +995,7 @@ async def test_complete_onboarding(
     ],
 )
 async def test_wait_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     domain: str,
@@ -1016,7 +1016,7 @@ async def test_wait_integration(
 
 
 async def test_wait_integration_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -1030,7 +1030,7 @@ async def test_wait_integration_startup(
     setup_stall = asyncio.Event()
     setup_started = asyncio.Event()
 
-    async def mock_setup(hass: UniversalAssistant, _) -> bool:
+    async def mock_setup(hass: __HAC_KEEP__, _) -> bool:
         setup_started.set()
         await setup_stall.wait()
         return True
@@ -1068,7 +1068,7 @@ async def test_wait_integration_startup(
 
 
 async def test_not_setup_platform_if_onboarded(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test if onboarding is done, we don't setup platforms."""
     mock_storage(hass_storage, {"done": onboarding.STEPS})
@@ -1085,7 +1085,7 @@ async def test_not_setup_platform_if_onboarded(
 
 
 async def test_setup_platform_if_not_onboarded(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test if onboarding is not done, we setup platforms."""
     platform_mock = Mock(async_setup_views=AsyncMock(), spec=["async_setup_views"])
@@ -1107,7 +1107,7 @@ async def test_setup_platform_if_not_onboarded(
     ],
 )
 async def test_bad_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_mock: Mock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

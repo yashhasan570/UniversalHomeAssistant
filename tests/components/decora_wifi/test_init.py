@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_setup_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_decora_wifi: MagicMock,
 ) -> None:
@@ -28,7 +28,7 @@ async def test_setup_unload_entry(
 
 
 async def test_setup_entry_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_decora_wifi: MagicMock,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_setup_entry_auth_failed(
 
 
 async def test_setup_entry_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_decora_wifi: MagicMock,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_setup_entry_cannot_connect(
 
 
 async def test_unload_entry_logout_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_decora_wifi: MagicMock,
     mock_person: MagicMock,
@@ -77,7 +77,7 @@ async def test_unload_entry_logout_failure(
 
 
 async def test_stop_event_logs_out(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_decora_wifi: MagicMock,
     mock_person: MagicMock,

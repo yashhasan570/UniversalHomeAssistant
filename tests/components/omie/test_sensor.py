@@ -10,14 +10,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import spot_price_fetcher
 
 
 @freeze_time("2024-01-15T14:01:00Z")
 async def test_sensor_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,
     mock_omie_results_jan15: OMIEResults,
@@ -42,7 +42,7 @@ async def test_sensor_setup(
 
 @pytest.mark.usefixtures("hass_lisbon")
 async def test_sensor_state_lisbon_timezone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,
     mock_omie_results_jan15: OMIEResults,
@@ -109,7 +109,7 @@ async def test_sensor_state_lisbon_timezone(
 
 @pytest.mark.usefixtures("hass_madrid")
 async def test_sensor_state_madrid_timezone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,
     mock_omie_results_jan15: OMIEResults,
@@ -161,7 +161,7 @@ async def test_sensor_state_madrid_timezone(
     "raise_exc", [Exception("something bad"), aiohttp.ClientError("Connection timeout")]
 )
 async def test_sensor_unavailable_when_pyomie_throws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,
     mock_omie_results_jan15: OMIEResults,
@@ -192,7 +192,7 @@ async def test_sensor_unavailable_when_pyomie_throws(
 
 
 async def test_sensor_unavailable_when_pyomie_returns_incomplete_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,
 ) -> None:

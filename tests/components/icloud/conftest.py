@@ -15,7 +15,7 @@ from universalassistant.components.icloud.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import USER_INFO
 
@@ -251,7 +251,7 @@ def mock_icloud_service() -> Generator[MagicMock]:
 
 @pytest.fixture(name="setup_entry")
 def mock_setup_entry(
-    hass: UniversalAssistant, devices_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, devices_config_entry: MockConfigEntry
 ) -> Callable[[Platform], Awaitable[None]]:
     """Return a helper that sets up the entry with a single platform."""
 

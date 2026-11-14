@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 
 from .common import (
     ATTR_METHOD,
@@ -49,7 +49,7 @@ def mock_device():
     return mock_dev
 
 
-async def test_light_setup(hass: UniversalAssistant, mock_device) -> None:
+async def test_light_setup(hass: __HAC_KEEP__, mock_device) -> None:
     """Test a successful setup."""
     await create_entity_from_device(hass, mock_device)
     entity_state = hass.states.get("light.name")
@@ -68,7 +68,7 @@ async def test_light_setup(hass: UniversalAssistant, mock_device) -> None:
     )
 
 
-async def test_unload_config_entry(hass: UniversalAssistant, mock_device) -> None:
+async def test_unload_config_entry(hass: __HAC_KEEP__, mock_device) -> None:
     """Test when a config entry is unloaded from HA."""
     await create_entity_from_device(hass, mock_device)
     assert hass.states.get("light.name")
@@ -78,7 +78,7 @@ async def test_unload_config_entry(hass: UniversalAssistant, mock_device) -> Non
     assert hass.states.get("light.name").state == STATE_UNAVAILABLE
 
 
-async def test_remove_config_entry(hass: UniversalAssistant, mock_device) -> None:
+async def test_remove_config_entry(hass: __HAC_KEEP__, mock_device) -> None:
     """Test when a config entry is removed from HA."""
     await create_entity_from_device(hass, mock_device)
     assert hass.states.get("light.name")
@@ -88,7 +88,7 @@ async def test_remove_config_entry(hass: UniversalAssistant, mock_device) -> Non
     assert not hass.states.get("light.name")
 
 
-async def test_light_restore_state(hass: UniversalAssistant, mock_device) -> None:
+async def test_light_restore_state(hass: __HAC_KEEP__, mock_device) -> None:
     """Test restore from cache."""
     mock_restore_cache(
         hass,
@@ -102,7 +102,7 @@ async def test_light_restore_state(hass: UniversalAssistant, mock_device) -> Non
     assert entity_state.attributes[ATTR_COLOR_MODE] == ColorMode.BRIGHTNESS
 
 
-async def test_light_restore_state_bad_cache(hass: UniversalAssistant, mock_device) -> None:
+async def test_light_restore_state_bad_cache(hass: __HAC_KEEP__, mock_device) -> None:
     """Test restore from a cache without the attribute."""
     mock_restore_cache(
         hass,

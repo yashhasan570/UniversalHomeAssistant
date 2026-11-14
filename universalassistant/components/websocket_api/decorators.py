@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any
 import probatio
 
 from universalassistant.components.http.const import DATA_SUPERVISOR_USER
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers.typing import VolDictType
 
@@ -17,7 +17,7 @@ from .connection import ActiveConnection
 
 async def _handle_async_response(
     func: const.AsyncWebSocketCommandHandler,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -37,7 +37,7 @@ def async_response(
     @callback
     @wraps(func)
     def schedule_handler(
-        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         """Schedule the handler."""
         # As the webserver is now started before the start
@@ -56,7 +56,7 @@ def require_admin(func: const.WebSocketCommandHandler) -> const.WebSocketCommand
 
     @wraps(func)
     def with_admin(
-        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         """Check admin and call function."""
         user = connection.user
@@ -87,7 +87,7 @@ def ws_require_user(
 
         @wraps(func)
         def check_current_user(
-            hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+            hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
         ) -> None:
             """Check current user."""
 

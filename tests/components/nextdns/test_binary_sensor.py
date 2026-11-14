@@ -13,14 +13,14 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -34,7 +34,7 @@ async def test_binary_sensor(
 
 
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

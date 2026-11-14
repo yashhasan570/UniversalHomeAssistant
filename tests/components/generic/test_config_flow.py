@@ -43,9 +43,9 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     HTTP_BASIC_AUTHENTICATION,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 TESTDATA = {
@@ -83,7 +83,7 @@ async def _async_configure_and_confirm(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_setup_entry")
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fakeimgbytes_png: bytes,
     hass_client: ClientSessionGenerator,
     user_flow: ConfigFlowResult,
@@ -148,7 +148,7 @@ async def test_form(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_setup_entry")
 async def test_form_only_stillimage(
-    hass: UniversalAssistant, user_flow: ConfigFlowResult
+    hass: __HAC_KEEP__, user_flow: ConfigFlowResult
 ) -> None:
     """Test we complete ok if the user wants still images only."""
     result1 = await hass.config_entries.flow.async_configure(
@@ -182,7 +182,7 @@ async def test_form_only_stillimage(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png")
 async def test_form_reject_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: MagicMock,
     user_flow: ConfigFlowResult,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_form_reject_preview(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png")
 async def test_form_still_preview_cam_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: MagicMock,
     user_flow: ConfigFlowResult,
     hass_client: ClientSessionGenerator,
@@ -246,7 +246,7 @@ async def test_form_still_preview_cam_off(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_gif", "mock_setup_entry")
 async def test_form_only_stillimage_gif(
-    hass: UniversalAssistant, user_flow: ConfigFlowResult
+    hass: __HAC_KEEP__, user_flow: ConfigFlowResult
 ) -> None:
     """Test we complete ok if the user wants a gif."""
     result1 = await hass.config_entries.flow.async_configure(
@@ -267,7 +267,7 @@ async def test_form_only_stillimage_gif(
 @respx.mock
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_only_svg_whitespace(
-    hass: UniversalAssistant, fakeimgbytes_svg: bytes, user_flow: ConfigFlowResult
+    hass: __HAC_KEEP__, fakeimgbytes_svg: bytes, user_flow: ConfigFlowResult
 ) -> None:
     """Test we complete ok if svg starts with whitespace, issue #68889."""
     fakeimgbytes_wspace_svg = bytes("  \n ", encoding="utf-8") + fakeimgbytes_svg
@@ -299,7 +299,7 @@ async def test_form_only_svg_whitespace(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_only_still_sample(
-    hass: UniversalAssistant, user_flow: ConfigFlowResult, image_file
+    hass: __HAC_KEEP__, user_flow: ConfigFlowResult, image_file
 ) -> None:
     """Test various sample images #69037."""
     image_path = os.path.join(os.path.dirname(__file__), image_file)
@@ -358,7 +358,7 @@ async def test_form_only_still_sample(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_still_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_flow: ConfigFlowResult,
     fakeimgbytes_png: bytes,
     template,
@@ -386,7 +386,7 @@ async def test_form_still_template(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_setup_entry")
 async def test_form_rtsp_mode(
-    hass: UniversalAssistant, user_flow: ConfigFlowResult, mock_create_stream: MagicMock
+    hass: __HAC_KEEP__, user_flow: ConfigFlowResult, mock_create_stream: MagicMock
 ) -> None:
     """Test we complete ok if the user enters a stream url."""
     data = deepcopy(TESTDATA)
@@ -417,7 +417,7 @@ async def test_form_rtsp_mode(
 
 
 async def test_form_only_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fakeimgbytes_jpg: bytes,
     user_flow: ConfigFlowResult,
     mock_create_stream: MagicMock,
@@ -460,7 +460,7 @@ async def test_form_only_stream(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_setup_entry")
 async def test_form_still_and_stream_not_provided(
-    hass: UniversalAssistant, user_flow: ConfigFlowResult
+    hass: __HAC_KEEP__, user_flow: ConfigFlowResult
 ) -> None:
     """Test we show a suitable error if neither still or stream URL are provided."""
     result2 = await hass.config_entries.flow.async_configure(
@@ -517,7 +517,7 @@ async def test_form_still_and_stream_not_provided(
 async def test_form_image_http_exceptions(
     side_effect: Exception,
     expected_message: dict[str, str],
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_flow: ConfigFlowResult,
     fakeimgbytes_png: bytes,
 ) -> None:
@@ -540,7 +540,7 @@ async def test_form_image_http_exceptions(
 
 @respx.mock
 async def test_form_image_http_302(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_flow: ConfigFlowResult,
     mock_create_stream: MagicMock,
     fakeimgbytes_png: bytes,
@@ -566,7 +566,7 @@ async def test_form_image_http_302(
 @respx.mock
 @pytest.mark.usefixtures("mock_create_stream", "mock_setup_entry")
 async def test_form_stream_invalidimage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_flow: ConfigFlowResult,
     fakeimgbytes_png: bytes,
 ) -> None:
@@ -590,7 +590,7 @@ async def test_form_stream_invalidimage(
 @respx.mock
 @pytest.mark.usefixtures("mock_create_stream", "mock_setup_entry")
 async def test_form_stream_invalidimage2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_flow: ConfigFlowResult,
     fakeimgbytes_png: bytes,
 ) -> None:
@@ -614,7 +614,7 @@ async def test_form_stream_invalidimage2(
 @respx.mock
 @pytest.mark.usefixtures("mock_create_stream", "mock_setup_entry")
 async def test_form_stream_invalidimage3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_flow: ConfigFlowResult,
     fakeimgbytes_png: bytes,
 ) -> None:
@@ -638,7 +638,7 @@ async def test_form_stream_invalidimage3(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_setup_entry")
 async def test_form_stream_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_flow: ConfigFlowResult,
     mock_create_stream: MagicMock,
 ) -> None:
@@ -668,13 +668,13 @@ async def test_form_stream_timeout(
 @respx.mock
 @pytest.mark.usefixtures("mock_create_stream", "mock_setup_entry")
 async def test_form_stream_not_set_up(
-    hass: UniversalAssistant, user_flow: ConfigFlowResult
+    hass: __HAC_KEEP__, user_flow: ConfigFlowResult
 ) -> None:
     """Test we handle if stream has not been set up."""
 
     with patch(
         "universalassistant.components.generic.config_flow.create_stream",
-        side_effect=UniversalAssistantError("Stream integration is not set up."),
+        side_effect=__HAC_KEEP__Error("Stream integration is not set up."),
     ):
         result1 = await hass.config_entries.flow.async_configure(
             user_flow["flow_id"],
@@ -692,15 +692,15 @@ async def test_form_stream_not_set_up(
 
 
 @respx.mock
-async def test_form_stream_other_error(hass: UniversalAssistant, user_flow) -> None:
+async def test_form_stream_other_error(hass: __HAC_KEEP__, user_flow) -> None:
     """Test the unknown error for streams."""
 
     with (
         patch(
             "universalassistant.components.generic.config_flow.create_stream",
-            side_effect=UniversalAssistantError("Some other error."),
+            side_effect=__HAC_KEEP__Error("Some other error."),
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.config_entries.flow.async_configure(
             user_flow["flow_id"],
@@ -712,7 +712,7 @@ async def test_form_stream_other_error(hass: UniversalAssistant, user_flow) -> N
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_create_stream", "mock_setup_entry")
 async def test_form_stream_permission_error(
-    hass: UniversalAssistant, user_flow: ConfigFlowResult
+    hass: __HAC_KEEP__, user_flow: ConfigFlowResult
 ) -> None:
     """Test we handle permission error."""
     with patch(
@@ -735,7 +735,7 @@ async def test_form_stream_permission_error(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_create_stream", "mock_setup_entry")
 async def test_form_no_route_to_host(
-    hass: UniversalAssistant, user_flow: ConfigFlowResult
+    hass: __HAC_KEEP__, user_flow: ConfigFlowResult
 ) -> None:
     """Test we handle no route to host."""
     with patch(
@@ -758,7 +758,7 @@ async def test_form_no_route_to_host(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_create_stream", "mock_setup_entry")
 async def test_form_stream_io_error(
-    hass: UniversalAssistant, user_flow: ConfigFlowResult
+    hass: __HAC_KEEP__, user_flow: ConfigFlowResult
 ) -> None:
     """Test we handle an io error when setting up stream."""
     with patch(
@@ -780,7 +780,7 @@ async def test_form_stream_io_error(
 
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png")
-async def test_form_oserror(hass: UniversalAssistant, user_flow: ConfigFlowResult) -> None:
+async def test_form_oserror(hass: __HAC_KEEP__, user_flow: ConfigFlowResult) -> None:
     """Test we handle OS error when setting up stream."""
     with (
         patch(
@@ -798,7 +798,7 @@ async def test_form_oserror(hass: UniversalAssistant, user_flow: ConfigFlowResul
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_create_stream")
 async def test_options_template_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test the options flow with a template error."""
@@ -872,7 +872,7 @@ async def test_options_template_error(
     assert result8["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_slug(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
+async def test_slug(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
     """Test that the slug function generates an error in case of invalid template.
 
     Other paths in the slug function are already tested by other tests.
@@ -889,7 +889,7 @@ async def test_slug(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) 
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_setup_entry")
 async def test_options_only_stream(
-    hass: UniversalAssistant, mock_create_stream: MagicMock
+    hass: __HAC_KEEP__, mock_create_stream: MagicMock
 ) -> None:
     """Test the options flow without a still_image_url."""
 
@@ -923,7 +923,7 @@ async def test_options_only_stream(
 
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_setup_entry")
-async def test_options_still_and_stream_not_provided(hass: UniversalAssistant) -> None:
+async def test_options_still_and_stream_not_provided(hass: __HAC_KEEP__) -> None:
     """Test we show a suitable error if neither still or stream URL are provided."""
     data = TESTDATA_ONLYSTILL.copy()
     data.pop(CONF_STILL_IMAGE_URL)
@@ -957,7 +957,7 @@ async def test_options_still_and_stream_not_provided(hass: UniversalAssistant) -
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_create_stream")
 async def test_options_permission_error(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test we handle a PermissionError and pass the message through."""
 
@@ -980,7 +980,7 @@ async def test_options_permission_error(
 
 
 async def test_migrate_existing_ids(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that existing ids are migrated for issue #70568."""
     test_data = {
@@ -1024,7 +1024,7 @@ async def test_migrate_existing_ids(
 @respx.mock
 @pytest.mark.usefixtures("fakeimg_png", "mock_setup_entry")
 async def test_options_use_wallclock_as_timestamps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,

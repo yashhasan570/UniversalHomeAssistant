@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.madvr.sensor import get_temperature
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -17,7 +17,7 @@ from .conftest import get_update_callback
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_setup_and_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

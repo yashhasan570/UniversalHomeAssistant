@@ -5,7 +5,7 @@ from typing import override
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import CONF_USERNAME, UnitOfBloodGlucoseConcentration
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -25,7 +25,7 @@ TRENDS = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DexcomConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

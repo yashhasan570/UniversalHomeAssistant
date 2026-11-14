@@ -15,13 +15,13 @@ from pytest_universalassistant.common import MockModule, mock_integration
 from universalassistant import loader
 from universalassistant.components import hue
 from universalassistant.components.hue import light as hue_light
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.generated.zeroconf import ZEROCONF
 from universalassistant.helpers.json import json_dumps
 from universalassistant.util.json import json_loads
 
 
-async def test_circular_component_dependencies(hass: UniversalAssistant) -> None:
+async def test_circular_component_dependencies(hass: __HAC_KEEP__) -> None:
     """Test if we can detect circular dependencies of components."""
     mock_integration(hass, MockModule("mod1"))
     mock_integration(hass, MockModule("mod2", dependencies=["mod1"]))
@@ -86,7 +86,7 @@ async def test_circular_component_dependencies(hass: UniversalAssistant) -> None
     assert result["mod4"] == {"mod4", "mod2", "mod1"}
 
 
-async def test_nonexistent_component_dependencies(hass: UniversalAssistant) -> None:
+async def test_nonexistent_component_dependencies(hass: __HAC_KEEP__) -> None:
     """Test if we can detect nonexistent dependencies of components."""
     mod_1 = mock_integration(hass, MockModule("mod1", dependencies=["nonexistent"]))
     mod_2 = mock_integration(hass, MockModule("mod2", dependencies=["mod1"]))
@@ -115,7 +115,7 @@ async def test_nonexistent_component_dependencies(hass: UniversalAssistant) -> N
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_custom_component_name(hass: UniversalAssistant) -> None:
+async def test_custom_component_name(hass: __HAC_KEEP__) -> None:
     """Test the name attribute of custom components."""
     with pytest.raises(loader.IntegrationNotFound):
         await loader.async_get_integration(hass, "test_standalone")
@@ -141,7 +141,7 @@ async def test_custom_component_name(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_log_warning_custom_component(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that we log a warning when loading a custom component."""
 
@@ -154,7 +154,7 @@ async def test_log_warning_custom_component(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_custom_integration_version_not_valid(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that we log a warning when custom integrations have a invalid version."""
     with pytest.raises(loader.IntegrationNotFound):
@@ -176,13 +176,13 @@ async def test_custom_integration_version_not_valid(
 @pytest.mark.parametrize(
     "blocked_versions",
     [
-        loader.BlockedIntegration(None, "breaks Universal Universal Home Assistant"),
-        loader.BlockedIntegration(AwesomeVersion("2.0.0"), "breaks Universal Universal Home Assistant"),
+        loader.BlockedIntegration(None, "breaks __HA_KEEP__"),
+        loader.BlockedIntegration(AwesomeVersion("2.0.0"), "breaks __HA_KEEP__"),
     ],
 )
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_custom_integration_version_blocked(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     blocked_versions,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_custom_integration_version_blocked(
 
         assert (
             "Version 1.0.0 of custom integration 'test_blocked_version' breaks"
-            " Universal Universal Home Assistant and was blocked from loading, please report it to the"
+            " __HA_KEEP__ and was blocked from loading, please report it to the"
             " author of the 'test_blocked_version' custom integration"
         ) in caplog.text
 
@@ -211,7 +211,7 @@ async def test_custom_integration_version_blocked(
 )
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_custom_integration_replaced_by_built_in(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     blocked_versions: loader.BlockedIntegration,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_custom_integration_replaced_by_built_in(
             await loader.async_get_integration(hass, "test_blocked_version")
 
         assert (
-            "Custom integration 'test_blocked_version' is now part of Universal Universal Home Assistant"
+            "Custom integration 'test_blocked_version' is now part of __HA_KEEP__"
             " as 'marketplace' and is no longer loaded"
         ) in caplog.text
         assert "please report it to the author" not in caplog.text
@@ -242,13 +242,13 @@ async def test_hacs_replaced_by_marketplace() -> None:
 @pytest.mark.parametrize(
     "blocked_versions",
     [
-        loader.BlockedIntegration(AwesomeVersion("0.9.9"), "breaks Universal Universal Home Assistant"),
-        loader.BlockedIntegration(AwesomeVersion("1.0.0"), "breaks Universal Universal Home Assistant"),
+        loader.BlockedIntegration(AwesomeVersion("0.9.9"), "breaks __HA_KEEP__"),
+        loader.BlockedIntegration(AwesomeVersion("1.0.0"), "breaks __HA_KEEP__"),
     ],
 )
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_custom_integration_version_not_blocked(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     blocked_versions,
 ) -> None:
@@ -263,7 +263,7 @@ async def test_custom_integration_version_not_blocked(
         ) not in caplog.text
 
 
-async def test_get_integration(hass: UniversalAssistant) -> None:
+async def test_get_integration(hass: __HAC_KEEP__) -> None:
     """Test resolving integration."""
     with pytest.raises(loader.IntegrationNotLoaded):
         loader.async_get_loaded_integration(hass, "hue")
@@ -277,7 +277,7 @@ async def test_get_integration(hass: UniversalAssistant) -> None:
     assert hue_light == integration.get_platform("light")
 
 
-async def test_async_get_component(hass: UniversalAssistant) -> None:
+async def test_async_get_component(hass: __HAC_KEEP__) -> None:
     """Test resolving integration."""
     with pytest.raises(loader.IntegrationNotLoaded):
         loader.async_get_loaded_integration(hass, "hue")
@@ -291,7 +291,7 @@ async def test_async_get_component(hass: UniversalAssistant) -> None:
     assert integration.get_platform("light") == hue_light
 
 
-async def test_get_integration_exceptions(hass: UniversalAssistant) -> None:
+async def test_get_integration_exceptions(hass: __HAC_KEEP__) -> None:
     """Test resolving integration."""
     integration = await loader.async_get_integration(hass, "hue")
 
@@ -315,7 +315,7 @@ async def test_get_integration_exceptions(hass: UniversalAssistant) -> None:
 
 
 async def test_get_platform_caches_failures_when_component_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test get_platform caches failures only when the component is loaded.
 
@@ -369,7 +369,7 @@ async def test_get_platform_caches_failures_when_component_loaded(
 
 
 async def test_get_platform_only_cached_module_not_found_when_component_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test get_platform caches module not found when loaded."""
     integration = await loader.async_get_integration(hass, "hue")
@@ -419,7 +419,7 @@ async def test_get_platform_only_cached_module_not_found_when_component_loaded(
 
 
 async def test_async_get_platform_caches_failures_when_component_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_get_platform caches failures only when the component is loaded.
 
@@ -476,7 +476,7 @@ async def test_async_get_platform_caches_failures_when_component_loaded(
 
 
 async def test_async_get_platforms_caches_failures_when_component_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_get_platforms cache failures only when the component is loaded.
 
@@ -533,7 +533,7 @@ async def test_async_get_platforms_caches_failures_when_component_loaded(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_get_integration_legacy(hass: UniversalAssistant) -> None:
+async def test_get_integration_legacy(hass: __HAC_KEEP__) -> None:
     """Test resolving integration."""
     integration = await loader.async_get_integration(hass, "test_embedded")
     assert integration.get_component().DOMAIN == "test_embedded"
@@ -542,7 +542,7 @@ async def test_get_integration_legacy(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_get_integration_custom_component(hass: UniversalAssistant) -> None:
+async def test_get_integration_custom_component(hass: __HAC_KEEP__) -> None:
     """Test resolving integration."""
     integration = await loader.async_get_integration(hass, "test_package")
 
@@ -550,7 +550,7 @@ async def test_get_integration_custom_component(hass: UniversalAssistant) -> Non
     assert integration.name == "Test Package"
 
 
-def test_integration_properties(hass: UniversalAssistant) -> None:
+def test_integration_properties(hass: __HAC_KEEP__) -> None:
     """Test integration properties."""
     integration = loader.Integration(
         hass,
@@ -682,7 +682,7 @@ def test_integration_properties(hass: UniversalAssistant) -> None:
     assert integration.ssdp is None
 
 
-async def test_integrations_only_once(hass: UniversalAssistant) -> None:
+async def test_integrations_only_once(hass: __HAC_KEEP__) -> None:
     """Test that we load integrations only once."""
     int_1 = hass.async_create_task(loader.async_get_integration(hass, "hue"))
     int_2 = hass.async_create_task(loader.async_get_integration(hass, "hue"))
@@ -691,7 +691,7 @@ async def test_integrations_only_once(hass: UniversalAssistant) -> None:
 
 
 def _get_test_integration(
-    hass: UniversalAssistant, name: str, config_flow: bool, import_executor: bool = False
+    hass: __HAC_KEEP__, name: str, config_flow: bool, import_executor: bool = False
 ) -> loader.Integration:
     """Return a generated test integration."""
     return loader.Integration(
@@ -714,7 +714,7 @@ def _get_test_integration(
 
 
 def _get_test_integration_with_application_credentials(
-    hass: UniversalAssistant, name: str
+    hass: __HAC_KEEP__, name: str
 ) -> loader.Integration:
     """Return a generated test integration with application_credentials support."""
     return loader.Integration(
@@ -736,7 +736,7 @@ def _get_test_integration_with_application_credentials(
 
 
 def _get_test_integration_with_zeroconf_matcher(
-    hass: UniversalAssistant, name: str, config_flow: bool
+    hass: __HAC_KEEP__, name: str, config_flow: bool
 ) -> loader.Integration:
     """Return a generated test integration with a zeroconf matcher."""
     return loader.Integration(
@@ -757,7 +757,7 @@ def _get_test_integration_with_zeroconf_matcher(
 
 
 def _get_test_integration_with_legacy_zeroconf_matcher(
-    hass: UniversalAssistant, name: str, config_flow: bool
+    hass: __HAC_KEEP__, name: str, config_flow: bool
 ) -> loader.Integration:
     """Return a generated test integration with a legacy zeroconf matcher."""
     return loader.Integration(
@@ -786,7 +786,7 @@ def _get_test_integration_with_legacy_zeroconf_matcher(
 
 
 def _get_test_integration_with_dhcp_matcher(
-    hass: UniversalAssistant, name: str, config_flow: bool
+    hass: __HAC_KEEP__, name: str, config_flow: bool
 ) -> loader.Integration:
     """Return a generated test integration with a dhcp matcher."""
     return loader.Integration(
@@ -812,7 +812,7 @@ def _get_test_integration_with_dhcp_matcher(
 
 
 def _get_test_integration_with_bluetooth_matcher(
-    hass: UniversalAssistant, name: str, config_flow: bool
+    hass: __HAC_KEEP__, name: str, config_flow: bool
 ) -> loader.Integration:
     """Return a generated test integration with a bluetooth matcher."""
     return loader.Integration(
@@ -833,7 +833,7 @@ def _get_test_integration_with_bluetooth_matcher(
 
 
 def _get_test_integration_with_usb_matcher(
-    hass: UniversalAssistant, name: str, config_flow: bool
+    hass: __HAC_KEEP__, name: str, config_flow: bool
 ) -> loader.Integration:
     """Return a generated test integration with a usb matcher."""
     return loader.Integration(
@@ -865,7 +865,7 @@ def _get_test_integration_with_usb_matcher(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_get_custom_components(hass: UniversalAssistant) -> None:
+async def test_get_custom_components(hass: __HAC_KEEP__) -> None:
     """Verify that custom components are cached."""
     test_1_integration = _get_test_integration(hass, "test_1", False)
     test_2_integration = _get_test_integration(hass, "test_2", True)
@@ -884,7 +884,7 @@ async def test_get_custom_components(hass: UniversalAssistant) -> None:
 
 
 async def test_integration_descriptions_custom_categories(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the descriptions give the categories of custom integrations."""
     custom_components = {
@@ -913,7 +913,7 @@ async def test_integration_descriptions_custom_categories(
 
 
 async def test_integration_descriptions_custom_connectivity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the descriptions give the connectivity of custom integrations."""
     custom_components = {
@@ -942,14 +942,14 @@ async def test_integration_descriptions_custom_connectivity(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_get_custom_components_concurrent_load_cancelled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify cancelling a waiting caller does not break the in-progress load."""
     custom_components = {"test_1": _get_test_integration(hass, "test_1", False)}
     start_event = threading.Event()
     load_event = asyncio.Event()
 
-    def get_custom_components(hass: UniversalAssistant) -> dict[str, loader.Integration]:
+    def get_custom_components(hass: __HAC_KEEP__) -> dict[str, loader.Integration]:
         hass.loop.call_soon_threadsafe(load_event.set)
         start_event.wait()
         return custom_components
@@ -968,7 +968,7 @@ async def test_get_custom_components_concurrent_load_cancelled(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_clear_custom_components_cache(hass: UniversalAssistant) -> None:
+async def test_clear_custom_components_cache(hass: __HAC_KEEP__) -> None:
     """Verify that clearing the cache makes the next call scan again."""
     integration = _get_test_integration(hass, "test_1", False)
 
@@ -986,7 +986,7 @@ async def test_clear_custom_components_cache(hass: UniversalAssistant) -> None:
 @pytest.mark.parametrize("error", [OSError, asyncio.CancelledError])
 @pytest.mark.parametrize("waiter_count", [0, 1])
 async def test_get_custom_components_failed_scan(
-    hass: UniversalAssistant, error: type[BaseException], waiter_count: int
+    hass: __HAC_KEEP__, error: type[BaseException], waiter_count: int
 ) -> None:
     """A failed scan releases concurrent callers and allows a retry."""
     loader.async_clear_custom_components_cache(hass)
@@ -1013,7 +1013,7 @@ async def test_get_custom_components_failed_scan(
 
 @pytest.mark.parametrize("error", [OSError, asyncio.CancelledError])
 async def test_get_custom_components_failed_scan_preserves_newer_cache(
-    hass: UniversalAssistant, error: type[BaseException]
+    hass: __HAC_KEEP__, error: type[BaseException]
 ) -> None:
     """A failed older scan must not clear a newer scan's cached result."""
     loader.async_clear_custom_components_cache(hass)
@@ -1034,7 +1034,7 @@ async def test_get_custom_components_failed_scan_preserves_newer_cache(
 
 
 async def test_clear_custom_components_cache_without_a_cache(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify that clearing an empty cache is a no-op."""
     loader.async_clear_custom_components_cache(hass)
@@ -1044,7 +1044,7 @@ async def test_clear_custom_components_cache_without_a_cache(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_clear_custom_components_cache_while_it_is_built(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify that a caller waiting for the list still gets its result."""
     integration = _get_test_integration(hass, "test_1", False)
@@ -1062,7 +1062,7 @@ async def test_clear_custom_components_cache_while_it_is_built(
 
 
 async def test_clear_custom_components_cache_during_a_scan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify a scan that started before a clear does not put its result back."""
     before = {"test_1": _get_test_integration(hass, "test_1", False)}
@@ -1094,7 +1094,7 @@ async def test_clear_custom_components_cache_during_a_scan(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_custom_component_overwriting_core(hass: UniversalAssistant) -> None:
+async def test_custom_component_overwriting_core(hass: __HAC_KEEP__) -> None:
     """Test loading a custom component that overwrites a core component."""
     # First load the core 'light' component
     core_light = await loader.async_get_integration(hass, "light")
@@ -1116,7 +1116,7 @@ async def test_custom_component_overwriting_core(hass: UniversalAssistant) -> No
     assert custom_light.version == "1.0.0"
 
 
-async def test_get_config_flows(hass: UniversalAssistant) -> None:
+async def test_get_config_flows(hass: __HAC_KEEP__) -> None:
     """Verify that custom components with config_flow are available."""
     test_1_integration = _get_test_integration(hass, "test_1", False)
     test_2_integration = _get_test_integration(hass, "test_2", True)
@@ -1131,7 +1131,7 @@ async def test_get_config_flows(hass: UniversalAssistant) -> None:
         assert "test_1" not in flows
 
 
-async def test_get_zeroconf(hass: UniversalAssistant) -> None:
+async def test_get_zeroconf(hass: __HAC_KEEP__) -> None:
     """Verify that custom components with zeroconf are found."""
     test_1_integration = _get_test_integration(hass, "test_1", True)
     test_2_integration = _get_test_integration_with_zeroconf_matcher(
@@ -1150,7 +1150,7 @@ async def test_get_zeroconf(hass: UniversalAssistant) -> None:
         ]
 
 
-async def test_get_zeroconf_does_not_mutate_generated(hass: UniversalAssistant) -> None:
+async def test_get_zeroconf_does_not_mutate_generated(hass: __HAC_KEEP__) -> None:
     """Verify custom matchers for an existing type do not leak into the generated table."""
     integration = loader.Integration(
         hass,
@@ -1176,7 +1176,7 @@ async def test_get_zeroconf_does_not_mutate_generated(hass: UniversalAssistant) 
     assert ZEROCONF["_http._tcp.local."] == generated
 
 
-async def test_get_application_credentials(hass: UniversalAssistant) -> None:
+async def test_get_application_credentials(hass: __HAC_KEEP__) -> None:
     """Verify that custom components with application_credentials are found."""
     test_1_integration = _get_test_integration(hass, "test_1", True)
     test_2_integration = _get_test_integration_with_application_credentials(
@@ -1193,7 +1193,7 @@ async def test_get_application_credentials(hass: UniversalAssistant) -> None:
         assert "test_1" not in application_credentials
 
 
-async def test_get_zeroconf_back_compat(hass: UniversalAssistant) -> None:
+async def test_get_zeroconf_back_compat(hass: __HAC_KEEP__) -> None:
     """Verify custom components with zeroconf and legacy matchers."""
     test_1_integration = _get_test_integration(hass, "test_1", True)
     test_2_integration = _get_test_integration_with_legacy_zeroconf_matcher(
@@ -1220,7 +1220,7 @@ async def test_get_zeroconf_back_compat(hass: UniversalAssistant) -> None:
         ]
 
 
-async def test_get_bluetooth(hass: UniversalAssistant) -> None:
+async def test_get_bluetooth(hass: __HAC_KEEP__) -> None:
     """Verify that custom components with bluetooth are found."""
     test_1_integration = _get_test_integration_with_bluetooth_matcher(
         hass, "test_1", True
@@ -1240,7 +1240,7 @@ async def test_get_bluetooth(hass: UniversalAssistant) -> None:
         ]
 
 
-async def test_get_dhcp(hass: UniversalAssistant) -> None:
+async def test_get_dhcp(hass: __HAC_KEEP__) -> None:
     """Verify that custom components with dhcp are found."""
     test_1_integration = _get_test_integration_with_dhcp_matcher(hass, "test_1", True)
 
@@ -1257,7 +1257,7 @@ async def test_get_dhcp(hass: UniversalAssistant) -> None:
         ]
 
 
-async def test_get_usb(hass: UniversalAssistant) -> None:
+async def test_get_usb(hass: __HAC_KEEP__) -> None:
     """Verify that custom components with usb matchers are found."""
     test_1_integration = _get_test_integration_with_usb_matcher(hass, "test_1", True)
 
@@ -1275,7 +1275,7 @@ async def test_get_usb(hass: UniversalAssistant) -> None:
         ]
 
 
-async def test_get_homekit(hass: UniversalAssistant) -> None:
+async def test_get_homekit(hass: __HAC_KEEP__) -> None:
     """Verify that custom components with homekit are found."""
     test_1_integration = _get_test_integration(hass, "test_1", True)
     test_2_integration = _get_test_integration(hass, "test_2", True)
@@ -1290,7 +1290,7 @@ async def test_get_homekit(hass: UniversalAssistant) -> None:
         assert homekit["test_2"] == loader.HomeKitDiscoveredIntegration("test_2", True)
 
 
-async def test_get_ssdp(hass: UniversalAssistant) -> None:
+async def test_get_ssdp(hass: __HAC_KEEP__) -> None:
     """Verify that custom components with ssdp are found."""
     test_1_integration = _get_test_integration(hass, "test_1", True)
     test_2_integration = _get_test_integration(hass, "test_2", True)
@@ -1305,7 +1305,7 @@ async def test_get_ssdp(hass: UniversalAssistant) -> None:
         assert ssdp["test_2"] == [{"manufacturer": "test_2", "modelName": "test_2"}]
 
 
-async def test_get_mqtt(hass: UniversalAssistant) -> None:
+async def test_get_mqtt(hass: __HAC_KEEP__) -> None:
     """Verify that custom components with MQTT are found."""
     test_1_integration = _get_test_integration(hass, "test_1", True)
     test_2_integration = _get_test_integration(hass, "test_2", True)
@@ -1321,7 +1321,7 @@ async def test_get_mqtt(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_import_platform_executor(hass: UniversalAssistant) -> None:
+async def test_import_platform_executor(hass: __HAC_KEEP__) -> None:
     """Test import a platform in the executor."""
     integration = await loader.async_get_integration(
         hass, "test_package_loaded_executor"
@@ -1348,13 +1348,13 @@ async def test_import_platform_executor(hass: UniversalAssistant) -> None:
     assert await config_flow_task1_result._async_has_devices(hass) is True
 
 
-async def test_get_custom_components_recovery_mode(hass: UniversalAssistant) -> None:
+async def test_get_custom_components_recovery_mode(hass: __HAC_KEEP__) -> None:
     """Test that we get empty custom components in recovery mode."""
     hass.config.recovery_mode = True
     assert await loader.async_get_custom_components(hass) == {}
 
 
-async def test_custom_integration_missing_version(hass: UniversalAssistant) -> None:
+async def test_custom_integration_missing_version(hass: __HAC_KEEP__) -> None:
     """Test loading custom integration without version twice."""
     with pytest.raises(loader.IntegrationNotFound):
         await loader.async_get_integration(hass, "test_no_version")
@@ -1363,7 +1363,7 @@ async def test_custom_integration_missing_version(hass: UniversalAssistant) -> N
         await loader.async_get_integration(hass, "test_no_version")
 
 
-async def test_custom_integration_missing(hass: UniversalAssistant) -> None:
+async def test_custom_integration_missing(hass: __HAC_KEEP__) -> None:
     """Test trying to load a custom integration that is missing twice not deadlock."""
     with patch("universalassistant.loader.async_get_custom_components") as mock_get:
         mock_get.return_value = {}
@@ -1375,13 +1375,13 @@ async def test_custom_integration_missing(hass: UniversalAssistant) -> None:
             await loader.async_get_integration(hass, "test1")
 
 
-async def test_validation(hass: UniversalAssistant) -> None:
+async def test_validation(hass: __HAC_KEEP__) -> None:
     """Test we raise if invalid domain passed in."""
     with pytest.raises(ValueError):
         await loader.async_get_integration(hass, "some.thing")
 
 
-async def test_loggers(hass: UniversalAssistant) -> None:
+async def test_loggers(hass: __HAC_KEEP__) -> None:
     """Test we can fetch the loggers from the integration."""
     name = "dummy"
     integration = loader.Integration(
@@ -1401,7 +1401,7 @@ async def test_loggers(hass: UniversalAssistant) -> None:
 
 
 CORE_ISSUE_TRACKER = (
-    "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue"
+    "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue"
 )
 CORE_ISSUE_TRACKER_BUILT_IN = (
     CORE_ISSUE_TRACKER + "+label%3A%22integration%3A+bla_built_in%22"
@@ -1445,7 +1445,7 @@ CUSTOM_ISSUE_TRACKER = "https://blablabla.com"
     ],
 )
 async def test_async_get_issue_tracker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str | None,
     module: str | None,
     issue_tracker: str | None,
@@ -1509,7 +1509,7 @@ async def test_async_get_issue_tracker(
     ],
 )
 async def test_async_get_issue_tracker_no_hass(
-    hass: UniversalAssistant, domain: str | None, module: str | None, issue_tracker: str
+    hass: __HAC_KEEP__, domain: str | None, module: str | None, issue_tracker: str
 ) -> None:
     """Test async_get_issue_tracker."""
     mock_integration(hass, MockModule("bla_built_in"))
@@ -1542,7 +1542,7 @@ REPORT_CUSTOM_UNKNOWN = "report it to the custom integration author"
     ],
 )
 async def test_async_suggest_report_issue(
-    hass: UniversalAssistant, domain: str | None, module: str | None, report_issue: str
+    hass: __HAC_KEEP__, domain: str | None, module: str | None, report_issue: str
 ) -> None:
     """Test async_suggest_report_issue."""
     mock_integration(hass, MockModule("bla_built_in"))
@@ -1562,7 +1562,7 @@ async def test_async_suggest_report_issue(
     )
 
 
-def test_import_executor_default(hass: UniversalAssistant) -> None:
+def test_import_executor_default(hass: __HAC_KEEP__) -> None:
     """Test that import_executor defaults."""
     custom_comp = mock_integration(hass, MockModule("any_random"), built_in=False)
     assert custom_comp.import_executor is True
@@ -1583,7 +1583,7 @@ async def test_config_folder_not_in_path() -> None:
 
 
 async def test_async_get_component_preloads_config_and_config_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify async_get_component preloads config and config_flow."""
     executor_import_integration = _get_test_integration(
@@ -1629,7 +1629,7 @@ async def test_async_get_component_preloads_config_and_config_flow(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_async_get_component_loads_loop_if_already_in_sys_modules(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Verify async_get_component skips executor if already in sys.modules."""
     integration = await loader.async_get_integration(
@@ -1692,7 +1692,7 @@ async def test_async_get_component_loads_loop_if_already_in_sys_modules(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_async_get_component_concurrent_loads(hass: UniversalAssistant) -> None:
+async def test_async_get_component_concurrent_loads(hass: __HAC_KEEP__) -> None:
     """Verify async_get_component waits if load is in progress."""
     integration = await loader.async_get_integration(
         hass, "test_package_loaded_executor"
@@ -1752,7 +1752,7 @@ async def test_async_get_component_concurrent_loads(hass: UniversalAssistant) ->
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_async_get_component_concurrent_load_cancelled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify cancelling a waiting caller does not break the in-progress load."""
     integration = await loader.async_get_integration(
@@ -1800,7 +1800,7 @@ async def test_async_get_component_concurrent_load_cancelled(
 
 
 async def test_async_get_component_deadlock_fallback(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Verify async_get_component falls back to event loop."""
     executor_import_integration = _get_test_integration(
@@ -1838,7 +1838,7 @@ async def test_async_get_component_deadlock_fallback(
 
 
 async def test_async_get_component_deadlock_fallback_module_not_found(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Verify async_get_component fallback behavior.
 
@@ -1882,7 +1882,7 @@ async def test_async_get_component_deadlock_fallback_module_not_found(
 
 
 async def test_async_get_component_raises_after_import_failure(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Verify async_get_component raises on import failure."""
     executor_import_integration = _get_test_integration(
@@ -1924,7 +1924,7 @@ async def test_async_get_component_raises_after_import_failure(
 
 
 async def test_async_get_platform_deadlock_fallback(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Verify async_get_platform fallback to importing in the event loop on deadlock."""
     executor_import_integration = _get_test_integration(
@@ -1964,7 +1964,7 @@ async def test_async_get_platform_deadlock_fallback(
 
 
 async def test_async_get_platform_deadlock_fallback_module_not_found(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Verify async_get_platform fallback behavior.
 
@@ -2010,7 +2010,7 @@ async def test_async_get_platform_deadlock_fallback_module_not_found(
 
 
 async def test_async_get_platform_raises_after_import_failure(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Verify async_get_platform raises on import failure."""
     executor_import_integration = _get_test_integration(
@@ -2056,7 +2056,7 @@ async def test_async_get_platform_raises_after_import_failure(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_platforms_exists(hass: UniversalAssistant) -> None:
+async def test_platforms_exists(hass: __HAC_KEEP__) -> None:
     """Test platforms_exists."""
     original_os_listdir = os.listdir
 
@@ -2114,7 +2114,7 @@ async def test_platforms_exists(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_async_get_platforms_loads_loop_if_already_in_sys_modules(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Verify async_get_platforms does not create an executor job.
 
@@ -2215,7 +2215,7 @@ async def test_async_get_platforms_loads_loop_if_already_in_sys_modules(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_async_get_platforms_concurrent_loads(hass: UniversalAssistant) -> None:
+async def test_async_get_platforms_concurrent_loads(hass: __HAC_KEEP__) -> None:
     """Verify async_get_platforms waits if the first load if called again.
 
     Case is for when when a second load is called
@@ -2278,7 +2278,7 @@ async def test_async_get_platforms_concurrent_loads(hass: UniversalAssistant) ->
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_async_get_platforms_concurrent_load_cancelled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify cancelling a waiting caller does not break the in-progress load."""
     integration = await loader.async_get_integration(
@@ -2326,7 +2326,7 @@ async def test_async_get_platforms_concurrent_load_cancelled(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_integration_warnings(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test integration warnings."""
     await loader.async_get_integration(hass, "test_package_loaded_loop")
@@ -2334,7 +2334,7 @@ async def test_integration_warnings(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_has_services(hass: UniversalAssistant) -> None:
+async def test_has_services(hass: __HAC_KEEP__) -> None:
     """Test has_services."""
     integration = await loader.async_get_integration(hass, "test")
     assert integration.has_services is False
@@ -2342,7 +2342,7 @@ async def test_has_services(hass: UniversalAssistant) -> None:
     assert integration.has_services is True
 
 
-async def test_manifest_json_fragment_round_trip(hass: UniversalAssistant) -> None:
+async def test_manifest_json_fragment_round_trip(hass: __HAC_KEEP__) -> None:
     """Test json_fragment roundtrip."""
     integration = await loader.async_get_integration(hass, "hue")
     assert (
@@ -2352,7 +2352,7 @@ async def test_manifest_json_fragment_round_trip(hass: UniversalAssistant) -> No
 
 
 async def test_async_get_integrations_multiple_non_existent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_get_integrations with multiple non-existent integrations."""
     integrations = await loader.async_get_integrations(hass, ["does_not_exist"])
@@ -2388,7 +2388,7 @@ async def test_async_get_integrations_multiple_non_existent(
 
     # Make sure IntegrationNotFound is not cached
     # so configuration errors can be fixed as to
-    # not prevent Universal Universal Home Assistant from being restarted
+    # not prevent __HA_KEEP__ from being restarted
     integration = loader.Integration(
         hass,
         "custom_components.does_not_exist",
@@ -2416,7 +2416,7 @@ async def test_async_get_integrations_multiple_non_existent(
     ],
 )
 async def test_get_lorawan(
-    hass: UniversalAssistant, vendors: list[tuple[str, int | str]]
+    hass: __HAC_KEEP__, vendors: list[tuple[str, int | str]]
 ) -> None:
     """Custom registrations replace built-ins without changing generated data."""
     integration = _get_test_integration(hass, "sensecap", True)
@@ -2461,7 +2461,7 @@ async def test_get_lorawan(
         [["tts", "sensecap"], ["tts", "sensecap"]],
     ],
 )
-async def test_invalid_lorawan_registration(hass: UniversalAssistant, value: object) -> None:
+async def test_invalid_lorawan_registration(hass: __HAC_KEEP__, value: object) -> None:
     """An invalid custom matcher cannot break other vendors' discovery."""
     integration = _get_test_integration(hass, "sensecap", True)
     integration.manifest["lorawan"] = value
@@ -2486,7 +2486,7 @@ async def test_invalid_lorawan_registration(hass: UniversalAssistant, value: obj
 
 
 @pytest.mark.parametrize("missing", ["config_flow", "dependencies"])
-async def test_missing_lorawan_requirement(hass: UniversalAssistant, missing: str) -> None:
+async def test_missing_lorawan_requirement(hass: __HAC_KEEP__, missing: str) -> None:
     """Custom discovery requires a config flow and the shared integration."""
     integration = _get_test_integration(hass, "sensecap", True)
     integration.manifest["lorawan"] = [["chirpstack", 744]]

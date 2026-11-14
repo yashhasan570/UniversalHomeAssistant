@@ -1,9 +1,9 @@
-"""Universal Universal Home Assistant component for accessing the Wallbox Portal API switch."""
+"""__HA_KEEP__ component for accessing the Wallbox Portal API switch."""
 
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -25,7 +25,7 @@ SWITCH_TYPES: dict[str, SwitchEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WallboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

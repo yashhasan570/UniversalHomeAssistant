@@ -3,7 +3,7 @@
 import pytest
 
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, UnitOfTemperature, UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import (
     MOCK_ASYNC_GET_STATUS_ACTIVE,
@@ -13,7 +13,7 @@ from . import (
 
 
 @pytest.mark.usefixtures("mock_aio_discovery")
-async def test_steam_active(hass: UniversalAssistant) -> None:
+async def test_steam_active(hass: __HAC_KEEP__) -> None:
     """Test that the sensors are setup with the expected values when steam is active."""
     await _async_setup_entry_with_status(hass, MOCK_ASYNC_GET_STATUS_ACTIVE)
     state = hass.states.get("sensor.steam_temperature")
@@ -25,7 +25,7 @@ async def test_steam_active(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_aio_discovery")
-async def test_steam_inactive(hass: UniversalAssistant) -> None:
+async def test_steam_inactive(hass: __HAC_KEEP__) -> None:
     """Test sensors have expected values when steam is not active."""
     await _async_setup_entry_with_status(hass, MOCK_ASYNC_GET_STATUS_INACTIVE)
     state = hass.states.get("sensor.steam_temperature")

@@ -15,7 +15,7 @@ from universalassistant.components.mitsubishi_comfort.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -40,7 +40,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def test_user_step_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_account: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_user_step_success(
 
 
 async def test_user_step_persists_partial_records(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_account: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -146,7 +146,7 @@ def _partial_device_info() -> DeviceInfo:
 
 
 async def test_user_step_retry_replays_partial_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_account: AsyncMock,
 ) -> None:
     """Test a retry replays the fields recovered by a failed earlier attempt.
@@ -200,7 +200,7 @@ async def test_user_step_retry_replays_partial_credentials(
 
 
 async def test_user_step_empty_account_response_keeps_cached_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_account: AsyncMock,
     mock_device_info: DeviceInfo,
 ) -> None:
@@ -246,7 +246,7 @@ async def test_user_step_empty_account_response_keeps_cached_credentials(
 
 
 async def test_user_step_username_change_drops_cached_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_account: AsyncMock,
     mock_device_info: DeviceInfo,
 ) -> None:
@@ -329,7 +329,7 @@ async def test_user_step_username_change_drops_cached_credentials(
     ],
 )
 async def test_user_step_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_account: AsyncMock,
     mock_device_info: DeviceInfo,
     side_effect: Exception | None,
@@ -362,7 +362,7 @@ async def test_user_step_errors(
 
 
 async def test_user_step_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_cloud_account: AsyncMock,
 ) -> None:
@@ -399,7 +399,7 @@ def _register_device(
 
 
 async def test_dhcp_updates_address_and_reloads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -425,7 +425,7 @@ async def test_dhcp_updates_address_and_reloads(
 
 
 async def test_dhcp_same_address_does_not_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -448,7 +448,7 @@ async def test_dhcp_same_address_does_not_reload(
 
 
 async def test_dhcp_unregistered_device_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -473,7 +473,7 @@ async def test_dhcp_unregistered_device_ignored(
 
 
 async def test_dhcp_device_without_current_entry_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test DHCP aborts when the registered device has no current owning entry.
@@ -501,7 +501,7 @@ async def test_dhcp_device_without_current_entry_aborts(
     mock_reload.assert_not_called()
 
 
-async def test_dhcp_no_account_aborts(hass: UniversalAssistant) -> None:
+async def test_dhcp_no_account_aborts(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery with no configured account aborts without a flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

@@ -16,7 +16,7 @@ from universalassistant.components.climate import (
     ClimateServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -24,7 +24,7 @@ from . import init_integration
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_entities(
 
 
 async def test_set_target_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_temperature: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_set_target_temperature(
     ],
 )
 async def test_set_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_temperature: AsyncMock,
     config_entry: MockConfigEntry,
     set_mode: str,
@@ -94,7 +94,7 @@ async def test_set_preset_mode(
     ],
 )
 async def test_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_temperature: AsyncMock,
     config_entry: MockConfigEntry,
     set_mode: str,
@@ -114,7 +114,7 @@ async def test_set_hvac_mode(
 
 
 async def test_set_hvac_mode_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_temperature: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:

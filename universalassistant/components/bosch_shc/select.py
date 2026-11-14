@@ -35,7 +35,7 @@ from boschshcpy.services_impl import (
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BoschConfigEntry
@@ -422,7 +422,7 @@ DIMMER_PHASE_CONTROL_DESCRIPTION = SHCSelectEntityDescription[SHCMicromoduleDimm
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BoschConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -665,7 +665,7 @@ class SHCSelect[_DeviceT: SHCDevice](SHCEntity, SelectEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: _DeviceT,
         parent_id: str,
         entry_id: str,

@@ -10,11 +10,11 @@ from universalassistant.components.willow.application_credentials import (
     async_get_auth_implementation,
 )
 from universalassistant.components.willow.const import DOMAIN, OAUTH2_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-def implementation(hass: UniversalAssistant) -> WillowOAuth2Implementation:
+def implementation(hass: __HAC_KEEP__) -> WillowOAuth2Implementation:
     """Return a Willow OAuth2 implementation."""
     return WillowOAuth2Implementation(
         hass,
@@ -26,7 +26,7 @@ def implementation(hass: UniversalAssistant) -> WillowOAuth2Implementation:
     )
 
 
-async def test_async_get_auth_implementation(hass: UniversalAssistant) -> None:
+async def test_async_get_auth_implementation(hass: __HAC_KEEP__) -> None:
     """The platform returns a Willow OAuth2 implementation."""
     implementation = await async_get_auth_implementation(
         hass, DOMAIN, ClientCredential("client-id", "client-secret")
@@ -35,7 +35,7 @@ async def test_async_get_auth_implementation(hass: UniversalAssistant) -> None:
 
 
 async def test_resolve_external_data_adds_default_expiry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     implementation: WillowOAuth2Implementation,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_resolve_external_data_adds_default_expiry(
 
 
 async def test_resolve_external_data_keeps_provided_expiry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     implementation: WillowOAuth2Implementation,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_resolve_external_data_keeps_provided_expiry(
 
 
 async def test_refresh_token_without_refresh_token_is_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     implementation: WillowOAuth2Implementation,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_refresh_token_without_refresh_token_is_noop(
 
 
 async def test_refresh_token_normalizes_expiry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     implementation: WillowOAuth2Implementation,
 ) -> None:

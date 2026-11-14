@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry, get_schema_suggest
 from universalassistant import config_entries
 from universalassistant.components.utility_meter.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 @pytest.mark.parametrize("platform", ["sensor"])
-async def test_config_flow(hass: UniversalAssistant, platform) -> None:
+async def test_config_flow(hass: __HAC_KEEP__, platform) -> None:
     """Test the config flow."""
     input_sensor_entity_id = "sensor.input"
 
@@ -72,7 +72,7 @@ async def test_config_flow(hass: UniversalAssistant, platform) -> None:
     assert config_entry.title == "Electricity meter"
 
 
-async def test_tariffs(hass: UniversalAssistant) -> None:
+async def test_tariffs(hass: __HAC_KEEP__) -> None:
     """Test tariffs."""
     input_sensor_entity_id = "sensor.input"
 
@@ -160,7 +160,7 @@ async def test_tariffs(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_offset_max_27_days(hass: UniversalAssistant) -> None:
+async def test_offset_max_27_days(hass: __HAC_KEEP__) -> None:
     """Test the offset is capped at 27 days, matching the YAML limit."""
     user_input = {
         "cycle": "monthly",
@@ -191,7 +191,7 @@ async def test_offset_max_27_days(hass: UniversalAssistant) -> None:
     assert result["result"].state is ConfigEntryState.LOADED
 
 
-async def test_non_periodically_resetting(hass: UniversalAssistant) -> None:
+async def test_non_periodically_resetting(hass: __HAC_KEEP__) -> None:
     """Test periodically resetting."""
     input_sensor_entity_id = "sensor.input"
 
@@ -244,7 +244,7 @@ async def test_non_periodically_resetting(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_always_available(hass: UniversalAssistant) -> None:
+async def test_always_available(hass: __HAC_KEEP__) -> None:
     """Test sensor always available."""
     input_sensor_entity_id = "sensor.input"
 
@@ -298,7 +298,7 @@ async def test_always_available(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_options(hass: UniversalAssistant) -> None:
+async def test_options(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring."""
     input_sensor1_entity_id = "sensor.input1"
     input_sensor2_entity_id = "sensor.input2"
@@ -369,7 +369,7 @@ async def test_options(hass: UniversalAssistant) -> None:
 
 
 async def test_change_device_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

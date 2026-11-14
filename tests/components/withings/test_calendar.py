@@ -9,13 +9,13 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import load_workout_fixture, setup_integration
 
 
 async def test_api_calendar(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
@@ -32,7 +32,7 @@ async def test_api_calendar(
 
 
 async def test_api_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_api_events(
 
 
 async def test_calendar_created_when_workouts_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,

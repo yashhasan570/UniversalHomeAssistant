@@ -8,14 +8,14 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import add_mock_config
 
 
 async def test_select_async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_get: AsyncMock,
     mock_update: AsyncMock,

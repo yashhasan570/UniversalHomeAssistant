@@ -10,7 +10,7 @@ from universalassistant.components.lawn_mower import (
     LawnMowerEntity,
     LawnMowerEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HusqvarnaConfigEntry
@@ -20,7 +20,7 @@ from .entity import HusqvarnaAutomowerBleEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HusqvarnaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

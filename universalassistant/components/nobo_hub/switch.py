@@ -6,8 +6,8 @@ from pynobo import PynoboError, nobo
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -19,7 +19,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: NoboHubConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -61,7 +61,7 @@ class NoboDisableGlobalOverrideSwitch(NoboBaseEntity, SwitchEntity):
     _attr_entity_category = EntityCategory.CONFIG
 
     def __init__(
-        self, hass: UniversalAssistant, zone_id: str, hub: nobo, entry_id: str
+        self, hass: __HAC_KEEP__, zone_id: str, hub: nobo, entry_id: str
     ) -> None:
         """Initialize the disable-global-override switch."""
         super().__init__(hass, hub, entry_id)
@@ -92,7 +92,7 @@ class NoboDisableGlobalOverrideSwitch(NoboBaseEntity, SwitchEntity):
                 self._id, override_allowed=override_allowed
             )
         except PynoboError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_disable_global_override_failed",
             ) from err

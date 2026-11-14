@@ -6,7 +6,7 @@ from zamg import ZamgData as ZamgDevice
 from zamg.exceptions import ZamgError, ZamgNoDataError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -24,7 +24,7 @@ class ZamgDataUpdateCoordinator(DataUpdateCoordinator[ZamgDevice]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         *,
         entry: ZamgConfigEntry,
     ) -> None:

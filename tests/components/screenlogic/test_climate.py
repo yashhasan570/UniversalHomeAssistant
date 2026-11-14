@@ -19,7 +19,7 @@ from universalassistant.components.climate import (
     HVACAction,
     HVACMode,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import slugify
 
 from . import (
@@ -68,7 +68,7 @@ _LOGGER = logging.getLogger(__name__)
     ],
 )
 async def test_climate_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     tested_dataset: dict,
     expected_entity_states: dict,

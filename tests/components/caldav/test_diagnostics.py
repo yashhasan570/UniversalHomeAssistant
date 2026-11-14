@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def _mock_calendar(name: str | None, components: list[str]) -> Mock:
@@ -33,7 +33,7 @@ def mock_calendars() -> list[Mock]:
 
 @pytest.mark.freeze_time("2023-06-05")
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -58,7 +58,7 @@ async def test_entry_diagnostics(
     ids=["connection_error", "timeout", "dav_error"],
 )
 async def test_entry_diagnostics_server_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     dav_client: Mock,
@@ -77,7 +77,7 @@ async def test_entry_diagnostics_server_error(
 
 @pytest.mark.freeze_time("2023-06-05")
 async def test_entry_diagnostics_setup_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     dav_client: Mock,

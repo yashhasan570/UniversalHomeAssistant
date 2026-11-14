@@ -19,7 +19,7 @@ from pyfibaro.fibaro_state_resolver import FibaroEvent
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import AnyDeviceEntry, DeviceInfo
@@ -298,7 +298,7 @@ def init_controller(data: Mapping[str, Any]) -> FibaroController:
     return FibaroController(client, info, data[CONF_IMPORT_PLUGINS])
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FibaroConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FibaroConfigEntry) -> None:
     """Set up the Fibaro Component.
 
     The unique id of the config entry is the serial number of the home center.
@@ -333,7 +333,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FibaroConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: FibaroConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: FibaroConfigEntry) -> None:
     """Migrate device identifiers to use string Fibaro IDs."""
     if entry.version == 1:
         device_registry = dr.async_get(hass)
@@ -353,7 +353,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: FibaroConfigEntry
         hass.config_entries.async_update_entry(entry, version=2)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FibaroConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FibaroConfigEntry) -> None:
     """Unload a config entry."""
     _LOGGER.debug("Shutting down Fibaro connection")
     try:
@@ -363,7 +363,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: FibaroConfigEntry)
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, config_entry: FibaroConfigEntry, device_entry: AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: FibaroConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove a device entry from fibaro integration.
 

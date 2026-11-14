@@ -28,7 +28,7 @@ from universalassistant.components.shelly.const import (
     DeprecatedFirmwareInfo,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.network import NoURLAvailableError
 from universalassistant.setup import async_setup_component
@@ -39,7 +39,7 @@ IR_RAW_RECEIVE_FIRMWARE = "20260903-114309/g0b4c0d1"
 
 
 async def test_ble_scanner_unsupported_firmware_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -72,7 +72,7 @@ async def test_ble_scanner_unsupported_firmware_issue(
 
 
 async def test_unsupported_firmware_issue_update_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -106,7 +106,7 @@ async def test_unsupported_firmware_issue_update_not_available(
 
 
 async def test_rpc_device_unsupported_firmware_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -135,7 +135,7 @@ async def test_rpc_device_unsupported_firmware_issue(
 
 
 async def test_block_device_unsupported_firmware_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -176,7 +176,7 @@ async def test_block_device_unsupported_firmware_issue(
     ],
 )
 async def test_block_device_unsupported_firmware_issue_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -214,7 +214,7 @@ async def test_block_device_unsupported_firmware_issue_abort(
     "exception", [DeviceConnectionError, RpcCallError(999, "Unknown error")]
 )
 async def test_unsupported_firmware_issue_exc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -248,7 +248,7 @@ async def test_unsupported_firmware_issue_exc(
 
 
 async def test_outbound_websocket_incorrectly_enabled_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -296,7 +296,7 @@ async def test_outbound_websocket_incorrectly_enabled_issue(
     ],
 )
 async def test_outbound_websocket_issue_other_url_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -316,7 +316,7 @@ async def test_outbound_websocket_issue_other_url_form(
 
 
 async def test_repairs_skipped_when_device_not_initialized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_repairs_skipped_when_device_not_initialized(
     "exception", [DeviceConnectionError, RpcCallError(999, "Unknown error")]
 )
 async def test_outbound_websocket_incorrectly_enabled_issue_exc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -373,7 +373,7 @@ async def test_outbound_websocket_incorrectly_enabled_issue_exc(
 
 
 async def test_deprecated_firmware_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -413,7 +413,7 @@ async def test_deprecated_firmware_issue(
 
 
 def _create_unlinked_issue(
-    hass: UniversalAssistant, issue_id: str, translation_key: str
+    hass: __HAC_KEEP__, issue_id: str, translation_key: str
 ) -> None:
     """Create an issue as it was raised before issues were linked to entries."""
     ir.async_create_issue(
@@ -435,7 +435,7 @@ def _create_unlinked_issue(
 
 @pytest.mark.usefixtures("mock_rpc_device")
 async def test_deprecated_firmware_issue_linked_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test setup links an issue raised before it was linked to the entry."""
@@ -473,7 +473,7 @@ async def test_deprecated_firmware_issue_linked_on_setup(
     ],
 )
 async def test_unlinked_issue_removed_with_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     issue_id_format: str,
     translation_key: str,
@@ -490,7 +490,7 @@ async def test_unlinked_issue_removed_with_entry(
 
 
 async def test_open_wifi_ap_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -530,7 +530,7 @@ async def test_open_wifi_ap_issue(
 
 
 async def test_open_wifi_ap_issue_no_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -574,7 +574,7 @@ async def test_open_wifi_ap_issue_no_restart(
     "exception", [DeviceConnectionError, RpcCallError(999, "Unknown error")]
 )
 async def test_open_wifi_ap_issue_exc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -614,7 +614,7 @@ async def test_open_wifi_ap_issue_exc(
 
 
 async def test_no_open_wifi_ap_issue_with_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -634,7 +634,7 @@ async def test_no_open_wifi_ap_issue_with_password(
 
 
 async def test_no_open_wifi_ap_issue_when_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -654,7 +654,7 @@ async def test_no_open_wifi_ap_issue_when_disabled(
 
 
 async def test_open_wifi_ap_issue_ignore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -700,7 +700,7 @@ async def test_open_wifi_ap_issue_ignore(
     "ignore_missing_translations", ["component.shelly.issues.other_issue.title"]
 )
 async def test_other_fixable_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -744,7 +744,7 @@ async def test_other_fixable_issues(
     ],
 )
 async def test_coiot_disabled_or_wrong_peer_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_block_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -781,7 +781,7 @@ async def test_coiot_disabled_or_wrong_peer_issue(
 
 
 async def test_coiot_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_block_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -828,7 +828,7 @@ async def test_coiot_exception(
     ],
 )
 async def test_coiot_configured_no_issue_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     issue_registry: ir.IssueRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -849,7 +849,7 @@ async def test_coiot_configured_no_issue_created(
 
 
 async def test_coiot_key_missing_no_issue_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     issue_registry: ir.IssueRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -868,7 +868,7 @@ async def test_coiot_key_missing_no_issue_created(
 
 
 async def test_coiot_push_issue_when_missing_hass_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_block_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -896,7 +896,7 @@ async def test_coiot_push_issue_when_missing_hass_url(
 
 
 async def test_coiot_fix_flow_no_hass_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_block_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -941,7 +941,7 @@ async def test_coiot_fix_flow_no_hass_url(
 
 
 async def test_coiot_issue_ignore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_block_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -980,7 +980,7 @@ async def test_coiot_issue_ignore(
 
 
 async def test_plug_1_push_update_issue_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     issue_registry: ir.IssueRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -998,7 +998,7 @@ async def test_plug_1_push_update_issue_created(
 
 
 async def test_rtsp_disabled_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_camera_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -1036,7 +1036,7 @@ async def test_rtsp_disabled_issue(
 
 
 async def test_no_rtsp_disabled_issue_when_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1049,7 +1049,7 @@ async def test_no_rtsp_disabled_issue_when_enabled(
 
 
 async def test_rtsp_disabled_issue_ignore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_camera_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -1089,7 +1089,7 @@ async def test_rtsp_disabled_issue_ignore(
     "exception", [DeviceConnectionError, RpcCallError(999, "Unknown error")]
 )
 async def test_rtsp_disabled_issue_exc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_camera_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -1151,7 +1151,7 @@ async def test_rtsp_disabled_issue_exc(
     ],
 )
 async def test_ir_raw_receive_disabled_issue_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
@@ -1210,7 +1210,7 @@ async def test_ir_raw_receive_disabled_issue_fix_flow(
     ],
 )
 async def test_no_ir_raw_receive_disabled_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     issue_registry: ir.IssueRegistry,
     monkeypatch: pytest.MonkeyPatch,

@@ -21,7 +21,7 @@ from universalassistant.components.onedrive.const import (
 )
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -30,7 +30,7 @@ from .const import CLIENT_ID
 
 
 async def _do_get_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     result: ConfigFlowResult,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -69,7 +69,7 @@ async def _do_get_token(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_setup_entry: AsyncMock,
@@ -105,7 +105,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow_with_owner_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_setup_entry: AsyncMock,
@@ -142,7 +142,7 @@ async def test_full_flow_with_owner_not_found(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_error_during_folder_creation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_onedrive_client: MagicMock,
@@ -189,7 +189,7 @@ async def test_error_during_folder_creation(
     ],
 )
 async def test_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_onedrive_client: MagicMock,
@@ -212,7 +212,7 @@ async def test_flow_errors(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -232,7 +232,7 @@ async def test_already_configured(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_already_configured_unmigrated_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -266,7 +266,7 @@ async def test_already_configured_unmigrated_entry(
     ],
 )
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -296,7 +296,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reauth_flow_id_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -324,7 +324,7 @@ async def test_reauth_flow_id_changed(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_onedrive_client: MagicMock,
@@ -355,7 +355,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reconfigure_flow_unmigrated_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -381,7 +381,7 @@ async def test_reconfigure_flow_unmigrated_entry(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reconfigure_flow_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_onedrive_client: MagicMock,
@@ -424,7 +424,7 @@ async def test_reconfigure_flow_error(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reconfigure_flow_id_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -447,7 +447,7 @@ async def test_reconfigure_flow_id_changed(
 
 
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test options flow."""

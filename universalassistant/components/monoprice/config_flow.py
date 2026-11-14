@@ -9,8 +9,8 @@ from serialx import SerialException
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_PORT
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import SerialPortSelector
 from universalassistant.helpers.typing import VolDictType
 
@@ -57,7 +57,7 @@ def _sources_from_config(data):
     }
 
 
-async def validate_input(hass: UniversalAssistant, data):
+async def validate_input(hass: __HAC_KEEP__, data):
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -156,5 +156,5 @@ class MonopriceOptionsFlowHandler(OptionsFlow):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

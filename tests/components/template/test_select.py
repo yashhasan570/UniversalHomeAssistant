@@ -28,7 +28,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
 
@@ -71,7 +71,7 @@ TEST_OPTION_ACTION = make_test_action("select_option", {"option": "{{ option }}"
 
 @pytest.fixture
 async def setup_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     config: dict[str, Any],
@@ -81,7 +81,7 @@ async def setup_select(
 
 
 async def test_setup_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the config flow."""
@@ -121,13 +121,13 @@ async def test_setup_config_entry(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 @pytest.mark.usefixtures("setup_select")
-async def test_missing_optional_config(hass: UniversalAssistant) -> None:
+async def test_missing_optional_config(hass: __HAC_KEEP__) -> None:
     """Test: missing optional template is ok."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
     _verify(hass, "a", ["a", "b"])
 
 
-async def test_multiple_configs(hass: UniversalAssistant) -> None:
+async def test_multiple_configs(hass: __HAC_KEEP__) -> None:
     """Test: multiple select entities get created."""
     with assert_setup_component(1, "template"):
         assert await setup.async_setup_component(
@@ -173,7 +173,7 @@ async def test_multiple_configs(hass: UniversalAssistant) -> None:
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 @pytest.mark.usefixtures("setup_select")
-async def test_missing_required_keys(hass: UniversalAssistant) -> None:
+async def test_missing_required_keys(hass: __HAC_KEEP__) -> None:
     """Test: missing required fields will fail."""
     assert hass.states.async_all("select") == []
 
@@ -195,7 +195,7 @@ async def test_missing_required_keys(hass: UniversalAssistant) -> None:
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 @pytest.mark.usefixtures("setup_select")
-async def test_template_select(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_template_select(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test templates with values from other entities."""
 
     attributes = {"options": ["a", "b"]}
@@ -227,7 +227,7 @@ async def test_template_select(hass: UniversalAssistant, calls: list[ServiceCall
 
 
 def _verify(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_current_option: str,
     expected_options: list[str],
     entity_name: str = TEST_SELECT.entity_id,
@@ -273,7 +273,7 @@ def _verify(
 )
 @pytest.mark.usefixtures("setup_select")
 async def test_templated_optional_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     attribute: str,
     expected: str,
     initial_expected_state: str | None,
@@ -291,7 +291,7 @@ async def test_templated_optional_config(
 
 
 async def test_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -352,7 +352,7 @@ async def test_device_id(
     ],
 )
 @pytest.mark.usefixtures("setup_select")
-async def test_empty_action_config(hass: UniversalAssistant) -> None:
+async def test_empty_action_config(hass: __HAC_KEEP__) -> None:
     """Test configuration with empty script."""
     await hass.services.async_call(
         select.DOMAIN,
@@ -382,7 +382,7 @@ async def test_empty_action_config(hass: UniversalAssistant) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_select")
-async def test_optimistic(hass: UniversalAssistant) -> None:
+async def test_optimistic(hass: __HAC_KEEP__) -> None:
     """Test configuration with optimistic state."""
 
     state = hass.states.get(TEST_SELECT.entity_id)
@@ -432,7 +432,7 @@ async def test_optimistic(hass: UniversalAssistant) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_select")
-async def test_not_optimistic(hass: UniversalAssistant) -> None:
+async def test_not_optimistic(hass: __HAC_KEEP__) -> None:
     """Test optimistic yaml option set to false."""
     # Ensure Trigger template entities update the options list
     hass.states.async_set(TEST_STATE_ENTITY_ID, "anything")
@@ -469,7 +469,7 @@ async def test_not_optimistic(hass: UniversalAssistant) -> None:
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 @pytest.mark.usefixtures("setup_select")
-async def test_availability(hass: UniversalAssistant) -> None:
+async def test_availability(hass: __HAC_KEEP__) -> None:
     """Test configuration with optimistic state."""
 
     hass.states.async_set(TEST_AVAILABILITY_ENTITY_ID, "on")
@@ -512,7 +512,7 @@ async def test_availability(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("setup_select")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: UniversalAssistant, caplog_setup_text: str, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog_setup_text: str, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that an invalid availability keeps the device available."""
     await async_trigger(hass, TEST_AVAILABILITY_ENTITY_ID, "anything")
@@ -522,7 +522,7 @@ async def test_invalid_availability_template_keeps_component_available(
 
 
 async def test_flow_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -542,7 +542,7 @@ async def test_flow_preview(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 async def test_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
 ) -> None:
     """Test unique_id option only creates one vacuum per id."""
@@ -555,7 +555,7 @@ async def test_unique_id(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -637,7 +637,7 @@ async def test_nested_unique_id(
     ],
 )
 async def test_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     saved_state: str,
     saved_extra_data: dict | None,
@@ -696,7 +696,7 @@ async def test_restore_state(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_invalid_yaml_actions_do_not_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -712,7 +712,7 @@ async def test_invalid_yaml_actions_do_not_create_entities(
 
 
 async def test_invalid_config_entry_actions_do_not_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test invalid config entry actions do not create entities."""
@@ -729,7 +729,7 @@ async def test_invalid_config_entry_actions_do_not_create_entities(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_extra_template_attributes(
-    hass: UniversalAssistant, style: ConfigurationStyle
+    hass: __HAC_KEEP__, style: ConfigurationStyle
 ) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
@@ -748,7 +748,7 @@ async def test_extra_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_blocked_template_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     attribute,
     caplog: pytest.LogCaptureFixture,
@@ -773,7 +773,7 @@ async def test_blocked_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -795,7 +795,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     attribute: SelectEntityCapabilityAttribute,
     caplog: pytest.LogCaptureFixture,

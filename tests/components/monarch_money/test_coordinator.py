@@ -15,7 +15,7 @@ from universalassistant.components.monarch_money.coordinator import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -51,7 +51,7 @@ from . import setup_integration
     ],
 )
 async def test_query_windows_follow_configured_time_zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_config_api: AsyncMock,
@@ -86,7 +86,7 @@ async def test_query_windows_follow_configured_time_zone(
     ],
 )
 async def test_setup_auth_error_starts_reauthentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_api: AsyncMock,
     api_error: Exception,
@@ -104,7 +104,7 @@ async def test_setup_auth_error_starts_reauthentication(
 
 
 async def test_update_auth_error_starts_reauthentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -139,7 +139,7 @@ async def test_update_auth_error_starts_reauthentication(
     ],
 )
 async def test_setup_connection_error_is_retryable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_api: AsyncMock,
     api_error: Exception,
@@ -161,7 +161,7 @@ async def test_setup_connection_error_is_retryable(
     ],
 )
 async def test_update_connection_error_is_retryable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_api: AsyncMock,
     freezer: FrozenDateTimeFactory,

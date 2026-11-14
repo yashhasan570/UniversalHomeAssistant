@@ -41,8 +41,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -54,7 +54,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -88,7 +88,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client,
     service: str,
     service_data: dict,
@@ -107,7 +107,7 @@ async def test_climate_service_calls(
 
 
 async def test_hvac_mode_door_open_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
 ) -> None:
@@ -140,7 +140,7 @@ async def test_hvac_mode_door_open_validation(
     ],
 )
 async def test_hvac_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
     heater_elements_active: int,
@@ -176,7 +176,7 @@ async def test_hvac_actions(
     ],
 )
 async def test_temperature_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
     current_temperature: float | None,
@@ -204,7 +204,7 @@ async def test_temperature_attributes(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entity_unavailable_on_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -258,7 +258,7 @@ async def test_entity_unavailable_on_update_failure(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_service_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client,
     service: str,
     service_data: dict,
@@ -271,7 +271,7 @@ async def test_service_error_handling(
 
     getattr(mock_saunum_client, mock_method).side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             service,
@@ -284,7 +284,7 @@ async def test_service_error_handling(
 
 
 async def test_fan_mode_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
 ) -> None:
@@ -309,7 +309,7 @@ async def test_fan_mode_service_call(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_preset_mode_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client,
 ) -> None:
     """Test setting preset mode."""
@@ -334,7 +334,7 @@ async def test_preset_mode_service_call(
     ],
 )
 async def test_fan_mode_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
     fan_speed: int | None,
@@ -358,7 +358,7 @@ async def test_fan_mode_attributes(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_fan_mode_validation_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test fan mode validation error when session is not active."""
     with pytest.raises(
@@ -374,7 +374,7 @@ async def test_fan_mode_validation_error(
 
 
 async def test_preset_mode_validation_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
 ) -> None:
@@ -409,7 +409,7 @@ async def test_preset_mode_validation_error(
     ],
 )
 async def test_preset_mode_attributes_default_names(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
     sauna_type: int | None,
@@ -430,7 +430,7 @@ async def test_preset_mode_attributes_default_names(
 
 
 async def test_preset_mode_attributes_custom_names(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client,
 ) -> None:
     """Test preset mode attributes with custom names."""
@@ -467,7 +467,7 @@ async def test_preset_mode_attributes_custom_names(
 
 
 async def test_preset_mode_options_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
 ) -> None:
@@ -508,7 +508,7 @@ async def test_preset_mode_options_update(
 
 
 async def test_fan_mode_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
 ) -> None:
@@ -528,8 +528,8 @@ async def test_fan_mode_error_handling(
         "Communication error"
     )
 
-    # Try to call the service and expect UniversalAssistantError
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    # Try to call the service and expect __HAC_KEEP__Error
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,

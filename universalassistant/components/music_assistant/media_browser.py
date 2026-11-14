@@ -17,7 +17,7 @@ from universalassistant.components.media_player import (
     SearchMedia,
     SearchMediaQuery,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DEFAULT_NAME, DOMAIN
 
@@ -129,7 +129,7 @@ def media_source_filter(item: BrowseMedia) -> bool:
 
 
 async def async_browse_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mass: MusicAssistantClient,
     media_content_id: str | None,
     media_content_type: str | None,
@@ -168,7 +168,7 @@ async def async_browse_media(
     raise BrowseError(f"Media not found: {media_content_type} / {media_content_id}")
 
 
-async def build_main_listing(hass: UniversalAssistant) -> BrowseMedia:
+async def build_main_listing(hass: __HAC_KEEP__) -> BrowseMedia:
     """Build main browse listing."""
     children: list[BrowseMedia] = []
     for library, media_class in LIBRARY_MEDIA_CLASS_MAP.items():

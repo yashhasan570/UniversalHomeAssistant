@@ -35,7 +35,7 @@ from universalassistant.components.icloud.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -217,7 +217,7 @@ def _accept_2fa_code(service: MagicMock) -> None:
 
 
 @pytest.mark.usefixtures("service")
-async def test_user(hass: UniversalAssistant) -> None:
+async def test_user(hass: __HAC_KEEP__) -> None:
     """Test user config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -236,7 +236,7 @@ async def test_user(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("service_authenticated")
-async def test_user_with_cookie(hass: UniversalAssistant) -> None:
+async def test_user_with_cookie(hass: __HAC_KEEP__) -> None:
     """Test user config with presence of a cookie."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -267,7 +267,7 @@ async def test_user_with_cookie(hass: UniversalAssistant) -> None:
     assert result["data"][CONF_INCLUDE_COMPLETED] is True
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test that the include_completed option can be toggled."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, entry_id="test", unique_id=USERNAME
@@ -288,7 +288,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("service_authenticated")
-async def test_user_defaults(hass: UniversalAssistant) -> None:
+async def test_user_defaults(hass: __HAC_KEEP__) -> None:
     """Test that the defaults are stored when the user does not override them."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -304,7 +304,7 @@ async def test_user_defaults(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("service_authenticated")
-async def test_login_failed(hass: UniversalAssistant) -> None:
+async def test_login_failed(hass: __HAC_KEEP__) -> None:
     """Test when we have errors during login."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -333,7 +333,7 @@ async def test_login_failed(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("service_authenticated")
-async def test_connection_error(hass: UniversalAssistant) -> None:
+async def test_connection_error(hass: __HAC_KEEP__) -> None:
     """Test when iCloud is unreachable during login."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -362,7 +362,7 @@ async def test_connection_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_accept_terms_during_login(hass: UniversalAssistant) -> None:
+async def test_accept_terms_during_login(hass: __HAC_KEEP__) -> None:
     """Test that a login blocked by updated terms asks the user to accept."""
     with patch(
         "universalassistant.components.icloud.config_flow.PyiCloudService",
@@ -391,7 +391,7 @@ async def test_accept_terms_during_login(hass: UniversalAssistant) -> None:
         assert service_mock.call_args.kwargs["accept_terms"] is True
 
 
-async def test_accept_terms_failure_is_reported(hass: UniversalAssistant) -> None:
+async def test_accept_terms_failure_is_reported(hass: __HAC_KEEP__) -> None:
     """Test that a terms acceptance which does not stick is reported."""
     with patch(
         "universalassistant.components.icloud.config_flow.PyiCloudService",
@@ -426,7 +426,7 @@ async def test_accept_terms_failure_is_reported(hass: UniversalAssistant) -> Non
 
 
 async def test_user_disables_pyicloud_monitor(
-    hass: UniversalAssistant, service_authenticated: MagicMock
+    hass: __HAC_KEEP__, service_authenticated: MagicMock
 ) -> None:
     """Test the config flow disables pyicloud's own Find My monitor."""
     result = await hass.config_entries.flow.async_init(
@@ -443,7 +443,7 @@ async def test_user_disables_pyicloud_monitor(
 
 
 @pytest.mark.usefixtures("service_authenticated_no_device")
-async def test_no_device(hass: UniversalAssistant) -> None:
+async def test_no_device(hass: __HAC_KEEP__) -> None:
     """Test when we have no devices."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -481,7 +481,7 @@ def _service_rejecting_the_device_fetch(
         yield service_mock
 
 
-async def _submit_user_form(hass: UniversalAssistant) -> ConfigFlowResult:
+async def _submit_user_form(hass: __HAC_KEEP__) -> ConfigFlowResult:
     """Start the user flow and submit the login form, as a user does."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -497,7 +497,7 @@ def _recover_device_fetch(service_mock: MagicMock) -> None:
     type(service_mock.return_value).devices = PropertyMock(return_value=[MagicMock()])
 
 
-async def test_device_fetch_challenged_asks_for_a_code(hass: UniversalAssistant) -> None:
+async def test_device_fetch_challenged_asks_for_a_code(hass: __HAC_KEEP__) -> None:
     """Test that a challenge while reading the devices asks for the code.
 
     iCloud turns down a session when it is refreshed to read the devices
@@ -513,7 +513,7 @@ async def test_device_fetch_challenged_asks_for_a_code(hass: UniversalAssistant)
     assert result["step_id"] == "verification_code"
 
 
-async def test_device_fetch_rejected_returns_to_the_form(hass: UniversalAssistant) -> None:
+async def test_device_fetch_rejected_returns_to_the_form(hass: __HAC_KEEP__) -> None:
     """Test that a rejection while reading the devices is reported.
 
     The flow used to end on the unhandled exception, which left the user with
@@ -539,7 +539,7 @@ async def test_device_fetch_rejected_returns_to_the_form(hass: UniversalAssistan
 
 
 @pytest.mark.usefixtures("service")
-async def test_trusted_device(hass: UniversalAssistant) -> None:
+async def test_trusted_device(hass: __HAC_KEEP__) -> None:
     """Test trusted_device step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -563,7 +563,7 @@ async def test_trusted_device(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("service")
-async def test_trusted_device_success(hass: UniversalAssistant) -> None:
+async def test_trusted_device_success(hass: __HAC_KEEP__) -> None:
     """Test trusted_device step success."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -589,7 +589,7 @@ async def test_trusted_device_success(hass: UniversalAssistant) -> None:
 
 
 async def test_send_verification_code_failed(
-    hass: UniversalAssistant, service_send_verification_code_failed: MagicMock
+    hass: __HAC_KEEP__, service_send_verification_code_failed: MagicMock
 ) -> None:
     """Test when we have errors during send_verification_code."""
     result = await hass.config_entries.flow.async_init(
@@ -631,7 +631,7 @@ async def test_send_verification_code_failed(
 
 
 @pytest.mark.usefixtures("service")
-async def test_verification_code(hass: UniversalAssistant) -> None:
+async def test_verification_code(hass: __HAC_KEEP__) -> None:
     """Test verification_code step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -659,7 +659,7 @@ async def test_verification_code(hass: UniversalAssistant) -> None:
 
 
 async def test_verification_code_success(
-    hass: UniversalAssistant, service: MagicMock
+    hass: __HAC_KEEP__, service: MagicMock
 ) -> None:
     """Test verification_code step success."""
     result = await hass.config_entries.flow.async_init(
@@ -697,7 +697,7 @@ async def test_verification_code_success(
 
 
 async def test_validate_verification_code_failed(
-    hass: UniversalAssistant, service_validate_verification_code_failed: MagicMock
+    hass: __HAC_KEEP__, service_validate_verification_code_failed: MagicMock
 ) -> None:
     """Test when we have errors during validate_verification_code."""
     result = await hass.config_entries.flow.async_init(
@@ -745,7 +745,7 @@ async def test_validate_verification_code_failed(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_2fa_code_success(hass: UniversalAssistant, service_2fa: MagicMock) -> None:
+async def test_2fa_code_success(hass: __HAC_KEEP__, service_2fa: MagicMock) -> None:
     """Test 2fa step success."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -781,7 +781,7 @@ async def test_2fa_code_success(hass: UniversalAssistant, service_2fa: MagicMock
 
 
 async def test_2fa_new_code_success(
-    hass: UniversalAssistant, service_2fa: MagicMock
+    hass: __HAC_KEEP__, service_2fa: MagicMock
 ) -> None:
     """Test 2fa step success."""
     result = await hass.config_entries.flow.async_init(
@@ -813,7 +813,7 @@ async def test_2fa_new_code_success(
 
 
 async def test_validate_2fa_code_failed(
-    hass: UniversalAssistant, service_validate_2fa_code_failed: MagicMock
+    hass: __HAC_KEEP__, service_validate_2fa_code_failed: MagicMock
 ) -> None:
     """Test when we have errors during validate_verification_code."""
     result = await hass.config_entries.flow.async_init(
@@ -848,7 +848,7 @@ async def test_validate_2fa_code_failed(
 
 
 async def test_validate_2fa_code_not_provided(
-    hass: UniversalAssistant, service_2fa: MagicMock
+    hass: __HAC_KEEP__, service_2fa: MagicMock
 ) -> None:
     """Test when we have errors during validate_verification_code if the user didn't provide a code."""
     result = await hass.config_entries.flow.async_init(
@@ -883,7 +883,7 @@ async def test_validate_2fa_code_not_provided(
 
 
 async def test_2fa_code_failed_request(
-    hass: UniversalAssistant, service_2fa_failed_request: MagicMock
+    hass: __HAC_KEEP__, service_2fa_failed_request: MagicMock
 ) -> None:
     """Test 2fa step failed request."""
     result = await hass.config_entries.flow.async_init(
@@ -929,7 +929,7 @@ async def test_2fa_code_failed_request(
 
 
 async def test_2fa_code_non_pyicloud_error(
-    hass: UniversalAssistant, service_2fa_failed_request: MagicMock
+    hass: __HAC_KEEP__, service_2fa_failed_request: MagicMock
 ) -> None:
     """Test 2fa step failed request (non-PyiCloud error)."""
     result = await hass.config_entries.flow.async_init(
@@ -975,7 +975,7 @@ async def test_2fa_code_non_pyicloud_error(
 
 
 async def test_2fa_code_returned_false(
-    hass: UniversalAssistant, service_2fa_failed_request: MagicMock
+    hass: __HAC_KEEP__, service_2fa_failed_request: MagicMock
 ) -> None:
     """Test 2fa step failed API response (returned False)."""
     result = await hass.config_entries.flow.async_init(
@@ -1018,7 +1018,7 @@ async def test_2fa_code_returned_false(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_accept_terms_during_verification(hass: UniversalAssistant) -> None:
+async def test_accept_terms_during_verification(hass: __HAC_KEEP__) -> None:
     """Test that terms demanded while entering a code can be accepted."""
     challenged = MagicMock(requires_2fa=True, requires_2sa=True)
     challenged.validate_2fa_code = Mock(
@@ -1055,7 +1055,7 @@ async def test_accept_terms_during_verification(hass: UniversalAssistant) -> Non
 
 
 async def test_terms_demanded_while_entering_a_flagged_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that accepting terms does not send a clean login back to code entry.
 
@@ -1094,7 +1094,7 @@ async def test_terms_demanded_while_entering_a_flagged_code(
 
 
 async def test_terms_demanded_when_logging_in_again_without_the_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the login without the stored session can ask for the terms."""
     refused = MagicMock()
@@ -1122,7 +1122,7 @@ async def test_terms_demanded_when_logging_in_again_without_the_session(
 
 
 async def test_consent_to_the_terms_is_kept_when_logging_in_again(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the login without the stored session carries the given consent.
 
@@ -1152,7 +1152,7 @@ async def test_consent_to_the_terms_is_kept_when_logging_in_again(
 
 
 @pytest.mark.usefixtures("service_password_update")
-async def test_password_update(hass: UniversalAssistant) -> None:
+async def test_password_update(hass: __HAC_KEEP__) -> None:
     """Test that password reauthentication works successfully."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, entry_id="test", unique_id=USERNAME
@@ -1174,7 +1174,7 @@ async def test_password_update(hass: UniversalAssistant) -> None:
 
 
 async def test_password_update_wrong_password(
-    hass: UniversalAssistant, service_password_update_failed: MagicMock
+    hass: __HAC_KEEP__, service_password_update_failed: MagicMock
 ) -> None:
     """Test password reauthentication with wrong password returns error."""
     config_entry = MockConfigEntry(
@@ -1207,7 +1207,7 @@ async def test_password_update_wrong_password(
     assert result["reason"] == "reauth_successful"
 
 
-async def test_accept_terms_during_reauth(hass: UniversalAssistant) -> None:
+async def test_accept_terms_during_reauth(hass: __HAC_KEEP__) -> None:
     """Test that reauthentication blocked by updated terms can accept them."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, entry_id="test", unique_id=USERNAME
@@ -1243,7 +1243,7 @@ async def test_accept_terms_during_reauth(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("service")
-async def test_create_icloud_storage_dir(hass: UniversalAssistant) -> None:
+async def test_create_icloud_storage_dir(hass: __HAC_KEEP__) -> None:
     """Test that the iCloud storage directory is created if it does not exist."""
     with (
         patch(
@@ -1274,7 +1274,7 @@ async def test_create_icloud_storage_dir(hass: UniversalAssistant) -> None:
 
 
 async def test_device_fetch_during_an_outage_keeps_the_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that iCloud being unavailable is reported without losing the session.
 
@@ -1301,7 +1301,7 @@ async def test_device_fetch_during_an_outage_keeps_the_session(
 
 
 async def test_device_fetch_challenge_with_no_route_asks_for_the_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that a challenge from the fetch with no route goes to the password.
 
@@ -1328,7 +1328,7 @@ async def test_device_fetch_challenge_with_no_route_asks_for_the_password(
 
 
 async def test_device_fetch_unreachable_keeps_the_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that being unable to reach iCloud reading the devices is reported as such.
 
@@ -1353,7 +1353,7 @@ async def test_device_fetch_unreachable_keeps_the_session(
 
 
 async def test_retry_login_unreachable_is_a_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that iCloud being unreachable on the second login is reported as such.
 
@@ -1389,7 +1389,7 @@ async def test_retry_login_unreachable_is_a_connection_error(
 
 
 async def test_changed_credentials_after_an_outage_are_logged_in_again(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the login kept through an outage is not reused for new credentials.
 
@@ -1418,7 +1418,7 @@ async def test_changed_credentials_after_an_outage_are_logged_in_again(
 
 
 async def test_switching_to_a_configured_account_after_an_outage_is_refused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the account submitted last is the one checked for duplicates."""
     MockConfigEntry(

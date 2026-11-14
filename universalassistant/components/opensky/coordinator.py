@@ -7,7 +7,7 @@ from python_opensky import OpenSky, OpenSkyError, StateVector
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_RADIUS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -36,7 +36,7 @@ class OpenSkyDataUpdateCoordinator(DataUpdateCoordinator[int]):
     config_entry: OpenSkyConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: OpenSkyConfigEntry, opensky: OpenSky
+        self, hass: __HAC_KEEP__, config_entry: OpenSkyConfigEntry, opensky: OpenSky
     ) -> None:
         """Initialize the OpenSky data coordinator."""
         super().__init__(

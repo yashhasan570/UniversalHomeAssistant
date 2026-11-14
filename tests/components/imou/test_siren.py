@@ -19,8 +19,8 @@ from universalassistant.const import (
     EntityStateAttribute,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .const import create_online_device
@@ -38,7 +38,7 @@ SIREN_DEVICES = [
 @pytest.mark.parametrize("imou_mock_devices", [SIREN_DEVICES], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_siren_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -58,7 +58,7 @@ async def test_siren_entities_snapshot(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_siren_service_calls_vendor_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imou_ha_device_manager: MagicMock,
     service: str,
     button_type: str,
@@ -82,7 +82,7 @@ async def test_siren_service_calls_vendor_button(
 @pytest.mark.parametrize("imou_mock_devices", [SIREN_DEVICES], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_siren_service_propagates_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
     """Imou API errors from the siren command surface to the service call."""
@@ -90,7 +90,7 @@ async def test_siren_service_propagates_api_error(
         "cloud failure"
     )
 
-    with pytest.raises(UniversalAssistantError, match="Imou rejected the siren change"):
+    with pytest.raises(__HAC_KEEP__Error, match="Imou rejected the siren change"):
         await hass.services.async_call(
             SIREN_DOMAIN,
             SERVICE_TURN_ON,
@@ -103,7 +103,7 @@ async def test_siren_service_propagates_api_error(
 @pytest.mark.parametrize("imou_mock_devices", [SIREN_DEVICES], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_siren_invalid_auth_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
@@ -113,7 +113,7 @@ async def test_siren_invalid_auth_starts_reauth(
     )
 
     with pytest.raises(
-        UniversalAssistantError, match="Imou rejected the App ID and App secret"
+        __HAC_KEEP__Error, match="Imou rejected the App ID and App secret"
     ):
         await hass.services.async_call(
             SIREN_DOMAIN,
@@ -148,7 +148,7 @@ async def test_siren_invalid_auth_starts_reauth(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_siren_partial_controls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imou_ha_device_manager: MagicMock,
     expected_features: SirenEntityFeature,
     service: str,
@@ -178,7 +178,7 @@ async def test_siren_partial_controls(
 @pytest.mark.parametrize("imou_mock_devices", [SIREN_DEVICES], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_siren_toggle_alternates_start_and_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
     """Toggle turns the siren on and off using the matching cloud commands."""
@@ -221,7 +221,7 @@ async def test_siren_toggle_alternates_start_and_stop(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_setup_ignores_devices_without_siren(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

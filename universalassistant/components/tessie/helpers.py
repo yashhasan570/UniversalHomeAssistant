@@ -6,7 +6,7 @@ from typing import Any
 from aiohttp import ClientError
 from tesla_fleet_api.exceptions import TeslaFleetError
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.typing import StateType
 
 from . import _LOGGER
@@ -31,12 +31,12 @@ async def handle_command(command: Awaitable[dict[str, Any]]) -> dict[str, Any]:
     try:
         result = await command
     except ClientError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="cannot_connect",
         ) from e
     except TeslaFleetError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="command_failed",
             translation_placeholders={"message": e.message},
@@ -50,14 +50,14 @@ async def handle_legacy_command(command: Awaitable[dict[str, Any]], name: str) -
     try:
         response = await command
     except ClientError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="cannot_connect",
         ) from e
     if response["result"] is False:
         reason: str = response.get("reason", "unknown")
         translation_key = TRANSLATED_ERRORS.get(reason, "command_failed")
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key=translation_key,
             translation_placeholders={"name": name, "message": reason},

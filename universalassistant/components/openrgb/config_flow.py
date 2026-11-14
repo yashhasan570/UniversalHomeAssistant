@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONNECTION_ERRORS, DEFAULT_CLIENT_NAME, DEFAULT_PORT, DOMAIN
 
@@ -32,7 +32,7 @@ STEP_RECONFIGURE_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, host: str, port: int) -> None:
+async def validate_input(hass: __HAC_KEEP__, host: str, port: int) -> None:
     """Validate the user input allows us to connect."""
 
     def _try_connect(host: str, port: int) -> None:

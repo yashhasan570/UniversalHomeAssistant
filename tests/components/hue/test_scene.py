@@ -8,7 +8,7 @@ import pytest
 
 from universalassistant.components.hue import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.json import JsonArrayType
 
@@ -17,7 +17,7 @@ from .const import FAKE_SCENE
 
 
 async def test_scene(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
@@ -80,7 +80,7 @@ async def test_scene(
 
 
 async def test_scene_turn_on_service(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test calling the turn on service on a scene."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -117,7 +117,7 @@ async def test_scene_turn_on_service(
 
 
 async def test_scene_advanced_turn_on_service(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test calling the advanced turn on service on a scene."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -154,7 +154,7 @@ async def test_scene_advanced_turn_on_service(
 
 
 async def test_scene_updates(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test scene events from bridge."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -212,7 +212,7 @@ async def test_scene_updates(
     [pytest.param("scene", id="regular"), pytest.param("smart_scene", id="smart")],
 )
 async def test_scene_with_orphaned_group(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
@@ -259,7 +259,7 @@ async def test_scene_with_orphaned_group(
     [pytest.param("scene", id="regular"), pytest.param("smart_scene", id="smart")],
 )
 async def test_scene_added_after_group_deleted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,

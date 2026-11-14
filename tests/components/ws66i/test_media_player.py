@@ -34,7 +34,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 MOCK_SOURCE_DIC = {
@@ -120,7 +120,7 @@ class MockWs66i:
         self.zones[zone.zone] = AttrDict(zone)
 
 
-async def test_setup_success(hass: UniversalAssistant) -> None:
+async def test_setup_success(hass: __HAC_KEEP__) -> None:
     """Test connection success."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, options=MOCK_OPTIONS
@@ -138,7 +138,7 @@ async def test_setup_success(hass: UniversalAssistant) -> None:
     assert hass.states.get(ZONE_1_ID) is not None
 
 
-async def _setup_ws66i(hass: UniversalAssistant, ws66i) -> MockConfigEntry:
+async def _setup_ws66i(hass: __HAC_KEEP__, ws66i) -> MockConfigEntry:
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, options=MOCK_DEFAULT_OPTIONS
     )
@@ -154,7 +154,7 @@ async def _setup_ws66i(hass: UniversalAssistant, ws66i) -> MockConfigEntry:
     return config_entry
 
 
-async def _setup_ws66i_with_options(hass: UniversalAssistant, ws66i) -> MockConfigEntry:
+async def _setup_ws66i_with_options(hass: __HAC_KEEP__, ws66i) -> MockConfigEntry:
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG, options=MOCK_OPTIONS
     )
@@ -171,14 +171,14 @@ async def _setup_ws66i_with_options(hass: UniversalAssistant, ws66i) -> MockConf
 
 
 async def _call_media_player_service(
-    hass: UniversalAssistant, name: str, data: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, data: dict[str, Any]
 ) -> None:
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN, name, service_data=data, blocking=True
     )
 
 
-async def test_update(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+async def test_update(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     """Test updating values from ws66i."""
     ws66i = MockWs66i()
     _ = await _setup_ws66i_with_options(hass, ws66i)
@@ -209,7 +209,7 @@ async def test_update(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) 
 
 
 async def test_failed_update(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test updating failure from ws66i."""
     ws66i = MockWs66i()
@@ -257,7 +257,7 @@ async def test_failed_update(
     assert state.attributes[ATTR_INPUT_SOURCE] == "three"
 
 
-async def test_supported_features(hass: UniversalAssistant) -> None:
+async def test_supported_features(hass: __HAC_KEEP__) -> None:
     """Test supported features property."""
     await _setup_ws66i(hass, MockWs66i())
 
@@ -273,7 +273,7 @@ async def test_supported_features(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_source_list(hass: UniversalAssistant) -> None:
+async def test_source_list(hass: __HAC_KEEP__) -> None:
     """Test source list property."""
     await _setup_ws66i(hass, MockWs66i())
 
@@ -284,7 +284,7 @@ async def test_source_list(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_source_list_with_options(hass: UniversalAssistant) -> None:
+async def test_source_list_with_options(hass: __HAC_KEEP__) -> None:
     """Test source list property."""
     await _setup_ws66i_with_options(hass, MockWs66i())
 
@@ -293,7 +293,7 @@ async def test_source_list_with_options(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_INPUT_SOURCE_LIST] == list(MOCK_SOURCE_DIC.values())
 
 
-async def test_select_source(hass: UniversalAssistant) -> None:
+async def test_select_source(hass: __HAC_KEEP__) -> None:
     """Test source selection methods."""
     ws66i = MockWs66i()
     await _setup_ws66i_with_options(hass, ws66i)
@@ -307,7 +307,7 @@ async def test_select_source(hass: UniversalAssistant) -> None:
 
 
 async def test_source_select(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test source selection simulated from keypad."""
     ws66i = MockWs66i()
@@ -324,7 +324,7 @@ async def test_source_select(
     assert state.attributes.get(ATTR_INPUT_SOURCE) == "five"
 
 
-async def test_turn_on_off(hass: UniversalAssistant) -> None:
+async def test_turn_on_off(hass: __HAC_KEEP__) -> None:
     """Test turning on the zone."""
     ws66i = MockWs66i()
     await _setup_ws66i(hass, ws66i)
@@ -336,7 +336,7 @@ async def test_turn_on_off(hass: UniversalAssistant) -> None:
     assert ws66i.zones[11].power
 
 
-async def test_mute_volume(hass: UniversalAssistant) -> None:
+async def test_mute_volume(hass: __HAC_KEEP__) -> None:
     """Test mute functionality."""
     ws66i = MockWs66i()
     await _setup_ws66i(hass, ws66i)
@@ -356,7 +356,7 @@ async def test_mute_volume(hass: UniversalAssistant) -> None:
 
 
 async def test_volume_up_down(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test increasing volume by one."""
     ws66i = MockWs66i()
@@ -404,7 +404,7 @@ async def test_volume_up_down(
     assert ws66i.zones[11].volume == MAX_VOL - 1
 
 
-async def test_volume_while_mute(hass: UniversalAssistant) -> None:
+async def test_volume_while_mute(hass: __HAC_KEEP__) -> None:
     """Test increasing volume by one."""
     ws66i = MockWs66i()
     _ = await _setup_ws66i(hass, ws66i)
@@ -460,7 +460,7 @@ async def test_volume_while_mute(hass: UniversalAssistant) -> None:
 
 
 async def test_first_run_with_available_zones(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test first run with all zones available."""
     ws66i = MockWs66i()
@@ -471,7 +471,7 @@ async def test_first_run_with_available_zones(
 
 
 async def test_first_run_with_failing_zones(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test first run with failed zones."""
     ws66i = MockWs66i()
@@ -487,7 +487,7 @@ async def test_first_run_with_failing_zones(
 
 
 async def test_register_all_entities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test run with all entities registered."""
     ws66i = MockWs66i()
@@ -501,7 +501,7 @@ async def test_register_all_entities(
 
 
 async def test_register_entities_in_1_amp_only(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test run with only zones 11-16 registered."""
     ws66i = MockWs66i(fail_zone_check=[21])

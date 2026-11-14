@@ -1,4 +1,4 @@
-"""Hanna Instruments entity base class for Universal Universal Home Assistant.
+"""Hanna Instruments entity base class for __HA_KEEP__.
 
 This module provides the base entity class for Hanna Instruments entities.
 """

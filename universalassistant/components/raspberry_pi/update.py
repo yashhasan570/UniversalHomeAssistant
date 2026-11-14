@@ -11,7 +11,7 @@ from universalassistant.components.universalassistant_hardware.util import (
     async_get_raspberry_pi_firmware_info,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -21,7 +21,7 @@ from .hardware import BOARD_NAMES, MODELS
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

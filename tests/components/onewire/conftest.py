@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.onewire.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import MOCK_OWPROXY_DEVICES
 
@@ -31,7 +31,7 @@ def get_device_id(request: pytest.FixtureRequest) -> str:
 
 
 @pytest.fixture(name="config_entry")
-def get_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def get_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create and register mock config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

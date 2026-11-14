@@ -37,8 +37,8 @@ from universalassistant.components.matter.camera import (
 from universalassistant.components.matter.const import DOMAIN
 from universalassistant.components.web_rtc import async_register_ice_servers
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -217,7 +217,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_cameras(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -235,7 +235,7 @@ async def test_cameras(
     ],
 )
 async def test_camera_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     override_attributes: dict[str, Any],
     two_way_audio: bool,
@@ -254,7 +254,7 @@ async def test_camera_capabilities(
 
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 async def test_camera_capabilities_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -304,14 +304,14 @@ async def test_camera_capabilities_updated(
 @pytest.mark.parametrize("server_schema_version", [CAMERA_SCHEMA_VERSION - 1])
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 @pytest.mark.usefixtures("matter_node")
-async def test_camera_requires_server_schema(hass: UniversalAssistant) -> None:
+async def test_camera_requires_server_schema(hass: __HAC_KEEP__) -> None:
     """Test that no camera is created for a server without the camera API."""
     assert hass.states.get(ENTITY_ID) is None
 
 
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 async def test_camera_webrtc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     hass_ws_client: WebSocketGenerator,
@@ -404,7 +404,7 @@ async def test_camera_webrtc(
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 @pytest.mark.usefixtures("matter_node")
 async def test_camera_webrtc_ice_servers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -434,7 +434,7 @@ async def test_camera_webrtc_ice_servers(
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 @pytest.mark.usefixtures("matter_node")
 async def test_camera_webrtc_candidate_during_offer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -453,7 +453,7 @@ async def test_camera_webrtc_candidate_during_offer(
 
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 async def test_camera_webrtc_closed_during_offer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     hass_ws_client: WebSocketGenerator,
@@ -486,14 +486,14 @@ async def test_camera_webrtc_closed_during_offer(
 )
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 async def test_camera_webrtc_session_ended(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     hass_ws_client: WebSocketGenerator,
     camera_events: tuple[str, ...],
     expected_messages: list[dict[str, Any]],
 ) -> None:
-    """Test a session that ends without Universal Universal Home Assistant stopping it."""
+    """Test a session that ends without __HA_KEEP__ stopping it."""
     client = await hass_ws_client(hass)
     subscription_id, session_id = await _start_session(client, matter_client)
     for event_type in camera_events:
@@ -538,7 +538,7 @@ async def test_camera_webrtc_session_ended(
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 @pytest.mark.usefixtures("matter_node")
 async def test_camera_webrtc_offer_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
     error: Exception,
@@ -559,7 +559,7 @@ async def test_camera_webrtc_offer_error(
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 @pytest.mark.usefixtures("matter_node")
 async def test_camera_webrtc_command_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
@@ -591,7 +591,7 @@ async def test_camera_webrtc_command_errors(
 
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 async def test_camera_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -622,7 +622,7 @@ async def test_camera_states(
 
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 async def test_camera_unload_closes_sessions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     hass_ws_client: WebSocketGenerator,
@@ -643,7 +643,7 @@ async def test_camera_unload_closes_sessions(
 
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 async def test_camera_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -657,7 +657,7 @@ async def test_camera_image(
     )
 
     matter_client.camera_snapshot.side_effect = MatterError("boom")
-    with pytest.raises(UniversalAssistantError, match="boom"):
+    with pytest.raises(__HAC_KEEP__Error, match="boom"):
         await async_get_image(hass, ENTITY_ID)
 
 
@@ -672,7 +672,7 @@ async def test_camera_image(
 @pytest.mark.parametrize("node_fixture", ["mock_camera"])
 @pytest.mark.usefixtures("matter_node")
 async def test_camera_image_resolution(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     width: int | None,
     height: int | None,

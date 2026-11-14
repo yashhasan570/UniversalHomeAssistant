@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.motionmount import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import format_mac
 
 
 async def test_setup_entry_with_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_motionmount: MagicMock,
@@ -33,7 +33,7 @@ async def test_setup_entry_with_mac(
 
 
 async def test_setup_entry_without_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_motionmount: MagicMock,
@@ -55,7 +55,7 @@ async def test_setup_entry_without_mac(
 
 
 async def test_setup_entry_failed_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_motionmount: MagicMock,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_setup_entry_failed_connect(
 
 
 async def test_setup_entry_wrong_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_motionmount: MagicMock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_setup_entry_wrong_device(
 
 
 async def test_setup_entry_no_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_motionmount: MagicMock,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_setup_entry_no_pin(
 
 
 async def test_setup_entry_wrong_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_pin: MockConfigEntry,
     mock_motionmount: MagicMock,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_setup_entry_wrong_pin(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_motionmount: MagicMock,
 ) -> None:

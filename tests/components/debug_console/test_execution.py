@@ -6,7 +6,7 @@ from unittest.mock import ANY, patch
 import pytest
 from pytest_universalassistant.typing import MockHAClientWebSocket
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import SESSION_ID, async_execute
 
@@ -59,7 +59,7 @@ from . import SESSION_ID, async_execute
     ],
 )
 async def test_execute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     code: str,
     expected: dict[str, Any] | None,

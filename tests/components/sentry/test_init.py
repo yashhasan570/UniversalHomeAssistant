@@ -18,10 +18,10 @@ from universalassistant.components.sentry.const import (
     DOMAIN,
 )
 from universalassistant.const import __version__ as current_version
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_setup_entry(hass: UniversalAssistant) -> None:
+async def test_setup_entry(hass: __HAC_KEEP__) -> None:
     """Test integration setup from entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -77,7 +77,7 @@ async def test_setup_entry(hass: UniversalAssistant) -> None:
     assert call_args["before_send"]
 
 
-async def test_setup_entry_with_tracing(hass: UniversalAssistant) -> None:
+async def test_setup_entry_with_tracing(hass: __HAC_KEEP__) -> None:
     """Test integration setup from entry with tracing enabled."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -107,7 +107,7 @@ async def test_setup_entry_with_tracing(hass: UniversalAssistant) -> None:
     assert call_args["traces_sample_rate"] == 0.5
 
 
-async def test_process_before_send(hass: UniversalAssistant) -> None:
+async def test_process_before_send(hass: __HAC_KEEP__) -> None:
     """Test regular use of the Sentry process before sending function."""
     hass.config.components.add("puppies")
     hass.config.components.add("a_integration")
@@ -132,7 +132,7 @@ async def test_process_before_send(hass: UniversalAssistant) -> None:
     assert result["contexts"]
     assert result["contexts"]
 
-    ha_context = result["contexts"]["Universal Universal Home Assistant"]
+    ha_context = result["contexts"]["__HA_KEEP__"]
     assert ha_context["channel"] == "test"
     assert ha_context["custom_components"] == "fridge_opener\nironing_robot"
     assert ha_context["integrations"] == "a_integration\npuppies"
@@ -146,7 +146,7 @@ async def test_process_before_send(hass: UniversalAssistant) -> None:
     assert user["id"] == "12345"
 
 
-async def test_event_with_platform_context(hass: UniversalAssistant) -> None:
+async def test_event_with_platform_context(hass: __HAC_KEEP__) -> None:
     """Test extraction of platform context information during Sentry events."""
 
     current_platform_mock = Mock()
@@ -225,7 +225,7 @@ async def test_event_with_platform_context(hass: UniversalAssistant) -> None:
         ("tuyapi.test", {"package": "tuyapi"}),
     ],
 )
-async def test_logger_event_extraction(hass: UniversalAssistant, logger, tags) -> None:
+async def test_logger_event_extraction(hass: __HAC_KEEP__, logger, tags) -> None:
     """Test extraction of information from Sentry logger events."""
 
     result = process_before_send(
@@ -268,7 +268,7 @@ async def test_logger_event_extraction(hass: UniversalAssistant, logger, tags) -
         ),
     ],
 )
-async def test_filter_log_events(hass: UniversalAssistant, logger, options, event) -> None:
+async def test_filter_log_events(hass: __HAC_KEEP__, logger, options, event) -> None:
     """Test filtering of events based on configuration options."""
     result = process_before_send(
         hass,
@@ -297,7 +297,7 @@ async def test_filter_log_events(hass: UniversalAssistant, logger, options, even
     ],
 )
 async def test_filter_handled_events(
-    hass: UniversalAssistant, handled, options, event
+    hass: __HAC_KEEP__, handled, options, event
 ) -> None:
     """Tests filtering of handled events based on configuration options."""
     result = process_before_send(

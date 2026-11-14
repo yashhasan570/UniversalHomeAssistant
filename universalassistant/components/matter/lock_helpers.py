@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any, TypedDict
 from chip.clusters import Objects as clusters
 from chip.clusters.Types import NullValue
 
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from .const import (
     CRED_TYPE_FACE,
@@ -28,7 +28,7 @@ from .const import (
     USER_TYPE_REVERSE_MAP,
 )
 
-# Error translation keys (used in ServiceValidationError/UniversalAssistantError)
+# Error translation keys (used in ServiceValidationError/__HAC_KEEP__Error)
 ERR_CREDENTIAL_TYPE_NOT_SUPPORTED = "credential_type_not_supported"
 ERR_INVALID_CREDENTIAL_DATA = "invalid_credential_data"
 
@@ -225,7 +225,7 @@ def _format_user_response(user_data: Any) -> LockUserData | None:
 # --- Credential management helpers ---
 
 
-class LockEndpointNotFoundError(UniversalAssistantError):
+class LockEndpointNotFoundError(__HAC_KEEP__Error):
     """Lock endpoint not found on node."""
 
 
@@ -249,7 +249,7 @@ class CredentialDataInvalidError(ServiceValidationError):
     """Credential data fails validation."""
 
 
-class SetCredentialFailedError(UniversalAssistantError):
+class SetCredentialFailedError(__HAC_KEEP__Error):
     """SetCredential command returned a non-success status."""
 
 
@@ -282,7 +282,7 @@ async def get_lock_info(
     """Get lock capabilities and configuration info.
 
     Returns a typed dict with lock capability information.
-    Raises UniversalAssistantError if lock endpoint not found.
+    Raises __HAC_KEEP__Error if lock endpoint not found.
     """
     lock_endpoint = _get_lock_endpoint_or_raise(node)
     supports_usr = _lock_supports_usr_feature(lock_endpoint)
@@ -353,7 +353,7 @@ async def set_lock_user(
     for new users and existing values are preserved for modifications.
 
     Returns typed dict with user_index on success.
-    Raises UniversalAssistantError on failure.
+    Raises __HAC_KEEP__Error on failure.
     """
     lock_endpoint = _get_lock_endpoint_or_raise(node)
     _ensure_usr_support(lock_endpoint)
@@ -478,7 +478,7 @@ async def get_lock_users(
     """Get all users from the lock.
 
     Returns typed dict with users list and max_users capacity.
-    Raises UniversalAssistantError on failure.
+    Raises __HAC_KEEP__Error on failure.
     """
     lock_endpoint = _get_lock_endpoint_or_raise(node)
     _ensure_usr_support(lock_endpoint)
@@ -538,7 +538,7 @@ async def clear_lock_user(
     Per the Matter spec, ClearUser also clears all associated credentials
     and schedules for the user.
     Use index 0xFFFE (CLEAR_ALL_INDEX) to clear all users.
-    Raises UniversalAssistantError on failure.
+    Raises __HAC_KEEP__Error on failure.
     """
     lock_endpoint = _get_lock_endpoint_or_raise(node)
     _ensure_usr_support(lock_endpoint)
@@ -695,7 +695,7 @@ async def set_lock_credential(
 
     Returns typed dict with credential_index, user_index, and next_credential_index.
     Raises ServiceValidationError for validation failures.
-    Raises UniversalAssistantError for device communication failures.
+    Raises __HAC_KEEP__Error for device communication failures.
     """
     lock_endpoint = _get_lock_endpoint_or_raise(node)
     _ensure_usr_support(lock_endpoint)
@@ -801,7 +801,7 @@ async def clear_lock_credential(
 ) -> None:
     """Clear a credential from the lock.
 
-    Raises UniversalAssistantError on failure.
+    Raises __HAC_KEEP__Error on failure.
     """
     lock_endpoint = _get_lock_endpoint_or_raise(node)
     _ensure_usr_support(lock_endpoint)
@@ -832,7 +832,7 @@ async def get_lock_credential_status(
 
     Returns typed dict with credential_exists, user_index, creator_fabric_index,
     last_modified_fabric_index, and next_credential_index.
-    Raises UniversalAssistantError on failure.
+    Raises __HAC_KEEP__Error on failure.
     """
     lock_endpoint = _get_lock_endpoint_or_raise(node)
     _ensure_usr_support(lock_endpoint)

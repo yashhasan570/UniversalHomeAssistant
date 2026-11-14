@@ -6,8 +6,8 @@ from typing import Any, Concatenate
 from aiomodernforms import ModernFormsConnectionError, ModernFormsError
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -30,13 +30,13 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Modern Forms integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ModernFormsConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ModernFormsConfigEntry) -> None:
     """Set up a Modern Forms device from a config entry."""
 
     # Create Modern Forms instance for this entry
@@ -50,7 +50,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ModernFormsConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: ModernFormsConfigEntry
+    hass: __HAC_KEEP__, entry: ModernFormsConfigEntry
 ) -> None:
     """Unload Modern Forms config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -65,7 +65,7 @@ def modernforms_exception_handler[
     """Decorate Modern Forms calls to handle Modern Forms exceptions.
 
     A decorator that wraps the passed in function, catches Modern Forms errors,
-    and raises translated UniversalAssistantError exceptions.
+    and raises translated __HAC_KEEP__Error exceptions.
     """
 
     async def handler(
@@ -78,13 +78,13 @@ def modernforms_exception_handler[
         except ModernFormsConnectionError as error:
             self.coordinator.last_update_success = False
             self.coordinator.async_update_listeners()
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from error
 
         except ModernFormsError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="invalid_response",
             ) from error

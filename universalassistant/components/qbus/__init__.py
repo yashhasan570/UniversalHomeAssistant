@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.components.mqtt import async_wait_for_mqtt_client
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Qbus integration.
 
     We set up a single coordinator for managing Qbus config updates. The
@@ -39,7 +39,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: QbusConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: QbusConfigEntry) -> None:
     """Set up Qbus from a config entry."""
     _LOGGER.debug("%s - Loading entry", entry.unique_id)
 
@@ -62,7 +62,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: QbusConfigEntry) ->
         await coordinator.async_update_controller_config(config)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: QbusConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: QbusConfigEntry) -> None:
     """Unload a config entry."""
     _LOGGER.debug("%s - Unloading entry", entry.unique_id)
 
@@ -71,7 +71,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: QbusConfigEntry) -
     _cleanup(hass, entry)
 
 
-def _cleanup(hass: UniversalAssistant, entry: QbusConfigEntry) -> None:
+def _cleanup(hass: __HAC_KEEP__, entry: QbusConfigEntry) -> None:
     """Shutdown if no more entries are loaded."""
     if not hass.config_entries.async_loaded_entries(DOMAIN) and (
         config_coordinator := hass.data.get(QBUS_KEY)

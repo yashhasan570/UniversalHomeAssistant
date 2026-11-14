@@ -4,7 +4,7 @@ import logging
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_ID, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.helper_integration import async_remove_helper_devices
@@ -21,7 +21,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the template integration."""
 
     # Register template as valid domain for Blueprint
@@ -42,7 +42,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a config entry."""
 
     device_id = entry.options.get(CONF_DEVICE_ID)
@@ -97,14 +97,14 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
         entry, (entry.options["template_type"],)
     )
 
 
-async def async_migrate_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
     """Migrate old entry."""
 
     _LOGGER.debug(

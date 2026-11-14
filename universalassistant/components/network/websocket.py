@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import ActiveConnection
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.network import NoURLAvailableError, get_url
 
 from .const import ATTR_ADAPTERS, ATTR_CONFIGURED_ADAPTERS, NETWORK_CONFIG_SCHEMA
@@ -15,7 +15,7 @@ from .network import async_get_network
 
 
 @callback
-def async_register_websocket_commands(hass: UniversalAssistant) -> None:
+def async_register_websocket_commands(hass: __HAC_KEEP__) -> None:
     """Register network websocket commands."""
     websocket_api.async_register_command(hass, websocket_network_adapters)
     websocket_api.async_register_command(hass, websocket_network_adapters_configure)
@@ -26,7 +26,7 @@ def async_register_websocket_commands(hass: UniversalAssistant) -> None:
 @websocket_api.websocket_command({probatio.Required("type"): "network"})
 @websocket_api.async_response
 async def websocket_network_adapters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -50,7 +50,7 @@ async def websocket_network_adapters(
 )
 @websocket_api.async_response
 async def websocket_network_adapters_configure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -72,7 +72,7 @@ async def websocket_network_adapters_configure(
     }
 )
 def websocket_network_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

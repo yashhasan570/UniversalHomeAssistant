@@ -18,7 +18,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -46,7 +46,7 @@ class HikvisionData:
 type HikvisionConfigEntry = ConfigEntry[HikvisionData]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HikvisionConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HikvisionConfigEntry) -> None:
     """Set up Hikvision from a config entry."""
     host = entry.data[CONF_HOST]
     port = entry.data[CONF_PORT]
@@ -152,7 +152,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HikvisionConfigEntr
     # listening for it now would never hear it.
     if hass.is_stopping:
         await hass.async_add_executor_job(camera.disconnect)
-        raise ConfigEntryNotReady("Universal Universal Home Assistant is stopping")
+        raise ConfigEntryNotReady("__HA_KEEP__ is stopping")
 
     entry.async_on_unload(
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_stop_stream)
@@ -171,7 +171,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HikvisionConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: HikvisionConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: HikvisionConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     # Stop the event stream

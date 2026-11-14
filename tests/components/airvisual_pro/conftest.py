@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.airvisual_pro.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonObjectType
 
@@ -25,7 +25,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: UniversalAssistant, config: dict[str, Any]
+    hass: __HAC_KEEP__, config: dict[str, Any]
 ) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
@@ -79,7 +79,7 @@ def pro_fixture(
 
 @pytest.fixture(name="setup_airvisual_pro")
 async def setup_airvisual_pro_fixture(
-    hass: UniversalAssistant, config, pro
+    hass: __HAC_KEEP__, config, pro
 ) -> AsyncGenerator[None]:
     """Define a fixture to set up AirVisual Pro."""
     with (

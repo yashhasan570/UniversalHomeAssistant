@@ -14,7 +14,7 @@ from universalassistant.components.steam_online.const import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import ACCOUNT_1, ACCOUNT_2, ACCOUNT_NAME_1, ACCOUNT_NAME_2, CONF_DATA
@@ -22,7 +22,7 @@ from . import ACCOUNT_1, ACCOUNT_2, ACCOUNT_NAME_1, ACCOUNT_NAME_2, CONF_DATA
 
 @pytest.mark.usefixtures("steam_api")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test unload."""
@@ -47,7 +47,7 @@ async def test_setup(
     ],
 )
 async def test_setup_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     steam_api: MagicMock,
     side_effect: type[Exception],
@@ -70,7 +70,7 @@ async def test_setup_errors(
     ],
 )
 async def test_setup_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     steam_api: MagicMock,
     side_effect: type[Exception],
@@ -98,7 +98,7 @@ async def test_setup_auth_failed(
 
 @pytest.mark.usefixtures("steam_api")
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -118,7 +118,7 @@ async def test_device_info(
 
 @pytest.mark.usefixtures("steam_api")
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

@@ -33,7 +33,7 @@ def device_filter_out_from_trackers(
 
 def ha_is_stopping(activity: str) -> None:
     """Inform that HA is stopping."""
-    LOGGER.warning("Cannot execute %s: UniversalAssistant is shutting down", activity)
+    LOGGER.warning("Cannot execute %s: __HAC_KEEP__ is shutting down", activity)
 
 
 def normalize_version(version: str | None) -> str | None:

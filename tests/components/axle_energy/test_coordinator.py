@@ -12,12 +12,12 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.axle_energy.const import UPDATE_INTERVAL
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.freeze_time("2026-09-11T16:59:00Z")
 async def test_event_notifications(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -57,7 +57,7 @@ async def test_event_notifications(
 
 @pytest.mark.freeze_time("2026-09-11T16:49:00Z")
 async def test_shutdown_during_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,

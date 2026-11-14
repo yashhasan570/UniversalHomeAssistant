@@ -14,7 +14,7 @@ from universalassistant.components.update import (
     UpdateEntityDescription,
     UpdateEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FederwiegeConfigEntry
@@ -38,7 +38,7 @@ UPDATE_ENTITY_DESC = SmarlaUpdateEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FederwiegeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

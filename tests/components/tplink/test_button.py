@@ -10,7 +10,7 @@ from universalassistant.components.tplink.button import BUTTON_DESCRIPTIONS
 from universalassistant.components.tplink.const import DOMAIN
 from universalassistant.components.tplink.entity import EXCLUDED_FEATURES
 from universalassistant.const import CONF_HOST, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -32,7 +32,7 @@ from .const import DEVICE_ID, MAC_ADDRESS
 
 @pytest.fixture
 def create_deprecated_button_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ):
@@ -56,7 +56,7 @@ def create_deprecated_button_entities(
 
 @pytest.fixture
 def create_deprecated_child_button_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ):
@@ -90,7 +90,7 @@ def mocked_feature_button() -> Feature:
 
 
 async def test_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -112,7 +112,7 @@ async def test_states(
 
 
 async def test_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mocked_feature_button: Feature,
@@ -133,7 +133,7 @@ async def test_button(
 
 
 async def test_button_children(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -169,7 +169,7 @@ async def test_button_children(
 
 
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mocked_feature_button: Feature,
@@ -197,7 +197,7 @@ async def test_button_press(
 
 
 async def test_button_not_exists_with_deprecation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mocked_feature_button: Feature,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_button_not_exists_with_deprecation(
     ],
 )
 async def test_button_exists_with_deprecation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mocked_feature_button: Feature,

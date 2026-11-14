@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.fumis.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_MAC, CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -17,7 +17,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 @pytest.mark.usefixtures("mock_fumis")
-async def test_full_user_flow(hass: UniversalAssistant) -> None:
+async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
     """Test the full user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -51,7 +51,7 @@ async def test_full_user_flow(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
     side_effect: type[Exception],
     expected_error: dict[str, str],
@@ -98,7 +98,7 @@ async def test_user_flow_errors(
 )
 @pytest.mark.usefixtures("mock_fumis")
 async def test_user_flow_mac_normalization(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mac_input: str,
 ) -> None:
     """Test the MAC address is normalized regardless of input format."""
@@ -121,7 +121,7 @@ async def test_user_flow_mac_normalization(
 
 @pytest.mark.usefixtures("mock_fumis")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the user flow when the device is already configured."""
@@ -145,7 +145,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_fumis")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reauth flow."""
@@ -176,7 +176,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -208,7 +208,7 @@ async def test_reauth_flow_errors(
 
 
 @pytest.mark.usefixtures("mock_fumis")
-async def test_dhcp_discovery(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery of a Fumis WiRCU module."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -243,7 +243,7 @@ async def test_dhcp_discovery(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_dhcp_discovery_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
     side_effect: type[Exception],
     expected_error: dict[str, str],
@@ -281,7 +281,7 @@ async def test_dhcp_discovery_errors(
 
 @pytest.mark.usefixtures("mock_fumis")
 async def test_dhcp_discovery_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test DHCP discovery when the device is already configured."""
@@ -303,7 +303,7 @@ async def test_dhcp_discovery_already_configured(
 
 @pytest.mark.usefixtures("mock_fumis")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reconfigure flow."""
@@ -334,7 +334,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],

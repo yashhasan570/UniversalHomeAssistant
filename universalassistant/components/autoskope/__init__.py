@@ -5,7 +5,7 @@ from autoskope_client.api import AutoskopeApi
 from autoskope_client.models import CannotConnect, InvalidAuth
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 
@@ -15,7 +15,7 @@ from .coordinator import AutoskopeConfigEntry, AutoskopeDataUpdateCoordinator
 PLATFORMS: list[Platform] = [Platform.DEVICE_TRACKER]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AutoskopeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AutoskopeConfigEntry) -> None:
     """Set up Autoskope from a config entry."""
     session = async_create_clientsession(hass, cookie_jar=aiohttp.CookieJar())
 
@@ -43,6 +43,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AutoskopeConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AutoskopeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AutoskopeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

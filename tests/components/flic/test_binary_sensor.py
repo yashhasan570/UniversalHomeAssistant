@@ -2,7 +2,7 @@
 
 from unittest import mock
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -32,7 +32,7 @@ class _MockFlicClient:
 
 
 async def test_button_uid(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test UID assignment for Flic buttons."""
     address_to_name = {

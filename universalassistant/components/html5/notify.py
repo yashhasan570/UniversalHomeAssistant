@@ -24,8 +24,8 @@ from universalassistant.components.notify import (
     NotifyEntityFeature,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.json import save_json
@@ -62,7 +62,7 @@ VAPID_CLAIM_VALID_HOURS = 12
 
 def _load_config(filename: str) -> dict[str, Registration]:
     """Load configuration."""
-    with suppress(UniversalAssistantError):
+    with suppress(__HAC_KEEP__Error):
         return cast(dict[str, Registration], load_json_object(filename))
     return {}
 
@@ -84,7 +84,7 @@ def add_jwt(timestamp: int, target: str, tag: str, jwt_secret: str) -> str:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -180,26 +180,26 @@ class HTML5NotifyEntity(HTML5Entity, NotifyEntity):
                     await self.hass.async_add_executor_job(
                         save_json, self.json_path, self.registrations
                     )
-                except UniversalAssistantError:
+                except __HAC_KEEP__Error:
                     self.registrations[self.target] = reg
                     _LOGGER.error("Error saving registration")
 
                 self.async_write_ha_state()
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="channel_expired",
                     translation_placeholders={"target": self.target},
                 ) from e
 
             _LOGGER.debug("Full exception", exc_info=True)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="request_error",
                 translation_placeholders={"target": self.target},
             ) from e
         except ClientError as e:
             _LOGGER.debug("Full exception", exc_info=True)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_error",
                 translation_placeholders={"target": self.target},

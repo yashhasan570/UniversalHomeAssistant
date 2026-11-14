@@ -11,7 +11,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import MAC_ADDRESS, UNIQUE_ID, get_entity_id
 
@@ -79,7 +79,7 @@ def entity_config(request: pytest.FixtureRequest):
     ],
 )
 async def test_switch_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entity,
     entity_config,
     gw_available,
@@ -110,7 +110,7 @@ async def test_switch_availability(
     indirect=["entity_config"],
 )
 async def test_switch_turn_on(
-    hass: UniversalAssistant, setup_entity, entity_config, index
+    hass: __HAC_KEEP__, setup_entity, entity_config, index
 ) -> None:
     """Test turning on a switch."""
     switch_state = await setup_entity(
@@ -144,7 +144,7 @@ async def test_switch_turn_on(
     indirect=["entity_config"],
 )
 async def test_switch_turn_off(
-    hass: UniversalAssistant, setup_entity, entity_config, index
+    hass: __HAC_KEEP__, setup_entity, entity_config, index
 ) -> None:
     """Test turning off a switch."""
     switch_state = await setup_entity(

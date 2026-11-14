@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant import config_entries
 from universalassistant.components.group import DOMAIN, async_setup_entry
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
@@ -63,7 +63,7 @@ from universalassistant.helpers import entity_registry as er, issue_registry as 
     ],
 )
 async def test_config_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     group_type,
     group_state,
     member_state,
@@ -153,7 +153,7 @@ async def test_config_flow(
     ],
 )
 async def test_config_flow_hides_members(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     group_type,
     extra_input,
@@ -228,7 +228,7 @@ async def test_config_flow_hides_members(
     ],
 )
 async def test_options(
-    hass: UniversalAssistant, group_type, member_state, extra_options, options_options
+    hass: __HAC_KEEP__, group_type, member_state, extra_options, options_options
 ) -> None:
     """Test reconfiguring."""
     members1 = [f"{group_type}.one", f"{group_type}.two"]
@@ -326,7 +326,7 @@ async def test_options(
     ],
 )
 async def test_all_options(
-    hass: UniversalAssistant, group_type, extra_options, extra_options_after
+    hass: __HAC_KEEP__, group_type, extra_options, extra_options_after
 ) -> None:
     """Test reconfiguring."""
     members1 = [f"{group_type}.one", f"{group_type}.two"]
@@ -406,7 +406,7 @@ async def test_all_options(
     ],
 )
 async def test_options_flow_hides_members(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     group_type,
     extra_input,
@@ -506,7 +506,7 @@ VALVE_ATTRS = [{"supported_features": 0}, {"is_closed": False}]
     ],
 )
 async def test_config_flow_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     domain: str,
     extra_user_input: dict[str, Any],
@@ -621,7 +621,7 @@ async def test_config_flow_preview(
     ],
 )
 async def test_config_flow_sensor_preview_creates_no_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     issue_registry: ir.IssueRegistry,
     member_attributes: list[dict[str, str]],
@@ -691,7 +691,7 @@ async def test_config_flow_sensor_preview_creates_no_issues(
     ],
 )
 async def test_option_flow_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     domain: str,
     extra_config_flow_data: dict[str, Any],
@@ -753,7 +753,7 @@ async def test_option_flow_preview(
 
 
 async def test_option_flow_sensor_preview_config_entry_removed(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the option flow preview where the config entry is removed."""
     client = await hass_ws_client(hass)

@@ -14,13 +14,13 @@ from universalassistant.components.aquacell.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aquacell_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_load_unload_entry(
 
 
 async def test_load_withoutbrand(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aquacell_api: AsyncMock,
     mock_config_entry_without_brand: MockConfigEntry,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_load_withoutbrand(
 
 
 async def test_coordinator_update_valid_refresh_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aquacell_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_coordinator_update_valid_refresh_token(
 
 
 async def test_coordinator_update_expired_refresh_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_aquacell_api: AsyncMock,
     mock_config_entry_expired: MockConfigEntry,
@@ -94,7 +94,7 @@ async def test_coordinator_update_expired_refresh_token(
     ],
 )
 async def test_load_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aquacell_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

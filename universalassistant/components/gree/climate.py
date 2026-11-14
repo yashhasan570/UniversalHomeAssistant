@@ -31,7 +31,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_WHOLE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -106,7 +106,7 @@ HORIZONTAL_SWING_MODES_INVERSE: dict[HorizontalSwing, str] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GreeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

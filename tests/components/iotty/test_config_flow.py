@@ -17,7 +17,7 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.iotty.application_credentials import OAUTH2_TOKEN
 from universalassistant.components.iotty.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
@@ -26,7 +26,7 @@ from .conftest import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI
 
 
 @pytest.fixture
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup application credentials component."""
     await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -46,7 +46,7 @@ def current_request_with_host(current_request: MagicMock) -> None:
     )
 
 
-async def test_config_flow_no_credentials(hass: UniversalAssistant) -> None:
+async def test_config_flow_no_credentials(hass: __HAC_KEEP__) -> None:
     """Test config flow base case with no credentials registered."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -57,7 +57,7 @@ async def test_config_flow_no_credentials(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_credentials")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_setup_entry: AsyncMock,
@@ -105,7 +105,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_credentials")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_setup_entry: AsyncMock,

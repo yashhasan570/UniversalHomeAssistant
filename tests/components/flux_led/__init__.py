@@ -26,7 +26,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.flux_led.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -76,7 +76,7 @@ FLUX_DISCOVERY = FluxLEDDiscovery(
 )
 
 
-def _mock_config_entry_for_bulb(hass: UniversalAssistant) -> ConfigEntry:
+def _mock_config_entry_for_bulb(hass: __HAC_KEEP__) -> ConfigEntry:
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         data={CONF_HOST: IP_ADDRESS, CONF_NAME: DEFAULT_ENTRY_TITLE},
@@ -204,7 +204,7 @@ def _mocked_switch() -> AIOWifiLedBulb:
     return switch
 
 
-async def async_mock_device_turn_off(hass: UniversalAssistant, bulb: AIOWifiLedBulb) -> None:
+async def async_mock_device_turn_off(hass: __HAC_KEEP__, bulb: AIOWifiLedBulb) -> None:
     """Mock the device being off."""
     bulb.is_on = False
     bulb.raw_state._replace(power_state=0x24)
@@ -212,7 +212,7 @@ async def async_mock_device_turn_off(hass: UniversalAssistant, bulb: AIOWifiLedB
     await hass.async_block_till_done()
 
 
-async def async_mock_device_turn_on(hass: UniversalAssistant, bulb: AIOWifiLedBulb) -> None:
+async def async_mock_device_turn_on(hass: __HAC_KEEP__, bulb: AIOWifiLedBulb) -> None:
     """Mock the device being on."""
     bulb.is_on = True
     bulb.raw_state._replace(power_state=0x23)
@@ -221,7 +221,7 @@ async def async_mock_device_turn_on(hass: UniversalAssistant, bulb: AIOWifiLedBu
 
 
 async def async_mock_effect_speed(
-    hass: UniversalAssistant, bulb: AIOWifiLedBulb, effect: str, speed: int
+    hass: __HAC_KEEP__, bulb: AIOWifiLedBulb, effect: str, speed: int
 ) -> None:
     """Mock the device being on with an effect."""
     bulb.speed = speed

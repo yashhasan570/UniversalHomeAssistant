@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD, CONF_TOKEN, CONF_UNIQUE_ID, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_PLANT_ID
 from .coordinator import GrowattConfigEntry
@@ -39,7 +39,7 @@ _TOTAL_SAFE_KEYS = frozenset(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: GrowattConfigEntry
+    hass: __HAC_KEEP__, config_entry: GrowattConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     runtime_data = config_entry.runtime_data

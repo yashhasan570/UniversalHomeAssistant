@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ecosmart.const import DOMAIN, SPOT_SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ def _entity_id(entity_registry: er.EntityRegistry, unique_id: str) -> str:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_all_entities(
 
 
 async def test_device_is_one_service_per_icp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -65,7 +65,7 @@ async def test_device_is_one_service_per_icp(
 
 
 async def test_stale_spot_price_is_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -81,7 +81,7 @@ async def test_stale_spot_price_is_unavailable(
 
 
 async def test_null_spot_price_is_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -99,7 +99,7 @@ async def test_null_spot_price_is_unavailable(
 
 
 async def test_negative_spot_price_passes_through(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -117,7 +117,7 @@ async def test_negative_spot_price_passes_through(
 
 
 async def test_coordinator_failure_makes_sensor_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ecosmart_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

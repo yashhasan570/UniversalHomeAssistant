@@ -10,7 +10,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import ATTR_FRIENDLY_NAME, ATTR_ICON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -32,7 +32,7 @@ from .conftest import (
 
 
 async def test_split_foundation_preset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_asyncsleepiq: MagicMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_split_foundation_preset(
 
 
 async def test_single_foundation_preset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_asyncsleepiq_single_foundation: MagicMock,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_single_foundation_preset(
 
 
 async def test_foot_warmer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_asyncsleepiq: MagicMock,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_foot_warmer(
 
 
 async def test_core_climate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_asyncsleepiq: MagicMock,
 ) -> None:

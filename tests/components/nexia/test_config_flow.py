@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.nexia.const import CONF_BRAND, DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 USER_INPUT = {
@@ -38,7 +38,7 @@ def _patch_success() -> Generator[None]:
 
 
 @pytest.mark.parametrize("brand", [BRAND_ASAIR, BRAND_NEXIA])
-async def test_form(hass: UniversalAssistant, brand) -> None:
+async def test_form(hass: __HAC_KEEP__, brand) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -78,7 +78,7 @@ async def test_form(hass: UniversalAssistant, brand) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -113,7 +113,7 @@ async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -143,7 +143,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_auth_http_401(hass: UniversalAssistant) -> None:
+async def test_form_invalid_auth_http_401(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth error from http 401."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -175,7 +175,7 @@ async def test_form_invalid_auth_http_401(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect_not_found(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect_not_found(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect from an http not found error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -207,7 +207,7 @@ async def test_form_cannot_connect_not_found(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_broad_exception(hass: UniversalAssistant) -> None:
+async def test_form_broad_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -255,7 +255,7 @@ def _patch_login(house_id: int = 123, side_effect: Exception | None = None):
     return patch.object(NexiaHome, "login", autospec=True, side_effect=_login)
 
 
-async def test_reauth(hass: UniversalAssistant) -> None:
+async def test_reauth(hass: __HAC_KEEP__) -> None:
     """Test reauth updates the password."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=REAUTH_ENTRY_DATA, unique_id="123", minor_version=2
@@ -299,7 +299,7 @@ async def test_reauth(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception | type[Exception] | None,
     name: str | None,
     error: str,
@@ -345,7 +345,7 @@ async def test_reauth_errors(
     assert entry.data[CONF_PASSWORD] == "new_password"
 
 
-async def test_reauth_wrong_account(hass: UniversalAssistant) -> None:
+async def test_reauth_wrong_account(hass: __HAC_KEEP__) -> None:
     """Test reauth aborts when the login belongs to another home."""
     entry = MockConfigEntry(
         domain=DOMAIN, data=REAUTH_ENTRY_DATA, unique_id="123", minor_version=2

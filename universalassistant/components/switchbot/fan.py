@@ -8,8 +8,8 @@ import switchbot
 from switchbot import AirPurifierMode, StandingFanMode
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 
@@ -22,7 +22,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SwitchbotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -149,7 +149,7 @@ class SwitchBotStandingFanEntity(SwitchBotFanEntity):
     def extra_state_attributes(self) -> Mapping[str, Any]:
         """Return the state attributes.
 
-        Failures surface as UniversalAssistantError, so last_run_success is not used.
+        Failures surface as __HAC_KEEP__Error, so last_run_success is not used.
         """
         return {}
 
@@ -163,7 +163,7 @@ class SwitchBotStandingFanEntity(SwitchBotFanEntity):
             self._address,
         )
         if not await self._device.set_preset_mode(preset_mode):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="set_fan_state_failed"
             )
         self.async_write_ha_state()
@@ -176,7 +176,7 @@ class SwitchBotStandingFanEntity(SwitchBotFanEntity):
             "Switchbot standing fan to set percentage %d %s", percentage, self._address
         )
         if not await self._device.set_percentage(percentage):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="set_fan_state_failed"
             )
         self.async_write_ha_state()
@@ -191,7 +191,7 @@ class SwitchBotStandingFanEntity(SwitchBotFanEntity):
             self._address,
         )
         if not await self._device.set_oscillation(oscillating):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="set_fan_state_failed"
             )
         self.async_write_ha_state()
@@ -212,7 +212,7 @@ class SwitchBotStandingFanEntity(SwitchBotFanEntity):
             self._address,
         )
         if not await self._device.turn_on():
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="set_fan_state_failed"
             )
         self.async_write_ha_state()
@@ -223,7 +223,7 @@ class SwitchBotStandingFanEntity(SwitchBotFanEntity):
         """Turn off the fan."""
         _LOGGER.debug("Switchbot standing fan to set turn off %s", self._address)
         if not await self._device.turn_off():
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="set_fan_state_failed"
             )
         self.async_write_ha_state()

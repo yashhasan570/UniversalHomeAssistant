@@ -12,8 +12,8 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -26,7 +26,7 @@ from .common import (
 
 
 async def test_covers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -74,7 +74,7 @@ async def test_covers(
             assert hass.states.get(entity_id).state == CoverState.CLOSED
 
 
-async def test_errors(hass: UniversalAssistant) -> None:
+async def test_errors(hass: __HAC_KEEP__) -> None:
     """Tests errors are handled."""
 
     await setup_platform(hass, [Platform.COVER])
@@ -86,7 +86,7 @@ async def test_errors(hass: UniversalAssistant) -> None:
             "universalassistant.components.tessie.cover.open_unlock_charge_port",
             side_effect=ERROR_UNKNOWN,
         ) as mock_set,
-        pytest.raises(UniversalAssistantError) as error,
+        pytest.raises(__HAC_KEEP__Error) as error,
     ):
         await hass.services.async_call(
             COVER_DOMAIN,
@@ -105,7 +105,7 @@ async def test_errors(hass: UniversalAssistant) -> None:
             "universalassistant.components.tessie.cover.open_unlock_charge_port",
             return_value=TEST_RESPONSE_ERROR,
         ) as mock_set,
-        pytest.raises(UniversalAssistantError) as error,
+        pytest.raises(__HAC_KEEP__Error) as error,
     ):
         await hass.services.async_call(
             COVER_DOMAIN,

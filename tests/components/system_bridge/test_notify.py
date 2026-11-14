@@ -31,8 +31,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, Unauthorized
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.helpers.discovery import async_load_platform
 
@@ -69,7 +69,7 @@ def legacy_notify() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_version", "mock_websocket_client")
 async def test_notify_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -87,7 +87,7 @@ async def test_notify_platform(
 @pytest.mark.usefixtures("mock_version")
 @pytest.mark.freeze_time("2009-02-13T23:31:30.000Z")
 async def test_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_send_message(
 
 @pytest.mark.usefixtures("mock_version", "legacy_notify")
 async def test_legacy_notify_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -233,7 +233,7 @@ async def test_legacy_notify_service(
     ],
 )
 async def test_system_bridge_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     data: dict[str, Any],
@@ -303,7 +303,7 @@ async def test_system_bridge_send_message(
     ],
 )
 async def test_system_bridge_send_message_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     data: dict[str, Any],
@@ -327,7 +327,7 @@ async def test_system_bridge_send_message_invalid(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_system_bridge_send_message_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_read_only_user: MockUser,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
@@ -371,7 +371,7 @@ async def test_system_bridge_send_message_requires_admin(
     ],
 )
 async def test_send_message_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     side_effect: type[Exception] | list[Response],
@@ -387,7 +387,7 @@ async def test_send_message_exception(
 
     mock_websocket_client.send_notification.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError) as e:
+    with pytest.raises(__HAC_KEEP__Error) as e:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -411,7 +411,7 @@ async def test_send_message_exception(
 
 @pytest.mark.usefixtures("mock_version", "legacy_notify")
 async def test_legacy_notify_service_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
 ) -> None:
@@ -422,7 +422,7 @@ async def test_legacy_notify_service_error(
 
     mock_websocket_client.send_notification.return_value = ERROR_RESPONSE
 
-    with pytest.raises(UniversalAssistantError) as e:
+    with pytest.raises(__HAC_KEEP__Error) as e:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             "system_bridge_hostname",
@@ -436,7 +436,7 @@ async def test_legacy_notify_service_error(
 
 @pytest.mark.usefixtures("mock_version", "mock_websocket_client", "legacy_notify")
 async def test_legacy_notify_service_removed_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the legacy notify service is removed when the entry unloads."""
@@ -454,7 +454,7 @@ async def test_legacy_notify_service_removed_on_unload(
 
 @pytest.mark.usefixtures("mock_version", "legacy_notify")
 async def test_legacy_notify_service_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
 ) -> None:
@@ -485,7 +485,7 @@ async def test_legacy_notify_service_reload(
 @pytest.mark.usefixtures("mock_version", "mock_websocket_client", "legacy_notify")
 @pytest.mark.parametrize("owner_first", [True, False], ids=["owner", "other"])
 async def test_legacy_notify_service_shared_hostname(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     owner_first: bool,
 ) -> None:
@@ -532,7 +532,7 @@ async def test_legacy_notify_service_shared_hostname(
 
 @pytest.mark.usefixtures("mock_version", "mock_websocket_client")
 async def test_legacy_notify_service_unloaded_during_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the legacy action isn't registered once its entry has unloaded."""

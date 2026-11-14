@@ -30,7 +30,7 @@ from universalassistant.const import (
     PRECISION_WHOLE,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DATA_HISENSE_AEHW4A1_CONFIG
@@ -122,7 +122,7 @@ def _build_entity(device):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

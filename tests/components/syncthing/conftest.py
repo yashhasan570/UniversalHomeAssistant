@@ -7,13 +7,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.syncthing.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_ENTRY, SERVER_ID, create_mock_syncthing_client
 
 
 @pytest.fixture
-def entry(hass: UniversalAssistant) -> MockConfigEntry:
+def entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create a mock ConfigEntry for Syncthing component."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -32,7 +32,7 @@ def mock_syncthing_client() -> MagicMock:
 
 @pytest.fixture
 async def mock_syncthing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     mock_syncthing_client: MagicMock,
 ) -> AsyncIterator[MagicMock]:

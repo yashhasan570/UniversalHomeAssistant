@@ -12,8 +12,8 @@ from renault_api.exceptions import NotAuthenticatedException, RenaultException
 from renault_api.kamereon import models
 from renault_api.renault_vehicle import RenaultVehicle
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 
 from .const import DOMAIN
@@ -37,17 +37,17 @@ def with_error_wrapping[**_P, _R](
         *args: _P.args,
         **kwargs: _P.kwargs,
     ) -> _R:
-        """Catch RenaultException errors and raise UniversalAssistantError."""
+        """Catch RenaultException errors and raise __HAC_KEEP__Error."""
         try:
             return await func(self, *args, **kwargs)
         except NotAuthenticatedException as err:
             self.config_entry.async_start_reauth(self.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="authentication_expired",
             ) from err
         except RenaultException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unknown_error",
             ) from err
@@ -74,7 +74,7 @@ class RenaultVehicleProxy:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: RenaultConfigEntry,
         hub: RenaultHub,
         vehicle: RenaultVehicle,

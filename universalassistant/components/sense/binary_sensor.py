@@ -9,7 +9,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SenseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -68,7 +68,7 @@ class SenseBinarySensor(SenseDeviceEntity, BinarySensorEntity):
 
 
 async def _migrate_old_unique_ids(
-    hass: UniversalAssistant, devices: list[SenseBinarySensor]
+    hass: __HAC_KEEP__, devices: list[SenseBinarySensor]
 ) -> None:
     registry = er.async_get(hass)
     for device in devices:

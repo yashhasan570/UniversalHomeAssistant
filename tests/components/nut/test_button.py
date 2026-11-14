@@ -5,7 +5,7 @@ import pytest
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.nut.const import INTEGRATION_SUPPORTED_COMMANDS
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .util import async_init_integration
@@ -24,7 +24,7 @@ from .util import async_init_integration
     ],
 )
 async def test_buttons_ups(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, model: str
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, model: str
 ) -> None:
     """Tests that there are no standard buttons."""
 
@@ -53,7 +53,7 @@ async def test_buttons_ups(
     ],
 )
 async def test_buttons_pdu_dynamic_outlets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     model: str,
     unique_id_base: str,
@@ -103,7 +103,7 @@ async def test_buttons_pdu_dynamic_outlets(
 
 
 async def test_buttons_outlets_without_outlet_count(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test cycle buttons are created when outlet.count is missing.

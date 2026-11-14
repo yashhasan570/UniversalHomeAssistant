@@ -10,7 +10,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     AlarmControlPanelState,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -18,7 +18,7 @@ from .coordinator import CanaryConfigEntry, CanaryDataUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CanaryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import CURRENCY_EURO, UnitOfEnergy, UnitOfPower, UnitOfVolume
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import (
@@ -237,7 +237,7 @@ SENSORS_GAS: tuple[PowerfoxReportSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PowerfoxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

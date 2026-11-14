@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.bosch_shc.const import DOMAIN
 from universalassistant.const import STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import battery_only_device, setup_integration
@@ -39,7 +39,7 @@ def motion_device(mock_session: MagicMock) -> MagicMock:
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_shc_entity_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     motion_device: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -66,7 +66,7 @@ async def test_shc_entity_via_device_id(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_shc_entity_via_device_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     motion_device: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -94,7 +94,7 @@ async def test_shc_entity_via_device_id_mismatch(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_callbacks_after_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     motion_device: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -128,7 +128,7 @@ async def test_callbacks_after_entity_id_change(
     indirect=True,
 )
 async def test_callbacks_unsubscribed_after_failed_entity_add(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     motion_device: MagicMock,
 ) -> None:

@@ -1,8 +1,8 @@
-"""Services for the Universal Universal Home Assistant Cloud integration."""
+"""Services for the __HA_KEEP__ Cloud integration."""
 
 from enum import StrEnum
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers.service import async_register_admin_service
 
 from .const import DATA_CLOUD, DOMAIN
@@ -25,7 +25,7 @@ async def _service_handler(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for cloud component."""
     async_register_admin_service(
         hass, DOMAIN, CloudService.REMOTE_CONNECT, _service_handler

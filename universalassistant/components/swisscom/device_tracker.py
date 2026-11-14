@@ -11,7 +11,7 @@ from universalassistant.components.device_tracker import (
     ScannerEntity,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -32,7 +32,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_see: AsyncSeeCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -58,7 +58,7 @@ async def async_setup_scanner(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SwisscomConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

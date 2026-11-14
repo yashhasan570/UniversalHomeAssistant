@@ -12,14 +12,14 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_v2c_client: AsyncMock,
@@ -33,7 +33,7 @@ async def test_select(
 
 
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_v2c_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_select_option(
 
 
 async def test_select_not_created_when_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_v2c_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

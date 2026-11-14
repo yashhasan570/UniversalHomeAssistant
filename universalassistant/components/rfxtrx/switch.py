@@ -8,7 +8,7 @@ import RFXtrx as rfxtrxmod
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_COMMAND_OFF, CONF_COMMAND_ON, STATE_ON
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -43,7 +43,7 @@ def supported(event: rfxtrxmod.RFXtrxEvent) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RfxtrxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

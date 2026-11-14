@@ -9,14 +9,14 @@ from pytest_universalassistant.typing import MockHAClientWebSocket, WebSocketGen
 from pytest_unordered import unordered
 
 from universalassistant.components.config import floor_registry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import floor_registry as fr
 from universalassistant.util.dt import utcnow
 
 
 @pytest.fixture(name="client")
 async def client_fixture(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> MockHAClientWebSocket:
     """Fixture that can interact with the config manager API."""
     floor_registry.async_setup(hass)
@@ -427,7 +427,7 @@ async def test_reorder_floors_with_nonexistent_id(
 
 
 async def test_reorder_floors_persistence(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MockHAClientWebSocket,
     floor_registry: fr.FloorRegistry,
     hass_storage: dict[str, Any],

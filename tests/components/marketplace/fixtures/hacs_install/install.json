@@ -1,5 +1,5 @@
 {
-  "source": "Written by HACS 1105d8d0 on Universal Universal Home Assistant 2025.3.0 after downloading an integration, a plugin and a theme",
+  "source": "Written by HACS 1105d8d0 on __HA_KEEP__ 2025.3.0 after downloading an integration, a plugin and a theme",
   "core.config_entries": {
     "version": 1,
     "minor_version": 5,

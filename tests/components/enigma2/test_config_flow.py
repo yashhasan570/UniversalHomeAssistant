@@ -11,14 +11,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.enigma2.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MAC_ADDRESS, TEST_FULL, TEST_REQUIRED
 
 
 @pytest.fixture
-async def user_flow(hass: UniversalAssistant) -> str:
+async def user_flow(hass: __HAC_KEEP__) -> str:
     """Return a user-initiated flow after filling in host info."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -33,7 +33,7 @@ async def user_flow(hass: UniversalAssistant) -> str:
     ("test_config"),
     [(TEST_FULL), (TEST_REQUIRED)],
 )
-async def test_form_user(hass: UniversalAssistant, test_config: dict[str, Any]) -> None:
+async def test_form_user(hass: __HAC_KEEP__, test_config: dict[str, Any]) -> None:
     """Test a successful user initiated flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -58,7 +58,7 @@ async def test_form_user(hass: UniversalAssistant, test_config: dict[str, Any]) 
     ],
 )
 async def test_form_user_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     openwebif_device_mock: AsyncMock,
     side_effect: Exception,
     error_value: str,
@@ -98,7 +98,7 @@ async def test_form_user_errors(
 
 @pytest.mark.usefixtures("openwebif_device_mock")
 async def test_duplicate_host(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that a duplicate host aborts the config flow."""
     mock_config_entry.add_to_hass(hass)
@@ -117,7 +117,7 @@ async def test_duplicate_host(
 
 
 @pytest.mark.usefixtures("openwebif_device_mock")
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test the form options."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=TEST_FULL, options={}, entry_id="1")

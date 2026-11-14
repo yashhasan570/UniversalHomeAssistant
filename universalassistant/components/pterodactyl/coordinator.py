@@ -6,7 +6,7 @@ from typing import override
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -34,7 +34,7 @@ class PterodactylCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: PterodactylConfigEntry,
     ) -> None:
         """Initialize coordinator instance."""

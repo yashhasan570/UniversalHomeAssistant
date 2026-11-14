@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.pjlink.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import DEFAULT_DATA
 
 
 async def test_user_flow_creates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_projector: MagicMock,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_user_flow_creates_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_aborts_if_already_configured(
-    hass: UniversalAssistant, mock_projector: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_projector: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user flow aborts if already configured."""
 
@@ -66,7 +66,7 @@ async def test_user_flow_aborts_if_already_configured(
     ],
 )
 async def test_form_invalid_inputs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_projector: MagicMock,
     side_effect: type[Exception],

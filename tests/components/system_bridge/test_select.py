@@ -27,8 +27,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import FIXTURE_REQUEST_ID
@@ -49,7 +49,7 @@ def select_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -60,7 +60,7 @@ async def test_select_platform(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_power_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
 ) -> None:
     """Test picking a power profile switches to it."""
@@ -81,7 +81,7 @@ async def test_power_profile(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_power_profile_added_later(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_power_profile_added_later(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_power_profile_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
     response: Response | type[Exception],
     message: str,
@@ -144,7 +144,7 @@ async def test_power_profile_error(
     """Test a failed switch raises."""
     mock_websocket_client.set_power_profile.side_effect = [response]
 
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -158,7 +158,7 @@ async def test_power_profile_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_default_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_select_default_input(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_duplicate_names(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -236,7 +236,7 @@ async def test_select_duplicate_names(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_name_matching_added_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     others: list[tuple[str, str]],
 ) -> None:
@@ -264,7 +264,7 @@ async def test_select_name_matching_added_id(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_select_available_without_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a new default can be picked when no input is the default."""

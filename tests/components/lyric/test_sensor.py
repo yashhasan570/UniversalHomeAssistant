@@ -17,7 +17,7 @@ from universalassistant.components.lyric.const import DOMAIN
 from universalassistant.components.lyric.sensor import get_datetime_from_future_time
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -44,7 +44,7 @@ def test_get_datetime_from_future_time_valid() -> None:
 
 @pytest.mark.usefixtures("setup_credentials", "mock_lyric_mixed_devices")
 async def test_room_sensors_created_regardless_of_device_id_prefix(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_room_sensors_created_regardless_of_device_id_prefix(
 
 @pytest.mark.usefixtures("setup_credentials", "mock_lyric_api")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -139,7 +139,7 @@ def _mock_lyric() -> MagicMock:
 
 
 async def test_accessory_links_to_thermostat_via_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test room accessory devices resolve the thermostat as their via_device."""
     entry = MockConfigEntry(
@@ -256,7 +256,7 @@ CURRENT_SCHEMA_PRIORITY = {
 )
 @pytest.mark.usefixtures("setup_credentials")
 async def test_room_sensors_from_either_priority_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     priority_json: dict[str, Any],

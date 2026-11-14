@@ -15,7 +15,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import fire_burst, setup_integration
@@ -26,7 +26,7 @@ SET_MODE_TOPIC = "prism/1/command/set_mode"
 
 
 async def test_selects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def test_selects(
     [("solar", "1"), ("normal", "2"), ("pause", "3")],
 )
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
     option: str,
@@ -71,7 +71,7 @@ async def test_select_option(
 
 @pytest.mark.usefixtures("mqtt_mock")
 async def test_mode_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that the selected mode follows the reported one."""
@@ -88,7 +88,7 @@ async def test_mode_updates(
 
 @pytest.mark.usefixtures("mqtt_mock")
 async def test_mode_not_selectable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that a mode Prism cannot be put back into reads as unknown."""

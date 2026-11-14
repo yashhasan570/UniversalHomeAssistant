@@ -4,7 +4,7 @@ from typing import override
 
 from bosch_alarm_mode2 import Panel
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -58,7 +58,7 @@ class BoschAlarmAreaEntity(BoschAlarmEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         panel: Panel,
         area_id: int,
         unique_id: str,
@@ -112,7 +112,7 @@ class BoschAlarmPointEntity(BoschAlarmEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         panel: Panel,
         point_id: int,
         unique_id: str,
@@ -150,7 +150,7 @@ class BoschAlarmDoorEntity(BoschAlarmEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         panel: Panel,
         door_id: int,
         unique_id: str,
@@ -188,7 +188,7 @@ class BoschAlarmOutputEntity(BoschAlarmEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         panel: Panel,
         output_id: int,
         unique_id: str,

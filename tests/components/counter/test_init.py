@@ -23,7 +23,7 @@ from universalassistant.components.counter import (
     CounterServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, EntityStateAttribute
-from universalassistant.core import Context, CoreState, UniversalAssistant, State
+from universalassistant.core import Context, CoreState, __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -33,7 +33,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @pytest.fixture
-def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
+def storage_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
     """Storage setup."""
 
     async def _storage(items=None, config=None):
@@ -72,13 +72,13 @@ def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
     "invalid_config",
     [None, 1, {"name with space": None}],
 )
-async def test_config(hass: UniversalAssistant, invalid_config) -> None:
+async def test_config(hass: __HAC_KEEP__, invalid_config) -> None:
     """Test config."""
 
     assert not await async_setup_component(hass, DOMAIN, {DOMAIN: invalid_config})
 
 
-async def test_config_options(hass: UniversalAssistant) -> None:
+async def test_config_options(hass: __HAC_KEEP__) -> None:
     """Test configuration options."""
     count_start = len(hass.states.async_entity_ids())
 
@@ -128,7 +128,7 @@ async def test_config_options(hass: UniversalAssistant) -> None:
     assert state_3.attributes.get(CounterEntityStateAttribute.STEP) == DEFAULT_STEP
 
 
-async def test_methods(hass: UniversalAssistant) -> None:
+async def test_methods(hass: __HAC_KEEP__) -> None:
     """Test increment, decrement, set value, and reset methods."""
     config = {DOMAIN: {"test_1": {}}}
 
@@ -176,7 +176,7 @@ async def test_methods(hass: UniversalAssistant) -> None:
     assert state.state == "5"
 
 
-async def test_methods_with_config(hass: UniversalAssistant) -> None:
+async def test_methods_with_config(hass: __HAC_KEEP__) -> None:
     """Test increment, decrement, and reset methods with configuration."""
     config = {
         DOMAIN: {
@@ -277,7 +277,7 @@ async def test_methods_with_config(hass: UniversalAssistant) -> None:
     assert state.state == "5"
 
 
-async def test_negative_with_config(hass: UniversalAssistant) -> None:
+async def test_negative_with_config(hass: __HAC_KEEP__) -> None:
     """Test increment, decrement, set, and reset methods with negative values."""
     config = {
         DOMAIN: {
@@ -329,7 +329,7 @@ async def test_negative_with_config(hass: UniversalAssistant) -> None:
     assert int(state.state) == -10
 
 
-async def test_initial_state_overrules_restore_state(hass: UniversalAssistant) -> None:
+async def test_initial_state_overrules_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure states are restored on startup."""
     mock_restore_cache(
         hass, (State("counter.test1", "11"), State("counter.test2", "-22"))
@@ -357,7 +357,7 @@ async def test_initial_state_overrules_restore_state(hass: UniversalAssistant) -
     assert int(state.state) == 10
 
 
-async def test_restore_state_overrules_initial_state(hass: UniversalAssistant) -> None:
+async def test_restore_state_overrules_initial_state(hass: __HAC_KEEP__) -> None:
     """Ensure states are restored on startup."""
 
     mock_restore_cache(
@@ -383,7 +383,7 @@ async def test_restore_state_overrules_initial_state(hass: UniversalAssistant) -
     assert int(state.state) == -22
 
 
-async def test_no_initial_state_and_no_restore_state(hass: UniversalAssistant) -> None:
+async def test_no_initial_state_and_no_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure that entity is create without initial and restore feature."""
     hass.set_state(CoreState.starting)
 
@@ -394,7 +394,7 @@ async def test_no_initial_state_and_no_restore_state(hass: UniversalAssistant) -
     assert int(state.state) == 0
 
 
-async def test_counter_context(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_counter_context(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test that counter context works."""
     assert await async_setup_component(hass, DOMAIN, {"counter": {"test": {}}})
 
@@ -415,7 +415,7 @@ async def test_counter_context(hass: UniversalAssistant, hass_admin_user: MockUs
     assert state2.context.user_id == hass_admin_user.id
 
 
-async def test_counter_min(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_counter_min(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test that min works."""
     assert await async_setup_component(
         hass, DOMAIN, {"counter": {"test": {"minimum": "0", "initial": "0"}}}
@@ -450,7 +450,7 @@ async def test_counter_min(hass: UniversalAssistant, hass_admin_user: MockUser) 
     assert state2.state == "1"
 
 
-async def test_counter_max(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_counter_max(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test that max works."""
     assert await async_setup_component(
         hass, DOMAIN, {"counter": {"test": {"maximum": "0", "initial": "0"}}}
@@ -485,7 +485,7 @@ async def test_counter_max(hass: UniversalAssistant, hass_admin_user: MockUser) 
     assert state2.state == "-1"
 
 
-async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> None:
+async def test_load_from_storage(hass: __HAC_KEEP__, storage_setup) -> None:
     """Test set up from storage."""
     assert await storage_setup()
     state = hass.states.get(f"{DOMAIN}.from_storage")
@@ -494,7 +494,7 @@ async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> Non
     assert state.attributes.get(CounterEntityStateAttribute.EDITABLE)
 
 
-async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup) -> None:
+async def test_editable_state_attribute(hass: __HAC_KEEP__, storage_setup) -> None:
     """Test editable attribute."""
     assert await storage_setup(
         config={
@@ -521,7 +521,7 @@ async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup)
 
 
 async def test_ws_list(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test listing via WS."""
     assert await storage_setup(
@@ -555,7 +555,7 @@ async def test_ws_list(
 
 
 async def test_ws_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     storage_setup,
@@ -584,7 +584,7 @@ async def test_ws_delete(
 
 
 async def test_update_min_max(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     storage_setup,
@@ -674,7 +674,7 @@ async def test_update_min_max(
 
 
 async def test_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     storage_setup,

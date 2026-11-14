@@ -13,8 +13,8 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.husqvarna_automower.const import DOMAIN
 from universalassistant.components.husqvarna_automower.coordinator import SCAN_INTERVAL
 from universalassistant.components.lawn_mower import LawnMowerActivity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from . import setup_integration
 from .const import TEST_MOWER_ID
@@ -54,7 +54,7 @@ from .const import TEST_MOWER_ID
     ],
 )
 async def test_lawn_mower_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -87,7 +87,7 @@ async def test_lawn_mower_states(
     ],
 )
 async def test_lawn_mower_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioautomower_command: str,
     service: str,
     mock_automower_client: AsyncMock,
@@ -106,7 +106,7 @@ async def test_lawn_mower_commands(
 
     mocked_method.side_effect = ApiError("Test error")
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Failed to send command: Test error",
     ):
         await hass.services.async_call(
@@ -141,7 +141,7 @@ async def test_lawn_mower_commands(
     ],
 )
 async def test_lawn_mower_service_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioautomower_command: str,
     extra_data: timedelta,
     service: str,
@@ -163,7 +163,7 @@ async def test_lawn_mower_service_commands(
 
     mocked_method.side_effect = ApiError("Test error")
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Failed to send command: Test error",
     ):
         await hass.services.async_call(
@@ -191,7 +191,7 @@ async def test_lawn_mower_service_commands(
     ],
 )
 async def test_lawn_mower_override_work_area_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioautomower_command: str,
     extra_data1: int,
     extra_data2: timedelta,
@@ -216,7 +216,7 @@ async def test_lawn_mower_override_work_area_command(
         mock_automower_client.commands, aioautomower_command
     ).side_effect = ApiError("Test error")
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Failed to send command: Test error",
     ):
         await hass.services.async_call(
@@ -261,7 +261,7 @@ async def test_lawn_mower_override_work_area_command(
     ],
 )
 async def test_lawn_mower_wrong_service_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     service_data: dict[str, int] | None,
     mower_support_wa: bool,

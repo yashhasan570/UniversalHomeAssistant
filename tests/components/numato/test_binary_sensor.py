@@ -7,7 +7,7 @@ import pytest
 
 from universalassistant.components.numato import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import discovery
 from universalassistant.setup import async_setup_component
 
@@ -22,7 +22,7 @@ MOCKUP_ENTITY_IDS = {
 
 
 async def test_failing_setups_no_entities(
-    hass: UniversalAssistant, numato_fixture, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, numato_fixture, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """When port setup fails, no entity shall be created."""
     monkeypatch.setattr(numato_fixture.NumatoDeviceMock, "setup", mockup_raise)
@@ -32,7 +32,7 @@ async def test_failing_setups_no_entities(
         assert entity_id not in hass.states.async_entity_ids()
 
 
-async def test_setup_callbacks(hass: UniversalAssistant, numato_fixture) -> None:
+async def test_setup_callbacks(hass: __HAC_KEEP__, numato_fixture) -> None:
     """During setup a callback shall be registered."""
 
     with patch.object(
@@ -54,9 +54,9 @@ async def test_setup_callbacks(hass: UniversalAssistant, numato_fixture) -> None
 
 
 async def test_hass_binary_sensor_notification(
-    hass: UniversalAssistant, numato_fixture
+    hass: __HAC_KEEP__, numato_fixture
 ) -> None:
-    """Test regular operations from within Universal Universal Home Assistant."""
+    """Test regular operations from within __HA_KEEP__."""
     assert await async_setup_component(hass, DOMAIN, NUMATO_CFG)
     await hass.async_block_till_done()  # wait until services are registered
     assert (
@@ -70,7 +70,7 @@ async def test_hass_binary_sensor_notification(
 
 
 async def test_binary_sensor_setup_without_discovery_info(
-    hass: UniversalAssistant, config, numato_fixture
+    hass: __HAC_KEEP__, config, numato_fixture
 ) -> None:
     """Test handling of empty discovery_info."""
     numato_fixture.discover()
@@ -85,7 +85,7 @@ async def test_binary_sensor_setup_without_discovery_info(
 
 
 async def test_binary_sensor_setup_no_notify(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     numato_fixture,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

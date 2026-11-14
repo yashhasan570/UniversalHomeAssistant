@@ -22,14 +22,14 @@ from universalassistant.components.zwave_js.const import (
 )
 from universalassistant.components.zwave_js.helpers import ZwaveValueMatcher
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, Unauthorized
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
 
 from .common import SCHLAGE_BE469_LOCK_ENTITY, replace_value_of_zwave_value
 
 
 async def test_door_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
@@ -285,7 +285,7 @@ async def test_door_lock(
 
     client.async_send_command.side_effect = FailedZWaveCommand("test", 1, "test")
     # Test set usercode service error handling
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.SET_LOCK_USERCODE,
@@ -298,7 +298,7 @@ async def test_door_lock(
         )
 
     # Test clear usercode service error handling
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.CLEAR_LOCK_USERCODE,
@@ -315,7 +315,7 @@ async def test_door_lock(
             "universalassistant.components.zwave_js.lock.get_usercode",
             side_effect=NotFoundError("usercode for code slot 1 not found"),
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -348,14 +348,14 @@ async def test_door_lock(
 
 
 async def test_only_one_lock(
-    hass: UniversalAssistant, client, lock_home_connect_620, integration
+    hass: __HAC_KEEP__, client, lock_home_connect_620, integration
 ) -> None:
     """Test node with both Door Lock and Lock CC values only gets one lock entity."""
     assert len(hass.states.async_entity_ids("lock")) == 1
 
 
 async def test_door_lock_no_value(
-    hass: UniversalAssistant, client, lock_schlage_be469_state, integration
+    hass: __HAC_KEEP__, client, lock_schlage_be469_state, integration
 ) -> None:
     """Test a lock entity with door lock command class that has no value for mode."""
     node_state = replace_value_of_zwave_value(
@@ -377,7 +377,7 @@ async def test_door_lock_no_value(
 
 
 async def test_get_lock_usercode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
@@ -417,14 +417,14 @@ async def test_get_lock_usercode(
 
 
 async def test_set_lock_usercode_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
 ) -> None:
     """Test set lock usercode service error handling."""
     client.async_send_command.side_effect = FailedZWaveCommand("test", 1, "test")
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.SET_LOCK_USERCODE,
@@ -443,14 +443,14 @@ async def test_set_lock_usercode_error(
 
 
 async def test_clear_lock_usercode_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
 ) -> None:
     """Test clear lock usercode service error handling."""
     client.async_send_command.side_effect = FailedZWaveCommand("test", 1, "test")
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.CLEAR_LOCK_USERCODE,
@@ -468,7 +468,7 @@ async def test_clear_lock_usercode_error(
 
 
 async def test_get_lock_usercode_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
@@ -479,7 +479,7 @@ async def test_get_lock_usercode_error(
             "universalassistant.components.zwave_js.lock.get_usercode",
             side_effect=NotFoundError("usercode for code slot 1 not found"),
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -494,7 +494,7 @@ async def test_get_lock_usercode_error(
 
 
 async def test_get_all_lock_usercodes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
@@ -553,7 +553,7 @@ async def test_get_all_lock_usercodes(
     ],
 )
 async def test_lock_management_services_require_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     lock_schlage_be469: Node,
     integration: MockConfigEntry,
     hass_read_only_user: MockUser,

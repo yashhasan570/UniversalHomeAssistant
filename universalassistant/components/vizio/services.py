@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.media_player import DOMAIN as MEDIA_PLAYER_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.typing import VolDictType
 
@@ -46,7 +46,7 @@ SEND_TEXT_SCHEMA: VolDictType = {
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services."""
 
     service.async_register_platform_entity_service(

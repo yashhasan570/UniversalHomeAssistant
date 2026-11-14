@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -25,7 +25,7 @@ def sensor_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_cookidoo_client")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,

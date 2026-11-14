@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.number import DOMAIN as NUMBER_DOMAIN, NumberService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -29,7 +29,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_all_numbers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -40,7 +40,7 @@ async def test_all_numbers(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_entity_unavailable_no_coordinator_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_pooldose_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -63,7 +63,7 @@ async def test_number_entity_unavailable_no_coordinator_data(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_state_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_pooldose_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -94,7 +94,7 @@ async def test_number_state_changes(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_number_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
 ) -> None:
     """Test setting a number value."""
@@ -120,7 +120,7 @@ async def test_set_number_value(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_actions_cannot_connect_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -148,7 +148,7 @@ async def test_actions_cannot_connect_number(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_actions_write_rejected_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,

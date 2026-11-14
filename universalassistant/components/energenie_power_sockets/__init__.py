@@ -5,7 +5,7 @@ from pyegps.exceptions import MissingLibrary, UsbError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 from .const import CONF_DEVICE_API_ID
@@ -15,7 +15,7 @@ PLATFORMS = [Platform.SWITCH]
 type EnergenieConfigEntry = ConfigEntry[PowerStripUSB]
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: EnergenieConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: EnergenieConfigEntry) -> None:
     """Migrate old config entry."""
     if entry.version == 1:
         new_data = {**entry.data}
@@ -23,7 +23,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: EnergenieConfigEn
         hass.config_entries.async_update_entry(entry, data=new_data, version=2)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: EnergenieConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: EnergenieConfigEntry) -> None:
     """Set up Energenie Power Sockets."""
     try:
         powerstrip: PowerStripUSB | None = get_device(entry.data[CONF_DEVICE_API_ID])
@@ -41,6 +41,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: EnergenieConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: EnergenieConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: EnergenieConfigEntry) -> None:
     """Unload config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

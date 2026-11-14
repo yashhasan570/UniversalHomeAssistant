@@ -14,9 +14,9 @@ from universalassistant.components.novy_cooker_hood.const import CONF_TRANSMITTE
 from universalassistant.components.radio_frequency import DATA_COMPONENT, DOMAIN as RF_DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_CODE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -30,7 +30,7 @@ def mock_toggle_gap() -> Iterator[None]:
         yield
 
 
-async def _start_user_flow(hass: UniversalAssistant, code: str = "1") -> dict:
+async def _start_user_flow(hass: __HAC_KEEP__, code: str = "1") -> dict:
     """Start the flow and submit the user step with the given code."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -49,7 +49,7 @@ async def _start_user_flow(hass: UniversalAssistant, code: str = "1") -> dict:
 
 
 async def test_user_flow_test_then_finish(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rf_entity: MockRadioFrequencyEntity,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_user_flow_test_then_finish(
 
 
 async def test_user_flow_retry_picks_different_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rf_entity: MockRadioFrequencyEntity,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -118,13 +118,13 @@ async def test_user_flow_retry_picks_different_code(
 
 
 async def test_user_flow_test_transmit_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """A transmit failure surfaces as a `test_failed` menu with a Retry option."""
     with patch(
         "universalassistant.components.novy_cooker_hood.config_flow.async_send_command",
-        side_effect=UniversalAssistantError("nope"),
+        side_effect=__HAC_KEEP__Error("nope"),
     ):
         result = await _start_user_flow(hass)
 
@@ -133,13 +133,13 @@ async def test_user_flow_test_transmit_failure(
 
 
 async def test_recover_after_transmit_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
     """The user can Retry from test_failed and complete the flow."""
     with patch(
         "universalassistant.components.novy_cooker_hood.config_flow.async_send_command",
-        side_effect=UniversalAssistantError("nope"),
+        side_effect=__HAC_KEEP__Error("nope"),
     ):
         result = await _start_user_flow(hass)
 
@@ -166,7 +166,7 @@ async def test_recover_after_transmit_failure(
 
 
 async def test_unique_id_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test aborting when the same transmitter+code is already configured."""
@@ -188,7 +188,7 @@ async def test_unique_id_already_configured(
 
 
 async def test_same_transmitter_different_code_is_allowed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_rf_entity: MockRadioFrequencyEntity,
     entity_registry: er.EntityRegistry,
@@ -209,7 +209,7 @@ async def test_same_transmitter_different_code_is_allowed(
 
 
 async def test_reconfigure_updates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_novy_cooker_hood: MockConfigEntry,
     mock_rf_entity: MockRadioFrequencyEntity,
     entity_registry: er.EntityRegistry,
@@ -247,7 +247,7 @@ async def test_reconfigure_updates_entry(
 
 
 async def test_reconfigure_frees_old_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_novy_cooker_hood: MockConfigEntry,
     mock_rf_entity: MockRadioFrequencyEntity,
     entity_registry: er.EntityRegistry,
@@ -277,7 +277,7 @@ async def test_reconfigure_frees_old_unique_id(
 
 
 async def test_reconfigure_aborts_on_collision(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_rf_entity: MockRadioFrequencyEntity,
     entity_registry: er.EntityRegistry,
@@ -306,7 +306,7 @@ async def test_reconfigure_aborts_on_collision(
 
 
 async def test_reconfigure_retry_returns_to_picker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_novy_cooker_hood: MockConfigEntry,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> None:
@@ -325,7 +325,7 @@ async def test_reconfigure_retry_returns_to_picker(
     assert result["step_id"] == "reconfigure"
 
 
-async def test_no_transmitters(hass: UniversalAssistant) -> None:
+async def test_no_transmitters(hass: __HAC_KEEP__) -> None:
     """Test the flow aborts when no RF transmitters are registered at all."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -336,7 +336,7 @@ async def test_no_transmitters(hass: UniversalAssistant) -> None:
 
 
 async def test_recover_after_no_transmitters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """User can re-init the flow after the radio_frequency integration loads."""
     result = await hass.config_entries.flow.async_init(
@@ -355,7 +355,7 @@ async def test_recover_after_no_transmitters(
     assert result["step_id"] == "test_light"
 
 
-async def test_no_compatible_transmitters(hass: UniversalAssistant) -> None:
+async def test_no_compatible_transmitters(hass: __HAC_KEEP__) -> None:
     """Test aborting when transmitters exist but none support 433.92 MHz OOK."""
     assert await async_setup_component(hass, RF_DOMAIN, {})
     await hass.async_block_till_done()

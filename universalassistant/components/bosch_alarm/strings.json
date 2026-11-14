@@ -166,7 +166,7 @@
           "name": "Config entry"
         },
         "datetime": {
-          "description": "The date and time to set. The time zone of the Universal Universal Home Assistant instance is assumed. If omitted, the current date and time is used.",
+          "description": "The date and time to set. The time zone of the __HA_KEEP__ instance is assumed. If omitted, the current date and time is used.",
           "name": "Date & time"
         }
       },

@@ -7,7 +7,7 @@ from typing import Any, cast, override
 import probatio
 
 from universalassistant.auth.models import User
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResult
 from universalassistant.helpers.storage import Store
 
@@ -64,7 +64,7 @@ def _generate_secret_and_qr_code(username: str) -> tuple[str, str, str]:
 
     ota_secret = pyotp.random_base32()
     url = pyotp.totp.TOTP(ota_secret).provisioning_uri(
-        username, issuer_name="Universal Universal Home Assistant"
+        username, issuer_name="__HA_KEEP__"
     )
     image = _generate_qr_code(url)
     return ota_secret, url, image
@@ -77,7 +77,7 @@ class TotpAuthModule(MultiFactorAuthModule):
     DEFAULT_TITLE = "Time-based One Time Password"
     MAX_RETRY_TIME = 5
 
-    def __init__(self, hass: UniversalAssistant, config: dict[str, Any]) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
         """Initialize the user data store."""
         super().__init__(hass, config)
         self._users: dict[str, str] | None = None

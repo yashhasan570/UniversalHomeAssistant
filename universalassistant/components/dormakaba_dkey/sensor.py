@@ -9,7 +9,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import DormakabaDkeyConfigEntry, DormakabaDkeyCoordinator
@@ -26,7 +26,7 @@ BINARY_SENSOR_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DormakabaDkeyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

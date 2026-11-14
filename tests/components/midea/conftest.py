@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.midea.const import CONF_KEY, CONF_SN, CONF_SUBTYPE, DOMAIN
 from universalassistant.components.midea.device_catalog import MIDEA_DEVICE_NAMES
 from universalassistant.const import CONF_MAC, CONF_NAME, CONF_TOKEN, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import (
@@ -156,7 +156,7 @@ def default_ac_device() -> DummyDevice:
 
 
 def entity_entries(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> dict[str, er.RegistryEntry]:
     """Return entity registry entries for a config entry, keyed by unique id."""
     entity_registry = er.async_get(hass)
@@ -210,7 +210,7 @@ def mock_config_entry() -> Callable[[DummyDevice], MockConfigEntry]:
 
 
 @pytest.fixture
-def set_device_attribute(hass: UniversalAssistant) -> SetDeviceAttribute:
+def set_device_attribute(hass: __HAC_KEEP__) -> SetDeviceAttribute:
     """Return a function that sets an attribute on a device and notifies the integration."""
 
     async def _set_device_attribute(

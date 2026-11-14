@@ -17,8 +17,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -30,7 +30,7 @@ from universalassistant.util import dt as dt_util
     [[Platform.BUTTON]],
 )
 async def test_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -46,7 +46,7 @@ async def test_button(
     [[Platform.BINARY_SENSOR, Platform.BUTTON, Platform.SENSOR]],
 )
 async def test_button_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -105,7 +105,7 @@ async def test_button_update(
 
 
 async def test_button_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: ConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_button_failure(
     mock_client.async_reset_filter.return_value = {"status": "failure"}
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,

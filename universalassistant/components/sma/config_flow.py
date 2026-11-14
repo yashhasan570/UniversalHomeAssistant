@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
@@ -77,7 +77,7 @@ STEP_DISCOVERY_CONFIRM_DATA_SCHEMA = probatio.Schema(
 
 
 async def validate_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_input: dict[str, Any],
     data: dict[str, Any] | None = None,
 ) -> dict[str, Any]:

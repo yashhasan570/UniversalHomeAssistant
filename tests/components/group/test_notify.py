@@ -36,7 +36,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.setup import async_setup_component
 
@@ -51,7 +51,7 @@ class MockNotifyPlatform(MockPlatform):
 
 
 def mock_notify_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     async_get_service: Any = None,
 ):
@@ -63,7 +63,7 @@ def mock_notify_platform(
 
 
 async def help_setup_notify(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     targets: dict[str, None] | None = None,
     group_setup: list[dict[str, None]] | None = None,
@@ -87,7 +87,7 @@ async def help_setup_notify(
             send_message_mock(message, kwargs)
 
     async def async_get_service(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         discovery_info: DiscoveryInfoType | None = None,
     ) -> notify.BaseNotificationService:
@@ -106,7 +106,7 @@ async def help_setup_notify(
     return send_message_mock
 
 
-async def test_send_message_with_data(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_send_message_with_data(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test sending a message with to a notify group."""
     assert await async_setup_component(
         hass,
@@ -205,7 +205,7 @@ async def test_send_message_with_data(hass: UniversalAssistant, tmp_path: Path) 
 
 
 async def test_invalid_configuration(
-    hass: UniversalAssistant, tmp_path: Path, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, tmp_path: Path, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test failing to set up group with an invalid configuration."""
     assert await async_setup_component(
@@ -239,7 +239,7 @@ async def test_invalid_configuration(
     )
 
 
-async def test_reload_notify(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_reload_notify(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Verify we can reload the notify service."""
     assert await async_setup_component(
         hass,
@@ -287,7 +287,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, "test.config_flow")
 
@@ -311,7 +311,7 @@ class MockNotifyEntity(MockEntity, NotifyEntity):
 
 
 async def help_async_setup_entry_init(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Set up test config entry."""
     await hass.config_entries.async_forward_entry_setups(
@@ -320,7 +320,7 @@ async def help_async_setup_entry_init(
 
 
 async def help_async_unload_entry(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Unload test config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
@@ -330,7 +330,7 @@ async def help_async_unload_entry(
 
 @pytest.fixture
 async def mock_notifiers(
-    hass: UniversalAssistant, config_flow_fixture: None
+    hass: __HAC_KEEP__, config_flow_fixture: None
 ) -> list[MockNotifyEntity]:
     """Set up the notify entities."""
     entity_title_1 = MockNotifyEntity(
@@ -363,7 +363,7 @@ async def mock_notifiers(
 
 
 async def test_notify_entity_group(
-    hass: UniversalAssistant, mock_notifiers: list[MockNotifyEntity]
+    hass: __HAC_KEEP__, mock_notifiers: list[MockNotifyEntity]
 ) -> None:
     """Test sending a message to a notify group."""
     entity_title_1, entity_title_2, entity_no_title_1, entity_no_title_2 = (
@@ -539,7 +539,7 @@ async def test_notify_entity_group(
     )
 
 
-async def test_state_reporting(hass: UniversalAssistant) -> None:
+async def test_state_reporting(hass: __HAC_KEEP__) -> None:
     """Test sending a message to a notify group."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

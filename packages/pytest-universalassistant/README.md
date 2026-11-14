@@ -1,7 +1,7 @@
 # pytest-universalassistant
 
-Pytest fixtures and helpers for testing Universal Universal Home Assistant integrations. Create a
-Universal Universal Home Assistant instance, mock configuration entries and external services,
+Pytest fixtures and helpers for testing __HA_KEEP__ integrations. Create a
+__HA_KEEP__ instance, mock configuration entries and external services,
 simulate events, and check integration behavior.
 
 ## Installation and compatibility
@@ -12,7 +12,7 @@ Install the package into your custom integration's virtual environment:
 uv pip install pytest-universalassistant
 ```
 
-Use the package release that matches your Universal Universal Home Assistant version. Upgrade them
+Use the package release that matches your __HA_KEEP__ version. Upgrade them
 together.
 The plugin loads automatically. Do not install it together with
 `pytest-universalassistant-custom-component`, which supplies overlapping fixtures.
@@ -32,7 +32,7 @@ Add this pytest configuration to your project's `pyproject.toml`:
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
-# Let Universal Universal Home Assistant install its httpx alias before respx is imported.
+# Let __HA_KEEP__ install its httpx alias before respx is imported.
 addopts = "-p no:respx"
 pythonpath = ["."]
 testpaths = ["tests"]
@@ -46,11 +46,11 @@ Tests request fixtures such as `hass` by name and import helpers from
 configuration entry without setting up the integration:
 
 ```python
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from pytest_universalassistant.common import MockConfigEntry
 
 
-async def test_config_entry(hass: UniversalAssistant) -> None:
+async def test_config_entry(hass: __HAC_KEEP__) -> None:
     entry = MockConfigEntry(domain="my_integration", data={"host": "example.local"})
     entry.add_to_hass(hass)
 
@@ -91,7 +91,7 @@ shared configuration if it exists, or provides an empty temporary directory.
 | `pytest_universalassistant.components.repairs` | Helpers for listing repair issues and starting and completing repair flows. |
 | `pytest_universalassistant.components.infrared.common`, `.radio_frequency.common` | Mock IR and RF entities and commands, plus integration setup helpers. |
 | `pytest_universalassistant.test_util.aiohttp` | Mock HTTP client responses and sessions. |
-| `pytest_universalassistant.syrupy` | Snapshot extensions for Universal Universal Home Assistant objects. |
+| `pytest_universalassistant.syrupy` | Snapshot extensions for __HA_KEEP__ objects. |
 | `pytest_universalassistant.typing` | Type aliases for shared test fixtures. |
 
 ## Migrating from pytest-universalassistant-custom-component

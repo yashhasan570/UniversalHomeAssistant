@@ -17,14 +17,14 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_entities(
 
 
 async def test_vmb8in_counter_energy_unavailable_when_no_energy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_buttoncounter: AsyncMock,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_vmb8in_counter_energy_unavailable_when_no_energy(
 
 
 async def test_vmb7in_gas_counter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test a VMB7IN gas counter reports a m³ total (regression for #179361)."""
@@ -84,7 +84,7 @@ async def test_vmb7in_gas_counter(
 
 
 async def test_vmb7in_gas_counter_unavailable_when_no_total(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_gascounter: AsyncMock,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_vmb7in_gas_counter_unavailable_when_no_total(
 
 
 async def test_vmb7in_water_counter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test a VMB7IN water counter reports a litre total (regression for #179361)."""
@@ -133,7 +133,7 @@ async def test_vmb7in_water_counter(
 
 
 async def test_vmb7in_water_counter_unavailable_when_no_total(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_watercounter: AsyncMock,
 ) -> None:

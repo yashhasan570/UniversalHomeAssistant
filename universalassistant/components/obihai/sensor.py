@@ -6,7 +6,7 @@ from typing import override
 from requests.exceptions import RequestException
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import ObihaiConfigEntry
@@ -17,7 +17,7 @@ SCAN_INTERVAL = dt.timedelta(seconds=5)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ObihaiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

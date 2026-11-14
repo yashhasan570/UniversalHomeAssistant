@@ -18,7 +18,7 @@ from universalassistant.components.event import (
     EventEntityDescription,
 )
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -33,7 +33,7 @@ RECONNECT_INTERVAL = 10
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: NtfyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

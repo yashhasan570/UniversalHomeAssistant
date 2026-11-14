@@ -13,7 +13,7 @@ from energyzero import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -57,7 +57,7 @@ class EnergyZeroDataUpdateCoordinator(DataUpdateCoordinator[EnergyZeroData]):
 
     config_entry: EnergyZeroConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: EnergyZeroConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: EnergyZeroConfigEntry) -> None:
         """Initialize global EnergyZero data updater."""
         super().__init__(
             hass,

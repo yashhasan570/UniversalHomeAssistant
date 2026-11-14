@@ -39,7 +39,7 @@
           "password": "The Total Connect password",
           "username": "The Total Connect username"
         },
-        "description": "It is highly recommended to use a 'standard' Total Connect user account with Universal Universal Home Assistant. The account should not have full administrative privileges.",
+        "description": "It is highly recommended to use a 'standard' Total Connect user account with __HA_KEEP__. The account should not have full administrative privileges.",
         "title": "Total Connect 2.0 account credentials"
       }
     }

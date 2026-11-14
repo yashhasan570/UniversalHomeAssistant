@@ -4,11 +4,11 @@ from unittest.mock import MagicMock
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def setup_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_ondilo_client: MagicMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_ondilo_client: MagicMock
 ) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)

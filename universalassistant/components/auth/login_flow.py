@@ -80,7 +80,7 @@ from universalassistant import data_entry_flow
 from universalassistant.auth import AuthManagerFlowManager
 from universalassistant.auth.models import AuthFlowContext, AuthFlowResult
 from universalassistant.components import onboarding
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.components.http.auth_util import async_user_not_allowed_do_auth
 from universalassistant.components.http.ban import (
     log_invalid_auth,
@@ -89,7 +89,7 @@ from universalassistant.components.http.ban import (
 )
 from universalassistant.components.http.const import MAX_UNAUTHENTICATED_BODY_SIZE
 from universalassistant.components.http.data_validator import RequestDataValidator
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.network import (
     NoURLAvailableError,
     get_url,
@@ -106,7 +106,7 @@ MAX_URL_LENGTH = 2048
 
 
 @callback
-def async_setup(hass: UniversalAssistant, store_result: StoreResultType) -> None:
+def async_setup(hass: __HAC_KEEP__, store_result: StoreResultType) -> None:
     """Component to allow users to login."""
     hass.http.register_view(WellKnownOAuthInfoView)
     hass.http.register_view(WellKnownProtectedResourceView)
@@ -115,7 +115,7 @@ def async_setup(hass: UniversalAssistant, store_result: StoreResultType) -> None
     hass.http.register_view(LoginFlowResourceView(hass.auth.login_flow, store_result))
 
 
-class WellKnownOAuthInfoView(UniversalAssistantView):
+class WellKnownOAuthInfoView(__HAC_KEEP__View):
     """View to host the OAuth2 information."""
 
     requires_auth = False
@@ -140,7 +140,7 @@ class WellKnownOAuthInfoView(UniversalAssistantView):
             "grant_types_supported": ["authorization_code", "refresh_token"],
             "token_endpoint_auth_methods_supported": ["none"],
             "revocation_endpoint_auth_methods_supported": ["none"],
-            # Universal Universal Home Assistant accepts URL-based client_ids via IndieAuth without
+            # __HA_KEEP__ accepts URL-based client_ids via IndieAuth without
             # prior registration, and discovers allowed redirect URIs from link
             # tags or a Client ID Metadata Document served at the client_id URL.
             # This flag advertises that support
@@ -160,7 +160,7 @@ class WellKnownOAuthInfoView(UniversalAssistantView):
         return self.json(metadata)
 
 
-class WellKnownProtectedResourceView(UniversalAssistantView):
+class WellKnownProtectedResourceView(__HAC_KEEP__View):
     """View to host the OAuth2 Protected Resource Metadata per RFC9728."""
 
     requires_auth = False
@@ -187,7 +187,7 @@ class WellKnownProtectedResourceView(UniversalAssistantView):
         )
 
 
-class AuthProvidersView(UniversalAssistantView):
+class AuthProvidersView(__HAC_KEEP__View):
     """View to get available auth providers."""
 
     url = "/auth/providers"
@@ -255,7 +255,7 @@ def _prepare_result_json(result: AuthFlowResult) -> dict[str, Any]:
     return data
 
 
-class LoginFlowBaseView(UniversalAssistantView):
+class LoginFlowBaseView(__HAC_KEEP__View):
     """Base class for the login views."""
 
     requires_auth = False

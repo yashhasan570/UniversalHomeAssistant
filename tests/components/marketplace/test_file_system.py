@@ -9,10 +9,10 @@ from universalassistant.components.marketplace.utils.file_system import (
     async_remove,
     async_remove_directory,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_exists(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_exists(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test checking whether a path exists."""
     target = tmp_path / "target"
     assert not await async_exists(hass, target)
@@ -25,7 +25,7 @@ async def test_exists(hass: UniversalAssistant, tmp_path: Path) -> None:
     "missing_ok",
     [pytest.param(False, id="not_missing_ok"), pytest.param(True, id="missing_ok")],
 )
-async def test_remove(hass: UniversalAssistant, tmp_path: Path, missing_ok: bool) -> None:
+async def test_remove(hass: __HAC_KEEP__, tmp_path: Path, missing_ok: bool) -> None:
     """Test removing a file that is there."""
     target = tmp_path / "target"
     target.touch()
@@ -40,14 +40,14 @@ async def test_remove(hass: UniversalAssistant, tmp_path: Path, missing_ok: bool
     [pytest.param({}, id="default"), pytest.param({"missing_ok": False}, id="strict")],
 )
 async def test_remove_missing_raises(
-    hass: UniversalAssistant, tmp_path: Path, kwargs: dict[str, bool]
+    hass: __HAC_KEEP__, tmp_path: Path, kwargs: dict[str, bool]
 ) -> None:
     """Test removing a file that is not there."""
     with pytest.raises(FileNotFoundError):
         await async_remove(hass, tmp_path / "target", **kwargs)
 
 
-async def test_remove_missing_allowed(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_remove_missing_allowed(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test removing a file that is not there is allowed."""
     await async_remove(hass, tmp_path / "target", missing_ok=True)
 
@@ -57,7 +57,7 @@ async def test_remove_missing_allowed(hass: UniversalAssistant, tmp_path: Path) 
     [pytest.param(False, id="not_missing_ok"), pytest.param(True, id="missing_ok")],
 )
 async def test_remove_directory(
-    hass: UniversalAssistant, tmp_path: Path, missing_ok: bool
+    hass: __HAC_KEEP__, tmp_path: Path, missing_ok: bool
 ) -> None:
     """Test removing a directory that is there."""
     target = tmp_path / "target"
@@ -73,7 +73,7 @@ async def test_remove_directory(
     [pytest.param({}, id="default"), pytest.param({"missing_ok": False}, id="strict")],
 )
 async def test_remove_directory_missing_raises(
-    hass: UniversalAssistant, tmp_path: Path, kwargs: dict[str, bool]
+    hass: __HAC_KEEP__, tmp_path: Path, kwargs: dict[str, bool]
 ) -> None:
     """Test removing a directory that is not there."""
     with pytest.raises(FileNotFoundError):
@@ -81,7 +81,7 @@ async def test_remove_directory_missing_raises(
 
 
 async def test_remove_directory_missing_allowed(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test removing a directory that is not there is allowed."""
     await async_remove_directory(hass, tmp_path / "target", missing_ok=True)

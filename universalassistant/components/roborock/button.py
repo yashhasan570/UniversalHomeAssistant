@@ -12,8 +12,8 @@ from roborock.roborock_message import RoborockZeoProtocol
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -145,7 +145,7 @@ Q10_BUTTON_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RoborockConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -185,7 +185,7 @@ async def async_setup_entry(
             async def async_add_routine_buttons() -> None:
                 try:
                     routines = await coordinator.get_routines()
-                except UniversalAssistantError as err:
+                except __HAC_KEEP__Error as err:
                     _LOGGER.error(
                         "Failed to get routines for %s: %s",
                         coordinator.device.name,
@@ -267,7 +267,7 @@ class RoborockButtonEntity(RoborockEntityV1, ButtonEntity):
             # This error message could be improved since it is fairly low level
             # and technical. Can add a more user friendly message with the
             # name of the attribute being reset.
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -307,7 +307,7 @@ class RoborockResolveDockErrorButtonEntity(RoborockCoordinatedEntityV1, ButtonEn
             # An explicit dock error prevents falling back to the robot error.
             await self._status.resolve_error(int(dock_error))
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -367,7 +367,7 @@ class RoborockButtonEntityA01(RoborockCoordinatedEntityA01, ButtonEntity):
                 1,
             )
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="button_press_failed",
             ) from err
@@ -401,7 +401,7 @@ class RoborockQ10EmptyDustbinButtonEntity(
         try:
             await self.coordinator.api.vacuum.empty_dustbin()
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={

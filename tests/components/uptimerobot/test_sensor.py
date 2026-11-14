@@ -8,7 +8,7 @@ from pyuptimerobot import UptimeRobotAuthenticationException
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.components.uptimerobot.const import COORDINATOR_UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .common import (
@@ -22,7 +22,7 @@ from .common import (
 )
 
 
-async def test_presentation(hass: UniversalAssistant) -> None:
+async def test_presentation(hass: __HAC_KEEP__) -> None:
     """Test the presentation of UptimeRobot sensors."""
     await setup_uptimerobot_integration(hass)
 
@@ -40,7 +40,7 @@ async def test_presentation(hass: UniversalAssistant) -> None:
     ]
 
 
-async def test_unavailable_on_update_failure(hass: UniversalAssistant) -> None:
+async def test_unavailable_on_update_failure(hass: __HAC_KEEP__) -> None:
     """Test entity unavailable on update failure."""
     await setup_uptimerobot_integration(hass)
 
@@ -58,7 +58,7 @@ async def test_unavailable_on_update_failure(hass: UniversalAssistant) -> None:
     assert entity.state == STATE_UNAVAILABLE
 
 
-async def test_sensor_dynamic(hass: UniversalAssistant) -> None:
+async def test_sensor_dynamic(hass: __HAC_KEEP__) -> None:
     """Test sensor dynamically added."""
     await setup_uptimerobot_integration(hass)
 
@@ -87,7 +87,7 @@ async def test_sensor_dynamic(hass: UniversalAssistant) -> None:
 
 
 async def test_sensor_monitor_status_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test sensor becomes unknown when the monitor status is missing."""
     monitor_without_status = {**MOCK_UPTIMEROBOT_MONITOR, "status": None}

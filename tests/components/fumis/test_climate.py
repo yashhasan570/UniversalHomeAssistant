@@ -26,15 +26,15 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.fumis.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
 
 
 async def test_climate_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -52,7 +52,7 @@ async def test_climate_entity(
 
 
 async def test_set_hvac_mode_heat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
 ) -> None:
     """Test setting HVAC mode to heat."""
@@ -67,7 +67,7 @@ async def test_set_hvac_mode_heat(
 
 
 async def test_set_hvac_mode_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
 ) -> None:
     """Test setting HVAC mode to off."""
@@ -82,7 +82,7 @@ async def test_set_hvac_mode_off(
 
 
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
 ) -> None:
     """Test setting the target temperature."""
@@ -97,7 +97,7 @@ async def test_set_temperature(
 
 
 async def test_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
 ) -> None:
     """Test turning on the stove."""
@@ -112,7 +112,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
 ) -> None:
     """Test turning off the stove."""
@@ -136,7 +136,7 @@ async def test_turn_off(
     ],
 )
 async def test_climate_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
     side_effect: type[Exception],
     expected_translation_key: str,
@@ -144,7 +144,7 @@ async def test_climate_error_handling(
     """Test error handling for climate actions."""
     mock_fumis.turn_on.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_TURN_ON,
@@ -165,7 +165,7 @@ async def test_climate_error_handling(
     ],
 )
 async def test_climate_unavailable_on_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fumis: MagicMock,
     freezer: FrozenDateTimeFactory,
     side_effect: type[Exception],

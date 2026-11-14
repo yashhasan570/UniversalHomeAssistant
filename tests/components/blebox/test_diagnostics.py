@@ -10,7 +10,7 @@ from syrupy.filters import props
 
 from universalassistant.components.blebox.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import mock_feature
 
@@ -40,7 +40,7 @@ def switchbox_fixture() -> None:
     ],
 )
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     entry_data: dict,

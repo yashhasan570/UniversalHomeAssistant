@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, override
 
 from pyControl4.error_handling import C4Exception
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .director_utils import update_variables_for_config_entry
@@ -26,7 +26,7 @@ class Control4DataUpdateCoordinator(DataUpdateCoordinator[dict[int, dict[str, An
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: Control4ConfigEntry,
         name: str,
         variable_names: set[str],

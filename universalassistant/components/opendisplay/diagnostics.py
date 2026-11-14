@@ -4,7 +4,7 @@ import dataclasses
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import OpenDisplayConfigEntry
 
@@ -38,7 +38,7 @@ def _asdict(obj: Any) -> Any:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: OpenDisplayConfigEntry
+    hass: __HAC_KEEP__, entry: OpenDisplayConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     runtime = entry.runtime_data

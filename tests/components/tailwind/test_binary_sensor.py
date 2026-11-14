@@ -3,7 +3,7 @@
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
@@ -17,7 +17,7 @@ pytestmark = pytest.mark.usefixtures("init_integration")
     ],
 )
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

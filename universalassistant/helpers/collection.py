@@ -16,8 +16,8 @@ from probatio.humanize import humanize_error
 
 from universalassistant.components import websocket_api
 from universalassistant.const import CONF_ID
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import slugify
 
 from . import entity_registry
@@ -65,7 +65,7 @@ type ChangeListener = Callable[
 type ChangeSetListener = Callable[[Iterable[CollectionChange]], Awaitable[None]]
 
 
-class CollectionError(UniversalAssistantError):
+class CollectionError(__HAC_KEEP__Error):
     """Base class for collection related errors."""
 
 
@@ -253,8 +253,8 @@ class StorageCollection[_ItemT, _StoreT: SerializedStorageCollection](
         return entity_class.from_storage(config)
 
     @property
-    def hass(self) -> UniversalAssistant:
-        """Universal Universal Home Assistant object."""
+    def hass(self) -> __HAC_KEEP__:
+        """__HA_KEEP__ object."""
         return self.store.hass
 
     async def _async_load_data(self) -> _StoreT | None:
@@ -536,7 +536,7 @@ class _CollectionLifeCycle[_EntityT: Entity = Entity]:
 
 @callback
 def sync_entity_lifecycle[_EntityT: Entity = Entity](
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     platform: str,
     entity_component: EntityComponent[_EntityT],
@@ -587,7 +587,7 @@ class StorageCollectionWebsocket[_StorageCollectionT: StorageCollection]:
         return f"{self.model_name}_id"
 
     @callback
-    def async_setup(self, hass: UniversalAssistant) -> None:
+    def async_setup(self, hass: __HAC_KEEP__) -> None:
         """Set up the websocket commands."""
         list_handler: websocket_api.const.WebSocketCommandHandler = self.ws_list_item
         subscribe_handler: websocket_api.const.WebSocketCommandHandler = (
@@ -660,13 +660,13 @@ class StorageCollectionWebsocket[_StorageCollectionT: StorageCollection]:
 
     @callback
     def ws_list_item(
-        self, hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+        self, hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """List items."""
         connection.send_result(msg["id"], self.storage_collection.async_items())
 
     async def ws_create_item(
-        self, hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+        self, hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """Create an item."""
         try:
@@ -686,7 +686,7 @@ class StorageCollectionWebsocket[_StorageCollectionT: StorageCollection]:
 
     @callback
     def _ws_subscribe(
-        self, hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+        self, hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """Subscribe to collection updates."""
 
@@ -735,7 +735,7 @@ class StorageCollectionWebsocket[_StorageCollectionT: StorageCollection]:
         connection.send_message(websocket_api.event_message(msg["id"], json_msg))
 
     async def ws_update_item(
-        self, hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+        self, hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """Update an item."""
         data = dict(msg)
@@ -762,7 +762,7 @@ class StorageCollectionWebsocket[_StorageCollectionT: StorageCollection]:
             connection.send_error(msg_id, websocket_api.ERR_INVALID_FORMAT, str(err))
 
     async def ws_delete_item(
-        self, hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+        self, hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """Delete an item."""
         try:

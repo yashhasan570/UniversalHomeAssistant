@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import ACCOUNT, NetatmoConfigEntry
 
@@ -28,7 +28,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: NetatmoConfigEntry
+    hass: __HAC_KEEP__, config_entry: NetatmoConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data_handler = config_entry.runtime_data

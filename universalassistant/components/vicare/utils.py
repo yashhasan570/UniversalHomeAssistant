@@ -21,7 +21,7 @@ from PyViCare.PyViCareUtils import (
 import requests
 
 from universalassistant.const import CONF_CLIENT_ID, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.storage import STORAGE_DIR
 from universalassistant.util import dt as dt_util
 
@@ -33,7 +33,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def login(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_data: Mapping[str, Any],
     cache_duration=DEFAULT_CACHE_DURATION,
 ) -> PyViCare:

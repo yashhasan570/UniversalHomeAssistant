@@ -7,7 +7,7 @@ from aioghost import GhostAdminAPI
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_ADMIN_API_KEY, CONF_API_URL, DOMAIN as DOMAIN
@@ -28,7 +28,7 @@ class GhostRuntimeData:
     api: GhostAdminAPI
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: GhostConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: GhostConfigEntry) -> None:
     """Set up Ghost from a config entry."""
     api_url = entry.data[CONF_API_URL]
     admin_api_key = entry.data[CONF_ADMIN_API_KEY]
@@ -43,6 +43,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GhostConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: GhostConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: GhostConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

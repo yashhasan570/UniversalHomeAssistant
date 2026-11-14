@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 from async_upnp_client.profiles.dlna import DmsDevice
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .dms import get_domain_data
 
@@ -31,7 +31,7 @@ def _device_diagnostics(device: DmsDevice) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ConfigEntry
+    hass: __HAC_KEEP__, entry: ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     if TYPE_CHECKING:

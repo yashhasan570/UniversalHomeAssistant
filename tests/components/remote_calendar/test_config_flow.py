@@ -8,7 +8,7 @@ import respx
 from universalassistant.components.remote_calendar.const import CONF_CALENDAR_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -16,7 +16,7 @@ from .conftest import CALENDAR_NAME, CALENDER_URL
 
 
 @respx.mock
-async def test_form_import_ics(hass: UniversalAssistant, ics_content: str) -> None:
+async def test_form_import_ics(hass: __HAC_KEEP__, ics_content: str) -> None:
     """Test we get the import form."""
     respx.get(CALENDER_URL).mock(
         return_value=Response(
@@ -47,7 +47,7 @@ async def test_form_import_ics(hass: UniversalAssistant, ics_content: str) -> No
 
 
 @respx.mock
-async def test_form_import_webcal(hass: UniversalAssistant, ics_content: str) -> None:
+async def test_form_import_webcal(hass: __HAC_KEEP__, ics_content: str) -> None:
     """Test we get the import form."""
     respx.get(CALENDER_URL).mock(
         return_value=Response(
@@ -77,7 +77,7 @@ async def test_form_import_webcal(hass: UniversalAssistant, ics_content: str) ->
 
 
 @respx.mock
-async def test_form_import_webcal_error(hass: UniversalAssistant, ics_content: str) -> None:
+async def test_form_import_webcal_error(hass: __HAC_KEEP__, ics_content: str) -> None:
     """Test webcal URL error re-displays form with suggested values."""
     respx.get(CALENDER_URL).mock(side_effect=HTTPError("Connection failed"))
     result = await hass.config_entries.flow.async_init(
@@ -141,7 +141,7 @@ async def test_form_import_webcal_error(hass: UniversalAssistant, ics_content: s
 )
 @respx.mock
 async def test_form_invalid_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     ics_content: str,
     base_error: str,
@@ -211,7 +211,7 @@ async def test_form_invalid_url(
     ],
 )
 async def test_unsupported_inputs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     ics_content: str,
     url: str,
@@ -268,7 +268,7 @@ async def test_unsupported_inputs(
 )
 @respx.mock
 async def test_form_http_status_error(
-    hass: UniversalAssistant, ics_content: str, http_status: int, error: str
+    hass: __HAC_KEEP__, ics_content: str, http_status: int, error: str
 ) -> None:
     """Test we http status."""
     result = await hass.config_entries.flow.async_init(
@@ -322,7 +322,7 @@ async def test_form_http_status_error(
 
 
 @respx.mock
-async def test_no_valid_calendar(hass: UniversalAssistant, ics_content: str) -> None:
+async def test_no_valid_calendar(hass: __HAC_KEEP__, ics_content: str) -> None:
     """Test invalid ics content."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -382,7 +382,7 @@ async def test_no_valid_calendar(hass: UniversalAssistant, ics_content: str) -> 
 
 
 async def test_duplicate_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test two calendars cannot be added with the same name."""
@@ -409,7 +409,7 @@ async def test_duplicate_name(
 
 
 async def test_duplicate_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test two calendars cannot be added with the same url."""
@@ -437,7 +437,7 @@ async def test_duplicate_url(
 
 @respx.mock
 async def test_form_unauthorized_basic_auth(
-    hass: UniversalAssistant, ics_content: str
+    hass: __HAC_KEEP__, ics_content: str
 ) -> None:
     """Test 401 with WWW-Authenticate: Basic triggers auth step and succeeds."""
     result = await hass.config_entries.flow.async_init(
@@ -488,7 +488,7 @@ async def test_form_unauthorized_basic_auth(
 
 @respx.mock
 async def test_form_auth_invalid_credentials(
-    hass: UniversalAssistant, ics_content: str
+    hass: __HAC_KEEP__, ics_content: str
 ) -> None:
     """Test wrong credentials in auth step shows invalid_auth error."""
     result = await hass.config_entries.flow.async_init(
@@ -542,7 +542,7 @@ async def test_form_auth_invalid_credentials(
 
 
 @respx.mock
-async def test_form_auth_forbidden_aborts(hass: UniversalAssistant) -> None:
+async def test_form_auth_forbidden_aborts(hass: __HAC_KEEP__) -> None:
     """Test 403 in auth step aborts the flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -577,7 +577,7 @@ async def test_form_auth_forbidden_aborts(hass: UniversalAssistant) -> None:
 
 
 @respx.mock
-async def test_form_auth_invalid_ics_aborts(hass: UniversalAssistant) -> None:
+async def test_form_auth_invalid_ics_aborts(hass: __HAC_KEEP__) -> None:
     """Test invalid ICS in auth step aborts the flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -625,7 +625,7 @@ async def test_form_auth_invalid_ics_aborts(hass: UniversalAssistant) -> None:
 )
 @respx.mock
 async def test_form_auth_connection_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     ics_content: str,
     base_error: str,
@@ -685,7 +685,7 @@ NEW_CALENDAR_URL = "https://other.calendar.com/calendar.ics"
 
 
 @respx.mock
-async def test_reconfigure(hass: UniversalAssistant, ics_content: str) -> None:
+async def test_reconfigure(hass: __HAC_KEEP__, ics_content: str) -> None:
     """Test reconfigure updates the URL and drops credentials it no longer needs."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -745,7 +745,7 @@ async def test_reconfigure(hass: UniversalAssistant, ics_content: str) -> None:
 )
 @respx.mock
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     ics_content: str,
     side_effect: Exception | Response,
@@ -783,7 +783,7 @@ async def test_reconfigure_errors(
 
 @respx.mock
 async def test_reconfigure_duplicate_url(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, ics_content: str
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, ics_content: str
 ) -> None:
     """Test reconfigure cannot point at a URL used by another entry."""
     respx.get(CALENDER_URL).mock(
@@ -811,7 +811,7 @@ async def test_reconfigure_duplicate_url(
 
 @respx.mock
 async def test_reconfigure_same_url(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, ics_content: str
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, ics_content: str
 ) -> None:
     """Test reconfigure can keep the URL and change only SSL verification."""
     respx.get(CALENDER_URL).mock(
@@ -831,7 +831,7 @@ async def test_reconfigure_same_url(
 
 
 @respx.mock
-async def test_reconfigure_basic_auth(hass: UniversalAssistant, ics_content: str) -> None:
+async def test_reconfigure_basic_auth(hass: __HAC_KEEP__, ics_content: str) -> None:
     """Test reconfigure asks for credentials the new URL needs, retrying rejected ones."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

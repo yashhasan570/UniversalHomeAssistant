@@ -7,8 +7,8 @@ from pyHomee.const import AttributeType, NodeProfile, NodeState
 from pyHomee.model import HomeeAttribute, HomeeNode
 from websockets.exceptions import ConnectionClosed
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -29,7 +29,7 @@ class HomeeEntity(Entity):
     _attr_should_poll = False
 
     def __init__(
-        self, hass: UniversalAssistant, attribute: HomeeAttribute, entry: HomeeConfigEntry
+        self, hass: __HAC_KEEP__, attribute: HomeeAttribute, entry: HomeeConfigEntry
     ) -> None:
         """Initialize the wrapper using a HomeeAttribute and target entity."""
         self._attribute = attribute
@@ -92,7 +92,7 @@ class HomeeEntity(Entity):
         try:
             await homee.set_value(self._attribute.node_id, self._attribute.id, value)
         except ConnectionClosed as exception:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_closed",
             ) from exception
@@ -118,7 +118,7 @@ class HomeeNodeEntity(Entity):
     _attr_should_poll = False
 
     def __init__(
-        self, hass: UniversalAssistant, node: HomeeNode, entry: HomeeConfigEntry
+        self, hass: __HAC_KEEP__, node: HomeeNode, entry: HomeeConfigEntry
     ) -> None:
         """Initialize the wrapper using a HomeeNode and target entity."""
         self._node = node
@@ -194,7 +194,7 @@ class HomeeNodeEntity(Entity):
         try:
             await homee.set_value(attribute.node_id, attribute.id, value)
         except ConnectionClosed as exception:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_closed",
             ) from exception

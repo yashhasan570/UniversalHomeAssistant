@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ukraine_alarm.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 from . import REGIONS
 
 
 async def test_migration_v1_to_v2_state_without_districts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test migration allows states without districts."""
@@ -47,7 +47,7 @@ async def test_migration_v1_to_v2_state_without_districts(
 
 
 async def test_migration_v1_to_v2_state_with_districts_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test migration rejects states with districts."""
@@ -83,7 +83,7 @@ async def test_migration_v1_to_v2_state_with_districts_fails(
     assert issue_registry.async_get_issue(DOMAIN, issue_id) is None
 
 
-async def test_migration_v1_to_v2_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_migration_v1_to_v2_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test migration is retried when the regions cannot be fetched."""
     entry = MockConfigEntry(
         domain=DOMAIN,

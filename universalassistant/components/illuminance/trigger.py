@@ -6,7 +6,7 @@ from universalassistant.components.binary_sensor import (
 )
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorDeviceClass
 from universalassistant.const import LIGHT_LUX, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.trigger import (
     Trigger,
@@ -38,6 +38,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for illuminance."""
     return TRIGGERS

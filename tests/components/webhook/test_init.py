@@ -12,7 +12,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator, WebSocketGe
 from universalassistant.components import webhook
 from universalassistant.components.webhook import DOMAIN
 from universalassistant.components.websocket_api import auth, http
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.setup import async_setup_component
 from universalassistant.util.aiohttp import MockRequest
@@ -22,14 +22,14 @@ from tests.test_util import mock_real_ip
 
 @pytest.fixture
 async def mock_client(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> TestClient:
     """Create http client for webhooks."""
     await async_setup_component(hass, DOMAIN, {})
     return await hass_client()
 
 
-async def test_unregistering_webhook(hass: UniversalAssistant, mock_client) -> None:
+async def test_unregistering_webhook(hass: __HAC_KEEP__, mock_client) -> None:
     """Test unregistering a webhook."""
     hooks = []
     webhook_id = webhook.async_generate_id()
@@ -51,7 +51,7 @@ async def test_unregistering_webhook(hass: UniversalAssistant, mock_client) -> N
     assert len(hooks) == 1
 
 
-async def test_generate_webhook_url(hass: UniversalAssistant) -> None:
+async def test_generate_webhook_url(hass: __HAC_KEEP__) -> None:
     """Test we generate a webhook url correctly."""
     await async_process_ha_core_config(
         hass,
@@ -62,7 +62,7 @@ async def test_generate_webhook_url(hass: UniversalAssistant) -> None:
     assert url == "https://example.com/api/webhook/some_id"
 
 
-async def test_generate_webhook_url_internal(hass: UniversalAssistant) -> None:
+async def test_generate_webhook_url_internal(hass: __HAC_KEEP__) -> None:
     """Test we can get the internal URL."""
     await async_process_ha_core_config(
         hass,
@@ -78,26 +78,26 @@ async def test_generate_webhook_url_internal(hass: UniversalAssistant) -> None:
     assert url == "http://192.168.1.100:8123/api/webhook/some_id"
 
 
-async def test_async_generate_path(hass: UniversalAssistant) -> None:
+async def test_async_generate_path(hass: __HAC_KEEP__) -> None:
     """Test generating just the path component of the url correctly."""
     path = webhook.async_generate_path("some_id")
     assert path == "/api/webhook/some_id"
 
 
-async def test_posting_webhook_nonexisting(hass: UniversalAssistant, mock_client) -> None:
+async def test_posting_webhook_nonexisting(hass: __HAC_KEEP__, mock_client) -> None:
     """Test posting to a nonexisting webhook."""
     resp = await mock_client.post("/api/webhook/non-existing")
     assert resp.status == HTTPStatus.OK
 
 
-async def test_posting_webhook_invalid_json(hass: UniversalAssistant, mock_client) -> None:
+async def test_posting_webhook_invalid_json(hass: __HAC_KEEP__, mock_client) -> None:
     """Test posting to a nonexisting webhook."""
     webhook.async_register(hass, "test", "Test hook", "hello", None)
     resp = await mock_client.post("/api/webhook/hello", data="not-json")
     assert resp.status == HTTPStatus.OK
 
 
-async def test_posting_webhook_json(hass: UniversalAssistant, mock_client) -> None:
+async def test_posting_webhook_json(hass: __HAC_KEEP__, mock_client) -> None:
     """Test posting a webhook with JSON data."""
     hooks = []
     webhook_id = webhook.async_generate_id()
@@ -116,7 +116,7 @@ async def test_posting_webhook_json(hass: UniversalAssistant, mock_client) -> No
     assert hooks[0][2] == '{"data": true}'
 
 
-async def test_posting_webhook_no_data(hass: UniversalAssistant, mock_client) -> None:
+async def test_posting_webhook_no_data(hass: __HAC_KEEP__, mock_client) -> None:
     """Test posting a webhook with no data."""
     hooks = []
     webhook_id = webhook.async_generate_id()
@@ -136,7 +136,7 @@ async def test_posting_webhook_no_data(hass: UniversalAssistant, mock_client) ->
     assert await hooks[0][2].text() == ""
 
 
-async def test_webhook_put(hass: UniversalAssistant, mock_client) -> None:
+async def test_webhook_put(hass: __HAC_KEEP__, mock_client) -> None:
     """Test sending a put request to a webhook."""
     hooks = []
     webhook_id = webhook.async_generate_id()
@@ -155,7 +155,7 @@ async def test_webhook_put(hass: UniversalAssistant, mock_client) -> None:
     assert hooks[0][2].method == "PUT"
 
 
-async def test_webhook_head(hass: UniversalAssistant, mock_client) -> None:
+async def test_webhook_head(hass: __HAC_KEEP__, mock_client) -> None:
     """Test sending a head request to a webhook."""
     hooks = []
     webhook_id = webhook.async_generate_id()
@@ -185,7 +185,7 @@ async def test_webhook_head(hass: UniversalAssistant, mock_client) -> None:
     assert len(hooks) == 1  # Should not have been called
 
 
-async def test_webhook_get(hass: UniversalAssistant, mock_client) -> None:
+async def test_webhook_get(hass: __HAC_KEEP__, mock_client) -> None:
     """Test sending a get request to a webhook."""
     hooks = []
     webhook_id = webhook.async_generate_id()
@@ -215,7 +215,7 @@ async def test_webhook_get(hass: UniversalAssistant, mock_client) -> None:
     assert len(hooks) == 1  # Should not have been called
 
 
-async def test_webhook_not_allowed_method(hass: UniversalAssistant) -> None:
+async def test_webhook_not_allowed_method(hass: __HAC_KEEP__) -> None:
     """Test that an exception is raised if an unsupported method is used."""
     webhook_id = webhook.async_generate_id()
 
@@ -228,7 +228,7 @@ async def test_webhook_not_allowed_method(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_webhook_local_only(hass: UniversalAssistant, mock_client) -> None:
+async def test_webhook_local_only(hass: __HAC_KEEP__, mock_client) -> None:
     """Test posting a webhook with local only."""
     hass.config.components.add("cloud")
 
@@ -260,7 +260,7 @@ async def test_webhook_local_only(hass: UniversalAssistant, mock_client) -> None
     # No hook received
     assert len(hooks) == 1
 
-    # Request from Universal Universal Home Assistant Cloud remote UI
+    # Request from __HA_KEEP__ Cloud remote UI
     with patch(
         "hass_nabucasa.remote.is_cloud_request", Mock(get=Mock(return_value=True))
     ):
@@ -281,7 +281,7 @@ async def test_webhook_local_only(hass: UniversalAssistant, mock_client) -> None
     ],
 )
 async def test_webhook_local_only_mock_request(
-    hass: UniversalAssistant, remote: str | None, expected_calls: int
+    hass: __HAC_KEEP__, remote: str | None, expected_calls: int
 ) -> None:
     """Test local_only webhooks for MockRequests with various remote values."""
     await async_setup_component(hass, DOMAIN, {})
@@ -289,7 +289,7 @@ async def test_webhook_local_only_mock_request(
     hooks = []
     webhook_id = webhook.async_generate_id()
 
-    async def handle(hass: UniversalAssistant, webhook_id: str, request: web.Request):
+    async def handle(hass: __HAC_KEEP__, webhook_id: str, request: web.Request):
         """Handle webhook."""
         hooks.append((hass, webhook_id, await request.text()))
 
@@ -311,13 +311,13 @@ async def test_webhook_local_only_mock_request(
 
 
 async def test_webhook_local_only_supervisor_unix_socket(
-    hass: UniversalAssistant, mock_client: TestClient
+    hass: __HAC_KEEP__, mock_client: TestClient
 ) -> None:
     """Test local_only webhooks accept requests over the Supervisor Unix socket."""
     hooks = []
     webhook_id = webhook.async_generate_id()
 
-    async def handle(hass: UniversalAssistant, webhook_id: str, request: web.Request):
+    async def handle(hass: __HAC_KEEP__, webhook_id: str, request: web.Request):
         """Handle webhook."""
         hooks.append((hass, webhook_id, await request.text()))
 
@@ -348,7 +348,7 @@ async def test_webhook_local_only_supervisor_unix_socket(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_listing_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_access_token: str,
 ) -> None:
@@ -392,7 +392,7 @@ async def test_listing_webhook(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_listing_webhook_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -409,7 +409,7 @@ async def test_listing_webhook_requires_admin(
 
 
 async def test_ws_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -419,7 +419,7 @@ async def test_ws_webhook(
     received = []
 
     async def handler(
-        hass: UniversalAssistant, webhook_id: str, request: web.Request
+        hass: __HAC_KEEP__, webhook_id: str, request: web.Request
     ) -> web.Response:
         """Handle a webhook."""
         received.append(request)
@@ -492,7 +492,7 @@ async def test_ws_webhook(
     ],
 )
 async def test_ws_webhook_local_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     hass_access_token: str,
     remote_ip: str,
@@ -506,7 +506,7 @@ async def test_ws_webhook_local_only(
     received = []
 
     async def handler(
-        hass: UniversalAssistant, webhook_id: str, request: web.Request
+        hass: __HAC_KEEP__, webhook_id: str, request: web.Request
     ) -> web.Response:
         """Handle a webhook."""
         received.append(request)

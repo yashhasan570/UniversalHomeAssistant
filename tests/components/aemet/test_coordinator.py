@@ -8,13 +8,13 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.aemet.coordinator import WEATHER_UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import async_init_integration
 
 
 async def test_coordinator_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test error on coordinator update."""

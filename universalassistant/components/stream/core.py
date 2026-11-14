@@ -12,8 +12,8 @@ from typing import TYPE_CHECKING, Any, cast
 from aiohttp import web
 import numpy as np
 
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.event import async_call_later
 from universalassistant.util.decorator import Registry
 
@@ -229,7 +229,7 @@ class IdleTimer:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         timeout: int,
         idle_callback: Callable[[], Coroutine[Any, Any, None]],
         startup_timeout: int | None = None,
@@ -273,7 +273,7 @@ class StreamOutput:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         idle_timer: IdleTimer,
         stream_settings: StreamSettings,
         dynamic_stream_settings: DynamicStreamSettings,
@@ -368,7 +368,7 @@ class StreamOutput:
         self.idle_timer.clear()
 
 
-class StreamView(UniversalAssistantView):
+class StreamView(__HAC_KEEP__View):
     """Base StreamView.
 
     For implementation of a new stream format, define `url` and `name`
@@ -433,7 +433,7 @@ class KeyFrameConverter:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         stream_settings: StreamSettings,
         dynamic_stream_settings: DynamicStreamSettings,
     ) -> None:

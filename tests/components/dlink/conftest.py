@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.dlink.const import CONF_USE_LEGACY_PROTOCOL, DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.setup import async_setup_component
@@ -43,22 +43,22 @@ CONF_DHCP_FLOW_NEW_IP = DhcpServiceInfo(
 type ComponentSetup = Callable[[], Awaitable[None]]
 
 
-def create_entry(hass: UniversalAssistant, unique_id: str | None = None) -> MockConfigEntry:
-    """Create fixture for adding config entry in Universal Universal Home Assistant."""
+def create_entry(hass: __HAC_KEEP__, unique_id: str | None = None) -> MockConfigEntry:
+    """Create fixture for adding config entry in __HA_KEEP__."""
     entry = MockConfigEntry(domain=DOMAIN, data=CONF_DATA, unique_id=unique_id)
     entry.add_to_hass(hass)
     return entry
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
-    """Add config entry in Universal Universal Home Assistant."""
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Add config entry in __HA_KEEP__."""
     return create_entry(hass)
 
 
 @pytest.fixture
-def config_entry_with_uid(hass: UniversalAssistant) -> MockConfigEntry:
-    """Add config entry with unique ID in Universal Universal Home Assistant."""
+def config_entry_with_uid(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Add config entry with unique ID in __HA_KEEP__."""
     return create_entry(hass, unique_id="aabbccddeeff")
 
 
@@ -115,10 +115,10 @@ def patch_setup(mocked_plug: MagicMock):
 
 
 async def mock_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mocked_plug: MagicMock,
 ) -> None:
-    """Set up the D-Link integration in Universal Universal Home Assistant."""
+    """Set up the D-Link integration in __HA_KEEP__."""
     with patch_setup(mocked_plug):
         assert await async_setup_component(hass, DOMAIN, {})
         await hass.async_block_till_done()
@@ -126,11 +126,11 @@ async def mock_setup_integration(
 
 @pytest.fixture
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_uid: MockConfigEntry,
     mocked_plug: MagicMock,
 ) -> Generator[ComponentSetup]:
-    """Set up the D-Link integration in Universal Universal Home Assistant."""
+    """Set up the D-Link integration in __HA_KEEP__."""
 
     async def func() -> None:
         await mock_setup_integration(hass, mocked_plug)
@@ -140,11 +140,11 @@ async def setup_integration(
 
 @pytest.fixture
 async def setup_integration_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_uid: MockConfigEntry,
     mocked_plug_legacy: MagicMock,
 ) -> Generator[ComponentSetup]:
-    """Set up the D-Link integration in Universal Universal Home Assistant with different data."""
+    """Set up the D-Link integration in __HA_KEEP__ with different data."""
 
     async def func() -> None:
         await mock_setup_integration(hass, mocked_plug_legacy)

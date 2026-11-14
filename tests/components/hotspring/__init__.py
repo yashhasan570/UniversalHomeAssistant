@@ -5,11 +5,11 @@ from unittest.mock import patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def setup_with_selected_platforms(
-    hass: UniversalAssistant, entry: MockConfigEntry, platforms: list[Platform]
+    hass: __HAC_KEEP__, entry: MockConfigEntry, platforms: list[Platform]
 ) -> None:
     """Set up the Hot Spring integration with the selected platforms."""
     entry.add_to_hass(hass)

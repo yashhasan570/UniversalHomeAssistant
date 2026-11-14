@@ -7,7 +7,7 @@ from pylutron import Button, Keypad, Lutron, LutronEntity, LutronEvent
 
 from universalassistant.components.event import EventEntity
 from universalassistant.const import ATTR_ID
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import slugify
 
@@ -31,7 +31,7 @@ LEGACY_EVENT_TYPES: dict[LutronEventType, str] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LutronConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -53,7 +53,7 @@ class LutronEventEntity(LutronKeypad, EventEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         area_name: str,
         keypad: Keypad,
         button: Button,

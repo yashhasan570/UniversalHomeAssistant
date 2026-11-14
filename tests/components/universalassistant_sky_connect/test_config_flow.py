@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant SkyConnect config flow."""
+"""Test the __HA_KEEP__ SkyConnect config flow."""
 
 from collections.abc import Generator
 from unittest.mock import AsyncMock, Mock, call, patch
@@ -28,7 +28,7 @@ from universalassistant.components.universalassistant_hardware.util import (
 from universalassistant.components.universalassistant_sky_connect.const import DOMAIN
 from universalassistant.components.usb import DOMAIN as USB_DOMAIN, USBDevice
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 from universalassistant.setup import async_setup_component
@@ -61,18 +61,18 @@ def setup_entry_fixture() -> Generator[AsyncMock]:
     [
         (
             USB_DATA_SKY,
-            "Universal Universal Home Assistant SkyConnect",
+            "__HA_KEEP__ SkyConnect",
         ),
         (
             USB_DATA_ZBT1,
-            "Universal Universal Home Assistant Connect ZBT-1",
+            "__HA_KEEP__ Connect ZBT-1",
         ),
     ],
 )
 async def test_config_flow_zigbee(
     usb_data: UsbServiceInfo,
     model: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the config flow for SkyConnect with Zigbee."""
     fw_type = ApplicationType.EZSP
@@ -157,18 +157,18 @@ async def test_config_flow_zigbee(
     [
         (
             USB_DATA_SKY,
-            "Universal Universal Home Assistant SkyConnect",
+            "__HA_KEEP__ SkyConnect",
         ),
         (
             USB_DATA_ZBT1,
-            "Universal Universal Home Assistant Connect ZBT-1",
+            "__HA_KEEP__ Connect ZBT-1",
         ),
     ],
 )
 async def test_config_flow_thread(
     usb_data: UsbServiceInfo,
     model: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     start_addon: AsyncMock,
 ) -> None:
     """Test the config flow for SkyConnect with Thread."""
@@ -250,12 +250,12 @@ async def test_config_flow_thread(
 @pytest.mark.parametrize(
     ("usb_data", "model"),
     [
-        (USB_DATA_SKY, "Universal Universal Home Assistant SkyConnect"),
-        (USB_DATA_ZBT1, "Universal Universal Home Assistant Connect ZBT-1"),
+        (USB_DATA_SKY, "__HA_KEEP__ SkyConnect"),
+        (USB_DATA_ZBT1, "__HA_KEEP__ Connect ZBT-1"),
     ],
 )
 async def test_options_flow(
-    usb_data: UsbServiceInfo, model: str, hass: UniversalAssistant
+    usb_data: UsbServiceInfo, model: str, hass: __HAC_KEEP__
 ) -> None:
     """Test the options flow for SkyConnect."""
     config_entry = MockConfigEntry(
@@ -347,12 +347,12 @@ async def test_options_flow(
 @pytest.mark.parametrize(
     ("usb_data", "model"),
     [
-        (USB_DATA_SKY, "Universal Universal Home Assistant SkyConnect"),
-        (USB_DATA_ZBT1, "Universal Universal Home Assistant Connect ZBT-1"),
+        (USB_DATA_SKY, "__HA_KEEP__ SkyConnect"),
+        (USB_DATA_ZBT1, "__HA_KEEP__ Connect ZBT-1"),
     ],
 )
 async def test_options_flow_multipan_uninstall(
-    usb_data: UsbServiceInfo, model: str, hass: UniversalAssistant
+    usb_data: UsbServiceInfo, model: str, hass: __HAC_KEEP__
 ) -> None:
     """Test options flow for when multi-PAN firmware is installed."""
     config_entry = MockConfigEntry(
@@ -443,14 +443,14 @@ async def test_options_flow_multipan_uninstall(
 @pytest.mark.parametrize(
     ("usb_data", "model"),
     [
-        (USB_DATA_SKY, "Universal Universal Home Assistant SkyConnect"),
-        (USB_DATA_ZBT1, "Universal Universal Home Assistant Connect ZBT-1"),
+        (USB_DATA_SKY, "__HA_KEEP__ SkyConnect"),
+        (USB_DATA_ZBT1, "__HA_KEEP__ Connect ZBT-1"),
     ],
 )
 async def test_firmware_callback_auto_creates_entry(
     usb_data: UsbServiceInfo,
     model: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test firmware notification triggers import flow creating entry."""
     await async_setup_component(hass, HOMEASSISTANT_HARDWARE_DOMAIN, {})
@@ -512,12 +512,12 @@ async def test_firmware_callback_auto_creates_entry(
 @pytest.mark.parametrize(
     ("usb_data", "model"),
     [
-        (USB_DATA_SKY, "Universal Universal Home Assistant SkyConnect"),
-        (USB_DATA_ZBT1, "Universal Universal Home Assistant Connect ZBT-1"),
+        (USB_DATA_SKY, "__HA_KEEP__ SkyConnect"),
+        (USB_DATA_ZBT1, "__HA_KEEP__ Connect ZBT-1"),
     ],
 )
 async def test_duplicate_usb_discovery_aborts_early(
-    usb_data: UsbServiceInfo, model: str, hass: UniversalAssistant
+    usb_data: UsbServiceInfo, model: str, hass: __HAC_KEEP__
 ) -> None:
     """Test USB discovery aborts early when unique_id already exists."""
     # Create existing config entry
@@ -550,12 +550,12 @@ async def test_duplicate_usb_discovery_aborts_early(
 @pytest.mark.parametrize(
     ("usb_data", "model"),
     [
-        (USB_DATA_SKY, "Universal Universal Home Assistant SkyConnect"),
-        (USB_DATA_ZBT1, "Universal Universal Home Assistant Connect ZBT-1"),
+        (USB_DATA_SKY, "__HA_KEEP__ SkyConnect"),
+        (USB_DATA_ZBT1, "__HA_KEEP__ Connect ZBT-1"),
     ],
 )
 async def test_firmware_callback_updates_existing_entry(
-    usb_data: UsbServiceInfo, model: str, hass: UniversalAssistant
+    usb_data: UsbServiceInfo, model: str, hass: __HAC_KEEP__
 ) -> None:
     """Test that firmware notification updates existing config entry device path."""
     await async_setup_component(hass, HOMEASSISTANT_HARDWARE_DOMAIN, {})

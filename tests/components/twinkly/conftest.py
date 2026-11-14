@@ -14,7 +14,7 @@ from .const import TEST_MAC, TEST_MODEL, TEST_NAME
 
 @pytest.fixture
 def mock_config_entry() -> MockConfigEntry:
-    """Create Twinkly entry in Universal Universal Home Assistant."""
+    """Create Twinkly entry in __HA_KEEP__."""
     return MockConfigEntry(
         domain=DOMAIN,
         title="Twinkly",

@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.earn_e_p1.const import CONF_SERIAL
 from universalassistant.const import CONF_HOST, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -36,7 +36,7 @@ def _mock_device(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow_discovery_succeeds(hass: UniversalAssistant) -> None:
+async def test_user_flow_discovery_succeeds(hass: __HAC_KEEP__) -> None:
     """Test user flow when auto-discovery finds a device with serial."""
     with patch(DISCOVER_PATH, return_value=[_mock_device()]):
         result = await hass.config_entries.flow.async_init(
@@ -56,7 +56,7 @@ async def test_user_flow_discovery_succeeds(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow_discovery_no_serial_validates(hass: UniversalAssistant) -> None:
+async def test_user_flow_discovery_no_serial_validates(hass: __HAC_KEEP__) -> None:
     """Test discovery without serial triggers validation on confirm."""
     with patch(DISCOVER_PATH, return_value=[_mock_device(serial=None)]):
         result = await hass.config_entries.flow.async_init(
@@ -78,7 +78,7 @@ async def test_user_flow_discovery_no_serial_validates(hass: UniversalAssistant)
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_discovery_no_serial_validate_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery without serial aborts when validation also fails."""
     with patch(DISCOVER_PATH, return_value=[_mock_device(serial=None)]):
@@ -96,7 +96,7 @@ async def test_user_flow_discovery_no_serial_validate_fails(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow_discovery_no_serial_oserror(hass: UniversalAssistant) -> None:
+async def test_user_flow_discovery_no_serial_oserror(hass: __HAC_KEEP__) -> None:
     """Test discovery without serial aborts on OSError during validation."""
     with patch(DISCOVER_PATH, return_value=[_mock_device(serial=None)]):
         result = await hass.config_entries.flow.async_init(
@@ -114,7 +114,7 @@ async def test_user_flow_discovery_no_serial_oserror(hass: UniversalAssistant) -
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_discovery_no_serial_unexpected_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery without serial aborts on unexpected error during validation."""
     with patch(DISCOVER_PATH, return_value=[_mock_device(serial=None)]):
@@ -133,7 +133,7 @@ async def test_user_flow_discovery_no_serial_unexpected_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_discovery_timeout_shows_manual_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test user flow falls back to manual form when discovery times out.
 
@@ -159,7 +159,7 @@ async def test_user_flow_discovery_timeout_shows_manual_form(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_manual_entry_validation_timeout_then_retry(hass: UniversalAssistant) -> None:
+async def test_manual_entry_validation_timeout_then_retry(hass: __HAC_KEEP__) -> None:
     """Test manual entry: validation timeout shows error, retry succeeds."""
     with patch(DISCOVER_PATH, return_value=[]):
         result = await hass.config_entries.flow.async_init(
@@ -191,7 +191,7 @@ async def test_manual_entry_validation_timeout_then_retry(hass: UniversalAssista
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_manual_entry_validation_errors(
-    hass: UniversalAssistant, side_effect: Exception, error: str
+    hass: __HAC_KEEP__, side_effect: Exception, error: str
 ) -> None:
     """Test manual entry errors show correct error, retry succeeds."""
     with patch(DISCOVER_PATH, return_value=[]):
@@ -217,7 +217,7 @@ async def test_manual_entry_validation_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_manual_entry_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test manual entry aborts when device is already configured."""
     with patch(DISCOVER_PATH, return_value=[]):
@@ -236,7 +236,7 @@ async def test_manual_entry_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_confirm_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test discovery confirm aborts when device is already configured."""
     with patch(DISCOVER_PATH, return_value=[_mock_device()]):
@@ -256,7 +256,7 @@ async def test_discovery_confirm_already_configured(
 
 
 async def test_discover_uses_shared_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_discover_uses_shared_listener(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_discover_without_shared_listener(hass: UniversalAssistant) -> None:
+async def test_discover_without_shared_listener(hass: __HAC_KEEP__) -> None:
     """Test _async_discover uses library discover when no shared listener."""
     with patch(DISCOVER_PATH, return_value=[_mock_device()]):
         result = await hass.config_entries.flow.async_init(
@@ -290,7 +290,7 @@ async def test_discover_without_shared_listener(hass: UniversalAssistant) -> Non
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_discover_without_shared_listener_oserror(hass: UniversalAssistant) -> None:
+async def test_discover_without_shared_listener_oserror(hass: __HAC_KEEP__) -> None:
     """Test _async_discover falls back to manual form on OSError, then succeeds."""
     with patch(DISCOVER_PATH, side_effect=OSError("Address in use")):
         result = await hass.config_entries.flow.async_init(
@@ -309,7 +309,7 @@ async def test_discover_without_shared_listener_oserror(hass: UniversalAssistant
 
 
 async def test_validate_uses_shared_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
 ) -> None:
@@ -340,7 +340,7 @@ async def test_validate_uses_shared_listener(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_validate_without_shared_listener(hass: UniversalAssistant) -> None:
+async def test_validate_without_shared_listener(hass: __HAC_KEEP__) -> None:
     """Test _async_validate_host uses library validate when no shared listener."""
     with patch(DISCOVER_PATH, return_value=[]):
         result = await hass.config_entries.flow.async_init(
@@ -359,7 +359,7 @@ async def test_validate_without_shared_listener(hass: UniversalAssistant) -> Non
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_dhcp_discovery_new_device(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_new_device(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovers a new device and creates a config entry."""
     with patch(VALIDATE_PATH, return_value=_mock_device()):
         result = await hass.config_entries.flow.async_init(
@@ -385,7 +385,7 @@ async def test_dhcp_discovery_new_device(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_updates_ip_by_serial(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test DHCP updates IP and merges MAC for entry matched by serial."""
@@ -419,7 +419,7 @@ async def test_dhcp_discovery_updates_ip_by_serial(
     ids=["timeout", "oserror", "unexpected_error"],
 )
 async def test_dhcp_discovery_validate_failures(
-    hass: UniversalAssistant, validate_mock: dict[str, Any], reason: str
+    hass: __HAC_KEEP__, validate_mock: dict[str, Any], reason: str
 ) -> None:
     """Test DHCP validation failures abort with the expected reason."""
     with patch(VALIDATE_PATH, **validate_mock):
@@ -435,7 +435,7 @@ async def test_dhcp_discovery_validate_failures(
 
 @pytest.mark.parametrize("mock_config_entry", [{CONF_MAC: MOCK_MAC}], indirect=True)
 async def test_dhcp_discovery_updates_ip_by_mac(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test DHCP fast path: MAC-known entry updates IP without calling validate."""
     dhcp_info = DhcpServiceInfo(
@@ -459,7 +459,7 @@ async def test_dhcp_discovery_updates_ip_by_mac(
     mock_validate.assert_not_called()
 
 
-async def test_dhcp_discovery_aborts_for_ignored_entry(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_aborts_for_ignored_entry(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery does not re-offer a device the user ignored."""
     entry = MockConfigEntry(
         domain=DOMAIN,

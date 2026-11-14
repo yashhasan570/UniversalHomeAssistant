@@ -10,11 +10,11 @@ from syrupy.filters import props
 from tplink_omada_client.clients import OmadaWirelessClient
 
 from universalassistant.components.tplink_omada.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -58,7 +58,7 @@ async def test_entry_diagnostics(
 
 
 async def test_entry_diagnostics_no_gateway(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_entry_diagnostics_no_gateway(
 
 
 async def test_entry_diagnostics_empty_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
 ) -> None:

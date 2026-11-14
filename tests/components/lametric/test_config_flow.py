@@ -24,7 +24,7 @@ from universalassistant.components.lametric import config_flow
 from universalassistant.components.lametric.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_SSDP, SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_DEVICE, CONF_HOST, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -47,7 +47,7 @@ SSDP_DISCOVERY_INFO = SsdpServiceInfo(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_full_cloud_import_flow_multiple_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_lametric_cloud: MagicMock,
@@ -130,7 +130,7 @@ async def test_full_cloud_import_flow_multiple_devices(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_full_cloud_import_flow_single_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_lametric_cloud: MagicMock,
@@ -211,7 +211,7 @@ async def test_full_cloud_import_flow_single_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_manual(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Check a full flow manual entry."""
@@ -261,7 +261,7 @@ async def test_full_manual(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_full_ssdp_with_cloud_import(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_lametric_cloud: MagicMock,
@@ -335,7 +335,7 @@ async def test_full_ssdp_with_cloud_import(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_ssdp_manual_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_lametric_local_auth: MagicMock,
 ) -> None:
@@ -398,7 +398,7 @@ async def test_full_ssdp_manual_entry(
     ],
 )
 async def test_ssdp_abort_invalid_discovery(
-    hass: UniversalAssistant, data: SsdpServiceInfo, reason: str
+    hass: __HAC_KEEP__, data: SsdpServiceInfo, reason: str
 ) -> None:
     """Check a full flow triggered by SSDP, with manual API key entry."""
     result = await hass.config_entries.flow.async_init(
@@ -410,7 +410,7 @@ async def test_ssdp_abort_invalid_discovery(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_cloud_import_updates_existing_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_lametric_cloud: MagicMock,
@@ -466,7 +466,7 @@ async def test_cloud_import_updates_existing_entry(
 
 
 async def test_manual_updates_existing_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -499,7 +499,7 @@ async def test_manual_updates_existing_entry(
 
 
 async def test_discovery_updates_existing_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test discovery of existing device updates entry."""
     mock_config_entry.add_to_hass(hass)
@@ -519,7 +519,7 @@ async def test_discovery_updates_existing_entry(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_cloud_abort_no_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_lametric_cloud: MagicMock,
@@ -574,7 +574,7 @@ async def test_cloud_abort_no_devices(
     ],
 )
 async def test_manual_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     side_effect: Exception,
     reason: str,
@@ -635,7 +635,7 @@ async def test_manual_errors(
     ],
 )
 async def test_cloud_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_lametric_cloud: MagicMock,
@@ -709,7 +709,7 @@ async def test_cloud_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_updates_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test DHCP discovery updates config entries."""
     mock_config_entry.add_to_hass(hass)
@@ -734,7 +734,7 @@ async def test_dhcp_discovery_updates_entry(
 
 
 async def test_dhcp_unknown_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unknown DHCP discovery aborts flow."""
@@ -754,7 +754,7 @@ async def test_dhcp_unknown_device(
     assert result["reason"] == "unknown"
 
 
-async def test_dhcp_entry_without_mac(hass: UniversalAssistant) -> None:
+async def test_dhcp_entry_without_mac(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery skips an entry set up without a MAC.
 
     A device still connecting to its Wi-Fi does not report its MAC.
@@ -787,7 +787,7 @@ async def test_dhcp_entry_without_mac(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reauth_cloud_import(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_lametric_cloud: MagicMock,
@@ -843,7 +843,7 @@ async def test_reauth_cloud_import(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reauth_cloud_abort_device_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_lametric_cloud: MagicMock,
@@ -895,7 +895,7 @@ async def test_reauth_cloud_abort_device_not_found(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_manual(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_lametric_local_auth: MagicMock,
@@ -930,7 +930,7 @@ async def test_reauth_manual(
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize("device_fixture", ["device_sa5"])
 async def test_reauth_manual_sky(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_lametric_local_auth: MagicMock,
@@ -971,7 +971,7 @@ async def test_reauth_manual_sky(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1003,7 +1003,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_other_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1032,7 +1032,7 @@ async def test_reconfigure_other_device(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -1065,7 +1065,7 @@ async def test_reconfigure_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_press_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_lametric_local_auth: MagicMock,
 ) -> None:
@@ -1120,7 +1120,7 @@ async def test_full_press_button(
 )
 @pytest.mark.usefixtures("mock_setup_entry", "mock_lametric")
 async def test_press_button_request_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric_local_auth: MagicMock,
     side_effect: type[Exception],
     error: str,
@@ -1159,7 +1159,7 @@ async def test_press_button_request_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_lametric")
 async def test_press_button_closed_while_requesting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric_local_auth: MagicMock,
 ) -> None:
     """Test closing the flow while the device answers does not wait for a press."""
@@ -1191,7 +1191,7 @@ async def test_press_button_closed_while_requesting(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_lametric")
 async def test_press_button_not_in_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric_local_auth: MagicMock,
 ) -> None:
     """Test the button not pressed in time offers to try again."""
@@ -1246,7 +1246,7 @@ async def test_press_button_not_in_time(
 )
 @pytest.mark.usefixtures("mock_setup_entry", "mock_lametric")
 async def test_press_button_api_key_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric_local_auth: MagicMock,
     side_effect: type[Exception],
     error: str,
@@ -1294,7 +1294,7 @@ async def test_press_button_api_key_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_press_button_setup_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_lametric_local_auth: MagicMock,
     side_effect: type[Exception],
@@ -1336,7 +1336,7 @@ async def test_press_button_setup_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_lametric")
 async def test_press_button_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric_local_auth: MagicMock,
 ) -> None:
     """Test a discovered device with the button press goes straight to it."""
@@ -1379,7 +1379,7 @@ async def test_press_button_discovered(
 )
 @pytest.mark.usefixtures("mock_setup_entry", "mock_lametric")
 async def test_press_button_discovered_menu(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric_local_auth: MagicMock,
     supported: dict[str, Any],
     menu_options: list[str],
@@ -1398,7 +1398,7 @@ async def test_press_button_discovered_menu(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_press_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_lametric_local_auth: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -1432,7 +1432,7 @@ async def test_reauth_press_button(
     "mock_setup_entry", "mock_lametric", "mock_lametric_local_auth"
 )
 async def test_press_button_existing_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test pressing the button for a device that is set up already."""
@@ -1456,7 +1456,7 @@ async def test_press_button_existing_device(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_lametric_local_auth")
 async def test_reauth_press_button_other_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

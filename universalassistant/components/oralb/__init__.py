@@ -14,7 +14,7 @@ from universalassistant.components.bluetooth.active_update_processor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
@@ -24,7 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 type OralBConfigEntry = ConfigEntry[ActiveBluetoothProcessorCoordinator]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OralBConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OralBConfigEntry) -> None:
     """Set up OralB BLE device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -82,6 +82,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OralBConfigEntry) -
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: OralBConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: OralBConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

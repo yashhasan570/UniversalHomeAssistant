@@ -7,7 +7,7 @@ from pyoverkiz.enums import OverkizCommand
 from pyoverkiz.exceptions import BaseOverkizError
 from pyoverkiz.models import Action, Command, Device, StateDefinition
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .coordinator import OverkizDataUpdateCoordinator
 
@@ -61,17 +61,17 @@ class OverkizExecutor:
 
         try:
             exec_id = await self.coordinator.client.execute_action_group(
-                label="Universal Universal Home Assistant", actions=actions
+                label="__HA_KEEP__", actions=actions
             )
         # Catch Overkiz exceptions to support `continue_on_error` functionality
         except BaseOverkizError as exception:
-            raise UniversalAssistantError(exception) from exception
+            raise __HAC_KEEP__Error(exception) from exception
         except (
             TimeoutError,
             ClientConnectorError,
             ServerDisconnectedError,
         ) as exception:
-            raise UniversalAssistantError("Failed to connect") from exception
+            raise __HAC_KEEP__Error("Failed to connect") from exception
 
         self.coordinator.async_execution_started(exec_id, actions)
 
@@ -81,7 +81,7 @@ class OverkizExecutor:
         """Cancel running execution by command."""
 
         # Cancel a running execution. Retrieve executions
-        # initiated via Universal Universal Home Assistant from Data Update
+        # initiated via __HA_KEEP__ from Data Update
         # Coordinator queue
         exec_id = next(
             (
@@ -101,7 +101,7 @@ class OverkizExecutor:
             await self.async_cancel_execution(exec_id)
             return True
 
-        # Retrieve executions initiated outside Universal Universal Home Assistant via API
+        # Retrieve executions initiated outside __HA_KEEP__ via API
         executions = await self.coordinator.client.get_current_executions()
         exec_id = next(
             (

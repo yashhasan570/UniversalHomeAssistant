@@ -7,7 +7,7 @@ from aiohttp import web
 from aiohttp.hdrs import CACHE_CONTROL
 from aiohttp.typedefs import LooseHeaders
 
-from universalassistant.components.http import KEY_AUTHENTICATED, KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_AUTHENTICATED, KEY_HASS, __HAC_KEEP__View
 from universalassistant.components.media_player import async_fetch_image
 
 from .helpers import get_plex_servers
@@ -15,7 +15,7 @@ from .helpers import get_plex_servers
 _LOGGER = logging.getLogger(__name__)
 
 
-class PlexImageView(UniversalAssistantView):
+class PlexImageView(__HAC_KEEP__View):
     """Media player view to serve a Plex image."""
 
     name = "api:plex:image"

@@ -6,7 +6,7 @@ from ayla_iot_unofficial import new_ayla_api
 from ayla_iot_unofficial.fujitsu_consts import FGLAIR_APP_CREDENTIALS
 
 from universalassistant.const import CONF_PASSWORD, CONF_REGION, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 
 from .const import API_TIMEOUT, CONF_EUROPE, REGION_DEFAULT, REGION_EU
@@ -15,7 +15,7 @@ from .coordinator import FGLairConfigEntry, FGLairCoordinator
 PLATFORMS: list[Platform] = [Platform.CLIMATE, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FGLairConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FGLairConfigEntry) -> None:
     """Set up Fujitsu HVAC (based on Ayla IOT) from a config entry."""
     app_id, app_secret = FGLAIR_APP_CREDENTIALS[entry.data[CONF_REGION]]
     api = new_ayla_api(
@@ -36,7 +36,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FGLairConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FGLairConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FGLairConfigEntry) -> None:
     """Unload a config entry."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -45,7 +45,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: FGLairConfigEntry)
             await entry.runtime_data.api.async_sign_out()
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: FGLairConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: FGLairConfigEntry) -> None:
     """Migrate old entry."""
 
     if entry.version == 1:

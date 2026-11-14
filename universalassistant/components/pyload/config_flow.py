@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.selector import (
@@ -76,7 +76,7 @@ REAUTH_SCHEMA = probatio.Schema(
 PLACEHOLDER = {"example_url": "https://example.com:8000/path"}
 
 
-async def validate_input(hass: UniversalAssistant, user_input: dict[str, Any]) -> None:
+async def validate_input(hass: __HAC_KEEP__, user_input: dict[str, Any]) -> None:
     """Validate the user input and try to connect to PyLoad."""
 
     session = async_create_clientsession(

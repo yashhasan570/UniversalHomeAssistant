@@ -34,7 +34,7 @@
         },
         "data_description": {
           "backup_path": "Define the path on the selected shared folder (will automatically be created, if not exist).",
-          "backup_share": "Select the shared folder where the automatic Universal Universal Home Assistant backup should be stored."
+          "backup_share": "Select the shared folder where the automatic __HA_KEEP__ backup should be stored."
         },
         "title": "Synology DSM: Backup location"
       },
@@ -98,7 +98,7 @@
           "password": "The password of the DSM user.",
           "port": "The port of the DSM web interface. Leave empty to use the default port (5000, or 5001 when using SSL).",
           "ssl": "Connect to DSM over HTTPS.",
-          "username": "The DSM user Universal Universal Home Assistant uses to connect. The user must be a member of the administrators group.",
+          "username": "The DSM user __HA_KEEP__ uses to connect. The user must be a member of the administrators group.",
           "verify_ssl": "Verify the SSL certificate of the NAS. Disable this when the NAS uses a self-signed certificate."
         }
       }
@@ -257,7 +257,7 @@
   },
   "issues": {
     "deprecated_action": {
-      "description": "The `{action}` action is deprecated and will be removed in Universal Universal Home Assistant 2027.6. Use the **Restart** or **Shut down** button entity of your NAS with the `button.press` action instead, and update any automations or scripts that use `{action}`.",
+      "description": "The `{action}` action is deprecated and will be removed in __HA_KEEP__ 2027.6. Use the **Restart** or **Shut down** button entity of your NAS with the `button.press` action instead, and update any automations or scripts that use `{action}`.",
       "title": "The `{action}` action is being removed"
     },
     "missing_backup_setup": {

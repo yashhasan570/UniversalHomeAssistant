@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ecoforest.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -60,7 +60,7 @@ def mock_device_fixture(serial_number):
 
 
 @pytest.fixture(name="config_entry")
-def config_entry_fixture(hass: UniversalAssistant, config, serial_number):
+def config_entry_fixture(hass: __HAC_KEEP__, config, serial_number):
     """Define a config entry fixture."""
     entry = MockConfigEntry(
         domain=DOMAIN,

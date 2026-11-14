@@ -15,7 +15,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import async_load_measures_fixture, setup_integration
@@ -23,7 +23,7 @@ from . import async_load_measures_fixture, setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     airgradient_devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_all_entities(
 
 
 async def test_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -61,7 +61,7 @@ async def test_create_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_v1_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -75,7 +75,7 @@ async def test_v1_entities(
 
 
 async def test_v1_sensor_defaults(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -103,7 +103,7 @@ async def test_v1_sensor_defaults(
 
 
 async def test_v1_measurements_can_appear_later(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -132,7 +132,7 @@ async def test_v1_measurements_can_appear_later(
 
 
 async def test_v1_zero_measurements(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_v1_zero_measurements(
 
 
 async def test_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

@@ -40,7 +40,7 @@ from universalassistant.components.recorder.services import (
 from universalassistant.components.recorder.tasks import PurgeTask
 from universalassistant.components.recorder.util import session_scope
 from universalassistant.const import EVENT_STATE_CHANGED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -52,7 +52,7 @@ async def mock_recorder_before_hass(
 
 
 @pytest.fixture(autouse=True)
-def db_schema_32(hass: UniversalAssistant) -> Generator[None]:
+def db_schema_32(hass: __HAC_KEEP__) -> Generator[None]:
     """Fixture to initialize the db with the old schema 32."""
     with old_db_schema(hass, "32"):
         yield
@@ -70,7 +70,7 @@ def mock_use_sqlite(request: pytest.FixtureRequest) -> Generator[None]:
         yield
 
 
-async def test_purge_old_states(hass: UniversalAssistant, recorder_mock: Recorder) -> None:
+async def test_purge_old_states(hass: __HAC_KEEP__, recorder_mock: Recorder) -> None:
     """Test deleting old states."""
     await async_attach_db_engine(hass)
 
@@ -171,7 +171,7 @@ async def test_purge_old_states(hass: UniversalAssistant, recorder_mock: Recorde
 @pytest.mark.skip_on_db_engine(["mysql", "postgresql"])
 @pytest.mark.usefixtures("recorder_mock", "skip_by_db_engine")
 async def test_purge_old_states_encouters_database_corruption(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test database image image is malformed while deleting old states.
 
@@ -210,7 +210,7 @@ async def test_purge_old_states_encouters_database_corruption(
 
 
 async def test_purge_old_states_encounters_temporary_mysql_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_mock: Recorder,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -244,7 +244,7 @@ async def test_purge_old_states_encounters_temporary_mysql_error(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_purge_old_states_encounters_operational_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test error on operational errors that are not mysql does not retry."""
@@ -270,7 +270,7 @@ async def test_purge_old_states_encounters_operational_error(
     assert "Error executing purge" in caplog.text
 
 
-async def test_purge_old_events(hass: UniversalAssistant, recorder_mock: Recorder) -> None:
+async def test_purge_old_events(hass: __HAC_KEEP__, recorder_mock: Recorder) -> None:
     """Test deleting old events."""
     await async_attach_db_engine(hass)
 
@@ -312,7 +312,7 @@ async def test_purge_old_events(hass: UniversalAssistant, recorder_mock: Recorde
 
 
 async def test_purge_old_recorder_runs(
-    hass: UniversalAssistant, recorder_mock: Recorder
+    hass: __HAC_KEEP__, recorder_mock: Recorder
 ) -> None:
     """Test deleting old recorder runs keeps current run."""
     await async_attach_db_engine(hass)
@@ -351,7 +351,7 @@ async def test_purge_old_recorder_runs(
 
 
 async def test_purge_old_statistics_runs(
-    hass: UniversalAssistant, recorder_mock: Recorder
+    hass: __HAC_KEEP__, recorder_mock: Recorder
 ) -> None:
     """Test deleting old statistics runs keeps the latest run."""
     await async_attach_db_engine(hass)
@@ -377,7 +377,7 @@ async def test_purge_old_statistics_runs(
 @pytest.mark.parametrize("use_sqlite", [True, False], indirect=True)
 @pytest.mark.usefixtures("recorder_mock")
 async def test_purge_method(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     use_sqlite: bool,
 ) -> None:
@@ -499,10 +499,10 @@ async def test_purge_method(
 
 @pytest.mark.parametrize("use_sqlite", [True, False], indirect=True)
 @pytest.mark.usefixtures("recorder_mock")
-async def test_purge_edge_case(hass: UniversalAssistant, use_sqlite: bool) -> None:
+async def test_purge_edge_case(hass: __HAC_KEEP__, use_sqlite: bool) -> None:
     """Test states and events purged even if shortly before purge_before."""
 
-    async def _add_db_entries(hass: UniversalAssistant, timestamp: datetime) -> None:
+    async def _add_db_entries(hass: __HAC_KEEP__, timestamp: datetime) -> None:
         with session_scope(hass=hass) as session:
             session.add(
                 Events(
@@ -563,10 +563,10 @@ async def test_purge_edge_case(hass: UniversalAssistant, use_sqlite: bool) -> No
         assert events.count() == 0
 
 
-async def test_purge_cutoff_date(hass: UniversalAssistant, recorder_mock: Recorder) -> None:
+async def test_purge_cutoff_date(hass: __HAC_KEEP__, recorder_mock: Recorder) -> None:
     """Test purge only removes entries before now() - keep_days."""
 
-    async def _add_db_entries(hass: UniversalAssistant, cutoff: datetime, rows: int) -> None:
+    async def _add_db_entries(hass: __HAC_KEEP__, cutoff: datetime, rows: int) -> None:
         timestamp_keep = cutoff
         timestamp_purge = cutoff - timedelta(microseconds=1)
 
@@ -712,7 +712,7 @@ async def test_purge_cutoff_date(hass: UniversalAssistant, recorder_mock: Record
         assert state_attributes.count() == 0
 
 
-async def _add_test_states(hass: UniversalAssistant):
+async def _add_test_states(hass: __HAC_KEEP__):
     """Add multiple states to the db for testing."""
     utcnow = dt_util.utcnow()
     five_days_ago = utcnow - timedelta(days=5)
@@ -744,7 +744,7 @@ async def _add_test_states(hass: UniversalAssistant):
             await set_state("test.recorder2", state, attributes=attributes)
 
 
-async def _add_test_events(hass: UniversalAssistant, iterations: int = 1):
+async def _add_test_events(hass: __HAC_KEEP__, iterations: int = 1):
     """Add a few events for testing."""
     utcnow = dt_util.utcnow()
     five_days_ago = utcnow - timedelta(days=5)
@@ -777,7 +777,7 @@ async def _add_test_events(hass: UniversalAssistant, iterations: int = 1):
                 )
 
 
-async def _add_events_with_event_data(hass: UniversalAssistant, iterations: int = 1):
+async def _add_events_with_event_data(hass: __HAC_KEEP__, iterations: int = 1):
     """Add a few events with linked event_data for testing."""
     utcnow = dt_util.utcnow()
     five_days_ago = utcnow - timedelta(days=5)
@@ -815,7 +815,7 @@ async def _add_events_with_event_data(hass: UniversalAssistant, iterations: int 
                 )
 
 
-async def _add_test_statistics(hass: UniversalAssistant):
+async def _add_test_statistics(hass: __HAC_KEEP__):
     """Add multiple statistics to the db for testing."""
     utcnow = dt_util.utcnow()
     five_days_ago = utcnow - timedelta(days=5)
@@ -844,7 +844,7 @@ async def _add_test_statistics(hass: UniversalAssistant):
             )
 
 
-async def _add_test_recorder_runs(hass: UniversalAssistant):
+async def _add_test_recorder_runs(hass: __HAC_KEEP__):
     """Add a few recorder_runs for testing."""
     utcnow = dt_util.utcnow()
     five_days_ago = utcnow - timedelta(days=5)
@@ -871,7 +871,7 @@ async def _add_test_recorder_runs(hass: UniversalAssistant):
             )
 
 
-async def _add_test_statistics_runs(hass: UniversalAssistant):
+async def _add_test_statistics_runs(hass: __HAC_KEEP__):
     """Add a few recorder_runs for testing."""
     utcnow = dt_util.utcnow()
     five_days_ago = utcnow - timedelta(days=5)
@@ -954,7 +954,7 @@ def _add_state_and_state_changed_event(
 
 
 async def test_purge_many_old_events(
-    hass: UniversalAssistant, recorder_mock: Recorder
+    hass: __HAC_KEEP__, recorder_mock: Recorder
 ) -> None:
     """Test deleting old events."""
     await async_attach_db_engine(hass)
@@ -1016,7 +1016,7 @@ async def test_purge_many_old_events(
 
 
 async def test_purge_can_mix_legacy_and_new_format(
-    hass: UniversalAssistant, recorder_mock: Recorder
+    hass: __HAC_KEEP__, recorder_mock: Recorder
 ) -> None:
     """Test purging with legacy and new events."""
     await async_attach_db_engine(hass)
@@ -1162,7 +1162,7 @@ async def test_purge_can_mix_legacy_and_new_format(
 @pytest.mark.skip_on_db_engine(["mysql", "postgresql"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_purge_can_mix_legacy_and_new_format_with_detached_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_mock: Recorder,
     recorder_db_url: str,
 ) -> None:
@@ -1342,7 +1342,7 @@ async def test_purge_can_mix_legacy_and_new_format_with_detached_state(
 
 
 async def test_purge_entities_keep_days(
-    hass: UniversalAssistant, recorder_mock: Recorder
+    hass: __HAC_KEEP__, recorder_mock: Recorder
 ) -> None:
     """Test purging states with an entity filter and keep_days."""
     await async_attach_db_engine(hass)

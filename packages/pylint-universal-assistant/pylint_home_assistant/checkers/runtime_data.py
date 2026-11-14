@@ -3,7 +3,7 @@
 New integrations should store per-entry data on ``entry.runtime_data`` (typed
 via a ``type`` alias) rather than the legacy ``hass.data[DOMAIN][entry.entry_id]``
 dictionary pattern. The ``runtime_data`` approach is type-safe, automatically
-cleaned up on unload, and is the current Universal Universal Home Assistant core standard.
+cleaned up on unload, and is the current __HA_KEEP__ core standard.
 
 Both the subscript form (``hass.data[DOMAIN]``) and the equivalent method-call
 forms (``hass.data.setdefault(DOMAIN, ...)`` and ``hass.data.get(DOMAIN)``) are

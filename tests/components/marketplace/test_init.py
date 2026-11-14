@@ -35,8 +35,8 @@ from universalassistant.config_entries import (
     ConfigEntryDisabler,
     ConfigEntryState,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -54,7 +54,7 @@ from .const import (
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the config entry loads and unloads again."""
@@ -70,7 +70,7 @@ async def test_load_unload_entry(
 
 
 async def test_panel_registered_when_setup_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the panel is there to explain a setup that failed."""
@@ -86,11 +86,11 @@ async def test_panel_registered_when_setup_fails(
 
 
 async def test_restart_issues_removed_on_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
-    """Test the restart issues of earlier installs go once Universal Universal Home Assistant started."""
+    """Test the restart issues of earlier installs go once __HA_KEEP__ started."""
     ir.async_create_issue(
         hass,
         DOMAIN,
@@ -124,7 +124,7 @@ async def test_restart_issues_removed_on_start(
 
 
 async def test_legacy_plugin_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
@@ -145,7 +145,7 @@ async def test_legacy_plugin_path(
 
 
 async def test_legacy_plugin_path_without_plugins(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -158,7 +158,7 @@ async def test_legacy_plugin_path_without_plugins(
 
 
 async def test_unload_keeps_running_when_platforms_stay(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -186,7 +186,7 @@ async def test_unload_keeps_running_when_platforms_stay(
 
 
 async def test_unload_with_pending_queue_tasks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test queued work does not keep the entry from unloading."""
@@ -202,7 +202,7 @@ async def test_unload_with_pending_queue_tasks(
 
 
 async def test_unload_waits_for_a_running_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unloading lets an install finish, a new setup would restore under it."""
@@ -233,7 +233,7 @@ async def test_unload_waits_for_a_running_install(
 
 
 async def test_unload_stops_the_startup_tasks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test an unload during the startup tasks leaves nothing running behind."""
@@ -267,7 +267,7 @@ async def test_unload_stops_the_startup_tasks(
 
 
 async def test_custom_repository_updates_without_custom_repositories(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test nothing waits for custom repository updates when there are none."""
@@ -284,7 +284,7 @@ async def test_custom_repository_updates_without_custom_repositories(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_custom_repositories_are_looked_at_after_a_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a start queues the custom repositories, a restart resets the interval."""
@@ -298,7 +298,7 @@ async def test_custom_repositories_are_looked_at_after_a_start(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_custom_repository_update_failure_still_updates_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a failing custom repository update does not leave entities waiting."""
@@ -356,7 +356,7 @@ async def test_custom_repository_update_failure_still_updates_entities(
     ],
 )
 async def test_setup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
     state: ConfigEntryState,
@@ -373,7 +373,7 @@ async def test_setup_failure(
 
 
 async def test_setup_fails_without_restored_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test data that can not be read is not retried, trying again changes nothing."""
@@ -410,7 +410,7 @@ async def test_setup_fails_without_restored_data(
     ],
 )
 async def test_setup_with_a_disabled_marketplace(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     reason: DisabledReason,
     state: ConfigEntryState,
@@ -433,7 +433,7 @@ async def test_setup_with_a_disabled_marketplace(
 
 
 async def test_setup_asks_to_reauthenticate_for_an_invalid_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test an invalid token during setup asks the user to reauthenticate."""
@@ -453,7 +453,7 @@ async def test_setup_asks_to_reauthenticate_for_an_invalid_token(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_entities_for_installed_repositories(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -487,7 +487,7 @@ async def test_entities_for_installed_repositories(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_setup_request_volume(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -500,7 +500,7 @@ async def test_setup_request_volume(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_stored_repository_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the stored repository ids survive a restore."""
@@ -543,7 +543,7 @@ async def test_stored_repository_ids(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_remove_device_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     identifiers: set[Any],
     message: str,
@@ -553,7 +553,7 @@ async def test_remove_device_rejected(
     device_entry.id = "test_device_id"
     device_entry.identifiers = identifiers
 
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         await async_remove_config_entry_device(hass, mock_config_entry, device_entry)
 
 
@@ -570,7 +570,7 @@ async def test_remove_device_rejected(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_remove_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     identifiers: set[Any],
 ) -> None:
@@ -584,7 +584,7 @@ async def test_remove_device(
 
 @pytest.mark.usefixtures("stored_repositories", "init_integration")
 async def test_remove_device_still_installed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test removing a device for an installed repository is refused."""
@@ -593,7 +593,7 @@ async def test_remove_device_still_installed(
     device_entry.identifiers = {(DOMAIN, REPOSITORY_INTEGRATION_ID)}
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             f"Cannot remove the service for {REPOSITORY_INTEGRATION}, "
             "it is still installed"
@@ -624,7 +624,7 @@ async def test_remove_device_still_installed(
     ],
 )
 async def test_old_panel_paths_redirect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     path: str,
@@ -641,7 +641,7 @@ async def test_old_panel_paths_redirect(
 
 
 async def test_old_panel_paths_redirect_without_a_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -656,7 +656,7 @@ async def test_old_panel_paths_redirect_without_a_session(
 
 
 async def test_www_directory_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
     caplog: pytest.LogCaptureFixture,
@@ -672,7 +672,7 @@ async def test_www_directory_created(
 
 
 async def test_www_directory_left_alone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     config_dir: Path,
     caplog: pytest.LogCaptureFixture,
@@ -686,7 +686,7 @@ async def test_www_directory_left_alone(
     assert "dashboard resources are served after a restart" not in caplog.text
 
 
-async def test_system_entry_created(hass: UniversalAssistant) -> None:
+async def test_system_entry_created(hass: __HAC_KEEP__) -> None:
     """Test the Marketplace sets itself up without a GitHub account."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -707,7 +707,7 @@ async def test_system_entry_created(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_system_entry_not_created_twice(
-    hass: UniversalAssistant, disabled_by: ConfigEntryDisabler | None
+    hass: __HAC_KEEP__, disabled_by: ConfigEntryDisabler | None
 ) -> None:
     """Test an existing entry, disabled or not, is the one the Marketplace keeps."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, disabled_by=disabled_by)
@@ -724,7 +724,7 @@ async def test_system_entry_not_created_twice(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.usefixtures("stored_repositories")
 async def test_setup_without_github(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     monkeypatch: pytest.MonkeyPatch,
@@ -759,7 +759,7 @@ async def test_setup_without_github(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_setup_authentication_failure_without_github(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test there is nothing to reauthenticate without a connected account."""
@@ -793,7 +793,7 @@ async def test_setup_authentication_failure_without_github(
 )
 @pytest.mark.parametrize("github_token", [None])
 async def test_anonymous_github_errors_do_not_disable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     side_effect: Exception,
     error: type[MarketplaceError],
@@ -823,7 +823,7 @@ async def test_anonymous_github_errors_do_not_disable(
     ],
 )
 async def test_connected_github_errors_disable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     side_effect: Exception,
     reason: DisabledReason,

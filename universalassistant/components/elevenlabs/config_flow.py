@@ -11,7 +11,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_API_KEY, CONF_MODEL
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.selector import (
     SelectOptionDict,
@@ -49,7 +49,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def get_voices_models(
-    hass: UniversalAssistant, api_key: str
+    hass: __HAC_KEEP__, api_key: str
 ) -> tuple[dict[str, str], dict[str, str]]:
     """Get available voices and models as dicts."""
     httpx_client = get_async_client(hass)

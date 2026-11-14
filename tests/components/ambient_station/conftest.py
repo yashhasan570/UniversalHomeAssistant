@@ -13,7 +13,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.ambient_station.const import CONF_APP_KEY, DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.json import JsonArrayType, JsonObjectType
 
 
@@ -34,7 +34,7 @@ def config_fixture() -> dict[str, Any]:
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: UniversalAssistant, config: dict[str, Any]
+    hass: __HAC_KEEP__, config: dict[str, Any]
 ) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
@@ -73,7 +73,7 @@ def mock_aioambient_fixture(api: Mock) -> Generator[None]:
 
 @pytest.fixture(name="setup_config_entry")
 async def setup_config_entry_fixture(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_aioambient: None
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_aioambient: None
 ) -> None:
     """Define a fixture to set up ambient_station."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)

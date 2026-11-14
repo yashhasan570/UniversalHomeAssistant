@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import notify_receiver_update
@@ -36,7 +36,7 @@ TRIM_SURROUND_ENTITY_ID = "number.mock_lyngdorf_trim_surround"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -46,7 +46,7 @@ async def test_entities(
 
 
 async def test_set_lipsync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_set_lipsync(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_set_trim(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     entity_id: str,
     trim: Trim,
@@ -107,7 +107,7 @@ async def test_set_trim(
 
 
 async def test_number_none_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_number_none_values(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_receiver")
 async def test_entities_absent_for_controls_the_model_lacks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_registry: er.EntityRegistry,

@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.climate import HVACMode
 from universalassistant.components.coolmaster.climate import CoolmasterClimate
 from universalassistant.components.coolmaster.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 DEFAULT_INFO: dict[str, str] = {
     "version": "1",
@@ -197,9 +197,9 @@ class CoolMasterNetEmptyStatusMock:
 
 @pytest.fixture
 async def load_int(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> MockConfigEntry:
-    """Set up the Coolmaster integration in Universal Universal Home Assistant."""
+    """Set up the Coolmaster integration in __HA_KEEP__."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         data={
@@ -222,8 +222,8 @@ async def load_int(
 
 
 @pytest.fixture
-async def config_entry_with_errors(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the Coolmaster integration in Universal Universal Home Assistant."""
+async def config_entry_with_errors(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the Coolmaster integration in __HA_KEEP__."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         data={
@@ -246,8 +246,8 @@ async def config_entry_with_errors(hass: UniversalAssistant) -> MockConfigEntry:
 
 
 @pytest.fixture
-async def config_entry_with_empty_status(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the Coolmaster integration in Universal Universal Home Assistant."""
+async def config_entry_with_empty_status(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the Coolmaster integration in __HA_KEEP__."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         data={

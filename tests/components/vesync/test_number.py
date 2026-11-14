@@ -14,8 +14,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -30,7 +30,7 @@ NON_HUMIDIFIER_DEVICE_NAMES = [
 
 
 async def test_set_mist_level_bad_range(
-    hass: UniversalAssistant, humidifier_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, humidifier_config_entry: MockConfigEntry
 ) -> None:
     """Test set_mist_level invalid value."""
     with (
@@ -54,7 +54,7 @@ async def test_set_mist_level_bad_range(
 
 
 async def test_set_mist_level(
-    hass: UniversalAssistant, humidifier_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, humidifier_config_entry: MockConfigEntry
 ) -> None:
     """Test set_mist_level usage."""
 
@@ -87,12 +87,12 @@ async def test_set_mist_level(
     ],
 )
 async def test_set_mist_level_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     humidifier_config_entry: MockConfigEntry,
     last_response: ResponseInfo | None,
     message: str,
 ) -> None:
-    """Test a failed set_mist_level raises UniversalAssistantError."""
+    """Test a failed set_mist_level raises __HAC_KEEP__Error."""
 
     async def _set_mist_level(device: VeSyncHumid200300S, level: int) -> bool:
         device.last_response = last_response
@@ -105,7 +105,7 @@ async def test_set_mist_level_failure(
             autospec=True,
             side_effect=_set_mist_level,
         ),
-        pytest.raises(UniversalAssistantError, match=message),
+        pytest.raises(__HAC_KEEP__Error, match=message),
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,
@@ -119,7 +119,7 @@ async def test_set_mist_level_failure(
 
 
 async def test_mist_level(
-    hass: UniversalAssistant, humidifier_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, humidifier_config_entry: MockConfigEntry
 ) -> None:
     """Test the state of mist_level number entity."""
 
@@ -128,7 +128,7 @@ async def test_mist_level(
 
 @pytest.mark.parametrize("device_name", NON_HUMIDIFIER_DEVICE_NAMES)
 async def test_no_number_entities_for_non_humidifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,

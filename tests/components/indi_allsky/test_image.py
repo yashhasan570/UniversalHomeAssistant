@@ -12,8 +12,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components import image
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -52,7 +52,7 @@ def mock_startrail_data() -> MediaData:
 
 @pytest.mark.usefixtures("mock_indi_allsky_client")
 async def test_image_setup_and_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -66,7 +66,7 @@ async def test_image_setup_and_states(
 
 
 async def test_image_events_and_fetching(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_keogram_data: MediaData,
@@ -117,7 +117,7 @@ async def test_image_events_and_fetching(
 
 
 async def test_image_fetch_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_keogram_data: MediaData,
@@ -135,10 +135,10 @@ async def test_image_fetch_error(
         callback(mock_startrail_data)
     await hass.async_block_till_done(wait_background_tasks=True)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await image.async_get_image(hass, "image.indi_allsky_latest_keogram")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await image.async_get_image(hass, "image.indi_allsky_latest_star_trail")
 
     # Verify recovery: later on-demand fetch succeeds and caches image in coordinator data
@@ -178,7 +178,7 @@ async def test_image_fetch_error(
 
 
 async def test_stale_media_fetch_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_keogram_data: MediaData,
@@ -275,7 +275,7 @@ async def test_stale_media_fetch_ignored(
 
 
 async def test_on_demand_fetch_captures_media_identity_before_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_keogram_data: MediaData,
@@ -342,7 +342,7 @@ async def test_on_demand_fetch_captures_media_identity_before_fetch(
     ],
 )
 async def test_image_fetch_auth_failure_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     callback_name: str,
@@ -366,14 +366,14 @@ async def test_image_fetch_auth_failure_triggers_reauth(
             callback(media_data)
         await hass.async_block_till_done()
 
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await image.async_get_image(hass, entity_id)
 
     assert mock_async_start_reauth.call_count >= 1
 
 
 async def test_image_fetching_before_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -397,7 +397,7 @@ async def test_image_fetching_before_events(
 
 
 async def test_image_midnight_day_date_uses_fetch_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_keogram_data: MediaData,
@@ -424,7 +424,7 @@ async def test_image_midnight_day_date_uses_fetch_time(
 
 
 async def test_image_last_updated_timezones_and_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_keogram_data: MediaData,

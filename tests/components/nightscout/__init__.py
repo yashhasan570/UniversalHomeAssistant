@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.nightscout.const import DOMAIN
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 GLUCOSE_READINGS = [
     SGV.new_from_json_dict(
@@ -73,8 +73,8 @@ SERVER_STATUS_STATUS_ONLY = ServerStatus.new_from_json_dict(
 )
 
 
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the Nightscout integration in Universal Universal Home Assistant."""
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the Nightscout integration in __HA_KEEP__."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={CONF_URL: "https://some.url:1234"},
@@ -96,8 +96,8 @@ async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
     return entry
 
 
-async def init_integration_empty_response(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the Nightscout integration in Universal Universal Home Assistant."""
+async def init_integration_empty_response(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the Nightscout integration in __HA_KEEP__."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={CONF_URL: "https://some.url:1234"},

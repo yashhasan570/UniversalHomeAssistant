@@ -8,8 +8,8 @@ from typing import override
 import motionmount
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MotionMountConfigEntry
@@ -22,7 +22,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MotionMountConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -134,7 +134,7 @@ class MotionMountPresets(MotionMountEntity, SelectEntity):
         """Set the new option."""
         index = self._name_to_index.get(option)
         if index is None:
-            raise UniversalAssistantError(f"Unknown preset selected: {option}")
+            raise __HAC_KEEP__Error(f"Unknown preset selected: {option}")
 
         try:
             await self.mm.go_to_preset(index)
@@ -144,7 +144,7 @@ class MotionMountPresets(MotionMountEntity, SelectEntity):
             socket.gaierror,
             motionmount.NotConnectedError,
         ) as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_communication",
             ) from ex

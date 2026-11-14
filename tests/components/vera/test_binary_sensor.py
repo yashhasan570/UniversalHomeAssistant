@@ -4,13 +4,13 @@ from unittest.mock import MagicMock
 
 import pyvera as pv
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import ComponentFactory, new_simple_controller_config
 
 
 async def test_binary_sensor(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     vera_device: pv.VeraBinarySensor = MagicMock(spec=pv.VeraBinarySensor)

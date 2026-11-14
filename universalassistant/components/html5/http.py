@@ -13,11 +13,11 @@ from jwt.warnings import InsecureKeyLengthWarning
 import probatio
 from probatio.humanize import humanize_error
 
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.components.notify import ATTR_DATA, ATTR_TARGET
 from universalassistant.const import ATTR_NAME
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.json import save_json
@@ -81,7 +81,7 @@ CALLBACK_EVENT_PAYLOAD_SCHEMA = probatio.Schema(
 
 @callback
 def async_register_http_views(
-    hass: UniversalAssistant, json_path: str, registrations: dict[str, Registration]
+    hass: __HAC_KEEP__, json_path: str, registrations: dict[str, Registration]
 ) -> None:
     """Register the http views."""
 
@@ -89,7 +89,7 @@ def async_register_http_views(
     hass.http.register_view(HTML5PushCallbackView(registrations))
 
 
-class HTML5PushRegistrationView(UniversalAssistantView):
+class HTML5PushRegistrationView(__HAC_KEEP__View):
     """Accepts push registrations from a browser."""
 
     url = "/api/notify.html5"
@@ -125,7 +125,7 @@ class HTML5PushRegistrationView(UniversalAssistantView):
             await hass.async_add_executor_job(
                 save_json, self.json_path, self.registrations
             )
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             if previous_registration is not None:
                 self.registrations[name] = previous_registration
             else:
@@ -177,7 +177,7 @@ class HTML5PushRegistrationView(UniversalAssistantView):
             await hass.async_add_executor_job(
                 save_json, self.json_path, self.registrations
             )
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             self.registrations[found] = reg
             return self.json_message(
                 "Error saving registration.", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -186,7 +186,7 @@ class HTML5PushRegistrationView(UniversalAssistantView):
         return self.json_message("Push notification subscriber unregistered.")
 
 
-class HTML5PushCallbackView(UniversalAssistantView):
+class HTML5PushCallbackView(__HAC_KEEP__View):
     """Accepts push registrations from a browser."""
 
     requires_auth = False

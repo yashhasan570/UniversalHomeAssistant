@@ -14,8 +14,8 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -120,7 +120,7 @@ BUTTONS: Final[list[ShellyButtonDescription[Any]]] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -137,7 +137,7 @@ async def async_setup_entry(
         assert coordinator is not None
 
     # Remove the 'restart' button for sleeping devices as it was mistakenly
-    # added in https://github.com/yashhasan570/UniversalUniversalAssistant/pull/154673
+    # added in https://github.com/yashhasan570/__HAC_KEEP__/pull/154673
     entry_sleep_period = config_entry.data[CONF_SLEEP_PERIOD]
     if device_gen in RPC_GENERATIONS and entry_sleep_period:
         async_remove_shelly_entity(hass, BUTTON_DOMAIN, f"{coordinator.mac}-reboot")
@@ -212,7 +212,7 @@ class ShellyBaseButton(
             await self._press_method()
         except DeviceConnectionError as err:
             self.coordinator.last_update_success = False
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_communication_action_error",
                 translation_placeholders={
@@ -221,7 +221,7 @@ class ShellyBaseButton(
                 },
             ) from err
         except RpcCallError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="rpc_call_action_error",
                 translation_placeholders={

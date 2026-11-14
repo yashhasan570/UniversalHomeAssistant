@@ -14,7 +14,7 @@ from universalassistant.components.izone import discovery as izone_discovery
 from universalassistant.components.izone.const import DISCOVERY_SCAN_INTERVAL, DOMAIN
 from universalassistant.components.izone.discovery import DATA_DISCOVERY_SERVICE
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.dt import utcnow
 
 from .conftest import async_load_yaml_exclude, create_mock_endpoint
@@ -48,7 +48,7 @@ def mock_pizone_create_discovery() -> Generator[tuple[AsyncMock, Mock]]:
 
 
 async def test_ensure_discovery_starts_and_stops_on_universalassistant_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """Ensure starts discovery with an initial scan and closes on HA stop."""
@@ -71,7 +71,7 @@ async def test_ensure_discovery_starts_and_stops_on_universalassistant_stop(
 
 
 async def test_ensure_discovery_recreates_after_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """After a clean stop, ensure starts a fresh create_discovery."""
     first_service = _mock_pizone_service()
@@ -103,7 +103,7 @@ async def test_ensure_discovery_recreates_after_stop(
 
 
 async def test_ensure_discovery_serializes_concurrent_reopen(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Concurrent ensure after stop still shares a single reopen create."""
     first_service = _mock_pizone_service()
@@ -157,7 +157,7 @@ async def test_ensure_discovery_serializes_concurrent_reopen(
 
 
 async def test_ensure_discovery_serializes_concurrent_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Concurrent ensure callers share one create_discovery and the same service."""
     mock_service = _mock_pizone_service()
@@ -209,7 +209,7 @@ async def test_ensure_discovery_serializes_concurrent_create(
 
 
 async def test_ensure_discovery_failure_fails_concurrent_waiters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Create failure clears the slot and fails every concurrent waiter."""
     started = asyncio.Event()
@@ -246,7 +246,7 @@ async def test_ensure_discovery_failure_fails_concurrent_waiters(
 
 
 async def test_stop_discovery_aborts_in_flight_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Stopping while create is pending fails the Future and clears the slot."""
     started = asyncio.Event()
@@ -280,7 +280,7 @@ async def test_stop_discovery_aborts_in_flight_create(
 
 
 async def test_slow_scan_fires_while_entry_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """Shared timer keeps hunting for new devices while an entry is loaded."""
@@ -307,7 +307,7 @@ async def test_slow_scan_fires_while_entry_loaded(
 
 
 async def test_endpoint_discovered_starts_config_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """Discovered endpoints surface as integration discovery flows."""
@@ -329,7 +329,7 @@ async def test_endpoint_discovered_starts_config_flow(
 
 
 async def test_endpoint_discovered_ignores_yaml_exclude(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """YAML exclude no longer suppresses integration discovery."""
@@ -347,7 +347,7 @@ async def test_endpoint_discovered_ignores_yaml_exclude(
 
 
 async def test_maybe_stop_keeps_discovery_for_loaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """Idle stop does not tear down discovery while a loaded entry remains."""
@@ -370,7 +370,7 @@ async def test_maybe_stop_keeps_discovery_for_loaded_entry(
 
 
 async def test_maybe_stop_keeps_discovery_for_actionable_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """Idle stop keeps discovery while a user config flow is in progress."""
@@ -414,7 +414,7 @@ async def test_maybe_stop_keeps_discovery_for_actionable_flow(
     ],
 )
 async def test_maybe_stop_respects_entry_setup_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
     entry_state: config_entries.ConfigEntryState,
     expect_close: bool,
@@ -439,7 +439,7 @@ async def test_maybe_stop_respects_entry_setup_state(
 
 
 async def test_maybe_stop_closes_when_idle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """Idle stop closes discovery when nothing actionable remains."""
@@ -452,12 +452,12 @@ async def test_maybe_stop_closes_when_idle(
     mock_service.close.assert_awaited_once()
 
 
-async def test_stop_discovery_is_noop_when_not_started(hass: UniversalAssistant) -> None:
+async def test_stop_discovery_is_noop_when_not_started(hass: __HAC_KEEP__) -> None:
     """Stop is a no-op if discovery was never started."""
     await izone_discovery.async_stop_discovery(hass)
 
 
-async def test_ensure_discovery_propagates_oserror(hass: UniversalAssistant) -> None:
+async def test_ensure_discovery_propagates_oserror(hass: __HAC_KEEP__) -> None:
     """Bind failures from create_discovery propagate to the caller."""
     with (
         patch(
@@ -476,7 +476,7 @@ async def test_ensure_discovery_propagates_oserror(hass: UniversalAssistant) -> 
 
 
 async def test_setup_runtime_error_from_discovery_retries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Process-global discovery conflicts surface as SETUP_RETRY."""
     entry = MockConfigEntry(
@@ -504,7 +504,7 @@ async def test_setup_runtime_error_from_discovery_retries(
 
 
 async def test_discover_all_endpoints(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """User/HomeKit scan returns endpoints from discover_all."""
@@ -519,7 +519,7 @@ async def test_discover_all_endpoints(
 
 
 async def test_scan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """User Search broadcasts on an already-running service, not discover_all."""
@@ -535,7 +535,7 @@ async def test_scan(
 
 
 async def test_discover_endpoint_by_uid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """Targeted lookup returns a single endpoint from discover_by_uid."""
@@ -550,7 +550,7 @@ async def test_discover_endpoint_by_uid(
 
 
 async def test_discover_by_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pizone_create_discovery: tuple[AsyncMock, Mock],
 ) -> None:
     """Manual host lookup returns a single endpoint from discover_by_host."""

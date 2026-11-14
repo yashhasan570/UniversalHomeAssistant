@@ -11,7 +11,7 @@ from skoda_public_api.models.charging import Charging
 from skoda_public_api.models.driving_range import FuelStatus
 from skoda_public_api.models.vehicle import Odometer, VehicleObject
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -88,12 +88,12 @@ class SkodaEntity(CoordinatorEntity[SkodaUpdateCoordinator]):
         try:
             await command
         except OpenApiTimeoutError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="vehicle_not_responding",
             ) from err
         except OpenApiError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key=_COMMAND_ERRORS.get(err.status_code, "command_failed"),
             ) from err

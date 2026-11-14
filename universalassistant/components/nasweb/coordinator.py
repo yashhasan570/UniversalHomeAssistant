@@ -11,7 +11,7 @@ from aiohttp.web import Request, Response
 from webio_api import WebioAPI
 from webio_api.const import KEY_DEVICE_SERIAL, KEY_TYPE, TYPE_STATUS_UPDATE
 
-from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
 from universalassistant.helpers import event
 from universalassistant.helpers.update_coordinator import BaseDataUpdateCoordinatorProtocol
 
@@ -63,7 +63,7 @@ class NotificationCoordinator:
         return False
 
     async def handle_webhook_request(
-        self, hass: UniversalAssistant, webhook_id: str, request: Request
+        self, hass: __HAC_KEEP__, webhook_id: str, request: Request
     ) -> Response | None:
         """Handle webhook request from Push API."""
         if not self.has_coordinators():
@@ -91,7 +91,7 @@ class NASwebCoordinator(BaseDataUpdateCoordinatorProtocol):
     """
 
     def __init__(
-        self, hass: UniversalAssistant, webio_api: WebioAPI, name: str = "NASweb[default]"
+        self, hass: __HAC_KEEP__, webio_api: WebioAPI, name: str = "NASweb[default]"
     ) -> None:
         """Initialize NASweb coordinator."""
         self._hass = hass

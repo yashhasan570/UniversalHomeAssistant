@@ -10,7 +10,7 @@ from universalassistant.components.update import (
     UpdateEntity,
     UpdateEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SmartThingsConfigEntry
@@ -19,7 +19,7 @@ from .entity import SmartThingsEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

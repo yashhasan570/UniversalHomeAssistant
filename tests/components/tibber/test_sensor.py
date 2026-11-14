@@ -12,7 +12,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfLength,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -27,7 +27,7 @@ RT_POWER_ENTITY_ID = "sensor.tibber_pulse_home_power"
 
 @pytest.mark.usefixtures("recorder_mock", "setup_credentials")
 async def test_realtime_error_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     realtime_home: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -84,7 +84,7 @@ async def test_realtime_error_recovery(
     ],
 )
 async def test_realtime_missing_measurement_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     realtime_home: MagicMock,
     data: dict[str, dict[str, int] | None],
@@ -112,7 +112,7 @@ async def test_realtime_missing_measurement_recovery(
 
 @pytest.mark.usefixtures("recorder_mock", "setup_credentials")
 async def test_realtime_listener_cleanup_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     realtime_home: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -135,7 +135,7 @@ async def test_realtime_listener_cleanup_on_unload(
 
 @pytest.mark.usefixtures("recorder_mock", "setup_credentials")
 async def test_realtime_listener_cleanup_on_stop_then_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     realtime_home: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -158,7 +158,7 @@ async def test_realtime_listener_cleanup_on_stop_then_unload(
 
 async def test_price_sensor_state_unit_and_attributes(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tibber_mock: MagicMock,
     setup_credentials: None,
@@ -210,7 +210,7 @@ async def test_price_sensor_state_unit_and_attributes(
 
 @pytest.mark.usefixtures("recorder_mock", "setup_credentials")
 async def test_data_api_sensors_migrate_to_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     data_api_client_mock: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -295,7 +295,7 @@ async def test_data_api_sensors_migrate_to_device_id(
     "unsupported_device_name", ["Unsupported device", "Charger left"]
 )
 async def test_data_api_sensors_with_empty_external_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     data_api_client_mock: AsyncMock,
     area_registry: ar.AreaRegistry,
@@ -425,7 +425,7 @@ async def test_data_api_sensors_with_empty_external_ids(
 )
 async def test_new_data_api_sensor_values(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     data_api_client_mock: AsyncMock,
     setup_credentials: None,
@@ -455,7 +455,7 @@ async def test_new_data_api_sensor_values(
 
 async def test_range_remaining_sensor_unit_conversion(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     data_api_client_mock: AsyncMock,
     setup_credentials: None,
@@ -482,7 +482,7 @@ async def test_range_remaining_sensor_unit_conversion(
 
 async def test_new_data_api_sensors_with_disabled_by_default(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     data_api_client_mock: AsyncMock,
     setup_credentials: None,

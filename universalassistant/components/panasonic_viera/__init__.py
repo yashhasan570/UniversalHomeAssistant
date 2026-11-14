@@ -13,7 +13,7 @@ import probatio
 from universalassistant.components.media_player import MediaPlayerState, MediaType
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_NAME, CONF_PORT, Platform
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.script import Script
@@ -75,7 +75,7 @@ def mac_from_udn(udn: str) -> str | None:
     return format_mac(f"{uuid.node:012x}")
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Panasonic Viera from configuration.yaml."""
     if DOMAIN not in config:
         return True
@@ -91,7 +91,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: PanasonicVieraConfigEntry
+    hass: __HAC_KEEP__, config_entry: PanasonicVieraConfigEntry
 ) -> None:
     """Set up Panasonic Viera from a config entry."""
     config = config_entry.data
@@ -118,7 +118,7 @@ async def async_setup_entry(
         unique_id = config_entry.unique_id
         if device_info is None:
             _LOGGER.error(
-                "Couldn't gather device info; Please restart Universal Universal Home Assistant with your"
+                "Couldn't gather device info; Please restart __HA_KEEP__ with your"
                 " TV turned on and connected to your network"
             )
         else:
@@ -142,7 +142,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: PanasonicVieraConfigEntry
+    hass: __HAC_KEEP__, config_entry: PanasonicVieraConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
@@ -157,7 +157,7 @@ class Remote:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         host: str,
         port: int,
         on_action: Script | None = None,

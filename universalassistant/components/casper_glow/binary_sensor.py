@@ -9,7 +9,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -20,7 +20,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CasperGlowConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

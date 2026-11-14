@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import emulated_roku
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_config_required_fields(hass: UniversalAssistant) -> None:
+async def test_config_required_fields(hass: __HAC_KEEP__) -> None:
     """Test that configuration is successful with required fields."""
     with (
         patch.object(emulated_roku, "configured_servers", return_value=[]),
@@ -38,7 +38,7 @@ async def test_config_required_fields(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_config_already_registered_not_configured(hass: UniversalAssistant) -> None:
+async def test_config_already_registered_not_configured(hass: __HAC_KEEP__) -> None:
     """Test that an already registered name causes the entry to be ignored."""
     with (
         patch(
@@ -70,7 +70,7 @@ async def test_config_already_registered_not_configured(hass: UniversalAssistant
     assert len(instantiate.mock_calls) == 0
 
 
-async def test_setup_entry_successful(hass: UniversalAssistant) -> None:
+async def test_setup_entry_successful(hass: __HAC_KEEP__) -> None:
     """Test setup entry is successful."""
     entry = MockConfigEntry(
         domain=emulated_roku.DOMAIN,
@@ -94,7 +94,7 @@ async def test_setup_entry_successful(hass: UniversalAssistant) -> None:
     assert len(instantiate.mock_calls) == 1
 
 
-async def test_setup_entry_failed(hass: UniversalAssistant) -> None:
+async def test_setup_entry_failed(hass: __HAC_KEEP__) -> None:
     """Test setup entry fails when the server can't be set up."""
     entry = MockConfigEntry(
         domain=emulated_roku.DOMAIN,
@@ -115,7 +115,7 @@ async def test_setup_entry_failed(hass: UniversalAssistant) -> None:
     assert entry.reason == "Failed to set up Emulated Roku Emulated Roku Test"
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test being able to unload an entry."""
     entry = MockConfigEntry(
         domain=emulated_roku.DOMAIN,

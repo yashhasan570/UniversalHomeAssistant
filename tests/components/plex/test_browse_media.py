@@ -13,7 +13,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.plex.const import CONF_SERVER_IDENTIFIER, PLEX_URI_SCHEME
 from universalassistant.components.websocket_api import ERR_UNKNOWN_ERROR, TYPE_RESULT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DEFAULT_DATA
 
@@ -114,7 +114,7 @@ class MockPlexStation:
 
 
 async def test_browse_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_plex_server,
     requests_mock: requests_mock.Mocker,

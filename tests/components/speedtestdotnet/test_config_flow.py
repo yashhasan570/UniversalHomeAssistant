@@ -11,12 +11,12 @@ from universalassistant.components.speedtestdotnet.const import (
     CONF_SERVER_NAME,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_flow_works(hass: UniversalAssistant) -> None:
+async def test_flow_works(hass: __HAC_KEEP__) -> None:
     """Test user config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -30,7 +30,7 @@ async def test_flow_works(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options(hass: UniversalAssistant, mock_api: MagicMock) -> None:
+async def test_options(hass: __HAC_KEEP__, mock_api: MagicMock) -> None:
     """Test updating options."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -78,7 +78,7 @@ async def test_options(hass: UniversalAssistant, mock_api: MagicMock) -> None:
     }
 
 
-async def test_integration_already_configured(hass: UniversalAssistant) -> None:
+async def test_integration_already_configured(hass: __HAC_KEEP__) -> None:
     """Test integration is already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,

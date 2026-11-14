@@ -30,7 +30,7 @@ from universalassistant.const import (
     SERVICE_STOP_COVER,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import async_setup_config_entry, async_setup_entity, mock_feature
@@ -115,7 +115,7 @@ def gate_fixture():
 
 
 async def test_init_gatecontroller(
-    gatecontroller, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    gatecontroller, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test gateController default state."""
 
@@ -146,7 +146,7 @@ async def test_init_gatecontroller(
 
 
 async def test_init_shutterbox(
-    shutterbox, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    shutterbox, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test gateBox default state."""
 
@@ -177,7 +177,7 @@ async def test_init_shutterbox(
 
 
 async def test_init_gatebox(
-    gatebox, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    gatebox, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test cover default state."""
 
@@ -225,7 +225,7 @@ async def test_init_gatebox(
     ],
 )
 async def test_device_class_from_unified_cover_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cover_type: UnifiedCoverType,
     expected_device_class: CoverDeviceClass,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_device_class_from_unified_cover_type(
 
 
 @pytest.mark.parametrize("feature", ALL_COVER_FIXTURES, indirect=["feature"])
-async def test_open(feature, hass: UniversalAssistant) -> None:
+async def test_open(feature, hass: __HAC_KEEP__) -> None:
     """Test cover opening."""
 
     feature_mock, entity_id = feature
@@ -275,7 +275,7 @@ async def test_open(feature, hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.parametrize("feature", ALL_COVER_FIXTURES, indirect=["feature"])
-async def test_close(feature, hass: UniversalAssistant) -> None:
+async def test_close(feature, hass: __HAC_KEEP__) -> None:
     """Test cover closing."""
 
     feature_mock, entity_id = feature
@@ -290,7 +290,7 @@ async def test_close(feature, hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.parametrize("feature", FIXTURES_SUPPORTING_STOP, indirect=["feature"])
-async def test_stop(feature, hass: UniversalAssistant) -> None:
+async def test_stop(feature, hass: __HAC_KEEP__) -> None:
     """Test cover stopping."""
 
     feature_mock, entity_id = feature
@@ -307,7 +307,7 @@ async def test_stop(feature, hass: UniversalAssistant) -> None:
 @pytest.mark.parametrize(
     "feature", ["gatecontroller", "shutterbox"], indirect=["feature"]
 )
-async def test_update_inverted(feature, hass: UniversalAssistant) -> None:
+async def test_update_inverted(feature, hass: __HAC_KEEP__) -> None:
     """Test cover position is inverted for shutterBox and gateController."""
 
     feature_mock, entity_id = feature
@@ -321,7 +321,7 @@ async def test_update_inverted(feature, hass: UniversalAssistant) -> None:
     assert state.state == CoverState.OPEN
 
 
-async def test_update_not_inverted(gatebox, hass: UniversalAssistant) -> None:
+async def test_update_not_inverted(gatebox, hass: __HAC_KEEP__) -> None:
     """Test cover position is not inverted for gateBox."""
 
     feature_mock, entity_id = gatebox
@@ -338,7 +338,7 @@ async def test_update_not_inverted(gatebox, hass: UniversalAssistant) -> None:
 @pytest.mark.parametrize(
     "feature", ["gatecontroller", "shutterbox"], indirect=["feature"]
 )
-async def test_set_position(feature, hass: UniversalAssistant) -> None:
+async def test_set_position(feature, hass: __HAC_KEEP__) -> None:
     """Test cover position setting."""
 
     feature_mock, entity_id = feature
@@ -355,7 +355,7 @@ async def test_set_position(feature, hass: UniversalAssistant) -> None:
     feature_mock.async_set_position.assert_called_once_with(99)  # inverted
 
 
-async def test_unknown_position(shutterbox, hass: UniversalAssistant) -> None:
+async def test_unknown_position(shutterbox, hass: __HAC_KEEP__) -> None:
     """Test cover position setting."""
 
     feature_mock, entity_id = shutterbox
@@ -369,7 +369,7 @@ async def test_unknown_position(shutterbox, hass: UniversalAssistant) -> None:
     assert ATTR_CURRENT_POSITION not in state.attributes
 
 
-async def test_with_stop(gatebox, hass: UniversalAssistant) -> None:
+async def test_with_stop(gatebox, hass: __HAC_KEEP__) -> None:
     """Test stop capability is available."""
 
     feature_mock, entity_id = gatebox
@@ -383,7 +383,7 @@ async def test_with_stop(gatebox, hass: UniversalAssistant) -> None:
     assert supported_features & CoverEntityFeature.STOP
 
 
-async def test_with_no_stop(gatebox, hass: UniversalAssistant) -> None:
+async def test_with_no_stop(gatebox, hass: __HAC_KEEP__) -> None:
     """Test stop capability is not available."""
 
     feature_mock, entity_id = gatebox
@@ -397,7 +397,7 @@ async def test_with_no_stop(gatebox, hass: UniversalAssistant) -> None:
     assert not supported_features & CoverEntityFeature.STOP
 
 
-async def test_tilt_only_supported_features(shutterbox, hass: UniversalAssistant) -> None:
+async def test_tilt_only_supported_features(shutterbox, hass: __HAC_KEEP__) -> None:
     """Test that tilt_only removes position/open/close/stop features."""
 
     feature_mock, entity_id = shutterbox
@@ -416,7 +416,7 @@ async def test_tilt_only_supported_features(shutterbox, hass: UniversalAssistant
 
 
 async def test_tilt_with_position_supported_features(
-    shutterbox, hass: UniversalAssistant
+    shutterbox, hass: __HAC_KEEP__
 ) -> None:
     """Test that has_tilt without tilt_only keeps both position and tilt features."""
 
@@ -435,7 +435,7 @@ async def test_tilt_with_position_supported_features(
 
 
 async def test_tilt_not_calibrated_no_set_tilt_position(
-    shutterbox, hass: UniversalAssistant
+    shutterbox, hass: __HAC_KEEP__
 ) -> None:
     """Test that SET_TILT_POSITION is absent when tilt is present but not calibrated."""
     feature_mock, entity_id = shutterbox
@@ -452,7 +452,7 @@ async def test_tilt_not_calibrated_no_set_tilt_position(
 @pytest.mark.parametrize("feature", ALL_COVER_FIXTURES, indirect=["feature"])
 async def test_update_failure(
     feature,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -472,7 +472,7 @@ async def test_update_failure(
 
 
 @pytest.mark.parametrize("feature", ALL_COVER_FIXTURES, indirect=["feature"])
-async def test_opening_state(feature, hass: UniversalAssistant) -> None:
+async def test_opening_state(feature, hass: __HAC_KEEP__) -> None:
     """Test that entity properties work."""
 
     feature_mock, entity_id = feature
@@ -483,7 +483,7 @@ async def test_opening_state(feature, hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.parametrize("feature", ALL_COVER_FIXTURES, indirect=["feature"])
-async def test_closing_state(feature, hass: UniversalAssistant) -> None:
+async def test_closing_state(feature, hass: __HAC_KEEP__) -> None:
     """Test that entity properties work."""
 
     feature_mock, entity_id = feature
@@ -494,7 +494,7 @@ async def test_closing_state(feature, hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.parametrize("feature", ALL_COVER_FIXTURES, indirect=["feature"])
-async def test_closed_state(feature, hass: UniversalAssistant) -> None:
+async def test_closed_state(feature, hass: __HAC_KEEP__) -> None:
     """Test that entity properties work."""
 
     feature_mock, entity_id = feature
@@ -504,7 +504,7 @@ async def test_closed_state(feature, hass: UniversalAssistant) -> None:
     assert hass.states.get(entity_id).state == CoverState.CLOSED
 
 
-async def test_tilt_position(shutterbox, hass: UniversalAssistant) -> None:
+async def test_tilt_position(shutterbox, hass: __HAC_KEEP__) -> None:
     """Test tilt capability is available."""
 
     feature_mock, entity_id = shutterbox
@@ -516,7 +516,7 @@ async def test_tilt_position(shutterbox, hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_CURRENT_TILT_POSITION] == 10
 
 
-async def test_set_tilt_position(shutterbox, hass: UniversalAssistant) -> None:
+async def test_set_tilt_position(shutterbox, hass: __HAC_KEEP__) -> None:
     """Test tilt position setting."""
 
     feature_mock, entity_id = shutterbox
@@ -542,7 +542,7 @@ async def test_set_tilt_position(shutterbox, hass: UniversalAssistant) -> None:
 )
 async def test_open_tilt(
     shutterbox,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     is_tilt_180: bool,
     expected_tilt_position: int,
 ) -> None:
@@ -562,7 +562,7 @@ async def test_open_tilt(
     feature_mock.async_set_tilt_position.assert_called_once_with(expected_tilt_position)
 
 
-async def test_close_tilt(shutterbox, hass: UniversalAssistant) -> None:
+async def test_close_tilt(shutterbox, hass: __HAC_KEEP__) -> None:
     """Test closing tilt."""
     feature_mock, entity_id = shutterbox
 

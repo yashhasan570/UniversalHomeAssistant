@@ -16,7 +16,7 @@ from universalassistant.components.squeezebox.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -27,7 +27,7 @@ TEST_UUID = SERVER_UUIDS[0]
 
 
 async def test_manual_setup(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_server: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_server: AsyncMock
 ) -> None:
     """Test we can finish a manual setup successfully."""
     result = await hass.config_entries.flow.async_init(
@@ -65,7 +65,7 @@ async def test_manual_setup(
     ],
 )
 async def test_manual_setup_data_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_server: AsyncMock,
     query_return: Any,
@@ -109,7 +109,7 @@ async def test_manual_setup_data_errors(
 
 
 async def test_manual_setup_exception_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_server: AsyncMock,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_manual_setup_exception_error(
 
 
 async def test_manual_setup_recovery(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_server: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_server: AsyncMock
 ) -> None:
     """Test manual setup error recovery."""
     result = await hass.config_entries.flow.async_init(
@@ -194,7 +194,7 @@ async def test_manual_setup_recovery(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_setup(
-    hass: UniversalAssistant, mock_server: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_server: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test abort if setting up an already configured server."""
     mock_config_entry.add_to_hass(hass)
@@ -218,7 +218,7 @@ async def test_duplicate_setup(
 
 
 async def test_discovery_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_server: AsyncMock,
     mock_discover: MagicMock,
@@ -253,7 +253,7 @@ async def test_discovery_flow_success(
 
 
 async def test_discovery_flow_edit_discovered_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_server: AsyncMock,
     mock_discover: MagicMock,
@@ -305,7 +305,7 @@ async def test_discovery_flow_edit_discovered_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_flow_edit_discovered_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_server: AsyncMock,
     mock_discover: MagicMock,
     side_effect: Any,
@@ -349,7 +349,7 @@ async def test_discovery_flow_edit_discovered_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_flow_failed(
-    hass: UniversalAssistant, mock_discover: MagicMock
+    hass: __HAC_KEEP__, mock_discover: MagicMock
 ) -> None:
     """Test discovery flow when no servers are found."""
 
@@ -379,7 +379,7 @@ async def test_discovery_flow_failed(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_ignores_existing(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_discover: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_discover: MagicMock
 ) -> None:
     """Test discovery properly ignores a server that's already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -398,7 +398,7 @@ async def test_discovery_ignores_existing(
 
 
 async def test_integration_discovery(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_server: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_server: AsyncMock
 ) -> None:
     """Test integration discovery flow with a provided UUID."""
     result = await hass.config_entries.flow.async_init(
@@ -423,7 +423,7 @@ async def test_integration_discovery(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_integration_discovery_no_uuid(
-    hass: UniversalAssistant, mock_server: AsyncMock
+    hass: __HAC_KEEP__, mock_server: AsyncMock
 ) -> None:
     """Test integration discovery flow without a UUID."""
     mock_server.async_query.return_value = {"uuid": TEST_UUID}
@@ -440,7 +440,7 @@ async def test_integration_discovery_no_uuid(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_integration_discovery_no_uuid_fails(
-    hass: UniversalAssistant, mock_server: AsyncMock
+    hass: __HAC_KEEP__, mock_server: AsyncMock
 ) -> None:
     """Test integration discovery flow routes to form when connection fails."""
     mock_server.async_query.return_value = False
@@ -456,7 +456,7 @@ async def test_integration_discovery_no_uuid_fails(
 
 
 async def test_integration_discovery_edit_recovery(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_server: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_server: AsyncMock
 ) -> None:
     """Test editing an integration discovery returns errors and can recover."""
     result = await hass.config_entries.flow.async_init(
@@ -490,7 +490,7 @@ async def test_integration_discovery_edit_recovery(
 
 
 async def test_dhcp_unknown_player(
-    hass: UniversalAssistant, dhcp_info: dict[str, Any]
+    hass: __HAC_KEEP__, dhcp_info: dict[str, Any]
 ) -> None:
     """Test DHCP discovery of an unconfigured player routes to user setup."""
     result = await hass.config_entries.flow.async_init(
@@ -504,7 +504,7 @@ async def test_dhcp_unknown_player(
 
 
 async def test_dhcp_known_player(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     dhcp_info: dict[str, Any],
     mock_config_entry: MockConfigEntry,
@@ -527,7 +527,7 @@ async def test_dhcp_known_player(
 
 
 async def test_options_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the options flow."""
     mock_config_entry.add_to_hass(hass)
@@ -551,7 +551,7 @@ async def test_options_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_server: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_server: AsyncMock
 ) -> None:
     """Test reauthentication updates the credentials."""
     mock_config_entry.add_to_hass(hass)
@@ -575,7 +575,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_invalid_auth(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_server: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_server: AsyncMock
 ) -> None:
     """Test reauthentication shows an error for bad credentials and recovers."""
     mock_config_entry.add_to_hass(hass)
@@ -604,7 +604,7 @@ async def test_reauth_flow_invalid_auth(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_unique_id_mismatch(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_server: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_server: AsyncMock
 ) -> None:
     """Test reauthentication aborts when the host now serves a different LMS."""
     mock_config_entry.add_to_hass(hass)

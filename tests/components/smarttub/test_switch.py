@@ -3,7 +3,7 @@
 import pytest
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -15,7 +15,7 @@ from universalassistant.core import UniversalAssistant
     ],
 )
 async def test_pump_state(
-    spa, setup_entry, hass: UniversalAssistant, pump_id, entity_suffix, expected_state
+    spa, setup_entry, hass: __HAC_KEEP__, pump_id, entity_suffix, expected_state
 ) -> None:
     """Test pump entity initial state."""
     entity_id = f"switch.{spa.brand}_{spa.model}_{entity_suffix}"
@@ -33,7 +33,7 @@ async def test_pump_state(
     ],
 )
 async def test_pump_toggle(
-    spa, setup_entry, hass: UniversalAssistant, pump_id, entity_suffix
+    spa, setup_entry, hass: __HAC_KEEP__, pump_id, entity_suffix
 ) -> None:
     """Test toggling a pump."""
     status = await spa.get_status_full()
@@ -54,7 +54,7 @@ async def test_pump_toggle(
     ],
 )
 async def test_pump_turn_on(
-    spa, setup_entry, hass: UniversalAssistant, pump_id, entity_suffix
+    spa, setup_entry, hass: __HAC_KEEP__, pump_id, entity_suffix
 ) -> None:
     """Test turning on an off pump toggles it."""
     status = await spa.get_status_full()
@@ -67,7 +67,7 @@ async def test_pump_turn_on(
     pump.toggle.assert_called()
 
 
-async def test_pump_turn_off(spa, setup_entry, hass: UniversalAssistant) -> None:
+async def test_pump_turn_off(spa, setup_entry, hass: __HAC_KEEP__) -> None:
     """Test turning off an on pump toggles it."""
     status = await spa.get_status_full()
     pump = next(pump for pump in status.pumps if pump.id == "P2")

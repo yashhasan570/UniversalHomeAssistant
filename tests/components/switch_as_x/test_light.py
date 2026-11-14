@@ -30,11 +30,11 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_default_state(hass: UniversalAssistant) -> None:
+async def test_default_state(hass: __HAC_KEEP__) -> None:
     """Test light switch default state."""
     config_entry = MockConfigEntry(
         data={},
@@ -65,7 +65,7 @@ async def test_default_state(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_COLOR_MODE) is None
 
 
-async def test_light_service_calls(hass: UniversalAssistant) -> None:
+async def test_light_service_calls(hass: __HAC_KEEP__) -> None:
     """Test service calls to light."""
     await async_setup_component(hass, "switch", {"switch": [{"platform": "demo"}]})
     await hass.async_block_till_done()
@@ -125,7 +125,7 @@ async def test_light_service_calls(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.decorative_lights").state == STATE_OFF
 
 
-async def test_switch_service_calls(hass: UniversalAssistant) -> None:
+async def test_switch_service_calls(hass: __HAC_KEEP__) -> None:
     """Test service calls to switch."""
     await async_setup_component(hass, "switch", {"switch": [{"platform": "demo"}]})
     await hass.async_block_till_done()
@@ -170,7 +170,7 @@ async def test_switch_service_calls(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.decorative_lights").state == STATE_ON
 
 
-async def test_light_service_calls_inverted(hass: UniversalAssistant) -> None:
+async def test_light_service_calls_inverted(hass: __HAC_KEEP__) -> None:
     """Test service calls to light."""
     await async_setup_component(hass, "switch", {"switch": [{"platform": "demo"}]})
     await hass.async_block_till_done()
@@ -230,7 +230,7 @@ async def test_light_service_calls_inverted(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.decorative_lights").state == STATE_OFF
 
 
-async def test_switch_service_calls_inverted(hass: UniversalAssistant) -> None:
+async def test_switch_service_calls_inverted(hass: __HAC_KEEP__) -> None:
     """Test service calls to switch."""
     await async_setup_component(hass, "switch", {"switch": [{"platform": "demo"}]})
     await hass.async_block_till_done()
@@ -275,7 +275,7 @@ async def test_switch_service_calls_inverted(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.decorative_lights").state == STATE_ON
 
 
-async def test_switch_state_change_context(hass: UniversalAssistant) -> None:
+async def test_switch_state_change_context(hass: __HAC_KEEP__) -> None:
     """Test the wrapped light carries the context of the switch state change."""
     await async_setup_component(hass, "switch", {"switch": [{"platform": "demo"}]})
     await hass.async_block_till_done()

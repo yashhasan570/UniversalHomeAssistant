@@ -4,7 +4,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.arcam_fmj.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import MOCK_UUID
@@ -12,7 +12,7 @@ from .conftest import MOCK_UUID
 
 @pytest.mark.usefixtures("player_setup")
 async def test_device_via_device_links(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

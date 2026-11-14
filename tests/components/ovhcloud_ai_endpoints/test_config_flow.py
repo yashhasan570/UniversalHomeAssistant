@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ovhcloud_ai_endpoints.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_MODEL, CONF_PROMPT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_openai_client: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_openai_client: AsyncMock) -> None:
     """Test the full config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -37,7 +37,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_openai_client: AsyncMock
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_second_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_second_account(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -110,7 +110,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_duplicate_entry(
 
 
 async def test_create_conversation_agent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -174,7 +174,7 @@ async def test_create_conversation_agent(
 
 
 async def test_create_conversation_agent_no_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_create_conversation_agent_no_control(
     ],
 )
 async def test_subentry_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -232,7 +232,7 @@ async def test_subentry_exceptions(
 
 
 async def test_subentry_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_subentry_entry_not_loaded(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -289,7 +289,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -321,7 +321,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -361,7 +361,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -393,7 +393,7 @@ async def test_reconfigure_flow_errors(
 
 
 async def test_reconfigure_flow_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -420,7 +420,7 @@ async def test_reconfigure_flow_duplicate(
 
 
 async def test_reconfigure_flow_same_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -442,7 +442,7 @@ async def test_reconfigure_flow_same_key(
 
 
 async def test_reconfigure_conversation_agent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -485,7 +485,7 @@ async def test_reconfigure_conversation_agent(
     ],
 )
 async def test_reconfigure_conversation_agent_filters_removed_llm_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     stored_apis: list[str],
@@ -533,7 +533,7 @@ async def test_reconfigure_conversation_agent_filters_removed_llm_api(
 
 
 async def test_reconfigure_conversation_agent_clears_llm_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

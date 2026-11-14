@@ -7,7 +7,7 @@ from typing import Any, Concatenate
 from letpot.exceptions import LetPotConnectionException, LetPotException
 from letpot.models import LetPotDeviceStatus
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -53,13 +53,13 @@ def exception_handler[_EntityT: LetPotEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except LetPotConnectionException as exception:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
                 translation_placeholders={"exception": str(exception)},
             ) from exception
         except LetPotException as exception:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unknown_error",
                 translation_placeholders={"exception": str(exception)},

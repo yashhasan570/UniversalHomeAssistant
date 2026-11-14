@@ -14,7 +14,7 @@ from universalassistant.components.yale.application_credentials import (
 )
 from universalassistant.components.yale.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -34,7 +34,7 @@ def mock_setup_entry() -> Generator[Mock]:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     jwt: str,
@@ -100,7 +100,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry", "current_request_with_host")
 async def test_full_flow_already_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     jwt: str,
@@ -152,7 +152,7 @@ async def test_full_flow_already_exists(
 
 @pytest.mark.usefixtures("mock_setup_entry", "current_request_with_host")
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -210,7 +210,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("mock_setup_entry", "current_request_with_host")
 async def test_reauth_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,

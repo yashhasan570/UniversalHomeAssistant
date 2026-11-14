@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant integration for Indevolt device."""
+"""__HA_KEEP__ integration for Indevolt device."""
 
 from datetime import timedelta
 import itertools
@@ -16,8 +16,8 @@ from indevolt_api import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_MODEL
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryNotReady, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryNotReady, __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -48,7 +48,7 @@ class IndevoltCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     device_model: str
     generation: int
 
-    def __init__(self, hass: UniversalAssistant, entry: IndevoltConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: IndevoltConfigEntry) -> None:
         """Initialize the indevolt coordinator."""
         super().__init__(
             hass,
@@ -124,14 +124,14 @@ class IndevoltCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
         # Ensure current energy mode is known
         if current_mode is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_retrieve_current_energy_mode",
             )
 
         # Ensure device is not in "Outdoor/Portable mode"
         if current_mode == IndevoltEnergyMode.OUTDOOR_PORTABLE:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="energy_mode_change_unavailable_outdoor_portable",
             )
@@ -143,7 +143,7 @@ class IndevoltCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             )
 
             if not success:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="failed_to_switch_energy_mode",
                 )
@@ -181,7 +181,7 @@ class IndevoltCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 state = IndevoltRealtimeState.STANDBY
 
         if not success:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_execute_realtime_action",
             )

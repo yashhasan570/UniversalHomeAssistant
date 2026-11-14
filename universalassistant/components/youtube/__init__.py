@@ -4,7 +4,7 @@ from types import MappingProxyType
 
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.config_entry_oauth2_flow import (
     OAuth2Session,
@@ -18,7 +18,7 @@ from .coordinator import YouTubeConfigEntry, YouTubeDataUpdateCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: YouTubeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: YouTubeConfigEntry) -> None:
     """Set up YouTube from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
     session = OAuth2Session(hass, entry, implementation)
@@ -33,12 +33,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: YouTubeConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: YouTubeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: YouTubeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_update_listener(hass: UniversalAssistant, entry: YouTubeConfigEntry) -> None:
+async def async_update_listener(hass: __HAC_KEEP__, entry: YouTubeConfigEntry) -> None:
     """Reload the config entry when channels are added or removed."""
     subentry_ids = {
         subentry.subentry_id
@@ -51,7 +51,7 @@ async def async_update_listener(hass: UniversalAssistant, entry: YouTubeConfigEn
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: YouTubeConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: YouTubeConfigEntry) -> None:
     """Migrate old entries to the subentry structure."""
     device_registry = dr.async_get(hass)
     entity_registry = er.async_get(hass)

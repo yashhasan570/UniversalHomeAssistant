@@ -5,8 +5,8 @@ import math
 from typing import Any, override
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -24,7 +24,7 @@ SPEED_RANGE = (1, 3)  # off is not included
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmartyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -83,7 +83,7 @@ class SmartyFan(SmartyEntity, FanEntity):
 
         fan_speed = math.ceil(percentage_to_ranged_value(SPEED_RANGE, percentage))
         if not self._smarty.set_fan_speed(fan_speed):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to set the fan speed percentage to {percentage}"
             )
 
@@ -106,7 +106,7 @@ class SmartyFan(SmartyEntity, FanEntity):
         """Turn off the fan."""
         _LOGGER.debug("Turning off fan")
         if not self._smarty.turn_off():
-            raise UniversalAssistantError("Failed to turn off the fan")
+            raise __HAC_KEEP__Error("Failed to turn off the fan")
 
         self._smarty_fan_speed = 0
         self.schedule_update_ha_state()

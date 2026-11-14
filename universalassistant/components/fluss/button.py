@@ -5,8 +5,8 @@ from typing import override
 from fluss_api import FlussApiClientError
 
 from universalassistant.components.button import ButtonEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FlussConfigEntry
@@ -16,7 +16,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FlussConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -47,4 +47,4 @@ class FlussButton(FlussEntity, ButtonEntity):
         try:
             await self.coordinator.api.async_trigger_device(self.device_id)
         except FlussApiClientError as err:
-            raise UniversalAssistantError(f"Failed to trigger device: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to trigger device: {err}") from err

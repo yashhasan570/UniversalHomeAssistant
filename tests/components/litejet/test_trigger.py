@@ -10,7 +10,7 @@ from pytest_universalassistant.common import async_fire_time_changed_exact
 
 from universalassistant import setup
 from universalassistant.components import automation
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.util import dt as dt_util
 
 from . import async_init_integration
@@ -24,7 +24,7 @@ ENTITY_OTHER_SWITCH_NUMBER = 2
 
 
 async def simulate_press(
-    hass: UniversalAssistant, mock_litejet: MagicMock, number: int
+    hass: __HAC_KEEP__, mock_litejet: MagicMock, number: int
 ) -> None:
     """Test to simulate a press."""
     _LOGGER.info("*** simulate press of %d", number)
@@ -39,7 +39,7 @@ async def simulate_press(
 
 
 async def simulate_release(
-    hass: UniversalAssistant, mock_litejet: MagicMock, number: int
+    hass: __HAC_KEEP__, mock_litejet: MagicMock, number: int
 ) -> None:
     """Test to simulate releasing."""
     _LOGGER.info("*** simulate release of %d", number)
@@ -54,7 +54,7 @@ async def simulate_release(
 
 
 async def simulate_time(
-    hass: UniversalAssistant, mock_litejet: MagicMock, delta: timedelta
+    hass: __HAC_KEEP__, mock_litejet: MagicMock, delta: timedelta
 ) -> None:
     """Test to simulate time."""
     _LOGGER.info(
@@ -71,7 +71,7 @@ async def simulate_time(
         _LOGGER.info("*** done with now=%s", dt_util.utcnow())
 
 
-async def setup_automation(hass: UniversalAssistant, trigger: dict[str, Any]) -> None:
+async def setup_automation(hass: __HAC_KEEP__, trigger: dict[str, Any]) -> None:
     """Test setting up the automation."""
     await async_init_integration(hass, use_switch=True)
     assert await setup.async_setup_component(
@@ -94,7 +94,7 @@ async def setup_automation(hass: UniversalAssistant, trigger: dict[str, Any]) ->
 
 
 async def test_simple(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], mock_litejet: MagicMock
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], mock_litejet: MagicMock
 ) -> None:
     """Test the simplest form of a LiteJet trigger."""
     await setup_automation(
@@ -109,7 +109,7 @@ async def test_simple(
 
 
 async def test_only_release(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], mock_litejet: MagicMock
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], mock_litejet: MagicMock
 ) -> None:
     """Test the simplest form of a LiteJet trigger."""
     await setup_automation(
@@ -122,7 +122,7 @@ async def test_only_release(
 
 
 async def test_held_more_than_short(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], mock_litejet: MagicMock
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], mock_litejet: MagicMock
 ) -> None:
     """Test a too short hold."""
     await setup_automation(
@@ -141,7 +141,7 @@ async def test_held_more_than_short(
 
 
 async def test_held_more_than_long(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], mock_litejet: MagicMock
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], mock_litejet: MagicMock
 ) -> None:
     """Test a hold that is long enough."""
     await setup_automation(
@@ -163,7 +163,7 @@ async def test_held_more_than_long(
 
 
 async def test_held_less_than_short(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], mock_litejet: MagicMock
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], mock_litejet: MagicMock
 ) -> None:
     """Test a hold that is short enough."""
     await setup_automation(
@@ -184,7 +184,7 @@ async def test_held_less_than_short(
 
 
 async def test_held_less_than_long(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], mock_litejet: MagicMock
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], mock_litejet: MagicMock
 ) -> None:
     """Test a hold that is too long."""
     await setup_automation(
@@ -205,7 +205,7 @@ async def test_held_less_than_long(
 
 
 async def test_held_in_range_short(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], mock_litejet: MagicMock
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], mock_litejet: MagicMock
 ) -> None:
     """Test an in-range trigger with a too short hold."""
     await setup_automation(
@@ -225,7 +225,7 @@ async def test_held_in_range_short(
 
 
 async def test_held_in_range_just_right(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], mock_litejet: MagicMock
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], mock_litejet: MagicMock
 ) -> None:
     """Test an in-range trigger with a just right hold."""
     await setup_automation(
@@ -248,7 +248,7 @@ async def test_held_in_range_just_right(
 
 
 async def test_held_in_range_long(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], mock_litejet: MagicMock
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], mock_litejet: MagicMock
 ) -> None:
     """Test an in-range trigger with a too long hold."""
     await setup_automation(
@@ -270,7 +270,7 @@ async def test_held_in_range_long(
 
 
 async def test_reload(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], mock_litejet: MagicMock
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], mock_litejet: MagicMock
 ) -> None:
     """Test reloading automation."""
     await setup_automation(

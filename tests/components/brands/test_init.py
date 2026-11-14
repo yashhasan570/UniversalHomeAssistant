@@ -20,7 +20,7 @@ from universalassistant.components.brands.const import (
     DOMAIN,
     TOKEN_CHANGE_INTERVAL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.loader import Integration
 from universalassistant.setup import async_setup_component
 
@@ -29,14 +29,14 @@ BRAND_PNG = b"\x89PNG\r\n\x1a\nfakebranddata"
 
 
 @pytest.fixture(autouse=True)
-async def setup_brands(hass: UniversalAssistant) -> None:
+async def setup_brands(hass: __HAC_KEEP__) -> None:
     """Set up the brands integration for all tests."""
     assert await async_setup_component(hass, "http", {"http": {}})
     assert await async_setup_component(hass, DOMAIN, {})
 
 
 def _create_custom_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     *,
     has_branding: bool = False,
@@ -67,7 +67,7 @@ def _create_custom_integration(
 
 
 async def test_integration_view_serves_from_cdn(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_integration_view_serves_from_cdn(
 
 
 async def test_integration_view_default_placeholder_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_integration_view_default_placeholder_fallback(
 
 
 async def test_integration_view_no_placeholder(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_integration_view_no_placeholder(
 
 
 async def test_integration_view_invalid_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test that invalid domain names return 404."""
@@ -153,7 +153,7 @@ async def test_integration_view_invalid_domain(
 
 
 async def test_integration_view_invalid_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test that invalid image filenames return 404."""
@@ -170,7 +170,7 @@ async def test_integration_view_invalid_image(
 
 
 async def test_integration_view_all_allowed_images(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -198,7 +198,7 @@ async def test_integration_view_all_allowed_images(
 
 
 async def test_integration_view_cdn_error_returns_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -215,7 +215,7 @@ async def test_integration_view_cdn_error_returns_none(
 
 
 async def test_integration_view_cdn_unexpected_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_integration_view_cdn_unexpected_status(
 
 
 async def test_disk_cache_hit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_disk_cache_hit(
 
 
 async def test_disk_cache_404_marker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -286,7 +286,7 @@ async def test_disk_cache_404_marker(
 
 
 async def test_stale_cache_triggers_background_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -325,7 +325,7 @@ async def test_stale_cache_triggers_background_refresh(
 
 
 async def test_stale_cache_404_marker_with_placeholder(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -361,7 +361,7 @@ async def test_stale_cache_404_marker_with_placeholder(
 
 
 async def test_stale_cache_404_marker_no_placeholder(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -401,7 +401,7 @@ async def test_stale_cache_404_marker_no_placeholder(
 
 
 async def test_custom_integration_brand_served(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -427,7 +427,7 @@ async def test_custom_integration_brand_served(
 
 
 async def test_custom_integration_no_brand_falls_through(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -451,7 +451,7 @@ async def test_custom_integration_no_brand_falls_through(
 
 
 async def test_custom_integration_brand_missing_file_falls_through(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -479,7 +479,7 @@ async def test_custom_integration_brand_missing_file_falls_through(
 
 
 async def test_custom_integration_takes_priority_over_cache(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -520,7 +520,7 @@ async def test_custom_integration_takes_priority_over_cache(
 
 
 async def test_custom_integration_logo_falls_back_to_icon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -543,7 +543,7 @@ async def test_custom_integration_logo_falls_back_to_icon(
 
 
 async def test_custom_integration_dark_icon_falls_back_to_icon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -566,7 +566,7 @@ async def test_custom_integration_dark_icon_falls_back_to_icon(
 
 
 async def test_custom_integration_dark_logo_falls_back_through_chain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -590,7 +590,7 @@ async def test_custom_integration_dark_logo_falls_back_through_chain(
 
 
 async def test_custom_integration_dark_logo_prefers_dark_icon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -614,7 +614,7 @@ async def test_custom_integration_dark_logo_prefers_dark_icon(
 
 
 async def test_custom_integration_icon2x_falls_back_to_icon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -637,7 +637,7 @@ async def test_custom_integration_icon2x_falls_back_to_icon(
 
 
 async def test_custom_integration_logo2x_falls_back_to_logo_then_icon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -661,7 +661,7 @@ async def test_custom_integration_logo2x_falls_back_to_logo_then_icon(
 
 
 async def test_custom_integration_no_fallback_match_falls_through_to_cdn(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -693,7 +693,7 @@ async def test_custom_integration_no_fallback_match_falls_through_to_cdn(
 
 
 async def test_hardware_view_serves_from_cdn(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -711,7 +711,7 @@ async def test_hardware_view_serves_from_cdn(
 
 
 async def test_hardware_view_invalid_category(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test that invalid category names return 404."""
@@ -722,7 +722,7 @@ async def test_hardware_view_invalid_category(
 
 
 async def test_hardware_view_invalid_image_extension(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test that non-png image names return 404."""
@@ -733,7 +733,7 @@ async def test_hardware_view_invalid_image_extension(
 
 
 async def test_hardware_view_invalid_image_characters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test that image names with invalid characters return 404."""
@@ -752,7 +752,7 @@ async def test_hardware_view_invalid_image_characters(
 
 
 async def test_cdn_timeout_returns_404(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -774,7 +774,7 @@ async def test_cdn_timeout_returns_404(
 
 
 async def test_authenticated_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -791,7 +791,7 @@ async def test_authenticated_request(
 
 
 async def test_token_query_param_authentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -810,7 +810,7 @@ async def test_token_query_param_authentication(
 
 
 async def test_unauthenticated_request_forbidden(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -828,7 +828,7 @@ async def test_unauthenticated_request_forbidden(
 
 
 async def test_invalid_token_forbidden(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Test that an invalid access token in query param is forbidden."""
@@ -839,7 +839,7 @@ async def test_invalid_token_forbidden(
 
 
 async def test_invalid_bearer_token_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Test that an invalid Bearer token returns unauthorized."""
@@ -853,7 +853,7 @@ async def test_invalid_bearer_token_unauthorized(
 
 
 async def test_token_rotation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
@@ -893,7 +893,7 @@ async def test_token_rotation(
 
 
 async def test_ws_access_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the brands/access_token WebSocket command."""
@@ -907,7 +907,7 @@ async def test_ws_access_token(
 
 
 async def test_marketplace_view_serves_installed_brand(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -930,7 +930,7 @@ async def test_marketplace_view_serves_installed_brand(
 
 
 async def test_marketplace_view_prefers_brands_repository(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -949,7 +949,7 @@ async def test_marketplace_view_prefers_brands_repository(
 
 
 async def test_marketplace_view_serves_marketplace_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -984,7 +984,7 @@ async def test_marketplace_view_serves_marketplace_image(
     ],
 )
 async def test_marketplace_view_without_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     query: str,
@@ -1010,7 +1010,7 @@ async def test_marketplace_view_without_image(
 
 
 async def test_marketplace_view_unavailable_is_not_remembered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1042,7 +1042,7 @@ async def test_marketplace_view_unavailable_is_not_remembered(
     ],
 )
 async def test_marketplace_view_invalid_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     path: str,

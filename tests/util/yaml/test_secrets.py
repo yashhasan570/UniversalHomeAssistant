@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant secret substitution in YAML files."""
+"""Test __HA_KEEP__ secret substitution in YAML files."""
 
 from dataclasses import dataclass
 import logging
@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import get_test_config_dir, patch_yaml_files
 
 from universalassistant.config import YAML_CONFIG_FILE, load_yaml_config_file
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import yaml as yaml_util
 from universalassistant.util.yaml import loader as yaml_loader
 
@@ -135,7 +135,7 @@ def test_secrets_from_unrelated_fails(
     unrelated_secrets = YamlFile(
         path=filepaths["unrelated"] / yaml_util.SECRET_YAML, contents="test: failure"
     )
-    with pytest.raises(UniversalAssistantError, match="Secret test not defined"):
+    with pytest.raises(__HAC_KEEP__Error, match="Secret test not defined"):
         load_config_file(
             config_file.path, [config_file, default_secrets, unrelated_secrets]
         )
@@ -150,7 +150,7 @@ def test_secrets_logger_removed(
         path=filepaths["config"] / YAML_CONFIG_FILE,
         contents="api_password: !secret logger",
     )
-    with pytest.raises(UniversalAssistantError, match="Secret logger not defined"):
+    with pytest.raises(__HAC_KEEP__Error, match="Secret logger not defined"):
         load_config_file(config_file.path, [config_file, default_secrets])
 
 
@@ -182,5 +182,5 @@ def test_secrets_are_not_dict(
         path=filepaths["config"] / yaml_util.SECRET_YAML,
         contents="- http_pw: pwhttp\n  comp1_un: un1\n  comp1_pw: pw1\n",
     )
-    with pytest.raises(UniversalAssistantError, match="Secrets is not a dictionary"):
+    with pytest.raises(__HAC_KEEP__Error, match="Secrets is not a dictionary"):
         load_config_file(default_config.path, [default_config, non_dict_secrets])

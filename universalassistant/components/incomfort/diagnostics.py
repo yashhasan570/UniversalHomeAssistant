@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .coordinator import InComfortConfigEntry
 
@@ -12,7 +12,7 @@ REDACT_CONFIG = {CONF_PASSWORD}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: InComfortConfigEntry
+    hass: __HAC_KEEP__, entry: InComfortConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return _async_get_diagnostics(hass, entry)
@@ -20,7 +20,7 @@ async def async_get_config_entry_diagnostics(
 
 @callback
 def _async_get_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: InComfortConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

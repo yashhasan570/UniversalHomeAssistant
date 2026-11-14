@@ -5,7 +5,7 @@
     },
     "step": {
       "user": {
-        "description": "Do you want to add Radio Browser to Universal Universal Home Assistant?"
+        "description": "Do you want to add Radio Browser to __HA_KEEP__?"
       }
     }
   },

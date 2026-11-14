@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfElectricPotential, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -83,7 +83,7 @@ SENSORS: list[AsekoSensorEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AsekoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

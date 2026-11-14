@@ -12,12 +12,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.essent.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_essent_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_full_flow(
 
 
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test abort when already configured."""
@@ -64,7 +64,7 @@ async def test_already_configured(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: UniversalAssistant, mock_essent_client: AsyncMock, exception: Exception, error: str
+    hass: __HAC_KEEP__, mock_essent_client: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test flow errors."""
     mock_essent_client.async_get_prices.side_effect = exception

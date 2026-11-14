@@ -11,7 +11,7 @@ from psutil._ntuples import sbattery, sdiskusage, shwtemp, snetio, snicaddr, ssw
 import psutil_universal_assistant as ha_psutil
 
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_component import DEFAULT_SCAN_INTERVAL
 from universalassistant.helpers.update_coordinator import TimestampDataUpdateCoordinator
 from universalassistant.util import dt as dt_util
@@ -101,7 +101,7 @@ class SystemMonitorCoordinator(TimestampDataUpdateCoordinator[SensorData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SystemMonitorConfigEntry,
         psutil_wrapper: ha_psutil.PsutilWrapper,
         arguments: list[str],

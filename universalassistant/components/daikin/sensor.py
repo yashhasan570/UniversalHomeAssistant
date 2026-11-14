@@ -19,7 +19,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -131,7 +131,7 @@ SENSOR_TYPES: tuple[DaikinSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DaikinConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -7,7 +7,7 @@ import pytest
 
 from universalassistant.components.hue.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.json import JsonArrayType
 
@@ -67,7 +67,7 @@ def area_motion_service(
 
 
 async def test_binary_sensors(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test if all v2 binary_sensors get created with correct features."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -154,7 +154,7 @@ async def test_binary_sensors(
 
 
 async def test_binary_sensor_add_update(
-    hass: UniversalAssistant, mock_bridge_v2: Mock
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock
 ) -> None:
     """Test if binary_sensor get added/updated from events."""
     await mock_bridge_v2.api.load_test_data([FAKE_DEVICE, FAKE_ZIGBEE_CONNECTIVITY])
@@ -208,7 +208,7 @@ async def test_binary_sensor_add_update(
 
 
 async def test_grouped_motion_sensor(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test HueGroupedMotionSensor functionality."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -246,7 +246,7 @@ async def test_grouped_motion_sensor(
 
 
 async def test_entertainment_active_sensor(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test HueEntertainmentActiveSensor functionality."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -286,7 +286,7 @@ async def test_entertainment_active_sensor(
 
 
 async def test_motion_aware_sensor(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test HueMotionAwareSensor functionality."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -382,7 +382,7 @@ async def test_motion_aware_sensor(
     ],
 )
 async def test_motion_aware_sensor_motion_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     services: list[dict[str, Any]],
@@ -400,7 +400,7 @@ async def test_motion_aware_sensor_motion_source(
 
 
 async def test_motion_aware_sensor_follows_convenience_service(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test the MotionAware sensor updates on events of the convenience service."""
     await mock_bridge_v2.api.load_test_data(
@@ -425,7 +425,7 @@ async def test_motion_aware_sensor_follows_convenience_service(
 
 
 async def test_motion_aware_sensor_follows_security_service(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test the MotionAware sensor updates on events of the security service."""
     await mock_bridge_v2.api.load_test_data(
@@ -452,7 +452,7 @@ async def test_motion_aware_sensor_follows_security_service(
 
 
 async def test_motion_aware_sensor_without_convenience_resource(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test the MotionAware sensor works when the convenience service is missing."""
     # the zone still lists the service, but the bridge never delivered the resource
@@ -479,7 +479,7 @@ async def test_motion_aware_sensor_without_convenience_resource(
     ],
 )
 async def test_motion_aware_sensor_zone_not_reporting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     zone_update: dict[str, Any],
@@ -531,7 +531,7 @@ async def test_motion_aware_sensor_zone_not_reporting(
     ],
 )
 async def test_motion_aware_sensor_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     device_registry: dr.DeviceRegistry,

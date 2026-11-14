@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.button import ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -15,7 +15,7 @@ from .server import PlexServer
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: PlexConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

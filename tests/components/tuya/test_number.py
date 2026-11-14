@@ -15,7 +15,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, json
 from universalassistant.util import json as json_util
 from universalassistant.util.unit_system import (
@@ -36,7 +36,7 @@ def platform_autouse():
 
 @pytest.mark.usefixtures("no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -52,7 +52,7 @@ async def test_platform_setup_and_discovery(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("mock_device_code", ["cz_dhto3y4uachr1wll"])
 async def test_meter_channel_child_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -88,7 +88,7 @@ async def test_meter_channel_child_devices(
 )
 @pytest.mark.freeze_time("2024-01-01")
 async def test_selective_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -119,7 +119,7 @@ async def test_selective_state_update(
     ["mal_gyitctrjj1kefxp2"],
 )
 async def test_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -179,7 +179,7 @@ async def test_set_value(
     ],
 )
 async def test_invalid_uom(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -232,7 +232,7 @@ async def test_invalid_uom(
     ],
 )
 async def test_temp_unit_convert_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -252,7 +252,7 @@ async def test_temp_unit_convert_number(
 
 @pytest.mark.parametrize("mock_device_code", ["znrb_gpzittzfnzhduquz"])
 async def test_temp_unit_convert_number_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -269,7 +269,7 @@ async def test_temp_unit_convert_number_invalid(
 
 @pytest.mark.parametrize("mock_device_code", ["hwsb_ircs2n82vgrozoew"])
 async def test_hwsb_number_with_quirk(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

@@ -5,7 +5,7 @@ from duotecno.exceptions import InvalidPassword, LoadFailure
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 PLATFORMS: list[Platform] = [
@@ -20,7 +20,7 @@ PLATFORMS: list[Platform] = [
 type DuotecnoConfigEntry = ConfigEntry[PyDuotecno]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: DuotecnoConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: DuotecnoConfigEntry) -> None:
     """Set up duotecno from a config entry."""
 
     controller = PyDuotecno()
@@ -35,6 +35,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DuotecnoConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: DuotecnoConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: DuotecnoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -5,7 +5,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import assist_pipeline, logbook
 from universalassistant.const import ATTR_DEVICE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -13,7 +13,7 @@ from tests.components.logbook.common import MockRow, mock_humanify
 
 
 async def test_recording_event(
-    hass: UniversalAssistant, init_components, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, init_components, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test recording event."""
     hass.config.components.add("recorder")
@@ -48,7 +48,7 @@ async def test_recording_event(
 
 @pytest.mark.usefixtures("init_components")
 async def test_recording_event_child_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test recording event fired for a child device."""
     hass.config.components.add("recorder")
@@ -87,7 +87,7 @@ async def test_recording_event_child_device(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_recording_event_unknown_device(hass: UniversalAssistant) -> None:
+async def test_recording_event_unknown_device(hass: __HAC_KEEP__) -> None:
     """Test recording event for an unknown device does not raise."""
     hass.config.components.add("recorder")
     assert await async_setup_component(hass, "logbook", {})

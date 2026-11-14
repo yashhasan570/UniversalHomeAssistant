@@ -11,7 +11,7 @@ from universalassistant.components.light import (
     ColorMode,
     LightEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.util import color as color_util
@@ -21,7 +21,7 @@ EUFYHOME_MIN_KELVIN = 2700
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

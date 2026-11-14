@@ -18,7 +18,7 @@ from universalassistant.components.aurora_abb_powerone.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_registry import EntityRegistry, RegistryEntryDisabler
 
 TEST_CONFIG = {
@@ -70,7 +70,7 @@ def _mock_config_entry():
     )
 
 
-async def test_sensors(hass: UniversalAssistant, entity_registry: EntityRegistry) -> None:
+async def test_sensors(hass: __HAC_KEEP__, entity_registry: EntityRegistry) -> None:
     """Test data coming back from inverter."""
     mock_entry = _mock_config_entry()
 
@@ -158,7 +158,7 @@ async def test_sensors(hass: UniversalAssistant, entity_registry: EntityRegistry
             assert item.state == value
 
 
-async def test_sensor_dark(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+async def test_sensor_dark(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     """Test that darkness (no comms) is handled correctly."""
     mock_entry = _mock_config_entry()
 
@@ -255,7 +255,7 @@ async def test_sensor_dark(hass: UniversalAssistant, freezer: FrozenDateTimeFact
 
 
 async def test_sensor_unknown_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:

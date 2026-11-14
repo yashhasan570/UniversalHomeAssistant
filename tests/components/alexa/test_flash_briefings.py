@@ -9,7 +9,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components import alexa
 from universalassistant.components.alexa import const
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.setup import async_setup_component
 
 SESSION_ID = "amzn1.echo-api.session.0000000-0000-0000-0000-00000000000"
@@ -23,10 +23,10 @@ NPR_NEWS_MP3_URL = "https://pd.npr.org/anon.npr-mp3/npr/news/newscast.mp3"
 
 @pytest.fixture
 async def alexa_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> TestClient:
-    """Initialize a Universal Universal Home Assistant server for testing this module."""
+    """Initialize a __HA_KEEP__ server for testing this module."""
 
     @callback
     def mock_service(call):

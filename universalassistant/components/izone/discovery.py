@@ -19,7 +19,7 @@ import pizone
 
 from universalassistant import config_entries
 from universalassistant.const import CONF_EXCLUDE, CONF_HOST, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, async_noop, callback
+from universalassistant.core import Event, __HAC_KEEP__, async_noop, callback
 from universalassistant.helpers import aiohttp_client, discovery_flow
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.helpers.typing import ConfigType
@@ -60,7 +60,7 @@ class DiscoveryServiceState:
 DATA_DISCOVERY_SERVICE: HassKey[DiscoveryServiceState] = HassKey("izone_discovery")
 
 
-def yaml_excluded_uids(hass: UniversalAssistant) -> set[str]:
+def yaml_excluded_uids(hass: __HAC_KEEP__) -> set[str]:
     """Return controller UIDs listed in deprecated YAML ``exclude``."""
     conf: ConfigType | None = hass.data.get(DATA_CONFIG)
     if not conf:
@@ -70,7 +70,7 @@ def yaml_excluded_uids(hass: UniversalAssistant) -> set[str]:
 
 @callback
 def async_note_integration_discovery(
-    hass: UniversalAssistant, endpoint: pizone.ControllerEndpoint
+    hass: __HAC_KEEP__, endpoint: pizone.ControllerEndpoint
 ) -> None:
     """Start a config flow when discovery reports an unclaimed endpoint."""
     discovery_flow.async_create_flow(
@@ -85,7 +85,7 @@ def async_note_integration_discovery(
 
 
 @callback
-def async_schedule_idle_stop(hass: UniversalAssistant) -> None:
+def async_schedule_idle_stop(hass: __HAC_KEEP__) -> None:
     """Schedule a delayed shutdown check for the shared discovery service."""
     state = hass.data.get(DATA_DISCOVERY_SERVICE)
     if state is None or state.runtime is None:
@@ -104,7 +104,7 @@ def async_schedule_idle_stop(hass: UniversalAssistant) -> None:
     ).cancel
 
 
-async def async_ensure_discovery(hass: UniversalAssistant) -> pizone.DiscoveryService:
+async def async_ensure_discovery(hass: __HAC_KEEP__) -> pizone.DiscoveryService:
     """Create and start the shared discovery service if needed.
 
     Call from HomeKit / user-initiated setup (and later from entry setup for
@@ -115,7 +115,7 @@ async def async_ensure_discovery(hass: UniversalAssistant) -> pizone.DiscoverySe
     Raises:
         OSError: Discovery UDP socket could not be bound.
         RuntimeError: A process-global discovery service already exists outside
-            this Universal Universal Home Assistant instance's tracking.
+            this __HA_KEEP__ instance's tracking.
     """
     state = hass.data.get(DATA_DISCOVERY_SERVICE)
     if state is not None and state.runtime is not None:
@@ -192,7 +192,7 @@ async def async_ensure_discovery(hass: UniversalAssistant) -> pizone.DiscoverySe
 
 
 async def async_discover_all_endpoints(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, pizone.ControllerEndpoint]:
     """Scan and return all verified endpoints for user / HomeKit setup.
 
@@ -205,7 +205,7 @@ async def async_discover_all_endpoints(
     return {endpoint.uid: endpoint for endpoint in await service.discover_all()}
 
 
-async def async_scan(hass: UniversalAssistant) -> None:
+async def async_scan(hass: __HAC_KEEP__) -> None:
     """Broadcast IASD so ASPort replies fill the Discovered shelf.
 
     Does not wait for replies or run ``discover_all``'s post-wait probe fan-out.
@@ -219,7 +219,7 @@ async def async_scan(hass: UniversalAssistant) -> None:
 
 
 async def async_discover_endpoint(
-    hass: UniversalAssistant, uid: str
+    hass: __HAC_KEEP__, uid: str
 ) -> pizone.ControllerEndpoint | None:
     """Resolve one endpoint by UID for confirm / targeted HomeKit lookup.
 
@@ -233,7 +233,7 @@ async def async_discover_endpoint(
 
 
 async def async_discover_by_host(
-    hass: UniversalAssistant, host: str
+    hass: __HAC_KEEP__, host: str
 ) -> pizone.ControllerEndpoint:
     """HTTP-probe a controller at *host* for config-flow validation.
 
@@ -248,7 +248,7 @@ async def async_discover_by_host(
     return await service.discover_by_host(host)
 
 
-async def async_maybe_stop_discovery(hass: UniversalAssistant) -> None:
+async def async_maybe_stop_discovery(hass: __HAC_KEEP__) -> None:
     """Stop discovery when nothing actionable remains.
 
     Keeps the UDP listener while any entry is loaded, mid-setup, or in
@@ -280,7 +280,7 @@ async def async_maybe_stop_discovery(hass: UniversalAssistant) -> None:
     await async_stop_discovery(hass)
 
 
-async def async_stop_discovery(hass: UniversalAssistant) -> None:
+async def async_stop_discovery(hass: __HAC_KEEP__) -> None:
     """Stop the shared discovery service and clear HA tracking."""
     state = hass.data.pop(DATA_DISCOVERY_SERVICE, None)
     if state is None:

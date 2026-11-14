@@ -1,14 +1,14 @@
 """The LiteLLM integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import LiteLLMConfigEntry, LiteLLMDataUpdateCoordinator
 
 PLATFORMS = [Platform.CONVERSATION, Platform.STT]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LiteLLMConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LiteLLMConfigEntry) -> None:
     """Set up LiteLLM from a config entry."""
     coordinator = LiteLLMDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -20,12 +20,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LiteLLMConfigEntry)
 
 
 async def _async_update_listener(
-    hass: UniversalAssistant, entry: LiteLLMConfigEntry
+    hass: __HAC_KEEP__, entry: LiteLLMConfigEntry
 ) -> None:
     """Handle update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LiteLLMConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LiteLLMConfigEntry) -> None:
     """Unload LiteLLM."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

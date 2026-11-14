@@ -21,7 +21,7 @@
     },
     "step": {
       "choice_enter_manual_or_fetch_cloud": {
-        "description": "A LaMetric device from 2022 onward can hand out its API key after you press its button, no account needed.\n\nUniversal Universal Home Assistant can also import the device information and API tokens from your LaMetric.com account, or you can enter them yourself.",
+        "description": "A LaMetric device from 2022 onward can hand out its API key after you press its button, no account needed.\n\n__HA_KEEP__ can also import the device information and API tokens from your LaMetric.com account, or you can enter them yourself.",
         "menu_options": {
           "manual_entry": "Enter manually",
           "pick_implementation": "Import from LaMetric.com",

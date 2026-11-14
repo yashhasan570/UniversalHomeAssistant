@@ -15,7 +15,7 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.ecovacs.const import DOMAIN
 from universalassistant.components.ecovacs.controller import EcovacsController
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = [
@@ -203,7 +203,7 @@ def platforms() -> Platform | list[Platform]:
     ids=["yna5x1", "5xu9h3", "qhe2o2", "9eamof", "twunby"],
 )
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -259,7 +259,7 @@ async def test_buttons(
     ],
 )
 async def test_disabled_by_default_buttons(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_ids: list[str]
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_ids: list[str]
 ) -> None:
     """Test the disabled by default buttons."""
     for entity_id in entity_ids:

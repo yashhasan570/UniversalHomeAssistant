@@ -1,6 +1,6 @@
 {
   "domain": "analytics_insights",
-  "name": "Universal Universal Home Assistant Analytics Insights",
+  "name": "__HA_KEEP__ Analytics Insights",
   "categories": ["computers_network.cloud_developer_tools"],
   "codeowners": ["@joostlek"],
   "config_flow": true,

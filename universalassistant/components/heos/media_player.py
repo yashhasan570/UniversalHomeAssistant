@@ -38,8 +38,8 @@ from universalassistant.components.media_player import (
     async_process_play_media_url,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, ServiceResponse, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceResponse, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -113,7 +113,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HeosConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -137,7 +137,7 @@ type _ReturnFuncType[**_P, _R] = Callable[_P, Coroutine[Any, Any, _R]]
 def catch_action_error[**_P, _R](
     action: str,
 ) -> Callable[[_FuncType[_P, _R]], _ReturnFuncType[_P, _R]]:
-    """Return decorator that catches errors and raises UniversalAssistantError."""
+    """Return decorator that catches errors and raises __HAC_KEEP__Error."""
 
     def decorator(func: _FuncType[_P, _R]) -> _ReturnFuncType[_P, _R]:
         @wraps(func)
@@ -145,7 +145,7 @@ def catch_action_error[**_P, _R](
             try:
                 return await func(*args, **kwargs)
             except (HeosError, ValueError) as ex:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="action_error",
                     translation_placeholders={"action": action, "error": str(ex)},

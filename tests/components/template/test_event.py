@@ -32,7 +32,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import CoreState, UniversalAssistant, State
+from universalassistant.core import CoreState, __HAC_KEEP__, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.template import Template
 
@@ -74,7 +74,7 @@ TEST_FROZEN_STATE = "2024-07-09T00:00:00.000+00:00"
 
 @pytest.fixture
 async def setup_base_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     config: dict[str, Any],
@@ -85,7 +85,7 @@ async def setup_base_event(
 
 @pytest.fixture
 async def setup_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     event_type_template: str,
@@ -108,7 +108,7 @@ async def setup_event(
 
 @pytest.fixture
 async def setup_single_attribute_state_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     event_type_template: str,
@@ -134,7 +134,7 @@ async def setup_single_attribute_state_event(
 
 @pytest.mark.freeze_time(TEST_FROZEN_INPUT)
 async def test_setup_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the config flow."""
@@ -168,7 +168,7 @@ async def test_setup_config_entry(
 
 @pytest.mark.freeze_time(TEST_FROZEN_INPUT)
 async def test_doorbell_with_ring_event_type_in_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test a templated doorbell entity with 'ring' does not log a warning.
@@ -200,7 +200,7 @@ async def test_doorbell_with_ring_event_type_in_template(
 
 @pytest.mark.freeze_time(TEST_FROZEN_INPUT)
 async def test_doorbell_with_resolved_empty_event_types_in_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test a templated doorbell entity whose event_types resolves to [] warns.
@@ -239,14 +239,14 @@ async def test_doorbell_with_resolved_empty_event_types_in_template(
     ],
 )
 async def test_doorbell_event_types_cold_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     event_types_template: str,
     expect_warning: bool,
 ) -> None:
     """Test the doorbell check across a real cold start.
 
-    On a real Universal Universal Home Assistant startup, entities are added (and their initial
+    On a real __HA_KEEP__ startup, entities are added (and their initial
     state is written) before EVENT_HOMEASSISTANT_START fires, so templates
     like event_types are not rendered yet at that first write. That must not
     be mistaken for event_types having resolved to [].
@@ -280,7 +280,7 @@ async def test_doorbell_event_types_cold_start(
 
 @pytest.mark.freeze_time(TEST_FROZEN_INPUT)
 async def test_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -333,7 +333,7 @@ async def test_device_id(
 @pytest.mark.parametrize("event_type_template", ["{{states.test['big.fat...']}}"])
 @pytest.mark.usefixtures("setup_event")
 async def test_event_type_syntax_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_state: str,
 ) -> None:
     """Test template event_type with render error."""
@@ -359,7 +359,7 @@ async def test_event_type_syntax_error(
 )
 @pytest.mark.usefixtures("setup_event")
 async def test_event_type_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     event: str,
     expected: str,
 ) -> None:
@@ -381,7 +381,7 @@ async def test_event_type_template(
 @pytest.mark.usefixtures("setup_event")
 @pytest.mark.freeze_time(TEST_FROZEN_INPUT)
 async def test_event_type_template_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test template event_type updates."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "single")
@@ -425,7 +425,7 @@ async def test_event_type_template_updates(
 )
 @pytest.mark.usefixtures("setup_event")
 async def test_event_type_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test template event_type."""
     state = hass.states.get(TEST_EVENT.entity_id)
@@ -460,7 +460,7 @@ async def test_event_type_invalid(
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_event")
 async def test_entity_picture_and_icon_templates(
-    hass: UniversalAssistant, key: str, expected: str
+    hass: __HAC_KEEP__, key: str, expected: str
 ) -> None:
     """Test picture and icon template."""
     state = await async_trigger(hass, TEST_STATE_ENTITY_ID, "single")
@@ -503,7 +503,7 @@ async def test_entity_picture_and_icon_templates(
     ],
 )
 @pytest.mark.usefixtures("setup_event")
-async def test_event_types_template(hass: UniversalAssistant, expected: str) -> None:
+async def test_event_types_template(hass: __HAC_KEEP__, expected: str) -> None:
     """Test template event_types."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
 
@@ -528,7 +528,7 @@ async def test_event_types_template(hass: UniversalAssistant, expected: str) -> 
 )
 @pytest.mark.usefixtures("setup_event")
 @pytest.mark.freeze_time(TEST_FROZEN_INPUT)
-async def test_event_types_template_updates(hass: UniversalAssistant) -> None:
+async def test_event_types_template_updates(hass: __HAC_KEEP__) -> None:
     """Test template event_type update with entity."""
     await async_trigger(
         hass, TEST_STATE_ENTITY_ID, "single", {"options": ["single", "double", "hold"]}
@@ -576,7 +576,7 @@ async def test_event_types_template_updates(hass: UniversalAssistant) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_event")
-async def test_available_template_with_entities(hass: UniversalAssistant) -> None:
+async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
     """Test availability templates with values from other entities."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "single")
 
@@ -608,7 +608,7 @@ async def test_available_template_with_entities(hass: UniversalAssistant) -> Non
     ],
 )
 async def test_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     config: dict,
 ) -> None:
@@ -660,7 +660,7 @@ async def test_restore_state(
     assert state.state != test_state
 
 
-def _make_trigger_event_entity(hass: UniversalAssistant) -> TriggerEventEntity:
+def _make_trigger_event_entity(hass: __HAC_KEEP__) -> TriggerEventEntity:
     """Create a trigger event entity that renders fresh, static attributes."""
     config = {
         CONF_NAME: Template("fresh_name", hass),
@@ -677,7 +677,7 @@ def _make_trigger_event_entity(hass: UniversalAssistant) -> TriggerEventEntity:
     return entity
 
 
-def _mock_stale_restore_cache(hass: UniversalAssistant) -> None:
+def _mock_stale_restore_cache(hass: __HAC_KEEP__) -> None:
     """Prime the restore cache with stale attributes for the test entity."""
     mock_restore_cache(
         hass,
@@ -697,7 +697,7 @@ def _mock_stale_restore_cache(hass: UniversalAssistant) -> None:
 
 
 async def test_trigger_restore_does_not_clobber_rendered_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """A trigger that already fired must win over restored state.
 
@@ -723,7 +723,7 @@ async def test_trigger_restore_does_not_clobber_rendered_attributes(
 
 
 async def test_trigger_restores_when_not_yet_triggered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """When the trigger has not fired, restored attributes are applied."""
     entity = _make_trigger_event_entity(hass)
@@ -765,7 +765,7 @@ async def test_trigger_restores_when_not_yet_triggered(
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_event")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     caplog_setup_text,
 ) -> None:
@@ -782,7 +782,7 @@ async def test_invalid_availability_template_keeps_component_available(
     "style",
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
-async def test_unique_id(hass: UniversalAssistant, style: ConfigurationStyle) -> None:
+async def test_unique_id(hass: __HAC_KEEP__, style: ConfigurationStyle) -> None:
     """Test unique_id option only creates one event per id."""
     await setup_and_test_unique_id(hass, TEST_EVENT, style, TEST_EVENT_CONFIG)
 
@@ -791,7 +791,7 @@ async def test_unique_id(hass: UniversalAssistant, style: ConfigurationStyle) ->
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -803,7 +803,7 @@ async def test_nested_unique_id(
 
 @pytest.mark.freeze_time(TEST_FROZEN_INPUT)
 async def test_flow_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -824,7 +824,7 @@ async def test_flow_preview(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -846,7 +846,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     attribute: StrEnum,
     caplog: pytest.LogCaptureFixture,

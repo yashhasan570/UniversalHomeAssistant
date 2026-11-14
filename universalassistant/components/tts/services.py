@@ -2,7 +2,7 @@
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 
 from .const import (
@@ -31,7 +31,7 @@ async def _async_clear_cache_handle(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the Text-to-speech services."""
     hass.data[DATA_COMPONENT].async_register_entity_service(
         TextToSpeechService.SPEAK,

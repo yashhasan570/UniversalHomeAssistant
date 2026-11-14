@@ -8,11 +8,11 @@ from aioelectricitymaps import (
     ElectricityMaps,
     ElectricityMapsError,
     ElectricityMapsInvalidTokenError,
-    UniversalAssistantCarbonIntensityResponse,
+    __HAC_KEEP__CarbonIntensityResponse,
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -24,14 +24,14 @@ _LOGGER = logging.getLogger(__name__)
 type CO2SignalConfigEntry = ConfigEntry[CO2SignalCoordinator]
 
 
-class CO2SignalCoordinator(DataUpdateCoordinator[UniversalAssistantCarbonIntensityResponse]):
+class CO2SignalCoordinator(DataUpdateCoordinator[__HAC_KEEP__CarbonIntensityResponse]):
     """Data update coordinator."""
 
     config_entry: CO2SignalConfigEntry
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: CO2SignalConfigEntry,
         client: ElectricityMaps,
     ) -> None:
@@ -51,7 +51,7 @@ class CO2SignalCoordinator(DataUpdateCoordinator[UniversalAssistantCarbonIntensi
         return self.config_entry.entry_id
 
     @override
-    async def _async_update_data(self) -> UniversalAssistantCarbonIntensityResponse:
+    async def _async_update_data(self) -> __HAC_KEEP__CarbonIntensityResponse:
         """Fetch the latest data from the source."""
 
         try:

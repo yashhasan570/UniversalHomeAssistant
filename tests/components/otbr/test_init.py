@@ -14,7 +14,7 @@ from zeroconf.asyncio import AsyncServiceInfo
 from universalassistant.components import otbr, thread
 from universalassistant.components.thread import discovery
 from universalassistant.config_entries import SOURCE_HASSIO, SOURCE_USER, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -50,7 +50,7 @@ def enable_mocks_fixture(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_import_dataset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_async_zeroconf: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_import_dataset(
 
 
 async def test_import_share_radio_channel_collision(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     multiprotocol_addon_manager_mock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -174,7 +174,7 @@ async def test_import_share_radio_channel_collision(
 
 @pytest.mark.parametrize("dataset", [DATASET_CH15, DATASET_NO_CHANNEL])
 async def test_import_share_radio_no_channel_collision(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     multiprotocol_addon_manager_mock,
     dataset: bytes,
     issue_registry: ir.IssueRegistry,
@@ -218,7 +218,7 @@ async def test_import_share_radio_no_channel_collision(
     "dataset", [DATASET_INSECURE_NW_KEY, DATASET_INSECURE_PASSPHRASE]
 )
 async def test_import_insecure_dataset(
-    hass: UniversalAssistant, dataset: bytes, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, dataset: bytes, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the active dataset is imported at setup.
 
@@ -267,7 +267,7 @@ async def test_import_insecure_dataset(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant, get_active_dataset_tlvs: AsyncMock, error
+    hass: __HAC_KEEP__, get_active_dataset_tlvs: AsyncMock, error
 ) -> None:
     """Test raising ConfigEntryNotReady ."""
 
@@ -284,7 +284,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_border_agent_id_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_border_agent_id: AsyncMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -317,7 +317,7 @@ async def test_border_agent_id_not_supported(
     )
 
 
-async def test_config_entry_update(hass: UniversalAssistant) -> None:
+async def test_config_entry_update(hass: __HAC_KEEP__) -> None:
     """Test update config entry settings."""
     config_entry = MockConfigEntry(
         data=CONFIG_ENTRY_DATA_MULTIPAN,
@@ -350,7 +350,7 @@ async def test_config_entry_update(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_remove_entry(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, otbr_config_entry_multipan
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, otbr_config_entry_multipan
 ) -> None:
     """Test async_get_active_dataset_tlvs after removing the config entry."""
 
@@ -370,7 +370,7 @@ async def test_remove_entry(
     ],
 )
 async def test_update_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     source: str,
     unique_id: str | None,

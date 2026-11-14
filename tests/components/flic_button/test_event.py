@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.flic_button.const import CONF_PUSH_TWIST_MODE
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -30,7 +30,7 @@ def platforms() -> list[Platform]:
     "device_type", [DeviceType.FLIC2, DeviceType.DUO, DeviceType.TWIST]
 )
 async def test_event_entity_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -48,7 +48,7 @@ async def test_event_entity_setup(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 async def test_twist_event_entity_selector_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -69,7 +69,7 @@ async def test_twist_event_entity_selector_mode(
     "mock_no_ble_device_from_address", "mock_bluetooth_register_callback"
 )
 async def test_flic2_button_event_triggers_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -96,7 +96,7 @@ async def test_flic2_button_event_triggers_entity(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.DUO])
 async def test_duo_button_event_filters_by_index(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -137,7 +137,7 @@ async def test_duo_button_event_filters_by_index(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 async def test_twist_rotate_event_triggers_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -169,7 +169,7 @@ async def test_twist_rotate_event_triggers_entity(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 async def test_twist_rotate_event_filtered_by_event_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -196,7 +196,7 @@ async def test_twist_rotate_event_filtered_by_event_types(
 )
 @pytest.mark.parametrize("device_type", [DeviceType.DUO])
 async def test_duo_rotate_event_filters_by_button_index(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -234,7 +234,7 @@ async def test_duo_rotate_event_filters_by_button_index(
     "mock_no_ble_device_from_address", "mock_bluetooth_register_callback"
 )
 async def test_entity_availability_transitions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_flic_client: MagicMock,
     mock_config_entry: MockConfigEntry,

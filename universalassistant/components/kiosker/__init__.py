@@ -1,7 +1,7 @@
 """The Kiosker integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -19,13 +19,13 @@ _PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Kiosker integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: KioskerConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: KioskerConfigEntry) -> None:
     """Set up Kiosker from a config entry."""
 
     coordinator = KioskerDataUpdateCoordinator(hass, entry)
@@ -37,6 +37,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: KioskerConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: KioskerConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: KioskerConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

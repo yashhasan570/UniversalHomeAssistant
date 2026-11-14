@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.switch import SwitchDeviceClass, SwitchService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_OFF, STATE_ON, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import (
@@ -45,7 +45,7 @@ def switchbox_fixture():
 
 
 async def test_switchbox_init(
-    switchbox, hass: UniversalAssistant, device_registry: dr.DeviceRegistry, config
+    switchbox, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, config
 ) -> None:
     """Test switch default state."""
 
@@ -70,7 +70,7 @@ async def test_switchbox_init(
     assert device.sw_version == "1.23"
 
 
-async def test_switchbox_update_when_off(switchbox, hass: UniversalAssistant) -> None:
+async def test_switchbox_update_when_off(switchbox, hass: __HAC_KEEP__) -> None:
     """Test switch updating when off."""
 
     feature_mock, entity_id = switchbox
@@ -82,7 +82,7 @@ async def test_switchbox_update_when_off(switchbox, hass: UniversalAssistant) ->
     assert state.state == STATE_OFF
 
 
-async def test_switchbox_update_when_on(switchbox, hass: UniversalAssistant) -> None:
+async def test_switchbox_update_when_on(switchbox, hass: __HAC_KEEP__) -> None:
     """Test switch updating when on."""
 
     feature_mock, entity_id = switchbox
@@ -94,7 +94,7 @@ async def test_switchbox_update_when_on(switchbox, hass: UniversalAssistant) -> 
     assert state.state == STATE_ON
 
 
-async def test_switchbox_on(switchbox, hass: UniversalAssistant) -> None:
+async def test_switchbox_on(switchbox, hass: __HAC_KEEP__) -> None:
     """Test turning switch on."""
 
     feature_mock, entity_id = switchbox
@@ -111,7 +111,7 @@ async def test_switchbox_on(switchbox, hass: UniversalAssistant) -> None:
     feature_mock.async_turn_on.assert_called_once_with()
 
 
-async def test_switchbox_off(switchbox, hass: UniversalAssistant) -> None:
+async def test_switchbox_off(switchbox, hass: __HAC_KEEP__) -> None:
     """Test turning switch off."""
 
     feature_mock, entity_id = switchbox
@@ -171,7 +171,7 @@ def switchbox_d_fixture():
 
 
 async def test_switchbox_d_init(
-    switchbox_d, hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    switchbox_d, hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test switch default state."""
 
@@ -212,7 +212,7 @@ async def test_switchbox_d_init(
     assert device.sw_version == "1.23"
 
 
-async def test_switchbox_d_update_when_off(switchbox_d, hass: UniversalAssistant) -> None:
+async def test_switchbox_d_update_when_off(switchbox_d, hass: __HAC_KEEP__) -> None:
     """Test switch updating when off."""
 
     feature_mocks, entity_ids = switchbox_d
@@ -226,7 +226,7 @@ async def test_switchbox_d_update_when_off(switchbox_d, hass: UniversalAssistant
 
 
 async def test_switchbox_d_update_when_second_off(
-    switchbox_d, hass: UniversalAssistant
+    switchbox_d, hass: __HAC_KEEP__
 ) -> None:
     """Test switch updating when off."""
 
@@ -240,7 +240,7 @@ async def test_switchbox_d_update_when_second_off(
     assert hass.states.get(entity_ids[1]).state == STATE_OFF
 
 
-async def test_switchbox_d_turn_first_on(switchbox_d, hass: UniversalAssistant) -> None:
+async def test_switchbox_d_turn_first_on(switchbox_d, hass: __HAC_KEEP__) -> None:
     """Test turning switch on."""
 
     feature_mocks, entity_ids = switchbox_d
@@ -258,7 +258,7 @@ async def test_switchbox_d_turn_first_on(switchbox_d, hass: UniversalAssistant) 
     feature_mocks[1].async_turn_on.assert_not_called()
 
 
-async def test_switchbox_d_second_on(switchbox_d, hass: UniversalAssistant) -> None:
+async def test_switchbox_d_second_on(switchbox_d, hass: __HAC_KEEP__) -> None:
     """Test turning switch on."""
 
     feature_mocks, entity_ids = switchbox_d
@@ -276,7 +276,7 @@ async def test_switchbox_d_second_on(switchbox_d, hass: UniversalAssistant) -> N
     feature_mocks[1].async_turn_on.assert_called_once_with()
 
 
-async def test_switchbox_d_first_off(switchbox_d, hass: UniversalAssistant) -> None:
+async def test_switchbox_d_first_off(switchbox_d, hass: __HAC_KEEP__) -> None:
     """Test turning switch on."""
 
     feature_mocks, entity_ids = switchbox_d
@@ -294,7 +294,7 @@ async def test_switchbox_d_first_off(switchbox_d, hass: UniversalAssistant) -> N
     feature_mocks[1].async_turn_off.assert_not_called()
 
 
-async def test_switchbox_d_second_off(switchbox_d, hass: UniversalAssistant) -> None:
+async def test_switchbox_d_second_off(switchbox_d, hass: __HAC_KEEP__) -> None:
     """Test turning switch on."""
 
     feature_mocks, entity_ids = switchbox_d
@@ -312,7 +312,7 @@ async def test_switchbox_d_second_off(switchbox_d, hass: UniversalAssistant) -> 
     feature_mocks[1].async_turn_off.assert_called_once_with()
 
 
-async def test_switchbox_with_name(hass: UniversalAssistant) -> None:
+async def test_switchbox_with_name(hass: __HAC_KEEP__) -> None:
     """Test that a switch with a feature name uses it as the entity name."""
     feature = mock_feature(
         "switches",
@@ -341,7 +341,7 @@ ALL_SWITCH_FIXTURES = ["switchbox", "switchbox_d"]
 @pytest.mark.parametrize("feature", ALL_SWITCH_FIXTURES, indirect=["feature"])
 async def test_update_failure(
     feature,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

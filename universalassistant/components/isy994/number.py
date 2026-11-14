@@ -32,8 +32,8 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
@@ -70,7 +70,7 @@ BACKLIGHT_MEMORY_FILTER = {"memory": DEV_BL_ADDR, "cmd1": DEV_CMD_MEMORY_WRITE}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: IsyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -169,7 +169,7 @@ class ISYAuxControlNumberEntity(ISYAuxControlEntity, NumberEntity):
             return
 
         if not await self._node.send_cmd(self._control, val=value, uom=node_prop.uom):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Could not set {self.name} to {value} for {self._node.address}"
             )
 
@@ -236,7 +236,7 @@ class ISYVariableNumberEntity(NumberEntity):
     async def async_set_native_value(self, value: float) -> None:
         """Set new value."""
         if not await self._node.set_value(value, init=self._init_entity):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Could not set {self.name} to {value} for {self._node.address}"
             )
 
@@ -298,7 +298,7 @@ class ISYBacklightNumberEntity(ISYAuxControlEntity, RestoreNumber):
         if not await self._node.send_cmd(
             CMD_BACKLIGHT, val=int(value), uom=UOM_PERCENTAGE
         ):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Could not set backlight to {value}% for {self._node.address}"
             )
         self._attr_native_value = value

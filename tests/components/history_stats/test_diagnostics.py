@@ -6,12 +6,12 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.history_stats.const import DEFAULT_NAME, DOMAIN
 from universalassistant.const import CONF_ENTITY_ID, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_diagnostics(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, loaded_entry
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, loaded_entry
 ) -> None:
     """Test diagnostics for config entry."""
 

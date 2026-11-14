@@ -7,7 +7,7 @@ from whirlpool.appliance import Appliance
 from whirlpool.oven import Cavity as OvenCavity, Oven
 
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
 
@@ -63,9 +63,9 @@ class WhirlpoolEntity(Entity):
 
     @staticmethod
     def _check_service_request(result: bool) -> None:
-        """Check result of a request and raise UniversalAssistantError if it failed."""
+        """Check result of a request and raise __HAC_KEEP__Error if it failed."""
         if not result:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="request_failed",
             )

@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import Platform, UnitOfDensity, UnitOfRatio, UnitOfTime
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -80,7 +80,7 @@ SENSOR_DESCRIPTIONS_FAN: tuple[TradfriSensorEntityDescription, ...] = (
 
 
 @callback
-def _migrate_old_unique_ids(hass: UniversalAssistant, old_unique_id: str, key: str) -> None:
+def _migrate_old_unique_ids(hass: __HAC_KEEP__, old_unique_id: str, key: str) -> None:
     """Migrate unique IDs to the new format."""
     ent_reg = er.async_get(hass)
 
@@ -109,7 +109,7 @@ def _migrate_old_unique_ids(hass: UniversalAssistant, old_unique_id: str, key: s
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TradfriConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -154,7 +154,7 @@ async def async_setup_entry(
 
 
 class TradfriSensor(TradfriBaseEntity, SensorEntity):
-    """The platform class required by Universal Universal Home Assistant."""
+    """The platform class required by __HA_KEEP__."""
 
     entity_description: TradfriSensorEntityDescription
 

@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant.components.silla_prism.const import CONF_BASE_TOPIC, DOMAIN
 from universalassistant.config_entries import SOURCE_MQTT, SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.mqtt import MqttServiceInfo
 
@@ -36,7 +36,7 @@ def _discovery(topic: str, payload: str | bytes) -> MqttServiceInfo:
     )
 
 
-async def test_user_flow(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test the user flow succeeds once traffic is seen on the base topic."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -64,7 +64,7 @@ async def test_user_flow(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) 
 
 
 async def test_user_flow_no_device(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the user flow errors when no traffic is seen, then recovers."""
     result = await hass.config_entries.flow.async_init(
@@ -97,7 +97,7 @@ async def test_user_flow_no_device(
 
 
 async def test_user_flow_mqtt_unavailable(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the user flow aborts when MQTT is not available."""
     result = await hass.config_entries.flow.async_init(
@@ -117,7 +117,7 @@ async def test_user_flow_mqtt_unavailable(
     ids=["wildcard_hash", "wildcard_plus", "empty"],
 )
 async def test_user_flow_invalid_base_topic(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, base_topic: str
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, base_topic: str
 ) -> None:
     """Test the user flow rejects invalid base topics, then recovers."""
     result = await hass.config_entries.flow.async_init(
@@ -139,7 +139,7 @@ async def test_user_flow_invalid_base_topic(
 
 
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_user_flow_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_discovery_flow(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_discovery_flow(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test discovery via the hello topic creates an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -173,7 +173,7 @@ async def test_discovery_flow(hass: UniversalAssistant, mqtt_mock: MqttMockHACli
 
 
 async def test_discovery_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_discovery_already_configured(
     ids=["empty_payload", "not_hello_topic", "unparseable_hello"],
 )
 async def test_discovery_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     topic: str,
     payload: str | bytes,

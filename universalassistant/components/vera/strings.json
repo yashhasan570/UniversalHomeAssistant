@@ -7,8 +7,8 @@
     "step": {
       "user": {
         "data": {
-          "exclude": "Vera device IDs to exclude from Universal Universal Home Assistant.",
-          "lights": "Vera switch device IDs to treat as lights in Universal Universal Home Assistant.",
+          "exclude": "Vera device IDs to exclude from __HA_KEEP__.",
+          "lights": "Vera switch device IDs to treat as lights in __HA_KEEP__.",
           "vera_controller_url": "Controller URL"
         },
         "data_description": {
@@ -24,7 +24,7 @@
           "exclude": "[%key:component::vera::config::step::user::data::exclude%]",
           "lights": "[%key:component::vera::config::step::user::data::lights%]"
         },
-        "description": "See the Vera documentation for details on optional parameters: {documentation_url}. Note: Any changes here require a restart of the Universal Universal Home Assistant server. To clear values, provide a space.",
+        "description": "See the Vera documentation for details on optional parameters: {documentation_url}. Note: Any changes here require a restart of the __HA_KEEP__ server. To clear values, provide a space.",
         "title": "Vera controller options"
       }
     }

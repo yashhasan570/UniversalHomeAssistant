@@ -21,13 +21,13 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
 
 async def _select_menu_option(
-    hass: UniversalAssistant, flow_id: str, option: str
+    hass: __HAC_KEEP__, flow_id: str, option: str
 ) -> ConfigFlowResult:
     """Select a menu option and return the resulting form."""
     return await hass.config_entries.flow.async_configure(
@@ -35,7 +35,7 @@ async def _select_menu_option(
     )
 
 
-async def test_menu_shown(hass: UniversalAssistant, mock_simple_nws_config) -> None:
+async def test_menu_shown(hass: __HAC_KEEP__, mock_simple_nws_config) -> None:
     """Test that the initial step shows a menu."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -45,7 +45,7 @@ async def test_menu_shown(hass: UniversalAssistant, mock_simple_nws_config) -> N
 
 
 async def test_form_location(
-    hass: UniversalAssistant, mock_simple_nws_config, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_simple_nws_config, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the specific location configuration path."""
     hass.config.latitude = 35
@@ -78,7 +78,7 @@ async def test_form_location(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_location_cannot_connect(
-    hass: UniversalAssistant, mock_simple_nws_config: MagicMock
+    hass: __HAC_KEEP__, mock_simple_nws_config: MagicMock
 ) -> None:
     """Test we handle cannot connect error in location path."""
     mock_instance = mock_simple_nws_config.return_value
@@ -107,7 +107,7 @@ async def test_form_location_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_location_unknown_error(
-    hass: UniversalAssistant, mock_simple_nws_config: MagicMock
+    hass: __HAC_KEEP__, mock_simple_nws_config: MagicMock
 ) -> None:
     """Test we handle unknown error in location path."""
     mock_instance = mock_simple_nws_config.return_value
@@ -135,7 +135,7 @@ async def test_form_location_unknown_error(
 
 
 async def test_form_location_already_configured(
-    hass: UniversalAssistant, mock_simple_nws_config, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_simple_nws_config, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we handle duplicate location entries."""
 
@@ -168,7 +168,7 @@ async def test_form_location_already_configured(
 
 
 async def test_form_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_simple_nws_config,
     entity_registry: er.EntityRegistry,
     mock_setup_entry: AsyncMock,
@@ -205,7 +205,7 @@ async def test_form_entity(
 
 @pytest.mark.usefixtures("mock_simple_nws_config", "mock_setup_entry")
 async def test_form_entity_no_coordinates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test entity path with entity that has no coordinates."""
@@ -240,7 +240,7 @@ async def test_form_entity_no_coordinates(
 
 @pytest.mark.usefixtures("mock_simple_nws_config", "mock_setup_entry")
 async def test_form_entity_non_numeric_coordinates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test entity path with entity that has non-numeric coordinates."""
@@ -279,7 +279,7 @@ async def test_form_entity_non_numeric_coordinates(
 
 @pytest.mark.usefixtures("mock_simple_nws_config", "mock_setup_entry")
 async def test_form_entity_not_found(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test entity path with entity not in registry."""
     result = await hass.config_entries.flow.async_init(
@@ -310,7 +310,7 @@ async def test_form_entity_not_found(
 
 @pytest.mark.usefixtures("mock_simple_nws_config", "mock_setup_entry")
 async def test_form_entity_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test entity path with disabled entity."""
@@ -348,7 +348,7 @@ async def test_form_entity_disabled(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_entity_unknown_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_simple_nws_config: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -387,7 +387,7 @@ async def test_form_entity_unknown_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_entity_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_simple_nws_config: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -426,7 +426,7 @@ async def test_form_entity_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_entity_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_simple_nws_config,
     entity_registry: er.EntityRegistry,
 ) -> None:

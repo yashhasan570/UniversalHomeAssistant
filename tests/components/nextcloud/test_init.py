@@ -13,7 +13,7 @@ import pytest
 from universalassistant.components.nextcloud.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_URL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration, mock_config_entry
@@ -22,14 +22,14 @@ from .const import MOCKED_ENTRY_ID, NC_DATA, VALID_CONFIG
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a successful setup entry."""
     assert await init_integration(hass, VALID_CONFIG, NC_DATA)
 
 
 async def test_unique_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test migration of unique ids to stable ones."""
@@ -76,7 +76,7 @@ async def test_unique_id_migration(
     ],
 )
 async def test_setup_entry_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: NextcloudMonitorError,
     expcted_entry_state: ConfigEntryState,
 ) -> None:

@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.gentex_homelink.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     OAuth2TokenRequestConnectionError,
     OAuth2TokenRequestError,
@@ -26,7 +26,7 @@ from . import setup_integration, update_callback
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_provider: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -45,7 +45,7 @@ async def test_device(
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_reload_sync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_provider: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -66,7 +66,7 @@ async def test_reload_sync(
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_provider: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -84,7 +84,7 @@ async def test_load_unload_entry(
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -123,7 +123,7 @@ async def test_oauth_implementation_not_available(
     ids=["auth_failure", "server_error"],
 )
 async def test_setup_entry_token_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     exc: OAuth2TokenRequestError,
     expected_state: ConfigEntryState,
@@ -139,7 +139,7 @@ async def test_setup_entry_token_error(
 
 
 async def test_setup_entry_token_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup entry retries when token validation has a connection error."""

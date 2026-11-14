@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_TYPE,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import TEST_SITE_NAME, TEST_SITE_UUID, system_mock, zone_mock
 
@@ -131,7 +131,7 @@ def events() -> list[Event]:
 
 
 @pytest.fixture
-def cloud_config_entry(hass: UniversalAssistant, options: dict[str, Any]) -> MockConfigEntry:
+def cloud_config_entry(hass: __HAC_KEEP__, options: dict[str, Any]) -> MockConfigEntry:
     """Fixture for a cloud config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -155,7 +155,7 @@ def login_with_error(exception):
 
 @pytest.fixture
 async def setup_risco_cloud(
-    hass: UniversalAssistant, cloud_config_entry: MockConfigEntry, events: list[Event]
+    hass: __HAC_KEEP__, cloud_config_entry: MockConfigEntry, events: list[Event]
 ) -> AsyncGenerator[MockConfigEntry]:
     """Set up a Risco integration for testing."""
     with (
@@ -186,7 +186,7 @@ async def setup_risco_cloud(
 
 
 @pytest.fixture
-def local_config_entry(hass: UniversalAssistant, options: dict[str, Any]) -> MockConfigEntry:
+def local_config_entry(hass: __HAC_KEEP__, options: dict[str, Any]) -> MockConfigEntry:
     """Fixture for a local config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=TEST_LOCAL_CONFIG, options=options
@@ -207,7 +207,7 @@ def connect_with_error(exception):
 
 @pytest.fixture
 async def setup_risco_local(
-    hass: UniversalAssistant, local_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, local_config_entry: MockConfigEntry
 ) -> AsyncGenerator[MockConfigEntry]:
     """Set up a local Risco integration for testing."""
     with (

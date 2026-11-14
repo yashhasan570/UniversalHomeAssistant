@@ -8,8 +8,8 @@ from python_picnic_api2 import PicnicAPI, PicnicParseError
 import requests
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import ATTR_PRODUCT_IDENTIFIERS, DOMAIN
@@ -54,7 +54,7 @@ def validate_gtin(value: str) -> str:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register services for the Picnic integration, if not registered yet."""
 
     async def async_add_product_service(call: ServiceCall):
@@ -87,7 +87,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
     )
 
 
-async def get_api_client(hass: UniversalAssistant, config_entry_id: str) -> PicnicAPI:
+async def get_api_client(hass: __HAC_KEEP__, config_entry_id: str) -> PicnicAPI:
     """Get the right Picnic API client based on the config entry id."""
     entry: PicnicConfigEntry = service.async_get_config_entry(
         hass, DOMAIN, config_entry_id
@@ -96,7 +96,7 @@ async def get_api_client(hass: UniversalAssistant, config_entry_id: str) -> Picn
 
 
 async def handle_add_product(
-    hass: UniversalAssistant, api_client: PicnicAPI, call: ServiceCall
+    hass: __HAC_KEEP__, api_client: PicnicAPI, call: ServiceCall
 ) -> None:
     """Handle the call for the add_product service."""
     product_id = call.data.get(PicnicServiceArgument.PRODUCT_ID)
@@ -106,7 +106,7 @@ async def handle_add_product(
                 api_client.get_article_by_gtin, gtin
             )
         except (requests.RequestException, PicnicParseError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="gtin_lookup_failed",
             ) from err

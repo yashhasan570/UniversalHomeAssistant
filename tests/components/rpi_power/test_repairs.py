@@ -8,14 +8,14 @@ from pytest_universalassistant.components.repairs import (
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.rpi_power.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
 async def test_repair_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     hass_client: ClientSessionGenerator,
 ) -> None:

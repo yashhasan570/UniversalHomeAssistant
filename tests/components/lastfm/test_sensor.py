@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.lastfm.const import ATTR_LAST_PLAYED, STATE_NOT_SCROBBLING
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import API_KEY, MockUser
 from .conftest import ComponentSetup
@@ -27,7 +27,7 @@ from .conftest import ComponentSetup
     ],
 )
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -46,7 +46,7 @@ async def test_sensors(
 
 
 async def test_sensor_hidden_listening_information(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     hidden_user: MockUser,
@@ -82,7 +82,7 @@ async def test_sensor_hidden_listening_information(
     ],
 )
 async def test_update_error_does_not_log_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,

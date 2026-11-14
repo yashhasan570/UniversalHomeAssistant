@@ -17,7 +17,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.config_entries import ConfigFlow
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 
 from .common import (
@@ -55,7 +55,7 @@ def tts_mutagen_mock_fixture_autouse(tts_mutagen_mock: MagicMock) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def internal_url_mock(hass: UniversalAssistant) -> None:
+async def internal_url_mock(hass: __HAC_KEEP__) -> None:
     """Mock internal URL of the instance."""
     await async_process_ha_core_config(
         hass,
@@ -64,7 +64,7 @@ async def internal_url_mock(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture
-async def mock_tts(hass: UniversalAssistant, mock_provider) -> None:
+async def mock_tts(hass: __HAC_KEEP__, mock_provider) -> None:
     """Mock TTS."""
     mock_integration(hass, MockModule(domain="test"))
     mock_platform(hass, "test.tts", MockTTS(mock_provider))
@@ -94,7 +94,7 @@ def config_flow_test_domain_fixture() -> Iterable[str]:
 
 @pytest.fixture(autouse=True)
 def config_flow_fixture(
-    hass: UniversalAssistant, config_flow_test_domains: Iterable[str]
+    hass: __HAC_KEEP__, config_flow_test_domains: Iterable[str]
 ) -> Generator[None]:
     """Mock config flow."""
     for domain in config_flow_test_domains:
@@ -108,7 +108,7 @@ def config_flow_fixture(
 
 @pytest.fixture(name="setup")
 async def setup_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request: pytest.FixtureRequest,
     mock_provider: MockTTSProvider,
     mock_tts_entity: MockTTSEntity,

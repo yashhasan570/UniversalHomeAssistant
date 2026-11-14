@@ -39,7 +39,7 @@ def _resolve_yanked(pkg: PackageChange, pypi_info: PypiPackageInfo) -> None:
         pkg.checks[CheckKind.YANKED] = CheckResult(
             CheckStatus.FAIL,
             f"Version {pkg.new_version} is yanked on PyPI ({reason}). "
-            "Universal Universal Home Assistant should not depend on a yanked release.",
+            "__HA_KEEP__ should not depend on a yanked release.",
         )
         return
     pkg.checks[CheckKind.YANKED] = CheckResult(

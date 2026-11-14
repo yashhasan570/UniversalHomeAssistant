@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -33,7 +33,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_picnic_api: MagicMock,
@@ -47,7 +47,7 @@ async def test_all_entities(
 
 
 async def test_setup_platform_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_setup_platform_not_available(
 
 
 async def test_sensors_no_selected_time_slot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_sensors_no_selected_time_slot(
 
 
 async def test_next_delivery_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_next_delivery_sensors(
 
 
 async def test_sensors_eta_date_malformed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -157,7 +157,7 @@ async def test_sensors_eta_date_malformed(
 
 
 async def test_sensors_use_detailed_eta_if_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -196,7 +196,7 @@ async def test_sensors_use_detailed_eta_if_available(
 
 
 async def test_sensors_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -228,7 +228,7 @@ async def test_sensors_no_data(
 
 
 async def test_sensors_malformed_delivery_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -252,7 +252,7 @@ async def test_sensors_malformed_delivery_data(
 
 
 async def test_sensors_malformed_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -273,7 +273,7 @@ async def test_sensors_malformed_response(
 
 
 async def test_multiple_active_orders(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -338,7 +338,7 @@ async def test_multiple_active_orders(
 
 
 async def test_device_registry_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -356,7 +356,7 @@ async def test_device_registry_entry(
 
 
 async def test_auth_token_is_saved_on_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_picnic_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

@@ -6,7 +6,7 @@ from typing import Any
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -67,7 +67,7 @@ def _write_service_schema(
     )
 
 
-def _get_hubs(hass: UniversalAssistant) -> dict[str, ModbusHub]:
+def _get_hubs(hass: __HAC_KEEP__) -> dict[str, ModbusHub]:
     """Return the configured Modbus hubs, raising if Modbus is not set up."""
     if not (hubs := hass.data.get(DATA_MODBUS_HUBS)):
         raise ServiceValidationError(
@@ -128,7 +128,7 @@ async def _async_reload_config(call: ServiceCall) -> None:
     hass = call.hass
     # A failed setup stays cached, so the platforms would be rejected
     if DOMAIN not in hass.config.components:
-        LOGGER.error("Modbus failed to set up, restart Universal Universal Home Assistant to retry")
+        LOGGER.error("Modbus failed to set up, restart __HA_KEEP__ to retry")
         return
     # Without YAML hubs there is nothing to close, but YAML may have been added
     hubs = hass.data.get(DATA_MODBUS_HUBS, {})
@@ -151,7 +151,7 @@ async def _async_reload_config(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the Modbus services."""
     async_register_admin_service(
         hass, DOMAIN, ModbusService.RELOAD, _async_reload_config

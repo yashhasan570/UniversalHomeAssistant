@@ -17,7 +17,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntry
 from universalassistant.const import ATTR_ASSUMED_STATE, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import _get_fixtures, patch_get_vehicle_data
@@ -34,7 +34,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("fixtures_with_data", "entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -49,7 +49,7 @@ async def test_sensors(
 @pytest.mark.usefixtures("fixtures_with_no_data", "entity_registry_enabled_by_default")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_sensor_empty(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -66,7 +66,7 @@ async def test_sensor_empty(
 )
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_sensor_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -81,7 +81,7 @@ async def test_sensor_errors(
 @pytest.mark.usefixtures("fixtures_with_access_denied_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_sensor_access_denied(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_sensor_access_denied(
 @pytest.mark.usefixtures("fixtures_with_not_supported_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_sensor_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_sensor_not_supported(
 
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_sensor_throttling_during_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     vehicle_type: str,
     freezer: FrozenDateTimeFactory,
@@ -141,7 +141,7 @@ async def test_sensor_throttling_during_setup(
 
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_sensor_throttling_after_init(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     vehicle_type: str,
     caplog: pytest.LogCaptureFixture,
@@ -193,7 +193,7 @@ async def test_sensor_throttling_after_init(
 
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_sensor_authentication_expired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     vehicle_type: str,
     freezer: FrozenDateTimeFactory,
@@ -240,7 +240,7 @@ async def test_sensor_authentication_expired(
     indirect=["vehicle_type"],
 )
 async def test_dynamic_scan_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     vehicle_count: int,
     scan_interval: int,
@@ -281,7 +281,7 @@ async def test_dynamic_scan_interval(
     indirect=["vehicle_type"],
 )
 async def test_dynamic_scan_interval_failed_coordinator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     vehicle_count: int,
     scan_interval: int,

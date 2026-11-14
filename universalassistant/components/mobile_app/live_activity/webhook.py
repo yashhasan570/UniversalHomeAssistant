@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 
 from ..const import ATTR_LIVE_ACTIVITY_EXPIRES_AT, ATTR_PUSH_TOKEN, ATTR_TAG
@@ -25,7 +25,7 @@ from .store import remove_live_activity_token, store_live_activity_token
     }
 )
 async def webhook_update_live_activity_token(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, Any]
 ) -> Response:
     """Store a Live Activity APNs token sent by the iOS app."""
     store_live_activity_token(
@@ -45,7 +45,7 @@ async def webhook_update_live_activity_token(
     }
 )
 async def webhook_live_activity_dismissed(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, str]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, str]
 ) -> Response:
     """Remove a stored Live Activity token when the activity ends on device."""
     remove_live_activity_token(hass, config_entry.data[CONF_WEBHOOK_ID], data[ATTR_TAG])

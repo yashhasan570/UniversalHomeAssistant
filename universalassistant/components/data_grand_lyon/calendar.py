@@ -10,7 +10,7 @@ from universalassistant.components.calendar import (
     CalendarEntityDescription,
     CalendarEvent,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -44,7 +44,7 @@ def _calendar_event(alert: TclAlert) -> CalendarEvent:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DataGrandLyonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -84,7 +84,7 @@ class DataGrandLyonLineCalendar(DataGrandLyonLineEntity, CalendarEntity):
 
     @override
     async def async_get_events(
-        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
+        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Return the line's alerts overlapping the requested window."""
         # Compare in UTC: Paris-aware datetimes sharing a tzinfo compare naively,

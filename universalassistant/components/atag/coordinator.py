@@ -8,7 +8,7 @@ from typing import override
 from pyatag import AtagException, AtagOne
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -22,7 +22,7 @@ class AtagDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     config_entry: AtagConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: AtagConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: AtagConfigEntry) -> None:
         """Initialize Atag coordinator."""
         super().__init__(
             hass,

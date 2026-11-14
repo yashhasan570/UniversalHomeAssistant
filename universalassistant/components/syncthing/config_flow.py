@@ -7,8 +7,8 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_TOKEN, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DEFAULT_URL, DEFAULT_VERIFY_SSL, DOMAIN
 
@@ -21,7 +21,7 @@ DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, str]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, str]:
     """Validate the user input allows us to connect."""
 
     try:
@@ -68,9 +68,9 @@ class SyncThingConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

@@ -7,8 +7,8 @@ from orvibo.s20 import S20, S20Exception
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import CONF_HOST, CONF_MAC
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -25,7 +25,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: S20ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -74,7 +74,7 @@ class S20Switch(SwitchEntity):
         try:
             self._s20.on = True
         except S20Exception as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_on_error",
                 translation_placeholders={"name": self._name},
@@ -86,7 +86,7 @@ class S20Switch(SwitchEntity):
         try:
             self._s20.on = False
         except S20Exception as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_off_error",
                 translation_placeholders={"name": self._name},

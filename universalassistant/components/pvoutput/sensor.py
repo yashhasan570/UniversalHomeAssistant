@@ -21,7 +21,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -69,7 +69,7 @@ SENSORS: tuple[PVOutputSensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.TIMESTAMP,
         entity_category=EntityCategory.DIAGNOSTIC,
         # PVOutput reports the local time of the system without its timezone,
-        # assume the system is in the same timezone as Universal Universal Home Assistant
+        # assume the system is in the same timezone as __HA_KEEP__
         value_fn=lambda status: status.reported_datetime.replace(
             tzinfo=dt_util.get_default_time_zone()
         ),
@@ -122,7 +122,7 @@ SENSORS: tuple[PVOutputSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PvOutputConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

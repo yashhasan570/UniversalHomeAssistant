@@ -34,7 +34,7 @@ from universalassistant.const import (
     UnitOfEnergy,
     UnitOfVolume,
 )
-from universalassistant.core import CoreState, Event, UniversalAssistant, callback
+from universalassistant.core import CoreState, Event, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import (
@@ -647,7 +647,7 @@ def device_class_and_uom(
 
 
 def rename_old_gas_to_mbus(
-    hass: UniversalAssistant, entry: DsmrConfigEntry, mbus_device_id: str
+    hass: __HAC_KEEP__, entry: DsmrConfigEntry, mbus_device_id: str
 ) -> None:
     """Rename old gas sensor to mbus variant."""
     dev_reg = dr.async_get(hass)
@@ -708,7 +708,7 @@ def is_supported_description(
 
 
 def create_mbus_entities(
-    hass: UniversalAssistant, telegram: Telegram, entry: DsmrConfigEntry, dsmr_version: str
+    hass: __HAC_KEEP__, telegram: Telegram, entry: DsmrConfigEntry, dsmr_version: str
 ) -> Generator[DSMREntity]:
     """Create MBUS Entities."""
     mbus_devices: list[MbusDevice] = getattr(telegram, "MBUS_DEVICES", [])
@@ -757,7 +757,7 @@ def get_dsmr_object(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DsmrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -821,7 +821,7 @@ async def async_setup_entry(
     # Legacy network entries stored host and port separately; combine them into
     # the single socket://host:port form newer entries already use, in memory
     # only, so the stored entry stays untouched and rolling back to an older
-    # Universal Universal Home Assistant version keeps working.
+    # __HA_KEEP__ version keeps working.
     port = entry.data[CONF_PORT]
     if CONF_HOST in entry.data:
         port = f"socket://{entry.data[CONF_HOST]}:{port}"
@@ -874,7 +874,7 @@ async def async_setup_entry(
         )
 
     async def connect_and_reconnect() -> None:
-        """Connect to DSMR and keep reconnecting until Universal Universal Home Assistant stops."""
+        """Connect to DSMR and keep reconnecting until __HA_KEEP__ stops."""
         stop_listener = None
         transport = None
         protocol = None

@@ -8,7 +8,7 @@ from bluetti_modbus_lib import Balco260
 from modbus_connection import ModbusError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -26,7 +26,7 @@ class BluettiModbusDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: BluettiModbusConfigEntry,
         device: Balco260,
     ) -> None:

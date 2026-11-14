@@ -74,7 +74,7 @@ IGNORED_OVERKIZ_DEVICES: list[UIClass | UIWidget] = [
     UIClass.POD,
 ]
 
-# Used to map the Somfy widget and ui_class to the Universal Universal Home Assistant platform
+# Used to map the Somfy widget and ui_class to the __HA_KEEP__ platform
 OVERKIZ_DEVICE_TO_PLATFORM: dict[UIClass | UIWidget, Platform | None] = {
     UIClass.ADJUSTABLE_SLATS_ROLLER_SHUTTER: Platform.COVER,
     UIClass.AWNING: Platform.COVER,
@@ -131,7 +131,7 @@ OVERKIZ_DEVICE_TO_PLATFORM: dict[UIClass | UIWidget, Platform | None] = {
     UIWidget.VALVE_HEATING_TEMPERATURE_INTERFACE: Platform.CLIMATE,
 }
 
-# Map Overkiz camelCase to Universal Universal Home Assistant snake_case for translation
+# Map Overkiz camelCase to __HA_KEEP__ snake_case for translation
 OVERKIZ_STATE_TO_TRANSLATION: dict[str, str] = {
     OverkizCommandParam.EXTERNAL_GATEWAY: "external_gateway",
     OverkizCommandParam.LOCAL_USER: "local_user",

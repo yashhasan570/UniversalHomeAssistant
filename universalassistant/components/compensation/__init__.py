@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_UNIQUE_ID,
     CONF_UNIT_OF_MEASUREMENT,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device import async_entity_id_to_device_id
@@ -97,7 +97,7 @@ CONFIG_SCHEMA = probatio.Schema(
 
 
 async def create_compensation_data(
-    hass: UniversalAssistant, compensation: str, conf: ConfigType
+    hass: __HAC_KEEP__, compensation: str, conf: ConfigType
 ) -> None:
     """Create compensation data.
 
@@ -132,7 +132,7 @@ async def create_compensation_data(
     hass.data[DATA_COMPENSATION][compensation] = data
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Compensation sensor."""
     hass.data[DATA_COMPENSATION] = {}
 
@@ -165,7 +165,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up Compensation from a config entry."""
 
     def set_source_entity_id_or_uuid(source_entity_id: str) -> None:
@@ -209,7 +209,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload Compensation config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     hass.data[DATA_COMPENSATION].pop(entry.entry_id, None)

@@ -24,13 +24,13 @@ from universalassistant.const import (
     UnitOfVolume,
 )
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
     split_entity_id,
     valid_entity_id,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.event import async_track_state_change_event
@@ -69,7 +69,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -130,11 +130,11 @@ GRID_EXPORT_ADAPTER: Final = SourceAdapter(
 )
 
 
-class EntityNotFoundError(UniversalAssistantError):
+class EntityNotFoundError(__HAC_KEEP__Error):
     """When a referenced entity was not found."""
 
 
-class PriceUnitMismatchError(UniversalAssistantError):
+class PriceUnitMismatchError(__HAC_KEEP__Error):
     """When the price unit cannot be converted to the meter unit."""
 
 
@@ -382,7 +382,7 @@ async def _async_remove_if_added(entity: SensorEntity) -> None:
 
 @dataclass
 class EnergyCostSensorExtraStoredData(SensorExtraStoredData):
-    """Data to price the energy used while Universal Universal Home Assistant was stopped."""
+    """Data to price the energy used while __HA_KEEP__ was stopped."""
 
     last_energy_sensor_state: State
 
@@ -592,7 +592,7 @@ class EnergyCostSensor(RestoreSensor):
                 last_energy = _unit_converter(energy_unit).convert(
                     last_energy, last_energy_unit, energy_unit
                 )
-            except UniversalAssistantError:
+            except __HAC_KEEP__Error:
                 # Readings in these units can't be compared, start from this one
                 self._last_energy_sensor_state = energy_state
                 return
@@ -606,7 +606,7 @@ class EnergyCostSensor(RestoreSensor):
                     last_energy,
                     self._last_energy_sensor_state,
                 )
-            except UniversalAssistantError:
+            except __HAC_KEEP__Error:
                 # Negative reading, already logged by reset_detected
                 return
         else:
@@ -932,7 +932,7 @@ class EnergyPowerSensor(SensorEntity):
                     charge = unit_conversion.PowerConverter.convert(
                         charge, charge_unit, UnitOfPower.WATT
                     )
-            except UniversalAssistantError as err:
+            except __HAC_KEEP__Error as err:
                 if not self._wrong_unit_reported:
                     self._wrong_unit_reported = True
                     _LOGGER.warning(

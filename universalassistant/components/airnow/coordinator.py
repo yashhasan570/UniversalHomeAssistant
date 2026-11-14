@@ -11,7 +11,7 @@ from pyairnow.conv import aqi_to_concentration
 from pyairnow.errors import AirNowError, InvalidJsonError, InvalidKeyError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -46,7 +46,7 @@ class AirNowDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AirNowConfigEntry,
         session: ClientSession,
         api_key: str,

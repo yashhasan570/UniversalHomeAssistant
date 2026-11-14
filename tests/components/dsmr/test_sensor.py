@@ -46,12 +46,12 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_default_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock],
 ) -> None:
@@ -199,7 +199,7 @@ async def test_default_setup(
 
 
 async def test_setup_only_energy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock],
 ) -> None:
@@ -256,7 +256,7 @@ async def test_setup_only_energy(
 
 
 async def test_v4_meter(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if v4 meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -341,7 +341,7 @@ async def test_v4_meter(
     ],
 )
 async def test_v5_meter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock],
     value: Decimal,
     state: str,
@@ -417,7 +417,7 @@ async def test_v5_meter(
 
 
 async def test_luxembourg_meter(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if v5 meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -512,7 +512,7 @@ async def test_luxembourg_meter(
 
 
 async def test_luxembourg_smarty_encrypted_meter(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if an encrypted Luxembourg Smarty (MSn) meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -598,7 +598,7 @@ async def test_luxembourg_smarty_encrypted_meter(
 
 
 async def test_austrian_sagemcom_encrypted_meter(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if an encrypted Austrian Sagemcom (T210-D-R) meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -677,7 +677,7 @@ async def test_austrian_sagemcom_encrypted_meter(
 
 
 async def test_eonhu_meter(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if v5 meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -747,7 +747,7 @@ async def test_eonhu_meter(
 
 
 async def test_belgian_meter(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if Belgian meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -981,7 +981,7 @@ async def test_belgian_meter(
 
 
 async def test_belgian_meter_alt(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if Belgian meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -1169,7 +1169,7 @@ async def test_belgian_meter_alt(
 
 
 async def test_belgian_meter_mbus(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if Belgian meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -1319,7 +1319,7 @@ async def test_belgian_meter_mbus(
 
 
 async def test_belgian_meter_low(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if Belgian meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -1368,7 +1368,7 @@ async def test_belgian_meter_low(
 
 
 async def test_swedish_meter(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if v5 meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -1443,7 +1443,7 @@ async def test_swedish_meter(
 
 
 async def test_easymeter(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if Q3D meter is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -1521,7 +1521,7 @@ async def test_easymeter(
 
 
 async def test_tcp(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """If proper config provided TCP connection should be made."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -1553,7 +1553,7 @@ async def test_tcp(
 
 
 async def test_rfxtrx_tcp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rfxtrx_dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock],
 ) -> None:
     """If proper config provided RFXtrx TCP connection should be made."""
@@ -1586,7 +1586,7 @@ async def test_rfxtrx_tcp(
 
 
 async def test_tcp_socket_url(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """A socket:// port should be opened with the keep-alive watchdog."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -1613,7 +1613,7 @@ async def test_tcp_socket_url(
 
 
 async def test_serial_no_keep_alive(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """A local serial device should use the plain reader without keep-alive."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -1641,7 +1641,7 @@ async def test_serial_no_keep_alive(
 
 @patch("universalassistant.components.dsmr.sensor.DEFAULT_RECONNECT_INTERVAL", 0)
 async def test_connection_errors_retry(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Connection should be retried on error during setup."""
     (_connection_factory, transport, protocol) = dsmr_connection_fixture
@@ -1679,7 +1679,7 @@ async def test_connection_errors_retry(
 
 @patch("universalassistant.components.dsmr.sensor.DEFAULT_RECONNECT_INTERVAL", 0)
 async def test_reconnect(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """If transport disconnects, the connection should be retried."""
 
@@ -1763,7 +1763,7 @@ async def test_reconnect(
 
 
 async def test_gas_meter_providing_energy_reading(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test that gas providing energy readings use the correct device class."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -1818,7 +1818,7 @@ async def test_gas_meter_providing_energy_reading(
 
 
 async def test_heat_meter_mbus(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if heat meter reading is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture
@@ -1886,7 +1886,7 @@ async def test_heat_meter_mbus(
 
 
 async def test_heat_cool_meter_mbus(
-    hass: UniversalAssistant, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
+    hass: __HAC_KEEP__, dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock]
 ) -> None:
     """Test if heat/cool meter reading is correctly parsed."""
     (connection_factory, _transport, _protocol) = dsmr_connection_fixture

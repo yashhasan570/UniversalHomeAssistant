@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.fuelprices_dk.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -32,7 +32,7 @@ def _client_error(status: int) -> ClientResponseError:
 
 
 async def test_full_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_full_user_flow(
     ],
 )
 async def test_user_flow_recovers_from_api_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     status: int,
     error: str,
@@ -118,7 +118,7 @@ async def test_user_flow_recovers_from_api_errors(
 
 
 async def test_user_flow_recovers_without_companies(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
 ) -> None:
     """Test the user flow recovers when the API returns no companies."""
@@ -153,7 +153,7 @@ async def test_user_flow_recovers_without_companies(
 
 
 async def test_user_flow_duplicate_api_key_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test flow aborts when the same API key is already configured."""
@@ -179,7 +179,7 @@ async def test_user_flow_duplicate_api_key_aborts(
     ids=["error", "empty"],
 )
 async def test_user_flow_station_error_returns_to_company_selection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     configure_stations: Callable[[AsyncMock], None],
 ) -> None:
@@ -213,7 +213,7 @@ async def test_user_flow_station_error_returns_to_company_selection(
 
 
 async def test_user_flow_allows_different_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braendstofpriser: AsyncMock,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_user_flow_allows_different_api_key(
 
 
 async def test_reauth_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braendstofpriser: AsyncMock,
 ) -> None:
@@ -270,7 +270,7 @@ async def test_reauth_success(
     ],
 )
 async def test_reauth_recovers_from_api_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braendstofpriser: AsyncMock,
     status: int,
@@ -299,7 +299,7 @@ async def test_reauth_recovers_from_api_errors(
 
 
 async def test_subentry_flow_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -334,7 +334,7 @@ async def test_subentry_flow_create(
 
 
 async def test_subentry_flow_duplicate_station(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -365,7 +365,7 @@ async def test_subentry_flow_duplicate_station(
     ],
 )
 async def test_subentry_flow_api_init_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     status: int,
@@ -384,7 +384,7 @@ async def test_subentry_flow_api_init_error(
 
 
 async def test_subentry_flow_no_companies_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -409,7 +409,7 @@ async def test_subentry_flow_no_companies_aborts(
     ids=["error", "empty"],
 )
 async def test_subentry_flow_station_error_returns_to_company_selection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     configure_stations: Callable[[AsyncMock], None],

@@ -7,12 +7,12 @@ from pytest_universalassistant.common import AsyncMock, MockConfigEntry
 from universalassistant.components.dlink.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import CONF_DATA
 
 
-async def test_switch_state(hass: UniversalAssistant, mocked_plug: AsyncMock) -> None:
+async def test_switch_state(hass: __HAC_KEEP__, mocked_plug: AsyncMock) -> None:
     """Test we get the switch status."""
     with patch(
         "universalassistant.components.dlink.SmartPlug",
@@ -46,7 +46,7 @@ async def test_switch_state(hass: UniversalAssistant, mocked_plug: AsyncMock) ->
 
 
 async def test_switch_no_value(
-    hass: UniversalAssistant, mocked_plug_legacy: AsyncMock
+    hass: __HAC_KEEP__, mocked_plug_legacy: AsyncMock
 ) -> None:
     """Test we handle 'N/A' being passed by the pypi package."""
     with patch(

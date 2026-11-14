@@ -17,7 +17,7 @@ from pylitterbot.robot.litterrobot4 import HopperStatus
 import pytest
 from pytest_universalassistant.common import MockConfigEntry, load_json_object_fixture
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import ACCOUNT_USER_ID, CONFIG, DOMAIN
 
@@ -216,7 +216,7 @@ def mock_account_with_side_effects() -> MagicMock:
 
 
 async def setup_integration(
-    hass: UniversalAssistant, mock_account: MagicMock, platform_domain: str | None = None
+    hass: __HAC_KEEP__, mock_account: MagicMock, platform_domain: str | None = None
 ) -> MockConfigEntry:
     """Load a Litter-Robot platform with the provided coordinator."""
     entry = MockConfigEntry(

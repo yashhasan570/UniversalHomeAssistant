@@ -15,7 +15,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -75,7 +75,7 @@ TEST_DATA = [
 
 @pytest.mark.parametrize(("sensor_payload", "expected"), TEST_DATA)
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     sensor_ws_data: WebsocketDataType,

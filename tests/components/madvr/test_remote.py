@@ -19,8 +19,8 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ from .const import TEST_COMMAND, TEST_CON_ERROR, TEST_IMP_ERROR
 
 
 async def test_remote_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_madvr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_remote_setup(
 
 
 async def test_remote_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_madvr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_remote_power(
 
 
 async def test_send_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_madvr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_send_command(
     ],
 )
 async def test_remote_action_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_madvr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     client_method: str,
@@ -115,13 +115,13 @@ async def test_remote_action_failures(
     error: Exception,
     translation_key: str,
 ) -> None:
-    """Test that failing remote actions raise UniversalAssistantError."""
+    """Test that failing remote actions raise __HAC_KEEP__Error."""
     await setup_integration(hass, mock_config_entry)
 
     entity_id = "remote.madvr_envy"
     getattr(mock_madvr_client, client_method).side_effect = error
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             REMOTE_DOMAIN,
             service,

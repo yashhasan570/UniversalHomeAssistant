@@ -56,8 +56,8 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import Context, UniversalAssistant, State, callback
-from universalassistant.exceptions import UniversalAssistantError, Unauthorized
+from universalassistant.core import Context, __HAC_KEEP__, State, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
 from universalassistant.helpers import system_state
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_state_change_event
@@ -68,7 +68,7 @@ from .common import MockUpdateEntity
 TEST_DOMAIN = "test"
 
 
-async def test_update(hass: UniversalAssistant) -> None:
+async def test_update(hass: __HAC_KEEP__) -> None:
     """Test getting data from the mocked update entity."""
     update = UpdateEntity()
     update.hass = hass
@@ -172,7 +172,7 @@ async def test_update(hass: UniversalAssistant) -> None:
 
 
 async def test_entity_with_no_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
 ) -> None:
     """Test entity with no updates."""
@@ -189,7 +189,7 @@ async def test_entity_with_no_install(
     assert state.attributes[ATTR_LATEST_VERSION] == "1.0.1"
 
     # Should not be able to install as the entity doesn't support that
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_INSTALL,
@@ -237,7 +237,7 @@ async def test_entity_with_no_install(
 
 
 async def test_entity_with_no_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
 ) -> None:
     """Test entity with no updates."""
@@ -254,7 +254,7 @@ async def test_entity_with_no_updates(
     assert state.attributes[ATTR_LATEST_VERSION] == "1.0.0"
 
     # Should not be able to skip when there is no update available
-    with pytest.raises(UniversalAssistantError, match="No update available to skip for"):
+    with pytest.raises(__HAC_KEEP__Error, match="No update available to skip for"):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_SKIP,
@@ -263,7 +263,7 @@ async def test_entity_with_no_updates(
         )
 
     # Should not be able to install an update when there is no update available
-    with pytest.raises(UniversalAssistantError, match="No update available for"):
+    with pytest.raises(__HAC_KEEP__Error, match="No update available for"):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_INSTALL,
@@ -273,7 +273,7 @@ async def test_entity_with_no_updates(
 
     # Updating to a specific version is not supported by this entity
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Installing a specific version is not supported for",
     ):
         await hass.services.async_call(
@@ -285,7 +285,7 @@ async def test_entity_with_no_updates(
 
 
 async def test_entity_with_auto_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -312,7 +312,7 @@ async def test_entity_with_auto_update(
 
     # Should not be able to skip the update
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Skipping update is not supported for update.update_with_auto_update",
     ):
         await hass.services.async_call(
@@ -324,7 +324,7 @@ async def test_entity_with_auto_update(
 
     # Should not be able to clear a skipped the update
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Clearing skipped update is not supported"
         " for update.update_with_auto_update",
     ):
@@ -337,7 +337,7 @@ async def test_entity_with_auto_update(
 
 
 async def test_entity_with_updates_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -398,7 +398,7 @@ async def test_entity_with_updates_available(
     ],
 )
 async def test_services_require_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     hass_read_only_user: MockUser,
     mock_update_entities: list[MockUpdateEntity],
@@ -440,7 +440,7 @@ async def test_services_require_admin(
 
 
 async def test_entity_with_unknown_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -458,7 +458,7 @@ async def test_entity_with_unknown_version(
     assert state.attributes[ATTR_SKIPPED_VERSION] is None
 
     # Should not be able to install an update when there is no update available
-    with pytest.raises(UniversalAssistantError, match="No update available for"):
+    with pytest.raises(__HAC_KEEP__Error, match="No update available for"):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_INSTALL,
@@ -467,7 +467,7 @@ async def test_entity_with_unknown_version(
         )
 
     # Should not be to skip the update
-    with pytest.raises(UniversalAssistantError, match="Cannot skip an unknown version for"):
+    with pytest.raises(__HAC_KEEP__Error, match="Cannot skip an unknown version for"):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_SKIP,
@@ -477,7 +477,7 @@ async def test_entity_with_unknown_version(
 
 
 async def test_entity_with_specific_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -525,7 +525,7 @@ async def test_entity_with_specific_version(
     assert "Installed latest update" in caplog.text
 
     # This entity does not support doing a backup before upgrade
-    with pytest.raises(UniversalAssistantError, match="Backup is not supported for"):
+    with pytest.raises(__HAC_KEEP__Error, match="Backup is not supported for"):
         await hass.services.async_call(
             DOMAIN,
             SERVICE_INSTALL,
@@ -539,7 +539,7 @@ async def test_entity_with_specific_version(
 
 
 async def test_entity_with_backup_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -605,7 +605,7 @@ async def test_entity_with_backup_support(
     ],
 )
 async def test_entity_already_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     caplog: pytest.LogCaptureFixture,
     entity_id: str,
@@ -628,7 +628,7 @@ async def test_entity_already_in_progress(
     assert state.attributes[ATTR_UPDATE_PERCENTAGE] == expected_update_percentage
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Update installation already in progress for",
     ):
         await hass.services.async_call(
@@ -650,13 +650,13 @@ async def test_entity_already_in_progress(
 
 
 async def test_entity_without_progress_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test update entity without progress support.
 
-    In that case, progress is still handled by Universal Universal Home Assistant.
+    In that case, progress is still handled by __HA_KEEP__.
     """
     setup_test_component_platform(hass, DOMAIN, mock_update_entities)
 
@@ -692,13 +692,13 @@ async def test_entity_without_progress_support(
 
 
 async def test_entity_without_progress_support_raising(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test update entity without progress support that raises during install.
 
-    In that case, progress is still handled by Universal Universal Home Assistant.
+    In that case, progress is still handled by __HA_KEEP__.
     """
     setup_test_component_platform(hass, DOMAIN, mock_update_entities)
 
@@ -791,9 +791,9 @@ def _restart_update_entity_with_description(
     ],
 )
 async def test_restart_required(
-    hass: UniversalAssistant, entity: MockUpdateEntity, restart_sources: set[str]
+    hass: __HAC_KEEP__, entity: MockUpdateEntity, restart_sources: set[str]
 ) -> None:
-    """Test a finished install flags Universal Universal Home Assistant for a restart."""
+    """Test a finished install flags __HA_KEEP__ for a restart."""
     setup_test_component_platform(hass, DOMAIN, [entity])
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {CONF_PLATFORM: "test"}})
     await hass.async_block_till_done()
@@ -813,8 +813,8 @@ async def test_restart_required(
     )
 
 
-async def test_restart_required_install_failed(hass: UniversalAssistant) -> None:
-    """Test a failed install does not flag Universal Universal Home Assistant for a restart."""
+async def test_restart_required_install_failed(hass: __HAC_KEEP__) -> None:
+    """Test a failed install does not flag __HA_KEEP__ for a restart."""
     setup_test_component_platform(
         hass, DOMAIN, [_restart_update_entity(restart_required=True)]
     )
@@ -839,7 +839,7 @@ async def test_restart_required_install_failed(hass: UniversalAssistant) -> None
 
 
 async def test_restore_state(
-    hass: UniversalAssistant, mock_update_entities: list[MockUpdateEntity]
+    hass: __HAC_KEEP__, mock_update_entities: list[MockUpdateEntity]
 ) -> None:
     """Test we restore skipped version state."""
     mock_restore_cache(
@@ -869,7 +869,7 @@ async def test_restore_state(
 
 
 async def test_release_notes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -894,7 +894,7 @@ async def test_release_notes(
 
 
 async def test_release_notes_entity_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -920,7 +920,7 @@ async def test_release_notes_entity_not_found(
 
 
 async def test_release_notes_entity_does_not_support_release_notes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -946,7 +946,7 @@ async def test_release_notes_entity_does_not_support_release_notes(
 
 
 async def test_release_notes_entity_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_entities: list[MockUpdateEntity],
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -985,7 +985,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -993,11 +993,11 @@ def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
         yield
 
 
-async def test_name(hass: UniversalAssistant) -> None:
+async def test_name(hass: __HAC_KEEP__) -> None:
     """Test update name."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -1038,7 +1038,7 @@ async def test_name(hass: UniversalAssistant) -> None:
     )
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -1079,7 +1079,7 @@ async def test_name(hass: UniversalAssistant) -> None:
     assert expected.items() <= state.attributes.items()
 
 
-async def test_custom_version_is_newer(hass: UniversalAssistant) -> None:
+async def test_custom_version_is_newer(hass: __HAC_KEEP__) -> None:
     """Test UpdateEntity with overridden version_is_newer method."""
 
     class MockUpdateEntity(UpdateEntity):
@@ -1250,7 +1250,7 @@ def test_custom_has_update_state_precedence(
     ],
 )
 async def test_update_percentage_backwards_compatibility(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supported_features: UpdateEntityFeature,
     extra_expected_attributes: list[dict],
 ) -> None:

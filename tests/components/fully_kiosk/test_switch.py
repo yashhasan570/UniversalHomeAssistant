@@ -9,12 +9,12 @@ from pytest_universalassistant.typing import MqttMockHAClient
 from universalassistant.components import switch
 from universalassistant.components.fully_kiosk.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant, ServiceResponse
+from universalassistant.core import __HAC_KEEP__, ServiceResponse
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_fully_kiosk: MagicMock,
@@ -90,7 +90,7 @@ async def test_switches(
 
 
 async def test_switches_mqtt_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fully_kiosk: MagicMock,
     mqtt_mock: MqttMockHAClient,
     init_integration: MockConfigEntry,
@@ -144,7 +144,7 @@ async def test_switches_mqtt_update(
 
 @pytest.mark.usefixtures("mock_fully_kiosk")
 async def test_switches_mqtt_config_entry_not_enabled(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test no MQTT subscriptions are made without an enabled MQTT config entry."""
     hass.config.components.add("mqtt")
@@ -166,7 +166,7 @@ def has_subscribed(mqtt_mock: MqttMockHAClient, topic: str) -> bool:
 
 
 async def call_service(
-    hass: UniversalAssistant, service: str, entity_id: str
+    hass: __HAC_KEEP__, service: str, entity_id: str
 ) -> ServiceResponse:
     """Call any service on entity."""
     return await hass.services.async_call(

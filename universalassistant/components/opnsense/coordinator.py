@@ -15,7 +15,7 @@ from aiopnsense import (
     OPNsenseUnknownFirmware,
 )
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -33,7 +33,7 @@ class OPNsenseDeviceTrackerCoordinator(DataUpdateCoordinator[DeviceDetailsByMAC]
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: OPNsenseConfigEntry,
         client: OPNsenseClient,
         interfaces: list[str],

@@ -15,7 +15,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory, UnitOfEnergy, UnitOfPower
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -67,7 +67,7 @@ def _duplicate_type_eans(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: EngieBeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

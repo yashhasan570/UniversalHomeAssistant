@@ -16,14 +16,14 @@ from universalassistant.components.cloudflare_r2.const import (
     CONF_ENDPOINT_URL,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import USER_INPUT
 
 
 async def _async_start_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_input: dict[str, str] | None = None,
 ) -> FlowResultType:
     """Initialize the config flow."""
@@ -41,7 +41,7 @@ async def _async_start_flow(
     )
 
 
-async def test_flow(hass: UniversalAssistant) -> None:
+async def test_flow(hass: __HAC_KEEP__) -> None:
     """Test config flow."""
     create_client = AsyncMock(name="create_client")
     create_client.__aenter__.return_value.head_bucket.return_value = {}
@@ -74,7 +74,7 @@ async def test_flow(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_flow_create_client_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     errors: dict[str, str],
 ) -> None:
@@ -100,7 +100,7 @@ async def test_flow_create_client_errors(
 
 
 async def test_flow_head_bucket_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
 ) -> None:
     """Test setup_entry error when calling head_bucket."""
@@ -125,7 +125,7 @@ async def test_flow_head_bucket_error(
 
 
 async def test_abort_if_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if the account is already configured."""
@@ -136,7 +136,7 @@ async def test_abort_if_already_configured(
 
 
 async def test_flow_create_not_r2_endpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test config flow with a not R2 endpoint should raise an error."""
     result = await _async_start_flow(

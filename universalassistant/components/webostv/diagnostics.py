@@ -6,7 +6,7 @@ from aiowebostv import WebOsClient
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_CLIENT_SECRET, CONF_HOST, CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import WebOsTvConfigEntry
 
@@ -23,7 +23,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: WebOsTvConfigEntry
+    hass: __HAC_KEEP__, entry: WebOsTvConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     client: WebOsClient = entry.runtime_data.client

@@ -10,7 +10,7 @@ from universalassistant.components.google_travel_time.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DEFAULT_OPTIONS, MOCK_CONFIG
 
@@ -27,7 +27,7 @@ from .const import DEFAULT_OPTIONS, MOCK_CONFIG
 )
 @pytest.mark.usefixtures("routes_mock", "mock_setup_entry")
 async def test_migrate_entry_v1_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     v1: str,
     v2: str | None,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_migrate_entry_v1_v2(
 
 @pytest.mark.usefixtures("routes_mock", "mock_setup_entry")
 async def test_migrate_entry_v1_v2_invalid_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test successful migration of entry data."""

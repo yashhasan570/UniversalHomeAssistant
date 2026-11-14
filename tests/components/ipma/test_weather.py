@@ -17,7 +17,7 @@ from universalassistant.components.weather import (
     WeatherService,
 )
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MockLocation
 
@@ -48,7 +48,7 @@ class MockBadLocation(MockLocation):
         return []
 
 
-async def test_setup_config_flow(hass: UniversalAssistant) -> None:
+async def test_setup_config_flow(hass: __HAC_KEEP__) -> None:
     """Test for successfully setting up the IPMA platform."""
     with patch(
         "pyipma.location.Location.get",
@@ -71,7 +71,7 @@ async def test_setup_config_flow(hass: UniversalAssistant) -> None:
     assert state.attributes.get("friendly_name") == "HomeTown"
 
 
-async def test_failed_get_observation_forecast(hass: UniversalAssistant) -> None:
+async def test_failed_get_observation_forecast(hass: __HAC_KEEP__) -> None:
     """Test for successfully setting up the IPMA platform."""
     with patch(
         "pyipma.location.Location.get",
@@ -99,7 +99,7 @@ async def test_failed_get_observation_forecast(hass: UniversalAssistant) -> None
     [WeatherService.GET_FORECASTS],
 )
 async def test_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     service: str,
 ) -> None:
@@ -141,7 +141,7 @@ async def test_forecast_service(
 
 @pytest.mark.parametrize("forecast_type", ["daily", "hourly"])
 async def test_forecast_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,

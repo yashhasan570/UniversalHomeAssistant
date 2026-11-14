@@ -5,7 +5,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import Any, cast, override
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from . import template
 
@@ -21,7 +21,7 @@ class ScriptVariables:
     @callback
     def async_render(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         run_variables: Mapping[str, Any] | None,
         *,
         limited: bool = False,

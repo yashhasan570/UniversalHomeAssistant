@@ -11,7 +11,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import find_device_listener, trigger_availability_callback
@@ -38,7 +38,7 @@ ENERGY_ENTITY_ID = "sensor.dimmer_0000_02_energy"
 
 @pytest.mark.usefixtures("init_integration")
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -59,7 +59,7 @@ async def test_setup_entry(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_illuminance_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_illuminance_device: MagicMock,
 ) -> None:
     """Test IlluminanceSensor handles valid and invalid values correctly."""
@@ -86,7 +86,7 @@ async def test_illuminance_callback(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_illuminance_device: MagicMock,
 ) -> None:
     """Test IlluminanceSensor handles sensor on/off callback correctly."""
@@ -123,7 +123,7 @@ async def test_sensor_on_off(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_illuminance_device: MagicMock,
 ) -> None:
     """Test availability changes are reflected in sensor entity state."""
@@ -144,7 +144,7 @@ async def test_availability(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_energy_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_light_device: MagicMock,
 ) -> None:
     """Test EnergySensor handles energy report callback correctly."""
@@ -169,7 +169,7 @@ async def test_energy_callback(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_energy_initial_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test EnergySensor initial state is unknown."""
     state = hass.states.get(ENERGY_ENTITY_ID)
@@ -179,7 +179,7 @@ async def test_energy_initial_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_energy_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_light_device: MagicMock,
 ) -> None:
     """Test availability changes are reflected in energy sensor state."""

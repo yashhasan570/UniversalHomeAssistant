@@ -6,7 +6,7 @@ import os
 
 from universalassistant.const import CONF_DESCRIPTION, CONF_NAME, SERVICE_RELOAD
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__package__)
 CONF_FIELDS = "fields"
 
 
-def discover_scripts(hass: UniversalAssistant) -> None:
+def discover_scripts(hass: __HAC_KEEP__) -> None:
     """Discover python scripts in folder."""
     path = hass.config.path(FOLDER)
 
@@ -75,6 +75,6 @@ def _reload_scripts_handler(call: ServiceCall) -> None:
     discover_scripts(call.hass)
 
 
-def setup_services(hass: UniversalAssistant) -> None:
+def setup_services(hass: __HAC_KEEP__) -> None:
     """Register the Python script services."""
     hass.services.register(DOMAIN, SERVICE_RELOAD, _reload_scripts_handler)

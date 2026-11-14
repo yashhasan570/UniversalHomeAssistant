@@ -19,8 +19,8 @@ from universalassistant.const import (
     CONF_URL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     TextSelector,
@@ -31,7 +31,7 @@ from universalassistant.helpers.selector import (
 from .const import DEFAULT_VERIFY_SSL, DOMAIN
 
 
-class InvalidUrl(UniversalAssistantError):
+class InvalidUrl(__HAC_KEEP__Error):
     """Error to indicate invalid URL."""
 
 
@@ -64,7 +64,7 @@ def _parse_url(url: str) -> tuple[str, int, bool]:
 
 
 async def check_connection(
-    hass: UniversalAssistant, host: str, port: int, ssl: bool, verify_ssl: bool, api_key: str
+    hass: __HAC_KEEP__, host: str, port: int, ssl: bool, verify_ssl: bool, api_key: str
 ) -> None:
     """Test connection."""
     session = async_get_clientsession(hass, verify_ssl)

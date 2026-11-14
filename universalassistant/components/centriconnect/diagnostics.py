@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import CentriConnectConfigEntry
 
@@ -11,7 +11,7 @@ TO_REDACT = {"Latitude", "Longitude", "Altitude"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: CentriConnectConfigEntry
+    hass: __HAC_KEEP__, entry: CentriConnectConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for the provided config entry."""
     coord = entry.runtime_data

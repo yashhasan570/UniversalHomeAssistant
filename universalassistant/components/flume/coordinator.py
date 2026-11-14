@@ -8,7 +8,7 @@ from pyflume import FlumeAuth, FlumeData, FlumeDeviceList
 from requests import Session
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -40,7 +40,7 @@ class FlumeDeviceDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: FlumeConfigEntry,
         flume_device: FlumeData,
     ) -> None:
@@ -76,7 +76,7 @@ class FlumeDeviceConnectionUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: FlumeConfigEntry,
         flume_devices: FlumeDeviceList,
     ) -> None:
@@ -122,7 +122,7 @@ class FlumeNotificationDataUpdateCoordinator(DataUpdateCoordinator[None]):
     config_entry: FlumeConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: FlumeConfigEntry, auth: FlumeAuth
+        self, hass: __HAC_KEEP__, config_entry: FlumeConfigEntry, auth: FlumeAuth
     ) -> None:
         """Initialize the Coordinator."""
         super().__init__(

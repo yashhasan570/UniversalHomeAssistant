@@ -31,7 +31,7 @@ from universalassistant.const import (
     CONF_TARGET,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -50,7 +50,7 @@ TODO_ENTITY_ID2 = "todo.list_two"
 
 @pytest.fixture(autouse=True)
 async def todo_lists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> tuple[MockTodoListEntity, MockTodoListEntity]:
     """Create two todo list entities via the mock platform."""
     entity1 = _make_entity(
@@ -71,7 +71,7 @@ async def todo_lists(
 
 @pytest.fixture
 def target_todo_lists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
@@ -130,7 +130,7 @@ def target_todo_lists(
 
 
 @pytest.fixture
-def service_calls(hass: UniversalAssistant) -> list[ServiceCall]:
+def service_calls(hass: __HAC_KEEP__) -> list[ServiceCall]:
     """Track calls to a mock service."""
     return async_mock_service(hass, "test", "item_added")
 
@@ -144,7 +144,7 @@ def service_calls(hass: UniversalAssistant) -> list[ServiceCall]:
     ],
 )
 async def test_todo_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -174,7 +174,7 @@ def _assert_service_calls(
             )
 
 
-async def _setup_automation(hass: UniversalAssistant, target: dict[str, Any]) -> None:
+async def _setup_automation(hass: __HAC_KEEP__, target: dict[str, Any]) -> None:
     """Set up an automation with the todo trigger."""
     assert await async_setup_component(
         hass,
@@ -226,7 +226,7 @@ def _make_entity(
     return entity
 
 
-async def _add_item(hass: UniversalAssistant, entity_id: str, item: str) -> None:
+async def _add_item(hass: __HAC_KEEP__, entity_id: str, item: str) -> None:
     """Add an item to the entity."""
     await hass.services.async_call(
         DOMAIN,
@@ -236,7 +236,7 @@ async def _add_item(hass: UniversalAssistant, entity_id: str, item: str) -> None
     )
 
 
-async def _remove_item(hass: UniversalAssistant, entity_id: str, item: str) -> None:
+async def _remove_item(hass: __HAC_KEEP__, entity_id: str, item: str) -> None:
     await hass.services.async_call(
         DOMAIN,
         TodoServices.REMOVE_ITEM,
@@ -245,7 +245,7 @@ async def _remove_item(hass: UniversalAssistant, entity_id: str, item: str) -> N
     )
 
 
-async def _complete_item(hass: UniversalAssistant, entity_id: str, item: str) -> None:
+async def _complete_item(hass: __HAC_KEEP__, entity_id: str, item: str) -> None:
     await hass.services.async_call(
         DOMAIN,
         TodoServices.UPDATE_ITEM,
@@ -259,7 +259,7 @@ async def _complete_item(hass: UniversalAssistant, entity_id: str, item: str) ->
 
 
 async def test_item_change_triggers(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test item change triggers fire."""
 
@@ -324,7 +324,7 @@ async def test_item_change_triggers(
     ],
 )
 async def test_item_change_triggers_ignore_initial_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     todo_lists: tuple[MockTodoListEntity, MockTodoListEntity],
     action_method: Any,
@@ -371,7 +371,7 @@ async def test_item_change_triggers_ignore_initial_unknown(
     ],
 )
 async def test_item_change_trigger_does_not_fire_for_other_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     included_target: dict[str, Any],
 ) -> None:
@@ -432,7 +432,7 @@ async def test_item_change_trigger_does_not_fire_for_other_entity(
 
 @pytest.mark.usefixtures("target_todo_lists")
 async def test_new_entity_added_to_target_fires_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -483,7 +483,7 @@ async def test_new_entity_added_to_target_fires_triggers(
 
 
 async def test_item_change_triggers_after_config_entry_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
 ) -> None:
     """Test triggers still fire after the todo list's config entry is reloaded.
@@ -496,7 +496,7 @@ async def test_item_change_triggers_after_config_entry_reload(
     config_entry = hass.config_entries.async_entries(TEST_DOMAIN)[0]
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -560,7 +560,7 @@ async def test_item_change_triggers_after_config_entry_reload(
 
 
 async def test_trigger_skips_missing_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -584,7 +584,7 @@ async def test_trigger_skips_missing_entity(
 
 @pytest.mark.usefixtures("target_todo_lists")
 async def test_entity_rejoining_label_does_not_fire_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
@@ -637,7 +637,7 @@ async def test_entity_rejoining_label_does_not_fire_trigger(
     ids=["entity_id", "area", "floor", "label", "device"],
 )
 async def test_item_change_trigger_with_multiple_target_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     trigger_target: dict[str, Any],
 ) -> None:

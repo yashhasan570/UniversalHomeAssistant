@@ -31,7 +31,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -48,7 +48,7 @@ def _send_delta(mock_websocket: AsyncMock, delta: UnitStateDelta) -> None:
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_entry_setup_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_entry_setup_unload(
     ],
 )
 async def test_entry_setup_retry_on_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_melcloud_client: AsyncMock,
     exception: Exception,
@@ -115,7 +115,7 @@ async def test_entry_setup_retry_on_update_failure(
 
 
 async def test_new_ata_unit_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -184,7 +184,7 @@ async def test_new_ata_unit_callback(
     ],
 )
 async def test_stale_devices_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -230,7 +230,7 @@ async def test_stale_devices_removed(
 
 
 async def test_empty_context_keeps_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -266,7 +266,7 @@ async def test_empty_context_keeps_devices(
 
 
 async def test_new_atw_unit_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -308,7 +308,7 @@ async def test_new_atw_unit_callback(
 
 
 async def test_websocket_delta_updates_ata_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
@@ -337,7 +337,7 @@ async def test_websocket_delta_updates_ata_state(
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_websocket_delta_updates_atw_zone_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
 ) -> None:
@@ -392,7 +392,7 @@ async def test_websocket_delta_updates_atw_zone_state(
 )
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_websocket_delta_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
     delta: UnitStateDelta,
@@ -409,7 +409,7 @@ async def test_websocket_delta_ignored(
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_websocket_delta_unknown_setting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
 ) -> None:
@@ -434,7 +434,7 @@ async def test_websocket_delta_unknown_setting(
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_websocket_delta_skips_none_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
 ) -> None:
@@ -457,7 +457,7 @@ async def test_websocket_delta_skips_none_values(
 
 
 async def test_websocket_delta_during_fetch_kept(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
@@ -486,7 +486,7 @@ async def test_websocket_delta_during_fetch_kept(
 
 
 async def test_websocket_delta_restores_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
@@ -513,7 +513,7 @@ async def test_websocket_delta_restores_availability(
 
 
 async def test_websocket_delta_during_failed_fetch_keeps_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
@@ -547,7 +547,7 @@ async def test_websocket_delta_during_failed_fetch_keeps_unavailable(
 
 
 async def test_new_unit_gets_delta_received_during_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
@@ -589,7 +589,7 @@ async def test_new_unit_gets_delta_received_during_fetch(
 
 
 async def test_live_updates_slow_down_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
@@ -627,7 +627,7 @@ async def test_live_updates_slow_down_polling(
 
 
 async def test_live_updates_disconnect_while_stopping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
@@ -645,7 +645,7 @@ async def test_live_updates_disconnect_while_stopping(
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_live_updates_auth_failure_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket: AsyncMock,
 ) -> None:
@@ -670,7 +670,7 @@ async def test_live_updates_auth_failure_starts_reauth(
     ],
 )
 async def test_energy_update_cycle_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -711,7 +711,7 @@ async def test_energy_update_cycle_fails(
     ],
 )
 async def test_energy_telemetry_fetch_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -732,7 +732,7 @@ async def test_energy_telemetry_fetch_failure(
 
 
 async def test_telemetry_reuses_main_coordinator_context(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -759,7 +759,7 @@ async def test_telemetry_reuses_main_coordinator_context(
 
 
 async def test_telemetry_skipped_while_context_fetch_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -798,7 +798,7 @@ async def test_telemetry_skipped_while_context_fetch_fails(
     ],
 )
 async def test_outdoor_temperature_update_cycle_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -835,7 +835,7 @@ async def test_outdoor_temperature_update_cycle_fails(
     ],
 )
 async def test_telemetry_unavailable_logged_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -889,7 +889,7 @@ async def test_telemetry_unavailable_logged_once(
     ],
 )
 async def test_migrate_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     platform: Platform,
     old_unique_id: str,
@@ -914,7 +914,7 @@ async def test_migrate_unique_id(
     assert hass.states.get(entity.entity_id)
 
 
-async def test_migrate_future_version(hass: UniversalAssistant) -> None:
+async def test_migrate_future_version(hass: __HAC_KEEP__) -> None:
     """Test a config entry from a newer version isn't migrated."""
     entry = MockConfigEntry(domain=DOMAIN, version=2)
 

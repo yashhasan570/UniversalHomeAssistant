@@ -16,8 +16,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.indevolt.coordinator import SCAN_INTERVAL
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -29,7 +29,7 @@ DEFAULT_STATE_OFF = 0
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_indevolt: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -67,7 +67,7 @@ async def test_switch(
     ],
 )
 async def test_switch_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -125,7 +125,7 @@ async def test_switch_turn_on(
     ],
 )
 async def test_switch_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -160,7 +160,7 @@ async def test_switch_turn_off(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_switch_set_value_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -171,7 +171,7 @@ async def test_switch_set_value_error(
     mock_indevolt.set_data.return_value = False
 
     # Attempt to switch on
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -185,7 +185,7 @@ async def test_switch_set_value_error(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_switch_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

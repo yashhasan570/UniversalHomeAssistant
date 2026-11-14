@@ -1,7 +1,7 @@
 """Repairs support for notify integration."""
 
 from universalassistant.components.repairs import ConfirmRepairFlow, RepairsFlow
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 
 from .const import DOMAIN
@@ -9,7 +9,7 @@ from .const import DOMAIN
 
 @callback
 def migrate_notify_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     integration_title: str,
     breaks_in_ha_version: str,
@@ -52,7 +52,7 @@ def migrate_notify_issue(
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:

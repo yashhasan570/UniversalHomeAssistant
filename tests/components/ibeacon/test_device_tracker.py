@@ -29,7 +29,7 @@ from universalassistant.const import (
     STATE_NOT_HOME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import (
@@ -45,7 +45,7 @@ def mock_bluetooth(enable_bluetooth: None) -> None:
     """Auto mock bluetooth."""
 
 
-async def test_device_tracker_fixed_address(hass: UniversalAssistant) -> None:
+async def test_device_tracker_fixed_address(hass: __HAC_KEEP__) -> None:
     """Test creating and updating device_tracker."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -78,7 +78,7 @@ async def test_device_tracker_fixed_address(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_device_tracker_random_address(hass: UniversalAssistant) -> None:
+async def test_device_tracker_random_address(hass: __HAC_KEEP__) -> None:
     """Test creating and updating device_tracker."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -145,7 +145,7 @@ async def test_device_tracker_random_address(hass: UniversalAssistant) -> None:
 
 
 async def test_device_tracker_random_address_infrequent_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test device_tracker with a random mac changing once per day."""
     entry = MockConfigEntry(

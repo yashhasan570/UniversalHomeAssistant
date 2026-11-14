@@ -6,12 +6,12 @@ from flexit_bacnet import DecodingError
 import pytest
 
 from universalassistant.const import CONF_DEVICE_ID, CONF_IP_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_form(
-    hass: UniversalAssistant, flow_id: str, mock_setup_entry, mock_flexit_bacnet
+    hass: __HAC_KEEP__, flow_id: str, mock_setup_entry, mock_flexit_bacnet
 ) -> None:
     """Test we get the form and the happy path works."""
     result = await hass.config_entries.flow.async_configure(
@@ -47,7 +47,7 @@ async def test_form(
     ],
 )
 async def test_flow_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_id: str,
     error: Exception,
     message: str,
@@ -93,7 +93,7 @@ async def test_flow_fails(
 
 
 async def test_form_device_already_exist(
-    hass: UniversalAssistant, flow_id: str, mock_flexit_bacnet, mock_config_entry
+    hass: __HAC_KEEP__, flow_id: str, mock_flexit_bacnet, mock_config_entry
 ) -> None:
     """Test that we cannot add already added device."""
     mock_config_entry.add_to_hass(hass)

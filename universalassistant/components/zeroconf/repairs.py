@@ -5,7 +5,7 @@ from universalassistant.components.universalassistant import (
     SERVICE_HOMEASSISTANT_RESTART,
 )
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import instance_id, issue_registry as ir
 
 
@@ -44,7 +44,7 @@ class DuplicateInstanceIDRepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:

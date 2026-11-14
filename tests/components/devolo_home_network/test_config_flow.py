@@ -13,7 +13,7 @@ from universalassistant.components.devolo_home_network.const import (
     TITLE,
 )
 from universalassistant.const import CONF_BASE, CONF_IP_ADDRESS, CONF_NAME, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import configure_integration
@@ -27,7 +27,7 @@ from .const import (
 from .mock import MockDevice, MockDeviceWrongPassword
 
 
-async def test_form(hass: UniversalAssistant, info: dict[str, Any]) -> None:
+async def test_form(hass: __HAC_KEEP__, info: dict[str, Any]) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -63,7 +63,7 @@ async def test_form(hass: UniversalAssistant, info: dict[str, Any]) -> None:
         (Exception, "unknown"),
     ],
 )
-async def test_form_error(hass: UniversalAssistant, exception_type, expected_error) -> None:
+async def test_form_error(hass: __HAC_KEEP__, exception_type, expected_error) -> None:
     """Test we handle errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -100,7 +100,7 @@ async def test_form_error(hass: UniversalAssistant, exception_type, expected_err
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zeroconf(hass: UniversalAssistant) -> None:
+async def test_zeroconf(hass: __HAC_KEEP__) -> None:
     """Test that the zeroconf form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -148,7 +148,7 @@ async def test_zeroconf(hass: UniversalAssistant) -> None:
     assert result2["result"].unique_id == "1234567890"
 
 
-async def test_zeroconf_wrong_auth(hass: UniversalAssistant) -> None:
+async def test_zeroconf_wrong_auth(hass: __HAC_KEEP__) -> None:
     """Test that the zeroconf form asks for password if authorization fails."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -211,7 +211,7 @@ async def test_zeroconf_wrong_auth(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_abort_zeroconf_wrong_device(hass: UniversalAssistant) -> None:
+async def test_abort_zeroconf_wrong_device(hass: __HAC_KEEP__) -> None:
     """Test we abort zeroconf for wrong devices."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -223,7 +223,7 @@ async def test_abort_zeroconf_wrong_device(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("info")
-async def test_abort_if_configured(hass: UniversalAssistant) -> None:
+async def test_abort_if_configured(hass: __HAC_KEEP__) -> None:
     """Test we abort config flow if already configured."""
     entry = configure_integration(hass)
 
@@ -254,7 +254,7 @@ async def test_abort_if_configured(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_device")
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_reauth(hass: UniversalAssistant) -> None:
+async def test_form_reauth(hass: __HAC_KEEP__) -> None:
     """Test that the reauth confirmation form is served."""
     entry = configure_integration(hass)
     await hass.config_entries.async_setup(entry.entry_id)
@@ -306,7 +306,7 @@ async def test_form_reauth(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_device")
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_form_reauth_without_password(hass: UniversalAssistant) -> None:
+async def test_form_reauth_without_password(hass: __HAC_KEEP__) -> None:
     """Test that reauth succeeds without providing a password."""
     entry = configure_integration(hass)
     await hass.config_entries.async_setup(entry.entry_id)

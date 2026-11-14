@@ -9,7 +9,7 @@ from boschshcpy.exceptions import SHCAuthenticationError, SHCConnectionError
 from universalassistant.components.zeroconf import async_get_instance
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -36,7 +36,7 @@ _LOGGER = logging.getLogger(__name__)
 type BoschConfigEntry = ConfigEntry[SHCSession]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BoschConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BoschConfigEntry) -> None:
     """Set up Bosch SHC from a config entry."""
     data = entry.data
 
@@ -86,7 +86,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BoschConfigEntry) -
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BoschConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BoschConfigEntry) -> None:
     """Unload a config entry."""
     await hass.async_add_executor_job(entry.runtime_data.stop_polling)
 

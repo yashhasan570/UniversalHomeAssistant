@@ -11,7 +11,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import KnxEntityGenerator
@@ -19,7 +19,7 @@ from .conftest import KNXTestKit
 
 
 async def test_activate_knx_scene(
-    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """Test KNX scene."""
     await knx.setup_integration(
@@ -72,7 +72,7 @@ async def test_activate_knx_scene(
 
 
 async def test_save_knx_scene(
-    hass: UniversalAssistant, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, knx: KNXTestKit, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test saving a KNX scene sends a DPT 18.001 learn telegram."""
     await knx.setup_integration(
@@ -101,7 +101,7 @@ async def test_save_knx_scene(
 
 
 async def test_scene_ui_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_scene_ui_create(
     await knx.assert_write("1/1/1", (0x04,))  # raw scene number is 0-based
 
 
-async def test_scene_ui_load(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_scene_ui_load(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test loading a scene from storage."""
     await knx.setup_integration(config_store_fixture="config_store_scene.json")
     # activate scene from HA

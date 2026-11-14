@@ -98,7 +98,7 @@ The result payload likes
 
 Send websocket command `auth/long_lived_access_token` will create
 a long-lived access token for current user. Access token will not be saved in
-Universal Universal Home Assistant. User need to record the token in secure place.
+__HA_KEEP__. User need to record the token in secure place.
 
 {
     "id": 11,
@@ -147,13 +147,13 @@ from universalassistant.auth.models import (
     User,
 )
 from universalassistant.components import websocket_api
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.components.http.auth import async_sign_path
 from universalassistant.components.http.auth_util import async_user_not_allowed_do_auth
 from universalassistant.components.http.ban import log_invalid_auth
 from universalassistant.components.http.const import MAX_UNAUTHENTICATED_BODY_SIZE
 from universalassistant.components.http.data_validator import RequestDataValidator
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.config_entry_oauth2_flow import OAuth2AuthorizeCallbackView
 from universalassistant.helpers.typing import ConfigType
@@ -201,13 +201,13 @@ AUTH_CODE_EXPIRATION = timedelta(minutes=10)
 
 
 def create_auth_code(
-    hass: UniversalAssistant, client_id: str, credential: Credentials
+    hass: __HAC_KEEP__, client_id: str, credential: Credentials
 ) -> str:
     """Create an authorization code to fetch tokens."""
     return hass.data[DATA_STORE](client_id, credential)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Component to allow users to login."""
     store_result, retrieve_result = _create_auth_code_store()
 
@@ -232,7 +232,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-class RevokeTokenView(UniversalAssistantView):
+class RevokeTokenView(__HAC_KEEP__View):
     """View to revoke tokens."""
 
     url = "/auth/revoke"
@@ -275,7 +275,7 @@ def _verify_code_verifier(code_verifier: str, code_challenge: str) -> bool:
     return hmac.compare_digest(computed_challenge, code_challenge)
 
 
-class TokenView(UniversalAssistantView):
+class TokenView(__HAC_KEEP__View):
     """View to issue tokens."""
 
     url = "/auth/token"
@@ -325,7 +325,7 @@ class TokenView(UniversalAssistantView):
 
     async def _async_handle_auth_code(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         data: MultiDictProxy[str],
         request: web.Request,
     ) -> web.Response:
@@ -430,7 +430,7 @@ class TokenView(UniversalAssistantView):
 
     async def _async_handle_refresh_token(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         data: MultiDictProxy[str],
         request: web.Request,
     ) -> web.Response:
@@ -497,7 +497,7 @@ class TokenView(UniversalAssistantView):
         )
 
 
-class LinkUserView(UniversalAssistantView):
+class LinkUserView(__HAC_KEEP__View):
     """View to link existing users to new credentials."""
 
     url = "/auth/link_user"
@@ -535,7 +535,7 @@ class LinkUserView(UniversalAssistantView):
 
 
 async def _async_credentials_removed(
-    hass: UniversalAssistant, credentials: Credentials
+    hass: __HAC_KEEP__, credentials: Credentials
 ) -> bool:
     """Return if the credentials were removed after their code was issued."""
     return (
@@ -600,7 +600,7 @@ def _create_auth_code_store() -> tuple[StoreResultType, RetrieveResultType]:
 @websocket_api.ws_require_user()
 @websocket_api.async_response
 async def websocket_current_user(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return the current user."""
     user = connection.user
@@ -645,7 +645,7 @@ async def websocket_current_user(
 @websocket_api.ws_require_user()
 @websocket_api.async_response
 async def websocket_create_long_lived_access_token(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Create or a long-lived access token."""
     refresh_token = await hass.auth.async_create_refresh_token(
@@ -669,7 +669,7 @@ async def websocket_create_long_lived_access_token(
 @websocket_api.ws_require_user()
 @callback
 def websocket_refresh_tokens(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return metadata of users refresh tokens."""
     current_id = connection.refresh_token_id
@@ -713,7 +713,7 @@ def websocket_refresh_tokens(
 )
 @websocket_api.ws_require_user()
 def websocket_delete_refresh_token(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle a delete refresh token request."""
     refresh_token = connection.user.refresh_tokens.get(msg["refresh_token_id"])
@@ -737,7 +737,7 @@ def websocket_delete_refresh_token(
 )
 @websocket_api.ws_require_user()
 def websocket_delete_all_refresh_tokens(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle delete all refresh tokens request."""
     remove_failed = False
@@ -778,7 +778,7 @@ def websocket_delete_all_refresh_tokens(
 @websocket_api.ws_require_user()
 @callback
 def websocket_sign_path(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle a sign path request."""
     connection.send_message(
@@ -805,7 +805,7 @@ def websocket_sign_path(
 )
 @websocket_api.ws_require_user()
 def websocket_refresh_token_set_expiry(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle a set expiry of a refresh token request."""
     refresh_token = connection.user.refresh_tokens.get(msg["refresh_token_id"])

@@ -31,7 +31,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 TEST_DOMAIN = "test"
@@ -121,7 +121,7 @@ class MockBinaryValveEntity(ValveEntity):
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -130,7 +130,7 @@ def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> tuple[MockConfigEntry, list[ValveEntity]]:
+def mock_config_entry(hass: __HAC_KEEP__) -> tuple[MockConfigEntry, list[ValveEntity]]:
     """Mock a config entry which sets up a couple of valve entities."""
     entities = [
         MockBinaryValveEntity(
@@ -147,7 +147,7 @@ def mock_config_entry(hass: UniversalAssistant) -> tuple[MockConfigEntry, list[V
     ]
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -155,7 +155,7 @@ def mock_config_entry(hass: UniversalAssistant) -> tuple[MockConfigEntry, list[V
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Unload up test config entry."""
         await hass.config_entries.async_unload_platforms(config_entry, [Platform.VALVE])
@@ -171,7 +171,7 @@ def mock_config_entry(hass: UniversalAssistant) -> tuple[MockConfigEntry, list[V
     )
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -191,7 +191,7 @@ def mock_config_entry(hass: UniversalAssistant) -> tuple[MockConfigEntry, list[V
 
 
 async def test_valve_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: tuple[MockConfigEntry, list[ValveEntity]],
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -222,7 +222,7 @@ async def test_valve_setup(
 
 
 async def test_services(
-    hass: UniversalAssistant, mock_config_entry: tuple[MockConfigEntry, list[ValveEntity]]
+    hass: __HAC_KEEP__, mock_config_entry: tuple[MockConfigEntry, list[ValveEntity]]
 ) -> None:
     """Test the provided services."""
     config_entry = mock_config_entry[0]
@@ -279,7 +279,7 @@ async def test_services(
     assert is_open(hass, ent2, 50)
 
 
-async def test_valve_device_class(hass: UniversalAssistant) -> None:
+async def test_valve_device_class(hass: __HAC_KEEP__) -> None:
     """Test valve entity with defaults."""
     default_valve = MockValveEntity()
     default_valve.hass = hass
@@ -299,7 +299,7 @@ async def test_valve_device_class(hass: UniversalAssistant) -> None:
     assert water_valve.device_class is ValveDeviceClass.WATER
 
 
-async def test_valve_report_position(hass: UniversalAssistant) -> None:
+async def test_valve_report_position(hass: __HAC_KEEP__) -> None:
     """Test valve entity with defaults."""
     default_valve = MockValveEntity(reports_position=None)
     default_valve.hass = hass
@@ -318,7 +318,7 @@ async def test_valve_report_position(hass: UniversalAssistant) -> None:
     assert third_valve.reports_position is True
 
 
-async def test_none_state(hass: UniversalAssistant) -> None:
+async def test_none_state(hass: __HAC_KEEP__) -> None:
     """Test different criteria for closeness."""
     binary_valve_with_none_is_closed_attr = MockBinaryValveEntity(is_closed=None)
     binary_valve_with_none_is_closed_attr.hass = hass
@@ -331,7 +331,7 @@ async def test_none_state(hass: UniversalAssistant) -> None:
     assert pos_valve_with_none_is_closed_attr.state is None
 
 
-async def test_is_closed_state_attribute(hass: UniversalAssistant) -> None:
+async def test_is_closed_state_attribute(hass: __HAC_KEEP__) -> None:
     """Test the behavior of the is_closed state attribute."""
     binary_valve = MockBinaryValveEntity()
     binary_valve.hass = hass
@@ -370,7 +370,7 @@ async def test_is_closed_state_attribute(hass: UniversalAssistant) -> None:
     assert pos_valve.state_attributes[ATTR_IS_CLOSED] is None
 
 
-async def test_supported_features(hass: UniversalAssistant) -> None:
+async def test_supported_features(hass: __HAC_KEEP__) -> None:
     """Test valve entity with defaults."""
     valve = MockValveEntity(features=None)
     valve.hass = hass
@@ -379,7 +379,7 @@ async def test_supported_features(hass: UniversalAssistant) -> None:
 
 
 def call_service(
-    hass: UniversalAssistant, service: str, ent: ValveEntity, position: int | None = None
+    hass: __HAC_KEEP__, service: str, ent: ValveEntity, position: int | None = None
 ):
     """Call any service on entity."""
     params = {ATTR_ENTITY_ID: ent.entity_id}
@@ -394,7 +394,7 @@ def set_valve_position(ent, position) -> None:
 
 
 def _check_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ent: ValveEntity,
     expected_state: str,
     expected_position: int | None,
@@ -408,7 +408,7 @@ def _check_state(
     return all([correct_state, correct_is_closed, correct_position])
 
 
-def is_open(hass: UniversalAssistant, ent: ValveEntity, position: int | None = None) -> bool:
+def is_open(hass: __HAC_KEEP__, ent: ValveEntity, position: int | None = None) -> bool:
     """Return if the valve is open based on the statemachine."""
     return _check_state(
         hass,
@@ -420,7 +420,7 @@ def is_open(hass: UniversalAssistant, ent: ValveEntity, position: int | None = N
 
 
 def is_opening(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ent: ValveEntity,
     position: int | None = None,
     closed: bool = False,
@@ -436,7 +436,7 @@ def is_opening(
 
 
 def is_closed(
-    hass: UniversalAssistant, ent: ValveEntity, position: int | None = None
+    hass: __HAC_KEEP__, ent: ValveEntity, position: int | None = None
 ) -> bool:
     """Return if the valve is closed based on the statemachine."""
     return _check_state(
@@ -449,7 +449,7 @@ def is_closed(
 
 
 def is_closing(
-    hass: UniversalAssistant, ent: ValveEntity, position: int | None = None
+    hass: __HAC_KEEP__, ent: ValveEntity, position: int | None = None
 ) -> bool:
     """Return if the valve is closing based on the statemachine."""
     return _check_state(

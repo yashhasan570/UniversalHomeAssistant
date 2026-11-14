@@ -115,7 +115,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -132,7 +132,7 @@ from .conftest import (
 
 @pytest.fixture(name="mock_modbus_with_pymodbus")
 async def mock_modbus_with_pymodbus_fixture(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, do_config, mock_pymodbus
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, do_config, mock_pymodbus
 ):
     """Load integration modbus using mocked pymodbus."""
     caplog.clear()
@@ -430,7 +430,7 @@ async def test_exception_struct_validator(do_config) -> None:
         ],
     ],
 )
-async def test_check_config(hass: UniversalAssistant, do_config) -> None:
+async def test_check_config(hass: __HAC_KEEP__, do_config) -> None:
     """Test duplicate modbus validator."""
     check_config(hass, do_config)
     assert len(do_config) == 1
@@ -462,7 +462,7 @@ async def test_check_config(hass: UniversalAssistant, do_config) -> None:
         ],
     ],
 )
-async def test_check_config_sensor(hass: UniversalAssistant, do_config) -> None:
+async def test_check_config_sensor(hass: __HAC_KEEP__, do_config) -> None:
     """Test duplicate entity validator."""
     check_config(hass, do_config)
     assert len(do_config[0][CONF_SENSORS]) == 1
@@ -494,7 +494,7 @@ async def test_check_config_sensor(hass: UniversalAssistant, do_config) -> None:
         ],
     ],
 )
-async def test_check_config_climate(hass: UniversalAssistant, do_config) -> None:
+async def test_check_config_climate(hass: __HAC_KEEP__, do_config) -> None:
     """Test duplicate entity validator."""
     check_config(hass, do_config)
     assert len(do_config[0][CONF_CLIMATES]) == 1
@@ -566,7 +566,7 @@ async def test_duplicate_swing_mode_validator(do_config) -> None:
         ],
     ],
 )
-async def test_no_duplicate_names(hass: UniversalAssistant, do_config) -> None:
+async def test_no_duplicate_names(hass: __HAC_KEEP__, do_config) -> None:
     """Test duplicate entity validator."""
     check_config(hass, do_config)
     assert len(do_config[0][CONF_SENSORS]) == 1
@@ -795,7 +795,7 @@ async def test_no_duplicate_names(hass: UniversalAssistant, do_config) -> None:
         },
     ],
 )
-async def test_config_modbus(hass: UniversalAssistant, mock_modbus_with_pymodbus) -> None:
+async def test_config_modbus(hass: __HAC_KEEP__, mock_modbus_with_pymodbus) -> None:
     """Run configuration test for modbus."""
     assert len(hass.data[DOMAIN])
 
@@ -899,7 +899,7 @@ async def test_config_modbus(hass: UniversalAssistant, mock_modbus_with_pymodbus
     ],
 )
 async def test_config_wrong_modbus(
-    hass: UniversalAssistant, mock_modbus_with_pymodbus, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, mock_modbus_with_pymodbus, issue_registry: ir.IssueRegistry
 ) -> None:
     """Run configuration test for modbus."""
     assert len(hass.data[DOMAIN]) == 1
@@ -979,7 +979,7 @@ SERVICE = "service"
     ],
 )
 async def test_pb_service_write(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     do_write,
     do_return,
     do_slave,
@@ -1028,7 +1028,7 @@ async def test_pb_service_write(
 
 @pytest.fixture(name="mock_modbus_read_pymodbus")
 async def mock_modbus_read_pymodbus_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     do_group,
     do_type,
     do_scan_interval,
@@ -1099,7 +1099,7 @@ async def mock_modbus_read_pymodbus_fixture(
     ],
 )
 async def test_pb_read(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     do_domain,
     do_expect_state,
     do_expect_value,
@@ -1122,7 +1122,7 @@ async def test_pb_read(
 
 
 async def test_pymodbus_constructor_fail(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Run test for failing pymodbus constructor."""
     config = {
@@ -1155,7 +1155,7 @@ async def test_pymodbus_constructor_fail(
 
 
 async def test_pymodbus_close_fail(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, mock_pymodbus
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, mock_pymodbus
 ) -> None:
     """Run test for failing pymodbus close."""
     config = {
@@ -1182,7 +1182,7 @@ async def test_pymodbus_close_fail(
 
 
 async def test_unreachable_device_does_not_hold_startup(
-    hass: UniversalAssistant, mock_pymodbus: mock.AsyncMock
+    hass: __HAC_KEEP__, mock_pymodbus: mock.AsyncMock
 ) -> None:
     """Test entities waiting for a device that never connects do not hold up startup."""
     entity_id = f"{SENSOR_DOMAIN}.{TEST_ENTITY_NAME}".replace(" ", "_")
@@ -1216,7 +1216,7 @@ async def test_unreachable_device_does_not_hold_startup(
 
 
 async def test_aborted_add_cancels_first_update(
-    hass: UniversalAssistant, mock_pymodbus: mock.AsyncMock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_pymodbus: mock.AsyncMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an entity whose add is aborted does not run its first update later."""
     entity_id = f"{SENSOR_DOMAIN}.{TEST_ENTITY_NAME}".replace(" ", "_")
@@ -1255,7 +1255,7 @@ async def test_aborted_add_cancels_first_update(
 
 
 async def test_renamed_entity_keeps_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_pymodbus: mock.AsyncMock,
 ) -> None:
@@ -1305,7 +1305,7 @@ async def test_renamed_entity_keeps_polling(
 
 
 async def test_overlapping_updates_keep_one_poll_timer(
-    hass: UniversalAssistant, mock_pymodbus: mock.AsyncMock
+    hass: __HAC_KEEP__, mock_pymodbus: mock.AsyncMock
 ) -> None:
     """Test an update overlapping a poll does not start a second polling loop."""
     entity_id = f"{SENSOR_DOMAIN}.{TEST_ENTITY_NAME}".replace(" ", "_")
@@ -1358,13 +1358,13 @@ async def test_overlapping_updates_keep_one_poll_timer(
     assert mock_pymodbus.read_holding_registers.call_count == 1
 
 
-async def _fire_first_connect_timer(hass: UniversalAssistant) -> None:
+async def _fire_first_connect_timer(hass: __HAC_KEEP__) -> None:
     """Let the entities start waiting for the first connection."""
     async_fire_time_changed(hass, dt_util.utcnow() + timedelta(seconds=1))
     await hass.async_block_till_done()
 
 
-async def _stop_hub(hass: UniversalAssistant) -> None:
+async def _stop_hub(hass: __HAC_KEEP__) -> None:
     """Stop the hub, which also releases every wait for its connection."""
     await hass.services.async_call(
         DOMAIN,
@@ -1387,9 +1387,9 @@ async def _stop_hub(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_stop_cancels_pending_first_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pymodbus: mock.AsyncMock,
-    steps: list[Callable[[UniversalAssistant], Awaitable[None]]],
+    steps: list[Callable[[__HAC_KEEP__], Awaitable[None]]],
 ) -> None:
     """Test stopping the hub cancels an update still waiting for the first connection."""
     entity_id = f"{SENSOR_DOMAIN}.{TEST_ENTITY_NAME}".replace(" ", "_")
@@ -1423,7 +1423,7 @@ async def test_stop_cancels_pending_first_update(
 
 
 async def test_pymodbus_connect_fail(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, mock_pymodbus
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, mock_pymodbus
 ) -> None:
     """Run test for failing pymodbus constructor."""
     config = {
@@ -1449,7 +1449,7 @@ async def test_pymodbus_connect_fail(
 
 
 async def test_delay(
-    hass: UniversalAssistant, mock_pymodbus, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_pymodbus, freezer: FrozenDateTimeFactory
 ) -> None:
     """Run test for startup delay."""
 
@@ -1530,7 +1530,7 @@ async def test_delay(
     ],
 )
 async def test_shutdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_pymodbus,
     mock_modbus_with_pymodbus,
@@ -1544,7 +1544,7 @@ async def test_shutdown(
 
 
 @pytest.mark.parametrize("do_config", [{}])
-async def test_write_no_client(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_write_no_client(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run test for service stop and write without client."""
 
     await mock_modbus.reset()
@@ -1568,7 +1568,7 @@ async def test_write_no_client(hass: UniversalAssistant, mock_modbus) -> None:
 
 @pytest.mark.parametrize("do_config", [{}])
 async def test_integration_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_modbus,
 ) -> None:
@@ -1631,7 +1631,7 @@ async def test_integration_reload(
 @pytest.mark.skip
 @pytest.mark.parametrize("do_config", [{}])
 async def test_integration_reload_failed(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, mock_modbus
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, mock_modbus
 ) -> None:
     """Run test for integration connect failure on reload."""
     caplog.set_level(logging.DEBUG)
@@ -1651,7 +1651,7 @@ async def test_integration_reload_failed(
 
 @pytest.mark.parametrize("do_config", [{}])
 async def test_integration_setup_failed(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, mock_modbus
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, mock_modbus
 ) -> None:
     """Run test for integration setup on reload."""
     with mock.patch.object(
@@ -1666,7 +1666,7 @@ async def test_integration_setup_failed(
         await hass.async_block_till_done()
 
 
-async def test_no_entities(hass: UniversalAssistant) -> None:
+async def test_no_entities(hass: __HAC_KEEP__) -> None:
     """Run test for failing pymodbus constructor."""
     config = {
         DOMAIN: [
@@ -1722,7 +1722,7 @@ async def test_no_entities(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_check_default_slave(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_modbus,
     do_config,
     mock_do_cycle,
@@ -1781,7 +1781,7 @@ async def test_check_default_slave(
     ],
 )
 async def test_pb_service_write_no_slave(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     do_write,
     do_return,
     caplog: pytest.LogCaptureFixture,

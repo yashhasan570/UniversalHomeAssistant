@@ -4,7 +4,7 @@ from typing import Any, override
 import urllib.parse
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -14,7 +14,7 @@ from .coordinator import KMTronicConfigEntry, KMtronicCoordinator
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: KMTronicConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -14,7 +14,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.energyzero.const import CONF_ELECTRICITY_PRICE_INTERVAL
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -39,7 +39,7 @@ from universalassistant.util import dt as dt_util
     ],
 )
 async def test_electricity_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_energyzero: MagicMock,
@@ -153,7 +153,7 @@ async def test_electricity_interval(
 )
 @pytest.mark.parametrize("missing_tomorrow", [False, True])
 async def test_next_price_across_midnight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_energyzero: MagicMock,

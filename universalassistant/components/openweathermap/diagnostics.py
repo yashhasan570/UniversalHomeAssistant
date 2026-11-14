@@ -3,13 +3,13 @@
 from typing import Any
 
 from universalassistant.const import CONF_LANGUAGE, CONF_MODE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import OpenweathermapConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: OpenweathermapConfigEntry
+    hass: __HAC_KEEP__, entry: OpenweathermapConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data.coordinator

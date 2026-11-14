@@ -22,13 +22,13 @@ from universalassistant.components.knx.const import (
 from universalassistant.components.knx.project import STORAGE_KEY as KNX_PROJECT_STORAGE_KEY
 from universalassistant.components.knx.schema import SwitchSchema
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import KNXTestKit
 
 
 async def test_knx_get_base_data_command(
-    hass: UniversalAssistant, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test knx/get_base_data command."""
     await knx.setup_integration(real_telegram_store=True)
@@ -46,7 +46,7 @@ async def test_knx_get_base_data_command(
 
 
 async def test_knx_get_base_data_command_postgres(
-    hass: UniversalAssistant, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test knx/get_base_data reports the PostgreSQL telegram backend."""
     knx.mock_config_entry.add_to_hass(hass)
@@ -82,7 +82,7 @@ async def test_knx_get_base_data_command_postgres(
 
 @pytest.mark.usefixtures("load_knxproj")
 async def test_knx_get_base_data_command_with_project(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_knx_get_base_data_command_with_project(
 
 
 async def test_knx_project_file_process(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -146,7 +146,7 @@ async def test_knx_project_file_process(
 
 
 async def test_knx_project_file_process_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_knx_project_file_process_error(
 
 @pytest.mark.usefixtures("load_knxproj")
 async def test_knx_project_file_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -199,7 +199,7 @@ async def test_knx_project_file_remove(
 
 @pytest.mark.usefixtures("load_knxproj")
 async def test_knx_get_project(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     project_data: dict[str, Any],
@@ -216,7 +216,7 @@ async def test_knx_get_project(
 
 
 async def test_knx_get_project_no_project(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     project_data: dict[str, Any],
@@ -233,7 +233,7 @@ async def test_knx_get_project_no_project(
 
 
 async def test_knx_group_monitor_info_command(
-    hass: UniversalAssistant, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test knx/group_monitor_info command."""
     await knx.setup_integration(real_telegram_store=True)
@@ -249,7 +249,7 @@ async def test_knx_group_monitor_info_command(
 
 
 async def test_telegram_store_initializing(
-    hass: UniversalAssistant, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test telegram commands while the storage backend is still initializing."""
 
@@ -276,7 +276,7 @@ async def test_telegram_store_initializing(
 
 
 async def test_knx_query_telegrams_command(
-    hass: UniversalAssistant, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test knx/query_telegrams command."""
     await knx.setup_integration(real_telegram_store=True)
@@ -329,7 +329,7 @@ async def test_knx_query_telegrams_command(
     ["knx/group_monitor_info", "knx/query_telegrams"],
 )
 async def test_telegram_store_not_initialized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     command: str,
@@ -356,7 +356,7 @@ async def test_telegram_store_not_initialized(
     ["knx/group_monitor_info", "knx/query_telegrams"],
 )
 async def test_telegram_store_query_database_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     command: str,
@@ -375,7 +375,7 @@ async def test_telegram_store_query_database_error(
 
 
 async def test_knx_group_telegrams_command(
-    hass: UniversalAssistant, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test knx/group_telegrams command."""
     await knx.setup_integration()
@@ -406,7 +406,7 @@ async def test_knx_group_telegrams_command(
 
 
 async def test_knx_subscribe_telegrams_command_recent_telegrams(
-    hass: UniversalAssistant, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test knx/subscribe_telegrams command sending recent telegrams."""
     await knx.setup_integration(
@@ -459,7 +459,7 @@ async def test_knx_subscribe_telegrams_command_recent_telegrams(
 
 
 async def test_knx_subscribe_telegrams_command_no_project(
-    hass: UniversalAssistant, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, knx: KNXTestKit, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test knx/subscribe_telegrams command without project data."""
     await knx.setup_integration(
@@ -541,7 +541,7 @@ async def test_knx_subscribe_telegrams_command_no_project(
 
 
 async def test_knx_subscribe_telegrams_command_project(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     load_knxproj: None,
@@ -602,7 +602,7 @@ async def test_knx_subscribe_telegrams_command_project(
 
 @pytest.mark.parametrize("platform", sorted({*SUPPORTED_PLATFORMS_UI, "tts"}))
 async def test_knx_get_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
@@ -617,7 +617,7 @@ async def test_knx_get_schema(
 
 
 async def test_knx_get_expose_groups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
@@ -633,7 +633,7 @@ async def test_knx_get_expose_groups(
 
 
 async def test_knx_get_expose_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
@@ -661,7 +661,7 @@ async def test_knx_get_expose_config(
     ],
 )
 async def test_websocket_when_config_entry_unloaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     endpoint: str,

@@ -12,7 +12,7 @@ from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.components.vistapool.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -26,7 +26,7 @@ _LIGHT_ENTITY = "light.my_pool_light"
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_setup_entry(
 
 
 async def test_setup_entry_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_auth: MagicMock,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_setup_entry_invalid_auth(
 
 
 async def test_setup_entry_cannot_connect_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_auth: MagicMock,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_setup_entry_cannot_connect_auth(
 
 
 async def test_setup_entry_cannot_connect_pools(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_setup_entry_cannot_connect_pools(
 
 
 async def test_setup_entry_no_pools(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_setup_entry_no_pools(
 
 
 async def test_setup_entry_subscribe_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_setup_entry_subscribe_failure(
 
 
 async def test_setup_entry_user_pools_subscribe_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_setup_entry_user_pools_subscribe_failure(
 
 
 async def test_user_pools_snapshot_adds_new_pool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -162,7 +162,7 @@ async def test_user_pools_snapshot_adds_new_pool(
 
 
 async def test_user_pools_snapshot_retries_new_pool_after_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_user_pools_snapshot_retries_new_pool_after_refresh_failure(
 
 
 async def test_user_pools_snapshot_no_change_is_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_user_pools_snapshot_no_change_is_noop(
 
 
 async def test_user_pools_snapshot_removes_stale_pool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -239,7 +239,7 @@ async def test_user_pools_snapshot_removes_stale_pool(
 
 
 async def test_user_pools_snapshot_drops_stale_even_if_get_pools_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -270,7 +270,7 @@ async def test_user_pools_snapshot_drops_stale_even_if_get_pools_fails(
 
 
 async def test_setup_prunes_devices_removed_while_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -298,7 +298,7 @@ async def test_setup_prunes_devices_removed_while_offline(
 
 
 async def test_entities_unavailable_while_push_connection_is_down(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -337,7 +337,7 @@ async def test_entities_unavailable_while_push_connection_is_down(
 
 
 async def test_entities_stay_unavailable_on_local_updates_during_outage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -383,7 +383,7 @@ async def test_entities_stay_unavailable_on_local_updates_during_outage(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -401,7 +401,7 @@ async def test_unload_entry(
 
 
 async def test_unload_closes_firestore_clients(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_auth: MagicMock,
     mock_vistapool_client: AsyncMock,
@@ -428,7 +428,7 @@ async def test_unload_closes_firestore_clients(
     ],
 )
 async def test_failed_setup_closes_firestore_clients(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_auth: MagicMock,
     mock_vistapool_client: AsyncMock,

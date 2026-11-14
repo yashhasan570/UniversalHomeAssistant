@@ -13,7 +13,7 @@ from .models import CheckKind, CheckRunResult, CheckStatus, PackageChange
 
 MARKER = "<!-- requirements-check -->"
 HEADER = "## Check requirements"
-REPO_URL = "https://github.com/yashhasan570/UniversalUniversalAssistant"
+REPO_URL = "https://github.com/yashhasan570/__HAC_KEEP__"
 COMMIT_PATH = "/commit/"
 
 # Column / bullet labels per check kind, in display order.

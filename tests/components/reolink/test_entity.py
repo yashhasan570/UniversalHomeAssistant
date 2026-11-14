@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.reolink.coordinator import DEVICE_UPDATE_INTERVAL_MIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import TEST_CAM_NAME
 
 
 async def test_battery_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,

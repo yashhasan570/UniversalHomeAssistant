@@ -17,7 +17,7 @@ from universalassistant.components.swiss_public_transport.const import (
 from universalassistant.components.swiss_public_transport.helper import unique_id_from_config
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 MOCK_DATA_STEP_BASE = {
@@ -88,7 +88,7 @@ CONNECTIONS = [
     ],
 )
 async def test_migration_from(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     from_version,
     from_minor_version,
@@ -140,7 +140,7 @@ async def test_migration_from(
         )
 
 
-async def test_migrate_error_from_future(hass: UniversalAssistant) -> None:
+async def test_migrate_error_from_future(hass: __HAC_KEEP__) -> None:
     """Test a future version isn't migrated."""
 
     mock_entry = MockConfigEntry(

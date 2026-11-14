@@ -19,7 +19,7 @@ from rainbowminer_api_client import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -50,7 +50,7 @@ class RainbowMinerCoordinator(DataUpdateCoordinator[RainbowMinerData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: RainbowMinerConfigEntry,
         api: RainbowMinerClient,
     ) -> None:

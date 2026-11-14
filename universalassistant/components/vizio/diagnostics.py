@@ -7,7 +7,7 @@ from vizaio import VizioError
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import VizioConfigEntry
 
@@ -24,7 +24,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: VizioConfigEntry
+    hass: __HAC_KEEP__, entry: VizioConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data.device_coordinator

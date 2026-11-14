@@ -16,7 +16,7 @@ from universalassistant.components.vacuum import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME, CONF_UNIQUE_ID, STATE_IDLE, STATE_PAUSED
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.json import json_dumps
@@ -193,7 +193,7 @@ DISCOVERY_SCHEMA = probatio.All(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -225,7 +225,7 @@ class MqttStateVacuum(MqttEntity, StateVacuumEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         config_entry: ConfigEntry,
         discovery_data: DiscoveryInfoType | None,

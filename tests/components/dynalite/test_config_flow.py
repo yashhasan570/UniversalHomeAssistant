@@ -9,7 +9,7 @@ from universalassistant import config_entries
 from universalassistant.components import dynalite
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -22,7 +22,7 @@ from universalassistant.data_entry_flow import FlowResultType
     ],
 )
 async def test_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     first_con,
     second_con,
     exp_type,
@@ -54,7 +54,7 @@ async def test_flow(
         assert result["reason"] == exp_reason
 
 
-async def test_existing(hass: UniversalAssistant) -> None:
+async def test_existing(hass: __HAC_KEEP__) -> None:
     """Test when the entry exists with the same config."""
     host = "1.2.3.4"
     MockConfigEntry(domain=dynalite.DOMAIN, data={CONF_HOST: host}).add_to_hass(hass)
@@ -77,7 +77,7 @@ async def test_existing(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_existing_abort_update(hass: UniversalAssistant) -> None:
+async def test_existing_abort_update(hass: __HAC_KEEP__) -> None:
     """Test when the entry exists with a different config."""
     host = "1.2.3.4"
     port1 = 7777
@@ -113,7 +113,7 @@ async def test_existing_abort_update(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_two_entries(hass: UniversalAssistant) -> None:
+async def test_two_entries(hass: __HAC_KEEP__) -> None:
     """Test when two different entries exist with different hosts."""
     host1 = "1.2.3.4"
     host2 = "5.6.7.8"
@@ -137,7 +137,7 @@ async def test_two_entries(hass: UniversalAssistant) -> None:
     assert result["result"].state is ConfigEntryState.LOADED
 
 
-async def test_setup_user(hass: UniversalAssistant) -> None:
+async def test_setup_user(hass: __HAC_KEEP__) -> None:
     """Test configuration via the user flow."""
     host = "3.4.5.6"
     port = 1234
@@ -167,7 +167,7 @@ async def test_setup_user(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_setup_user_existing_host(hass: UniversalAssistant) -> None:
+async def test_setup_user_existing_host(hass: __HAC_KEEP__) -> None:
     """Test that when we setup a host that is defined, we get an error."""
     host = "3.4.5.6"
     MockConfigEntry(domain=dynalite.DOMAIN, data={CONF_HOST: host}).add_to_hass(hass)

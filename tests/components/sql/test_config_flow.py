@@ -29,7 +29,7 @@ from universalassistant.const import (
     CONF_UNIT_OF_MEASUREMENT,
     CONF_VALUE_TEMPLATE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
 
 from . import (
@@ -70,7 +70,7 @@ OPTIONS_DATA_CONFIG = {}
     ],
 )
 async def test_form_simple(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     data_config: dict[str, Any],
     result_config: dict[str, Any],
 ) -> None:
@@ -109,7 +109,7 @@ async def test_form_simple(
 
 
 async def test_form_with_query_template(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test for with query template."""
 
@@ -150,7 +150,7 @@ async def test_form_with_query_template(
 
 
 async def test_form_with_broken_query_template(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test form with broken query template."""
 
@@ -197,7 +197,7 @@ async def test_form_with_broken_query_template(
 
 
 async def test_form_with_value_template(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test for with value template."""
 
@@ -232,7 +232,7 @@ async def test_form_with_value_template(
     }
 
 
-async def test_flow_fails_db_url(hass: UniversalAssistant) -> None:
+async def test_flow_fails_db_url(hass: __HAC_KEEP__) -> None:
     """Test config flow fails incorrect db url."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -264,7 +264,7 @@ async def test_flow_fails_db_url(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_postgresql_url_uses_psycopg2(hass: UniversalAssistant) -> None:
+async def test_flow_postgresql_url_uses_psycopg2(hass: __HAC_KEEP__) -> None:
     """Test the db url is validated with psycopg2 for driverless PostgreSQL URLs."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -299,7 +299,7 @@ async def test_flow_postgresql_url_uses_psycopg2(hass: UniversalAssistant) -> No
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_fails_invalid_query(hass: UniversalAssistant) -> None:
+async def test_flow_fails_invalid_query(hass: __HAC_KEEP__) -> None:
     """Test config flow fails incorrect db url."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -402,7 +402,7 @@ async def test_flow_fails_invalid_query(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_flow_fails_invalid_column_name(hass: UniversalAssistant) -> None:
+async def test_flow_fails_invalid_column_name(hass: __HAC_KEEP__) -> None:
     """Test config flow fails invalid column name."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -445,7 +445,7 @@ async def test_flow_fails_invalid_column_name(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test options config flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -498,7 +498,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_options_flow_name_previously_removed(hass: UniversalAssistant) -> None:
+async def test_options_flow_name_previously_removed(hass: __HAC_KEEP__) -> None:
     """Test options config flow where the name was missing."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -545,7 +545,7 @@ async def test_options_flow_name_previously_removed(hass: UniversalAssistant) ->
     }
 
 
-async def test_options_flow_fails_db_url(hass: UniversalAssistant) -> None:
+async def test_options_flow_fails_db_url(hass: __HAC_KEEP__) -> None:
     """Test options flow fails incorrect db url."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -597,7 +597,7 @@ async def test_options_flow_fails_db_url(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_flow_fails_invalid_query(hass: UniversalAssistant) -> None:
+async def test_options_flow_fails_invalid_query(hass: __HAC_KEEP__) -> None:
     """Test options flow fails incorrect query and template."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -705,7 +705,7 @@ async def test_options_flow_fails_invalid_query(hass: UniversalAssistant) -> Non
     }
 
 
-async def test_options_flow_fails_invalid_column_name(hass: UniversalAssistant) -> None:
+async def test_options_flow_fails_invalid_column_name(hass: __HAC_KEEP__) -> None:
     """Test options flow fails invalid column name."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -757,7 +757,7 @@ async def test_options_flow_fails_invalid_column_name(hass: UniversalAssistant) 
     }
 
 
-async def test_options_flow_db_url_empty(hass: UniversalAssistant) -> None:
+async def test_options_flow_db_url_empty(hass: __HAC_KEEP__) -> None:
     """Test options config flow with leaving db_url empty."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -804,7 +804,7 @@ async def test_options_flow_db_url_empty(hass: UniversalAssistant) -> None:
 
 
 async def test_full_flow_not_recorder_db(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
 ) -> None:
     """Test full config flow with not using recorder db."""
@@ -872,7 +872,7 @@ async def test_full_flow_not_recorder_db(
     }
 
 
-async def test_device_state_class(hass: UniversalAssistant) -> None:
+async def test_device_state_class(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     entry = MockConfigEntry(

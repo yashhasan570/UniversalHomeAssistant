@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.deconz.const import CONF_MASTER_GATEWAY, DOMAIN
 from universalassistant.components.deconz.errors import AuthenticationRequired
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import ConfigEntryFactoryType
 
@@ -33,7 +33,7 @@ async def test_setup_entry(config_entry_setup: MockConfigEntry) -> None:
     ],
 )
 async def test_get_deconz_api_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     side_effect: Exception,
     state: ConfigEntryState,
@@ -50,7 +50,7 @@ async def test_get_deconz_api_fails(
 
 
 async def test_setup_entry_fails_trigger_reauth_flow(
-    hass: UniversalAssistant, config_entry_factory: ConfigEntryFactoryType
+    hass: __HAC_KEEP__, config_entry_factory: ConfigEntryFactoryType
 ) -> None:
     """Failed authentication trigger a reauthentication flow."""
     with (
@@ -66,7 +66,7 @@ async def test_setup_entry_fails_trigger_reauth_flow(
 
 
 async def test_setup_entry_multiple_gateways(
-    hass: UniversalAssistant, config_entry_factory: ConfigEntryFactoryType
+    hass: __HAC_KEEP__, config_entry_factory: ConfigEntryFactoryType
 ) -> None:
     """Test setup entry is successful with multiple gateways."""
     config_entry = await config_entry_factory()
@@ -86,7 +86,7 @@ async def test_setup_entry_multiple_gateways(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test being able to unload an entry."""
     assert config_entry_setup.state is ConfigEntryState.LOADED
@@ -95,7 +95,7 @@ async def test_unload_entry(
 
 
 async def test_unload_entry_multiple_gateways(
-    hass: UniversalAssistant, config_entry_factory: ConfigEntryFactoryType
+    hass: __HAC_KEEP__, config_entry_factory: ConfigEntryFactoryType
 ) -> None:
     """Test being able to unload an entry and master gateway gets moved."""
     config_entry = await config_entry_factory()
@@ -117,7 +117,7 @@ async def test_unload_entry_multiple_gateways(
 
 
 async def test_unload_entry_multiple_gateways_parallel(
-    hass: UniversalAssistant, config_entry_factory: ConfigEntryFactoryType
+    hass: __HAC_KEEP__, config_entry_factory: ConfigEntryFactoryType
 ) -> None:
     """Test race condition when unloading multiple config entries in parallel."""
     config_entry = await config_entry_factory()

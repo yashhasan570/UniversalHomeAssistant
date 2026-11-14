@@ -13,7 +13,7 @@ from plexauth import PlexAuth
 import probatio
 import requests.exceptions
 
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
 from universalassistant.config_entries import (
     SOURCE_INTEGRATION_DISCOVERY,
@@ -32,7 +32,7 @@ from universalassistant.const import (
     CONF_URL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, discovery_flow, http
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -65,7 +65,7 @@ _LOGGER = logging.getLogger(__package__)
 
 
 @callback
-def configured_servers(hass: UniversalAssistant) -> set[str]:
+def configured_servers(hass: __HAC_KEEP__) -> set[str]:
     """Return a set of the configured Plex servers."""
     return {
         entry.data[CONF_SERVER_IDENTIFIER]
@@ -73,7 +73,7 @@ def configured_servers(hass: UniversalAssistant) -> set[str]:
     }
 
 
-async def async_discover(hass: UniversalAssistant) -> None:
+async def async_discover(hass: __HAC_KEEP__) -> None:
     """Scan for available Plex servers."""
     gdm = GDM()
     await hass.async_add_executor_job(gdm.scan)
@@ -521,7 +521,7 @@ class PlexOptionsFlowHandler(OptionsFlow):
         )
 
 
-class PlexAuthorizationCallbackView(UniversalAssistantView):
+class PlexAuthorizationCallbackView(__HAC_KEEP__View):
     """Handle callback from external auth."""
 
     url = AUTH_CALLBACK_PATH

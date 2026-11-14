@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.nexblue.const import CONF_REFRESH_TOKEN, DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 CHARGER = Charger.from_api(load_json_object_fixture("charger.json", DOMAIN))
 CHARGER_STATUS = ChargerStatus.from_api(
@@ -62,7 +62,7 @@ def mock_client() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> MockConfigEntry:

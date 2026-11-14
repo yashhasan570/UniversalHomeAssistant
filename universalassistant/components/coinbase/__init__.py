@@ -8,7 +8,7 @@ from coinbase.rest.rest_base import HTTPError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_API_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.util import Throttle
 
@@ -38,7 +38,7 @@ MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=1)
 type CoinbaseConfigEntry = ConfigEntry[CoinbaseData]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: CoinbaseConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: CoinbaseConfigEntry) -> None:
     """Set up Coinbase from a config entry."""
 
     instance = await hass.async_add_executor_job(create_and_update_instance, entry)
@@ -47,7 +47,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: CoinbaseConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: CoinbaseConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: CoinbaseConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

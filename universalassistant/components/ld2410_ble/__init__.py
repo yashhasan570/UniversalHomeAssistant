@@ -13,7 +13,7 @@ from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothReachabilityIntent
 from universalassistant.components.bluetooth.match import ADDRESS, BluetoothCallbackMatcher
 from universalassistant.const import CONF_ADDRESS, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import DOMAIN
@@ -25,7 +25,7 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LD2410BLEConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LD2410BLEConfigEntry) -> None:
     """Set up LD2410 BLE from a config entry."""
     address: str = entry.data[CONF_ADDRESS]
 
@@ -93,14 +93,14 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LD2410BLEConfigEntr
 
 
 async def _async_update_listener(
-    hass: UniversalAssistant, entry: LD2410BLEConfigEntry
+    hass: __HAC_KEEP__, entry: LD2410BLEConfigEntry
 ) -> None:
     """Handle options update."""
     if entry.title != entry.runtime_data.title:
         await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LD2410BLEConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LD2410BLEConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.device.stop()

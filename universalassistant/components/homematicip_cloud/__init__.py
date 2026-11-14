@@ -6,7 +6,7 @@ import probatio
 
 from universalassistant import config_entries
 from universalassistant.const import CONF_NAME, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
@@ -46,7 +46,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the HomematicIP Cloud integration."""
     accesspoints = config.get(DOMAIN, [])
 
@@ -72,7 +72,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HomematicIPConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HomematicIPConfigEntry) -> None:
     """Set up an access point from a config entry."""
 
     # 0.104 introduced config entry unique id, this makes upgrading possible
@@ -99,7 +99,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HomematicIPConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: HomematicIPConfigEntry
+    hass: __HAC_KEEP__, entry: HomematicIPConfigEntry
 ) -> None:
     """Unload a config entry."""
     hap = entry.runtime_data
@@ -110,7 +110,7 @@ async def async_unload_entry(
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: HomematicIPConfigEntry
+    hass: __HAC_KEEP__, config_entry: HomematicIPConfigEntry
 ) -> None:
     """Migrate the config entry from version 1 to version 2."""
 

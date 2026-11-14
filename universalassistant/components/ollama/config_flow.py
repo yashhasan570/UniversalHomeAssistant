@@ -25,7 +25,7 @@ from universalassistant.const import (
     CONF_PROMPT,
     CONF_URL,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, llm
 from universalassistant.helpers.selector import (
     BooleanSelector,
@@ -401,7 +401,7 @@ class OllamaSubentryFlowHandler(ConfigSubentryFlow):
     async_step_reconfigure = async_step_set_options
 
 
-def filter_invalid_llm_apis(hass: UniversalAssistant, selected_apis: list[str]) -> list[str]:
+def filter_invalid_llm_apis(hass: __HAC_KEEP__, selected_apis: list[str]) -> list[str]:
     """Filter a list of LLM API IDs against those available."""
 
     valid_llm_apis = [api.id for api in llm.async_get_apis(hass)]
@@ -410,7 +410,7 @@ def filter_invalid_llm_apis(hass: UniversalAssistant, selected_apis: list[str]) 
 
 
 def ollama_config_option_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     is_new: bool,
     subentry_type: str,
     options: Mapping[str, Any],

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockUser
 
 from universalassistant.components import person
 from universalassistant.components.person import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import collection
 from universalassistant.setup import async_setup_component
 
@@ -17,7 +17,7 @@ DEVICE_TRACKER_2 = "device_tracker.test_tracker_2"
 
 
 @pytest.fixture
-def storage_collection(hass: UniversalAssistant) -> person.PersonStorageCollection:
+def storage_collection(hass: __HAC_KEEP__) -> person.PersonStorageCollection:
     """Return an empty storage collection."""
     id_manager = collection.IDManager()
     return person.PersonStorageCollection(
@@ -31,7 +31,7 @@ def storage_collection(hass: UniversalAssistant) -> person.PersonStorageCollecti
 
 @pytest.fixture
 async def storage_setup(
-    hass: UniversalAssistant, hass_storage: dict[str, Any], hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any], hass_admin_user: MockUser
 ) -> None:
     """Storage setup."""
     hass_storage[DOMAIN] = {

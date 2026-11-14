@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -37,13 +37,13 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Pi-hole integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PiHoleConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PiHoleConfigEntry) -> None:
     """Set up Pi-hole entry."""
     host = entry.data[CONF_HOST]
 
@@ -103,13 +103,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PiHoleConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: PiHoleConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: PiHoleConfigEntry) -> None:
     """Unload Pi-hole entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 def api_by_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: dict[str, Any],
     version: int,
     password: str | None = None,
@@ -140,7 +140,7 @@ def api_by_version(
 
 
 async def determine_api_version(
-    hass: UniversalAssistant, entry: dict[str, Any]
+    hass: __HAC_KEEP__, entry: dict[str, Any]
 ) -> Literal[5, 6]:
     """Determine the API version of the Pi-hole instance.
 

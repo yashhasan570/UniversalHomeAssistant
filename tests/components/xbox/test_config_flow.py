@@ -24,7 +24,7 @@ from universalassistant.config_entries import (
     ConfigSubentry,
     ConfigSubentryData,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow, device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -42,7 +42,7 @@ from .conftest import CLIENT_ID
     "authentication_manager",
 )
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_full_flow(
     "authentication_manager",
 )
 async def test_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     source: str,
@@ -196,7 +196,7 @@ async def test_discovery(
     "authentication_manager",
 )
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
@@ -248,7 +248,7 @@ async def test_form_already_configured(
     "authentication_manager",
 )
 async def test_form_already_configured_as_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -324,7 +324,7 @@ async def test_form_already_configured_as_subentry(
     "xbox_live_client",
     "authentication_manager",
 )
-async def test_add_friend_flow(hass: UniversalAssistant) -> None:
+async def test_add_friend_flow(hass: __HAC_KEEP__) -> None:
     """Test add friend subentry flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -383,7 +383,7 @@ async def test_add_friend_flow(hass: UniversalAssistant) -> None:
     "xbox_live_client",
     "authentication_manager",
 )
-async def test_add_friend_flow_already_configured(hass: UniversalAssistant) -> None:
+async def test_add_friend_flow_already_configured(hass: __HAC_KEEP__) -> None:
     """Test add friend subentry flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -442,7 +442,7 @@ async def test_add_friend_flow_already_configured(hass: UniversalAssistant) -> N
     "xbox_live_client",
     "authentication_manager",
 )
-async def test_add_friend_flow_already_configured_as_entry(hass: UniversalAssistant) -> None:
+async def test_add_friend_flow_already_configured_as_entry(hass: __HAC_KEEP__) -> None:
     """Test add friend subentry flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -512,7 +512,7 @@ async def test_add_friend_flow_already_configured_as_entry(hass: UniversalAssist
     "authentication_manager",
 )
 async def test_add_friend_flow_no_friends(
-    hass: UniversalAssistant, xbox_live_client: AsyncMock
+    hass: __HAC_KEEP__, xbox_live_client: AsyncMock
 ) -> None:
     """Test add friend subentry flow."""
     xbox_live_client.people.get_friends_own.return_value = PeopleResponse(
@@ -562,7 +562,7 @@ async def test_add_friend_flow_no_friends(
     "authentication_manager",
 )
 async def test_add_friend_flow_config_entry_not_loaded(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test add friend subentry flow."""
     config_entry.add_to_hass(hass)
@@ -580,13 +580,13 @@ async def test_add_friend_flow_config_entry_not_loaded(
 
 @pytest.mark.usefixtures("xbox_live_client", "authentication_manager")
 async def test_unique_id_and_friends_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test config entry unique_id migration and favorite to subentry migration."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
-        title="Universal Universal Home Assistant Cloud",
+        title="__HA_KEEP__ Cloud",
         data={
             "auth_implementation": "cloud",
             "token": {
@@ -659,7 +659,7 @@ async def test_unique_id_and_friends_migration(
 )
 @pytest.mark.usefixtures("authentication_manager")
 async def test_migration_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     xbox_live_client: AsyncMock,
     provider: str,
     method: str,
@@ -668,7 +668,7 @@ async def test_migration_exceptions(
     """Test exceptions during migration."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
-        title="Universal Universal Home Assistant Cloud",
+        title="__HA_KEEP__ Cloud",
         data={
             "auth_implementation": "cloud",
             "token": {
@@ -699,11 +699,11 @@ async def test_migration_exceptions(
 
 
 @pytest.mark.usefixtures("xbox_live_client", "authentication_manager")
-async def test_migration_implementation_unavailable(hass: UniversalAssistant) -> None:
+async def test_migration_implementation_unavailable(hass: __HAC_KEEP__) -> None:
     """Test implementation unavailable exception during migration."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
-        title="Universal Universal Home Assistant Cloud",
+        title="__HA_KEEP__ Cloud",
         data={
             "auth_implementation": "cloud",
             "token": {
@@ -739,7 +739,7 @@ async def test_migration_implementation_unavailable(hass: UniversalAssistant) ->
     "authentication_manager",
 )
 async def test_flow_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -806,7 +806,7 @@ async def test_flow_reauth(
     "authentication_manager",
 )
 async def test_flow_reauth_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     xbox_live_client: AsyncMock,
     config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,

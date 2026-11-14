@@ -10,7 +10,7 @@ from aiohttp.hdrs import AUTHORIZATION, USER_AGENT
 import probatio
 
 from universalassistant.const import CONF_DOMAIN, CONF_PASSWORD, CONF_TIMEOUT, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import (
     SERVER_SOFTWARE,
@@ -59,7 +59,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Initialize the NO-IP component."""
     domain = config[DOMAIN].get(CONF_DOMAIN)
     user = config[DOMAIN].get(CONF_USERNAME)
@@ -85,7 +85,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def _update_no_ip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     session: aiohttp.ClientSession,
     domain: str,
     auth_str: bytes,

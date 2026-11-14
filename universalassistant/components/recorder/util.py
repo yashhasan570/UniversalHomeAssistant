@@ -27,7 +27,7 @@ from sqlalchemy.sql.lambdas import StatementLambdaElement
 from sqlalchemy.sql.selectable import Select
 
 from universalassistant.const import WEEKDAYS
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.generated.recorder_database_versions import (
     SUPPORTED_DATABASE_VERSIONS,
 )
@@ -288,7 +288,7 @@ def execute_select(
 def get_engine_db_url(db_url: str) -> URL:
     """Return the SQLAlchemy URL to create a database engine for db_url.
 
-    A PostgreSQL URL without a driver uses psycopg2, which Universal Universal Home Assistant
+    A PostgreSQL URL without a driver uses psycopg2, which __HA_KEEP__
     installations ship, instead of SQLAlchemy's default driver, which is
     psycopg 3 from SQLAlchemy 2.1.
     """
@@ -443,8 +443,8 @@ def _fail_unsupported_dialect(dialect_name: str) -> NoReturn:
     """Warn about unsupported database version."""
     _LOGGER.error(
         (
-            "Database %s is not supported; Universal Universal Home Assistant supports %s. "
-            "Starting with Universal Universal Home Assistant 2022.6 this prevents the recorder from "
+            "Database %s is not supported; __HA_KEEP__ supports %s. "
+            "Starting with __HA_KEEP__ 2022.6 this prevents the recorder from "
             "starting. Please migrate your database to a supported software"
         ),
         dialect_name,
@@ -460,7 +460,7 @@ def _raise_if_version_unsupported(
     _LOGGER.error(
         (
             "Version %s of %s is not supported; minimum supported version is %s. "
-            "Starting with Universal Universal Home Assistant 2022.6 this prevents the recorder from "
+            "Starting with __HA_KEEP__ 2022.6 this prevents the recorder from "
             "starting. Please upgrade your database software"
         ),
         server_version,
@@ -471,14 +471,14 @@ def _raise_if_version_unsupported(
 
 
 @callback
-def _async_delete_issue_deprecated_version(hass: UniversalAssistant, issue_id: str) -> None:
+def _async_delete_issue_deprecated_version(hass: __HAC_KEEP__, issue_id: str) -> None:
     """Delete a deprecated database version repair issue."""
     ir.async_delete_issue(hass, DOMAIN, issue_id)
 
 
 @callback
 def _async_create_issue_deprecated_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     server_version: AwesomeVersion,
     database_engine: str,
     min_version: AwesomeVersion,
@@ -503,7 +503,7 @@ def _async_create_issue_deprecated_version(
 
 @callback
 def _async_create_issue_not_supported_lts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     server_version: AwesomeVersion,
     database_engine: str,
     lts_versions: str,
@@ -527,7 +527,7 @@ def _async_create_issue_not_supported_lts(
 
 
 def _check_deprecated_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     server_version: AwesomeVersion,
     database_engine: str,
     upcoming_min_version: tuple[AwesomeVersion, str],
@@ -550,7 +550,7 @@ def _check_deprecated_version(
 
 
 def _check_lts_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     server_version: AwesomeVersion,
     database_engine: str,
     lts_support: _LTSVersionSupport,
@@ -629,7 +629,7 @@ def build_mysqldb_conv() -> dict:
 
 @callback
 def _async_create_mariadb_range_index_regression_issue(
-    hass: UniversalAssistant, version: AwesomeVersion
+    hass: __HAC_KEEP__, version: AwesomeVersion
 ) -> None:
     """Create an issue for the index range regression in older MariaDB.
 
@@ -657,7 +657,7 @@ def _async_create_mariadb_range_index_regression_issue(
 
 @callback
 def async_create_backup_failure_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_start_time: datetime,
 ) -> None:
     """Create an issue when the backup fails because we run out of resources."""
@@ -758,7 +758,7 @@ def setup_connection_for_dialect(
                 )
             else:
                 # MySQL
-                # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/137178
+                # https://github.com/yashhasan570/__HAC_KEEP__/issues/137178
                 slow_dependent_subquery = True
                 _check_lts_version(instance.hass, version, "MySQL", SUPPORTED_MYSQL_LTS)
 
@@ -768,7 +768,7 @@ def setup_connection_for_dialect(
         # PostgreSQL does not support a skip/loose index scan so its
         # also slow for large distinct queries:
         # https://wiki.postgresql.org/wiki/Loose_indexscan
-        # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/126084
+        # https://github.com/yashhasan570/__HAC_KEEP__/issues/126084
         # so we set slow_range_in_select to True
         slow_range_in_select = True
         if first_connection:
@@ -996,7 +996,7 @@ def write_lock_db_sqlite(instance: Recorder) -> Generator[None]:
             connection.execute(text("END;"))
 
 
-def async_migration_in_progress(hass: UniversalAssistant) -> bool:
+def async_migration_in_progress(hass: __HAC_KEEP__) -> bool:
     """Determine if a migration is in progress.
 
     This is a thin wrapper that allows us to change
@@ -1007,7 +1007,7 @@ def async_migration_in_progress(hass: UniversalAssistant) -> bool:
     return hass.data[DATA_INSTANCE].migration_in_progress
 
 
-def async_migration_is_live(hass: UniversalAssistant) -> bool:
+def async_migration_is_live(hass: __HAC_KEEP__) -> bool:
     """Determine if a migration is live.
 
     This is a thin wrapper that allows us to change
@@ -1287,7 +1287,7 @@ def filter_unique_constraint_integrity_error(
             _LOGGER.warning(
                 "Blocked attempt to insert duplicated %s rows, please report at %s",
                 row_type,
-                "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+recorder%22",
+                "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+recorder%22",
                 exc_info=err,
             )
 

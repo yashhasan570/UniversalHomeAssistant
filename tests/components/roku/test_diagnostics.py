@@ -6,12 +6,12 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from rokuecp import Device as RokuDevice
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_device: RokuDevice,
     init_integration: MockConfigEntry,

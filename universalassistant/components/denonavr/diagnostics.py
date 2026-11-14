@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import CONF_MODEL, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import DenonavrConfigEntry
 from .const import CONF_MANUFACTURER
@@ -39,7 +39,7 @@ ZONE_ATTRIBUTES = (
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: DenonavrConfigEntry
+    hass: __HAC_KEEP__, entry: DenonavrConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     receiver = entry.runtime_data

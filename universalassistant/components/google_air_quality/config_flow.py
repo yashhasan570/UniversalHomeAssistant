@@ -27,7 +27,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import SectionConfig, section
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
@@ -108,7 +108,7 @@ async def _validate_input(
     return False
 
 
-def _get_location_schema(hass: UniversalAssistant) -> probatio.Schema:
+def _get_location_schema(hass: __HAC_KEEP__) -> probatio.Schema:
     """Return the schema for a location with default values from the hass config."""
     return probatio.Schema(
         {
@@ -146,7 +146,7 @@ def _get_location_schema(hass: UniversalAssistant) -> probatio.Schema:
 
 
 def _is_location_already_configured(
-    hass: UniversalAssistant, new_data: dict[str, float], epsilon: float = 1e-4
+    hass: __HAC_KEEP__, new_data: dict[str, float], epsilon: float = 1e-4
 ) -> bool:
     """Check if the location is already configured."""
     for entry in hass.config_entries.async_entries(DOMAIN):
@@ -164,7 +164,7 @@ def _is_location_already_configured(
     return False
 
 
-def _is_location_name_already_configured(hass: UniversalAssistant, new_data: str) -> bool:
+def _is_location_name_already_configured(hass: __HAC_KEEP__, new_data: str) -> bool:
     """Check if the location name is already configured."""
     for entry in hass.config_entries.async_entries(DOMAIN):
         for subentry in entry.subentries.values():

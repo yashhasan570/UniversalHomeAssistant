@@ -1,1 +1,1 @@
-"""Tests for the Universal Universal Home Assistant integration to provide core functionality."""
+"""Tests for the __HA_KEEP__ integration to provide core functionality."""

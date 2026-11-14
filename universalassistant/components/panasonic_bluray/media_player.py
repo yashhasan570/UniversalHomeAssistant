@@ -13,7 +13,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -33,7 +33,7 @@ PLATFORM_SCHEMA = MEDIA_PLAYER_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -41,7 +41,7 @@ def setup_platform(
     """Set up the Panasonic Blu-ray media player platform."""
     conf = discovery_info or config
 
-    # Register configured device with Universal Universal Home Assistant.
+    # Register configured device with __HA_KEEP__.
     add_entities([PanasonicBluRay(conf[CONF_HOST], conf[CONF_NAME])])
 
 

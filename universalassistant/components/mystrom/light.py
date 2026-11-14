@@ -13,8 +13,8 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -30,7 +30,7 @@ EFFECT_SUNRISE = "sunrise"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MyStromConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -93,7 +93,7 @@ class MyStromLight(LightEntity):
             if effect == EFFECT_RAINBOW:
                 await self._bulb.set_rainbow(30)
         except MyStromConnectionError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="light_action_failed",
             ) from err
@@ -104,7 +104,7 @@ class MyStromLight(LightEntity):
         try:
             await self._bulb.set_off()
         except MyStromConnectionError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="light_action_failed",
             ) from err

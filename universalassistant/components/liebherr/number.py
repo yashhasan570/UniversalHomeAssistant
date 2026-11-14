@@ -15,7 +15,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -86,7 +86,7 @@ def _create_number_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LiebherrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -4,7 +4,7 @@ from pyenvertechevt800 import EnvertechEVT800
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import PLATFORMS
 from .coordinator import EnvertechEVT800Coordinator
@@ -13,7 +13,7 @@ type EnvertechEVT800ConfigEntry = ConfigEntry[EnvertechEVT800Coordinator]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: EnvertechEVT800ConfigEntry
+    hass: __HAC_KEEP__, entry: EnvertechEVT800ConfigEntry
 ) -> None:
     """Set up Envertech EVT800 from a config entry."""
     evt800 = EnvertechEVT800(entry.data[CONF_IP_ADDRESS], entry.data[CONF_PORT])
@@ -29,7 +29,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: EnvertechEVT800ConfigEntry
+    hass: __HAC_KEEP__, entry: EnvertechEVT800ConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -1,4 +1,4 @@
-"""Provide methods to bootstrap a Universal Universal Home Assistant instance."""
+"""Provide methods to bootstrap a __HA_KEEP__ instance."""
 
 import asyncio
 from collections import defaultdict
@@ -70,7 +70,7 @@ from .const import (
     SIGNAL_BOOTSTRAP_INTEGRATIONS,
 )
 from .core_config import async_process_ha_core_config
-from .exceptions import UniversalAssistantError, UnsupportedStorageVersionError
+from .exceptions import __HAC_KEEP__Error, UnsupportedStorageVersionError
 from .helpers import (
     area_registry,
     category_registry,
@@ -109,7 +109,7 @@ from .util.async_ import create_eager_task
 from .util.hass_dict import HassKey
 from .util.logging import (
     LOG_FORMAT,
-    UniversalAssistantLogFormatter,
+    __HAC_KEEP__LogFormatter,
     async_activate_log_queue_handler,
 )
 from .util.package import is_docker_env
@@ -314,12 +314,12 @@ PRELOAD_STORAGE = [
 
 async def async_setup_hass(
     runtime_config: RuntimeConfig,
-) -> core.UniversalAssistant | None:
-    """Set up Universal Universal Home Assistant."""
+) -> core.__HAC_KEEP__ | None:
+    """Set up __HA_KEEP__."""
 
-    async def create_hass() -> core.UniversalAssistant:
+    async def create_hass() -> core.__HAC_KEEP__:
         """Create the hass object and do basic setup."""
-        hass = core.UniversalAssistant(runtime_config.config_dir)
+        hass = core.__HAC_KEEP__(runtime_config.config_dir)
         loader.async_setup(hass)
 
         await async_enable_logging(
@@ -366,7 +366,7 @@ async def async_setup_hass(
 
         try:
             config_dict = await conf_util.async_hass_config_yaml(hass)
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             _LOGGER.error(
                 "Failed to parse configuration.yaml: %s. Activating recovery mode",
                 err,
@@ -429,7 +429,7 @@ async def async_setup_hass(
     return hass
 
 
-def open_hass_ui(hass: core.UniversalAssistant) -> None:
+def open_hass_ui(hass: core.__HAC_KEEP__) -> None:
     """Open the UI."""
     import webbrowser  # noqa: PLC0415
 
@@ -444,7 +444,7 @@ def open_hass_ui(hass: core.UniversalAssistant) -> None:
 
     if not webbrowser.open(url):
         _LOGGER.warning(
-            "Unable to open the Universal Universal Home Assistant UI in a browser. Open it yourself at %s",
+            "Unable to open the __HA_KEEP__ UI in a browser. Open it yourself at %s",
             url,
         )
 
@@ -466,7 +466,7 @@ def _init_blocking_io_modules_in_executor() -> None:
     is_docker_env()
 
 
-async def async_load_base_functionality(hass: core.UniversalAssistant) -> bool:
+async def async_load_base_functionality(hass: core.__HAC_KEEP__) -> bool:
     """Load the registries and modules that will do blocking I/O.
 
     Return whether loading succeeded.
@@ -511,9 +511,9 @@ async def async_load_base_functionality(hass: core.UniversalAssistant) -> bool:
             raise
 
         _LOGGER.error(
-            "Storage file %s was created by a newer version of Universal Universal Home Assistant"
+            "Storage file %s was created by a newer version of __HA_KEEP__"
             " (storage version %s > %s); activating recovery mode; on-disk data"
-            " is preserved; upgrade Universal Universal Home Assistant or restore from a backup",
+            " is preserved; upgrade __HA_KEEP__ or restore from a backup",
             err.storage_key,
             err.found_version,
             err.max_supported_version,
@@ -524,9 +524,9 @@ async def async_load_base_functionality(hass: core.UniversalAssistant) -> bool:
 
 
 async def async_from_config_dict(
-    config: ConfigType, hass: core.UniversalAssistant
-) -> core.UniversalAssistant | None:
-    """Try to configure Universal Universal Home Assistant from a configuration dictionary.
+    config: ConfigType, hass: core.__HAC_KEEP__
+) -> core.__HAC_KEEP__ | None:
+    """Try to configure __HA_KEEP__ from a configuration dictionary.
 
     Dynamically loads required components and its dependencies.
     This method is a coroutine.
@@ -556,10 +556,10 @@ async def async_from_config_dict(
             )
         )
     ):
-        _LOGGER.error("Universal Universal Home Assistant core failed to initialize. ")
+        _LOGGER.error("__HA_KEEP__ core failed to initialize. ")
         return None
 
-    _LOGGER.debug("Universal Universal Home Assistant core initialized")
+    _LOGGER.debug("__HA_KEEP__ core initialized")
 
     core_config = config.get(core.DOMAIN, {})
 
@@ -569,21 +569,21 @@ async def async_from_config_dict(
         conf_util.async_log_schema_error(config_err, core.DOMAIN, core_config, hass)
         async_notify_setup_error(hass, core.DOMAIN)
         return None
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         _LOGGER.error(
-            "Universal Universal Home Assistant core failed to initialize. Further initialization aborted"
+            "__HA_KEEP__ core failed to initialize. Further initialization aborted"
         )
         return None
 
     await _async_set_up_integrations(hass, config)
 
     stop = monotonic()
-    _LOGGER.info("Universal Universal Home Assistant initialized in %.2fs", stop - start)
+    _LOGGER.info("__HA_KEEP__ initialized in %.2fs", stop - start)
     return hass
 
 
 async def async_enable_logging(
-    hass: core.UniversalAssistant,
+    hass: core.__HAC_KEEP__,
     verbose: bool = False,
     log_rotate_days: int | None = None,
     log_file: str | None = None,
@@ -593,7 +593,7 @@ async def async_enable_logging(
 
     This method must be run in the event loop.
     """
-    formatter: logging.Formatter = UniversalAssistantLogFormatter(LOG_FORMAT)
+    formatter: logging.Formatter = __HAC_KEEP__LogFormatter(LOG_FORMAT)
     if not log_no_color:
         try:
             from colorlog import ColoredFormatter  # noqa: PLC0415
@@ -601,8 +601,8 @@ async def async_enable_logging(
             pass
         else:
 
-            class _ColoredFormatter(UniversalAssistantLogFormatter, ColoredFormatter):
-                """Colored formatter using the Universal Universal Home Assistant timestamp format."""
+            class _ColoredFormatter(__HAC_KEEP__LogFormatter, ColoredFormatter):
+                """Colored formatter using the __HA_KEEP__ timestamp format."""
 
             formatter = _ColoredFormatter(
                 f"%(log_color)s{LOG_FORMAT}%(reset)s",
@@ -673,7 +673,7 @@ async def async_enable_logging(
             _create_log_file, err_log_path, log_rotate_days
         )
 
-        err_handler.setFormatter(UniversalAssistantLogFormatter(LOG_FORMAT))
+        err_handler.setFormatter(__HAC_KEEP__LogFormatter(LOG_FORMAT))
         logger.addHandler(err_handler)
 
         # Save the log file location for access by other components.
@@ -741,7 +741,7 @@ class _RotatingFileHandlerWithoutShouldRollOver(RotatingFileHandler):
         return False
 
 
-def _get_domains(hass: core.UniversalAssistant, config: dict[str, Any]) -> set[str]:
+def _get_domains(hass: core.__HAC_KEEP__, config: dict[str, Any]) -> set[str]:
     """Get domains of components to set up."""
     # The common config section [universalassistant] could be filtered here,
     # but that is not necessary, since it corresponds to the core integration,
@@ -763,7 +763,7 @@ def _get_domains(hass: core.UniversalAssistant, config: dict[str, Any]) -> set[s
 
 
 async def _async_resolve_domains_and_preload(
-    hass: core.UniversalAssistant, config: dict[str, Any]
+    hass: core.__HAC_KEEP__, config: dict[str, Any]
 ) -> tuple[dict[str, Integration], dict[str, Integration]]:
     """Resolve all dependencies and return integrations to set up.
 
@@ -894,7 +894,7 @@ async def _async_resolve_domains_and_preload(
 
 
 async def _async_set_up_integrations(
-    hass: core.UniversalAssistant, config: dict[str, Any]
+    hass: core.__HAC_KEEP__, config: dict[str, Any]
 ) -> None:
     """Set up all the integrations."""
     watcher = _WatchPendingSetups(hass, _setup_started(hass))
@@ -1012,7 +1012,7 @@ class _WatchPendingSetups:
 
     def __init__(
         self,
-        hass: core.UniversalAssistant,
+        hass: core.__HAC_KEEP__,
         setup_started: dict[tuple[str, str | None], float],
     ) -> None:
         """Initialize the WatchPendingSetups class."""
@@ -1079,7 +1079,7 @@ class _WatchPendingSetups:
 
 
 async def _async_setup_multi_components(
-    hass: core.UniversalAssistant,
+    hass: core.__HAC_KEEP__,
     domains: set[str],
     config: dict[str, Any],
 ) -> None:

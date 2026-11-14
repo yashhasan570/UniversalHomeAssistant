@@ -7,7 +7,7 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import add_storage_capacity
 
@@ -21,7 +21,7 @@ CONTROL_BASES = {
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -38,7 +38,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_without_control_blocks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -60,7 +60,7 @@ async def test_diagnostics_without_control_blocks(
 
 
 async def test_diagnostics_reports_the_sunspec_chain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,

@@ -25,7 +25,7 @@ from fronius_solarapi import (
 )
 from modbus_connection import ModbusError
 
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -297,7 +297,7 @@ class FroniusModbusSettingsUpdateCoordinator(FroniusModbusCoordinatorBase):
         """
         component = component_fn(self.modbus_inverter)
         if component is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="modbus_model_unavailable",
             )
@@ -326,7 +326,7 @@ class FroniusModbusSettingsUpdateCoordinator(FroniusModbusCoordinatorBase):
                 if enable_field is not None and getattr(component, enable_field):
                     await component.write(enable_field, True)
         except (ModbusError, SunSpecError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="modbus_write_failed",
                 translation_placeholders={"error": str(err)},

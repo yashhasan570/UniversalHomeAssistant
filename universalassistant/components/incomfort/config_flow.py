@@ -19,7 +19,7 @@ from universalassistant.config_entries import (
     OptionsFlow,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import AbortFlow
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
@@ -82,7 +82,7 @@ OPTIONS_SCHEMA = probatio.Schema(
 
 
 async def async_try_connect_gateway(
-    hass: UniversalAssistant, config: dict[str, Any]
+    hass: __HAC_KEEP__, config: dict[str, Any]
 ) -> dict[str, str] | None:
     """Try to connect to the Lan2RF gateway."""
     try:

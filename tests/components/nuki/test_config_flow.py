@@ -10,7 +10,7 @@ from requests.exceptions import RequestException
 from universalassistant import config_entries
 from universalassistant.components.nuki.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -43,7 +43,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -83,7 +83,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -114,7 +114,7 @@ async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -145,7 +145,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_exception(hass: UniversalAssistant) -> None:
+async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle unknown exceptions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -176,7 +176,7 @@ async def test_form_unknown_exception(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_already_configured(hass: UniversalAssistant) -> None:
+async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     await setup_nuki_integration(hass)
     result = await hass.config_entries.flow.async_init(
@@ -200,7 +200,7 @@ async def test_form_already_configured(hass: UniversalAssistant) -> None:
         assert result2["reason"] == "already_configured"
 
 
-async def test_dhcp_flow(hass: UniversalAssistant) -> None:
+async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
     """Test that DHCP discovery for new bridge works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -243,7 +243,7 @@ async def test_dhcp_flow(hass: UniversalAssistant) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_flow_already_configured(hass: UniversalAssistant) -> None:
+async def test_dhcp_flow_already_configured(hass: __HAC_KEEP__) -> None:
     """Test that DHCP doesn't setup already configured devices."""
     await setup_nuki_integration(hass)
     result = await hass.config_entries.flow.async_init(
@@ -256,7 +256,7 @@ async def test_dhcp_flow_already_configured(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth_success(hass: UniversalAssistant) -> None:
+async def test_reauth_success(hass: __HAC_KEEP__) -> None:
     """Test starting a reauthentication flow."""
     entry = await setup_nuki_integration(hass)
 
@@ -285,7 +285,7 @@ async def test_reauth_success(hass: UniversalAssistant) -> None:
         assert entry.data[CONF_TOKEN] == "new-token"
 
 
-async def test_reauth_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_reauth_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test starting a reauthentication flow with invalid auth."""
     entry = await setup_nuki_integration(hass)
 
@@ -317,7 +317,7 @@ async def test_reauth_invalid_auth(hass: UniversalAssistant) -> None:
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_reauth_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_reauth_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test starting a reauthentication flow with cannot connect."""
     entry = await setup_nuki_integration(hass)
 
@@ -349,7 +349,7 @@ async def test_reauth_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_reauth_unknown_exception(hass: UniversalAssistant) -> None:
+async def test_reauth_unknown_exception(hass: __HAC_KEEP__) -> None:
     """Test starting a reauthentication flow with an unknown exception."""
     entry = await setup_nuki_integration(hass)
 

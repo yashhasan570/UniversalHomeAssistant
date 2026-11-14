@@ -22,8 +22,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -35,7 +35,7 @@ def _only_switch_platform() -> Generator[None]:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -53,7 +53,7 @@ async def test_all_entities(
 
 
 async def test_switch_relay_status_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_switch_relay_status_fallback(
 
 
 async def test_switch_heating_climate_requires_has_heat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_switch_heating_climate_requires_has_heat(
 
 
 async def test_switch_smart_mode_freeze_requires_has_smart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_switch_smart_mode_freeze_requires_has_smart(
     ],
 )
 async def test_switch_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -150,12 +150,12 @@ async def test_switch_set_value(
 
 
 async def test_switch_set_value_raises_on_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
 ) -> None:
-    """Test action raises UniversalAssistantError when the library fails."""
+    """Test action raises __HAC_KEEP__Error when the library fails."""
     mock_vistapool_client.fetch_pool_data.return_value = mock_pool_data
     mock_vistapool_client.set_value.side_effect = AquariteError("boom")
     mock_config_entry.add_to_hass(hass)
@@ -163,7 +163,7 @@ async def test_switch_set_value_raises_on_api_error(
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

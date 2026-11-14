@@ -10,7 +10,7 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.fritzbox.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICES, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -21,7 +21,7 @@ ENTITY_ID = f"{BUTTON_DOMAIN}.{CONF_FAKE_NAME}"
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     fritz: Mock,
@@ -40,7 +40,7 @@ async def test_setup(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_apply_template(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_apply_template(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test if applies works."""
     template = FritzEntityBaseMock()
     await setup_config_entry(
@@ -56,7 +56,7 @@ async def test_apply_template(hass: UniversalAssistant, fritz: Mock) -> None:
     assert fritz().apply_template.call_count == 1
 
 
-async def test_discover_new_device(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_discover_new_device(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test adding new discovered devices during runtime."""
     template = FritzEntityBaseMock()
     await setup_config_entry(

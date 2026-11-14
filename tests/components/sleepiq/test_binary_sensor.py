@@ -11,7 +11,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -28,7 +28,7 @@ from .conftest import (
 
 
 async def test_binary_sensors(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_asyncsleepiq
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_asyncsleepiq
 ) -> None:
     """Test the SleepIQ binary sensors."""
     await setup_platform(hass, BINARY_SENSOR_DOMAIN)

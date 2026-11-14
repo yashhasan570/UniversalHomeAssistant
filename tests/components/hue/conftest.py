@@ -19,7 +19,7 @@ from universalassistant.components.hue.v1 import sensor_base as hue_sensor_base
 from universalassistant.components.hue.v2.device import async_setup_devices
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonArrayType
 
@@ -33,7 +33,7 @@ def no_request_delay() -> Generator[None]:
         yield
 
 
-def create_mock_bridge(hass: UniversalAssistant, api_version: int = 1) -> Mock:
+def create_mock_bridge(hass: __HAC_KEEP__, api_version: int = 1) -> Mock:
     """Create a mocked HueBridge instance."""
     bridge = Mock(
         hass=hass,
@@ -209,13 +209,13 @@ def create_mock_api_v2() -> Mock:
 
 
 @pytest.fixture
-def mock_bridge_v1(hass: UniversalAssistant) -> Mock:
+def mock_bridge_v1(hass: __HAC_KEEP__) -> Mock:
     """Mock a Hue bridge with V1 api."""
     return create_mock_bridge(hass, api_version=1)
 
 
 @pytest.fixture
-def mock_bridge_v2(hass: UniversalAssistant) -> Mock:
+def mock_bridge_v2(hass: __HAC_KEEP__) -> Mock:
     """Mock a Hue bridge with V2 api."""
     return create_mock_bridge(hass, api_version=2)
 
@@ -244,7 +244,7 @@ def create_config_entry(
     )
 
 
-async def setup_component(hass: UniversalAssistant) -> None:
+async def setup_component(hass: __HAC_KEEP__) -> None:
     """Mock setup Hue component."""
     with patch.object(hue, "async_setup_entry", return_value=None):
         assert (
@@ -258,7 +258,7 @@ async def setup_component(hass: UniversalAssistant) -> None:
 
 
 async def setup_bridge(
-    hass: UniversalAssistant, mock_bridge: Mock, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_bridge: Mock, config_entry: MockConfigEntry
 ) -> None:
     """Load the Hue integration with the provided bridge."""
     mock_bridge.config_entry = config_entry
@@ -273,7 +273,7 @@ async def setup_bridge(
 
 
 async def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge: Mock,
     platforms: list[Platform] | tuple[Platform] | Platform,
     hostname: str | None = None,

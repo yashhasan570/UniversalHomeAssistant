@@ -6,7 +6,7 @@ from typing import cast, override
 import probatio
 
 from universalassistant.const import CONF_OPTIONS
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.event import async_track_time_change
 from universalassistant.helpers.trigger import (
     Trigger,
@@ -38,12 +38,12 @@ class MoonPhaseChangedTrigger(Trigger):
     @override
     @classmethod
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _PHASE_CHANGED_TRIGGER_SCHEMA(config))
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the trigger."""
         super().__init__(hass, config)
         options = config.options or {}
@@ -83,6 +83,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for the moon."""
     return TRIGGERS

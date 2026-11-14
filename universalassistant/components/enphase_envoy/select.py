@@ -11,7 +11,7 @@ from pyenphase.models.tariff import EnvoyStorageMode, EnvoyStorageSettings
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -135,7 +135,7 @@ ACB_SLEEP_SOC_ENTITY = SelectEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: EnphaseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -5,14 +5,14 @@ from unifi_ap import UniFiAPConnectionException
 from universalassistant.components.unifi_direct.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_CONFIG
 
 
 async def test_user_flow_success(
-    hass: UniversalAssistant, mock_setup_entry, mock_unifiap
+    hass: __HAC_KEEP__, mock_setup_entry, mock_unifiap
 ) -> None:
     """Test a successful config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -41,7 +41,7 @@ async def test_user_flow_success(
 
 
 async def test_user_flow_cannot_connect(
-    hass: UniversalAssistant, mock_setup_entry, mock_unifiap
+    hass: __HAC_KEEP__, mock_setup_entry, mock_unifiap
 ) -> None:
     """Test config flow when connection fails."""
     # Make the UniFiAP.get_clients raise an exception
@@ -77,7 +77,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_entry_exists(
-    hass: UniversalAssistant, mock_setup_entry, mock_unifiap, mock_config_entry
+    hass: __HAC_KEEP__, mock_setup_entry, mock_unifiap, mock_config_entry
 ) -> None:
     """Test where an entry already exists and we try to set it up."""
     mock_config_entry.add_to_hass(hass)
@@ -96,7 +96,7 @@ async def test_user_flow_entry_exists(
     assert result["reason"] == "already_configured"
 
 
-async def test_import_flow(hass: UniversalAssistant, mock_setup_entry, mock_unifiap) -> None:
+async def test_import_flow(hass: __HAC_KEEP__, mock_setup_entry, mock_unifiap) -> None:
     """Test import initiated flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -120,7 +120,7 @@ async def test_import_flow(hass: UniversalAssistant, mock_setup_entry, mock_unif
 
 
 async def test_import_flow_entry_exists(
-    hass: UniversalAssistant, mock_setup_entry, mock_unifiap, mock_config_entry
+    hass: __HAC_KEEP__, mock_setup_entry, mock_unifiap, mock_config_entry
 ) -> None:
     """Test import flow aborts when entry already exists."""
     mock_config_entry.add_to_hass(hass)
@@ -136,7 +136,7 @@ async def test_import_flow_entry_exists(
 
 
 async def test_import_flow_cannot_connect(
-    hass: UniversalAssistant, mock_setup_entry, mock_unifiap
+    hass: __HAC_KEEP__, mock_setup_entry, mock_unifiap
 ) -> None:
     """Test import config flow when connection fails."""
     mock_unifiap.return_value.get_clients.side_effect = UniFiAPConnectionException(

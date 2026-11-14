@@ -1,4 +1,4 @@
-"""Tests for the Universal Universal Home Assistant Websocket API."""
+"""Tests for the __HA_KEEP__ Websocket API."""
 
 from unittest.mock import Mock, patch
 
@@ -10,7 +10,7 @@ from universalassistant.components.websocket_api import (
     const,
     messages,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_invalid_message_format(websocket_client) -> None:
@@ -34,7 +34,7 @@ async def test_invalid_json(websocket_client) -> None:
     assert msg.type == WSMsgType.close
 
 
-async def test_quiting_hass(hass: UniversalAssistant, websocket_client) -> None:
+async def test_quiting_hass(hass: __HAC_KEEP__, websocket_client) -> None:
     """Test sending invalid JSON."""
     with patch.object(hass.loop, "stop"):
         await hass.async_stop()
@@ -53,7 +53,7 @@ async def test_unknown_command(websocket_client) -> None:
     assert msg["error"]["code"] == const.ERR_UNKNOWN_COMMAND
 
 
-async def test_handler_failing(hass: UniversalAssistant, websocket_client) -> None:
+async def test_handler_failing(hass: __HAC_KEEP__, websocket_client) -> None:
     """Test a command that raises."""
     async_register_command(
         hass,
@@ -70,7 +70,7 @@ async def test_handler_failing(hass: UniversalAssistant, websocket_client) -> No
     assert msg["error"]["code"] == const.ERR_UNKNOWN_ERROR
 
 
-async def test_invalid_probatio(hass: UniversalAssistant, websocket_client) -> None:
+async def test_invalid_probatio(hass: __HAC_KEEP__, websocket_client) -> None:
     """Test a command that raises invalid probatio error."""
     async_register_command(
         hass,

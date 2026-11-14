@@ -25,7 +25,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -71,7 +71,7 @@ def mock_dsm_with_filestation():
 
 @pytest.fixture
 async def setup_dsm_with_filestation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dsm_with_filestation: MagicMock,
 ):
     """Mock setup of synology dsm config entry."""
@@ -107,7 +107,7 @@ async def setup_dsm_with_filestation(
 
 
 async def test_create_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_dsm_with_filestation: MagicMock,
     hass_ws_client: WebSocketGenerator,
     issue_registry: ir.IssueRegistry,
@@ -140,7 +140,7 @@ async def test_create_issue(
 
 
 async def test_missing_backup_ignore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_dsm_with_filestation: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -184,7 +184,7 @@ async def test_missing_backup_ignore(
 
 
 async def test_missing_backup_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_dsm_with_filestation: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -236,7 +236,7 @@ async def test_missing_backup_success(
 
 
 async def test_missing_backup_no_shares(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_dsm_with_filestation: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -277,7 +277,7 @@ async def test_missing_backup_no_shares(
     ["component.synology_dsm.issues.other_issue.title"],
 )
 async def test_other_fixable_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_dsm_with_filestation: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,

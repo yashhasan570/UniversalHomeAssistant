@@ -11,7 +11,7 @@ from universalassistant.components import sensor as sensor_component
 from universalassistant.components.mfi import sensor as mfi
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 PLATFORM = mfi
@@ -30,7 +30,7 @@ GOOD_CONFIG = {
 }
 
 
-async def test_setup_missing_config(hass: UniversalAssistant) -> None:
+async def test_setup_missing_config(hass: __HAC_KEEP__) -> None:
     """Test setup with missing configuration."""
     with mock.patch("universalassistant.components.mfi.sensor.MFiClient") as mock_client:
         config = {"sensor": {"platform": "mfi"}}
@@ -38,21 +38,21 @@ async def test_setup_missing_config(hass: UniversalAssistant) -> None:
         assert not mock_client.called
 
 
-async def test_setup_failed_login(hass: UniversalAssistant) -> None:
+async def test_setup_failed_login(hass: __HAC_KEEP__) -> None:
     """Test setup with login failure."""
     with mock.patch("universalassistant.components.mfi.sensor.MFiClient") as mock_client:
         mock_client.side_effect = FailedToLogin
         assert not PLATFORM.setup_platform(hass, GOOD_CONFIG[COMPONENT.DOMAIN], None)
 
 
-async def test_setup_failed_connect(hass: UniversalAssistant) -> None:
+async def test_setup_failed_connect(hass: __HAC_KEEP__) -> None:
     """Test setup with connection failure."""
     with mock.patch("universalassistant.components.mfi.sensor.MFiClient") as mock_client:
         mock_client.side_effect = requests.exceptions.ConnectionError
         assert not PLATFORM.setup_platform(hass, GOOD_CONFIG[COMPONENT.DOMAIN], None)
 
 
-async def test_setup_minimum(hass: UniversalAssistant) -> None:
+async def test_setup_minimum(hass: __HAC_KEEP__) -> None:
     """Test setup with minimum configuration."""
     with mock.patch("universalassistant.components.mfi.sensor.MFiClient") as mock_client:
         config = deepcopy(GOOD_CONFIG)
@@ -65,7 +65,7 @@ async def test_setup_minimum(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_setup_with_port(hass: UniversalAssistant) -> None:
+async def test_setup_with_port(hass: __HAC_KEEP__) -> None:
     """Test setup with port."""
     with mock.patch("universalassistant.components.mfi.sensor.MFiClient") as mock_client:
         assert await async_setup_component(hass, COMPONENT.DOMAIN, GOOD_CONFIG)
@@ -76,7 +76,7 @@ async def test_setup_with_port(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_setup_with_tls_disabled(hass: UniversalAssistant) -> None:
+async def test_setup_with_tls_disabled(hass: __HAC_KEEP__) -> None:
     """Test setup without TLS."""
     with mock.patch("universalassistant.components.mfi.sensor.MFiClient") as mock_client:
         config = deepcopy(GOOD_CONFIG)
@@ -91,7 +91,7 @@ async def test_setup_with_tls_disabled(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_setup_adds_proper_devices(hass: UniversalAssistant) -> None:
+async def test_setup_adds_proper_devices(hass: __HAC_KEEP__) -> None:
     """Test if setup adds devices."""
     with (
         mock.patch("universalassistant.components.mfi.sensor.MFiClient") as mock_client,
@@ -122,7 +122,7 @@ def port_fixture() -> mock.MagicMock:
 
 
 @pytest.fixture(name="sensor")
-def sensor_fixture(hass: UniversalAssistant, port: mock.MagicMock) -> mfi.MfiSensor:
+def sensor_fixture(hass: __HAC_KEEP__, port: mock.MagicMock) -> mfi.MfiSensor:
     """Sensor fixture."""
     sensor = mfi.MfiSensor(port)
     sensor.hass = hass

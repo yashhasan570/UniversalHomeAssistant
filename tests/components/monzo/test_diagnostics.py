@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.monzo.const import CONF_CLOUDHOOK_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import (
     OWNER,
@@ -26,7 +26,7 @@ CLOUDHOOK_URL = "https://hooks.nabu.casa/test-cloudhook"
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,

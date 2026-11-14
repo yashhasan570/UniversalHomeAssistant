@@ -14,8 +14,8 @@ from universalassistant.components.universalassistant_hardware.silabs_multiproto
     is_multiprotocol_url,
 )
 from universalassistant.components.thread import async_add_dataset, async_get_dataset
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DEFAULT_CHANNEL, DOMAIN
 from .util import (
@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the OTBR Websocket API."""
     websocket_api.async_register_command(hass, websocket_info)
     websocket_api.async_register_command(hass, websocket_create_network)
@@ -47,7 +47,7 @@ def async_setup(hass: UniversalAssistant) -> None:
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_info(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """Get OTBR info."""
     config_entries: list[OTBRConfigEntry]
@@ -66,7 +66,7 @@ async def websocket_info(
             dataset = await data.get_active_dataset()
             dataset_tlvs = await data.get_active_dataset_tlvs()
             extended_address = (await data.get_extended_address()).hex()
-        except UniversalAssistantError as exc:
+        except __HAC_KEEP__Error as exc:
             connection.send_error(msg["id"], "otbr_info_failed", str(exc))
             return
 
@@ -93,17 +93,17 @@ async def websocket_info(
 
 def async_get_otbr_data(
     orig_func: Callable[
-        [UniversalAssistant, websocket_api.ActiveConnection, dict, OTBRData],
+        [__HAC_KEEP__, websocket_api.ActiveConnection, dict, OTBRData],
         Coroutine[Any, Any, None],
     ],
 ) -> Callable[
-    [UniversalAssistant, websocket_api.ActiveConnection, dict], Coroutine[Any, Any, None]
+    [__HAC_KEEP__, websocket_api.ActiveConnection, dict], Coroutine[Any, Any, None]
 ]:
     """Decorate function to get OTBR data."""
 
     @wraps(orig_func)
     async def async_check_extended_address_func(
-        hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+        hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """Fetch OTBR data and pass to orig_func."""
         config_entries: list[OTBRConfigEntry]
@@ -117,7 +117,7 @@ def async_get_otbr_data(
             data = config_entry.runtime_data
             try:
                 extended_address = await data.get_extended_address()
-            except UniversalAssistantError as exc:
+            except __HAC_KEEP__Error as exc:
                 connection.send_error(
                     msg["id"], "get_extended_address_failed", str(exc)
                 )
@@ -143,7 +143,7 @@ def async_get_otbr_data(
 @websocket_api.async_response
 @async_get_otbr_data
 async def websocket_create_network(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict,
     data: OTBRData,
@@ -153,13 +153,13 @@ async def websocket_create_network(
 
     try:
         await data.set_enabled(False)
-    except UniversalAssistantError as exc:
+    except __HAC_KEEP__Error as exc:
         connection.send_error(msg["id"], "set_enabled_failed", str(exc))
         return
 
     try:
         await data.factory_reset(hass)
-    except UniversalAssistantError as exc:
+    except __HAC_KEEP__Error as exc:
         connection.send_error(msg["id"], "factory_reset_failed", str(exc))
         return
 
@@ -172,19 +172,19 @@ async def websocket_create_network(
                 pan_id=pan_id,
             )
         )
-    except UniversalAssistantError as exc:
+    except __HAC_KEEP__Error as exc:
         connection.send_error(msg["id"], "create_active_dataset_failed", str(exc))
         return
 
     try:
         await data.set_enabled(True)
-    except UniversalAssistantError as exc:
+    except __HAC_KEEP__Error as exc:
         connection.send_error(msg["id"], "set_enabled_failed", str(exc))
         return
 
     try:
         dataset_tlvs = await data.get_active_dataset_tlvs()
-    except UniversalAssistantError as exc:
+    except __HAC_KEEP__Error as exc:
         connection.send_error(msg["id"], "get_active_dataset_tlvs_failed", str(exc))
         return
     if not dataset_tlvs:
@@ -210,7 +210,7 @@ async def websocket_create_network(
 @websocket_api.async_response
 @async_get_otbr_data
 async def websocket_set_network(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict,
     data: OTBRData,
@@ -238,19 +238,19 @@ async def websocket_set_network(
 
     try:
         await data.set_enabled(False)
-    except UniversalAssistantError as exc:
+    except __HAC_KEEP__Error as exc:
         connection.send_error(msg["id"], "set_enabled_failed", str(exc))
         return
 
     try:
         await data.set_active_dataset_tlvs(bytes.fromhex(dataset_tlv))
-    except UniversalAssistantError as exc:
+    except __HAC_KEEP__Error as exc:
         connection.send_error(msg["id"], "set_active_dataset_tlvs_failed", str(exc))
         return
 
     try:
         await data.set_enabled(True)
-    except UniversalAssistantError as exc:
+    except __HAC_KEEP__Error as exc:
         connection.send_error(msg["id"], "set_enabled_failed", str(exc))
         return
 
@@ -271,7 +271,7 @@ async def websocket_set_network(
 @websocket_api.async_response
 @async_get_otbr_data
 async def websocket_set_channel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict,
     data: OTBRData,
@@ -290,7 +290,7 @@ async def websocket_set_channel(
 
     try:
         await data.set_channel(channel)
-    except UniversalAssistantError as exc:
+    except __HAC_KEEP__Error as exc:
         connection.send_error(msg["id"], "set_channel_failed", str(exc))
         return
 

@@ -16,7 +16,7 @@ from pytest_universalassistant.components.bluetooth import (
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.components.switchbot.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.setup import async_setup_component
 
@@ -85,7 +85,7 @@ def _with_contact_button_count(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_keypad_vision_pro_doorbell_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test keypad vision pro doorbell event uses doorbell_seq for detection."""
@@ -170,7 +170,7 @@ async def test_keypad_vision_pro_doorbell_event(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_contact_sensor_button_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test contact sensor button event fires on button_count changes and wrap-around."""
@@ -286,7 +286,7 @@ def _with_climate_panel_keystate(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_climate_panel_keystate_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test Climate Panel ON/OFF button events fire on keystate counter changes."""

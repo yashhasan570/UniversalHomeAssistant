@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .helper import (
     FIXTURE_DATA,
@@ -26,7 +26,7 @@ from .helper import (
 
 
 async def test_ventilation_fan(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicIP ventilation actuator."""
     entity_id = "fan.universalaktor_ventilation"
@@ -84,7 +84,7 @@ async def test_ventilation_fan(
 
 
 async def test_ventilation_fan_percentage_zero_stops_ventilation(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that a percentage of zero stops ventilating instead of setting level 0."""
     entity_id = "fan.universalaktor_ventilation"
@@ -116,7 +116,7 @@ async def test_ventilation_fan_percentage_zero_stops_ventilation(
 
 
 async def test_ventilation_fan_turn_on_with_percentage(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that turning on with a percentage sets the level in one call."""
     entity_id = "fan.universalaktor_ventilation"
@@ -138,7 +138,7 @@ async def test_ventilation_fan_turn_on_with_percentage(
 
 
 async def test_no_fan_for_other_channel_role(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that a universal actuator that does not ventilate gets no fan."""
     device = deepcopy(json.loads(FIXTURE_DATA)["devices"]["3014F7110000000000000WUA"])

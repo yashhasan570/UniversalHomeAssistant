@@ -26,7 +26,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     Event,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
 from universalassistant.data_entry_flow import FlowResultType
@@ -134,7 +134,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the OctoPrint component."""
     async_setup_services(hass)
     if DOMAIN not in config:
@@ -160,7 +160,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def _async_import_yaml(
-    hass: UniversalAssistant, import_data: list[dict[str, Any]]
+    hass: __HAC_KEEP__, import_data: list[dict[str, Any]]
 ) -> None:
     """Import the YAML devices into config entries."""
     # Eager tasks register the import flows before setup waits for them.
@@ -215,7 +215,7 @@ async def _async_import_yaml(
     )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OctoprintConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OctoprintConfigEntry) -> None:
     """Set up OctoPrint from a config entry."""
     if CONF_VERIFY_SSL not in entry.data:
         data = {**entry.data, CONF_VERIFY_SSL: True}
@@ -258,6 +258,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OctoprintConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: OctoprintConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: OctoprintConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -14,7 +14,7 @@ from universalassistant.components.tailscale.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -83,7 +83,7 @@ def mock_tailscale(request: pytest.FixtureRequest) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_tailscale: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_tailscale: MagicMock
 ) -> MockConfigEntry:
     """Set up the Tailscale integration for testing."""
     mock_config_entry.add_to_hass(hass)

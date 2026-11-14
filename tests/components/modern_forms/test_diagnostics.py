@@ -6,13 +6,13 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import init_integration, init_integration_gen4
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
@@ -26,7 +26,7 @@ async def test_entry_diagnostics(
 
 
 async def test_entry_diagnostics_gen4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,

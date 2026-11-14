@@ -12,10 +12,10 @@ import probatio
 
 from universalassistant.auth.models import User
 from universalassistant.components import cloud
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.components.http.data_validator import RequestDataValidator
 from universalassistant.const import ATTR_DEVICE_ID, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_validation as cv
 from universalassistant.util import slugify
@@ -46,7 +46,7 @@ from .util import (
 )
 
 
-class RegistrationsView(UniversalAssistantView):
+class RegistrationsView(__HAC_KEEP__View):
     """A view that accepts registration requests."""
 
     url = "/api/mobile_app/registrations"
@@ -106,14 +106,14 @@ class RegistrationsView(UniversalAssistantView):
         )
 
 
-async def _async_register(hass: UniversalAssistant, user: User, data: dict) -> bool:
+async def _async_register(hass: __HAC_KEEP__, user: User, data: dict) -> bool:
     """Register an app, return True if successful."""
     # Serialize registrations, an app registering again updates its entry
     async with hass.data[DOMAIN][DATA_REGISTRATION_LOCK]:
         return await _async_register_locked(hass, user, data)
 
 
-async def _async_register_locked(hass: UniversalAssistant, user: User, data: dict) -> bool:
+async def _async_register_locked(hass: __HAC_KEEP__, user: User, data: dict) -> bool:
     """Register an app while holding the registration lock."""
     webhook_id = secrets.token_hex()
 

@@ -22,8 +22,8 @@ from universalassistant.components.todo import (
     TodoListEntity,
     TodoListEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -48,7 +48,7 @@ class HabiticaTodoList(StrEnum):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HabiticaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -81,7 +81,7 @@ class BaseHabiticaListEntity(HabiticaBase, TodoListEntity):
             try:
                 await self.coordinator.habitica.delete_completed_todos()
             except TooManyRequestsError as e:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="setup_rate_limit_exception",
                     translation_placeholders={"retry_after": str(e.retry_after)},
@@ -97,7 +97,7 @@ class BaseHabiticaListEntity(HabiticaBase, TodoListEntity):
                 try:
                     await self.coordinator.habitica.delete_task(UUID(task_id))
                 except TooManyRequestsError as e:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="setup_rate_limit_exception",
                         translation_placeholders={"retry_after": str(e.retry_after)},
@@ -137,7 +137,7 @@ class BaseHabiticaListEntity(HabiticaBase, TodoListEntity):
                 await self.coordinator.habitica.reorder_task(UUID(uid), pos)
             ).data
         except TooManyRequestsError as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="setup_rate_limit_exception",
                 translation_placeholders={"retry_after": str(e.retry_after)},
@@ -183,7 +183,7 @@ class BaseHabiticaListEntity(HabiticaBase, TodoListEntity):
                 await self.coordinator.habitica.update_task(UUID(item.uid), task)
                 refresh_required = True
             except TooManyRequestsError as e:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="setup_rate_limit_exception",
                     translation_placeholders={"retry_after": str(e.retry_after)},
@@ -217,7 +217,7 @@ class BaseHabiticaListEntity(HabiticaBase, TodoListEntity):
             else:
                 score_result = None
         except TooManyRequestsError as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="setup_rate_limit_exception",
                 translation_placeholders={"retry_after": str(e.retry_after)},
@@ -307,7 +307,7 @@ class HabiticaTodosListEntity(BaseHabiticaListEntity):
                 )
             )
         except TooManyRequestsError as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="setup_rate_limit_exception",
                 translation_placeholders={"retry_after": str(e.retry_after)},
@@ -348,7 +348,7 @@ class HabiticaDailiesListEntity(BaseHabiticaListEntity):
         a new day has been started. This allows to check off dailies from yesterday,
         that have been completed but forgotten to mark as completed
         before resetting the dailies.
-        Changes of the date input field in Universal Universal Home Assistant will be ignored.
+        Changes of the date input field in __HA_KEEP__ will be ignored.
         """
         if TYPE_CHECKING:
             assert self.coordinator.data.user.lastCron

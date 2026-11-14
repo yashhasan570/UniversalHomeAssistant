@@ -5,7 +5,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 
 from universalassistant.components.govee_ble.const import CONF_DEVICE_TYPE, DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import (
     GV5123_CLOSED_SERVICE_INFO,
@@ -16,7 +16,7 @@ from . import (
 )
 
 
-async def test_window_sensor(hass: UniversalAssistant) -> None:
+async def test_window_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the window sensor."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -45,7 +45,7 @@ async def test_window_sensor(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_presence_sensor(hass: UniversalAssistant) -> None:
+async def test_presence_sensor(hass: __HAC_KEEP__) -> None:
     """Test the presence sensor."""
     entry = MockConfigEntry(
         domain=DOMAIN,

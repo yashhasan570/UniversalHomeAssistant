@@ -5,7 +5,7 @@ from typing import Any, Final
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .connection import async_get_connection_info
 from .const import DATA_MODBUS_HUBS
@@ -17,7 +17,7 @@ SOURCE_YAML: Final = "yaml"
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Register the Modbus websocket commands."""
     websocket_api.async_register_command(hass, websocket_list_connections)
 
@@ -26,7 +26,7 @@ def async_setup(hass: UniversalAssistant) -> None:
 @websocket_api.websocket_command({probatio.Required("type"): TYPE_LIST_CONNECTIONS})
 @callback
 def websocket_list_connections(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

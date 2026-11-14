@@ -7,7 +7,7 @@ import platform
 from typing import Any
 
 from universalassistant.const import __version__ as current_version
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.package import is_docker_env, is_virtual_env
 from universalassistant.util.system_info import is_official_image
 
@@ -21,13 +21,13 @@ _DATA_CONTAINER_ARCH = "system_info_container_arch"
 
 
 @singleton(_DATA_MAC_VER)
-async def async_get_mac_ver(hass: UniversalAssistant) -> str:
+async def async_get_mac_ver(hass: __HAC_KEEP__) -> str:
     """Return the macOS version."""
     return (await hass.async_add_executor_job(platform.mac_ver))[0]
 
 
 @singleton(_DATA_CONTAINER_ARCH)
-async def async_get_container_arch(hass: UniversalAssistant) -> str:
+async def async_get_container_arch(hass: __HAC_KEEP__) -> str:
     """Return the container architecture."""
 
     def _read_arch_file() -> str:
@@ -47,7 +47,7 @@ async def async_get_container_arch(hass: UniversalAssistant) -> str:
 cached_get_user = cache(getuser)
 
 
-async def async_get_system_info(hass: UniversalAssistant) -> dict[str, Any]:
+async def async_get_system_info(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Return info about the system."""
     is_hassio_ = is_hassio(hass)
 
@@ -81,13 +81,13 @@ async def async_get_system_info(hass: UniversalAssistant) -> dict[str, Any]:
     # Determine installation type on current data
     if info_object["docker"]:
         if info_object["user"] == "root" and is_official_image():
-            info_object["installation_type"] = "Universal Universal Home Assistant Container"
+            info_object["installation_type"] = "__HA_KEEP__ Container"
             info_object["container_arch"] = await async_get_container_arch(hass)
         else:
             info_object["installation_type"] = "Unsupported Third Party Container"
 
     elif is_virtual_env():
-        info_object["installation_type"] = "Universal Universal Home Assistant Core"
+        info_object["installation_type"] = "__HA_KEEP__ Core"
 
     # Enrich with Supervisor information
     if is_hassio_:
@@ -97,13 +97,13 @@ async def async_get_system_info(hass: UniversalAssistant) -> dict[str, Any]:
         try:
             info = hassio.get_info(hass)
         except hassio.HassioNotReadyError:
-            _LOGGER.warning("No Universal Universal Home Assistant Supervisor info available")
+            _LOGGER.warning("No __HA_KEEP__ Supervisor info available")
             info = {}
 
         try:
             host = hassio.get_host_info(hass)
         except hassio.HassioNotReadyError:
-            _LOGGER.warning("No Universal Universal Home Assistant Supervisor host info available")
+            _LOGGER.warning("No __HA_KEEP__ Supervisor host info available")
             host = {}
         info_object["supervisor"] = info.get("supervisor")
         info_object["host_os"] = host.get("operating_system")
@@ -111,8 +111,8 @@ async def async_get_system_info(hass: UniversalAssistant) -> dict[str, Any]:
         info_object["chassis"] = host.get("chassis")
 
         if info.get("hassos") is not None:
-            info_object["installation_type"] = "Universal Universal Home Assistant OS"
+            info_object["installation_type"] = "__HA_KEEP__ OS"
         else:
-            info_object["installation_type"] = "Universal Universal Home Assistant Supervised"
+            info_object["installation_type"] = "__HA_KEEP__ Supervised"
 
     return info_object

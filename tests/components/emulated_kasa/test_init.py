@@ -28,7 +28,7 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 ENTITY_SWITCH = "switch.ac"
@@ -137,7 +137,7 @@ CONFIG_SENSOR = {
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: UniversalAssistant):
+async def setup_universalassistant(hass: __HAC_KEEP__):
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
@@ -152,7 +152,7 @@ def nested_value(ndict, *keys):
     return nested_value(ndict[key], *keys[1:])
 
 
-async def test_setup(hass: UniversalAssistant) -> None:
+async def test_setup(hass: __HAC_KEEP__) -> None:
     """Test that devices are reported correctly."""
     with patch(
         "sense_energy.SenseLink",
@@ -161,7 +161,7 @@ async def test_setup(hass: UniversalAssistant) -> None:
         assert await async_setup_component(hass, DOMAIN, CONFIG) is True
 
 
-async def test_float(hass: UniversalAssistant) -> None:
+async def test_float(hass: __HAC_KEEP__) -> None:
     """Test a configuration using a simple float."""
     config = CONFIG_SWITCH[DOMAIN][CONF_ENTITIES]
     assert await async_setup_component(
@@ -212,7 +212,7 @@ async def test_float(hass: UniversalAssistant) -> None:
     assert math.isclose(power, 0)
 
 
-async def test_switch_power(hass: UniversalAssistant) -> None:
+async def test_switch_power(hass: __HAC_KEEP__) -> None:
     """Test a configuration using a simple float."""
     config = CONFIG_SWITCH_NO_POWER[DOMAIN][CONF_ENTITIES]
     assert await async_setup_component(
@@ -251,7 +251,7 @@ async def test_switch_power(hass: UniversalAssistant) -> None:
     assert math.isclose(power, 0)
 
 
-async def test_template(hass: UniversalAssistant) -> None:
+async def test_template(hass: __HAC_KEEP__) -> None:
     """Test a configuration using a complex template."""
     config = CONFIG_FAN[DOMAIN][CONF_ENTITIES]
     assert await async_setup_component(
@@ -313,7 +313,7 @@ async def test_template(hass: UniversalAssistant) -> None:
     assert math.isclose(power, 0)
 
 
-async def test_sensor(hass: UniversalAssistant) -> None:
+async def test_sensor(hass: __HAC_KEEP__) -> None:
     """Test a configuration using a sensor in a template."""
     config = CONFIG_LIGHT[DOMAIN][CONF_ENTITIES]
     assert await async_setup_component(
@@ -370,7 +370,7 @@ async def test_sensor(hass: UniversalAssistant) -> None:
     assert math.isclose(power, 0)
 
 
-async def test_sensor_state(hass: UniversalAssistant) -> None:
+async def test_sensor_state(hass: __HAC_KEEP__) -> None:
     """Test a configuration using a sensor in a template."""
     config = CONFIG_SENSOR[DOMAIN][CONF_ENTITIES]
     assert await async_setup_component(
@@ -417,7 +417,7 @@ async def test_sensor_state(hass: UniversalAssistant) -> None:
     assert math.isclose(power, 0)
 
 
-async def test_multiple_devices(hass: UniversalAssistant) -> None:
+async def test_multiple_devices(hass: __HAC_KEEP__) -> None:
     """Test that devices are reported correctly."""
     config = CONFIG[DOMAIN][CONF_ENTITIES]
     assert await async_setup_component(

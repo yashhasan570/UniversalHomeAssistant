@@ -9,12 +9,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.chess_com.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_chess_client")
-async def test_full_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test the full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -34,7 +34,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) 
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_flow_no_name(hass: UniversalAssistant, mock_chess_client: AsyncMock) -> None:
+async def test_flow_no_name(hass: __HAC_KEEP__, mock_chess_client: AsyncMock) -> None:
     """Test the flow with no name."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -62,7 +62,7 @@ async def test_flow_no_name(hass: UniversalAssistant, mock_chess_client: AsyncMo
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chess_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     exception: Exception,
@@ -94,7 +94,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_chess_client")
 async def test_duplicate_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we handle duplicate entries."""
     mock_config_entry.add_to_hass(hass)

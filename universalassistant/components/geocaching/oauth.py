@@ -7,7 +7,7 @@ from universalassistant.components.application_credentials import (
     AuthorizationServer,
     ClientCredential,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import ENVIRONMENT, ENVIRONMENT_URLS
 
@@ -17,7 +17,7 @@ class GeocachingOAuth2Implementation(AuthImplementation):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         auth_domain: str,
         credential: ClientCredential,
     ) -> None:

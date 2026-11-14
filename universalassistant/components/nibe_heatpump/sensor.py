@@ -25,7 +25,7 @@ from universalassistant.const import (
     UnitOfTime,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import CoilCoordinator, NibeHeatpumpConfigEntry
@@ -220,7 +220,7 @@ def _is_supported(coil: Coil) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: NibeHeatpumpConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

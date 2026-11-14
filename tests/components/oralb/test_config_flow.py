@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.oralb.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import NOT_ORALB_SERVICE_INFO, ORALB_IO_SERIES_4_SERVICE_INFO, ORALB_SERVICE_INFO
 
 
-async def test_async_step_bluetooth_valid_device(hass: UniversalAssistant) -> None:
+async def test_async_step_bluetooth_valid_device(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -32,7 +32,7 @@ async def test_async_step_bluetooth_valid_device(hass: UniversalAssistant) -> No
 
 
 async def test_async_step_bluetooth_valid_io_series4_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
@@ -52,7 +52,7 @@ async def test_async_step_bluetooth_valid_io_series4_device(
     assert result2["result"].unique_id == "78:DB:2F:C2:48:BE"
 
 
-async def test_async_step_bluetooth_not_oralb(hass: UniversalAssistant) -> None:
+async def test_async_step_bluetooth_not_oralb(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth not oralb."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -63,7 +63,7 @@ async def test_async_step_bluetooth_not_oralb(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_supported"
 
 
-async def test_async_step_user_no_devices_found(hass: UniversalAssistant) -> None:
+async def test_async_step_user_no_devices_found(hass: __HAC_KEEP__) -> None:
     """Test setup from service info cache with no devices found."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -73,7 +73,7 @@ async def test_async_step_user_no_devices_found(hass: UniversalAssistant) -> Non
     assert result["reason"] == "no_devices_found"
 
 
-async def test_async_step_user_with_found_devices(hass: UniversalAssistant) -> None:
+async def test_async_step_user_with_found_devices(hass: __HAC_KEEP__) -> None:
     """Test setup from service info cache with devices found."""
     with patch(
         "universalassistant.components.oralb.config_flow.async_discovered_service_info",
@@ -96,7 +96,7 @@ async def test_async_step_user_with_found_devices(hass: UniversalAssistant) -> N
     assert result2["result"].unique_id == "78:DB:2F:C2:48:BE"
 
 
-async def test_async_step_user_replace_ignored(hass: UniversalAssistant) -> None:
+async def test_async_step_user_replace_ignored(hass: __HAC_KEEP__) -> None:
     """Test setup from service info can replace an ignored entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -126,7 +126,7 @@ async def test_async_step_user_replace_ignored(hass: UniversalAssistant) -> None
     assert result2["result"].unique_id == "78:DB:2F:C2:48:BE"
 
 
-async def test_async_step_user_device_added_between_steps(hass: UniversalAssistant) -> None:
+async def test_async_step_user_device_added_between_steps(hass: __HAC_KEEP__) -> None:
     """Test the device gets added via another flow between steps."""
     with patch(
         "universalassistant.components.oralb.config_flow.async_discovered_service_info",
@@ -155,7 +155,7 @@ async def test_async_step_user_device_added_between_steps(hass: UniversalAssista
 
 
 async def test_async_step_user_with_found_devices_already_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setup from service info cache with devices found."""
     entry = MockConfigEntry(
@@ -176,7 +176,7 @@ async def test_async_step_user_with_found_devices_already_setup(
     assert result["reason"] == "no_devices_found"
 
 
-async def test_async_step_bluetooth_devices_already_setup(hass: UniversalAssistant) -> None:
+async def test_async_step_bluetooth_devices_already_setup(hass: __HAC_KEEP__) -> None:
     """Test we can't start a flow if there is already a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -193,7 +193,7 @@ async def test_async_step_bluetooth_devices_already_setup(hass: UniversalAssista
     assert result["reason"] == "already_configured"
 
 
-async def test_async_step_bluetooth_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_async_step_bluetooth_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test we can't start a flow for the same device twice."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -213,7 +213,7 @@ async def test_async_step_bluetooth_already_in_progress(hass: UniversalAssistant
 
 
 async def test_async_step_user_takes_precedence_over_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test manual setup takes precedence over discovery."""
     result = await hass.config_entries.flow.async_init(

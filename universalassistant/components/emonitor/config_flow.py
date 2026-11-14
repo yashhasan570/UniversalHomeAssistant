@@ -9,7 +9,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -20,7 +20,7 @@ from .const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 
-async def fetch_mac_and_title(hass: UniversalAssistant, host):
+async def fetch_mac_and_title(hass: __HAC_KEEP__, host):
     """Validate the user input allows us to connect."""
     session = aiohttp_client.async_get_clientsession(hass)
     emonitor = Emonitor(host, session)

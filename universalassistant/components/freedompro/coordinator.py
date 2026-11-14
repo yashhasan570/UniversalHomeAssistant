@@ -8,7 +8,7 @@ from pyfreedompro import get_list, get_states
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -22,7 +22,7 @@ type FreedomproConfigEntry = ConfigEntry[FreedomproDataUpdateCoordinator]
 class FreedomproDataUpdateCoordinator(DataUpdateCoordinator[list[dict[str, Any]]]):
     """Class to manage fetching Freedompro data API."""
 
-    def __init__(self, hass: UniversalAssistant, entry: FreedomproConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: FreedomproConfigEntry) -> None:
         """Initialize."""
 
         self._hass = hass

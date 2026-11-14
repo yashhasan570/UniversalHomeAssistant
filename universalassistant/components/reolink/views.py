@@ -13,9 +13,9 @@ from reolink_aio.enums import VodRequestType
 from reolink_aio.exceptions import ReolinkError
 
 from universalassistant.components.ffmpeg import get_ffmpeg_manager
-from universalassistant.components.http import UniversalAssistantView
+from universalassistant.components.http import __HAC_KEEP__View
 from universalassistant.components.media_source import Unresolvable
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.util.ssl import SSLCipherList
 
@@ -41,7 +41,7 @@ def async_generate_playback_proxy_url(
     )
 
 
-class PlaybackProxyView(UniversalAssistantView):
+class PlaybackProxyView(__HAC_KEEP__View):
     """View to proxy playback video from Reolink."""
 
     requires_auth = True
@@ -52,7 +52,7 @@ class PlaybackProxyView(UniversalAssistantView):
     )
     name = "api:reolink_playback"
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize a proxy view."""
         self.hass = hass
         self.session = async_get_clientsession(

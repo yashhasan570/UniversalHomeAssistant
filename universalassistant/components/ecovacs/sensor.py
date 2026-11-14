@@ -33,7 +33,7 @@ from universalassistant.const import (
     UnitOfArea,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.icon import icon_for_battery_level
 from universalassistant.helpers.typing import StateType, Undefined
@@ -242,7 +242,7 @@ LEGACY_LIFESPAN_SENSORS = tuple(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: EcovacsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

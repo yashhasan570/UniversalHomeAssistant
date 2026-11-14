@@ -29,7 +29,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 CONFIG_DATA = {
     CONF_IP_ADDRESS: "127.0.0.1",
@@ -50,7 +50,7 @@ IMPORT_DATA = {
 }
 
 
-async def test_step_user(hass: UniversalAssistant) -> None:
+async def test_step_user(hass: __HAC_KEEP__) -> None:
     """Test for user step."""
     with (
         patch("universalassistant.components.lcn.PchkConnectionManager.async_connect"),
@@ -79,7 +79,7 @@ async def test_step_user(hass: UniversalAssistant) -> None:
 
 
 async def test_step_user_existing_host(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test for user defined host already exists."""
     entry.add_to_hass(hass)
@@ -113,7 +113,7 @@ async def test_step_user_existing_host(
     ],
 )
 async def test_step_user_error(
-    hass: UniversalAssistant, error: type[Exception], errors: dict[str, str]
+    hass: __HAC_KEEP__, error: type[Exception], errors: dict[str, str]
 ) -> None:
     """Test for error in user step is handled correctly."""
     with patch(
@@ -149,7 +149,7 @@ async def test_step_user_error(
     assert result["type"] is data_entry_flow.FlowResultType.CREATE_ENTRY
 
 
-async def test_step_reconfigure(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_step_reconfigure(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test for reconfigure step."""
     entry.add_to_hass(hass)
     old_entry_data = entry.data.copy()
@@ -184,7 +184,7 @@ async def test_step_reconfigure(hass: UniversalAssistant, entry: MockConfigEntry
     ],
 )
 async def test_step_reconfigure_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     error: type[Exception],
     errors: dict[str, str],

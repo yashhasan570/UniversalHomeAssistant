@@ -12,7 +12,7 @@ from universalassistant.components.repairs import (
     RepairsFlow,
     RepairsFlowResult,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 
 from .data import UFPConfigEntry, async_get_data_for_entry_id
@@ -150,7 +150,7 @@ class RTSPRepair(ProtectRepair):
 
 @callback
 def _async_get_or_create_api_client(
-    hass: UniversalAssistant, entry: UFPConfigEntry
+    hass: __HAC_KEEP__, entry: UFPConfigEntry
 ) -> ProtectApiClient:
     """Get or create an API client."""
     if data := async_get_data_for_entry_id(hass, entry.entry_id):
@@ -159,7 +159,7 @@ def _async_get_or_create_api_client(
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:

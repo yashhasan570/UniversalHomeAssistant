@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ipma.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_MODE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .test_weather import MockLocation
 
 
-async def test_async_setup_raises_entry_not_ready(hass: UniversalAssistant) -> None:
+async def test_async_setup_raises_entry_not_ready(hass: __HAC_KEEP__) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
 
     with patch(
@@ -32,7 +32,7 @@ async def test_async_setup_raises_entry_not_ready(hass: UniversalAssistant) -> N
         assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_unload_config_entry(hass: UniversalAssistant) -> None:
+async def test_unload_config_entry(hass: __HAC_KEEP__) -> None:
     """Test entry unloading."""
 
     with patch(

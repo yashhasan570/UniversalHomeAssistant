@@ -9,7 +9,7 @@ import pytest
 from pytest_universalassistant.common import flush_store
 from pytest_universalassistant.typing import WebSocketGenerator
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     collection,
     entity_component,
@@ -191,7 +191,7 @@ async def test_yaml_collection_skipping_duplicate_ids() -> None:
     )
 
 
-async def test_storage_collection(hass: UniversalAssistant) -> None:
+async def test_storage_collection(hass: __HAC_KEEP__) -> None:
     """Test storage collection."""
     store = storage.Store(hass, 1, "test-data")
     await store.async_save(
@@ -255,7 +255,7 @@ async def test_storage_collection(hass: UniversalAssistant) -> None:
 
 
 async def test_storage_collection_update_modifiet_at(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -332,7 +332,7 @@ async def test_storage_collection_update_modifiet_at(
     assert modified_3 == modified_2
 
 
-async def test_attach_entity_component_collection(hass: UniversalAssistant) -> None:
+async def test_attach_entity_component_collection(hass: __HAC_KEEP__) -> None:
     """Test attaching collection to entity component."""
     ent_comp = entity_component.EntityComponent(_LOGGER, "test", hass)
     await ent_comp.async_setup({})
@@ -373,7 +373,7 @@ async def test_attach_entity_component_collection(hass: UniversalAssistant) -> N
 
 
 async def test_entity_component_collection_update_after_entity_id_change(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test updates still reach the entity after its entity ID changed."""
     ent_comp = entity_component.EntityComponent(_LOGGER, "test", hass)
@@ -416,7 +416,7 @@ async def test_entity_component_collection_update_after_entity_id_change(
 
 
 async def test_entity_component_collection_abort(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test aborted entity adding is handled."""
     ent_comp = entity_component.EntityComponent(_LOGGER, "test", hass)
@@ -484,7 +484,7 @@ async def test_entity_component_collection_abort(
 
 
 async def test_entity_component_collection_entity_removed(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test entity removal is handled."""
     ent_comp = entity_component.EntityComponent(_LOGGER, "test", hass)
@@ -554,7 +554,7 @@ async def test_entity_component_collection_entity_removed(
 
 
 async def test_storage_collection_websocket(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test exposing a storage collection via websockets."""
     store = storage.Store(hass, 1, "test-data")
@@ -687,7 +687,7 @@ async def test_storage_collection_websocket(
 
 
 async def test_storage_collection_websocket_subscribe(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test exposing a storage collection via websockets."""
     store = storage.Store(hass, 1, "test-data")

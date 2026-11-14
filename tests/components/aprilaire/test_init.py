@@ -8,14 +8,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.aprilaire.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 DEVICE_IDENTIFIER = (DOMAIN, "12:34:56:78:90:ab")
 
 
 async def _async_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> tuple[MockConfigEntry, AsyncMock]:
     """Set up the integration with a mocked client."""
     config_entry = MockConfigEntry(
@@ -50,7 +50,7 @@ async def _async_setup_integration(
 
 
 async def test_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_device_registry(
 
 
 async def test_device_registry_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test the device registry entry follows a change of the device info."""

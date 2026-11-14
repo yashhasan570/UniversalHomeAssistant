@@ -8,7 +8,7 @@ from universalassistant.components.coinbase.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_KEY, CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     GOOD_CURRENCY_2,
@@ -117,7 +117,7 @@ def mock_get_portfolios():
 
 
 async def init_mock_coinbase(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     currencies: list[str] | None = None,
     rates: list[str] | None = None,
 ) -> MockConfigEntry:

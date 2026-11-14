@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from pyenphase import Envoy
 
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
@@ -14,7 +14,7 @@ from .const import DOMAIN, PLATFORMS
 from .coordinator import EnphaseConfigEntry, EnphaseUpdateCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: EnphaseConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: EnphaseConfigEntry) -> None:
     """Set up Enphase Envoy from a config entry."""
 
     host = entry.data[CONF_HOST]
@@ -101,7 +101,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: EnphaseConfigEntry)
     entry.async_on_unload(entry.async_on_state_change(state_changes))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: EnphaseConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: EnphaseConfigEntry) -> None:
     """Unload a config entry."""
     coordinator = entry.runtime_data
     coordinator.async_cancel_token_refresh()
@@ -111,7 +111,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: EnphaseConfigEntry
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: EnphaseConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

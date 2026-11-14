@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_MINIMUM,
     CONF_NAME,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import collection, config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.storage import Store
@@ -105,7 +105,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the counters."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[Counter](
         _LOGGER, DOMAIN, hass

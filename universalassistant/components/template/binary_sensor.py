@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, State, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, State, callback
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import config_validation as cv, template
 from universalassistant.helpers.entity_platform import (
@@ -87,7 +87,7 @@ BINARY_SENSOR_CONFIG_ENTRY_SCHEMA = BINARY_SENSOR_COMMON_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -105,7 +105,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -121,7 +121,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_binary_sensor(
-    hass: UniversalAssistant, name: str, config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
 ) -> StateBinarySensorEntity:
     """Create a preview sensor."""
     return async_setup_template_preview(
@@ -188,7 +188,7 @@ class StateBinarySensorEntity(TemplateEntity, AbstractTemplateBinarySensor):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: dict[str, Any],
         unique_id: str | None,
     ) -> None:
@@ -290,7 +290,7 @@ class TriggerBinarySensorEntity(TriggerEntity, AbstractTemplateBinarySensor):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: TriggerUpdateCoordinator,
         config: dict,
     ) -> None:

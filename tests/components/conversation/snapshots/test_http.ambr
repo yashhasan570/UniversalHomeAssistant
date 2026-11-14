@@ -4,7 +4,7 @@
     'agents': list([
       dict({
         'id': 'conversation.universal_assistant',
-        'name': 'Universal Universal Home Assistant',
+        'name': '__HA_KEEP__',
         'supported_languages': list([
           'af',
           'ar',
@@ -93,7 +93,7 @@
     'agents': list([
       dict({
         'id': 'conversation.universal_assistant',
-        'name': 'Universal Universal Home Assistant',
+        'name': '__HA_KEEP__',
         'supported_languages': list([
         ]),
       }),
@@ -117,7 +117,7 @@
     'agents': list([
       dict({
         'id': 'conversation.universal_assistant',
-        'name': 'Universal Universal Home Assistant',
+        'name': '__HA_KEEP__',
         'supported_languages': list([
           'en',
         ]),
@@ -141,7 +141,7 @@
     'agents': list([
       dict({
         'id': 'conversation.universal_assistant',
-        'name': 'Universal Universal Home Assistant',
+        'name': '__HA_KEEP__',
         'supported_languages': list([
           'en',
         ]),
@@ -165,7 +165,7 @@
     'agents': list([
       dict({
         'id': 'conversation.universal_assistant',
-        'name': 'Universal Universal Home Assistant',
+        'name': '__HA_KEEP__',
         'supported_languages': list([
           'de',
           'de-CH',
@@ -190,7 +190,7 @@
     'agents': list([
       dict({
         'id': 'conversation.universal_assistant',
-        'name': 'Universal Universal Home Assistant',
+        'name': '__HA_KEEP__',
         'supported_languages': list([
           'de-CH',
           'de',

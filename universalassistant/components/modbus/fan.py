@@ -4,7 +4,7 @@ from typing import Any, override
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -33,7 +33,7 @@ class ModbusFan(ModbusToggleEntity, FanEntity):
     """Class representing a Modbus fan."""
 
     def __init__(
-        self, hass: UniversalAssistant, hub: ModbusHub, config: dict[str, Any]
+        self, hass: __HAC_KEEP__, hub: ModbusHub, config: dict[str, Any]
     ) -> None:
         """Initialize the fan."""
         super().__init__(hass, hub, config)

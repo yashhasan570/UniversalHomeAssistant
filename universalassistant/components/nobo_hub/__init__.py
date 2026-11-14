@@ -11,7 +11,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
@@ -33,7 +33,7 @@ PLATFORMS = [Platform.CLIMATE, Platform.SELECT, Platform.SENSOR, Platform.SWITCH
 type NoboHubConfigEntry = ConfigEntry[nobo]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NoboHubConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NoboHubConfigEntry) -> None:
     """Set up Nobø Ecohub from a config entry."""
 
     serial = entry.data[CONF_SERIAL]
@@ -145,14 +145,14 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NoboHubConfigEntry)
     await hub.start()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NoboHubConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NoboHubConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.stop()
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: NoboHubConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: NoboHubConfigEntry) -> None:
     """Migrate old entry."""
     if entry.version == 1 and entry.minor_version < 2:
         # Lowercase override_type to match translation keys.

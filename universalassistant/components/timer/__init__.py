@@ -7,7 +7,7 @@ from typing import Any, override
 import probatio
 
 from universalassistant.const import CONF_ICON, CONF_ID, CONF_NAME, SERVICE_RELOAD
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import collection, config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.storage import Store
@@ -99,7 +99,7 @@ class TimerData:
     yaml_collection: collection.YamlCollection
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up an input select."""
     component = EntityComponent[Timer](_LOGGER, DOMAIN, hass)
     id_manager = collection.IDManager()

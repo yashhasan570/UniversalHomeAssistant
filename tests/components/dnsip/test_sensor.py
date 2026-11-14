@@ -19,12 +19,12 @@ from universalassistant.components.dnsip.const import (
 from universalassistant.components.dnsip.sensor import SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_NAME, CONF_PORT, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import RetrieveDNS
 
 
-async def test_sensor(hass: UniversalAssistant) -> None:
+async def test_sensor(hass: __HAC_KEEP__) -> None:
     """Test the DNS IP sensor."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -67,7 +67,7 @@ async def test_sensor(hass: UniversalAssistant) -> None:
     ]
 
 
-async def test_legacy_sensor(hass: UniversalAssistant) -> None:
+async def test_legacy_sensor(hass: __HAC_KEEP__) -> None:
     """Test the DNS IP sensor configured before the addition of ports."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -111,7 +111,7 @@ async def test_legacy_sensor(hass: UniversalAssistant) -> None:
 
 
 async def test_sensor_no_response(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the DNS IP sensor with DNS error."""
     entry = MockConfigEntry(
@@ -170,7 +170,7 @@ async def test_sensor_no_response(
 
 
 async def test_sensor_timeout(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the DNS IP sensor with timeout."""
     entry = MockConfigEntry(
@@ -235,7 +235,7 @@ async def test_sensor_timeout(
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_handle_cname(hass: UniversalAssistant) -> None:
+async def test_handle_cname(hass: __HAC_KEEP__) -> None:
     """Test CNAME records are dropped."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -11,7 +11,7 @@ from universalassistant.components import wiz
 from universalassistant.components.wiz.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -44,7 +44,7 @@ INTEGRATION_DISCOVERY = {
 }
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     bulb = _mocked_wizlight(None, None, FAKE_DIMMABLE_BULB)
 
@@ -81,7 +81,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     bulb.async_close.assert_awaited_once()
 
 
-async def test_user_flow_enters_dns_name(hass: UniversalAssistant) -> None:
+async def test_user_flow_enters_dns_name(hass: __HAC_KEEP__) -> None:
     """Test we reject dns names and want ips."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -133,7 +133,7 @@ async def test_user_flow_enters_dns_name(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_user_form_exceptions(
-    hass: UniversalAssistant, side_effect: type[Exception], error_base: str
+    hass: __HAC_KEEP__, side_effect: type[Exception], error_base: str
 ) -> None:
     """Test all user exceptions in the flow."""
     result = await hass.config_entries.flow.async_init(
@@ -167,7 +167,7 @@ async def test_user_form_exceptions(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_updates_unique_id(hass: UniversalAssistant) -> None:
+async def test_form_updates_unique_id(hass: __HAC_KEEP__) -> None:
     """Test a duplicate id aborts and updates existing entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -199,7 +199,7 @@ async def test_form_updates_unique_id(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_discovered_by_dhcp_connection_fails(
-    hass: UniversalAssistant, source, data
+    hass: __HAC_KEEP__, source, data
 ) -> None:
     """Test we abort on connection failure."""
     bulb = _mocked_wizlight(None, None, FAKE_DIMMABLE_BULB)
@@ -278,7 +278,7 @@ async def test_discovered_by_dhcp_connection_fails(
     ],
 )
 async def test_discovered_by_dhcp_or_integration_discovery(
-    hass: UniversalAssistant, source, data, bulb_type, extended_white_range, name
+    hass: __HAC_KEEP__, source, data, bulb_type, extended_white_range, name
 ) -> None:
     """Test we can configure when discovered from dhcp or discovery."""
     bulb = _mocked_wizlight(None, extended_white_range, bulb_type)
@@ -330,7 +330,7 @@ async def test_discovered_by_dhcp_or_integration_discovery(
     ],
 )
 async def test_discovered_by_dhcp_or_integration_discovery_updates_host(
-    hass: UniversalAssistant, source, data
+    hass: __HAC_KEEP__, source, data
 ) -> None:
     """Test dhcp or discovery updates existing host."""
     entry = MockConfigEntry(
@@ -359,7 +359,7 @@ async def test_discovered_by_dhcp_or_integration_discovery_updates_host(
     ],
 )
 async def test_discovered_by_dhcp_or_integration_discovery_avoid_waiting_for_retry(
-    hass: UniversalAssistant, source, data
+    hass: __HAC_KEEP__, source, data
 ) -> None:
     """Test dhcp or discovery kicks off setup when in retry."""
     bulb = _mocked_wizlight(None, None, FAKE_SOCKET)
@@ -380,7 +380,7 @@ async def test_discovered_by_dhcp_or_integration_discovery_avoid_waiting_for_ret
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_setup_via_discovery(hass: UniversalAssistant) -> None:
+async def test_setup_via_discovery(hass: __HAC_KEEP__) -> None:
     """Test setting up via discovery."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -457,7 +457,7 @@ async def test_setup_via_discovery(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_setup_via_discovery_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_setup_via_discovery_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test setting up via discovery and we fail to connect to the discovered device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -492,7 +492,7 @@ async def test_setup_via_discovery_cannot_connect(hass: UniversalAssistant) -> N
     assert result3["reason"] == "cannot_connect"
 
 
-async def test_setup_via_discovery_exception_finds_nothing(hass: UniversalAssistant) -> None:
+async def test_setup_via_discovery_exception_finds_nothing(hass: __HAC_KEEP__) -> None:
     """Test we do not find anything if discovery throws."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -513,7 +513,7 @@ async def test_setup_via_discovery_exception_finds_nothing(hass: UniversalAssist
     assert result2["reason"] == "no_devices_found"
 
 
-async def test_discovery_with_firmware_update(hass: UniversalAssistant) -> None:
+async def test_discovery_with_firmware_update(hass: __HAC_KEEP__) -> None:
     """Test we recheck the device between discovery and entry creation."""
     with _patch_wizlight(
         device=None,
@@ -571,7 +571,7 @@ async def test_discovery_with_firmware_update(hass: UniversalAssistant) -> None:
         (config_entries.SOURCE_INTEGRATION_DISCOVERY, INTEGRATION_DISCOVERY),
     ],
 )
-async def test_discovered_during_onboarding(hass: UniversalAssistant, source, data) -> None:
+async def test_discovered_during_onboarding(hass: __HAC_KEEP__, source, data) -> None:
     """Test dhcp or discovery during onboarding creates the config entry."""
     with (
         _patch_wizlight(),
@@ -601,7 +601,7 @@ async def test_discovered_during_onboarding(hass: UniversalAssistant, source, da
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_flow_replace_ignored_device(hass: UniversalAssistant) -> None:
+async def test_flow_replace_ignored_device(hass: __HAC_KEEP__) -> None:
     """Test we can replace an ignored device via discovery."""
     # Add ignored entry to simulate previously ignored device
     entry = MockConfigEntry(
@@ -645,7 +645,7 @@ async def test_flow_replace_ignored_device(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_reconfigure_flow(hass: UniversalAssistant) -> None:
+async def test_reconfigure_flow(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring the bulb IP address."""
     entry = MockConfigEntry(domain=DOMAIN, data=TEST_CONNECTION, unique_id=FAKE_MAC)
     entry.add_to_hass(hass)
@@ -669,7 +669,7 @@ async def test_reconfigure_flow(hass: UniversalAssistant) -> None:
     assert entry.data == {CONF_HOST: "1.1.1.2"}
 
 
-async def test_reconfigure_flow_loaded_entry(hass: UniversalAssistant) -> None:
+async def test_reconfigure_flow_loaded_entry(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring a loaded entry reloads it once."""
     bulb, entry = await async_setup_integration(hass)
     assert entry.state is ConfigEntryState.LOADED
@@ -713,7 +713,7 @@ async def test_reconfigure_flow_loaded_entry(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     host: str,
     side_effect: type[Exception] | None,
     error_base: str,
@@ -750,7 +750,7 @@ async def test_reconfigure_flow_errors(
     assert entry.data == {CONF_HOST: "1.1.1.2"}
 
 
-async def test_reconfigure_flow_unique_id_mismatch(hass: UniversalAssistant) -> None:
+async def test_reconfigure_flow_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
     """Test reconfigure flow aborts when pointed at a different bulb."""
     entry = MockConfigEntry(domain=DOMAIN, data=TEST_CONNECTION, unique_id=FAKE_MAC)
     entry.add_to_hass(hass)

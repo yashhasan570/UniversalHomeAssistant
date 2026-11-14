@@ -26,8 +26,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -46,7 +46,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_temperature_step(hass: UniversalAssistant) -> None:
+async def test_temperature_step(hass: __HAC_KEEP__) -> None:
     """Test the entities expose their supported temperature steps."""
     top_zone = hass.states.get("number.test_fridge_top_zone_setpoint")
     bottom_zone = hass.states.get("number.test_fridge_bottom_zone_setpoint")
@@ -58,7 +58,7 @@ async def test_temperature_step(hass: UniversalAssistant) -> None:
 
 
 async def test_non_uniform_temperature_steps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_liebherr_client: MagicMock,
     platforms: list[Platform],
@@ -88,7 +88,7 @@ async def test_non_uniform_temperature_steps(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_numbers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -98,7 +98,7 @@ async def test_numbers(
 
 
 async def test_single_zone_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_liebherr_client: MagicMock,
@@ -143,7 +143,7 @@ async def test_single_zone_number(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
 ) -> None:
     """Test setting the temperature."""
@@ -169,7 +169,7 @@ async def test_set_temperature(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_preserves_sse_update_during_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     sse_helper: SSEStreamHelper,
@@ -219,7 +219,7 @@ async def test_set_temperature_preserves_sse_update_during_command(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_preserves_sse_disconnect_during_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     sse_helper: SSEStreamHelper,
@@ -265,7 +265,7 @@ async def test_set_temperature_preserves_sse_disconnect_during_command(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_after_unit_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
 ) -> None:
     """Test setting a temperature converted from the configured unit."""
@@ -292,7 +292,7 @@ async def test_set_temperature_after_unit_conversion(
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("value", [4.1, 5])
 async def test_set_temperature_not_in_allowed_steps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     value: float,
 ) -> None:
@@ -316,7 +316,7 @@ async def test_set_temperature_not_in_allowed_steps(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_temperature_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
 ) -> None:
     """Test setting temperature fails gracefully."""
@@ -327,7 +327,7 @@ async def test_set_temperature_failure(
     )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="An error occurred while communicating with the device",
     ):
         await hass.services.async_call(
@@ -343,7 +343,7 @@ async def test_set_temperature_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_when_control_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     sse_helper: SSEStreamHelper,
 ) -> None:
@@ -372,7 +372,7 @@ async def test_number_when_control_missing(
 
 
 async def test_number_with_none_min_max(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],

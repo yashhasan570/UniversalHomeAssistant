@@ -1,10 +1,10 @@
-"""API for YouTube bound to Universal Universal Home Assistant OAuth."""
+"""API for YouTube bound to __HA_KEEP__ OAuth."""
 
 from youtubeaio.types import AuthScope
 from youtubeaio.youtube import YouTube
 
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -16,7 +16,7 @@ class AsyncConfigEntryAuth:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         oauth2_session: config_entry_oauth2_flow.OAuth2Session,
     ) -> None:
         """Initialize YouTube Auth."""

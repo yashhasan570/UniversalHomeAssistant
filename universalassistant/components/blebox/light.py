@@ -18,8 +18,8 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, LIGHT_MAX_KELVINS, LIGHT_MIN_KELVINS
@@ -33,7 +33,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BleBoxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -231,7 +231,7 @@ class BleBoxLightEntity(BleBoxEntity[blebox_uniapi.light.Light], LightEntity):
         try:
             await self._feature.async_on(value)
         except ValueError as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="bad_value",
                 translation_placeholders={"error": str(exc)},
@@ -242,7 +242,7 @@ class BleBoxLightEntity(BleBoxEntity[blebox_uniapi.light.Light], LightEntity):
                 effect_value = self.effect_list.index(effect)
                 await self._feature.async_api_command("effect", effect_value)
             except ValueError as exc:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="effect_not_found",
                     translation_placeholders={"error": str(exc)},

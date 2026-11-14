@@ -14,7 +14,7 @@ DEFAULT_NAME = "Roon Labs Music Player"
 
 ROON_APPINFO = {
     "extension_id": "universal_assistant",
-    "display_name": "Universal Universal Home Assistant",
+    "display_name": "__HA_KEEP__",
     "display_version": "1.0.1",
     "publisher": "universal_assistant",
     "email": "universal_assistant@users.noreply.github.com",

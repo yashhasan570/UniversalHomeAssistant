@@ -16,7 +16,7 @@ from universalassistant.components.plaato.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 # Note: It would be good to replace this test data
 # with actual data from the API
@@ -26,7 +26,7 @@ KEG_DATA = {}
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_type: PlaatoDeviceType,
     platform: Platform,
 ) -> AsyncGenerator[MockConfigEntry]:

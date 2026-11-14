@@ -37,7 +37,7 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -118,7 +118,7 @@ UNIT_DESCRIPTIONS: Final[dict[str, SensorEntityDescription]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HortimaxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -145,7 +145,7 @@ async def async_setup_entry(
 def _describe(readout: Readout) -> SensorEntityDescription:
     """Derive the description of the sensor for a readout.
 
-    A device class is only assigned to a mapped unit: Universal Universal Home Assistant rejects
+    A device class is only assigned to a mapped unit: __HA_KEEP__ rejects
     values whose unit does not match the class. Dimensionless readouts are
     status codes, so they get no state class and integer display.
     """
@@ -265,7 +265,7 @@ class HortimaxReadoutSensor(HortimaxEntity, SensorEntity):
         subject = readout_subject(readout.identifier)
         if subject in TIME_OF_DAY_READOUTS:
             # Seconds since midnight at the controller. HortOS reports no
-            # timezone, so this assumes it shares Universal Universal Home Assistant's. Anything
+            # timezone, so this assumes it shares __HA_KEEP__'s. Anything
             # outside the day is not a time of day, and would either land on
             # another date or overflow timedelta().
             if not 0 <= number < SECONDS_PER_DAY:

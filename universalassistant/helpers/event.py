@@ -29,7 +29,7 @@ from universalassistant.core import (
     EventStateReportedData,
     HassJob,
     HassJobType,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     async_noop,
     callback,
@@ -83,7 +83,7 @@ _LOGGER = logging.getLogger(__name__)
 # Used to spread async_track_utc_time_change listeners and DataUpdateCoordinator
 # refresh cycles between RANDOM_MICROSECOND_MIN..RANDOM_MICROSECOND_MAX.
 # The values have been determined experimentally in production testing, background
-# in PR https://github.com/yashhasan570/UniversalUniversalAssistant/pull/82233
+# in PR https://github.com/yashhasan570/__HAC_KEEP__/pull/82233
 RANDOM_MICROSECOND_MIN = 50000
 RANDOM_MICROSECOND_MAX = 500000
 
@@ -98,7 +98,7 @@ class _KeyedEventTracker(Generic[_TypedDictT]):  # noqa: UP046
     event_type: EventType[_TypedDictT] | str
     dispatcher_callable: Callable[
         [
-            UniversalAssistant,
+            __HAC_KEEP__,
             dict[str, list[HassJob[[Event[_TypedDictT]], Any]]],
             Event[_TypedDictT],
         ],
@@ -106,7 +106,7 @@ class _KeyedEventTracker(Generic[_TypedDictT]):  # noqa: UP046
     ]
     filter_callable: Callable[
         [
-            UniversalAssistant,
+            __HAC_KEEP__,
             dict[str, list[HassJob[[Event[_TypedDictT]], Any]]],
             _TypedDictT,
         ],
@@ -170,16 +170,16 @@ class TrackTemplateResult:
 
 
 def threaded_listener_factory[**_P](
-    async_factory: Callable[Concatenate[UniversalAssistant, _P], Any],
-) -> Callable[Concatenate[UniversalAssistant, _P], CALLBACK_TYPE]:
+    async_factory: Callable[Concatenate[__HAC_KEEP__, _P], Any],
+) -> Callable[Concatenate[__HAC_KEEP__, _P], CALLBACK_TYPE]:
     """Convert an async event helper to a threaded one."""
 
     @wraps(async_factory)
     def factory(
-        hass: UniversalAssistant, *args: _P.args, **kwargs: _P.kwargs
+        hass: __HAC_KEEP__, *args: _P.args, **kwargs: _P.kwargs
     ) -> CALLBACK_TYPE:
         """Call async event helper safely."""
-        if not isinstance(hass, UniversalAssistant):
+        if not isinstance(hass, __HAC_KEEP__):
             raise TypeError("First parameter needs to be a hass instance")
 
         async_remove = run_callback_threadsafe(
@@ -196,7 +196,7 @@ def threaded_listener_factory[**_P](
 
 
 def async_track_state_change_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_ids: str | Iterable[str],
     action: Callable[[Event[EventStateChangedData]], Any],
     job_type: HassJobType | None = None,
@@ -222,7 +222,7 @@ def async_track_state_change_event(
 
 @callback
 def _async_dispatch_entity_id_event[_StateEventDataT: EventStateEventData](
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callbacks: dict[str, list[HassJob[[Event[_StateEventDataT]], Any]]],
     event: Event[_StateEventDataT],
 ) -> None:
@@ -242,7 +242,7 @@ def _async_dispatch_entity_id_event[_StateEventDataT: EventStateEventData](
 
 @callback
 def _async_state_filter[_StateEventDataT: EventStateEventData](
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callbacks: dict[str, list[HassJob[[Event[_StateEventDataT]], Any]]],
     event_data: _StateEventDataT,
 ) -> bool:
@@ -259,7 +259,7 @@ _KEYED_TRACK_STATE_CHANGE = _KeyedEventTracker(
 
 
 def _async_track_state_change_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_ids: str | Iterable[str],
     action: Callable[[Event[EventStateChangedData]], Any],
     job_type: HassJobType | None,
@@ -282,7 +282,7 @@ _KEYED_TRACK_STATE_REPORT = _KeyedEventTracker(
 
 
 def async_track_state_report_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_ids: str | Iterable[str],
     action: Callable[[Event[EventStateReportedData]], Any],
     job_type: HassJobType | None = None,
@@ -299,7 +299,7 @@ def async_track_state_report_event(
 
 @callback
 def _remove_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tracker: _KeyedEventTracker[_TypedDictT],
     keys: Iterable[str],
     job: HassJob[[Event[_TypedDictT]], Any],
@@ -319,7 +319,7 @@ def _remove_listener(
 # constant and may be used in a partial in the future
 def _async_track_event(
     tracker: _KeyedEventTracker[_TypedDictT],
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     keys: str | Iterable[str],
     action: Callable[[Event[_TypedDictT]], None],
     job_type: HassJobType | None,
@@ -365,7 +365,7 @@ def _async_track_event(
 
 @callback
 def _async_dispatch_old_entity_id_or_entity_id_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callbacks: dict[str, list[HassJob[[Event[EventEntityRegistryUpdatedData]], Any]]],
     event: Event[EventEntityRegistryUpdatedData],
 ) -> None:
@@ -389,7 +389,7 @@ def _async_dispatch_old_entity_id_or_entity_id_event(
 
 @callback
 def _async_entity_registry_updated_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callbacks: dict[str, list[HassJob[[Event[EventEntityRegistryUpdatedData]], Any]]],
     event_data: EventEntityRegistryUpdatedData,
 ) -> bool:
@@ -407,7 +407,7 @@ _KEYED_TRACK_ENTITY_REGISTRY_UPDATED = _KeyedEventTracker(
 
 @callback
 def async_track_entity_registry_updated_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_ids: str | Iterable[str],
     action: Callable[[Event[EventEntityRegistryUpdatedData]], Any],
     job_type: HassJobType | None = None,
@@ -424,14 +424,14 @@ def async_track_entity_registry_updated_event(
 
 
 @callback
-def async_has_entity_registry_updated_listeners(hass: UniversalAssistant) -> bool:
+def async_has_entity_registry_updated_listeners(hass: __HAC_KEEP__) -> bool:
     """Check if async_track_entity_registry_updated_event has been called yet."""
     return _KEYED_TRACK_ENTITY_REGISTRY_UPDATED.key in hass.data
 
 
 @callback
 def _async_device_registry_updated_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callbacks: dict[str, list[HassJob[[Event[EventDeviceRegistryUpdatedData]], Any]]],
     event_data: EventDeviceRegistryUpdatedData,
 ) -> bool:
@@ -441,7 +441,7 @@ def _async_device_registry_updated_filter(
 
 @callback
 def _async_dispatch_device_id_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callbacks: dict[str, list[HassJob[[Event[EventDeviceRegistryUpdatedData]], Any]]],
     event: Event[EventDeviceRegistryUpdatedData],
 ) -> None:
@@ -469,7 +469,7 @@ _KEYED_TRACK_DEVICE_REGISTRY_UPDATED = _KeyedEventTracker(
 
 @callback
 def async_track_device_registry_updated_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_ids: str | Iterable[str],
     action: Callable[[Event[EventDeviceRegistryUpdatedData]], Any],
     job_type: HassJobType | None = None,
@@ -485,7 +485,7 @@ def async_track_device_registry_updated_event(
 
 @callback
 def _async_dispatch_domain_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callbacks: dict[str, list[HassJob[[Event[EventStateChangedData]], Any]]],
     event: Event[EventStateChangedData],
 ) -> None:
@@ -502,7 +502,7 @@ def _async_dispatch_domain_event(
 
 @callback
 def _async_domain_added_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callbacks: dict[str, list[HassJob[[Event[EventStateChangedData]], Any]]],
     event_data: EventStateChangedData,
 ) -> bool:
@@ -517,7 +517,7 @@ def _async_domain_added_filter(
 
 
 def async_track_state_added_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domains: str | Iterable[str],
     action: Callable[[Event[EventStateChangedData]], Any],
     job_type: HassJobType | None = None,
@@ -537,7 +537,7 @@ _KEYED_TRACK_STATE_ADDED_DOMAIN = _KeyedEventTracker(
 
 
 def _async_track_state_added_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domains: str | Iterable[str],
     action: Callable[[Event[EventStateChangedData]], Any],
     job_type: HassJobType | None,
@@ -550,7 +550,7 @@ def _async_track_state_added_domain(
 
 @callback
 def _async_domain_removed_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callbacks: dict[str, list[HassJob[[Event[EventStateChangedData]], Any]]],
     event_data: EventStateChangedData,
 ) -> bool:
@@ -573,7 +573,7 @@ _KEYED_TRACK_STATE_REMOVED_DOMAIN = _KeyedEventTracker(
 
 
 def async_track_state_removed_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domains: str | Iterable[str],
     action: Callable[[Event[EventStateChangedData]], Any],
     job_type: HassJobType | None = None,
@@ -597,7 +597,7 @@ class _TrackStateChangeFiltered:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         track_states: TrackStates,
         action: Callable[[Event[EventStateChangedData]], Any],
     ) -> None:
@@ -728,7 +728,7 @@ class _TrackStateChangeFiltered:
 
 @callback
 def async_track_state_change_filtered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     track_states: TrackStates,
     action: Callable[[Event[EventStateChangedData]], Any],
 ) -> _TrackStateChangeFiltered:
@@ -754,7 +754,7 @@ def async_track_state_change_filtered(
 
 @callback
 def async_track_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     template: Template,
     action: Callable[
         [str, State | None, State | None], Coroutine[Any, Any, None] | None
@@ -844,7 +844,7 @@ class TrackTemplateResultInfo:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         track_templates: Sequence[TrackTemplate],
         action: TrackTemplateResultListener,
         has_super_template: bool = False,
@@ -1191,7 +1191,7 @@ type TrackTemplateResultListener = Callable[
 
 @callback
 def async_track_template_result(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     track_templates: Sequence[TrackTemplate],
     action: TrackTemplateResultListener,
     strict: bool = False,
@@ -1239,7 +1239,7 @@ def async_track_template_result(
 
 @callback
 def async_track_same_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     period: timedelta,
     action: Callable[[], Coroutine[Any, Any, None] | None],
     async_check_same_func: Callable[[str, State | None, State | None], bool],
@@ -1306,7 +1306,7 @@ track_same_state = threaded_listener_factory(async_track_same_state)
 
 @callback
 def async_track_point_in_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action: HassJob[[datetime], Coroutine[Any, Any, None] | None]
     | Callable[[datetime], Coroutine[Any, Any, None] | None],
     point_in_time: datetime,
@@ -1340,7 +1340,7 @@ track_point_in_time = threaded_listener_factory(async_track_point_in_time)
 
 @dataclass(slots=True)
 class _TrackPointUTCTime:
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     job: HassJob[[datetime], Coroutine[Any, Any, None] | None]
     utc_point_in_time: datetime
     expected_fire_timestamp: float
@@ -1385,7 +1385,7 @@ class _TrackPointUTCTime:
 
 @callback
 def async_track_point_in_utc_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action: HassJob[[datetime], Coroutine[Any, Any, None] | None]
     | Callable[[datetime], Coroutine[Any, Any, None] | None],
     point_in_time: datetime,
@@ -1411,7 +1411,7 @@ track_point_in_utc_time = threaded_listener_factory(async_track_point_in_utc_tim
 
 
 def _run_async_call_action(
-    hass: UniversalAssistant, job: HassJob[[datetime], Coroutine[Any, Any, None] | None]
+    hass: __HAC_KEEP__, job: HassJob[[datetime], Coroutine[Any, Any, None] | None]
 ) -> None:
     """Run action."""
     hass.async_run_hass_job(job, time_tracker_utcnow())
@@ -1419,7 +1419,7 @@ def _run_async_call_action(
 
 @callback
 def async_call_at(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action: HassJob[[datetime], Coroutine[Any, Any, None] | None]
     | Callable[[datetime], Coroutine[Any, Any, None] | None],
     loop_time: float,
@@ -1438,7 +1438,7 @@ def async_call_at(
 
 @callback
 def async_call_later(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     delay: float | timedelta,
     action: HassJob[[datetime], Coroutine[Any, Any, None] | None]
     | Callable[[datetime], Coroutine[Any, Any, None] | None],
@@ -1465,7 +1465,7 @@ call_later = threaded_listener_factory(async_call_later)
 class _TrackTimeInterval:
     """Helper class to help listen to time interval events."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     seconds: float
     job_name: str
     action: Callable[[datetime], Coroutine[Any, Any, None] | None]
@@ -1517,7 +1517,7 @@ class _TrackTimeInterval:
 
 @callback
 def async_track_time_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action: Callable[[datetime], Coroutine[Any, Any, None] | None],
     interval: timedelta,
     *,
@@ -1544,7 +1544,7 @@ track_time_interval = threaded_listener_factory(async_track_time_interval)
 class SunListener:
     """Helper class to help listen to sun events."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     job: HassJob[[], Coroutine[Any, Any, None] | None]
     event: str
     offset: timedelta | None
@@ -1602,7 +1602,7 @@ class SunListener:
 
 @callback
 def async_track_sunrise(
-    hass: UniversalAssistant, action: Callable[[], None], offset: timedelta | None = None
+    hass: __HAC_KEEP__, action: Callable[[], None], offset: timedelta | None = None
 ) -> CALLBACK_TYPE:
     """Add a listener that will fire a specified offset from sunrise daily."""
     listener = SunListener(
@@ -1617,7 +1617,7 @@ track_sunrise = threaded_listener_factory(async_track_sunrise)
 
 @callback
 def async_track_sunset(
-    hass: UniversalAssistant, action: Callable[[], None], offset: timedelta | None = None
+    hass: __HAC_KEEP__, action: Callable[[], None], offset: timedelta | None = None
 ) -> CALLBACK_TYPE:
     """Add a listener that will fire a specified offset from sunset daily."""
     listener = SunListener(
@@ -1636,7 +1636,7 @@ time_tracker_timestamp = time.time
 
 @dataclass(slots=True)
 class _TrackUTCTimeChange:
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     time_match_expression: tuple[list[int], list[int], list[int]]
     microsecond: int
     local: bool
@@ -1692,7 +1692,7 @@ class _TrackUTCTimeChange:
 
 @callback
 def async_track_utc_time_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action: Callable[[datetime], Coroutine[Any, Any, None] | None],
     hour: Any | None = None,
     minute: Any | None = None,
@@ -1719,7 +1719,7 @@ def async_track_utc_time_change(
     matching_hours = dt_util.parse_time_expression(hour, 0, 23)
     # Avoid aligning all time trackers to the same fraction of a second
     # since it can create a thundering herd problem
-    # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/82231
+    # https://github.com/yashhasan570/__HAC_KEEP__/issues/82231
     microsecond = randint(RANDOM_MICROSECOND_MIN, RANDOM_MICROSECOND_MAX)
     listener_job_name = f"time change listener {hour}:{minute}:{second} {action}"
     track = _TrackUTCTimeChange(
@@ -1739,7 +1739,7 @@ track_utc_time_change = threaded_listener_factory(async_track_utc_time_change)
 
 @callback
 def async_track_time_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action: Callable[[datetime], Coroutine[Any, Any, None] | None],
     hour: Any | None = None,
     minute: Any | None = None,

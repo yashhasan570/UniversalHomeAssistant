@@ -7,8 +7,8 @@ from pyegps.exceptions import EgpsException
 from pyegps.powerstrip import PowerStrip
 
 from universalassistant.components.switch import SwitchDeviceClass, SwitchEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -17,7 +17,7 @@ from .const import DOMAIN
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: EnergenieConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -61,7 +61,7 @@ class EGPowerStripSocket(SwitchEntity):
         try:
             self._dev.switch_on(self._socket)
         except EgpsException as err:
-            raise UniversalAssistantError(f"Couldn't access USB device: {err}") from err
+            raise __HAC_KEEP__Error(f"Couldn't access USB device: {err}") from err
 
     @override
     def turn_off(self, **kwargs: Any) -> None:
@@ -69,11 +69,11 @@ class EGPowerStripSocket(SwitchEntity):
         try:
             self._dev.switch_off(self._socket)
         except EgpsException as err:
-            raise UniversalAssistantError(f"Couldn't access USB device: {err}") from err
+            raise __HAC_KEEP__Error(f"Couldn't access USB device: {err}") from err
 
     def update(self) -> None:
         """Read the current state from the device."""
         try:
             self._attr_is_on = self._dev.get_status(self._socket)
         except EgpsException as err:
-            raise UniversalAssistantError(f"Couldn't access USB device: {err}") from err
+            raise __HAC_KEEP__Error(f"Couldn't access USB device: {err}") from err

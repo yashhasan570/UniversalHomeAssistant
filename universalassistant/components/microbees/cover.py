@@ -9,8 +9,8 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
 
@@ -21,7 +21,7 @@ COVER_IDS = {47: "roller_shutter"}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MicroBeesConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -92,7 +92,7 @@ class MBCover(MicroBeesEntity, CoverEntity):
         )
 
         if not send_command:
-            raise UniversalAssistantError(f"Failed to open {self.name}")
+            raise __HAC_KEEP__Error(f"Failed to open {self.name}")
 
         self._attr_is_opening = True
         async_call_later(
@@ -109,7 +109,7 @@ class MBCover(MicroBeesEntity, CoverEntity):
             self.actuator_down.configuration.actuator_timing * 1000,
         )
         if not send_command:
-            raise UniversalAssistantError(f"Failed to close {self.name}")
+            raise __HAC_KEEP__Error(f"Failed to close {self.name}")
 
         self._attr_is_closing = True
         async_call_later(

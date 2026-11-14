@@ -27,7 +27,7 @@ from universalassistant.const import (
 
 USER_INPUT = {
     CONF_SENDER: "email@example.com",
-    CONF_SENDER_NAME: "Universal Universal Home Assistant",
+    CONF_SENDER_NAME: "__HA_KEEP__",
     CONF_SERVER: "mail.example.com",
     CONF_PORT: 587,
     CONF_ENCRYPTION: "starttls",
@@ -97,7 +97,7 @@ def mock_randrange() -> Generator[None]:
 
 @pytest.fixture(name="version")
 def mock_version() -> Generator[None]:
-    """Mock Universal Universal Home Assistant version."""
+    """Mock __HA_KEEP__ version."""
 
     with patch(
         "universalassistant.components.smtp.notify.__version__",
@@ -127,7 +127,7 @@ def mock_config_entry() -> MockConfigEntry:
     """Mock smtp configuration entry."""
     return MockConfigEntry(
         domain=DOMAIN,
-        title="Universal Universal Home Assistant",
+        title="__HA_KEEP__",
         data=USER_INPUT,
         options={
             CONF_TIMEOUT: 1312,

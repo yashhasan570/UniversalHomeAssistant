@@ -12,7 +12,7 @@ from victron_mqtt.testing import finalize_injection, inject_message
 
 from universalassistant.components.button import ButtonService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import MOCK_INSTALLATION_ID
@@ -20,7 +20,7 @@ from .const import MOCK_INSTALLATION_ID
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_button_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
@@ -41,7 +41,7 @@ async def test_all_button_entities_snapshot(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:

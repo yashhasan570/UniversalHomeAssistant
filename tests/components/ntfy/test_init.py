@@ -14,13 +14,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ntfy.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_entry_setup_unload(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test integration setup and unload."""
 
@@ -37,7 +37,7 @@ async def test_entry_setup_unload(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_topic_device_via_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -87,7 +87,7 @@ async def test_topic_device_via_device(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     exception: Exception,
@@ -121,7 +121,7 @@ async def test_config_entry_not_ready(
     ],
 )
 async def test_coordinator_update_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     exception: Exception,

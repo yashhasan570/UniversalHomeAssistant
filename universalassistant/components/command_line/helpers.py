@@ -5,7 +5,7 @@ from collections.abc import Coroutine
 from typing import Any
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import discovery
 from universalassistant.helpers.typing import ConfigType
 
@@ -14,7 +14,7 @@ from .utils import async_keep_shell_template_issue
 
 
 async def async_load_platforms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     command_line_config: list[dict[str, dict[str, Any]]],
     config: ConfigType,
 ) -> None:

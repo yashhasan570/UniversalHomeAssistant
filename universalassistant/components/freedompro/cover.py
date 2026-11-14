@@ -12,7 +12,7 @@ from universalassistant.components.cover import (
     CoverEntityFeature,
 )
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -33,7 +33,7 @@ SUPPORTED_SENSORS = {"windowCovering", "gate", "garageDoor", "door", "window"}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FreedomproConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -62,7 +62,7 @@ class Device(CoordinatorEntity[FreedomproDataUpdateCoordinator], CoverEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         api_key: str,
         device: dict[str, Any],
         coordinator: FreedomproDataUpdateCoordinator,

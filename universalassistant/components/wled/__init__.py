@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from universalassistant.config_entries import SOURCE_IGNORE
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -36,7 +36,7 @@ WLED_KEY: HassKey[dict[str, WLEDReleasesDataUpdateCoordinator]] = HassKey(DOMAIN
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the WLED integration.
 
     Releases are fetched by one coordinator per firmware repository, shared
@@ -47,7 +47,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: WLEDConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: WLEDConfigEntry) -> None:
     """Set up WLED from a config entry."""
     entry.runtime_data = WLEDDataUpdateCoordinator(hass, entry=entry)
     await entry.runtime_data.async_config_entry_first_refresh()
@@ -56,7 +56,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: WLEDConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: WLEDConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: WLEDConfigEntry) -> None:
     """Unload WLED config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     coordinator = entry.runtime_data
@@ -70,7 +70,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: WLEDConfigEntry) -
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: WLEDConfigEntry
+    hass: __HAC_KEEP__, config_entry: WLEDConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug(

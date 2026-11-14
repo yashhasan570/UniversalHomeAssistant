@@ -14,7 +14,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .device_info import NestDeviceInfo
@@ -68,7 +68,7 @@ ENTITY_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NestConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

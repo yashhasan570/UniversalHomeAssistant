@@ -7,7 +7,7 @@ from vallox_websocket_api import MetricData, Vallox, ValloxApiException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import STATE_SCAN_INTERVAL
@@ -24,7 +24,7 @@ class ValloxDataUpdateCoordinator(DataUpdateCoordinator[MetricData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ValloxConfigEntry,
         client: Vallox,
     ) -> None:

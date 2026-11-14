@@ -6,13 +6,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.goalzero.const import DEFAULT_NAME, DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import async_init_integration
 
 
 async def test_switches_states(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we get sensor data."""
     await async_init_integration(hass, aioclient_mock)

@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from xiaomi_weather import XiaomiWeatherError
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "weather.beijing"
 
 
 async def test_setup_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def test_setup_unload(
     ],
 )
 async def test_setup_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     entry: MockConfigEntry,
     failure: type[XiaomiWeatherError] | None,
@@ -73,7 +73,7 @@ async def test_setup_retry(
 )
 @pytest.mark.usefixtures("entity_registry")
 async def test_update_and_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     entry: MockConfigEntry,
     failure: type[XiaomiWeatherError] | None,
@@ -115,7 +115,7 @@ async def test_update_and_recovery(
 
 
 async def test_poll_and_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -138,7 +138,7 @@ async def test_poll_and_unload(
 
 
 async def test_independent_locations(
-    hass: UniversalAssistant, client: MagicMock, entry: MockConfigEntry
+    hass: __HAC_KEEP__, client: MagicMock, entry: MockConfigEntry
 ) -> None:
     """Unloading one location leaves the other location operational."""
     other = MockConfigEntry(

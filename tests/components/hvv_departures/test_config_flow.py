@@ -15,7 +15,7 @@ from universalassistant.components.hvv_departures.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_OFFSET, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 FIXTURE_INIT = load_json_object_fixture("hvv_departures/init.json")
@@ -28,7 +28,7 @@ FIXTURE_OPTIONS = load_json_object_fixture("hvv_departures/options.json")
 FIXTURE_DEPARTURE_LIST = load_json_object_fixture("hvv_departures/departure_list.json")
 
 
-async def test_user_flow(hass: UniversalAssistant) -> None:
+async def test_user_flow(hass: __HAC_KEEP__) -> None:
     """Test that config flow works."""
 
     with (
@@ -104,7 +104,7 @@ async def test_user_flow(hass: UniversalAssistant) -> None:
         }
 
 
-async def test_user_flow_stations_with_same_name(hass: UniversalAssistant) -> None:
+async def test_user_flow_stations_with_same_name(hass: __HAC_KEEP__) -> None:
     """Test that stations with the same name in different cities can be selected."""
 
     with (
@@ -176,7 +176,7 @@ async def test_user_flow_stations_with_same_name(hass: UniversalAssistant) -> No
     }
 
 
-async def test_user_flow_no_results(hass: UniversalAssistant) -> None:
+async def test_user_flow_no_results(hass: __HAC_KEEP__) -> None:
     """Test that config flow works when there are no results."""
 
     with (
@@ -241,7 +241,7 @@ async def test_user_flow_no_results(hass: UniversalAssistant) -> None:
         assert result_station_select["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_user_flow_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test that config flow handles invalid auth."""
 
     with patch(
@@ -308,7 +308,7 @@ async def test_user_flow_invalid_auth(hass: UniversalAssistant) -> None:
     assert result_station_select["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_user_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test that config flow handles connection errors."""
 
     with patch(
@@ -375,7 +375,7 @@ async def test_user_flow_cannot_connect(hass: UniversalAssistant) -> None:
     assert result_station_select["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_station(hass: UniversalAssistant) -> None:
+async def test_user_flow_station(hass: __HAC_KEEP__) -> None:
     """Test that config flow handles empty data on step station."""
 
     with (
@@ -417,7 +417,7 @@ async def test_user_flow_station(hass: UniversalAssistant) -> None:
         assert result_station["step_id"] == "station"
 
 
-async def test_user_flow_station_select(hass: UniversalAssistant) -> None:
+async def test_user_flow_station_select(hass: __HAC_KEEP__) -> None:
     """Test that config flow handles empty data on step station_select."""
 
     with (
@@ -461,7 +461,7 @@ async def test_user_flow_station_select(hass: UniversalAssistant) -> None:
         assert result_station_select["step_id"] == "station_select"
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test that options flow works."""
 
     config_entry = MockConfigEntry(
@@ -519,7 +519,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
         }
 
 
-async def test_options_flow_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_options_flow_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test that options flow works."""
 
     config_entry = MockConfigEntry(
@@ -569,7 +569,7 @@ async def test_options_flow_invalid_auth(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_flow_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_options_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test that options flow works."""
 
     config_entry = MockConfigEntry(

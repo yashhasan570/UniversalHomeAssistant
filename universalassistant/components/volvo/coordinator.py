@@ -19,7 +19,7 @@ from volvocarsapi.models import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -89,7 +89,7 @@ class VolvoBaseCoordinator(DataUpdateCoordinator[CoordinatorData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: VolvoConfigEntry,
         context: VolvoContext,
         update_interval: timedelta,
@@ -212,7 +212,7 @@ class VolvoVerySlowIntervalCoordinator(VolvoBaseCoordinator):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: VolvoConfigEntry,
         context: VolvoContext,
     ) -> None:
@@ -259,7 +259,7 @@ class VolvoSlowIntervalCoordinator(VolvoBaseCoordinator):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: VolvoConfigEntry,
         context: VolvoContext,
     ) -> None:
@@ -352,7 +352,7 @@ class VolvoMediumIntervalCoordinator(VolvoBaseCoordinator):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: VolvoConfigEntry,
         context: VolvoContext,
     ) -> None:
@@ -443,7 +443,7 @@ class VolvoFastIntervalCoordinator(VolvoBaseCoordinator):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: VolvoConfigEntry,
         context: VolvoContext,
     ) -> None:

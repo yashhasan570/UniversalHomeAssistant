@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant Hardware platform for OTBR."""
+"""Test __HA_KEEP__ Hardware platform for OTBR."""
 
 from unittest.mock import AsyncMock, Mock, call, patch
 
@@ -21,8 +21,8 @@ from universalassistant.components.universalassistant_hardware.util import (
 from universalassistant.components.otbr import DOMAIN
 from universalassistant.components.otbr.universalassistant_hardware import async_get_firmware_info
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.setup import async_setup_component
 
 from . import TEST_COPROCESSOR_VERSION
@@ -33,7 +33,7 @@ DEVICE_PATH = (
 )
 
 
-async def test_get_firmware_info(hass: UniversalAssistant) -> None:
+async def test_get_firmware_info(hass: __HAC_KEEP__) -> None:
     """Test `async_get_firmware_info`."""
 
     otbr = MockConfigEntry(
@@ -85,7 +85,7 @@ async def test_get_firmware_info(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_get_firmware_info_ignored(hass: UniversalAssistant) -> None:
+async def test_get_firmware_info_ignored(hass: __HAC_KEEP__) -> None:
     """Test `async_get_firmware_info` with ignored entry."""
 
     otbr = MockConfigEntry(
@@ -100,7 +100,7 @@ async def test_get_firmware_info_ignored(hass: UniversalAssistant) -> None:
     assert fw_info is None
 
 
-async def test_get_firmware_info_no_coprocessor_version(hass: UniversalAssistant) -> None:
+async def test_get_firmware_info_no_coprocessor_version(hass: __HAC_KEEP__) -> None:
     """Test `async_get_firmware_info` with no coprocessor version support."""
 
     otbr = MockConfigEntry(
@@ -115,7 +115,7 @@ async def test_get_firmware_info_no_coprocessor_version(hass: UniversalAssistant
     otbr.mock_state(hass, ConfigEntryState.LOADED)
 
     otbr.runtime_data = AsyncMock()
-    otbr.runtime_data.get_coprocessor_version.side_effect = UniversalAssistantError()
+    otbr.runtime_data.get_coprocessor_version.side_effect = __HAC_KEEP__Error()
 
     with (
         patch(
@@ -156,11 +156,11 @@ async def test_get_firmware_info_no_coprocessor_version(hass: UniversalAssistant
     ("version", "expected_version"),
     [
         ((TEST_COPROCESSOR_VERSION,), TEST_COPROCESSOR_VERSION),
-        (UniversalAssistantError(), None),
+        (__HAC_KEEP__Error(), None),
     ],
 )
 async def test_hardware_firmware_info_provider_notification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     version: str | Exception,
     expected_version: str | None,
     get_active_dataset_tlvs: AsyncMock,
@@ -225,7 +225,7 @@ async def test_hardware_firmware_info_provider_notification(
     ]
 
 
-async def test_get_firmware_info_remote_otbr(hass: UniversalAssistant) -> None:
+async def test_get_firmware_info_remote_otbr(hass: __HAC_KEEP__) -> None:
     """Test `async_get_firmware_info` with no coprocessor version support."""
 
     otbr = MockConfigEntry(

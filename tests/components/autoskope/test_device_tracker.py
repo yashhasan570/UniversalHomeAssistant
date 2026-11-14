@@ -14,14 +14,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.autoskope.const import DOMAIN, UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -43,7 +43,7 @@ async def test_all_entities(
     ids=["moving", "parked", "idle", "no_position"],
 )
 async def test_vehicle_icons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
     speed: int,
@@ -85,7 +85,7 @@ async def test_vehicle_icons(
 
 
 async def test_entity_unavailable_on_coordinator_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -110,7 +110,7 @@ async def test_entity_unavailable_on_coordinator_error(
 
 
 async def test_entity_recovers_after_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
     mock_vehicles: list[Vehicle],
@@ -139,7 +139,7 @@ async def test_entity_recovers_after_error(
 
 
 async def test_reauth_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
     mock_vehicles: list[Vehicle],
@@ -164,7 +164,7 @@ async def test_reauth_success(
 
 
 async def test_reauth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
     mock_vehicles: list[Vehicle],
@@ -192,7 +192,7 @@ async def test_reauth_failure(
 
 
 async def test_vehicle_name_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,

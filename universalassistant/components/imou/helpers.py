@@ -6,7 +6,7 @@ from typing import Any, Concatenate
 
 from pyimouapi.exceptions import ImouException, InvalidAppIdOrSecretException
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DOMAIN
 from .entity import ImouEntity
@@ -29,12 +29,12 @@ def async_wrap_imou_command[_T: ImouEntity, **_P, _R](
                 return await func(self, *args, **kwargs)
             except InvalidAppIdOrSecretException as err:
                 self.coordinator.config_entry.async_start_reauth(self.hass)
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="invalid_auth",
                 ) from err
             except ImouException as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key=error_key,
                 ) from err

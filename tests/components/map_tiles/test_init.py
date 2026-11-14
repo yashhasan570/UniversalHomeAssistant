@@ -26,7 +26,7 @@ from universalassistant.components.map_tiles.const import (
     VECTOR_URL,
 )
 from universalassistant.components.map_tiles.views import MapTilesVectorView
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 VECTOR_TILE = b"\x1a\x0fnot-really-a-mvt"
@@ -57,14 +57,14 @@ UPSTREAM_TILEJSON = {
 
 
 @pytest.fixture(autouse=True)
-async def setup_map_tiles(hass: UniversalAssistant) -> None:
+async def setup_map_tiles(hass: __HAC_KEEP__) -> None:
     """Set up the integration for every test."""
     assert await async_setup_component(hass, "http", {"http": {}})
     assert await async_setup_component(hass, DOMAIN, {})
 
 
 async def test_vector_tile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_vector_tile(
 
 
 async def test_raster_tile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_raster_tile(
 
 
 async def test_glyphs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_glyphs(
     ],
 )
 async def test_sprites(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     name: str,
@@ -143,7 +143,7 @@ async def test_sprites(
 
 
 async def test_compressed_tile_is_handed_on_as_it_arrived(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_compressed_tile_is_handed_on_as_it_arrived(
 
 
 async def test_gzip_is_served_regardless_of_accept_encoding(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_gzip_is_served_regardless_of_accept_encoding(
 
 
 async def test_png_served_verbatim(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_png_served_verbatim(
 
 
 async def test_upstream_headers_identify_universal_assistant(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -216,7 +216,7 @@ async def test_upstream_headers_identify_universal_assistant(
     await client.get(RASTER_PATH)
 
     headers = aioclient_mock.mock_calls[0][3]
-    assert headers["User-Agent"].startswith("UniversalAssistant/")
+    assert headers["User-Agent"].startswith("__HAC_KEEP__/")
     assert "abuse@universalassistant.io" in headers["User-Agent"]
     # Pinned to gzip so cached bodies are in an encoding every client accepts.
     assert headers["Accept-Encoding"] == "gzip"
@@ -227,7 +227,7 @@ async def test_upstream_headers_identify_universal_assistant(
 
 
 async def test_tilejson_is_rewritten(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_tilejson_is_rewritten(
 
 
 async def test_tilejson_maxzoom_is_clamped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -288,7 +288,7 @@ async def test_tilejson_maxzoom_is_clamped(
     ],
 )
 async def test_tilejson_unusable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     upstream: dict[str, object],
@@ -321,7 +321,7 @@ async def test_tilejson_unusable(
     ],
 )
 async def test_rejected_before_upstream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     path: str,
@@ -370,7 +370,7 @@ async def test_rejected_before_upstream(
     ],
 )
 async def test_upstream_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     path: str,
@@ -387,7 +387,7 @@ async def test_upstream_failure(
 
 
 async def test_empty_vector_tile_is_served(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -402,7 +402,7 @@ async def test_empty_vector_tile_is_served(
 
 
 async def test_oversized_upstream_body_is_refused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -419,7 +419,7 @@ async def test_oversized_upstream_body_is_refused(
 
 
 async def test_tilejson_expanding_past_the_cap_is_refused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -438,7 +438,7 @@ async def test_tilejson_expanding_past_the_cap_is_refused(
 
 
 async def test_cached_tile_is_not_fetched_again(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -458,7 +458,7 @@ SHORT_TTL = 5
 
 
 async def test_stale_tile_is_served_while_it_refreshes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
@@ -483,7 +483,7 @@ async def test_stale_tile_is_served_while_it_refreshes(
 
 
 async def test_stale_tile_survives_an_upstream_outage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
@@ -508,7 +508,7 @@ async def test_stale_tile_survives_an_upstream_outage(
 
 
 async def test_upstream_max_age_drives_the_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
@@ -534,7 +534,7 @@ async def test_upstream_max_age_drives_the_refresh(
 
 
 async def test_token_query_param_authenticates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -550,7 +550,7 @@ async def test_token_query_param_authenticates(
 
 
 async def test_both_live_tokens_authenticate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
@@ -571,7 +571,7 @@ async def test_both_live_tokens_authenticate(
 
 
 async def test_rotated_out_token_is_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -593,7 +593,7 @@ async def test_rotated_out_token_is_rejected(
     [VECTOR_PATH, RASTER_PATH, GLYPHS_PATH, TILEJSON_PATH],
 )
 async def test_unauthenticated_request_is_forbidden(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     path: str,
@@ -607,7 +607,7 @@ async def test_unauthenticated_request_is_forbidden(
 
 
 async def test_token_header_authenticates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -623,7 +623,7 @@ async def test_token_header_authenticates(
 
 
 async def test_rotated_out_token_header_is_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -642,7 +642,7 @@ async def test_rotated_out_token_header_is_rejected(
 
 
 async def test_invalid_token_header_is_forbidden(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Test that a wrong header token does not count as a failed login."""
@@ -653,7 +653,7 @@ async def test_invalid_token_header_is_forbidden(
 
 
 async def test_invalid_token_is_forbidden(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Test that a wrong query token does not count as a failed login."""
@@ -664,7 +664,7 @@ async def test_invalid_token_is_forbidden(
 
 
 async def test_invalid_bearer_token_is_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Test that a real Bearer attempt is a 401, so the ban middleware sees it."""
@@ -677,7 +677,7 @@ async def test_invalid_bearer_token_is_unauthorized(
 
 
 async def test_ws_access_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:

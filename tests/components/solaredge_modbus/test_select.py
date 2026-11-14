@@ -14,7 +14,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 CONTROL_MODE_ENTITY = "select.solaredge_se10000h_storage_control_mode"
@@ -22,7 +22,7 @@ CONTROL_MODE_REGISTER = 57348
 EXPORT_MODE_ENTITY = "select.solaredge_se10000h_export_limitation"
 
 
-async def _setup_select_platform(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def _setup_select_platform(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     with patch(
         "universalassistant.components.solaredge_modbus.PLATFORMS", [Platform.SELECT]
     ):
@@ -33,7 +33,7 @@ async def _setup_select_platform(hass: UniversalAssistant, entry: MockConfigEntr
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_selects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_selects(
 
 
 async def test_limit_type_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_limit_type_disabled_by_default(
 
 
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_select_option(
 
 
 async def test_export_mode_keeps_the_mode_the_inverter_is_set_to(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_export_mode_keeps_the_mode_the_inverter_is_set_to(
 
 
 async def test_export_mode_without_a_meter_hides_the_meter_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_export_mode_without_a_meter_hides_the_meter_modes(
 
 
 async def test_export_mode_options_with_meter(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """A site with a meter offers the meter-based export limitation modes too."""
     await _setup_select_platform(hass, mock_config_entry)

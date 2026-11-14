@@ -12,7 +12,7 @@ from bsblan import (
 )
 
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -149,7 +149,7 @@ class BSBLanCircuitEntity(BSBLanDualCoordinatorEntity):
         try:
             await self.coordinator.client.thermostat(**kwargs, circuit=self._circuit)
         except BSBLANError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_data_error",
             ) from err
@@ -267,7 +267,7 @@ class BSBLanWaterHeaterDeviceEntity(BSBLanDualCoordinatorEntity):
         try:
             await self.coordinator.client.set_hot_water(params)
         except BSBLANError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key=error_translation_key,
             ) from err

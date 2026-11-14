@@ -7,8 +7,8 @@ from typing import Final, override
 from aiohttp import ClientResponseError
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, PROCESS_ACTION, MieleActions, MieleAppliance
@@ -105,7 +105,7 @@ BUTTON_TYPES: Final[tuple[MieleButtonDefinition, ...]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MieleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -155,7 +155,7 @@ class MieleButton(MieleEntity, ButtonEntity):
             )
         except ClientResponseError as err:
             _LOGGER.debug("Error setting button state for %s: %s", self.entity_id, err)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_state_error",
                 translation_placeholders={

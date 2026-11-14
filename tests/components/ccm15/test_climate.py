@@ -36,14 +36,14 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 
 @pytest.mark.usefixtures("ccm15_device")
 async def test_climate_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -146,7 +146,7 @@ async def test_climate_state(
 
 
 async def test_climate_unavailable_on_update_failure(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the climate entity becomes unavailable when the update fails."""
     device_state = CCM15DeviceState(
@@ -188,7 +188,7 @@ async def test_climate_unavailable_on_update_failure(
         assert state.state != STATE_UNAVAILABLE
 
 
-async def test_climate_fahrenheit_unit(hass: UniversalAssistant) -> None:
+async def test_climate_fahrenheit_unit(hass: __HAC_KEEP__) -> None:
     """A controller set to Fahrenheit is reported in Fahrenheit."""
     hass.config.units = US_CUSTOMARY_SYSTEM
     device_state = CCM15DeviceState(
@@ -229,7 +229,7 @@ async def test_climate_fahrenheit_unit(hass: UniversalAssistant) -> None:
     [(SWING_ON, TriState.ON), (SWING_OFF, TriState.OFF)],
 )
 async def test_climate_set_swing_mode(
-    hass: UniversalAssistant, swing_mode: str, expected: TriState
+    hass: __HAC_KEEP__, swing_mode: str, expected: TriState
 ) -> None:
     """Setting the swing mode sends the desired swing to the device."""
     entry = MockConfigEntry(

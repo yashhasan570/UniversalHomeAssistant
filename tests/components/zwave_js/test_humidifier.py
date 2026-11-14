@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import DEHUMIDIFIER_ADC_T3000_ENTITY, HUMIDIFIER_ADC_T3000_ENTITY
 
@@ -37,7 +37,7 @@ def platforms() -> list[str]:
 
 
 async def test_humidifier(
-    hass: UniversalAssistant, client, climate_adc_t3000, integration
+    hass: __HAC_KEEP__, client, climate_adc_t3000, integration
 ) -> None:
     """Test a humidity control command class entity."""
 
@@ -437,7 +437,7 @@ async def test_humidifier(
 
 
 async def test_dehumidifier_missing_setpoint(
-    hass: UniversalAssistant, client, climate_adc_t3000_missing_setpoint, integration
+    hass: __HAC_KEEP__, client, climate_adc_t3000_missing_setpoint, integration
 ) -> None:
     """Test a humidity control command class entity."""
 
@@ -468,7 +468,7 @@ async def test_dehumidifier_missing_setpoint(
 
 
 async def test_humidifier_missing_mode(
-    hass: UniversalAssistant, client, climate_adc_t3000_missing_mode, integration
+    hass: __HAC_KEEP__, client, climate_adc_t3000_missing_mode, integration
 ) -> None:
     """Test a humidity control command class entity."""
 
@@ -528,7 +528,7 @@ async def test_humidifier_missing_mode(
 
 
 async def test_dehumidifier(
-    hass: UniversalAssistant, client, climate_adc_t3000, integration
+    hass: __HAC_KEEP__, client, climate_adc_t3000, integration
 ) -> None:
     """Test a humidity control command class entity."""
 

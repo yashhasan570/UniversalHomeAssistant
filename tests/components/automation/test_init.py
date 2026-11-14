@@ -50,14 +50,14 @@ from universalassistant.core import (
     Context,
     CoreState,
     Event,
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     State,
     callback,
 )
 from universalassistant.exceptions import (
     ConfigValidationError,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceValidationError,
     Unauthorized,
 )
@@ -90,13 +90,13 @@ from tests.components.logbook.common import MockRow, mock_humanify
 
 
 @pytest.fixture
-def calls(hass: UniversalAssistant) -> list[ServiceCall]:
+def calls(hass: __HAC_KEEP__) -> list[ServiceCall]:
     """Track calls to a mock service."""
     return async_mock_service(hass, "test", "automation")
 
 
 async def test_service_data_not_a_dict(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, calls: list[ServiceCall]
 ) -> None:
     """Test service data not dict."""
     with assert_setup_component(1, automation.DOMAIN):
@@ -118,7 +118,7 @@ async def test_service_data_not_a_dict(
 
 
 async def test_service_data_single_template(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test service data not dict."""
     with assert_setup_component(1, automation.DOMAIN):
@@ -143,7 +143,7 @@ async def test_service_data_single_template(
 
 
 async def test_service_specify_data(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test service data."""
     assert await async_setup_component(
@@ -179,7 +179,7 @@ async def test_service_specify_data(
 
 
 async def test_service_specify_entity_id(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test service data."""
     assert await async_setup_component(
@@ -200,7 +200,7 @@ async def test_service_specify_entity_id(
 
 
 async def test_service_specify_entity_id_list(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test service data."""
     assert await async_setup_component(
@@ -223,7 +223,7 @@ async def test_service_specify_entity_id_list(
     assert calls[0].data.get(ATTR_ENTITY_ID) == ["hello.world", "hello.world2"]
 
 
-async def test_two_triggers(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_two_triggers(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test triggers."""
     assert await async_setup_component(
         hass,
@@ -248,7 +248,7 @@ async def test_two_triggers(hass: UniversalAssistant, calls: list[ServiceCall]) 
 
 
 async def test_trigger_service_ignoring_condition(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, calls: list[ServiceCall]
 ) -> None:
     """Test triggers."""
     assert await async_setup_component(
@@ -310,7 +310,7 @@ async def test_trigger_service_ignoring_condition(
 
 
 async def test_two_conditions_with_and(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test two and conditions."""
     entity_id = "test.entity"
@@ -350,7 +350,7 @@ async def test_two_conditions_with_and(
 
 
 async def test_shorthand_conditions_template(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test shorthand nation form in conditions."""
     assert await async_setup_component(
@@ -377,7 +377,7 @@ async def test_shorthand_conditions_template(
 
 
 async def test_automation_list_setting(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Event is not a valid condition."""
     assert await async_setup_component(
@@ -407,7 +407,7 @@ async def test_automation_list_setting(
 
 
 async def test_automation_calling_two_actions(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test if we can call two actions from automation async definition."""
     assert await async_setup_component(
@@ -432,7 +432,7 @@ async def test_automation_calling_two_actions(
     assert calls[1].data["position"] == 1
 
 
-async def test_shared_context(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_shared_context(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test that the shared context is passed down the chain."""
     assert await async_setup_component(
         hass,
@@ -498,7 +498,7 @@ async def test_shared_context(hass: UniversalAssistant, calls: list[ServiceCall]
 
 
 async def test_automation_triggered_event_trace_ids(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the automation triggered event identifies the trace of its run."""
     assert await async_setup_component(
@@ -563,7 +563,7 @@ async def test_automation_triggered_event_trace_ids(
     ] * 2
 
 
-async def test_services(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_services(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test the automation services for turning entities on/off."""
     entity_id = "automation.hello"
 
@@ -664,7 +664,7 @@ async def test_services(hass: UniversalAssistant, calls: list[ServiceCall]) -> N
 
 
 async def test_reload_config_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     calls: list[ServiceCall],
     hass_admin_user: MockUser,
     hass_read_only_user: MockUser,
@@ -747,7 +747,7 @@ async def test_reload_config_service(
 
 
 async def test_reload_config_when_invalid_config(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test the reload config service handling invalid config."""
     with assert_setup_component(1, automation.DOMAIN):
@@ -790,7 +790,7 @@ async def test_reload_config_when_invalid_config(
 
 
 async def test_reload_config_handles_load_fails(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test the reload config service."""
     assert await async_setup_component(
@@ -818,7 +818,7 @@ async def test_reload_config_handles_load_fails(
     with (
         patch(
             "universalassistant.config.load_yaml_config_file",
-            side_effect=UniversalAssistantError("bla"),
+            side_effect=__HAC_KEEP__Error("bla"),
         ),
         pytest.raises(
             ServiceValidationError, match="Failed to load configuration: bla"
@@ -870,7 +870,7 @@ async def test_reload_config_handles_load_fails(
     "service", ["turn_off_stop", "turn_off_no_stop", "reload", "reload_single"]
 )
 async def test_automation_stops(
-    hass: UniversalAssistant, calls: list[ServiceCall], service: str
+    hass: __HAC_KEEP__, calls: list[ServiceCall], service: str
 ) -> None:
     """Test that turning off / reloading stops any running actions as appropriate."""
     entity_id = "automation.hello"
@@ -948,7 +948,7 @@ async def test_automation_stops(
 
 @pytest.mark.parametrize("extra_config", [{}, {"id": "sun"}])
 async def test_reload_unchanged_does_not_stop(
-    hass: UniversalAssistant, calls: list[ServiceCall], extra_config: dict[str, str]
+    hass: __HAC_KEEP__, calls: list[ServiceCall], extra_config: dict[str, str]
 ) -> None:
     """Test that reloading stops any running actions as appropriate."""
     test_entity = "test.entity"
@@ -996,7 +996,7 @@ async def test_reload_unchanged_does_not_stop(
 
 
 async def test_reload_single_unchanged_does_not_stop(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test that reloading stops any running actions as appropriate."""
     test_entity = "test.entity"
@@ -1047,7 +1047,7 @@ async def test_reload_single_unchanged_does_not_stop(
 
 
 async def test_reload_single_add_automation(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test that reloading a single automation."""
     config1 = {automation.DOMAIN: {}}
@@ -1083,7 +1083,7 @@ async def test_reload_single_add_automation(
 
 
 async def test_reload_single_parallel_calls(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test reloading single automations in parallel."""
     config1 = {automation.DOMAIN: {}}
@@ -1198,7 +1198,7 @@ async def test_reload_single_parallel_calls(
 
 
 async def test_reload_single_remove_automation(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test that reloading a single automation."""
     config1 = {
@@ -1234,7 +1234,7 @@ async def test_reload_single_remove_automation(
 
 
 async def test_reload_moved_automation_without_alias(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test that changing the order of automations without alias triggers reload."""
     with patch(
@@ -1290,7 +1290,7 @@ async def test_reload_moved_automation_without_alias(
 
 
 async def test_reload_identical_automations_without_id(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test reloading of identical automations without id."""
     with patch(
@@ -1466,7 +1466,7 @@ async def test_reload_identical_automations_without_id(
     ],
 )
 async def test_reload_unchanged_automation(
-    hass: UniversalAssistant, calls: list[ServiceCall], automation_config: dict[str, Any]
+    hass: __HAC_KEEP__, calls: list[ServiceCall], automation_config: dict[str, Any]
 ) -> None:
     """Test an unmodified automation is not reloaded."""
     with patch(
@@ -1502,7 +1502,7 @@ async def test_reload_unchanged_automation(
 
 @pytest.mark.parametrize("extra_config", [{}, {"id": "sun"}])
 async def test_reload_automation_when_blueprint_changes(
-    hass: UniversalAssistant, calls: list[ServiceCall], extra_config: dict[str, str]
+    hass: __HAC_KEEP__, calls: list[ServiceCall], extra_config: dict[str, str]
 ) -> None:
     """Test an automation is updated at reload if the blueprint has changed."""
     with patch(
@@ -1564,7 +1564,7 @@ async def test_reload_automation_when_blueprint_changes(
         assert len(calls) == 3
 
 
-async def test_automation_restore_state(hass: UniversalAssistant) -> None:
+async def test_automation_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure states are restored on startup."""
     time = dt_util.utcnow()
 
@@ -1619,7 +1619,7 @@ async def test_automation_restore_state(hass: UniversalAssistant) -> None:
     assert len(calls) == 1
 
 
-async def test_initial_value_off(hass: UniversalAssistant) -> None:
+async def test_initial_value_off(hass: __HAC_KEEP__) -> None:
     """Test initial value off."""
     calls = async_mock_service(hass, "test", "automation")
 
@@ -1642,7 +1642,7 @@ async def test_initial_value_off(hass: UniversalAssistant) -> None:
     assert len(calls) == 0
 
 
-async def test_initial_value_on(hass: UniversalAssistant) -> None:
+async def test_initial_value_on(hass: __HAC_KEEP__) -> None:
     """Test initial value on."""
     hass.set_state(CoreState.not_running)
     calls = async_mock_service(hass, "test", "automation")
@@ -1671,7 +1671,7 @@ async def test_initial_value_on(hass: UniversalAssistant) -> None:
     assert len(calls) == 1
 
 
-async def test_initial_value_off_but_restore_on(hass: UniversalAssistant) -> None:
+async def test_initial_value_off_but_restore_on(hass: __HAC_KEEP__) -> None:
     """Test initial value off and restored state is turned on."""
     hass.set_state(CoreState.not_running)
     calls = async_mock_service(hass, "test", "automation")
@@ -1697,7 +1697,7 @@ async def test_initial_value_off_but_restore_on(hass: UniversalAssistant) -> Non
     assert len(calls) == 0
 
 
-async def test_initial_value_on_but_restore_off(hass: UniversalAssistant) -> None:
+async def test_initial_value_on_but_restore_off(hass: __HAC_KEEP__) -> None:
     """Test initial value on and restored state is turned off."""
     calls = async_mock_service(hass, "test", "automation")
     mock_restore_cache(hass, (State("automation.hello", STATE_OFF),))
@@ -1721,7 +1721,7 @@ async def test_initial_value_on_but_restore_off(hass: UniversalAssistant) -> Non
     assert len(calls) == 1
 
 
-async def test_no_initial_value_and_restore_off(hass: UniversalAssistant) -> None:
+async def test_no_initial_value_and_restore_off(hass: __HAC_KEEP__) -> None:
     """Test initial value off and restored state is turned on."""
     calls = async_mock_service(hass, "test", "automation")
     mock_restore_cache(hass, (State("automation.hello", STATE_OFF),))
@@ -1745,7 +1745,7 @@ async def test_no_initial_value_and_restore_off(hass: UniversalAssistant) -> Non
 
 
 async def test_automation_is_on_if_no_initial_state_or_restore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test initial value is on when no initial state or restored state."""
     calls = async_mock_service(hass, "test", "automation")
@@ -1768,7 +1768,7 @@ async def test_automation_is_on_if_no_initial_state_or_restore(
     assert len(calls) == 1
 
 
-async def test_automation_not_trigger_on_bootstrap(hass: UniversalAssistant) -> None:
+async def test_automation_not_trigger_on_bootstrap(hass: __HAC_KEEP__) -> None:
     """Test if automation is not trigger on bootstrap."""
     hass.set_state(CoreState.not_running)
     calls = async_mock_service(hass, "test", "automation")
@@ -1884,7 +1884,7 @@ async def test_automation_not_trigger_on_bootstrap(hass: UniversalAssistant) -> 
     ],
 )
 async def test_automation_bad_config_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     hass_admin_user: MockUser,
@@ -1963,13 +1963,13 @@ async def test_automation_bad_config_validation(
 
 
 async def test_automation_trigger_validation_universal_assistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Test trigger validation raising UniversalAssistantError doesn't crash."""
+    """Test trigger validation raising __HAC_KEEP__Error doesn't crash."""
     with patch(
         "universalassistant.components.automation.config.async_validate_trigger_config",
-        side_effect=UniversalAssistantError("trigger validator went boom"),
+        side_effect=__HAC_KEEP__Error("trigger validator went boom"),
     ):
         assert await async_setup_component(
             hass,
@@ -1991,7 +1991,7 @@ async def test_automation_trigger_validation_universal_assistant_error(
 
 
 async def test_automation_with_error_in_script(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -2020,7 +2020,7 @@ async def test_automation_with_error_in_script(
 
 @pytest.mark.parametrize("ignored", [False, True])
 async def test_automation_changed_entity_id_moves_service_not_found_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ignored: bool,
@@ -2117,7 +2117,7 @@ async def test_automation_changed_entity_id_moves_service_not_found_issue(
 @pytest.mark.parametrize("ignored", [False, True])
 @pytest.mark.parametrize("destination_ignored", [False, True])
 async def test_automation_changed_entity_id_moves_service_not_found_issue_onto_stale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ignored: bool,
@@ -2180,7 +2180,7 @@ async def test_automation_changed_entity_id_moves_service_not_found_issue_onto_s
 
 
 async def test_automation_with_error_in_script_2(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test automation with an error in script."""
     assert await async_setup_component(
@@ -2204,7 +2204,7 @@ async def test_automation_with_error_in_script_2(
     ("side_effect", "expected_error", "expect_traceback"),
     [
         (
-            UniversalAssistantError("boom"),
+            __HAC_KEEP__Error("boom"),
             "Error while executing automation automation.hello: boom",
             False,
         ),
@@ -2222,7 +2222,7 @@ async def test_automation_with_error_in_script_2(
     ids=["universal_assistant_error", "probatio_invalid", "unexpected_exception"],
 )
 async def test_automation_with_error_in_action_script(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
     hass_ws_client: WebSocketGenerator,
@@ -2253,7 +2253,7 @@ async def test_automation_with_error_in_action_script(
 
     assert len(calls) == 0
     assert expected_error in caplog.text
-    # A UniversalAssistantError/probatio error is logged without a traceback, an
+    # A __HAC_KEEP__Error/probatio error is logged without a traceback, an
     # unexpected error is logged with a traceback.
     assert ("Traceback" in caplog.text) is expect_traceback
 
@@ -2273,7 +2273,7 @@ async def test_automation_with_error_in_action_script(
     ("side_effect", "expected_error", "expect_traceback"),
     [
         (
-            UniversalAssistantError("boom"),
+            __HAC_KEEP__Error("boom"),
             "Error while checking conditions of automation automation.hello: boom",
             False,
         ),
@@ -2291,7 +2291,7 @@ async def test_automation_with_error_in_action_script(
     ids=["universal_assistant_error", "probatio_invalid", "unexpected_exception"],
 )
 async def test_automation_with_error_in_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
     hass_ws_client: WebSocketGenerator,
@@ -2328,7 +2328,7 @@ async def test_automation_with_error_in_condition(
     # The action must not run when the condition check raises.
     assert len(calls) == 0
     assert expected_error in caplog.text
-    # A UniversalAssistantError/probatio error is logged without a traceback, an
+    # A __HAC_KEEP__Error/probatio error is logged without a traceback, an
     # unexpected error is logged with a traceback.
     assert ("Traceback" in caplog.text) is expect_traceback
 
@@ -2345,7 +2345,7 @@ async def test_automation_with_error_in_condition(
 
 
 async def test_automation_with_error_in_condition_continues_after_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     calls: list[ServiceCall],
 ) -> None:
     """Test the automation still runs once the condition stops raising."""
@@ -2369,7 +2369,7 @@ async def test_automation_with_error_in_condition_continues_after_recovery(
 
     with patch(
         "universalassistant.helpers.condition.ConditionsChecker.async_check",
-        side_effect=UniversalAssistantError("boom"),
+        side_effect=__HAC_KEEP__Error("boom"),
     ):
         hass.bus.async_fire("test_event")
         await hass.async_block_till_done()
@@ -2382,7 +2382,7 @@ async def test_automation_with_error_in_condition_continues_after_recovery(
 
 
 async def test_automation_restore_last_triggered_with_initial_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Ensure last_triggered is restored, even when initial state is set."""
     time = dt_util.utcnow()
@@ -2437,7 +2437,7 @@ async def test_automation_restore_last_triggered_with_initial_state(
     assert state.attributes["last_triggered"] == time
 
 
-async def test_extraction_functions_not_setup(hass: UniversalAssistant) -> None:
+async def test_extraction_functions_not_setup(hass: __HAC_KEEP__) -> None:
     """Test extraction functions when automation is not setup."""
     assert automation.automations_with_area(hass, "area-in-both") == []
     assert automation.areas_in_automation(hass, "automation.test") == []
@@ -2453,7 +2453,7 @@ async def test_extraction_functions_not_setup(hass: UniversalAssistant) -> None:
     assert automation.labels_in_automation(hass, "automation.test") == []
 
 
-async def test_extraction_functions_unknown_automation(hass: UniversalAssistant) -> None:
+async def test_extraction_functions_unknown_automation(hass: __HAC_KEEP__) -> None:
     """Test extraction functions for an unknown automation."""
     assert await async_setup_component(hass, DOMAIN, {})
     assert automation.areas_in_automation(hass, "automation.unknown") == []
@@ -2464,7 +2464,7 @@ async def test_extraction_functions_unknown_automation(hass: UniversalAssistant)
     assert automation.labels_in_automation(hass, "automation.unknown") == []
 
 
-async def test_extraction_functions_unavailable_automation(hass: UniversalAssistant) -> None:
+async def test_extraction_functions_unavailable_automation(hass: __HAC_KEEP__) -> None:
     """Test extraction functions for an unknown automation."""
     entity_id = "automation.test1"
     assert await async_setup_component(
@@ -2494,7 +2494,7 @@ async def test_extraction_functions_unavailable_automation(hass: UniversalAssist
 
 
 async def test_extraction_functions(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test extraction functions."""
     config_entry = MockConfigEntry(domain="fake_integration", data={})
@@ -2796,7 +2796,7 @@ async def test_extraction_functions(
 
 
 async def test_extraction_functions_with_trigger_targets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test extraction functions with targets in triggers.
@@ -3013,7 +3013,7 @@ async def test_extraction_functions_with_trigger_targets(
 
 
 async def test_extraction_functions_with_condition_targets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test extraction functions with targets in conditions."""
@@ -3221,7 +3221,7 @@ async def test_extraction_functions_with_condition_targets(
     }
 
 
-async def test_logbook_humanify_automation_triggered_event(hass: UniversalAssistant) -> None:
+async def test_logbook_humanify_automation_triggered_event(hass: __HAC_KEEP__) -> None:
     """Test humanifying Automation Trigger event."""
     hass.config.components.add("recorder")
     await async_setup_component(hass, automation.DOMAIN, {})
@@ -3258,7 +3258,7 @@ async def test_logbook_humanify_automation_triggered_event(hass: UniversalAssist
 
 
 async def test_automation_variables(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test automation variables."""
     calls = async_mock_service(hass, "test", "automation")
@@ -3341,7 +3341,7 @@ async def test_automation_variables(
 
 
 async def test_automation_trigger_variables(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test automation trigger variables."""
     calls = async_mock_service(hass, "test", "automation")
@@ -3409,7 +3409,7 @@ async def test_automation_trigger_variables(
 
 
 async def test_automation_bad_trigger_variables(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test automation trigger variables accessing hass is rejected."""
     calls = async_mock_service(hass, "test", "automation")
@@ -3439,7 +3439,7 @@ async def test_automation_bad_trigger_variables(
 
 
 async def test_automation_this_var_always(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test automation always has reference to this, even without variables."""
     calls = async_mock_service(hass, "test", "automation")
@@ -3470,7 +3470,7 @@ async def test_automation_this_var_always(
 
 
 async def test_blueprint_automation(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test blueprint automation."""
     assert await async_setup_component(
@@ -3505,7 +3505,7 @@ async def test_blueprint_automation(
 
 
 async def test_blueprint_automation_legacy_schema(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test blueprint automation where the blueprint is using legacy schema."""
     assert await async_setup_component(
@@ -3565,7 +3565,7 @@ async def test_blueprint_automation_legacy_schema(
     ],
 )
 async def test_blueprint_automation_override(
-    hass: UniversalAssistant, calls: list[ServiceCall], blueprint: str, override: dict
+    hass: __HAC_KEEP__, calls: list[ServiceCall], blueprint: str, override: dict
 ) -> None:
     """Test blueprint automation where the automation config overrides the blueprint."""
     assert await async_setup_component(
@@ -3633,7 +3633,7 @@ async def test_blueprint_automation_override(
     ],
 )
 async def test_blueprint_automation_bad_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     blueprint_inputs,
@@ -3676,7 +3676,7 @@ async def test_blueprint_automation_bad_config(
 
 
 async def test_blueprint_automation_fails_substitution(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -3720,7 +3720,7 @@ async def test_blueprint_automation_fails_substitution(
     }
 
 
-async def test_trigger_service(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_trigger_service(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test the automation trigger service."""
     assert await async_setup_component(
         hass,
@@ -3751,7 +3751,7 @@ async def test_trigger_service(hass: UniversalAssistant, calls: list[ServiceCall
 
 
 async def test_trigger_condition_implicit_id(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test triggers."""
     assert await async_setup_component(
@@ -3803,7 +3803,7 @@ async def test_trigger_condition_implicit_id(
 
 
 async def test_trigger_condition_explicit_id(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test triggers."""
     assert await async_setup_component(
@@ -3868,7 +3868,7 @@ async def test_trigger_condition_explicit_id(
 )
 @pytest.mark.parametrize("wait_for_stop_scripts_after_shutdown", [True])
 async def test_recursive_automation_starting_script(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     automation_mode,
     automation_runs,
     script_mode,
@@ -3984,12 +3984,12 @@ async def test_recursive_automation_starting_script(
 )
 @pytest.mark.parametrize("wait_for_stop_scripts_after_shutdown", [True])
 async def test_recursive_automation(
-    hass: UniversalAssistant, automation_mode, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, automation_mode, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test automation triggering itself.
 
     - Illegal recursion detection should not be triggered
-    - Universal Universal Home Assistant should not hang on shut down
+    - __HA_KEEP__ should not hang on shut down
     """
     stop_scripts_at_shutdown_called = asyncio.Event()
     real_stop_scripts_at_shutdown = _async_stop_scripts_at_shutdown
@@ -4044,14 +4044,14 @@ async def test_recursive_automation(
 
 @pytest.mark.parametrize("wait_for_stop_scripts_after_shutdown", [True])
 async def test_recursive_automation_restart_mode(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test automation restarting itself.
 
     The automation is an infinite loop since it keeps restarting itself
 
     - Illegal recursion detection should not be triggered
-    - Universal Universal Home Assistant should not hang on shut down
+    - __HA_KEEP__ should not hang on shut down
     """
     stop_scripts_at_shutdown_called = asyncio.Event()
     real_stop_scripts_at_shutdown = _async_stop_scripts_at_shutdown
@@ -4105,7 +4105,7 @@ async def test_recursive_automation_restart_mode(
 
 
 async def test_websocket_config(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test config command."""
     config = {
@@ -4143,7 +4143,7 @@ async def test_websocket_config(
 
 
 async def test_websocket_config_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -4170,7 +4170,7 @@ async def test_websocket_config_requires_admin(
     assert msg["error"]["code"] == "unauthorized"
 
 
-async def test_automation_turns_off_other_automation(hass: UniversalAssistant) -> None:
+async def test_automation_turns_off_other_automation(hass: __HAC_KEEP__) -> None:
     """Test an automation that turns off another automation."""
     hass.set_state(CoreState.not_running)
     calls = async_mock_service(hass, "persistent_notification", "create")
@@ -4249,7 +4249,7 @@ async def test_automation_turns_off_other_automation(hass: UniversalAssistant) -
 
 
 async def test_two_automations_call_restart_script_same_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test two automations that call a restart mode script at the same."""
     hass.states.async_set("binary_sensor.presence", "off")
@@ -4329,7 +4329,7 @@ async def test_two_automations_call_restart_script_same_time(
 
 
 async def test_two_automation_call_restart_script_right_after_each_other(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test two automations call a restart script right after each other."""
 
@@ -4398,7 +4398,7 @@ async def test_two_automation_call_restart_script_right_after_each_other(
 
 
 async def test_action_backward_compatibility(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test we can still use old-style automations.
 
@@ -4477,7 +4477,7 @@ async def test_action_backward_compatibility(
     ],
 )
 async def test_invalid_configuration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     message: str,
     caplog: pytest.LogCaptureFixture,
@@ -4497,7 +4497,7 @@ async def test_invalid_configuration(
     ["trigger", "platform"],
 )
 async def test_valid_configuration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
 ) -> None:
     """Test for valid automation configurations."""
@@ -4518,7 +4518,7 @@ async def test_valid_configuration(
 
 
 async def test_remove_automation_unloads_condition_and_script(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     calls: list[ServiceCall],
 ) -> None:
     """Test that removing an automation unloads its condition and action script."""
@@ -4570,7 +4570,7 @@ async def test_remove_automation_unloads_condition_and_script(
 
 
 async def test_automation_changed_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     calls: list[ServiceCall],
 ) -> None:
@@ -4657,7 +4657,7 @@ async def test_automation_changed_entity_id(
 
 
 async def test_automation_changed_entity_id_enables_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     calls: list[ServiceCall],
 ) -> None:
@@ -4698,7 +4698,7 @@ async def test_automation_changed_entity_id_enables_trigger(
 
 
 async def _turn_off_automation(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Turn off the renamed automation."""
     await hass.services.async_call(
@@ -4710,7 +4710,7 @@ async def _turn_off_automation(
 
 
 async def _remove_automation(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Remove the renamed automation from the entity registry."""
     entity_registry.async_remove("automation.second")
@@ -4718,7 +4718,7 @@ async def _remove_automation(
 
 
 async def _rename_automation_again(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Change the entity_id of the renamed automation again."""
     entity_registry.async_update_entity(
@@ -4740,9 +4740,9 @@ async def _rename_automation_again(
     ],
 )
 async def test_automation_changed_entity_id_while_attaching(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
-    change: Callable[[UniversalAssistant, er.EntityRegistry], Coroutine[Any, Any, None]],
+    change: Callable[[__HAC_KEEP__, er.EntityRegistry], Coroutine[Any, Any, None]],
     expected_listeners: dict[str, int],
 ) -> None:
     """Test no trigger listeners leak when the automation changes while attaching."""
@@ -4800,12 +4800,12 @@ async def test_automation_changed_entity_id_while_attaching(
     assert trigger_listeners() == expected_listeners
 
 
-async def _start_hass(hass: UniversalAssistant) -> None:
-    """Start Universal Universal Home Assistant, which enables the automation."""
+async def _start_hass(hass: __HAC_KEEP__) -> None:
+    """Start __HA_KEEP__, which enables the automation."""
     await hass.async_start()
 
 
-async def _turn_on_automation(hass: UniversalAssistant) -> None:
+async def _turn_on_automation(hass: __HAC_KEEP__) -> None:
     """Turn on the automation."""
     await hass.services.async_call(
         automation.DOMAIN,
@@ -4823,11 +4823,11 @@ async def _turn_on_automation(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_automation_changed_entity_id_while_enabling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     core_state: CoreState,
     initial_state: bool,
-    enable: Callable[[UniversalAssistant], Coroutine[Any, Any, None]],
+    enable: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]],
 ) -> None:
     """Test triggers attached while enabling follow an entity_id change."""
     entity_registry.async_get_or_create(
@@ -4885,7 +4885,7 @@ async def test_automation_changed_entity_id_while_enabling(
 
 
 async def test_unavailable_automation_changed_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -4936,7 +4936,7 @@ BROKEN_AUTOMATION_ISSUE_ID = "automation.bad_automation_validation_failed_schema
     [pytest.param({}, id="all"), pytest.param({CONF_ID: "bad"}, id="single")],
 )
 async def test_reload_keeps_ignored_validation_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     reload_data: dict[str, Any],
 ) -> None:
@@ -4999,7 +4999,7 @@ async def test_reload_keeps_ignored_validation_issue(
     ],
 )
 async def test_reload_deletes_resolved_validation_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     reload_data: dict[str, Any],
     new_config: dict[str, Any] | list[Any],
@@ -5032,7 +5032,7 @@ async def test_reload_deletes_resolved_validation_issue(
     [pytest.param({}, id="all"), pytest.param({CONF_ID: "bad"}, id="single")],
 )
 async def test_failed_reload_deletes_issue_of_removed_automation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     reload_data: dict[str, Any],
 ) -> None:
@@ -5058,9 +5058,9 @@ async def test_failed_reload_deletes_issue_of_removed_automation(
         ),
         patch(
             "universalassistant.components.automation.util._create_automation_entities",
-            side_effect=UniversalAssistantError("Boom"),
+            side_effect=__HAC_KEEP__Error("Boom"),
         ),
-        pytest.raises(UniversalAssistantError, match="Boom"),
+        pytest.raises(__HAC_KEEP__Error, match="Boom"),
     ):
         await hass.services.async_call(
             automation.DOMAIN, AutomationService.RELOAD, reload_data, blocking=True
@@ -5077,7 +5077,7 @@ class _MockDiagnosticTrigger(Trigger):
 
     @classmethod
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return config
@@ -5103,12 +5103,12 @@ class _MockDiagnosticTrigger(Trigger):
 
 
 async def _setup_diagnostic_automation(
-    hass: UniversalAssistant, stored_traces: int | None = None
+    hass: __HAC_KEEP__, stored_traces: int | None = None
 ) -> list[Any]:
     """Set up an automation driven by the mock diagnostic trigger."""
 
     async def async_get_triggers(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Trigger]]:
         return {"diag": _MockDiagnosticTrigger}
 
@@ -5132,7 +5132,7 @@ async def _setup_diagnostic_automation(
 
 
 async def test_automation_records_not_triggered_trace(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """A non-firing evaluation records a not-triggered trace with diagnostics."""
     calls = await _setup_diagnostic_automation(hass)
@@ -5183,7 +5183,7 @@ async def test_automation_records_not_triggered_trace(
 
 
 async def test_not_triggered_traces_counted_separately(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Not-triggered traces are capped independently from run traces."""
     calls = await _setup_diagnostic_automation(hass, stored_traces=2)
@@ -5223,7 +5223,7 @@ async def test_not_triggered_traces_counted_separately(
 
 
 async def test_not_triggered_trace_isolated_from_chained_run(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """A not-triggered trace must not corrupt the trace of the run that caused it.
 
@@ -5234,7 +5234,7 @@ async def test_not_triggered_trace_isolated_from_chained_run(
     """
 
     async def async_get_triggers(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Trigger]]:
         return {"diag": _MockDiagnosticTrigger}
 

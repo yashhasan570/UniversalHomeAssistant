@@ -8,7 +8,7 @@ from deebot_client.events import CleanJobStatus, ReportStatsEvent
 
 from universalassistant.components.event import EventEntity, EventEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .controller import EcovacsConfigEntry
@@ -17,7 +17,7 @@ from .util import get_name_key
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: EcovacsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

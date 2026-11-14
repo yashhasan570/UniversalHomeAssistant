@@ -22,8 +22,8 @@ from wyoming.tts import (
 
 from universalassistant.components import tts
 from universalassistant.components.tts import TextToSpeechCommonOption
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, WyomingTextToSpeechOption
@@ -36,7 +36,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WyomingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -161,7 +161,7 @@ class WyomingTtsProvider(tts.TextToSpeechEntity):
                             return (None, None)
 
                         if Error.is_type(event.type):
-                            raise UniversalAssistantError(
+                            raise __HAC_KEEP__Error(
                                 translation_domain=DOMAIN,
                                 translation_key="service_error",
                                 translation_placeholders={
@@ -270,7 +270,7 @@ class WyomingTtsProvider(tts.TextToSpeechEntity):
         try:
             while event := await client.read_event():
                 if Error.is_type(event.type):
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="service_error",
                         translation_placeholders={

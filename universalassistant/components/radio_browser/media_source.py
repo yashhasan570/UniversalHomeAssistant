@@ -20,7 +20,7 @@ from universalassistant.components.media_source import (
     Unresolvable,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.util.location import vincenty
 
 from . import RadioBrowserConfigEntry
@@ -36,7 +36,7 @@ CODEC_TO_MIMETYPE = {
 MAX_SEARCH_RESULTS = 100
 
 
-async def async_get_media_source(hass: UniversalAssistant) -> RadioMediaSource:
+async def async_get_media_source(hass: __HAC_KEEP__) -> RadioMediaSource:
     """Set up Radio Browser media source."""
     # Radio browser supports only a single config entry
     entry = hass.config_entries.async_entries(DOMAIN)[0]
@@ -49,7 +49,7 @@ class RadioMediaSource(MediaSource):
 
     name = "Radio Browser"
 
-    def __init__(self, hass: UniversalAssistant, entry: RadioBrowserConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: RadioBrowserConfigEntry) -> None:
         """Initialize RadioMediaSource."""
         super().__init__(DOMAIN)
         self.hass = hass

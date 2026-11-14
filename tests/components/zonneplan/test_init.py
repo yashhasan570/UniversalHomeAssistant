@@ -20,7 +20,7 @@ from pyzonneplan import (
 from universalassistant.components.zonneplan.coordinator import UPDATE_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -55,7 +55,7 @@ from universalassistant.util import dt as dt_util
     ],
 )
 async def test_setup_entry_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     exception: Exception,
@@ -79,7 +79,7 @@ async def test_setup_entry_update_failed(
     ],
 )
 async def test_setup_entry_battery_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     side_effect: Exception | list[BatteryInstallation],
@@ -102,7 +102,7 @@ async def test_setup_entry_battery_update_failed(
     ],
 )
 async def test_setup_entry_charge_point_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     side_effect: Exception | list[ChargePointInstallation],
@@ -118,7 +118,7 @@ async def test_setup_entry_charge_point_update_failed(
 
 
 async def test_rate_limit_postpones_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -146,7 +146,7 @@ async def test_rate_limit_postpones_update(
 
 
 async def test_setup_entry_persists_rotated_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:

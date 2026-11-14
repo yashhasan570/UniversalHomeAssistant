@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.libresync.const import CONNECT_TIMEOUT
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -15,7 +15,7 @@ from .conftest import HOST, STATE, push
 
 
 async def test_load_unload(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_client: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_client: MagicMock
 ) -> None:
     """Test the entry connects on setup and disconnects on unload."""
     await setup_integration(hass, mock_config_entry)
@@ -29,7 +29,7 @@ async def test_load_unload(
 
 
 async def test_not_ready(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_client: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_client: MagicMock
 ) -> None:
     """Test a hub that does not answer in time is retried."""
     mock_client.async_connect.side_effect = NotConnectedError("no answer")
@@ -42,7 +42,7 @@ async def test_not_ready(
 
 
 async def test_device_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
@@ -61,7 +61,7 @@ async def test_device_updated(
 
 
 async def test_device_keeps_identity_across_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,

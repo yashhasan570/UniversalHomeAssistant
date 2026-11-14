@@ -24,7 +24,7 @@ from universalassistant.components.sonos.media_browser import (
     get_thumbnail_url_full,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import MockMusicServiceItem, SoCoMockFactory
 
@@ -135,7 +135,7 @@ def test_build_item_response_playable_only_for_a_single_album(
 
 
 async def test_build_item_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     soco,
@@ -248,7 +248,7 @@ def test_get_media_multisegment_album_id_falls_back_to_exact_title_match() -> No
 
 
 async def test_browse_media_root(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     soco,
@@ -274,7 +274,7 @@ async def test_browse_media_root(
 @pytest.mark.parametrize("sonos_favorites", [SearchResult([], "favorites", 0, 0, 1)])
 @pytest.mark.usefixtures("soco")
 async def test_browse_media_root_no_favorites(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos: Callable[[], Coroutine[Any, Any, None]],
     music_library: MagicMock,
     hass_ws_client: WebSocketGenerator,
@@ -331,7 +331,7 @@ async def test_browse_media_root_no_favorites(
 )
 @pytest.mark.usefixtures("soco_factory", "async_autosetup_sonos", "soco")
 async def test_browse_media_plex_spotify(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     media_content_type: str,
     media_content_id: str,
@@ -370,7 +370,7 @@ async def test_browse_media_plex_spotify(
 
 @pytest.mark.usefixtures("soco_factory", "async_autosetup_sonos", "soco")
 async def test_browse_media_root_spotify(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the root includes Spotify when it is set up."""
     hass.config.components.add("spotify")
@@ -413,7 +413,7 @@ async def test_browse_media_root_spotify(
 
 
 async def test_browse_media_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     soco,
@@ -439,7 +439,7 @@ async def test_browse_media_library(
 
 
 async def test_browse_media_library_albums(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     soco,
@@ -518,7 +518,7 @@ async def test_browse_media_favorites(
     ],
 )
 async def test_browse_media_library_folders(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     media_content_id: str,
@@ -545,7 +545,7 @@ async def test_browse_media_library_folders(
 
 
 async def test_search_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     soco_factory: SoCoMockFactory,
     async_autosetup_sonos,
     soco,
@@ -600,7 +600,7 @@ async def test_search_media(
 
 
 async def test_search_media_invalid_media_content_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_autosetup_sonos,
     hass_ws_client: WebSocketGenerator,
 ) -> None:

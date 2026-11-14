@@ -12,7 +12,7 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     HassJob,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
 )
@@ -51,7 +51,7 @@ def source_match(state: State | None, source: str) -> bool:
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

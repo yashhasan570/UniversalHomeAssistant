@@ -142,7 +142,7 @@ rules:
   exception-translations:
     status: todo
     comment: |
-      The integration does not raise translated UniversalAssistantError or
+      The integration does not raise translated __HAC_KEEP__Error or
       ServiceValidationError exceptions. Config flow form errors use
       translation keys resolved via strings.json, but those are separate from
       the translated exceptions covered by this rule.

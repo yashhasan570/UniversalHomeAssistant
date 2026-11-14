@@ -10,7 +10,7 @@ from pytest_universalassistant.common import load_json_object_fixture
 from universalassistant.components.prana.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -25,13 +25,13 @@ ZEROCONF_INFO = ZeroconfServiceInfo(
 )
 
 
-async def async_load_fixture(hass: UniversalAssistant, filename: str) -> dict:
+async def async_load_fixture(hass: __HAC_KEEP__, filename: str) -> dict:
     """Load a fixture file."""
     return await hass.async_add_executor_job(load_json_object_fixture, filename, DOMAIN)
 
 
 async def test_zeroconf_new_device_and_confirm(
-    hass: UniversalAssistant, mock_prana_api
+    hass: __HAC_KEEP__, mock_prana_api
 ) -> None:
     """Zeroconf discovery shows confirm form and creates a config entry."""
     result = await hass.config_entries.flow.async_init(
@@ -53,7 +53,7 @@ async def test_zeroconf_new_device_and_confirm(
     assert result["result"].data == {CONF_HOST: "192.168.1.30"}
 
 
-async def test_user_flow_with_manual_entry(hass: UniversalAssistant, mock_prana_api) -> None:
+async def test_user_flow_with_manual_entry(hass: __HAC_KEEP__, mock_prana_api) -> None:
     """User flow accepts manual host and creates entry after confirmation."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -74,7 +74,7 @@ async def test_user_flow_with_manual_entry(hass: UniversalAssistant, mock_prana_
 
 
 async def test_communication_error_on_device_info(
-    hass: UniversalAssistant, mock_prana_api
+    hass: __HAC_KEEP__, mock_prana_api
 ) -> None:
     """Communication errors when fetching device info surface as form errors."""
 
@@ -123,7 +123,7 @@ async def test_communication_error_on_device_info(
     assert result["result"].data == {CONF_HOST: "192.168.1.50"}
 
 
-async def test_user_flow_no_device_data(hass: UniversalAssistant, mock_prana_api) -> None:
+async def test_user_flow_no_device_data(hass: __HAC_KEEP__, mock_prana_api) -> None:
     """No data returned when fetching device info surfaces as a form error."""
     mock_prana_api.get_device_info.return_value = None
 
@@ -154,7 +154,7 @@ async def test_user_flow_no_device_data(hass: UniversalAssistant, mock_prana_api
 
 
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant, mock_prana_api, mock_config_entry
+    hass: __HAC_KEEP__, mock_prana_api, mock_config_entry
 ) -> None:
     """Second configuration for the same device should be aborted."""
     mock_config_entry.add_to_hass(hass)
@@ -170,7 +170,7 @@ async def test_user_flow_already_configured(
 
 
 async def test_zeroconf_already_configured(
-    hass: UniversalAssistant, mock_prana_api, mock_config_entry
+    hass: __HAC_KEEP__, mock_prana_api, mock_config_entry
 ) -> None:
     """Zeroconf discovery of an already configured device should be aborted."""
     mock_config_entry.add_to_hass(hass)
@@ -182,7 +182,7 @@ async def test_zeroconf_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_zeroconf_invalid_device(hass: UniversalAssistant, mock_prana_api) -> None:
+async def test_zeroconf_invalid_device(hass: __HAC_KEEP__, mock_prana_api) -> None:
     """Zeroconf discovery of an invalid device should be aborted."""
     mock_prana_api.get_device_info.side_effect = PranaCommunicationError(
         "Network error"

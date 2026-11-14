@@ -39,8 +39,8 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.json import load_json
 
@@ -64,7 +64,7 @@ async def auto_init_components(init_components) -> None:
 
 
 async def test_entities_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MockReceiver,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -77,7 +77,7 @@ async def test_entities_created(
 
 @pytest.mark.parametrize("initial_receiver_state", ["main_only"], indirect=True)
 async def test_only_active_zones_are_created(
-    hass: UniversalAssistant, initial_receiver_state: MockState
+    hass: __HAC_KEEP__, initial_receiver_state: MockState
 ) -> None:
     """Test setup only creates entities for zones with queried power state."""
     assert hass.states.get(MAIN_ENTITY_ID) is not None
@@ -94,7 +94,7 @@ async def test_only_active_zones_are_created(
     ],
 )
 async def test_zone_state_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MockReceiver,
     zone: ZoneName,
     entity_id: str,
@@ -125,7 +125,7 @@ async def test_zone_state_updates(
     ],
 )
 async def test_power_controls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MockReceiver,
     zone: ZoneName,
     entity_id: str,
@@ -180,7 +180,7 @@ async def test_power_controls(
     ],
 )
 async def test_volume_controls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MockReceiver,
     zone: ZoneName,
     entity_id: str,
@@ -220,7 +220,7 @@ async def test_volume_controls(
 
 
 async def test_main_mute_controls(
-    hass: UniversalAssistant, mock_receiver: MockReceiver
+    hass: __HAC_KEEP__, mock_receiver: MockReceiver
 ) -> None:
     """Test mute state and controls for the main zone."""
     state = hass.states.get(MAIN_ENTITY_ID)
@@ -267,7 +267,7 @@ async def test_main_mute_controls(
     ],
 )
 async def test_source_state_and_controls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MockReceiver,
     zone: ZoneName,
     entity_id: str,
@@ -306,10 +306,10 @@ async def test_source_state_and_controls(
 
 
 async def test_main_invalid_source_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test invalid main-zone sources raise an error."""
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             MP_DOMAIN,
             SERVICE_SELECT_SOURCE,
@@ -339,7 +339,7 @@ async def test_main_invalid_source_raises(
     ],
 )
 async def test_main_tuner_play_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MockReceiver,
     media_id: str,
     expected_command: tuple[str, str],
@@ -425,7 +425,7 @@ async def test_main_tuner_play_media(
     ],
 )
 async def test_main_tuner_play_media_invalid_input_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MockReceiver,
     media_type: MediaType,
     media_id: str,
@@ -450,10 +450,10 @@ async def test_main_tuner_play_media_invalid_input_raises(
 
 @pytest.mark.parametrize("entity_id", [ZONE_2_ENTITY_ID, ZONE_3_ENTITY_ID])
 async def test_zones_do_not_support_play_media(
-    hass: UniversalAssistant, entity_id: str
+    hass: __HAC_KEEP__, entity_id: str
 ) -> None:
     """Test playing media is rejected for zones, which have no tuner control."""
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             MP_DOMAIN,
             SERVICE_PLAY_MEDIA,
@@ -480,7 +480,7 @@ async def test_zones_do_not_support_play_media(
     ],
 )
 async def test_tuner_frequency_media_channel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MockReceiver,
     tuner_frequency: str | None,
     expected_channel: str | None,
@@ -497,7 +497,7 @@ async def test_tuner_frequency_media_channel(
 
 
 async def test_tuner_frequency_not_reported_for_other_sources(
-    hass: UniversalAssistant, mock_receiver: MockReceiver
+    hass: __HAC_KEEP__, mock_receiver: MockReceiver
 ) -> None:
     """Test the media channel is cleared when the zone leaves the tuner source."""
     state = _default_state()
@@ -517,7 +517,7 @@ async def test_tuner_frequency_not_reported_for_other_sources(
 
 
 async def test_tuner_frequency_shared_by_zones(
-    hass: UniversalAssistant, mock_receiver: MockReceiver
+    hass: __HAC_KEEP__, mock_receiver: MockReceiver
 ) -> None:
     """Test a zone on the tuner source reports the shared main zone frequency."""
     state = _default_state()
@@ -530,7 +530,7 @@ async def test_tuner_frequency_shared_by_zones(
 
 
 async def test_browse_media_lists_tuner_presets(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test browsing returns every tuner preset as a playable channel."""
     client = await hass_ws_client()
@@ -568,7 +568,7 @@ async def test_browse_media_lists_tuner_presets(
 
 
 async def test_browse_media_invalid_content_id(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test browsing an unknown content id fails."""
     client = await hass_ws_client()
@@ -586,7 +586,7 @@ async def test_browse_media_invalid_content_id(
 
 @pytest.mark.parametrize("entity_id", [ZONE_2_ENTITY_ID, ZONE_3_ENTITY_ID])
 async def test_browse_media_not_supported_for_zones(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, entity_id: str
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, entity_id: str
 ) -> None:
     """Test only the main zone controls the shared tuner presets."""
     client = await hass_ws_client()
@@ -602,7 +602,7 @@ async def test_browse_media_not_supported_for_zones(
 
 
 async def test_browsed_preset_tunes_when_played(
-    hass: UniversalAssistant, mock_receiver: MockReceiver
+    hass: __HAC_KEEP__, mock_receiver: MockReceiver
 ) -> None:
     """Test every browsed preset is a valid play_media input."""
     for preset in TUNER_PRESETS:

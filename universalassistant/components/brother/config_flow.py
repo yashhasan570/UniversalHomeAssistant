@@ -8,9 +8,9 @@ import probatio
 from universalassistant.components.snmp import async_get_snmp_engine
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import section
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import SelectSelector, SelectSelectorConfig
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 from universalassistant.util.network import is_host_valid
@@ -81,7 +81,7 @@ RECONFIGURE_SCHEMA = probatio.Schema(
 
 
 async def validate_input(
-    hass: UniversalAssistant, user_input: dict[str, Any], expected_mac: str | None = None
+    hass: __HAC_KEEP__, user_input: dict[str, Any], expected_mac: str | None = None
 ) -> tuple[str, str]:
     """Validate the user input."""
     if not is_host_valid(user_input[CONF_HOST]):
@@ -234,9 +234,9 @@ class BrotherConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class InvalidHost(UniversalAssistantError):
+class InvalidHost(__HAC_KEEP__Error):
     """Error to indicate that hostname/IP address is invalid."""
 
 
-class AnotherDevice(UniversalAssistantError):
+class AnotherDevice(__HAC_KEEP__Error):
     """Error to indicate that hostname/IP address belongs to another device."""

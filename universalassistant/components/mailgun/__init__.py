@@ -11,7 +11,7 @@ import probatio
 from universalassistant.components import webhook
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_DOMAIN, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_flow, config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -39,7 +39,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Mailgun component."""
     if DOMAIN not in config:
         return True
@@ -49,7 +49,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def handle_webhook(
-    hass: UniversalAssistant, webhook_id: str, request: web.Request
+    hass: __HAC_KEEP__, webhook_id: str, request: web.Request
 ) -> None:
     """Handle incoming webhook with Mailgun inbound messages."""
     body = await request.text()
@@ -91,14 +91,14 @@ async def verify_webhook(hass, token=None, timestamp=None, signature=None):
     return hmac.compare_digest(signature, hmac_digest)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Configure based on config entry."""
     webhook.async_register(
         hass, DOMAIN, "Mailgun", entry.data[CONF_WEBHOOK_ID], handle_webhook
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     webhook.async_unregister(hass, entry.data[CONF_WEBHOOK_ID])
 

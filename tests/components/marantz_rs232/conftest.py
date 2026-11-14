@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.marantz_rs232.const import DOMAIN
 from universalassistant.const import CONF_DEVICE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_DEVICE
 
@@ -102,14 +102,14 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture(autouse=True)
-def mock_usb_component(hass: UniversalAssistant) -> None:
+def mock_usb_component(hass: __HAC_KEEP__) -> None:
     """Avoid scanning serial devices."""
     hass.config.components.add("usb")
 
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

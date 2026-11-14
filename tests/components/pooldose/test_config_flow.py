@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.pooldose.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -19,7 +19,7 @@ from .conftest import RequestStatus
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant) -> None:
+async def test_full_flow(hass: __HAC_KEEP__) -> None:
     """Test the full config flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -39,7 +39,7 @@ async def test_full_flow(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_device_unreachable(
-    hass: UniversalAssistant, mock_pooldose_client: AsyncMock
+    hass: __HAC_KEEP__, mock_pooldose_client: AsyncMock
 ) -> None:
     """Test that the form shows error when device is unreachable."""
     mock_pooldose_client.is_connected = False
@@ -68,7 +68,7 @@ async def test_device_unreachable(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_api_version_unsupported(
-    hass: UniversalAssistant, mock_pooldose_client: AsyncMock
+    hass: __HAC_KEEP__, mock_pooldose_client: AsyncMock
 ) -> None:
     """Test that the form shows error when API version is unsupported."""
     mock_pooldose_client.check_apiversion_supported.return_value = (
@@ -102,7 +102,7 @@ async def test_api_version_unsupported(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_no_device_info(
-    hass: UniversalAssistant, mock_pooldose_client: AsyncMock, device_info: dict[str, Any]
+    hass: __HAC_KEEP__, mock_pooldose_client: AsyncMock, device_info: dict[str, Any]
 ) -> None:
     """Test that the form shows error when device_info is None."""
     mock_pooldose_client.device_info = None
@@ -137,7 +137,7 @@ async def test_form_no_device_info(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_connection_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     client_status: str,
     expected_error: str,
@@ -167,7 +167,7 @@ async def test_connection_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_api_no_data(
-    hass: UniversalAssistant, mock_pooldose_client: AsyncMock
+    hass: __HAC_KEEP__, mock_pooldose_client: AsyncMock
 ) -> None:
     """Test that the form shows error when API returns NO_DATA."""
     mock_pooldose_client.check_apiversion_supported.return_value = (
@@ -200,7 +200,7 @@ async def test_api_no_data(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_no_serial_number(
-    hass: UniversalAssistant, mock_pooldose_client: AsyncMock, device_info: dict[str, Any]
+    hass: __HAC_KEEP__, mock_pooldose_client: AsyncMock, device_info: dict[str, Any]
 ) -> None:
     """Test that the form shows error when device_info has no serial number."""
     mock_pooldose_client.device_info = {"NAME": "Pool Device", "MODEL": "POOL DOSE"}
@@ -226,7 +226,7 @@ async def test_form_no_serial_number(
 
 
 async def test_duplicate_entry_aborts(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that the flow aborts if the device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -242,7 +242,7 @@ async def test_duplicate_entry_aborts(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_dhcp_flow(hass: UniversalAssistant) -> None:
+async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
     """Test the full DHCP config flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -265,7 +265,7 @@ async def test_dhcp_flow(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_no_serial_number(
-    hass: UniversalAssistant, mock_pooldose_client: AsyncMock
+    hass: __HAC_KEEP__, mock_pooldose_client: AsyncMock
 ) -> None:
     """Test that the DHCP flow aborts if no serial number is found."""
     mock_pooldose_client.device_info = {"NAME": "Pool Device", "MODEL": "POOL DOSE"}
@@ -291,7 +291,7 @@ async def test_dhcp_no_serial_number(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_connection_errors(
-    hass: UniversalAssistant, mock_pooldose_client: AsyncMock, client_status: str
+    hass: __HAC_KEEP__, mock_pooldose_client: AsyncMock, client_status: str
 ) -> None:
     """Test that the DHCP flow aborts on connection errors."""
     mock_pooldose_client.connect.return_value = client_status
@@ -316,7 +316,7 @@ async def test_dhcp_connection_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_api_errors(
-    hass: UniversalAssistant, mock_pooldose_client: AsyncMock, api_status: str
+    hass: __HAC_KEEP__, mock_pooldose_client: AsyncMock, api_status: str
 ) -> None:
     """Test that the DHCP flow aborts on API errors."""
     mock_pooldose_client.check_apiversion_supported.return_value = (api_status, {})
@@ -334,7 +334,7 @@ async def test_dhcp_api_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_updates_host(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that DHCP discovery updates the host if it has changed."""
     mock_config_entry.add_to_hass(hass)
@@ -360,7 +360,7 @@ async def test_dhcp_updates_host(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_adds_mac_if_not_present(
-    hass: UniversalAssistant, mock_pooldose_client: AsyncMock
+    hass: __HAC_KEEP__, mock_pooldose_client: AsyncMock
 ) -> None:
     """Test that DHCP flow adds MAC address if not already in config entry data."""
     # Create a config entry without MAC address
@@ -394,7 +394,7 @@ async def test_dhcp_adds_mac_if_not_present(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_preserves_existing_mac(
-    hass: UniversalAssistant, mock_pooldose_client: AsyncMock
+    hass: __HAC_KEEP__, mock_pooldose_client: AsyncMock
 ) -> None:
     """Test that DHCP flow preserves existing MAC in config entry data."""
     # Create a config entry with MAC address already set
@@ -431,7 +431,7 @@ async def test_dhcp_preserves_existing_mac(
 
 
 async def _start_reconfigure_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, host_ip: str
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, host_ip: str
 ) -> Any:
     """Initialize a reconfigure flow for PoolDose and submit new host."""
     mock_config_entry.add_to_hass(hass)
@@ -448,7 +448,7 @@ async def _start_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -478,7 +478,7 @@ async def test_reconfigure_flow_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -501,7 +501,7 @@ async def test_reconfigure_flow_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_wrong_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

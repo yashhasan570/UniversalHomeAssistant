@@ -10,7 +10,7 @@ from universalassistant.components.blue_current.const import (
     UNAVAILABLE,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -18,7 +18,7 @@ from . import DEFAULT_CHARGE_POINT, init_integration
 
 
 async def test_switches(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, entity_registry: EntityRegistry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, entity_registry: EntityRegistry
 ) -> None:
     """Test the underlying switches."""
 
@@ -37,7 +37,7 @@ async def test_switches(
 
 
 async def test_switches_offline(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, entity_registry: EntityRegistry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, entity_registry: EntityRegistry
 ) -> None:
     """Test if switches are disabled when needed."""
     charge_point = DEFAULT_CHARGE_POINT.copy()
@@ -58,7 +58,7 @@ async def test_switches_offline(
 
 
 async def test_block_switch_availability(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, entity_registry: EntityRegistry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, entity_registry: EntityRegistry
 ) -> None:
     """Test if the block switch is unavailable when charging."""
     charge_point = DEFAULT_CHARGE_POINT.copy()
@@ -71,7 +71,7 @@ async def test_block_switch_availability(
 
 
 async def test_toggle(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, entity_registry: EntityRegistry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, entity_registry: EntityRegistry
 ) -> None:
     """Test the on / off methods and if the switch gets updated."""
     await init_integration(hass, config_entry, Platform.SWITCH)
@@ -106,7 +106,7 @@ async def test_toggle(
 
 
 async def test_setting_change(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, entity_registry: EntityRegistry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, entity_registry: EntityRegistry
 ) -> None:
     """Test switch state updates from websocket messages."""
     integration = await init_integration(hass, config_entry, Platform.SWITCH)

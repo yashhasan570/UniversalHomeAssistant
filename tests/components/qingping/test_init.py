@@ -15,14 +15,14 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.components.qingping import async_remove_config_entry_device
 from universalassistant.components.qingping.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import dt as dt_util
 
 from . import LIGHT_SERVICE_INFO
 
 
-def _device_entry_for(hass: UniversalAssistant, entry: MockConfigEntry) -> dr.DeviceEntry:
+def _device_entry_for(hass: __HAC_KEEP__, entry: MockConfigEntry) -> dr.DeviceEntry:
     """Return the device created for the config entry."""
     device_registry = dr.async_get(hass)
     return next(
@@ -30,7 +30,7 @@ def _device_entry_for(hass: UniversalAssistant, entry: MockConfigEntry) -> dr.De
     )
 
 
-async def _setup_entry_and_device(hass: UniversalAssistant) -> MockConfigEntry:
+async def _setup_entry_and_device(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Set up a config entry and inject an advertisement to create the device."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id="aa:bb:cc:dd:ee:ff")
     entry.add_to_hass(hass)
@@ -42,7 +42,7 @@ async def _setup_entry_and_device(hass: UniversalAssistant) -> MockConfigEntry:
     return entry
 
 
-async def test_remove_config_entry_device_available(hass: UniversalAssistant) -> None:
+async def test_remove_config_entry_device_available(hass: __HAC_KEEP__) -> None:
     """Test a device that is still available cannot be removed."""
     entry = await _setup_entry_and_device(hass)
     device_entry = _device_entry_for(hass, entry)
@@ -50,7 +50,7 @@ async def test_remove_config_entry_device_available(hass: UniversalAssistant) ->
     assert not await async_remove_config_entry_device(hass, entry, device_entry)
 
 
-async def test_remove_config_entry_device_unavailable(hass: UniversalAssistant) -> None:
+async def test_remove_config_entry_device_unavailable(hass: __HAC_KEEP__) -> None:
     """Test a device that is no longer available can be removed."""
     start_monotonic = time.monotonic()
     entry = await _setup_entry_and_device(hass)

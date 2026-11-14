@@ -18,7 +18,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.izone import discovery as izone_discovery
 from universalassistant.components.izone.const import DOMAIN
 from universalassistant.const import CONF_EXCLUDE, CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -225,18 +225,18 @@ def patch_discovered_controllers(
     }
 
     async def _discover_all(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, ControllerEndpoint]:
         return dict(endpoints)
 
-    async def _scan(hass: UniversalAssistant) -> None:
+    async def _scan(hass: __HAC_KEEP__) -> None:
         for endpoint in endpoints.values():
             izone_discovery.async_note_integration_discovery(hass, endpoint)
 
-    async def _discover_one(hass: UniversalAssistant, uid: str) -> ControllerEndpoint | None:
+    async def _discover_one(hass: __HAC_KEEP__, uid: str) -> ControllerEndpoint | None:
         return endpoints.get(uid)
 
-    async def _discover_by_host(hass: UniversalAssistant, host: str) -> ControllerEndpoint:
+    async def _discover_by_host(hass: __HAC_KEEP__, host: str) -> ControllerEndpoint:
         if (
             endpoint := next((ep for ep in endpoints.values() if ep.host == host), None)
         ) is None:
@@ -269,7 +269,7 @@ def patch_discovered_controllers(
 
 
 async def async_start_user_discover(
-    hass: UniversalAssistant, result: FlowResult
+    hass: __HAC_KEEP__, result: FlowResult
 ) -> FlowResult:
     """Select Search from the user menu and return the progress step."""
     if result["type"] is FlowResultType.MENU:
@@ -282,7 +282,7 @@ async def async_start_user_discover(
 
 
 async def async_finish_user_discover(
-    hass: UniversalAssistant, result: FlowResult
+    hass: __HAC_KEEP__, result: FlowResult
 ) -> FlowResult:
     """Advance a user Search flow past the menu and SHOW_PROGRESS discover."""
     result = await async_start_user_discover(hass, result)
@@ -291,7 +291,7 @@ async def async_finish_user_discover(
 
 
 async def async_choose_manual_host(
-    hass: UniversalAssistant, result: FlowResult
+    hass: __HAC_KEEP__, result: FlowResult
 ) -> FlowResult:
     """Select Enter host from the user menu."""
     assert result["type"] is FlowResultType.MENU
@@ -305,7 +305,7 @@ async def async_choose_manual_host(
 
 
 async def async_follow_user_handoff(
-    hass: UniversalAssistant, result: FlowResult
+    hass: __HAC_KEEP__, result: FlowResult
 ) -> FlowResult:
     """Follow Search handoff into the shelf confirm form."""
     assert result["type"] is FlowResultType.ABORT
@@ -319,7 +319,7 @@ async def async_follow_user_handoff(
     return result
 
 
-async def async_load_yaml_exclude(hass: UniversalAssistant, *uids: str) -> None:
+async def async_load_yaml_exclude(hass: __HAC_KEEP__, *uids: str) -> None:
     """Load deprecated YAML exclude config through the integration setup path."""
     with (
         patch(
@@ -438,7 +438,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     platforms: list[Platform],

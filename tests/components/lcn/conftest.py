@@ -14,7 +14,7 @@ from universalassistant.components.lcn.config_flow import LcnFlowHandler
 from universalassistant.components.lcn.const import DOMAIN
 from universalassistant.components.lcn.helpers import AddressType, generate_unique_id
 from universalassistant.const import CONF_ADDRESS, CONF_DEVICES, CONF_ENTITIES, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 LATEST_CONFIG_ENTRY_VERSION = (LcnFlowHandler.VERSION, LcnFlowHandler.MINOR_VERSION)
@@ -106,9 +106,9 @@ def create_config_entry_myhome() -> MockConfigEntry:
 
 
 async def init_integration(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> MockPchkConnectionManager:
-    """Set up the LCN integration in Universal Universal Home Assistant."""
+    """Set up the LCN integration in __HA_KEEP__."""
     # needs to be mocked as hass.http.register_static_path is
     # called when registering the frontend
     hass.http = Mock()
@@ -131,7 +131,7 @@ async def init_integration(
 
 
 def get_device(
-    hass: UniversalAssistant, entry: MockConfigEntry, address: AddressType
+    hass: __HAC_KEEP__, entry: MockConfigEntry, address: AddressType
 ) -> dr.DeviceEntry:
     """Get LCN device for specified address."""
     device_registry = dr.async_get(hass)

@@ -12,7 +12,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 import yaml
 
 from universalassistant.components.blueprint import DOMAIN
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.yaml import UndefinedSubstitution, parse_yaml
 
@@ -31,7 +31,7 @@ def script_config() -> dict[str, Any]:
 
 @pytest.fixture(autouse=True)
 async def setup_bp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     automation_config: dict[str, Any],
     script_config: dict[str, Any],
 ) -> None:
@@ -44,7 +44,7 @@ async def setup_bp(
 
 
 async def test_list_blueprints(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test listing blueprints."""
     client = await hass_ws_client(hass)
@@ -92,7 +92,7 @@ async def test_list_blueprints(
 
 
 async def test_list_blueprints_non_existing_domain(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test listing blueprints."""
     client = await hass_ws_client(hass)
@@ -134,7 +134,7 @@ async def test_list_blueprints_non_existing_domain(
     ],
 )
 async def test_blueprint_ws_command_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     message: dict[str, Any],
@@ -151,7 +151,7 @@ async def test_blueprint_ws_command_requires_admin(
 
 
 async def test_import_blueprint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_import_blueprint(
 
 @pytest.mark.usefixtures("setup_bp")
 async def test_import_blueprint_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -242,7 +242,7 @@ async def test_import_blueprint_update(
 
 
 async def test_save_blueprint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test saving blueprints."""
@@ -321,7 +321,7 @@ async def test_save_blueprint(
 
 
 async def test_save_existing_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test saving blueprints."""
@@ -344,7 +344,7 @@ async def test_save_existing_file(
 
 
 async def test_save_existing_file_override(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test saving blueprints."""
@@ -388,7 +388,7 @@ async def test_save_existing_file_override(
     ],
 )
 async def test_save_file_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     error: int,
     translation_key: str,
@@ -417,7 +417,7 @@ async def test_save_file_error(
 
 
 async def test_save_invalid_blueprint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test saving invalid blueprints."""
@@ -443,7 +443,7 @@ async def test_save_invalid_blueprint(
 
 
 async def test_delete_blueprint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test deleting blueprints."""
@@ -465,7 +465,7 @@ async def test_delete_blueprint(
 
 
 async def test_delete_non_exist_file_blueprint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test deleting non existing blueprints."""
@@ -502,7 +502,7 @@ async def test_delete_non_exist_file_blueprint(
     ],
 )
 async def test_delete_blueprint_in_use_by_automation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test deleting a blueprint which is in use."""
@@ -545,7 +545,7 @@ async def test_delete_blueprint_in_use_by_automation(
     ],
 )
 async def test_delete_blueprint_in_use_by_script(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test deleting a blueprint which is in use."""
@@ -572,7 +572,7 @@ async def test_delete_blueprint_in_use_by_script(
 
 
 async def test_substituting_blueprint_inputs(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test substituting blueprint inputs."""
     client = await hass_ws_client(hass)
@@ -605,7 +605,7 @@ async def test_substituting_blueprint_inputs(
 
 
 async def test_substituting_blueprint_inputs_unknown_domain(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test substituting blueprint inputs."""
     client = await hass_ws_client(hass)
@@ -632,7 +632,7 @@ async def test_substituting_blueprint_inputs_unknown_domain(
 
 
 async def test_substituting_blueprint_inputs_incomplete_input(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test substituting blueprint inputs."""
     client = await hass_ws_client(hass)
@@ -658,7 +658,7 @@ async def test_substituting_blueprint_inputs_incomplete_input(
 
 
 async def test_substituting_blueprint_inputs_incomplete_input_2(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test substituting blueprint inputs."""
     client = await hass_ws_client(hass)

@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.dexcom.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import CONFIG, init_integration
 
 
-async def test_setup_entry_account_error(hass: UniversalAssistant) -> None:
+async def test_setup_entry_account_error(hass: __HAC_KEEP__) -> None:
     """Test entry setup failed due to account error starts reauth."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -41,7 +41,7 @@ async def test_setup_entry_account_error(hass: UniversalAssistant) -> None:
     assert flows[0]["context"]["entry_id"] == entry.entry_id
 
 
-async def test_setup_entry_session_error(hass: UniversalAssistant) -> None:
+async def test_setup_entry_session_error(hass: __HAC_KEEP__) -> None:
     """Test entry setup failed due to session error."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -61,7 +61,7 @@ async def test_setup_entry_session_error(hass: UniversalAssistant) -> None:
     assert result is False
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test successful unload of entry."""
     entry = await init_integration(hass)
 

@@ -25,8 +25,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -37,7 +37,7 @@ pytestmark = pytest.mark.usefixtures("entity_registry_enabled_by_default")
 
 
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -50,7 +50,7 @@ async def test_number_entities(
 
 
 async def test_set_charging_current(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_set_charging_current(
 
 
 async def test_set_energy_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_set_energy_limit(
 
 
 async def test_set_phase_count(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_set_phase_count(
 
 
 async def test_phase_count_filters_transient_zero_on_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -188,7 +188,7 @@ async def test_phase_count_filters_transient_zero_on_poll(
 
 
 async def test_phase_count_filters_transient_zero_on_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -240,7 +240,7 @@ async def test_phase_count_filters_transient_zero_on_service_call(
 
 
 async def test_number_command_rejected_by_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -253,7 +253,7 @@ async def test_number_command_rejected_by_device(
         "Current change blocked by solar-charging"
     )
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -275,7 +275,7 @@ async def test_number_command_rejected_by_device(
 
 
 async def test_charging_current_max_limited_by_connector(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -293,7 +293,7 @@ async def test_charging_current_max_limited_by_connector(
 
 
 async def test_limits_without_attachment_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:

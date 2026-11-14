@@ -19,14 +19,14 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_platform
 from .const import ACCESS_TOKEN, EXPIRATION, EXPIRATION_OLD, PASSWORD, USERNAME
 
 
 async def test_load_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_fyta_connector: AsyncMock,
 ) -> None:
@@ -41,7 +41,7 @@ async def test_load_unload(
 
 
 async def test_refresh_expired_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_fyta_connector: AsyncMock,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_refresh_expired_token(
     ],
 )
 async def test_invalid_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     mock_config_entry: MockConfigEntry,
     mock_fyta_connector: AsyncMock,
@@ -84,7 +84,7 @@ async def test_invalid_credentials(
 
 
 async def test_raise_config_entry_not_ready_when_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_fyta_connector: AsyncMock,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_raise_config_entry_not_ready_when_offline(
 
 
 async def test_raise_config_entry_not_ready_when_offline_and_expired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_fyta_connector: AsyncMock,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_raise_config_entry_not_ready_when_offline_and_expired(
 
 
 async def test_migrate_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fyta_connector: AsyncMock,
 ) -> None:
     """Test successful migration of entry data."""

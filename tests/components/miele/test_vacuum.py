@@ -23,8 +23,8 @@ from universalassistant.components.vacuum import (
     SERVICE_STOP,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import get_actions_callback, get_data_callback
@@ -39,7 +39,7 @@ pytestmark = [
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -53,7 +53,7 @@ async def test_sensor_states(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_vacuum_states_api_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -86,7 +86,7 @@ async def test_vacuum_states_api_push(
     ],
 )
 async def test_vacuum_program(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: None,
     service: str,
@@ -107,7 +107,7 @@ async def test_vacuum_program(
     ("fan_speed", "expected"), [("normal", 1), ("turbo", 3), ("silent", 4)]
 )
 async def test_vacuum_fan_speed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: None,
     fan_speed: str,
@@ -134,7 +134,7 @@ async def test_vacuum_fan_speed(
     ],
 )
 async def test_api_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: None,
     service: str,
@@ -143,7 +143,7 @@ async def test_api_failure(
     mock_miele_client.send_action.side_effect = ClientResponseError(Mock(), Mock())
 
     with pytest.raises(
-        UniversalAssistantError, match=f"Failed to set state for {ENTITY_ID}"
+        __HAC_KEEP__Error, match=f"Failed to set state for {ENTITY_ID}"
     ):
         await hass.services.async_call(
             VACUUM_DOMAIN, service, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True

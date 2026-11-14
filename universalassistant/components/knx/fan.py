@@ -11,7 +11,7 @@ from xknx.telegram.address import parse_device_group_address
 from universalassistant import config_entries
 from universalassistant.components.fan import FanEntity, FanEntityFeature
 from universalassistant.const import CONF_NAME, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -46,7 +46,7 @@ _LOGGER = logging.getLogger(__name__)
 
 @callback
 def async_migrate_yaml_uids(
-    hass: UniversalAssistant, platform_config: list[ConfigType]
+    hass: __HAC_KEEP__, platform_config: list[ConfigType]
 ) -> None:
     """Migrate entities unique_id for YAML switch-only fan entities."""
     # issue was introduced in 2026.1 - this migration in 2026.2
@@ -97,7 +97,7 @@ def async_migrate_yaml_uids(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: config_entries.ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

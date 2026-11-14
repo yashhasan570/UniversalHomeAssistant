@@ -11,7 +11,7 @@
       "message": "The project ID in configuration.yaml has changed, the entry will be replaced"
     },
     "restart_required": {
-      "message": "Changing `{option}` requires a restart of Universal Universal Home Assistant."
+      "message": "Changing `{option}` requires a restart of __HA_KEEP__."
     }
   },
   "services": {
@@ -23,7 +23,7 @@
       "description": "Sends a request_sync command to Google.",
       "fields": {
         "agent_user_id": {
-          "description": "Only needed for automations. Specific Universal Universal Home Assistant user ID (not username, ID in Settings > People > Users > under username) to sync with Google Home. Not needed when you use this action through Universal Universal Home Assistant frontend or API. Used in automation, script or other place where context.user_id is missing.",
+          "description": "Only needed for automations. Specific __HA_KEEP__ user ID (not username, ID in Settings > People > Users > under username) to sync with Google Home. Not needed when you use this action through __HA_KEEP__ frontend or API. Used in automation, script or other place where context.user_id is missing.",
           "name": "Agent user ID"
         }
       },

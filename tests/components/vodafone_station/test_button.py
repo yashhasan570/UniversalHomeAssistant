@@ -15,8 +15,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.vodafone_station.const import DOMAIN
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -24,7 +24,7 @@ from .const import TEST_SERIAL_NUMBER
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -40,7 +40,7 @@ async def test_all_entities(
 
 
 async def test_pressing_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_pressing_button(
     ],
 )
 async def test_button_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -82,7 +82,7 @@ async def test_button_fails(
 
     mock_vodafone_station_router.restart_router.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

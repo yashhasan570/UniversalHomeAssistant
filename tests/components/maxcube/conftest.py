@@ -10,7 +10,7 @@ from maxcube.windowshutter import MaxWindowShutter
 import pytest
 
 from universalassistant.components.maxcube import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import now
@@ -102,7 +102,7 @@ def hass_config():
 
 @pytest.fixture
 async def cube(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_config: ConfigType,
     room,
     thermostat,

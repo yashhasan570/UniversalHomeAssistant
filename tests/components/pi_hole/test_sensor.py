@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components import pi_hole
 from universalassistant.components.pi_hole.const import CONF_STATISTICS_ONLY
 from universalassistant.const import CONF_API_VERSION, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ from . import CONFIG_DATA_DEFAULTS, ZERO_DATA_V6, _create_mocked_hole, _patch_in
 @pytest.mark.parametrize("api_version", [5, 6])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     api_version: int,
@@ -54,7 +54,7 @@ async def test_sensors(
 
 
 async def test_bad_data_type(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test handling of bad data for code coverage."""
     mocked_hole = _create_mocked_hole(
@@ -86,7 +86,7 @@ async def test_bad_data_type(
 
 
 async def test_bad_data_key(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test handling of bad data for code coverage."""
     mocked_hole = _create_mocked_hole(

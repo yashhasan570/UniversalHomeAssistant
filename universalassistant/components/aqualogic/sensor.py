@@ -9,7 +9,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import PERCENTAGE, UnitOfPower, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -94,7 +94,7 @@ SENSOR_TYPES: tuple[AquaLogicSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AquaLogicConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

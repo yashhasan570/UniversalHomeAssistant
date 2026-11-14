@@ -23,8 +23,8 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import MatterEntity, MatterEntityDescription
@@ -45,7 +45,7 @@ DEFAULT_BOOST_DURATION = 3600  # 1 hour
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MatterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -105,7 +105,7 @@ class MatterWaterHeater(MatterEntity, WaterHeaterEntity):
                 clusters.WaterHeaterManagement.Commands.Boost(boostInfo=boost_info)
             )
         except MatterError as err:
-            raise UniversalAssistantError(f"Error sending Boost command: {err}") from err
+            raise __HAC_KEEP__Error(f"Error sending Boost command: {err}") from err
         self._update_from_device()
 
     @override

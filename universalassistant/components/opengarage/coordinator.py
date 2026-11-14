@@ -7,7 +7,7 @@ from typing import Any, override
 import opengarage
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import update_coordinator
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -26,7 +26,7 @@ class OpenGarageDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: OpenGarageConfigEntry,
         open_garage_connection: opengarage.OpenGarage,
     ) -> None:

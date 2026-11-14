@@ -31,7 +31,7 @@ from universalassistant.components.unifiprotect.migrate import (
     async_remove_sense_setting_mirrors,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED, Platform
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -49,7 +49,7 @@ from .utils import (
 )
 
 
-async def _load_automation(hass: UniversalAssistant, *entity_ids: str):
+async def _load_automation(hass: __HAC_KEEP__, *entity_ids: str):
     """Load one automation per entity id; the component sets up only once."""
     assert await async_setup_component(
         hass,
@@ -85,7 +85,7 @@ async def _load_automation(hass: UniversalAssistant, *entity_ids: str):
 
 
 async def test_migrate_remove_aiport_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
@@ -118,7 +118,7 @@ async def test_migrate_remove_aiport_device(
 
 
 async def test_migrate_insecure_camera_redirected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -146,7 +146,7 @@ async def test_migrate_insecure_camera_redirected(
 
 
 async def test_migrate_insecure_camera_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -181,7 +181,7 @@ async def test_migrate_insecure_camera_removed(
 
 
 async def test_migrate_insecure_camera_removed_in_use(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -211,7 +211,7 @@ async def test_migrate_insecure_camera_removed_in_use(
 
 
 async def test_migrate_insecure_camera_removed_disabled_not_repaired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -262,7 +262,7 @@ SENSE_SETTING_MIRRORS = [
 )
 @pytest.mark.parametrize(("platform", "key"), SENSE_SETTING_MIRRORS)
 async def test_migrate_sense_setting_mirror_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -310,7 +310,7 @@ async def test_migrate_sense_setting_mirror_removed(
     ],
 )
 async def test_migrate_sense_setting_mirror_removed_in_use(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -355,7 +355,7 @@ async def test_migrate_sense_setting_mirror_removed_in_use(
     ],
 )
 async def test_migrate_sense_setting_mirror_keeps_other_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -374,7 +374,7 @@ async def test_migrate_sense_setting_mirror_keeps_other_devices(
 
 
 async def test_migrate_sense_setting_mirror_removed_public_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     sensor_all: Sensor,
@@ -417,7 +417,7 @@ REMOVED_ENTITIES = [
 
 @pytest.mark.parametrize(("platform", "key", "issue"), REMOVED_ENTITIES)
 async def test_migrate_removed_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -441,7 +441,7 @@ async def test_migrate_removed_entity(
 
 @pytest.mark.parametrize(("platform", "key", "issue"), REMOVED_ENTITIES)
 async def test_migrate_removed_entity_in_use(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -468,7 +468,7 @@ async def test_migrate_removed_entity_in_use(
 
 @pytest.mark.parametrize(("platform", "key", "issue"), REMOVED_ENTITIES)
 async def test_migrate_removed_entity_disabled_not_repaired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -497,7 +497,7 @@ async def test_migrate_removed_entity_disabled_not_repaired(
 
 @pytest.mark.parametrize("platform", [Platform.BINARY_SENSOR, Platform.SELECT])
 async def test_migrate_hdr_switch_keeps_other_platforms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -524,7 +524,7 @@ async def test_migrate_hdr_switch_keeps_other_platforms(
     ],
 )
 async def test_migrate_hdr_switch_clears_deprecation_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
 ) -> None:
@@ -544,7 +544,7 @@ async def test_migrate_hdr_switch_clears_deprecation_issue(
 
 
 async def test_migrate_sensor_signal_strength_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -568,7 +568,7 @@ async def test_migrate_sensor_signal_strength_unique_id(
 
 
 async def test_migrate_sensor_signal_strength_drops_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     sensor_all: Sensor,
@@ -630,7 +630,7 @@ async def test_migrate_sensor_signal_strength_drops_duplicate(
     ],
 )
 async def test_migrate_light_setting_mirror_in_use(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -666,7 +666,7 @@ async def test_migrate_light_setting_mirror_in_use(
 
 
 async def test_migrate_light_setting_mirror_repair_clears_when_unused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -700,7 +700,7 @@ async def test_migrate_light_setting_mirror_repair_clears_when_unused(
 
 
 async def test_migrate_light_setting_mirror_waits_for_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -739,7 +739,7 @@ async def test_migrate_light_setting_mirror_waits_for_start(
     ],
 )
 async def test_migrate_removed_entity_waits_for_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -780,7 +780,7 @@ async def test_migrate_removed_entity_waits_for_start(
     ],
 )
 async def test_migrate_unload_before_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -811,7 +811,7 @@ async def test_migrate_unload_before_start(
 
 
 async def test_migrate_removed_entity_deleted_before_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -837,7 +837,7 @@ async def test_migrate_removed_entity_deleted_before_start(
 
 
 async def test_migrate_removed_entity_renamed_before_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -867,7 +867,7 @@ async def test_migrate_removed_entity_renamed_before_start(
 
 
 async def test_migrate_sense_setting_mirror_waits_for_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -898,7 +898,7 @@ async def test_migrate_sense_setting_mirror_waits_for_start(
 
 
 async def test_migrate_light_setting_mirror_without_replacement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -941,7 +941,7 @@ async def test_migrate_light_setting_mirror_without_replacement(
     ],
 )
 async def test_migrate_setting_mirror_key_out_of_scope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1004,7 +1004,7 @@ async def test_migrate_setting_mirror_key_out_of_scope(
     ],
 )
 async def test_migrate_setting_mirror_key_in_scope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1107,7 +1107,7 @@ _CAMERA_SWITCH_MIRRORS = (
     ],
 )
 async def test_migrate_camera_setting_mirror_in_use(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1243,7 +1243,7 @@ def _private_only_bootstrap() -> Mock:
     ],
 )
 async def test_deprecate_private_only_entity_in_use(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1282,7 +1282,7 @@ async def test_deprecate_private_only_entity_in_use(
     ],
 )
 async def test_deprecate_private_only_entity_not_matched(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1301,7 +1301,7 @@ async def test_deprecate_private_only_entity_not_matched(
 
 
 async def test_deprecate_private_only_entity_shared_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1330,7 +1330,7 @@ async def test_deprecate_private_only_entity_shared_unique_id(
 
 
 async def test_deprecate_private_only_entity_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1351,7 +1351,7 @@ async def test_deprecate_private_only_entity_disabled(
 
 
 async def test_deprecate_private_only_entity_repair_clears_when_unused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1382,7 +1382,7 @@ async def test_deprecate_private_only_entity_repair_clears_when_unused(
 
 
 async def test_deprecate_private_only_entity_waits_for_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1407,7 +1407,7 @@ async def test_deprecate_private_only_entity_waits_for_start(
 
 
 async def test_deprecate_private_only_entities_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1429,7 +1429,7 @@ async def test_deprecate_private_only_entities_on_setup(
     )
 
 
-async def test_is_new_private_only_entity(hass: UniversalAssistant) -> None:
+async def test_is_new_private_only_entity(hass: __HAC_KEEP__) -> None:
     """A deprecated entity that is not registered yet counts as new."""
     assert async_is_new_private_only_entity(hass, ModelType.CAMERA, CAMERA_MAC, "ssh")
 
@@ -1442,7 +1442,7 @@ async def test_is_new_private_only_entity(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_is_new_private_only_entity_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     platform: Platform,
@@ -1466,14 +1466,14 @@ async def test_is_new_private_only_entity_registered(
     ],
 )
 async def test_is_new_private_only_entity_not_deprecated(
-    hass: UniversalAssistant, model: ModelType | None, key: str
+    hass: __HAC_KEEP__, model: ModelType | None, key: str
 ) -> None:
     """Entities that are not deprecated are never skipped."""
     assert not async_is_new_private_only_entity(hass, model, CAMERA_MAC, key)
 
 
 async def test_private_only_entities_skipped_on_new_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -1518,7 +1518,7 @@ async def test_private_only_entities_skipped_on_new_install(
 
 
 async def test_private_only_entities_kept_on_existing_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -1573,7 +1573,7 @@ RING_AND_MOTION_SENSORS = [
     RING_AND_MOTION_SENSORS,
 )
 async def test_deprecate_ring_and_motion_sensor_in_use(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1611,7 +1611,7 @@ async def test_deprecate_ring_and_motion_sensor_in_use(
     RING_AND_MOTION_SENSORS,
 )
 async def test_deprecate_ring_and_motion_sensor_unused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1633,7 +1633,7 @@ async def test_deprecate_ring_and_motion_sensor_unused(
 
 
 async def test_deprecate_ring_and_motion_sensor_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1655,7 +1655,7 @@ async def test_deprecate_ring_and_motion_sensor_disabled(
 
 
 async def test_deprecate_ring_and_motion_sensor_repair_clears_when_unused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     ufp: MockUFPFixture,
@@ -1691,7 +1691,7 @@ async def test_deprecate_ring_and_motion_sensor_repair_clears_when_unused(
 
 
 async def test_ring_and_motion_sensors_skipped_on_new_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -1728,7 +1728,7 @@ async def test_ring_and_motion_sensors_skipped_on_new_install(
     ],
 )
 async def test_is_new_ring_or_motion_sensor(
-    hass: UniversalAssistant, platform: Platform, key: str, expected: bool
+    hass: __HAC_KEEP__, platform: Platform, key: str, expected: bool
 ) -> None:
     """Only a deprecated sensor on its own platform counts as new."""
     assert (
@@ -1737,7 +1737,7 @@ async def test_is_new_ring_or_motion_sensor(
 
 
 async def test_is_new_ring_or_motion_sensor_registered(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, ufp: MockUFPFixture
 ) -> None:
     """A sensor the user already has is kept."""
     entity_registry.async_get_or_create(

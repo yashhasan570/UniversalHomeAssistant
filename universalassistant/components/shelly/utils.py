@@ -31,10 +31,10 @@ from aioshelly.rpc_device.models import ShellyLedStripEffect
 from yarl import URL
 
 from universalassistant.components import network
-from universalassistant.components.http import UniversalAssistantView
+from universalassistant.components.http import __HAC_KEEP__View
 from universalassistant.components.network import async_get_source_ip
 from universalassistant.const import CONF_MODEL, CONF_PORT, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -86,7 +86,7 @@ if TYPE_CHECKING:
 
 @callback
 def async_remove_shelly_entity(
-    hass: UniversalAssistant, domain: str, unique_id: str
+    hass: __HAC_KEEP__, domain: str, unique_id: str
 ) -> None:
     """Remove a Shelly entity."""
     entity_reg = er.async_get(hass)
@@ -223,7 +223,7 @@ def get_shbtn_input_triggers() -> list[tuple[str, str]]:
     return [(trigger_type, "button") for trigger_type in SHBTN_INPUTS_EVENTS_TYPES]
 
 
-def get_coiot_port(hass: UniversalAssistant) -> int:
+def get_coiot_port(hass: __HAC_KEEP__) -> int:
     """Get CoIoT port from config."""
     if DOMAIN in hass.data:
         # Uses legacy hass.data[DOMAIN] pattern
@@ -233,7 +233,7 @@ def get_coiot_port(hass: UniversalAssistant) -> int:
 
 
 @singleton.singleton("shelly_coap")
-async def get_coap_context(hass: UniversalAssistant) -> COAP:
+async def get_coap_context(hass: __HAC_KEEP__) -> COAP:
     """Get CoAP context to be used in all Shelly Gen1 devices."""
     context = COAP()
 
@@ -266,7 +266,7 @@ async def get_coap_context(hass: UniversalAssistant) -> COAP:
     return context
 
 
-class ShellyReceiver(UniversalAssistantView):
+class ShellyReceiver(__HAC_KEEP__View):
     """Handle pushes from Shelly Gen2 devices."""
 
     requires_auth = False
@@ -283,7 +283,7 @@ class ShellyReceiver(UniversalAssistantView):
 
 
 @singleton.singleton("shelly_ws_server")
-async def get_ws_context(hass: UniversalAssistant) -> WsServer:
+async def get_ws_context(hass: __HAC_KEEP__) -> WsServer:
     """Get websocket server context to be used in all Shelly Gen2 devices."""
     ws_server = WsServer()
     hass.http.register_view(ShellyReceiver(ws_server))
@@ -564,7 +564,7 @@ def get_rpc_input_triggers(device: RpcDevice) -> list[tuple[str, str]]:
 
 @callback
 def update_device_fw_info(
-    hass: UniversalAssistant, shellydevice: BlockDevice | RpcDevice, entry: ShellyConfigEntry
+    hass: __HAC_KEEP__, shellydevice: BlockDevice | RpcDevice, entry: ShellyConfigEntry
 ) -> None:
     """Update the firmware version information in the device registry."""
     assert entry.unique_id
@@ -661,7 +661,7 @@ def get_host(host: str) -> str:
 
 @callback
 def async_remove_shelly_rpc_entities(
-    hass: UniversalAssistant, domain: str, mac: str, keys: list[str]
+    hass: __HAC_KEEP__, domain: str, mac: str, keys: list[str]
 ) -> None:
     """Remove RPC based Shelly entity."""
     entity_reg = er.async_get(hass)
@@ -708,7 +708,7 @@ def get_virtual_component_unit(config: dict[str, Any]) -> str | None:
 
 @callback
 def async_remove_orphaned_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_id: str,
     mac: str,
     platform: str,
@@ -742,8 +742,8 @@ def async_remove_orphaned_entities(
         async_remove_shelly_rpc_entities(hass, platform, mac, orphaned_entities)
 
 
-def _get_universalassistant_url(hass: UniversalAssistant) -> URL | None:
-    """Return UniversalAssistant URL."""
+def _get_universalassistant_url(hass: __HAC_KEEP__) -> URL | None:
+    """Return __HAC_KEEP__ URL."""
     try:
         raw_url = get_url(hass, prefer_external=False, allow_cloud=False)
     except NoURLAvailableError:
@@ -752,7 +752,7 @@ def _get_universalassistant_url(hass: UniversalAssistant) -> URL | None:
     return URL(raw_url)
 
 
-async def get_coiot_address(hass: UniversalAssistant) -> str | None:
+async def get_coiot_address(hass: __HAC_KEEP__) -> str | None:
     """Return the CoIoT ip address."""
     url = _get_universalassistant_url(hass)
     if url is None or url.host is None:
@@ -760,7 +760,7 @@ async def get_coiot_address(hass: UniversalAssistant) -> str | None:
     return await async_get_source_ip(hass, url.host)
 
 
-def get_rpc_ws_url(hass: UniversalAssistant) -> str | None:
+def get_rpc_ws_url(hass: __HAC_KEEP__) -> str | None:
     """Return the RPC websocket URL."""
     url = _get_universalassistant_url(hass)
     if url is None:
@@ -835,7 +835,7 @@ def get_irrigation_zone_id(device: RpcDevice, key: str) -> int | None:
 
 
 def get_rpc_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_id: str,
     device: RpcDevice,
     mac: str,
@@ -878,7 +878,7 @@ def get_rpc_device_info(
 
 
 def get_blu_trv_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_id: str,
     config: dict[str, Any],
     ble_addr: str,
@@ -902,7 +902,7 @@ def get_blu_trv_device_info(
 
 
 def get_ir_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_id: str,
     device: RpcDevice,
     mac: str,
@@ -932,7 +932,7 @@ def is_block_single_device(device: BlockDevice, block: Block | None = None) -> b
 
 
 def get_block_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_id: str,
     device: BlockDevice,
     mac: str,
@@ -958,7 +958,7 @@ def get_block_device_info(
 
 @callback
 def remove_stale_blu_trv_devices(
-    hass: UniversalAssistant, rpc_device: RpcDevice, entry: ShellyConfigEntry
+    hass: __HAC_KEEP__, rpc_device: RpcDevice, entry: ShellyConfigEntry
 ) -> None:
     """Remove stale BLU TRV devices."""
     dev_reg = dr.async_get(hass)
@@ -989,7 +989,7 @@ def remove_stale_blu_trv_devices(
 
 
 @callback
-def remove_empty_sub_devices(hass: UniversalAssistant, entry: ShellyConfigEntry) -> None:
+def remove_empty_sub_devices(hass: __HAC_KEEP__, entry: ShellyConfigEntry) -> None:
     """Remove sub devices without entities."""
     dev_reg = dr.async_get(hass)
     entity_reg = er.async_get(hass)
@@ -1080,7 +1080,7 @@ def is_rpc_ble_scanner_supported(entry: ShellyConfigEntry) -> bool:
     )
 
 
-async def check_coiot_config(device: BlockDevice, hass: UniversalAssistant) -> bool:
+async def check_coiot_config(device: BlockDevice, hass: __HAC_KEEP__) -> bool:
     """Check if CoIoT is correctly configured."""
     if device.model == MODEL_PLUG:
         # Shelly Plug Gen 1 does not have CoIoT settings
@@ -1115,7 +1115,7 @@ async def check_coiot_config(device: BlockDevice, hass: UniversalAssistant) -> b
 
 
 async def async_manage_coiot_issues_task(
-    hass: UniversalAssistant, entry: ShellyConfigEntry
+    hass: __HAC_KEEP__, entry: ShellyConfigEntry
 ) -> None:
     """CoIoT configuration or push updates issues task."""
     config_issue_id = COIOT_UNCONFIGURED_ISSUE_ID.format(unique=entry.unique_id)

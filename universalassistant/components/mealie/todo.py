@@ -19,8 +19,8 @@ from universalassistant.components.todo import (
     TodoListEntity,
     TodoListEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, ServiceResponse
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceResponse
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -60,7 +60,7 @@ def _convert_api_item(item: ShoppingItem) -> TodoItem:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MealieConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -243,7 +243,7 @@ class MealieShoppingListTodoListEntity(MealieEntity, TodoListEntity):
         try:
             await self.coordinator.client.add_shopping_item(item)
         except MealieError as exception:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="add_item_error",
                 translation_placeholders={
@@ -309,7 +309,7 @@ class MealieShoppingListTodoListEntity(MealieEntity, TodoListEntity):
                 list_item.item_id, update_shopping_item
             )
         except MealieError as exception:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_item_error",
                 translation_placeholders={
@@ -326,7 +326,7 @@ class MealieShoppingListTodoListEntity(MealieEntity, TodoListEntity):
             for uid in uids:
                 await self.coordinator.client.delete_shopping_item(uid)
         except MealieError as exception:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="delete_item_error",
                 translation_placeholders={
@@ -347,13 +347,13 @@ class MealieShoppingListTodoListEntity(MealieEntity, TodoListEntity):
 
         item_idx = {itm.item_id: idx for idx, itm in enumerate(list_items)}
         if uid not in item_idx:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="item_not_found_error",
                 translation_placeholders={"shopping_list_item": uid},
             )
         if previous_uid and previous_uid not in item_idx:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="item_not_found_error",
                 translation_placeholders={"shopping_list_item": previous_uid},
@@ -398,7 +398,7 @@ class MealieShoppingListTodoListEntity(MealieEntity, TodoListEntity):
         try:
             shopping_items = await client.get_shopping_items(self._shopping_list_id)
         except MealieConnectionError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_error",
             ) from err

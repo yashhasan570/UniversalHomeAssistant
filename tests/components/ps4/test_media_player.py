@@ -41,7 +41,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -134,7 +134,7 @@ MOCK_LOAD = "universalassistant.components.ps4.media_player.load_games"
 
 
 async def setup_mock_component(
-    hass: UniversalAssistant, entry: MockConfigEntry | None = None
+    hass: __HAC_KEEP__, entry: MockConfigEntry | None = None
 ) -> str:
     """Set up Mock Media Player."""
     if entry is None:
@@ -156,7 +156,7 @@ async def setup_mock_component(
 
 
 async def mock_ddp_response(
-    hass: UniversalAssistant, mock_status_data: dict[str, Any]
+    hass: __HAC_KEEP__, mock_status_data: dict[str, Any]
 ) -> None:
     """Mock raw UDP response from device."""
     mock_protocol = hass.data[PS4_DATA].protocol
@@ -170,7 +170,7 @@ async def mock_ddp_response(
     await hass.async_block_till_done()
 
 
-async def test_media_player_is_setup_correctly_with_entry(hass: UniversalAssistant) -> None:
+async def test_media_player_is_setup_correctly_with_entry(hass: __HAC_KEEP__) -> None:
     """Test entity is setup correctly with entry correctly."""
     mock_entity_id = await setup_mock_component(hass)
     mock_state = hass.states.get(mock_entity_id).state
@@ -184,7 +184,7 @@ async def test_media_player_is_setup_correctly_with_entry(hass: UniversalAssista
     assert mock_state == STATE_UNKNOWN
 
 
-async def test_state_standby_is_set(hass: UniversalAssistant) -> None:
+async def test_state_standby_is_set(hass: __HAC_KEEP__) -> None:
     """Test that state is set to standby."""
     mock_entity_id = await setup_mock_component(hass)
 
@@ -193,7 +193,7 @@ async def test_state_standby_is_set(hass: UniversalAssistant) -> None:
     assert hass.states.get(mock_entity_id).state == STATE_OFF
 
 
-async def test_state_playing_is_set(hass: UniversalAssistant) -> None:
+async def test_state_playing_is_set(hass: __HAC_KEEP__) -> None:
     """Test that state is set to playing."""
     mock_entity_id = await setup_mock_component(hass)
     mock_func = (
@@ -207,7 +207,7 @@ async def test_state_playing_is_set(hass: UniversalAssistant) -> None:
     assert hass.states.get(mock_entity_id).state == STATE_PLAYING
 
 
-async def test_state_idle_is_set(hass: UniversalAssistant) -> None:
+async def test_state_idle_is_set(hass: __HAC_KEEP__) -> None:
     """Test that state is set to idle."""
     mock_entity_id = await setup_mock_component(hass)
 
@@ -216,14 +216,14 @@ async def test_state_idle_is_set(hass: UniversalAssistant) -> None:
     assert hass.states.get(mock_entity_id).state == STATE_IDLE
 
 
-async def test_state_none_is_set(hass: UniversalAssistant) -> None:
+async def test_state_none_is_set(hass: __HAC_KEEP__) -> None:
     """Test that state is set to None."""
     mock_entity_id = await setup_mock_component(hass)
 
     assert hass.states.get(mock_entity_id).state == STATE_UNKNOWN
 
 
-async def test_media_attributes_are_fetched(hass: UniversalAssistant) -> None:
+async def test_media_attributes_are_fetched(hass: __HAC_KEEP__) -> None:
     """Test that media attributes are fetched."""
     mock_entity_id = await setup_mock_component(hass)
     mock_func = (
@@ -271,7 +271,7 @@ async def test_media_attributes_are_fetched(hass: UniversalAssistant) -> None:
 
 
 async def test_media_attributes_are_loaded(
-    hass: UniversalAssistant, patch_load_json_object: MagicMock
+    hass: __HAC_KEEP__, patch_load_json_object: MagicMock
 ) -> None:
     """Test that media attributes are loaded."""
     mock_entity_id = await setup_mock_component(hass)
@@ -299,7 +299,7 @@ async def test_media_attributes_are_loaded(
 
 
 async def test_device_info_is_set_from_status_correctly(
-    hass: UniversalAssistant, patch_get_status, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, patch_get_status, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that device info is set correctly from status update."""
     patch_get_status.return_value = MOCK_STATUS_STANDBY
@@ -328,7 +328,7 @@ async def test_device_info_is_set_from_status_correctly(
 
 
 async def test_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_get_status: MagicMock,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -346,7 +346,7 @@ async def test_device_registry(
 
 
 async def test_device_info_is_assummed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -385,7 +385,7 @@ async def test_device_info_is_assummed(
 
 
 async def test_device_info_assummed_works(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Reverse test that device info assumption works."""
     mock_entity_id = await setup_mock_component(hass)
@@ -399,7 +399,7 @@ async def test_device_info_assummed_works(
     assert not mock_d_entries
 
 
-async def test_turn_on(hass: UniversalAssistant) -> None:
+async def test_turn_on(hass: __HAC_KEEP__) -> None:
     """Test that turn on service calls function."""
     mock_entity_id = await setup_mock_component(hass)
     mock_func = "universalassistant.components.ps4.media_player.pyps4.Ps4Async.wakeup"
@@ -413,7 +413,7 @@ async def test_turn_on(hass: UniversalAssistant) -> None:
     assert len(mock_call.mock_calls) == 1
 
 
-async def test_turn_off(hass: UniversalAssistant) -> None:
+async def test_turn_off(hass: __HAC_KEEP__) -> None:
     """Test that turn off service calls function."""
     mock_entity_id = await setup_mock_component(hass)
     mock_func = "universalassistant.components.ps4.media_player.pyps4.Ps4Async.standby"
@@ -427,7 +427,7 @@ async def test_turn_off(hass: UniversalAssistant) -> None:
     assert len(mock_call.mock_calls) == 1
 
 
-async def test_toggle(hass: UniversalAssistant) -> None:
+async def test_toggle(hass: __HAC_KEEP__) -> None:
     """Test that toggle service calls function."""
     mock_entity_id = await setup_mock_component(hass)
     mock_func = "universalassistant.components.ps4.media_player.pyps4.Ps4Async.toggle"
@@ -441,7 +441,7 @@ async def test_toggle(hass: UniversalAssistant) -> None:
     assert len(mock_call.mock_calls) == 1
 
 
-async def test_media_pause(hass: UniversalAssistant) -> None:
+async def test_media_pause(hass: __HAC_KEEP__) -> None:
     """Test that media pause service calls function."""
     mock_entity_id = await setup_mock_component(hass)
     mock_func = (
@@ -457,7 +457,7 @@ async def test_media_pause(hass: UniversalAssistant) -> None:
     assert len(mock_call.mock_calls) == 1
 
 
-async def test_media_stop(hass: UniversalAssistant) -> None:
+async def test_media_stop(hass: __HAC_KEEP__) -> None:
     """Test that media stop service calls function."""
     mock_entity_id = await setup_mock_component(hass)
     mock_func = (
@@ -474,7 +474,7 @@ async def test_media_stop(hass: UniversalAssistant) -> None:
 
 
 async def test_select_source(
-    hass: UniversalAssistant, patch_load_json_object: MagicMock
+    hass: __HAC_KEEP__, patch_load_json_object: MagicMock
 ) -> None:
     """Test that select source service calls function with title."""
     patch_load_json_object.return_value = {MOCK_TITLE_ID: MOCK_GAMES_DATA}
@@ -497,7 +497,7 @@ async def test_select_source(
 
 
 async def test_select_source_caps(
-    hass: UniversalAssistant, patch_load_json_object: MagicMock
+    hass: __HAC_KEEP__, patch_load_json_object: MagicMock
 ) -> None:
     """Test that select source service calls function with upper case title."""
     patch_load_json_object.return_value = {MOCK_TITLE_ID: MOCK_GAMES_DATA}
@@ -523,7 +523,7 @@ async def test_select_source_caps(
 
 
 async def test_select_source_id(
-    hass: UniversalAssistant, patch_load_json_object: MagicMock
+    hass: __HAC_KEEP__, patch_load_json_object: MagicMock
 ) -> None:
     """Test that select source service calls function with Title ID."""
     patch_load_json_object.return_value = {MOCK_TITLE_ID: MOCK_GAMES_DATA}
@@ -545,7 +545,7 @@ async def test_select_source_id(
     assert len(mock_call.mock_calls) == 1
 
 
-async def test_ps4_send_command(hass: UniversalAssistant) -> None:
+async def test_ps4_send_command(hass: __HAC_KEEP__) -> None:
     """Test that ps4 send command service calls function."""
     mock_entity_id = await setup_mock_component(hass)
 
@@ -563,7 +563,7 @@ async def test_ps4_send_command(hass: UniversalAssistant) -> None:
     assert len(mock_call.mock_calls) == 1
 
 
-async def test_entry_is_unloaded(hass: UniversalAssistant) -> None:
+async def test_entry_is_unloaded(hass: __HAC_KEEP__) -> None:
     """Test that entry is unloaded."""
     mock_entry = MockConfigEntry(
         domain=ps4.DOMAIN, data=MOCK_DATA, version=VERSION, entry_id=MOCK_ENTRY_ID
@@ -581,7 +581,7 @@ async def test_entry_is_unloaded(hass: UniversalAssistant) -> None:
 
 
 async def test_title_data_fetched_from_poll(
-    hass: UniversalAssistant, patch_get_status: MagicMock
+    hass: __HAC_KEEP__, patch_get_status: MagicMock
 ) -> None:
     """Test title data is fetched when parsing status in an executor thread."""
     patch_get_status.return_value = MOCK_STATUS_PLAYING
@@ -610,7 +610,7 @@ async def test_title_data_fetched_from_poll(
 
 
 async def test_title_data_fetched_before_entity_added(
-    hass: UniversalAssistant, patch_get_status: MagicMock
+    hass: __HAC_KEEP__, patch_get_status: MagicMock
 ) -> None:
     """Test fetching title data before the entity is added does not raise.
 

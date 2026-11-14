@@ -31,7 +31,7 @@ from universalassistant.components.stt import (
     async_get_speech_to_text_entity,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -58,7 +58,7 @@ async def delay_save_fixture() -> AsyncGenerator[None]:
     ],
 )
 async def test_cloud_speech(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     mock_process_stt: AsyncMock,
@@ -106,7 +106,7 @@ async def test_cloud_speech(
 
 
 async def test_migrating_pipelines(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
@@ -156,7 +156,7 @@ async def test_migrating_pipelines(
     )
     assert hass_storage[STORAGE_KEY]["data"]["items"][0]["language"] == "language_1"
     assert (
-        hass_storage[STORAGE_KEY]["data"]["items"][0]["name"] == "Universal Universal Home Assistant Link"
+        hass_storage[STORAGE_KEY]["data"]["items"][0]["name"] == "__HA_KEEP__ Link"
     )
     assert hass_storage[STORAGE_KEY]["data"]["items"][0]["stt_language"] == "language_1"
     assert hass_storage[STORAGE_KEY]["data"]["items"][0]["tts_language"] == "language_1"
@@ -197,7 +197,7 @@ def _pipeline(pipeline_id: str, name: str, stt_engine: str, tts_engine: str) -> 
 
 
 async def test_renaming_pipelines_with_registered_entity_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
@@ -213,7 +213,7 @@ async def test_renaming_pipelines_with_registered_entity_ids(
     assert tts_entity_id == "tts.universal_assistant_cloud"
     default_pipeline = _pipeline(
         "01GX8ZWBAQYWNB1XV3EXEZ75DY",
-        "Universal Universal Home Assistant Cloud",
+        "__HA_KEEP__ Cloud",
         stt_entity_id,
         tts_entity_id,
     )
@@ -222,7 +222,7 @@ async def test_renaming_pipelines_with_registered_entity_ids(
     )
     other_pipeline = _pipeline(
         "01GX8ZWBAQSV1HP3WGJPFWEJ8J",
-        "Universal Universal Home Assistant Cloud",
+        "__HA_KEEP__ Cloud",
         "stt.other",
         "tts.other",
     )
@@ -248,14 +248,14 @@ async def test_renaming_pipelines_with_registered_entity_ids(
     # Only the cloud pipeline with the legacy default name is renamed, the
     # engines keep their registered entity ids.
     assert hass_storage[STORAGE_KEY]["data"]["items"] == [
-        {**default_pipeline, "name": "Universal Universal Home Assistant Link"},
+        {**default_pipeline, "name": "__HA_KEEP__ Link"},
         custom_pipeline,
         other_pipeline,
     ]
 
 
 @pytest.fixture(name="setup_stt")
-async def setup_stt_fixture(hass: UniversalAssistant, cloud: MagicMock) -> None:
+async def setup_stt_fixture(hass: __HAC_KEEP__, cloud: MagicMock) -> None:
     """Set up the cloud speech-to-text entity with labs available."""
     assert await async_setup_component(hass, "labs", {})
     assert await async_setup_component(hass, DOMAIN, {"cloud": {}})
@@ -299,7 +299,7 @@ def _metadata(language: str) -> SpeechMetadata:
 
 @pytest.mark.usefixtures("setup_stt")
 async def test_stt_v2_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -324,7 +324,7 @@ async def test_stt_v2_disabled_by_default(
 
 @pytest.mark.usefixtures("setup_stt")
 async def test_stt_v2_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -363,7 +363,7 @@ async def test_stt_v2_enabled(
 
 @pytest.mark.usefixtures("setup_stt")
 async def test_stt_v2_falls_back_on_unsupported_language(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -399,7 +399,7 @@ async def test_stt_v2_falls_back_on_unsupported_language(
 )
 @pytest.mark.usefixtures("setup_stt")
 async def test_stt_v2_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     mock_process_stt: AsyncMock,
@@ -414,7 +414,7 @@ async def test_stt_v2_failure(
 
 @pytest.mark.usefixtures("setup_stt")
 async def test_stt_v2_disconnects_when_turned_off(
-    hass: UniversalAssistant, cloud: MagicMock
+    hass: __HAC_KEEP__, cloud: MagicMock
 ) -> None:
     """Test that turning the lab off closes the connection to the v2 service."""
     cloud.stt_v2.disconnect = AsyncMock()

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.jvc_projector.coordinator import INTERVAL_SLOW
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 POWER_ID = "sensor.jvc_projector_status"
@@ -25,7 +25,7 @@ HDR_ENTITY_ID = "sensor.jvc_projector_hdr"
     ],
 )
 async def test_diagnostic_sensor_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
@@ -64,7 +64,7 @@ async def test_diagnostic_sensor_state(
     indirect=True,
 )
 async def test_diagnostic_sensor_timeout_is_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
@@ -92,7 +92,7 @@ async def test_diagnostic_sensor_timeout_is_unknown(
 
 
 async def test_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
@@ -105,7 +105,7 @@ async def test_entity_state(
 
 
 async def test_enable_hdr_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_device,
     mock_integration: MockConfigEntry,
@@ -137,7 +137,7 @@ async def test_enable_hdr_sensor(
     ],
 )
 async def test_unsupported_sensor_not_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_config_entry: MockConfigEntry,

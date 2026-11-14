@@ -16,11 +16,11 @@ from universalassistant.components.auth import indieauth
 from universalassistant.components.http import (
     KEY_HASS,
     KEY_HASS_REFRESH_TOKEN_ID,
-    UniversalAssistantView,
+    __HAC_KEEP__View,
 )
 from universalassistant.components.http.const import MAX_UNAUTHENTICATED_BODY_SIZE
 from universalassistant.components.http.data_validator import RequestDataValidator
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import area_registry as ar, integration_platform
 from universalassistant.helpers.system_info import async_get_system_info
 from universalassistant.helpers.translation import async_get_translations
@@ -43,7 +43,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup(
-    hass: UniversalAssistant, data: OnboardingStoreData, store: OnboardingStorage
+    hass: __HAC_KEEP__, data: OnboardingStoreData, store: OnboardingStorage
 ) -> None:
     """Set up the onboarding view."""
     await async_process_onboarding_platforms(hass)
@@ -60,12 +60,12 @@ class OnboardingPlatformProtocol(Protocol):
     """Define the format of onboarding platforms."""
 
     async def async_setup_views(
-        self, hass: UniversalAssistant, data: OnboardingStoreData
+        self, hass: __HAC_KEEP__, data: OnboardingStoreData
     ) -> None:
         """Set up onboarding views."""
 
 
-async def async_process_onboarding_platforms(hass: UniversalAssistant) -> None:
+async def async_process_onboarding_platforms(hass: __HAC_KEEP__) -> None:
     """Start processing onboarding platforms."""
     await integration_platform.async_process_integration_platforms(
         hass, DOMAIN, _register_onboarding_platform, wait_for_platforms=False
@@ -73,7 +73,7 @@ async def async_process_onboarding_platforms(hass: UniversalAssistant) -> None:
 
 
 async def _register_onboarding_platform(
-    hass: UniversalAssistant, integration_domain: str, platform: OnboardingPlatformProtocol
+    hass: __HAC_KEEP__, integration_domain: str, platform: OnboardingPlatformProtocol
 ) -> None:
     """Register a onboarding platform."""
     if not hasattr(platform, "async_setup_views"):
@@ -85,7 +85,7 @@ async def _register_onboarding_platform(
     await platform.async_setup_views(hass, hass.data[DOMAIN].steps)
 
 
-class BaseOnboardingView(UniversalAssistantView):
+class BaseOnboardingView(__HAC_KEEP__View):
     """Base class for onboarding views."""
 
     def __init__(self, data: OnboardingStoreData) -> None:
@@ -161,7 +161,7 @@ class _BaseOnboardingStepView(BaseOnboardingView):
         """Return if this step is done."""
         return self.step in self._data["done"]
 
-    async def _async_mark_done(self, hass: UniversalAssistant) -> None:
+    async def _async_mark_done(self, hass: __HAC_KEEP__) -> None:
         """Mark step as done."""
         self._data["done"].append(self.step)
         await self._store.async_save(self._data)
@@ -399,10 +399,10 @@ class AnalyticsOnboardingView(_BaseOnboardingStepView):
 
 
 @callback
-def _async_get_hass_provider(hass: UniversalAssistant) -> HassAuthProvider:
-    """Get the Universal Universal Home Assistant auth provider."""
+def _async_get_hass_provider(hass: __HAC_KEEP__) -> HassAuthProvider:
+    """Get the __HA_KEEP__ auth provider."""
     for prv in hass.auth.auth_providers:
         if prv.type == "universalassistant":
             return cast(HassAuthProvider, prv)
 
-    raise RuntimeError("No Universal Universal Home Assistant provider found")
+    raise RuntimeError("No __HA_KEEP__ provider found")

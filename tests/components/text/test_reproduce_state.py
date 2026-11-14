@@ -11,7 +11,7 @@ from universalassistant.components.text.const import (
     SERVICE_SET_VALUE,
 )
 from universalassistant.const import ATTR_MODE
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.state import async_reproduce_state
 
 VALID_TEXT1 = "Hello"
@@ -19,7 +19,7 @@ VALID_TEXT2 = "World"
 
 
 async def test_reproducing_states(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Text states."""
 

@@ -5,8 +5,8 @@ from enum import StrEnum
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.reload import (
     async_integration_yaml_config,
     async_reload_integration_platforms,
@@ -27,7 +27,7 @@ async def _reload_service_handler(service: ServiceCall) -> None:
     hass = service.hass
     conf = None
     # pylint: disable-next=universal-assistant-action-swallowed-exception
-    with contextlib.suppress(UniversalAssistantError):
+    with contextlib.suppress(__HAC_KEEP__Error):
         conf = await async_integration_yaml_config(hass, DOMAIN)
     if conf is None:
         return
@@ -37,7 +37,7 @@ async def _reload_service_handler(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the rest services."""
     hass.services.async_register(
         DOMAIN, RestService.RELOAD, _reload_service_handler, schema=probatio.Schema({})

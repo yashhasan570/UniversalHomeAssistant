@@ -14,7 +14,7 @@ from universalassistant.components.media_player import (
     MediaClass,
     MediaType,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.network import is_internal_request
 
 from .const import DOMAIN, UNPLAYABLE_TYPES
@@ -418,7 +418,7 @@ async def build_item_response(
 
 
 async def library_payload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     player: Player,
     browse_media: BrowseData,
 ) -> BrowseMedia:

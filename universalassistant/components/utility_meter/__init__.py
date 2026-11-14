@@ -10,7 +10,7 @@ from universalassistant.components.select import DOMAIN as SELECT_DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME, CONF_UNIQUE_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import (
     config_validation as cv,
@@ -132,7 +132,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up an Utility Meter."""
     hass.data[DATA_UTILITY] = {}
 
@@ -194,7 +194,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up Utility Meter from a config entry."""
 
     entity_registry = er.async_get(hass)
@@ -249,7 +249,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     platforms_to_unload = [Platform.SENSOR]
     if entry.options.get(CONF_TARIFFS):
@@ -262,7 +262,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> No
     hass.data[DATA_UTILITY].pop(entry.entry_id)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
     """Migrate old entry."""
     _LOGGER.debug(
         "Migrating from version %s.%s", config_entry.version, config_entry.minor_version

@@ -22,7 +22,7 @@ from universalassistant.components.swiss_public_transport.const import (
     MAX_VIA,
 )
 from universalassistant.components.swiss_public_transport.helper import unique_id_from_config
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
@@ -107,7 +107,7 @@ MOCK_ADVANCED_DATA_STEP_TIME_OFFSET = {
     ],
 )
 async def test_flow_user_init_data_success(
-    hass: UniversalAssistant, user_input, time_mode_input, config_title
+    hass: __HAC_KEEP__, user_input, time_mode_input, config_title
 ) -> None:
     """Test success response."""
     result = await hass.config_entries.flow.async_init(
@@ -157,7 +157,7 @@ async def test_flow_user_init_data_success(
     ],
 )
 async def test_flow_user_init_data_error_and_recover_on_step_1(
-    hass: UniversalAssistant, raise_error, text_error, user_input_error
+    hass: __HAC_KEEP__, raise_error, text_error, user_input_error
 ) -> None:
     """Test errors in user step."""
     result = await hass.config_entries.flow.async_init(
@@ -203,7 +203,7 @@ async def test_flow_user_init_data_error_and_recover_on_step_1(
     ],
 )
 async def test_flow_user_init_data_error_and_recover_on_step_2(
-    hass: UniversalAssistant, raise_error, text_error, user_input
+    hass: __HAC_KEEP__, raise_error, text_error, user_input
 ) -> None:
     """Test errors in time mode step."""
     result = await hass.config_entries.flow.async_init(
@@ -252,7 +252,7 @@ async def test_flow_user_init_data_error_and_recover_on_step_2(
         assert result["result"].title == "test_start test_destination at 18:03:00"
 
 
-async def test_flow_user_init_data_already_configured(hass: UniversalAssistant) -> None:
+async def test_flow_user_init_data_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we abort user data set when entry is already configured."""
 
     entry = MockConfigEntry(

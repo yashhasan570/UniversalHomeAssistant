@@ -23,7 +23,7 @@ from universalassistant.components.stream.const import (
     HLS_PROVIDER,
 )
 from universalassistant.components.stream.core import Part
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .common import (
@@ -46,7 +46,7 @@ VERY_LARGE_LAST_BYTE_POS = 9007199254740991
 
 
 @pytest.fixture
-def hls_stream(hass: UniversalAssistant, hass_client: ClientSessionGenerator):
+def hls_stream(hass: __HAC_KEEP__, hass_client: ClientSessionGenerator):
     """Create test fixture for creating an HLS client for a stream."""
 
     async def create_client_for_stream(stream):
@@ -118,7 +118,7 @@ def make_hint(segment, part):
 
 
 async def test_ll_hls_stream(
-    hass: UniversalAssistant, hls_stream, stream_worker_sync
+    hass: __HAC_KEEP__, hls_stream, stream_worker_sync
 ) -> None:
     """Test hls stream.
 
@@ -255,7 +255,7 @@ async def test_ll_hls_stream(
 
 
 async def test_ll_hls_playlist_view(
-    hass: UniversalAssistant, hls_stream, stream_worker_sync
+    hass: __HAC_KEEP__, hls_stream, stream_worker_sync
 ) -> None:
     """Test rendering the hls playlist with 1 and 2 output segments."""
     await async_setup_component(
@@ -326,7 +326,7 @@ async def test_ll_hls_playlist_view(
 
 
 async def test_ll_hls_msn(
-    hass: UniversalAssistant, hls_stream, stream_worker_sync, hls_sync
+    hass: __HAC_KEEP__, hls_stream, stream_worker_sync, hls_sync
 ) -> None:
     """Test that requests using _HLS_msn get held and returned or rejected."""
     await async_setup_component(
@@ -392,7 +392,7 @@ async def test_ll_hls_msn(
 
 
 async def test_ll_hls_playlist_bad_msn_part(
-    hass: UniversalAssistant, hls_stream, stream_worker_sync
+    hass: __HAC_KEEP__, hls_stream, stream_worker_sync
 ) -> None:
     """Test some playlist requests with invalid _HLS_msn/_HLS_part."""
 
@@ -473,7 +473,7 @@ async def test_ll_hls_playlist_bad_msn_part(
 
 
 async def test_ll_hls_playlist_rollover_part(
-    hass: UniversalAssistant, hls_stream, stream_worker_sync, hls_sync
+    hass: __HAC_KEEP__, hls_stream, stream_worker_sync, hls_sync
 ) -> None:
     """Test playlist request rollover."""
 
@@ -554,7 +554,7 @@ async def test_ll_hls_playlist_rollover_part(
 
 
 async def test_ll_hls_playlist_msn_part(
-    hass: UniversalAssistant, hls_stream, stream_worker_sync, hls_sync
+    hass: __HAC_KEEP__, hls_stream, stream_worker_sync, hls_sync
 ) -> None:
     """Test that requests using _HLS_msn and _HLS_part get held and returned."""
 
@@ -623,7 +623,7 @@ async def test_ll_hls_playlist_msn_part(
 
 
 async def test_ll_hls_playlist_msn_part_after_cleanup(
-    hass: UniversalAssistant, hls_stream, stream_worker_sync, hls_sync
+    hass: __HAC_KEEP__, hls_stream, stream_worker_sync, hls_sync
 ) -> None:
     """Test a held part request returns not found when the output is cleaned up."""
 
@@ -669,7 +669,7 @@ async def test_ll_hls_playlist_msn_part_after_cleanup(
 
 
 async def test_get_part_segments(
-    hass: UniversalAssistant, hls_stream, stream_worker_sync, hls_sync
+    hass: __HAC_KEEP__, hls_stream, stream_worker_sync, hls_sync
 ) -> None:
     """Test requests for part segments and hinted parts."""
     await async_setup_component(

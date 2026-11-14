@@ -10,7 +10,7 @@ import pytest
 from universalassistant import config_entries
 from universalassistant.components.broadlink.const import DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -33,7 +33,7 @@ def broadlink_setup_fixture():
 
 
 async def _async_configure_device(
-    hass: UniversalAssistant, flow_id: str, device: BroadlinkDevice
+    hass: __HAC_KEEP__, flow_id: str, device: BroadlinkDevice
 ) -> ConfigFlowResult:
     """Configure a working device and finish the flow."""
     with patch(DEVICE_HELLO, return_value=device.get_mock_api()):
@@ -43,14 +43,14 @@ async def _async_configure_device(
 
 
 async def _async_unlock_and_finish(
-    hass: UniversalAssistant, flow_id: str, device: BroadlinkDevice
+    hass: __HAC_KEEP__, flow_id: str, device: BroadlinkDevice
 ) -> ConfigFlowResult:
     """Unlock the device and finish the flow."""
     return await hass.config_entries.flow.async_configure(flow_id, {"unlock": True})
 
 
 @pytest.mark.parametrize("device_name", ["Living Room", "Study"])
-async def test_flow_user_works(hass: UniversalAssistant, device_name: str) -> None:
+async def test_flow_user_works(hass: __HAC_KEEP__, device_name: str) -> None:
     """Test a config flow initiated by the user.
 
     Best case scenario with no errors or locks.
@@ -81,7 +81,7 @@ async def test_flow_user_works(hass: UniversalAssistant, device_name: str) -> No
     assert mock_api.auth.call_count == 1
 
 
-async def test_flow_user_falls_back_to_model_as_title(hass: UniversalAssistant) -> None:
+async def test_flow_user_falls_back_to_model_as_title(hass: __HAC_KEEP__) -> None:
     """Test the model is used as the title when the device reports no name."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -102,7 +102,7 @@ async def test_flow_user_falls_back_to_model_as_title(hass: UniversalAssistant) 
     assert result["result"].unique_id == device.mac
 
 
-async def test_flow_user_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_flow_user_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test we do not accept more than one config flow per device."""
     device = get_device("Living Room")
     locked_api = device.get_mock_api()
@@ -136,7 +136,7 @@ async def test_flow_user_already_in_progress(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_in_progress"
 
 
-async def test_flow_user_mac_already_configured(hass: UniversalAssistant) -> None:
+async def test_flow_user_mac_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we do not accept more than one config entry per device.
 
     We need to abort the flow and update the existing entry.
@@ -166,7 +166,7 @@ async def test_flow_user_mac_already_configured(hass: UniversalAssistant) -> Non
     assert mock_api.auth.call_count == 0
 
 
-async def test_flow_user_invalid_ip_address(hass: UniversalAssistant) -> None:
+async def test_flow_user_invalid_ip_address(hass: __HAC_KEEP__) -> None:
     """Test we handle an invalid IP address in the user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -188,7 +188,7 @@ async def test_flow_user_invalid_ip_address(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_user_invalid_hostname(hass: UniversalAssistant) -> None:
+async def test_flow_user_invalid_hostname(hass: __HAC_KEEP__) -> None:
     """Test we handle an invalid hostname in the user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -210,7 +210,7 @@ async def test_flow_user_invalid_hostname(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_user_device_not_found(hass: UniversalAssistant) -> None:
+async def test_flow_user_device_not_found(hass: __HAC_KEEP__) -> None:
     """Test we handle a device not found in the user step."""
     device = get_device("Living Room")
 
@@ -232,7 +232,7 @@ async def test_flow_user_device_not_found(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_user_device_not_supported(hass: UniversalAssistant) -> None:
+async def test_flow_user_device_not_supported(hass: __HAC_KEEP__) -> None:
     """Test we handle a device not supported in the user step."""
     device = get_device("Kitchen")
     mock_api = device.get_mock_api()
@@ -251,7 +251,7 @@ async def test_flow_user_device_not_supported(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_supported"
 
 
-async def test_flow_user_network_unreachable(hass: UniversalAssistant) -> None:
+async def test_flow_user_network_unreachable(hass: __HAC_KEEP__) -> None:
     """Test we handle a network unreachable in the user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -273,7 +273,7 @@ async def test_flow_user_network_unreachable(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_user_os_error(hass: UniversalAssistant) -> None:
+async def test_flow_user_os_error(hass: __HAC_KEEP__) -> None:
     """Test we handle an OS error in the user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -295,7 +295,7 @@ async def test_flow_user_os_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_auth_authentication_error(hass: UniversalAssistant) -> None:
+async def test_flow_auth_authentication_error(hass: __HAC_KEEP__) -> None:
     """Test we handle an authentication error in the auth step."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -320,7 +320,7 @@ async def test_flow_auth_authentication_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_auth_network_timeout(hass: UniversalAssistant) -> None:
+async def test_flow_auth_network_timeout(hass: __HAC_KEEP__) -> None:
     """Test we handle a network timeout in the auth step."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -342,7 +342,7 @@ async def test_flow_auth_network_timeout(hass: UniversalAssistant) -> None:
     assert result["errors"] == {"base": "cannot_connect"}
 
 
-async def test_flow_auth_firmware_error(hass: UniversalAssistant) -> None:
+async def test_flow_auth_firmware_error(hass: __HAC_KEEP__) -> None:
     """Test we handle a firmware error in the auth step."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -364,7 +364,7 @@ async def test_flow_auth_firmware_error(hass: UniversalAssistant) -> None:
     assert result["errors"] == {"base": "unknown"}
 
 
-async def test_flow_auth_network_unreachable(hass: UniversalAssistant) -> None:
+async def test_flow_auth_network_unreachable(hass: __HAC_KEEP__) -> None:
     """Test we handle a network unreachable in the auth step."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -386,7 +386,7 @@ async def test_flow_auth_network_unreachable(hass: UniversalAssistant) -> None:
     assert result["errors"] == {"base": "cannot_connect"}
 
 
-async def test_flow_auth_os_error(hass: UniversalAssistant) -> None:
+async def test_flow_auth_os_error(hass: __HAC_KEEP__) -> None:
     """Test we handle an OS error in the auth step."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -408,7 +408,7 @@ async def test_flow_auth_os_error(hass: UniversalAssistant) -> None:
     assert result["errors"] == {"base": "unknown"}
 
 
-async def test_flow_reset_works(hass: UniversalAssistant) -> None:
+async def test_flow_reset_works(hass: __HAC_KEEP__) -> None:
     """Test we finish a config flow after a manual unlock."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -441,7 +441,7 @@ async def test_flow_reset_works(hass: UniversalAssistant) -> None:
     assert unlocked_api.aclose.await_count == 1
 
 
-async def test_flow_unlock_works(hass: UniversalAssistant) -> None:
+async def test_flow_unlock_works(hass: __HAC_KEEP__) -> None:
     """Test we finish a config flow with an unlock request."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -475,7 +475,7 @@ async def test_flow_unlock_works(hass: UniversalAssistant) -> None:
     assert mock_api.set_lock.call_count == 1
 
 
-async def test_flow_unlock_network_timeout(hass: UniversalAssistant) -> None:
+async def test_flow_unlock_network_timeout(hass: __HAC_KEEP__) -> None:
     """Test we handle a network timeout in the unlock step."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -507,7 +507,7 @@ async def test_flow_unlock_network_timeout(hass: UniversalAssistant) -> None:
     assert mock_api.set_lock.call_count == 2
 
 
-async def test_flow_unlock_firmware_error(hass: UniversalAssistant) -> None:
+async def test_flow_unlock_firmware_error(hass: __HAC_KEEP__) -> None:
     """Test we handle a firmware error in the unlock step."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -539,7 +539,7 @@ async def test_flow_unlock_firmware_error(hass: UniversalAssistant) -> None:
     assert mock_api.set_lock.call_count == 2
 
 
-async def test_flow_unlock_network_unreachable(hass: UniversalAssistant) -> None:
+async def test_flow_unlock_network_unreachable(hass: __HAC_KEEP__) -> None:
     """Test we handle a network unreachable in the unlock step."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -571,7 +571,7 @@ async def test_flow_unlock_network_unreachable(hass: UniversalAssistant) -> None
     assert mock_api.set_lock.call_count == 2
 
 
-async def test_flow_unlock_os_error(hass: UniversalAssistant) -> None:
+async def test_flow_unlock_os_error(hass: __HAC_KEEP__) -> None:
     """Test we handle an OS error in the unlock step."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -603,7 +603,7 @@ async def test_flow_unlock_os_error(hass: UniversalAssistant) -> None:
     assert mock_api.set_lock.call_count == 2
 
 
-async def test_flow_do_not_unlock(hass: UniversalAssistant) -> None:
+async def test_flow_do_not_unlock(hass: __HAC_KEEP__) -> None:
     """Test we do not unlock the device if the user does not want to."""
     device = get_device("Living Room")
     mock_api = device.get_mock_api()
@@ -633,7 +633,7 @@ async def test_flow_do_not_unlock(hass: UniversalAssistant) -> None:
 
 
 async def test_flow_import_works(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an import flow."""
     device = get_device("Living Room")
@@ -661,7 +661,7 @@ async def test_flow_import_works(
 
 
 async def test_flow_import_locked_device_logs_warning(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an imported locked device tells the user to finish the setup."""
     device = get_device("Living Room")
@@ -680,7 +680,7 @@ async def test_flow_import_locked_device_logs_warning(
     assert "is ready to be configured" in caplog.text
 
 
-async def test_flow_import_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_flow_import_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test we do not import more than one flow per device."""
     device = get_device("Living Room")
     data = {"host": device.host}
@@ -702,7 +702,7 @@ async def test_flow_import_already_in_progress(hass: UniversalAssistant) -> None
     assert result["reason"] == "already_in_progress"
 
 
-async def test_flow_import_host_already_configured(hass: UniversalAssistant) -> None:
+async def test_flow_import_host_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we do not import a host that is already configured."""
     device = get_device("Living Room")
     mock_entry = device.get_mock_entry()
@@ -720,7 +720,7 @@ async def test_flow_import_host_already_configured(hass: UniversalAssistant) -> 
     assert result["reason"] == "already_configured"
 
 
-async def test_flow_import_mac_already_configured(hass: UniversalAssistant) -> None:
+async def test_flow_import_mac_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we do not import more than one config entry per device.
 
     We need to abort the flow and update the existing entry.
@@ -748,7 +748,7 @@ async def test_flow_import_mac_already_configured(hass: UniversalAssistant) -> N
     assert mock_api.auth.call_count == 0
 
 
-async def test_flow_import_device_not_found(hass: UniversalAssistant) -> None:
+async def test_flow_import_device_not_found(hass: __HAC_KEEP__) -> None:
     """Test we handle a device not found in the import step."""
     with patch(DEVICE_HELLO, side_effect=blke.NetworkTimeoutError()):
         result = await hass.config_entries.flow.async_init(
@@ -761,7 +761,7 @@ async def test_flow_import_device_not_found(hass: UniversalAssistant) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_flow_import_device_not_supported(hass: UniversalAssistant) -> None:
+async def test_flow_import_device_not_supported(hass: __HAC_KEEP__) -> None:
     """Test we handle a device not supported in the import step."""
     device = get_device("Kitchen")
     mock_api = device.get_mock_api()
@@ -777,7 +777,7 @@ async def test_flow_import_device_not_supported(hass: UniversalAssistant) -> Non
     assert result["reason"] == "not_supported"
 
 
-async def test_flow_import_invalid_ip_address(hass: UniversalAssistant) -> None:
+async def test_flow_import_invalid_ip_address(hass: __HAC_KEEP__) -> None:
     """Test we handle an invalid IP address in the import step."""
     with patch(DEVICE_HELLO, side_effect=OSError(errno.EINVAL, None)):
         result = await hass.config_entries.flow.async_init(
@@ -790,7 +790,7 @@ async def test_flow_import_invalid_ip_address(hass: UniversalAssistant) -> None:
     assert result["reason"] == "invalid_host"
 
 
-async def test_flow_import_invalid_hostname(hass: UniversalAssistant) -> None:
+async def test_flow_import_invalid_hostname(hass: __HAC_KEEP__) -> None:
     """Test we handle an invalid hostname in the import step."""
     with patch(DEVICE_HELLO, side_effect=OSError(socket.EAI_NONAME, None)):
         result = await hass.config_entries.flow.async_init(
@@ -803,7 +803,7 @@ async def test_flow_import_invalid_hostname(hass: UniversalAssistant) -> None:
     assert result["reason"] == "invalid_host"
 
 
-async def test_flow_import_network_unreachable(hass: UniversalAssistant) -> None:
+async def test_flow_import_network_unreachable(hass: __HAC_KEEP__) -> None:
     """Test we handle a network unreachable in the import step."""
     with patch(DEVICE_HELLO, side_effect=OSError(errno.ENETUNREACH, None)):
         result = await hass.config_entries.flow.async_init(
@@ -816,7 +816,7 @@ async def test_flow_import_network_unreachable(hass: UniversalAssistant) -> None
     assert result["reason"] == "cannot_connect"
 
 
-async def test_flow_import_os_error(hass: UniversalAssistant) -> None:
+async def test_flow_import_os_error(hass: __HAC_KEEP__) -> None:
     """Test we handle an OS error in the import step."""
     with patch(DEVICE_HELLO, side_effect=OSError()):
         result = await hass.config_entries.flow.async_init(
@@ -829,7 +829,7 @@ async def test_flow_import_os_error(hass: UniversalAssistant) -> None:
     assert result["reason"] == "unknown"
 
 
-async def test_flow_reauth_works(hass: UniversalAssistant) -> None:
+async def test_flow_reauth_works(hass: __HAC_KEEP__) -> None:
     """Test a reauthentication flow."""
     device = get_device("Living Room")
     mock_entry = device.get_mock_entry()
@@ -859,7 +859,7 @@ async def test_flow_reauth_works(hass: UniversalAssistant) -> None:
     assert mock_hello.call_count == 1
 
 
-async def test_flow_reauth_invalid_host(hass: UniversalAssistant) -> None:
+async def test_flow_reauth_invalid_host(hass: __HAC_KEEP__) -> None:
     """Test we do not accept an invalid host for reauthentication.
 
     The MAC address cannot change.
@@ -890,7 +890,7 @@ async def test_flow_reauth_invalid_host(hass: UniversalAssistant) -> None:
     assert mock_api.auth.call_count == 0
 
 
-async def test_flow_reauth_valid_host(hass: UniversalAssistant) -> None:
+async def test_flow_reauth_valid_host(hass: __HAC_KEEP__) -> None:
     """Test we accept a valid host for reauthentication.
 
     The hostname/IP address may change. We need to update the entry.
@@ -921,7 +921,7 @@ async def test_flow_reauth_valid_host(hass: UniversalAssistant) -> None:
     assert mock_api.auth.call_count == 1
 
 
-async def test_dhcp_can_finish(hass: UniversalAssistant) -> None:
+async def test_dhcp_can_finish(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery flow can finish right away."""
 
     device = get_device("Living Room")
@@ -952,7 +952,7 @@ async def test_dhcp_can_finish(hass: UniversalAssistant) -> None:
 
 
 async def test_dhcp_locked_device_without_name_shows_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the model replaces an empty device name in the flow placeholders."""
     device = get_device("Living Room")
@@ -980,7 +980,7 @@ async def test_dhcp_locked_device_without_name_shows_model(
     assert flow["context"]["title_placeholders"]["name"] == device.model
 
 
-async def test_dhcp_fails_to_connect(hass: UniversalAssistant) -> None:
+async def test_dhcp_fails_to_connect(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery flow that fails to connect."""
 
     with patch(DEVICE_HELLO, side_effect=blke.NetworkTimeoutError()):
@@ -999,7 +999,7 @@ async def test_dhcp_fails_to_connect(hass: UniversalAssistant) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_dhcp_unreachable(hass: UniversalAssistant) -> None:
+async def test_dhcp_unreachable(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery flow that fails to connect."""
 
     with patch(DEVICE_HELLO, side_effect=OSError(errno.ENETUNREACH, None)):
@@ -1018,7 +1018,7 @@ async def test_dhcp_unreachable(hass: UniversalAssistant) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_dhcp_connect_unknown_error(hass: UniversalAssistant) -> None:
+async def test_dhcp_connect_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery flow that fails to connect with an OSError."""
 
     with patch(DEVICE_HELLO, side_effect=OSError()):
@@ -1037,7 +1037,7 @@ async def test_dhcp_connect_unknown_error(hass: UniversalAssistant) -> None:
     assert result["reason"] == "unknown"
 
 
-async def test_dhcp_device_not_supported(hass: UniversalAssistant) -> None:
+async def test_dhcp_device_not_supported(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery flow that fails because the device is not supported."""
 
     device = get_device("Kitchen")
@@ -1058,7 +1058,7 @@ async def test_dhcp_device_not_supported(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_supported"
 
 
-async def test_dhcp_already_exists(hass: UniversalAssistant) -> None:
+async def test_dhcp_already_exists(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery flow that fails to connect."""
 
     device = get_device("Living Room")
@@ -1083,7 +1083,7 @@ async def test_dhcp_already_exists(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_dhcp_updates_host(hass: UniversalAssistant) -> None:
+async def test_dhcp_updates_host(hass: __HAC_KEEP__) -> None:
     """Test DHCP updates host."""
 
     device = get_device("Living Room")

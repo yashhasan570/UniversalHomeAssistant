@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant hardware firmware config flow failure cases."""
+"""Test the __HA_KEEP__ hardware firmware config flow failure cases."""
 
 from unittest.mock import AsyncMock, patch
 
@@ -17,7 +17,7 @@ from universalassistant.components.universalassistant_hardware.util import (
     OwningAddon,
     OwningIntegration,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .test_config_flow import (
@@ -34,7 +34,7 @@ from .test_config_flow import (
     "ignore_translations_for_mock_domains",
     ["test_firmware_domain"],
 )
-async def test_config_flow_thread_not_hassio(hass: UniversalAssistant) -> None:
+async def test_config_flow_thread_not_hassio(hass: __HAC_KEEP__) -> None:
     """Test when the stick is used with a non-hassio setup and Thread is selected."""
     result = await hass.config_entries.flow.async_init(
         TEST_DOMAIN, context={"source": "hardware"}
@@ -75,7 +75,7 @@ async def test_config_flow_thread_not_hassio(hass: UniversalAssistant) -> None:
     ["test_firmware_domain"],
 )
 async def test_config_flow_thread_addon_info_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon_store_info: AsyncMock,
 ) -> None:
     """Test addon info fails before firmware install."""
@@ -123,7 +123,7 @@ async def test_config_flow_thread_addon_info_fails(
     ["test_firmware_domain"],
 )
 async def test_config_flow_thread_addon_install_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     install_addon: AsyncMock,
 ) -> None:
     """Test failure case when flasher addon cannot be installed."""
@@ -174,7 +174,7 @@ async def test_config_flow_thread_addon_install_fails(
     ["test_firmware_domain"],
 )
 async def test_config_flow_thread_addon_set_config_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_addon_options: AsyncMock,
 ) -> None:
     """Test failure case when flasher addon cannot be configured."""
@@ -221,7 +221,7 @@ async def test_config_flow_thread_addon_set_config_fails(
     ["test_firmware_domain"],
 )
 async def test_config_flow_thread_flasher_run_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     start_addon: AsyncMock,
 ) -> None:
     """Test failure case when flasher addon fails to run."""
@@ -266,7 +266,7 @@ async def test_config_flow_thread_flasher_run_fails(
     "ignore_translations_for_mock_domains",
     ["test_firmware_domain"],
 )
-async def test_config_flow_thread_confirmation_fails(hass: UniversalAssistant) -> None:
+async def test_config_flow_thread_confirmation_fails(hass: __HAC_KEEP__) -> None:
     """Test the config flow failing due to OpenThread firmware not being detected."""
     init_result = await hass.config_entries.flow.async_init(
         TEST_DOMAIN, context={"source": "hardware"}
@@ -308,7 +308,7 @@ async def test_config_flow_thread_confirmation_fails(hass: UniversalAssistant) -
 )
 @pytest.mark.usefixtures("addon_store_info", "addon_info")
 async def test_config_flow_firmware_index_download_fails_and_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test flow aborts if OTA index download fails and install is required."""
     init_result = await hass.config_entries.flow.async_init(
@@ -360,7 +360,7 @@ async def test_config_flow_firmware_index_download_fails_and_required(
 )
 @pytest.mark.usefixtures("addon_store_info", "addon_info")
 async def test_config_flow_firmware_download_fails_and_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test flow aborts if firmware download fails and install is required."""
     init_result = await hass.config_entries.flow.async_init(
@@ -412,7 +412,7 @@ async def test_config_flow_firmware_download_fails_and_required(
     ["test_firmware_domain"],
 )
 async def test_options_flow_zigbee_to_thread_zha_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the options flow migration failure, ZHA using the stick."""
     config_entry = MockConfigEntry(
@@ -465,7 +465,7 @@ async def test_options_flow_zigbee_to_thread_zha_configured(
     ["test_firmware_domain"],
 )
 async def test_options_flow_thread_to_zigbee_otbr_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the options flow migration failure, OTBR still using the stick."""
     config_entry = MockConfigEntry(

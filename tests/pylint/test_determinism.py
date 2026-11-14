@@ -19,7 +19,7 @@ def determinism_checker_fixture(linter: UnittestLinter) -> HassTestDeterminismCh
     [
         pytest.param(
             """
-def test_something(hass: UniversalAssistant) -> None:
+def test_something(hass: __HAC_KEEP__) -> None:
     assert hass.state == "ready"
 """,
             "tests.components.test_integration.test_init",
@@ -27,7 +27,7 @@ def test_something(hass: UniversalAssistant) -> None:
         ),
         pytest.param(
             """
-def test_something(hass: UniversalAssistant) -> None:
+def test_something(hass: __HAC_KEEP__) -> None:
     if not hass:
         return
     assert hass.state == "ready"
@@ -37,7 +37,7 @@ def test_something(hass: UniversalAssistant) -> None:
         ),
         pytest.param(
             """
-def test_something(hass: UniversalAssistant) -> None:
+def test_something(hass: __HAC_KEEP__) -> None:
     if sys.platform == "win32":
         pytest.skip("Not supported on Windows")
     assert hass.state == "ready"
@@ -47,7 +47,7 @@ def test_something(hass: UniversalAssistant) -> None:
         ),
         pytest.param(
             """
-def test_something(hass: UniversalAssistant) -> None:
+def test_something(hass: __HAC_KEEP__) -> None:
     if not hass:
         pytest.fail("hass is required")
     assert hass.state == "ready"
@@ -57,7 +57,7 @@ def test_something(hass: UniversalAssistant) -> None:
         ),
         pytest.param(
             """
-def test_something(hass: UniversalAssistant) -> None:
+def test_something(hass: __HAC_KEEP__) -> None:
     if not hass:
         raise ValueError("hass is required")
     assert hass.state == "ready"
@@ -67,7 +67,7 @@ def test_something(hass: UniversalAssistant) -> None:
         ),
         pytest.param(
             """
-def test_something(hass: UniversalAssistant) -> None:
+def test_something(hass: __HAC_KEEP__) -> None:
     if not hass:
         pytest.xfail("expected to fail")
     assert hass.state == "ready"
@@ -89,7 +89,7 @@ def test_something(action_type: str) -> None:
         ),
         pytest.param(
             """
-def test_something(hass: UniversalAssistant) -> None:
+def test_something(hass: __HAC_KEEP__) -> None:
     if hass.config.language == "en":
         data = {"lang": "en"}
     else:
@@ -124,7 +124,7 @@ def helper_function() -> None:
         ),
         pytest.param(
             """
-def test_something(hass: UniversalAssistant) -> None:
+def test_something(hass: __HAC_KEEP__) -> None:
     if something:
         do_a()
     else:

@@ -15,8 +15,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "number.huum_sauna_humidity"
@@ -30,7 +30,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -41,7 +41,7 @@ async def test_number_entity(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_huum_client: AsyncMock,
 ) -> None:
     """Test setting the humidity."""
@@ -61,7 +61,7 @@ async def test_set_humidity(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_dont_set_humidity_when_sauna_not_heating(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_huum_client: AsyncMock,
 ) -> None:
     """Test setting the humidity."""
@@ -80,7 +80,7 @@ async def test_dont_set_humidity_when_sauna_not_heating(
 
 
 async def setup_number_platform(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the integration with only the number platform."""
     mock_config_entry.add_to_hass(hass)
@@ -90,7 +90,7 @@ async def setup_number_platform(
 
 
 async def test_set_humidity_above_controller_maximum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_huum_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_set_humidity_above_controller_maximum(
 
 
 async def test_set_humidity_at_controller_maximum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_huum_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_set_humidity_at_controller_maximum(
 
 
 async def test_humidity_maximum_without_controller_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_huum_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_humidity_maximum_without_controller_value(
 
 
 async def test_humidity_maximum_without_target_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_huum_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -198,16 +198,16 @@ async def test_humidity_maximum_without_target_temperature(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_humidity_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_huum_client: AsyncMock,
     side_effect: HuumError,
     message: str,
 ) -> None:
-    """Test that errors when setting the humidity are raised as UniversalAssistantError."""
+    """Test that errors when setting the humidity are raised as __HAC_KEEP__Error."""
     mock_huum_client.status.return_value.status = SaunaStatus.ONLINE_HEATING
     mock_huum_client.turn_on.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

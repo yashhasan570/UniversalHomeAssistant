@@ -1,7 +1,7 @@
-"""The Debug console integration, running Python inside Universal Universal Home Assistant."""
+"""The Debug console integration, running Python inside __HA_KEEP__."""
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -13,7 +13,7 @@ from .websocket_api import async_register_websocket_commands
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Debug console.
 
     Only from YAML, on every version, which a browser cannot add: code in the

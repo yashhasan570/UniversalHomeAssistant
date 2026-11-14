@@ -8,8 +8,8 @@ from nextdns import ApiError, InvalidApiKeyError
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import NextDnsConfigEntry
@@ -27,7 +27,7 @@ CLEAR_LOGS_BUTTON = ButtonEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NextDnsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -54,7 +54,7 @@ class NextDnsButton(NextDnsEntity, ButtonEntity):
             TimeoutError,
             ClientError,
         ) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="method_error",
                 translation_placeholders={
@@ -64,7 +64,7 @@ class NextDnsButton(NextDnsEntity, ButtonEntity):
             ) from err
         except InvalidApiKeyError as err:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="auth_error",
                 translation_placeholders={

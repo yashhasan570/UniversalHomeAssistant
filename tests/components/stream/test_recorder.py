@@ -24,7 +24,7 @@ from universalassistant.components.stream.const import (
 )
 from universalassistant.components.stream.core import Orientation, Part
 from universalassistant.components.stream.fmp4utils import find_box
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -40,7 +40,7 @@ from .common import (
 
 
 @pytest.fixture(autouse=True)
-async def stream_component(hass: UniversalAssistant) -> None:
+async def stream_component(hass: __HAC_KEEP__) -> None:
     """Set up the component before each test."""
     await async_setup_component(hass, DOMAIN, {"stream": {}})
 
@@ -51,7 +51,7 @@ def filename(tmp_path: Path) -> str:
     return str(tmp_path / "test.mp4")
 
 
-async def test_record_stream(hass: UniversalAssistant, filename, h264_video) -> None:
+async def test_record_stream(hass: __HAC_KEEP__, filename, h264_video) -> None:
     """Test record stream."""
 
     worker_finished = asyncio.Event()
@@ -93,7 +93,7 @@ async def test_record_stream(hass: UniversalAssistant, filename, h264_video) -> 
     ],
 )
 async def test_record_stream_worker_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     filename: str,
     tmp_path: Path,
     should_retry: Mock,
@@ -140,7 +140,7 @@ async def test_record_stream_worker_restart(
     assert all(later > earlier for earlier, later in itertools.pairwise(dts))
 
 
-async def test_record_stream_h265_is_hvc1(hass: UniversalAssistant, filename: str) -> None:
+async def test_record_stream_h265_is_hvc1(hass: __HAC_KEEP__, filename: str) -> None:
     """Test a h265 recording gets muxed as hvc1, so Apple devices can play it."""
     worker_finished = asyncio.Event()
 
@@ -170,7 +170,7 @@ async def test_record_stream_h265_is_hvc1(hass: UniversalAssistant, filename: st
         assert recording.streams.video[0].codec_tag == "hvc1"
 
 
-async def test_record_lookback(hass: UniversalAssistant, filename, h264_video) -> None:
+async def test_record_lookback(hass: __HAC_KEEP__, filename, h264_video) -> None:
     """Exercise record with lookback."""
 
     stream = create_stream(hass, h264_video, {}, dynamic_stream_settings())
@@ -187,7 +187,7 @@ async def test_record_lookback(hass: UniversalAssistant, filename, h264_video) -
     await stream.stop()
 
 
-async def test_record_path_not_allowed(hass: UniversalAssistant, h264_video) -> None:
+async def test_record_path_not_allowed(hass: __HAC_KEEP__, h264_video) -> None:
     """Test where the output path is not allowed by universal assistant configuration."""
 
     stream = create_stream(hass, h264_video, {}, dynamic_stream_settings())
@@ -201,7 +201,7 @@ async def test_record_path_not_allowed(hass: UniversalAssistant, h264_video) -> 
         await stream.async_record("/example/path")
 
 
-async def test_record_already_recording(hass: UniversalAssistant, h264_video) -> None:
+async def test_record_already_recording(hass: __HAC_KEEP__, h264_video) -> None:
     """Test recording a stream that is already recording."""
 
     stream = create_stream(hass, h264_video, {}, dynamic_stream_settings())
@@ -233,7 +233,7 @@ def add_parts_to_segment(segment, source):
 
 
 async def test_recorder_discontinuity(
-    hass: UniversalAssistant, filename, h264_video
+    hass: __HAC_KEEP__, filename, h264_video
 ) -> None:
     """Test recorder save across a discontinuity."""
 
@@ -282,7 +282,7 @@ async def test_recorder_discontinuity(
     assert os.path.exists(filename)
 
 
-async def test_recorder_no_segments(hass: UniversalAssistant, filename) -> None:
+async def test_recorder_no_segments(hass: __HAC_KEEP__, filename) -> None:
     """Test recorder behavior with a stream failure which causes no segments."""
 
     stream = create_stream(hass, BytesIO(), {}, dynamic_stream_settings())
@@ -311,7 +311,7 @@ def h264_mov_video():
     ],
 )
 async def test_record_stream_audio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     filename,
     audio_codec,
     expected_audio_streams,
@@ -370,7 +370,7 @@ async def test_record_stream_audio(
 
 
 async def test_recorder_log(
-    hass: UniversalAssistant, filename, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, filename, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test starting a stream to record logs the url without username and password."""
     stream = create_stream(
@@ -382,7 +382,7 @@ async def test_recorder_log(
     assert "https://****:****@foo.bar" in caplog.text
 
 
-async def test_record_stream_rotate(hass: UniversalAssistant, filename, h264_video) -> None:
+async def test_record_stream_rotate(hass: __HAC_KEEP__, filename, h264_video) -> None:
     """Test record stream with rotation."""
 
     worker_finished = asyncio.Event()

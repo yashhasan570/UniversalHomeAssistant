@@ -16,7 +16,7 @@ from universalassistant.const import (
     UnitOfInformation,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -196,7 +196,7 @@ SENSOR_DESCRIPTIONS: tuple[UpnpSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: UpnpConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

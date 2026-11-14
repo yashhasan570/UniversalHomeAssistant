@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.filesize.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_FILE_PATH
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import TEST_FILE_NAME, TEST_FILE_NAME2, async_create_file
@@ -17,7 +17,7 @@ from . import TEST_FILE_NAME, TEST_FILE_NAME2, async_create_file
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_full_user_flow(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_full_user_flow(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test the full user configuration flow."""
     test_file = str(tmp_path.joinpath(TEST_FILE_NAME))
     await async_create_file(hass, test_file)
@@ -41,7 +41,7 @@ async def test_full_user_flow(hass: UniversalAssistant, tmp_path: Path) -> None:
 
 
 async def test_unique_path(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, tmp_path: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, tmp_path: Path
 ) -> None:
     """Test we abort if already setup."""
     test_file = str(tmp_path.joinpath(TEST_FILE_NAME))
@@ -61,7 +61,7 @@ async def test_unique_path(
     assert result.get("reason") == "already_configured"
 
 
-async def test_flow_fails_on_validation(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_flow_fails_on_validation(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test config flow errors."""
     test_file = str(tmp_path.joinpath(TEST_FILE_NAME))
     hass.config.allowlist_external_dirs = {}
@@ -115,7 +115,7 @@ async def test_flow_fails_on_validation(hass: UniversalAssistant, tmp_path: Path
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, tmp_path: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, tmp_path: Path
 ) -> None:
     """Test a reconfigure flow."""
     test_file = str(tmp_path.joinpath(TEST_FILE_NAME2))
@@ -140,7 +140,7 @@ async def test_reconfigure_flow(
 
 
 async def test_unique_id_already_exist_in_reconfigure_flow(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test a reconfigure flow fails when unique id already exist."""
     test_file = str(tmp_path.joinpath(TEST_FILE_NAME))
@@ -180,7 +180,7 @@ async def test_unique_id_already_exist_in_reconfigure_flow(
 
 
 async def test_reconfigure_flow_fails_on_validation(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, tmp_path: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, tmp_path: Path
 ) -> None:
     """Test config flow errors in reconfigure."""
     test_file2 = str(tmp_path.joinpath(TEST_FILE_NAME2))

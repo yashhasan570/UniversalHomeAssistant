@@ -13,7 +13,7 @@ from ring_doorbell import (
 )
 
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.update_coordinator import (
     BaseCoordinatorEntity,
@@ -36,19 +36,19 @@ _LOGGER = logging.getLogger(__name__)
 def exception_wrap[_RingBaseEntityT: RingBaseEntity[Any, Any], **_P, _R](
     async_func: Callable[Concatenate[_RingBaseEntityT, _P], Coroutine[Any, Any, _R]],
 ) -> Callable[Concatenate[_RingBaseEntityT, _P], Coroutine[Any, Any, _R]]:
-    """Define a wrapper to catch exceptions and raise UniversalAssistant errors."""
+    """Define a wrapper to catch exceptions and raise __HAC_KEEP__ errors."""
 
     async def _wrap(self: _RingBaseEntityT, *args: _P.args, **kwargs: _P.kwargs) -> _R:
         try:
             return await async_func(self, *args, **kwargs)
         except AuthenticationError as err:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_authentication",
             ) from err
         except RingTimeout as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_timeout",
             ) from err
@@ -56,7 +56,7 @@ def exception_wrap[_RingBaseEntityT: RingBaseEntity[Any, Any], **_P, _R](
             _LOGGER.debug(
                 "Error calling %s in platform %s: ", async_func.__name__, self.platform
             )
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_error",
             ) from err

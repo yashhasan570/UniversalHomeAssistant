@@ -5,7 +5,7 @@ from typing import cast, override
 from aiohomeconnect.client import AbstractAuth
 from aiohomeconnect.const import API_ENDPOINT, API_ENDPOINT_CHINA
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.httpx_client import get_async_client
 
@@ -15,7 +15,7 @@ class AsyncConfigEntryAuth(AbstractAuth):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         oauth_session: config_entry_oauth2_flow.OAuth2Session,
     ) -> None:
         """Initialize Home Connect Auth."""

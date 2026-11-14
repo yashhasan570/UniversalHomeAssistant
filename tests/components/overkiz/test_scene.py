@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.overkiz.const import DOMAIN
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MockOverkizClient, SetupOverkizIntegration
@@ -38,7 +38,7 @@ def fixture_platforms() -> Generator[None]:
 
 @pytest.mark.parametrize("fixture", SCENARIO_FIXTURES)
 async def test_scene_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     mock_client: MockOverkizClient,
@@ -55,7 +55,7 @@ async def test_scene_entities_snapshot(
 
 
 async def test_scene_activate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_scene_activate(
 
 
 async def test_scene_activate_multiple(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_scene_activate_multiple(
 
 
 async def test_no_scenes_when_empty(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
 ) -> None:

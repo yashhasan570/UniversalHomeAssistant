@@ -7,7 +7,7 @@ import yarl
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_STILL_IMAGE_URL, CONF_STREAM_SOURCE
 
@@ -37,7 +37,7 @@ def redact_url(data: str) -> str:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ConfigEntry
+    hass: __HAC_KEEP__, entry: ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     options = async_redact_data(entry.options, TO_REDACT)

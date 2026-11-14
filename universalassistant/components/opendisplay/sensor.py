@@ -20,7 +20,7 @@ from universalassistant.const import (
     UnitOfElectricPotential,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import OpenDisplayConfigEntry
@@ -61,7 +61,7 @@ _BATTERY_VOLTAGE_DESCRIPTION = OpenDisplaySensorEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OpenDisplayConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -19,7 +19,7 @@ from universalassistant.components.nordpool.services import (
     NordPoolService,
     NordPoolServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 
 TEST_SERVICE_DATA = {
@@ -75,7 +75,7 @@ TEST_SERVICE_INDICES_DATA_15 = {
 )
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 async def test_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     snapshot: SnapshotAssertion,
     test_config: dict[str, Any],
@@ -132,7 +132,7 @@ async def test_service_call(
 )
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 async def test_service_call_uses_stored_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     service_data: dict[str, Any],
@@ -154,7 +154,7 @@ async def test_service_call_uses_stored_data(
 
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 async def test_service_call_use_defaults(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_service_call_use_defaults(
 )
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 async def test_service_call_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     error: Exception,
     key: str,
@@ -211,7 +211,7 @@ async def test_service_call_failures(
 
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 async def test_empty_response_returns_empty_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_empty_response_returns_empty_list(
 
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 async def test_service_call_config_entry_bad_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
 ) -> None:
     """Test get_prices_for_date service call when config entry bad state."""
@@ -271,7 +271,7 @@ async def test_service_call_config_entry_bad_state(
 
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 async def test_service_call_for_price_indices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     snapshot: SnapshotAssertion,
     aioclient_mock: AiohttpClientMocker,

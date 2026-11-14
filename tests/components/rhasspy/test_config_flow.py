@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.rhasspy.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -34,7 +34,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_single_entry(hass: UniversalAssistant) -> None:
+async def test_single_entry(hass: __HAC_KEEP__) -> None:
     """Test we only allow single entry."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
 

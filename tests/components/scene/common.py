@@ -6,10 +6,10 @@ components. Instead call the service directly.
 
 from universalassistant.components.scene import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, ENTITY_MATCH_ALL, SERVICE_TURN_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-def activate(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def activate(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Activate a scene."""
     data = {}
 

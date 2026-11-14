@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.guardian import CONF_UID, DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
@@ -19,7 +19,7 @@ def platforms_fixture() -> list[Platform]:
 
 
 async def test_paired_sensor_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,

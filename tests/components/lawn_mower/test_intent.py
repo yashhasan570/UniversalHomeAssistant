@@ -10,11 +10,11 @@ from universalassistant.components.lawn_mower import (
     intent as lawn_mower_intent,
 )
 from universalassistant.const import ATTR_SUPPORTED_FEATURES
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import intent
 
 
-async def test_start_lawn_mower_intent(hass: UniversalAssistant) -> None:
+async def test_start_lawn_mower_intent(hass: __HAC_KEEP__) -> None:
     """Test HassLawnMowerStartMowing intent for lawn mowers."""
     await lawn_mower_intent.async_setup_intents(hass)
 
@@ -42,7 +42,7 @@ async def test_start_lawn_mower_intent(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_start_lawn_mower_without_name(hass: UniversalAssistant) -> None:
+async def test_start_lawn_mower_without_name(hass: __HAC_KEEP__) -> None:
     """Test starting a lawn mower without specifying the name."""
     await lawn_mower_intent.async_setup_intents(hass)
 
@@ -67,7 +67,7 @@ async def test_start_lawn_mower_without_name(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_stop_lawn_mower_intent(hass: UniversalAssistant) -> None:
+async def test_stop_lawn_mower_intent(hass: __HAC_KEEP__) -> None:
     """Test HassLawnMowerDock intent for lawn mowers."""
     await lawn_mower_intent.async_setup_intents(hass)
 
@@ -95,7 +95,7 @@ async def test_stop_lawn_mower_intent(hass: UniversalAssistant) -> None:
     assert call.data == {"entity_id": entity_id}
 
 
-async def test_stop_lawn_mower_without_name(hass: UniversalAssistant) -> None:
+async def test_stop_lawn_mower_without_name(hass: __HAC_KEEP__) -> None:
     """Test stopping a lawn mower without specifying the name."""
     await lawn_mower_intent.async_setup_intents(hass)
 

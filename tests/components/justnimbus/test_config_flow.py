@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.justnimbus.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import FIXTURE_OLD_USER_INPUT, FIXTURE_UNIQUE_ID, FIXTURE_USER_INPUT
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -43,7 +43,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: JustNimbusError,
     errors: dict,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_form_errors(
     await _set_up_justnimbus(hass=hass, flow_id=result["flow_id"])
 
 
-async def test_abort_already_configured(hass: UniversalAssistant) -> None:
+async def test_abort_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we abort when the device is already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -92,7 +92,7 @@ async def test_abort_already_configured(hass: UniversalAssistant) -> None:
     assert result2.get("reason") == "already_configured"
 
 
-async def _set_up_justnimbus(hass: UniversalAssistant, flow_id: str) -> None:
+async def _set_up_justnimbus(hass: __HAC_KEEP__, flow_id: str) -> None:
     """Reusable successful setup of JustNimbus sensor."""
     with (
         patch("justnimbus.JustNimbusClient.get_data"),
@@ -113,7 +113,7 @@ async def _set_up_justnimbus(hass: UniversalAssistant, flow_id: str) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_reauth_flow(hass: UniversalAssistant) -> None:
+async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     """Test reauth works."""
     with patch(
         "universalassistant.components.justnimbus.config_flow.justnimbus.JustNimbusClient.get_data",

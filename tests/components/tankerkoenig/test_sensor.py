@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.tankerkoenig.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .const import PRICES_MISSING_FUELTYPE, STATION_MISSING_FUELTYPE
@@ -15,7 +15,7 @@ from .const import PRICES_MISSING_FUELTYPE, STATION_MISSING_FUELTYPE
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tankerkoenig: AsyncMock,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -39,7 +39,7 @@ async def test_sensor(
 
 
 async def test_sensor_missing_fueltype(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tankerkoenig: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:

@@ -21,13 +21,13 @@ from universalassistant.components.update import (
     UpdateService,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def _async_offer_both_updates(
-    hass: UniversalAssistant, mock_peblar: MagicMock
+    hass: __HAC_KEEP__, mock_peblar: MagicMock
 ) -> None:
     """Put the charger on older packages, so both updates are on offer."""
     mock_peblar.current_versions.return_value = PeblarVersions.from_dict(
@@ -45,7 +45,7 @@ async def _async_offer_both_updates(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -69,7 +69,7 @@ async def test_entities(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_install_firmware(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
 ) -> None:
     """Test installing the firmware asks the charger for that package.
@@ -90,7 +90,7 @@ async def test_install_firmware(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_install_customization(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
 ) -> None:
     """Test installing the customization asks the charger for that package."""
@@ -109,7 +109,7 @@ async def test_install_customization(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_install_firmware_refuses_while_customization_is_pending(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
 ) -> None:
     """Test the charger is not put through a sequence it never sees.
@@ -119,7 +119,7 @@ async def test_install_firmware_refuses_while_customization_is_pending(
     """
     await _async_offer_both_updates(hass, mock_peblar)
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -135,7 +135,7 @@ async def test_install_firmware_refuses_while_customization_is_pending(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_install_firmware_asks_the_charger_for_fresh_versions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
 ) -> None:
     """Test a customization published since the last poll still blocks firmware.
@@ -160,7 +160,7 @@ async def test_install_firmware_asks_the_charger_for_fresh_versions(
         {"Customization": "Peblar-2.0", "Firmware": "1.6.2+1+WL-1"}
     )
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -176,7 +176,7 @@ async def test_install_firmware_asks_the_charger_for_fresh_versions(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_install_firmware_after_the_customization_landed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
 ) -> None:
     """Test the fresh answer counts the other way round too.
@@ -200,7 +200,7 @@ async def test_install_firmware_after_the_customization_landed(
     mock_peblar.update.assert_called_once_with(package_type=PackageType.FIRMWARE)
 
 
-async def _async_install(hass: UniversalAssistant, package: str = "firmware") -> None:
+async def _async_install(hass: __HAC_KEEP__, package: str = "firmware") -> None:
     """Install an update the way a user does."""
     await hass.services.async_call(
         UPDATE_DOMAIN,
@@ -211,7 +211,7 @@ async def _async_install(hass: UniversalAssistant, package: str = "firmware") ->
 
 
 async def _async_forget_the_version_reads_so_far(
-    hass: UniversalAssistant, mock_peblar: MagicMock
+    hass: __HAC_KEEP__, mock_peblar: MagicMock
 ) -> None:
     """Start counting version reads from here.
 
@@ -224,7 +224,7 @@ async def _async_forget_the_version_reads_so_far(
 
 
 async def _async_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     after: timedelta = timedelta(seconds=15),
 ) -> None:
@@ -237,7 +237,7 @@ async def _async_poll(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_versions_are_reread_once_the_charger_is_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -271,7 +271,7 @@ async def test_versions_are_reread_once_the_charger_is_back(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_versions_are_not_reread_without_an_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -292,7 +292,7 @@ async def test_versions_are_not_reread_without_an_install(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_a_single_missed_poll_is_not_a_reboot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -327,7 +327,7 @@ async def test_a_single_missed_poll_is_not_a_reboot(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_a_slow_update_is_still_picked_up(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -359,7 +359,7 @@ async def test_a_slow_update_is_still_picked_up(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_waiting_stops_for_a_charger_that_never_returns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -391,7 +391,7 @@ async def test_waiting_stops_for_a_charger_that_never_returns(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_blips_do_not_extend_the_wait(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -429,7 +429,7 @@ async def test_blips_do_not_extend_the_wait(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_the_install_runs_on_until_the_new_versions_are_in(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -480,7 +480,7 @@ async def test_the_install_runs_on_until_the_new_versions_are_in(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_a_second_install_is_refused_while_one_runs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -519,7 +519,7 @@ async def test_a_second_install_is_refused_while_one_runs(
 @pytest.mark.parametrize("init_integration", [Platform.UPDATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_the_button_returns_for_a_charger_that_never_came_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

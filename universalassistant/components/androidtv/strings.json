@@ -114,14 +114,14 @@
       "name": "ADB command"
     },
     "download": {
-      "description": "Downloads a file from your Android / Fire TV device to your Universal Universal Home Assistant instance.",
+      "description": "Downloads a file from your Android / Fire TV device to your __HA_KEEP__ instance.",
       "fields": {
         "device_path": {
           "description": "The filepath on the Android / Fire TV device.",
           "name": "Device path"
         },
         "local_path": {
-          "description": "The filepath on your Universal Universal Home Assistant instance.",
+          "description": "The filepath on your __HA_KEEP__ instance.",
           "name": "Local path"
         }
       },
@@ -132,7 +132,7 @@
       "name": "Learn sendevent"
     },
     "upload": {
-      "description": "Uploads a file from your Universal Universal Home Assistant instance to an Android / Fire TV device.",
+      "description": "Uploads a file from your __HA_KEEP__ instance to an Android / Fire TV device.",
       "fields": {
         "device_path": {
           "description": "[%key:component::androidtv::services::download::fields::device_path::description%]",

@@ -6,7 +6,7 @@ from typing import override
 from bond_async import Action
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BondConfigEntry
@@ -269,7 +269,7 @@ PRESET_BUTTON = BondButtonEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BondConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

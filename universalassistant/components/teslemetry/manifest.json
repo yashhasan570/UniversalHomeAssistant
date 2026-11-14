@@ -14,7 +14,7 @@
     "charge_on_solar": {
       "feedback_url": "https://community.universalassistant.io",
       "learn_more_url": "https://www.universalassistant.io/integrations/teslemetry",
-      "report_issue_url": "https://github.com/yashhasan570/UniversalUniversalAssistant/issues/new?template=bug_report.yml&integration_link=https://www.universalassistant.io/integrations/teslemetry&integration_name=Teslemetry"
+      "report_issue_url": "https://github.com/yashhasan570/__HAC_KEEP__/issues/new?template=bug_report.yml&integration_link=https://www.universalassistant.io/integrations/teslemetry&integration_name=Teslemetry"
     }
   },
   "quality_scale": "platinum",

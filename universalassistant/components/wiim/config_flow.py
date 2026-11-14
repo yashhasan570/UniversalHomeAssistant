@@ -8,8 +8,8 @@ from wiim.models import WiimProbeResult
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -18,7 +18,7 @@ from .const import DOMAIN, LOGGER, UPNP_PORT
 STEP_USER_DATA_SCHEMA = probatio.Schema({probatio.Required(CONF_HOST): str})
 
 
-async def _async_probe_wiim_host(hass: UniversalAssistant, host: str) -> WiimProbeResult:
+async def _async_probe_wiim_host(hass: __HAC_KEEP__, host: str) -> WiimProbeResult:
     """Probe the given host and return WiiM device information."""
     session = async_get_clientsession(hass)
     location = f"http://{host}:{UPNP_PORT}/description.xml"
@@ -161,5 +161,5 @@ class WiimConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

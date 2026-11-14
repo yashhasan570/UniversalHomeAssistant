@@ -82,7 +82,7 @@
       'name': 'universalassistant',
       'name_by_user': None,
       'serial_number': None,
-      'sw_version': '6.18.37-haos (Universal Universal Home Assistant OS 18.1)',
+      'sw_version': '6.18.37-haos (__HA_KEEP__ OS 18.1)',
       'via_device_id': None,
     }),
     DeviceRegistryEntrySnapshot({

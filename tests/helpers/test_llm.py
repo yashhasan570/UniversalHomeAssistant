@@ -17,8 +17,8 @@ from universalassistant.components.universalassistant.exposed_entities import as
 from universalassistant.components.intent import async_register_timer_handler
 from universalassistant.components.script import ScriptConfig
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import Context, UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError, Unauthorized
+from universalassistant.core import Context, __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
 from universalassistant.helpers import (
     area_registry as ar,
     config_validation as cv,
@@ -34,7 +34,7 @@ from universalassistant.util.json import JsonObjectType
 
 
 @pytest.fixture(autouse=True)
-async def setup_llm(hass: UniversalAssistant) -> None:
+async def setup_llm(hass: __HAC_KEEP__) -> None:
     """Set up the llm integration so the Assist API can pull tools from it."""
     assert await async_setup_component(hass, "llm", {})
 
@@ -63,14 +63,14 @@ class MyAPI(llm.API):
 
 
 async def test_get_api_no_existing(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test getting an llm api where no config exists."""
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await llm.async_get_api(hass, "non-existing", llm_context)
 
 
-async def test_register_api(hass: UniversalAssistant, llm_context: llm.LLMContext) -> None:
+async def test_register_api(hass: __HAC_KEEP__, llm_context: llm.LLMContext) -> None:
     """Test registering an llm api."""
 
     api = MyAPI(hass=hass, id="test", name="Test")
@@ -80,21 +80,21 @@ async def test_register_api(hass: UniversalAssistant, llm_context: llm.LLMContex
     assert instance.api is api
     assert api in llm.async_get_apis(hass)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         llm.async_register_api(hass, api)
 
 
-async def test_unregister_api(hass: UniversalAssistant, llm_context: llm.LLMContext) -> None:
+async def test_unregister_api(hass: __HAC_KEEP__, llm_context: llm.LLMContext) -> None:
     """Test unregistering an llm api."""
 
     unreg = llm.async_register_api(hass, MyAPI(hass=hass, id="test", name="Test"))
     assert await llm.async_get_api(hass, "test", llm_context)
     unreg()
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         assert await llm.async_get_api(hass, "test", llm_context)
 
 
-async def test_reregister_api(hass: UniversalAssistant, llm_context: llm.LLMContext) -> None:
+async def test_reregister_api(hass: __HAC_KEEP__, llm_context: llm.LLMContext) -> None:
     """Test unregistering an llm api then re-registering with the same id."""
 
     unreg = llm.async_register_api(hass, MyAPI(hass=hass, id="test", name="Test"))
@@ -105,7 +105,7 @@ async def test_reregister_api(hass: UniversalAssistant, llm_context: llm.LLMCont
 
 
 async def test_unregister_twice(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test unregistering an llm api twice."""
 
@@ -118,7 +118,7 @@ async def test_unregister_twice(
         unreg()
 
 
-async def test_multiple_apis(hass: UniversalAssistant, llm_context: llm.LLMContext) -> None:
+async def test_multiple_apis(hass: __HAC_KEEP__, llm_context: llm.LLMContext) -> None:
     """Test registering multiple APIs."""
 
     unreg1 = llm.async_register_api(hass, MyAPI(hass=hass, id="test-1", name="Test 1"))
@@ -131,14 +131,14 @@ async def test_multiple_apis(hass: UniversalAssistant, llm_context: llm.LLMConte
     # Unregister and verify only one is left
     unreg1()
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         assert await llm.async_get_api(hass, "test-1", llm_context)
 
     assert await llm.async_get_api(hass, "test-2", llm_context)
 
 
 async def test_get_api_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     hass_read_only_user: MockUser,
 ) -> None:
@@ -192,18 +192,18 @@ async def test_get_api_requires_admin(
 
 
 async def test_call_tool_no_existing(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test calling an llm tool where no config exists."""
     instance = await llm.async_get_api(hass, "assist", llm_context)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await instance.async_call_tool(
             llm.ToolInput("test_tool", {}),
         )
 
 
 async def test_call_non_intent_tool_preserves_blank_arguments(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test blank arguments are preserved for non-intent tools."""
     tool_args = {"name": "", "response": " ", "other": None}
@@ -223,7 +223,7 @@ async def test_call_non_intent_tool_preserves_blank_arguments(
 
 
 async def test_call_tool_result(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test a tool result is returned as is."""
     expected = llm.ToolResult(data={"answer": 42}, error=True)
@@ -239,7 +239,7 @@ async def test_call_tool_result(
 
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_call_tool_deprecated_json_object(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test returning a JSON object from a tool is reported."""
     tool = MagicMock(spec=llm.Tool)
@@ -254,7 +254,7 @@ async def test_call_tool_deprecated_json_object(
 
 
 async def test_call_tool_deprecated_json_object_custom_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_call_tool_deprecated_json_object_custom_integration(
 
         async def async_call(
             self,
-            hass: UniversalAssistant,
+            hass: __HAC_KEEP__,
             tool_input: llm.ToolInput,
             llm_context: llm.LLMContext,
         ) -> JsonObjectType:
@@ -298,7 +298,7 @@ def _untagged_tool(module: str) -> llm.Tool:
         name = "test_tool"
 
         async def async_call(
-            self, hass: UniversalAssistant, tool_input: llm.ToolInput, _: llm.LLMContext
+            self, hass: __HAC_KEEP__, tool_input: llm.ToolInput, _: llm.LLMContext
         ) -> llm.ToolResult:
             return llm.ToolResult(data={})
 
@@ -308,7 +308,7 @@ def _untagged_tool(module: str) -> llm.Tool:
 
 
 async def test_api_instance_reports_untagged_tool_for_custom_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -322,7 +322,7 @@ async def test_api_instance_reports_untagged_tool_for_custom_integration(
 
 
 async def test_api_instance_raises_untagged_tool_for_core_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
 ) -> None:
     """Test a core integration must record the integration on its tools."""
@@ -338,7 +338,7 @@ async def test_api_instance_raises_untagged_tool_for_core_integration(
 
 
 async def test_api_instance_reports_untagged_tool_from_the_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -363,7 +363,7 @@ async def test_api_instance_reports_untagged_tool_from_the_api(
 
 
 async def test_merged_api_reports_untagged_tool_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -390,7 +390,7 @@ def test_tool_metadata_defaults() -> None:
         name = "test_tool"
 
         async def async_call(
-            self, hass: UniversalAssistant, tool_input: llm.ToolInput, _: llm.LLMContext
+            self, hass: __HAC_KEEP__, tool_input: llm.ToolInput, _: llm.LLMContext
         ) -> llm.ToolResult:
             return llm.ToolResult(data={})
 
@@ -438,7 +438,7 @@ def test_namespaced_tool_keeps_metadata() -> None:
         integration = "my_integration"
 
         async def async_call(
-            self, hass: UniversalAssistant, tool_input: llm.ToolInput, _: llm.LLMContext
+            self, hass: __HAC_KEEP__, tool_input: llm.ToolInput, _: llm.LLMContext
         ) -> llm.ToolResult:
             return llm.ToolResult(data={})
 
@@ -453,7 +453,7 @@ def test_namespaced_tool_keeps_metadata() -> None:
 
 @pytest.mark.parametrize("namespaced", [False, True])
 async def test_intent_tool_omits_blank_arguments(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, namespaced: bool
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, namespaced: bool
 ) -> None:
     """Test direct and namespaced intent tools omit blank arguments."""
 
@@ -503,7 +503,7 @@ async def test_intent_tool_omits_blank_arguments(
 
 
 async def test_assist_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
@@ -535,7 +535,7 @@ async def test_assist_api(
 
     tool = llm.IntentTool("test_intent", intent_handler, integration="test")
     assert tool.name == "test_intent"
-    assert tool.description == "Execute Universal Universal Home Assistant test_intent intent"
+    assert tool.description == "Execute __HA_KEEP__ test_intent intent"
     assert tool.parameters == probatio.Schema(
         {
             probatio.Optional("area"): cv.string,
@@ -671,7 +671,7 @@ async def test_assist_api(
 
 
 async def test_assist_api_get_timer_tools(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test getting timer tools with Assist API."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -689,7 +689,7 @@ async def test_assist_api_get_timer_tools(
 
 
 async def test_assist_api_description(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test that the intent handler description is used for the tool."""
 
@@ -703,7 +703,7 @@ async def test_assist_api_description(
 
 
 async def test_assist_api_prompt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
@@ -725,7 +725,7 @@ async def test_assist_api_prompt(
     assert api.api_prompt == (
         "Only if the user wants to control a device, tell them to expose"
         " entities to their "
-        "voice assistant in Universal Universal Home Assistant."
+        "voice assistant in __HA_KEEP__."
     )
 
     # Expose entities
@@ -1031,7 +1031,7 @@ Static Context: An overview of the areas and the devices in this smart home:
   areas: Test Area 2
 """
     first_part_prompt = (
-        "When controlling Universal Universal Home Assistant always call the intent tools. "
+        "When controlling __HA_KEEP__ always call the intent tools. "
         "Use intent__HassTurnOn to lock and intent__HassTurnOff to unlock a lock. "
         "When controlling a device, prefer passing just name and domain. "
         "When controlling an area, prefer passing just area name and domain."
@@ -1130,7 +1130,7 @@ Static Context: An overview of the areas and the devices in this smart home:
 
 
 async def test_action_tool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
     floor_registry: fr.FloorRegistry,
@@ -1332,7 +1332,7 @@ async def test_action_tool(
 
 
 async def test_selector_serializer(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test serialization of Selectors in Open API format."""
     api = await llm.async_get_api(hass, "assist", llm_context)
@@ -1614,7 +1614,7 @@ async def test_selector_serializer(
     }
 
 
-async def test_no_tools_exposed(hass: UniversalAssistant) -> None:
+async def test_no_tools_exposed(hass: __HAC_KEEP__) -> None:
     """Test that tools are not exposed when no entities are exposed."""
     assert await async_setup_component(hass, "universalassistant", {})
     context = Context()
@@ -1638,7 +1638,7 @@ async def test_no_tools_exposed(hass: UniversalAssistant) -> None:
     [("API 1", "API 2"), ("Renamed API", "Other API"), ("Same name", "Same name")],
 )
 async def test_merged_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     first_name: str,
     second_name: str,
@@ -1652,7 +1652,7 @@ async def test_merged_api(
             self.integration = "test"
 
         async def async_call(
-            self, hass: UniversalAssistant, tool_input: llm.ToolInput, _: llm.LLMContext
+            self, hass: __HAC_KEEP__, tool_input: llm.ToolInput, _: llm.LLMContext
         ) -> llm.ToolResult:
             return llm.ToolResult(
                 data={"result": {tool_input.tool_name: tool_input.tool_args}}
@@ -1708,7 +1708,7 @@ This is prompt 2
     ],
 )
 async def test_merged_api_conflicting_names(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     tool_name: str,
     expected_api: str,
@@ -1723,7 +1723,7 @@ async def test_merged_api_conflicting_names(
             self.api_id = api_id
 
         async def async_call(
-            self, hass: UniversalAssistant, tool_input: llm.ToolInput, _: llm.LLMContext
+            self, hass: __HAC_KEEP__, tool_input: llm.ToolInput, _: llm.LLMContext
         ) -> llm.ToolResult:
             return llm.ToolResult(
                 data={"api": self.api_id, "tool": tool_input.tool_name}
@@ -1748,7 +1748,7 @@ async def test_merged_api_conflicting_names(
 
 
 async def test_merged_api_equal_tools(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Equal tools are advertised once without an API prefix."""
     first = MyAPI(hass=hass, id="first", name="Same name")
@@ -1769,7 +1769,7 @@ async def test_merged_api_equal_tools(
 
 
 async def test_merged_api_equal_tools_with_conflict(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Prompts reference the shared tool's namespace when another tool conflicts."""
     first = MyAPI(hass=hass, id="first", name="First")
@@ -1813,7 +1813,7 @@ async def test_merged_api_equal_tools_with_conflict(
 
 
 async def test_merged_api_generated_name_collision(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Reject collisions between generated prefixes and existing tool names."""
     first = MyAPI(hass=hass, id="first", name="First")
@@ -1836,7 +1836,7 @@ async def test_merged_api_generated_name_collision(
 
 @pytest.mark.parametrize("api_ids", [("first", "second"), ("second", "first")])
 async def test_merged_api_distinct_names(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, api_ids: tuple[str, str]
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, api_ids: tuple[str, str]
 ) -> None:
     """Distinct tool names stay unchanged even when one contains an API prefix."""
 
@@ -1847,7 +1847,7 @@ async def test_merged_api_distinct_names(
             self.name = name
 
         async def async_call(
-            self, hass: UniversalAssistant, tool_input: llm.ToolInput, _: llm.LLMContext
+            self, hass: __HAC_KEEP__, tool_input: llm.ToolInput, _: llm.LLMContext
         ) -> llm.ToolResult:
             return llm.ToolResult(data={"tool": tool_input.tool_name})
 
@@ -1870,7 +1870,7 @@ async def test_merged_api_distinct_names(
 
 
 async def test_deprecated_async_render_no_api_prompt(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the deprecated async_render_no_api_prompt helper."""
     assert llm.async_render_no_api_prompt(hass) == ""

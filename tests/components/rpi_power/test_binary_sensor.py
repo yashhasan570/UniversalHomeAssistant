@@ -21,7 +21,7 @@ from universalassistant.components.rpi_power.binary_sensor import (
 from universalassistant.components.rpi_power.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -29,7 +29,7 @@ from universalassistant.util import dt as dt_util
 ENTITY_ID = "binary_sensor.raspberry_pi_power_status"
 
 
-async def _async_setup_component(hass: UniversalAssistant, detected: bool) -> MagicMock:
+async def _async_setup_component(hass: __HAC_KEEP__, detected: bool) -> MagicMock:
     mocked_under_voltage = MagicMock()
     type(mocked_under_voltage).get = MagicMock(return_value=detected)
     entry = MockConfigEntry(domain=DOMAIN)
@@ -44,7 +44,7 @@ async def _async_setup_component(hass: UniversalAssistant, detected: bool) -> Ma
 
 
 async def test_new(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_new(
 
 
 async def test_new_detected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_new_detected(
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:

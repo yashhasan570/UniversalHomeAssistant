@@ -9,7 +9,7 @@ from screenlogicpy.const.data import SHARED_VALUES
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
@@ -45,7 +45,7 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Screenlogic."""
 
     async_setup_services(hass)
@@ -53,7 +53,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ScreenLogicConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ScreenLogicConfigEntry) -> None:
     """Set up Screenlogic from a config entry."""
 
     await _async_migrate_entries(hass, entry)
@@ -82,7 +82,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ScreenLogicConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: ScreenLogicConfigEntry
+    hass: __HAC_KEEP__, entry: ScreenLogicConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -91,14 +91,14 @@ async def async_unload_entry(
 
 
 async def async_update_listener(
-    hass: UniversalAssistant, entry: ScreenLogicConfigEntry
+    hass: __HAC_KEEP__, entry: ScreenLogicConfigEntry
 ) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def _async_migrate_entries(
-    hass: UniversalAssistant, config_entry: ScreenLogicConfigEntry
+    hass: __HAC_KEEP__, config_entry: ScreenLogicConfigEntry
 ) -> None:
     """Migrate to new entity names."""
     entity_registry = er.async_get(hass)

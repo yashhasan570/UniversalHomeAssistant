@@ -16,7 +16,7 @@ from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth.match import BluetoothCallbackMatcher
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -47,7 +47,7 @@ class FlicButtonData:
 type FlicButtonConfigEntry = ConfigEntry[FlicButtonData]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FlicButtonConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FlicButtonConfigEntry) -> None:
     """Set up Flic Button from a config entry."""
 
     address: str = entry.data[CONF_ADDRESS]
@@ -138,12 +138,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FlicButtonConfigEnt
 
 
 async def _async_update_listener(
-    hass: UniversalAssistant, entry: FlicButtonConfigEntry
+    hass: __HAC_KEEP__, entry: FlicButtonConfigEntry
 ) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FlicButtonConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FlicButtonConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

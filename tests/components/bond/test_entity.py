@@ -10,7 +10,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from universalassistant.components import fan
 from universalassistant.components.fan import DOMAIN as FAN_DOMAIN
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.util import utcnow
 
 from .common import patch_bond_device_state, setup_platform
@@ -25,7 +25,7 @@ def ceiling_fan(name: str):
     }
 
 
-async def test_bpup_goes_offline_and_recovers_same_entity(hass: UniversalAssistant) -> None:
+async def test_bpup_goes_offline_and_recovers_same_entity(hass: __HAC_KEEP__) -> None:
     """Test that push updates fail and we fallback to polling and then bpup recovers.
 
     The BPUP recovery is triggered by an update for the entity and
@@ -109,7 +109,7 @@ async def test_bpup_goes_offline_and_recovers_same_entity(hass: UniversalAssista
 
 
 async def test_bpup_goes_offline_and_recovers_different_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that push updates fail and we fallback to polling and then bpup recovers.
 
@@ -171,7 +171,7 @@ async def test_bpup_goes_offline_and_recovers_different_entity(
     assert state.attributes[fan.ATTR_PERCENTAGE] == 33
 
 
-async def test_polling_fails_and_recovers(hass: UniversalAssistant) -> None:
+async def test_polling_fails_and_recovers(hass: __HAC_KEEP__) -> None:
     """Test that polling fails and we recover."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -192,7 +192,7 @@ async def test_polling_fails_and_recovers(hass: UniversalAssistant) -> None:
     assert state.attributes[fan.ATTR_PERCENTAGE] == 33
 
 
-async def test_polling_stops_at_the_stop_event(hass: UniversalAssistant) -> None:
+async def test_polling_stops_at_the_stop_event(hass: __HAC_KEEP__) -> None:
     """Test that polling stops at the stop event."""
     await setup_platform(
         hass, FAN_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"

@@ -10,8 +10,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.velux import DOMAIN
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -24,7 +24,7 @@ def platform() -> Platform:
 @pytest.mark.usefixtures("setup_integration")
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 async def test_button_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -69,7 +69,7 @@ async def test_button_snapshot(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_button_press_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pyvlx: MagicMock,
 ) -> None:
     """Test successful button press."""
@@ -91,7 +91,7 @@ async def test_button_press_success(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_button_press_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pyvlx: MagicMock,
 ) -> None:
     """Test button press failure handling."""
@@ -99,9 +99,9 @@ async def test_button_press_failure(
     # Mock reboot failure
     mock_pyvlx.reboot_gateway.side_effect = PyVLXException("Connection failed")
 
-    # Press the button and expect UniversalAssistantError
+    # Press the button and expect __HAC_KEEP__Error
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Failed to reboot gateway. Try again in a few moments"
         " or power cycle the device manually",
     ):
@@ -119,7 +119,7 @@ async def test_button_press_failure(
 @pytest.mark.usefixtures("setup_integration")
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 async def test_identify_button_press_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_window: AsyncMock,
 ) -> None:
     """Test successful identify button press."""
@@ -141,7 +141,7 @@ async def test_identify_button_press_success(
 @pytest.mark.usefixtures("setup_integration")
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 async def test_identify_button_press_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_window: AsyncMock,
 ) -> None:
     """Test identify button press failure handling."""
@@ -151,9 +151,9 @@ async def test_identify_button_press_failure(
     # Mock wink failure
     mock_window.wink.side_effect = PyVLXException("Connection failed")
 
-    # Press the button and expect UniversalAssistantError
+    # Press the button and expect __HAC_KEEP__Error
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Failed to communicate with Velux device:"
         ' <PyVLXException description="Connection failed" />',
     ):

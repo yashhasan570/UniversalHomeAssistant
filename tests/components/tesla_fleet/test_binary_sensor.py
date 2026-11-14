@@ -10,7 +10,7 @@ from tesla_fleet_api.exceptions import VehicleOffline
 
 from universalassistant.components.tesla_fleet.coordinator import VEHICLE_INTERVAL
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, assert_entities_alt, setup_platform
@@ -19,7 +19,7 @@ from .const import VEHICLE_DATA_ALT
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -32,7 +32,7 @@ async def test_binary_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -53,7 +53,7 @@ async def test_binary_sensor_refresh(
 
 
 async def test_binary_sensor_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
 ) -> None:

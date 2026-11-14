@@ -11626,7 +11626,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
         'name': 'HASS Bridge S6',
@@ -11881,7 +11881,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Fan',
         'model_id': None,
         'name': 'Ceiling Fan',
@@ -12011,10 +12011,10 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
-        'name': 'Universal Universal Home Assistant Bridge',
+        'name': '__HA_KEEP__ Bridge',
         'name_by_user': None,
         'serial_number': 'homekit.bridge',
         'sw_version': '0.104.0.dev0',
@@ -12060,7 +12060,7 @@
           'state': dict({
             'attributes': dict({
               <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'identify',
-              <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Universal Home Assistant Bridge Identify',
+              <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Bridge Identify',
             }),
             'entity_id': 'button.universal_assistant_bridge_identify',
             'state': 'unknown',
@@ -12088,7 +12088,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Fan',
         'model_id': None,
         'name': 'Living Room Fan',
@@ -12578,7 +12578,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
         'name': 'HASS Bridge S6',
@@ -12659,7 +12659,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
         'name': 'HASS Bridge S6',
@@ -13095,7 +13095,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
         'name': 'HASS Bridge S6',
@@ -13350,7 +13350,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Fan',
         'model_id': None,
         'name': 'Ceiling Fan',
@@ -13480,10 +13480,10 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
-        'name': 'Universal Universal Home Assistant Bridge',
+        'name': '__HA_KEEP__ Bridge',
         'name_by_user': None,
         'serial_number': 'homekit.bridge',
         'sw_version': '0.104.0.dev0',
@@ -13529,7 +13529,7 @@
           'state': dict({
             'attributes': dict({
               <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'identify',
-              <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Universal Home Assistant Bridge Identify',
+              <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Bridge Identify',
             }),
             'entity_id': 'button.universal_assistant_bridge_identify',
             'state': 'unknown',
@@ -13557,7 +13557,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Fan',
         'model_id': None,
         'name': 'Living Room Fan',
@@ -13693,10 +13693,10 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
-        'name': 'Universal Universal Home Assistant Bridge',
+        'name': '__HA_KEEP__ Bridge',
         'name_by_user': None,
         'serial_number': 'homekit.bridge',
         'sw_version': '0.104.0.dev0',
@@ -13742,7 +13742,7 @@
           'state': dict({
             'attributes': dict({
               <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'identify',
-              <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Universal Home Assistant Bridge Identify',
+              <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Bridge Identify',
             }),
             'entity_id': 'button.universal_assistant_bridge_identify',
             'state': 'unknown',
@@ -13770,7 +13770,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Fan',
         'model_id': None,
         'name': 'Living Room Fan',
@@ -14270,7 +14270,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
         'name': 'HASS Bridge S6',
@@ -14351,7 +14351,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
         'name': 'HASS Bridge S6',
@@ -14620,7 +14620,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
         'name': 'HASS Bridge S6',
@@ -14889,7 +14889,7 @@
         }),
         'labels': set({
         }),
-        'manufacturer': 'Universal Universal Home Assistant',
+        'manufacturer': '__HA_KEEP__',
         'model': 'Bridge',
         'model_id': None,
         'name': 'HASS Bridge S6',

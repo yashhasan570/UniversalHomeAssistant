@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -15,7 +15,7 @@ ENTITY_BINARY_SENSOR = "binary_sensor.fakespa_"
 
 
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -28,7 +28,7 @@ async def test_binary_sensors(
 
 
 async def test_filters(
-    hass: UniversalAssistant, client: MagicMock, integration: MockConfigEntry
+    hass: __HAC_KEEP__, client: MagicMock, integration: MockConfigEntry
 ) -> None:
     """Test spa filters."""
     for num in (1, 2):
@@ -46,7 +46,7 @@ async def test_filters(
 
 
 async def test_circ_pump(
-    hass: UniversalAssistant, client: MagicMock, integration: MockConfigEntry
+    hass: __HAC_KEEP__, client: MagicMock, integration: MockConfigEntry
 ) -> None:
     """Test spa circ pump."""
     sensor = f"{ENTITY_BINARY_SENSOR}circulation_pump"

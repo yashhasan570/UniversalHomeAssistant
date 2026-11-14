@@ -21,12 +21,12 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .test_data import MOCK_CURRENT_MEASUREMENTS, MOCK_LIMITED_CURRENT_MEASUREMENTS
 
 
-async def test_setup_entry(hass: UniversalAssistant) -> None:
+async def test_setup_entry(hass: __HAC_KEEP__) -> None:
     """Test for successfully loading sensor states."""
     with (
         patch(
@@ -257,7 +257,7 @@ async def test_setup_entry(hass: UniversalAssistant) -> None:
         assert len(mock_customer_overview.mock_calls) == 1
 
 
-async def test_setup_entry_absent_measurement(hass: UniversalAssistant) -> None:
+async def test_setup_entry_absent_measurement(hass: __HAC_KEEP__) -> None:
     """Test loading sensor states when some measurements are absent."""
     with (
         patch(

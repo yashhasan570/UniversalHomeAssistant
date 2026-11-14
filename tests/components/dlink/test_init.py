@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.dlink.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import CONF_DATA, ComponentSetup, patch_setup
 
 
 async def test_setup_config_and_unload(
-    hass: UniversalAssistant, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup
 ) -> None:
     """Test setup and unload."""
     await setup_integration()
@@ -31,7 +31,7 @@ async def test_setup_config_and_unload(
 
 
 async def test_legacy_setup_config_and_unload(
-    hass: UniversalAssistant, setup_integration_legacy: ComponentSetup
+    hass: __HAC_KEEP__, setup_integration_legacy: ComponentSetup
 ) -> None:
     """Test legacy setup and unload."""
     await setup_integration_legacy()
@@ -49,7 +49,7 @@ async def test_legacy_setup_config_and_unload(
 
 
 async def test_async_setup_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_uid: MockConfigEntry,
     mocked_plug_legacy_no_auth: MagicMock,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_async_setup_entry_not_ready(
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     setup_integration: ComponentSetup,
 ) -> None:

@@ -5,7 +5,7 @@ from typing import override
 
 from PySrDaliGateway import CallbackEventType, DaliObjectBase, Device
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -57,7 +57,7 @@ class DaliDeviceEntity(DaliCenterEntity):
     """Base entity for DALI Device objects."""
 
     def __init__(
-        self, hass: UniversalAssistant, device: Device, entry: DaliCenterConfigEntry
+        self, hass: __HAC_KEEP__, device: Device, entry: DaliCenterConfigEntry
     ) -> None:
         """Initialize device entity."""
         super().__init__(device)

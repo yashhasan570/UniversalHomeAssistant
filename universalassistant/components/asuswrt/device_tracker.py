@@ -3,7 +3,7 @@
 from typing import TYPE_CHECKING, override
 
 from universalassistant.components.device_tracker import ScannerEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -13,7 +13,7 @@ from .router import AsusWrtDevInfo, AsusWrtRouter, unnamed_client_name
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AsusWrtConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

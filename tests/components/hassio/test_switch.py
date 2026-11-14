@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.hassio import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -22,7 +22,7 @@ MOCK_ENVIRON = {"SUPERVISOR": "127.0.0.1", "SUPERVISOR_TOKEN": "abcdefgh"}
 
 @pytest.fixture
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> AsyncGenerator[MockConfigEntry]:
     """Set up the hassio integration and enable entity."""
@@ -42,7 +42,7 @@ async def setup_integration(
 
 
 async def enable_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
     entity_id: str,
@@ -118,7 +118,7 @@ def mock_all(
     ],
 )
 async def test_switch_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     expected: str,
     addon_state: str,
@@ -145,7 +145,7 @@ async def test_switch_state(
     ("store_addons", "store_repositories"), [(MOCK_STORE_ADDONS, MOCK_REPOSITORIES)]
 )
 async def test_switch_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
     addon_installed: AsyncMock,
@@ -186,7 +186,7 @@ async def test_switch_turn_on(
     ("store_addons", "store_repositories"), [(MOCK_STORE_ADDONS, MOCK_REPOSITORIES)]
 )
 async def test_switch_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
     addon_installed: AsyncMock,

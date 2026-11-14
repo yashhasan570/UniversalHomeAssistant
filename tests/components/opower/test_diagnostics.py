@@ -10,13 +10,13 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.recorder import Recorder
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.freeze_time("2026-03-07T23:00:00+00:00")
 async def test_diagnostics(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_opower_api: AsyncMock,

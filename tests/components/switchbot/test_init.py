@@ -28,7 +28,7 @@ from universalassistant.components.switchbot.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS, CONF_MAC, CONF_NAME, CONF_SENSOR_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -60,7 +60,7 @@ from . import (
     ],
 )
 async def test_exception_handling_for_device_initialization(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     exception: Exception,
     error_message: str,
@@ -83,7 +83,7 @@ async def test_exception_handling_for_device_initialization(
 
 
 async def test_setup_entry_without_ble_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_setup_entry_without_ble_device(
 
 
 async def test_setup_entry_meter_pro_co2_uses_non_connectable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test that Meter Pro CO2 setup uses connectable=False for BLE lookup.
@@ -129,7 +129,7 @@ async def test_setup_entry_meter_pro_co2_uses_non_connectable(
 
 
 async def test_coordinator_wait_ready_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -186,7 +186,7 @@ async def test_coordinator_wait_ready_timeout(
 )
 @pytest.mark.parametrize("minor_version", [1, 2, 3])
 async def test_migrate_entry_from_v1_to_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sensor_type: str,
     service_info: BluetoothServiceInfoBleak,
     expected_sensor_type: str,
@@ -252,7 +252,7 @@ async def test_migrate_entry_from_v1_to_v2(
     ],
 )
 async def test_migrate_deprecated_model_sensor_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     old_sensor_type: str,
     model: switchbot.SwitchbotModel,
     expected_sensor_type: str,
@@ -324,7 +324,7 @@ def test_model_type_maps_are_one_to_one() -> None:
     ],
 )
 async def test_migrate_passive_advertisement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     address_key: str,
     address: str,
     expected_address: str,
@@ -361,7 +361,7 @@ async def test_migrate_passive_advertisement(
 
 
 async def test_migration_preserves_registry_identifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     meter_service_info: BluetoothServiceInfoBleak,
@@ -412,7 +412,7 @@ async def test_migration_preserves_registry_identifiers(
 
 @pytest.mark.parametrize("minor_version", [1, 2])
 async def test_migrate_meter_pro_co2_without_advertisement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     minor_version: int,
 ) -> None:
     """Test the unambiguous Meter Pro CO2 migration needs no advertisement."""
@@ -449,7 +449,7 @@ async def test_migrate_meter_pro_co2_without_advertisement(
     "sensor_type", ["hygrometer", "curtain", "ceiling_light", "plug"]
 )
 async def test_migrate_deprecated_model_device_not_in_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sensor_type: str,
 ) -> None:
     """Test an ambiguous model migration retries without modifying the entry."""
@@ -493,7 +493,7 @@ async def test_migrate_deprecated_model_device_not_in_range(
     ],
 )
 async def test_migrate_deprecated_model_without_scan_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sensor_type: str,
     expected_state: ConfigEntryState,
     expected_version: int,
@@ -535,7 +535,7 @@ async def test_migrate_deprecated_model_without_scan_response(
 
 
 async def test_migrate_deprecated_model_from_other_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the model is resolved from a scanner that received the scan response."""
     entry = MockConfigEntry(
@@ -576,7 +576,7 @@ async def test_migrate_deprecated_model_from_other_scanner(
 
 
 async def test_migration_retries_when_device_returns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     meter_service_info: BluetoothServiceInfoBleak,
 ) -> None:
@@ -616,7 +616,7 @@ async def test_migration_retries_when_device_returns(
     ],
 )
 async def test_migrate_entry_preserves_existing_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_info: BluetoothServiceInfoBleak,
 ) -> None:
     """Test migration preserves existing options."""
@@ -658,7 +658,7 @@ async def test_migrate_entry_preserves_existing_options(
     ],
 )
 async def test_migrate_entry_fails_for_future_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_version: int,
     flow_version: int,
 ) -> None:
@@ -722,7 +722,7 @@ async def test_migrate_entry_fails_for_future_version(
     ],
 )
 async def test_migrate_deprecated_air_purifier_sensor_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     old_sensor_type: str,
     service_info: BluetoothServiceInfoBleak,
     expected_sensor_type: str,
@@ -751,7 +751,7 @@ async def test_migrate_deprecated_air_purifier_sensor_type(
 
 
 async def test_migrate_deprecated_air_purifier_sensor_type_device_not_in_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test deprecated air_purifier entry not loaded when out of range."""
     entry = MockConfigEntry(
@@ -777,7 +777,7 @@ async def test_migrate_deprecated_air_purifier_sensor_type_device_not_in_range(
 
 
 async def test_standing_fan_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test the Standing Fan is recognized and set up."""

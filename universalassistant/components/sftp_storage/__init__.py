@@ -9,7 +9,7 @@ from pathlib import Path
 from universalassistant.components.backup import BackupAgentError
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 from .client import BackupAgentClient, SFTPConnectionError
@@ -36,7 +36,7 @@ class SFTPConfigEntryData:
     backup_location: str
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SFTPConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SFTPConfigEntry) -> None:
     """Set up SFTP Storage from a config entry."""
 
     cfg = SFTPConfigEntryData(
@@ -68,7 +68,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SFTPConfigEntry) ->
     entry.async_on_unload(entry.async_on_state_change(_async_notify_backup_listeners))
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: SFTPConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: SFTPConfigEntry) -> None:
     """Remove an SFTP Storage config entry."""
 
     def remove_files(entry: SFTPConfigEntry) -> None:
@@ -143,7 +143,7 @@ async def async_remove_entry(hass: UniversalAssistant, entry: SFTPConfigEntry) -
         await hass.async_add_executor_job(remove_files, entry)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SFTPConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SFTPConfigEntry) -> None:
     """Unload SFTP Storage config entry."""
     LOGGER.debug(
         "Unloading %s integration for host %s@%s",

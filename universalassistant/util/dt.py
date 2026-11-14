@@ -1,4 +1,4 @@
-"""Helper methods to handle the time in Universal Universal Home Assistant."""
+"""Helper methods to handle the time in __HA_KEEP__."""
 
 import bisect
 from contextlib import suppress

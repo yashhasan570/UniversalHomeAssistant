@@ -18,7 +18,7 @@ from universalassistant.components.application_credentials import (
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.tibber.const import AUTH_IMPLEMENTATION, DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -198,7 +198,7 @@ def create_tibber_home(
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Tibber config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -275,7 +275,7 @@ def data_api_client_mock(tibber_mock: MagicMock) -> MagicMock:
 async def mock_tibber_setup(
     recorder_mock: Recorder,
     config_entry: MockConfigEntry,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tibber_mock: MagicMock,
     setup_credentials: None,
 ) -> MagicMock:
@@ -286,7 +286,7 @@ async def mock_tibber_setup(
 
 
 @pytest.fixture
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Set up application credentials for the OAuth flow."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(

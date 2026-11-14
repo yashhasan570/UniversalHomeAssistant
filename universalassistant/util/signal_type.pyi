@@ -33,13 +33,13 @@ def _test_signal_type_typing() -> None:  # noqa: PYI048
 
     This is tested during the mypy run. Do not move it to 'tests'!
     """
-    from universalassistant.core import UniversalAssistant  # noqa: PLC0415
+    from universalassistant.core import __HAC_KEEP__  # noqa: PLC0415
     from universalassistant.helpers.dispatcher import (  # noqa: PLC0415
         async_dispatcher_connect,
         async_dispatcher_send,
     )
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     def test_func(a: int) -> None: ...
     def test_func_other(a: int, b: str) -> None: ...
 

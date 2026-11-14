@@ -14,11 +14,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.fluss import PLATFORMS
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
 
@@ -35,7 +35,7 @@ async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEn
     ],
 )
 async def test_async_setup_entry_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MagicMock,
     side_effect: Exception,
     expected_exception: type[Exception],
@@ -50,7 +50,7 @@ async def test_async_setup_entry_errors(
 
 
 async def test_async_setup_entry_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MagicMock,
     mock_api_client: FlussApiClient,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_async_setup_entry_success(
 
 
 async def test_async_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MagicMock,
     mock_api_client: FlussApiClient,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_async_unload_entry(
 
 
 async def test_platforms_forwarded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MagicMock,
     mock_api_client: FlussApiClient,
 ) -> None:

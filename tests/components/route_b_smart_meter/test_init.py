@@ -7,11 +7,11 @@ from universalassistant.components.route_b_smart_meter.const import (
     REOPEN_DELAYS,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_async_setup_entry_success(
-    hass: UniversalAssistant, mock_momonga, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_momonga, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful setup of entry."""
     await hass.config_entries.async_setup(mock_config_entry.entry_id)

@@ -8,7 +8,7 @@ from universalassistant.components.diagnostics import (
     entity_entry_as_dict,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_UNIQUE_ID, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import AsusWrtConfigEntry
@@ -19,14 +19,14 @@ TO_REDACT_DEV = {"connections", "identifiers"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: AsusWrtConfigEntry
+    hass: __HAC_KEEP__, entry: AsusWrtConfigEntry
 ) -> dict[str, dict[str, Any]]:
     """Return diagnostics for a config entry."""
     data = {"entry": async_redact_data(entry.as_dict(), TO_REDACT)}
 
     router = entry.runtime_data
 
-    # Gather information how this AsusWrt device is represented in Universal Universal Home Assistant
+    # Gather information how this AsusWrt device is represented in __HA_KEEP__
     device_registry = dr.async_get(hass)
     entity_registry = er.async_get(hass)
     hass_device = device_registry.async_get_device_by_identifier(

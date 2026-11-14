@@ -25,8 +25,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -52,7 +52,7 @@ from . import (
     ],
 )
 async def test_art_frame_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     mock_method: str,
@@ -99,7 +99,7 @@ async def test_art_frame_button_press(
     ],
 )
 async def test_meter_pro_sync_datetime_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service_info: BluetoothServiceInfoBleak,
     sensor_type: str,
@@ -162,7 +162,7 @@ async def test_meter_pro_sync_datetime_button(
     ],
 )
 async def test_meter_pro_co2_sync_datetime_button_with_timezone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     tz: timezone,
     expected_utc_offset_hours: int,
@@ -216,7 +216,7 @@ async def test_meter_pro_co2_sync_datetime_button_with_timezone(
     ],
 )
 async def test_air_purifier_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service_info: BluetoothServiceInfoBleak,
     sensor_type: str,
@@ -262,7 +262,7 @@ async def test_air_purifier_buttons(
     ],
 )
 async def test_air_purifier_reset_filter_usage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service_info: BluetoothServiceInfoBleak,
@@ -303,7 +303,7 @@ async def test_air_purifier_reset_filter_usage(
 
 
 async def test_air_purifier_reset_filter_usage_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Propagate reset errors without retaining a previous successful result."""
@@ -331,7 +331,7 @@ async def test_air_purifier_reset_filter_usage_failure(
         )
         assert hass.states.get(entity_id).attributes["last_run_success"] is True
 
-        with pytest.raises(UniversalAssistantError, match="Filter usage read was rejected"):
+        with pytest.raises(__HAC_KEEP__Error, match="Filter usage read was rejected"):
             await hass.services.async_call(
                 BUTTON_DOMAIN,
                 ButtonService.PRESS,
@@ -346,7 +346,7 @@ async def test_air_purifier_reset_filter_usage_failure(
 
 
 async def test_lock_ultra_half_lock_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test pressing the half lock button on Lock Ultra when nightlatch is enabled."""
     inject_bluetooth_service_info(hass, LOCK_ULTRA_SERVICE_INFO)
@@ -393,7 +393,7 @@ async def test_lock_ultra_half_lock_button(
 
 
 async def test_lock_ultra_half_lock_button_not_registered_without_nightlatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test that the half lock button is not registered when nightlatch is disabled."""

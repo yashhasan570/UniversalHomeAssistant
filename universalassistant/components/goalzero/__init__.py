@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from goalzero import Yeti, exceptions
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
@@ -15,7 +15,7 @@ from .coordinator import GoalZeroConfigEntry, GoalZeroDataUpdateCoordinator
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR, Platform.SWITCH]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: GoalZeroConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: GoalZeroConfigEntry) -> None:
     """Set up Goal Zero Yeti from a config entry."""
 
     mac = entry.unique_id
@@ -39,6 +39,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GoalZeroConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: GoalZeroConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: GoalZeroConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

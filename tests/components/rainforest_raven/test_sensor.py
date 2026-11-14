@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import NETWORK_INFO
@@ -22,7 +22,7 @@ from .const import NETWORK_INFO
 
 @pytest.mark.usefixtures("mock_entry")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -35,7 +35,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("mock_entry")
 async def test_device_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_device_update_error(
 
 @pytest.mark.usefixtures("mock_entry")
 async def test_device_update_timeout(
-    hass: UniversalAssistant, mock_device: AsyncMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_device: AsyncMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test handling of a device timeout during an update."""
     mock_device.get_network_info.side_effect = (TimeoutError, NETWORK_INFO)
@@ -91,7 +91,7 @@ async def test_device_update_timeout(
 
 @pytest.mark.usefixtures("mock_entry")
 async def test_device_cache(
-    hass: UniversalAssistant, mock_device: AsyncMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_device: AsyncMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that the device isn't re-opened for subsequent refreshes."""
     assert mock_device.get_network_info.call_count == 1

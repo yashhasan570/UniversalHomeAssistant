@@ -6,13 +6,13 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import ActiveConnection
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import floor_registry as fr
 from universalassistant.helpers.floor_registry import FloorEntry
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> bool:
+def async_setup(hass: __HAC_KEEP__) -> bool:
     """Register the floor registry WS commands."""
     websocket_api.async_register_command(hass, websocket_list_floors)
     websocket_api.async_register_command(hass, websocket_create_floor)
@@ -29,7 +29,7 @@ def async_setup(hass: UniversalAssistant) -> bool:
 )
 @callback
 def websocket_list_floors(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle list floors command."""
     registry = fr.async_get(hass)
@@ -51,7 +51,7 @@ def websocket_list_floors(
 @websocket_api.require_admin
 @callback
 def websocket_create_floor(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Create floor command."""
     registry = fr.async_get(hass)
@@ -83,7 +83,7 @@ def websocket_create_floor(
 @websocket_api.require_admin
 @callback
 def websocket_delete_floor(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Delete floor command."""
     registry = fr.async_get(hass)
@@ -109,7 +109,7 @@ def websocket_delete_floor(
 @websocket_api.require_admin
 @callback
 def websocket_update_floor(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle update floor websocket command."""
     registry = fr.async_get(hass)
@@ -141,7 +141,7 @@ def websocket_update_floor(
 @websocket_api.require_admin
 @callback
 def websocket_reorder_floors(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle reorder floors websocket command."""
     registry = fr.async_get(hass)

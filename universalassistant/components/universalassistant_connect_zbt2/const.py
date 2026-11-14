@@ -1,4 +1,4 @@
-"""Constants for the Universal Universal Home Assistant Connect ZBT-2 integration."""
+"""Constants for the __HA_KEEP__ Connect ZBT-2 integration."""
 
 DOMAIN = "universalassistant_connect_zbt2"
 
@@ -16,4 +16,4 @@ PID = "pid"
 VID = "vid"
 DEVICE = "device"
 
-HARDWARE_NAME = "Universal Universal Home Assistant Connect ZBT-2"
+HARDWARE_NAME = "__HA_KEEP__ Connect ZBT-2"

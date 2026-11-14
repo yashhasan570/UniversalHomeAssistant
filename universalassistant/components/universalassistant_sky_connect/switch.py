@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant SkyConnect switch entities."""
+"""__HA_KEEP__ SkyConnect switch entities."""
 
 import logging
 
@@ -8,34 +8,34 @@ from universalassistant.components.universalassistant_hardware.coordinator impor
 from universalassistant.components.universalassistant_hardware.switch import (
     BaseBetaFirmwareSwitch,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from . import UniversalAssistantSkyConnectConfigEntry
+from . import __HAC_KEEP__SkyConnectConfigEntry
 from .const import DOMAIN, PRODUCT, SERIAL_NUMBER, HardwareVariant
 
 _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
-    config_entry: UniversalAssistantSkyConnectConfigEntry,
+    hass: __HAC_KEEP__,
+    config_entry: __HAC_KEEP__SkyConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up the switch platform for Universal Universal Home Assistant SkyConnect."""
+    """Set up the switch platform for __HA_KEEP__ SkyConnect."""
     async_add_entities(
         [BetaFirmwareSwitch(config_entry.runtime_data.coordinator, config_entry)]
     )
 
 
 class BetaFirmwareSwitch(BaseBetaFirmwareSwitch):
-    """Universal Universal Home Assistant SkyConnect beta firmware switch."""
+    """__HA_KEEP__ SkyConnect beta firmware switch."""
 
     def __init__(
         self,
         coordinator: FirmwareUpdateCoordinator,
-        config_entry: UniversalAssistantSkyConnectConfigEntry,
+        config_entry: __HAC_KEEP__SkyConnectConfigEntry,
     ) -> None:
         """Initialize the beta firmware switch."""
         super().__init__(coordinator, config_entry)

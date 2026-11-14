@@ -14,7 +14,7 @@ from yarl import URL
 
 from universalassistant.components.abrp.const import DOMAIN, OAUTH2_AUTHORIZE, OAUTH2_TOKEN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -29,7 +29,7 @@ from .conftest import (
 
 
 @pytest.fixture
-def use_cloud(hass: UniversalAssistant) -> None:
+def use_cloud(hass: __HAC_KEEP__) -> None:
     """Set up the cloud component."""
     hass.config.components.add("cloud")
 
@@ -55,7 +55,7 @@ def _mock_token_post(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_abrp_client")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_setup_entry: AsyncMock,
@@ -99,7 +99,7 @@ async def test_full_flow(
     assert data["code"] == "abcd"
 
 
-async def test_no_cloud(hass: UniversalAssistant) -> None:
+async def test_no_cloud(hass: __HAC_KEEP__) -> None:
     """The flow aborts when the cloud integration is not set up."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -124,7 +124,7 @@ async def test_no_cloud(hass: UniversalAssistant) -> None:
     "current_request_with_host", "use_cloud", "mock_setup_entry", "mock_abrp_client"
 )
 async def test_entry_title(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     id_token: str,
@@ -146,7 +146,7 @@ async def test_entry_title(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_abrp_client: AsyncMock,
@@ -179,7 +179,7 @@ async def test_duplicate_entry(
 )
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_token_endpoint_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     status: HTTPStatus,
@@ -202,7 +202,7 @@ async def test_token_endpoint_error(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_no_vehicles_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_abrp_client: AsyncMock,
@@ -234,7 +234,7 @@ async def test_no_vehicles_aborts(
 )
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_initial_add_unusable_token_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     id_token: str | None,
@@ -271,7 +271,7 @@ async def test_initial_add_unusable_token_aborts(
 )
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_garage_fetch_error_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_abrp_client: AsyncMock,
@@ -330,7 +330,7 @@ async def test_garage_fetch_error_aborts(
 )
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud")
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_abrp_client: AsyncMock,
@@ -382,7 +382,7 @@ async def test_reauth(
 )
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud")
 async def test_reauth_login_hint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     expected_login_hint: str | None,
 ) -> None:

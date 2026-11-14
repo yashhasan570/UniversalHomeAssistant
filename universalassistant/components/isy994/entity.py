@@ -21,7 +21,7 @@ from pyisy.variables import Variable
 
 from universalassistant.const import STATE_OFF, STATE_ON
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity, EntityDescription
 
@@ -140,7 +140,7 @@ class ISYNodeEntity(ISYEntity):
     async def async_send_node_command(self, command: str) -> None:
         """Respond to an entity service command call."""
         if not hasattr(self._node, command):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Invalid service call: {command} for device {self.entity_id}"
             )
         await getattr(self._node, command)()
@@ -154,7 +154,7 @@ class ISYNodeEntity(ISYEntity):
     ) -> None:
         """Respond to an entity service raw command call."""
         if not hasattr(self._node, "send_cmd"):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Invalid service call: {command} for device {self.entity_id}"
             )
         await self._node.send_cmd(command, value, unit_of_measurement, parameters)
@@ -162,7 +162,7 @@ class ISYNodeEntity(ISYEntity):
     async def async_get_zwave_parameter(self, parameter: Any) -> None:
         """Respond to a service command to request a Z-Wave parameter."""
         if self._node.protocol != PROTO_ZWAVE:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Invalid service call: cannot request Z-Wave Parameter for non-Z-Wave"
                 f" device {self.entity_id}"
             )
@@ -173,7 +173,7 @@ class ISYNodeEntity(ISYEntity):
     ) -> None:
         """Respond to a service command to set a Z-Wave parameter."""
         if self._node.protocol != PROTO_ZWAVE:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Invalid service call: cannot set Z-Wave Parameter for non-Z-Wave"
                 f" device {self.entity_id}"
             )

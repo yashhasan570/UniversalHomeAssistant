@@ -18,13 +18,13 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, selector
 from universalassistant.helpers.service import (
     async_get_device_and_config_entry,
@@ -195,7 +195,7 @@ SCHEMA_MOUNT_RELOAD = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the Supervisor services."""
     supervisor_client = get_supervisor_client(hass)
     async_register_app_services(hass, supervisor_client)
@@ -206,7 +206,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
 
 @callback
 def async_register_app_services(
-    hass: UniversalAssistant, supervisor_client: SupervisorClient
+    hass: __HAC_KEEP__, supervisor_client: SupervisorClient
 ) -> None:
     """Register app services."""
     simple_app_services: dict[str, tuple[str, Callable[[str], Awaitable[None]]]] = {
@@ -223,7 +223,7 @@ def async_register_app_services(
         try:
             await api_method(app_slug)
         except SupervisorError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to {action} app {app_slug}: {err}"
             ) from err
 
@@ -248,7 +248,7 @@ def async_register_app_services(
         try:
             await supervisor_client.addons.write_addon_stdin(app_slug, payload)
         except SupervisorError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to write stdin to app {app_slug}: {err}"
             ) from err
 
@@ -278,7 +278,7 @@ def async_register_app_services(
         try:
             await api_method(addon_slug)
         except SupervisorError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to {action} app {addon_slug}: {err}"
             ) from err
 
@@ -304,7 +304,7 @@ def async_register_app_services(
         try:
             await supervisor_client.addons.write_addon_stdin(addon_slug, payload)
         except SupervisorError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to write stdin to app {addon_slug}: {err}"
             ) from err
 
@@ -319,7 +319,7 @@ def async_register_app_services(
 
 @callback
 def async_register_host_services(
-    hass: UniversalAssistant, supervisor_client: SupervisorClient
+    hass: __HAC_KEEP__, supervisor_client: SupervisorClient
 ) -> None:
     """Register host services."""
     simple_host_services: dict[str, tuple[str, Callable[[], Awaitable[None]]]] = {
@@ -333,7 +333,7 @@ def async_register_host_services(
         try:
             await api_method()
         except SupervisorError as err:
-            raise UniversalAssistantError(f"Failed to {action} the host: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to {action} the host: {err}") from err
 
     for service in simple_host_services:
         async_register_admin_service(
@@ -347,7 +347,7 @@ def async_register_host_services(
 
 @callback
 def async_register_backup_restore_services(
-    hass: UniversalAssistant, supervisor_client: SupervisorClient
+    hass: __HAC_KEEP__, supervisor_client: SupervisorClient
 ) -> None:
     """Register backup and restore services."""
 
@@ -359,7 +359,7 @@ def async_register_backup_restore_services(
         try:
             backup = await supervisor_client.backups.full_backup(options)
         except SupervisorError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to create full backup {options.name}: {err}"
             ) from err
 
@@ -384,7 +384,7 @@ def async_register_backup_restore_services(
         try:
             backup = await supervisor_client.backups.partial_backup(options)
         except SupervisorError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to create partial backup {options.name}: {err}"
             ) from err
 
@@ -411,7 +411,7 @@ def async_register_backup_restore_services(
         try:
             await supervisor_client.backups.full_restore(backup_slug, options)
         except SupervisorError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to full restore from backup {backup_slug}: {err}"
             ) from err
 
@@ -433,7 +433,7 @@ def async_register_backup_restore_services(
         try:
             await supervisor_client.backups.partial_restore(backup_slug, options)
         except SupervisorError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to partial restore from backup {backup_slug}: {err}"
             ) from err
 
@@ -448,7 +448,7 @@ def async_register_backup_restore_services(
 
 @callback
 def async_register_network_storage_services(
-    hass: UniversalAssistant, supervisor_client: SupervisorClient
+    hass: __HAC_KEEP__, supervisor_client: SupervisorClient
 ) -> None:
     """Register network storage (or mount) services."""
 
@@ -471,7 +471,7 @@ def async_register_network_storage_services(
         try:
             await supervisor_client.mounts.reload_mount(device.name)
         except SupervisorError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="mount_reload_error",
                 translation_placeholders={"name": device.name, "error": str(error)},

@@ -32,8 +32,8 @@ from universalassistant.components.todo import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import slugify
 
@@ -110,7 +110,7 @@ def mock_todo_items():
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -131,7 +131,7 @@ async def test_all_entities(
 
 
 async def test_add_todo_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_todo_lists: list[AmazonListInfo],
@@ -177,7 +177,7 @@ async def test_add_todo_item(
 
 
 async def test_concurrent_writes_keep_the_newest_answer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_todo_lists: list[AmazonListInfo],
@@ -233,7 +233,7 @@ async def test_concurrent_writes_keep_the_newest_answer(
 
 
 async def test_pushed_event_survives_a_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_todo_lists: list[AmazonListInfo],
@@ -302,7 +302,7 @@ async def test_pushed_event_survives_a_refresh(
 
 
 async def test_delete_todo_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_todo_lists: list[AmazonListInfo],
@@ -342,7 +342,7 @@ async def test_delete_todo_item(
 
 
 async def test_delete_todo_items_partial_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_todo_lists: list[AmazonListInfo],
@@ -370,7 +370,7 @@ async def test_delete_todo_items_partial_failure(
         side_effect=delete_item
     )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -383,7 +383,7 @@ async def test_delete_todo_items_partial_failure(
 
 
 async def test_update_todo_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_todo_lists: list[AmazonListInfo],
@@ -474,7 +474,7 @@ async def test_update_todo_item(
 
 
 async def test_update_todo_item_refreshes_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_todo_lists: list[AmazonListInfo],
@@ -528,7 +528,7 @@ async def test_update_todo_item_refreshes_state(
     ],
 )
 async def test_dynamic_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -574,7 +574,7 @@ async def test_dynamic_entities(
 
 
 async def test_list_removed_and_readded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -605,7 +605,7 @@ async def test_list_removed_and_readded(
 
 
 async def test_dynamic_add_list_and_add_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -646,7 +646,7 @@ async def test_dynamic_add_list_and_add_item(
 
 
 async def test_todo_event_handler(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_todo_lists: list[AmazonListInfo],
@@ -734,7 +734,7 @@ async def test_todo_event_handler(
     ],
 )
 async def test_sync_todo_list_items_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],

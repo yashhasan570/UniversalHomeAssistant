@@ -8,7 +8,7 @@
     },
     "step": {
       "discovery_confirm": {
-        "description": "Do you want to add {name} ({host}) to Universal Universal Home Assistant?"
+        "description": "Do you want to add {name} ({host}) to __HA_KEEP__?"
       },
       "user": {
         "data": {

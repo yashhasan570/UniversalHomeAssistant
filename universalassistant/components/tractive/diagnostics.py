@@ -9,7 +9,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_UNIQUE_ID,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import TractiveConfigEntry
 
@@ -29,7 +29,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: TractiveConfigEntry
+    hass: __HAC_KEEP__, config_entry: TractiveConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     trackables = config_entry.runtime_data.trackables

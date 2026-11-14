@@ -16,8 +16,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -74,7 +74,7 @@ pytestmark = [
     ],
 )
 async def test_entities_not_created_for_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_ids: list[str],
 ) -> None:
     """Ensures entities for a specific device are not created."""
@@ -99,7 +99,7 @@ async def test_entities_not_created_for_device(
     ],
 )
 async def test_switch_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_homewizardenergy: MagicMock,
@@ -147,7 +147,7 @@ async def test_switch_entities(
     mocked_method.side_effect = RequestError
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=r"^An error occurred while communicating with your HomeWizard device$",
     ):
         await hass.services.async_call(
@@ -158,7 +158,7 @@ async def test_switch_entities(
         )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=r"^An error occurred while communicating with your HomeWizard device$",
     ):
         await hass.services.async_call(
@@ -172,7 +172,7 @@ async def test_switch_entities(
     mocked_method.side_effect = DisabledError
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=r"^The local API is disabled$",
     ):
         await hass.services.async_call(
@@ -183,7 +183,7 @@ async def test_switch_entities(
         )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=r"^The local API is disabled$",
     ):
         await hass.services.async_call(
@@ -205,7 +205,7 @@ async def test_switch_entities(
     ],
 )
 async def test_switch_unreachable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     exception: Exception,
     entity_id: str,

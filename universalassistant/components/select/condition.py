@@ -6,7 +6,7 @@ import probatio
 
 from universalassistant.components.input_select import DOMAIN as INPUT_SELECT_DOMAIN
 from universalassistant.const import CONF_OPTIONS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.condition import (
     ENTITY_STATE_CONDITION_SCHEMA_ANY_ALL,
@@ -39,7 +39,7 @@ class IsOptionSelectedCondition(EntityStateConditionBase):
     _domain_specs = SELECT_DOMAIN_SPECS
     _schema = IS_OPTION_SELECTED_SCHEMA
 
-    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
         """Initialize the option selected condition."""
         super().__init__(hass, config)
         if TYPE_CHECKING:
@@ -52,6 +52,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
     """Return the select conditions."""
     return CONDITIONS

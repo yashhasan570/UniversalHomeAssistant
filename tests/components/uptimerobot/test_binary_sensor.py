@@ -11,7 +11,7 @@ from universalassistant.components.uptimerobot.const import (
     COORDINATOR_UPDATE_INTERVAL,
 )
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .common import (
@@ -23,7 +23,7 @@ from .common import (
 )
 
 
-async def test_presentation(hass: UniversalAssistant) -> None:
+async def test_presentation(hass: __HAC_KEEP__) -> None:
     """Test the presenstation of UptimeRobot binary_sensors."""
     await setup_uptimerobot_integration(hass)
 
@@ -34,7 +34,7 @@ async def test_presentation(hass: UniversalAssistant) -> None:
     assert entity.attributes["target"] == MOCK_UPTIMEROBOT_MONITOR["url"]
 
 
-async def test_unavailable_on_update_failure(hass: UniversalAssistant) -> None:
+async def test_unavailable_on_update_failure(hass: __HAC_KEEP__) -> None:
     """Test entity unavailable on update failure."""
     await setup_uptimerobot_integration(hass)
 
@@ -52,7 +52,7 @@ async def test_unavailable_on_update_failure(hass: UniversalAssistant) -> None:
     assert entity.state == STATE_UNAVAILABLE
 
 
-async def test_binary_sensor_dynamic(hass: UniversalAssistant) -> None:
+async def test_binary_sensor_dynamic(hass: __HAC_KEEP__) -> None:
     """Test binary_sensor dynamically added."""
     await setup_uptimerobot_integration(hass)
 

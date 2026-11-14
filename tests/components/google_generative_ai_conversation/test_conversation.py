@@ -38,7 +38,7 @@ from universalassistant.components.google_generative_ai_conversation.entity impo
     _format_schema,
 )
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import intent, llm
 from universalassistant.helpers.llm import ToolInput
 
@@ -72,7 +72,7 @@ def mock_ulid_tools():
     ],
 )
 async def test_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     error,
@@ -100,7 +100,7 @@ async def test_error_handling(
 @pytest.mark.usefixtures("mock_init_component")
 @pytest.mark.usefixtures("mock_ulid_tools")
 async def test_function_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_assist: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_send_message_stream: AsyncMock,
@@ -324,7 +324,7 @@ async def test_function_call(
 @pytest.mark.usefixtures("mock_init_component")
 @pytest.mark.usefixtures("mock_ulid_tools")
 async def test_google_search_tool_is_sent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_google_search: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_send_message_stream: AsyncMock,
@@ -391,7 +391,7 @@ async def test_google_search_tool_is_sent(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_blocked_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_send_message_stream: AsyncMock,
@@ -440,7 +440,7 @@ async def test_blocked_response(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_empty_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_send_message_stream: AsyncMock,
@@ -484,7 +484,7 @@ async def test_empty_response(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_none_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_send_message_stream: AsyncMock,
@@ -519,7 +519,7 @@ async def test_none_response(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_converse_error(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test handling ChatLog raising ConverseError."""
     subentry = next(iter(mock_config_entry.subentries.values()))
@@ -548,7 +548,7 @@ async def test_converse_error(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_conversation_agent(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test GoogleGenerativeAIAgent."""
     agent = conversation.get_agent_manager(hass).async_get_agent(
@@ -708,7 +708,7 @@ async def test_format_schema(openapi, genai_schema) -> None:
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_empty_content_in_chat_history(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_send_message_stream: AsyncMock,
@@ -762,7 +762,7 @@ async def test_empty_content_in_chat_history(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_history_always_user_first_turn(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_send_message_stream: AsyncMock,
@@ -994,7 +994,7 @@ def test_create_thinking_config_gemini25_flash_custom() -> None:
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_token_stats_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_send_message_stream: AsyncMock,
@@ -1100,7 +1100,7 @@ async def test_token_stats_reported(
     ],
 )
 async def test_generation_sampling_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_genai_transport: AsyncMock,
     prefix: str,
@@ -1221,7 +1221,7 @@ def test_no_new_specialized_thinking(model: str) -> None:
     "model", ["gemini-3.8-flash", "gemini-flash-latest", "gemini-4-flash"]
 )
 async def test_conversation_wire_tool_continuation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_assist: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_genai_transport: AsyncMock,

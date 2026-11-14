@@ -10,14 +10,14 @@ from pyoverkiz.const import (
 )
 
 from universalassistant.components.application_credentials import ClientCredential
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     LocalOAuth2ImplementationWithPkce,
 )
 
 
 async def async_get_auth_implementation(
-    hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
+    hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
 ) -> LocalOAuth2ImplementationWithPkce:
     """Return auth implementation for Rexel (Azure AD B2C with PKCE)."""
     return OverkizOAuth2Implementation(

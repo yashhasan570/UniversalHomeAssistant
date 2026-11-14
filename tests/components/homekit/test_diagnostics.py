@@ -19,7 +19,7 @@ from universalassistant.components.homekit.const import (
     HOMEKIT_MODE_ACCESSORY,
 )
 from universalassistant.const import CONF_NAME, CONF_PORT, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ from .util import async_init_integration
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_config_entry_not_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hk_driver,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_config_entry_not_running(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_config_entry_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hk_driver,
 ) -> None:
@@ -87,7 +87,7 @@ async def test_config_entry_running(
                                 "iid": 3,
                                 "perms": ["pr"],
                                 "type": "20",
-                                "value": "Universal Universal Home Assistant",
+                                "value": "__HA_KEEP__",
                             },
                             {
                                 "format": "string",
@@ -160,7 +160,7 @@ async def test_config_entry_running(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_config_entry_accessory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hk_driver,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_config_entry_accessory(
                                 "iid": 3,
                                 "perms": ["pr"],
                                 "type": "20",
-                                "value": "Universal Universal Home Assistant Light",
+                                "value": "__HA_KEEP__ Light",
                             },
                             {
                                 "format": "string",
@@ -322,7 +322,7 @@ async def test_config_entry_accessory(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_config_entry_with_trigger_accessory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hk_driver,
     demo_cleanup,
@@ -376,7 +376,7 @@ async def test_config_entry_with_trigger_accessory(
                                 "iid": 3,
                                 "perms": ["pr"],
                                 "type": "20",
-                                "value": "Universal Universal Home Assistant",
+                                "value": "__HA_KEEP__",
                             },
                             {
                                 "format": "string",
@@ -443,7 +443,7 @@ async def test_config_entry_with_trigger_accessory(
                                 "iid": 4,
                                 "perms": ["pr"],
                                 "type": "21",
-                                "value": "Universal Universal Home Assistant",
+                                "value": "__HA_KEEP__",
                             },
                             {
                                 "format": "string",
@@ -663,7 +663,7 @@ async def test_config_entry_with_trigger_accessory(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "hk_driver", "recording_transport")
 async def test_config_entry_secure_video_camera(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test diagnostics of a camera that records to HomeKit Secure Video."""
     hass.states.async_set("camera.front", "idle")

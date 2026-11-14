@@ -7,7 +7,7 @@ from nessclient import ArmingMode, ArmingState, Client
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -39,14 +39,14 @@ class ZoneChangedData(NamedTuple):
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Ness Alarm platform."""
     async_setup_services(hass)
 
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NessAlarmConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NessAlarmConfigEntry) -> None:
     """Set up Ness Alarm from a config entry."""
     client = Client(
         host=entry.data[CONF_HOST],
@@ -89,7 +89,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NessAlarmConfigEntr
 
     entry.async_on_unload(hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _close))
 
-    async def _started(hass: UniversalAssistant) -> None:
+    async def _started(hass: __HAC_KEEP__) -> None:
         _LOGGER.debug("Invoking client keepalive() & update()")
         hass.async_create_task(client.keepalive())
         hass.async_create_task(client.update())
@@ -103,13 +103,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NessAlarmConfigEntr
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NessAlarmConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NessAlarmConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
     await entry.runtime_data.close()
 
 
-async def async_reload_entry(hass: UniversalAssistant, entry: NessAlarmConfigEntry) -> None:
+async def async_reload_entry(hass: __HAC_KEEP__, entry: NessAlarmConfigEntry) -> None:
     """Reload config entry when options change."""
     await hass.config_entries.async_reload(entry.entry_id)

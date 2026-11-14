@@ -13,8 +13,8 @@ import probatio
 from webrtc_models import RTCConfiguration, RTCIceCandidate, RTCIceCandidateInit
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.util.hass_dict import HassKey
 from universalassistant.util.ulid import ulid
@@ -171,7 +171,7 @@ class CameraWebRTCProvider(ABC):
 
 @callback
 def async_register_webrtc_provider(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     provider: CameraWebRTCProvider,
 ) -> Callable[[], None]:
     """Register a WebRTC provider.
@@ -196,7 +196,7 @@ def async_register_webrtc_provider(
     return remove_provider
 
 
-async def _async_refresh_providers(hass: UniversalAssistant) -> None:
+async def _async_refresh_providers(hass: __HAC_KEEP__) -> None:
     """Check all cameras for any state changes for registered providers."""
     component = hass.data[DATA_COMPONENT]
     await asyncio.gather(
@@ -222,7 +222,7 @@ def require_webrtc_support(
 
         @wraps(func)
         async def validate(
-            hass: UniversalAssistant,
+            hass: __HAC_KEEP__,
             connection: websocket_api.ActiveConnection,
             msg: dict[str, Any],
         ) -> None:
@@ -293,7 +293,7 @@ async def ws_webrtc_offer(
 
     try:
         await camera.async_handle_async_webrtc_offer(offer, session_id, send_message)
-    except UniversalAssistantError as ex:
+    except __HAC_KEEP__Error as ex:
         _LOGGER.error("Error handling WebRTC offer: %s", ex)
         send_message(
             WebRTCError(
@@ -349,7 +349,7 @@ async def ws_candidate(
 
 
 @callback
-def async_register_ws(hass: UniversalAssistant) -> None:
+def async_register_ws(hass: __HAC_KEEP__) -> None:
     """Register camera webrtc ws endpoints."""
 
     websocket_api.async_register_command(hass, ws_webrtc_offer)
@@ -358,7 +358,7 @@ def async_register_ws(hass: UniversalAssistant) -> None:
 
 
 async def async_get_supported_provider(
-    hass: UniversalAssistant, camera: Camera
+    hass: __HAC_KEEP__, camera: Camera
 ) -> CameraWebRTCProvider | None:
     """Return the first supported provider for the camera."""
     providers = hass.data.get(DATA_WEBRTC_PROVIDERS)
@@ -381,7 +381,7 @@ async def async_call_webrtc_provider(
     """
     try:
         await coro
-    except UniversalAssistantError as ex:
+    except __HAC_KEEP__Error as ex:
         _LOGGER.error("Error %s %s: %s", description, entity_id, ex)
     except Exception:
         _LOGGER.exception("Unexpected error %s %s", description, entity_id)

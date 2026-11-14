@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -16,7 +16,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_stream_magic_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -30,7 +30,7 @@ async def test_all_entities(
 
 
 async def test_setting_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stream_magic_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_setting_value(
 
 
 async def test_equalizer_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stream_magic_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_equalizer_switch(
 
 
 async def test_equalizer_switch_without_user_eq(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stream_magic_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

@@ -14,7 +14,7 @@ from deebot_client.events.water_info import WaterAmountEvent
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .controller import EcovacsConfigEntry
@@ -83,7 +83,7 @@ ENTITY_DESCRIPTIONS: tuple[EcovacsSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: EcovacsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

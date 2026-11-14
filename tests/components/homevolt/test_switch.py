@@ -22,8 +22,8 @@ from universalassistant.components.switch import (
     SwitchService,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -47,7 +47,7 @@ def switch_entity_id(
 
 
 async def test_switch_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -64,7 +64,7 @@ async def test_switch_entities(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     snapshot: SnapshotAssertion,
     switch_entity_id: str,
@@ -105,13 +105,13 @@ async def test_switch_turn_on_off(
             SERVICE_TURN_ON,
             "enable_local_mode",
             HomevoltConnectionError("connection failed"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
         (
             SERVICE_TURN_ON,
             "enable_local_mode",
             HomevoltError("unknown error"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
         (
             SERVICE_TURN_OFF,
@@ -123,18 +123,18 @@ async def test_switch_turn_on_off(
             SERVICE_TURN_OFF,
             "disable_local_mode",
             HomevoltConnectionError("connection failed"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
         (
             SERVICE_TURN_OFF,
             "disable_local_mode",
             HomevoltError("unknown error"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
     ],
 )
 async def test_switch_turn_on_off_exception_handler(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     service: str,
     client_method_name: str,
@@ -178,7 +178,7 @@ async def test_switch_turn_on_off_exception_handler(
     ],
 )
 async def test_switch_command_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     switch_entity_id: str,
     exception: HomevoltError,
@@ -189,7 +189,7 @@ async def test_switch_command_error(
     mock_homevolt_client.enable_local_mode.side_effect = exception
     mock_homevolt_client.update_info.reset_mock()
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -51,7 +51,7 @@ def _assert_create_entry_result(
 
 
 async def test_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_api: AsyncMock,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_create_entry(
 
 
 async def test_form_with_referrer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_api: AsyncMock,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_form_with_referrer(
     ],
 )
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_api: AsyncMock,
     api_exception,
@@ -179,7 +179,7 @@ async def test_form_exceptions(
 
 
 async def test_form_api_key_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_form_api_key_already_configured(
 
 
 async def test_form_location_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -235,7 +235,7 @@ async def test_form_location_already_configured(
 
 
 async def test_form_not_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
@@ -280,7 +280,7 @@ async def test_form_not_already_configured(
 
 
 async def test_subentry_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -334,7 +334,7 @@ async def test_subentry_flow(
 
 
 async def test_subentry_flow_location_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -381,7 +381,7 @@ async def test_subentry_flow_location_already_configured(
 
 
 async def test_subentry_flow_location_name_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -428,7 +428,7 @@ async def test_subentry_flow_location_name_already_configured(
 
 
 async def test_subentry_flow_entry_not_loaded(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test creating a location subentry when the parent entry is not loaded."""
     mock_config_entry.add_to_hass(hass)
@@ -443,7 +443,7 @@ async def test_subentry_flow_entry_not_loaded(
 
 
 async def test_create_entry_with_custom_laqi(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_api: AsyncMock,
 ) -> None:
@@ -508,7 +508,7 @@ async def test_create_entry_with_custom_laqi(
 
 
 async def test_subentry_flow_with_custom_laqi(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:

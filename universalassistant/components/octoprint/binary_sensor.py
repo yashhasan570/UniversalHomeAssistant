@@ -6,7 +6,7 @@ from typing import override
 from pyoctoprintapi import OctoprintPrinterInfo
 
 from universalassistant.components.binary_sensor import BinarySensorEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -14,7 +14,7 @@ from .coordinator import OctoprintConfigEntry, OctoprintDataUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: OctoprintConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

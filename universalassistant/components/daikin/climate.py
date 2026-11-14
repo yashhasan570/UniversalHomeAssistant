@@ -21,8 +21,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -92,9 +92,9 @@ ZONE_TEMPERATURE_WINDOW = 2
 
 def _zone_error(
     translation_key: str, placeholders: dict[str, str] | None = None
-) -> UniversalAssistantError:
-    """Return a Universal Universal Home Assistant error with Daikin translation info."""
-    return UniversalAssistantError(
+) -> __HAC_KEEP__Error:
+    """Return a __HA_KEEP__ error with Daikin translation info."""
+    return __HAC_KEEP__Error(
         translation_domain=DOMAIN,
         translation_key=translation_key,
         translation_placeholders=placeholders,
@@ -155,7 +155,7 @@ def _zone_temperature_from_list(values: list[str], zone_id: int) -> float | None
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DaikinConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -559,7 +559,7 @@ class DaikinZoneClimate(DaikinEntity, ClimateEntity):
         if hvac_mode == self._main_hvac_mode:
             await self.async_turn_on()
             return
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="zone_hvac_read_only",
         )

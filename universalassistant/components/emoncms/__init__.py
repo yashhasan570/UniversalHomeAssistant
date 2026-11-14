@@ -3,7 +3,7 @@
 from pyemoncms import EmoncmsClient
 
 from universalassistant.const import CONF_API_KEY, CONF_URL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.issue_registry import (
@@ -19,7 +19,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 def _migrate_unique_id(
-    hass: UniversalAssistant, entry: EmonCMSConfigEntry, emoncms_unique_id: str
+    hass: __HAC_KEEP__, entry: EmonCMSConfigEntry, emoncms_unique_id: str
 ) -> None:
     """Migrate to emoncms unique id if needed."""
     ent_reg = er.async_get(hass)
@@ -38,7 +38,7 @@ def _migrate_unique_id(
 
 
 async def _check_unique_id_migration(
-    hass: UniversalAssistant, entry: EmonCMSConfigEntry, emoncms_client: EmoncmsClient
+    hass: __HAC_KEEP__, entry: EmonCMSConfigEntry, emoncms_client: EmoncmsClient
 ) -> None:
     """Check if we can migrate to the emoncms uuid."""
     emoncms_unique_id = await emoncms_client.async_get_uuid()
@@ -64,7 +64,7 @@ async def _check_unique_id_migration(
         )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: EmonCMSConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: EmonCMSConfigEntry) -> None:
     """Load a config entry."""
     emoncms_client = EmoncmsClient(
         entry.data[CONF_URL],
@@ -79,6 +79,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: EmonCMSConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: EmonCMSConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: EmonCMSConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

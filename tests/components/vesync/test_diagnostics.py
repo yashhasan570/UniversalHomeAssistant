@@ -13,14 +13,14 @@ from syrupy.matchers import path_type
 from universalassistant.components.diagnostics import REDACTED
 from universalassistant.components.vesync.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
 
 
 async def test_async_get_config_entry_diagnostics__no_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: ConfigEntry,
     config: ConfigType,
@@ -38,7 +38,7 @@ async def test_async_get_config_entry_diagnostics__no_devices(
 
 
 async def test_async_get_config_entry_diagnostics__single_humidifier(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: ConfigEntry,
     config: ConfigType,
@@ -59,7 +59,7 @@ async def test_async_get_config_entry_diagnostics__single_humidifier(
 
 
 async def test_async_get_device_diagnostics__single_fan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     hass_client: ClientSessionGenerator,
     config_entry: ConfigEntry,
@@ -98,7 +98,7 @@ async def test_async_get_device_diagnostics__single_fan(
 
 
 async def test_async_get_device_diagnostics__subdevice_redacts_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     hass_client: ClientSessionGenerator,
     config_entry: ConfigEntry,

@@ -32,7 +32,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MockConfigEntry, MockDeviceConnection, init_integration
@@ -44,7 +44,7 @@ COVER_RELAYS_MODULE = "cover.testmodule_cover_relays_module"
 
 
 async def test_setup_lcn_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -56,7 +56,7 @@ async def test_setup_lcn_cover(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_outputs_open(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_outputs_open(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the outputs cover opens."""
     await init_integration(hass, entry)
 
@@ -105,7 +105,7 @@ async def test_outputs_open(hass: UniversalAssistant, entry: MockConfigEntry) ->
         assert state.state == CoverState.OPENING
 
 
-async def test_outputs_close(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_outputs_close(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the outputs cover closes."""
     await init_integration(hass, entry)
 
@@ -157,7 +157,7 @@ async def test_outputs_close(hass: UniversalAssistant, entry: MockConfigEntry) -
         assert state.state == CoverState.CLOSING
 
 
-async def test_outputs_stop(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_outputs_stop(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the outputs cover stops."""
     await init_integration(hass, entry)
 
@@ -205,7 +205,7 @@ async def test_outputs_stop(hass: UniversalAssistant, entry: MockConfigEntry) ->
         assert state.state not in (CoverState.CLOSING, CoverState.OPENING)
 
 
-async def test_relays_open(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_relays_open(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the relays cover opens."""
     await init_integration(hass, entry)
 
@@ -254,7 +254,7 @@ async def test_relays_open(hass: UniversalAssistant, entry: MockConfigEntry) -> 
         assert state.state == CoverState.OPENING
 
 
-async def test_relays_close(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_relays_close(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the relays cover closes."""
     await init_integration(hass, entry)
 
@@ -306,7 +306,7 @@ async def test_relays_close(hass: UniversalAssistant, entry: MockConfigEntry) ->
         assert state.state == CoverState.CLOSING
 
 
-async def test_relays_stop(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_relays_stop(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the relays cover stops."""
     await init_integration(hass, entry)
 
@@ -366,7 +366,7 @@ async def test_relays_stop(hass: UniversalAssistant, entry: MockConfigEntry) -> 
     ],
 )
 async def test_relays_set_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     entity_id: str,
     motor: int,
@@ -419,7 +419,7 @@ async def test_relays_set_position(
 
 
 async def test_pushed_outputs_status_change(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test the outputs cover changes its state on status received."""
     await init_integration(hass, entry)
@@ -459,7 +459,7 @@ async def test_pushed_outputs_status_change(
 
 
 async def test_pushed_relays_status_change(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test the relays cover changes its state on status received."""
     await init_integration(hass, entry)
@@ -547,7 +547,7 @@ async def test_pushed_relays_status_change(
     ],
 )
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entry: MockConfigEntry,
     entity_id: str,
@@ -595,7 +595,7 @@ async def test_availability(
     assert state.state != STATE_UNAVAILABLE
 
 
-async def test_unload_config_entry(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_unload_config_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the cover is removed when the config entry is unloaded."""
     await init_integration(hass, entry)
 

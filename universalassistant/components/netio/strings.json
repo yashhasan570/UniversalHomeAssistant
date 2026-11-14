@@ -31,7 +31,7 @@
   },
   "issues": {
     "deprecated_yaml": {
-      "description": "Configuring the Netio switch platform using YAML is being removed. The integration now connects to your device using the JSON API, which requires a new setup.\n\nTo set up your device:\n\n1. Open the web interface of your Netio device and enable the **JSON API** protocol (**Settings** > **M2M API Protocols** > **JSON API**), creating an account with read-write access.\n2. [Add the Netio integration]({url}) and enter the connection details, using the JSON API account credentials.\n3. Remove the `netio` switch platform configuration from your `configuration.yaml` file and restart Universal Universal Home Assistant.\n\nAfterwards, your device outputs are available as switch entities again.",
+      "description": "Configuring the Netio switch platform using YAML is being removed. The integration now connects to your device using the JSON API, which requires a new setup.\n\nTo set up your device:\n\n1. Open the web interface of your Netio device and enable the **JSON API** protocol (**Settings** > **M2M API Protocols** > **JSON API**), creating an account with read-write access.\n2. [Add the Netio integration]({url}) and enter the connection details, using the JSON API account credentials.\n3. Remove the `netio` switch platform configuration from your `configuration.yaml` file and restart __HA_KEEP__.\n\nAfterwards, your device outputs are available as switch entities again.",
       "title": "The Netio YAML configuration is being removed"
     }
   }

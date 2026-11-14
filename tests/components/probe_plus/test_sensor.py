@@ -7,13 +7,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_probe_plus")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -35,7 +35,7 @@ async def test_sensor(
 
 
 async def test_dynamic_probe_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_probe_plus: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

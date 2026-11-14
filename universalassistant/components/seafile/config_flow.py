@@ -156,7 +156,7 @@ class SeafileConfigFlow(ConfigFlow, domain=DOMAIN):
                 otp,
                 # Registered as a device, so the user can see and revoke the token.
                 device_id=hashlib.sha1(uuid4().bytes).hexdigest(),
-                device_name=f"Universal Universal Home Assistant ({self.hass.config.location_name})",
+                device_name=f"__HA_KEEP__ ({self.hass.config.location_name})",
             )
             if self._removed:
                 # Cancelled while logging in, before there was a token to revoke.

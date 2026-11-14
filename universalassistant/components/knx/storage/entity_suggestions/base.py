@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import ProviderResult
 
@@ -26,6 +26,6 @@ class SuggestionProvider(ABC):
 
     @abstractmethod
     async def async_get_suggestions(
-        self, hass: UniversalAssistant, knx: KNXModule
+        self, hass: __HAC_KEEP__, knx: KNXModule
     ) -> ProviderResult:
         """Generate entity suggestions."""

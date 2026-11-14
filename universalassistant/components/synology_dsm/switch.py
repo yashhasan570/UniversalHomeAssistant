@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any, override
 from synology_dsm.api.surveillance_station import SynoSurveillanceStation
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -37,7 +37,7 @@ SURVEILLANCE_SWITCH: tuple[SynologyDSMSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SynologyDSMConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -34,7 +34,7 @@ from universalassistant.components.event import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import CONF_PLATFORM, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
     async_get_platforms,
@@ -140,7 +140,7 @@ async def test_trigger_event_strictly_increasing_timestamp() -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations", "mock_event_platform")
-async def test_restore_state(hass: UniversalAssistant) -> None:
+async def test_restore_state(hass: __HAC_KEEP__) -> None:
     """Test we restore state integration."""
     mock_restore_cache_with_extra_data(
         hass,
@@ -187,7 +187,7 @@ async def test_restore_state(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("enable_custom_integrations", "mock_event_platform")
 async def test_restore_state_naive_timestamp(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a restored naive timestamp is discarded instead of breaking events."""
     mock_restore_cache_with_extra_data(
@@ -230,7 +230,7 @@ async def test_restore_state_naive_timestamp(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations", "mock_event_platform")
-async def test_invalid_extra_restore_state(hass: UniversalAssistant) -> None:
+async def test_invalid_extra_restore_state(hass: __HAC_KEEP__) -> None:
     """Test we restore state integration."""
     mock_restore_cache_with_extra_data(
         hass,
@@ -265,7 +265,7 @@ async def test_invalid_extra_restore_state(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations", "mock_event_platform")
-async def test_no_extra_restore_state(hass: UniversalAssistant) -> None:
+async def test_no_extra_restore_state(hass: __HAC_KEEP__) -> None:
     """Test we restore state integration."""
     mock_restore_cache(
         hass,
@@ -300,7 +300,7 @@ async def test_no_extra_restore_state(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations", "mock_event_platform")
-async def test_saving_state(hass: UniversalAssistant, hass_storage: dict[str, Any]) -> None:
+async def test_saving_state(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -> None:
     """Test we restore state integration."""
     restore_data = {"last_event_type": "double_press", "last_event_attributes": None}
 
@@ -334,7 +334,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -343,11 +343,11 @@ def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
 
 
 @pytest.mark.usefixtures("config_flow_fixture")
-async def test_name(hass: UniversalAssistant) -> None:
+async def test_name(hass: __HAC_KEEP__) -> None:
     """Test event name."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -392,7 +392,7 @@ async def test_name(hass: UniversalAssistant) -> None:
     )
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -443,13 +443,13 @@ async def test_name(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("config_flow_fixture")
 async def test_doorbell_missing_ring_event_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test warning when doorbell entity lacks the ring event type."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(

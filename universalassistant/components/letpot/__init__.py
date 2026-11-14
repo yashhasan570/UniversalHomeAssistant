@@ -9,7 +9,7 @@ from letpot.exceptions import LetPotAuthenticationException, LetPotException
 from letpot.models import AuthenticationInfo, LetPotGardenStatus
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -31,7 +31,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LetPotConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LetPotConfigEntry) -> None:
     """Set up LetPot from a config entry."""
 
     auth = AuthenticationInfo(
@@ -92,7 +92,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LetPotConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LetPotConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LetPotConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     for coordinator in entry.runtime_data:

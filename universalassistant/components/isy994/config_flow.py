@@ -26,9 +26,9 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.ssdp import (
@@ -75,7 +75,7 @@ def _data_schema(schema_input: dict[str, str]) -> probatio.Schema:
     )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, str]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, str]:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -381,17 +381,17 @@ class OptionsFlowHandler(OptionsFlowWithReload):
         )
 
 
-class InvalidHost(UniversalAssistantError):
+class InvalidHost(__HAC_KEEP__Error):
     """Error to indicate the host value is invalid."""
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class SslError(UniversalAssistantError):
+class SslError(__HAC_KEEP__Error):
     """Error to indicate a TLS/SSL handshake failure."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

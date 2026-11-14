@@ -14,13 +14,13 @@ from total_connect_client.exceptions import (
 
 from universalassistant.components.totalconnect.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_reauth_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that reauth is started when we have login errors."""
@@ -42,7 +42,7 @@ async def test_reauth_start(
     ],
 )
 async def test_update_failure_log_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_location: AsyncMock,
     freezer: FrozenDateTimeFactory,

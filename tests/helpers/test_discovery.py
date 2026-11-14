@@ -12,7 +12,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant import setup
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import discovery
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -26,7 +26,7 @@ def mock_setup_component():
         yield mock
 
 
-async def test_listen(hass: UniversalAssistant, mock_setup_component) -> None:
+async def test_listen(hass: __HAC_KEEP__, mock_setup_component) -> None:
     """Test discovery listen/discover combo."""
     calls_single = []
 
@@ -52,7 +52,7 @@ async def test_listen(hass: UniversalAssistant, mock_setup_component) -> None:
     assert calls_single[0] == ("test service", "discovery info")
 
 
-async def test_platform(hass: UniversalAssistant, mock_setup_component) -> None:
+async def test_platform(hass: __HAC_KEEP__, mock_setup_component) -> None:
     """Test discover platform method."""
     calls = []
 
@@ -106,7 +106,7 @@ async def test_platform(hass: UniversalAssistant, mock_setup_component) -> None:
     assert len(calls) == 1
 
 
-async def test_circular_import(hass: UniversalAssistant) -> None:
+async def test_circular_import(hass: __HAC_KEEP__) -> None:
     """Test we don't break doing circular import.
 
     This test will have test_component discover the switch.test_circular
@@ -121,7 +121,7 @@ async def test_circular_import(hass: UniversalAssistant) -> None:
     component_calls = []
     platform_calls = []
 
-    def component_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    def component_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Set up mock component."""
         discovery.load_platform(
             hass, Platform.SWITCH, "test_circular", {"key": "value"}, config
@@ -130,7 +130,7 @@ async def test_circular_import(hass: UniversalAssistant) -> None:
         return True
 
     def setup_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         add_entities_callback: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -164,7 +164,7 @@ async def test_circular_import(hass: UniversalAssistant) -> None:
     assert "switch" in hass.config.components
 
 
-async def test_1st_discovers_2nd_component(hass: UniversalAssistant) -> None:
+async def test_1st_discovers_2nd_component(hass: __HAC_KEEP__) -> None:
     """Test that we don't break if one component discovers the other.
 
     If the first component fires a discovery event to set up the
@@ -173,14 +173,14 @@ async def test_1st_discovers_2nd_component(hass: UniversalAssistant) -> None:
     """
     component_calls = []
 
-    async def component1_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def component1_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Set up mock component."""
         await discovery.async_discover(
             hass, "test_component2", {}, "test_component2", {}
         )
         return True
 
-    def component2_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    def component2_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Set up mock component."""
         component_calls.append(1)
         return True

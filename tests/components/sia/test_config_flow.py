@@ -20,7 +20,7 @@ from universalassistant.components.sia.const import (
 )
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_PORT, CONF_PROTOCOL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -106,7 +106,7 @@ ADDITIONAL_OPTIONS = {
 
 
 @pytest.fixture
-async def flow_at_user_step(hass: UniversalAssistant) -> ConfigFlowResult:
+async def flow_at_user_step(hass: __HAC_KEEP__) -> ConfigFlowResult:
     """Return a initialized flow."""
     return await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -116,7 +116,7 @@ async def flow_at_user_step(hass: UniversalAssistant) -> ConfigFlowResult:
 
 @pytest.fixture
 async def entry_with_basic_config(
-    hass: UniversalAssistant, flow_at_user_step: ConfigFlowResult
+    hass: __HAC_KEEP__, flow_at_user_step: ConfigFlowResult
 ) -> ConfigFlowResult:
     """Return a entry with a basic config."""
     with patch("universalassistant.components.sia.async_setup_entry", return_value=None):
@@ -127,7 +127,7 @@ async def entry_with_basic_config(
 
 @pytest.fixture
 async def flow_at_add_account_step(
-    hass: UniversalAssistant, flow_at_user_step: ConfigFlowResult
+    hass: __HAC_KEEP__, flow_at_user_step: ConfigFlowResult
 ) -> ConfigFlowResult:
     """Return a initialized flow at the additional account step."""
     return await hass.config_entries.flow.async_configure(
@@ -137,7 +137,7 @@ async def flow_at_add_account_step(
 
 @pytest.fixture
 async def entry_with_additional_account_config(
-    hass: UniversalAssistant, flow_at_add_account_step: ConfigFlowResult
+    hass: __HAC_KEEP__, flow_at_add_account_step: ConfigFlowResult
 ) -> ConfigFlowResult:
     """Return a entry with a two account config."""
     with patch("universalassistant.components.sia.async_setup_entry", return_value=None):
@@ -146,7 +146,7 @@ async def entry_with_additional_account_config(
         )
 
 
-async def setup_sia(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_sia(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Add mock config to HASS."""
     assert await async_setup_component(hass, DOMAIN, {})
     config_entry.add_to_hass(hass)
@@ -193,7 +193,7 @@ async def test_create_additional_account(
     assert entry_with_additional_account_config["options"] == ADDITIONAL_OUT["options"]
 
 
-async def test_abort_form(hass: UniversalAssistant) -> None:
+async def test_abort_form(hass: __HAC_KEEP__) -> None:
     """Test aborting a config that already exists."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -233,7 +233,7 @@ def mock_sia() -> Generator[None]:
     ],
 )
 async def test_validation_errors_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_at_user_step: ConfigFlowResult,
     field: str,
     value: str | int,
@@ -264,7 +264,7 @@ async def test_validation_errors_user(
     ],
 )
 async def test_validation_errors_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_at_user_step: ConfigFlowResult,
     field: str,
     value: str | int,
@@ -289,7 +289,7 @@ async def test_validation_errors_account(
 
 
 async def test_unknown_user(
-    hass: UniversalAssistant, flow_at_user_step: ConfigFlowResult
+    hass: __HAC_KEEP__, flow_at_user_step: ConfigFlowResult
 ) -> None:
     """Test unknown exceptions."""
     flow_id = flow_at_user_step["flow_id"]
@@ -310,7 +310,7 @@ async def test_unknown_user(
 
 
 async def test_unknown_account(
-    hass: UniversalAssistant, flow_at_user_step: ConfigFlowResult
+    hass: __HAC_KEEP__, flow_at_user_step: ConfigFlowResult
 ) -> None:
     """Test unknown exceptions."""
     flow_at_add_account_step = await hass.config_entries.flow.async_configure(
@@ -333,7 +333,7 @@ async def test_unknown_account(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_not_loaded(hass: UniversalAssistant) -> None:
+async def test_options_not_loaded(hass: __HAC_KEEP__) -> None:
     """Test options flow works when entry is not loaded."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -357,7 +357,7 @@ async def test_options_not_loaded(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_options_basic(hass: UniversalAssistant) -> None:
+async def test_options_basic(hass: __HAC_KEEP__) -> None:
     """Test options flow for single account."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -383,7 +383,7 @@ async def test_options_basic(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_options_additional(hass: UniversalAssistant) -> None:
+async def test_options_additional(hass: __HAC_KEEP__) -> None:
     """Test options flow for single account."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

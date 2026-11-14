@@ -11,7 +11,7 @@ from smarttub.api import Account
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -37,13 +37,13 @@ type SmartTubConfigEntry = ConfigEntry[SmartTubController]
 
 
 class SmartTubController:
-    """Interface between Universal Universal Home Assistant and the SmartTub API."""
+    """Interface between __HA_KEEP__ and the SmartTub API."""
 
     coordinator: DataUpdateCoordinator[dict[str, Any]]
     spas: list[Spa]
     _account: Account
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize an interface to SmartTub."""
         self._hass = hass
         self._failed_polls: dict[str, int] = {}

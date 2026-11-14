@@ -9,7 +9,7 @@ from whirlpool.refrigerator import Refrigerator
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -59,7 +59,7 @@ REFRIGERATOR_DESCRIPTIONS: Final[tuple[WhirlpoolSelectDescription, ...]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WhirlpoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

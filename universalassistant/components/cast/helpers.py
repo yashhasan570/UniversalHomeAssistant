@@ -17,7 +17,7 @@ import pychromecast.controllers.receiver
 from pychromecast.models import CastInfo
 import pychromecast.socket_client
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 
 if TYPE_CHECKING:
@@ -57,7 +57,7 @@ class ChromecastInfo:
         return self.cast_info.uuid
 
     def fill_out_missing_chromecast_info(
-        self, hass: UniversalAssistant, config_entry: CastConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: CastConfigEntry
     ) -> ChromecastInfo:
         """Return a new ChromecastInfo object with missing attributes filled in.
 
@@ -80,7 +80,7 @@ class ChromecastInfo:
 
                 report_issue = (
                     "create a bug report at "
-                    "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue"
+                    "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue"
                     "+label%3A%22integration%3A+cast%22"
                 )
 
@@ -200,14 +200,14 @@ class CastStatusListener(
 
     @override
     def new_connection_status(self, status):
-        """Schedule connection status handling on the Universal Universal Home Assistant event loop."""
+        """Schedule connection status handling on the __HA_KEEP__ event loop."""
         if self._valid:
             self._cast_device.hass.loop.call_soon_threadsafe(
                 self.async_new_connection_status, status
             )
 
     def async_new_connection_status(self, status):
-        """Handle connection status on the Universal Universal Home Assistant event loop."""
+        """Handle connection status on the __HA_KEEP__ event loop."""
         if self._valid:
             self._cast_device.new_connection_status(status)
 

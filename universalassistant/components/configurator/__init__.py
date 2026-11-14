@@ -17,7 +17,7 @@ import probatio
 from universalassistant.const import EntityStateAttribute
 from universalassistant.core import (
     HassJob,
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     callback as async_callback,
 )
@@ -75,7 +75,7 @@ def _report_deprecation() -> None:
 
 @async_callback
 def async_request_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     name: str,
     callback: ConfiguratorCallback | None = None,
     description: str | None = None,
@@ -107,7 +107,7 @@ def async_request_config(
 
 @async_callback
 def _async_request_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     name: str,
     callback: ConfiguratorCallback | None = None,
     description: str | None = None,
@@ -143,7 +143,7 @@ def _async_request_config(
     return request_id
 
 
-def request_config(hass: UniversalAssistant, *args: Any, **kwargs: Any) -> str:
+def request_config(hass: __HAC_KEEP__, *args: Any, **kwargs: Any) -> str:
     """Create a new request for configuration.
 
     Will return an ID to be used for sequent calls.
@@ -155,13 +155,13 @@ def request_config(hass: UniversalAssistant, *args: Any, **kwargs: Any) -> str:
 
 
 @async_callback
-def async_notify_errors(hass: UniversalAssistant, request_id: str, error: str) -> None:
+def async_notify_errors(hass: __HAC_KEEP__, request_id: str, error: str) -> None:
     """Add errors to a config request."""
     with suppress(KeyError):  # If request_id does not exist
         _get_requests(hass)[request_id].async_notify_errors(request_id, error)
 
 
-def notify_errors(hass: UniversalAssistant, request_id: str, error: str) -> None:
+def notify_errors(hass: __HAC_KEEP__, request_id: str, error: str) -> None:
     """Add errors to a config request."""
     return run_callback_threadsafe(
         hass.loop, async_notify_errors, hass, request_id, error
@@ -169,25 +169,25 @@ def notify_errors(hass: UniversalAssistant, request_id: str, error: str) -> None
 
 
 @async_callback
-def async_request_done(hass: UniversalAssistant, request_id: str) -> None:
+def async_request_done(hass: __HAC_KEEP__, request_id: str) -> None:
     """Mark a configuration request as done."""
     with suppress(KeyError):  # If request_id does not exist
         _get_requests(hass).pop(request_id).async_request_done(request_id)
 
 
-def request_done(hass: UniversalAssistant, request_id: str) -> None:
+def request_done(hass: __HAC_KEEP__, request_id: str) -> None:
     """Mark a configuration request as done."""
     return run_callback_threadsafe(
         hass.loop, async_request_done, hass, request_id
     ).result()
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the configurator component."""
     return True
 
 
-def _get_requests(hass: UniversalAssistant) -> dict[str, Configurator]:
+def _get_requests(hass: __HAC_KEEP__) -> dict[str, Configurator]:
     """Return typed configurator_requests data."""
     return hass.data[DATA_REQUESTS]  # type: ignore[no-any-return]
 
@@ -195,7 +195,7 @@ def _get_requests(hass: UniversalAssistant) -> dict[str, Configurator]:
 class Configurator:
     """The class to keep track of current configuration requests."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the configurator."""
         self.hass = hass
         self._cur_id = 0

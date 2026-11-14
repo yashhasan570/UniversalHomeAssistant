@@ -12,8 +12,8 @@ from universalassistant.components.subaru.const import (
     VEHICLE_HAS_REMOTE_START,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .api_responses import (
@@ -48,7 +48,7 @@ VEHICLE_BUTTONS = {
 
 @pytest.mark.parametrize("vin", [TEST_VIN_2_EV, TEST_VIN_3_G3])
 async def test_device_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
     vin: str,
@@ -74,7 +74,7 @@ async def test_device_exists(
     ],
 )
 async def test_remote_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subaru_config_entry: MockConfigEntry,
     vin: str,
     vehicle_status: dict,
@@ -109,7 +109,7 @@ async def test_remote_start(
     ],
 )
 async def test_remote_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subaru_config_entry: MockConfigEntry,
     vin: str,
     vehicle_status: dict,
@@ -144,7 +144,7 @@ async def test_remote_stop(
     ],
 )
 async def test_remote_start_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subaru_config_entry: MockConfigEntry,
     vin: str,
     vehicle_status: dict,
@@ -160,7 +160,7 @@ async def test_remote_start_fails(
         patch(MOCK_API_REMOTE_START, return_value=False),
         patch(MOCK_API_FETCH),
         patch(MOCK_API_GET_DATA, return_value=vehicle_status),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,
@@ -178,7 +178,7 @@ async def test_remote_start_fails(
     ],
 )
 async def test_remote_start_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subaru_config_entry: MockConfigEntry,
     vin: str,
     vehicle_status: dict,
@@ -197,7 +197,7 @@ async def test_remote_start_exception(
         ),
         patch(MOCK_API_FETCH),
         patch(MOCK_API_GET_DATA, return_value=vehicle_status),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,
@@ -215,7 +215,7 @@ async def test_remote_start_exception(
     ],
 )
 async def test_remote_stop_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subaru_config_entry: MockConfigEntry,
     vin: str,
     vehicle_status: dict,
@@ -231,7 +231,7 @@ async def test_remote_stop_fails(
         patch(MOCK_API_REMOTE_STOP, return_value=False),
         patch(MOCK_API_FETCH),
         patch(MOCK_API_GET_DATA, return_value=vehicle_status),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,
@@ -249,7 +249,7 @@ async def test_remote_stop_fails(
     ],
 )
 async def test_remote_stop_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subaru_config_entry: MockConfigEntry,
     vin: str,
     vehicle_status: dict,
@@ -268,7 +268,7 @@ async def test_remote_stop_exception(
         ),
         patch(MOCK_API_FETCH),
         patch(MOCK_API_GET_DATA, return_value=vehicle_status),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,
@@ -279,7 +279,7 @@ async def test_remote_stop_exception(
 
 
 async def test_no_buttons_without_remote_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     subaru_config_entry: MockConfigEntry,
 ) -> None:
@@ -302,7 +302,7 @@ async def test_no_buttons_without_remote_start(
 
 
 async def test_button_unavailable_on_fetch_failure(
-    hass: UniversalAssistant, ev_entry: MockConfigEntry
+    hass: __HAC_KEEP__, ev_entry: MockConfigEntry
 ) -> None:
     """Test button goes unavailable when a fetch fails after setup."""
     with patch(MOCK_API_FETCH, side_effect=SubaruException("403 Error")):

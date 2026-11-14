@@ -22,7 +22,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import get_reauth_flows, setup_integration
 
@@ -49,7 +49,7 @@ AUTH_ERRORS = [
 
 
 async def test_setup_entry_without_event_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nanoleaf: AsyncMock,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_setup_entry_without_event_support(
 
 
 async def test_setup_entry_with_event_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nanoleaf: AsyncMock,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_setup_entry_with_event_support(
 
 @pytest.mark.parametrize("error", NANOLEAF_ERRORS)
 async def test_setup_entry_update_failure_retries_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nanoleaf: AsyncMock,
     error: NanoleafError,
@@ -97,7 +97,7 @@ async def test_setup_entry_update_failure_retries_setup(
 
 @pytest.mark.parametrize("error", AUTH_ERRORS)
 async def test_setup_entry_auth_failure_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nanoleaf: AsyncMock,
     error: NanoleafError,
@@ -114,7 +114,7 @@ async def test_setup_entry_auth_failure_starts_reauth(
 
 @pytest.mark.parametrize("error", NANOLEAF_ERRORS)
 async def test_update_failure_makes_entities_unavailable_and_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -143,7 +143,7 @@ async def test_update_failure_makes_entities_unavailable_and_recovers(
 
 @pytest.mark.parametrize("error", AUTH_ERRORS)
 async def test_update_auth_failure_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -163,7 +163,7 @@ async def test_update_auth_failure_starts_reauth(
 
 
 async def test_event_listener_is_cancelled_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nanoleaf: AsyncMock,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_event_listener_is_cancelled_on_unload(
     ],
 )
 async def test_event_listener_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nanoleaf: AsyncMock,
     error: AuthError,
@@ -226,7 +226,7 @@ async def test_event_listener_auth_error_starts_reauth(
     ],
 )
 async def test_event_listener_other_error_falls_back_to_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_nanoleaf: AsyncMock,
@@ -257,7 +257,7 @@ async def test_event_listener_other_error_falls_back_to_polling(
 
 @pytest.mark.parametrize("callback_name", ["state_callback", "effects_callback"])
 async def test_pushed_event_refreshes_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nanoleaf: AsyncMock,
     callback_name: str,

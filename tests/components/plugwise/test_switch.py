@@ -17,8 +17,8 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import CoreState, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -30,7 +30,7 @@ DHW_CM_SWITCH_ISSUE_ID = "deprecated_dhw_cm_switch_36b937e44ad145bab165fa0fe99d7
 @pytest.mark.parametrize("platforms", [(SWITCH_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_switch_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -40,7 +40,7 @@ async def test_adam_switch_snapshot(
 
 
 async def test_adam_climate_switch_changes(
-    hass: UniversalAssistant, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test changing of climate related switch entities."""
     await hass.services.async_call(
@@ -81,12 +81,12 @@ async def test_adam_climate_switch_changes(
 
 
 async def test_adam_climate_switch_negative_testing(
-    hass: UniversalAssistant, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test exceptions of climate related switch entities."""
     mock_smile_adam.set_switch_state.side_effect = PlugwiseException
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -99,7 +99,7 @@ async def test_adam_climate_switch_negative_testing(
         "78d1126fc4c743db81b61c20e88342a7", None, "relay", STATE_OFF
     )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -117,7 +117,7 @@ async def test_adam_climate_switch_negative_testing(
 @pytest.mark.parametrize("platforms", [(SWITCH_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_stretch_switch_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -130,7 +130,7 @@ async def test_stretch_switch_snapshot(
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 @pytest.mark.usefixtures("mock_smile_anna")
 async def test_deprecated_dhw_comfort_switch_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_smile_anna: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -193,7 +193,7 @@ async def test_deprecated_dhw_comfort_switch_warning(
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 @pytest.mark.usefixtures("mock_smile_anna")
 async def test_deprecated_dhw_comfort_switch_not_created_for_new_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -217,7 +217,7 @@ async def test_deprecated_dhw_comfort_switch_not_created_for_new_install(
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 @pytest.mark.usefixtures("mock_smile_anna")
 async def test_deprecated_dhw_comfort_switch_removed_when_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -250,7 +250,7 @@ async def test_deprecated_dhw_comfort_switch_removed_when_disabled(
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 @pytest.mark.usefixtures("mock_smile_anna")
 async def test_deferred_dhw_switch_check_unsubscribed_when_entry_unloads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -284,12 +284,12 @@ async def test_deferred_dhw_switch_check_unsubscribed_when_entry_unloads(
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 @pytest.mark.usefixtures("mock_smile_anna")
 async def test_deferred_dhw_switch_check_on_universalassistant_started(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
-    """Test the deferred entity check runs once Universal Universal Home Assistant has started."""
+    """Test the deferred entity check runs once __HA_KEEP__ has started."""
     mock_config_entry.add_to_hass(hass)
     entity_registry.async_get_or_create(
         SWITCH_DOMAIN,
@@ -328,7 +328,7 @@ async def test_deferred_dhw_switch_check_on_universalassistant_started(
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 @pytest.mark.usefixtures("mock_smile_anna")
 async def test_deprecated_dhw_comfort_switch_kept_when_referenced(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -405,7 +405,7 @@ async def test_deprecated_dhw_comfort_switch_kept_when_referenced(
 
 
 async def test_stretch_switch_changes(
-    hass: UniversalAssistant, mock_stretch: MagicMock, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, mock_stretch: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test changing of power related switch entities."""
     await hass.services.async_call(
@@ -444,7 +444,7 @@ async def test_stretch_switch_changes(
 
 @pytest.mark.usefixtures("mock_smile_adam")
 async def test_unique_id_migration_plug_relay(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

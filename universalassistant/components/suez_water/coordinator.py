@@ -25,7 +25,7 @@ from universalassistant.const import (
     CURRENCY_EURO,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 import universalassistant.util.dt as dt_util
@@ -66,7 +66,7 @@ class SuezWaterCoordinator(DataUpdateCoordinator[SuezWaterData]):
     _suez_client: SuezClient
     config_entry: SuezWaterConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: SuezWaterConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: SuezWaterConfigEntry) -> None:
         """Initialize suez water coordinator."""
         super().__init__(
             hass,

@@ -5,12 +5,12 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: UniversalAssistant):
+async def setup_universalassistant(hass: __HAC_KEEP__):
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 

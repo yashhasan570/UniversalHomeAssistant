@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant import config_entries
 from universalassistant.components.lcn.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import (
@@ -27,7 +27,7 @@ from .conftest import (
 )
 
 
-async def test_async_setup_entry(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_async_setup_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test a successful setup entry and unload of entry."""
     await init_integration(hass, entry)
 
@@ -42,7 +42,7 @@ async def test_async_setup_entry(hass: UniversalAssistant, entry: MockConfigEntr
 
 
 async def test_async_setup_multiple_entries(
-    hass: UniversalAssistant, entry: MockConfigEntry, entry2
+    hass: __HAC_KEEP__, entry: MockConfigEntry, entry2
 ) -> None:
     """Test a successful setup and unload of multiple entries."""
     hass.http = Mock()
@@ -65,7 +65,7 @@ async def test_async_setup_multiple_entries(
 
 
 async def test_async_setup_entry_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     entry: MockConfigEntry,
@@ -101,7 +101,7 @@ async def test_async_setup_entry_update(
     ],
 )
 async def test_async_setup_entry_fails(
-    hass: UniversalAssistant, entry: MockConfigEntry, exception: Exception
+    hass: __HAC_KEEP__, entry: MockConfigEntry, exception: Exception
 ) -> None:
     """Test that an error is handled properly."""
     with (
@@ -122,7 +122,7 @@ async def test_async_setup_entry_fails(
     [LcnEvent.CONNECTION_LOST, LcnEvent.PING_TIMEOUT, LcnEvent.BUS_DISCONNECTED],
 )
 async def test_async_entry_reload_on_host_event_received(
-    hass: UniversalAssistant, entry: MockConfigEntry, event: LcnEvent
+    hass: __HAC_KEEP__, entry: MockConfigEntry, event: LcnEvent
 ) -> None:
     """Test for config entry reload on certain host event received."""
     lcn_connection = await init_integration(hass, entry)
@@ -134,7 +134,7 @@ async def test_async_entry_reload_on_host_event_received(
 
 
 @patch("universalassistant.components.lcn.PchkConnectionManager", MockPchkConnectionManager)
-async def test_migrate_1_1(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_migrate_1_1(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test migration config entry."""
     entry_v1_1 = create_config_entry("pchk_v1_1", version=(1, 1))
     await init_integration(hass, entry_v1_1)
@@ -148,7 +148,7 @@ async def test_migrate_1_1(hass: UniversalAssistant, snapshot: SnapshotAssertion
 
 
 @patch("universalassistant.components.lcn.PchkConnectionManager", MockPchkConnectionManager)
-async def test_migrate_1_2(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_migrate_1_2(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test migration config entry."""
     entry_v1_2 = create_config_entry("pchk_v1_2", version=(1, 2))
     await init_integration(hass, entry_v1_2)
@@ -162,7 +162,7 @@ async def test_migrate_1_2(hass: UniversalAssistant, snapshot: SnapshotAssertion
 
 
 @patch("universalassistant.components.lcn.PchkConnectionManager", MockPchkConnectionManager)
-async def test_migrate_2_1(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_migrate_2_1(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test migration config entry."""
     entry_v2_1 = create_config_entry("pchk_v2_1", version=(2, 1))
     await init_integration(hass, entry_v2_1)
@@ -183,7 +183,7 @@ async def test_migrate_2_1(hass: UniversalAssistant, snapshot: SnapshotAssertion
 )
 @patch("universalassistant.components.lcn.PchkConnectionManager", MockPchkConnectionManager)
 async def test_entity_migration_on_2_1(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_id, replace
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_id, replace
 ) -> None:
     """Test entity.unique_id migration on config_entry migration from 2.1."""
     entry_v2_1 = create_config_entry("pchk_v2_1", version=(2, 1))

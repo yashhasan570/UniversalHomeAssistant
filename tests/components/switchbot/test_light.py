@@ -20,8 +20,8 @@ from universalassistant.components.light import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -184,7 +184,7 @@ AIR_PURIFIER_LIGHT_PARAMETERS = (
 
 @pytest.mark.parametrize(*BULB_PARAMETERS)
 async def test_bulb_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -220,7 +220,7 @@ async def test_bulb_services(
 
 @pytest.mark.parametrize(*BULB_PARAMETERS)
 async def test_bulb_services_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -245,7 +245,7 @@ async def test_bulb_services_exception(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(UniversalAssistantError, match=error_message):
+        with pytest.raises(__HAC_KEEP__Error, match=error_message):
             await hass.services.async_call(
                 LIGHT_DOMAIN,
                 service,
@@ -256,7 +256,7 @@ async def test_bulb_services_exception(
 
 @pytest.mark.parametrize(*CEILING_LIGHT_PARAMETERS)
 async def test_ceiling_light_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -292,7 +292,7 @@ async def test_ceiling_light_services(
 
 @pytest.mark.parametrize(*CEILING_LIGHT_PARAMETERS)
 async def test_ceiling_light_services_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -317,7 +317,7 @@ async def test_ceiling_light_services_exception(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(UniversalAssistantError, match=error_message):
+        with pytest.raises(__HAC_KEEP__Error, match=error_message):
             await hass.services.async_call(
                 LIGHT_DOMAIN,
                 service,
@@ -328,7 +328,7 @@ async def test_ceiling_light_services_exception(
 
 @pytest.mark.parametrize(*STRIP_LIGHT_PARAMETERS)
 async def test_strip_light_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -364,7 +364,7 @@ async def test_strip_light_services(
 
 @pytest.mark.parametrize(*STRIP_LIGHT_PARAMETERS)
 async def test_strip_light_services_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -389,7 +389,7 @@ async def test_strip_light_services_exception(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(UniversalAssistantError, match=error_message):
+        with pytest.raises(__HAC_KEEP__Error, match=error_message):
             await hass.services.async_call(
                 LIGHT_DOMAIN,
                 service,
@@ -419,7 +419,7 @@ async def test_strip_light_services_exception(
 )
 @pytest.mark.parametrize(*FLOOR_LAMP_PARAMETERS)
 async def test_floor_lamp_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     sensor_type: str,
     service_info: BluetoothServiceInfoBleak,
@@ -465,7 +465,7 @@ async def test_floor_lamp_services(
 )
 @pytest.mark.parametrize(*FLOOR_LAMP_PARAMETERS)
 async def test_floor_lamp_services_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     sensor_type: str,
     service_info: BluetoothServiceInfoBleak,
@@ -490,7 +490,7 @@ async def test_floor_lamp_services_exception(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(UniversalAssistantError, match=error_message):
+        with pytest.raises(__HAC_KEEP__Error, match=error_message):
             await hass.services.async_call(
                 LIGHT_DOMAIN,
                 service,
@@ -501,7 +501,7 @@ async def test_floor_lamp_services_exception(
 
 @pytest.mark.parametrize(*CANDLE_WARMER_LAMP_PARAMETERS)
 async def test_candle_warmer_lamp_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -537,7 +537,7 @@ async def test_candle_warmer_lamp_services(
 
 @pytest.mark.parametrize(*CANDLE_WARMER_LAMP_PARAMETERS)
 async def test_candle_warmer_lamp_services_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -560,7 +560,7 @@ async def test_candle_warmer_lamp_services_exception(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(UniversalAssistantError, match=error_message):
+        with pytest.raises(__HAC_KEEP__Error, match=error_message):
             await hass.services.async_call(
                 LIGHT_DOMAIN,
                 service,
@@ -575,7 +575,7 @@ async def test_candle_warmer_lamp_services_exception(
 )
 @pytest.mark.parametrize(*RGBIC_NEON_LIGHT_PARAMETERS)
 async def test_rgbic_neon_light_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     sensor_type: str,
     service: str,
@@ -612,7 +612,7 @@ async def test_rgbic_neon_light_services(
 
 @pytest.mark.parametrize(*RGBIC_NEON_LIGHT_PARAMETERS)
 async def test_rgbic_neon_light_services_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -635,7 +635,7 @@ async def test_rgbic_neon_light_services_exception(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(UniversalAssistantError, match=error_message):
+        with pytest.raises(__HAC_KEEP__Error, match=error_message):
             await hass.services.async_call(
                 LIGHT_DOMAIN,
                 service,
@@ -655,7 +655,7 @@ async def test_rgbic_neon_light_services_exception(
 )
 @pytest.mark.parametrize(*AIR_PURIFIER_LIGHT_PARAMETERS)
 async def test_air_purifier_light_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service_info: BluetoothServiceInfoBleak,
     sensor_type: str,
@@ -694,7 +694,7 @@ async def test_air_purifier_light_services(
 
 
 async def test_air_purifier_light_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test restoring state of SwitchBot air purifier light."""
@@ -740,7 +740,7 @@ async def test_air_purifier_light_restore_state(
     ],
 )
 async def test_circulator_fan_pro_light_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -785,7 +785,7 @@ async def test_circulator_fan_pro_light_services(
     ],
 )
 async def test_circulator_fan_pro_light_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     is_on: bool,

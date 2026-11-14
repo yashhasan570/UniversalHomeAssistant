@@ -14,8 +14,8 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .mocks import _mock_powerwall_restricted, _mock_powerwall_with_fixtures
@@ -24,7 +24,7 @@ ENTITY_ID = "switch.mysite_off_grid_operation"
 
 
 @pytest.fixture(name="mock_powerwall")
-async def mock_powerwall_fixture(hass: UniversalAssistant) -> MagicMock:
+async def mock_powerwall_fixture(hass: __HAC_KEEP__) -> MagicMock:
     """Set up base powerwall fixture."""
 
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
@@ -40,7 +40,7 @@ async def mock_powerwall_fixture(hass: UniversalAssistant) -> MagicMock:
 
 
 async def test_entity_registry(
-    hass: UniversalAssistant, mock_powerwall, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, mock_powerwall, entity_registry: er.EntityRegistry
 ) -> None:
     """Test powerwall off-grid switch device."""
 
@@ -49,7 +49,7 @@ async def test_entity_registry(
     assert ENTITY_ID in entity_registry.entities
 
 
-async def test_initial(hass: UniversalAssistant, mock_powerwall) -> None:
+async def test_initial(hass: __HAC_KEEP__, mock_powerwall) -> None:
     """Test initial grid status without off grid switch selected."""
 
     mock_powerwall.get_grid_status.return_value = GridStatus.CONNECTED
@@ -58,7 +58,7 @@ async def test_initial(hass: UniversalAssistant, mock_powerwall) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_on(hass: UniversalAssistant, mock_powerwall) -> None:
+async def test_on(hass: __HAC_KEEP__, mock_powerwall) -> None:
     """Test state once offgrid switch has been turned on."""
 
     mock_powerwall.get_grid_status.return_value = GridStatus.ISLANDED
@@ -74,7 +74,7 @@ async def test_on(hass: UniversalAssistant, mock_powerwall) -> None:
     assert state.state == STATE_ON
 
 
-async def test_off(hass: UniversalAssistant, mock_powerwall) -> None:
+async def test_off(hass: __HAC_KEEP__, mock_powerwall) -> None:
     """Test state once offgrid switch has been turned off."""
 
     mock_powerwall.get_grid_status.return_value = GridStatus.CONNECTED
@@ -91,12 +91,12 @@ async def test_off(hass: UniversalAssistant, mock_powerwall) -> None:
 
 
 async def test_exception_on_powerwall_error(
-    hass: UniversalAssistant, mock_powerwall
+    hass: __HAC_KEEP__, mock_powerwall
 ) -> None:
-    """Ensure tesla_powerwall exception causes UniversalAssistantError."""
+    """Ensure tesla_powerwall exception causes __HAC_KEEP__Error."""
 
     mock_powerwall.set_island_mode.side_effect = PowerwallError("Mock exception")
-    with pytest.raises(UniversalAssistantError, match="Setting off-grid operation to"):
+    with pytest.raises(__HAC_KEEP__Error, match="Setting off-grid operation to"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -106,7 +106,7 @@ async def test_exception_on_powerwall_error(
 
 
 async def test_pw3_no_switch(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Switch platform must not create entities for restricted PW3 surface."""
     mock_powerwall = await _mock_powerwall_restricted(hass)

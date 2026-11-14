@@ -40,7 +40,7 @@ from universalassistant.const import (
     UnitOfInformation,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType, Undefined
 from universalassistant.util import dt as dt_util
@@ -283,7 +283,7 @@ PORT_SENSOR_TYPES: Final[tuple[QswSensorEntityDescription, ...]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: QnapQswConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

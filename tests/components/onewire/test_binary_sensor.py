@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.onewire.onewirehub import _DEVICE_SCAN_INTERVAL
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_owproxy_mock_devices
@@ -30,7 +30,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -46,7 +46,7 @@ async def test_binary_sensors(
 @pytest.mark.parametrize("device_id", ["29.111111111111"])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensors_delayed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_id: str,

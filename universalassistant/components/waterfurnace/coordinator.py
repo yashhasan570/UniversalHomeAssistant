@@ -29,7 +29,7 @@ from universalassistant.components.recorder.statistics import (
     get_last_statistics,
 )
 from universalassistant.const import UnitOfEnergy
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 from universalassistant.util.unit_conversion import EnergyConverter
@@ -69,7 +69,7 @@ class WaterFurnaceCoordinator(DataUpdateCoordinator[WFReading]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         client: WaterFurnace,
         config_entry: WaterFurnaceConfigEntry,
     ) -> None:
@@ -109,7 +109,7 @@ class WaterFurnaceEnergyCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         client: WaterFurnace,
         config_entry: WaterFurnaceConfigEntry,
         gwid: str,

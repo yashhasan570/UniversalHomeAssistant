@@ -5,12 +5,12 @@ from async_upnp_client.ssdp_listener import SsdpListener
 from async_upnp_client.utils import CaseInsensitiveDict
 
 from universalassistant.components import ssdp
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
-async def init_ssdp_component(hass: UniversalAssistant) -> SsdpListener:
+async def init_ssdp_component(hass: __HAC_KEEP__) -> SsdpListener:
     """Initialize ssdp component and get SsdpListener."""
     await async_setup_component(hass, ssdp.DOMAIN, {ssdp.DOMAIN: {}})
     await hass.async_block_till_done()

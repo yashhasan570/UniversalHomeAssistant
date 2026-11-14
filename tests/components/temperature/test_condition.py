@@ -24,7 +24,7 @@ from universalassistant.components.temperature.condition import CONDITIONS
 from universalassistant.components.water_heater import WaterHeaterCapabilityAttribute
 from universalassistant.components.weather import WeatherEntityCapabilityAttribute
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 _CLIMATE_UNIT_ATTRIBUTES = {
     ClimateEntityCapabilityAttribute.TEMPERATURE_UNIT: UnitOfTemperature.CELSIUS
@@ -38,25 +38,25 @@ _WEATHER_UNIT_ATTRIBUTES = {
 
 
 @pytest.fixture
-async def target_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple sensor entities associated with different targets."""
     return await target_entities(hass, "sensor")
 
 
 @pytest.fixture
-async def target_climates(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_climates(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple climate entities associated with different targets."""
     return await target_entities(hass, "climate")
 
 
 @pytest.fixture
-async def target_water_heaters(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_water_heaters(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple water heater entities associated with different targets."""
     return await target_entities(hass, "water_heater")
 
 
 @pytest.fixture
-async def target_weathers(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_weathers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple weather entities associated with different targets."""
     return await target_entities(hass, "weather")
 
@@ -81,7 +81,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_temperature_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -116,7 +116,7 @@ def test_condition_target_support() -> None:
     ),
 )
 async def test_temperature_sensor_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -152,7 +152,7 @@ async def test_temperature_sensor_condition_behavior_any(
     ),
 )
 async def test_temperature_sensor_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -190,7 +190,7 @@ async def test_temperature_sensor_condition_behavior_all(
     ),
 )
 async def test_temperature_climate_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -228,7 +228,7 @@ async def test_temperature_climate_condition_behavior_any(
     ),
 )
 async def test_temperature_climate_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -266,7 +266,7 @@ async def test_temperature_climate_condition_behavior_all(
     ),
 )
 async def test_temperature_water_heater_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_water_heaters: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -304,7 +304,7 @@ async def test_temperature_water_heater_condition_behavior_any(
     ),
 )
 async def test_temperature_water_heater_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_water_heaters: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -342,7 +342,7 @@ async def test_temperature_water_heater_condition_behavior_all(
     ),
 )
 async def test_temperature_weather_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_weathers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -380,7 +380,7 @@ async def test_temperature_weather_condition_behavior_any(
     ),
 )
 async def test_temperature_weather_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_weathers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -403,7 +403,7 @@ async def test_temperature_weather_condition_behavior_all(
 
 
 async def test_temperature_condition_unit_conversion_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the temperature condition converts units correctly for sensors."""
     _unit_celsius = {ATTR_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS}
@@ -492,7 +492,7 @@ async def test_temperature_condition_unit_conversion_sensor(
 
 
 async def test_temperature_condition_unit_conversion_climate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the temperature condition converts units correctly for climate."""
     _unit_celsius = {ATTR_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS}

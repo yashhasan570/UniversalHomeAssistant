@@ -12,7 +12,7 @@ from anova_wifi import (
 )
 
 from universalassistant.const import CONF_DEVICES, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client
 
@@ -24,7 +24,7 @@ PLATFORMS = [Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AnovaConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AnovaConfigEntry) -> None:
     """Set up Anova from a config entry."""
     api = AnovaApi(
         aiohttp_client.async_get_clientsession(hass),
@@ -63,14 +63,14 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AnovaConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AnovaConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AnovaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     # Disconnect from WS
     await entry.runtime_data.api.disconnect_websocket()
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: AnovaConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: AnovaConfigEntry) -> None:
     """Migrate entry."""
     _LOGGER.debug("Migrating from version %s:%s", entry.version, entry.minor_version)
 

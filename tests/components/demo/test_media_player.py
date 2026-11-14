@@ -52,7 +52,7 @@ from universalassistant.const import (
     STATE_PLAYING,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import DATA_CLIENTSESSION, _make_key
 from universalassistant.setup import async_setup_component
 
@@ -79,7 +79,7 @@ def media_player_media_seek_fixture():
         yield seek
 
 
-async def test_source_select(hass: UniversalAssistant) -> None:
+async def test_source_select(hass: __HAC_KEEP__) -> None:
     """Test the input source service."""
     entity_id = "media_player.lounge_room"
 
@@ -111,7 +111,7 @@ async def test_source_select(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_INPUT_SOURCE) == "xbox"
 
 
-async def test_repeat_set(hass: UniversalAssistant) -> None:
+async def test_repeat_set(hass: __HAC_KEEP__) -> None:
     """Test the repeat set service."""
     entity_id = "media_player.walkman"
 
@@ -133,7 +133,7 @@ async def test_repeat_set(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_MEDIA_REPEAT) == RepeatMode.ALL
 
 
-async def test_clear_playlist(hass: UniversalAssistant) -> None:
+async def test_clear_playlist(hass: __HAC_KEEP__) -> None:
     """Test clear playlist."""
     assert await async_setup_component(
         hass, MP_DOMAIN, {"media_player": {"platform": "demo"}}
@@ -154,7 +154,7 @@ async def test_clear_playlist(hass: UniversalAssistant) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_volume_services(hass: UniversalAssistant) -> None:
+async def test_volume_services(hass: __HAC_KEEP__) -> None:
     """Test the volume service."""
     assert await async_setup_component(
         hass, MP_DOMAIN, {"media_player": {"platform": "demo"}}
@@ -230,7 +230,7 @@ async def test_volume_services(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_MEDIA_VOLUME_MUTED) is True
 
 
-async def test_turning_off_and_on(hass: UniversalAssistant) -> None:
+async def test_turning_off_and_on(hass: __HAC_KEEP__) -> None:
     """Test turn_on and turn_off."""
     assert await async_setup_component(
         hass, MP_DOMAIN, {"media_player": {"platform": "demo"}}
@@ -274,7 +274,7 @@ async def test_turning_off_and_on(hass: UniversalAssistant) -> None:
     assert not is_on(hass, TEST_ENTITY_ID)
 
 
-async def test_playing_pausing(hass: UniversalAssistant) -> None:
+async def test_playing_pausing(hass: __HAC_KEEP__) -> None:
     """Test media_pause."""
     assert await async_setup_component(
         hass, MP_DOMAIN, {"media_player": {"platform": "demo"}}
@@ -325,7 +325,7 @@ async def test_playing_pausing(hass: UniversalAssistant) -> None:
     assert state.state == STATE_PLAYING
 
 
-async def test_prev_next_track(hass: UniversalAssistant) -> None:
+async def test_prev_next_track(hass: __HAC_KEEP__) -> None:
     """Test media_next_track and media_previous_track ."""
     assert await async_setup_component(
         hass, MP_DOMAIN, {"media_player": {"platform": "demo"}}
@@ -395,7 +395,7 @@ async def test_prev_next_track(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_MEDIA_EPISODE) == "1"
 
 
-async def test_play_media(hass: UniversalAssistant) -> None:
+async def test_play_media(hass: __HAC_KEEP__) -> None:
     """Test play_media ."""
     assert await async_setup_component(
         hass, MP_DOMAIN, {"media_player": {"platform": "demo"}}
@@ -446,7 +446,7 @@ async def test_play_media(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_MEDIA_CONTENT_ID) == "some_id"
 
 
-async def test_seek(hass: UniversalAssistant, mock_media_seek) -> None:
+async def test_seek(hass: __HAC_KEEP__, mock_media_seek) -> None:
     """Test seek."""
     assert await async_setup_component(
         hass, MP_DOMAIN, {"media_player": {"platform": "demo"}}
@@ -482,7 +482,7 @@ async def test_seek(hass: UniversalAssistant, mock_media_seek) -> None:
     assert mock_media_seek.called
 
 
-async def test_stop(hass: UniversalAssistant) -> None:
+async def test_stop(hass: __HAC_KEEP__) -> None:
     """Test stop."""
     assert await async_setup_component(
         hass, MP_DOMAIN, {"media_player": {"platform": "demo"}}
@@ -504,7 +504,7 @@ async def test_stop(hass: UniversalAssistant) -> None:
 
 
 async def test_media_image_proxy(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the media server image proxy server ."""
     assert await async_setup_component(
@@ -549,7 +549,7 @@ async def test_media_image_proxy(
     assert await req.text() == fake_picture_data
 
 
-async def test_grouping(hass: UniversalAssistant) -> None:
+async def test_grouping(hass: __HAC_KEEP__) -> None:
     """Test the join/unjoin services."""
     walkman = "media_player.walkman"
     kitchen = "media_player.kitchen"
@@ -588,7 +588,7 @@ async def test_grouping(hass: UniversalAssistant) -> None:
 
 
 async def test_browse(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the media player browse."""
@@ -617,7 +617,7 @@ async def test_browse(
 
 
 async def test_search(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the media player search delegates to media source."""

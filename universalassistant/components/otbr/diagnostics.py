@@ -5,14 +5,14 @@ from typing import Any
 from universalassistant.components.universalassistant_hardware.silabs_multiprotocol_addon import (
     is_multiprotocol_url,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .types import OTBRConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: OTBRConfigEntry
+    hass: __HAC_KEEP__, entry: OTBRConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     otbrdata = entry.runtime_data
@@ -36,7 +36,7 @@ async def async_get_config_entry_diagnostics(
     coprocessor_version: str | None
     try:
         coprocessor_version = await otbrdata.get_coprocessor_version()
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         coprocessor_version = None
     return {
         "multiprotocol": is_multiprotocol_url(otbrdata.url),

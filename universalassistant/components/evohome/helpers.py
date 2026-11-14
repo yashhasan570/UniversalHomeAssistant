@@ -2,7 +2,7 @@
 
 import re
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 
 from .const import DOMAIN
@@ -15,7 +15,7 @@ def as_snake_case(mode: str) -> str:
 
 @callback
 def async_create_deprecation_issue_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     breaks_in_ha_version: str,
     translation_key: str | None = None,

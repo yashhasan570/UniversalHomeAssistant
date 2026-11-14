@@ -19,15 +19,15 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 import universalassistant.helpers.entity_registry as er
 
 from . import setup_integration
 
 
 async def test_select_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -39,7 +39,7 @@ async def test_select_entities(
 
 
 async def test_select_operation_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_select_operation_mode(
     ],
 )
 async def test_select_tx_ports(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -91,18 +91,18 @@ async def test_select_tx_ports(
 
 
 async def test_select_operation_mode_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test operation mode select raises UniversalAssistantError."""
+    """Test operation mode select raises __HAC_KEEP__Error."""
 
     mock_hdfury_client.set_operation_mode.side_effect = HDFuryError()
 
     await setup_integration(hass, mock_config_entry, [Platform.SELECT])
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="An error occurred while communicating with HDFury device",
     ):
         await hass.services.async_call(
@@ -117,7 +117,7 @@ async def test_select_operation_mode_error(
 
 
 async def test_select_ports_missing_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_select_ports_missing_state(
     await setup_integration(hass, mock_config_entry, [Platform.SELECT])
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="An error occurred while validating TX states",
     ):
         await hass.services.async_call(
@@ -147,7 +147,7 @@ async def test_select_ports_missing_state(
 
 
 async def test_select_entities_unavailable_on_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

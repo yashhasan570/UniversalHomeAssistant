@@ -13,7 +13,7 @@ from universalassistant.components.light import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -21,7 +21,7 @@ from . import MockBridge, MockBridgeWithColorLight, async_setup_integration
 
 
 async def test_light_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a light unique id."""
     await async_setup_integration(hass, MockBridge)
@@ -41,7 +41,7 @@ async def test_light_unique_id(
 
 
 async def test_previous_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test brightness tracked and restored."""
     await async_setup_integration(hass, MockBridge)
@@ -92,7 +92,7 @@ async def test_previous_brightness(
 
 
 async def test_previous_brightness_physical_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that brightness set via a physical switch is restored on next turn-on."""
     mock_entry = await async_setup_integration(hass, MockBridge)
@@ -131,7 +131,7 @@ async def test_previous_brightness_physical_switch(
 
 
 async def test_previous_brightness_zero_not_remembered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that a zero brightness is not remembered as the restore level."""
     await async_setup_integration(hass, MockBridge)
@@ -175,7 +175,7 @@ async def test_previous_brightness_zero_not_remembered(
 
 
 async def test_color_only_turn_on_preserves_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a color-only turn-on does not override the current brightness."""
     mock_entry = await async_setup_integration(hass, MockBridgeWithColorLight)
@@ -199,7 +199,7 @@ async def test_color_only_turn_on_preserves_brightness(
 
 
 async def test_white_mode_turn_on_remembers_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test turning on in white (warm dim) mode tracks the brightness."""
     await async_setup_integration(hass, MockBridgeWithColorLight)
@@ -221,7 +221,7 @@ async def test_white_mode_turn_on_remembers_brightness(
 
 
 async def test_white_mode_turn_on_sends_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test white mode enables warm dim and sends the requested level."""
     mock_entry = await async_setup_integration(hass, MockBridgeWithColorLight)
@@ -251,7 +251,7 @@ async def test_white_mode_turn_on_sends_level(
 
 
 async def test_white_mode_turn_on_with_transition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test white mode passes the transition through as fade time."""
     mock_entry = await async_setup_integration(hass, MockBridgeWithColorLight)
@@ -277,7 +277,7 @@ async def test_white_mode_turn_on_with_transition(
 
 
 async def test_async_update_syncs_previous_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test forcing an update keeps the previous brightness in sync."""
     mock_entry = await async_setup_integration(hass, MockBridge)

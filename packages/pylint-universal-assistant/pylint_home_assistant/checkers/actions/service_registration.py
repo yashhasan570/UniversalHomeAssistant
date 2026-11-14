@@ -2,7 +2,7 @@
 
 Services must be registered in ``async_setup``, not ``async_setup_entry``.
 Registering in ``async_setup_entry`` means services are only available when
-a config entry is loaded, which prevents Universal Universal Home Assistant from validating
+a config entry is loaded, which prevents __HA_KEEP__ from validating
 automations that reference those services.
 
 This checker flags:

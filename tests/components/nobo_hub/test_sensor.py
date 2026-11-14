@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import entity_unique_ids, fire_hub_update
@@ -23,7 +23,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_sensor_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -34,7 +34,7 @@ async def test_sensor_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_temperature_unknown_when_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """Missing temperature values surface as unknown state."""
@@ -45,7 +45,7 @@ async def test_temperature_unknown_when_missing(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_temperature_push_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """Pushed hub updates refresh the temperature state."""
@@ -58,7 +58,7 @@ async def test_temperature_push_update(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_component_removed_removes_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """Removing a component via the Nobø app must not crash and removes the entity."""
@@ -69,7 +69,7 @@ async def test_component_removed_removes_entity(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_readded_component_reappears(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -107,7 +107,7 @@ async def test_readded_component_reappears(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_new_component_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

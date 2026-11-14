@@ -17,7 +17,7 @@ from universalassistant.components.hyperion.const import (
     HYPERION_MANUFACTURER_NAME,
     HYPERION_MODEL_NAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import slugify
 
@@ -39,7 +39,7 @@ TEST_SENSOR_BASE_ENTITY_ID = "sensor.test_instance_1"
 TEST_VISIBLE_EFFECT_SENSOR_ID = "sensor.test_instance_1_visible_priority"
 
 
-async def test_sensor_has_correct_entities(hass: UniversalAssistant) -> None:
+async def test_sensor_has_correct_entities(hass: __HAC_KEEP__) -> None:
     """Test that the correct sensor entities are created."""
     client = create_mock_client()
     client.components = TEST_COMPONENTS
@@ -53,7 +53,7 @@ async def test_sensor_has_correct_entities(hass: UniversalAssistant) -> None:
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_device_info(
         assert entity_id in entities_from_device
 
 
-async def test_visible_effect_state_changes(hass: UniversalAssistant) -> None:
+async def test_visible_effect_state_changes(hass: __HAC_KEEP__) -> None:
     """Verify that state changes are processed as expected for visible effect sensor."""
     client = create_mock_client()
     client.components = TEST_COMPONENTS

@@ -8,7 +8,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import ATTR_DATE, UnitOfBloodGlucoseConcentration
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -32,7 +32,7 @@ TREND_ICONS = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NightscoutConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

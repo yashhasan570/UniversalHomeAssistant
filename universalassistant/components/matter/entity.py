@@ -17,7 +17,7 @@ from matter_server.common.models import EventType, ServerInfoMessage
 from propcache.api import cached_property
 
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -69,16 +69,16 @@ VENDOR_LABELING_LIST: dict[int, dict[int, list[str] | None]] = {
 def catch_matter_error[_R, **P](
     func: Callable[Concatenate[MatterEntity, P], Coroutine[Any, Any, _R]],
 ) -> Callable[Concatenate[MatterEntity, P], Coroutine[Any, Any, _R]]:
-    """Catch Matter errors and convert to Universal Universal Home Assistant error."""
+    """Catch Matter errors and convert to __HA_KEEP__ error."""
 
     @functools.wraps(func)
     async def wrapper(self: MatterEntity, *args: P.args, **kwargs: P.kwargs) -> _R:
-        """Catch Matter errors and convert to Universal Universal Home Assistant error."""
+        """Catch Matter errors and convert to __HA_KEEP__ error."""
         try:
             return await func(self, *args, **kwargs)
         except MatterError as err:
             error_msg = str(err) or err.__class__.__name__
-            raise UniversalAssistantError(error_msg) from err
+            raise __HAC_KEEP__Error(error_msg) from err
 
     return wrapper
 
@@ -197,7 +197,7 @@ class MatterEntity(Entity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle being added to Universal Universal Home Assistant."""
+        """Handle being added to __HA_KEEP__."""
         await super().async_added_to_hass()
 
         if self._write_state_debounce_cooldown is not None:
@@ -327,7 +327,7 @@ class MatterEntity(Entity):
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """Handle being removed from Universal Universal Home Assistant."""
+        """Handle being removed from __HA_KEEP__."""
         await super().async_will_remove_from_hass()
         if self._write_state_debouncer is not None:
             self._write_state_debouncer.async_shutdown()

@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration, snapshot_compit_entities
 
 
 async def test_number_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
@@ -36,7 +36,7 @@ async def test_number_entities_snapshot(
     ],
 )
 async def test_number_unknown_device_parameters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
     mock_return_value: Any,
@@ -55,7 +55,7 @@ async def test_number_unknown_device_parameters(
 
 
 async def test_number_get_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_number_get_value(
 
 
 async def test_set_number_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:

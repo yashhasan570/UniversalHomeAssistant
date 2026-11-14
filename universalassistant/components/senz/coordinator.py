@@ -8,7 +8,7 @@ from httpx2 import RequestError
 from pysenz import SENZAPI, Thermostat
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 UPDATE_INTERVAL = timedelta(seconds=30)
@@ -25,7 +25,7 @@ class SENZDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Thermostat]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SENZConfigEntry,
         *,
         name: str,

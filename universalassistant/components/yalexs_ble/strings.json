@@ -63,7 +63,7 @@
         "data": {
           "always_connected": "Always connected"
         },
-        "description": "If the lock does not support push updates via advertisements or you want lock operation to be more responsive, you can enable always connected mode. Always connected will cause the lock to stay connected to Universal Universal Home Assistant via Bluetooth, which will use more battery."
+        "description": "If the lock does not support push updates via advertisements or you want lock operation to be more responsive, you can enable always connected mode. Always connected will cause the lock to stay connected to __HA_KEEP__ via Bluetooth, which will use more battery."
       }
     }
   }

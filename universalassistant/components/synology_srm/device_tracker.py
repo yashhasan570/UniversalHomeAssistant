@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -71,7 +71,7 @@ ATTRIBUTE_ALIAS = {
 
 
 def get_scanner(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> SynologySrmDeviceScanner | None:
     """Validate the configuration and return Synology SRM scanner."""
     scanner = SynologySrmDeviceScanner(config[DEVICE_TRACKER_DOMAIN])

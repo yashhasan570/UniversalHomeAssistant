@@ -12,7 +12,7 @@ from aiohttp.client_exceptions import ClientConnectorError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.update_coordinator import (
@@ -55,7 +55,7 @@ class AccuWeatherObservationDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AccuWeatherConfigEntry,
         accuweather: AccuWeather,
     ) -> None:
@@ -110,7 +110,7 @@ class AccuWeatherForecastDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AccuWeatherConfigEntry,
         accuweather: AccuWeather,
         coordinator_type: str,
@@ -166,7 +166,7 @@ class AccuWeatherDailyForecastDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AccuWeatherConfigEntry,
         accuweather: AccuWeather,
     ) -> None:
@@ -188,7 +188,7 @@ class AccuWeatherHourlyForecastDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AccuWeatherConfigEntry,
         accuweather: AccuWeather,
     ) -> None:

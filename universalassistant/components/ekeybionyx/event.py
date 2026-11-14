@@ -11,7 +11,7 @@ from universalassistant.components.webhook import (
     async_register as webhook_register,
     async_unregister as webhook_unregister,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import EkeyBionyxConfigEntry
@@ -19,7 +19,7 @@ from .const import DOMAIN
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: EkeyBionyxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -55,7 +55,7 @@ class EkeyEvent(EventEntity):
         """Register callbacks with your device API/library."""
 
         async def async_webhook_handler(
-            hass: UniversalAssistant, webhook_id: str, request: Request
+            hass: __HAC_KEEP__, webhook_id: str, request: Request
         ) -> Response | None:
             try:
                 payload = await request.json()

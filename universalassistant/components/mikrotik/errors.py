@@ -1,11 +1,11 @@
 """Errors for the Mikrotik component."""
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Unable to connect to the hub."""
 
 
-class LoginError(UniversalAssistantError):
+class LoginError(__HAC_KEEP__Error):
     """Component got logged out."""

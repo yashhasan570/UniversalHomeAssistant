@@ -12,7 +12,7 @@ from systembridgeconnector.models.modules import Module
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -30,7 +30,7 @@ def binary_sensor_only() -> Generator[None]:
     "mock_version", "mock_websocket_client", "entity_registry_enabled_by_default"
 )
 async def test_binary_sensor_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -47,7 +47,7 @@ async def test_binary_sensor_platform(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_binary_sensor_platform_no_battery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_binary_sensor_platform_no_battery(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_binary_sensor_battery_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_binary_sensor_battery_removed(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_session_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
     locked: bool | None,
     expected_state: str,

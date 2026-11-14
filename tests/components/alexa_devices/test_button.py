@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.alexa_devices.coordinator import SCAN_INTERVAL
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import slugify
 
@@ -29,7 +29,7 @@ from .const import (
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -44,7 +44,7 @@ async def test_all_entities(
 
 
 async def test_pressing_routine_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_pressing_routine_button(
     ],
 )
 async def test_dynamic_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -108,7 +108,7 @@ async def test_dynamic_entities(
 
 
 async def test_routine_removed_and_readded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -139,7 +139,7 @@ async def test_routine_removed_and_readded(
 
 
 async def test_device_removed_and_readded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -157,7 +157,7 @@ async def test_device_removed_and_readded(
 
 
 async def test_restart_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

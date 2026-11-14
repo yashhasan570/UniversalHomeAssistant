@@ -8,11 +8,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote configuration entry loading/unloading."""
     mock_config_entry.add_to_hass(hass)
@@ -31,7 +31,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote configuration entry not ready."""
     mock_api.async_connect = AsyncMock(side_effect=CannotConnect())
@@ -46,7 +46,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_reauth_at_setup(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote configuration entry needs reauth at setup."""
     mock_api.async_connect = AsyncMock(side_effect=InvalidAuth())
@@ -62,7 +62,7 @@ async def test_config_entry_reauth_at_setup(
 
 
 async def test_config_entry_reauth_while_reconnecting(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote config entry needs reauth.
 
@@ -92,9 +92,9 @@ async def test_config_entry_reauth_while_reconnecting(
 
 
 async def test_disconnect_on_stop(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
-    """Test we close the connection with the Android TV when Universal Universal Home Assistants stops."""
+    """Test we close the connection with the Android TV when __HA_KEEP__s stops."""
     mock_config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()

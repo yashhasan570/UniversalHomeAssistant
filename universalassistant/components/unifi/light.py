@@ -19,8 +19,8 @@ from universalassistant.components.light import (
     LightEntityFeature,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.color import rgb_hex_to_rgb_list
 
@@ -41,14 +41,14 @@ PARALLEL_UPDATES = 1
 
 
 def convert_brightness_to_unifi(ha_brightness: int) -> int:
-    """Convert Universal Universal Home Assistant brightness (0-255) to UniFi brightness (0-100)."""
+    """Convert __HA_KEEP__ brightness (0-255) to UniFi brightness (0-100)."""
     return round((ha_brightness / 255) * 100)
 
 
 def convert_brightness_to_ha(
     unifi_brightness: int,
 ) -> int:
-    """Convert UniFi brightness (0-100) to Universal Universal Home Assistant brightness (0-255)."""
+    """Convert UniFi brightness (0-100) to __HA_KEEP__ brightness (0-255)."""
     return round((unifi_brightness / 100) * 255)
 
 
@@ -139,7 +139,7 @@ ENTITY_DESCRIPTIONS: tuple[UnifiLightEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: UnifiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -183,7 +183,7 @@ class UnifiLightEntity[HandlerT: APIHandler, ApiItemT: ApiItem](
                 self.hub, self._obj_id, True, **kwargs
             )
         except AiounifiException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="action_request_failed",
             ) from err
@@ -197,7 +197,7 @@ class UnifiLightEntity[HandlerT: APIHandler, ApiItemT: ApiItem](
                 self.hub, self._obj_id, False, **kwargs
             )
         except AiounifiException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="action_request_failed",
             ) from err

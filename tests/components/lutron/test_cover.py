@@ -16,7 +16,7 @@ from universalassistant.const import (
     STATE_OPEN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -28,7 +28,7 @@ def setup_platforms():
 
 
 async def test_cover_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -48,7 +48,7 @@ async def test_cover_setup(
 
 
 async def test_cover_services(
-    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test cover services."""
     mock_config_entry.add_to_hass(hass)
@@ -91,7 +91,7 @@ async def test_cover_services(
 
 
 async def test_cover_update(
-    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test cover state update."""
     mock_config_entry.add_to_hass(hass)

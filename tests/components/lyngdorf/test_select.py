@@ -13,7 +13,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -31,7 +31,7 @@ VOICING_ENTITY_ID = "select.mock_lyngdorf_voicing"
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -41,7 +41,7 @@ async def test_entities(
 
 
 async def test_room_perfect_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_room_perfect_select_option(
 
 
 async def test_select_option_awaits_an_awaitable_setter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_select_option_awaits_an_awaitable_setter(
 
 
 async def test_voicing_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_voicing_select_option(
 
 
 async def test_select_invalid_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:

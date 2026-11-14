@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.airobot.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -25,7 +25,7 @@ TEST_USER_INPUT = {
 
 
 async def test_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_airobot_client: AsyncMock,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_user_flow(
     ],
 )
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_airobot_client: AsyncMock,
     exception: Exception,
@@ -94,7 +94,7 @@ async def test_form_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery(
-    hass: UniversalAssistant, mock_airobot_client: AsyncMock
+    hass: __HAC_KEEP__, mock_airobot_client: AsyncMock
 ) -> None:
     """Test DHCP discovery flow."""
     result = await hass.config_entries.flow.async_init(
@@ -163,7 +163,7 @@ async def test_dhcp_discovery(
     ],
 )
 async def test_dhcp_discovery_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_airobot_client: AsyncMock,
     exception: Exception,
@@ -205,7 +205,7 @@ async def test_dhcp_discovery_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -236,7 +236,7 @@ async def test_dhcp_discovery_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -311,7 +311,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -343,7 +343,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_wrong_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -380,7 +380,7 @@ async def test_reconfigure_flow_wrong_device(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

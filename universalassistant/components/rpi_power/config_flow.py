@@ -6,13 +6,13 @@ from typing import Any
 from rpi_bad_power import new_under_voltage
 
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_flow import DiscoveryFlowHandler
 
 from .const import DOMAIN
 
 
-async def _async_supported(hass: UniversalAssistant) -> bool:
+async def _async_supported(hass: __HAC_KEEP__) -> bool:
     """Return if the system supports under voltage detection."""
     under_voltage = await hass.async_add_executor_job(new_under_voltage)
     return under_voltage is not None

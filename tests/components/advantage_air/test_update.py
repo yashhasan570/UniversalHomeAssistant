@@ -6,7 +6,7 @@ from pytest_universalassistant.common import load_json_object_fixture
 
 from universalassistant.components.advantage_air.const import DOMAIN
 from universalassistant.const import STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import add_mock_config
@@ -15,7 +15,7 @@ TEST_NEEDS_UPDATE = load_json_object_fixture("needsUpdate.json", DOMAIN)
 
 
 async def test_update_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_get: AsyncMock,
 ) -> None:

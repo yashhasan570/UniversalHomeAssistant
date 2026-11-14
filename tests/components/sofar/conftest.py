@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.sofar.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_ENTRY_DATA, MOCK_MODEL, MOCK_SERIAL, seed_pv_inverter
 
@@ -57,7 +57,7 @@ def mock_get_unit(mock_connection: MockModbusConnection) -> Generator[MagicMock]
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_get_unit: MagicMock,
 ) -> MockConfigEntry:

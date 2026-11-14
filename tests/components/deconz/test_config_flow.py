@@ -23,7 +23,7 @@ from universalassistant.components.deconz.const import (
 )
 from universalassistant.config_entries import SOURCE_HASSIO, SOURCE_SSDP, SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_HOST, CONF_PORT, CONTENT_TYPE_JSON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
 from universalassistant.helpers.service_info.ssdp import (
@@ -38,7 +38,7 @@ BAD_BRIDGEID = "0000000000000000"
 
 
 async def test_flow_discovered_bridges(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that config flow works for discovered bridges."""
     logging.getLogger("universalassistant.components.deconz").setLevel(logging.DEBUG)
@@ -86,7 +86,7 @@ async def test_flow_discovered_bridges(
 
 
 async def test_flow_discovered_bridge_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_flow_discovered_bridge_already_configured(
 
 
 async def test_flow_manual_configuration_decision(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that config flow for one discovered bridge works."""
     aioclient_mock.get(
@@ -169,7 +169,7 @@ async def test_flow_manual_configuration_decision(
 
 
 async def test_flow_manual_configuration(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test config flow works with manual config after no discovered bridges."""
     logging.getLogger("universalassistant.components.deconz").setLevel(logging.DEBUG)
@@ -221,7 +221,7 @@ async def test_flow_manual_configuration(
 
 
 async def test_manual_configuration_after_discovery_timeout(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test failed discovery fallbacks to manual configuration."""
     aioclient_mock.get(pydeconz.utils.URL_DISCOVER, exc=TimeoutError)
@@ -236,7 +236,7 @@ async def test_manual_configuration_after_discovery_timeout(
 
 
 async def test_manual_configuration_after_discovery_ResponseError(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test failed discovery fallbacks to manual configuration."""
     aioclient_mock.get(pydeconz.utils.URL_DISCOVER, exc=pydeconz.errors.ResponseError)
@@ -251,7 +251,7 @@ async def test_manual_configuration_after_discovery_ResponseError(
 
 
 async def test_manual_configuration_update_configuration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -300,7 +300,7 @@ async def test_manual_configuration_update_configuration(
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_manual_configuration_dont_update_configuration(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that _create_entry work and that bridgeid can be requested."""
     aioclient_mock.get(
@@ -345,7 +345,7 @@ async def test_manual_configuration_dont_update_configuration(
 
 
 async def test_manual_configuration_timeout_get_bridge(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that _create_entry handles a timeout."""
     aioclient_mock.get(
@@ -395,7 +395,7 @@ async def test_manual_configuration_timeout_get_bridge(
     ],
 )
 async def test_link_step_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     raised_error: Exception,
     error_string: str,
@@ -443,7 +443,7 @@ async def test_link_step_fails(
 
 
 async def test_reauth_flow_update_configuration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -476,7 +476,7 @@ async def test_reauth_flow_update_configuration(
 
 
 async def test_flow_ssdp_discovery(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that config flow for one discovered bridge works."""
     result = await hass.config_entries.flow.async_init(
@@ -521,7 +521,7 @@ async def test_flow_ssdp_discovery(
 
 
 async def test_ssdp_discovery_update_configuration(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test if a discovered bridge is configured but updates with new attributes."""
     with patch(
@@ -549,7 +549,7 @@ async def test_ssdp_discovery_update_configuration(
 
 
 async def test_ssdp_discovery_dont_update_configuration(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test if a discovered bridge has already been configured."""
 
@@ -574,7 +574,7 @@ async def test_ssdp_discovery_dont_update_configuration(
 
 @pytest.mark.parametrize("config_entry_source", [SOURCE_HASSIO])
 async def test_ssdp_discovery_dont_update_existing_hassio_configuration(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test to ensure the SSDP discovery does not update an Hass.io entry."""
     result = await hass.config_entries.flow.async_init(
@@ -596,7 +596,7 @@ async def test_ssdp_discovery_dont_update_existing_hassio_configuration(
     assert config_entry_setup.data[CONF_HOST] == "1.2.3.4"
 
 
-async def test_flow_hassio_discovery(hass: UniversalAssistant) -> None:
+async def test_flow_hassio_discovery(hass: __HAC_KEEP__) -> None:
     """Test hassio discovery flow works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -644,7 +644,7 @@ async def test_flow_hassio_discovery(hass: UniversalAssistant) -> None:
 
 
 async def test_hassio_discovery_update_configuration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
 ) -> None:
     """Test we can update an existing config entry."""
@@ -677,7 +677,7 @@ async def test_hassio_discovery_update_configuration(
 
 
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_hassio_discovery_dont_update_configuration(hass: UniversalAssistant) -> None:
+async def test_hassio_discovery_dont_update_configuration(hass: __HAC_KEEP__) -> None:
     """Test we can update an existing config entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -700,7 +700,7 @@ async def test_hassio_discovery_dont_update_configuration(hass: UniversalAssista
 
 
 async def test_option_flow(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test config flow options."""
     result = await hass.config_entries.options.async_init(config_entry_setup.entry_id)

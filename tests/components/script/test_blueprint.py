@@ -21,7 +21,7 @@ from universalassistant.core import (
     Context,
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
 from universalassistant.helpers import device_registry as dr, template
@@ -58,7 +58,7 @@ def patch_blueprint(blueprint_path: str, data_path: str) -> Iterator[None]:
 
 
 async def test_confirmable_notification(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test confirmable notification blueprint."""
     config_entry = MockConfigEntry(domain="fake_integration", data={})

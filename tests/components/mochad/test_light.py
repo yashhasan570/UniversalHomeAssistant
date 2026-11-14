@@ -7,8 +7,8 @@ import pytest
 
 from universalassistant.components import light
 from universalassistant.components.mochad import DOMAIN, light as mochad
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.setup import async_setup_component
 
 
@@ -20,14 +20,14 @@ def pymochad_mock():
 
 
 @pytest.fixture
-def light_mock(hass: UniversalAssistant, brightness: int) -> mochad.MochadLight:
+def light_mock(hass: __HAC_KEEP__, brightness: int) -> mochad.MochadLight:
     """Mock light."""
     controller_mock = mock.MagicMock()
     dev_dict = {"address": "a1", "name": "fake_light", "brightness_levels": brightness}
     return mochad.MochadLight(hass, controller_mock, dev_dict)
 
 
-async def test_setup_adds_proper_devices(hass: UniversalAssistant) -> None:
+async def test_setup_adds_proper_devices(hass: __HAC_KEEP__) -> None:
     """Test if setup adds devices."""
     good_config = {
         "mochad": {},
@@ -78,7 +78,7 @@ async def test_action_raises_on_communication_error(
 ) -> None:
     """Test that a failed action raises instead of being swallowed."""
     light_mock.light.send_cmd.side_effect = MochadException("boom")
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         getattr(light_mock, action)()
 
     assert exc_info.value.translation_domain == DOMAIN

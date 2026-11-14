@@ -13,12 +13,12 @@ from universalassistant.components.wyoming.data import (
     WyomingService,
     load_wyoming_info,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import SATELLITE_INFO, STT_INFO, TTS_INFO, WAKE_WORD_INFO, MockAsyncTcpClient
 
 
-async def test_load_info(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_load_info(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test loading info."""
     with patch(
         "universalassistant.components.wyoming.data.AsyncTcpClient",
@@ -30,7 +30,7 @@ async def test_load_info(hass: UniversalAssistant, snapshot: SnapshotAssertion) 
     assert mock_client.written == snapshot
 
 
-async def test_load_info_oserror(hass: UniversalAssistant) -> None:
+async def test_load_info_oserror(hass: __HAC_KEEP__) -> None:
     """Test loading info and error raising."""
     mock_client = MockAsyncTcpClient([STT_INFO.event()])
 
@@ -52,7 +52,7 @@ async def test_load_info_oserror(hass: UniversalAssistant) -> None:
     assert info is None
 
 
-async def test_service_name(hass: UniversalAssistant) -> None:
+async def test_service_name(hass: __HAC_KEEP__) -> None:
     """Test loading service info."""
     with patch(
         "universalassistant.components.wyoming.data.AsyncTcpClient",
@@ -87,7 +87,7 @@ async def test_service_name(hass: UniversalAssistant) -> None:
         assert service.get_name() == SATELLITE_INFO.satellite.name
 
 
-async def test_satellite_with_wake_word(hass: UniversalAssistant) -> None:
+async def test_satellite_with_wake_word(hass: __HAC_KEEP__) -> None:
     """Test that wake word info with satellite doesn't overwrite the service name."""
     # Info for local wake word detection
     satellite_info = Info(
@@ -135,7 +135,7 @@ def test_info_timeout_is_relaxed() -> None:
     ids=["too_short", "long_enough"],
 )
 async def test_load_info_timeout_governs_slow_satellite(
-    hass: UniversalAssistant, timeout: float, expect_loaded: bool
+    hass: __HAC_KEEP__, timeout: float, expect_loaded: bool
 ) -> None:
     """Test a slow satellite loads only when the timeout is generous enough."""
     with patch(

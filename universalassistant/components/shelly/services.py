@@ -9,13 +9,13 @@ import probatio
 from universalassistant.components.cover import DOMAIN as COVER_DOMAIN, CoverEntityFeature
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import (
     async_get_device_and_config_entry,
@@ -96,13 +96,13 @@ async def _async_execute_action(
     try:
         response = await action_method(*args)
     except RpcCallError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="rpc_call_error",
             translation_placeholders={"device": config_entry.title},
         ) from err
     except DeviceConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_communication_error",
             translation_placeholders={"device": config_entry.title},
@@ -136,7 +136,7 @@ async def async_set_kvs_value(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for Shelly integration."""
     for service, method, schema, response in (
         (

@@ -8,7 +8,7 @@ from irm_kmi_api import IrmKmiApiClientHa, IrmKmiApiError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import (
     TimestampDataUpdateCoordinator,
     UpdateFailed,
@@ -33,7 +33,7 @@ class IrmKmiCoordinator(TimestampDataUpdateCoordinator[ProcessedCoordinatorData]
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: IrmKmiConfigEntry,
         api_client: IrmKmiApiClientHa,
     ) -> None:

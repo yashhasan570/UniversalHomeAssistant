@@ -9,7 +9,7 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_mikrotik_entry
@@ -17,7 +17,7 @@ from . import setup_mikrotik_entry
 
 @freeze_time("2026-01-01T12:00:00+00:00")
 async def test_sensor_entities_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_sensor_entities_created(
     ],
 )
 async def test_sensor_missing_or_wrong_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     health_data: list[dict[str, Any]],
     system_data: list[dict[str, Any]],
     existing_states: dict[str, str],
@@ -103,7 +103,7 @@ async def test_sensor_missing_or_wrong_data(
     ],
 )
 async def test_sensor_bad_uptime_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     uptime_api: str,
 ) -> None:
@@ -132,12 +132,12 @@ async def test_sensor_bad_uptime_data(
     assert hass.states.get("sensor.mikrotik_uptime") is None
 
 
-async def test_sensor_health_data_reordered(hass: UniversalAssistant) -> None:
+async def test_sensor_health_data_reordered(hass: __HAC_KEEP__) -> None:
     """Test voltage/temperature are matched by name, not list position.
 
     Some devices (e.g. netPower 16P) report additional health items such as
     PoE power consumption ahead of voltage, so the sensors must not assume a
-    fixed ordering. https://github.com/yashhasan570/UniversalUniversalAssistant/issues/178392
+    fixed ordering. https://github.com/yashhasan570/__HAC_KEEP__/issues/178392
     """
     await setup_mikrotik_entry(
         hass,
@@ -156,7 +156,7 @@ async def test_sensor_health_data_reordered(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.parametrize("fan_speed", [960, 0])
-async def test_sensor_fan_speed(hass: UniversalAssistant, fan_speed: int) -> None:
+async def test_sensor_fan_speed(hass: __HAC_KEEP__, fan_speed: int) -> None:
     """Test CRS310 fan RPM, including a stopped fan, supports statistics."""
     with patch("universalassistant.components.mikrotik.PLATFORMS", [Platform.SENSOR]):
         await setup_mikrotik_entry(

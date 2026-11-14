@@ -9,7 +9,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.backup.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import setup_backup_integration
 
@@ -356,7 +356,7 @@ def mock_delay_save() -> Generator[None]:
     ],
 )
 async def test_store_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,

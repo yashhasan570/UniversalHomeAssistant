@@ -6,7 +6,7 @@
     "descr_pin": "4-digit code to enable or disable the setting",
     "end_time": "End time",
     "end_time_description": "The time this schedule ends, e.g. 01:05 for 1:05 AM.",
-    "location_description": "The approximate location the vehicle must be at to use this schedule. Defaults to Universal Universal Home Assistant's configured location.",
+    "location_description": "The approximate location the vehicle must be at to use this schedule. Defaults to __HA_KEEP__'s configured location.",
     "not_available": "Not available",
     "one_time": "One-time",
     "one_time_description": "If this is a one-time schedule.",
@@ -60,9 +60,9 @@
         "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
         "invalid_password": "[%key:common::config_flow::error::invalid_auth%]",
         "key_expired": "The approval window on your Powerwall closed before the key was approved. Submit to open a new window, flick the On/Off switch on your primary Powerwall off and back on to approve it, then submit again.",
-        "key_not_approved": "Your Powerwall system rejected Universal Universal Home Assistant's key because it has not been approved. Flick the On/Off switch on your primary Powerwall off and back on to approve it, then submit again.",
-        "key_not_registered": "Universal Universal Home Assistant's key is no longer registered on your Powerwall system. Restart setup to register it again.",
-        "key_pending": "Universal Universal Home Assistant's key has not been approved yet. Flick the On/Off switch on your primary Powerwall off and back on to approve it, then submit again.",
+        "key_not_approved": "Your Powerwall system rejected __HA_KEEP__'s key because it has not been approved. Flick the On/Off switch on your primary Powerwall off and back on to approve it, then submit again.",
+        "key_not_registered": "__HA_KEEP__'s key is no longer registered on your Powerwall system. Restart setup to register it again.",
+        "key_pending": "__HA_KEEP__'s key has not been approved yet. Flick the On/Off switch on your primary Powerwall off and back on to approve it, then submit again.",
         "powerwall_unreachable": "[%key:component::teslemetry::config_subentries::energy_site::abort::powerwall_unreachable%]"
       },
       "initiate_flow": {
@@ -79,7 +79,7 @@
           "title": "Connect to your Powerwall system"
         },
         "pair": {
-          "description": "Flick the On/Off switch on your primary Powerwall off and back on to approve Universal Universal Home Assistant's access, then continue. This only needs to be done once. Removing this integration later does not revoke this access on your Powerwall or Backup Gateway.",
+          "description": "Flick the On/Off switch on your primary Powerwall off and back on to approve __HA_KEEP__'s access, then continue. This only needs to be done once. Removing this integration later does not revoke this access on your Powerwall or Backup Gateway.",
           "title": "Approve the local access key"
         },
         "user": {
@@ -95,10 +95,10 @@
       "abort": {
         "all_vehicles_added": "Every accessible vehicle in your Teslemetry account has already been added as a local vehicle.",
         "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
-        "bluetooth_not_available": "Adding a vehicle over Bluetooth needs a Bluetooth adapter on the Universal Universal Home Assistant host or a remote Bluetooth proxy that supports active connections, such as an ESPHome Bluetooth proxy. Shelly devices only listen for Bluetooth devices and cannot connect to a vehicle.",
+        "bluetooth_not_available": "Adding a vehicle over Bluetooth needs a Bluetooth adapter on the __HA_KEEP__ host or a remote Bluetooth proxy that supports active connections, such as an ESPHome Bluetooth proxy. Shelly devices only listen for Bluetooth devices and cannot connect to a vehicle.",
         "entry_not_loaded": "The Teslemetry configuration entry is not loaded. Please ensure it is set up correctly before adding a vehicle.",
         "no_supported_vehicles": "None of the vehicles left to add support Bluetooth commands. Vehicles without the vehicle command protocol, such as Model S and Model X built before 2021, cannot be added as a local vehicle.",
-        "no_vehicles": "Universal Universal Home Assistant cannot access any vehicles in your Teslemetry account. Check that the vehicle is in your account and that Teslemetry has access to it."
+        "no_vehicles": "__HA_KEEP__ cannot access any vehicles in your Teslemetry account. Check that the vehicle is in your account and that Teslemetry has access to it."
       },
       "entry_type": "Local vehicle",
       "error": {
@@ -106,7 +106,7 @@
         "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
         "confirm_timeout": "The key was not confirmed on the vehicle's touchscreen in time. Select Submit, tap a key card, then confirm the prompt on the vehicle's touchscreen.",
         "device_not_found": "No matching Tesla vehicle was found nearby over Bluetooth. Make sure the vehicle is within range of a Bluetooth adapter or proxy, then try again.",
-        "key_load_failed": "The Bluetooth key file {key_file} could not be loaded. Make sure it is a valid private key and that Universal Universal Home Assistant has permission to read it, then try again.",
+        "key_load_failed": "The Bluetooth key file {key_file} could not be loaded. Make sure it is a valid private key and that __HA_KEEP__ has permission to read it, then try again.",
         "key_unverified": "The key was added, but the vehicle's reply could not be verified. Select Submit to try again.",
         "no_connection_slot": "Every Bluetooth adapter or proxy that can reach the vehicle has no free connection slot. Free a connection slot on a Bluetooth proxy, or add another proxy near the vehicle, then try again.",
         "pair_denied": "The key was declined on the vehicle's touchscreen. Select Submit and tap a key card to try again.",
@@ -125,11 +125,11 @@
       },
       "step": {
         "instructions": {
-          "description": "Vehicle {vin} does not have Universal Universal Home Assistant's Bluetooth key on its key list. This is expected the first time, and happens again if the key was removed from the vehicle. To add it, select **Submit**, then tap a key card on the center console card reader within about 30 seconds. The vehicle's touchscreen shows a prompt while it waits for the card.",
-          "title": "Add Universal Universal Home Assistant's key to the vehicle"
+          "description": "Vehicle {vin} does not have __HA_KEEP__'s Bluetooth key on its key list. This is expected the first time, and happens again if the key was removed from the vehicle. To add it, select **Submit**, then tap a key card on the center console card reader within about 30 seconds. The vehicle's touchscreen shows a prompt while it waits for the card.",
+          "title": "Add __HA_KEEP__'s key to the vehicle"
         },
         "scan": {
-          "description": "Universal Universal Home Assistant will look for vehicle {vin} over Bluetooth. Make sure the vehicle is within Bluetooth range of a Universal Universal Home Assistant Bluetooth adapter and has fewer than three phone keys in range, then continue.",
+          "description": "__HA_KEEP__ will look for vehicle {vin} over Bluetooth. Make sure the vehicle is within Bluetooth range of a __HA_KEEP__ Bluetooth adapter and has fewer than three phone keys in range, then continue.",
           "title": "Set up Bluetooth control"
         },
         "user": {
@@ -1420,7 +1420,7 @@
             "data_description": {
               "host": "The address of your Powerwall system on your local network."
             },
-            "description": "Universal Universal Home Assistant cannot reach the Powerwall system for {site} at its saved address on your local network, so local control is unavailable and commands are sent through the cloud. Enter its current local network address.",
+            "description": "__HA_KEEP__ cannot reach the Powerwall system for {site} at its saved address on your local network, so local control is unavailable and commands are sent through the cloud. Enter its current local network address.",
             "title": "[%key:component::teslemetry::issues::gateway_not_found::title%]"
           }
         }
@@ -1434,7 +1434,7 @@
         },
         "step": {
           "confirm": {
-            "description": "Universal Universal Home Assistant cannot send commands to {vehicle} because the Teslemetry virtual key is not paired with the vehicle. Until it is paired, commands such as locking, climate control and charging will not work.\n\n1. Open {link}.\n2. Follow the prompts to add the virtual key to {vehicle}.\n3. Select **Submit** below to re-check.",
+            "description": "__HA_KEEP__ cannot send commands to {vehicle} because the Teslemetry virtual key is not paired with the vehicle. Until it is paired, commands such as locking, climate control and charging will not work.\n\n1. Open {link}.\n2. Follow the prompts to add the virtual key to {vehicle}.\n3. Select **Submit** below to re-check.",
             "title": "[%key:component::teslemetry::issues::key::title%]"
           }
         }
@@ -1448,7 +1448,7 @@
         },
         "step": {
           "confirm": {
-            "description": "Universal Universal Home Assistant cannot receive streaming data from {vehicle} because the \"Allow Third-Party App Data Streaming\" toggle is disabled. This option is only available on older Model S and Model X vehicles with Intel-based computers.\n\n1. In {vehicle}, open Controls > Safety.\n2. Enable **Allow Third-Party App Data Streaming**.\n3. Select **Submit** below to re-check.",
+            "description": "__HA_KEEP__ cannot receive streaming data from {vehicle} because the \"Allow Third-Party App Data Streaming\" toggle is disabled. This option is only available on older Model S and Model X vehicles with Intel-based computers.\n\n1. In {vehicle}, open Controls > Safety.\n2. Enable **Allow Third-Party App Data Streaming**.\n3. Select **Submit** below to re-check.",
             "title": "[%key:component::teslemetry::issues::streaming_toggle::title%]"
           }
         }

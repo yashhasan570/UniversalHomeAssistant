@@ -12,7 +12,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory, UnitOfVolume
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.dt import utc_from_timestamp, utcnow
 
@@ -141,7 +141,7 @@ SENSOR_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RainMachineConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

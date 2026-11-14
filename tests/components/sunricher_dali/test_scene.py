@@ -11,7 +11,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import trigger_availability_callback
@@ -30,7 +30,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -56,7 +56,7 @@ async def test_entities(
 
 
 async def test_activate_scenes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_scenes: list[MagicMock],
 ) -> None:
@@ -85,7 +85,7 @@ async def test_activate_scenes(
 
 
 async def test_scene_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_scenes: list[MagicMock],
 ) -> None:

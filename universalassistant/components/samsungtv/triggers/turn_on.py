@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.trigger import (
     PluggableAction,
@@ -56,7 +56,7 @@ def async_get_turn_on_trigger(device_id: str) -> dict[str, str]:
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

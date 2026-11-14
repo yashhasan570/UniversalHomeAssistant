@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.parametrize("platforms", [(BINARY_SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -28,7 +28,7 @@ async def test_binary_sensor_states(
 @pytest.mark.parametrize("platforms", [(BINARY_SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_states_api_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def test_binary_sensor_states_api_push(
 @pytest.mark.parametrize("platforms", [(BINARY_SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_coffee_system_binary_sensor_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,

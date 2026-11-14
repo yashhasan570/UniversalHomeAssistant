@@ -32,7 +32,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
@@ -78,18 +78,18 @@ ENTITY_ID = f"{DOMAIN}.{NAME}"
 
 
 @pytest.fixture
-def mock_notifier(hass: UniversalAssistant) -> list[ServiceCall]:
+def mock_notifier(hass: __HAC_KEEP__) -> list[ServiceCall]:
     """Mock for notifier."""
     return async_mock_service(hass, notify.DOMAIN, NOTIFIER)
 
 
-async def test_setup(hass: UniversalAssistant) -> None:
+async def test_setup(hass: __HAC_KEEP__) -> None:
     """Test setup method."""
     assert await async_setup_component(hass, DOMAIN, TEST_CONFIG)
     assert hass.states.get(ENTITY_ID).state == STATE_IDLE
 
 
-async def test_fire(hass: UniversalAssistant, mock_notifier: list[ServiceCall]) -> None:
+async def test_fire(hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]) -> None:
     """Test the alert firing."""
     assert await async_setup_component(hass, DOMAIN, TEST_CONFIG)
     hass.states.async_set("sensor.test", STATE_ON)
@@ -98,7 +98,7 @@ async def test_fire(hass: UniversalAssistant, mock_notifier: list[ServiceCall]) 
 
 
 async def test_fire_when_already_in_alert_state(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test the alert fires if the watched entity is already in the alert state.
 
@@ -113,7 +113,7 @@ async def test_fire_when_already_in_alert_state(
 
 
 async def test_idle_when_already_not_in_alert_state(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test the alert stays idle if the watched entity is not in the alert state."""
     hass.states.async_set("sensor.test", STATE_OFF)
@@ -123,7 +123,7 @@ async def test_idle_when_already_not_in_alert_state(
     assert len(mock_notifier) == 0
 
 
-async def test_silence(hass: UniversalAssistant, mock_notifier: list[ServiceCall]) -> None:
+async def test_silence(hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]) -> None:
     """Test silencing the alert."""
     assert await async_setup_component(hass, DOMAIN, TEST_CONFIG)
     hass.states.async_set("sensor.test", STATE_ON)
@@ -146,7 +146,7 @@ async def test_silence(hass: UniversalAssistant, mock_notifier: list[ServiceCall
     assert hass.states.get(ENTITY_ID).state == STATE_ON
 
 
-async def test_silence_can_acknowledge_false(hass: UniversalAssistant) -> None:
+async def test_silence_can_acknowledge_false(hass: __HAC_KEEP__) -> None:
     """Test silencing an alert with can_acknowledge=False.
 
     Attempting to silence should not silence.
@@ -178,7 +178,7 @@ async def test_silence_can_acknowledge_false(hass: UniversalAssistant) -> None:
     assert hass.states.get(ENTITY_ID).state == STATE_ON
 
 
-async def test_reset(hass: UniversalAssistant, mock_notifier: list[ServiceCall]) -> None:
+async def test_reset(hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]) -> None:
     """Test resetting the alert."""
     assert await async_setup_component(hass, DOMAIN, TEST_CONFIG)
     hass.states.async_set("sensor.test", STATE_ON)
@@ -202,7 +202,7 @@ async def test_reset(hass: UniversalAssistant, mock_notifier: list[ServiceCall])
     assert hass.states.get(ENTITY_ID).state == STATE_ON
 
 
-async def test_toggle(hass: UniversalAssistant, mock_notifier: list[ServiceCall]) -> None:
+async def test_toggle(hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]) -> None:
     """Test toggling alert."""
     assert await async_setup_component(hass, DOMAIN, TEST_CONFIG)
     hass.states.async_set("sensor.test", STATE_ON)
@@ -227,7 +227,7 @@ async def test_toggle(hass: UniversalAssistant, mock_notifier: list[ServiceCall]
 
 
 async def test_notification_no_done_message(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test notifications."""
     config = deepcopy(TEST_CONFIG)
@@ -246,7 +246,7 @@ async def test_notification_no_done_message(
 
 
 async def test_notification(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test notifications."""
     assert await async_setup_component(hass, DOMAIN, TEST_CONFIG)
@@ -262,7 +262,7 @@ async def test_notification(
 
 
 async def test_bad_notifier(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test a broken notifier does not break the alert."""
     config = deepcopy(TEST_CONFIG)
@@ -282,7 +282,7 @@ async def test_bad_notifier(
 
 
 async def test_no_notifiers(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test we send no notifications when there are not no."""
     assert await async_setup_component(
@@ -311,7 +311,7 @@ async def test_no_notifiers(
 
 
 async def test_sending_non_templated_notification(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test notifications."""
     assert await async_setup_component(hass, DOMAIN, TEST_CONFIG)
@@ -324,7 +324,7 @@ async def test_sending_non_templated_notification(
 
 
 async def test_sending_templated_notification(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test templated notification."""
     config = deepcopy(TEST_CONFIG)
@@ -339,7 +339,7 @@ async def test_sending_templated_notification(
 
 
 async def test_sending_templated_done_notification(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test templated notification."""
     config = deepcopy(TEST_CONFIG)
@@ -356,7 +356,7 @@ async def test_sending_templated_done_notification(
 
 
 async def test_sending_titled_notification(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test notifications."""
     config = deepcopy(TEST_CONFIG)
@@ -371,7 +371,7 @@ async def test_sending_titled_notification(
 
 
 async def test_sending_data_notification(
-    hass: UniversalAssistant, mock_notifier: list[ServiceCall]
+    hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]
 ) -> None:
     """Test notifications."""
     config = deepcopy(TEST_CONFIG)
@@ -385,7 +385,7 @@ async def test_sending_data_notification(
     assert last_event.data[notify.ATTR_DATA] == TEST_DATA
 
 
-async def test_skipfirst(hass: UniversalAssistant, mock_notifier: list[ServiceCall]) -> None:
+async def test_skipfirst(hass: __HAC_KEEP__, mock_notifier: list[ServiceCall]) -> None:
     """Test skipping first notification."""
     config = deepcopy(TEST_CONFIG)
     config[DOMAIN][NAME][CONF_SKIP_FIRST] = True
@@ -406,7 +406,7 @@ async def test_skipfirst(hass: UniversalAssistant, mock_notifier: list[ServiceCa
     ],
 )
 async def test_repeat_across_dst_fall_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_notifier: list[ServiceCall],
     freezer: FrozenDateTimeFactory,
     start: datetime,
@@ -434,7 +434,7 @@ async def test_repeat_across_dst_fall_back(
     assert len(mock_notifier) == 1
 
 
-async def test_done_message_state_tracker_reset_on_cancel(hass: UniversalAssistant) -> None:
+async def test_done_message_state_tracker_reset_on_cancel(hass: __HAC_KEEP__) -> None:
     """Test that the done message is reset when canceled."""
     entity = alert.AlertEntity(hass, *TEST_NOACK)
     entity.platform = MockEntityPlatform(hass)

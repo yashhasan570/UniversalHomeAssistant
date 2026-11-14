@@ -9,7 +9,7 @@ from universalassistant.components.trace import (
     ActionTrace,
     async_store_trace,
 )
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN
@@ -51,7 +51,7 @@ class AutomationTrace(ActionTrace):
 
 @contextmanager
 def trace_automation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     automation_id: str | None,
     config: ConfigType | None,
     blueprint_inputs: ConfigType | None,

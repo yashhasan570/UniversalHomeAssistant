@@ -19,8 +19,8 @@ from universalassistant.components.adguard.services import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 pytestmark = pytest.mark.usefixtures("init_integration")
 
@@ -32,7 +32,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_service_registration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the adguard services be registered."""
     services = hass.services.async_services_for_domain(DOMAIN)
@@ -79,7 +79,7 @@ async def test_service_registration(
     ],
 )
 async def test_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     service: str,
     service_call_data: dict,
@@ -116,7 +116,7 @@ async def test_service(
     ],
 )
 async def test_service_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     error: Exception,
     message: str,
@@ -124,7 +124,7 @@ async def test_service_error(
     """Test a failing action raises a translated error, not the library one."""
     mock_adguard.filtering.blocklists.enable.side_effect = error
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             DOMAIN,
             AdGuardHomeService.ENABLE_URL,
@@ -136,7 +136,7 @@ async def test_service_error(
 
 
 async def test_service_authentication_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_service_authentication_failed(
         AdGuardHomeAuthenticationError("Nope")
     )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             AdGuardHomeService.ENABLE_URL,

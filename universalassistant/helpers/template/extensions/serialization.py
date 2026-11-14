@@ -1,4 +1,4 @@
-"""Serialization functions for Universal Universal Home Assistant templates."""
+"""Serialization functions for __HA_KEEP__ templates."""
 
 from functools import partial
 import json

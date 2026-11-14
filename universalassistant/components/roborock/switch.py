@@ -22,8 +22,8 @@ from roborock.roborock_typing import RoborockCommand
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import STATE_OFF, STATE_ON, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -191,7 +191,7 @@ Q10_SWITCH_DESCRIPTIONS: list[RoborockSwitchDescriptionQ10] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RoborockConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -294,7 +294,7 @@ class RoborockSwitch(RoborockEntityV1, SwitchEntity):
         try:
             await self._trait.disable()
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err
@@ -305,7 +305,7 @@ class RoborockSwitch(RoborockEntityV1, SwitchEntity):
         try:
             await self._trait.enable()
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err
@@ -387,7 +387,7 @@ class RoborockSwitchA01(RoborockCoordinatedEntityA01, SwitchEntity):
             )
             await self.coordinator.async_request_refresh()
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err
@@ -401,7 +401,7 @@ class RoborockSwitchA01(RoborockCoordinatedEntityA01, SwitchEntity):
             )
             await self.coordinator.async_request_refresh()
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err
@@ -446,7 +446,7 @@ class RoborockSwitchQ10(RoborockCoordinatedEntityB01Q10, SwitchEntity):
         try:
             await self._trait.disable()
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err
@@ -457,7 +457,7 @@ class RoborockSwitchQ10(RoborockCoordinatedEntityB01Q10, SwitchEntity):
         try:
             await self._trait.enable()
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err
@@ -508,7 +508,7 @@ class RoborockSwitchQ10ButtonLight(
         try:
             await self._trait.disable()
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err
@@ -521,7 +521,7 @@ class RoborockSwitchQ10ButtonLight(
         try:
             await self._trait.enable()
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err

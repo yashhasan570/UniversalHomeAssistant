@@ -18,7 +18,7 @@
           "email": "The email address associated with your AnyList account.",
           "password": "The password used to sign in to your AnyList account."
         },
-        "description": "Connect your AnyList account to sync shopping lists with Universal Universal Home Assistant.",
+        "description": "Connect your AnyList account to sync shopping lists with __HA_KEEP__.",
         "title": "Connect AnyList"
       }
     }

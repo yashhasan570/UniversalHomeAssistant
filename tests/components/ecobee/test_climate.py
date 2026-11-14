@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_OFF,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
@@ -110,7 +110,7 @@ def data_fixture(ecobee_fixture):
 
 
 @pytest.fixture(name="thermostat")
-def thermostat_fixture(data, hass: UniversalAssistant):
+def thermostat_fixture(data, hass: __HAC_KEEP__):
     """Set up ecobee thermostat object."""
     thermostat = data.ecobee.get_thermostat(1)
     return Thermostat(data, 1, thermostat, hass)
@@ -121,7 +121,7 @@ async def test_name(thermostat) -> None:
     assert thermostat.device_info.name == "Ecobee"
 
 
-async def test_aux_heat_not_supported_by_default(hass: UniversalAssistant) -> None:
+async def test_aux_heat_not_supported_by_default(hass: __HAC_KEEP__) -> None:
     """Default setup should not support Aux heat."""
     await setup_platform(hass, const.Platform.CLIMATE)
     state = hass.states.get(ENTITY_ID)
@@ -443,7 +443,7 @@ async def test_set_preset_mode(ecobee_fixture, thermostat, data) -> None:
     )
 
 
-async def test_remote_sensors(hass: UniversalAssistant) -> None:
+async def test_remote_sensors(hass: __HAC_KEEP__) -> None:
     """Test remote sensors."""
     await setup_platform(hass, [const.Platform.CLIMATE, const.Platform.SENSOR])
     platform = hass.data[const.Platform.CLIMATE].entities
@@ -459,7 +459,7 @@ async def test_remote_sensors(hass: UniversalAssistant) -> None:
 
 
 async def test_remote_sensor_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -478,7 +478,7 @@ async def test_remote_sensor_devices(
     )
 
 
-async def test_active_sensors_in_preset_mode(hass: UniversalAssistant) -> None:
+async def test_active_sensors_in_preset_mode(hass: __HAC_KEEP__) -> None:
     """Test active sensors in preset mode property."""
     await setup_platform(hass, [const.Platform.CLIMATE, const.Platform.SENSOR])
     platform = hass.data[const.Platform.CLIMATE].entities
@@ -493,7 +493,7 @@ async def test_active_sensors_in_preset_mode(hass: UniversalAssistant) -> None:
     assert sorted(remote_sensors) == sorted(["ecobee"])
 
 
-async def test_active_sensor_devices_in_preset_mode(hass: UniversalAssistant) -> None:
+async def test_active_sensor_devices_in_preset_mode(hass: __HAC_KEEP__) -> None:
     """Test active sensor devices in preset mode."""
     await setup_platform(hass, [const.Platform.CLIMATE, const.Platform.SENSOR])
     state = hass.states.get(ENTITY_ID)
@@ -528,7 +528,7 @@ async def test_active_sensors_in_preset_mode_for_custom_climate(
     ]
 
 
-async def test_remote_sensor_ids_names(hass: UniversalAssistant) -> None:
+async def test_remote_sensor_ids_names(hass: __HAC_KEEP__) -> None:
     """Test getting ids and names_by_user for thermostat."""
     await setup_platform(hass, [const.Platform.CLIMATE, const.Platform.SENSOR])
     platform = hass.data[const.Platform.CLIMATE].entities
@@ -548,7 +548,7 @@ async def test_remote_sensor_ids_names(hass: UniversalAssistant) -> None:
 
 
 async def test_remote_sensors_ignore_non_ecobee_devices(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Devices from other integrations sharing a sensor's name are not matched.
 
@@ -583,7 +583,7 @@ async def test_remote_sensors_ignore_non_ecobee_devices(
 
 
 async def test_set_sensors_used_in_climate(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test set sensors used in climate."""
     # Get device_id of remote sensor from the device registry.
@@ -709,7 +709,7 @@ async def test_set_sensors_used_in_climate(
 
 
 async def test_thermostats_removed_from_services_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test unloading drops the entities the ecobee actions iterate over."""
     entry = await setup_platform(hass, [const.Platform.CLIMATE])
@@ -724,7 +724,7 @@ async def test_thermostats_removed_from_services_on_unload(
     assert not _async_get_thermostats(hass)
 
 
-async def test_thermostats_not_duplicated_on_reload(hass: UniversalAssistant) -> None:
+async def test_thermostats_not_duplicated_on_reload(hass: __HAC_KEEP__) -> None:
     """Test reloading does not leave a second copy of every entity behind."""
     entry = await setup_platform(hass, [const.Platform.CLIMATE])
 

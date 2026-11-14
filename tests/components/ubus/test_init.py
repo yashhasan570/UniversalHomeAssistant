@@ -12,7 +12,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.ubus.const import DOMAIN
 from universalassistant.components.ubus.device_tracker import UbusScannerEntity
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -35,7 +35,7 @@ from .conftest import MAC_LAPTOP, MAC_PHONE
     ],
 )
 async def test_setup_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     method: str,
@@ -52,7 +52,7 @@ async def test_setup_retry(
 
 
 async def test_session_refreshed_after_permission_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -81,7 +81,7 @@ async def test_session_refreshed_after_permission_error(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, mock_ubus: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_ubus: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the config entry unloads cleanly."""
     mock_config_entry.add_to_hass(hass)
@@ -98,7 +98,7 @@ async def test_unload_entry(
     "enabled", [pytest.param(False, id="disabled"), pytest.param(True, id="enabled")]
 )
 async def test_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -154,7 +154,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -183,7 +183,7 @@ async def test_remove_config_entry_device_rejects_child_device(
 
 
 async def test_remove_device_of_unloaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

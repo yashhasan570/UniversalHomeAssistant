@@ -57,8 +57,8 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -114,7 +114,7 @@ def patch_lifx_state_settle_delay() -> Any:
 
 
 async def test_light_identity_is_unchanged(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -129,8 +129,8 @@ async def test_light_identity_is_unchanged(
     assert registry_device.identifiers == {(DOMAIN, SERIAL)}
 
 
-async def test_color_light_state_and_modes(hass: UniversalAssistant) -> None:
-    """Test public color state renders with unchanged Universal Universal Home Assistant modes."""
+async def test_color_light_state_and_modes(hass: __HAC_KEEP__) -> None:
+    """Test public color state renders with unchanged __HA_KEEP__ modes."""
     device = create_mock_light()
     device.state.color = HSBK(20.0, 0.25, 0.75, 4000)
     await async_setup_lifx_entry(hass, device)
@@ -160,7 +160,7 @@ async def test_color_light_state_and_modes(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_white_light_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     factory: Callable[[], Light],
     expected_mode: ColorMode,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_white_light_modes(
     ],
 )
 async def test_zoned_effect_names_and_firmware_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     factory: Callable[[], MockDevice],
     effect_list: list[str],
@@ -275,7 +275,7 @@ async def test_zoned_effect_names_and_firmware_state(
     ],
 )
 async def test_running_software_effect_is_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_effect_conductor: MagicMock,
     running_effect: EffectPulse | EffectColorloop | None,
     expected_effect: str | None,
@@ -298,7 +298,7 @@ async def test_running_software_effect_is_reported(
 
 
 async def test_effect_pulse_uses_public_effect(
-    hass: UniversalAssistant, mock_effect_conductor: MagicMock
+    hass: __HAC_KEEP__, mock_effect_conductor: MagicMock
 ) -> None:
     """Test pulse service constructs a public-unit effect."""
     device = create_mock_light()
@@ -330,7 +330,7 @@ async def test_effect_pulse_uses_public_effect(
 
 
 async def test_effect_service_follows_renamed_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_effect_conductor: MagicMock,
 ) -> None:
@@ -366,7 +366,7 @@ async def test_effect_service_follows_renamed_entity_id(
 
 
 async def test_effect_pulse_reads_color_before_merging(
-    hass: UniversalAssistant, mock_effect_conductor: MagicMock
+    hass: __HAC_KEEP__, mock_effect_conductor: MagicMock
 ) -> None:
     """Test pulse merges a partial color over what the device reports now."""
     device = create_mock_light()
@@ -393,7 +393,7 @@ async def test_effect_pulse_reads_color_before_merging(
     ],
 )
 async def test_effect_pulse_clamps_brightness_above_zero(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_effect_conductor: MagicMock,
     brightness: dict[str, int],
     expected: float,
@@ -413,7 +413,7 @@ async def test_effect_pulse_clamps_brightness_above_zero(
 
 
 async def test_effect_colorloop_uses_public_effect_defaults(
-    hass: UniversalAssistant, mock_effect_conductor: MagicMock
+    hass: __HAC_KEEP__, mock_effect_conductor: MagicMock
 ) -> None:
     """Test colorloop service constructs a normalized public effect."""
     device = create_mock_light()
@@ -444,7 +444,7 @@ async def test_effect_colorloop_uses_public_effect_defaults(
 
 
 async def test_effect_colorloop_orders_saturation_bounds(
-    hass: UniversalAssistant, mock_effect_conductor: MagicMock
+    hass: __HAC_KEEP__, mock_effect_conductor: MagicMock
 ) -> None:
     """Test a saturation_max below the default minimum is still accepted."""
     await async_setup_lifx_entry(hass, create_mock_light())
@@ -462,7 +462,7 @@ async def test_effect_colorloop_orders_saturation_bounds(
 
 
 async def test_effect_colorloop_clamps_saturation_above_zero(
-    hass: UniversalAssistant, mock_effect_conductor: MagicMock
+    hass: __HAC_KEEP__, mock_effect_conductor: MagicMock
 ) -> None:
     """Test a zero saturation is raised, as it switches the bulb to white."""
     await async_setup_lifx_entry(hass, create_mock_light())
@@ -492,7 +492,7 @@ async def test_effect_colorloop_clamps_saturation_above_zero(
     ],
 )
 async def test_effect_colorloop_change_is_clamped_to_what_the_library_accepts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_effect_conductor: MagicMock,
     change: int,
     expected: float,
@@ -512,7 +512,7 @@ async def test_effect_colorloop_change_is_clamped_to_what_the_library_accepts(
 
 
 async def test_effect_colorloop_accepts_absolute_brightness(
-    hass: UniversalAssistant, mock_effect_conductor: MagicMock
+    hass: __HAC_KEEP__, mock_effect_conductor: MagicMock
 ) -> None:
     """Test colorloop normalises the 0-255 brightness attribute."""
     await async_setup_lifx_entry(hass, create_mock_light())
@@ -529,13 +529,13 @@ async def test_effect_colorloop_accepts_absolute_brightness(
 
 
 async def test_software_effect_errors_become_universal_assistant_errors(
-    hass: UniversalAssistant, mock_effect_conductor: MagicMock
+    hass: __HAC_KEEP__, mock_effect_conductor: MagicMock
 ) -> None:
-    """Test conductor failures surface as Universal Universal Home Assistant errors."""
+    """Test conductor failures surface as __HA_KEEP__ errors."""
     await async_setup_lifx_entry(hass, create_mock_light())
     mock_effect_conductor.start.side_effect = LifxError("software boom")
 
-    with pytest.raises(UniversalAssistantError, match="software boom"):
+    with pytest.raises(__HAC_KEEP__Error, match="software boom"):
         await hass.services.async_call(
             DOMAIN,
             LIFXService.EFFECT_PULSE,
@@ -545,13 +545,13 @@ async def test_software_effect_errors_become_universal_assistant_errors(
 
 
 async def test_stopping_an_effect_to_set_state_can_fail(
-    hass: UniversalAssistant, mock_effect_conductor: MagicMock
+    hass: __HAC_KEEP__, mock_effect_conductor: MagicMock
 ) -> None:
     """Test the pre-effect state restore that precedes every command is reported."""
     await async_setup_lifx_entry(hass, create_mock_light())
     mock_effect_conductor.stop.side_effect = LifxError("restore boom")
 
-    with pytest.raises(UniversalAssistantError, match="restore boom"):
+    with pytest.raises(__HAC_KEEP__Error, match="restore boom"):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -561,7 +561,7 @@ async def test_stopping_an_effect_to_set_state_can_fail(
 
 
 async def test_running_color_sweep_is_reported_by_its_action_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a running Color Sweep shows the effect name the Mirror offers."""
     device = create_mock_mirror_light()
@@ -575,7 +575,7 @@ async def test_running_color_sweep_is_reported_by_its_action_name(
 
 
 async def test_undocumented_firmware_effect_is_not_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test an effect type the protocol does not document shows no effect."""
     device = create_mock_mirror_light()
@@ -607,7 +607,7 @@ async def test_undocumented_firmware_effect_is_not_reported(
     ],
 )
 async def test_matrix_effects_use_public_firmware_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     service_data: dict[str, Any],
     effect_type: FirmwareEffect,
@@ -630,14 +630,14 @@ async def test_matrix_effects_use_public_firmware_api(
 
 
 async def test_firmware_effect_errors_become_universal_assistant_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
-    """Test firmware effect failures surface as Universal Universal Home Assistant errors."""
+    """Test firmware effect failures surface as __HA_KEEP__ errors."""
     device = create_mock_matrix_light()
     device.set_effect.side_effect = LifxError("firmware boom")
     await async_setup_lifx_entry(hass, device)
 
-    with pytest.raises(UniversalAssistantError, match="firmware boom"):
+    with pytest.raises(__HAC_KEEP__Error, match="firmware boom"):
         await hass.services.async_call(
             DOMAIN,
             LIFXService.EFFECT_FLAME,
@@ -647,7 +647,7 @@ async def test_firmware_effect_errors_become_universal_assistant_errors(
 
 
 async def test_effect_theme_schema_offers_every_library_theme(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test effect services accept the themes the library currently ships."""
     device = create_mock_matrix_light()
@@ -667,7 +667,7 @@ async def test_effect_theme_schema_offers_every_library_theme(
     )
 
 
-async def test_sky_effect_uses_public_firmware_api(hass: UniversalAssistant) -> None:
+async def test_sky_effect_uses_public_firmware_api(hass: __HAC_KEEP__) -> None:
     """Test sky service delegates public enum and palette values."""
     device = create_mock_ceiling_light()
     await async_setup_lifx_entry(hass, device)
@@ -698,7 +698,7 @@ async def test_sky_effect_uses_public_firmware_api(hass: UniversalAssistant) -> 
 
 
 async def test_sky_effect_plays_once_across_a_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test speed 0 plays a sunrise once across the duration, in nanoseconds."""
     device = create_mock_ceiling_light()
@@ -722,7 +722,7 @@ async def test_sky_effect_plays_once_across_a_duration(
 
 
 async def test_sky_effect_speed_zero_needs_a_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test speed 0 without a duration is refused instead of quietly changed."""
     device = create_mock_ceiling_light()
@@ -741,7 +741,7 @@ async def test_sky_effect_speed_zero_needs_a_duration(
 
 
 async def test_sky_effect_without_a_palette_omits_it(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test omitting the palette sends no palette and skips the power on."""
     device = create_mock_ceiling_light()
@@ -788,7 +788,7 @@ async def test_sky_effect_without_a_palette_omits_it(
     ],
 )
 async def test_color_sweep_effect_uses_public_firmware_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_data: dict[str, Any],
     expected_kwargs: dict[str, Any],
 ) -> None:
@@ -811,7 +811,7 @@ async def test_color_sweep_effect_uses_public_firmware_api(
 
 
 async def test_color_sweep_speed_zero_needs_a_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test speed 0 without a duration is refused instead of quietly changed."""
     device = create_mock_mirror_light()
@@ -830,7 +830,7 @@ async def test_color_sweep_speed_zero_needs_a_duration(
 
 
 async def test_color_sweep_effect_skips_other_matrix_lights(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test Color Sweep only reaches the Mirror when another matrix light is named."""
     mirror = create_mock_mirror_light()
@@ -853,7 +853,7 @@ async def test_color_sweep_effect_skips_other_matrix_lights(
     matrix.set_effect.assert_not_awaited()
 
 
-async def test_move_effect_uses_public_firmware_api(hass: UniversalAssistant) -> None:
+async def test_move_effect_uses_public_firmware_api(hass: __HAC_KEEP__) -> None:
     """Test move service delegates theme and firmware operations."""
     device = create_mock_multizone_light()
     await async_setup_lifx_entry(hass, device)
@@ -895,7 +895,7 @@ async def test_move_effect_uses_public_firmware_api(hass: UniversalAssistant) ->
     ],
 )
 async def test_effect_stop_uses_compatible_public_firmware_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_effect_conductor: MagicMock,
     factory: Callable[[], MockDevice],
     method: str,
@@ -937,7 +937,7 @@ async def test_effect_stop_uses_compatible_public_firmware_api(
     ],
 )
 async def test_paint_theme_uses_public_device_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_data: dict[str, Any],
     expected_colors: list[HSBK],
 ) -> None:
@@ -963,8 +963,8 @@ async def test_paint_theme_uses_public_device_api(
     assert device.apply_theme.await_args.kwargs == {"power_on": False, "duration": 4}
 
 
-async def test_typed_light_sets_public_hsbk(hass: UniversalAssistant) -> None:
-    """Test Universal Universal Home Assistant color values are sent in public library units."""
+async def test_typed_light_sets_public_hsbk(hass: __HAC_KEEP__) -> None:
+    """Test __HA_KEEP__ color values are sent in public library units."""
     device = create_mock_light()
     device.state.color = HSBK(20.0, 0.25, 0.75, 4000)
     await async_setup_lifx_entry(hass, device)
@@ -1021,7 +1021,7 @@ async def test_typed_light_sets_public_hsbk(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_public_color_inputs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_data: dict[str, Any],
     expected: HSBK,
     written: dict[str, bool],
@@ -1042,9 +1042,9 @@ async def test_public_color_inputs(
 
 
 async def test_kelvin_outside_the_protocol_range_is_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
-    """Test a kelvin the protocol cannot carry surfaces as a Universal Universal Home Assistant error."""
+    """Test a kelvin the protocol cannot carry surfaces as a __HA_KEEP__ error."""
     device = create_mock_light()
     await async_setup_lifx_entry(hass, device)
 
@@ -1060,7 +1060,7 @@ async def test_kelvin_outside_the_protocol_range_is_rejected(
 
 
 async def test_unknown_color_name_falls_back_to_neutral_white(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an unrecognised color name warns and leaves the light white."""
     device = create_mock_light()
@@ -1086,7 +1086,7 @@ async def test_unknown_color_name_falls_back_to_neutral_white(
     ],
 )
 async def test_brightness_steps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     step: dict[str, Any],
     expected_brightness: float,
 ) -> None:
@@ -1120,7 +1120,7 @@ async def test_brightness_steps(
     ],
 )
 async def test_power_transitions_use_seconds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     initial_power: int,
     service: str,
     data: dict[str, Any],
@@ -1141,7 +1141,7 @@ async def test_power_transitions_use_seconds(
     device.set_power.assert_awaited_once_with(expected[0], duration=expected[1])
 
 
-async def test_color_is_set_before_fading_on(hass: UniversalAssistant) -> None:
+async def test_color_is_set_before_fading_on(hass: __HAC_KEEP__) -> None:
     """Test an off light receives color immediately before a power fade."""
     device = create_mock_light()
     device.state.power = 0
@@ -1167,7 +1167,7 @@ async def test_color_is_set_before_fading_on(hass: UniversalAssistant) -> None:
 
 
 async def test_transition_requests_one_postponed_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a transition refreshes immediately and once when it finishes."""
     device = create_mock_light()
@@ -1188,7 +1188,7 @@ async def test_transition_requests_one_postponed_refresh(
 
 
 async def test_superseding_transition_cancels_old_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a new operation cancels the previous transition-end refresh."""
     device = create_mock_light()
@@ -1218,7 +1218,7 @@ async def test_superseding_transition_cancels_old_refresh(
 
 
 @pytest.mark.parametrize("extended", [True, False], ids=["extended", "legacy"])
-async def test_multizone_selection(hass: UniversalAssistant, extended: bool) -> None:
+async def test_multizone_selection(hass: __HAC_KEEP__, extended: bool) -> None:
     """Test selected zones send the full span whatever the wire protocol is."""
     device = create_mock_multizone_light(extended=extended)
     await async_setup_lifx_entry(hass, device)
@@ -1245,7 +1245,7 @@ async def test_multizone_selection(hass: UniversalAssistant, extended: bool) -> 
 
 
 async def test_multizone_brightness_preserves_zone_colors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test whole-strip brightness retains each public zone color."""
     device = create_mock_multizone_light()
@@ -1284,7 +1284,7 @@ async def test_multizone_brightness_preserves_zone_colors(
     ],
 )
 async def test_multizone_full_overwrite_skips_reading_the_strip(
-    hass: UniversalAssistant, service_data: dict[str, Any], expected: HSBK
+    hass: __HAC_KEEP__, service_data: dict[str, Any], expected: HSBK
 ) -> None:
     """Test a change that leaves nothing of a zone showing writes without a read."""
     device = create_mock_multizone_light()
@@ -1318,7 +1318,7 @@ async def test_multizone_full_overwrite_skips_reading_the_strip(
 
 
 async def test_multizone_selection_writes_only_the_requested_window(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a non-zero zone selection leaves the zones outside it untouched."""
     device = create_mock_multizone_light()
@@ -1345,7 +1345,7 @@ async def test_multizone_selection_writes_only_the_requested_window(
 
 
 async def test_multizone_selection_outside_the_strip_writes_nothing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test zone numbers past the end of the strip are dropped."""
     device = create_mock_multizone_light()
@@ -1378,7 +1378,7 @@ async def test_multizone_selection_outside_the_strip_writes_nothing(
     ],
 )
 async def test_matrix_reads_the_tiles_before_merging_over_them(
-    hass: UniversalAssistant, service_data: dict[str, Any], reads_expected: int
+    hass: __HAC_KEEP__, service_data: dict[str, Any], reads_expected: int
 ) -> None:
     """Test tiles are only merged over after the device has been read."""
     device = create_mock_matrix_light()
@@ -1404,7 +1404,7 @@ async def test_matrix_reads_the_tiles_before_merging_over_them(
 
 
 async def test_matrix_without_tile_colors_sets_the_whole_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a matrix device with no cached tile colors writes the device color."""
     device = create_mock_matrix_light()
@@ -1423,7 +1423,7 @@ async def test_matrix_without_tile_colors_sets_the_whole_device(
 
 
 async def test_turn_on_with_effect_delegates_to_the_effect_service(
-    hass: UniversalAssistant, mock_effect_conductor: MagicMock
+    hass: __HAC_KEEP__, mock_effect_conductor: MagicMock
 ) -> None:
     """Test the effect attribute of light.turn_on calls the LIFX effect service."""
     device = create_mock_light()
@@ -1444,7 +1444,7 @@ async def test_turn_on_with_effect_delegates_to_the_effect_service(
     device.set_waveform_optional.assert_not_awaited()
 
 
-async def test_multizone_color_preserves_zone_brightness(hass: UniversalAssistant) -> None:
+async def test_multizone_color_preserves_zone_brightness(hass: __HAC_KEEP__) -> None:
     """Test a whole-strip color change keeps each zone at its own brightness."""
     device = create_mock_multizone_light()
     device.state.zones = [HSBK(300.0, 1.0, 1.0, 3500), HSBK(255.0, 1.0, 0.25, 3500)]
@@ -1467,7 +1467,7 @@ async def test_multizone_color_preserves_zone_brightness(hass: UniversalAssistan
 
 
 async def test_multizone_color_keeps_the_brightness_of_a_dark_strip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a color-only change on a dark strip reads its zones where they are."""
     device = create_mock_multizone_light()
@@ -1497,7 +1497,7 @@ async def test_multizone_color_keeps_the_brightness_of_a_dark_strip(
     [create_mock_matrix_light, create_mock_luna_light, create_mock_ceiling_light],
 )
 async def test_matrix_color_uses_public_convenience_api(
-    hass: UniversalAssistant, factory: Callable[[], MockDevice]
+    hass: __HAC_KEEP__, factory: Callable[[], MockDevice]
 ) -> None:
     """Test matrix and ceiling color changes delegate tile mechanics."""
     device = factory()
@@ -1526,7 +1526,7 @@ async def test_matrix_color_uses_public_convenience_api(
     [create_mock_matrix_light, create_mock_luna_light, create_mock_ceiling_light],
 )
 async def test_matrix_color_preserves_tile_brightness(
-    hass: UniversalAssistant, factory: Callable[[], MockDevice]
+    hass: __HAC_KEEP__, factory: Callable[[], MockDevice]
 ) -> None:
     """Test a whole-device color change keeps each tile at its own brightness."""
     device = factory()
@@ -1581,7 +1581,7 @@ async def test_matrix_color_preserves_tile_brightness(
     ],
 )
 async def test_partial_write_is_refused_when_the_state_cannot_be_read(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     factory: Callable[[], MockDevice],
     method: str,
     error: Exception,
@@ -1591,7 +1591,7 @@ async def test_partial_write_is_refused_when_the_state_cannot_be_read(
     await async_setup_lifx_entry(hass, device)
     device.refresh_state.side_effect = error
 
-    with pytest.raises(UniversalAssistantError, match="could not be read"):
+    with pytest.raises(__HAC_KEEP__Error, match="could not be read"):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -1603,7 +1603,7 @@ async def test_partial_write_is_refused_when_the_state_cannot_be_read(
 
 
 async def test_matrix_color_writes_each_tile_in_the_chain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a chained matrix device is written one tile at a time."""
     device = create_mock_matrix_light()
@@ -1623,7 +1623,7 @@ async def test_matrix_color_writes_each_tile_in_the_chain(
     ]
 
 
-async def test_matrix_color_stops_at_a_short_color_list(hass: UniversalAssistant) -> None:
+async def test_matrix_color_stops_at_a_short_color_list(hass: __HAC_KEEP__) -> None:
     """Test a chain reporting fewer colors than zones writes only whole tiles."""
     device = create_mock_matrix_light()
     device.state.tile_colors = device.state.tile_colors[:100]
@@ -1648,7 +1648,7 @@ async def test_matrix_color_stops_at_a_short_color_list(hass: UniversalAssistant
     [create_mock_matrix_light, create_mock_luna_light, create_mock_ceiling_light],
 )
 async def test_matrix_brightness_preserves_tile_colors(
-    hass: UniversalAssistant, factory: Callable[[], MockDevice]
+    hass: __HAC_KEEP__, factory: Callable[[], MockDevice]
 ) -> None:
     """Test matrix brightness retains each public tile color."""
     device = factory()
@@ -1681,7 +1681,7 @@ async def test_matrix_brightness_preserves_tile_colors(
     )
 
 
-async def test_deprecated_infrared_uses_public_level(hass: UniversalAssistant) -> None:
+async def test_deprecated_infrared_uses_public_level(hass: __HAC_KEEP__) -> None:
     """Test the deprecated infrared field delegates a normalized public level."""
     device = create_mock_infrared_light()
     await async_setup_lifx_entry(hass, device)
@@ -1696,7 +1696,7 @@ async def test_deprecated_infrared_uses_public_level(hass: UniversalAssistant) -
     device.set_infrared.assert_awaited_once_with(100 / 255)
 
 
-async def test_hev_cycle_service(hass: UniversalAssistant) -> None:
+async def test_hev_cycle_service(hass: __HAC_KEEP__) -> None:
     """Test HEV cycle control retains the existing entity service."""
     device = create_mock_hev_light()
     await async_setup_lifx_entry(hass, device)
@@ -1716,14 +1716,14 @@ async def test_hev_cycle_service(hass: UniversalAssistant) -> None:
 
 
 async def test_hev_cycle_library_error_becomes_universal_assistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
-    """Test a library failure surfaces as a Universal Universal Home Assistant error."""
+    """Test a library failure surfaces as a __HA_KEEP__ error."""
     device = create_mock_hev_light()
     await async_setup_lifx_entry(hass, device)
     device.set_hev_cycle.side_effect = LifxError("device unreachable")
 
-    with pytest.raises(UniversalAssistantError, match="device unreachable"):
+    with pytest.raises(__HAC_KEEP__Error, match="device unreachable"):
         await hass.services.async_call(
             DOMAIN,
             "set_hev_cycle_state",
@@ -1732,7 +1732,7 @@ async def test_hev_cycle_library_error_becomes_universal_assistant_error(
         )
 
 
-async def test_hev_cycle_rejected_for_regular_light(hass: UniversalAssistant) -> None:
+async def test_hev_cycle_rejected_for_regular_light(hass: __HAC_KEEP__) -> None:
     """Test the action a LIFX Clean bulb registers is turned down by other lights."""
     regular = create_mock_light(ip=OTHER_IP_ADDRESS, serial=OTHER_SERIAL)
     regular.state.label = OTHER_LABEL
@@ -1748,7 +1748,7 @@ async def test_hev_cycle_rejected_for_regular_light(hass: UniversalAssistant) ->
 
 
 async def test_hev_cycle_action_rejects_target_without_a_clean_bulb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the registered action rejects a light without HEV LEDs."""
     await async_setup_lifx_entry(hass, create_mock_light())
@@ -1765,7 +1765,7 @@ async def test_hev_cycle_action_rejects_target_without_a_clean_bulb(
 
 
 async def test_infrared_rejected_for_light_without_infrared(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the deprecated infrared attribute rejects an unsupported device."""
     await async_setup_lifx_entry(hass, create_mock_light())
@@ -1779,7 +1779,7 @@ async def test_infrared_rejected_for_light_without_infrared(
         )
 
 
-async def test_effect_without_a_lifx_target_is_rejected(hass: UniversalAssistant) -> None:
+async def test_effect_without_a_lifx_target_is_rejected(hass: __HAC_KEEP__) -> None:
     """Test an effect action that resolves to no LIFX light reports it."""
     await async_setup_lifx_entry(hass, create_mock_light())
 
@@ -1811,7 +1811,7 @@ async def test_effect_without_a_lifx_target_is_rejected(hass: UniversalAssistant
     ],
 )
 async def test_firmware_effect_named_on_an_incapable_light_is_rejected(
-    hass: UniversalAssistant, service: str, message: str
+    hass: __HAC_KEEP__, service: str, message: str
 ) -> None:
     """Test a firmware effect reports a target set that cannot run it."""
     device = create_mock_light()
@@ -1826,7 +1826,7 @@ async def test_firmware_effect_named_on_an_incapable_light_is_rejected(
 
 
 async def test_firmware_effect_on_an_area_without_a_capable_light_is_a_no_op(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1852,7 +1852,7 @@ async def test_firmware_effect_on_an_area_without_a_capable_light_is_a_no_op(
 
 
 async def test_effect_on_an_area_without_a_lifx_light_is_a_no_op(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
 ) -> None:
     """Test an effect action on an area holding no LIFX light does nothing."""
@@ -1905,7 +1905,7 @@ async def test_effect_on_an_area_without_a_lifx_light_is_a_no_op(
     ],
 )
 async def test_library_errors_become_universal_assistant_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     factory: Callable[[], MockDevice],
     method: str,
     domain: str,
@@ -1917,7 +1917,7 @@ async def test_library_errors_become_universal_assistant_errors(
     setattr(device, method, AsyncMock(side_effect=LifxError("boom")))
     await async_setup_lifx_entry(hass, device)
 
-    with pytest.raises(UniversalAssistantError, match="boom"):
+    with pytest.raises(__HAC_KEEP__Error, match="boom"):
         await hass.services.async_call(
             domain,
             service,
@@ -1935,7 +1935,7 @@ async def test_library_errors_become_universal_assistant_errors(
     ],
 )
 async def test_light_is_unavailable_after_three_missed_polls(
-    hass: UniversalAssistant, missed_polls: int, expected_state: str
+    hass: __HAC_KEEP__, missed_polls: int, expected_state: str
 ) -> None:
     """Test a light keeps its last state until it misses three polls in a row."""
     device = create_mock_light()
@@ -1951,7 +1951,7 @@ async def test_light_is_unavailable_after_three_missed_polls(
     assert state.state == expected_state
 
 
-async def test_answered_poll_resets_missed_polls(hass: UniversalAssistant) -> None:
+async def test_answered_poll_resets_missed_polls(hass: __HAC_KEEP__) -> None:
     """Test the missed polls are counted again after the light answers."""
     device = create_mock_light()
     device.state.power = 65535
@@ -1971,7 +1971,7 @@ async def test_answered_poll_resets_missed_polls(hass: UniversalAssistant) -> No
     assert state.state == STATE_ON
 
 
-async def test_light_recovers_after_being_unavailable(hass: UniversalAssistant) -> None:
+async def test_light_recovers_after_being_unavailable(hass: __HAC_KEEP__) -> None:
     """Test a light is available again as soon as it answers a poll."""
     device = create_mock_light()
     device.state.power = 65535
@@ -1989,7 +1989,7 @@ async def test_light_recovers_after_being_unavailable(hass: UniversalAssistant) 
 
 
 async def test_unavailable_light_only_recovers_by_answering(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a missed poll does not bring back a light that went unavailable."""
     device = create_mock_light()
@@ -2018,12 +2018,12 @@ async def test_unavailable_light_only_recovers_by_answering(
     [{LIFXServiceArgument.INFRARED: 256}, {LIFXServiceArgument.ZONES: [-1]}],
 )
 async def test_set_state_schema_rejects_invalid_values(
-    hass: UniversalAssistant, data: dict[str, Any]
+    hass: __HAC_KEEP__, data: dict[str, Any]
 ) -> None:
     """Test the retained set_state service schema."""
     await async_setup_lifx_entry(hass, create_mock_light())
 
-    with pytest.raises((UniversalAssistantError, probatio.Invalid)):
+    with pytest.raises((__HAC_KEEP__Error, probatio.Invalid)):
         await hass.services.async_call(
             DOMAIN,
             "set_state",
@@ -2032,7 +2032,7 @@ async def test_set_state_schema_rejects_invalid_values(
         )
 
 
-async def test_light_starts_off(hass: UniversalAssistant) -> None:
+async def test_light_starts_off(hass: __HAC_KEEP__) -> None:
     """Test public power state zero is exposed as off."""
     device = create_mock_light()
     device.state.power = 0
@@ -2131,7 +2131,7 @@ def test_theme_field_default_matches_the_action(
     ],
 )
 async def test_palette_bounds_match_the_documented_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     factory: Callable[[], MockDevice],
     palette: list[tuple[int, int, int, int]],

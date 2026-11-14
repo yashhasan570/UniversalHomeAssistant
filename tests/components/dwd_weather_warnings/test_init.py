@@ -27,7 +27,7 @@ from universalassistant.components.dwd_weather_warnings.coordinator import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_LATITUDE, ATTR_LONGITUDE, STATE_HOME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntryType
 from universalassistant.util import dt as dt_util
@@ -52,7 +52,7 @@ def _warning(level: int, end_time: datetime) -> dict[str, object]:
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_identifier_entry: MockConfigEntry,
     mock_dwdwfsapi: MagicMock,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_load_unload_entry(
 
 
 async def test_removing_old_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_identifier_entry: MockConfigEntry,
     mock_dwdwfsapi: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -104,7 +104,7 @@ async def test_removing_old_device(
 
 
 async def test_load_invalid_registry_entry(
-    hass: UniversalAssistant, mock_tracker_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tracker_entry: MockConfigEntry
 ) -> None:
     """Test loading the integration with an invalid registry entry ID."""
     INVALID_DATA = mock_tracker_entry.data.copy()
@@ -117,7 +117,7 @@ async def test_load_invalid_registry_entry(
 
 
 async def test_load_missing_device_tracker(
-    hass: UniversalAssistant, mock_tracker_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tracker_entry: MockConfigEntry
 ) -> None:
     """Test loading the integration with a missing device tracker."""
     entry = await init_integration(hass, mock_tracker_entry)
@@ -125,7 +125,7 @@ async def test_load_missing_device_tracker(
 
 
 async def test_load_missing_required_attribute(
-    hass: UniversalAssistant, mock_tracker_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tracker_entry: MockConfigEntry
 ) -> None:
     """Test loading the integration with a device tracker missing a required attr."""
     mock_tracker_entry.add_to_hass(hass)
@@ -141,7 +141,7 @@ async def test_load_missing_required_attribute(
 
 
 async def test_load_valid_device_tracker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_tracker_entry: MockConfigEntry,
     mock_dwdwfsapi: MagicMock,
@@ -170,7 +170,7 @@ async def test_load_valid_device_tracker(
 
 
 async def test_filter_expired_warnings(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_dwdwfsapi: MagicMock
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_dwdwfsapi: MagicMock
 ) -> None:
     """Test expired-warning filtering."""
     now = dt_util.utcnow()

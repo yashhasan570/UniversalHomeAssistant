@@ -204,7 +204,7 @@ def test_invalid_discovery_info(
     func_node, discovery_info_node = astroid.extract_node(
         """
     async def async_setup_scanner( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         async_see: AsyncSeeCallback,
         discovery_info: dict[str, Any] | None = None, #@
@@ -237,7 +237,7 @@ def test_valid_discovery_info(
     func_node = astroid.extract_node(
         """
     async def async_setup_scanner( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         async_see: AsyncSeeCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -259,7 +259,7 @@ def test_invalid_list_dict_str_any(
     func_node = astroid.extract_node(
         """
     async def async_get_triggers( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device_id: str
     ) -> list:
         pass
@@ -293,7 +293,7 @@ def test_valid_list_dict_str_any(
     func_node = astroid.extract_node(
         """
     async def async_get_triggers( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device_id: str
     ) -> list[dict[str, Any]]:
         pass
@@ -1215,7 +1215,7 @@ def test_notify_get_service(
         pass
 
     async def async_get_service( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         discovery_info: DiscoveryInfoType | None = None,
     ) -> CustomNotificationService:
@@ -1240,7 +1240,7 @@ def test_notify_get_service(
         pytest.param(
             """
     def async_setup_platform( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -1255,7 +1255,7 @@ def test_notify_get_service(
         pytest.param(
             """
     async def setup_platform( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -1270,7 +1270,7 @@ def test_notify_get_service(
         pytest.param(
             """
     def async_unload_entry( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ConfigEntry,
     ) -> None:
         pass
@@ -1283,7 +1283,7 @@ def test_notify_get_service(
         pytest.param(
             """
     async def async_condition_from_config( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
     ) -> ConditionCheckerType:
         pass
@@ -1296,7 +1296,7 @@ def test_notify_get_service(
         pytest.param(
             """
     def async_validate_trigger_config( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
     ) -> ConfigType:
         pass
@@ -1341,7 +1341,7 @@ def test_invalid_function_async_mismatch(
         pytest.param(
             """
     async def async_setup_platform( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -1354,7 +1354,7 @@ def test_invalid_function_async_mismatch(
         pytest.param(
             """
     def setup_platform( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -1367,7 +1367,7 @@ def test_invalid_function_async_mismatch(
         pytest.param(
             """
     def async_condition_from_config( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
     ) -> ConditionCheckerType:
         pass
@@ -1378,7 +1378,7 @@ def test_invalid_function_async_mismatch(
         pytest.param(
             """
     def _async_has_devices( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> bool:
         pass
     """,
@@ -1388,11 +1388,11 @@ def test_invalid_function_async_mismatch(
         pytest.param(
             """
     async def async_setup(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
     ) -> bool:
         def async_setup_entry( #@
-            hass: UniversalAssistant,
+            hass: __HAC_KEEP__,
             entry: ConfigEntry,
         ) -> None:
             pass
@@ -1423,7 +1423,7 @@ def test_pytest_function(
     func_node = astroid.extract_node(
         """
     async def test_sample( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         caplog: pytest.LogCaptureFixture,
         aiohttp_server: Callable[[], TestServer],
         unused_tcp_port_factory: Callable[[], int],
@@ -1531,7 +1531,7 @@ def test_pytest_invalid_function(
         pylint.testutils.MessageTest(
             msg_id="universal-assistant-argument-type",
             node=hass_node,
-            args=("hass", "UniversalAssistant", "test_sample"),
+            args=("hass", "__HAC_KEEP__", "test_sample"),
             line=3,
             col_offset=4,
             end_line=3,
@@ -1549,7 +1549,7 @@ def test_pytest_fixture(linter: UnittestLinter, type_hint_checker: BaseChecker) 
 
     @pytest.fixture
     def sample_fixture( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         caplog: pytest.LogCaptureFixture,
         capsys: pytest.CaptureFixture[str],
         aiohttp_server: Callable[[], TestServer],
@@ -1613,7 +1613,7 @@ def test_pytest_invalid_fixture(
         pylint.testutils.MessageTest(
             msg_id="universal-assistant-argument-type",
             node=hass_node,
-            args=("hass", "UniversalAssistant", "sample_fixture"),
+            args=("hass", "__HAC_KEEP__", "sample_fixture"),
             line=6,
             col_offset=4,
             end_line=6,
@@ -1638,7 +1638,7 @@ def test_valid_generic(
     func_node = astroid.extract_node(
         f"""
     async def async_setup_entry( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: {entry_annotation},
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -1670,7 +1670,7 @@ def test_invalid_generic(
     func_node, entry_node = astroid.extract_node(
         f"""
     async def async_setup_entry( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: {entry_annotation}, #@
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -1707,7 +1707,7 @@ def test_missing_argument(
     func_node = astroid.extract_node(
         """
     async def async_setup_entry( #@
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ConfigEntry,
     ) -> None:
         pass

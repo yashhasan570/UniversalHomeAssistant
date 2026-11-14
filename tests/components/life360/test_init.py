@@ -8,12 +8,12 @@ from universalassistant.config_entries import (
     ConfigEntryDisabler,
     ConfigEntryState,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 
 async def test_life360_repair_issue(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the Life360 configuration entry loading/unloading handles the repair."""
     config_entry_1 = MockConfigEntry(

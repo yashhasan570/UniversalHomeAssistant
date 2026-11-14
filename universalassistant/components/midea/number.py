@@ -14,7 +14,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import EntityCategory, UnitOfMass, UnitOfTime, UnitOfVolume
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import MideaConfigEntry, MideaEntity, midea_api_call
@@ -119,7 +119,7 @@ NUMBERS: list[MideaNumberEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MideaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

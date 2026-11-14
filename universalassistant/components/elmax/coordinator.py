@@ -22,8 +22,8 @@ from elmax_api.push.push import PushNotificationHandler
 from httpx2 import ConnectError, ConnectTimeout
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_TIMEOUT, POLLING_SECONDS
@@ -40,7 +40,7 @@ class ElmaxCoordinator(DataUpdateCoordinator[PanelStatus]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ElmaxConfigEntry,
         elmax_api_client: GenericElmax,
         panel: PanelEntry,
@@ -67,25 +67,25 @@ class ElmaxCoordinator(DataUpdateCoordinator[PanelStatus]):
         """Return state of a specific actuator."""
         if self._state_by_endpoint is not None:
             return self._state_by_endpoint[actuator_id]
-        raise UniversalAssistantError("Unknown actuator")
+        raise __HAC_KEEP__Error("Unknown actuator")
 
     def get_zone_state(self, zone_id: str) -> Actuator:
         """Return state of a specific zone."""
         if self._state_by_endpoint is not None:
             return self._state_by_endpoint[zone_id]
-        raise UniversalAssistantError("Unknown zone")
+        raise __HAC_KEEP__Error("Unknown zone")
 
     def get_area_state(self, area_id: str) -> Area:
         """Return state of a specific area."""
         if self._state_by_endpoint is not None and area_id:
             return self._state_by_endpoint[area_id]
-        raise UniversalAssistantError("Unknown area")
+        raise __HAC_KEEP__Error("Unknown area")
 
     def get_cover_state(self, cover_id: str) -> Cover:
         """Return state of a specific cover."""
         if self._state_by_endpoint is not None:
             return self._state_by_endpoint[cover_id]
-        raise UniversalAssistantError("Unknown cover")
+        raise __HAC_KEEP__Error("Unknown cover")
 
     @property
     def http_client(self):

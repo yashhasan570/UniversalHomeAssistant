@@ -15,7 +15,7 @@ from pywilight.const import (
 from pywilight.wilight_device import PyWiLightDevice
 
 from universalassistant.components.fan import DIRECTION_FORWARD, FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     ordered_list_item_to_percentage,
@@ -29,7 +29,7 @@ ORDERED_NAMED_FAN_SPEEDS = [WL_SPEED_LOW, WL_SPEED_MEDIUM, WL_SPEED_HIGH]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WiLightConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

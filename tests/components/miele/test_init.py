@@ -20,7 +20,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.miele.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow, device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ from . import setup_integration
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_load_unload_entry(
     ids=["unauthorized", "internal_server_error"],
 )
 async def test_expired_token_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     status: http.HTTPStatus,
@@ -82,7 +82,7 @@ async def test_expired_token_refresh_failure(
 
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 async def test_expired_token_refresh_connection_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_expired_token_refresh_connection_failure(
 
 
 async def test_devices_multiple_created_count(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -112,7 +112,7 @@ async def test_devices_multiple_created_count(
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -128,7 +128,7 @@ async def test_device_info(
 
 
 async def test_device_remove_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_miele_client: MagicMock,
@@ -160,7 +160,7 @@ async def test_device_remove_devices(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup_all_platforms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -217,7 +217,7 @@ async def test_setup_all_platforms(
     ],
 )
 async def test_load_entry_with_action_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -232,7 +232,7 @@ async def test_load_entry_with_action_error(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that an unavailable OAuth implementation raises ConfigEntryNotReady."""
     assert await async_setup_component(hass, "cloud", {})

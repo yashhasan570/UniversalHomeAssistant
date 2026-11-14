@@ -5,7 +5,7 @@ import logging
 from pymadvr.madvr import Madvr
 
 from universalassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 
 from .coordinator import MadVRConfigEntry, MadVRCoordinator
 
@@ -23,7 +23,7 @@ async def async_handle_unload(coordinator: MadVRCoordinator) -> None:
     _LOGGER.debug("Unloaded")
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MadVRConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MadVRConfigEntry) -> None:
     """Set up the integration from a config entry."""
     assert entry.unique_id
     mad_vr_client = Madvr(
@@ -51,7 +51,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: MadVRConfigEntry) -
     await coordinator.handle_coordinator_load()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MadVRConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MadVRConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     coordinator: MadVRCoordinator = entry.runtime_data

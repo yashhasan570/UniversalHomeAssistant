@@ -10,7 +10,7 @@
     },
     "step": {
       "discovery_confirm": {
-        "description": "Do you want to add Volumio (`{name}`) to Universal Universal Home Assistant?",
+        "description": "Do you want to add Volumio (`{name}`) to __HA_KEEP__?",
         "title": "Discovered Volumio"
       },
       "user": {

@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.harbor.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -26,7 +26,7 @@ _SENSOR = "sensor.harbor_camera_1234567890_temperature"
 
 
 async def test_setup_and_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_uses_instance_scoped_mqtt_client_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_setup_uses_instance_scoped_mqtt_client_id(
 
 
 async def test_setup_retry_when_unreachable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
 ) -> None:
@@ -74,7 +74,7 @@ async def test_setup_retry_when_unreachable(
 
 
 async def test_setup_retry_when_no_data_arrives(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_setup_retry_when_no_data_arrives(
 
 
 async def test_availability_follows_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
 ) -> None:
@@ -119,7 +119,7 @@ async def test_availability_follows_connection(
 
 
 async def test_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,

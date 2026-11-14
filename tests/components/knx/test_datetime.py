@@ -14,7 +14,7 @@ from universalassistant.components.knx.const import (
 )
 from universalassistant.components.knx.schema import DateTimeSchema
 from universalassistant.const import CONF_NAME, Platform
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 
 from . import KnxEntityGenerator
 from .conftest import KNXTestKit
@@ -22,7 +22,7 @@ from .conftest import KNXTestKit
 # KNX DPT 19.001 doesn't provide timezone information so we send local time
 
 
-async def test_datetime(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_datetime(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX datetime."""
     # default timezone in tests is US/Pacific
     test_address = "1/1/1"
@@ -58,7 +58,7 @@ async def test_datetime(hass: UniversalAssistant, knx: KNXTestKit) -> None:
     assert state.state == "2023-07-25T16:40:08+00:00"
 
 
-async def test_date_restore_and_respond(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_date_restore_and_respond(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX datetime with passive_address, restoring state and respond_to_read."""
     await hass.config.async_set_time_zone("Europe/Vienna")
     test_address = "1/1/1"
@@ -100,7 +100,7 @@ async def test_date_restore_and_respond(hass: UniversalAssistant, knx: KNXTestKi
     assert state.state == "2020-01-01T18:04:05+00:00"
 
 
-async def test_datetime_state_restore(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_datetime_state_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX datetime with state_address restores state until bus read completes."""
     await hass.config.async_set_time_zone("Europe/Vienna")
     test_address = "1/1/1"
@@ -131,7 +131,7 @@ async def test_datetime_state_restore(hass: UniversalAssistant, knx: KNXTestKit)
 
 
 async def test_datetime_ui_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:

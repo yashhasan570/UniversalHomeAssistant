@@ -12,7 +12,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -37,7 +37,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the mochad component."""
     conf = config[DOMAIN]
     host = conf.get(CONF_HOST)

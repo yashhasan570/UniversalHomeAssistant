@@ -24,7 +24,7 @@ from universalassistant.components.ai_task import (
 from universalassistant.components.conversation import AssistantContent, ChatLog
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.setup import async_setup_component
 
@@ -89,7 +89,7 @@ class MockAITaskEntity(AITaskEntity):
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Mock a configuration entry for AI Task."""
     entry = MockConfigEntry(domain=TEST_DOMAIN, entry_id="mock-test-entry")
     entry.add_to_hass(hass)
@@ -98,7 +98,7 @@ def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture
 def mock_ai_task_entity(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> MockAITaskEntity:
     """Mock AI Task entity."""
     return MockAITaskEntity()
@@ -106,7 +106,7 @@ def mock_ai_task_entity(
 
 @pytest.fixture
 async def init_components(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ai_task_entity: MockAITaskEntity,
 ):
@@ -114,7 +114,7 @@ async def init_components(
     assert await async_setup_component(hass, "universalassistant", {})
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -122,7 +122,7 @@ async def init_components(
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Unload test config entry."""
         await hass.config_entries.async_forward_entry_unload(
@@ -139,7 +139,7 @@ async def init_components(
     )
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:

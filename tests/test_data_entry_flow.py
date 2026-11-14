@@ -11,7 +11,7 @@ import pytest
 from pytest_universalassistant.common import async_capture_events
 
 from universalassistant import config_entries, data_entry_flow
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, frame
 from universalassistant.util.decorator import Registry
 
@@ -466,7 +466,7 @@ async def test_discovery_init_flow(manager: MockFlowManager) -> None:
     assert entry["source"] == config_entries.SOURCE_DISCOVERY
 
 
-async def test_finish_callback_change_result_type(hass: UniversalAssistant) -> None:
+async def test_finish_callback_change_result_type(hass: __HAC_KEEP__) -> None:
     """Test finish callback can change result type."""
 
     class TestFlow(data_entry_flow.FlowHandler):
@@ -511,7 +511,7 @@ async def test_finish_callback_change_result_type(hass: UniversalAssistant) -> N
     assert result["result"] == 2
 
 
-async def test_external_step(hass: UniversalAssistant, manager: MockFlowManager) -> None:
+async def test_external_step(hass: __HAC_KEEP__, manager: MockFlowManager) -> None:
     """Test external step logic."""
     manager.hass = hass
 
@@ -561,7 +561,7 @@ async def test_external_step(hass: UniversalAssistant, manager: MockFlowManager)
     assert result["title"] == "Hello"
 
 
-async def test_show_progress(hass: UniversalAssistant, manager: MockFlowManager) -> None:
+async def test_show_progress(hass: __HAC_KEEP__, manager: MockFlowManager) -> None:
     """Test show progress logic."""
     manager.hass = hass
     events = []
@@ -683,7 +683,7 @@ async def test_show_progress(hass: UniversalAssistant, manager: MockFlowManager)
 
 
 async def test_show_progress_error(
-    hass: UniversalAssistant, manager: MockFlowManager
+    hass: __HAC_KEEP__, manager: MockFlowManager
 ) -> None:
     """Test show progress logic."""
     manager.hass = hass
@@ -748,7 +748,7 @@ async def test_show_progress_error(
 
 
 async def test_show_progress_hidden_from_frontend(
-    hass: UniversalAssistant, manager: MockFlowManager
+    hass: __HAC_KEEP__, manager: MockFlowManager
 ) -> None:
     """Test show progress done is not sent to frontend."""
     manager.hass = hass
@@ -800,7 +800,7 @@ async def test_show_progress_hidden_from_frontend(
 
 
 async def test_show_progress_legacy(
-    hass: UniversalAssistant, manager: MockFlowManager, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, manager: MockFlowManager, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test show progress logic.
 
@@ -896,13 +896,13 @@ async def test_show_progress_legacy(
     # Check for deprecation warning
     assert (
         "tests.test_data_entry_flow::TestFlow calls async_show_progress without passing"
-        " a progress task, this is not valid and will break in Universal Universal Home Assistant "
+        " a progress task, this is not valid and will break in __HA_KEEP__ "
         "Core 2024.8."
     ) in caplog.text
 
 
 async def test_show_progress_fires_only_when_changed(
-    hass: UniversalAssistant, manager: MockFlowManager
+    hass: __HAC_KEEP__, manager: MockFlowManager
 ) -> None:
     """Test show progress change logic."""
     manager.hass = hass
@@ -1002,7 +1002,7 @@ async def test_abort_flow_exception_step(manager: MockFlowManager) -> None:
     assert form["description_placeholders"] == {"placeholder": "yo"}
 
 
-async def test_abort_flow_exception_finish_flow(hass: UniversalAssistant) -> None:
+async def test_abort_flow_exception_finish_flow(hass: __HAC_KEEP__) -> None:
     """Test that the AbortFlow exception works when finishing a flow."""
 
     class TestFlow(data_entry_flow.FlowHandler):
@@ -1054,7 +1054,7 @@ async def test_abort_flow_exception_step_translation_domain(
 
 
 async def test_abort_flow_exception_finish_flow_translation_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test AbortFlow can be translated by another integration when finishing."""
 
@@ -1190,7 +1190,7 @@ async def test_manager_abort_calls_async_flow_removed(manager: MockFlowManager) 
     ],
 )
 async def test_show_menu(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: MockFlowManager,
     menu_options: list[str] | dict[str, str],
     sort: bool | None,
@@ -1779,7 +1779,7 @@ MISSING_STEP_ID_PARAMS = pytest.mark.parametrize(
 @pytest.mark.usefixtures("mock_integration_frame")
 @MISSING_STEP_ID_PARAMS
 async def test_missing_step_id_core(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: MockFlowManager,
     method: str,
     kwargs: dict[str, str | list[str]],
@@ -1804,7 +1804,7 @@ async def test_missing_step_id_core(
 @pytest.mark.usefixtures("mock_integration_frame")
 @MISSING_STEP_ID_PARAMS
 async def test_missing_step_id_custom_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: MockFlowManager,
     caplog: pytest.LogCaptureFixture,
     method: str,
@@ -1827,5 +1827,5 @@ async def test_missing_step_id_custom_integration(
     assert (
         f"Detected that custom integration 'my_integration' calls {method} without "
         "passing a step_id at custom_components/my_integration/light.py, line 23: "
-        "self.light.is_on. This will stop working in Universal Universal Home Assistant 2027.5.0"
+        "self.light.is_on. This will stop working in __HA_KEEP__ 2027.5.0"
     ) in caplog.text

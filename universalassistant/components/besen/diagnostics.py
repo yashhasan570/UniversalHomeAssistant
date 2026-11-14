@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_ADDRESS, CONF_NAME, CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import BesenConfigEntry
 
@@ -23,7 +23,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: BesenConfigEntry
+    hass: __HAC_KEEP__, entry: BesenConfigEntry
 ) -> dict[str, Any]:
     """Return a redacted snapshot without sending commands to the charger."""
 

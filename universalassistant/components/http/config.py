@@ -11,8 +11,8 @@ from typing import Any, Final, TypedDict, cast, override
 import probatio
 
 from universalassistant.const import SERVER_PORT
-from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.storage import Store
@@ -214,7 +214,7 @@ _DEFAULT_CONFIG_LEGACY_PORT: Final[ConfData] = cast(
 )
 
 
-async def async_load_config(hass: UniversalAssistant, config: ConfigType) -> ConfData:
+async def async_load_config(hass: __HAC_KEEP__, config: ConfigType) -> ConfData:
     """Load the HTTP config to apply on this startup.
 
     YAML config is only migrated once. Subsequent boots will ignore YAML and
@@ -296,7 +296,7 @@ async def async_load_config(hass: UniversalAssistant, config: ConfigType) -> Con
     return conf
 
 
-async def async_get_and_load_store(hass: UniversalAssistant) -> HTTPConfigStore:
+async def async_get_and_load_store(hass: __HAC_KEEP__) -> HTTPConfigStore:
     """Return the singleton HTTP config store and load it."""
     if (store := hass.data.get(DATA_STORE)) is None:
         store = HTTPConfigStore(hass)
@@ -312,12 +312,12 @@ class HTTPConfigStore:
     ``pending`` holds an unconfirmed config the user wants to try on
     the next start. Normal startup prefers ``pending`` so the new
     config gets exercised; recovery mode falls back to ``stable`` so
-    Universal Universal Home Assistant can still come up after a bad config. A pending
+    __HA_KEEP__ can still come up after a bad config. A pending
     config that failed its trial is kept with an error recorded so the
     user can inspect it, but it is never applied again.
     """
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the store."""
         self._hass = hass
         self._store = _HTTPStore(
@@ -415,13 +415,13 @@ class HTTPConfigStore:
     async def async_promote_pending(self) -> None:
         """Promote the pending config to stable.
 
-        Raises ``UniversalAssistantError`` if there is nothing to promote.
+        Raises ``__HAC_KEEP__Error`` if there is nothing to promote.
         """
         await self.async_load()
         if self._pending is None:
-            raise UniversalAssistantError("No pending HTTP config to promote")
+            raise __HAC_KEEP__Error("No pending HTTP config to promote")
         if (error := self._pending[HTTP_CONFIG_ERROR]) is not None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Cannot promote pending HTTP config with error: {error}"
             )
         self._stable = self._pending
@@ -581,7 +581,7 @@ class HTTPConfigStore:
 
     async def async_get_fallback_config(
         self,
-        err: UniversalAssistantError | OSError,
+        err: __HAC_KEEP__Error | OSError,
     ) -> ConfData:
         """Return the next config to try after the active one could not be applied.
 
@@ -656,10 +656,10 @@ class HTTPConfigStore:
             # In normal mode, fail setup so recovery mode can take over with a
             # reachable configuration. In recovery mode, the fallback chain is
             # exhausted. An unusable SSL configuration already carries a
-            # descriptive UniversalAssistantError.
-            if isinstance(err, UniversalAssistantError):
+            # descriptive __HAC_KEEP__Error.
+            if isinstance(err, __HAC_KEEP__Error):
                 raise err
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to create HTTP server at port {failed_config[CONF_SERVER_PORT]}: {err}"
             ) from err
 

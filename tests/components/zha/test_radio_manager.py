@@ -15,8 +15,8 @@ from universalassistant.components.zha import radio_manager
 from universalassistant.components.zha.const import DOMAIN
 from universalassistant.components.zha.radio_manager import ProbeResult, ZhaRadioManager
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
 PROBE_FUNCTION_PATH = "zigbee.application.ControllerApplication.probe"
@@ -94,7 +94,7 @@ def mock_create_zigpy_app() -> Generator[MagicMock]:
 
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_migrate_matching_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_zigpy_app,
 ) -> None:
     """Test automatic migration."""
@@ -154,7 +154,7 @@ async def test_migrate_matching_port(
 )
 @patch("universalassistant.components.zha.async_setup_entry", AsyncMock(return_value=None))
 async def test_migrate_matching_port_usb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_zigpy_app,
 ) -> None:
     """Test automatic migration."""
@@ -201,7 +201,7 @@ async def test_migrate_matching_port_usb(
 
 
 async def test_migrate_matching_port_config_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_zigpy_app,
 ) -> None:
     """Test automatic migration."""
@@ -261,7 +261,7 @@ async def test_migrate_matching_port_config_entry_not_loaded(
 )
 async def test_migrate_matching_port_retry(
     mock_restore_backup_step_1,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_zigpy_app,
 ) -> None:
     """Test automatic migration."""
@@ -318,7 +318,7 @@ async def test_migrate_matching_port_retry(
 
 
 async def test_migrate_non_matching_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_zigpy_app,
 ) -> None:
     """Test automatic migration."""
@@ -366,7 +366,7 @@ async def test_migrate_non_matching_port(
 
 
 async def test_migrate_initiate_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_zigpy_app,
 ) -> None:
     """Test retries with failure."""
@@ -415,7 +415,7 @@ async def test_migrate_initiate_failure(
 
 
 @pytest.fixture(name="radio_manager")
-def zha_radio_manager(hass: UniversalAssistant) -> ZhaRadioManager:
+def zha_radio_manager(hass: __HAC_KEEP__) -> ZhaRadioManager:
     """Fixture for an instance of `ZhaRadioManager`."""
     radio_manager = ZhaRadioManager()
     radio_manager.hass = hass
@@ -475,7 +475,7 @@ async def test_detect_radio_type_failure_no_detect(
 
 
 async def test_load_network_settings_oserror(
-    radio_manager: ZhaRadioManager, hass: UniversalAssistant
+    radio_manager: ZhaRadioManager, hass: __HAC_KEEP__
 ) -> None:
     """Test that OSError during network settings loading is handled."""
     radio_manager.device_path = "/dev/ttyZigbee"
@@ -484,13 +484,13 @@ async def test_load_network_settings_oserror(
 
     with (
         patch("os.path.exists", side_effect=OSError("Test error")),
-        pytest.raises(UniversalAssistantError, match="Could not read the ZHA database"),
+        pytest.raises(__HAC_KEEP__Error, match="Could not read the ZHA database"),
     ):
         await radio_manager.async_load_network_settings()
 
 
 async def test_create_zigpy_app_connect_oserror(
-    radio_manager: ZhaRadioManager, hass: UniversalAssistant, mock_app
+    radio_manager: ZhaRadioManager, hass: __HAC_KEEP__, mock_app
 ) -> None:
     """Test that OSError during zigpy app connection is handled."""
     radio_manager.radio_type = RadioType.ezsp
@@ -498,6 +498,6 @@ async def test_create_zigpy_app_connect_oserror(
 
     mock_app.connect.side_effect = OSError("Test error")
 
-    with pytest.raises(UniversalAssistantError, match="Failed to connect to Zigbee adapter"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to connect to Zigbee adapter"):
         async with radio_manager.create_zigpy_app():
             pytest.fail("Should not be reached")

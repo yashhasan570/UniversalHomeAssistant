@@ -25,7 +25,7 @@ from universalassistant.const import (
     PERCENTAGE,
     UnitOfTemperature,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity import async_generate_entity_id
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -73,7 +73,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -132,7 +132,7 @@ class LaCrosseSensor(SensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         lacrosse: pylacrosse.LaCrosse,
         device_id: str,
         name: str,

@@ -39,7 +39,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
 )
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     SelectOptionDict,
@@ -584,5 +584,5 @@ async def _login_and_fetch_syno_info(api: SynologyDSM, otp_code: str | None) -> 
     return api.information.serial
 
 
-class InvalidData(UniversalAssistantError):
+class InvalidData(__HAC_KEEP__Error):
     """Error to indicate we get invalid data from the nas."""

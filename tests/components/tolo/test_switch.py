@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 ENTITY_ID = "switch.tolo_sauna_aroma_therapy"
 
@@ -35,7 +35,7 @@ def switch_platform_only() -> Generator[None]:
     ],
 )
 async def test_switch_state_updated_after_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tolo_client: MagicMock,
     initial_value: bool,

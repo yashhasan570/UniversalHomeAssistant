@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -60,7 +60,7 @@ async def _handle_aux(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register Ness Alarm services."""
 
     hass.services.async_register(

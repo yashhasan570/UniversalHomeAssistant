@@ -29,7 +29,7 @@ from lifx import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import SIGNAL_STRENGTH_DECIBELS_MILLIWATT, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -60,7 +60,7 @@ class LIFXUpdateCoordinator(DataUpdateCoordinator[LIFXState]):
     """Gather typed state for one persistent LIFX device."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: LIFXConfigEntry, device: Device
+        self, hass: __HAC_KEEP__, entry: LIFXConfigEntry, device: Device
     ) -> None:
         """Initialize the coordinator."""
         self.device = device

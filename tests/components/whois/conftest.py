@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.whois.const import DOMAIN
 from universalassistant.const import CONF_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -18,7 +18,7 @@ from universalassistant.util import dt as dt_util
 def mock_config_entry() -> MockConfigEntry:
     """Return the default mocked config entry."""
     return MockConfigEntry(
-        title="Universal Universal Home Assistant",
+        title="__HA_KEEP__",
         domain=DOMAIN,
         data={
             CONF_DOMAIN: "universalassistant.io",
@@ -97,7 +97,7 @@ def mock_whois_missing_some_attrs() -> Generator[Any]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_whois: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_whois: MagicMock
 ) -> MockConfigEntry:
     """Set up thewhois integration for testing."""
     mock_config_entry.add_to_hass(hass)
@@ -110,7 +110,7 @@ async def init_integration(
 
 @pytest.fixture
 async def init_integration_missing_some_attrs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_whois_missing_some_attrs: MagicMock,
 ) -> MockConfigEntry:

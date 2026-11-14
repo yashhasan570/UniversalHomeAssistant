@@ -1,7 +1,7 @@
 """Support for Elgato Lights."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util.hass_dict import HassKey
@@ -27,7 +27,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component.
 
     Elgato publishes one firmware catalog covering every model, so a single
@@ -49,7 +49,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ElgatoConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ElgatoConfigEntry) -> None:
     """Set up Elgato Light from a config entry."""
     coordinator = ElgatoDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -58,6 +58,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ElgatoConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ElgatoConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ElgatoConfigEntry) -> None:
     """Unload Elgato Light config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

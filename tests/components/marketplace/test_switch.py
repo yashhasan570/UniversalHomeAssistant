@@ -12,7 +12,7 @@ from universalassistant.components.marketplace.enums import RepositoryCategory
 from universalassistant.components.marketplace.exceptions import MarketplaceError
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryDisabler
 
@@ -21,7 +21,7 @@ from .const import REPOSITORY_INTEGRATION_ID
 
 
 async def _reload(
-    hass: UniversalAssistant, marketplace: MarketplaceManager
+    hass: __HAC_KEEP__, marketplace: MarketplaceManager
 ) -> MarketplaceManager:
     """Reload the config entry and return the Marketplace object that replaced it."""
     # An installed repository has its files on disk
@@ -37,7 +37,7 @@ async def _reload(
 
 @pytest.fixture
 async def switch_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     entity_registry: er.EntityRegistry,
 ) -> str:
@@ -60,7 +60,7 @@ async def switch_entity(
 
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_switch_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     entity_registry: er.EntityRegistry,
     category_test_data: CategoryTestData,
@@ -84,7 +84,7 @@ async def test_switch_entity(
 
 
 async def test_switch_is_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_switch_is_disabled_by_default(
 
 
 async def test_switch_is_enabled_for_a_pre_release(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_switch_is_enabled_for_a_pre_release(
     assert hass.states.get(entity_id).state == STATE_ON
 
 
-async def test_switch_turn_on_and_off(hass: UniversalAssistant, switch_entity: str) -> None:
+async def test_switch_turn_on_and_off(hass: __HAC_KEEP__, switch_entity: str) -> None:
     """Test opting a repository in to and out of pre-releases."""
     repository = get_marketplace(hass).repositories.get_by_id(REPOSITORY_INTEGRATION_ID)
     assert hass.states.get(switch_entity).state == STATE_OFF
@@ -152,7 +152,7 @@ async def test_switch_turn_on_and_off(hass: UniversalAssistant, switch_entity: s
 
 
 async def test_switch_keeps_the_last_fetched_time(
-    hass: UniversalAssistant, switch_entity: str
+    hass: __HAC_KEEP__, switch_entity: str
 ) -> None:
     """Test that toggling the switch does not lose the last fetch time."""
     repository = get_marketplace(hass).repositories.get_by_id(REPOSITORY_INTEGRATION_ID)
@@ -169,7 +169,7 @@ async def test_switch_keeps_the_last_fetched_time(
 
 
 async def test_switch_becomes_unavailable(
-    hass: UniversalAssistant, switch_entity: str
+    hass: __HAC_KEEP__, switch_entity: str
 ) -> None:
     """Test that removing a repository makes its switch unavailable."""
     marketplace = get_marketplace(hass)
@@ -183,7 +183,7 @@ async def test_switch_becomes_unavailable(
 
 
 async def test_switch_stays_while_the_catalog_can_not_be_reached(
-    hass: UniversalAssistant, switch_entity: str
+    hass: __HAC_KEEP__, switch_entity: str
 ) -> None:
     """Test choosing pre-releases does not depend on reaching the catalog."""
     marketplace = get_marketplace(hass)

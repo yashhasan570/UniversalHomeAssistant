@@ -12,8 +12,8 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.neopool.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
 from . import setup_integration
@@ -22,7 +22,7 @@ from .conftest import MOCK_POOL_DATA, MOCK_SERIAL
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_setup_and_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Set up the integration end-to-end and tear it down again."""
@@ -35,7 +35,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_first_refresh_fails_marks_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_setup_first_refresh_fails_marks_retry(
 
 
 async def test_setup_borrows_shared_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -91,14 +91,14 @@ async def test_client_close_leaves_borrowed_unit_open() -> None:
 
 
 async def test_setup_link_conflict_fails_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
     """A link conflict on the shared connection fails setup without retrying."""
     with patch(
         "universalassistant.components.neopool.async_get_unit",
-        side_effect=UniversalAssistantError("already in use over different settings"),
+        side_effect=__HAC_KEEP__Error("already in use over different settings"),
     ):
         await setup_integration(hass, mock_config_entry)
 
@@ -107,7 +107,7 @@ async def test_setup_link_conflict_fails_setup(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_device_registered_with_firmware(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_device_registered_with_firmware(
 
 
 async def test_transient_modbus_failure_after_first_success_marks_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -142,7 +142,7 @@ async def test_transient_modbus_failure_after_first_success_marks_unavailable(
 
 
 async def test_corrupt_gpio_creates_repair_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -162,7 +162,7 @@ async def test_corrupt_gpio_creates_repair_issue(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_clean_gpio_does_not_create_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -174,7 +174,7 @@ async def test_clean_gpio_does_not_create_issue(
 
 @pytest.mark.usefixtures("mock_neopool_client")
 async def test_corrupt_gpio_clears_stale_issue_from_previous_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_corrupt_gpio_clears_stale_issue_from_previous_session(
 
 
 async def test_corrupt_gpio_logs_error_only_on_state_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -227,7 +227,7 @@ async def test_corrupt_gpio_logs_error_only_on_state_change(
 
 
 async def test_corrupt_gpio_updates_issue_on_value_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     issue_registry: ir.IssueRegistry,

@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.hdfury.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -29,7 +29,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_async_step_user_gets_form_and_creates_entry(
-    hass: UniversalAssistant, mock_hdfury_client: AsyncMock
+    hass: __HAC_KEEP__, mock_hdfury_client: AsyncMock
 ) -> None:
     """Test that the we can view the form and that the config flow creates an entry."""
     result = await hass.config_entries.flow.async_init(
@@ -54,7 +54,7 @@ async def test_async_step_user_gets_form_and_creates_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_abort_if_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that we abort if we attempt to submit the same entry twice."""
     mock_config_entry.add_to_hass(hass)
@@ -77,7 +77,7 @@ async def test_abort_if_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_successful_recovery_after_connection_error(
-    hass: UniversalAssistant, mock_hdfury_client: AsyncMock
+    hass: __HAC_KEEP__, mock_hdfury_client: AsyncMock
 ) -> None:
     """Test error shown when connection fails."""
     result = await hass.config_entries.flow.async_init(
@@ -109,7 +109,7 @@ async def test_successful_recovery_after_connection_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow(
-    hass: UniversalAssistant, mock_hdfury_client: AsyncMock
+    hass: __HAC_KEEP__, mock_hdfury_client: AsyncMock
 ) -> None:
     """Test zeroconf flow."""
     result = await hass.config_entries.flow.async_init(
@@ -135,7 +135,7 @@ async def test_zeroconf_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow_failure(
-    hass: UniversalAssistant, mock_hdfury_client: AsyncMock
+    hass: __HAC_KEEP__, mock_hdfury_client: AsyncMock
 ) -> None:
     """Test zeroconf flow failure."""
 
@@ -154,7 +154,7 @@ async def test_zeroconf_flow_failure(
 
 
 async def test_zeroconf_flow_abort_duplicate(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf flow aborts with duplicate."""
     mock_config_entry.add_to_hass(hass)
@@ -168,7 +168,7 @@ async def test_zeroconf_flow_abort_duplicate(
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_no_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -226,7 +226,7 @@ async def test_reconfigure_flow_no_change(
 
 
 async def test_reconfigure_flow_abort_incorrect_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -260,7 +260,7 @@ async def test_reconfigure_flow_abort_incorrect_device(
 
 
 async def test_reconfigure_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

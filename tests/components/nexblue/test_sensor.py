@@ -16,7 +16,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import CHARGER, CHARGER_STATUS
@@ -30,7 +30,7 @@ def fixture_platforms() -> Generator[None]:
 
 
 async def test_sensor_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_sensor_entities_snapshot(
 
 
 async def test_missing_phase_values_are_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_missing_phase_values_are_unknown(
 
 @pytest.mark.parametrize("error", [NexBlueDeviceOfflineError, NexBlueError])
 async def test_charger_error_does_not_block_other_chargers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     error: type[Exception],
@@ -90,7 +90,7 @@ async def test_charger_error_does_not_block_other_chargers(
 
 
 async def test_sensors_unavailable_when_coordinator_update_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,

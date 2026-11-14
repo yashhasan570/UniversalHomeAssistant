@@ -16,7 +16,7 @@ from universalassistant.components.risco.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PIN, CONF_PORT, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .test_sensor import TEST_EVENTS
 
@@ -29,7 +29,7 @@ def mock_error_handler() -> MagicMock:
 
 
 async def test_connection_reset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     two_zone_local: dict[int, Any],
     mock_error_handler: MagicMock,
     setup_risco_local: MockConfigEntry,
@@ -60,7 +60,7 @@ async def test_connection_reset(
 
 
 async def test_unload_handles_disconnect_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     two_zone_local: dict[int, Any],
     setup_risco_local: MockConfigEntry,
 ) -> None:
@@ -74,7 +74,7 @@ async def test_unload_handles_disconnect_error(
 
 
 async def test_local_setup_uses_stored_communication_delay(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test local setup passes stored communication delay to the client."""
     config_entry = MockConfigEntry(
@@ -114,7 +114,7 @@ async def test_local_setup_uses_stored_communication_delay(
 
 
 async def test_clock_operation_error_is_downgraded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     two_zone_local: dict[int, Any],
     mock_error_handler: MagicMock,
     setup_risco_local: MockConfigEntry,
@@ -142,7 +142,7 @@ async def test_clock_operation_error_is_downgraded(
 
 
 async def test_local_setup_unauthorized(
-    hass: UniversalAssistant, local_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, local_config_entry: MockConfigEntry
 ) -> None:
     """Test local setup fails when the panel rejects the PIN."""
     with patch(
@@ -161,7 +161,7 @@ async def test_local_setup_unauthorized(
 @pytest.mark.parametrize("events", [TEST_EVENTS])
 @pytest.mark.usefixtures("two_zone_cloud")
 async def test_remove_entry_removes_last_event_store(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     setup_risco_cloud: MockConfigEntry,
 ) -> None:

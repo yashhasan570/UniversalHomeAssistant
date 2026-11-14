@@ -10,8 +10,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.vacuum import DOMAIN as VACUUM_DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -30,7 +30,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_vacuum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_vacuum(
 
 @pytest.mark.parametrize("node_fixture", ["mock_vacuum_cleaner"])
 async def test_vacuum_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_vacuum_actions(
 
 @pytest.mark.parametrize("node_fixture", ["roborock_saros_10"])
 async def test_vacuum_locate_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -180,7 +180,7 @@ async def test_vacuum_locate_action(
 
 @pytest.mark.parametrize("node_fixture", ["mock_vacuum_cleaner"])
 async def test_vacuum_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -286,7 +286,7 @@ async def test_vacuum_updates(
 
 @pytest.mark.parametrize("node_fixture", ["mock_vacuum_cleaner"])
 async def test_vacuum_actions_no_supported_run_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -306,7 +306,7 @@ async def test_vacuum_actions_no_supported_run_modes(
 
     # test start action fails when no supported run modes
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="No supported run mode found to start the vacuum cleaner",
     ):
         await hass.services.async_call(
@@ -320,7 +320,7 @@ async def test_vacuum_actions_no_supported_run_modes(
 
     # test stop action fails when no supported run modes
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="No supported run mode found to stop the vacuum cleaner",
     ):
         await hass.services.async_call(
@@ -337,7 +337,7 @@ async def test_vacuum_actions_no_supported_run_modes(
     assert entity is not None
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="No supported run mode found to start the vacuum cleaner",
     ):
         await entity.async_clean_segments(["7"])
@@ -348,7 +348,7 @@ async def test_vacuum_actions_no_supported_run_modes(
 
 @pytest.mark.parametrize("node_fixture", ["mock_vacuum_cleaner"])
 async def test_vacuum_get_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     hass_ws_client: WebSocketGenerator,
@@ -375,7 +375,7 @@ async def test_vacuum_get_segments(
 
 @pytest.mark.parametrize("node_fixture", ["roborock_saros_10"])
 async def test_vacuum_get_segments_nullable_location_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_node: MatterNode,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -407,7 +407,7 @@ async def test_vacuum_get_segments_nullable_location_info(
 
 @pytest.mark.parametrize("node_fixture", ["mock_vacuum_cleaner"])
 async def test_vacuum_clean_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -461,7 +461,7 @@ async def test_vacuum_clean_area(
 
 @pytest.mark.parametrize("node_fixture", ["mock_vacuum_cleaner"])
 async def test_vacuum_clean_area_select_areas_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -492,7 +492,7 @@ async def test_vacuum_clean_area_select_areas_failure(
         "statusText": "Area 7 not supported",
     }
 
-    with pytest.raises(UniversalAssistantError, match="Failed to select areas"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to select areas"):
         await hass.services.async_call(
             VACUUM_DOMAIN,
             "clean_area",
@@ -511,7 +511,7 @@ async def test_vacuum_clean_area_select_areas_failure(
 
 @pytest.mark.parametrize("node_fixture", ["mock_vacuum_cleaner"])
 async def test_vacuum_no_issue_on_transient_empty_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     matter_client: MagicMock,
@@ -548,7 +548,7 @@ async def test_vacuum_no_issue_on_transient_empty_segments(
 
 @pytest.mark.parametrize("node_fixture", ["mock_vacuum_cleaner"])
 async def test_vacuum_raise_segments_changed_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     matter_client: MagicMock,

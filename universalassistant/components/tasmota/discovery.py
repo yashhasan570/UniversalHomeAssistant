@@ -22,7 +22,7 @@ from hatasmota.utils import get_topic_command, get_topic_stat
 
 from universalassistant.components import sensor
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -47,7 +47,7 @@ type SetupDeviceCallback = Callable[[TasmotaDeviceConfig, str], Awaitable[None]]
 
 
 def clear_discovery_hash(
-    hass: UniversalAssistant, discovery_hash: DiscoveryHashType
+    hass: __HAC_KEEP__, discovery_hash: DiscoveryHashType
 ) -> None:
     """Clear entry in ALREADY_DISCOVERED list."""
     if ALREADY_DISCOVERED not in hass.data:
@@ -56,13 +56,13 @@ def clear_discovery_hash(
     del hass.data[ALREADY_DISCOVERED][discovery_hash]
 
 
-def set_discovery_hash(hass: UniversalAssistant, discovery_hash: DiscoveryHashType) -> None:
+def set_discovery_hash(hass: __HAC_KEEP__, discovery_hash: DiscoveryHashType) -> None:
     """Set entry in ALREADY_DISCOVERED list."""
     hass.data[ALREADY_DISCOVERED][discovery_hash] = {}
 
 
 def warn_if_topic_duplicated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     command_topic: str,
     own_mac: str | None,
     own_device_config: TasmotaDeviceConfig,
@@ -124,7 +124,7 @@ class DuplicatedTopicIssueData(TypedDict):
 
 
 async def async_start(  # noqa: C901
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_topic: str,
     config_entry: ConfigEntry,
     tasmota_mqtt: TasmotaMQTTClient,
@@ -343,7 +343,7 @@ async def async_start(  # noqa: C901
     hass.data[TASMOTA_DISCOVERY_INSTANCE] = tasmota_discovery
 
 
-async def async_stop(hass: UniversalAssistant) -> None:
+async def async_stop(hass: __HAC_KEEP__) -> None:
     """Stop Tasmota device discovery."""
     hass.data.pop(ALREADY_DISCOVERED)
     tasmota_discovery = hass.data.pop(TASMOTA_DISCOVERY_INSTANCE)

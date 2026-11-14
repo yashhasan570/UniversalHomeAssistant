@@ -18,7 +18,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.airgradient.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -55,7 +55,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow(
-    hass: UniversalAssistant, mock_new_airgradient_client: AsyncMock
+    hass: __HAC_KEEP__, mock_new_airgradient_client: AsyncMock
 ) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
@@ -84,7 +84,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_with_registered_device(
-    hass: UniversalAssistant, mock_cloud_airgradient_client: AsyncMock
+    hass: __HAC_KEEP__, mock_cloud_airgradient_client: AsyncMock
 ) -> None:
     """Test we don't revert the cloud setting."""
     result = await hass.config_entries.flow.async_init(
@@ -105,7 +105,7 @@ async def test_flow_with_registered_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: UniversalAssistant, mock_airgradient_client: AsyncMock
+    hass: __HAC_KEEP__, mock_airgradient_client: AsyncMock
 ) -> None:
     """Test flow errors."""
     mock_airgradient_client.get_current_measures.side_effect = (
@@ -154,7 +154,7 @@ async def test_flow_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_config_source_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_v1_airgradient_client: AsyncMock,
     method: str,
     exception: AirGradientError,
@@ -186,7 +186,7 @@ async def test_flow_config_source_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_old_firmware_version(
-    hass: UniversalAssistant, mock_airgradient_client: AsyncMock
+    hass: __HAC_KEEP__, mock_airgradient_client: AsyncMock
 ) -> None:
     """Test flow with old firmware version."""
     mock_airgradient_client.get_current_measures.side_effect = AirGradientParseError
@@ -211,7 +211,7 @@ async def test_flow_old_firmware_version(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow(
-    hass: UniversalAssistant, mock_new_airgradient_client: AsyncMock
+    hass: __HAC_KEEP__, mock_new_airgradient_client: AsyncMock
 ) -> None:
     """Test zeroconf flow."""
     result = await hass.config_entries.flow.async_init(
@@ -268,7 +268,7 @@ async def test_zeroconf_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow_cloud_device(
-    hass: UniversalAssistant, mock_cloud_airgradient_client: AsyncMock
+    hass: __HAC_KEEP__, mock_cloud_airgradient_client: AsyncMock
 ) -> None:
     """Test zeroconf flow doesn't revert the cloud setting."""
     result = await hass.config_entries.flow.async_init(
@@ -290,7 +290,7 @@ async def test_zeroconf_flow_cloud_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow_config_source_error(
-    hass: UniversalAssistant, mock_new_airgradient_client: AsyncMock
+    hass: __HAC_KEEP__, mock_new_airgradient_client: AsyncMock
 ) -> None:
     """Test errors while setting the discovered device configuration source."""
     result = await hass.config_entries.flow.async_init(
@@ -324,7 +324,7 @@ async def test_zeroconf_flow_config_source_error(
     ],
 )
 async def test_zeroconf_flow_client_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     exception: type[AirGradientError],
     reason: str,
@@ -350,7 +350,7 @@ async def test_zeroconf_flow_client_errors(
     ],
 )
 async def test_zeroconf_flow_abort_unsupported_firmware(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     firmware_version: str,
 ) -> None:
@@ -373,7 +373,7 @@ async def test_zeroconf_flow_abort_unsupported_firmware(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow_v1_hint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client_class: MagicMock,
     mock_v1_airgradient_client: AsyncMock,
 ) -> None:
@@ -418,7 +418,7 @@ async def test_zeroconf_flow_v1_hint(
 )
 @pytest.mark.usefixtures("mock_airgradient_client", "mock_setup_entry")
 async def test_zeroconf_flow_probes_for_missing_or_unknown_api_hint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client_class: MagicMock,
     properties: dict[str, str],
 ) -> None:
@@ -443,7 +443,7 @@ async def test_zeroconf_flow_probes_for_missing_or_unknown_api_hint(
 
 @pytest.mark.usefixtures("mock_airgradient_client", "mock_setup_entry")
 async def test_zeroconf_flow_stale_v1_hint_applies_legacy_gate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client_class: MagicMock,
 ) -> None:
     """Test a stale V1 hint still enforces the legacy minimum firmware."""
@@ -466,7 +466,7 @@ async def test_zeroconf_flow_stale_v1_hint_applies_legacy_gate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_v1_skips_legacy_firmware_gate(
-    hass: UniversalAssistant, mock_v1_airgradient_client: AsyncMock
+    hass: __HAC_KEEP__, mock_v1_airgradient_client: AsyncMock
 ) -> None:
     """Test manual setup skips the legacy firmware minimum for API V1."""
     result = await hass.config_entries.flow.async_init(
@@ -490,7 +490,7 @@ async def test_user_flow_v1_skips_legacy_firmware_gate(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_legacy_firmware_gate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     firmware_version: str,
 ) -> None:
@@ -512,7 +512,7 @@ async def test_user_flow_legacy_firmware_gate(
 
 
 async def test_zeroconf_flow_abort_duplicate(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf flow aborts with duplicate."""
     mock_config_entry.add_to_hass(hass)
@@ -527,7 +527,7 @@ async def test_zeroconf_flow_abort_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_works_discovery(
-    hass: UniversalAssistant, mock_new_airgradient_client: AsyncMock
+    hass: __HAC_KEEP__, mock_new_airgradient_client: AsyncMock
 ) -> None:
     """Test user flow can continue after discovery happened."""
     await hass.config_entries.flow.async_init(
@@ -556,7 +556,7 @@ async def test_user_flow_works_discovery(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_new_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -582,7 +582,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_new_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -622,7 +622,7 @@ async def test_reconfigure_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_new_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

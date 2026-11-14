@@ -7,11 +7,11 @@ from hko import HKOError
 from universalassistant.components.hko.const import DEFAULT_LOCATION, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_LOCATION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_config_flow_default(hass: UniversalAssistant) -> None:
+async def test_config_flow_default(hass: __HAC_KEEP__) -> None:
     """Test user config flow with default fields."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -32,7 +32,7 @@ async def test_config_flow_default(hass: UniversalAssistant) -> None:
     assert result2["data"][CONF_LOCATION] == DEFAULT_LOCATION
 
 
-async def test_config_flow_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_config_flow_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test user config flow without connection to the API."""
     with patch("universalassistant.components.hko.config_flow.HKO.weather") as client_mock:
         client_mock.side_effect = HKOError()
@@ -63,7 +63,7 @@ async def test_config_flow_cannot_connect(hass: UniversalAssistant) -> None:
         assert result["data"][CONF_LOCATION] == DEFAULT_LOCATION
 
 
-async def test_config_flow_timeout(hass: UniversalAssistant) -> None:
+async def test_config_flow_timeout(hass: __HAC_KEEP__) -> None:
     """Test user config flow with timedout connection to the API."""
     with patch("universalassistant.components.hko.config_flow.HKO.weather") as client_mock:
         client_mock.side_effect = TimeoutError()
@@ -94,7 +94,7 @@ async def test_config_flow_timeout(hass: UniversalAssistant) -> None:
         assert result["data"][CONF_LOCATION] == DEFAULT_LOCATION
 
 
-async def test_config_flow_already_configured(hass: UniversalAssistant) -> None:
+async def test_config_flow_already_configured(hass: __HAC_KEEP__) -> None:
     """Test user config flow with two equal entries."""
     r1 = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

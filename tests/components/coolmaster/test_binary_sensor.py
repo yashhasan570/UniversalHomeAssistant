@@ -1,11 +1,11 @@
 """The test for the Coolmaster binary sensor platform."""
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster binary sensor."""

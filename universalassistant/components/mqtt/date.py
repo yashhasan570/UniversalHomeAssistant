@@ -12,7 +12,7 @@ from universalassistant.components import date
 from universalassistant.components.date import DateEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME, CONF_OPTIMISTIC, CONF_VALUE_TEMPLATE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.service_info.mqtt import ReceivePayloadType
@@ -57,7 +57,7 @@ DISCOVERY_SCHEMA = PLATFORM_SCHEMA_MODERN.extend({}, extra=probatio.REMOVE_EXTRA
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

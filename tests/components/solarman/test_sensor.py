@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.solarman.const import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -24,7 +24,7 @@ from . import setup_integration
     "device_fixture", ["P1-2W", "SP-2W-EU", "gl meter"], indirect=True
 )
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_solarman: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -40,7 +40,7 @@ async def test_sensor(
 
 @pytest.mark.parametrize("device_fixture", ["SP-2W-EU"], indirect=True)
 async def test_sensor_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_solarman: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

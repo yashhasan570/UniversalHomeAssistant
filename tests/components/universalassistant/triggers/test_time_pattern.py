@@ -10,19 +10,19 @@ from pytest_universalassistant.common import async_fire_time_changed, mock_compo
 from universalassistant.components import automation
 from universalassistant.components.universalassistant.triggers import time_pattern
 from universalassistant.const import ATTR_ENTITY_ID, ENTITY_MATCH_ALL, SERVICE_TURN_OFF
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture(autouse=True)
-def setup_comp(hass: UniversalAssistant) -> None:
+def setup_comp(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     mock_component(hass, "group")
 
 
 async def test_if_fires_when_hour_matches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -70,7 +70,7 @@ async def test_if_fires_when_hour_matches(
 
 
 async def test_if_fires_when_minute_matches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -103,7 +103,7 @@ async def test_if_fires_when_minute_matches(
 
 
 async def test_if_fires_when_second_matches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -136,7 +136,7 @@ async def test_if_fires_when_second_matches(
 
 
 async def test_if_fires_when_second_as_string_matches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -171,7 +171,7 @@ async def test_if_fires_when_second_as_string_matches(
 
 
 async def test_if_fires_when_all_matches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -206,7 +206,7 @@ async def test_if_fires_when_all_matches(
 
 
 async def test_if_fires_periodic_seconds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -241,7 +241,7 @@ async def test_if_fires_periodic_seconds(
 
 
 async def test_if_fires_periodic_minutes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -277,7 +277,7 @@ async def test_if_fires_periodic_minutes(
 
 
 async def test_if_fires_periodic_hours(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -312,7 +312,7 @@ async def test_if_fires_periodic_hours(
 
 
 async def test_default_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     service_calls: list[ServiceCall],
 ) -> None:

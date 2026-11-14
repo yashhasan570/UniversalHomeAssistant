@@ -8,8 +8,8 @@ from pytest_universalassistant.common import mock_restore_cache
 
 from universalassistant.components import tts
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .common import (
     DEFAULT_LANG,
@@ -40,7 +40,7 @@ async def test_default_entity_attributes() -> None:
 
 
 async def test_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
     """Test we restore state in the integration."""
@@ -58,7 +58,7 @@ async def test_restore_state(
 
 
 async def test_tts_entity_subclass_properties(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test errors when TextToSpeechEntity subclasses miss required properties."""
 
@@ -200,7 +200,7 @@ async def test_stream_tts_audio_no_audio() -> None:
     async def message_gen() -> AsyncGenerator[str]:
         yield "hello"
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await NoAudioEntity().async_stream_tts_audio(
             tts.TTSAudioRequest(DEFAULT_LANG, {}, message_gen())
         )
@@ -213,7 +213,7 @@ async def test_stream_tts_audio_no_audio() -> None:
 
 
 async def test_internal_get_tts_audio_writes_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tts_entity: MockTTSEntity,
 ) -> None:
     """Test that only async_internal_get_tts_audio updates and writes the state."""

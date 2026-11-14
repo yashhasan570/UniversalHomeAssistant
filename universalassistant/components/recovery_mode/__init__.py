@@ -1,7 +1,7 @@
 """The Recovery Mode integration."""
 
 from universalassistant.components import persistent_notification
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -14,12 +14,12 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Recovery Mode component."""
     persistent_notification.async_create(
         hass,
         (
-            "Universal Universal Home Assistant is running in recovery mode. Check [the error"
+            "__HA_KEEP__ is running in recovery mode. Check [the error"
             " log](/config/logs) to see what went wrong."
         ),
         "Recovery mode",

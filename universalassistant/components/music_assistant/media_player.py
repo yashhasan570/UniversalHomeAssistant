@@ -41,8 +41,8 @@ from universalassistant.components.media_player import (
     async_process_play_media_url,
 )
 from universalassistant.const import ATTR_NAME, STATE_OFF, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant, ServiceResponse
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceResponse
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.dt import utc_from_timestamp
@@ -97,7 +97,7 @@ SUPPORTED_FEATURES_BASE = (
     # regardless if the underlying player actually natively supports pause
     # because the MA behavior is to internally handle pause with stop
     # (and a resume position) and we'd like to keep the UX consistent
-    # background info: https://github.com/yashhasan570/UniversalUniversalAssistant/issues/140118
+    # background info: https://github.com/yashhasan570/__HAC_KEEP__/issues/140118
     | MediaPlayerEntityFeature.PAUSE
 )
 
@@ -171,7 +171,7 @@ def _get_player_artwork_url(mass: MusicAssistantClient, player: Player) -> str |
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MusicAssistantConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -499,7 +499,7 @@ class MusicAssistantPlayer(MusicAssistantEntity, MediaPlayerEntity):
         for child_entity_id in group_members:
             # resolve HA entity_id to MA player_id
             if not (entity_reg_entry := entity_registry.async_get(child_entity_id)):
-                raise UniversalAssistantError(f"Entity {child_entity_id} not found")
+                raise __HAC_KEEP__Error(f"Entity {child_entity_id} not found")
             # unique id is the MA player_id
             player_ids.append(entity_reg_entry.unique_id)
         await self.mass.players.player_command_group_many(self.player_id, player_ids)
@@ -547,7 +547,7 @@ class MusicAssistantPlayer(MusicAssistantEntity, MediaPlayerEntity):
     ) -> None:
         """Send the play_media command to the media player."""
         # An explicit username impersonates that Music Assistant user (the server rejects an
-        # unknown name). When omitted, default playback to the Universal Universal Home Assistant user that made
+        # unknown name). When omitted, default playback to the __HA_KEEP__ user that made
         # the call.
         user: str | LinkedUser | None = (
             username if username is not None else user_from_context(self._context)
@@ -610,7 +610,7 @@ class MusicAssistantPlayer(MusicAssistantEntity, MediaPlayerEntity):
                     media_uris.append(item.uri)
 
             if not media_uris:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     f"Could not resolve {media_id} to playable media item"
                 )
 
@@ -681,14 +681,14 @@ class MusicAssistantPlayer(MusicAssistantEntity, MediaPlayerEntity):
                     source_queue_id = queue.queue_id
                     break
             else:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     "Source player not specified and no playing player found."
                 )
         else:
             # resolve HA entity_id to MA player_id
             entity_registry = er.async_get(self.hass)
             if (entity := entity_registry.async_get(source_player)) is None:
-                raise UniversalAssistantError("Source player not available.")
+                raise __HAC_KEEP__Error("Source player not available.")
             source_queue_id = entity.unique_id  # unique_id is the MA player_id
         target_queue_id = self.player_id
         await self.mass.player_queues.transfer_queue(
@@ -699,7 +699,7 @@ class MusicAssistantPlayer(MusicAssistantEntity, MediaPlayerEntity):
     async def _async_handle_get_queue(self) -> ServiceResponse:
         """Handle get_queue action."""
         if not self.active_queue:
-            raise UniversalAssistantError("No active queue found")
+            raise __HAC_KEEP__Error("No active queue found")
         active_queue = self.active_queue
         response: ServiceResponse = QUEUE_DETAILS_SCHEMA(
             {

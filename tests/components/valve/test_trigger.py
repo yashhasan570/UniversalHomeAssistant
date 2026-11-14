@@ -18,7 +18,7 @@ from pytest_universalassistant.components.common import (
 
 from universalassistant.components.valve import ATTR_IS_CLOSED, DOMAIN, ValveState
 from universalassistant.components.valve.trigger import TRIGGERS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TRIGGER_STATES = [
     *parametrize_trigger_states(
@@ -57,7 +57,7 @@ TRIGGER_STATES = [
 
 
 @pytest.fixture
-async def target_valves(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_valves(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple valve entities associated with different targets."""
     return await target_entities(hass, DOMAIN)
 
@@ -76,7 +76,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_valve_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -103,7 +103,7 @@ def test_trigger_target_support() -> None:
 )
 @pytest.mark.parametrize(("trigger", "trigger_options", "states"), TRIGGER_STATES)
 async def test_valve_state_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_valves: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -131,7 +131,7 @@ async def test_valve_state_trigger_behavior_each(
 )
 @pytest.mark.parametrize(("trigger", "trigger_options", "states"), TRIGGER_STATES)
 async def test_valve_state_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_valves: dict[str, list[str]],
     trigger_target_config: dict,
     entities_in_target: int,
@@ -159,7 +159,7 @@ async def test_valve_state_trigger_behavior_first(
 )
 @pytest.mark.parametrize(("trigger", "trigger_options", "states"), TRIGGER_STATES)
 async def test_valve_state_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_valves: dict[str, list[str]],
     trigger_target_config: dict,
     entities_in_target: int,

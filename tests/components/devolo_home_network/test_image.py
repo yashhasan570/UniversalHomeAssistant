@@ -14,7 +14,7 @@ from universalassistant.components.devolo_home_network.const import SHORT_UPDATE
 from universalassistant.components.image import DOMAIN as IMAGE_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ from .mock import MockDevice
 
 @pytest.mark.usefixtures("mock_device")
 async def test_image_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test default setup of the image component."""
@@ -42,7 +42,7 @@ async def test_image_setup(
 
 @pytest.mark.freeze_time("2023-01-13 12:00:00+00:00")
 async def test_guest_wifi_qr(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device: MockDevice,
     entity_registry: er.EntityRegistry,
     hass_client: ClientSessionGenerator,

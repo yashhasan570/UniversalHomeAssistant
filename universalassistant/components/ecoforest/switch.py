@@ -8,7 +8,7 @@ from pyecoforest.api import EcoforestApi
 from pyecoforest.models.device import Device
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EcoforestConfigEntry
@@ -34,7 +34,7 @@ SWITCH_TYPES: tuple[EcoforestSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: EcoforestConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

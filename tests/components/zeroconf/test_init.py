@@ -23,7 +23,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.generated import zeroconf as zc_gen
 from universalassistant.helpers.discovery_flow import DiscoveryKey
 from universalassistant.setup import ATTR_COMPONENT, async_setup_component
@@ -152,7 +152,7 @@ def get_zeroconf_info_mock_model(model):
     return mock_zc_info
 
 
-async def test_setup(hass: UniversalAssistant, mock_async_zeroconf: MagicMock) -> None:
+async def test_setup(hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock) -> None:
     """Test configured options for a device are loaded via config entry."""
     mock_zc = {
         "_http._tcp.local.": [
@@ -200,7 +200,7 @@ async def test_setup(hass: UniversalAssistant, mock_async_zeroconf: MagicMock) -
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_setup_with_overly_long_url_and_name(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we still setup with long urls and names."""
     with (
@@ -246,7 +246,7 @@ async def test_setup_with_overly_long_url_and_name(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_setup_with_defaults(
-    hass: UniversalAssistant, mock_zeroconf: MagicMock
+    hass: __HAC_KEEP__, mock_zeroconf: MagicMock
 ) -> None:
     """Test default interface config."""
     with (
@@ -267,7 +267,7 @@ async def test_setup_with_defaults(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_zeroconf_match_macaddress(hass: UniversalAssistant) -> None:
+async def test_zeroconf_match_macaddress(hass: __HAC_KEEP__) -> None:
     """Test configured options for a device are loaded via config entry."""
 
     def http_only_service_update_mock(zeroconf, services, handlers):
@@ -320,7 +320,7 @@ async def test_zeroconf_match_macaddress(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_zeroconf_match_manufacturer(hass: UniversalAssistant) -> None:
+async def test_zeroconf_match_manufacturer(hass: __HAC_KEEP__) -> None:
     """Test configured options for a device are loaded via config entry."""
 
     def http_only_service_update_mock(zeroconf, services, handlers):
@@ -361,7 +361,7 @@ async def test_zeroconf_match_manufacturer(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_zeroconf_match_model(hass: UniversalAssistant) -> None:
+async def test_zeroconf_match_model(hass: __HAC_KEEP__) -> None:
     """Test matching a specific model in zeroconf."""
 
     def http_only_service_update_mock(zeroconf, services, handlers):
@@ -402,7 +402,7 @@ async def test_zeroconf_match_model(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_zeroconf_match_manufacturer_not_present(hass: UniversalAssistant) -> None:
+async def test_zeroconf_match_manufacturer_not_present(hass: __HAC_KEEP__) -> None:
     """Test matchers reject when a property is missing."""
 
     def http_only_service_update_mock(zeroconf, services, handlers):
@@ -442,7 +442,7 @@ async def test_zeroconf_match_manufacturer_not_present(hass: UniversalAssistant)
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_zeroconf_no_match(hass: UniversalAssistant) -> None:
+async def test_zeroconf_no_match(hass: __HAC_KEEP__) -> None:
     """Test configured options for a device are loaded via config entry."""
 
     def http_only_service_update_mock(zeroconf, services, handlers):
@@ -478,7 +478,7 @@ async def test_zeroconf_no_match(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_zeroconf_no_match_manufacturer(hass: UniversalAssistant) -> None:
+async def test_zeroconf_no_match_manufacturer(hass: __HAC_KEEP__) -> None:
     """Test configured options for a device are loaded via config entry."""
 
     def http_only_service_update_mock(zeroconf, services, handlers):
@@ -518,7 +518,7 @@ async def test_zeroconf_no_match_manufacturer(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_match_partial_space(hass: UniversalAssistant) -> None:
+async def test_homekit_match_partial_space(hass: __HAC_KEEP__) -> None:
     """Test configured options for a device are loaded via config entry."""
     with (
         patch.dict(
@@ -565,7 +565,7 @@ async def test_homekit_match_partial_space(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_device_with_invalid_name(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we ignore devices with an invalid name."""
     with (
@@ -602,7 +602,7 @@ async def test_device_with_invalid_name(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_match_partial_dash(hass: UniversalAssistant) -> None:
+async def test_homekit_match_partial_dash(hass: __HAC_KEEP__) -> None:
     """Test configured options for a device are loaded via config entry."""
     with (
         patch.dict(
@@ -640,7 +640,7 @@ async def test_homekit_match_partial_dash(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_match_partial_fnmatch(hass: UniversalAssistant) -> None:
+async def test_homekit_match_partial_fnmatch(hass: __HAC_KEEP__) -> None:
     """Test matching homekit devices with fnmatch."""
     with (
         patch.dict(
@@ -676,7 +676,7 @@ async def test_homekit_match_partial_fnmatch(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_match_full(hass: UniversalAssistant) -> None:
+async def test_homekit_match_full(hass: __HAC_KEEP__) -> None:
     """Test configured options for a device are loaded via config entry."""
     with (
         patch.dict(
@@ -712,7 +712,7 @@ async def test_homekit_match_full(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_already_paired(hass: UniversalAssistant) -> None:
+async def test_homekit_already_paired(hass: __HAC_KEEP__) -> None:
     """Test that an already paired device is sent to homekit_controller."""
     with (
         patch.dict(
@@ -752,7 +752,7 @@ async def test_homekit_already_paired(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_invalid_paring_status(hass: UniversalAssistant) -> None:
+async def test_homekit_invalid_paring_status(hass: __HAC_KEEP__) -> None:
     """Test that missing paring data is not sent to homekit_controller."""
     with (
         patch.dict(
@@ -788,7 +788,7 @@ async def test_homekit_invalid_paring_status(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_homekit_not_paired(hass: UniversalAssistant) -> None:
+async def test_homekit_not_paired(hass: __HAC_KEEP__) -> None:
     """Test that an not paired device is sent to homekit_controller."""
     with (
         patch.dict(
@@ -818,7 +818,7 @@ async def test_homekit_not_paired(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_controller_still_discovered_unpaired_for_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery is still passed to homekit controller when unpaired.
 
@@ -863,7 +863,7 @@ async def test_homekit_controller_still_discovered_unpaired_for_cloud(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_homekit_controller_still_discovered_unpaired_for_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery is still passed to homekit controller when unpaired.
 
@@ -906,7 +906,7 @@ async def test_homekit_controller_still_discovered_unpaired_for_polling(
     assert mock_config_flow.mock_calls[1][1][0] == "homekit_controller"
 
 
-async def test_info_from_service_non_utf8(hass: UniversalAssistant) -> None:
+async def test_info_from_service_non_utf8(hass: __HAC_KEEP__) -> None:
     """Test info_from_service handles non UTF-8 property keys and values correctly."""
     service_type = "_test._tcp.local."
     info = zeroconf.info_from_service(
@@ -919,7 +919,7 @@ async def test_info_from_service_non_utf8(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_info_from_service_with_addresses(hass: UniversalAssistant) -> None:
+async def test_info_from_service_with_addresses(hass: __HAC_KEEP__) -> None:
     """Test info_from_service does not throw when there are no addresses."""
     service_type = "_test._tcp.local."
     info = zeroconf.info_from_service(
@@ -929,7 +929,7 @@ async def test_info_from_service_with_addresses(hass: UniversalAssistant) -> Non
 
 
 async def test_info_from_service_with_link_local_address_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the link local address is ignored."""
     service_type = "_test._tcp.local."
@@ -941,7 +941,7 @@ async def test_info_from_service_with_link_local_address_first(
 
 
 async def test_info_from_service_with_unspecified_address_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the unspecified address is ignored."""
     service_type = "_test._tcp.local."
@@ -953,7 +953,7 @@ async def test_info_from_service_with_unspecified_address_first(
 
 
 async def test_info_from_service_with_unspecified_address_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the unspecified address is ignored."""
     service_type = "_test._tcp.local."
@@ -964,7 +964,7 @@ async def test_info_from_service_with_unspecified_address_only(
 
 
 async def test_info_from_service_with_link_local_address_second(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the link local address is ignored."""
     service_type = "_test._tcp.local."
@@ -976,7 +976,7 @@ async def test_info_from_service_with_link_local_address_second(
 
 
 async def test_info_from_service_with_link_local_address_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the link local address is ignored."""
     service_type = "_test._tcp.local."
@@ -986,7 +986,7 @@ async def test_info_from_service_with_link_local_address_only(
     assert info is None
 
 
-async def test_info_from_service_prefers_ipv4(hass: UniversalAssistant) -> None:
+async def test_info_from_service_prefers_ipv4(hass: __HAC_KEEP__) -> None:
     """Test that ipv4 addresses are preferred."""
     service_type = "_test._tcp.local."
     service_info = get_service_info_mock(service_type, f"test.{service_type}")
@@ -995,7 +995,7 @@ async def test_info_from_service_prefers_ipv4(hass: UniversalAssistant) -> None:
     assert info.host == "192.168.66.12"
 
 
-async def test_info_from_service_can_return_ipv6(hass: UniversalAssistant) -> None:
+async def test_info_from_service_can_return_ipv6(hass: __HAC_KEEP__) -> None:
     """Test that IPv6-only devices can be discovered."""
     service_type = "_test._tcp.local."
     service_info = get_service_info_mock(service_type, f"test.{service_type}")
@@ -1005,7 +1005,7 @@ async def test_info_from_service_can_return_ipv6(hass: UniversalAssistant) -> No
 
 
 async def test_get_instance(
-    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
+    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test we get an instance."""
     assert await async_setup_component(hass, zeroconf.DOMAIN, {zeroconf.DOMAIN: {}})
@@ -1021,7 +1021,7 @@ async def test_get_instance(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_removed_ignored(hass: UniversalAssistant) -> None:
+async def test_removed_ignored(hass: __HAC_KEEP__) -> None:
     """Test we remove it when a zeroconf entry is removed."""
 
     def service_update_mock(zeroconf, services, handlers):
@@ -1075,7 +1075,7 @@ _ADAPTER_WITH_DEFAULT_ENABLED = [
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_async_detect_interfaces_setting_non_loopback_route(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test without default interface and the route returns a non-loopback address."""
     with (
@@ -1162,7 +1162,7 @@ _ADAPTERS_WITH_MANUAL_CONFIG = [
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_async_detect_interfaces_setting_empty_route_linux(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test without default interface config and the route returns nothing on linux."""
     with (
@@ -1196,7 +1196,7 @@ async def test_async_detect_interfaces_setting_empty_route_linux(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_async_detect_interfaces_setting_empty_route_freebsd(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test without default interface and the route returns nothing on freebsd."""
     with (
@@ -1247,7 +1247,7 @@ _ADAPTER_WITH_DEFAULT_ENABLED_AND_IPV6 = [
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_async_detect_interfaces_explicitly_set_ipv6_linux(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test interfaces are explicitly set when IPv6 is present on linux."""
     with (
@@ -1276,7 +1276,7 @@ async def test_async_detect_interfaces_explicitly_set_ipv6_linux(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_async_detect_interfaces_explicitly_set_ipv6_freebsd(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test interfaces are explicitly set when IPv6 is present on freebsd."""
     with (
@@ -1305,7 +1305,7 @@ async def test_async_detect_interfaces_explicitly_set_ipv6_freebsd(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_async_detect_interfaces_explicitly_before_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test interfaces are explicitly set with IPv6 before setup is called."""
     with (
@@ -1333,7 +1333,7 @@ async def test_async_detect_interfaces_explicitly_before_setup(
     )
 
 
-async def test_no_name(hass: UniversalAssistant, mock_async_zeroconf: MagicMock) -> None:
+async def test_no_name(hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock) -> None:
     """Test fallback to Home for mDNS announcement if the name is missing."""
     hass.config.location_name = ""
     with patch("universalassistant.components.zeroconf.HaZeroconf"):
@@ -1347,7 +1347,7 @@ async def test_no_name(hass: UniversalAssistant, mock_async_zeroconf: MagicMock)
 
 
 async def test_setup_with_disallowed_characters_in_local_name(
-    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
+    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test we still setup with disallowed characters in the location name."""
     with (
@@ -1371,7 +1371,7 @@ async def test_setup_with_disallowed_characters_in_local_name(
 
 
 async def test_start_with_frontend(
-    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
+    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test we start with the frontend."""
     with patch("universalassistant.components.zeroconf.HaZeroconf"):
@@ -1383,7 +1383,7 @@ async def test_start_with_frontend(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_zeroconf_removed(hass: UniversalAssistant) -> None:
+async def test_zeroconf_removed(hass: __HAC_KEEP__) -> None:
     """Test we dismiss flows when a PTR record is removed."""
 
     def _device_removed_mock(zeroconf, services, handlers):
@@ -1432,7 +1432,7 @@ async def test_zeroconf_removed(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_zeroconf_removed_dismiss_protected(hass: UniversalAssistant) -> None:
+async def test_zeroconf_removed_dismiss_protected(hass: __HAC_KEEP__) -> None:
     """Test dismiss-protected flows are not aborted when a PTR record is removed."""
 
     def _device_removed_mock(zeroconf, services, handlers):
@@ -1554,7 +1554,7 @@ async def test_zeroconf_removed_dismiss_protected(hass: UniversalAssistant) -> N
     ],
 )
 async def test_zeroconf_rediscover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_domain: str,
     entry_discovery_keys: dict[str, tuple[DiscoveryKey, ...]],
     entry_source: str,
@@ -1670,7 +1670,7 @@ async def test_zeroconf_rediscover(
     ],
 )
 async def test_zeroconf_rediscover_no_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_domain: str,
     entry_discovery_keys: dict[str, tuple[DiscoveryKey, ...]],
     entry_source: str,

@@ -40,8 +40,8 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import FritzConnectionMock, FritzServiceMock
@@ -79,7 +79,7 @@ def patch_fritzconnectioncached_globally(fc_data) -> Generator[FritzConnectionMo
 
 @pytest.fixture(name="fritz_tools")
 async def fixture_fritz_tools(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     patch_fritzconnectioncached_globally: FritzConnectionMock,
 ) -> FritzBoxTools:
@@ -109,7 +109,7 @@ async def fixture_fritz_tools(
     ],
 )
 async def test_fritzboxtools_class_no_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     attr: str,
 ) -> None:
     """Test accessing FritzBoxTools class properties before setup."""
@@ -135,7 +135,7 @@ async def test_fritzboxtools_class_no_setup(
 
 
 async def test_clear_connection_cache(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
     fh_class_mock,
@@ -157,7 +157,7 @@ async def test_clear_connection_cache(
 
 
 async def test_no_software_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     fc_class_mock,
     fh_class_mock,
@@ -233,7 +233,7 @@ async def test_async_get_wan_access_success(
 
 
 async def test_setup_ignores_wan_enabled_action_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
     patch_fritzconnectioncached_globally: FritzConnectionMock,
@@ -335,7 +335,7 @@ async def test_async_update_hosts_info_hosts_info_fallback(
 async def test_async_update_hosts_info_raises_universalassistant_error(
     fritz_tools,
 ) -> None:
-    """Test host update raises UniversalAssistantError when API calls fail."""
+    """Test host update raises __HAC_KEEP__Error when API calls fail."""
 
     fritz_tools.fritz_hosts.get_hosts_attributes = MagicMock(
         side_effect=FritzActionError("not supported")
@@ -344,7 +344,7 @@ async def test_async_update_hosts_info_raises_universalassistant_error(
         side_effect=RuntimeError("broken")
     )
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await fritz_tools._async_update_hosts_info()
 
     assert exc_info.value.translation_key == "error_refresh_hosts_info"
@@ -538,7 +538,7 @@ async def test_trigger_reconnect_reraises_unexpected_error(
 
 
 async def test_avmwrapper_service_call_branches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
     fh_class_mock,
@@ -574,7 +574,7 @@ async def test_avmwrapper_service_call_branches(
 
 
 async def test_avmwrapper_passthrough_methods(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock,
     fh_class_mock,
     fs_class_mock,
@@ -605,7 +605,7 @@ async def test_avmwrapper_passthrough_methods(
 
 
 async def test_async_trigger_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -669,7 +669,7 @@ async def test_async_trigger_cleanup(
 
 
 async def test_async_trigger_cleanup_preserves_fritz_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     fc_class_mock,
     fh_class_mock,
@@ -710,7 +710,7 @@ async def test_async_trigger_cleanup_preserves_fritz_device(
 
 
 async def test_old_discovery_does_not_self_reference_box(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,

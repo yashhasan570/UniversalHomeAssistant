@@ -35,7 +35,7 @@ from universalassistant.components.webhook import async_generate_url
 from universalassistant.components.withings.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_WEBHOOK_ID, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -55,7 +55,7 @@ from tests.components.cloud import mock_cloud
 
 
 async def test_data_manager_webhook_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_data_manager_webhook_subscription(
 
 
 async def test_webhook_subscription_polling_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -112,7 +112,7 @@ async def test_webhook_subscription_polling_config(
 
 
 async def test_head_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -138,7 +138,7 @@ async def test_head_request(
     ],
 )
 async def test_webhooks_request_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -178,7 +178,7 @@ async def test_webhooks_request_data(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_temperature_webhook_updates_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -222,7 +222,7 @@ async def test_temperature_webhook_updates_sensor(
     ],
 )
 async def test_triggering_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     error: Exception,
@@ -274,7 +274,7 @@ async def test_triggering_reauth(
     ],
 )
 async def test_config_flow_upgrade(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test config flow upgrade."""
     config_entry.add_to_hass(hass)
@@ -290,7 +290,7 @@ async def test_config_flow_upgrade(
 
 
 async def test_setup_with_cloudhook(
-    hass: UniversalAssistant, cloudhook_config_entry: MockConfigEntry, withings: AsyncMock
+    hass: __HAC_KEEP__, cloudhook_config_entry: MockConfigEntry, withings: AsyncMock
 ) -> None:
     """Test if set up with active cloud subscription and cloud hook."""
 
@@ -335,7 +335,7 @@ async def test_setup_with_cloudhook(
 
 
 async def test_removing_entry_with_cloud_unavailable(
-    hass: UniversalAssistant, cloudhook_config_entry: MockConfigEntry, withings: AsyncMock
+    hass: __HAC_KEEP__, cloudhook_config_entry: MockConfigEntry, withings: AsyncMock
 ) -> None:
     """Test handling cloud unavailable when deleting entry."""
 
@@ -376,7 +376,7 @@ async def test_removing_entry_with_cloud_unavailable(
 
 
 async def test_setup_with_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_config_entry: MockConfigEntry,
     withings: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -433,7 +433,7 @@ async def test_setup_with_cloud(
     ],
 )
 async def test_setup_no_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_config_entry: MockConfigEntry,
     withings: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -474,7 +474,7 @@ async def test_setup_no_webhook(
     ],
 )
 async def test_setup_no_webhook_logged_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_config_entry: MockConfigEntry,
     withings: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -520,7 +520,7 @@ async def test_setup_no_webhook_logged_once(
 
 
 async def test_cloud_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -572,7 +572,7 @@ async def test_cloud_disconnect(
 
 
 async def test_device_battery_polling_with_webhooks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -664,7 +664,7 @@ async def test_device_battery_polling_with_webhooks(
 
 
 async def test_internet_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -716,7 +716,7 @@ async def test_internet_disconnect(
 
 
 async def test_cloud_disconnect_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -768,7 +768,7 @@ async def test_cloud_disconnect_retry(
 
 
 async def test_internet_timeout_then_restore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -836,7 +836,7 @@ async def test_internet_timeout_then_restore(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_webhook_post(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -862,7 +862,7 @@ async def test_webhook_post(
 
 
 async def test_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -883,7 +883,7 @@ async def test_devices(
 
 @pytest.mark.usefixtures("withings")
 async def test_device_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -905,7 +905,7 @@ async def test_device_via_device_id(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -922,7 +922,7 @@ async def test_oauth_implementation_not_available(
 
 
 async def test_webhook_subscription_retry_on_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -955,7 +955,7 @@ async def test_webhook_subscription_retry_on_failure(
 
 
 async def test_webhook_subscription_continues_retrying(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -979,7 +979,7 @@ async def test_webhook_subscription_continues_retrying(
 
 
 async def test_webhook_subscription_rate_limited(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -997,7 +997,7 @@ async def test_webhook_subscription_rate_limited(
 
 
 async def test_webhook_subscription_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -1022,12 +1022,12 @@ async def test_webhook_subscription_auth_failure(
 
 
 async def test_webhook_subscription_waits_for_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
-    """Test the webhook is only subscribed once Universal Universal Home Assistant has started."""
+    """Test the webhook is only subscribed once __HA_KEEP__ has started."""
     hass.set_state(CoreState.not_running)
 
     await setup_integration(hass, webhook_config_entry)
@@ -1046,7 +1046,7 @@ async def test_webhook_subscription_waits_for_start(
 
 
 async def test_webhook_subscription_invalid_params(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -1065,7 +1065,7 @@ async def test_webhook_subscription_invalid_params(
 
 
 async def test_unload_during_webhook_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

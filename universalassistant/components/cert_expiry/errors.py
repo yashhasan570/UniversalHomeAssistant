@@ -1,9 +1,9 @@
 """Errors for the cert_expiry integration."""
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
-class CertExpiryException(UniversalAssistantError):
+class CertExpiryException(__HAC_KEEP__Error):
     """Base class for cert_expiry exceptions."""
 
 

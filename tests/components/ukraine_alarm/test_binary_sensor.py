@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ukraine_alarm.const import DOMAIN
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 
 REGION_ID = "2.1"
@@ -25,7 +25,7 @@ ALL_KEYS = (
 
 
 async def setup_integration(
-    hass: UniversalAssistant, active_alerts: list[dict[str, Any]]
+    hass: __HAC_KEEP__, active_alerts: list[dict[str, Any]]
 ) -> None:
     """Set up the integration against a stubbed region payload."""
     entry = MockConfigEntry(
@@ -44,7 +44,7 @@ async def setup_integration(
         await hass.async_block_till_done()
 
 
-def _state(hass: UniversalAssistant, entity_registry: er.EntityRegistry, key: str) -> State:
+def _state(hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, key: str) -> State:
     """Return the state of the binary sensor for an alert type.
 
     Entity ids are derived from translated names, which are generated from
@@ -110,7 +110,7 @@ def _alert(
     ],
 )
 async def test_alerts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     active_alerts: list[dict[str, Any]],
     expected_on: set[str],

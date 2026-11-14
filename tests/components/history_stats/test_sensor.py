@@ -34,14 +34,14 @@ from universalassistant.const import (
     SERVICE_RELOAD,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
-async def test_setup(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_setup(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test the history statistics sensor setup."""
 
     config = {
@@ -64,7 +64,7 @@ async def test_setup(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
 
 
 async def test_setup_config_entry(
-    recorder_mock: Recorder, hass: UniversalAssistant, loaded_entry: MockConfigEntry
+    recorder_mock: Recorder, hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
 ) -> None:
     """Test the history statistics sensor setup from a config entry."""
 
@@ -73,7 +73,7 @@ async def test_setup_config_entry(
 
 
 async def test_setup_multiple_states(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test the history statistics sensor setup for multiple states."""
 
@@ -144,7 +144,7 @@ def test_setup_invalid_config(config) -> None:
 
 
 async def test_invalid_date_for_start(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Verify with an invalid date for start."""
     await async_setup_component(
@@ -171,7 +171,7 @@ async def test_invalid_date_for_start(
 
 
 async def test_invalid_date_for_end(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Verify with an invalid date for end."""
     await async_setup_component(
@@ -198,7 +198,7 @@ async def test_invalid_date_for_end(
 
 
 async def test_invalid_entity_in_template(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Verify with an invalid entity in the template."""
     await async_setup_component(
@@ -225,7 +225,7 @@ async def test_invalid_entity_in_template(
 
 
 async def test_invalid_entity_returning_none_in_template(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Verify with an invalid entity returning none in the template."""
     await async_setup_component(
@@ -251,7 +251,7 @@ async def test_invalid_entity_returning_none_in_template(
     assert hass.states.get("sensor.test") is None
 
 
-async def test_reload(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_reload(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Verify we can reload history_stats sensors."""
     hass.state = ha.CoreState.not_running
     hass.states.async_set("binary_sensor.test_id", "on")
@@ -294,7 +294,7 @@ async def test_reload(recorder_mock: Recorder, hass: UniversalAssistant) -> None
     assert hass.states.get("sensor.second_test")
 
 
-async def test_measure_multiple(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_measure_multiple(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test the history statistics sensor measure for multiple ."""
     start_time = dt_util.utcnow() - timedelta(minutes=60)
     t0 = start_time + timedelta(minutes=20)
@@ -392,7 +392,7 @@ async def test_measure_multiple(recorder_mock: Recorder, hass: UniversalAssistan
     )
 
 
-async def test_measure(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_measure(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test the history statistics sensor measure."""
     start_time = dt_util.utcnow() - timedelta(minutes=60)
     t0 = start_time + timedelta(minutes=20)
@@ -473,7 +473,7 @@ async def test_measure(recorder_mock: Recorder, hass: UniversalAssistant) -> Non
 
 
 async def test_async_on_entire_period(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test the history statistics sensor measuring as on the entire period."""
     start_time = dt_util.utcnow() - timedelta(minutes=60)
@@ -559,7 +559,7 @@ async def test_async_on_entire_period(
 
 
 async def test_async_off_entire_period(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test the history statistics sensor measuring as off the entire period."""
     start_time = dt_util.utcnow() - timedelta(minutes=60)
@@ -643,7 +643,7 @@ async def test_async_off_entire_period(
 
 async def test_async_start_from_history_and_switch_to_watching_state_changes_single(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we startup from history and switch to watching state changes."""
     await hass.config.async_set_time_zone("UTC")
@@ -744,7 +744,7 @@ async def test_async_start_from_history_and_switch_to_watching_state_changes_sin
 
 async def test_async_start_from_history_and_switch_to_watching_state_changes_single_expanding_window(  # noqa: E501, RUF100
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test startup from history, switch to watching state changes.
 
@@ -864,7 +864,7 @@ async def test_async_start_from_history_and_switch_to_watching_state_changes_sin
 
 async def test_async_start_from_history_and_switch_to_watching_state_changes_multiple(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we startup from history and switch to watching state changes."""
     await hass.config.async_set_time_zone("UTC")
@@ -1035,7 +1035,7 @@ async def test_async_start_from_history_and_switch_to_watching_state_changes_mul
 
 async def test_start_from_history_then_watch_state_changes_sliding(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we startup from history and switch to watching state changes.
 
@@ -1200,11 +1200,11 @@ async def test_start_from_history_then_watch_state_changes_sliding(
 
 
 async def test_does_not_work_into_the_future(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test history cannot tell the future.
 
-    Verifies we do not regress https://github.com/yashhasan570/UniversalUniversalAssistant/pull/20589
+    Verifies we do not regress https://github.com/yashhasan570/__HAC_KEEP__/pull/20589
     """
     await hass.config.async_set_time_zone("UTC")
     utcnow = dt_util.utcnow()
@@ -1371,7 +1371,7 @@ async def test_does_not_work_into_the_future(
 
 
 async def test_reload_before_start_event(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Verify we can reload history_stats sensors before the start event."""
     hass.state = ha.CoreState.not_running
@@ -1414,7 +1414,7 @@ async def test_reload_before_start_event(
 
 
 async def test_measure_sliding_window(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test the history statistics sensor with a moving end and a moving start."""
     start_time = dt_util.utcnow() - timedelta(minutes=60)
@@ -1515,7 +1515,7 @@ async def test_measure_sliding_window(
 
 
 async def test_ratio_over_daylight_saving_time_change(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test the ratio uses the real length of a day with a daylight saving change."""
     # The US/Pacific day of the fall back to standard time lasts 25 hours
@@ -1564,7 +1564,7 @@ async def test_ratio_over_daylight_saving_time_change(
 
 
 async def test_measure_from_end_going_backwards(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test history stats sensor with moving end and duration."""
     start_time = dt_util.utcnow() - timedelta(minutes=60)
@@ -1660,7 +1660,7 @@ async def test_measure_from_end_going_backwards(
     assert 16.6 <= float(hass.states.get("sensor.sensor4").state) <= 16.7
 
 
-async def test_measure_cet(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_measure_cet(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test the history statistics sensor measure with a non-UTC timezone."""
     await hass.config.async_set_time_zone("Europe/Berlin")
     start_time = dt_util.utcnow() - timedelta(minutes=60)
@@ -1746,7 +1746,7 @@ async def test_measure_cet(recorder_mock: Recorder, hass: UniversalAssistant) ->
 
 async def test_state_change_during_window_rollover(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test tracked sensor and start/end window change in same update."""
     await hass.config.async_set_time_zone("UTC")
@@ -1894,7 +1894,7 @@ async def test_state_change_during_window_rollover(
 async def test_end_time_with_microseconds_zeroed(
     time_zone: str,
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test history stats sensor with end time microseconds zeroed."""
     await hass.config.async_set_time_zone(time_zone)
@@ -2062,7 +2062,7 @@ async def test_end_time_with_microseconds_zeroed(
         )
 
 
-async def test_device_classes(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_device_classes(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test the device classes."""
     await async_setup_component(
         hass,
@@ -2107,7 +2107,7 @@ async def test_device_classes(recorder_mock: Recorder, hass: UniversalAssistant)
 
 async def test_history_stats_handles_floored_timestamps(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we account for microseconds when doing the data calculation."""
     await hass.config.async_set_time_zone("UTC")
@@ -2116,7 +2116,7 @@ async def test_history_stats_handles_floored_timestamps(
     last_times = None
 
     def _fake_states(
-        hass: UniversalAssistant, start: datetime, end: datetime | None, *args, **kwargs
+        hass: __HAC_KEEP__, start: datetime, end: datetime | None, *args, **kwargs
     ) -> dict[str, list[ha.State]]:
         """Fake state changes."""
         nonlocal last_times
@@ -2167,7 +2167,7 @@ async def test_history_stats_handles_floored_timestamps(
 
 
 async def test_unique_id(
-    recorder_mock: Recorder, hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    recorder_mock: Recorder, hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique_id property."""
 
@@ -2194,7 +2194,7 @@ async def test_unique_id(
 
 async def test_device_id(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2241,7 +2241,7 @@ async def test_device_id(
 
 async def test_device_id_yaml(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -2289,7 +2289,7 @@ async def test_device_id_yaml(
 
 async def test_async_around_min_state_duration(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test min_state_duration boundary where block becomes valid."""
     await hass.config.async_set_time_zone("UTC")
@@ -2397,7 +2397,7 @@ async def test_async_around_min_state_duration(
 
 async def test_async_around_min_state_duration_sliding_window(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test min_state_duration with sliding window.
 
@@ -2518,7 +2518,7 @@ async def test_async_around_min_state_duration_sliding_window(
 
 
 async def test_measure_multiple_with_min_state_duration(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test measure for multiple states with min state duration."""
     start_time = dt_util.utcnow() - timedelta(minutes=40)
@@ -2628,7 +2628,7 @@ async def test_measure_multiple_with_min_state_duration(
 
 
 async def test_open_block_precision_same_second(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test open block precision."""
 
@@ -2731,7 +2731,7 @@ async def test_open_block_precision_same_second(
 )
 async def test_state_change_just_after_period_end(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     off_offset: timedelta,
     expected_ratio: str,
 ) -> None:

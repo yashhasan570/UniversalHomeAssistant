@@ -8,7 +8,7 @@ from surepy import MESTART_RESOURCE
 
 from universalassistant.components.surepetcare.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_API_DATA
 
@@ -31,7 +31,7 @@ async def surepetcare():
 
 
 @pytest.fixture
-async def mock_config_entry_setup(hass: UniversalAssistant) -> MockConfigEntry:
+async def mock_config_entry_setup(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Help setting up a mocked config entry."""
     data = {
         CONF_USERNAME: "test-username",

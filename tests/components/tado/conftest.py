@@ -15,7 +15,7 @@ from pytest_universalassistant.common import (
 import requests_mock
 
 from universalassistant.components.tado import CONF_REFRESH_TOKEN, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -62,8 +62,8 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture
-async def init_integration(hass: UniversalAssistant, freezer: FrozenDateTimeFactory):
-    """Set up the tado integration in Universal Universal Home Assistant."""
+async def init_integration(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory):
+    """Set up the tado integration in __HA_KEEP__."""
 
     token_fixture = "token.json"
     devices_fixture = "devices.json"

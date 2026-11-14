@@ -8,7 +8,7 @@ from universalassistant.components import llm as llm_component
 from universalassistant.components.universalassistant.exposed_entities import async_expose_entity
 from universalassistant.components.intent_script import llm as intent_script_llm
 from universalassistant.components.intent_script.helpers import ScriptIntentHandler
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import intent, llm
 from universalassistant.setup import async_setup_component
 
@@ -16,7 +16,7 @@ LIGHT_ENTITY_ID = "light.kitchen"
 
 
 @pytest.fixture(autouse=True)
-async def setup_integrations(hass: UniversalAssistant) -> None:
+async def setup_integrations(hass: __HAC_KEEP__) -> None:
     """Set up the integrations and configure intent scripts."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "intent", {})
@@ -54,13 +54,13 @@ def _llm_context() -> llm.LLMContext:
     )
 
 
-async def _tool_names(hass: UniversalAssistant) -> set[str]:
+async def _tool_names(hass: __HAC_KEEP__) -> set[str]:
     """Return the names of the tools offered by the intent_script platform."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     return {tool.name for tool in result.tools}
 
 
-async def test_intent_scripts_exposed(hass: UniversalAssistant) -> None:
+async def test_intent_scripts_exposed(hass: __HAC_KEEP__) -> None:
     """Test intent scripts are exposed as LLM tools with slugified names."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     tools = {tool.name: tool for tool in result.tools}
@@ -73,7 +73,7 @@ async def test_intent_scripts_exposed(hass: UniversalAssistant) -> None:
     assert tools["intent_script__LightAction"].integration == "intent_script"
 
 
-async def test_intent_script_platform_filtered(hass: UniversalAssistant) -> None:
+async def test_intent_script_platform_filtered(hass: __HAC_KEEP__) -> None:
     """Test a platform-restricted intent script requires an exposed entity."""
     async_expose_entity(hass, "conversation", LIGHT_ENTITY_ID, False)
     names = await _tool_names(hass)
@@ -82,12 +82,12 @@ async def test_intent_script_platform_filtered(hass: UniversalAssistant) -> None
     assert "intent_script__Tell_a_joke" in names
 
 
-async def test_no_tools_for_other_api(hass: UniversalAssistant) -> None:
+async def test_no_tools_for_other_api(hass: __HAC_KEEP__) -> None:
     """Test the platform returns None for an unsupported API."""
     assert intent_script_llm.async_get_tools(hass, _llm_context(), "other") is None
 
 
-async def test_no_tools_when_no_scripts_match(hass: UniversalAssistant) -> None:
+async def test_no_tools_when_no_scripts_match(hass: __HAC_KEEP__) -> None:
     """Test None is returned when no intent scripts match the exposed domains."""
     async_expose_entity(hass, "conversation", LIGHT_ENTITY_ID, False)
     restricted_handlers = [

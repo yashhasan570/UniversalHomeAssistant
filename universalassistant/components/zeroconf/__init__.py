@@ -1,4 +1,4 @@
-"""Support for exposing Universal Universal Home Assistant via Zeroconf."""
+"""Support for exposing __HA_KEEP__ via Zeroconf."""
 
 from contextlib import suppress
 from ipaddress import IPv4Address, IPv6Address
@@ -16,7 +16,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     __version__,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, instance_id
 from universalassistant.helpers.network import NoURLAvailableError, get_url
 from universalassistant.helpers.typing import ConfigType
@@ -71,18 +71,18 @@ __all__ = [
 ]
 
 
-async def async_get_instance(hass: UniversalAssistant) -> HaZeroconf:
+async def async_get_instance(hass: __HAC_KEEP__) -> HaZeroconf:
     """Get or create the shared HaZeroconf instance."""
     return cast(HaZeroconf, (_async_get_instance(hass)).zeroconf)
 
 
-async def async_get_async_instance(hass: UniversalAssistant) -> HaAsyncZeroconf:
+async def async_get_async_instance(hass: __HAC_KEEP__) -> HaAsyncZeroconf:
     """Get or create the shared HaAsyncZeroconf instance."""
     return _async_get_instance(hass)
 
 
 @callback
-def async_get_async_zeroconf(hass: UniversalAssistant) -> HaAsyncZeroconf:
+def async_get_async_zeroconf(hass: __HAC_KEEP__) -> HaAsyncZeroconf:
     """Get or create the shared HaAsyncZeroconf instance.
 
     This method must be run in the event loop, and is an alternative
@@ -91,7 +91,7 @@ def async_get_async_zeroconf(hass: UniversalAssistant) -> HaAsyncZeroconf:
     return _async_get_instance(hass)
 
 
-def _async_get_instance(hass: UniversalAssistant) -> HaAsyncZeroconf:
+def _async_get_instance(hass: __HAC_KEEP__) -> HaAsyncZeroconf:
     if DATA_INSTANCE in hass.data:
         return hass.data[DATA_INSTANCE]
 
@@ -123,7 +123,7 @@ def _async_zc_has_functional_dual_stack() -> bool:
     )
 
 
-def _async_get_zc_args(hass: UniversalAssistant) -> dict[str, Any]:
+def _async_get_zc_args(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Get zeroconf arguments from config."""
     zc_args: dict[str, Any] = {"ip_version": IPVersion.V4Only}
     adapters = network.async_get_loaded_adapters(hass)
@@ -158,8 +158,8 @@ def _async_get_zc_args(hass: UniversalAssistant) -> dict[str, Any]:
     return zc_args
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
-    """Set up Zeroconf and make Universal Universal Home Assistant discoverable."""
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    """Set up Zeroconf and make __HA_KEEP__ discoverable."""
     aio_zc = _async_get_instance(hass)
     zeroconf = cast(HaZeroconf, aio_zc.zeroconf)
     zeroconf_types = await async_get_zeroconf(hass)
@@ -180,8 +180,8 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     hass.data[DATA_DISCOVERY] = discovery
     websocket_api.async_setup(hass)
 
-    async def _async_zeroconf_hass_start(hass: UniversalAssistant, comp: str) -> None:
-        """Expose Universal Universal Home Assistant on zeroconf when it starts.
+    async def _async_zeroconf_hass_start(hass: __HAC_KEEP__, comp: str) -> None:
+        """Expose __HA_KEEP__ on zeroconf when it starts.
 
         Wait till started or otherwise HTTP is not up and running.
         """
@@ -207,7 +207,7 @@ def _filter_disallowed_characters(name: str) -> str:
 async def _async_register_hass_zc_service(
     aio_zc: HaAsyncZeroconf, local_service_info: AsyncServiceInfo
 ) -> None:
-    """Register the zeroconf service for the local Universal Universal Home Assistant instance."""
+    """Register the zeroconf service for the local __HA_KEEP__ instance."""
 
     _LOGGER.info("Starting Zeroconf broadcast")
     await aio_zc.async_register_service(local_service_info, allow_name_change=True)
@@ -249,8 +249,8 @@ def _truncate_location_name_to_valid(location_name: str) -> str:
     return location_name.encode("utf-8")[:MAX_NAME_LEN].decode("utf-8", "ignore")
 
 
-async def _async_get_local_service_info(hass: UniversalAssistant) -> AsyncServiceInfo:
-    """Return the zeroconf service info for the local Universal Universal Home Assistant instance."""
+async def _async_get_local_service_info(hass: __HAC_KEEP__) -> AsyncServiceInfo:
+    """Return the zeroconf service info for the local __HA_KEEP__ instance."""
     valid_location_name = _truncate_location_name_to_valid(
         _filter_disallowed_characters(hass.config.location_name or "Home")
     )

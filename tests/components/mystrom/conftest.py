@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.mystrom.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 DEVICE_NAME = "myStrom Device"
 DEVICE_MAC = "6001940376EB"
@@ -24,7 +24,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create and add a config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

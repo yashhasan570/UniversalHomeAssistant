@@ -9,7 +9,7 @@ import aiohttp
 import tibber
 
 from universalassistant.const import CONF_ACCESS_TOKEN, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -43,7 +43,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def _migrate_data_api_registry_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TibberConfigEntry,
     coordinator: TibberDataAPICoordinator,
     home_ids: set[str],
@@ -145,7 +145,7 @@ class TibberRuntimeData:
             raise ConfigEntryAuthFailed("Access token missing from OAuth session")
         return access_token
 
-    async def async_get_client(self, hass: UniversalAssistant) -> tibber.Tibber:
+    async def async_get_client(self, hass: __HAC_KEEP__) -> tibber.Tibber:
         """Return an authenticated Tibber client."""
         access_token = await self._async_get_access_token()
         if self._client is None:
@@ -171,7 +171,7 @@ class TibberRuntimeData:
             )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Tibber component."""
 
     hass.data[DATA_HASS_CONFIG] = config
@@ -181,7 +181,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TibberConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TibberConfigEntry) -> None:
     """Set up a config entry."""
 
     # Added in 2026.1 to migrate existing users to OAuth2 (Tibber Data API).
@@ -244,7 +244,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TibberConfigEntry) 
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: TibberConfigEntry
+    hass: __HAC_KEEP__, config_entry: TibberConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

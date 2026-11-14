@@ -21,8 +21,8 @@ from universalassistant.components.modbus.connection import (
 )
 from universalassistant.config_entries import ConfigFlow
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 type ConsumerFactory = Callable[[], MockConfigEntry]
 
@@ -32,7 +32,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture(name="consumer")
-def consumer_fixture(hass: UniversalAssistant) -> Generator[ConsumerFactory]:
+def consumer_fixture(hass: __HAC_KEEP__) -> Generator[ConsumerFactory]:
     """Return a factory for config entries that can be set up and unloaded."""
     mock_integration(
         hass,
@@ -54,7 +54,7 @@ def consumer_fixture(hass: UniversalAssistant) -> Generator[ConsumerFactory]:
 
 
 async def test_equal_credentials_share_one_connection(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """Two consumers of one device queue behind one link, not two.
 
@@ -74,7 +74,7 @@ async def test_equal_credentials_share_one_connection(
 
 
 async def test_different_credentials_get_their_own_connection(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """A different host, port or transport is a different device."""
     entry = consumer()
@@ -88,7 +88,7 @@ async def test_different_credentials_get_their_own_connection(
 
 
 async def test_the_same_device_reached_by_a_different_name_still_shares(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """Hostnames are case-insensitive, so the case must not split the link."""
     entry = consumer()
@@ -108,7 +108,7 @@ async def test_the_same_device_reached_by_a_different_name_still_shares(
     ],
 )
 async def test_a_serial_framing_over_a_socket_shares_the_serial_link(
-    hass: UniversalAssistant, consumer: ConsumerFactory, device: str
+    hass: __HAC_KEEP__, consumer: ConsumerFactory, device: str
 ) -> None:
     """A serial framing on a TCP link is the serial link the socket device names.
 
@@ -131,7 +131,7 @@ async def test_a_serial_framing_over_a_socket_shares_the_serial_link(
 
 
 async def test_a_serial_framing_over_a_socket_keeps_the_line_speed_asked_for(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """The framing alone says nothing about the line speed, so it cannot assume one.
 
@@ -150,7 +150,7 @@ async def test_a_serial_framing_over_a_socket_keeps_the_line_speed_asked_for(
 
     with (
         pytest.deprecated_call(),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         async_get_unit(
             hass, entry, ModbusTcpParams(host="1.2.3.4", port=502, framer="rtu"), 2
@@ -159,7 +159,7 @@ async def test_a_serial_framing_over_a_socket_keeps_the_line_speed_asked_for(
 
 
 async def test_one_device_cannot_be_used_with_two_link_settings(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """One connection can only be framed one way, so the clash has to be said.
 
@@ -171,13 +171,13 @@ async def test_one_device_cannot_be_used_with_two_link_settings(
 
     async_get_unit(hass, entry, ModbusTcpParams(host="1.2.3.4", port=502), 1)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         async_get_unit(hass, entry, ModbusTlsParams(host="1.2.3.4", port=502), 2)
     assert exc_info.value.translation_key == "device_in_use"
 
 
 async def test_the_last_consumer_closes_the_connection(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """A connection lives exactly as long as somebody holds a unit on it."""
     one = consumer()
@@ -205,7 +205,7 @@ async def test_the_last_consumer_closes_the_connection(
 
 
 async def test_stopping_universal_assistant_closes_every_connection(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """Entries are not unloaded on shutdown, so stopping closes the connections."""
     one = consumer()
@@ -236,7 +236,7 @@ async def test_stopping_universal_assistant_closes_every_connection(
 
 
 async def test_a_connection_failing_to_close_on_stop_does_not_block_the_rest(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     consumer: ConsumerFactory,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_a_connection_failing_to_close_on_stop_does_not_block_the_rest(
 
 
 async def test_one_entry_holding_twice_releases_twice(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """An entry with two devices on one link holds it twice.
 
@@ -284,7 +284,7 @@ async def test_one_entry_holding_twice_releases_twice(
 
 
 async def test_reloading_an_entry_reopens_the_connection(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """Nothing is held across a reload, so the entry gets a fresh connection.
 
@@ -307,7 +307,7 @@ async def test_reloading_an_entry_reopens_the_connection(
 
 
 async def test_a_temporary_unit_closes_the_connection_on_exit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """A config flow's hold ends with the context, not with a config entry."""
     with patch.object(ModbusConnection, "close") as close:
@@ -322,7 +322,7 @@ async def test_a_temporary_unit_closes_the_connection_on_exit(
 
 
 async def test_a_temporary_unit_releases_when_the_context_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """A flow step failing must not leak the connection it probed over."""
     with patch.object(ModbusConnection, "close") as close, pytest.raises(ValueError):
@@ -336,7 +336,7 @@ async def test_a_temporary_unit_releases_when_the_context_raises(
 
 
 async def test_a_temporary_unit_shares_a_connection_an_entry_holds(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """A flow probing a device an entry already talks to joins its connection.
 
@@ -356,14 +356,14 @@ async def test_a_temporary_unit_shares_a_connection_an_entry_holds(
 
 
 async def test_a_temporary_unit_cannot_clash_with_held_link_settings(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """A flow gets told about a link settings clash when entering the context."""
     entry = consumer()
     await hass.config_entries.async_setup(entry.entry_id)
     async_get_unit(hass, entry, ModbusTcpParams(host="1.2.3.4", port=502), 1)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         async with async_get_temporary_unit(
             hass, ModbusTlsParams(host="1.2.3.4", port=502), 2
         ):
@@ -375,7 +375,7 @@ async def test_a_temporary_unit_cannot_clash_with_held_link_settings(
 
 
 async def test_one_entry_holding_the_same_unit_twice(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """Two holds on one unit are one unit, and release together.
 
@@ -400,7 +400,7 @@ async def test_one_entry_holding_the_same_unit_twice(
 
 
 async def test_two_entries_holding_the_same_unit(
-    hass: UniversalAssistant, consumer: ConsumerFactory
+    hass: __HAC_KEEP__, consumer: ConsumerFactory
 ) -> None:
     """The link stays while anybody still holds that unit, however they asked."""
     one = consumer()

@@ -15,7 +15,7 @@ from universalassistant.const import (
     EVENT_LOGGING_CHANGED,
     Platform,
 )
-from universalassistant.core import CoreState, Event, HassJob, UniversalAssistant, callback
+from universalassistant.core import CoreState, Event, HassJob, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.helpers.dispatcher import (
@@ -122,7 +122,7 @@ ALLOWED_PLATFORMS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Rflink component."""
     # Allow entities to register themselves by device_id to be looked up when
     # new rflink events arrive to be handled

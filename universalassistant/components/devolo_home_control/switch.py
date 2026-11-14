@@ -7,8 +7,8 @@ from devolo_home_control_api.exceptions import SwitchingProtected
 from devolo_home_control_api.homecontrol import HomeControl
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DevoloHomeControlConfigEntry
@@ -17,7 +17,7 @@ from .entity import DevoloDeviceEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DevoloHomeControlConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -82,7 +82,7 @@ class DevoloSwitch(DevoloDeviceEntity, SwitchEntity):
         """Set the switch to the given state."""
         try:
             if not self._binary_switch_property.set(state=state):
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="set_failed",
                 )

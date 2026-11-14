@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.tellduslive import APPLICATION_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_DISCOVERY, SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -55,7 +55,7 @@ def mock_tellduslive(supports_local_api, authorize):
     "ignore_missing_translations",
     ["component.tellduslive.config.abort.already_setup"],
 )
-async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
+async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
     """Test we abort if TelldusLive is already setup."""
     MockConfigEntry(domain=DOMAIN, data={}).add_to_hass(hass)
 
@@ -66,7 +66,7 @@ async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_setup"
 
 
-async def test_full_flow_implementation(hass: UniversalAssistant, mock_tellduslive) -> None:
+async def test_full_flow_implementation(hass: __HAC_KEEP__, mock_tellduslive) -> None:
     """Test registering an implementation and finishing flow works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -95,7 +95,7 @@ async def test_full_flow_implementation(hass: UniversalAssistant, mock_telldusli
 
 
 @pytest.mark.parametrize("supports_local_api", [False])
-async def test_step_disco_no_local_api(hass: UniversalAssistant, mock_tellduslive) -> None:
+async def test_step_disco_no_local_api(hass: __HAC_KEEP__, mock_tellduslive) -> None:
     """Test configuring from discovery, not supporting local api."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -110,7 +110,7 @@ async def test_step_disco_no_local_api(hass: UniversalAssistant, mock_telldusliv
     assert result["title"] == "Cloud API"
 
 
-async def test_step_auth(hass: UniversalAssistant, mock_tellduslive) -> None:
+async def test_step_auth(hass: __HAC_KEEP__, mock_tellduslive) -> None:
     """Test that create cloud entity from auth, without picking a host."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -131,7 +131,7 @@ async def test_step_auth(hass: UniversalAssistant, mock_tellduslive) -> None:
 
 @pytest.mark.parametrize("authorize", [False])
 async def test_wrong_auth_flow_implementation(
-    hass: UniversalAssistant, mock_tellduslive: tuple[MagicMock, MagicMock]
+    hass: __HAC_KEEP__, mock_tellduslive: tuple[MagicMock, MagicMock]
 ) -> None:
     """Test wrong auth."""
     result = await hass.config_entries.flow.async_init(
@@ -156,7 +156,7 @@ async def test_wrong_auth_flow_implementation(
     ],
 )
 async def test_abort_if_error_generating_auth_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tellduslive: tuple[MagicMock, MagicMock],
     side_effect: type[Exception],
     reason: str,
@@ -173,7 +173,7 @@ async def test_abort_if_error_generating_auth_url(
 
 
 async def test_abort_no_auth_url(
-    hass: UniversalAssistant, mock_tellduslive: tuple[MagicMock, MagicMock]
+    hass: __HAC_KEEP__, mock_tellduslive: tuple[MagicMock, MagicMock]
 ) -> None:
     """Test abort if generating authorize url returns none."""
     session_cls, _ = mock_tellduslive
@@ -187,7 +187,7 @@ async def test_abort_no_auth_url(
 
 
 async def test_discovery_already_configured(
-    hass: UniversalAssistant, mock_tellduslive
+    hass: __HAC_KEEP__, mock_tellduslive
 ) -> None:
     """Test abort if already configured fires from discovery."""
     MockConfigEntry(domain=DOMAIN, data={"host": "some-host"}).add_to_hass(hass)

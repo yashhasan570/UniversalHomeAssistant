@@ -7,7 +7,7 @@ from aioanylist import AnyListClient, AnyListError, AuthenticationError, Domain
 from aioanylist.state import AnyListState
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -26,7 +26,7 @@ class AnyListDataUpdateCoordinator(DataUpdateCoordinator[AnyListState]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AnyListConfigEntry,
         client: AnyListClient,
     ) -> None:

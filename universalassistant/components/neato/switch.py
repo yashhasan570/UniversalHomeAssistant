@@ -9,8 +9,8 @@ from pybotvac.robot import Robot
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import STATE_OFF, STATE_ON, EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, SCAN_INTERVAL_MINUTES
@@ -27,7 +27,7 @@ SWITCH_TYPES = {SWITCH_TYPE_SCHEDULE: ["Schedule"]}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NeatoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -103,7 +103,7 @@ class NeatoConnectedSwitch(NeatoEntity, SwitchEntity):
             try:
                 self.robot.enable_schedule()
             except NeatoRobotException as ex:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="enable_schedule_failed",
                 ) from ex
@@ -115,7 +115,7 @@ class NeatoConnectedSwitch(NeatoEntity, SwitchEntity):
             try:
                 self.robot.disable_schedule()
             except NeatoRobotException as ex:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="disable_schedule_failed",
                 ) from ex

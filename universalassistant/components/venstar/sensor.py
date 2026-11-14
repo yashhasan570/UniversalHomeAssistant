@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfRatio, UnitOfTemperature, UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -70,7 +70,7 @@ class VenstarSensorEntityDescription(SensorEntityDescription):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VenstarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

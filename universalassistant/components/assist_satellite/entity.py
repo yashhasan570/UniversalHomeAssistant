@@ -28,7 +28,7 @@ from universalassistant.components.assist_pipeline import (
 from universalassistant.components.media_player import async_process_play_media_url
 from universalassistant.components.tts import TextToSpeechCommonOption
 from universalassistant.core import Context, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import chat_session, entity
 from universalassistant.helpers.entity import EntityDescription
 
@@ -45,10 +45,10 @@ class AssistSatelliteState(StrEnum):
     """Device is waiting for user input, such as a wake word or a button press."""
 
     LISTENING = "listening"
-    """Device is streaming audio with the voice command to Universal Universal Home Assistant."""
+    """Device is streaming audio with the voice command to __HA_KEEP__."""
 
     PROCESSING = "processing"
-    """Universal Universal Home Assistant is processing the voice command."""
+    """__HA_KEEP__ is processing the voice command."""
 
     RESPONDING = "responding"
     """Device is speaking the response."""
@@ -270,7 +270,7 @@ class AssistSatelliteEntity(entity.Entity):
         """
         await self._cancel_running_pipeline()
 
-        # The Universal Universal Home Assistant built-in agent doesn't support conversations.
+        # The __HA_KEEP__ built-in agent doesn't support conversations.
         pipeline = async_get_pipeline(self.hass, self._resolve_pipeline())
         if pipeline.conversation_engine == conversation.UNIVERSAL_ASSISTANT_AGENT:
             raise ServiceValidationError(
@@ -377,7 +377,7 @@ class AssistSatelliteEntity(entity.Entity):
             # Wait for response text
             response_text = await self._ask_question_future
             if response_text is None:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="no_answer",
                 )
@@ -451,7 +451,7 @@ class AssistSatelliteEntity(entity.Entity):
         audio_settings: AudioSettings | None = None,
         wake_word_audio_ms: int | None = None,
     ) -> None:
-        """Triggers an Assist pipeline in Universal Universal Home Assistant from a satellite.
+        """Triggers an Assist pipeline in __HA_KEEP__ from a satellite.
 
         silence_seconds in audio_settings is always taken from the satellite's
         VAD sensitivity.
@@ -669,7 +669,7 @@ class AssistSatelliteEntity(entity.Entity):
 
             engine = tts.async_resolve_engine(self.hass, pipeline.tts_engine)
             if engine is None:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="tts_engine_not_found",
                     translation_placeholders={"engine": str(pipeline.tts_engine)},

@@ -14,7 +14,7 @@ from universalassistant.components.fan import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_CODE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 from universalassistant.util.percentage import (
@@ -36,7 +36,7 @@ _COMMAND_DELAY = 0.5
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

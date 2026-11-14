@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_array_fi
 
 from universalassistant.components.p1_monitor.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -55,7 +55,7 @@ def mock_p1monitor():
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_p1monitor: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_p1monitor: MagicMock
 ) -> MockConfigEntry:
     """Set up the P1 Monitor integration for testing."""
     mock_config_entry.add_to_hass(hass)

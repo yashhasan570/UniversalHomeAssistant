@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.pooldose.const import DOMAIN
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -27,7 +27,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-async def device_info(hass: UniversalAssistant) -> dict[str, Any]:
+async def device_info(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Return the device info from the fixture."""
     return await async_load_json_object_fixture(hass, "deviceinfo.json", DOMAIN)
 
@@ -97,7 +97,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
 ) -> MockConfigEntry:

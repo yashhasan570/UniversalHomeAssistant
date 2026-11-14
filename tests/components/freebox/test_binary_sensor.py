@@ -14,7 +14,7 @@ from universalassistant.components.binary_sensor import (
 from universalassistant.components.freebox import SCAN_INTERVAL
 from universalassistant.components.freebox.const import DOMAIN
 from universalassistant.const import ATTR_DEVICE_CLASS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .common import setup_platform
@@ -22,7 +22,7 @@ from .const import DATA_HOME_PIR_GET_VALUE, DATA_STORAGE_GET_RAIDS
 
 
 async def test_raid_array_degraded(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, router: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, router: Mock
 ) -> None:
     """Test raid array degraded binary sensor."""
     await setup_platform(hass, BINARY_SENSOR_DOMAIN)
@@ -49,7 +49,7 @@ async def test_raid_array_degraded(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_home(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, router: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, router: Mock
 ) -> None:
     """Test home binary sensors."""
     await setup_platform(hass, BINARY_SENSOR_DOMAIN)
@@ -94,7 +94,7 @@ async def test_home(
 
 @pytest.mark.usefixtures("router")
 async def test_home_node_firmware_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
 ) -> None:

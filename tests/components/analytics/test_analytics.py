@@ -45,8 +45,8 @@ from universalassistant.components.number import NumberDeviceClass
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.config_entries import ConfigEntryDisabler, ConfigEntryState
 from universalassistant.const import ATTR_ASSUMED_STATE, EntityCategory
-from universalassistant.core import UniversalAssistant, ReleaseChannel
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ReleaseChannel
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.loader import IntegrationNotFound
 from universalassistant.setup import async_setup_component
@@ -106,7 +106,7 @@ def installation_type_mock() -> Generator[None]:
     """Mock the async_get_system_info."""
     with patch(
         "universalassistant.components.analytics.analytics.async_get_system_info",
-        return_value={"installation_type": "Universal Universal Home Assistant Tests"},
+        return_value={"installation_type": "__HA_KEEP__ Tests"},
     ):
         yield
 
@@ -128,7 +128,7 @@ def _last_call_payload(aioclient: AiohttpClientMocker) -> dict[str, Any]:
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_no_send(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_no_send(
     assert len(aioclient_mock.mock_calls) == 0
 
 
-async def test_load_with_supervisor_diagnostics(hass: UniversalAssistant) -> None:
+async def test_load_with_supervisor_diagnostics(hass: __HAC_KEEP__) -> None:
     """Test loading with a supervisor that has diagnostics enabled."""
     analytics = Analytics(hass)
     assert not analytics.preferences[ATTR_DIAGNOSTICS]
@@ -163,7 +163,7 @@ async def test_load_with_supervisor_diagnostics(hass: UniversalAssistant) -> Non
     assert analytics.preferences[ATTR_DIAGNOSTICS]
 
 
-async def test_load_with_supervisor_without_diagnostics(hass: UniversalAssistant) -> None:
+async def test_load_with_supervisor_without_diagnostics(hass: __HAC_KEEP__) -> None:
     """Test loading with a supervisor that has not diagnostics enabled."""
     analytics = Analytics(hass)
     analytics._data.preferences[ATTR_DIAGNOSTICS] = True
@@ -187,7 +187,7 @@ async def test_load_with_supervisor_without_diagnostics(hass: UniversalAssistant
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_failed_to_send(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_failed_to_send(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_failed_to_send_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -222,7 +222,7 @@ async def test_failed_to_send_raises(
 
 @pytest.mark.usefixtures("installation_type_mock", "supervisor_client")
 async def test_send_base(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -245,7 +245,7 @@ async def test_send_base(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_send_base_with_supervisor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -302,7 +302,7 @@ async def test_send_base_with_supervisor(
 
 @pytest.mark.usefixtures("installation_type_mock", "supervisor_client")
 async def test_send_usage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -324,7 +324,7 @@ async def test_send_usage(
         await analytics.send_analytics()
 
     assert (
-        "Submitted analytics to Universal Universal Home Assistant servers. Information submitted includes"
+        "Submitted analytics to __HA_KEEP__ servers. Information submitted includes"
         in caplog.text
     )
 
@@ -337,7 +337,7 @@ async def test_send_usage(
 
 @pytest.mark.usefixtures("mock_hass_config")
 async def test_send_usage_with_supervisor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -402,7 +402,7 @@ async def test_send_usage_with_supervisor(
 
 @pytest.mark.usefixtures("installation_type_mock", "supervisor_client")
 async def test_send_statistics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -430,7 +430,7 @@ async def test_send_statistics(
 
 @pytest.mark.usefixtures("mock_hass_config", "supervisor_client")
 async def test_send_statistics_one_integration_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test send statistics preferences are defined."""
@@ -456,7 +456,7 @@ async def test_send_statistics_one_integration_fails(
     "installation_type_mock", "mock_hass_config", "supervisor_client"
 )
 async def test_send_statistics_disabled_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -495,7 +495,7 @@ async def test_send_statistics_disabled_integration(
     "installation_type_mock", "mock_hass_config", "supervisor_client"
 )
 async def test_send_statistics_ignored_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -538,7 +538,7 @@ async def test_send_statistics_ignored_integration(
 
 @pytest.mark.usefixtures("mock_hass_config", "supervisor_client")
 async def test_send_statistics_async_get_integration_unknown_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test send statistics preferences are defined."""
@@ -561,7 +561,7 @@ async def test_send_statistics_async_get_integration_unknown_exception(
 
 @pytest.mark.usefixtures("mock_hass_config")
 async def test_send_statistics_with_supervisor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -624,7 +624,7 @@ async def test_send_statistics_with_supervisor(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_reusing_uuid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test reusing the stored UUID."""
@@ -644,7 +644,7 @@ async def test_reusing_uuid(
     "enable_custom_integrations", "installation_type_mock", "supervisor_client"
 )
 async def test_custom_integrations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
     snapshot: SnapshotAssertion,
@@ -671,7 +671,7 @@ async def test_custom_integrations(
 
 @pytest.mark.usefixtures("ha_dev_version_mock", "supervisor_client")
 async def test_dev_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test sending payload to dev url."""
@@ -687,7 +687,7 @@ async def test_dev_url(
 
 @pytest.mark.usefixtures("ha_dev_version_mock", "supervisor_client")
 async def test_dev_url_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -707,7 +707,7 @@ async def test_dev_url_error(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_nightly_endpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test sending payload to production url when running nightly."""
@@ -728,7 +728,7 @@ async def test_nightly_endpoint(
     "installation_type_mock", "mock_hass_config", "supervisor_client"
 )
 async def test_send_with_no_energy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
     snapshot: SnapshotAssertion,
@@ -766,7 +766,7 @@ async def test_send_with_no_energy(
     "recorder_mock", "installation_type_mock", "mock_hass_config", "supervisor_client"
 )
 async def test_send_with_no_energy_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
     snapshot: SnapshotAssertion,
@@ -799,7 +799,7 @@ async def test_send_with_no_energy_config(
     "recorder_mock", "installation_type_mock", "mock_hass_config", "supervisor_client"
 )
 async def test_send_with_energy_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
     snapshot: SnapshotAssertion,
@@ -832,7 +832,7 @@ async def test_send_with_energy_config(
     "installation_type_mock", "mock_hass_config", "supervisor_client"
 )
 async def test_send_usage_with_certificate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -858,7 +858,7 @@ async def test_send_usage_with_certificate(
 
 @pytest.mark.usefixtures("recorder_mock", "installation_type_mock", "supervisor_client")
 async def test_send_with_recorder(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
     snapshot: SnapshotAssertion,
@@ -889,7 +889,7 @@ async def test_send_with_recorder(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_send_with_problems_loading_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -899,7 +899,7 @@ async def test_send_with_problems_loading_yaml(
     await analytics.save_preferences({ATTR_BASE: True, ATTR_USAGE: True})
     with patch(
         "universalassistant.config.load_yaml_config_file",
-        side_effect=UniversalAssistantError("Error loading YAML file"),
+        side_effect=__HAC_KEEP__Error("Error loading YAML file"),
     ):
         await analytics.send_analytics()
 
@@ -909,7 +909,7 @@ async def test_send_with_problems_loading_yaml(
 
 @pytest.mark.usefixtures("ha_dev_version_mock", "mock_hass_config", "supervisor_client")
 async def test_timeout_while_sending(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -925,7 +925,7 @@ async def test_timeout_while_sending(
 
 @pytest.mark.usefixtures("installation_type_mock", "supervisor_client")
 async def test_not_check_config_entries_if_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -982,7 +982,7 @@ async def test_not_check_config_entries_if_yaml(
 
 @pytest.mark.usefixtures("installation_type_mock", "supervisor_client")
 async def test_submitting_legacy_integrations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
@@ -1028,7 +1028,7 @@ async def test_submitting_legacy_integrations(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_devices_payload_no_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1170,7 +1170,7 @@ async def test_devices_payload_no_entities(
 
 
 async def test_devices_payload_with_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1364,7 +1364,7 @@ async def test_devices_payload_with_entities(
 
 
 async def test_devices_payload_with_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1445,7 +1445,7 @@ async def test_devices_payload_with_child_device(
 
 
 async def test_analytics_platforms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1483,7 +1483,7 @@ async def test_analytics_platforms(
     )
 
     async def async_modify_analytics(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         analytics_input: AnalyticsInput,
     ) -> AnalyticsModifications:
         first = True
@@ -1557,7 +1557,7 @@ async def test_analytics_platforms(
 
 @pytest.mark.usefixtures("labs_snapshots_enabled", "mock_snapshot_payload")
 async def test_send_snapshot_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test no snapshots are sent."""
@@ -1573,7 +1573,7 @@ async def test_send_snapshot_disabled(
 
 @pytest.mark.usefixtures("labs_snapshots_enabled")
 async def test_send_snapshot_empty(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1591,7 +1591,7 @@ async def test_send_snapshot_empty(
 
 @pytest.mark.usefixtures("labs_snapshots_enabled", "mock_snapshot_payload")
 async def test_send_snapshot_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1611,12 +1611,12 @@ async def test_send_snapshot_success(
 
     preferences = await analytics._store.async_load()
     assert preferences["submission_identifier"] == "test-identifier-123"
-    assert "Submitted snapshot analytics to Universal Universal Home Assistant servers" in caplog.text
+    assert "Submitted snapshot analytics to __HA_KEEP__ servers" in caplog.text
 
 
 @pytest.mark.usefixtures("labs_snapshots_enabled", "mock_snapshot_payload")
 async def test_send_snapshot_with_existing_identifier(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1647,12 +1647,12 @@ async def test_send_snapshot_with_existing_identifier(
 
     preferences = await analytics._store.async_load()
     assert preferences["submission_identifier"] == "test-identifier-123"
-    assert "Submitted snapshot analytics to Universal Universal Home Assistant servers" in caplog.text
+    assert "Submitted snapshot analytics to __HA_KEEP__ servers" in caplog.text
 
 
 @pytest.mark.usefixtures("labs_snapshots_enabled", "mock_snapshot_payload")
 async def test_send_snapshot_invalid_identifier(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1727,7 +1727,7 @@ async def test_send_snapshot_invalid_identifier(
     ],
 )
 async def test_send_snapshot_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
     post_kwargs: dict[str, Any],
@@ -1754,7 +1754,7 @@ async def test_send_snapshot_error(
 
 @pytest.mark.usefixtures("labs_snapshots_enabled", "mock_snapshot_payload")
 async def test_async_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test scheduling."""
@@ -1791,7 +1791,7 @@ async def test_async_schedule(
 
 @pytest.mark.usefixtures("labs_snapshots_enabled", "mock_snapshot_payload")
 async def test_async_schedule_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test scheduling when disabled."""
@@ -1816,7 +1816,7 @@ async def test_async_schedule_disabled(
 
 @pytest.mark.usefixtures("labs_snapshots_enabled", "mock_snapshot_payload")
 async def test_async_schedule_already_scheduled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test not rescheduled if already scheduled."""
@@ -1851,7 +1851,7 @@ async def test_async_schedule_already_scheduled(
 @pytest.mark.usefixtures("labs_snapshots_enabled", "mock_snapshot_payload")
 @pytest.mark.parametrize(("onboarded"), [True, False])
 async def test_async_schedule_cancel_when_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     onboarded: bool,
 ) -> None:
@@ -1889,7 +1889,7 @@ async def test_async_schedule_cancel_when_disabled(
 
 @pytest.mark.usefixtures("labs_snapshots_enabled", "mock_snapshot_payload")
 async def test_async_schedule_snapshots_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test that snapshots use provided url."""

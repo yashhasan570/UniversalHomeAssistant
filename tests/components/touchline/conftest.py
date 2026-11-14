@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.touchline.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_HOST = "1.2.3.4"
 
@@ -60,7 +60,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pytouchline: MagicMock,
 ) -> MockConfigEntry:

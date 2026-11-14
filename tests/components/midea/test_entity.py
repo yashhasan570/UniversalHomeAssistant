@@ -9,8 +9,8 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.midea.const import DOMAIN
 from universalassistant.components.midea.entity import midea_api_call
-from universalassistant.core import CoreState, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -19,8 +19,8 @@ from .const import TEST_DEVICE_ID, TEST_MAC_ADDRESS, TEST_MODEL, TEST_SERIAL_NUM
 
 
 def test_midea_api_call_translates_midea_local_error() -> None:
-    """Test midea_api_call turns a midealocal error into a UniversalAssistantError."""
-    with pytest.raises(UniversalAssistantError) as exc_info, midea_api_call():
+    """Test midea_api_call turns a midealocal error into a __HAC_KEEP__Error."""
+    with pytest.raises(__HAC_KEEP__Error) as exc_info, midea_api_call():
         raise SocketException("offline")
 
     assert exc_info.value.translation_domain == DOMAIN
@@ -64,7 +64,7 @@ def test_midea_api_call_translates_midea_local_error() -> None:
     ],
 )
 async def test_entity_updates_from_device_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     update: dict[str, float],
     status: dict[str, bool | float],
@@ -113,7 +113,7 @@ async def test_entity_updates_from_device_callback(
     ],
 )
 async def test_device_info_optional_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     mac: str,
@@ -141,10 +141,10 @@ async def test_device_info_optional_metadata(
 
 
 async def test_entity_callback_ignored_while_hass_stopping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
-    """Test update callback does not schedule updates while Universal Universal Home Assistant stops."""
+    """Test update callback does not schedule updates while __HA_KEEP__ stops."""
     device = default_ac_device()
     config_entry = mock_config_entry(device)
     await setup_integration(hass, config_entry, device)

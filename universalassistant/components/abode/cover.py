@@ -5,7 +5,7 @@ from typing import Any, override
 from jaraco.abode.devices.cover import Cover
 
 from universalassistant.components.cover import CoverEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import AbodeConfigEntry
@@ -13,7 +13,7 @@ from .entity import AbodeDevice
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AbodeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

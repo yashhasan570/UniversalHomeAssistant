@@ -1,13 +1,13 @@
 """The JustNimbus integration."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 
 from .const import PLATFORMS
 from .coordinator import JustNimbusConfigEntry, JustNimbusCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: JustNimbusConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: JustNimbusConfigEntry) -> None:
     """Set up JustNimbus from a config entry."""
     if "zip_code" in entry.data:
         coordinator = JustNimbusCoordinator(hass, entry)
@@ -19,6 +19,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: JustNimbusConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: JustNimbusConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: JustNimbusConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -58,7 +58,7 @@ from universalassistant.const import (
     UnitOfRatio,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import ChildDeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -1991,7 +1991,7 @@ SENSORS: dict[DeviceCategory, tuple[TuyaSensorEntityDescription, ...]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TuyaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -2082,7 +2082,7 @@ class TuyaSensorEntity(TuyaEntity, SensorEntity):
         """Validate device class unit compatibility."""
 
         # Logic to ensure the set device class and API received Unit Of Measurement
-        # match Universal Universal Home Assistants requirements.
+        # match __HA_KEEP__s requirements.
         if (device_class := self.entity_description.device_class) in (
             SensorDeviceClass.ENUM,
             SensorDeviceClass.TIMESTAMP,
@@ -2152,7 +2152,7 @@ class TuyaSensorEntity(TuyaEntity, SensorEntity):
     ) -> bool:
         """Called when Tuya device sends an update with updated properties.
 
-        Returns True if the Universal Universal Home Assistant state should be written,
+        Returns True if the __HA_KEEP__ state should be written,
         or False if the state write should be skipped.
         """
         return not self._dpcode_wrapper.skip_update(

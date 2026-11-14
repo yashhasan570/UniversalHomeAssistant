@@ -7,7 +7,7 @@ from hass_nabucasa.const import DISPATCH_REMOTE_CONNECT, DISPATCH_REMOTE_DISCONN
 import pytest
 
 from universalassistant.components.cloud import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_registry import EntityRegistry
 from universalassistant.setup import async_setup_component
 
@@ -20,7 +20,7 @@ def mock_wait_until() -> Generator[None]:
 
 
 async def test_remote_connection_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     entity_registry: EntityRegistry,
 ) -> None:

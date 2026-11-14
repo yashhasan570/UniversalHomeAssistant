@@ -24,7 +24,7 @@ from universalassistant.components.portainer.coordinator import (
     DEFAULT_SCAN_INTERVAL,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -42,7 +42,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 @pytest.mark.usefixtures("mock_portainer_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -62,7 +62,7 @@ async def test_all_entities(
 
 
 async def test_df_endpoint_timeout_only_marks_that_endpoint_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -121,7 +121,7 @@ async def test_df_endpoint_timeout_only_marks_that_endpoint_unavailable(
     ],
 )
 async def test_disk_space_only_fetched_for_enabled_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -177,7 +177,7 @@ async def test_disk_space_only_fetched_for_enabled_entities(
 
 
 async def test_volume_size_from_disk_space(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -208,7 +208,7 @@ async def test_volume_size_from_disk_space(
 
 
 async def test_volume_size_unknown_when_not_measured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -226,7 +226,7 @@ async def test_volume_size_unknown_when_not_measured(
 
 
 async def test_volume_size_unavailable_when_volume_deleted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -244,7 +244,7 @@ async def test_volume_size_unavailable_when_volume_deleted(
 
 
 async def test_endpoint_timeout_keeps_known_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -281,7 +281,7 @@ async def test_endpoint_timeout_keeps_known_entities(
 
 
 async def test_container_never_started(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

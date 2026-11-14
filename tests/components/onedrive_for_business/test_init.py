@@ -27,7 +27,7 @@ from universalassistant.components.onedrive_for_business.const import (
 from universalassistant.components.onedrive_for_business.coordinator import SCAN_INTERVAL
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -42,7 +42,7 @@ from . import setup_integration
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client_init: MagicMock,
     mock_onedrive_client: MagicMock,
@@ -94,7 +94,7 @@ async def test_load_unload_config_entry(
 )
 @pytest.mark.parametrize("expires_at", [0], ids=["expired"])
 async def test_token_refresh_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     status: HTTPStatus,
@@ -126,7 +126,7 @@ async def test_token_refresh_errors(
     ],
 )
 async def test_approot_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
     side_effect: Exception,
@@ -139,7 +139,7 @@ async def test_approot_errors(
 
 
 async def test_get_integration_folder_creation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
     mock_folder: Folder,
@@ -160,7 +160,7 @@ async def test_get_integration_folder_creation(
 
 
 async def test_get_integration_folder_creation_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -175,7 +175,7 @@ async def test_get_integration_folder_creation_error(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -204,7 +204,7 @@ async def test_oauth_implementation_not_available(
     ],
 )
 async def test_1_1_to_1_2_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -276,7 +276,7 @@ async def test_1_1_to_1_2_migration(
     ],
 )
 async def test_1_1_to_1_2_migration_removes_duplicates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -344,7 +344,7 @@ async def test_1_1_to_1_2_migration_removes_duplicates(
 
 
 async def test_1_1_to_1_2_migration_duplicate_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -391,7 +391,7 @@ async def test_1_1_to_1_2_migration_duplicate_config_entry(
     ],
 )
 async def test_data_cap_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_drive: Drive,
@@ -429,7 +429,7 @@ async def test_data_cap_issues(
     ],
 )
 async def test_data_cap_issues_resolved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_drive: Drive,
@@ -454,7 +454,7 @@ async def test_data_cap_issues_resolved(
 
 
 async def test_data_cap_issues_per_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_drive: Drive,

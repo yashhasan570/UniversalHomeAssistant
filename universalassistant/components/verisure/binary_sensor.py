@@ -7,7 +7,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from universalassistant.const import ATTR_LAST_TRIP_TIME, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -20,7 +20,7 @@ from .coordinator import VerisureConfigEntry, VerisureDataUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VerisureConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

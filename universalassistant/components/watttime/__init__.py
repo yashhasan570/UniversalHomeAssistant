@@ -4,7 +4,7 @@ from aiowatttime import Client
 from aiowatttime.errors import InvalidCredentialsError, WattTimeError
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryError
 from universalassistant.helpers import aiohttp_client
 
@@ -14,7 +14,7 @@ from .coordinator import WattTimeConfigEntry, WattTimeCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: WattTimeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: WattTimeConfigEntry) -> None:
     """Set up WattTime from a config entry."""
     session = aiohttp_client.async_get_clientsession(hass)
 
@@ -40,13 +40,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: WattTimeConfigEntry
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: WattTimeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: WattTimeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_reload_entry(
-    hass: UniversalAssistant, config_entry: WattTimeConfigEntry
+    hass: __HAC_KEEP__, config_entry: WattTimeConfigEntry
 ) -> None:
     """Handle an options update."""
     await hass.config_entries.async_reload(config_entry.entry_id)

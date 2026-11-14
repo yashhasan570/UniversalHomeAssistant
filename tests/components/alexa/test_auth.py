@@ -4,13 +4,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.alexa.auth import Auth
 from universalassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .test_common import TEST_TOKEN_URL
 
 
 async def run_auth_get_access_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     expires_in: int,
     client_id: str,
@@ -34,7 +34,7 @@ async def run_auth_get_access_token(
 
 
 async def test_auth_get_access_token_expired(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the auth get access token function."""
     client_id = "client123"
@@ -70,7 +70,7 @@ async def test_auth_get_access_token_expired(
 
 
 async def test_auth_get_access_token_not_expired(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the auth get access token function."""
     client_id = "client123"

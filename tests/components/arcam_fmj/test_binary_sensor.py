@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -24,7 +24,7 @@ def binary_sensor_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "player_setup")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -35,7 +35,7 @@ async def test_setup(
 
 @pytest.mark.usefixtures("player_setup")
 async def test_binary_sensor_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test binary sensor when video parameters are None."""
     state = hass.states.get(
@@ -47,7 +47,7 @@ async def test_binary_sensor_none(
 
 @pytest.mark.usefixtures("player_setup")
 async def test_binary_sensor_interlaced(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state_1: State,
     client: Mock,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_binary_sensor_interlaced(
 
 @pytest.mark.usefixtures("player_setup")
 async def test_binary_sensor_not_interlaced(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state_1: State,
     client: Mock,
 ) -> None:

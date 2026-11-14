@@ -33,7 +33,7 @@ from universalassistant.const import (
     CONF_TYPE,
     EntityStateAttribute,
 )
-from universalassistant.core import UniversalAssistant, callback, split_entity_id
+from universalassistant.core import __HAC_KEEP__, callback, split_entity_id
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -170,7 +170,7 @@ def _make_entity_filter(
     )
 
 
-async def _async_domain_names(hass: UniversalAssistant, domains: list[str]) -> str:
+async def _async_domain_names(hass: __HAC_KEEP__, domains: list[str]) -> str:
     """Build a list of integration names from domains."""
     name_to_type_map = await _async_name_to_type_map(hass)
     return ", ".join(
@@ -201,7 +201,7 @@ def _async_entities_in_domain(entities: list[str], domain: str) -> list[str]:
 
 @callback
 def _async_included_domain_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_filter: EntityFilterDict,
     entities: list[str],
     domain: str,
@@ -216,7 +216,7 @@ def _async_included_domain_entities(
     return _async_entities_in_domain(entities, domain)
 
 
-async def _async_name_to_type_map(hass: UniversalAssistant) -> dict[str, str]:
+async def _async_name_to_type_map(hass: __HAC_KEEP__) -> dict[str, str]:
     """Create a mapping of types of devices/entities HomeKit can support."""
     integrations = await async_get_integrations(hass, SUPPORTED_DOMAINS)
     return {
@@ -813,7 +813,7 @@ class OptionsFlowHandler(OptionsFlow):
         )
 
 
-async def _async_get_supported_devices(hass: UniversalAssistant) -> dict[str, str]:
+async def _async_get_supported_devices(hass: __HAC_KEEP__) -> dict[str, str]:
     """Return all supported devices."""
     results = await device_automation.async_get_device_automations(
         hass, device_automation.DeviceAutomationType.TRIGGER
@@ -843,7 +843,7 @@ def _exclude_by_entity_registry(
 
 
 def _async_get_matching_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domains: list[str] | None = None,
     include_entity_category: bool = False,
     include_hidden: bool = False,
@@ -869,7 +869,7 @@ def _domains_set_from_entities(entity_ids: Iterable[str]) -> set[str]:
 
 @callback
 def _async_get_entity_ids_for_accessory_mode(
-    hass: UniversalAssistant, include_domains: Iterable[str]
+    hass: __HAC_KEEP__, include_domains: Iterable[str]
 ) -> list[str]:
     """Build a list of entities that should be paired in accessory mode."""
     accessory_mode_domains = {
@@ -887,7 +887,7 @@ def _async_get_entity_ids_for_accessory_mode(
 
 
 @callback
-def _async_entity_ids_with_accessory_mode(hass: UniversalAssistant) -> set[str]:
+def _async_entity_ids_with_accessory_mode(hass: __HAC_KEEP__) -> set[str]:
     """Return a set of entity ids that have config entries in accessory mode."""
 
     entity_ids: set[str] = set()

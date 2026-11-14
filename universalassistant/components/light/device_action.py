@@ -15,8 +15,8 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     CONF_TYPE,
 )
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity import get_supported_features
 from universalassistant.helpers.typing import ConfigType, TemplateVarsType, VolDictType
@@ -57,14 +57,14 @@ _ACTION_SCHEMA = cv.DEVICE_ACTION_BASE_SCHEMA.extend(
 
 
 async def async_validate_action_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     return async_validate_entity_schema(hass, config, _ACTION_SCHEMA)
 
 
 async def async_call_action_from_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     variables: TemplateVarsType,
     context: Context | None,
@@ -97,7 +97,7 @@ async def async_call_action_from_config(
 
 
 async def async_get_actions(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device actions."""
     actions = await toggle_entity.async_get_actions(hass, device_id, DOMAIN)
@@ -132,7 +132,7 @@ async def async_get_actions(
 
 
 async def async_get_action_capabilities(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List action capabilities."""
     if config[CONF_TYPE] != CONF_TURN_ON:
@@ -142,7 +142,7 @@ async def async_get_action_capabilities(
         entry = async_get_entity_registry_entry_or_raise(hass, config[CONF_ENTITY_ID])
         supported_color_modes = get_supported_color_modes(hass, entry.entity_id)
         supported_features = get_supported_features(hass, entry.entity_id)
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         supported_color_modes = None
         supported_features = 0
 

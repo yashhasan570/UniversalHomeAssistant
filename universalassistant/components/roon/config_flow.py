@@ -9,8 +9,8 @@ from roonapi import RoonApi, RoonDiscovery
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY, CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 
 from .const import (
@@ -37,7 +37,7 @@ TIMEOUT = 120
 class RoonHub:
     """Interact with roon during config flow."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialise the RoonHub."""
         self._hass = hass
 
@@ -96,14 +96,14 @@ class RoonHub:
         return (token, core_id, core_name)
 
 
-async def discover(hass: UniversalAssistant) -> list[tuple[str, int]]:
+async def discover(hass: __HAC_KEEP__) -> list[tuple[str, int]]:
     """Connect and authenticate universal assistant."""
 
     hub = RoonHub(hass)
     return await hub.discover()
 
 
-async def authenticate(hass: UniversalAssistant, host, port, servers):
+async def authenticate(hass: __HAC_KEEP__, host, port, servers):
     """Connect and authenticate universal assistant."""
 
     hub = RoonHub(hass)
@@ -185,5 +185,5 @@ class RoonConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_show_form(step_id="link", errors=errors)
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

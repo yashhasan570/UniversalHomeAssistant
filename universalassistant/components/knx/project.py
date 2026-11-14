@@ -20,7 +20,7 @@ from xknxproject.models import (
 
 from universalassistant.components.file_upload import process_uploaded_file
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.storage import Store
 
 from .const import DOMAIN
@@ -68,7 +68,7 @@ class KNXProject:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ConfigEntry,
     ) -> None:
         """Initialize project data."""

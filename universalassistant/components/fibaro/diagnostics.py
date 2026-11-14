@@ -6,7 +6,7 @@ from typing import Any
 from pyfibaro.fibaro_device import DeviceModel
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from . import FibaroConfigEntry
@@ -26,7 +26,7 @@ def _create_diagnostics_data(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: FibaroConfigEntry
+    hass: __HAC_KEEP__, config_entry: FibaroConfigEntry
 ) -> Mapping[str, Any]:
     """Return diagnostics for a config entry."""
     controller = config_entry.runtime_data
@@ -35,7 +35,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, config_entry: FibaroConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: FibaroConfigEntry, device: AnyDeviceEntry
 ) -> Mapping[str, Any]:
     """Return diagnostics for a device."""
     controller = config_entry.runtime_data

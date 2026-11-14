@@ -13,8 +13,8 @@ from universalassistant.components import network
 from universalassistant.components.modbus import async_get_temporary_unit
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
@@ -46,7 +46,7 @@ def create_modbus_params(data: Mapping[str, Any]) -> ModbusTcpParams:
 
 
 async def _async_probe(
-    hass: UniversalAssistant, data: Mapping[str, Any]
+    hass: __HAC_KEEP__, data: Mapping[str, Any]
 ) -> E3dcPowerStation:
     """Connect to the power station and read its identity, or raise."""
     params = create_modbus_params(data)
@@ -61,9 +61,9 @@ async def _async_probe(
 
 
 async def _async_local_ipv4(
-    hass: UniversalAssistant, addresses: Iterable[IPv4Address | IPv6Address]
+    hass: __HAC_KEEP__, addresses: Iterable[IPv4Address | IPv6Address]
 ) -> str | None:
-    """Return the first IPv4 address on a subnet Universal Universal Home Assistant is connected to."""
+    """Return the first IPv4 address on a subnet __HA_KEEP__ is connected to."""
     # The power station announces multiple IP addresses on multiple networks.
     # Find one that HA can connect to.
     subnets = [
@@ -191,7 +191,7 @@ class E3dcConfigFlow(ConfigFlow, domain=DOMAIN):
             device = await _async_probe(self.hass, data)
         except NotAnE3dcError:
             return None, {"base": "not_e3dc"}
-        except (ModbusError, UniversalAssistantError) as err:
+        except (ModbusError, __HAC_KEEP__Error) as err:
             _LOGGER.debug("Could not reach the power station: %r", err)
             return None, {"base": "cannot_connect"}
         except Exception:

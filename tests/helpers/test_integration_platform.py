@@ -11,8 +11,8 @@ from pytest_universalassistant.common import MockModule, mock_integration, mock_
 
 from universalassistant import loader
 from universalassistant.const import EVENT_COMPONENT_LOADED
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.integration_platform import (
     LazyIntegrationPlatforms,
     async_process_integration_platforms,
@@ -20,7 +20,7 @@ from universalassistant.helpers.integration_platform import (
 from universalassistant.setup import ATTR_COMPONENT
 
 
-async def test_process_integration_platforms_with_wait(hass: UniversalAssistant) -> None:
+async def test_process_integration_platforms_with_wait(hass: __HAC_KEEP__) -> None:
     """Test processing integrations."""
     loaded_platform = Mock()
     mock_platform(hass, "loaded.platform_to_check", loaded_platform)
@@ -32,7 +32,7 @@ async def test_process_integration_platforms_with_wait(hass: UniversalAssistant)
     processed = []
 
     async def _process_platform(
-        hass: UniversalAssistant, domain: str, platform: Any
+        hass: __HAC_KEEP__, domain: str, platform: Any
     ) -> None:
         """Process platform."""
         processed.append((domain, platform))
@@ -60,7 +60,7 @@ async def test_process_integration_platforms_with_wait(hass: UniversalAssistant)
     assert len(processed) == 2
 
 
-async def test_process_integration_platforms(hass: UniversalAssistant) -> None:
+async def test_process_integration_platforms(hass: __HAC_KEEP__) -> None:
     """Test processing integrations."""
     loaded_platform = Mock()
     mock_platform(hass, "loaded.platform_to_check", loaded_platform)
@@ -72,7 +72,7 @@ async def test_process_integration_platforms(hass: UniversalAssistant) -> None:
     processed = []
 
     async def _process_platform(
-        hass: UniversalAssistant, domain: str, platform: Any
+        hass: __HAC_KEEP__, domain: str, platform: Any
     ) -> None:
         """Process platform."""
         processed.append((domain, platform))
@@ -101,7 +101,7 @@ async def test_process_integration_platforms(hass: UniversalAssistant) -> None:
 
 
 async def test_process_integration_platforms_import_fails(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test processing integrations when one fails to import."""
     loaded_platform = Mock()
@@ -114,7 +114,7 @@ async def test_process_integration_platforms_import_fails(
     processed = []
 
     async def _process_platform(
-        hass: UniversalAssistant, domain: str, platform: Any
+        hass: __HAC_KEEP__, domain: str, platform: Any
     ) -> None:
         """Process platform."""
         processed.append((domain, platform))
@@ -146,7 +146,7 @@ async def test_process_integration_platforms_import_fails(
 
 
 async def test_process_integration_platforms_import_fails_after_registered(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test processing integrations when one fails to import."""
     loaded_platform = Mock()
@@ -159,7 +159,7 @@ async def test_process_integration_platforms_import_fails_after_registered(
     processed = []
 
     async def _process_platform(
-        hass: UniversalAssistant, domain: str, platform: Any
+        hass: __HAC_KEEP__, domain: str, platform: Any
     ) -> None:
         """Process platform."""
         processed.append((domain, platform))
@@ -187,17 +187,17 @@ async def test_process_integration_platforms_import_fails_after_registered(
 
 @callback
 def _process_platform_callback(
-    hass: UniversalAssistant, domain: str, platform: ModuleType
+    hass: __HAC_KEEP__, domain: str, platform: ModuleType
 ) -> None:
     """Process platform."""
-    raise UniversalAssistantError("Non-compliant platform")
+    raise __HAC_KEEP__Error("Non-compliant platform")
 
 
 async def _process_platform_coro(
-    hass: UniversalAssistant, domain: str, platform: ModuleType
+    hass: __HAC_KEEP__, domain: str, platform: ModuleType
 ) -> None:
     """Process platform."""
-    raise UniversalAssistantError("Non-compliant platform")
+    raise __HAC_KEEP__Error("Non-compliant platform")
 
 
 @pytest.mark.no_fail_on_log_exception
@@ -205,7 +205,7 @@ async def _process_platform_coro(
     "process_platform", [_process_platform_callback, _process_platform_coro]
 )
 async def test_process_integration_platforms_non_compliant(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, process_platform: Callable
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, process_platform: Callable
 ) -> None:
     """Test processing integrations using with a non-compliant platform."""
     loaded_platform = Mock()
@@ -241,7 +241,7 @@ async def test_process_integration_platforms_non_compliant(
 
 
 async def test_broken_integration(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test handling an integration with a broken or missing manifest."""
     Mock()
@@ -253,7 +253,7 @@ async def test_broken_integration(
     processed = []
 
     async def _process_platform(
-        hass: UniversalAssistant, domain: str, platform: Any
+        hass: __HAC_KEEP__, domain: str, platform: Any
     ) -> None:
         """Process platform."""
         processed.append((domain, platform))
@@ -269,7 +269,7 @@ async def test_broken_integration(
 
 
 async def test_process_integration_platforms_no_integrations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test processing integrations when no integrations are loaded."""
     event_platform = Mock()
@@ -278,7 +278,7 @@ async def test_process_integration_platforms_no_integrations(
     processed = []
 
     async def _process_platform(
-        hass: UniversalAssistant, domain: str, platform: Any
+        hass: __HAC_KEEP__, domain: str, platform: Any
     ) -> None:
         """Process platform."""
         processed.append((domain, platform))
@@ -291,7 +291,7 @@ async def test_process_integration_platforms_no_integrations(
     assert len(processed) == 0
 
 
-async def test_lazy_integration_platforms(hass: UniversalAssistant) -> None:
+async def test_lazy_integration_platforms(hass: __HAC_KEEP__) -> None:
     """Test lazily loading and processing an integration platform on demand."""
     loaded_platform = Mock()
     mock_platform(hass, "loaded.platform_to_check", loaded_platform)
@@ -300,7 +300,7 @@ async def test_lazy_integration_platforms(hass: UniversalAssistant) -> None:
     processed: list[str] = []
 
     @callback
-    def _process_platform(hass: UniversalAssistant, domain: str, platform: Any) -> Any:
+    def _process_platform(hass: __HAC_KEEP__, domain: str, platform: Any) -> Any:
         processed.append(domain)
         return platform
 
@@ -317,11 +317,11 @@ async def test_lazy_integration_platforms(hass: UniversalAssistant) -> None:
     assert processed == ["loaded"]
 
 
-async def test_lazy_integration_platforms_not_loaded(hass: UniversalAssistant) -> None:
+async def test_lazy_integration_platforms_not_loaded(hass: __HAC_KEEP__) -> None:
     """Test the platform is not processed for an integration that is not loaded."""
 
     @callback
-    def _process_platform(hass: UniversalAssistant, domain: str, platform: Any) -> Any:
+    def _process_platform(hass: __HAC_KEEP__, domain: str, platform: Any) -> Any:
         return platform
 
     platforms = LazyIntegrationPlatforms(hass, "platform_to_check", _process_platform)
@@ -337,7 +337,7 @@ async def test_lazy_integration_platforms_not_loaded(hass: UniversalAssistant) -
     assert await platforms.async_get_platform("not_loaded") is loaded_platform
 
 
-async def test_lazy_integration_platforms_no_platform(hass: UniversalAssistant) -> None:
+async def test_lazy_integration_platforms_no_platform(hass: __HAC_KEEP__) -> None:
     """Test a loaded integration without the platform returns None."""
     mock_integration(hass, MockModule("loaded"))
     hass.config.components.add("loaded")
@@ -345,7 +345,7 @@ async def test_lazy_integration_platforms_no_platform(hass: UniversalAssistant) 
     processed: list[str] = []
 
     @callback
-    def _process_platform(hass: UniversalAssistant, domain: str, platform: Any) -> Any:
+    def _process_platform(hass: __HAC_KEEP__, domain: str, platform: Any) -> Any:
         processed.append(domain)
         return platform
 
@@ -356,7 +356,7 @@ async def test_lazy_integration_platforms_no_platform(hass: UniversalAssistant) 
     assert processed == []
 
 
-async def test_lazy_integration_platforms_get_platforms(hass: UniversalAssistant) -> None:
+async def test_lazy_integration_platforms_get_platforms(hass: __HAC_KEEP__) -> None:
     """Test enumerating all loaded integrations that provide the platform."""
     platform_a = Mock()
     mock_platform(hass, "integration_a.platform_to_check", platform_a)
@@ -373,7 +373,7 @@ async def test_lazy_integration_platforms_get_platforms(hass: UniversalAssistant
     processed: list[str] = []
 
     @callback
-    def _process_platform(hass: UniversalAssistant, domain: str, platform: Any) -> Any:
+    def _process_platform(hass: __HAC_KEEP__, domain: str, platform: Any) -> Any:
         processed.append(domain)
         return platform
 
@@ -388,7 +388,7 @@ async def test_lazy_integration_platforms_get_platforms(hass: UniversalAssistant
     assert sorted(processed) == ["integration_a", "integration_b"]
 
 
-async def test_lazy_integration_platforms_import_fails(hass: UniversalAssistant) -> None:
+async def test_lazy_integration_platforms_import_fails(hass: __HAC_KEEP__) -> None:
     """Test a platform that fails to import is cached as None."""
     mock_platform(hass, "loaded.platform_to_check", Mock())
     hass.config.components.add("loaded")
@@ -396,7 +396,7 @@ async def test_lazy_integration_platforms_import_fails(hass: UniversalAssistant)
     processed: list[str] = []
 
     @callback
-    def _process_platform(hass: UniversalAssistant, domain: str, platform: Any) -> Any:
+    def _process_platform(hass: __HAC_KEEP__, domain: str, platform: Any) -> Any:
         processed.append(domain)
         return platform
 
@@ -413,7 +413,7 @@ async def test_lazy_integration_platforms_import_fails(hass: UniversalAssistant)
 
 
 async def test_lazy_integration_platforms_process_raises(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a process callback that raises is isolated to its integration."""
     good_platform = Mock()
@@ -423,7 +423,7 @@ async def test_lazy_integration_platforms_process_raises(
     hass.config.components.add("bad")
 
     @callback
-    def _process_platform(hass: UniversalAssistant, domain: str, platform: Any) -> Any:
+    def _process_platform(hass: __HAC_KEEP__, domain: str, platform: Any) -> Any:
         if domain == "bad":
             raise ValueError("boom")
         return platform
@@ -435,7 +435,7 @@ async def test_lazy_integration_platforms_process_raises(
     assert "Error processing platform_to_check platform for bad" in caplog.text
 
 
-async def test_lazy_integration_platforms_concurrent(hass: UniversalAssistant) -> None:
+async def test_lazy_integration_platforms_concurrent(hass: __HAC_KEEP__) -> None:
     """Test concurrent requests for the same domain process it only once."""
     loaded_platform = Mock()
     mock_platform(hass, "loaded.platform_to_check", loaded_platform)
@@ -444,7 +444,7 @@ async def test_lazy_integration_platforms_concurrent(hass: UniversalAssistant) -
     processed: list[str] = []
 
     @callback
-    def _process_platform(hass: UniversalAssistant, domain: str, platform: Any) -> Any:
+    def _process_platform(hass: __HAC_KEEP__, domain: str, platform: Any) -> Any:
         processed.append(domain)
         return platform
 
@@ -472,7 +472,7 @@ async def test_lazy_integration_platforms_concurrent(hass: UniversalAssistant) -
     assert processed == ["loaded"]
 
 
-async def test_lazy_integration_platforms_async_process(hass: UniversalAssistant) -> None:
+async def test_lazy_integration_platforms_async_process(hass: __HAC_KEEP__) -> None:
     """Test a coroutine process callback is awaited and its result cached."""
     loaded_platform = Mock()
     mock_platform(hass, "loaded.platform_to_check", loaded_platform)
@@ -480,7 +480,7 @@ async def test_lazy_integration_platforms_async_process(hass: UniversalAssistant
 
     processed: list[str] = []
 
-    async def _process_platform(hass: UniversalAssistant, domain: str, platform: Any) -> Any:
+    async def _process_platform(hass: __HAC_KEEP__, domain: str, platform: Any) -> Any:
         processed.append(domain)
         return platform
 

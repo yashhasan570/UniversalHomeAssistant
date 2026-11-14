@@ -8,8 +8,8 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.siren import DOMAIN as SIREN_DOMAIN, SERVICE_TURN_ON
 from universalassistant.const import ATTR_ENTITY_ID, STATE_ON
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import setup_integration
 from .test_init import _mock_camera_data
@@ -28,7 +28,7 @@ def mock_siren_camera(mock_ezviz_client: AsyncMock) -> None:
 
 
 async def test_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_turn_on(
 
 
 async def test_turn_on_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_turn_on_error(
     # A plain function, as the test harness runs Mock executor jobs inline
     mock_ezviz_client.sound_alarm = sound_alarm
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SIREN_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True
         )

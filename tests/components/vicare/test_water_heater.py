@@ -16,8 +16,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.vicare.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -29,7 +29,7 @@ CIRCULATION_SCHEDULE_FIXTURES = [Fixture({"type:heatpump"}, "vicare/Vitocal250A.
 
 
 async def _setup_water_heater(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_vicare: MockPyViCare
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_vicare: MockPyViCare
 ) -> None:
     with (
         patch(
@@ -43,7 +43,7 @@ async def _setup_water_heater(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -60,7 +60,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_dhw_active_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test water heater uses direct DHW status for on/off state."""
@@ -76,7 +76,7 @@ async def test_dhw_active_state(
 
 
 async def test_get_circulation_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_get_circulation_schedule(
 
 
 async def test_set_circulation_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setting the circulation schedule only replaces the passed days."""
@@ -155,7 +155,7 @@ async def test_set_circulation_schedule(
     ],
 )
 async def test_circulation_schedule_round_trip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     fixture: str,
 ) -> None:
@@ -208,7 +208,7 @@ async def test_circulation_schedule_round_trip(
     ],
 )
 async def test_set_circulation_schedule_invalid_slot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     slot: dict[str, str],
 ) -> None:
@@ -257,7 +257,7 @@ async def test_set_circulation_schedule_invalid_slot(
     ],
 )
 async def test_set_circulation_schedule_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
     message: str,
@@ -267,7 +267,7 @@ async def test_set_circulation_schedule_error(
     await _setup_water_heater(hass, mock_config_entry, mock_vicare)
     mock_vicare.devices[0].service.setProperty.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             "set_circulation_schedule",
@@ -281,7 +281,7 @@ async def test_set_circulation_schedule_error(
 
 
 async def test_get_circulation_schedule_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a failing schedule read is reported to the user."""
@@ -296,7 +296,7 @@ async def test_get_circulation_schedule_api_error(
                 {"statusCode": 0, "message": "unreachable", "viErrorId": "n/a"}
             ),
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -321,7 +321,7 @@ async def test_get_circulation_schedule_api_error(
     ],
 )
 async def test_circulation_schedule_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     service: str,
     data: dict[str, Any],
@@ -346,7 +346,7 @@ async def test_circulation_schedule_not_supported(
 
 
 async def test_set_circulation_schedule_unsupported_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a mode the device does not support is rejected before sending."""
@@ -372,7 +372,7 @@ async def test_set_circulation_schedule_unsupported_mode(
 
 
 async def test_set_circulation_schedule_read_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a readable schedule without a set command raises a validation error."""

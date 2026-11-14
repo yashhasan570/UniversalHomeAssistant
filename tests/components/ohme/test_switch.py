@@ -7,14 +7,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -28,7 +28,7 @@ async def test_switches(
 
 
 async def test_cap_switch_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_cap_switch_on(
 
 
 async def test_cap_switch_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_cap_switch_off(
 
 
 async def test_config_switch_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_config_switch_on(
 
 
 async def test_config_switch_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:

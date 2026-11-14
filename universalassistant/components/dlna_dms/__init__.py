@@ -5,7 +5,7 @@ server is wrapped in a DmsEntity, and the server's USN is used as the unique_id.
 """
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 
 from .const import CONF_SOURCE_ID, DOMAIN, LOGGER
@@ -13,7 +13,7 @@ from .dms import get_domain_data
 from .util import generate_source_id
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up DLNA DMS device from a config entry."""
     LOGGER.debug("Setting up config entry: %s", entry.unique_id)
 
@@ -33,7 +33,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     LOGGER.debug("Unloading config entry: %s", entry.unique_id)
 

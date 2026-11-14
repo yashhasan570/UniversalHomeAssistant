@@ -17,7 +17,7 @@ from universalassistant.components.number import (
 from universalassistant.components.renault.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_ASSUMED_STATE, ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -34,7 +34,7 @@ def override_platforms() -> Generator[None]:
 @pytest.mark.usefixtures("fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_numbers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -49,7 +49,7 @@ async def test_numbers(
 @pytest.mark.usefixtures("fixtures_with_no_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_number_empty(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -64,7 +64,7 @@ async def test_number_empty(
 @pytest.mark.usefixtures("fixtures_with_invalid_upstream_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_number_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -79,7 +79,7 @@ async def test_number_errors(
 @pytest.mark.usefixtures("fixtures_with_access_denied_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_number_access_denied(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_number_access_denied(
 @pytest.mark.usefixtures("fixtures_with_not_supported_exception")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_number_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_number_not_supported(
     ],
 )
 async def test_number_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     service_data: dict[str, Any],
     expected_min: int,
@@ -187,7 +187,7 @@ async def test_number_action(
     ],
 )
 async def test_number_action_(
-    hass: UniversalAssistant, config_entry: ConfigEntry, service_data: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, service_data: dict[str, Any]
 ) -> None:
     """Test that service invokes renault_api with correct data for min charge limit."""
     await hass.config_entries.async_setup(config_entry.entry_id)

@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import FixtureDevice, MockOverkizClient, SetupOverkizIntegration
@@ -81,7 +81,7 @@ def fixture_platforms() -> Generator[None]:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_light_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -119,7 +119,7 @@ async def test_light_entities_snapshot(
     ],
 )
 async def test_light_service_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     device: FixtureDevice,
@@ -147,7 +147,7 @@ async def test_light_service_actions(
 
 
 async def test_light_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -184,7 +184,7 @@ async def test_light_state_update(
 
 
 async def test_light_rgb_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -225,7 +225,7 @@ async def test_light_rgb_state_update(
 
 
 async def test_light_unavailability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,

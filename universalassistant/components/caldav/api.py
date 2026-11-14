@@ -7,11 +7,11 @@ from caldav.collection import Calendar
 from caldav.davclient import DAVClient
 from caldav.elements import ical
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def async_get_calendars(
-    hass: UniversalAssistant, client: DAVClient, component: str
+    hass: __HAC_KEEP__, client: DAVClient, component: str
 ) -> list[tuple[Calendar, str | None]]:
     """Get all calendars that support the specified component."""
 
@@ -27,7 +27,7 @@ async def async_get_calendars(
 
 
 async def async_get_calendar_color(
-    hass: UniversalAssistant, calendar: Calendar
+    hass: __HAC_KEEP__, calendar: Calendar
 ) -> str | None:
     """Get the color of a calendar, None if it has none."""
     color = cast(

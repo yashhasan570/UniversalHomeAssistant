@@ -10,7 +10,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.goalzero.const import DEFAULT_NAME, DOMAIN, MANUFACTURER
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import dt as dt_util
 
@@ -18,7 +18,7 @@ from . import CONF_DATA, async_init_integration, create_entry
 
 
 async def test_setup_config_and_unload(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test Goal Zero setup and unload."""
     entry = await async_init_integration(hass, aioclient_mock)
@@ -35,7 +35,7 @@ async def test_setup_config_and_unload(
 
 
 async def test_setup_config_entry_incorrectly_formatted_mac(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the mac address formatting is corrected."""
     entry = await async_init_integration(hass, aioclient_mock, skip_setup=True)
@@ -52,7 +52,7 @@ async def test_setup_config_entry_incorrectly_formatted_mac(
     assert entry.unique_id == "aa:bb:cc:dd:ee:ff"
 
 
-async def test_async_setup_entry_not_ready(hass: UniversalAssistant) -> None:
+async def test_async_setup_entry_not_ready(hass: __HAC_KEEP__) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
     entry = create_entry(hass)
     with patch(
@@ -64,7 +64,7 @@ async def test_async_setup_entry_not_ready(hass: UniversalAssistant) -> None:
 
 
 async def test_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test data update failure."""
@@ -83,7 +83,7 @@ async def test_update_failed(
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

@@ -32,7 +32,7 @@
         "title": "Connect to Indevolt device"
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add {model} ({host}) to Universal Universal Home Assistant?",
+        "description": "Do you want to add {model} ({host}) to __HA_KEEP__?",
         "title": "Discovered Indevolt {model}"
       }
     }

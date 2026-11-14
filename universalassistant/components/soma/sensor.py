@@ -5,7 +5,7 @@ from typing import override
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import Throttle
 
@@ -16,7 +16,7 @@ MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=30)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SomaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

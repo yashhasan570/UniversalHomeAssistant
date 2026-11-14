@@ -13,13 +13,13 @@ from syrupy.filters import props
 
 from universalassistant.components.marketplace.enums import RepositoryCategory
 from universalassistant.config_entries import SOURCE_SYSTEM
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import mocked_response
 from .conftest import MarketplaceResponses
 from .const import TOKEN, WARNING_ACCEPTANCE
 
-# The entry keys that change between runs, plus the Universal Universal Home Assistant version.
+# The entry keys that change between runs, plus the __HA_KEEP__ version.
 EXCLUDED = props(
     "created_at",
     "discovery_keys",
@@ -42,7 +42,7 @@ def frozen_after_acceptance(freezer: FrozenDateTimeFactory) -> None:
 
 @pytest.mark.usefixtures("stored_repositories", "init_integration")
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -67,7 +67,7 @@ async def test_diagnostics(
 
 @pytest.mark.usefixtures("stored_repositories", "init_integration")
 async def test_diagnostics_tell_what_can_not_be_reached(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_diagnostics_tell_what_can_not_be_reached(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_diagnostics_without_a_rate_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     response_mocker: MarketplaceResponses,
@@ -118,7 +118,7 @@ async def test_diagnostics_without_a_rate_limit(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.usefixtures("init_integration")
 async def test_diagnostics_without_github(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
@@ -139,7 +139,7 @@ async def test_diagnostics_without_github(
 @pytest.mark.parametrize("warning_accepted", [None])
 @pytest.mark.usefixtures("init_integration")
 async def test_diagnostics_without_accepted_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_diagnostics_without_accepted_warning(
 
 
 @pytest.fixture
-def users_who_accepted(hass: UniversalAssistant) -> None:
+def users_who_accepted(hass: __HAC_KEEP__) -> None:
     """Add the users the stored acceptances belong to, others are forgotten."""
     for user_id in ("abc", "def", "ghi"):
         MockUser(id=user_id).add_to_hass(hass)
@@ -171,7 +171,7 @@ def users_who_accepted(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("users_who_accepted", "init_integration")
 async def test_diagnostics_of_several_acceptances(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -15,7 +15,7 @@ import requests
 
 from universalassistant import config_entries
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CALLBACK_TYPE, CoreState, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, CoreState, __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -70,7 +70,7 @@ KNOWN_ERRORS: list[tuple[Exception, type[Exception], str]] = [
 
 
 def get_crd(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     update_interval: timedelta | None,
     config_entry: config_entries.ConfigEntry | None = None,
 ) -> update_coordinator.DataUpdateCoordinator[int]:
@@ -96,14 +96,14 @@ DEFAULT_UPDATE_INTERVAL = timedelta(seconds=10)
 
 
 @pytest.fixture
-def crd(hass: UniversalAssistant) -> update_coordinator.DataUpdateCoordinator[int]:
+def crd(hass: __HAC_KEEP__) -> update_coordinator.DataUpdateCoordinator[int]:
     """Coordinator mock with default update interval."""
     return get_crd(hass, DEFAULT_UPDATE_INTERVAL)
 
 
 @pytest.fixture
 def crd_without_update_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> update_coordinator.DataUpdateCoordinator[int]:
     """Coordinator mock that never automatically updates."""
     return get_crd(hass, None)
@@ -137,7 +137,7 @@ async def test_async_refresh(
 
 
 async def test_shutdown(
-    hass: UniversalAssistant, crd: update_coordinator.DataUpdateCoordinator[int]
+    hass: __HAC_KEEP__, crd: update_coordinator.DataUpdateCoordinator[int]
 ) -> None:
     """Test async_shutdown for update coordinator."""
     assert crd.data is None
@@ -173,7 +173,7 @@ async def test_shutdown(
 
 
 async def test_shutdown_on_entry_unload(
-    hass: UniversalAssistant, crd: update_coordinator.DataUpdateCoordinator[int]
+    hass: __HAC_KEEP__, crd: update_coordinator.DataUpdateCoordinator[int]
 ) -> None:
     """Test shutdown is requested on entry unload."""
     entry = MockConfigEntry()
@@ -204,7 +204,7 @@ async def test_shutdown_on_entry_unload(
 
 
 async def test_shutdown_on_hass_stop(
-    hass: UniversalAssistant, crd: update_coordinator.DataUpdateCoordinator[int]
+    hass: __HAC_KEEP__, crd: update_coordinator.DataUpdateCoordinator[int]
 ) -> None:
     """Test shutdown can be shutdown on STOP event."""
     calls = 0
@@ -401,7 +401,7 @@ async def test_oauth_token_request_refresh_errors(
     ],
 )
 async def test_token_request_setup_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: type[OAuth2TokenRequestError],
     expected_exception: type[Exception],
 ) -> None:
@@ -450,7 +450,7 @@ async def test_refresh_no_update_method(
 
 
 async def test_refresh_cancelled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     crd: update_coordinator.DataUpdateCoordinator[int],
 ) -> None:
     """Test that we don't swallow cancellation."""
@@ -479,7 +479,7 @@ async def test_refresh_cancelled(
 
 
 async def test_update_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     crd: update_coordinator.DataUpdateCoordinator[int],
 ) -> None:
@@ -517,7 +517,7 @@ async def test_update_interval(
 
 
 async def test_update_interval_not_present(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     crd_without_update_interval: update_coordinator.DataUpdateCoordinator[int],
 ) -> None:
     """Test update never happens with no update interval."""
@@ -551,7 +551,7 @@ async def test_update_interval_not_present(
 
 
 async def test_update_locks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     crd: update_coordinator.DataUpdateCoordinator[int],
 ) -> None:
@@ -707,9 +707,9 @@ async def test_async_set_updated_data(
 
 
 async def test_stop_refresh_on_ha_stop(
-    hass: UniversalAssistant, crd: update_coordinator.DataUpdateCoordinator[int]
+    hass: __HAC_KEEP__, crd: update_coordinator.DataUpdateCoordinator[int]
 ) -> None:
-    """Test no update interval refresh when Universal Universal Home Assistant is stopping."""
+    """Test no update interval refresh when __HA_KEEP__ is stopping."""
     # Add subscriber
     update_callback = Mock()
     crd.async_add_listener(update_callback)
@@ -721,7 +721,7 @@ async def test_stop_refresh_on_ha_stop(
     await hass.async_block_till_done()
     assert crd.data == 1
 
-    # Fire Universal Universal Home Assistant stop event
+    # Fire __HA_KEEP__ stop event
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
     hass.set_state(CoreState.stopping)
     await hass.async_block_till_done()
@@ -742,9 +742,9 @@ async def test_stop_refresh_on_ha_stop(
 
 
 async def test_no_refresh_after_ha_close(
-    hass: UniversalAssistant, crd: update_coordinator.DataUpdateCoordinator[int]
+    hass: __HAC_KEEP__, crd: update_coordinator.DataUpdateCoordinator[int]
 ) -> None:
-    """Test a pending refresh does not fire once Universal Universal Home Assistant has closed."""
+    """Test a pending refresh does not fire once __HA_KEEP__ has closed."""
     crd.async_add_listener(Mock())
 
     async_fire_time_changed(hass, utcnow() + crd.update_interval)
@@ -771,7 +771,7 @@ async def test_no_refresh_after_ha_close(
     ["update_method", "setup_method"],
 )
 async def test_async_config_entry_first_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     err_msg: tuple[Exception, type[Exception], str],
     method: str,
     caplog: pytest.LogCaptureFixture,
@@ -809,7 +809,7 @@ async def test_async_config_entry_first_refresh_failure(
     ["update_method", "setup_method"],
 )
 async def test_async_config_entry_first_refresh_failure_passed_through(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     err_msg: tuple[Exception, type[Exception], str],
     method: str,
     caplog: pytest.LogCaptureFixture,
@@ -840,7 +840,7 @@ async def test_async_config_entry_first_refresh_failure_passed_through(
     ["update_method", "setup_method"],
 )
 async def test_async_config_entry_first_refresh_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     method: str,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -894,7 +894,7 @@ async def test_async_config_entry_first_refresh_not_ready(
     ["update_method", "setup_method"],
 )
 async def test_async_config_entry_first_refresh_translation_key_propagation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cause: Exception,
     expected_translation_domain: str | None,
     expected_translation_key: str | None,
@@ -943,7 +943,7 @@ async def test_async_config_entry_first_refresh_translation_key_propagation(
     ["update_method", "setup_method"],
 )
 async def test_async_config_entry_first_refresh_retry_after_propagation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cause: Exception,
     expected_retry_after: float | None,
     method: str,
@@ -962,7 +962,7 @@ async def test_async_config_entry_first_refresh_retry_after_propagation(
     assert exc_info.value.retry_after == expected_retry_after
 
 
-async def test_async_config_entry_first_refresh_success(hass: UniversalAssistant) -> None:
+async def test_async_config_entry_first_refresh_success(hass: __HAC_KEEP__) -> None:
     """Test first refresh successfully."""
     entry = MockConfigEntry()
     entry._async_set_state(
@@ -977,7 +977,7 @@ async def test_async_config_entry_first_refresh_success(hass: UniversalAssistant
 
 
 async def test_async_config_entry_first_refresh_invalid_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test first refresh fails due to invalid state."""
     entry = MockConfigEntry()
@@ -1003,7 +1003,7 @@ async def test_async_config_entry_first_refresh_invalid_state(
 
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_async_config_entry_first_refresh_invalid_state_in_integration(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test first refresh fails, because of wrong state."""
     entry = MockConfigEntry()
@@ -1026,7 +1026,7 @@ async def test_async_config_entry_first_refresh_invalid_state_in_integration(
     crd.setup_method.assert_not_called()
 
 
-async def test_async_config_entry_first_refresh_no_entry(hass: UniversalAssistant) -> None:
+async def test_async_config_entry_first_refresh_no_entry(hass: __HAC_KEEP__) -> None:
     """Test first refresh successfully."""
     crd = get_crd(hass, DEFAULT_UPDATE_INTERVAL, None)
     crd.setup_method = AsyncMock()
@@ -1042,7 +1042,7 @@ async def test_async_config_entry_first_refresh_no_entry(hass: UniversalAssistan
 
 
 async def test_not_schedule_refresh_if_system_option_disable_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we do not schedule a refresh if disable polling in config entry."""
     entry = MockConfigEntry(pref_disable_polling=True)
@@ -1200,7 +1200,7 @@ async def test_always_callback_when_always_update_is_true(
     remove_callbacks()
 
 
-async def test_timestamp_date_update_coordinator(hass: UniversalAssistant) -> None:
+async def test_timestamp_date_update_coordinator(hass: __HAC_KEEP__) -> None:
     """Test last_update_success_time is set before calling listeners."""
     last_update_success_times: list[datetime | None] = []
 
@@ -1238,7 +1238,7 @@ async def test_timestamp_date_update_coordinator(hass: UniversalAssistant) -> No
 )
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test behavior of coordinator.entry."""
@@ -1308,7 +1308,7 @@ async def test_config_entry(
 @pytest.mark.parametrize("integration_frame_path", ["custom_components/my_integration"])
 @pytest.mark.usefixtures("hass", "mock_integration_frame")
 async def test_config_entry_custom_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test behavior of coordinator.entry for custom integrations."""
@@ -1391,11 +1391,11 @@ async def test_config_entry_custom_integration(
     assert len(frame_records) == 0
 
 
-async def test_listener_unsubscribe_releases_coordinator(hass: UniversalAssistant) -> None:
+async def test_listener_unsubscribe_releases_coordinator(hass: __HAC_KEEP__) -> None:
     """Test listener subscribe/unsubscribe releases parent class.
 
-    See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/137237
-    And https://github.com/yashhasan570/UniversalUniversalAssistant/pull/137338
+    See https://github.com/yashhasan570/__HAC_KEEP__/issues/137237
+    And https://github.com/yashhasan570/__HAC_KEEP__/pull/137338
     """
 
     class Subscriber:
@@ -1446,7 +1446,7 @@ async def test_listener_unsubscribe_releases_coordinator(hass: UniversalAssistan
     ["update_method", "setup_method"],
 )
 async def test_update_failed_retry_after(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: Exception,
     expected_exception: type[Exception],
     message: str,
@@ -1494,7 +1494,7 @@ async def test_refresh_known_errors_retry_after(
     message: str,
     crd: update_coordinator.DataUpdateCoordinator[int],
     caplog: pytest.LogCaptureFixture,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test raising known errors, this time with retry_after."""
     unsub = crd.async_add_listener(lambda: None)

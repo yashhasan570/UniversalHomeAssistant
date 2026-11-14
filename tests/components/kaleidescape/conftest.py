@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.kaleidescape.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_HOST, MOCK_SERIAL
 
@@ -62,7 +62,7 @@ def fixture_mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture(name="mock_integration")
 async def fixture_mock_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> MockConfigEntry:

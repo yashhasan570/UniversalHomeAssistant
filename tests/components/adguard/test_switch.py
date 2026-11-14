@@ -13,8 +13,8 @@ from universalassistant.components.adguard.const import DOMAIN
 from universalassistant.components.switch import SERVICE_TURN_OFF, SERVICE_TURN_ON
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -30,7 +30,7 @@ pytestmark = pytest.mark.usefixtures("init_integration")
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -106,7 +106,7 @@ async def test_switch(
     ],
 )
 async def test_switch_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     switch_name: str,
     service: str,
@@ -142,7 +142,7 @@ async def test_switch_actions(
     ],
 )
 async def test_switch_action_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     service: str,
     expected_message: str,
@@ -151,7 +151,7 @@ async def test_switch_action_failed(
     mock_adguard.enable_protection.side_effect = AdGuardHomeError("Boom")
     mock_adguard.disable_protection.side_effect = AdGuardHomeError("Boom")
 
-    with pytest.raises(UniversalAssistantError, match=expected_message):
+    with pytest.raises(__HAC_KEEP__Error, match=expected_message):
         await hass.services.async_call(
             "switch",
             service,
@@ -161,7 +161,7 @@ async def test_switch_action_failed(
 
 
 async def test_switch_authentication_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     init_integration: MockConfigEntry,
 ) -> None:

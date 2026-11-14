@@ -10,7 +10,7 @@ from aioflo.errors import RequestError
 from orjson import JSONDecodeError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -35,14 +35,14 @@ class FloDeviceDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: FloConfigEntry,
         api_client: API,
         location_id: str,
         device_id: str,
     ) -> None:
         """Initialize the device."""
-        self.hass: UniversalAssistant = hass
+        self.hass: __HAC_KEEP__ = hass
         self.api_client: API = api_client
         self._flo_location_id: str = location_id
         self._flo_device_id: str = device_id

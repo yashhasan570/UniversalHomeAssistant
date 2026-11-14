@@ -1,10 +1,10 @@
 """Test the London Underground init."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_reload_entry(
-    hass: UniversalAssistant, mock_london_underground_client, mock_config_entry
+    hass: __HAC_KEEP__, mock_london_underground_client, mock_config_entry
 ) -> None:
     """Test reloading the config entry."""
 

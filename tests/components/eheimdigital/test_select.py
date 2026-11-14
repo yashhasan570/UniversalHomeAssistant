@@ -13,14 +13,14 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import init_integration
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -122,7 +122,7 @@ async def test_setup(
     ],
 )
 async def test_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_name: str,
@@ -238,7 +238,7 @@ async def test_set_value(
     ],
 )
 async def test_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     eheimdigital_hub_mock: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_name: str,

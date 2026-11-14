@@ -3,7 +3,7 @@
 from typing import TYPE_CHECKING
 
 from universalassistant.const import CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -19,13 +19,13 @@ _PLATFORMS: list[Platform] = [Platform.SENSOR]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Bitvis Power Hub integration."""
     async_get_listener_registry(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BitvisConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BitvisConfigEntry) -> None:
     """Set up Bitvis Power Hub from a config entry."""
     async_get_listener_registry(hass)
     if TYPE_CHECKING:
@@ -44,7 +44,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BitvisConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BitvisConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BitvisConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)
     await entry.runtime_data.async_stop()

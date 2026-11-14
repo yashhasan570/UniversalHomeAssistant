@@ -27,7 +27,7 @@ from google_health_api.model import (
     Weight,
 )
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -70,7 +70,7 @@ class GoogleHealthDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: logging.Logger,
         name: str,
         update_interval: timedelta,
@@ -115,7 +115,7 @@ class GoogleHealthActivityCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: GoogleHealthConfigEntry,
         api_client: GoogleHealthApi,
     ) -> None:
@@ -133,7 +133,7 @@ class GoogleHealthActivityCoordinator(
     async def _async_fetch_data(self) -> GoogleHealthActivityData:
         """Fetch activity rollups for today.
 
-        Queries the daily rollup endpoints in parallel using Universal Universal Home Assistant's
+        Queries the daily rollup endpoints in parallel using __HA_KEEP__'s
         local time zone to aggregate steps, distance, active calories, total
         calories, and floors. If no data points exist for today yet, the API
         returns None, which the sensors default to 0.
@@ -176,7 +176,7 @@ class GoogleHealthBodyCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: GoogleHealthConfigEntry,
         api_client: GoogleHealthApi,
     ) -> None:
@@ -226,7 +226,7 @@ class GoogleHealthDeviceCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: GoogleHealthConfigEntry,
         api_client: GoogleHealthApi,
     ) -> None:
@@ -266,7 +266,7 @@ class GoogleHealthSleepCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: GoogleHealthConfigEntry,
         api_client: GoogleHealthApi,
     ) -> None:
@@ -309,7 +309,7 @@ class GoogleHealthNutritionCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: GoogleHealthConfigEntry,
         api_client: GoogleHealthApi,
     ) -> None:

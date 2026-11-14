@@ -3,13 +3,13 @@
 from pytest_universalassistant.components.diagnostics import get_diagnostics_for_config_entry
 from pytest_universalassistant.typing import ClientSessionGenerator
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import MOCK_VERSION, setup_version_integration
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test diagnostic information."""

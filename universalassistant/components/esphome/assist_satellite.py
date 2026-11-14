@@ -44,7 +44,7 @@ from universalassistant.components.intent import (
 from universalassistant.components.media_player import async_process_play_media_url
 from universalassistant.components.tts import TextToSpeechCommonOption
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.network import get_url
@@ -142,7 +142,7 @@ _DATA_WAKE_WORDS: HassKey[dict[str, VoiceAssistantExternalWakeWord]] = HassKey(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ESPHomeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -1042,7 +1042,7 @@ class VoiceAssistantUDPServer(asyncio.DatagramProtocol):
 
 
 async def async_get_custom_wake_words(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, VoiceAssistantExternalWakeWord]:
     """Get available custom wake words."""
     return await hass.async_add_executor_job(_get_custom_wake_words, hass)
@@ -1050,7 +1050,7 @@ async def async_get_custom_wake_words(
 
 @singleton(_DATA_WAKE_WORDS)
 def _get_custom_wake_words(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, VoiceAssistantExternalWakeWord]:
     """Get available custom wake words (singleton)."""
     wake_words_dir = Path(hass.config.path(WAKE_WORDS_DIR_NAME))
@@ -1101,7 +1101,7 @@ def _get_custom_wake_words(
     return wake_words
 
 
-async def async_setup(hass: UniversalAssistant) -> None:
+async def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the satellite."""
     wake_words_dir = Path(hass.config.path(WAKE_WORDS_DIR_NAME))
 

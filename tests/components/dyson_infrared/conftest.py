@@ -17,7 +17,7 @@ from universalassistant.components.dyson_infrared.const import (
     DysonDeviceType,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -66,7 +66,7 @@ def mock_speed_sleep() -> Generator[None]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity,
     mock_make_dyson_cool_command: None,

@@ -9,7 +9,7 @@ from typing import Any, override
 from pynina import ApiError, Nina
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -54,7 +54,7 @@ class NINADataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: NinaConfigEntry,
     ) -> None:
         """Initialize."""

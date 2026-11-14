@@ -15,15 +15,15 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.fluss.const import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -36,7 +36,7 @@ async def test_buttons(
 
 
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: FlussApiClient,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_button_press(
 
 
 async def test_devices_without_wifi_permission_are_filtered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_devices_without_wifi_permission_are_filtered(
 
 
 async def test_button_unavailable_on_status_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -103,7 +103,7 @@ async def test_button_unavailable_on_status_error(
 
 
 async def test_button_unavailable_when_internet_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -119,7 +119,7 @@ async def test_button_unavailable_when_internet_disconnected(
 
 
 async def test_button_press_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: FlussApiClient,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_button_press_error(
 
     mock_api_client.async_trigger_device.side_effect = FlussApiClientError("API Boom")
 
-    with pytest.raises(UniversalAssistantError, match="Failed to trigger device: API Boom"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to trigger device: API Boom"):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

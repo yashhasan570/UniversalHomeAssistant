@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_OFF,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 
@@ -27,7 +27,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test switch entities are created and report correct state."""
@@ -50,7 +50,7 @@ async def test_switches(
     ],
 )
 async def test_turn(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: MagicMock,
     service: str,
     expected_state: bool,
@@ -74,7 +74,7 @@ async def test_turn(
     ],
 )
 async def test_turn_no_panel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_processor: MagicMock,
     service: str,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_turn_no_panel(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_is_on_no_panel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_processor: MagicMock,
 ) -> None:
     """Test switch reports off when panel is unavailable."""

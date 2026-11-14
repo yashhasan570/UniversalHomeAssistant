@@ -12,12 +12,12 @@ from pytest_universalassistant.common import async_fire_time_changed
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.rest import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 async def test_rest_data_log_warning_on_error_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_rest_data_log_warning_on_error_status(
 
 
 async def test_rest_data_no_warning_on_200_with_wrong_content_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_rest_data_no_warning_on_200_with_wrong_content_type(
 
 
 async def test_rest_data_with_incorrect_charset_in_header(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -151,7 +151,7 @@ async def test_rest_data_with_incorrect_charset_in_header(
 
 
 async def test_rest_data_no_warning_on_success_json(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_rest_data_no_warning_on_success_json(
 
 
 async def test_rest_data_no_warning_on_success_xml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_rest_data_no_warning_on_success_xml(
 
 
 async def test_rest_data_warning_truncates_long_responses(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_rest_data_warning_truncates_long_responses(
 
 
 async def test_rest_data_debug_logging_shows_response_details(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -307,7 +307,7 @@ async def test_rest_data_debug_logging_shows_response_details(
 
 
 async def test_rest_data_no_content_type_header(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -345,7 +345,7 @@ async def test_rest_data_no_content_type_header(
 
 
 async def test_rest_data_real_world_bom_blocking_scenario(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -389,7 +389,7 @@ async def test_rest_data_real_world_bom_blocking_scenario(
 
 
 async def test_rest_data_warning_on_html_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -429,7 +429,7 @@ async def test_rest_data_warning_on_html_error(
 
 
 async def test_rest_data_no_warning_on_json_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -467,7 +467,7 @@ async def test_rest_data_no_warning_on_json_error(
 
 
 async def test_rest_data_timeout_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -504,7 +504,7 @@ async def test_rest_data_timeout_error(
 
 
 async def test_rest_data_boolean_params_converted_to_strings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -560,7 +560,7 @@ async def test_rest_data_boolean_params_converted_to_strings(
     ],
 )
 async def test_rest_data_configured_authorization_header_wins(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     header_name: str,
 ) -> None:

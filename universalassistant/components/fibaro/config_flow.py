@@ -10,7 +10,7 @@ from slugify import slugify
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import connect_fibaro_client
 from .const import CONF_IMPORT_PLUGINS, DOMAIN
@@ -27,7 +27,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def _validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
+async def _validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.

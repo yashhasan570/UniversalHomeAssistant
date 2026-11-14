@@ -14,7 +14,7 @@ from universalassistant.components.light import (
     LightEntity,
 )
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import color as color_util
@@ -41,17 +41,17 @@ def _read_device_info_value(read: Callable[[], str | None]) -> str | None:
 
 
 def _ha_brightness_to_avea(brightness: int) -> int:
-    """Convert Universal Universal Home Assistant brightness to Avea brightness."""
+    """Convert __HA_KEEP__ brightness to Avea brightness."""
     return round((brightness / 255) * AVEA_MAX_BRIGHTNESS)
 
 
 def _avea_brightness_to_ha(brightness: int) -> int:
-    """Convert Avea brightness to Universal Universal Home Assistant brightness."""
+    """Convert Avea brightness to __HA_KEEP__ brightness."""
     return round(255 * (brightness / AVEA_MAX_BRIGHTNESS))
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AveaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

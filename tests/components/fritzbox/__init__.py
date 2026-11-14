@@ -6,7 +6,7 @@ from unittest.mock import Mock
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.fritzbox.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     CONF_FAKE_AIN,
@@ -17,7 +17,7 @@ from .const import (
 
 
 async def setup_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     data: dict[str, Any],
     unique_id: str = "any",
     device: Mock | None = None,

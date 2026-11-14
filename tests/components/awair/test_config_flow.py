@@ -10,7 +10,7 @@ from python_awair.exceptions import AuthError, AwairError
 from universalassistant.components.awair.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -22,7 +22,7 @@ from .const import (
 )
 
 
-async def test_show_form(hass: UniversalAssistant) -> None:
+async def test_show_form(hass: __HAC_KEEP__) -> None:
     """Test that the form is served with no input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -33,7 +33,7 @@ async def test_show_form(hass: UniversalAssistant) -> None:
 
 
 async def test_invalid_access_token(
-    hass: UniversalAssistant, user: dict[str, Any], cloud_devices: dict[str, Any]
+    hass: __HAC_KEEP__, user: dict[str, Any], cloud_devices: dict[str, Any]
 ) -> None:
     """Test that errors are shown when the access token is invalid."""
 
@@ -72,7 +72,7 @@ async def test_invalid_access_token(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_unexpected_api_error(hass: UniversalAssistant) -> None:
+async def test_unexpected_api_error(hass: __HAC_KEEP__) -> None:
     """Test that we abort on generic errors."""
 
     with patch("python_awair.AwairClient.query", side_effect=AwairError()):
@@ -94,7 +94,7 @@ async def test_unexpected_api_error(hass: UniversalAssistant) -> None:
         assert result["reason"] == "unknown"
 
 
-async def test_duplicate_error(hass: UniversalAssistant, user, cloud_devices) -> None:
+async def test_duplicate_error(hass: __HAC_KEEP__, user, cloud_devices) -> None:
     """Test that errors are shown when adding a duplicate config."""
 
     with patch(
@@ -123,7 +123,7 @@ async def test_duplicate_error(hass: UniversalAssistant, user, cloud_devices) ->
         assert result["reason"] == "already_configured_account"
 
 
-async def test_no_devices_error(hass: UniversalAssistant, user, no_devices) -> None:
+async def test_no_devices_error(hass: __HAC_KEEP__, user, no_devices) -> None:
     """Test that errors are shown when the API returns no devices."""
 
     with patch("python_awair.AwairClient.query", side_effect=[user, no_devices]):
@@ -145,7 +145,7 @@ async def test_no_devices_error(hass: UniversalAssistant, user, no_devices) -> N
         assert result["reason"] == "no_devices_found"
 
 
-async def test_reauth(hass: UniversalAssistant, user, cloud_devices) -> None:
+async def test_reauth(hass: __HAC_KEEP__, user, cloud_devices) -> None:
     """Test reauth flow."""
     mock_config = MockConfigEntry(
         domain=DOMAIN,
@@ -190,7 +190,7 @@ async def test_reauth(hass: UniversalAssistant, user, cloud_devices) -> None:
     assert dict(mock_config.data) == {CONF_ACCESS_TOKEN: "good"}
 
 
-async def test_reauth_error(hass: UniversalAssistant) -> None:
+async def test_reauth_error(hass: __HAC_KEEP__) -> None:
     """Test reauth flow."""
     mock_config = MockConfigEntry(
         domain=DOMAIN,
@@ -214,7 +214,7 @@ async def test_reauth_error(hass: UniversalAssistant) -> None:
         assert result["reason"] == "unknown"
 
 
-async def test_create_cloud_entry(hass: UniversalAssistant, user, cloud_devices) -> None:
+async def test_create_cloud_entry(hass: __HAC_KEEP__, user, cloud_devices) -> None:
     """Test overall flow when using cloud api."""
 
     with (
@@ -247,7 +247,7 @@ async def test_create_cloud_entry(hass: UniversalAssistant, user, cloud_devices)
         assert result["result"].unique_id == CLOUD_UNIQUE_ID
 
 
-async def test_create_local_entry(hass: UniversalAssistant, local_devices) -> None:
+async def test_create_local_entry(hass: __HAC_KEEP__, local_devices) -> None:
     """Test overall flow when using local API."""
 
     with (
@@ -284,7 +284,7 @@ async def test_create_local_entry(hass: UniversalAssistant, local_devices) -> No
 
 
 async def test_create_local_entry_from_discovery(
-    hass: UniversalAssistant, local_devices
+    hass: __HAC_KEEP__, local_devices
 ) -> None:
     """Test local API when device discovered after instructions shown."""
 
@@ -329,7 +329,7 @@ async def test_create_local_entry_from_discovery(
     assert result["result"].unique_id == LOCAL_UNIQUE_ID
 
 
-async def test_create_local_entry_awair_error(hass: UniversalAssistant) -> None:
+async def test_create_local_entry_awair_error(hass: __HAC_KEEP__) -> None:
     """Test overall flow when using local API and device is returns error."""
 
     with patch(
@@ -361,7 +361,7 @@ async def test_create_local_entry_awair_error(hass: UniversalAssistant) -> None:
         assert result["step_id"] == "local_pick"
 
 
-async def test_create_zeroconf_entry(hass: UniversalAssistant, local_devices) -> None:
+async def test_create_zeroconf_entry(hass: __HAC_KEEP__, local_devices) -> None:
     """Test overall flow when using discovery."""
 
     with (
@@ -386,7 +386,7 @@ async def test_create_zeroconf_entry(hass: UniversalAssistant, local_devices) ->
         assert result["result"].unique_id == LOCAL_UNIQUE_ID
 
 
-async def test_unsuccessful_create_zeroconf_entry(hass: UniversalAssistant) -> None:
+async def test_unsuccessful_create_zeroconf_entry(hass: __HAC_KEEP__) -> None:
     """Test overall flow when using discovery and device is unreachable."""
 
     with patch(
@@ -401,7 +401,7 @@ async def test_unsuccessful_create_zeroconf_entry(hass: UniversalAssistant) -> N
 
 
 async def test_zeroconf_discovery_update_configuration(
-    hass: UniversalAssistant, local_devices: Any
+    hass: __HAC_KEEP__, local_devices: Any
 ) -> None:
     """Test updating an existing Awair config entry with discovery info."""
 
@@ -433,7 +433,7 @@ async def test_zeroconf_discovery_update_configuration(
 
 
 async def test_zeroconf_during_onboarding(
-    hass: UniversalAssistant, local_devices: Any
+    hass: __HAC_KEEP__, local_devices: Any
 ) -> None:
     """Test the zeroconf creates an entry during onboarding."""
     with (

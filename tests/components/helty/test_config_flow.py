@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.helty.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import DEVICE_NAME, HOST
@@ -18,7 +18,7 @@ USER_INPUT = {CONF_HOST: HOST}
 
 
 async def test_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_user_flow(
 
 
 async def test_user_flow_empty_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_user_flow_empty_name(
     ],
 )
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     side_effect: type[Exception],
@@ -92,7 +92,7 @@ async def test_user_flow_errors(
 
 
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,

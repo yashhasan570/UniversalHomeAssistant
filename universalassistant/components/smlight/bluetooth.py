@@ -11,7 +11,7 @@ from universalassistant.components.bluetooth import (
     async_register_scanner,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 
 from .const import CONF_BLE_SCANNER_MODE, DOMAIN, BLEScannerMode
@@ -33,7 +33,7 @@ def _async_unload(
 
 @callback
 def async_connect_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmConfigEntry,
     model: str | None,
     device_id: str,
@@ -73,7 +73,7 @@ def async_connect_scanner(
 
 
 async def async_setup_ble_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmConfigEntry,
     client: Api2,
     info: Info,
@@ -88,7 +88,7 @@ async def async_setup_ble_scanner(
     if remote_adapter_enabled:
         if not info.ble.proxy_enabled:
             _LOGGER.warning(
-                "SMLIGHT BLE proxy is enabled in Universal Universal Home Assistant options but disabled on the device. "
+                "SMLIGHT BLE proxy is enabled in __HA_KEEP__ options but disabled on the device. "
                 "Please reconfigure the integration options to align settings"
             )
             return None

@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.button import ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 from universalassistant.util import dt as dt_util
@@ -13,7 +13,7 @@ from .coordinator import Alpha2BaseCoordinator, Alpha2ConfigEntry
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: Alpha2ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

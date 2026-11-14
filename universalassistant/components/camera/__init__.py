@@ -12,7 +12,7 @@ import attr
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.components.http import KEY_AUTHENTICATED, UniversalAssistantView
+from universalassistant.components.http import KEY_AUTHENTICATED, __HAC_KEEP__View
 from universalassistant.components.stream import OUTPUT_FORMATS, Orientation
 from universalassistant.components.websocket_api import ActiveConnection
 from universalassistant.config_entries import ConfigEntry
@@ -26,10 +26,10 @@ from universalassistant.const import (
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     Event,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
-from universalassistant.exceptions import ConfigEntryError, UniversalAssistantError
+from universalassistant.exceptions import ConfigEntryError, __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.event import async_track_time_interval
@@ -167,7 +167,7 @@ class Image:
     content: bytes = attr.ib()
 
 
-async def async_request_stream(hass: UniversalAssistant, entity_id: str, fmt: str) -> str:
+async def async_request_stream(hass: __HAC_KEEP__, entity_id: str, fmt: str) -> str:
     """Request a stream for a camera entity."""
     camera = get_camera_from_entity_id(hass, entity_id)
     return await async_stream_endpoint_url(hass, camera, fmt)
@@ -212,11 +212,11 @@ async def _async_get_image(
 
                 return image
 
-    raise UniversalAssistantError("Unable to get image")
+    raise __HAC_KEEP__Error("Unable to get image")
 
 
 async def async_get_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     timeout: int = 10,
     width: int | None = None,
@@ -230,14 +230,14 @@ async def async_get_image(
     return await _async_get_image(camera, timeout, width, height)
 
 
-async def async_get_stream_source(hass: UniversalAssistant, entity_id: str) -> str | None:
+async def async_get_stream_source(hass: __HAC_KEEP__, entity_id: str) -> str | None:
     """Fetch the stream source for a camera entity."""
     camera = get_camera_from_entity_id(hass, entity_id)
     return await camera.stream_source()
 
 
 async def async_get_mjpeg_stream(
-    hass: UniversalAssistant, request: web.Request, entity_id: str
+    hass: __HAC_KEEP__, request: web.Request, entity_id: str
 ) -> web.StreamResponse | None:
     """Fetch an mjpeg stream from a camera entity."""
     camera = get_camera_from_entity_id(hass, entity_id)
@@ -250,7 +250,7 @@ async def async_get_mjpeg_stream(
     return stream
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the camera component."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[Camera](
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL
@@ -308,7 +308,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -318,12 +318,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
 
-class CameraView(UniversalAssistantView):
+class CameraView(__HAC_KEEP__View):
     """Base CameraView."""
 
     requires_auth = False
@@ -385,7 +385,7 @@ class CameraImageView(CameraView):
                 int(width) if width else None,
                 int(height) if height else None,
             )
-        except (UniversalAssistantError, ValueError) as ex:
+        except (__HAC_KEEP__Error, ValueError) as ex:
             raise web.HTTPInternalServerError from ex
 
         return web.Response(body=image.content, content_type=image.content_type)
@@ -428,7 +428,7 @@ class CameraMjpegStream(CameraView):
 )
 @websocket_api.async_response
 async def ws_camera_capabilities(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get camera capabilities websocket command.
 
@@ -447,7 +447,7 @@ async def ws_camera_capabilities(
 )
 @websocket_api.async_response
 async def ws_camera_stream(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle get camera stream websocket command.
 
@@ -458,7 +458,7 @@ async def ws_camera_stream(
         camera = get_camera_from_entity_id(hass, entity_id)
         url = await async_stream_endpoint_url(hass, camera, fmt=msg["format"])
         connection.send_result(msg["id"], {"url": url})
-    except UniversalAssistantError as ex:
+    except __HAC_KEEP__Error as ex:
         _LOGGER.error("Error requesting stream: %s", ex)
         connection.send_error(
             msg["id"],
@@ -483,7 +483,7 @@ async def ws_camera_stream(
 )
 @websocket_api.async_response
 async def websocket_get_prefs(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle request for account info."""
     stream_prefs = await get_dynamic_camera_stream_settings(hass, msg["entity_id"])
@@ -501,7 +501,7 @@ async def websocket_get_prefs(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_update_prefs(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle request for account info."""
     changes = dict(msg)
@@ -512,7 +512,7 @@ async def websocket_update_prefs(
         entity_prefs = await hass.data[DATA_CAMERA_PREFS].async_update(
             entity_id, **changes
         )
-    except UniversalAssistantError as ex:
+    except __HAC_KEEP__Error as ex:
         _LOGGER.error("Error setting camera preferences: %s", ex)
         connection.send_error(msg["id"], "update_failed", str(ex))
     else:

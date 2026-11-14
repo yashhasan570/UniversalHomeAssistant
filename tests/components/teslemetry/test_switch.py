@@ -34,8 +34,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -49,14 +49,14 @@ from . import (
 from .const import COMMAND_ERRORS, COMMAND_OK, VEHICLE_DATA_ALT, VIN
 
 
-async def _async_enable_charge_on_solar_preview_feature(hass: UniversalAssistant) -> None:
+async def _async_enable_charge_on_solar_preview_feature(hass: __HAC_KEEP__) -> None:
     """Enable the Teslemetry charge-on-solar preview feature."""
     assert await async_setup_component(hass, "labs", {})
     await async_update_preview_feature(hass, DOMAIN, LABS_CHARGE_ON_SOLAR_FEATURE, True)
 
 
 async def test_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_legacy: AsyncMock,
@@ -68,7 +68,7 @@ async def test_switch(
 
 
 async def test_switch_alt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -124,7 +124,7 @@ async def test_switch_alt(
     ],
 )
 async def test_switch_services(
-    hass: UniversalAssistant, name: str, on: str, off: str
+    hass: __HAC_KEEP__, name: str, on: str, off: str
 ) -> None:
     """Tests that the switch service calls work."""
 
@@ -162,8 +162,8 @@ async def test_switch_services(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("response", COMMAND_ERRORS)
-async def test_switch_command_errors(hass: UniversalAssistant, response: dict) -> None:
-    """Tests that vehicle command failures raise UniversalAssistantError."""
+async def test_switch_command_errors(hass: __HAC_KEEP__, response: dict) -> None:
+    """Tests that vehicle command failures raise __HAC_KEEP__Error."""
 
     await setup_platform(hass, [Platform.SWITCH])
 
@@ -172,7 +172,7 @@ async def test_switch_command_errors(hass: UniversalAssistant, response: dict) -
             "tesla_fleet_api.teslemetry.Vehicle.charge_start",
             return_value=response,
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -202,7 +202,7 @@ async def test_switch_command_errors(hass: UniversalAssistant, response: dict) -
     ],
 )
 async def test_switch_charge_accepted_reason(
-    hass: UniversalAssistant, service: str, method: str, reason: str, expected: str
+    hass: __HAC_KEEP__, service: str, method: str, reason: str, expected: str
 ) -> None:
     """Tests that charge commands already in the requested state do not raise."""
 
@@ -262,11 +262,11 @@ async def test_switch_charge_accepted_reason(
     ],
 )
 async def test_switch_command_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: type[TeslaFleetError] | TeslaFleetError,
     message: str,
 ) -> None:
-    """Tests that an energy command SDK exception raises UniversalAssistantError."""
+    """Tests that an energy command SDK exception raises __HAC_KEEP__Error."""
 
     await setup_platform(hass, [Platform.SWITCH])
 
@@ -275,7 +275,7 @@ async def test_switch_command_exception(
             "tesla_fleet_api.teslemetry.EnergySite.storm_mode",
             side_effect=side_effect,
         ),
-        pytest.raises(UniversalAssistantError, match=f"^{message}$"),
+        pytest.raises(__HAC_KEEP__Error, match=f"^{message}$"),
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -286,7 +286,7 @@ async def test_switch_command_exception(
 
 
 async def test_switch_streaming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
 ) -> None:
@@ -324,7 +324,7 @@ async def test_switch_streaming(
 
 
 async def test_charge_on_solar_switch_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test charge-on-solar switch is disabled by default."""
     await setup_platform(hass, [Platform.SWITCH])
@@ -333,7 +333,7 @@ async def test_charge_on_solar_switch_disabled_by_default(
 
 
 async def test_charge_on_solar_switch_enabled_by_labs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test charge-on-solar switch appears when Labs feature is enabled."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -351,7 +351,7 @@ async def test_charge_on_solar_switch_enabled_by_labs(
     ],
 )
 async def test_charge_on_solar_switch_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     enabled: bool,
     expected_state: str,
@@ -396,7 +396,7 @@ async def test_charge_on_solar_switch_services(
 
 
 async def test_charge_on_solar_switch_services_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_legacy: AsyncMock,
 ) -> None:
     """Test charge-on-solar switch service calls fetch the polled charge limit."""
@@ -425,7 +425,7 @@ async def test_charge_on_solar_switch_services_polling(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_old_firmware")
 async def test_charge_on_solar_switch_services_old_firmware(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test a non-polling vehicle below the streaming firmware still fetches the polled charge limit."""
@@ -460,7 +460,7 @@ async def test_charge_on_solar_switch_services_old_firmware(
 
 
 async def test_charge_on_solar_switch_uses_lower_limit_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the switch sends the value set on the lower limit number entity."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -503,7 +503,7 @@ async def test_charge_on_solar_switch_uses_lower_limit_number(
 
 
 async def test_charge_on_solar_switch_turn_on_uses_restored_charge_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test turning on after a restart uses the restored charge limit, not a guess."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -537,7 +537,7 @@ async def test_charge_on_solar_switch_turn_on_uses_restored_charge_limit(
 
 
 async def test_charge_on_solar_switch_uses_limit_when_number_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the switch still sends the user's limit once the number entity is registry-disabled."""
@@ -587,7 +587,7 @@ async def test_charge_on_solar_switch_uses_limit_when_number_disabled(
 
 
 async def test_charge_on_solar_switch_uses_stored_limit_when_number_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -637,7 +637,7 @@ async def test_charge_on_solar_switch_uses_stored_limit_when_number_disabled(
 
 
 async def test_charge_on_solar_switch_turn_on_omits_unknown_charge_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test turning on omits the upper limit rather than guessing when unknown."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -666,7 +666,7 @@ async def test_charge_on_solar_switch_turn_on_omits_unknown_charge_limit(
 
 
 async def test_disable_charge_on_solar_preview_removes_registry_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test disabling preview removes charge-on-solar switch from entity registry."""

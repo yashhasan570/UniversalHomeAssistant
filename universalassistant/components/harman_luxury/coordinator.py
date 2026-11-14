@@ -12,7 +12,7 @@ from aioharmanluxury import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -35,7 +35,7 @@ class HarmanLuxuryCoordinator(DataUpdateCoordinator[HarmanLuxuryState]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: HarmanLuxuryConfigEntry,
         client: HarmanLuxuryClient,
     ) -> None:

@@ -1,4 +1,4 @@
-"""The tests for Universal Universal Home Assistant ffmpeg."""
+"""The tests for __HA_KEEP__ ffmpeg."""
 
 from unittest.mock import AsyncMock, MagicMock, Mock, call, patch
 
@@ -12,12 +12,12 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.setup import async_setup_component
 
 
 @callback
-def async_start(hass: UniversalAssistant, entity_id: str | None = None) -> None:
+def async_start(hass: __HAC_KEEP__, entity_id: str | None = None) -> None:
     """Start a FFmpeg process on entity.
 
     This is a legacy helper method. Do not use it for new tests.
@@ -27,7 +27,7 @@ def async_start(hass: UniversalAssistant, entity_id: str | None = None) -> None:
 
 
 @callback
-def async_stop(hass: UniversalAssistant, entity_id: str | None = None) -> None:
+def async_stop(hass: __HAC_KEEP__, entity_id: str | None = None) -> None:
     """Stop a FFmpeg process on entity.
 
     This is a legacy helper method. Do not use it for new tests.
@@ -37,7 +37,7 @@ def async_stop(hass: UniversalAssistant, entity_id: str | None = None) -> None:
 
 
 @callback
-def async_restart(hass: UniversalAssistant, entity_id: str | None = None) -> None:
+def async_restart(hass: __HAC_KEEP__, entity_id: str | None = None) -> None:
     """Restart a FFmpeg process on entity.
 
     This is a legacy helper method. Do not use it for new tests.
@@ -53,7 +53,7 @@ class MockFFmpegDev(ffmpeg.FFmpegBase):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         initial_state: bool = True,
         entity_id: str = "test.ffmpeg_device",
     ) -> None:
@@ -79,7 +79,7 @@ class MockFFmpegDev(ffmpeg.FFmpegBase):
         self.called_entities = entity_ids
 
 
-async def test_setup_component(hass: UniversalAssistant) -> None:
+async def test_setup_component(hass: __HAC_KEEP__) -> None:
     """Set up ffmpeg component."""
     with assert_setup_component(1):
         await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -87,7 +87,7 @@ async def test_setup_component(hass: UniversalAssistant) -> None:
     assert hass.data[ffmpeg.DATA_FFMPEG].binary == "ffmpeg"
 
 
-async def test_setup_component_test_service(hass: UniversalAssistant) -> None:
+async def test_setup_component_test_service(hass: __HAC_KEEP__) -> None:
     """Set up ffmpeg component test services."""
     with assert_setup_component(1):
         await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -97,7 +97,7 @@ async def test_setup_component_test_service(hass: UniversalAssistant) -> None:
     assert hass.services.has_service(DOMAIN, "restart")
 
 
-async def test_setup_component_test_register(hass: UniversalAssistant) -> None:
+async def test_setup_component_test_register(hass: __HAC_KEEP__) -> None:
     """Set up ffmpeg component test register."""
     with assert_setup_component(1):
         await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -116,7 +116,7 @@ async def test_setup_component_test_register(hass: UniversalAssistant) -> None:
     assert len(ffmpeg_dev._async_stop_ffmpeg.mock_calls) == 2
 
 
-async def test_setup_component_test_register_no_startup(hass: UniversalAssistant) -> None:
+async def test_setup_component_test_register_no_startup(hass: __HAC_KEEP__) -> None:
     """Set up ffmpeg component test register without startup."""
     with assert_setup_component(1):
         await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -135,7 +135,7 @@ async def test_setup_component_test_register_no_startup(hass: UniversalAssistant
     assert len(ffmpeg_dev._async_stop_ffmpeg.mock_calls) == 2
 
 
-async def test_setup_component_test_service_start(hass: UniversalAssistant) -> None:
+async def test_setup_component_test_service_start(hass: __HAC_KEEP__) -> None:
     """Set up ffmpeg component test service start."""
     with assert_setup_component(1):
         await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -149,7 +149,7 @@ async def test_setup_component_test_service_start(hass: UniversalAssistant) -> N
     assert ffmpeg_dev.called_start
 
 
-async def test_setup_component_test_service_stop(hass: UniversalAssistant) -> None:
+async def test_setup_component_test_service_stop(hass: __HAC_KEEP__) -> None:
     """Set up ffmpeg component test service stop."""
     with assert_setup_component(1):
         await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -163,7 +163,7 @@ async def test_setup_component_test_service_stop(hass: UniversalAssistant) -> No
     assert ffmpeg_dev.called_stop
 
 
-async def test_setup_component_test_service_restart(hass: UniversalAssistant) -> None:
+async def test_setup_component_test_service_restart(hass: __HAC_KEEP__) -> None:
     """Set up ffmpeg component test service restart."""
     with assert_setup_component(1):
         await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -179,7 +179,7 @@ async def test_setup_component_test_service_restart(hass: UniversalAssistant) ->
 
 
 async def test_setup_component_test_service_start_with_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Set up ffmpeg component test service start."""
     with assert_setup_component(1):
@@ -195,7 +195,7 @@ async def test_setup_component_test_service_start_with_entity(
     assert ffmpeg_dev.called_entities == ["test.ffmpeg_device"]
 
 
-async def test_async_get_image_with_width_height(hass: UniversalAssistant) -> None:
+async def test_async_get_image_with_width_height(hass: __HAC_KEEP__) -> None:
     """Test fetching an image with a specific width and height."""
     with assert_setup_component(1):
         await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -213,7 +213,7 @@ async def test_async_get_image_with_width_height(hass: UniversalAssistant) -> No
 
 
 async def test_async_get_image_with_extra_cmd_overlapping_width_height(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test fetching an image with extra_cmd with width/height."""
     with assert_setup_component(1):
@@ -233,7 +233,7 @@ async def test_async_get_image_with_extra_cmd_overlapping_width_height(
     ]
 
 
-async def test_async_get_image_with_extra_cmd_width_height(hass: UniversalAssistant) -> None:
+async def test_async_get_image_with_extra_cmd_width_height(hass: __HAC_KEEP__) -> None:
     """Test fetching an image with and extra_cmd and a specific width and height."""
     with assert_setup_component(1):
         await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -253,7 +253,7 @@ async def test_async_get_image_with_extra_cmd_width_height(hass: UniversalAssist
 
 
 async def test_modern_ffmpeg(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test modern ffmpeg uses the new ffmpeg content type."""
     with assert_setup_component(1):
@@ -264,7 +264,7 @@ async def test_modern_ffmpeg(
 
 
 async def test_legacy_ffmpeg(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test legacy ffmpeg uses the old ffserver content type."""
     with (
@@ -281,7 +281,7 @@ async def test_legacy_ffmpeg(
 
 
 async def test_ffmpeg_using_official_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test ffmpeg using official image is the new ffmpeg content type."""
     with (

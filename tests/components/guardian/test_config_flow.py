@@ -15,7 +15,7 @@ from universalassistant.components.guardian.config_flow import (
 )
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -24,7 +24,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 @pytest.mark.usefixtures("config_entry", "setup_guardian")
-async def test_duplicate_error(hass: UniversalAssistant, config: dict[str, Any]) -> None:
+async def test_duplicate_error(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
     """Test that errors are shown when duplicate entries are added."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -44,7 +44,7 @@ async def test_duplicate_error(hass: UniversalAssistant, config: dict[str, Any])
 
 
 @pytest.mark.usefixtures("setup_guardian")
-async def test_connect_error(hass: UniversalAssistant, config: dict[str, Any]) -> None:
+async def test_connect_error(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
     """Test that the config entry errors out if the device cannot connect."""
 
     result = await hass.config_entries.flow.async_init(
@@ -84,7 +84,7 @@ async def test_get_pin_from_uid() -> None:
 
 
 @pytest.mark.usefixtures("setup_guardian")
-async def test_step_user(hass: UniversalAssistant, config: dict[str, Any]) -> None:
+async def test_step_user(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
     """Test the user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -108,7 +108,7 @@ async def test_step_user(hass: UniversalAssistant, config: dict[str, Any]) -> No
 
 
 @pytest.mark.usefixtures("setup_guardian")
-async def test_step_zeroconf(hass: UniversalAssistant) -> None:
+async def test_step_zeroconf(hass: __HAC_KEEP__) -> None:
     """Test the zeroconf step."""
     zeroconf_data = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.1.100"),
@@ -139,7 +139,7 @@ async def test_step_zeroconf(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "guardian_3456"
 
 
-async def test_step_zeroconf_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_step_zeroconf_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test the zeroconf step aborting because it's already in progress."""
     zeroconf_data = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.1.100"),
@@ -165,7 +165,7 @@ async def test_step_zeroconf_already_in_progress(hass: UniversalAssistant) -> No
 
 
 @pytest.mark.usefixtures("setup_guardian")
-async def test_step_dhcp(hass: UniversalAssistant) -> None:
+async def test_step_dhcp(hass: __HAC_KEEP__) -> None:
     """Test the dhcp step."""
     dhcp_data = DhcpServiceInfo(
         ip="192.168.1.100",
@@ -192,7 +192,7 @@ async def test_step_dhcp(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "guardian_3456"
 
 
-async def test_step_dhcp_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_step_dhcp_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test the zeroconf step aborting because it's already in progress."""
     dhcp_data = DhcpServiceInfo(
         ip="192.168.1.100",
@@ -213,7 +213,7 @@ async def test_step_dhcp_already_in_progress(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_in_progress"
 
 
-async def test_step_dhcp_already_setup_match_mac(hass: UniversalAssistant) -> None:
+async def test_step_dhcp_already_setup_match_mac(hass: __HAC_KEEP__) -> None:
     """Test we abort if already setup with matching unique id via DHCP."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_IP_ADDRESS: "1.2.3.4"}, unique_id="guardian_ABCD"
@@ -233,7 +233,7 @@ async def test_step_dhcp_already_setup_match_mac(hass: UniversalAssistant) -> No
     assert result["reason"] == "already_configured"
 
 
-async def test_step_dhcp_already_setup_match_ip(hass: UniversalAssistant) -> None:
+async def test_step_dhcp_already_setup_match_ip(hass: __HAC_KEEP__) -> None:
     """Test we abort if already setup with matching ip via DHCP."""
     entry = MockConfigEntry(
         domain=DOMAIN,

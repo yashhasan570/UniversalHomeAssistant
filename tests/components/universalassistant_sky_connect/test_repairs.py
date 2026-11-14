@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant SkyConnect repairs flow."""
+"""Test the __HA_KEEP__ SkyConnect repairs flow."""
 
 from unittest.mock import AsyncMock, Mock, patch
 
@@ -23,7 +23,7 @@ from universalassistant.components.universalassistant_hardware.silabs_multiproto
     get_multiprotocol_addon_manager,
 )
 from universalassistant.components.universalassistant_sky_connect.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
@@ -36,7 +36,7 @@ DEVICE = (
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_multi_pan_migration_repair_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_multi_pan_migration_repair_flow(
             "firmware": "cpc",
             "firmware_version": None,
         },
-        title="Universal Universal Home Assistant SkyConnect",
+        title="__HA_KEEP__ SkyConnect",
         version=1,
         minor_version=4,
     )

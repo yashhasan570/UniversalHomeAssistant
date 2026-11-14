@@ -70,7 +70,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_registry import EntityRegistry
 from universalassistant.util.dt import utcnow
@@ -95,7 +95,7 @@ def mock_discovery():
 
 
 async def test_entity_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     configured_player: MagicMock,
     snapshot: SnapshotAssertion,
@@ -106,7 +106,7 @@ async def test_entity_registry(
 
 
 async def test_squeezebox_new_player_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     lms: MagicMock,
     player_factory: MagicMock,
@@ -134,7 +134,7 @@ async def test_squeezebox_new_player_discovery(
 
 
 async def test_squeezebox_player_rediscovery(
-    hass: UniversalAssistant, configured_player: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, configured_player: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test rediscovery of a squeezebox player."""
 
@@ -164,7 +164,7 @@ async def test_squeezebox_player_rediscovery(
     [(SERVICE_TURN_ON, True), (SERVICE_TURN_OFF, False)],
 )
 async def test_squeezebox_turn_on_off(
-    hass: UniversalAssistant, configured_player: MagicMock, service: str, state: bool
+    hass: __HAC_KEEP__, configured_player: MagicMock, service: str, state: bool
 ) -> None:
     """Test turn on service call."""
     await hass.services.async_call(
@@ -177,7 +177,7 @@ async def test_squeezebox_turn_on_off(
 
 
 async def test_squeezebox_state(
-    hass: UniversalAssistant, configured_player: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, configured_player: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test determining the MediaPlayerState."""
 
@@ -208,7 +208,7 @@ async def test_squeezebox_state(
 
 
 async def test_squeezebox_volume_up(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test volume up service call."""
     configured_player.volume = 50
@@ -224,7 +224,7 @@ async def test_squeezebox_volume_up(
 
 
 async def test_squeezebox_volume_down(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test volume down service call."""
     configured_player.volume = 50
@@ -240,7 +240,7 @@ async def test_squeezebox_volume_down(
 
 
 async def test_squeezebox_volume_set(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test volume set service call."""
     await hass.services.async_call(
@@ -253,7 +253,7 @@ async def test_squeezebox_volume_set(
 
 
 async def test_squeezebox_volume_property(
-    hass: UniversalAssistant, configured_player: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, configured_player: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test volume property."""
 
@@ -277,7 +277,7 @@ async def test_squeezebox_volume_property(
 
 
 async def test_squeezebox_mute(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test mute service call."""
     await hass.services.async_call(
@@ -290,7 +290,7 @@ async def test_squeezebox_mute(
 
 
 async def test_squeezebox_unmute(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test unmute service call."""
     await hass.services.async_call(
@@ -303,7 +303,7 @@ async def test_squeezebox_unmute(
 
 
 async def test_squeezebox_mute_property(
-    hass: UniversalAssistant, configured_player: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, configured_player: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the mute property."""
 
@@ -327,7 +327,7 @@ async def test_squeezebox_mute_property(
 
 
 async def test_squeezebox_repeat_mode(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test set repeat mode service call."""
     await hass.services.async_call(
@@ -365,7 +365,7 @@ async def test_squeezebox_repeat_mode(
 
 
 async def test_squeezebox_repeat_mode_property(
-    hass: UniversalAssistant, configured_player: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, configured_player: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the repeat mode property."""
     configured_player.repeat = "playlist"
@@ -397,7 +397,7 @@ async def test_squeezebox_repeat_mode_property(
 
 
 async def test_squeezebox_shuffle(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test set shuffle service call."""
     await hass.services.async_call(
@@ -428,7 +428,7 @@ async def test_squeezebox_shuffle(
 
 
 async def test_squeezebox_shuffle_property(
-    hass: UniversalAssistant, configured_player: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, configured_player: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the shuffle property."""
 
@@ -452,7 +452,7 @@ async def test_squeezebox_shuffle_property(
 
 
 async def test_squeezebox_play(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test play service call."""
     await hass.services.async_call(
@@ -465,7 +465,7 @@ async def test_squeezebox_play(
 
 
 async def test_squeezebox_play_media_with_announce(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test play service call with announce."""
     await hass.services.async_call(
@@ -489,7 +489,7 @@ async def test_squeezebox_play_media_with_announce(
     ["0.2", 0.2],
 )
 async def test_squeezebox_play_media_with_announce_volume(
-    hass: UniversalAssistant, configured_player: MagicMock, announce_volume: str | int
+    hass: __HAC_KEEP__, configured_player: MagicMock, announce_volume: str | int
 ) -> None:
     """Test play service call with announce."""
     await hass.services.async_call(
@@ -512,7 +512,7 @@ async def test_squeezebox_play_media_with_announce_volume(
 
 @pytest.mark.parametrize("announce_volume", ["1.1", 1.1, "text", "-1", -1, 0, "0"])
 async def test_squeezebox_play_media_with_announce_volume_invalid(
-    hass: UniversalAssistant, configured_player: MagicMock, announce_volume: str | int
+    hass: __HAC_KEEP__, configured_player: MagicMock, announce_volume: str | int
 ) -> None:
     """Test play service call with announce and volume zero."""
     with pytest.raises(
@@ -538,7 +538,7 @@ async def test_squeezebox_play_media_with_announce_volume_invalid(
 
 @pytest.mark.parametrize("announce_timeout", ["-1", "text", -1, 0, "0"])
 async def test_squeezebox_play_media_with_announce_timeout_invalid(
-    hass: UniversalAssistant, configured_player: MagicMock, announce_timeout: str | int
+    hass: __HAC_KEEP__, configured_player: MagicMock, announce_timeout: str | int
 ) -> None:
     """Test play service call with announce and invalid timeout."""
     with pytest.raises(ServiceValidationError):
@@ -558,7 +558,7 @@ async def test_squeezebox_play_media_with_announce_timeout_invalid(
 
 @pytest.mark.parametrize("announce_timeout", ["100", 100])
 async def test_squeezebox_play_media_with_announce_timeout(
-    hass: UniversalAssistant, configured_player: MagicMock, announce_timeout: str | int
+    hass: __HAC_KEEP__, configured_player: MagicMock, announce_timeout: str | int
 ) -> None:
     """Test play service call with announce."""
     await hass.services.async_call(
@@ -580,7 +580,7 @@ async def test_squeezebox_play_media_with_announce_timeout(
 
 
 async def test_squeezebox_play_pause(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test play/pause service call."""
     await hass.services.async_call(
@@ -593,7 +593,7 @@ async def test_squeezebox_play_pause(
 
 
 async def test_squeezebox_pause(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test pause service call."""
     await hass.services.async_call(
@@ -606,7 +606,7 @@ async def test_squeezebox_pause(
 
 
 async def test_squeezebox_seek(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test seek service call."""
     await hass.services.async_call(
@@ -632,7 +632,7 @@ async def test_squeezebox_seek(
 
 
 async def test_squeezebox_stop(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test stop service call."""
     await hass.services.async_call(
@@ -645,7 +645,7 @@ async def test_squeezebox_stop(
 
 
 async def test_squeezebox_load_playlist(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test load a playlist."""
     # load a playlist by number
@@ -693,7 +693,7 @@ async def test_squeezebox_load_playlist(
 
 
 async def test_squeezebox_enqueue(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test the various enqueue service calls."""
 
@@ -738,7 +738,7 @@ async def test_squeezebox_enqueue(
 
 
 async def test_squeezebox_skip_tracks(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test track skipping service calls."""
     await hass.services.async_call(
@@ -769,7 +769,7 @@ async def test_squeezebox_skip_tracks(
 
 
 async def test_squeezebox_call_query(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test query service call."""
     await hass.services.async_call(
@@ -786,7 +786,7 @@ async def test_squeezebox_call_query(
 
 
 async def test_squeezebox_call_method(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test method call service call."""
     await hass.services.async_call(
@@ -803,7 +803,7 @@ async def test_squeezebox_call_method(
 
 
 async def test_squeezebox_invalid_state(
-    hass: UniversalAssistant, configured_player: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, configured_player: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test handling an unexpected state from pysqueezebox."""
     configured_player.mode = "invalid"
@@ -814,7 +814,7 @@ async def test_squeezebox_invalid_state(
 
 
 async def test_squeezebox_server_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     lms: MagicMock,
     lms_factory: MagicMock,
     config_entry: MockConfigEntry,
@@ -842,7 +842,7 @@ async def test_squeezebox_server_discovery(
         # how do we check that a config flow started?
 
 
-async def test_squeezebox_join(hass: UniversalAssistant, configured_players: list) -> None:
+async def test_squeezebox_join(hass: __HAC_KEEP__, configured_players: list) -> None:
     """Test joining a squeezebox player."""
 
     # join a valid player
@@ -873,7 +873,7 @@ async def test_squeezebox_join(hass: UniversalAssistant, configured_players: lis
 
 
 async def test_squeezebox_unjoin(
-    hass: UniversalAssistant, configured_player: MagicMock
+    hass: __HAC_KEEP__, configured_player: MagicMock
 ) -> None:
     """Test unjoining a squeezebox player."""
     await hass.services.async_call(
@@ -886,7 +886,7 @@ async def test_squeezebox_unjoin(
 
 
 async def test_squeezebox_media_content_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     configured_player: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -938,7 +938,7 @@ async def test_squeezebox_media_content_properties(
 
 
 async def test_squeezebox_media_position_property(
-    hass: UniversalAssistant, configured_player: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, configured_player: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test media_position property."""
     configured_player.time = 100

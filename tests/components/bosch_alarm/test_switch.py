@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import call_observable, setup_integration
@@ -23,7 +23,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def test_update_switch_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     output: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -44,7 +44,7 @@ async def test_update_switch_device(
 
 
 async def test_unlock_door(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     door: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -76,7 +76,7 @@ async def test_unlock_door(
 
 
 async def test_secure_door(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     door: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -106,7 +106,7 @@ async def test_secure_door(
 
 
 async def test_cycle_door(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     door: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -127,7 +127,7 @@ async def test_cycle_door(
 
 
 async def test_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_panel: AsyncMock,

@@ -15,8 +15,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -29,7 +29,7 @@ from .common import (
 
 
 async def test_number_entity(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the creation and values of the diffuser number entity."""
     config_entry = mock_config_entry(unique_id="number_test")
@@ -47,7 +47,7 @@ async def test_number_entity(
     assert entry.unique_id == f"{diffuser.hublot}-perfume_amount"
 
 
-async def test_set_number_value(hass: UniversalAssistant) -> None:
+async def test_set_number_value(hass: __HAC_KEEP__) -> None:
     """Test setting the diffuser number entity value."""
     config_entry = mock_config_entry(unique_id="number_set_value_test")
     diffuser = mock_diffuser_v1_battery_cartridge()
@@ -89,7 +89,7 @@ async def test_set_number_value(hass: UniversalAssistant) -> None:
     assert state.state == "1"
 
 
-async def test_set_number_value_out_of_range(hass: UniversalAssistant) -> None:
+async def test_set_number_value_out_of_range(hass: __HAC_KEEP__) -> None:
     """Test setting the diffuser number entity value out of range."""
     config_entry = mock_config_entry(unique_id="number_set_value_out_of_range_test")
     diffuser = mock_diffuser(hublot="lot123", perfume_amount=2)
@@ -145,7 +145,7 @@ async def test_set_number_value_out_of_range(hass: UniversalAssistant) -> None:
     assert state.state == "2"
 
 
-async def test_set_number_value_to_float(hass: UniversalAssistant) -> None:
+async def test_set_number_value_to_float(hass: __HAC_KEEP__) -> None:
     """Test setting the diffuser number entity value to a float."""
     config_entry = mock_config_entry(unique_id="number_set_value_to_float_test")
     diffuser = mock_diffuser(hublot="lot123", perfume_amount=3)
@@ -180,13 +180,13 @@ async def test_set_number_value_to_float(hass: UniversalAssistant) -> None:
     assert state.state == "3"
 
 
-async def test_number_action_error(hass: UniversalAssistant) -> None:
+async def test_number_action_error(hass: __HAC_KEEP__) -> None:
     """Test a failing change of the perfume amount raises a translated error."""
     config_entry = mock_config_entry(unique_id="id_123_number_action_error")
     client = await init_integration(hass, config_entry, [mock_diffuser("lot123")])
     client.set_perfume_amount.side_effect = RitualsGenieConnectionError
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

@@ -15,8 +15,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import setup_home_connect_entry
@@ -95,7 +95,7 @@ def _get_entities_for_appliance(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HomeConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -344,7 +344,7 @@ class HomeConnectAirConditioningEntity(HomeConnectEntity, ClimateEntity):
                 value=BSH_POWER_ON,
             )
         except HomeConnectError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="power_on",
                 translation_placeholders={
@@ -363,7 +363,7 @@ class HomeConnectAirConditioningEntity(HomeConnectEntity, ClimateEntity):
                 value=BSH_POWER_STANDBY,
             )
         except HomeConnectError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="power_off",
                 translation_placeholders={
@@ -379,7 +379,7 @@ class HomeConnectAirConditioningEntity(HomeConnectEntity, ClimateEntity):
                 self.appliance.info.ha_id, program_key=program_key
             )
         except HomeConnectError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="start_program",
                 translation_placeholders={

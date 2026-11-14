@@ -35,8 +35,8 @@ from universalassistant.components.todo import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ERROR_NOT_FOUND, ERROR_TOO_MANY_REQUESTS
@@ -54,7 +54,7 @@ def todo_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("habitica")
 async def test_todos(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -79,7 +79,7 @@ async def test_todos(
 )
 @pytest.mark.usefixtures("habitica")
 async def test_todo_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_id: str,
@@ -114,7 +114,7 @@ async def test_todo_items(
     ids=["todo", "daily"],
 )
 async def test_complete_todo_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -155,7 +155,7 @@ async def test_complete_todo_item(
     ids=["todo", "daily"],
 )
 async def test_uncomplete_todo_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     entity_id: str,
@@ -200,12 +200,12 @@ async def test_uncomplete_todo_item(
         (
             ERROR_TOO_MANY_REQUESTS,
             "Rate limit exceeded, try again in 5 seconds",
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
     ],
 )
 async def test_complete_todo_item_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     uid: str,
@@ -309,7 +309,7 @@ async def test_complete_todo_item_exception(
     ids=["todo", "todo remove date", "todo remove notes", "daily"],
 )
 async def test_update_todo_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     entity_id: str,
@@ -346,12 +346,12 @@ async def test_update_todo_item(
         (
             ERROR_TOO_MANY_REQUESTS,
             "Rate limit exceeded, try again in 5 seconds",
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
     ],
 )
 async def test_update_todo_item_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     exception: Exception,
@@ -383,7 +383,7 @@ async def test_update_todo_item_exception(
 
 
 async def test_add_todo_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
 ) -> None:
@@ -428,12 +428,12 @@ async def test_add_todo_item(
         (
             ERROR_TOO_MANY_REQUESTS,
             "Rate limit exceeded, try again in 5 seconds",
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
     ],
 )
 async def test_add_todo_item_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     exception: Exception,
@@ -469,7 +469,7 @@ async def test_add_todo_item_exception(
 
 
 async def test_delete_todo_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
 ) -> None:
@@ -504,12 +504,12 @@ async def test_delete_todo_item(
         (
             ERROR_TOO_MANY_REQUESTS,
             "Rate limit exceeded, try again in 5 seconds",
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
     ],
 )
 async def test_delete_todo_item_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     exception: Exception,
@@ -541,7 +541,7 @@ async def test_delete_todo_item_exception(
 
 
 async def test_delete_completed_todo_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
 ) -> None:
@@ -575,12 +575,12 @@ async def test_delete_completed_todo_items(
         (
             ERROR_TOO_MANY_REQUESTS,
             "Rate limit exceeded, try again in 5 seconds",
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
     ],
 )
 async def test_delete_completed_todo_items_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     exception: Exception,
@@ -631,7 +631,7 @@ async def test_delete_completed_todo_items_exception(
     ids=["todo", "daily"],
 )
 async def test_move_todo_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     hass_ws_client: WebSocketGenerator,
@@ -718,7 +718,7 @@ async def test_move_todo_item(
     ],
 )
 async def test_move_todo_item_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     hass_ws_client: WebSocketGenerator,
@@ -779,7 +779,7 @@ async def test_move_todo_item_exception(
 )
 @pytest.mark.usefixtures("set_tz")
 async def test_next_due_date(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fixture: str,
     calculated_due_date: str | None,
     config_entry: MockConfigEntry,

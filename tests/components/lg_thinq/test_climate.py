@@ -12,8 +12,8 @@ from universalassistant.components.climate import (
     SERVICE_SET_FAN_MODE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -25,7 +25,7 @@ from . import setup_integration
     "device_fixture", ["air_conditioner", "air_conditioner1", "air_conditioner2"]
 )
 async def test_climate_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_thinq_api: AsyncMock,
@@ -60,7 +60,7 @@ async def test_climate_entities(
     ],
 )
 async def test_fan_mode_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_thinq_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -91,17 +91,17 @@ async def test_fan_mode_service_calls(
 @pytest.mark.parametrize("device_fixture", ["air_conditioner"])
 @pytest.mark.usefixtures("devices")
 async def test_service_call_connection_error_raises_universal_assistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_thinq_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test a network error during a service call raises UniversalAssistantError."""
+    """Test a network error during a service call raises __HAC_KEEP__Error."""
     with patch("universalassistant.components.lg_thinq.PLATFORMS", [Platform.CLIMATE]):
         await setup_integration(hass, mock_config_entry)
 
     mock_thinq_api.async_post_device_control.side_effect = TimeoutError
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,

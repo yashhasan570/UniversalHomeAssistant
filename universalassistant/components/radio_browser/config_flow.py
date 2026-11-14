@@ -25,7 +25,7 @@ class RadioBrowserConfigFlow(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             radios = RadioBrowser(
                 session=async_get_clientsession(self.hass),
-                user_agent=f"UniversalAssistant/{__version__}",
+                user_agent=f"__HAC_KEEP__/{__version__}",
             )
             try:
                 await radios.stats()

@@ -14,9 +14,9 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components import ai_task
 from universalassistant.components.ai_task.const import DATA_PREFERENCES
 from universalassistant.components.media_source import MediaImage
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.exceptions import (
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceValidationError,
     Unauthorized,
 )
@@ -76,7 +76,7 @@ def mock_evaluate(mock_ai_task_entity: MockAITaskEntity) -> Generator[AsyncMock]
 )
 @pytest.mark.freeze_time("2026-10-08 12:00:00")
 async def test_evaluate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_evaluate: AsyncMock,
     state: JsonValueType,
     snapshot: SnapshotAssertion,
@@ -109,7 +109,7 @@ async def test_evaluate(
 
 @pytest.mark.usefixtures("init_components")
 async def test_preferences(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Set and clear the preferred evaluation entity through the public API."""
     client = await hass_ws_client(hass)
@@ -140,7 +140,7 @@ async def test_preferences(
     ],
 )
 async def test_missing_entity(
-    hass: UniversalAssistant, entity_id: str | None, error: str
+    hass: __HAC_KEEP__, entity_id: str | None, error: str
 ) -> None:
     """Report missing entities or preferences."""
     with pytest.raises(ServiceValidationError, match=error):
@@ -178,7 +178,7 @@ async def test_missing_entity(
     ],
 )
 async def test_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ai_task_entity: MockAITaskEntity,
     features: ai_task.AITaskEntityFeature,
     attachments: list[dict[str, str]],
@@ -200,7 +200,7 @@ async def test_features(
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_camera_only(hass: UniversalAssistant, mock_evaluate: AsyncMock) -> None:
+async def test_camera_only(hass: __HAC_KEEP__, mock_evaluate: AsyncMock) -> None:
     """Resolve a camera once and clean its temporary file after evaluation."""
     captured_paths: list[Path] = []
 
@@ -249,7 +249,7 @@ async def test_camera_only(hass: UniversalAssistant, mock_evaluate: AsyncMock) -
 
 
 @pytest.mark.usefixtures("init_components")
-async def test_missing_input(hass: UniversalAssistant, mock_evaluate: AsyncMock) -> None:
+async def test_missing_input(hass: __HAC_KEEP__, mock_evaluate: AsyncMock) -> None:
     """Reject a task with neither state nor attachments."""
     with pytest.raises(ServiceValidationError, match="requires state or attachments"):
         await ai_task.async_evaluate(
@@ -313,7 +313,7 @@ async def test_missing_input(hass: UniversalAssistant, mock_evaluate: AsyncMock)
     ],
 )
 async def test_invalid_questions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     questions: dict,
     mock_evaluate: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -336,19 +336,19 @@ async def test_invalid_questions(
     "second_image",
     [
         MediaImage(mime_type="image/jpeg", content=b"camera image"),
-        UniversalAssistantError("Task failed"),
+        __HAC_KEEP__Error("Task failed"),
     ],
 )
 async def test_failed_task_cleans_snapshots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_evaluate: AsyncMock,
     tmp_path: Path,
-    second_image: MediaImage | UniversalAssistantError,
+    second_image: MediaImage | __HAC_KEEP__Error,
 ) -> None:
     """Clean temporary camera files when resolution or evaluation fails."""
     snapshot_path = tmp_path / "snapshot.jpg"
     snapshot_path.write_bytes(b"camera image")
-    mock_evaluate.side_effect = UniversalAssistantError("Task failed")
+    mock_evaluate.side_effect = __HAC_KEEP__Error("Task failed")
     image = MediaImage(mime_type="image/jpeg", content=b"camera image")
     with (
         patch(
@@ -359,7 +359,7 @@ async def test_failed_task_cleans_snapshots(
             "universalassistant.components.ai_task.task._save_media_image",
             return_value=snapshot_path,
         ),
-        pytest.raises(UniversalAssistantError, match="Task failed"),
+        pytest.raises(__HAC_KEEP__Error, match="Task failed"),
     ):
         await ai_task.async_evaluate(
             hass,
@@ -382,7 +382,7 @@ async def test_failed_task_cleans_snapshots(
 
 @pytest.mark.usefixtures("init_components")
 async def test_explicit_entity_permission(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_read_only_user: MockUser,
     mock_evaluate: AsyncMock,
 ) -> None:
@@ -405,7 +405,7 @@ async def test_explicit_entity_permission(
 
 @pytest.mark.usefixtures("init_components")
 async def test_default_entity_permission(
-    hass: UniversalAssistant, hass_read_only_user: MockUser
+    hass: __HAC_KEEP__, hass_read_only_user: MockUser
 ) -> None:
     """Allow the default decision entity without control permission."""
     hass.data[DATA_PREFERENCES].async_set_preferences(evaluate_entity_id=TEST_ENTITY_ID)
@@ -423,7 +423,7 @@ async def test_default_entity_permission(
 @pytest.mark.parametrize("entity_id", [None, TEST_ENTITY_ID])
 @pytest.mark.parametrize("domain", ["camera", "image"])
 async def test_attachment_permission(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     mock_evaluate: AsyncMock,
     entity_id: str | None,

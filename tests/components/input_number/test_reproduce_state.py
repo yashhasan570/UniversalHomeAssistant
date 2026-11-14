@@ -3,7 +3,7 @@
 import pytest
 
 from universalassistant.components.input_number import DOMAIN
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.state import async_reproduce_state
 from universalassistant.setup import async_setup_component
 
@@ -12,7 +12,7 @@ VALID_NUMBER2 = "99.9"
 
 
 async def test_reproducing_states(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Input number states."""
 

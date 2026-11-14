@@ -9,7 +9,7 @@ import probatio
 from universalassistant.components import websocket_api
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CONF_DISPLAY_OPTIONS
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import PlatformData
 from universalassistant.helpers.schema_config_entry_flow import (
     SchemaCommonFlowHandler,
@@ -79,7 +79,7 @@ class TimeDateConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
 
     @staticmethod
     @override
-    async def async_setup_preview(hass: UniversalAssistant) -> None:
+    async def async_setup_preview(hass: __HAC_KEEP__) -> None:
         """Set up preview WS API."""
         websocket_api.async_register_command(hass, ws_start_preview)
 
@@ -94,7 +94,7 @@ class TimeDateConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
 )
 @websocket_api.async_response
 async def ws_start_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

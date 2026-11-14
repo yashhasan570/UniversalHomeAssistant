@@ -15,7 +15,7 @@ from universalassistant.components.universalassistant.exposed_entities import as
 from universalassistant.components.universalassistant.llm import async_get_exposed_entities
 from universalassistant.core import (
     Context,
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -37,7 +37,7 @@ CALL_ACTION_TOOL = "universalassistant__call_action"
 
 
 @pytest.fixture(autouse=True)
-async def setup_integrations(hass: UniversalAssistant) -> None:
+async def setup_integrations(hass: __HAC_KEEP__) -> None:
     """Set up the integrations and expose an entity."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "llm", {})
@@ -57,20 +57,20 @@ def _llm_context() -> llm.LLMContext:
     )
 
 
-async def test_live_context_always_offered(hass: UniversalAssistant) -> None:
+async def test_live_context_always_offered(hass: __HAC_KEEP__) -> None:
     """Test universalassistant__GetLiveContext is offered even when nothing is exposed."""
     async_expose_entity(hass, "conversation", ENTITY_ID, False)
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     assert "universalassistant__GetLiveContext" in [tool.name for tool in result.tools]
 
 
-async def test_no_tools_for_other_api(hass: UniversalAssistant) -> None:
+async def test_no_tools_for_other_api(hass: __HAC_KEEP__) -> None:
     """Test the platform returns None for an unsupported API."""
     assert ha_llm.async_get_tools(hass, _llm_context(), "other") is None
 
 
-async def test_universal_assistant_api_tools(hass: UniversalAssistant) -> None:
-    """Test the platform offers its tools to the Universal Universal Home Assistant API."""
+async def test_universal_assistant_api_tools(hass: __HAC_KEEP__) -> None:
+    """Test the platform offers its tools to the __HA_KEEP__ API."""
     result = ha_llm.async_get_tools(hass, _llm_context(), llm.LLM_API_UNIVERSAL_ASSISTANT)
     assert [tool.name for tool in result.tools] == [
         RENDER_TEMPLATE_TOOL,
@@ -81,7 +81,7 @@ async def test_universal_assistant_api_tools(hass: UniversalAssistant) -> None:
 
 
 async def _async_render_template(
-    hass: UniversalAssistant, tool_args: dict[str, Any]
+    hass: __HAC_KEEP__, tool_args: dict[str, Any]
 ) -> llm.ToolResult:
     """Render a template with the render template tool."""
     llm_context = _llm_context()
@@ -121,7 +121,7 @@ async def _async_render_template(
     ],
 )
 async def test_render_template(
-    hass: UniversalAssistant, tool_args: dict[str, Any], expected: dict[str, Any]
+    hass: __HAC_KEEP__, tool_args: dict[str, Any], expected: dict[str, Any]
 ) -> None:
     """Test the render template tool returns the rendered template as a string."""
     response = await _async_render_template(hass, tool_args)
@@ -136,14 +136,14 @@ async def test_render_template(
         pytest.param("{{ 1 / 0 }}", id="render_error"),
     ],
 )
-async def test_render_template_error(hass: UniversalAssistant, template: str) -> None:
+async def test_render_template_error(hass: __HAC_KEEP__, template: str) -> None:
     """Test the render template tool reports template errors."""
     response = await _async_render_template(hass, {"template": template})
     assert response.error is True
     assert response.data["error"]
 
 
-async def test_render_template_timeout(hass: UniversalAssistant) -> None:
+async def test_render_template_timeout(hass: __HAC_KEEP__) -> None:
     """Test the render template tool reports a template that renders too slowly."""
     with patch(
         "universalassistant.components.universalassistant.llm.Template.async_render_will_timeout",
@@ -156,7 +156,7 @@ async def test_render_template_timeout(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_render_template_output_too_large(hass: UniversalAssistant) -> None:
+async def test_render_template_output_too_large(hass: __HAC_KEEP__) -> None:
     """Test the render template tool reports output that exceeds the maximum size."""
     response = await _async_render_template(hass, {"template": "{{ 'a' * 16385 }}"})
     assert response == llm.ToolResult(
@@ -169,9 +169,9 @@ async def test_render_template_output_too_large(hass: UniversalAssistant) -> Non
 
 
 async def _async_call_tool(
-    hass: UniversalAssistant, tool_name: str, tool_args: dict[str, Any]
+    hass: __HAC_KEEP__, tool_name: str, tool_args: dict[str, Any]
 ) -> llm.ToolResult:
-    """Call a tool of the Universal Universal Home Assistant API."""
+    """Call a tool of the __HA_KEEP__ API."""
     llm_context = _llm_context()
     result = await llm_component.async_get_tools(
         hass, llm_context, llm.LLM_API_UNIVERSAL_ASSISTANT
@@ -181,7 +181,7 @@ async def _async_call_tool(
 
 
 @pytest.fixture
-def mock_actions(hass: UniversalAssistant) -> None:
+def mock_actions(hass: __HAC_KEEP__) -> None:
     """Register test actions with descriptions."""
     actions = {
         "turn_on": {
@@ -241,7 +241,7 @@ def mock_actions(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_search_actions(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, query: str
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, query: str
 ) -> None:
     """Test the search actions tool returns the best matching actions."""
     translations = {
@@ -260,7 +260,7 @@ async def test_search_actions(
 
 
 async def test_search_actions_placeholders_and_empty_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the search actions tool fills in placeholders and keeps an empty target."""
     descriptions = {
@@ -320,7 +320,7 @@ async def test_search_actions_placeholders_and_empty_target(
     ],
 )
 async def test_call_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supports_response: SupportsResponse,
     expected: dict[str, Any],
 ) -> None:
@@ -348,7 +348,7 @@ async def test_call_action(
     assert calls[0].data == {"entity_id": [ENTITY_ID], "value": 1}
 
 
-async def test_call_action_template(hass: UniversalAssistant) -> None:
+async def test_call_action_template(hass: __HAC_KEEP__) -> None:
     """Test the call action tool renders templates in the target and data."""
     calls: list[ServiceCall] = []
     hass.services.async_register("test", "action", calls.append)
@@ -388,7 +388,7 @@ async def test_call_action_template(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_call_action_invalid(
-    hass: UniversalAssistant, tool_args: dict[str, Any]
+    hass: __HAC_KEEP__, tool_args: dict[str, Any]
 ) -> None:
     """Test the call action tool reports an invalid target or template."""
     calls: list[ServiceCall] = []
@@ -399,7 +399,7 @@ async def test_call_action_invalid(
     assert not calls
 
 
-async def test_call_action_template_timeout(hass: UniversalAssistant) -> None:
+async def test_call_action_template_timeout(hass: __HAC_KEEP__) -> None:
     """Test the call action tool reports a template that renders too slowly."""
     calls: list[ServiceCall] = []
     hass.services.async_register("test", "action", calls.append)
@@ -419,7 +419,7 @@ async def test_call_action_template_timeout(hass: UniversalAssistant) -> None:
     assert not calls
 
 
-async def test_call_action_unknown(hass: UniversalAssistant) -> None:
+async def test_call_action_unknown(hass: __HAC_KEEP__) -> None:
     """Test the call action tool reports an action that does not exist."""
     response = await _async_call_tool(
         hass, CALL_ACTION_TOOL, {"action": "test.missing"}
@@ -430,7 +430,7 @@ async def test_call_action_unknown(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_call_action_removed_while_rendering(hass: UniversalAssistant) -> None:
+async def test_call_action_removed_while_rendering(hass: __HAC_KEEP__) -> None:
     """Test the call action tool reports an action removed while templates render."""
     hass.services.async_register("test", "action", lambda call: None)
 
@@ -452,7 +452,7 @@ async def test_call_action_removed_while_rendering(hass: UniversalAssistant) -> 
     )
 
 
-async def test_call_action_error(hass: UniversalAssistant) -> None:
+async def test_call_action_error(hass: __HAC_KEEP__) -> None:
     """Test the call action tool reports an error of the action."""
 
     def handle(call: ServiceCall) -> None:
@@ -463,7 +463,7 @@ async def test_call_action_error(hass: UniversalAssistant) -> None:
     assert response == llm.ToolResult(data={"error": "Device is offline"}, error=True)
 
 
-async def test_call_action_invalid_data(hass: UniversalAssistant) -> None:
+async def test_call_action_invalid_data(hass: __HAC_KEEP__) -> None:
     """Test the call action tool reports data that the action schema rejects."""
     hass.services.async_register(
         "test",
@@ -476,7 +476,7 @@ async def test_call_action_invalid_data(hass: UniversalAssistant) -> None:
     assert "value" in response.data["error"]
 
 
-async def test_prompt_includes_context(hass: UniversalAssistant) -> None:
+async def test_prompt_includes_context(hass: __HAC_KEEP__) -> None:
     """Test the platform contributes the live-context and static-overview prompt."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     assert result.prompt is not None
@@ -485,14 +485,14 @@ async def test_prompt_includes_context(hass: UniversalAssistant) -> None:
     assert "Kitchen Light" in result.prompt
 
 
-async def test_prompt_no_entities(hass: UniversalAssistant) -> None:
+async def test_prompt_no_entities(hass: __HAC_KEEP__) -> None:
     """Test the platform contributes the no-entities prompt when nothing is exposed."""
     async_expose_entity(hass, "conversation", ENTITY_ID, False)
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     assert result.prompt == ha_llm.NO_ENTITIES_PROMPT
 
 
-async def test_get_live_context_no_exposed_entities(hass: UniversalAssistant) -> None:
+async def test_get_live_context_no_exposed_entities(hass: __HAC_KEEP__) -> None:
     """Test universalassistant__GetLiveContext reports an error when nothing is exposed."""
     async_expose_entity(hass, "conversation", ENTITY_ID, False)
     llm_context = _llm_context()
@@ -509,7 +509,7 @@ async def test_get_live_context_no_exposed_entities(hass: UniversalAssistant) ->
     )
 
 
-async def test_get_live_context_tool(hass: UniversalAssistant) -> None:
+async def test_get_live_context_tool(hass: __HAC_KEEP__) -> None:
     """Test universalassistant__GetLiveContext returns exposed entity state."""
     llm_context = _llm_context()
     result = await llm_component.async_get_tools(hass, llm_context, "assist")
@@ -526,7 +526,7 @@ async def test_get_live_context_tool(hass: UniversalAssistant) -> None:
     assert "Kitchen Light" in response.data["result"]
 
 
-async def test_get_exposed_entities_timestamp_conversion(hass: UniversalAssistant) -> None:
+async def test_get_exposed_entities_timestamp_conversion(hass: __HAC_KEEP__) -> None:
     """Test that async_get_exposed_entities converts timestamp states to local time."""
     # Set the timezone to something other than UTC to ensure conversion is tested
     await hass.config.async_set_time_zone("America/New_York")
@@ -581,7 +581,7 @@ async def test_get_exposed_entities_timestamp_conversion(hass: UniversalAssistan
 
 
 async def test_get_live_context_tool_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
@@ -823,7 +823,7 @@ async def test_get_live_context_tool_filter(
 
 
 async def test_get_live_context_schema(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
 ) -> None:
     """Test that universalassistant__GetLiveContext tool parameters convert to a sane OpenAPI schema."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
@@ -836,7 +836,7 @@ async def test_get_live_context_schema(
 
 
 async def test_call_action_schema(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
 ) -> None:
     """Test that universalassistant__call_action parameters convert to an OpenAPI schema."""
     result = await llm_component.async_get_tools(
@@ -850,7 +850,7 @@ async def test_call_action_schema(
     assert schema == snapshot
 
 
-async def test_get_exposed_entities_brightness_percentage(hass: UniversalAssistant) -> None:
+async def test_get_exposed_entities_brightness_percentage(hass: __HAC_KEEP__) -> None:
     """Test that a light's brightness is also rendered as a percentage."""
     hass.states.async_set(
         ENTITY_ID, "on", {"friendly_name": "Kitchen Light", "brightness": 128}

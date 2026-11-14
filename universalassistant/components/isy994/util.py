@@ -1,6 +1,6 @@
 """ISY utils."""
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import LOGGER
@@ -8,7 +8,7 @@ from .models import IsyConfigEntry
 
 
 @callback
-def _async_cleanup_registry_entries(hass: UniversalAssistant, entry: IsyConfigEntry) -> None:
+def _async_cleanup_registry_entries(hass: __HAC_KEEP__, entry: IsyConfigEntry) -> None:
     """Remove extra entities that are no longer part of the integration."""
     entity_registry = er.async_get(hass)
     isy_data = entry.runtime_data

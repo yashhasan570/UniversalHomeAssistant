@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -226,7 +226,7 @@ async def _async_handle_get_statistics_service(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register recorder services."""
     async_register_admin_service(
         hass,

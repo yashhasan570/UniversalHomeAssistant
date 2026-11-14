@@ -12,7 +12,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -27,7 +27,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_sensor_with_climate_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
     entity_registry: er.EntityRegistry,
@@ -49,7 +49,7 @@ async def test_sensor_with_climate_data(
     ],
 )
 async def test_sensor_with_no_climate_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_integration: MockConfigEntry,
     get_client: AirPatrolAPI,
     entity_registry: er.EntityRegistry,

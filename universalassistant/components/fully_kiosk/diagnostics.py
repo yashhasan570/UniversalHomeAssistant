@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .coordinator import FullyKioskConfigEntry
@@ -54,7 +54,7 @@ SETTINGS_TO_REDACT = {
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, entry: FullyKioskConfigEntry, device: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: FullyKioskConfigEntry, device: dr.AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return device diagnostics."""
     coordinator = entry.runtime_data

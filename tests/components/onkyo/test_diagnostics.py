@@ -12,14 +12,14 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.onkyo.coordinator import POWER_ON_QUERY_DELAY, Channel
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_receiver")
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,

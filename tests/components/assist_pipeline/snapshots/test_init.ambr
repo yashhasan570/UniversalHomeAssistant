@@ -489,7 +489,7 @@
     dict({
       'data': dict({
         'code': 'cloud-auth-failed',
-        'message': 'Universal Universal Home Assistant Cloud authentication failed',
+        'message': '__HA_KEEP__ Cloud authentication failed',
       }),
       'type': <PipelineEventType.ERROR: 'error'>,
     }),

@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_SCAN_INTERVAL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import track_time_interval
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -49,7 +49,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 def setup_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     see: SeeCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -63,7 +63,7 @@ class GoogleMapsScanner:
     """Representation of an Google Maps location sharing account."""
 
     def __init__(
-        self, hass: UniversalAssistant, config: ConfigType, see: SeeCallback
+        self, hass: __HAC_KEEP__, config: ConfigType, see: SeeCallback
     ) -> None:
         """Initialize the scanner."""
         self.see = see

@@ -4,7 +4,7 @@ import asyncio
 
 from peblar import Peblar, PeblarError, PeblarSessionStatus, SessionState
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import EVENT_STREAM_RETRY_MAXIMUM, EVENT_STREAM_RETRY_MINIMUM, LOGGER
 from .coordinator import PeblarConfigEntry
@@ -21,7 +21,7 @@ class PeblarSessionListener:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: PeblarConfigEntry,
         peblar: Peblar,
     ) -> None:

@@ -15,7 +15,7 @@ from onedrive_personal_sdk.exceptions import (
 
 from universalassistant.components.backup import async_get_manager
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -48,13 +48,13 @@ PLATFORMS = [Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the OneDrive integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OneDriveConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OneDriveConfigEntry) -> None:
     """Set up OneDrive from a config entry."""
     client, get_access_token = await _get_onedrive_client(hass, entry)
 
@@ -110,7 +110,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OneDriveConfigEntry
     entry.async_on_unload(entry.async_on_state_change(async_notify_backup_listeners))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: OneDriveConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: OneDriveConfigEntry) -> None:
     """Unload a OneDrive config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -137,7 +137,7 @@ async def _migrate_backup_files(client: OneDriveClient, backup_folder_id: str) -
             _LOGGER.debug("Migrated backup file %s", file.name)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: OneDriveConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: OneDriveConfigEntry) -> None:
     """Migrate old entry."""
 
     if (version := entry.version) == 1 and (minor_version := entry.minor_version) == 1:
@@ -247,7 +247,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: OneDriveConfigEnt
 
 
 async def _get_onedrive_client(
-    hass: UniversalAssistant, entry: OneDriveConfigEntry
+    hass: __HAC_KEEP__, entry: OneDriveConfigEntry
 ) -> tuple[OneDriveClient, Callable[[], Awaitable[str]]]:
     """Get OneDrive client."""
     implementation = await async_get_config_entry_implementation(hass, entry)

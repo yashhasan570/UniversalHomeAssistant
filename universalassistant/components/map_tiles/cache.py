@@ -7,7 +7,7 @@ from dataclasses import dataclass
 import time
 from typing import Any, Final
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CACHE_MAX_BYTES, DOMAIN, MAX_CONCURRENT_FETCHES
 
@@ -44,7 +44,7 @@ class MapTilesCache:
     least recently used first.
     """
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the cache."""
         self._hass = hass
         self._max_bytes = CACHE_MAX_BYTES

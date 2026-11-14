@@ -8,12 +8,12 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.tado.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_get_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     hass_client: ClientSessionGenerator,
 ) -> None:

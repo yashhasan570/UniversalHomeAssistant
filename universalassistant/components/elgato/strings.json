@@ -26,10 +26,10 @@
         "data_description": {
           "host": "The hostname or IP address of your Elgato device."
         },
-        "description": "Set up your Elgato Light to integrate with Universal Universal Home Assistant."
+        "description": "Set up your Elgato Light to integrate with __HA_KEEP__."
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add the Elgato Light with serial number `{serial_number}` to Universal Universal Home Assistant?",
+        "description": "Do you want to add the Elgato Light with serial number `{serial_number}` to __HA_KEEP__?",
         "title": "Discovered Elgato Light device"
       }
     }

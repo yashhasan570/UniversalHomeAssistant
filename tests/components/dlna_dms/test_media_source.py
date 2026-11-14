@@ -21,7 +21,7 @@ from universalassistant.components.media_source import (
     Unresolvable,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import (
     MOCK_DEVICE_BASE_URL,
@@ -39,14 +39,14 @@ pytestmark = [
 ]
 
 
-async def test_get_media_source(hass: UniversalAssistant) -> None:
+async def test_get_media_source(hass: __HAC_KEEP__) -> None:
     """Test the async_get_media_source function and DmsMediaSource constructor."""
     source = await async_get_media_source(hass)
     assert isinstance(source, DmsMediaSource)
     assert source.domain == DOMAIN
 
 
-async def test_resolve_media_unconfigured(hass: UniversalAssistant) -> None:
+async def test_resolve_media_unconfigured(hass: __HAC_KEEP__) -> None:
     """Test resolve_media without any devices being configured."""
     source = DmsMediaSource(hass)
     item = MediaSourceItem(hass, DOMAIN, "source_id/media_id", None)
@@ -55,7 +55,7 @@ async def test_resolve_media_unconfigured(hass: UniversalAssistant) -> None:
 
 
 async def test_resolve_media_bad_identifier(
-    hass: UniversalAssistant, device_source_mock: None
+    hass: __HAC_KEEP__, device_source_mock: None
 ) -> None:
     """Test trying to resolve an item that has an unresolvable identifier."""
     # Empty identifier
@@ -89,7 +89,7 @@ async def test_resolve_media_bad_identifier(
 
 
 async def test_resolve_media_success(
-    hass: UniversalAssistant, dms_device_mock: Mock, device_source_mock: None
+    hass: __HAC_KEEP__, dms_device_mock: Mock, device_source_mock: None
 ) -> None:
     """Test resolving an item via a DmsDeviceSource."""
     object_id = "123"
@@ -113,7 +113,7 @@ async def test_resolve_media_success(
     assert result.didl_metadata is didl_item
 
 
-async def test_browse_media_unconfigured(hass: UniversalAssistant) -> None:
+async def test_browse_media_unconfigured(hass: __HAC_KEEP__) -> None:
     """Test browse_media without any devices being configured."""
     source = DmsMediaSource(hass)
     item = MediaSourceItem(hass, DOMAIN, "source_id/media_id", None)
@@ -126,7 +126,7 @@ async def test_browse_media_unconfigured(hass: UniversalAssistant) -> None:
 
 
 async def test_browse_media_bad_identifier(
-    hass: UniversalAssistant, device_source_mock: None
+    hass: __HAC_KEEP__, device_source_mock: None
 ) -> None:
     """Test browse_media with a bad source_id."""
     with pytest.raises(BrowseError, match="Unknown source ID: bad-id"):
@@ -136,7 +136,7 @@ async def test_browse_media_bad_identifier(
 
 
 async def test_browse_media_single_source_no_identifier(
-    hass: UniversalAssistant, dms_device_mock: Mock, device_source_mock: None
+    hass: __HAC_KEEP__, dms_device_mock: Mock, device_source_mock: None
 ) -> None:
     """Test browse_media without a source_id, with a single device registered."""
     # Fast bail-out, mock will be checked after
@@ -161,7 +161,7 @@ async def test_browse_media_single_source_no_identifier(
 
 
 async def test_browse_media_multiple_sources(
-    hass: UniversalAssistant, dms_device_mock: Mock, device_source_mock: None
+    hass: __HAC_KEEP__, dms_device_mock: Mock, device_source_mock: None
 ) -> None:
     """Test browse_media without a source_id, with multiple devices registered."""
     # Set up a second source
@@ -209,7 +209,7 @@ async def test_browse_media_multiple_sources(
 
 
 async def test_browse_media_source_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_mock: MockConfigEntry,
     dms_device_mock: Mock,
 ) -> None:

@@ -11,11 +11,11 @@ from universalassistant.components.mcp_server.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import llm
 
 
-async def test_init(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def test_init(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Test the integration is initialized and can be unloaded cleanly."""
     await hass.config_entries.async_setup(config_entry.entry_id)
     assert config_entry.state is ConfigEntryState.LOADED
@@ -24,7 +24,7 @@ async def test_init(hass: UniversalAssistant, config_entry: MockConfigEntry) -> 
     assert config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_migrate_entry_require_admin(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_require_admin(hass: __HAC_KEEP__) -> None:
     """Test an entry created before the require admin option keeps the endpoints open."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -45,7 +45,7 @@ async def test_migrate_entry_require_admin(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_migrate_entry_keeps_require_admin(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_keeps_require_admin(hass: __HAC_KEEP__) -> None:
     """Test the migration keeps an option the options flow saved before it ran."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -69,7 +69,7 @@ async def test_migrate_entry_keeps_require_admin(hass: UniversalAssistant) -> No
     ],
 )
 async def test_migrate_entry_all_llm_apis(
-    hass: UniversalAssistant, data: dict[str, bool], expected_all_llm_apis: bool
+    hass: __HAC_KEEP__, data: dict[str, bool], expected_all_llm_apis: bool
 ) -> None:
     """Test an entry created before the all LLM APIs option keeps its selection."""
     config_entry = MockConfigEntry(
@@ -103,7 +103,7 @@ async def test_migrate_entry_all_llm_apis(
     ],
 )
 async def test_migrate_entry_read_only(
-    hass: UniversalAssistant, data: dict[str, bool], expected_read_only: bool
+    hass: __HAC_KEEP__, data: dict[str, bool], expected_read_only: bool
 ) -> None:
     """Test an entry created before the read-only option keeps exposing all tools."""
     config_entry = MockConfigEntry(

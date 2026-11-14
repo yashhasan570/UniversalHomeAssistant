@@ -27,8 +27,8 @@ from universalassistant.components.humidifier import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -37,7 +37,7 @@ ENTITY_ID = "humidifier.climate0_humidifier"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -90,7 +90,7 @@ async def test_all_entities(
     ],
 )
 async def test_humidifier_data_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -130,7 +130,7 @@ async def test_humidifier_data_update(
 
 
 async def test_humidifier_set_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_humidifier_set_humidity(
 
 
 async def test_humidifier_set_humidity_while_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_humidifier_set_humidity_while_off(
     assert state.state == STATE_OFF
 
     # Try setting humidity
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             HUMIDIFIER_DOMAIN,
             SERVICE_SET_HUMIDITY,
@@ -194,7 +194,7 @@ async def test_humidifier_set_humidity_while_off(
 
 
 async def test_humidifier_set_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -221,7 +221,7 @@ async def test_humidifier_set_mode(
 
 
 async def test_humidifier_set_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -259,7 +259,7 @@ async def test_humidifier_set_status(
 
 
 async def test_humidifier_dehumidifier_remove_stale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:

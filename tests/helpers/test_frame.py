@@ -12,7 +12,7 @@ from pytest_universalassistant.common import (
 )
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import frame
 from universalassistant.loader import async_get_integration
 
@@ -285,7 +285,7 @@ async def test_report_usage_no_hass() -> None:
 )
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_report_usage_find_issue_tracker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -340,7 +340,7 @@ async def test_report_usage_find_issue_tracker(
 )
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_report_usage_find_issue_tracker_other_thread(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -391,7 +391,7 @@ async def test_prevent_flooding(
     expected_message = (
         f"Detected that integration '{integration}' {what} at {filename}, line "
         f"{mock_integration_frame.lineno}: {mock_integration_frame.line}. "
-        f"Please create a bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues?"
+        f"Please create a bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues?"
         f"q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+{integration}%22"
     )
 
@@ -435,8 +435,8 @@ async def test_breaks_in_ha_version(
     expected_message = (
         f"Detected that integration '{integration}' {what} at {filename}, line "
         f"{mock_integration_frame.lineno}: {mock_integration_frame.line}. "
-        f"This will stop working in Universal Universal Home Assistant 2024.11, please create a bug "
-        "report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues?"
+        f"This will stop working in __HA_KEEP__ 2024.11, please create a bug "
+        "report at https://github.com/yashhasan570/__HAC_KEEP__/issues?"
         f"q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+{integration}%22"
     )
 
@@ -573,7 +573,7 @@ async def test_report_error_if_integration(
 )
 @pytest.mark.usefixtures("enable_custom_integrations", "mock_integration_frame")
 async def test_report_integration_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     behavior: str,
     integration_domain: str | None,

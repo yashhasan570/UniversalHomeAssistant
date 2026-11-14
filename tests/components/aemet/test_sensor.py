@@ -3,14 +3,14 @@
 from freezegun.api import FrozenDateTimeFactory
 
 from universalassistant.components.weather import ATTR_CONDITION_SNOWY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .util import async_init_integration
 
 
 async def test_aemet_forecast_create_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test creation of forecast sensors."""
@@ -71,7 +71,7 @@ async def test_aemet_forecast_create_sensors(
 
 
 async def test_aemet_weather_create_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test creation of weather sensors."""

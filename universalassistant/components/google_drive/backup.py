@@ -15,8 +15,8 @@ from universalassistant.components.backup import (
     BackupNotFound,
     OnProgressCallback,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import slugify
 
 from . import DATA_BACKUP_AGENT_LISTENERS
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_get_backup_agents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     **kwargs: Any,
 ) -> list[BackupAgent]:
     """Return a list of backup agents."""
@@ -37,7 +37,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -109,7 +109,7 @@ class GoogleDriveBackupAgent(BackupAgent):
 
         try:
             await self._client.async_upload_backup(wrapped_open_stream, backup)
-        except (GoogleDriveApiError, UniversalAssistantError, TimeoutError) as err:
+        except (GoogleDriveApiError, __HAC_KEEP__Error, TimeoutError) as err:
             _LOGGER.error("Failed to upload backup: %s", err)
             raise BackupAgentError(
                 translation_domain=DOMAIN,
@@ -121,7 +121,7 @@ class GoogleDriveBackupAgent(BackupAgent):
         """List backups."""
         try:
             return await self._client.async_list_backups()
-        except (GoogleDriveApiError, UniversalAssistantError, TimeoutError) as err:
+        except (GoogleDriveApiError, __HAC_KEEP__Error, TimeoutError) as err:
             _LOGGER.error("Failed to list backups: %s", err)
             raise BackupAgentError(
                 translation_domain=DOMAIN,
@@ -162,7 +162,7 @@ class GoogleDriveBackupAgent(BackupAgent):
             if file_id:
                 _LOGGER.debug("Downloading file_id: %s", file_id)
                 return await self._client.async_download(file_id)
-        except (GoogleDriveApiError, UniversalAssistantError, TimeoutError) as err:
+        except (GoogleDriveApiError, __HAC_KEEP__Error, TimeoutError) as err:
             _LOGGER.error("Failed to download backup: %s", err)
             raise BackupAgentError(
                 translation_domain=DOMAIN,
@@ -192,7 +192,7 @@ class GoogleDriveBackupAgent(BackupAgent):
                 await self._client.async_delete(file_id)
                 _LOGGER.debug("Deleted backup_id: %s", backup_id)
                 return
-        except (GoogleDriveApiError, UniversalAssistantError, TimeoutError) as err:
+        except (GoogleDriveApiError, __HAC_KEEP__Error, TimeoutError) as err:
             _LOGGER.error("Failed to delete backup: %s", err)
             raise BackupAgentError(
                 translation_domain=DOMAIN,

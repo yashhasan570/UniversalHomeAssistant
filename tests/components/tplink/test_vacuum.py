@@ -16,7 +16,7 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -29,14 +29,14 @@ ENTITY_ID = "vacuum.my_vacuum"
 
 
 @pytest.fixture
-async def mocked_vacuum(hass: UniversalAssistant) -> Device:
+async def mocked_vacuum(hass: __HAC_KEEP__) -> Device:
     """Return mocked tplink vacuum."""
 
     return _mocked_device(modules=[Module.Clean, Module.Speaker], alias="my_vacuum")
 
 
 async def test_vacuum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -67,7 +67,7 @@ async def test_vacuum(
 
 
 async def test_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -99,7 +99,7 @@ async def test_states(
     ],
 )
 async def test_vacuum_module(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mocked_vacuum: Device,
     service_call: str,

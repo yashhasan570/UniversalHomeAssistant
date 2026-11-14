@@ -5,8 +5,8 @@ from typing import Any, override
 from pyhelty import FanMode, HeltyError
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     ordered_list_item_to_percentage,
@@ -38,7 +38,7 @@ MODE_TO_PRESET: dict[FanMode, str] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HeltyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -127,7 +127,7 @@ class HeltyFan(HeltyEntity, FanEntity):
         try:
             await self.coordinator.client.async_set_fan_mode(mode)
         except HeltyError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_fan_mode_failed",
             ) from err

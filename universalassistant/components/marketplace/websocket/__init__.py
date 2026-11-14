@@ -6,7 +6,7 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.config_entries import SOURCE_RECONFIGURE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 
 from ..base import MarketplaceManager
@@ -35,7 +35,7 @@ from .repository import (
 
 
 @callback
-def async_register_websocket_commands(hass: UniversalAssistant) -> None:
+def async_register_websocket_commands(hass: __HAC_KEEP__) -> None:
     """Register the WebSocket commands of the Marketplace."""
     websocket_api.async_register_command(hass, marketplace_info)
     websocket_api.async_register_command(hass, marketplace_github_connect)
@@ -73,7 +73,7 @@ def async_register_websocket_commands(hass: UniversalAssistant) -> None:
 @websocket_api.require_admin
 @websocket_api.async_response
 async def marketplace_subscribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict,
 ) -> None:
@@ -101,7 +101,7 @@ async def marketplace_subscribe(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -134,7 +134,7 @@ async def marketplace_info(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_github_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,
@@ -159,7 +159,7 @@ async def marketplace_github_connect(
 @websocket_api.async_response
 @marketplace_command()
 async def marketplace_warning_accept(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     marketplace: MarketplaceManager,

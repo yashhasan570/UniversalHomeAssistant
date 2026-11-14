@@ -96,8 +96,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -128,7 +128,7 @@ SUPPORT_YEELIGHT = (
 )
 
 
-async def test_services(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
+async def test_services(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
     """Test Yeelight services."""
     assert await async_setup_component(hass, HOMEASSISTANT_DOMAIN, {})
     config_entry = MockConfigEntry(
@@ -160,7 +160,7 @@ async def test_services(hass: UniversalAssistant, caplog: pytest.LogCaptureFixtu
         method,
         payload=None,
         domain=DOMAIN,
-        failure_side_effect=UniversalAssistantError,
+        failure_side_effect=__HAC_KEEP__Error,
     ):
         err_count = len([x for x in caplog.records if x.levelno == logging.ERROR])
 
@@ -468,7 +468,7 @@ async def test_services(hass: UniversalAssistant, caplog: pytest.LogCaptureFixtu
 
     # set_music_mode failure enable
     mocked_bulb.async_start_music = MagicMock(side_effect=AssertionError)
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             YeelightService.SET_MUSIC_MODE,
@@ -516,7 +516,7 @@ async def test_services(hass: UniversalAssistant, caplog: pytest.LogCaptureFixtu
 
     mocked_bulb.async_turn_on = AsyncMock()
     mocked_bulb.async_set_brightness = AsyncMock(side_effect=BulbException)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "light",
             SERVICE_TURN_ON,
@@ -526,7 +526,7 @@ async def test_services(hass: UniversalAssistant, caplog: pytest.LogCaptureFixtu
     assert hass.states.get(ENTITY_LIGHT).state == STATE_OFF
 
     mocked_bulb.async_set_brightness = AsyncMock(side_effect=TimeoutError)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "light",
             SERVICE_TURN_ON,
@@ -536,7 +536,7 @@ async def test_services(hass: UniversalAssistant, caplog: pytest.LogCaptureFixtu
     assert hass.states.get(ENTITY_LIGHT).state == STATE_OFF
 
     mocked_bulb.async_set_brightness = AsyncMock(side_effect=socket.error)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "light",
             SERVICE_TURN_ON,
@@ -547,7 +547,7 @@ async def test_services(hass: UniversalAssistant, caplog: pytest.LogCaptureFixtu
 
 
 async def test_update_errors(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test update errors."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -577,7 +577,7 @@ async def test_update_errors(
     # Timeout usually means the bulb is overloaded with commands
     # but will still respond eventually.
     mocked_bulb.async_turn_off = AsyncMock(side_effect=TimeoutError)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "light",
             SERVICE_TURN_OFF,
@@ -590,7 +590,7 @@ async def test_update_errors(
     # or lost wifi, then came back online and forced the existing
     # connection closed with a TCP RST
     mocked_bulb.async_turn_off = AsyncMock(side_effect=socket.error)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "light",
             SERVICE_TURN_OFF,
@@ -600,7 +600,7 @@ async def test_update_errors(
     assert hass.states.get(ENTITY_LIGHT).state == STATE_UNAVAILABLE
 
 
-async def test_state_already_set_avoid_ratelimit(hass: UniversalAssistant) -> None:
+async def test_state_already_set_avoid_ratelimit(hass: __HAC_KEEP__) -> None:
     """Ensure we suppress no-op state changes to avoid rate limit."""
     mocked_bulb = _mocked_bulb()
     properties = {**PROPERTIES}
@@ -951,7 +951,7 @@ async def test_state_already_set_avoid_ratelimit(hass: UniversalAssistant) -> No
     ],
 )
 async def test_device_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     snapshot: SnapshotAssertion,
@@ -1064,7 +1064,7 @@ async def test_device_types(
     )
 
 
-async def test_effects(hass: UniversalAssistant) -> None:
+async def test_effects(hass: __HAC_KEEP__) -> None:
     """Test effects."""
     assert await async_setup_component(
         hass,
@@ -1239,7 +1239,7 @@ async def test_effects(hass: UniversalAssistant) -> None:
     await _async_test_effect("not_existed", called=False)
 
 
-async def test_ambilight_with_nightlight_disabled(hass: UniversalAssistant) -> None:
+async def test_ambilight_with_nightlight_disabled(hass: __HAC_KEEP__) -> None:
     """Test ambilight main light brightness with nightlight off."""
     mocked_bulb = _mocked_bulb()
     properties = {**PROPERTIES}
@@ -1274,7 +1274,7 @@ async def test_ambilight_with_nightlight_disabled(hass: UniversalAssistant) -> N
     assert state.attributes[ATTR_BRIGHTNESS] == 128
 
 
-async def test_ambilight_effect(hass: UniversalAssistant) -> None:
+async def test_ambilight_effect(hass: __HAC_KEEP__) -> None:
     """Test an effect on the ambilight is tracked separately from the main light."""
     mocked_bulb = _mocked_bulb()
     capabilities = {**CAPABILITIES, "model": "ceiling10"}
@@ -1356,7 +1356,7 @@ async def test_ambilight_effect(hass: UniversalAssistant) -> None:
 
 
 async def test_ambilight_without_color_mode(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the ambilight keeps updating while the bulb does not report its mode.
 
@@ -1407,7 +1407,7 @@ async def test_ambilight_without_color_mode(
     assert state.attributes[ATTR_COLOR_MODE] == ColorMode.COLOR_TEMP
 
 
-async def test_state_fails_to_update_triggers_update(hass: UniversalAssistant) -> None:
+async def test_state_fails_to_update_triggers_update(hass: __HAC_KEEP__) -> None:
     """Ensure async_get_properties is called on failed state update."""
     mocked_bulb = _mocked_bulb()
     properties = {**PROPERTIES}

@@ -16,7 +16,7 @@ from universalassistant.components.husqvarna_automower.const import (
     OAUTH2_TOKEN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -35,7 +35,7 @@ from .const import CLIENT_ID, USER_ID
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     jwt: str,
@@ -100,7 +100,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_config_non_unique_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
@@ -161,7 +161,7 @@ async def test_config_non_unique_profile(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -241,7 +241,7 @@ async def test_reauth(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,

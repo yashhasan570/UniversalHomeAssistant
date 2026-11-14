@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, load_json_value_fixture
 
 from universalassistant.components.flow_it.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -52,7 +52,7 @@ def mock_ariaq() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a mock config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,

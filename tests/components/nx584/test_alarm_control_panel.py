@@ -10,7 +10,7 @@ import requests
 
 from universalassistant.components.nx584.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, CONF_HOST, CONF_PORT, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import TEST_HOST, TEST_PORT
 
@@ -18,7 +18,7 @@ ENTITY_ID = "alarm_control_panel.nx584"
 
 
 @pytest.mark.usefixtures("mock_client", "mock_watcher")
-async def test_name_from_entry_title(hass: UniversalAssistant) -> None:
+async def test_name_from_entry_title(hass: __HAC_KEEP__) -> None:
     """Test the alarm panel is named after the entry title."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -44,7 +44,7 @@ async def test_name_from_entry_title(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_bypass_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -72,7 +72,7 @@ async def test_bypass_services(
     ],
 )
 async def test_update_partitions_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

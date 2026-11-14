@@ -15,7 +15,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.twitch.const import DOMAIN, OAUTH2_TOKEN, OAUTH_SCOPES
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import TwitchIterObject, get_generator
@@ -41,7 +41,7 @@ def mock_scopes() -> list[str]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -60,7 +60,7 @@ def mock_expires_at() -> int:
 
 @pytest.fixture(name="config_entry")
 def mock_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntry:
-    """Create Twitch entry in Universal Universal Home Assistant."""
+    """Create Twitch entry in __HA_KEEP__."""
     return MockConfigEntry(
         domain=DOMAIN,
         title=TITLE,
@@ -93,7 +93,7 @@ def mock_connection(aioclient_mock: AiohttpClientMocker) -> None:
 
 
 @pytest.fixture
-def twitch_mock(hass: UniversalAssistant) -> Generator[AsyncMock]:
+def twitch_mock(hass: __HAC_KEEP__) -> Generator[AsyncMock]:
     """Return as fixture to inject other mocks."""
     with (
         patch(

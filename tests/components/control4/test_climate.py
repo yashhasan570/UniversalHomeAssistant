@@ -22,7 +22,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -62,7 +62,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Set up the Control4 integration for testing."""
     hass.config.units = US_CUSTOMARY_SYSTEM
@@ -77,7 +77,7 @@ async def init_integration(
     "init_integration",
 )
 async def test_climate_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -138,7 +138,7 @@ async def test_climate_entities(
     "init_integration",
 )
 async def test_hvac_action_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     expected_action: HVACAction,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_hvac_action_mapping(
     "init_integration",
 )
 async def test_climate_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     expected_hvac_mode: HVACMode,
     expected_hvac_action: HVACAction,
@@ -239,7 +239,7 @@ async def test_climate_states(
     "init_integration",
 )
 async def test_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_c4_climate: MagicMock,
     hvac_mode: HVACMode,
@@ -286,7 +286,7 @@ async def test_set_hvac_mode(
     "init_integration",
 )
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_c4_climate: MagicMock,
     method_name: str,
@@ -314,7 +314,7 @@ async def test_set_temperature(
     "init_integration",
 )
 async def test_set_temperature_range_auto_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_c4_climate: MagicMock,
 ) -> None:
@@ -341,7 +341,7 @@ async def test_set_temperature_range_auto_mode(
     "init_integration",
 )
 async def test_climate_not_created_when_no_initial_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test climate entity is not created when coordinator has no initial data."""
@@ -372,7 +372,7 @@ async def test_climate_not_created_when_no_initial_data(
     "init_integration",
 )
 async def test_climate_missing_variables(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test climate entity handles missing variables gracefully."""
@@ -407,7 +407,7 @@ async def test_climate_missing_variables(
     "init_integration",
 )
 async def test_climate_undefined_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test climate entity handles 'Undefined' humidity string gracefully."""
@@ -431,7 +431,7 @@ async def test_climate_undefined_humidity(
     "init_integration",
 )
 async def test_climate_unknown_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test climate entity handles unknown HVAC mode."""
@@ -453,7 +453,7 @@ async def test_climate_unknown_hvac_mode(
     "init_integration",
 )
 async def test_climate_unknown_hvac_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test climate entity handles unknown HVAC state."""
@@ -469,7 +469,7 @@ async def test_climate_unknown_hvac_state(
     "init_integration",
 )
 async def test_set_fan_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_c4_climate: MagicMock,
 ) -> None:
@@ -508,7 +508,7 @@ async def test_set_fan_mode(
     "init_integration",
 )
 async def test_fan_mode_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test fan mode feature not set when device doesn't support it."""
@@ -548,7 +548,7 @@ async def test_fan_mode_not_supported(
     "init_integration",
 )
 async def test_set_temperature_calls_correct_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_c4_climate: MagicMock,
     expected_method: str,

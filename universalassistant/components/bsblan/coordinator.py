@@ -21,7 +21,7 @@ from bsblan import (
 )
 
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -76,7 +76,7 @@ class BSBLanCoordinator[T](DataUpdateCoordinator[T]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: BSBLanConfigEntry,
         client: BSBLAN,
         name: str,
@@ -98,7 +98,7 @@ class BSBLanFastCoordinator(BSBLanCoordinator[BSBLanFastData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: BSBLanConfigEntry,
         client: BSBLAN,
         circuits: list[int],
@@ -236,7 +236,7 @@ class BSBLanSlowCoordinator(BSBLanCoordinator[BSBLanSlowData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: BSBLanConfigEntry,
         client: BSBLAN,
         circuits: list[int],

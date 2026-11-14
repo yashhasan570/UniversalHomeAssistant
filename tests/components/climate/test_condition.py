@@ -33,11 +33,11 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_climates(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_climates(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple climate entities associated with different targets."""
     return await target_entities(hass, "climate")
 
@@ -80,7 +80,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_climate_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -146,7 +146,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_climate_state_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -213,7 +213,7 @@ async def test_climate_state_condition_behavior_any(
     ],
 )
 async def test_climate_state_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -260,7 +260,7 @@ async def test_climate_state_condition_behavior_all(
     ],
 )
 async def test_climate_attribute_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -307,7 +307,7 @@ async def test_climate_attribute_condition_behavior_any(
     ],
 )
 async def test_climate_attribute_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -353,7 +353,7 @@ async def test_climate_attribute_condition_behavior_all(
     ],
 )
 async def test_climate_numerical_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -399,7 +399,7 @@ async def test_climate_numerical_condition_behavior_any(
     ],
 )
 async def test_climate_numerical_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -421,7 +421,7 @@ async def test_climate_numerical_condition_behavior_all(
     )
 
 
-async def test_climate_numerical_condition_unit_conversion(hass: UniversalAssistant) -> None:
+async def test_climate_numerical_condition_unit_conversion(hass: __HAC_KEEP__) -> None:
     """Test that the climate numerical condition converts units correctly."""
     _unit_celsius = {ATTR_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS}
     _unit_fahrenheit = {ATTR_UNIT_OF_MEASUREMENT: UnitOfTemperature.FAHRENHEIT}

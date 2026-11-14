@@ -35,8 +35,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -114,7 +114,7 @@ def notify_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("load_config")
 async def test_registering_new_device_view(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_save: MagicMock,
@@ -139,7 +139,7 @@ async def test_registering_new_device_view(
 
 @pytest.mark.usefixtures("load_config")
 async def test_registering_new_device_view_with_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_save: MagicMock,
@@ -167,7 +167,7 @@ async def test_registering_new_device_view_with_name(
 
 @pytest.mark.usefixtures("load_config")
 async def test_registering_new_device_expiration_view(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_save: MagicMock,
@@ -191,7 +191,7 @@ async def test_registering_new_device_expiration_view(
 
 @pytest.mark.usefixtures("load_config")
 async def test_registering_new_device_fails_view(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_save: MagicMock,
@@ -206,7 +206,7 @@ async def test_registering_new_device_fails_view(
     assert config_entry.state is ConfigEntryState.LOADED
 
     client = await hass_client()
-    mock_save.side_effect = (UniversalAssistantError(),)
+    mock_save.side_effect = (__HAC_KEEP__Error(),)
 
     resp = await client.post(REGISTER_URL, data=json.dumps(SUBSCRIPTION_4))
 
@@ -215,7 +215,7 @@ async def test_registering_new_device_fails_view(
 
 @pytest.mark.usefixtures("load_config")
 async def test_registering_existing_device_view(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_save: MagicMock,
@@ -242,7 +242,7 @@ async def test_registering_existing_device_view(
 
 @pytest.mark.usefixtures("load_config")
 async def test_registering_existing_device_view_with_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_save: MagicMock,
@@ -273,7 +273,7 @@ async def test_registering_existing_device_view_with_name(
 
 @pytest.mark.usefixtures("load_config")
 async def test_registering_existing_device_fails_view(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_save: MagicMock,
@@ -290,7 +290,7 @@ async def test_registering_existing_device_fails_view(
     client = await hass_client()
 
     await client.post(REGISTER_URL, data=json.dumps(SUBSCRIPTION_1))
-    mock_save.side_effect = UniversalAssistantError
+    mock_save.side_effect = __HAC_KEEP__Error
     resp = await client.post(REGISTER_URL, data=json.dumps(SUBSCRIPTION_4))
 
     assert resp.status == HTTPStatus.INTERNAL_SERVER_ERROR
@@ -298,7 +298,7 @@ async def test_registering_existing_device_fails_view(
 
 @pytest.mark.usefixtures("load_config")
 async def test_registering_new_device_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_save: MagicMock,
@@ -332,7 +332,7 @@ async def test_registering_new_device_validation(
 
 
 async def test_unregistering_device_view(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     load_config: MagicMock,
@@ -367,7 +367,7 @@ async def test_unregistering_device_view(
 
 @pytest.mark.usefixtures("load_config")
 async def test_unregister_device_view_handle_unknown_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_save: MagicMock,
@@ -393,7 +393,7 @@ async def test_unregister_device_view_handle_unknown_subscription(
 
 
 async def test_unregistering_device_view_handles_save_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     load_config: MagicMock,
@@ -414,7 +414,7 @@ async def test_unregistering_device_view_handles_save_error(
 
     client = await hass_client()
 
-    mock_save.side_effect = UniversalAssistantError()
+    mock_save.side_effect = __HAC_KEEP__Error()
 
     resp = await client.delete(
         REGISTER_URL,
@@ -426,7 +426,7 @@ async def test_unregistering_device_view_handles_save_error(
 
 @pytest.mark.usefixtures("load_config")
 async def test_callback_view_no_jwt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -453,7 +453,7 @@ async def test_callback_view_no_jwt(
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid")
 @pytest.mark.freeze_time("2009-02-13T23:31:30.000Z")
 async def test_callback_view_with_jwt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     load_config: MagicMock,
@@ -482,7 +482,7 @@ async def test_callback_view_with_jwt(
 
 
 async def test_notify_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -502,7 +502,7 @@ async def test_notify_platform(
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid")
 @pytest.mark.freeze_time("2009-02-13T23:31:30.000Z")
 async def test_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     webpush_async: AsyncMock,
     load_config: MagicMock,
@@ -570,7 +570,7 @@ async def test_send_message(
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid", "mock_save")
 @pytest.mark.freeze_time("2009-02-13T23:31:30.000Z")
 async def test_send_message_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     webpush_async: AsyncMock,
     load_config: MagicMock,
@@ -589,7 +589,7 @@ async def test_send_message_exceptions(
 
     webpush_async.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError) as e:
+    with pytest.raises(__HAC_KEEP__Error) as e:
         await hass.services.async_call(
             domain,
             SERVICE_SEND_MESSAGE,
@@ -606,7 +606,7 @@ async def test_send_message_exceptions(
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid")
 @pytest.mark.freeze_time("2009-02-13T23:31:30.000Z")
 async def test_send_message_save_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     webpush_async: AsyncMock,
     load_config: MagicMock,
@@ -625,8 +625,8 @@ async def test_send_message_save_fails(
     webpush_async.side_effect = (
         WebPushException("", response=Mock(status=HTTPStatus.GONE)),
     )
-    mock_save.side_effect = UniversalAssistantError
-    with pytest.raises(UniversalAssistantError) as e:
+    mock_save.side_effect = __HAC_KEEP__Error
+    with pytest.raises(__HAC_KEEP__Error) as e:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -645,7 +645,7 @@ async def test_send_message_save_fails(
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid", "mock_save")
 @pytest.mark.freeze_time("2009-02-13T23:31:30.000Z")
 async def test_send_message_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     webpush_async: AsyncMock,
     load_config: MagicMock,
@@ -662,7 +662,7 @@ async def test_send_message_unavailable(
     webpush_async.side_effect = (
         WebPushException("", response=Mock(status=HTTPStatus.GONE)),
     )
-    with pytest.raises(UniversalAssistantError) as e:
+    with pytest.raises(__HAC_KEEP__Error) as e:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -771,7 +771,7 @@ async def test_send_message_unavailable(
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid")
 @pytest.mark.freeze_time("2009-02-13T23:31:30.000Z")
 async def test_html5_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     webpush_async: AsyncMock,
     load_config: MagicMock,
@@ -839,7 +839,7 @@ async def test_html5_send_message(
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid")
 @pytest.mark.freeze_time("2009-02-13T23:31:30.000Z")
 async def test_html5_dismiss_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     webpush_async: AsyncMock,
     load_config: MagicMock,

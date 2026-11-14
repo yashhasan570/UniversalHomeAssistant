@@ -23,14 +23,14 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -53,7 +53,7 @@ async def test_device_info(
     ],
 )
 async def test_initialization_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -69,7 +69,7 @@ async def test_initialization_failure(
 
 
 async def test_setup_integration_fallback_to_instance_v1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_setup_integration_fallback_to_instance_v1(
 
 
 async def test_migrate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mastodon_client: AsyncMock,
 ) -> None:
     """Test migration."""
@@ -138,7 +138,7 @@ async def test_migrate(
     ],
 )
 async def test_migrate_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mastodon_client: AsyncMock,
     side_effect: type[Exception],
     state: ConfigEntryState,
@@ -170,7 +170,7 @@ async def test_migrate_error(
 
 
 async def test_coordinator_general_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -201,7 +201,7 @@ async def test_coordinator_general_error(
 
 
 async def test_coordinator_auth_failure_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mastodon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

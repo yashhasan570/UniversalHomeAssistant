@@ -3,7 +3,7 @@
 from universalassistant.components.lock import CONF_DEFAULT_CODE, DOMAIN as LOCK_DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_CODE, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import LOGGER, PLATFORMS
@@ -12,7 +12,7 @@ from .coordinator import YaleDataUpdateCoordinator
 type YaleConfigEntry = ConfigEntry[YaleDataUpdateCoordinator]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: YaleConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: YaleConfigEntry) -> None:
     """Set up Yale from a config entry."""
 
     coordinator = YaleDataUpdateCoordinator(hass, entry)
@@ -30,12 +30,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: YaleConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: YaleConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: YaleConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: YaleConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: YaleConfigEntry) -> None:
     """Migrate old entry."""
     LOGGER.debug("Migrating from version %s.%s", entry.version, entry.minor_version)
 

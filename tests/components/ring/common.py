@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.automation import DOMAIN as AUTOMATION_DOMAIN
 from universalassistant.components.ring import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, translation
 from universalassistant.setup import async_setup_component
 
 
-async def setup_platform(hass: UniversalAssistant, platform: Platform) -> None:
+async def setup_platform(hass: __HAC_KEEP__, platform: Platform) -> None:
     """Set up the ring platform and prerequisites."""
     if not hass.config_entries.async_has_entries(DOMAIN):
         MockConfigEntry(
@@ -23,7 +23,7 @@ async def setup_platform(hass: UniversalAssistant, platform: Platform) -> None:
     await hass.async_block_till_done(wait_background_tasks=True)
 
 
-async def setup_automation(hass: UniversalAssistant, alias: str, entity_id: str) -> None:
+async def setup_automation(hass: __HAC_KEEP__, alias: str, entity_id: str) -> None:
     """Set up an automation for tests."""
     assert await async_setup_component(
         hass,
@@ -39,7 +39,7 @@ async def setup_automation(hass: UniversalAssistant, alias: str, entity_id: str)
 
 
 async def async_check_entity_translations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_id: str,
     platform_domain: str,

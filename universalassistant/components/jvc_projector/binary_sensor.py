@@ -5,7 +5,7 @@ from typing import override
 from jvcprojector import command as cmd
 
 from universalassistant.components.binary_sensor import BinarySensorEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import JVCConfigEntry, JvcProjectorDataUpdateCoordinator
@@ -15,7 +15,7 @@ ON_STATUS = (cmd.Power.ON, cmd.Power.WARMING)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: JVCConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

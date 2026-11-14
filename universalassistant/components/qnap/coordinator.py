@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN
@@ -48,7 +48,7 @@ class QnapCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
 
     config_entry: QnapConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: QnapConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: QnapConfigEntry) -> None:
         """Initialize the qnap coordinator."""
         super().__init__(
             hass,

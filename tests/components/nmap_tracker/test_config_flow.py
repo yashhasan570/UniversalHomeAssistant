@@ -21,7 +21,7 @@ from universalassistant.components.nmap_tracker.const import (
     DEFAULT_OPTIONS,
     DOMAIN,
 )
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 USER_INPUT = {
@@ -46,7 +46,7 @@ def _patch_setup_entry() -> Generator[None]:
 @pytest.mark.parametrize(
     "hosts", [["1.1.1.1"], ["192.168.1.0/24"], ["192.168.1.0/24", "192.168.2.0/24"]]
 )
-async def test_form(hass: UniversalAssistant, hosts: str) -> None:
+async def test_form(hass: __HAC_KEEP__, hosts: str) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -87,7 +87,7 @@ async def test_form(hass: UniversalAssistant, hosts: str) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_range(hass: UniversalAssistant) -> None:
+async def test_form_range(hass: __HAC_KEEP__) -> None:
     """Test we get the form and can take an ip range."""
 
     result = await hass.config_entries.flow.async_init(
@@ -125,7 +125,7 @@ async def test_form_range(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_invalid_hosts(hass: UniversalAssistant) -> None:
+async def test_form_invalid_hosts(hass: __HAC_KEEP__) -> None:
     """Test invalid hosts passed in."""
 
     result = await hass.config_entries.flow.async_init(
@@ -158,7 +158,7 @@ async def test_form_invalid_hosts(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_already_configured(hass: UniversalAssistant) -> None:
+async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
     """Test duplicate host list."""
 
     config_entry = MockConfigEntry(
@@ -195,7 +195,7 @@ async def test_form_already_configured(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "already_configured"
 
 
-async def test_form_invalid_ip_excludes(hass: UniversalAssistant) -> None:
+async def test_form_invalid_ip_excludes(hass: __HAC_KEEP__) -> None:
     """Test invalid ip excludes passed in."""
 
     result = await hass.config_entries.flow.async_init(
@@ -233,7 +233,7 @@ async def test_form_invalid_ip_excludes(hass: UniversalAssistant) -> None:
     [["1234567890"], ["1234567890", "11:22:33:44:55:66"], ["ABCDEFGHIJK"]],
 )
 async def test_form_invalid_mac_excludes(
-    hass: UniversalAssistant, mac_excludes: str
+    hass: __HAC_KEEP__, mac_excludes: str
 ) -> None:
     """Test invalid mac excludes passed in."""
 
@@ -267,7 +267,7 @@ async def test_form_invalid_mac_excludes(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test we can edit options."""
 
     config_entry = MockConfigEntry(

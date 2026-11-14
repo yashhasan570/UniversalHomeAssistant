@@ -17,7 +17,7 @@ from prana_local_api_client.prana_local_api_client import PranaLocalApiClient
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -37,7 +37,7 @@ class PranaCoordinator(DataUpdateCoordinator[PranaState]):
     config_entry: PranaConfigEntry
     device_info: PranaDeviceInfo
 
-    def __init__(self, hass: UniversalAssistant, entry: PranaConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: PranaConfigEntry) -> None:
         """Initialize the Prana data update coordinator."""
         super().__init__(
             hass,

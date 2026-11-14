@@ -5,14 +5,14 @@ from universalassistant.components.androidtv.const import (
     CONF_SCREENCAP_INTERVAL,
 )
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import patchers
 from .common import CONFIG_ANDROID_DEFAULT, SHELL_RESPONSE_OFF, setup_mock_entry
 
 
 async def test_migrate_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test migration to new version."""
     patch_key, _, mock_config_entry = setup_mock_entry(

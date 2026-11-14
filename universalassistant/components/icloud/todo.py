@@ -12,8 +12,8 @@ from universalassistant.components.todo import (
     TodoListEntity,
     TodoListEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -35,7 +35,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IcloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -142,7 +142,7 @@ class IcloudTodoListEntity(
     async def async_update_todo_item(self, item: TodoItem) -> None:
         """Update a reminder."""
         if item.uid is None:
-            raise UniversalAssistantError("Cannot update a reminder without an identifier")
+            raise __HAC_KEEP__Error("Cannot update a reminder without an identifier")
 
         await self._async_call(self._update, item)
 
@@ -180,7 +180,7 @@ class IcloudTodoListEntity(
         if reminder.title == UNDECODED_TITLE:
             # Writing this back would destroy the reminder's real title and
             # notes, so refuse rather than silently corrupting the reminder.
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "This reminder's title could not be decrypted, so it cannot be "
                 "updated. Approve access on one of your Apple devices."
             )
@@ -217,7 +217,7 @@ class IcloudTodoListEntity(
         try:
             await self.hass.async_add_executor_job(lambda: func(*args, **kwargs))
         except REMINDERS_ERRORS as err:
-            raise UniversalAssistantError(f"Error updating reminders: {err}") from err
+            raise __HAC_KEEP__Error(f"Error updating reminders: {err}") from err
         finally:
             # A batch that failed part of the way through still changed things
             # in iCloud, so refresh either way rather than showing reminders
@@ -242,7 +242,7 @@ def _as_due(due: date | datetime | None) -> tuple[datetime | None, bool]:
 def _ordered(reminders: list[IcloudReminder]) -> list[IcloudReminder]:
     """Return the reminders with each subtask placed after its parent.
 
-    Universal Universal Home Assistant renders a flat list in the order given, and iCloud does not
+    __HA_KEEP__ renders a flat list in the order given, and iCloud does not
     guarantee that a subtask follows the reminder it belongs to, so putting it
     there keeps the list reading the way Reminders shows it on iOS. Nesting can
     be deeper than one level, so descendants are emitted recursively.

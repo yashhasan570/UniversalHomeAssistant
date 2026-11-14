@@ -1,4 +1,4 @@
-"""Config flow for Greencell EVSE integration in Universal Universal Home Assistant."""
+"""Config flow for Greencell EVSE integration in __HA_KEEP__."""
 
 import asyncio
 from collections.abc import Callable
@@ -13,7 +13,7 @@ from universalassistant import config_entries
 from universalassistant.components import mqtt
 from universalassistant.components.mqtt import ReceiveMessage
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.service_info.mqtt import MqttServiceInfo
 
 from . import const
@@ -130,7 +130,7 @@ class EVSEConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 GREENCELL_DISC_TOPIC,
                 self._async_mqtt_message_received,
             )
-        except UniversalAssistantError, ValueError:
+        except __HAC_KEEP__Error, ValueError:
             return self.async_abort(reason="mqtt_subscription_failed")
 
         try:

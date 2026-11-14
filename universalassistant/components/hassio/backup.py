@@ -50,8 +50,8 @@ from universalassistant.components.backup import (
     suggested_filename_from_name_date,
 )
 from universalassistant.const import __version__ as HAVERSION
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.util import dt as dt_util, slugify
 from universalassistant.util.async_iterator import async_close_iterator
@@ -79,7 +79,7 @@ def _suggested_backup_filename(name: str, date: str) -> str:
 
 
 async def async_get_backup_agents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     **kwargs: Any,
 ) -> list[BackupAgent]:
     """Return the hassio backup agents."""
@@ -97,7 +97,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -162,7 +162,7 @@ class SupervisorBackupAgent(BackupAgent):
 
     domain = DOMAIN
 
-    def __init__(self, hass: UniversalAssistant, name: str, location: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, name: str, location: str) -> None:
         """Initialize the backup agent."""
         super().__init__()
         self._hass = hass
@@ -272,7 +272,7 @@ class SupervisorBackupAgent(BackupAgent):
 class SupervisorBackupReaderWriter(BackupReaderWriter):
     """Class for reading and writing backups in supervised installations."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the backup reader/writer."""
         self._hass = hass
         self._client = get_supervisor_client(hass)
@@ -294,8 +294,8 @@ class SupervisorBackupReaderWriter(BackupReaderWriter):
     ) -> tuple[NewBackup, asyncio.Task[WrittenBackup]]:
         """Create a backup."""
         if not include_universalassistant and include_database:
-            raise UniversalAssistantError(
-                "Cannot create a backup with database but without Universal Universal Home Assistant"
+            raise __HAC_KEEP__Error(
+                "Cannot create a backup with database but without __HA_KEEP__"
             )
         manager = async_get_backup_manager(self._hass)
 
@@ -307,7 +307,7 @@ class SupervisorBackupReaderWriter(BackupReaderWriter):
         include_folders_set = {
             supervisor_backups.Folder(folder) for folder in include_folders or []
         }
-        # Always include SSL if Universal Universal Home Assistant is included
+        # Always include SSL if __HA_KEEP__ is included
         if include_universalassistant:
             include_folders_set.add(supervisor_backups.Folder.SSL)
 
@@ -582,9 +582,9 @@ class SupervisorBackupReaderWriter(BackupReaderWriter):
             and restore_universalassistant
             and restore_database != backup.database_included
         ):
-            raise UniversalAssistantError("Restore database must match backup")
+            raise __HAC_KEEP__Error("Restore database must match backup")
         if not restore_universalassistant and restore_database:
-            raise UniversalAssistantError("Cannot restore database without Universal Universal Home Assistant")
+            raise __HAC_KEEP__Error("Cannot restore database without __HA_KEEP__")
         restore_addons_set = set(restore_addons) if restore_addons else None
         restore_folders_set = (
             {supervisor_backups.Folder(folder) for folder in restore_folders}
@@ -629,7 +629,7 @@ class SupervisorBackupReaderWriter(BackupReaderWriter):
             message = err.args[0]
             if message.startswith("Invalid password for backup"):
                 raise IncorrectPasswordError(message) from err
-            raise UniversalAssistantError(message) from err
+            raise __HAC_KEEP__Error(message) from err
 
         restore_complete = asyncio.Event()
         restore_errors: list[dict[str, str]] = []
@@ -809,7 +809,7 @@ async def _default_agent(client: SupervisorClient) -> str:
 
 
 async def backup_addon_before_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon: str,
     addon_name: str | None,
     installed_version: str | None,
@@ -861,7 +861,7 @@ async def backup_addon_before_update(
             password=password,
         )
     except BackupManagerError as err:
-        raise UniversalAssistantError(f"Error creating backup: {err}") from err
+        raise __HAC_KEEP__Error(f"Error creating backup: {err}") from err
     else:
         try:
             await backup_manager.async_delete_filtered_backups(
@@ -869,10 +869,10 @@ async def backup_addon_before_update(
                 delete_filter=_delete_filter,
             )
         except BackupManagerError as err:
-            raise UniversalAssistantError(f"Error deleting old backups: {err}") from err
+            raise __HAC_KEEP__Error(f"Error deleting old backups: {err}") from err
 
 
-async def backup_core_before_update(hass: UniversalAssistant) -> None:
+async def backup_core_before_update(hass: __HAC_KEEP__) -> None:
     """Prepare for updating core."""
     backup_manager = async_get_backup_manager(hass)
     client = get_supervisor_client(hass)
@@ -890,8 +890,8 @@ async def backup_core_before_update(hass: UniversalAssistant) -> None:
                 include_database=True,
                 include_folders=None,
                 include_universalassistant=True,
-                name=f"Universal Universal Home Assistant Core {HAVERSION}",
+                name=f"__HA_KEEP__ Core {HAVERSION}",
                 password=None,
             )
     except BackupManagerError as err:
-        raise UniversalAssistantError(f"Error creating backup: {err}") from err
+        raise __HAC_KEEP__Error(f"Error creating backup: {err}") from err

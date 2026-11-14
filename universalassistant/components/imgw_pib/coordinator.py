@@ -7,7 +7,7 @@ from typing import override
 from imgw_pib import ApiError, HydrologicalData, ImgwPib
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -33,7 +33,7 @@ class ImgwPibDataUpdateCoordinator(DataUpdateCoordinator[HydrologicalData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ImgwPibConfigEntry,
         imgwpib: ImgwPib,
         station_id: str,

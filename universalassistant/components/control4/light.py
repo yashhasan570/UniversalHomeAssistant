@@ -12,7 +12,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
     LightServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import Control4ConfigEntry, Control4RuntimeData, get_items_of_category
@@ -26,7 +26,7 @@ CONTROL4_CATEGORY = "lights"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: Control4ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

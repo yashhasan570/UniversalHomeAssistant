@@ -15,8 +15,8 @@ from universalassistant.components.image_upload import (
     ImageStorageCollection,
 )
 from universalassistant.const import ATTR_ID, CONF_ID, CONF_NAME, SERVICE_RELOAD
-from universalassistant.core import Event, UniversalAssistant, callback, split_entity_id
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Event, __HAC_KEEP__, callback, split_entity_id
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     collection,
     config_validation as cv,
@@ -46,7 +46,7 @@ STORAGE_KEY = DOMAIN
 STORAGE_VERSION = 2
 
 # Pictures users set for themselves must be images uploaded to
-# Universal Universal Home Assistant, so they cannot point other users' browsers elsewhere.
+# __HA_KEEP__, so they cannot point other users' browsers elsewhere.
 UPLOADED_PICTURE_RE = re.compile(
     r"^/api/image/serve/(?P<image_id>[0-9a-f]{32})/(original|\d+x\d+)$"
 )
@@ -87,7 +87,7 @@ __all__ = [
 
 
 async def async_create_person(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     name: str,
     *,
     user_id: str | None = None,
@@ -104,7 +104,7 @@ async def async_create_person(
 
 
 async def async_add_user_device_tracker(
-    hass: UniversalAssistant, user_id: str, device_tracker_entity_id: str
+    hass: __HAC_KEEP__, user_id: str, device_tracker_entity_id: str
 ) -> None:
     """Add a device tracker to a person linked to a user."""
     coll = hass.data[DATA_PERSON].storage_collection
@@ -126,7 +126,7 @@ async def async_add_user_device_tracker(
 
 
 @callback
-def persons_with_entity(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def persons_with_entity(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return all persons that reference the entity."""
     if (
         DOMAIN not in hass.data
@@ -144,7 +144,7 @@ def persons_with_entity(hass: UniversalAssistant, entity_id: str) -> list[str]:
 
 
 @callback
-def entities_in_person(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def entities_in_person(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return all entities belonging to a person."""
     if DOMAIN not in hass.data:
         return []
@@ -310,7 +310,7 @@ class PersonStorageCollectionWebsocket(collection.DictStorageCollectionWebsocket
     @override
     def ws_list_item(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -336,7 +336,7 @@ class PersonStorageCollectionWebsocket(collection.DictStorageCollectionWebsocket
 )
 @websocket_api.async_response
 async def ws_update_own_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -347,7 +347,7 @@ async def ws_update_own_profile(
     """
     user = connection.user
     if user.system_generated:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="system_generated_user",
         )
@@ -373,7 +373,7 @@ async def ws_update_own_profile(
                 for item in yaml_collection.async_items()
             ):
                 translation_key = "person_not_editable"
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key=translation_key,
             )
@@ -396,14 +396,14 @@ async def ws_update_own_profile(
 
 
 @callback
-def _validate_own_picture(hass: UniversalAssistant, picture: str | None) -> None:
-    """Validate a picture is one uploaded to Universal Universal Home Assistant."""
+def _validate_own_picture(hass: __HAC_KEEP__, picture: str | None) -> None:
+    """Validate a picture is one uploaded to __HA_KEEP__."""
     if picture is None:
         return
     images: ImageStorageCollection = hass.data[IMAGE_UPLOAD_DOMAIN]
     match = UPLOADED_PICTURE_RE.match(picture)
     if match is None or match.group("image_id") not in images.data:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="invalid_picture",
         )
@@ -418,7 +418,7 @@ class PersonData:
     yaml_collection: collection.YamlCollection
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the person component."""
     entity_component = EntityComponent[Person](_LOGGER, DOMAIN, hass)
     id_manager = collection.IDManager()

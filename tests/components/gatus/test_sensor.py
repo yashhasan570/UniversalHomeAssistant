@@ -15,7 +15,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -23,7 +23,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_setup_and_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -61,7 +61,7 @@ def _to_endpoint_statuses(raw_data: list[dict[str, Any]]) -> list[EndpointStatus
 
 
 async def test_sensor_dynamic_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -88,7 +88,7 @@ async def test_sensor_dynamic_update(
 
 
 async def test_sensor_no_group(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_sensor_no_group(
 
 
 async def test_sensor_empty_results(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_sensor_empty_results(
 
 
 async def test_sensor_missing_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_sensor_missing_duration(
 
 
 async def test_sensor_missing_status_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -179,7 +179,7 @@ async def test_sensor_missing_status_code(
 
 
 async def test_sensor_missing_certificate_expiration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_sensor_missing_certificate_expiration(
 
 
 async def test_sensor_missing_dns_rcode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -235,7 +235,7 @@ async def test_sensor_missing_dns_rcode(
 
 
 async def test_sensor_dynamic_add_endpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -273,7 +273,7 @@ async def test_sensor_dynamic_add_endpoint(
 
 
 async def test_sensor_readded_endpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -325,7 +325,7 @@ async def test_sensor_readded_endpoint(
 
 
 async def test_diagnostic_sensors_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

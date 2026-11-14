@@ -10,7 +10,7 @@ from pyliebherrhomeapi import (
     ZonePosition,
 )
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -61,7 +61,7 @@ class LiebherrEntity(CoordinatorEntity[LiebherrCoordinator]):
         try:
             await command
         except LiebherrError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from err

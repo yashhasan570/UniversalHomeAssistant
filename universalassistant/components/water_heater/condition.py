@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, override
 import probatio
 
 from universalassistant.const import CONF_OPTIONS, STATE_OFF, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.condition import (
     ENTITY_STATE_CONDITION_SCHEMA_ANY_ALL,
@@ -50,7 +50,7 @@ class WaterHeaterOperationModeCondition(EntityConditionBase):
     _domain_specs = {DOMAIN: DomainSpec()}
     _schema = _OPERATION_MODE_CONDITION_SCHEMA
 
-    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
         """Initialize the operation mode condition."""
         super().__init__(hass, config)
         if TYPE_CHECKING:
@@ -97,6 +97,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
     """Return the water heater conditions."""
     return CONDITIONS

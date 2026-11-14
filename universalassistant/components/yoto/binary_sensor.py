@@ -12,7 +12,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import YotoConfigEntry, YotoDataUpdateCoordinator
@@ -53,7 +53,7 @@ BINARY_SENSORS: tuple[YotoBinarySensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: YotoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

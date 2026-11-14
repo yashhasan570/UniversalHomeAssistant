@@ -4,7 +4,7 @@ from collections import deque
 import logging
 from typing import override
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 class FixedSizeQueueLogHandler(logging.Handler):
@@ -22,7 +22,7 @@ class FixedSizeQueueLogHandler(logging.Handler):
         """Store log message."""
         self._records.append(record)
 
-    async def get_logs(self, hass: UniversalAssistant) -> list[str]:
+    async def get_logs(self, hass: __HAC_KEEP__) -> list[str]:
         """Get stored logs."""
 
         def _get_logs() -> list[str]:

@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.netgear_lte.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import dt as dt_util
 
@@ -19,7 +19,7 @@ from .conftest import CONF_DATA
 
 
 @pytest.mark.usefixtures("setup_integration")
-async def test_setup_unload(hass: UniversalAssistant) -> None:
+async def test_setup_unload(hass: __HAC_KEEP__) -> None:
     """Test setup and unload."""
     entry = hass.config_entries.async_entries(DOMAIN)[0]
     assert entry.state is ConfigEntryState.LOADED
@@ -33,7 +33,7 @@ async def test_setup_unload(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_cannot_connect")
-async def test_async_setup_entry_not_ready(hass: UniversalAssistant) -> None:
+async def test_async_setup_entry_not_ready(hass: __HAC_KEEP__) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
     entry = hass.config_entries.async_entries(DOMAIN)[0]
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -42,7 +42,7 @@ async def test_async_setup_entry_not_ready(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_device(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup_integration")
-async def test_update_failed(hass: UniversalAssistant) -> None:
+async def test_update_failed(hass: __HAC_KEEP__) -> None:
     """Test coordinator throws UpdateFailed after failed update."""
     with patch(
         "universalassistant.components.netgear_lte.eternalegypt.Modem.information",

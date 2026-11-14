@@ -13,7 +13,7 @@ from universalassistant.components.remote import (
     DEFAULT_DELAY_SECS,
     RemoteEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -29,7 +29,7 @@ VALID_COMMANDS: frozenset[str] = frozenset(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LgNetCastConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

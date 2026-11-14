@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.alexa_devices.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import assert_device_removed_and_readded, setup_integration
@@ -27,7 +27,7 @@ ENTITY_ID = "event.echo_test_voice_event"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_all_entities(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_history_event_is_fired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -62,7 +62,7 @@ async def test_history_event_is_fired(
 
 
 async def test_initial_vocal_record_not_fired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_initial_vocal_record_not_fired(
 
 
 async def test_no_vocal_record_skips_event_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_no_vocal_record_skips_event_trigger(
 
 
 async def test_device_removed_and_readded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -118,7 +118,7 @@ async def test_device_removed_and_readded(
 
 
 async def test_voice_event_not_created_for_unsupported_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_voice_event_not_created_for_unsupported_device(
 
 
 async def test_voice_event_removed_for_unsupported_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -172,7 +172,7 @@ async def test_voice_event_removed_for_unsupported_device(
 
 
 async def test_voice_event_not_created_for_aqm_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

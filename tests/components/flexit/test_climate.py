@@ -17,8 +17,8 @@ from universalassistant.components.climate import (
 from universalassistant.components.flexit.climate import async_setup_platform
 from universalassistant.components.flexit.const import DOMAIN
 from universalassistant.const import ATTR_TEMPERATURE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -55,7 +55,7 @@ def _load_default_registers(mock_modbus_unit: MockModbusUnit) -> None:
 
 
 async def _setup_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Set up the integration."""
     config_entry.add_to_hass(hass)
@@ -64,7 +64,7 @@ async def _setup_integration(
 
 
 async def test_deprecated_yaml_issue(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test deprecated YAML remains functional and creates a repair issue."""
     async_add_entities = MagicMock()
@@ -83,7 +83,7 @@ async def test_deprecated_yaml_issue(
 
 
 async def test_climate_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -110,7 +110,7 @@ async def test_climate_entity(
 
 
 async def test_climate_entity_state(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the climate entity reads temperatures and fan mode from registers."""
     await _setup_integration(hass, mock_config_entry)
@@ -133,7 +133,7 @@ async def test_climate_entity_state(
     ],
 )
 async def test_climate_entity_hvac_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
     heating: int,
@@ -156,7 +156,7 @@ async def test_climate_entity_hvac_action(
 
 
 async def test_climate_entity_set_temperature(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting a valid target temperature writes to the register."""
     await _setup_integration(hass, mock_config_entry)
@@ -167,7 +167,7 @@ async def test_climate_entity_set_temperature(
 
 
 async def test_climate_entity_set_temperature_handles_modbus_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -175,12 +175,12 @@ async def test_climate_entity_set_temperature_handles_modbus_error(
     await _setup_integration(hass, mock_config_entry)
 
     mock_modbus_unit.fail_write(8, ModbusError("write failed"))
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await async_set_temperature(hass, temperature=22.5, entity_id=CLIMATE_ENTITY_ID)
 
 
 async def test_climate_entity_set_fan_mode(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting a valid fan mode writes the correct value to the register."""
     await _setup_integration(hass, mock_config_entry)
@@ -191,7 +191,7 @@ async def test_climate_entity_set_fan_mode(
 
 
 async def test_climate_entity_set_fan_mode_handles_modbus_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -199,5 +199,5 @@ async def test_climate_entity_set_fan_mode_handles_modbus_error(
     await _setup_integration(hass, mock_config_entry)
 
     mock_modbus_unit.fail_write(17, ModbusError("write failed"))
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await async_set_fan_mode(hass, "High", entity_id=CLIMATE_ENTITY_ID)

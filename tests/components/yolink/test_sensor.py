@@ -34,7 +34,7 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -68,7 +68,7 @@ def _mock_device(
 
 
 async def _async_setup_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_yolink_home: MagicMock,
     devices: list[YoLinkDevice],
@@ -80,7 +80,7 @@ async def _async_setup_devices(
 
 
 def _assert_temperature_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     expected_temperature: float,
 ) -> None:
@@ -112,7 +112,7 @@ def _assert_temperature_state(
     ],
 )
 async def test_water_meter_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_yolink_home: MagicMock,
@@ -141,7 +141,7 @@ async def test_water_meter_temperature(
 
 @pytest.mark.usefixtures("setup_credentials", "mock_auth_manager")
 async def test_other_water_meter_has_no_temperature_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_yolink_home: MagicMock,
@@ -197,7 +197,7 @@ async def test_other_water_meter_has_no_temperature_entity(
     ],
 )
 async def test_existing_temperature_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_yolink_home: MagicMock,
@@ -225,7 +225,7 @@ async def test_existing_temperature_devices(
 
 @pytest.mark.usefixtures("setup_credentials", "mock_auth_manager")
 async def test_water_meter_temperature_retained_on_partial_report(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_yolink_home: MagicMock,

@@ -91,7 +91,7 @@ class InfraredEmitterEntity(RestoreEntity):
             command: The IR command to send.
 
         Raises:
-            UniversalAssistantError: If transmission fails.
+            __HAC_KEEP__Error: If transmission fails.
         """
 
 

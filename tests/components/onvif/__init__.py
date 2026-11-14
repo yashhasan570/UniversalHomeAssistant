@@ -25,7 +25,7 @@ from universalassistant.components.onvif.models import (
     WebHookManagerState,
 )
 from universalassistant.const import HTTP_DIGEST_AUTHENTICATION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 URN = "urn:uuid:123456789"
 NAME = "TestCamera"
@@ -226,7 +226,7 @@ def setup_mock_device(mock_device, capabilities=None, profiles=None, events=None
         _setup_mock_events(mock_device.events, events)
 
     def mock_constructor(
-        hass: UniversalAssistant, config: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, config: config_entries.ConfigEntry
     ) -> MagicMock:
         """Fake the controller constructor."""
         return mock_device
@@ -252,7 +252,7 @@ def _setup_mock_events(mock_events: MagicMock, events: list[Event]) -> None:
 
 
 async def setup_onvif_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config=None,
     options=None,
     unique_id=MAC,

@@ -25,7 +25,7 @@ from universalassistant.components.neopool.const import (
     TYPE_SERIAL,
 )
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_NAME, CONF_PORT, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_HOST = "192.0.2.1"
 MOCK_PORT = DEFAULT_PORT
@@ -34,13 +34,13 @@ MOCK_SERIAL = "1234567890"
 
 
 @pytest.fixture(autouse=True)
-async def mock_usb_component(hass: UniversalAssistant) -> None:
+async def mock_usb_component(hass: __HAC_KEEP__) -> None:
     """Mark the usb component as loaded so neopool's dependency is satisfied."""
     hass.config.components.add("usb")
 
 
 @asynccontextmanager
-async def _temp_unit_cm(hass: UniversalAssistant, params: Any, unit_id: Any) -> Any:
+async def _temp_unit_cm(hass: __HAC_KEEP__, params: Any, unit_id: Any) -> Any:
     """Stub async_get_temporary_unit, yielding a throwaway unit."""
     yield MagicMock()
 

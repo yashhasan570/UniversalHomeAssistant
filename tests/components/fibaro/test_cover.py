@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.cover import CoverEntityFeature, CoverState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import init_integration
 
 
 async def test_positionable_cover_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -76,7 +76,7 @@ TILT_FEATURES = (
     ],
 )
 async def test_positionable_cover_tilt_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -104,7 +104,7 @@ async def test_positionable_cover_tilt_support(
 
 
 async def test_cover_opening(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_positionable_cover: Mock,
@@ -127,7 +127,7 @@ async def test_cover_opening(
 
 
 async def test_cover_opening_closing_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_positionable_cover: Mock,
@@ -151,7 +151,7 @@ async def test_cover_opening_closing_none(
 
 
 async def test_cover_closing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_positionable_cover: Mock,
@@ -175,7 +175,7 @@ async def test_cover_closing(
 
 
 async def test_cover_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -207,7 +207,7 @@ async def test_cover_setup(
 
 
 async def test_cover_open_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_cover: Mock,
@@ -234,7 +234,7 @@ async def test_cover_open_action(
 
 
 async def test_cover_close_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_cover: Mock,
@@ -261,7 +261,7 @@ async def test_cover_close_action(
 
 
 async def test_cover_stop_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_cover: Mock,
@@ -288,7 +288,7 @@ async def test_cover_stop_action(
 
 
 async def test_cover_open_slats_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_cover: Mock,
@@ -315,7 +315,7 @@ async def test_cover_open_slats_action(
 
 
 async def test_cover_close_tilt_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_cover: Mock,
@@ -342,7 +342,7 @@ async def test_cover_close_tilt_action(
 
 
 async def test_cover_stop_slats_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_cover: Mock,

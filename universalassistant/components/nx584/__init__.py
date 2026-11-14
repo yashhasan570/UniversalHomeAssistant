@@ -10,7 +10,7 @@ from yarl import URL
 
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
@@ -51,13 +51,13 @@ def _fetch_zones(client: nx584_client.Client) -> tuple[list[dict[str, Any]], str
     return client.list_zones(), client.get_version()
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the NX584 component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NX584ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NX584ConfigEntry) -> None:
     """Set up NX584 from a config entry."""
     client = create_client(entry.data[CONF_HOST], entry.data[CONF_PORT])
     try:
@@ -71,12 +71,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NX584ConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NX584ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NX584ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_import_yaml(hass: UniversalAssistant, import_data: dict[str, Any]) -> None:
+async def async_import_yaml(hass: __HAC_KEEP__, import_data: dict[str, Any]) -> None:
     """Import a YAML platform into the config entry of its server."""
     # The alarm and binary sensor platforms of one server import one at a time,
     # so the second one merges into the entry the first one created.

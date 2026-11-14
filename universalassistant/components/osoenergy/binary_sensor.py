@@ -11,7 +11,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import OSOEnergyConfigEntry
@@ -45,7 +45,7 @@ SENSOR_TYPES: dict[str, OSOEnergyBinarySensorEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OSOEnergyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

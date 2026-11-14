@@ -1,6 +1,6 @@
-"""Core components of Universal Universal Home Assistant.
+"""Core components of __HA_KEEP__.
 
-Universal Universal Home Assistant is a Home Automation framework for observing the state
+__HA_KEEP__ is a Home Automation framework for observing the state
 of entities and react to changes.
 """
 
@@ -81,7 +81,7 @@ from .const import (
     __version__,
 )
 from .exceptions import (
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     InvalidEntityFormatError,
     InvalidStateError,
     MaxLengthExceeded,
@@ -110,7 +110,7 @@ from .util.ulid import ulid_at_time, ulid_now
 # Typing imports that create a circular dependency
 if TYPE_CHECKING:
     from .auth import AuthManager
-    from .components.http import UniversalAssistantHTTP
+    from .components.http import __HAC_KEEP__HTTP
     from .config_entries import ConfigEntries
     from .helpers.entity import StateInfo
 
@@ -220,8 +220,8 @@ def callback[_CallableT: Callable[..., Any]](func: _CallableT) -> _CallableT:
     return func
 
 
-def _get_hass_identity(obj: UniversalAssistant) -> UniversalAssistant:
-    """Return the UniversalAssistant instance passed in."""
+def _get_hass_identity(obj: __HAC_KEEP__) -> __HAC_KEEP__:
+    """Return the __HAC_KEEP__ instance passed in."""
     return obj
 
 
@@ -235,7 +235,7 @@ def verify_event_loop_thread[**_P, _R](
     """Report and raise if the decorated function is not called from the event loop.
 
     The first argument of the decorated function must be either the
-    UniversalAssistant instance or an object with a hass or _hass attribute.
+    __HAC_KEEP__ instance or an object with a hass or _hass attribute.
     It may be passed by keyword. Where hass is found is resolved on the
     first call and then reused.
     """
@@ -246,11 +246,11 @@ def verify_event_loop_thread[**_P, _R](
                 inspect.signature(func, annotation_format=Format.FORWARDREF).parameters
             )
         )
-        get_hass: Callable[[Any], UniversalAssistant]
+        get_hass: Callable[[Any], __HAC_KEEP__]
 
-        def resolve_get_hass(obj: Any) -> UniversalAssistant:
+        def resolve_get_hass(obj: Any) -> __HAC_KEEP__:
             nonlocal get_hass
-            if isinstance(obj, UniversalAssistant):
+            if isinstance(obj, __HAC_KEEP__):
                 get_hass = _get_hass_identity
             elif hasattr(obj, "hass"):
                 get_hass = _get_hass_public
@@ -298,30 +298,30 @@ def is_callback_check_partial(target: Callable[..., Any]) -> bool:
 
 
 class _Hass(threading.local):
-    """Container which makes a UniversalAssistant instance available to the event loop."""
+    """Container which makes a __HAC_KEEP__ instance available to the event loop."""
 
-    hass: UniversalAssistant | None = None
+    hass: __HAC_KEEP__ | None = None
 
 
 _hass = _Hass()
 
 
 @callback
-def async_get_hass() -> UniversalAssistant:
-    """Return the UniversalAssistant instance.
+def async_get_hass() -> __HAC_KEEP__:
+    """Return the __HAC_KEEP__ instance.
 
-    Raises UniversalAssistantError when called from the wrong thread.
+    Raises __HAC_KEEP__Error when called from the wrong thread.
 
     This should be used where it's very cumbersome or downright impossible to pass
     hass to the code which needs it.
     """
     if not (hass := async_get_hass_or_none()):
-        raise UniversalAssistantError("async_get_hass called from the wrong thread")
+        raise __HAC_KEEP__Error("async_get_hass called from the wrong thread")
     return hass
 
 
-def async_get_hass_or_none() -> UniversalAssistant | None:
-    """Return the UniversalAssistant instance or None.
+def async_get_hass_or_none() -> __HAC_KEEP__ | None:
+    """Return the __HAC_KEEP__ instance or None.
 
     Returns None when called from the wrong thread.
     """
@@ -429,7 +429,7 @@ def get_hassjob_callable_job_type(target: Callable[..., Any]) -> HassJobType:
 
 
 class CoreState(enum.Enum):
-    """Represent the current state of Universal Universal Home Assistant."""
+    """Represent the current state of __HA_KEEP__."""
 
     not_running = "NOT_RUNNING"
     starting = "STARTING"
@@ -444,11 +444,11 @@ class CoreState(enum.Enum):
         return self.value
 
 
-class UniversalAssistant:
-    """Root object of the Universal Universal Home Assistant home automation."""
+class __HAC_KEEP__:
+    """Root object of the __HA_KEEP__ home automation."""
 
     auth: AuthManager
-    http: UniversalAssistantHTTP = None  # type: ignore[assignment]
+    http: __HAC_KEEP__HTTP = None  # type: ignore[assignment]
     config_entries: ConfigEntries = None  # type: ignore[assignment]
 
     def __new__(cls, config_dir: str) -> Self:
@@ -460,10 +460,10 @@ class UniversalAssistant:
     @override
     def __repr__(self) -> str:
         """Return the representation."""
-        return f"<UniversalAssistant {self.state}>"
+        return f"<__HAC_KEEP__ {self.state}>"
 
     def __init__(self, config_dir: str) -> None:
-        """Initialize new Universal Universal Home Assistant object."""
+        """Initialize new __HA_KEEP__ object."""
         from .core_config import Config  # noqa: PLC0415
 
         # This is a dictionary that any component can store any data on.
@@ -512,12 +512,12 @@ class UniversalAssistant:
 
     @cached_property
     def is_running(self) -> bool:
-        """Return if Universal Universal Home Assistant is running."""
+        """Return if __HA_KEEP__ is running."""
         return self.state in (CoreState.starting, CoreState.running)
 
     @cached_property
     def is_stopping(self) -> bool:
-        """Return if Universal Universal Home Assistant is stopping."""
+        """Return if __HA_KEEP__ is stopping."""
         return self.state in (CoreState.stopping, CoreState.final_write)
 
     def set_state(self, state: CoreState) -> None:
@@ -527,7 +527,7 @@ class UniversalAssistant:
             self.__dict__.pop(prop, None)
 
     def start(self) -> int:
-        """Start Universal Universal Home Assistant.
+        """Start __HA_KEEP__.
 
         Note: This function is only used for testing.
         For regular use, use "await hass.run()".
@@ -536,7 +536,7 @@ class UniversalAssistant:
         _future = asyncio.run_coroutine_threadsafe(self.async_start(), self.loop)
         # Run forever
         # Block until stopped
-        _LOGGER.info("Starting Universal Universal Home Assistant core loop")
+        _LOGGER.info("Starting __HA_KEEP__ core loop")
         self.loop.run_forever()
         # The future is never retrieved but we still hold a reference to it
         # to prevent the task from being garbage collected prematurely.
@@ -544,14 +544,14 @@ class UniversalAssistant:
         return self.exit_code
 
     async def async_run(self, *, attach_signals: bool = True) -> int:
-        """Universal Universal Home Assistant main entry point.
+        """__HA_KEEP__ main entry point.
 
-        Start Universal Universal Home Assistant and block until stopped.
+        Start __HA_KEEP__ and block until stopped.
 
         This method is a coroutine.
         """
         if self.state is not CoreState.not_running:
-            raise RuntimeError("Universal Universal Home Assistant is already running")
+            raise RuntimeError("__HA_KEEP__ is already running")
 
         # _async_stop will set this instead of stopping the loop
         self._stopped = asyncio.Event()
@@ -570,16 +570,16 @@ class UniversalAssistant:
 
         This method is a coroutine.
         """
-        _LOGGER.info("Starting Universal Universal Home Assistant %s", __version__)
+        _LOGGER.info("Starting __HA_KEEP__ %s", __version__)
 
         def _log_startup_blocked(tasks: set[asyncio.Future[Any]]) -> None:
             """Log when startup is blocked by tasks."""
             _LOGGER.warning(
                 (
-                    "Something is blocking Universal Universal Home Assistant from wrapping up the start up"
+                    "Something is blocking __HA_KEEP__ from wrapping up the start up"
                     " phase. We're going to continue anyway. Please report the"
                     " following info at"
-                    " https://github.com/yashhasan570/UniversalUniversalAssistant/issues: %s"
+                    " https://github.com/yashhasan570/__HAC_KEEP__/issues: %s"
                     " The system is waiting for tasks: %s"
                 ),
                 ", ".join(self.config.components),
@@ -618,7 +618,7 @@ class UniversalAssistant:
 
         if self.state is not CoreState.starting:
             _LOGGER.warning(
-                "Universal Universal Home Assistant startup has been interrupted. "
+                "__HA_KEEP__ startup has been interrupted. "
                 "Its state may be inconsistent"
             )
             return
@@ -812,7 +812,7 @@ class UniversalAssistant:
         # This code path is performance sensitive and uses
         # if TYPE_CHECKING to avoid the overhead of constructing
         # the type used for the cast. For history see:
-        # https://github.com/yashhasan570/UniversalUniversalAssistant/pull/71960
+        # https://github.com/yashhasan570/__HAC_KEEP__/pull/71960
         if hassjob.job_type is HassJobType.Coroutinefunction:
             if TYPE_CHECKING:
                 hassjob = cast(HassJob[..., Coroutine[Any, Any, _R]], hassjob)
@@ -908,7 +908,7 @@ class UniversalAssistant:
         """Create a task from within the event loop.
 
         This type of task is for background tasks that usually run for
-        the lifetime of Universal Universal Home Assistant or an integration's setup.
+        the lifetime of __HA_KEEP__ or an integration's setup.
 
         A background task is different from a normal task:
 
@@ -994,7 +994,7 @@ class UniversalAssistant:
         # This code path is performance sensitive and uses
         # if TYPE_CHECKING to avoid the overhead of constructing
         # the type used for the cast. For history see:
-        # https://github.com/yashhasan570/UniversalUniversalAssistant/pull/71960
+        # https://github.com/yashhasan570/__HAC_KEEP__/pull/71960
         if hassjob.job_type is HassJobType.Callback:
             if TYPE_CHECKING:
                 hassjob = cast(HassJob[..., _R], hassjob)
@@ -1122,7 +1122,7 @@ class UniversalAssistant:
         """Add a HassJob which will be executed on shutdown.
 
         The job will be called (and awaited if it returns a coroutine) before firing
-        of event EVENT_HOMEASSISTANT_STOP when Universal Universal Home Assistant is shutting down.
+        of event EVENT_HOMEASSISTANT_STOP when __HA_KEEP__ is shutting down.
 
         This method must be run in the event loop.
 
@@ -1159,7 +1159,7 @@ class UniversalAssistant:
         """Add a HassJob which will be executed on startup.
 
         The job will be called (and awaited if it returns a coroutine) before firing
-        of event EVENT_HOMEASSISTANT_STARTED when Universal Universal Home Assistant is starting.
+        of event EVENT_HOMEASSISTANT_STARTED when __HA_KEEP__ is starting.
 
         This method must be run in the event loop.
 
@@ -1179,7 +1179,7 @@ class UniversalAssistant:
         return remove_job
 
     def stop(self) -> None:
-        """Stop Universal Universal Home Assistant and shuts down all threads."""
+        """Stop __HA_KEEP__ and shuts down all threads."""
         if self.state is CoreState.not_running:  # just ignore
             return
         # The future is never retrieved, and we only hold a reference
@@ -1189,10 +1189,10 @@ class UniversalAssistant:
         )
 
     async def async_stop(self, exit_code: int = 0, *, force: bool = False) -> None:
-        """Stop Universal Universal Home Assistant and shuts down all threads.
+        """Stop __HA_KEEP__ and shuts down all threads.
 
         The "force" flag commands async_stop to proceed regardless of
-        Universal Universal Home Assistant's current state. You should not set this flag
+        __HA_KEEP__'s current state. You should not set this flag
         unless you're testing.
 
         This method is a coroutine.
@@ -1208,7 +1208,7 @@ class UniversalAssistant:
             if self.state is CoreState.starting:
                 # This may not work
                 _LOGGER.warning(
-                    "Stopping Universal Universal Home Assistant before startup has completed may fail"
+                    "Stopping __HA_KEEP__ before startup has completed may fail"
                 )
 
         # Stage 1 - Run shutdown jobs
@@ -1243,7 +1243,7 @@ class UniversalAssistant:
         for task in self._background_tasks:
             self._tasks.add(task)
             task.add_done_callback(self._tasks.remove)
-            task.cancel("Universal Universal Home Assistant is stopping")
+            task.cancel("__HA_KEEP__ is stopping")
         self._cancel_cancellable_timers()
 
         self.exit_code = exit_code
@@ -1291,7 +1291,7 @@ class UniversalAssistant:
                 "the stop event to prevent delaying shutdown",
                 task,
             )
-            task.cancel("Universal Universal Home Assistant final writes shutdown stage")
+            task.cancel("__HA_KEEP__ final writes shutdown stage")
             try:
                 async with asyncio.timeout(0.1):
                     await task
@@ -1529,7 +1529,7 @@ _FilterableJobType = tuple[
 
 @dataclass(slots=True)
 class _OneTimeListener(Generic[_DataT]):
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     listener_job: HassJob[[Event[_DataT]], Coroutine[Any, Any, None] | None]
     remove: CALLBACK_TYPE | None = None
 
@@ -1582,7 +1582,7 @@ class EventBus:
         "_queued_event_count",
     )
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize a new event bus."""
         self._listeners: defaultdict[
             EventType[Any] | str, list[_FilterableJobType[Any]]
@@ -1683,7 +1683,7 @@ class EventBus:
                 # loop: stop queuing further events and raise so the firing
                 # listener's error handling kicks in. Events already queued
                 # are still dispatched.
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     f"Event {event_type} not fired: more than"
                     f" {_MAX_QUEUED_EVENT_DISPATCHES} events were queued by event"
                     " listeners while dispatching a single event; event listeners"
@@ -1800,11 +1800,11 @@ class EventBus:
             )
 
         if event_filter is not None and not is_callback_check_partial(event_filter):
-            raise UniversalAssistantError(f"Event filter {event_filter} is not a callback")
+            raise __HAC_KEEP__Error(f"Event filter {event_filter} is not a callback")
         filterable_job = (HassJob(listener, f"listen {event_type}"), event_filter)
         if event_type == EVENT_STATE_REPORTED:
             if not event_filter:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     f"Event filter is required for event {event_type}"
                 )
         return self._async_listen_filterable_job(event_type, filterable_job)
@@ -2442,7 +2442,7 @@ class StateMachine:
         entity_id are added.
         """
         if entity_id in self._states_data or entity_id in self._reservations:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "async_reserve must not be called once the state is in the state"
                 " machine."
             )
@@ -2662,7 +2662,7 @@ class ServiceCall:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         domain: str,
         service: str,
         data: dict[str, Any] | None = None,
@@ -2694,7 +2694,7 @@ class ServiceRegistry:
 
     __slots__ = ("_hass", "_services")
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize a service registry."""
         self._services: dict[str, dict[str, Service]] = {}
         self._hass = hass
@@ -2730,7 +2730,7 @@ class ServiceRegistry:
         """Return dictionary with per domain a list of available services.
 
         This method DOES NOT make a copy of the services like async_services does.
-        It is only expected to be called from the Universal Universal Home Assistant internals
+        It is only expected to be called from the __HA_KEEP__ internals
         as a performance optimization when the caller is not going to modify the
         returned data.
 
@@ -3036,7 +3036,7 @@ class ServiceRegistry:
         if not return_response:
             return None
         if not isinstance(response_data, dict):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="service_reponse_invalid",
                 translation_placeholders={

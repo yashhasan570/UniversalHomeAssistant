@@ -28,7 +28,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import find_entity_id
@@ -61,7 +61,7 @@ def speed_up_radio_mgr():
 
 @pytest.mark.freeze_time("2021-11-04 17:37:00", tz_offset=-1)
 async def test_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],

@@ -8,7 +8,7 @@ from aiohomekit.model.services import ServicesTypes
 from universalassistant.components.camera import Camera
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .connection import HKDevice
@@ -52,7 +52,7 @@ class HomeKitCamera(AccessoryEntity, Camera):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

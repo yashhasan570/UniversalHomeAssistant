@@ -6,7 +6,7 @@ import logging
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import async_track_point_in_utc_time
 from universalassistant.util.dt import utcnow
@@ -79,7 +79,7 @@ async def _async_handle_start_charge(service: ServiceCall) -> None:
         _LOGGER.debug("Vin %s not recognised for update", vin)
 
 
-def setup_services(hass: UniversalAssistant) -> None:
+def setup_services(hass: __HAC_KEEP__) -> None:
     """Register the Nissan Leaf services."""
     hass.services.register(
         DOMAIN,

@@ -1,4 +1,4 @@
-"""Sensor platform for Universal Universal Home Assistant Backup integration."""
+"""Sensor platform for __HA_KEEP__ Backup integration."""
 
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -12,7 +12,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfInformation
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import BackupConfigEntry, BackupCoordinatorData
@@ -22,7 +22,7 @@ from .manager import BackupManagerState
 
 @dataclass(kw_only=True, frozen=True)
 class BackupSensorEntityDescription(SensorEntityDescription):
-    """Description for Universal Universal Home Assistant Backup sensor entities."""
+    """Description for __HA_KEEP__ Backup sensor entities."""
 
     value_fn: Callable[[BackupCoordinatorData], str | int | datetime | None]
 
@@ -67,7 +67,7 @@ BACKUP_MANAGER_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BackupConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

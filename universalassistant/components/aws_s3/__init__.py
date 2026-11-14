@@ -8,7 +8,7 @@ from aiobotocore.session import AioSession
 from botocore.exceptions import ClientError, ConnectionError, ParamValidationError
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 from .const import (
@@ -26,7 +26,7 @@ _PLATFORMS = (Platform.SENSOR,)
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: S3ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: S3ConfigEntry) -> None:
     """Set up S3 from a config entry."""
 
     data = cast(dict, entry.data)
@@ -80,7 +80,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: S3ConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: S3ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: S3ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)
     coordinator = entry.runtime_data

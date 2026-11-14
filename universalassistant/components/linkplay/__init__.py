@@ -10,7 +10,7 @@ from linkplay.exceptions import LinkPlayRequestException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -32,13 +32,13 @@ class LinkPlayData:
 type LinkPlayConfigEntry = ConfigEntry[LinkPlayData]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LinkPlayConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LinkPlayConfigEntry) -> None:
     """Async setup hass config entry. Called when an entry has been setup."""
 
     session: ClientSession = await async_get_client_session(hass)
@@ -68,7 +68,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LinkPlayConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LinkPlayConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LinkPlayConfigEntry) -> None:
     """Unload a config entry."""
 
     # remove the bridge from the controller and discover multirooms

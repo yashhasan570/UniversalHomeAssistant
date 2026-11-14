@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.local_file.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_FILE_PATH
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -35,9 +35,9 @@ async def get_config_to_integration_load() -> dict[str, Any]:
 
 @pytest.fixture(name="loaded_entry")
 async def load_integration(
-    hass: UniversalAssistant, get_config: dict[str, Any]
+    hass: __HAC_KEEP__, get_config: dict[str, Any]
 ) -> MockConfigEntry:
-    """Set up the Local file integration in Universal Universal Home Assistant."""
+    """Set up the Local file integration in __HA_KEEP__."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         source=SOURCE_USER,

@@ -40,7 +40,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, State
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, State
 from universalassistant.setup import async_setup_component
 
 from .conftest import TEST_ENTITY_NAME, ReadResult
@@ -151,7 +151,7 @@ ENTITY_ID2 = f"{ENTITY_ID}_2"
         },
     ],
 )
-async def test_config_light(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_config_light(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configuration test for light."""
     assert LIGHT_DOMAIN in hass.config.components
 
@@ -216,7 +216,7 @@ async def test_config_light(hass: UniversalAssistant, mock_modbus) -> None:
         ),
     ],
 )
-async def test_all_light(hass: UniversalAssistant, mock_do_cycle, expected) -> None:
+async def test_all_light(hass: __HAC_KEEP__, mock_do_cycle, expected) -> None:
     """Run test for given config."""
     assert hass.states.get(ENTITY_ID).state == expected
 
@@ -264,7 +264,7 @@ async def test_all_light(hass: UniversalAssistant, mock_do_cycle, expected) -> N
     ],
 )
 async def test_restore_state_light(
-    hass: UniversalAssistant, mock_test_state, mock_modbus
+    hass: __HAC_KEEP__, mock_test_state, mock_modbus
 ) -> None:
     """Test Modbus Light restore state with brightness and color_temp."""
 
@@ -305,7 +305,7 @@ async def test_restore_state_light(
     ],
 )
 async def test_light_service_turn(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_modbus,
 ) -> None:
@@ -398,7 +398,7 @@ async def test_light_service_turn(
     ],
 )
 async def test_color_temp_brightness_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_modbus_ha,
     service_data,
     expected_calls,
@@ -481,7 +481,7 @@ async def test_color_temp_brightness_light(
     ],
 )
 async def test_service_light_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_modbus_ha,
     input_output_values,
 ) -> None:
@@ -529,7 +529,7 @@ async def test_service_light_update(
 
 
 async def test_no_discovery_info_light(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup without discovery info."""
     assert LIGHT_DOMAIN not in hass.config.components

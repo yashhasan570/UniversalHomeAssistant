@@ -22,7 +22,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.habitica.const import ASSETS_URL, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
@@ -39,7 +39,7 @@ def image_only() -> Generator[None]:
     sys.platform != "linux", reason="linux only"
 )  # Pillow output on win/mac is different
 async def test_image_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     hass_client: ClientSessionGenerator,
@@ -97,7 +97,7 @@ async def test_image_platform(
 @pytest.mark.usefixtures("habitica")
 @respx.mock
 async def test_load_image_from_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     hass_client: ClientSessionGenerator,
@@ -149,7 +149,7 @@ async def test_load_image_from_url(
 @pytest.mark.usefixtures("habitica")
 @respx.mock
 async def test_load_image_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,

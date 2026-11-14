@@ -28,7 +28,7 @@ from gazetteer_matcher import (
 
 from universalassistant.components.universalassistant.exposed_entities import async_should_expose
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.core import __HAC_KEEP__, State, callback
 from universalassistant.helpers import (
     area_registry as ar,
     chat_session,
@@ -93,7 +93,7 @@ def join_speech(parts: Sequence[str]) -> str:
 
 
 @callback
-def async_build_home(hass: UniversalAssistant) -> Home:
+def async_build_home(hass: __HAC_KEEP__) -> Home:
     """Build the matcher's gazetteer of the home from the registries."""
     entity_registry = er.async_get(hass)
 
@@ -138,7 +138,7 @@ def async_build_home(hass: UniversalAssistant) -> Home:
 
 @callback
 def _names(
-    hass: UniversalAssistant, state: State, entry: er.RegistryEntry | None
+    hass: __HAC_KEEP__, state: State, entry: er.RegistryEntry | None
 ) -> list[str]:
     """Return the names an entity answers to, without duplicates."""
     seen: set[str] = set()
@@ -189,7 +189,7 @@ def async_targets_from_intent(
 class GazetteerFallback:
     """The matcher, kept in step with the home it resolves names against."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the fallback without loading anything yet."""
         self.hass = hass
         self._matcher: GazetteerMatcher | None = None

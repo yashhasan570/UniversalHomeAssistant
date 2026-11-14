@@ -14,8 +14,8 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.location import get_state_coordinates
@@ -32,7 +32,7 @@ from .const import CONF_LOCATION_ENTITY, CONF_STATION, DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, str]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, str]:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -176,5 +176,5 @@ class NWSConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

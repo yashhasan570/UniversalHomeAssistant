@@ -3,7 +3,7 @@
 import asyncio
 from dataclasses import dataclass, field
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.util.hass_dict import HassKey
 
@@ -26,7 +26,7 @@ PROVISIONING_FUTURES: HassKey[dict[str, ProvisioningState]] = HassKey(
 
 @callback
 def async_get_provisioning_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, ProvisioningState]:
     """Get the provisioning registry, creating it if needed.
 
@@ -38,7 +38,7 @@ def async_get_provisioning_registry(
 
 @callback
 def async_register_zeroconf_discovery(
-    hass: UniversalAssistant, mac: str, host: str, port: int
+    hass: __HAC_KEEP__, mac: str, host: str, port: int
 ) -> None:
     """Register a zeroconf discovery for a device that was provisioned via BLE.
 
@@ -50,7 +50,7 @@ def async_register_zeroconf_discovery(
     and the last one wins.
 
     Args:
-        hass: Universal Universal Home Assistant instance
+        hass: __HA_KEEP__ instance
         mac: Device MAC address (will be normalized)
         host: Device IP address/hostname from zeroconf
         port: Device port from zeroconf

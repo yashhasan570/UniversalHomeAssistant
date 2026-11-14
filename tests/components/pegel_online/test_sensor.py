@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.pegel_online.const import CONF_STATION, DOMAIN
 from universalassistant.const import ATTR_LATITUDE, ATTR_LONGITUDE, ATTR_UNIT_OF_MEASUREMENT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import PegelOnlineMock
 from .const import (
@@ -107,7 +107,7 @@ from .const import (
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_data: dict,
     mock_station_details: Station,
     mock_station_measurement: StationMeasurements,

@@ -16,7 +16,7 @@ from universalassistant.components.remote import (
     RemoteEntity,
 )
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import AppleTvConfigEntry
@@ -36,7 +36,7 @@ COMMAND_TO_ATTRIBUTE = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AppleTvConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

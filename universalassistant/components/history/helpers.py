@@ -4,11 +4,11 @@ from collections.abc import Iterable
 from datetime import datetime as dt
 
 from universalassistant.components.recorder import get_instance
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def entities_may_have_state_changes_after(
-    hass: UniversalAssistant, entity_ids: Iterable, start_time: dt, no_attributes: bool
+    hass: __HAC_KEEP__, entity_ids: Iterable, start_time: dt, no_attributes: bool
 ) -> bool:
     """Check the state machine to see if entities have changed since start time."""
     for entity_id in entity_ids:
@@ -23,7 +23,7 @@ def entities_may_have_state_changes_after(
     return False
 
 
-def has_states_before(hass: UniversalAssistant, run_time: dt) -> bool:
+def has_states_before(hass: __HAC_KEEP__, run_time: dt) -> bool:
     """Check if the recorder has states as old or older than run_time.
 
     Returns True if there may be such states.

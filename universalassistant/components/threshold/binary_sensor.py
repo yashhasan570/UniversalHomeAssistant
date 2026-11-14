@@ -24,7 +24,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
 from universalassistant.helpers import config_validation as cv, entity_registry as er
@@ -83,7 +83,7 @@ PLATFORM_SCHEMA = probatio.All(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -117,7 +117,7 @@ async def async_setup_entry(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

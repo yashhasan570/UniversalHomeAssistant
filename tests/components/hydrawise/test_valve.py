@@ -16,13 +16,13 @@ from universalassistant.const import (
     SERVICE_OPEN_VALVE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_all_valves(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_config_entry: Callable[[], Awaitable[MockConfigEntry]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -37,7 +37,7 @@ async def test_all_valves(
 
 
 async def test_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     zones: list[Zone],
@@ -76,7 +76,7 @@ async def test_services(
 )
 @pytest.mark.usefixtures("mock_added_config_entry")
 async def test_valve_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pydrawise: AsyncMock,
     service: str,
     api_method: str,
@@ -84,7 +84,7 @@ async def test_valve_api_error(
     """Test that API errors raise a translated error."""
     getattr(mock_pydrawise, api_method).side_effect = APIError("Boom")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             VALVE_DOMAIN,
             service,

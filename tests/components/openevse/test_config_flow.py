@@ -10,13 +10,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.openevse.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow(hass: UniversalAssistant, mock_charger: MagicMock) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, mock_charger: MagicMock) -> None:
     """Test user flow create entry with bad charger."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -34,7 +34,7 @@ async def test_user_flow(hass: UniversalAssistant, mock_charger: MagicMock) -> N
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow_flaky(hass: UniversalAssistant, mock_charger: MagicMock) -> None:
+async def test_user_flow_flaky(hass: __HAC_KEEP__, mock_charger: MagicMock) -> None:
     """Test user flow create entry with flaky charger."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -61,7 +61,7 @@ async def test_user_flow_flaky(hass: UniversalAssistant, mock_charger: MagicMock
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_duplicate(
-    hass: UniversalAssistant, mock_config_entry: MagicMock, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MagicMock, mock_charger: MagicMock
 ) -> None:
     """Test user flow aborts when config entry already exists."""
     mock_config_entry.add_to_hass(hass)
@@ -81,7 +81,7 @@ async def test_user_flow_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_no_serial(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test user flow handles missing serial gracefully."""
     mock_charger.test_and_get.side_effect = [{}, MissingSerial]
@@ -100,7 +100,7 @@ async def test_user_flow_no_serial(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_with_auth(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test user flow create entry with authentication."""
     mock_charger.test_and_get.side_effect = [
@@ -135,7 +135,7 @@ async def test_user_flow_with_auth(
 
 
 async def test_user_flow_with_auth_error(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test user flow create entry with authentication error."""
     mock_charger.test_and_get.side_effect = [
@@ -171,7 +171,7 @@ async def test_user_flow_with_auth_error(
 
 
 async def test_user_flow_with_missing_serial(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test user flow create entry with authentication error."""
     mock_charger.test_and_get.side_effect = [AuthenticationError, MissingSerial]
@@ -201,7 +201,7 @@ async def test_user_flow_with_missing_serial(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_zeroconf_discovery(hass: UniversalAssistant, mock_charger: MagicMock) -> None:
+async def test_zeroconf_discovery(hass: __HAC_KEEP__, mock_charger: MagicMock) -> None:
     """Test zeroconf discovery."""
     discovery_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.1.123"),
@@ -241,7 +241,7 @@ async def test_zeroconf_discovery(hass: UniversalAssistant, mock_charger: MagicM
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_already_configured_unique_id(
-    hass: UniversalAssistant, mock_charger: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_charger: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf discovery updates info if unique_id is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -271,7 +271,7 @@ async def test_zeroconf_already_configured_unique_id(
 
 
 async def test_zeroconf_connection_error(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test zeroconf discovery with connection failure."""
     mock_charger.test_and_get.side_effect = TimeoutError
@@ -295,7 +295,7 @@ async def test_zeroconf_connection_error(
     assert result["reason"] == "unavailable_host"
 
 
-async def test_zeroconf_auth(hass: UniversalAssistant, mock_charger: MagicMock) -> None:
+async def test_zeroconf_auth(hass: __HAC_KEEP__, mock_charger: MagicMock) -> None:
     """Test zeroconf discovery with connection failure."""
     mock_charger.test_and_get.side_effect = [AuthenticationError, {}]
     discovery_info = ZeroconfServiceInfo(
@@ -332,7 +332,7 @@ async def test_zeroconf_auth(hass: UniversalAssistant, mock_charger: MagicMock) 
 
 
 async def test_zeroconf_auth_failure(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test zeroconf discovery with connection failure."""
     mock_charger.test_and_get.side_effect = [
@@ -384,7 +384,7 @@ async def test_zeroconf_auth_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_already_configured_host(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf discovery aborts if host is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -412,7 +412,7 @@ async def test_zeroconf_already_configured_host(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant, mock_charger: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_charger: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication flow."""
     mock_config_entry.add_to_hass(hass)
@@ -446,7 +446,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_charger: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -487,7 +487,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_host_only(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test reconfiguration flow for entry with host only."""
     config_entry = MockConfigEntry(
@@ -519,7 +519,7 @@ async def test_reconfigure_flow_host_only(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_with_auth(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test reconfiguration flow for entry with credentials."""
     config_entry = MockConfigEntry(
@@ -560,7 +560,7 @@ async def test_reconfigure_flow_with_auth(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_duplicate_host(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test reconfiguration flow aborts when host matches another entry."""
     other_entry = MockConfigEntry(
@@ -604,7 +604,7 @@ async def test_reconfigure_flow_duplicate_host(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_charger: MagicMock,
     exception: Exception,
     error_base: str,
@@ -649,7 +649,7 @@ async def test_reconfigure_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_changed_serial(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test reconfiguration flow aborts when device serial changes."""
     config_entry = MockConfigEntry(
@@ -681,7 +681,7 @@ async def test_reconfigure_flow_changed_serial(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_no_serial(
-    hass: UniversalAssistant, mock_charger: MagicMock
+    hass: __HAC_KEEP__, mock_charger: MagicMock
 ) -> None:
     """Test reconfiguration flow when device doesn't return serial."""
     config_entry = MockConfigEntry(

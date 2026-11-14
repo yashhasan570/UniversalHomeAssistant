@@ -5,7 +5,7 @@ from typing import Any, override
 
 from universalassistant.components import light
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TelldusLiveConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

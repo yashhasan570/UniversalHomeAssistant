@@ -5,7 +5,7 @@ import asyncio
 from data_grand_lyon_ha import DataGrandLyonClient
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -22,7 +22,7 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.CALENDAR, Platform
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: DataGrandLyonConfigEntry
+    hass: __HAC_KEEP__, entry: DataGrandLyonConfigEntry
 ) -> None:
     """Set up Data Grand Lyon from a config entry."""
     session = async_get_clientsession(hass)
@@ -58,14 +58,14 @@ async def async_setup_entry(
 
 
 async def async_update_entry(
-    hass: UniversalAssistant, entry: DataGrandLyonConfigEntry
+    hass: __HAC_KEEP__, entry: DataGrandLyonConfigEntry
 ) -> None:
     """Handle config entry update (e.g., subentry changes)."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: DataGrandLyonConfigEntry
+    hass: __HAC_KEEP__, entry: DataGrandLyonConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

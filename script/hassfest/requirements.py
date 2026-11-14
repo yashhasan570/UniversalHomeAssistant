@@ -85,7 +85,7 @@ PACKAGE_CHECK_VERSION_RANGE_EXCEPTIONS: dict[str, dict[str, set[str]]] = {
 # Constraints use an impossible version to prohibit a package altogether.
 PROHIBITED_VERSION = "1000000000.0.0"
 
-# Hassfest runs the Python version Universal Universal Home Assistant requires, but on a single
+# Hassfest runs the Python version __HA_KEEP__ requires, but on a single
 # platform. Markers are evaluated against every platform a requirement could
 # land on, so one is only skipped when it can never be installed at all.
 MARKER_ENVIRONMENTS = tuple(
@@ -478,10 +478,10 @@ def _specifiers_conflict(left: SpecifierSet, right: SpecifierSet) -> bool:
 
 
 def validate_custom_requirements(integration: Integration, config: Config) -> bool:
-    """Validate a custom integration against the requirements of Universal Universal Home Assistant.
+    """Validate a custom integration against the requirements of __HA_KEEP__.
 
     Custom integrations are installed into the same Python environment as Home
-    Assistant itself. A requirement that rules out the version Universal Universal Home Assistant
+    Assistant itself. A requirement that rules out the version __HA_KEEP__
     needs takes the whole installation down with it.
 
     Returns if valid.
@@ -514,7 +514,7 @@ def validate_custom_requirements(integration: Integration, config: Config) -> bo
         if package in core_requirements:
             integration.add_error(
                 "requirements",
-                f"Requirement {req} is a dependency of Universal Universal Home Assistant itself and "
+                f"Requirement {req} is a dependency of __HA_KEEP__ itself and "
                 "must not be listed in the manifest of a custom integration.",
             )
             continue
@@ -527,7 +527,7 @@ def validate_custom_requirements(integration: Integration, config: Config) -> bo
         ):
             integration.add_error(
                 "requirements",
-                f"Requirement {req} is prohibited by Universal Universal Home Assistant, "
+                f"Requirement {req} is prohibited by __HA_KEEP__, "
                 f"{package} must not be installed.",
             )
             continue
@@ -536,7 +536,7 @@ def validate_custom_requirements(integration: Integration, config: Config) -> bo
             integration.add_error(
                 "requirements",
                 f"Requirement {req} is incompatible with {package}{pinned}, which "
-                "Universal Universal Home Assistant depends on.",
+                "__HA_KEEP__ depends on.",
             )
             continue
 
@@ -546,11 +546,11 @@ def validate_custom_requirements(integration: Integration, config: Config) -> bo
             integration.add_error(
                 "requirements",
                 f"Requirement {req} is incompatible with {package}{constraint}, "
-                "which Universal Universal Home Assistant's package constraints require.",
+                "which __HA_KEEP__'s package constraints require.",
             )
             continue
 
-        # Pinning a package Universal Universal Home Assistant ships breaks the moment we bump it.
+        # Pinning a package __HA_KEEP__ ships breaks the moment we bump it.
         # Constrained packages are left alone, we only bound those.
         if pinned is not None and (
             exact := sorted(
@@ -563,9 +563,9 @@ def validate_custom_requirements(integration: Integration, config: Config) -> bo
             suggestion = f"{package}>={exact[0]}"
             integration.add_error(
                 "requirements",
-                f"Requirement {req} pins a package Universal Universal Home Assistant depends on "
+                f"Requirement {req} pins a package __HA_KEEP__ depends on "
                 f'({package}{pinned}). Use a minimum version ("{suggestion}") '
-                "instead, so it can follow along when Universal Universal Home Assistant updates it.",
+                "instead, so it can follow along when __HA_KEEP__ updates it.",
             )
 
     return len(integration.errors) == start_errors

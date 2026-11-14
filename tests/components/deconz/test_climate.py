@@ -33,7 +33,7 @@ from universalassistant.components.deconz.climate import (
 )
 from universalassistant.components.deconz.const import CONF_ALLOW_CLIP_SENSOR
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, STATE_OFF, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -76,7 +76,7 @@ from .conftest import ConfigEntryFactoryType, WebsocketDataType
     ],
 )
 async def test_simple_climate_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
@@ -163,7 +163,7 @@ async def test_simple_climate_device(
     ],
 )
 async def test_climate_device_without_cooling_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
@@ -302,7 +302,7 @@ async def test_climate_device_without_cooling_support(
     ],
 )
 async def test_climate_device_with_cooling_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
@@ -378,7 +378,7 @@ async def test_climate_device_with_cooling_support(
     ],
 )
 async def test_climate_device_with_fan_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
@@ -483,7 +483,7 @@ async def test_climate_device_with_fan_support(
     ],
 )
 async def test_climate_device_with_preset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
     sensor_ws_data: WebsocketDataType,
@@ -572,7 +572,7 @@ async def test_climate_device_with_preset(
 )
 @pytest.mark.parametrize("config_entry_options", [{CONF_ALLOW_CLIP_SENSOR: True}])
 async def test_clip_climate_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     snapshot: SnapshotAssertion,
@@ -627,7 +627,7 @@ async def test_clip_climate_device(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_verify_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sensor_ws_data: WebsocketDataType,
 ) -> None:
     """Test that state update properly."""
@@ -647,7 +647,7 @@ async def test_verify_state_update(
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_add_new_climate_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sensor_ws_data: WebsocketDataType,
 ) -> None:
     """Test that adding a new climate device works."""
@@ -696,7 +696,7 @@ async def test_add_new_climate_device(
 )
 @pytest.mark.parametrize("config_entry_options", [{CONF_ALLOW_CLIP_SENSOR: False}])
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_not_allow_clip_thermostat(hass: UniversalAssistant) -> None:
+async def test_not_allow_clip_thermostat(hass: __HAC_KEEP__) -> None:
     """Test that CLIP thermostats are not allowed."""
     assert len(hass.states.async_all()) == 0
 
@@ -727,7 +727,7 @@ async def test_not_allow_clip_thermostat(hass: UniversalAssistant) -> None:
     ],
 )
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_no_mode_no_state(hass: UniversalAssistant) -> None:
+async def test_no_mode_no_state(hass: __HAC_KEEP__) -> None:
     """Test that a climate device without mode and state works."""
     assert len(hass.states.async_all()) == 2
 
@@ -776,7 +776,7 @@ async def test_no_mode_no_state(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_boost_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sensor_ws_data: WebsocketDataType,
 ) -> None:
     """Test that a climate device with boost mode and different state works."""

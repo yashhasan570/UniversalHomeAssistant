@@ -133,7 +133,7 @@ def test_render_embeds_head_sha_as_commit_link() -> None:
     # Short SHA shown to humans, full SHA recoverable from the link URL.
     assert (
         f"Checked at commit [`abc1234`]"
-        f"(https://github.com/yashhasan570/UniversalUniversalAssistant/commit/{sha})."
+        f"(https://github.com/yashhasan570/UniversalAssistant/commit/{sha})."
     ) in rendered
     assert rendered.startswith("<!-- requirements-check -->\n")
 

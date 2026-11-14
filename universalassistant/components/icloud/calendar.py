@@ -6,8 +6,8 @@ from typing import override
 from pyicloud.exceptions import PyiCloudException
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -18,12 +18,12 @@ from .const import DOMAIN
 from .coordinator import IcloudCalendarCoordinator, IcloudCalendarData, localize
 
 # The coordinator owns the polling and the entities are read-only, so there is
-# nothing here for Universal Universal Home Assistant to serialize.
+# nothing here for __HA_KEEP__ to serialize.
 PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IcloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -111,7 +111,7 @@ class IcloudCalendarEntity(
 
     @override
     async def async_get_events(
-        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
+        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Return the events in an arbitrary range."""
         try:
@@ -119,6 +119,6 @@ class IcloudCalendarEntity(
                 self.coordinator.fetch_events, start_date, end_date, [self._guid]
             )
         except PyiCloudException as err:
-            raise UniversalAssistantError(f"Error fetching events: {err}") from err
+            raise __HAC_KEEP__Error(f"Error fetching events: {err}") from err
 
         return events.get(self._guid, [])

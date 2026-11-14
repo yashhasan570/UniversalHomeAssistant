@@ -24,7 +24,7 @@ from universalassistant.components.matter import (
 from universalassistant.components.matter.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryDisabler, ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -57,7 +57,7 @@ def ble_proxy_connect_timeout_fixture() -> Generator[int]:
 
 
 @pytest.fixture(name="mock_bluetooth_loaded")
-def mock_bluetooth_loaded_fixture(hass: UniversalAssistant) -> None:
+def mock_bluetooth_loaded_fixture(hass: __HAC_KEEP__) -> None:
     """Mark the bluetooth integration as loaded for the BLE proxy gate."""
     mock_component(hass, "bluetooth")
 
@@ -106,7 +106,7 @@ def test_fixture_list() -> None:
 
 
 async def test_entry_setup_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
 ) -> None:
     """Test the integration set up and unload."""
@@ -144,7 +144,7 @@ NEW_TEMPERATURE_OFFSET_UNIQUE_ID = (
 
 
 async def test_migrate_eve_temperature_offset_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -185,7 +185,7 @@ async def test_migrate_eve_temperature_offset_unique_id(
 
 
 async def test_migrate_eve_temperature_offset_unique_id_conflict(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_migrate_eve_temperature_offset_unique_id_conflict(
 
 
 async def test_migrate_eve_temperature_offset_skipped_on_current_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -259,7 +259,7 @@ async def test_migrate_eve_temperature_offset_skipped_on_current_version(
 
 
 async def test_universal_assistant_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     integration: MockConfigEntry,
 ) -> None:
@@ -271,7 +271,7 @@ async def test_universal_assistant_stop(
 
 @pytest.mark.parametrize("error", [CannotConnect(Exception("Boom")), Exception("Boom")])
 async def test_connect_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     error: Exception,
 ) -> None:
@@ -288,7 +288,7 @@ async def test_connect_failed(
 
 @pytest.mark.parametrize("expected_lingering_tasks", [True])
 async def test_set_default_fabric_label_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
 ) -> None:
     """Test failure during client connection."""
@@ -307,7 +307,7 @@ async def test_set_default_fabric_label_failed(
 
 
 async def test_connect_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     connect_timeout: int,
 ) -> None:
@@ -323,7 +323,7 @@ async def test_connect_timeout(
 
 @pytest.mark.parametrize("error", [MatterError("Boom"), Exception("Boom")])
 async def test_listen_failure_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     listen_ready_timeout: int,
     matter_client: MagicMock,
     error: Exception,
@@ -348,7 +348,7 @@ async def test_listen_failure_timeout(
 
 @pytest.mark.parametrize("error", [MatterError("Boom"), Exception("Boom")])
 async def test_listen_failure_config_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     error: Exception,
 ) -> None:
@@ -382,7 +382,7 @@ async def test_listen_failure_config_entry_not_loaded(
 
 @pytest.mark.parametrize("error", [MatterError("Boom"), Exception("Boom")])
 async def test_listen_failure_config_entry_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     error: Exception,
 ) -> None:
@@ -414,7 +414,7 @@ async def test_listen_failure_config_entry_loaded(
 
 
 async def test_raise_addon_task_in_progress(
-    hass: UniversalAssistant, install_addon: AsyncMock, start_addon: AsyncMock
+    hass: __HAC_KEEP__, install_addon: AsyncMock, start_addon: AsyncMock
 ) -> None:
     """Test raise ConfigEntryNotReady if an add-on task is in progress."""
     install_event = asyncio.Event()
@@ -463,7 +463,7 @@ async def test_raise_addon_task_in_progress(
 
 
 async def test_start_addon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon_installed: AsyncMock,
     addon_info: AsyncMock,
     install_addon: AsyncMock,
@@ -492,7 +492,7 @@ async def test_start_addon(
 
 
 async def test_install_addon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon_store_info: AsyncMock,
     install_addon: AsyncMock,
     start_addon: AsyncMock,
@@ -521,7 +521,7 @@ async def test_install_addon(
 
 
 async def test_addon_info_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon_installed: AsyncMock,
     addon_info: AsyncMock,
     install_addon: AsyncMock,
@@ -583,7 +583,7 @@ async def test_addon_info_failure(
     ],
 )
 async def test_update_addon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon_installed: AsyncMock,
     addon_running: AsyncMock,
     addon_info: AsyncMock,
@@ -641,7 +641,7 @@ async def test_update_addon(
     ],
 )
 async def test_issue_registry_invalid_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     issue_registry: ir.IssueRegistry,
     connect_side_effect: Exception,
@@ -692,7 +692,7 @@ async def test_issue_registry_invalid_version(
     ],
 )
 async def test_invalid_version_issue_removed_with_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     issue_registry: ir.IssueRegistry,
     connect_side_effect: Exception,
@@ -790,7 +790,7 @@ def _mock_network_interface(
     ],
 )
 async def test_ipv6_disabled_repair(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     issue_registry: ir.IssueRegistry,
     interfaces: list[MagicMock],
@@ -821,7 +821,7 @@ async def test_ipv6_disabled_repair(
 
 
 async def test_ipv6_repair_not_raised_without_supervisor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -840,7 +840,7 @@ async def test_ipv6_repair_not_raised_without_supervisor(
 
 
 async def test_ipv6_repair_supervisor_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -866,7 +866,7 @@ async def test_ipv6_repair_supervisor_error(
 
 
 async def test_ipv6_repair_resolves_on_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -923,7 +923,7 @@ async def test_ipv6_repair_resolves_on_reload(
     ],
 )
 async def test_stop_addon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     addon_installed: AsyncMock,
     addon_running: AsyncMock,
@@ -964,7 +964,7 @@ async def test_stop_addon(
 
 
 async def test_remove_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon_installed: AsyncMock,
     stop_addon: AsyncMock,
     create_backup: AsyncMock,
@@ -1080,7 +1080,7 @@ async def test_remove_entry(
 
 
 async def test_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
@@ -1112,7 +1112,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_remove_config_entry_device_no_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
     integration: MockConfigEntry,
@@ -1137,7 +1137,7 @@ async def test_remove_config_entry_device_no_node(
 
 
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     integration: MockConfigEntry,
@@ -1165,7 +1165,7 @@ async def test_remove_config_entry_device_rejects_child_device(
 
 
 async def test_get_matter_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,
 ) -> None:
@@ -1219,7 +1219,7 @@ def test_derive_ble_proxy_url(matter_ws_url: str, expected: str | None) -> None:
 
 @pytest.mark.usefixtures("mock_bluetooth_loaded")
 async def test_ble_proxy_setup_when_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     mock_ble_proxy: tuple[MagicMock, MagicMock],
 ) -> None:
@@ -1243,7 +1243,7 @@ async def test_ble_proxy_setup_when_enabled(
 
 @pytest.mark.usefixtures("mock_bluetooth_loaded")
 async def test_ble_proxy_disconnects_on_setup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     mock_ble_proxy: tuple[MagicMock, MagicMock],
 ) -> None:
@@ -1269,11 +1269,11 @@ async def test_ble_proxy_disconnects_on_setup_failure(
 
 @pytest.mark.usefixtures("mock_bluetooth_loaded")
 async def test_ble_proxy_disconnect_on_hass_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     mock_ble_proxy: tuple[MagicMock, MagicMock],
 ) -> None:
-    """BLE proxy is disconnected when Universal Universal Home Assistant stops."""
+    """BLE proxy is disconnected when __HA_KEEP__ stops."""
     proxy, _factory = mock_ble_proxy
     matter_client.server_info.ble_proxy_enabled = True
 
@@ -1294,7 +1294,7 @@ async def test_ble_proxy_disconnect_on_hass_stop(
 
 @pytest.mark.usefixtures("mock_bluetooth_loaded")
 async def test_ble_proxy_disconnect_failure_does_not_break_hass_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     mock_ble_proxy: tuple[MagicMock, MagicMock],
 ) -> None:
@@ -1318,7 +1318,7 @@ async def test_ble_proxy_disconnect_failure_does_not_break_hass_stop(
 
 
 async def test_ble_proxy_skipped_when_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
 ) -> None:
     """BLE proxy is not constructed when ble_proxy_enabled is False/missing.
@@ -1341,7 +1341,7 @@ async def test_ble_proxy_skipped_when_disabled(
 )
 @pytest.mark.usefixtures("mock_bluetooth_loaded")
 async def test_ble_proxy_connect_failure_does_not_block_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     mock_ble_proxy: tuple[MagicMock, MagicMock],
     connect_error: Exception,
@@ -1363,7 +1363,7 @@ async def test_ble_proxy_connect_failure_does_not_block_setup(
 
 @pytest.mark.usefixtures("ble_proxy_connect_timeout", "mock_bluetooth_loaded")
 async def test_ble_proxy_connect_timeout_does_not_block_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     mock_ble_proxy: tuple[MagicMock, MagicMock],
 ) -> None:
@@ -1386,7 +1386,7 @@ async def test_ble_proxy_connect_timeout_does_not_block_setup(
 
 
 async def test_ble_proxy_skipped_when_bluetooth_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     mock_ble_proxy: tuple[MagicMock, MagicMock],
     caplog: pytest.LogCaptureFixture,
@@ -1409,7 +1409,7 @@ async def test_ble_proxy_skipped_when_bluetooth_not_loaded(
 
 @pytest.mark.usefixtures("mock_bluetooth_loaded")
 async def test_ble_proxy_skipped_when_url_underivable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     mock_ble_proxy: tuple[MagicMock, MagicMock],
     caplog: pytest.LogCaptureFixture,

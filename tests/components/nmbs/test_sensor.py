@@ -7,7 +7,7 @@ from pyrail.models import ConnectionsApiResponse, LiveboardApiResponse
 from pytest_universalassistant.common import MockConfigEntry, async_load_json_object_fixture
 
 from universalassistant.components.nmbs.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -18,7 +18,7 @@ LIVEBOARD_UNIQUE_ID = f"nmbs_live_{STATION_TO_ID}_{STATION_FROM_ID}_{STATION_TO_
 
 
 async def test_connection_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_nmbs_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_connection_sensor(
 
 
 async def test_connection_sensor_api_error_keeps_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_nmbs_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -88,7 +88,7 @@ async def test_connection_sensor_api_error_keeps_state(
 
 
 async def test_connection_sensor_not_modified_keeps_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_nmbs_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -119,7 +119,7 @@ async def test_connection_sensor_not_modified_keeps_state(
 
 
 async def test_liveboard_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_nmbs_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -158,7 +158,7 @@ async def test_liveboard_sensor(
 
 
 async def test_liveboard_sensor_api_error_keeps_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_nmbs_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -193,7 +193,7 @@ async def test_liveboard_sensor_api_error_keeps_state(
 
 
 async def test_liveboard_sensor_not_modified_keeps_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_nmbs_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

@@ -9,7 +9,7 @@ import probatio
 from universalassistant.components.modbus import async_get_temporary_unit
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
@@ -34,7 +34,7 @@ from .const import (
 )
 from .helpers import create_modbus_params
 
-_CONNECT_ERRORS = (ModbusError, UniversalAssistantError, OSError, ValueError)
+_CONNECT_ERRORS = (ModbusError, __HAC_KEEP__Error, OSError, ValueError)
 
 UNIT_ID_SCHEMA = NumberSelector(
     NumberSelectorConfig(min=1, max=247, step=1, mode=NumberSelectorMode.BOX)

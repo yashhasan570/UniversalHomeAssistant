@@ -25,13 +25,13 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import MockESPHomeDeviceType
 
 
 async def test_cover_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -158,7 +158,7 @@ async def test_cover_entity(
 
 
 async def test_cover_entity_without_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

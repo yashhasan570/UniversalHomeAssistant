@@ -19,7 +19,7 @@ from universalassistant.const import (
     UnitOfDataRate,
     UnitOfInformation,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -27,7 +27,7 @@ from . import ENTRY_OPTIONS, init_integration
 
 
 @pytest.mark.usefixtures("nzbget_api")
-async def test_sensors(hass: UniversalAssistant, entity_registry: er.EntityRegistry) -> None:
+async def test_sensors(hass: __HAC_KEEP__, entity_registry: er.EntityRegistry) -> None:
     """Test the creation and values of the sensors."""
     now = dt_util.utcnow().replace(microsecond=0)
     with patch("universalassistant.components.nzbget.sensor.utcnow", return_value=now):
@@ -97,7 +97,7 @@ async def test_sensors(hass: UniversalAssistant, entity_registry: er.EntityRegis
 
 
 @pytest.mark.usefixtures("nzbget_api")
-async def test_sensor_name_from_entry_title(hass: UniversalAssistant) -> None:
+async def test_sensor_name_from_entry_title(hass: __HAC_KEEP__) -> None:
     """Test sensors are named from the entry title when no legacy name is stored."""
     entry = MockConfigEntry(
         domain=DOMAIN,

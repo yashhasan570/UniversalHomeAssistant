@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_json_ob
 from universalassistant.components.waqi.const import CONF_STATION_NUMBER, DOMAIN
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -43,7 +43,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture
-async def mock_waqi(hass: UniversalAssistant) -> AsyncGenerator[AsyncMock]:
+async def mock_waqi(hass: __HAC_KEEP__) -> AsyncGenerator[AsyncMock]:
     """Mock WAQI client."""
     with (
         patch(

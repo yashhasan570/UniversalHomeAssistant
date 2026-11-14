@@ -4,7 +4,7 @@ from typing import Any, override
 
 from yoto_api import YotoError, YotoPlayer
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -70,7 +70,7 @@ class YotoConfigEntity(YotoEntity):
             await client.set_player_config(self._player_id, **fields)
             await client.update_player_info(self._player_id)
         except YotoError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="config_update_failed",
             ) from err

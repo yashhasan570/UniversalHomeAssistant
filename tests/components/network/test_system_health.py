@@ -6,12 +6,12 @@ import pytest
 from pytest_universalassistant.common import get_system_health_info
 
 from universalassistant.components.network.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.usefixtures("mock_socket_no_loopback")
-async def test_network_system_health(hass: UniversalAssistant) -> None:
+async def test_network_system_health(hass: __HAC_KEEP__) -> None:
     """Test network system health."""
 
     assert await async_setup_component(hass, "system_health", {})

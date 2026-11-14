@@ -13,7 +13,7 @@ from universalassistant.components.feedreader.event import (
     ATTR_LINK,
     ATTR_TITLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import create_mock_entry
@@ -53,7 +53,7 @@ from .const import VALID_CONFIG_DEFAULT
     ],
 )
 async def test_event_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request: pytest.FixtureRequest,
     fixture_name: str,
     expected_attributes: dict[str, str],
@@ -75,7 +75,7 @@ async def test_event_entity(
 
 
 async def test_event_new_entry_sorted(
-    hass: UniversalAssistant, feed_one_event: bytes, feed_two_event: bytes
+    hass: __HAC_KEEP__, feed_one_event: bytes, feed_two_event: bytes
 ) -> None:
     """Test feed event entity fires on new event."""
     entry = create_mock_entry(VALID_CONFIG_DEFAULT)
@@ -106,7 +106,7 @@ async def test_event_new_entry_sorted(
 
 
 async def test_event_new_entry_unsorted(
-    hass: UniversalAssistant, feed_unsorted: bytes, feed_unsorted_update: bytes
+    hass: __HAC_KEEP__, feed_unsorted: bytes, feed_unsorted_update: bytes
 ) -> None:
     """Test feed event entity fires on new event."""
     entry = create_mock_entry(VALID_CONFIG_DEFAULT)
@@ -140,7 +140,7 @@ async def test_event_new_entry_unsorted(
     ],
 )
 async def test_event_htmlentities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     fixture_name: str,
     request: pytest.FixtureRequest,
@@ -160,7 +160,7 @@ async def test_event_htmlentities(
         assert state.attributes == snapshot
 
 
-async def test_event_no_new_entry(hass: UniversalAssistant, feed_two_event: bytes) -> None:
+async def test_event_no_new_entry(hass: __HAC_KEEP__, feed_two_event: bytes) -> None:
     """Test feed event entity is not firing when there are no new entries."""
     entry = create_mock_entry(VALID_CONFIG_DEFAULT)
     entry.add_to_hass(hass)

@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE, SIGNAL_STRENGTH_DECIBELS, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import PowerviewShadeUpdateCoordinator
@@ -77,7 +77,7 @@ SENSORS: Final = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PowerviewConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

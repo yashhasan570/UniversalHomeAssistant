@@ -26,7 +26,7 @@ from universalassistant.const import (
     PRECISION_TENTHS,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -68,7 +68,7 @@ def _normalize_setpoint(temp: float) -> float:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IZoneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -209,7 +209,7 @@ class ControllerDevice(IZoneCoordinatorEntity, ClimateEntity):
                 _LOGGER.warning(
                     "Unknown SysMode from iZone controller %s (%s); "
                     "HVAC mode unavailable. Please open an issue at "
-                    "https://github.com/yashhasan570/UniversalUniversalAssistant/issues "
+                    "https://github.com/yashhasan570/__HAC_KEEP__/issues "
                     "and attach diagnostics",
                     self.controller.device_uid,
                     err,
@@ -270,7 +270,7 @@ class ControllerDevice(IZoneCoordinatorEntity, ClimateEntity):
                     "unavailable. The bridge is not expected to select a "
                     "non-climate zone (or an AUTO zone without a room sensor) "
                     "as CtrlZone. Please open an issue at "
-                    "https://github.com/yashhasan570/UniversalUniversalAssistant/issues "
+                    "https://github.com/yashhasan570/__HAC_KEEP__/issues "
                     "and attach diagnostics",
                     self.controller.device_uid,
                     owner.index,
@@ -336,7 +336,7 @@ class ControllerDevice(IZoneCoordinatorEntity, ClimateEntity):
                 _LOGGER.warning(
                     "Unknown SysFan from iZone controller %s (%s); "
                     "reporting fan_mode unknown. Please open an issue at "
-                    "https://github.com/yashhasan570/UniversalUniversalAssistant/issues "
+                    "https://github.com/yashhasan570/__HAC_KEEP__/issues "
                     "and attach diagnostics",
                     self.controller.device_uid,
                     err,

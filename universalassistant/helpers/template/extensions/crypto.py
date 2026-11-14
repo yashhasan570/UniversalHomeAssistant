@@ -1,4 +1,4 @@
-"""Cryptographic hash functions for Universal Universal Home Assistant templates."""
+"""Cryptographic hash functions for __HA_KEEP__ templates."""
 
 import hashlib
 from typing import TYPE_CHECKING

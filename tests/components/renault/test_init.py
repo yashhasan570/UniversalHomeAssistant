@@ -37,7 +37,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -68,7 +68,7 @@ def _mock_login(session: RenaultSession, login_id: str, password: str) -> None:
 
 
 @pytest.fixture(name="legacy_config_entry")
-def get_legacy_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def get_legacy_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create an entry that predates the stored login token."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -91,7 +91,7 @@ def override_platforms() -> Generator[None]:
 @pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_setup_unload_entry(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Test entry setup and unload."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -109,7 +109,7 @@ async def test_setup_unload_entry(
 @pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_setup_entry_password_login(
-    hass: UniversalAssistant, legacy_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, legacy_config_entry: MockConfigEntry
 ) -> None:
     """Test an entry without a stored login token falls back to a password login."""
     with patch(
@@ -132,7 +132,7 @@ async def test_setup_entry_password_login(
 @pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_setup_entry_password_login_device_ids(
-    hass: UniversalAssistant, legacy_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, legacy_config_entry: MockConfigEntry
 ) -> None:
     """Test the remembered device ids are restored before a password login."""
     hass.config_entries.async_update_entry(
@@ -178,7 +178,7 @@ async def test_setup_entry_password_login_device_ids(
     ],
 )
 async def test_setup_entry_bad_password(
-    hass: UniversalAssistant, legacy_config_entry: MockConfigEntry, side_effect: Exception
+    hass: __HAC_KEEP__, legacy_config_entry: MockConfigEntry, side_effect: Exception
 ) -> None:
     """Test reauth is triggered when the password login fails."""
     with patch(
@@ -200,7 +200,7 @@ async def test_setup_entry_bad_password(
     "side_effect", [aiohttp.ClientConnectionError(), GigyaException()]
 )
 async def test_setup_entry_password_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     legacy_config_entry: MockConfigEntry,
     side_effect: Exception,
 ) -> None:
@@ -216,7 +216,7 @@ async def test_setup_entry_password_exception(
 
 
 async def test_setup_entry_bad_token(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Test reauth is triggered when the stored login token is no longer valid."""
     with patch(
@@ -240,7 +240,7 @@ async def test_setup_entry_bad_token(
     "side_effect", [aiohttp.ClientConnectionError(), GigyaException()]
 )
 async def test_setup_entry_exception(
-    hass: UniversalAssistant, config_entry: ConfigEntry, side_effect: Exception
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, side_effect: Exception
 ) -> None:
     """Test ConfigEntryNotReady when API raises an exception during entry setup."""
     with patch(
@@ -256,7 +256,7 @@ async def test_setup_entry_exception(
 
 @pytest.mark.usefixtures("patch_renault_account")
 async def test_setup_entry_kamereon_exception(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Test ConfigEntryNotReady when API raises an exception during entry setup."""
     # In this case we are testing the condition where renault_hub fails to retrieve
@@ -285,7 +285,7 @@ async def test_setup_entry_kamereon_exception(
     ],
 )
 async def test_setup_entry_forbidden(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     issue_registry: ir.IssueRegistry,
     expected_issues: set[tuple[str, str]],
@@ -308,7 +308,7 @@ async def test_setup_entry_forbidden(
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 @pytest.mark.parametrize("account_ids", [[OTHER_ACCOUNT_ID]])
 async def test_account_not_found_issue_deleted_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_account_not_found_issue_deleted_on_setup(
 @pytest.mark.usefixtures("patch_renault_account", "patch_get_api_accounts")
 @pytest.mark.parametrize("account_ids", [[OTHER_ACCOUNT_ID]])
 async def test_account_not_found_issue_deleted_on_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -355,7 +355,7 @@ async def test_account_not_found_issue_deleted_on_removal(
 @pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
 @pytest.mark.parametrize("vehicle_type", ["missing_details"], indirect=True)
 async def test_setup_entry_missing_vehicle_details(
-    hass: UniversalAssistant, config_entry: ConfigEntry, mock_get_vehicle_details: AsyncMock
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, mock_get_vehicle_details: AsyncMock
 ) -> None:
     """Test ConfigEntryNotReady when vehicleDetails is missing."""
     # In this case we are testing the condition where renault_hub fails to retrieve
@@ -371,7 +371,7 @@ async def test_setup_entry_missing_vehicle_details(
 
 @pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
 async def test_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -390,7 +390,7 @@ async def test_device_registry(
 @pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_stale_device_removed_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: ConfigEntry,
 ) -> None:
@@ -416,7 +416,7 @@ async def test_stale_device_removed_on_setup(
 @pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
 @pytest.mark.parametrize("vehicle_type", ["missing_details"], indirect=True)
 async def test_stale_device_removed_on_setup_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: ConfigEntry,
 ) -> None:
@@ -444,7 +444,7 @@ async def test_stale_device_removed_on_setup_retry(
 @pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_stale_devices_kept_on_empty_vehicle_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: ConfigEntry,
 ) -> None:
@@ -478,7 +478,7 @@ async def test_stale_devices_kept_on_empty_vehicle_list(
 @pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_registry_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: ConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -569,7 +569,7 @@ def patch_get_vehicles() -> Generator[AsyncMock]:
 
 
 async def _async_poll_vehicle_list(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Trigger the next vehicle list update."""
     freezer.tick(VEHICLE_LIST_SCAN_INTERVAL)
@@ -610,7 +610,7 @@ def _vehicle_entities(
 )
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_vehicle_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -641,7 +641,7 @@ async def test_vehicle_added(
 @pytest.mark.usefixtures("patch_renault_account", "sensor_platform")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_vehicle_added_with_failed_sibling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -691,7 +691,7 @@ async def test_vehicle_added_with_failed_sibling(
 )
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_vehicle_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -725,7 +725,7 @@ async def test_vehicle_removed(
 @pytest.mark.usefixtures("patch_renault_account", "fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_vehicle_list_empty(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -747,7 +747,7 @@ async def test_vehicle_list_empty(
 @pytest.mark.usefixtures("patch_renault_account", "fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_vehicle_missing_details_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -801,7 +801,7 @@ async def test_vehicle_missing_details_retried(
     ],
 )
 async def test_vehicle_list_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -822,7 +822,7 @@ async def test_vehicle_list_error(
 @pytest.mark.usefixtures("patch_renault_account", "fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_vehicle_list_authentication_expired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_get_vehicles: AsyncMock,
@@ -842,7 +842,7 @@ async def test_vehicle_list_authentication_expired(
 @pytest.mark.usefixtures("patch_renault_account", "fixtures_with_data")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_vehicle_details_authentication_expired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -874,7 +874,7 @@ async def test_vehicle_details_authentication_expired(
     ],
 )
 async def test_vehicle_details_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -899,7 +899,7 @@ async def test_vehicle_details_connection_error(
 @pytest.mark.usefixtures("patch_renault_account", "sensor_platform")
 @pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
 async def test_vehicle_list_throttled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,

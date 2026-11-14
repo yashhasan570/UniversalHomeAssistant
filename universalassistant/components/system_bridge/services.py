@@ -19,13 +19,13 @@ from systembridgeconnector.models.response import Response
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from universalassistant.const import CONF_HOST
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -86,7 +86,7 @@ CLICK_ACTION = "click_action"
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for System Bridge integration."""
 
     service.async_register_platform_entity_service(
@@ -236,7 +236,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
 
 
 def _get_coordinator(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> SystemBridgeDataUpdateCoordinator:
     """Return the coordinator for a device id."""
     entry: SystemBridgeConfigEntry
@@ -304,7 +304,7 @@ async def _async_send_command(
     try:
         response = await command
     except (ConnectionClosedException, ConnectionResetError) as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_failed",
             translation_placeholders={
@@ -313,7 +313,7 @@ async def _async_send_command(
             },
         ) from e
     if response.type == EventType.ERROR:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="action_failed",
             translation_placeholders={

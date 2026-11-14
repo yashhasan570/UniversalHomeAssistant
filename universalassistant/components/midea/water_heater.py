@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_ON,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import MideaConfigEntry, MideaEntity, midea_api_call
@@ -69,7 +69,7 @@ WATER_HEATERS: list[MideaWaterHeaterEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MideaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

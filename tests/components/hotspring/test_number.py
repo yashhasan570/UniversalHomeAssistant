@@ -21,8 +21,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -40,7 +40,7 @@ SALT_OUTPUT_LEVEL_ENTITY_ID = "number.connectedspa_ddeeff_salt_output_level"
     ],
 )
 async def test_number_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -55,7 +55,7 @@ async def test_number_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_target_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_set_target_temperature(
     ],
 )
 async def test_set_target_temperature_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hotspring: MagicMock,
     exception: Exception | type[Exception],
     match: str,
@@ -131,7 +131,7 @@ async def test_set_target_temperature_error(
     """Test exception handling when setting target temperature."""
     mock_hotspring.set_temperature.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError, match=match):
+    with pytest.raises(__HAC_KEEP__Error, match=match):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -144,7 +144,7 @@ async def test_set_target_temperature_error(
 
 
 async def test_set_target_temperature_celsius(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
@@ -188,7 +188,7 @@ async def test_set_target_temperature_celsius(
     ],
 )
 async def test_set_salt_output_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
     value: float,
@@ -231,7 +231,7 @@ async def test_set_salt_output_level(
     ],
 )
 async def test_set_salt_output_level_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hotspring: MagicMock,
     exception: type[Exception],
     match: str,
@@ -239,7 +239,7 @@ async def test_set_salt_output_level_error(
     """Test exception handling when setting the salt output level."""
     mock_hotspring.set_water_care_level.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError, match=match):
+    with pytest.raises(__HAC_KEEP__Error, match=match):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from yarl import URL
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -18,7 +18,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_immich: Mock,
@@ -33,7 +33,7 @@ async def test_sensors(
 
 
 async def test_admin_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_non_admin_immich: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_admin_sensors(
 
 
 async def test_update_error_does_not_leak_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_immich: Mock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,

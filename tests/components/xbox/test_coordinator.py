@@ -14,7 +14,7 @@ from pythonxbox.api.provider.achievements.models import AchievementResponse
 from pythonxbox.api.provider.titlehub.models import TitleHubResponse
 
 from universalassistant.components.xbox.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 PRESENCE_INTERVAL = 30
 TRUE_TOTAL = 43
@@ -44,7 +44,7 @@ def mock_zero_total(xbox_live_client: AsyncMock) -> AsyncMock:
 
 
 async def test_achievement_total_retried_after_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     zero_total: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -78,7 +78,7 @@ async def test_achievement_total_retried_after_failure(
 
 
 async def test_achievement_total_fetched_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     zero_total: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -103,7 +103,7 @@ async def test_achievement_total_fetched_once(
 
 
 async def test_achievement_total_failure_keeps_entities_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     zero_total: AsyncMock,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_achievement_total_failure_keeps_entities_available(
 
 
 async def test_no_friend_polling_without_friend_subentries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     xbox_live_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

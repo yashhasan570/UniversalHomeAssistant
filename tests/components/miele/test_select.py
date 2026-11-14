@@ -13,8 +13,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = [
@@ -28,7 +28,7 @@ ENTITY_ID = "select.freezer_mode"
 
 
 async def test_select_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -40,7 +40,7 @@ async def test_select_states(
 
 
 async def test_selecting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_selecting(
 
 
 async def test_api_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_api_failure(
     mock_miele_client.send_action.side_effect = ClientResponseError(Mock(), Mock())
 
     with pytest.raises(
-        UniversalAssistantError, match=f"Failed to set state for {ENTITY_ID}"
+        __HAC_KEEP__Error, match=f"Failed to set state for {ENTITY_ID}"
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -82,7 +82,7 @@ async def test_api_failure(
 
 
 async def test_invalid_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
 ) -> None:

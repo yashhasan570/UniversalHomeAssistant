@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ourgroceries.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import items_to_shopping_list
@@ -54,7 +54,7 @@ def mock_ourgroceries(items: list[dict]) -> AsyncMock:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ourgroceries: AsyncMock,
     ourgroceries_config_entry: MockConfigEntry,
 ) -> None:

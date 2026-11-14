@@ -10,7 +10,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, Platform, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.unit_system import METRIC_SYSTEM
@@ -38,7 +38,7 @@ OPERATION_LIST = [HVACMode.OFF, HVACMode.AUTO, HVACMode.COOL, HVACMode.HEAT]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MySensorsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

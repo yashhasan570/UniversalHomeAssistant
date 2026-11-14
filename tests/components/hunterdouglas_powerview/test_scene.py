@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_capture_even
 from universalassistant.components.hunterdouglas_powerview.const import DOMAIN
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import MOCK_MAC, MOCK_SERIAL
@@ -17,7 +17,7 @@ from .const import MOCK_MAC, MOCK_SERIAL
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_scenes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     api_version: int,
 ) -> None:
     """Test the scenes."""
@@ -125,7 +125,7 @@ async def test_scenes(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_stale_scenes_removed_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     api_version: int,
 ) -> None:

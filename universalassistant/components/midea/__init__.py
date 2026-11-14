@@ -22,7 +22,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -85,7 +85,7 @@ async def _async_discover_current_ip(device_id: int) -> str | None:
     return device[CONF_IP_ADDRESS] if device else None
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MideaConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MideaConfigEntry) -> None:
     """Set up Midea from a config entry."""
 
     data: Mapping[str, Any] = entry.data
@@ -151,7 +151,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: MideaConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: MideaConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: MideaConfigEntry) -> None:
     """Migrate an old config entry."""
     if entry.minor_version < 2:
         # minor_version 2 adds mac/serial number; discovery already parses both
@@ -184,6 +184,6 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: MideaConfigEntry)
         hass.config_entries.async_update_entry(entry, data=new_data, minor_version=2)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MideaConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MideaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

@@ -2,7 +2,7 @@
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorDeviceClass
 from universalassistant.const import UnitOfPower
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.condition import (
     Condition,
@@ -22,6 +22,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
     """Return the power conditions."""
     return CONDITIONS

@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.cert_expiry.const import DOMAIN
 from universalassistant.components.cert_expiry.errors import ValidationFailure
 from universalassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import HOST, PORT
 from .helpers import future_timestamp, static_datetime
@@ -19,7 +19,7 @@ from .helpers import future_timestamp, static_datetime
 
 @pytest.mark.freeze_time(static_datetime())
 async def test_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -52,7 +52,7 @@ async def test_config_entry_diagnostics(
 
 @pytest.mark.freeze_time(static_datetime())
 async def test_config_entry_diagnostics_with_cert_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:

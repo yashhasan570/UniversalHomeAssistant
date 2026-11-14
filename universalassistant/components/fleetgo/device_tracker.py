@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import track_utc_time_change
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -38,7 +38,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 def setup_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     see: SeeCallback,
     discovery_info: DiscoveryInfoType | None = None,

@@ -22,8 +22,8 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import ATTR_ENTITY_ID, EntityStateAttribute, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -39,7 +39,7 @@ async def platforms() -> AsyncGenerator[None]:
     [False, True],
 )
 async def test_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -53,7 +53,7 @@ async def test_state(
     [False],
 )
 async def test_state_away_mode_unsupported(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test away mode unsupported if water heater lacks vacation mode."""
     state = hass.states.get("water_heater.basement_my_water_heater")
@@ -73,7 +73,7 @@ async def test_state_away_mode_unsupported(
     ],
 )
 async def test_set_operation_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     hass_mode: str,
@@ -94,12 +94,12 @@ async def test_set_operation_mode(
 
 
 async def test_unsupported_operation_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test setting the operation mode with an unsupported mode."""
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
             SERVICE_SET_OPERATION_MODE,
@@ -112,7 +112,7 @@ async def test_unsupported_operation_mode(
 
 
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -140,7 +140,7 @@ async def test_set_temperature(
     ],
 )
 async def test_away_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     hass_away_mode: bool,

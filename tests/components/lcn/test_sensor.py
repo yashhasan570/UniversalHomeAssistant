@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.lcn.helpers import get_device_connection
 from universalassistant.components.lcn.sensor import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MockConfigEntry, MockDeviceConnection, init_integration
@@ -25,7 +25,7 @@ SENSOR_LOGICOP1 = "sensor.testmodule_sensor_logicop1"
 
 
 async def test_setup_lcn_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -38,7 +38,7 @@ async def test_setup_lcn_sensor(
 
 
 async def test_pushed_variable_status_change(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test the variable sensor changes its state on status received."""
     await init_integration(hass, entry)
@@ -66,7 +66,7 @@ async def test_pushed_variable_status_change(
 
 
 async def test_pushed_ledlogicop_status_change(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test the led and logicop sensor changes its state on status received."""
     await init_integration(hass, entry)
@@ -112,7 +112,7 @@ async def test_pushed_ledlogicop_status_change(
     ],
 )
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entry: MockConfigEntry,
     entity_id: str,
@@ -151,7 +151,7 @@ async def test_availability(
     assert state.state != STATE_UNAVAILABLE
 
 
-async def test_unload_config_entry(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_unload_config_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the sensor is removed when the config entry is unloaded."""
     await init_integration(hass, entry)
 

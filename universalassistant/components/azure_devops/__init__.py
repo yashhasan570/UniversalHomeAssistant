@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_PAT, CONF_PROJECT
 from .coordinator import AzureDevOpsConfigEntry, AzureDevOpsDataUpdateCoordinator
@@ -13,7 +13,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AzureDevOpsConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AzureDevOpsConfigEntry) -> None:
     """Set up Azure DevOps from a config entry."""
 
     # Create the data update coordinator
@@ -37,7 +37,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AzureDevOpsConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: AzureDevOpsConfigEntry
+    hass: __HAC_KEEP__, entry: AzureDevOpsConfigEntry
 ) -> None:
     """Unload Azure DevOps config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

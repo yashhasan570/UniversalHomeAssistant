@@ -10,7 +10,7 @@ from victron_vrm.models.aggregations import ForecastAggregations
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -73,7 +73,7 @@ class VictronRemoteMonitoringDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: VictronRemoteMonitoringConfigEntry,
     ) -> None:
         """Initialize."""

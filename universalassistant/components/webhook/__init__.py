@@ -1,4 +1,4 @@
-"""Webhooks for Universal Universal Home Assistant."""
+"""Webhooks for __HA_KEEP__."""
 
 from collections.abc import Awaitable, Callable, Iterable
 from dataclasses import dataclass
@@ -14,9 +14,9 @@ from aiohttp.web import Request, Response
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.components.http.const import is_supervisor_unix_socket_request
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.network import get_url, is_cloud_connection
 from universalassistant.helpers.typing import ConfigType
@@ -34,7 +34,7 @@ URL_WEBHOOK_PATH = "/api/webhook/{webhook_id}"
 
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
-type HandlerType = Callable[[UniversalAssistant, str, Request], Awaitable[Response | None]]
+type HandlerType = Callable[[__HAC_KEEP__, str, Request], Awaitable[Response | None]]
 
 __all__ = [
     "DOMAIN",
@@ -64,7 +64,7 @@ _HANDLERS: HassKey[dict[str, WebhookData]] = HassKey(DOMAIN)
 
 @callback
 def async_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     name: str,
     webhook_id: str,
@@ -106,7 +106,7 @@ def async_register(
 
 
 @callback
-def async_unregister(hass: UniversalAssistant, webhook_id: str) -> None:
+def async_unregister(hass: __HAC_KEEP__, webhook_id: str) -> None:
     """Remove a webhook."""
     handlers = hass.data.setdefault(_HANDLERS, {})
     handlers.pop(webhook_id, None)
@@ -120,7 +120,7 @@ def async_generate_id() -> str:
 
 @callback
 def async_generate_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_id: str,
     allow_internal: bool = True,
     allow_external: bool = True,
@@ -150,7 +150,7 @@ def async_generate_path(webhook_id: str) -> str:
 
 
 async def async_handle_webhook(
-    hass: UniversalAssistant, webhook_id: str, request: Request | MockRequest
+    hass: __HAC_KEEP__, webhook_id: str, request: Request | MockRequest
 ) -> Response:
     """Handle a webhook."""
     handlers = hass.data.setdefault(_HANDLERS, {})
@@ -231,7 +231,7 @@ async def async_handle_webhook(
     return response
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Initialize the webhook component."""
     hass.http.register_view(WebhookView)
     websocket_api.async_register_command(hass, websocket_list)
@@ -239,7 +239,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-class WebhookView(UniversalAssistantView):
+class WebhookView(__HAC_KEEP__View):
     """Handle incoming webhook requests."""
 
     url = URL_WEBHOOK_PATH
@@ -267,7 +267,7 @@ class WebhookView(UniversalAssistantView):
 @websocket_api.require_admin
 @callback
 def websocket_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -299,7 +299,7 @@ def websocket_list(
 )
 @websocket_api.async_response
 async def websocket_handle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

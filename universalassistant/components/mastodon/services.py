@@ -28,13 +28,13 @@ from universalassistant.components.media_source import (
 )
 from universalassistant.const import ATTR_NAME, CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.selector import MediaSelector
 
@@ -219,7 +219,7 @@ SERVICE_UPDATE_PROFILE_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Mastodon integration."""
     hass.services.async_register(
         DOMAIN,
@@ -257,7 +257,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
 
 
 async def _async_account_lookup(
-    hass: UniversalAssistant, client: Mastodon, account_name: str
+    hass: __HAC_KEEP__, client: Mastodon, account_name: str
 ) -> Account:
     """Lookup a Mastodon account by its username."""
     try:
@@ -285,7 +285,7 @@ async def _async_get_account(call: ServiceCall) -> ServiceResponse:
     try:
         account = await _async_account_lookup(call.hass, client, account_name)
     except MastodonAPIError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="unable_to_get_account",
             translation_placeholders={"account_name": account_name},
@@ -327,7 +327,7 @@ async def _async_mute_account(call: ServiceCall) -> ServiceResponse:
             )
         )
     except MastodonAPIError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="unable_to_mute_account",
             translation_placeholders={"account_name": account_name},
@@ -351,7 +351,7 @@ async def _async_unmute_account(call: ServiceCall) -> ServiceResponse:
             partial(client.account_unmute, id=account.id)
         )
     except MastodonAPIError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="unable_to_unmute_account",
             translation_placeholders={"account_name": account_name},
@@ -468,7 +468,7 @@ async def _async_post(call: ServiceCall) -> ServiceResponse:
 
 
 def _post(
-    hass: UniversalAssistant, client: Mastodon, **kwargs: Any
+    hass: __HAC_KEEP__, client: Mastodon, **kwargs: Any
 ) -> Status | ScheduledStatus:
     """Post to Mastodon."""
 
@@ -477,7 +477,7 @@ def _post(
     media_path = kwargs.get("media_path")
     if media_path:
         if not hass.config.is_allowed_path(media_path):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="not_whitelisted_directory",
                 translation_placeholders={"media": media_path},
@@ -495,7 +495,7 @@ def _post(
             )
 
         except MastodonAPIError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unable_to_upload_image",
                 translation_placeholders={"media_path": media_path},
@@ -506,7 +506,7 @@ def _post(
             media_data.append(client.media_post(**media, synchronous=True))
         except (MastodonAPIError, MastodonIllegalArgumentError) as err:
             LOGGER.debug("Full exception:", exc_info=err)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unable_to_upload_media",
             ) from err
@@ -521,7 +521,7 @@ def _post(
         )
     except MastodonAPIError as err:
         LOGGER.debug("Full exception:", exc_info=err)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="unable_to_send_message",
         ) from err
@@ -571,13 +571,13 @@ async def _async_update_profile(call: ServiceCall) -> ServiceResponse | None:
         )
     except MastodonUnauthorizedError as error:
         entry.async_start_reauth(call.hass)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="auth_failed",
         ) from error
     except MastodonAPIError as err:
         LOGGER.debug("Full exception:", exc_info=err)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="unable_to_update_profile",
         ) from err
@@ -587,7 +587,7 @@ async def _async_update_profile(call: ServiceCall) -> ServiceResponse | None:
 
 
 async def _resolve_media(
-    hass: UniversalAssistant, media_source: dict[str, str]
+    hass: __HAC_KEEP__, media_source: dict[str, str]
 ) -> tuple[bytes | Path, str | None]:
     """Resolve media from a media source."""
     media_content_id: str = media_source["media_content_id"]

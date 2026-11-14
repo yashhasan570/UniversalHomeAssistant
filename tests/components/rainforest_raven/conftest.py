@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import create_mock_device, create_mock_entry
 
@@ -23,7 +23,7 @@ def mock_device() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-async def mock_entry(hass: UniversalAssistant, mock_device: AsyncMock) -> MockConfigEntry:
+async def mock_entry(hass: __HAC_KEEP__, mock_device: AsyncMock) -> MockConfigEntry:
     """Mock a functioning RAVEn config entry."""
     mock_entry = create_mock_entry()
     mock_entry.add_to_hass(hass)

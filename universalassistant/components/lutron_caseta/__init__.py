@@ -12,7 +12,7 @@ from pylutron_caseta.smartbridge import Smartbridge
 
 from universalassistant.config_entries import SOURCE_IMPORT
 from universalassistant.const import ATTR_DEVICE_ID, CONF_HOST, Platform
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import (
@@ -110,7 +110,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, base_config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, base_config: ConfigType) -> bool:
     """Set up the Lutron component."""
     if DOMAIN in base_config:
         hass.async_create_task(
@@ -133,7 +133,7 @@ async def async_setup(hass: UniversalAssistant, base_config: ConfigType) -> bool
 
 
 async def _async_import_yaml(
-    hass: UniversalAssistant, import_data: list[dict[str, Any]]
+    hass: __HAC_KEEP__, import_data: list[dict[str, Any]]
 ) -> None:
     """Import the YAML devices into config entries."""
     # Eager tasks register the import flows before setup waits for them.
@@ -189,7 +189,7 @@ async def _async_import_yaml(
 
 
 async def _async_migrate_unique_ids(
-    hass: UniversalAssistant, entry: LutronCasetaConfigEntry
+    hass: __HAC_KEEP__, entry: LutronCasetaConfigEntry
 ) -> None:
     """Migrate entities since the occupancygroup were not actually unique."""
 
@@ -218,7 +218,7 @@ async def _async_migrate_unique_ids(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: LutronCasetaConfigEntry
+    hass: __HAC_KEEP__, entry: LutronCasetaConfigEntry
 ) -> None:
     """Set up a bridge from a config entry."""
     entry_id = entry.entry_id
@@ -297,7 +297,7 @@ async def async_setup_entry(
 
 @callback
 def _async_register_bridge_device(
-    hass: UniversalAssistant, config_entry_id: str, bridge_device: dict, bridge: Smartbridge
+    hass: __HAC_KEEP__, config_entry_id: str, bridge_device: dict, bridge: Smartbridge
 ) -> None:
     """Register the bridge device in the device registry."""
     device_registry = dr.async_get(hass)
@@ -321,7 +321,7 @@ def _async_register_bridge_device(
 
 @callback
 def _async_setup_keypads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_id: str,
     bridge: Smartbridge,
     bridge_device: dict[str, str | int],
@@ -431,7 +431,7 @@ def _async_build_trigger_schemas(
 
 @callback
 def _async_build_lutron_keypad(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_id: str,
     bridge: Smartbridge,
     bridge_device: dict[str, Any],
@@ -520,7 +520,7 @@ def async_get_lip_button(device_type: str, leap_button: int) -> int | None:
 
 @callback
 def _async_subscribe_keypad_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_id: str,
     bridge: Smartbridge,
     keypads: dict[int, LutronKeypad],
@@ -583,7 +583,7 @@ def _async_subscribe_keypad_events(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: LutronCasetaConfigEntry
+    hass: __HAC_KEEP__, entry: LutronCasetaConfigEntry
 ) -> None:
     """Unload the bridge from a config entry."""
     data = entry.runtime_data
@@ -597,7 +597,7 @@ def _id_to_identifier(lutron_id: str) -> tuple[str, str]:
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, entry: LutronCasetaConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: LutronCasetaConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove lutron_caseta config entry from a device."""
     data = entry.runtime_data

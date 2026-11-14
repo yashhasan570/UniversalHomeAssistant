@@ -19,7 +19,7 @@ from universalassistant.components import bluetooth
 from universalassistant.components.gardena_bluetooth import async_get_product
 from universalassistant.components.gardena_bluetooth.const import DOMAIN
 from universalassistant.components.gardena_bluetooth.coordinator import SCAN_INTERVAL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.loader import async_get_bluetooth
 
 from . import WATER_TIMER_SERVICE_INFO, get_config_entry
@@ -35,7 +35,7 @@ def only_discover_this_domain() -> Generator[None]:
     waiting for advertisements that won't show up.
     """
 
-    async def filtered_matches(hass: UniversalAssistant):
+    async def filtered_matches(hass: __HAC_KEEP__):
         matchers = await async_get_bluetooth(hass)
         return [matcher for matcher in matchers if matcher["domain"] == DOMAIN]
 
@@ -82,7 +82,7 @@ def mock_read_char_raw():
 
 @pytest.fixture
 async def scan_step(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> Callable[[], Coroutine[Any, Any, None]]:
     """Step system time forward."""
 
@@ -205,7 +205,7 @@ def constant_advertisements() -> Generator[None]:
     """Ensure async_process_advertisements only return a constant list."""
 
     async def _advertisements(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         callback: bluetooth.models.ProcessAdvertisementCallback,
         match_dict: bluetooth.match.BluetoothCallbackMatcher,
         mode: bluetooth.BluetoothScanningMode,

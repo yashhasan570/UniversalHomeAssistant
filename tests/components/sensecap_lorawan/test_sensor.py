@@ -17,7 +17,7 @@ from sensecap_lorawan import S2100, S2101, S2102, S2103, SenseCapDevice
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -26,7 +26,7 @@ from .const import CATALOG_MODELS
 
 @pytest.mark.parametrize(("stack", "model"), CATALOG_MODELS)
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,
@@ -87,7 +87,7 @@ async def test_sensors(
 
 
 async def test_new_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,
@@ -150,7 +150,7 @@ async def test_new_devices(
     ids=["S2101", "S2102", "S2103"],
 )
 async def test_battery_uplink(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,
@@ -193,7 +193,7 @@ async def test_battery_uplink(
 
 @pytest.mark.parametrize("model", [S2101, S2102, S2103])
 async def test_battery_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,
@@ -248,7 +248,7 @@ async def test_battery_status(
 
 
 async def test_unload_failure(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Keep the manager running if the platform cannot unload."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)
@@ -261,7 +261,7 @@ async def test_unload_failure(
 
 @pytest.mark.parametrize(("stack", "model"), CATALOG_MODELS)
 async def test_model_battery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,

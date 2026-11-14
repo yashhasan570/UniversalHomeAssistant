@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.brunt.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 CONFIG = {CONF_USERNAME: "test-username", CONF_PASSWORD: "test-password"}
@@ -18,7 +18,7 @@ CONFIG = {CONF_USERNAME: "test-username", CONF_PASSWORD: "test-password"}
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -51,7 +51,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> No
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_duplicate_login(hass: UniversalAssistant) -> None:
+async def test_form_duplicate_login(hass: __HAC_KEEP__) -> None:
     """Test uniqueness of username."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -89,7 +89,7 @@ async def test_form_duplicate_login(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_form_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception | type[Exception],
     error_message: str,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_form_error(
     ],
 )
 async def test_reauth(
-    hass: UniversalAssistant, side_effect, result_type, password, step_id, reason
+    hass: __HAC_KEEP__, side_effect, result_type, password, step_id, reason
 ) -> None:
     """Test uniqueness of username."""
     entry = MockConfigEntry(

@@ -26,7 +26,7 @@ from universalassistant.config_entries import (
     ConfigEntryDisabler,
 )
 from universalassistant.const import CONF_CLIENT_ID, CONF_HOST, CONF_MAC, CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import instance_id
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -81,7 +81,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry", "mock_braviatv_client")
 
 
 async def test_ssdp_discovery(
-    hass: UniversalAssistant, mock_braviatv_client: AsyncMock
+    hass: __HAC_KEEP__, mock_braviatv_client: AsyncMock
 ) -> None:
     """Test that the device is discovered."""
     uuid = await instance_id.async_get(hass)
@@ -131,7 +131,7 @@ async def test_ssdp_discovery(
     mock_braviatv_client.set_wol_mode.assert_called_once_with(True)
 
 
-async def test_ssdp_discovery_fake(hass: UniversalAssistant) -> None:
+async def test_ssdp_discovery_fake(hass: __HAC_KEEP__) -> None:
     """Test that not Bravia device is not discovered."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -144,7 +144,7 @@ async def test_ssdp_discovery_fake(hass: UniversalAssistant) -> None:
 
 
 async def test_ssdp_discovery_exist(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that the existed device is not discovered."""
     mock_config_entry.add_to_hass(hass)
@@ -168,7 +168,7 @@ async def test_ssdp_discovery_exist(
     ],
 )
 async def test_dhcp_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     macaddress: str,
@@ -200,7 +200,7 @@ async def test_dhcp_discovery(
     assert mock_setup_entry.call_count == reload_count
 
 
-async def test_user_invalid_host(hass: UniversalAssistant) -> None:
+async def test_user_invalid_host(hass: __HAC_KEEP__) -> None:
     """Test that errors are shown when the host is invalid."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -240,7 +240,7 @@ async def test_user_invalid_host(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_form_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braviatv_client: AsyncMock,
     use_psk: bool,
     pin: str,
@@ -282,7 +282,7 @@ async def test_form_error(
 
 
 async def test_no_ip_control(
-    hass: UniversalAssistant, mock_braviatv_client: AsyncMock
+    hass: __HAC_KEEP__, mock_braviatv_client: AsyncMock
 ) -> None:
     """Test that error are shown when IP Control is disabled on the TV."""
     mock_braviatv_client.pair.side_effect = BraviaError
@@ -305,7 +305,7 @@ async def test_no_ip_control(
 
 
 async def test_duplicate_error(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that error are shown when duplicates are added."""
     mock_config_entry.add_to_hass(hass)
@@ -332,7 +332,7 @@ async def test_duplicate_error(
 
 @pytest.mark.parametrize("use_ssl", [True, False])
 async def test_create_entry_psk(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braviatv: AsyncMock,
     mock_braviatv_client: AsyncMock,
     use_ssl: bool,
@@ -380,7 +380,7 @@ async def test_create_entry_psk(
 
 @pytest.mark.parametrize("use_ssl", [True, False])
 async def test_create_entry_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braviatv: AsyncMock,
     mock_braviatv_client: AsyncMock,
     use_ssl: bool,
@@ -434,7 +434,7 @@ async def test_create_entry_pin(
 
 
 async def test_reauth_successful_psk(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braviatv_client: AsyncMock,
 ) -> None:
     """Test that the reauthorization of a legacy PIN entry with a PSK is successful."""
@@ -474,7 +474,7 @@ async def test_reauth_successful_psk(
 
 
 async def test_reauth_successful_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -519,7 +519,7 @@ async def test_reauth_successful_pin(
     ],
 )
 async def test_reauth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     use_psk: bool,
@@ -591,7 +591,7 @@ async def test_reauth_error(
     ],
 )
 async def test_user_flow_with_empty_cid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braviatv_client: AsyncMock,
     existing_unique_id: str,
     existing_mac: str,

@@ -20,8 +20,8 @@ from universalassistant.components.evohome.const import (
 from universalassistant.components.evohome.water_heater import EvoDHW
 from universalassistant.components.water_heater import DOMAIN as WATER_HEATER_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.entity_platform import DATA_DOMAIN_PLATFORM_ENTITIES
 from universalassistant.setup import async_setup_component
@@ -30,7 +30,7 @@ from universalassistant.setup import async_setup_component
 @pytest.mark.parametrize("install", ["default"])
 @pytest.mark.usefixtures("evohome")
 async def test_refresh_system_deprecated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test Evohome's refresh_system service.
@@ -60,7 +60,7 @@ async def test_refresh_system_deprecated(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
 ) -> None:
     """Test that universalassistant.update_entity triggers an appropriate refresh.
@@ -85,7 +85,7 @@ async def test_update_entity(
 
 @pytest.mark.parametrize("install", ["default"])
 @pytest.mark.usefixtures("evohome")
-async def test_set_system_mode_untargeted(hass: UniversalAssistant) -> None:
+async def test_set_system_mode_untargeted(hass: __HAC_KEEP__) -> None:
     """Test untargeted set_system_mode service calls are rejected."""
 
     with (
@@ -106,7 +106,7 @@ async def test_set_system_mode_untargeted(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_set_system_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_set_system_mode(
     ],
 )
 async def test_duration_spans_dst_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     request: pytest.FixtureRequest,
     entity_fixture: str,
@@ -244,7 +244,7 @@ async def test_duration_spans_dst_change(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_set_zone_override(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_id: str,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -286,7 +286,7 @@ async def test_set_zone_override(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_set_zone_override_advance_schedule_fetch_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_id: str,
 ) -> None:
     """Test set_zone_override (duration=0) fails if it can't fetch the schedule.
@@ -303,7 +303,7 @@ async def test_set_zone_override_advance_schedule_fetch_failed(
             side_effect=evo_exc.ApiCallFailedError("API call failed"),
         ),
         patch.object(Zone, "set_temperature") as mock_fcn,
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -322,7 +322,7 @@ async def test_set_zone_override_advance_schedule_fetch_failed(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_set_zone_override_advance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_id: str,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -362,7 +362,7 @@ async def test_set_zone_override_advance(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_set_zone_override_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_id: str,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -404,7 +404,7 @@ async def test_set_zone_override_legacy(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_zone_services_with_ctl_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
 ) -> None:
     """Test calling zone-only service calls with a non-zone entity_id fails."""
@@ -426,7 +426,7 @@ async def test_zone_services_with_ctl_id(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_controller_services_with_zone_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_id: str,
 ) -> None:
     """Test calling controller-only service calls with a zone entity_id fails."""
@@ -451,7 +451,7 @@ async def test_controller_services_with_zone_id(
 @pytest.mark.parametrize("install", ["default"])
 @pytest.mark.usefixtures("evohome")
 async def test_set_system_mode_entity_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test set_system_mode with a non-existent entity_id is logged and ignored."""
@@ -504,7 +504,7 @@ _SET_SYSTEM_MODE_VALIDATOR_PARAMS = [
     ids=[k for _, k in _SET_SYSTEM_MODE_VALIDATOR_PARAMS],
 )
 async def test_set_system_mode_validator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
     service_data: dict[str, Any],
     expected_translation_key: str,
@@ -528,7 +528,7 @@ async def test_set_system_mode_validator(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_set_dhw_override(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dhw_id: str,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -570,7 +570,7 @@ async def test_set_dhw_override(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_set_dhw_override_advance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dhw_id: str,
     freezer: FrozenDateTimeFactory,
 ) -> None:

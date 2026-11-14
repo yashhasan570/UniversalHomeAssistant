@@ -27,8 +27,8 @@ from universalassistant.const import (
     STATE_NOT_HOME,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -42,7 +42,7 @@ from tests.components.conversation import MockAgent
 
 
 @pytest.fixture
-async def universalassistant(hass: UniversalAssistant) -> None:
+async def universalassistant(hass: __HAC_KEEP__) -> None:
     """Load the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
@@ -136,7 +136,7 @@ async def test_webhook_handle_render_template(
 
 
 async def test_webhook_handle_call_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_webhook_handle_call_services(
 
 
 async def test_webhook_handle_fire_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_webhook_update_registration(webhook_client: TestClient) -> None:
 
 
 async def test_webhook_handle_get_zones(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -259,7 +259,7 @@ async def test_webhook_handle_get_zones(
 
 
 async def test_webhook_handle_get_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -323,7 +323,7 @@ async def test_webhook_handle_get_config(
 
 
 async def test_webhook_handle_get_config_with_cloudhook_and_active_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -360,7 +360,7 @@ async def test_webhook_handle_get_config_with_cloudhook_and_active_subscription(
 
 
 async def test_webhook_handle_get_config_with_cloudhook_no_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -390,7 +390,7 @@ async def test_webhook_handle_get_config_with_cloudhook_no_subscription(
 
 
 async def test_webhook_handle_get_config_with_cloudhook_local_only_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -453,11 +453,11 @@ async def test_webhook_returns_error_incorrect_json(
     ],
 )
 async def test_webhook_handle_decryption(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     msg: dict[str, Any],
-    generate_response: Callable[[UniversalAssistant], dict[str, Any]],
+    generate_response: Callable[[__HAC_KEEP__], dict[str, Any]],
 ) -> None:
     """Test that we can encrypt/decrypt properly."""
     key = create_registrations[0]["secret"]
@@ -668,7 +668,7 @@ async def test_webhook_requires_encryption(
 
 
 async def test_webhook_update_location_without_locations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -707,7 +707,7 @@ async def test_webhook_update_location_without_locations(
 
 
 async def test_webhook_update_location_with_gps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -731,7 +731,7 @@ async def test_webhook_update_location_with_gps(
 
 
 async def test_webhook_update_location_with_gps_without_accuracy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -751,7 +751,7 @@ async def test_webhook_update_location_with_gps_without_accuracy(
 
 
 async def test_webhook_update_location_preserves_float_gps_accuracy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -779,7 +779,7 @@ async def test_webhook_update_location_preserves_float_gps_accuracy(
 
 
 async def test_webhook_update_location_with_location_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -843,7 +843,7 @@ async def test_webhook_update_location_with_location_name(
 
 
 async def test_webhook_update_location_with_in_zones(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -898,7 +898,7 @@ async def test_webhook_update_location_with_in_zones(
 
 
 async def test_webhook_update_location_in_zones_rejects_non_zone_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     caplog: pytest.LogCaptureFixture,
@@ -936,7 +936,7 @@ async def test_webhook_update_location_in_zones_rejects_non_zone_entity(
 
 
 async def test_webhook_enable_encryption(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -989,7 +989,7 @@ async def test_webhook_enable_encryption(
 
 
 async def test_webhook_camera_stream_non_existent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -1010,7 +1010,7 @@ async def test_webhook_camera_stream_non_existent(
 
 
 async def test_webhook_camera_stream_non_hls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -1037,7 +1037,7 @@ async def test_webhook_camera_stream_non_hls(
 
 
 async def test_webhook_camera_stream_stream_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -1069,7 +1069,7 @@ async def test_webhook_camera_stream_stream_available(
 
 
 async def test_webhook_camera_stream_stream_available_but_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -1084,7 +1084,7 @@ async def test_webhook_camera_stream_stream_available_but_errors(
 
     with patch(
         "universalassistant.components.camera.async_request_stream",
-        side_effect=UniversalAssistantError(),
+        side_effect=__HAC_KEEP__Error(),
     ):
         resp = await webhook_client.post(
             f"/api/webhook/{webhook_id}",
@@ -1101,7 +1101,7 @@ async def test_webhook_camera_stream_stream_available_but_errors(
 
 
 async def test_webhook_handle_scan_tag(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -1129,7 +1129,7 @@ async def test_webhook_handle_scan_tag(
 
 
 async def test_register_sensor_limits_state_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -1172,7 +1172,7 @@ async def test_register_sensor_limits_state_class(
 
 
 async def test_reregister_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -1278,7 +1278,7 @@ async def test_reregister_sensor(
 
 @pytest.mark.usefixtures("universalassistant")
 async def test_webhook_handle_conversation_process(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     mock_conversation_agent: MockAgent,
@@ -1324,7 +1324,7 @@ async def test_webhook_handle_conversation_process(
 
 
 async def test_sending_sensor_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,

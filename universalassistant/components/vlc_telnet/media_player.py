@@ -18,8 +18,8 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.config_entries import SOURCE_HASSIO
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -38,7 +38,7 @@ def _get_str(data: dict, key: str) -> str | None:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VlcConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -72,7 +72,7 @@ def catch_vlc_errors[_VlcDeviceT: VlcDevice, **_P](
                 if log:
                     LOGGER.error("Command error: %s", err)
                 else:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="command_error",
                         translation_placeholders={"error": str(err)},
@@ -85,7 +85,7 @@ def catch_vlc_errors[_VlcDeviceT: VlcDevice, **_P](
                 else:
                     self._attr_available = False
                     self.async_write_ha_state()
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="connect_error",
                         translation_placeholders={"error": str(err)},

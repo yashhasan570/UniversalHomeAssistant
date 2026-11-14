@@ -16,12 +16,12 @@ from universalassistant.components.ness_alarm.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigSubentry
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_user_flow(
-    hass: UniversalAssistant, mock_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test successful user config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -52,7 +52,7 @@ async def test_user_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_with_infer_arming_state(
-    hass: UniversalAssistant, mock_client: AsyncMock
+    hass: __HAC_KEEP__, mock_client: AsyncMock
 ) -> None:
     """Test user flow with infer_arming_state enabled."""
     result = await hass.config_entries.flow.async_init(
@@ -73,7 +73,7 @@ async def test_user_flow_with_infer_arming_state(
 
 
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort if already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -105,7 +105,7 @@ async def test_user_flow_already_configured(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_connection_error_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     side_effect: Exception,
     expected_error: str,
@@ -145,7 +145,7 @@ async def test_user_flow_connection_error_recovery(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zone_subentry_flow(hass: UniversalAssistant) -> None:
+async def test_zone_subentry_flow(hass: __HAC_KEEP__) -> None:
     """Test adding a zone through subentry flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -178,7 +178,7 @@ async def test_zone_subentry_flow(hass: UniversalAssistant) -> None:
     assert result["data"][CONF_TYPE] == BinarySensorDeviceClass.DOOR
 
 
-async def test_zone_subentry_already_configured(hass: UniversalAssistant) -> None:
+async def test_zone_subentry_already_configured(hass: __HAC_KEEP__) -> None:
     """Test adding a zone that already exists."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -231,7 +231,7 @@ async def test_zone_subentry_already_configured(hass: UniversalAssistant) -> Non
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zone_subentry_reconfigure(hass: UniversalAssistant) -> None:
+async def test_zone_subentry_reconfigure(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring an existing zone."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -273,7 +273,7 @@ async def test_zone_subentry_reconfigure(hass: UniversalAssistant) -> None:
     assert result["reason"] == "reconfigure_successful"
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test options flow to configure alarm panel settings."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -300,7 +300,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
     assert entry.options[CONF_SHOW_HOME_MODE] is False
 
 
-async def test_options_flow_enable_home_mode(hass: UniversalAssistant) -> None:
+async def test_options_flow_enable_home_mode(hass: __HAC_KEEP__) -> None:
     """Test options flow to enable home mode."""
     entry = MockConfigEntry(
         domain=DOMAIN,

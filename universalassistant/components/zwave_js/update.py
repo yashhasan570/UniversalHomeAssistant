@@ -26,8 +26,8 @@ from universalassistant.components.update import (
     UpdateEntityStateAttribute,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import CoreState, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CoreState, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
@@ -123,7 +123,7 @@ class ZWaveFirmwareUpdateExtraStoredData(ExtraStoredData):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ZwaveJSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -248,7 +248,7 @@ class ZWaveFirmwareUpdateEntity(ZWaveNodeBaseEntity, UpdateEntity):
         if write_state:
             self.async_write_ha_state()
 
-    async def _async_update(self, _: UniversalAssistant | datetime | None = None) -> None:
+    async def _async_update(self, _: __HAC_KEEP__ | datetime | None = None) -> None:
         """Update the entity."""
         if self._poll_unsub:
             self._poll_unsub()
@@ -337,7 +337,7 @@ class ZWaveFirmwareUpdateEntity(ZWaveNodeBaseEntity, UpdateEntity):
             await self.entity_description.install_method(self, firmware)
         except BaseZwaveJSServerError as err:
             self._unsub_firmware_events_and_reset_progress()
-            raise UniversalAssistantError(err) from err
+            raise __HAC_KEEP__Error(err) from err
 
         # We need to block until we receive the `firmware update finished` event
         await self._finished_event.wait()
@@ -348,7 +348,7 @@ class ZWaveFirmwareUpdateEntity(ZWaveNodeBaseEntity, UpdateEntity):
         if not self._result.success:
             error_msg = self._result.status.name.replace("_", " ").title()
             self._unsub_firmware_events_and_reset_progress()
-            raise UniversalAssistantError(error_msg)
+            raise __HAC_KEEP__Error(error_msg)
 
         # If we get here, all files were installed successfully
         self._attr_installed_version = self._attr_latest_version = firmware.version

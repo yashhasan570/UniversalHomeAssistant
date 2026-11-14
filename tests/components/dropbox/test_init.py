@@ -9,7 +9,7 @@ from python_dropbox_api import DropboxAuthException, DropboxUnknownException
 
 from universalassistant.components.dropbox.const import DOMAIN, OAUTH2_SCOPES
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -17,7 +17,7 @@ from universalassistant.helpers.config_entry_oauth2_flow import (
 
 @pytest.mark.usefixtures("mock_dropbox_client")
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful setup of a config entry."""
@@ -29,7 +29,7 @@ async def test_setup_entry(
 
 
 async def test_setup_entry_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_dropbox_client: AsyncMock,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_setup_entry_auth_failed(
     ids=["unknown_exception", "timeout_error"],
 )
 async def test_setup_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_dropbox_client: AsyncMock,
     side_effect: Exception,
@@ -67,7 +67,7 @@ async def test_setup_entry_not_ready(
 
 
 async def test_setup_entry_implementation_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup retry when OAuth implementation is unavailable."""
@@ -102,7 +102,7 @@ async def test_setup_entry_implementation_unavailable(
     ids=["missing_refresh_token", "missing_scope"],
 )
 async def test_setup_entry_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     token: dict[str, Any],
 ) -> None:
@@ -125,7 +125,7 @@ async def test_setup_entry_triggers_reauth(
 
 @pytest.mark.usefixtures("mock_dropbox_client")
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unloading a config entry."""

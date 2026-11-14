@@ -1,8 +1,8 @@
-# Pylint plugin for Universal Universal Home Assistant
+# Pylint plugin for __HA_KEEP__
 
-Custom [pylint](https://www.pylint.org/) checkers for the Universal Universal Home Assistant
+Custom [pylint](https://www.pylint.org/) checkers for the __HA_KEEP__
 codebase. These checkers enforce coding standards, quality scale compliance,
-and common review patterns specific to Universal Universal Home Assistant integrations.
+and common review patterns specific to __HA_KEEP__ integrations.
 
 This plugin extends pylint with checks that cannot be expressed as
 [Ruff](https://docs.astral.sh/ruff/) rules because they require type
@@ -12,7 +12,7 @@ can detect.
 
 # Setup
 
-Install the package from a Universal Universal Home Assistant Core checkout:
+Install the package from a __HA_KEEP__ Core checkout:
 
 ```shell
 uv pip install ./packages/pylint-universal-assistant
@@ -21,7 +21,7 @@ uv pip install ./packages/pylint-universal-assistant
 Load it using `pylint --load-plugins=pylint_universal_assistant` or the
 `load-plugins` setting in your Pylint configuration.
 
-The checkers currently target Universal Universal Home Assistant Core's module names and repository
+The checkers currently target __HA_KEEP__ Core's module names and repository
 layout. Installing the package separately does not add support for custom
 integration layouts.
 
@@ -37,7 +37,7 @@ uv build packages/pylint-universal-assistant
 
 # Why not (just) Ruff?
 
-Universal Universal Home Assistant uses both [Ruff](https://docs.astral.sh/ruff/) and pylint.
+__HA_KEEP__ uses both [Ruff](https://docs.astral.sh/ruff/) and pylint.
 Ruff handles fast, single-file linting (import sorting, formatting, common
 Python issues). These pylint checkers cover patterns that Ruff cannot:
 
@@ -83,7 +83,7 @@ after the module docstring:
 Every check has a code following the
 [pylint convention](https://pylint.readthedocs.io/en/stable/development_guide/how_tos/custom_checkers.html):
 
-- `{C,W,E,R}74{00-99}`, where `74` is the base ID for Universal Universal Home Assistant.
+- `{C,W,E,R}74{00-99}`, where `74` is the base ID for __HA_KEEP__.
 - `C` = Convention, `W` = Warning, `E` = Error, `R` = Refactor.
 
 | Code | Rule | Description |
@@ -140,7 +140,7 @@ Every check has a code following the
 | `W7414` | [`universal-assistant-service-registered-in-setup-entry`](#w7414-universal-assistant-service-registered-in-setup-entry) | Services should be registered in `async_setup`, not `async_setup_entry` |
 | `W7415` | [`universal-assistant-sequential-executor-jobs`](#w7415-universal-assistant-sequential-executor-jobs) | Sequential `async_add_executor_job` calls should be grouped |
 | `W7416` | [`universal-assistant-missing-has-entity-name`](#w7416-universal-assistant-missing-has-entity-name) | Entity class should set `_attr_has_entity_name = True` |
-| `W7417` | [`universal-assistant-exception-not-translated`](#w7417-universal-assistant-exception-not-translated) | `UniversalAssistantError` should use `translation_key`/`translation_domain` |
+| `W7417` | [`universal-assistant-exception-not-translated`](#w7417-universal-assistant-exception-not-translated) | `__HAC_KEEP__Error` should use `translation_key`/`translation_domain` |
 | `W7418` | [`universal-assistant-tests-direct-async-setup-entry`](#w7418-universal-assistant-tests-direct-async-setup-entry) | Tests should not call an integration's `async_setup_entry` directly |
 | `W7419` | [`universal-assistant-exception-message-with-translation`](#w7419-universal-assistant-exception-message-with-translation) | Don't pass a positional message when `translation_key` is set |
 | `W7420` | [`universal-assistant-tests-direct-platform-async-setup-entry`](#w7420-universal-assistant-tests-direct-platform-async-setup-entry) | Tests should not call a platform's `async_setup_entry` directly |
@@ -170,7 +170,7 @@ Every check has a code following the
 | `W7447` | [`universal-assistant-coordinator-untyped-config-entry`](#w7447-universal-assistant-coordinator-untyped-config-entry) | Coordinator should use the integration's typed config entry instead of `ConfigEntry` |
 | `W7448` | [`universal-assistant-coordinator-redundant-config-entry`](#w7448-universal-assistant-coordinator-redundant-config-entry) | Coordinator assigns `self.config_entry` that `DataUpdateCoordinator.__init__` already sets |
 | `W7449` | [`universal-assistant-coordinator-entity-available`](#w7449-universal-assistant-coordinator-entity-available) | `CoordinatorEntity` overrides `available` with only `coordinator.data` and without `super().available` |
-| `W7450` | [`universal-assistant-log-and-raise`](#w7450-universal-assistant-log-and-raise) | Don't log an error that is raised to Universal Universal Home Assistant, which already reports it |
+| `W7450` | [`universal-assistant-log-and-raise`](#w7450-universal-assistant-log-and-raise) | Don't log an error that is raised to __HA_KEEP__, which already reports it |
 | `W7452` | [`universal-assistant-action-registered-outside-services-module`](#w7452-universal-assistant-action-registered-outside-services-module) | Actions should be registered from `async_setup_services` or `setup_services` in `services.py` |
 | `W7453` | [`universal-assistant-invalid-setup-services`](#w7453-universal-assistant-invalid-setup-services) | `async_setup_services` / `setup_services` should be synchronous and only take `hass` |
 | `W7454` | [`universal-assistant-sequential-add-entities`](#w7454-universal-assistant-sequential-add-entities) | Sequential `async_add_entities` calls should be grouped |
@@ -186,7 +186,7 @@ Enforces consistent formatting and naming of loggers across the codebase.
 ### `C7401`: `universal-assistant-logger-period`
 
 User-visible logger messages must not end with a period. Log messages in
-Universal Universal Home Assistant follow a convention of not using trailing punctuation.
+__HA_KEEP__ follow a convention of not using trailing punctuation.
 
 
 ### `C7402`: `universal-assistant-logger-capital`
@@ -205,7 +205,7 @@ to `universalassistant.components.<domain>.const` instead of the integration.
 
 ## `universal_assistant_imports` checker
 
-Enforces import conventions for Universal Universal Home Assistant integrations. Integrations
+Enforces import conventions for __HA_KEEP__ integrations. Integrations
 should use relative imports for their own modules and follow specific
 patterns for cross-integration references.
 
@@ -292,7 +292,7 @@ class MyEntity(Entity):
 
 Enforces type hints on platform functions, config flow methods, and test
 functions. Checks both argument types and return types against the expected
-signatures defined by Universal Universal Home Assistant's platform interfaces.
+signatures defined by __HA_KEEP__'s platform interfaces.
 
 
 ### `E7402`: `universal-assistant-argument-type`
@@ -306,7 +306,7 @@ Function should have the specified return type hint.
 
 ### `E7407`: `universal-assistant-function-async-mismatch`
 
-Function should be defined with `async def`, or with `def`. Universal Universal Home Assistant
+Function should be defined with `async def`, or with `def`. __HA_KEEP__
 awaits functions like `async_setup_platform`, and runs functions like
 `setup_platform` in the executor, so the wrong kind fails at runtime.
 
@@ -435,7 +435,7 @@ it for the `config_entry` class annotation and `__init__` argument, so
 class MyCoordinator(DataUpdateCoordinator[MyData]):
     config_entry: MyConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: MyConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: MyConfigEntry) -> None:
         ...
 ```
 
@@ -466,7 +466,7 @@ use it instead:
 type MyConfigEntry = ConfigEntry[MyData]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MyConfigEntry) -> bool:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MyConfigEntry) -> bool:
     entry.runtime_data = MyData(...)
 ```
 
@@ -502,14 +502,14 @@ whether the device is reachable.
 
 ## `universal_assistant_log_and_raise` checker
 
-Checks for errors that are logged and then raised to Universal Universal Home Assistant.
+Checks for errors that are logged and then raised to __HA_KEEP__.
 
 ### `W7450`: `universal-assistant-log-and-raise`
 
-Universal Universal Home Assistant already reports the exceptions an integration raises to it:
+__HA_KEEP__ already reports the exceptions an integration raises to it:
 config entry setup logs `ConfigEntryNotReady`, `ConfigEntryAuthFailed` and
 `ConfigEntryError`, a coordinator logs `UpdateFailed`, and a failing action
-returns `UniversalAssistantError` or `ServiceValidationError` to the caller.
+returns `__HAC_KEEP__Error` or `ServiceValidationError` to the caller.
 Logging the error at warning level or higher before raising it reports it
 twice, and for `ConfigEntryNotReady` on every retry:
 
@@ -674,7 +674,7 @@ Detects tests that call an integration's `async_setup_entry` directly.
 ### `W7418`: `universal-assistant-tests-direct-async-setup-entry`
 
 Tests should not invoke an integration's `async_setup_entry` from
-`__init__.py` directly. Instead, tests should let Universal Universal Home Assistant perform
+`__init__.py` directly. Instead, tests should let __HA_KEEP__ perform
 the setup via `await hass.config_entries.async_setup(entry.entry_id)` so
 that the real setup pipeline (platforms, services, listeners, unload
 handlers, etc.) is exercised.
@@ -684,7 +684,7 @@ handlers, etc.) is exercised.
 Same as `W7418`, but for an entity platform's `async_setup_entry` (e.g.
 `universalassistant.components.<integration>.sensor.async_setup_entry`).
 Tests should drive setup through `hass.config_entries.async_setup` so
-the platform is loaded via the normal Universal Universal Home Assistant flow.
+the platform is loaded via the normal __HA_KEEP__ flow.
 
 See [epic #77](https://github.com/universal-assistant/epics/issues/77).
 
@@ -696,7 +696,7 @@ Detects tests that call an integration's `async_migrate_entry` directly.
 ### `W7421`: `universal-assistant-tests-direct-async-migrate-entry`
 
 Tests should not invoke an integration's `async_migrate_entry` from
-`__init__.py` directly. Instead, tests should let Universal Universal Home Assistant perform
+`__init__.py` directly. Instead, tests should let __HA_KEEP__ perform
 the setup via `await hass.config_entries.async_setup(entry.entry_id)` so
 that the real migration pipeline (version bumps, reloads, post-migration
 setup, etc.) is exercised.
@@ -711,7 +711,7 @@ Detects tests that call an integration's `async_setup` directly.
 ### `W7422`: `universal-assistant-tests-direct-async-setup`
 
 Tests should not invoke an integration's `async_setup` from
-`__init__.py` directly. Instead, tests should let Universal Universal Home Assistant drive
+`__init__.py` directly. Instead, tests should let __HA_KEEP__ drive
 the setup through the normal pipeline:
 
 * For integrations with config entries, add a `MockConfigEntry` and
@@ -730,7 +730,7 @@ Detects tests that call an integration's `async_unload_entry` directly.
 ### `W7426`: `universal-assistant-tests-direct-async-unload-entry`
 
 Tests should not invoke an integration's `async_unload_entry` from
-`__init__.py` directly. Instead, tests should let Universal Universal Home Assistant trigger
+`__init__.py` directly. Instead, tests should let __HA_KEEP__ trigger
 the unload via `await hass.config_entries.async_unload(entry.entry_id)` so
 that the real unload flow (platform unloading, listener teardown,
 `runtime_data` cleanup, etc.) is exercised.
@@ -828,7 +828,7 @@ See the [config-flow-test-coverage quality scale rule](https://contributors.univ
 
 ## `universal_assistant_enforce_utcnow` checker
 
-Ensures the Universal Universal Home Assistant helper is used to get the current UTC time.
+Ensures the __HA_KEEP__ helper is used to get the current UTC time.
 
 ### `C7414`: `universal-assistant-enforce-utcnow`
 
@@ -841,7 +841,7 @@ how the current UTC time is obtained.
 
 ## `universal_assistant_enforce_now` checker
 
-Ensures the Universal Universal Home Assistant helper is used to get the current local time.
+Ensures the __HA_KEEP__ helper is used to get the current local time.
 
 ### `C7425`: `universal-assistant-enforce-now`
 
@@ -858,7 +858,7 @@ checker.
 
 ## `universal_assistant_enforce_naive_now` checker
 
-Ensures the Universal Universal Home Assistant helper is used to get the current naive local time.
+Ensures the __HA_KEEP__ helper is used to get the current naive local time.
 
 ### `C7427`: `universal-assistant-enforce-naive-now`
 
@@ -1103,7 +1103,7 @@ it runs in the executor. Both should only take `hass`.
 
 ## `universal_assistant_exception_translations` checker
 
-Ensures `UniversalAssistantError` and its subclasses use the translation system
+Ensures `__HAC_KEEP__Error` and its subclasses use the translation system
 (`translation_domain`, `translation_key`) instead of hardcoded English
 strings. Also verifies that referenced translation keys exist in the
 integration's `strings.json` and that placeholders match.
@@ -1115,7 +1115,7 @@ and placeholders are then checked against that domain's `strings.json`.
 
 ### `W7417`: `universal-assistant-exception-not-translated`
 
-A `UniversalAssistantError` subclass is raised with a hardcoded message; use
+A `__HAC_KEEP__Error` subclass is raised with a hardcoded message; use
 `translation_domain` and `translation_key` instead. Quality-scale-gated.
 
 ### `W7419`: `universal-assistant-exception-message-with-translation`
@@ -1217,7 +1217,7 @@ test/fixture argument instead:
 
 ```python
 async def test_entities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     entry = entity_registry.async_get(entity_id)
 ```
@@ -1488,7 +1488,7 @@ data = await async_load_json_object_fixture(hass, "data.json", DOMAIN)
 ## `universal_assistant_light_color_mode` checker
 
 A `LightEntity` must report **both** `supported_color_modes` and a current
-`color_mode`; setting one without the other raises `UniversalAssistantError` at
+`color_mode`; setting one without the other raises `__HAC_KEEP__Error` at
 runtime. These two checks flag each half of that inconsistency. A light
 that sets *neither* is deliberately not flagged: the realistic both-missing
 class is an abstract base, so flagging it would false-positive; the tradeoff
@@ -1507,7 +1507,7 @@ runtime entity (and may supply the missing half).
 ### `W7436`: `universal-assistant-light-missing-color-mode`
 
 The light provides `supported_color_modes` but no `color_mode`. At runtime
-`LightEntity.state_attributes` raises `UniversalAssistantError` ("does not report a
+`LightEntity.state_attributes` raises `__HAC_KEEP__Error` ("does not report a
 color mode") whenever the light is on and `color_mode` is `None` -- there is
 no inference of the mode from a single supported mode, so this holds even for
 lights that support only `ONOFF` or `BRIGHTNESS`. Set `_attr_color_mode` or
@@ -1516,7 +1516,7 @@ override the `color_mode` property.
 ### `W7437`: `universal-assistant-light-missing-supported-color-modes`
 
 The light provides `color_mode` but no `supported_color_modes`. At runtime
-`LightEntity._light_internal_supported_color_modes` raises `UniversalAssistantError`
+`LightEntity._light_internal_supported_color_modes` raises `__HAC_KEEP__Error`
 ("does not set supported color modes") from both `state_attributes` and
 `capability_attributes` whenever `supported_color_modes` is `None`. Set
 `_attr_supported_color_modes` or override the `supported_color_modes` property.
@@ -1528,7 +1528,7 @@ Detects config flow classes that set `CONNECTION_CLASS`.
 
 ### `W7438`: `universal-assistant-config-flow-connection-class`
 
-`CONNECTION_CLASS` is no longer used by Universal Universal Home Assistant and should not be set
+`CONNECTION_CLASS` is no longer used by __HA_KEEP__ and should not be set
 on config flows. Remove the attribute.
 
 ## `universal-assistant-step_id-match-method` checker
@@ -1555,7 +1555,7 @@ Tests must not start a reauth or reconfigure flow by calling
 `hass.config_entries.flow.async_init` with a hand-built `context`
 (`"source": SOURCE_REAUTH` / `SOURCE_RECONFIGURE`). Use
 `entry.start_reauth_flow(hass)` or `entry.start_reconfigure_flow(hass)`
-instead; they build the same context Universal Universal Home Assistant uses at runtime.
+instead; they build the same context __HA_KEEP__ uses at runtime.
 
 ```python
 # Bad

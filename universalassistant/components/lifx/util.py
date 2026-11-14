@@ -18,8 +18,8 @@ from universalassistant.components.light import (
     ATTR_RGB_COLOR,
     ATTR_XY_COLOR,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.util import color as color_util
 
 from .const import CONF_SERIAL, DOMAIN, LOGGER
@@ -39,7 +39,7 @@ def normalize_serial(value: str) -> str:
     return value.replace(":", "").lower()
 
 
-async def async_resolve_host(hass: UniversalAssistant, host: str) -> str:
+async def async_resolve_host(hass: __HAC_KEEP__, host: str) -> str:
     """Return the literal address of a host, which the library requires."""
     try:
         ip_address(host)
@@ -59,7 +59,7 @@ def async_entry_serial(entry: LIFXConfigEntry) -> str | None:
 
 
 class HSBKChanges(TypedDict):
-    """Color components requested by a Universal Universal Home Assistant service call."""
+    """Color components requested by a __HA_KEEP__ service call."""
 
     hue: float | None
     saturation: float | None
@@ -111,9 +111,9 @@ def parse_hsbk_changes(**kwargs: Any) -> HSBKChanges:
     )
 
 
-def device_error(err: LifxError) -> UniversalAssistantError:
+def device_error(err: LifxError) -> __HAC_KEEP__Error:
     """Return the error to raise when a device rejects or ignores a command."""
-    return UniversalAssistantError(
+    return __HAC_KEEP__Error(
         translation_domain=DOMAIN,
         translation_key="device_error",
         translation_placeholders={"error": str(err)},

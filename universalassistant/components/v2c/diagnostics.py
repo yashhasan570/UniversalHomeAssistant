@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, cast
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import V2CConfigEntry
 
@@ -12,7 +12,7 @@ TO_REDACT = {CONF_HOST, "title"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: V2CConfigEntry
+    hass: __HAC_KEEP__, entry: V2CConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

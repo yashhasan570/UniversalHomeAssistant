@@ -10,7 +10,7 @@ from freezegun.api import FrozenDateTimeFactory
 import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import chat_session
 from universalassistant.util import dt as dt_util, ulid as ulid_util
@@ -34,7 +34,7 @@ def mock_ulid() -> Generator[Mock]:
     ],
 )
 async def test_conversation_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     start_id: str | None,
     given_id: str,
     mock_ulid: Mock,
@@ -44,7 +44,7 @@ async def test_conversation_id(
         assert session.conversation_id == given_id
 
 
-async def test_context_var(hass: UniversalAssistant) -> None:
+async def test_context_var(hass: __HAC_KEEP__) -> None:
     """Test context var."""
     with chat_session.async_get_chat_session(hass, context=None) as session:
         with chat_session.async_get_chat_session(
@@ -67,7 +67,7 @@ async def test_context_var(hass: UniversalAssistant) -> None:
 
 
 async def test_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test cleanup of the chat session."""
     with chat_session.async_get_chat_session(hass, context=None) as session:
@@ -108,7 +108,7 @@ async def test_cleanup(
 
 
 async def test_cleanup_session_in_use(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the cleanup keeps sessions that a turn uses."""
     with chat_session.async_get_chat_session(hass, context=None) as session:
@@ -130,7 +130,7 @@ async def test_cleanup_session_in_use(
 
 
 async def test_cleanup_inherited_session_in_use(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the cleanup keeps a session that an inheriting task still uses."""
     release = asyncio.Event()
@@ -153,7 +153,7 @@ async def test_cleanup_inherited_session_in_use(
     await task
 
 
-async def test_new_session_shared(hass: UniversalAssistant) -> None:
+async def test_new_session_shared(hass: __HAC_KEEP__) -> None:
     """Test parallel requests share a new session."""
 
     async def get_session() -> chat_session.ChatSession:
@@ -177,7 +177,7 @@ async def test_new_session_shared(hass: UniversalAssistant) -> None:
         pytest.param(None, id="no_user"),
     ],
 )
-async def test_check_owner(hass: UniversalAssistant, owner_user_id: str | None) -> None:
+async def test_check_owner(hass: __HAC_KEEP__, owner_user_id: str | None) -> None:
     """Test the first user owns the session, also when there is no user."""
     with chat_session.async_get_chat_session(
         hass, context=Context(user_id=owner_user_id)
@@ -198,7 +198,7 @@ async def test_check_owner(hass: UniversalAssistant, owner_user_id: str | None) 
         pass
 
 
-async def test_session_owner(hass: UniversalAssistant) -> None:
+async def test_session_owner(hass: __HAC_KEEP__) -> None:
     """Test the user of the first context owns the conversation."""
     owner = Context(user_id="owner-user-id")
     other = Context(user_id="other-user-id")
@@ -226,7 +226,7 @@ async def test_session_owner(hass: UniversalAssistant) -> None:
         pass
 
 
-async def test_session_owner_after_internal_start(hass: UniversalAssistant) -> None:
+async def test_session_owner_after_internal_start(hass: __HAC_KEEP__) -> None:
     """Test the first user claims a conversation that started without one."""
     with chat_session.async_get_chat_session(hass, context=None) as session:
         conversation_id = session.conversation_id
@@ -247,7 +247,7 @@ async def test_session_owner_after_internal_start(hass: UniversalAssistant) -> N
 
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_session_without_context(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test leaving out the context is deprecated."""
     with chat_session.async_get_chat_session(hass):
@@ -256,7 +256,7 @@ async def test_session_without_context(
     assert "calls async_get_chat_session without a context" in caplog.text
 
 
-async def test_failed_nested_session(hass: UniversalAssistant) -> None:
+async def test_failed_nested_session(hass: __HAC_KEEP__) -> None:
     """Restore the outer context and clean up sessions after a failure."""
     cleanup = Mock()
 

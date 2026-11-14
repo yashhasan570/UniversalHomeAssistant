@@ -25,7 +25,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     API_DISCOVERY_RESPONSE,
@@ -338,7 +338,7 @@ def fixture_default_requests(mock_requests: Callable[[str], None]) -> None:
 
 @pytest.fixture(name="config_entry_factory")
 async def fixture_config_entry_factory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_requests: Callable[[str], None],
 ) -> ConfigEntryFactoryType:

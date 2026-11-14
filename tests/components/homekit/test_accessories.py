@@ -48,12 +48,12 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     __version__ as hass_version,
 )
-from universalassistant.core import Event, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
 async def test_accessory_cancels_track_state_change_on_stop(
-    hass: UniversalAssistant, hk_driver
+    hass: __HAC_KEEP__, hk_driver
 ) -> None:
     """Ensure homekit state changed listeners are unsubscribed on reload."""
     entity_id = "sensor.accessory"
@@ -68,7 +68,7 @@ async def test_accessory_cancels_track_state_change_on_stop(
     await acc.stop()
 
 
-async def test_home_accessory(hass: UniversalAssistant, hk_driver) -> None:
+async def test_home_accessory(hass: __HAC_KEEP__, hk_driver) -> None:
     """Test HomeAccessory class."""
     entity_id = "sensor.accessory"
     entity_id2 = (
@@ -229,7 +229,7 @@ async def test_home_accessory(hass: UniversalAssistant, hk_driver) -> None:
 
 
 async def test_accessory_with_missing_basic_service_info(
-    hass: UniversalAssistant, hk_driver
+    hass: __HAC_KEEP__, hk_driver
 ) -> None:
     """Test HomeAccessory class."""
     entity_id = "sensor.accessory"
@@ -249,7 +249,7 @@ async def test_accessory_with_missing_basic_service_info(
     )
     serv = acc.get_service(SERV_ACCESSORY_INFO)
     assert serv.get_characteristic(CHAR_NAME).value == "Home Accessory"
-    assert serv.get_characteristic(CHAR_MANUFACTURER).value == "Universal Universal Home Assistant Sensor"
+    assert serv.get_characteristic(CHAR_MANUFACTURER).value == "__HA_KEEP__ Sensor"
     assert serv.get_characteristic(CHAR_MODEL).value == "Sensor"
     assert serv.get_characteristic(CHAR_SERIAL_NUMBER).value == entity_id
     assert format_version(hass_version).startswith(
@@ -258,7 +258,7 @@ async def test_accessory_with_missing_basic_service_info(
     assert isinstance(acc.to_HAP(), dict)
 
 
-async def test_accessory_with_hardware_revision(hass: UniversalAssistant, hk_driver) -> None:
+async def test_accessory_with_hardware_revision(hass: __HAC_KEEP__, hk_driver) -> None:
     """Test HomeAccessory class with hardware revision."""
     entity_id = "sensor.accessory"
     hass.states.async_set(entity_id, "on")
@@ -279,7 +279,7 @@ async def test_accessory_with_hardware_revision(hass: UniversalAssistant, hk_dri
     acc.driver = hk_driver
     serv = acc.get_service(SERV_ACCESSORY_INFO)
     assert serv.get_characteristic(CHAR_NAME).value == "Home Accessory"
-    assert serv.get_characteristic(CHAR_MANUFACTURER).value == "Universal Universal Home Assistant Sensor"
+    assert serv.get_characteristic(CHAR_MANUFACTURER).value == "__HA_KEEP__ Sensor"
     assert serv.get_characteristic(CHAR_MODEL).value == "Sensor"
     assert serv.get_characteristic(CHAR_SERIAL_NUMBER).value == entity_id
     assert format_version(hass_version).startswith(
@@ -290,7 +290,7 @@ async def test_accessory_with_hardware_revision(hass: UniversalAssistant, hk_dri
 
 
 async def test_battery_service(
-    hass: UniversalAssistant, hk_driver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test battery service."""
     entity_id = "homekit.accessory"
@@ -382,7 +382,7 @@ async def test_battery_service(
 
 
 async def test_linked_battery_sensor(
-    hass: UniversalAssistant, hk_driver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test battery service with linked_battery_sensor."""
     entity_id = "homekit.accessory"
@@ -471,7 +471,7 @@ async def test_linked_battery_sensor(
 
 
 async def test_linked_battery_charging_sensor(
-    hass: UniversalAssistant, hk_driver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test battery service with linked_battery_charging_sensor."""
     entity_id = "homekit.accessory"
@@ -531,7 +531,7 @@ async def test_linked_battery_charging_sensor(
 
 
 async def test_linked_battery_sensor_and_linked_battery_charging_sensor(
-    hass: UniversalAssistant, hk_driver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test battery service with linked battery and charging sensors."""
     entity_id = "homekit.accessory"
@@ -580,7 +580,7 @@ async def test_linked_battery_sensor_and_linked_battery_charging_sensor(
 
 
 async def test_missing_linked_battery_charging_sensor(
-    hass: UniversalAssistant, hk_driver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test battery service with charging sensor mapped to missing entity."""
     entity_id = "homekit.accessory"
@@ -618,7 +618,7 @@ async def test_missing_linked_battery_charging_sensor(
 
 
 async def test_missing_linked_battery_sensor(
-    hass: UniversalAssistant, hk_driver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test battery service with missing linked_battery_sensor."""
     entity_id = "homekit.accessory"
@@ -663,7 +663,7 @@ async def test_missing_linked_battery_sensor(
 
 
 async def test_battery_appears_after_startup(
-    hass: UniversalAssistant, hk_driver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test battery level appears after homekit is started."""
     entity_id = "homekit.accessory"
@@ -698,7 +698,7 @@ async def test_battery_appears_after_startup(
 
 
 async def test_call_service(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test call_service method."""
     entity_id = "homekit.accessory"
@@ -734,18 +734,18 @@ async def test_call_service(
 @pytest.mark.parametrize(
     "raise_exception",
     [
-        pytest.param(UniversalAssistantError("nope"), id="universal_assistant_error"),
+        pytest.param(__HAC_KEEP__Error("nope"), id="universal_assistant_error"),
         pytest.param(RuntimeError("third-party blew up"), id="unexpected_exception"),
     ],
 )
 async def test_call_service_resyncs_on_failure(
-    hass: UniversalAssistant, hk_driver: HomeDriver, raise_exception: Exception
+    hass: __HAC_KEEP__, hk_driver: HomeDriver, raise_exception: Exception
 ) -> None:
     """When the dispatched service raises, re-push the entity's current state.
 
     pyhap optimistically advances the target characteristic before the setter runs.
     If the service refuses, the optimistic target strands the accessory out of sync.
-    blocking=True surfaces every exception (UniversalAssistantError and unexpected alike);
+    blocking=True surfaces every exception (__HAC_KEEP__Error and unexpected alike);
     both paths must resync via async_update_state with the current state.
     """
     entity_id = "homekit.accessory"
@@ -768,7 +768,7 @@ async def test_call_service_resyncs_on_failure(
 
 
 async def test_call_service_resync_failure_is_logged(
-    hass: UniversalAssistant, hk_driver: HomeDriver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver: HomeDriver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a failing resync is logged instead of hitting the task handler."""
     entity_id = "homekit.accessory"
@@ -777,7 +777,7 @@ async def test_call_service_resync_failure_is_logged(
 
     acc = HomeAccessory(hass, hk_driver, "Home Accessory", entity_id, 2, {})
     async_mock_service(
-        hass, "cover", "open_cover", raise_exception=UniversalAssistantError("nope")
+        hass, "cover", "open_cover", raise_exception=__HAC_KEEP__Error("nope")
     )
 
     with patch.object(
@@ -792,7 +792,7 @@ async def test_call_service_resync_failure_is_logged(
 
 
 async def test_call_service_resync_skip_is_logged(
-    hass: UniversalAssistant, hk_driver: HomeDriver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver: HomeDriver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a resync skipped for a missing entity state is diagnosable."""
     entity_id = "homekit.accessory"
@@ -801,7 +801,7 @@ async def test_call_service_resync_skip_is_logged(
 
     acc = HomeAccessory(hass, hk_driver, "Home Accessory", entity_id, 2, {})
     async_mock_service(
-        hass, "cover", "open_cover", raise_exception=UniversalAssistantError("nope")
+        hass, "cover", "open_cover", raise_exception=__HAC_KEEP__Error("nope")
     )
 
     hass.states.async_remove(entity_id)

@@ -6,7 +6,7 @@ from urllib.error import URLError
 from youless_api import YoulessAPI
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .coordinator import YouLessConfigEntry, YouLessCoordinator
@@ -16,7 +16,7 @@ PLATFORMS = [Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: YouLessConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: YouLessConfigEntry) -> None:
     """Set up youless from a config entry."""
     api = YoulessAPI(entry.data[CONF_HOST])
 
@@ -32,6 +32,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: YouLessConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: YouLessConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: YouLessConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

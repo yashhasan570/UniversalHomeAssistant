@@ -6,12 +6,12 @@ from unittest.mock import MagicMock
 from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_remove_stale_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_tailscale: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -52,7 +52,7 @@ async def test_remove_stale_devices(
 
 
 async def test_no_devices_removed_when_all_present(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,

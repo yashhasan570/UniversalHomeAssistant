@@ -24,7 +24,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import async_track_entity_registry_updated_event
 from universalassistant.setup import async_setup_component
@@ -50,7 +50,7 @@ def switch_entity_registry_entry(
 
 @pytest.fixture
 def switch_as_x_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     switch_entity_registry_entry: er.RegistryEntry,
     target_domain: str,
     use_entity_registry_id: bool,
@@ -77,7 +77,7 @@ def switch_as_x_config_entry(
 
 
 def track_entity_registry_actions(
-    hass: UniversalAssistant, entity_id: str
+    hass: __HAC_KEEP__, entity_id: str
 ) -> list[er.EventEntityRegistryUpdatedData]:
     """Track entity registry actions for an entity."""
     events = []
@@ -94,7 +94,7 @@ def track_entity_registry_actions(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_config_entry_unregistered_uuid(
-    hass: UniversalAssistant, target_domain: str
+    hass: __HAC_KEEP__, target_domain: str
 ) -> None:
     """Test light switch setup from config entry with unknown entity registry id."""
     fake_uuid = "a266a680b608c32770e6c45bfe6b8411"
@@ -137,7 +137,7 @@ async def test_config_entry_unregistered_uuid(
     ],
 )
 async def test_entity_registry_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     switch_entity_registry_entry: er.RegistryEntry,
     switch_as_x_config_entry: MockConfigEntry,
@@ -190,7 +190,7 @@ async def test_entity_registry_events(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_device_registry_config_entry_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     target_domain: str,
@@ -271,7 +271,7 @@ async def test_device_registry_config_entry_1(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_device_registry_config_entry_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     target_domain: str,
@@ -352,7 +352,7 @@ async def test_device_registry_config_entry_2(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_device_registry_config_entry_3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     target_domain: str,
@@ -441,7 +441,7 @@ async def test_device_registry_config_entry_3(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_config_entry_entity_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, target_domain: Platform
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, target_domain: Platform
 ) -> None:
     """Test light switch setup from config entry with entity id."""
     config_entry = MockConfigEntry(
@@ -478,7 +478,7 @@ async def test_config_entry_entity_id(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_config_entry_uuid(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, target_domain: Platform
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, target_domain: Platform
 ) -> None:
     """Test light switch setup from config entry with entity registry id."""
     registry_entry = entity_registry.async_get_or_create(
@@ -508,7 +508,7 @@ async def test_config_entry_uuid(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
@@ -553,7 +553,7 @@ async def test_device(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_setup_and_remove_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
 ) -> None:
@@ -597,7 +597,7 @@ async def test_setup_and_remove_config_entry(
 )
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_reset_hidden_by(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
     hidden_by_before: er.RegistryEntryHider | None,
@@ -637,7 +637,7 @@ async def test_reset_hidden_by(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_entity_category_inheritance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
 ) -> None:
@@ -675,7 +675,7 @@ async def test_entity_category_inheritance(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_entity_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
 ) -> None:
@@ -715,7 +715,7 @@ async def test_entity_options(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_entity_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
@@ -773,7 +773,7 @@ async def test_entity_name(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_custom_name_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
@@ -835,7 +835,7 @@ async def test_custom_name_1(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_custom_name_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
@@ -916,7 +916,7 @@ async def test_custom_name_2(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_import_expose_settings_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
 ) -> None:
@@ -972,7 +972,7 @@ async def test_import_expose_settings_1(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_import_expose_settings_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
 ) -> None:
@@ -1046,7 +1046,7 @@ async def test_import_expose_settings_2(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_restore_expose_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
 ) -> None:
@@ -1102,7 +1102,7 @@ async def test_restore_expose_settings(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_migrate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
@@ -1189,7 +1189,7 @@ async def test_migrate(
 
 @pytest.mark.parametrize("target_domain", PLATFORMS_TO_TEST)
 async def test_migrate_from_future(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     target_domain: Platform,
 ) -> None:

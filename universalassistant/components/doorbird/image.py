@@ -11,8 +11,8 @@ from universalassistant.components.image import (
     ImageEntityDescription,
     infer_image_type,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -44,7 +44,7 @@ IMAGE_DESCRIPTIONS: tuple[DoorBirdImageEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DoorBirdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -63,7 +63,7 @@ class DoorBirdLastEventImage(ImageEntity, DoorBirdEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         door_bird_data: DoorBirdData,
         description: DoorBirdImageEntityDescription,
     ) -> None:
@@ -92,12 +92,12 @@ class DoorBirdLastEventImage(ImageEntity, DoorBirdEntity):
             # own asyncio.timeout(IMAGE_TIMEOUT) and raises HTTP 500 on expiry.
             image_bytes = await self._door_station.device.get_image(self._image_url)
         except aiohttp.ClientError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error getting image from DoorBird: {error}"
             ) from error
         content_type = infer_image_type(image_bytes)
         if content_type is None:
-            raise UniversalAssistantError("DoorBird returned an unrecognized image")
+            raise __HAC_KEEP__Error("DoorBird returned an unrecognized image")
         self._cached_image = Image(content_type=content_type, content=image_bytes)
         self._attr_content_type = content_type
         return image_bytes

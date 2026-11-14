@@ -5,7 +5,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 from .const import CONF_PROFILE, DOMAIN
@@ -126,7 +126,7 @@ class DownloadProfileFixFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     data: dict[str, str | int | float | None] | None = None,
     *args: Any,

@@ -32,8 +32,8 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -59,7 +59,7 @@ def _cover_device(index: int, name: str, status: int = 0) -> ComelitDeviceObject
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -78,7 +78,7 @@ async def test_all_entities(
 
 
 async def test_cover_open(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -119,7 +119,7 @@ async def test_cover_open(
 
 
 async def test_cover_close(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -162,7 +162,7 @@ async def test_cover_close(
 
 
 async def test_cover_stop_if_stopped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -198,7 +198,7 @@ async def test_cover_stop_if_stopped(
     ],
 )
 async def test_cover_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
     cover_state: CoverState,
@@ -216,7 +216,7 @@ async def test_cover_restore_state(
 
 
 async def test_cover_open_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -254,7 +254,7 @@ async def test_cover_open_stop(
 
 
 async def test_cover_position_estimation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -331,7 +331,7 @@ async def test_cover_position_estimation(
     ],
 )
 async def test_cover_set_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -374,7 +374,7 @@ async def test_cover_set_position(
 
 
 async def test_cover_set_position_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -408,7 +408,7 @@ async def test_cover_set_position_noop(
     ],
 )
 async def test_cover_set_position_full_travel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -441,7 +441,7 @@ async def test_cover_set_position_full_travel(
 
 
 async def test_cover_set_position_already_stopped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -477,7 +477,7 @@ async def test_cover_set_position_already_stopped(
 
 
 async def test_cover_set_position_current_while_moving(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -512,7 +512,7 @@ async def test_cover_set_position_current_while_moving(
 
 
 async def test_cover_set_position_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -541,7 +541,7 @@ async def test_cover_set_position_refresh_failure(
 
 
 async def test_cover_set_position_superseded_during_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -585,7 +585,7 @@ async def test_cover_set_position_superseded_during_refresh(
 
 
 async def test_cover_set_position_cancels_previous_timer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -624,12 +624,12 @@ async def test_cover_set_position_cancels_previous_timer(
 
 
 async def test_cover_external_movement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
-    """Test movements started outside Universal Universal Home Assistant are tracked."""
+    """Test movements started outside __HA_KEEP__ are tracked."""
 
     mock_restore_cache(hass, [State(ENTITY_ID, CoverState.OPEN)])
     await setup_integration(hass, mock_serial_bridge_config_entry)
@@ -662,12 +662,12 @@ async def test_cover_external_movement(
 
 
 async def test_cover_external_reversal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
-    """Test a reversal outside Universal Universal Home Assistant replaces the requested movement."""
+    """Test a reversal outside __HA_KEEP__ replaces the requested movement."""
 
     mock_restore_cache(hass, [State(ENTITY_ID, CoverState.CLOSED)])
     mock_serial_bridge.reset_mock()
@@ -709,7 +709,7 @@ async def test_cover_external_reversal(
 
 
 async def test_cover_command_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -720,7 +720,7 @@ async def test_cover_command_failure(
     await setup_integration(hass, mock_serial_bridge_config_entry)
 
     mock_serial_bridge.set_device_status.side_effect = CannotConnect
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_OPEN_COVER,
@@ -738,7 +738,7 @@ async def test_cover_command_failure(
 
 
 async def test_cover_configured_travel_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -767,7 +767,7 @@ async def test_cover_configured_travel_time(
 
 
 async def test_cover_dynamic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,

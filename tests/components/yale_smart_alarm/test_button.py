@@ -9,8 +9,8 @@ from yalesmartalarmclient.exceptions import UnknownError
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -20,7 +20,7 @@ from universalassistant.helpers import entity_registry as er
     [[Platform.BUTTON]],
 )
 async def test_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_config_entry: tuple[MockConfigEntry, Mock],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -41,7 +41,7 @@ async def test_button(
     client.trigger_panic_button.assert_called_once()
     client.trigger_panic_button.reset_mock()
     client.trigger_panic_button = Mock(side_effect=UnknownError("test_side_effect"))
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

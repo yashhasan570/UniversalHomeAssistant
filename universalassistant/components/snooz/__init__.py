@@ -17,7 +17,7 @@ from universalassistant.components.bluetooth import (
     async_last_service_info,
 )
 from universalassistant.const import CONF_ADDRESS, CONF_MODEL, CONF_TOKEN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -29,13 +29,13 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Snooz integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: SnoozConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: SnoozConfigEntry) -> None:
     """Migrate a config entry to the current version."""
     if entry.minor_version < 2:
         # Entries created before minor version 2 only stored the address and
@@ -58,7 +58,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: SnoozConfigEntry)
         )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SnoozConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SnoozConfigEntry) -> None:
     """Set up Snooz device from a config entry."""
     address: str = entry.data[CONF_ADDRESS]
 
@@ -83,7 +83,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SnoozConfigEntry) -
 
 @callback
 def _async_device_not_found_error(
-    hass: UniversalAssistant, address: str
+    hass: __HAC_KEEP__, address: str
 ) -> ConfigEntryNotReady:
     """Return the error for a device that is not available over Bluetooth."""
     return ConfigEntryNotReady(
@@ -100,13 +100,13 @@ def _async_device_not_found_error(
     )
 
 
-async def _async_update_listener(hass: UniversalAssistant, entry: SnoozConfigEntry) -> None:
+async def _async_update_listener(hass: __HAC_KEEP__, entry: SnoozConfigEntry) -> None:
     """Handle options update."""
     if entry.title != entry.runtime_data.title:
         await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SnoozConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SnoozConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     # also called by fan entities, but do it here too for good measure

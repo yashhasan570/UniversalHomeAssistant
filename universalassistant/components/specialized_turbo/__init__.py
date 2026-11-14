@@ -1,4 +1,4 @@
-"""Specialized Turbo BLE integration for Universal Universal Home Assistant."""
+"""Specialized Turbo BLE integration for __HA_KEEP__."""
 
 import logging
 
@@ -6,7 +6,7 @@ from specialized_turbo import BikeAdvertisement, BLEProfile, ProtocolEncryptionM
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_HMI_HARDWARE, CONF_HMI_SERIAL, CONF_WRAPPED_KEY
 from .coordinator import SpecializedTurboCoordinator
@@ -19,7 +19,7 @@ type SpecializedTurboConfigEntry = ConfigEntry[SpecializedTurboCoordinator]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: SpecializedTurboConfigEntry
+    hass: __HAC_KEEP__, entry: SpecializedTurboConfigEntry
 ) -> None:
     """Set up Specialized Turbo from a config entry."""
     address: str = entry.data[CONF_ADDRESS]
@@ -65,7 +65,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: SpecializedTurboConfigEntry
+    hass: __HAC_KEEP__, entry: SpecializedTurboConfigEntry
 ) -> None:
     """Unload a Specialized Turbo config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

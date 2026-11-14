@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant Yellow hardware platform."""
+"""Test the __HA_KEEP__ Yellow hardware platform."""
 
 from unittest.mock import patch
 
@@ -8,13 +8,13 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.hassio import DOMAIN as HASSIO_DOMAIN, HassioNotReadyError
 from universalassistant.components.universalassistant_yellow.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_hardware_info(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, addon_store_info
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, addon_store_info
 ) -> None:
     """Test we can get the board info."""
     mock_integration(hass, MockModule("hassio"))
@@ -25,7 +25,7 @@ async def test_hardware_info(
         data={},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
     )
     config_entry.add_to_hass(hass)
     with patch(
@@ -57,7 +57,7 @@ async def test_hardware_info(
                 },
                 "config_entries": [config_entry.entry_id],
                 "dongle": None,
-                "name": "Universal Universal Home Assistant Yellow",
+                "name": "__HA_KEEP__ Yellow",
                 "url": "https://support.nabucasa.com/hc/en-us/categories/24734575925149-Universal-Assistant-Yellow",
             }
         ]
@@ -67,7 +67,7 @@ async def test_hardware_info(
 @pytest.mark.parametrize("os_info", [{"board": None}, {"board": "other"}])
 @pytest.mark.usefixtures("supervisor_client")
 async def test_hardware_info_fail(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, os_info, addon_store_info
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, os_info, addon_store_info
 ) -> None:
     """Test async_info raises if os_info is not as expected."""
     mock_integration(hass, MockModule("hassio"))
@@ -78,7 +78,7 @@ async def test_hardware_info_fail(
         data={},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
     )
     config_entry.add_to_hass(hass)
     with patch(
@@ -104,7 +104,7 @@ async def test_hardware_info_fail(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_hardware_info_not_ready(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, addon_store_info
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, addon_store_info
 ) -> None:
     """Test async_info raises HassioNotReadyError when hassio is not ready."""
     mock_integration(hass, MockModule("hassio"))
@@ -115,7 +115,7 @@ async def test_hardware_info_not_ready(
         data={},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
     )
     config_entry.add_to_hass(hass)
     with patch(

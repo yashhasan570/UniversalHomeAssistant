@@ -46,8 +46,8 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -69,7 +69,7 @@ def platforms() -> list[str]:
 
 
 async def test_battery_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ring_keypad: Node,
     integration: MockConfigEntry,
@@ -146,7 +146,7 @@ async def test_battery_sensors(
 
 
 async def test_numeric_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     multisensor_6,
     express_controls_ezmultipli,
@@ -223,7 +223,7 @@ async def test_numeric_sensor(
 
 
 async def test_invalid_multilevel_sensor_scale(
-    hass: UniversalAssistant, client, multisensor_6_state, integration
+    hass: __HAC_KEEP__, client, multisensor_6_state, integration
 ) -> None:
     """Test a multilevel sensor with an invalid scale."""
     node_state = copy.deepcopy(multisensor_6_state)
@@ -257,7 +257,7 @@ async def test_invalid_multilevel_sensor_scale(
 
 
 async def test_energy_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hank_binary_switch,
     integration,
@@ -302,7 +302,7 @@ async def test_energy_sensors(
 
 
 async def test_basic_cc_sensor(
-    hass: UniversalAssistant, client, basic_cc_sensor, integration
+    hass: __HAC_KEEP__, client, basic_cc_sensor, integration
 ) -> None:
     """Test a Basic CC sensor gets discovered correctly."""
     state = hass.states.get("sensor.foo_basic")
@@ -311,7 +311,7 @@ async def test_basic_cc_sensor(
 
 
 async def test_config_parameter_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     climate_adc_t3000,
     lock_id_lock_as_id150,
@@ -355,7 +355,7 @@ async def test_config_parameter_sensor(
 
 
 async def test_controller_status_sensor(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, client, integration
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, client, integration
 ) -> None:
     """Test controller status sensor updates on state changes."""
     entity_id = "sensor.z_stick_gen5_usb_controller_status"
@@ -392,7 +392,7 @@ async def test_controller_status_sensor(
 
 
 async def test_node_status_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     client,
     lock_id_lock_as_id150,
@@ -462,7 +462,7 @@ async def test_node_status_sensor(
 
 
 async def test_node_status_sensor_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     client,
     lock_id_lock_as_id150_not_ready,
@@ -515,7 +515,7 @@ async def test_node_status_sensor_not_ready(
     ],
 )
 async def test_reset_meter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     aeon_smart_switch_6,
     integration,
@@ -569,7 +569,7 @@ async def test_reset_meter(
         "test", 1, "test"
     )
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             ZWaveJSService.RESET_METER,
@@ -601,7 +601,7 @@ async def test_reset_meter(
     ],
 )
 async def test_meter_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     aeon_smart_switch_6,
     integration,
@@ -628,7 +628,7 @@ async def test_meter_attributes(
     ],
 )
 async def test_invalid_meter_scale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     aeon_smart_switch_6_state,
     integration,
@@ -669,7 +669,7 @@ async def test_invalid_meter_scale(
 
 
 async def test_special_meters(
-    hass: UniversalAssistant, aeon_smart_switch_6_state, client, integration
+    hass: __HAC_KEEP__, aeon_smart_switch_6_state, client, integration
 ) -> None:
     """Test meters that have special handling."""
     node_data = copy.deepcopy(
@@ -759,7 +759,7 @@ async def test_special_meters(
     assert state.attributes[ATTR_STATE_CLASS] is SensorStateClass.MEASUREMENT
 
 
-async def test_unit_change(hass: UniversalAssistant, zp3111, client, integration) -> None:
+async def test_unit_change(hass: __HAC_KEEP__, zp3111, client, integration) -> None:
     """Test unit change via metadata updated event is handled by numeric sensors."""
     entity_id = "sensor.4_in_1_sensor_air_temperature"
     state = hass.states.get(entity_id)
@@ -825,7 +825,7 @@ async def test_unit_change(hass: UniversalAssistant, zp3111, client, integration
 
 
 async def test_new_sensor_invalid_scale(
-    hass: UniversalAssistant, multisensor_6, client, integration
+    hass: __HAC_KEEP__, multisensor_6, client, integration
 ) -> None:
     """Test new-style numeric sensor handles UnknownValueData from invalid scale."""
     entity_id = AIR_TEMPERATURE_SENSOR
@@ -934,7 +934,7 @@ NODE_STATISTICS_SUFFIXES_UNKNOWN = {
 
 
 async def test_statistics_sensors_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zp3111_state,
     client,
@@ -982,7 +982,7 @@ async def test_statistics_sensors_migration(
 
 
 async def test_statistics_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zp3111,
     client,
@@ -1135,7 +1135,7 @@ async def test_statistics_sensors(
 
 
 async def test_last_seen_statistics_sensors(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, zp3111, client, integration
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, zp3111, client, integration
 ) -> None:
     """Test last_seen statistics sensors."""
     entity_id = f"{NODE_STATISTICS_ENTITY_PREFIX}last_seen"
@@ -1158,7 +1158,7 @@ async def test_last_seen_statistics_sensors(
 
 
 async def test_rssi_sensor_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zp3111: Node,
     integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -1371,7 +1371,7 @@ ENERGY_PRODUCTION_ENTITY_MAP = {
 
 
 async def test_energy_production_sensors(
-    hass: UniversalAssistant, energy_production, client, integration
+    hass: __HAC_KEEP__, energy_production, client, integration
 ) -> None:
     """Test sensors for Energy Production CC."""
     for entity_id_suffix, state_data in ENERGY_PRODUCTION_ENTITY_MAP.items():

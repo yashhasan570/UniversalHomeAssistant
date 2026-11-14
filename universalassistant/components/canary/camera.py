@@ -16,7 +16,7 @@ from universalassistant.components.camera import (
     Camera,
 )
 from universalassistant.components.ffmpeg import FFmpegManager, get_ffmpeg_manager
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_aiohttp_proxy_stream
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -44,7 +44,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CanaryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -75,7 +75,7 @@ class CanaryCamera(CoordinatorEntity[CanaryDataUpdateCoordinator], Camera):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: CanaryDataUpdateCoordinator,
         location_id: str,
         device: Device,

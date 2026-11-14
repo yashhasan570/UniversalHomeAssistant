@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.camera import Image, async_get_image
 from universalassistant.components.proxy.camera import ProxyCamera
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 CROP_CONFIG = {
@@ -38,7 +38,7 @@ def _size(content: bytes) -> tuple[int, int]:
 
 
 @pytest.fixture
-async def setup_proxy(hass: UniversalAssistant) -> AsyncGenerator[None]:
+async def setup_proxy(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
     """Set up a cropping proxy camera with no delay between stream frames."""
     with patch.object(ProxyCamera, "_attr_frame_interval", 0):
         assert await async_setup_component(hass, "camera", {"camera": CROP_CONFIG})
@@ -47,7 +47,7 @@ async def setup_proxy(hass: UniversalAssistant) -> AsyncGenerator[None]:
 
 
 @pytest.mark.usefixtures("setup_proxy")
-async def test_crop_image_after_small_frame(hass: UniversalAssistant) -> None:
+async def test_crop_image_after_small_frame(hass: __HAC_KEEP__) -> None:
     """Test a frame smaller than the crop area does not break later crops."""
     small = _jpeg(320, 180)
     with patch(
@@ -63,7 +63,7 @@ async def test_crop_image_after_small_frame(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_proxy")
 async def test_crop_stream_after_small_frame(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test a small frame does not break the cropped MJPEG stream."""
     client = await hass_client()

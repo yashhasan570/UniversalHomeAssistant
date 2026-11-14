@@ -11,14 +11,14 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -35,7 +35,7 @@ async def test_number(
 
 
 async def test_set_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_client: AsyncMock,
     mock_nintendo_device: AsyncMock,

@@ -9,7 +9,7 @@ from pysiaalarm import SIAEvent
 
 from universalassistant.components.alarm_control_panel import AlarmControlPanelState
 from universalassistant.const import CONF_PORT
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, State, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, State, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -56,7 +56,7 @@ class SIABaseEntity(RestoreEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: SIAConfigEntry,
         account: str,
         zone: int,

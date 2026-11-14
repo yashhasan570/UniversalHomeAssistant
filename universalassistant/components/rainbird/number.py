@@ -7,8 +7,8 @@ from pyrainbird.exceptions import RainbirdApiException, RainbirdDeviceBusyExcept
 
 from universalassistant.components.number import NumberEntity
 from universalassistant.const import UnitOfTime
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RainbirdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -67,8 +67,8 @@ class RainDelayNumber(CoordinatorEntity[RainbirdUpdateCoordinator], NumberEntity
         try:
             await self.coordinator.controller.set_rain_delay(value)
         except RainbirdDeviceBusyException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Rain Bird device is busy; Wait and try again"
             ) from err
         except RainbirdApiException as err:
-            raise UniversalAssistantError("Rain Bird device failure") from err
+            raise __HAC_KEEP__Error("Rain Bird device failure") from err

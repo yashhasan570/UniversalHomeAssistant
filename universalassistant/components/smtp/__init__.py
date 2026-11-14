@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -45,14 +45,14 @@ PLATFORMS: list[Platform] = [Platform.NOTIFY]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the SMTP services."""
 
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SmtpConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SmtpConfigEntry) -> None:
     """Set up SMTP from a config entry."""
 
     await async_migrate_subentries(hass, entry)
@@ -108,18 +108,18 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SmtpConfigEntry) ->
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))
 
 
-async def _async_update_listener(hass: UniversalAssistant, entry: SmtpConfigEntry) -> None:
+async def _async_update_listener(hass: __HAC_KEEP__, entry: SmtpConfigEntry) -> None:
     """Handle update."""
 
     hass.config_entries.async_schedule_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SmtpConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SmtpConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_subentries(hass: UniversalAssistant, entry: SmtpConfigEntry) -> None:
+async def async_migrate_subentries(hass: __HAC_KEEP__, entry: SmtpConfigEntry) -> None:
     """Migrate entity unique_id after subentry reconfiguration."""
     for subentry in entry.subentries.values():
         if (

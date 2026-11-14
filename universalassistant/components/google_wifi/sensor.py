@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_NAME,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -106,7 +106,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(DATA_SCHEMA).extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     _: DiscoveryInfoType | None = None,

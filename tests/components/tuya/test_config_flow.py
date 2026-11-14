@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.tuya.const import CONF_USER_CODE, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
@@ -16,7 +16,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 @pytest.mark.usefixtures("mock_tuya_login_control")
 async def test_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the full happy path user flow from start to finish."""
@@ -46,7 +46,7 @@ async def test_user_flow(
 
 
 async def test_user_flow_failed_qr_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tuya_login_control: MagicMock,
 ) -> None:
     """Test an error occurring while retrieving the QR code."""
@@ -87,7 +87,7 @@ async def test_user_flow_failed_qr_code(
 
 
 async def test_user_flow_failed_scan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tuya_login_control: MagicMock,
 ) -> None:
     """Test an error occurring while verifying login."""
@@ -134,7 +134,7 @@ async def test_user_flow_failed_scan(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tuya_login_control: MagicMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -172,7 +172,7 @@ async def test_reauth_flow(
 
 
 async def test_reauth_flow_without_user_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tuya_login_control: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_reauth_flow_without_user_code(
 
 
 async def test_reauth_flow_failed_qr_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tuya_login_control: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

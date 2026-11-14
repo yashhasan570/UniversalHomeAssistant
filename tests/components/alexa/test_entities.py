@@ -8,13 +8,13 @@ import pytest
 from universalassistant.components import fan, humidifier, remote, water_heater
 from universalassistant.components.alexa import smart_home
 from universalassistant.const import EntityCategory, UnitOfTemperature, __version__
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .test_common import get_default_config, get_new_request
 
 
-async def test_unsupported_domain(hass: UniversalAssistant) -> None:
+async def test_unsupported_domain(hass: __HAC_KEEP__) -> None:
     """Discovery ignores entities of unknown domains."""
     request = get_new_request("Alexa.Discovery", "Discover")
 
@@ -29,7 +29,7 @@ async def test_unsupported_domain(hass: UniversalAssistant) -> None:
 
 
 async def test_categorized_hidden_entities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Discovery ignores hidden and categorized entities."""
     request = get_new_request("Alexa.Discovery", "Discover")
@@ -78,7 +78,7 @@ async def test_categorized_hidden_entities(
 
 
 async def test_serialize_discovery(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test we can serialize a discovery."""
     request = get_new_request("Alexa.Discovery", "Discover")
@@ -99,7 +99,7 @@ async def test_serialize_discovery(
 
     assert endpoint["friendlyName"] == "Alexa Switch"
     assert endpoint["additionalAttributes"] == {
-        "manufacturer": "Universal Universal Home Assistant",
+        "manufacturer": "__HA_KEEP__",
         "model": "switch",
         "softwareVersion": __version__,
         "customIdentifier": "mock-user-id-switch.bla",
@@ -107,7 +107,7 @@ async def test_serialize_discovery(
 
 
 async def test_serialize_discovery_partly_fails(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can partly serialize a discovery."""
 
@@ -183,7 +183,7 @@ async def test_serialize_discovery_partly_fails(
 
 
 async def test_serialize_discovery_recovers(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle an interface raising unexpectedly during serialize discovery."""
     request = get_new_request("Alexa.Discovery", "Discover")
@@ -355,7 +355,7 @@ async def test_serialize_discovery_recovers(
     ],
 )
 async def test_mode_controller_is_omitted_if_no_modes_are_set(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     state: str,
     state_attributes: dict[str, Any],

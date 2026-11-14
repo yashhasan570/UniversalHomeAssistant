@@ -7,7 +7,7 @@ from typing import Final, override
 from flux_led.aio import AIOWifiLedBulb
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -27,7 +27,7 @@ class FluxLedUpdateCoordinator(DataUpdateCoordinator[None]):
     config_entry: FluxLedConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, device: AIOWifiLedBulb, entry: FluxLedConfigEntry
+        self, hass: __HAC_KEEP__, device: AIOWifiLedBulb, entry: FluxLedConfigEntry
     ) -> None:
         """Initialize DataUpdateCoordinator to gather data for specific device."""
         self.device = device

@@ -25,7 +25,7 @@ from universalassistant.components.backup import (
     Folder,
 )
 from universalassistant.components.backup.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import (
     TEST_BACKUP_ABC123,
@@ -52,7 +52,7 @@ PROTECTED_BACKUP = AgentBackup(
 
 @pytest.mark.parametrize("available_backups", [[TEST_BACKUP_PATH_ABC123]])
 async def test_downloading_local_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test downloading a local backup file."""
@@ -65,7 +65,7 @@ async def test_downloading_local_backup(
 
 
 async def test_downloading_remote_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test downloading a remote backup."""
@@ -83,7 +83,7 @@ async def test_downloading_remote_backup(
 
 @pytest.mark.parametrize("available_backups", [[TEST_BACKUP_PATH_ABC123]])
 async def test_downloading_local_encrypted_backup_file_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test downloading a missing local backup file."""
@@ -100,7 +100,7 @@ async def test_downloading_local_encrypted_backup_file_not_found(
 
 @pytest.mark.usefixtures("mock_backups")
 async def test_downloading_local_encrypted_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test downloading a local backup file."""
@@ -109,7 +109,7 @@ async def test_downloading_local_encrypted_backup(
 
 
 async def test_downloading_remote_encrypted_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test downloading a local backup file."""
@@ -133,7 +133,7 @@ async def test_downloading_remote_encrypted_backup(
     ],
 )
 async def test_downloading_remote_encrypted_backup_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     error: Exception,
     status: int,
@@ -159,7 +159,7 @@ async def test_downloading_remote_encrypted_backup_with_error(
     ],
 )
 async def test_downloading_remote_encrypted_backup_closes_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     password: str,
 ) -> None:
@@ -253,7 +253,7 @@ async def _test_downloading_encrypted_backup(
 
 
 async def test_downloading_backup_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test downloading a backup file that does not exist."""
@@ -266,7 +266,7 @@ async def test_downloading_backup_not_found(
 
 
 async def test_downloading_as_non_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -281,7 +281,7 @@ async def test_downloading_as_non_admin(
 
 
 async def test_uploading_a_backup_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test uploading a backup file."""
@@ -310,7 +310,7 @@ async def test_uploading_a_backup_file(
     ],
 )
 async def test_error_handling_uploading_a_backup_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     error: Exception,
     message: str,

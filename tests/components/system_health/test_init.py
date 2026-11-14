@@ -11,12 +11,12 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components import system_health
 from universalassistant.components.system_health import DOMAIN, async_register_info
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 async def gather_system_health_info(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> dict[str, Any]:
     """Gather all info."""
     client = await hass_ws_client(hass)
@@ -52,7 +52,7 @@ async def gather_system_health_info(
 
 
 async def test_info_endpoint_return_info(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the info endpoint works."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -70,19 +70,19 @@ async def test_info_endpoint_return_info(
 
 
 async def test_info_endpoint_register_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test that the info endpoint allows registering callbacks."""
 
-    async def mock_info(hass: UniversalAssistant) -> dict[str, Any]:
+    async def mock_info(hass: __HAC_KEEP__) -> dict[str, Any]:
         return {"storage": "YAML"}
 
     async_register_info(hass, "lovelace", mock_info)
 
     assert "calls system_health.async_register_info, which is deprecated" in caplog.text
-    assert "This will stop working in Universal Universal Home Assistant 2027.1" in caplog.text
+    assert "This will stop working in __HA_KEEP__ 2027.1" in caplog.text
     # The deprecation must not be attributed to system_health itself
     assert "integration 'system_health'" not in caplog.text
 
@@ -98,11 +98,11 @@ async def test_info_endpoint_register_callback(
 
 
 async def test_info_endpoint_register_callback_timeout(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the info endpoint timing out."""
 
-    async def mock_info(hass: UniversalAssistant) -> dict[str, Any]:
+    async def mock_info(hass: __HAC_KEEP__) -> dict[str, Any]:
         raise TimeoutError
 
     async_register_info(hass, "lovelace", mock_info)
@@ -115,11 +115,11 @@ async def test_info_endpoint_register_callback_timeout(
 
 
 async def test_info_endpoint_register_callback_exc(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that the info endpoint requires auth."""
 
-    async def mock_info(hass: UniversalAssistant) -> dict[str, Any]:
+    async def mock_info(hass: __HAC_KEEP__) -> dict[str, Any]:
         raise Exception("TEST ERROR")  # noqa: TRY002
 
     async_register_info(hass, "lovelace", mock_info)
@@ -132,7 +132,7 @@ async def test_info_endpoint_register_callback_exc(
 
 
 async def test_platform_loading(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_platform_loading(
 
 
 async def test_check_can_reach_url_session(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the reachability check uses the session passed to it."""
     session = AsyncMock()

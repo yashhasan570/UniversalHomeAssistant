@@ -11,14 +11,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.backup import store
 from universalassistant.components.backup.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_backup_integration
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -48,7 +48,7 @@ async def test_sensors(
 
 
 async def test_sensor_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     hass_storage: dict[str, Any],

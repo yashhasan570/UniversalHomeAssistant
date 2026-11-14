@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ pytestmark = [
 
 
 async def test_installer_setting_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_settings: dict[str, list[SettingsData]],
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -56,7 +56,7 @@ async def test_installer_setting_not_available(
 
 
 async def test_installer_setting_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_settings: dict[str, list[SettingsData]],
     mock_installer_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -87,7 +87,7 @@ async def test_installer_setting_available(
 
 
 async def test_invalid_string_count_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_setting_values: dict[str, dict[str, str]],
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -119,7 +119,7 @@ async def test_invalid_string_count_value(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_shadow_management_switch_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_setting_values: dict[str, dict[str, str]],
     mock_config_entry: MockConfigEntry,
     shadow_mgmt: str,
@@ -160,7 +160,7 @@ async def test_shadow_management_switch_state(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_shadow_management_switch_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_setting_values: dict[str, dict[str, str]],
     mock_plenticore_client: Mock,
     mock_config_entry: MockConfigEntry,

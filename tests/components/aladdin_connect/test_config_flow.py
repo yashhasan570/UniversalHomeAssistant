@@ -14,7 +14,7 @@ from universalassistant.components.aladdin_connect.const import (
     OAUTH2_TOKEN,
 )
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -23,13 +23,13 @@ from .const import CLIENT_ID, USER_ID
 
 
 @pytest.fixture
-def use_cloud(hass: UniversalAssistant) -> None:
+def use_cloud(hass: __HAC_KEEP__) -> None:
     """Set up the cloud component."""
     hass.config.components.add("cloud")
 
 
 @pytest.fixture
-async def access_token(hass: UniversalAssistant) -> str:
+async def access_token(hass: __HAC_KEEP__) -> str:
     """Return a valid access token with sub field for unique ID."""
     return config_entry_oauth2_flow._encode_jwt(
         hass,
@@ -48,7 +48,7 @@ async def access_token(hass: UniversalAssistant) -> str:
     "mock_setup_entry",
 )
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token,
@@ -109,7 +109,7 @@ async def test_full_flow(
     "mock_setup_entry",
 )
 async def test_full_dhcp_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token,
@@ -179,7 +179,7 @@ async def test_full_dhcp_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud")
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token,
@@ -227,7 +227,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud")
 async def test_duplicate_dhcp_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token,
@@ -253,7 +253,7 @@ async def test_duplicate_dhcp_entry(
     "mock_setup_entry",
 )
 async def test_flow_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token,
@@ -313,7 +313,7 @@ async def test_flow_reauth(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud")
 async def test_flow_wrong_account_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -379,7 +379,7 @@ async def test_flow_wrong_account_reauth(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_no_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -394,7 +394,7 @@ async def test_no_cloud(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauthentication_no_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -415,7 +415,7 @@ async def test_reauthentication_no_cloud(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud")
 async def test_flow_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -456,7 +456,7 @@ async def test_flow_connection_error(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud")
 async def test_flow_invalid_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

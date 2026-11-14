@@ -10,7 +10,7 @@ from universalassistant.components.kaco_rs485.const import (
 )
 from universalassistant.components.kaco_rs485.coordinator import SCAN_INTERVAL
 from universalassistant.const import CONF_MODEL, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_PORT = "/dev/ttyUSB0"
 MOCK_PORT_DESCRIPTION = "AtomS3 Lite RS485 (RS-485)"
@@ -33,7 +33,7 @@ MOCK_ENTRY_DATA = {
 
 
 async def run_cycles(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, count: int
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, count: int
 ) -> None:
     """Let the coordinator poll `count` times."""
     for _ in range(count):

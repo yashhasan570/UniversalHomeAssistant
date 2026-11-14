@@ -10,13 +10,13 @@ from universalassistant.components.energenie_power_sockets.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import DEMO_CONFIG_DATA
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     valid_config_entry: MockConfigEntry,
     mock_get_device: MagicMock,
 ) -> None:
@@ -36,7 +36,7 @@ async def test_load_unload_entry(
 
 
 async def test_device_not_found_on_load_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     valid_config_entry: MockConfigEntry,
     mock_get_device: MagicMock,
 ) -> None:
@@ -52,7 +52,7 @@ async def test_device_not_found_on_load_entry(
 
 
 async def test_usb_error(
-    hass: UniversalAssistant, valid_config_entry: MockConfigEntry, mock_get_device: MagicMock
+    hass: __HAC_KEEP__, valid_config_entry: MockConfigEntry, mock_get_device: MagicMock
 ) -> None:
     """Test no USB access on config entry setup."""
 
@@ -67,7 +67,7 @@ async def test_usb_error(
 
 
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_device: MagicMock,
 ) -> None:
     """Test migrating a version 1 config entry to version 2."""

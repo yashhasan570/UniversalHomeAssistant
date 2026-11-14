@@ -4,7 +4,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import cache
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.json import JSONEncoder
 
 from .const import ESPHOME_DATA
@@ -26,7 +26,7 @@ class DomainData:
         return entry.runtime_data
 
     def get_or_create_store(
-        self, hass: UniversalAssistant, entry: ESPHomeConfigEntry
+        self, hass: __HAC_KEEP__, entry: ESPHomeConfigEntry
     ) -> ESPHomeStorage:
         """Get or create a Store instance for the given config entry."""
         return self._stores.setdefault(
@@ -38,7 +38,7 @@ class DomainData:
 
     @staticmethod
     @cache
-    def get(hass: UniversalAssistant) -> DomainData:
+    def get(hass: __HAC_KEEP__) -> DomainData:
         """Get the global DomainData instance stored in hass.data."""
         ret = hass.data[ESPHOME_DATA] = DomainData()
         return ret

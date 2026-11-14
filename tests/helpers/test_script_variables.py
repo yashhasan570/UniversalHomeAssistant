@@ -2,7 +2,7 @@
 
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.script_variables import ScriptRunVariables, ScriptVariables
@@ -47,14 +47,14 @@ async def test_static_vars_run_args_simple() -> None:
     assert orig == orig_copy
 
 
-async def test_template_vars(hass: UniversalAssistant) -> None:
+async def test_template_vars(hass: __HAC_KEEP__) -> None:
     """Test template vars."""
     var = cv.SCRIPT_VARIABLES_SCHEMA({"hello": "{{ 1 + 1 }}"})
     rendered = var.async_render(hass, None)
     assert rendered == {"hello": 2}
 
 
-async def test_template_vars_run_args(hass: UniversalAssistant) -> None:
+async def test_template_vars_run_args(hass: __HAC_KEEP__) -> None:
     """Test template vars."""
     var = cv.SCRIPT_VARIABLES_SCHEMA(
         {
@@ -76,14 +76,14 @@ async def test_template_vars_run_args(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_template_vars_simple(hass: UniversalAssistant) -> None:
+async def test_template_vars_simple(hass: __HAC_KEEP__) -> None:
     """Test template vars."""
     var = cv.SCRIPT_VARIABLES_SCHEMA({"hello": "{{ 1 + 1 }}"})
     rendered = var.async_simple_render({})
     assert rendered == {"hello": 2}
 
 
-async def test_template_vars_run_args_simple(hass: UniversalAssistant) -> None:
+async def test_template_vars_run_args_simple(hass: __HAC_KEEP__) -> None:
     """Test template vars."""
     var = cv.SCRIPT_VARIABLES_SCHEMA(
         {
@@ -103,7 +103,7 @@ async def test_template_vars_run_args_simple(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_template_vars_error(hass: UniversalAssistant) -> None:
+async def test_template_vars_error(hass: __HAC_KEEP__) -> None:
     """Test template vars."""
     var = cv.SCRIPT_VARIABLES_SCHEMA({"hello": "{{ canont.work }}"})
     with pytest.raises(TemplateError):

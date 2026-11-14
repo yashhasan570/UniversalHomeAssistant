@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -34,14 +34,14 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Wyoming integration."""
     async_register_websocket_api(hass)
 
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: WyomingConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: WyomingConfigEntry) -> None:
     """Load Wyoming."""
     service = await WyomingService.create(entry.data["host"], entry.data["port"])
 
@@ -96,12 +96,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: WyomingConfigEntry)
         await hass.config_entries.async_forward_entry_setups(entry, SATELLITE_PLATFORMS)
 
 
-async def update_listener(hass: UniversalAssistant, entry: WyomingConfigEntry) -> None:
+async def update_listener(hass: __HAC_KEEP__, entry: WyomingConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: WyomingConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: WyomingConfigEntry) -> None:
     """Unload Wyoming."""
     item = entry.runtime_data
 

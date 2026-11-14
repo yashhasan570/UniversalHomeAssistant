@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.components.niko_home_control.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migrate_entry(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Validate that the unique_id is migrated to the new unique_id."""
     config_entry = MockConfigEntry(

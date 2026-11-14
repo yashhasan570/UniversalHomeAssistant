@@ -12,7 +12,7 @@ from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.lcn import device_trigger
 from universalassistant.components.lcn.const import DOMAIN, KEY_ACTIONS, SENDKEYS
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -20,7 +20,7 @@ from .conftest import MockConfigEntry, get_device, init_integration
 
 
 async def test_get_triggers_module_device(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test we get the expected triggers from a LCN module device."""
     await init_integration(hass, entry)
@@ -56,7 +56,7 @@ async def test_get_triggers_module_device(
 
 
 async def test_get_triggers_non_module_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, entry: MockConfigEntry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, entry: MockConfigEntry
 ) -> None:
     """Test we get the expected triggers from a LCN non-module device."""
     await init_integration(hass, entry)
@@ -77,7 +77,7 @@ async def test_get_triggers_non_module_device(
 
 
 async def test_get_triggers_child_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, entry: MockConfigEntry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, entry: MockConfigEntry
 ) -> None:
     """Test a child device id yields no triggers instead of raising."""
     await init_integration(hass, entry)
@@ -96,7 +96,7 @@ async def test_get_triggers_child_device(
 
 
 async def test_if_fires_on_transponder_event(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], entry: MockConfigEntry
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], entry: MockConfigEntry
 ) -> None:
     """Test for transponder event triggers firing."""
     lcn_connection = await init_integration(hass, entry)
@@ -144,7 +144,7 @@ async def test_if_fires_on_transponder_event(
 
 
 async def test_if_fires_on_fingerprint_event(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], entry: MockConfigEntry
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], entry: MockConfigEntry
 ) -> None:
     """Test for fingerprint event triggers firing."""
     lcn_connection = await init_integration(hass, entry)
@@ -192,7 +192,7 @@ async def test_if_fires_on_fingerprint_event(
 
 
 async def test_if_fires_on_codelock_event(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], entry: MockConfigEntry
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], entry: MockConfigEntry
 ) -> None:
     """Test for codelock event triggers firing."""
     lcn_connection = await init_integration(hass, entry)
@@ -240,7 +240,7 @@ async def test_if_fires_on_codelock_event(
 
 
 async def test_if_fires_on_transmitter_event(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], entry: MockConfigEntry
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], entry: MockConfigEntry
 ) -> None:
     """Test for transmitter event triggers firing."""
     lcn_connection = await init_integration(hass, entry)
@@ -297,7 +297,7 @@ async def test_if_fires_on_transmitter_event(
 
 
 async def test_if_fires_on_send_keys_event(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], entry: MockConfigEntry
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], entry: MockConfigEntry
 ) -> None:
     """Test for send_keys event triggers firing."""
     lcn_connection = await init_integration(hass, entry)
@@ -347,7 +347,7 @@ async def test_if_fires_on_send_keys_event(
 
 
 async def test_get_transponder_trigger_capabilities(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test we get the expected capabilities from a transponder device trigger."""
     await init_integration(hass, entry)
@@ -379,7 +379,7 @@ async def test_get_transponder_trigger_capabilities(
 
 
 async def test_get_fingerprint_trigger_capabilities(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test we get the expected capabilities from a fingerprint device trigger."""
     await init_integration(hass, entry)
@@ -411,7 +411,7 @@ async def test_get_fingerprint_trigger_capabilities(
 
 
 async def test_get_transmitter_trigger_capabilities(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test we get the expected capabilities from a transmitter device trigger."""
     await init_integration(hass, entry)
@@ -464,7 +464,7 @@ async def test_get_transmitter_trigger_capabilities(
 
 
 async def test_get_send_keys_trigger_capabilities(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test we get the expected capabilities from a send_keys device trigger."""
     await init_integration(hass, entry)
@@ -505,7 +505,7 @@ async def test_get_send_keys_trigger_capabilities(
 
 
 async def test_unknown_trigger_capabilities(
-    hass: UniversalAssistant, entry: MockConfigEntry
+    hass: __HAC_KEEP__, entry: MockConfigEntry
 ) -> None:
     """Test we get empty capabilities if trigger is unknown."""
     await init_integration(hass, entry)

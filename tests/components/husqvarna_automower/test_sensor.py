@@ -25,7 +25,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.husqvarna_automower.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -33,7 +33,7 @@ from .const import TEST_MOWER_ID
 
 
 async def test_sensor_unknown_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -55,7 +55,7 @@ async def test_sensor_unknown_states(
 
 
 async def test_cutting_blade_usage_time_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -72,7 +72,7 @@ async def test_cutting_blade_usage_time_sensor(
     dt.datetime(2023, 6, 5, tzinfo=zoneinfo.ZoneInfo("Europe/Berlin"))
 )
 async def test_next_start_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -94,7 +94,7 @@ async def test_next_start_sensor(
 
 
 async def test_work_area_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -151,7 +151,7 @@ async def test_work_area_sensor(
 
 
 async def test_work_area_sensor_creation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -213,7 +213,7 @@ async def test_work_area_sensor_creation(
 
 
 async def test_restricted_reason_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -262,7 +262,7 @@ async def test_restricted_reason_sensor(
     ],
 )
 async def test_statistics_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     sensor_to_test: str,
@@ -278,7 +278,7 @@ async def test_statistics_not_available(
 
 
 async def test_error_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -309,7 +309,7 @@ async def test_error_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_automower_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

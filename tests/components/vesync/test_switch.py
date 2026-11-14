@@ -12,8 +12,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import ALL_DEVICE_NAMES, ENTITY_SWITCH_DISPLAY, mock_devices_response
@@ -24,7 +24,7 @@ DEVICE_ERROR = ResponseInfo(name="error", error_type="error", message="Device er
 
 @pytest.mark.parametrize("device_name", ALL_DEVICE_NAMES)
 async def test_switch_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -84,14 +84,14 @@ async def test_switch_state(
     ],
 )
 async def test_turn_on_off_display_raises_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     humidifier_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     action: str,
     last_response: ResponseInfo | None,
     message: str,
 ) -> None:
-    """Test switch turn on and off command raises UniversalAssistantError."""
+    """Test switch turn on and off command raises __HAC_KEEP__Error."""
 
     mock_devices_response(aioclient_mock, "Humidifier 200s")
 
@@ -106,7 +106,7 @@ async def test_turn_on_off_display_raises_error(
             autospec=True,
             side_effect=_fail_toggle,
         ) as method_mock,
-        pytest.raises(UniversalAssistantError, match=message),
+        pytest.raises(__HAC_KEEP__Error, match=message),
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -181,7 +181,7 @@ async def test_turn_on_off_display_raises_error(
     ],
 )
 async def test_switch_unsupported_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     device_name: str,
@@ -199,7 +199,7 @@ async def test_switch_unsupported_command(
     # hasattr() is False when attribute lookup raises AttributeError
     with (
         patch(command, new_callable=PropertyMock, side_effect=AttributeError),
-        pytest.raises(UniversalAssistantError, match=message),
+        pytest.raises(__HAC_KEEP__Error, match=message),
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -293,7 +293,7 @@ async def test_switch_unsupported_command(
     ],
 )
 async def test_switch_operations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     device_name: str,

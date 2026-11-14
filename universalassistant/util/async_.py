@@ -85,8 +85,8 @@ def run_callback_threadsafe[_T, *_Ts](
 
     if hasattr(loop, _SHUTDOWN_RUN_CALLBACK_THREADSAFE):
         #
-        # If the final `UniversalAssistant.async_block_till_done` in
-        # `UniversalAssistant.async_stop` has already been called, the callback
+        # If the final `__HAC_KEEP__.async_block_till_done` in
+        # `__HAC_KEEP__.async_stop` has already been called, the callback
         # will never run and, `future.result()` will block forever which
         # will prevent the thread running this code from shutting down which
         # will result in a deadlock when the main thread attempts to shutdown
@@ -137,7 +137,7 @@ def shutdown_run_callback_threadsafe(loop: AbstractEventLoop) -> None:
     executor thread.
 
     This function is considered irreversible and should only ever
-    be called when Universal Universal Home Assistant is going to shutdown and
+    be called when __HA_KEEP__ is going to shutdown and
     python is going to exit.
     """
     setattr(loop, _SHUTDOWN_RUN_CALLBACK_THREADSAFE, True)

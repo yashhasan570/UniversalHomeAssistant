@@ -21,7 +21,7 @@ from universalassistant.components.select import (
 )
 from universalassistant.components.sofar.const import DOMAIN, PACKS_SCAN_INTERVAL
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -36,7 +36,7 @@ from . import (
 
 
 async def _setup_hybrid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> tuple[MockConfigEntry, MockModbusConnection]:
     """Set up a hybrid inverter with only the select platform loaded."""
     connection = MockModbusConnection()
@@ -63,7 +63,7 @@ async def _setup_hybrid(
 
 
 async def _setup_pv(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> tuple[MockConfigEntry, MockModbusConnection]:
     """Set up a PV-only inverter with only the select platform loaded."""
     connection = MockModbusConnection()
@@ -88,7 +88,7 @@ async def _setup_pv(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_hybrid_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -105,7 +105,7 @@ async def test_hybrid_entities(
 
 
 async def test_pv_entities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a PV-only inverter gets no select entities."""
     entry, _ = await _setup_pv(hass)
@@ -122,7 +122,7 @@ async def test_pv_entities(
     ],
 )
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     key: str,
     initial: str,
@@ -151,7 +151,7 @@ async def test_select_option(
 
 
 async def test_select_option_modbus_error(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a write failure propagates as-is."""
     _, connection = await _setup_hybrid(hass)

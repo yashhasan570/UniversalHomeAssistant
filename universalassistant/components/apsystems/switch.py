@@ -6,7 +6,7 @@ from aiohttp.client_exceptions import ClientConnectionError
 from APsystemsEZ1 import InverterReturnedError
 
 from universalassistant.components.switch import SwitchDeviceClass, SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ApSystemsConfigEntry, ApSystemsData
@@ -14,7 +14,7 @@ from .entity import ApSystemsEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ApSystemsConfigEntry,
     add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -22,7 +22,7 @@ from universalassistant.components.amberelectric.const import (
 )
 from universalassistant.components.amberelectric.coordinator import AmberUpdateCoordinator
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
 from .helpers import (
@@ -96,7 +96,7 @@ def mock_api_current_price() -> Generator:
         yield instance
 
 
-async def test_fetch_general_site(hass: UniversalAssistant, current_price_api: Mock) -> None:
+async def test_fetch_general_site(hass: __HAC_KEEP__, current_price_api: Mock) -> None:
     """Test fetching a site with only a general channel."""
 
     current_price_api.get_current_prices.return_value = GENERAL_CHANNEL
@@ -128,7 +128,7 @@ async def test_fetch_general_site(hass: UniversalAssistant, current_price_api: M
 
 
 async def test_fetch_no_general_site(
-    hass: UniversalAssistant, current_price_api: Mock
+    hass: __HAC_KEEP__, current_price_api: Mock
 ) -> None:
     """Test fetching a site with no general channel."""
 
@@ -146,7 +146,7 @@ async def test_fetch_no_general_site(
     )
 
 
-async def test_fetch_api_error(hass: UniversalAssistant, current_price_api: Mock) -> None:
+async def test_fetch_api_error(hass: __HAC_KEEP__, current_price_api: Mock) -> None:
     """Test that the old values are maintained if a second call fails."""
 
     current_price_api.get_current_prices.return_value = GENERAL_CHANNEL
@@ -196,7 +196,7 @@ async def test_fetch_api_error(hass: UniversalAssistant, current_price_api: Mock
 
 
 async def test_fetch_general_and_controlled_load_site(
-    hass: UniversalAssistant, current_price_api: Mock
+    hass: __HAC_KEEP__, current_price_api: Mock
 ) -> None:
     """Test fetching a site with a general and controlled load channel."""
 
@@ -238,7 +238,7 @@ async def test_fetch_general_and_controlled_load_site(
 
 
 async def test_fetch_general_and_feed_in_site(
-    hass: UniversalAssistant, current_price_api: Mock
+    hass: __HAC_KEEP__, current_price_api: Mock
 ) -> None:
     """Test fetching a site with a general and feed_in channel."""
 
@@ -277,7 +277,7 @@ async def test_fetch_general_and_feed_in_site(
 
 
 async def test_fetch_potential_spike(
-    hass: UniversalAssistant, current_price_api: Mock
+    hass: __HAC_KEEP__, current_price_api: Mock
 ) -> None:
     """Test fetching a site with only a general channel."""
 
@@ -295,7 +295,7 @@ async def test_fetch_potential_spike(
     assert result["grid"]["price_spike"] == "potential"
 
 
-async def test_fetch_spike(hass: UniversalAssistant, current_price_api: Mock) -> None:
+async def test_fetch_spike(hass: __HAC_KEEP__, current_price_api: Mock) -> None:
     """Test fetching a site with only a general channel."""
 
     general_channel: list[Interval] = [

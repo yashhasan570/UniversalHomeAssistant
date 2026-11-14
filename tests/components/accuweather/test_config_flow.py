@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import init_integration
@@ -28,7 +28,7 @@ VALID_CONFIG = {
 }
 
 
-async def test_show_form(hass: UniversalAssistant) -> None:
+async def test_show_form(hass: __HAC_KEEP__) -> None:
     """Test that the form is served with no input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -51,7 +51,7 @@ async def test_show_form(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: Exception,
     errors: dict[str, str],
     mock_accuweather_client: AsyncMock,
@@ -89,7 +89,7 @@ async def test_user_flow_errors(
 
 
 async def test_integration_already_exists(
-    hass: UniversalAssistant, mock_accuweather_client: AsyncMock
+    hass: __HAC_KEEP__, mock_accuweather_client: AsyncMock
 ) -> None:
     """Test we only allow a single config flow."""
     MockConfigEntry(
@@ -114,7 +114,7 @@ async def test_integration_already_exists(
 
 
 async def test_create_entry(
-    hass: UniversalAssistant, mock_accuweather_client: AsyncMock
+    hass: __HAC_KEEP__, mock_accuweather_client: AsyncMock
 ) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
@@ -137,7 +137,7 @@ async def test_create_entry(
 
 
 async def test_reauth_successful(
-    hass: UniversalAssistant, mock_accuweather_client: AsyncMock
+    hass: __HAC_KEEP__, mock_accuweather_client: AsyncMock
 ) -> None:
     """Test starting a reauthentication flow."""
     mock_config_entry = await init_integration(hass)
@@ -166,7 +166,7 @@ async def test_reauth_successful(
     ],
 )
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: Exception,
     base_error: str,
     mock_accuweather_client: AsyncMock,

@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     HTTP_BASIC_AUTHENTICATION,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 USER_DATA = {
@@ -41,7 +41,7 @@ USER_DATA = {
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_vivotek_camera: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_vivotek_camera: AsyncMock) -> None:
     """Test full user initiated flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -71,7 +71,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_vivotek_camera: AsyncMoc
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vivotek_camera: AsyncMock,
     exception: Exception,
     error: str,
@@ -104,7 +104,7 @@ async def test_user_exceptions(
 
 
 async def test_duplicate_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test flow abort on duplicate entry."""
     mock_config_entry.add_to_hass(hass)
@@ -125,7 +125,7 @@ async def test_duplicate_entry(
 
 
 async def test_duplicate_entry_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vivotek_camera: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_duplicate_entry_mac(
 
 
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vivotek_camera: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

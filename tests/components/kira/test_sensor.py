@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 from pytest_universalassistant.common import MockEntityPlatform
 
 from universalassistant.components.kira import sensor as kira
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_CONFIG = {kira.DOMAIN: {"sensors": [{"host": "127.0.0.1", "port": 17324}]}}
 
@@ -21,7 +21,7 @@ def add_entities(devices):
 
 @patch("universalassistant.components.kira.sensor.KiraReceiver.schedule_update_ha_state")
 def test_kira_sensor_callback(
-    mock_schedule_update_ha_state, hass: UniversalAssistant
+    mock_schedule_update_ha_state, hass: __HAC_KEEP__
 ) -> None:
     """Ensure Kira sensor properly updates its attributes from callback."""
     mock_kira = MagicMock()

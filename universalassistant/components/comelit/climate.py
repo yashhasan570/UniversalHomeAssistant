@@ -15,7 +15,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import PRECISION_TENTHS, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import PRESET_MODE_AUTO, PRESET_MODE_AUTO_TARGET_TEMP, PRESET_MODE_MANUAL
@@ -80,7 +80,7 @@ PRESET_MODE_TO_ACTION: dict[str, ClimaComelitCommand] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ComelitConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

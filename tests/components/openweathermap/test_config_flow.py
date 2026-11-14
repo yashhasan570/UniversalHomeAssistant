@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_MODE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import LATITUDE, LONGITUDE
@@ -46,7 +46,7 @@ VALID_YAML_CONFIG = {CONF_API_KEY: "foo"}
 
 
 async def test_successful_config_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     owm_client_mock: AsyncMock,
 ) -> None:
     """Test that the form is served with valid input."""
@@ -83,7 +83,7 @@ async def test_successful_config_flow(
 
 @pytest.mark.parametrize("mode", [OWM_MODE_V30], indirect=True)
 async def test_abort_config_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     owm_client_mock: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_abort_config_flow(
 
 
 async def test_config_flow_options_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     owm_client_mock: AsyncMock,
 ) -> None:
     """Test that the options form."""
@@ -161,7 +161,7 @@ async def test_config_flow_options_change(
 
 
 async def test_form_invalid_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     owm_client_mock: AsyncMock,
 ) -> None:
     """Test that the form is served with no input."""
@@ -189,7 +189,7 @@ async def test_form_invalid_api_key(
 
 
 async def test_form_api_call_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     owm_client_mock: AsyncMock,
 ) -> None:
     """Test setting up with api call error."""

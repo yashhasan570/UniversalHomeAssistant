@@ -20,9 +20,9 @@ from probatio.humanize import MAX_VALIDATION_ERROR_ITEM_LENGTH
 from yaml.error import MarkedYAMLError
 
 from .const import CONF_PACKAGES, CONF_PLATFORM, __version__
-from .core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from .core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
 from .core_config import _PACKAGE_DEFINITION_SCHEMA, _PACKAGES_CONFIG_SCHEMA
-from .exceptions import ConfigValidationError, UniversalAssistantError
+from .exceptions import ConfigValidationError, __HAC_KEEP__Error
 from .helpers import config_validation as cv
 from .helpers.redact import REDACTED
 from .helpers.translation import async_get_exception_message
@@ -135,7 +135,7 @@ def get_default_config_dir() -> str:
     return os.path.join(data_dir, CONFIG_DIR_NAME)
 
 
-async def async_ensure_config_exists(hass: UniversalAssistant) -> bool:
+async def async_ensure_config_exists(hass: __HAC_KEEP__) -> bool:
     """Ensure a configuration file exists in given configuration directory.
 
     Creating a default one if needed.
@@ -152,7 +152,7 @@ async def async_ensure_config_exists(hass: UniversalAssistant) -> bool:
     return await async_create_default_config(hass)
 
 
-async def async_create_default_config(hass: UniversalAssistant) -> bool:
+async def async_create_default_config(hass: __HAC_KEEP__) -> bool:
     """Create a default configuration file in given configuration directory.
 
     Return if creation was successful.
@@ -203,8 +203,8 @@ def _write_default_config(config_dir: str) -> bool:
     return True
 
 
-async def async_hass_config_yaml(hass: UniversalAssistant) -> dict:
-    """Load YAML from a Universal Universal Home Assistant configuration file.
+async def async_hass_config_yaml(hass: __HAC_KEEP__) -> dict:
+    """Load YAML from a __HA_KEEP__ configuration file.
 
     This function allows a component inside the asyncio loop to reload its
     configuration by itself. Include package merge.
@@ -219,7 +219,7 @@ async def async_hass_config_yaml(hass: UniversalAssistant) -> dict:
             hass.config.path(YAML_CONFIG_FILE),
             secrets,
         )
-    except UniversalAssistantError as exc:
+    except __HAC_KEEP__Error as exc:
         if not (base_exc := exc.__cause__) or not isinstance(base_exc, MarkedYAMLError):
             raise
 
@@ -265,7 +265,7 @@ def load_yaml_config_file(
 ) -> dict[Any, Any]:
     """Parse a YAML configuration file.
 
-    Raises FileNotFoundError or UniversalAssistantError.
+    Raises FileNotFoundError or __HAC_KEEP__Error.
 
     This method needs to run in an executor.
     """
@@ -277,7 +277,7 @@ def load_yaml_config_file(
             "does not contain a dictionary"
         )
         _LOGGER.error(msg)
-        raise UniversalAssistantError(msg) from exc
+        raise __HAC_KEEP__Error(msg) from exc
 
     # Convert values to dictionaries if they are None
     for key, value in conf_dict.items():
@@ -285,7 +285,7 @@ def load_yaml_config_file(
     return conf_dict
 
 
-def process_ha_config_upgrade(hass: UniversalAssistant) -> str | None:
+def process_ha_config_upgrade(hass: __HAC_KEEP__) -> str | None:
     """Upgrade configuration if necessary.
 
     Returns the version that ran before, if it differs from the running one.
@@ -337,7 +337,7 @@ def async_log_schema_error(
     exc: probatio.Invalid,
     domain: str,
     config: dict,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     link: str | None = None,
 ) -> None:
     """Log a schema validation error."""
@@ -347,10 +347,10 @@ def async_log_schema_error(
 
 @callback
 def async_log_config_validator_error(
-    exc: probatio.Invalid | UniversalAssistantError,
+    exc: probatio.Invalid | __HAC_KEEP__Error,
     domain: str,
     config: dict,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     link: str | None = None,
 ) -> None:
     """Log an error from a custom config validator."""
@@ -433,13 +433,13 @@ def find_annotation(
     return find_annotation_rec(config, list(path), None)
 
 
-def _relpath(hass: UniversalAssistant, path: str) -> str:
-    """Return path relative to the Universal Universal Home Assistant config dir."""
+def _relpath(hass: __HAC_KEEP__, path: str) -> str:
+    """Return path relative to the __HA_KEEP__ config dir."""
     return os.path.relpath(path, hass.config.config_dir)
 
 
 def stringify_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: probatio.Invalid,
     domain: str,
     config: dict,
@@ -505,7 +505,7 @@ def stringify_invalid(
 
 
 def humanize_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     validation_error: probatio.Invalid,
     domain: str,
     config: dict,
@@ -533,13 +533,13 @@ def humanize_error(
 
 @callback
 def format_universalassistant_error(
-    hass: UniversalAssistant,
-    exc: UniversalAssistantError,
+    hass: __HAC_KEEP__,
+    exc: __HAC_KEEP__Error,
     domain: str,
     config: dict,
     link: str | None = None,
 ) -> str:
-    """Format UniversalAssistantError thrown by a custom config validator."""
+    """Format __HAC_KEEP__Error thrown by a custom config validator."""
     if "." in domain:
         integration_domain, _, platform_domain = domain.partition(".")
         message_prefix = (
@@ -548,7 +548,7 @@ def format_universalassistant_error(
         )
     else:
         message_prefix = f"Invalid config for '{domain}'"
-    # UniversalAssistantError raised by custom config validator has no path to the
+    # __HAC_KEEP__Error raised by custom config validator has no path to the
     # offending configuration key, use the domain key as path instead.
     if annotation := find_annotation(config, [domain]):
         message_prefix += f" at {_relpath(hass, annotation[0])}, line {annotation[1]}"
@@ -561,7 +561,7 @@ def format_universalassistant_error(
 
 @callback
 def format_schema_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: probatio.Invalid,
     domain: str,
     config: dict,
@@ -572,7 +572,7 @@ def format_schema_error(
 
 
 def _log_pkg_error(
-    hass: UniversalAssistant, package: str, component: str | None, config: dict, message: str
+    hass: __HAC_KEEP__, package: str, component: str | None, config: dict, message: str
 ) -> None:
     """Log an error while merging packages."""
     message_prefix = f"Setup of package '{package}'"
@@ -665,11 +665,11 @@ def _recursive_merge(conf: dict[str, Any], package: dict[str, Any]) -> str | Non
 
 
 async def merge_packages_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict,
     packages: dict[str, Any],
     _log_pkg_error: Callable[
-        [UniversalAssistant, str, str | None, dict, str], None
+        [__HAC_KEEP__, str, str | None, dict, str], None
     ] = _log_pkg_error,
 ) -> dict:
     """Merge packages into the top-level configuration.
@@ -801,7 +801,7 @@ async def merge_packages_config(
 
 @callback
 def _get_log_message_and_stack_print_pref(
-    hass: UniversalAssistant, domain: str, platform_exception: ConfigExceptionInfo
+    hass: __HAC_KEEP__, domain: str, platform_exception: ConfigExceptionInfo
 ) -> tuple[str | None, bool, dict[str, str]]:
     """Get message to log and print stack trace preference."""
     exception = platform_exception.exception
@@ -833,7 +833,7 @@ def _get_log_message_and_stack_print_pref(
                 placeholders["line"] = str(annotation[1])
         else:
             if TYPE_CHECKING:
-                assert isinstance(exception, UniversalAssistantError)
+                assert isinstance(exception, __HAC_KEEP__Error)
             log_message = format_universalassistant_error(
                 hass, exception, platform_path, platform_config, link
             )
@@ -857,7 +857,7 @@ def _get_log_message_and_stack_print_pref(
 # https://github.com/python/mypy/issues/7333
 @overload
 async def async_process_component_and_handle_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     integration: Integration,
 ) -> ConfigType | None: ...
@@ -865,7 +865,7 @@ async def async_process_component_and_handle_errors(
 
 @overload
 async def async_process_component_and_handle_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     integration: Integration,
     *,
@@ -875,7 +875,7 @@ async def async_process_component_and_handle_errors(
 
 @overload
 async def async_process_component_and_handle_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     integration: Integration,
     *,
@@ -884,7 +884,7 @@ async def async_process_component_and_handle_errors(
 
 
 async def async_process_component_and_handle_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     integration: Integration,
     raise_on_failure: bool = False,
@@ -943,7 +943,7 @@ def async_drop_config_annotations(
 
 @callback
 def async_handle_component_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_config_info: IntegrationConfigInfo,
     integration: Integration,
     raise_on_failure: bool = False,
@@ -1124,7 +1124,7 @@ async def _async_load_and_validate_platform_integration(
 
 
 async def async_process_component_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     integration: Integration,
     component: ComponentProtocol | None = None,
@@ -1184,7 +1184,7 @@ async def async_process_component_config(
             return IntegrationConfigInfo(
                 await config_validator.async_validate_config(hass, config), []
             )
-        except (probatio.Invalid, UniversalAssistantError) as exc:
+        except (probatio.Invalid, __HAC_KEEP__Error) as exc:
             exc_info = ConfigExceptionInfo(
                 exc,
                 ConfigErrorTranslationKey.CONFIG_VALIDATION_ERR,
@@ -1345,8 +1345,8 @@ def config_without_domain(config: ConfigType, domain: str) -> ConfigType:
     return {key: value for key, value in config.items() if key not in filter_keys}
 
 
-async def async_check_ha_config_file(hass: UniversalAssistant) -> str | None:
-    """Check if Universal Universal Home Assistant configuration file is valid.
+async def async_check_ha_config_file(hass: __HAC_KEEP__) -> str | None:
+    """Check if __HA_KEEP__ configuration file is valid.
 
     This method is a coroutine.
     """
@@ -1371,7 +1371,7 @@ def safe_mode_enabled(config_dir: str) -> bool:
     return safe_mode
 
 
-async def async_enable_safe_mode(hass: UniversalAssistant) -> None:
+async def async_enable_safe_mode(hass: __HAC_KEEP__) -> None:
     """Enable safe mode."""
 
     def _enable_safe_mode() -> None:

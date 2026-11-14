@@ -16,7 +16,7 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import QbusConfigEntry
@@ -26,7 +26,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: QbusConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

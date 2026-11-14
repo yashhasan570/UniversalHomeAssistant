@@ -10,11 +10,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.aseko_pool_live.const import DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_async_step_user_form(hass: UniversalAssistant) -> None:
+async def test_async_step_user_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -23,7 +23,7 @@ async def test_async_step_user_form(hass: UniversalAssistant) -> None:
     assert result["errors"] == {}
 
 
-async def test_async_step_user_success(hass: UniversalAssistant, user: User) -> None:
+async def test_async_step_user_success(hass: __HAC_KEEP__, user: User) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -67,7 +67,7 @@ async def test_async_step_user_success(hass: UniversalAssistant, user: User) -> 
     ],
 )
 async def test_async_step_user_exception(
-    hass: UniversalAssistant, user: User, error_web: Exception, reason: str
+    hass: __HAC_KEEP__, user: User, error_web: Exception, reason: str
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -121,7 +121,7 @@ async def test_async_step_user_exception(
     ],
 )
 async def test_get_account_info_exceptions(
-    hass: UniversalAssistant, user: User, error_web: Exception, reason: str
+    hass: __HAC_KEEP__, user: User, error_web: Exception, reason: str
 ) -> None:
     """Test we handle config flow exceptions."""
     result = await hass.config_entries.flow.async_init(
@@ -166,7 +166,7 @@ async def test_get_account_info_exceptions(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_async_step_reauth_success(hass: UniversalAssistant, user: User) -> None:
+async def test_async_step_reauth_success(hass: __HAC_KEEP__, user: User) -> None:
     """Test successful reauthentication."""
 
     mock_entry = MockConfigEntry(
@@ -209,7 +209,7 @@ async def test_async_step_reauth_success(hass: UniversalAssistant, user: User) -
     }
 
 
-async def test_async_step_reauth_mismatch(hass: UniversalAssistant, user: User) -> None:
+async def test_async_step_reauth_mismatch(hass: __HAC_KEEP__, user: User) -> None:
     """Test mismatch reauthentication."""
 
     mock_entry = MockConfigEntry(
@@ -261,7 +261,7 @@ async def test_async_step_reauth_mismatch(hass: UniversalAssistant, user: User) 
     ],
 )
 async def test_async_step_reauth_exception(
-    hass: UniversalAssistant, user: User, error_web: Exception, reason: str
+    hass: __HAC_KEEP__, user: User, error_web: Exception, reason: str
 ) -> None:
     """Test we get the form."""
 

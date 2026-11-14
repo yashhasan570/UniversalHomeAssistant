@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     HTTP_DIGEST_AUTHENTICATION,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -113,7 +113,7 @@ def setup_mock_discovery(
     mock_discovery.return_value = mock_ws_discovery
 
 
-async def test_flow_discovered_devices(hass: UniversalAssistant) -> None:
+async def test_flow_discovered_devices(hass: __HAC_KEEP__) -> None:
     """Test that config flow works for discovered devices."""
     logging.getLogger("universalassistant.components.onvif").setLevel(logging.DEBUG)
 
@@ -185,7 +185,7 @@ async def test_flow_discovered_devices(hass: UniversalAssistant) -> None:
 
 
 async def test_flow_discovered_devices_ignore_configured_manual_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that config flow discovery ignores configured devices."""
     logging.getLogger("universalassistant.components.onvif").setLevel(logging.DEBUG)
@@ -228,7 +228,7 @@ async def test_flow_discovered_devices_ignore_configured_manual_input(
         assert result["step_id"] == "configure"
 
 
-async def test_flow_discovered_no_device(hass: UniversalAssistant) -> None:
+async def test_flow_discovered_no_device(hass: __HAC_KEEP__) -> None:
     """Test that config flow discovery no device."""
     await setup_onvif_integration(hass)
 
@@ -260,7 +260,7 @@ async def test_flow_discovered_no_device(hass: UniversalAssistant) -> None:
         assert result["step_id"] == "configure"
 
 
-async def test_flow_discovery_ignore_existing_and_abort(hass: UniversalAssistant) -> None:
+async def test_flow_discovery_ignore_existing_and_abort(hass: __HAC_KEEP__) -> None:
     """Test that config flow discovery ignores setup devices."""
     logging.getLogger("universalassistant.components.onvif").setLevel(logging.DEBUG)
     await setup_onvif_integration(hass)
@@ -320,7 +320,7 @@ async def test_flow_discovery_ignore_existing_and_abort(hass: UniversalAssistant
         assert result["type"] is FlowResultType.ABORT
 
 
-async def test_flow_manual_entry(hass: UniversalAssistant) -> None:
+async def test_flow_manual_entry(hass: __HAC_KEEP__) -> None:
     """Test that config flow works for discovered devices."""
     logging.getLogger("universalassistant.components.onvif").setLevel(logging.DEBUG)
     result = await hass.config_entries.flow.async_init(
@@ -381,7 +381,7 @@ async def test_flow_manual_entry(hass: UniversalAssistant) -> None:
         assert result["result"].unique_id == MAC
 
 
-async def test_flow_manual_entry_multiple_interfaces(hass: UniversalAssistant) -> None:
+async def test_flow_manual_entry_multiple_interfaces(hass: __HAC_KEEP__) -> None:
     """Test the unique ID comes from the last enabled network interface.
 
     Some Dahua based cameras (like Imou) report a dummy eth0 that has the same
@@ -442,7 +442,7 @@ async def test_flow_manual_entry_multiple_interfaces(hass: UniversalAssistant) -
     assert result["result"].unique_id == own_mac
 
 
-async def test_flow_manual_entry_no_profiles(hass: UniversalAssistant) -> None:
+async def test_flow_manual_entry_no_profiles(hass: __HAC_KEEP__) -> None:
     """Test that config flow when no profiles are returned."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -484,7 +484,7 @@ async def test_flow_manual_entry_no_profiles(hass: UniversalAssistant) -> None:
         assert result["reason"] == "no_h264"
 
 
-async def test_flow_manual_entry_no_mac(hass: UniversalAssistant) -> None:
+async def test_flow_manual_entry_no_mac(hass: __HAC_KEEP__) -> None:
     """Test that config flow when no mac address is returned."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -528,7 +528,7 @@ async def test_flow_manual_entry_no_mac(hass: UniversalAssistant) -> None:
         assert result["reason"] == "no_mac"
 
 
-async def test_flow_manual_entry_fails(hass: UniversalAssistant) -> None:
+async def test_flow_manual_entry_fails(hass: __HAC_KEEP__) -> None:
     """Test that we get a good error when manual entry fails."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -639,7 +639,7 @@ async def test_flow_manual_entry_fails(hass: UniversalAssistant) -> None:
         }
 
 
-async def test_flow_manual_entry_wrong_password(hass: UniversalAssistant) -> None:
+async def test_flow_manual_entry_wrong_password(hass: __HAC_KEEP__) -> None:
     """Test that we get a an auth error with the wrong password."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -722,7 +722,7 @@ async def test_flow_manual_entry_wrong_password(hass: UniversalAssistant) -> Non
 
 
 @pytest.mark.parametrize("option_value", [True, False])
-async def test_option_flow(hass: UniversalAssistant, option_value: bool) -> None:
+async def test_option_flow(hass: __HAC_KEEP__, option_value: bool) -> None:
     """Test config flow options."""
     entry, _, _ = await setup_onvif_integration(hass)
 
@@ -753,7 +753,7 @@ async def test_option_flow(hass: UniversalAssistant, option_value: bool) -> None
 
 
 async def test_discovered_by_dhcp_updates_host(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test dhcp updates existing host."""
     config_entry, _camera, device = await setup_onvif_integration(hass)
@@ -778,7 +778,7 @@ async def test_discovered_by_dhcp_updates_host(
 
 
 async def test_discovered_by_dhcp_does_nothing_if_host_is_the_same(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test dhcp update does nothing if host is the same."""
     config_entry, _camera, device = await setup_onvif_integration(hass)
@@ -802,7 +802,7 @@ async def test_discovered_by_dhcp_does_nothing_if_host_is_the_same(
 
 
 async def test_discovered_by_dhcp_does_not_update_if_already_loaded(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test dhcp does not update existing host if its already loaded."""
     config_entry, _camera, device = await setup_onvif_integration(hass)
@@ -825,7 +825,7 @@ async def test_discovered_by_dhcp_does_not_update_if_already_loaded(
 
 
 async def test_discovered_by_dhcp_does_not_update_if_no_matching_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test dhcp does not update existing host if there are no matching entries."""
     result = await hass.config_entries.flow.async_init(
@@ -838,7 +838,7 @@ async def test_discovered_by_dhcp_does_not_update_if_no_matching_entry(
 
 
 async def test_discovered_by_dhcp_updates_all_matching_onvif_entries(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test dhcp updates every matching ONVIF entry and skips other domains.
 
@@ -908,7 +908,7 @@ def _get_schema_default(schema, key_name):
     raise KeyError(f"{key_name} not found in schema")
 
 
-async def test_form_reauth(hass: UniversalAssistant) -> None:
+async def test_form_reauth(hass: __HAC_KEEP__) -> None:
     """Test reauthenticate."""
     entry, _, _ = await setup_onvif_integration(hass)
 
@@ -980,7 +980,7 @@ async def test_form_reauth(hass: UniversalAssistant) -> None:
 
 
 async def test_flow_manual_entry_updates_existing_user_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the existing username and password can be updated via manual entry."""
     entry, _, _ = await setup_onvif_integration(hass)
@@ -1036,7 +1036,7 @@ async def test_flow_manual_entry_updates_existing_user_password(
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_flow_manual_entry_wrong_port(hass: UniversalAssistant) -> None:
+async def test_flow_manual_entry_wrong_port(hass: __HAC_KEEP__) -> None:
     """Test that we get a useful error with the wrong port."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -1126,7 +1126,7 @@ RECONFIGURE_INPUT = {
 }
 
 
-async def test_reconfigure_flow(hass: UniversalAssistant) -> None:
+async def test_reconfigure_flow(hass: __HAC_KEEP__) -> None:
     """Test the reconfigure flow updates the connection settings."""
     entry, _, _ = await setup_onvif_integration(hass)
 
@@ -1159,7 +1159,7 @@ async def test_reconfigure_flow(hass: UniversalAssistant) -> None:
 
 
 async def test_reconfigure_flow_reloads_loaded_entry(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reconfiguring a loaded entry reloads it without the deprecated helper."""
     entry = MockConfigEntry(
@@ -1201,7 +1201,7 @@ async def test_reconfigure_flow_reloads_loaded_entry(
     assert "has an update listener" not in caplog.text
 
 
-async def test_reconfigure_flow_different_device(hass: UniversalAssistant) -> None:
+async def test_reconfigure_flow_different_device(hass: __HAC_KEEP__) -> None:
     """Test the reconfigure flow aborts when reaching a different device."""
     entry, _, _ = await setup_onvif_integration(hass)
 
@@ -1243,7 +1243,7 @@ async def test_reconfigure_flow_different_device(hass: UniversalAssistant) -> No
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant, camera_kwargs: dict[str, bool], errors: dict[str, str]
+    hass: __HAC_KEEP__, camera_kwargs: dict[str, bool], errors: dict[str, str]
 ) -> None:
     """Test the reconfigure flow shows errors and can recover."""
     entry, _, _ = await setup_onvif_integration(hass)
@@ -1280,7 +1280,7 @@ async def test_reconfigure_flow_errors(
 
 
 async def test_reconfigure_flow_discovery_scope_mac(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test reconfiguring an entry keyed on a WS-Discovery scope MAC."""
     entry, _, _ = await setup_onvif_integration(hass, unique_id="11:22:33:44:55:66")

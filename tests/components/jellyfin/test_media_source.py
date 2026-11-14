@@ -14,20 +14,20 @@ from universalassistant.components.media_source import (
     async_browse_media,
     async_resolve_media,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import load_json_fixture
 
 
 @pytest.fixture(autouse=True)
-async def setup_component(hass: UniversalAssistant) -> None:
+async def setup_component(hass: __HAC_KEEP__) -> None:
     """Set up component."""
     assert await async_setup_component(hass, MEDIA_SOURCE_DOMAIN, {})
 
 
 async def test_resolve(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -79,7 +79,7 @@ async def test_resolve(
     [("aac"), ("wma"), ("vorbis"), ("mp3")],
 )
 async def test_audio_codec_resolve(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -111,7 +111,7 @@ async def test_audio_codec_resolve(
 
 
 async def test_root(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -129,7 +129,7 @@ async def test_root(
 
 
 async def test_tv_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -194,7 +194,7 @@ async def test_tv_library(
 
 
 async def test_movie_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -233,7 +233,7 @@ async def test_movie_library(
 
 
 async def test_music_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
@@ -336,7 +336,7 @@ async def test_music_library(
 
 
 async def test_browse_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,

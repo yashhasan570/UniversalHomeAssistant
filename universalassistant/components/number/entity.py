@@ -128,7 +128,7 @@ class NumberEntity(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
                 (
                     "%s::%s is overriding deprecated methods on an instance of "
                     "NumberEntity, this is not valid and will be unsupported "
-                    "from Universal Universal Home Assistant 2022.10. Please %s"
+                    "from __HA_KEEP__ 2022.10. Please %s"
                 ),
                 cls.__module__,
                 cls.__name__,
@@ -282,12 +282,12 @@ class NumberEntity(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
             return
 
         self._invalid_unit_of_measurement_reported = True
-        # This should raise in Universal Universal Home Assistant Core 2027.5
+        # This should raise in __HA_KEEP__ Core 2027.5
         _LOGGER.warning(
             (
                 "Entity %s (%s) is using native unit of measurement '%s' which "
                 "is not a valid unit for the device class ('%s') it is using; "
-                "expected one of %s. This will stop working in Universal Universal Home Assistant "
+                "expected one of %s. This will stop working in __HA_KEEP__ "
                 "2027.5. Please update your configuration if your entity is "
                 "manually configured, otherwise %s"
             ),

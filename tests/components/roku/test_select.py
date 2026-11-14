@@ -21,14 +21,14 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 async def test_application_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_device: RokuDevice,
@@ -120,7 +120,7 @@ async def test_application_state(
     ],
 )
 async def test_application_select_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_roku: MagicMock,
@@ -142,7 +142,7 @@ async def test_application_select_error(
 
     mock_roku.launch.side_effect = error
 
-    with pytest.raises(UniversalAssistantError, match=error_string):
+    with pytest.raises(__HAC_KEEP__Error, match=error_string):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -162,7 +162,7 @@ async def test_application_select_error(
 
 @pytest.mark.parametrize("mock_device", ["roku/rokutv-7820x.json"], indirect=True)
 async def test_channel_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     mock_device: RokuDevice,
@@ -230,14 +230,14 @@ async def test_channel_state(
 
 @pytest.mark.parametrize("mock_device", ["roku/rokutv-7820x.json"], indirect=True)
 async def test_channel_select_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
     """Test error handling of the Roku selects."""
     mock_roku.tune.side_effect = RokuError
 
-    with pytest.raises(UniversalAssistantError, match="Invalid response from Roku API"):
+    with pytest.raises(__HAC_KEEP__Error, match="Invalid response from Roku API"):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

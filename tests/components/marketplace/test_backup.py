@@ -21,7 +21,7 @@ from universalassistant.components.marketplace.utils.backup import (
     backed_up_paths,
     restore_interrupted_backups,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.storage import STORAGE_DIR
 
 from . import setup_integration
@@ -41,7 +41,7 @@ def _integration(config_dir: Path, name: str = "example") -> Path:
 
 
 class Stopped(BaseException):
-    """Universal Universal Home Assistant stopping halfway through."""
+    """__HA_KEEP__ stopping halfway through."""
 
 
 @contextmanager
@@ -462,7 +462,7 @@ def test_restore_removes_an_unfinished_first_install(
     target = config_dir / "custom_components" / "example"
     Backup(marketplace, target).create()
 
-    # Part of it is written, then Universal Universal Home Assistant stops
+    # Part of it is written, then __HA_KEEP__ stops
     target.mkdir(parents=True)
     (target / "__init__.py").write_text("half of it")
 
@@ -505,7 +505,7 @@ def test_restore_leaves_unknown_targets_alone(
 
 
 async def test_setup_restores_interrupted_install(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, config_dir: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, config_dir: Path
 ) -> None:
     """Test setting up puts back what an interrupted install moved aside."""
     backup = _backup_root(config_dir) / "interrupted"

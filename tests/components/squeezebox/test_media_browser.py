@@ -21,14 +21,14 @@ from universalassistant.components.squeezebox.browse_media import (
     MEDIA_TYPE_TO_SQUEEZEBOX,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import FAKE_VALID_ITEM_ID
 
 
 @pytest.fixture(autouse=True)
 async def setup_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, lms: MagicMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, lms: MagicMock
 ) -> None:
     """Fixture for setting up the component."""
     with (
@@ -46,7 +46,7 @@ async def setup_integration(
 
 
 async def test_async_browse_media_root(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_async_browse_media_root(
     ],
 )
 async def test_async_browse_media_with_subitems(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
     category: str,
@@ -134,7 +134,7 @@ async def test_async_browse_media_with_subitems(
 
 
 async def test_async_browse_playlist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     lms: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_async_browse_playlist(
 
 
 async def test_async_browse_media_for_apps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_async_browse_media_for_apps(
     ],
 )
 async def test_async_search_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
     category: str,
@@ -279,7 +279,7 @@ async def test_async_search_media(
     ],
 )
 async def test_async_search_media_in_container(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     lms: MagicMock,
     hass_ws_client: WebSocketGenerator,
     media_content_type: MediaType,
@@ -336,7 +336,7 @@ async def test_async_search_media_in_container(
 
 
 async def test_async_search_media_invalid_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -371,7 +371,7 @@ async def test_async_search_media_invalid_filter(
     ],
 )
 async def test_async_search_media_invalid_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
     media_content_type: str,
@@ -401,7 +401,7 @@ async def test_async_search_media_invalid_type(
 
 
 async def test_async_search_media_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -427,7 +427,7 @@ async def test_async_search_media_not_found(
 
 
 async def test_generate_playlist_for_app(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the generate_playlist for app-fakecommand media type."""
@@ -465,7 +465,7 @@ async def test_generate_playlist_for_app(
 
 
 async def test_async_browse_tracks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -492,7 +492,7 @@ async def test_async_browse_tracks(
 
 
 async def test_async_browse_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -512,7 +512,7 @@ async def test_async_browse_error(
 
 
 async def test_play_browse_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test play browse item."""
@@ -528,7 +528,7 @@ async def test_play_browse_item(
 
 
 async def test_play_browse_item_nonexistent(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test trying to play an item that doesn't exist."""
     with pytest.raises(BrowseError):
@@ -545,7 +545,7 @@ async def test_play_browse_item_nonexistent(
 
 
 async def test_play_browse_item_bad_category(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test trying to play an item whose category doesn't exist."""
@@ -563,7 +563,7 @@ async def test_play_browse_item_bad_category(
 
 
 async def test_synthetic_thumbnail_item_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:

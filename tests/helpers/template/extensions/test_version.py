@@ -1,14 +1,14 @@
-"""Test version functions for Universal Universal Home Assistant templates."""
+"""Test version functions for __HA_KEEP__ templates."""
 
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import TemplateError
 
 from tests.helpers.template.helpers import render
 
 
-def test_version(hass: UniversalAssistant) -> None:
+def test_version(hass: __HAC_KEEP__) -> None:
     """Test version filter and function."""
     filter_result = render(hass, "{{ '2099.9.9' | version}}")
     function_result = render(hass, "{{ version('2099.9.9')}}")

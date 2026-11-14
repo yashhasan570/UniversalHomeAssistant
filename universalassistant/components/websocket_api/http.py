@@ -11,13 +11,13 @@ from typing import TYPE_CHECKING, Any, Final, override
 from aiohttp import WSMsgType, web
 from aiohttp.http_websocket import WebSocketWriter
 
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.components.http.const import (
     MAX_UNAUTHENTICATED_BODY_SIZE,
     is_supervisor_unix_socket_request,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, EVENT_LOGGING_CHANGED
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.redact import async_redact_data
@@ -50,7 +50,7 @@ AUTH_MESSAGE_TIMEOUT = 10  # seconds
 _WS_LOGGER: Final = logging.getLogger(f"{__name__}.connection")
 
 
-class WebsocketAPIView(UniversalAssistantView):
+class WebsocketAPIView(__HAC_KEEP__View):
     """View to serve a websockets endpoint."""
 
     name: str = "websocketapi"
@@ -93,7 +93,7 @@ class WebSocketHandler:
         "_wsock",
     )
 
-    def __init__(self, hass: UniversalAssistant, request: web.Request) -> None:
+    def __init__(self, hass: __HAC_KEEP__, request: web.Request) -> None:
         """Initialize an active connection."""
         self._hass = hass
         self._loop = hass.loop

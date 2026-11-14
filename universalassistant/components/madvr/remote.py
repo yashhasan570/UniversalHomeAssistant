@@ -5,8 +5,8 @@ import logging
 from typing import Any, override
 
 from universalassistant.components.remote import RemoteEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MadVRConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -57,7 +57,7 @@ class MadvrRemote(MadVREntity, RemoteEntity):
         try:
             await self.madvr_client.power_off()
         except (ConnectionError, NotImplementedError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="power_off_failed",
             ) from err
@@ -70,7 +70,7 @@ class MadvrRemote(MadVREntity, RemoteEntity):
         try:
             await self.madvr_client.power_on(mac=self.coordinator.mac)
         except (ConnectionError, NotImplementedError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="power_on_failed",
             ) from err
@@ -82,7 +82,7 @@ class MadvrRemote(MadVREntity, RemoteEntity):
         try:
             await self.madvr_client.add_command_to_queue(command)
         except (ConnectionError, NotImplementedError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="send_command_failed",
                 translation_placeholders={"command": ", ".join(command)},

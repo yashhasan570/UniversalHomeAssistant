@@ -22,8 +22,8 @@ from universalassistant.components.hassio.llm import (
     SupervisorGetLogsTool,
     async_get_tools,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import llm
 
 LOGS = {
@@ -59,7 +59,7 @@ def llm_context() -> llm.LLMContext:
 
 
 @pytest.fixture
-def send_command(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> AsyncMock:
+def send_command(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> AsyncMock:
     """Mock the Supervisor log requests and freeze the time after the logs."""
 
     async def _send_command(command: str, **kwargs: object) -> str:
@@ -81,7 +81,7 @@ def _app(slug: str, name: str) -> Mock:
 
 
 async def test_async_get_tools(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, snapshot: SnapshotAssertion
 ) -> None:
     """Test the app tools are registered and logs list installed apps as sources."""
     hass.data[DATA_ADDONS_LIST] = [_app("core_mosquitto", "Mosquitto broker")]
@@ -114,7 +114,7 @@ def installed_apps(
 
 
 async def test_get_apps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     installed_apps: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -141,7 +141,7 @@ async def test_get_apps(
 
 
 async def test_get_apps_empty(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, installed_apps: AsyncMock
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, installed_apps: AsyncMock
 ) -> None:
     """Test a system without installed apps returns an empty list."""
     installed_apps.return_value = []
@@ -153,7 +153,7 @@ async def test_get_apps_empty(
 
 
 async def test_get_apps_refreshes_versions_and_state(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, installed_apps: AsyncMock
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, installed_apps: AsyncMock
 ) -> None:
     """Test calls read current app details instead of the integration's cached list."""
     app = installed_apps.return_value[0]
@@ -181,18 +181,18 @@ async def test_get_apps_refreshes_versions_and_state(
 
 
 async def test_get_apps_error(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, installed_apps: AsyncMock
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, installed_apps: AsyncMock
 ) -> None:
     """Test a Supervisor failure is reported instead of looking like no apps are installed."""
     installed_apps.side_effect = SupervisorError("unavailable")
     tool = SupervisorGetAppsTool()
 
-    with pytest.raises(UniversalAssistantError, match="Could not list installed apps"):
+    with pytest.raises(__HAC_KEEP__Error, match="Could not list installed apps"):
         await tool.async_call(hass, llm.ToolInput(tool.name, {}), llm_context)
 
 
 async def test_get_logs_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     send_command: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -237,7 +237,7 @@ async def test_get_logs_default(
     ],
 )
 async def test_get_logs_time_window(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     send_command: AsyncMock,
     tool_args: dict[str, str],
@@ -256,7 +256,7 @@ async def test_get_logs_time_window(
 
 
 async def test_get_logs_host_and_app(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, send_command: AsyncMock
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, send_command: AsyncMock
 ) -> None:
     """Test reading the host and app logs in the verbose format."""
     tool = SupervisorGetLogsTool({"core_mosquitto": "Mosquitto broker"})
@@ -281,7 +281,7 @@ async def test_get_logs_host_and_app(
 
 
 async def test_get_logs_source_error(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, send_command: AsyncMock
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, send_command: AsyncMock
 ) -> None:
     """Test a source that cannot be read does not hide the other sources."""
     tool = SupervisorGetLogsTool({})
@@ -308,7 +308,7 @@ async def test_get_logs_source_error(
     ],
 )
 async def test_get_logs_invalid_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     send_command: AsyncMock,
     source: list[str],
@@ -332,7 +332,7 @@ def _microseconds(time: str) -> int:
     ) // timedelta(microseconds=1)
 
 
-def _mock_journal(hass: UniversalAssistant, journal: list[tuple[str, str]]) -> None:
+def _mock_journal(hass: __HAC_KEEP__, journal: list[tuple[str, str]]) -> None:
     """Mock the Supervisor with core lines by the time the journal received them."""
 
     async def _send_command(
@@ -357,7 +357,7 @@ def _mock_journal(hass: UniversalAssistant, journal: list[tuple[str, str]]) -> N
 
 
 async def test_get_logs_received_after_end_time(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a record at the end time that the journal received later is read."""
     freezer.move_to("2026-10-20 12:00:00+00:00")
@@ -413,7 +413,7 @@ async def test_get_logs_received_after_end_time(
     ],
 )
 async def test_get_logs_pages(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     freezer: FrozenDateTimeFactory,
     journal: list[tuple[str, str]],

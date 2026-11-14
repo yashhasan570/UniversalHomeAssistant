@@ -6,7 +6,7 @@ from renault_api.gigya.exceptions import GigyaException
 from renault_api.kamereon.exceptions import ForbiddenException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -32,14 +32,14 @@ def _account_not_found_issue_id(entry_id: str) -> str:
     return f"account_not_found_{entry_id}"
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Renault component."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: RenaultConfigEntry
+    hass: __HAC_KEEP__, config_entry: RenaultConfigEntry
 ) -> None:
     """Load a config entry."""
     renault_hub = RenaultHub(hass, config_entry.data[RenaultConfigurationKeys.LOCALE])
@@ -84,14 +84,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: RenaultConfigEntry
+    hass: __HAC_KEEP__, config_entry: RenaultConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RenaultConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

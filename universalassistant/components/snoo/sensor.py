@@ -12,7 +12,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -46,7 +46,7 @@ SENSOR_DESCRIPTIONS: list[SnooSensorEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SnooConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

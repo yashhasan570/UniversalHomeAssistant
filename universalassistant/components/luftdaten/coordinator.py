@@ -11,7 +11,7 @@ from luftdaten import Luftdaten
 from luftdaten.exceptions import LuftdatenConnectionError, LuftdatenError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN
@@ -28,7 +28,7 @@ class LuftdatenDataUpdateCoordinator(DataUpdateCoordinator[dict[str, float | int
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LuftdatenConfigEntry,
         sensor_community: Luftdaten,
     ) -> None:

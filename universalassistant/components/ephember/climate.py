@@ -30,7 +30,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -68,7 +68,7 @@ HA_STATE_TO_EPH = {value: key for key, value in EPH_TO_HA_STATE.items()}
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -201,12 +201,12 @@ class EphEmberThermostat(ClimateEntity):
 
     @staticmethod
     def map_mode_hass_eph(operation_mode):
-        """Map from Universal Universal Home Assistant mode to eph mode."""
+        """Map from __HA_KEEP__ mode to eph mode."""
         return getattr(ZoneMode, HA_STATE_TO_EPH.get(operation_mode), None)
 
     @staticmethod
     def map_mode_eph_hass(operation_mode):
-        """Map from eph mode to Universal Universal Home Assistant mode."""
+        """Map from eph mode to __HA_KEEP__ mode."""
         if operation_mode is None:
             return HVACMode.HEAT_COOL
         return EPH_TO_HA_STATE.get(operation_mode.name, HVACMode.HEAT_COOL)

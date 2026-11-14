@@ -34,7 +34,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
 )
@@ -182,7 +182,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -205,7 +205,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -416,7 +416,7 @@ class SensorFilter(SensorEntity):
                 last_replayed = history_list[-1].last_updated
 
         @callback
-        def _async_hass_started(hass: UniversalAssistant) -> None:
+        def _async_hass_started(hass: __HAC_KEEP__) -> None:
             """Delay source entity tracking."""
             self.async_on_remove(
                 async_track_state_change_event(

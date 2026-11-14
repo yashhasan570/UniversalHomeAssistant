@@ -13,7 +13,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityStateAttribute,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import ProximityConfigEntry
 
@@ -30,7 +30,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ProximityConfigEntry
+    hass: __HAC_KEEP__, entry: ProximityConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

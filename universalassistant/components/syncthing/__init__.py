@@ -14,7 +14,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 type SyncthingConfigEntry = ConfigEntry[SyncthingClient]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SyncthingConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SyncthingConfigEntry) -> None:
     """Set up syncthing from a config entry."""
     data = entry.data
 
@@ -52,7 +52,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SyncthingConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     async def cancel_listen_task(event: Event) -> None:
-        """Cancel the listen task on Universal Universal Home Assistant stop."""
+        """Cancel the listen task on __HA_KEEP__ stop."""
         await syncthing.unsubscribe()
 
     entry.async_on_unload(
@@ -60,7 +60,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SyncthingConfigEntr
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SyncthingConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SyncthingConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.unsubscribe()
@@ -70,7 +70,7 @@ class SyncthingClient:
     """A Syncthing client."""
 
     def __init__(
-        self, hass: UniversalAssistant, client: aiosyncthing.Syncthing, server_id: str
+        self, hass: __HAC_KEEP__, client: aiosyncthing.Syncthing, server_id: str
     ) -> None:
         """Initialize the client."""
         self._hass = hass

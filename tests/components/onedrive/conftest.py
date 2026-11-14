@@ -31,7 +31,7 @@ from universalassistant.components.onedrive.const import (
     DOMAIN,
     OAUTH_SCOPES,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .const import BACKUP_METADATA, CLIENT_ID, CLIENT_SECRET, IDENTITY_SET, INSTANCE_ID
@@ -44,7 +44,7 @@ def mock_scopes() -> list[str]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(

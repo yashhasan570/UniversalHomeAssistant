@@ -11,12 +11,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.monarch_money.const import CONF_MFA_CODE, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_form_simple(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_config_api: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_config_api: AsyncMock
 ) -> None:
     """Test simple case (no MFA / no errors)."""
     result = await hass.config_entries.flow.async_init(
@@ -44,7 +44,7 @@ async def test_form_simple(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_add_duplicate_entry(
-    hass: UniversalAssistant, mock_config_entry, mock_config_api: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry, mock_config_api: AsyncMock
 ) -> None:
     """Test a duplicate error config flow."""
     mock_config_entry.add_to_hass(hass)
@@ -98,7 +98,7 @@ async def test_add_duplicate_entry(
     ],
 )
 async def test_form_login_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_api: AsyncMock,
     api_error: Exception,
@@ -162,7 +162,7 @@ async def test_form_login_error(
     ],
 )
 async def test_reauth_account_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_api: AsyncMock,
     subscription_id: str,
@@ -202,7 +202,7 @@ async def test_reauth_account_validation(
 
 
 async def test_reauth_mfa_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_api: AsyncMock,
 ) -> None:
@@ -256,7 +256,7 @@ async def test_reauth_mfa_retry(
 
 
 async def test_reauth_subscription_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_config_api: AsyncMock,
 ) -> None:
@@ -293,7 +293,7 @@ async def test_reauth_subscription_auth_failure(
 
 
 async def test_form_mfa(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_config_api: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_config_api: AsyncMock
 ) -> None:
     """Test MFA enabled on account configuration."""
     result = await hass.config_entries.flow.async_init(

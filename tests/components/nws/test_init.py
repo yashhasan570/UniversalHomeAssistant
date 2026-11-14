@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_LATITUDE,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import NWS_CONFIG
@@ -41,7 +41,7 @@ def location_entity_config(entity_registry: er.EntityRegistry) -> dict:
     }
 
 
-async def test_unload_entry(hass: UniversalAssistant, mock_simple_nws) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__, mock_simple_nws) -> None:
     """Test that nws setup with config yaml."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -63,7 +63,7 @@ async def test_unload_entry(hass: UniversalAssistant, mock_simple_nws) -> None:
 
 
 async def test_setup_with_location_entity(
-    hass: UniversalAssistant, mock_simple_nws, location_entity_config: dict
+    hass: __HAC_KEEP__, mock_simple_nws, location_entity_config: dict
 ) -> None:
     """Test setup resolves coordinates from location entity."""
     entity = location_entity_config["entry"]
@@ -91,7 +91,7 @@ async def test_setup_with_location_entity(
 
 
 async def test_setup_with_location_entity_auto_station(
-    hass: UniversalAssistant, mock_simple_nws, location_entity_config: dict
+    hass: __HAC_KEEP__, mock_simple_nws, location_entity_config: dict
 ) -> None:
     """Test entity-based setup always calls set_station(None) for auto-discovery."""
     entity = location_entity_config["entry"]
@@ -115,7 +115,7 @@ async def test_setup_with_location_entity_auto_station(
 
 
 async def test_setup_with_location_entity_unavailable(
-    hass: UniversalAssistant, mock_simple_nws, location_entity_config: dict
+    hass: __HAC_KEEP__, mock_simple_nws, location_entity_config: dict
 ) -> None:
     """Test setup raises ConfigEntryNotReady when entity is unavailable."""
     config_entry = MockConfigEntry(
@@ -131,7 +131,7 @@ async def test_setup_with_location_entity_unavailable(
 
 
 async def test_setup_with_location_entity_not_in_registry(
-    hass: UniversalAssistant, mock_simple_nws
+    hass: __HAC_KEEP__, mock_simple_nws
 ) -> None:
     """Test setup raises ConfigEntryError when entity registry ID no longer exists."""
     config_entry = MockConfigEntry(
@@ -152,7 +152,7 @@ async def test_setup_with_location_entity_not_in_registry(
 
 
 async def test_setup_with_location_entity_disabled(
-    hass: UniversalAssistant, mock_simple_nws, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, mock_simple_nws, entity_registry: er.EntityRegistry
 ) -> None:
     """Test setup raises ConfigEntryError when entity is disabled."""
     entry = entity_registry.async_get_or_create("person", "person", "disabled_user")
@@ -179,7 +179,7 @@ async def test_setup_with_location_entity_disabled(
 
 
 async def test_location_change_updates_coordinates(
-    hass: UniversalAssistant, mock_simple_nws, location_entity_config: dict
+    hass: __HAC_KEEP__, mock_simple_nws, location_entity_config: dict
 ) -> None:
     """Test that a significant location change updates the API without reload."""
     entity = location_entity_config["entry"]
@@ -220,7 +220,7 @@ async def test_location_change_updates_coordinates(
 
 
 async def test_location_change_does_not_log_coordinates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_simple_nws,
     location_entity_config: dict,
     caplog: pytest.LogCaptureFixture,
@@ -256,7 +256,7 @@ async def test_location_change_does_not_log_coordinates(
 
 
 async def test_location_change_resets_api_success_time(
-    hass: UniversalAssistant, mock_simple_nws, location_entity_config: dict
+    hass: __HAC_KEEP__, mock_simple_nws, location_entity_config: dict
 ) -> None:
     """Test that a location change resets last_api_success_time so failures are not tolerated."""
     entity = location_entity_config["entry"]
@@ -298,7 +298,7 @@ async def test_location_change_resets_api_success_time(
     ],
 )
 async def test_no_update_without_significant_move(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_simple_nws,
     location_entity_config: dict,
     new_lat: float,
@@ -339,7 +339,7 @@ async def test_no_update_without_significant_move(
 
 
 async def test_listener_filters_jitter(
-    hass: UniversalAssistant, mock_simple_nws, location_entity_config: dict
+    hass: __HAC_KEEP__, mock_simple_nws, location_entity_config: dict
 ) -> None:
     """Test that the state change listener filters out sub-threshold GPS jitter."""
     entity = location_entity_config["entry"]
@@ -372,7 +372,7 @@ async def test_listener_filters_jitter(
 
 
 async def test_location_entity_becomes_unavailable_no_update(
-    hass: UniversalAssistant, mock_simple_nws, location_entity_config: dict
+    hass: __HAC_KEEP__, mock_simple_nws, location_entity_config: dict
 ) -> None:
     """Test that entity becoming unavailable does not update coordinates."""
     entity = location_entity_config["entry"]
@@ -399,7 +399,7 @@ async def test_location_entity_becomes_unavailable_no_update(
 
 
 async def _setup_tracked_entity(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> tuple[er.RegistryEntry, MockConfigEntry]:
     """Set up a config entry tracking a person entity and return both."""
     entry = entity_registry.async_get_or_create("person", "person", "test_user")
@@ -425,7 +425,7 @@ async def _setup_tracked_entity(
 
 
 async def test_entity_registry_removal_triggers_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_simple_nws,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -439,7 +439,7 @@ async def test_entity_registry_removal_triggers_reload(
 
 
 async def test_entity_registry_rename_triggers_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_simple_nws,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -455,7 +455,7 @@ async def test_entity_registry_rename_triggers_reload(
 
 
 async def test_unload_with_location_entity(
-    hass: UniversalAssistant, mock_simple_nws, location_entity_config: dict
+    hass: __HAC_KEEP__, mock_simple_nws, location_entity_config: dict
 ) -> None:
     """Test unload works cleanly with a location entity configured."""
     entity = location_entity_config["entry"]
@@ -481,7 +481,7 @@ async def test_unload_with_location_entity(
     assert config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_migrate_entry(hass: UniversalAssistant, mock_simple_nws) -> None:
+async def test_migrate_entry(hass: __HAC_KEEP__, mock_simple_nws) -> None:
     """Test entry migration."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -22,14 +22,14 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import get_data, setup_platform
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_slide_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_all_entities(
 
 
 async def test_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_slide_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -68,7 +68,7 @@ async def test_connection_error(
 
 
 async def test_state_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_slide_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -113,7 +113,7 @@ async def test_state_change(
 
 
 async def test_open_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_slide_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_open_cover(
 
 
 async def test_close_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_slide_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_close_cover(
 
 
 async def test_stop_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_slide_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_stop_cover(
 
 
 async def test_set_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_slide_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

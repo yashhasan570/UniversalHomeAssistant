@@ -5,7 +5,7 @@ from typing import Any
 from pyuptimerobot import UptimeRobotException
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import UptimeRobotConfigEntry
 
@@ -13,7 +13,7 @@ TO_REDACT = {"email"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UptimeRobotConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

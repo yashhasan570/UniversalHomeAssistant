@@ -16,7 +16,7 @@ from universalassistant.components.matter.config_flow import (
     total_memory as real_total_memory,
 )
 from universalassistant.components.matter.const import ADDON_SLUG, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -121,7 +121,7 @@ def total_memory_fixture() -> Generator[MagicMock]:
 
 @pytest.fixture(name="not_onboarded")
 def mock_onboarded_fixture() -> Generator[MagicMock]:
-    """Mock that Universal Universal Home Assistant is not yet onboarded."""
+    """Mock that __HA_KEEP__ is not yet onboarded."""
     with patch(
         "universalassistant.components.matter.config_flow.async_is_onboarded",
         return_value=False,
@@ -130,7 +130,7 @@ def mock_onboarded_fixture() -> Generator[MagicMock]:
 
 
 async def test_manual_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client_connect: AsyncMock,
     setup_entry: AsyncMock,
 ) -> None:
@@ -169,7 +169,7 @@ async def test_manual_create_entry(
     ],
 )
 async def test_manual_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client_connect: AsyncMock,
     error: str,
     side_effect: Exception,
@@ -204,7 +204,7 @@ async def test_manual_errors(
 
 
 async def test_manual_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client_connect: AsyncMock,
     setup_entry: AsyncMock,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_manual_already_configured(
 
 @pytest.mark.parametrize("zeroconf_info", [ZEROCONF_INFO_TCP, ZEROCONF_INFO_UDP])
 async def test_zeroconf_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client_connect: AsyncMock,
     setup_entry: AsyncMock,
     zeroconf_info: ZeroconfServiceInfo,
@@ -277,7 +277,7 @@ async def test_zeroconf_discovery(
 
 @pytest.mark.parametrize("zeroconf_info", [ZEROCONF_INFO_TCP, ZEROCONF_INFO_UDP])
 async def test_zeroconf_discovery_not_onboarded_not_supervisor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client_connect: AsyncMock,
     setup_entry: AsyncMock,
     not_onboarded: MagicMock,
@@ -327,7 +327,7 @@ async def test_zeroconf_discovery_not_onboarded_not_supervisor(
     ],
 )
 async def test_zeroconf_not_onboarded_already_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_info: AsyncMock,
     addon_running: AsyncMock,
@@ -377,7 +377,7 @@ async def test_zeroconf_not_onboarded_already_discovered(
     ],
 )
 async def test_zeroconf_not_onboarded_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_info: AsyncMock,
     addon_running: AsyncMock,
@@ -421,7 +421,7 @@ async def test_zeroconf_not_onboarded_running(
     ],
 )
 async def test_zeroconf_not_onboarded_installed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_info: AsyncMock,
     addon_installed: AsyncMock,
@@ -468,7 +468,7 @@ async def test_zeroconf_not_onboarded_installed(
 )
 @pytest.mark.usefixtures("supervisor", "addon_not_installed", "not_onboarded")
 async def test_zeroconf_not_onboarded_not_installed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon_info: AsyncMock,
     addon_store_info: AsyncMock,
     install_addon: AsyncMock,
@@ -503,7 +503,7 @@ async def test_zeroconf_not_onboarded_not_installed(
 @pytest.mark.parametrize("zeroconf_info", [ZEROCONF_INFO_TCP, ZEROCONF_INFO_UDP])
 @pytest.mark.usefixtures("supervisor", "addon_not_installed", "not_onboarded")
 async def test_zeroconf_not_onboarded_low_memory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     total_memory: MagicMock,
     install_addon: AsyncMock,
     zeroconf_info: ZeroconfServiceInfo,
@@ -555,7 +555,7 @@ def test_total_memory() -> None:
     ],
 )
 async def test_supervisor_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_running: AsyncMock,
     addon_info: AsyncMock,
@@ -606,7 +606,7 @@ async def test_supervisor_discovery(
     ],
 )
 async def test_supervisor_discovery_addon_info_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_running: AsyncMock,
     addon_info: AsyncMock,
@@ -650,7 +650,7 @@ async def test_supervisor_discovery_addon_info_failed(
     ],
 )
 async def test_clean_supervisor_discovery_on_user_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_running: AsyncMock,
     addon_info: AsyncMock,
@@ -708,7 +708,7 @@ async def test_clean_supervisor_discovery_on_user_create(
 
 
 async def test_abort_supervisor_discovery_with_existing_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_running: AsyncMock,
     addon_info: AsyncMock,
@@ -738,7 +738,7 @@ async def test_abort_supervisor_discovery_with_existing_entry(
 
 
 async def test_abort_supervisor_discovery_with_existing_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_installed: AsyncMock,
     addon_info: AsyncMock,
@@ -768,7 +768,7 @@ async def test_abort_supervisor_discovery_with_existing_flow(
 
 
 async def test_abort_supervisor_discovery_for_other_addon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_installed: AsyncMock,
     addon_info: AsyncMock,
@@ -795,7 +795,7 @@ async def test_abort_supervisor_discovery_for_other_addon(
 
 
 async def test_supervisor_discovery_addon_not_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_installed: AsyncMock,
     addon_info: AsyncMock,
@@ -842,7 +842,7 @@ async def test_supervisor_discovery_addon_not_running(
 
 
 async def test_supervisor_discovery_addon_not_installed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_not_installed: AsyncMock,
     install_addon: AsyncMock,
@@ -900,7 +900,7 @@ async def test_supervisor_discovery_addon_not_installed(
 
 
 async def test_not_addon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     client_connect: AsyncMock,
     setup_entry: AsyncMock,
@@ -953,7 +953,7 @@ async def test_not_addon(
     ],
 )
 async def test_addon_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_running: AsyncMock,
     addon_info: AsyncMock,
@@ -1056,7 +1056,7 @@ async def test_addon_running(
     ],
 )
 async def test_addon_running_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_running: AsyncMock,
     addon_info: AsyncMock,
@@ -1163,7 +1163,7 @@ async def test_addon_running_failures(
     ],
 )
 async def test_addon_running_failures_zeroconf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_running: AsyncMock,
     addon_info: AsyncMock,
@@ -1210,7 +1210,7 @@ async def test_addon_running_failures_zeroconf(
     ],
 )
 async def test_addon_running_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_running: AsyncMock,
     addon_info: AsyncMock,
@@ -1260,7 +1260,7 @@ async def test_addon_running_already_configured(
     ],
 )
 async def test_addon_installed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_installed: AsyncMock,
     addon_info: AsyncMock,
@@ -1345,7 +1345,7 @@ async def test_addon_installed(
     ],
 )
 async def test_addon_installed_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_installed: AsyncMock,
     addon_info: AsyncMock,
@@ -1434,7 +1434,7 @@ async def test_addon_installed_failures(
     ],
 )
 async def test_addon_installed_failures_zeroconf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_installed: AsyncMock,
     addon_info: AsyncMock,
@@ -1479,7 +1479,7 @@ async def test_addon_installed_failures_zeroconf(
     ],
 )
 async def test_addon_installed_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_installed: AsyncMock,
     addon_info: AsyncMock,
@@ -1537,7 +1537,7 @@ async def test_addon_installed_already_configured(
     ],
 )
 async def test_addon_not_installed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_not_installed: AsyncMock,
     install_addon: AsyncMock,
@@ -1587,7 +1587,7 @@ async def test_addon_not_installed(
 
 
 async def test_addon_not_installed_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_not_installed: AsyncMock,
     addon_info: AsyncMock,
@@ -1622,7 +1622,7 @@ async def test_addon_not_installed_failures(
 
 @pytest.mark.parametrize("zeroconf_info", [ZEROCONF_INFO_TCP, ZEROCONF_INFO_UDP])
 async def test_addon_not_installed_failures_zeroconf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_not_installed: AsyncMock,
     addon_info: AsyncMock,
@@ -1658,7 +1658,7 @@ async def test_addon_not_installed_failures_zeroconf(
     ],
 )
 async def test_addon_not_installed_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_not_installed: AsyncMock,
     addon_info: AsyncMock,

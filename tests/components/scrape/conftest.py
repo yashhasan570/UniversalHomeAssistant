@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_TIMEOUT,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MockRestData
 
@@ -91,12 +91,12 @@ async def get_data_to_integration_load() -> MockRestData:
 
 @pytest.fixture(name="loaded_entry")
 async def load_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_resource_config: dict[str, Any],
     get_sensor_config: tuple[dict[str, Any], ...],
     get_data: MockRestData,
 ) -> MockConfigEntry:
-    """Set up the Scrape integration in Universal Universal Home Assistant."""
+    """Set up the Scrape integration in __HA_KEEP__."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         source=SOURCE_USER,

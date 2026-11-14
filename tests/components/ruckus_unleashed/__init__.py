@@ -26,7 +26,7 @@ from universalassistant.components.ruckus_unleashed.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 DEFAULT_SYSTEM_INFO = {
     API_SYS_IDENTITY: {API_SYS_IDENTITY_NAME: "RuckusUnleashed"},
@@ -95,9 +95,9 @@ def mock_config_entry(
 
 
 async def init_integration(
-    hass: UniversalAssistant, options: dict | None = None
+    hass: __HAC_KEEP__, options: dict | None = None
 ) -> MockConfigEntry:
-    """Set up the Ruckus integration in Universal Universal Home Assistant."""
+    """Set up the Ruckus integration in __HA_KEEP__."""
     entry = mock_config_entry(options=options)
     entry.add_to_hass(hass)
 

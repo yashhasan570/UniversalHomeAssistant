@@ -7,7 +7,7 @@ from pescea import (
     discovery_service as pescea_discovery_service,
 )
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import (
@@ -22,7 +22,7 @@ from .const import (
 class DiscoveryServiceListener(Listener):
     """Discovery data and interfacing with pescea library."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialise discovery service."""
         super().__init__()
         self.hass = hass
@@ -46,7 +46,7 @@ class DiscoveryServiceListener(Listener):
 
 
 async def async_start_discovery_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> AbstractDiscoveryService:
     """Set up the pescea internal discovery."""
     discovery_service = hass.data.get(DATA_DISCOVERY_SERVICE)
@@ -64,7 +64,7 @@ async def async_start_discovery_service(
     return discovery_service
 
 
-async def async_stop_discovery_service(hass: UniversalAssistant) -> None:
+async def async_stop_discovery_service(hass: __HAC_KEEP__) -> None:
     """Stop the discovery service."""
     discovery_service = hass.data.get(DATA_DISCOVERY_SERVICE)
     if not discovery_service:

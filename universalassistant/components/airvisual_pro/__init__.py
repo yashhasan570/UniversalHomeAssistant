@@ -11,7 +11,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .coordinator import (
@@ -24,7 +24,7 @@ PLATFORMS = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: AirVisualProConfigEntry
+    hass: __HAC_KEEP__, entry: AirVisualProConfigEntry
 ) -> None:
     """Set up AirVisual Pro from a config entry."""
     node = NodeSamba(entry.data[CONF_IP_ADDRESS], entry.data[CONF_PASSWORD])
@@ -53,7 +53,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: AirVisualProConfigEntry
+    hass: __HAC_KEEP__, entry: AirVisualProConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

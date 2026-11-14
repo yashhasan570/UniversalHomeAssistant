@@ -52,7 +52,7 @@ from universalassistant.config_entries import (
     ConfigSubentry,
     ConfigSubentryData,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
@@ -165,7 +165,7 @@ def _model_info_with_server_tools(
 
 
 def _make_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     title: str,
     api_key: str,
@@ -207,7 +207,7 @@ def _get_subentry(
     )
 
 
-async def _setup_repairs(hass: UniversalAssistant, entry: MockConfigEntry) -> str:
+async def _setup_repairs(hass: __HAC_KEEP__, entry: MockConfigEntry) -> str:
     """Set up repairs and create an obsolete-model issue for an entry."""
     issue_id = f"model_deprecated_{entry.entry_id}"
     ir.async_create_issue(
@@ -228,7 +228,7 @@ async def _setup_repairs(hass: UniversalAssistant, entry: MockConfigEntry) -> st
 
 
 async def test_repair_flow_iterates_subentries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -346,7 +346,7 @@ async def test_repair_flow_iterates_subentries(
 
 
 async def test_repair_flow_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -379,7 +379,7 @@ async def test_repair_flow_entry_not_loaded(
 
 
 async def test_repair_flow_no_deprecated_models(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -933,7 +933,7 @@ async def test_repair_flow_no_deprecated_models(
     ],
 )
 async def test_repair_flow_model_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     model: str,
     model_info: ModelInfo,
@@ -1059,7 +1059,7 @@ async def test_repair_flow_model_options(
     ],
 )
 async def test_repair_flow_server_tool_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     cached_model_count: int,
     model_info: ModelInfo,
@@ -1153,7 +1153,7 @@ async def test_repair_flow_server_tool_options(
     ],
 )
 async def test_repair_flow_model_lookup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     error: APIError,
@@ -1303,7 +1303,7 @@ async def test_repair_flow_model_lookup_error(
     ],
 )
 async def test_repair_flow_lifecycle_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     model_info: ModelInfo,
     expected_step: str,
@@ -1370,7 +1370,7 @@ async def test_repair_flow_lifecycle_metadata(
     ],
 )
 async def test_repair_flow_skips_active_and_unknown_models(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     metadata: list[ModelInfo],
 ) -> None:
@@ -1410,7 +1410,7 @@ async def test_repair_flow_skips_active_and_unknown_models(
     ],
 )
 async def test_repair_flow_model_selection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     line: ModelLine | None,
     expected_model: str | None,
@@ -1504,7 +1504,7 @@ async def test_repair_flow_model_selection(
     ],
 )
 async def test_repair_flow_sdk_inactive_current_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     sdk_key: str,
@@ -1583,7 +1583,7 @@ async def test_repair_flow_sdk_inactive_current_model(
 
 
 async def test_repair_flow_model_list_pagination(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Find replacement models beyond the first API response page."""
@@ -1646,7 +1646,7 @@ async def test_repair_flow_model_list_pagination(
     ],
 )
 async def test_repair_flow_inactive_custom_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     lifecycle: str,
@@ -1737,7 +1737,7 @@ async def test_repair_flow_inactive_custom_model(
     ],
 )
 async def test_repair_flow_sdk_inactive_custom_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     sdk_key: str,

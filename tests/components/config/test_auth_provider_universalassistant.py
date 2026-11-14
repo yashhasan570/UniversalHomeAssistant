@@ -10,12 +10,12 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.auth.providers import universalassistant as prov_ha
 from universalassistant.components.config import auth_provider_universalassistant as auth_ha
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
 async def setup_config(
-    hass: UniversalAssistant, local_auth: prov_ha.HassAuthProvider
+    hass: __HAC_KEEP__, local_auth: prov_ha.HassAuthProvider
 ) -> None:
     """Fixture that sets up the auth provider ."""
     auth_ha.async_setup(hass)
@@ -30,7 +30,7 @@ async def auth_provider(
 
 
 @pytest.fixture
-async def owner_access_token(hass: UniversalAssistant, hass_owner_user: MockUser) -> str:
+async def owner_access_token(hass: __HAC_KEEP__, hass_owner_user: MockUser) -> str:
     """Access token for owner user."""
     refresh_token = await hass.auth.async_create_refresh_token(
         hass_owner_user, CLIENT_ID
@@ -40,7 +40,7 @@ async def owner_access_token(hass: UniversalAssistant, hass_owner_user: MockUser
 
 @pytest.fixture
 async def hass_admin_credential(
-    hass: UniversalAssistant, auth_provider: prov_ha.HassAuthProvider
+    hass: __HAC_KEEP__, auth_provider: prov_ha.HassAuthProvider
 ):
     """Overload credentials to admin user."""
     await hass.async_add_executor_job(
@@ -53,7 +53,7 @@ async def hass_admin_credential(
 
 
 async def test_create_auth_system_generated_user(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can't add auth to system generated users."""
     system_user = MockUser(system_generated=True).add_to_hass(hass)
@@ -76,7 +76,7 @@ async def test_create_auth_system_generated_user(
 
 
 async def test_create_auth_user_already_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     auth_provider: prov_ha.HassAuthProvider,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_create_auth_user_already_credentials(
 
 
 async def test_create_auth_concurrent(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test concurrent creates for the same user attach only one credential."""
     client = await hass_ws_client(hass)
@@ -143,7 +143,7 @@ async def test_create_auth_concurrent(
 
 
 async def test_create_auth_owner_not_owner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_owner_user: MockUser,
     auth_provider: prov_ha.HassAuthProvider,
@@ -171,7 +171,7 @@ async def test_create_auth_owner_not_owner(
 
 
 async def test_create_auth_owner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_owner_user: MockUser,
     owner_access_token: str,
@@ -195,7 +195,7 @@ async def test_create_auth_owner(
 
 
 async def test_create_auth_unknown_user(
-    hass_ws_client: WebSocketGenerator, hass: UniversalAssistant
+    hass_ws_client: WebSocketGenerator, hass: __HAC_KEEP__
 ) -> None:
     """Test create pointing at unknown user."""
     client = await hass_ws_client(hass)
@@ -217,7 +217,7 @@ async def test_create_auth_unknown_user(
 
 
 async def test_create_auth_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_create_auth_requires_admin(
 
 
 async def test_create_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -273,7 +273,7 @@ async def test_create_auth(
 
 
 async def test_create_auth_duplicate_username(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -309,7 +309,7 @@ async def test_create_auth_duplicate_username(
 
 async def test_delete_removes_just_auth(
     hass_ws_client: WebSocketGenerator,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     auth_provider: prov_ha.HassAuthProvider,
 ) -> None:
     """Test deleting an auth without being connected to a user."""
@@ -331,7 +331,7 @@ async def test_delete_removes_just_auth(
 
 
 async def test_delete_own_credentials_replies_before_logging_out(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     auth_provider: prov_ha.HassAuthProvider,
@@ -361,7 +361,7 @@ async def test_delete_own_credentials_replies_before_logging_out(
 
 
 async def test_delete_removes_credential(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     auth_provider: prov_ha.HassAuthProvider,
 ) -> None:
@@ -394,7 +394,7 @@ async def test_delete_removes_credential(
 
 
 async def test_delete_owner_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     auth_provider: prov_ha.HassAuthProvider,
 ) -> None:
@@ -426,7 +426,7 @@ async def test_delete_owner_credentials(
 
 
 async def test_delete_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -447,7 +447,7 @@ async def test_delete_requires_admin(
 
 
 async def test_delete_unknown_auth(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test trying to delete an unknown auth username."""
     client = await hass_ws_client(hass)
@@ -472,7 +472,7 @@ async def test_delete_unknown_auth(
 
 
 async def test_change_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     auth_provider: prov_ha.HassAuthProvider,
 ) -> None:
@@ -493,7 +493,7 @@ async def test_change_password(
 
 
 async def test_change_password_from_an_empty_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     auth_provider: prov_ha.HassAuthProvider,
 ) -> None:
@@ -515,7 +515,7 @@ async def test_change_password_from_an_empty_password(
 
 
 async def test_change_password_wrong_pw(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     auth_provider: prov_ha.HassAuthProvider,
@@ -540,7 +540,7 @@ async def test_change_password_wrong_pw(
 
 
 async def test_change_password_no_creds(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test that change password fails with no credentials."""
     hass_admin_user.credentials.clear()
@@ -561,7 +561,7 @@ async def test_change_password_no_creds(
 
 
 async def test_admin_change_password_not_owner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     auth_provider: prov_ha.HassAuthProvider,
 ) -> None:
@@ -586,7 +586,7 @@ async def test_admin_change_password_not_owner(
 
 
 async def test_admin_change_password_no_user(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, owner_access_token: str
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, owner_access_token: str
 ) -> None:
     """Test that change password fails with unknown user."""
     client = await hass_ws_client(hass, owner_access_token)
@@ -606,7 +606,7 @@ async def test_admin_change_password_no_user(
 
 
 async def test_admin_change_password_no_cred(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     owner_access_token: str,
     hass_admin_user: MockUser,
@@ -631,7 +631,7 @@ async def test_admin_change_password_no_cred(
 
 
 async def test_admin_change_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     owner_access_token: str,
     auth_provider: prov_ha.HassAuthProvider,
@@ -669,7 +669,7 @@ def _assert_username(
 
 
 async def _test_admin_change_username(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     local_auth: prov_ha.HassAuthProvider,
     hass_admin_user: MockUser,
@@ -692,7 +692,7 @@ async def _test_admin_change_username(
 
 
 async def test_admin_change_username_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     local_auth: prov_ha.HassAuthProvider,
     hass_admin_user: MockUser,
@@ -724,7 +724,7 @@ async def test_admin_change_username_success(
 
 @pytest.mark.parametrize("new_username", [" bla", "bla ", "BlA"])
 async def test_admin_change_username_error_not_normalized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     local_auth: prov_ha.HassAuthProvider,
     hass_admin_user: MockUser,
@@ -758,7 +758,7 @@ async def test_admin_change_username_error_not_normalized(
 
 
 async def test_admin_change_username_not_owner(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, auth_provider
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, auth_provider
 ) -> None:
     """Test that change username fails when not owner."""
     client = await hass_ws_client(hass)
@@ -780,7 +780,7 @@ async def test_admin_change_username_not_owner(
 
 
 async def test_admin_change_username_no_user(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, owner_access_token
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, owner_access_token
 ) -> None:
     """Test that change username fails with unknown user."""
     client = await hass_ws_client(hass, owner_access_token)
@@ -799,7 +799,7 @@ async def test_admin_change_username_no_user(
 
 
 async def test_admin_change_username_no_cred(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     owner_access_token,
     hass_admin_user: MockUser,

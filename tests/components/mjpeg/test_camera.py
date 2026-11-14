@@ -20,8 +20,8 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     HTTP_DIGEST_AUTHENTICATION,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 ENTITY_CAMERA = "camera.my_mjpeg_camera"
 
@@ -35,7 +35,7 @@ ENTITY_CAMERA = "camera.my_mjpeg_camera"
     ],
 )
 async def test_camera_image_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     exception: type[Exception],
     translation_key: str,
@@ -43,7 +43,7 @@ async def test_camera_image_error(
     """Test that a failed still image request raises instead of returning nothing."""
     aioclient_mock.get("http://example.com/still", exc=exception)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await async_get_image(hass, ENTITY_CAMERA)
 
     assert exc_info.value.translation_domain == DOMAIN
@@ -52,7 +52,7 @@ async def test_camera_image_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_camera_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test that a still image is returned."""
@@ -93,7 +93,7 @@ def mock_digest_config_entry() -> MockConfigEntry:
     ],
 )
 async def test_digest_camera_image_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_digest_config_entry: MockConfigEntry,
     exception: type[Exception],
     translation_key: str,
@@ -106,7 +106,7 @@ async def test_digest_camera_image_error(
     respx.get("http://example.com/still").mock(side_effect=exception("boom"))
     respx.get("https://example.com/mjpeg").mock(side_effect=exception("boom"))
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await async_get_image(hass, ENTITY_CAMERA)
 
     assert exc_info.value.translation_domain == DOMAIN

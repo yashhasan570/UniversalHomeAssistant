@@ -16,12 +16,12 @@ from universalassistant.components.homewizard.const import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
 
 async def test_load_unload_v1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_load_unload_v1(
 
 @pytest.mark.parametrize(("device_fixture"), ["HWE-P1", "HWE-KWH1"])
 async def test_load_unload_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_v2: MockConfigEntry,
     mock_homewizardenergy_v2: MagicMock,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_load_unload_v2(
 
 
 async def test_load_failed_host_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_load_failed_host_unavailable(
 
 
 async def test_load_detect_api_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_load_detect_api_disabled(
 
 
 async def test_load_detect_invalid_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_v2: MockConfigEntry,
     mock_homewizardenergy_v2: MagicMock,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_load_detect_invalid_token(
 
 @pytest.mark.usefixtures("mock_homewizardenergy")
 async def test_load_creates_repair_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
@@ -165,7 +165,7 @@ async def test_load_creates_repair_issue(
 
 @pytest.mark.usefixtures("mock_homewizardenergy")
 async def test_load_creates_repair_issue_when_name_is_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
@@ -211,7 +211,7 @@ async def test_load_creates_repair_issue_when_name_is_updated(
 
 @pytest.mark.usefixtures("mock_homewizardenergy")
 async def test_load_removes_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup removes reauth flow when API is enabled."""
@@ -236,7 +236,7 @@ async def test_load_removes_reauth_flow(
 
 @pytest.mark.usefixtures("mock_homewizardenergy")
 async def test_disablederror_reloads_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -271,7 +271,7 @@ async def test_disablederror_reloads_integration(
 
 @pytest.mark.usefixtures("mock_homewizardenergy")
 async def test_battery_cloud_issue_updates_only_on_state_transition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -315,7 +315,7 @@ async def test_battery_cloud_issue_updates_only_on_state_transition(
 
 @pytest.mark.usefixtures("mock_homewizardenergy")
 async def test_battery_cloud_issue_stale_issue_cleared_on_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,
@@ -340,7 +340,7 @@ async def test_battery_cloud_issue_stale_issue_cleared_on_reload(
 
 
 async def test_main_device_registered_before_platform_forwarding(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_homewizardenergy: MagicMock,

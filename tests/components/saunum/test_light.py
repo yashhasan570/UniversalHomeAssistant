@@ -16,8 +16,8 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -29,7 +29,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -47,7 +47,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_light_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client,
     service: str,
     expected_state: str,
@@ -91,7 +91,7 @@ async def test_light_service_calls(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_light_service_call_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client,
     service: str,
     expected_error: str,
@@ -104,7 +104,7 @@ async def test_light_service_call_failure(
         "Connection lost"
     )
 
-    with pytest.raises(UniversalAssistantError, match=expected_error):
+    with pytest.raises(__HAC_KEEP__Error, match=expected_error):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             service,

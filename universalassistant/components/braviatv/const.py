@@ -12,8 +12,8 @@ CONF_USE_PSK: Final = "use_psk"
 CONF_USE_SSL: Final = "use_ssl"
 
 DOMAIN: Final = "braviatv"
-LEGACY_CLIENT_ID: Final = "UniversalAssistant"
-NICKNAME_PREFIX: Final = "Universal Universal Home Assistant"
+LEGACY_CLIENT_ID: Final = "__HAC_KEEP__"
+NICKNAME_PREFIX: Final = "__HA_KEEP__"
 
 
 class SourceType(StrEnum):

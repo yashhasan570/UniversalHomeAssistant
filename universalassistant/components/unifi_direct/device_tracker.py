@@ -11,7 +11,7 @@ from universalassistant.components.device_tracker import (
 )
 from universalassistant.config_entries import SOURCE_IMPORT
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import (
     config_validation as cv,
@@ -36,7 +36,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     _async_see: AsyncSeeCallback,
     _discovery_info: DiscoveryInfoType | None = None,
@@ -87,7 +87,7 @@ async def async_setup_scanner(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: UniFiDirectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

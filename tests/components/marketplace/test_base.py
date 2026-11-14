@@ -34,7 +34,7 @@ from universalassistant.components.marketplace.exceptions import (
 )
 from universalassistant.components.marketplace.repositories.base import Repository
 from universalassistant.components.marketplace.utils.url import github_raw_file
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import mocked_response
 from .conftest import MarketplaceResponses
@@ -345,7 +345,7 @@ async def test_catalog_work_does_not_need_github(
 
 
 async def test_removed_user_takes_the_acceptance_along(
-    hass: UniversalAssistant, marketplace: MarketplaceManager, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, marketplace: MarketplaceManager, hass_admin_user: MockUser
 ) -> None:
     """Test an automation can not install on the word of a user who is gone."""
     assert marketplace.warning_accepted(hass_admin_user.id)

@@ -11,14 +11,14 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.ping.const import CONF_IMPORTED_BY, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_setup_and_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_setup_and_update(
 
 
 async def test_disabled_after_import(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

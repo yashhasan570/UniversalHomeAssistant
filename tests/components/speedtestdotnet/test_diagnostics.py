@@ -12,13 +12,13 @@ from universalassistant.components.speedtestdotnet.const import (
     CONF_SERVER_NAME,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_RESULTS, MOCK_SERVERS
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_api: MagicMock,
     snapshot: SnapshotAssertion,

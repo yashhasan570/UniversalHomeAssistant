@@ -9,7 +9,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 from enum import StrEnum
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 
 from .const import DOMAIN
@@ -101,7 +101,7 @@ GITHUB = DownloadProfile(
 # third-party relay is the last resort for downloads, it takes the full URL.
 CHINA_RELAYS = DownloadProfile(
     id="hasscn",
-    operator="the Universal Universal Home Assistant China community (hasscn.top)",
+    operator="the __HA_KEEP__ China community (hasscn.top)",
     api="https://ghapi.hacs.vip",
     github=(
         "https://ghrp2.hacs.vip",
@@ -176,7 +176,7 @@ class ProfileEndpoints:
 
 @callback
 def async_suggest_profile(
-    hass: UniversalAssistant, entry_id: str, active: DownloadProfile
+    hass: __HAC_KEEP__, entry_id: str, active: DownloadProfile
 ) -> None:
     """Suggest a profile meant for the country of the user, if there is one."""
     country = hass.config.country
@@ -190,7 +190,7 @@ def async_suggest_profile(
 
 @callback
 def async_create_profile_suggestion(
-    hass: UniversalAssistant, entry_id: str, profile: DownloadProfile
+    hass: __HAC_KEEP__, entry_id: str, profile: DownloadProfile
 ) -> None:
     """Create the issue that suggests a profile."""
     ir.async_create_issue(
@@ -207,7 +207,7 @@ def async_create_profile_suggestion(
 
 
 @callback
-def async_withdraw_profile_suggestions(hass: UniversalAssistant) -> None:
+def async_withdraw_profile_suggestions(hass: __HAC_KEEP__) -> None:
     """Remove the suggestions of a profile, the catalog can be reached.
 
     Not the ones the user ignored, deleting an issue forgets the ignore.

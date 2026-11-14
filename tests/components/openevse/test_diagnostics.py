@@ -17,11 +17,11 @@ from universalassistant.components.openevse.diagnostics import (
     async_get_config_entry_diagnostics,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_charger: MagicMock,
     snapshot: SnapshotAssertion,
@@ -48,7 +48,7 @@ async def test_entry_diagnostics(
 
 
 async def test_entry_diagnostics_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
@@ -98,7 +98,7 @@ async def test_entry_diagnostics_exceptions(
 
 
 async def test_entry_diagnostics_cancelled_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,

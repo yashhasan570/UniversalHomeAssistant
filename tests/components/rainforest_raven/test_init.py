@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.rainforest_raven.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import create_mock_entry
@@ -18,7 +18,7 @@ from .const import DEVICE_INFO
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant, mock_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_entry: MockConfigEntry
 ) -> None:
     """Test load and unload."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -35,7 +35,7 @@ async def test_load_unload_entry(
     [(DEVICE_INFO, 1), (None, 0)],
 )
 async def test_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device: AsyncMock,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -57,7 +57,7 @@ async def test_device_registry(
     assert entries == snapshot
 
 
-async def test_synchronize_error(hass: UniversalAssistant, mock_device: AsyncMock) -> None:
+async def test_synchronize_error(hass: __HAC_KEEP__, mock_device: AsyncMock) -> None:
     """Test handling of an error parsing or reading raw device data."""
     entry = create_mock_entry()
     entry.add_to_hass(hass)
@@ -70,7 +70,7 @@ async def test_synchronize_error(hass: UniversalAssistant, mock_device: AsyncMoc
 
 
 async def test_get_network_info_error(
-    hass: UniversalAssistant, mock_device: AsyncMock
+    hass: __HAC_KEEP__, mock_device: AsyncMock
 ) -> None:
     """Test handling of a device error during initialization."""
     entry = create_mock_entry()

@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.epic_games_store.const import DOMAIN
 from universalassistant.const import CONF_COUNTRY, CONF_LANGUAGE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .const import MOCK_COUNTRY, MOCK_LANGUAGE
 
 
-async def setup_platform(hass: UniversalAssistant, platform: str) -> MockConfigEntry:
+async def setup_platform(hass: __HAC_KEEP__, platform: str) -> MockConfigEntry:
     """Set up the Epic Games Store platform."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,

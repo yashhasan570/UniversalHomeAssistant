@@ -13,11 +13,11 @@ from universalassistant.components.notify import (
     DOMAIN,
     SERVICE_NOTIFY,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def send_message(
-    hass: UniversalAssistant, message: str, title: str | None = None, data: Any = None
+    hass: __HAC_KEEP__, message: str, title: str | None = None, data: Any = None
 ) -> None:
     """Send a notification message."""
     info = {ATTR_MESSAGE: message}

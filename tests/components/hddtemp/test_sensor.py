@@ -6,7 +6,7 @@ from unittest.mock import patch
 import pytest
 
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 VALID_CONFIG_MINIMAL = {"sensor": {"platform": "hddtemp"}}
@@ -89,7 +89,7 @@ def telnetmock():
         yield
 
 
-async def test_hddtemp_min_config(hass: UniversalAssistant, telnetmock) -> None:
+async def test_hddtemp_min_config(hass: __HAC_KEEP__, telnetmock) -> None:
     """Test minimal hddtemp configuration."""
     assert await async_setup_component(hass, "sensor", VALID_CONFIG_MINIMAL)
     await hass.async_block_till_done()
@@ -110,7 +110,7 @@ async def test_hddtemp_min_config(hass: UniversalAssistant, telnetmock) -> None:
     )
 
 
-async def test_hddtemp_rename_config(hass: UniversalAssistant, telnetmock) -> None:
+async def test_hddtemp_rename_config(hass: __HAC_KEEP__, telnetmock) -> None:
     """Test hddtemp configuration with different name."""
     assert await async_setup_component(hass, "sensor", VALID_CONFIG_NAME)
     await hass.async_block_till_done()
@@ -123,7 +123,7 @@ async def test_hddtemp_rename_config(hass: UniversalAssistant, telnetmock) -> No
     assert state.attributes.get("friendly_name") == f"FooBar {reference['device']}"
 
 
-async def test_hddtemp_one_disk(hass: UniversalAssistant, telnetmock) -> None:
+async def test_hddtemp_one_disk(hass: __HAC_KEEP__, telnetmock) -> None:
     """Test hddtemp one disk configuration."""
     assert await async_setup_component(hass, "sensor", VALID_CONFIG_ONE_DISK)
     await hass.async_block_till_done()
@@ -143,7 +143,7 @@ async def test_hddtemp_one_disk(hass: UniversalAssistant, telnetmock) -> None:
     )
 
 
-async def test_hddtemp_wrong_disk(hass: UniversalAssistant, telnetmock) -> None:
+async def test_hddtemp_wrong_disk(hass: __HAC_KEEP__, telnetmock) -> None:
     """Test hddtemp wrong disk configuration."""
     assert await async_setup_component(hass, "sensor", VALID_CONFIG_WRONG_DISK)
     await hass.async_block_till_done()
@@ -153,7 +153,7 @@ async def test_hddtemp_wrong_disk(hass: UniversalAssistant, telnetmock) -> None:
     assert state.attributes.get("friendly_name") == "HD Temperature /dev/sdx1"
 
 
-async def test_hddtemp_multiple_disks(hass: UniversalAssistant, telnetmock) -> None:
+async def test_hddtemp_multiple_disks(hass: __HAC_KEEP__, telnetmock) -> None:
     """Test hddtemp multiple disk configuration."""
     assert await async_setup_component(hass, "sensor", VALID_CONFIG_MULTIPLE_DISKS)
     await hass.async_block_till_done()
@@ -180,14 +180,14 @@ async def test_hddtemp_multiple_disks(hass: UniversalAssistant, telnetmock) -> N
         )
 
 
-async def test_hddtemp_host_refused(hass: UniversalAssistant, telnetmock) -> None:
+async def test_hddtemp_host_refused(hass: __HAC_KEEP__, telnetmock) -> None:
     """Test hddtemp if host is refused."""
     assert await async_setup_component(hass, "sensor", VALID_CONFIG_HOST_REFUSED)
     await hass.async_block_till_done()
     assert len(hass.states.async_all()) == 0
 
 
-async def test_hddtemp_host_unreachable(hass: UniversalAssistant, telnetmock) -> None:
+async def test_hddtemp_host_unreachable(hass: __HAC_KEEP__, telnetmock) -> None:
     """Test hddtemp if host unreachable."""
     assert await async_setup_component(hass, "sensor", VALID_CONFIG_HOST_UNREACHABLE)
     await hass.async_block_till_done()

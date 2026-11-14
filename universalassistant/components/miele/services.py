@@ -10,13 +10,13 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.service import async_extract_config_entry_ids
 
@@ -120,7 +120,7 @@ async def set_program(call: ServiceCall) -> None:
     try:
         await api.set_program(serial_number, data)
     except ClientResponseError as ex:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="set_program_error",
             translation_placeholders={
@@ -150,7 +150,7 @@ async def set_program_oven(call: ServiceCall) -> None:
     try:
         await api.set_program(serial_number, data)
     except ClientResponseError as ex:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="set_program_oven_error",
             translation_placeholders={
@@ -170,7 +170,7 @@ async def get_programs(call: ServiceCall) -> ServiceResponse:
     try:
         programs = await api.get_programs(serial_number)
     except ClientResponseError as ex:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="get_programs_error",
             translation_placeholders={
@@ -226,7 +226,7 @@ async def get_programs(call: ServiceCall) -> ServiceResponse:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services."""
 
     hass.services.async_register(

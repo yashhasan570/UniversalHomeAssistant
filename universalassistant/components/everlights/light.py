@@ -17,7 +17,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
 )
 from universalassistant.const import CONF_HOSTS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -45,7 +45,7 @@ def color_int_to_rgb(value: int) -> tuple[int, int, int]:
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

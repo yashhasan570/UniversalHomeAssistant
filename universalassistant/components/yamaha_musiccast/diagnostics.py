@@ -6,7 +6,7 @@ from typing import Any
 from aiomusiccast.features import Feature
 from aiomusiccast.musiccast_data import MusicCastZoneData
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import MusicCastConfigEntry
 
@@ -33,7 +33,7 @@ def _zone_diagnostics(zone: MusicCastZoneData) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: MusicCastConfigEntry
+    hass: __HAC_KEEP__, entry: MusicCastConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     musiccast = entry.runtime_data.musiccast

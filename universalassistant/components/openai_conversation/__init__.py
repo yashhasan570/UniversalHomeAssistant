@@ -11,7 +11,7 @@ from openai.resources.responses import AsyncResponses  # noqa: F401
 
 from universalassistant.config_entries import ConfigEntry, ConfigSubentry
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -44,14 +44,14 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 type OpenAIConfigEntry = ConfigEntry[openai.AsyncClient]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up OpenAI Conversation."""
     await async_migrate_integration(hass)
 
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OpenAIConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OpenAIConfigEntry) -> None:
     """Set up OpenAI Conversation from a config entry."""
     client = openai.AsyncOpenAI(
         api_key=entry.data[CONF_API_KEY],
@@ -76,17 +76,17 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OpenAIConfigEntry) 
     entry.async_on_unload(entry.add_update_listener(async_update_options))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: OpenAIConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: OpenAIConfigEntry) -> None:
     """Unload OpenAI."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_update_options(hass: UniversalAssistant, entry: OpenAIConfigEntry) -> None:
+async def async_update_options(hass: __HAC_KEEP__, entry: OpenAIConfigEntry) -> None:
     """Update options."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_migrate_integration(hass: UniversalAssistant) -> None:
+async def async_migrate_integration(hass: __HAC_KEEP__) -> None:
     """Migrate integration entry structure."""
 
     # Make sure we get enabled config entries first
@@ -184,12 +184,12 @@ async def async_migrate_integration(hass: UniversalAssistant) -> None:
             )
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: OpenAIConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: OpenAIConfigEntry) -> None:
     """Migrate entry."""
     LOGGER.debug("Migrating from version %s:%s", entry.version, entry.minor_version)
 
     if entry.version == 2 and entry.minor_version == 1:
-        # Devices left in both the config entry and its subentry by Universal Universal Home Assistant Core
+        # Devices left in both the config entry and its subentry by __HA_KEEP__ Core
         # 2025.7.0b0-2025.7.0b1 are collapsed onto the subentry by the device registry
         # migration, so there's nothing to correct here.
         hass.config_entries.async_update_entry(entry, minor_version=2)
@@ -278,7 +278,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: OpenAIConfigEntry
     )
 
 
-def _add_ai_task_subentry(hass: UniversalAssistant, entry: OpenAIConfigEntry) -> None:
+def _add_ai_task_subentry(hass: __HAC_KEEP__, entry: OpenAIConfigEntry) -> None:
     """Add AI Task subentry to the config entry."""
     hass.config_entries.async_add_subentry(
         entry,
@@ -291,7 +291,7 @@ def _add_ai_task_subentry(hass: UniversalAssistant, entry: OpenAIConfigEntry) ->
     )
 
 
-def _add_stt_subentry(hass: UniversalAssistant, entry: OpenAIConfigEntry) -> None:
+def _add_stt_subentry(hass: __HAC_KEEP__, entry: OpenAIConfigEntry) -> None:
     """Add STT subentry to the config entry."""
     hass.config_entries.async_add_subentry(
         entry,
@@ -304,7 +304,7 @@ def _add_stt_subentry(hass: UniversalAssistant, entry: OpenAIConfigEntry) -> Non
     )
 
 
-def _add_tts_subentry(hass: UniversalAssistant, entry: OpenAIConfigEntry) -> None:
+def _add_tts_subentry(hass: __HAC_KEEP__, entry: OpenAIConfigEntry) -> None:
     """Add TTS subentry to the config entry."""
     hass.config_entries.async_add_subentry(
         entry,

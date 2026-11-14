@@ -6,8 +6,8 @@ from typing import TYPE_CHECKING, Any, cast
 
 import probatio
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import color as color_util
 
@@ -35,7 +35,7 @@ def filter_supported_color_modes(color_modes: Iterable[ColorMode]) -> set[ColorM
         or ColorMode.UNKNOWN in color_modes
         or (ColorMode.WHITE in color_modes and not color_supported(color_modes))
     ):
-        raise UniversalAssistantError
+        raise __HAC_KEEP__Error
 
     if ColorMode.ONOFF in color_modes and len(color_modes) > 1:
         color_modes.remove(ColorMode.ONOFF)
@@ -81,7 +81,7 @@ def color_temp_supported(color_modes: Iterable[ColorMode | str] | None) -> bool:
     return ColorMode.COLOR_TEMP in color_modes
 
 
-def get_supported_color_modes(hass: UniversalAssistant, entity_id: str) -> set[str] | None:
+def get_supported_color_modes(hass: __HAC_KEEP__, entity_id: str) -> set[str] | None:
     """Get supported color modes for a light entity.
 
     First try the statemachine, then entity registry.
@@ -94,7 +94,7 @@ def get_supported_color_modes(hass: UniversalAssistant, entity_id: str) -> set[s
 
     entity_registry = er.async_get(hass)
     if not (entry := entity_registry.async_get(entity_id)):
-        raise UniversalAssistantError(f"Unknown entity {entity_id}")
+        raise __HAC_KEEP__Error(f"Unknown entity {entity_id}")
     if not entry.capabilities:
         return None
 
@@ -102,7 +102,7 @@ def get_supported_color_modes(hass: UniversalAssistant, entity_id: str) -> set[s
 
 
 def preprocess_turn_on_alternatives(
-    hass: UniversalAssistant, params: dict[str, Any]
+    hass: __HAC_KEEP__, params: dict[str, Any]
 ) -> None:
     """Process extra data for turn light on request.
 
@@ -156,7 +156,7 @@ def filter_turn_off_params(
 
 
 def process_turn_off_params(
-    hass: UniversalAssistant, light: LightEntity, params: dict[str, Any]
+    hass: __HAC_KEEP__, light: LightEntity, params: dict[str, Any]
 ) -> dict[str, Any]:
     """Process light turn off params."""
     params = dict(params)
@@ -216,7 +216,7 @@ def _color_xy_to_temperature_kelvin(
 
 
 def process_turn_on_params(  # noqa: C901
-    hass: UniversalAssistant, light: LightEntity, params: dict[str, Any]
+    hass: __HAC_KEEP__, light: LightEntity, params: dict[str, Any]
 ) -> dict[str, Any]:
     """Process light turn on params."""
     params = dict(params)
@@ -418,7 +418,7 @@ def process_turn_on_params(  # noqa: C901
             )
 
     # If white is set to True, set it to the light's brightness
-    # Add a warning in Universal Universal Home Assistant Core 2024.3 if the brightness is set to an
+    # Add a warning in __HA_KEEP__ Core 2024.3 if the brightness is set to an
     # integer.
     if params.get(LightServiceArgument.WHITE) is True:
         params[LightServiceArgument.WHITE] = light.brightness

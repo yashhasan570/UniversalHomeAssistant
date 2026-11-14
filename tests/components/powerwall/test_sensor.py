@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfPower,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -32,7 +32,7 @@ from .mocks import (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_sensors(
     )
 
 
-async def test_sensor_backup_reserve_unavailable(hass: UniversalAssistant) -> None:
+async def test_sensor_backup_reserve_unavailable(hass: __HAC_KEEP__) -> None:
     """Confirm backup reserve sensor is not added if unavailable."""
 
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
@@ -282,7 +282,7 @@ async def test_sensor_backup_reserve_unavailable(hass: UniversalAssistant) -> No
     ],
 )
 async def test_sensor_max_power_unavailable(
-    hass: UniversalAssistant, method_name: str, attribute: str, entity_id: str
+    hass: __HAC_KEEP__, method_name: str, attribute: str, entity_id: str
 ) -> None:
     """Confirm max power sensors are not added if unavailable."""
 
@@ -308,7 +308,7 @@ async def test_sensor_max_power_unavailable(
     assert hass.states.get(entity_id) is None
 
 
-async def test_sensor_operation_mode_unavailable(hass: UniversalAssistant) -> None:
+async def test_sensor_operation_mode_unavailable(hass: __HAC_KEEP__) -> None:
     """Confirm operation mode sensor is not added if unavailable."""
 
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
@@ -334,7 +334,7 @@ async def test_sensor_operation_mode_unavailable(hass: UniversalAssistant) -> No
     assert state is None
 
 
-async def test_sensors_with_empty_meters(hass: UniversalAssistant) -> None:
+async def test_sensors_with_empty_meters(hass: __HAC_KEEP__) -> None:
     """Test creation of the sensors with empty meters."""
 
     mock_powerwall = await _mock_powerwall_with_fixtures(hass, empty_meters=True)
@@ -358,7 +358,7 @@ async def test_sensors_with_empty_meters(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_unique_id_migrate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -422,7 +422,7 @@ async def test_unique_id_migrate(
 
 
 async def test_pw3_restricted_entities(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Restricted PW3 surface should only expose meter-driven sensors and charge."""
     mock_powerwall = await _mock_powerwall_restricted(hass)

@@ -1,3 +1,3 @@
-"""Constants for the Universal Universal Home Assistant Green integration."""
+"""Constants for the __HA_KEEP__ Green integration."""
 
 DOMAIN = "universalassistant_green"

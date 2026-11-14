@@ -33,8 +33,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 TRACKER_NO_LED = Tracker(
@@ -60,7 +60,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_state_entity_device_snapshots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -71,7 +71,7 @@ async def test_state_entity_device_snapshots(
 
 @pytest.mark.usefixtures("mock_auth_client")
 async def test_not_added_when_no_led(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_api_client_init: MagicMock,
@@ -91,7 +91,7 @@ async def test_not_added_when_no_led(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client_coordinator: MagicMock,
 ) -> None:
     """Test turning the light on."""
@@ -113,7 +113,7 @@ async def test_turn_on(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_with_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client_coordinator: MagicMock,
 ) -> None:
     """Test turning the light on with brightness."""
@@ -132,7 +132,7 @@ async def test_turn_on_with_brightness(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client_coordinator: MagicMock,
 ) -> None:
     """Test turning the light off."""
@@ -162,7 +162,7 @@ async def test_turn_off(
 )
 @pytest.mark.usefixtures("mock_auth_client")
 async def test_turn_on_led_not_activatable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client_init: MagicMock,
     mock_api_client_coordinator: MagicMock,
@@ -181,7 +181,7 @@ async def test_turn_on_led_not_activatable(
 
     entity_id = "light.fluffy_flashlight"
 
-    with pytest.raises(UniversalAssistantError, match="The flashlight cannot be activated"):
+    with pytest.raises(__HAC_KEEP__Error, match="The flashlight cannot be activated"):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -195,7 +195,7 @@ async def test_turn_on_led_not_activatable(
 @pytest.mark.parametrize(
     ("api_exception", "expected_exception"),
     [
-        (FressnapfTrackerError("Something went wrong"), UniversalAssistantError),
+        (FressnapfTrackerError("Something went wrong"), __HAC_KEEP__Error),
         (
             FressnapfTrackerInvalidTokenError("Token no longer valid"),
             ConfigEntryAuthFailed,
@@ -205,11 +205,11 @@ async def test_turn_on_led_not_activatable(
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 @pytest.mark.usefixtures("mock_auth_client", "mock_api_client_init")
 async def test_turn_on_off_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client_coordinator: MagicMock,
     api_exception: FressnapfTrackerError,
-    expected_exception: type[UniversalAssistantError],
+    expected_exception: type[__HAC_KEEP__Error],
     service: str,
 ) -> None:
     """Test that errors during service handling are handled correctly."""
@@ -241,7 +241,7 @@ async def test_turn_on_off_error(
 )
 @pytest.mark.usefixtures("mock_auth_client")
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client_init: MagicMock,
     brightness: int,
@@ -264,7 +264,7 @@ async def test_availability(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_unavailable_when_update_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client_coordinator: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

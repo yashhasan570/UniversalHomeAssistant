@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import Eq3ConfigEntry
@@ -47,7 +47,7 @@ SENSOR_ENTITY_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: Eq3ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -2,7 +2,7 @@
 
 from typing import TYPE_CHECKING, Any, TypedDict, override
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.storage import Store
 
 from .const import DOMAIN
@@ -31,7 +31,7 @@ class _BackupStore(Store[StoredBackupData]):
     # This allows reading data written by a newer HA version after downgrade.
     _MAX_READABLE_VERSION = 2
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize storage class."""
         super().__init__(
             hass,
@@ -107,7 +107,7 @@ class _BackupStore(Store[StoredBackupData]):
 class BackupStore:
     """Store backup config."""
 
-    def __init__(self, hass: UniversalAssistant, manager: BackupManager) -> None:
+    def __init__(self, hass: __HAC_KEEP__, manager: BackupManager) -> None:
         """Initialize the backup store."""
         self._hass = hass
         self._manager = manager

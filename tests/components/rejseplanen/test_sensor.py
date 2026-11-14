@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.rejseplanen.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -31,7 +31,7 @@ def _board(departures: list[Departure]) -> MagicMock:
 @pytest.mark.freeze_time("2024-01-01 11:00:00+00:00")
 @pytest.mark.usefixtures("setup_integration")
 async def test_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -45,7 +45,7 @@ async def test_sensor_snapshot(
 @pytest.mark.freeze_time("2024-01-01 11:00:00+00:00")
 @pytest.mark.usefixtures("setup_integration")
 async def test_past_departures_are_filtered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that departures in the past are not reflected in the state.
 
@@ -62,7 +62,7 @@ async def test_past_departures_are_filtered(
 @pytest.mark.freeze_time("2024-01-01 11:00:00+00:00")
 @pytest.mark.usefixtures("setup_integration")
 async def test_delay(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the delay is exposed through the delay sensor."""
     # Work: planned 12:05, realtime 12:07 -> 2 minutes delay.
@@ -71,7 +71,7 @@ async def test_delay(
 
 @pytest.mark.freeze_time("2024-01-01 11:00:00+00:00")
 async def test_no_departures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_no_departures(
 @pytest.mark.freeze_time("2024-01-01 11:00:00+00:00")
 @pytest.mark.usefixtures("setup_integration")
 async def test_departure_cleanup_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that a departure is dropped once its cleanup time is reached."""
@@ -112,7 +112,7 @@ async def test_departure_cleanup_trigger(
 
 
 async def test_async_setup_platform_creates_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test that YAML configuration creates a deprecation issue."""

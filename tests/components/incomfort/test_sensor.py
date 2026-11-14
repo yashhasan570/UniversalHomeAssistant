@@ -8,14 +8,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @patch("universalassistant.components.incomfort.PLATFORMS", [Platform.SENSOR])
 async def test_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

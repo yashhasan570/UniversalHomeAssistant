@@ -3,7 +3,7 @@
 from typing import Final
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import FreedomproConfigEntry, FreedomproDataUpdateCoordinator
 
@@ -19,7 +19,7 @@ PLATFORMS: Final[list[Platform]] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FreedomproConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FreedomproConfigEntry) -> None:
     """Set up Freedompro from a config entry."""
     coordinator = FreedomproDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -31,13 +31,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FreedomproConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FreedomproConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FreedomproConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def update_listener(
-    hass: UniversalAssistant, config_entry: FreedomproConfigEntry
+    hass: __HAC_KEEP__, config_entry: FreedomproConfigEntry
 ) -> None:
     """Update listener."""
     await hass.config_entries.async_reload(config_entry.entry_id)

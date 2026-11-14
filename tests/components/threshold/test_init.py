@@ -12,13 +12,13 @@ from universalassistant.components.threshold.const import (
     ThresholdEntityStateAttribute,
 )
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import async_track_entity_registry_updated_event
 
 
 @pytest.fixture
-def sensor_config_entry(hass: UniversalAssistant) -> er.RegistryEntry:
+def sensor_config_entry(hass: __HAC_KEEP__) -> er.RegistryEntry:
     """Fixture to create a sensor config entry."""
     sensor_config_entry = MockConfigEntry()
     sensor_config_entry.add_to_hass(hass)
@@ -55,7 +55,7 @@ def sensor_entity_entry(
 
 @pytest.fixture
 def threshold_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sensor_entity_entry: er.RegistryEntry,
 ) -> MockConfigEntry:
     """Fixture to create a threshold config entry."""
@@ -79,7 +79,7 @@ def threshold_config_entry(
     return config_entry
 
 
-def track_entity_registry_actions(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def track_entity_registry_actions(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Track entity registry actions for an entity."""
     events = []
 
@@ -95,7 +95,7 @@ def track_entity_registry_actions(hass: UniversalAssistant, entity_id: str) -> l
 
 @pytest.mark.parametrize("platform", ["binary_sensor"])
 async def test_setup_and_remove_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     platform: str,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_setup_and_remove_config_entry(
 
 @pytest.mark.parametrize("platform", ["sensor"])
 async def test_entry_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     platform,
@@ -221,7 +221,7 @@ async def test_entry_changed(
 
 
 async def test_async_handle_source_entity_changes_source_entity_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     threshold_config_entry: MockConfigEntry,
@@ -270,7 +270,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed(
 
 
 async def test_async_handle_source_entity_changes_source_entity_removed_shared_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     threshold_config_entry: MockConfigEntry,
@@ -322,7 +322,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_shared_d
 
 
 async def test_async_handle_source_entity_changes_source_entity_removed_from_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     threshold_config_entry: MockConfigEntry,
@@ -372,7 +372,7 @@ async def test_async_handle_source_entity_changes_source_entity_removed_from_dev
 
 
 async def test_async_handle_source_entity_changes_source_entity_moved_other_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     threshold_config_entry: MockConfigEntry,
@@ -432,7 +432,7 @@ async def test_async_handle_source_entity_changes_source_entity_moved_other_devi
 
 
 async def test_async_handle_source_entity_new_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     threshold_config_entry: MockConfigEntry,
@@ -479,7 +479,7 @@ async def test_async_handle_source_entity_new_entity_id(
 
 
 async def test_migration_1_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     sensor_entity_entry: er.RegistryEntry,
@@ -522,7 +522,7 @@ async def test_migration_1_1(
 
 
 async def test_migration_from_future_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test migration from future version."""
     config_entry = MockConfigEntry(

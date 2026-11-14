@@ -34,7 +34,7 @@ from universalassistant.const import (
     CONF_NAME,
     CONF_PIN,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -101,7 +101,7 @@ def _get_pairing_schema(input_dict: dict[str, Any] | None = None) -> probatio.Sc
 
 
 def _get_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     host: str,
     device_class: str,
     auth_token: str | None = None,
@@ -116,7 +116,7 @@ def _get_device(
 
 
 async def _async_detect_device_class(
-    hass: UniversalAssistant, host: str
+    hass: __HAC_KEEP__, host: str
 ) -> MediaPlayerDeviceClass:
     """Detect whether the device at host is a TV or a speaker."""
     return (
@@ -127,7 +127,7 @@ async def _async_detect_device_class(
 
 
 async def _async_get_unique_id(
-    hass: UniversalAssistant, host: str, device_class: str
+    hass: __HAC_KEEP__, host: str, device_class: str
 ) -> str | None:
     """Return the device serial number, or None if unavailable."""
     try:
@@ -137,7 +137,7 @@ async def _async_get_unique_id(
 
 
 async def _async_validate_config(
-    hass: UniversalAssistant, host: str, auth_token: str | None, device_class: str
+    hass: __HAC_KEEP__, host: str, auth_token: str | None, device_class: str
 ) -> bool:
     """Return whether the device is reachable (and the token valid, if any)."""
     device = _get_device(hass, host, device_class, auth_token)

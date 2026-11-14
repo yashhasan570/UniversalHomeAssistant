@@ -15,10 +15,10 @@ from universalassistant.components.emulated_roku.binding import (
     ROKU_COMMAND_LAUNCH,
     EmulatedRoku,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 
 
-async def test_events_fired_properly(hass: UniversalAssistant) -> None:
+async def test_events_fired_properly(hass: __HAC_KEEP__) -> None:
     """Test that events are fired correctly."""
     random_name = uuid4().hex
     # Note that this test is accessing the internal EmulatedRoku class

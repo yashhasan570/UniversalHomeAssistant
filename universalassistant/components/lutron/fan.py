@@ -5,7 +5,7 @@ from typing import Any, override
 from pylutron import Output
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import LutronConfigEntry
@@ -13,7 +13,7 @@ from .entity import LutronDevice
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LutronConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

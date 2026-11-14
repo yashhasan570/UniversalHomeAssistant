@@ -20,7 +20,7 @@ from universalassistant.components.input_number.const import (
     InputNumberServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CONF_NAME, EntityStateAttribute
-from universalassistant.core import Context, CoreState, UniversalAssistant, State
+from universalassistant.core import Context, CoreState, __HAC_KEEP__, State
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
@@ -28,7 +28,7 @@ from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 
 @pytest.fixture
-def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
+def storage_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
     """Storage setup."""
 
     async def _storage(items=None, config=None):
@@ -63,7 +63,7 @@ def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
     return _storage
 
 
-async def set_value(hass: UniversalAssistant, entity_id: str, value: str) -> None:
+async def set_value(hass: __HAC_KEEP__, entity_id: str, value: str) -> None:
     """Set input_number to value.
 
     This is a legacy helper method. Do not use it for new tests.
@@ -76,7 +76,7 @@ async def set_value(hass: UniversalAssistant, entity_id: str, value: str) -> Non
     )
 
 
-async def increment(hass: UniversalAssistant, entity_id: str) -> None:
+async def increment(hass: __HAC_KEEP__, entity_id: str) -> None:
     """Increment value of entity.
 
     This is a legacy helper method. Do not use it for new tests.
@@ -86,7 +86,7 @@ async def increment(hass: UniversalAssistant, entity_id: str) -> None:
     )
 
 
-async def decrement(hass: UniversalAssistant, entity_id: str) -> None:
+async def decrement(hass: __HAC_KEEP__, entity_id: str) -> None:
     """Decrement value of entity.
 
     This is a legacy helper method. Do not use it for new tests.
@@ -123,13 +123,13 @@ async def decrement(hass: UniversalAssistant, entity_id: str) -> None:
         },
     ],
 )
-async def test_config(hass: UniversalAssistant, invalid_config) -> None:
+async def test_config(hass: __HAC_KEEP__, invalid_config) -> None:
     """Test config."""
 
     assert not await async_setup_component(hass, DOMAIN, {DOMAIN: invalid_config})
 
 
-async def test_set_value(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
+async def test_set_value(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
     """Test set_value method."""
     assert await async_setup_component(
         hass, DOMAIN, {DOMAIN: {"test_1": {"initial": 50, "min": 0, "max": 100}}}
@@ -160,7 +160,7 @@ async def test_set_value(hass: UniversalAssistant, caplog: pytest.LogCaptureFixt
     assert float(state.state) == 70
 
 
-async def test_increment(hass: UniversalAssistant) -> None:
+async def test_increment(hass: __HAC_KEEP__) -> None:
     """Test increment method."""
     assert await async_setup_component(
         hass, DOMAIN, {DOMAIN: {"test_2": {"initial": 50, "min": 0, "max": 51}}}
@@ -183,7 +183,7 @@ async def test_increment(hass: UniversalAssistant) -> None:
     assert float(state.state) == 51
 
 
-async def test_rounding(hass: UniversalAssistant) -> None:
+async def test_rounding(hass: __HAC_KEEP__) -> None:
     """Test increment introducing floating point error is rounded."""
     assert await async_setup_component(
         hass,
@@ -203,7 +203,7 @@ async def test_rounding(hass: UniversalAssistant) -> None:
     assert float(state.state) == 3.6
 
 
-async def test_decrement(hass: UniversalAssistant) -> None:
+async def test_decrement(hass: __HAC_KEEP__) -> None:
     """Test decrement method."""
     assert await async_setup_component(
         hass, DOMAIN, {DOMAIN: {"test_3": {"initial": 50, "min": 49, "max": 100}}}
@@ -226,7 +226,7 @@ async def test_decrement(hass: UniversalAssistant) -> None:
     assert float(state.state) == 49
 
 
-async def test_mode(hass: UniversalAssistant) -> None:
+async def test_mode(hass: __HAC_KEEP__) -> None:
     """Test mode settings."""
     assert await async_setup_component(
         hass,
@@ -253,7 +253,7 @@ async def test_mode(hass: UniversalAssistant) -> None:
     assert state.attributes["mode"] == "slider"
 
 
-async def test_unit_of_measurement(hass: UniversalAssistant) -> None:
+async def test_unit_of_measurement(hass: __HAC_KEEP__) -> None:
     """Test unit of measurement is exposed in the state attributes."""
     assert await async_setup_component(
         hass,
@@ -275,7 +275,7 @@ async def test_unit_of_measurement(hass: UniversalAssistant) -> None:
     assert EntityStateAttribute.UNIT_OF_MEASUREMENT not in state.attributes
 
 
-async def test_device_class(hass: UniversalAssistant) -> None:
+async def test_device_class(hass: __HAC_KEEP__) -> None:
     """Test device class is exposed in the state attributes."""
     assert await async_setup_component(
         hass,
@@ -308,7 +308,7 @@ async def test_device_class(hass: UniversalAssistant) -> None:
     assert EntityStateAttribute.DEVICE_CLASS not in state.attributes
 
 
-async def test_set_value_unit_conversion(hass: UniversalAssistant) -> None:
+async def test_set_value_unit_conversion(hass: __HAC_KEEP__) -> None:
     """Test set_value takes the value in the unit of the converted state."""
     hass.config.units = US_CUSTOMARY_SYSTEM
     assert await async_setup_component(
@@ -358,7 +358,7 @@ async def test_set_value_unit_conversion(hass: UniversalAssistant) -> None:
     assert float(state.state) == 102.2
 
 
-async def test_restore_state_unit_conversion(hass: UniversalAssistant) -> None:
+async def test_restore_state_unit_conversion(hass: __HAC_KEEP__) -> None:
     """Test the native value is restored for a converted state."""
     hass.config.units = US_CUSTOMARY_SYSTEM
     mock_restore_cache_with_extra_data(
@@ -399,7 +399,7 @@ async def test_restore_state_unit_conversion(hass: UniversalAssistant) -> None:
     assert float(state.state) == 77
 
 
-async def test_restore_state(hass: UniversalAssistant) -> None:
+async def test_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure states are restored on startup."""
     mock_restore_cache(
         hass, (State("input_number.b1", "70"), State("input_number.b2", "200"))
@@ -422,7 +422,7 @@ async def test_restore_state(hass: UniversalAssistant) -> None:
     assert float(state.state) == 10
 
 
-async def test_restore_number_data(hass: UniversalAssistant) -> None:
+async def test_restore_number_data(hass: __HAC_KEEP__) -> None:
     """Ensure the native value is restored from the number extra data."""
     number_data = {
         "native_max_value": 100.0,
@@ -456,7 +456,7 @@ async def test_restore_number_data(hass: UniversalAssistant) -> None:
     assert float(state.state) == 10
 
 
-async def test_restore_invalid_state(hass: UniversalAssistant) -> None:
+async def test_restore_invalid_state(hass: __HAC_KEEP__) -> None:
     """Ensure an invalid restore state is handled."""
     mock_restore_cache(
         hass, (State("input_number.b1", "="), State("input_number.b2", "200"))
@@ -479,7 +479,7 @@ async def test_restore_invalid_state(hass: UniversalAssistant) -> None:
     assert float(state.state) == 10
 
 
-async def test_initial_state_overrules_restore_state(hass: UniversalAssistant) -> None:
+async def test_initial_state_overrules_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure states are restored on startup."""
     mock_restore_cache(
         hass, (State("input_number.b1", "70"), State("input_number.b2", "200"))
@@ -507,7 +507,7 @@ async def test_initial_state_overrules_restore_state(hass: UniversalAssistant) -
     assert float(state.state) == 60
 
 
-async def test_no_initial_state_and_no_restore_state(hass: UniversalAssistant) -> None:
+async def test_no_initial_state_and_no_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure that entity is create without initial and restore feature."""
     hass.set_state(CoreState.starting)
 
@@ -519,7 +519,7 @@ async def test_no_initial_state_and_no_restore_state(hass: UniversalAssistant) -
 
 
 async def test_input_number_context(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test that input_number context works."""
     assert await async_setup_component(
@@ -544,7 +544,7 @@ async def test_input_number_context(
 
 
 async def test_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_admin_user: MockUser,
     hass_read_only_user: MockUser,
@@ -619,7 +619,7 @@ async def test_reload(
     assert entity_registry.async_get_entity_id(DOMAIN, DOMAIN, "test_3") is None
 
 
-async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> None:
+async def test_load_from_storage(hass: __HAC_KEEP__, storage_setup) -> None:
     """Test set up from storage."""
     assert await storage_setup()
     state = hass.states.get(f"{DOMAIN}.from_storage")
@@ -628,7 +628,7 @@ async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> Non
     assert state.attributes.get(InputNumberEntityStateAttribute.EDITABLE)
 
 
-async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup) -> None:
+async def test_editable_state_attribute(hass: __HAC_KEEP__, storage_setup) -> None:
     """Test editable attribute."""
     assert await storage_setup(
         config={
@@ -655,7 +655,7 @@ async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup)
 
 
 async def test_ws_list(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test listing via WS."""
     assert await storage_setup(
@@ -689,7 +689,7 @@ async def test_ws_list(
 
 
 async def test_ws_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -718,7 +718,7 @@ async def test_ws_delete(
 
 
 async def test_update_min_max(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -779,7 +779,7 @@ async def test_update_min_max(
 
 
 async def test_ws_update_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     storage_setup: Callable[..., Awaitable[bool]],
 ) -> None:
@@ -852,7 +852,7 @@ async def test_ws_update_device_class(
 
 
 async def test_number_does_not_enforce_device_class_units(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     storage_setup: Callable[..., Awaitable[bool]],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -888,7 +888,7 @@ async def test_number_does_not_enforce_device_class_units(
 
 
 async def test_ws_create_unit_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     storage_setup: Callable[..., Awaitable[bool]],
 ) -> None:
@@ -961,7 +961,7 @@ async def test_ws_create_unit_conversion(
     ],
 )
 async def test_ws_update_drops_incompatible_display_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup: Callable[..., Awaitable[bool]],
@@ -1018,7 +1018,7 @@ async def test_ws_update_drops_incompatible_display_unit(
 
 
 async def test_ws_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -1054,7 +1054,7 @@ async def test_ws_create(
     assert float(state.state) == 10
 
 
-async def test_setup_no_config(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_setup_no_config(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test component setup with no config."""
     count_start = len(hass.states.async_entity_ids())
     assert await async_setup_component(hass, DOMAIN, {})

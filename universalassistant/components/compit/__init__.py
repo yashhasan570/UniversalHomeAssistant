@@ -3,7 +3,7 @@
 from compit_inext_api import CannotConnect, CompitApiConnector, InvalidAuth
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -21,7 +21,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: CompitConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: CompitConfigEntry) -> None:
     """Set up Compit from a config entry."""
 
     session = async_get_clientsession(hass)
@@ -46,6 +46,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: CompitConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: CompitConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: CompitConfigEntry) -> None:
     """Unload an entry for the Compit integration."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

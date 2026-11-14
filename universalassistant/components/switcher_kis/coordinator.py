@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, override
 from aioswitcher.device import SwitcherBase
 
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, update_coordinator
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -28,7 +28,7 @@ class SwitcherDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: SwitcherConfigEntry,
         device: SwitcherBase,
     ) -> None:

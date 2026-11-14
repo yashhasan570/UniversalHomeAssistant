@@ -11,8 +11,8 @@ from universalassistant.components.update import (
     UpdateEntity,
     UpdateEntityFeature,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
@@ -30,7 +30,7 @@ _MAX_POLL_ATTEMPTS: Final = 30
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BleBoxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -89,7 +89,7 @@ class BleBoxUpdateEntity(BleBoxEntity[blebox_uniapi.update.Update], UpdateEntity
         try:
             await self._feature.async_update()
         except Error as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_failed",
                 translation_placeholders={"error": str(ex)},
@@ -131,7 +131,7 @@ class BleBoxUpdateEntity(BleBoxEntity[blebox_uniapi.update.Update], UpdateEntity
             await self._feature.async_install()
         except Error as ex:
             self._reset_progress()
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="install_failed",
                 translation_placeholders={"error": str(ex)},

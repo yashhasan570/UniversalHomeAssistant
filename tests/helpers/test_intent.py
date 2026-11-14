@@ -11,8 +11,8 @@ from pytest_universalassistant.common import MockConfigEntry, async_mock_service
 from universalassistant.components import light, switch
 from universalassistant.components.universalassistant.exposed_entities import async_expose_entity
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import UniversalAssistant, ServiceCall, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     area_registry as ar,
     config_validation as cv,
@@ -55,7 +55,7 @@ def test_is_blank_slot_value(value: object, expected: bool) -> None:
 
 
 async def test_async_match_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -198,7 +198,7 @@ async def test_async_match_states(
 
 
 async def test_async_match_targets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -570,7 +570,7 @@ async def test_async_match_targets(
 
 
 async def test_match_device_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -625,7 +625,7 @@ async def test_match_device_area(
 
 
 async def test_match_child_device_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -701,7 +701,7 @@ def test_async_validate_slots_no_schema() -> None:
     }
 
 
-def test_async_register(hass: UniversalAssistant) -> None:
+def test_async_register(hass: __HAC_KEEP__) -> None:
     """Test registering an intent and verifying it is stored correctly."""
     handler = MagicMock()
     handler.intent_type = "test_intent"
@@ -711,7 +711,7 @@ def test_async_register(hass: UniversalAssistant) -> None:
     assert list(intent.async_get(hass)) == [handler]
 
 
-def test_async_register_overwrite(hass: UniversalAssistant) -> None:
+def test_async_register_overwrite(hass: __HAC_KEEP__) -> None:
     """Test registering duplicate intent types overwrites and emits a warning."""
     handler1 = MagicMock()
     handler1.intent_type = "test_intent"
@@ -730,7 +730,7 @@ def test_async_register_overwrite(hass: UniversalAssistant) -> None:
     assert list(intent.async_get(hass)) == [handler2]
 
 
-def test_async_remove(hass: UniversalAssistant) -> None:
+def test_async_remove(hass: __HAC_KEEP__) -> None:
     """Test removing an intent and verifying it is no longer present."""
     handler = MagicMock()
     handler.intent_type = "test_intent"
@@ -741,8 +741,8 @@ def test_async_remove(hass: UniversalAssistant) -> None:
     assert not list(intent.async_get(hass))
 
 
-def test_async_remove_no_existing_entry(hass: UniversalAssistant) -> None:
-    """Test the removal of a non-existing intent from Universal Universal Home Assistant's data."""
+def test_async_remove_no_existing_entry(hass: __HAC_KEEP__) -> None:
+    """Test the removal of a non-existing intent from __HA_KEEP__'s data."""
     handler = MagicMock()
     handler.intent_type = "test_intent"
     intent.async_register(hass, handler)
@@ -752,7 +752,7 @@ def test_async_remove_no_existing_entry(hass: UniversalAssistant) -> None:
     assert list(intent.async_get(hass)) == [handler]
 
 
-def test_async_remove_no_existing(hass: UniversalAssistant) -> None:
+def test_async_remove_no_existing(hass: __HAC_KEEP__) -> None:
     """Test the removal of an intent where no config exists."""
 
     intent.async_remove(hass, "test_intent2")
@@ -761,7 +761,7 @@ def test_async_remove_no_existing(hass: UniversalAssistant) -> None:
     assert intent.DATA_KEY not in hass.data
 
 
-async def test_validate_then_run_in_background(hass: UniversalAssistant) -> None:
+async def test_validate_then_run_in_background(hass: __HAC_KEEP__) -> None:
     """Test we don't execute a service in foreground forever."""
     hass.states.async_set("light.kitchen", "off")
     call_done = asyncio.Event()
@@ -797,13 +797,13 @@ async def test_validate_then_run_in_background(hass: UniversalAssistant) -> None
     assert calls[0].data == {"entity_id": "light.kitchen"}
 
 
-async def test_run_then_background_validation_error(hass: UniversalAssistant) -> None:
+async def test_run_then_background_validation_error(hass: __HAC_KEEP__) -> None:
     """Test that a validation error within the timeout is propagated."""
     hass.states.async_set("light.kitchen", "off")
 
     async def mock_service(call: ServiceCall) -> None:
         """Mock service that raises a validation error immediately."""
-        raise UniversalAssistantError("Invalid service data")
+        raise __HAC_KEEP__Error("Invalid service data")
 
     hass.services.async_register("light", "turn_on", mock_service)
 
@@ -820,7 +820,7 @@ async def test_run_then_background_validation_error(hass: UniversalAssistant) ->
         )
 
 
-async def test_invalid_area_floor_names(hass: UniversalAssistant) -> None:
+async def test_invalid_area_floor_names(hass: __HAC_KEEP__) -> None:
     """Test that we throw an appropriate errors with invalid area/floor names."""
     handler = intent.ServiceIntentHandler("TestType", "light", "turn_on")
     intent.async_register(hass, handler)
@@ -847,7 +847,7 @@ async def test_invalid_area_floor_names(hass: UniversalAssistant) -> None:
     assert err.value.result.no_match_reason is intent.MatchFailedReason.INVALID_FLOOR
 
 
-async def test_service_intent_handler_required_domains(hass: UniversalAssistant) -> None:
+async def test_service_intent_handler_required_domains(hass: __HAC_KEEP__) -> None:
     """Test that required_domains restricts the domain of a ServiceIntentHandler."""
     hass.states.async_set("light.kitchen", "off")
     hass.states.async_set("switch.bedroom", "off")
@@ -890,7 +890,7 @@ async def test_service_intent_handler_required_domains(hass: UniversalAssistant)
         )
 
 
-async def test_service_handler_empty_strings(hass: UniversalAssistant) -> None:
+async def test_service_handler_empty_strings(hass: __HAC_KEEP__) -> None:
     """Test that passing empty strings for filters fails in ServiceIntentHandler."""
     handler = intent.ServiceIntentHandler(
         "TestType",
@@ -919,7 +919,7 @@ async def test_service_handler_empty_strings(hass: UniversalAssistant) -> None:
             )
 
 
-async def test_service_handler_no_filter(hass: UniversalAssistant) -> None:
+async def test_service_handler_no_filter(hass: __HAC_KEEP__) -> None:
     """Test that targeting all devices in the house fails."""
     handler = intent.ServiceIntentHandler("TestType", "light", "turn_on")
     intent.async_register(hass, handler)
@@ -933,7 +933,7 @@ async def test_service_handler_no_filter(hass: UniversalAssistant) -> None:
 
 
 async def test_service_handler_device_classes(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that passing empty strings for filters fails in ServiceIntentHandler."""
 
@@ -984,7 +984,7 @@ async def test_service_handler_device_classes(
 
 
 async def test_service_handler_failure_reported_for_failed_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a failed service call is reported for its own entity."""
     hass.states.async_set(
@@ -999,7 +999,7 @@ async def test_service_handler_failure_reported_for_failed_entity(
         """Fail for the bedroom, after the living room call has finished."""
         if call.data["entity_id"] == "switch.bedroom":
             await living_room_done.wait()
-            raise UniversalAssistantError("Failed")
+            raise __HAC_KEEP__Error("Failed")
         living_room_done.set()
 
     hass.services.async_register("switch", "turn_on", mock_service)
@@ -1026,7 +1026,7 @@ async def test_service_handler_failure_reported_for_failed_entity(
 
 
 async def test_service_handler_cancelled_call_propagates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a cancelled service call cancels the intent instead of succeeding."""
     hass.states.async_set("light.kitchen", "off")
@@ -1050,7 +1050,7 @@ async def test_service_handler_cancelled_call_propagates(
 
 
 async def test_service_handler_matched_states_uses_updated_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test matched_states reflects post-service-call state, not pre-call."""
     hass.states.async_set("light.kitchen", "off")
@@ -1086,7 +1086,7 @@ async def test_service_handler_matched_states_uses_updated_state(
     ],
 )
 async def test_get_all_entity_aliases(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     aliases: list[er.AliasEntry] | None,

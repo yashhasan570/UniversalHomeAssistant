@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.neato.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
     config_entry = MockConfigEntry(

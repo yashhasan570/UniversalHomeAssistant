@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.actron_air.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -18,11 +18,11 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_actron_api")
 async def test_setup_entry_uses_shared_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api_class: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test the API is created with Universal Universal Home Assistant's shared client session."""
+    """Test the API is created with __HA_KEEP__'s shared client session."""
     await setup_integration(hass, mock_config_entry)
 
     assert mock_config_entry.state is ConfigEntryState.LOADED
@@ -32,7 +32,7 @@ async def test_setup_entry_uses_shared_session(
 
 
 async def test_setup_entry_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_setup_entry_auth_error(
 
 
 async def test_setup_entry_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_setup_entry_api_error(
 
 
 async def test_start_push_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_start_push_auth_error(
     ],
 )
 async def test_unload_entry_stops_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     push_enabled: bool,
@@ -105,7 +105,7 @@ async def test_unload_entry_stops_push(
     ],
 )
 async def test_device_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_actron_api: AsyncMock,

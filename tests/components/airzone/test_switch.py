@@ -6,12 +6,12 @@ from aioairzone.const import API_DATA, API_ON, API_SYSTEM_ID, API_ZONE_ID
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import async_init_integration
 
 
-async def test_airzone_create_switches(hass: UniversalAssistant) -> None:
+async def test_airzone_create_switches(hass: __HAC_KEEP__) -> None:
     """Test creation of switches."""
 
     await async_init_integration(hass)
@@ -32,7 +32,7 @@ async def test_airzone_create_switches(hass: UniversalAssistant) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_airzone_switch_off(hass: UniversalAssistant) -> None:
+async def test_airzone_switch_off(hass: __HAC_KEEP__) -> None:
     """Test switch off."""
 
     await async_init_integration(hass)
@@ -64,7 +64,7 @@ async def test_airzone_switch_off(hass: UniversalAssistant) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_airzone_switch_on(hass: UniversalAssistant) -> None:
+async def test_airzone_switch_on(hass: __HAC_KEEP__) -> None:
     """Test switch on."""
 
     await async_init_integration(hass)

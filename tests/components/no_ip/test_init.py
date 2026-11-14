@@ -7,7 +7,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components import no_ip
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -21,7 +21,7 @@ USERNAME = "abc@123.com"
 
 
 @pytest.fixture
-async def setup_no_ip(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+async def setup_no_ip(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
     """Fixture that sets up NO-IP."""
     aioclient_mock.get(UPDATE_URL, params={"hostname": DOMAIN}, text="good 0.0.0.0")
 
@@ -38,7 +38,7 @@ async def setup_no_ip(hass: UniversalAssistant, aioclient_mock: AiohttpClientMoc
     )
 
 
-async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_setup(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
     """Test setup works if update passes."""
     aioclient_mock.get(UPDATE_URL, params={"hostname": DOMAIN}, text="nochg 0.0.0.0")
 
@@ -56,7 +56,7 @@ async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMock
 
 
 async def test_setup_fails_if_update_fails(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup fails if first update fails."""
     aioclient_mock.get(UPDATE_URL, params={"hostname": DOMAIN}, text="nohost")
@@ -71,7 +71,7 @@ async def test_setup_fails_if_update_fails(
 
 
 async def test_setup_fails_if_wrong_auth(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup fails if first update fails through wrong authentication."""
     aioclient_mock.get(UPDATE_URL, params={"hostname": DOMAIN}, text="badauth")

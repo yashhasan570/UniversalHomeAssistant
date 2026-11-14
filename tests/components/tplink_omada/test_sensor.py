@@ -34,7 +34,7 @@ from universalassistant.components.tplink_omada.sensor import (
     OmadaDeviceSensor,
     OmadaSwitchPortSensor,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 POLL_INTERVAL = timedelta(seconds=POLL_DEVICES)
@@ -43,7 +43,7 @@ PORT_POLL_INTERVAL = timedelta(seconds=POLL_SWITCH_PORT)
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_omada_client: MagicMock,
 ) -> MockConfigEntry:
@@ -58,7 +58,7 @@ async def init_integration(
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -68,7 +68,7 @@ async def test_entities(
 
 
 async def test_device_specific_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_omada_site_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -95,7 +95,7 @@ async def test_device_specific_status(
 
 
 async def test_device_category_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_omada_site_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -122,7 +122,7 @@ async def test_device_category_status(
 
 
 async def test_poe_power_sensor_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_omada_site_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -150,7 +150,7 @@ async def test_poe_power_sensor_updates(
 
 
 async def test_sfp_port_has_no_poe_power_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test SFP ports do not get a PoE power sensor."""
@@ -159,7 +159,7 @@ async def test_sfp_port_has_no_poe_power_sensor(
 
 
 async def test_port_disappearing_from_coordinator_becomes_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_omada_site_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -192,7 +192,7 @@ async def test_port_disappearing_from_coordinator_becomes_unavailable(
 
 
 async def test_device_disappearing_from_coordinator_becomes_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_omada_site_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -224,7 +224,7 @@ async def test_device_disappearing_from_coordinator_becomes_unavailable(
 
 
 async def _set_test_device_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     status: int,
     status_category: int,
@@ -239,7 +239,7 @@ async def _set_test_device_status(
 
 
 async def test_entities_created_while_key_missing_are_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_omada_site_client: MagicMock,
 ) -> None:

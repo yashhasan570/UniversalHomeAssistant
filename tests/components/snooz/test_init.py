@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.snooz.const import CONF_FIRMWARE_VERSION, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS, CONF_MODEL, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
@@ -36,7 +36,7 @@ TEST_ENTRY_DATA_V1_1 = {CONF_ADDRESS: TEST_ADDRESS, CONF_TOKEN: TEST_PAIRING_TOK
 
 
 async def test_setup_retries_when_ble_device_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test setup is retried when the device is not available over Bluetooth."""
@@ -67,7 +67,7 @@ async def test_setup_retries_when_ble_device_not_found(
 
 
 async def test_setup_uses_stored_model_and_firmware_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setup builds the device from the entry without parsing an advertisement."""
     entry = MockConfigEntry(
@@ -102,7 +102,7 @@ async def test_setup_uses_stored_model_and_firmware_version(
     ids=["advertised_name", "characteristic_name"],
 )
 async def test_migrate_entry_stores_model_and_firmware_version(
-    hass: UniversalAssistant, service_info: BluetoothServiceInfo
+    hass: __HAC_KEEP__, service_info: BluetoothServiceInfo
 ) -> None:
     """Test a 1.1 entry is migrated from the cached advertisement."""
     entry = MockConfigEntry(
@@ -123,7 +123,7 @@ async def test_migrate_entry_stores_model_and_firmware_version(
 
 
 async def test_migrate_entry_retries_when_service_info_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test migration of a 1.1 entry is retried until an advertisement is cached."""
@@ -156,7 +156,7 @@ async def test_migrate_entry_retries_when_service_info_not_found(
 
 
 async def test_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connected_snooz: SnoozFixture,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -169,7 +169,7 @@ async def test_device_registry(
 
 
 async def test_removing_entry_cleans_up_connections(
-    hass: UniversalAssistant, mock_connected_snooz: SnoozFixture
+    hass: __HAC_KEEP__, mock_connected_snooz: SnoozFixture
 ) -> None:
     """Tests setup and removal of a config entry, cleaning up connections."""
     await hass.config_entries.async_remove(mock_connected_snooz.entry.entry_id)
@@ -179,7 +179,7 @@ async def test_removing_entry_cleans_up_connections(
 
 
 async def test_reloading_entry_cleans_up_connections(
-    hass: UniversalAssistant, mock_connected_snooz: SnoozFixture
+    hass: __HAC_KEEP__, mock_connected_snooz: SnoozFixture
 ) -> None:
     """Test reloading an entry disconnects any existing connections."""
     await hass.config_entries.async_reload(mock_connected_snooz.entry.entry_id)

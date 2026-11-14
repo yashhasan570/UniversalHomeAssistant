@@ -10,7 +10,7 @@ from universalassistant.components.cover import (
     make_cover_is_closed_condition,
     make_cover_is_open_condition,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.condition import Condition
 
 DEVICE_CLASSES_GARAGE_DOOR: dict[str, str] = {
@@ -26,6 +26,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
     """Return the conditions for garage doors."""
     return CONDITIONS

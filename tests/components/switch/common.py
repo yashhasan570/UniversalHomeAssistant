@@ -15,27 +15,27 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-def turn_on(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def turn_on(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Turn all or specified switch on."""
     hass.add_job(async_turn_on, hass, entity_id)
 
 
-async def async_turn_on(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_turn_on(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Turn all or specified switch on."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None
     await hass.services.async_call(DOMAIN, SERVICE_TURN_ON, data, blocking=True)
 
 
-def turn_off(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def turn_off(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Turn all or specified switch off."""
     hass.add_job(async_turn_off, hass, entity_id)
 
 
 async def async_turn_off(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Turn all or specified switch off."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else None

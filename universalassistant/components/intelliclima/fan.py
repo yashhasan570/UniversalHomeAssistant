@@ -6,7 +6,7 @@ from typing import Any, override
 from pyintelliclima import FanMode, FanPreset, FanSpeed, FanSpeedState, IntelliClimaECO2
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -22,7 +22,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IntelliClimaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

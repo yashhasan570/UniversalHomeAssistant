@@ -6,11 +6,11 @@ from airpatrol.api import AirPatrolAPI, AirPatrolAuthenticationError
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     get_client: AirPatrolAPI,
 ) -> None:
@@ -29,7 +29,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_update_data_refresh_token_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     get_client: AirPatrolAPI,
     get_data,
@@ -51,7 +51,7 @@ async def test_update_data_refresh_token_success(
 
 
 async def test_update_data_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     get_client: AirPatrolAPI,
 ) -> None:

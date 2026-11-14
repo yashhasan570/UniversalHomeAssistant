@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_HOME
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import discovery
 from universalassistant.helpers.entity_component import EntityComponent
@@ -116,12 +116,12 @@ __all__ = [
 ]
 
 
-def is_on(hass: UniversalAssistant, entity_id: str) -> bool:
+def is_on(hass: __HAC_KEEP__, entity_id: str) -> bool:
     """Return the state if any or a specified device is home."""
     return hass.states.is_state(entity_id, STATE_HOME)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the device tracker."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[BaseTrackerEntity](
         LOGGER, DOMAIN, hass, SCAN_INTERVAL
@@ -165,7 +165,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up an entry."""
     component: EntityComponent[BaseTrackerEntity] | None = hass.data.get(DOMAIN)
 
@@ -183,6 +183,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload an entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)

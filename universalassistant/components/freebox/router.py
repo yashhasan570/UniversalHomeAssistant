@@ -19,7 +19,7 @@ from freebox_api.exceptions import HttpRequestError, NotOpenError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.storage import Store
@@ -55,7 +55,7 @@ def is_json(json_str: str) -> bool:
     return True
 
 
-def _get_token_file(hass: UniversalAssistant, host: str) -> Path:
+def _get_token_file(hass: __HAC_KEEP__, host: str) -> Path:
     """Return the path of the stored application token file for a host."""
     freebox_path = Store(hass, STORAGE_VERSION, STORAGE_KEY).path
     return Path(f"{freebox_path}/{slugify(host)}.conf")
@@ -66,7 +66,7 @@ def _unlink_if_exists(path: Path) -> None:
     path.unlink(missing_ok=True)
 
 
-async def get_api(hass: UniversalAssistant, host: str) -> Freepybox:
+async def get_api(hass: __HAC_KEEP__, host: str) -> Freepybox:
     """Get the Freebox API."""
     freebox_path = Store(hass, STORAGE_VERSION, STORAGE_KEY).path
 
@@ -87,13 +87,13 @@ def is_invalid_token_error(error: Exception) -> bool:
     )
 
 
-async def async_forget_registration(hass: UniversalAssistant, host: str) -> None:
+async def async_forget_registration(hass: __HAC_KEEP__, host: str) -> None:
     """Remove a stored application token for a host, if any.
 
-    The Freebox can reject an application token that Universal Universal Home Assistant still
+    The Freebox can reject an application token that __HA_KEEP__ still
     considers valid, for example after the router was replaced, factory
     reset, or the application authorization was revoked from the Freebox
-    OS settings. When that happens, Universal Universal Home Assistant keeps retrying with the
+    OS settings. When that happens, __HA_KEEP__ keeps retrying with the
     same rejected token forever. Removing the stored token forces a fresh
     pairing (and a new "please confirm on your Freebox" prompt) on the
     next attempt.
@@ -138,7 +138,7 @@ class FreeboxRouter:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: FreeboxConfigEntry,
         api: Freepybox,
         freebox_config: Mapping[str, Any],

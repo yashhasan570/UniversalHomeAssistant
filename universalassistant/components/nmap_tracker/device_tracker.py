@@ -4,7 +4,7 @@ import logging
 from typing import TYPE_CHECKING, Any, override
 
 from universalassistant.components.device_tracker import ScannerEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -23,7 +23,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NmapTrackerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

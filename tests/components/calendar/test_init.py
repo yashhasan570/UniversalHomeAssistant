@@ -20,8 +20,8 @@ from universalassistant.components.calendar import (
     CalendarEntity,
     CalendarEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceNotSupported
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceNotSupported
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import Undefined
 from universalassistant.util import dt as dt_util
@@ -50,7 +50,7 @@ def mock_set_frozen_time(frozen_time: str | None) -> Generator[None]:
 
 @pytest.fixture(name="setup_platform", autouse=True)
 async def mock_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_time_zone: None,
     frozen_time: str | None,
     mock_setup_integration: None,
@@ -65,7 +65,7 @@ async def mock_setup_platform(
 
 
 async def test_events_http_api(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the calendar demo view."""
     client = await hass_client()
@@ -80,7 +80,7 @@ async def test_events_http_api(
 
 
 async def test_events_http_api_missing_fields(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the calendar demo view."""
     client = await hass_client()
@@ -89,7 +89,7 @@ async def test_events_http_api_missing_fields(
 
 
 async def test_events_http_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     test_entities: list[MockCalendarEntity],
 ) -> None:
@@ -98,7 +98,7 @@ async def test_events_http_api_error(
     start = dt_util.now()
     end = start + timedelta(days=1)
 
-    test_entities[0].async_get_events.side_effect = UniversalAssistantError("Failure")
+    test_entities[0].async_get_events.side_effect = __HAC_KEEP__Error("Failure")
 
     response = await client.get(
         f"/api/calendars/calendar.calendar_1?start={start.isoformat()}&end={end.isoformat()}"
@@ -108,7 +108,7 @@ async def test_events_http_api_error(
 
 
 async def test_events_http_api_dates_wrong_order(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the calendar demo view."""
     client = await hass_client()
@@ -121,7 +121,7 @@ async def test_events_http_api_dates_wrong_order(
 
 
 async def test_calendars_http_api(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the calendar demo view."""
     client = await hass_client()
@@ -207,7 +207,7 @@ async def test_calendars_http_api(
     ],
 )
 async def test_unsupported_websocket(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, payload, code
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, payload, code
 ) -> None:
     """Test unsupported websocket command."""
     client = await hass_ws_client(hass)
@@ -223,7 +223,7 @@ async def test_unsupported_websocket(
     assert resp["error"].get("code") == code
 
 
-async def test_unsupported_create_event_service(hass: UniversalAssistant) -> None:
+async def test_unsupported_create_event_service(hass: __HAC_KEEP__) -> None:
     """Test unsupported service call."""
     with pytest.raises(
         ServiceNotSupported,
@@ -398,7 +398,7 @@ async def test_unsupported_create_event_service(hass: UniversalAssistant) -> Non
     ],
 )
 async def test_create_event_service_invalid_params(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     date_fields: dict[str, Any],
     expected_error: type[Exception],
     error_match: str | None,
@@ -451,7 +451,7 @@ async def test_create_event_service_invalid_params(
     ],
 )
 async def test_list_events_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     start_time: str,
     end_time: str,
     service: str,
@@ -497,7 +497,7 @@ async def test_list_events_service(
 )
 @pytest.mark.parametrize("frozen_time", ["2023-10-19 13:50:05"], ids=["frozen_time"])
 async def test_list_events_service_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity: str,
     duration: str,
     service: str,
@@ -517,7 +517,7 @@ async def test_list_events_service_duration(
     assert response == snapshot
 
 
-async def test_list_events_positive_duration(hass: UniversalAssistant) -> None:
+async def test_list_events_positive_duration(hass: __HAC_KEEP__) -> None:
     """Test listing events requires a positive duration."""
     with pytest.raises(probatio.Invalid, match="should be positive"):
         await hass.services.async_call(
@@ -532,7 +532,7 @@ async def test_list_events_positive_duration(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_list_events_exclusive_fields(hass: UniversalAssistant) -> None:
+async def test_list_events_exclusive_fields(hass: __HAC_KEEP__) -> None:
     """Test listing events specifying fields that are exclusive."""
     end = dt_util.now() + timedelta(days=1)
 
@@ -550,7 +550,7 @@ async def test_list_events_exclusive_fields(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_list_events_missing_fields(hass: UniversalAssistant) -> None:
+async def test_list_events_missing_fields(hass: __HAC_KEEP__) -> None:
     """Test listing events missing some required fields."""
     with pytest.raises(probatio.Invalid, match="at least one of"):
         await hass.services.async_call(
@@ -601,7 +601,7 @@ async def test_list_events_missing_fields(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_list_events_service_same_dates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_data: dict[str, str],
     error_msg: str,
 ) -> None:
@@ -621,7 +621,7 @@ async def test_list_events_service_same_dates(
 
 
 async def test_calendar_initial_color_valid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     test_entities: list[MockCalendarEntity],
 ) -> None:
@@ -647,7 +647,7 @@ async def test_calendar_initial_color_valid(
     ],
 )
 async def test_calendar_initial_color_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     invalid_initial_color: str,
 ) -> None:
@@ -662,7 +662,7 @@ async def test_calendar_initial_color_invalid(
 
 
 async def test_calendar_initial_color_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entities: list[MockCalendarEntity],
 ) -> None:
     """Test that entities without initial_color return None."""
@@ -725,7 +725,7 @@ async def test_calendar_initial_color_precedence(
 
 
 async def test_websocket_handle_subscribe_calendar_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entities: list[MockCalendarEntity],
 ) -> None:
@@ -761,7 +761,7 @@ async def test_websocket_handle_subscribe_calendar_events(
 
 
 async def test_websocket_subscribers_share_one_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entities: list[MockCalendarEntity],
 ) -> None:
@@ -797,7 +797,7 @@ async def test_websocket_subscribers_share_one_fetch(
 
 
 async def test_websocket_subscribe_updates_on_state_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entities: list[MockCalendarEntity],
 ) -> None:
@@ -845,7 +845,7 @@ async def test_websocket_subscribe_updates_on_state_change(
 
 
 async def test_websocket_subscribe_entity_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test subscribing to a non-existent calendar entity."""
@@ -869,7 +869,7 @@ async def test_websocket_subscribe_entity_not_found(
 
 
 async def test_websocket_subscribe_event_fetch_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entities: list[MockCalendarEntity],
 ) -> None:
@@ -880,7 +880,7 @@ async def test_websocket_subscribe_event_fetch_error(
     end = start + timedelta(days=1)
 
     # Set up entity to fail on async_get_events
-    test_entities[0].async_get_events.side_effect = UniversalAssistantError("API Error")
+    test_entities[0].async_get_events.side_effect = __HAC_KEEP__Error("API Error")
 
     await client.send_json_auto_id(
         {
@@ -902,7 +902,7 @@ async def test_websocket_subscribe_event_fetch_error(
 
 
 async def test_websocket_subscribe_invalid_timespan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entities: list[MockCalendarEntity],
 ) -> None:
@@ -928,7 +928,7 @@ async def test_websocket_subscribe_invalid_timespan(
 
 
 async def test_websocket_subscribe_debounces_rapid_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entities: list[MockCalendarEntity],
 ) -> None:
@@ -997,7 +997,7 @@ async def test_websocket_subscribe_debounces_rapid_updates(
 
 
 async def test_events_http_api_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1021,7 +1021,7 @@ async def test_events_http_api_unauthorized(
 
 
 async def test_calendars_http_api_filters_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1067,7 +1067,7 @@ async def test_calendars_http_api_filters_unauthorized(
     ],
 )
 async def test_websocket_event_mutate_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     command: dict[str, Any],
@@ -1083,7 +1083,7 @@ async def test_websocket_event_mutate_unauthorized(
 
 
 async def test_websocket_subscribe_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
 ) -> None:

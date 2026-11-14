@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.moehlenhoff_alpha2.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_BASE_HOST, mock_update_data
 
 
-async def _assert_recovers(hass: UniversalAssistant, flow_id: str) -> None:
+async def _assert_recovers(hass: __HAC_KEEP__, flow_id: str) -> None:
     """Assert the flow creates an entry once the device answers."""
     with (
         patch(
@@ -34,7 +34,7 @@ async def _assert_recovers(hass: UniversalAssistant, flow_id: str) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -65,7 +65,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_duplicate_error(hass: UniversalAssistant) -> None:
+async def test_form_duplicate_error(hass: __HAC_KEEP__) -> None:
     """Test that errors are shown when duplicates are added."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -95,7 +95,7 @@ async def test_form_duplicate_error(hass: UniversalAssistant) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_form_cannot_connect_error(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect_error(hass: __HAC_KEEP__) -> None:
     """Test connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -112,7 +112,7 @@ async def test_form_cannot_connect_error(hass: UniversalAssistant) -> None:
     await _assert_recovers(hass, result["flow_id"])
 
 
-async def test_form_unexpected_error(hass: UniversalAssistant) -> None:
+async def test_form_unexpected_error(hass: __HAC_KEEP__) -> None:
     """Test unexpected error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

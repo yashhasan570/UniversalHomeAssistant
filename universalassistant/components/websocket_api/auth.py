@@ -11,7 +11,7 @@ from universalassistant.components.http.auth_util import async_user_not_allowed_
 from universalassistant.components.http.ban import process_success_login, process_wrong_login
 from universalassistant.components.http.const import KEY_HASS_USER
 from universalassistant.const import __version__
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.helpers.json import json_bytes
 from universalassistant.util.json import JsonValueType
 
@@ -52,7 +52,7 @@ class AuthPhase:
     def __init__(
         self,
         logger: WebSocketAdapter,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         send_message: Callable[[bytes | str | dict[str, Any]], None],
         cancel_ws: CALLBACK_TYPE,
         request: Request,

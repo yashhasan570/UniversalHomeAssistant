@@ -9,7 +9,7 @@ import steam.api
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -58,7 +58,7 @@ class SteamDataUpdateCoordinator(DataUpdateCoordinator[dict[str, PlayerData]]):
     user_interface: steam.api.interface
     player_interface: steam.api.interface
 
-    def __init__(self, hass: UniversalAssistant, config_entry: SteamConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: SteamConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass=hass,

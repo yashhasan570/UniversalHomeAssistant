@@ -16,8 +16,8 @@ from tesla_powerwall import (
 
 from universalassistant.config_entries import ConfigEntryState, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.util.network import is_ip_address
@@ -71,7 +71,7 @@ async def _powerwall_is_reachable(ip_address: str, password: str) -> bool:
 
 
 async def validate_input(
-    hass: UniversalAssistant, data: dict[str, str]
+    hass: __HAC_KEEP__, data: dict[str, str]
 ) -> dict[str, str | None]:
     """Validate the user input allows us to connect.
 
@@ -326,5 +326,5 @@ class PowerwallConfigFlow(ConfigFlow, domain=DOMAIN):
         return await self.async_step_reauth_confirm()
 
 
-class WrongVersion(UniversalAssistantError):
+class WrongVersion(__HAC_KEEP__Error):
     """Error indicating we cannot interact with the powerwall software version."""

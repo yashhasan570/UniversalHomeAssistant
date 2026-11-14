@@ -14,7 +14,7 @@ from universalassistant.components.conversation import UNIVERSAL_ASSISTANT_AGENT
 from universalassistant.components.stt import DOMAIN as STT_DOMAIN
 from universalassistant.components.tts import DOMAIN as TTS_DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import (
@@ -25,7 +25,7 @@ from .const import (
 )
 
 
-async def async_create_cloud_pipeline(hass: UniversalAssistant) -> None:
+async def async_create_cloud_pipeline(hass: __HAC_KEEP__) -> None:
     """Create a cloud assist pipeline."""
     # Wait for stt and tts platforms to set up and entities to be added
     # before creating the pipeline.
@@ -59,12 +59,12 @@ async def async_create_cloud_pipeline(hass: UniversalAssistant) -> None:
         hass,
         stt_engine_id=new_stt_engine_id,
         tts_engine_id=new_tts_engine_id,
-        pipeline_name="Universal Universal Home Assistant Link",
+        pipeline_name="__HA_KEEP__ Link",
     )
 
 
 async def async_migrate_cloud_pipeline_engine(
-    hass: UniversalAssistant, platform: Platform, engine_id: str
+    hass: __HAC_KEEP__, platform: Platform, engine_id: str
 ) -> None:
     """Migrate the pipeline engines and name in the cloud assist pipeline."""
     # Migrate existing pipelines with cloud stt or tts to use new cloud engine id,
@@ -101,7 +101,7 @@ async def async_migrate_cloud_pipeline_engine(
         kwargs: dict[str, Any] = {}
         if pipeline_engine == DOMAIN:
             kwargs[pipeline_attribute] = engine_id
-        if pipeline.name == "Universal Universal Home Assistant Cloud":
-            kwargs["name"] = "Universal Universal Home Assistant Link"
+        if pipeline.name == "__HA_KEEP__ Cloud":
+            kwargs["name"] = "__HA_KEEP__ Link"
         if kwargs:
             await async_update_pipeline(hass, pipeline, **kwargs)

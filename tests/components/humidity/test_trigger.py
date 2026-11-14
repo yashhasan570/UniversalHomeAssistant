@@ -31,29 +31,29 @@ from universalassistant.components.humidity.trigger import TRIGGERS
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.components.weather import WeatherEntityStateAttribute
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple sensor entities associated with different targets."""
     return await target_entities(hass, "sensor")
 
 
 @pytest.fixture
-async def target_climates(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_climates(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple climate entities associated with different targets."""
     return await target_entities(hass, "climate")
 
 
 @pytest.fixture
-async def target_humidifiers(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_humidifiers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple humidifier entities associated with different targets."""
     return await target_entities(hass, "humidifier")
 
 
 @pytest.fixture
-async def target_weathers(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_weathers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple weather entities associated with different targets."""
     return await target_entities(hass, "weather")
 
@@ -82,7 +82,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_humidity_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -126,7 +126,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_humidity_trigger_sensor_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -163,7 +163,7 @@ async def test_humidity_trigger_sensor_behavior_each(
     ],
 )
 async def test_humidity_trigger_sensor_crossed_threshold_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -200,7 +200,7 @@ async def test_humidity_trigger_sensor_crossed_threshold_behavior_first(
     ],
 )
 async def test_humidity_trigger_sensor_crossed_threshold_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -247,7 +247,7 @@ async def test_humidity_trigger_sensor_crossed_threshold_behavior_all(
     ],
 )
 async def test_humidity_trigger_climate_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -285,7 +285,7 @@ async def test_humidity_trigger_climate_behavior_each(
     ],
 )
 async def test_humidity_trigger_climate_crossed_threshold_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -323,7 +323,7 @@ async def test_humidity_trigger_climate_crossed_threshold_behavior_first(
     ],
 )
 async def test_humidity_trigger_climate_crossed_threshold_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -370,7 +370,7 @@ async def test_humidity_trigger_climate_crossed_threshold_behavior_all(
     ],
 )
 async def test_humidity_trigger_humidifier_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_humidifiers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -408,7 +408,7 @@ async def test_humidity_trigger_humidifier_behavior_each(
     ],
 )
 async def test_humidity_trigger_humidifier_crossed_threshold_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_humidifiers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -446,7 +446,7 @@ async def test_humidity_trigger_humidifier_crossed_threshold_behavior_first(
     ],
 )
 async def test_humidity_trigger_humidifier_crossed_threshold_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_humidifiers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -493,7 +493,7 @@ async def test_humidity_trigger_humidifier_crossed_threshold_behavior_all(
     ],
 )
 async def test_humidity_trigger_weather_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_weathers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -531,7 +531,7 @@ async def test_humidity_trigger_weather_behavior_each(
     ],
 )
 async def test_humidity_trigger_weather_crossed_threshold_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_weathers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -569,7 +569,7 @@ async def test_humidity_trigger_weather_crossed_threshold_behavior_first(
     ],
 )
 async def test_humidity_trigger_weather_crossed_threshold_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_weathers: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -619,7 +619,7 @@ async def test_humidity_trigger_weather_crossed_threshold_behavior_all(
     ],
 )
 async def test_humidity_trigger_ignores_limit_entity_with_wrong_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger: str,
     trigger_options: dict[str, Any],
     limit_entities: list[str],

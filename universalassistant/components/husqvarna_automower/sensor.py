@@ -31,7 +31,7 @@ from universalassistant.const import (
     UnitOfLength,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -365,7 +365,7 @@ WORK_AREA_SENSOR_TYPES: tuple[WorkAreaSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AutomowerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

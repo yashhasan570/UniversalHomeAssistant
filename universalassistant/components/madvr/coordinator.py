@@ -6,7 +6,7 @@ from typing import Any
 from pymadvr.madvr import Madvr
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN
@@ -23,7 +23,7 @@ class MadVRCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: MadVRConfigEntry,
         client: Madvr,
     ) -> None:

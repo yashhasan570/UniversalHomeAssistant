@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.imgw_pib.const import DOMAIN, UPDATE_INTERVAL
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -25,7 +25,7 @@ ENTITY_ID = "sensor.river_name_station_name_water_level"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_imgw_pib_client: AsyncMock,
@@ -38,7 +38,7 @@ async def test_sensor(
 
 
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_imgw_pib_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -72,7 +72,7 @@ async def test_availability(
 
 
 async def test_unknown_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_imgw_pib_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -100,7 +100,7 @@ async def test_unknown_state(
 
 
 async def test_remove_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imgw_pib_client: AsyncMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

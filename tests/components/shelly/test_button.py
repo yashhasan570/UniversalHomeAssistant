@@ -22,8 +22,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -61,7 +61,7 @@ def fixture_platforms():
 
 
 async def test_block_button(
-    hass: UniversalAssistant, mock_block_device: Mock, entity_registry: EntityRegistry
+    hass: __HAC_KEEP__, mock_block_device: Mock, entity_registry: EntityRegistry
 ) -> None:
     """Test block device reboot button."""
     await init_integration(hass, 1)
@@ -85,7 +85,7 @@ async def test_block_button(
 
 
 async def test_rpc_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -127,7 +127,7 @@ async def test_rpc_button(
     ],
 )
 async def test_rpc_button_exc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     exception: Exception,
     error: str,
@@ -137,7 +137,7 @@ async def test_rpc_button_exc(
 
     mock_rpc_device.trigger_reboot.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -147,7 +147,7 @@ async def test_rpc_button_exc(
 
 
 async def test_rpc_button_reauth_error(
-    hass: UniversalAssistant, mock_rpc_device: Mock
+    hass: __HAC_KEEP__, mock_rpc_device: Mock
 ) -> None:
     """Test rpc device OTA button with authentication error."""
     entry = await init_integration(hass, 2)
@@ -177,7 +177,7 @@ async def test_rpc_button_reauth_error(
 
 @pytest.mark.parametrize("model", [MODEL_BLU_GATEWAY_G3, MODEL_PLUS_2PM])
 async def test_rpc_blu_trv_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blu_trv: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -224,7 +224,7 @@ async def test_rpc_blu_trv_button(
     ],
 )
 async def test_rpc_blu_trv_button_exc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blu_trv: Mock,
     monkeypatch: pytest.MonkeyPatch,
     exception: Exception,
@@ -239,7 +239,7 @@ async def test_rpc_blu_trv_button_exc(
 
     mock_blu_trv.trigger_blu_trv_calibration.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -249,7 +249,7 @@ async def test_rpc_blu_trv_button_exc(
 
 
 async def test_rpc_blu_trv_button_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blu_trv: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -284,7 +284,7 @@ async def test_rpc_blu_trv_button_auth_error(
 
 
 async def test_rpc_device_virtual_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -321,7 +321,7 @@ async def test_rpc_device_virtual_button(
 
 
 async def test_rpc_remove_virtual_button_when_orphaned(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -346,7 +346,7 @@ async def test_rpc_remove_virtual_button_when_orphaned(
 
 
 async def test_wall_display_virtual_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -383,7 +383,7 @@ async def test_wall_display_virtual_button(
 
 
 async def test_rpc_smoke_mute_alarm_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -434,7 +434,7 @@ async def test_rpc_smoke_mute_alarm_button(
 
 @pytest.mark.parametrize(("action", "value"), [("turn_on", True), ("turn_off", False)])
 async def test_wall_display_screen_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     snapshot: SnapshotAssertion,
@@ -461,7 +461,7 @@ async def test_wall_display_screen_buttons(
 
 
 async def test_rpc_remove_restart_button_for_sleeping_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     device_registry: DeviceRegistry,
@@ -488,7 +488,7 @@ async def test_rpc_remove_restart_button_for_sleeping_devices(
 
 
 async def test_rpc_ircode_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -526,7 +526,7 @@ async def test_rpc_ircode_buttons(
 
 
 async def test_rpc_ircode_button_no_custom_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,

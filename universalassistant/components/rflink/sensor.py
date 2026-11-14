@@ -31,7 +31,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolumetricFlux,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -299,7 +299,7 @@ def devices_from_config(domain_config):
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -320,7 +320,7 @@ async def async_setup_platform(
         async_add_entities([device])
 
     def automatic_add_config(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         platform_config: ConfigType | DiscoveryInfoType,
     ):
         """Enables the 'add_new_device' function if configured."""

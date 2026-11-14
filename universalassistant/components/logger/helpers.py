@@ -12,7 +12,7 @@ from typing import Any
 import probatio
 
 from universalassistant.const import EVENT_LOGGING_CHANGED
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.storage import Store
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.loader import IntegrationNotFound, async_get_integration
@@ -47,14 +47,14 @@ SAVE_DELAY_LONG = 180.0
 
 
 @callback
-def set_default_log_level(hass: UniversalAssistant, level: int) -> None:
+def set_default_log_level(hass: __HAC_KEEP__, level: int) -> None:
     """Set the default log level for components."""
     _set_log_level(logging.getLogger(""), level)
     hass.bus.async_fire(EVENT_LOGGING_CHANGED)
 
 
 @callback
-def set_log_levels(hass: UniversalAssistant, logpoints: Mapping[str, int]) -> None:
+def set_log_levels(hass: __HAC_KEEP__, logpoints: Mapping[str, int]) -> None:
     """Set the specified log levels."""
     hass.data[DATA_LOGGER].overrides.update(logpoints)
     for key, value in logpoints.items():
@@ -80,12 +80,12 @@ def _chattiest_log_level(level1: int, level2: int) -> int:
 
 
 @callback
-def _clear_logger_overwrites(hass: UniversalAssistant) -> None:
+def _clear_logger_overwrites(hass: __HAC_KEEP__) -> None:
     """Clear logger overwrites. Used for testing."""
     hass.data[DATA_LOGGER].overrides.clear()
 
 
-async def get_integration_loggers(hass: UniversalAssistant, domain: str) -> set[str]:
+async def get_integration_loggers(hass: __HAC_KEEP__, domain: str) -> set[str]:
     """Get loggers for an integration."""
     loggers: set[str] = {f"universalassistant.components.{domain}"}
     with contextlib.suppress(IntegrationNotFound):
@@ -133,7 +133,7 @@ class LoggerSettings:
 
     _stored_config: dict[str, dict[str, LoggerSetting]]
 
-    def __init__(self, hass: UniversalAssistant, yaml_config: ConfigType) -> None:
+    def __init__(self, hass: __HAC_KEEP__, yaml_config: ConfigType) -> None:
         """Initialize log settings."""
 
         self._yaml_config = yaml_config
@@ -204,7 +204,7 @@ class LoggerSettings:
         return logger_logs
 
     async def async_update(
-        self, hass: UniversalAssistant, domain: str, settings: LoggerSetting
+        self, hass: __HAC_KEEP__, domain: str, settings: LoggerSetting
     ) -> None:
         """Update settings."""
         stored_log_config = self._stored_config[STORAGE_LOG_KEY]
@@ -226,7 +226,7 @@ class LoggerSettings:
 
         set_log_levels(hass, combined_logs)
 
-    async def async_get_levels(self, hass: UniversalAssistant) -> dict[str, int]:
+    async def async_get_levels(self, hass: __HAC_KEEP__) -> dict[str, int]:
         """Get combination of levels from yaml and storage."""
         combined_logs = defaultdict(lambda: logging.CRITICAL)
         for domain, settings in self._stored_config[STORAGE_LOG_KEY].items():

@@ -1,7 +1,7 @@
 """The Airobot integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import AirobotConfigEntry, AirobotDataUpdateCoordinator
 
@@ -14,7 +14,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AirobotConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AirobotConfigEntry) -> None:
     """Set up Airobot from a config entry."""
     coordinator = AirobotDataUpdateCoordinator(hass, entry)
 
@@ -26,6 +26,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AirobotConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AirobotConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AirobotConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -5,14 +5,14 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.weather import Forecast, WeatherEntityFeature
 from universalassistant.components.weather.const import DOMAIN
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import MockWeatherTest, create_entity
 
 
 async def test_device_class_units(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can get supported units."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -39,7 +39,7 @@ async def test_device_class_units(
 
 
 async def test_subscribe_forecast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     config_flow_fixture: None,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_subscribe_forecast(
 
 
 async def test_subscribe_forecast_unknown_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test multiple forecast."""
@@ -130,7 +130,7 @@ async def test_subscribe_forecast_unknown_entity(
 
 
 async def test_subscribe_forecast_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     config_flow_fixture: None,
 ) -> None:

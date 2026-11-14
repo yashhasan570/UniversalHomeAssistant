@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.local_file.const import DEFAULT_NAME, DOMAIN
 from universalassistant.const import CONF_FILE_PATH
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -20,7 +20,7 @@ from universalassistant.data_entry_flow import FlowResultType
     ],
 )
 async def test_form_sensor(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, file_path: str, name: str
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, file_path: str, name: str
 ) -> None:
     """Test we get the form and name the entry after the file."""
 
@@ -52,7 +52,7 @@ async def test_form_sensor(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_options_flow(hass: UniversalAssistant, loaded_entry: MockConfigEntry) -> None:
+async def test_options_flow(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -> None:
     """Test options flow."""
 
     result = await hass.config_entries.options.async_init(loaded_entry.entry_id)
@@ -87,7 +87,7 @@ async def test_options_flow(hass: UniversalAssistant, loaded_entry: MockConfigEn
 
 
 async def test_validation_options(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test validation."""
 
@@ -139,7 +139,7 @@ async def test_validation_options(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_entry_already_exist(
-    hass: UniversalAssistant, loaded_entry: MockConfigEntry
+    hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
 ) -> None:
     """Test abort when entry already exist."""
 

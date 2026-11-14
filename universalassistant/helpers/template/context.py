@@ -1,4 +1,4 @@
-"""Template context management for Universal Universal Home Assistant."""
+"""Template context management for __HA_KEEP__."""
 
 from contextlib import AbstractContextManager
 from contextvars import ContextVar

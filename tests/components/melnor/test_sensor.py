@@ -7,7 +7,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from universalassistant.const import PERCENTAGE, SIGNAL_STRENGTH_DECIBELS_MILLIWATT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -20,7 +20,7 @@ from .conftest import (
 )
 
 
-async def test_battery_sensor(hass: UniversalAssistant) -> None:
+async def test_battery_sensor(hass: __HAC_KEEP__) -> None:
     """Test the battery sensor."""
 
     entry = mock_config_entry(hass)
@@ -42,7 +42,7 @@ async def test_battery_sensor(hass: UniversalAssistant) -> None:
         assert battery_sensor.attributes["state_class"] == SensorStateClass.MEASUREMENT
 
 
-async def test_minutes_remaining_sensor(hass: UniversalAssistant) -> None:
+async def test_minutes_remaining_sensor(hass: __HAC_KEEP__) -> None:
     """Test the minutes remaining sensor."""
 
     now = dt_util.utcnow()
@@ -85,7 +85,7 @@ async def test_minutes_remaining_sensor(hass: UniversalAssistant) -> None:
         assert minutes_remaining_sensor.state == end_time.isoformat(timespec="seconds")
 
 
-async def test_schedule_next_cycle_sensor(hass: UniversalAssistant) -> None:
+async def test_schedule_next_cycle_sensor(hass: __HAC_KEEP__) -> None:
     """Test the frequency next_cycle sensor."""
 
     now = dt_util.utcnow()
@@ -128,7 +128,7 @@ async def test_schedule_next_cycle_sensor(hass: UniversalAssistant) -> None:
 
 
 async def test_rssi_sensor(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the rssi sensor."""
 

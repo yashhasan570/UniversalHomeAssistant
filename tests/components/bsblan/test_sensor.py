@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.bsblan.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -22,7 +22,7 @@ ENTITY_TOTAL_ENERGY = "sensor.bsb_lan_total_energy"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_entity_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -35,7 +35,7 @@ async def test_sensor_entity_properties(
 
 
 async def test_sensors_not_created_when_data_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -57,7 +57,7 @@ async def test_sensors_not_created_when_data_unavailable(
 
 
 async def test_partial_sensors_created_when_some_data_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -80,7 +80,7 @@ async def test_partial_sensors_created_when_some_data_available(
 
 
 async def test_current_temperature_per_circuit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry_dual_circuit: MockConfigEntry,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_current_temperature_per_circuit(
 
 
 async def test_current_temperature_keeps_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

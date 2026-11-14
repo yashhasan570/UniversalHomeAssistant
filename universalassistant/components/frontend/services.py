@@ -6,8 +6,8 @@ import logging
 import probatio
 
 from universalassistant.config import async_hass_config_yaml
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import service
 
 from .const import DOMAIN
@@ -92,7 +92,7 @@ async def _reload_themes(call: ServiceCall) -> None:
     try:
         new_themes = validate_themes(new_themes)
     except probatio.Invalid as err:
-        raise UniversalAssistantError(f"Failed to reload themes: {err}") from err
+        raise __HAC_KEEP__Error(f"Failed to reload themes: {err}") from err
 
     hass.data[DATA_THEMES] = new_themes
     if hass.data[DATA_DEFAULT_THEME] not in new_themes:
@@ -106,7 +106,7 @@ async def _reload_themes(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the frontend services."""
     service.async_register_admin_service(
         hass,

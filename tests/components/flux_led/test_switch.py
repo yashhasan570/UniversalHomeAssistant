@@ -18,7 +18,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -35,7 +35,7 @@ from . import (
 )
 
 
-async def test_switch_on_off(hass: UniversalAssistant) -> None:
+async def test_switch_on_off(hass: __HAC_KEEP__) -> None:
     """Test a smart plug."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -72,7 +72,7 @@ async def test_switch_on_off(hass: UniversalAssistant) -> None:
 
 
 async def test_remote_access_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a remote access switch unique id."""
     config_entry = MockConfigEntry(
@@ -99,7 +99,7 @@ async def test_remote_access_unique_id(
 
 
 async def test_effects_speed_unique_id_no_discovery(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a remote access switch unique id when discovery fails."""
     config_entry = MockConfigEntry(
@@ -125,7 +125,7 @@ async def test_effects_speed_unique_id_no_discovery(
     )
 
 
-async def test_remote_access_on_off(hass: UniversalAssistant) -> None:
+async def test_remote_access_on_off(hass: __HAC_KEEP__) -> None:
     """Test enable/disable remote access."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -165,7 +165,7 @@ async def test_remote_access_on_off(hass: UniversalAssistant) -> None:
     assert config_entry.data[CONF_REMOTE_ACCESS_ENABLED] is True
 
 
-async def test_music_mode_switch(hass: UniversalAssistant) -> None:
+async def test_music_mode_switch(hass: __HAC_KEEP__) -> None:
     """Test music mode switch."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

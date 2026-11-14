@@ -7,7 +7,7 @@ import pytest
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 config = {
@@ -22,7 +22,7 @@ config = {
 }
 
 
-async def test_snmp_integer_switch_off(hass: UniversalAssistant) -> None:
+async def test_snmp_integer_switch_off(hass: __HAC_KEEP__) -> None:
     """Test snmp switch returning int 0 for off."""
 
     mock_data = Integer32(0)
@@ -36,7 +36,7 @@ async def test_snmp_integer_switch_off(hass: UniversalAssistant) -> None:
         assert state.state == STATE_OFF
 
 
-async def test_snmp_integer_switch_on(hass: UniversalAssistant) -> None:
+async def test_snmp_integer_switch_on(hass: __HAC_KEEP__) -> None:
     """Test snmp switch returning int 1 for on."""
 
     mock_data = Integer32(1)
@@ -51,7 +51,7 @@ async def test_snmp_integer_switch_on(hass: UniversalAssistant) -> None:
 
 
 async def test_snmp_integer_switch_unknown(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test snmp switch returning int 3 (not a configured payload) for unknown."""
 

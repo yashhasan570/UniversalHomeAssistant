@@ -8,7 +8,7 @@ import pyaprilaire.client
 from pyaprilaire.const import MODELS, Attribute, FunctionalDomain
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import BaseDataUpdateCoordinatorProtocol
@@ -29,7 +29,7 @@ class AprilaireCoordinator(BaseDataUpdateCoordinatorProtocol):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AprilaireConfigEntry | None,
         host: str,
         port: int,

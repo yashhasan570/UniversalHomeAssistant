@@ -9,7 +9,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -69,7 +69,7 @@ FLUME_BINARY_NOTIFICATION_SENSORS: tuple[FlumeBinarySensorEntityDescription, ...
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FlumeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -24,7 +24,7 @@ from universalassistant.auth.models import (
 from universalassistant.components import auth
 from universalassistant.components.auth import DOMAIN
 from universalassistant.components.http.const import MAX_UNAUTHENTICATED_BODY_SIZE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -43,7 +43,7 @@ def mock_credential():
     )
 
 
-async def async_setup_user_refresh_token(hass: UniversalAssistant) -> RefreshToken:
+async def async_setup_user_refresh_token(hass: __HAC_KEEP__) -> RefreshToken:
     """Create a testing user with a connected credential."""
     user = await hass.auth.async_create_user("Test User")
 
@@ -62,7 +62,7 @@ async def async_setup_user_refresh_token(hass: UniversalAssistant) -> RefreshTok
 
 
 async def test_login_new_user_and_trying_refresh_token(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test logging in with new user and refreshing tokens."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -128,7 +128,7 @@ async def test_login_new_user_and_trying_refresh_token(
 
 
 async def test_auth_code_of_removed_credentials(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test a code issued before its credentials were removed buys no tokens."""
     client = await async_setup_auth(hass, aiohttp_client)
@@ -150,7 +150,7 @@ async def test_auth_code_of_removed_credentials(
 
 
 async def test_auth_code_of_first_sign_in_redeemed_twice(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test the codes of two first sign ins of one account create one user."""
     client = await async_setup_auth(hass, aiohttp_client)
@@ -203,7 +203,7 @@ async def test_auth_code_of_first_sign_in_redeemed_twice(
 
 
 async def test_auth_code_checks_local_only_user(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test local only user cannot exchange auth code when external."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -303,9 +303,9 @@ def test_auth_code_store_requires_credentials(mock_credential) -> None:
 
 
 async def test_ws_current_user(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_access_token: str
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_access_token: str
 ) -> None:
-    """Test the current user command with Universal Universal Home Assistant creds."""
+    """Test the current user command with __HA_KEEP__ creds."""
     assert await async_setup_component(hass, DOMAIN, {})
 
     refresh_token = hass.auth.async_validate_access_token(hass_access_token)
@@ -331,7 +331,7 @@ async def test_ws_current_user(
 
 
 async def test_cors_on_token(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test logging in with new user and refreshing tokens."""
     client = await async_setup_auth(hass, aiohttp_client)
@@ -351,7 +351,7 @@ async def test_cors_on_token(
 
 
 async def test_refresh_token_system_generated(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test that we can get access tokens for system generated user."""
     client = await async_setup_auth(hass, aiohttp_client)
@@ -382,7 +382,7 @@ async def test_refresh_token_system_generated(
 
 
 async def test_refresh_token_different_client_id(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test that we verify client ID."""
     client = await async_setup_auth(hass, aiohttp_client)
@@ -428,7 +428,7 @@ async def test_refresh_token_different_client_id(
 
 
 async def test_refresh_token_checks_local_only_user(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test that we can't refresh token for a local only user when external."""
     client = await async_setup_auth(hass, aiohttp_client)
@@ -454,7 +454,7 @@ async def test_refresh_token_checks_local_only_user(
 
 
 async def test_refresh_token_provider_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     hass_admin_user: MockUser,
     hass_admin_credential: Credentials,
@@ -487,7 +487,7 @@ async def test_refresh_token_provider_rejected(
     ("url", "base_data"), [("/auth/token", {"action": "revoke"}), ("/auth/revoke", {})]
 )
 async def test_revoking_refresh_token(
-    url, base_data, hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    url, base_data, hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test that we can revoke refresh tokens."""
     client = await async_setup_auth(hass, aiohttp_client)
@@ -528,7 +528,7 @@ async def test_revoking_refresh_token(
 
 
 async def test_ws_long_lived_access_token(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_access_token: str
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_access_token: str
 ) -> None:
     """Test generate long-lived access token."""
     assert await async_setup_component(hass, DOMAIN, {"http": {}})
@@ -558,7 +558,7 @@ async def test_ws_long_lived_access_token(
 
 
 async def test_ws_refresh_tokens(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_access_token: str
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_access_token: str
 ) -> None:
     """Test fetching refresh token metadata."""
     assert await async_setup_component(hass, DOMAIN, {"http": {}})
@@ -585,7 +585,7 @@ async def test_ws_refresh_tokens(
 
 
 async def test_ws_delete_refresh_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     hass_admin_credential: Credentials,
     hass_ws_client: WebSocketGenerator,
@@ -616,7 +616,7 @@ async def test_ws_delete_refresh_token(
 
 
 async def test_ws_delete_all_refresh_tokens_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     hass_admin_credential: Credentials,
     hass_ws_client: WebSocketGenerator,
@@ -697,7 +697,7 @@ async def test_ws_delete_all_refresh_tokens_error(
     ],
 )
 async def test_ws_delete_all_refresh_tokens(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     hass_admin_credential: Credentials,
     hass_ws_client: WebSocketGenerator,
@@ -771,7 +771,7 @@ async def test_ws_delete_all_refresh_tokens(
 
 
 async def test_ws_delete_current_token_before_closing(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_access_token: str
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_access_token: str
 ) -> None:
     """Test the current token is gone once the result arrives, before the close."""
     assert await async_setup_component(hass, DOMAIN, {"http": {}})
@@ -792,7 +792,7 @@ async def test_ws_delete_current_token_before_closing(
 
 
 async def test_ws_sign_path(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, hass_access_token: str
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, hass_access_token: str
 ) -> None:
     """Test signing a path."""
     assert await async_setup_component(hass, DOMAIN, {"http": {}})
@@ -820,7 +820,7 @@ async def test_ws_sign_path(
 
 
 async def test_ws_refresh_token_set_expiry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     hass_admin_credential: Credentials,
     hass_ws_client: WebSocketGenerator,
@@ -863,7 +863,7 @@ async def test_ws_refresh_token_set_expiry(
 
 
 async def test_ws_refresh_token_set_expiry_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_access_token: str,
 ) -> None:
@@ -925,7 +925,7 @@ async def _async_login_for_code(
 
 
 async def test_loopback_port_change_requires_pkce(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Do not issue a code for a changed loopback port without stored PKCE."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -975,7 +975,7 @@ async def test_loopback_port_change_requires_pkce(
     ],
 )
 async def test_loopback_auth_code_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     code_challenge: str | None,
     registered_uri: str,
@@ -1015,7 +1015,7 @@ async def test_loopback_auth_code_success(
     ],
 )
 async def test_loopback_auth_code_requires_verifier(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     token_parameters: dict[str, str],
     expected_error: str,
@@ -1049,7 +1049,7 @@ async def test_loopback_auth_code_requires_verifier(
     "parameter", ["client_id", "grant_type", "code", "redirect_uri", "code_verifier"]
 )
 async def test_pkce_token_request_rejects_duplicate_parameters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     parameter: str,
 ) -> None:
@@ -1077,7 +1077,7 @@ async def test_pkce_token_request_rejects_duplicate_parameters(
 
 
 async def test_pkce_token_request_rejects_file_verifier(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test a multipart file cannot be used as a code verifier."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -1103,7 +1103,7 @@ async def test_pkce_token_request_rejects_file_verifier(
 
 
 async def test_auth_code_pkce_success(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test login flow and token exchange with PKCE S256."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -1124,7 +1124,7 @@ async def test_auth_code_pkce_success(
 
 
 async def test_auth_code_pkce_missing_code_verifier(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test token exchange fails when code_verifier is missing for PKCE code."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -1155,7 +1155,7 @@ async def test_auth_code_pkce_missing_code_verifier(
     ids=["wrong", "too_short", "too_long", "non_ascii"],
 )
 async def test_auth_code_pkce_invalid_code_verifier(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     invalid_verifier: str,
 ) -> None:
@@ -1179,7 +1179,7 @@ async def test_auth_code_pkce_invalid_code_verifier(
 
 
 async def test_auth_code_without_challenge_succeeds(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test token exchange succeeds when flow was started without code_challenge and no verifier sent."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -1199,7 +1199,7 @@ async def test_auth_code_without_challenge_succeeds(
 
 
 async def test_auth_code_unexpected_verifier_rejected(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test token exchange fails when client sends code_verifier but no code_challenge was registered."""
     client = await async_setup_auth(hass, aiohttp_client, setup_api=True)
@@ -1232,7 +1232,7 @@ async def test_auth_code_unexpected_verifier_rejected(
     ],
 )
 async def test_unauthenticated_body_too_large(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     url: str,
     content_type: str,

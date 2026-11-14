@@ -13,15 +13,15 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.nextdns.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -36,7 +36,7 @@ async def test_button(
 
 @pytest.mark.freeze_time("2023-10-21")
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -68,18 +68,18 @@ async def test_button_press(
     ],
 )
 async def test_button_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
     exc: Exception,
 ) -> None:
-    """Tests that the press action throws UniversalAssistantError."""
+    """Tests that the press action throws __HAC_KEEP__Error."""
     await init_integration(hass, mock_config_entry)
 
     mock_nextdns_client.clear_logs.side_effect = exc
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="An error occurred while calling the NextDNS API"
         " method for button.fake_profile_clear_logs",
     ):
@@ -92,7 +92,7 @@ async def test_button_failure(
 
 
 async def test_button_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_button_auth_error(
     mock_nextdns_client.clear_logs.side_effect = InvalidApiKeyError
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Authentication failed for NextDNS, please update your API key",
     ):
         await hass.services.async_call(

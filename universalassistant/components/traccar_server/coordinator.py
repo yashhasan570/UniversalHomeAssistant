@@ -16,7 +16,7 @@ from pytraccar import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -59,7 +59,7 @@ class TraccarServerCoordinator(DataUpdateCoordinator[TraccarServerCoordinatorDat
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TraccarServerConfigEntry,
         client: ApiClient,
     ) -> None:

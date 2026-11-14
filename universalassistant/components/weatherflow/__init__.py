@@ -6,7 +6,7 @@ from pyweatherflowudp.errors import ListenerError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -22,7 +22,7 @@ PLATFORMS = [
 type WeatherFlowConfigEntry = ConfigEntry[WeatherFlowListener]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: WeatherFlowConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: WeatherFlowConfigEntry) -> None:
     """Set up WeatherFlow from a config entry."""
 
     client = WeatherFlowListener()
@@ -69,7 +69,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: WeatherFlowConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: WeatherFlowConfigEntry
+    hass: __HAC_KEEP__, entry: WeatherFlowConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -77,7 +77,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WeatherFlowConfigEntry,
     device_entry: AnyDeviceEntry,
 ) -> bool:

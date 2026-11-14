@@ -4,7 +4,7 @@ from collections.abc import Callable, Coroutine
 from functools import wraps
 from typing import Any, Concatenate, cast
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -38,7 +38,7 @@ def cmd[_EntityT: WebOsTvEntity, _R, **_P](
     async def cmd_wrapper(self: _EntityT, *args: _P.args, **kwargs: _P.kwargs) -> _R:
         """Wrap all command methods."""
         if not self._client.tv_state.is_on and func.__name__ != "async_turn_off":
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_off",
                 translation_placeholders={
@@ -49,7 +49,7 @@ def cmd[_EntityT: WebOsTvEntity, _R, **_P](
         try:
             return await func(self, *args, **kwargs)
         except WEBOSTV_EXCEPTIONS as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
                 translation_placeholders={

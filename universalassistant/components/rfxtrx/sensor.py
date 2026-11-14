@@ -32,7 +32,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolumetricFlux,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -243,7 +243,7 @@ SENSOR_TYPES_DICT = {desc.key: desc for desc in SENSOR_TYPES}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RfxtrxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

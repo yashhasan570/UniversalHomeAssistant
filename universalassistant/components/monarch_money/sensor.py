@@ -18,7 +18,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import CURRENCY_DOLLAR, PERCENTAGE, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -174,7 +174,7 @@ MONARCH_BUDGET_SENSORS: tuple[MonarchMoneyBudgetSensorEntityDescription, ...] = 
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MonarchMoneyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

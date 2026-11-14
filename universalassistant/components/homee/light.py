@@ -12,7 +12,7 @@ from universalassistant.components.light import (
     ColorMode,
     LightEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.color import (
     brightness_to_value,
@@ -87,7 +87,7 @@ def decimal_to_rgb_list(color: float) -> list[int]:
 
 
 async def add_light_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -102,7 +102,7 @@ async def add_light_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -118,7 +118,7 @@ class HomeeLight(HomeeNodeEntity, LightEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         node: HomeeNode,
         light: dict[AttributeType, HomeeAttribute],
         entry: HomeeConfigEntry,

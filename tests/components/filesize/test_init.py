@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.filesize.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_FILE_PATH
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import async_create_file
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, tmp_path: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, tmp_path: Path
 ) -> None:
     """Test the Filesize configuration entry loading/unloading."""
     testfile = str(tmp_path.joinpath("file.txt"))
@@ -36,7 +36,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_cannot_access_file(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, tmp_path: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, tmp_path: Path
 ) -> None:
     """Test that an file not exist is caught."""
     mock_config_entry.add_to_hass(hass)
@@ -53,7 +53,7 @@ async def test_cannot_access_file(
 
 
 async def test_not_valid_path_to_file(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, tmp_path: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, tmp_path: Path
 ) -> None:
     """Test that an invalid path is caught."""
     testfile = str(tmp_path.joinpath("file.txt"))

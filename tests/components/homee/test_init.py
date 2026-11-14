@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.homee.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import build_mock_node, setup_integration
@@ -34,7 +34,7 @@ from .conftest import HOMEE_ID
     ],
 )
 async def test_connection_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_eff: Exception,
@@ -55,7 +55,7 @@ async def test_connection_errors(
 
 
 async def test_connection_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -74,7 +74,7 @@ async def test_connection_listener(
 
 
 async def test_general_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -103,7 +103,7 @@ async def test_general_data(
 
 
 async def test_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -131,7 +131,7 @@ async def test_via_device_id(
 
 
 async def test_software_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -147,7 +147,7 @@ async def test_software_version(
 
 
 async def test_invalid_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -165,7 +165,7 @@ async def test_invalid_profile(
 
 
 async def test_attribute_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_attribute_availability(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_unload_entry(
 
 
 async def test_remove_stale_device_on_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -239,7 +239,7 @@ async def test_remove_stale_device_on_startup(
 
 
 async def test_remove_node_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

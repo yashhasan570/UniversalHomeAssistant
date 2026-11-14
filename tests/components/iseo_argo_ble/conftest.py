@@ -61,7 +61,7 @@ def mock_iseo_client() -> Generator[MagicMock]:
 
 @pytest.fixture
 def mock_ble_device() -> Generator[MagicMock]:
-    """Make the lock visible in Universal Universal Home Assistant's bluetooth cache."""
+    """Make the lock visible in __HA_KEEP__'s bluetooth cache."""
     ble_device = MagicMock()
     with (
         patch(

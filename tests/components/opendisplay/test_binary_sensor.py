@@ -9,7 +9,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import VALID_SERVICE_INFO
@@ -24,7 +24,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_connectivity_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -40,7 +40,7 @@ async def test_connectivity_entity(
 
 @pytest.mark.parametrize("is_flex", [True, False])
 async def test_connectivity_created_for_all_device_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opendisplay_device: MagicMock,
     setup_entry: Callable[[], Awaitable[None]],
     is_flex: bool,
@@ -53,7 +53,7 @@ async def test_connectivity_created_for_all_device_types(
 
 
 async def test_connectivity_changes_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: Callable[[], Awaitable[None]],
 ) -> None:
     """Connectivity changes state based on advertisement reception."""

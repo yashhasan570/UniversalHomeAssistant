@@ -1,8 +1,8 @@
-"""Test for a Universal Universal Home Assistant bridge that changes fan features at runtime."""
+"""Test for a __HA_KEEP__ bridge that changes fan features at runtime."""
 
 from universalassistant.components.fan import FanEntityFeature
 from universalassistant.const import ATTR_SUPPORTED_FEATURES
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from ..common import (
@@ -13,7 +13,7 @@ from ..common import (
 
 
 async def test_fan_add_feature_at_runtime(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that new features can be added at runtime."""
 
@@ -71,7 +71,7 @@ async def test_fan_add_feature_at_runtime(
 
 
 async def test_fan_remove_feature_at_runtime(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that features can be removed at runtime."""
 
@@ -129,7 +129,7 @@ async def test_fan_remove_feature_at_runtime(
 
 
 async def test_bridge_with_two_fans_one_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test a bridge with two fans and one gets removed."""

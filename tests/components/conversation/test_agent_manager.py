@@ -9,13 +9,13 @@ from universalassistant.components.conversation import (
     async_get_chat_log,
 )
 from universalassistant.components.conversation.chat_log import DATA_CHAT_LOGS
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import chat_session
 from universalassistant.helpers.intent import IntentResponse, IntentResponseErrorCode
 
 
-async def test_async_converse(hass: UniversalAssistant, init_components) -> None:
+async def test_async_converse(hass: __HAC_KEEP__, init_components) -> None:
     """Test the async_converse method."""
     context = Context()
     with patch(
@@ -45,7 +45,7 @@ async def test_async_converse(hass: UniversalAssistant, init_components) -> None
 
 
 async def test_async_converse_error_in_open_turn(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: None,
     mock_conversation_input: ConversationInput,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_async_converse_error_in_open_turn(
         async_get_chat_log(hass, session, mock_conversation_input) as chat_log,
         patch(
             "universalassistant.components.conversation.default_agent.DefaultAgent._async_handle_message",
-            side_effect=UniversalAssistantError("Provider is down"),
+            side_effect=__HAC_KEEP__Error("Provider is down"),
         ),
     ):
         await async_converse(hass, "Hello", "koala", Context())
@@ -67,12 +67,12 @@ async def test_async_converse_error_in_open_turn(
 
 
 async def test_async_converse_failed_first_turn(
-    hass: UniversalAssistant, init_components: None
+    hass: __HAC_KEEP__, init_components: None
 ) -> None:
     """Test a failed first turn returns the ID of the stored conversation."""
     with patch(
         "universalassistant.components.conversation.default_agent.DefaultAgent._async_handle_message",
-        side_effect=UniversalAssistantError("Provider is down"),
+        side_effect=__HAC_KEEP__Error("Provider is down"),
     ):
         result = await async_converse(
             hass, text="test command", conversation_id=None, context=Context()

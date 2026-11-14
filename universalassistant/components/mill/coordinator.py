@@ -20,7 +20,7 @@ from universalassistant.components.recorder.statistics import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import UnitOfEnergy
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util import dt as dt_util, slugify
 from universalassistant.util.unit_conversion import EnergyConverter
@@ -39,7 +39,7 @@ class MillDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: MillConfigEntry,
         mill_data_connection: Mill | MillLocal,
         update_interval: timedelta,
@@ -65,7 +65,7 @@ class MillHistoricDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: MillConfigEntry,
         *,
         mill_data_connection: Mill,

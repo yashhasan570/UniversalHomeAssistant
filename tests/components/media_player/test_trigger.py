@@ -27,14 +27,14 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.media_player.trigger import TRIGGERS
 from universalassistant.const import CONF_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 _VOLUME_CHANGED_THRESHOLD = {"threshold": {"type": "any"}}
 _VOLUME_CROSSED_THRESHOLD = {"threshold": {"type": "above", "value": {"number": 50}}}
 
 
 @pytest.fixture
-async def target_media_players(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_media_players(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple media player entities associated with different targets."""
     return await target_entities(hass, "media_player")
 
@@ -128,7 +128,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_media_player_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -223,7 +223,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_media_player_state_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_media_players: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -270,7 +270,7 @@ async def test_media_player_state_trigger_behavior_each(
     ],
 )
 async def test_media_player_state_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_media_players: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -317,7 +317,7 @@ async def test_media_player_state_trigger_behavior_first(
     ],
 )
 async def test_media_player_state_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_media_players: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -363,7 +363,7 @@ async def test_media_player_state_trigger_behavior_all(
     ],
 )
 async def test_media_player_volume_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_media_players: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -402,7 +402,7 @@ async def test_media_player_volume_trigger_behavior_each(
     ],
 )
 async def test_media_player_volume_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_media_players: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -441,7 +441,7 @@ async def test_media_player_volume_trigger_behavior_first(
     ],
 )
 async def test_media_player_volume_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_media_players: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -491,7 +491,7 @@ async def test_media_player_volume_trigger_behavior_all(
     ],
 )
 async def test_media_player_trigger_ignores_limit_entity_with_wrong_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger: str,
     trigger_options: dict[str, Any],
     limit_entities: list[str],
@@ -520,7 +520,7 @@ async def test_media_player_trigger_ignores_limit_entity_with_wrong_unit(
 
 
 async def test_muted_trigger_ignores_entities_without_volume_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test muted trigger ignores entities without volume attributes."""
     entity_id = "media_player.no_volume"
@@ -558,7 +558,7 @@ async def test_muted_trigger_ignores_entities_without_volume_attributes(
 
 
 async def test_muted_trigger_does_not_fire_on_losing_volume_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test trigger skips when muted entity loses volume attributes."""
     entity_id = "media_player.loses_volume"
@@ -586,7 +586,7 @@ async def test_muted_trigger_does_not_fire_on_losing_volume_attributes(
 
 
 async def test_unmuted_trigger_does_not_fire_when_entity_gains_volume_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test unmuted trigger skips when entity gains volume attrs already-unmuted.
 

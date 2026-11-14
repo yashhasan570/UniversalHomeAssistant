@@ -10,13 +10,13 @@ from universalassistant.components import automation
 from universalassistant.components.tag import async_scan_tag
 from universalassistant.components.tag.const import DEVICE_ID, DOMAIN, TAG_ID
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-def tag_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
+def tag_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
     """Tag setup."""
 
     async def _storage(items=None):
@@ -36,7 +36,7 @@ def tag_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
 
 
 async def test_triggers(
-    hass: UniversalAssistant, tag_setup, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, tag_setup, service_calls: list[ServiceCall]
 ) -> None:
     """Test tag triggers."""
     assert await tag_setup()
@@ -84,7 +84,7 @@ async def test_triggers(
 
 
 async def test_exception_bad_trigger(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test for exception on event triggers firing."""
 
@@ -108,7 +108,7 @@ async def test_exception_bad_trigger(
 
 
 async def test_multiple_tags_and_devices_trigger(
-    hass: UniversalAssistant, tag_setup, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, tag_setup, service_calls: list[ServiceCall]
 ) -> None:
     """Test multiple tags and devices triggers."""
     assert await tag_setup()
@@ -161,7 +161,7 @@ COMPOSITE_ID = "composite00000000000000000000ab"
 
 @pytest.fixture
 def split_devices(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> tuple[dr.DeviceEntry, dr.DeviceEntry]:
     """Create two devices which are splits of a pre-migration composite device."""
     entry_1 = MockConfigEntry(domain="itg1")
@@ -188,7 +188,7 @@ def split_devices(
 
 
 async def test_composite_device_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tag_setup,
     service_calls: list[ServiceCall],
     split_devices: tuple[dr.DeviceEntry, dr.DeviceEntry],

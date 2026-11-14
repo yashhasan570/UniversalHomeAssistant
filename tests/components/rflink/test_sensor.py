@@ -24,7 +24,7 @@ from universalassistant.const import (
     UnitOfPrecipitationDepth,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .test_init import mock_rflink
@@ -44,7 +44,7 @@ CONFIG = {
 
 
 async def test_default_setup(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test all basic functionality of the rflink sensor component."""
     # setup mocking rflink module
@@ -107,7 +107,7 @@ async def test_default_setup(
 
 
 async def test_disable_automatic_add(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """If disabled new devices should not be automatically added."""
     config = {
@@ -136,7 +136,7 @@ async def test_disable_automatic_add(
 
 
 async def test_entity_availability(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """If Rflink device is disconnected, entities should become unavailable."""
     # Make sure Rflink mock does not 'recover' too quickly from the
@@ -178,7 +178,7 @@ async def test_entity_availability(
     assert hass.states.get("sensor.test").state == STATE_UNKNOWN
 
 
-async def test_aliases(hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_aliases(hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch) -> None:
     """Validate the response to sensor's alias (with aliases)."""
     config = {
         "rflink": {
@@ -222,7 +222,7 @@ async def test_aliases(hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
 
 
 async def test_race_condition(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test race condition for unknown components."""
     config = {"rflink": {"port": "/dev/ttyABC0", DOMAIN: {}}}
@@ -263,7 +263,7 @@ async def test_race_condition(
 
 
 async def test_sensor_attributes(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Validate the sensor attributes."""
 
@@ -339,7 +339,7 @@ async def test_sensor_attributes(
 
 
 async def test_empty_discovery_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -383,7 +383,7 @@ async def test_empty_discovery_info(
 
 
 async def test_removed_sensor_unregisters_lookups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -440,7 +440,7 @@ async def test_removed_sensor_unregisters_lookups(
     ],
 )
 async def test_renamed_sensor_handles_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: er.EntityRegistry,
     event_id: str,

@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, override
 from rachiopy import Rachio
 from requests.exceptions import Timeout
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -39,7 +39,7 @@ class RachioUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         rachio: Rachio,
         config_entry: RachioConfigEntry,
         base_station,
@@ -79,7 +79,7 @@ class RachioScheduleUpdateCoordinator(DataUpdateCoordinator[list[dict[str, Any]]
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         rachio: Rachio,
         config_entry: RachioConfigEntry,
         base_station,

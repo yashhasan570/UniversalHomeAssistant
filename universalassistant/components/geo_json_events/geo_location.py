@@ -7,7 +7,7 @@ from aio_geojson_generic_client.feed_entry import GenericFeedEntry
 
 from universalassistant.components.geo_location import GeolocationEvent
 from universalassistant.const import UnitOfLength
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GeoJsonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

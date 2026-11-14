@@ -2,7 +2,7 @@
 
 import probatio
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import intent
 
 from .const import DOMAIN, FanService, FanServiceArgument
@@ -10,7 +10,7 @@ from .const import DOMAIN, FanService, FanServiceArgument
 INTENT_FAN_SET_SPEED = "HassFanSetSpeed"
 
 
-async def async_setup_intents(hass: UniversalAssistant) -> None:
+async def async_setup_intents(hass: __HAC_KEEP__) -> None:
     """Set up the fan intents."""
     intent.async_register(
         hass,

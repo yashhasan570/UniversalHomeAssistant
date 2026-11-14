@@ -8,7 +8,7 @@ from typing import override
 from tesla_fleet_api.const import EnergyExportMode, EnergyOperationMode, Scope, Seat
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import TeslaFleetConfigEntry
@@ -78,7 +78,7 @@ SEAT_HEATER_DESCRIPTIONS: tuple[SeatHeaterDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslaFleetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

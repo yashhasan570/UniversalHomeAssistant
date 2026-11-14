@@ -50,7 +50,7 @@ from universalassistant.const import (
     EntityCategory,
     UnitOfRatio,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -224,7 +224,7 @@ def mirobo_is_on_fixture():
 
 
 async def test_xiaomi_vacuum_battery_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_mirobo_is_on: MagicMock,
@@ -275,7 +275,7 @@ async def test_xiaomi_vacuum_battery_sensor(
     "entity_registry_enabled_by_default", "mock_mirobo_is_got_error"
 )
 @pytest.mark.freeze_time("2026-10-10 16:00:00+00:00")
-async def test_xiaomi_vacuum_dnd_sensors(hass: UniversalAssistant) -> None:
+async def test_xiaomi_vacuum_dnd_sensors(hass: __HAC_KEEP__) -> None:
     """Test the DnD sensors use the next occurrence in the configured time zone."""
     await hass.config.async_set_time_zone("America/New_York")
     entity_name = "test_vacuum_cleaner_dnd"
@@ -291,7 +291,7 @@ async def test_xiaomi_vacuum_dnd_sensors(hass: UniversalAssistant) -> None:
 
 
 async def test_xiaomi_vacuum_battery_sensor_unknown(
-    hass: UniversalAssistant, mock_mirobo_is_on: MagicMock
+    hass: __HAC_KEEP__, mock_mirobo_is_on: MagicMock
 ) -> None:
     """Test the battery sensor becomes unknown for an invalid value."""
     mock_mirobo_is_on.status().battery = None
@@ -322,7 +322,7 @@ async def test_xiaomi_vacuum_battery_sensor_unknown(
 
 
 async def test_xiaomi_vacuum_battery_sensor_missing(
-    hass: UniversalAssistant, mock_mirobo_is_on: MagicMock
+    hass: __HAC_KEEP__, mock_mirobo_is_on: MagicMock
 ) -> None:
     """Test the battery sensor handles a missing battery value."""
     status = mock_mirobo_is_on.status.return_value
@@ -339,7 +339,7 @@ async def test_xiaomi_vacuum_battery_sensor_missing(
 
 
 async def test_xiaomi_exceptions(
-    hass: UniversalAssistant, mock_mirobo_is_on: MagicMock
+    hass: __HAC_KEEP__, mock_mirobo_is_on: MagicMock
 ) -> None:
     """Test error logging on exceptions."""
     entity_name = "test_vacuum_cleaner_error"
@@ -375,7 +375,7 @@ async def test_xiaomi_exceptions(
 
 
 async def test_xiaomi_vacuum_services(
-    hass: UniversalAssistant, mock_mirobo_is_got_error
+    hass: __HAC_KEEP__, mock_mirobo_is_got_error
 ) -> None:
     """Test vacuum supported features."""
     entity_name = "test_vacuum_cleaner_1"
@@ -554,7 +554,7 @@ async def test_xiaomi_vacuum_services(
     ],
 )
 async def test_xiaomi_specific_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mirobo_is_on,
     service,
     service_data,
@@ -602,7 +602,7 @@ async def test_xiaomi_specific_services(
 
 
 async def test_xiaomi_vacuum_fanspeeds(
-    hass: UniversalAssistant, mock_mirobo_fanspeeds: MagicMock
+    hass: __HAC_KEEP__, mock_mirobo_fanspeeds: MagicMock
 ) -> None:
     """Test Xiaomi vacuum fanspeeds."""
     entity_name = "test_vacuum_cleaner_2"
@@ -652,7 +652,7 @@ async def test_xiaomi_vacuum_fanspeeds(
     mock_mirobo_fanspeeds.set_fan_speed.assert_not_called()
 
 
-async def setup_component(hass: UniversalAssistant, entity_name: str) -> str:
+async def setup_component(hass: __HAC_KEEP__, entity_name: str) -> str:
     """Set up vacuum component."""
     entity_id = f"{VACUUM_DOMAIN}.{entity_name}"
 

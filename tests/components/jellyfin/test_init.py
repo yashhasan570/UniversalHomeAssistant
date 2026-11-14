@@ -8,7 +8,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.jellyfin.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -17,7 +17,7 @@ from .const import TEST_PASSWORD, TEST_URL, TEST_USERNAME
 
 
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
@@ -36,7 +36,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
@@ -61,7 +61,7 @@ async def test_invalid_auth(
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_migrate_strips_trailing_slash_from_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_jellyfin: MagicMock,
     mock_client: MagicMock,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_migrate_strips_trailing_slash_from_url(
 
 
 async def test_device_remove_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_jellyfin: MagicMock,

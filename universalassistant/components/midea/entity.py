@@ -9,7 +9,7 @@ from midealocal.exceptions import MideaLocalError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity import Entity, EntityDescription
 
@@ -21,11 +21,11 @@ type MideaConfigEntry = ConfigEntry[MideaDevice]
 
 @contextmanager
 def midea_api_call() -> Generator[None]:
-    """Translate midealocal device-communication errors into UniversalAssistantError."""
+    """Translate midealocal device-communication errors into __HAC_KEEP__Error."""
     try:
         yield
     except MideaLocalError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_communication_error",
             translation_placeholders={"error": str(err)},

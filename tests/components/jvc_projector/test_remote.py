@@ -11,15 +11,15 @@ from universalassistant.components.remote import (
     SERVICE_SEND_COMMAND,
 )
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "remote.jvc_projector"
 
 
 async def test_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
@@ -32,7 +32,7 @@ async def test_entity_state(
 
 @patch("universalassistant.components.jvc_projector.remote.POWER_SLEEP", 0)
 async def test_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
 ) -> None:
@@ -82,12 +82,12 @@ async def test_commands(
 
 
 async def test_unknown_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device: MagicMock,
     mock_integration: MockConfigEntry,
 ) -> None:
     """Test unknown service call errors."""
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             REMOTE_DOMAIN,
             SERVICE_SEND_COMMAND,

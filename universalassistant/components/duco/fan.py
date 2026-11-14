@@ -6,8 +6,8 @@ from duco_connectivity.exceptions import DucoError, DucoRateLimitError
 from duco_connectivity.models import Node, VentilationState
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import percentage_to_ordered_list_item
 
@@ -53,7 +53,7 @@ _STATE_TO_PERCENTAGE: dict[VentilationState, int] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DucoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -129,12 +129,12 @@ class DucoVentilationFanEntity(DucoEntity, FanEntity):
         try:
             await self.coordinator.async_set_ventilation_state(self._node_id, state)
         except DucoRateLimitError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="rate_limit_exceeded",
             ) from err
         except DucoError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_set_state",
             ) from err

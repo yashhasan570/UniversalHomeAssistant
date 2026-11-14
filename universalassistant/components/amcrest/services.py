@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.camera import DOMAIN as CAMERA_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import CBW, DOMAIN, MOV
@@ -39,7 +39,7 @@ class AmcrestServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the Amcrest IP Camera services."""
     for service_name, func in (
         (AmcrestService.ENABLE_RECORDING, "async_enable_recording"),

@@ -9,14 +9,14 @@ from universalassistant import config_entries
 from universalassistant.components.compit.config_flow import CannotConnect, InvalidAuth
 from universalassistant.components.compit.const import DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .consts import CONFIG_INPUT
 
 
 async def test_async_step_user_success(
-    hass: UniversalAssistant, mock_compit_api: AsyncMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_compit_api: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test user step with successful authentication."""
     mock_compit_api.return_value = True
@@ -51,7 +51,7 @@ async def test_async_step_user_success(
     ],
 )
 async def test_async_step_user_failed_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     expected_error: str,
     mock_compit_api: AsyncMock,
@@ -84,7 +84,7 @@ async def test_async_step_user_failed_auth(
 
 
 async def test_async_step_reauth_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_compit_api: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -122,7 +122,7 @@ async def test_async_step_reauth_success(
     ],
 )
 async def test_async_step_reauth_confirm_failed_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
     expected_error: str,

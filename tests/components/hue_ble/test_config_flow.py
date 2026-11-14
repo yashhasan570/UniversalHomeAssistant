@@ -16,7 +16,7 @@ from universalassistant.components.hue_ble.const import (
 )
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER
 from universalassistant.const import CONF_MAC, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 
@@ -32,7 +32,7 @@ AUTH_ERROR.__cause__ = PairingError()
 
 
 async def test_user_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test user form."""
@@ -102,7 +102,7 @@ async def test_user_form(
 @pytest.mark.parametrize("discovery_info", [[NOT_HUE_BLE_DISCOVERY_INFO], []])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_form_no_device(
-    hass: UniversalAssistant, discovery_info: list[BluetoothServiceInfoBleak]
+    hass: __HAC_KEEP__, discovery_info: list[BluetoothServiceInfoBleak]
 ) -> None:
     """Test user form with no devices."""
 
@@ -198,7 +198,7 @@ async def test_user_form_no_device(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_form_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_return_device: BLEDevice | None,
     mock_scanner_count: int,
     mock_connect: Exception | None,
@@ -291,7 +291,7 @@ async def test_user_form_exception(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_bluetooth_discovery_aborts(hass: UniversalAssistant) -> None:
+async def test_bluetooth_discovery_aborts(hass: __HAC_KEEP__) -> None:
     """Test bluetooth form aborts."""
 
     result = await hass.config_entries.flow.async_init(
@@ -305,7 +305,7 @@ async def test_bluetooth_discovery_aborts(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_bluetooth_form_exception_already_set_up(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test bluetooth discovery form when device is already set up."""
 
@@ -322,7 +322,7 @@ async def test_bluetooth_form_exception_already_set_up(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_form_exception_already_set_up(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user form when device is already set up."""
 

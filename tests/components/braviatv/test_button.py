@@ -15,8 +15,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -24,7 +24,7 @@ from . import init_integration
 
 @pytest.mark.usefixtures("mock_braviatv_client")
 async def test_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -44,7 +44,7 @@ async def test_button(
     ],
 )
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -73,7 +73,7 @@ async def test_button_press(
 
 
 async def test_button_press_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_braviatv_client: AsyncMock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_button_press_error(
     mock_braviatv_client.reboot.side_effect = BraviaError
 
     with pytest.raises(
-        UniversalAssistantError, match="Error sending command to BRAVIA TV-Model"
+        __HAC_KEEP__Error, match="Error sending command to BRAVIA TV-Model"
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,

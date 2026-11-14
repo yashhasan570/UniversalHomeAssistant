@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
@@ -38,7 +38,7 @@ async def siren_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_demo_siren(hass: UniversalAssistant, siren_only: None):
+async def setup_demo_siren(hass: __HAC_KEEP__, siren_only: None):
     """Initialize setup demo siren."""
     assert await async_setup_component(
         hass, SIREN_DOMAIN, {"siren": {"platform": "demo"}}
@@ -46,20 +46,20 @@ async def setup_demo_siren(hass: UniversalAssistant, siren_only: None):
     await hass.async_block_till_done()
 
 
-def test_setup_params(hass: UniversalAssistant) -> None:
+def test_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the initial parameters."""
     state = hass.states.get(ENTITY_SIREN)
     assert state.state == STATE_ON
     assert ATTR_AVAILABLE_TONES not in state.attributes
 
 
-def test_all_setup_params(hass: UniversalAssistant) -> None:
+def test_all_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the setup with all parameters."""
     state = hass.states.get(ENTITY_SIREN_WITH_ALL_FEATURES)
     assert state.attributes.get(ATTR_AVAILABLE_TONES) == ["fire", "alarm"]
 
 
-async def test_turn_on(hass: UniversalAssistant) -> None:
+async def test_turn_on(hass: __HAC_KEEP__) -> None:
     """Test turn on device."""
     await hass.services.async_call(
         SIREN_DOMAIN, SERVICE_TURN_OFF, {ATTR_ENTITY_ID: ENTITY_SIREN}, blocking=True
@@ -89,7 +89,7 @@ async def test_turn_on(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_turn_off(hass: UniversalAssistant) -> None:
+async def test_turn_off(hass: __HAC_KEEP__) -> None:
     """Test turn off device."""
     await hass.services.async_call(
         SIREN_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_SIREN}, blocking=True
@@ -104,7 +104,7 @@ async def test_turn_off(hass: UniversalAssistant) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_toggle(hass: UniversalAssistant) -> None:
+async def test_toggle(hass: __HAC_KEEP__) -> None:
     """Test toggle device."""
     await hass.services.async_call(
         SIREN_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_SIREN}, blocking=True
@@ -125,7 +125,7 @@ async def test_toggle(hass: UniversalAssistant) -> None:
     assert state.state == STATE_ON
 
 
-async def test_turn_on_strip_attributes(hass: UniversalAssistant) -> None:
+async def test_turn_on_strip_attributes(hass: __HAC_KEEP__) -> None:
     """Test attributes are stripped from turn_on service call when not supported."""
     with patch(
         "universalassistant.components.demo.siren.DemoSiren.async_turn_on"

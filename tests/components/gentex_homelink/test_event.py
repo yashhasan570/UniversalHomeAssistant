@@ -9,7 +9,7 @@ from pytest_universalassistant.plugins import AiohttpClientMocker
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 import universalassistant.helpers.entity_registry as er
 
 from . import setup_integration, update_callback
@@ -17,7 +17,7 @@ from . import setup_integration, update_callback
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_provider: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -33,7 +33,7 @@ async def test_entities(
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 @pytest.mark.freeze_time("2021-07-30")
 async def test_entities_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     mock_mqtt_provider: AsyncMock,

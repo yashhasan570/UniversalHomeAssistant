@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import CoreState, UniversalAssistant, State, callback
+from universalassistant.core import CoreState, __HAC_KEEP__, State, callback
 from universalassistant.helpers import entity_registry as er
 
 from .test_init import mock_rflink
@@ -45,7 +45,7 @@ CONFIG = {
 
 
 async def test_default_setup(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test all basic functionality of the rflink switch component."""
     # setup mocking rflink module
@@ -107,7 +107,7 @@ async def test_default_setup(
 
 
 async def test_group_alias(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Group aliases should only respond to group commands (allon/alloff)."""
     config = {
@@ -143,7 +143,7 @@ async def test_group_alias(
 
 
 async def test_nogroup_alias(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Non group aliases should not respond to group commands."""
     config = {
@@ -179,7 +179,7 @@ async def test_nogroup_alias(
 
 
 async def test_nogroup_device_id(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Device id that do not respond to group commands (allon/alloff)."""
     config = {
@@ -210,7 +210,7 @@ async def test_nogroup_device_id(
 
 
 async def test_device_defaults(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Event should fire if device_defaults config says so."""
     config = {
@@ -245,7 +245,7 @@ async def test_device_defaults(
 
 
 async def test_not_firing_default(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """By default no bus events should be fired."""
     config = {
@@ -278,7 +278,7 @@ async def test_not_firing_default(
 
 
 async def test_restore_state(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Ensure states are restored on startup."""
     config = {
@@ -329,7 +329,7 @@ async def test_restore_state(
     ],
 )
 async def test_removed_switch_unregisters_lookups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: er.EntityRegistry,
     device_config: dict[str, Any],
@@ -393,7 +393,7 @@ async def test_removed_switch_unregisters_lookups(
     ],
 )
 async def test_renamed_switch_handles_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: er.EntityRegistry,
     event_id: str,

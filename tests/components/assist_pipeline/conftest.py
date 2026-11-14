@@ -29,7 +29,7 @@ from universalassistant.components.assist_pipeline.pipeline import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import chat_session, device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.setup import async_setup_component
@@ -191,7 +191,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, "test.config_flow")
 
@@ -201,7 +201,7 @@ def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
 
 @pytest.fixture
 async def init_supporting_components(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stt_provider: MockSTTProvider,
     mock_stt_provider_entity: MockSTTProviderEntity,
     mock_tts_provider: MockTTSProvider,
@@ -213,7 +213,7 @@ async def init_supporting_components(
     """Initialize relevant components with empty configs."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -221,7 +221,7 @@ async def init_supporting_components(
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Unload up test config entry."""
         await hass.config_entries.async_unload_platforms(
@@ -229,7 +229,7 @@ async def init_supporting_components(
         )
 
     async def async_setup_entry_stt_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -237,7 +237,7 @@ async def init_supporting_components(
         async_add_entities([mock_stt_provider_entity])
 
     async def async_setup_entry_tts_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -245,7 +245,7 @@ async def init_supporting_components(
         async_add_entities([mock_tts_entity])
 
     async def async_setup_entry_wake_word_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -304,7 +304,7 @@ async def init_supporting_components(
 
 
 @pytest.fixture
-async def init_components(hass: UniversalAssistant, init_supporting_components):
+async def init_components(hass: __HAC_KEEP__, init_supporting_components):
     """Initialize relevant components with empty configs."""
 
     assert await async_setup_component(hass, DOMAIN, {})
@@ -312,7 +312,7 @@ async def init_components(hass: UniversalAssistant, init_supporting_components):
 
 @pytest.fixture
 async def assist_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, init_components
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, init_components
 ) -> dr.DeviceEntry:
     """Create an assist device."""
     config_entry = MockConfigEntry(domain="test_assist_device")
@@ -325,7 +325,7 @@ async def assist_device(
     )
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -333,7 +333,7 @@ async def assist_device(
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Unload up test config entry."""
         await hass.config_entries.async_unload_platforms(
@@ -341,7 +341,7 @@ async def assist_device(
         )
 
     async def async_setup_entry_select_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -383,7 +383,7 @@ async def assist_device(
 
 
 @pytest.fixture
-def pipeline_data(hass: UniversalAssistant, init_components) -> PipelineData:
+def pipeline_data(hass: __HAC_KEEP__, init_components) -> PipelineData:
     """Return pipeline data."""
     return hass.data[DOMAIN]
 
@@ -400,7 +400,7 @@ def make_10ms_chunk(header: bytes) -> bytes:
 
 
 @pytest.fixture
-def mock_chat_session(hass: UniversalAssistant) -> Generator[chat_session.ChatSession]:
+def mock_chat_session(hass: __HAC_KEEP__) -> Generator[chat_session.ChatSession]:
     """Mock the ulid of chat sessions."""
     # pylint: disable-next=contextmanager-generator-missing-cleanup
     with (

@@ -22,7 +22,7 @@ from universalassistant.components.recorder.statistics import (
     statistics_during_period,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, UnitOfEnergy
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util, slugify, snakecase
@@ -52,7 +52,7 @@ class SolarEdgeDataService(ABC):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SolarEdgeConfigEntry,
         api: SolarEdge,
         site_id: str,
@@ -135,7 +135,7 @@ class SolarEdgeOverviewDataService(SolarEdgeDataService):
         # Sanity check the energy values. SolarEdge API sometimes
         # reports "lifetimedata" of zero,
         # while values for last Year, Month and Day energy are still OK.
-        # See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/59285 .
+        # See https://github.com/yashhasan570/__HAC_KEEP__/issues/59285 .
         if set(energy_keys).issubset(self.data.keys()):
             for index, key in enumerate(energy_keys, start=1):
                 # All coming values in list should be larger than the current value.
@@ -253,7 +253,7 @@ class SolarEdgeEnergyDetailsService(SolarEdgeDataService):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SolarEdgeConfigEntry,
         api: SolarEdge,
         site_id: str,
@@ -333,7 +333,7 @@ class SolarEdgePowerFlowDataService(SolarEdgeDataService):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SolarEdgeConfigEntry,
         api: SolarEdge,
         site_id: str,
@@ -526,7 +526,7 @@ class SolarEdgeModulesCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SolarEdgeConfigEntry,
     ) -> None:
         """Initialize the data handler."""
@@ -716,7 +716,7 @@ class SolarEdgeModulesCoordinator(DataUpdateCoordinator[None]):
         # in the window works even when the previous statistics are older than
         # the window, and unlike the absolute last statistic it is not reset by
         # an earlier update that already wrote statistics inside the window.
-        # See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/186653 .
+        # See https://github.com/yashhasan570/__HAC_KEEP__/issues/186653 .
         current_stats = await get_instance(self.hass).async_add_executor_job(
             statistics_during_period,
             self.hass,

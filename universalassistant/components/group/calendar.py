@@ -14,7 +14,7 @@ from universalassistant.components.calendar import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ENTITIES, CONF_NAME, CONF_UNIQUE_ID
-from universalassistant.core import Event, EventStateReportedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateReportedData, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.entity_platform import (
@@ -43,7 +43,7 @@ PLATFORM_SCHEMA = CALENDAR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    _: UniversalAssistant,
+    _: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     __: DiscoveryInfoType | None = None,
@@ -61,7 +61,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -83,7 +83,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_calendar(
-    hass: UniversalAssistant, name: str, validated_config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, validated_config: dict[str, Any]
 ) -> CalendarGroup:
     """Create a preview calendar."""
     return CalendarGroup(
@@ -163,7 +163,7 @@ class CalendarGroup(GroupEntity, CalendarEntity):
     @override
     async def async_get_events(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         start_date: dt.datetime,
         end_date: dt.datetime,
     ) -> list[CalendarEvent]:

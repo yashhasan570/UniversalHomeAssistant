@@ -13,7 +13,7 @@ from universalassistant.components.water_heater import (
 from universalassistant.components.water_heater.significant_change import (
     async_check_significant_change,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM as METRIC,
     US_CUSTOMARY_SYSTEM as IMPERIAL,
@@ -21,7 +21,7 @@ from universalassistant.util.unit_system import (
 )
 
 
-async def test_significant_state_change(hass: UniversalAssistant) -> None:
+async def test_significant_state_change(hass: __HAC_KEEP__) -> None:
     """Detect Water Heater significant state changes."""
     attrs = {}
     assert not async_check_significant_change(hass, "on", attrs, "on", attrs)
@@ -83,7 +83,7 @@ async def test_significant_state_change(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_significant_atributes_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unit_system: UnitSystem,
     old_attrs: dict,
     new_attrs: dict,

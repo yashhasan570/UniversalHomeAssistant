@@ -30,13 +30,13 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import mock_asyncio_subprocess_run
 
 
-async def test_state_integration_yaml(hass: UniversalAssistant) -> None:
+async def test_state_integration_yaml(hass: __HAC_KEEP__) -> None:
     """Test with none state."""
     with tempfile.TemporaryDirectory() as tempdirname:
         path = os.path.join(tempdirname, "switch_status")
@@ -84,7 +84,7 @@ async def test_state_integration_yaml(hass: UniversalAssistant) -> None:
         assert entity_state.state == STATE_OFF
 
 
-async def test_state_value(hass: UniversalAssistant) -> None:
+async def test_state_value(hass: __HAC_KEEP__) -> None:
     """Test with state value."""
     with tempfile.TemporaryDirectory() as tempdirname:
         path = os.path.join(tempdirname, "switch_status")
@@ -140,7 +140,7 @@ async def test_state_value(hass: UniversalAssistant) -> None:
         assert entity_state.attributes.get("icon") == "mdi:off"
 
 
-async def test_state_json_value(hass: UniversalAssistant) -> None:
+async def test_state_json_value(hass: __HAC_KEEP__) -> None:
     """Test with state JSON value."""
     with tempfile.TemporaryDirectory() as tempdirname:
         path = os.path.join(tempdirname, "switch_status")
@@ -199,7 +199,7 @@ async def test_state_json_value(hass: UniversalAssistant) -> None:
         assert entity_state.attributes.get("icon") == "mdi:off"
 
 
-async def test_state_code(hass: UniversalAssistant) -> None:
+async def test_state_code(hass: __HAC_KEEP__) -> None:
     """Test with state code."""
     with tempfile.TemporaryDirectory() as tempdirname:
         path = os.path.join(tempdirname, "switch_status")
@@ -249,7 +249,7 @@ async def test_state_code(hass: UniversalAssistant) -> None:
 
 
 async def test_assumed_state_should_be_true_if_command_state_is_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test with state value."""
 
@@ -276,7 +276,7 @@ async def test_assumed_state_should_be_true_if_command_state_is_none(
 
 
 async def test_assumed_state_should_absent_if_command_state_present(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test with state value."""
 
@@ -303,7 +303,7 @@ async def test_assumed_state_should_absent_if_command_state_present(
     assert "assumed_state" not in entity_state.attributes
 
 
-async def test_name_is_set_correctly(hass: UniversalAssistant) -> None:
+async def test_name_is_set_correctly(hass: __HAC_KEEP__) -> None:
     """Test that name is set correctly."""
     await setup.async_setup_component(
         hass,
@@ -329,7 +329,7 @@ async def test_name_is_set_correctly(hass: UniversalAssistant) -> None:
 
 async def test_switch_command_state_fail(
     caplog: pytest.LogCaptureFixture,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that switch failures are handled correctly."""
@@ -376,7 +376,7 @@ async def test_switch_command_state_fail(
 
 async def test_switch_command_state_code_exceptions(
     caplog: pytest.LogCaptureFixture,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that switch state code exceptions are handled correctly."""
@@ -416,7 +416,7 @@ async def test_switch_command_state_code_exceptions(
 
 async def test_switch_command_state_value_exceptions(
     caplog: pytest.LogCaptureFixture,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test that switch state value exceptions are handled correctly."""
@@ -456,7 +456,7 @@ async def test_switch_command_state_value_exceptions(
 
 
 async def test_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique_id option and if it only creates one switch per id."""
     await setup.async_setup_component(
@@ -503,7 +503,7 @@ async def test_unique_id(
 
 
 async def test_command_failure(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__
 ) -> None:
     """Test command failure."""
 
@@ -532,7 +532,7 @@ async def test_command_failure(
     assert "return code 33" in caplog.text
 
 
-async def test_templating(hass: UniversalAssistant) -> None:
+async def test_templating(hass: __HAC_KEEP__) -> None:
     """Test with templating."""
     with tempfile.TemporaryDirectory() as tempdirname:
         path = os.path.join(tempdirname, "switch_status")
@@ -603,7 +603,7 @@ async def test_templating(hass: UniversalAssistant) -> None:
 
 
 async def test_updating_to_often(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -680,7 +680,7 @@ async def test_updating_to_often(
 
 
 async def test_updating_manually(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -755,7 +755,7 @@ async def test_updating_manually(
     ],
 )
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_yaml_integration: None,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -816,7 +816,7 @@ async def test_availability(
     ],
 )
 async def test_availability_blocks_value_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_yaml_integration: None,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,

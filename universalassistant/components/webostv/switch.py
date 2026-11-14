@@ -5,8 +5,8 @@ from typing import Any, override
 from aiowebostv import WebOsTvServiceNotFoundError
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WebOsTvConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -70,7 +70,7 @@ class LgWebOSScreenSwitchEntity(WebOsTvEntity, SwitchEntity):
         except WebOsTvServiceNotFoundError as error:
             self._unsupported = True
             self.async_write_ha_state()
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="screen_control_not_supported",
                 translation_placeholders={"name": self.coordinator.name},

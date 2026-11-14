@@ -1,7 +1,7 @@
 {
   "issues": {
     "integration_removed": {
-      "description": "The Zengge integration has been removed from Universal Universal Home Assistant. Support for Zengge lights is provided by the `led_ble` integration.\n\nTo resolve this issue, please remove the (now defunct) `zengge` light configuration from your Universal Universal Home Assistant configuration and [configure the `led_ble` integration]({led_ble_url}).",
+      "description": "The Zengge integration has been removed from __HA_KEEP__. Support for Zengge lights is provided by the `led_ble` integration.\n\nTo resolve this issue, please remove the (now defunct) `zengge` light configuration from your __HA_KEEP__ configuration and [configure the `led_ble` integration]({led_ble_url}).",
       "title": "The Zengge integration has been removed"
     }
   }

@@ -5,7 +5,7 @@ import logging
 from pykoplenti import ApiException
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 
 from .const import DOMAIN
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.NUMBER, Platform.SELECT, Platform.SENSOR, Platform.SWITCH]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PlenticoreConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PlenticoreConfigEntry) -> None:
     """Set up Kostal Plenticore Solar Inverter from a config entry."""
     plenticore = Plenticore(hass, entry)
 
@@ -32,7 +32,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PlenticoreConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: PlenticoreConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: PlenticoreConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     try:

@@ -31,7 +31,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.duco.const import BOX_NODE_ID, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import async_fire_coordinator_update, setup_platform_integration
@@ -114,7 +114,7 @@ def _node_configs_with_primary_name(
     ],
 )
 async def test_setup_entry_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     method: str,
@@ -141,7 +141,7 @@ async def test_setup_entry_error(
 
 @pytest.mark.usefixtures("mock_duco_client")
 async def test_setup_entry_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_duco_client: AsyncMock,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_setup_entry_success(
 
 
 async def test_device_via_device_links(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
@@ -185,7 +185,7 @@ async def test_device_via_device_links(
 
 
 async def test_box_entities_added_after_initial_incomplete_node_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
@@ -229,7 +229,7 @@ async def test_box_entities_added_after_initial_incomplete_node_list(
     ],
 )
 async def test_deregistered_controllable_node_is_restored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
@@ -303,7 +303,7 @@ async def test_deregistered_controllable_node_is_restored(
     ],
 )
 async def test_setup_entry_ignores_info_overview_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     exception: Exception,
@@ -326,7 +326,7 @@ async def test_setup_entry_ignores_info_overview_failures(
     ],
 )
 async def test_setup_entry_recovers_from_optional_temperature_capability_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
@@ -372,7 +372,7 @@ async def test_setup_entry_recovers_from_optional_temperature_capability_failure
     ],
 )
 async def test_setup_entry_retries_on_bypass_temperature_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     exception: Exception,
@@ -409,7 +409,7 @@ async def test_setup_entry_retries_on_bypass_temperature_failure(
     ],
 )
 async def test_bypass_temperature_targets_are_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_bypass_supply_temperature_targets: dict[int, BypassSupplyTemperatureTarget],
     mock_config_entry: MockConfigEntry,
@@ -447,7 +447,7 @@ async def test_bypass_temperature_targets_are_retried(
 
 
 async def test_setup_entry_ignores_node_name_config_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
@@ -469,7 +469,7 @@ async def test_setup_entry_ignores_node_name_config_failures(
 
 @pytest.mark.parametrize("unsupported_board_info", UNSUPPORTED_BOARD_INFOS)
 async def test_setup_entry_unsupported_board_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     unsupported_board_info: BoardInfo,
@@ -487,7 +487,7 @@ async def test_setup_entry_unsupported_board_info(
 
 
 async def test_setup_entry_unsupported_board_without_info_endpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
 ) -> None:
@@ -504,7 +504,7 @@ async def test_setup_entry_unsupported_board_without_info_endpoint(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test unloading the Duco integration."""
@@ -518,7 +518,7 @@ async def test_unload_entry(
 
 @pytest.mark.usefixtures("mock_duco_client")
 async def test_cleanup_orphaned_temperature_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -548,7 +548,7 @@ async def test_cleanup_orphaned_temperature_entities(
 
 
 async def test_setup_entry_creates_http_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_board_info: BoardInfo,
     mock_lan_info: LanInfo,
@@ -602,7 +602,7 @@ async def test_setup_entry_creates_http_client(
 
 
 async def test_setup_entry_uses_configured_node_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],
@@ -623,7 +623,7 @@ async def test_setup_entry_uses_configured_node_name(
 
 
 async def test_node_name_refresh_updates_device_registry_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_duco_client: AsyncMock,
     mock_nodes: list[Node],

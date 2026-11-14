@@ -12,8 +12,8 @@ from universalassistant.components.update import (
     UpdateEntityDescription,
     UpdateEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -67,7 +67,7 @@ DESCRIPTIONS: tuple[PeblarUpdateEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PeblarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -150,7 +150,7 @@ class PeblarUpdateEntity(
         )
 
         if _customization_update_pending(versions):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="customization_update_first",
             )

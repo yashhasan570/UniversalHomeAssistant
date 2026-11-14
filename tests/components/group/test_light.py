@@ -45,7 +45,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -53,7 +53,7 @@ from tests.components.light.common import MockLight
 
 
 async def test_default_state(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test light group default state."""
     hass.states.async_set("light.kitchen", "on")
@@ -90,7 +90,7 @@ async def test_default_state(
     assert entry.unique_id == "unique_identifier"
 
 
-async def test_state_reporting_any(hass: UniversalAssistant) -> None:
+async def test_state_reporting_any(hass: __HAC_KEEP__) -> None:
     """Test the state reporting in 'any' mode.
 
     The group state is unavailable if all group members are unavailable.
@@ -178,7 +178,7 @@ async def test_state_reporting_any(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.light_group").state == STATE_UNAVAILABLE
 
 
-async def test_state_reporting_all(hass: UniversalAssistant) -> None:
+async def test_state_reporting_all(hass: __HAC_KEEP__) -> None:
     """Test the state reporting in 'all' mode.
 
     The group state is unavailable if all group members are
@@ -268,7 +268,7 @@ async def test_state_reporting_all(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.light_group").state == STATE_UNAVAILABLE
 
 
-async def test_brightness(hass: UniversalAssistant) -> None:
+async def test_brightness(hass: __HAC_KEEP__) -> None:
     """Test brightness reporting."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -339,7 +339,7 @@ async def test_brightness(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_SUPPORTED_COLOR_MODES] == ["brightness"]
 
 
-async def test_color_hs(hass: UniversalAssistant) -> None:
+async def test_color_hs(hass: __HAC_KEEP__) -> None:
     """Test hs color reporting."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -436,7 +436,7 @@ async def test_color_hs(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_SUPPORTED_FEATURES] == 0
 
 
-async def test_color_rgb(hass: UniversalAssistant) -> None:
+async def test_color_rgb(hass: __HAC_KEEP__) -> None:
     """Test rgbw color reporting."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -508,7 +508,7 @@ async def test_color_rgb(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_SUPPORTED_FEATURES] == 0
 
 
-async def test_color_rgbw(hass: UniversalAssistant) -> None:
+async def test_color_rgbw(hass: __HAC_KEEP__) -> None:
     """Test rgbw color reporting."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -580,7 +580,7 @@ async def test_color_rgbw(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_SUPPORTED_FEATURES] == 0
 
 
-async def test_color_rgbww(hass: UniversalAssistant) -> None:
+async def test_color_rgbww(hass: __HAC_KEEP__) -> None:
     """Test rgbww color reporting."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -652,7 +652,7 @@ async def test_color_rgbww(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_SUPPORTED_FEATURES] == 0
 
 
-async def test_white(hass: UniversalAssistant) -> None:
+async def test_white(hass: __HAC_KEEP__) -> None:
     """Test white reporting."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -709,7 +709,7 @@ async def test_white(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_SUPPORTED_COLOR_MODES] == ["hs", "white"]
 
 
-async def test_color_temp(hass: UniversalAssistant) -> None:
+async def test_color_temp(hass: __HAC_KEEP__) -> None:
     """Test color temp reporting."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -778,7 +778,7 @@ async def test_color_temp(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_SUPPORTED_COLOR_MODES] == ["color_temp"]
 
 
-async def test_emulated_color_temp_group(hass: UniversalAssistant) -> None:
+async def test_emulated_color_temp_group(hass: __HAC_KEEP__) -> None:
     """Test emulated color temperature in a group."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -842,7 +842,7 @@ async def test_emulated_color_temp_group(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_HS_COLOR] == (27.001, 19.243)
 
 
-async def test_min_max_mireds(hass: UniversalAssistant) -> None:
+async def test_min_max_mireds(hass: __HAC_KEEP__) -> None:
     """Test min/max mireds reporting.
 
     min/max mireds is reported both when light is on and off
@@ -912,7 +912,7 @@ async def test_min_max_mireds(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_MAX_COLOR_TEMP_KELVIN] == 1234567890
 
 
-async def test_effect_list(hass: UniversalAssistant) -> None:
+async def test_effect_list(hass: __HAC_KEEP__) -> None:
     """Test effect_list reporting."""
     await async_setup_component(
         hass,
@@ -972,7 +972,7 @@ async def test_effect_list(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_effect_list_pins_off_ahead_of_none(hass: UniversalAssistant) -> None:
+async def test_effect_list_pins_off_ahead_of_none(hass: __HAC_KEEP__) -> None:
     """Test that merged effect lists keep off ahead of None."""
     await async_setup_component(
         hass,
@@ -1009,7 +1009,7 @@ async def test_effect_list_pins_off_ahead_of_none(hass: UniversalAssistant) -> N
     ]
 
 
-async def test_effect(hass: UniversalAssistant) -> None:
+async def test_effect(hass: __HAC_KEEP__) -> None:
     """Test effect reporting."""
     await async_setup_component(
         hass,
@@ -1058,7 +1058,7 @@ async def test_effect(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_EFFECT] == "Random"
 
 
-async def test_supported_color_modes(hass: UniversalAssistant) -> None:
+async def test_supported_color_modes(hass: __HAC_KEEP__) -> None:
     """Test supported_color_modes reporting."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -1106,7 +1106,7 @@ async def test_supported_color_modes(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_color_mode(hass: UniversalAssistant) -> None:
+async def test_color_mode(hass: __HAC_KEEP__) -> None:
     """Test color_mode reporting."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -1179,7 +1179,7 @@ async def test_color_mode(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_COLOR_MODE] == ColorMode.HS
 
 
-async def test_color_mode2(hass: UniversalAssistant) -> None:
+async def test_color_mode2(hass: __HAC_KEEP__) -> None:
     """Test onoff color_mode and brightness are given lowest priority."""
     entities = [
         MockLight("test1", STATE_ON),
@@ -1256,7 +1256,7 @@ async def test_color_mode2(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_COLOR_MODE] == ColorMode.COLOR_TEMP
 
 
-async def test_supported_features(hass: UniversalAssistant) -> None:
+async def test_supported_features(hass: __HAC_KEEP__) -> None:
     """Test supported features reporting."""
     await async_setup_component(
         hass,
@@ -1302,7 +1302,7 @@ async def test_supported_features(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("supported_color_modes", [ColorMode.HS, ColorMode.RGB])
 async def test_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supported_color_modes,
 ) -> None:
     """Test service calls."""
@@ -1442,7 +1442,7 @@ async def test_service_calls(
     assert state.attributes[ATTR_RGB_COLOR] == (255, 0, 0)
 
 
-async def test_service_call_effect(hass: UniversalAssistant) -> None:
+async def test_service_call_effect(hass: __HAC_KEEP__) -> None:
     """Test service calls."""
     await async_setup_component(
         hass,
@@ -1497,7 +1497,7 @@ async def test_service_call_effect(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_RGB_COLOR] == (42, 255, 255)
 
 
-async def test_invalid_service_calls(hass: UniversalAssistant) -> None:
+async def test_invalid_service_calls(hass: __HAC_KEEP__) -> None:
     """Test invalid service call arguments get discarded."""
     add_entities = MagicMock()
     await group.async_setup_platform(
@@ -1546,7 +1546,7 @@ async def test_invalid_service_calls(hass: UniversalAssistant) -> None:
     service_call_events.clear()
 
 
-async def test_reload(hass: UniversalAssistant) -> None:
+async def test_reload(hass: __HAC_KEEP__) -> None:
     """Test the ability to reload lights."""
     await async_setup_component(
         hass,
@@ -1589,7 +1589,7 @@ async def test_reload(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.outside_patio_lights_g") is not None
 
 
-async def test_reload_with_platform_not_setup(hass: UniversalAssistant) -> None:
+async def test_reload_with_platform_not_setup(hass: __HAC_KEEP__) -> None:
     """Test the ability to reload lights."""
     hass.states.async_set("light.bowl", STATE_ON)
     await async_setup_component(
@@ -1628,7 +1628,7 @@ async def test_reload_with_platform_not_setup(hass: UniversalAssistant) -> None:
 
 
 async def test_reload_with_base_integration_platform_not_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the ability to reload lights."""
     assert await async_setup_component(
@@ -1664,7 +1664,7 @@ async def test_reload_with_base_integration_platform_not_setup(
     assert hass.states.get("light.outside_patio_lights_g").state == STATE_OFF
 
 
-async def test_nested_group(hass: UniversalAssistant) -> None:
+async def test_nested_group(hass: __HAC_KEEP__) -> None:
     """Test nested light group."""
     await async_setup_component(
         hass,
@@ -1718,7 +1718,7 @@ async def test_nested_group(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.nested_group").state == STATE_OFF
 
 
-async def test_assumed_state(hass: UniversalAssistant) -> None:
+async def test_assumed_state(hass: __HAC_KEEP__) -> None:
     """Test assumed_state attribute behavior."""
     await async_setup_component(
         hass,

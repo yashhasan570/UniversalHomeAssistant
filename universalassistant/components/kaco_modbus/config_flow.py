@@ -15,8 +15,8 @@ import probatio
 from universalassistant.components.modbus import async_get_temporary_unit
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
@@ -47,7 +47,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def _async_probe(hass: UniversalAssistant, user_input: dict[str, Any]) -> KacoInverter:
+async def _async_probe(hass: __HAC_KEEP__, user_input: dict[str, Any]) -> KacoInverter:
     """Read the inverter answering at an address, or raise."""
     params = ModbusTcpParams(host=user_input[CONF_HOST], port=user_input[CONF_PORT])
     async with async_get_temporary_unit(hass, params, user_input[CONF_UNIT_ID]) as unit:
@@ -71,7 +71,7 @@ class KacoModbusConfigFlow(ConfigFlow, domain=DOMAIN):
             return None, {"base": "not_a_kaco_inverter"}
         except KacoError:
             return None, {"base": "not_a_sunspec_inverter"}
-        except ModbusError, UniversalAssistantError:
+        except ModbusError, __HAC_KEEP__Error:
             return None, {"base": "cannot_connect"}
         except Exception:
             _LOGGER.exception("Unexpected exception")

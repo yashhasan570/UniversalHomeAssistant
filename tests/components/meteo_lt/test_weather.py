@@ -30,7 +30,7 @@ from universalassistant.components.weather import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -44,7 +44,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.freeze_time("2025-09-25 10:00:00")
 async def test_weather_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -60,7 +60,7 @@ async def test_weather_entity(
 
 @pytest.mark.freeze_time("2025-09-25 10:00:00")
 async def test_coordinator_requests_forecast_without_warnings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_meteo_lt_api: AsyncMock,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_coordinator_requests_forecast_without_warnings(
     ],
 )
 async def test_condition_clear_maps_day_night(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_meteo_lt_api: AsyncMock,
     expected_condition: str,
@@ -154,7 +154,7 @@ async def test_condition_clear_maps_day_night(
     ],
 )
 async def test_condition_code_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_meteo_lt_api: AsyncMock,
     condition_code: str,
@@ -183,7 +183,7 @@ async def test_condition_code_mapping(
     ids=["missing", "unknown"],
 )
 async def test_condition_unknown_maps_to_exceptional(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_meteo_lt_api: AsyncMock,
     condition_code: str | None,
@@ -206,7 +206,7 @@ async def test_condition_unknown_maps_to_exceptional(
 
 @pytest.mark.freeze_time("2025-09-25 10:00:00")
 async def test_forecast_hourly(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test hourly forecast returns all entries with correct condition mapping."""
@@ -231,7 +231,7 @@ async def test_forecast_hourly(
 
 @pytest.mark.freeze_time("2025-09-25 10:00:00")
 async def test_forecast_daily(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test daily forecast aggregates hourly entries into per-day summaries."""

@@ -31,7 +31,7 @@ from .const import (
 
 
 def version_validator(value: Any) -> str:
-    """Validate a Universal Universal Home Assistant version."""
+    """Validate a __HA_KEEP__ version."""
     if not isinstance(value, str):
         raise probatio.Invalid("Version needs to be a string")
 

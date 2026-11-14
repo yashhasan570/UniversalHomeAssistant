@@ -1,4 +1,4 @@
-"""Tests for the Orvibo config flow in Universal Universal Home Assistant core."""
+"""Tests for the Orvibo config flow in __HA_KEEP__ core."""
 
 import asyncio
 from typing import Any
@@ -12,11 +12,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.orvibo.const import CONF_SWITCH_LIST, DEFAULT_NAME, DOMAIN
 from universalassistant.const import CONF_HOST, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_user_menu_display(hass: UniversalAssistant) -> None:
+async def test_user_menu_display(hass: __HAC_KEEP__) -> None:
     """Initial step displays the user menu correctly."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -40,7 +40,7 @@ async def test_user_menu_display(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_edit_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discover,
     mock_s20,
     user_input: dict[str, Any],
@@ -88,7 +88,7 @@ async def test_edit_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_edit_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_s20,
     mock_discover,
     user_input: dict[str, Any],
@@ -130,7 +130,7 @@ async def test_edit_flow_errors(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_discovery_success(hass: UniversalAssistant, mock_discover) -> None:
+async def test_discovery_success(hass: __HAC_KEEP__, mock_discover) -> None:
     """Verify discovery finds devices and completes config entry creation."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -164,7 +164,7 @@ async def test_discovery_success(hass: UniversalAssistant, mock_discover) -> Non
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_no_devices(
-    hass: UniversalAssistant, mock_discover, mock_s20
+    hass: __HAC_KEEP__, mock_discover, mock_s20
 ) -> None:
     """Discovery with no devices goes to discovery_failed."""
     mock_discover.return_value = {}
@@ -205,7 +205,7 @@ async def test_discovery_no_devices(
 
 
 async def test_discover_skips_existing_and_invalid_mac(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_discover
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_discover
 ) -> None:
     """Test discovery ignores devices already configured and devices without MACs."""
     mock_config_entry.add_to_hass(hass)
@@ -239,7 +239,7 @@ async def test_discover_skips_existing_and_invalid_mac(
     assert "192.168.1.11" not in dropdown_options
 
 
-async def test_start_discovery_shows_progress(hass: UniversalAssistant) -> None:
+async def test_start_discovery_shows_progress(hass: __HAC_KEEP__) -> None:
     """Test polling the flow while discovery is still in progress."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -264,7 +264,7 @@ async def test_start_discovery_shows_progress(hass: UniversalAssistant) -> None:
 
 
 async def test_discovery_flow_task_exception(
-    hass: UniversalAssistant, mock_discover
+    hass: __HAC_KEEP__, mock_discover
 ) -> None:
     """Test the discovery process when the background task raises an error."""
     mock_discover.side_effect = S20Exception("Network timeout")

@@ -8,7 +8,7 @@ import serial
 from teleinfo import decode, read_frame
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONF_SERIAL_PORT, DOMAIN
@@ -25,7 +25,7 @@ class TeleinfoCoordinator(DataUpdateCoordinator[dict[str, str]]):
 
     config_entry: TeleinfoConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: TeleinfoConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: TeleinfoConfigEntry) -> None:
         """Initialize."""
         super().__init__(
             hass,

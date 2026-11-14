@@ -16,14 +16,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.openevse.const import DOMAIN
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -53,7 +53,7 @@ async def test_entities(
     ],
 )
 async def test_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
     entity_id: str,
@@ -85,49 +85,49 @@ async def test_press(
         ),
         pytest.param(
             TimeoutError("timed out"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "communication_error",
             None,
             id="timeout_error",
         ),
         pytest.param(
             ServerTimeoutError("timed out"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "communication_error",
             None,
             id="server_timeout_error",
         ),
         pytest.param(
             ParseJSONError("bad json"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "communication_error",
             None,
             id="parse_json_error",
         ),
         pytest.param(
             UnsupportedFeature("old firmware"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "unsupported_feature",
             None,
             id="unsupported_feature",
         ),
         pytest.param(
             ContentTypeError(MagicMock(), (), message="bad content"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "communication_error",
             None,
             id="content_type_error",
         ),
         pytest.param(
             UnknownError("unknown error"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "communication_error",
             None,
             id="unknown_error",
         ),
         pytest.param(
             RuntimeError("runtime error"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "communication_error",
             None,
             id="runtime_error",
@@ -135,7 +135,7 @@ async def test_press(
     ],
 )
 async def test_press_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
     raised: Exception,
@@ -160,7 +160,7 @@ async def test_press_raises(
             blocking=True,
         )
 
-    assert isinstance(exc_info.value, UniversalAssistantError)
+    assert isinstance(exc_info.value, __HAC_KEEP__Error)
     assert exc_info.value.translation_key == translation_key
     assert exc_info.value.translation_domain == DOMAIN
     assert exc_info.value.translation_placeholders == translation_placeholders

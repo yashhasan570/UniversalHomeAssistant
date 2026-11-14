@@ -10,7 +10,7 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -47,7 +47,7 @@ WATER_HEATER_MAP_TADO = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TadoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

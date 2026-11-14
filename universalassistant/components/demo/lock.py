@@ -5,14 +5,14 @@ from typing import Any, override
 
 from universalassistant.components.lock import LockEntity, LockEntityFeature, LockState
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 LOCK_UNLOCK_DELAY = 2  # Used to give a realistic lock/unlock experience in frontend
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

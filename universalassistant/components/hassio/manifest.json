@@ -1,6 +1,6 @@
 {
   "domain": "hassio",
-  "name": "Universal Universal Home Assistant Supervisor",
+  "name": "__HA_KEEP__ Supervisor",
   "categories": ["computers_network.nas_servers"],
   "codeowners": ["@universal-assistant/supervisor"],
   "dependencies": ["http", "network", "repairs"],

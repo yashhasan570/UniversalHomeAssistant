@@ -17,7 +17,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.overseerr import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import call_webhook, setup_integration
@@ -25,7 +25,7 @@ from . import call_webhook, setup_integration
 
 @pytest.mark.freeze_time("2023-10-21")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -52,7 +52,7 @@ async def test_entities(
 
 @pytest.mark.freeze_time("2023-10-21")
 async def test_event_does_not_write_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -86,7 +86,7 @@ async def test_event_does_not_write_state(
 
 
 async def test_event_goes_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -112,7 +112,7 @@ async def test_event_goes_unavailable(
 
 
 async def test_not_push_based(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_overseerr_client_needs_change: AsyncMock,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_not_push_based(
 
 
 async def test_cant_fetch_webhook_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_overseerr_client: AsyncMock,
 ) -> None:
@@ -144,7 +144,7 @@ async def test_cant_fetch_webhook_config(
 
 
 async def test_not_push_based_but_was_before(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_overseerr_client_needs_change: AsyncMock,
     entity_registry: er.EntityRegistry,

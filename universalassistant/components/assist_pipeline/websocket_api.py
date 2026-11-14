@@ -13,7 +13,7 @@ import probatio
 
 from universalassistant.components import conversation, stt, tts, websocket_api
 from universalassistant.const import ATTR_DEVICE_ID, ATTR_SECONDS, MATCH_ALL
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import chat_session, entity_registry as er
 from universalassistant.util import language as language_util
 
@@ -45,7 +45,7 @@ MAX_CAPTURE_TIMEOUT: Final = 60.0
 
 
 @callback
-def async_register_websocket_api(hass: UniversalAssistant) -> None:
+def async_register_websocket_api(hass: __HAC_KEEP__) -> None:
     """Register the websocket API."""
     websocket_api.async_register_command(hass, websocket_run)
     websocket_api.async_register_command(hass, websocket_list_languages)
@@ -115,7 +115,7 @@ def async_register_websocket_api(hass: UniversalAssistant) -> None:
 )
 @websocket_api.async_response
 async def websocket_run(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -176,7 +176,7 @@ async def websocket_run(
                 yield chunk
 
         def handle_binary(
-            _hass: UniversalAssistant,
+            _hass: __HAC_KEEP__,
             _connection: websocket_api.ActiveConnection,
             data: bytes,
         ) -> None:
@@ -276,7 +276,7 @@ async def websocket_run(
     }
 )
 def websocket_list_runs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -312,7 +312,7 @@ def websocket_list_runs(
     }
 )
 def websocket_list_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -343,7 +343,7 @@ def websocket_list_devices(
     }
 )
 def websocket_get_run(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -383,7 +383,7 @@ def websocket_get_run(
 )
 @callback
 def websocket_list_languages(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -448,7 +448,7 @@ def websocket_list_languages(
 )
 @websocket_api.async_response
 async def websocket_device_capture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

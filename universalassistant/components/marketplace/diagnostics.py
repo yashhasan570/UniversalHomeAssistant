@@ -5,7 +5,7 @@ from typing import Any
 from aiogithubapi import GitHubException
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .base import MarketplaceConfigEntry
 from .const import CONF_WARNING_ACCEPTED
@@ -13,7 +13,7 @@ from .profiles import Endpoint
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MarketplaceConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

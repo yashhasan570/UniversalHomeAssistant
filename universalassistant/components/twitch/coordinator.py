@@ -10,7 +10,7 @@ from twitchAPI.twitch import Twitch
 from twitchAPI.type import TwitchAPIException, TwitchResourceNotFound
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import OAuth2Session
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -53,7 +53,7 @@ class TwitchCoordinator(DataUpdateCoordinator[dict[str, TwitchUpdate]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         twitch: Twitch,
         session: OAuth2Session,
         entry: TwitchConfigEntry,

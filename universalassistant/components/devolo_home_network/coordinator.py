@@ -17,7 +17,7 @@ from devolo_plc_api.exceptions.device import DevicePasswordProtected, DeviceUnav
 from devolo_plc_api.plcnet_api import LogicalNetwork
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import (
@@ -52,7 +52,7 @@ class DevoloDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: Logger,
         *,
         config_entry: DevoloHomeNetworkConfigEntry,
@@ -106,7 +106,7 @@ class DevoloFirmwareUpdateCoordinator(DevoloDataUpdateCoordinator[UpdateFirmware
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: Logger,
         *,
         config_entry: DevoloHomeNetworkConfigEntry,
@@ -134,7 +134,7 @@ class DevoloLedSettingsGetCoordinator(DevoloDataUpdateCoordinator[bool]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: Logger,
         *,
         config_entry: DevoloHomeNetworkConfigEntry,
@@ -162,7 +162,7 @@ class DevoloLogicalNetworkCoordinator(DevoloDataUpdateCoordinator[LogicalNetwork
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: Logger,
         *,
         config_entry: DevoloHomeNetworkConfigEntry,
@@ -190,7 +190,7 @@ class DevoloUptimeGetCoordinator(DevoloDataUpdateCoordinator[int]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: Logger,
         *,
         config_entry: DevoloHomeNetworkConfigEntry,
@@ -220,7 +220,7 @@ class DevoloWifiConnectedStationsGetCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: Logger,
         *,
         config_entry: DevoloHomeNetworkConfigEntry,
@@ -251,7 +251,7 @@ class DevoloWifiGuestAccessGetCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: Logger,
         *,
         config_entry: DevoloHomeNetworkConfigEntry,
@@ -283,7 +283,7 @@ class DevoloWifiNeighborAPsGetCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: Logger,
         *,
         config_entry: DevoloHomeNetworkConfigEntry,

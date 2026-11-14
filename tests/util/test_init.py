@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant util methods."""
+"""Test __HA_KEEP__ util methods."""
 
 from datetime import datetime, timedelta
 import math

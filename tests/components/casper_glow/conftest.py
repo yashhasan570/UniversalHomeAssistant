@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.casper_glow.const import DOMAIN
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import format_mac
 
 from . import CASPER_GLOW_DISCOVERY_INFO, setup_integration
@@ -52,7 +52,7 @@ def mock_casper_glow() -> Generator[MagicMock]:
 
 @pytest.fixture
 def fire_callbacks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_casper_glow: MagicMock,
 ) -> Callable[[GlowState], Awaitable[None]]:
     """Return a helper that fires all registered device callbacks with a given state."""
@@ -69,7 +69,7 @@ def fire_callbacks(
 
 @pytest.fixture
 async def config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
 ) -> MockConfigEntry:

@@ -10,7 +10,7 @@
     "special_repair": {
       "feedback_url": "https://community.universalassistant.io",
       "learn_more_url": "https://www.universalassistant.io/integrations/kitchen_sink",
-      "report_issue_url": "https://github.com/yashhasan570/UniversalUniversalAssistant/issues/new?template=bug_report.yml&integration_link=https://www.universalassistant.io/integrations/kitchen_sink&integration_name=Kitchen%20Sink"
+      "report_issue_url": "https://github.com/yashhasan570/__HAC_KEEP__/issues/new?template=bug_report.yml&integration_link=https://www.universalassistant.io/integrations/kitchen_sink&integration_name=Kitchen%20Sink"
     }
   },
   "quality_scale": "internal",

@@ -11,7 +11,7 @@ from universalassistant.components.valve import (
     ValveEntityDescription,
     ValveEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import OumanDevice
@@ -45,7 +45,7 @@ VALVE_DESCRIPTIONS: dict[IntControlOumanEndpoint, OumanEh800ValveEntityDescripti
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OumanEh800ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

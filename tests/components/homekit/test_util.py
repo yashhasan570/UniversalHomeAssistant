@@ -84,7 +84,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 
 from .util import async_init_integration
 
@@ -398,7 +398,7 @@ def test_density_to_air_quality() -> None:
     assert density_to_air_quality(200) == 5
 
 
-async def test_async_show_setup_msg(hass: UniversalAssistant, hk_driver) -> None:
+async def test_async_show_setup_msg(hass: __HAC_KEEP__, hk_driver) -> None:
     """Test show setup message as persistence notification."""
     pincode = b"123-45-678"
 
@@ -427,7 +427,7 @@ async def test_async_show_setup_msg(hass: UniversalAssistant, hk_driver) -> None
     assert pincode.decode() in mock_create.mock_calls[0][1][1]
 
 
-async def test_async_dismiss_setup_msg(hass: UniversalAssistant) -> None:
+async def test_async_dismiss_setup_msg(hass: __HAC_KEEP__) -> None:
     """Test dismiss setup message."""
     with patch(
         "universalassistant.components.persistent_notification.async_dismiss",
@@ -440,7 +440,7 @@ async def test_async_dismiss_setup_msg(hass: UniversalAssistant) -> None:
     assert mock_dismiss.mock_calls[0][1][1] == "entry_id"
 
 
-async def test_port_is_available(hass: UniversalAssistant) -> None:
+async def test_port_is_available(hass: __HAC_KEEP__) -> None:
     """Test we can get an available port and it is actually available."""
     with patch(
         "universalassistant.components.homekit.util.socket.socket",
@@ -473,7 +473,7 @@ async def test_port_is_available(hass: UniversalAssistant) -> None:
         assert not async_port_is_available(next_port)
 
 
-async def test_port_is_available_skips_existing_entries(hass: UniversalAssistant) -> None:
+async def test_port_is_available_skips_existing_entries(hass: __HAC_KEEP__) -> None:
     """Test we can get an available port and it is actually available."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -553,7 +553,7 @@ async def test_accessory_friendly_name() -> None:
     assert accessory_friendly_name("hass title", accessory) == "Hass title 123"
 
 
-async def test_lock_state_needs_accessory_mode(hass: UniversalAssistant) -> None:
+async def test_lock_state_needs_accessory_mode(hass: __HAC_KEEP__) -> None:
     """Test that locks are setup as accessories."""
     hass.states.async_set("lock.mine", "locked")
     assert state_needs_accessory_mode(hass.states.get("lock.mine")) is True

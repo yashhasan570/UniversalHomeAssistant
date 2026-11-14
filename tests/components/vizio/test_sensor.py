@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_integration
@@ -34,7 +34,7 @@ def sensor_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update", "vizio_battery")
 async def test_sensor_entity_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_crave_config_entry: MockConfigEntry,
@@ -48,7 +48,7 @@ async def test_sensor_entity_setup(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update", "vizio_battery")
 async def test_sensor_values(
-    hass: UniversalAssistant, mock_crave_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_crave_config_entry: MockConfigEntry
 ) -> None:
     """Test battery sensor value."""
     await setup_integration(hass, mock_crave_config_entry)
@@ -58,7 +58,7 @@ async def test_sensor_values(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update", "vizio_battery")
 async def test_sensor_values_unavailable_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_crave_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_sensor_values_unavailable_data(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_no_sensors_for_soundbar(
-    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test no battery sensor is created for a soundbar."""
     await setup_integration(hass, mock_speaker_config_entry)

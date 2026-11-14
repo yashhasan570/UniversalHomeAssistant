@@ -222,7 +222,7 @@
   },
   "exceptions": {
     "data_api_reauth_required": {
-      "message": "Reconnect Tibber so Universal Universal Home Assistant can enable the new Tibber Data API features."
+      "message": "Reconnect Tibber so __HA_KEEP__ can enable the new Tibber Data API features."
     },
     "get_prices_communication_failed": {
       "message": "Could not fetch energy prices from Tibber ({detail})"

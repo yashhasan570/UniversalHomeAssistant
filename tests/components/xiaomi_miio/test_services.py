@@ -24,7 +24,7 @@ from universalassistant.const import (
     ENTITY_MATCH_ALL,
     Platform,
 )
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import TEST_MAC
@@ -40,7 +40,7 @@ AIR_PURIFIER_ENTITY_ID = "fan.test_device"
 
 
 async def setup_device(
-    hass: UniversalAssistant, model: str, platform: Platform
+    hass: __HAC_KEEP__, model: str, platform: Platform
 ) -> MockConfigEntry:
     """Set up a xiaomi_miio device."""
     config_entry = MockConfigEntry(
@@ -188,7 +188,7 @@ def mock_fan_fixture() -> Generator[MagicMock]:
 )
 @pytest.mark.usefixtures("mock_light")
 async def test_light_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_light: MagicMock,
     service: str,
     service_data: dict[str, Any],
@@ -243,7 +243,7 @@ async def test_light_services(
 )
 @pytest.mark.usefixtures("mock_switch")
 async def test_switch_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_switch: MagicMock,
     service: str,
     service_data: dict[str, Any],
@@ -265,7 +265,7 @@ async def test_switch_services(
 
 @pytest.mark.usefixtures("mock_light")
 async def test_service_skips_entities_without_the_method(
-    hass: UniversalAssistant, mock_light: MagicMock
+    hass: __HAC_KEEP__, mock_light: MagicMock
 ) -> None:
     """Test entities not implementing the method are skipped, not an error."""
     await setup_device(hass, EYECARE_MODEL, Platform.LIGHT)
@@ -317,7 +317,7 @@ async def test_service_skips_entities_without_the_method(
 )
 @pytest.mark.usefixtures("mock_fan")
 async def test_fan_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fan: MagicMock,
     model: str,
     service: str,
@@ -339,7 +339,7 @@ async def test_fan_services(
 
 
 async def test_service_forwards_context(
-    hass: UniversalAssistant, mock_light: MagicMock
+    hass: __HAC_KEEP__, mock_light: MagicMock
 ) -> None:
     """Test the state change caused by a service call carries its context."""
     await setup_device(hass, EYECARE_MODEL, Platform.LIGHT)
@@ -363,7 +363,7 @@ async def test_service_forwards_context(
 
 
 @pytest.mark.usefixtures("mock_light")
-async def test_service_requires_target(hass: UniversalAssistant) -> None:
+async def test_service_requires_target(hass: __HAC_KEEP__) -> None:
     """Test the services reject calls without a target."""
     await setup_device(hass, EYECARE_MODEL, Platform.LIGHT)
 

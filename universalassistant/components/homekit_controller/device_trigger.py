@@ -12,7 +12,7 @@ import probatio
 from universalassistant.components.device_automation import DEVICE_TRIGGER_BASE_SCHEMA
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
 
@@ -56,7 +56,7 @@ HK_TO_HA_INPUT_EVENT_VALUES = {
 class TriggerSource:
     """Represents a stateless source of event data from HomeKit."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize a set of triggers for a device."""
         self._hass = hass
         self._triggers: dict[tuple[str, str], dict[str, Any]] = {}
@@ -205,7 +205,7 @@ TRIGGER_FINDERS = {
 
 
 async def async_setup_triggers_for_entry(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Set up triggers for a config entry.
 
@@ -247,7 +247,7 @@ async def async_setup_triggers_for_entry(
 
 @callback
 def async_get_or_create_trigger_source(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> TriggerSource:
     """Get or create a trigger source for a device id."""
     trigger_sources: dict[str, TriggerSource] = hass.data.setdefault(TRIGGERS, {})
@@ -275,7 +275,7 @@ def async_fire_triggers(
 
 
 async def async_get_triggers(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for homekit devices."""
 
@@ -297,7 +297,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

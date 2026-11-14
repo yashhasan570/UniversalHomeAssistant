@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import CONF_TYPE, EntityCategory, Platform, UnitOfTime
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -169,7 +169,7 @@ SENSOR_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MinecraftServerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

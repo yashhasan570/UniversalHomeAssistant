@@ -13,7 +13,7 @@ from universalassistant.const import (
     CONF_MODEL,
     CONF_NAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import (
     FAKE_PIN,
@@ -25,7 +25,7 @@ from . import (
 )
 
 
-async def test_show_form(hass: UniversalAssistant) -> None:
+async def test_show_form(hass: __HAC_KEEP__) -> None:
     """Test that the form is served with no input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -35,7 +35,7 @@ async def test_show_form(hass: UniversalAssistant) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_user_invalid_host(hass: UniversalAssistant) -> None:
+async def test_user_invalid_host(hass: __HAC_KEEP__) -> None:
     """Test that errors are shown when the host is invalid."""
     with _patch_lg_netcast():
         result = await hass.config_entries.flow.async_init(
@@ -68,7 +68,7 @@ async def test_user_invalid_host(hass: UniversalAssistant) -> None:
         assert result["type"] is data_entry_flow.FlowResultType.CREATE_ENTRY
 
 
-async def test_manual_host(hass: UniversalAssistant) -> None:
+async def test_manual_host(hass: __HAC_KEEP__) -> None:
     """Test manual host configuration."""
     with _patch_lg_netcast():
         result = await hass.config_entries.flow.async_init(
@@ -108,7 +108,7 @@ async def test_manual_host(hass: UniversalAssistant) -> None:
         }
 
 
-async def test_manual_host_no_connection_during_authorize(hass: UniversalAssistant) -> None:
+async def test_manual_host_no_connection_during_authorize(hass: __HAC_KEEP__) -> None:
     """Test manual host configuration."""
     with _patch_lg_netcast(fail_connection=True):
         result = await hass.config_entries.flow.async_init(
@@ -128,7 +128,7 @@ async def test_manual_host_no_connection_during_authorize(hass: UniversalAssista
 
 
 async def test_manual_host_invalid_details_during_authorize(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test manual host configuration."""
     with _patch_lg_netcast(invalid_details=True):
@@ -148,7 +148,7 @@ async def test_manual_host_invalid_details_during_authorize(
         assert result["reason"] == "cannot_connect"
 
 
-async def test_manual_host_unsuccessful_details_response(hass: UniversalAssistant) -> None:
+async def test_manual_host_unsuccessful_details_response(hass: __HAC_KEEP__) -> None:
     """Test manual host configuration."""
     with _patch_lg_netcast(always_404=True):
         result = await hass.config_entries.flow.async_init(
@@ -167,7 +167,7 @@ async def test_manual_host_unsuccessful_details_response(hass: UniversalAssistan
         assert result["reason"] == "cannot_connect"
 
 
-async def test_manual_host_no_unique_id_response(hass: UniversalAssistant) -> None:
+async def test_manual_host_no_unique_id_response(hass: __HAC_KEEP__) -> None:
     """Test manual host configuration."""
     with _patch_lg_netcast(no_unique_id=True):
         result = await hass.config_entries.flow.async_init(
@@ -186,7 +186,7 @@ async def test_manual_host_no_unique_id_response(hass: UniversalAssistant) -> No
         assert result["reason"] == "invalid_host"
 
 
-async def test_invalid_session_id(hass: UniversalAssistant) -> None:
+async def test_invalid_session_id(hass: __HAC_KEEP__) -> None:
     """Test Invalid Session ID."""
     with _patch_lg_netcast(session_error=True):
         result = await hass.config_entries.flow.async_init(
@@ -226,11 +226,11 @@ async def test_invalid_session_id(hass: UniversalAssistant) -> None:
     assert result3["type"] is data_entry_flow.FlowResultType.CREATE_ENTRY
 
 
-async def test_display_access_token_aborted(hass: UniversalAssistant) -> None:
+async def test_display_access_token_aborted(hass: __HAC_KEEP__) -> None:
     """Test Access token display is cancelled."""
 
     def _async_track_time_interval(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         action,
         interval: timedelta,
         *,

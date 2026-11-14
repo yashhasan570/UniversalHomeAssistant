@@ -11,7 +11,7 @@ from requests.exceptions import RequestException
 
 from universalassistant.components.sensor import ATTR_STATE_CLASS, SensorStateClass
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 DEVICE_READINGS = {
@@ -21,7 +21,7 @@ DEVICE_READINGS = {
 
 
 async def test_sensors_use_own_device_readings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_hanna_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -54,7 +54,7 @@ async def test_sensors_use_own_device_readings(
 
 @pytest.mark.parametrize("key", ["acidBase", "cl"])
 async def test_dosing_volume_sensors_are_total_increasing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_hanna_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -91,7 +91,7 @@ async def test_dosing_volume_sensors_are_total_increasing(
     ],
 )
 async def test_sensor_unavailable_on_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     mock_hanna_client: MagicMock,

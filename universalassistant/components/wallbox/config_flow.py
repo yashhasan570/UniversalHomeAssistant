@@ -8,7 +8,7 @@ from wallbox import Wallbox
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     CHARGER_JWT_REFRESH_TOKEN,
@@ -32,7 +32,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows to connect.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.

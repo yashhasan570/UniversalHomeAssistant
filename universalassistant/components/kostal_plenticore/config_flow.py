@@ -10,7 +10,7 @@ from pykoplenti import ApiClient, AuthenticationException
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_BASE, CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_SERVICE_CODE, DOMAIN
@@ -32,7 +32,7 @@ REAUTH_SCHEMA = probatio.Schema(
 )
 
 
-async def test_connection(hass: UniversalAssistant, data) -> str:
+async def test_connection(hass: __HAC_KEEP__, data) -> str:
     """Test the connection to the inverter.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.

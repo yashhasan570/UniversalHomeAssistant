@@ -14,7 +14,7 @@ from pywilight.const import (
 )
 
 from universalassistant.components.cover import ATTR_POSITION, CoverEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import WiLightDevice
@@ -22,7 +22,7 @@ from .parent_device import WiLightConfigEntry
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WiLightConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

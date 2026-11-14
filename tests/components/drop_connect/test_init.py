@@ -5,7 +5,7 @@ from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import (
     TEST_DATA_HUB,
@@ -15,7 +15,7 @@ from .common import (
 )
 
 
-async def test_bad_json(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_bad_json(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test bad JSON."""
     entry = config_entry_hub()
     entry.add_to_hass(hass)
@@ -29,7 +29,7 @@ async def test_bad_json(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -
     assert hass.states.get(current_flow_sensor_name).state == STATE_UNKNOWN
 
 
-async def test_unload(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_unload(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test entity unload."""
     # Load the hub device
     entry = config_entry_hub()
@@ -56,7 +56,7 @@ async def test_unload(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> 
     assert hass.states.get(current_flow_sensor_name).state == STATE_UNAVAILABLE
 
 
-async def test_no_mqtt(hass: UniversalAssistant) -> None:
+async def test_no_mqtt(hass: __HAC_KEEP__) -> None:
     """Test no MQTT."""
     entry = config_entry_hub()
     entry.add_to_hass(hass)

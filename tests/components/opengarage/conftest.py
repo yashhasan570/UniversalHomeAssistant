@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.opengarage.const import CONF_DEVICE_KEY, DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -53,7 +53,7 @@ def mock_opengarage() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_opengarage: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_opengarage: MagicMock
 ) -> MockConfigEntry:
     """Set up the OpenGarage integration for testing."""
     mock_config_entry.add_to_hass(hass)

@@ -13,7 +13,7 @@ from universalassistant.components.cover import (
     CoverEntityFeature,
     CoverState,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import BleBoxConfigEntry, BleBoxCoordinator
@@ -57,7 +57,7 @@ BLEBOX_TO_HASS_COVER_STATES = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BleBoxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

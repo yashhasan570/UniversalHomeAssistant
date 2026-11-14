@@ -14,7 +14,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN
@@ -115,7 +115,7 @@ class SleepIQFlowHandler(ConfigFlow, domain=DOMAIN):
         )
 
 
-async def try_connection(hass: UniversalAssistant, user_input: dict[str, Any]) -> str | None:
+async def try_connection(hass: __HAC_KEEP__, user_input: dict[str, Any]) -> str | None:
     """Test if the given credentials can successfully login to SleepIQ."""
 
     client_session = async_get_clientsession(hass)

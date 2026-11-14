@@ -12,7 +12,7 @@ from universalassistant.components.air_quality import (
     AirQualityEntity,
 )
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -43,7 +43,7 @@ SCAN_INTERVAL = timedelta(minutes=5)
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -55,7 +55,7 @@ async def async_setup_platform(
     name = config.get(CONF_NAME)
 
     if None in (latitude, longitude):
-        _LOGGER.error("Latitude or longitude not set in Universal Universal Home Assistant config")
+        _LOGGER.error("Latitude or longitude not set in __HA_KEEP__ config")
         return
 
     coordinates = {"lat": str(latitude), "lon": str(longitude)}

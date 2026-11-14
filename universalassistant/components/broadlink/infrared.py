@@ -7,8 +7,8 @@ from broadlink_async.remote import pulses_to_data as _bl_pulses_to_data
 
 from universalassistant.components.infrared import InfraredCommand, InfraredEmitterEntity
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import BROADLINK_DATA, DOMAIN
@@ -32,7 +32,7 @@ def _timings_to_broadlink_packet(timings: list[int]) -> bytes:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -59,7 +59,7 @@ class BroadlinkInfraredEntity(BroadlinkEntity, InfraredEmitterEntity):
         try:
             await self._device.async_request(self._device.api.send_data, packet)
         except (BroadlinkException, OSError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="send_command_failed",
                 translation_placeholders={"error": str(err)},

@@ -8,7 +8,7 @@ from typing import Any, cast, override
 from rabbitair import Client, State
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -22,7 +22,7 @@ class RabbitAirDebouncer(Debouncer[Coroutine[Any, Any, None]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> None:
         """Initialize debounce."""
         # We don't want an immediate refresh since the device needs some time
@@ -49,7 +49,7 @@ class RabbitAirDataUpdateCoordinator(DataUpdateCoordinator[State]):
     config_entry: RabbitAirConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: RabbitAirConfigEntry, device: Client
+        self, hass: __HAC_KEEP__, config_entry: RabbitAirConfigEntry, device: Client
     ) -> None:
         """Initialize global data updater."""
         self.device = device

@@ -11,7 +11,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -25,7 +25,7 @@ from . import setup_integration
 )
 @pytest.mark.usefixtures("mock_federwiege")
 async def test_init_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
     exception: type[Exception],
@@ -40,7 +40,7 @@ async def test_init_exception(
 
 
 async def test_init_auth_failure_during_runtime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_federwiege_cls: MagicMock,
 ) -> None:

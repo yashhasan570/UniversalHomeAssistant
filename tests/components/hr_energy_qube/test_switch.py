@@ -14,8 +14,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -24,7 +24,7 @@ ENTITY_ID = "switch.qube_heat_pump_heating_demand"
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_qube_client: MagicMock,
@@ -48,7 +48,7 @@ async def test_entities(
     ],
 )
 async def test_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -77,19 +77,19 @@ async def test_turn_on_off(
     ],
 )
 async def test_turn_on_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception] | None,
     return_value: bool | None,
 ) -> None:
-    """Test switch raises UniversalAssistantError on write failure."""
+    """Test switch raises __HAC_KEEP__Error on write failure."""
     await setup_integration(hass, mock_config_entry)
 
     mock_qube_client.write_switch = AsyncMock(
         side_effect=side_effect, return_value=return_value
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

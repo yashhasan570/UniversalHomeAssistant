@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.forecast_solar import energy
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_energy_solar_forecast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_forecast_solar: MagicMock,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_energy_solar_forecast(
 
 
 async def test_energy_solar_forecast_filters_midnight_utc_zeros(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_forecast_solar: MagicMock,
 ) -> None:
@@ -86,6 +86,6 @@ async def test_energy_solar_forecast_filters_midnight_utc_zeros(
     }
 
 
-async def test_energy_solar_forecast_invalid_id(hass: UniversalAssistant) -> None:
+async def test_energy_solar_forecast_invalid_id(hass: __HAC_KEEP__) -> None:
     """Test the Forecast.Solar energy platform with invalid config entry ID."""
     assert await energy.async_get_solar_forecast(hass, "invalid_id") is None

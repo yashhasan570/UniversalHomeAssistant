@@ -5,7 +5,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import (
     DEVICE_CLASS_UNITS,
@@ -18,7 +18,7 @@ _NUMERIC_DEVICE_CLASSES = list(set(SensorDeviceClass) - NON_NUMERIC_DEVICE_CLASS
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the sensor websocket API."""
     websocket_api.async_register_command(hass, ws_device_class_units)
     websocket_api.async_register_command(hass, ws_numeric_device_classes)
@@ -32,7 +32,7 @@ def async_setup(hass: UniversalAssistant) -> None:
     }
 )
 def ws_device_class_units(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return supported units for a device class."""
     device_class = msg["device_class"]
@@ -52,7 +52,7 @@ def ws_device_class_units(
     }
 )
 def ws_numeric_device_classes(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return numeric sensor device classes."""
     connection.send_result(

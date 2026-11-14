@@ -8,7 +8,7 @@ import requests
 
 from universalassistant.components.nuheat.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .mocks import MOCK_CONFIG_ENTRY, _get_mock_nuheat
 
@@ -18,7 +18,7 @@ VALID_CONFIG = {
 INVALID_CONFIG = {"nuheat": {"username": "warm", "password": "feet"}}
 
 
-async def test_init_success(hass: UniversalAssistant) -> None:
+async def test_init_success(hass: __HAC_KEEP__) -> None:
     """Test that we can setup with valid config."""
     mock_nuheat = _get_mock_nuheat()
 
@@ -42,7 +42,7 @@ async def test_init_success(hass: UniversalAssistant) -> None:
         pytest.param(Exception("Boom"), id="unknown"),
     ],
 )
-async def test_init_login_failed(hass: UniversalAssistant, exception: Exception) -> None:
+async def test_init_login_failed(hass: __HAC_KEEP__, exception: Exception) -> None:
     """Test setup fails when logging in fails."""
     mock_nuheat = _get_mock_nuheat()
     mock_nuheat.authenticate.side_effect = exception

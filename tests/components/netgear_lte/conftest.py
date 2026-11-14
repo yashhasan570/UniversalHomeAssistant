@@ -7,7 +7,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.netgear_lte.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONTENT_TYPE_JSON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 HOST = "192.168.5.1"
@@ -52,8 +52,8 @@ def mock_connection(aioclient_mock: AiohttpClientMocker) -> None:
 
 
 @pytest.fixture(name="config_entry")
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
-    """Create Netgear LTE entry in Universal Universal Home Assistant."""
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Create Netgear LTE entry in __HA_KEEP__."""
     return MockConfigEntry(
         domain=DOMAIN, data=CONF_DATA, unique_id="FFFFFFFFFFFFF", title="Netgear LM1200"
     )
@@ -61,11 +61,11 @@ def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     connection: None,
 ) -> None:
-    """Set up the Netgear LTE integration in Universal Universal Home Assistant."""
+    """Set up the Netgear LTE integration in __HA_KEEP__."""
     config_entry.add_to_hass(hass)
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -73,11 +73,11 @@ async def mock_setup_integration(
 
 @pytest.fixture(name="setup_cannot_connect")
 async def setup_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     cannot_connect: None,
 ) -> None:
-    """Set up the Netgear LTE integration in Universal Universal Home Assistant."""
+    """Set up the Netgear LTE integration in __HA_KEEP__."""
     config_entry.add_to_hass(hass)
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()

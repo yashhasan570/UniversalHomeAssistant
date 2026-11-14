@@ -11,7 +11,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SurePetcareConfigEntry, SurePetcareDataCoordinator
@@ -19,7 +19,7 @@ from .entity import SurePetcareEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SurePetcareConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

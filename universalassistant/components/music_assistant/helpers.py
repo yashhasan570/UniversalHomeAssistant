@@ -9,8 +9,8 @@ from music_assistant_client.helpers import LinkedUser
 from music_assistant_models.auth import AuthProviderType
 from music_assistant_models.errors import MusicAssistantError, UserNotFoundError
 
-from universalassistant.core import Context, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import Context, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import service
 
 from .const import DASHBOARD_ID_PREFIX, DOMAIN
@@ -33,12 +33,12 @@ def catch_musicassistant_error[**_P, _R](
 
     @functools.wraps(func)
     async def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _R:
-        """Catch Music Assistant errors and convert to Universal Universal Home Assistant error."""
+        """Catch Music Assistant errors and convert to __HA_KEEP__ error."""
         try:
             return await func(*args, **kwargs)
         except MusicAssistantError as err:
             error_msg = str(err) or err.__class__.__name__
-            raise UniversalAssistantError(error_msg) from err
+            raise __HAC_KEEP__Error(error_msg) from err
 
     return wrapper
 
@@ -60,7 +60,7 @@ def catch_user_not_found(username: str | None) -> Generator[None]:
 
 
 def user_from_context(context: Context | None) -> LinkedUser | None:
-    """Return the Music Assistant user to act as for the Universal Universal Home Assistant caller."""
+    """Return the Music Assistant user to act as for the __HA_KEEP__ caller."""
     if context is None or context.user_id is None:
         return None
     # required=False: fall back to the default account if the user has no link
@@ -73,7 +73,7 @@ def user_from_context(context: Context | None) -> LinkedUser | None:
 
 @callback
 def get_music_assistant_client(
-    hass: UniversalAssistant, config_entry_id: str
+    hass: __HAC_KEEP__, config_entry_id: str
 ) -> MusicAssistantClient:
     """Get the Music Assistant client for the given config entry."""
     entry: MusicAssistantConfigEntry = service.async_get_config_entry(

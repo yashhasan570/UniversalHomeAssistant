@@ -3,17 +3,17 @@
 from collections.abc import Awaitable, Callable
 from typing import TYPE_CHECKING, Any, Final
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 if TYPE_CHECKING:
     from .connection import ActiveConnection
 
 
 type WebSocketCommandHandler = Callable[
-    [UniversalAssistant, ActiveConnection, dict[str, Any]], None
+    [__HAC_KEEP__, ActiveConnection, dict[str, Any]], None
 ]
 type AsyncWebSocketCommandHandler = Callable[
-    [UniversalAssistant, ActiveConnection, dict[str, Any]], Awaitable[None]
+    [__HAC_KEEP__, ActiveConnection, dict[str, Any]], Awaitable[None]
 ]
 
 DOMAIN: Final = "websocket_api"

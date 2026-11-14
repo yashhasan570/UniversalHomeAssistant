@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.bluesound.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -18,7 +18,7 @@ from .conftest import PlayerMocks
 
 
 async def test_user_flow_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, player_mocks: PlayerMocks
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, player_mocks: PlayerMocks
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -44,7 +44,7 @@ async def test_user_flow_success(
 
 
 async def test_user_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     player_mocks: PlayerMocks,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -87,7 +87,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_aleady_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     player_mocks: PlayerMocks,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_user_flow_aleady_configured(
     ],
 )
 async def test_zeroconf_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     player_mocks: PlayerMocks,
     port: int | None,
@@ -163,7 +163,7 @@ async def test_zeroconf_flow_success(
 
 
 async def test_zeroconf_flow_cannot_connect(
-    hass: UniversalAssistant, player_mocks: PlayerMocks
+    hass: __HAC_KEEP__, player_mocks: PlayerMocks
 ) -> None:
     """Test we handle cannot connect error."""
     player_mocks.player_data.player.sync_status.side_effect = PlayerUnreachableError(
@@ -190,7 +190,7 @@ async def test_zeroconf_flow_cannot_connect(
 
 
 async def test_zeroconf_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     player_mocks: PlayerMocks,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_zeroconf_flow_already_configured(
     player_mocks.player_data_for_already_configured.player.sync_status.assert_called_once()
 
 
-async def test_zeroconf_flow_no_ipv4_address(hass: UniversalAssistant) -> None:
+async def test_zeroconf_flow_no_ipv4_address(hass: __HAC_KEEP__) -> None:
     """Test abort flow when no ipv4 address is found in zeroconf data."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

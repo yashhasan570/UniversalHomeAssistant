@@ -18,7 +18,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.ovo_energy.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 INTERVAL = OVOInterval(
     start=datetime(2026, 9, 1, tzinfo=UTC),
@@ -62,7 +62,7 @@ EXPECTED_STATES = {
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create an OVO Energy config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -96,7 +96,7 @@ def mock_daily_usage() -> Generator[AsyncMock]:
 @pytest.mark.parametrize("fuel", ["gas", "electricity"])
 @pytest.mark.parametrize("missing_usage", [pytest.param([], id="empty"), None])
 async def test_missing_usage_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_daily_usage: AsyncMock,
@@ -139,7 +139,7 @@ async def test_missing_usage_recovers(
 @pytest.mark.parametrize("fuel", ["gas", "electricity"])
 @pytest.mark.parametrize("missing_usage", [pytest.param([], id="empty"), None])
 async def test_initial_missing_usage_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_daily_usage: AsyncMock,
@@ -177,7 +177,7 @@ async def test_initial_missing_usage_recovers(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("missing_usage", [pytest.param([], id="empty"), None])
 async def test_initial_no_usage_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_daily_usage: AsyncMock,

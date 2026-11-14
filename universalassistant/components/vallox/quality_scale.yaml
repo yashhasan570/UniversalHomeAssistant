@@ -71,7 +71,7 @@ rules:
     comment: >-
       (1) The number, switch and date entities let ValloxApiException through,
       for example when the unit is unreachable, instead of raising
-      UniversalAssistantError.
+      __HAC_KEEP__Error.
       (2) The custom actions raise a plain ValueError unless exactly one entry
       is loaded, which is covered by action-setup.
   config-entry-unloading: done
@@ -166,7 +166,7 @@ rules:
   exception-translations:
     status: todo
     comment: >-
-      (1) The fan raises UniversalAssistantError with hard-coded English messages.
+      (1) The fan raises __HAC_KEEP__Error with hard-coded English messages.
       (2) The coordinator raises UpdateFailed with a hard-coded English message.
       (3) The exceptions to be added for action-exceptions need translations
       as well.

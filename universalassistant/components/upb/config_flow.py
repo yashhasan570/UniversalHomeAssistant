@@ -10,7 +10,7 @@ import upb_lib
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_DEVICE, CONF_FILE_PATH
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import SerialPortSelector
 
 from .const import DOMAIN
@@ -108,9 +108,9 @@ class UPBConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidUpbFile(UniversalAssistantError):
+class InvalidUpbFile(__HAC_KEEP__Error):
     """Error to indicate there is invalid or missing UPB config file."""

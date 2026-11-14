@@ -1,1 +1,1 @@
-"""Helper methods for components within Universal Universal Home Assistant."""
+"""Helper methods for components within __HA_KEEP__."""

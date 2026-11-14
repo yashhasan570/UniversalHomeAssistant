@@ -14,7 +14,7 @@ from universalassistant.components.lastfm.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -29,7 +29,7 @@ from . import (
 from .conftest import ComponentSetup
 
 
-async def test_full_user_flow(hass: UniversalAssistant, default_user: MockUser) -> None:
+async def test_full_user_flow(hass: __HAC_KEEP__, default_user: MockUser) -> None:
     """Test the full user configuration flow."""
     with patch("pylast.User", return_value=default_user), patch_setup_entry():
         result = await hass.config_entries.flow.async_init(
@@ -73,7 +73,7 @@ async def test_full_user_flow(hass: UniversalAssistant, default_user: MockUser) 
     ],
 )
 async def test_flow_fails(
-    hass: UniversalAssistant, error: Exception, message: str, default_user: MockUser
+    hass: __HAC_KEEP__, error: Exception, message: str, default_user: MockUser
 ) -> None:
     """Test user initialized flow with invalid username."""
     with patch("pylast.User", return_value=MockUser(thrown_error=error)):
@@ -110,7 +110,7 @@ async def test_flow_fails(
 
 
 async def test_flow_hidden_recent_tracks(
-    hass: UniversalAssistant, default_user: MockUser
+    hass: __HAC_KEEP__, default_user: MockUser
 ) -> None:
     """Test user initialized flow when user hides recent listening information."""
     with patch(
@@ -152,7 +152,7 @@ async def test_flow_hidden_recent_tracks(
 
 
 async def test_flow_friends_invalid_username(
-    hass: UniversalAssistant, default_user: MockUser
+    hass: __HAC_KEEP__, default_user: MockUser
 ) -> None:
     """Test user initialized flow with invalid username."""
     with patch("pylast.User", return_value=default_user), patch_setup_entry():
@@ -190,7 +190,7 @@ async def test_flow_friends_invalid_username(
 
 
 async def test_flow_friends_no_friends(
-    hass: UniversalAssistant, default_user_no_friends: MockUser
+    hass: __HAC_KEEP__, default_user_no_friends: MockUser
 ) -> None:
     """Test options is empty when user has no friends."""
     with (
@@ -211,7 +211,7 @@ async def test_flow_friends_no_friends(
 
 
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     default_user: MockUser,
@@ -244,7 +244,7 @@ async def test_options_flow(
 
 
 async def test_options_flow_incorrect_username(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     default_user: MockUser,
@@ -291,7 +291,7 @@ async def test_options_flow_incorrect_username(
 
 
 async def test_options_flow_hidden_recent_tracks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     default_user: MockUser,
@@ -335,7 +335,7 @@ async def test_options_flow_hidden_recent_tracks(
 
 
 async def test_options_flow_from_import(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     imported_config_entry: MockConfigEntry,
     default_user_no_friends: MockUser,
@@ -353,7 +353,7 @@ async def test_options_flow_from_import(
 
 
 async def test_options_flow_without_friends(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     default_user_no_friends: MockUser,

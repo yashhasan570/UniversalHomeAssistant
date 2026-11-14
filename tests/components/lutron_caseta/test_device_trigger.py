@@ -42,7 +42,7 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TYPE,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -106,7 +106,7 @@ MOCK_BUTTON_DEVICES = [
 
 
 async def _async_setup_lutron_with_picos(
-    hass: UniversalAssistant, bridge_class: type[MockBridge] = MockBridge
+    hass: __HAC_KEEP__, bridge_class: type[MockBridge] = MockBridge
 ) -> str:
     """Set up a lutron bridge with picos."""
     config_entry = MockConfigEntry(
@@ -126,7 +126,7 @@ async def _async_setup_lutron_with_picos(
     return config_entry.entry_id
 
 
-async def test_get_triggers(hass: UniversalAssistant) -> None:
+async def test_get_triggers(hass: __HAC_KEEP__) -> None:
     """Test we get the expected triggers from a lutron pico."""
     config_entry_id = await _async_setup_lutron_with_picos(hass)
     # Fetching the config entry runtime_data is a legacy pattern
@@ -195,7 +195,7 @@ def _make_processor_bridge(device_type: str) -> type[MockBridge]:
 
 @pytest.mark.parametrize("processor_type", ["HWQSProcessor", "AthenaProcessor"])
 async def test_get_triggers_processor_includes_long_press(
-    hass: UniversalAssistant, processor_type: str
+    hass: __HAC_KEEP__, processor_type: str
 ) -> None:
     """Test long_press is offered for processors that emit LongHold."""
     config_entry_id = await _async_setup_lutron_with_picos(
@@ -216,7 +216,7 @@ async def test_get_triggers_processor_includes_long_press(
     assert ACTION_LONG_PRESS in trigger_types
 
 
-async def test_get_triggers_non_qsx_excludes_long_press(hass: UniversalAssistant) -> None:
+async def test_get_triggers_non_qsx_excludes_long_press(hass: __HAC_KEEP__) -> None:
     """Test that long_press trigger is not included for non-QSX bridges."""
     config_entry_id = await _async_setup_lutron_with_picos(hass)
     data: LutronCasetaData = hass.config_entries.async_get_entry(
@@ -234,7 +234,7 @@ async def test_get_triggers_non_qsx_excludes_long_press(hass: UniversalAssistant
 
 
 async def test_get_triggers_for_invalid_device_id(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test error raised for invalid lutron device_id."""
     config_entry_id = await _async_setup_lutron_with_picos(hass)
@@ -252,7 +252,7 @@ async def test_get_triggers_for_invalid_device_id(
 
 
 async def test_get_triggers_for_non_button_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test error raised for invalid lutron device_id."""
     config_entry_id = await _async_setup_lutron_with_picos(hass)
@@ -270,7 +270,7 @@ async def test_get_triggers_for_non_button_device(
 
 
 async def test_none_serial_keypad(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test serial assignment for keypads without serials."""
     config_entry_id = await _async_setup_lutron_with_picos(hass)
@@ -284,7 +284,7 @@ async def test_none_serial_keypad(
 
 
 async def test_if_fires_on_button_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -337,7 +337,7 @@ async def test_if_fires_on_button_event(
 
 
 async def test_if_fires_on_long_press_button_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -392,7 +392,7 @@ async def test_if_fires_on_long_press_button_event(
 
 
 async def test_long_hold_leap_event_maps_to_long_press_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that a LongHold LEAP event is mapped to a long_press bus event."""
     config_entry_id = await _async_setup_lutron_with_picos(
@@ -409,7 +409,7 @@ async def test_long_hold_leap_event_maps_to_long_press_action(
 
 
 async def test_unknown_leap_event_type_maps_to_release_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that an unrecognized LEAP event type falls back to release."""
     config_entry_id = await _async_setup_lutron_with_picos(hass)
@@ -434,7 +434,7 @@ class MockUnknownButtonBridge(MockBridge):
 
 
 async def test_unknown_leap_button_number_fires_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a button number missing from the keypad mapping still fires an event."""
     config_entry_id = await _async_setup_lutron_with_picos(
@@ -453,7 +453,7 @@ async def test_unknown_leap_button_number_fires_event(
 
 
 async def test_if_fires_on_button_event_without_lip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -504,7 +504,7 @@ async def test_if_fires_on_button_event_without_lip(
 
 
 async def test_validate_trigger_config_no_device(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test for no press with no device."""
 
@@ -544,7 +544,7 @@ async def test_validate_trigger_config_no_device(
 
 
 async def test_validate_trigger_config_unknown_device(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test for no press with an unknown device."""
 
@@ -596,7 +596,7 @@ async def test_validate_trigger_config_unknown_device(
 
 
 async def test_validate_trigger_invalid_triggers(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test for click_event with invalid triggers."""
     config_entry_id = await _async_setup_lutron_with_picos(hass)
@@ -637,7 +637,7 @@ async def test_validate_trigger_invalid_triggers(
 
 
 async def test_if_fires_on_button_event_late_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
 ) -> None:

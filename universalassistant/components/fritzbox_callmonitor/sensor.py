@@ -13,7 +13,7 @@ from fritzconnection.core.fritzmonitor import FritzMonitor
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -44,7 +44,7 @@ class CallState(StrEnum):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FritzBoxCallMonitorConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

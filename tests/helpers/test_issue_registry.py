@@ -17,8 +17,8 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.config_entries import ConfigEntryDisabler, ConfigSubentryData
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.util import dt as dt_util
 
@@ -42,7 +42,7 @@ def _entry_with_subentries(*subentry_ids: str) -> MockConfigEntry:
     )
 
 
-async def test_load_save_issues(hass: UniversalAssistant) -> None:
+async def test_load_save_issues(hass: __HAC_KEEP__) -> None:
     """Make sure that we can load/save data correctly."""
     entry = _entry_with_subentries(SUBENTRY_ID)
     entry.add_to_hass(hass)
@@ -251,7 +251,7 @@ UPDATED_ISSUE: dict[str, Any] = {
 )
 @pytest.mark.parametrize("load_registries", [False])
 async def test_update_issue_by_recreating(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     stored_issue: dict[str, Any],
 ) -> None:
@@ -309,7 +309,7 @@ async def test_update_issue_by_recreating(
 
 @pytest.mark.freeze_time("2022-07-21 08:22:00")
 async def test_create_delete_issue_from_thread(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the thread safe create_issue and delete_issue."""
     entry = _entry_with_subentries(SUBENTRY_ID)
@@ -345,7 +345,7 @@ async def test_create_delete_issue_from_thread(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_load_save_issues_read_only(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Make sure that we don't save data when opened in read-only mode."""
     hass_storage[ir.STORAGE_KEY] = {
@@ -418,7 +418,7 @@ async def test_load_save_issues_read_only(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_loading_issues_from_storage(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test loading stored issues on start."""
     hass_storage[ir.STORAGE_KEY] = {
@@ -472,7 +472,7 @@ async def test_loading_issues_from_storage(
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_migration_1_1(hass: UniversalAssistant, hass_storage: dict[str, Any]) -> None:
+async def test_migration_1_1(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -> None:
     """Test migration from version 1.1."""
     hass_storage[ir.STORAGE_KEY] = {
         "version": 1,
@@ -508,7 +508,7 @@ async def test_migration_1_1(hass: UniversalAssistant, hass_storage: dict[str, A
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_migration_1_2(hass: UniversalAssistant, hass_storage: dict[str, Any]) -> None:
+async def test_migration_1_2(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -> None:
     """Test migration from version 1.2."""
     hass_storage[ir.STORAGE_KEY] = {
         "version": 1,
@@ -558,7 +558,7 @@ async def test_migration_1_2(hass: UniversalAssistant, hass_storage: dict[str, A
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_migration_1_3(hass: UniversalAssistant, hass_storage: dict[str, Any]) -> None:
+async def test_migration_1_3(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -> None:
     """Test migration from version 1.3."""
     entry = MockConfigEntry(domain="test")
     entry.add_to_hass(hass)
@@ -643,7 +643,7 @@ async def test_migration_1_3(hass: UniversalAssistant, hass_storage: dict[str, A
     ],
 )
 async def test_create_issue_unknown_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     config_entry_id: str | None,
     config_subentry_id: str | None,
@@ -652,7 +652,7 @@ async def test_create_issue_unknown_config_entry(
     """Test linking an issue to an unknown config entry or subentry raises."""
     _entry_with_subentries(SUBENTRY_ID).add_to_hass(hass)
     MockConfigEntry(domain="test", entry_id="known_entry").add_to_hass(hass)
-    with pytest.raises(UniversalAssistantError, match=re.escape(message)):
+    with pytest.raises(__HAC_KEEP__Error, match=re.escape(message)):
         ir.async_create_issue(
             hass,
             "test",
@@ -668,7 +668,7 @@ async def test_create_issue_unknown_config_entry(
 
 
 async def test_create_issue_config_entry_other_domain(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test an issue can be linked to a config entry of another domain."""
     entry = MockConfigEntry(domain="other")
@@ -707,7 +707,7 @@ OWNER_CHANGE_WARNING = (
     ],
 )
 async def test_recreate_issue_with_other_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
     owners: list[str | None],
@@ -729,7 +729,7 @@ async def test_recreate_issue_with_other_config_entry(
 
 
 async def test_remove_config_entry_deletes_issues(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test removing a config entry deletes its issues and only its issues."""
     entry = MockConfigEntry(domain="test")
@@ -772,7 +772,7 @@ async def test_remove_config_entry_deletes_issues(
 
 
 async def test_remove_config_subentry_deletes_issues(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test removing a config subentry deletes its issues and only its issues."""
     entry = _entry_with_subentries(SUBENTRY_ID, "subentry_2")
@@ -821,7 +821,7 @@ async def test_remove_config_subentry_deletes_issues(
 
 
 async def test_disable_config_entry_keeps_issues(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test disabling a config entry does not delete its issues."""
     entry = MockConfigEntry(domain="test")
@@ -846,7 +846,7 @@ async def test_disable_config_entry_keeps_issues(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_load_removes_issues_of_unknown_config_entries(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test issues linked to config (sub)entries that no longer exist are removed."""
     entry = _entry_with_subentries(SUBENTRY_ID)
@@ -917,7 +917,7 @@ async def test_load_removes_issues_of_unknown_config_entries(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_load_waits_for_config_entries(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test load waits for config entries before removing unknown entries' issues.
 
@@ -984,7 +984,7 @@ async def test_load_waits_for_config_entries(
 
 
 async def test_get_or_create_thread_safety(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test call async_get_or_create_from a thread."""
     with pytest.raises(
@@ -1007,7 +1007,7 @@ async def test_get_or_create_thread_safety(
 
 
 async def test_async_delete_issue_thread_safety(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test call async_delete_issue from a thread."""
     ir.async_create_issue(
@@ -1032,7 +1032,7 @@ async def test_async_delete_issue_thread_safety(
 
 
 async def test_async_ignore_issue_thread_safety(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test call async_ignore_issue from a thread."""
     ir.async_create_issue(
@@ -1054,7 +1054,7 @@ async def test_async_ignore_issue_thread_safety(
 
 
 def _create_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     domain: str = "test",
     config_entry_id: str | None = None,
@@ -1072,7 +1072,7 @@ def _create_issue(
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_refresh_issues(hass: UniversalAssistant) -> None:
+async def test_refresh_issues(hass: __HAC_KEEP__) -> None:
     """Test a refresh deletes only issues which were not created again."""
     for issue_id in ("refresh_1", "refresh_2", "refresh_3", "other"):
         _create_issue(hass, issue_id)
@@ -1108,7 +1108,7 @@ async def test_refresh_issues(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_refresh_issues_by_id(hass: UniversalAssistant) -> None:
+async def test_refresh_issues_by_id(hass: __HAC_KEEP__) -> None:
     """Test a refresh of explicit issue ids."""
     for issue_id in ("issue_1", "issue_2", "issue_3"):
         _create_issue(hass, issue_id)
@@ -1136,7 +1136,7 @@ async def test_refresh_issues_by_id(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("issue_registry")
 async def test_refresh_issues_pattern(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id_pattern: str | re.Pattern[str],
     expected_deleted: set[str],
 ) -> None:
@@ -1154,7 +1154,7 @@ async def test_refresh_issues_pattern(
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_refresh_issues_context_manager_exception(hass: UniversalAssistant) -> None:
+async def test_refresh_issues_context_manager_exception(hass: __HAC_KEEP__) -> None:
     """Test a refresh is cancelled if an exception is raised."""
     _create_issue(hass, "refresh_1")
 
@@ -1168,7 +1168,7 @@ async def test_refresh_issues_context_manager_exception(hass: UniversalAssistant
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_refresh_issues_cancel(hass: UniversalAssistant) -> None:
+async def test_refresh_issues_cancel(hass: __HAC_KEEP__) -> None:
     """Test a cancelled refresh does not delete issues, also if finished later."""
     _create_issue(hass, "refresh_1")
 
@@ -1180,7 +1180,7 @@ async def test_refresh_issues_cancel(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_refresh_issues_finish_twice(hass: UniversalAssistant) -> None:
+async def test_refresh_issues_finish_twice(hass: __HAC_KEEP__) -> None:
     """Test finishing a refresh again does not delete issues created after it."""
     _create_issue(hass, "refresh_1")
 
@@ -1193,7 +1193,7 @@ async def test_refresh_issues_finish_twice(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_refresh_issues_deleted_during_refresh(hass: UniversalAssistant) -> None:
+async def test_refresh_issues_deleted_during_refresh(hass: __HAC_KEEP__) -> None:
     """Test an issue deleted and created again during a refresh is not deleted."""
     _create_issue(hass, "refresh_1")
 
@@ -1206,7 +1206,7 @@ async def test_refresh_issues_deleted_during_refresh(hass: UniversalAssistant) -
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_refresh_issues_overlapping(hass: UniversalAssistant) -> None:
+async def test_refresh_issues_overlapping(hass: __HAC_KEEP__) -> None:
     """Test a newer refresh takes over pending deletion from an older one."""
     _create_issue(hass, "refresh_1")
     _create_issue(hass, "refresh_2")
@@ -1222,7 +1222,7 @@ async def test_refresh_issues_overlapping(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_refresh_issues_inactive(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test a refresh includes inactive issues loaded from storage."""
     hass_storage[ir.STORAGE_KEY] = {
@@ -1262,7 +1262,7 @@ async def test_refresh_issues_inactive(
 )
 @pytest.mark.usefixtures("issue_registry")
 async def test_refresh_issues_invalid_scope(
-    hass: UniversalAssistant, issue_id_pattern: str | re.Pattern[str]
+    hass: __HAC_KEEP__, issue_id_pattern: str | re.Pattern[str]
 ) -> None:
     """Test issue_id_pattern and issue_ids can't be combined."""
     with pytest.raises(
@@ -1274,7 +1274,7 @@ async def test_refresh_issues_invalid_scope(
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_refresh_issues_domain(hass: UniversalAssistant) -> None:
+async def test_refresh_issues_domain(hass: __HAC_KEEP__) -> None:
     """Test a refresh without pattern or ids covers all issues of the domain."""
     for issue_id in ("issue_1", "issue_2", "other_1"):
         _create_issue(hass, issue_id)
@@ -1301,7 +1301,7 @@ async def test_refresh_issues_domain(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.parametrize("load_registries", [False])
 async def test_refresh_issues_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     kwargs: dict[str, Any],
     expected_deleted: set[str],
@@ -1352,7 +1352,7 @@ async def test_refresh_issues_config_entry(
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_delete_deferred_to_refresh(hass: UniversalAssistant) -> None:
+async def test_delete_deferred_to_refresh(hass: __HAC_KEEP__) -> None:
     """Test a deferred delete leaves the issue to the refresh which owns it."""
     _create_issue(hass, "issue_1")
     _create_issue(hass, "issue_2")
@@ -1369,7 +1369,7 @@ async def test_delete_deferred_to_refresh(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_delete_deferred_without_refresh(hass: UniversalAssistant) -> None:
+async def test_delete_deferred_without_refresh(hass: __HAC_KEEP__) -> None:
     """Test a deferred delete deletes immediately if no refresh is in progress."""
     _create_issue(hass, "issue_1")
 
@@ -1379,7 +1379,7 @@ async def test_delete_deferred_without_refresh(hass: UniversalAssistant) -> None
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_delete_deferred_outside_refresh_scope(hass: UniversalAssistant) -> None:
+async def test_delete_deferred_outside_refresh_scope(hass: __HAC_KEEP__) -> None:
     """Test a deferred delete deletes immediately if no refresh covers the issue."""
     _create_issue(hass, "issue_1")
     _create_issue(hass, "other")
@@ -1394,19 +1394,19 @@ async def test_delete_deferred_outside_refresh_scope(hass: UniversalAssistant) -
     refresh.async_finish()
 
 
-type _RefreshStep = Callable[[UniversalAssistant, dict[str, ir.IssuesRefresh]], None]
+type _RefreshStep = Callable[[__HAC_KEEP__, dict[str, ir.IssuesRefresh]], None]
 
 
-def _recreate(hass: UniversalAssistant, refreshes: dict[str, ir.IssuesRefresh]) -> None:
+def _recreate(hass: __HAC_KEEP__, refreshes: dict[str, ir.IssuesRefresh]) -> None:
     _create_issue(hass, "issue_1")
 
 
-def _defer_delete(hass: UniversalAssistant, refreshes: dict[str, ir.IssuesRefresh]) -> None:
+def _defer_delete(hass: __HAC_KEEP__, refreshes: dict[str, ir.IssuesRefresh]) -> None:
     ir.async_delete_issue(hass, "test", "issue_1", defer_to_refresh=True)
 
 
 def _assert_present(
-    hass: UniversalAssistant, refreshes: dict[str, ir.IssuesRefresh]
+    hass: __HAC_KEEP__, refreshes: dict[str, ir.IssuesRefresh]
 ) -> None:
     assert ("test", "issue_1") in ir.async_get(hass).issues
 
@@ -1415,7 +1415,7 @@ def _keep(name: str) -> _RefreshStep:
     return lambda hass, refreshes: refreshes[name].async_keep(["issue_1"])
 
 
-def _keep_issue(hass: UniversalAssistant, refreshes: dict[str, ir.IssuesRefresh]) -> None:
+def _keep_issue(hass: __HAC_KEEP__, refreshes: dict[str, ir.IssuesRefresh]) -> None:
     ir.async_keep_issue(hass, "test", "issue_1")
 
 
@@ -1560,7 +1560,7 @@ def _cancel(name: str) -> _RefreshStep:
 )
 @pytest.mark.usefixtures("issue_registry")
 async def test_delete_deferred_to_refresh_sequences(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     refresh_names: list[str],
     steps: list[_RefreshStep],
     kept: bool,
@@ -1584,7 +1584,7 @@ async def test_delete_deferred_to_refresh_sequences(
 
 
 def _begin(name: str) -> _RefreshStep:
-    def begin(hass: UniversalAssistant, refreshes: dict[str, ir.IssuesRefresh]) -> None:
+    def begin(hass: __HAC_KEEP__, refreshes: dict[str, ir.IssuesRefresh]) -> None:
         refreshes[name] = ir.async_refresh_issues(hass, "test", issue_ids=["issue_1"])
 
     return begin
@@ -1624,7 +1624,7 @@ def _begin(name: str) -> _RefreshStep:
 )
 @pytest.mark.usefixtures("issue_registry")
 async def test_keep_outside_refresh_scope_disjoint_refreshes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     steps: list[_RefreshStep],
     expected: list[set[str]],
 ) -> None:
@@ -1646,7 +1646,7 @@ async def test_keep_outside_refresh_scope_disjoint_refreshes(
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_delete_not_deferred_during_refresh(hass: UniversalAssistant) -> None:
+async def test_delete_not_deferred_during_refresh(hass: __HAC_KEEP__) -> None:
     """Test a plain delete during a refresh deletes immediately and unmarks."""
     _create_issue(hass, "issue_1")
 
@@ -1660,7 +1660,7 @@ async def test_delete_not_deferred_during_refresh(hass: UniversalAssistant) -> N
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_keep_issue_outside_refresh(hass: UniversalAssistant) -> None:
+async def test_keep_issue_outside_refresh(hass: __HAC_KEEP__) -> None:
     """Test keeping an issue outside a refresh's set changes nothing."""
     _create_issue(hass, "issue_1")
     _create_issue(hass, "issue_2")
@@ -1680,7 +1680,7 @@ async def test_keep_issue_outside_refresh(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_keep_issue_thread_safety(hass: UniversalAssistant) -> None:
+async def test_keep_issue_thread_safety(hass: __HAC_KEEP__) -> None:
     """Test call async_keep_issue from a thread."""
     with pytest.raises(
         RuntimeError,
@@ -1690,7 +1690,7 @@ async def test_keep_issue_thread_safety(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("issue_registry")
-async def test_refresh_issues_thread_safety(hass: UniversalAssistant) -> None:
+async def test_refresh_issues_thread_safety(hass: __HAC_KEEP__) -> None:
     """Test call async_refresh_issues from a thread."""
     with pytest.raises(
         RuntimeError,
@@ -1713,7 +1713,7 @@ async def test_refresh_issues_thread_safety(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("issue_registry")
 async def test_issues_refresh_thread_safety(
-    hass: UniversalAssistant, method: str, args: tuple[Any, ...]
+    hass: __HAC_KEEP__, method: str, args: tuple[Any, ...]
 ) -> None:
     """Test call IssuesRefresh methods from a thread."""
     refresh = ir.async_refresh_issues(hass, "test", issue_ids=[])

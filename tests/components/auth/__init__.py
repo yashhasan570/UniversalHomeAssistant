@@ -7,7 +7,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant import auth
 from universalassistant.components.auth import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import Undefined
 from universalassistant.setup import async_setup_component
 
@@ -27,7 +27,7 @@ EMPTY_CONFIG = []
 
 
 async def async_setup_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     provider_configs: list[dict[str, Any]] | Undefined = Undefined,
     module_configs: list[dict[str, Any]] | Undefined = Undefined,

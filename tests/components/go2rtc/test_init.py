@@ -48,7 +48,7 @@ from universalassistant.components.camera import (
     async_get_image,
 )
 from universalassistant.components.default_config import DOMAIN as DEFAULT_CONFIG_DOMAIN
-from universalassistant.components.go2rtc import UniversalAssistant, WebRTCProvider
+from universalassistant.components.go2rtc import __HAC_KEEP__, WebRTCProvider
 from universalassistant.components.go2rtc.const import (
     CONF_DEBUG_UI,
     DEBUG_UI_URL_MESSAGE,
@@ -63,7 +63,7 @@ from universalassistant.components.stream import Orientation
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, CONF_PASSWORD, CONF_URL, CONF_USERNAME
 from universalassistant.core import EVENT_HOMEASSISTANT_STOP
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
@@ -77,7 +77,7 @@ ANSWER_SDP = "v=0\r\no=bob 2890844730 2890844730 IN IP4 host.example.com\r\n..."
 
 
 async def _setup_camera_prefs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     settings: DynamicStreamSettings,
 ) -> CameraPreferences:
@@ -97,7 +97,7 @@ def has_go2rtc_entry_fixture() -> bool:
 
 
 @pytest.fixture
-def mock_go2rtc_entry(hass: UniversalAssistant, has_go2rtc_entry: bool) -> None:
+def mock_go2rtc_entry(hass: __HAC_KEEP__, has_go2rtc_entry: bool) -> None:
     """Mock a go2rtc onfig entry."""
     if not has_go2rtc_entry:
         return
@@ -106,7 +106,7 @@ def mock_go2rtc_entry(hass: UniversalAssistant, has_go2rtc_entry: bool) -> None:
 
 
 async def _test_setup_and_signaling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     rest_client: AsyncMock,
     ws_client: Mock,
@@ -269,7 +269,7 @@ async def _test_setup_and_signaling(
 )
 @pytest.mark.parametrize("has_go2rtc_entry", [True, False])
 async def test_setup_go_binary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     rest_client: AsyncMock,
     ws_client: Mock,
@@ -338,7 +338,7 @@ async def test_setup_go_binary(
 )
 @pytest.mark.parametrize("has_go2rtc_entry", [True, False])
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     rest_client: AsyncMock,
     ws_client: Mock,
@@ -503,7 +503,7 @@ async def test_close_session(
     ws_client.close.assert_not_called()
 
 
-async def _fail_with_offer(hass: UniversalAssistant, camera: MockCamera, error: str) -> None:
+async def _fail_with_offer(hass: __HAC_KEEP__, camera: MockCamera, error: str) -> None:
     """Update the stream source via a new WebRTC offer, expecting an error."""
     send_message = Mock(spec_set=WebRTCSendMessage)
     await camera.async_handle_async_webrtc_offer(OFFER_SDP, "new_session", send_message)
@@ -513,10 +513,10 @@ async def _fail_with_offer(hass: UniversalAssistant, camera: MockCamera, error: 
 
 
 async def _fail_with_image_request(
-    hass: UniversalAssistant, camera: MockCamera, error: str
+    hass: __HAC_KEEP__, camera: MockCamera, error: str
 ) -> None:
     """Update the stream source via a snapshot request, expecting an error."""
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await async_get_image(hass, camera.entity_id)
 
 
@@ -544,11 +544,11 @@ async def _fail_with_image_request(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_invalid_stream_source_closes_only_sessions_of_that_camera(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_clients: list[Mock],
     init_test_integration_two_cameras: tuple[MockCamera, MockCamera],
     caplog: pytest.LogCaptureFixture,
-    trigger: Callable[[UniversalAssistant, MockCamera, str], Awaitable[None]],
+    trigger: Callable[[__HAC_KEEP__, MockCamera, str], Awaitable[None]],
     stream_source: str | None,
     error: str,
 ) -> None:
@@ -648,7 +648,7 @@ async def test_teardown_while_a_camera_is_removed(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_camera_removed_while_a_snapshot_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_clients: list[Mock],
     init_test_integration: MockCamera,
 ) -> None:
@@ -666,7 +666,7 @@ async def test_camera_removed_while_a_snapshot_fails(
     camera.set_stream_source(None)
 
     async def failing_snapshot() -> None:
-        with pytest.raises(UniversalAssistantError, match="Camera has no stream source"):
+        with pytest.raises(__HAC_KEEP__Error, match="Camera has no stream source"):
             await async_get_image(hass, camera.entity_id)
 
     await asyncio.gather(failing_snapshot(), camera.async_remove())
@@ -715,7 +715,7 @@ ERR_URL_REQUIRED = "Go2rtc URL required in non-docker installs"
     "mock_get_binary", "mock_go2rtc_entry", "mock_is_docker_env", "server"
 )
 async def test_non_user_setup_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -802,7 +802,7 @@ async def test_non_user_setup_with_error(
     "mock_get_binary", "mock_go2rtc_entry", "mock_is_docker_env", "server"
 )
 async def test_setup_with_setup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
     has_go2rtc_entry: bool,
@@ -830,7 +830,7 @@ async def test_setup_with_setup_error(
     "mock_get_binary", "mock_go2rtc_entry", "mock_is_docker_env", "server"
 )
 async def test_setup_with_setup_entry_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
     expected_log_message: str,
@@ -860,7 +860,7 @@ async def test_setup_with_setup_entry_error(
     "mock_get_binary", "mock_go2rtc_entry", "mock_is_docker_env", "server"
 )
 async def test_setup_with_retryable_setup_entry_error_custom_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     rest_client: AsyncMock,
     config: ConfigType,
@@ -895,7 +895,7 @@ async def test_setup_with_retryable_setup_entry_error_custom_server(
     "mock_get_binary", "mock_go2rtc_entry", "mock_is_docker_env", "server"
 )
 async def test_setup_with_retryable_setup_entry_error_default_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     rest_client: AsyncMock,
     has_go2rtc_entry: bool,
@@ -933,7 +933,7 @@ async def test_setup_with_retryable_setup_entry_error_default_server(
     "mock_get_binary", "mock_go2rtc_entry", "mock_is_docker_env", "server"
 )
 async def test_setup_with_version_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     rest_client: AsyncMock,
     config: ConfigType,
@@ -951,7 +951,7 @@ async def test_setup_with_version_error(
     assert expected_log_message in caplog.text
 
 
-async def test_config_entry_remove(hass: UniversalAssistant) -> None:
+async def test_config_entry_remove(hass: __HAC_KEEP__) -> None:
     """Test config entry removed when neither default_config nor go2rtc is in config."""
     config_entry = MockConfigEntry(domain=DOMAIN)
     config_entry.add_to_hass(hass)
@@ -963,7 +963,7 @@ async def test_config_entry_remove(hass: UniversalAssistant) -> None:
 @pytest.mark.parametrize("config", [{DOMAIN: {CONF_URL: "http://localhost:1984"}}])
 @pytest.mark.usefixtures("server")
 async def test_setup_with_recommended_version_repair(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     rest_client: AsyncMock,
     config: ConfigType,
@@ -996,7 +996,7 @@ async def test_setup_with_recommended_version_repair(
 @pytest.mark.parametrize("config", [{DOMAIN: {CONF_URL: "http://localhost:1984"}}])
 @pytest.mark.usefixtures("server")
 async def test_setup_with_unsupported_version_repair(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     rest_client: AsyncMock,
     config: ConfigType,
@@ -1037,7 +1037,7 @@ async def test_setup_with_unsupported_version_repair(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_async_get_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_test_integration: MockCamera,
     rest_client: AsyncMock,
 ) -> None:
@@ -1056,22 +1056,22 @@ async def test_async_get_image(
     camera.set_stream_source("invalid://not_supported")
 
     with pytest.raises(
-        UniversalAssistantError, match="Stream source is not supported by go2rtc"
+        __HAC_KEEP__Error, match="Stream source is not supported by go2rtc"
     ):
         await async_get_image(hass, camera.entity_id)
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_async_get_image_go2rtc_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_test_integration: MockCamera,
     snapshot_error: Go2RtcClientError,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Test go2rtc snapshot failures are handled as Universal Universal Home Assistant errors."""
+    """Test go2rtc snapshot failures are handled as __HA_KEEP__ errors."""
     with pytest.raises(
-        UniversalAssistantError, match="Unable to get image from go2rtc"
+        __HAC_KEEP__Error, match="Unable to get image from go2rtc"
     ) as exc_info:
         await async_get_image(hass, init_test_integration.entity_id)
 
@@ -1088,7 +1088,7 @@ async def test_async_get_image_go2rtc_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_snapshot_service_go2rtc_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_test_integration: MockCamera,
     snapshot_error: Go2RtcClientError,
     tmp_path: Path,
@@ -1098,7 +1098,7 @@ async def test_snapshot_service_go2rtc_error(
     snapshot_file = tmp_path / "snapshot.jpg"
 
     with pytest.raises(
-        UniversalAssistantError, match="Unable to get image from go2rtc"
+        __HAC_KEEP__Error, match="Unable to get image from go2rtc"
     ) as exc_info:
         await hass.services.async_call(
             CAMERA_DOMAIN,
@@ -1117,7 +1117,7 @@ async def test_snapshot_service_go2rtc_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_generic_workaround(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_test_integration: MockCamera,
     rest_client: AsyncMock,
 ) -> None:
@@ -1145,12 +1145,12 @@ async def test_generic_workaround(
 
 
 async def _test_camera_orientation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     camera: MockCamera,
     orientation: Orientation,
     rest_client: AsyncMock,
     expected_stream_source: str,
-    camera_fn: Callable[[UniversalAssistant, MockCamera], Awaitable[None]],
+    camera_fn: Callable[[__HAC_KEEP__, MockCamera], Awaitable[None]],
 ) -> None:
     """Test camera orientation handling in go2rtc provider."""
     # Ensure go2rtc provider is initialized
@@ -1175,7 +1175,7 @@ async def _test_camera_orientation(
 
 
 async def _test_camera_orientation_webrtc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     camera: MockCamera,
     orientation: Orientation,
     rest_client: AsyncMock,
@@ -1183,7 +1183,7 @@ async def _test_camera_orientation_webrtc(
 ) -> None:
     """Test camera orientation handling in go2rtc provider on WebRTC stream."""
 
-    async def camera_fn(hass: UniversalAssistant, camera: MockCamera) -> None:
+    async def camera_fn(hass: __HAC_KEEP__, camera: MockCamera) -> None:
         """Mock function to simulate WebRTC offer handling."""
         receive_message_callback = Mock()
         await camera.async_handle_async_webrtc_offer(
@@ -1201,7 +1201,7 @@ async def _test_camera_orientation_webrtc(
 
 
 async def _test_camera_orientation_get_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     camera: MockCamera,
     orientation: Orientation,
     rest_client: AsyncMock,
@@ -1209,7 +1209,7 @@ async def _test_camera_orientation_get_image(
 ) -> None:
     """Test camera orientation handling in go2rtc provider on get_image."""
 
-    async def camera_fn(hass: UniversalAssistant, camera: MockCamera) -> None:
+    async def camera_fn(hass: __HAC_KEEP__, camera: MockCamera) -> None:
         """Mock function to simulate get_image handling."""
         rest_client.get_jpeg_snapshot.return_value = b"image_bytes"
         # Get image which should trigger stream update with orientation
@@ -1265,13 +1265,13 @@ async def _test_camera_orientation_get_image(
     ],
 )
 async def test_stream_orientation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rest_client: AsyncMock,
     init_test_integration: MockCamera,
     orientation: Orientation,
     expected_stream_source: str,
     test_fn: Callable[
-        [UniversalAssistant, MockCamera, Orientation, AsyncMock, str], Awaitable[None]
+        [__HAC_KEEP__, MockCamera, Orientation, AsyncMock, str], Awaitable[None]
     ],
 ) -> None:
     """Test WebRTC provider applies correct orientation filters."""
@@ -1295,11 +1295,11 @@ async def test_stream_orientation(
     ],
 )
 async def test_stream_orientation_stream_source_starts_ffmpeg(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rest_client: AsyncMock,
     init_test_integration: MockCamera,
     test_fn: Callable[
-        [UniversalAssistant, MockCamera, Orientation, AsyncMock, str], Awaitable[None]
+        [__HAC_KEEP__, MockCamera, Orientation, AsyncMock, str], Awaitable[None]
     ],
 ) -> None:
     """Test WebRTC provider applies correct orientation filters.
@@ -1327,11 +1327,11 @@ async def test_stream_orientation_stream_source_starts_ffmpeg(
     ],
 )
 async def test_stream_orientation_with_generic_camera(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rest_client: AsyncMock,
     init_test_integration: MockCamera,
     test_fn: Callable[
-        [UniversalAssistant, MockCamera, Orientation, AsyncMock, str], Awaitable[None]
+        [__HAC_KEEP__, MockCamera, Orientation, AsyncMock, str], Awaitable[None]
     ],
 ) -> None:
     """Test WebRTC provider with orientation and generic camera platform."""
@@ -1356,7 +1356,7 @@ async def test_stream_orientation_with_generic_camera(
     "rest_client",
     "server",
 )
-async def test_unix_socket_connection(hass: UniversalAssistant, server_dir: Path) -> None:
+async def test_unix_socket_connection(hass: __HAC_KEEP__, server_dir: Path) -> None:
     """Test Unix socket is used for HA-managed go2rtc instances."""
     config = {DOMAIN: {}}
 
@@ -1393,7 +1393,7 @@ async def test_unix_socket_connection(hass: UniversalAssistant, server_dir: Path
 
 
 @pytest.mark.usefixtures("rest_client", "server")
-async def test_unix_socket_not_used_for_custom_server(hass: UniversalAssistant) -> None:
+async def test_unix_socket_not_used_for_custom_server(hass: __HAC_KEEP__) -> None:
     """Test Unix socket is not used for custom go2rtc instances."""
     config = {DOMAIN: {CONF_URL: "http://localhost:1984/"}}
 
@@ -1411,7 +1411,7 @@ async def test_unix_socket_not_used_for_custom_server(hass: UniversalAssistant) 
 
 
 @pytest.mark.usefixtures("rest_client", "server")
-async def test_basic_auth_with_custom_url(hass: UniversalAssistant) -> None:
+async def test_basic_auth_with_custom_url(hass: __HAC_KEEP__) -> None:
     """Test an auth header session is created with username/password and URL."""
     config = {
         DOMAIN: {
@@ -1439,7 +1439,7 @@ async def test_basic_auth_with_custom_url(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("rest_client")
-async def test_basic_auth_with_debug_ui(hass: UniversalAssistant, server_dir: Path) -> None:
+async def test_basic_auth_with_debug_ui(hass: __HAC_KEEP__, server_dir: Path) -> None:
     """Test an auth header session is created with username/password and debug_ui."""
     config = {
         DOMAIN: {
@@ -1492,7 +1492,7 @@ async def test_basic_auth_with_debug_ui(hass: UniversalAssistant, server_dir: Pa
 @pytest.mark.usefixtures("init_integration", "ws_client")
 @pytest.mark.parametrize("preload", [True, False])
 async def test_preload_settings_is_applied_on_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rest_client: AsyncMock,
     init_test_integration: MockCamera,
     preload: bool,
@@ -1515,7 +1515,7 @@ async def test_preload_settings_is_applied_on_register(
 
 @pytest.mark.usefixtures("init_integration", "ws_client")
 async def test_preload_disabled_on_unregister(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rest_client: AsyncMock,
     init_test_integration: MockCamera,
 ) -> None:
@@ -1557,7 +1557,7 @@ async def test_preload_not_disabled_when_not_enabled(
 
 @pytest.mark.usefixtures("init_integration", "ws_client")
 async def test_preload_toggle_on_preference_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rest_client: AsyncMock,
     init_test_integration: MockCamera,
 ) -> None:
@@ -1598,7 +1598,7 @@ async def test_preload_toggle_on_preference_update(
 
 @pytest.mark.usefixtures("init_integration", "ws_client")
 async def test_preload_no_change_when_already_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rest_client: AsyncMock,
     init_test_integration: MockCamera,
 ) -> None:
@@ -1622,7 +1622,7 @@ async def test_preload_no_change_when_already_enabled(
 
 @pytest.mark.usefixtures("init_integration", "ws_client")
 async def test_preload_no_change_when_already_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rest_client: AsyncMock,
     init_test_integration: MockCamera,
 ) -> None:

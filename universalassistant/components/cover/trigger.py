@@ -4,7 +4,7 @@ from collections.abc import Mapping
 from typing import override
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.trigger import (
     EntityTriggerBase,
     NotTriggeredReasonReporter,
@@ -111,6 +111,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for covers."""
     return TRIGGERS

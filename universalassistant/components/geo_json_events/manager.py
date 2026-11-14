@@ -9,7 +9,7 @@ from aio_geojson_generic_client.feed_entry import GenericFeedEntry
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_RADIUS, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_track_time_interval
@@ -31,11 +31,11 @@ class GeoJsonFeedEntityManager:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GeoJsonConfigEntry,
     ) -> None:
         """Initialize the GeoJSON Feed Manager."""
-        self._hass: UniversalAssistant = hass
+        self._hass: __HAC_KEEP__ = hass
         self.entry_id: str = config_entry.entry_id
         websession = aiohttp_client.async_get_clientsession(hass)
         self._feed_manager: GenericFeedManager = GenericFeedManager(

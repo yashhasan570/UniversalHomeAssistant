@@ -13,13 +13,13 @@ from universalassistant.components.brother.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import init_integration
 
 
 async def test_async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_async_setup_entry(
 
 
 async def test_config_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_config_not_ready(
 
 @pytest.mark.parametrize("exc", [(SnmpError("SNMP Error")), (ConnectionError)])
 async def test_error_on_init(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: Exception,
     mock_config_entry: MockConfigEntry,
     mock_brother: AsyncMock,
@@ -59,7 +59,7 @@ async def test_error_on_init(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_brother_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_unload_entry(
 
 
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_brother_client: AsyncMock,
 ) -> None:
     """Test entry migration to minor_version=2."""
@@ -100,7 +100,7 @@ async def test_migrate_entry(
 
 
 async def test_serial_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_brother: AsyncMock,
     mock_brother_client: AsyncMock,

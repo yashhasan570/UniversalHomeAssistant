@@ -8,7 +8,7 @@ from gatus_api import EndpointStatus, GatusAuthError, GatusClient, GatusClientEr
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -25,7 +25,7 @@ type GatusConfigEntry = ConfigEntry[GatusDataUpdateCoordinator]
 class GatusDataUpdateCoordinator(DataUpdateCoordinator[dict[str, EndpointStatus]]):
     """Class to manage fetching Gatus data from the API via third-party library."""
 
-    def __init__(self, hass: UniversalAssistant, entry: GatusConfigEntry, url: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: GatusConfigEntry, url: str) -> None:
         """Initialize the coordinator."""
         self.url = url.rstrip("/")
         self.client = GatusClient(

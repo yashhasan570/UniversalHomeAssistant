@@ -2,7 +2,7 @@
 
 from mitsubishi_comfort import DeviceInfo
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
 from .const import CONF_ADDRESSES, CONF_CREDENTIALS, DOMAIN
@@ -24,7 +24,7 @@ def has_full_credentials(cred: dict[str, str]) -> bool:
     return bool(cred["password"] and cred["crypto_serial"] and cred["mac"])
 
 
-def async_create_missing_address_issue(hass: UniversalAssistant, entry_id: str) -> None:
+def async_create_missing_address_issue(hass: __HAC_KEEP__, entry_id: str) -> None:
     """Raise the fixable repair offering manual entry of missing LAN addresses."""
     ir.async_create_issue(
         hass,
@@ -39,7 +39,7 @@ def async_create_missing_address_issue(hass: UniversalAssistant, entry_id: str) 
 
 
 def async_reconcile_missing_address_issue(
-    hass: UniversalAssistant, entry: MitsubishiComfortConfigEntry
+    hass: __HAC_KEEP__, entry: MitsubishiComfortConfigEntry
 ) -> None:
     """Create or clear the repair from the entry's stored data alone.
 

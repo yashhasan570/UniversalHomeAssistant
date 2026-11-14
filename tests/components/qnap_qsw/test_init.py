@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.qnap_qsw.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import CONFIG
 
 
-async def test_firmware_check_error(hass: UniversalAssistant) -> None:
+async def test_firmware_check_error(hass: __HAC_KEEP__) -> None:
     """Test firmware update check error."""
 
     config_entry = MockConfigEntry(
@@ -39,7 +39,7 @@ async def test_firmware_check_error(hass: UniversalAssistant) -> None:
         assert config_entry.state is ConfigEntryState.LOADED
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test unload."""
 
     config_entry = MockConfigEntry(

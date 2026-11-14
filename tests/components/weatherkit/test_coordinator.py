@@ -8,13 +8,13 @@ from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import init_integration, mock_weather_response
 
 
 async def test_update_uses_stale_data_before_threshold(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test stale data is used if update fails before threshold."""
@@ -43,7 +43,7 @@ async def test_update_uses_stale_data_before_threshold(
 
 
 async def test_update_becomes_unavailable_after_threshold(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test entity becomes unavailable if update fails after threshold."""
@@ -66,7 +66,7 @@ async def test_update_becomes_unavailable_after_threshold(
 
 
 async def test_update_recovers_after_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test successful update after failures recovers entity state."""

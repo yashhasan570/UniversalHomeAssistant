@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.switcher_kis.const import DOMAIN
 from universalassistant.const import CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -35,7 +35,7 @@ from .consts import (
     indirect=True,
 )
 async def test_user_setup(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_bridge: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_bridge: MagicMock
 ) -> None:
     """Test we can finish a config flow."""
     with patch("universalassistant.components.switcher_kis.utils.DISCOVERY_TIME_SEC", 0):
@@ -69,7 +69,7 @@ async def test_user_setup(
     indirect=True,
 )
 async def test_user_setup_found_token_device_valid_token(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_bridge: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_bridge: MagicMock
 ) -> None:
     """Test we can finish a config flow with token device found."""
     with patch("universalassistant.components.switcher_kis.utils.DISCOVERY_TIME_SEC", 0):
@@ -120,7 +120,7 @@ async def test_user_setup_found_token_device_valid_token(
 )
 @pytest.mark.usefixtures("mock_bridge")
 async def test_user_setup_found_token_device_invalid_token(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we can finish a config flow with token device found."""
     with patch("universalassistant.components.switcher_kis.utils.DISCOVERY_TIME_SEC", 0):
@@ -168,7 +168,7 @@ async def test_user_setup_found_token_device_invalid_token(
 
 
 async def test_user_setup_abort_no_devices_found(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_bridge: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_bridge: MagicMock
 ) -> None:
     """Test we abort a config flow if no devices found."""
     with patch("universalassistant.components.switcher_kis.utils.DISCOVERY_TIME_SEC", 0):
@@ -190,7 +190,7 @@ async def test_user_setup_abort_no_devices_found(
         assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_single_instance(hass: UniversalAssistant) -> None:
+async def test_single_instance(hass: __HAC_KEEP__) -> None:
     """Test we only allow a single config flow."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
     await hass.async_block_till_done()
@@ -210,7 +210,7 @@ async def test_single_instance(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reauth_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     user_input: dict[str, str],
 ) -> None:
@@ -247,7 +247,7 @@ async def test_reauth_successful(
 
 
 async def test_reauth_invalid_auth(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test reauthentication flow with invalid credentials."""
     entry = MockConfigEntry(

@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -50,7 +50,7 @@ TIME_OFFSET_ENTITY_ID = "number.test_name_display_time_offset"
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_meter_pro_co2_display_time_offset_initial_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     offset_seconds_on_device: int,
     expected_state: int,
@@ -75,7 +75,7 @@ async def test_meter_pro_co2_display_time_offset_initial_state(
 
 
 async def test_meter_pro_co2_display_time_offset_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test the offset entity does not connect while it is disabled."""
@@ -96,10 +96,10 @@ async def test_meter_pro_co2_display_time_offset_disabled_by_default(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_meter_pro_co2_display_time_offset_waits_for_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
 ) -> None:
-    """Test the offset is only read once Universal Universal Home Assistant has started."""
+    """Test the offset is only read once __HA_KEEP__ has started."""
     hass.set_state(CoreState.not_running)
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, WOMETERTHPC_SERVICE_INFO)
@@ -143,7 +143,7 @@ async def test_meter_pro_co2_display_time_offset_waits_for_start(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_meter_pro_co2_display_time_offset_unreachable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     caplog: pytest.LogCaptureFixture,
     service_info: BluetoothServiceInfoBleak,
@@ -169,7 +169,7 @@ async def test_meter_pro_co2_display_time_offset_unreachable(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_meter_pro_co2_display_time_offset_recovers_on_next_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test a failed first read of the offset is retried on the next poll."""
@@ -214,7 +214,7 @@ async def test_meter_pro_co2_display_time_offset_recovers_on_next_poll(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_meter_pro_co2_set_display_time_offset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     time_offset: int,
     expected_seconds_on_device: int,
@@ -271,7 +271,7 @@ async def test_meter_pro_co2_set_display_time_offset(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_display_time_offset_out_of_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     value: int,
 ) -> None:
@@ -333,7 +333,7 @@ async def test_set_display_time_offset_out_of_range(
     ],
 )
 async def test_standing_fan_oscillation_angle_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_factory: Callable[[str], MockConfigEntry],
     entity_id: str,
     set_method: str,

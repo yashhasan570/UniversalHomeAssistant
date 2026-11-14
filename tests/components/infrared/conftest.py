@@ -7,12 +7,12 @@ from pytest_universalassistant.components.infrared.common import (
 )
 
 from universalassistant.components.infrared import DATA_COMPONENT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(params=[MockInfraredEntity, MockInfraredEmitterEntity])
 async def mock_infrared_emitter_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_infrared: None,
     request: pytest.FixtureRequest,
 ) -> MockInfraredEntity | MockInfraredEmitterEntity:

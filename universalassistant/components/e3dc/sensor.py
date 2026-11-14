@@ -26,7 +26,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -88,7 +88,7 @@ SENSORS: tuple[E3dcSensorDescription, ...] = (
     _power(
         "battery_power",
         # E3/DC reports charging as positive power
-        # Negate it because Universal Universal Home Assistant expects discharging as positive
+        # Negate it because __HA_KEEP__ expects discharging as positive
         lambda device: (
             None if (power := device.power.battery_power) is None else -power
         ),
@@ -257,7 +257,7 @@ SENSORS: tuple[E3dcSensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: E3dcConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

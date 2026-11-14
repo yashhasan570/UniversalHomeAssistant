@@ -14,8 +14,8 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.service import async_register_platform_entity_service
 from universalassistant.helpers.typing import VolDictType
@@ -91,7 +91,7 @@ async def _async_get_alerts(call: ServiceCall) -> dict[str, Any]:
 
     ec: ECWeather | None = entry.runtime_data.weather_coordinator.ec_data
     if ec is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="not_connected",
         )
@@ -140,7 +140,7 @@ async def _async_get_precipitation_forecast(call: ServiceCall) -> dict[str, Any]
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Environment Canada integration."""
     hass.services.async_register(
         DOMAIN,

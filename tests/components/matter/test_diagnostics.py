@@ -20,7 +20,7 @@ from universalassistant.components.matter.diagnostics import (
     SERVER_INFO_TO_REDACT,
     redact_matter_attributes,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
@@ -57,7 +57,7 @@ async def test_matter_attribute_redact(device_diagnostics: dict[str, Any]) -> No
 
 
 async def test_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     matter_client: MagicMock,
     integration: MockConfigEntry,
@@ -76,7 +76,7 @@ async def test_config_entry_diagnostics(
 
 @pytest.mark.parametrize("node_fixture", ["device_diagnostics"])
 async def test_device_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     matter_client: MagicMock,

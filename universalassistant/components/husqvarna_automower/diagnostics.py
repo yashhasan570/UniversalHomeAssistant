@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from .const import DOMAIN
@@ -23,14 +23,14 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: AutomowerConfigEntry
+    hass: __HAC_KEEP__, entry: AutomowerConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return async_redact_data(entry.as_dict(), TO_REDACT)
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, entry: AutomowerConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: AutomowerConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device entry."""
 

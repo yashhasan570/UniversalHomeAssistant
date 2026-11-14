@@ -27,13 +27,13 @@ from habiticalib import (
 import probatio
 
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.selector import ConfigEntrySelector
 from universalassistant.util import dt as dt_util
@@ -328,7 +328,7 @@ async def _cast_skill(call: ServiceCall) -> ServiceResponse:
     try:
         response = await coordinator.habitica.cast_skill(skill, task_id)
     except TooManyRequestsError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="setup_rate_limit_exception",
             translation_placeholders={"retry_after": str(e.retry_after)},
@@ -354,13 +354,13 @@ async def _cast_skill(call: ServiceCall) -> ServiceResponse:
             },
         ) from e
     except HabiticaException as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": str(e.error.message)},
         ) from e
     except ClientError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": str(e)},
@@ -391,7 +391,7 @@ async def _manage_quests(call: ServiceCall) -> ServiceResponse:
     try:
         response = await func()
     except TooManyRequestsError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="setup_rate_limit_exception",
             translation_placeholders={"retry_after": str(e.retry_after)},
@@ -405,13 +405,13 @@ async def _manage_quests(call: ServiceCall) -> ServiceResponse:
             translation_domain=DOMAIN, translation_key="quest_not_found"
         ) from e
     except HabiticaException as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": str(e.error.message)},
         ) from e
     except ClientError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": str(e)},
@@ -453,7 +453,7 @@ async def _score_task(call: ServiceCall) -> ServiceResponse:
     try:
         response = await coordinator.habitica.update_score(task_id, direction)
     except TooManyRequestsError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="setup_rate_limit_exception",
             translation_placeholders={"retry_after": str(e.retry_after)},
@@ -468,19 +468,19 @@ async def _score_task(call: ServiceCall) -> ServiceResponse:
                     "cost": f"{task_value:.2f} GP",
                 },
             ) from e
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": e.error.message},
         ) from e
     except HabiticaException as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": str(e.error.message)},
         ) from e
     except ClientError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": str(e)},
@@ -516,13 +516,13 @@ async def _transformation(call: ServiceCall) -> ServiceResponse:
                 translation_key="party_not_found",
             ) from e
         except HabiticaException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="service_call_exception",
                 translation_placeholders={"reason": str(e.error.message)},
             ) from e
         except ClientError as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="service_call_exception",
                 translation_placeholders={"reason": str(e)},
@@ -550,7 +550,7 @@ async def _transformation(call: ServiceCall) -> ServiceResponse:
     try:
         response = await coordinator.habitica.cast_skill(item, target_id)
     except TooManyRequestsError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="setup_rate_limit_exception",
             translation_placeholders={"retry_after": str(e.retry_after)},
@@ -562,13 +562,13 @@ async def _transformation(call: ServiceCall) -> ServiceResponse:
             translation_placeholders={"item": call.data[HabiticaServiceArgument.ITEM]},
         ) from e
     except HabiticaException as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": str(e.error.message)},
         ) from e
     except ClientError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": str(e)},
@@ -705,19 +705,19 @@ async def _create_or_update_task(call: ServiceCall) -> ServiceResponse:  # noqa:
                     }
                 )
             except TooManyRequestsError as e:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="setup_rate_limit_exception",
                     translation_placeholders={"retry_after": str(e.retry_after)},
                 ) from e
             except HabiticaException as e:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="service_call_exception",
                     translation_placeholders={"reason": str(e.error.message)},
                 ) from e
             except ClientError as e:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="service_call_exception",
                     translation_placeholders={"reason": str(e)},
@@ -905,19 +905,19 @@ async def _create_or_update_task(call: ServiceCall) -> ServiceResponse:  # noqa:
         else:
             response = await coordinator.habitica.create_task(data)
     except TooManyRequestsError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="setup_rate_limit_exception",
             translation_placeholders={"retry_after": str(e.retry_after)},
         ) from e
     except HabiticaException as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": str(e.error.message)},
         ) from e
     except ClientError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="service_call_exception",
             translation_placeholders={"reason": str(e)},
@@ -931,7 +931,7 @@ async def _create_or_update_task(call: ServiceCall) -> ServiceResponse:  # noqa:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for Habitica integration."""
 
     for service_name in (

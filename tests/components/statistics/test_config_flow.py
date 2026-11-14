@@ -24,11 +24,11 @@ from universalassistant.components.statistics.sensor import (
     STAT_VALUE_MAX,
 )
 from universalassistant.const import CONF_ENTITY_ID, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
 
 
-async def test_form_sensor(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form_sensor(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form for sensor."""
 
     result = await hass.config_entries.flow.async_init(
@@ -78,7 +78,7 @@ async def test_form_sensor(hass: UniversalAssistant, mock_setup_entry: AsyncMock
 
 
 async def test_form_sampling_size_zero_rejected(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the options step rejects a sampling_size of 0."""
     result = await hass.config_entries.flow.async_init(
@@ -125,7 +125,7 @@ async def test_form_sampling_size_zero_rejected(
 
 
 async def test_form_binary_sensor(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form for binary sensor."""
 
@@ -175,7 +175,7 @@ async def test_form_binary_sensor(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_options_flow(hass: UniversalAssistant, loaded_entry: MockConfigEntry) -> None:
+async def test_options_flow(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -> None:
     """Test options flow."""
 
     result = await hass.config_entries.options.async_init(loaded_entry.entry_id)
@@ -214,7 +214,7 @@ async def test_options_flow(hass: UniversalAssistant, loaded_entry: MockConfigEn
 
 
 async def test_validation_options(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test validation."""
 
@@ -285,7 +285,7 @@ async def test_validation_options(
 
 
 async def test_entry_already_exist(
-    hass: UniversalAssistant, loaded_entry: MockConfigEntry
+    hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
 ) -> None:
     """Test abort when entry already exist."""
 
@@ -347,7 +347,7 @@ async def test_entry_already_exist(
 )
 async def test_config_flow_preview_success(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     user_input: str,
     snapshot: SnapshotAssertion,
@@ -405,7 +405,7 @@ async def test_config_flow_preview_success(
 
 async def test_options_flow_preview(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -473,7 +473,7 @@ async def test_options_flow_preview(
 
 
 async def test_options_flow_sensor_preview_config_entry_removed(
-    recorder_mock: Recorder, hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    recorder_mock: Recorder, hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the option flow preview where the config entry is removed."""
     client = await hass_ws_client(hass)

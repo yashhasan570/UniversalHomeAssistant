@@ -1,4 +1,4 @@
-"""Test firmware update coordinator for Universal Universal Home Assistant Hardware."""
+"""Test firmware update coordinator for __HA_KEEP__ Hardware."""
 
 from unittest.mock import AsyncMock, Mock, call, patch
 
@@ -12,13 +12,13 @@ from universalassistant.components.universalassistant_hardware.coordinator impor
     FIRMWARE_REFRESH_INTERVAL,
     FirmwareUpdateCoordinator,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.util import dt as dt_util
 
 
 async def test_firmware_update_coordinator_fetching(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:

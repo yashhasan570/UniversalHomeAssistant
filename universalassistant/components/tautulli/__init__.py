@@ -3,7 +3,7 @@
 from pytautulli import PyTautulli, PyTautulliHostConfiguration
 
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import TautulliConfigEntry, TautulliDataUpdateCoordinator
@@ -11,7 +11,7 @@ from .coordinator import TautulliConfigEntry, TautulliDataUpdateCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TautulliConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TautulliConfigEntry) -> None:
     """Set up Tautulli from a config entry."""
     host_configuration = PyTautulliHostConfiguration(
         api_token=entry.data[CONF_API_KEY],
@@ -29,6 +29,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TautulliConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TautulliConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TautulliConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -8,10 +8,10 @@ from typing import Any
 from aiohttp import web
 import probatio
 
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.components.recorder import get_instance
 from universalassistant.components.recorder.filters import Filters
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import InvalidEntityFormatError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -23,7 +23,7 @@ from .processor import EventProcessor
 
 @callback
 def async_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     conf: ConfigType,
     filters: Filters | None,
     entities_filter: Callable[[str], bool] | None,
@@ -32,7 +32,7 @@ def async_setup(
     hass.http.register_view(LogbookView(conf, filters, entities_filter))
 
 
-class LogbookView(UniversalAssistantView):
+class LogbookView(__HAC_KEEP__View):
     """Handle logbook view requests."""
 
     url = "/api/logbook"

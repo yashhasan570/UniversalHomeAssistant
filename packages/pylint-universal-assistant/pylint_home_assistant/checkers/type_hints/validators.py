@@ -144,11 +144,11 @@ def is_valid_type(
     ):
         return True
 
-    # Name occurs when a namespace is not used, eg. "UniversalAssistant"
+    # Name occurs when a namespace is not used, eg. "__HAC_KEEP__"
     if isinstance(node, nodes.Name) and node.name == expected_type:
         return True
 
-    # Attribute occurs when a namespace is used, eg. "core.UniversalAssistant"
+    # Attribute occurs when a namespace is used, eg. "core.__HAC_KEEP__"
     return isinstance(node, nodes.Attribute) and (
         node.attrname == expected_type or node.as_string() == expected_type
     )

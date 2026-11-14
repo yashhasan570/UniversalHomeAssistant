@@ -19,7 +19,7 @@ from universalassistant.components.local_calendar.const import (
     CONF_STORAGE_KEY,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -42,7 +42,7 @@ def mock_process_uploaded_file(
 
     @contextmanager
     def _mock_process_uploaded_file(
-        hass: UniversalAssistant, uploaded_file_id: str
+        hass: __HAC_KEEP__, uploaded_file_id: str
     ) -> Iterator[Path | None]:
         with open(tmp_path / uploaded_file_id, "wb") as icsfile:
             icsfile.write(mock_ics_content)
@@ -63,7 +63,7 @@ def mock_process_uploaded_file(
         yield mock_upload
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -94,7 +94,7 @@ async def test_form(hass: UniversalAssistant) -> None:
 
 
 async def test_form_import_ics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_process_uploaded_file: MagicMock,
 ) -> None:
     """Test we get the import form."""
@@ -126,7 +126,7 @@ async def test_form_import_ics(
 
 
 async def test_duplicate_name(
-    hass: UniversalAssistant, setup_integration: None, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, setup_integration: None, config_entry: MockConfigEntry
 ) -> None:
     """Test two calendars cannot be added with the same name."""
 
@@ -151,7 +151,7 @@ async def test_duplicate_name(
 
 @pytest.mark.parametrize("mock_ics_content", [b"invalid-ics-content"])
 async def test_invalid_ics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_process_uploaded_file: MagicMock,
     tmp_path: Path,
 ) -> None:

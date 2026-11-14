@@ -24,7 +24,7 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import ATTR_TEMPERATURE, STATE_OFF
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import TEMP_UNIT_LIB_TO_HASS
@@ -53,7 +53,7 @@ OPERATION_MODE_TO_DHW_PARAMS: Final[dict[str, dict[str, Any]]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AirzoneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -64,14 +64,14 @@ MIGRATION_NAME_TO_KEY = {
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Transmission component."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: TransmissionConfigEntry
+    hass: __HAC_KEEP__, config_entry: TransmissionConfigEntry
 ) -> None:
     """Set up the Transmission Component."""
 
@@ -135,14 +135,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: TransmissionConfigEntry
+    hass: __HAC_KEEP__, config_entry: TransmissionConfigEntry
 ) -> None:
     """Unload Transmission Entry from config_entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: TransmissionConfigEntry
+    hass: __HAC_KEEP__, config_entry: TransmissionConfigEntry
 ) -> None:
     """Migrate an old config entry."""
     _LOGGER.debug(
@@ -169,7 +169,7 @@ async def async_migrate_entry(
 
 
 async def get_api(
-    hass: UniversalAssistant, entry: dict[str, Any]
+    hass: __HAC_KEEP__, entry: dict[str, Any]
 ) -> transmission_rpc.Client:
     """Get Transmission client."""
     protocol: Final = "https" if entry[CONF_SSL] else "http"

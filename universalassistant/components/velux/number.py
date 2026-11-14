@@ -7,7 +7,7 @@ from pyvlx import ExteriorHeating, Intensity, OpeningDevice, Position
 
 from universalassistant.components.number import NumberEntity, NumberMode
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfRatio
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -24,7 +24,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VeluxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -82,7 +82,7 @@ class VeluxPositionLimitNumber(
 ):
     """Shared behavior for Velux limitation number entities.
 
-    Universal Universal Home Assistant expresses cover position as opening percentage, while pyvlx
+    __HA_KEEP__ expresses cover position as opening percentage, while pyvlx
     uses the opposite direction. These entities expose HA-side open/closed
     position limits and convert to pyvlx positions only at the API boundary.
     """
@@ -132,7 +132,7 @@ class VeluxPositionLimitNumber(
     @property
     @override
     def native_value(self) -> float | None:
-        """Return the current limitation in Universal Universal Home Assistant semantics."""
+        """Return the current limitation in __HA_KEEP__ semantics."""
         if position := self._get_pyvlx_limit():
             return 100 - position.position_percent
         return None
@@ -140,7 +140,7 @@ class VeluxPositionLimitNumber(
     @wrap_pyvlx_call_exceptions
     @override
     async def async_set_native_value(self, value: float) -> None:
-        """Set the limitation in Universal Universal Home Assistant semantics."""
+        """Set the limitation in __HA_KEEP__ semantics."""
         # this will only be called if the entity is available, so coordinator.data is not None
 
         await self._async_set_pyvlx_limitation(

@@ -11,7 +11,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import DoorEvent, UnifiAccessConfigEntry, UnifiAccessCoordinator
@@ -49,7 +49,7 @@ EVENT_DESCRIPTIONS: list[UnifiAccessEventEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UnifiAccessConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

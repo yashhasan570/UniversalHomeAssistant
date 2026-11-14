@@ -1,7 +1,7 @@
 """Support for Homekit number ranges.
 
 These are mostly used where a HomeKit accessory exposes additional non-standard
-characteristics that don't map to a Universal Universal Home Assistant feature.
+characteristics that don't map to a __HA_KEEP__ feature.
 """
 
 from typing import override
@@ -18,7 +18,7 @@ from universalassistant.components.number import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EntityCategory, Platform, UnitOfTime
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType
 
@@ -70,7 +70,7 @@ NUMBER_ENTITIES: dict[str, NumberEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

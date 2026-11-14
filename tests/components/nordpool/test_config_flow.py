@@ -17,14 +17,14 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant import config_entries
 from universalassistant.components.nordpool.const import CONF_AREAS, DOMAIN
 from universalassistant.const import CONF_CURRENCY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import ENTRY_CONFIG
 
 
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
-async def test_form(hass: UniversalAssistant, get_client: NordPoolClient) -> None:
+async def test_form(hass: __HAC_KEEP__, get_client: NordPoolClient) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -47,7 +47,7 @@ async def test_form(hass: UniversalAssistant, get_client: NordPoolClient) -> Non
 
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 async def test_single_config_entry(
-    hass: UniversalAssistant, load_int: None, get_client: NordPoolClient
+    hass: __HAC_KEEP__, load_int: None, get_client: NordPoolClient
 ) -> None:
     """Test abort for single config entry."""
 
@@ -69,7 +69,7 @@ async def test_single_config_entry(
     ],
 )
 async def test_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_client: NordPoolClient,
     error_message: Exception,
     p_error: str,
@@ -106,7 +106,7 @@ async def test_cannot_connect(
 
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 async def test_missing_areas(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_client: NordPoolClient,
 ) -> None:
     """Test cannot connect error."""
@@ -139,7 +139,7 @@ async def test_missing_areas(
 
 @pytest.mark.freeze_time("2025-10-01T18:00:00+00:00")
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
 ) -> None:
     """Test reconfiguration."""
@@ -175,7 +175,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     load_json: list[dict[str, Any]],

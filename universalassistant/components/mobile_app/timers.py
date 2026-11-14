@@ -6,14 +6,14 @@ from universalassistant.components import notify
 from universalassistant.components.intent import TimerEventType, TimerInfo
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_ID
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from . import device_action
 
 
 @callback
 def async_handle_timer_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     event_type: TimerEventType,
     timer_info: TimerInfo,

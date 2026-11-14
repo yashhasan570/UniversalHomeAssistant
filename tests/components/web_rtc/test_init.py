@@ -8,12 +8,12 @@ from universalassistant.components.web_rtc import (
     async_get_ice_servers,
     async_register_ice_servers,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.setup import async_setup_component
 
 
-async def test_async_setup(hass: UniversalAssistant) -> None:
+async def test_async_setup(hass: __HAC_KEEP__) -> None:
     """Test setting up the web_rtc integration."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -27,7 +27,7 @@ async def test_async_setup(hass: UniversalAssistant) -> None:
     ]
 
 
-async def test_async_setup_custom_ice_servers_core(hass: UniversalAssistant) -> None:
+async def test_async_setup_custom_ice_servers_core(hass: __HAC_KEEP__) -> None:
     """Test setting up web_rtc with custom ICE servers in config."""
     await async_process_ha_core_config(
         hass,
@@ -42,7 +42,7 @@ async def test_async_setup_custom_ice_servers_core(hass: UniversalAssistant) -> 
     assert ice_servers[0].urls == ["stun:custom_stun_server:3478"]
 
 
-async def test_async_setup_custom_ice_servers_integration(hass: UniversalAssistant) -> None:
+async def test_async_setup_custom_ice_servers_integration(hass: __HAC_KEEP__) -> None:
     """Test setting up web_rtc with custom ICE servers in config."""
     assert await async_setup_component(
         hass,
@@ -92,7 +92,7 @@ async def test_async_setup_custom_ice_servers_integration(hass: UniversalAssista
 
 
 async def test_async_setup_custom_ice_servers_core_and_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setting up web_rtc with custom ICE servers in config."""
     await async_process_ha_core_config(
@@ -122,7 +122,7 @@ async def test_async_setup_custom_ice_servers_core_and_integration(
     ]
 
 
-async def test_async_register_ice_servers(hass: UniversalAssistant) -> None:
+async def test_async_register_ice_servers(hass: __HAC_KEEP__) -> None:
     """Test registering ICE servers."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -157,7 +157,7 @@ async def test_async_register_ice_servers(hass: UniversalAssistant) -> None:
     assert ice_servers == default_servers
 
 
-async def test_multiple_ice_server_registrations(hass: UniversalAssistant) -> None:
+async def test_multiple_ice_server_registrations(hass: __HAC_KEEP__) -> None:
     """Test registering multiple ICE server providers."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -210,7 +210,7 @@ async def test_multiple_ice_server_registrations(hass: UniversalAssistant) -> No
 
 
 async def test_ws_ice_servers_with_registered_servers(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test WebSocket ICE servers endpoint with registered servers."""
     assert await async_setup_component(hass, DOMAIN, {})

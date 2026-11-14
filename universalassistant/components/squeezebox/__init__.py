@@ -17,12 +17,12 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
     ConfigEntryNotReady,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
 )
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -87,13 +87,13 @@ class SqueezeboxData:
 type SqueezeboxConfigEntry = ConfigEntry[SqueezeboxData]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SqueezeboxConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SqueezeboxConfigEntry) -> None:
     """Set up an LMS Server from a config entry."""
     config = entry.data
     session = async_get_clientsession(hass)
@@ -238,7 +238,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SqueezeboxConfigEnt
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SqueezeboxConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SqueezeboxConfigEntry) -> None:
     """Unload a config entry."""
     # Stop player discovery task for this config entry.
     _LOGGER.debug(
@@ -258,7 +258,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: SqueezeboxConfigEn
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SqueezeboxConfigEntry,
     device_entry: AnyDeviceEntry,
 ) -> bool:
@@ -267,7 +267,7 @@ async def async_remove_config_entry_device(
         # This integration does not create child devices.
         return False
     if device_entry.entry_type is DeviceEntryType.SERVICE:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Cannot remove Lyrion Music Server '{device_entry.name}' directly. "
             "Please delete the associated config entry instead."
         )
@@ -285,7 +285,7 @@ async def async_remove_config_entry_device(
         return True
 
     if coordinator.available:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Cannot remove Squeezebox player '{coordinator.player_uuid}' "
             "because it is currently online."
         )

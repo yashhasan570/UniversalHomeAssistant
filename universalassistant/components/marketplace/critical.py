@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 
 from .const import DOMAIN
@@ -13,14 +13,14 @@ CRITICAL_ISSUE_PREFIX = "critical_repository_"
 
 @callback
 def async_create_critical_repository_issue(
-    hass: UniversalAssistant, critical: dict[str, Any]
+    hass: __HAC_KEEP__, critical: dict[str, Any]
 ) -> None:
     """Explain a repository that was removed because the catalog marks it critical."""
     ir.async_create_issue(
         hass,
         DOMAIN,
         f"{CRITICAL_ISSUE_PREFIX}{critical['repository']}",
-        # Universal Universal Home Assistant restarts right after the removal
+        # __HA_KEEP__ restarts right after the removal
         is_persistent=True,
         is_fixable=True,
         severity=ir.IssueSeverity.CRITICAL,
@@ -35,7 +35,7 @@ def async_create_critical_repository_issue(
 
 
 async def async_acknowledge_critical_repository(
-    hass: UniversalAssistant, repository: str
+    hass: __HAC_KEEP__, repository: str
 ) -> list[dict[str, Any]]:
     """Store that the removal of a critical repository was seen."""
     critical = await async_load_from_storage(hass, "critical") or []

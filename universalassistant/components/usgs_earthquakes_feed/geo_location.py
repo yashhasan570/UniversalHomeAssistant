@@ -24,7 +24,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     UnitOfLength,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -97,7 +97,7 @@ PLATFORM_SCHEMA = GEO_LOCATION_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -135,7 +135,7 @@ class UsgsEarthquakesFeedEntityManager:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         async_add_entities: AddEntitiesCallback,
         scan_interval: timedelta,
         coordinates: tuple[float, float],

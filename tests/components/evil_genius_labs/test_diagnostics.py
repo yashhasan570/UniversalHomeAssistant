@@ -5,12 +5,12 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.diagnostics import REDACTED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize("platforms", [[]])
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     setup_evil_genius_labs,
     config_entry,

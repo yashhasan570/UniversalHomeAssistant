@@ -17,12 +17,12 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the integration."""
@@ -52,7 +52,7 @@ async def test_load_unload_config_entry(
     ],
 )
 async def test_setup_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_teltasync: MagicMock,
     exception: Exception,
@@ -110,7 +110,7 @@ async def test_device_registry_creation(
 )
 @pytest.mark.usefixtures("mock_modems")
 async def test_migrate_entry_v1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teltasync: MagicMock,
     host: str,
     expected_data: dict[str, Any],

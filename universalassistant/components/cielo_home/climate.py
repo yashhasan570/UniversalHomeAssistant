@@ -14,8 +14,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CIELO_ERRORS, LOGGER, TIMEOUT
@@ -37,7 +37,7 @@ HA_TO_CIELO_HVAC: dict[HVACMode, str] = {v: k for k, v in CIELO_TO_HA_HVAC.items
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CieloHomeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -64,8 +64,8 @@ def async_handle_api_call[_T: CieloDeviceEntity, **_P](
 
         except CIELO_ERRORS as err:
             if isinstance(err, TimeoutError):
-                raise UniversalAssistantError("API call timed out") from err
-            raise UniversalAssistantError("Unable to perform API call") from err
+                raise __HAC_KEEP__Error("API call timed out") from err
+            raise __HAC_KEEP__Error("Unable to perform API call") from err
 
         LOGGER.debug(
             "API call result for entity %s: type=%s keys=%s",
@@ -75,12 +75,12 @@ def async_handle_api_call[_T: CieloDeviceEntity, **_P](
         )
 
         if not isinstance(res, dict):
-            raise UniversalAssistantError("Invalid API response format")
+            raise __HAC_KEEP__Error("Invalid API response format")
 
         data: dict[str, Any] | None = res.get("data")
 
         if not data:
-            raise UniversalAssistantError("API response contained no data payload")
+            raise __HAC_KEEP__Error("API response contained no data payload")
 
         await entity.coordinator.async_apply_action_result(entity.device_id, data)
 
@@ -198,7 +198,7 @@ class CieloClimate(CieloDeviceEntity, ClimateEntity):
         """Return the list of available fan modes.
 
         Fan modes are normalized in the backend to snake_case values that
-        match Universal Universal Home Assistant expectations (e.g. "low", "medium", "high", "auto").
+        match __HA_KEEP__ expectations (e.g. "low", "medium", "high", "auto").
         This allows HA to translate and display icons correctly using the
         integration strings definitions.
         """
@@ -210,7 +210,7 @@ class CieloClimate(CieloDeviceEntity, ClimateEntity):
         """Return the list of available swing modes.
 
         Swing modes are normalized in the backend to snake_case values
-        compatible with Universal Universal Home Assistant (e.g. "auto", "swing").
+        compatible with __HA_KEEP__ (e.g. "auto", "swing").
         These values align with the integration translations so HA can display
         proper labels and icons.
         """
@@ -228,7 +228,7 @@ class CieloClimate(CieloDeviceEntity, ClimateEntity):
         """Return the list of available preset modes.
 
         Preset modes are normalized in the backend to snake_case values that
-        match Universal Universal Home Assistant expectations (e.g. "home", "away", "sleep", "pets").
+        match __HA_KEEP__ expectations (e.g. "home", "away", "sleep", "pets").
         This allows HA to translate and display icons correctly using the
         integration strings definitions.
         """
@@ -299,7 +299,7 @@ class CieloClimate(CieloDeviceEntity, ClimateEntity):
                 await self.async_set_hvac_mode(mode)
                 return
 
-        raise UniversalAssistantError("No non-off HVAC modes available to turn on device")
+        raise __HAC_KEEP__Error("No non-off HVAC modes available to turn on device")
 
     @override
     async def async_turn_off(self) -> None:

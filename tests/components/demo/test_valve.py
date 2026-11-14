@@ -22,7 +22,7 @@ from universalassistant.components.valve import (
     ValveState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, EVENT_STATE_CHANGED, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 FRONT_GARDEN = "valve.front_garden"
@@ -41,7 +41,7 @@ def valve_only() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: UniversalAssistant, valve_only: None) -> None:
+async def setup_comp(hass: __HAC_KEEP__, valve_only: None) -> None:
     """Set up demo component from config entry."""
     config_entry = MockConfigEntry(domain=DOMAIN)
     config_entry.add_to_hass(hass)
@@ -51,7 +51,7 @@ async def setup_comp(hass: UniversalAssistant, valve_only: None) -> None:
 
 
 @patch.object(demo_valve, "OPEN_CLOSE_DELAY", 0)
-async def test_closing(hass: UniversalAssistant) -> None:
+async def test_closing(hass: __HAC_KEEP__) -> None:
     """Test the closing of a valve."""
     state = hass.states.get(FRONT_GARDEN)
     assert state is not None
@@ -77,7 +77,7 @@ async def test_closing(hass: UniversalAssistant) -> None:
 
 
 @patch.object(demo_valve, "OPEN_CLOSE_DELAY", 0)
-async def test_opening(hass: UniversalAssistant) -> None:
+async def test_opening(hass: __HAC_KEEP__) -> None:
     """Test the opening of a valve."""
     state = hass.states.get(ORCHARD)
     assert state is not None
@@ -99,7 +99,7 @@ async def test_opening(hass: UniversalAssistant) -> None:
     assert state_changes[1].data["new_state"].state == ValveState.OPEN
 
 
-async def test_set_valve_position(hass: UniversalAssistant) -> None:
+async def test_set_valve_position(hass: __HAC_KEEP__) -> None:
     """Test moving the valve to a specific position."""
     state = hass.states.get(BACK_GARDEN)
     assert state is not None

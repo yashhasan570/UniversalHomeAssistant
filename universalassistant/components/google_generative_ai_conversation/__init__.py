@@ -9,7 +9,7 @@ from requests.exceptions import Timeout
 
 from universalassistant.config_entries import ConfigEntry, ConfigSubentry
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -47,7 +47,7 @@ PLATFORMS = (
 type GoogleGenerativeAIConfigEntry = ConfigEntry[Client]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Google Generative AI Conversation."""
 
     await async_migrate_integration(hass)
@@ -56,7 +56,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: GoogleGenerativeAIConfigEntry
+    hass: __HAC_KEEP__, entry: GoogleGenerativeAIConfigEntry
 ) -> None:
     """Set up Google Generative AI Conversation from a config entry."""
 
@@ -83,20 +83,20 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: GoogleGenerativeAIConfigEntry
+    hass: __HAC_KEEP__, entry: GoogleGenerativeAIConfigEntry
 ) -> None:
     """Unload GoogleGenerativeAI."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_update_options(
-    hass: UniversalAssistant, entry: GoogleGenerativeAIConfigEntry
+    hass: __HAC_KEEP__, entry: GoogleGenerativeAIConfigEntry
 ) -> None:
     """Update options."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_migrate_integration(hass: UniversalAssistant) -> None:
+async def async_migrate_integration(hass: __HAC_KEEP__) -> None:
     """Migrate integration entry structure."""
 
     # Make sure we get enabled config entries first
@@ -205,7 +205,7 @@ async def async_migrate_integration(hass: UniversalAssistant) -> None:
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: GoogleGenerativeAIConfigEntry
+    hass: __HAC_KEEP__, entry: GoogleGenerativeAIConfigEntry
 ) -> None:
     """Migrate entry."""
     LOGGER.debug("Migrating from version %s:%s", entry.version, entry.minor_version)
@@ -225,7 +225,7 @@ async def async_migrate_entry(
                 ),
             )
 
-        # Devices left in both the config entry and its subentry by Universal Universal Home Assistant Core
+        # Devices left in both the config entry and its subentry by __HA_KEEP__ Core
         # 2025.7.0b0-2025.7.0b1 are collapsed onto the subentry by the device registry
         # migration, so there's nothing to correct here.
         hass.config_entries.async_update_entry(entry, minor_version=2)
@@ -272,7 +272,7 @@ async def async_migrate_entry(
 
 
 def _add_ai_task_and_stt_subentries(
-    hass: UniversalAssistant, entry: GoogleGenerativeAIConfigEntry
+    hass: __HAC_KEEP__, entry: GoogleGenerativeAIConfigEntry
 ) -> None:
     """Add AI Task and STT subentries to the config entry."""
     hass.config_entries.async_add_subentry(

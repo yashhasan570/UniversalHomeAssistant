@@ -11,14 +11,14 @@ from universalassistant.components.fan import (
     SERVICE_SET_PRESET_MODE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import selected_platforms, snapshot_platform_entities
 
 
 async def test_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -35,7 +35,7 @@ async def test_entity(
 
 
 async def test_switch_setup_and_services(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test setup and services."""
     with selected_platforms([Platform.FAN]):

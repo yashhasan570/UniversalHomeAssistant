@@ -1,10 +1,10 @@
-"""Conversation support for Universal Universal Home Assistant Cloud."""
+"""Conversation support for __HA_KEEP__ Cloud."""
 
 from typing import Literal, override
 
 from universalassistant.components import conversation
 from universalassistant.const import MATCH_ALL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import llm
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -14,11 +14,11 @@ from .entity import BaseCloudLLMEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: CloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up the Universal Universal Home Assistant Cloud conversation entity."""
+    """Set up the __HA_KEEP__ Cloud conversation entity."""
     cloud = hass.data[DATA_CLOUD]
     async_add_entities([CloudConversationEntity(cloud, config_entry)])
 
@@ -27,10 +27,10 @@ class CloudConversationEntity(
     BaseCloudLLMEntity,
     conversation.ConversationEntity,
 ):
-    """Universal Universal Home Assistant Cloud conversation agent."""
+    """__HA_KEEP__ Cloud conversation agent."""
 
     _attr_has_entity_name = True
-    _attr_name = "Universal Universal Home Assistant Link"
+    _attr_name = "__HA_KEEP__ Link"
     _attr_translation_key = "cloud_conversation"
     _attr_unique_id = CONVERSATION_ENTITY_UNIQUE_ID
     _attr_supported_features = conversation.ConversationEntityFeature.CONTROL

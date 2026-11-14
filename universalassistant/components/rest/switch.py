@@ -26,8 +26,8 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, PlatformNotReady
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, PlatformNotReady
 from universalassistant.helpers import config_validation as cv, template
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.httpx_client import get_async_client
@@ -91,7 +91,7 @@ PLATFORM_SCHEMA = SWITCH_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -133,7 +133,7 @@ class RestSwitch(ManualTriggerEntity, SwitchEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         trigger_entity_config: ConfigType,
     ) -> None:
@@ -160,7 +160,7 @@ class RestSwitch(ManualTriggerEntity, SwitchEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle adding to Universal Universal Home Assistant."""
+        """Handle adding to __HA_KEEP__."""
         await super().async_added_to_hass()
         await self.async_update()
 
@@ -172,14 +172,14 @@ class RestSwitch(ManualTriggerEntity, SwitchEntity):
         try:
             req = await self.set_device_state(body_on_t)
         except (TimeoutError, httpx2.RequestError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="error_communicating",
                 translation_placeholders={"resource": self._resource},
             ) from err
 
         if not HTTPStatus.OK <= req.status_code < HTTPStatus.MULTIPLE_CHOICES:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_on_failed",
                 translation_placeholders={"resource": self._resource},
@@ -195,14 +195,14 @@ class RestSwitch(ManualTriggerEntity, SwitchEntity):
         try:
             req = await self.set_device_state(body_off_t)
         except (TimeoutError, httpx2.RequestError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="error_communicating",
                 translation_placeholders={"resource": self._resource},
             ) from err
 
         if not HTTPStatus.OK <= req.status_code < HTTPStatus.MULTIPLE_CHOICES:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_off_failed",
                 translation_placeholders={"resource": self._resource},
@@ -248,7 +248,7 @@ class RestSwitch(ManualTriggerEntity, SwitchEntity):
         if req:
             self._async_update(req.text)
 
-    async def get_response(self, hass: UniversalAssistant) -> httpx2.Response:
+    async def get_response(self, hass: __HAC_KEEP__) -> httpx2.Response:
         """Get the latest data from REST API and update the state."""
         websession = get_async_client(hass, self._verify_ssl)
 

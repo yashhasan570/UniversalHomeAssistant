@@ -13,7 +13,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.nordpool.const import DOMAIN, PLATFORMS
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import ENTRY_CONFIG
 
@@ -35,11 +35,11 @@ async def patch_platform_constant() -> list[Platform]:
 
 @pytest.fixture
 async def load_int(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_client: NordPoolClient,
     load_platforms: list[Platform],
 ) -> MockConfigEntry:
-    """Set up the Nord Pool integration in Universal Universal Home Assistant."""
+    """Set up the Nord Pool integration in __HA_KEEP__."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         source=SOURCE_USER,
@@ -57,7 +57,7 @@ async def load_int(
 
 @pytest.fixture(name="get_client")
 async def get_data_from_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     load_json: list[dict[str, Any]],
 ) -> AsyncGenerator[NordPoolClient]:

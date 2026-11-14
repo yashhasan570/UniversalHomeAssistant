@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant volume utility functions."""
+"""Test __HA_KEEP__ volume utility functions."""
 
 from ipaddress import ip_address
 

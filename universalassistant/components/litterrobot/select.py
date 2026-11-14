@@ -9,7 +9,7 @@ from pylitterbot.robot.litterrobot4 import BrightnessLevel, NightLightMode
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory, UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import LitterRobotConfigEntry, LitterRobotDataUpdateCoordinator
@@ -113,7 +113,7 @@ ROBOT_SELECT_MAP: dict[
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LitterRobotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.nextcloud.const import DOMAIN
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import MOCKED_ENTRY_ID
 
@@ -19,7 +19,7 @@ def mock_config_entry(config: dict) -> MockConfigEntry:
 
 
 async def init_integration(
-    hass: UniversalAssistant, config: dict, data: dict
+    hass: __HAC_KEEP__, config: dict, data: dict
 ) -> MockConfigEntry:
     """Set up the nextcloud integration."""
     entry = mock_config_entry(config)

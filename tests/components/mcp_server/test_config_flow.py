@@ -14,14 +14,14 @@ from universalassistant.components.mcp_server.const import (
 )
 from universalassistant.config_entries import ConfigEntryDisabler
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import llm
 
 from .conftest import TEST_LLM_API_ID, MockLLMAPI
 
 
-async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test the config flow creates an entry that exposes all LLM APIs."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -44,7 +44,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> No
     }
 
 
-async def test_options_flow(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def test_options_flow(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Test changing the LLM APIs in the options flow."""
     llm.async_register_api(hass, MockLLMAPI(hass=hass, id=TEST_LLM_API_ID, name="Test"))
     # The title generated for the APIs the entry was created with
@@ -85,7 +85,7 @@ async def test_options_flow(hass: UniversalAssistant, config_entry: MockConfigEn
 
 @pytest.mark.parametrize("llm_hass_api", [llm.LLM_API_ASSIST])
 async def test_options_flow_legacy_single_api(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test the form defaults for an entry that stored a single API as a string."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)
@@ -116,7 +116,7 @@ async def test_options_flow_legacy_single_api(
 
 
 async def test_options_flow_keeps_custom_title(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test the options flow does not overwrite a title the user changed."""
     llm.async_register_api(hass, MockLLMAPI(hass=hass, id=TEST_LLM_API_ID, name="Test"))
@@ -141,7 +141,7 @@ async def test_options_flow_keeps_custom_title(
 
 
 async def test_options_flow_errors(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test the options flow requires at least one LLM API."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)
@@ -172,7 +172,7 @@ async def test_options_flow_errors(
     }
 
 
-async def test_options_flow_unmigrated_entry(hass: UniversalAssistant) -> None:
+async def test_options_flow_unmigrated_entry(hass: __HAC_KEEP__) -> None:
     """Test the options flow on a disabled config entry that has not migrated."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -264,7 +264,7 @@ async def test_options_flow_unmigrated_entry(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_options_flow_all_llm_apis(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     title: str,
     initial_form: dict[str, bool | list[str]],
@@ -292,7 +292,7 @@ async def test_options_flow_all_llm_apis(
 
 @pytest.mark.parametrize("all_llm_apis", [True])
 async def test_options_flow_error_keeps_input(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test the form shows the submitted values after an error."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)

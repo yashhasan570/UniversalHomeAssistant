@@ -16,8 +16,8 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ScreenLogicConfigEntry, ScreenlogicDataUpdateCoordinator
@@ -102,7 +102,7 @@ SUPPORTED_SCG_NUMBERS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ScreenLogicConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -198,7 +198,7 @@ class ScreenLogicChemistryNumber(ScreenLogicPushNumber):
         try:
             await self.gateway.async_set_chem_data(**{self._data_key: value})
         except (ScreenLogicCommunicationError, ScreenLogicError) as sle:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to set '{self._data_key}' to {value}: {sle.msg}"
             ) from sle
         _LOGGER.debug("Set '%s' to %s", self._data_key, value)
@@ -218,7 +218,7 @@ class ScreenLogicSCGNumber(ScreenLogicNumber):
         try:
             await self.gateway.async_set_scg_config(**{self._data_key: value})
         except (ScreenLogicCommunicationError, ScreenLogicError) as sle:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to set '{self._data_key}' to {value}: {sle.msg}"
             ) from sle
         _LOGGER.debug("Set '%s' to %s", self._data_key, value)

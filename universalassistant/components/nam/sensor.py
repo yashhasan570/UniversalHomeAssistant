@@ -24,7 +24,7 @@ from universalassistant.const import (
     UnitOfRatio,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -365,7 +365,7 @@ SENSORS: tuple[NAMSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NAMConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

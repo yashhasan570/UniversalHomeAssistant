@@ -17,7 +17,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 import universalassistant.helpers.entity_registry as er
 
 from . import find_update_callback
@@ -25,7 +25,7 @@ from . import find_update_callback
 
 @pytest.mark.parametrize("dimmable", [True], indirect=True)
 async def test_light_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -48,7 +48,7 @@ async def test_light_entities(
 
 
 async def test_light_only_for_dimmable_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_light_only_for_dimmable_devices(
 
 @pytest.mark.parametrize("dimmable", [True], indirect=True)
 async def test_light_control_operations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:
@@ -141,7 +141,7 @@ async def test_light_control_operations(
 
 @pytest.mark.parametrize("dimmable", [True], indirect=True)
 async def test_light_brightness_property(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_light_brightness_property(
 
 @pytest.mark.parametrize("dimmable", [True], indirect=True)
 async def test_light_is_on_property(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:
@@ -224,7 +224,7 @@ async def test_light_is_on_property(
 
 @pytest.mark.parametrize("dimmable", [True], indirect=True)
 async def test_coordinator_connection_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_coordinator_connection_status(
 
 @pytest.mark.parametrize("dimmable", [True], indirect=True)
 async def test_coordinator_state_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:

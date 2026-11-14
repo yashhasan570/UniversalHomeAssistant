@@ -13,13 +13,13 @@ from universalassistant.components.lutron_caseta.const import (
     CONF_KEYFILE,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MockBridge, async_setup_integration
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test generating diagnostics for lutron_caseta."""
     config_entry = MockConfigEntry(

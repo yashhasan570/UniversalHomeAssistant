@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -63,7 +63,7 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the LCN component."""
     async_setup_services(hass)
     await register_panel_and_ws_api(hass)
@@ -71,7 +71,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, config_entry: LcnConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, config_entry: LcnConfigEntry) -> None:
     """Set up a connection to PCHK host from a config entry."""
 
     settings = {
@@ -141,7 +141,7 @@ async def async_setup_entry(hass: UniversalAssistant, config_entry: LcnConfigEnt
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: LcnConfigEntry
+    hass: __HAC_KEEP__, config_entry: LcnConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug(
@@ -191,7 +191,7 @@ async def async_migrate_entry(
 
 
 async def async_migrate_entities(
-    hass: UniversalAssistant, config_entry: LcnConfigEntry
+    hass: __HAC_KEEP__, config_entry: LcnConfigEntry
 ) -> None:
     """Migrate entity registry."""
 
@@ -213,7 +213,7 @@ async def async_migrate_entities(
     await er.async_migrate_entries(hass, config_entry.entry_id, update_unique_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, config_entry: LcnConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, config_entry: LcnConfigEntry) -> None:
     """Close connection to PCHK host represented by config_entry."""
     # forward unloading to platforms
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
@@ -222,7 +222,7 @@ async def async_unload_entry(hass: UniversalAssistant, config_entry: LcnConfigEn
 
 
 def async_host_event_received(
-    hass: UniversalAssistant, config_entry: LcnConfigEntry, event: pypck.lcn_defs.LcnEvent
+    hass: __HAC_KEEP__, config_entry: LcnConfigEntry, event: pypck.lcn_defs.LcnEvent
 ) -> None:
     """Process received event from LCN."""
     lcn_connection = config_entry.runtime_data.connection
@@ -247,7 +247,7 @@ def async_host_event_received(
 
 
 def async_host_input_received(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LcnConfigEntry,
     device_registry: dr.DeviceRegistry,
     inp: pypck.inputs.Input,
@@ -275,7 +275,7 @@ def async_host_input_received(
 
 
 def _async_fire_access_control_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device: dr.DeviceEntry | None,
     address: AddressType,
     inp: pypck.inputs.ModStatusAccessControl,
@@ -304,7 +304,7 @@ def _async_fire_access_control_event(
 
 
 def _async_fire_send_keys_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device: dr.DeviceEntry | None,
     address: AddressType,
     inp: pypck.inputs.ModSendKeysHost,

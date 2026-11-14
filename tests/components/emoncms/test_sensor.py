@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.emoncms.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -21,7 +21,7 @@ from .conftest import EMONCMS_FAILURE, get_feed
 
 
 async def test_no_feed_selected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_no_feed: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     emoncms_client: AsyncMock,
@@ -37,7 +37,7 @@ async def test_no_feed_selected(
 
 
 async def test_no_feed_broadcast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     emoncms_client: AsyncMock,
@@ -54,7 +54,7 @@ async def test_no_feed_broadcast(
 
 
 async def test_coordinator_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_single_feed: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

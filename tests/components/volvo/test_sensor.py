@@ -15,7 +15,7 @@ from volvocarsapi.models import (
 
 from universalassistant.components.volvo.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -32,7 +32,7 @@ from universalassistant.helpers import entity_registry as er
     ],
 )
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -52,7 +52,7 @@ async def test_sensor(
     ["xc40_electric_2024"],
 )
 async def test_distance_to_empty_battery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
 ) -> None:
     """Test using `distanceToEmptyBattery` instead of `electricRange`."""
@@ -69,7 +69,7 @@ async def test_distance_to_empty_battery(
     [("ex30_2024", "ex30"), ("xc60_phev_2020", "xc60")],
 )
 async def test_skip_invalid_api_fields(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     short_model: str,
 ) -> None:
@@ -87,7 +87,7 @@ async def test_skip_invalid_api_fields(
     ["ex30_2024"],
 )
 async def test_charging_power_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
 ) -> None:
     """Test if charging_power_value is zero if supported, but not charging."""
@@ -111,7 +111,7 @@ async def test_charging_power_value(
     ],
 )
 async def test_unique_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_unique_ids(
 
 
 async def test_availability_status_reason(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
 ) -> None:
@@ -143,7 +143,7 @@ async def test_availability_status_reason(
 
 
 async def test_time_to_service_non_value_field(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_time_to_service_non_value_field(
 
 
 async def test_time_to_service_months_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_time_to_service_months_conversion(
 
 
 async def test_charging_power_value_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
 ) -> None:
@@ -196,7 +196,7 @@ async def test_charging_power_value_fallback(
 
 
 async def test_charging_power_status_unknown_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[bool]],
     mock_api: VolvoCarsApi,
     caplog: pytest.LogCaptureFixture,

@@ -14,7 +14,7 @@ from universalassistant.components.device_tracker import (
     DeviceScanner,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_TYPE, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -33,7 +33,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 def get_scanner(
-    _hass: UniversalAssistant, config: ConfigType
+    _hass: __HAC_KEEP__, config: ConfigType
 ) -> HitronCODADeviceScanner | None:
     """Validate the configuration and return a Hitron CODA-4582U scanner."""
     scanner = HitronCODADeviceScanner(config[DEVICE_TRACKER_DOMAIN])

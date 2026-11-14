@@ -3,13 +3,13 @@
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import init_integration, mock_connection
 
 
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test configuration entry not ready on library error."""
     mock_connection(aioclient_mock, conn_error=True)
@@ -18,7 +18,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_unload_config_entry(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the ATAG configuration entry unloading."""
     entry = await init_integration(hass, aioclient_mock)

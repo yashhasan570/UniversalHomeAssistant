@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components import bluetooth
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import CONF_BINDKEY, CONF_DISCOVERED_EVENT_CLASSES
@@ -22,7 +22,7 @@ def _mask_address(data: bytes, address: str) -> str:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: BTHomeConfigEntry
+    hass: __HAC_KEEP__, entry: BTHomeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

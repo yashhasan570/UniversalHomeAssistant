@@ -3,7 +3,7 @@
 from unittest.mock import MagicMock, patch
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 MOCK_CONFIG = {
@@ -16,7 +16,7 @@ MOCK_CONFIG = {
 }
 
 
-async def test_sensor_state(hass: UniversalAssistant) -> None:
+async def test_sensor_state(hass: __HAC_KEEP__) -> None:
     """Test whether default waste type set properly."""
     with patch(
         "universalassistant.components.openerz.sensor.OpenERZConnector"

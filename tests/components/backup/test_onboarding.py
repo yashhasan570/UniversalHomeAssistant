@@ -13,8 +13,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components import backup, onboarding
 from universalassistant.components.backup import DOMAIN
 from universalassistant.components.http.const import MAX_UNAUTHENTICATED_BODY_SIZE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.setup import async_setup_component
 
 
@@ -27,7 +27,7 @@ def mock_onboarding_storage(hass_storage, data):
 
 
 @pytest.fixture(autouse=True)
-def auth_active(hass: UniversalAssistant) -> None:
+def auth_active(hass: __HAC_KEEP__) -> None:
     """Ensure auth is always active."""
     hass.loop.run_until_complete(
         register_auth_provider(hass, {"type": "universalassistant"})
@@ -47,7 +47,7 @@ def auth_active(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_onboarding_view_after_done(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     method: str,
@@ -81,7 +81,7 @@ async def test_onboarding_view_after_done(
     ],
 )
 async def test_onboarding_backup_view_without_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     method: str,
@@ -102,7 +102,7 @@ async def test_onboarding_backup_view_without_backup(
 
 
 async def test_onboarding_backup_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
@@ -221,7 +221,7 @@ async def test_onboarding_backup_info(
     ],
 )
 async def test_onboarding_backup_restore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     params: dict[str, Any],
@@ -245,7 +245,7 @@ async def test_onboarding_backup_restore(
 
 
 async def test_onboarding_backup_restore_body_too_large(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -340,10 +340,10 @@ async def test_onboarding_backup_restore_body_too_large(
             {"code": "incorrect_password"},
             1,
         ),
-        # Universal Universal Home Assistant error
+        # __HA_KEEP__ error
         (
             {"backup_id": "abc123", "agent_id": "backup.local"},
-            UniversalAssistantError("Boom!"),
+            __HAC_KEEP__Error("Boom!"),
             400,
             {"code": "restore_failed", "message": "Boom!"},
             1,
@@ -351,7 +351,7 @@ async def test_onboarding_backup_restore_body_too_large(
     ],
 )
 async def test_onboarding_backup_restore_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     params: dict[str, Any],
@@ -394,7 +394,7 @@ async def test_onboarding_backup_restore_error(
     ],
 )
 async def test_onboarding_backup_restore_unexpected_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
     params: dict[str, Any],
@@ -424,7 +424,7 @@ async def test_onboarding_backup_restore_unexpected_error(
 
 
 async def test_onboarding_backup_upload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_client: ClientSessionGenerator,
 ) -> None:

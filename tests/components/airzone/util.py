@@ -70,7 +70,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.airzone.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_ID, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 USER_INPUT = {
     CONF_HOST: "192.168.1.100",
@@ -402,9 +402,9 @@ HVAC_WEBSERVER_MOCK = {
 
 
 async def async_init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> MockConfigEntry:
-    """Set up the Airzone integration in Universal Universal Home Assistant."""
+    """Set up the Airzone integration in __HA_KEEP__."""
 
     config_entry = MockConfigEntry(
         minor_version=2,

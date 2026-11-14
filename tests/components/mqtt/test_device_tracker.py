@@ -20,7 +20,7 @@ from pytest_universalassistant.typing import (
 from universalassistant.components import device_tracker
 from universalassistant.components.mqtt.const import DOMAIN
 from universalassistant.const import STATE_HOME, STATE_NOT_HOME, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -35,7 +35,7 @@ DEFAULT_CONFIG = {
 
 
 async def test_discover_device_tracker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_discover_device_tracker(
 
 @pytest.mark.no_fail_on_log_exception
 async def test_discovery_broken(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_discovery_broken(
 
 
 async def test_non_duplicate_device_tracker_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_non_duplicate_device_tracker_discovery(
 
 
 async def test_device_tracker_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_device_tracker_removal(
 
 
 async def test_device_tracker_rediscover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_device_tracker_rediscover(
 
 
 async def test_duplicate_device_tracker_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_duplicate_device_tracker_removal(
 
 
 async def test_device_tracker_discovery_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -242,7 +242,7 @@ async def test_device_tracker_discovery_update(
 
 
 async def test_cleanup_device_tracker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -306,7 +306,7 @@ async def test_cleanup_device_tracker(
 
 
 async def test_setting_device_tracker_value_via_mqtt_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -339,7 +339,7 @@ async def test_setting_device_tracker_value_via_mqtt_message(
 
 
 async def test_setting_device_tracker_value_via_mqtt_message_and_template(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of the value via MQTT."""
     await mqtt_mock_entry()
@@ -365,7 +365,7 @@ async def test_setting_device_tracker_value_via_mqtt_message_and_template(
 
 
 async def test_setting_device_tracker_value_via_mqtt_message_and_template2(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of the value via MQTT."""
     await mqtt_mock_entry()
@@ -393,7 +393,7 @@ async def test_setting_device_tracker_value_via_mqtt_message_and_template2(
 
 
 async def test_setting_device_tracker_location_via_mqtt_message(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of the location via MQTT."""
     await mqtt_mock_entry()
@@ -415,7 +415,7 @@ async def test_setting_device_tracker_location_via_mqtt_message(
 
 
 async def test_setting_device_tracker_location_via_lat_lon_message(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of the latitude and longitude via MQTT without state topic."""
     await mqtt_mock_entry()
@@ -541,7 +541,7 @@ async def test_setting_device_tracker_location_via_lat_lon_message(
 
 
 async def test_setting_device_tracker_location_via_reset_message(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the automatic inference of zones via MQTT via reset."""
     await mqtt_mock_entry()
@@ -615,7 +615,7 @@ async def test_setting_device_tracker_location_via_reset_message(
 
 
 async def test_setting_device_tracker_location_via_abbr_reset_message(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of reset via abbreviated names and custom payloads via MQTT."""
     await mqtt_mock_entry()
@@ -682,7 +682,7 @@ async def test_setting_device_tracker_location_via_abbr_reset_message(
 
 
 async def test_setting_blocked_attribute_via_mqtt_json_message(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await help_test_setting_blocked_attribute_via_mqtt_json_message(
@@ -701,7 +701,7 @@ async def test_setting_blocked_attribute_via_mqtt_json_message(
     ],
 )
 async def test_setup_with_modern_schema(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setup using the modern schema."""
     await mqtt_mock_entry()
@@ -711,7 +711,7 @@ async def test_setup_with_modern_schema(
 
 
 async def test_reloadable(
-    hass: UniversalAssistant, mqtt_client_mock: MqttMockPahoClient
+    hass: __HAC_KEEP__, mqtt_client_mock: MqttMockPahoClient
 ) -> None:
     """Test reloading the MQTT platform."""
     domain = device_tracker.DOMAIN
@@ -743,7 +743,7 @@ async def test_reloadable(
     ],
 )
 async def test_skipped_async_ha_write_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     topic: str,
     payload1: str,
@@ -769,7 +769,7 @@ async def test_skipped_async_ha_write_state(
     ],
 )
 async def test_value_template_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

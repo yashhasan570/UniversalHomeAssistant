@@ -17,7 +17,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.kaco_modbus.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_MODEL, MOCK_SERIAL, MOCK_USER_INPUT
 
@@ -67,7 +67,7 @@ def mock_temporary_unit(
 
     @asynccontextmanager
     async def _get_unit(
-        hass: UniversalAssistant, params: ModbusTcpParams, unit_id: int
+        hass: __HAC_KEEP__, params: ModbusTcpParams, unit_id: int
     ) -> AsyncIterator[MockModbusUnit]:
         yield mock_connection.for_unit(unit_id)
 
@@ -91,7 +91,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_get_unit: MagicMock,
 ) -> MockConfigEntry:

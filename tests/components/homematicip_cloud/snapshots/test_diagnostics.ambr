@@ -6,7 +6,7 @@
       'clients': dict({
         '00000000-0000-0000-0000-000000000000': dict({
           'id': '00000000-0000-0000-0000-000000000000',
-          'label': 'Universal Universal Home Assistant',
+          'label': '__HA_KEEP__',
           'refreshToken': None,
         }),
       }),

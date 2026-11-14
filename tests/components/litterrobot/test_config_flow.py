@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -27,7 +27,7 @@ DHCP_DISCOVERY_LR5 = DhcpServiceInfo(
 )
 
 
-async def test_full_flow(hass: UniversalAssistant, mock_account) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_account) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -61,7 +61,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_account) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_already_configured(hass: UniversalAssistant) -> None:
+async def test_already_configured(hass: __HAC_KEEP__) -> None:
     """Test already configured account is rejected before authentication."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -94,7 +94,7 @@ async def test_already_configured(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_create_entry(
-    hass: UniversalAssistant, mock_account, side_effect, connect_errors
+    hass: __HAC_KEEP__, mock_account, side_effect, connect_errors
 ) -> None:
     """Test creating an entry after error recovery."""
     result = await hass.config_entries.flow.async_init(
@@ -137,7 +137,7 @@ async def test_create_entry(
     assert result["result"].unique_id == ACCOUNT_USER_ID
 
 
-async def test_reauth(hass: UniversalAssistant, mock_account: Account) -> None:
+async def test_reauth(hass: __HAC_KEEP__, mock_account: Account) -> None:
     """Test reauth flow (with fail and recover)."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -188,7 +188,7 @@ async def test_reauth(hass: UniversalAssistant, mock_account: Account) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_reauth_wrong_account(hass: UniversalAssistant) -> None:
+async def test_reauth_wrong_account(hass: __HAC_KEEP__) -> None:
     """Test reauth flow aborts when credentials belong to a different account."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -220,7 +220,7 @@ async def test_reauth_wrong_account(hass: UniversalAssistant) -> None:
     assert entry.data == CONFIG[DOMAIN]
 
 
-async def test_reconfigure(hass: UniversalAssistant, mock_account: Account) -> None:
+async def test_reconfigure(hass: __HAC_KEEP__, mock_account: Account) -> None:
     """Test reconfiguration flow (with fail and recover)."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -276,7 +276,7 @@ async def test_reconfigure(hass: UniversalAssistant, mock_account: Account) -> N
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_discovery_already_configured(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_already_configured(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery aborts when already configured."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -294,7 +294,7 @@ async def test_dhcp_discovery_already_configured(hass: UniversalAssistant) -> No
 
 
 async def test_dhcp_discovery_full_flow(
-    hass: UniversalAssistant, mock_account: Account
+    hass: __HAC_KEEP__, mock_account: Account
 ) -> None:
     """Test DHCP discovery through to successful entry creation."""
     result = await hass.config_entries.flow.async_init(

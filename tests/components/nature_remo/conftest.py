@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_array_fi
 
 from universalassistant.components.nature_remo.const import DOMAIN
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -74,7 +74,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
 ) -> MockConfigEntry:

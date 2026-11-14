@@ -16,7 +16,7 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.wmspro.number import SCAN_INTERVAL
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_config_entry
 
@@ -27,7 +27,7 @@ from . import setup_config_entry
     indirect=True,
 )
 async def test_button_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -51,7 +51,7 @@ async def test_button_update(
     indirect=True,
 )
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -112,7 +112,7 @@ async def test_button_press(
     indirect=True,
 )
 async def test_button_rotation_reset_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,

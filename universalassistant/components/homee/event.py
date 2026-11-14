@@ -10,7 +10,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HomeeConfigEntry
@@ -54,7 +54,7 @@ EVENT_DESCRIPTIONS: dict[AttributeType, EventEntityDescription] = {
 
 
 async def add_event_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -71,7 +71,7 @@ async def add_event_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -87,7 +87,7 @@ class HomeeEvent(HomeeEntity, EventEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         attribute: HomeeAttribute,
         entry: HomeeConfigEntry,
         description: EventEntityDescription,

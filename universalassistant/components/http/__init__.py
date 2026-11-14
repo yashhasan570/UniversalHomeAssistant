@@ -1,4 +1,4 @@
-"""Support to serve the Universal Universal Home Assistant API as WSGI application."""
+"""Support to serve the __HA_KEEP__ API as WSGI application."""
 
 from ipaddress import ip_network
 import logging
@@ -10,13 +10,13 @@ import probatio
 
 from universalassistant.components.network import async_get_source_ip
 from universalassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.http import (
     KEY_AUTHENTICATED,
     KEY_HASS,
-    UniversalAssistantView,
+    __HAC_KEEP__View,
     current_request,
 )
 from universalassistant.helpers.importlib import async_import_module
@@ -58,8 +58,8 @@ from .decorators import require_admin
 from .server import (
     DEFAULT_BIND,
     HassioHTTPConfigView,
-    UniversalAssistantHTTP,
-    UniversalAssistantRequest,
+    __HAC_KEEP__HTTP,
+    __HAC_KEEP__Request,
     StaticPathConfig,
     make_server,
 )
@@ -116,9 +116,9 @@ __all__ = [
     "KEY_HASS_REFRESH_TOKEN_ID",
     "KEY_HASS_USER",
     "ApiConfig",
-    "UniversalAssistantHTTP",
-    "UniversalAssistantRequest",
-    "UniversalAssistantView",
+    "__HAC_KEEP__HTTP",
+    "__HAC_KEEP__Request",
+    "__HAC_KEEP__View",
     "StaticPathConfig",
     "current_request",
     "require_admin",
@@ -143,7 +143,7 @@ class ApiConfig:
 
 
 @callback
-def _async_update_ssl_profile_issue(hass: UniversalAssistant, conf: ConfData) -> None:
+def _async_update_ssl_profile_issue(hass: __HAC_KEEP__, conf: ConfData) -> None:
     """Offer upgrading a superseded SSL profile the server is running with."""
     if (
         CONF_SSL_CERTIFICATE not in conf
@@ -162,7 +162,7 @@ def _async_update_ssl_profile_issue(hass: UniversalAssistant, conf: ConfData) ->
     )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the HTTP API and debug interface."""
     # Late import to ensure isal is updated before
     # we import aiohttp_fast_zlib
@@ -198,7 +198,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     while True:
         try:
             await server.async_bind()
-        except (UniversalAssistantError, OSError) as err:
+        except (__HAC_KEEP__Error, OSError) as err:
             store = await async_get_and_load_store(hass)
             trial_reverted = store.revert_deadline is not None
             conf = await store.async_get_fallback_config(err)

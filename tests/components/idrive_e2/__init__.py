@@ -6,11 +6,11 @@ from unittest.mock import MagicMock
 from aiobotocore.response import StreamingBody
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def setup_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> bool:
     """Set up the IDrive e2 integration for testing."""
     mock_config_entry.add_to_hass(hass)

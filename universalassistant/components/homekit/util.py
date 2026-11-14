@@ -48,7 +48,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
     split_entity_id,
@@ -473,7 +473,7 @@ def validate_media_player_features(state: State, feature_list: str) -> bool:
 
 
 def async_show_setup_message(
-    hass: UniversalAssistant, entry_id: str, bridge_name: str, pincode: bytes, uri: str
+    hass: __HAC_KEEP__, entry_id: str, bridge_name: str, pincode: bytes, uri: str
 ) -> None:
     """Display persistent notification with setup information."""
     pin = pincode.decode()
@@ -499,7 +499,7 @@ def async_show_setup_message(
     persistent_notification.async_create(hass, message, "HomeKit Pairing", entry_id)
 
 
-def async_dismiss_setup_message(hass: UniversalAssistant, entry_id: str) -> None:
+def async_dismiss_setup_message(hass: __HAC_KEEP__, entry_id: str) -> None:
     """Dismiss persistent notification and remove QR code."""
     persistent_notification.async_dismiss(hass, entry_id)
 
@@ -542,7 +542,7 @@ def temperature_to_homekit(temperature: float, unit: str) -> float:
 
 
 def temperature_to_states(temperature: float, unit: str) -> float:
-    """Convert temperature back from Celsius to Universal Universal Home Assistant unit."""
+    """Convert temperature back from Celsius to __HA_KEEP__ unit."""
     return TemperatureConverter.convert(temperature, UnitOfTemperature.CELSIUS, unit)
 
 
@@ -645,19 +645,19 @@ def get_iid_storage_filename_for_entry_id(entry_id: str) -> str:
     return f"{DOMAIN}.{entry_id}.iids"
 
 
-def get_persist_fullpath_for_entry_id(hass: UniversalAssistant, entry_id: str) -> str:
+def get_persist_fullpath_for_entry_id(hass: __HAC_KEEP__, entry_id: str) -> str:
     """Determine the path to the homekit state file."""
     return hass.config.path(STORAGE_DIR, get_persist_filename_for_entry_id(entry_id))
 
 
-def get_aid_storage_fullpath_for_entry_id(hass: UniversalAssistant, entry_id: str) -> str:
+def get_aid_storage_fullpath_for_entry_id(hass: __HAC_KEEP__, entry_id: str) -> str:
     """Determine the path to the homekit aid storage file."""
     return hass.config.path(
         STORAGE_DIR, get_aid_storage_filename_for_entry_id(entry_id)
     )
 
 
-def get_iid_storage_fullpath_for_entry_id(hass: UniversalAssistant, entry_id: str) -> str:
+def get_iid_storage_fullpath_for_entry_id(hass: __HAC_KEEP__, entry_id: str) -> str:
     """Determine the path to the homekit iid storage file."""
     return hass.config.path(
         STORAGE_DIR, get_iid_storage_filename_for_entry_id(entry_id)
@@ -683,7 +683,7 @@ def _is_zero_but_true(value: Any) -> bool:
     return convert_to_float(value) == 0
 
 
-def remove_state_files_for_entry_id(hass: UniversalAssistant, entry_id: str) -> None:
+def remove_state_files_for_entry_id(hass: __HAC_KEEP__, entry_id: str) -> None:
     """Remove the state files from disk."""
     for path in (
         get_persist_fullpath_for_entry_id(hass, entry_id),
@@ -716,7 +716,7 @@ def async_port_is_available(port: int) -> bool:
 
 
 @callback
-def async_find_next_available_port(hass: UniversalAssistant, start_port: int) -> int:
+def async_find_next_available_port(hass: __HAC_KEEP__, start_port: int) -> int:
     """Find the next available port not assigned to a config entry."""
     exclude_ports = {
         entry.data[CONF_PORT]
@@ -756,7 +756,7 @@ def pid_is_alive(pid: int) -> bool:
 def accessory_friendly_name(hass_name: str, accessory: Accessory) -> str:
     """Return the combined name for the accessory.
 
-    The mDNS name and the Universal Universal Home Assistant config entry
+    The mDNS name and the __HA_KEEP__ config entry
     name are usually different which means they need to
     see both to identify the accessory.
     """
@@ -809,7 +809,7 @@ def get_min_max(value1: float, value2: float) -> tuple[float, float]:
 
 @callback
 def async_update_entries_from_yaml(
-    hass: UniversalAssistant, config: ConfigType, start_import_flow: bool
+    hass: __HAC_KEEP__, config: ConfigType, start_import_flow: bool
 ) -> None:
     """Update the config entries from YAML, optionally importing new ones."""
     current_entries = hass.config_entries.async_entries(DOMAIN)
@@ -836,7 +836,7 @@ def async_update_entries_from_yaml(
             )
 
 
-def async_all_homekit_instances(hass: UniversalAssistant) -> list[HomeKit]:
+def async_all_homekit_instances(hass: __HAC_KEEP__) -> list[HomeKit]:
     """All active HomeKit instances."""
     hk_data: HomeKitEntryData | None
     return [
@@ -865,7 +865,7 @@ def _async_get_imported_entries_indices(
 
 @callback
 def _async_update_config_entry_from_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entries_by_name: dict[str, HomeKitConfigEntry],
     entries_by_port: dict[int, HomeKitConfigEntry],
     conf: ConfigType,

@@ -28,7 +28,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -46,7 +46,7 @@ OTHER_SERIAL = "GS054321"
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the integration."""
@@ -61,7 +61,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_lamarzocco: MagicMock,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_config_entry_not_ready(
     ],
 )
 async def test_get_settings_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_cloud_client: MagicMock,
     side_effect: Exception,
@@ -108,7 +108,7 @@ async def test_get_settings_errors(
     ],
 )
 async def test_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_lamarzocco: MagicMock,
     side_effect: Exception,
@@ -134,7 +134,7 @@ async def test_invalid_auth(
 
 
 async def test_v1_migration_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
 ) -> None:
     """Test v1 -> v2 Migration."""
@@ -157,7 +157,7 @@ async def test_v1_migration_fails(
 
 
 async def test_v4_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
 ) -> None:
     """Test v3 -> v4 Migration."""
@@ -203,7 +203,7 @@ async def test_v4_migration(
     ],
 )
 async def test_migration_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_client: MagicMock,
     mock_lamarzocco: MagicMock,
     side_effect: Exception,
@@ -233,7 +233,7 @@ async def test_migration_errors(
 
 
 async def test_config_flow_entry_migration_downgrade(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that config entry fails setup if the version is from the future."""
     entry = MockConfigEntry(domain=DOMAIN, version=5)
@@ -243,7 +243,7 @@ async def test_config_flow_entry_migration_downgrade(
 
 
 async def test_websocket_closed_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_lamarzocco: MagicMock,
 ) -> None:
@@ -269,7 +269,7 @@ async def test_websocket_closed_on_unload(
     ("version", "issue_exists"), [("v3.5-rc6", True), ("v5.0.9", False)]
 )
 async def test_gateway_version_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_cloud_client: MagicMock,
@@ -299,7 +299,7 @@ async def test_gateway_version_issue(
     ],
 )
 async def test_missing_bluetooth_token_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_cloud_client: MagicMock,
@@ -330,7 +330,7 @@ async def test_missing_bluetooth_token_issue(
 
 
 async def test_gateway_version_issue_per_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_cloud_client: MagicMock,
@@ -389,7 +389,7 @@ async def test_gateway_version_issue_per_entry(
 
 
 async def test_gateway_version_issue_deleted_after_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     mock_cloud_client: MagicMock,
@@ -412,7 +412,7 @@ async def test_gateway_version_issue_deleted_after_update(
 
 
 async def test_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -453,7 +453,7 @@ async def test_device(
 
 
 async def test_websocket_reconnects_after_termination(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_lamarzocco: MagicMock,
     freezer: FrozenDateTimeFactory,

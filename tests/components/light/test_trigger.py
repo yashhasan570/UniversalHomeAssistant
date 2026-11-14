@@ -22,7 +22,7 @@ from pytest_universalassistant.components.common import (
 from universalassistant.components.light import ATTR_BRIGHTNESS
 from universalassistant.components.light.trigger import TRIGGERS
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 # Brightness is stored as a uint8 (0-255) but the trigger threshold is in
 # percent (0-100). The generic numerical-attribute helpers feed values in
@@ -33,7 +33,7 @@ _BRIGHTNESS_VALUE_SCALE = 255 / 100
 
 
 @pytest.fixture
-async def target_lights(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_lights(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple light entities associated with different targets."""
     return await target_entities(hass, "light")
 
@@ -67,7 +67,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_light_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -108,7 +108,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_light_state_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_lights: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -152,7 +152,7 @@ async def test_light_state_trigger_behavior_each(
     ],
 )
 async def test_light_state_attribute_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_lights: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -194,7 +194,7 @@ async def test_light_state_attribute_trigger_behavior_each(
     ],
 )
 async def test_light_state_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_lights: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -232,7 +232,7 @@ async def test_light_state_trigger_behavior_first(
     ],
 )
 async def test_light_state_attribute_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_lights: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -274,7 +274,7 @@ async def test_light_state_attribute_trigger_behavior_first(
     ],
 )
 async def test_light_state_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_lights: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -312,7 +312,7 @@ async def test_light_state_trigger_behavior_all(
     ],
 )
 async def test_light_state_attribute_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_lights: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -362,7 +362,7 @@ async def test_light_state_attribute_trigger_behavior_all(
     ],
 )
 async def test_light_trigger_ignores_limit_entity_with_wrong_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger: str,
     trigger_options: dict[str, Any],
     limit_entities: list[str],

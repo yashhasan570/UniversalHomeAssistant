@@ -31,7 +31,7 @@ from universalassistant.components.filter.const import (
 )
 from universalassistant.components.recorder import Recorder
 from universalassistant.const import CONF_ENTITY_ID, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -122,7 +122,7 @@ from universalassistant.data_entry_flow import FlowResultType
 )
 async def test_form(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     entry_config: dict[str, Any],
     options: dict[str, Any],
@@ -164,7 +164,7 @@ async def test_form(
 
 
 async def test_options_flow(
-    recorder_mock: Recorder, hass: UniversalAssistant, loaded_entry: MockConfigEntry
+    recorder_mock: Recorder, hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
 ) -> None:
     """Test options flow."""
 
@@ -203,7 +203,7 @@ async def test_options_flow(
 
 
 async def test_entry_already_exist(
-    recorder_mock: Recorder, hass: UniversalAssistant, loaded_entry: MockConfigEntry
+    recorder_mock: Recorder, hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
 ) -> None:
     """Test abort when entry already exist."""
 

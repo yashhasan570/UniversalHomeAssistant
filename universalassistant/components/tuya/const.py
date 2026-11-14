@@ -482,12 +482,12 @@ class DeviceCategory(StrEnum):
     DGHSXJ = "dghsxj"
     """Smart Camera - Low power consumption camera (undocumented)
 
-    see https://github.com/yashhasan570/UniversalUniversalAssistant/issues/132844
+    see https://github.com/yashhasan570/__HAC_KEEP__/issues/132844
     """
     DSD = "dsd"
     """Filament Light
 
-    Based on data from https://github.com/yashhasan570/UniversalUniversalAssistant/issues/106703
+    Based on data from https://github.com/yashhasan570/__HAC_KEEP__/issues/106703
     Product category mentioned in https://developer.tuya.com/en/docs/iot/oemapp-light?id=Kb77kja5woao6
     As at 30/12/23 not documented in https://developer.tuya.com/en/docs/iot/lighting?id=Kaiuyzxq30wmc
     """
@@ -526,7 +526,7 @@ class DeviceCategory(StrEnum):
     QXJ = "qxj"
     """Temperature and Humidity Sensor with External Probe (undocumented)
 
-    see https://github.com/yashhasan570/UniversalUniversalAssistant/issues/136472
+    see https://github.com/yashhasan570/__HAC_KEEP__/issues/136472
     """
     SFKZQ = "sfkzq"
     """Smart Water Timer (undocumented)"""

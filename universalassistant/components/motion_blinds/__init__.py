@@ -7,7 +7,7 @@ import logging
 from motionblinds import DEVICE_TYPES_GATEWAY, DEVICE_TYPES_WIFI, AsyncMotionMulticast
 
 from universalassistant.const import CONF_API_KEY, CONF_HOST, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -45,14 +45,14 @@ MOTION_BLINDS_DATA: HassKey[MotionBlindsData] = HassKey(DOMAIN)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Motionblinds integration."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: MotionBlindsConfigEntry
+    hass: __HAC_KEEP__, entry: MotionBlindsConfigEntry
 ) -> None:
     """Set up the motion_blinds components from a config entry."""
     if (motion_data := hass.data.get(MOTION_BLINDS_DATA)) is None:
@@ -147,7 +147,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: MotionBlindsConfigEntry
+    hass: __HAC_KEEP__, config_entry: MotionBlindsConfigEntry
 ) -> None:
     """Unload a config entry."""
     motion_data = hass.data[MOTION_BLINDS_DATA]

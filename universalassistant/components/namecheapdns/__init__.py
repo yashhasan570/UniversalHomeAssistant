@@ -2,14 +2,14 @@
 
 import logging
 
-from universalassistant.core import UniversalAssistant, async_noop
+from universalassistant.core import __HAC_KEEP__, async_noop
 
 from .coordinator import NamecheapConfigEntry, NamecheapDnsUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NamecheapConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NamecheapConfigEntry) -> None:
     """Set up Namecheap DynamicDNS from a config entry."""
 
     coordinator = NamecheapDnsUpdateCoordinator(hass, entry)
@@ -20,5 +20,5 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NamecheapConfigEntr
     entry.async_on_unload(coordinator.async_add_listener(async_noop))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NamecheapConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NamecheapConfigEntry) -> None:
     """Unload a config entry."""

@@ -8,13 +8,13 @@ from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.yolink import DOMAIN, YOLINK_EVENT
 from universalassistant.components.yolink.const import DEV_MODEL_FLEX_FOB_YS3604_UC
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
 
 async def test_get_triggers(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test we get the expected triggers from a yolink flexfob."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={})
@@ -91,7 +91,7 @@ async def test_get_triggers(
 
 
 async def test_get_triggers_exception(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test get triggers when device type not flexfob."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={})
@@ -111,7 +111,7 @@ async def test_get_triggers_exception(
 
 
 async def test_if_fires_on_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
 ) -> None:

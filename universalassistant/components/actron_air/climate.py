@@ -14,7 +14,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -47,7 +47,7 @@ HVAC_MODE_MAPPING_HA_TO_ACTRONAIR = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ActronAirConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

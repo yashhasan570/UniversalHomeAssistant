@@ -7,8 +7,8 @@ from myuplink import DevicePoint
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, F_SERIES
@@ -53,7 +53,7 @@ def get_description(device_point: DevicePoint) -> SwitchEntityDescription | None
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MyUplinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -131,7 +131,7 @@ class MyUplinkDevicePointSwitch(MyUplinkEntity, SwitchEntity):
                 self.device_id, data={self.point_id: mode}
             )
         except aiohttp.ClientError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_switch_error",
                 translation_placeholders={

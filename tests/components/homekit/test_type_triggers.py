@@ -12,13 +12,13 @@ from universalassistant.components.homekit.const import (
 )
 from universalassistant.components.homekit.type_triggers import DeviceTriggerAccessory
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_programmable_switch_button_fires_on_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hk_driver,
     demo_cleanup,
     entity_registry: er.EntityRegistry,
@@ -83,7 +83,7 @@ async def test_programmable_switch_button_fires_on_trigger(
 
 
 async def test_programmable_switch_with_integer_subtype(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hk_driver,
     demo_cleanup,
     entity_registry: er.EntityRegistry,
@@ -94,7 +94,7 @@ async def test_programmable_switch_with_integer_subtype(
     This previously raised ``AttributeError: 'int' object has no attribute
     'replace'`` and aborted setup of the whole HomeKit bridge.
 
-    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/93834
+    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/93834
     """
     demo_config_entry = MockConfigEntry(domain="domain")
     demo_config_entry.add_to_hass(hass)

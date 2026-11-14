@@ -5,7 +5,7 @@ from typing import override
 from bosch_shc_camera_client.cameras import Camera as CameraData, CameraModel
 
 from universalassistant.components.camera import Camera
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -24,7 +24,7 @@ MODEL_NAMES = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BoschCameraConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

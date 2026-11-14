@@ -6,8 +6,8 @@ from kaleidescape import Device as KaleidescapeDevice, KaleidescapeError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant
-from universalassistant.exceptions import ConfigEntryNotReady, UniversalAssistantError
+from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryNotReady, __HAC_KEEP__Error
 
 PLATFORMS = [Platform.MEDIA_PLAYER, Platform.REMOTE, Platform.SENSOR]
 
@@ -15,7 +15,7 @@ type KaleidescapeConfigEntry = ConfigEntry[KaleidescapeDevice]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: KaleidescapeConfigEntry
+    hass: __HAC_KEEP__, entry: KaleidescapeConfigEntry
 ) -> None:
     """Set up Kaleidescape from a config entry."""
     device = KaleidescapeDevice(
@@ -44,7 +44,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: KaleidescapeConfigEntry
+    hass: __HAC_KEEP__, entry: KaleidescapeConfigEntry
 ) -> None:
     """Unload config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -61,7 +61,7 @@ class KaleidescapeDeviceInfo:
     server_only: bool
 
 
-class UnsupportedError(UniversalAssistantError):
+class UnsupportedError(__HAC_KEEP__Error):
     """Error for unsupported device types."""
 
 

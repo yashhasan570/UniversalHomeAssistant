@@ -3,12 +3,12 @@
 from aioairzone_cloud.const import API_OLD_ID
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import async_init_integration
 
 
-async def test_airzone_create_binary_sensors(hass: UniversalAssistant) -> None:
+async def test_airzone_create_binary_sensors(hass: __HAC_KEEP__) -> None:
     """Test creation of binary sensors."""
 
     await async_init_integration(hass)

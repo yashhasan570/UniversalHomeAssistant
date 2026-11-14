@@ -10,7 +10,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     Platform,
 )
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -50,7 +50,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Toon components."""
     if DOMAIN not in config:
         return True
@@ -66,7 +66,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: ToonConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: ToonConfigEntry) -> None:
     """Handle migration of a previous version config entry."""
     if entry.version == 1:
         # There is no usable data in version 1 anymore.
@@ -94,7 +94,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: ToonConfigEntry) 
             )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ToonConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ToonConfigEntry) -> None:
     """Set up Toon from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
     session = OAuth2Session(hass, entry, implementation)
@@ -153,8 +153,8 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ToonConfigEntry) ->
     # Spin up the platforms
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
-    # If Universal Universal Home Assistant is already in a running state, register the webhook
-    # immediately, else trigger it after Universal Universal Home Assistant has finished starting.
+    # If __HA_KEEP__ is already in a running state, register the webhook
+    # immediately, else trigger it after __HA_KEEP__ has finished starting.
     if hass.state is CoreState.running:
         await coordinator.register_webhook()
     else:
@@ -163,7 +163,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ToonConfigEntry) ->
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ToonConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ToonConfigEntry) -> None:
     """Unload Toon config entry."""
 
     # Remove webhooks registration

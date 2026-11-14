@@ -16,7 +16,7 @@ from universalassistant.const import (
     UnitOfLength,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import RomyConfigEntry, RomyVacuumCoordinator
@@ -75,7 +75,7 @@ SENSORS: list[SensorEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RomyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

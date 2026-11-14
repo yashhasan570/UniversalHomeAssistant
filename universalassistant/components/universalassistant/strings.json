@@ -5,7 +5,7 @@
       "name": "Host reboot required"
     },
     "restart_required": {
-      "description": "Tests if Universal Universal Home Assistant needs a restart to apply installed updates or changed settings.",
+      "description": "Tests if __HA_KEEP__ needs a restart to apply installed updates or changed settings.",
       "name": "Restart required"
     }
   },
@@ -55,7 +55,7 @@
       "message": "Unknown error calling {domain} config validator - {error}."
     },
     "core_config_reload_failed": {
-      "message": "Failed to reload the Universal Universal Home Assistant Core configuration - {error}"
+      "message": "Failed to reload the __HA_KEEP__ Core configuration - {error}"
     },
     "max_length_exceeded": {
       "message": "Value {value} for property {property_name} has a maximum length of {max_length} characters."
@@ -121,7 +121,7 @@
       "message": "Failed to set up the {platform} {domain} platform."
     },
     "scene_config_reload_failed": {
-      "message": "Failed to reload the Universal Universal Home Assistant scene platform configuration - {error}"
+      "message": "Failed to reload the __HA_KEEP__ scene platform configuration - {error}"
     },
     "service_config_entry_not_found": {
       "message": "Integration {domain} config entry with ID {entry_id} was not found."
@@ -385,7 +385,7 @@
       "name": "News & social media"
     },
     "other_ecosystems": {
-      "description": "Use your Universal Universal Home Assistant devices in Apple Home, Alexa, Google Home and other platforms.",
+      "description": "Use your __HA_KEEP__ devices in Apple Home, Alexa, Google Home and other platforms.",
       "name": "Other ecosystems"
     },
     "pets": {
@@ -544,7 +544,7 @@
       "name": "HomeKit"
     },
     "host": {
-      "description": "The machine Universal Universal Home Assistant runs on, like its CPU, disks and files.",
+      "description": "The machine __HA_KEEP__ runs on, like its CPU, disks and files.",
       "name": "This machine"
     },
     "infrared": {
@@ -606,7 +606,7 @@
   },
   "issues": {
     "config_entry_only": {
-      "description": "The {domain} integration does not support configuration via YAML file. You may not notice any obvious issues with the integration, but any configuration settings defined in YAML are not actually applied.\n\nTo resolve this:\n\n1. If you've not already done so, [set up the integration]({add_integration}).\n\n2. Remove `{domain}:` from your YAML configuration file.\n\n3. Restart Universal Universal Home Assistant.",
+      "description": "The {domain} integration does not support configuration via YAML file. You may not notice any obvious issues with the integration, but any configuration settings defined in YAML are not actually applied.\n\nTo resolve this:\n\n1. If you've not already done so, [set up the integration]({add_integration}).\n\n2. Remove `{domain}:` from your YAML configuration file.\n\n3. Restart __HA_KEEP__.",
       "title": "The {domain} integration does not support YAML configuration"
     },
     "config_entry_reauth": {
@@ -626,27 +626,27 @@
       "title": "The country has not been configured"
     },
     "deprecated_architecture": {
-      "description": "This system uses 32-bit hardware (`{arch}`), which has been deprecated and will no longer receive updates after the release of Universal Universal Home Assistant 2025.12. As your hardware is no longer capable of running newer versions of Universal Universal Home Assistant, you will need to migrate to new hardware.",
+      "description": "This system uses 32-bit hardware (`{arch}`), which has been deprecated and will no longer receive updates after the release of __HA_KEEP__ 2025.12. As your hardware is no longer capable of running newer versions of __HA_KEEP__, you will need to migrate to new hardware.",
       "title": "Deprecation notice: 32-bit architecture"
     },
     "deprecated_container": {
-      "description": "This system is running on a 32-bit operating system (`{arch}`), which has been deprecated and will no longer receive updates after the release of Universal Universal Home Assistant 2025.12. Check if your system is capable of running a 64-bit operating system. If not, you will need to migrate to new hardware.",
+      "description": "This system is running on a 32-bit operating system (`{arch}`), which has been deprecated and will no longer receive updates after the release of __HA_KEEP__ 2025.12. Check if your system is capable of running a 64-bit operating system. If not, you will need to migrate to new hardware.",
       "title": "[%key:component::universalassistant::issues::deprecated_architecture::title%]"
     },
     "deprecated_method": {
-      "description": "This system is using the {installation_type} installation type, which has been unsupported since Universal Universal Home Assistant 2025.12. To continue receiving updates and support, migrate to a supported installation method.",
+      "description": "This system is using the {installation_type} installation type, which has been unsupported since __HA_KEEP__ 2025.12. To continue receiving updates and support, migrate to a supported installation method.",
       "title": "Unsupported installation method"
     },
     "deprecated_method_architecture": {
-      "description": "This system is using the {installation_type} installation type, and 32-bit hardware (`{arch}`), both of which have been unsupported since Universal Universal Home Assistant 2025.12. To continue receiving updates and support, migrate to supported hardware and use a supported installation method.",
+      "description": "This system is using the {installation_type} installation type, and 32-bit hardware (`{arch}`), both of which have been unsupported since __HA_KEEP__ 2025.12. To continue receiving updates and support, migrate to supported hardware and use a supported installation method.",
       "title": "Unsupported installation method and architecture"
     },
     "deprecated_os_aarch64": {
-      "description": "This system is running on a 32-bit operating system (`armv7`), which has been deprecated and will no longer receive updates after the release of Universal Universal Home Assistant 2025.12. To continue using Universal Universal Home Assistant on this hardware, you will need to install a 64-bit operating system. Please refer to our [installation guide]({installation_guide}).",
+      "description": "This system is running on a 32-bit operating system (`armv7`), which has been deprecated and will no longer receive updates after the release of __HA_KEEP__ 2025.12. To continue using __HA_KEEP__ on this hardware, you will need to install a 64-bit operating system. Please refer to our [installation guide]({installation_guide}).",
       "title": "[%key:component::universalassistant::issues::deprecated_architecture::title%]"
     },
     "deprecated_os_armv7": {
-      "description": "This system is running on a 32-bit operating system (`armv7`), which has been deprecated and will no longer receive updates after the release of Universal Universal Home Assistant 2025.12. As your hardware is no longer capable of running newer versions of Universal Universal Home Assistant, you will need to migrate to new hardware.",
+      "description": "This system is running on a 32-bit operating system (`armv7`), which has been deprecated and will no longer receive updates after the release of __HA_KEEP__ 2025.12. As your hardware is no longer capable of running newer versions of __HA_KEEP__, you will need to migrate to new hardware.",
       "title": "[%key:component::universalassistant::issues::deprecated_architecture::title%]"
     },
     "deprecated_system_packages_config_flow_integration": {
@@ -654,15 +654,15 @@
       "title": "The {integration_title} integration is being removed"
     },
     "deprecated_system_packages_yaml_integration": {
-      "description": "The {integration_title} integration is being removed as it depends on system packages that can only be installed on systems running a deprecated architecture. To resolve this, remove the {domain} entry from your configuration.yaml file and restart Universal Universal Home Assistant.",
+      "description": "The {integration_title} integration is being removed as it depends on system packages that can only be installed on systems running a deprecated architecture. To resolve this, remove the {domain} entry from your configuration.yaml file and restart __HA_KEEP__.",
       "title": "The {integration_title} integration is being removed"
     },
     "deprecated_trigger_behavior": {
-      "description": "An automation, script or template entity uses the trigger behavior option `{deprecated_behavior}`, which has been renamed to `{new_behavior}`. The old value still works for now, but support for it will be removed in a future release.\n\nTo fix this issue, open each affected automation or script in the editor and save it again; Universal Universal Home Assistant will automatically detect and update the deprecated option. Alternatively, edit your configuration files (for example `automations.yaml`) directly and change `behavior: {deprecated_behavior}` to `behavior: {new_behavior}` in the options of your triggers. Leave the `behavior` option of conditions unchanged, as conditions still use `any` and `all`. Restart Universal Universal Home Assistant afterwards.",
+      "description": "An automation, script or template entity uses the trigger behavior option `{deprecated_behavior}`, which has been renamed to `{new_behavior}`. The old value still works for now, but support for it will be removed in a future release.\n\nTo fix this issue, open each affected automation or script in the editor and save it again; __HA_KEEP__ will automatically detect and update the deprecated option. Alternatively, edit your configuration files (for example `automations.yaml`) directly and change `behavior: {deprecated_behavior}` to `behavior: {new_behavior}` in the options of your triggers. Leave the `behavior` option of conditions unchanged, as conditions still use `any` and `all`. Restart __HA_KEEP__ afterwards.",
       "title": "Deprecated trigger behavior option in use"
     },
     "deprecated_yaml": {
-      "description": "Configuring {integration_title} using YAML is being removed.\n\nYour existing YAML configuration has been imported into the UI automatically.\n\nRemove the `{domain}` configuration from your configuration.yaml file and restart Universal Universal Home Assistant to fix this issue.",
+      "description": "Configuring {integration_title} using YAML is being removed.\n\nYour existing YAML configuration has been imported into the UI automatically.\n\nRemove the `{domain}` configuration from your configuration.yaml file and restart __HA_KEEP__ to fix this issue.",
       "title": "The {integration_title} YAML configuration is being removed"
     },
     "entity_own_area_without_own_name": {
@@ -684,7 +684,7 @@
         },
         "step": {
           "init": {
-            "description": "The integration `{domain}` could not be found. This happens when a (custom) integration was removed from Universal Universal Home Assistant, but there are still configurations for this `integration`. Please use the buttons below to either remove the previous configurations for `{domain}` or ignore this.",
+            "description": "The integration `{domain}` could not be found. This happens when a (custom) integration was removed from __HA_KEEP__, but there are still configurations for this `integration`. Please use the buttons below to either remove the previous configurations for `{domain}` or ignore this.",
             "menu_options": {
               "confirm": "Remove previous configurations",
               "ignore": "Ignore"
@@ -696,11 +696,11 @@
       "title": "Integration {domain} not found"
     },
     "legacy_templates_false": {
-      "description": "Nothing will change with your templates.\n\nRemove the `legacy_templates` key from the `universalassistant` configuration in your configuration.yaml file and restart Universal Universal Home Assistant to fix this issue.",
+      "description": "Nothing will change with your templates.\n\nRemove the `legacy_templates` key from the `universalassistant` configuration in your configuration.yaml file and restart __HA_KEEP__ to fix this issue.",
       "title": "legacy_templates config key is being removed"
     },
     "legacy_templates_true": {
-      "description": "Please do the following steps:\n- Adopt your configuration to support template rendering to native python types.\n- Remove the `legacy_templates` key from the `universalassistant` configuration in your configuration.yaml file.\n- Restart Universal Universal Home Assistant to fix this issue.",
+      "description": "Please do the following steps:\n- Adopt your configuration to support template rendering to native python types.\n- Remove the `legacy_templates` key from the `universalassistant` configuration in your configuration.yaml file.\n- Restart __HA_KEEP__ to fix this issue.",
       "title": "The support for legacy templates is being removed"
     },
     "orphaned_ignored_config_entry": {
@@ -710,7 +710,7 @@
         },
         "step": {
           "init": {
-            "description": "There is an ignored orphaned config entry for the `{domain}` integration. This can happen when an integration is removed, but the config entry is still present in Universal Universal Home Assistant.\n\nTo resolve this, press **Remove** to clean up the orphaned entry.",
+            "description": "There is an ignored orphaned config entry for the `{domain}` integration. This can happen when an integration is removed, but the config entry is still present in __HA_KEEP__.\n\nTo resolve this, press **Remove** to clean up the orphaned entry.",
             "menu_options": {
               "confirm": "Remove",
               "ignore": "Ignore"
@@ -722,22 +722,22 @@
       "title": "Orphaned ignored config entry for {domain}"
     },
     "platform_config_not_supported": {
-      "description": "Configuring the {integration_domain} integration by adding `{platform_key}` under the `{platform_domain}:` key is not supported. The {integration_domain} integration must be configured under its own `{integration_domain}:` key instead.\n\nTo resolve this:\n\n1. Remove the following from your YAML configuration file:\n\n{yaml_example}\n\n2. Move the configuration under the `{integration_domain}:` key instead.\n\n3. Restart Universal Universal Home Assistant.\n\nTo see the detailed documentation, select Learn more.",
+      "description": "Configuring the {integration_domain} integration by adding `{platform_key}` under the `{platform_domain}:` key is not supported. The {integration_domain} integration must be configured under its own `{integration_domain}:` key instead.\n\nTo resolve this:\n\n1. Remove the following from your YAML configuration file:\n\n{yaml_example}\n\n2. Move the configuration under the `{integration_domain}:` key instead.\n\n3. Restart __HA_KEEP__.\n\nTo see the detailed documentation, select Learn more.",
       "title": "Unsupported YAML configuration for the {integration_domain} integration"
     },
     "platform_only": {
-      "description": "The {domain} integration does not support configuration under its own key, it must be configured under its supported platforms.\n\nTo resolve this:\n\n1. Remove `{domain}:` from your YAML configuration file.\n\n2. Restart Universal Universal Home Assistant.",
+      "description": "The {domain} integration does not support configuration under its own key, it must be configured under its supported platforms.\n\nTo resolve this:\n\n1. Remove `{domain}:` from your YAML configuration file.\n\n2. Restart __HA_KEEP__.",
       "title": "The {domain} integration does not support YAML configuration under its own key"
     },
     "platform_setup_not_supported": {
-      "description": "It's not possible to configure {integration_domain} {platform_domain} by adding `{platform_key}` to the {platform_domain} configuration. Please check the documentation for more information on how to set up this integration.\n\nTo resolve this:\n\n1. Remove `{platform_key}` occurrences from the `{platform_domain}:` configuration in your YAML configuration file.\n\n2. Restart Universal Universal Home Assistant.",
+      "description": "It's not possible to configure {integration_domain} {platform_domain} by adding `{platform_key}` to the {platform_domain} configuration. Please check the documentation for more information on how to set up this integration.\n\nTo resolve this:\n\n1. Remove `{platform_key}` occurrences from the `{platform_domain}:` configuration in your YAML configuration file.\n\n2. Restart __HA_KEEP__.",
       "title": "Unused YAML configuration for the {integration_domain} integration"
     },
     "storage_corruption": {
       "fix_flow": {
         "step": {
           "confirm": {
-            "description": "The `{storage_key}` storage could not be parsed and has been renamed to `{corrupt_path}` to allow Universal Universal Home Assistant to continue.\n\nA default `{storage_key}` may have been created automatically.\n\nIf you made manual edits to the storage file, fix any syntax errors in `{corrupt_path}`, restore the file to the original path `{original_path}`, and restart Universal Universal Home Assistant. Otherwise, restore the system from a backup.\n\nSelect **Submit** below to confirm you have repaired the file or restored from a backup.\n\nThe exact error was: {error}",
+            "description": "The `{storage_key}` storage could not be parsed and has been renamed to `{corrupt_path}` to allow __HA_KEEP__ to continue.\n\nA default `{storage_key}` may have been created automatically.\n\nIf you made manual edits to the storage file, fix any syntax errors in `{corrupt_path}`, restore the file to the original path `{original_path}`, and restart __HA_KEEP__. Otherwise, restore the system from a backup.\n\nSelect **Submit** below to confirm you have repaired the file or restored from a backup.\n\nThe exact error was: {error}",
             "title": "[%key:component::universalassistant::issues::storage_corruption::title%]"
           }
         }
@@ -745,18 +745,18 @@
       "title": "Storage corruption detected for {storage_key}"
     },
     "unsupported_local_deps": {
-      "description": "This system is running Universal Universal Home Assistant outside a virtual environment or a Docker container. This is not supported and will not work after the release of Universal Universal Home Assistant 2026.11.",
+      "description": "This system is running __HA_KEEP__ outside a virtual environment or a Docker container. This is not supported and will not work after the release of __HA_KEEP__ 2026.11.",
       "title": "Deprecation notice: Installation method"
     }
   },
   "services": {
     "check_config": {
-      "description": "Checks the Universal Universal Home Assistant YAML-configuration files for errors. Errors will be shown in the Universal Universal Home Assistant logs.",
-      "name": "Check Universal Universal Home Assistant configuration"
+      "description": "Checks the __HA_KEEP__ YAML-configuration files for errors. Errors will be shown in the __HA_KEEP__ logs.",
+      "name": "Check __HA_KEEP__ configuration"
     },
     "reload_all": {
-      "description": "Reloads all YAML configuration that can be reloaded without restarting Universal Universal Home Assistant.",
-      "name": "Reload all Universal Universal Home Assistant configuration"
+      "description": "Reloads all YAML configuration that can be reloaded without restarting __HA_KEEP__.",
+      "name": "Reload all __HA_KEEP__ configuration"
     },
     "reload_config_entry": {
       "description": "Reloads the config entry of the provided config entry ID.",
@@ -777,21 +777,21 @@
       "name": "Reload custom Jinja2 templates"
     },
     "restart": {
-      "description": "Restarts Universal Universal Home Assistant.",
+      "description": "Restarts __HA_KEEP__.",
       "fields": {
         "safe_mode": {
           "description": "Disable custom integrations and custom cards.",
           "name": "Safe mode"
         }
       },
-      "name": "Restart Universal Universal Home Assistant"
+      "name": "Restart __HA_KEEP__"
     },
     "save_persistent_states": {
       "description": "Saves the persistent states immediately. Maintains the normal periodic saving interval.",
       "name": "Save persistent states"
     },
     "set_location": {
-      "description": "Updates the Universal Universal Home Assistant location.",
+      "description": "Updates the __HA_KEEP__ location.",
       "fields": {
         "elevation": {
           "description": "Elevation of your location above sea level.",
@@ -806,11 +806,11 @@
           "name": "[%key:common::config_flow::data::longitude%]"
         }
       },
-      "name": "Set Universal Universal Home Assistant location"
+      "name": "Set __HA_KEEP__ location"
     },
     "stop": {
-      "description": "Stops Universal Universal Home Assistant.",
-      "name": "Stop Universal Universal Home Assistant"
+      "description": "Stops __HA_KEEP__.",
+      "name": "Stop __HA_KEEP__"
     },
     "toggle": {
       "description": "Generic action to toggle devices on/off under any domain.",
@@ -859,12 +859,12 @@
       "name": "Host reboot required"
     },
     "restart_required": {
-      "description": "Triggers when Universal Universal Home Assistant needs a restart to apply installed updates or changed settings.",
+      "description": "Triggers when __HA_KEEP__ needs a restart to apply installed updates or changed settings.",
       "name": "Restart required"
     },
     "updated": {
-      "description": "Triggers once after Universal Universal Home Assistant starts on a different version than it ran before.",
-      "name": "Universal Universal Home Assistant updated"
+      "description": "Triggers once after __HA_KEEP__ starts on a different version than it ran before.",
+      "name": "__HA_KEEP__ updated"
     }
   }
 }

@@ -4,7 +4,7 @@ Components use create_stream with a stream source (e.g. an rtsp url) to create
 a new Stream object. Stream manages:
   - Background work to fetch and decode a stream
   - Desired output formats
-  - Universal Universal Home Assistant URLs for viewing a stream
+  - __HA_KEEP__ URLs for viewing a stream
   - Access tokens for URLs for viewing a stream
 
 A Stream consists of a background worker, and one or more output formats each
@@ -33,8 +33,8 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     EVENT_LOGGING_CHANGED,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import SetupPhases, async_pause_setup
@@ -104,7 +104,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_check_stream_client_error(
-    hass: UniversalAssistant, source: str, pyav_options: dict[str, str] | None = None
+    hass: __HAC_KEEP__, source: str, pyav_options: dict[str, str] | None = None
 ) -> None:
     """Check if a stream can be successfully opened.
 
@@ -116,7 +116,7 @@ async def async_check_stream_client_error(
 
 
 def _check_stream_client_error(
-    hass: UniversalAssistant, source: str, options: dict[str, str] | None = None
+    hass: __HAC_KEEP__, source: str, options: dict[str, str] | None = None
 ) -> None:
     """Check if a stream can be successfully opened.
 
@@ -145,19 +145,19 @@ def redact_credentials(url: str) -> str:
 
 
 def _convert_stream_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     stream_source: str,
     stream_options: Mapping[str, str | bool | float],
 ) -> tuple[dict[str, str], StreamSettings]:
     """Convert options from stream options into PyAV options and stream settings."""
     if DOMAIN not in hass.data:
-        raise UniversalAssistantError("Stream integration is not set up.")
+        raise __HAC_KEEP__Error("Stream integration is not set up.")
 
     stream_settings = copy.copy(hass.data[DOMAIN][ATTR_SETTINGS])
     try:
         STREAM_OPTIONS_SCHEMA(stream_options)
     except probatio.Invalid as exc:
-        raise UniversalAssistantError(f"Invalid stream options: {exc}") from exc
+        raise __HAC_KEEP__Error(f"Invalid stream options: {exc}") from exc
 
     # FFmpeg 9 verifies TLS peers by default; cameras use self-signed certificates
     pyav_options: dict[str, str] = {
@@ -185,7 +185,7 @@ def _convert_stream_options(
 
 
 def create_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     stream_source: str,
     options: Mapping[str, str | bool | float],
     dynamic_stream_settings: DynamicStreamSettings,
@@ -202,7 +202,7 @@ def create_stream(
     """
 
     if DOMAIN not in hass.config.components:
-        raise UniversalAssistantError("Stream integration is not set up.")
+        raise __HAC_KEEP__Error("Stream integration is not set up.")
 
     # Convert extra stream options into PyAV options and stream settings
     pyav_options, stream_settings = _convert_stream_options(
@@ -248,7 +248,7 @@ def set_pyav_logging(enable: bool) -> None:
     av.logging.set_level(av.logging.VERBOSE if enable else av.logging.FATAL)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up stream."""
     debug_enabled = _LOGGER.isEnabledFor(logging.DEBUG)
 
@@ -325,7 +325,7 @@ class Stream:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         source: str,
         pyav_options: dict[str, str],
         stream_settings: StreamSettings,

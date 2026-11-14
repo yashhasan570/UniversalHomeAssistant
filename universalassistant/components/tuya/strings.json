@@ -1404,7 +1404,7 @@
   },
   "issues": {
     "deprecated_entity_new_valve": {
-      "description": "The Tuya entity `{entity}` is deprecated, replaced by a new valve entity.\nPlease update your dashboards, automations and scripts, disable `{entity}` and reload the integration/restart Universal Universal Home Assistant to fix this issue.",
+      "description": "The Tuya entity `{entity}` is deprecated, replaced by a new valve entity.\nPlease update your dashboards, automations and scripts, disable `{entity}` and reload the integration/restart __HA_KEEP__ to fix this issue.",
       "title": "{name} is deprecated"
     }
   },

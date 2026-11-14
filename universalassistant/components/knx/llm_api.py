@@ -2,7 +2,7 @@
 
 The tool logic lives in the shared ``*.mcp`` subpackages of ``knx-telegram-store``,
 ``xknxproject`` and ``xknx``; this module only adapts those functions into
-Universal Universal Home Assistant :class:`llm.Tool` objects and wires them to the running KNX module.
+__HA_KEEP__ :class:`llm.Tool` objects and wires them to the running KNX module.
 Each tool's parameter schema (and its per-parameter descriptions) is derived from
 the library input dataclasses' ``dataclasses.field`` metadata, so the descriptions
 stay single-sourced in the libraries.
@@ -22,8 +22,8 @@ from xknx.exceptions import XKNXException
 from xknxproject import mcp as xknxproject_mcp
 from xknxproject.models import KNXProject as KNXProjectModel
 
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import llm
 from universalassistant.util.json import JsonObjectType
 
@@ -201,7 +201,7 @@ class KNXTool(llm.Tool):
     @override
     async def async_call(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         tool_input: llm.ToolInput,
         llm_context: llm.LLMContext,
     ) -> llm.ToolResult:
@@ -212,7 +212,7 @@ class KNXTool(llm.Tool):
         except (KnxTelegramStoreException, ValueError, XKNXException) as err:
             # ``ValueError`` covers an unknown DPT name passed to the xknx DPT
             # tools - the likeliest way for a model to get an argument wrong.
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="llm_tool_failed",
                 translation_placeholders={"error": str(err)},
@@ -224,7 +224,7 @@ def _require_store(knx: KNXModule) -> TelegramStore:
     """The telegram store, or raise if it is not configured/available."""
     store = knx.telegrams.store
     if store is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="llm_telegram_store_unavailable",
         )
@@ -235,7 +235,7 @@ async def _require_project(knx: KNXModule) -> KNXProjectModel:
     """The full parsed ETS project, or raise if none is loaded."""
     project = await knx.project.get_knxproject()
     if project is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="llm_no_project_loaded",
         )
@@ -598,7 +598,7 @@ class KNXLLMAPI(llm.API):
 
 
 @callback
-def async_register_llm_api(hass: UniversalAssistant, knx: KNXModule) -> CALLBACK_TYPE:
+def async_register_llm_api(hass: __HAC_KEEP__, knx: KNXModule) -> CALLBACK_TYPE:
     """Register the KNX LLM API and return a callback to unregister it."""
     return llm.async_register_api(
         hass,

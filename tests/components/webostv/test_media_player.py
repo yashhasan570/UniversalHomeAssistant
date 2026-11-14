@@ -66,8 +66,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     EntityStateAttribute,
 )
-from universalassistant.core import CoreState, UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CoreState, __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -76,7 +76,7 @@ from .const import CHANNEL_2, ENTITY_ID, TV_NAME
 
 
 async def mock_scan_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Mock update interval to force an update."""
@@ -96,7 +96,7 @@ async def mock_scan_interval(
     ],
 )
 async def test_services_with_parameters(
-    hass: UniversalAssistant, client, service, attr_data, client_call
+    hass: __HAC_KEEP__, client, service, attr_data, client_call
 ) -> None:
     """Test services that has parameters in calls."""
     await setup_webostv(hass)
@@ -118,7 +118,7 @@ async def test_services_with_parameters(
         (SERVICE_MEDIA_STOP, "stop"),
     ],
 )
-async def test_services(hass: UniversalAssistant, client, service, client_call) -> None:
+async def test_services(hass: __HAC_KEEP__, client, service, client_call) -> None:
     """Test simple services without parameters."""
     await setup_webostv(hass)
 
@@ -128,7 +128,7 @@ async def test_services(hass: UniversalAssistant, client, service, client_call) 
     getattr(client, client_call).assert_called_once()
 
 
-async def test_media_play_pause(hass: UniversalAssistant, client) -> None:
+async def test_media_play_pause(hass: __HAC_KEEP__, client) -> None:
     """Test media play pause service."""
     await setup_webostv(hass)
 
@@ -155,7 +155,7 @@ async def test_media_play_pause(hass: UniversalAssistant, client) -> None:
     ],
 )
 async def test_media_next_previous_track(
-    hass: UniversalAssistant, client, service, client_call
+    hass: __HAC_KEEP__, client, service, client_call
 ) -> None:
     """Test media next/previous track services."""
     await setup_webostv(hass)
@@ -177,7 +177,7 @@ async def test_media_next_previous_track(
 
 
 async def test_select_source_with_empty_source_list(
-    hass: UniversalAssistant, client
+    hass: __HAC_KEEP__, client
 ) -> None:
     """Ensure we don't call client methods when we don't have sources."""
     await setup_webostv(hass)
@@ -188,7 +188,7 @@ async def test_select_source_with_empty_source_list(
         ATTR_INPUT_SOURCE: "nonexistent",
     }
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f"Source nonexistent not found in the sources list for {ENTITY_ID}",
     ):
         await hass.services.async_call(MP_DOMAIN, SERVICE_SELECT_SOURCE, data, True)
@@ -197,7 +197,7 @@ async def test_select_source_with_empty_source_list(
     client.set_input.assert_not_called()
 
 
-async def test_select_app_source(hass: UniversalAssistant, client) -> None:
+async def test_select_app_source(hass: __HAC_KEEP__, client) -> None:
     """Test select app source."""
     await setup_webostv(hass)
     await client.mock_state_update()
@@ -212,7 +212,7 @@ async def test_select_app_source(hass: UniversalAssistant, client) -> None:
     client.set_input.assert_not_called()
 
 
-async def test_select_input_source(hass: UniversalAssistant, client) -> None:
+async def test_select_input_source(hass: __HAC_KEEP__, client) -> None:
     """Test select input source."""
     await setup_webostv(hass)
     await client.mock_state_update()
@@ -227,7 +227,7 @@ async def test_select_input_source(hass: UniversalAssistant, client) -> None:
     client.set_input.assert_called_once_with("in1")
 
 
-async def test_button(hass: UniversalAssistant, client) -> None:
+async def test_button(hass: __HAC_KEEP__, client) -> None:
     """Test generic button functionality."""
     await setup_webostv(hass)
 
@@ -242,7 +242,7 @@ async def test_button(hass: UniversalAssistant, client) -> None:
 
 
 async def test_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -267,7 +267,7 @@ async def test_command(
     assert response == snapshot
 
 
-async def test_command_with_optional_arg(hass: UniversalAssistant, client) -> None:
+async def test_command_with_optional_arg(hass: __HAC_KEEP__, client) -> None:
     """Test generic command functionality."""
     await setup_webostv(hass)
 
@@ -284,7 +284,7 @@ async def test_command_with_optional_arg(hass: UniversalAssistant, client) -> No
 
 
 async def test_select_sound_output(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -312,7 +312,7 @@ async def test_select_sound_output(
 
 
 async def test_device_info_startup_off(
-    hass: UniversalAssistant, client, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, client, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test device info when device is off at startup."""
     client.tv_info.system = {}
@@ -335,7 +335,7 @@ async def test_device_info_startup_off(
 
 
 async def test_entity_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -378,7 +378,7 @@ async def test_entity_attributes(
     assert state.attributes.get(ATTR_SOUND_OUTPUT) is None
 
 
-async def test_service_entity_id_none(hass: UniversalAssistant, client) -> None:
+async def test_service_entity_id_none(hass: __HAC_KEEP__, client) -> None:
     """Test service call with none as entity id."""
     await setup_webostv(hass)
 
@@ -401,7 +401,7 @@ async def test_service_entity_id_none(hass: UniversalAssistant, client) -> None:
         ("20", "ch2id"),  # Perfect Match by channel number
     ],
 )
-async def test_play_media(hass: UniversalAssistant, client, media_id, ch_id) -> None:
+async def test_play_media(hass: __HAC_KEEP__, client, media_id, ch_id) -> None:
     """Test play media service."""
     await setup_webostv(hass)
     await client.mock_state_update()
@@ -416,7 +416,7 @@ async def test_play_media(hass: UniversalAssistant, client, media_id, ch_id) -> 
     client.set_channel.assert_called_once_with(ch_id)
 
 
-async def test_play_media_channel_name_over_number(hass: UniversalAssistant, client) -> None:
+async def test_play_media_channel_name_over_number(hass: __HAC_KEEP__, client) -> None:
     """Test that an exact channel name match takes precedence over a channel number match."""
     await setup_webostv(hass)
     await client.mock_state_update()
@@ -437,7 +437,7 @@ async def test_play_media_channel_name_over_number(hass: UniversalAssistant, cli
 
 
 async def test_play_media_duplicate_channel_number_selects_first(
-    hass: UniversalAssistant, client
+    hass: __HAC_KEEP__, client
 ) -> None:
     """Test that the first channel is selected when two channels share the same number."""
     await setup_webostv(hass)
@@ -458,7 +458,7 @@ async def test_play_media_duplicate_channel_number_selects_first(
     client.set_channel.assert_called_once_with("ch_first")
 
 
-async def test_update_sources_live_tv_find(hass: UniversalAssistant, client) -> None:
+async def test_update_sources_live_tv_find(hass: __HAC_KEEP__, client) -> None:
     """Test finding live TV app id in update sources."""
     await setup_webostv(hass)
     await client.mock_state_update()
@@ -537,7 +537,7 @@ async def test_update_sources_live_tv_find(hass: UniversalAssistant, client) -> 
     assert len(sources) == 1
 
 
-async def test_source_unlisted_current_app(hass: UniversalAssistant, client) -> None:
+async def test_source_unlisted_current_app(hass: __HAC_KEEP__, client) -> None:
     """Test source is cleared when the current app is not in the lists."""
     await setup_webostv(hass)
     await client.mock_state_update()
@@ -554,7 +554,7 @@ async def test_source_unlisted_current_app(hass: UniversalAssistant, client) -> 
 
 
 async def test_source_cleared_with_filtered_out_sources(
-    hass: UniversalAssistant, client
+    hass: __HAC_KEEP__, client
 ) -> None:
     """Test source is cleared when configured sources match nothing."""
     client.tv_state.inputs = {}
@@ -569,7 +569,7 @@ async def test_source_cleared_with_filtered_out_sources(
     assert ATTR_INPUT_SOURCE not in hass.states.get(ENTITY_ID).attributes
 
 
-async def test_app_id(hass: UniversalAssistant, client) -> None:
+async def test_app_id(hass: __HAC_KEEP__, client) -> None:
     """Test app_id follows the foreground app id reported by the TV."""
     await setup_webostv(hass)
     await client.mock_state_update()
@@ -595,7 +595,7 @@ async def test_app_id(hass: UniversalAssistant, client) -> None:
     ],
 )
 async def test_client_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -638,7 +638,7 @@ async def test_client_disconnected(
 
 
 async def test_client_key_update_on_connect(
-    hass: UniversalAssistant, client, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, client, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test client key update upon connect."""
     config_entry = await setup_webostv(hass)
@@ -685,7 +685,7 @@ async def test_client_key_update_on_connect(
     ],
 )
 async def test_control_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     is_on: bool,
     exception: Exception,
@@ -698,13 +698,13 @@ async def test_control_error_handling(
     await client.mock_state_update()
 
     data = {ATTR_ENTITY_ID: ENTITY_ID}
-    with pytest.raises(UniversalAssistantError, match=error_message):
+    with pytest.raises(__HAC_KEEP__Error, match=error_message):
         await hass.services.async_call(MP_DOMAIN, SERVICE_MEDIA_PLAY, data, True)
 
     assert client.play.call_count == int(is_on)
 
 
-async def test_turn_off_when_device_is_off(hass: UniversalAssistant, client) -> None:
+async def test_turn_off_when_device_is_off(hass: __HAC_KEEP__, client) -> None:
     """Test no error when turning off device that is already off."""
     await setup_webostv(hass)
     client.is_on = False
@@ -715,7 +715,7 @@ async def test_turn_off_when_device_is_off(hass: UniversalAssistant, client) -> 
     assert client.power_off.call_count == 1
 
 
-async def test_supported_features(hass: UniversalAssistant, client) -> None:
+async def test_supported_features(hass: __HAC_KEEP__, client) -> None:
     """Test test supported features."""
     client.tv_state.sound_output = "lineout"
     await setup_webostv(hass)
@@ -907,7 +907,7 @@ SUPPORT_WEBOSTV_VOLUME_SET = (
     ],
 )
 async def test_supported_features_volume_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     sound_output: str,
     volume_status: dict[str, Any],
@@ -924,7 +924,7 @@ async def test_supported_features_volume_status(
 
 
 async def test_supported_features_volume_status_update(
-    hass: UniversalAssistant, client: MagicMock
+    hass: __HAC_KEEP__, client: MagicMock
 ) -> None:
     """Test volume set support is updated when the volume status changes."""
     client.tv_state.sound_output = "external_arc"
@@ -948,7 +948,7 @@ async def test_supported_features_volume_status_update(
     assert attrs[ATTR_SUPPORTED_FEATURES] == SUPPORT_WEBOSTV_VOLUME_SET
 
 
-async def test_cached_supported_features(hass: UniversalAssistant, client) -> None:
+async def test_cached_supported_features(hass: __HAC_KEEP__, client) -> None:
     """Test test supported features."""
     client.tv_state.is_on = False
     client.tv_state.sound_output = None
@@ -1053,7 +1053,7 @@ async def test_cached_supported_features(hass: UniversalAssistant, client) -> No
     )
 
 
-async def test_supported_features_no_cache(hass: UniversalAssistant, client) -> None:
+async def test_supported_features_no_cache(hass: __HAC_KEEP__, client) -> None:
     """Test supported features if device is off and no cache."""
     client.tv_state.is_on = False
     client.tv_state.sound_output = None
@@ -1067,7 +1067,7 @@ async def test_supported_features_no_cache(hass: UniversalAssistant, client) -> 
     assert attrs[ATTR_SUPPORTED_FEATURES] == supported
 
 
-async def test_supported_features_ignore_cache(hass: UniversalAssistant, client) -> None:
+async def test_supported_features_ignore_cache(hass: __HAC_KEEP__, client) -> None:
     """Test ignore cached supported features if device is on at startup."""
     mock_restore_cache(
         hass,
@@ -1092,7 +1092,7 @@ async def test_supported_features_ignore_cache(hass: UniversalAssistant, client)
 
 
 async def test_get_image_http(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -1116,7 +1116,7 @@ async def test_get_image_http(
 
 
 async def test_get_image_http_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -1143,7 +1143,7 @@ async def test_get_image_http_error(
 
 
 async def test_get_image_https(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -1167,7 +1167,7 @@ async def test_get_image_https(
 
 
 async def test_reauth_reconnect(
-    hass: UniversalAssistant, client, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, client, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test reauth flow triggered by reconnect."""
     entry = await setup_webostv(hass)
@@ -1192,7 +1192,7 @@ async def test_reauth_reconnect(
     assert flow["context"].get("entry_id") == entry.entry_id
 
 
-async def test_update_media_state(hass: UniversalAssistant, client) -> None:
+async def test_update_media_state(hass: __HAC_KEEP__, client) -> None:
     """Test updating media state."""
     client.tv_state.media_state = []
     await setup_webostv(hass)
@@ -1232,7 +1232,7 @@ async def test_update_media_state(hass: UniversalAssistant, client) -> None:
 
 
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -1312,12 +1312,12 @@ async def test_availability(
 
 
 async def test_availability_during_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
-    """Test entity is not marked unavailable before Universal Universal Home Assistant is running."""
+    """Test entity is not marked unavailable before __HA_KEEP__ is running."""
     hass.set_state(CoreState.starting)
     await setup_webostv(hass)
 

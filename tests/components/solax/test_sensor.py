@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_PORT,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def __mock_get_data() -> InverterResponse:
@@ -29,7 +29,7 @@ def __mock_get_data() -> InverterResponse:
 
 
 async def test_coordinator_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
 ) -> None:

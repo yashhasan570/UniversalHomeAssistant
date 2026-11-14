@@ -2,11 +2,11 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def init_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mocked_fing_agent
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mocked_fing_agent
 ) -> MockConfigEntry:
     """Set up Fing integration for testing."""
     config_entry.add_to_hass(hass)

@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_SERVICE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
@@ -101,7 +101,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up AWS integration."""
     if (conf := config.get(DOMAIN)) is None:
         # create a default conf using default profile
@@ -120,7 +120,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Load a config entry.
 
     Validate and save sessions per aws credential.
@@ -179,7 +179,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
 
 
 async def _validate_aws_credentials(
-    hass: UniversalAssistant, credential: dict[str, Any]
+    hass: __HAC_KEEP__, credential: dict[str, Any]
 ) -> AioSession:
     """Validate AWS credential config."""
     aws_config = credential.copy()

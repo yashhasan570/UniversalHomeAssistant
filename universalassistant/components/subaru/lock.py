@@ -5,7 +5,7 @@ from typing import Any, override
 
 from universalassistant.components.lock import LockEntity
 from universalassistant.const import SERVICE_LOCK, SERVICE_UNLOCK
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SubaruConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

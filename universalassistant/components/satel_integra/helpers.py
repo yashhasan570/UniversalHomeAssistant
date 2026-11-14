@@ -9,7 +9,7 @@ from satel_integra import (
 )
 from satel_integra.exceptions import SatelCommandExpiredError, SatelNotConnectedError
 
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from .const import DOMAIN
 
@@ -29,18 +29,18 @@ async def async_validate_command(command: Awaitable[object]) -> None:
                 translation_domain=DOMAIN,
                 translation_key="command_no_access",
             ) from err
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="command_rejected",
             translation_placeholders={"result_code": f"0x{int(err.result.code):02X}"},
         ) from err
     except (SatelCommandExpiredError, SatelNotConnectedError) as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="command_not_sent",
         ) from err
     except SatelNoResponseError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="command_outcome_unknown",
         ) from err

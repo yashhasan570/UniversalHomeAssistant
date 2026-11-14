@@ -1,1 +1,1 @@
-"""Tests for the Universal Universal Home Assistant Connect ZBT-2 integration."""
+"""Tests for the __HA_KEEP__ Connect ZBT-2 integration."""

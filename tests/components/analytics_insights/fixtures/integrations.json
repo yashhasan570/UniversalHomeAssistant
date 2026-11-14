@@ -1,14 +1,14 @@
 {
   "youtube": {
     "title": "YouTube",
-    "description": "Instructions on how to integrate YouTube within Universal Universal Home Assistant.",
+    "description": "Instructions on how to integrate YouTube within __HA_KEEP__.",
     "quality_scale": "",
     "iot_class": "Cloud Polling",
     "integration_type": "service"
   },
   "hue": {
     "title": "Philips Hue",
-    "description": "Instructions on setting up Philips Hue within Universal Universal Home Assistant.",
+    "description": "Instructions on setting up Philips Hue within __HA_KEEP__.",
     "quality_scale": "platinum",
     "iot_class": "Local Push",
     "integration_type": "hub"

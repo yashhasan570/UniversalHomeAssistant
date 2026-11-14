@@ -25,7 +25,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
     brightness_supported,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 from universalassistant.util.percentage import (
@@ -61,7 +61,7 @@ LAMP_CAPABILITY_EXISTS: dict[str, Callable[[FullDevice, ComponentStatus], bool]]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -16,10 +16,10 @@
         "data_description": {
           "host": "The hostname or IP address of your Modern Forms fan."
         },
-        "description": "Set up your Modern Forms fan to integrate with Universal Universal Home Assistant."
+        "description": "Set up your Modern Forms fan to integrate with __HA_KEEP__."
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add the Modern Forms fan named `{name}` to Universal Universal Home Assistant?",
+        "description": "Do you want to add the Modern Forms fan named `{name}` to __HA_KEEP__?",
         "title": "Discovered Modern Forms fan device"
       }
     }

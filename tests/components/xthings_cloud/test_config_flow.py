@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.xthings_cloud.const import CONF_REFRESH_TOKEN, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -22,7 +22,7 @@ from .const import (
 
 
 async def test_user_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_user_flow_success(
     ],
 )
 async def test_user_flow_error_and_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_api_client: AsyncMock,
     side_effect: Exception,
@@ -86,7 +86,7 @@ async def test_user_flow_error_and_recover(
 
 
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -106,7 +106,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_error_and_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -192,7 +192,7 @@ async def test_reauth_flow_error_and_recover(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

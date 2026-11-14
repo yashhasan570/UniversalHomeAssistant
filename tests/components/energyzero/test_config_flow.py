@@ -11,12 +11,12 @@ from universalassistant.components.energyzero.const import (
     ELECTRICITY_INTERVALS,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: MagicMock,
 ) -> None:
     """Test the full user configuration flow."""
@@ -42,7 +42,7 @@ async def test_full_user_flow(
 
 
 async def test_single_instance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test abort when setting up a duplicate entry."""
@@ -61,7 +61,7 @@ async def test_single_instance(
 @pytest.mark.parametrize("selected", ["hourly", "quarter_hourly"])
 @pytest.mark.usefixtures("mock_energyzero")
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     initial: str | None,
     selected: str,
@@ -97,7 +97,7 @@ async def test_options_flow(
 @pytest.mark.freeze_time("2026-04-10 20:32:59")
 @pytest.mark.parametrize("selected", ["hourly", "quarter_hourly"])
 async def test_options_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_energyzero: MagicMock,
     selected: str,

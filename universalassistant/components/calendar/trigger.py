@@ -17,8 +17,8 @@ from universalassistant.const import (
     CONF_OPTIONS,
     CONF_TARGET,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback, split_entity_id
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback, split_entity_id
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import move_top_level_schema_fields_to_options
 from universalassistant.helpers.entity_component import EntityComponent
@@ -168,19 +168,19 @@ type EventFetcher = Callable[[Timespan], Awaitable[list[tuple[str, CalendarEvent
 type QueuedEventFetcher = Callable[[Timespan], Awaitable[list[QueuedCalendarEvent]]]
 
 
-def get_entity(hass: UniversalAssistant, entity_id: str) -> CalendarEntity:
+def get_entity(hass: __HAC_KEEP__, entity_id: str) -> CalendarEntity:
     """Get the calendar entity for the provided entity_id."""
     component: EntityComponent[CalendarEntity] = hass.data[DATA_COMPONENT]
     if not (entity := component.get_entity(entity_id)) or not isinstance(
         entity, CalendarEntity
     ):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Entity does not exist {entity_id} or is not a calendar entity"
         )
     return entity
 
 
-def event_fetcher(hass: UniversalAssistant, entity_ids: set[str]) -> EventFetcher:
+def event_fetcher(hass: __HAC_KEEP__, entity_ids: set[str]) -> EventFetcher:
     """Build an async_get_events wrapper to fetch events during a time span."""
 
     async def async_get_events(timespan: Timespan) -> list[tuple[str, CalendarEvent]]:
@@ -255,7 +255,7 @@ class CalendarEventListener:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         action_runner: TriggerActionRunner,
         trigger_payload: dict[str, Any],
         fetcher: QueuedEventFetcher,
@@ -338,7 +338,7 @@ class CalendarEventListener:
         self._timespan = self._timespan.next_upcoming(now, UPDATE_INTERVAL)
         try:
             self._events.extend(await self._fetcher(self._timespan))
-        except UniversalAssistantError as ex:
+        except __HAC_KEEP__Error as ex:
             _LOGGER.error("Calendar trigger failed to fetch events: %s", ex)
         self._listen_next_calendar_event()
 
@@ -348,7 +348,7 @@ class TargetCalendarEventListener(TargetEntityChangeTracker):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         target_selection: TargetSelection,
         event_type: str,
         offset: dt.timedelta,
@@ -422,7 +422,7 @@ class SingleEntityEventTrigger(Trigger):
     @classmethod
     @override
     async def async_validate_complete_config(
-        cls, hass: UniversalAssistant, complete_config: ConfigType
+        cls, hass: __HAC_KEEP__, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config."""
         complete_config = move_top_level_schema_fields_to_options(
@@ -433,12 +433,12 @@ class SingleEntityEventTrigger(Trigger):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _SINGLE_ENTITY_EVENT_TRIGGER_SCHEMA(config))
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize trigger."""
         super().__init__(hass, config)
 
@@ -486,12 +486,12 @@ class EventTrigger(Trigger):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _EVENT_TRIGGER_SCHEMA(config))
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize trigger."""
         super().__init__(hass, config)
 
@@ -512,7 +512,7 @@ class EventTrigger(Trigger):
         offset = self._options[CONF_OFFSET]
         target_selection = TargetSelection(self._target)
         if not target_selection.has_any_target:
-            raise UniversalAssistantError(f"No target defined in {self._target}")
+            raise __HAC_KEEP__Error(f"No target defined in {self._target}")
         listener = TargetCalendarEventListener(
             self._hass, target_selection, self._event_type, offset, run_action
         )
@@ -538,6 +538,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for calendars."""
     return TRIGGERS

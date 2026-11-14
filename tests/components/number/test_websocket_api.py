@@ -3,12 +3,12 @@
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.number.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 async def test_device_class_units(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can get supported units."""
     assert await async_setup_component(hass, DOMAIN, {})

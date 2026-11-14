@@ -22,7 +22,7 @@ from aiohasupervisor.models import (
     CIFSMountResponse,
     Folder,
     FullBackupOptions,
-    UniversalAssistantOptions,
+    __HAC_KEEP__Options,
     InstalledAddon,
     InstalledAddonComplete,
     LogsOptions,
@@ -87,8 +87,8 @@ from universalassistant.components.http.const import DATA_SUPERVISOR_USER
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import HASSIO_USER_NAME, KEY_DATA_LOGGING
-from universalassistant.core import CoreState, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.setup import async_setup_component
@@ -192,7 +192,7 @@ def mock_all(
 
 
 async def test_setup_api_ping(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Test setup with API ping."""
     with patch.dict(os.environ, MOCK_ENVIRON):
@@ -235,7 +235,7 @@ async def test_setup_api_ping(
     ],
 )
 async def test_core_log_reader(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     supervisor_client: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -263,7 +263,7 @@ async def test_core_log_reader(
     assert supervisor_client.universalassistant.logs.mock_calls == [
         call(LogsOptions(lines=50_000), latest=True, read_timeout=30)
     ]
-    assert ("Could not read the Universal Universal Home Assistant log" in caplog.text) is logged
+    assert ("Could not read the __HA_KEEP__ log" in caplog.text) is logged
 
 
 @pytest.mark.parametrize(
@@ -292,7 +292,7 @@ async def test_core_log_reader(
 )
 @pytest.mark.usefixtures("supervisor_client")
 async def test_setup_supervisor_transport(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     environ: dict[str, str],
     base_url: str,
     unix_socket: Path | None,
@@ -311,7 +311,7 @@ async def test_setup_supervisor_transport(
 
 
 async def test_setup_api_ping_fails(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Test that a failed ping raises ConfigEntryNotReady and retries."""
     supervisor_client.supervisor.ping.side_effect = SupervisorError
@@ -328,11 +328,11 @@ async def test_setup_api_ping_fails(
 
 
 @pytest.mark.usefixtures("supervisor_client")
-async def test_setup_entry_created_before_started(hass: UniversalAssistant) -> None:
+async def test_setup_entry_created_before_started(hass: __HAC_KEEP__) -> None:
     """Test the entry is created and loaded during startup on first boot.
 
     Consumers of system info such as onboarding need Supervisor data before
-    Universal Universal Home Assistant has started, so entry creation must not be deferred to the
+    __HA_KEEP__ has started, so entry creation must not be deferred to the
     started event.
     """
     hass.set_state(CoreState.not_running)
@@ -348,7 +348,7 @@ async def test_setup_entry_created_before_started(hass: UniversalAssistant) -> N
 
 
 async def test_setup_onboarding_supervisor_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
 ) -> None:
     """Test that during onboarding, supervisor.update() success triggers retry."""
@@ -367,7 +367,7 @@ async def test_setup_onboarding_supervisor_update(
 
 
 async def test_setup_onboarding_supervisor_no_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
 ) -> None:
     """Test that during onboarding, SupervisorBadRequestError means no update needed."""
@@ -388,7 +388,7 @@ async def test_setup_onboarding_supervisor_no_update(
 
 
 async def test_setup_onboarding_supervisor_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
 ) -> None:
     """Test that during onboarding, an unknown SupervisorError causes retry."""
@@ -408,7 +408,7 @@ async def test_setup_onboarding_supervisor_update_error(
     supervisor_client.supervisor.update.assert_called_once()
 
 
-async def test_setup_app_panel(hass: UniversalAssistant) -> None:
+async def test_setup_app_panel(hass: __HAC_KEEP__) -> None:
     """Test app panel is registered."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         result = await async_setup_component(hass, DOMAIN, {})
@@ -431,7 +431,7 @@ async def test_setup_app_panel(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_api_push_api_data(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Test setup with API push."""
     with patch.dict(os.environ, MOCK_ENVIRON):
@@ -443,12 +443,12 @@ async def test_setup_api_push_api_data(
     assert result
     assert len(supervisor_client.mock_calls) == 17
     supervisor_client.universalassistant.set_options.assert_called_once_with(
-        UniversalAssistantOptions(ssl=False, port=9999, refresh_token=None)
+        __HAC_KEEP__Options(ssl=False, port=9999, refresh_token=None)
     )
 
 
 async def test_setup_api_push_api_data_error(
-    hass: UniversalAssistant, supervisor_client: AsyncMock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup with error while pushing core config data to API."""
     supervisor_client.universalassistant.set_options.side_effect = SupervisorError("boom")
@@ -458,11 +458,11 @@ async def test_setup_api_push_api_data_error(
 
     assert result
     assert len(supervisor_client.mock_calls) == 17
-    assert "Failed to update Universal Universal Home Assistant options in Supervisor: boom" in caplog.text
+    assert "Failed to update __HA_KEEP__ options in Supervisor: boom" in caplog.text
 
 
 async def test_setup_api_push_api_data_server_host(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Test setup with API push with active server host.
 
@@ -480,12 +480,12 @@ async def test_setup_api_push_api_data_server_host(
     assert result
     assert len(supervisor_client.mock_calls) == 17
     supervisor_client.universalassistant.set_options.assert_called_once_with(
-        UniversalAssistantOptions(ssl=False, port=9999, refresh_token=None)
+        __HAC_KEEP__Options(ssl=False, port=9999, refresh_token=None)
     )
 
 
 async def test_setup_api_push_api_data_default(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Test setup with API push default data."""
     with patch.dict(os.environ, MOCK_ENVIRON):
@@ -495,7 +495,7 @@ async def test_setup_api_push_api_data_default(
     assert result
     assert len(supervisor_client.mock_calls) == 17
     supervisor_client.universalassistant.set_options.assert_called_once_with(
-        UniversalAssistantOptions(ssl=False, port=80, refresh_token=None)
+        __HAC_KEEP__Options(ssl=False, port=80, refresh_token=None)
     )
     hassio_user = hass.data[DATA_SUPERVISOR_USER]
     assert hassio_user.system_generated
@@ -505,7 +505,7 @@ async def test_setup_api_push_api_data_default(
     assert not hassio_user.refresh_tokens
 
 
-async def test_setup_adds_admin_group_to_user(hass: UniversalAssistant) -> None:
+async def test_setup_adds_admin_group_to_user(hass: __HAC_KEEP__) -> None:
     """Test setup migrates the configured user to admin."""
     user = await hass.auth.async_create_system_user("Hass.io")
     assert not user.is_admin
@@ -526,7 +526,7 @@ async def test_setup_adds_admin_group_to_user(hass: UniversalAssistant) -> None:
     assert not user.refresh_tokens
 
 
-async def test_setup_migrate_user_name(hass: UniversalAssistant) -> None:
+async def test_setup_migrate_user_name(hass: __HAC_KEEP__) -> None:
     """Test setup migrates the configured user name."""
     user = await hass.auth.async_create_system_user("Hass.io")
     await hass.auth.async_create_refresh_token(user)
@@ -547,7 +547,7 @@ async def test_setup_migrate_user_name(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_api_existing_hassio_user(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Test setup uses the user from config entry data."""
     user = await hass.auth.async_create_system_user("Hass.io test")
@@ -569,14 +569,14 @@ async def test_setup_api_existing_hassio_user(
     assert result
     assert len(supervisor_client.mock_calls) == 17
     supervisor_client.universalassistant.set_options.assert_called_once_with(
-        UniversalAssistantOptions(ssl=False, port=80, refresh_token=None)
+        __HAC_KEEP__Options(ssl=False, port=80, refresh_token=None)
     )
     assert not user.refresh_tokens
     assert hass.auth.async_validate_access_token(access_token) is None
 
 
 async def _async_assert_supervisor_user_adopted(
-    hass: UniversalAssistant, user: User, human: User
+    hass: __HAC_KEEP__, user: User, human: User
 ) -> None:
     """Assert setup adopted the existing Supervisor system user."""
     entry = hass.config_entries.async_entries(DOMAIN)[0]
@@ -589,7 +589,7 @@ async def _async_assert_supervisor_user_adopted(
     ] == [user]
 
 
-async def test_setup_adopts_existing_supervisor_user(hass: UniversalAssistant) -> None:
+async def test_setup_adopts_existing_supervisor_user(hass: __HAC_KEEP__) -> None:
     """Test setup reuses an existing Supervisor system user.
 
     When the config entry data (and legacy store) naming the Supervisor user
@@ -610,7 +610,7 @@ async def test_setup_adopts_existing_supervisor_user(hass: UniversalAssistant) -
 
 
 async def test_setup_adopts_existing_supervisor_user_without_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setup reuses an existing Supervisor system user without config entry.
 
@@ -630,7 +630,7 @@ async def test_setup_adopts_existing_supervisor_user_without_entry(
 
 
 async def test_setup_migrates_legacy_hassio_store_to_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     supervisor_client: AsyncMock,
 ) -> None:
@@ -670,13 +670,13 @@ async def test_setup_migrates_legacy_hassio_store_to_config_entry(
 
     assert len(supervisor_client.mock_calls) == 17
     supervisor_client.universalassistant.set_options.assert_called_once_with(
-        UniversalAssistantOptions(ssl=False, port=80, refresh_token=None)
+        __HAC_KEEP__Options(ssl=False, port=80, refresh_token=None)
     )
     assert not user.refresh_tokens
 
 
 async def test_setup_migrates_legacy_options_over_default_entry_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     supervisor_client: AsyncMock,
 ) -> None:
@@ -719,13 +719,13 @@ async def test_setup_migrates_legacy_options_over_default_entry_options(
     assert entry.options[OPTION_CORE_BACKUP_BEFORE_UPDATE] is True
 
     supervisor_client.universalassistant.set_options.assert_called_once_with(
-        UniversalAssistantOptions(ssl=False, port=80, refresh_token=None)
+        __HAC_KEEP__Options(ssl=False, port=80, refresh_token=None)
     )
     assert not user.refresh_tokens
 
 
 async def test_setup_core_push_config(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Test setup with API push default data."""
     hass.config.time_zone = "testzone"
@@ -749,7 +749,7 @@ async def test_setup_core_push_config(
 
 
 async def test_setup_core_push_config_error(
-    hass: UniversalAssistant, supervisor_client: AsyncMock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup with error while pushing supervisor config data to API."""
     hass.config.time_zone = "testzone"
@@ -765,7 +765,7 @@ async def test_setup_core_push_config_error(
 
 
 async def test_setup_hassio_no_additional_data(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Test setup with API push default data."""
     with (
@@ -799,7 +799,7 @@ async def test_setup_hassio_no_additional_data(
     ],
 )
 async def test_fail_setup_without_environ_var(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     environ: dict[str, str],
     missing: str,
@@ -813,7 +813,7 @@ async def test_fail_setup_without_environ_var(
 
 
 async def test_warn_when_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_is_connected: AsyncMock,
 ) -> None:
     """Test that a failed ping puts the config entry in retry state."""
@@ -828,7 +828,7 @@ async def test_warn_when_cannot_connect(
 
 
 @pytest.mark.usefixtures("hassio_env")
-async def test_service_register(hass: UniversalAssistant) -> None:
+async def test_service_register(hass: __HAC_KEEP__) -> None:
     """Check if service will be setup."""
     assert await async_setup_component(hass, DOMAIN, {})
     # New app services
@@ -858,7 +858,7 @@ async def test_service_register(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.freeze_time("2021-11-13 11:48:00")
 async def test_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     supervisor_is_connected: AsyncMock,
     app_or_addon: str,
@@ -1026,7 +1026,7 @@ async def test_service_calls(
     "app_or_addon",
     ["app", "addon"],
 )
-async def test_invalid_service_calls(hass: UniversalAssistant, app_or_addon: str) -> None:
+async def test_invalid_service_calls(hass: __HAC_KEEP__, app_or_addon: str) -> None:
     """Call service with invalid input and check that it raises."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         assert await async_setup_component(hass, DOMAIN, {})
@@ -1059,7 +1059,7 @@ async def test_invalid_service_calls(hass: UniversalAssistant, app_or_addon: str
 )
 @pytest.mark.usefixtures("addon_installed")
 async def test_service_calls_apps_addons_exclusive(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_is_connected: AsyncMock,
     service: str,
     service_data: dict[str, Any],
@@ -1081,7 +1081,7 @@ async def test_service_calls_apps_addons_exclusive(
     ["app", "addon"],
 )
 async def test_addon_service_call_with_complex_slug(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_is_connected: AsyncMock,
     app_or_addon: str,
     addons_list: AsyncMock,
@@ -1120,7 +1120,7 @@ async def test_addon_service_call_with_complex_slug(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_service_calls_core(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Call core service and check the API calls behind that."""
     with patch.dict(os.environ, MOCK_ENVIRON):
@@ -1151,7 +1151,7 @@ async def test_service_calls_core(
 )
 @pytest.mark.usefixtures("hassio_env", "supervisor_client")
 async def test_invalid_service_calls_app_duplicates(
-    hass: UniversalAssistant, app_or_addon: str
+    hass: __HAC_KEEP__, app_or_addon: str
 ) -> None:
     """Test invalid backup/restore service calls due to duplicates in apps list."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -1168,7 +1168,7 @@ async def test_invalid_service_calls_app_duplicates(
 
 
 @pytest.mark.usefixtures("hassio_env", "supervisor_client")
-async def test_invalid_service_calls_folder_duplicates(hass: UniversalAssistant) -> None:
+async def test_invalid_service_calls_folder_duplicates(hass: __HAC_KEEP__) -> None:
     """Test invalid backup/restore service calls due to duplicates in folder list."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -1201,7 +1201,7 @@ async def test_invalid_service_calls_folder_duplicates(hass: UniversalAssistant)
 @pytest.mark.parametrize("folder", ["bogus", "universalassistant"])
 @pytest.mark.usefixtures("hassio_env", "supervisor_client")
 async def test_partial_invalid_folder(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: HassioService,
     service_data: dict[str, str],
     folder: str,
@@ -1223,7 +1223,7 @@ async def test_partial_invalid_folder(
 )
 @pytest.mark.usefixtures("hassio_env", "supervisor_client")
 async def test_legacy_universalassistant_folder_issue_removed(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the persistent issue of the removed legacy folder alias is deleted."""
     ir.async_create_issue(
@@ -1242,7 +1242,7 @@ async def test_legacy_universalassistant_folder_issue_removed(
 
 
 @pytest.mark.usefixtures("addon_installed")
-async def test_entry_load_and_unload(hass: UniversalAssistant) -> None:
+async def test_entry_load_and_unload(hass: __HAC_KEEP__) -> None:
     """Test loading and unloading config entry."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -1259,7 +1259,7 @@ async def test_entry_load_and_unload(hass: UniversalAssistant) -> None:
     assert ADDONS_COORDINATOR not in hass.data
 
 
-async def test_migration_off_hassio(hass: UniversalAssistant) -> None:
+async def test_migration_off_hassio(hass: __HAC_KEEP__) -> None:
     """Test when a user moves instance off Hass.io, config entry gets cleaned up."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
     config_entry.add_to_hass(hass)
@@ -1270,7 +1270,7 @@ async def test_migration_off_hassio(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("addon_installed", "supervisor_info")
 async def test_device_registry_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     addons_list: AsyncMock,
     os_info: AsyncMock,
@@ -1346,7 +1346,7 @@ async def test_device_registry_calls(
 
 @pytest.mark.usefixtures("addon_installed")
 async def test_coordinator_updates(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, supervisor_client: AsyncMock
 ) -> None:
     """Test coordinator updates."""
     await async_setup_component(hass, HOMEASSISTANT_DOMAIN, {})
@@ -1409,7 +1409,7 @@ async def test_coordinator_updates(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "addon_installed")
 async def test_coordinator_updates_stats_entities_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1494,7 +1494,7 @@ async def test_coordinator_updates_stats_entities_enabled(
     ],
 )
 async def test_setup_hardware_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     os_info: AsyncMock,
     board: str,
@@ -1542,7 +1542,7 @@ def test_hostname_from_addon_slug() -> None:
     ],
 )
 async def test_deprecated_installation_issue_os_armv7(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
     board: str,
@@ -1605,7 +1605,7 @@ async def test_deprecated_installation_issue_os_armv7(
     ],
 )
 async def test_deprecated_installation_issue_32bit_os(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
     arch: str,
@@ -1666,7 +1666,7 @@ async def test_deprecated_installation_issue_32bit_os(
     ],
 )
 async def test_deprecated_installation_issue_32bit_supervised(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
     arch: str,
@@ -1731,7 +1731,7 @@ async def test_deprecated_installation_issue_32bit_supervised(
     ],
 )
 async def test_deprecated_installation_issue_64bit_supervised(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
     arch: str,
@@ -1793,7 +1793,7 @@ async def test_deprecated_installation_issue_64bit_supervised(
     ],
 )
 async def test_deprecated_installation_issue_supported_board(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
     board: str,
@@ -1841,7 +1841,7 @@ async def test_deprecated_installation_issue_supported_board(
 
 
 async def mount_reload_test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     supervisor_client: AsyncMock,
 ) -> dr.DeviceEntry:
@@ -1878,7 +1878,7 @@ async def mount_reload_test_setup(
 
 
 async def test_mount_reload_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1891,7 +1891,7 @@ async def test_mount_reload_action(
 
 
 async def test_mount_reload_action_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1900,7 +1900,7 @@ async def test_mount_reload_action_failure(
     supervisor_client.mounts.reload_mount = AsyncMock(
         side_effect=SupervisorError("test failure")
     )
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN, HassioService.MOUNT_RELOAD, {"device_id": device.id}, blocking=True
         )
@@ -1908,7 +1908,7 @@ async def test_mount_reload_action_failure(
 
 
 async def test_mount_reload_unknown_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1922,7 +1922,7 @@ async def test_mount_reload_unknown_device_id(
 
 
 async def test_mount_reload_no_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1937,7 +1937,7 @@ async def test_mount_reload_no_name(
 
 
 async def test_mount_reload_invalid_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1952,7 +1952,7 @@ async def test_mount_reload_invalid_model(
 
 
 async def test_mount_reload_not_supervisor_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1974,7 +1974,7 @@ async def test_mount_reload_not_supervisor_device(
 
 
 async def test_mount_reload_selector_matches_device_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     supervisor_client: AsyncMock,
 ) -> None:
@@ -1990,7 +1990,7 @@ async def test_mount_reload_selector_matches_device_name(
 
 
 @pytest.mark.usefixtures("mock_all")
-async def test_get_supervisor_info(hass: UniversalAssistant) -> None:
+async def test_get_supervisor_info(hass: __HAC_KEEP__) -> None:
     """Test get_supervisor_info returns a dict with backwards-compat keys."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2009,7 +2009,7 @@ async def test_get_supervisor_info(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all")
-async def test_get_info(hass: UniversalAssistant) -> None:
+async def test_get_info(hass: __HAC_KEEP__) -> None:
     """Test get_info returns serialized dict with expected values."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2025,7 +2025,7 @@ async def test_get_info(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all")
-async def test_get_host_info(hass: UniversalAssistant) -> None:
+async def test_get_host_info(hass: __HAC_KEEP__) -> None:
     """Test get_host_info returns serialized dict with expected values."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2041,7 +2041,7 @@ async def test_get_host_info(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all")
-async def test_get_store(hass: UniversalAssistant) -> None:
+async def test_get_store(hass: __HAC_KEEP__) -> None:
     """Test get_store returns serialized dict with expected values."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2058,7 +2058,7 @@ async def test_get_store(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all")
-async def test_get_network_info(hass: UniversalAssistant) -> None:
+async def test_get_network_info(hass: __HAC_KEEP__) -> None:
     """Test get_network_info returns serialized dict with expected values."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2074,7 +2074,7 @@ async def test_get_network_info(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all")
-async def test_get_addons_info(hass: UniversalAssistant) -> None:
+async def test_get_addons_info(hass: __HAC_KEEP__) -> None:
     """Test get_addons_info returns serialized dicts, not model objects."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2095,7 +2095,7 @@ async def test_get_addons_info(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all")
-async def test_get_addons_list(hass: UniversalAssistant) -> None:
+async def test_get_addons_list(hass: __HAC_KEEP__) -> None:
     """Test get_addons_list returns a list of serialized dicts."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2112,7 +2112,7 @@ async def test_get_addons_list(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all", "entity_registry_enabled_by_default")
-async def test_get_addons_stats(hass: UniversalAssistant) -> None:
+async def test_get_addons_stats(hass: __HAC_KEEP__) -> None:
     """Test get_addons_stats returns serialized dicts, not model objects.
 
     Both test addons are STOPPED in mock_all so no addon stats are fetched;
@@ -2132,7 +2132,7 @@ async def test_get_addons_stats(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all", "entity_registry_enabled_by_default")
-async def test_get_core_stats(hass: UniversalAssistant) -> None:
+async def test_get_core_stats(hass: __HAC_KEEP__) -> None:
     """Test get_core_stats returns serialized dict with expected values."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2153,7 +2153,7 @@ async def test_get_core_stats(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all", "entity_registry_enabled_by_default")
-async def test_get_supervisor_stats(hass: UniversalAssistant) -> None:
+async def test_get_supervisor_stats(hass: __HAC_KEEP__) -> None:
     """Test get_supervisor_stats returns serialized dict with expected values."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2174,7 +2174,7 @@ async def test_get_supervisor_stats(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all")
-async def test_get_os_info(hass: UniversalAssistant) -> None:
+async def test_get_os_info(hass: __HAC_KEEP__) -> None:
     """Test get_os_info returns serialized dict with expected values."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2190,7 +2190,7 @@ async def test_get_os_info(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_all")
-async def test_get_core_info(hass: UniversalAssistant) -> None:
+async def test_get_core_info(hass: __HAC_KEEP__) -> None:
     """Test get_core_info returns serialized dict with expected values."""
     with patch.dict(os.environ, MOCK_ENVIRON):
         config_entry = MockConfigEntry(domain=DOMAIN, data={}, unique_id=DOMAIN)
@@ -2207,7 +2207,7 @@ async def test_get_core_info(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_stop_handler_restored_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
 ) -> None:
     """Test that the default stop handler is restored when the hassio entry unloads."""
@@ -2229,7 +2229,7 @@ async def test_stop_handler_restored_on_unload(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_supervisor_issues_not_set_on_coordinator_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_is_connected: AsyncMock,
     supervisor_root_info: AsyncMock,
 ) -> None:
@@ -2289,7 +2289,7 @@ async def test_supervisor_issues_not_set_on_coordinator_failure(
 )
 @pytest.mark.usefixtures("supervisor_client")
 async def test_supervisor_network_update_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_supervisor_ws_client: WebSocketGenerator,
     event_data: dict[str, Any],
     expected_reload_count: int,

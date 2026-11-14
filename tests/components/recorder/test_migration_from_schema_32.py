@@ -49,7 +49,7 @@ from universalassistant.components.recorder.util import (
     get_index_by_name,
     session_scope,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 from universalassistant.util.ulid import bytes_to_ulid, ulid_at_time, ulid_to_bytes
 
@@ -66,13 +66,13 @@ async def mock_recorder_before_hass(
     """Set up recorder."""
 
 
-async def _async_wait_migration_done(hass: UniversalAssistant) -> None:
+async def _async_wait_migration_done(hass: __HAC_KEEP__) -> None:
     """Wait for the migration to be done."""
     await recorder.get_instance(hass).async_block_till_done()
     await async_recorder_block_till_done(hass)
 
 
-def _get_migration_id(hass: UniversalAssistant) -> dict[str, int]:
+def _get_migration_id(hass: __HAC_KEEP__) -> dict[str, int]:
     with session_scope(hass=hass, read_only=True) as session:
         return dict(execute_stmt_lambda_element(session, get_migration_changes()))
 
@@ -421,7 +421,7 @@ async def test_finish_migrate_events_context_ids(
 ) -> None:
     """Test we re migrate old uuid context ids and ulid context ids to binary format.
 
-    Before PR https://github.com/yashhasan570/UniversalUniversalAssistant/pull/125214, the migrator would
+    Before PR https://github.com/yashhasan570/__HAC_KEEP__/pull/125214, the migrator would
     mark the migration as done before ensuring unused indices were dropped. This
     test makes sure we drop the unused indices.
     """
@@ -796,7 +796,7 @@ async def test_finish_migrate_states_context_ids(
 ) -> None:
     """Test we re migrate old uuid context ids and ulid context ids to binary format.
 
-    Before PR https://github.com/yashhasan570/UniversalUniversalAssistant/pull/125214, the migrator would
+    Before PR https://github.com/yashhasan570/__HAC_KEEP__/pull/125214, the migrator would
     mark the migration as done before ensuring unused indices were dropped. This
     test makes sure we drop the unused indices.
     """
@@ -1492,7 +1492,7 @@ async def test_migrate_null_event_type_ids(
 
 @pytest.mark.usefixtures("db_schema_32")
 async def test_stats_timestamp_conversion_is_reentrant(
-    hass: UniversalAssistant, recorder_mock: Recorder
+    hass: __HAC_KEEP__, recorder_mock: Recorder
 ) -> None:
     """Test stats migration is reentrant."""
     await async_wait_recording_done(hass)
@@ -1648,7 +1648,7 @@ async def test_stats_timestamp_conversion_is_reentrant(
 
 @pytest.mark.usefixtures("db_schema_32")
 async def test_stats_timestamp_with_one_by_one(
-    hass: UniversalAssistant, recorder_mock: Recorder
+    hass: __HAC_KEEP__, recorder_mock: Recorder
 ) -> None:
     """Test stats migration with one by one."""
     await async_wait_recording_done(hass)
@@ -1874,7 +1874,7 @@ async def test_stats_timestamp_with_one_by_one(
 
 @pytest.mark.usefixtures("db_schema_32")
 async def test_stats_timestamp_with_one_by_one_removes_duplicates(
-    hass: UniversalAssistant, recorder_mock: Recorder
+    hass: __HAC_KEEP__, recorder_mock: Recorder
 ) -> None:
     """Test stats migration with one by one removes duplicates."""
     await async_wait_recording_done(hass)

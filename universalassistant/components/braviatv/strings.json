@@ -35,7 +35,7 @@
         "data_description": {
           "pin": "The PIN code shown on the TV screen."
         },
-        "description": "Enter the PIN code shown on the Sony Bravia TV. \n\nIf the PIN code is not shown, you have to unregister Universal Universal Home Assistant on your TV, go to: Settings -> Network -> Remote device settings -> Deregister remote device.",
+        "description": "Enter the PIN code shown on the Sony Bravia TV. \n\nIf the PIN code is not shown, you have to unregister __HA_KEEP__ on your TV, go to: Settings -> Network -> Remote device settings -> Deregister remote device.",
         "title": "[%key:component::braviatv::config::step::authorize::title%]"
       },
       "psk": {

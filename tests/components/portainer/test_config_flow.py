@@ -18,7 +18,7 @@ from universalassistant.components.portainer.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigSubentry, ConfigSubentryData
 from universalassistant.const import CONF_API_TOKEN, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -38,7 +38,7 @@ USER_INPUT_RECONFIGURE = {
 
 
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: MagicMock,
 ) -> None:
     """Test we get the form."""
@@ -88,7 +88,7 @@ async def test_form(
     ],
 )
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     exception: Exception,
     reason: str,
@@ -125,7 +125,7 @@ async def test_form_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_duplicate_entry(
 
 
 async def test_full_flow_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -202,7 +202,7 @@ async def test_full_flow_reauth(
     ],
 )
 async def test_reauth_flow_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -244,7 +244,7 @@ async def test_reauth_flow_exceptions(
 
 
 async def test_full_flow_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -269,7 +269,7 @@ async def test_full_flow_reconfigure(
 
 
 async def test_full_flow_reconfigure_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -317,7 +317,7 @@ async def test_full_flow_reconfigure_unique_id_mismatch(
     ],
 )
 async def test_full_flow_reconfigure_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_setup_entry: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -354,7 +354,7 @@ async def test_full_flow_reconfigure_exceptions(
 
 
 async def test_environment_subentry_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
 ) -> None:
     """Test creating an environment subentry for the remaining endpoint."""
@@ -405,7 +405,7 @@ async def test_environment_subentry_flow(
     ],
 )
 async def test_environment_subentry_flow_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     exception: Exception,
     reason: str,
@@ -440,7 +440,7 @@ async def test_environment_subentry_flow_exceptions(
 
 
 async def test_environment_subentry_flow_all_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -457,7 +457,7 @@ async def test_environment_subentry_flow_all_configured(
 
 
 async def test_environment_subentry_flow_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the environment subentry flow aborts when the entry isn't loaded."""
@@ -473,7 +473,7 @@ async def test_environment_subentry_flow_entry_not_loaded(
 
 
 async def test_environment_subentry_flow_race_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
 ) -> None:
     """Test the environment subentry flow aborts if configured mid-flow."""

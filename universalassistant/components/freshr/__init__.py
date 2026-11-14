@@ -3,7 +3,7 @@
 import asyncio
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .coordinator import (
     FreshrConfigEntry,
@@ -15,7 +15,7 @@ from .coordinator import (
 _PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FreshrConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FreshrConfigEntry) -> None:
     """Set up Fresh-r from a config entry."""
     devices_coordinator = FreshrDevicesCoordinator(hass, entry)
     await devices_coordinator.async_config_entry_first_refresh()
@@ -70,6 +70,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FreshrConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FreshrConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FreshrConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

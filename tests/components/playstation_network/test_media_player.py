@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.playstation_network.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import PSN_ID
@@ -106,7 +106,7 @@ async def media_player_only() -> AsyncGenerator[None]:
 )
 @pytest.mark.usefixtures("mock_psnawpapi", "mock_token")
 async def test_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -130,7 +130,7 @@ async def test_platform(
 
 @pytest.mark.usefixtures("mock_psnawpapi", "mock_token")
 async def test_media_player_via_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_media_player_via_device(
 )
 @pytest.mark.usefixtures("mock_psnawpapi", "mock_token")
 async def test_media_player_psvita(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,

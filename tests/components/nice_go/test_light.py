@@ -19,15 +19,15 @@ from universalassistant.components.light import (
 )
 from universalassistant.components.nice_go.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nice_go: AsyncMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -41,7 +41,7 @@ async def test_data(
 
 
 async def test_turn_on(
-    hass: UniversalAssistant, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that turning on the light works as intended."""
 
@@ -58,7 +58,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: UniversalAssistant, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that turning off the light works as intended."""
 
@@ -75,7 +75,7 @@ async def test_turn_off(
 
 
 async def test_update_light_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -119,7 +119,7 @@ async def test_update_light_state(
     ],
 )
 async def test_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -134,7 +134,7 @@ async def test_error(
     mock_nice_go.light_on.side_effect = error
     mock_nice_go.light_off.side_effect = error
 
-    with pytest.raises(UniversalAssistantError, match=expected_error):
+    with pytest.raises(__HAC_KEEP__Error, match=expected_error):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             action,
@@ -144,7 +144,7 @@ async def test_error(
 
 
 async def test_unsupported_device_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -170,7 +170,7 @@ async def test_unsupported_device_type(
 
 
 async def test_auth_failed_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_auth_failed_error(
     mock_nice_go.light_on.side_effect = _on_side_effect
     mock_nice_go.light_off.side_effect = _off_side_effect
 
-    with pytest.raises(UniversalAssistantError, match="Error while turning on the light"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while turning on the light"):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -206,7 +206,7 @@ async def test_auth_failed_error(
     assert mock_nice_go.authenticate.call_count == 1
     assert mock_nice_go.light_on.call_count == 2
 
-    with pytest.raises(UniversalAssistantError, match="Error while turning off the light"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while turning off the light"):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_OFF,
@@ -231,7 +231,7 @@ async def test_auth_failed_error(
 
     # One more time but with an ApiError instead of AuthFailed
 
-    with pytest.raises(UniversalAssistantError, match="Error while turning on the light"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while turning on the light"):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -239,7 +239,7 @@ async def test_auth_failed_error(
             blocking=True,
         )
 
-    with pytest.raises(UniversalAssistantError, match="Error while turning off the light"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while turning off the light"):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_OFF,

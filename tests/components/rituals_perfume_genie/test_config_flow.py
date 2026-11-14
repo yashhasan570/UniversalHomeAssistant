@@ -13,14 +13,14 @@ from ritualsgenie import (
 from universalassistant.components.rituals_perfume_genie.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import TEST_EMAIL, TEST_PASSWORD, TEST_TOKEN
 
 
 async def test_user_flow_success(
-    hass: UniversalAssistant, mock_rituals_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_rituals_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test successful user flow setup."""
     result = await hass.config_entries.flow.async_init(
@@ -59,7 +59,7 @@ async def test_user_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rituals_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -95,7 +95,7 @@ async def test_user_flow_errors(
 
 
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rituals_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_duplicate_entry(
 
 
 async def test_reauth_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rituals_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -153,7 +153,7 @@ async def test_reauth_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rituals_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -188,7 +188,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_migrated_entry(
-    hass: UniversalAssistant, mock_rituals_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_rituals_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test successful reauth flow (updating credentials)."""
     mock_config_entry = MockConfigEntry(

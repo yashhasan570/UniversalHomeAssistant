@@ -7,13 +7,13 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 
 from universalassistant.components.bluetooth.models import BluetoothServiceInfoBleak
 from universalassistant.components.motionblinds_ble import options_update_listener
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_options_update_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test options_update_listener."""
@@ -34,7 +34,7 @@ async def test_options_update_listener(
 
 
 async def test_update_ble_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     service_info: BluetoothServiceInfoBleak,
 ) -> None:

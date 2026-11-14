@@ -12,8 +12,8 @@ from universalassistant.components.todo import (
     TodoListEntity,
     TodoListEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -25,7 +25,7 @@ PARALLEL_UPDATES = 0
 
 
 def _convert_item(item: ListItem) -> TodoItem:
-    """Convert an AnyList item to a Universal Universal Home Assistant todo item."""
+    """Convert an AnyList item to a __HA_KEEP__ todo item."""
     return TodoItem(
         uid=str(item.identifier),
         summary=str(item.name),
@@ -37,7 +37,7 @@ def _convert_item(item: ListItem) -> TodoItem:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AnyListConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -156,7 +156,7 @@ class AnyListTodoListEntity(
                 details=item.description,
             )
         except (AnyListError, TimeoutError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="add_item_failed",
                 translation_placeholders={"list_name": self.shopping_list.name},
@@ -188,7 +188,7 @@ class AnyListTodoListEntity(
 
             await self.coordinator.client.flush()
         except (AnyListError, TimeoutError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_item_failed",
                 translation_placeholders={"list_name": self.shopping_list.name},
@@ -204,7 +204,7 @@ class AnyListTodoListEntity(
         try:
             await lists.bulk_remove_items(self._list_id, uids)
         except (AnyListError, TimeoutError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="delete_item_failed",
                 translation_placeholders={"list_name": self.shopping_list.name},

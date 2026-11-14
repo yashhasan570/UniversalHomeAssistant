@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.omie.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import spot_price_fetcher
@@ -16,7 +16,7 @@ from . import spot_price_fetcher
 pytestmark = pytest.mark.usefixtures("mock_setup_entry", "mock_pyomie")
 
 
-async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -33,7 +33,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> No
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant, mock_pyomie: MagicMock) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__, mock_pyomie: MagicMock) -> None:
     """Test we handle connection error."""
     mock_pyomie.spot_price.side_effect = aiohttp.ClientError("Connection failed")
 
@@ -55,7 +55,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant, mock_pyomie: MagicM
 
 
 async def test_form_already_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

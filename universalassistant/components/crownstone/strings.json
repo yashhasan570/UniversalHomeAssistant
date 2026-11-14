@@ -1,7 +1,7 @@
 {
   "issues": {
     "integration_removed": {
-      "description": "The Crownstone integration has been removed from Universal Universal Home Assistant because the Crownstone cloud service it depended on is no longer available.\n\nTo resolve this issue, please remove the (now defunct) integration entries from your Universal Universal Home Assistant setup. [View your existing Crownstone integration entries]({entries}).",
+      "description": "The Crownstone integration has been removed from __HA_KEEP__ because the Crownstone cloud service it depended on is no longer available.\n\nTo resolve this issue, please remove the (now defunct) integration entries from your __HA_KEEP__ setup. [View your existing Crownstone integration entries]({entries}).",
       "title": "The Crownstone integration has been removed"
     }
   }

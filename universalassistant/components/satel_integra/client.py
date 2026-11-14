@@ -13,7 +13,7 @@ from satel_integra.exceptions import (
 )
 
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 from .const import (
@@ -40,7 +40,7 @@ class SatelClient:
 
     controller: AsyncSatel
 
-    def __init__(self, hass: UniversalAssistant, entry: SatelConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: SatelConfigEntry) -> None:
         """Initialize the client wrapper."""
         self.hass = hass
         self.config_entry = entry

@@ -13,7 +13,7 @@ from universalassistant.components.insteon.const import (
     CONF_X10,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     MOCK_DEVICE,
@@ -34,7 +34,7 @@ class MockProtocol:
 
 
 async def test_get_config(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting the Insteon configuration."""
 
@@ -47,7 +47,7 @@ async def test_get_config(
 
 
 async def test_get_modem_schema_plm(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting the Insteon PLM modem configuration schema."""
 
@@ -62,7 +62,7 @@ async def test_get_modem_schema_plm(
 
 
 async def test_get_modem_schema_hub(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting the Insteon PLM modem configuration schema."""
 
@@ -81,7 +81,7 @@ async def test_get_modem_schema_hub(
 
 
 async def test_update_modem_config_plm(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting the Insteon PLM modem configuration schema."""
 
@@ -111,7 +111,7 @@ async def test_update_modem_config_plm(
 
 
 async def test_update_modem_config_hub_v2(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting the Insteon HubV2 modem configuration schema."""
 
@@ -143,7 +143,7 @@ async def test_update_modem_config_hub_v2(
 
 
 async def test_update_modem_config_hub_v1(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting the Insteon HubV1 modem configuration schema."""
 
@@ -174,7 +174,7 @@ async def test_update_modem_config_hub_v1(
 
 
 async def test_update_modem_config_bad(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test updating the Insteon modem configuration with bad connection information."""
 
@@ -203,7 +203,7 @@ async def test_update_modem_config_bad(
 
 
 async def test_update_modem_config_bad_reconnect(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test bad connection info on modem update reconnects to old."""
 
@@ -233,7 +233,7 @@ async def test_update_modem_config_bad_reconnect(
 
 
 async def test_add_device_override(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test adding a device configuration override."""
 
@@ -255,7 +255,7 @@ async def test_add_device_override(
 
 
 async def test_add_device_override_duplicate(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test adding a duplicate device configuration override."""
 
@@ -276,7 +276,7 @@ async def test_add_device_override_duplicate(
 
 
 async def test_remove_device_override(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test removing a device configuration override."""
 
@@ -313,7 +313,7 @@ async def test_remove_device_override(
 
 
 async def test_add_device_override_with_x10(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test adding a device configuration override when X10 configuration exists."""
 
@@ -337,7 +337,7 @@ async def test_add_device_override_with_x10(
 
 
 async def test_remove_device_override_with_x10(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test removing a device configuration override when X10 configuration exists."""
 
@@ -376,7 +376,7 @@ async def test_remove_device_override_with_x10(
 
 
 async def test_remove_device_override_no_overrides(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test removing a device override when no overrides are configured."""
 
@@ -396,7 +396,7 @@ async def test_remove_device_override_no_overrides(
 
 
 async def test_get_broken_links(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting broken ALDB links."""
 
@@ -414,7 +414,7 @@ async def test_get_broken_links(
 
 
 async def test_get_unknown_devices(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting unknown Insteon devices."""
 

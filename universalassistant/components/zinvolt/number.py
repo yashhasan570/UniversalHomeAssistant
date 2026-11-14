@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfPower, UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ZinvoltConfigEntry, ZinvoltData, ZinvoltDeviceCoordinator
@@ -104,7 +104,7 @@ NUMBERS: tuple[ZinvoltBatteryStateDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ZinvoltConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

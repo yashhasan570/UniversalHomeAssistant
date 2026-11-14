@@ -29973,7 +29973,7 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'current',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - Universal Universal Home Assistant Current',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - __HA_KEEP__ Current',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfElectricCurrent.AMPERE: 'A'>,
     }),
@@ -30031,7 +30031,7 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'power',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - Universal Universal Home Assistant Power',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - __HA_KEEP__ Power',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: 'W',
     }),
@@ -30092,7 +30092,7 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'energy',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - Universal Universal Home Assistant Total energy',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - __HA_KEEP__ Total energy',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.TOTAL_INCREASING: 'total_increasing'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfEnergy.KILO_WATT_HOUR: 'kWh'>,
     }),
@@ -30153,7 +30153,7 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'voltage',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - Universal Universal Home Assistant Voltage',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Raspy4 - __HA_KEEP__ Voltage',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfElectricPotential.VOLT: 'V'>,
     }),

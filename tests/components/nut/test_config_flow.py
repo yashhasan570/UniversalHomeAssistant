@@ -18,7 +18,7 @@ from universalassistant.const import (
     CONF_RESOURCES,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -32,7 +32,7 @@ VALID_CONFIG = {
 }
 
 
-async def test_form_zeroconf(hass: UniversalAssistant) -> None:
+async def test_form_zeroconf(hass: __HAC_KEEP__) -> None:
     """Test we can setup from zeroconf."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -83,7 +83,7 @@ async def test_form_zeroconf(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_one_alias(hass: UniversalAssistant) -> None:
+async def test_form_user_one_alias(hass: __HAC_KEEP__) -> None:
     """Test we can configure a device with one alias."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -128,7 +128,7 @@ async def test_form_user_one_alias(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_multiple_aliases(hass: UniversalAssistant) -> None:
+async def test_form_user_multiple_aliases(hass: __HAC_KEEP__) -> None:
     """Test we can configure device with multiple aliases."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -193,7 +193,7 @@ async def test_form_user_multiple_aliases(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 2
 
 
-async def test_form_user_one_alias_with_ignored_entry(hass: UniversalAssistant) -> None:
+async def test_form_user_one_alias_with_ignored_entry(hass: __HAC_KEEP__) -> None:
     """Test we can setup a new one when there is an ignored one."""
     ignored_entry = MockConfigEntry(
         domain=DOMAIN, data={}, source=config_entries.SOURCE_IGNORE
@@ -243,7 +243,7 @@ async def test_form_user_one_alias_with_ignored_entry(hass: UniversalAssistant) 
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_no_aliases_found(hass: UniversalAssistant) -> None:
+async def test_form_no_aliases_found(hass: __HAC_KEEP__) -> None:
     """Test we abort when the NUT server has no aliases."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -269,7 +269,7 @@ async def test_form_no_aliases_found(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "no_ups_found"
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -357,7 +357,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_auth_failures(hass: UniversalAssistant) -> None:
+async def test_auth_failures(hass: __HAC_KEEP__) -> None:
     """Test authentication failures."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -421,7 +421,7 @@ async def test_auth_failures(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_reauth(hass: UniversalAssistant) -> None:
+async def test_reauth(hass: __HAC_KEEP__) -> None:
     """Test reauth flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -486,7 +486,7 @@ async def test_reauth(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
+async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
     """Test we abort if component is already setup."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -523,7 +523,7 @@ async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
         assert result2["reason"] == "already_configured"
 
 
-async def test_abort_duplicate_unique_ids(hass: UniversalAssistant) -> None:
+async def test_abort_duplicate_unique_ids(hass: __HAC_KEEP__) -> None:
     """Test we abort if unique_id is already setup."""
 
     list_vars = {
@@ -560,7 +560,7 @@ async def test_abort_duplicate_unique_ids(hass: UniversalAssistant) -> None:
         assert result2["reason"] == "already_configured"
 
 
-async def test_abort_multiple_aliases_duplicate_unique_ids(hass: UniversalAssistant) -> None:
+async def test_abort_multiple_aliases_duplicate_unique_ids(hass: __HAC_KEEP__) -> None:
     """Test we abort on multiple aliases if unique_id is already setup."""
 
     list_vars = {
@@ -621,7 +621,7 @@ async def test_abort_multiple_aliases_duplicate_unique_ids(hass: UniversalAssist
         assert result3["reason"] == "already_configured"
 
 
-async def test_abort_if_already_setup_alias(hass: UniversalAssistant) -> None:
+async def test_abort_if_already_setup_alias(hass: __HAC_KEEP__) -> None:
     """Test we abort if component is already setup with same alias."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -671,7 +671,7 @@ async def test_abort_if_already_setup_alias(hass: UniversalAssistant) -> None:
         assert result3["reason"] == "already_configured"
 
 
-async def test_reconfigure_one_alias_successful(hass: UniversalAssistant) -> None:
+async def test_reconfigure_one_alias_successful(hass: __HAC_KEEP__) -> None:
     """Test reconfigure one alias successful."""
     entry = await async_init_integration(
         hass,
@@ -716,7 +716,7 @@ async def test_reconfigure_one_alias_successful(hass: UniversalAssistant) -> Non
         assert entry.data[CONF_PASSWORD] == "test-new-password"
 
 
-async def test_reconfigure_one_alias_nochange(hass: UniversalAssistant) -> None:
+async def test_reconfigure_one_alias_nochange(hass: __HAC_KEEP__) -> None:
     """Test reconfigure one alias when there is no change."""
     entry = await async_init_integration(
         hass,
@@ -761,7 +761,7 @@ async def test_reconfigure_one_alias_nochange(hass: UniversalAssistant) -> None:
         assert entry.data[CONF_PASSWORD] == "test-password"
 
 
-async def test_reconfigure_one_alias_password_nochange(hass: UniversalAssistant) -> None:
+async def test_reconfigure_one_alias_password_nochange(hass: __HAC_KEEP__) -> None:
     """Test reconfigure one alias when there is no password change."""
     entry = await async_init_integration(
         hass,
@@ -806,7 +806,7 @@ async def test_reconfigure_one_alias_password_nochange(hass: UniversalAssistant)
         assert entry.data[CONF_PASSWORD] == "test-password"
 
 
-async def test_reconfigure_one_alias_already_configured(hass: UniversalAssistant) -> None:
+async def test_reconfigure_one_alias_already_configured(hass: __HAC_KEEP__) -> None:
     """Test reconfigure when config changed to an existing host/port/alias."""
     entry = await async_init_integration(
         hass,
@@ -866,7 +866,7 @@ async def test_reconfigure_one_alias_already_configured(hass: UniversalAssistant
         assert entry2.data[CONF_PASSWORD] == "test-password"
 
 
-async def test_reconfigure_one_alias_unique_id_change(hass: UniversalAssistant) -> None:
+async def test_reconfigure_one_alias_unique_id_change(hass: __HAC_KEEP__) -> None:
     """Test reconfigure when the unique ID is changed."""
     entry = await async_init_integration(
         hass,
@@ -914,7 +914,7 @@ async def test_reconfigure_one_alias_unique_id_change(hass: UniversalAssistant) 
         assert result2["reason"] == "unique_id_mismatch"
 
 
-async def test_reconfigure_one_alias_duplicate_unique_ids(hass: UniversalAssistant) -> None:
+async def test_reconfigure_one_alias_duplicate_unique_ids(hass: __HAC_KEEP__) -> None:
     """Test reconfigure that results in a duplicate unique ID."""
 
     list_vars = {
@@ -975,7 +975,7 @@ async def test_reconfigure_one_alias_duplicate_unique_ids(hass: UniversalAssista
         assert result2["reason"] == "unique_id_mismatch"
 
 
-async def test_reconfigure_multiple_aliases_successful(hass: UniversalAssistant) -> None:
+async def test_reconfigure_multiple_aliases_successful(hass: __HAC_KEEP__) -> None:
     """Test reconfigure with multiple aliases is successful."""
     entry = await async_init_integration(
         hass,
@@ -1043,7 +1043,7 @@ async def test_reconfigure_multiple_aliases_successful(hass: UniversalAssistant)
         assert entry.data[CONF_ALIAS] == "ups2"
 
 
-async def test_reconfigure_multiple_aliases_nochange(hass: UniversalAssistant) -> None:
+async def test_reconfigure_multiple_aliases_nochange(hass: __HAC_KEEP__) -> None:
     """Test reconfigure with multiple aliases and no change."""
     entry = await async_init_integration(
         hass,
@@ -1112,7 +1112,7 @@ async def test_reconfigure_multiple_aliases_nochange(hass: UniversalAssistant) -
 
 
 async def test_reconfigure_multiple_aliases_password_nochange(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test reconfigure with multiple aliases when no password change."""
     entry = await async_init_integration(
@@ -1182,7 +1182,7 @@ async def test_reconfigure_multiple_aliases_password_nochange(
 
 
 async def test_reconfigure_multiple_aliases_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test reconfigure multi aliases changed to existing host/port/alias."""
     entry = await async_init_integration(
@@ -1275,7 +1275,7 @@ async def test_reconfigure_multiple_aliases_already_configured(
 
 
 async def test_reconfigure_multiple_aliases_unique_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test reconfigure with multiple aliases and the unique ID is changed."""
     entry = await async_init_integration(
@@ -1344,7 +1344,7 @@ async def test_reconfigure_multiple_aliases_unique_id_change(
 
 
 async def test_reconfigure_multiple_aliases_duplicate_unique_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test reconfigure multi aliases that results in duplicate unique ID."""
 

@@ -36,7 +36,7 @@ from universalassistant.components.led_infrared.const import (
 from universalassistant.components.light import LightEntityStateAttribute
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -67,7 +67,7 @@ def event_only() -> Generator[None]:
 )
 @pytest.mark.usefixtures("event_only", "mock_infrared_receiver_entity")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -265,7 +265,7 @@ _RECEIVED_COMMANDS: dict[
 )
 @pytest.mark.freeze_time("2026-01-01T13:12:00.000+00:00")
 async def test_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     device_type: LEDIrDeviceType,
 ) -> None:
@@ -326,7 +326,7 @@ async def test_event(
 )
 @pytest.mark.freeze_time("2026-01-01T13:12:00.000+00:00")
 async def test_event_unknown_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     config_entry: MockConfigEntry,
     command: NECCommand,
@@ -353,7 +353,7 @@ async def test_event_unknown_commands(
 
 @pytest.mark.freeze_time("2026-01-01T13:12:00.000+00:00")
 async def test_event_non_nec_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     config_entry: MockConfigEntry,
 ) -> None:

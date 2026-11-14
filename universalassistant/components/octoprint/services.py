@@ -7,7 +7,7 @@ import probatio
 from pyoctoprintapi import OctoprintClient
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -39,7 +39,7 @@ SERVICE_CONNECT_SCHEMA = probatio.Schema(
 
 
 def async_get_client_for_service_call(
-    hass: UniversalAssistant, call: ServiceCall
+    hass: __HAC_KEEP__, call: ServiceCall
 ) -> OctoprintClient:
     """Get the client related to a service call (by device ID)."""
     _, config_entry = service.async_get_device_and_config_entry(
@@ -49,7 +49,7 @@ def async_get_client_for_service_call(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register services."""
 
     async def async_printer_connect(call: ServiceCall) -> None:

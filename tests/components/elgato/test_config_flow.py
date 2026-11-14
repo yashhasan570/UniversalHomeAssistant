@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.elgato.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 
 async def test_full_user_flow_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_elgato: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_full_user_flow_implementation(
 
 
 async def test_full_zeroconf_flow_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_elgato: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_full_zeroconf_flow_implementation(
 
 
 async def test_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_elgato: MagicMock,
 ) -> None:
     """Test we show user form on Elgato Key Light connection error."""
@@ -135,7 +135,7 @@ async def test_connection_error(
 
 
 async def test_zeroconf_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_elgato: MagicMock,
 ) -> None:
     """Test we abort zeroconf flow on Elgato Key Light connection error."""
@@ -160,7 +160,7 @@ async def test_zeroconf_connection_error(
 
 @pytest.mark.usefixtures("mock_elgato")
 async def test_user_device_exists_abort(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort zeroconf flow if Elgato Key Light device already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -181,7 +181,7 @@ async def test_user_device_exists_abort(
 
 @pytest.mark.usefixtures("mock_elgato")
 async def test_zeroconf_device_exists_abort(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort zeroconf flow if Elgato Key Light device already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -228,7 +228,7 @@ async def test_zeroconf_device_exists_abort(
 
 
 async def test_zeroconf_during_onboarding(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_elgato: MagicMock,
     mock_setup_entry: AsyncMock,
     mock_onboarding: MagicMock,
@@ -265,7 +265,7 @@ async def test_zeroconf_during_onboarding(
 
 @pytest.mark.usefixtures("mock_elgato")
 async def test_dhcp_discovery_updates_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test DHCP discovery of a known device updates its stored host."""
@@ -291,7 +291,7 @@ async def test_dhcp_discovery_updates_host(
 
 @pytest.mark.usefixtures("mock_elgato")
 async def test_dhcp_discovery_same_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test DHCP discovery does nothing when the host is already up to date."""
@@ -316,7 +316,7 @@ async def test_dhcp_discovery_same_host(
 
 @pytest.mark.usefixtures("mock_elgato")
 async def test_dhcp_discovery_no_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test DHCP discovery aborts when no matching entry is configured."""
@@ -341,7 +341,7 @@ async def test_dhcp_discovery_no_match(
 
 @pytest.mark.usefixtures("mock_elgato")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguring an existing Elgato device."""
@@ -362,7 +362,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_elgato: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -392,7 +392,7 @@ async def test_reconfigure_flow_cannot_connect(
 
 
 async def test_reconfigure_flow_different_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_elgato: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

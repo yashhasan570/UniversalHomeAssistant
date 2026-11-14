@@ -15,8 +15,8 @@ from kiosker import (
 )
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import REFRESH_DELAY
@@ -45,7 +45,7 @@ SWITCHES: tuple[KioskerSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: KioskerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -75,13 +75,13 @@ class KioskerSwitch(KioskerEntity, SwitchEntity):
                 self.entity_description.set_state_fn, self.coordinator.api, state
             )
         except AuthenticationError as exc:
-            raise UniversalAssistantError("Authentication failed") from exc
+            raise __HAC_KEEP__Error("Authentication failed") from exc
         except IPAuthenticationError as exc:
-            raise UniversalAssistantError("IP Authentication failed") from exc
+            raise __HAC_KEEP__Error("IP Authentication failed") from exc
         except ConnectionError as exc:
-            raise UniversalAssistantError(f"Connection failed: {exc}") from exc
+            raise __HAC_KEEP__Error(f"Connection failed: {exc}") from exc
         except TLSVerificationError as exc:
-            raise UniversalAssistantError(f"TLS verification failed: {exc}") from exc
+            raise __HAC_KEEP__Error(f"TLS verification failed: {exc}") from exc
         except BadRequestError as exc:
             raise ServiceValidationError(f"Bad request: {exc}") from exc
 

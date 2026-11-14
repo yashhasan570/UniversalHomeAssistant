@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_STATE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import (
     aiohttp_client,
@@ -52,7 +52,7 @@ DEFAULT_ATTRIBUTION = "Data provided by AirVisual"
 
 @callback
 def async_get_cloud_api_update_interval(
-    hass: UniversalAssistant, api_key: str, num_consumers: int
+    hass: __HAC_KEEP__, api_key: str, num_consumers: int
 ) -> timedelta:
     """Get a leveled scan interval for a particular cloud API key.
 
@@ -75,7 +75,7 @@ def async_get_cloud_api_update_interval(
 
 @callback
 def async_get_cloud_coordinators_by_api_key(
-    hass: UniversalAssistant, api_key: str
+    hass: __HAC_KEEP__, api_key: str
 ) -> list[AirVisualDataUpdateCoordinator]:
     """Get all coordinators related to a particular API key."""
     return [
@@ -103,7 +103,7 @@ def async_get_geography_id(geography_dict: Mapping[str, Any]) -> str:
 
 @callback
 def async_sync_geo_coordinator_update_intervals(
-    hass: UniversalAssistant, api_key: str
+    hass: __HAC_KEEP__, api_key: str
 ) -> None:
     """Sync the update interval for geography-based data coordinators (by API key)."""
     coordinators = async_get_cloud_coordinators_by_api_key(hass, api_key)
@@ -126,7 +126,7 @@ def async_sync_geo_coordinator_update_intervals(
 
 @callback
 def _standardize_geography_config_entry(
-    hass: UniversalAssistant, entry: AirVisualConfigEntry
+    hass: __HAC_KEEP__, entry: AirVisualConfigEntry
 ) -> None:
     """Ensure that geography config entries have appropriate properties."""
     entry_updates = {}
@@ -159,7 +159,7 @@ def _standardize_geography_config_entry(
     hass.config_entries.async_update_entry(entry, **entry_updates)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AirVisualConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AirVisualConfigEntry) -> None:
     """Set up AirVisual as config entry."""
     if CONF_API_KEY not in entry.data:
         # Migrated AirVisual Pro entries are set up by the `airvisual_pro` domain
@@ -191,7 +191,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AirVisualConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: AirVisualConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: AirVisualConfigEntry) -> None:
     """Migrate an old config entry."""
     version = entry.version
 
@@ -346,7 +346,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: AirVisualConfigEn
     LOGGER.info("Migration to version %s successful", version)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AirVisualConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AirVisualConfigEntry) -> None:
     """Unload an AirVisual config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -356,6 +356,6 @@ async def async_unload_entry(hass: UniversalAssistant, entry: AirVisualConfigEnt
         async_sync_geo_coordinator_update_intervals(hass, entry.data[CONF_API_KEY])
 
 
-async def async_reload_entry(hass: UniversalAssistant, entry: AirVisualConfigEntry) -> None:
+async def async_reload_entry(hass: __HAC_KEEP__, entry: AirVisualConfigEntry) -> None:
     """Handle an options update."""
     await hass.config_entries.async_reload(entry.entry_id)

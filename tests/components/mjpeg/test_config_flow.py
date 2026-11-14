@@ -21,12 +21,12 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     HTTP_BASIC_AUTHENTICATION,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mjpeg_requests: Mocker,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_full_user_flow(
 
 
 async def test_full_flow_with_authentication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mjpeg_requests: Mocker,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_full_flow_with_authentication_error(
 
 
 async def test_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mjpeg_requests: Mocker,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_connection_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: UniversalAssistant, mock_mjpeg_requests: Mocker, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_mjpeg_requests: Mocker, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort if the MJPEG IP Camera is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -239,7 +239,7 @@ async def test_already_configured(
 
 
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mjpeg_requests: Mocker,
     init_integration: MockConfigEntry,
 ) -> None:

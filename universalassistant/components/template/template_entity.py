@@ -20,7 +20,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
     validate_state,
@@ -144,7 +144,7 @@ class TemplateEntity(AbstractTemplateEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         unique_id: str | None,
     ) -> None:
@@ -520,7 +520,7 @@ class TemplateEntity(AbstractTemplateEntity):
     @callback
     def _async_template_startup(
         self,
-        _hass: UniversalAssistant | None,
+        _hass: __HAC_KEEP__ | None,
         log_fn: Callable[[int, str], None] | None = None,
     ) -> None:
         template_var_tups: list[TrackTemplate] = []

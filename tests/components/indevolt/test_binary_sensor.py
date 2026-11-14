@@ -20,7 +20,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -36,7 +36,7 @@ ENTITY_ID_GEN2 = "binary_sensor.cms_sf2000_meter_connected"
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("generation", [1, 2], indirect=True)
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_indevolt: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -52,7 +52,7 @@ async def test_binary_sensor(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_meter_connected_state_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -90,7 +90,7 @@ async def test_meter_connected_state_changes(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_binary_sensor_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -110,7 +110,7 @@ async def test_binary_sensor_availability(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_battery_pack_heating_filtering(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

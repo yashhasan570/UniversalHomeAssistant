@@ -8,7 +8,7 @@ from pywaze.route_calculator import WazeRouteCalculator
 
 from universalassistant.const import CONF_REGION
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -195,7 +195,7 @@ async def async_get_travel_times_service(service: ServiceCall) -> ServiceRespons
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register services."""
 
     hass.services.async_register(

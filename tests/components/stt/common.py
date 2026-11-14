@@ -22,7 +22,7 @@ from universalassistant.components.stt import (
     SpeechToTextEntity,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -165,12 +165,12 @@ class MockSTTPlatform(MockPlatform):
     def __init__(
         self,
         async_get_engine: Callable[
-            [UniversalAssistant, ConfigType, DiscoveryInfoType | None],
+            [__HAC_KEEP__, ConfigType, DiscoveryInfoType | None],
             Coroutine[Any, Any, Provider | None],
         ]
         | None = None,
         get_engine: Callable[
-            [UniversalAssistant, ConfigType, DiscoveryInfoType | None], Provider | None
+            [__HAC_KEEP__, ConfigType, DiscoveryInfoType | None], Provider | None
         ]
         | None = None,
     ) -> None:
@@ -183,16 +183,16 @@ class MockSTTPlatform(MockPlatform):
 
 
 def mock_stt_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     integration: str = "stt",
     async_get_engine: Callable[
-        [UniversalAssistant, ConfigType, DiscoveryInfoType | None],
+        [__HAC_KEEP__, ConfigType, DiscoveryInfoType | None],
         Coroutine[Any, Any, Provider | None],
     ]
     | None = None,
     get_engine: Callable[
-        [UniversalAssistant, ConfigType, DiscoveryInfoType | None], Provider | None
+        [__HAC_KEEP__, ConfigType, DiscoveryInfoType | None], Provider | None
     ]
     | None = None,
 ):
@@ -204,11 +204,11 @@ def mock_stt_platform(
 
 
 def mock_stt_entity_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     integration: str,
     async_setup_entry: Callable[
-        [UniversalAssistant, ConfigEntry, AddEntitiesCallback],
+        [__HAC_KEEP__, ConfigEntry, AddEntitiesCallback],
         Coroutine[Any, Any, None],
     ]
     | None = None,

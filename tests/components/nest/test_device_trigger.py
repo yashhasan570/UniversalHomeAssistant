@@ -14,7 +14,7 @@ from universalassistant.components.device_automation import (
 )
 from universalassistant.components.nest import DOMAIN
 from universalassistant.components.nest.events import NEST_EVENT
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
@@ -59,7 +59,7 @@ def make_camera(
 
 
 async def setup_automation(
-    hass: UniversalAssistant, device_id: str, trigger_type: str
+    hass: __HAC_KEEP__, device_id: str, trigger_type: str
 ) -> bool:
     """Set up an automation trigger for testing triggering."""
     return await async_setup_component(
@@ -85,7 +85,7 @@ async def setup_automation(
 
 
 async def test_get_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -129,7 +129,7 @@ async def test_get_triggers(
 
 
 async def test_multiple_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -186,7 +186,7 @@ async def test_multiple_devices(
 
 
 async def test_triggers_for_invalid_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -223,7 +223,7 @@ async def test_triggers_for_invalid_device_id(
 
 
 async def test_no_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -242,7 +242,7 @@ async def test_no_triggers(
 
 
 async def test_fires_on_camera_motion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -278,7 +278,7 @@ async def test_fires_on_camera_motion(
 
 
 async def test_fires_on_camera_person(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -314,7 +314,7 @@ async def test_fires_on_camera_person(
 
 
 async def test_fires_on_camera_sound(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -350,7 +350,7 @@ async def test_fires_on_camera_sound(
 
 
 async def test_fires_on_doorbell_chime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -386,7 +386,7 @@ async def test_fires_on_doorbell_chime(
 
 
 async def test_trigger_for_wrong_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -421,7 +421,7 @@ async def test_trigger_for_wrong_device_id(
 
 
 async def test_trigger_for_wrong_event_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -456,7 +456,7 @@ async def test_trigger_for_wrong_event_type(
 
 
 async def test_subscriber_automation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     create_device: CreateDevice,

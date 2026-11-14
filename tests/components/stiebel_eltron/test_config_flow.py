@@ -11,7 +11,7 @@ from universalassistant.components.modbus import async_get_unit
 from universalassistant.components.stiebel_eltron.const import DOMAIN, UNIT_ID
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -24,7 +24,7 @@ DHCP_DISCOVERY = DhcpServiceInfo(
 )
 
 
-async def test_full_flow(hass: UniversalAssistant) -> None:
+async def test_full_flow(hass: __HAC_KEEP__) -> None:
     """Test the full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -44,7 +44,7 @@ async def test_full_flow(hass: UniversalAssistant) -> None:
 
 
 async def test_form_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_controller_model: MagicMock,
 ) -> None:
     """Test we handle a cannot connect error while reading the device."""
@@ -72,7 +72,7 @@ async def test_form_cannot_connect(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_conflicting_link_settings(hass: UniversalAssistant) -> None:
+async def test_form_conflicting_link_settings(hass: __HAC_KEEP__) -> None:
     """Test we handle the device being held with incompatible link settings."""
     other_entry = MockConfigEntry(domain="modbus")
     other_entry.add_to_hass(hass)
@@ -103,7 +103,7 @@ async def test_form_conflicting_link_settings(hass: UniversalAssistant) -> None:
 
 
 async def test_form_unknown_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_controller_model: MagicMock,
 ) -> None:
     """Test we handle unknown exception."""
@@ -133,7 +133,7 @@ async def test_form_unknown_exception(
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguration flow."""
@@ -159,7 +159,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_get_controller_model: MagicMock,
     side_effect: type[Exception],
@@ -188,7 +188,7 @@ async def test_reconfigure_flow_errors(
 
 
 async def test_reconfigure_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure aborts if another entry already uses the given host/port."""
@@ -214,7 +214,7 @@ async def test_reconfigure_flow_already_configured(
 
 
 async def test_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we handle already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -231,7 +231,7 @@ async def test_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_dhcp_discovery_flow(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_flow(hass: __HAC_KEEP__) -> None:
     """Test the full DHCP discovery flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_DHCP}, data=DHCP_DISCOVERY
@@ -247,7 +247,7 @@ async def test_dhcp_discovery_flow(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "00:00:00:00:00:01"
 
 
-async def test_dhcp_discovery_updates_host(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_updates_host(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery updates the host of an entry with a matching MAC."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -267,7 +267,7 @@ async def test_dhcp_discovery_updates_host(hass: UniversalAssistant) -> None:
 
 
 async def test_dhcp_discovery_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test DHCP discovery aborts for an already configured host."""
     mock_config_entry.add_to_hass(hass)
@@ -294,7 +294,7 @@ async def test_dhcp_discovery_already_configured(
     ],
 )
 async def test_dhcp_discovery_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_controller_model: MagicMock,
     side_effect: type[Exception],
     expected_reason: str,

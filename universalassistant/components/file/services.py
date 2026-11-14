@@ -7,8 +7,8 @@ import json
 import probatio
 import yaml
 
-from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.os_error import os_read_error
 from universalassistant.helpers.service import async_register_admin_service
@@ -30,7 +30,7 @@ class FileServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register services for File integration."""
 
     async_register_admin_service(
@@ -86,7 +86,7 @@ def read_file(call: ServiceCall) -> dict:
     try:
         data = loader(file_content)
     except error_type as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="file_decoding",
             translation_placeholders={"filename": file_name, "encoding": file_encoding},

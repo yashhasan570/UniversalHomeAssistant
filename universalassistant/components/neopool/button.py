@@ -13,8 +13,8 @@ from neopool_modbus.exceptions import NeoPoolError
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -64,7 +64,7 @@ BUTTON_DESCRIPTIONS: dict[str, NeoPoolButtonEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NeoPoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -102,7 +102,7 @@ class NeoPoolButton(NeoPoolEntity, ButtonEntity):
         try:
             await self.entity_description.press_fn(self)
         except (NeoPoolError, OSError, TimeoutError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="modbus_communication_error",
                 translation_placeholders={"error": str(err)},

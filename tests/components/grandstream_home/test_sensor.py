@@ -6,13 +6,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_gds_api")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -28,7 +28,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_unavailable_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gds_api: MagicMock,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_sensor_unavailable_mapping(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_unknown_returns_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gds_api: MagicMock,
 ) -> None:

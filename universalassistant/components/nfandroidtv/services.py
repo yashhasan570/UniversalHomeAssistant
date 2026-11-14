@@ -4,7 +4,7 @@ from notifications_android_tv.notifications import Notifications
 import probatio
 
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.selector import MediaSelector
 
@@ -12,7 +12,7 @@ from .const import DOMAIN, NFAndroidTVService, NFAndroidTVServiceArgument
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for Notification for Android TV / Fire TV integration."""
 
     service.async_register_platform_entity_service(

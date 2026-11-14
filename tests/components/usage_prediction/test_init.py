@@ -7,12 +7,12 @@ import pytest
 
 from universalassistant.components.usage_prediction import DOMAIN, get_cached_common_control
 from universalassistant.components.usage_prediction.models import EntityUsagePredictions
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_usage_prediction_caching(hass: UniversalAssistant) -> None:
+async def test_usage_prediction_caching(hass: __HAC_KEEP__) -> None:
     """Test that usage prediction results are cached for 24 hours."""
 
     assert await async_setup_component(hass, DOMAIN, {})

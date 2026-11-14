@@ -1,9 +1,9 @@
-"""Xthings Cloud integration for Universal Universal Home Assistant."""
+"""Xthings Cloud integration for __HA_KEEP__."""
 
 from ha_xthings_cloud import XthingsCloudApiClient
 
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import PLATFORMS
@@ -11,7 +11,7 @@ from .coordinator import XthingsCloudConfigEntry, XthingsCloudCoordinator
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: XthingsCloudConfigEntry
+    hass: __HAC_KEEP__, entry: XthingsCloudConfigEntry
 ) -> None:
     """Set up config entry."""
     session = async_get_clientsession(hass)
@@ -26,7 +26,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: XthingsCloudConfigEntry
+    hass: __HAC_KEEP__, entry: XthingsCloudConfigEntry
 ) -> None:
     """Unload config entry."""
     coordinator = entry.runtime_data

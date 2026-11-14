@@ -33,8 +33,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -44,7 +44,7 @@ HOST = "127.0.0.1"
 
 
 async def _async_setup_daikin(
-    hass: UniversalAssistant, zone_device: ZoneDevice
+    hass: __HAC_KEEP__, zone_device: ZoneDevice
 ) -> MockConfigEntry:
     """Set up a Daikin config entry with a mocked library device."""
     config_entry = MockConfigEntry(
@@ -83,7 +83,7 @@ def _zone_switch_entity_id(
 
 
 async def _async_set_zone_temperature(
-    hass: UniversalAssistant, entity_id: str, temperature: float
+    hass: __HAC_KEEP__, entity_id: str, temperature: float
 ) -> None:
     """Call `climate.set_temperature` for a zone climate."""
     await hass.services.async_call(
@@ -98,7 +98,7 @@ async def _async_set_zone_temperature(
 
 
 async def test_setup_entry_adds_zone_climates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_setup_entry_adds_zone_climates(
 
 
 async def test_setup_entry_skips_zone_climates_without_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_setup_entry_skips_zone_climates_without_support(
 
 
 async def test_setup_entry_handles_missing_zone_temperature_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_setup_entry_handles_missing_zone_temperature_key(
     [("hot", "lztemp_h"), ("cool", "lztemp_c")],
 )
 async def test_zone_climate_sets_temperature_for_active_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
     mode: str,
@@ -181,7 +181,7 @@ async def test_zone_climate_sets_temperature_for_active_mode(
 
 
 async def test_zone_climate_rejects_out_of_range_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_zone_climate_rejects_out_of_range_temperature(
 
 
 async def test_zone_climate_unavailable_without_target_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -222,7 +222,7 @@ async def test_zone_climate_unavailable_without_target_temperature(
 
 
 async def test_zone_climate_zone_inactive_after_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -233,14 +233,14 @@ async def test_zone_climate_zone_inactive_after_setup(
     assert entity_id is not None
     zone_device.zones[0][0] = "-"
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await _async_set_zone_temperature(hass, entity_id, 21)
 
     assert err.value.translation_key == "zone_inactive"
 
 
 async def test_zone_climate_zone_missing_after_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -254,14 +254,14 @@ async def test_zone_climate_zone_missing_after_setup(
     assert entity_id is not None
     zone_device.zones = [["Living", "1", 22]]
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await _async_set_zone_temperature(hass, entity_id, 21)
 
     assert err.value.translation_key == "zone_missing"
 
 
 async def test_zone_climate_parameters_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -280,7 +280,7 @@ async def test_zone_climate_parameters_unavailable(
 
 
 async def test_zone_climate_rejects_main_mode_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -307,7 +307,7 @@ async def test_zone_climate_rejects_main_mode_change(
 
 
 async def test_zone_climate_set_temperature_requires_heat_or_cool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -321,7 +321,7 @@ async def test_zone_climate_set_temperature_requires_heat_or_cool(
     entity_id = _zone_entity_id(entity_registry, zone_device, 0)
     assert entity_id is not None
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await _async_set_zone_temperature(hass, entity_id, 21)
 
     assert err.value.translation_key == "zone_hvac_mode_unsupported"
@@ -335,7 +335,7 @@ async def test_zone_climate_set_temperature_requires_heat_or_cool(
     ],
 )
 async def test_zone_climate_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
     zone_state: str,
@@ -445,7 +445,7 @@ async def test_zone_climate_properties(
     ],
 )
 async def test_zone_climate_power_controls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
     service: str,
@@ -492,7 +492,7 @@ async def test_zone_climate_power_controls(
 
 
 async def test_zone_switch_updates_zone_climate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -544,7 +544,7 @@ async def test_zone_switch_updates_zone_climate(
     ],
 )
 async def test_zone_climate_target_temperature_inactive_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
     mode: str,
@@ -571,7 +571,7 @@ async def test_zone_climate_target_temperature_inactive_mode(
 
 
 async def test_zone_climate_set_zone_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     zone_device: ZoneDevice,
 ) -> None:
@@ -582,7 +582,7 @@ async def test_zone_climate_set_zone_failed(
     assert entity_id is not None
     zone_device.set_zone = AsyncMock(side_effect=NotImplementedError)
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await _async_set_zone_temperature(hass, entity_id, 21)
 
     assert err.value.translation_key == "zone_set_failed"

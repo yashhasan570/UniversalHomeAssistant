@@ -24,7 +24,7 @@ from universalassistant.components.hdmi_cec import (
 )
 from universalassistant.components.hdmi_cec.services import HdmiCecService
 from universalassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -98,7 +98,7 @@ def test_parse_mapping_physical_address(
 
 
 async def test_setup_cec_adapter(
-    hass: UniversalAssistant, mock_cec_adapter: MagicMock, mock_hdmi_network: MagicMock
+    hass: __HAC_KEEP__, mock_cec_adapter: MagicMock, mock_hdmi_network: MagicMock
 ) -> None:
     """Test the general setup of this component."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -133,9 +133,9 @@ async def test_setup_cec_adapter(
     ],
 )
 async def test_services_registered_during_setup(
-    hass: UniversalAssistant, service: str
+    hass: __HAC_KEEP__, service: str
 ) -> None:
-    """Test the actions are available before Universal Universal Home Assistant has started."""
+    """Test the actions are available before __HA_KEEP__ has started."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
     assert hass.services.has_service(DOMAIN, service)
@@ -143,7 +143,7 @@ async def test_services_registered_during_setup(
 
 @pytest.mark.parametrize("osd_name", ["test", "test_a_long_name"])
 async def test_setup_set_osd_name(
-    hass: UniversalAssistant, osd_name: str, mock_cec_adapter: MagicMock
+    hass: __HAC_KEEP__, osd_name: str, mock_cec_adapter: MagicMock
 ) -> None:
     """Test the setup of this component with the `osd_name` config setting."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {"osd_name": osd_name}})
@@ -152,7 +152,7 @@ async def test_setup_set_osd_name(
 
 
 async def test_setup_tcp_adapter(
-    hass: UniversalAssistant, mock_tcp_adapter: MagicMock, mock_hdmi_network: MagicMock
+    hass: __HAC_KEEP__, mock_tcp_adapter: MagicMock, mock_hdmi_network: MagicMock
 ) -> None:
     """Test the setup of this component with the TcpAdapter (`host` config setting)."""
     host = "0.0.0.0"
@@ -180,7 +180,7 @@ async def test_setup_tcp_adapter(
 
 
 async def test_service_power_on(
-    hass: UniversalAssistant, create_hdmi_network: HDMINetworkCreator
+    hass: __HAC_KEEP__, create_hdmi_network: HDMINetworkCreator
 ) -> None:
     """Test the power on service call."""
     mock_hdmi_network_instance = await create_hdmi_network()
@@ -196,7 +196,7 @@ async def test_service_power_on(
 
 
 async def test_service_standby(
-    hass: UniversalAssistant, create_hdmi_network: HDMINetworkCreator
+    hass: __HAC_KEEP__, create_hdmi_network: HDMINetworkCreator
 ) -> None:
     """Test the standby service call."""
     mock_hdmi_network_instance = await create_hdmi_network()
@@ -212,7 +212,7 @@ async def test_service_standby(
 
 
 async def test_service_select_device_alias(
-    hass: UniversalAssistant, create_hdmi_network: HDMINetworkCreator
+    hass: __HAC_KEEP__, create_hdmi_network: HDMINetworkCreator
 ) -> None:
     """Test the select device service call with a known alias."""
     mock_hdmi_network_instance = await create_hdmi_network(
@@ -242,7 +242,7 @@ class MockCecEntity(MockEntity):
 
 
 async def test_service_select_device_entity(
-    hass: UniversalAssistant, create_hdmi_network: HDMINetworkCreator
+    hass: __HAC_KEEP__, create_hdmi_network: HDMINetworkCreator
 ) -> None:
     """Test the select device service call with an existing entity."""
     platform = MockEntityPlatform(hass)
@@ -266,7 +266,7 @@ async def test_service_select_device_entity(
 
 
 async def test_service_select_device_physical_address(
-    hass: UniversalAssistant, create_hdmi_network: HDMINetworkCreator
+    hass: __HAC_KEEP__, create_hdmi_network: HDMINetworkCreator
 ) -> None:
     """Test the select device service call with a raw physical address."""
     mock_hdmi_network_instance = await create_hdmi_network()
@@ -285,7 +285,7 @@ async def test_service_select_device_physical_address(
 
 
 async def test_service_update_devices(
-    hass: UniversalAssistant, create_hdmi_network: HDMINetworkCreator
+    hass: __HAC_KEEP__, create_hdmi_network: HDMINetworkCreator
 ) -> None:
     """Test the update devices service call."""
     mock_hdmi_network_instance = await create_hdmi_network()
@@ -321,7 +321,7 @@ async def test_service_update_devices(
 )
 @pytest.mark.parametrize(("direction", "key"), [("up", 65), ("down", 66)])
 async def test_service_volume_x_times(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     count: int,
     call_count: int,
@@ -347,7 +347,7 @@ async def test_service_volume_x_times(
 
 @pytest.mark.parametrize(("direction", "key"), [("up", 65), ("down", 66)])
 async def test_service_volume_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     direction: str,
     key: int,
@@ -371,7 +371,7 @@ async def test_service_volume_press(
 
 @pytest.mark.parametrize(("direction", "key"), [("up", 65), ("down", 66)])
 async def test_service_volume_release(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     direction: str,
     key: int,
@@ -413,7 +413,7 @@ async def test_service_volume_release(
     ],
 )
 async def test_service_volume_mute(
-    hass: UniversalAssistant, create_hdmi_network: HDMINetworkCreator, attr: str, key: int
+    hass: __HAC_KEEP__, create_hdmi_network: HDMINetworkCreator, attr: str, key: int
 ) -> None:
     """Test the volume service call with mute."""
     mock_hdmi_network_instance = await create_hdmi_network()
@@ -499,7 +499,7 @@ async def test_service_volume_mute(
     ],
 )
 async def test_service_send_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     data: dict[str, Any],
     expected: str,
@@ -524,7 +524,7 @@ async def test_service_send_command(
     ("adapter_initialized_value", "watchdog_actions"), [(False, 1), (True, 0)]
 )
 async def test_watchdog(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     mock_cec_adapter: MagicMock,
     adapter_initialized_value: bool,

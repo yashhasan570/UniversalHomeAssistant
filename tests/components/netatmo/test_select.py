@@ -22,7 +22,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -37,7 +37,7 @@ SELECT_ENTITY = "select.myhome_schedule"
 
 
 async def test_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -54,7 +54,7 @@ async def test_entity(
 
 
 async def test_select_schedule_thermostats(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
     netatmo_auth: AsyncMock,
@@ -114,7 +114,7 @@ async def test_select_schedule_thermostats(
 
 
 async def test_select_schedule_unknown_schedule_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_select_schedule_unknown_schedule_id(
 
 
 async def test_select_without_selected_schedule_at_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test the select is created when no schedule is selected for the mode."""
@@ -178,7 +178,7 @@ async def test_select_without_selected_schedule_at_setup(
 
 @pytest.mark.usefixtures("netatmo_auth")
 async def test_select_survives_selected_schedule_disappearing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test an update without a selected schedule does not break polling."""
@@ -226,7 +226,7 @@ class _ClimateLastRoom(Room):
 
 
 async def test_select_created_when_climate_is_not_first_room_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test the schedule select does not depend on the room features order.

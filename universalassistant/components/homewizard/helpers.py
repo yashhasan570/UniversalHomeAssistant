@@ -5,7 +5,7 @@ from typing import Any, Concatenate
 
 from homewizard_energy.errors import DisabledError, RequestError, UnauthorizedError
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DOMAIN
 from .entity import HomeWizardEntity
@@ -27,7 +27,7 @@ def homewizard_exception_handler[_HomeWizardEntityT: HomeWizardEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except RequestError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from ex
@@ -35,12 +35,12 @@ def homewizard_exception_handler[_HomeWizardEntityT: HomeWizardEntity, **_P](
             await self.hass.config_entries.async_reload(
                 self.coordinator.config_entry.entry_id
             )
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_disabled",
             ) from ex
         except UnauthorizedError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_unauthorized",
             ) from ex

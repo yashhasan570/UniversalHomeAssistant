@@ -8,7 +8,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.efergy.const import DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 TOKEN = "9p6QGJ7dpZfO3fqPTBk1fyEmjV1cGoLT"
@@ -20,8 +20,8 @@ HID = "12345678901234567890123456789012"
 BASE_URL = "https://engage.efergy.com/mobile_proxy/"
 
 
-def create_entry(hass: UniversalAssistant, token: str = TOKEN) -> MockConfigEntry:
-    """Create Efergy entry in Universal Universal Home Assistant."""
+def create_entry(hass: __HAC_KEEP__, token: str = TOKEN) -> MockConfigEntry:
+    """Create Efergy entry in __HA_KEEP__."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         unique_id=HID,
@@ -32,12 +32,12 @@ def create_entry(hass: UniversalAssistant, token: str = TOKEN) -> MockConfigEntr
 
 
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     token: str = TOKEN,
     error: bool = False,
 ) -> MockConfigEntry:
-    """Set up the Efergy integration in Universal Universal Home Assistant."""
+    """Set up the Efergy integration in __HA_KEEP__."""
     entry = create_entry(hass, token=token)
     await mock_responses(hass, aioclient_mock, token=token, error=error)
     await hass.config_entries.async_setup(entry.entry_id)
@@ -47,7 +47,7 @@ async def init_integration(
 
 
 async def mock_responses(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     token: str = TOKEN,
     error: bool = False,
@@ -135,7 +135,7 @@ def _patch_efergy_status():
 
 
 async def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     platform: str,
     token: str = TOKEN,

@@ -7,7 +7,7 @@ from boschshcpy import SHCMotionDetector, SHCMotionDetector2, SHCSmokeDetector
 
 from universalassistant.components.event import EventDeviceClass, EventEntity
 from universalassistant.const import ATTR_DEVICE_ID, ATTR_ID, ATTR_NAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BoschConfigEntry
@@ -19,7 +19,7 @@ ATTR_LAST_TIME_TRIGGERED = "last_time_triggered"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BoschConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -71,7 +71,7 @@ class MotionDetectorEvent(SHCEntity, EventEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: SHCMotionDetector | SHCMotionDetector2,
         parent_id: str,
         entry_id: str,
@@ -139,7 +139,7 @@ class SmokeDetectorEvent(SHCEntity, EventEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: SHCSmokeDetector,
         parent_id: str,
         entry_id: str,

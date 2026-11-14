@@ -12,7 +12,7 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.components.twilio import get_client
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -37,7 +37,7 @@ PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
 
 
 def get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> TwilioSMSNotificationService | None:

@@ -19,7 +19,7 @@ from universalassistant.components.deconz.deconz_event import (
     RELATIVE_ROTARY_DECONZ_TO_EVENT,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_EVENT, CONF_ID, CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import WebsocketDataType
@@ -68,7 +68,7 @@ from .conftest import WebsocketDataType
     ],
 )
 async def test_deconz_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
     sensor_ws_data: WebsocketDataType,
@@ -225,7 +225,7 @@ async def test_deconz_events(
     ],
 )
 async def test_deconz_alarm_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
     sensor_ws_data: WebsocketDataType,
@@ -348,7 +348,7 @@ async def test_deconz_alarm_events(
     ],
 )
 async def test_deconz_presence_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
     sensor_ws_data: WebsocketDataType,
@@ -425,7 +425,7 @@ async def test_deconz_presence_events(
     ],
 )
 async def test_deconz_relative_rotary_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
     sensor_ws_data: WebsocketDataType,
@@ -495,7 +495,7 @@ async def test_deconz_relative_rotary_events(
     ],
 )
 async def test_deconz_events_bad_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
 ) -> None:

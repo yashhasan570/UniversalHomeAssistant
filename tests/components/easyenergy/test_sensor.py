@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfEnergy,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -36,7 +36,7 @@ from universalassistant.util import dt as dt_util
 
 @pytest.mark.freeze_time("2026-04-19 13:00:00+00:00")
 async def test_energy_usage_today(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
@@ -152,7 +152,7 @@ async def test_energy_usage_today(
 
 @pytest.mark.freeze_time("2026-04-19 13:00:00+00:00")
 async def test_energy_return_today(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
@@ -269,7 +269,7 @@ async def test_energy_return_today(
 
 @pytest.mark.freeze_time("2026-04-19 10:00:00+00:00")
 async def test_gas_today(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
@@ -306,7 +306,7 @@ async def test_gas_today(
 
 @pytest.mark.freeze_time("2026-04-19 13:00:00+00:00")
 async def test_no_gas_today(
-    hass: UniversalAssistant, mock_easyenergy: MagicMock, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, mock_easyenergy: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test the easyEnergy - No gas data available."""
     await async_setup_component(hass, HOMEASSISTANT_DOMAIN, {})
@@ -342,7 +342,7 @@ async def test_no_gas_today(
     ],
 )
 async def test_price_period_counts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_easyenergy: MagicMock,
     mock_config_entry: MockConfigEntry,
     minutes: int,

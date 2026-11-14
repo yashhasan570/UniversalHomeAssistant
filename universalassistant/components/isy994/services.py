@@ -7,7 +7,7 @@ import probatio
 from pyisy.constants import COMMAND_FRIENDLY_NAME
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import async_get_platforms
@@ -144,7 +144,7 @@ SERVICE_SEND_PROGRAM_COMMAND_SCHEMA = probatio.All(
 )
 
 
-def async_get_entities(hass: UniversalAssistant) -> dict[str, Entity]:
+def async_get_entities(hass: __HAC_KEEP__) -> dict[str, Entity]:
     """Get entities for a domain."""
     entities: dict[str, Entity] = {}
     for platform in async_get_platforms(hass, DOMAIN):
@@ -153,7 +153,7 @@ def async_get_entities(hass: UniversalAssistant) -> dict[str, Entity]:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Create and register services for the ISY integration."""
 
     async def async_send_program_command_service_handler(service: ServiceCall) -> None:

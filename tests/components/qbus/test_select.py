@@ -18,7 +18,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -36,7 +36,7 @@ _STEPPER_ENTITY_ID = "select.ctd_000001_stepper"
 
 
 async def test_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration_deferred: Callable[[], Awaitable],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -51,7 +51,7 @@ async def test_select(
 
 
 async def test_select_option_updates_stepper(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     setup_integration: None,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_select_option_updates_stepper(
 
 
 async def test_select_with_unknown_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     setup_integration: None,
 ) -> None:

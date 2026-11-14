@@ -2,7 +2,7 @@
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_register_admin_service
 
@@ -25,7 +25,7 @@ def _async_service_handler(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the logger services."""
 
     async_register_admin_service(

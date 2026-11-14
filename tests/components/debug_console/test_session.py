@@ -13,7 +13,7 @@ from universalassistant.components.debug_console.const import SESSION_TIMEOUT
 from universalassistant.components.debug_console.session import DATA_SESSIONS
 from universalassistant.components.websocket_api import ERR_INVALID_FORMAT, ERR_NOT_FOUND
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import SESSION_ID, async_execute, async_send
 
@@ -35,7 +35,7 @@ async def _async_start_waiting_execution(client: MockHAClientWebSocket) -> None:
 
 
 async def test_stop(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test stopping the code a session runs, while the console stays usable."""
     await _async_start_waiting_execution(websocket_client)
@@ -70,15 +70,15 @@ async def test_stop_without_session(websocket_client: MockHAClientWebSocket) -> 
     assert result is None
 
 
-async def _async_stop(hass: UniversalAssistant) -> None:
-    """Stop Universal Universal Home Assistant, as far as the console sees it."""
+async def _async_stop(hass: __HAC_KEEP__) -> None:
+    """Stop __HA_KEEP__, as far as the console sees it."""
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
     await hass.async_block_till_done()
 
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_session_survives_reconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_session_survives_reconnect(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_session_expires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_session_expires(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_session_shared_by_connections(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_session_shared_by_connections(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_sessions_separated(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test sessions are separated by session ID and by user."""
     client = await hass_ws_client(hass)
@@ -197,7 +197,7 @@ async def test_invalid_session_id(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_object_ids_unique_per_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -241,9 +241,9 @@ async def test_object_ids_unique_per_session(
 
 
 async def test_stopping_stops_reporting_an_error(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
-    """Test stopping Universal Universal Home Assistant while an error is reported stops that too."""
+    """Test stopping __HA_KEEP__ while an error is reported stops that too."""
     reading = threading.Event()
     release = threading.Event()
 
@@ -275,7 +275,7 @@ async def test_stopping_stops_reporting_an_error(
 
 
 async def test_stopping_waits_for_cleanup(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test stopping lets cancelled code clean up, with its names available."""
     await async_execute(websocket_client, "import asyncio\ncleaned_up = []")
@@ -304,7 +304,7 @@ async def test_stopping_waits_for_cleanup(
 
 
 async def test_stopping_releases_sessions(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test stopping lets go of sessions, even with their connections open."""
     await async_execute(websocket_client, "data = [1]\ndata")
@@ -322,9 +322,9 @@ async def test_stopping_releases_sessions(
 
 
 async def test_stopping_closes_sessions(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
-    """Test sessions close when Universal Universal Home Assistant stops."""
+    """Test sessions close when __HA_KEEP__ stops."""
     await _async_start_waiting_execution(websocket_client)
     sessions = hass.data[DATA_SESSIONS]
     (session,) = sessions.values()

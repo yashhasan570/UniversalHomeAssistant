@@ -13,7 +13,7 @@ from universalassistant.components.vodafone_station.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -21,7 +21,7 @@ from .const import TEST_HOST, TEST_PASSWORD, TEST_TYPE, TEST_URL, TEST_USERNAME
 
 
 async def test_reload_config_entry_with_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_reload_config_entry_with_options(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_unload_entry(
 
 
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vodafone_station_router: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_migrate_entry(
 
 
 async def test_migrate_future_version_returns_false(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test migration failure for downgraded future config entry version."""

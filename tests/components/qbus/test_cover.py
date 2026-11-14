@@ -24,7 +24,7 @@ from universalassistant.const import (
     SERVICE_SET_COVER_TILT_POSITION,
     SERVICE_STOP_COVER,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 _PAYLOAD_UDS_STATE_CLOSED = '{"id":"UL30","properties":{"state":"down"},"type":"state"}'
 _PAYLOAD_UDS_STATE_OPENED = '{"id":"UL30","properties":{"state":"up"},"type":"state"}'
@@ -65,7 +65,7 @@ _ENTITY_ID_SLAT = "cover.living_slats"
 
 
 async def test_cover_up_down_stop(
-    hass: UniversalAssistant, setup_integration: None, mock_publish_state: AsyncMock
+    hass: __HAC_KEEP__, setup_integration: None, mock_publish_state: AsyncMock
 ) -> None:
     """Test cover up, down and stop."""
 
@@ -130,7 +130,7 @@ async def test_cover_up_down_stop(
 
 
 async def test_cover_position(
-    hass: UniversalAssistant, setup_integration: None, mock_publish_state: AsyncMock
+    hass: __HAC_KEEP__, setup_integration: None, mock_publish_state: AsyncMock
 ) -> None:
     """Test cover positions."""
 
@@ -200,7 +200,7 @@ async def test_cover_position(
 
 
 async def test_cover_slats(
-    hass: UniversalAssistant, setup_integration: None, mock_publish_state: AsyncMock
+    hass: __HAC_KEEP__, setup_integration: None, mock_publish_state: AsyncMock
 ) -> None:
     """Test cover slats."""
 

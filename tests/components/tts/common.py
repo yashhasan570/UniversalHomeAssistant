@@ -32,7 +32,7 @@ from universalassistant.components.tts import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.setup import async_setup_component
@@ -102,7 +102,7 @@ def tts_mutagen_mock_fixture_helper() -> Generator[MagicMock]:
         yield mock_write_tags
 
 
-async def get_media_source_url(hass: UniversalAssistant, media_content_id: str) -> str:
+async def get_media_source_url(hass: __HAC_KEEP__, media_content_id: str) -> str:
     """Get the media source url."""
     if media_source.DOMAIN not in hass.config.components:
         assert await async_setup_component(hass, media_source.DOMAIN, {})
@@ -112,7 +112,7 @@ async def get_media_source_url(hass: UniversalAssistant, media_content_id: str) 
 
 
 async def retrieve_media(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, media_content_id: str
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, media_content_id: str
 ) -> HTTPStatus:
     """Get the media source url."""
     url = await get_media_source_url(hass, media_content_id)
@@ -204,7 +204,7 @@ class MockTTS(MockPlatform):
 
     async def async_get_engine(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         discovery_info: DiscoveryInfoType | None = None,
     ) -> Provider | None:
@@ -213,7 +213,7 @@ class MockTTS(MockPlatform):
 
 
 async def mock_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_provider: MockTTSProvider,
 ) -> None:
     """Set up a test provider."""
@@ -225,14 +225,14 @@ async def mock_setup(
 
 
 async def mock_config_entry_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tts_entity: MockTTSEntity,
     test_domain: str = TEST_DOMAIN,
 ) -> MockConfigEntry:
     """Set up a test tts platform via config entry."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -240,7 +240,7 @@ async def mock_config_entry_setup(
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Unload test config entry."""
         await hass.config_entries.async_forward_entry_unload(config_entry, Platform.TTS)
@@ -255,7 +255,7 @@ async def mock_config_entry_setup(
     )
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -278,7 +278,7 @@ class MockResultStream(ResultStream):
 
     test_set_message: str | None = None
 
-    def __init__(self, hass: UniversalAssistant, extension: str, data: bytes) -> None:
+    def __init__(self, hass: __HAC_KEEP__, extension: str, data: bytes) -> None:
         """Initialize the result stream."""
         super().__init__(
             token="test-token",

@@ -4,7 +4,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, TypedDict, override
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.storage import Store
 from universalassistant.helpers.typing import ConfigType
@@ -73,20 +73,20 @@ class OnboardingStorage(Store[OnboardingStoreData]):
 
 
 @callback
-def async_is_onboarded(hass: UniversalAssistant) -> bool:
-    """Return if Universal Universal Home Assistant has been onboarded."""
+def async_is_onboarded(hass: __HAC_KEEP__) -> bool:
+    """Return if __HA_KEEP__ has been onboarded."""
     data: OnboardingData | None = hass.data.get(DOMAIN)
     return data is None or data.onboarded is True
 
 
 @callback
-def async_is_user_onboarded(hass: UniversalAssistant) -> bool:
+def async_is_user_onboarded(hass: __HAC_KEEP__) -> bool:
     """Return if a user has been created as part of onboarding."""
     return async_is_onboarded(hass) or STEP_USER in hass.data[DOMAIN].steps["done"]
 
 
 @callback
-def async_add_listener(hass: UniversalAssistant, listener: Callable[[], None]) -> None:
+def async_add_listener(hass: __HAC_KEEP__, listener: Callable[[], None]) -> None:
     """Add a listener to be called when onboarding is complete."""
     data: OnboardingData | None = hass.data.get(DOMAIN)
 
@@ -101,7 +101,7 @@ def async_add_listener(hass: UniversalAssistant, listener: Callable[[], None]) -
     data.listeners.append(listener)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the onboarding component."""
     store = OnboardingStorage(hass, STORAGE_VERSION, STORAGE_KEY, private=True)
     data: OnboardingStoreData | None

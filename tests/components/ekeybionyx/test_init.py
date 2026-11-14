@@ -1,7 +1,7 @@
 """Module contains tests for the ekeybionyx component's initialization.
 
 Functions:
-    test_async_setup_entry(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+    test_async_setup_entry(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
         Test a successful setup entry and unload of entry.
 """
 
@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ekeybionyx.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_async_setup_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test a successful setup entry and unload of entry."""
     config_entry.add_to_hass(hass)

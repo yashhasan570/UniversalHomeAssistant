@@ -9,7 +9,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_registry import RegistryEntry, async_migrate_entries
 from universalassistant.helpers.typing import ConfigType
@@ -25,13 +25,13 @@ PLATFORMS = [Platform.CAMERA, Platform.NUMBER, Platform.SWITCH]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Foscam integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FoscamConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FoscamConfigEntry) -> None:
     """Set up foscam from a config entry."""
 
     session = FoscamCamera(
@@ -53,12 +53,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FoscamConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FoscamConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FoscamConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: FoscamConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: FoscamConfigEntry) -> None:
     """Migrate old entry."""
     LOGGER.debug("Migrating from version %s", entry.version)
 
@@ -96,7 +96,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: FoscamConfigEntry
     LOGGER.debug("Migration to version %s successful", entry.version)
 
 
-async def async_migrate_entities(hass: UniversalAssistant, entry: FoscamConfigEntry) -> None:
+async def async_migrate_entities(hass: __HAC_KEEP__, entry: FoscamConfigEntry) -> None:
     """Migrate old entries to support config_entry_id-based unique IDs."""
 
     @callback

@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ouman_eh_800.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_PASSWORD, TEST_URL, TEST_USERNAME
@@ -46,7 +46,7 @@ USER_INPUT = {
     ],
 )
 async def test_user_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     submitted_url: str,
     expected_url: str,
@@ -83,7 +83,7 @@ async def test_user_flow_success(
     ],
 )
 async def test_user_flow_errors_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     error: Exception,
     expected_error: str,
@@ -111,7 +111,7 @@ async def test_user_flow_errors_recover(
 
 
 @pytest.mark.usefixtures("mock_ouman_client")
-async def test_user_flow_invalid_url_recovers(hass: UniversalAssistant) -> None:
+async def test_user_flow_invalid_url_recovers(hass: __HAC_KEEP__) -> None:
     """Test that an unparsable URL surfaces an error and the flow can recover."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -138,7 +138,7 @@ async def test_user_flow_invalid_url_recovers(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_ouman_client")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test aborting when device is already configured."""
@@ -174,7 +174,7 @@ async def test_user_flow_already_configured(
     ],
 )
 async def test_reconfigure_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     new_input: dict[str, str],
 ) -> None:
@@ -204,7 +204,7 @@ async def test_reconfigure_flow_success(
     ],
 )
 async def test_reconfigure_flow_errors_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ouman_client: AsyncMock,
     error: Exception,
@@ -233,7 +233,7 @@ async def test_reconfigure_flow_errors_recover(
 
 @pytest.mark.usefixtures("mock_ouman_client")
 async def test_reconfigure_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test aborting when reconfiguring to the URL of another entry."""
@@ -257,7 +257,7 @@ async def test_reconfigure_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_ouman_client")
 async def test_reauth_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a successful reauthentication updates the credentials."""
@@ -291,7 +291,7 @@ async def test_reauth_flow_success(
     ],
 )
 async def test_reauth_flow_errors_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ouman_client: AsyncMock,
     error: Exception,

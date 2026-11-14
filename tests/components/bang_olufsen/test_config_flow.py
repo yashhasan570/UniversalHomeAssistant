@@ -9,7 +9,7 @@ import pytest
 from universalassistant.components.bang_olufsen.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -26,7 +26,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_config_flow_timeout_error(
-    hass: UniversalAssistant, mock_mozart_client: AsyncMock
+    hass: __HAC_KEEP__, mock_mozart_client: AsyncMock
 ) -> None:
     """Test we handle timeout_error."""
     mock_mozart_client.get_beolink_self.side_effect = TimeoutError()
@@ -50,7 +50,7 @@ async def test_config_flow_timeout_error(
 
 
 async def test_config_flow_client_connector_error(
-    hass: UniversalAssistant, mock_mozart_client: AsyncMock
+    hass: __HAC_KEEP__, mock_mozart_client: AsyncMock
 ) -> None:
     """Test we handle client_connector_error."""
     mock_mozart_client.get_beolink_self.side_effect = ClientConnectorError(
@@ -76,7 +76,7 @@ async def test_config_flow_client_connector_error(
 
 
 @pytest.mark.usefixtures("mock_mozart_client")
-async def test_config_flow_invalid_ip(hass: UniversalAssistant) -> None:
+async def test_config_flow_invalid_ip(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid_ip."""
 
     result_user = await hass.config_entries.flow.async_init(
@@ -95,7 +95,7 @@ async def test_config_flow_invalid_ip(hass: UniversalAssistant) -> None:
 
 
 async def test_config_flow_api_exception(
-    hass: UniversalAssistant, mock_mozart_client: AsyncMock
+    hass: __HAC_KEEP__, mock_mozart_client: AsyncMock
 ) -> None:
     """Test we handle api_exception."""
     mock_mozart_client.get_beolink_self.side_effect = ApiException()
@@ -118,7 +118,7 @@ async def test_config_flow_api_exception(
     assert result_user["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow(hass: UniversalAssistant, mock_mozart_client: AsyncMock) -> None:
+async def test_config_flow(hass: __HAC_KEEP__, mock_mozart_client: AsyncMock) -> None:
     """Test config flow."""
 
     result_init = await hass.config_entries.flow.async_init(
@@ -143,7 +143,7 @@ async def test_config_flow(hass: UniversalAssistant, mock_mozart_client: AsyncMo
 
 
 async def test_config_flow_zeroconf(
-    hass: UniversalAssistant, mock_mozart_client: AsyncMock
+    hass: __HAC_KEEP__, mock_mozart_client: AsyncMock
 ) -> None:
     """Test zeroconf discovery."""
 
@@ -168,7 +168,7 @@ async def test_config_flow_zeroconf(
     assert mock_mozart_client.get_beolink_self.call_count == 1
 
 
-async def test_config_flow_zeroconf_not_mozart_device(hass: UniversalAssistant) -> None:
+async def test_config_flow_zeroconf_not_mozart_device(hass: __HAC_KEEP__) -> None:
     """Test zeroconf discovery of invalid device."""
 
     result_user = await hass.config_entries.flow.async_init(
@@ -181,7 +181,7 @@ async def test_config_flow_zeroconf_not_mozart_device(hass: UniversalAssistant) 
     assert result_user["reason"] == "not_mozart_device"
 
 
-async def test_config_flow_zeroconf_ipv6(hass: UniversalAssistant) -> None:
+async def test_config_flow_zeroconf_ipv6(hass: __HAC_KEEP__) -> None:
     """Test zeroconf discovery with IPv6 IP address."""
 
     result_user = await hass.config_entries.flow.async_init(
@@ -195,7 +195,7 @@ async def test_config_flow_zeroconf_ipv6(hass: UniversalAssistant) -> None:
 
 
 async def test_config_flow_zeroconf_invalid_ip(
-    hass: UniversalAssistant, mock_mozart_client: AsyncMock
+    hass: __HAC_KEEP__, mock_mozart_client: AsyncMock
 ) -> None:
     """Test zeroconf discovery with invalid IP address."""
     mock_mozart_client.get_beolink_self.side_effect = ClientConnectorError(

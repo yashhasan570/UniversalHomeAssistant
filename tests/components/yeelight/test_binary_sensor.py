@@ -3,7 +3,7 @@
 from unittest.mock import patch
 
 from universalassistant.components.yeelight import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_component
 from universalassistant.setup import async_setup_component
 
@@ -19,7 +19,7 @@ from . import (
 ENTITY_BINARY_SENSOR = f"binary_sensor.{NAME}_nightlight"
 
 
-async def test_nightlight(hass: UniversalAssistant) -> None:
+async def test_nightlight(hass: __HAC_KEEP__) -> None:
     """Test nightlight sensor."""
     mocked_bulb = _mocked_bulb()
     with _patch_discovery(), patch(f"{MODULE}.AsyncBulb", return_value=mocked_bulb):

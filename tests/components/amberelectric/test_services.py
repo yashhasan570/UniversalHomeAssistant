@@ -12,7 +12,7 @@ from universalassistant.components.amberelectric.services import (
     AmberElectricServiceArgument,
 )
 from universalassistant.const import ATTR_CONFIG_ENTRY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 
 from . import setup_integration
@@ -25,7 +25,7 @@ from .helpers import (
 
 @pytest.mark.usefixtures("mock_amber_client_forecasts")
 async def test_get_general_forecasts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     general_channel_config_entry: MockConfigEntry,
 ) -> None:
     """Test fetching general forecasts."""
@@ -57,7 +57,7 @@ async def test_get_general_forecasts(
 
 @pytest.mark.usefixtures("mock_amber_client_forecasts")
 async def test_get_controlled_load_forecasts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     general_channel_and_controlled_load_config_entry: MockConfigEntry,
 ) -> None:
     """Test fetching general forecasts."""
@@ -89,7 +89,7 @@ async def test_get_controlled_load_forecasts(
 
 @pytest.mark.usefixtures("mock_amber_client_forecasts")
 async def test_get_feed_in_forecasts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     general_channel_and_feed_in_config_entry: MockConfigEntry,
 ) -> None:
     """Test fetching general forecasts."""
@@ -121,7 +121,7 @@ async def test_get_feed_in_forecasts(
 
 @pytest.mark.usefixtures("mock_amber_client_forecasts")
 async def test_incorrect_channel_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     general_channel_config_entry: MockConfigEntry,
 ) -> None:
     """Test error when the channel type is incorrect."""
@@ -148,7 +148,7 @@ async def test_incorrect_channel_type(
 
 @pytest.mark.usefixtures("mock_amber_client_general_forecasts")
 async def test_unavailable_channel_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     general_channel_config_entry: MockConfigEntry,
 ) -> None:
     """Test error when the channel type is not found."""
@@ -171,7 +171,7 @@ async def test_unavailable_channel_type(
 
 @pytest.mark.usefixtures("mock_amber_client_forecasts")
 async def test_service_entry_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     general_channel_config_entry: MockConfigEntry,
 ) -> None:
     """Test the services without valid entry."""

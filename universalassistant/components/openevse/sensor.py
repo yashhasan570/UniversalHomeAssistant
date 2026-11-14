@@ -27,7 +27,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util import slugify
@@ -371,7 +371,7 @@ SENSOR_TYPES: tuple[OpenEVSESensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OpenEVSEConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

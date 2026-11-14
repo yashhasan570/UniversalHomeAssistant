@@ -3,7 +3,7 @@
 from wallbox import Wallbox
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     CHARGER_JWT_REFRESH_TOKEN,
@@ -24,7 +24,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: WallboxConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: WallboxConfigEntry) -> None:
     """Set up Wallbox from a config entry."""
     wallbox = Wallbox(
         entry.data[CONF_USERNAME],
@@ -50,6 +50,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: WallboxConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: WallboxConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: WallboxConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

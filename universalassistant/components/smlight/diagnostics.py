@@ -4,13 +4,13 @@ from typing import Any
 
 from pysmlight.const import Actions
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import SmConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: SmConfigEntry
+    hass: __HAC_KEEP__, config_entry: SmConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordintator = config_entry.runtime_data.data

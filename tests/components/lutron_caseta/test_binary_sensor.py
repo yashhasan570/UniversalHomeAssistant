@@ -15,7 +15,7 @@ from universalassistant.components.binary_sensor import (
 from universalassistant.components.lutron_caseta import DOMAIN
 from universalassistant.components.lutron_caseta.binary_sensor import SCAN_INTERVAL
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_OFF, STATE_ON, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import MockBridge, async_setup_integration
@@ -35,7 +35,7 @@ class SingleSubscriberMockBridge(MockBridge):
 
 
 async def test_battery_sensor_is_attached_to_shade_device(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the battery sensor is registered under the same shade device."""
     await async_setup_integration(hass, MockBridge)
@@ -53,7 +53,7 @@ async def test_battery_sensor_is_attached_to_shade_device(
 
 
 async def test_battery_sensor_does_not_replace_shade_subscriber(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the battery sensor does not replace the cover subscriber."""
     instance = SingleSubscriberMockBridge()
@@ -77,7 +77,7 @@ async def test_battery_sensor_does_not_replace_shade_subscriber(
 
 
 async def test_battery_sensor_updates_on_schedule(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the battery sensor refreshes naturally on its polling interval."""
     instance = MockBridge()
@@ -129,7 +129,7 @@ async def test_battery_sensor_updates_on_schedule(
 
 
 async def test_no_battery_sensor_for_a_shade_wired_for_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a shade the bridge reports no battery for gets no battery sensor."""
     instance = MockBridge()
@@ -151,7 +151,7 @@ async def test_no_battery_sensor_for_a_shade_wired_for_power(
 
 
 async def test_battery_sensor_removed_when_the_shade_has_no_battery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test a battery sensor from an earlier release is removed."""
@@ -185,7 +185,7 @@ async def test_battery_sensor_removed_when_the_shade_has_no_battery(
     [BridgeDisconnectedError(), TimeoutError],
 )
 async def test_battery_sensor_kept_when_the_bridge_cannot_answer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     error: Exception,
 ) -> None:
     """Test a cover keeps its battery sensor when the bridge cannot be asked."""
@@ -208,11 +208,11 @@ async def test_battery_sensor_kept_when_the_bridge_cannot_answer(
 
 
 async def test_battery_sensor_handles_bridge_response_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test battery sensor handles BridgeResponseError gracefully.
 
-    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/169965
+    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/169965
     """
     instance = MockBridge()
 

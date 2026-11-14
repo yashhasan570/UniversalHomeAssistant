@@ -9,7 +9,7 @@ from nio import MatrixRoom, RoomMessageText
 import pytest
 
 from universalassistant.components.matrix import MatrixBot, ReactionEvent, RoomID
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 
 from .conftest import (
     MOCK_EXPRESSION_COMMANDS,
@@ -177,7 +177,7 @@ reaction_command_global = partial(
     ),
 )
 async def test_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matrix_bot: MatrixBot,
     command_events: list[Event],
     command_params: CommandTestParameters,
@@ -206,7 +206,7 @@ async def test_commands(
     ),
 )
 async def test_non_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matrix_bot: MatrixBot,
     command_events: list[Event],
     command_params: CommandTestParameters,
@@ -223,7 +223,7 @@ async def test_non_commands(
     assert len(command_events) == 0
 
 
-async def test_commands_parsing(hass: UniversalAssistant, matrix_bot: MatrixBot) -> None:
+async def test_commands_parsing(hass: __HAC_KEEP__, matrix_bot: MatrixBot) -> None:
     """Test that the configured commands were parsed correctly."""
 
     await hass.async_start()

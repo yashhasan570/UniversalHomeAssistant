@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 from voip_utils import CallInfo, VoipDatagramProtocol
 from voip_utils.sip import SipEndpoint
 
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import DOMAIN
@@ -47,7 +47,7 @@ class VoIPDevice:
         return lambda: self.update_listeners.remove(listener)
 
     @callback
-    def async_allow_call(self, hass: UniversalAssistant) -> bool:
+    def async_allow_call(self, hass: __HAC_KEEP__) -> bool:
         """Return if call is allowed."""
         ent_reg = er.async_get(hass)
 
@@ -64,12 +64,12 @@ class VoIPDevice:
 
         return False
 
-    def get_pipeline_entity_id(self, hass: UniversalAssistant) -> str | None:
+    def get_pipeline_entity_id(self, hass: __HAC_KEEP__) -> str | None:
         """Return entity id for pipeline select."""
         ent_reg = er.async_get(hass)
         return ent_reg.async_get_entity_id("select", DOMAIN, f"{self.voip_id}-pipeline")
 
-    def get_vad_sensitivity_entity_id(self, hass: UniversalAssistant) -> str | None:
+    def get_vad_sensitivity_entity_id(self, hass: __HAC_KEEP__) -> str | None:
         """Return entity id for VAD sensitivity."""
         ent_reg = er.async_get(hass)
         return ent_reg.async_get_entity_id(
@@ -81,7 +81,7 @@ class VoIPDevices:
     """Class to store devices."""
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: VoipConfigEntry, store: VoipStore
+        self, hass: __HAC_KEEP__, config_entry: VoipConfigEntry, store: VoipStore
     ) -> None:
         """Initialize VoIP devices."""
         self.hass = hass

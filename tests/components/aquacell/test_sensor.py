@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.aquacell.const import STALE_DATA_TIMEOUT, UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -27,7 +27,7 @@ LAST_UPDATE = "2024-05-10 07:44:30+00:00"
 
 @pytest.mark.freeze_time(LAST_UPDATE)
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aquacell_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -40,7 +40,7 @@ async def test_sensors(
 
 @pytest.mark.freeze_time(LAST_UPDATE)
 async def test_sensors_unavailable_when_softener_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_aquacell_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -67,7 +67,7 @@ async def test_sensors_unavailable_when_softener_missing(
 
 @pytest.mark.freeze_time(LAST_UPDATE)
 async def test_sensors_unavailable_when_data_is_stale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_aquacell_api: AsyncMock,
     mock_config_entry: MockConfigEntry,

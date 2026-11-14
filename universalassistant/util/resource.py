@@ -1,4 +1,4 @@
-"""Resource management utilities for Universal Universal Home Assistant."""
+"""Resource management utilities for __HA_KEEP__."""
 
 import logging
 import os

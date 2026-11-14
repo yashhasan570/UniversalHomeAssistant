@@ -13,7 +13,7 @@ from universalassistant.helpers.update_coordinator import DataUpdateCoordinator,
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN
 
 if TYPE_CHECKING:
-    from universalassistant.core import UniversalAssistant
+    from universalassistant.core import __HAC_KEEP__
 
     from . import QubeConfigEntry
 
@@ -36,7 +36,7 @@ class QubeCoordinator(DataUpdateCoordinator[QubeData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         client: QubeClient,
         entry: QubeConfigEntry,
     ) -> None:

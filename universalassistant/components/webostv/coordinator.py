@@ -7,7 +7,7 @@ from aiowebostv import WebOsClient, WebOsTvPairError, WebOsTvState
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_CLIENT_SECRET, CONF_HOST
-from universalassistant.core import CoreState, UniversalAssistant, callback
+from universalassistant.core import CoreState, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.trigger import PluggableAction
 from universalassistant.helpers.update_coordinator import (
@@ -29,7 +29,7 @@ class WebOsTvDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WebOsTvConfigEntry,
         client: WebOsClient,
     ) -> None:
@@ -55,7 +55,7 @@ class WebOsTvDataUpdateCoordinator(DataUpdateCoordinator[None]):
             await self.client.connect()
         except WEBOSTV_EXCEPTIONS as error:
             # can't recover if the TV is disconnected and no turn_on action,
-            # automation triggers are attached only when Universal Universal Home Assistant is running
+            # automation triggers are attached only when __HA_KEEP__ is running
             if (
                 not self.turn_on
                 and self.config_entry.state is ConfigEntryState.LOADED
@@ -90,7 +90,7 @@ class WebOsTvDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
 
 def update_client_key(
-    hass: UniversalAssistant, entry: WebOsTvConfigEntry, client: WebOsClient
+    hass: __HAC_KEEP__, entry: WebOsTvConfigEntry, client: WebOsClient
 ) -> None:
     """Check and update stored client key if key has changed."""
     if client.client_key != entry.data[CONF_CLIENT_SECRET]:

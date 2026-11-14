@@ -7,7 +7,7 @@ from typing import Any, override
 from goodwe import Inverter, InverterError, RequestFailedException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -34,7 +34,7 @@ class GoodweUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: GoodweConfigEntry,
         inverter: Inverter,
     ) -> None:

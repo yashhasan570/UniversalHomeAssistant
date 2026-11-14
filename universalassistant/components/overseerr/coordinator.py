@@ -12,7 +12,7 @@ from yarl import URL
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_HOST, CONF_PORT, CONF_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -28,7 +28,7 @@ class OverseerrCoordinator(DataUpdateCoordinator[OverseerrData]):
 
     config_entry: OverseerrConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: OverseerrConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: OverseerrConfigEntry) -> None:
         """Initialize."""
         super().__init__(
             hass,

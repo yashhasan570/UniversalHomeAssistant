@@ -10,7 +10,7 @@ from israelrailapi.api import TrainRoute
 from israelrailapi.train_station import station_name_to_id
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -64,7 +64,7 @@ class IsraelRailDataUpdateCoordinator(DataUpdateCoordinator[list[DataConnection]
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: IsraelRailConfigEntry,
         train_schedule: TrainSchedule,
         start: str,

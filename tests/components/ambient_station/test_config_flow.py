@@ -8,7 +8,7 @@ import pytest
 from universalassistant.components.ambient_station.const import CONF_APP_KEY, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -20,7 +20,7 @@ from universalassistant.data_entry_flow import FlowResultType
     ],
 )
 async def test_create_entry(
-    hass: UniversalAssistant, api, config, devices_response, errors, mock_aioambient
+    hass: __HAC_KEEP__, api, config, devices_response, errors, mock_aioambient
 ) -> None:
     """Test creating an entry."""
     result = await hass.config_entries.flow.async_init(
@@ -50,7 +50,7 @@ async def test_create_entry(
 
 
 @pytest.mark.usefixtures("setup_config_entry")
-async def test_duplicate_error(hass: UniversalAssistant, config) -> None:
+async def test_duplicate_error(hass: __HAC_KEEP__, config) -> None:
     """Test that errors are shown when duplicates are added."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

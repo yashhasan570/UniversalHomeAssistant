@@ -11,13 +11,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_load_unload_entry(
 
 @pytest.mark.parametrize("exception", [PowerfoxConnectionError, PowerfoxNoDataError])
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -51,7 +51,7 @@ async def test_config_entry_not_ready(
 
 @pytest.mark.parametrize("method", ["all_devices", "device"])
 async def test_config_entry_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     method: str,

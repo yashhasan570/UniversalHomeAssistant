@@ -10,14 +10,14 @@ from universalassistant.components.motion_blinds.gateway import (
     ConnectMotionGateway,
     device_name,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_BLIND_MAC = "abcdefghujkl0001"
 TEST_HOST = "1.2.3.4"
 TEST_API_KEY = "12ab345c-d67e-8f"
 
 
-async def test_device_name(hass: UniversalAssistant) -> None:
+async def test_device_name(hass: __HAC_KEEP__) -> None:
     """test_device_name."""
     blind = Mock()
     blind.blind_type = BlindType.RollerBlind.name
@@ -29,12 +29,12 @@ async def test_device_name(hass: UniversalAssistant) -> None:
 
 
 async def test_connect_gateway_timeout_no_error_spam(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test a failed connect attempt cleans up and does not log an error.
 
-    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/188448 .
+    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/188448 .
     Retried setup attempts must not spam ERROR logs, and a previous multicast
     callback for the host must be unregistered before a new gateway registers.
     """

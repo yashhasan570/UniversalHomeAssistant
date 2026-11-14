@@ -20,8 +20,8 @@ from universalassistant.components.imou.const import PTZ_MOVE_DURATION_MS
 from universalassistant.components.imou.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .const import UNKNOWN_BUTTON_KEY, create_online_device
@@ -30,7 +30,7 @@ from .const import UNKNOWN_BUTTON_KEY, create_online_device
 @pytest.mark.parametrize("platforms", [[Platform.BUTTON]], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_button_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -55,7 +55,7 @@ async def test_button_entities_snapshot(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_setup_ignores_unknown_button_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_setup_ignores_unknown_button_types(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_press_button_via_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -97,7 +97,7 @@ async def test_press_button_via_service(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_press_ptz_button_passes_move_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_imou_ha_device_manager: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -124,7 +124,7 @@ async def test_press_ptz_button_passes_move_duration(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_press_button_service_propagates_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
     """Imou API errors from async_press_button surface to the service call."""
@@ -134,7 +134,7 @@ async def test_press_button_service_propagates_api_error(
 
     entity_id = hass.states.async_all("button")[0].entity_id
 
-    with pytest.raises(UniversalAssistantError, match="Imou rejected the button press"):
+    with pytest.raises(__HAC_KEEP__Error, match="Imou rejected the button press"):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -145,7 +145,7 @@ async def test_press_button_service_propagates_api_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_press_button_invalid_auth_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_press_button_invalid_auth_starts_reauth(
     entity_id = hass.states.async_all("button")[0].entity_id
 
     with pytest.raises(
-        UniversalAssistantError, match="Imou rejected the App ID and App secret"
+        __HAC_KEEP__Error, match="Imou rejected the App ID and App secret"
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,
@@ -186,7 +186,7 @@ async def test_press_button_invalid_auth_starts_reauth(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_press_unavailable_offline_device_via_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -226,7 +226,7 @@ async def test_press_unavailable_offline_device_via_service(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities_removed_when_device_leaves_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,

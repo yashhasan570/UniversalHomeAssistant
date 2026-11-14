@@ -17,7 +17,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SolarEdgeModbusConfigEntry
@@ -71,7 +71,7 @@ INVERTER_BINARY_SENSORS: tuple[
 BATTERY_BINARY_SENSORS: tuple[
     SolarEdgeModbusBinarySensorEntityDescription[Battery], ...
 ] = (
-    # The status sensor carries the whole story, but Universal Universal Home Assistant's
+    # The status sensor carries the whole story, but __HA_KEEP__'s
     # battery-charging triggers and conditions only look at this device class.
     SolarEdgeModbusBinarySensorEntityDescription(
         key="charging",
@@ -82,7 +82,7 @@ BATTERY_BINARY_SENSORS: tuple[
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SolarEdgeModbusConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

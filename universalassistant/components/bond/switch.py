@@ -6,8 +6,8 @@ from aiohttp.client_exceptions import ClientResponseError
 from bond_async import Action, DeviceType
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BondConfigEntry
@@ -15,7 +15,7 @@ from .entity import BondEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BondConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -53,7 +53,7 @@ class BondSwitch(BondEntity, SwitchEntity):
                 self._device_id, Action.set_power_state_belief(power_state)
             )
         except ClientResponseError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "The bond API returned an error calling set_power_state_belief for"
                 f" {self.entity_id}.  Code: {ex.status}  Message: {ex.message}"
             ) from ex

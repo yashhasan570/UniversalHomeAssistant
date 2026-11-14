@@ -20,7 +20,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import async_poll, setup_integration
@@ -35,7 +35,7 @@ FAN_STATE_ENTITY_IDS = {
 
 @pytest.fixture(autouse=True)
 async def setup_intelliclima_binary_sensor_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_cloud_interface: AsyncMock,
 ) -> AsyncGenerator[None]:
@@ -50,7 +50,7 @@ async def setup_intelliclima_binary_sensor_only(
 
 
 async def test_all_binary_sensor_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -75,7 +75,7 @@ async def test_all_binary_sensor_entities(
 
 
 async def test_filter_cleaning_unavailable_when_tracking_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_cloud_interface: AsyncMock,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_filter_cleaning_unavailable_when_tracking_disabled(
     ],
 )
 async def test_fan_state_flags(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     single_eco_device: IntelliClimaDevices,
     mode_state: str,
@@ -139,7 +139,7 @@ async def test_fan_state_flags(
 
 
 async def test_fan_state_flags_unknown_on_undefined_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     single_eco_device: IntelliClimaDevices,
 ) -> None:

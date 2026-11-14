@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AOSmithConfigEntry, AOSmithStatusCoordinator
@@ -19,7 +19,7 @@ HWP_LEVEL_AOSMITH_TO_HA = {value: key for key, value in HWP_LEVEL_HA_TO_AOSMITH.
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AOSmithConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

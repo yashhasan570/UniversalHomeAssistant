@@ -2,13 +2,13 @@
 
 import my_pypi_dependency
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_flow
 
 from .const import DOMAIN
 
 
-async def _async_has_devices(hass: UniversalAssistant) -> bool:
+async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
     """Return if there are devices that can be discovered."""
     # TODO Check if there are any devices that can be discovered in the network.
     devices = await hass.async_add_executor_job(my_pypi_dependency.discover)

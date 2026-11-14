@@ -13,7 +13,7 @@ from universalassistant.const import (
     CONF_CURRENCY,
     CONF_DISPLAY_OPTIONS,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 YAML_CONFIG = {
@@ -24,7 +24,7 @@ YAML_CONFIG = {
 
 
 @pytest.mark.usefixtures("mock_exchangerates", "mock_setup_entry")
-async def test_user_flow(hass: UniversalAssistant) -> None:
+async def test_user_flow(hass: __HAC_KEEP__) -> None:
     """Test the happy path of the user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -41,7 +41,7 @@ async def test_user_flow(hass: UniversalAssistant) -> None:
 
 
 async def test_user_flow_cannot_connect(
-    hass: UniversalAssistant, mock_exchangerates: MagicMock
+    hass: __HAC_KEEP__, mock_exchangerates: MagicMock
 ) -> None:
     """Test the user flow aborts when blockchain.com cannot be reached."""
     mock_exchangerates.side_effect = OSError("boom")
@@ -54,7 +54,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_no_currencies(
-    hass: UniversalAssistant, mock_exchangerates: MagicMock
+    hass: __HAC_KEEP__, mock_exchangerates: MagicMock
 ) -> None:
     """Test the user flow aborts when blockchain.com quotes nothing."""
     mock_exchangerates.return_value = {}
@@ -68,7 +68,7 @@ async def test_user_flow_no_currencies(
 
 @pytest.mark.usefixtures("mock_exchangerates", "mock_setup_entry")
 async def test_user_flow_single_instance(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test only one Bitcoin config entry can be created."""
     mock_config_entry.add_to_hass(hass)
@@ -81,7 +81,7 @@ async def test_user_flow_single_instance(
 
 
 @pytest.mark.usefixtures("mock_exchangerates", "mock_statistics")
-async def test_reconfigure_flow(hass: UniversalAssistant) -> None:
+async def test_reconfigure_flow(hass: __HAC_KEEP__) -> None:
     """Test changing the currency of an existing entry."""
     entry = MockConfigEntry(domain=DOMAIN, title="Bitcoin", data={CONF_CURRENCY: "EUR"})
     entry.add_to_hass(hass)
@@ -111,7 +111,7 @@ async def test_reconfigure_flow(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_statistics")
 async def test_reconfigure_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_exchangerates: MagicMock,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_reconfigure_flow_cannot_connect(
 
 
 @pytest.mark.usefixtures("mock_exchangerates")
-async def test_import_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_import_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test importing a YAML configuration."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_IMPORT}, data=YAML_CONFIG
@@ -137,7 +137,7 @@ async def test_import_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock
 
 
 @pytest.mark.usefixtures("mock_exchangerates", "mock_setup_entry")
-async def test_import_flow_lowercase_currency(hass: UniversalAssistant) -> None:
+async def test_import_flow_lowercase_currency(hass: __HAC_KEEP__) -> None:
     """Test a lowercase YAML currency is still imported."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -150,7 +150,7 @@ async def test_import_flow_lowercase_currency(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_flow_cannot_connect(
-    hass: UniversalAssistant, mock_exchangerates: MagicMock
+    hass: __HAC_KEEP__, mock_exchangerates: MagicMock
 ) -> None:
     """Test the import aborts when blockchain.com cannot be reached."""
     mock_exchangerates.side_effect = OSError("boom")
@@ -163,7 +163,7 @@ async def test_import_flow_cannot_connect(
 
 
 @pytest.mark.usefixtures("mock_exchangerates", "mock_setup_entry")
-async def test_import_flow_unknown_currency(hass: UniversalAssistant) -> None:
+async def test_import_flow_unknown_currency(hass: __HAC_KEEP__) -> None:
     """Test the import aborts when the YAML currency is not quoted."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -176,7 +176,7 @@ async def test_import_flow_unknown_currency(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_without_usd_quoted(
-    hass: UniversalAssistant, mock_exchangerates: MagicMock
+    hass: __HAC_KEEP__, mock_exchangerates: MagicMock
 ) -> None:
     """Test the offered default is valid when USD is not quoted."""
     mock_exchangerates.return_value = {

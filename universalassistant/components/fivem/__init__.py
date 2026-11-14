@@ -5,7 +5,7 @@ import logging
 from fivem import FiveMServerOfflineError
 
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .coordinator import FiveMConfigEntry, FiveMDataUpdateCoordinator
@@ -15,7 +15,7 @@ PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FiveMConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FiveMConfigEntry) -> None:
     """Set up FiveM from a config entry."""
     _LOGGER.debug(
         "Create FiveM server instance for '%s:%s'",
@@ -37,6 +37,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FiveMConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FiveMConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FiveMConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

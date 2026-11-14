@@ -4,7 +4,7 @@
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
     },
     "error": {
-      "invalid_code": "Invalid code, please try again. If you get this error consistently, please make sure the clock of your Universal Universal Home Assistant system is accurate.",
+      "invalid_code": "Invalid code, please try again. If you get this error consistently, please make sure the clock of your __HA_KEEP__ system is accurate.",
       "invalid_token": "Invalid token",
       "unknown": "[%key:common::config_flow::error::unknown%]"
     },
@@ -29,7 +29,7 @@
         "data_description": {
           "name": "The purpose of this sensor (for example, the name of the service or account for which the One-Time Password is used).",
           "new_token": "Generate a new secret key. You will be able to scan a QR code to import this token into your preferred authenticator app in the next step.",
-          "token": "An existing secret key for import into Universal Universal Home Assistant."
+          "token": "An existing secret key for import into __HA_KEEP__."
         },
         "description": "Creates a sensor that generates One-Time Passwords (OTP) for two-factor authentication."
       }

@@ -7,7 +7,7 @@ from chip.clusters import Objects
 from matter_server.common.helpers.util import dataclass_to_dict, parse_attribute_path
 
 from universalassistant.components.diagnostics import REDACTED, async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .helpers import MatterConfigEntry, get_matter, get_node_from_device_entry
@@ -39,7 +39,7 @@ def remove_serialization_type(data: dict[str, Any]) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: MatterConfigEntry
+    hass: __HAC_KEEP__, config_entry: MatterConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     matter = get_matter(hass)
@@ -53,7 +53,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, config_entry: MatterConfigEntry, device: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: MatterConfigEntry, device: dr.AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     matter = get_matter(hass)

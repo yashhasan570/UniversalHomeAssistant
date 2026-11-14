@@ -9,12 +9,12 @@ from universalassistant.components.geniushub import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_MAC, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_cloud_unique_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_geniushub_cloud: AsyncMock,
 ) -> None:
@@ -42,7 +42,7 @@ async def test_cloud_unique_id_migration(
 
 
 async def test_setup_client_response_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_geniushub_cloud: AsyncMock,
     mock_cloud_config_entry: MockConfigEntry,
 ) -> None:

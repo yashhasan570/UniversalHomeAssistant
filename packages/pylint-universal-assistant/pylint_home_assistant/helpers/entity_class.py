@@ -1,4 +1,4 @@
-"""Helpers for scanning Universal Universal Home Assistant entity class hierarchies."""
+"""Helpers for scanning __HA_KEEP__ entity class hierarchies."""
 
 import astroid
 from astroid import nodes

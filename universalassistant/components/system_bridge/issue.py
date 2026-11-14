@@ -1,13 +1,13 @@
 """Issues for System Bridge integration."""
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
 
 from .const import DOMAIN
 
 
 @callback
-def async_deprecated_notify_action_call(hass: UniversalAssistant, service_name: str) -> None:
+def async_deprecated_notify_action_call(hass: __HAC_KEEP__, service_name: str) -> None:
     """Create an issue for a call to the deprecated legacy notify action."""
     async_create_issue(
         hass,

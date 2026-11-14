@@ -16,14 +16,14 @@ from universalassistant.components.accuweather.const import (
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_async_setup_entry(
-    hass: UniversalAssistant, mock_accuweather_client: AsyncMock
+    hass: __HAC_KEEP__, mock_accuweather_client: AsyncMock
 ) -> None:
     """Test a successful setup entry."""
     await init_integration(hass)
@@ -35,7 +35,7 @@ async def test_async_setup_entry(
 
 
 async def test_config_not_ready(
-    hass: UniversalAssistant, mock_accuweather_client: AsyncMock
+    hass: __HAC_KEEP__, mock_accuweather_client: AsyncMock
 ) -> None:
     """Test for setup failure if connection to AccuWeather is missing."""
     entry = MockConfigEntry(
@@ -60,7 +60,7 @@ async def test_config_not_ready(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, mock_accuweather_client: AsyncMock
+    hass: __HAC_KEEP__, mock_accuweather_client: AsyncMock
 ) -> None:
     """Test successful unload of entry."""
     entry = await init_integration(hass)
@@ -76,7 +76,7 @@ async def test_unload_entry(
 
 
 async def test_update_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_accuweather_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_update_interval(
 
 
 async def test_remove_ozone_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_accuweather_client: AsyncMock,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_remove_ozone_sensors(
     ],
 )
 async def test_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_accuweather_client: AsyncMock,
     method: str,
@@ -157,7 +157,7 @@ async def test_auth_error(
 
 
 async def test_auth_error_whe_polling_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_accuweather_client: AsyncMock,
 ) -> None:

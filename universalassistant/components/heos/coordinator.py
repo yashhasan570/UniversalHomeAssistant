@@ -26,7 +26,7 @@ from pyheos import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.debounce import Debouncer
@@ -44,7 +44,7 @@ class HeosCoordinator(DataUpdateCoordinator[None]):
 
     config_entry: HeosConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: HeosConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: HeosConfigEntry) -> None:
         """Set up the coordinator and set in config_entry."""
         credentials: Credentials | None = None
         if config_entry.options:

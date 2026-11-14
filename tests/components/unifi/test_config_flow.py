@@ -42,7 +42,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 
@@ -104,7 +104,7 @@ DPI_GROUPS = [
 
 
 @pytest.mark.usefixtures("mock_default_requests")
-async def test_flow_works(hass: UniversalAssistant, mock_discovery) -> None:
+async def test_flow_works(hass: __HAC_KEEP__, mock_discovery) -> None:
     """Test config flow."""
     mock_discovery.return_value = "1"
     result = await hass.config_entries.flow.async_init(
@@ -145,7 +145,7 @@ async def test_flow_works(hass: UniversalAssistant, mock_discovery) -> None:
     assert result["result"].unique_id == "1"
 
 
-async def test_flow_works_negative_discovery(hass: UniversalAssistant) -> None:
+async def test_flow_works_negative_discovery(hass: __HAC_KEEP__) -> None:
     """Test config flow with a negative outcome of async_discovery_unifi."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -172,7 +172,7 @@ async def test_flow_works_negative_discovery(hass: UniversalAssistant) -> None:
     ],
 )
 @pytest.mark.usefixtures("mock_default_requests")
-async def test_flow_multiple_sites(hass: UniversalAssistant) -> None:
+async def test_flow_multiple_sites(hass: __HAC_KEEP__) -> None:
     """Test config flow works when finding multiple sites."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -199,7 +199,7 @@ async def test_flow_multiple_sites(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_flow_raise_already_configured(hass: UniversalAssistant) -> None:
+async def test_flow_raise_already_configured(hass: __HAC_KEEP__) -> None:
     """Test config flow aborts since a connected config entry already exists."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -294,7 +294,7 @@ SITES_UPDATE = "aiounifi.interfaces.sites.Sites.update"
 )
 @pytest.mark.usefixtures("mock_default_requests")
 async def test_flow_fails_and_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target: str,
     side_effect: type[Exception],
     error: str,
@@ -347,7 +347,7 @@ async def test_flow_fails_and_recovers(
 
 
 async def test_reauth_flow_update_configuration(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Verify reauth flow can update hub configuration."""
     config_entry = config_entry_setup
@@ -389,7 +389,7 @@ async def test_reauth_flow_update_configuration(
 
 
 async def test_reauth_flow_reloads_not_loaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_requests: Callable[[str, str], None],
 ) -> None:
@@ -416,7 +416,7 @@ async def test_reauth_flow_reloads_not_loaded_entry(
 
 
 async def test_reauth_flow_reloads_loaded_entry_with_unchanged_data(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Verify reauth flow reloads a loaded entry when its data is unchanged."""
     config_entry = config_entry_setup
@@ -452,7 +452,7 @@ async def test_reauth_flow_reloads_loaded_entry_with_unchanged_data(
     ],
 )
 async def test_abort_reauth_flow_on_site_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_requests: Callable[[str, str], None],
 ) -> None:
@@ -481,7 +481,7 @@ async def test_abort_reauth_flow_on_site_id_mismatch(
 
 
 async def test_reconfigure_flow_update_configuration(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Verify reconfigure flow can update hub configuration."""
     config_entry = config_entry_setup
@@ -513,7 +513,7 @@ async def test_reconfigure_flow_update_configuration(
 
 
 @pytest.mark.usefixtures("mock_default_requests")
-async def test_flow_site_request_timeout(hass: UniversalAssistant) -> None:
+async def test_flow_site_request_timeout(hass: __HAC_KEEP__) -> None:
     """Test config flow gives up on a site request that does not answer."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -550,7 +550,7 @@ async def test_flow_site_request_timeout(hass: UniversalAssistant) -> None:
 
 
 async def test_reconfigure_flow_with_no_sites(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Verify an empty site list is an error that can be retried, not an abort."""
     result = await config_entry_setup.start_reconfigure_flow(hass)
@@ -589,7 +589,7 @@ async def test_reconfigure_flow_with_no_sites(
 )
 @pytest.mark.usefixtures("mock_default_requests")
 async def test_reconfigure_flow_retains_user_input_on_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     side_effect: type[Exception],
     error: str,
@@ -646,7 +646,7 @@ async def test_reconfigure_flow_retains_user_input_on_error(
     ],
 )
 async def test_abort_reconfigure_flow_on_site_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_requests: Callable[[str, str], None],
 ) -> None:
@@ -679,7 +679,7 @@ async def test_abort_reconfigure_flow_on_site_id_mismatch(
 @pytest.mark.parametrize("wlan_payload", [WLANS])
 @pytest.mark.parametrize("dpi_group_payload", [DPI_GROUPS])
 async def test_option_flow(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test config flow options."""
     config_entry = config_entry_setup
@@ -726,7 +726,7 @@ async def test_option_flow(
     }
 
 
-async def test_option_flow_entry_not_loaded(hass: UniversalAssistant) -> None:
+async def test_option_flow_entry_not_loaded(hass: __HAC_KEEP__) -> None:
     """Test options flow aborts when the integration is not set up."""
     config_entry = MockConfigEntry(domain=DOMAIN)
     config_entry.add_to_hass(hass)
@@ -737,13 +737,13 @@ async def test_option_flow_entry_not_loaded(hass: UniversalAssistant) -> None:
     assert result["reason"] == "integration_not_setup"
 
 
-async def test_discover_unifi_positive(hass: UniversalAssistant) -> None:
+async def test_discover_unifi_positive(hass: __HAC_KEEP__) -> None:
     """Verify positive run of UniFi discovery."""
     with patch("socket.gethostbyname", return_value="192.168.1.1"):
         assert await _async_discover_unifi(hass) == "192.168.1.1"
 
 
-async def test_discover_unifi_negative(hass: UniversalAssistant) -> None:
+async def test_discover_unifi_negative(hass: __HAC_KEEP__) -> None:
     """Verify negative run of UniFi discovery."""
     with patch("socket.gethostbyname", side_effect=socket.gaierror):
         assert await _async_discover_unifi(hass) is None
@@ -760,7 +760,7 @@ INTEGRATION_DISCOVERY_INFO = {
 }
 
 
-async def test_flow_integration_discovery(hass: UniversalAssistant) -> None:
+async def test_flow_integration_discovery(hass: __HAC_KEEP__) -> None:
     """Test we get the form with integration discovery source."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -800,7 +800,7 @@ async def test_flow_integration_discovery(hass: UniversalAssistant) -> None:
     ids=["name", "hostname", "product_name", "fallback"],
 )
 async def test_flow_integration_discovery_title(
-    hass: UniversalAssistant, extra_info: dict[str, str], expected_name: str
+    hass: __HAC_KEEP__, extra_info: dict[str, str], expected_name: str
 ) -> None:
     """Test discovery title priority: name, hostname, product_name, then fallback."""
     result = await hass.config_entries.flow.async_init(
@@ -826,7 +826,7 @@ async def test_flow_integration_discovery_title(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_flow_integration_discovery_aborts_if_host_already_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we abort if the host is already configured."""
     result = await hass.config_entries.flow.async_init(
@@ -843,7 +843,7 @@ async def test_flow_integration_discovery_aborts_if_host_already_exists(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_flow_integration_discovery_aborts_on_other_announced_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we abort when the entry uses another interface of the same console."""
     result = await hass.config_entries.flow.async_init(
@@ -910,7 +910,7 @@ async def test_flow_integration_discovery_aborts_on_other_announced_address(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_flow_integration_discovery_matches_managed_console(
-    hass: UniversalAssistant, expected_type: FlowResultType, expected_reason: str | None
+    hass: __HAC_KEEP__, expected_type: FlowResultType, expected_reason: str | None
 ) -> None:
     """Test discovery matches a managed console but not clients or other devices."""
     result = await hass.config_entries.flow.async_init(
@@ -927,7 +927,7 @@ async def test_flow_integration_discovery_matches_managed_console(
 
 
 async def test_flow_integration_discovery_ignores_entry_without_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test an entry carrying no host does not match a missing direct connect."""
     MockConfigEntry(domain=DOMAIN, unique_id="site-id", data={}).add_to_hass(hass)
@@ -942,7 +942,7 @@ async def test_flow_integration_discovery_ignores_entry_without_host(
 
 
 async def test_flow_integration_discovery_uses_direct_connect_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery prefers direct_connect_domain over source_ip."""
     result = await hass.config_entries.flow.async_init(
@@ -964,7 +964,7 @@ async def test_flow_integration_discovery_uses_direct_connect_domain(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_flow_integration_discovery_aborts_on_direct_connect_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we abort if the direct connect domain matches a configured host."""
     result = await hass.config_entries.flow.async_init(
@@ -992,7 +992,7 @@ async def test_flow_integration_discovery_aborts_on_direct_connect_host(
     ],
 )
 async def test_flow_integration_discovery_updates_existing_entry_on_rediscovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_host: str,
     extra_info: dict[str, Any],
 ) -> None:
@@ -1023,7 +1023,7 @@ async def test_flow_integration_discovery_updates_existing_entry_on_rediscovery(
 
 
 async def test_flow_integration_discovery_aborts_without_source_ip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we abort discovery when source_ip is missing."""
     result = await hass.config_entries.flow.async_init(
@@ -1039,7 +1039,7 @@ async def test_flow_integration_discovery_aborts_without_source_ip(
 
 
 async def test_flow_integration_discovery_gets_form_with_ignored_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we can still set up if there is an ignored never configured entry."""
     entry = MockConfigEntry(

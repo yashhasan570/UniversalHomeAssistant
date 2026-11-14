@@ -17,13 +17,13 @@ from universalassistant.components.opensky.const import (
     EVENT_OPENSKY_ENTRY,
     EVENT_OPENSKY_EXIT,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     opensky_client: AsyncMock,
@@ -44,7 +44,7 @@ async def test_sensor(
 
 
 async def test_sensor_altitude(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_altitude: MockConfigEntry,
     opensky_client: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -57,7 +57,7 @@ async def test_sensor_altitude(
 
 
 async def test_sensor_updating(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     opensky_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

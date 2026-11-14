@@ -51,7 +51,7 @@ from universalassistant.components.stream.worker import (
     StreamWorkerError,
     stream_worker,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .common import dynamic_stream_settings, generate_h264_video, generate_h265_video
@@ -89,7 +89,7 @@ def filename(tmp_path: Path) -> str:
 
 
 @pytest.fixture(autouse=True)
-def mock_stream_settings(hass: UniversalAssistant) -> None:
+def mock_stream_settings(hass: __HAC_KEEP__) -> None:
     """Set the stream settings data in hass before each test."""
     hass.data[DOMAIN] = {
         ATTR_SETTINGS: StreamSettings(
@@ -299,7 +299,7 @@ class MockPyAv:
 
 
 def run_worker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     stream: Stream,
     stream_source: str,
     stream_settings: StreamSettings | None = None,
@@ -317,7 +317,7 @@ def run_worker(
 
 
 async def async_decode_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     packets: PacketSequence,
     py_av: MockPyAv | None = None,
     stream_settings: StreamSettings | None = None,
@@ -367,7 +367,7 @@ async def async_decode_stream(
     ],
 )
 async def test_stream_open_fails(
-    hass: UniversalAssistant, exception: Exception, error_code: StreamClientError
+    hass: __HAC_KEEP__, exception: Exception, error_code: StreamClientError
 ) -> None:
     """Test failure on stream open."""
     stream = Stream(
@@ -386,7 +386,7 @@ async def test_stream_open_fails(
         assert err.value.error_code == error_code
 
 
-async def test_stream_worker_success(hass: UniversalAssistant) -> None:
+async def test_stream_worker_success(hass: __HAC_KEEP__) -> None:
     """Test a short stream that ends and outputs everything correctly."""
     decoded_stream = await async_decode_stream(
         hass, PacketSequence(TEST_SEQUENCE_LENGTH)
@@ -407,7 +407,7 @@ async def test_stream_worker_success(hass: UniversalAssistant) -> None:
 
 
 async def test_stream_worker_first_keyframe_mux_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test an FFmpeg error muxing the first keyframe is handled."""
     py_av = MockPyAv()
@@ -425,7 +425,7 @@ async def test_stream_worker_first_keyframe_mux_fails(
     assert py_av.capture_buffer.memory_file.closed
 
 
-async def test_stream_worker_packet_mux_fails(hass: UniversalAssistant) -> None:
+async def test_stream_worker_packet_mux_fails(hass: __HAC_KEEP__) -> None:
     """Test an FFmpeg error muxing a packet is handled."""
     py_av = MockPyAv()
     py_av.capture_buffer.mux_side_effects = [
@@ -443,7 +443,7 @@ async def test_stream_worker_packet_mux_fails(hass: UniversalAssistant) -> None:
     assert py_av.capture_buffer.memory_file.closed
 
 
-async def test_skip_out_of_order_packet(hass: UniversalAssistant) -> None:
+async def test_skip_out_of_order_packet(hass: __HAC_KEEP__) -> None:
     """Skip a single out of order packet."""
     packets = list(PacketSequence(TEST_SEQUENCE_LENGTH))
     # for this test, make sure the out of order index doesn't happen on a keyframe
@@ -484,7 +484,7 @@ async def test_skip_out_of_order_packet(hass: UniversalAssistant) -> None:
     assert len(decoded_stream.audio_packets) == 0
 
 
-async def test_discard_old_packets(hass: UniversalAssistant) -> None:
+async def test_discard_old_packets(hass: __HAC_KEEP__) -> None:
     """Skip a series of out of order packets."""
 
     packets = list(PacketSequence(TEST_SEQUENCE_LENGTH))
@@ -515,7 +515,7 @@ async def test_discard_old_packets(hass: UniversalAssistant) -> None:
         pytest.param(OUT_OF_ORDER_PACKET_INDEX, id="while_discarding_old_packets"),
     ],
 )
-async def test_stop_while_reading_packets(hass: UniversalAssistant, stop_index: int) -> None:
+async def test_stop_while_reading_packets(hass: __HAC_KEEP__, stop_index: int) -> None:
     """Test the worker stops reading packets when it is asked to stop."""
     packets = list(PacketSequence(TEST_SEQUENCE_LENGTH))
     # Packets after this one are considered out of order
@@ -544,7 +544,7 @@ async def test_stop_while_reading_packets(hass: UniversalAssistant, stop_index: 
     assert next(source, None) is packets[stop_index + 1]
 
 
-async def test_packet_overflow(hass: UniversalAssistant) -> None:
+async def test_packet_overflow(hass: __HAC_KEEP__) -> None:
     """Packet is too far out of order, and looks like overflow, ending stream early."""
 
     packets = list(PacketSequence(TEST_SEQUENCE_LENGTH))
@@ -569,7 +569,7 @@ async def test_packet_overflow(hass: UniversalAssistant) -> None:
     assert len(decoded_stream.audio_packets) == 0
 
 
-async def test_skip_initial_bad_packets(hass: UniversalAssistant) -> None:
+async def test_skip_initial_bad_packets(hass: __HAC_KEEP__) -> None:
     """Tests a small number of initial "bad" packets with missing dts."""
 
     num_packets = LONGER_TEST_SEQUENCE_LENGTH
@@ -599,7 +599,7 @@ async def test_skip_initial_bad_packets(hass: UniversalAssistant) -> None:
     assert len(decoded_stream.audio_packets) == 0
 
 
-async def test_repair_initial_keyframe_missing_dts(hass: UniversalAssistant) -> None:
+async def test_repair_initial_keyframe_missing_dts(hass: __HAC_KEEP__) -> None:
     """Test a missing DTS on the initial keyframe is repaired."""
 
     packets = list(PacketSequence(TEST_SEQUENCE_LENGTH))
@@ -616,7 +616,7 @@ async def test_repair_initial_keyframe_missing_dts(hass: UniversalAssistant) -> 
     assert len(decoded_stream.audio_packets) == 0
 
 
-async def test_too_many_initial_bad_packets_fails(hass: UniversalAssistant) -> None:
+async def test_too_many_initial_bad_packets_fails(hass: __HAC_KEEP__) -> None:
     """Test initial bad packets are too high, causing it to never start."""
 
     num_packets = LONGER_TEST_SEQUENCE_LENGTH
@@ -635,7 +635,7 @@ async def test_too_many_initial_bad_packets_fails(hass: UniversalAssistant) -> N
     assert len(decoded_stream.audio_packets) == 0
 
 
-async def test_skip_missing_dts(hass: UniversalAssistant) -> None:
+async def test_skip_missing_dts(hass: __HAC_KEEP__) -> None:
     """Test packets in the middle of the stream missing DTS are skipped."""
 
     num_packets = LONGER_TEST_SEQUENCE_LENGTH
@@ -659,7 +659,7 @@ async def test_skip_missing_dts(hass: UniversalAssistant) -> None:
     assert len(decoded_stream.audio_packets) == 0
 
 
-async def test_too_many_bad_packets(hass: UniversalAssistant) -> None:
+async def test_too_many_bad_packets(hass: __HAC_KEEP__) -> None:
     """Test bad packets are too many, causing it to end."""
 
     num_packets = LONGER_TEST_SEQUENCE_LENGTH
@@ -679,7 +679,7 @@ async def test_too_many_bad_packets(hass: UniversalAssistant) -> None:
     assert len(decoded_stream.audio_packets) == 0
 
 
-async def test_no_video_stream(hass: UniversalAssistant) -> None:
+async def test_no_video_stream(hass: __HAC_KEEP__) -> None:
     """Test no video stream in the container means no resulting output."""
     py_av = MockPyAv(video=False)
 
@@ -695,7 +695,7 @@ async def test_no_video_stream(hass: UniversalAssistant) -> None:
     assert len(decoded_stream.audio_packets) == 0
 
 
-async def test_audio_packets_not_found(hass: UniversalAssistant) -> None:
+async def test_audio_packets_not_found(hass: __HAC_KEEP__) -> None:
     """Set up an audio stream, but no audio packets are found."""
     py_av = MockPyAv(audio=True)
 
@@ -709,7 +709,7 @@ async def test_audio_packets_not_found(hass: UniversalAssistant) -> None:
     assert len(decoded_stream.audio_packets) == 0
 
 
-async def test_audio_is_first_packet(hass: UniversalAssistant) -> None:
+async def test_audio_is_first_packet(hass: __HAC_KEEP__) -> None:
     """Set up an audio stream and audio packet is the first packet in the stream."""
     py_av = MockPyAv(audio=True)
 
@@ -732,7 +732,7 @@ async def test_audio_is_first_packet(hass: UniversalAssistant) -> None:
     assert len(decoded_stream.audio_packets) == 1
 
 
-async def test_audio_packets_found(hass: UniversalAssistant) -> None:
+async def test_audio_packets_found(hass: __HAC_KEEP__) -> None:
     """Set up an audio stream and audio packets are found at the start of the stream."""
     py_av = MockPyAv(audio=True)
 
@@ -750,7 +750,7 @@ async def test_audio_packets_found(hass: UniversalAssistant) -> None:
     assert len(decoded_stream.audio_packets) == 1
 
 
-async def test_pts_out_of_order(hass: UniversalAssistant) -> None:
+async def test_pts_out_of_order(hass: __HAC_KEEP__) -> None:
     """Test pts can be out of order and still be valid."""
 
     # Create a sequence of packets with some out of order pts
@@ -775,7 +775,7 @@ async def test_pts_out_of_order(hass: UniversalAssistant) -> None:
     assert len(decoded_stream.audio_packets) == 0
 
 
-async def test_stream_stopped_while_decoding(hass: UniversalAssistant) -> None:
+async def test_stream_stopped_while_decoding(hass: __HAC_KEEP__) -> None:
     """Tests that worker quits when stop() is called while decoding."""
     # Add some synchronization so that the test can pause the background
     # worker. When the worker is stopped, the test invokes stop() which
@@ -816,7 +816,7 @@ async def test_stream_stopped_while_decoding(hass: UniversalAssistant) -> None:
     assert stream.available
 
 
-async def test_update_stream_source(hass: UniversalAssistant) -> None:
+async def test_update_stream_source(hass: __HAC_KEEP__) -> None:
     """Tests that the worker is re-invoked when the stream source is updated."""
     worker_open = threading.Event()
     worker_wake = threading.Event()
@@ -886,7 +886,7 @@ test_worker_log_cases = (
 
 @pytest.mark.parametrize(("stream_url", "redacted_url"), test_worker_log_cases)
 async def test_worker_log(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, stream_url, redacted_url
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, stream_url, redacted_url
 ) -> None:
     """Test that the worker logs the url without username and password."""
     stream = Stream(
@@ -926,7 +926,7 @@ def worker_finished_stream():
     return worker_finished, MockStream
 
 
-async def test_durations(hass: UniversalAssistant, worker_finished_stream) -> None:
+async def test_durations(hass: __HAC_KEEP__, worker_finished_stream) -> None:
     """Test that the duration metadata matches the media."""
 
     # Use a target part duration which has a slight mismatch
@@ -1009,7 +1009,7 @@ async def test_durations(hass: UniversalAssistant, worker_finished_stream) -> No
 
 
 async def test_has_keyframe(
-    hass: UniversalAssistant, h264_video, worker_finished_stream
+    hass: __HAC_KEEP__, h264_video, worker_finished_stream
 ) -> None:
     """Test that the has_keyframe metadata matches the media."""
     await async_setup_component(
@@ -1055,7 +1055,7 @@ async def test_has_keyframe(
     await stream.stop()
 
 
-async def test_h265_video_is_hvc1(hass: UniversalAssistant, worker_finished_stream) -> None:
+async def test_h265_video_is_hvc1(hass: __HAC_KEEP__, worker_finished_stream) -> None:
     """Test that a h265 video gets muxed as hvc1."""
     await async_setup_component(
         hass,
@@ -1102,7 +1102,7 @@ async def test_h265_video_is_hvc1(hass: UniversalAssistant, worker_finished_stre
     }
 
 
-async def test_get_image(hass: UniversalAssistant, h264_video, filename) -> None:
+async def test_get_image(hass: __HAC_KEEP__, h264_video, filename) -> None:
     """Test getting an image from the stream."""
     await async_setup_component(hass, DOMAIN, {"stream": {}})
 
@@ -1144,7 +1144,7 @@ async def test_get_image(hass: UniversalAssistant, h264_video, filename) -> None
     await stream.stop()
 
 
-async def test_worker_disable_ll_hls(hass: UniversalAssistant) -> None:
+async def test_worker_disable_ll_hls(hass: __HAC_KEEP__) -> None:
     """Test that the worker disables ll-hls for hls inputs."""
     stream_settings = StreamSettings(
         ll_hls=True,
@@ -1165,7 +1165,7 @@ async def test_worker_disable_ll_hls(hass: UniversalAssistant) -> None:
     assert stream_settings.ll_hls is False
 
 
-async def test_get_image_rotated(hass: UniversalAssistant, h264_video, filename) -> None:
+async def test_get_image_rotated(hass: __HAC_KEEP__, h264_video, filename) -> None:
     """Test getting a rotated image."""
     await async_setup_component(hass, DOMAIN, {"stream": {}})
 

@@ -9,7 +9,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.freedompro.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DEVICES, DEVICES_STATE
 
@@ -43,8 +43,8 @@ def mock_freedompro():
 
 
 @pytest.fixture
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the Freedompro integration in Universal Universal Home Assistant."""
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the Freedompro integration in __HA_KEEP__."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         title="Feedompro",
@@ -62,8 +62,8 @@ async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
 
 
 @pytest.fixture
-async def init_integration_no_state(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the Freedompro integration in Universal Universal Home Assistant without state."""
+async def init_integration_no_state(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the Freedompro integration in __HA_KEEP__ without state."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         title="Feedompro",

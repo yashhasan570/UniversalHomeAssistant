@@ -9,7 +9,7 @@ from yoto_api import PlayerConfig, YotoPlayer
 
 from universalassistant.components.time import TimeEntity, TimeEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import YotoConfigEntry, YotoDataUpdateCoordinator
@@ -48,7 +48,7 @@ TIME_ENTITIES: tuple[YotoTimeEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: YotoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

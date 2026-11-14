@@ -14,7 +14,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.usage_prediction import DOMAIN
 from universalassistant.components.usage_prediction.const import DEFAULT_LIMIT
 from universalassistant.components.usage_prediction.models import EntityUsagePredictions
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -41,7 +41,7 @@ def mock_predict_common_control() -> Generator[Mock]:
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_common_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     mock_predict_common_control: Mock,
@@ -69,7 +69,7 @@ async def test_common_control(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_caching_behavior(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_predict_common_control: Mock,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_caching_behavior(
     ],
 )
 async def test_common_control_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_predict_common_control: Mock,
     extra_msg: dict[str, Any],
@@ -165,7 +165,7 @@ async def test_common_control_limit(
     ],
 )
 async def test_common_control_invalid_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_predict_common_control: Mock,
     limit: float | str,
@@ -187,7 +187,7 @@ async def test_common_control_invalid_limit(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_common_control_limit_served_from_cache(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_predict_common_control: Mock,
 ) -> None:

@@ -1,12 +1,12 @@
-"""Universal Universal Home Assistant integration for SOLARMAN devices."""
+"""__HA_KEEP__ integration for SOLARMAN devices."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import PLATFORMS
 from .coordinator import SolarmanConfigEntry, SolarmanDeviceUpdateCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SolarmanConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SolarmanConfigEntry) -> None:
     """Set up Solarman from a config entry."""
     coordinator = SolarmanDeviceUpdateCoordinator(hass, entry)
 
@@ -16,6 +16,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SolarmanConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SolarmanConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SolarmanConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.netatmo import sensor
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import fake_post_request, selected_platforms, snapshot_platform_entities
@@ -19,7 +19,7 @@ from .common import fake_post_request, selected_platforms, snapshot_platform_ent
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -36,7 +36,7 @@ async def test_entity(
 
 
 async def test_indoor_sensor(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test indoor sensor setup."""
     with selected_platforms([Platform.SENSOR]):
@@ -53,7 +53,7 @@ async def test_indoor_sensor(
 
 
 async def test_weather_sensor(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test weather sensor unreachable."""
     with selected_platforms([Platform.SENSOR]):
@@ -67,7 +67,7 @@ async def test_weather_sensor(
 
 
 async def test_public_weather_sensor(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test public weather sensor setup."""
     with selected_platforms([Platform.SENSOR]):
@@ -217,7 +217,7 @@ async def test_process_health(health: int, expected: str) -> None:
     ],
 )
 async def test_weather_sensor_enabling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
     uid: str,
@@ -246,7 +246,7 @@ async def test_weather_sensor_enabling(
 
 
 async def test_climate_battery_sensor(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test climate device battery sensor."""
     with selected_platforms([Platform.CLIMATE, Platform.SENSOR]):
@@ -267,7 +267,7 @@ async def test_climate_battery_sensor(
     ],
 )
 async def test_setpoint_end_time_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     cleared_end_time: int | None,

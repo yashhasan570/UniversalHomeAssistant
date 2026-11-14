@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ptdevices.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -21,7 +21,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_ptdevices_interface: AsyncMock,
     mock_ptdevices_config_entry: MockConfigEntry,
@@ -40,7 +40,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_battery_status_sensor_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ptdevices_interface: AsyncMock,
     mock_ptdevices_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -70,7 +70,7 @@ async def test_battery_status_sensor_states(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_add_remove_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ptdevices_interface: AsyncMock,
     mock_ptdevices_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

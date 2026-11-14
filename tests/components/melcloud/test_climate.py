@@ -15,7 +15,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_platform
@@ -34,7 +34,7 @@ HEAT_COOL_MODES = [
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_get_devices")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -53,7 +53,7 @@ async def test_all_entities(
 )
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_hvac_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
     operation_modes: list[str],
@@ -77,7 +77,7 @@ async def test_hvac_modes(
 )
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
     service: str,
@@ -108,7 +108,7 @@ async def test_power(
 )
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
     current_mode: str,
@@ -132,7 +132,7 @@ async def test_set_hvac_mode(
 
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_set_hvac_mode_powers_on_when_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
 ) -> None:

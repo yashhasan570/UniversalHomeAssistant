@@ -28,7 +28,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -316,7 +316,7 @@ SWITCH_TYPES = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: XiaomiMiioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -329,7 +329,7 @@ async def async_setup_entry(
 
 
 async def async_setup_coordinated_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: XiaomiMiioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -366,7 +366,7 @@ async def async_setup_coordinated_entry(
 
 
 async def async_setup_other_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: XiaomiMiioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

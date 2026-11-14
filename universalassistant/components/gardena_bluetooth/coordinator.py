@@ -20,8 +20,8 @@ from gardena_bluetooth.parse import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import (
@@ -41,7 +41,7 @@ LOGGER = logging.getLogger(__name__)
 type GardenaBluetoothConfigEntry = ConfigEntry[GardenaBluetoothCoordinator]
 
 
-class DeviceUnavailable(UniversalAssistantError):
+class DeviceUnavailable(__HAC_KEEP__Error):
     """Raised if device can't be found."""
 
 
@@ -52,7 +52,7 @@ class GardenaBluetoothCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GardenaBluetoothConfigEntry,
         logger: logging.Logger,
         client: Client,
@@ -186,7 +186,7 @@ class GardenaBluetoothCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         try:
             await self.client.write_char(char, value)
         except (GardenaBluetoothException, DeviceUnavailable) as exception:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Unable to write characteristic {char} dur to {exception}"
             ) from exception
 

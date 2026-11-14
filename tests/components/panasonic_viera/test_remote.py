@@ -15,12 +15,12 @@ from universalassistant.components.remote import (
     SERVICE_SEND_COMMAND,
 )
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import MOCK_CONFIG_DATA, MOCK_DEVICE_INFO, MOCK_ENCRYPTION_DATA
 
 
-async def setup_panasonic_viera(hass: UniversalAssistant) -> None:
+async def setup_panasonic_viera(hass: __HAC_KEEP__) -> None:
     """Initialize integration for tests."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -34,7 +34,7 @@ async def setup_panasonic_viera(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_onoff(hass: UniversalAssistant, mock_remote) -> None:
+async def test_onoff(hass: __HAC_KEEP__, mock_remote) -> None:
     """Test the on/off service calls."""
 
     await setup_panasonic_viera(hass)
@@ -52,7 +52,7 @@ async def test_onoff(hass: UniversalAssistant, mock_remote) -> None:
     assert mock_remote.send_key.call_args_list == [call(power), call(power)]
 
 
-async def test_send_command(hass: UniversalAssistant, mock_remote) -> None:
+async def test_send_command(hass: __HAC_KEEP__, mock_remote) -> None:
     """Test the send_command service call."""
 
     await setup_panasonic_viera(hass)
@@ -65,7 +65,7 @@ async def test_send_command(hass: UniversalAssistant, mock_remote) -> None:
 
 
 async def test_send_command_repeats_and_delay(
-    hass: UniversalAssistant, mock_remote: Mock
+    hass: __HAC_KEEP__, mock_remote: Mock
 ) -> None:
     """Test num_repeats and delay_secs are honoured by the send_command service."""
 
@@ -93,7 +93,7 @@ async def test_send_command_repeats_and_delay(
 
 
 async def test_send_command_default_delay(
-    hass: UniversalAssistant, mock_remote: Mock
+    hass: __HAC_KEEP__, mock_remote: Mock
 ) -> None:
     """Test the default delay is used between repeats when delay_secs is omitted."""
 

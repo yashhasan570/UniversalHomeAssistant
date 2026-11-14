@@ -7,7 +7,7 @@ import logging
 from fronius_modbus import Controls, FroniusModbusInverter, Storage, SunSpecError
 from modbus_connection import ModbusError
 
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.event import async_call_later
 
 from .const import HEARTBEAT_INTERVAL, SolarNetId
@@ -35,7 +35,7 @@ class LimitHeartbeat:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         modbus_inverter: FroniusModbusInverter,
         *,
         device_lock: asyncio.Lock,

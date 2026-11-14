@@ -1,6 +1,6 @@
 """Tests for binary sensors."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import (
     EntityAndExpectedValues,
@@ -11,7 +11,7 @@ from .conftest import (
 )
 
 
-async def test_sensors(hass: UniversalAssistant) -> None:
+async def test_sensors(hass: __HAC_KEEP__) -> None:
     """Test all binary sensors."""
 
     entity_and_expected_values = [

@@ -17,7 +17,7 @@ from universalassistant.components.risco.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_SITE_NAME = "test-site-name"
@@ -58,7 +58,7 @@ TEST_ADVANCED_OPTIONS = {
 }
 
 
-async def test_cloud_form(hass: UniversalAssistant) -> None:
+async def test_cloud_form(hass: __HAC_KEEP__) -> None:
     """Test we get the cloud form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -111,7 +111,7 @@ async def test_cloud_form(hass: UniversalAssistant) -> None:
     ],
 )
 @pytest.mark.usefixtures("login_with_error")
-async def test_cloud_error(hass: UniversalAssistant, error: str) -> None:
+async def test_cloud_error(hass: __HAC_KEEP__, error: str) -> None:
     """Test we handle config flow errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -153,7 +153,7 @@ async def test_cloud_error(hass: UniversalAssistant, error: str) -> None:
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cloud_already_exists(hass: UniversalAssistant) -> None:
+async def test_form_cloud_already_exists(hass: __HAC_KEEP__) -> None:
     """Test that a flow with an existing username aborts."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -180,7 +180,7 @@ async def test_form_cloud_already_exists(hass: UniversalAssistant) -> None:
 
 
 async def test_form_reauth(
-    hass: UniversalAssistant, cloud_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, cloud_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthenticate."""
 
@@ -217,7 +217,7 @@ async def test_form_reauth(
 
 
 async def test_form_reauth_with_new_username(
-    hass: UniversalAssistant, cloud_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, cloud_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthenticate with new username."""
 
@@ -254,7 +254,7 @@ async def test_form_reauth_with_new_username(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_local_form(hass: UniversalAssistant) -> None:
+async def test_local_form(hass: __HAC_KEEP__) -> None:
     """Test we get the local form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -312,7 +312,7 @@ async def test_local_form(hass: UniversalAssistant) -> None:
     ],
 )
 @pytest.mark.usefixtures("connect_with_error")
-async def test_local_error(hass: UniversalAssistant, error: str) -> None:
+async def test_local_error(hass: __HAC_KEEP__, error: str) -> None:
     """Test we handle config flow errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -350,7 +350,7 @@ async def test_local_error(hass: UniversalAssistant, error: str) -> None:
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_local_already_exists(hass: UniversalAssistant) -> None:
+async def test_form_local_already_exists(hass: __HAC_KEEP__) -> None:
     """Test that a flow with an existing host aborts."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -389,7 +389,7 @@ async def test_form_local_already_exists(hass: UniversalAssistant) -> None:
     assert result3["reason"] == "already_configured"
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test options flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -434,7 +434,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_more_options_flow(hass: UniversalAssistant) -> None:
+async def test_more_options_flow(hass: __HAC_KEEP__) -> None:
     """Test options flow with more options."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -482,7 +482,7 @@ async def test_more_options_flow(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_ha_to_risco_schema(hass: UniversalAssistant) -> None:
+async def test_ha_to_risco_schema(hass: __HAC_KEEP__) -> None:
     """Test that the schema for the ha-to-risco mapping step is generated properly."""
     entry = MockConfigEntry(
         domain=DOMAIN,

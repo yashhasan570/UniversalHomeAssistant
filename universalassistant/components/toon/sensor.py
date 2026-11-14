@@ -16,7 +16,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CURRENCY_EUR, DOMAIN, VOLUME_CM3, VOLUME_LMIN
@@ -34,7 +34,7 @@ from .entity import (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ToonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -9,8 +9,8 @@ from python_snoo.exceptions import SnooCommandException
 from python_snoo.snoo import Snoo
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -37,7 +37,7 @@ BUTTON_DESCRIPTIONS: list[SnooButtonEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SnooConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -64,7 +64,7 @@ class SnooButton(SnooDescriptionEntity, ButtonEntity):
                 self.coordinator.device,
             )
         except SnooCommandException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key=f"{self.entity_description.key}_failed",
                 translation_placeholders={"name": str(self.name)},

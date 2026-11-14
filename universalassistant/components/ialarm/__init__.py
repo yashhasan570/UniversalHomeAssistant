@@ -5,7 +5,7 @@ import asyncio
 from pyasyncialarm import IAlarm
 
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .coordinator import IAlarmConfigEntry, IAlarmDataUpdateCoordinator
@@ -13,7 +13,7 @@ from .coordinator import IAlarmConfigEntry, IAlarmDataUpdateCoordinator
 PLATFORMS = [Platform.ALARM_CONTROL_PANEL]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IAlarmConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IAlarmConfigEntry) -> None:
     """Set up iAlarm config."""
     host: str = entry.data[CONF_HOST]
     port: int = entry.data[CONF_PORT]
@@ -35,6 +35,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IAlarmConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IAlarmConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IAlarmConfigEntry) -> None:
     """Unload iAlarm config."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -38,7 +38,7 @@ from universalassistant.const import (
     UnitOfReactivePower,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import ChildDeviceInfo, DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -71,7 +71,7 @@ PARALLEL_UPDATES = 0
 
 @callback
 def _async_fix_modbus_sensor_unique_ids(
-    hass: UniversalAssistant, entry: FroniusConfigEntry
+    hass: __HAC_KEEP__, entry: FroniusConfigEntry
 ) -> None:
     """Move sensors that were registered with the SolarAPI unique ID format.
 
@@ -97,7 +97,7 @@ def _async_fix_modbus_sensor_unique_ids(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FroniusConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

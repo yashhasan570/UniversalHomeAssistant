@@ -43,11 +43,11 @@ from universalassistant.const import (
     CONF_USERNAME,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryError,
     ConfigEntryNotReady,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
 )
 from universalassistant.helpers import (
     config_validation as cv,
@@ -125,7 +125,7 @@ _RETRYABLE_ERRORS = (ClientConnectionError, ServerConnectionError)
 type Go2RtcConfigEntry = ConfigEntry[WebRTCProvider]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up WebRTC."""
     url: str | None = None
     username: str | None = None
@@ -204,13 +204,13 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def _remove_go2rtc_entries(hass: UniversalAssistant) -> None:
+async def _remove_go2rtc_entries(hass: __HAC_KEEP__) -> None:
     """Remove go2rtc config entries, if any."""
     for entry in hass.config_entries.async_entries(DOMAIN):
         await hass.config_entries.async_remove(entry.entry_id)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: Go2RtcConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: Go2RtcConfigEntry) -> None:
     """Set up go2rtc from a config entry."""
 
     config = hass.data[_DATA_GO2RTC]
@@ -274,12 +274,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: Go2RtcConfigEntry) 
     entry.async_on_unload(async_register_webrtc_provider(hass, provider))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: Go2RtcConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: Go2RtcConfigEntry) -> None:
     """Unload a go2rtc config entry."""
     await entry.runtime_data.teardown()
 
 
-async def _get_binary(hass: UniversalAssistant) -> str | None:
+async def _get_binary(hass: __HAC_KEEP__) -> str | None:
     """Return the binary path if found."""
     return await hass.async_add_executor_job(shutil.which, "go2rtc")
 
@@ -297,7 +297,7 @@ class WebRTCProvider(CameraWebRTCProvider):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         url: str,
         session: ClientSession,
         rest_client: Go2RtcRestClient,
@@ -337,7 +337,7 @@ class WebRTCProvider(CameraWebRTCProvider):
         """Handle the WebRTC offer and return the answer via the provided callback."""
         try:
             await self._update_stream_source(camera)
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             send_message(WebRTCError("go2rtc_webrtc_offer_failed", str(err)))
             return
 
@@ -399,13 +399,13 @@ class WebRTCProvider(CameraWebRTCProvider):
                 get_camera_identifier(camera), width, height
             )
         except Go2RtcClientError as err:
-            raise UniversalAssistantError("Unable to get image from go2rtc") from err
+            raise __HAC_KEEP__Error("Unable to get image from go2rtc") from err
 
     async def _update_stream_source(self, camera: Camera) -> None:
         """Update the stream source in go2rtc config if needed."""
         if not (stream_source := await camera.stream_source()):
             await self._close_camera_sessions(camera)
-            raise UniversalAssistantError("Camera has no stream source")
+            raise __HAC_KEEP__Error("Camera has no stream source")
 
         if camera.platform.platform_name == "generic":
             # This is a workaround to use ffmpeg for generic cameras
@@ -415,7 +415,7 @@ class WebRTCProvider(CameraWebRTCProvider):
 
         if not self.async_is_supported(stream_source):
             await self._close_camera_sessions(camera)
-            raise UniversalAssistantError("Stream source is not supported by go2rtc")
+            raise __HAC_KEEP__Error("Stream source is not supported by go2rtc")
 
         camera_prefs = await get_dynamic_camera_stream_settings(
             self._hass, camera.entity_id

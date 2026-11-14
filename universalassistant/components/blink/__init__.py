@@ -9,7 +9,7 @@ from blinkpy.blinkpy import Blink
 
 from universalassistant.components import persistent_notification
 from universalassistant.const import CONF_SCAN_INTERVAL
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -26,7 +26,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
 async def _reauth_flow_wrapper(
-    hass: UniversalAssistant, entry: BlinkConfigEntry, data: dict[str, Any]
+    hass: __HAC_KEEP__, entry: BlinkConfigEntry, data: dict[str, Any]
 ) -> None:
     """Reauth flow wrapper."""
     entry.async_start_reauth(hass, data=data)
@@ -40,7 +40,7 @@ async def _reauth_flow_wrapper(
     )
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: BlinkConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: BlinkConfigEntry) -> None:
     """Handle migration of a previous version config entry."""
     _LOGGER.debug("Migrating from version %s", entry.version)
     data = {**entry.data}
@@ -76,7 +76,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: BlinkConfigEntry)
         hass.config_entries.async_update_entry(entry, data=data, version=version)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Blink."""
 
     async_setup_services(hass)
@@ -84,7 +84,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BlinkConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BlinkConfigEntry) -> None:
     """Set up Blink via config entry."""
     _async_import_options_from_data_if_missing(hass, entry)
     session = async_get_clientsession(hass)
@@ -108,7 +108,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BlinkConfigEntry) -
 
 @callback
 def _async_update_entry_data(
-    hass: UniversalAssistant, entry: BlinkConfigEntry, blink: Blink
+    hass: __HAC_KEEP__, entry: BlinkConfigEntry, blink: Blink
 ) -> None:
     """Update the config entry data after token refresh."""
     hass.config_entries.async_update_entry(entry, data=blink.auth.login_attributes)
@@ -116,7 +116,7 @@ def _async_update_entry_data(
 
 @callback
 def _async_import_options_from_data_if_missing(
-    hass: UniversalAssistant, entry: BlinkConfigEntry
+    hass: __HAC_KEEP__, entry: BlinkConfigEntry
 ) -> None:
     options = dict(entry.options)
     if CONF_SCAN_INTERVAL not in entry.options:
@@ -126,13 +126,13 @@ def _async_import_options_from_data_if_missing(
         hass.config_entries.async_update_entry(entry, options=options)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BlinkConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BlinkConfigEntry) -> None:
     """Unload Blink entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, entry: BlinkConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: BlinkConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Allow removal of a device that is no longer on the Blink account."""
     blink = entry.runtime_data.api

@@ -1,4 +1,4 @@
-"""Provide an authentication layer for Universal Universal Home Assistant."""
+"""Provide an authentication layer for __HA_KEEP__."""
 
 import asyncio
 from collections import OrderedDict
@@ -15,7 +15,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     HassJob,
     HassJobType,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
 from universalassistant.data_entry_flow import (
@@ -57,7 +57,7 @@ class DuplicateCredentialsError(Exception):
 
 
 async def auth_manager_from_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     provider_configs: list[dict[str, Any]],
     module_configs: list[dict[str, Any]],
 ) -> AuthManager:
@@ -122,7 +122,7 @@ class AuthManagerFlowManager(
 
     _flow_result = AuthFlowResult
 
-    def __init__(self, hass: UniversalAssistant, auth_manager: AuthManager) -> None:
+    def __init__(self, hass: __HAC_KEEP__, auth_manager: AuthManager) -> None:
         """Init auth manager flows."""
         super().__init__(hass)
         self.auth_manager = auth_manager
@@ -175,11 +175,11 @@ class AuthManagerFlowManager(
 
 
 class AuthManager:
-    """Manage the authentication for Universal Universal Home Assistant."""
+    """Manage the authentication for __HA_KEEP__."""
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         store: auth_store.AuthStore,
         providers: _ProviderDict,
         mfa_modules: _MfaModuleDict,

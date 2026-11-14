@@ -22,7 +22,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 MASS_DOMAIN = "music_assistant"
@@ -36,7 +36,7 @@ def load_and_parse_fixture(fixture: str) -> dict[str, Any]:
 
 
 async def setup_integration_from_fixtures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
 ) -> MockConfigEntry:
     """Set up MusicAssistant integration with fixture data."""
@@ -155,7 +155,7 @@ def create_library_podcasts_from_fixture() -> list[Podcast]:
 
 
 async def trigger_subscription_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     event: EventType = EventType.PLAYER_UPDATED,
     object_id: str | None = None,
@@ -240,7 +240,7 @@ def setup_dashboards(music_assistant_client: MagicMock) -> None:
 
 
 def snapshot_music_assistant_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     platform: Platform,

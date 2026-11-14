@@ -17,9 +17,9 @@ from universalassistant.config_entries import (
     OptionsFlowWithReload,
 )
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import SectionConfig, section
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
@@ -109,7 +109,7 @@ def _sectioned(data: dict[str, Any]) -> dict[str, Any]:
 
 
 async def _async_probe(
-    hass: UniversalAssistant, data: dict[str, Any]
+    hass: __HAC_KEEP__, data: dict[str, Any]
 ) -> tuple[str | None, str | None]:
     """Probe a device through a temporary shared unit on its link.
 
@@ -122,7 +122,7 @@ async def _async_probe(
             hass, build_modbus_params(data), data.get(CONF_UNIT_ID, DEFAULT_UNIT_ID)
         ) as unit:
             serial = await async_probe_serial_unit(unit)
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         # The device is already in use over different link settings, which one
         # shared connection cannot honour.
         return None, "cannot_connect"

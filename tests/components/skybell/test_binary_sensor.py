@@ -2,12 +2,12 @@
 
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import async_init_integration
 
 
-async def test_binary_sensors(hass: UniversalAssistant, connection) -> None:
+async def test_binary_sensors(hass: __HAC_KEEP__, connection) -> None:
     """Test we get sensor data."""
     await async_init_integration(hass)
 

@@ -4,7 +4,7 @@ from enum import StrEnum
 import logging
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import service
 
 from .const import CONF_SERVICE_ACCOUNT, DATA_CONFIG, DOMAIN
@@ -27,7 +27,7 @@ class GoogleAssistantServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register Google Assistant services."""
 
     async def request_sync_service_handler(call: ServiceCall) -> None:

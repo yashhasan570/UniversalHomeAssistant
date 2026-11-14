@@ -1,9 +1,9 @@
-"""Universal Universal Home Assistant component for accessing the Wallbox Portal API lock."""
+"""__HA_KEEP__ component for accessing the Wallbox Portal API lock."""
 
 from typing import Any, override
 
 from universalassistant.components.lock import LockEntity, LockEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -23,7 +23,7 @@ LOCK_TYPES: dict[str, LockEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WallboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

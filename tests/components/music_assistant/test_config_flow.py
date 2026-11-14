@@ -43,7 +43,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.config_entry_oauth2_flow import _encode_jwt
@@ -92,7 +92,7 @@ HASSIO_DATA = HassioServiceInfo(
 
 
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test full flow with old schema (no auth required)."""
@@ -123,7 +123,7 @@ async def test_full_flow(
 
 
 async def test_zeroconf_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test zeroconf flow with old schema (no auth required)."""
@@ -154,7 +154,7 @@ async def test_zeroconf_flow(
 
 
 async def test_zeroconf_invalid_discovery_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test zeroconf flow with invalid discovery info."""
@@ -171,7 +171,7 @@ async def test_zeroconf_invalid_discovery_info(
 
 
 async def test_duplicate_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_duplicate_user(
 
 
 async def test_duplicate_zeroconf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -224,7 +224,7 @@ async def test_duplicate_zeroconf(
     ],
 )
 async def test_flow_user_server_version_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     exception: MusicAssistantClientException,
     error_message: str,
@@ -266,7 +266,7 @@ async def test_flow_user_server_version_invalid(
 
 
 async def test_flow_zeroconf_connect_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test zeroconf flow when server connect be reached."""
@@ -284,7 +284,7 @@ async def test_flow_zeroconf_connect_issue(
 
 
 async def test_user_url_different_from_server_base_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test that user-provided URL is used even when different from server base_url."""
@@ -320,7 +320,7 @@ async def test_user_url_different_from_server_base_url(
 
 
 async def test_duplicate_user_with_different_urls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test duplicate detection works with different user URLs."""
@@ -366,7 +366,7 @@ async def test_duplicate_user_with_different_urls(
 
 
 async def test_zeroconf_existing_entry_working_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -397,7 +397,7 @@ async def test_zeroconf_existing_entry_working_url(
 
 
 async def test_zeroconf_existing_entry_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test zeroconf flow when existing entry was ignored."""
@@ -433,7 +433,7 @@ async def test_zeroconf_existing_entry_ignored(
 
 
 async def test_hassio_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test hassio discovery flow."""
@@ -459,7 +459,7 @@ async def test_hassio_flow(
 
 
 async def test_hassio_flow_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -478,7 +478,7 @@ async def test_hassio_flow_duplicate(
 
 
 async def test_hassio_flow_updates_failed_entry_and_reloads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test hassio discovery updates entry in SETUP_ERROR state and schedules reload."""
@@ -536,7 +536,7 @@ async def test_hassio_flow_updates_failed_entry_and_reloads(
     ],
 )
 async def test_hassio_flow_unchanged_entry_reloads_only_when_retrying(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     entry_state: ConfigEntryState,
     reload_expected: bool,
@@ -578,7 +578,7 @@ async def test_hassio_flow_unchanged_entry_reloads_only_when_retrying(
     ],
 )
 async def test_hassio_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     exception: MusicAssistantClientException,
     error_reason: str,
@@ -598,7 +598,7 @@ async def test_hassio_flow_errors(
 
 
 async def test_zeroconf_addon_server_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test zeroconf discovery ignores servers running as add-on."""
@@ -626,7 +626,7 @@ async def test_zeroconf_addon_server_ignored(
     ],
 )
 async def test_zeroconf_addon_server_reloads_retrying_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entry_state: ConfigEntryState,
@@ -662,7 +662,7 @@ async def test_zeroconf_addon_server_reloads_retrying_entry(
 
 
 async def test_zeroconf_old_schema_addon_not_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test zeroconf discovery does NOT ignore old schema add-ons."""
@@ -689,7 +689,7 @@ async def test_zeroconf_old_schema_addon_not_ignored(
 
 
 async def test_user_flow_with_auth_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test user flow with schema >= 28 redirects to auth."""
@@ -710,7 +710,7 @@ async def test_user_flow_with_auth_required(
 
 
 async def test_zeroconf_flow_with_auth_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test zeroconf flow with schema >= 28 redirects to auth after confirmation."""
@@ -732,7 +732,7 @@ async def test_zeroconf_flow_with_auth_required(
 
 
 async def test_hassio_flow_with_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test hassio discovery flow with token provided."""
@@ -770,7 +770,7 @@ async def test_hassio_flow_with_token(
 
 
 async def test_auth_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
 ) -> None:
     """Test successful authentication flow."""
@@ -804,7 +804,7 @@ async def test_auth_flow_success(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -825,7 +825,7 @@ async def test_reauth_flow(
 
 
 async def test_reauth_with_manual_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -867,7 +867,7 @@ async def test_reauth_with_manual_token(
 )
 @pytest.mark.usefixtures("mock_get_server_info")
 async def test_auth_manual_invalid_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     error_key: str,
 ) -> None:
@@ -919,7 +919,7 @@ async def test_auth_manual_invalid_token(
     ],
 )
 async def test_auth_manual_connection_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     exception: Exception,
     abort_reason: str,
@@ -948,7 +948,7 @@ async def test_auth_manual_connection_errors(
     assert result["reason"] == abort_reason
 
 
-async def _async_start_external_auth(hass: UniversalAssistant) -> ConfigFlowResult:
+async def _async_start_external_auth(hass: __HAC_KEEP__) -> ConfigFlowResult:
     """Start a user flow and continue it to the external auth step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -967,7 +967,7 @@ async def _async_start_external_auth(hass: UniversalAssistant) -> ConfigFlowResu
     "current_request_with_host", "mock_get_server_info", "mock_setup_entry"
 )
 async def test_finish_auth_reauth_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test finish_auth updates entry when source is reauth."""
@@ -1010,7 +1010,7 @@ async def test_finish_auth_reauth_source(
 )
 @pytest.mark.usefixtures("current_request_with_host", "mock_get_server_info")
 async def test_finish_auth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     abort_reason: str,
 ) -> None:
@@ -1034,7 +1034,7 @@ async def test_finish_auth_errors(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_get_server_info")
 async def test_auth_step_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Test the flow aborts when the OAuth2 callback returns an error."""
@@ -1063,7 +1063,7 @@ async def test_auth_step_with_error(
 
 
 async def test_get_server_info_helper(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test _get_server_info helper function."""
     expected_server_info = ServerInfoMessage.from_json(
@@ -1082,7 +1082,7 @@ async def test_get_server_info_helper(
 
 
 async def test_test_connection_helper(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test _test_connection helper function."""
     with patch(
@@ -1100,7 +1100,7 @@ async def test_test_connection_helper(
     "current_request_with_host", "mock_get_server_info", "mock_setup_entry"
 )
 async def test_auth_with_redirect_uri(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Test auth with redirect URI exchanges the session token from the callback."""
@@ -1138,7 +1138,7 @@ async def test_auth_with_redirect_uri(
     mock_create_token.assert_called_once_with(
         "http://localhost:8095",
         "short_lived_session_token",
-        "Universal Universal Home Assistant",
+        "__HA_KEEP__",
         aiohttp_session=ANY,
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
@@ -1205,7 +1205,7 @@ def _app_server_info(onboard_done: bool) -> ServerInfoMessage:
 
 
 async def test_on_supervisor_without_app(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
 ) -> None:
@@ -1224,7 +1224,7 @@ async def test_on_supervisor_without_app(
 
 
 async def test_app_not_installed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_not_installed: AsyncMock,
@@ -1262,7 +1262,7 @@ async def test_app_not_installed(
 
 
 async def test_app_installed_not_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_installed: AsyncMock,
@@ -1290,7 +1290,7 @@ async def test_app_installed_not_running(
 
 
 async def test_app_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_running: AsyncMock,
@@ -1313,7 +1313,7 @@ async def test_app_running(
 
 
 async def test_app_info_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_not_installed: AsyncMock,
     addon_store_info: AsyncMock,
@@ -1332,7 +1332,7 @@ async def test_app_info_failed(
 
 
 async def test_app_install_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_not_installed: AsyncMock,
     install_addon: AsyncMock,
@@ -1356,7 +1356,7 @@ async def test_app_install_failed(
 
 
 async def test_app_start_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_installed: AsyncMock,
     start_addon: AsyncMock,
@@ -1380,7 +1380,7 @@ async def test_app_start_failed(
 
 
 async def test_app_start_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_installed: AsyncMock,
@@ -1411,7 +1411,7 @@ async def test_app_start_timeout(
 
 
 async def test_app_start_invalid_server_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_installed: AsyncMock,
@@ -1437,7 +1437,7 @@ async def test_app_start_invalid_server_version(
 
 
 async def test_app_discovery_info_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     addon_running: AsyncMock,
     get_addon_discovery_info: AsyncMock,
@@ -1464,7 +1464,7 @@ async def test_app_discovery_info_failed(
     ],
 )
 async def test_app_running_connect_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_running: AsyncMock,
@@ -1486,7 +1486,7 @@ async def test_app_running_connect_errors(
 
 
 async def test_app_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -1509,7 +1509,7 @@ async def test_app_already_configured(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_app_onboarding(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_running: AsyncMock,
@@ -1546,7 +1546,7 @@ async def test_app_onboarding(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_app_onboarding_flow_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_running: AsyncMock,
@@ -1574,7 +1574,7 @@ async def test_app_onboarding_flow_removed(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_app_onboarding_flow_removed_during_resume(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_running: AsyncMock,
@@ -1613,7 +1613,7 @@ async def test_app_onboarding_flow_removed_during_resume(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_app_onboarding_poll_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_running: AsyncMock,
@@ -1645,7 +1645,7 @@ async def test_app_onboarding_poll_errors(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_app_onboarding_verify_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_running: AsyncMock,
@@ -1678,7 +1678,7 @@ async def test_app_onboarding_verify_error(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_app_onboarding_poll_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_running: AsyncMock,
@@ -1716,13 +1716,13 @@ async def test_app_onboarding_poll_timeout(
 
 
 async def test_app_onboarding_url_without_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_running: AsyncMock,
     get_addon_discovery_info: AsyncMock,
 ) -> None:
-    """Test the onboarding URL falls back to the configured Universal Universal Home Assistant URL."""
+    """Test the onboarding URL falls back to the configured __HA_KEEP__ URL."""
     await async_process_ha_core_config(hass, {"internal_url": "http://hass.local:8123"})
     mock_get_server_info.return_value = _app_server_info(onboard_done=False)
 
@@ -1740,7 +1740,7 @@ async def test_app_onboarding_url_without_request(
 
 
 async def test_app_onboarding_no_url_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
     addon_running: AsyncMock,
@@ -1764,7 +1764,7 @@ async def test_app_onboarding_no_url_available(
 
 
 async def test_hassio_discovery_during_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor: MagicMock,
     mock_get_server_info: AsyncMock,
 ) -> None:
@@ -1783,7 +1783,7 @@ async def test_hassio_discovery_during_user_flow(
 
 @pytest.mark.usefixtures("mock_get_server_info", "mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the reconfigure flow updates the server URL."""
     mock_config_entry.add_to_hass(hass)
@@ -1809,7 +1809,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_different_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1845,7 +1845,7 @@ async def test_reconfigure_flow_different_server(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_server_info: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: MusicAssistantClientException,

@@ -3,7 +3,7 @@
 import pytest
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -26,7 +26,7 @@ def platform() -> Platform:
     ],
 )
 @pytest.mark.usefixtures("init_integration")
-async def test_sensors(hass: UniversalAssistant, entity_registry: er.EntityRegistry) -> None:
+async def test_sensors(hass: __HAC_KEEP__, entity_registry: er.EntityRegistry) -> None:
     """Test the underlying sensors."""
     state = hass.states.get("binary_sensor.octoprint_printing")
     assert state is not None
@@ -46,7 +46,7 @@ async def test_sensors(hass: UniversalAssistant, entity_registry: er.EntityRegis
 @pytest.mark.parametrize("printer", [None])
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors_printer_offline(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the underlying sensors when the printer is offline."""
     state = hass.states.get("binary_sensor.octoprint_printing")

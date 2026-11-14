@@ -15,7 +15,7 @@ from universalassistant.components.lock import (
     LockState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import build_mock_node, setup_integration
@@ -29,7 +29,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def setup_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     fixture: str = "lock.json",
@@ -48,7 +48,7 @@ async def setup_lock(
     ],
 )
 async def test_lock_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     service: str,
@@ -74,7 +74,7 @@ async def test_lock_services(
     ],
 )
 async def test_lock_open_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     fixture: str,
@@ -107,7 +107,7 @@ async def test_lock_open_service(
     ],
 )
 async def test_lock_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     target_value: float,
@@ -143,7 +143,7 @@ async def test_lock_state(
     ],
 )
 async def test_lock_state_with_open(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     fixture: str,
@@ -173,7 +173,7 @@ async def test_lock_state_with_open(
     ],
 )
 async def test_lock_changed_by(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     attr_changed_by: int,
@@ -193,7 +193,7 @@ async def test_lock_changed_by(
 
 
 async def test_lock_changed_by_unknown_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_lock_changed_by_unknown_user(
 
 
 async def test_lock_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     entity_registry: er.EntityRegistry,

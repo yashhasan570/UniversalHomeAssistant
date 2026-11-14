@@ -10,8 +10,8 @@ from yarl import URL
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_TOKEN, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     TextSelector,
@@ -52,7 +52,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> None:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> None:
     """Validate that the user input allows us to connect to Gatus and return data."""
     client = GatusClient(
         url=data[CONF_URL],
@@ -168,7 +168,7 @@ class GatusConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_reauth(
         self, entry_data: Mapping[str, Any]
     ) -> ConfigFlowResult:
-        """Handle reauthorization request from Universal Universal Home Assistant."""
+        """Handle reauthorization request from __HA_KEEP__."""
         return await self.async_step_reauth_confirm()
 
     async def async_step_reauth_confirm(
@@ -230,9 +230,9 @@ class GatusConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect to the server."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

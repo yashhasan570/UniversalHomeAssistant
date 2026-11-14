@@ -40,7 +40,7 @@ from universalassistant.components.esphome.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -136,7 +136,7 @@ def esphome_mock_async_zeroconf(mock_async_zeroconf: MagicMock) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def load_universalassistant(hass: UniversalAssistant) -> None:
+async def load_universalassistant(hass: __HAC_KEEP__) -> None:
     """Load the universalassistant integration."""
     assert await async_setup_component(hass, "universalassistant", {})
 
@@ -147,7 +147,7 @@ def mock_tts(mock_tts_cache_dir: Path) -> None:
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return the default mocked config entry."""
     config_entry = MockConfigEntry(
         title="ESPHome Device",
@@ -197,7 +197,7 @@ def mock_device_info() -> DeviceInfo:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Set up the ESPHome integration for testing."""
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -270,7 +270,7 @@ def mock_dashboard_devices() -> list[dict[str, Any]]:
 
 @pytest.fixture
 async def mock_dashboard(
-    hass: UniversalAssistant, mock_dashboard_devices: list[dict[str, Any]]
+    hass: __HAC_KEEP__, mock_dashboard_devices: list[dict[str, Any]]
 ) -> AsyncGenerator[dict[str, Any]]:
     """Mock dashboard."""
     data = {"configured": mock_dashboard_devices, "importable": []}
@@ -468,7 +468,7 @@ class MockESPHomeDevice:
 
 
 async def _mock_generic_device_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_device_info: dict[str, Any],
     mock_list_entities_services: tuple[list[EntityInfo], list[UserService]],
@@ -644,7 +644,7 @@ async def _mock_generic_device_entry(
 
 @pytest.fixture
 async def mock_voice_assistant_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ):
     """Set up an ESPHome entry with voice assistant."""
@@ -694,7 +694,7 @@ async def mock_voice_assistant_api_entry(mock_voice_assistant_entry) -> MockConf
 
 @pytest.fixture
 async def mock_bluetooth_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> MockBluetoothEntryType:
     """Set up an ESPHome entry with bluetooth."""
@@ -761,7 +761,7 @@ async def mock_bluetooth_entry_with_legacy_adv(
 
 @pytest.fixture
 async def mock_generic_device_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
 ) -> MockGenericDeviceEntryType:
     """Set up an ESPHome entry and return the MockConfigEntry."""
@@ -790,7 +790,7 @@ async def mock_generic_device_entry(
 
 @pytest.fixture
 async def mock_esphome_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
 ) -> MockESPHomeDeviceType:
     """Set up an ESPHome entry and return the MockESPHomeDevice."""
@@ -820,7 +820,7 @@ async def mock_esphome_device(
 
 
 async def reconnect_with_updated_entity_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device: MockESPHomeDevice,
     entity_info: list[EntityInfo],
     states: list[EntityState] | None = None,

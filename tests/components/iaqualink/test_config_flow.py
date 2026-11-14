@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.iaqualink import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -30,7 +30,7 @@ async def _async_mock_login(self: Any) -> None:
 
 
 async def test_single_instance_allowed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test config flow aborts when an entry already exists."""
@@ -45,7 +45,7 @@ async def test_single_instance_allowed(
 
 
 async def test_dhcp_discovery_starts_user_flow(
-    hass: UniversalAssistant, config_data: dict[str, str]
+    hass: __HAC_KEEP__, config_data: dict[str, str]
 ) -> None:
     """Test DHCP discovery starts the user flow."""
     result = await hass.config_entries.flow.async_init(
@@ -81,7 +81,7 @@ async def test_dhcp_discovery_starts_user_flow(
 
 
 async def test_with_invalid_credentials(
-    hass: UniversalAssistant, config_data: dict[str, str]
+    hass: __HAC_KEEP__, config_data: dict[str, str]
 ) -> None:
     """Test config flow with invalid username and/or password."""
     result = await hass.config_entries.flow.async_init(
@@ -127,7 +127,7 @@ async def test_with_invalid_credentials(
     ],
 )
 async def test_cannot_connect_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_data: dict[str, str],
     raised_exception: Exception | type[Exception],
 ) -> None:
@@ -166,7 +166,7 @@ async def test_cannot_connect_exception(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow(hass: UniversalAssistant, config_data: dict[str, str]) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, config_data: dict[str, str]) -> None:
     """Test the user flow shows the form and creates an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -197,7 +197,7 @@ async def test_user_flow(hass: UniversalAssistant, config_data: dict[str, str]) 
 
 
 async def test_dhcp_discovery_aborts_if_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test DHCP discovery aborts if iaqualink is already configured."""
@@ -213,7 +213,7 @@ async def test_dhcp_discovery_aborts_if_already_configured(
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_reauth_success(hass: UniversalAssistant, config_data: dict[str, str]) -> None:
+async def test_reauth_success(hass: __HAC_KEEP__, config_data: dict[str, str]) -> None:
     """Test successful reauthentication."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -257,7 +257,7 @@ async def test_reauth_success(hass: UniversalAssistant, config_data: dict[str, s
 
 
 async def test_reconfigure_success(
-    hass: UniversalAssistant, config_data: dict[str, str]
+    hass: __HAC_KEEP__, config_data: dict[str, str]
 ) -> None:
     """Test successful reconfiguration."""
     entry = MockConfigEntry(
@@ -299,7 +299,7 @@ async def test_reconfigure_success(
 
 
 async def test_reauth_invalid_auth(
-    hass: UniversalAssistant, config_data: dict[str, str]
+    hass: __HAC_KEEP__, config_data: dict[str, str]
 ) -> None:
     """Test reauthentication with invalid credentials."""
     entry = MockConfigEntry(
@@ -352,7 +352,7 @@ async def test_reauth_invalid_auth(
     ],
 )
 async def test_reauth_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_data: dict[str, str],
     raised_exception: Exception | type[Exception],
 ) -> None:

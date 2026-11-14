@@ -12,7 +12,7 @@ from universalassistant.components.bluetooth import (
     BluetoothServiceInfoBleak,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceRegistry
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -40,7 +40,7 @@ def get_encryption_issue_id(entry_id: str) -> str:
 
 
 def _async_create_encryption_downgrade_issue(
-    hass: UniversalAssistant, entry: BTHomeConfigEntry, issue_id: str
+    hass: __HAC_KEEP__, entry: BTHomeConfigEntry, issue_id: str
 ) -> None:
     """Create a repair issue for encryption downgrade."""
     ir.async_create_issue(
@@ -58,7 +58,7 @@ def _async_create_encryption_downgrade_issue(
 
 
 def _async_clear_encryption_downgrade_issue(
-    hass: UniversalAssistant, entry: BTHomeConfigEntry, issue_id: str
+    hass: __HAC_KEEP__, entry: BTHomeConfigEntry, issue_id: str
 ) -> None:
     """Clear the encryption downgrade repair issue."""
     ir.async_delete_issue(hass, DOMAIN, issue_id)
@@ -70,7 +70,7 @@ def _async_clear_encryption_downgrade_issue(
 
 
 def process_service_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BTHomeConfigEntry,
     device_registry: DeviceRegistry,
     service_info: BluetoothServiceInfoBleak,
@@ -182,7 +182,7 @@ def format_discovered_event_class(address: str) -> SignalType[str, BTHomeBleEven
     return SignalType(f"{DOMAIN}_discovered_event_class_{address}")
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BTHomeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BTHomeConfigEntry) -> None:
     """Set up BTHome Bluetooth from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -212,12 +212,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BTHomeConfigEntry) 
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BTHomeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BTHomeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: BTHomeConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: BTHomeConfigEntry) -> None:
     """Remove a config entry."""
     # Issues raised before they were linked to the entry outlive it otherwise
     ir.async_delete_issue(hass, DOMAIN, get_encryption_issue_id(entry.entry_id))

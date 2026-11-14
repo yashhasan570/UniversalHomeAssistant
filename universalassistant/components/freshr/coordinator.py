@@ -11,7 +11,7 @@ from pyfreshr.models import DeviceReadings, DeviceSummary, DeviceType
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
@@ -45,7 +45,7 @@ class FreshrDevicesCoordinator(DataUpdateCoordinator[dict[str, DeviceSummary]]):
 
     config_entry: FreshrConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: FreshrConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: FreshrConfigEntry) -> None:
         """Initialize the device list coordinator."""
         super().__init__(
             hass,
@@ -100,7 +100,7 @@ class FreshrReadingsCoordinator(DataUpdateCoordinator[DeviceReadings]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: FreshrConfigEntry,
         device: DeviceSummary,
         client: FreshrClient,

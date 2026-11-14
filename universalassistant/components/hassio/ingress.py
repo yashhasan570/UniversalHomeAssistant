@@ -14,8 +14,8 @@ from aiohttp.web_exceptions import HTTPBadGateway, HTTPBadRequest
 from multidict import CIMultiDict
 from yarl import URL
 
-from universalassistant.components.http import UniversalAssistantView
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.typing import Undefined
 from universalassistant.util.async_ import create_eager_task
 
@@ -50,12 +50,12 @@ DISABLED_TIMEOUT = ClientTimeout(total=None)
 
 
 @callback
-def async_setup_ingress_view(hass: UniversalAssistant) -> None:
+def async_setup_ingress_view(hass: __HAC_KEEP__) -> None:
     """Set up the Hass.io ingress HTTP view."""
     hass.http.register_view(HassIOIngress(get_supervisor_connection(hass)))
 
 
-class HassIOIngress(UniversalAssistantView):
+class HassIOIngress(__HAC_KEEP__View):
     """Hass.io view to handle base part."""
 
     name = "api:hassio:ingress"

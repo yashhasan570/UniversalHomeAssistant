@@ -12,7 +12,7 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.venstar.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PLATFORM
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -32,7 +32,7 @@ EXPECTED_BASE_SUPPORTED_FEATURES = (
 
 
 @mock_venstar_devices
-async def test_colortouch(hass: UniversalAssistant) -> None:
+async def test_colortouch(hass: __HAC_KEEP__) -> None:
     """Test interfacing with a venstar colortouch with attached humidifier."""
 
     with patch("universalassistant.components.venstar.coordinator.VENSTAR_SLEEP", new=0):
@@ -68,7 +68,7 @@ async def test_colortouch(hass: UniversalAssistant) -> None:
 
 
 @mock_venstar_devices
-async def test_t2000(hass: UniversalAssistant) -> None:
+async def test_t2000(hass: __HAC_KEEP__) -> None:
     """Test interfacing with a venstar T2000 presently turned off."""
 
     with patch("universalassistant.components.venstar.coordinator.VENSTAR_SLEEP", new=0):
@@ -99,7 +99,7 @@ async def test_t2000(hass: UniversalAssistant) -> None:
 
 
 async def test_import_yaml(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a YAML configuration is imported and raises a deprecation issue."""
     with (
@@ -124,7 +124,7 @@ async def test_import_yaml(
 
 
 async def test_import_yaml_already_configured(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test an already imported YAML configuration raises a deprecation issue."""
     entry = MockConfigEntry(domain=DOMAIN, data={CONF_HOST: TEST_HOST})
@@ -155,7 +155,7 @@ async def test_import_yaml_already_configured(
     ],
 )
 async def test_import_yaml_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     update_info: Callable[..., bool],
     reason: str,
@@ -178,7 +178,7 @@ async def test_import_yaml_error(
 
 
 async def test_import_yaml_partial_failure(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a failed thermostat import prevents the remove-your-YAML issue."""
 
@@ -217,7 +217,7 @@ async def test_import_yaml_partial_failure(
 
 
 async def test_import_yaml_failure_removes_shared_issue(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a failed import removes the issue raised by an earlier import."""
     ir.async_create_issue(

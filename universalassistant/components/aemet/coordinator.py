@@ -19,7 +19,7 @@ from aemet_opendata.interface import AEMET
 
 from universalassistant.components.weather import Forecast
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONDITIONS_MAP, DOMAIN, FORECAST_MAP
@@ -45,7 +45,7 @@ class WeatherUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: AemetConfigEntry,
         aemet: AEMET,
     ) -> None:

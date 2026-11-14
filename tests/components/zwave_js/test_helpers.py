@@ -27,7 +27,7 @@ from universalassistant.components.zwave_js.helpers import (
 from universalassistant.components.zwave_js.models import PlatformZwaveDiscoveryInfo
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import area_registry as ar, device_registry as dr
 
 CONTROLLER_PATCH_PREFIX = "zwave_js_server.model.controller.Controller"
@@ -40,7 +40,7 @@ def platforms() -> list[str]:
 
 
 async def test_async_get_node_status_sensor_entity_id(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test async_get_node_status_sensor_entity_id for non zwave_js device."""
     config_entry = MockConfigEntry()
@@ -53,7 +53,7 @@ async def test_async_get_node_status_sensor_entity_id(
 
 
 async def test_async_get_nodes_from_area_id(
-    hass: UniversalAssistant, area_registry: ar.AreaRegistry
+    hass: __HAC_KEEP__, area_registry: ar.AreaRegistry
 ) -> None:
     """Test async_get_nodes_from_area_id."""
     area = area_registry.async_create("test")
@@ -61,7 +61,7 @@ async def test_async_get_nodes_from_area_id(
 
 
 async def test_async_get_nodes_from_area_id_includes_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -87,7 +87,7 @@ async def test_async_get_nodes_from_area_id_includes_child_device(
 
 
 async def test_get_value_state_schema_boolean_config_value(
-    hass: UniversalAssistant, client, aeon_smart_switch_6
+    hass: __HAC_KEEP__, client, aeon_smart_switch_6
 ) -> None:
     """Test get_value_state_schema for boolean config value."""
     schema_validator = get_value_state_schema(
@@ -98,7 +98,7 @@ async def test_get_value_state_schema_boolean_config_value(
 
 
 async def test_async_get_provisioning_entry_from_device_id(
-    hass: UniversalAssistant, client, device_registry: dr.DeviceRegistry, integration
+    hass: __HAC_KEEP__, client, device_registry: dr.DeviceRegistry, integration
 ) -> None:
     """Test async_get_provisioning_entry_from_device_id function."""
     device = device_registry.async_get_or_create(
@@ -321,7 +321,7 @@ async def test_endpoint_device_for_late_value(
 
 
 async def test_get_home_and_node_id_from_device_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     device_registry: dr.DeviceRegistry,
     integration: MockConfigEntry,

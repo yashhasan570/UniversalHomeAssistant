@@ -28,8 +28,8 @@ from evohomeasync2.typedefs import (
 )
 
 from universalassistant.const import CONF_SCAN_INTERVAL
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -51,7 +51,7 @@ class EvoDataUpdateCoordinator(DataUpdateCoordinator[EvoLocStatusT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: logging.Logger,
         client_v2: ec2.EvohomeClient,
         *,
@@ -156,7 +156,7 @@ class EvoDataUpdateCoordinator(DataUpdateCoordinator[EvoLocStatusT]):
     ) -> _T:
         """Call a client API and update the Coordinator state if required.
 
-        If the call fails, raise UniversalAssistantError.
+        If the call fails, raise __HAC_KEEP__Error.
         """
 
         try:
@@ -166,7 +166,7 @@ class EvoDataUpdateCoordinator(DataUpdateCoordinator[EvoLocStatusT]):
             raise
 
         except ec2.ApiCallFailedError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_call_failed",
                 translation_placeholders={"error": str(err)},
@@ -254,7 +254,7 @@ class EvoDataUpdateCoordinator(DataUpdateCoordinator[EvoLocStatusT]):
     async def async_ensure_schedule(self, child: ec2.HotWater | ec2.Zone) -> None:
         """Fetch the schedule of a DHW/zone if it is stale, for an action that needs it.
 
-        Raise UniversalAssistantError if the GET fails, as the action would.
+        Raise __HAC_KEEP__Error if the GET fails, as the action would.
         """
 
         if self._schedule_is_stale(child):
@@ -266,7 +266,7 @@ class EvoDataUpdateCoordinator(DataUpdateCoordinator[EvoLocStatusT]):
         """Fetch the schedule of a DHW/zone, recording when it was fetched.
 
         This is the only place a schedule is fetched. If the GET fails, raise
-        UniversalAssistantError unless raise_on_error is False, in which case log it and
+        __HAC_KEEP__Error unless raise_on_error is False, in which case log it and
         don't record the fetch time (so it will be retried). An invalid schedule is
         logged, and is not retried until it is stale. Either way, any previous schedule
         is kept.
@@ -276,7 +276,7 @@ class EvoDataUpdateCoordinator(DataUpdateCoordinator[EvoLocStatusT]):
         client_api: Awaitable[_Schedule] = child.get_schedule()
         try:
             schedule = await self.call_client_api(client_api, request_refresh=False)
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             if raise_on_error:
                 raise
             self.logger.warning(_ERR_SCHEDULE_UPDATE, child, err.__cause__ or err)

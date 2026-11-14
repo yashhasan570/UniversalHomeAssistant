@@ -1,4 +1,4 @@
-"""Exercise the installed package without a Universal Universal Home Assistant source checkout."""
+"""Exercise the installed package without a __HA_KEEP__ source checkout."""
 
 from importlib import import_module
 from pathlib import Path
@@ -9,10 +9,10 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant import loader
 from universalassistant.components.recorder import Recorder
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity import Entity
-from universalassistant.helpers.http import UniversalAssistantView
+from universalassistant.helpers.http import __HAC_KEEP__View
 from universalassistant.setup import async_setup_component
 from pytest_universalassistant import _paths
 from pytest_universalassistant.common import (
@@ -27,7 +27,7 @@ from pytest_universalassistant.components.recorder.common import (
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 
-async def test_custom_integration(hass: UniversalAssistant) -> None:
+async def test_custom_integration(hass: __HAC_KEEP__) -> None:
     """Discover and run a custom integration using the standard fixtures."""
     entry = MockConfigEntry(
         domain="pytest_sample",
@@ -41,14 +41,14 @@ async def test_custom_integration(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("recorder_mock", "enable_custom_integrations")
-async def test_enable_custom_integrations(hass: UniversalAssistant) -> None:
+async def test_enable_custom_integrations(hass: __HAC_KEEP__) -> None:
     """Test custom integration opt-in compatibility."""
     integration = await loader.async_get_integration(hass, "pytest_sample")
     assert not integration.is_built_in
 
 
 @pytest.mark.parametrize("custom_integrations_enabled", [False])
-async def test_disable_custom_integrations(hass: UniversalAssistant) -> None:
+async def test_disable_custom_integrations(hass: __HAC_KEEP__) -> None:
     """Test disabling custom integrations."""
     with pytest.raises(loader.IntegrationNotFound):
         await loader.async_get_integration(hass, "pytest_sample")
@@ -60,7 +60,7 @@ def test_fixture_loader() -> None:
 
 
 def test_shared_configuration(
-    hass: UniversalAssistant, pytestconfig: pytest.Config, request: pytest.FixtureRequest
+    hass: __HAC_KEEP__, pytestconfig: pytest.Config, request: pytest.FixtureRequest
 ) -> None:
     """Default configuration uses a shared path without creating a directory."""
     config_dir = pytestconfig.rootpath / "integration_tests" / "testing_config"
@@ -100,7 +100,7 @@ def test_registry_snapshot(
 
 
 async def test_http_client(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Initialize an HTTP client using only the package's declared dependencies."""
     assert await async_setup_component(hass, "api", {})
@@ -109,7 +109,7 @@ async def test_http_client(
     assert response.status == 200
     assert await response.json() == {"message": "API running."}
 
-    class LateView(UniversalAssistantView):
+    class LateView(__HAC_KEEP__View):
         """A view registered after the test server starts."""
 
         requires_auth = False
@@ -126,7 +126,7 @@ async def test_http_client(
     assert await response.json() == {"state": "ready"}
 
 
-async def test_recorder(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_recorder(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Run recorder fixtures with only declared package dependencies."""
     hass.states.async_set("sensor.pytest_sample", "ready")
     await async_wait_recording_done(hass)

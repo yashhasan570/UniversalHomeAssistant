@@ -26,8 +26,8 @@ from universalassistant.components.anthropic.const import (
     CONF_EFFORT,
     CONF_THINKING_TYPE,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, selector
 
 from . import create_content_block, create_server_tool_use_block
@@ -35,7 +35,7 @@ from . import create_content_block, create_server_tool_use_block
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -80,7 +80,7 @@ async def test_translation_key(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_empty_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test a completed empty response returns empty data."""
@@ -98,7 +98,7 @@ async def test_empty_data(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_missing_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test a stream without a response still raises an error."""
@@ -107,7 +107,7 @@ async def test_missing_response(
     mock_create_stream.return_value.__aiter__.return_value = []
 
     with pytest.raises(
-        UniversalAssistantError, match="Last content in chat log is not an AssistantContent"
+        __HAC_KEEP__Error, match="Last content in chat log is not an AssistantContent"
     ):
         await ai_task.async_generate_data(
             hass,
@@ -119,7 +119,7 @@ async def test_missing_response(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_stream_wrong_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test error if the response is not a stream."""
@@ -132,7 +132,7 @@ async def test_stream_wrong_type(
         usage=Usage(input_tokens=42, output_tokens=42),
     )
 
-    with pytest.raises(UniversalAssistantError, match="Expected a stream of messages"):
+    with pytest.raises(__HAC_KEEP__Error, match="Expected a stream of messages"):
         await ai_task.async_generate_data(
             hass,
             task_name="Test Task",
@@ -189,7 +189,7 @@ async def test_stream_wrong_type(
     ],
 )
 async def test_generate_data_stop_reason_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: AsyncMock,
     stop_reason: StopReason,
     translation_key: str,
@@ -209,7 +209,7 @@ async def test_generate_data_stop_reason_error(
         ]
     ]
 
-    with pytest.raises(UniversalAssistantError, match=re.escape(message)) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error, match=re.escape(message)) as exc_info:
         await ai_task.async_generate_data(
             hass,
             task_name="Test Task",
@@ -224,7 +224,7 @@ async def test_generate_data_stop_reason_error(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_data_invalid_tool_arguments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Report invalid tool arguments with the first parsing error as the cause."""
@@ -241,7 +241,7 @@ async def test_generate_data_invalid_tool_arguments(
     ]
 
     with pytest.raises(
-        UniversalAssistantError, match="Claude returned invalid tool arguments"
+        __HAC_KEEP__Error, match="Claude returned invalid tool arguments"
     ) as exc_info:
         await ai_task.async_generate_data(
             hass,
@@ -258,7 +258,7 @@ async def test_generate_data_invalid_tool_arguments(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_invalid_structured_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test AI Task with an invalid JSON response."""
@@ -267,7 +267,7 @@ async def test_generate_invalid_structured_data(
     ]
 
     with pytest.raises(
-        UniversalAssistantError, match="Error with Claude structured response"
+        __HAC_KEEP__Error, match="Error with Claude structured response"
     ):
         await ai_task.async_generate_data(
             hass,
@@ -291,7 +291,7 @@ async def test_generate_invalid_structured_data(
 @freeze_time("2026-01-01 12:00:00")
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_structured_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -340,7 +340,7 @@ async def test_generate_structured_data(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_data_with_attachments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test AI Task data generation with attachments."""
@@ -420,7 +420,7 @@ async def test_generate_data_with_attachments(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_data_invalid_attachments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test AI Task data generation with attachments of unsupported type."""
@@ -442,7 +442,7 @@ async def test_generate_data_invalid_attachments(
         ),
         patch("pathlib.Path.exists", return_value=False),
         pytest.raises(
-            UniversalAssistantError, match="`doorbell_snapshot.jpg` does not exist"
+            __HAC_KEEP__Error, match="`doorbell_snapshot.jpg` does not exist"
         ),
     ):
         await ai_task.async_generate_data(
@@ -473,7 +473,7 @@ async def test_generate_data_invalid_attachments(
             return_value=("text/plain", None),
         ),
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             match=re.escape(
                 "The Claude Haiku 5.5 model does not support"
                 " text/plain file types"
@@ -494,7 +494,7 @@ async def test_generate_data_invalid_attachments(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_data_with_attachments_whitespace_instructions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_stream: AsyncMock,
 ) -> None:
     """Test whitespace-only instructions with attachments produce no text block.

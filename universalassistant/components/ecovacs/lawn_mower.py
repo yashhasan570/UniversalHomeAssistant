@@ -14,7 +14,7 @@ from universalassistant.components.lawn_mower import (
     LawnMowerEntityEntityDescription,
     LawnMowerEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .controller import EcovacsConfigEntry
@@ -34,7 +34,7 @@ _STATE_TO_MOWER_STATE = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: EcovacsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -45,7 +45,7 @@ async def async_setup_entry(
         for device in controller.devices
         if device.capabilities.device_type is DeviceType.MOWER
     ]
-    _LOGGER.debug("Adding Ecovacs Mowers to Universal Universal Home Assistant: %s", mowers)
+    _LOGGER.debug("Adding Ecovacs Mowers to __HA_KEEP__: %s", mowers)
     async_add_entities(mowers)
 
 

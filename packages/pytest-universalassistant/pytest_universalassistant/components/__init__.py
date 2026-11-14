@@ -1,1 +1,1 @@
-"""Shared Universal Universal Home Assistant test helpers."""
+"""Shared __HA_KEEP__ test helpers."""

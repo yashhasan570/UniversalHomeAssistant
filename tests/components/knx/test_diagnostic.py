@@ -27,7 +27,7 @@ from universalassistant.components.knx.const import (
     DEFAULT_ROUTING_IA,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import KNXTestKit
 
@@ -35,7 +35,7 @@ from .conftest import KNXTestKit
 @pytest.mark.parametrize("hass_config", [{}])
 @pytest.mark.usefixtures("mock_hass_config")
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     knx: KNXTestKit,
@@ -56,7 +56,7 @@ async def test_diagnostics(
 @pytest.mark.parametrize("hass_config", [{"knx": {"wrong_key": {}}}])
 @pytest.mark.usefixtures("mock_hass_config")
 async def test_diagnostic_config_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     knx: KNXTestKit,
@@ -79,7 +79,7 @@ async def test_diagnostic_config_error(
 @pytest.mark.parametrize("hass_config", [{}])
 @pytest.mark.usefixtures("mock_hass_config")
 async def test_diagnostic_redact(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
     snapshot: SnapshotAssertion,
@@ -121,7 +121,7 @@ async def test_diagnostic_redact(
 @pytest.mark.parametrize("hass_config", [{}])
 @pytest.mark.usefixtures("mock_hass_config")
 async def test_diagnostics_project(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     knx: KNXTestKit,

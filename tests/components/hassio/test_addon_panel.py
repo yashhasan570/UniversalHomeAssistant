@@ -17,7 +17,7 @@ from universalassistant.components.hassio.const import (
     REQUEST_REFRESH_DELAY,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -31,7 +31,7 @@ def mock_all(all_setup_requests: None) -> None:
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_hassio_addon_panel_registered_on_setup(
-    hass: UniversalAssistant, ingress_panels: AsyncMock
+    hass: __HAC_KEEP__, ingress_panels: AsyncMock
 ) -> None:
     """Test enabled panels are registered as part of config entry setup.
 
@@ -64,7 +64,7 @@ async def test_hassio_addon_panel_registered_on_setup(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_hassio_addon_panel_registration(
-    hass: UniversalAssistant, ingress_panels: AsyncMock
+    hass: __HAC_KEEP__, ingress_panels: AsyncMock
 ) -> None:
     """Test panel registration calls frontend.async_register_built_in_panel."""
     ingress_panels.return_value = {
@@ -95,7 +95,7 @@ async def test_hassio_addon_panel_registration(
 
 
 async def test_hassio_addon_panel_setup_retries_after_transient_error(
-    hass: UniversalAssistant, ingress_panels: AsyncMock
+    hass: __HAC_KEEP__, ingress_panels: AsyncMock
 ) -> None:
     """Test a transient Supervisor error fetching panels causes setup to retry.
 
@@ -135,7 +135,7 @@ async def test_hassio_addon_panel_setup_retries_after_transient_error(
 
 
 async def test_hassio_addon_panel_recovers_after_supervisor_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_supervisor_ws_client: WebSocketGenerator,
     ingress_panels: AsyncMock,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_hassio_addon_panel_recovers_after_supervisor_restart(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_hassio_addon_panel_api_post(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, ingress_panels: AsyncMock
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, ingress_panels: AsyncMock
 ) -> None:
     """Test posting a panel push registers it via the coordinator cache."""
     ingress_panels.return_value = {
@@ -238,7 +238,7 @@ async def test_hassio_addon_panel_api_post(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_hassio_addon_panel_api_before_coordinator_ready(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, ingress_panels: AsyncMock
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, ingress_panels: AsyncMock
 ) -> None:
     """Test panel push api falls back to a fresh Supervisor call before setup completes.
 
@@ -281,7 +281,7 @@ async def test_hassio_addon_panel_api_before_coordinator_ready(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_hassio_addon_panel_api_non_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ingress_panels: AsyncMock,
     hass_admin_user: MockUser,
@@ -314,7 +314,7 @@ async def test_hassio_addon_panel_api_non_admin(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_hassio_addon_panel_api_delete(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, ingress_panels: AsyncMock
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, ingress_panels: AsyncMock
 ) -> None:
     """Test panel api delete removes it via the coordinator cache."""
     ingress_panels.return_value = {
@@ -336,7 +336,7 @@ async def test_hassio_addon_panel_api_delete(
 
 @pytest.mark.usefixtures("supervisor_client")
 async def test_hassio_addon_panel_api_delete_non_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ingress_panels: AsyncMock,
     hass_admin_user: MockUser,

@@ -11,7 +11,7 @@ import httpx2
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_IP_ADDRESS, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -34,7 +34,7 @@ class FingDataObject:
 class FingDataUpdateCoordinator(DataUpdateCoordinator[FingDataObject]):
     """Class to manage fetching data from Fing Agent."""
 
-    def __init__(self, hass: UniversalAssistant, config_entry: FingConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: FingConfigEntry) -> None:
         """Initialize global Fing updater."""
         self._fing = FingAgent(
             ip=config_entry.data[CONF_IP_ADDRESS],

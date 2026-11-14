@@ -32,8 +32,8 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
 from universalassistant.setup import async_setup_component
 
@@ -84,7 +84,7 @@ async def update_node_fixture(matter_client: MagicMock) -> AsyncMock:
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     check_node_update: AsyncMock,
     matter_node: MatterNode,
@@ -99,7 +99,7 @@ async def test_update_entity(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_update_check_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     check_node_update: AsyncMock,
     matter_node: MatterNode,
@@ -147,7 +147,7 @@ async def test_update_check_service(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_update_check_with_same_version_string(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     check_node_update: AsyncMock,
     matter_node: MatterNode,
@@ -225,7 +225,7 @@ async def test_update_check_with_same_version_string(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_update_check_with_same_numeric_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     check_node_update: AsyncMock,
     matter_node: MatterNode,
@@ -268,7 +268,7 @@ async def test_update_check_with_same_numeric_version(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_update_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     check_node_update: AsyncMock,
     matter_node: MatterNode,
@@ -371,7 +371,7 @@ async def test_update_install(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_update_install_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     check_node_update: AsyncMock,
     update_node: AsyncMock,
@@ -413,7 +413,7 @@ async def test_update_install_failure(
 
     update_node.side_effect = UpdateCheckError("Error finding applicable update")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -426,7 +426,7 @@ async def test_update_install_failure(
 
     update_node.side_effect = UpdateError("Error updating node")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -440,7 +440,7 @@ async def test_update_install_failure(
 
 @pytest.mark.parametrize("node_fixture", ["mock_dimmable_light"])
 async def test_update_state_save_and_restore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     matter_client: MagicMock,
     check_node_update: AsyncMock,
@@ -490,7 +490,7 @@ async def test_update_state_save_and_restore(
 
 
 async def test_update_state_restore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     check_node_update: AsyncMock,
     update_node: AsyncMock,

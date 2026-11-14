@@ -9,7 +9,7 @@ from elkm1_lib.settings import Setting
 
 from universalassistant.components.number import NumberDeviceClass, NumberEntity
 from universalassistant.const import UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import ElkAttachedEntity, ElkEntity, create_elk_entities
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ElkM1ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

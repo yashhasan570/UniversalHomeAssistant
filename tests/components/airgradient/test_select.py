@@ -28,8 +28,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import async_load_config_fixture, load_config_fixture, setup_integration
@@ -37,7 +37,7 @@ from . import async_load_config_fixture, load_config_fixture, setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     airgradient_devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -51,7 +51,7 @@ async def test_all_entities(
 
 
 async def test_setting_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_setting_value(
 
 
 async def test_cloud_creates_no_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -105,7 +105,7 @@ async def test_cloud_creates_no_number(
 
 
 async def test_v1_config_omission_removes_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -138,7 +138,7 @@ async def test_v1_config_omission_removes_entity(
     ],
 )
 async def test_v1_config_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     model: str,
@@ -160,7 +160,7 @@ async def test_v1_config_capabilities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_v1_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -211,7 +211,7 @@ async def test_v1_entities(
     ],
 )
 async def test_v1_select_writes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -268,7 +268,7 @@ async def test_v1_select_writes(
     ],
 )
 async def test_exception_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -278,7 +278,7 @@ async def test_exception_handling(
     await setup_integration(hass, mock_config_entry)
 
     mock_airgradient_client.set_configuration_control.side_effect = exception
-    with pytest.raises(UniversalAssistantError, match=error_message):
+    with pytest.raises(__HAC_KEEP__Error, match=error_message):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

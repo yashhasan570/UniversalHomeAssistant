@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry, get_schema_suggest
 from universalassistant import config_entries
 from universalassistant.components.tod.binary_sensor import TodEntityStateAttribute
 from universalassistant.components.tod.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.parametrize("platform", ["sensor"])
-async def test_config_flow(hass: UniversalAssistant, platform) -> None:
+async def test_config_flow(hass: __HAC_KEEP__, platform) -> None:
     """Test the config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -56,7 +56,7 @@ async def test_config_flow(hass: UniversalAssistant, platform) -> None:
 
 
 @pytest.mark.freeze_time("2022-03-16 17:37:00", tz_offset=-7)
-async def test_options(hass: UniversalAssistant) -> None:
+async def test_options(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring."""
     # Setup the config entry
     config_entry = MockConfigEntry(

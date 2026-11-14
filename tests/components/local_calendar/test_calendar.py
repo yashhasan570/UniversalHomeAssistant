@@ -13,8 +13,8 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.local_calendar.const import DOMAIN
 from universalassistant.components.local_calendar.store import LocalCalendarStore
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.template import DATE_STR_FORMAT
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -30,7 +30,7 @@ from .conftest import (
 
 
 async def test_empty_calendar(
-    hass: UniversalAssistant, setup_integration: None, get_events: GetEventsFn
+    hass: __HAC_KEEP__, setup_integration: None, get_events: GetEventsFn
 ) -> None:
     """Test querying the API and fetching events."""
     events = await get_events("1997-07-14T00:00:00", "1997-07-16T00:00:00")
@@ -154,7 +154,7 @@ async def test_api_date_event(
 
 
 async def test_active_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_client: ClientFixture,
     setup_integration: None,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_active_event(
 
 
 async def test_upcoming_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_client: ClientFixture,
     setup_integration: None,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_upcoming_event(
 async def test_recurring_event(
     ws_client: ClientFixture,
     setup_integration: None,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_events: GetEventsFn,
 ) -> None:
     """Test an event with a recurrence rule."""
@@ -284,7 +284,7 @@ async def test_recurring_event(
 async def test_recurring_event_with_until_non_utc_timezone(
     ws_client: ClientFixture,
     setup_integration: None,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_events: GetEventsFn,
 ) -> None:
     """Test creating a recurring event with UNTIL in a non-UTC timezone.
@@ -790,7 +790,7 @@ async def test_websocket_update_recurring(
 async def test_invalid_rrule(
     ws_client: ClientFixture,
     setup_integration: None,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_events: GetEventsFn,
     rrule: str,
 ) -> None:
@@ -824,7 +824,7 @@ async def test_invalid_rrule(
     ],
 )
 async def test_all_day_iter_order(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_client: ClientFixture,
     setup_integration: None,
     get_events: GetEventsFn,
@@ -970,7 +970,7 @@ async def test_invalid_date_formats(
 async def test_update_invalid_event_id(
     ws_client: ClientFixture,
     setup_integration: None,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test updating an event with an invalid event uid."""
     client = await ws_client()
@@ -995,7 +995,7 @@ async def test_update_invalid_event_id(
 async def test_delete_invalid_event_id(
     ws_client: ClientFixture,
     setup_integration: None,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test deleting an event with an invalid event uid."""
     client = await ws_client()
@@ -1026,12 +1026,12 @@ async def test_delete_invalid_event_id(
     ],
 )
 async def test_create_event_write_error(
-    hass: UniversalAssistant, error: int, translation_key: str
+    hass: __HAC_KEEP__, error: int, translation_key: str
 ) -> None:
     """Test creating an event when the calendar can't be written."""
     with (
         patch.object(LocalCalendarStore, "_store", side_effect=OSError(error, "Error")),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             "calendar",
@@ -1060,7 +1060,7 @@ async def test_create_event_write_error(
     ],
 )
 async def test_create_event_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     get_events: GetEventsFn,
     start_date_time: str,
@@ -1229,7 +1229,7 @@ END:VCALENDAR
 
 @pytest.mark.parametrize("ics_content", [ADJACENT_EVENTS_ICS])
 async def test_adjacent_events_stay_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -1319,7 +1319,7 @@ END:VCALENDAR
 
 @pytest.mark.parametrize("ics_content", [ONGOING_CANCELLED_ICS])
 async def test_cancelled_event_does_not_turn_the_entity_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
 ) -> None:

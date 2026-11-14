@@ -4,7 +4,7 @@ from zwave_me_ws import ZWaveMe, ZWaveMeData
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TOKEN, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import dispatcher_send
 
@@ -18,7 +18,7 @@ ZWAVE_ME_PLATFORMS = [platform.value for platform in ZWaveMePlatform]
 class ZWaveMeController:
     """Main ZWave-Me API class."""
 
-    def __init__(self, hass: UniversalAssistant, config: ZWaveMeConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ZWaveMeConfigEntry) -> None:
         """Create the API instance."""
         self.device_ids: set[str] = set()
         self._hass = hass

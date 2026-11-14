@@ -3,7 +3,7 @@
 from universalassistant.components.automation import automations_with_entity
 from universalassistant.components.script import scripts_with_entity
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.issue_registry import (
     IssueSeverity,
@@ -15,7 +15,7 @@ from .const import DOMAIN
 
 
 def deprecate_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_id: str,
     platform_domain: str,
@@ -74,7 +74,7 @@ def deprecate_entity(
 
 
 def get_automations_and_scripts_using_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
 ) -> list[str]:
     """Get automations and scripts using an entity."""

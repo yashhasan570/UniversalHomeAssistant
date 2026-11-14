@@ -25,7 +25,7 @@ from universalassistant.components.bluetooth import (
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.specialized_turbo.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -53,7 +53,7 @@ def _entity_id(entity_registry: er.EntityRegistry, key: str) -> str:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
     entity_registry: er.EntityRegistry,
@@ -72,7 +72,7 @@ async def test_sensors(
 
 
 async def test_sensors_unavailable_before_first_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
     entity_registry: er.EntityRegistry,
@@ -86,7 +86,7 @@ async def test_sensors_unavailable_before_first_message(
 
 
 async def test_notification_updates_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
     entity_registry: er.EntityRegistry,
@@ -112,7 +112,7 @@ async def test_notification_updates_entities(
 
 
 async def test_disconnect_marks_entities_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
     entity_registry: er.EntityRegistry,
@@ -165,7 +165,7 @@ async def test_disconnect_marks_entities_unavailable(
 
 
 async def test_stale_advertisement_keeps_connected_entities_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
     entity_registry: er.EntityRegistry,
@@ -198,7 +198,7 @@ async def test_stale_advertisement_keeps_connected_entities_available(
 
 
 async def test_stale_advertisement_logs_failed_connection_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
     caplog: pytest.LogCaptureFixture,
@@ -228,7 +228,7 @@ async def test_stale_advertisement_logs_failed_connection_unavailable(
 
 @pytest.mark.parametrize("assist_level", [None, 99])
 async def test_unknown_assist_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_library: MockLibrary,
     entity_registry: er.EntityRegistry,

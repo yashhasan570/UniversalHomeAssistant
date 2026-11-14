@@ -22,7 +22,7 @@ from universalassistant.components.esphome.ffmpeg_proxy import (
     _MAX_STDERR_LINES,
     async_create_proxy_url,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 FFMPEG_PROXY = "universalassistant.components.esphome.ffmpeg_proxy"
@@ -51,7 +51,7 @@ def _write_silence(filename: str, length: int) -> None:
         wav_file.writeframes(bytes(16000 * 2 * length))  # length s
 
 
-async def test_async_create_proxy_url(hass: UniversalAssistant) -> None:
+async def test_async_create_proxy_url(hass: __HAC_KEEP__) -> None:
     """Test that async_create_proxy_url returns the correct format."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -72,7 +72,7 @@ async def test_async_create_proxy_url(hass: UniversalAssistant) -> None:
 
 
 async def test_proxy_view(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     wav_file: str,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_proxy_view(
 
 
 async def test_ffmpeg_file_doesnt_exist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_ffmpeg_file_doesnt_exist(
 
 
 async def test_ffmpeg_error_stderr_truncated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_ffmpeg_error_stderr_truncated(
 
 
 async def test_ffmpeg_error_redacts_sensitive_urls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_ffmpeg_error_redacts_sensitive_urls(
 
 
 async def test_ffmpeg_stderr_drain_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -296,7 +296,7 @@ async def test_ffmpeg_stderr_drain_timeout(
 
 
 async def test_ffmpeg_proc_wait_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_ffmpeg_proc_wait_timeout(
 
 
 async def test_ffmpeg_cleanup_on_cancellation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test that ffmpeg process is killed when task is cancelled during cleanup."""
@@ -373,7 +373,7 @@ async def test_ffmpeg_cleanup_on_cancellation(
 
 
 async def test_ffmpeg_unexpected_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -401,7 +401,7 @@ async def test_ffmpeg_unexpected_exception(
 
 
 async def test_max_conversions_kills_running_process(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -467,7 +467,7 @@ async def test_max_conversions_kills_running_process(
 
 
 async def test_lingering_process(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     wav_file: str,
 ) -> None:
@@ -527,7 +527,7 @@ async def test_lingering_process(
 
 @pytest.mark.parametrize("wav_file_length", [10])
 async def test_request_same_url_multiple_times(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     wav_file: str,
 ) -> None:
@@ -571,7 +571,7 @@ async def test_request_same_url_multiple_times(
 
 
 async def test_max_conversions_per_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test that each device has a maximum number of conversions (currently 2)."""
@@ -619,10 +619,10 @@ async def test_max_conversions_per_device(
 
 
 async def test_abort_on_shutdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
-    """Test we abort on Universal Universal Home Assistant shutdown."""
+    """Test we abort on __HA_KEEP__ shutdown."""
     device_id = "1234"
 
     await async_setup_component(hass, esphome.DOMAIN, {esphome.DOMAIN: {}})
@@ -656,7 +656,7 @@ async def test_abort_on_shutdown(
         initial_mp3_data = await req.content.read(4)
         assert initial_mp3_data == b"RIFF"
 
-        # Shut down Universal Universal Home Assistant
+        # Shut down __HA_KEEP__
         await hass.async_stop()
 
         with pytest.raises(client_exceptions.ClientPayloadError):

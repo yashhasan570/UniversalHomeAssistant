@@ -59,14 +59,14 @@ ALLOW_NAME_TRANSLATION = {
 
 REMOVED_TITLE_MSG = (
     "config.title key has been moved out of config and into the root of strings.json. "
-    "Starting Universal Universal Home Assistant 0.109 you only need to define this key in the root "
+    "Starting __HA_KEEP__ 0.109 you only need to define this key in the root "
     "if the title needs to be different than the name of your integration in the "
     "manifest."
 )
 
 MOVED_TRANSLATIONS_DIRECTORY_MSG = (
     "The '.translations' directory has been moved, the new name is 'translations', "
-    "starting with Universal Universal Home Assistant 0.112 your translations will no longer "
+    "starting with __HA_KEEP__ 0.112 your translations will no longer "
     "load if you do not move/rename this "
 )
 
@@ -712,7 +712,7 @@ def gen_universalassistant_schema(
                 },
                 slug_validator=translation_key_validator,
             ),
-            # The protocols Universal Universal Home Assistant uses to reach the devices or
+            # The protocols __HA_KEEP__ uses to reach the devices or
             # service of an integration.
             probatio.Optional("integration_connectivity"): cv.schema_with_slug_keys(
                 {

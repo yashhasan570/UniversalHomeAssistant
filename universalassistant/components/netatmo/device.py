@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 import pyatmo
 from pyatmo.modules.device_types import DEVICE_DESCRIPTION_MAP
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 
 from .const import CONF_URL_CONTROL, DOMAIN, MANUFACTURER
@@ -99,7 +99,7 @@ def _register_bridge(
 
 @callback
 def async_disabled_netatmo_ids(
-    hass: UniversalAssistant, entry: NetatmoConfigEntry
+    hass: __HAC_KEEP__, entry: NetatmoConfigEntry
 ) -> list[str]:
     """Return the Netatmo ids of every disabled device.
 
@@ -120,7 +120,7 @@ def async_disabled_netatmo_ids(
 
 @callback
 def async_register_parent_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NetatmoConfigEntry,
     account: pyatmo.AsyncAccount,
     module_parents: dict[str, str],
@@ -166,7 +166,7 @@ def async_register_parent_devices(
 
 @callback
 def async_sync_home_disabled_state(
-    hass: UniversalAssistant, entry: NetatmoConfigEntry, home_device_ids: Iterable[str]
+    hass: __HAC_KEEP__, entry: NetatmoConfigEntry, home_device_ids: Iterable[str]
 ) -> None:
     """Mirror each home device's disabled state onto its descendants.
 

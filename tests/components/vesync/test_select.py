@@ -29,8 +29,8 @@ from universalassistant.components.vesync.select import (
 from universalassistant.components.vesync.services import VeSyncService
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .common import ENTITY_HUMIDIFIER_300S_NIGHT_LIGHT_SELECT
 
@@ -81,7 +81,7 @@ def outlet_with_nightlight_fixture() -> Mock:
     "install_humidifier_device", ["humidifier_300s"], indirect=True
 )
 async def test_humidifier_set_nightlight_level(
-    hass: UniversalAssistant, humidifier_300s, install_humidifier_device
+    hass: __HAC_KEEP__, humidifier_300s, install_humidifier_device
 ) -> None:
     """Test set of humidifier night light level."""
 
@@ -115,7 +115,7 @@ async def test_humidifier_set_nightlight_level(
     ],
 )
 async def test_humidifier_nightlight_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     manager: MagicMock,
     humidifier_300s: Mock,
@@ -167,7 +167,7 @@ async def test_humidifier_nightlight_level(
     ],
 )
 async def test_nightlight_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     manager: MagicMock,
     request: pytest.FixtureRequest,
@@ -253,7 +253,7 @@ async def test_nightlight_select_option(
     ],
 )
 async def test_nightlight_select_option_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     manager: MagicMock,
     request: pytest.FixtureRequest,
@@ -275,7 +275,7 @@ async def test_nightlight_select_option_unsupported(
     setattr(device, attribute, value)
 
     with pytest.raises(
-        UniversalAssistantError, match="Device does not support toggling nightlight"
+        __HAC_KEEP__Error, match="Device does not support toggling nightlight"
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -310,7 +310,7 @@ async def test_nightlight_select_option_unsupported(
 )
 @pytest.mark.usefixtures("install_humidifier_device")
 async def test_select_option_device_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     humidifier_300s: Mock,
     last_response: ResponseInfo | None,
     message: str,
@@ -319,7 +319,7 @@ async def test_select_option_device_failure(
     humidifier_300s.set_nightlight_brightness.return_value = False
     humidifier_300s.last_response = last_response
 
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -332,7 +332,7 @@ async def test_select_option_device_failure(
 
 
 async def test_discover_new_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     manager: VeSync,
     humidifier_300s: Mock,

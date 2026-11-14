@@ -14,7 +14,7 @@ from universalassistant.components.ubus.coordinator import LEASE_REREAD_INTERVAL
 from universalassistant.components.ubus.device_tracker import UbusScannerEntity
 from universalassistant.config_entries import SOURCE_IMPORT
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -38,7 +38,7 @@ from .conftest import MAC_GUEST, MAC_LAPTOP, MAC_PHONE, MOCK_CONFIG, MOCK_HOST
     ],
 )
 async def test_only_authorized_clients_are_tracked(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -66,7 +66,7 @@ async def test_only_authorized_clients_are_tracked(
 
 
 async def test_setup_scanner_imports_yaml(
-    hass: UniversalAssistant, mock_ubus: MagicMock
+    hass: __HAC_KEEP__, mock_ubus: MagicMock
 ) -> None:
     """Test the legacy YAML platform imports itself into a config entry."""
     assert await async_setup_component(
@@ -92,7 +92,7 @@ async def test_setup_scanner_imports_yaml(
 
 
 async def test_setup_scanner_creates_issue_on_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_setup_scanner_creates_issue_on_cannot_connect(
     ],
 )
 async def test_missing_leases_keep_existing_device_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -174,7 +174,7 @@ async def test_missing_leases_keep_existing_device_name(
     ],
 )
 async def test_device_renamed_when_hostname_appears(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -226,7 +226,7 @@ async def test_device_renamed_when_hostname_appears(
 
 
 async def test_disabled_trackers_not_recreated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -255,7 +255,7 @@ async def test_disabled_trackers_not_recreated(
 
 
 async def test_other_entry_device_removal_keeps_tracking(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -286,7 +286,7 @@ async def test_other_entry_device_removal_keeps_tracking(
 
 
 async def test_lease_reread_throttled_for_clients_without_hostname(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -326,7 +326,7 @@ async def test_lease_reread_throttled_for_clients_without_hostname(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_empty_lease_reread_keeps_known_hostnames(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

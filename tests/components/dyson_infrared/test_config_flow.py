@@ -10,11 +10,11 @@ from universalassistant.components.dyson_infrared.const import (
     DOMAIN,
     DysonDeviceType,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form_and_create_entry(hass: UniversalAssistant) -> None:
+async def test_form_and_create_entry(hass: __HAC_KEEP__) -> None:
     """Test that the user config flow shows the form and creates an entry."""
     with (
         patch(
@@ -58,7 +58,7 @@ async def test_form_and_create_entry(hass: UniversalAssistant) -> None:
     assert result2["result"].unique_id == "fan_infrared.my_living_room_emitter"
 
 
-async def test_abort_no_emitters(hass: UniversalAssistant) -> None:
+async def test_abort_no_emitters(hass: __HAC_KEEP__) -> None:
     """Test abort when no infrared emitters are available."""
     with patch(
         "universalassistant.components.dyson_infrared.config_flow.infrared.async_get_emitters",
@@ -72,7 +72,7 @@ async def test_abort_no_emitters(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_emitters"
 
 
-async def test_abort_if_already_configured(hass: UniversalAssistant) -> None:
+async def test_abort_if_already_configured(hass: __HAC_KEEP__) -> None:
     """Test abort when the infrared emitter is already configured."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,

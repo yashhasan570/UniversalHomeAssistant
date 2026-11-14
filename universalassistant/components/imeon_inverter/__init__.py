@@ -2,7 +2,7 @@
 
 import logging
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import PLATFORMS
 from .coordinator import InverterConfigEntry, InverterCoordinator
@@ -10,7 +10,7 @@ from .coordinator import InverterConfigEntry, InverterCoordinator
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: InverterConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: InverterConfigEntry) -> None:
     """Handle the creation of a new config entry for the integration (asynchronous)."""
 
     # Create the corresponding HUB
@@ -22,6 +22,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: InverterConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: InverterConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: InverterConfigEntry) -> None:
     """Handle entry unloading."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

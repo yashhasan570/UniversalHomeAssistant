@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.opensensemap.const import CONF_STATION_ID, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_STATION_ID
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow(hass: UniversalAssistant, mock_opensensemap_api: AsyncMock) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, mock_opensensemap_api: AsyncMock) -> None:
     """Test the user-initiated config flow happy path."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -35,7 +35,7 @@ async def test_user_flow(hass: UniversalAssistant, mock_opensensemap_api: AsyncM
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opensensemap_api: AsyncMock,
 ) -> None:
     """Test that API errors during the user flow surface as form errors."""
@@ -65,7 +65,7 @@ async def test_user_flow_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_invalid_station(
-    hass: UniversalAssistant, mock_opensensemap_api: AsyncMock, station_data: dict
+    hass: __HAC_KEEP__, mock_opensensemap_api: AsyncMock, station_data: dict
 ) -> None:
     """Test that a station with no name is rejected."""
     mock_opensensemap_api.data = {}
@@ -90,7 +90,7 @@ async def test_user_flow_invalid_station(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opensensemap_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

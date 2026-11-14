@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
     NumberMode,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import YoLinkConfigEntry, YoLinkCoordinator
@@ -59,7 +59,7 @@ DEVICE_CONFIG_DESCRIPTIONS: tuple[YoLinkNumberTypeConfigEntityDescription, ...] 
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: YoLinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

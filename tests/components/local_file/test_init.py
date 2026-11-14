@@ -6,10 +6,10 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.local_file.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_unload_entry(hass: UniversalAssistant, loaded_entry: MockConfigEntry) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -> None:
     """Test unload an entry."""
 
     assert loaded_entry.state is ConfigEntryState.LOADED
@@ -19,7 +19,7 @@ async def test_unload_entry(hass: UniversalAssistant, loaded_entry: MockConfigEn
 
 
 async def test_file_not_readable_during_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_config: dict[str, str],
 ) -> None:
     """Test a warning is shown setup when file is not readable."""

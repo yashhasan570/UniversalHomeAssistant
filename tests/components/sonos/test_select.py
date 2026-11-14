@@ -18,7 +18,7 @@ from universalassistant.components.sonos.const import (
     SCAN_INTERVAL,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import create_rendering_control_event
@@ -44,7 +44,7 @@ async def platform_binary_sensor_fixture():
     ],
 )
 async def test_select_dialog_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco,
     entity_registry: er.EntityRegistry,
@@ -66,7 +66,7 @@ async def test_select_dialog_level(
 
 
 async def test_select_dialog_invalid_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco,
     entity_registry: er.EntityRegistry,
@@ -96,7 +96,7 @@ async def test_select_dialog_invalid_level(
     ],
 )
 async def test_select_dialog_value_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco,
     entity_registry: er.EntityRegistry,
@@ -129,7 +129,7 @@ async def test_select_dialog_value_error(
     ],
 )
 async def test_select_dialog_level_set(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco,
     speaker_info: dict[str, str],
@@ -158,7 +158,7 @@ async def test_select_dialog_level_set(
 
 
 async def test_select_dialog_level_only_arc_ultra(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     entity_registry: er.EntityRegistry,
     speaker_info: dict[str, str],
@@ -172,7 +172,7 @@ async def test_select_dialog_level_only_arc_ultra(
 
 
 async def test_select_dialog_level_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco,
     entity_registry: er.EntityRegistry,
@@ -197,7 +197,7 @@ async def test_select_dialog_level_event(
 
 
 async def test_select_dialog_level_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco,
     entity_registry: er.EntityRegistry,

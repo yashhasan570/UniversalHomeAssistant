@@ -1,6 +1,6 @@
 """Checker that enforces ``universalassistant.util.dt.now`` over ``datetime.now(tz)``.
 
-Universal Universal Home Assistant exposes ``universalassistant.util.dt.now`` -- a helper that returns an
+__HA_KEEP__ exposes ``universalassistant.util.dt.now`` -- a helper that returns an
 aware ``datetime`` in the given time zone (defaulting to ``DEFAULT_TIME_ZONE``).
 Calling ``datetime.datetime.now(tz)`` directly with a time zone argument does the
 same thing but bypasses the helper. Using ``dt_util.now`` keeps the codebase

@@ -16,7 +16,7 @@ from unifi_discovery import AIOUnifiScanner
 
 from universalassistant.components.unifi_access.const import DOMAIN
 from universalassistant.const import CONF_API_TOKEN, CONF_HOST, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -133,7 +133,7 @@ def mock_client() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> MockConfigEntry:

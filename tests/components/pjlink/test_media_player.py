@@ -13,8 +13,8 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components import media_player
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import dt as dt_util
 
 from . import setup_pjlink_entry
@@ -54,7 +54,7 @@ def mocked_projector(projector_from_address: MagicMock) -> MagicMock:
 
 @pytest.mark.parametrize("side_effect", [socket.timeout, OSError])
 async def test_offline_initialization(
-    projector_from_address: MagicMock, hass: UniversalAssistant, side_effect: type[Exception]
+    projector_from_address: MagicMock, hass: __HAC_KEEP__, side_effect: type[Exception]
 ) -> None:
     """Test initialization of a device that is offline."""
 
@@ -67,7 +67,7 @@ async def test_offline_initialization(
 
 
 async def test_initialization(
-    projector_from_address: MagicMock, hass: UniversalAssistant
+    projector_from_address: MagicMock, hass: __HAC_KEEP__
 ) -> None:
     """Test a device that is available."""
 
@@ -93,7 +93,7 @@ async def test_initialization(
 
 @pytest.mark.parametrize("power_state", ["on", "warm-up"])
 async def test_on_state_init(
-    mocked_projector: MagicMock, hass: UniversalAssistant, power_state: str
+    mocked_projector: MagicMock, hass: __HAC_KEEP__, power_state: str
 ) -> None:
     """Test a device that is available."""
 
@@ -108,7 +108,7 @@ async def test_on_state_init(
     assert state.attributes["source"] == "HDMI 1"
 
 
-async def test_api_error(mocked_projector: MagicMock, hass: UniversalAssistant) -> None:
+async def test_api_error(mocked_projector: MagicMock, hass: __HAC_KEEP__) -> None:
     """Test invalid api responses."""
 
     mocked_projector.get_power.side_effect = KeyError("OK")
@@ -120,7 +120,7 @@ async def test_api_error(mocked_projector: MagicMock, hass: UniversalAssistant) 
 
 
 async def test_update_unavailable(
-    projector_from_address: MagicMock, hass: UniversalAssistant
+    projector_from_address: MagicMock, hass: __HAC_KEEP__
 ) -> None:
     """Test update to a device that is unavailable."""
 
@@ -147,7 +147,7 @@ async def test_update_unavailable(
 
 
 async def test_unavailable_time(
-    mocked_projector: MagicMock, hass: UniversalAssistant
+    mocked_projector: MagicMock, hass: __HAC_KEEP__
 ) -> None:
     """Test unavailable time projector error."""
 
@@ -168,7 +168,7 @@ async def test_unavailable_time(
     assert "is_volume_muted" not in state.attributes
 
 
-async def test_turn_off(mocked_projector: MagicMock, hass: UniversalAssistant) -> None:
+async def test_turn_off(mocked_projector: MagicMock, hass: __HAC_KEEP__) -> None:
     """Test turning off beamer."""
 
     await setup_pjlink_entry(hass)
@@ -183,7 +183,7 @@ async def test_turn_off(mocked_projector: MagicMock, hass: UniversalAssistant) -
     mocked_projector.set_power.assert_called_with("off")
 
 
-async def test_turn_on(mocked_projector: MagicMock, hass: UniversalAssistant) -> None:
+async def test_turn_on(mocked_projector: MagicMock, hass: __HAC_KEEP__) -> None:
     """Test turning on beamer."""
 
     await setup_pjlink_entry(hass)
@@ -198,7 +198,7 @@ async def test_turn_on(mocked_projector: MagicMock, hass: UniversalAssistant) ->
     mocked_projector.set_power.assert_called_with("on")
 
 
-async def test_mute(mocked_projector: MagicMock, hass: UniversalAssistant) -> None:
+async def test_mute(mocked_projector: MagicMock, hass: __HAC_KEEP__) -> None:
     """Test muting beamer."""
 
     await setup_pjlink_entry(hass)
@@ -213,7 +213,7 @@ async def test_mute(mocked_projector: MagicMock, hass: UniversalAssistant) -> No
     mocked_projector.set_mute.assert_called_with(MUTE_AUDIO, True)
 
 
-async def test_unmute(mocked_projector: MagicMock, hass: UniversalAssistant) -> None:
+async def test_unmute(mocked_projector: MagicMock, hass: __HAC_KEEP__) -> None:
     """Test unmuting beamer."""
 
     await setup_pjlink_entry(hass)
@@ -228,7 +228,7 @@ async def test_unmute(mocked_projector: MagicMock, hass: UniversalAssistant) -> 
     mocked_projector.set_mute.assert_called_with(MUTE_AUDIO, False)
 
 
-async def test_select_source(mocked_projector: MagicMock, hass: UniversalAssistant) -> None:
+async def test_select_source(mocked_projector: MagicMock, hass: __HAC_KEEP__) -> None:
     """Test selecting source."""
 
     await setup_pjlink_entry(hass)
@@ -261,18 +261,18 @@ _ERROR = ProjectorError("projector error")
 )
 async def test_service_command_error_is_universal_assistant_error(
     mocked_projector: MagicMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     service_data: dict[str, Any],
     method_name: str,
 ) -> None:
-    """Projector failures during a service command surface as UniversalAssistantError."""
+    """Projector failures during a service command surface as __HAC_KEEP__Error."""
 
     getattr(mocked_projector, method_name).side_effect = _ERROR
 
     await setup_pjlink_entry(hass)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             media_player.DOMAIN,
             service,
@@ -284,15 +284,15 @@ async def test_service_command_error_is_universal_assistant_error(
 async def test_service_error_when_projector_unreachable_is_universal_assistant_error(
     mocked_projector: MagicMock,
     projector_from_address: MagicMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
-    """A command on an unreachable projector surfaces as UniversalAssistantError."""
+    """A command on an unreachable projector surfaces as __HAC_KEEP__Error."""
 
     await setup_pjlink_entry(hass)
 
     projector_from_address.side_effect = socket.timeout
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             media_player.DOMAIN,
             "turn_off",
@@ -306,16 +306,16 @@ async def test_service_error_when_projector_unreachable_is_universal_assistant_e
 )
 async def test_service_socket_error_during_command_is_universal_assistant_error(
     mocked_projector: MagicMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     socket_error: type[Exception],
 ) -> None:
-    """A socket error raised by the command itself surfaces as UniversalAssistantError."""
+    """A socket error raised by the command itself surfaces as __HAC_KEEP__Error."""
 
     mocked_projector.set_power.side_effect = socket_error
 
     await setup_pjlink_entry(hass)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             media_player.DOMAIN,
             "turn_off",

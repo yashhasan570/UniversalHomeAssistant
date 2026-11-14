@@ -4,7 +4,7 @@ from earn_e_p1 import DEFAULT_PORT, EarnEP1Listener
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_MAC, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import CONF_SERIAL, EARN_E_P1_DATA
@@ -16,7 +16,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 type EarnEP1ConfigEntry = ConfigEntry[EarnEP1Coordinator]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: EarnEP1ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: EarnEP1ConfigEntry) -> None:
     """Set up EARN-E P1 Meter from a config entry."""
     host = entry.data[CONF_HOST]
     serial = entry.data[CONF_SERIAL]
@@ -56,6 +56,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: EarnEP1ConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: EarnEP1ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: EarnEP1ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -21,7 +21,7 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -56,7 +56,7 @@ from . import mock_calendar, mock_connection, setup_integration
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     windows: bool,
     single: bool,
@@ -82,7 +82,7 @@ async def test_sensors(
 
 @pytest.mark.freeze_time("2021-12-03 00:00:00+00:00")
 async def test_windows(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test for successfully setting up the Radarr platform on Windows."""
     await setup_integration(hass, aioclient_mock, windows=True)
@@ -118,7 +118,7 @@ async def test_windows(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_root_folder_names(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -142,7 +142,7 @@ async def test_root_folder_names(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_migrate_folder_name_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_migrate_folder_name_unique_id(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_root_folder_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
     root_folder_fixture: str,
@@ -205,7 +205,7 @@ async def test_root_folder_changes(
 
 
 async def test_update_failed(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test coordinator updates handle failures."""
     entry = await setup_integration(hass, aioclient_mock)

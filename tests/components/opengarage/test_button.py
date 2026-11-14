@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import button
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_buttons(
 
 
 async def test_device_info_sw_version_is_string(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

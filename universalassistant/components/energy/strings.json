@@ -80,7 +80,7 @@
       "title": "[%key:component::energy::issues::entity_unexpected_unit_energy::title%]"
     },
     "recorder_untracked": {
-      "description": "Universal Universal Home Assistant Recorder has been configured to exclude these configured entities:",
+      "description": "__HA_KEEP__ Recorder has been configured to exclude these configured entities:",
       "title": "Entity not tracked"
     },
     "statistics_not_defined": {

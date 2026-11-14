@@ -1,7 +1,7 @@
 """The Tailscale integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 
 from .const import CONF_OAUTH_CLIENT_ID
@@ -10,7 +10,7 @@ from .coordinator import TailscaleConfigEntry, TailscaleDataUpdateCoordinator
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TailscaleConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TailscaleConfigEntry) -> None:
     """Set up Tailscale from a config entry."""
     if CONF_OAUTH_CLIENT_ID not in entry.data:
         # Entries created with a 90-day API access token migrate to a
@@ -32,6 +32,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TailscaleConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TailscaleConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TailscaleConfigEntry) -> None:
     """Unload Tailscale config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

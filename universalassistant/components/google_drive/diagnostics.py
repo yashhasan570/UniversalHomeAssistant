@@ -6,7 +6,7 @@ from typing import Any
 from universalassistant.components.backup import async_get_manager
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DOMAIN
 from .coordinator import GoogleDriveConfigEntry
@@ -15,7 +15,7 @@ TO_REDACT = (CONF_ACCESS_TOKEN, "refresh_token")
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GoogleDriveConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""

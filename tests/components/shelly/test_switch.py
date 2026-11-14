@@ -29,8 +29,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -63,7 +63,7 @@ def fixture_platforms():
 
 
 async def test_block_device_services(
-    hass: UniversalAssistant, mock_block_device: Mock
+    hass: __HAC_KEEP__, mock_block_device: Mock
 ) -> None:
     """Test block device turn on/off services."""
     await init_integration(hass, 1)
@@ -91,7 +91,7 @@ async def test_block_device_services(
 
 @pytest.mark.parametrize("model", MOTION_MODELS)
 async def test_block_motion_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     model: str,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -141,7 +141,7 @@ async def test_block_motion_switch(
 
 @pytest.mark.parametrize("model", MOTION_MODELS)
 async def test_block_restored_motion_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     model: str,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
@@ -180,7 +180,7 @@ async def test_block_restored_motion_switch(
 
 @pytest.mark.parametrize("model", MOTION_MODELS)
 async def test_block_restored_motion_switch_no_last_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     model: str,
     mock_block_device: Mock,
     device_registry: DeviceRegistry,
@@ -228,7 +228,7 @@ async def test_block_restored_motion_switch_no_last_state(
     ],
 )
 async def test_block_device_unique_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -251,7 +251,7 @@ async def test_block_device_unique_ids(
 
 
 async def test_block_set_state_connection_error(
-    hass: UniversalAssistant, mock_block_device, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device set state connection error."""
     monkeypatch.setattr(
@@ -262,7 +262,7 @@ async def test_block_set_state_connection_error(
     await init_integration(hass, 1)
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Device communication error occurred while calling"
         " action for switch.test_name_channel_1 of Test name",
     ):
@@ -275,7 +275,7 @@ async def test_block_set_state_connection_error(
 
 
 async def test_block_set_state_auth_error(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device set state authentication error."""
     monkeypatch.setattr(
@@ -309,7 +309,7 @@ async def test_block_set_state_auth_error(
 
 
 async def test_block_device_update(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device update."""
     monkeypatch.setattr(mock_block_device.blocks[RELAY_BLOCK_ID], "output", False)
@@ -326,7 +326,7 @@ async def test_block_device_update(
 
 
 async def test_block_device_no_relay_blocks(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device without relay blocks."""
     monkeypatch.setattr(mock_block_device.blocks[RELAY_BLOCK_ID], "type", "roller")
@@ -335,7 +335,7 @@ async def test_block_device_no_relay_blocks(
 
 
 async def test_block_device_mode_roller(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device in roller mode."""
     monkeypatch.setitem(mock_block_device.settings, "mode", "roller")
@@ -344,7 +344,7 @@ async def test_block_device_mode_roller(
 
 
 async def test_block_device_app_type_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -392,7 +392,7 @@ async def test_block_device_app_type_light(
 
 
 async def test_rpc_device_services(
-    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test RPC device turn on/off services."""
     monkeypatch.delitem(mock_rpc_device.status, "cover:0")
@@ -424,7 +424,7 @@ async def test_rpc_device_services(
 
 
 async def test_rpc_device_unique_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -439,7 +439,7 @@ async def test_rpc_device_unique_ids(
 
 
 async def test_rpc_device_switch_type_lights_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -508,7 +508,7 @@ async def test_rpc_device_switch_type_lights_mode(
     ],
 )
 async def test_rpc_set_state_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: Exception,
     error: str,
     mock_rpc_device: Mock,
@@ -520,7 +520,7 @@ async def test_rpc_set_state_errors(
     monkeypatch.setitem(mock_rpc_device.status["sys"], "relay_in_thermostat", False)
     await init_integration(hass, 2)
 
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -530,7 +530,7 @@ async def test_rpc_set_state_errors(
 
 
 async def test_rpc_auth_error(
-    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test RPC device set state authentication error."""
     mock_rpc_device.switch_set.side_effect = InvalidAuthError
@@ -562,7 +562,7 @@ async def test_rpc_auth_error(
 
 
 async def test_wall_display_relay_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -607,7 +607,7 @@ async def test_wall_display_relay_mode(
     ],
 )
 async def test_rpc_device_virtual_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -661,7 +661,7 @@ async def test_rpc_device_virtual_switch(
 
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_rpc_device_virtual_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -683,7 +683,7 @@ async def test_rpc_device_virtual_binary_sensor(
 
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_rpc_remove_virtual_switch_when_mode_label(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -716,7 +716,7 @@ async def test_rpc_remove_virtual_switch_when_mode_label(
 
 
 async def test_rpc_remove_virtual_switch_when_orphaned(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -762,7 +762,7 @@ async def test_rpc_remove_virtual_switch_when_orphaned(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_device_script_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -821,7 +821,7 @@ async def test_rpc_device_script_switch(
 
 
 async def test_cury_switch_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -904,7 +904,7 @@ async def test_cury_switch_entity(
 
 
 async def test_cury_switch_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -967,7 +967,7 @@ async def test_cury_switch_availability(
 
 
 async def test_rpc_fan_boost_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1021,7 +1021,7 @@ async def test_rpc_fan_boost_switch(
 
 
 async def test_rpc_ev_charging_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -1051,7 +1051,7 @@ async def test_rpc_ev_charging_switch(
 
 
 async def test_rpc_circuit_breaker_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -1099,7 +1099,7 @@ async def test_rpc_circuit_breaker_switch(
 
 
 async def test_rpc_cb_switch_unavailable_when_safety_switch_locked(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1141,7 +1141,7 @@ async def test_rpc_cb_switch_unavailable_when_safety_switch_locked(
     ],
 )
 async def test_rpc_circuit_breaker_turn_on_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: Exception,
     error: str,
     mock_rpc_device: Mock,
@@ -1159,7 +1159,7 @@ async def test_rpc_circuit_breaker_turn_on_errors(
     mock_rpc_device.cb_set.side_effect = exc
     await init_integration(hass, 2)
 
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -1169,7 +1169,7 @@ async def test_rpc_circuit_breaker_turn_on_errors(
 
 
 async def test_rpc_camera_privacy_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1202,7 +1202,7 @@ async def test_rpc_camera_privacy_switch(
 
 
 async def test_rpc_ledstrip_reverse_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ledstrip_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -1270,7 +1270,7 @@ async def test_rpc_ledstrip_reverse_switch(
     ],
 )
 async def test_rpc_ledstrip_reverse_switch_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ledstrip_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     ledstrip_status: dict[str, Any],

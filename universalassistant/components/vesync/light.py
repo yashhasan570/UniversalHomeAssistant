@@ -15,8 +15,8 @@ from universalassistant.components.light import (
     ColorMode,
     LightEntity,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import color as color_util
@@ -34,7 +34,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VesyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -273,7 +273,7 @@ class VeSyncHumidifierRGBNightLightHA(VeSyncBaseEntity[VeSyncHumidifier], LightE
         if not await self.device.set_rgb_nightlight(
             power=True, brightness=brightness, red=red, green=green, blue=blue
         ):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="nightlight_command_failed"
             )
         self.async_write_ha_state()
@@ -282,7 +282,7 @@ class VeSyncHumidifierRGBNightLightHA(VeSyncBaseEntity[VeSyncHumidifier], LightE
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the night light off."""
         if not await self.device.set_rgb_nightlight(power=False):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="nightlight_command_failed"
             )
         self.async_write_ha_state()

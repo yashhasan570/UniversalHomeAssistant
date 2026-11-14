@@ -16,7 +16,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -90,7 +90,7 @@ async def _set_charge_limits(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RenaultConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

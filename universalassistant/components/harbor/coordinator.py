@@ -11,7 +11,7 @@ from harbor.mqtt import DEFAULT_INITIAL_COMMANDS, HarborMQTTClient, NightMode
 from harbor.state import HarborDeviceState
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import instance_id
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
@@ -79,7 +79,7 @@ class HarborCoordinator(DataUpdateCoordinator[HarborDeviceState]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: HarborConfigEntry,
         config: HarborCameraConfig,
     ) -> None:
@@ -185,7 +185,7 @@ class HarborCoordinator(DataUpdateCoordinator[HarborDeviceState]):
         await self._client.set_night_mode(night_mode)
 
     def _handle_device_update(self, state: HarborDeviceState) -> None:
-        """Mirror a library device update into Universal Universal Home Assistant."""
+        """Mirror a library device update into __HA_KEEP__."""
         self._data_event.set()
         self.async_set_updated_data(state)
 

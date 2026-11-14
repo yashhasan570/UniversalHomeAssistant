@@ -10,7 +10,7 @@ from universalassistant.components.light import (
     ColorMode,
     LightEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.color import brightness_to_value, value_to_brightness
 
@@ -32,7 +32,7 @@ LIGHT_COLOR_TO_RGB: dict[LightColor, tuple[int, int, int]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HotSpringConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -8,7 +8,7 @@ from typing import Any
 import probatio
 from transmission_rpc import Torrent
 
-from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, selector, service
 
@@ -194,7 +194,7 @@ async def _async_remove_torrent(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register services for the Transmission integration."""
 
     hass.services.async_register(

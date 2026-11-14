@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.theben_conexa.const import DOMAIN, OBIS_IN, OBIS_OUT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_async_setup_entry_logs_unsupported_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

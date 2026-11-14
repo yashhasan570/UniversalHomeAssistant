@@ -10,11 +10,11 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.opower.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return the default mocked config entry."""
     config_entry = MockConfigEntry(
         title="Pacific Gas & Electric (test-username)",

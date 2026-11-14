@@ -5,7 +5,7 @@
     },
     "error": {
       "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
-      "ha_control_disabled": "Failed to add. Please enable Universal Universal Home Assistant control in the device web interface",
+      "ha_control_disabled": "Failed to add. Please enable __HA_KEEP__ control in the device web interface",
       "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
       "missing_data": "Missing required data",
       "unknown": "[%key:common::config_flow::error::unknown%]"
@@ -61,7 +61,7 @@
       "message": "Error communicating with device: {error}"
     },
     "ha_control_disabled": {
-      "message": "Universal Universal Home Assistant control is disabled on the device. Please enable it in the device web interface"
+      "message": "__HA_KEEP__ control is disabled on the device. Please enable it in the device web interface"
     },
     "invalid_auth": {
       "message": "Authentication failed - invalid credentials"

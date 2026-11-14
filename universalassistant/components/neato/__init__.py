@@ -6,7 +6,7 @@ from pybotvac import Account
 from pybotvac.exceptions import NeatoException
 
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -32,13 +32,13 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NeatoConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NeatoConfigEntry) -> None:
     """Set up config entry."""
     if CONF_TOKEN not in entry.data:
         raise ConfigEntryAuthFailed
@@ -64,6 +64,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NeatoConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NeatoConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NeatoConfigEntry) -> None:
     """Unload config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

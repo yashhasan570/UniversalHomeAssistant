@@ -28,7 +28,7 @@ from universalassistant.components.roborock.const import (
     REGION_US,
 )
 from universalassistant.const import CONF_REGION, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -49,7 +49,7 @@ def bypass_api_fixture(bypass_api_client_fixture: None) -> None:
 
 
 async def test_config_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Handle the config flow and make sure it succeeds."""
     with patch(
@@ -101,7 +101,7 @@ async def test_config_flow_success(
     ],
 )
 async def test_config_flow_failures_request_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request_code_side_effect: Exception | None,
     request_code_errors: dict[str, str],
 ) -> None:
@@ -163,7 +163,7 @@ async def test_config_flow_failures_request_code(
     ],
 )
 async def test_config_flow_failures_code_login(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     code_login_side_effect: Exception | None,
     code_login_errors: dict[str, str],
 ) -> None:
@@ -213,7 +213,7 @@ async def test_config_flow_failures_code_login(
 
 
 async def test_options_flow_drawables(
-    hass: UniversalAssistant, mock_roborock_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_roborock_entry: MockConfigEntry
 ) -> None:
     """Test that the options flow works."""
     with patch("universalassistant.components.roborock.roborock_storage"):
@@ -247,7 +247,7 @@ async def test_options_flow_drawables(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant, mock_roborock_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_roborock_entry: MockConfigEntry
 ) -> None:
     """Test reauth flow."""
     result = await mock_roborock_entry.start_reauth_flow(hass)
@@ -285,7 +285,7 @@ async def test_reauth_flow(
 
 
 async def test_account_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
 ) -> None:
     """Ensure the same account cannot be setup twice."""
@@ -319,7 +319,7 @@ async def test_account_already_configured(
 
 
 async def test_reauth_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
 ) -> None:
     """Ensure that reauthentication must use the same account."""
@@ -353,7 +353,7 @@ async def test_reauth_wrong_account(
 
 
 async def test_discovery_not_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Handle the config flow and make sure it succeeds."""
     with (
@@ -397,7 +397,7 @@ async def test_discovery_not_setup(
 
 @pytest.mark.parametrize("platforms", [[Platform.SENSOR]])
 async def test_discovery_already_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
 ) -> None:
     """Handle aborting if the device is already setup."""
@@ -418,7 +418,7 @@ async def test_discovery_already_setup(
 
 
 async def test_config_flow_with_region(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Handle the config flow with a specific region."""
     with patch(
@@ -468,7 +468,7 @@ async def test_config_flow_with_region(
 
 
 async def test_config_flow_with_custom_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Handle the config flow with a custom server URL."""
     custom_url = "https://api-roborock.example.com:555"
@@ -536,7 +536,7 @@ async def test_config_flow_with_custom_url(
     ],
 )
 async def test_config_flow_custom_url_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request_code_side_effect: Exception,
     request_code_errors: dict[str, str],
 ) -> None:
@@ -599,7 +599,7 @@ async def test_config_flow_custom_url_failures(
     ],
 )
 async def test_config_flow_custom_url_invalid_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     invalid_url: str,
 ) -> None:
     """Show a field error when the URL has an invalid format."""

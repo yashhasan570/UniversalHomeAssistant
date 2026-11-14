@@ -19,7 +19,7 @@ from tests.pylint import assert_no_messages, walk_checker
             """
 pytestmark = pytest.mark.usefixtures("init_integration")
 
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
             id="no_per_test_decorator",
@@ -29,7 +29,7 @@ async def test_something(hass: UniversalAssistant) -> None:
 pytestmark = pytest.mark.usefixtures("init_integration")
 
 @pytest.mark.usefixtures("other_fixture")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
             id="different_fixture",
@@ -37,7 +37,7 @@ async def test_something(hass: UniversalAssistant) -> None:
         pytest.param(
             """
 @pytest.mark.usefixtures("init_integration")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
             id="no_pytestmark",
@@ -47,7 +47,7 @@ async def test_something(hass: UniversalAssistant) -> None:
 pytestmark = pytest.mark.parametrize("x", [1, 2])
 
 @pytest.mark.usefixtures("init_integration")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
             id="pytestmark_not_usefixtures",
@@ -58,7 +58,7 @@ pytestmark = pytest.mark.usefixtures("fixture_a")
 pytestmark = pytest.mark.usefixtures("fixture_b")
 
 @pytest.mark.usefixtures("fixture_a")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
             id="reassigned_pytestmark_only_last_active",
@@ -87,7 +87,7 @@ def test_single_fixture_redundant(
 pytestmark = pytest.mark.usefixtures("init_integration")
 
 @pytest.mark.usefixtures("init_integration")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
         "tests.components.test_integration.test_init",
@@ -110,7 +110,7 @@ def test_multi_fixture_partial_redundant(
 pytestmark = pytest.mark.usefixtures("init_integration")
 
 @pytest.mark.usefixtures("init_integration", "other_fixture")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
         "tests.components.test_integration.test_init",
@@ -132,7 +132,7 @@ def test_pytestmark_list(
 pytestmark = [pytest.mark.usefixtures("init_integration")]
 
 @pytest.mark.usefixtures("init_integration")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
         "tests.components.test_integration.test_init",
@@ -153,11 +153,11 @@ def test_multiple_tests_flagged(
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_a(hass: UniversalAssistant) -> None:
+async def test_a(hass: __HAC_KEEP__) -> None:
     pass
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_b(hass: UniversalAssistant) -> None:
+async def test_b(hass: __HAC_KEEP__) -> None:
     pass
 """,
         "tests.components.test_integration.test_init",
@@ -184,7 +184,7 @@ def test_conftest_pytestmark_redundant(
     root_node = astroid.parse(
         """
 @pytest.mark.usefixtures("init_integration")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
         "tests.components.test_int.test_init",
@@ -215,7 +215,7 @@ def test_conftest_autouse_fixture_redundant(
     root_node = astroid.parse(
         """
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
         "tests.components.test_int.test_init",
@@ -246,7 +246,7 @@ def test_conftest_autouse_named_fixture_redundant(
     root_node = astroid.parse(
         """
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
         "tests.components.test_int.test_init",
@@ -270,7 +270,7 @@ def test_not_test_module_ignored(
 pytestmark = pytest.mark.usefixtures("init_integration")
 
 @pytest.mark.usefixtures("init_integration")
-async def test_something(hass: UniversalAssistant) -> None:
+async def test_something(hass: __HAC_KEEP__) -> None:
     pass
 """,
         "universalassistant.components.test_integration",

@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import TEST_MAC
@@ -110,7 +110,7 @@ def setup_device(model_code: str) -> Generator[MagicMock]:
 
 
 async def setup_component(
-    hass: UniversalAssistant, model_code: str, entry_title: str
+    hass: __HAC_KEEP__, model_code: str, entry_title: str
 ) -> MockConfigEntry:
     """Set up fan component."""
     config_entry = MockConfigEntry(
@@ -134,7 +134,7 @@ async def setup_component(
 
 
 async def test_fan_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     model_code: str,
     snapshot: SnapshotAssertion,

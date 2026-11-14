@@ -8,7 +8,7 @@ from holidays import PUBLIC, HolidayBase, country_holidays
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_COUNTRY
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_point_in_utc_time
@@ -63,7 +63,7 @@ def _get_obj_holidays_and_language(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -191,7 +191,7 @@ class HolidayCalendarEntity(CalendarEntity):
 
     @override
     async def async_get_events(
-        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
+        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
         obj_holidays = country_holidays(

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.lastfm.const import CONF_MAIN_USER, CONF_USERS, DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import API_KEY, USERNAME_1, USERNAME_2, MockNetwork, MockUser
@@ -19,7 +19,7 @@ type ComponentSetup = Callable[[MockConfigEntry, MockUser], Awaitable[None]]
 
 @pytest.fixture(name="config_entry")
 def mock_config_entry() -> MockConfigEntry:
-    """Create LastFM entry in Universal Universal Home Assistant."""
+    """Create LastFM entry in __HA_KEEP__."""
     return MockConfigEntry(
         domain=DOMAIN,
         data={},
@@ -33,7 +33,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture(name="imported_config_entry")
 def mock_imported_config_entry() -> MockConfigEntry:
-    """Create LastFM entry in Universal Universal Home Assistant."""
+    """Create LastFM entry in __HA_KEEP__."""
     return MockConfigEntry(
         domain=DOMAIN,
         data={},
@@ -47,7 +47,7 @@ def mock_imported_config_entry() -> MockConfigEntry:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> Callable[[MockConfigEntry, MockUser], Awaitable[None]]:
     """Fixture for setting up the component."""
 

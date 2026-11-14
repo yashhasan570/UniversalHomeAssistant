@@ -12,7 +12,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     AlarmControlPanelState,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -62,7 +62,7 @@ def get_supported_features(
 
 
 async def add_alarm_control_panel_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -79,7 +79,7 @@ async def add_alarm_control_panel_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -97,7 +97,7 @@ class HomeeAlarmPanel(HomeeEntity, AlarmControlPanelEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         attribute: HomeeAttribute,
         entry: HomeeConfigEntry,
         description: HomeeAlarmControlPanelEntityDescription,

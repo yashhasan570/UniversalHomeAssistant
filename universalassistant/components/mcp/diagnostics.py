@@ -6,13 +6,13 @@ from typing import TYPE_CHECKING, Any
 import probatio
 
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import ModelContextProtocolConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ModelContextProtocolConfigEntry
+    hass: __HAC_KEEP__, entry: ModelContextProtocolConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

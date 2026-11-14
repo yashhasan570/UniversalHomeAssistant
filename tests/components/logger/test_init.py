@@ -17,7 +17,7 @@ from universalassistant.components import logger
 from universalassistant.components.logger import DOMAIN, LOGSEVERITY
 from universalassistant.components.logger.const import LoggerService, LoggerServiceArgument
 from universalassistant.components.logger.helpers import SAVE_DELAY_LONG
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
@@ -34,7 +34,7 @@ INTEGRATION_NS = f"universalassistant.components.{INTEGRATION}"
 
 
 async def test_log_filtering(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test logging filters."""
 
@@ -102,7 +102,7 @@ async def test_log_filtering(
         )
 
 
-async def test_setting_level(hass: UniversalAssistant) -> None:
+async def test_setting_level(hass: __HAC_KEEP__) -> None:
     """Test we set log levels."""
     mocks = defaultdict(Mock)
 
@@ -172,7 +172,7 @@ async def test_setting_level(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_can_set_level_from_yaml(hass: UniversalAssistant) -> None:
+async def test_can_set_level_from_yaml(hass: __HAC_KEEP__) -> None:
     """Test logger propagation."""
 
     assert await async_setup_component(
@@ -197,7 +197,7 @@ async def test_can_set_level_from_yaml(hass: UniversalAssistant) -> None:
 
 
 async def test_can_set_level_from_store(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test setting up logs from store."""
     hass_storage["core.logger"] = {
@@ -236,7 +236,7 @@ async def test_can_set_level_from_store(
     _reset_logging()
 
 
-async def _assert_log_levels(hass: UniversalAssistant) -> None:
+async def _assert_log_levels(hass: __HAC_KEEP__) -> None:
     assert logging.getLogger(UNCONFIG_NS).level == logging.NOTSET
     assert logging.getLogger(UNCONFIG_NS).isEnabledFor(logging.CRITICAL) is True
     assert (
@@ -334,7 +334,7 @@ def _reset_logging():
 
 
 async def test_can_set_integration_level_from_store(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test setting up integration logs from store."""
     hass_storage["core.logger"] = {
@@ -359,7 +359,7 @@ async def test_can_set_integration_level_from_store(
 
 
 async def test_chattier_log_level_wins_1(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test chattier log level in store takes precedence."""
     hass_storage["core.logger"] = {
@@ -394,7 +394,7 @@ async def test_chattier_log_level_wins_1(
 
 
 async def test_chattier_log_level_wins_2(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test chattier log level in yaml takes precedence."""
     hass_storage["core.logger"] = {
@@ -421,7 +421,7 @@ async def test_chattier_log_level_wins_2(
 
 
 async def test_log_once_removed_from_store(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test logs with persistence "once" are removed from the store at startup."""
     store_contents = {
@@ -449,7 +449,7 @@ async def test_log_once_removed_from_store(
 
 @pytest.mark.parametrize("service", ["set_level", "set_default_level"])
 async def test_services_require_admin(
-    hass: UniversalAssistant, hass_read_only_user: MockUser, service: str
+    hass: __HAC_KEEP__, hass_read_only_user: MockUser, service: str
 ) -> None:
     """Test logger services require admin."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -488,7 +488,7 @@ async def test_services_require_admin(
     ],
 )
 async def test_renamed_loggers_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     logger_config: dict[str, Any],
     expected_loggers: str,
@@ -516,7 +516,7 @@ async def test_renamed_loggers_issue(
     ],
 )
 async def test_no_renamed_loggers_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     logger_config: dict[str, Any],
 ) -> None:

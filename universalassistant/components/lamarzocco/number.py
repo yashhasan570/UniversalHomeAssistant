@@ -27,8 +27,8 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -329,7 +329,7 @@ ENTITIES: tuple[LaMarzoccoNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LaMarzoccoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -367,7 +367,7 @@ class LaMarzoccoNumberEntity(LaMarzoccoEntity, NumberEntity):
                     self.coordinator.device, value
                 )
             except (LaMarzoccoError, TimeoutError) as exc:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="number_exception",
                     translation_placeholders={

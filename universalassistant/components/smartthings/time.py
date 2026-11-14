@@ -8,7 +8,7 @@ from pysmartthings import Attribute, Capability, Command, SmartThings
 
 from universalassistant.components.time import TimeEntity, TimeEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FullDevice, SmartThingsConfigEntry
@@ -40,7 +40,7 @@ DND_ENTITIES = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

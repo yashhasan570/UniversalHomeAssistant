@@ -5,7 +5,7 @@ from typing import Any, override
 from aiomusiccast.capabilities import BinarySetter
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import MusicCastConfigEntry
@@ -13,7 +13,7 @@ from .entity import MusicCastCapabilityEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MusicCastConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

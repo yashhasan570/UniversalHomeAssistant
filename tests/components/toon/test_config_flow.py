@@ -12,14 +12,14 @@ from toonapi import Agreement, ToonError
 from universalassistant.components.toon.const import CONF_AGREEMENT, DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER
 from universalassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
 
 
-async def setup_component(hass: UniversalAssistant) -> None:
+async def setup_component(hass: __HAC_KEEP__) -> None:
     """Set up Toon component."""
     await async_process_ha_core_config(
         hass,
@@ -34,7 +34,7 @@ async def setup_component(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_abort_if_no_configuration(hass: UniversalAssistant) -> None:
+async def test_abort_if_no_configuration(hass: __HAC_KEEP__) -> None:
     """Test abort if no app is configured."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -46,7 +46,7 @@ async def test_abort_if_no_configuration(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_full_flow_implementation(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_no_agreements(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_no_agreements(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_multiple_agreements(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_multiple_agreements(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_agreement_already_set_up(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_agreement_already_set_up(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_toon_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -290,7 +290,7 @@ async def test_toon_abort(
 
 
 @pytest.mark.usefixtures("current_request_with_host")
-async def test_import(hass: UniversalAssistant) -> None:
+async def test_import(hass: __HAC_KEEP__) -> None:
     """Test if importing step works."""
     await setup_component(hass)
 
@@ -306,7 +306,7 @@ async def test_import(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_import_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

@@ -18,7 +18,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -31,7 +31,7 @@ BUTTONS = (
 
 
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_scale: MagicMock,
@@ -45,7 +45,7 @@ async def test_buttons(
 
 
 async def test_button_presses(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_scale: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_button_presses(
 
 
 async def test_buttons_unavailable_on_disconnected_scale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_scale: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

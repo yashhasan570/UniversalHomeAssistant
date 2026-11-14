@@ -9,7 +9,7 @@ from universalassistant.components.trace import (
     ActionTrace,
     async_store_trace,
 )
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 
 from .const import DOMAIN
 
@@ -22,7 +22,7 @@ class ScriptTrace(ActionTrace):
 
 @contextmanager
 def trace_script(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     item_id: str,
     config: dict[str, Any] | None,
     blueprint_inputs: dict[str, Any] | None,

@@ -16,7 +16,7 @@ from universalassistant.const import (
     UnitOfRatio,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import UNIT_MAPPING
@@ -201,7 +201,7 @@ SENSOR_DESCRIPTIONS: tuple[PooldoseSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: PooldoseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -249,7 +249,7 @@ class PooldoseSensor(PooldoseEntity, SensorEntity):
             and (data := self.get_data()) is not None
             and (device_unit := data.get("unit"))
         ):
-            # Map device unit to Universal Universal Home Assistant unit, return None if unknown
+            # Map device unit to __HA_KEEP__ unit, return None if unknown
             return UNIT_MAPPING.get(device_unit)
 
         # Fall back to static unit from entity description

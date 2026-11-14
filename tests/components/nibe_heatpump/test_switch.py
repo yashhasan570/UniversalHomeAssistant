@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import async_add_model
@@ -35,7 +35,7 @@ async def fixture_single_platform():
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     model: Model,
     address: int,
@@ -59,7 +59,7 @@ async def test_update(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: AsyncMock,
     model: Model,
     entity_id: str,
@@ -98,7 +98,7 @@ async def test_turn_on(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: AsyncMock,
     model: Model,
     entity_id: str,

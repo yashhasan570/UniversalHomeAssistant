@@ -12,7 +12,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import SENSOR_MOLD, SENSOR_TEMPERATURE
@@ -42,7 +42,7 @@ SENSOR_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NotionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN
-from universalassistant.core import UniversalAssistant, SupportsResponse, callback
+from universalassistant.core import __HAC_KEEP__, SupportsResponse, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -30,7 +30,7 @@ class SchlageServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Schlage integration."""
     service.async_register_platform_entity_service(
         hass,

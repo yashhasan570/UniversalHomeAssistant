@@ -26,7 +26,7 @@ from universalassistant.const import (
     UnitOfLength,
     __version__,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity import async_generate_entity_id
@@ -90,7 +90,7 @@ PLATFORM_SCHEMA = probatio.All(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

@@ -24,7 +24,7 @@ from universalassistant.components.backup import (
     suggested_filename,
 )
 from universalassistant.const import CONF_PREFIX
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.util.async_iterator import AsyncIteratorReader, ResourceChunkIterator
 
 from . import BackblazeConfigEntry
@@ -137,7 +137,7 @@ def handle_b2_errors[T](
 
 
 async def async_get_backup_agents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> list[BackupAgent]:
     """Return a list of backup agents for all configured Backblaze B2 entries."""
     entries: list[BackblazeConfigEntry] = hass.config_entries.async_loaded_entries(
@@ -148,7 +148,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -172,7 +172,7 @@ def async_register_backup_agents_listener(
 class _ProgressListener(AbstractProgressListener):  # type: ignore[misc]
     """Forward upload progress from B2 worker threads to the event loop."""
 
-    def __init__(self, hass: UniversalAssistant, on_progress: OnProgressCallback) -> None:
+    def __init__(self, hass: __HAC_KEEP__, on_progress: OnProgressCallback) -> None:
         """Initialize the listener."""
         super().__init__()
         self._hass = hass
@@ -185,7 +185,7 @@ class _ProgressListener(AbstractProgressListener):  # type: ignore[misc]
 
     def bytes_completed(self, byte_count: int) -> None:
         """Report the number of bytes uploaded so far."""
-        # The loop is closed if Universal Universal Home Assistant stops during the upload
+        # The loop is closed if __HA_KEEP__ stops during the upload
         with suppress(RuntimeError):
             self._hass.loop.call_soon_threadsafe(self._report, byte_count)
 
@@ -201,7 +201,7 @@ class BackblazeBackupAgent(BackupAgent):
 
     domain = DOMAIN
 
-    def __init__(self, hass: UniversalAssistant, entry: BackblazeConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: BackblazeConfigEntry) -> None:
         """Initialize the Backblaze B2 agent."""
         super().__init__()
         self._hass = hass

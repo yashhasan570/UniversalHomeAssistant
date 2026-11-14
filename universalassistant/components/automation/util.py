@@ -13,8 +13,8 @@ from universalassistant.const import (
     CONF_TRIGGERS,
     CONF_VARIABLES,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import condition as condition_helper, issue_registry as ir
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.script import CONF_MAX, CONF_MAX_EXCEEDED, Script
@@ -50,7 +50,7 @@ class AutomationEntityConfig:
 
 
 async def _prepare_automation_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     wanted_automation_id: str | None,
 ) -> list[AutomationEntityConfig]:
@@ -90,7 +90,7 @@ def _automation_name(automation_config: AutomationEntityConfig) -> str:
 
 
 async def _create_automation_entities(
-    hass: UniversalAssistant, automation_configs: list[AutomationEntityConfig]
+    hass: __HAC_KEEP__, automation_configs: list[AutomationEntityConfig]
 ) -> list[BaseAutomationEntity]:
     """Create automation entities from prepared configuration."""
     entities: list[BaseAutomationEntity] = []
@@ -170,7 +170,7 @@ async def _create_automation_entities(
 
 
 async def async_process_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     component: EntityComponent[BaseAutomationEntity],
 ) -> None:
@@ -255,7 +255,7 @@ async def async_process_config(
 
 
 async def _async_replace_automations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     component: EntityComponent[BaseAutomationEntity],
     old_automations: list[BaseAutomationEntity],
     automation_configs: list[AutomationEntityConfig],
@@ -295,7 +295,7 @@ def _automation_matches_config(
 
 
 async def async_process_single_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     component: EntityComponent[BaseAutomationEntity],
     automation_id: str,
@@ -317,7 +317,7 @@ async def async_process_single_config(
 
 
 async def _async_process_if(
-    hass: UniversalAssistant, name: str, config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
 ) -> IfAction | None:
     """Process if checks."""
     if_configs = config[CONF_CONDITIONS]
@@ -326,7 +326,7 @@ async def _async_process_if(
         if_action = await condition_helper.async_conditions_from_config(
             hass, if_configs, LOGGER, name
         )
-    except UniversalAssistantError as ex:
+    except __HAC_KEEP__Error as ex:
         LOGGER.warning("Invalid condition: %s", ex)
         return None
 

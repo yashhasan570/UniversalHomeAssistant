@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.duckdns import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import NEW_TOKEN, TEST_SUBDOMAIN, TEST_TOKEN
@@ -16,7 +16,7 @@ from .conftest import NEW_TOKEN, TEST_SUBDOMAIN, TEST_TOKEN
 
 @pytest.mark.usefixtures("mock_update_duckdns")
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test we get the form."""
@@ -45,7 +45,7 @@ async def test_form(
 
 @pytest.mark.usefixtures("mock_update_duckdns")
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if already configured."""
@@ -77,7 +77,7 @@ async def test_form_already_configured(
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_update_duckdns: AsyncMock,
     side_effect: list[Exception | bool],
@@ -119,7 +119,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_update_duckdns", "mock_setup_entry")
 async def test_flow_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow."""
@@ -151,7 +151,7 @@ async def test_flow_reconfigure(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update_duckdns: AsyncMock,
     config_entry: MockConfigEntry,
     side_effect: list[Exception | bool],

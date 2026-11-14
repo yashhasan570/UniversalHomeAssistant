@@ -36,7 +36,7 @@ from universalassistant.components.marketplace.profiles import (
 )
 from universalassistant.components.marketplace.system_health import system_health_info
 from universalassistant.components.marketplace.utils.url import github_raw_file
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -167,7 +167,7 @@ async def test_china_profile_fetches_the_catalog_from_the_mirror(
     assert {
         headers["User-Agent"].split("/")[0]
         for _, _, _, headers in aioclient_mock.mock_calls
-    } == {"UniversalAssistantMarketplace"}
+    } == {"__HAC_KEEP__Marketplace"}
 
 
 @pytest.mark.parametrize(
@@ -198,7 +198,7 @@ async def test_github_token_only_goes_to_github(
 @pytest.mark.parametrize("download_profile", ["hasscn"])
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_install_from_the_catalog_through_the_mirrors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -223,7 +223,7 @@ async def test_install_from_the_catalog_through_the_mirrors(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.parametrize("download_profile", ["hasscn"])
 async def test_release_assets_through_the_mirrors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
@@ -449,7 +449,7 @@ async def _unreachable_catalog(marketplace: MarketplaceManager) -> None:
     ],
 )
 async def test_profile_suggested_for_the_country(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     issue_registry: ir.IssueRegistry,
     country: str | None,
@@ -466,7 +466,7 @@ async def test_profile_suggested_for_the_country(
 
 
 async def test_profile_suggestion_belongs_to_the_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -490,7 +490,7 @@ async def test_profile_suggestion_belongs_to_the_entry(
 
 
 async def test_profile_suggestion_withdrawn_when_the_catalog_is_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -509,7 +509,7 @@ async def test_profile_suggestion_withdrawn_when_the_catalog_is_back(
 
 
 async def test_profile_suggestion_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     marketplace: MarketplaceManager,
@@ -545,7 +545,7 @@ async def test_profile_suggestion_fix_flow(
 
 
 async def test_profile_suggestion_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     marketplace: MarketplaceManager,
@@ -584,7 +584,7 @@ async def test_profile_suggestion_ignored(
 
 
 async def test_profile_suggestion_ignored_after_the_catalog_is_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     marketplace: MarketplaceManager,
     issue_registry: ir.IssueRegistry,
@@ -610,7 +610,7 @@ async def test_profile_suggestion_ignored_after_the_catalog_is_back(
 
 @pytest.mark.parametrize("next_step_id", ["use_profile", "ignore"])
 async def test_profile_suggestion_entry_removed_while_the_menu_is_open(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -636,7 +636,7 @@ async def test_profile_suggestion_entry_removed_while_the_menu_is_open(
 
 @pytest.mark.parametrize("next_step_id", ["use_profile", "ignore"])
 async def test_profile_suggestion_entry_added_again_while_the_menu_is_open(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
@@ -669,7 +669,7 @@ async def test_profile_suggestion_entry_added_again_while_the_menu_is_open(
 
 @pytest.mark.parametrize("download_profile", ["hasscn"])
 async def test_system_health_checks_the_mirrors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     marketplace: MarketplaceManager,
 ) -> None:

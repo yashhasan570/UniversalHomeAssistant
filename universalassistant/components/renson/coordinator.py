@@ -9,7 +9,7 @@ from typing import Any, override
 from renson_endura_delta.renson import RensonVentilation
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN
@@ -35,7 +35,7 @@ class RensonCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: RensonConfigEntry,
         api: RensonVentilation,
     ) -> None:

@@ -18,7 +18,7 @@ from aioairzone.const import (
 from aioairzone.localapi import AirzoneLocalApi, ConnectionOptions
 
 from universalassistant.const import CONF_HOST, CONF_ID, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import (
     aiohttp_client,
     device_registry as dr,
@@ -41,7 +41,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def _async_migrate_unique_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AirzoneConfigEntry,
     coordinator: AirzoneUpdateCoordinator,
 ) -> None:
@@ -80,7 +80,7 @@ async def _async_migrate_unique_ids(
         await er.async_migrate_entries(hass, entry.entry_id, _async_migrator)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AirzoneConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AirzoneConfigEntry) -> None:
     """Set up Airzone from a config entry."""
     options = ConnectionOptions(
         f"http://{entry.data[CONF_HOST]}:{entry.data[CONF_PORT]}",
@@ -152,12 +152,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AirzoneConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AirzoneConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AirzoneConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: AirzoneConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: AirzoneConfigEntry) -> None:
     """Migrate an old entry."""
     if entry.version == 1 and entry.minor_version < 2:
         # Add missing CONF_ID

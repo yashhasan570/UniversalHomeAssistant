@@ -16,7 +16,7 @@ from universalassistant.components.mijn_farmad_apotheek.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_CODE, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -39,7 +39,7 @@ RECONFIGURE_INPUT = {
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form(hass: UniversalAssistant, mock_farmad_client: MagicMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_farmad_client: MagicMock) -> None:
     """Test a successful flow creates an entry that holds the token pair."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -77,7 +77,7 @@ async def test_form(hass: UniversalAssistant, mock_farmad_client: MagicMock) -> 
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_farmad_client: MagicMock,
     side_effect: Exception,
     error: str,
@@ -103,7 +103,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_no_access_token(
-    hass: UniversalAssistant, mock_farmad_client: MagicMock
+    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
 ) -> None:
     """Test the form shows invalid_auth without an access token and then recovers."""
     client = mock_farmad_client.return_value
@@ -125,7 +125,7 @@ async def test_form_no_access_token(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_mfa(hass: UniversalAssistant, mock_farmad_client: MagicMock) -> None:
+async def test_form_mfa(hass: __HAC_KEEP__, mock_farmad_client: MagicMock) -> None:
     """Test a two-factor account asks for the code and then creates the entry."""
     client = mock_farmad_client.return_value
     client.async_login.side_effect = [FarmadMfaRequiredError("mock"), None]
@@ -172,7 +172,7 @@ async def test_form_mfa(hass: UniversalAssistant, mock_farmad_client: MagicMock)
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_mfa_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_farmad_client: MagicMock,
     side_effect: Exception,
     errors: dict[str, str],
@@ -206,7 +206,7 @@ async def test_form_mfa_errors(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_farmad_client")
-async def test_already_configured(hass: UniversalAssistant) -> None:
+async def test_already_configured(hass: __HAC_KEEP__) -> None:
     """Test the flow aborts when an entry is already configured."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=API_ACCOUNT_ID)
     entry.add_to_hass(hass)
@@ -220,7 +220,7 @@ async def test_already_configured(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reauth(hass: UniversalAssistant, mock_farmad_client: MagicMock) -> None:
+async def test_reauth(hass: __HAC_KEEP__, mock_farmad_client: MagicMock) -> None:
     """Test reauthentication asks only the password and renews the token pair."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=API_ACCOUNT_ID, data=ENTRY_DATA)
     entry.add_to_hass(hass)
@@ -250,7 +250,7 @@ async def test_reauth(hass: UniversalAssistant, mock_farmad_client: MagicMock) -
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reauth_mfa(hass: UniversalAssistant, mock_farmad_client: MagicMock) -> None:
+async def test_reauth_mfa(hass: __HAC_KEEP__, mock_farmad_client: MagicMock) -> None:
     """Test reauthentication of an account with two-factor authentication."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=API_ACCOUNT_ID, data=ENTRY_DATA)
     entry.add_to_hass(hass)
@@ -293,7 +293,7 @@ async def test_reauth_mfa(hass: UniversalAssistant, mock_farmad_client: MagicMoc
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_mfa_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_farmad_client: MagicMock,
     side_effect: Exception,
     errors: dict[str, str],
@@ -349,7 +349,7 @@ async def test_reauth_mfa_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_farmad_client: MagicMock,
     side_effect: Exception,
     error: str,
@@ -380,7 +380,7 @@ async def test_reauth_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_wrong_account(
-    hass: UniversalAssistant, mock_farmad_client: MagicMock
+    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
 ) -> None:
     """Test reauthentication aborts for the credentials of another account."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=API_ACCOUNT_ID, data=ENTRY_DATA)
@@ -401,7 +401,7 @@ async def test_reauth_wrong_account(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_without_refresh_token(
-    hass: UniversalAssistant, mock_farmad_client: MagicMock
+    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
 ) -> None:
     """Test reauthentication keeps the refresh token when login returns none."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=API_ACCOUNT_ID, data=ENTRY_DATA)
@@ -420,7 +420,7 @@ async def test_reauth_without_refresh_token(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfigure(hass: UniversalAssistant, mock_farmad_client: MagicMock) -> None:
+async def test_reconfigure(hass: __HAC_KEEP__, mock_farmad_client: MagicMock) -> None:
     """Test reconfiguration renews the token pair of the existing entry."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=API_ACCOUNT_ID, data=ENTRY_DATA)
     entry.add_to_hass(hass)
@@ -449,7 +449,7 @@ async def test_reconfigure(hass: UniversalAssistant, mock_farmad_client: MagicMo
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_new_email(
-    hass: UniversalAssistant, mock_farmad_client: MagicMock
+    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
 ) -> None:
     """Test reconfiguration updates the email address of the entry."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=API_ACCOUNT_ID, data=ENTRY_DATA)
@@ -476,7 +476,7 @@ async def test_reconfigure_new_email(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_mfa(
-    hass: UniversalAssistant, mock_farmad_client: MagicMock
+    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
 ) -> None:
     """Test reconfiguration of an account with two-factor authentication."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=API_ACCOUNT_ID, data=ENTRY_DATA)
@@ -525,7 +525,7 @@ async def test_reconfigure_mfa(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_mfa_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_farmad_client: MagicMock,
     side_effect: Exception,
     errors: dict[str, str],
@@ -581,7 +581,7 @@ async def test_reconfigure_mfa_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_farmad_client: MagicMock,
     side_effect: Exception,
     error: str,
@@ -612,7 +612,7 @@ async def test_reconfigure_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_wrong_account(
-    hass: UniversalAssistant, mock_farmad_client: MagicMock
+    hass: __HAC_KEEP__, mock_farmad_client: MagicMock
 ) -> None:
     """Test reconfiguration aborts for the credentials of another account."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=API_ACCOUNT_ID, data=ENTRY_DATA)

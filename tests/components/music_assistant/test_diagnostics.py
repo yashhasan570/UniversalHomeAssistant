@@ -6,13 +6,13 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import setup_integration_from_fixtures
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     music_assistant_client: MagicMock,
     snapshot: SnapshotAssertion,
@@ -26,7 +26,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_player_controls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     music_assistant_client: MagicMock,
 ) -> None:

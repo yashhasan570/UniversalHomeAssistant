@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, override
 from pytradfri.api.aiocoap_api import APIRequestProtocol
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_GATEWAY_ID
@@ -27,7 +27,7 @@ def _from_fan_speed(fan_speed: int) -> int:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TradfriConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -47,7 +47,7 @@ async def async_setup_entry(
 
 
 class TradfriAirPurifierFan(TradfriBaseEntity, FanEntity):
-    """The platform class required by Universal Universal Home Assistant."""
+    """The platform class required by __HA_KEEP__."""
 
     _attr_name = None
     _attr_supported_features = (

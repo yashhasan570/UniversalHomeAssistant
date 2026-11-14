@@ -16,13 +16,13 @@ from aiofarmad import (
 import probatio
 
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import (
@@ -86,7 +86,7 @@ ORDER_MEDICATION_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the actions for the Mijn Farmad Apotheek integration."""
     hass.services.async_register(
         DOMAIN,
@@ -107,19 +107,19 @@ def async_setup_services(hass: UniversalAssistant) -> None:
 
 def _translate_error(
     err: FarmadError, apb: str, translation_key: str
-) -> UniversalAssistantError:
-    """Return the Universal Universal Home Assistant error for a library error.
+) -> __HAC_KEEP__Error:
+    """Return the __HA_KEEP__ error for a library error.
 
     The translation key applies to every error that is not an
     authentication or authorization failure.
     """
     if isinstance(err, FarmadAuthenticationError):
-        return UniversalAssistantError(
+        return __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="authentication_failed"
         )
     if isinstance(err, FarmadAuthorizationError):
         translation_key = "not_authorized"
-    return UniversalAssistantError(
+    return __HAC_KEEP__Error(
         translation_domain=DOMAIN,
         translation_key=translation_key,
         translation_placeholders={"apb": apb},
@@ -207,7 +207,7 @@ async def _async_write_draft(
         raise
     if draft_id is None:
         await _async_clear_draft(data, apb)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="order_failed",
             translation_placeholders={"apb": apb},
@@ -229,7 +229,7 @@ async def _async_place_order(
                 apb, draft_id, products=products, comment=comment
             )
         except FarmadCommunicationError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="order_unconfirmed",
                 translation_placeholders={"apb": apb},
@@ -238,7 +238,7 @@ async def _async_place_order(
             await _async_clear_draft(data, apb)
             raise
     if basket_id is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="order_unconfirmed",
             translation_placeholders={"apb": apb},

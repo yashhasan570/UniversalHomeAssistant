@@ -4,7 +4,7 @@ from typing import Final, override
 
 from universalassistant.components.number import NumberEntityDescription, RestoreNumber
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import WyomingSatelliteEntity
@@ -16,7 +16,7 @@ _MAX_VOLUME_MULTIPLIER: Final = 10.0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WyomingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -49,7 +49,7 @@ class WyomingSatelliteAutoGainNumber(WyomingSatelliteEntity, RestoreNumber):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """When entity is added to Universal Universal Home Assistant."""
+        """When entity is added to __HA_KEEP__."""
         await super().async_added_to_hass()
 
         state = await self.async_get_last_state()
@@ -81,7 +81,7 @@ class WyomingSatelliteVolumeMultiplierNumber(WyomingSatelliteEntity, RestoreNumb
 
     @override
     async def async_added_to_hass(self) -> None:
-        """When entity is added to Universal Universal Home Assistant."""
+        """When entity is added to __HA_KEEP__."""
         await super().async_added_to_hass()
         last_number_data = await self.async_get_last_number_data()
         if (last_number_data is not None) and (

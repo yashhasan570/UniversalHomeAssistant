@@ -15,7 +15,7 @@ from universalassistant.const import (
     SUN_EVENT_SUNRISE,
     SUN_EVENT_SUNSET,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import (
     DomainSpec,
@@ -81,7 +81,7 @@ _CONDITION_SCHEMA = probatio.Schema(
 
 
 def sun(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     before: str | None = None,
     after: str | None = None,
     before_offset: timedelta | None = None,
@@ -166,7 +166,7 @@ class SunCondition(Condition):
     @classmethod
     @override
     async def async_validate_complete_config(
-        cls, hass: UniversalAssistant, complete_config: ConfigType
+        cls, hass: __HAC_KEEP__, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config."""
         complete_config = move_top_level_schema_fields_to_options(
@@ -177,12 +177,12 @@ class SunCondition(Condition):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _CONDITION_SCHEMA(config))
 
-    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
         """Initialize condition."""
         super().__init__(hass, config)
         assert config.options is not None
@@ -217,7 +217,7 @@ _ELEVATION_DOMAIN_SPECS = {
 }
 
 
-def _solar_position(hass: UniversalAssistant) -> tuple[float, bool]:
+def _solar_position(hass: __HAC_KEEP__) -> tuple[float, bool]:
     """Return the sun's current elevation in degrees and whether it is rising."""
     observer = get_astral_observer(hass)
     now = dt_util.utcnow()
@@ -232,7 +232,7 @@ class _SunStateCondition(Condition):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _STATE_CONDITION_SCHEMA(config))
@@ -324,12 +324,12 @@ class _TwilightCondition(Condition):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _TWILIGHT_CONDITION_SCHEMA(config))
 
-    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
         """Initialize condition."""
         super().__init__(hass, config)
         assert config.options is not None
@@ -377,12 +377,12 @@ class _GoldenBlueHourCondition(Condition):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _PERIOD_CONDITION_SCHEMA(config))
 
-    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
         """Initialize condition."""
         super().__init__(hass, config)
         assert config.options is not None
@@ -416,7 +416,7 @@ class _BlueHourCondition(_GoldenBlueHourCondition):
 
 
 def _elevation_at_last_solar_extreme(
-    hass: UniversalAssistant, event: Literal["noon", "midnight"]
+    hass: __HAC_KEEP__, event: Literal["noon", "midnight"]
 ) -> float:
     """Return the sun's elevation at the most recent solar noon or midnight.
 
@@ -493,7 +493,7 @@ class _ElevationCondition(EntityNumericalConditionBase):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config and target the singleton sun entity."""
         config = cast(ConfigType, cls._schema(config))
@@ -520,6 +520,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
     """Return the sun conditions."""
     return CONDITIONS

@@ -33,7 +33,7 @@ from universalassistant.components.overkiz.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import DEFAULT_SETUP_FIXTURE
@@ -106,7 +106,7 @@ RTS_SHUTTER = FixtureDevice(
     ],
 )
 async def test_transient_error_is_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -137,7 +137,7 @@ async def test_transient_error_is_retried(
 
 
 async def test_rate_limit_delays_next_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -173,7 +173,7 @@ async def test_rate_limit_delays_next_refresh(
 
 
 async def test_rate_limit_never_polls_faster_than_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -204,7 +204,7 @@ async def test_rate_limit_never_polls_faster_than_configured(
 
 
 async def test_commands_share_the_execution_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -261,7 +261,7 @@ async def test_commands_share_the_execution_poll(
     ids=["completed", "failed"],
 )
 async def test_execution_polls_fast_until_it_finishes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -332,7 +332,7 @@ async def test_execution_polls_fast_until_it_finishes(
 
 
 async def test_command_during_execution_poll_keeps_its_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -363,12 +363,12 @@ async def test_command_during_execution_poll_keeps_its_schedule(
 
 
 async def test_external_execution_polls_fast_until_it_finishes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
 ) -> None:
-    """An execution started outside Universal Universal Home Assistant also speeds up polling."""
+    """An execution started outside __HA_KEEP__ also speeds up polling."""
     await setup_overkiz_integration(fixture=SHUTTER.fixture)
     mock_client.fetch_events.reset_mock()
 
@@ -420,7 +420,7 @@ async def test_external_execution_polls_fast_until_it_finishes(
 
 
 async def test_stateless_hub_skips_the_execution_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -451,7 +451,7 @@ async def test_stateless_hub_skips_the_execution_poll(
 
 
 async def test_device_removed_deletes_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -473,7 +473,7 @@ async def test_device_removed_deletes_device(
 
 
 async def test_device_removed_keeps_device_owned_by_other_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -505,7 +505,7 @@ async def test_device_removed_keeps_device_owned_by_other_entry(
 
 
 async def test_child_devices_link_to_their_gateway(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -569,7 +569,7 @@ async def test_child_devices_link_to_their_gateway(
 
 
 async def test_gateway_down_marks_its_entities_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
@@ -597,7 +597,7 @@ async def test_gateway_down_marks_its_entities_unavailable(
 
 
 async def test_state_from_device_clears_its_gateway(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
@@ -631,7 +631,7 @@ async def test_state_from_device_clears_its_gateway(
 
 
 async def test_gateway_already_down_at_setup_marks_its_entities_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
     """A gateway down before setup has no event left to announce it."""
@@ -648,7 +648,7 @@ async def test_gateway_already_down_at_setup_marks_its_entities_unavailable(
 
 
 async def test_gateway_down_leaves_other_gateways_alone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
@@ -664,7 +664,7 @@ async def test_gateway_down_leaves_other_gateways_alone(
 
 
 async def test_sauter_smart_control_polls_before_session_expires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
 ) -> None:

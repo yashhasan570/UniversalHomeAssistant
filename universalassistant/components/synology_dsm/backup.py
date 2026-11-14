@@ -16,7 +16,7 @@ from universalassistant.components.backup import (
     OnProgressCallback,
     suggested_filename,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import ChunkAsyncStreamIterator
 from universalassistant.helpers.json import json_dumps
 from universalassistant.util.json import JsonObjectType, json_loads_object
@@ -42,7 +42,7 @@ def suggested_filenames(backup: AgentBackup) -> tuple[str, str]:
 
 
 async def async_get_backup_agents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> list[BackupAgent]:
     """Return a list of backup agents."""
     entries: list[SynologyDSMConfigEntry] = hass.config_entries.async_loaded_entries(
@@ -63,7 +63,7 @@ async def async_get_backup_agents(
 
 @callback
 def async_register_backup_agents_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     listener: Callable[[], None],
     **kwargs: Any,
@@ -90,7 +90,7 @@ class SynologyDSMBackupAgent(BackupAgent):
     domain = DOMAIN
 
     def __init__(
-        self, hass: UniversalAssistant, entry: SynologyDSMConfigEntry, unique_id: str
+        self, hass: __HAC_KEEP__, entry: SynologyDSMConfigEntry, unique_id: str
     ) -> None:
         """Initialize the Synology DSM backup agent."""
         super().__init__()

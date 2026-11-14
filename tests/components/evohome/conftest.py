@@ -17,7 +17,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.evohome.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
@@ -139,7 +139,7 @@ def config() -> ConfigType:
 
 
 async def setup_evohome(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     install: str = "default",
 ) -> AsyncGenerator[MagicMock]:
@@ -197,7 +197,7 @@ async def setup_evohome(
 
 @pytest.fixture
 async def evohome(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     freezer: FrozenDateTimeFactory,
     install: str,

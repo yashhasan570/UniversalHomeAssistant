@@ -7,7 +7,7 @@ from chefiq_ble import ChefIqBluetoothDeviceData
 from universalassistant.components.bluetooth import BluetoothScanningMode
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import ChefIqPassiveBluetoothProcessorCoordinator
 
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 type ChefIqConfigEntry = ConfigEntry[ChefIqPassiveBluetoothProcessorCoordinator]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ChefIqConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ChefIqConfigEntry) -> None:
     """Set up Chef iQ BLE device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -39,6 +39,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ChefIqConfigEntry) 
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ChefIqConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ChefIqConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

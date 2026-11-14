@@ -17,8 +17,8 @@ from universalassistant.components.broadlink.radio_frequency import (
     encode_rf_packet,
 )
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -28,7 +28,7 @@ _FREQ_433 = 433_920_000
 _FREQ_315 = 315_000_000
 
 
-async def _setup_rf_device(hass: UniversalAssistant) -> tuple[MagicMock, str]:
+async def _setup_rf_device(hass: __HAC_KEEP__) -> tuple[MagicMock, str]:
     """Set up the RMPRO test device, return its api mock and RF entity_id."""
     device = get_device("Office")
     mock_setup = await device.setup_entry(hass)
@@ -51,7 +51,7 @@ async def _setup_rf_device(hass: UniversalAssistant) -> tuple[MagicMock, str]:
     ],
 )
 async def test_radio_frequency_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     device_name: str,
@@ -78,7 +78,7 @@ def test_encode_rf_packet() -> None:
     assert packet == bytes([0xB2, 0x03, 0x05, 0x00, 0x0C, 0x00, 0x01, 0x2C, 0x0C])
 
 
-async def test_send_command(hass: UniversalAssistant) -> None:
+async def test_send_command(hass: __HAC_KEEP__) -> None:
     """An OOK command transmits the encoded packet once."""
     api, entity_id = await _setup_rf_device(hass)
 
@@ -92,7 +92,7 @@ async def test_send_command(hass: UniversalAssistant) -> None:
     assert api.send_data.call_args == call(expected)
 
 
-async def test_send_command_315_band(hass: UniversalAssistant) -> None:
+async def test_send_command_315_band(hass: __HAC_KEEP__) -> None:
     """A 315 MHz command uses the 0xB4 type byte."""
     api, entity_id = await _setup_rf_device(hass)
 
@@ -102,27 +102,27 @@ async def test_send_command_315_band(hass: UniversalAssistant) -> None:
     assert api.send_data.call_args.args[0][0] == _RF_315_TYPE_BYTE
 
 
-async def test_send_command_rejects_out_of_band(hass: UniversalAssistant) -> None:
+async def test_send_command_rejects_out_of_band(hass: __HAC_KEEP__) -> None:
     """An out-of-band frequency is rejected before send."""
     api, entity_id = await _setup_rf_device(hass)
 
     command = OOKCommand(frequency=868_000_000, timings=[400, -800])
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await radio_frequency.async_send_command(hass, entity_id, command)
     api.send_data.assert_not_called()
 
 
-async def test_send_command_transmit_failure(hass: UniversalAssistant) -> None:
-    """A broadlink exception surfaces as UniversalAssistantError."""
+async def test_send_command_transmit_failure(hass: __HAC_KEEP__) -> None:
+    """A broadlink exception surfaces as __HAC_KEEP__Error."""
     api, entity_id = await _setup_rf_device(hass)
     api.send_data.side_effect = BroadlinkException("nope")
 
     command = OOKCommand(frequency=_FREQ_433, timings=[400, -800])
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await radio_frequency.async_send_command(hass, entity_id, command)
 
 
-async def test_entity_availability(hass: UniversalAssistant) -> None:
+async def test_entity_availability(hass: __HAC_KEEP__) -> None:
     """Entity becomes unavailable when the device stops responding."""
     api, entity_id = await _setup_rf_device(hass)
     assert hass.states.get(entity_id).state != STATE_UNAVAILABLE

@@ -40,7 +40,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, State
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, State
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -197,7 +197,7 @@ ENTITY_ID4 = f"{ENTITY_ID}_4"
         },
     ],
 )
-async def test_config_switch(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_config_switch(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configurationtest for switch."""
     assert SWITCH_DOMAIN in hass.config.components
 
@@ -274,7 +274,7 @@ async def test_config_switch(hass: UniversalAssistant, mock_modbus) -> None:
         ),
     ],
 )
-async def test_all_switch(hass: UniversalAssistant, mock_do_cycle, expected) -> None:
+async def test_all_switch(hass: __HAC_KEEP__, mock_do_cycle, expected) -> None:
     """Run test for given config."""
     assert hass.states.get(ENTITY_ID).state == expected
 
@@ -299,7 +299,7 @@ async def test_all_switch(hass: UniversalAssistant, mock_do_cycle, expected) -> 
     ],
 )
 async def test_restore_state_switch(
-    hass: UniversalAssistant, mock_test_state, mock_modbus
+    hass: __HAC_KEEP__, mock_test_state, mock_modbus
 ) -> None:
     """Run test for sensor restore state."""
     assert hass.states.get(ENTITY_ID).state == mock_test_state[0].state
@@ -342,7 +342,7 @@ async def test_restore_state_switch(
     ],
 )
 async def test_switch_service_turn(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_modbus,
 ) -> None:
@@ -479,7 +479,7 @@ async def test_switch_service_turn(
         },
     ],
 )
-async def test_service_switch_update(hass: UniversalAssistant, mock_modbus_ha) -> None:
+async def test_service_switch_update(hass: __HAC_KEEP__, mock_modbus_ha) -> None:
     """Run test for service universalassistant.update_entity."""
     await hass.services.async_call(
         HOMEASSISTANT_DOMAIN,
@@ -526,7 +526,7 @@ async def test_service_switch_update(hass: UniversalAssistant, mock_modbus_ha) -
     ],
 )
 async def test_switch_verify_coil_inverted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_modbus_ha: mock.AsyncMock,
     coil_value: int,
     expected_state: str,
@@ -560,7 +560,7 @@ async def test_switch_verify_coil_inverted(
         },
     ],
 )
-async def test_delay_switch(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_delay_switch(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run test for switch verify delay."""
     mock_modbus.read_holding_registers.return_value = ReadResult([0x01])
     now = dt_util.utcnow()
@@ -579,7 +579,7 @@ async def test_delay_switch(hass: UniversalAssistant, mock_modbus) -> None:
 
 
 async def test_no_discovery_info_switch(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup without discovery info."""
     assert SWITCH_DOMAIN not in hass.config.components

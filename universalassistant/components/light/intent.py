@@ -4,7 +4,7 @@ import logging
 
 import probatio
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, intent
 from universalassistant.util import color as color_util
 
@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 INTENT_SET = "HassLightSet"
 
 
-async def async_setup_intents(hass: UniversalAssistant) -> None:
+async def async_setup_intents(hass: __HAC_KEEP__) -> None:
     """Set up the light intents."""
     intent.async_register(
         hass,

@@ -22,7 +22,7 @@ from typing_extensions import Sentinel as sentinel
 if TYPE_CHECKING:
     from .session import ConsoleSession
 
-# What code of the user can raise, which must not stop Universal Universal Home Assistant or close
+# What code of the user can raise, which must not stop __HA_KEEP__ or close
 # the connection: anything, as code can raise BaseException itself. That
 # includes CancelledError, like a property reading a cancelled future;
 # executions tell a real cancellation apart.

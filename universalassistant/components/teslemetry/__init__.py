@@ -57,7 +57,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     Platform,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
@@ -160,7 +160,7 @@ STREAM_TOPICS: Final = (
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Telemetry integration."""
     await async_import_client_credential(
         hass,
@@ -232,7 +232,7 @@ def _get_subscribed_ids_from_metadata(
 
 
 def _setup_dynamic_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     metadata_coordinator: TeslemetryMetadataCoordinator,
     known_vins: set[str],
@@ -273,7 +273,7 @@ def _setup_dynamic_discovery(
 
 
 def _async_update_vehicle_repairs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     vins: set[str],
     vehicle_metadata: dict[str, Any],
@@ -310,7 +310,7 @@ def _async_update_vehicle_repairs(
 
 
 def _setup_vehicle_repairs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     metadata_coordinator: TeslemetryMetadataCoordinator,
     vins: set[str],
@@ -345,7 +345,7 @@ _BLE_KEY_ERRORS: Final = (
 
 
 async def _async_resolve_vehicle_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vin: str,
     cloud_vehicle: Vehicle,
     address: str | None,
@@ -410,7 +410,7 @@ def _find_energy_subentry_id(entry: TeslemetryConfigEntry, site_id: int) -> str 
 
 
 def _remove_stale_subentries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     subentry_type: str,
     current_subentry_ids: set[str],
@@ -426,7 +426,7 @@ def _remove_stale_subentries(
 
 
 def _prune_energy_subentries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     scopes: list[Scope],
     products: list[dict[str, Any]],
@@ -453,7 +453,7 @@ def _prune_energy_subentries(
     )
 
 
-async def _async_get_rsa_key_pem(hass: UniversalAssistant) -> bytes:
+async def _async_get_rsa_key_pem(hass: __HAC_KEEP__) -> bytes:
     """Return the integration's RSA private key PEM, generating it if needed."""
     pem: bytes | None = hass.data.get(RSA_PARENT_KEY)
     if pem is None:
@@ -472,7 +472,7 @@ _LOCAL_CONTROL_ERRORS: Final = (OSError, ValueError, PowerwallError, PrivateKeyE
 
 
 async def _async_resolve_local_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     battery: bool,
     site_id: int,
@@ -504,7 +504,7 @@ async def _async_resolve_local_control(
 
 
 async def _async_resolve_energy_site_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     subentry_id: str,
     cloud_energy_site: TeslemetryEnergySite,
@@ -547,7 +547,7 @@ async def _async_resolve_energy_site_api(
 
 
 async def _async_rediscover_gateway(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     subentry: ConfigSubentry,
     stale_client: PowerwallClient,
@@ -621,7 +621,7 @@ async def _async_rediscover_gateway(
 
 
 async def _async_setup_charge_on_solar(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     scopes: list[Scope],
     vehicles: list[TeslemetryVehicleData],
@@ -649,7 +649,7 @@ async def _async_setup_charge_on_solar(
 
 @callback
 def _async_subscribe_charge_on_solar_labs(
-    hass: UniversalAssistant, entry: TeslemetryConfigEntry
+    hass: __HAC_KEEP__, entry: TeslemetryConfigEntry
 ) -> CALLBACK_TYPE:
     """Reload the entry so the charge-on-solar entities follow the Labs toggle."""
 
@@ -661,7 +661,7 @@ def _async_subscribe_charge_on_solar_labs(
     )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TeslemetryConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TeslemetryConfigEntry) -> None:
     """Set up Teslemetry config."""
 
     if "token" not in entry.data:
@@ -1027,13 +1027,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TeslemetryConfigEnt
 
 
 def _setup_subentry_change_reload(
-    hass: UniversalAssistant, entry: TeslemetryConfigEntry
+    hass: __HAC_KEEP__, entry: TeslemetryConfigEntry
 ) -> None:
     """Reload the entry when a subentry is added or removed."""
     known = set(entry.subentries)
 
     async def _handle_update(
-        hass: UniversalAssistant, updated_entry: TeslemetryConfigEntry
+        hass: __HAC_KEEP__, updated_entry: TeslemetryConfigEntry
     ) -> None:
         nonlocal known
         current = set(updated_entry.subentries)
@@ -1046,7 +1046,7 @@ def _setup_subentry_change_reload(
 
 
 def create_handle_energy_stream_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     energysites: list[TeslemetryEnergyData],
 ) -> Callable[[bool], None]:
@@ -1111,7 +1111,7 @@ def create_handle_energy_stream_connection(
 
 
 async def _async_setup_energy_site(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     stream: TeslemetryStream,
     energy_site: EnergySite,
@@ -1232,7 +1232,7 @@ async def _async_refresh_energy_site(energysite: TeslemetryEnergyData) -> None:
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TeslemetryConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TeslemetryConfigEntry) -> None:
     """Unload Teslemetry Config."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     # Release any on-demand Bluetooth link only after platforms unloaded, or the still-loaded entry's backends must keep working.
@@ -1259,13 +1259,13 @@ async def async_unload_entry(hass: UniversalAssistant, entry: TeslemetryConfigEn
                 )
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: TeslemetryConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: TeslemetryConfigEntry) -> None:
     """Remove the stored charge-on-solar settings."""
     await TeslemetryChargeOnSolarStore(hass, entry.entry_id).async_remove()
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: TeslemetryConfigEntry
+    hass: __HAC_KEEP__, config_entry: TeslemetryConfigEntry
 ) -> None:
     """Migrate config entry."""
 
@@ -1313,7 +1313,7 @@ def create_handle_vehicle_stream(
 
 
 def async_setup_energy_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     energysite: TeslemetryEnergyData,
     device_registry: dr.DeviceRegistry,
@@ -1347,7 +1347,7 @@ def async_setup_energy_device(
 
 
 async def async_setup_stream(
-    hass: UniversalAssistant, entry: TeslemetryConfigEntry, vehicle: TeslemetryVehicleData
+    hass: __HAC_KEEP__, entry: TeslemetryConfigEntry, vehicle: TeslemetryVehicleData
 ) -> None:
     """Set up the stream for a vehicle."""
     entry.async_on_unload(
@@ -1358,7 +1358,7 @@ async def async_setup_stream(
 
 
 def create_vehicle_streaming_listener(
-    hass: UniversalAssistant, vin: str, config_entry_id: str
+    hass: __HAC_KEEP__, vin: str, config_entry_id: str
 ) -> Callable[[str | None], None]:
     """Create a listener for vehicle streaming version updates."""
 
@@ -1373,7 +1373,7 @@ def create_vehicle_streaming_listener(
 
 
 def create_energy_info_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     site_id: int,
     config_entry_id: str,
     coordinator: TeslemetryEnergySiteInfoCoordinator,

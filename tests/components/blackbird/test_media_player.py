@@ -15,7 +15,7 @@ from universalassistant.components.media_player import (
     MediaPlayerEntityFeature,
 )
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
@@ -174,7 +174,7 @@ def mock_blackbird() -> MockBlackbird:
 
 
 @pytest.fixture
-async def setup_blackbird(hass: UniversalAssistant, mock_blackbird: MockBlackbird) -> None:
+async def setup_blackbird(hass: __HAC_KEEP__, mock_blackbird: MockBlackbird) -> None:
     """Set up blackbird."""
     with mock.patch(
         "universalassistant.components.blackbird.media_player.get_blackbird",
@@ -201,7 +201,7 @@ async def setup_blackbird(hass: UniversalAssistant, mock_blackbird: MockBlackbir
 
 @pytest.fixture
 def media_player_entity(
-    hass: UniversalAssistant, setup_blackbird: None
+    hass: __HAC_KEEP__, setup_blackbird: None
 ) -> MediaPlayerEntity:
     """Return the media player entity."""
     media_player = hass.data[DATA_BLACKBIRD]["/dev/ttyUSB0-3"]
@@ -212,7 +212,7 @@ def media_player_entity(
 
 
 @pytest.mark.usefixtures("setup_blackbird")
-async def test_setup_platform(hass: UniversalAssistant) -> None:
+async def test_setup_platform(hass: __HAC_KEEP__) -> None:
     """Test setting up platform."""
     # One service must be registered
     assert hass.services.has_service(DOMAIN, BlackbirdService.SET_ALL_ZONES)
@@ -221,7 +221,7 @@ async def test_setup_platform(hass: UniversalAssistant) -> None:
 
 
 async def test_setallzones_service_call_with_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_player_entity: MediaPlayerEntity,
     mock_blackbird: MockBlackbird,
 ) -> None:
@@ -247,7 +247,7 @@ async def test_setallzones_service_call_with_entity_id(
 
 async def test_setallzones_service_call_without_entity_id(
     mock_blackbird: MockBlackbird,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_player_entity: MediaPlayerEntity,
 ) -> None:
     """Test set all zone source service call without entity id."""
@@ -268,7 +268,7 @@ async def test_setallzones_service_call_without_entity_id(
 
 
 async def test_update(
-    hass: UniversalAssistant, media_player_entity: MediaPlayerEntity
+    hass: __HAC_KEEP__, media_player_entity: MediaPlayerEntity
 ) -> None:
     """Test updating values from blackbird."""
 
@@ -282,7 +282,7 @@ async def test_name(media_player_entity: MediaPlayerEntity) -> None:
 
 
 async def test_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_player_entity: MediaPlayerEntity,
     mock_blackbird: MockBlackbird,
 ) -> None:
@@ -305,14 +305,14 @@ async def test_supported_features(media_player_entity: MediaPlayerEntity) -> Non
 
 
 async def test_source(
-    hass: UniversalAssistant, media_player_entity: MediaPlayerEntity
+    hass: __HAC_KEEP__, media_player_entity: MediaPlayerEntity
 ) -> None:
     """Test source property."""
     assert media_player_entity.source == "one"
 
 
 async def test_media_title(
-    hass: UniversalAssistant, media_player_entity: MediaPlayerEntity
+    hass: __HAC_KEEP__, media_player_entity: MediaPlayerEntity
 ) -> None:
     """Test media title property."""
     assert media_player_entity.media_title == "one"
@@ -325,7 +325,7 @@ async def test_source_list(media_player_entity: MediaPlayerEntity) -> None:
 
 
 async def test_select_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_player_entity: MediaPlayerEntity,
     mock_blackbird: MockBlackbird,
 ) -> None:
@@ -347,7 +347,7 @@ async def test_select_source(
 
 
 async def test_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_player_entity: MediaPlayerEntity,
     mock_blackbird: MockBlackbird,
 ) -> None:
@@ -363,7 +363,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_player_entity: MediaPlayerEntity,
     mock_blackbird: MockBlackbird,
 ) -> None:

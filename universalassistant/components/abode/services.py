@@ -7,8 +7,8 @@ from jaraco.abode.exceptions import Exception as AbodeException
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.dispatcher import dispatcher_send
 
@@ -45,7 +45,7 @@ CAPTURE_IMAGE_SCHEMA = probatio.Schema({CommonServiceArgument.ENTITY_ID: cv.enti
 AUTOMATION_SCHEMA = probatio.Schema({CommonServiceArgument.ENTITY_ID: cv.entity_ids})
 
 
-def _get_abode_system(hass: UniversalAssistant) -> AbodeSystem:
+def _get_abode_system(hass: __HAC_KEEP__) -> AbodeSystem:
     """Return the Abode system for the loaded config entry."""
     entry: AbodeConfigEntry = service.async_get_config_entry(hass, DOMAIN, None)
     return entry.runtime_data
@@ -59,7 +59,7 @@ def _change_setting(call: ServiceCall) -> None:
     try:
         _get_abode_system(call.hass).abode.set_setting(setting, value)
     except AbodeException as ex:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="change_setting_failed",
             translation_placeholders={"error": str(ex)},
@@ -97,8 +97,8 @@ def _trigger_automation(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
-    """Universal Universal Home Assistant services."""
+def async_setup_services(hass: __HAC_KEEP__) -> None:
+    """__HA_KEEP__ services."""
 
     hass.services.async_register(
         DOMAIN,

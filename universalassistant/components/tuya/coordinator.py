@@ -14,7 +14,7 @@ from tuya_sharing import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send, dispatcher_send
@@ -42,7 +42,7 @@ class DeviceListener(SharingDeviceListener):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: TuyaConfigEntry,
     ) -> None:
         """Init DeviceListener."""
@@ -131,7 +131,7 @@ class DeviceListener(SharingDeviceListener):
 
     @callback
     def async_add_device(self, device: CustomerDevice) -> None:
-        """Add device to Universal Universal Home Assistant."""
+        """Add device to __HA_KEEP__."""
         # Ensure the (stale) device isn't present in the device registry
         self.async_remove_device(device.id)
 
@@ -146,7 +146,7 @@ class DeviceListener(SharingDeviceListener):
     def async_register_device(
         self, device_registry: dr.DeviceRegistry, device: CustomerDevice
     ) -> None:
-        """Register device with Universal Universal Home Assistant."""
+        """Register device with __HA_KEEP__."""
         TUYA_QUIRKS_REGISTRY.initialise_device_quirk(device)
 
         device_registry.async_get_or_create_from_info(
@@ -161,7 +161,7 @@ class DeviceListener(SharingDeviceListener):
 
     @callback
     def async_remove_device(self, device_id: str) -> None:
-        """Remove device from Universal Universal Home Assistant."""
+        """Remove device from __HA_KEEP__."""
         device_registry = dr.async_get(self.hass)
         device_entry = device_registry.async_get_device_by_identifier(
             (DOMAIN, device_id), self._entry.entry_id
@@ -175,7 +175,7 @@ class _TokenListener(SharingTokenListener):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: TuyaConfigEntry,
     ) -> None:
         """Init TokenListener."""

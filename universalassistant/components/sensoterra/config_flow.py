@@ -52,7 +52,7 @@ class SensoterraConfigFlow(ConfigFlow, domain=DOMAIN):
 
             try:
                 token: str = await api.get_token(
-                    f"Universal Universal Home Assistant {uuid}", "READONLY", expiration
+                    f"__HA_KEEP__ {uuid}", "READONLY", expiration
                 )
                 decoded_token = decode(
                     token, algorithms=["HS256"], options={"verify_signature": False}

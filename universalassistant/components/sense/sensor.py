@@ -17,7 +17,7 @@ from universalassistant.const import (
     UnitOfEnergy,
     UnitOfPower,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SenseConfigEntry
@@ -65,7 +65,7 @@ TREND_SENSOR_VARIANTS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SenseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

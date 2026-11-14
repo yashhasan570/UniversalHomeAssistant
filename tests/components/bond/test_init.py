@@ -12,7 +12,7 @@ from universalassistant.components.bond import DOMAIN, BondData
 from universalassistant.components.fan import DOMAIN as FAN_DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import ATTR_ASSUMED_STATE, CONF_ACCESS_TOKEN, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -35,7 +35,7 @@ from .common import (
 )
 
 
-async def test_async_setup_no_domain_config(hass: UniversalAssistant) -> None:
+async def test_async_setup_no_domain_config(hass: __HAC_KEEP__) -> None:
     """Test setup without configuration is noop."""
     result = await async_setup_component(hass, DOMAIN, {})
 
@@ -52,7 +52,7 @@ async def test_async_setup_no_domain_config(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_async_setup_raises_entry_not_ready(
-    hass: UniversalAssistant, exc: Exception
+    hass: __HAC_KEEP__, exc: Exception
 ) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
     config_entry = MockConfigEntry(
@@ -66,7 +66,7 @@ async def test_async_setup_raises_entry_not_ready(
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_async_setup_raises_fails_if_auth_fails(hass: UniversalAssistant) -> None:
+async def test_async_setup_raises_fails_if_auth_fails(hass: __HAC_KEEP__) -> None:
     """Test that setup fails and starts reauth if auth fails during setup."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -86,7 +86,7 @@ async def test_async_setup_raises_fails_if_auth_fails(hass: UniversalAssistant) 
 
 
 async def test_async_setup_entry_sets_up_hub_and_supported_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that configuring entry sets up cover domain."""
@@ -136,7 +136,7 @@ async def test_async_setup_entry_sets_up_hub_and_supported_domains(
     assert len(mock_switch_async_setup_entry.mock_calls) == 1
 
 
-async def test_unload_config_entry(hass: UniversalAssistant) -> None:
+async def test_unload_config_entry(hass: __HAC_KEEP__) -> None:
     """Test that configuration entry supports unloading."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -161,7 +161,7 @@ async def test_unload_config_entry(hass: UniversalAssistant) -> None:
 
 
 async def test_old_identifiers_are_removed(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test we remove the old non-unique identifiers."""
     config_entry = MockConfigEntry(
@@ -218,7 +218,7 @@ async def test_old_identifiers_are_removed(
 
 
 async def test_device_via_device_links(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_device_via_device_links(
 
 
 async def test_smart_by_bond_device_suggested_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -290,7 +290,7 @@ async def test_smart_by_bond_device_suggested_area(
 
 
 async def test_bridge_device_suggested_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -342,7 +342,7 @@ async def test_bridge_device_suggested_area(
 
 
 async def test_device_remove_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -388,7 +388,7 @@ async def test_device_remove_devices(
     assert not response["success"]
 
 
-async def test_smart_by_bond_v3_firmware(hass: UniversalAssistant) -> None:
+async def test_smart_by_bond_v3_firmware(hass: __HAC_KEEP__) -> None:
     """Test we can detect smart by bond with the v3 firmware."""
     await setup_platform(
         hass,

@@ -21,7 +21,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -35,7 +35,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -46,7 +46,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_send_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
 ) -> None:
     """Test sending a sequence of remote keys."""
@@ -67,7 +67,7 @@ async def test_send_command(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_send_command_repeats(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
 ) -> None:
     """Test the repeat count is passed through to the library."""
@@ -87,7 +87,7 @@ async def test_send_command_repeats(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_send_unsupported_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
 ) -> None:
     """Test a key the model does not have is reported to the user."""
@@ -117,7 +117,7 @@ async def test_send_unsupported_command(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     service: str,
     expected: bool,
@@ -135,7 +135,7 @@ async def test_power(
 
 @pytest.mark.usefixtures("mock_receiver")
 async def test_no_entity_for_model_without_remote_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_registry: er.EntityRegistry,

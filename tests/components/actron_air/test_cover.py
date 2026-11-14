@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -15,7 +15,7 @@ DAMPER_ENTITY_ID = "cover.living_room_living_room_damper"
 
 
 async def test_cover_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -32,7 +32,7 @@ async def test_cover_entities(
 
 
 async def test_closed_damper(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_zone: MagicMock,

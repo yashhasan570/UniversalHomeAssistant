@@ -1,4 +1,4 @@
-"""Tests for the Universal Universal Home Assistant Link conversation entity."""
+"""Tests for the __HA_KEEP__ Link conversation entity."""
 
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components import conversation
 from universalassistant.components.cloud.const import DOMAIN
 from universalassistant.components.cloud.conversation import CloudConversationEntity
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import intent, llm
 
 
 @pytest.fixture
-def cloud_conversation_entity(hass: UniversalAssistant) -> CloudConversationEntity:
+def cloud_conversation_entity(hass: __HAC_KEEP__) -> CloudConversationEntity:
     """Return a CloudConversationEntity attached to hass."""
     cloud = MagicMock()
     cloud.llm = MagicMock()
@@ -44,7 +44,7 @@ def test_entity_availability(
 
 
 async def test_async_handle_message(
-    hass: UniversalAssistant, cloud_conversation_entity: CloudConversationEntity
+    hass: __HAC_KEEP__, cloud_conversation_entity: CloudConversationEntity
 ) -> None:
     """Test that messages are processed through the chat log helper."""
     user_input = conversation.ConversationInput(
@@ -93,7 +93,7 @@ async def test_async_handle_message(
 
 
 async def test_async_handle_message_converse_error(
-    hass: UniversalAssistant, cloud_conversation_entity: CloudConversationEntity
+    hass: __HAC_KEEP__, cloud_conversation_entity: CloudConversationEntity
 ) -> None:
     """Test that ConverseError short-circuits message handling."""
     user_input = conversation.ConversationInput(

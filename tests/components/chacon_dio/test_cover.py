@@ -18,7 +18,7 @@ from universalassistant.components.cover import (
 )
 from universalassistant.components.universalassistant import SERVICE_UPDATE_ENTITY
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ COVER_ENTITY_ID = "cover.shutter_mock_1"
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -42,7 +42,7 @@ async def test_entities(
 
 
 async def test_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -74,7 +74,7 @@ async def test_update(
 
 
 async def test_cover_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -126,7 +126,7 @@ async def test_cover_actions(
 
 
 async def test_cover_callbacks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -174,7 +174,7 @@ async def test_cover_callbacks(
 
 
 async def test_no_cover_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

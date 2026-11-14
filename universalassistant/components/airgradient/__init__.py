@@ -3,7 +3,7 @@
 from airgradient import AirGradientClient
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import AirGradientConfigEntry, AirGradientCoordinator
@@ -18,7 +18,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AirGradientConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AirGradientConfigEntry) -> None:
     """Set up Airgradient from a config entry."""
 
     client = AirGradientClient(
@@ -35,7 +35,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AirGradientConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: AirGradientConfigEntry
+    hass: __HAC_KEEP__, entry: AirGradientConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

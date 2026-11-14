@@ -22,7 +22,7 @@
         "data_description": {
           "host": "The IP address or hostname of the Solarman device."
         },
-        "description": "Enter the IP address of Solarman device to integrate with Universal Universal Home Assistant.",
+        "description": "Enter the IP address of Solarman device to integrate with __HA_KEEP__.",
         "title": "Configure Solarman Device"
       }
     }

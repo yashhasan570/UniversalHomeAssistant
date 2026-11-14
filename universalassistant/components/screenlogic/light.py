@@ -11,7 +11,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LIGHT_CIRCUIT_FUNCTIONS
@@ -20,7 +20,7 @@ from .entity import ScreenLogicCircuitEntity, ScreenLogicPushEntityDescription
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ScreenLogicConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

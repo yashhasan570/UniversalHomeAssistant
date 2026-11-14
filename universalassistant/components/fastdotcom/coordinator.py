@@ -6,7 +6,7 @@ from typing import override
 from fastdotcom import fast_com
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_INTERVAL, DOMAIN, LOGGER
@@ -17,7 +17,7 @@ type FastdotcomConfigEntry = ConfigEntry[FastdotcomDataUpdateCoordinator]
 class FastdotcomDataUpdateCoordinator(DataUpdateCoordinator[dict[str, float] | None]):
     """Class to manage fetching Fast.com data API."""
 
-    def __init__(self, hass: UniversalAssistant, entry: FastdotcomConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: FastdotcomConfigEntry) -> None:
         """Initialize the coordinator for Fast.com."""
         super().__init__(
             hass,

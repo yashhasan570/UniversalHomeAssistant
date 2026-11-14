@@ -16,7 +16,7 @@ from wolf_comm.wolf_client import FetchFailed, ParameterReadError
 from universalassistant.components.wolflink.const import DOMAIN, MANUFACTURER
 from universalassistant.config_entries import ConfigEntryDisabler, ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -49,7 +49,7 @@ def _assert_v2_hub(entry: MockConfigEntry) -> None:
     ],
 )
 async def test_migration_v1_to_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     stored_unique_id: int | str,
@@ -118,7 +118,7 @@ async def test_migration_v1_to_v2(
     assert migrated_entity.disabled_by is er.RegistryEntryDisabler.DEVICE
 
 
-async def test_migration_v1_2_to_v2_without_device(hass: UniversalAssistant) -> None:
+async def test_migration_v1_2_to_v2_without_device(hass: __HAC_KEEP__) -> None:
     """Test migration when the device-registry row is missing.
 
     This happens when the integration never finished its first setup —
@@ -146,7 +146,7 @@ async def test_migration_v1_2_to_v2_without_device(hass: UniversalAssistant) -> 
 
 
 async def test_migration_skips_entity_from_other_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_migration_skips_entity_from_other_entry(
 
 
 async def test_migration_merges_duplicate_v1_entries(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test two v1 entries for the same account merge into one v2 hub entry."""
     first_entry = MockConfigEntry(
@@ -256,7 +256,7 @@ async def test_migration_merges_duplicate_v1_entries(
 
 
 async def test_migration_merge_into_disabled_hub(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test an enabled device merged onto a disabled hub entry gets disabled."""
@@ -307,7 +307,7 @@ async def test_migration_merge_into_disabled_hub(
     assert migrated_device.disabled_by is dr.DeviceEntryDisabler.CONFIG_ENTRY
 
 
-async def test_migration_v1_list_device_id(hass: UniversalAssistant) -> None:
+async def test_migration_v1_list_device_id(hass: __HAC_KEEP__) -> None:
     """Test v1 migration tolerates device_id stored as a list from partial migrations."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -330,7 +330,7 @@ async def test_migration_v1_list_device_id(hass: UniversalAssistant) -> None:
     _assert_v2_hub(config_entry)
 
 
-async def test_migration_v1_empty_list_device_id(hass: UniversalAssistant) -> None:
+async def test_migration_v1_empty_list_device_id(hass: __HAC_KEEP__) -> None:
     """Test v1 migration returns early if device_id is an empty list."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -356,7 +356,7 @@ async def test_migration_v1_empty_list_device_id(hass: UniversalAssistant) -> No
 
 
 async def test_setup_no_devices_on_account(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup loads cleanly even if the account has no devices."""
     mock_config_entry.add_to_hass(hass)
@@ -374,7 +374,7 @@ async def test_setup_no_devices_on_account(
 
 
 async def test_setup_multiple_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wolflink: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -410,7 +410,7 @@ async def test_setup_multiple_devices(
     assert any("second_device" in eid for eid in entity_ids)
 
 
-async def test_migrate_future_version_aborts(hass: UniversalAssistant) -> None:
+async def test_migrate_future_version_aborts(hass: __HAC_KEEP__) -> None:
     """Test migration refuses to downgrade a future-version entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -431,7 +431,7 @@ async def test_migrate_future_version_aborts(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_fetch_parameters_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wolflink: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -449,7 +449,7 @@ async def test_setup_fetch_parameters_fails(
 
 
 async def test_system_share_id_forwarded_to_state_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wolflink: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -464,7 +464,7 @@ async def test_system_share_id_forwarded_to_state_list(
 
 
 async def test_update_skipped_when_device_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_wolflink: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -507,7 +507,7 @@ async def test_update_skipped_when_device_offline(
     ],
 )
 async def test_update_failure_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     mock_wolflink: MagicMock,
@@ -538,7 +538,7 @@ async def test_update_failure_modes(
 
 
 async def test_parameter_read_error_triggers_refetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_wolflink: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -568,7 +568,7 @@ async def test_parameter_read_error_triggers_refetch(
 
 
 async def test_refetch_flag_reset_on_fetch_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_wolflink: MagicMock,
     mock_config_entry: MockConfigEntry,

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.jvc_projector.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import format_mac
 
 from . import MOCK_HOST, MOCK_MAC, MOCK_MODEL, MOCK_PASSWORD, MOCK_PORT
@@ -145,7 +145,7 @@ def fixture_mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture(name="mock_integration")
 async def fixture_mock_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_device: MagicMock,
 ) -> MockConfigEntry:

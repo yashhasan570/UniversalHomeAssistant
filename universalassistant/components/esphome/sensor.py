@@ -19,7 +19,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
     SensorStateClass,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 from universalassistant.util.enum import try_parse_enum
@@ -32,7 +32,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ESPHomeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

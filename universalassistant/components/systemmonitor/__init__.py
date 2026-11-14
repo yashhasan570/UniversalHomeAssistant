@@ -9,7 +9,7 @@ from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import SystemMonitorCoordinator
 from .util import get_all_disk_mounts
@@ -30,7 +30,7 @@ class SystemMonitorData:
 
 
 def _create_psutil_wrapper_and_get_disk_mounts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> tuple[ha_psutil.PsutilWrapper, set[str]]:
     """Create the psutil wrapper and return all disk mounts."""
     psutil_wrapper = ha_psutil.PsutilWrapper()
@@ -38,7 +38,7 @@ def _create_psutil_wrapper_and_get_disk_mounts(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: SystemMonitorConfigEntry
+    hass: __HAC_KEEP__, entry: SystemMonitorConfigEntry
 ) -> None:
     """Set up System Monitor from a config entry."""
     psutil_wrapper, disk_mounts = await hass.async_add_executor_job(
@@ -69,14 +69,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: SystemMonitorConfigEntry
+    hass: __HAC_KEEP__, entry: SystemMonitorConfigEntry
 ) -> None:
     """Unload System Monitor config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: SystemMonitorConfigEntry
+    hass: __HAC_KEEP__, entry: SystemMonitorConfigEntry
 ) -> None:
     """Migrate old entry."""
 

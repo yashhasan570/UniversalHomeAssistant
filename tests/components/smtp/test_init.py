@@ -26,14 +26,14 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_entry_setup_unload(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test integration setup and unload."""
 
@@ -61,7 +61,7 @@ async def test_entry_setup_unload(
 )
 @pytest.mark.usefixtures("smtp")
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     exception: Exception,
@@ -80,7 +80,7 @@ async def test_config_entry_not_ready(
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_import(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_import(
                     CONF_PLATFORM: DOMAIN,
                     CONF_NAME: "notifier_name",
                     CONF_SENDER: "email@example.com",
-                    CONF_SENDER_NAME: "Universal Universal Home Assistant",
+                    CONF_SENDER_NAME: "__HA_KEEP__",
                     CONF_SERVER: "mail.example.com",
                     CONF_PORT: 587,
                     CONF_ENCRYPTION: "starttls",
@@ -121,7 +121,7 @@ async def test_import(
         CONF_PLATFORM: DOMAIN,
         CONF_NAME: "notifier_name",
         CONF_SENDER: "email@example.com",
-        CONF_SENDER_NAME: "Universal Universal Home Assistant",
+        CONF_SENDER_NAME: "__HA_KEEP__",
         CONF_SERVER: "mail.example.com",
         CONF_PORT: 587,
         CONF_ENCRYPTION: "starttls",
@@ -143,18 +143,18 @@ async def test_import(
 
 @pytest.mark.usefixtures("smtp")
 async def test_import_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test yaml import aborts if already configured."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
-        title="Universal Universal Home Assistant",
+        title="__HA_KEEP__",
         data={
             CONF_PLATFORM: DOMAIN,
             CONF_NAME: "notifier_name",
             CONF_SENDER: "email@example.com",
-            CONF_SENDER_NAME: "Universal Universal Home Assistant",
+            CONF_SENDER_NAME: "__HA_KEEP__",
             CONF_SERVER: "mail.example.com",
             CONF_PORT: 587,
             CONF_ENCRYPTION: "starttls",
@@ -178,7 +178,7 @@ async def test_import_already_configured(
                     CONF_PLATFORM: DOMAIN,
                     CONF_NAME: "notifier_name",
                     CONF_SENDER: "email@example.com",
-                    CONF_SENDER_NAME: "Universal Universal Home Assistant",
+                    CONF_SENDER_NAME: "__HA_KEEP__",
                     CONF_SERVER: "mail.example.com",
                     CONF_PORT: 587,
                     CONF_ENCRYPTION: "starttls",
@@ -203,7 +203,7 @@ async def test_import_already_configured(
 
 @pytest.mark.usefixtures("smtp")
 async def test_import_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     issue_registry: ir.IssueRegistry,
     aiosmtplib: AsyncMock,
@@ -220,7 +220,7 @@ async def test_import_errors(
                     CONF_PLATFORM: DOMAIN,
                     CONF_NAME: "notifier_name",
                     CONF_SENDER: "email@example.com",
-                    CONF_SENDER_NAME: "Universal Universal Home Assistant",
+                    CONF_SENDER_NAME: "__HA_KEEP__",
                     CONF_SERVER: "mail.example.com",
                     CONF_PORT: 587,
                     CONF_ENCRYPTION: "starttls",

@@ -15,15 +15,15 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import async_load_config_fixture, load_config_fixture, setup_integration
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_all_entities(
 
 
 async def test_setting_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_setting_value(
 
 
 async def test_v1_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -87,7 +87,7 @@ async def test_v1_entities(
     ],
 )
 async def test_v1_switch_writes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_v1_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -111,7 +111,7 @@ async def test_v1_switch_writes(
 
 
 async def test_cloud_creates_no_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -160,7 +160,7 @@ async def test_cloud_creates_no_switch(
     ],
 )
 async def test_exception_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airgradient_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -170,7 +170,7 @@ async def test_exception_handling(
     await setup_integration(hass, mock_config_entry)
 
     mock_airgradient_client.enable_sharing_data.side_effect = exception
-    with pytest.raises(UniversalAssistantError, match=error_message):
+    with pytest.raises(__HAC_KEEP__Error, match=error_message):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

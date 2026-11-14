@@ -19,7 +19,7 @@ from universalassistant.components.universalassistant import (
     SERVICE_UPDATE_ENTITY,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -66,7 +66,7 @@ HEARTBEAT = {**HEARTBEAT_NO_GAS, "gas_delivered": 1234.567}
 
 
 async def _async_tick(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, delta: timedelta
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, delta: timedelta
 ) -> None:
     """Advance time and run the timers that became due."""
     freezer.tick(delta)
@@ -76,7 +76,7 @@ async def _async_tick(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     snapshot: SnapshotAssertion,
@@ -93,7 +93,7 @@ async def test_sensor_platform(
 
 
 async def test_entity_not_created_when_key_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
 ) -> None:
@@ -119,7 +119,7 @@ async def test_entity_not_created_when_key_missing(
 
 
 async def test_sensors_added_when_key_appears_in_later_packet(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -181,7 +181,7 @@ async def test_sensors_added_when_key_appears_in_later_packet(
     ],
 )
 async def test_unsupported_keys_never_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -222,7 +222,7 @@ async def test_unsupported_keys_never_create_entities(
 
 
 async def test_unload_after_all_sensors_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_unload_after_all_sensors_added(
 
 
 async def test_wifi_rssi_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -259,7 +259,7 @@ async def test_wifi_rssi_disabled_by_default(
 
 
 async def test_sensor_unavailable_when_device_stops_sending(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -296,7 +296,7 @@ async def test_sensor_unavailable_when_device_stops_sending(
 
 
 async def test_sensor_unavailable_when_refresh_fires_early(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -320,7 +320,7 @@ async def test_sensor_unavailable_when_refresh_fires_early(
 
 
 async def test_sensor_created_after_device_silent_at_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -342,7 +342,7 @@ async def test_sensor_created_after_device_silent_at_startup(
 
 
 async def test_update_entity_keeps_fresh_sensor_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
 ) -> None:
@@ -365,7 +365,7 @@ async def test_update_entity_keeps_fresh_sensor_available(
 
 
 async def test_update_entity_keeps_silent_sensor_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_listener: MagicMock,
     freezer: FrozenDateTimeFactory,

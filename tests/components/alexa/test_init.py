@@ -1,13 +1,13 @@
 """Tests for alexa."""
 
 from universalassistant.components.alexa.const import DOMAIN, EVENT_ALEXA_SMART_HOME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from tests.components.logbook.common import MockRow, mock_humanify
 
 
-async def test_humanify_alexa_event(hass: UniversalAssistant) -> None:
+async def test_humanify_alexa_event(hass: __HAC_KEEP__) -> None:
     """Test humanifying Alexa event."""
     hass.config.components.add("recorder")
     await async_setup_component(hass, DOMAIN, {})

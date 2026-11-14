@@ -27,8 +27,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -40,7 +40,7 @@ DEVICE_ID_2 = "ape93k9302j2"
 
 
 async def test_covers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -68,7 +68,7 @@ async def test_covers(
     [("Closed", STATE_CLOSED), ("Open", STATE_OPEN)],
 )
 async def test_cover_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     status_value: str,
@@ -86,7 +86,7 @@ async def test_cover_state(
 
 
 async def test_cover_unavailable_when_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_cover_unavailable_when_offline(
 
 
 async def test_cover_unavailable_on_status_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -130,7 +130,7 @@ async def test_cover_unavailable_on_status_error(
     ],
 )
 async def test_cover_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -161,7 +161,7 @@ async def test_cover_commands(
     ],
 )
 async def test_cover_press_triggers_debounced_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -209,13 +209,13 @@ async def test_cover_press_triggers_debounced_refresh(
     ],
 )
 async def test_cover_command_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
     method: str,
 ) -> None:
-    """Library errors are translated to UniversalAssistantError with a translation key."""
+    """Library errors are translated to __HAC_KEEP__Error with a translation key."""
     mock_api_client.async_get_device_status.return_value = {
         "status": {"internetConnected": True, "openCloseStatus": "Closed"}
     }
@@ -223,7 +223,7 @@ async def test_cover_command_error(
 
     getattr(mock_api_client, method).side_effect = FlussApiClientError("boom")
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             COVER_DOMAIN,
             service,
@@ -235,7 +235,7 @@ async def test_cover_command_error(
 
 
 async def test_mixed_device_dispatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

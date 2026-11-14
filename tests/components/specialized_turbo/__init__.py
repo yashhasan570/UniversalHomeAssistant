@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.components.bluetooth import inject_bluetooth_service_info
 
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     service_info: BluetoothServiceInfoBleak,
 ) -> None:

@@ -21,7 +21,7 @@ from universalassistant.const import (
     SUN_EVENT_SUNRISE,
     SUN_EVENT_SUNSET,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, event
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -68,13 +68,13 @@ PLATFORM_SCHEMA = BINARY_SENSOR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Initialize Times of the Day config entry."""
     if hass.config.time_zone is None:
-        _LOGGER.error("Timezone is not set in Universal Universal Home Assistant configuration")  # type: ignore[unreachable]
+        _LOGGER.error("Timezone is not set in __HA_KEEP__ configuration")  # type: ignore[unreachable]
         return
 
     after = cv.time(config_entry.options[CONF_AFTER_TIME])
@@ -90,14 +90,14 @@ async def async_setup_entry(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
     """Set up the ToD sensors."""
     if hass.config.time_zone is None:
-        _LOGGER.error("Timezone is not set in Universal Universal Home Assistant configuration")  # type: ignore[unreachable]
+        _LOGGER.error("Timezone is not set in __HA_KEEP__ configuration")  # type: ignore[unreachable]
         return
 
     after = config[CONF_AFTER]
@@ -279,7 +279,7 @@ class TodSensor(BinarySensorEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Call when entity about to be added to Universal Universal Home Assistant."""
+        """Call when entity about to be added to __HA_KEEP__."""
         self._calculate_boundary_time()
         self._calculate_next_update()
 

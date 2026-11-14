@@ -6,7 +6,7 @@ from aiopyarr.lidarr_client import LidarrClient
 from aiopyarr.models.host_configuration import PyArrHostConfiguration
 
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import DeviceEntryType
@@ -25,7 +25,7 @@ from .coordinator import (
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LidarrConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LidarrConfigEntry) -> None:
     """Set up Lidarr from a config entry."""
     host_configuration = PyArrHostConfiguration(
         api_token=entry.data[CONF_API_KEY],
@@ -62,6 +62,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LidarrConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LidarrConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LidarrConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -14,7 +14,7 @@ from pyfirefly import (
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN
@@ -30,7 +30,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def _validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> bool:
+async def _validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> bool:
     """Validate the user input allows us to connect."""
 
     try:

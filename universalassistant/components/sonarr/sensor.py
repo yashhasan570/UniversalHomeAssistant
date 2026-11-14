@@ -19,7 +19,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import UnitOfInformation
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util import dt as dt_util
@@ -139,7 +139,7 @@ SENSOR_TYPES: dict[str, SonarrSensorEntityDescription[Any]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SonarrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

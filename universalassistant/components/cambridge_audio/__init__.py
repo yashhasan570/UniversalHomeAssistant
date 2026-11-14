@@ -8,7 +8,7 @@ from aiostreammagic.models import CallbackType
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -27,7 +27,7 @@ type CambridgeAudioConfigEntry = ConfigEntry[StreamMagicClient]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: CambridgeAudioConfigEntry
+    hass: __HAC_KEEP__, entry: CambridgeAudioConfigEntry
 ) -> None:
     """Set up Cambridge Audio integration from a config entry."""
 
@@ -64,7 +64,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: CambridgeAudioConfigEntry
+    hass: __HAC_KEEP__, entry: CambridgeAudioConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

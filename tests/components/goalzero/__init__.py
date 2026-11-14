@@ -7,7 +7,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.goalzero.const import DEFAULT_NAME, DOMAIN
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -26,8 +26,8 @@ CONF_DHCP_FLOW = DhcpServiceInfo(
 )
 
 
-def create_entry(hass: UniversalAssistant):
-    """Add config entry in Universal Universal Home Assistant."""
+def create_entry(hass: __HAC_KEEP__):
+    """Add config entry in __HA_KEEP__."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data=CONF_DATA,
@@ -57,11 +57,11 @@ def patch_config_flow_yeti(mocked_yeti):
 
 
 async def async_init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     skip_setup: bool = False,
 ) -> MockConfigEntry:
-    """Set up the Goal Zero integration in Universal Universal Home Assistant."""
+    """Set up the Goal Zero integration in __HA_KEEP__."""
     entry = create_entry(hass)
     base_url = f"http://{HOST}/"
     aioclient_mock.get(

@@ -15,7 +15,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.withings.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import (
@@ -46,7 +46,7 @@ def mock_scopes() -> list[str]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -65,7 +65,7 @@ def mock_expires_at() -> int:
 
 @pytest.fixture
 def webhook_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntry:
-    """Create Withings entry in Universal Universal Home Assistant."""
+    """Create Withings entry in __HA_KEEP__."""
     return MockConfigEntry(
         domain=DOMAIN,
         title=TITLE,
@@ -88,7 +88,7 @@ def webhook_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntry:
 
 @pytest.fixture
 def cloudhook_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntry:
-    """Create Withings entry in Universal Universal Home Assistant."""
+    """Create Withings entry in __HA_KEEP__."""
     return MockConfigEntry(
         domain=DOMAIN,
         title=TITLE,
@@ -112,7 +112,7 @@ def cloudhook_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntr
 
 @pytest.fixture
 def polling_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntry:
-    """Create Withings entry in Universal Universal Home Assistant."""
+    """Create Withings entry in __HA_KEEP__."""
     return MockConfigEntry(
         domain=DOMAIN,
         title=TITLE,
@@ -135,7 +135,7 @@ def polling_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntry:
 
 @pytest.fixture
 def second_polling_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntry:
-    """Create Withings entry in Universal Universal Home Assistant."""
+    """Create Withings entry in __HA_KEEP__."""
     return MockConfigEntry(
         domain=DOMAIN,
         title="Not Henk",

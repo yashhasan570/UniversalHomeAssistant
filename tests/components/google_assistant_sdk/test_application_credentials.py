@@ -6,7 +6,7 @@ from universalassistant import setup
 from universalassistant.components.google_assistant_sdk.application_credentials import (
     async_get_description_placeholders,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -18,7 +18,7 @@ from universalassistant.core import UniversalAssistant
     ],
 )
 async def test_description_placeholders(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     additional_components: list[str],
     external_url: str | None,
     expected_redirect_uri: str,

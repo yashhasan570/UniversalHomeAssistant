@@ -5,7 +5,7 @@ import asyncio
 from pyiqvia import Client
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client
 
@@ -26,7 +26,7 @@ DEFAULT_ATTRIBUTION = "Data provided by IQVIA™"
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IqviaConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IqviaConfigEntry) -> None:
     """Set up IQVIA as config entry."""
     if not entry.unique_id:
         # If the config entry doesn't already have a unique ID, set one:
@@ -76,6 +76,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IqviaConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IqviaConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IqviaConfigEntry) -> None:
     """Unload an OpenUV config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

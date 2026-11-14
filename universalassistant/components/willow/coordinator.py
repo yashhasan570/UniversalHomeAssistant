@@ -13,7 +13,7 @@ from pywillow import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.config_entry_oauth2_flow import OAuth2Session
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -31,7 +31,7 @@ class WillowDataUpdateCoordinator(DataUpdateCoordinator[dict[str, WillowDevice]]
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WillowConfigEntry,
         client: WillowClient,
         oauth_session: OAuth2Session,

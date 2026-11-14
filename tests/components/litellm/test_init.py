@@ -10,7 +10,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -18,7 +18,7 @@ IMPORT_TIMEOUT = 60
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -50,7 +50,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_setup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,

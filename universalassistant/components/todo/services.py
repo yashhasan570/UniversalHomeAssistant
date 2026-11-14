@@ -6,7 +6,7 @@ from typing import Any
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.util import dt as dt_util
@@ -196,7 +196,7 @@ async def _async_remove_completed_items(entity: TodoListEntity, _: ServiceCall) 
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the todo services."""
     component = hass.data[DATA_COMPONENT]
 

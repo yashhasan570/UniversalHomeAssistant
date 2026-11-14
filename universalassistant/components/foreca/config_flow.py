@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import LocationSelector
 
@@ -39,7 +39,7 @@ SIGNUP_URL = "https://business.foreca.com/weather-api/free-weather-api"
 
 
 async def _async_check_location(
-    hass: UniversalAssistant, api_key: str, latitude: float, longitude: float
+    hass: __HAC_KEEP__, api_key: str, latitude: float, longitude: float
 ) -> tuple[dict[str, str], Location | None]:
     """Check a key against a location, returning form errors if any."""
     client = ForecaApiClient(api_key, session=async_get_clientsession(hass))

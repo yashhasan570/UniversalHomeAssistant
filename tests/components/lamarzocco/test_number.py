@@ -21,8 +21,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import async_init_integration
@@ -37,7 +37,7 @@ DOSE_MODE_HA_TO_LM = {
     "device_fixture", [ModelName.LINEA_MICRA, ModelName.LINEA_MINI, ModelName.GS3_AV]
 )
 async def test_coffee_temperature_limits(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_coffee_temperature_limits(
     ],
 )
 async def test_coffee_temperature_supported_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     temperature: float,
@@ -97,14 +97,14 @@ async def test_coffee_temperature_supported_values(
     ],
 )
 async def test_coffee_temperature_unsupported_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     temperature: float,
 ) -> None:
     """Reject temperatures outside the machine's reported range."""
     await async_init_integration(hass, mock_config_entry)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -137,7 +137,7 @@ async def test_coffee_temperature_unsupported_values(
     ],
 )
 async def test_general_numbers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -183,7 +183,7 @@ async def test_general_numbers(
 
 @pytest.mark.parametrize("device_fixture", [ModelName.LINEA_MICRA])
 async def test_preinfusion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -224,7 +224,7 @@ async def test_preinfusion(
 
 @pytest.mark.parametrize("device_fixture", [ModelName.LINEA_MICRA])
 async def test_prebrew_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -271,7 +271,7 @@ async def test_prebrew_on(
 
 @pytest.mark.parametrize("device_fixture", [ModelName.LINEA_MICRA])
 async def test_prebrew_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -325,7 +325,7 @@ async def test_prebrew_off(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception | type[Exception],
@@ -338,7 +338,7 @@ async def test_number_error(
     assert state
 
     mock_lamarzocco.set_coffee_target_temperature.side_effect = side_effect
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -353,7 +353,7 @@ async def test_number_error(
 
 @pytest.mark.parametrize("device_fixture", [ModelName.GS3_AV])
 async def test_steam_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -393,7 +393,7 @@ async def test_steam_temperature(
 
 @pytest.mark.parametrize("device_fixture", [ModelName.LINEA_MINI])
 async def test_brew_by_weight_dose(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

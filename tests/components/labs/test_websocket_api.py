@@ -1,4 +1,4 @@
-"""Tests for the Universal Universal Home Assistant Labs WebSocket API."""
+"""Tests for the __HA_KEEP__ Labs WebSocket API."""
 
 from typing import Any
 from unittest.mock import ANY, AsyncMock, patch
@@ -12,7 +12,7 @@ from universalassistant.components.labs import (
     async_is_preview_feature_enabled,
 )
 from universalassistant.components.labs.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import assert_stored_labs_data
@@ -39,7 +39,7 @@ from . import assert_stored_labs_data
     ],
 )
 async def test_websocket_list_preview_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     load_integration: bool,
     expected_features: list,
@@ -61,7 +61,7 @@ async def test_websocket_list_preview_features(
 
 
 async def test_websocket_update_preview_feature_enable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -114,7 +114,7 @@ async def test_websocket_update_preview_feature_enable(
 
 
 async def test_websocket_update_preview_feature_disable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -159,7 +159,7 @@ async def test_websocket_update_preview_feature_disable(
 
 
 async def test_websocket_update_nonexistent_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -187,7 +187,7 @@ async def test_websocket_update_nonexistent_feature(
 
 
 async def test_websocket_update_unavailable_preview_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -224,7 +224,7 @@ async def test_websocket_update_unavailable_preview_feature(
     ["labs/list", "labs/update"],
 )
 async def test_websocket_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
     hass_storage: dict[str, Any],
@@ -260,7 +260,7 @@ async def test_websocket_requires_admin(
 
 
 async def test_websocket_update_validates_enabled_parameter(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that enabled parameter must be boolean."""
     hass.config.components.add("kitchen_sink")
@@ -285,7 +285,7 @@ async def test_websocket_update_validates_enabled_parameter(
 
 
 async def test_storage_persists_preview_feature_across_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -346,7 +346,7 @@ async def test_storage_persists_preview_feature_across_calls(
 
 
 async def test_preview_feature_urls_present(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that preview features include feedback and report URLs."""
     hass.config.components.add("kitchen_sink")
@@ -391,7 +391,7 @@ async def test_preview_feature_urls_present(
     ],
 )
 async def test_websocket_update_preview_feature_backup_scenarios(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     create_backup: bool,
     backup_fails: bool,
@@ -447,7 +447,7 @@ async def test_websocket_update_preview_feature_backup_scenarios(
 
 
 async def test_websocket_list_multiple_enabled_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -480,7 +480,7 @@ async def test_websocket_list_multiple_enabled_features(
 
 
 async def test_websocket_update_rapid_toggle(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test rapid toggling of a preview feature."""
     hass.config.components.add("kitchen_sink")
@@ -530,7 +530,7 @@ async def test_websocket_update_rapid_toggle(
 
 
 async def test_websocket_update_same_state_idempotent(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that enabling an already-enabled feature is idempotent."""
     hass.config.components.add("kitchen_sink")
@@ -568,7 +568,7 @@ async def test_websocket_update_same_state_idempotent(
 
 
 async def test_websocket_list_filtered_by_loaded_components(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that list only shows features from loaded integrations."""
     # Don't load kitchen_sink - its preview feature shouldn't appear
@@ -596,7 +596,7 @@ async def test_websocket_list_filtered_by_loaded_components(
 
 
 async def test_websocket_update_with_missing_required_field(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that missing required fields are rejected."""
     hass.config.components.add("kitchen_sink")
@@ -621,7 +621,7 @@ async def test_websocket_update_with_missing_required_field(
 
 
 async def test_websocket_event_data_structure(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test that event data has correct structure."""
     hass.config.components.add("kitchen_sink")
@@ -662,7 +662,7 @@ async def test_websocket_event_data_structure(
 
 
 async def test_websocket_backup_timeout_handling(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test handling of backup timeout/long-running backup."""
     hass.config.components.add("kitchen_sink")
@@ -697,7 +697,7 @@ async def test_websocket_backup_timeout_handling(
 
 
 async def test_websocket_subscribe_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test subscribing to a specific preview feature."""
@@ -734,7 +734,7 @@ async def test_websocket_subscribe_feature(
 
 
 async def test_websocket_subscribe_feature_receives_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test that subscription receives updates when feature is toggled."""
@@ -789,7 +789,7 @@ async def test_websocket_subscribe_feature_receives_updates(
 
 
 async def test_websocket_subscribe_nonexistent_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test subscribing to a preview feature that doesn't exist."""
@@ -813,7 +813,7 @@ async def test_websocket_subscribe_nonexistent_feature(
 
 
 async def test_websocket_subscribe_does_not_require_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -842,7 +842,7 @@ async def test_websocket_subscribe_does_not_require_admin(
 
 
 async def test_websocket_subscribe_only_receives_subscribed_feature_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test that subscription only receives updates for the subscribed feature."""

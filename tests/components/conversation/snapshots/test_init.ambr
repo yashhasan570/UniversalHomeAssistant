@@ -26,7 +26,7 @@
 # name: test_get_agent_info
   dict({
     'id': 'conversation.universal_assistant',
-    'name': 'Universal Universal Home Assistant',
+    'name': '__HA_KEEP__',
     'supports_streaming': False,
   })
 # ---
@@ -40,7 +40,7 @@
 # name: test_get_agent_info.2
   dict({
     'id': 'conversation.universal_assistant',
-    'name': 'Universal Universal Home Assistant',
+    'name': '__HA_KEEP__',
     'supports_streaming': False,
   })
 # ---

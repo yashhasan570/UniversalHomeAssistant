@@ -26,7 +26,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
 )
@@ -145,7 +145,7 @@ class ZoneData:
 
 
 def async_in_zones(
-    hass: UniversalAssistant, latitude: float, longitude: float, radius: float = 0
+    hass: __HAC_KEEP__, latitude: float, longitude: float, radius: float = 0
 ) -> tuple[State | None, list[str]]:
     """Find zones which contain the given latitude and longitude.
 
@@ -218,7 +218,7 @@ def async_in_zones(
     return (active_zone, [itm[0] for itm in zones])
 
 
-def async_get_enclosing_zones(hass: UniversalAssistant, zone_entity_id: str) -> list[str]:
+def async_get_enclosing_zones(hass: __HAC_KEEP__, zone_entity_id: str) -> list[str]:
     """Find zones which fully contain the given zone.
 
     Returns a list of zone entity_ids whose interior contains the given zone
@@ -276,7 +276,7 @@ def async_get_enclosing_zones(hass: UniversalAssistant, zone_entity_id: str) -> 
 
 
 def async_active_zone(
-    hass: UniversalAssistant, latitude: float, longitude: float, radius: float = 0
+    hass: __HAC_KEEP__, latitude: float, longitude: float, radius: float = 0
 ) -> State | None:
     """Find the active zone for given latitude, longitude.
 
@@ -286,7 +286,7 @@ def async_active_zone(
 
 
 @callback
-def async_setup_track_zone_entity_ids(hass: UniversalAssistant) -> None:
+def async_setup_track_zone_entity_ids(hass: __HAC_KEEP__) -> None:
     """Set up track of entity IDs for zones."""
     zone_entity_ids = hass.states.async_entity_ids(DOMAIN)
     hass.data[DATA_ZONE_ENTITY_IDS] = zone_entity_ids
@@ -356,8 +356,8 @@ class ZoneStorageCollection(collection.DictStorageCollection):
         return {**item, **update_data}
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
-    """Set up configured zones as well as Universal Universal Home Assistant zone if necessary."""
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    """Set up configured zones as well as __HA_KEEP__ zone if necessary."""
     async_setup_track_zone_entity_ids(hass)
 
     component = entity_component.EntityComponent[Zone](_LOGGER, DOMAIN, hass)
@@ -408,7 +408,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 @callback
-def _home_conf(hass: UniversalAssistant) -> dict:
+def _home_conf(hass: __HAC_KEEP__) -> dict:
     """Return the home zone config."""
     return {
         CONF_NAME: hass.config.location_name,
@@ -421,7 +421,7 @@ def _home_conf(hass: UniversalAssistant) -> dict:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: config_entries.ConfigEntry
+    hass: __HAC_KEEP__, config_entry: config_entries.ConfigEntry
 ) -> None:
     """Set up zone as config entry."""
     data = dict(config_entry.data)
@@ -436,7 +436,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: config_entries.ConfigEntry
+    hass: __HAC_KEEP__, config_entry: config_entries.ConfigEntry
 ) -> None:
     """Will be called once we remove it."""
 

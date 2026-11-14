@@ -15,7 +15,7 @@ from universalassistant.components.lovelace.const import (
     LOVELACE_DATA,
     LovelaceService,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
@@ -27,7 +27,7 @@ RESOURCE_EXAMPLES = [
 
 @pytest.mark.parametrize("list_cmd", ["lovelace/resources", "lovelace/resources/list"])
 async def test_yaml_resources(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, list_cmd: str
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, list_cmd: str
 ) -> None:
     """Test defining resources in configuration.yaml."""
     assert await async_setup_component(
@@ -47,7 +47,7 @@ async def test_yaml_resources(
 
 @pytest.mark.parametrize("list_cmd", ["lovelace/resources", "lovelace/resources/list"])
 async def test_yaml_resources_backwards(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, list_cmd: str
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, list_cmd: str
 ) -> None:
     """Test defining resources in YAML ll config (legacy)."""
     with patch(
@@ -68,7 +68,7 @@ async def test_yaml_resources_backwards(
 
 
 async def test_yaml_resources_missing_local_file_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_yaml_resources_missing_local_file_warning(
 
 
 async def test_yaml_resources_without_local_files_never_warns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test resources that cannot be resolved to a file are not checked."""
@@ -139,7 +139,7 @@ async def test_yaml_resources_without_local_files_never_warns(
 
 @pytest.mark.parametrize("list_cmd", ["lovelace/resources", "lovelace/resources/list"])
 async def test_storage_resources(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     list_cmd: str,
@@ -164,7 +164,7 @@ async def test_storage_resources(
 
 @pytest.mark.parametrize("list_cmd", ["lovelace/resources", "lovelace/resources/list"])
 async def test_storage_resources_import(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     list_cmd: str,
@@ -330,7 +330,7 @@ async def test_storage_resources_import(
 
 @pytest.mark.parametrize("list_cmd", ["lovelace/resources", "lovelace/resources/list"])
 async def test_storage_resources_import_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     list_cmd: str,
@@ -357,7 +357,7 @@ async def test_storage_resources_import_invalid(
 
 
 async def test_storage_resources_create_preserves_existing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test async_create_item lazy-loads before writing.
@@ -393,7 +393,7 @@ async def test_storage_resources_create_preserves_existing(
 
 @pytest.mark.parametrize("list_cmd", ["lovelace/resources", "lovelace/resources/list"])
 async def test_storage_resources_safe_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     list_cmd: str,
@@ -418,7 +418,7 @@ async def test_storage_resources_safe_mode(
     assert response["result"] == []
 
 
-async def test_reload_resources(hass: UniversalAssistant) -> None:
+async def test_reload_resources(hass: __HAC_KEEP__) -> None:
     """Test reloading YAML resources."""
     assert await async_setup_component(
         hass,
@@ -440,7 +440,7 @@ async def test_reload_resources(hass: UniversalAssistant) -> None:
     assert hass.data[LOVELACE_DATA].resources.async_items() == new_resources
 
 
-async def test_reload_resources_storage_mode(hass: UniversalAssistant) -> None:
+async def test_reload_resources_storage_mode(hass: __HAC_KEEP__) -> None:
     """Test reloading resources is rejected in storage mode."""
     assert await async_setup_component(hass, DOMAIN, {})
 

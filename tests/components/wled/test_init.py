@@ -11,12 +11,12 @@ from wled import WLEDConnectionClosedError, WLEDConnectionError
 from universalassistant.components.wled.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IGNORE, ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_wled: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_wled: AsyncMock
 ) -> None:
     """Test the WLED configuration entry unloading."""
     connection_connected = asyncio.Future()
@@ -48,7 +48,7 @@ async def test_load_unload_config_entry(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_unload_while_listening(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -86,7 +86,7 @@ async def test_unload_while_listening(
     side_effect=WLEDConnectionError,
 )
 async def test_config_entry_not_ready(
-    mock_request: MagicMock, hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    mock_request: MagicMock, hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the WLED configuration entry not ready."""
     mock_config_entry.add_to_hass(hass)
@@ -110,7 +110,7 @@ def config_entry_v1() -> MockConfigEntry:
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_wled")
 async def test_migrate_entry_future_version_is_downgrade(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Return False when user downgraded from a future version."""
     entry = MockConfigEntry(
@@ -135,7 +135,7 @@ async def test_migrate_entry_future_version_is_downgrade(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_wled")
 async def test_migrate_entry_v1_to_1_2_no_duplicates(
-    hass: UniversalAssistant, config_entry_v1: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_v1: MockConfigEntry
 ) -> None:
     """Migrate from 1.x to 1.2 when there are no other entries with same MAC."""
     config_entry_v1.add_to_hass(hass)
@@ -152,7 +152,7 @@ async def test_migrate_entry_v1_to_1_2_no_duplicates(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_wled")
 async def test_migrate_entry_v1_with_ignored_duplicates(
-    hass: UniversalAssistant, config_entry_v1: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_v1: MockConfigEntry
 ) -> None:
     """Remove ignored entries with the same MAC and then migrate."""
     config_entry_v1.add_to_hass(hass)
@@ -196,7 +196,7 @@ async def test_migrate_entry_v1_with_ignored_duplicates(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_wled")
 async def test_migrate_entry_v1_with_non_ignored_duplicate_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_v1: MockConfigEntry,
 ) -> None:
     """Abort migration when there is another non-ignored entry with the same MAC."""
@@ -228,7 +228,7 @@ async def test_migrate_entry_v1_with_non_ignored_duplicate_aborts(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_wled")
 async def test_migrate_entry_already_at_1_2_is_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Do nothing when entry is already at version 1.2."""
     entry = MockConfigEntry(

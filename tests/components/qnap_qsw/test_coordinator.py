@@ -12,7 +12,7 @@ from universalassistant.components.qnap_qsw.coordinator import (
     FW_SCAN_INTERVAL,
 )
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import (
     CONFIG,
@@ -31,7 +31,7 @@ from .util import (
 
 
 async def test_coordinator_client_connector_error(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test ClientConnectorError on coordinator update."""
 

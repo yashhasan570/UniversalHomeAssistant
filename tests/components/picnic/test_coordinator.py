@@ -13,14 +13,14 @@ from universalassistant.components.picnic.const import (
     DELIVERY_UPDATE_INTERVAL,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .conftest import SetupDeliveryFixture
 
 
 async def test_timeout_failed_with_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_picnic_api: MagicMock,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_update_interval(
 
 @pytest.mark.usefixtures("freezer")
 async def test_update_interval_with_malformed_eta(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_picnic_api: MagicMock,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_update_interval_with_malformed_eta(
 
 
 async def test_update_interval_relaxes_after_delivery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     setup_delivery: SetupDeliveryFixture,
     freezer: FrozenDateTimeFactory,
@@ -151,7 +151,7 @@ async def test_update_interval_relaxes_after_delivery(
 
 
 async def test_update_interval_relaxes_when_refresh_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_picnic_api: MagicMock,
     setup_delivery: SetupDeliveryFixture,

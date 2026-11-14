@@ -6,7 +6,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.ibeacon.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -19,7 +19,7 @@ def mock_bluetooth(enable_bluetooth: None) -> None:
 
 
 async def test_device_remove_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:

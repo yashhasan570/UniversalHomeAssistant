@@ -8,8 +8,8 @@ from pyatv.exceptions import NotSupportedError, ProtocolError
 from pyatv.interface import AppleTV as AppleTVInterface
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -57,7 +57,7 @@ def _get_atv(call: ServiceCall) -> AppleTVInterface:
     )
     atv: AppleTVInterface | None = entry.runtime_data.atv
     if atv is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="not_connected",
         )
@@ -87,7 +87,7 @@ async def _async_set_keyboard_text(call: ServiceCall) -> None:
     try:
         await atv.keyboard.text_set(call.data[AppleTVServiceArgument.TEXT])
     except ProtocolError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="keyboard_error",
         ) from err
@@ -100,7 +100,7 @@ async def _async_append_keyboard_text(call: ServiceCall) -> None:
     try:
         await atv.keyboard.text_append(call.data[AppleTVServiceArgument.TEXT])
     except ProtocolError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="keyboard_error",
         ) from err
@@ -113,14 +113,14 @@ async def _async_clear_keyboard_text(call: ServiceCall) -> None:
     try:
         await atv.keyboard.text_clear()
     except ProtocolError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="keyboard_error",
         ) from err
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Apple TV integration."""
     hass.services.async_register(
         DOMAIN,

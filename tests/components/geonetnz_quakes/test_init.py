@@ -9,11 +9,11 @@ from universalassistant.components.geonetnz_quakes.const import (
 )
 from universalassistant.config_entries import async_setup_component
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_RADIUS
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 
-async def test_component_unload_config_entry(hass: UniversalAssistant, config_entry) -> None:
+async def test_component_unload_config_entry(hass: __HAC_KEEP__, config_entry) -> None:
     """Test that loading and unloading of a config entry works."""
     config_entry.add_to_hass(hass)
     with patch(
@@ -30,7 +30,7 @@ async def test_component_unload_config_entry(hass: UniversalAssistant, config_en
 
 
 async def test_import(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test yaml import."""

@@ -9,14 +9,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.climate import ATTR_HVAC_MODE, ATTR_PRESET_MODE, HVACMode
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import find_update_callback, setup_integration
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_entities(
     ],
 )
 async def test_set(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
     climate: AsyncMock,
@@ -66,7 +66,7 @@ async def test_set(
 
 
 async def test_updating(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
     climate: AsyncMock,

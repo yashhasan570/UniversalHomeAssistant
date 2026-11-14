@@ -9,14 +9,14 @@ from python_snoo.containers import SnooDevice, SnooLevels, SnooStates
 from universalassistant.components.select import SelectService
 from universalassistant.components.snoo.select import SnooCommandException
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import async_init_integration, find_update_callback
 from .const import MOCK_SNOO_DATA
 
 
-async def test_select(hass: UniversalAssistant, bypass_api: AsyncMock) -> None:
+async def test_select(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
     """Test select and check test values are correctly set."""
     await async_init_integration(hass)
     assert len(hass.states.async_all("select")) == 1
@@ -27,7 +27,7 @@ async def test_select(hass: UniversalAssistant, bypass_api: AsyncMock) -> None:
     assert hass.states.get("select.test_snoo_intensity").state == "stop"
 
 
-async def test_update_success(hass: UniversalAssistant, bypass_api: AsyncMock) -> None:
+async def test_update_success(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
     """Test changing values for select entities."""
     await async_init_integration(hass)
 
@@ -52,7 +52,7 @@ async def test_update_success(hass: UniversalAssistant, bypass_api: AsyncMock) -
     assert hass.states.get("select.test_snoo_intensity").state == "level1"
 
 
-async def test_update_failed(hass: UniversalAssistant, bypass_api: AsyncMock) -> None:
+async def test_update_failed(hass: __HAC_KEEP__, bypass_api: AsyncMock) -> None:
     """Test failing to change values for select entities."""
     await async_init_integration(hass)
 
@@ -61,7 +61,7 @@ async def test_update_failed(hass: UniversalAssistant, bypass_api: AsyncMock) ->
 
     bypass_api.set_level.side_effect = SnooCommandException
     with pytest.raises(
-        UniversalAssistantError, match="Error while updating Intensity to level1"
+        __HAC_KEEP__Error, match="Error while updating Intensity to level1"
     ):
         await hass.services.async_call(
             "select",

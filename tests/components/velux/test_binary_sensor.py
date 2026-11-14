@@ -9,7 +9,7 @@ from pyvlx.exception import PyVLXException
 
 from universalassistant.components.velux import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -27,7 +27,7 @@ pytestmark = pytest.mark.usefixtures("setup_integration")
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rain_sensor_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_window: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_rain_sensor_state(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rain_sensor_device_association(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_window: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -117,7 +117,7 @@ async def test_rain_sensor_device_association(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rain_sensor_unavailability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_window: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

@@ -11,13 +11,13 @@ from sn2 import InformationData, InformationUpdate
 from universalassistant.components.systemnexa2 import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_DEVICE_ID, CONF_HOST, CONF_MODEL, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device")
-async def test_full_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -42,7 +42,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) 
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device")
 async def test_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort if the device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -68,7 +68,7 @@ async def test_already_configured(
     ],
 )
 async def test_connection_error_and_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_system_nexa_2_device: MagicMock,
     mock_setup_entry: AsyncMock,
     exception: type[Exception],
@@ -102,7 +102,7 @@ async def test_connection_error_and_recovery(
 
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device", "mock_setup_entry")
-async def test_empty_host(hass: UniversalAssistant) -> None:
+async def test_empty_host(hass: __HAC_KEEP__) -> None:
     """Test invalid hostname/IP address handling."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -124,7 +124,7 @@ async def test_empty_host(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device", "mock_setup_entry")
-async def test_invalid_host(hass: UniversalAssistant) -> None:
+async def test_invalid_host(hass: __HAC_KEEP__) -> None:
     """Test invalid hostname/IP address handling."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -151,7 +151,7 @@ async def test_invalid_host(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device")
 @pytest.mark.usefixtures("mock_patch_get_host")
-async def test_valid_hostname(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_valid_hostname(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test valid hostname handling."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -175,7 +175,7 @@ async def test_valid_hostname(hass: UniversalAssistant, mock_setup_entry: AsyncM
 
 
 async def test_unsupported_device(
-    hass: UniversalAssistant, mock_system_nexa_2_device: MagicMock
+    hass: __HAC_KEEP__, mock_system_nexa_2_device: MagicMock
 ) -> None:
     """Test unsupported device model handling."""
     mock_system_nexa_2_device.is_device_supported.return_value = (False, "Err")
@@ -199,7 +199,7 @@ async def test_unsupported_device(
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device")
 async def test_zeroconf_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_zeroconf_discovery_info: ZeroconfServiceInfo,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_zeroconf_discovery(
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device")
 async def test_zeroconf_discovery_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zeroconf_discovery_info: ZeroconfServiceInfo,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_zeroconf_discovery_already_configured(
 
 
 async def test_device_with_none_values(
-    hass: UniversalAssistant, mock_system_nexa_2_device: MagicMock
+    hass: __HAC_KEEP__, mock_system_nexa_2_device: MagicMock
 ) -> None:
     """Test device with None values in info is rejected."""
 
@@ -271,7 +271,7 @@ async def test_device_with_none_values(
     assert result["reason"] == "unsupported_model"
 
 
-async def test_zeroconf_discovery_none_values(hass: UniversalAssistant) -> None:
+async def test_zeroconf_discovery_none_values(hass: __HAC_KEEP__) -> None:
     """Test zeroconf discovery with None property values is rejected."""
     discovery_info = ZeroconfServiceInfo(
         ip_address=ip_address("10.0.0.131"),
@@ -296,7 +296,7 @@ async def test_zeroconf_discovery_none_values(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguration flow."""
 
@@ -323,7 +323,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_system_nexa_2_device")
 async def test_reconfigure_flow_invalid_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguration flow with invalid host."""
@@ -353,7 +353,7 @@ async def test_reconfigure_flow_invalid_host(
 
 
 async def test_reconfigure_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:
@@ -395,7 +395,7 @@ async def test_reconfigure_flow_cannot_connect(
 
 
 async def test_reconfigure_flow_wrong_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_system_nexa_2_device: MagicMock,
 ) -> None:

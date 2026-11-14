@@ -7,7 +7,7 @@ from zha.application.const import ZHA_EVENT
 
 from universalassistant.components.logbook import LOGBOOK_ENTRY_MESSAGE, LOGBOOK_ENTRY_NAME
 from universalassistant.const import ATTR_COMMAND, ATTR_DEVICE_ID
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 
 @callback
 def async_describe_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_describe_event: Callable[[str, str, Callable[[Event], dict[str, str]]], None],
 ) -> None:
     """Describe logbook events."""

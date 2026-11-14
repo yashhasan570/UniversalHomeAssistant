@@ -7,7 +7,7 @@ from typing import Any, override
 import probatio
 
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.schema_config_entry_flow import (
     SchemaCommonFlowHandler,
     SchemaConfigFlowHandler,
@@ -20,7 +20,7 @@ from universalassistant.helpers.typing import ConfigType
 from .const import CONF_FILTER, CONF_FOLDER_PATHS, DEFAULT_FILTER, DOMAIN
 
 
-def validate_path(hass: UniversalAssistant, path: str) -> str | None:
+def validate_path(hass: __HAC_KEEP__, path: str) -> str | None:
     """Return an error key if the folder can't be monitored."""
     if not os.path.isdir(path):
         return "not_dir"

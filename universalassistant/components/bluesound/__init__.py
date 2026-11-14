@@ -4,7 +4,7 @@ from pyblu import Player
 from pyblu.errors import PlayerUnreachableError
 
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -25,7 +25,7 @@ PLATFORMS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: BluesoundConfigEntry
+    hass: __HAC_KEEP__, config_entry: BluesoundConfigEntry
 ) -> None:
     """Set up the Bluesound entry."""
     host = config_entry.data[CONF_HOST]
@@ -50,7 +50,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: BluesoundConfigEntry
+    hass: __HAC_KEEP__, config_entry: BluesoundConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

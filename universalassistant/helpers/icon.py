@@ -7,7 +7,7 @@ import logging
 import pathlib
 from typing import Any, cast
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.loader import Integration, async_get_integrations
 from universalassistant.util.hass_dict import HassKey
 from universalassistant.util.json import load_json_object
@@ -52,7 +52,7 @@ def _load_icons_files(
 
 
 async def _async_get_component_icons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     components: set[str],
     integrations: dict[str, Integration],
 ) -> dict[str, Any]:
@@ -78,7 +78,7 @@ class _IconsCache:
 
     __slots__ = ("_cache", "_hass", "_loaded", "_lock")
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the cache."""
         self._hass = hass
         self._loaded: set[str] = set()
@@ -139,7 +139,7 @@ class _IconsCache:
 
 
 async def async_get_icons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     category: str,
     integrations: Iterable[str] | None = None,
 ) -> dict[str, Any]:

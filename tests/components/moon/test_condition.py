@@ -6,13 +6,13 @@ import probatio
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import condition
 from universalassistant.helpers.typing import ConfigType
 
 
 @pytest.fixture(autouse=True)
-async def setup_moon(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
+async def setup_moon(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
     """Set up the moon integration so its condition platform is available."""
     mock_config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -20,7 +20,7 @@ async def setup_moon(hass: UniversalAssistant, mock_config_entry: MockConfigEntr
 
 
 async def _evaluate(
-    hass: UniversalAssistant, config: ConfigType, phase_value: float
+    hass: __HAC_KEEP__, config: ConfigType, phase_value: float
 ) -> bool | None:
     """Validate and evaluate a condition for a mocked astral phase value."""
     with patch(
@@ -65,7 +65,7 @@ async def _evaluate(
     ],
 )
 async def test_conditions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     phase_value: float,
     expected: bool,
@@ -74,7 +74,7 @@ async def test_conditions(
     assert await _evaluate(hass, config, phase_value) is expected
 
 
-async def test_is_phase_rejects_unknown_phase(hass: UniversalAssistant) -> None:
+async def test_is_phase_rejects_unknown_phase(hass: __HAC_KEEP__) -> None:
     """Test that the is_phase condition rejects an unknown phase."""
     with pytest.raises(probatio.Invalid):
         await condition.async_validate_condition_config(

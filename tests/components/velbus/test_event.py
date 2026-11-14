@@ -20,7 +20,7 @@ from universalassistant.components.velbus.event import (
     EVENT_TYPES,
 )
 from universalassistant.const import STATE_ON, STATE_UNKNOWN, EntityStateAttribute, Platform
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -33,7 +33,7 @@ LED_ENTITY_ID = "light.bedroom_kid_1_led_buttonon"
 type StatusUpdateCallback = Callable[[], Awaitable[None]]
 
 
-def _event_state(hass: UniversalAssistant) -> State:
+def _event_state(hass: __HAC_KEEP__) -> State:
     """Return the Velbus event entity state."""
     state = hass.states.get(EVENT_ENTITY_ID)
     assert state is not None
@@ -47,7 +47,7 @@ def _get_event_callback(mock_button: AsyncMock) -> StatusUpdateCallback:
 
 
 async def _setup_event_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_button: AsyncMock,
 ) -> StatusUpdateCallback:
@@ -60,7 +60,7 @@ async def _setup_event_entity(
 
 
 async def _update_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_button: AsyncMock,
     callback: StatusUpdateCallback,
     *,
@@ -74,7 +74,7 @@ async def _update_button(
     await hass.async_block_till_done()
 
 
-def _assert_no_completed_event(hass: UniversalAssistant) -> None:
+def _assert_no_completed_event(hass: __HAC_KEEP__) -> None:
     """Assert no completed press event has been emitted."""
     state = _event_state(hass)
     assert state.state == STATE_UNKNOWN
@@ -83,7 +83,7 @@ def _assert_no_completed_event(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_entities(
 
 
 async def test_normal_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_button: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -142,7 +142,7 @@ async def test_normal_press(
 
 
 async def test_long_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_button: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -167,7 +167,7 @@ async def test_long_press(
 
 
 async def test_repeated_long_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_button: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -203,7 +203,7 @@ async def test_repeated_long_status(
 
 
 async def test_repeated_release_idle_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_button: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -224,7 +224,7 @@ async def test_repeated_release_idle_updates(
 
 
 async def test_state_reset_after_long_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_button: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -255,7 +255,7 @@ async def test_state_reset_after_long_press(
 
 
 async def test_unload_removes_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_button: AsyncMock,
 ) -> None:

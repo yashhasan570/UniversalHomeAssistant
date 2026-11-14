@@ -5,13 +5,13 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.components.nut.diagnostics import TO_REDACT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import async_init_integration
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test diagnostics."""

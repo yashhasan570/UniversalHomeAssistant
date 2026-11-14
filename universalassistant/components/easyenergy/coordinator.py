@@ -12,7 +12,7 @@ from easyenergy import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -35,7 +35,7 @@ class EasyEnergyDataUpdateCoordinator(DataUpdateCoordinator[EasyEnergyData]):
 
     config_entry: EasyEnergyConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: EasyEnergyConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: EasyEnergyConfigEntry) -> None:
         """Initialize global easyEnergy data updater."""
         super().__init__(
             hass,

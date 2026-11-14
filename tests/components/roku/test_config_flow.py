@@ -15,7 +15,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -32,7 +32,7 @@ RECONFIGURE_HOST = "192.168.1.190"
 
 
 async def test_duplicate_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roku_config_flow: MagicMock,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_duplicate_error(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form(hass: UniversalAssistant, mock_roku_config_flow: MagicMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_roku_config_flow: MagicMock) -> None:
     """Test the user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USER}
@@ -91,7 +91,7 @@ async def test_form(hass: UniversalAssistant, mock_roku_config_flow: MagicMock) 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_cannot_connect(
-    hass: UniversalAssistant, mock_roku_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_roku_config_flow: MagicMock
 ) -> None:
     """Test we handle cannot connect roku error."""
     mock_roku_config_flow.update.side_effect = RokuConnectionError
@@ -116,7 +116,7 @@ async def test_form_cannot_connect(
 
 
 async def test_form_unknown_error(
-    hass: UniversalAssistant, mock_roku_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_roku_config_flow: MagicMock
 ) -> None:
     """Test we handle unknown error."""
     mock_roku_config_flow.update.side_effect = Exception
@@ -135,7 +135,7 @@ async def test_form_unknown_error(
 
 
 async def test_homekit_cannot_connect(
-    hass: UniversalAssistant, mock_roku_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_roku_config_flow: MagicMock
 ) -> None:
     """Test we abort homekit flow on connection error."""
     mock_roku_config_flow.update.side_effect = RokuConnectionError
@@ -152,7 +152,7 @@ async def test_homekit_cannot_connect(
 
 
 async def test_homekit_unknown_error(
-    hass: UniversalAssistant, mock_roku_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_roku_config_flow: MagicMock
 ) -> None:
     """Test we abort homekit flow on unknown error."""
     mock_roku_config_flow.update.side_effect = Exception
@@ -171,7 +171,7 @@ async def test_homekit_unknown_error(
 @pytest.mark.parametrize("mock_device", ["roku/rokutv-7820x.json"], indirect=True)
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_homekit_discovery(
-    hass: UniversalAssistant, mock_roku_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_roku_config_flow: MagicMock
 ) -> None:
     """Test the homekit discovery flow."""
     discovery_info = dataclasses.replace(MOCK_HOMEKIT_DISCOVERY_INFO)
@@ -207,7 +207,7 @@ async def test_homekit_discovery(
 
 
 async def test_ssdp_cannot_connect(
-    hass: UniversalAssistant, mock_roku_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_roku_config_flow: MagicMock
 ) -> None:
     """Test we abort SSDP flow on connection error."""
     mock_roku_config_flow.update.side_effect = RokuConnectionError
@@ -224,7 +224,7 @@ async def test_ssdp_cannot_connect(
 
 
 async def test_ssdp_unknown_error(
-    hass: UniversalAssistant, mock_roku_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_roku_config_flow: MagicMock
 ) -> None:
     """Test we abort SSDP flow on unknown error."""
     mock_roku_config_flow.update.side_effect = Exception
@@ -242,7 +242,7 @@ async def test_ssdp_unknown_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_ssdp_discovery(
-    hass: UniversalAssistant, mock_roku_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_roku_config_flow: MagicMock
 ) -> None:
     """Test the SSDP discovery flow."""
     discovery_info = dataclasses.replace(MOCK_SSDP_DISCOVERY_INFO)
@@ -270,7 +270,7 @@ async def test_ssdp_discovery(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test options config flow."""
     mock_config_entry.add_to_hass(hass)
@@ -292,7 +292,7 @@ async def test_options_flow(
 
 
 async def _start_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> ConfigFlowResult:
     """Initialize a reconfigure flow."""
@@ -311,7 +311,7 @@ async def _start_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roku_config_flow: MagicMock,
 ) -> None:
@@ -330,7 +330,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device: RokuDevice,
     mock_config_entry: MockConfigEntry,
     mock_roku_config_flow: MagicMock,

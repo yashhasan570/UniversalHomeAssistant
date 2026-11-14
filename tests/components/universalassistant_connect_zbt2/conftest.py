@@ -1,4 +1,4 @@
-"""Test fixtures for the Universal Universal Home Assistant Connect ZBT-2 integration."""
+"""Test fixtures for the __HA_KEEP__ Connect ZBT-2 integration."""
 
 from collections.abc import Generator
 from unittest.mock import AsyncMock, MagicMock, patch

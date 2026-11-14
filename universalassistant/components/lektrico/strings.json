@@ -16,7 +16,7 @@
         "description": "Set required parameters to connect to your device"
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add the Lektrico Charger with serial number `{serial_number}` to Universal Universal Home Assistant?",
+        "description": "Do you want to add the Lektrico Charger with serial number `{serial_number}` to __HA_KEEP__?",
         "title": "Discovered Lektrico Charger device"
       }
     }

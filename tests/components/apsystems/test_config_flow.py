@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.apsystems.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_create_success(
-    hass: UniversalAssistant, mock_apsystems: AsyncMock
+    hass: __HAC_KEEP__, mock_apsystems: AsyncMock
 ) -> None:
     """Test we handle creatinw with success."""
     result = await hass.config_entries.flow.async_init(
@@ -37,7 +37,7 @@ async def test_form_create_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_create_success_custom_port(
-    hass: UniversalAssistant, mock_apsystems: AsyncMock
+    hass: __HAC_KEEP__, mock_apsystems: AsyncMock
 ) -> None:
     """Test we handle creating with custom port with success."""
     result = await hass.config_entries.flow.async_init(
@@ -62,7 +62,7 @@ async def test_form_create_success_custom_port(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_cannot_connect_and_recover(
-    hass: UniversalAssistant, mock_apsystems: AsyncMock
+    hass: __HAC_KEEP__, mock_apsystems: AsyncMock
 ) -> None:
     """Test we handle cannot connect error."""
 
@@ -99,7 +99,7 @@ async def test_form_cannot_connect_and_recover(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_cannot_connect_and_recover_custom_port(
-    hass: UniversalAssistant, mock_apsystems: AsyncMock
+    hass: __HAC_KEEP__, mock_apsystems: AsyncMock
 ) -> None:
     """Test we handle cannot connect error but recovering with custom port."""
 
@@ -133,7 +133,7 @@ async def test_form_cannot_connect_and_recover_custom_port(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_unique_id_already_configured(
-    hass: UniversalAssistant, mock_apsystems: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_apsystems: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we handle cannot connect error."""
     mock_config_entry.add_to_hass(hass)

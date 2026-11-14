@@ -13,14 +13,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.fritz.const import DOMAIN
 from universalassistant.components.fritz.services import FritzService
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
 from .const import MOCK_SERIAL_NUMBER, MOCK_USER_DATA
 
 
-async def test_setup_services(hass: UniversalAssistant) -> None:
+async def test_setup_services(hass: __HAC_KEEP__) -> None:
     """Test setup of Fritz!Tools services."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -32,7 +32,7 @@ async def test_setup_services(hass: UniversalAssistant) -> None:
 
 
 async def test_service_set_guest_wifi_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
@@ -59,7 +59,7 @@ async def test_service_set_guest_wifi_password(
 
 
 async def test_service_set_guest_wifi_password_unknown_parameter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
@@ -86,11 +86,11 @@ async def test_service_set_guest_wifi_password_unknown_parameter(
             DOMAIN, FritzService.SET_GUEST_WIFI_PASSWORD, {"device_id": device.id}
         )
         assert mock_async_trigger_set_guest_password.called
-        assert "UniversalAssistantError: Action or parameter unknown" in caplog.text
+        assert "__HAC_KEEP__Error: Action or parameter unknown" in caplog.text
 
 
 async def test_service_set_guest_wifi_password_service_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
@@ -117,11 +117,11 @@ async def test_service_set_guest_wifi_password_service_not_supported(
             DOMAIN, FritzService.SET_GUEST_WIFI_PASSWORD, {"device_id": device.id}
         )
         assert mock_async_trigger_set_guest_password.called
-        assert "UniversalAssistantError: Action not supported" in caplog.text
+        assert "__HAC_KEEP__Error: Action not supported" in caplog.text
 
 
 async def test_service_set_guest_wifi_password_unloaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test service set_guest_wifi_password."""
@@ -143,7 +143,7 @@ async def test_service_set_guest_wifi_password_unloaded(
 
 
 async def test_service_dial(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
@@ -175,7 +175,7 @@ async def test_service_dial(
 
 
 async def test_service_dial_unknown_parameter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
@@ -204,11 +204,11 @@ async def test_service_dial_unknown_parameter(
             {"device_id": device.id, "number": "1234567890", "max_ring_seconds": 10},
         )
         assert mock_async_trigger_dial.called
-        assert "UniversalAssistantError: Action or parameter unknown" in caplog.text
+        assert "__HAC_KEEP__Error: Action or parameter unknown" in caplog.text
 
 
 async def test_service_dial_wrong_parameter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
@@ -258,7 +258,7 @@ async def test_service_dial_wrong_parameter(
 
 
 async def test_service_dial_service_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
@@ -287,11 +287,11 @@ async def test_service_dial_service_not_supported(
             {"device_id": device.id, "number": "1234567890", "max_ring_seconds": 10},
         )
         assert mock_async_trigger_dial.called
-        assert "UniversalAssistantError: Action not supported" in caplog.text
+        assert "__HAC_KEEP__Error: Action not supported" in caplog.text
 
 
 async def test_service_dial_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     fc_class_mock,
@@ -321,13 +321,13 @@ async def test_service_dial_failed(
         )
         assert mock_async_trigger_dial.called
         assert (
-            "UniversalAssistantError: Failed to dial, check if the"
+            "__HAC_KEEP__Error: Failed to dial, check if the"
             " click to dial service of the FRITZ!Box is activated" in caplog.text
         )
 
 
 async def test_service_dial_unloaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     fs_class_mock,
 ) -> None:

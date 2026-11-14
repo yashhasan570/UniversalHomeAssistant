@@ -1,7 +1,7 @@
 {
   "issues": {
     "renamed_loggers": {
-      "description": "Universal Universal Home Assistant now uses httpx2 instead of httpx. The `logger` configuration in your `configuration.yaml` file sets a level or filter for loggers that no longer receive log messages:\n\n{loggers}\n\nRename them as shown in your `logger` configuration and restart Universal Universal Home Assistant to fix this issue.",
+      "description": "__HA_KEEP__ now uses httpx2 instead of httpx. The `logger` configuration in your `configuration.yaml` file sets a level or filter for loggers that no longer receive log messages:\n\n{loggers}\n\nRename them as shown in your `logger` configuration and restart __HA_KEEP__ to fix this issue.",
       "title": "Logger configuration uses renamed logger names"
     }
   },

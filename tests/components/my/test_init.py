@@ -3,11 +3,11 @@
 from unittest import mock
 
 from universalassistant.components.my import DOMAIN, URL_PATH
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_setup(hass: UniversalAssistant) -> None:
+async def test_setup(hass: __HAC_KEEP__) -> None:
     """Test setup."""
     with mock.patch(
         "universalassistant.components.frontend.async_register_built_in_panel"

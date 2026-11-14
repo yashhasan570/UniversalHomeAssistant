@@ -24,7 +24,7 @@ from universalassistant.components.portainer.const import DOMAIN
 from universalassistant.components.portainer.coordinator import DEFAULT_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -37,7 +37,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -63,7 +63,7 @@ async def test_all_entities(
     ],
 )
 async def test_refresh_endpoints_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -92,7 +92,7 @@ async def test_refresh_endpoints_exceptions(
     ],
 )
 async def test_refresh_containers_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -113,7 +113,7 @@ async def test_refresh_containers_exceptions(
 
 
 async def test_endpoint_timeout_only_marks_that_endpoint_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

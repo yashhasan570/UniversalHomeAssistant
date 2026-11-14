@@ -5,8 +5,8 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_extract_config_entry_ids
 
@@ -71,7 +71,7 @@ async def async_set_demand_control(call: ServiceCall) -> None:
     entry = await _extract_config_entry(call)
     device = entry.runtime_data.device
     if not device.support_demand_control:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="demand_control_unsupported",
         )
@@ -84,7 +84,7 @@ async def async_set_demand_control(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the Daikin services."""
     hass.services.async_register(
         DOMAIN,

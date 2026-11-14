@@ -33,7 +33,7 @@ from universalassistant.components.cloud.prefs import (
     PREF_GOOGLE_DEFAULT_EXPOSE,
     CloudPreferences,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -43,7 +43,7 @@ ID_TOKEN_SIGNING_KEY = "cloud-test-id-token-signing-key-0"
 
 
 @pytest.fixture(autouse=True)
-async def load_universalassistant(hass: UniversalAssistant) -> None:
+async def load_universalassistant(hass: __HAC_KEEP__) -> None:
     """Load the universalassistant integration.
 
     This is needed for the cloud integration to work.
@@ -283,14 +283,14 @@ def mock_user_data() -> Generator[MagicMock]:
 
 
 @pytest.fixture
-async def mock_cloud_fixture(hass: UniversalAssistant) -> CloudPreferences:
+async def mock_cloud_fixture(hass: __HAC_KEEP__) -> CloudPreferences:
     """Fixture for cloud component."""
     await mock_cloud(hass)
     return mock_cloud_prefs(hass, {})
 
 
 @pytest.fixture
-async def cloud_prefs(hass: UniversalAssistant) -> CloudPreferences:
+async def cloud_prefs(hass: __HAC_KEEP__) -> CloudPreferences:
     """Fixture for cloud preferences."""
     cloud_prefs = CloudPreferences(hass)
     await cloud_prefs.async_initialize()
@@ -298,14 +298,14 @@ async def cloud_prefs(hass: UniversalAssistant) -> CloudPreferences:
 
 
 @pytest.fixture
-async def mock_cloud_setup(hass: UniversalAssistant) -> None:
+async def mock_cloud_setup(hass: __HAC_KEEP__) -> None:
     """Set up the cloud."""
     await mock_cloud(hass)
     await hass.async_block_till_done()
 
 
 @pytest.fixture
-def mock_cloud_login(hass: UniversalAssistant, mock_cloud_setup: None) -> Generator[None]:
+def mock_cloud_login(hass: __HAC_KEEP__, mock_cloud_setup: None) -> Generator[None]:
     """Mock cloud is logged in."""
     hass.data[DATA_CLOUD].id_token = jwt.encode(
         {
@@ -330,7 +330,7 @@ def mock_auth_fixture() -> Generator[None]:
 
 
 @pytest.fixture
-def mock_expired_cloud_login(hass: UniversalAssistant, mock_cloud_setup: None) -> None:
+def mock_expired_cloud_login(hass: __HAC_KEEP__, mock_cloud_setup: None) -> None:
     """Mock cloud is logged in."""
     hass.data[DATA_CLOUD].id_token = jwt.encode(
         {

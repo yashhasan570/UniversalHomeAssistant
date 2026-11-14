@@ -9,7 +9,7 @@ from bleak import BleakError
 from bleak_retry_connector import close_stale_connections_by_address
 
 from universalassistant.components import bluetooth
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, LOGGER
@@ -25,7 +25,7 @@ class HusqvarnaCoordinator(DataUpdateCoordinator[dict[str, str | int]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: HusqvarnaConfigEntry,
         mower: Mower,
         address: str,

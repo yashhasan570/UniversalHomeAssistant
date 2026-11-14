@@ -7,7 +7,7 @@ from zhong_hong_hvac.hvac import HVAC as ZhongHongHVAC
 
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er
 
@@ -26,13 +26,13 @@ PLATFORMS: list[Platform] = [Platform.CLIMATE]
 
 @callback
 def _async_migrate_unique_ids(
-    hass: UniversalAssistant, entry: ZhongHongConfigEntry, addresses: Iterable[DeviceAddress]
+    hass: __HAC_KEEP__, entry: ZhongHongConfigEntry, addresses: Iterable[DeviceAddress]
 ) -> None:
     """Move the entities off the identifier the YAML platform gave them.
 
     That identifier was the address on the bus and nothing else, so a second
     gateway with an air conditioner at the same address produced an entity
-    Universal Universal Home Assistant refused to add. Moving them keeps their entity IDs, and
+    __HA_KEEP__ refused to add. Moving them keeps their entity IDs, and
     with those their recorded history.
 
     Only entities this entry owns are moved. An entity the YAML platform
@@ -81,7 +81,7 @@ def _connect(hub: ZhongHongGateway) -> dict[DeviceAddress, ZhongHongHVAC]:
 
 
 async def _async_connect(
-    hass: UniversalAssistant, hub: ZhongHongGateway
+    hass: __HAC_KEEP__, hub: ZhongHongGateway
 ) -> dict[DeviceAddress, ZhongHongHVAC]:
     """Connect to the gateway, or say why the entry is not ready."""
     try:
@@ -103,7 +103,7 @@ async def _async_connect(
     return devices
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ZhongHongConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ZhongHongConfigEntry) -> None:
     """Set up ZhongHong from a config entry."""
     hub = ZhongHongGateway(
         entry.data[CONF_HOST],
@@ -129,6 +129,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ZhongHongConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ZhongHongConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ZhongHongConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

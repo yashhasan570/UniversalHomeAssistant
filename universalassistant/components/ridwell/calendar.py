@@ -6,7 +6,7 @@ from typing import override
 from aioridwell.model import PickupCategory, RidwellAccount, RidwellPickupEvent
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -63,7 +63,7 @@ def async_get_calendar_event_from_pickup_event(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RidwellConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -102,7 +102,7 @@ class RidwellCalendar(RidwellEntity, CalendarEntity):
     @override
     async def async_get_events(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         start_date: dt.datetime,
         end_date: dt.datetime,
     ) -> list[CalendarEvent]:

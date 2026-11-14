@@ -25,7 +25,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.lorawan import async_register_connection
 from universalassistant.components.lorawan.websocket_api import _snapshot
 from universalassistant.config_entries import SOURCE_IGNORE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -35,7 +35,7 @@ from .helpers import DESCRIPTOR
 
 
 async def test_device_observations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     registered_backend: RegisterBackend,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
@@ -78,7 +78,7 @@ async def test_device_observations(
 
 
 async def test_reconnect_rebuilds_observations(
-    hass: UniversalAssistant, registered_backend: RegisterBackend
+    hass: __HAC_KEEP__, registered_backend: RegisterBackend
 ) -> None:
     """Rebuild observations from the backend after a disconnect."""
     second = replace(DESCRIPTOR, dev_eui="0000000000000001")
@@ -119,7 +119,7 @@ async def test_reconnect_rebuilds_observations(
 
 
 async def test_same_eui_on_two_connections(
-    hass: UniversalAssistant, registered_backend: RegisterBackend
+    hass: __HAC_KEEP__, registered_backend: RegisterBackend
 ) -> None:
     """Connections own separate observations even when DevEUIs match."""
     backend, _ = await registered_backend("network", [DESCRIPTOR])
@@ -139,7 +139,7 @@ async def test_same_eui_on_two_connections(
 
 @pytest.mark.parametrize("event_class", [UplinkEvent, JoinEvent, StatusEvent])
 async def test_delayed_observations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     registered_backend: RegisterBackend,
     event_class: type[UplinkEvent | JoinEvent | StatusEvent],
 ) -> None:
@@ -163,7 +163,7 @@ async def test_delayed_observations(
     [(True, False, None), (False, True, None), (False, False, 0)],
 )
 async def test_battery_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     registered_backend: RegisterBackend,
     external_power: bool,
     unavailable: bool,
@@ -186,7 +186,7 @@ async def test_battery_states(
 
 @pytest.mark.parametrize("entry_id", ["network", "different_entry_id"])
 async def test_support_and_registry_link(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     registered_backend: RegisterBackend,
     device_registry: dr.DeviceRegistry,
     entry_id: str,
@@ -221,7 +221,7 @@ async def test_support_and_registry_link(
 
 
 async def test_ignored_vendor_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     registered_backend: RegisterBackend,
 ) -> None:
     """Ignored discovery entries do not configure a device integration."""
@@ -232,7 +232,7 @@ async def test_ignored_vendor_entry(
 
 
 async def test_subscribe_unsubscribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     registered_backend: RegisterBackend,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_subscribe_unsubscribe(
 
 
 async def test_subscription_config_entry_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     registered_backend: RegisterBackend,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -305,7 +305,7 @@ async def test_subscription_config_entry_changes(
 
 
 async def test_subscription_batches_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     registered_backend: RegisterBackend,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -348,7 +348,7 @@ async def test_subscription_batches_updates(
 
 
 async def test_subscription_registry_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     registered_backend: RegisterBackend,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -407,7 +407,7 @@ async def test_subscription_registry_changes(
     ("domain", "expected_snapshots"), [("unrelated", 0), ("test_vendor", 1)]
 )
 async def test_subscription_filters_registry_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     registered_backend: RegisterBackend,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -440,7 +440,7 @@ async def test_subscription_filters_registry_domains(
 
 @pytest.mark.parametrize("command", ["list", "subscribe"])
 async def test_admin_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     command: str,
     hass_admin_user: MockUser,
@@ -454,7 +454,7 @@ async def test_admin_required(
 
 
 async def test_removed_connection_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection_entry: MockConfigEntry,
     mock_connection: MockConnection,
 ) -> None:
@@ -470,7 +470,7 @@ async def test_removed_connection_entry(
 
 
 async def test_configuration_url_without_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:

@@ -10,7 +10,7 @@ from librouteros.login import plain as login_plain, token as login_token
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util import dt as dt_util
 
@@ -58,7 +58,7 @@ class MikrotikData:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: MikrotikConfigEntry,
         api: librouteros.Api,
     ) -> None:
@@ -364,7 +364,7 @@ class MikrotikDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: MikrotikConfigEntry,
         mk_data: MikrotikData,
     ) -> None:

@@ -9,12 +9,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ista_ecotrend.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_ista")
-async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -50,7 +50,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> No
     ],
 )
 async def test_form_error_and_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_ista: MagicMock,
     side_effect: Exception,
@@ -93,7 +93,7 @@ async def test_form_error_and_recover(
 
 @pytest.mark.usefixtures("mock_ista")
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth flow."""
@@ -132,7 +132,7 @@ async def test_reauth(
     ],
 )
 async def test_reauth_error_and_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
     mock_ista: MagicMock,
     side_effect: Exception,
@@ -180,7 +180,7 @@ async def test_reauth_error_and_recover(
 
 @pytest.mark.usefixtures("mock_ista")
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort form login when entry is already configured."""
@@ -207,7 +207,7 @@ async def test_form_already_configured(
 
 
 @pytest.mark.usefixtures("mock_ista")
-async def test_flow_reauth_unique_id_mismatch(hass: UniversalAssistant) -> None:
+async def test_flow_reauth_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
     """Test reauth flow unique id mismatch."""
 
     config_entry = MockConfigEntry(
@@ -242,7 +242,7 @@ async def test_flow_reauth_unique_id_mismatch(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_ista")
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow."""
@@ -281,7 +281,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_error_and_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
     mock_ista: MagicMock,
     side_effect: Exception,
@@ -328,7 +328,7 @@ async def test_reconfigure_error_and_recover(
 
 
 @pytest.mark.usefixtures("mock_ista")
-async def test_flow_reconfigure_unique_id_mismatch(hass: UniversalAssistant) -> None:
+async def test_flow_reconfigure_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
     """Test reconfigure flow unique id mismatch."""
 
     config_entry = MockConfigEntry(

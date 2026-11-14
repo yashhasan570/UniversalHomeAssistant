@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant Yellow integration."""
+"""Test the __HA_KEEP__ Yellow integration."""
 
 from unittest.mock import AsyncMock, patch
 
@@ -15,13 +15,13 @@ from universalassistant.components.universalassistant_hardware.util import (
     FirmwareInfo,
 )
 from universalassistant.components.universalassistant_yellow.config_flow import (
-    UniversalAssistantYellowConfigFlow,
+    __HAC_KEEP__YellowConfigFlow,
 )
 from universalassistant.components.universalassistant_yellow.const import DOMAIN
 from universalassistant.components.usb import SerialDevice, async_scan_serial_ports
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -32,7 +32,7 @@ from tests.components.usb import patch_scanned_serial_ports
     ("onboarded", "num_entries", "num_flows"), [(False, 1, 0), (True, 0, 1)]
 )
 async def test_setup_entry(
-    hass: UniversalAssistant, onboarded, num_entries, num_flows, addon_store_info
+    hass: __HAC_KEEP__, onboarded, num_entries, num_flows, addon_store_info
 ) -> None:
     """Test setup of a config entry, including setup of zha."""
     mock_integration(hass, MockModule("hassio"))
@@ -43,7 +43,7 @@ async def test_setup_entry(
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -98,7 +98,7 @@ async def test_setup_entry(
     assert await hass.config_entries.async_unload(config_entry.entry_id)
 
 
-async def test_setup_zha(hass: UniversalAssistant, addon_store_info) -> None:
+async def test_setup_zha(hass: __HAC_KEEP__, addon_store_info) -> None:
     """Test zha gets the right config."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -108,7 +108,7 @@ async def test_setup_zha(hass: UniversalAssistant, addon_store_info) -> None:
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -156,7 +156,7 @@ async def test_setup_zha(hass: UniversalAssistant, addon_store_info) -> None:
 
 
 async def test_contributes_radio_serial_port(
-    hass: UniversalAssistant, addon_store_info
+    hass: __HAC_KEEP__, addon_store_info
 ) -> None:
     """Yellow registers a scanner that contributes its radio serial port."""
     mock_integration(hass, MockModule("hassio"))
@@ -173,7 +173,7 @@ async def test_contributes_radio_serial_port(
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -210,14 +210,14 @@ async def test_contributes_radio_serial_port(
         assert ports == [bare_port]
 
 
-async def test_setup_entry_no_hassio(hass: UniversalAssistant) -> None:
+async def test_setup_entry_no_hassio(hass: __HAC_KEEP__) -> None:
     """Test setup of a config entry without hassio."""
     # Setup the config entry
     config_entry = MockConfigEntry(
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -234,7 +234,7 @@ async def test_setup_entry_no_hassio(hass: UniversalAssistant) -> None:
     assert len(hass.config_entries.async_entries()) == 0
 
 
-async def test_setup_entry_wrong_board(hass: UniversalAssistant) -> None:
+async def test_setup_entry_wrong_board(hass: __HAC_KEEP__) -> None:
     """Test setup of a config entry with wrong board type."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -244,7 +244,7 @@ async def test_setup_entry_wrong_board(hass: UniversalAssistant) -> None:
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -268,28 +268,28 @@ async def test_setup_entry_wrong_board(hass: UniversalAssistant) -> None:
         pytest.param(
             False,
             None,
-            "Universal Universal Home Assistant is not running on Universal Universal Home Assistant OS, the Universal Universal Home Assistant"
+            "__HA_KEEP__ is not running on __HA_KEEP__ OS, the __HA_KEEP__"
             " Yellow entry will be removed",
             id="no_hassio",
         ),
         pytest.param(
             True,
             "generic-x86-64",
-            "Universal Universal Home Assistant is not running on a Universal Universal Home Assistant Yellow"
-            " (generic-x86-64), the Universal Universal Home Assistant Yellow entry will be removed",
+            "__HA_KEEP__ is not running on a __HA_KEEP__ Yellow"
+            " (generic-x86-64), the __HA_KEEP__ Yellow entry will be removed",
             id="wrong_board",
         ),
     ],
 )
 async def test_setup_entry_error_reason(
-    hass: UniversalAssistant, hassio: bool, board: str | None, reason: str
+    hass: __HAC_KEEP__, hassio: bool, board: str | None, reason: str
 ) -> None:
     """Test the setup error reason when the entry is about to be removed."""
     config_entry = MockConfigEntry(
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -314,7 +314,7 @@ async def test_setup_entry_error_reason(
     mock_remove.assert_awaited_once_with(config_entry.entry_id)
 
 
-async def test_setup_entry_wait_hassio(hass: UniversalAssistant) -> None:
+async def test_setup_entry_wait_hassio(hass: __HAC_KEEP__) -> None:
     """Test setup of a config entry when hassio has not fetched os_info."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -324,7 +324,7 @@ async def test_setup_entry_wait_hassio(hass: UniversalAssistant) -> None:
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -341,7 +341,7 @@ async def test_setup_entry_wait_hassio(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_entry_addon_info_fails(
-    hass: UniversalAssistant, addon_store_info
+    hass: __HAC_KEEP__, addon_store_info
 ) -> None:
     """Test setup of a config entry when fetching addon info fails."""
     mock_integration(hass, MockModule("hassio"))
@@ -352,7 +352,7 @@ async def test_setup_entry_addon_info_fails(
         data={"firmware": ApplicationType.CPC},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -368,7 +368,7 @@ async def test_setup_entry_addon_info_fails(
         ),
         patch(
             "universalassistant.components.universalassistant_yellow.check_multi_pan_addon",
-            side_effect=UniversalAssistantError("Boom"),
+            side_effect=__HAC_KEEP__Error("Boom"),
         ),
     ):
         assert not await hass.config_entries.async_setup(config_entry.entry_id)
@@ -378,7 +378,7 @@ async def test_setup_entry_addon_info_fails(
 
 
 async def test_multi_pan_migration_issue_not_created_for_cpc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon_store_info,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -390,7 +390,7 @@ async def test_multi_pan_migration_issue_not_created_for_cpc(
         data={"firmware": ApplicationType.CPC},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -426,7 +426,7 @@ async def test_multi_pan_migration_issue_not_created_for_cpc(
 
 
 async def test_multi_pan_migration_issue_created_for_addon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon_store_info,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -438,7 +438,7 @@ async def test_multi_pan_migration_issue_created_for_addon(
         data={"firmware": ApplicationType.SPINEL},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -466,7 +466,7 @@ async def test_multi_pan_migration_issue_created_for_addon(
     )
     assert issue is not None
     assert issue.translation_key == ISSUE_MULTI_PAN_MIGRATION
-    assert issue.translation_placeholders == {"hardware_name": "Universal Universal Home Assistant Yellow"}
+    assert issue.translation_placeholders == {"hardware_name": "__HA_KEEP__ Yellow"}
     assert issue.data == {"entry_id": config_entry.entry_id}
     assert issue.config_entry_id == config_entry.entry_id
     assert issue.is_fixable
@@ -483,7 +483,7 @@ async def test_multi_pan_migration_issue_created_for_addon(
 
 
 async def test_multi_pan_migration_issue_deleted_for_ezsp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addon_store_info,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -495,7 +495,7 @@ async def test_multi_pan_migration_issue_deleted_for_ezsp(
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -509,7 +509,7 @@ async def test_multi_pan_migration_issue_deleted_for_ezsp(
         is_fixable=True,
         severity=ir.IssueSeverity.WARNING,
         translation_key=ISSUE_MULTI_PAN_MIGRATION,
-        translation_placeholders={"hardware_name": "Universal Universal Home Assistant Yellow"},
+        translation_placeholders={"hardware_name": "__HA_KEEP__ Yellow"},
         data={"entry_id": config_entry.entry_id},
     )
 
@@ -558,7 +558,7 @@ async def test_multi_pan_migration_issue_deleted_for_ezsp(
     ],
 )
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     start_version: int,
     data: dict,
     migrated_data: dict,
@@ -572,7 +572,7 @@ async def test_migrate_entry(
         data=data,
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=start_version,
     )
@@ -607,12 +607,12 @@ async def test_migrate_entry(
 
     assert config_entry.data == migrated_data
     assert config_entry.options == {}
-    assert config_entry.minor_version == UniversalAssistantYellowConfigFlow.MINOR_VERSION
-    assert config_entry.version == UniversalAssistantYellowConfigFlow.VERSION
+    assert config_entry.minor_version == __HAC_KEEP__YellowConfigFlow.MINOR_VERSION
+    assert config_entry.version == __HAC_KEEP__YellowConfigFlow.VERSION
 
 
 async def test_setup_entry_clears_sw_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test setup clears the redundant firmware version from the device."""
@@ -623,7 +623,7 @@ async def test_setup_entry_clears_sw_version(
         data={"firmware": "ezsp", "firmware_version": "7.3.1.0"},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=4,
     )

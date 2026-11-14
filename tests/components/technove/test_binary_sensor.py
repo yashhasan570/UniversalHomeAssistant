@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from technove import TechnoVEError
 
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -18,7 +18,7 @@ from . import setup_with_selected_platforms
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_technove")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -48,7 +48,7 @@ async def test_sensors(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_disabled_by_default_binary_sensors(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_id: str
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_id: str
 ) -> None:
     """Test the disabled by default TechnoVE binary sensors."""
     assert hass.states.get(entity_id) is None
@@ -60,7 +60,7 @@ async def test_disabled_by_default_binary_sensors(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_binary_sensor_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_technove: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

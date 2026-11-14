@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import mock_restore_cache
 
 from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 
 from .common import (
     ATTR_METHOD,
@@ -31,7 +31,7 @@ def mock_device():
     return mock_dev
 
 
-async def test_switch_setup(hass: UniversalAssistant, mock_device) -> None:
+async def test_switch_setup(hass: __HAC_KEEP__, mock_device) -> None:
     """Test a successful setup."""
     await create_entity_from_device(hass, mock_device)
     entity_state = hass.states.get("switch.name")
@@ -50,7 +50,7 @@ async def test_switch_setup(hass: UniversalAssistant, mock_device) -> None:
 
 @pytest.mark.parametrize(("saved_state", "level"), [(STATE_ON, 1), (STATE_OFF, 0)])
 async def test_switch_restore_state(
-    hass: UniversalAssistant, mock_device, saved_state, level
+    hass: __HAC_KEEP__, mock_device, saved_state, level
 ) -> None:
     """Test restore from cache."""
     mock_restore_cache(

@@ -5,7 +5,7 @@ from typing import cast, override
 
 from universalassistant.components.application_credentials import AuthorizationServer
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow, llm
 
 from .application_credentials import authorization_server_context
@@ -24,7 +24,7 @@ API_PROMPT = "The following tools are available from a remote server named {name
 
 
 async def async_get_config_entry_implementation(
-    hass: UniversalAssistant, entry: ModelContextProtocolConfigEntry
+    hass: __HAC_KEEP__, entry: ModelContextProtocolConfigEntry
 ) -> config_entry_oauth2_flow.AbstractOAuth2Implementation | None:
     """OAuth implementation for the config entry."""
     if "auth_implementation" not in entry.data:
@@ -52,7 +52,7 @@ def _load_jsonschema() -> None:
 
 
 async def _create_token_manager(
-    hass: UniversalAssistant, entry: ModelContextProtocolConfigEntry
+    hass: __HAC_KEEP__, entry: ModelContextProtocolConfigEntry
 ) -> TokenManager | None:
     """Create a token manager for the config entry.
 
@@ -81,7 +81,7 @@ async def _create_token_manager(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: ModelContextProtocolConfigEntry
+    hass: __HAC_KEEP__, entry: ModelContextProtocolConfigEntry
 ) -> None:
     """Set up Model Context Protocol from a config entry."""
     await hass.async_add_executor_job(_load_jsonschema)
@@ -105,7 +105,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: ModelContextProtocolConfigEntry
+    hass: __HAC_KEEP__, entry: ModelContextProtocolConfigEntry
 ) -> None:
     """Unload a config entry."""
 

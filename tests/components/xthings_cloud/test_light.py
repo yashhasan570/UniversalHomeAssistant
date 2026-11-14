@@ -21,14 +21,14 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import get_device_by_id, setup_integration
 
 
 async def test_lights(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -51,7 +51,7 @@ async def test_lights(
     ],
 )
 async def test_light_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     service: str,
@@ -77,7 +77,7 @@ async def test_light_turn_on_off(
     ],
 )
 async def test_light_switch_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     service: str,
@@ -104,7 +104,7 @@ async def test_light_switch_turn_on_off(
 
 
 async def test_light_turn_on_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_light_turn_on_brightness(
 
 
 async def test_light_switch_turn_on_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_light_switch_turn_on_brightness(
 
 
 async def test_light_turn_on_hs_color(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -181,7 +181,7 @@ async def test_light_turn_on_hs_color(
 
 
 async def test_light_turn_on_color_temp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -208,7 +208,7 @@ async def test_light_turn_on_color_temp(
 
 
 async def test_light_turn_on_hs_color_with_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_light_turn_on_hs_color_with_brightness(
 
 
 async def test_light_color_temp_with_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -267,7 +267,7 @@ async def test_light_color_temp_with_brightness(
 
 
 async def test_light_unavailable_when_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -281,7 +281,7 @@ async def test_light_unavailable_when_offline(
 
 
 async def test_light_color_mode_color_temp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -296,7 +296,7 @@ async def test_light_color_mode_color_temp(
 
 
 async def test_updating_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     mock_websocket: AsyncMock,

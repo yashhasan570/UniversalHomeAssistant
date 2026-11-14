@@ -8,13 +8,13 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.components.chef_iq.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import ADDRESS, CHEFIQ_STATUS_SERVICE_INFO, TITLE
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_without_advertisement(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the diagnostics of an entry whose probe has not been seen yet."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=ADDRESS, title=TITLE)

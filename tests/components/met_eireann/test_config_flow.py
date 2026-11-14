@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -25,7 +25,7 @@ def met_setup_fixture():
         yield
 
 
-async def test_show_config_form(hass: UniversalAssistant) -> None:
+async def test_show_config_form(hass: __HAC_KEEP__) -> None:
     """Test show configuration form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -35,7 +35,7 @@ async def test_show_config_form(hass: UniversalAssistant) -> None:
     assert result["step_id"] == config_entries.SOURCE_USER
 
 
-async def test_flow_with_home_location(hass: UniversalAssistant) -> None:
+async def test_flow_with_home_location(hass: __HAC_KEEP__) -> None:
     """Test config flow.
 
     Test the flow when a default location is configured.
@@ -63,7 +63,7 @@ async def test_flow_with_home_location(hass: UniversalAssistant) -> None:
     assert markers[1].description == {"suggested_value": 3}
 
 
-async def test_create_entry(hass: UniversalAssistant) -> None:
+async def test_create_entry(hass: __HAC_KEEP__) -> None:
     """Test create entry from user input."""
     test_data = {
         CONF_LOCATION: {
@@ -91,7 +91,7 @@ async def test_create_entry(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "0.0,0.0"
 
 
-async def test_flow_entry_already_exists(hass: UniversalAssistant) -> None:
+async def test_flow_entry_already_exists(hass: __HAC_KEEP__) -> None:
     """Test user input for config_entry that already exists.
 
     Test to ensure the config form does not allow duplicate entries.

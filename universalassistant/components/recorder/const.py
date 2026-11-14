@@ -24,7 +24,7 @@ MIN_AVAILABLE_MEMORY_FOR_QUEUE_BACKLOG = 256 * 1024**2
 # As soon as we have more than 999 ids, split the query as the
 # MySQL optimizer handles it poorly and will no longer
 # do an index only scan with a group-by
-# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/132865#issuecomment-2543160459
+# https://github.com/yashhasan570/__HAC_KEEP__/issues/132865#issuecomment-2543160459
 MAX_IDS_FOR_INDEXED_GROUP_BY = 999
 
 # The maximum number of rows (events) we purge in one delete statement
@@ -49,7 +49,7 @@ UNIT_CLASS_SCHEMA_VERSION = 52
 
 LEGACY_STATES_EVENT_ID_INDEX_SCHEMA_VERSION = 28
 LEGACY_STATES_EVENT_FOREIGN_KEYS_FIXED_SCHEMA_VERSION = 43
-# https://github.com/yashhasan570/UniversalUniversalAssistant/pull/120779
+# https://github.com/yashhasan570/__HAC_KEEP__/pull/120779
 # fixed the foreign keys in the states table but it did
 # not bump the schema version which means only databases
 # created with schema 44 and later do not need the rebuild.

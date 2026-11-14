@@ -37,8 +37,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_component, entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -47,7 +47,7 @@ ENTITY_ID = "climate.device_name"
 
 
 async def test_climate_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flexit_bacnet: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -60,7 +60,7 @@ async def test_climate_entity(
 
 
 async def test_set_hvac_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flexit_bacnet: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_set_hvac_preset_mode(
     )
 
     mock_flexit_bacnet.set_ventilation_mode.side_effect = asyncio.TimeoutError
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -125,7 +125,7 @@ async def test_set_hvac_preset_mode(
 
 
 async def test_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flexit_bacnet: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_set_hvac_mode(
     )
 
     mock_flexit_bacnet.set_ventilation_mode.side_effect = asyncio.TimeoutError
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -160,7 +160,7 @@ async def test_set_hvac_mode(
 
 
 async def test_hvac_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flexit_bacnet: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_hvac_action(
 
 
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flexit_bacnet: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -222,7 +222,7 @@ async def test_set_temperature(
 
     # Test handling of connection errors
     mock_flexit_bacnet.set_air_temp_setpoint_away.side_effect = ConnectionError
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -242,7 +242,7 @@ async def test_set_temperature(
     ],
 )
 async def test_transient_operation_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flexit_bacnet: AsyncMock,
     mock_config_entry: MockConfigEntry,
     operation_mode: int,
@@ -259,7 +259,7 @@ async def test_transient_operation_modes(
 
 
 async def test_missing_climate_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flexit_bacnet: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

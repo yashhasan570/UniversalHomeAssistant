@@ -8,8 +8,8 @@ import probatio
 
 from universalassistant.components import media_source
 from universalassistant.components.media_player import async_process_play_media_url
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -36,13 +36,13 @@ def lametric_exception_handler[_LaMetricEntityT: LaMetricEntity, **_P](
         except LaMetricConnectionError as error:
             self.coordinator.last_update_success = False
             self.coordinator.async_update_listeners()
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from error
 
         except LaMetricError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="invalid_response",
             ) from error
@@ -52,7 +52,7 @@ def lametric_exception_handler[_LaMetricEntityT: LaMetricEntity, **_P](
 
 @callback
 def async_get_coordinator_by_device_id(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> LaMetricDataUpdateCoordinator:
     """Get the LaMetric coordinator for this device ID."""
     config_entry: LaMetricConfigEntry
@@ -68,11 +68,11 @@ def has_audio(device: Device) -> bool:
     return bool(device.audio and device.audio.available)
 
 
-async def async_resolve_sound_url(hass: UniversalAssistant, sound: str) -> str:
+async def async_resolve_sound_url(hass: __HAC_KEEP__, sound: str) -> str:
     """Turn picked media or a URL into a URL the device can fetch the sound from.
 
-    The device fetches the sound itself, so media from Universal Universal Home Assistant becomes
-    a full URL to Universal Universal Home Assistant, which the device reaches on the network.
+    The device fetches the sound itself, so media from __HA_KEEP__ becomes
+    a full URL to __HA_KEEP__, which the device reaches on the network.
     """
     invalid = ServiceValidationError(
         translation_domain=DOMAIN,

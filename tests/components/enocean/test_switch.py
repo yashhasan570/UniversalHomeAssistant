@@ -5,7 +5,7 @@ from pytest_universalassistant.common import MockConfigEntry, assert_setup_compo
 from universalassistant.components.enocean import DOMAIN
 from universalassistant.components.enocean.entity import combine_hex
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -22,7 +22,7 @@ SWITCH_CONFIG = {
 
 
 async def test_unique_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test EnOcean switch ID migration."""

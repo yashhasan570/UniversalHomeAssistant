@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     CONF_PLATFORM,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -119,7 +119,7 @@ class DeviceAutomationType(Enum):
     )
 
 
-# TYPES is deprecated as of Universal Universal Home Assistant 2022.2, use DeviceAutomationType instead
+# TYPES is deprecated as of __HA_KEEP__ 2022.2, use DeviceAutomationType instead
 TYPES = {
     "trigger": DeviceAutomationType.TRIGGER.value,
     "condition": DeviceAutomationType.CONDITION.value,
@@ -127,7 +127,7 @@ TYPES = {
 }
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up device automation."""
     websocket_api.async_register_command(hass, websocket_device_automation_list_actions)
     websocket_api.async_register_command(
@@ -150,7 +150,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 @overload
 async def async_get_device_automation_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     automation_type: Literal[DeviceAutomationType.TRIGGER],
 ) -> DeviceAutomationTriggerProtocol: ...
@@ -158,7 +158,7 @@ async def async_get_device_automation_platform(
 
 @overload
 async def async_get_device_automation_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     automation_type: Literal[DeviceAutomationType.CONDITION],
 ) -> DeviceAutomationConditionProtocol: ...
@@ -166,7 +166,7 @@ async def async_get_device_automation_platform(
 
 @overload
 async def async_get_device_automation_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     automation_type: Literal[DeviceAutomationType.ACTION],
 ) -> DeviceAutomationActionProtocol: ...
@@ -174,12 +174,12 @@ async def async_get_device_automation_platform(
 
 @overload
 async def async_get_device_automation_platform(
-    hass: UniversalAssistant, domain: str, automation_type: DeviceAutomationType
+    hass: __HAC_KEEP__, domain: str, automation_type: DeviceAutomationType
 ) -> DeviceAutomationPlatformType: ...
 
 
 async def async_get_device_automation_platform(
-    hass: UniversalAssistant, domain: str, automation_type: DeviceAutomationType
+    hass: __HAC_KEEP__, domain: str, automation_type: DeviceAutomationType
 ) -> DeviceAutomationPlatformType:
     """Load device automation platform for integration.
 
@@ -209,7 +209,7 @@ async def async_get_device_automation_platform(
 
 @callback
 def _async_set_entity_device_automation_metadata(
-    hass: UniversalAssistant, automation: dict[str, Any]
+    hass: __HAC_KEEP__, automation: dict[str, Any]
 ) -> None:
     """Set device automation metadata based on entity registry entry data."""
     if "metadata" not in automation:
@@ -226,7 +226,7 @@ def _async_set_entity_device_automation_metadata(
 
 
 async def _async_get_device_automations_from_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     automation_type: DeviceAutomationType,
     device_ids: Iterable[str],
@@ -252,7 +252,7 @@ async def _async_get_device_automations_from_domain(
 
 
 async def async_get_device_automations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     automation_type: DeviceAutomationType,
     device_ids: Iterable[str] | None = None,
 ) -> Mapping[str, list[dict[str, Any]]]:
@@ -317,7 +317,7 @@ async def async_get_device_automations(
 
 
 async def _async_get_device_automation_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     automation_type: DeviceAutomationType,
     automation: Mapping[str, Any],
 ) -> dict[str, Any]:
@@ -354,7 +354,7 @@ async def _async_get_device_automation_capabilities(
 
 @callback
 def async_get_entity_registry_entry_or_raise(
-    hass: UniversalAssistant, entity_registry_id: str
+    hass: __HAC_KEEP__, entity_registry_id: str
 ) -> er.RegistryEntry:
     """Get an entity registry entry from entry ID or raise."""
     entity_registry = er.async_get(hass)
@@ -366,7 +366,7 @@ def async_get_entity_registry_entry_or_raise(
 
 @callback
 def async_validate_entity_schema(
-    hass: UniversalAssistant, config: ConfigType, schema: VolSchemaType
+    hass: __HAC_KEEP__, config: ConfigType, schema: VolSchemaType
 ) -> ConfigType:
     """Validate schema and resolve entity registry entry id to entity_id."""
     config = schema(config)
@@ -381,15 +381,15 @@ def async_validate_entity_schema(
 
 
 def handle_device_errors(
-    func: Callable[[UniversalAssistant, ActiveConnection, dict[str, Any]], Awaitable[None]],
+    func: Callable[[__HAC_KEEP__, ActiveConnection, dict[str, Any]], Awaitable[None]],
 ) -> Callable[
-    [UniversalAssistant, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
+    [__HAC_KEEP__, ActiveConnection, dict[str, Any]], Coroutine[Any, Any, None]
 ]:
     """Handle device automation errors."""
 
     @wraps(func)
     async def with_error_handling(
-        hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+        hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
     ) -> None:
         try:
             await func(hass, connection, msg)
@@ -410,7 +410,7 @@ def handle_device_errors(
 @websocket_api.async_response
 @handle_device_errors
 async def websocket_device_automation_list_actions(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle request for device actions."""
     device_id = msg["device_id"]
@@ -431,7 +431,7 @@ async def websocket_device_automation_list_actions(
 @websocket_api.async_response
 @handle_device_errors
 async def websocket_device_automation_list_conditions(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle request for device conditions."""
     device_id = msg["device_id"]
@@ -452,7 +452,7 @@ async def websocket_device_automation_list_conditions(
 @websocket_api.async_response
 @handle_device_errors
 async def websocket_device_automation_list_triggers(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle request for device triggers."""
     device_id = msg["device_id"]
@@ -473,7 +473,7 @@ async def websocket_device_automation_list_triggers(
 @websocket_api.async_response
 @handle_device_errors
 async def websocket_device_automation_get_action_capabilities(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle request for device action capabilities."""
     action = msg["action"]
@@ -494,7 +494,7 @@ async def websocket_device_automation_get_action_capabilities(
 @websocket_api.async_response
 @handle_device_errors
 async def websocket_device_automation_get_condition_capabilities(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle request for device condition capabilities."""
     condition = msg["condition"]
@@ -518,7 +518,7 @@ async def websocket_device_automation_get_condition_capabilities(
 @websocket_api.async_response
 @handle_device_errors
 async def websocket_device_automation_get_trigger_capabilities(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle request for device trigger capabilities."""
     trigger = msg["trigger"]

@@ -37,7 +37,7 @@ from universalassistant.components.openai_conversation.const import (
 )
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
@@ -56,7 +56,7 @@ def mock_stt_subentry_data(request: pytest.FixtureRequest) -> dict[str, Any]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_subentry_data: dict[str, Any],
     mock_stt_subentry_data: dict[str, Any],
 ) -> MockConfigEntry:
@@ -108,7 +108,7 @@ def mock_config_entry(
 
 @pytest.fixture
 async def mock_config_entry_with_assist(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Mock a config entry with assist."""
     hass.config_entries.async_update_subentry(
@@ -122,7 +122,7 @@ async def mock_config_entry_with_assist(
 
 @pytest.fixture
 async def mock_config_entry_with_reasoning_model(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Mock a config entry with assist."""
     hass.config_entries.async_update_subentry(
@@ -136,7 +136,7 @@ async def mock_config_entry_with_reasoning_model(
 
 @pytest.fixture
 async def mock_init_component(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> AsyncGenerator[None]:
     """Initialize integration."""
     with patch(
@@ -152,8 +152,8 @@ async def mock_init_component(
 
 
 @pytest.fixture(autouse=True)
-async def setup_ha(hass: UniversalAssistant) -> None:
-    """Set up Universal Universal Home Assistant."""
+async def setup_ha(hass: __HAC_KEEP__) -> None:
+    """Set up __HA_KEEP__."""
     assert await async_setup_component(hass, "universalassistant", {})
 
 

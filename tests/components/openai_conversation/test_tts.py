@@ -19,7 +19,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.tts import TextToSpeechCommonOption
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import entity_registry as er
 
@@ -37,13 +37,13 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
 
 
 @pytest.fixture
-async def calls(hass: UniversalAssistant) -> list[ServiceCall]:
+async def calls(hass: __HAC_KEEP__) -> list[ServiceCall]:
     """Mock media player calls."""
     return async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)
 
 
 @pytest.fixture(autouse=True)
-async def setup_internal_url(hass: UniversalAssistant) -> None:
+async def setup_internal_url(hass: __HAC_KEEP__) -> None:
     """Set up internal url."""
     await async_process_ha_core_config(
         hass, {"internal_url": "http://example.local:8123"}
@@ -69,7 +69,7 @@ async def setup_internal_url(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_create_speech: MagicMock,
@@ -131,7 +131,7 @@ async def test_tts(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tts_preferred_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_create_speech: MagicMock,
     calls: list[ServiceCall],
@@ -172,7 +172,7 @@ async def test_tts_preferred_format(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tts_raw_preferred_format_returns_pcm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_create_speech: MagicMock,
 ) -> None:
     """Test raw preferred format is returned as pcm."""
@@ -201,7 +201,7 @@ async def test_tts_raw_preferred_format_returns_pcm(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tts_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_create_speech: MagicMock,

@@ -3,11 +3,11 @@
 import pytest
 from pytest_universalassistant.typing import WebSocketGenerator
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_ws_preferences(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     init_components: None,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_ws_preferences(
 
 @pytest.mark.usefixtures("init_components")
 async def test_ws_automatic_evaluation_preferences(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Automatic use is an explicit opt-in independent of the default entity."""
@@ -194,7 +194,7 @@ async def test_ws_automatic_evaluation_preferences(
 @pytest.mark.usefixtures("init_components")
 @pytest.mark.parametrize("value", [None, "true", 1, {}])
 async def test_ws_automatic_evaluation_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     value: object,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_ws_automatic_evaluation_invalid(
 
 @pytest.mark.usefixtures("init_components")
 async def test_ws_automatic_evaluation_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:

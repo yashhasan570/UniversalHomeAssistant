@@ -33,7 +33,7 @@ from universalassistant.const import (
     STATE_PAUSED,
     STATE_PLAYING,
 )
-from universalassistant.core import Context, UniversalAssistant, State
+from universalassistant.core import Context, __HAC_KEEP__, State
 
 ENTITY_1 = "media_player.test1"
 ENTITY_2 = "media_player.test2"
@@ -50,7 +50,7 @@ ENTITY_2 = "media_player.test2"
         (SERVICE_MEDIA_PAUSE, STATE_PAUSED, MediaPlayerEntityFeature.PAUSE),
     ],
 )
-async def test_state(hass: UniversalAssistant, service, state, supported_feature) -> None:
+async def test_state(hass: __HAC_KEEP__, service, state, supported_feature) -> None:
     """Test that we can turn a state into a service call."""
     calls_1 = async_mock_service(hass, DOMAIN, service)
     if service != SERVICE_TURN_ON:
@@ -71,7 +71,7 @@ async def test_state(hass: UniversalAssistant, service, state, supported_feature
     assert calls_1[0].data == {"entity_id": ENTITY_1}
 
 
-async def test_turn_on_with_mode(hass: UniversalAssistant) -> None:
+async def test_turn_on_with_mode(hass: __HAC_KEEP__) -> None:
     """Test that state with additional attributes call multiple services."""
     hass.states.async_set(
         ENTITY_1,
@@ -98,7 +98,7 @@ async def test_turn_on_with_mode(hass: UniversalAssistant) -> None:
     assert calls_2[0].data == {"entity_id": ENTITY_1, ATTR_SOUND_MODE: "dummy"}
 
 
-async def test_multiple_same_state(hass: UniversalAssistant) -> None:
+async def test_multiple_same_state(hass: __HAC_KEEP__) -> None:
     """Test that multiple states with same state gets calls."""
     for entity in ENTITY_1, ENTITY_2:
         hass.states.async_set(
@@ -119,7 +119,7 @@ async def test_multiple_same_state(hass: UniversalAssistant) -> None:
     assert any(call.data == {"entity_id": "media_player.test2"} for call in calls_1)
 
 
-async def test_multiple_different_state(hass: UniversalAssistant) -> None:
+async def test_multiple_different_state(hass: __HAC_KEEP__) -> None:
     """Test that multiple states with different state gets calls."""
     for entity in ENTITY_1, ENTITY_2:
         hass.states.async_set(
@@ -144,7 +144,7 @@ async def test_multiple_different_state(hass: UniversalAssistant) -> None:
     assert calls_2[0].data == {"entity_id": "media_player.test2"}
 
 
-async def test_state_with_context(hass: UniversalAssistant) -> None:
+async def test_state_with_context(hass: __HAC_KEEP__) -> None:
     """Test that context is forwarded."""
     hass.states.async_set(
         ENTITY_1,
@@ -165,7 +165,7 @@ async def test_state_with_context(hass: UniversalAssistant) -> None:
     assert calls[0].context == context
 
 
-async def test_attribute_no_state(hass: UniversalAssistant) -> None:
+async def test_attribute_no_state(hass: __HAC_KEEP__) -> None:
     """Test that no state service call is made with none state."""
     hass.states.async_set(
         ENTITY_1,
@@ -221,7 +221,7 @@ async def test_attribute_no_state(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_attribute(
-    hass: UniversalAssistant, service, attribute, supported_feature
+    hass: __HAC_KEEP__, service, attribute, supported_feature
 ) -> None:
     """Test that service call is made for each attribute."""
     hass.states.async_set(
@@ -242,7 +242,7 @@ async def test_attribute(
     assert calls_1[0].data == {"entity_id": ENTITY_1, attribute: value}
 
 
-async def test_play_media(hass: UniversalAssistant) -> None:
+async def test_play_media(hass: __HAC_KEEP__) -> None:
     """Test playing media."""
     hass.states.async_set(
         ENTITY_1,

@@ -20,13 +20,13 @@ from universalassistant.components.androidtv_remote.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 
 async def test_user_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -82,7 +82,7 @@ async def test_user_flow_success(
 
 
 async def test_user_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -150,7 +150,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_start_pair_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -206,7 +206,7 @@ async def test_user_flow_start_pair_cannot_connect(
 
 
 async def test_user_flow_pairing_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -279,7 +279,7 @@ async def test_user_flow_pairing_invalid_auth(
 
 
 async def test_user_flow_pairing_connection_closed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -354,7 +354,7 @@ async def test_user_flow_pairing_connection_closed(
 
 
 async def test_user_flow_pairing_connection_closed_followed_by_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -416,7 +416,7 @@ async def test_user_flow_pairing_connection_closed_followed_by_cannot_connect(
 
 
 async def test_user_flow_already_configured_host_changed_reloads_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -476,7 +476,7 @@ async def test_user_flow_already_configured_host_changed_reloads_entry(
 
 
 async def test_user_flow_already_configured_host_not_changed_no_reload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -538,7 +538,7 @@ async def test_user_flow_already_configured_host_not_changed_no_reload_entry(
 
 
 async def test_zeroconf_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -614,7 +614,7 @@ async def test_zeroconf_flow_success(
 
 
 async def test_zeroconf_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -664,7 +664,7 @@ async def test_zeroconf_flow_cannot_connect(
 
 
 async def test_zeroconf_flow_pairing_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -744,7 +744,7 @@ async def test_zeroconf_flow_pairing_invalid_auth(
 
 
 async def test_zeroconf_flow_already_configured_host_changed_reloads_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -803,7 +803,7 @@ async def test_zeroconf_flow_already_configured_host_changed_reloads_entry(
 
 
 async def test_zeroconf_flow_already_configured_host_not_changed_no_reload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -859,7 +859,7 @@ async def test_zeroconf_flow_already_configured_host_not_changed_no_reload_entry
 
 
 async def test_zeroconf_flow_abort_if_mac_is_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test when mac is missing in the zeroconf discovery we abort."""
     host = "1.2.3.4"
@@ -883,7 +883,7 @@ async def test_zeroconf_flow_abort_if_mac_is_missing(
 
 
 async def test_zeroconf_flow_configured_zeroconf_invalid_ips(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -939,7 +939,7 @@ async def test_zeroconf_flow_configured_zeroconf_invalid_ips(
 
 
 async def test_reauth_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -1010,7 +1010,7 @@ async def test_reauth_flow_success(
 
 
 async def test_reauth_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_unload_entry: AsyncMock,
     mock_api: MagicMock,
@@ -1076,7 +1076,7 @@ async def test_reauth_flow_cannot_connect(
 
 
 async def test_options_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test options flow."""
     mock_config_entry.add_to_hass(hass)
@@ -1218,7 +1218,7 @@ async def test_options_flow(
 
 
 async def test_reconfigure_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_api: MagicMock,
@@ -1255,7 +1255,7 @@ async def test_reconfigure_flow_success(
 
 
 async def test_reconfigure_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_api: MagicMock,
@@ -1299,7 +1299,7 @@ async def test_reconfigure_flow_cannot_connect(
 
 
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_api: MagicMock,

@@ -41,8 +41,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.update_coordinator import REQUEST_REFRESH_DEFAULT_COOLDOWN
 from universalassistant.setup import async_setup_component
@@ -58,7 +58,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_update_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -73,7 +73,7 @@ async def test_update_available(
 
 
 async def test_update_information_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     mock_wled_releases: MagicMock,
@@ -100,7 +100,7 @@ async def test_update_information_available(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("device_fixture", ["rgb_websocket"])
 async def test_no_update_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_no_update_available(
 
 
 async def test_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_update_error(
 
 
 async def test_update_stay_stable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
 ) -> None:
     """Test the update entity staying on stable.
@@ -158,7 +158,7 @@ async def test_update_stay_stable(
 
 @pytest.mark.parametrize("device_fixture", ["rgbw"])
 async def test_update_beta_to_stable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
 ) -> None:
     """Test the update entity.
@@ -184,7 +184,7 @@ async def test_update_beta_to_stable(
 
 @pytest.mark.parametrize("device_fixture", ["rgb_single_segment"])
 async def test_update_stay_beta(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
 ) -> None:
     """Test the update entity.
@@ -208,7 +208,7 @@ async def test_update_stay_beta(
 
 
 async def test_update_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
     mock_wled_releases: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -249,7 +249,7 @@ async def test_update_entities(
 
 
 async def test_update_without_known_repo(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -267,7 +267,7 @@ async def test_update_without_known_repo(
 
 
 async def test_update_release_url_from_repo(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -284,7 +284,7 @@ async def test_update_release_url_from_repo(
 
 
 async def test_update_without_firmware_for_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -301,7 +301,7 @@ async def test_update_without_firmware_for_device(
 
 
 async def test_update_when_firmware_check_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -317,14 +317,14 @@ async def test_update_when_firmware_check_fails(
 
 
 async def test_update_install_refused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
 ) -> None:
     """Test a firmware update the device refuses shows why."""
     mock_wled.upgrade.side_effect = WLEDUpgradeError("Client is not on local subnet")
 
     with pytest.raises(
-        UniversalAssistantError, match="Client is not on local subnet"
+        __HAC_KEEP__Error, match="Client is not on local subnet"
     ) as exc_info:
         await hass.services.async_call(
             UPDATE_DOMAIN,
@@ -337,7 +337,7 @@ async def test_update_install_refused(
 
 
 async def test_update_follows_firmware_repository_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_wled: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -359,7 +359,7 @@ async def test_update_follows_firmware_repository_change(
 
 
 async def test_update_while_releases_are_still_coming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test a device set up while the shared releases aren't fetched yet."""

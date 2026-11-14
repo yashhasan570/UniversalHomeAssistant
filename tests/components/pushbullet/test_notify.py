@@ -11,14 +11,14 @@ import requests_mock
 
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from universalassistant.components.pushbullet.const import DOMAIN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import MOCK_CONFIG
 
 
 async def test_pushbullet_push_default(
-    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
+    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test pushbullet push to default target."""
     requests_mock.register_uri(
@@ -46,7 +46,7 @@ async def test_pushbullet_push_default(
 
 
 async def test_pushbullet_push_device(
-    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
+    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test pushbullet push to default target."""
     requests_mock.register_uri(
@@ -81,7 +81,7 @@ async def test_pushbullet_push_device(
 
 
 async def test_pushbullet_push_devices(
-    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
+    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test pushbullet push to default target."""
     requests_mock.register_uri(
@@ -123,7 +123,7 @@ async def test_pushbullet_push_devices(
 
 
 async def test_pushbullet_push_email(
-    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
+    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test pushbullet push to default target."""
     requests_mock.register_uri(
@@ -158,7 +158,7 @@ async def test_pushbullet_push_email(
 
 
 async def test_pushbullet_push_mixed(
-    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
+    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test pushbullet push to default target."""
     requests_mock.register_uri(
@@ -211,7 +211,7 @@ async def test_pushbullet_push_mixed(
 )
 @pytest.mark.usefixtures("requests_mock")
 async def test_pushbullet_push_file_read_error(
-    hass: UniversalAssistant, error_no: int, translation_key: str
+    hass: __HAC_KEEP__, error_no: int, translation_key: str
 ) -> None:
     """Test that a file read error raises a translated error."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG)
@@ -225,7 +225,7 @@ async def test_pushbullet_push_file_read_error(
             "universalassistant.components.pushbullet.notify.open",
             side_effect=OSError(error_no, os.strerror(error_no)),
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             NOTIFY_DOMAIN,

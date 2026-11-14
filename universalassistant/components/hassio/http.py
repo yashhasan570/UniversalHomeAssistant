@@ -21,7 +21,7 @@ from aiohttp.web_exceptions import HTTPBadGateway
 from universalassistant.components.http import (
     KEY_AUTHENTICATED,
     KEY_HASS_USER,
-    UniversalAssistantView,
+    __HAC_KEEP__View,
 )
 
 from .const import X_HASS_SOURCE
@@ -112,7 +112,7 @@ RESPONSE_HEADERS_FILTER = {
 }
 
 
-class HassIOView(UniversalAssistantView):
+class HassIOView(__HAC_KEEP__View):
     """Hass.io view to handle base part."""
 
     name = "api:hassio"

@@ -18,8 +18,8 @@ from universalassistant.components.network.const import (
     STORAGE_KEY,
     STORAGE_VERSION,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -50,7 +50,7 @@ def _mock_socket_exception(exc):
 
 @pytest.mark.usefixtures("mock_socket_no_loopback")
 async def test_async_detect_interfaces_setting_non_loopback_route(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test without default interface config, route is non-loopback."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -108,7 +108,7 @@ async def test_async_detect_interfaces_setting_non_loopback_route(
 
 @pytest.mark.usefixtures("mock_socket_loopback")
 async def test_async_detect_interfaces_setting_loopback_route(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test without default interface config, route is loopback."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -166,7 +166,7 @@ async def test_async_detect_interfaces_setting_loopback_route(
 @pytest.mark.parametrize("mock_socket", [[]], indirect=True)
 @pytest.mark.usefixtures("mock_socket")
 async def test_async_detect_interfaces_setting_empty_route(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test without default interface config and the route returns nothing."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -222,7 +222,7 @@ async def test_async_detect_interfaces_setting_empty_route(
 
 
 async def test_async_detect_interfaces_setting_exception(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test without default interface config and the route throws an exception."""
     with patch(
@@ -283,7 +283,7 @@ async def test_async_detect_interfaces_setting_exception(
 
 @pytest.mark.usefixtures("mock_socket_no_loopback")
 async def test_interfaces_configured_from_storage(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test settings from storage are preferred over auto configure."""
     hass_storage[STORAGE_KEY] = {
@@ -346,7 +346,7 @@ async def test_interfaces_configured_from_storage(
 
 
 async def test_interfaces_configured_from_storage_websocket_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -476,7 +476,7 @@ async def test_interfaces_configured_from_storage_websocket_update(
 
 @pytest.mark.usefixtures("mock_socket_no_loopback")
 async def test_async_get_source_ip_matching_interface(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test getting the source ip address with interface matching."""
     hass_storage[STORAGE_KEY] = {
@@ -493,7 +493,7 @@ async def test_async_get_source_ip_matching_interface(
 
 @pytest.mark.usefixtures("mock_socket_no_loopback")
 async def test_async_get_source_ip_interface_not_match(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test getting the source ip address with interface does not match."""
     hass_storage[STORAGE_KEY] = {
@@ -511,7 +511,7 @@ async def test_async_get_source_ip_interface_not_match(
 @pytest.mark.parametrize("mock_socket", [[None]], indirect=True)
 @pytest.mark.usefixtures("mock_socket")
 async def test_async_get_source_ip_cannot_determine_target(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test getting the source ip address when getsockname fails."""
     hass_storage[STORAGE_KEY] = {
@@ -528,7 +528,7 @@ async def test_async_get_source_ip_cannot_determine_target(
 
 @pytest.mark.usefixtures("mock_socket_no_loopback")
 async def test_async_get_ipv4_broadcast_addresses_default(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test getting ipv4 broadcast addresses with default only."""
     hass_storage[STORAGE_KEY] = {
@@ -547,7 +547,7 @@ async def test_async_get_ipv4_broadcast_addresses_default(
 
 @pytest.mark.usefixtures("mock_socket_loopback")
 async def test_async_get_ipv4_broadcast_addresses_multiple(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test getting ipv4 broadcast addresses when multiple adapters are enabled."""
     hass_storage[STORAGE_KEY] = {
@@ -568,7 +568,7 @@ async def test_async_get_ipv4_broadcast_addresses_multiple(
 
 @pytest.mark.usefixtures("mock_socket_no_loopback")
 async def test_async_get_source_ip_no_enabled_addresses(
-    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test getting the source ip address when all adapters are disabled."""
     hass_storage[STORAGE_KEY] = {
@@ -595,7 +595,7 @@ async def test_async_get_source_ip_no_enabled_addresses(
 @pytest.mark.parametrize("mock_socket", [[None]], indirect=True)
 @pytest.mark.usefixtures("mock_socket")
 async def test_async_get_source_ip_cannot_be_determined_and_no_enabled_addresses(
-    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test getting source ip when all adapters disabled and it fails."""
     hass_storage[STORAGE_KEY] = {
@@ -610,12 +610,12 @@ async def test_async_get_source_ip_cannot_be_determined_and_no_enabled_addresses
     ):
         assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
         await hass.async_block_till_done()
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await network.async_get_source_ip(hass, MDNS_TARGET_IP)
 
 
 async def test_async_get_source_ip_no_ip_loopback(
-    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test getting source ip when all adapters disabled, no target."""
     hass_storage[STORAGE_KEY] = {
@@ -700,7 +700,7 @@ _ADAPTERS_WITH_MANUAL_CONFIG = [
 ]
 
 
-async def test_async_get_announce_addresses(hass: UniversalAssistant) -> None:
+async def test_async_get_announce_addresses(hass: __HAC_KEEP__) -> None:
     """Test addresses for mDNS/etc announcement."""
     first_ip = "172.16.1.5"
     with (
@@ -744,7 +744,7 @@ async def test_async_get_announce_addresses(hass: UniversalAssistant) -> None:
     ]
 
 
-async def test_async_get_announce_addresses_no_source_ip(hass: UniversalAssistant) -> None:
+async def test_async_get_announce_addresses_no_source_ip(hass: __HAC_KEEP__) -> None:
     """Test addresses for mDNS/etc announcement without source ip."""
     with (
         patch(
@@ -767,7 +767,7 @@ async def test_async_get_announce_addresses_no_source_ip(hass: UniversalAssistan
 
 
 async def test_websocket_network_url(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the network/url websocket command."""
     with patch(
@@ -812,7 +812,7 @@ async def test_websocket_network_url(
 @pytest.mark.parametrize("mock_socket", [[]], indirect=True)
 @pytest.mark.usefixtures("mock_socket")
 async def test_repair_docker_host_network_not_docker(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test repair is not created when not in Docker."""
     with patch("universalassistant.util.package.is_docker_env", return_value=False):
@@ -824,7 +824,7 @@ async def test_repair_docker_host_network_not_docker(
 @pytest.mark.parametrize("mock_socket", [[]], indirect=True)
 @pytest.mark.usefixtures("mock_socket")
 async def test_repair_docker_host_network_with_host_networking(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test repair is not created when in Docker with host networking."""
     with (
@@ -839,7 +839,7 @@ async def test_repair_docker_host_network_with_host_networking(
 @pytest.mark.parametrize("mock_socket", [[]], indirect=True)
 @pytest.mark.usefixtures("mock_socket")
 async def test_repair_docker_host_network_without_host_networking(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -855,7 +855,7 @@ async def test_repair_docker_host_network_without_host_networking(
 
 
 @pytest.mark.usefixtures("mock_socket_no_loopback")
-async def test_async_reload_adapters(hass: UniversalAssistant) -> None:
+async def test_async_reload_adapters(hass: __HAC_KEEP__) -> None:
     """Test reloading the adapters."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()

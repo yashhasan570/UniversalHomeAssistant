@@ -7,14 +7,14 @@ from threading import Thread
 import debugpy  # noqa: T100
 
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_WAIT, DATA_DEBUGPY_CONFIG
 
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_start_debugger(hass: UniversalAssistant) -> None:
+async def async_start_debugger(hass: __HAC_KEEP__) -> None:
     """Enable asyncio debugging and start the debugger."""
     conf = hass.data[DATA_DEBUGPY_CONFIG]
     get_running_loop().set_debug(True)

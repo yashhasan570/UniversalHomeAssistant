@@ -5,10 +5,10 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.xiaomi_miio.const import CONF_FLOW_TYPE, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_MAC, CONF_MODEL, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_setup_unsupported_model(hass: UniversalAssistant) -> None:
+async def test_setup_unsupported_model(hass: __HAC_KEEP__) -> None:
     """Test setup fails for an unsupported device model."""
     entry = MockConfigEntry(
         domain=DOMAIN,

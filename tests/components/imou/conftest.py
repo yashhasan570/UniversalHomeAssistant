@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.imou.const import CONF_APP_ID, DOMAIN, PLATFORMS
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONFIG_ENTRY_DATA, default_mock_devices
 
@@ -94,7 +94,7 @@ def mock_camera_access_token() -> Generator[None]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_imou_openapi_client: AsyncMock,
     mock_imou_ha_device_manager: MagicMock,

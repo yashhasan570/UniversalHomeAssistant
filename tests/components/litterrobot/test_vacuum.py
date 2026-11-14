@@ -18,8 +18,8 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
 from .common import DOMAIN, VACUUM_ENTITY_ID
@@ -29,7 +29,7 @@ VACUUM_UNIQUE_ID = "LR3C012345-litter_box"
 
 
 async def test_vacuum(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_account: MagicMock
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_account: MagicMock
 ) -> None:
     """Tests the vacuum entity was set up."""
     entity_registry.async_get_or_create(
@@ -53,7 +53,7 @@ async def test_vacuum(
 
 
 async def test_no_robots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_account_with_no_robots: MagicMock,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_no_robots(
 
 
 async def test_vacuum_with_error(
-    hass: UniversalAssistant, mock_account_with_error: MagicMock
+    hass: __HAC_KEEP__, mock_account_with_error: MagicMock
 ) -> None:
     """Tests a vacuum entity with an error."""
     await setup_integration(hass, mock_account_with_error, VACUUM_DOMAIN)
@@ -89,7 +89,7 @@ async def test_vacuum_with_error(
     ],
 )
 async def test_activities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_account_with_litterrobot_4: MagicMock,
     robot_data: dict[str, str | bool],
     expected_state: str,
@@ -130,7 +130,7 @@ async def test_activities(
     ],
 )
 async def test_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_account: MagicMock,
     caplog: pytest.LogCaptureFixture,
     service_domain: str,
@@ -162,12 +162,12 @@ async def test_commands(
 
 
 async def test_vacuum_command_exception(
-    hass: UniversalAssistant, mock_account_with_side_effects: MagicMock
+    hass: __HAC_KEEP__, mock_account_with_side_effects: MagicMock
 ) -> None:
-    """Test that LitterRobotException is wrapped in UniversalAssistantError."""
+    """Test that LitterRobotException is wrapped in __HAC_KEEP__Error."""
     await setup_integration(hass, mock_account_with_side_effects, VACUUM_DOMAIN)
 
-    with pytest.raises(UniversalAssistantError, match="Invalid command: oops"):
+    with pytest.raises(__HAC_KEEP__Error, match="Invalid command: oops"):
         await hass.services.async_call(
             VACUUM_DOMAIN,
             SERVICE_START,
@@ -177,7 +177,7 @@ async def test_vacuum_command_exception(
 
 
 async def test_vacuum_unavailable_on_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_account: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

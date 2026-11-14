@@ -11,7 +11,7 @@ from vallox_websocket_api import ValloxApiException
 from universalassistant.components.vallox.const import DOMAIN, STATE_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -36,7 +36,7 @@ async def test_device(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_load_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test loading and unloading the config entry."""
     assert mock_config_entry.state is ConfigEntryState.LOADED
@@ -48,7 +48,7 @@ async def test_load_unload_entry(
 
 
 async def test_setup_unit_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vallox_client: AsyncMock,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_setup_unit_offline(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_unit_offline_after_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vallox_client: AsyncMock,
     entity_registry: er.EntityRegistry,

@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import songpal
 from universalassistant.components.songpal.const import CONF_ENDPOINT
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir, translation
 from universalassistant.setup import async_setup_component
 
@@ -31,7 +31,7 @@ def _patch_media_setup():
     )
 
 
-async def test_setup_empty(hass: UniversalAssistant) -> None:
+async def test_setup_empty(hass: __HAC_KEEP__) -> None:
     """Test setup without any configuration."""
     with _patch_media_setup() as setup:
         assert await async_setup_component(hass, songpal.DOMAIN, {}) is True
@@ -39,7 +39,7 @@ async def test_setup_empty(hass: UniversalAssistant) -> None:
     setup.assert_not_called()
 
 
-async def test_setup(hass: UniversalAssistant, issue_registry: ir.IssueRegistry) -> None:
+async def test_setup(hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry) -> None:
     """Test setup the platform from YAML creates the deprecation issue."""
     mocked_device = _create_mocked_device()
 
@@ -76,7 +76,7 @@ async def test_setup(hass: UniversalAssistant, issue_registry: ir.IssueRegistry)
     ],
 )
 async def test_setup_already_configured(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry, mocked_device: MagicMock
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry, mocked_device: MagicMock
 ) -> None:
     """Test YAML import of an existing device creates the deprecation issue."""
     MockConfigEntry(domain=songpal.DOMAIN, data=CONF_DATA).add_to_hass(hass)
@@ -105,7 +105,7 @@ async def test_setup_already_configured(
     ],
 )
 async def test_setup_import_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mocked_device: MagicMock,
     reason: str,
@@ -133,7 +133,7 @@ async def test_setup_import_failed(
     assert len(issue_registry.issues) == 1
 
 
-async def test_unload(hass: UniversalAssistant) -> None:
+async def test_unload(hass: __HAC_KEEP__) -> None:
     """Test unload entity."""
     entry = MockConfigEntry(domain=songpal.DOMAIN, data=CONF_DATA)
     entry.add_to_hass(hass)
@@ -152,7 +152,7 @@ async def test_unload(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_import_partial_failure(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a failed device import prevents the remove-your-YAML issue."""
     offline_endpoint = "http://0.0.0.1:10000/sony"
@@ -181,7 +181,7 @@ async def test_setup_import_partial_failure(
     assert len(issue_registry.issues) == 1
 
 
-async def test_setup_import_finishes_before_setup_returns(hass: UniversalAssistant) -> None:
+async def test_setup_import_finishes_before_setup_returns(hass: __HAC_KEEP__) -> None:
     """Test all YAML devices are imported before the integration setup returns."""
     await translation.async_load_integrations(hass, {songpal.DOMAIN})
     second_endpoint = "http://0.0.0.1:10000/sony"

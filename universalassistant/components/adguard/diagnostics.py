@@ -3,13 +3,13 @@
 from typing import Any
 
 from universalassistant.const import CONF_SSL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import AdGuardConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: AdGuardConfigEntry
+    hass: __HAC_KEEP__, entry: AdGuardConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = entry.runtime_data

@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_PORT,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -40,7 +40,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the IDTECK proximity card component."""
     conf = config[DOMAIN]
     for unit in conf:
@@ -76,7 +76,7 @@ class IdteckReader:
         self._connection = rfk101py(self._host, self._port, self._callback)
 
     def _callback(self, card):
-        """Send a keycard event message into Universal Universal Home Assistant whenever a card is read."""
+        """Send a keycard event message into __HA_KEEP__ whenever a card is read."""
         self.hass.bus.fire(
             EVENT_IDTECK_PROX_KEYCARD, {"card": card, "name": self._name}
         )

@@ -6,7 +6,7 @@ import speedtest
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.start import async_at_started
 
@@ -16,7 +16,7 @@ PLATFORMS = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: SpeedTestConfigEntry
+    hass: __HAC_KEEP__, config_entry: SpeedTestConfigEntry
 ) -> None:
     """Set up the Speedtest.net component."""
     try:
@@ -29,7 +29,7 @@ async def async_setup_entry(
 
     config_entry.runtime_data = coordinator
 
-    async def _async_finish_startup(hass: UniversalAssistant) -> None:
+    async def _async_finish_startup(hass: __HAC_KEEP__) -> None:
         """Run this only when HA has finished its startup."""
         if config_entry.state is ConfigEntryState.LOADED:
             await coordinator.async_refresh()
@@ -43,7 +43,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: SpeedTestConfigEntry
+    hass: __HAC_KEEP__, config_entry: SpeedTestConfigEntry
 ) -> None:
     """Unload SpeedTest Entry from config_entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

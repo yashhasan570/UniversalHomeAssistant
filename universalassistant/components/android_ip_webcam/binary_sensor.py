@@ -7,7 +7,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import MOTION_ACTIVE
@@ -22,7 +22,7 @@ BINARY_SENSOR_DESCRIPTION = BinarySensorEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AndroidIPCamConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -1,4 +1,4 @@
-"""Connect two Universal Universal Home Assistant instances via MQTT."""
+"""Connect two __HA_KEEP__ instances via MQTT."""
 
 import json
 import logging
@@ -18,7 +18,7 @@ from universalassistant.const import (
     EVENT_STATE_CHANGED,
     MATCH_ALL,
 )
-from universalassistant.core import EventOrigin, UniversalAssistant, State, callback
+from universalassistant.core import EventOrigin, __HAC_KEEP__, State, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.json import JSONEncoder
 from universalassistant.helpers.typing import ConfigType
@@ -56,7 +56,7 @@ BLOCKED_EVENTS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the MQTT eventstream component."""
     # Make sure MQTT integration is enabled and the client is available
     if not await mqtt.async_wait_for_mqtt_client(hass):

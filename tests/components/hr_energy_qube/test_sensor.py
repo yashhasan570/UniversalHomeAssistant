@@ -14,14 +14,14 @@ from python_qube_heatpump import StatusCode
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_qube_client: MagicMock,
@@ -46,7 +46,7 @@ async def test_entities(
     ],
 )
 async def test_sensor_unavailable_on_coordinator_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -89,7 +89,7 @@ async def test_sensor_unavailable_on_coordinator_error(
     ],
 )
 async def test_status_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     status: StatusCode | None,
@@ -106,7 +106,7 @@ async def test_status_sensor(
 
 
 async def test_room_temperature_without_room_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_room_temperature_without_room_sensor(
 
 
 async def test_room_temperature_missing_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

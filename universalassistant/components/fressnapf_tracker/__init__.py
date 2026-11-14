@@ -13,7 +13,7 @@ from fressnapftracker import (
 )
 
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
@@ -36,7 +36,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def _get_valid_tracker(
-    hass: UniversalAssistant, entry: FressnapfTrackerConfigEntry, device: Device
+    hass: __HAC_KEEP__, entry: FressnapfTrackerConfigEntry, device: Device
 ) -> Tracker | None:
     """Test if the tracker returns valid data and return it.
 
@@ -76,7 +76,7 @@ async def _get_valid_tracker(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: FressnapfTrackerConfigEntry
+    hass: __HAC_KEEP__, entry: FressnapfTrackerConfigEntry
 ) -> None:
     """Set up Fressnapf Tracker from a config entry."""
     auth_client = AuthClient(client=get_async_client(hass))
@@ -110,7 +110,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: FressnapfTrackerConfigEntry
+    hass: __HAC_KEEP__, entry: FressnapfTrackerConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

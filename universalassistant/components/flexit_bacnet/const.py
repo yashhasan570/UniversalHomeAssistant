@@ -24,7 +24,7 @@ MIN_TEMP = 10
 PRESET_HIGH = "high"
 PRESET_FIREPLACE = "fireplace"
 
-# Map operation mode (what device reports) to Universal Universal Home Assistant preset
+# Map operation mode (what device reports) to __HA_KEEP__ preset
 OPERATION_TO_PRESET_MODE_MAP = {
     OPERATION_MODE_OFF: PRESET_NONE,
     OPERATION_MODE_AWAY: PRESET_AWAY,

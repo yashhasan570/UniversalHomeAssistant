@@ -18,7 +18,7 @@ from universalassistant.const import (
     PERCENTAGE,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.discovery import load_platform
 from universalassistant.helpers.typing import ConfigType
@@ -122,7 +122,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Initialize the numato integration.
 
     Discovers available Numato devices and loads the binary_sensor, sensor and

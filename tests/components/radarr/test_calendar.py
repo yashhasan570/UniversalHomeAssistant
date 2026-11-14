@@ -7,13 +7,13 @@ from pytest_universalassistant.common import async_fire_time_changed
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_calendar(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
 ) -> None:

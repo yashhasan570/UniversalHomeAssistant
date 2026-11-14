@@ -9,7 +9,7 @@ from sharkiq import AylaApi, SharkIqAuthError, SharkIqError
 
 from universalassistant import config_entries
 from universalassistant.components.sharkiq.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -23,7 +23,7 @@ from .const import (
 )
 
 
-async def test_setup_success_no_region(hass: UniversalAssistant) -> None:
+async def test_setup_success_no_region(hass: __HAC_KEEP__) -> None:
     """Test reauth flow."""
     mock_config = MockConfigEntry(
         domain=DOMAIN, unique_id=UNIQUE_ID, data=CONFIG_NO_REGION
@@ -36,7 +36,7 @@ async def test_setup_success_no_region(hass: UniversalAssistant) -> None:
     assert result is True
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -80,7 +80,7 @@ async def test_form(hass: UniversalAssistant) -> None:
         (SharkIqError, "unknown"),
     ],
 )
-async def test_form_error(hass: UniversalAssistant, exc: Exception, base_error: str) -> None:
+async def test_form_error(hass: __HAC_KEEP__, exc: Exception, base_error: str) -> None:
     """Test form errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -114,7 +114,7 @@ async def test_form_error(hass: UniversalAssistant, exc: Exception, base_error: 
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_success(hass: UniversalAssistant) -> None:
+async def test_reauth_success(hass: __HAC_KEEP__) -> None:
     """Test reauth flow."""
     mock_config = MockConfigEntry(domain=DOMAIN, unique_id=UNIQUE_ID, data=CONFIG)
     mock_config.add_to_hass(hass)
@@ -143,7 +143,7 @@ async def test_reauth_success(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     result_type: str,
     msg_field: str,

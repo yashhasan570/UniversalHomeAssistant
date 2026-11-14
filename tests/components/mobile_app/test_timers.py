@@ -5,7 +5,7 @@ from unittest.mock import patch
 import pytest
 
 from universalassistant.components.mobile_app import DATA_DEVICES, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import intent as intent_helper
 
 
@@ -23,7 +23,7 @@ from universalassistant.helpers import intent as intent_helper
     ],
 )
 async def test_timer_events(
-    hass: UniversalAssistant, push_registration, intent_args: dict, message: str
+    hass: __HAC_KEEP__, push_registration, intent_args: dict, message: str
 ) -> None:
     """Test for timer events."""
     webhook_id = push_registration["webhook_id"]

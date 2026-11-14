@@ -13,7 +13,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -32,7 +32,7 @@ PLATFORM_SCHEMA = MEDIA_PLAYER_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -48,7 +48,7 @@ def setup_platform(
         if not pymitv.Discover().check_ip(host):
             _LOGGER.error("Could not find Xiaomi TV with specified IP: %s", host)
         else:
-            # Register TV with Universal Universal Home Assistant.
+            # Register TV with __HA_KEEP__.
             add_entities([XiaomiTV(host, name)])
     else:
         # Otherwise, discover TVs on network.
@@ -56,7 +56,7 @@ def setup_platform(
 
 
 class XiaomiTV(MediaPlayerEntity):
-    """Represent the Xiaomi TV for Universal Universal Home Assistant."""
+    """Represent the Xiaomi TV for __HA_KEEP__."""
 
     _attr_assumed_state = True
     _attr_supported_features = (

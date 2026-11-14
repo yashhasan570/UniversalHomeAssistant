@@ -13,7 +13,7 @@ from skoda_public_api.models.enums import (
 )
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SkodaConfigEntry, SkodaUpdateCoordinator
@@ -99,7 +99,7 @@ SWITCH_TYPES: tuple[SkodaSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SkodaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -12,7 +12,7 @@ from aiohue.v2.models.smart_scene import SmartScene as HueSmartScene, SmartScene
 from aiohue.v2.models.zone import Zone
 
 from universalassistant.components.scene import ATTR_TRANSITION, Scene as SceneEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -25,7 +25,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HueConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

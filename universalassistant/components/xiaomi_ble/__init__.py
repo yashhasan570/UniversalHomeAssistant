@@ -13,7 +13,7 @@ from universalassistant.components.bluetooth import (
     async_ble_device_from_address,
 )
 from universalassistant.const import Platform
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceRegistry
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -34,7 +34,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def process_service_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: XiaomiBLEConfigEntry,
     device_registry: DeviceRegistry,
     service_info: BluetoothServiceInfoBleak,
@@ -117,7 +117,7 @@ def format_discovered_event_class(address: str) -> str:
     return f"{DOMAIN}_discovered_event_class_{address}"
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: XiaomiBLEConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: XiaomiBLEConfigEntry) -> None:
     """Set up Xiaomi BLE device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -184,6 +184,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: XiaomiBLEConfigEntr
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: XiaomiBLEConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: XiaomiBLEConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

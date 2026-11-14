@@ -22,7 +22,7 @@ from universalassistant.const import (
     SERVICE_STOP_COVER_TILT,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import utcnow
 
@@ -71,7 +71,7 @@ def tilt_shades(name: str):
 
 
 async def test_entity_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Tests that the devices are registered in the entity registry."""
@@ -87,7 +87,7 @@ async def test_entity_registry(
     assert entity.unique_id == "test-hub-id_test-device-id"
 
 
-async def test_open_cover(hass: UniversalAssistant) -> None:
+async def test_open_cover(hass: __HAC_KEEP__) -> None:
     """Tests that open cover command delegates to API."""
     await setup_platform(
         hass, COVER_DOMAIN, shades("name-1"), bond_device_id="test-device-id"
@@ -105,7 +105,7 @@ async def test_open_cover(hass: UniversalAssistant) -> None:
     mock_open.assert_called_once_with("test-device-id", Action.open())
 
 
-async def test_close_cover(hass: UniversalAssistant) -> None:
+async def test_close_cover(hass: __HAC_KEEP__) -> None:
     """Tests that close cover command delegates to API."""
     await setup_platform(
         hass, COVER_DOMAIN, shades("name-1"), bond_device_id="test-device-id"
@@ -123,7 +123,7 @@ async def test_close_cover(hass: UniversalAssistant) -> None:
     mock_close.assert_called_once_with("test-device-id", Action.close())
 
 
-async def test_stop_cover(hass: UniversalAssistant) -> None:
+async def test_stop_cover(hass: __HAC_KEEP__) -> None:
     """Tests that stop cover command delegates to API."""
     await setup_platform(
         hass, COVER_DOMAIN, shades("name-1"), bond_device_id="test-device-id"
@@ -141,7 +141,7 @@ async def test_stop_cover(hass: UniversalAssistant) -> None:
     mock_hold.assert_called_once_with("test-device-id", Action.hold())
 
 
-async def test_tilt_open_cover(hass: UniversalAssistant) -> None:
+async def test_tilt_open_cover(hass: __HAC_KEEP__) -> None:
     """Tests that tilt open cover command delegates to API."""
     await setup_platform(
         hass, COVER_DOMAIN, tilt_only_shades("name-1"), bond_device_id="test-device-id"
@@ -160,7 +160,7 @@ async def test_tilt_open_cover(hass: UniversalAssistant) -> None:
     assert hass.states.get("cover.name_1").state == STATE_UNKNOWN
 
 
-async def test_tilt_close_cover(hass: UniversalAssistant) -> None:
+async def test_tilt_close_cover(hass: __HAC_KEEP__) -> None:
     """Tests that tilt close cover command delegates to API."""
     await setup_platform(
         hass, COVER_DOMAIN, tilt_only_shades("name-1"), bond_device_id="test-device-id"
@@ -179,7 +179,7 @@ async def test_tilt_close_cover(hass: UniversalAssistant) -> None:
     assert hass.states.get("cover.name_1").state == STATE_UNKNOWN
 
 
-async def test_tilt_stop_cover(hass: UniversalAssistant) -> None:
+async def test_tilt_stop_cover(hass: __HAC_KEEP__) -> None:
     """Tests that tilt stop cover command delegates to API."""
     await setup_platform(
         hass,
@@ -202,7 +202,7 @@ async def test_tilt_stop_cover(hass: UniversalAssistant) -> None:
     assert hass.states.get("cover.name_1").state == STATE_UNKNOWN
 
 
-async def test_tilt_and_open(hass: UniversalAssistant) -> None:
+async def test_tilt_and_open(hass: __HAC_KEEP__) -> None:
     """Tests that supports both tilt and open."""
     await setup_platform(
         hass,
@@ -225,7 +225,7 @@ async def test_tilt_and_open(hass: UniversalAssistant) -> None:
     assert hass.states.get("cover.name_1").state == CoverState.CLOSED
 
 
-async def test_update_reports_open_cover(hass: UniversalAssistant) -> None:
+async def test_update_reports_open_cover(hass: __HAC_KEEP__) -> None:
     """Tests that update sets correct state when Bond API reports cover is open."""
     await setup_platform(hass, COVER_DOMAIN, shades("name-1"))
 
@@ -236,7 +236,7 @@ async def test_update_reports_open_cover(hass: UniversalAssistant) -> None:
     assert hass.states.get("cover.name_1").state == "open"
 
 
-async def test_update_reports_closed_cover(hass: UniversalAssistant) -> None:
+async def test_update_reports_closed_cover(hass: __HAC_KEEP__) -> None:
     """Tests that update sets correct state when Bond API reports cover is closed."""
     await setup_platform(hass, COVER_DOMAIN, shades("name-1"))
 
@@ -247,14 +247,14 @@ async def test_update_reports_closed_cover(hass: UniversalAssistant) -> None:
     assert hass.states.get("cover.name_1").state == "closed"
 
 
-async def test_cover_available(hass: UniversalAssistant) -> None:
+async def test_cover_available(hass: __HAC_KEEP__) -> None:
     """Tests that available state is updated based on API errors."""
     await help_test_entity_available(
         hass, COVER_DOMAIN, shades("name-1"), "cover.name_1"
     )
 
 
-async def test_set_position_cover(hass: UniversalAssistant) -> None:
+async def test_set_position_cover(hass: __HAC_KEEP__) -> None:
     """Tests that set position cover command delegates to API."""
     await setup_platform(
         hass,

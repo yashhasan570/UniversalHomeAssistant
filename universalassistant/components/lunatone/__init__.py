@@ -8,7 +8,7 @@ from lunatone_rest_api_client import Auth, DALIScan, Devices, Info, Sensors
 from lunatone_rest_api_client.models import DeviceCapabilities
 
 from universalassistant.const import CONF_URL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -35,7 +35,7 @@ PLATFORMS: Final[list[Platform]] = [
 
 
 async def _update_unique_id(
-    hass: UniversalAssistant, entry: LunatoneConfigEntry, new_unique_id: str
+    hass: __HAC_KEEP__, entry: LunatoneConfigEntry, new_unique_id: str
 ) -> None:
     _LOGGER.debug("Update unique ID")
 
@@ -75,7 +75,7 @@ async def _update_unique_id(
     _LOGGER.debug("Update of unique ID successful")
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LunatoneConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LunatoneConfigEntry) -> None:
     """Set up Lunatone from a config entry."""
     auth_api = Auth(async_get_clientsession(hass), entry.data[CONF_URL])
 
@@ -172,6 +172,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LunatoneConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LunatoneConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LunatoneConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

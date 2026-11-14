@@ -12,7 +12,7 @@ from collections.abc import Callable
 import pytest
 from pytest_codspeed import BenchmarkFixture
 
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
     async_dispatcher_send,
@@ -26,7 +26,7 @@ def _noop(event: Event) -> None:
 
 
 def test_event_fire_no_listeners(
-    benchmark: BenchmarkFixture, hass: UniversalAssistant
+    benchmark: BenchmarkFixture, hass: __HAC_KEEP__
 ) -> None:
     """Fire an event nobody listens to (the bare dispatch cost)."""
     benchmark(lambda: hass.bus.async_fire("benchmark_event", {"value": 1}))
@@ -34,7 +34,7 @@ def test_event_fire_no_listeners(
 
 @pytest.mark.parametrize("listeners", [1, 10])
 def test_event_fire_callbacks(
-    benchmark: BenchmarkFixture, hass: UniversalAssistant, listeners: int
+    benchmark: BenchmarkFixture, hass: __HAC_KEEP__, listeners: int
 ) -> None:
     """Fire an event with N callback listeners that run inline."""
     fired = 0
@@ -57,7 +57,7 @@ def test_event_fire_callbacks(
 
 
 def test_event_fire_filtered_reject(
-    benchmark: BenchmarkFixture, hass: UniversalAssistant
+    benchmark: BenchmarkFixture, hass: __HAC_KEEP__
 ) -> None:
     """Fire an event whose listener is gated out by an event_filter.
 
@@ -82,7 +82,7 @@ def test_event_fire_filtered_reject(
     assert fired == 0
 
 
-def test_state_change_tracked(benchmark: BenchmarkFixture, hass: UniversalAssistant) -> None:
+def test_state_change_tracked(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> None:
     """Fire a state change routed to a tracked entity's listener.
 
     This is the real automation hot path: ``async_set`` fires
@@ -110,7 +110,7 @@ def test_state_change_tracked(benchmark: BenchmarkFixture, hass: UniversalAssist
 
 
 def test_state_change_untracked(
-    benchmark: BenchmarkFixture, hass: UniversalAssistant
+    benchmark: BenchmarkFixture, hass: __HAC_KEEP__
 ) -> None:
     """Fire a state change for an entity nobody tracks (the dict-miss path).
 
@@ -129,7 +129,7 @@ def test_state_change_untracked(
 
 
 def test_dispatcher_send_no_receivers(
-    benchmark: BenchmarkFixture, hass: UniversalAssistant
+    benchmark: BenchmarkFixture, hass: __HAC_KEEP__
 ) -> None:
     """Send a dispatcher signal with nobody connected (the bare dispatch cost)."""
     benchmark(lambda: async_dispatcher_send(hass, "benchmark_signal", 1))
@@ -137,7 +137,7 @@ def test_dispatcher_send_no_receivers(
 
 @pytest.mark.parametrize("receivers", [1, 10])
 def test_dispatcher_send(
-    benchmark: BenchmarkFixture, hass: UniversalAssistant, receivers: int
+    benchmark: BenchmarkFixture, hass: __HAC_KEEP__, receivers: int
 ) -> None:
     """Send a dispatcher signal to N connected receivers."""
     fired = 0
@@ -164,7 +164,7 @@ def test_dispatcher_send(
     assert fired % receivers == 0
 
 
-def test_call_later_schedule(benchmark: BenchmarkFixture, hass: UniversalAssistant) -> None:
+def test_call_later_schedule(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> None:
     """Schedule a delayed callback and cancel it (the timer-tracking cost).
 
     Cancelling inside the measured call keeps timers from piling up on the loop

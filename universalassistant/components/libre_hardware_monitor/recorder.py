@@ -1,7 +1,7 @@
 """Support for LibreHardwareMonitor Recorder Platform."""
 
 from universalassistant.const import UnitOfDataRate
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import DOMAIN, LEGACY_THROUGHPUT_UNIT, THROUGHPUT_UNIQUE_ID_FRAGMENT
@@ -9,7 +9,7 @@ from .const import DOMAIN, LEGACY_THROUGHPUT_UNIT, THROUGHPUT_UNIQUE_ID_FRAGMENT
 
 @callback
 def async_custom_equivalent_units(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, dict[str | None, str]]:
     """Return custom equivalent units per entity id.
 

@@ -28,7 +28,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConditionError, TemplateError
 from universalassistant.helpers import (
     condition,
@@ -225,7 +225,7 @@ def update_probability(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -259,7 +259,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

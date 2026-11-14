@@ -1,4 +1,4 @@
-"""Shared fixtures using the real Universal Universal Home Assistant test harness."""
+"""Shared fixtures using the real __HA_KEEP__ test harness."""
 
 from collections.abc import Generator
 from typing import Any

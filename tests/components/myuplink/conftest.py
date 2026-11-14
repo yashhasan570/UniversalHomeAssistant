@@ -16,7 +16,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.myuplink.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import json_loads
@@ -31,7 +31,7 @@ def mock_expires_at() -> float:
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant, expires_at: float) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__, expires_at: float) -> MockConfigEntry:
     """Return the default mocked config entry."""
     config_entry = MockConfigEntry(
         minor_version=2,
@@ -56,7 +56,7 @@ def mock_config_entry(hass: UniversalAssistant, expires_at: float) -> MockConfig
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -160,7 +160,7 @@ def mock_myuplink_client(
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_myuplink_client: MagicMock,
 ) -> MockConfigEntry:
@@ -181,7 +181,7 @@ def platforms() -> list[str]:
 
 @pytest.fixture
 async def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     platforms,
 ) -> AsyncGenerator[None]:
@@ -194,7 +194,7 @@ async def setup_platform(
 
 
 @pytest.fixture
-async def access_token(hass: UniversalAssistant) -> str:
+async def access_token(hass: __HAC_KEEP__) -> str:
     """Return a valid access token."""
     return config_entry_oauth2_flow._encode_jwt(
         hass,

@@ -20,7 +20,7 @@ from universalassistant.components.media_source import (
     PlayMedia,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -80,7 +80,7 @@ EVENT_NAME_MAP = {
 }
 
 
-async def async_get_media_source(hass: UniversalAssistant) -> MediaSource:
+async def async_get_media_source(hass: __HAC_KEEP__) -> MediaSource:
     """Set up UniFi Protect media source."""
     # Public-only entries carry no private bootstrap and the public API has
     # no event media; include only full-access entries.
@@ -187,7 +187,7 @@ class ProtectMediaSource(MediaSource):
     _registry: er.EntityRegistry | None
 
     def __init__(
-        self, hass: UniversalAssistant, data_sources: dict[str, ProtectData]
+        self, hass: __HAC_KEEP__, data_sources: dict[str, ProtectData]
     ) -> None:
         """Initialize the UniFi Protect media source."""
 

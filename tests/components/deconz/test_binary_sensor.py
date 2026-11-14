@@ -16,7 +16,7 @@ from universalassistant.components.deconz.const import (
 )
 from universalassistant.components.deconz.services import DeconzService
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType, WebsocketDataType
@@ -326,7 +326,7 @@ TEST_DATA = [
 @pytest.mark.parametrize("config_entry_options", [{CONF_ALLOW_CLIP_SENSOR: True}])
 @pytest.mark.parametrize(("sensor_payload", "expected"), TEST_DATA)
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     sensor_ws_data: WebsocketDataType,
@@ -358,7 +358,7 @@ async def test_binary_sensors(
 )
 @pytest.mark.parametrize("config_entry_options", [{CONF_ALLOW_CLIP_SENSOR: False}])
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_not_allow_clip_sensor(hass: UniversalAssistant) -> None:
+async def test_not_allow_clip_sensor(hass: __HAC_KEEP__) -> None:
     """Test that CLIP sensors are not allowed."""
     assert len(hass.states.async_all()) == 0
 
@@ -397,7 +397,7 @@ async def test_not_allow_clip_sensor(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.parametrize("config_entry_options", [{CONF_ALLOW_CLIP_SENSOR: True}])
 async def test_allow_clip_sensor(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test that CLIP sensors can be allowed."""
 
@@ -431,7 +431,7 @@ async def test_allow_clip_sensor(
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_add_new_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sensor_ws_data: WebsocketDataType,
 ) -> None:
     """Test that adding a new binary sensor works."""
@@ -457,7 +457,7 @@ async def test_add_new_binary_sensor(
     "config_entry_options", [{CONF_MASTER_GATEWAY: True, CONF_ALLOW_NEW_DEVICES: False}]
 )
 async def test_add_new_binary_sensor_ignored_load_entities_on_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_setup: MockConfigEntry,
     deconz_payload: dict[str, Any],
@@ -502,7 +502,7 @@ async def test_add_new_binary_sensor_ignored_load_entities_on_service_call(
     "config_entry_options", [{CONF_MASTER_GATEWAY: True, CONF_ALLOW_NEW_DEVICES: False}]
 )
 async def test_add_new_binary_sensor_ignored_load_entities_on_options_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_setup: MockConfigEntry,
     deconz_payload: dict[str, Any],

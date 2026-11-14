@@ -3,7 +3,7 @@
 from homelink.mqtt_provider import MQTTProvider
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client, config_entry_oauth2_flow
 
 from . import oauth2
@@ -13,7 +13,7 @@ from .coordinator import HomeLinkConfigEntry, HomeLinkCoordinator
 PLATFORMS: list[Platform] = [Platform.EVENT]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HomeLinkConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HomeLinkConfigEntry) -> None:
     """Set up homelink from a config entry."""
     auth_implementation = oauth2.HomeLinkOAuth2Implementation(hass, DOMAIN)
     config_entry_oauth2_flow.async_register_implementation(
@@ -47,7 +47,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HomeLinkConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: HomeLinkConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: HomeLinkConfigEntry) -> None:
     """Unload a config entry."""
     await entry.runtime_data.async_on_unload(None)
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

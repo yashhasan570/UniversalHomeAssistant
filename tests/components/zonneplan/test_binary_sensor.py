@@ -21,7 +21,7 @@ from universalassistant.components.zonneplan.coordinator import (
     CHARGE_POINT_UPDATE_INTERVAL,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import MOCK_ACCOUNT
@@ -41,7 +41,7 @@ CHARGE_POINT_CONTRACT_UUID = "00000000-0000-4000-8000-000000000301"
     ],
 )
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -63,7 +63,7 @@ async def test_binary_sensor(
 
 
 async def test_battery_binary_sensor_unavailable_on_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -92,7 +92,7 @@ async def test_battery_binary_sensor_unavailable_on_update_error(
 
 
 async def test_charge_point_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -115,7 +115,7 @@ async def test_charge_point_device(
 
 
 async def test_charge_point_binary_sensor_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -153,7 +153,7 @@ async def test_charge_point_binary_sensor_update(
 
 
 async def test_no_charge_point_entities_without_charge_point(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:

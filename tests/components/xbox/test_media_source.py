@@ -20,12 +20,12 @@ from universalassistant.components.media_source import (
 )
 from universalassistant.components.xbox.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryDisabler, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_media_source(hass: UniversalAssistant) -> None:
+async def setup_media_source(hass: __HAC_KEEP__) -> None:
     """Setup media source component."""
 
     await async_setup_component(hass, "media_source", {})
@@ -34,7 +34,7 @@ async def setup_media_source(hass: UniversalAssistant) -> None:
 @pytest.mark.usefixtures("xbox_live_client")
 @pytest.mark.freeze_time("2025-11-06T17:12:27")
 async def test_browse_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_browse_media(
 
 
 async def test_browse_media_accounts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     xbox_live_client: AsyncMock,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_browse_media_accounts(
     ],
 )
 async def test_browse_media_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     xbox_live_client: AsyncMock,
     media_content_id: str,
@@ -230,7 +230,7 @@ async def test_browse_media_exceptions(
 
 @pytest.mark.usefixtures("xbox_live_client")
 async def test_browse_media_not_configured_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test browsing media integration not configured exception."""
     config_entry = MockConfigEntry(
@@ -267,7 +267,7 @@ async def test_browse_media_not_configured_exception(
 
 @pytest.mark.usefixtures("xbox_live_client")
 async def test_browse_media_account_not_configured_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test browsing media account not configured exception."""
@@ -322,7 +322,7 @@ async def test_browse_media_account_not_configured_exception(
 )
 @pytest.mark.usefixtures("xbox_live_client")
 async def test_resolve_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     media_content_id: str,
     url: str,
@@ -387,7 +387,7 @@ async def test_resolve_media(
     ],
 )
 async def test_resolve_media_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     xbox_live_client: AsyncMock,
     media_content_id: str,
@@ -419,7 +419,7 @@ async def test_resolve_media_exceptions(
 @pytest.mark.parametrize(("media_type"), ["screenshots", "gameclips", "game_media"])
 @pytest.mark.usefixtures("xbox_live_client")
 async def test_resolve_media_not_found_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     media_type: str,
 ) -> None:
@@ -442,7 +442,7 @@ async def test_resolve_media_not_found_exceptions(
 
 @pytest.mark.usefixtures("xbox_live_client")
 async def test_resolve_media_not_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test resolve media integration not configured exception."""
     config_entry = MockConfigEntry(
@@ -482,7 +482,7 @@ async def test_resolve_media_not_configured(
 
 @pytest.mark.usefixtures("xbox_live_client")
 async def test_resolve_media_account_not_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test resolve media account not configured exception."""

@@ -17,8 +17,8 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -27,7 +27,7 @@ from universalassistant.helpers.service_info.mqtt import MqttServiceInfo
 from .const import DEFAULT_PORT, DOMAIN, LOGGER
 
 
-async def _validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> Any:
+async def _validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> Any:
     """Validate the user input allows us to connect."""
     fully = FullyKiosk(
         async_get_clientsession(hass),
@@ -242,9 +242,9 @@ class FullyKioskConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect to the Fully Kiosk device."""
 
 
-class UnknownError(UniversalAssistantError):
+class UnknownError(__HAC_KEEP__Error):
     """Error to indicate an unknown error occurred."""

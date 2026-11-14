@@ -14,15 +14,15 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 ERR_PROJECTOR_UNAVAILABLE = "projector unavailable"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -126,13 +126,13 @@ class PjLinkDevice(MediaPlayerEntity):
                 raise
 
     def _run_command(self, command: Callable[[Projector], None]) -> None:
-        """Run a projector command and surface failures as UniversalAssistantError."""
+        """Run a projector command and surface failures as __HAC_KEEP__Error."""
         try:
             with self.projector() as projector:
                 command(projector)
         except (ProjectorError, TimeoutError, OSError) as err:
-            # script helpers honor continue_on_error only for UniversalAssistantError
-            raise UniversalAssistantError(f"PJLink command failed: {err}") from err
+            # script helpers honor continue_on_error only for __HAC_KEEP__Error
+            raise __HAC_KEEP__Error(f"PJLink command failed: {err}") from err
 
     @override
     def turn_off(self) -> None:

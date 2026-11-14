@@ -8,7 +8,7 @@ from wolf_comm.models import Device
 from wolf_comm.wolf_client import FetchFailed, WolfClient
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.httpx_client import create_async_httpx_client
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: WolflinkConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: WolflinkConfigEntry) -> None:
     """Set up Wolf SmartSet Service from a config entry."""
     wolf_client = WolfClient(
         entry.data[CONF_USERNAME],
@@ -68,12 +68,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: WolflinkConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: WolflinkConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: WolflinkConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: WolflinkConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: WolflinkConfigEntry) -> None:
     """Migrate old entry.
 
     v1.1 → v1.2: convert unique_id from int to string.
@@ -102,7 +102,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: WolflinkConfigEnt
         _migrate_v1_to_v2(hass, entry)
 
 
-def _migrate_v1_to_v2(hass: UniversalAssistant, entry: WolflinkConfigEntry) -> None:
+def _migrate_v1_to_v2(hass: __HAC_KEEP__, entry: WolflinkConfigEntry) -> None:
     """Migrate a v1 device-oriented entry to v2.2 hub.
 
     Multiple v1 entries for the same account are merged into a single hub
@@ -149,7 +149,7 @@ def _migrate_v1_to_v2(hass: UniversalAssistant, entry: WolflinkConfigEntry) -> N
 
 
 def _reattach_device_to_hub(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hub_entry: WolflinkConfigEntry,
     source_entry: WolflinkConfigEntry,
     device_id: int,

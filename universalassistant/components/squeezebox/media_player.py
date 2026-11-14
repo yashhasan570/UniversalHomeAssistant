@@ -27,7 +27,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.config_entries import SOURCE_INTEGRATION_DISCOVERY
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import (
     device_registry as dr,
@@ -89,7 +89,7 @@ SQUEEZEBOX_MODE = {
 }
 
 
-async def start_server_discovery(hass: UniversalAssistant) -> None:
+async def start_server_discovery(hass: __HAC_KEEP__) -> None:
     """Start a server discovery task."""
 
     def _discovered_server(server: Server) -> None:
@@ -112,7 +112,7 @@ async def start_server_discovery(hass: UniversalAssistant) -> None:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SqueezeboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -410,7 +410,7 @@ class SqueezeBoxMediaPlayerEntity(SqueezeboxEntity, MediaPlayerEntity):
     @override
     def shuffle(self) -> bool:
         """Boolean if shuffle is enabled."""
-        # Squeezebox has a third shuffle mode (album) not recognized by Universal Universal Home Assistant
+        # Squeezebox has a third shuffle mode (album) not recognized by __HA_KEEP__
         return bool(self._player.shuffle == "song")
 
     @property

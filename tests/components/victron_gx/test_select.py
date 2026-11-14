@@ -14,7 +14,7 @@ from universalassistant.components.select import (
 )
 from universalassistant.components.victron_gx.const import DOMAIN
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -22,7 +22,7 @@ from .const import MOCK_INSTALLATION_ID
 
 
 async def test_victron_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -73,7 +73,7 @@ async def test_victron_select(
 
 
 async def test_victron_select_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_victron_select_actions(
 
 
 async def test_select_main_topic_has_translation_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:

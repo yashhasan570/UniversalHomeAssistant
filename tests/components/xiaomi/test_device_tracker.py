@@ -11,7 +11,7 @@ from universalassistant.components.device_tracker import DOMAIN as DEVICE_TRACKE
 from universalassistant.components.xiaomi import device_tracker as xiaomi
 from universalassistant.components.xiaomi.device_tracker import get_scanner
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PLATFORM, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -157,7 +157,7 @@ def mocked_requests(*args, **kwargs):
     "universalassistant.components.xiaomi.device_tracker.XiaomiDeviceScanner",
     return_value=MagicMock(),
 )
-async def test_config(xiaomi_mock, hass: UniversalAssistant) -> None:
+async def test_config(xiaomi_mock, hass: __HAC_KEEP__) -> None:
     """Testing minimal configuration."""
     config = {
         DEVICE_TRACKER_DOMAIN: xiaomi.PLATFORM_SCHEMA(
@@ -182,7 +182,7 @@ async def test_config(xiaomi_mock, hass: UniversalAssistant) -> None:
     "universalassistant.components.xiaomi.device_tracker.XiaomiDeviceScanner",
     return_value=MagicMock(),
 )
-async def test_config_full(xiaomi_mock, hass: UniversalAssistant) -> None:
+async def test_config_full(xiaomi_mock, hass: __HAC_KEEP__) -> None:
     """Testing full configuration."""
     config = {
         DEVICE_TRACKER_DOMAIN: xiaomi.PLATFORM_SCHEMA(
@@ -206,7 +206,7 @@ async def test_config_full(xiaomi_mock, hass: UniversalAssistant) -> None:
 
 @patch("requests.get", side_effect=mocked_requests)
 @patch("requests.post", side_effect=mocked_requests)
-async def test_invalid_credential(mock_get, mock_post, hass: UniversalAssistant) -> None:
+async def test_invalid_credential(mock_get, mock_post, hass: __HAC_KEEP__) -> None:
     """Testing invalid credential handling."""
     config = {
         DEVICE_TRACKER_DOMAIN: xiaomi.PLATFORM_SCHEMA(
@@ -223,7 +223,7 @@ async def test_invalid_credential(mock_get, mock_post, hass: UniversalAssistant)
 
 @patch("requests.get", side_effect=mocked_requests)
 @patch("requests.post", side_effect=mocked_requests)
-async def test_valid_credential(mock_get, mock_post, hass: UniversalAssistant) -> None:
+async def test_valid_credential(mock_get, mock_post, hass: __HAC_KEEP__) -> None:
     """Testing valid refresh."""
     config = {
         DEVICE_TRACKER_DOMAIN: xiaomi.PLATFORM_SCHEMA(
@@ -244,7 +244,7 @@ async def test_valid_credential(mock_get, mock_post, hass: UniversalAssistant) -
 
 @patch("requests.get", side_effect=mocked_requests)
 @patch("requests.post", side_effect=mocked_requests)
-async def test_token_timed_out(mock_get, mock_post, hass: UniversalAssistant) -> None:
+async def test_token_timed_out(mock_get, mock_post, hass: __HAC_KEEP__) -> None:
     """Testing refresh with a timed out token.
 
     New token is requested and list is downloaded a second time.
@@ -271,7 +271,7 @@ async def test_token_timed_out(mock_get, mock_post, hass: UniversalAssistant) ->
 async def test_rejected_login_does_not_log_password(
     mock_get: MagicMock,
     mock_post: MagicMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test that a router refusing the login keeps the password out of the log."""
@@ -295,7 +295,7 @@ async def test_rejected_login_does_not_log_password(
 @patch("requests.get", side_effect=mocked_requests)
 @patch("requests.post", side_effect=mocked_requests)
 async def test_error_response_does_not_log_password(
-    mock_get, mock_post, hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    mock_get, mock_post, hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that a non-OK response keeps the password out of the log."""
     config = {

@@ -1,7 +1,7 @@
 """Models for SQLAlchemy.
 
 This file contains the model definitions for schema version 22,
-used by Universal Universal Home Assistant Core 2021.10.0, which adds a table for
+used by __HA_KEEP__ Core 2021.10.0, which adds a table for
 5-minute statistics.
 It is used to test the schema migration logic.
 """

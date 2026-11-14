@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 from universalassistant.util.yaml import loader as yaml_loader
@@ -29,7 +29,7 @@ from tests.components.light.common import MockLight
 
 @pytest.fixture(autouse=True)
 def entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_light_entities: list[MockLight],
 ) -> list[MockLight]:
     """Initialize the test light."""
@@ -40,7 +40,7 @@ def entities(
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_config_yaml_alias_anchor(
-    hass: UniversalAssistant, entities: list[MockLight]
+    hass: __HAC_KEEP__, entities: list[MockLight]
 ) -> None:
     """Test the usage of YAML aliases and anchors.
 
@@ -87,7 +87,7 @@ async def test_config_yaml_alias_anchor(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_config_yaml_bool(hass: UniversalAssistant, entities: list[MockLight]) -> None:
+async def test_config_yaml_bool(hass: __HAC_KEEP__, entities: list[MockLight]) -> None:
     """Test parsing of booleans in yaml config."""
     light_1, light_2 = await setup_lights(hass, entities)
 
@@ -115,7 +115,7 @@ async def test_config_yaml_bool(hass: UniversalAssistant, entities: list[MockLig
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_activate_scene(hass: UniversalAssistant, entities: list[MockLight]) -> None:
+async def test_activate_scene(hass: __HAC_KEEP__, entities: list[MockLight]) -> None:
     """Test active scene."""
     light_1, light_2 = await setup_lights(hass, entities)
 
@@ -168,7 +168,7 @@ async def test_activate_scene(hass: UniversalAssistant, entities: list[MockLight
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_restore_state(hass: UniversalAssistant, entities: list[MockLight]) -> None:
+async def test_restore_state(hass: __HAC_KEEP__, entities: list[MockLight]) -> None:
     """Test we restore state integration."""
     mock_restore_cache(hass, (State("scene.test", "2021-01-01T23:59:59+00:00"),))
 
@@ -196,7 +196,7 @@ async def test_restore_state(hass: UniversalAssistant, entities: list[MockLight]
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_restore_state_does_not_restore_unavailable(
-    hass: UniversalAssistant, entities: list[MockLight]
+    hass: __HAC_KEEP__, entities: list[MockLight]
 ) -> None:
     """Test we restore state integration but ignore unavailable."""
     mock_restore_cache(hass, (State("scene.test", STATE_UNAVAILABLE),))
@@ -223,7 +223,7 @@ async def test_restore_state_does_not_restore_unavailable(
     assert hass.states.get("scene.test").state == STATE_UNKNOWN
 
 
-async def activate(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def activate(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Activate a scene."""
     data = {}
 
@@ -233,7 +233,7 @@ async def activate(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) 
     await hass.services.async_call(scene.DOMAIN, SERVICE_TURN_ON, data, blocking=True)
 
 
-async def test_services_registered(hass: UniversalAssistant) -> None:
+async def test_services_registered(hass: __HAC_KEEP__) -> None:
     """Test we register services with empty config."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -243,7 +243,7 @@ async def test_services_registered(hass: UniversalAssistant) -> None:
 
 
 async def setup_lights(
-    hass: UniversalAssistant, entities: list[MockLight]
+    hass: __HAC_KEEP__, entities: list[MockLight]
 ) -> tuple[MockLight, MockLight]:
     """Set up the light component."""
     assert await async_setup_component(
@@ -264,7 +264,7 @@ async def setup_lights(
     return light_1, light_2
 
 
-async def turn_off_lights(hass: UniversalAssistant, entity_ids: list[str]) -> None:
+async def turn_off_lights(hass: __HAC_KEEP__, entity_ids: list[str]) -> None:
     """Turn lights off."""
     await hass.services.async_call(
         "light",
@@ -276,7 +276,7 @@ async def turn_off_lights(hass: UniversalAssistant, entity_ids: list[str]) -> No
 
 
 async def test_invalid_platform(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test invalid platform."""
     await async_setup_component(

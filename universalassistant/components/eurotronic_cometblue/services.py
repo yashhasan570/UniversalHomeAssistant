@@ -10,7 +10,7 @@ import probatio
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.const import ATTR_TEMPERATURE
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -287,7 +287,7 @@ async def set_holiday(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the Eurotronic Comet Blue services."""
 
     service.async_register_platform_entity_service(

@@ -15,7 +15,7 @@ from universalassistant.const import (
     ATTR_FRIENDLY_NAME,
     ATTR_SUPPORTED_FEATURES,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ async def setup_universalassistant():
     """Override the fixture in calendar.conftest."""
 
 
-async def test_exclude_attributes(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_exclude_attributes(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test camera registered attributes to be excluded."""
     now = dt_util.utcnow()
     await async_setup_component(hass, "universalassistant", {})

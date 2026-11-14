@@ -20,7 +20,7 @@ from cookidoo_api.types import CookidooCalendarDay
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -49,7 +49,7 @@ class CookidooDataUpdateCoordinator(DataUpdateCoordinator[CookidooData]):
     user: CookidooUserInfo
 
     def __init__(
-        self, hass: UniversalAssistant, cookidoo: Cookidoo, entry: CookidooConfigEntry
+        self, hass: __HAC_KEEP__, cookidoo: Cookidoo, entry: CookidooConfigEntry
     ) -> None:
         """Initialize the Cookidoo data coordinator."""
         super().__init__(

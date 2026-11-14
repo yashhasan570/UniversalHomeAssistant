@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.adguard.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -39,7 +39,7 @@ async def test_setup(
     ],
 )
 async def test_setup_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,
     error: Exception,
@@ -55,7 +55,7 @@ async def test_setup_failed(
 
 
 async def test_setup_authentication_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_setup_authentication_failed(
 
 
 async def test_device_identifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -95,7 +95,7 @@ async def test_device_identifiers(
 
 
 async def test_device_identifiers_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -117,7 +117,7 @@ async def test_device_identifiers_migration(
 
 
 async def test_device_identifiers_migration_when_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -143,7 +143,7 @@ async def test_device_identifiers_migration_when_unavailable(
 
 
 async def test_device_identifiers_migration_with_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -190,7 +190,7 @@ async def test_device_identifiers_migration_with_duplicate(
     ],
 )
 async def test_unique_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -231,7 +231,7 @@ async def test_unique_id_migration(
 
 
 async def test_unique_id_migration_already_in_use(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,

@@ -7,7 +7,7 @@ from typing import Any, Protocol, runtime_checkable
 from aiohttp import ClientError
 from nice_go import ApiError, AuthFailedError
 
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
 from .const import DOMAIN
@@ -37,7 +37,7 @@ def retry[_R, **P](
             try:
                 return await func(*args, **kwargs)
             except (ApiError, ClientError) as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key=translation_key,
                     translation_placeholders={"exception": str(err)},
@@ -48,14 +48,14 @@ def retry[_R, **P](
                     await instance.coordinator.update_refresh_token()
                     return await func(*args, **kwargs)
                 except (ApiError, ClientError, UpdateFailed) as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key=translation_key,
                         translation_placeholders={"exception": str(err)},
                     ) from err
                 except (AuthFailedError, ConfigEntryAuthFailed) as err:
                     instance.coordinator.config_entry.async_start_reauth(instance.hass)
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key=translation_key,
                         translation_placeholders={"exception": str(err)},

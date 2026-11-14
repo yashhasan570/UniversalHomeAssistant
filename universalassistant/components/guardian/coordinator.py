@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, cast, override
 from aioguardian import Client
 from aioguardian.errors import GuardianError
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -29,7 +29,7 @@ class GuardianDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         *,
         entry: GuardianConfigEntry,
         client: Client,

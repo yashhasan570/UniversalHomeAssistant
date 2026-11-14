@@ -9,7 +9,7 @@ from aiohttp.web_response import StreamResponse
 
 from universalassistant.components import http
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import template
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util import dt as dt_util
@@ -36,26 +36,26 @@ FLASH_BRIEFINGS_API_ENDPOINT = "/api/alexa/flash_briefings/{briefing_id}"
 
 
 @callback
-def async_setup(hass: UniversalAssistant, flash_briefing_config: ConfigType) -> None:
+def async_setup(hass: __HAC_KEEP__, flash_briefing_config: ConfigType) -> None:
     """Activate Alexa component."""
     hass.http.register_view(AlexaFlashBriefingView(hass, flash_briefing_config))
 
 
-class AlexaFlashBriefingView(http.UniversalAssistantView):
+class AlexaFlashBriefingView(http.__HAC_KEEP__View):
     """Handle Alexa Flash Briefing skill requests."""
 
     url = FLASH_BRIEFINGS_API_ENDPOINT
     requires_auth = False
     name = "api:alexa:flash_briefings"
 
-    def __init__(self, hass: UniversalAssistant, flash_briefings: ConfigType) -> None:
+    def __init__(self, hass: __HAC_KEEP__, flash_briefings: ConfigType) -> None:
         """Initialize Alexa view."""
         super().__init__()
         self.flash_briefings = flash_briefings
 
     @callback
     def get(
-        self, request: http.UniversalAssistantRequest, briefing_id: str
+        self, request: http.__HAC_KEEP__Request, briefing_id: str
     ) -> StreamResponse | tuple[bytes, HTTPStatus]:
         """Handle Alexa Flash Briefing request."""
         _LOGGER.debug("Received Alexa flash briefing request for: %s", briefing_id)

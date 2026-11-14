@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.madvr.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import MOCK_CONFIG, MOCK_MAC, MOCK_MAC_NEW
@@ -23,7 +23,7 @@ async def avoid_wait() -> AsyncGenerator[None]:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_madvr_client: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_madvr_client: AsyncMock) -> None:
     """Test full config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -49,7 +49,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_madvr_client: AsyncMock)
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_flow_errors(hass: UniversalAssistant, mock_madvr_client: AsyncMock) -> None:
+async def test_flow_errors(hass: __HAC_KEEP__, mock_madvr_client: AsyncMock) -> None:
     """Test error handling in config flow."""
     mock_madvr_client.open_connection.side_effect = TimeoutError
 
@@ -104,7 +104,7 @@ async def test_flow_errors(hass: UniversalAssistant, mock_madvr_client: AsyncMoc
 
 
 async def test_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_madvr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_duplicate(
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_madvr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
@@ -164,7 +164,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_new_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_madvr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_reconfigure_new_device(
 
 
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_madvr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,

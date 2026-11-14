@@ -19,7 +19,7 @@ from universalassistant.const import (
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -27,7 +27,7 @@ from . import init_integration, mock_device, mock_location, mock_reading
 
 
 async def test_sensors_pro(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     canary,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -94,7 +94,7 @@ async def test_sensors_pro(
     assert device.model == "Canary Pro"
 
 
-async def test_sensors_attributes_pro(hass: UniversalAssistant, canary) -> None:
+async def test_sensors_attributes_pro(hass: __HAC_KEEP__, canary) -> None:
     """Test the creation and values of the sensors attributes for Canary Pro."""
 
     online_device_at_home = mock_device(20, "Dining Room", True, "Canary Pro")
@@ -151,7 +151,7 @@ async def test_sensors_attributes_pro(hass: UniversalAssistant, canary) -> None:
 
 
 async def test_sensors_flex(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     canary,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

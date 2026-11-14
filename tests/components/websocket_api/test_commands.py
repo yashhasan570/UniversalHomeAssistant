@@ -56,8 +56,8 @@ from universalassistant.const import (
     SIGNAL_BOOTSTRAP_INTEGRATIONS,
     EntityCategory,
 )
-from universalassistant.core import Context, UniversalAssistant, State, SupportsResponse, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import Context, __HAC_KEEP__, State, SupportsResponse, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -88,7 +88,7 @@ STATE_KEY_LONG_NAMES = {v: k for k, v in STATE_KEY_SHORT_NAMES.items()}
 
 
 @pytest.fixture
-def fake_integration(hass: UniversalAssistant):
+def fake_integration(hass: __HAC_KEEP__):
     """Set up a mock integration with device automation support."""
     DOMAIN = "fake_integration"
 
@@ -108,7 +108,7 @@ def fake_integration(hass: UniversalAssistant):
 
 @pytest.fixture
 async def target_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
@@ -371,7 +371,7 @@ def _assert_extract_from_target_command_result(
 
 
 async def test_fire_event(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test fire event command."""
     runs = []
@@ -400,7 +400,7 @@ async def test_fire_event(
 
 
 async def test_fire_event_without_data(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test fire event command."""
     runs = []
@@ -428,7 +428,7 @@ async def test_fire_event_without_data(
 
 
 async def test_call_service(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test call service command."""
     calls = async_mock_service(hass, "domain_test", "test_service")
@@ -455,7 +455,7 @@ async def test_call_service(
     assert call.context.as_dict() == msg["result"]["context"]
 
 
-async def test_return_response_error(hass: UniversalAssistant, websocket_client) -> None:
+async def test_return_response_error(hass: __HAC_KEEP__, websocket_client) -> None:
     """Test return_response=True errors when service has no response."""
     hass.services.async_register(
         "domain_test", "test_service_with_no_response", lambda x: None
@@ -478,7 +478,7 @@ async def test_return_response_error(hass: UniversalAssistant, websocket_client)
 
 @pytest.mark.parametrize("command", ["call_service", "call_service_action"])
 async def test_call_service_blocking(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket, command
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket, command
 ) -> None:
     """Test call service commands block, except for universalassistant restart / stop."""
     async_mock_service(
@@ -600,7 +600,7 @@ async def test_call_service_blocking(
 
 
 async def test_call_service_target(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test call service command with target."""
     calls = async_mock_service(hass, "domain_test", "test_service")
@@ -636,7 +636,7 @@ async def test_call_service_target(
 
 
 async def test_call_service_target_template(
-    hass: UniversalAssistant, websocket_client
+    hass: __HAC_KEEP__, websocket_client
 ) -> None:
     """Test call service command with target does not allow template."""
     await websocket_client.send_json_auto_id(
@@ -658,7 +658,7 @@ async def test_call_service_target_template(
 
 
 async def test_call_service_not_found(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test call service command."""
     await websocket_client.send_json_auto_id(
@@ -684,7 +684,7 @@ async def test_call_service_not_found(
 
 
 async def test_call_service_child_not_found(
-    hass: UniversalAssistant, websocket_client
+    hass: __HAC_KEEP__, websocket_client
 ) -> None:
     """Test not reporting not found errors if it's not the called service."""
 
@@ -721,7 +721,7 @@ async def test_call_service_child_not_found(
 
 
 async def test_call_service_schema_validation_error(
-    hass: UniversalAssistant, websocket_client
+    hass: __HAC_KEEP__, websocket_client
 ) -> None:
     """Test call service command with invalid service data."""
 
@@ -787,7 +787,7 @@ async def test_call_service_schema_validation_error(
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
 async def test_call_service_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     websocket_client: MockHAClientWebSocket,
 ) -> None:
@@ -796,7 +796,7 @@ async def test_call_service_error(
 
     @callback
     def ha_error_call(_):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             "error_message",
             translation_domain="test",
             translation_key="custom_error",
@@ -874,7 +874,7 @@ async def test_call_service_error(
 
 
 async def test_subscribe_unsubscribe_events(
-    hass: UniversalAssistant, websocket_client
+    hass: __HAC_KEEP__, websocket_client
 ) -> None:
     """Test subscribe/unsubscribe events command."""
     init_count = sum(hass.bus.async_listeners().values())
@@ -919,7 +919,7 @@ async def test_subscribe_unsubscribe_events(
 
 
 async def test_get_states(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test get_states command."""
     hass.states.async_set("greeting.hello", "world")
@@ -937,7 +937,7 @@ async def test_get_states(
 
 
 async def test_get_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -1040,7 +1040,7 @@ async def test_get_services(
 async def test_subscribe_conditions(
     mock_has_conditions: Mock,
     mock_load_yaml: Mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
 ) -> None:
     """Test condition_platforms/subscribe command."""
@@ -1125,7 +1125,7 @@ async def test_subscribe_conditions(
 async def test_subscribe_triggers(
     mock_has_triggers: Mock,
     mock_load_yaml: Mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
 ) -> None:
     """Test trigger_platforms/subscribe command."""
@@ -1209,7 +1209,7 @@ async def test_subscribe_triggers(
     ("local_only_user", "forbidden_keys"), [(False, []), (True, [CONF_EXTERNAL_URL])]
 )
 async def test_get_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
     local_only_user: bool,
@@ -1264,7 +1264,7 @@ async def test_slugify(websocket_client: MockHAClientWebSocket) -> None:
 
 
 async def test_call_service_context_with_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     hass_access_token: str,
 ) -> None:
@@ -1321,7 +1321,7 @@ async def test_subscribe_requires_admin(
 
 
 async def test_states_filters_visible(
-    hass: UniversalAssistant, hass_admin_user: MockUser, websocket_client
+    hass: __HAC_KEEP__, hass_admin_user: MockUser, websocket_client
 ) -> None:
     """Test we only get entities that we're allowed to see."""
     hass_admin_user.groups = []
@@ -1339,7 +1339,7 @@ async def test_states_filters_visible(
 
 
 async def test_get_states_not_allows_nan(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test get_states command converts NaN to None."""
     hass.states.async_set("greeting.hello", "world")
@@ -1362,7 +1362,7 @@ async def test_get_states_not_allows_nan(
 
 
 async def test_subscribe_unsubscribe_events_whitelist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1400,7 +1400,7 @@ async def test_subscribe_unsubscribe_events_whitelist(
 
 
 async def test_subscribe_unsubscribe_events_state_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1428,7 +1428,7 @@ async def test_subscribe_unsubscribe_events_state_changed(
 
 
 async def test_subscribe_entities_with_unserializable_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1547,7 +1547,7 @@ async def test_subscribe_entities_with_unserializable_state(
 
 
 async def test_subscribe_unsubscribe_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1717,7 +1717,7 @@ async def test_subscribe_unsubscribe_entities(
 
 @pytest.mark.parametrize("unserializable_states", [[], ["light.cannot_serialize"]])
 async def test_subscribe_unsubscribe_entities_specific_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
     unserializable_states: list[str],
@@ -1803,7 +1803,7 @@ async def test_subscribe_unsubscribe_entities_specific_entities(
 
 @pytest.mark.parametrize("unserializable_states", [[], ["light.cannot_serialize"]])
 async def test_subscribe_unsubscribe_entities_with_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
     unserializable_states: list[str],
@@ -1866,7 +1866,7 @@ async def test_subscribe_unsubscribe_entities_with_filter(
 
 
 async def test_render_template_renders_template(
-    hass: UniversalAssistant, websocket_client
+    hass: __HAC_KEEP__, websocket_client
 ) -> None:
     """Test simple template is rendered and updated."""
     hass.states.async_set("light.test", "on")
@@ -1914,7 +1914,7 @@ async def test_render_template_renders_template(
 
 
 async def test_render_template_with_timeout_and_variables(
-    hass: UniversalAssistant, websocket_client
+    hass: __HAC_KEEP__, websocket_client
 ) -> None:
     """Test a template with a timeout and variables renders without error."""
     await websocket_client.send_json_auto_id(
@@ -1947,7 +1947,7 @@ async def test_render_template_with_timeout_and_variables(
 
 
 async def test_render_template_manual_entity_ids_no_longer_needed(
-    hass: UniversalAssistant, websocket_client
+    hass: __HAC_KEEP__, websocket_client
 ) -> None:
     """Test that updates to specified entity ids cause a template rerender."""
     hass.states.async_set("light.test", "on")
@@ -2066,7 +2066,7 @@ EVENT_UNDEFINED_FILTER = {
     ],
 )
 async def test_render_template_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
     template: str,
@@ -2137,7 +2137,7 @@ async def test_render_template_with_error(
     ],
 )
 async def test_render_template_with_timeout_and_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
     template: str,
@@ -2202,7 +2202,7 @@ async def test_render_template_with_timeout_and_error(
     ],
 )
 async def test_render_template_strict_with_timeout_and_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client,
     caplog: pytest.LogCaptureFixture,
     template: str,
@@ -2263,7 +2263,7 @@ async def test_render_template_strict_with_timeout_and_error(
     ],
 )
 async def test_render_template_strict_with_timeout_and_error_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client,
     caplog: pytest.LogCaptureFixture,
     template: str,
@@ -2351,7 +2351,7 @@ async def test_render_template_strict_with_timeout_and_error_2(
     ],
 )
 async def test_render_template_error_in_template_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
     template: str,
@@ -2415,7 +2415,7 @@ async def test_render_template_error_in_template_code(
     ],
 )
 async def test_render_template_error_in_template_code_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client,
     caplog: pytest.LogCaptureFixture,
     template: str,
@@ -2446,7 +2446,7 @@ async def test_render_template_error_in_template_code_2(
 
 
 async def test_render_template_with_delayed_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2518,7 +2518,7 @@ async def test_render_template_with_delayed_error(
 
 
 async def test_render_template_with_delayed_error_2(
-    hass: UniversalAssistant, websocket_client, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, websocket_client, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a template with an error that only happens after a state change.
 
@@ -2570,7 +2570,7 @@ async def test_render_template_with_delayed_error_2(
 
 
 async def test_render_template_with_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2601,7 +2601,7 @@ async def test_render_template_with_timeout(
 
 
 async def test_render_template_returns_with_match_all(
-    hass: UniversalAssistant, websocket_client
+    hass: __HAC_KEEP__, websocket_client
 ) -> None:
     """Test that a template that would match with all entities still return success."""
     await websocket_client.send_json_auto_id(
@@ -2614,7 +2614,7 @@ async def test_render_template_returns_with_match_all(
 
 
 async def test_manifest_list(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test loading manifests."""
     http = await async_get_integration(hass, "http")
@@ -2639,7 +2639,7 @@ async def test_manifest_list(
     ],
 )
 async def test_manifest_list_specific_integrations(
-    hass: UniversalAssistant, websocket_client, integrations: list[str]
+    hass: __HAC_KEEP__, websocket_client, integrations: list[str]
 ) -> None:
     """Test loading manifests for specific integrations."""
     websocket_api = await async_get_integration(hass, "websocket_api")
@@ -2659,7 +2659,7 @@ async def test_manifest_list_specific_integrations(
 
 
 async def test_manifest_get(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test getting a manifest."""
     hue = await async_get_integration(hass, "hue")
@@ -2685,7 +2685,7 @@ async def test_manifest_get(
 
 
 async def test_entity_source_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -2725,7 +2725,7 @@ async def test_entity_source_admin(
 
 
 async def test_subscribe_trigger(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test subscribing to a trigger."""
     init_count = sum(hass.bus.async_listeners().values())
@@ -2806,7 +2806,7 @@ async def test_subscribe_trigger(
                 "message": "Invalid trigger 'nonexistent' specified at 'trigger[1]'",
             },
         ),
-        # Unknown device, raised as a UniversalAssistantError by the platform validator
+        # Unknown device, raised as a __HAC_KEEP__Error by the platform validator
         (
             {"platform": "device", "domain": "light", "device_id": "nonexistent"},
             {
@@ -2832,7 +2832,7 @@ async def test_subscribe_trigger(
     ],
 )
 async def test_subscribe_trigger_config_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
     trigger: dict | list[dict],
@@ -2855,7 +2855,7 @@ async def test_subscribe_trigger_config_error(
 
 
 async def test_subscribe_trigger_template_error_spams_log(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2900,7 +2900,7 @@ async def test_subscribe_trigger_template_error_spams_log(
 
 
 async def test_test_condition(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test testing a condition."""
     await websocket_client.send_json_auto_id(
@@ -2976,7 +2976,7 @@ async def test_test_condition(
 
 
 async def test_test_condition_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -3010,7 +3010,7 @@ async def test_test_condition_requires_admin(
     ],
 )
 async def test_test_condition_template_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
     value_template: str,
@@ -3105,7 +3105,7 @@ async def test_test_condition_template_error(
     ],
 )
 async def test_test_condition_config_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
     condition: dict,
@@ -3128,7 +3128,7 @@ async def test_test_condition_config_error(
 
 
 async def test_test_condition_check_error_not_logged(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -3164,7 +3164,7 @@ async def test_test_condition_check_error_not_logged(
 
 @pytest.mark.usefixtures("freezer")
 async def test_subscribe_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
 ) -> None:
     """Test subscribing to a condition."""
@@ -3211,7 +3211,7 @@ async def test_subscribe_condition(
 
 
 async def test_subscribe_condition_untracked_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -3280,7 +3280,7 @@ async def test_subscribe_condition_untracked_entity(
     ],
 )
 async def test_subscribe_condition_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     condition: dict[str, Any],
     needs_polling: bool,
@@ -3303,7 +3303,7 @@ async def test_subscribe_condition_polling(
 
 
 async def test_unsubscribe_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
@@ -3355,7 +3355,7 @@ async def test_unsubscribe_condition(
 
 
 async def test_subscribe_condition_non_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -3413,7 +3413,7 @@ async def test_subscribe_condition_non_admin(
     ],
 )
 async def test_subscribe_condition_template_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -3486,7 +3486,7 @@ async def test_subscribe_condition_template_error(
     ],
 )
 async def test_subscribe_condition_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     condition: dict,
     expected_error: dict,
@@ -3572,7 +3572,7 @@ async def test_subscribe_condition_error(
     ],
 )
 async def test_subscribe_condition_config_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
     condition: dict,
@@ -3595,7 +3595,7 @@ async def test_subscribe_condition_config_error(
 
 
 async def test_execute_script(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test testing a condition."""
     calls = async_mock_service(
@@ -3658,7 +3658,7 @@ async def test_execute_script(
     ("raise_exception", "err_code"),
     [
         (
-            UniversalAssistantError(
+            __HAC_KEEP__Error(
                 "Some error",
                 translation_domain="test",
                 translation_key="test_error",
@@ -3679,9 +3679,9 @@ async def test_execute_script(
 )
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
 async def test_execute_script_err_localization(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
-    raise_exception: UniversalAssistantError,
+    raise_exception: __HAC_KEEP__Error,
     err_code: str,
 ) -> None:
     """Test testing a condition."""
@@ -3713,7 +3713,7 @@ async def test_execute_script_err_localization(
 
 
 async def test_execute_script_complex_response(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test testing a condition."""
     await async_setup_component(hass, "universalassistant", {})
@@ -3755,7 +3755,7 @@ async def test_execute_script_complex_response(
 
 
 async def test_execute_script_with_dynamically_validated_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     fake_integration,
@@ -3853,7 +3853,7 @@ async def test_execute_script_config_error(
 
 
 async def test_subscribe_unsubscribe_bootstrap_integrations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -3877,7 +3877,7 @@ async def test_subscribe_unsubscribe_bootstrap_integrations(
 
 
 async def test_subscribe_system_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
 ) -> None:
     """Test subscribing to the system state."""
@@ -3915,7 +3915,7 @@ async def test_subscribe_system_state(
 
 
 async def test_dismiss_system_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
 ) -> None:
     """Test dismissing the pending restart reaches every subscriber."""
@@ -3957,7 +3957,7 @@ async def test_system_state_requires_admin(
 
 
 async def test_integration_setup_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -4093,7 +4093,7 @@ async def test_validate_config_works(
             },
             'Invalid condition "non_existing" specified',
         ),
-        # Raises UniversalAssistantError
+        # Raises __HAC_KEEP__Error
         (
             "conditions",
             {
@@ -4130,7 +4130,7 @@ async def test_validate_config_invalid(
 
 
 async def test_message_coalescing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -4204,7 +4204,7 @@ async def test_message_coalescing(
 
 
 async def test_message_coalescing_not_supported_by_websocket_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -4248,7 +4248,7 @@ async def test_message_coalescing_not_supported_by_websocket_client(
 
 
 async def test_client_message_coalescing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -4323,7 +4323,7 @@ async def test_client_message_coalescing(
 
 
 async def test_integration_descriptions(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can get integration descriptions."""
     assert await async_setup_component(hass, "config", {})
@@ -4337,7 +4337,7 @@ async def test_integration_descriptions(
 
 
 async def test_subscribe_entities_chained_state_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
 ) -> None:
@@ -4395,7 +4395,7 @@ async def test_subscribe_entities_chained_state_change(
     ],
 )
 async def test_wait_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     domain: str,
     result: dict[str, Any],
@@ -4415,7 +4415,7 @@ async def test_wait_integration(
 
 
 async def test_wait_integration_startup(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can get wait for an integration to load during startup."""
     ws_client = await hass_ws_client(hass)
@@ -4423,7 +4423,7 @@ async def test_wait_integration_startup(
     setup_stall = asyncio.Event()
     setup_started = asyncio.Event()
 
-    async def mock_setup(hass: UniversalAssistant, _) -> bool:
+    async def mock_setup(hass: __HAC_KEEP__, _) -> bool:
         setup_started.set()
         await setup_stall.wait()
         return True
@@ -4469,7 +4469,7 @@ async def test_wait_integration_startup(
 
 
 async def test_extract_from_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -4627,7 +4627,7 @@ async def test_extract_from_target(
 
 
 async def test_extract_from_target_expand_group(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test extract_from_target command with expand_group parameter."""
     await async_setup_component(
@@ -4672,7 +4672,7 @@ async def test_extract_from_target_expand_group(
 
 
 async def test_extract_from_target_primary_entities_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -4754,7 +4754,7 @@ async def test_extract_from_target_primary_entities_only(
 
 
 async def test_extract_from_target_missing_entities(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test extract_from_target command with missing device IDs, area IDs, etc."""
     await websocket_client.send_json_auto_id(
@@ -4781,7 +4781,7 @@ async def test_extract_from_target_missing_entities(
 
 
 async def test_extract_from_target_empty_target(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test extract_from_target command with empty target."""
     await websocket_client.send_json_auto_id(
@@ -4796,7 +4796,7 @@ async def test_extract_from_target_empty_target(
 
 
 async def test_extract_from_target_validation_error(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test extract_from_target command with invalid target data."""
     await websocket_client.send_json_auto_id(
@@ -4812,7 +4812,7 @@ async def test_extract_from_target_validation_error(
 
 
 async def test_explain_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
@@ -4874,7 +4874,7 @@ async def test_explain_target(
 
 
 async def test_explain_target_all_entities(
-    hass: UniversalAssistant, websocket_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, websocket_client: MockHAClientWebSocket
 ) -> None:
     """Test explain_target command when all entities are targeted."""
     hass.states.async_set("light.kitchen", "on")
@@ -4911,7 +4911,7 @@ async def test_explain_target_all_entities(
 
 
 async def test_explain_target_filters_unreadable_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     hass_admin_user: MockUser,
     area_registry: ar.AreaRegistry,
@@ -4985,14 +4985,14 @@ async def test_explain_target_filters_unreadable_entities(
 @pytest.mark.parametrize("automation_component", ["trigger", "condition"])
 async def test_get_triggers_conditions_for_target(
     mock_load_yaml: Mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     automation_component: str,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test get triggers/conditions for target with mixed types."""
 
-    async def async_get_triggers_conditions(hass: UniversalAssistant) -> dict[str, type]:
+    async def async_get_triggers_conditions(hass: __HAC_KEEP__) -> dict[str, type]:
         return {
             "turned_on": Mock,
             "non_target": Mock,
@@ -5321,7 +5321,7 @@ async def test_get_triggers_conditions_for_target(
 async def test_get_services_for_target(
     mock_has_services: Mock,
     mock_load_yaml: Mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -5619,7 +5619,7 @@ async def test_get_services_for_target(
 async def test_get_services_for_target_caching(
     mock_has_services: Mock,
     mock_load_yaml: Mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
 ) -> None:
     """Test that flattened service descriptions are cached and reused."""
@@ -5693,7 +5693,7 @@ async def test_get_services_for_target_caching(
 
 
 async def test_get_automation_component_lookup_table_cache(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that _get_automation_component_lookup_table caches and rotates properly."""
     triggers: dict[str, dict[str, Any] | None] = {
@@ -5780,7 +5780,7 @@ async def test_get_automation_component_lookup_table_cache(
     [(Exception("error"), False), (None, True)],
 )
 async def test_execute_script_unloads_script(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     websocket_client: MockHAClientWebSocket,
     side_effect: Exception | None,
     expect_success: bool,

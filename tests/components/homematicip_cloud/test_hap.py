@@ -28,13 +28,13 @@ from universalassistant.components.homematicip_cloud.hap import (
     HomematicipHAP,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .helper import HAPID, HAPPIN, HomeFactory
 
 
-async def test_auth_setup(hass: UniversalAssistant) -> None:
+async def test_auth_setup(hass: __HAC_KEEP__) -> None:
     """Test auth setup for client registration."""
     config = {HMIPC_HAPID: "ABC123", HMIPC_PIN: "123", HMIPC_NAME: "hmip"}
     hmip_auth = HomematicipAuth(hass, config)
@@ -42,7 +42,7 @@ async def test_auth_setup(hass: UniversalAssistant) -> None:
         assert await hmip_auth.async_setup()
 
 
-async def test_auth_setup_connection_error(hass: UniversalAssistant) -> None:
+async def test_auth_setup_connection_error(hass: __HAC_KEEP__) -> None:
     """Test auth setup connection error behaviour."""
     config = {HMIPC_HAPID: "ABC123", HMIPC_PIN: "123", HMIPC_NAME: "hmip"}
     hmip_auth = HomematicipAuth(hass, config)
@@ -50,7 +50,7 @@ async def test_auth_setup_connection_error(hass: UniversalAssistant) -> None:
         assert not await hmip_auth.async_setup()
 
 
-async def test_auth_auth_check_and_register(hass: UniversalAssistant) -> None:
+async def test_auth_auth_check_and_register(hass: __HAC_KEEP__) -> None:
     """Test auth client registration."""
     config = {HMIPC_HAPID: "ABC123", HMIPC_PIN: "123", HMIPC_NAME: "hmip"}
 
@@ -68,7 +68,7 @@ async def test_auth_auth_check_and_register(hass: UniversalAssistant) -> None:
         assert await hmip_auth.async_register() == "ABC"
 
 
-async def test_auth_auth_check_and_register_with_exception(hass: UniversalAssistant) -> None:
+async def test_auth_auth_check_and_register_with_exception(hass: __HAC_KEEP__) -> None:
     """Test auth client registration."""
     config = {HMIPC_HAPID: "ABC123", HMIPC_PIN: "123", HMIPC_NAME: "hmip"}
     hmip_auth = HomematicipAuth(hass, config)
@@ -85,7 +85,7 @@ async def test_auth_auth_check_and_register_with_exception(hass: UniversalAssist
         assert await hmip_auth.async_register() is False
 
 
-async def test_hap_setup_works(hass: UniversalAssistant) -> None:
+async def test_hap_setup_works(hass: __HAC_KEEP__) -> None:
     """Test a successful setup of a accesspoint."""
     # This test should not be accessing the integration internals
     entry = MockConfigEntry(
@@ -125,7 +125,7 @@ async def test_hap_setup_connection_error() -> None:
 
 
 async def test_hap_reset_unloads_entry_if_setup(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test calling reset while the entry has been setup."""
     mock_hap = await default_mock_hap_factory.async_get_mock_hap()
@@ -140,7 +140,7 @@ async def test_hap_reset_unloads_entry_if_setup(
 
 @pytest.mark.usefixtures("simple_mock_home")
 async def test_hap_create(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry
 ) -> None:
     """Mock AsyncHome to execute get_hap."""
     hass.config.components.add(DOMAIN)
@@ -160,7 +160,7 @@ async def test_hap_create(
 
 
 async def test_hap_create_exception(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry, mock_connection_init
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry, mock_connection_init
 ) -> None:
     """Mock AsyncHome to execute get_hap."""
     hass.config.components.add(DOMAIN)
@@ -273,7 +273,7 @@ async def test_hap_setup_retries_a_cloud_throttle_without_cooldown() -> None:
 
 
 async def test_hap_setup_auth_error_starts_reauth(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry, mock_connection_init
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry, mock_connection_init
 ) -> None:
     """A token the cloud rejects at setup starts a reauthentication."""
     hmip_config_entry.add_to_hass(hass)
@@ -297,7 +297,7 @@ async def test_hap_setup_auth_error_starts_reauth(
     assert flows[0]["context"]["source"] == "reauth"
 
 
-async def test_auth_create(hass: UniversalAssistant, simple_mock_auth) -> None:
+async def test_auth_create(hass: __HAC_KEEP__, simple_mock_auth) -> None:
     """Mock AsyncAuth to execute get_auth."""
     config = {HMIPC_HAPID: HAPID, HMIPC_PIN: HAPPIN, HMIPC_NAME: "hmip"}
     hmip_auth = HomematicipAuth(hass, config)
@@ -319,7 +319,7 @@ async def test_auth_create(hass: UniversalAssistant, simple_mock_auth) -> None:
         assert hmip_auth.auth.pin == HAPPIN
 
 
-async def test_auth_create_exception(hass: UniversalAssistant, simple_mock_auth) -> None:
+async def test_auth_create_exception(hass: __HAC_KEEP__, simple_mock_auth) -> None:
     """Mock AsyncAuth to execute get_auth."""
     config = {HMIPC_HAPID: HAPID, HMIPC_PIN: HAPPIN, HMIPC_NAME: "hmip"}
     hmip_auth = HomematicipAuth(hass, config)
@@ -351,7 +351,7 @@ async def test_auth_create_exception(hass: UniversalAssistant, simple_mock_auth)
 
 
 async def test_auth_create_rejected(
-    hass: UniversalAssistant, simple_mock_auth: AsyncMock
+    hass: __HAC_KEEP__, simple_mock_auth: AsyncMock
 ) -> None:
     """Test a connection request the cloud rejects does not yield an auth."""
     config = {HMIPC_HAPID: HAPID, HMIPC_PIN: HAPPIN, HMIPC_NAME: "hmip"}
@@ -374,7 +374,7 @@ async def test_auth_create_rejected(
 
 
 async def test_get_state_after_disconnect(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry, simple_mock_home
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry, simple_mock_home
 ) -> None:
     """ws_connected after a disconnect triggers a state refresh via the library."""
     hass.config.components.add(DOMAIN)
@@ -400,7 +400,7 @@ async def test_get_state_after_disconnect(
 
 
 async def test_get_state_after_ap_reconnect(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry, simple_mock_home
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry, simple_mock_home
 ) -> None:
     """Test state recovery after access point reconnects to cloud.
 
@@ -472,7 +472,7 @@ async def test_try_get_state_handle_exception() -> None:
 
 
 async def test_async_connect(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry, simple_mock_home
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry, simple_mock_home
 ) -> None:
     """Test async_connect."""
     hass.config.components.add(DOMAIN)
@@ -490,7 +490,7 @@ async def test_async_connect(
 
 
 async def test_try_get_state_auth_error_triggers_reauth(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry, simple_mock_home
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry, simple_mock_home
 ) -> None:
     """An auth error from the library triggers a reauth flow without post-processing."""
     hass.config.components.add(DOMAIN)
@@ -526,7 +526,7 @@ def _set_diagnostic_defaults(home: MagicMock) -> None:
 
 
 async def test_start_get_state_task_cancels_existing_task(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry
 ) -> None:
     """Starting a reconnect refresh cancels any in-flight refresh."""
     hass.config.components.add(DOMAIN)
@@ -546,7 +546,7 @@ async def test_start_get_state_task_cancels_existing_task(
 
 
 async def test_start_get_state_task_skips_cancel_for_completed_task(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry
 ) -> None:
     """Starting a reconnect refresh does not cancel a completed task."""
     hass.config.components.add(DOMAIN)
@@ -564,7 +564,7 @@ async def test_start_get_state_task_skips_cancel_for_completed_task(
 
 
 async def test_replaced_get_state_task_cancellation_is_not_logged_as_error(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry
 ) -> None:
     """Replacing an in-flight refresh must not log the cancelled task as error."""
     hass.config.components.add(DOMAIN)

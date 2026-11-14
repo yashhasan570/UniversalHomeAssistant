@@ -19,7 +19,7 @@ def normalize_hue_brightness(brightness: float | None) -> float | None:
 
 
 def hue_brightness_to_ha(brightness: float) -> int:
-    """Convert a Hue brightness (0-100) to a Universal Universal Home Assistant brightness (0-255)."""
+    """Convert a Hue brightness (0-100) to a __HA_KEEP__ brightness (0-255)."""
     return round((brightness / 100) * 255)
 
 

@@ -17,7 +17,7 @@ from universal_assistant_bluetooth import BluetoothServiceInfoBleak
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.json import json_bytes
 
 from .api import _get_manager, async_register_callback
@@ -29,7 +29,7 @@ from .util import InvalidConfigEntryID, InvalidSource, config_entry_id_to_source
 
 @callback
 def _async_get_source_from_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg_id: int,
     config_entry_id: str | None,
@@ -70,7 +70,7 @@ def _async_get_source_from_config_entry(
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the bluetooth websocket API."""
     websocket_api.async_register_command(hass, ws_subscribe_advertisements)
     websocket_api.async_register_command(hass, ws_subscribe_connection_allocations)
@@ -115,7 +115,7 @@ class _AdvertisementSubscription:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         connection: websocket_api.ActiveConnection,
         ws_msg_id: int,
         match_dict: BluetoothCallbackMatcher,
@@ -202,7 +202,7 @@ class _AdvertisementSubscription:
 )
 @websocket_api.async_response
 async def ws_subscribe_advertisements(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe advertisements websocket command."""
     _AdvertisementSubscription(
@@ -219,7 +219,7 @@ async def ws_subscribe_advertisements(
 )
 @websocket_api.async_response
 async def ws_subscribe_connection_allocations(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe advertisements websocket command."""
     ws_msg_id = msg["id"]
@@ -255,7 +255,7 @@ async def ws_subscribe_connection_allocations(
 )
 @websocket_api.async_response
 async def ws_subscribe_scanner_details(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe scanner details websocket command."""
     ws_msg_id = msg["id"]
@@ -302,7 +302,7 @@ async def ws_subscribe_scanner_details(
 )
 @websocket_api.async_response
 async def ws_subscribe_scanner_state(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle subscribe scanner state websocket command."""
     ws_msg_id = msg["id"]

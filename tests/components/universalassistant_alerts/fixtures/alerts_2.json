@@ -80,7 +80,7 @@
         "package": "logi_circle"
       }
     ],
-    "github_issue": "https://github.com/yashhasan570/UniversalUniversalAssistant/issues/71945",
+    "github_issue": "https://github.com/yashhasan570/__HAC_KEEP__/issues/71945",
     "universalassistant": {
       "package": "universalassistant",
       "affected_from_version": "0.92.0"
@@ -113,7 +113,7 @@
         "package": "nest"
       }
     ],
-    "github_issue": "https://github.com/yashhasan570/UniversalUniversalAssistant/issues/67662#issuecomment-1144425848",
+    "github_issue": "https://github.com/yashhasan570/__HAC_KEEP__/issues/67662#issuecomment-1144425848",
     "filename": "nest.markdown",
     "alert_url": "https://alerts.universalassistant.io/#nest.markdown",
     "universalassistant": {

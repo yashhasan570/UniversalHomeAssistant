@@ -19,8 +19,8 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -88,7 +88,7 @@ class EnsureJobAfterCooldown:
         """Execute after a cooldown period."""
         try:
             await self._callback()
-        except UniversalAssistantError as ha_error:
+        except __HAC_KEEP__Error as ha_error:
             _LOGGER.error("%s", ha_error)
 
     @callback
@@ -165,7 +165,7 @@ def platforms_from_config(config: list[ConfigType]) -> set[Platform | str]:
 
 
 async def async_forward_entry_setup_and_setup_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     platforms: set[Platform | str],
     late: bool = False,
@@ -207,7 +207,7 @@ async def async_forward_entry_setup_and_setup_discovery(
     platforms_loaded.update(new_platforms)
 
 
-def mqtt_config_entry_enabled(hass: UniversalAssistant) -> bool | None:
+def mqtt_config_entry_enabled(hass: __HAC_KEEP__) -> bool | None:
     """Return true when the MQTT config entry is enabled."""
     # If the mqtt client is connected, skip the expensive config
     # entry check as its roughly two orders of magnitude faster.
@@ -218,7 +218,7 @@ def mqtt_config_entry_enabled(hass: UniversalAssistant) -> bool | None:
     )
 
 
-async def async_wait_for_mqtt_client(hass: UniversalAssistant) -> bool:
+async def async_wait_for_mqtt_client(hass: __HAC_KEEP__) -> bool:
     """Wait for the MQTT client to become available.
 
     Waits when mqtt set up is in progress,
@@ -390,7 +390,7 @@ def valid_birth_will(config: ConfigType) -> ConfigType:
 
 
 async def async_create_certificate_temp_files(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> None:
     """Create certificate temporary files for the MQTT client."""
 
@@ -473,7 +473,7 @@ def learn_more_url(platform: str) -> str:
 
 @callback
 def _async_device_has_entities(
-    hass: UniversalAssistant, device_id: str, *, include_disabled_entities: bool
+    hass: __HAC_KEEP__, device_id: str, *, include_disabled_entities: bool
 ) -> bool:
     """Return if entities that keep the device remain.
 
@@ -500,7 +500,7 @@ def _async_device_has_entities(
 
 
 async def async_cleanup_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_id: str | None,
     config_entry_id: str | None,
     *,
@@ -541,7 +541,7 @@ async def async_cleanup_device_registry(
 
 
 @callback
-def async_refresh_mqtt_issues(hass: UniversalAssistant) -> ir.IssuesRefresh:
+def async_refresh_mqtt_issues(hass: __HAC_KEEP__) -> ir.IssuesRefresh:
     """Begin a refresh of the issues for invalid manually configured items."""
     return ir.async_refresh_issues(
         hass, DOMAIN, issue_id_pattern=INVALID_PLATFORM_CONFIG_ISSUE_PREFIX
@@ -549,7 +549,7 @@ def async_refresh_mqtt_issues(hass: UniversalAssistant) -> ir.IssuesRefresh:
 
 
 async def async_check_config_schema(
-    hass: UniversalAssistant, config_yaml: ConfigType
+    hass: __HAC_KEEP__, config_yaml: ConfigType
 ) -> None:
     """Validate manually configured MQTT items."""
     mqtt_data = hass.data[DATA_MQTT]

@@ -15,14 +15,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.smartyplants.const import DEFAULT_SCAN_INTERVAL, DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_load_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the entry loads and unloads."""
     await setup_integration(hass, mock_config_entry)
@@ -41,7 +41,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_setup_retries_when_first_poll_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smartyplants_client: AsyncMock,
     error: SmartyPlantsError,
@@ -56,7 +56,7 @@ async def test_setup_retries_when_first_poll_fails(
 
 
 async def test_setup_auth_failure_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smartyplants_client: AsyncMock,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_setup_auth_failure_starts_reauth(
 
 
 async def test_poll_auth_failure_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smartyplants_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -99,7 +99,7 @@ async def test_poll_auth_failure_starts_reauth(
 
 @pytest.mark.usefixtures("mock_smartyplants_client")
 async def test_entry_without_webhook_polls(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test an entry created without a webhook still loads and polls."""
     entry = MockConfigEntry(

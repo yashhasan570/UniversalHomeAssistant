@@ -11,8 +11,8 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.besen.const import DOMAIN
 from universalassistant.components.besen.services import BesenService, BesenServiceArgument
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from .conftest import setup_integration
 
@@ -28,7 +28,7 @@ START_UTC = datetime(2026, 10, 1, 22, 0, tzinfo=UTC)
         pytest.param(
             {BesenServiceArgument.START: START}, START_UTC, None, id="scheduled"
         ),
-        # A time without an offset is in the Universal Universal Home Assistant time zone.
+        # A time without an offset is in the __HA_KEEP__ time zone.
         pytest.param(
             {BesenServiceArgument.START: "2026-10-01 15:00:00"},
             START_UTC,
@@ -53,7 +53,7 @@ START_UTC = datetime(2026, 10, 1, 22, 0, tzinfo=UTC)
     ],
 )
 async def test_start_charging(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     service_data: dict[str, str | dict[str, int]],
@@ -85,7 +85,7 @@ async def test_start_charging(
     ],
 )
 async def test_start_charging_invalid_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     duration: dict[str, int],
@@ -116,18 +116,18 @@ async def test_start_charging_invalid_duration(
         ),
         pytest.param(
             CommandFailed("rejected"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "command_failed",
             id="charger_rejection",
         ),
     ],
 )
 async def test_start_charging_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     side_effect: Exception,
-    exception: type[UniversalAssistantError],
+    exception: type[__HAC_KEEP__Error],
     translation_key: str,
 ) -> None:
     """Test an unusable start time and a charger rejection are reported."""

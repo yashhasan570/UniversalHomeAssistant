@@ -10,7 +10,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
     SensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -60,7 +60,7 @@ DEVICE_SENSORS: tuple[GrandstreamSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    _: UniversalAssistant,
+    _: __HAC_KEEP__,
     config_entry: GrandstreamConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -22,7 +22,7 @@ from universalassistant.components.homematicip_cloud.const import (
 )
 from universalassistant.components.homematicip_cloud.hap import HomematicipHAP
 from universalassistant.config_entries import SOURCE_IMPORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType
 
 from .helper import AUTH_TOKEN, HAPID, HAPPIN, HomeFactory
@@ -64,7 +64,7 @@ def hmip_config_entry_fixture() -> MockConfigEntry:
 
 @pytest.fixture(name="default_mock_hap_factory")
 async def default_mock_hap_factory_fixture(
-    hass: UniversalAssistant, mock_connection, hmip_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_connection, hmip_config_entry: MockConfigEntry
 ) -> HomeFactory:
     """Create a mocked homematic access point."""
     return HomeFactory(hass, mock_connection, hmip_config_entry)
@@ -393,7 +393,7 @@ def dummy_config_fixture() -> ConfigType:
 
 @pytest.fixture(name="mock_hap_with_service")
 async def mock_hap_with_service_fixture(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory, dummy_config
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory, dummy_config
 ) -> HomematicipHAP:
     """Create a fake homematic access point with hass services."""
     mock_hap = await default_mock_hap_factory.async_get_mock_hap()

@@ -15,7 +15,7 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DeconzConfigEntry
@@ -30,7 +30,7 @@ DECONZ_TYPE_TO_DEVICE_CLASS = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DeconzConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

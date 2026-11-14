@@ -27,13 +27,13 @@ from universalassistant.const import (
     STATE_OPEN,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import configure_integration
 
 
 async def test_cover_set_attributes_normal(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test cover set_attributes normal."""
     mock_list_devices.return_value = [
@@ -61,7 +61,7 @@ async def test_cover_set_attributes_normal(
     ],
 )
 async def test_cover_set_attributes_position_is_none(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status, device_model
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status, device_model
 ) -> None:
     """Test cover_set_attributes position is none."""
     mock_list_devices.return_value = [
@@ -89,7 +89,7 @@ async def test_cover_set_attributes_position_is_none(
     ],
 )
 async def test_cover_set_attributes_coordinator_is_none(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status, device_model
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status, device_model
 ) -> None:
     """Test cover set_attributes coordinator is none."""
     mock_list_devices.return_value = [
@@ -110,7 +110,7 @@ async def test_cover_set_attributes_coordinator_is_none(
 
 
 async def test_curtain_features(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test curtain features."""
     mock_list_devices.return_value = [
@@ -196,7 +196,7 @@ async def test_curtain_features(
 
 
 async def test_blind_tilt_features(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test blind_tilt features."""
     mock_list_devices.return_value = [
@@ -252,7 +252,7 @@ async def test_blind_tilt_features(
 
 
 async def test_blind_tilt_features_close_down(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test blind tilt features close_down."""
     mock_list_devices.return_value = [
@@ -286,7 +286,7 @@ async def test_blind_tilt_features_close_down(
 
 
 async def test_roller_shade_features(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test roller shade features."""
     mock_list_devices.return_value = [
@@ -354,7 +354,7 @@ async def test_roller_shade_features(
 
 
 async def test_cover_set_attributes_coordinator_is_none_for_garage_door(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test cover set_attributes coordinator is none for garage_door."""
     mock_list_devices.return_value = [
@@ -374,7 +374,7 @@ async def test_cover_set_attributes_coordinator_is_none_for_garage_door(
 
 
 async def test_garage_door_features_close(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test garage door features close."""
     mock_list_devices.return_value = [
@@ -416,7 +416,7 @@ async def test_garage_door_features_close(
 
 
 async def test_garage_door_features_open(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test garage_door features open cover."""
     mock_list_devices.return_value = [

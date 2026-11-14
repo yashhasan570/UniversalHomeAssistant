@@ -13,7 +13,7 @@ from pyscorpiontrack import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -33,7 +33,7 @@ class ScorpionTrackCoordinator(DataUpdateCoordinator[ScorpionTrackShare]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         client: ScorpionTrackClient,
         entry: ScorpionTrackConfigEntry,
     ) -> None:

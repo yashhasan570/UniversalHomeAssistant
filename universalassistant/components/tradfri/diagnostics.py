@@ -2,7 +2,7 @@
 
 from typing import Any, cast
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import CONF_GATEWAY_ID, DOMAIN
@@ -10,7 +10,7 @@ from .coordinator import TradfriConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: TradfriConfigEntry
+    hass: __HAC_KEEP__, entry: TradfriConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics the Tradfri platform."""
     tradfri_data = entry.runtime_data

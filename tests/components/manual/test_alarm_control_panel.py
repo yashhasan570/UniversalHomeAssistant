@@ -28,7 +28,7 @@ from universalassistant.const import (
     SERVICE_ALARM_ARM_NIGHT,
     SERVICE_ALARM_ARM_VACATION,
 )
-from universalassistant.core import Context, CoreState, UniversalAssistant, State, callback
+from universalassistant.core import Context, CoreState, __HAC_KEEP__, State, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -51,7 +51,7 @@ CODE = "HELLO_CODE"
         (SERVICE_ALARM_ARM_VACATION, AlarmControlPanelState.ARMED_VACATION),
     ],
 )
-async def test_no_pending(hass: UniversalAssistant, service, expected_state) -> None:
+async def test_no_pending(hass: __HAC_KEEP__, service, expected_state) -> None:
     """Test no pending after arming."""
     assert await async_setup_component(
         hass,
@@ -96,7 +96,7 @@ async def test_no_pending(hass: UniversalAssistant, service, expected_state) -> 
     ],
 )
 async def test_no_pending_when_code_not_req(
-    hass: UniversalAssistant, service, expected_state
+    hass: __HAC_KEEP__, service, expected_state
 ) -> None:
     """Test no pending when code not required."""
     assert await async_setup_component(
@@ -142,7 +142,7 @@ async def test_no_pending_when_code_not_req(
         (SERVICE_ALARM_ARM_VACATION, AlarmControlPanelState.ARMED_VACATION),
     ],
 )
-async def test_with_pending(hass: UniversalAssistant, service, expected_state) -> None:
+async def test_with_pending(hass: __HAC_KEEP__, service, expected_state) -> None:
     """Test with pending after arming."""
     assert await async_setup_component(
         hass,
@@ -210,7 +210,7 @@ async def test_with_pending(hass: UniversalAssistant, service, expected_state) -
         (SERVICE_ALARM_ARM_VACATION, AlarmControlPanelState.ARMED_VACATION),
     ],
 )
-async def test_with_invalid_code(hass: UniversalAssistant, service, expected_state) -> None:
+async def test_with_invalid_code(hass: __HAC_KEEP__, service, expected_state) -> None:
     """Attempt to arm without a valid code."""
     assert await async_setup_component(
         hass,
@@ -259,7 +259,7 @@ async def test_with_invalid_code(hass: UniversalAssistant, service, expected_sta
         (SERVICE_ALARM_ARM_VACATION, AlarmControlPanelState.ARMED_VACATION),
     ],
 )
-async def test_with_template_code(hass: UniversalAssistant, service, expected_state) -> None:
+async def test_with_template_code(hass: __HAC_KEEP__, service, expected_state) -> None:
     """Attempt to arm with a template-based code."""
     assert await async_setup_component(
         hass,
@@ -305,7 +305,7 @@ async def test_with_template_code(hass: UniversalAssistant, service, expected_st
     ],
 )
 async def test_with_specific_pending(
-    hass: UniversalAssistant, service, expected_state
+    hass: __HAC_KEEP__, service, expected_state
 ) -> None:
     """Test arming with specific pending."""
     assert await async_setup_component(
@@ -344,7 +344,7 @@ async def test_with_specific_pending(
     assert hass.states.get(entity_id).state == expected_state
 
 
-async def test_trigger_no_pending(hass: UniversalAssistant) -> None:
+async def test_trigger_no_pending(hass: __HAC_KEEP__) -> None:
     """Test triggering when no pending submitted method."""
     assert await async_setup_component(
         hass,
@@ -384,7 +384,7 @@ async def test_trigger_no_pending(hass: UniversalAssistant) -> None:
     assert state.state == AlarmControlPanelState.TRIGGERED
 
 
-async def test_trigger_with_delay(hass: UniversalAssistant) -> None:
+async def test_trigger_with_delay(hass: __HAC_KEEP__) -> None:
     """Test trigger method and switch from pending to triggered."""
     assert await async_setup_component(
         hass,
@@ -435,7 +435,7 @@ async def test_trigger_with_delay(hass: UniversalAssistant) -> None:
     assert state.state == AlarmControlPanelState.TRIGGERED
 
 
-async def test_trigger_zero_trigger_time(hass: UniversalAssistant) -> None:
+async def test_trigger_zero_trigger_time(hass: __HAC_KEEP__) -> None:
     """Test disabled trigger."""
     assert await async_setup_component(
         hass,
@@ -461,7 +461,7 @@ async def test_trigger_zero_trigger_time(hass: UniversalAssistant) -> None:
     assert hass.states.get(entity_id).state == AlarmControlPanelState.DISARMED
 
 
-async def test_trigger_zero_trigger_time_with_pending(hass: UniversalAssistant) -> None:
+async def test_trigger_zero_trigger_time_with_pending(hass: __HAC_KEEP__) -> None:
     """Test disabled trigger."""
     assert await async_setup_component(
         hass,
@@ -487,7 +487,7 @@ async def test_trigger_zero_trigger_time_with_pending(hass: UniversalAssistant) 
     assert hass.states.get(entity_id).state == AlarmControlPanelState.DISARMED
 
 
-async def test_trigger_with_pending(hass: UniversalAssistant) -> None:
+async def test_trigger_with_pending(hass: __HAC_KEEP__) -> None:
     """Test arm home method."""
     assert await async_setup_component(
         hass,
@@ -545,7 +545,7 @@ async def test_trigger_with_pending(hass: UniversalAssistant) -> None:
     assert state.state == AlarmControlPanelState.DISARMED
 
 
-async def test_trigger_with_unused_specific_delay(hass: UniversalAssistant) -> None:
+async def test_trigger_with_unused_specific_delay(hass: __HAC_KEEP__) -> None:
     """Test trigger method and switch from pending to triggered."""
     assert await async_setup_component(
         hass,
@@ -597,7 +597,7 @@ async def test_trigger_with_unused_specific_delay(hass: UniversalAssistant) -> N
     assert state.state == AlarmControlPanelState.TRIGGERED
 
 
-async def test_trigger_with_specific_delay(hass: UniversalAssistant) -> None:
+async def test_trigger_with_specific_delay(hass: __HAC_KEEP__) -> None:
     """Test trigger method and switch from pending to triggered."""
     assert await async_setup_component(
         hass,
@@ -649,7 +649,7 @@ async def test_trigger_with_specific_delay(hass: UniversalAssistant) -> None:
     assert state.state == AlarmControlPanelState.TRIGGERED
 
 
-async def test_trigger_with_pending_and_delay(hass: UniversalAssistant) -> None:
+async def test_trigger_with_pending_and_delay(hass: __HAC_KEEP__) -> None:
     """Test trigger method and switch from pending to triggered."""
     assert await async_setup_component(
         hass,
@@ -715,7 +715,7 @@ async def test_trigger_with_pending_and_delay(hass: UniversalAssistant) -> None:
     assert state.state == AlarmControlPanelState.TRIGGERED
 
 
-async def test_trigger_with_pending_and_specific_delay(hass: UniversalAssistant) -> None:
+async def test_trigger_with_pending_and_specific_delay(hass: __HAC_KEEP__) -> None:
     """Test trigger method and switch from pending to triggered."""
     assert await async_setup_component(
         hass,
@@ -782,7 +782,7 @@ async def test_trigger_with_pending_and_specific_delay(hass: UniversalAssistant)
     assert state.state == AlarmControlPanelState.TRIGGERED
 
 
-async def test_trigger_with_specific_pending(hass: UniversalAssistant) -> None:
+async def test_trigger_with_specific_pending(hass: __HAC_KEEP__) -> None:
     """Test arm home method."""
     assert await async_setup_component(
         hass,
@@ -832,7 +832,7 @@ async def test_trigger_with_specific_pending(hass: UniversalAssistant) -> None:
     assert hass.states.get(entity_id).state == AlarmControlPanelState.DISARMED
 
 
-async def test_trigger_with_disarm_after_trigger(hass: UniversalAssistant) -> None:
+async def test_trigger_with_disarm_after_trigger(hass: __HAC_KEEP__) -> None:
     """Test disarm after trigger."""
     assert await async_setup_component(
         hass,
@@ -873,7 +873,7 @@ async def test_trigger_with_disarm_after_trigger(hass: UniversalAssistant) -> No
     assert hass.states.get(entity_id).state == AlarmControlPanelState.DISARMED
 
 
-async def test_trigger_with_zero_specific_trigger_time(hass: UniversalAssistant) -> None:
+async def test_trigger_with_zero_specific_trigger_time(hass: __HAC_KEEP__) -> None:
     """Test trigger method."""
     assert await async_setup_component(
         hass,
@@ -901,7 +901,7 @@ async def test_trigger_with_zero_specific_trigger_time(hass: UniversalAssistant)
 
 
 async def test_trigger_with_unused_zero_specific_trigger_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test disarm after trigger."""
     assert await async_setup_component(
@@ -944,7 +944,7 @@ async def test_trigger_with_unused_zero_specific_trigger_time(
     assert hass.states.get(entity_id).state == AlarmControlPanelState.DISARMED
 
 
-async def test_trigger_with_specific_trigger_time(hass: UniversalAssistant) -> None:
+async def test_trigger_with_specific_trigger_time(hass: __HAC_KEEP__) -> None:
     """Test disarm after trigger."""
     assert await async_setup_component(
         hass,
@@ -985,7 +985,7 @@ async def test_trigger_with_specific_trigger_time(hass: UniversalAssistant) -> N
     assert hass.states.get(entity_id).state == AlarmControlPanelState.DISARMED
 
 
-async def test_trigger_with_no_disarm_after_trigger(hass: UniversalAssistant) -> None:
+async def test_trigger_with_no_disarm_after_trigger(hass: __HAC_KEEP__) -> None:
     """Test disarm after trigger."""
     assert await async_setup_component(
         hass,
@@ -1032,7 +1032,7 @@ async def test_trigger_with_no_disarm_after_trigger(hass: UniversalAssistant) ->
 
 
 async def test_back_to_back_trigger_with_no_disarm_after_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test disarm after trigger."""
     assert await async_setup_component(
@@ -1098,7 +1098,7 @@ async def test_back_to_back_trigger_with_no_disarm_after_trigger(
     assert hass.states.get(entity_id).state == AlarmControlPanelState.ARMED_AWAY
 
 
-async def test_disarm_while_pending_trigger(hass: UniversalAssistant) -> None:
+async def test_disarm_while_pending_trigger(hass: __HAC_KEEP__) -> None:
     """Test disarming while pending state."""
     assert await async_setup_component(
         hass,
@@ -1137,7 +1137,7 @@ async def test_disarm_while_pending_trigger(hass: UniversalAssistant) -> None:
     assert hass.states.get(entity_id).state == AlarmControlPanelState.DISARMED
 
 
-async def test_disarm_during_trigger_with_invalid_code(hass: UniversalAssistant) -> None:
+async def test_disarm_during_trigger_with_invalid_code(hass: __HAC_KEEP__) -> None:
     """Test disarming while code is invalid."""
     assert await async_setup_component(
         hass,
@@ -1188,7 +1188,7 @@ async def test_disarm_during_trigger_with_invalid_code(hass: UniversalAssistant)
     assert state.state == AlarmControlPanelState.TRIGGERED
 
 
-async def test_bad_code_attempt_event_fired(hass: UniversalAssistant) -> None:
+async def test_bad_code_attempt_event_fired(hass: __HAC_KEEP__) -> None:
     """Test that manual_alarm_bad_code_attempt event is fired on bad code."""
 
     entity_id = "alarm_control_panel.test_alarm"
@@ -1262,7 +1262,7 @@ async def test_bad_code_attempt_event_fired(hass: UniversalAssistant) -> None:
     assert events[0].get("user_id") == mock_user_id
 
 
-async def test_disarm_with_template_code(hass: UniversalAssistant) -> None:
+async def test_disarm_with_template_code(hass: __HAC_KEEP__) -> None:
     """Attempt to disarm with a valid or invalid template-based code."""
     assert await async_setup_component(
         hass,
@@ -1301,7 +1301,7 @@ async def test_disarm_with_template_code(hass: UniversalAssistant) -> None:
     assert state.state == AlarmControlPanelState.DISARMED
 
 
-async def test_arm_away_after_disabled_disarmed(hass: UniversalAssistant) -> None:
+async def test_arm_away_after_disabled_disarmed(hass: __HAC_KEEP__) -> None:
     """Test pending state with and without zero trigger time."""
     assert await async_setup_component(
         hass,
@@ -1396,7 +1396,7 @@ async def test_arm_away_after_disabled_disarmed(hass: UniversalAssistant) -> Non
         (AlarmControlPanelState.DISARMED),
     ],
 )
-async def test_restore_state(hass: UniversalAssistant, expected_state) -> None:
+async def test_restore_state(hass: __HAC_KEEP__, expected_state) -> None:
     """Ensure state is restored on startup."""
     mock_restore_cache(hass, (State("alarm_control_panel.test", expected_state),))
 
@@ -1423,7 +1423,7 @@ async def test_restore_state(hass: UniversalAssistant, expected_state) -> None:
     assert state.state == expected_state
 
 
-async def test_restore_state_invalid(hass: UniversalAssistant) -> None:
+async def test_restore_state_invalid(hass: __HAC_KEEP__) -> None:
     """Ensure invalid restored state does not crash entity setup."""
     mock_restore_cache(hass, (State("alarm_control_panel.test", "unknown"),))
 
@@ -1460,7 +1460,7 @@ async def test_restore_state_invalid(hass: UniversalAssistant) -> None:
         (AlarmControlPanelState.ARMED_VACATION),
     ],
 )
-async def test_restore_state_arming(hass: UniversalAssistant, expected_state) -> None:
+async def test_restore_state_arming(hass: __HAC_KEEP__, expected_state) -> None:
     """Ensure ARMING state is restored on startup."""
     time = dt_util.utcnow() - timedelta(seconds=15)
     entity_id = "alarm_control_panel.test"
@@ -1519,7 +1519,7 @@ async def test_restore_state_arming(hass: UniversalAssistant, expected_state) ->
         (AlarmControlPanelState.DISARMED),
     ],
 )
-async def test_restore_state_pending(hass: UniversalAssistant, previous_state) -> None:
+async def test_restore_state_pending(hass: __HAC_KEEP__, previous_state) -> None:
     """Ensure PENDING state is restored on startup."""
     time = dt_util.utcnow() - timedelta(seconds=15)
     entity_id = "alarm_control_panel.test"
@@ -1595,7 +1595,7 @@ async def test_restore_state_pending(hass: UniversalAssistant, previous_state) -
         (AlarmControlPanelState.DISARMED),
     ],
 )
-async def test_restore_state_triggered(hass: UniversalAssistant, previous_state) -> None:
+async def test_restore_state_triggered(hass: __HAC_KEEP__, previous_state) -> None:
     """Ensure PENDING state is resolved to TRIGGERED on startup."""
     time = dt_util.utcnow() - timedelta(seconds=75)
     entity_id = "alarm_control_panel.test"
@@ -1648,7 +1648,7 @@ async def test_restore_state_triggered(hass: UniversalAssistant, previous_state)
     assert state.state == previous_state
 
 
-async def test_restore_state_triggered_long_ago(hass: UniversalAssistant) -> None:
+async def test_restore_state_triggered_long_ago(hass: __HAC_KEEP__) -> None:
     """Ensure TRIGGERED state is resolved on startup."""
     time = dt_util.utcnow() - timedelta(seconds=125)
     entity_id = "alarm_control_panel.test"
@@ -1690,7 +1690,7 @@ async def test_restore_state_triggered_long_ago(hass: UniversalAssistant) -> Non
     assert state.state == AlarmControlPanelState.DISARMED
 
 
-async def test_default_arming_states(hass: UniversalAssistant) -> None:
+async def test_default_arming_states(hass: __HAC_KEEP__) -> None:
     """Test default arming_states."""
     assert await async_setup_component(
         hass,
@@ -1715,7 +1715,7 @@ async def test_default_arming_states(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_arming_states(hass: UniversalAssistant) -> None:
+async def test_arming_states(hass: __HAC_KEEP__) -> None:
     """Test arming_states."""
     assert await async_setup_component(
         hass,
@@ -1738,7 +1738,7 @@ async def test_arming_states(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_invalid_arming_states(hass: UniversalAssistant) -> None:
+async def test_invalid_arming_states(hass: __HAC_KEEP__) -> None:
     """Test invalid arming_states."""
     assert await async_setup_component(
         hass,

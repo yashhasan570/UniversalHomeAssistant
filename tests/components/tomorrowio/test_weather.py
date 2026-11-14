@@ -20,7 +20,7 @@ from universalassistant.components.weather import (
 )
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import ATTR_ATTRIBUTION, ATTR_FRIENDLY_NAME
-from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.core import __HAC_KEEP__, State, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -29,7 +29,7 @@ from .const import API_V4_ENTRY_DATA, BASE_UNIQUE_ID
 
 
 @callback
-def _enable_entity(hass: UniversalAssistant, entity_name: str) -> None:
+def _enable_entity(hass: __HAC_KEEP__, entity_name: str) -> None:
     """Enable disabled entity."""
     ent_reg = er.async_get(hass)
     entry = ent_reg.async_get(entity_name)
@@ -38,7 +38,7 @@ def _enable_entity(hass: UniversalAssistant, entity_name: str) -> None:
     assert updated_entry.disabled is False
 
 
-async def _setup_config_entry(hass: UniversalAssistant, config: dict[str, Any]) -> None:
+async def _setup_config_entry(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
     """Set up entry and return entity state."""
     config_entry = make_v2_config_entry(data=config)
     config_entry.add_to_hass(hass)
@@ -46,7 +46,7 @@ async def _setup_config_entry(hass: UniversalAssistant, config: dict[str, Any]) 
     await hass.async_block_till_done()
 
 
-async def _setup(hass: UniversalAssistant, config: dict[str, Any]) -> State:
+async def _setup(hass: __HAC_KEEP__, config: dict[str, Any]) -> State:
     """Set up entry and return entity state."""
     with freeze_time(datetime(2021, 3, 6, 23, 59, 59, tzinfo=dt_util.UTC)):
         await _setup_config_entry(hass, config)
@@ -54,7 +54,7 @@ async def _setup(hass: UniversalAssistant, config: dict[str, Any]) -> State:
     return hass.states.get("weather.tomorrow_io_daily")
 
 
-async def _setup_legacy(hass: UniversalAssistant, config: dict[str, Any]) -> State:
+async def _setup_legacy(hass: __HAC_KEEP__, config: dict[str, Any]) -> State:
     """Set up entry and return entity state."""
     registry = er.async_get(hass)
     for entity_name in ("hourly", "nowcast"):
@@ -83,7 +83,7 @@ async def _setup_legacy(hass: UniversalAssistant, config: dict[str, Any]) -> Sta
 
 
 async def test_new_config_entry(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the expected entities are created."""
     await _setup(hass, API_V4_ENTRY_DATA)
@@ -94,7 +94,7 @@ async def test_new_config_entry(
 
 
 async def test_legacy_config_entry(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the expected entities are created."""
     for entity_name in ("hourly", "nowcast"):
@@ -110,7 +110,7 @@ async def test_legacy_config_entry(
     assert len(er.async_entries_for_config_entry(entity_registry, entry.entry_id)) == 30
 
 
-async def test_v4_weather(hass: UniversalAssistant, tomorrowio_config_entry_update) -> None:
+async def test_v4_weather(hass: __HAC_KEEP__, tomorrowio_config_entry_update) -> None:
     """Test v4 weather data."""
     weather_state = await _setup(hass, API_V4_ENTRY_DATA)
 
@@ -204,7 +204,7 @@ async def test_v4_weather(hass: UniversalAssistant, tomorrowio_config_entry_upda
     )
 
 
-async def test_v4_weather_legacy_entities(hass: UniversalAssistant) -> None:
+async def test_v4_weather_legacy_entities(hass: __HAC_KEEP__) -> None:
     """Test v4 weather data."""
     weather_state = await _setup_legacy(hass, API_V4_ENTRY_DATA)
     assert weather_state.state == ATTR_CONDITION_SUNNY
@@ -247,7 +247,7 @@ async def test_v4_weather_legacy_entities(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.freeze_time(datetime(2021, 3, 6, 23, 59, 59, tzinfo=dt_util.UTC))
 async def test_v4_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     service: str,
 ) -> None:
@@ -270,7 +270,7 @@ async def test_v4_forecast_service(
 
 
 async def test_v4_bad_forecast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     tomorrowio_config_entry_update,
     snapshot: SnapshotAssertion,
@@ -307,7 +307,7 @@ async def test_v4_bad_forecast(
 
 @pytest.mark.parametrize("forecast_type", ["daily", "hourly"])
 async def test_forecast_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,

@@ -12,8 +12,8 @@ from universalassistant.components.light import (
     ColorMode,
     LightEntity,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -26,7 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BondConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -86,7 +86,7 @@ class BondBaseLight(BondEntity, LightEntity):
     async def async_set_brightness_belief(self, brightness: int) -> None:
         """Set the belief state of the light."""
         if not self._device.supports_set_brightness():
-            raise UniversalAssistantError("This device does not support setting brightness")
+            raise __HAC_KEEP__Error("This device does not support setting brightness")
         if brightness == 0:
             await self.async_set_power_belief(False)
             return
@@ -96,7 +96,7 @@ class BondBaseLight(BondEntity, LightEntity):
                 Action.set_brightness_belief(round((brightness * 100) / 255)),
             )
         except ClientResponseError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "The bond API returned an error calling set_brightness_belief for"
                 f" {self.entity_id}.  Code: {ex.status}  Message: {ex.message}"
             ) from ex
@@ -108,7 +108,7 @@ class BondBaseLight(BondEntity, LightEntity):
                 self._device_id, Action.set_light_state_belief(power_state)
             )
         except ClientResponseError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "The bond API returned an error calling set_light_state_belief for"
                 f" {self.entity_id}.  Code: {ex.status}  Message: {ex.message}"
             ) from ex
@@ -180,9 +180,9 @@ class BondLight(BondBaseLight, BondEntity, LightEntity):
 
     @callback
     def _async_has_action_or_raise(self, action: str) -> None:
-        """Raise UniversalAssistantError if the device does not support an action."""
+        """Raise __HAC_KEEP__Error if the device does not support an action."""
         if not self._device.has_action(action):
-            raise UniversalAssistantError(f"{self.entity_id} does not support {action}")
+            raise __HAC_KEEP__Error(f"{self.entity_id} does not support {action}")
 
     async def async_start_increasing_brightness(self) -> None:
         """Start increasing the light brightness."""
@@ -290,7 +290,7 @@ class BondFireplace(BondEntity, LightEntity):
     async def async_set_brightness_belief(self, brightness: int) -> None:
         """Set the belief state of the light."""
         if not self._device.supports_set_brightness():
-            raise UniversalAssistantError("This device does not support setting brightness")
+            raise __HAC_KEEP__Error("This device does not support setting brightness")
         if brightness == 0:
             await self.async_set_power_belief(False)
             return
@@ -300,7 +300,7 @@ class BondFireplace(BondEntity, LightEntity):
                 Action.set_brightness_belief(round((brightness * 100) / 255)),
             )
         except ClientResponseError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "The bond API returned an error calling set_brightness_belief for"
                 f" {self.entity_id}.  Code: {ex.status}  Message: {ex.message}"
             ) from ex
@@ -312,7 +312,7 @@ class BondFireplace(BondEntity, LightEntity):
                 self._device_id, Action.set_power_state_belief(power_state)
             )
         except ClientResponseError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "The bond API returned an error calling set_power_state_belief for"
                 f" {self.entity_id}.  Code: {ex.status}  Message: {ex.message}"
             ) from ex

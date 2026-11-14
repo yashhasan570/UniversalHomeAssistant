@@ -1,4 +1,4 @@
-"""API for Husqvarna Automower bound to Universal Universal Home Assistant OAuth."""
+"""API for Husqvarna Automower bound to __HA_KEEP__ OAuth."""
 
 import logging
 from typing import cast, override

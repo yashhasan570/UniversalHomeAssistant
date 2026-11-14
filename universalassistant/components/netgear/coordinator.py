@@ -6,7 +6,7 @@ import logging
 from typing import Any, override
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .router import NetgearRouter
@@ -41,7 +41,7 @@ class NetgearDataCoordinator[T](DataUpdateCoordinator[T]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         router: NetgearRouter,
         entry: NetgearConfigEntry,
         *,
@@ -63,7 +63,7 @@ class NetgearTrackerCoordinator(NetgearDataCoordinator[bool]):
     """Coordinator for Netgear device tracking."""
 
     def __init__(
-        self, hass: UniversalAssistant, router: NetgearRouter, entry: NetgearConfigEntry
+        self, hass: __HAC_KEEP__, router: NetgearRouter, entry: NetgearConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(
@@ -82,7 +82,7 @@ class NetgearTrafficMeterCoordinator(NetgearDataCoordinator[dict[str, Any] | Non
     """Coordinator for Netgear traffic meter data."""
 
     def __init__(
-        self, hass: UniversalAssistant, router: NetgearRouter, entry: NetgearConfigEntry
+        self, hass: __HAC_KEEP__, router: NetgearRouter, entry: NetgearConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(
@@ -99,7 +99,7 @@ class NetgearSpeedTestCoordinator(NetgearDataCoordinator[dict[str, Any] | None])
     """Coordinator for Netgear speed test data."""
 
     def __init__(
-        self, hass: UniversalAssistant, router: NetgearRouter, entry: NetgearConfigEntry
+        self, hass: __HAC_KEEP__, router: NetgearRouter, entry: NetgearConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(
@@ -116,7 +116,7 @@ class NetgearFirmwareCoordinator(NetgearDataCoordinator[dict[str, Any] | None]):
     """Coordinator for Netgear firmware updates."""
 
     def __init__(
-        self, hass: UniversalAssistant, router: NetgearRouter, entry: NetgearConfigEntry
+        self, hass: __HAC_KEEP__, router: NetgearRouter, entry: NetgearConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(
@@ -133,7 +133,7 @@ class NetgearUtilizationCoordinator(NetgearDataCoordinator[dict[str, Any] | None
     """Coordinator for Netgear utilization data."""
 
     def __init__(
-        self, hass: UniversalAssistant, router: NetgearRouter, entry: NetgearConfigEntry
+        self, hass: __HAC_KEEP__, router: NetgearRouter, entry: NetgearConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(
@@ -150,7 +150,7 @@ class NetgearLinkCoordinator(NetgearDataCoordinator[dict[str, Any] | None]):
     """Coordinator for Netgear Ethernet link status."""
 
     def __init__(
-        self, hass: UniversalAssistant, router: NetgearRouter, entry: NetgearConfigEntry
+        self, hass: __HAC_KEEP__, router: NetgearRouter, entry: NetgearConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

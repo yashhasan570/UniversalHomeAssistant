@@ -21,7 +21,7 @@ from universalassistant.components.tankerkoenig.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ID, CONF_SHOW_ON_MAP, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -31,7 +31,7 @@ from .const import CONFIG_DATA
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_rate_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tankerkoenig: AsyncMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_rate_limit(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_update_exception_logging(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tankerkoenig: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -108,7 +108,7 @@ async def test_update_exception_logging(
     ],
 )
 async def test_setup_exception_logging(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tankerkoenig: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -126,7 +126,7 @@ async def test_setup_exception_logging(
 
 
 async def test_automatic_registry_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tankerkoenig: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -192,7 +192,7 @@ async def test_automatic_registry_cleanup(
 
 
 async def test_many_stations_warning(
-    hass: UniversalAssistant, tankerkoenig: AsyncMock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, tankerkoenig: AsyncMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the warning about morethan 10 selected stations."""
     mock_config = MockConfigEntry(

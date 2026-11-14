@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.solaredge.const import DOMAIN, INVENTORY_UPDATE_DELAY
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -70,7 +70,7 @@ STORAGE_DATA_MULTI_BATTERY = {
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -86,7 +86,7 @@ async def test_all_entities(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_overview_sensors_unavailable_on_api_error(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_overview_sensors_unavailable_on_api_error(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_storage_level_unknown_when_storage_missing(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_storage_level_unknown_when_storage_missing(
 
 async def test_no_sensors_without_api_key(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_web_login: MockConfigEntry,
     solaredge_web_api: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -158,7 +158,7 @@ async def test_no_sensors_without_api_key(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_unavailable_on_data_service_keyerror(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
     api_method: str,
@@ -177,7 +177,7 @@ async def test_sensor_unavailable_on_data_service_keyerror(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_details_sensor_unavailable_on_data_service_keyerror(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_details_sensor_unavailable_on_data_service_keyerror(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_energy_details_sensor_unknown_when_no_meters(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_energy_details_sensor_unknown_when_no_meters(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_energy_details_sensor_keeps_unit_when_api_fails(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_energy_details_sensor_keeps_unit_when_api_fails(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_energy_details_filters_meters(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
 ) -> None:
@@ -275,7 +275,7 @@ async def test_energy_details_filters_meters(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_power_flow_sensor_unknown_when_no_connections(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
 ) -> None:
@@ -294,7 +294,7 @@ async def test_power_flow_sensor_unknown_when_no_connections(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_power_flow_grid_export_storage_discharge(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
 ) -> None:
@@ -343,7 +343,7 @@ async def test_power_flow_grid_export_storage_discharge(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_power_flow_zero_current_power_keeps_zero(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
 ) -> None:
@@ -366,7 +366,7 @@ async def test_power_flow_zero_current_power_keeps_zero(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_storage_data_service(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
     entity_registry: er.EntityRegistry,
@@ -430,7 +430,7 @@ async def test_storage_data_service(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_storage_data_service_multi_battery(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
     entity_registry: er.EntityRegistry,
@@ -476,7 +476,7 @@ async def test_storage_data_service_multi_battery(
 
 @pytest.mark.usefixtures("recorder_mock", "solaredge_api")
 async def test_battery_device_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -497,7 +497,7 @@ async def test_battery_device_via_device_id(
 
 async def test_storage_service_not_created_when_inventory_has_no_batteries(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
     entity_registry: er.EntityRegistry,
@@ -521,7 +521,7 @@ async def test_storage_service_not_created_when_inventory_has_no_batteries(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_storage_data_service_api_error(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
     entity_registry: er.EntityRegistry,
@@ -552,7 +552,7 @@ async def test_storage_data_service_api_error(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_storage_data_missing_keys_in_response(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
     entity_registry: er.EntityRegistry,
@@ -578,7 +578,7 @@ async def test_storage_data_missing_keys_in_response(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_storage_service_deferred_after_inventory_failure(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
@@ -671,7 +671,7 @@ async def test_storage_service_deferred_after_inventory_failure(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_storage_data_service_handles_malformed_responses(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
     entity_registry: er.EntityRegistry,
@@ -695,7 +695,7 @@ async def test_storage_data_service_handles_malformed_responses(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_inventory_battery_without_serial_skipped(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
     entity_registry: er.EntityRegistry,
@@ -727,7 +727,7 @@ async def test_inventory_battery_without_serial_skipped(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_storage_service_not_retried_after_recovery_with_no_batteries(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     solaredge_api: Mock,
@@ -795,7 +795,7 @@ def _power_flow_payload(
 async def test_power_flow_direction_sensors(
     mock_solaredge: MagicMock,
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     solaredge_api: Mock,
     mock_config_entry: MockConfigEntry,
     grid_export: bool,
@@ -843,7 +843,7 @@ async def test_power_flow_direction_sensors(
 async def test_storage_level_from_power_flow(
     mock_solaredge: MagicMock,
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     solaredge_api: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -869,7 +869,7 @@ async def test_storage_level_from_power_flow(
 async def test_power_flow_direction_sensors_missing_connections(
     mock_solaredge: MagicMock,
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     solaredge_api: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

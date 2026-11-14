@@ -18,7 +18,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import HeltyCloudConfigEntry, HeltyCloudDataUpdateCoordinator
@@ -82,7 +82,7 @@ SENSORS: tuple[HeltyCloudSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HeltyCloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

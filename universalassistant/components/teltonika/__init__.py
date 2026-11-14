@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import TeltonikaDataUpdateCoordinator
@@ -25,7 +25,7 @@ PLATFORMS = [Platform.SENSOR]
 type TeltonikaConfigEntry = ConfigEntry[TeltonikaDataUpdateCoordinator]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TeltonikaConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TeltonikaConfigEntry) -> None:
     """Set up Teltonika from a config entry."""
     username = entry.data[CONF_USERNAME]
     password = entry.data[CONF_PASSWORD]
@@ -57,13 +57,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TeltonikaConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TeltonikaConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TeltonikaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.client.close()
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: TeltonikaConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: TeltonikaConfigEntry) -> None:
     """Migrate a Teltonika config entry to the current version."""
     if entry.version == 1:
         # The host was stored as a URL, which DHCP rediscovery replaced with

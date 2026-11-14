@@ -31,7 +31,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -75,7 +75,7 @@ NVR_NAME = "UnifiProtect"
 
 
 async def _advance_menu(
-    hass: UniversalAssistant, result: ConfigFlowResult, next_step_id: str
+    hass: __HAC_KEEP__, result: ConfigFlowResult, next_step_id: str
 ) -> ConfigFlowResult:
     """Advance a menu step to the chosen next step's form."""
     assert result["type"] is FlowResultType.MENU
@@ -87,7 +87,7 @@ async def _advance_menu(
     return result
 
 
-async def _start_full_flow(hass: UniversalAssistant) -> ConfigFlowResult:
+async def _start_full_flow(hass: __HAC_KEEP__) -> ConfigFlowResult:
     """Advance the user menu to the full-access step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -96,7 +96,7 @@ async def _start_full_flow(hass: UniversalAssistant) -> ConfigFlowResult:
 
 
 async def _complete_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_id: str,
     nvr: NVR,
     bootstrap: Bootstrap,
@@ -122,7 +122,7 @@ async def _complete_reconfigure_flow(
     return result
 
 
-async def test_user_flow(hass: UniversalAssistant, bootstrap: Bootstrap, nvr: NVR) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, bootstrap: Bootstrap, nvr: NVR) -> None:
     """Test successful user flow creates config entry."""
     result = await _start_full_flow(hass)
     assert not result["errors"]
@@ -175,7 +175,7 @@ async def test_user_flow(hass: UniversalAssistant, bootstrap: Bootstrap, nvr: NV
 
 @pytest.mark.parametrize("version", ["1.19.0", "7.0.107"])
 async def test_form_version_too_old(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     old_nvr: NVR,
     nvr: NVR,
@@ -237,7 +237,7 @@ async def test_form_version_too_old(
 
 
 async def test_form_invalid_auth_password(
-    hass: UniversalAssistant, bootstrap: Bootstrap, nvr: NVR, mock_setup: None
+    hass: __HAC_KEEP__, bootstrap: Bootstrap, nvr: NVR, mock_setup: None
 ) -> None:
     """Test we handle invalid auth password and can recover."""
     result = await _start_full_flow(hass)
@@ -292,7 +292,7 @@ async def test_form_invalid_auth_password(
 
 
 async def test_form_invalid_auth_api_key(
-    hass: UniversalAssistant, bootstrap: Bootstrap, nvr: NVR, mock_setup: None
+    hass: __HAC_KEEP__, bootstrap: Bootstrap, nvr: NVR, mock_setup: None
 ) -> None:
     """Test we handle invalid auth api key and can recover."""
     result = await _start_full_flow(hass)
@@ -347,7 +347,7 @@ async def test_form_invalid_auth_api_key(
 
 
 async def test_form_cloud_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     cloud_account: CloudAccount,
     nvr: NVR,
@@ -411,7 +411,7 @@ async def test_form_cloud_user(
 
 
 async def test_form_cannot_connect(
-    hass: UniversalAssistant, bootstrap: Bootstrap, nvr: NVR, mock_setup: None
+    hass: __HAC_KEEP__, bootstrap: Bootstrap, nvr: NVR, mock_setup: None
 ) -> None:
     """Test we handle cannot connect error and can recover."""
     result = await _start_full_flow(hass)
@@ -466,7 +466,7 @@ async def test_form_cannot_connect(
 
 
 async def test_form_reauth_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -553,7 +553,7 @@ async def test_form_reauth_auth(
 
 
 async def test_form_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_config_entry: MockConfigEntry,
     ufp_client: ProtectApiClient,
 ) -> None:
@@ -597,7 +597,7 @@ async def test_form_options(
 
 
 async def test_discovered_by_unifi_discovery_direct_connect(
-    hass: UniversalAssistant, bootstrap: Bootstrap, nvr: NVR
+    hass: __HAC_KEEP__, bootstrap: Bootstrap, nvr: NVR
 ) -> None:
     """Test a discovery from unifi-discovery."""
 
@@ -666,7 +666,7 @@ async def test_discovered_by_unifi_discovery_direct_connect(
 
 
 async def test_discovered_by_unifi_discovery_direct_connect_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a discovery from unifi-discovery updates the direct connect host."""
     mock_config = MockConfigEntry(
@@ -698,7 +698,7 @@ async def test_discovered_by_unifi_discovery_direct_connect_updated(
 
 
 async def test_discovered_by_unifi_discovery_dc_updated_but_not_using_dc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery updates the host but not direct connect if not in use."""
     mock_config = MockConfigEntry(
@@ -735,7 +735,7 @@ async def test_discovered_by_unifi_discovery_dc_updated_but_not_using_dc(
 
 
 async def test_discovered_by_unifi_discovery_no_update_ip_when_console_online(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery does not update IP unless old console is offline."""
     mock_config = MockConfigEntry(
@@ -772,7 +772,7 @@ async def test_discovered_by_unifi_discovery_no_update_ip_when_console_online(
 
 
 async def test_discovered_host_not_updated_if_existing_is_a_hostname(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we only update the host if its an ip address from discovery."""
     mock_config = MockConfigEntry(
@@ -802,7 +802,7 @@ async def test_discovered_host_not_updated_if_existing_is_a_hostname(
 
 
 async def test_discovered_by_unifi_discovery(
-    hass: UniversalAssistant, bootstrap: Bootstrap, nvr: NVR
+    hass: __HAC_KEEP__, bootstrap: Bootstrap, nvr: NVR
 ) -> None:
     """Test a discovery from unifi-discovery."""
 
@@ -871,7 +871,7 @@ async def test_discovered_by_unifi_discovery(
 
 
 async def test_discovered_by_unifi_discovery_partial(
-    hass: UniversalAssistant, bootstrap: Bootstrap, nvr: NVR
+    hass: __HAC_KEEP__, bootstrap: Bootstrap, nvr: NVR
 ) -> None:
     """Test a discovery from unifi-discovery partial."""
 
@@ -955,7 +955,7 @@ async def test_discovered_by_unifi_discovery_partial(
     ids=["console-name", "hostname", "product-name"],
 )
 async def test_discovery_name_resolution(
-    hass: UniversalAssistant, overrides: dict[str, str | None], expected_name: str
+    hass: __HAC_KEEP__, overrides: dict[str, str | None], expected_name: str
 ) -> None:
     """Test the discovery title prefers the console name over raw platform codes."""
     result = await hass.config_entries.flow.async_init(
@@ -972,7 +972,7 @@ async def test_discovery_name_resolution(
 
 
 async def test_discovered_by_unifi_discovery_direct_connect_on_different_interface(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a discovery from unifi-discovery from an alternate interface."""
     mock_config = MockConfigEntry(
@@ -1002,7 +1002,7 @@ async def test_discovered_by_unifi_discovery_direct_connect_on_different_interfa
 
 
 async def test_discovered_by_unifi_discovery_dc_different_interface_ip_matches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery from alternate interface when the IP matches."""
     mock_config = MockConfigEntry(
@@ -1032,7 +1032,7 @@ async def test_discovered_by_unifi_discovery_dc_different_interface_ip_matches(
 
 
 async def test_discovered_by_unifi_discovery_dc_different_interface_resolver(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery from alternate interface when direct connect resolves."""
     mock_config = MockConfigEntry(
@@ -1073,7 +1073,7 @@ async def test_discovered_by_unifi_discovery_dc_different_interface_resolver(
 
 
 async def test_discovered_by_unifi_discovery_dc_different_interface_resolver_fails(
-    hass: UniversalAssistant, bootstrap: Bootstrap, nvr: NVR
+    hass: __HAC_KEEP__, bootstrap: Bootstrap, nvr: NVR
 ) -> None:
     """Test we can still configure when the resolver fails."""
     mock_config = MockConfigEntry(
@@ -1164,7 +1164,7 @@ async def test_discovered_by_unifi_discovery_dc_different_interface_resolver_fai
 
 
 async def test_discovered_by_unifi_discovery_dc_different_interface_resolver_no_result(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery from alternate interface when resolve has no result."""
     mock_config = MockConfigEntry(
@@ -1198,7 +1198,7 @@ async def test_discovered_by_unifi_discovery_dc_different_interface_resolver_no_
     assert result["reason"] == "already_configured"
 
 
-async def test_discovery_can_be_ignored(hass: UniversalAssistant) -> None:
+async def test_discovery_can_be_ignored(hass: __HAC_KEEP__) -> None:
     """Test a discovery can be ignored."""
     mock_config = MockConfigEntry(
         domain=DOMAIN,
@@ -1219,7 +1219,7 @@ async def test_discovery_can_be_ignored(hass: UniversalAssistant) -> None:
 
 
 async def test_discovery_with_both_ignored_and_normal_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
 ) -> None:
@@ -1296,7 +1296,7 @@ async def test_discovery_with_both_ignored_and_normal_entry(
 
 
 async def test_discovery_confirm_fallback_to_ip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     mock_api_bootstrap: Mock,
@@ -1346,7 +1346,7 @@ async def test_discovery_confirm_fallback_to_ip(
 
 
 async def test_discovery_confirm_with_api_key_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     mock_api_bootstrap: Mock,
@@ -1412,7 +1412,7 @@ async def test_discovery_confirm_with_api_key_error(
 
 
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -1463,7 +1463,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_different_nvr(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -1500,7 +1500,7 @@ async def test_reconfigure_different_nvr(
 
 
 async def test_reconfigure_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -1534,7 +1534,7 @@ async def test_reconfigure_auth_error(
 
 
 async def test_reconfigure_api_key_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -1570,7 +1570,7 @@ async def test_reconfigure_api_key_error(
 
 
 async def test_reconfigure_cloud_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -1618,7 +1618,7 @@ async def test_reconfigure_cloud_user(
 
 
 async def test_reconfigure_outdated_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -1654,7 +1654,7 @@ async def test_reconfigure_outdated_version(
 
 
 async def test_reconfigure_form_defaults(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry_alt: MockConfigEntry,
@@ -1706,7 +1706,7 @@ async def test_reconfigure_form_defaults(
 
 
 async def test_reconfigure_same_nvr_updated_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     mock_api_bootstrap: Mock,
@@ -1763,7 +1763,7 @@ async def test_reconfigure_same_nvr_updated_credentials(
 
 
 async def test_reconfigure_empty_credentials_keeps_existing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -1821,7 +1821,7 @@ async def test_reconfigure_empty_credentials_keeps_existing(
     ids=["password_only", "api_key_only", "both_credentials"],
 )
 async def test_reconfigure_credential_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -1852,7 +1852,7 @@ async def test_reconfigure_credential_update(
 
 
 async def test_reconfigure_invalid_existing_password_shows_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -1886,7 +1886,7 @@ async def test_reconfigure_invalid_existing_password_shows_error(
 
 
 async def test_reauth_empty_credentials_keeps_existing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -1976,7 +1976,7 @@ async def test_reauth_empty_credentials_keeps_existing(
     ids=["password_only", "api_key_only", "all_credentials"],
 )
 async def test_reauth_credential_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -2020,7 +2020,7 @@ async def test_reauth_credential_update(
 
 
 async def test_reconfigure_clears_session_failure_continues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -2066,7 +2066,7 @@ async def test_reconfigure_clears_session_failure_continues(
 
 
 async def test_form_api_key_client_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     mock_api_bootstrap: Mock,
@@ -2115,7 +2115,7 @@ async def test_form_api_key_client_error(
 
 
 async def test_port_int_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     mock_api_bootstrap: Mock,
@@ -2156,7 +2156,7 @@ async def test_port_int_conversion(
     assert result["result"].unique_id == nvr.mac
 
 
-async def _start_api_key_flow(hass: UniversalAssistant) -> ConfigFlowResult:
+async def _start_api_key_flow(hass: __HAC_KEEP__) -> ConfigFlowResult:
     """Advance the user menu to the API-key-only step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -2180,7 +2180,7 @@ def _public_nvr(mac: str | None, name: str = NVR_NAME) -> Mock:
     return public
 
 
-async def test_api_key_flow(hass: UniversalAssistant, nvr: NVR) -> None:
+async def test_api_key_flow(hass: __HAC_KEEP__, nvr: NVR) -> None:
     """A valid API key creates a public-only config entry."""
     result = await _start_api_key_flow(hass)
 
@@ -2251,7 +2251,7 @@ async def test_api_key_flow(hass: UniversalAssistant, nvr: NVR) -> None:
     ],
 )
 async def test_api_key_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     nvr: NVR,
     meta_effect: type[Exception] | Callable[[], Mock],
     nvr_effect: type[Exception] | Callable[[], Mock | None],
@@ -2303,7 +2303,7 @@ async def test_api_key_flow_errors(
 
 
 async def test_reconfigure_flip_to_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_reauth_entry: MockConfigEntry,
     nvr: NVR,
     mock_setup: None,
@@ -2342,7 +2342,7 @@ async def test_reconfigure_flip_to_api_key(
 
 
 async def test_reconfigure_flip_to_full(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_public_only_entry: MockConfigEntry,
@@ -2379,7 +2379,7 @@ async def test_reconfigure_flip_to_full(
 
 
 async def test_reconfigure_mode_round_trip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -2438,7 +2438,7 @@ async def test_reconfigure_mode_round_trip(
 
 
 async def test_reconfigure_flip_to_full_clears_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_reauth_entry: MockConfigEntry,
@@ -2495,7 +2495,7 @@ async def test_reconfigure_flip_to_full_clears_session(
 
 
 async def test_reconfigure_flip_wrong_nvr(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_reauth_entry: MockConfigEntry,
     mock_setup: None,
 ) -> None:
@@ -2527,7 +2527,7 @@ async def test_reconfigure_flip_wrong_nvr(
 
 
 async def test_reauth_public_only_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_public_only_entry: MockConfigEntry,
     mock_setup: None,
 ) -> None:
@@ -2577,7 +2577,7 @@ async def test_reauth_public_only_api_key(
 
 
 async def test_reconfigure_full_from_public_only_missing_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bootstrap: Bootstrap,
     nvr: NVR,
     ufp_public_only_entry: MockConfigEntry,
@@ -2638,7 +2638,7 @@ async def test_reconfigure_full_from_public_only_missing_password(
     assert ufp_public_only_entry.data[CONF_PASSWORD] == DEFAULT_PASSWORD
 
 
-async def test_discovery_api_key_flow(hass: UniversalAssistant, nvr: NVR) -> None:
+async def test_discovery_api_key_flow(hass: __HAC_KEEP__, nvr: NVR) -> None:
     """A discovered console can be set up with only an API key."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -2686,7 +2686,7 @@ async def test_discovery_api_key_flow(hass: UniversalAssistant, nvr: NVR) -> Non
 
 
 async def test_discovery_api_key_flow_already_configured(
-    hass: UniversalAssistant, nvr: NVR
+    hass: __HAC_KEEP__, nvr: NVR
 ) -> None:
     """A discovered API-key setup aborts if the console is already configured."""
     existing = MockConfigEntry(
@@ -2725,7 +2725,7 @@ async def test_discovery_api_key_flow_already_configured(
 
 
 async def test_reauth_public_only_survives_identity_resolution_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_public_only_entry: MockConfigEntry,
     mock_setup: None,
 ) -> None:

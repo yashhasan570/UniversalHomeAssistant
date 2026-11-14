@@ -15,7 +15,7 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -101,7 +101,7 @@ _MODEL_DESCRIPTIONS: dict[ModelType, Sequence[ProtectEntityDescription]] = {
 
 @callback
 def _async_remove_adopt_button(
-    hass: UniversalAssistant, device: ProtectAdoptableDeviceModel
+    hass: __HAC_KEEP__, device: ProtectAdoptableDeviceModel
 ) -> None:
     entity_registry = er.async_get(hass)
     if entity_id := entity_registry.async_get_entity_id(
@@ -111,7 +111,7 @@ def _async_remove_adopt_button(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UFPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

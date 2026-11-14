@@ -10,8 +10,8 @@ from sharkiq import SharkIqAuthError, get_ayla_api
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_REGION, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import selector
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 
@@ -39,7 +39,7 @@ SHARKIQ_SCHEMA = probatio.Schema(
 
 
 async def _validate_input(
-    hass: UniversalAssistant, data: Mapping[str, Any]
+    hass: __HAC_KEEP__, data: Mapping[str, Any]
 ) -> dict[str, str]:
     """Validate the user input allows us to connect."""
     new_websession = async_create_clientsession(
@@ -151,13 +151,13 @@ class SharkIqConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""
 
 
-class UnknownAuth(UniversalAssistantError):
+class UnknownAuth(__HAC_KEEP__Error):
     """Error to indicate there is an uncaught auth error."""

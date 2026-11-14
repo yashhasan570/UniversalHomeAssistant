@@ -13,7 +13,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -29,7 +29,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_airzone_create_selects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_airzone_create_selects(
     assert hass.states.get("select.dormitorio_mode") is None
 
 
-async def test_airzone_select_air_quality_mode(hass: UniversalAssistant) -> None:
+async def test_airzone_select_air_quality_mode(hass: __HAC_KEEP__) -> None:
     """Test select Air Quality mode."""
 
     await async_init_integration(hass)
@@ -77,7 +77,7 @@ async def test_airzone_select_air_quality_mode(hass: UniversalAssistant) -> None
     assert state.state == "off"
 
 
-async def test_airzone_select_mode(hass: UniversalAssistant) -> None:
+async def test_airzone_select_mode(hass: __HAC_KEEP__) -> None:
     """Test select HVAC mode."""
 
     await async_init_integration(hass)

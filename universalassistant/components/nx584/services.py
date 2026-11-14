@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components.alarm_control_panel import (
     DOMAIN as ALARM_CONTROL_PANEL_DOMAIN,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -27,7 +27,7 @@ class NX584ServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the NX584 integration."""
     service.async_register_platform_entity_service(
         hass,

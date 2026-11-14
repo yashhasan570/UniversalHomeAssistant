@@ -16,7 +16,7 @@
     "flow_title": "{name}-({model})",
     "step": {
       "discovery_confirm": {
-        "description": "Do you want to add the device `{name}` to Universal Universal Home Assistant?",
+        "description": "Do you want to add the device `{name}` to __HA_KEEP__?",
         "title": "Discovered Nexa System 2 device"
       },
       "reconfigure": {

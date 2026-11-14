@@ -7,14 +7,14 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import MockSchlageConfigEntry
 
 
 async def test_sensor_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_config_entry: Callable[[], Awaitable[MockSchlageConfigEntry]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

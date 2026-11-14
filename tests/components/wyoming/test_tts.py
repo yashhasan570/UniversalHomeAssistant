@@ -17,15 +17,15 @@ from universalassistant.components.tts import TextToSpeechCommonOption
 from universalassistant.components.wyoming import WyomingTextToSpeechOption
 from universalassistant.components.wyoming.coordinator import UPDATE_INTERVAL
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_component import DATA_INSTANCES
 from universalassistant.util import dt as dt_util
 
 from . import TTS_INFO_LANGUAGE_REPLACED, TTS_INFO_NEW_VOICE, MockAsyncTcpClient
 
 
-async def test_support(hass: UniversalAssistant, init_wyoming_tts) -> None:
+async def test_support(hass: __HAC_KEEP__, init_wyoming_tts) -> None:
     """Test supported properties."""
     state = hass.states.get("tts.test_tts")
     assert state is not None
@@ -47,7 +47,7 @@ async def test_support(hass: UniversalAssistant, init_wyoming_tts) -> None:
 
 
 async def test_voices_refreshed(
-    hass: UniversalAssistant, init_wyoming_tts: ConfigEntry
+    hass: __HAC_KEEP__, init_wyoming_tts: ConfigEntry
 ) -> None:
     """Test that a voice added on the service becomes available."""
     entity = hass.data[DATA_INSTANCES]["tts"].get_entity("tts.test_tts")
@@ -75,7 +75,7 @@ async def test_voices_refreshed(
 
 @pytest.mark.usefixtures("init_wyoming_tts")
 async def test_default_language_follows_removed_language(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the default language moves when the current one is removed."""
     entity = hass.data[DATA_INSTANCES]["tts"].get_entity("tts.test_tts")
@@ -94,7 +94,7 @@ async def test_default_language_follows_removed_language(
 
 
 @pytest.mark.usefixtures("init_wyoming_tts")
-async def test_voices_kept_when_refresh_fails(hass: UniversalAssistant) -> None:
+async def test_voices_kept_when_refresh_fails(hass: __HAC_KEEP__) -> None:
     """Test that the last known voices are kept when a refresh fails."""
     entity = hass.data[DATA_INSTANCES]["tts"].get_entity("tts.test_tts")
     assert entity is not None
@@ -113,7 +113,7 @@ async def test_voices_kept_when_refresh_fails(hass: UniversalAssistant) -> None:
 
 
 async def test_get_tts_audio(
-    hass: UniversalAssistant, init_wyoming_tts, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, init_wyoming_tts, snapshot: SnapshotAssertion
 ) -> None:
     """Test get audio."""
     entity = hass.data[DATA_INSTANCES]["tts"].get_entity("tts.test_tts")
@@ -157,7 +157,7 @@ async def test_get_tts_audio(
 
 
 async def test_get_tts_audio_different_formats(
-    hass: UniversalAssistant, init_wyoming_tts, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, init_wyoming_tts, snapshot: SnapshotAssertion
 ) -> None:
     """Test changing preferred audio format."""
     audio = bytes(16000 * 2 * 1)  # one second
@@ -215,7 +215,7 @@ async def test_get_tts_audio_different_formats(
 
 
 async def test_get_tts_audio_connection_lost(
-    hass: UniversalAssistant, init_wyoming_tts
+    hass: __HAC_KEEP__, init_wyoming_tts
 ) -> None:
     """Test streaming audio and losing connection."""
     stream = tts.async_create_stream(hass, "tts.test_tts", "en-US")
@@ -224,13 +224,13 @@ async def test_get_tts_audio_connection_lost(
         MockAsyncTcpClient([None]),
     ):
         stream.async_set_message("Hello world")
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             async for _chunk in stream.async_stream_result():
                 pass
 
 
 async def test_get_tts_audio_audio_oserror(
-    hass: UniversalAssistant, init_wyoming_tts
+    hass: __HAC_KEEP__, init_wyoming_tts
 ) -> None:
     """Test get audio and error raising."""
     audio = bytes(100)
@@ -251,7 +251,7 @@ async def test_get_tts_audio_audio_oserror(
         patch.object(mock_client, "read_event", side_effect=OSError("Boom!")),
     ):
         stream.async_set_message("Hello world")
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             async for _chunk in stream.async_stream_result():
                 pass
 
@@ -269,7 +269,7 @@ async def test_get_tts_audio_audio_oserror(
     ],
 )
 async def test_get_tts_audio_error_event(
-    hass: UniversalAssistant, error_code: str | None, expected_message: str
+    hass: __HAC_KEEP__, error_code: str | None, expected_message: str
 ) -> None:
     """Test that an error event from the service is reported."""
     stream = tts.async_create_stream(hass, "tts.test_tts", "en-US")
@@ -278,13 +278,13 @@ async def test_get_tts_audio_error_event(
         MockAsyncTcpClient([Error(text="Boom!", code=error_code).event()]),
     ):
         stream.async_set_message("Hello world")
-        with pytest.raises(UniversalAssistantError, match=re.escape(expected_message)):
+        with pytest.raises(__HAC_KEEP__Error, match=re.escape(expected_message)):
             async for _chunk in stream.async_stream_result():
                 pass
 
 
 @pytest.mark.usefixtures("init_wyoming_streaming_tts")
-async def test_get_tts_audio_streaming_error_event(hass: UniversalAssistant) -> None:
+async def test_get_tts_audio_streaming_error_event(hass: __HAC_KEEP__) -> None:
     """Test that an error event received while streaming is reported."""
 
     async def message_gen():
@@ -303,14 +303,14 @@ async def test_get_tts_audio_streaming_error_event(hass: UniversalAssistant) -> 
         stream.async_set_message_stream(message_gen())
 
         with pytest.raises(
-            UniversalAssistantError, match="Error from Wyoming service: Boom!"
+            __HAC_KEEP__Error, match="Error from Wyoming service: Boom!"
         ):
             async for _chunk in stream.async_stream_result():
                 pass
 
 
 async def test_voice_speaker(
-    hass: UniversalAssistant, init_wyoming_tts, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, init_wyoming_tts, snapshot: SnapshotAssertion
 ) -> None:
     """Test using a different voice and speaker."""
     audio = bytes(100)
@@ -341,7 +341,7 @@ async def test_voice_speaker(
 
 
 async def test_get_tts_audio_streaming(
-    hass: UniversalAssistant, init_wyoming_streaming_tts, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, init_wyoming_streaming_tts, snapshot: SnapshotAssertion
 ) -> None:
     """Test get audio with streaming."""
     entity = hass.data[DATA_INSTANCES]["tts"].get_entity("tts.test_streaming_tts")

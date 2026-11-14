@@ -5,7 +5,7 @@ import logging
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_DATE
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
@@ -40,7 +40,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Date entities."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[DateEntity](
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL
@@ -52,7 +52,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -62,6 +62,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)

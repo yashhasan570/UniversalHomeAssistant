@@ -17,7 +17,7 @@ from pytest_universalassistant.common import (
 from universalassistant.components.paperless_ngx.coordinator import UPDATE_INTERVAL_STATUS
 from universalassistant.components.paperless_ngx.update import SCAN_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -25,7 +25,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_update_platfom(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -39,7 +39,7 @@ async def test_update_platfom(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_update_sensor_downgrade_upgrade(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paperless: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -68,7 +68,7 @@ async def test_update_sensor_downgrade_upgrade(
 
 
 async def test_update_sensor_status_unavailable_on_initial_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_paperless: AsyncMock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_update_sensor_status_unavailable_on_initial_refresh_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_update_sensor_status_unavailable_after_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paperless: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_update_sensor_status_unavailable_after_refresh_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_update_sensor_state_on_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paperless: AsyncMock,
     freezer: FrozenDateTimeFactory,
     mock_remote_version_data: MagicMock,
@@ -132,7 +132,7 @@ async def test_update_sensor_state_on_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_update_sensor_version_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paperless: AsyncMock,
     freezer: FrozenDateTimeFactory,
     mock_remote_version_data_unavailable: MagicMock,

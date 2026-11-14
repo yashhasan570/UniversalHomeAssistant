@@ -32,7 +32,7 @@ from universalassistant.components.light import (
     LightEntityStateAttribute,
 )
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PORT, CONF_TYPE, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -141,7 +141,7 @@ def rewrite_legacy(config: ConfigType) -> ConfigType:
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -363,18 +363,18 @@ class LimitlessLEDGroup(LightEntity, RestoreEntity):
                 self._attr_hs_color = WHITE
 
     def limitlessled_temperature(self) -> float:
-        """Convert Universal Universal Home Assistant color temperature units to percentage."""
+        """Convert __HA_KEEP__ color temperature units to percentage."""
         width = self.max_color_temp_kelvin - self.min_color_temp_kelvin
         assert self.color_temp_kelvin is not None
         temperature = (self.color_temp_kelvin - self.min_color_temp_kelvin) / width
         return max(0, min(1, temperature))
 
     def limitlessled_brightness(self) -> float:
-        """Convert Universal Universal Home Assistant brightness units to percentage."""
+        """Convert __HA_KEEP__ brightness units to percentage."""
         assert self.brightness is not None
         return self.brightness / 255
 
     def limitlessled_color(self) -> Color:
-        """Convert Universal Universal Home Assistant HS list to RGB Color tuple."""
+        """Convert __HA_KEEP__ HS list to RGB Color tuple."""
         assert self.hs_color is not None
         return Color(*color_hs_to_RGB(*self.hs_color))

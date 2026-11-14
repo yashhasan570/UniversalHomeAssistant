@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.temperature import display_temp
@@ -181,7 +181,7 @@ async def _async_service_temperature_set(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the climate services."""
     component = hass.data[DATA_COMPONENT]
 

@@ -12,8 +12,8 @@ from pyvlx import PyVLXException
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import update_callback_entity
@@ -30,7 +30,7 @@ def platform() -> Platform:
 
 @pytest.mark.parametrize("mock_pyvlx", ["mock_onoff_switch"], indirect=True)
 async def test_switch_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_pyvlx: AsyncMock,
@@ -46,7 +46,7 @@ async def test_switch_setup(
 
 
 async def test_switch_device_association(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_onoff_switch: AsyncMock,
@@ -64,7 +64,7 @@ async def test_switch_device_association(
     assert device_entry.name == mock_onoff_switch.name
 
 
-async def test_switch_is_on(hass: UniversalAssistant, mock_onoff_switch: AsyncMock) -> None:
+async def test_switch_is_on(hass: __HAC_KEEP__, mock_onoff_switch: AsyncMock) -> None:
     """Test switch on state."""
     entity_id = f"switch.{mock_onoff_switch.name.lower().replace(' ', '_')}"
 
@@ -84,7 +84,7 @@ async def test_switch_is_on(hass: UniversalAssistant, mock_onoff_switch: AsyncMo
 
 
 async def test_switch_turn_on_off(
-    hass: UniversalAssistant, mock_onoff_switch: AsyncMock
+    hass: __HAC_KEEP__, mock_onoff_switch: AsyncMock
 ) -> None:
     """Test turning switch on."""
     entity_id = f"switch.{mock_onoff_switch.name.lower().replace(' ', '_')}"
@@ -108,14 +108,14 @@ async def test_switch_turn_on_off(
 
 @pytest.mark.parametrize("mock_pyvlx", ["mock_onoff_switch"], indirect=True)
 async def test_switch_error_handling(
-    hass: UniversalAssistant, mock_onoff_switch: AsyncMock
+    hass: __HAC_KEEP__, mock_onoff_switch: AsyncMock
 ) -> None:
     """Test error handling when turning switching fails."""
     entity_id = f"switch.{mock_onoff_switch.name.lower().replace(' ', '_')}"
     mock_onoff_switch.set_on.side_effect = PyVLXException("Connection lost")
     mock_onoff_switch.set_off.side_effect = PyVLXException("Connection lost")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -123,7 +123,7 @@ async def test_switch_error_handling(
             blocking=True,
         )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

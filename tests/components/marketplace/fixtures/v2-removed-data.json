@@ -138,7 +138,7 @@
   { "removal_type": "blacklist", "repository": "Michsior14/ha-laser-egg" },
   {
     "removal_type": "blacklist",
-    "repository": "PTST/O365Calendar-UniversalAssistant"
+    "repository": "PTST/O365Calendar-__HAC_KEEP__"
   },
   { "removal_type": "blacklist", "repository": "Rocka84/dual-gauge-card" },
   {
@@ -147,7 +147,7 @@
   },
   {
     "removal_type": "blacklist",
-    "repository": "tenly2000/UniversalAssistant-Places"
+    "repository": "tenly2000/__HAC_KEEP__-Places"
   },
   { "removal_type": "blacklist", "repository": "xaviml/z2m_ikea_controller" },
   {
@@ -268,7 +268,7 @@
   },
   {
     "repository": "Armaell/universal-assistant-custom-icons-loader",
-    "reason": "Not working after Universal Universal Home Assistant 0.110",
+    "reason": "Not working after __HA_KEEP__ 0.110",
     "removal_type": "removed",
     "link": "https://github.com/hacs/integration/issues/1548"
   },
@@ -357,13 +357,13 @@
   },
   {
     "repository": "Bre77/myair",
-    "reason": "Added to Universal Universal Home Assistant core",
+    "reason": "Added to __HA_KEEP__ core",
     "removal_type": "replaced",
     "link": "https://www.universalassistant.io/integrations/advantage_air/"
   },
   {
     "repository": "bramkragten/lyric",
-    "reason": "Added to Universal Universal Home Assistant Core",
+    "reason": "Added to __HA_KEEP__ Core",
     "removal_type": "removal",
     "link": "https://github.com/hacs/default/pull/841"
   },
@@ -375,7 +375,7 @@
   },
   {
     "repository": "ntilley905/faastatus",
-    "reason": "Added to Universal Universal Home Assistant Core",
+    "reason": "Added to __HA_KEEP__ Core",
     "removal_type": "removal",
     "link": "https://www.universalassistant.io/integrations/faadelays/"
   },
@@ -536,7 +536,7 @@
     "link": "https://github.com/hacs/default/pull/1103"
   },
   {
-    "repository": "PTST/O365-UniversalAssistant",
+    "repository": "PTST/O365-__HAC_KEEP__",
     "reason": "Archived",
     "removal_type": "remove",
     "link": "https://github.com/hacs/default/pull/1103"
@@ -783,7 +783,7 @@
   },
   {
     "repository": "DCSBL/ha-homewizard-energy",
-    "reason": "Added to Universal Universal Home Assistant core",
+    "reason": "Added to __HA_KEEP__ core",
     "removal_type": "replaced",
     "link": "https://www.universalassistant.io/integrations/homewizard/"
   },
@@ -795,7 +795,7 @@
   },
   {
     "repository": "eavanvalkenburg/sia",
-    "reason": "Added to Universal Universal Home Assistant core",
+    "reason": "Added to __HA_KEEP__ core",
     "removal_type": "replaced",
     "link": "https://www.universalassistant.io/integrations/sia/"
   },
@@ -1124,7 +1124,7 @@
     "link": "https://github.com/hacs/integration/issues/3171"
   },
   {
-    "repository": "mlowijs/UniversalAssistant-TeslaCustomComponent",
+    "repository": "mlowijs/__HAC_KEEP__-TeslaCustomComponent",
     "reason": "remove",
     "removal_type": "Integration is missing a version, and is abandoned.",
     "link": "https://github.com/hacs/default/pull/1957"

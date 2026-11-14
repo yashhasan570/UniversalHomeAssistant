@@ -28,7 +28,7 @@ from vizaio.apps import BUNDLED_APPS, BUNDLED_AVAILABILITY
 from universalassistant.components.media_player import MediaPlayerDeviceClass
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_CLASS, CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -139,7 +139,7 @@ class VizioDeviceCoordinator(DataUpdateCoordinator[VizioDeviceData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: VizioConfigEntry,
         device: Vizio,
     ) -> None:
@@ -282,7 +282,7 @@ class VizioAppsDataUpdateCoordinator(DataUpdateCoordinator[tuple[AppRecord, ...]
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         store: Store[list[dict[str, Any]]],
     ) -> None:
         """Initialize."""

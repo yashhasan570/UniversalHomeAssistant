@@ -4,7 +4,7 @@ import asyncio
 from dataclasses import dataclass
 from typing import cast
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.issue_registry import async_refresh_issues
 from universalassistant.helpers.typing import ConfigType
@@ -27,7 +27,7 @@ class ScriptEntityConfig:
 
 
 async def _prepare_script_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
 ) -> list[ScriptEntityConfig]:
     """Parse configuration and prepare script entity configuration."""
@@ -56,7 +56,7 @@ async def _prepare_script_config(
 
 
 async def _create_script_entities(
-    hass: UniversalAssistant, script_configs: list[ScriptEntityConfig]
+    hass: __HAC_KEEP__, script_configs: list[ScriptEntityConfig]
 ) -> list[BaseScriptEntity]:
     """Create script entities from prepared configuration."""
     entities: list[BaseScriptEntity] = []
@@ -87,7 +87,7 @@ async def _create_script_entities(
 
 
 async def async_process_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     component: EntityComponent[BaseScriptEntity],
 ) -> None:

@@ -59,8 +59,8 @@ from universalassistant.const import (
     EntityStateAttribute,
     UnitOfTemperature,
 )
-from universalassistant.core import CoreState, UniversalAssistant, State
-from universalassistant.exceptions import ConditionError, UniversalAssistantError
+from universalassistant.core import CoreState, __HAC_KEEP__, State
+from universalassistant.exceptions import ConditionError, __HAC_KEEP__Error
 from universalassistant.helpers import (
     area_registry as ar,
     condition,
@@ -105,7 +105,7 @@ from universalassistant.util.yaml.loader import parse_yaml
 
 
 async def _create_primary_and_diagnostic_entities_in_area(
-    hass: UniversalAssistant, domain: str
+    hass: __HAC_KEEP__, domain: str
 ) -> tuple[str, str, str]:
     """Create a primary and a diagnostic entity in the same area.
 
@@ -188,7 +188,7 @@ def assert_condition_trace(expected):
         ),
     ],
 )
-async def test_invalid_condition(hass: UniversalAssistant, config: dict, error: str) -> None:
+async def test_invalid_condition(hass: __HAC_KEEP__, config: dict, error: str) -> None:
     """Test if validating an invalid condition raises."""
     with pytest.raises(probatio.Invalid, match=error):
         cv.CONDITION_SCHEMA(config)
@@ -212,10 +212,10 @@ async def test_invalid_condition(hass: UniversalAssistant, config: dict, error: 
         )
     ],
 )
-async def test_unknown_condition(hass: UniversalAssistant, config: dict, error: str) -> None:
+async def test_unknown_condition(hass: __HAC_KEEP__, config: dict, error: str) -> None:
     """Test if creating an unknown condition raises."""
     config = cv.CONDITION_SCHEMA(config)
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await condition.async_from_config(hass, config)
 
 
@@ -318,7 +318,7 @@ _INVALID_CONDITION_ERROR = (
     ],
 )
 async def test_validate_conditions_config_error_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     conditions: list[ConfigType],
     expected_exception: type[probatio.Invalid],
     expected_error: str,
@@ -335,7 +335,7 @@ async def test_validate_conditions_config_error_path(
     assert exc_info.value.path == expected_path
 
 
-async def test_validate_condition_config_error_path(hass: UniversalAssistant) -> None:
+async def test_validate_condition_config_error_path(hass: __HAC_KEEP__) -> None:
     """Test a probatio.Invalid error is located in a validated condition."""
     config = cv.CONDITION_SCHEMA(
         {"condition": "or", "conditions": [_VALID_CONDITION, _INVALID_CONDITION]}
@@ -354,7 +354,7 @@ async def test_validate_condition_config_error_path(hass: UniversalAssistant) ->
     [
         pytest.param(
             [_VALID_CONDITION, {"condition": "non_existing"}],
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             'Invalid condition "non_existing" specified',
             id="condition_list",
         ),
@@ -374,22 +374,22 @@ async def test_validate_condition_config_error_path(hass: UniversalAssistant) ->
     ],
 )
 async def test_validate_conditions_config_universalassistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     conditions: list[ConfigType],
-    expected_exception: type[UniversalAssistantError],
+    expected_exception: type[__HAC_KEEP__Error],
     expected_error: str,
 ) -> None:
-    """Test a UniversalAssistantError keeps its type and message."""
+    """Test a __HAC_KEEP__Error keeps its type and message."""
     config = cv.CONDITIONS_SCHEMA(conditions)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await condition.async_validate_conditions_config(hass, config)
 
     assert type(exc_info.value) is expected_exception
     assert str(exc_info.value) == expected_error
 
 
-async def test_and_condition(hass: UniversalAssistant) -> None:
+async def test_and_condition(hass: __HAC_KEEP__) -> None:
     """Test the 'and' condition."""
     config = {
         "alias": "And Condition",
@@ -462,7 +462,7 @@ async def test_and_condition(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_and_condition_raises(hass: UniversalAssistant) -> None:
+async def test_and_condition_raises(hass: __HAC_KEEP__) -> None:
     """Test the 'and' condition."""
     config = {
         "alias": "And Condition",
@@ -535,7 +535,7 @@ async def test_and_condition_raises(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_and_condition_with_template(hass: UniversalAssistant) -> None:
+async def test_and_condition_with_template(hass: __HAC_KEEP__) -> None:
     """Test the 'and' condition."""
     config = {
         "condition": "and",
@@ -574,7 +574,7 @@ async def test_and_condition_with_template(hass: UniversalAssistant) -> None:
     assert test.async_check()
 
 
-async def test_and_condition_shorthand(hass: UniversalAssistant) -> None:
+async def test_and_condition_shorthand(hass: __HAC_KEEP__) -> None:
     """Test the 'and' condition shorthand."""
     config = {
         "alias": "And Condition Shorthand",
@@ -616,7 +616,7 @@ async def test_and_condition_shorthand(hass: UniversalAssistant) -> None:
     assert test.async_check()
 
 
-async def test_and_condition_list_shorthand(hass: UniversalAssistant) -> None:
+async def test_and_condition_list_shorthand(hass: __HAC_KEEP__) -> None:
     """Test the 'and' condition list shorthand."""
     config = {
         "alias": "And Condition List Shorthand",
@@ -659,7 +659,7 @@ async def test_and_condition_list_shorthand(hass: UniversalAssistant) -> None:
 
 
 async def test_conditions_from_config_has_and_semantics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that async_conditions_from_config returns a callable with AND semantics."""
     hass.states.async_set("binary_sensor.test_one", STATE_ON)
@@ -688,7 +688,7 @@ async def test_conditions_from_config_has_and_semantics(
 
 
 async def test_conditions_from_config_forwards_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that async_conditions_from_config forwards call."""
     hass.states.async_set("binary_sensor.test_one", STATE_ON)
@@ -716,7 +716,7 @@ async def test_conditions_from_config_forwards_call(
     assert test() is False
 
 
-async def test_malformed_and_condition_list_shorthand(hass: UniversalAssistant) -> None:
+async def test_malformed_and_condition_list_shorthand(hass: __HAC_KEEP__) -> None:
     """Test the 'and' condition list shorthand syntax check."""
     config = {
         "alias": "Bad shorthand syntax",
@@ -727,7 +727,7 @@ async def test_malformed_and_condition_list_shorthand(hass: UniversalAssistant) 
         cv.CONDITION_SCHEMA(config)
 
 
-async def test_or_condition(hass: UniversalAssistant) -> None:
+async def test_or_condition(hass: __HAC_KEEP__) -> None:
     """Test the 'or' condition."""
     config = {
         "alias": "Or Condition",
@@ -810,7 +810,7 @@ async def test_or_condition(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_or_condition_raises(hass: UniversalAssistant) -> None:
+async def test_or_condition_raises(hass: __HAC_KEEP__) -> None:
     """Test the 'or' condition."""
     config = {
         "alias": "Or Condition",
@@ -883,7 +883,7 @@ async def test_or_condition_raises(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_or_condition_with_template(hass: UniversalAssistant) -> None:
+async def test_or_condition_with_template(hass: __HAC_KEEP__) -> None:
     """Test the 'or' condition."""
     config = {
         "condition": "or",
@@ -910,7 +910,7 @@ async def test_or_condition_with_template(hass: UniversalAssistant) -> None:
     assert test.async_check()
 
 
-async def test_or_condition_shorthand(hass: UniversalAssistant) -> None:
+async def test_or_condition_shorthand(hass: __HAC_KEEP__) -> None:
     """Test the 'or' condition shorthand."""
     config = {
         "alias": "Or Condition Shorthand",
@@ -940,7 +940,7 @@ async def test_or_condition_shorthand(hass: UniversalAssistant) -> None:
     assert test.async_check()
 
 
-async def test_shorthand_template_condition_in_or(hass: UniversalAssistant) -> None:
+async def test_shorthand_template_condition_in_or(hass: __HAC_KEEP__) -> None:
     """Test shorthand template condition inside or block doesn't crash."""
     config = {
         "condition": "or",
@@ -959,7 +959,7 @@ async def test_shorthand_template_condition_in_or(hass: UniversalAssistant) -> N
     assert test.async_check()
 
 
-async def test_not_condition(hass: UniversalAssistant) -> None:
+async def test_not_condition(hass: __HAC_KEEP__) -> None:
     """Test the 'not' condition."""
     config = {
         "alias": "Not Condition",
@@ -1058,7 +1058,7 @@ async def test_not_condition(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_not_condition_raises(hass: UniversalAssistant) -> None:
+async def test_not_condition_raises(hass: __HAC_KEEP__) -> None:
     """Test the 'and' condition."""
     config = {
         "alias": "Not Condition",
@@ -1125,7 +1125,7 @@ async def test_not_condition_raises(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_not_condition_with_template(hass: UniversalAssistant) -> None:
+async def test_not_condition_with_template(hass: __HAC_KEEP__) -> None:
     """Test the 'or' condition."""
     config = {
         "condition": "not",
@@ -1158,7 +1158,7 @@ async def test_not_condition_with_template(hass: UniversalAssistant) -> None:
     assert not test.async_check()
 
 
-async def test_not_condition_shorthand(hass: UniversalAssistant) -> None:
+async def test_not_condition_shorthand(hass: __HAC_KEEP__) -> None:
     """Test the 'or' condition shorthand."""
     config = {
         "alias": "Not Condition Shorthand",
@@ -1194,7 +1194,7 @@ async def test_not_condition_shorthand(hass: UniversalAssistant) -> None:
     assert not test.async_check()
 
 
-async def test_time_window(hass: UniversalAssistant) -> None:
+async def test_time_window(hass: __HAC_KEEP__) -> None:
     """Test time condition windows."""
     sixam = "06:00:00"
     sixpm = "18:00:00"
@@ -1247,7 +1247,7 @@ async def test_time_window(hass: UniversalAssistant) -> None:
         assert test2.async_check()
 
 
-async def test_time_using_input_datetime(hass: UniversalAssistant) -> None:
+async def test_time_using_input_datetime(hass: __HAC_KEEP__) -> None:
     """Test time conditions using input_datetime entities."""
     await async_setup_component(
         hass,
@@ -1367,7 +1367,7 @@ async def test_time_using_input_datetime(hass: UniversalAssistant) -> None:
         condition.time(hass, before="input_datetime.not_existing")
 
 
-async def test_time_using_time(hass: UniversalAssistant) -> None:
+async def test_time_using_time(hass: __HAC_KEEP__) -> None:
     """Test time conditions using time entities."""
     hass.states.async_set(
         "time.am",
@@ -1444,7 +1444,7 @@ async def test_time_using_time(hass: UniversalAssistant) -> None:
         condition.time(hass, before="time.not_existing")
 
 
-async def test_time_using_sensor(hass: UniversalAssistant) -> None:
+async def test_time_using_sensor(hass: __HAC_KEEP__) -> None:
     """Test time conditions using sensor entities."""
     hass.states.async_set(
         "sensor.am",
@@ -1534,7 +1534,7 @@ async def test_time_using_sensor(hass: UniversalAssistant) -> None:
         condition.time(hass, before="sensor.not_existing")
 
 
-async def test_state_raises(hass: UniversalAssistant) -> None:
+async def test_state_raises(hass: __HAC_KEEP__) -> None:
     """Test that state raises ConditionError on errors."""
     # No entity
     with pytest.raises(ConditionError, match="no entity"):
@@ -1577,7 +1577,7 @@ async def test_state_raises(hass: UniversalAssistant) -> None:
         pytest.param(["100"], id="single_item_list"),
     ],
 )
-async def test_state_for(hass: UniversalAssistant, req_state: str | list[str]) -> None:
+async def test_state_for(hass: __HAC_KEEP__, req_state: str | list[str]) -> None:
     """Test state with duration.
 
     A single-element list `state` is equivalent to the scalar form.
@@ -1606,7 +1606,7 @@ async def test_state_for(hass: UniversalAssistant, req_state: str | list[str]) -
 
 
 async def test_state_for_list_of_states(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test state with duration and a list of states.
 
@@ -1642,7 +1642,7 @@ async def test_state_for_list_of_states(
     assert test.async_check()
 
 
-async def test_state_for_template(hass: UniversalAssistant) -> None:
+async def test_state_for_template(hass: __HAC_KEEP__) -> None:
     """Test state with templated duration."""
     config = {
         "condition": "and",
@@ -1670,7 +1670,7 @@ async def test_state_for_template(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("for_template", [{"{{invalid}}": 5}, {"hours": "{{ 1/0 }}"}])
 async def test_state_for_invalid_template(
-    hass: UniversalAssistant, for_template: dict[str, Any]
+    hass: __HAC_KEEP__, for_template: dict[str, Any]
 ) -> None:
     """Test state with invalid templated duration."""
     config = {
@@ -1737,7 +1737,7 @@ def test_state_for_not_allowed(extra_config: dict[str, Any], error: str) -> None
         cv.CONDITION_SCHEMA(config)
 
 
-async def test_state_unknown_attribute(hass: UniversalAssistant) -> None:
+async def test_state_unknown_attribute(hass: __HAC_KEEP__) -> None:
     """Test that state returns False on unknown attribute."""
     # Unknown attribute
     config = {
@@ -1782,7 +1782,7 @@ async def test_state_unknown_attribute(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_state_attribute_list_matching(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     req_state: list[Any],
     attribute_value: str | list[str],
     expected: bool,
@@ -1807,7 +1807,7 @@ async def test_state_attribute_list_matching(
     assert test.async_check() is expected
 
 
-async def test_state_multiple_entities(hass: UniversalAssistant) -> None:
+async def test_state_multiple_entities(hass: __HAC_KEEP__) -> None:
     """Test with multiple entities in condition."""
     config = {
         "condition": "and",
@@ -1836,7 +1836,7 @@ async def test_state_multiple_entities(hass: UniversalAssistant) -> None:
     assert not test.async_check()
 
 
-async def test_state_multiple_entities_match_any(hass: UniversalAssistant) -> None:
+async def test_state_multiple_entities_match_any(hass: __HAC_KEEP__) -> None:
     """Test with multiple entities in condition with match any."""
     config = {
         "condition": "and",
@@ -1870,7 +1870,7 @@ async def test_state_multiple_entities_match_any(hass: UniversalAssistant) -> No
     assert not test.async_check()
 
 
-async def test_multiple_states(hass: UniversalAssistant) -> None:
+async def test_multiple_states(hass: __HAC_KEEP__) -> None:
     """Test with multiple states in condition."""
     config = {
         "condition": "and",
@@ -1897,7 +1897,7 @@ async def test_multiple_states(hass: UniversalAssistant) -> None:
     assert not test.async_check()
 
 
-async def test_state_attribute(hass: UniversalAssistant) -> None:
+async def test_state_attribute(hass: __HAC_KEEP__) -> None:
     """Test with state attribute in condition."""
     config = {
         "condition": "and",
@@ -1930,7 +1930,7 @@ async def test_state_attribute(hass: UniversalAssistant) -> None:
     assert not test.async_check()
 
 
-async def test_state_attribute_boolean(hass: UniversalAssistant) -> None:
+async def test_state_attribute_boolean(hass: __HAC_KEEP__) -> None:
     """Test with boolean state attribute in condition."""
     config = {
         "condition": "state",
@@ -1956,7 +1956,7 @@ async def test_state_attribute_boolean(hass: UniversalAssistant) -> None:
 
 
 async def test_state_entity_registry_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test with entity specified by entity registry id."""
     entry = entity_registry.async_get_or_create(
@@ -1979,7 +1979,7 @@ async def test_state_entity_registry_id(
     assert not test.async_check()
 
 
-async def test_state_using_input_entities(hass: UniversalAssistant) -> None:
+async def test_state_using_input_entities(hass: __HAC_KEEP__) -> None:
     """Test state conditions using input_* entities."""
     await async_setup_component(
         hass,
@@ -2060,7 +2060,7 @@ async def test_state_using_input_entities(hass: UniversalAssistant) -> None:
     assert test.async_check()
 
 
-async def test_numeric_state_known_non_matching(hass: UniversalAssistant) -> None:
+async def test_numeric_state_known_non_matching(hass: __HAC_KEEP__) -> None:
     """Test that numeric_state doesn't match on known non-matching states."""
     hass.states.async_set("sensor.temperature", "unavailable")
     config = {
@@ -2112,7 +2112,7 @@ async def test_numeric_state_known_non_matching(hass: UniversalAssistant) -> Non
     )
 
 
-async def test_numeric_state_raises(hass: UniversalAssistant) -> None:
+async def test_numeric_state_raises(hass: __HAC_KEEP__) -> None:
     """Test that numeric_state raises ConditionError on errors."""
     # Unknown entities
     config = {
@@ -2202,7 +2202,7 @@ async def test_numeric_state_raises(hass: UniversalAssistant) -> None:
         test.async_check()
 
 
-async def test_numeric_state_unknown_attribute(hass: UniversalAssistant) -> None:
+async def test_numeric_state_unknown_attribute(hass: __HAC_KEEP__) -> None:
     """Test that numeric_state returns False on unknown attribute."""
     # Unknown attribute
     config = {
@@ -2235,7 +2235,7 @@ async def test_numeric_state_unknown_attribute(hass: UniversalAssistant) -> None
     )
 
 
-async def test_numeric_state_multiple_entities(hass: UniversalAssistant) -> None:
+async def test_numeric_state_multiple_entities(hass: __HAC_KEEP__) -> None:
     """Test with multiple entities in condition."""
     config = {
         "condition": "and",
@@ -2265,7 +2265,7 @@ async def test_numeric_state_multiple_entities(hass: UniversalAssistant) -> None
     assert not test.async_check()
 
 
-async def test_numeric_state_attribute(hass: UniversalAssistant) -> None:
+async def test_numeric_state_attribute(hass: __HAC_KEEP__) -> None:
     """Test with numeric state attribute in condition."""
     config = {
         "condition": "and",
@@ -2299,7 +2299,7 @@ async def test_numeric_state_attribute(hass: UniversalAssistant) -> None:
 
 
 async def test_numeric_state_entity_registry_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test with entity specified by entity registry id."""
     entry = entity_registry.async_get_or_create(
@@ -2322,7 +2322,7 @@ async def test_numeric_state_entity_registry_id(
     assert not test.async_check()
 
 
-async def test_numeric_state_using_input_number(hass: UniversalAssistant) -> None:
+async def test_numeric_state_using_input_number(hass: __HAC_KEEP__) -> None:
     """Test numeric_state conditions using input_number entities."""
     hass.states.async_set("number.low", 10)
     await async_setup_component(
@@ -2392,7 +2392,7 @@ async def test_numeric_state_using_input_number(hass: UniversalAssistant) -> Non
         )
 
 
-async def test_extract_entities(hass: UniversalAssistant) -> None:
+async def test_extract_entities(hass: __HAC_KEEP__) -> None:
     """Test extracting entities."""
     assert condition.async_extract_entities(
         {
@@ -2501,7 +2501,7 @@ async def test_extract_entities(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_extract_entities_zone_condition_validated(hass: UniversalAssistant) -> None:
+async def test_extract_entities_zone_condition_validated(hass: __HAC_KEEP__) -> None:
     """Test extracting entities from a validated legacy zone condition.
 
     Validation moves the top level entity_id and zone fields into options.
@@ -2521,7 +2521,7 @@ async def test_extract_entities_zone_condition_validated(hass: UniversalAssistan
     }
 
 
-async def test_extract_devices(hass: UniversalAssistant) -> None:
+async def test_extract_devices(hass: __HAC_KEEP__) -> None:
     """Test extracting devices."""
     assert condition.async_extract_devices(
         {
@@ -2570,7 +2570,7 @@ async def test_extract_devices(hass: UniversalAssistant) -> None:
     ) == {"abcd", "qwer", "abcd_not", "qwer_not", "abcd_or", "qwer_or"}
 
 
-async def test_condition_template_error(hass: UniversalAssistant) -> None:
+async def test_condition_template_error(hass: __HAC_KEEP__) -> None:
     """Test invalid template."""
     config = {"condition": "template", "value_template": "{{ undefined.state }}"}
     config = cv.CONDITION_SCHEMA(config)
@@ -2608,7 +2608,7 @@ async def test_condition_template_error(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_condition_template_error_traced_not_logged(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     value_template: str,
     expectation: AbstractContextManager,
@@ -2642,7 +2642,7 @@ async def test_condition_template_error_traced_not_logged(
 
 
 async def test_condition_template_error_logged_without_opt_in(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test template errors are logged when suppression is not opted in.
@@ -2667,7 +2667,7 @@ async def test_condition_template_error_logged_without_opt_in(
     assert "Template variable warning: 'no_such_variable' is undefined" in caplog.text
 
 
-async def test_condition_template_invalid_results(hass: UniversalAssistant) -> None:
+async def test_condition_template_invalid_results(hass: __HAC_KEEP__) -> None:
     """Test template condition render false with invalid results."""
     config = {"condition": "template", "value_template": "{{ 'string' }}"}
     config = cv.CONDITION_SCHEMA(config)
@@ -2694,7 +2694,7 @@ async def test_condition_template_invalid_results(hass: UniversalAssistant) -> N
     assert not test.async_check()
 
 
-async def test_trigger(hass: UniversalAssistant) -> None:
+async def test_trigger(hass: __HAC_KEEP__) -> None:
     """Test trigger condition."""
     config = {"alias": "Trigger Cond", "condition": "trigger", "id": "123456"}
     config = cv.CONDITION_SCHEMA(config)
@@ -2708,7 +2708,7 @@ async def test_trigger(hass: UniversalAssistant) -> None:
     assert test.async_check(variables={"trigger": {"id": "123456"}})
 
 
-async def test_platform_async_get_conditions(hass: UniversalAssistant) -> None:
+async def test_platform_async_get_conditions(hass: __HAC_KEEP__) -> None:
     """Test platform.async_get_conditions will be called if it exists."""
     config = {CONF_DEVICE_ID: "test", CONF_DOMAIN: "test", CONF_CONDITION: "device"}
     with patch(
@@ -2719,7 +2719,7 @@ async def test_platform_async_get_conditions(hass: UniversalAssistant) -> None:
         device_automation_async_get_conditions_mock.assert_awaited()
 
 
-async def test_platform_multiple_conditions(hass: UniversalAssistant) -> None:
+async def test_platform_multiple_conditions(hass: __HAC_KEEP__) -> None:
     """Test a condition platform with multiple conditions."""
 
     class MockCondition(Condition):
@@ -2727,7 +2727,7 @@ async def test_platform_multiple_conditions(hass: UniversalAssistant) -> None:
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: ConfigType
+            cls, hass: __HAC_KEEP__, config: ConfigType
         ) -> ConfigType:
             """Validate config."""
             return config
@@ -2746,7 +2746,7 @@ async def test_platform_multiple_conditions(hass: UniversalAssistant) -> None:
             """Check the condition."""
             return False
 
-    async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+    async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
         return {
             "_": MockCondition1,
             "cond_2": MockCondition2,
@@ -2777,7 +2777,7 @@ async def test_platform_multiple_conditions(hass: UniversalAssistant) -> None:
         await condition.async_from_config(hass, config_3)
 
 
-async def test_platform_migrate_condition(hass: UniversalAssistant) -> None:
+async def test_platform_migrate_condition(hass: __HAC_KEEP__) -> None:
     """Test a condition platform with a migration."""
 
     OPTIONS_SCHEMA_DICT = {
@@ -2790,7 +2790,7 @@ async def test_platform_migrate_condition(hass: UniversalAssistant) -> None:
 
         @classmethod
         async def async_validate_complete_config(
-            cls, hass: UniversalAssistant, complete_config: ConfigType
+            cls, hass: __HAC_KEEP__, complete_config: ConfigType
         ) -> ConfigType:
             """Validate complete config."""
             complete_config = move_top_level_schema_fields_to_options(
@@ -2800,12 +2800,12 @@ async def test_platform_migrate_condition(hass: UniversalAssistant) -> None:
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: ConfigType
+            cls, hass: __HAC_KEEP__, config: ConfigType
         ) -> ConfigType:
             """Validate config."""
             return config
 
-    async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+    async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
         return {
             "_": MockCondition,
         }
@@ -2846,7 +2846,7 @@ async def test_platform_migrate_condition(hass: UniversalAssistant) -> None:
 
 
 async def test_platform_backwards_compatibility_for_new_style_configs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test backwards compatibility for old-style conditions with new-style configs."""
     config_old_style = {
@@ -2869,7 +2869,7 @@ async def test_platform_backwards_compatibility_for_new_style_configs(
 
 
 async def test_get_condition_platform_registers_conditions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test _async_get_condition_platform registers and notifies."""
 
@@ -2878,7 +2878,7 @@ async def test_get_condition_platform_registers_conditions(
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: ConfigType
+            cls, hass: __HAC_KEEP__, config: ConfigType
         ) -> ConfigType:
             return config
 
@@ -2887,7 +2887,7 @@ async def test_get_condition_platform_registers_conditions(
             return True
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"cond_a": MockCondition, "cond_b": MockCondition}
 
@@ -2922,7 +2922,7 @@ async def test_get_condition_platform_registers_conditions(
 
 @pytest.mark.parametrize("enabled_value", [True, "{{ 1 == 1 }}"])
 async def test_enabled_condition(
-    hass: UniversalAssistant, enabled_value: bool | str
+    hass: __HAC_KEEP__, enabled_value: bool | str
 ) -> None:
     """Test an explicitly enabled condition."""
     config = {
@@ -2945,7 +2945,7 @@ async def test_enabled_condition(
 
 @pytest.mark.parametrize("enabled_value", [False, "{{ 1 == 9 }}"])
 async def test_disabled_condition(
-    hass: UniversalAssistant, enabled_value: bool | str
+    hass: __HAC_KEEP__, enabled_value: bool | str
 ) -> None:
     """Test a disabled condition returns none."""
     config = {
@@ -2966,7 +2966,7 @@ async def test_disabled_condition(
     assert test.async_check() is None
 
 
-async def test_condition_enabled_template_limited(hass: UniversalAssistant) -> None:
+async def test_condition_enabled_template_limited(hass: __HAC_KEEP__) -> None:
     """Test conditions enabled template raises for non-limited template uses."""
     config = {
         "enabled": "{{ states('sensor.limited') }}",
@@ -2977,11 +2977,11 @@ async def test_condition_enabled_template_limited(hass: UniversalAssistant) -> N
     config = cv.CONDITION_SCHEMA(config)
     config = await condition.async_validate_condition_config(hass, config)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await condition.async_from_config(hass, config)
 
 
-async def test_and_condition_with_disabled_condition(hass: UniversalAssistant) -> None:
+async def test_and_condition_with_disabled_condition(hass: __HAC_KEEP__) -> None:
     """Test the 'and' condition with one of the conditions disabled."""
     config = {
         "alias": "And Condition",
@@ -3046,7 +3046,7 @@ async def test_and_condition_with_disabled_condition(hass: UniversalAssistant) -
     )
 
 
-async def test_or_condition_with_disabled_condition(hass: UniversalAssistant) -> None:
+async def test_or_condition_with_disabled_condition(hass: __HAC_KEEP__) -> None:
     """Test the 'or' condition with one of the conditions disabled."""
     config = {
         "alias": "Or Condition",
@@ -3175,7 +3175,7 @@ _MODERN_SUN_CONDITIONS = (
     ],
 )
 async def test_async_get_all_descriptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sun_condition_descriptions: str,
 ) -> None:
     """Test async_get_all_descriptions."""
@@ -3384,13 +3384,13 @@ async def test_async_get_all_descriptions(
             "Unable to find conditions.yaml for the sun integration",
         ),
         (
-            UniversalAssistantError("Test error"),
+            __HAC_KEEP__Error("Test error"),
             "Unable to parse conditions.yaml for the sun integration: Test error",
         ),
     ],
 )
 async def test_async_get_all_descriptions_with_yaml_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     yaml_error: Exception,
     expected_message: str,
@@ -3419,7 +3419,7 @@ async def test_async_get_all_descriptions_with_yaml_error(
 
 
 async def test_async_get_all_descriptions_with_bad_description(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test async_get_all_descriptions."""
@@ -3455,7 +3455,7 @@ async def test_async_get_all_descriptions_with_bad_description(
 
 
 async def test_invalid_condition_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test invalid condition platform."""
@@ -3474,7 +3474,7 @@ async def test_invalid_condition_platform(
 async def test_subscribe_conditions(
     mock_has_conditions: Mock,
     mock_load_yaml: Mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test condition.async_subscribe_platform_events."""
@@ -3522,7 +3522,7 @@ async def test_subscribe_conditions(
 async def test_subscribe_conditions_no_conditions(
     mock_has_conditions: Mock,
     mock_load_yaml: Mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test async_subscribe_platform_events skips platforms without conditions."""
@@ -3557,7 +3557,7 @@ _DEFAULT_DOMAIN_SPECS = {"test": DomainSpec()}
 
 
 async def _setup_numerical_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_options: dict[str, Any],
     target_config: dict[str, Any],
     domain_specs: Mapping[str, DomainSpec] | None = None,
@@ -3572,7 +3572,7 @@ async def _setup_numerical_condition(
     )
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": condition_cls}
 
@@ -3722,7 +3722,7 @@ async def _setup_numerical_condition(
     ],
 )
 async def test_numerical_condition_thresholds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_options: dict[str, Any],
     state_value: str,
     expected: bool,
@@ -3743,7 +3743,7 @@ async def test_numerical_condition_thresholds(
     ["cat", STATE_UNAVAILABLE, STATE_UNKNOWN],
 )
 async def test_numerical_condition_invalid_state(
-    hass: UniversalAssistant, state_value: str
+    hass: __HAC_KEEP__, state_value: str
 ) -> None:
     """Test numerical condition with non-numeric or unavailable state values."""
     test = await _setup_numerical_condition(
@@ -3757,7 +3757,7 @@ async def test_numerical_condition_invalid_state(
 
 
 async def test_numerical_condition_attribute_value_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical condition reads from attribute when value_source is set."""
     test = await _setup_numerical_condition(
@@ -3781,7 +3781,7 @@ async def test_numerical_condition_attribute_value_source(
 
 
 async def test_numerical_condition_attribute_value_source_skips_unit_check(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical condition with attribute value_source skips entity unit check.
 
@@ -3823,7 +3823,7 @@ async def test_numerical_condition_attribute_value_source_skips_unit_check(
     ],
 )
 async def test_numerical_condition_valid_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     valid_unit: str | Undefined | None,
     entity_unit: str | None,
     expected: bool,
@@ -3851,7 +3851,7 @@ async def test_numerical_condition_valid_unit(
     ],
 )
 async def test_numerical_condition_behavior(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     behavior: str,
     one_match_expected: bool,
 ) -> None:
@@ -3880,13 +3880,13 @@ async def test_numerical_condition_behavior(
 
 
 async def test_numerical_condition_schema_requires_above_or_below(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical condition schema requires at least above or below."""
     condition_cls = make_entity_numerical_condition({"test": DomainSpec()})
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": condition_cls}
 
@@ -3912,7 +3912,7 @@ async def test_numerical_condition_schema_requires_above_or_below(
     ],
 )
 async def test_numerical_condition_schema_above_must_be_less_than_below(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     above: float,
     below: float,
     expected_result: AbstractContextManager,
@@ -3921,7 +3921,7 @@ async def test_numerical_condition_schema_above_must_be_less_than_below(
     condition_cls = make_entity_numerical_condition({"test": DomainSpec()})
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": condition_cls}
 
@@ -3946,7 +3946,7 @@ async def test_numerical_condition_schema_above_must_be_less_than_below(
 
 
 async def _setup_numerical_condition_with_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_options: dict[str, Any],
     entity_ids: str | list[str],
     domain_specs: Mapping[str, DomainSpec] | None = None,
@@ -3959,7 +3959,7 @@ async def _setup_numerical_condition_with_unit(
     )
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": condition_cls}
 
@@ -4091,7 +4091,7 @@ async def _setup_numerical_condition_with_unit(
     ],
 )
 async def test_numerical_condition_with_unit_thresholds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_options: dict[str, Any],
     state_value: str,
     expected: bool,
@@ -4112,7 +4112,7 @@ async def test_numerical_condition_with_unit_thresholds(
 
 
 async def test_numerical_condition_with_unit_entity_reference(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical condition with unit conversion for entity reference limits."""
     test = await _setup_numerical_condition_with_unit(
@@ -4147,7 +4147,7 @@ async def test_numerical_condition_with_unit_entity_reference(
 
 
 async def test_numerical_condition_with_unit_entity_reference_incompatible_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical condition returns false with incompatible unit."""
     test = await _setup_numerical_condition_with_unit(
@@ -4173,7 +4173,7 @@ async def test_numerical_condition_with_unit_entity_reference_incompatible_unit(
 
 
 async def test_numerical_condition_with_unit_tracked_value_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that tracked entity values are converted from entity unit to base unit."""
     test = await _setup_numerical_condition_with_unit(
@@ -4205,7 +4205,7 @@ async def test_numerical_condition_with_unit_tracked_value_conversion(
 
 
 async def test_numerical_condition_with_unit_attribute_value_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical condition with unit conversion reads from attribute."""
     test = await _setup_numerical_condition_with_unit(
@@ -4250,7 +4250,7 @@ async def test_numerical_condition_with_unit_attribute_value_source(
 
 
 async def test_numerical_condition_with_unit_get_entity_unit_override(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that _get_entity_unit can be overridden for custom unit resolution."""
 
@@ -4265,7 +4265,7 @@ async def test_numerical_condition_with_unit_get_entity_unit_override(
             return UnitOfTemperature.FAHRENHEIT
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": CustomCondition}
 
@@ -4299,7 +4299,7 @@ async def test_numerical_condition_with_unit_get_entity_unit_override(
 
 
 async def test_numerical_condition_with_unit_schema_accepts_valid_units(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the schema accepts valid temperature units."""
     condition_cls = make_entity_numerical_condition_with_unit(
@@ -4307,7 +4307,7 @@ async def test_numerical_condition_with_unit_schema_accepts_valid_units(
     )
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": condition_cls}
 
@@ -4332,7 +4332,7 @@ async def test_numerical_condition_with_unit_schema_accepts_valid_units(
 
 
 async def test_numerical_condition_with_unit_schema_rejects_invalid_units(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the schema rejects invalid temperature units."""
     condition_cls = make_entity_numerical_condition_with_unit(
@@ -4340,7 +4340,7 @@ async def test_numerical_condition_with_unit_schema_rejects_invalid_units(
     )
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": condition_cls}
 
@@ -4369,7 +4369,7 @@ async def test_numerical_condition_with_unit_schema_rejects_invalid_units(
     ["cat", STATE_UNAVAILABLE, STATE_UNKNOWN],
 )
 async def test_numerical_condition_with_unit_invalid_state(
-    hass: UniversalAssistant, state_value: str
+    hass: __HAC_KEEP__, state_value: str
 ) -> None:
     """Test numerical condition with unit returns false for non-numeric state values."""
     test = await _setup_numerical_condition_with_unit(
@@ -4392,7 +4392,7 @@ async def test_numerical_condition_with_unit_invalid_state(
 
 
 async def test_numerical_condition_with_unit_missing_entity_reference(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical condition returns false when entity reference does not exist."""
     test = await _setup_numerical_condition_with_unit(
@@ -4419,7 +4419,7 @@ async def test_numerical_condition_with_unit_missing_entity_reference(
     ],
 )
 async def test_numerical_condition_with_unit_behavior(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     behavior: str,
     one_match_expected: bool,
 ) -> None:
@@ -4467,7 +4467,7 @@ async def test_numerical_condition_with_unit_behavior(
 
 
 async def _setup_state_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     states: str | bool | set[str | bool],
     target_config: dict[str, Any],
     condition_options: dict[str, Any] | None = None,
@@ -4482,7 +4482,7 @@ async def _setup_state_condition(
     )
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": condition_cls}
 
@@ -4503,7 +4503,7 @@ async def _setup_state_condition(
     return test
 
 
-async def test_state_condition_single_entity(hass: UniversalAssistant) -> None:
+async def test_state_condition_single_entity(hass: __HAC_KEEP__) -> None:
     """Test state condition with a single entity."""
     test = await _setup_state_condition(
         hass, target_config={CONF_ENTITY_ID: ["test.entity_1"]}, states=STATE_ON
@@ -4516,7 +4516,7 @@ async def test_state_condition_single_entity(hass: UniversalAssistant) -> None:
     assert test.async_check() is False
 
 
-async def test_state_condition_multiple_target_states(hass: UniversalAssistant) -> None:
+async def test_state_condition_multiple_target_states(hass: __HAC_KEEP__) -> None:
     """Test state condition matching any of multiple target states."""
     test = await _setup_state_condition(
         hass, target_config={CONF_ENTITY_ID: ["test.entity_1"]}, states={"on", "heat"}
@@ -4537,7 +4537,7 @@ async def test_state_condition_multiple_target_states(hass: UniversalAssistant) 
     [STATE_UNAVAILABLE, STATE_UNKNOWN],
 )
 async def test_state_condition_unavailable_unknown(
-    hass: UniversalAssistant, state_value: str
+    hass: __HAC_KEEP__, state_value: str
 ) -> None:
     """Test state condition with unavailable/unknown entities.
 
@@ -4595,7 +4595,7 @@ async def test_state_condition_unavailable_unknown(
     assert test_all.async_check() is False
 
 
-async def test_state_condition_entity_not_found(hass: UniversalAssistant) -> None:
+async def test_state_condition_entity_not_found(hass: __HAC_KEEP__) -> None:
     """Test state condition when entity does not exist."""
     test = await _setup_state_condition(
         hass, target_config={CONF_ENTITY_ID: ["test.nonexistent"]}, states=STATE_ON
@@ -4605,7 +4605,7 @@ async def test_state_condition_entity_not_found(hass: UniversalAssistant) -> Non
     assert test.async_check() is False
 
 
-async def test_state_condition_attribute_value_source(hass: UniversalAssistant) -> None:
+async def test_state_condition_attribute_value_source(hass: __HAC_KEEP__) -> None:
     """Test state condition reads from attribute when value_source is set."""
     test = await _setup_state_condition(
         hass,
@@ -4630,7 +4630,7 @@ async def test_state_condition_attribute_value_source(hass: UniversalAssistant) 
     [(BEHAVIOR_ANY, True), (BEHAVIOR_ALL, False)],
 )
 async def test_state_condition_behavior(
-    hass: UniversalAssistant, behavior: str, one_match_expected: bool
+    hass: __HAC_KEEP__, behavior: str, one_match_expected: bool
 ) -> None:
     """Test state condition with behavior any/all."""
     test = await _setup_state_condition(
@@ -4655,7 +4655,7 @@ async def test_state_condition_behavior(
 
 
 async def test_state_condition_duration_not_met(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test state condition with duration: entity hasn't been in state long enough."""
     test = await _setup_state_condition(
@@ -4677,7 +4677,7 @@ async def test_state_condition_duration_not_met(
 
 
 async def test_state_condition_duration_met(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test state condition with duration: entity has been in state long enough."""
     test = await _setup_state_condition(
@@ -4696,7 +4696,7 @@ async def test_state_condition_duration_met(
 
 
 async def test_state_condition_duration_zero_behaves_like_no_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that for: 0 behaves the same as omitting for.
 
@@ -4719,7 +4719,7 @@ async def test_state_condition_duration_zero_behaves_like_no_duration(
 
 
 async def test_state_condition_duration_wrong_state(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test state condition with duration: entity in wrong state even after duration."""
     test = await _setup_state_condition(
@@ -4737,7 +4737,7 @@ async def test_state_condition_duration_wrong_state(
 
 
 async def test_state_condition_duration_reset_on_state_change(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test state condition with duration: timer resets when state changes."""
     test = await _setup_state_condition(
@@ -4771,7 +4771,7 @@ async def test_state_condition_duration_reset_on_state_change(
     [(BEHAVIOR_ANY, True), (BEHAVIOR_ALL, False)],
 )
 async def test_state_condition_duration_behavior(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     behavior: str,
     one_match_expected: bool,
@@ -4811,7 +4811,7 @@ async def test_state_condition_duration_behavior(
     [STATE_UNAVAILABLE, STATE_UNKNOWN],
 )
 async def test_state_condition_duration_unavailable_unknown(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, state_value: str
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, state_value: str
 ) -> None:
     """Test state condition with duration: unavailable/unknown entities are skipped.
 
@@ -4861,7 +4861,7 @@ async def test_state_condition_duration_unavailable_unknown(
 
 
 async def test_condition_checker_call_calls_async_check(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that __call__ calls async_check."""
 
@@ -4879,7 +4879,7 @@ async def test_condition_checker_call_calls_async_check(
 
 
 async def test_condition_checker_del_calls_async_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that __del__ calls async_unload if not already called."""
 
@@ -4898,7 +4898,7 @@ async def test_condition_checker_del_calls_async_unload(
 
 
 async def test_condition_checker_del_skips_if_already_unloaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that __del__ does not call async_unload if already called."""
 
@@ -4922,7 +4922,7 @@ async def test_condition_checker_del_skips_if_already_unloaded(
     unload_mock.assert_not_called()
 
 
-async def _setup_mock_integration(hass: UniversalAssistant) -> None:
+async def _setup_mock_integration(hass: __HAC_KEEP__) -> None:
     """Set up a mock integration with conditions."""
 
     class MockCondition(Condition):
@@ -4935,7 +4935,7 @@ async def _setup_mock_integration(hass: UniversalAssistant) -> None:
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: ConfigType
+            cls, hass: __HAC_KEEP__, config: ConfigType
         ) -> ConfigType:
             """Validate config."""
             return config  # Return the config unchanged for testing
@@ -4945,7 +4945,7 @@ async def _setup_mock_integration(hass: UniversalAssistant) -> None:
             raise NotImplementedError
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": MockCondition}
 
@@ -4960,7 +4960,7 @@ async def _setup_mock_integration(hass: UniversalAssistant) -> None:
     ["and", "or", "not"],
 )
 async def test_compound_condition_forwards_async_unload(
-    hass: UniversalAssistant, compound_type: str
+    hass: __HAC_KEEP__, compound_type: str
 ) -> None:
     """Test that and/or/not compound conditions forward async_unload to children."""
     await _setup_mock_integration(hass)
@@ -4994,7 +4994,7 @@ async def test_compound_condition_forwards_async_unload(
     ],
 )
 async def test_nested_compound_condition_forwards_async_unload(
-    hass: UniversalAssistant, outer_type: str, inner_type: str
+    hass: __HAC_KEEP__, outer_type: str, inner_type: str
 ) -> None:
     """Test that nested compound conditions forward async_unload recursively."""
     await _setup_mock_integration(hass)
@@ -5025,7 +5025,7 @@ async def test_nested_compound_condition_forwards_async_unload(
 
 
 async def test_conditions_from_config_forwards_async_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that async_conditions_from_config forwards async_unload to children."""
     await _setup_mock_integration(hass)
@@ -5051,7 +5051,7 @@ async def test_conditions_from_config_forwards_async_unload(
     ["and", "or", "not"],
 )
 async def test_conditions_from_config_nested_forwards_async_unload(
-    hass: UniversalAssistant, inner_type: str
+    hass: __HAC_KEEP__, inner_type: str
 ) -> None:
     """Test that async_conditions_from_config forwards async_unload recursively."""
     await _setup_mock_integration(hass)
@@ -5086,7 +5086,7 @@ _ATTR_DOMAIN_SPECS: Mapping[str, DomainSpec] = {
 
 
 async def _setup_attr_state_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_ids: str | list[str],
     states: str | bool | set[str | bool],
     condition_options: dict[str, Any] | None = None,
@@ -5098,7 +5098,7 @@ async def _setup_attr_state_condition(
     )
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": condition_cls}
 
@@ -5123,7 +5123,7 @@ async def _setup_attr_state_condition(
 
 
 async def test_state_condition_attr_duration_not_met(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test attribute-based condition with duration: not met yet."""
     test = await _setup_attr_state_condition(
@@ -5144,7 +5144,7 @@ async def test_state_condition_attr_duration_not_met(
 
 
 async def test_state_condition_attr_duration_met(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test attribute-based condition with duration: met after waiting."""
     test = await _setup_attr_state_condition(
@@ -5162,7 +5162,7 @@ async def test_state_condition_attr_duration_met(
 
 
 async def test_state_condition_attr_duration_reset_on_attr_change(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test attribute-based condition: timer resets when attribute changes.
 
@@ -5204,7 +5204,7 @@ async def test_state_condition_attr_duration_reset_on_attr_change(
     [(BEHAVIOR_ANY, True), (BEHAVIOR_ALL, False)],
 )
 async def test_state_condition_attr_duration_behavior(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     behavior: str,
     one_match_expected: bool,
@@ -5318,7 +5318,7 @@ class _AttrInitStep:
     ],
 )
 async def test_state_condition_attr_duration_initial_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     steps: list[_AttrInitStep],
     duration: int,
@@ -5351,7 +5351,7 @@ async def test_state_condition_attr_duration_initial_state(
 
 
 async def _setup_attr_state_condition_with_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target: dict[str, Any],
     states: str | bool | set[str | bool],
     condition_options: dict[str, Any] | None = None,
@@ -5363,7 +5363,7 @@ async def _setup_attr_state_condition_with_target(
     )
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": condition_cls}
 
@@ -5385,7 +5385,7 @@ async def _setup_attr_state_condition_with_target(
 
 
 async def test_state_condition_attr_duration_entity_added_to_target(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that _valid_since is primed when an entity is added to the tracked set.
 
@@ -5431,7 +5431,7 @@ async def test_state_condition_attr_duration_entity_added_to_target(
 
 
 async def test_state_condition_attr_duration_entity_removed_from_target(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test _valid_since is evicted when entity is removed from tracked set."""
     label_reg = lr.async_get(hass)
@@ -5493,7 +5493,7 @@ async def test_state_condition_attr_duration_entity_removed_from_target(
 
 
 async def test_state_condition_attr_duration_entity_added_then_state_changes(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that a newly added entity's state changes are properly tracked."""
     label_reg = lr.async_get(hass)
@@ -5536,7 +5536,7 @@ async def test_state_condition_attr_duration_entity_added_then_state_changes(
 
 
 async def test_state_condition_attr_duration_unrelated_attr_update(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that unrelated attribute updates don't reset the duration timer.
 
@@ -5567,7 +5567,7 @@ async def test_state_condition_attr_duration_unrelated_attr_update(
 
 
 async def _record_attr_steps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     start: datetime,
     entity_id: str,
@@ -5636,7 +5636,7 @@ async def _record_attr_steps(
 )
 async def test_state_condition_attr_duration_initial_state_from_history(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     steps: list[_AttrInitStep],
     wait_before_setup: int,
     initially_met: bool,
@@ -5665,7 +5665,7 @@ async def test_state_condition_attr_duration_initial_state_from_history(
 
 
 async def test_state_condition_attr_duration_history_includes_attr_only_changes(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Attribute-only invalidations inside the window must reset the timer.
 
@@ -5703,7 +5703,7 @@ async def test_state_condition_attr_duration_history_includes_attr_only_changes(
 )
 async def test_state_condition_attr_duration_from_history_multiple_entities(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     behavior: str,
     expected: bool,
 ) -> None:
@@ -5741,7 +5741,7 @@ async def test_state_condition_attr_duration_from_history_multiple_entities(
 )
 async def test_state_condition_attr_duration_history_error_falls_back(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     history_error: Exception,
 ) -> None:
     """A failing/slow history query must not break setup; it falls back.
@@ -5780,7 +5780,7 @@ async def test_state_condition_attr_duration_history_error_falls_back(
 
 
 async def test_state_condition_attr_duration_history_lookback_capped(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """The history lookback is capped, regardless of a longer `for:` duration."""
     entity_id = "test.entity_1"
@@ -5792,7 +5792,7 @@ async def test_state_condition_attr_duration_history_lookback_capped(
 
         captured: dict[str, datetime] = {}
 
-        def _capture(hass_: UniversalAssistant, start_time: datetime, **kwargs: Any) -> dict:
+        def _capture(hass_: __HAC_KEEP__, start_time: datetime, **kwargs: Any) -> dict:
             captured["start_time"] = start_time
             return {}
 
@@ -5812,7 +5812,7 @@ async def test_state_condition_attr_duration_history_lookback_capped(
 
 
 async def test_state_condition_attr_duration_history_long_for_uses_live_anchor(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """A `for:` longer than the lookback cap still uses the live anchor.
 
@@ -5839,7 +5839,7 @@ async def test_state_condition_attr_duration_history_long_for_uses_live_anchor(
 
 
 async def test_state_condition_attr_duration_history_loaded_for_added_entity(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """History is loaded for an entity added to the target after setup.
 
@@ -5898,7 +5898,7 @@ async def test_state_condition_attr_duration_history_loaded_for_added_entity(
 
 
 async def test_state_condition_attr_duration_not_counted_while_history_loads(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """The known gap: a new entity is not counted while its history loads.
 
@@ -5952,7 +5952,7 @@ async def test_state_condition_attr_duration_not_counted_while_history_loads(
 
 
 async def test_state_condition_attr_duration_benign_change_during_load_keeps_history(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """A valid live change during the load does not discard history.
 
@@ -6010,7 +6010,7 @@ async def test_state_condition_attr_duration_benign_change_during_load_keeps_his
 
 
 async def test_state_condition_attr_duration_invalidation_during_load_discards_history(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """An invalidation during the load discards the (now stale) history.
 
@@ -6064,7 +6064,7 @@ async def test_state_condition_attr_duration_invalidation_during_load_discards_h
 
 
 def _read_attr_history(
-    hass: UniversalAssistant, start_time: datetime, entity_id: str
+    hass: __HAC_KEEP__, start_time: datetime, entity_id: str
 ) -> dict[str, list[State | dict[str, Any]]]:
     """Read history the way condition priming does."""
     return history.get_significant_states(
@@ -6078,7 +6078,7 @@ def _read_attr_history(
 
 
 async def test_state_condition_attr_duration_overlapping_loads_latest_wins(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """When loads for an entity overlap, only the most recent one applies.
 
@@ -6159,7 +6159,7 @@ async def test_state_condition_attr_duration_overlapping_loads_latest_wins(
 
 
 async def test_state_condition_attr_duration_history_flushes_before_query(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Pending recorder writes are flushed before the history query.
 
@@ -6232,14 +6232,14 @@ async def test_state_condition_attr_duration_history_flushes_before_query(
 )
 async def test_state_condition_attr_duration_primes_before_recorder_started(
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     previous_history: bool,
     queued_steps: list[tuple[int, str | None, bool | None]],
     expected: bool,
 ) -> None:
     """Priming at startup does not wait for the recorder to process its queue.
 
-    The recorder only processes its queue once Universal Universal Home Assistant has started, so
+    The recorder only processes its queue once __HA_KEEP__ has started, so
     waiting for a flush during setup would block condition setup — and with it
     startup — until the priming timeout. Instead the committed history is read
     without a flush, and the state changes still queued in the recorder are taken
@@ -6300,7 +6300,7 @@ async def test_state_condition_attr_duration_primes_before_recorder_started(
 
 
 async def _async_setup_recorder_not_started(
-    hass: UniversalAssistant, async_setup_recorder_instance: RecorderInstanceGenerator
+    hass: __HAC_KEEP__, async_setup_recorder_instance: RecorderInstanceGenerator
 ) -> Recorder:
     """Set up the recorder as during startup: it does not process its queue."""
     hass.set_state(CoreState.not_running)
@@ -6331,7 +6331,7 @@ def _previous_run_history(entity_id: str, when: datetime) -> dict[str, list[Stat
 
 async def test_state_condition_attr_duration_recorder_ready_during_read(
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """The queued changes are taken from the index even if it is dropped mid-read.
 
@@ -6386,7 +6386,7 @@ async def test_state_condition_attr_duration_recorder_ready_during_read(
 
 async def test_state_condition_attr_duration_read_overlaps_queued_states(
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Rows the read returns that overlap the queued states are left out.
 
@@ -6449,7 +6449,7 @@ async def test_state_condition_attr_duration_read_overlaps_queued_states(
 
 
 async def test_async_setup_creates_history_priming_manager(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """The priming manager is created during condition setup, not on demand."""
     # condition.async_setup runs as part of the test hass fixture.
@@ -6457,7 +6457,7 @@ async def test_async_setup_creates_history_priming_manager(
 
 
 async def test_history_priming_manager_serializes_queries(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Queries run one at a time even when many conditions prime together."""
     manager = HistoryPrimingManager(hass)
@@ -6508,7 +6508,7 @@ async def _advance_until(predicate: Callable[[], bool]) -> None:
 
 
 async def test_history_priming_manager_does_not_ride_in_flight_flush(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """A priming never rides a flush that began before it arrived (the lobby).
 
@@ -6554,7 +6554,7 @@ async def test_history_priming_manager_does_not_ride_in_flight_flush(
 
 
 async def test_history_priming_manager_retries_after_cancelled_flush(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """A rider re-flushes when the flush it rode was cancelled before completing.
 
@@ -6601,7 +6601,7 @@ async def test_history_priming_manager_retries_after_cancelled_flush(
 
 
 async def test_history_priming_manager_cancelled_lobby_waiter(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """A priming cancelled while waiting in the lobby doesn't wedge later ones.
 
@@ -6642,7 +6642,7 @@ async def test_history_priming_manager_cancelled_lobby_waiter(
 
 
 async def test_state_condition_multi_state_duration_uses_history(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """A multi-state condition reads history to anchor across in-set toggles.
 
@@ -6676,7 +6676,7 @@ async def test_state_condition_multi_state_duration_uses_history(
 
 async def test_state_condition_single_state_duration_skips_history(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """A single-state condition uses last_changed directly and reads no history.
@@ -6742,7 +6742,7 @@ class _AttributeBackedStateConditionLastUpdated(_AttributeBackedStateCondition):
     ],
 )
 async def test_state_condition_state_valid_since_anchors_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     condition_cls: type[EntityConditionBase],
     duration_met_after_attr_flip: bool,
@@ -6759,7 +6759,7 @@ async def test_state_condition_state_valid_since_anchors_duration(
     """
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": condition_cls}
 
@@ -6795,7 +6795,7 @@ async def test_state_condition_state_valid_since_anchors_duration(
 
 @pytest.mark.parametrize(("primary_entities_only"), [True, False])
 async def test_state_condition_primary_entities_only(
-    hass: UniversalAssistant, primary_entities_only: bool
+    hass: __HAC_KEEP__, primary_entities_only: bool
 ) -> None:
     """Test make_entity_state_condition primary_entities_only flag."""
     (
@@ -6829,7 +6829,7 @@ async def test_state_condition_primary_entities_only(
 
 @pytest.mark.parametrize(("primary_entities_only"), [True, False])
 async def test_numerical_condition_primary_entities_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     primary_entities_only: bool,
 ) -> None:
     """Test make_entity_numerical_condition primary_entities_only flag."""
@@ -6867,7 +6867,7 @@ async def test_numerical_condition_primary_entities_only(
 
 @pytest.mark.parametrize(("primary_entities_only"), [True, False])
 async def test_state_condition_primary_entities_only_with_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     primary_entities_only: bool,
 ) -> None:
@@ -6914,7 +6914,7 @@ async def test_state_condition_primary_entities_only_with_duration(
     assert test.async_check() is True
 
 
-async def test_condition_target_exclude_only_invalid(hass: UniversalAssistant) -> None:
+async def test_condition_target_exclude_only_invalid(hass: __HAC_KEEP__) -> None:
     """Test a condition target consisting of only an exclude block is rejected."""
 
     class MockCondition(Condition):
@@ -6922,7 +6922,7 @@ async def test_condition_target_exclude_only_invalid(hass: UniversalAssistant) -
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: ConfigType
+            cls, hass: __HAC_KEEP__, config: ConfigType
         ) -> ConfigType:
             """Validate config."""
             return config
@@ -6931,7 +6931,7 @@ async def test_condition_target_exclude_only_invalid(hass: UniversalAssistant) -
             """Check the condition."""
             return True
 
-    async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+    async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
         return {"_": MockCondition}
 
     mock_integration(hass, MockModule("test"))
@@ -6970,7 +6970,7 @@ _EXCLUDED_ENTITY_ID = "test.excluded"
     ],
 )
 async def test_state_condition_target_exclude(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
     exclude: dict[str, str],
@@ -7005,7 +7005,7 @@ async def test_state_condition_target_exclude(
 
 
 async def test_state_condition_target_exclude_registry_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
 ) -> None:
@@ -7043,7 +7043,7 @@ async def test_state_condition_target_exclude_registry_update(
 
 
 async def test_async_from_config_calls_async_setup_on_checker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_from_config calls async_setup on ConditionChecker."""
 
@@ -7056,7 +7056,7 @@ async def test_async_from_config_calls_async_setup_on_checker(
     stub = StubChecker(hass)
 
     async def fake_factory(
-        hass: UniversalAssistant, config: ConfigType
+        hass: __HAC_KEEP__, config: ConfigType
     ) -> condition.ConditionChecker:
         return stub
 
@@ -7075,7 +7075,7 @@ async def test_async_from_config_calls_async_setup_on_checker(
 
 
 async def test_async_setup_invokes_async_setup_hook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that async_setup awaits _async_setup and sets _set_up."""
 
@@ -7100,9 +7100,9 @@ async def test_async_setup_invokes_async_setup_hook(
 
 
 async def test_async_check_raises_before_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
-    """Test that async_check raises UniversalAssistantError before async_setup is called."""
+    """Test that async_check raises __HAC_KEEP__Error before async_setup is called."""
 
     class MockChecker(ConditionChecker):
         def _async_check(self, **kwargs: Any) -> bool:
@@ -7110,10 +7110,10 @@ async def test_async_check_raises_before_setup(
 
     checker = MockChecker(hass)
 
-    with pytest.raises(UniversalAssistantError, match="not set up"):
+    with pytest.raises(__HAC_KEEP__Error, match="not set up"):
         checker.async_check()
 
-    with pytest.raises(UniversalAssistantError, match="not set up"):
+    with pytest.raises(__HAC_KEEP__Error, match="not set up"):
         checker(hass)
 
     await checker.async_setup()
@@ -7123,7 +7123,7 @@ async def test_async_check_raises_before_setup(
 
 
 async def test_async_unload_invokes_async_unload_hook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that async_unload calls _async_unload and sets _unloaded."""
 
@@ -7147,7 +7147,7 @@ async def test_async_unload_invokes_async_unload_hook(
     assert checker._unloaded is True
 
 
-async def test_state_condition_empty_state_value(hass: UniversalAssistant) -> None:
+async def test_state_condition_empty_state_value(hass: __HAC_KEEP__) -> None:
     """Test that async_from_config does not raise an error for an empty state value."""
     hass.states.async_set("sensor.temperature", "100")
 
@@ -7163,7 +7163,7 @@ async def test_state_condition_empty_state_value(hass: UniversalAssistant) -> No
 
 
 def _make_condition(
-    hass: UniversalAssistant, domain_specs: Mapping[str, DomainSpec]
+    hass: __HAC_KEEP__, domain_specs: Mapping[str, DomainSpec]
 ) -> EntityConditionBase:
     """Create a minimal EntityConditionBase subclass with the given domain specs."""
 
@@ -7182,7 +7182,7 @@ def _make_condition(
     return _SimpleCondition(hass, config)
 
 
-async def test_condition_entity_filter_by_domain_only(hass: UniversalAssistant) -> None:
+async def test_condition_entity_filter_by_domain_only(hass: __HAC_KEEP__) -> None:
     """Test entity_filter includes entities matching domain, excludes others."""
     cond = _make_condition(hass, {"sensor": DomainSpec(), "switch": DomainSpec()})
 
@@ -7197,7 +7197,7 @@ async def test_condition_entity_filter_by_domain_only(hass: UniversalAssistant) 
     assert result == {"sensor.temp", "sensor.humidity", "switch.light"}
 
 
-async def test_condition_entity_filter_by_device_class(hass: UniversalAssistant) -> None:
+async def test_condition_entity_filter_by_device_class(hass: __HAC_KEEP__) -> None:
     """Test entity_filter filters by device_class when specified."""
     cond = _make_condition(hass, {"sensor": DomainSpec(device_class="humidity")})
 
@@ -7215,7 +7215,7 @@ async def test_condition_entity_filter_by_device_class(hass: UniversalAssistant)
 
 
 async def test_condition_entity_filter_device_class_unknown_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test entity_filter excludes entities not in state machine or registry."""
     cond = _make_condition(hass, {"sensor": DomainSpec(device_class="humidity")})
@@ -7226,7 +7226,7 @@ async def test_condition_entity_filter_device_class_unknown_entity(
 
 
 async def test_condition_entity_filter_multiple_domains_with_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test entity_filter with multiple domains, some with device_class filtering."""
     cond = _make_condition(
@@ -7262,7 +7262,7 @@ async def test_condition_entity_filter_multiple_domains_with_device_class(
 
 
 async def test_condition_entity_filter_no_device_class_means_match_all_in_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that DomainSpec without device_class matches all entities in the domain."""
     cond = _make_condition(hass, {"cover": DomainSpec()})
@@ -7339,7 +7339,7 @@ _TEMPLATE_CONDITION = {"condition": "template", "value_template": "{{ true }}"}
     ],
 )
 async def test_needs_polling(
-    hass: UniversalAssistant, config: dict[str, Any], needs_polling: bool
+    hass: __HAC_KEEP__, config: dict[str, Any], needs_polling: bool
 ) -> None:
     """Test which conditions can change without a reported state change."""
     config = await async_validate_condition_config(hass, cv.CONDITION_SCHEMA(config))
@@ -7449,7 +7449,7 @@ async def test_needs_polling(
     ],
 )
 async def test_track_changes(
-    hass: UniversalAssistant, config: dict[str, Any], entity_id: str
+    hass: __HAC_KEEP__, config: dict[str, Any], entity_id: str
 ) -> None:
     """Test a state change of an entity the condition depends on is reported."""
     config = await async_validate_condition_config(hass, cv.CONDITION_SCHEMA(config))
@@ -7478,7 +7478,7 @@ async def test_track_changes(
     ],
 )
 async def test_track_changes_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     target: dict[str, Any],
@@ -7518,7 +7518,7 @@ async def test_track_changes_target(
 
 
 async def test_track_changes_target_registry_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -7549,32 +7549,32 @@ async def test_track_changes_target_registry_update(
     unsub()
 
 
-def _add_night_label(hass: UniversalAssistant, entity_id: str) -> None:
+def _add_night_label(hass: __HAC_KEEP__, entity_id: str) -> None:
     er.async_get(hass).async_update_entity(entity_id, labels={"night"})
 
 
-def _remove_night_label(hass: UniversalAssistant, entity_id: str) -> None:
+def _remove_night_label(hass: __HAC_KEEP__, entity_id: str) -> None:
     er.async_get(hass).async_update_entity(entity_id, labels=set())
 
 
-def _move_entity_to_bedroom(hass: UniversalAssistant, entity_id: str) -> None:
+def _move_entity_to_bedroom(hass: __HAC_KEEP__, entity_id: str) -> None:
     # An entity of a device needs a name of its own to have an area of its own
     er.async_get(hass).async_update_entity(
         entity_id, area_id="bedroom", name="Bedroom light"
     )
 
 
-def _move_device_to_bedroom(hass: UniversalAssistant, entity_id: str) -> None:
+def _move_device_to_bedroom(hass: __HAC_KEEP__, entity_id: str) -> None:
     device_id = er.async_get(hass).entities[entity_id].device_id
     assert device_id is not None
     dr.async_get(hass).async_update_device(device_id, area_id="bedroom")
 
 
-def _unlink_device(hass: UniversalAssistant, entity_id: str) -> None:
+def _unlink_device(hass: __HAC_KEEP__, entity_id: str) -> None:
     er.async_get(hass).async_update_entity(entity_id, device_id=None)
 
 
-def _move_kitchen_upstairs(hass: UniversalAssistant, entity_id: str) -> None:
+def _move_kitchen_upstairs(hass: __HAC_KEEP__, entity_id: str) -> None:
     ar.async_get(hass).async_update("kitchen", floor_id="upstairs")
 
 
@@ -7620,7 +7620,7 @@ def _move_kitchen_upstairs(hass: UniversalAssistant, entity_id: str) -> None:
     ],
 )
 async def test_track_changes_target_exclude_registry_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -7628,7 +7628,7 @@ async def test_track_changes_target_exclude_registry_update(
     label_registry: lr.LabelRegistry,
     exclude: Callable[[str], dict[str, Any]],
     initial_labels: set[str],
-    registry_update: Callable[[UniversalAssistant, str], None],
+    registry_update: Callable[[__HAC_KEEP__, str], None],
 ) -> None:
     """Test a registry change of an excluded entity id target is reported."""
     floor_registry.async_create("Upstairs")
@@ -7677,7 +7677,7 @@ async def test_track_changes_target_exclude_registry_update(
 
 
 async def test_track_changes_target_exclude_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test excluded entity ids are not tracked and need no registry tracking."""
     init_count = hass.bus.async_listeners().get(er.EVENT_ENTITY_REGISTRY_UPDATED, 0)
@@ -7711,7 +7711,7 @@ async def test_track_changes_target_exclude_entity_id(
     unsub()
 
 
-async def test_track_changes_isolates_context(hass: UniversalAssistant) -> None:
+async def test_track_changes_isolates_context(hass: __HAC_KEEP__) -> None:
     """Test the action does not run in the context of the state change caller."""
     config = await async_validate_condition_config(
         hass, cv.CONDITION_SCHEMA(_STATE_CONDITION)

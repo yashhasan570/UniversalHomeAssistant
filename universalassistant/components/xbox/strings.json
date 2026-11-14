@@ -14,7 +14,7 @@
     },
     "step": {
       "oauth_discovery": {
-        "description": "Universal Universal Home Assistant has found an Xbox device on your network. Press **Submit** to continue setting up the Xbox integration.",
+        "description": "__HA_KEEP__ has found an Xbox device on your network. Press **Submit** to continue setting up the Xbox integration.",
         "title": "Discovered Xbox device"
       },
       "pick_implementation": {

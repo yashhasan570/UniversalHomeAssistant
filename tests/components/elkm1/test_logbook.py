@@ -11,7 +11,7 @@ from universalassistant.components.elkm1.const import (
     EVENT_ELKM1_KEYPAD_KEY_PRESSED,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import _patch_discovery, _patch_elk
@@ -19,7 +19,7 @@ from . import _patch_discovery, _patch_elk
 from tests.components.logbook.common import MockRow, mock_humanify
 
 
-async def test_humanify_elkm1_keypad_event(hass: UniversalAssistant) -> None:
+async def test_humanify_elkm1_keypad_event(hass: __HAC_KEEP__) -> None:
     """Test humanifying elkm1 keypad presses."""
     hass.config.components.add("recorder")
     assert await async_setup_component(hass, "logbook", {})

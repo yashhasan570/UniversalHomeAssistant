@@ -16,8 +16,8 @@ from universalassistant.components.reolink.services import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -29,7 +29,7 @@ TEST_CAMERA_ID = f"{Platform.CAMERA}.{TEST_CAM_NAME}_fluent"
 
 
 async def test_play_chime_service_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     reolink_chime: Chime,
@@ -73,7 +73,7 @@ async def test_play_chime_service_entity(
         )
 
     reolink_chime.play = AsyncMock(side_effect=ReolinkError("Test error"))
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             "play_chime",
@@ -110,7 +110,7 @@ async def test_play_chime_service_entity(
 
 
 async def test_play_chime_service_unloaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     reolink_chime: Chime,
@@ -147,12 +147,12 @@ async def test_play_chime_service_unloaded(
 
 @pytest.fixture
 async def camera_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> MockConfigEntry:
     """Set up the Reolink camera platform."""
-    # the camera is in UTC while Universal Universal Home Assistant is in US/Pacific
+    # the camera is in UTC while __HA_KEEP__ is in US/Pacific
     reolink_host.timezone.return_value = dt_util.UTC
 
     with patch("universalassistant.components.reolink.PLATFORMS", [Platform.CAMERA]):
@@ -162,7 +162,7 @@ async def camera_config_entry(
 
 @pytest.mark.usefixtures("camera_config_entry")
 async def test_snapshot_past_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
 ) -> None:
     """Test the snapshot_past service writes the image of the camera to a file."""
@@ -185,7 +185,7 @@ async def test_snapshot_past_service(
             blocking=True,
         )
 
-    # a naive timestamp is interpreted in the Universal Universal Home Assistant timezone (US/Pacific)
+    # a naive timestamp is interpreted in the __HA_KEEP__ timezone (US/Pacific)
     # and converted to the timezone of the camera (UTC)
     reolink_host.baichuan.snapshot_past.assert_called_once_with(
         0, datetime(2025, 9, 29, 21, 30, tzinfo=dt_util.UTC), "sub", "ffmpeg"
@@ -196,7 +196,7 @@ async def test_snapshot_past_service(
 
 @pytest.mark.usefixtures("camera_config_entry")
 async def test_snapshot_past_service_not_allowed_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
 ) -> None:
     """Test the snapshot_past service with a path that is not allowed."""
@@ -223,14 +223,14 @@ async def test_snapshot_past_service_not_allowed_path(
 @pytest.mark.parametrize(
     ("side_effect", "expected"),
     [
-        (ReolinkError("Test error"), UniversalAssistantError),
+        (ReolinkError("Test error"), __HAC_KEEP__Error),
         (InvalidParameterError("Test error"), ServiceValidationError),
     ],
     ids=["reolink_error", "invalid_parameter"],
 )
 @pytest.mark.usefixtures("camera_config_entry")
 async def test_snapshot_past_service_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     side_effect: Exception,
     expected: type[Exception],
@@ -268,7 +268,7 @@ async def test_snapshot_past_service_errors(
     ],
 )
 async def test_snapshot_past_service_write_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     error: int,
     translation_key: str,
@@ -284,7 +284,7 @@ async def test_snapshot_past_service_write_error(
         ),
         patch("universalassistant.components.reolink.services.os.makedirs"),
         patch.object(hass.config, "is_allowed_path", return_value=True),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,

@@ -47,7 +47,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import (
     device_registry as dr,
@@ -60,7 +60,7 @@ from . import TOKEN_SIGNING_KEY, setup_integration
 
 
 async def test_with_pre_v7_firmware(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_with_pre_v7_firmware(
 
 @pytest.mark.freeze_time("2024-07-23 00:00:00+00:00")
 async def test_token_in_config_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
 ) -> None:
     """Test coordinator with token provided from config."""
@@ -109,7 +109,7 @@ async def test_token_in_config_file(
 @respx.mock
 @pytest.mark.freeze_time("2024-07-23 00:00:00+00:00")
 async def test_expired_token_in_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
 ) -> None:
     """Test coordinator with expired token provided from config."""
@@ -156,7 +156,7 @@ async def test_expired_token_in_config(
 )
 @respx.mock
 async def test_not_expired_token_with_manual_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -185,7 +185,7 @@ async def test_not_expired_token_with_manual_token(
 )
 @respx.mock
 async def test_almost_expired_token_with_manual_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -236,7 +236,7 @@ async def test_almost_expired_token_with_manual_token(
 )
 @respx.mock
 async def test_expired_token_with_manual_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -254,7 +254,7 @@ async def test_expired_token_with_manual_token(
 
 
 async def test_coordinator_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -291,7 +291,7 @@ async def test_coordinator_update_error(
 
 
 async def test_coordinator_update_authentication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -315,7 +315,7 @@ async def test_coordinator_update_authentication_error(
 
 @pytest.mark.freeze_time("2024-07-23 00:00:00+00:00")
 async def test_coordinator_token_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
 ) -> None:
     """Test coordinator with expired token and failure to refresh."""
@@ -354,7 +354,7 @@ async def test_coordinator_token_refresh_error(
 @respx.mock
 @pytest.mark.freeze_time("2024-07-23 00:00:00+00:00")
 async def test_coordinator_first_update_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
 ) -> None:
     """Test coordinator update error handling."""
@@ -391,7 +391,7 @@ async def test_coordinator_first_update_auth_error(
 
 
 async def test_config_no_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
 ) -> None:
     """Test enphase_envoy init if config entry has no unique id."""
@@ -412,7 +412,7 @@ async def test_config_no_unique_id(
 
 
 async def test_config_different_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
 ) -> None:
     """Test enphase_envoy init if config entry has different unique id."""
@@ -439,7 +439,7 @@ async def test_config_different_unique_id(
     indirect=["mock_envoy"],
 )
 async def test_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -501,7 +501,7 @@ async def test_remove_config_entry_device(
 )
 @pytest.mark.usefixtures("mock_envoy")
 async def test_dry_contact_relay_via_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -527,7 +527,7 @@ async def test_dry_contact_relay_via_device(
 
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=["mock_envoy"])
 async def test_remove_config_entry_device_acb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -554,7 +554,7 @@ async def test_remove_config_entry_device_acb(
 
 
 async def test_option_change_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
 ) -> None:
@@ -604,7 +604,7 @@ def mock_envoy_setup(mock_envoy: AsyncMock):
 )
 @respx.mock
 async def test_coordinator_firmware_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -646,7 +646,7 @@ async def test_coordinator_firmware_refresh(
 
 @respx.mock
 async def test_coordinator_interface_information(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -692,7 +692,7 @@ async def test_coordinator_interface_information(
 
 @respx.mock
 async def test_coordinator_interface_information_no_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -727,7 +727,7 @@ async def test_coordinator_interface_information_no_device(
 
 @respx.mock
 async def test_coordinator_interface_information_mac_also_in_other_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -779,7 +779,7 @@ async def test_coordinator_interface_information_mac_also_in_other_device(
 
 @pytest.mark.freeze_time("2024-07-23 00:00:00+00:00")
 async def test_retry_timeout_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -818,7 +818,7 @@ async def test_retry_timeout_settings(
 
 @respx.mock
 async def test_background_task_cancel_at_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -889,7 +889,7 @@ async def test_background_task_cancel_at_unload(
 )
 @respx.mock
 async def test_coordinator_background_tasks_reraised_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     test_target: str,
@@ -938,7 +938,7 @@ async def test_coordinator_background_tasks_reraised_error(
 )
 @respx.mock
 async def test_coordinator_background_tasks_session_is_closed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -992,7 +992,7 @@ async def test_coordinator_background_tasks_session_is_closed(
 )
 @respx.mock
 async def test_coordinator_background_tasks_session_is_closed_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -1036,7 +1036,7 @@ async def test_coordinator_background_tasks_session_is_closed_not_loaded(
 
 @respx.mock
 async def test_coordinator_background_task_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,

@@ -25,7 +25,7 @@ from universalassistant.components.fan import (
 )
 from universalassistant.components.template.fan import DEFAULT_NAME
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import ConfigType
 
@@ -107,7 +107,7 @@ OPTIMISTIC_DIRECTION_CONFIG = {
 
 
 def _verify(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_state: str,
     expected_percentage: int | None = None,
     expected_oscillating: bool | None = None,
@@ -126,7 +126,7 @@ def _verify(
 
 @pytest.fixture
 async def setup_fan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     config: ConfigType,
@@ -138,7 +138,7 @@ async def setup_fan(
 
 @pytest.fixture
 async def setup_state_fan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     state_template: str,
@@ -150,7 +150,7 @@ async def setup_state_fan(
 
 @pytest.fixture
 async def setup_optimistic_fan_attribute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     extra_config: dict,
@@ -163,7 +163,7 @@ async def setup_optimistic_fan_attribute(
 
 @pytest.fixture
 async def setup_single_attribute_state_fan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     attribute: str,
@@ -192,7 +192,7 @@ async def setup_single_attribute_state_fan(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_fan")
-async def test_missing_optional_config(hass: UniversalAssistant) -> None:
+async def test_missing_optional_config(hass: __HAC_KEEP__) -> None:
     """Test: missing optional template is ok."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
     _verify(hass, STATE_ON, None, None, None, None)
@@ -208,7 +208,7 @@ async def test_missing_optional_config(hass: UniversalAssistant) -> None:
     [OFF_ACTION, ON_ACTION],
 )
 @pytest.mark.usefixtures("setup_optimistic_fan_attribute")
-async def test_wrong_template_config(hass: UniversalAssistant) -> None:
+async def test_wrong_template_config(hass: __HAC_KEEP__) -> None:
     """Test: missing 'turn_on' or 'turn_off' will fail."""
     assert hass.states.async_all("fan") == []
 
@@ -222,7 +222,7 @@ async def test_wrong_template_config(hass: UniversalAssistant) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_fan")
-async def test_state_template(hass: UniversalAssistant) -> None:
+async def test_state_template(hass: __HAC_KEEP__) -> None:
     """Test state template."""
     await async_trigger(hass, TEST_INPUT_BOOLEAN, STATE_OFF)
     _verify(hass, STATE_OFF, None, None, None, None)
@@ -259,7 +259,7 @@ async def test_state_template(hass: UniversalAssistant) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_fan")
-async def test_state_template_states(hass: UniversalAssistant, expected: str) -> None:
+async def test_state_template_states(hass: __HAC_KEEP__, expected: str) -> None:
     """Test state template."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
     _verify(hass, expected, None, None, None, None)
@@ -282,7 +282,7 @@ async def test_state_template_states(hass: UniversalAssistant, expected: str) ->
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_fan")
-async def test_picture_template(hass: UniversalAssistant) -> None:
+async def test_picture_template(hass: __HAC_KEEP__) -> None:
     """Test picture template."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
 
@@ -312,7 +312,7 @@ async def test_picture_template(hass: UniversalAssistant) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_fan")
-async def test_icon_template(hass: UniversalAssistant) -> None:
+async def test_icon_template(hass: __HAC_KEEP__) -> None:
     """Test icon template."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
 
@@ -355,7 +355,7 @@ async def test_icon_template(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_fan")
 async def test_percentage_template(
-    hass: UniversalAssistant, percent: str, expected: int
+    hass: __HAC_KEEP__, percent: str, expected: int
 ) -> None:
     """Test templates with fan percentages from other entities."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, percent)
@@ -391,7 +391,7 @@ async def test_percentage_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_fan")
 async def test_preset_mode_template(
-    hass: UniversalAssistant, preset_mode: str, expected: int
+    hass: __HAC_KEEP__, preset_mode: str, expected: int
 ) -> None:
     """Test preset_mode template."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, preset_mode)
@@ -425,7 +425,7 @@ async def test_preset_mode_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_fan")
 async def test_oscillating_template(
-    hass: UniversalAssistant, oscillating: str, expected: bool | None
+    hass: __HAC_KEEP__, oscillating: str, expected: bool | None
 ) -> None:
     """Test oscillating template."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, oscillating)
@@ -459,7 +459,7 @@ async def test_oscillating_template(
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_fan")
 async def test_direction_template(
-    hass: UniversalAssistant, direction: str, expected: bool | None
+    hass: __HAC_KEEP__, direction: str, expected: bool | None
 ) -> None:
     """Test direction template."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, direction)
@@ -495,7 +495,7 @@ async def test_direction_template(
     ],
 )
 @pytest.mark.usefixtures("setup_fan")
-async def test_availability_template_with_entities(hass: UniversalAssistant) -> None:
+async def test_availability_template_with_entities(hass: __HAC_KEEP__) -> None:
     """Test availability tempalates with values from other entities."""
     for state, test_assert in ((STATE_ON, True), (STATE_OFF, False)):
         await async_trigger(hass, TEST_AVAILABILITY_ENTITY, state)
@@ -605,7 +605,7 @@ async def test_availability_template_with_entities(hass: UniversalAssistant) -> 
     ],
 )
 @pytest.mark.usefixtures("setup_fan")
-async def test_template_with_unavailable_entities(hass: UniversalAssistant, states) -> None:
+async def test_template_with_unavailable_entities(hass: __HAC_KEEP__, states) -> None:
     """Test unavailability with value_template."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
     _verify(hass, states[0], states[1], states[2], states[3], None)
@@ -634,7 +634,7 @@ async def test_template_with_unavailable_entities(hass: UniversalAssistant, stat
 )
 @pytest.mark.usefixtures("setup_fan")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: UniversalAssistant, caplog_setup_text, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog_setup_text, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that an invalid availability keeps the device available."""
     # Ensure trigger entities update.
@@ -655,7 +655,7 @@ async def test_invalid_availability_template_keeps_component_available(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_fan")
-async def test_on_off(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_on_off(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test turn on and turn off."""
 
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
@@ -694,7 +694,7 @@ async def test_on_off(hass: UniversalAssistant, calls: list[ServiceCall]) -> Non
 )
 @pytest.mark.usefixtures("setup_state_fan")
 async def test_on_with_extra_attributes(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test turn on and turn off."""
 
@@ -741,7 +741,7 @@ async def test_on_with_extra_attributes(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_fan")
-async def test_set_invalid_direction_from_initial_stage(hass: UniversalAssistant) -> None:
+async def test_set_invalid_direction_from_initial_stage(hass: __HAC_KEEP__) -> None:
     """Test set invalid direction when fan is in initial state."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
 
@@ -758,7 +758,7 @@ async def test_set_invalid_direction_from_initial_stage(hass: UniversalAssistant
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_fan")
-async def test_set_osc(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_set_osc(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test set oscillating."""
     expected_calls = 0
 
@@ -784,7 +784,7 @@ async def test_set_osc(hass: UniversalAssistant, calls: list[ServiceCall]) -> No
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_fan")
-async def test_set_direction(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_set_direction(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test set valid direction."""
     expected_calls = 0
 
@@ -811,7 +811,7 @@ async def test_set_direction(hass: UniversalAssistant, calls: list[ServiceCall])
 )
 @pytest.mark.usefixtures("setup_state_fan")
 async def test_set_invalid_direction(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test set invalid direction when fan has valid direction."""
 
@@ -839,7 +839,7 @@ async def test_set_invalid_direction(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_fan")
-async def test_preset_modes(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_preset_modes(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test preset_modes."""
     for cnt, mode in enumerate(("auto", "low", "medium", "high")):
         await common.async_set_preset_mode(hass, TEST_FAN.entity_id, mode)
@@ -856,7 +856,7 @@ async def test_preset_modes(hass: UniversalAssistant, calls: list[ServiceCall]) 
 )
 @pytest.mark.usefixtures("setup_state_fan")
 async def test_invalid_preset_modes(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test invalid preset_modes."""
     for mode in ("invalid", "smart"):
@@ -873,7 +873,7 @@ async def test_invalid_preset_modes(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_fan")
-async def test_set_percentage(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_set_percentage(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test set valid speed percentage."""
     expected_calls = 0
 
@@ -907,7 +907,7 @@ async def test_set_percentage(hass: UniversalAssistant, calls: list[ServiceCall]
 )
 @pytest.mark.usefixtures("setup_state_fan")
 async def test_increase_decrease_speed(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test set valid increase and decrease speed."""
 
@@ -947,7 +947,7 @@ async def test_increase_decrease_speed(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_fan")
-async def test_optimistic_state(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_optimistic_state(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test a fan without a value_template."""
 
     await common.async_turn_on(hass, TEST_FAN.entity_id)
@@ -1037,7 +1037,7 @@ async def test_optimistic_state(hass: UniversalAssistant, calls: list[ServiceCal
 )
 @pytest.mark.usefixtures("setup_optimistic_fan_attribute")
 async def test_optimistic_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     attribute: str,
     action: str,
     verify_attr: str,
@@ -1065,7 +1065,7 @@ async def test_optimistic_attributes(
 )
 @pytest.mark.usefixtures("setup_state_fan")
 async def test_increase_decrease_speed_default_speed_count(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test set valid increase and decrease speed."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
@@ -1091,7 +1091,7 @@ async def test_increase_decrease_speed_default_speed_count(
 )
 @pytest.mark.usefixtures("setup_state_fan")
 async def test_set_invalid_osc_from_initial_state(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test set invalid oscillating when fan is in initial state."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
@@ -1110,7 +1110,7 @@ async def test_set_invalid_osc_from_initial_state(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_state_fan")
-async def test_set_invalid_osc(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_set_invalid_osc(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test set invalid oscillating when fan has valid osc."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, "anything")
     await common.async_turn_on(hass, TEST_FAN.entity_id)
@@ -1131,7 +1131,7 @@ async def test_set_invalid_osc(hass: UniversalAssistant, calls: list[ServiceCall
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 async def test_unique_id(
-    hass: UniversalAssistant, style: ConfigurationStyle, config: ConfigType
+    hass: __HAC_KEEP__, style: ConfigurationStyle, config: ConfigType
 ) -> None:
     """Test unique_id option only creates one fan per id."""
     await setup_and_test_unique_id(hass, TEST_FAN, style, config)
@@ -1142,7 +1142,7 @@ async def test_unique_id(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     config: ConfigType,
     entity_registry: er.EntityRegistry,
@@ -1166,7 +1166,7 @@ async def test_nested_unique_id(
     [({"speed_count": 0}, 1), ({"speed_count": 100}, 1), ({"speed_count": 3}, 100 / 3)],
 )
 @pytest.mark.usefixtures("setup_fan")
-async def test_speed_percentage_step(hass: UniversalAssistant, percentage_step) -> None:
+async def test_speed_percentage_step(hass: __HAC_KEEP__, percentage_step) -> None:
     """Test a fan that implements percentage."""
     assert len(hass.states.async_all()) == 1
 
@@ -1185,7 +1185,7 @@ async def test_speed_percentage_step(hass: UniversalAssistant, percentage_step) 
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_fan")
-async def test_preset_mode_supported_features(hass: UniversalAssistant) -> None:
+async def test_preset_mode_supported_features(hass: __HAC_KEEP__) -> None:
     """Test a fan that implements preset_mode."""
     assert len(hass.states.async_all()) == 1
 
@@ -1233,7 +1233,7 @@ async def test_preset_mode_supported_features(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("setup_fan")
 async def test_empty_action_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supported_features: FanEntityFeature,
 ) -> None:
     """Test configuration with empty script."""
@@ -1263,7 +1263,7 @@ async def test_empty_action_config(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_fan")
-async def test_optimistic_option(hass: UniversalAssistant) -> None:
+async def test_optimistic_option(hass: __HAC_KEEP__) -> None:
     """Test optimistic yaml option."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_OFF)
 
@@ -1309,7 +1309,7 @@ async def test_optimistic_option(hass: UniversalAssistant) -> None:
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_fan")
-async def test_not_optimistic(hass: UniversalAssistant) -> None:
+async def test_not_optimistic(hass: __HAC_KEEP__) -> None:
     """Test optimistic yaml option set to false."""
 
     await async_trigger(hass, TEST_STATE_ENTITY_ID, STATE_OFF)
@@ -1326,7 +1326,7 @@ async def test_not_optimistic(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Tests creating a fan from a config entry."""
@@ -1360,7 +1360,7 @@ async def test_setup_config_entry(
 
 
 async def test_flow_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -1561,7 +1561,7 @@ async def test_flow_preview(
     ],
 )
 async def test_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     style: ConfigurationStyle,
     saved_state: str,
@@ -1637,7 +1637,7 @@ async def test_restore_state(
     ],
 )
 async def test_invalid_yaml_actions_do_not_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     action: str,
     config: ConfigType,
@@ -1661,7 +1661,7 @@ async def test_invalid_yaml_actions_do_not_create_entities(
     ],
 )
 async def test_invalid_config_entry_actions_do_not_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action: str,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -1676,7 +1676,7 @@ async def test_invalid_config_entry_actions_do_not_create_entities(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_extra_template_attributes(
-    hass: UniversalAssistant, style: ConfigurationStyle
+    hass: __HAC_KEEP__, style: ConfigurationStyle
 ) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
@@ -1692,7 +1692,7 @@ async def test_extra_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_blocked_template_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     attribute,
     caplog: pytest.LogCaptureFixture,
@@ -1718,7 +1718,7 @@ async def test_blocked_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1740,7 +1740,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     attribute: StrEnum,
     caplog: pytest.LogCaptureFixture,

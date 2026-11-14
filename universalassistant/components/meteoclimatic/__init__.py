@@ -1,13 +1,13 @@
 """Support for Meteoclimatic weather data."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import PLATFORMS
 from .coordinator import MeteoclimaticConfigEntry, MeteoclimaticUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: MeteoclimaticConfigEntry
+    hass: __HAC_KEEP__, entry: MeteoclimaticConfigEntry
 ) -> None:
     """Set up a Meteoclimatic entry."""
     coordinator = MeteoclimaticUpdateCoordinator(hass, entry)
@@ -19,7 +19,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: MeteoclimaticConfigEntry
+    hass: __HAC_KEEP__, entry: MeteoclimaticConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

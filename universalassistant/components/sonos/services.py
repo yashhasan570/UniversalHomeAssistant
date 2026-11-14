@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.media_player import DOMAIN as MEDIA_PLAYER_DOMAIN
-from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -40,7 +40,7 @@ class SonosServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register Sonos services."""
 
     async def async_handle_snapshot_restore(

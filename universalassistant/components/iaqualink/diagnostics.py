@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import AqualinkConfigEntry
 
@@ -11,7 +11,7 @@ TO_REDACT = {"serial", "serial_number"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: AqualinkConfigEntry
+    hass: __HAC_KEEP__, entry: AqualinkConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     systems = [

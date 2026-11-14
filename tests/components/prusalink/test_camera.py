@@ -7,7 +7,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.prusalink import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
@@ -19,7 +19,7 @@ def setup_camera_platform_only():
 
 
 async def test_camera_no_job(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry,
     mock_api,
     hass_client: ClientSessionGenerator,
@@ -36,7 +36,7 @@ async def test_camera_no_job(
 
 
 async def test_camera_idle_job_mk3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry,
     mock_api,
     mock_job_api_idle_mk3,
@@ -54,7 +54,7 @@ async def test_camera_idle_job_mk3(
 
 
 async def test_camera_active_job(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry,
     mock_api,
     mock_job_api_printing,

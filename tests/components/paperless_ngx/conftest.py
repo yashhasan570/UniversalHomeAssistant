@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, load_json_object_fixture
 
 from universalassistant.components.paperless_ngx.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 from .const import USER_INPUT_ONE
@@ -102,7 +102,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_paperless: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_paperless: MagicMock
 ) -> MockConfigEntry:
     """Set up the Paperless-ngx integration for testing."""
     await setup_integration(hass, mock_config_entry)

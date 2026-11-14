@@ -5,7 +5,7 @@ from typing import override
 from yalesmartalarmclient import YaleLock, YaleLockVolume
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import YaleConfigEntry
@@ -16,7 +16,7 @@ VOLUME_OPTIONS = {value.name.lower(): str(value.value) for value in YaleLockVolu
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: YaleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

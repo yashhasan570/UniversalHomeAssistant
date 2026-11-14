@@ -6,11 +6,11 @@ from mysensors.sensor import Sensor
 
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.const import ATTR_BATTERY_LEVEL, ATTR_DEVICE_CLASS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_door_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     door_sensor: Sensor,
     receive_message: Callable[[str], None],
 ) -> None:

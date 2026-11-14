@@ -19,7 +19,7 @@ from universalassistant.components.alarm_control_panel import (
 )
 from universalassistant.components.comelit.const import SCAN_INTERVAL
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 from .const import VEDO_PIN, ZONE0
@@ -39,7 +39,7 @@ ENTITY_ID = "alarm_control_panel.area0"
     ],
 )
 async def test_entity_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
@@ -97,7 +97,7 @@ async def test_entity_availability(
     ],
 )
 async def test_arming_disarming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
     service: str,
@@ -124,7 +124,7 @@ async def test_arming_disarming(
 
 
 async def test_wrong_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
 ) -> None:

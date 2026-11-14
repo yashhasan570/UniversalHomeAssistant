@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import CONF_API_KEY, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DATA_MODULES_COORDINATOR, DATA_SERVICES
 from .coordinator import (
@@ -80,7 +80,7 @@ def _service_diagnostics(service: SolarEdgeDataService) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: SolarEdgeConfigEntry
+    hass: __HAC_KEEP__, entry: SolarEdgeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     runtime_data = entry.runtime_data

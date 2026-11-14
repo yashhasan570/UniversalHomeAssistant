@@ -11,7 +11,7 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import FixtureDevice, MockOverkizClient, SetupOverkizIntegration
@@ -70,7 +70,7 @@ def fixture_platforms() -> Generator[None]:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -83,7 +83,7 @@ async def test_binary_sensor_entities_snapshot(
 
 
 async def test_binary_sensor_smoke_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -119,7 +119,7 @@ async def test_binary_sensor_smoke_state_update(
 
 
 async def test_binary_sensor_tilt_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -155,7 +155,7 @@ async def test_binary_sensor_tilt_state_update(
 
 
 async def test_binary_sensor_unavailability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,

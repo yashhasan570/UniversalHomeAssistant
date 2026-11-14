@@ -10,8 +10,8 @@ from universalassistant.components.media_player import (
     MediaType,
     async_process_play_media_url,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import AUDIOMANAGER_STREAM_MUSIC, MEDIA_SUPPORT_FULLYKIOSK
@@ -20,7 +20,7 @@ from .entity import FullyKioskEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FullyKioskConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -70,7 +70,7 @@ class FullyMediaPlayer(FullyKioskEntity, MediaPlayerEntity):
                 exitOnCompletion=1,
             )
         else:
-            raise UniversalAssistantError(f"Unsupported media type {media_type}")
+            raise __HAC_KEEP__Error(f"Unsupported media type {media_type}")
         self._attr_state = MediaPlayerState.PLAYING
         self.async_write_ha_state()
 

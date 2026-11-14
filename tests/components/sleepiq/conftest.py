@@ -23,7 +23,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.sleepiq import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 BED_ID = "123456"
@@ -235,7 +235,7 @@ def mock_asyncsleepiq(mock_bed: MagicMock) -> Generator[MagicMock]:
 
 
 async def setup_platform(
-    hass: UniversalAssistant, platform: str | None = None
+    hass: __HAC_KEEP__, platform: str | None = None
 ) -> MockConfigEntry:
     """Set up the SleepIQ platform."""
     mock_entry = MockConfigEntry(

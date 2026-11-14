@@ -23,7 +23,7 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
 
@@ -46,7 +46,7 @@ SCAN_INTERVAL = timedelta(minutes=10)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PowerviewConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

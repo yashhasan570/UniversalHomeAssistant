@@ -10,11 +10,11 @@ import probatio
 from universalassistant.core import (
     CALLBACK_TYPE,
     Context,
-    UniversalAssistant,
+    __HAC_KEEP__,
     async_get_hass,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     chat_session,
     config_validation as cv,
@@ -48,7 +48,7 @@ if TYPE_CHECKING:
 
 @singleton.singleton("conversation_agent")
 @callback
-def get_agent_manager(hass: UniversalAssistant) -> AgentManager:
+def get_agent_manager(hass: __HAC_KEEP__) -> AgentManager:
     """Get the active agent."""
     return AgentManager(hass)
 
@@ -63,7 +63,7 @@ def agent_id_validator(value: Any) -> str:
 
 @callback
 def async_get_agent(
-    hass: UniversalAssistant, agent_id: str | None = None
+    hass: __HAC_KEEP__, agent_id: str | None = None
 ) -> AbstractConversationAgent | ConversationEntity | None:
     """Get specified agent."""
     manager = get_agent_manager(hass)
@@ -83,7 +83,7 @@ def async_get_agent(
 
 
 async def async_converse(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     text: str,
     conversation_id: str | None,
     context: Context,
@@ -139,7 +139,7 @@ async def async_converse(
                     result = await method(conversation_input)
             else:
                 result = await method(conversation_input)
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             if (
                 chat_log := current_chat_log.get()
             ) and chat_log.conversation_id == conversation_id:
@@ -166,7 +166,7 @@ type IntentsCallback = Callable[[dict[IntentSource, IntentSourceConfig]], None]
 class AgentManager:
     """Class to manage conversation agents."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the conversation agents."""
         self.hass = hass
         self._agents: dict[str, AbstractConversationAgent] = {}

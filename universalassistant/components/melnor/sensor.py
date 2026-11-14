@@ -18,7 +18,7 @@ from universalassistant.const import (
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -100,7 +100,7 @@ ZONE_ENTITY_DESCRIPTIONS: list[MelnorZoneSensorEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MelnorConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

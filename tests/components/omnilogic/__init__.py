@@ -6,12 +6,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.omnilogic.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import TELEMETRY
 
 
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Mock integration setup."""
     with (
         patch(

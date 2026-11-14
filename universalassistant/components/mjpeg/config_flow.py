@@ -24,8 +24,8 @@ from universalassistant.const import (
     HTTP_BASIC_AUTHENTICATION,
     HTTP_DIGEST_AUTHENTICATION,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import CONF_MJPEG_URL, CONF_STILL_IMAGE_URL, DOMAIN, LOGGER
 
@@ -104,7 +104,7 @@ def validate_url(
 
 
 async def async_validate_input(
-    hass: UniversalAssistant, user_input: dict[str, Any]
+    hass: __HAC_KEEP__, user_input: dict[str, Any]
 ) -> tuple[dict[str, str], str]:
     """Manage MJPEG IP Camera options."""
     errors = {}
@@ -223,5 +223,5 @@ class MJPEGOptionsFlowHandler(OptionsFlow):
         )
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

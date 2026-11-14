@@ -10,7 +10,7 @@ from rabbitair import Mode, Model, Quality, Speed
 from universalassistant import config_entries
 from universalassistant.components.rabbitair.const import DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -79,7 +79,7 @@ def get_mock_state(
 
 
 @pytest.mark.usefixtures("rabbitair_connect")
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -122,7 +122,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_form_cannot_connect(
-    hass: UniversalAssistant, error_type: type[Exception], base_value: str
+    hass: __HAC_KEEP__, error_type: type[Exception], base_value: str
 ) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
@@ -163,7 +163,7 @@ async def test_form_cannot_connect(
 
 
 @pytest.mark.usefixtures("rabbitair_connect")
-async def test_form_unknown_error(hass: UniversalAssistant) -> None:
+async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test we handle unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -203,7 +203,7 @@ async def test_form_unknown_error(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("rabbitair_connect")
-async def test_zeroconf_discovery(hass: UniversalAssistant) -> None:
+async def test_zeroconf_discovery(hass: __HAC_KEEP__) -> None:
     """Test zeroconf discovery setup flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_ZEROCONF}, data=ZEROCONF_DATA

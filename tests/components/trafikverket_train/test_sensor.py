@@ -12,12 +12,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntry
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_next(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     load_int: ConfigEntry,
     get_trains_next: list[TrainStopModel],
@@ -64,7 +64,7 @@ async def test_sensor_next(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_single_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     load_int: ConfigEntry,
     get_trains_next: list[TrainStopModel],
@@ -80,7 +80,7 @@ async def test_sensor_single_stop(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_update_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     load_int: ConfigEntry,
     get_trains_next: list[TrainStopModel],
@@ -113,7 +113,7 @@ async def test_sensor_update_auth_failure(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     load_int: ConfigEntry,
     get_trains_next: list[TrainStopModel],
@@ -143,7 +143,7 @@ async def test_sensor_update_failure(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_update_failure_no_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     load_int: ConfigEntry,
     get_trains_next: list[TrainStopModel],

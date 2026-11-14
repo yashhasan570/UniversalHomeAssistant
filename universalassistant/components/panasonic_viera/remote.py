@@ -11,7 +11,7 @@ from universalassistant.components.remote import (
     RemoteEntity,
 )
 from universalassistant.const import CONF_MAC, CONF_NAME, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -27,7 +27,7 @@ from .const import (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: PanasonicVieraConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

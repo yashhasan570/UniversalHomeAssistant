@@ -7,14 +7,14 @@ import io
 from pytest_universalassistant.common import async_fire_time_changed
 from pytest_universalassistant.typing import ClientSessionGenerator
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 async def test_bad_posting(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test that posting to wrong api endpoint fails."""
     await async_process_ha_core_config(
@@ -47,7 +47,7 @@ async def test_bad_posting(
 
 
 async def test_posting_url(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test that posting to api endpoint works."""
     await async_process_ha_core_config(

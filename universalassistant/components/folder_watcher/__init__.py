@@ -22,7 +22,7 @@ from watchdog.observers import Observer
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.dispatcher import dispatcher_send
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
@@ -32,7 +32,7 @@ from .const import CONF_FOLDER, CONF_PATTERNS, DOMAIN, PLATFORMS
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up Folder watcher from a config entry."""
 
     path: str = entry.options[CONF_FOLDER]
@@ -63,7 +63,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
 
 
 def create_event_handler(
-    patterns: list[str], hass: UniversalAssistant, entry_id: str
+    patterns: list[str], hass: __HAC_KEEP__, entry_id: str
 ) -> EventHandler:
     """Return the Watchdog EventHandler object."""
     return EventHandler(patterns, hass, entry_id)
@@ -72,7 +72,7 @@ def create_event_handler(
 class EventHandler(PatternMatchingEventHandler):
     """Class for handling Watcher events."""
 
-    def __init__(self, patterns: list[str], hass: UniversalAssistant, entry_id: str) -> None:
+    def __init__(self, patterns: list[str], hass: __HAC_KEEP__, entry_id: str) -> None:
         """Initialise the EventHandler."""
         super().__init__(patterns=patterns)
         self.hass = hass
@@ -137,7 +137,7 @@ class Watcher:
     """Class for starting Watchdog."""
 
     def __init__(
-        self, path: str, patterns: list[str], hass: UniversalAssistant, entry_id: str
+        self, path: str, patterns: list[str], hass: __HAC_KEEP__, entry_id: str
     ) -> None:
         """Initialise the watchdog observer."""
         self._observer = Observer()

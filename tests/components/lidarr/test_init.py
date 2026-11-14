@@ -2,14 +2,14 @@
 
 from universalassistant.components.lidarr.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import ComponentSetup
 
 
 async def test_setup(
-    hass: UniversalAssistant, setup_integration: ComponentSetup, connection
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup, connection
 ) -> None:
     """Test setup."""
     await setup_integration()
@@ -24,7 +24,7 @@ async def test_setup(
 
 
 async def test_async_setup_entry_not_ready(
-    hass: UniversalAssistant, setup_integration: ComponentSetup, cannot_connect
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup, cannot_connect
 ) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
     await setup_integration()
@@ -35,7 +35,7 @@ async def test_async_setup_entry_not_ready(
 
 
 async def test_async_setup_entry_auth_failed(
-    hass: UniversalAssistant, setup_integration: ComponentSetup, invalid_auth
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup, invalid_auth
 ) -> None:
     """Test that it throws ConfigEntryAuthFailed when authentication fails."""
     await setup_integration()
@@ -46,7 +46,7 @@ async def test_async_setup_entry_auth_failed(
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     setup_integration: ComponentSetup,
     connection,

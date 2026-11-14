@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.tasmota.const import DEFAULT_PREFIX, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .test_common import DEFAULT_CONFIG
@@ -18,7 +18,7 @@ from .test_common import DEFAULT_CONFIG
 
 @pytest.mark.usefixtures("mqtt_mock", "setup_tasmota")
 async def test_device_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,

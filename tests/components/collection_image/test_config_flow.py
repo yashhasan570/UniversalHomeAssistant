@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.collection_image.config_flow import IMAGE_MEDIA_URI
 from universalassistant.components.collection_image.const import CONF_MEDIA, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.util import slugify
 
@@ -35,7 +35,7 @@ TEST_TIME_NEXT = "2026-09-12T07:30:00+00:00"
 @pytest.mark.usefixtures("mock_media_source")
 @freeze_time(TEST_TIME)
 async def test_config_flow(
-    hass: UniversalAssistant, uris: list[str], expected_title: str
+    hass: __HAC_KEEP__, uris: list[str], expected_title: str
 ) -> None:
     """Test the config flow."""
 
@@ -96,7 +96,7 @@ async def test_config_flow(
 @freeze_time(TEST_TIME)
 @pytest.mark.usefixtures("mock_media_source")
 async def test_config_flow_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     uris: list[str],
     error: str,
     placeholders: dict,
@@ -165,7 +165,7 @@ async def test_config_flow_error(
 )
 @pytest.mark.usefixtures("mock_media_source")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_data: dict,
     expected_uri: str,
     freezer: FrozenDateTimeFactory,

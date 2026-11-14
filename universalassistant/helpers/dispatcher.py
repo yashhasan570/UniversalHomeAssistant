@@ -1,4 +1,4 @@
-"""Helpers for Universal Universal Home Assistant dispatcher & internal component/platform."""
+"""Helpers for __HA_KEEP__ dispatcher & internal component/platform."""
 
 from collections import defaultdict
 from collections.abc import Callable, Coroutine
@@ -9,7 +9,7 @@ from typing import Any, overload
 from universalassistant.core import (
     HassJob,
     HassJobType,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
     get_hassjob_callable_job_type,
 )
@@ -34,18 +34,18 @@ type _DispatcherDataType[*_Ts] = dict[
 
 @overload
 def dispatcher_connect[*_Ts](
-    hass: UniversalAssistant, signal: SignalType[*_Ts], target: Callable[[*_Ts], None]
+    hass: __HAC_KEEP__, signal: SignalType[*_Ts], target: Callable[[*_Ts], None]
 ) -> Callable[[], None]: ...
 
 
 @overload
 def dispatcher_connect(
-    hass: UniversalAssistant, signal: str, target: Callable[..., None]
+    hass: __HAC_KEEP__, signal: str, target: Callable[..., None]
 ) -> Callable[[], None]: ...
 
 
 def dispatcher_connect[*_Ts](  # type: ignore[misc]
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     signal: SignalType[*_Ts],
     target: Callable[[*_Ts], None],
 ) -> Callable[[], None]:
@@ -84,20 +84,20 @@ def _async_remove_dispatcher[*_Ts](
 @overload
 @callback
 def async_dispatcher_connect[*_Ts](
-    hass: UniversalAssistant, signal: SignalType[*_Ts], target: Callable[[*_Ts], Any]
+    hass: __HAC_KEEP__, signal: SignalType[*_Ts], target: Callable[[*_Ts], Any]
 ) -> Callable[[], None]: ...
 
 
 @overload
 @callback
 def async_dispatcher_connect(
-    hass: UniversalAssistant, signal: str, target: Callable[..., Any]
+    hass: __HAC_KEEP__, signal: str, target: Callable[..., Any]
 ) -> Callable[[], None]: ...
 
 
 @callback
 def async_dispatcher_connect[*_Ts](
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     signal: SignalType[*_Ts] | str,
     target: Callable[[*_Ts], Any] | Callable[..., Any],
 ) -> Callable[[], None]:
@@ -118,16 +118,16 @@ def async_dispatcher_connect[*_Ts](
 
 @overload
 def dispatcher_send[*_Ts](
-    hass: UniversalAssistant, signal: SignalType[*_Ts], *args: *_Ts
+    hass: __HAC_KEEP__, signal: SignalType[*_Ts], *args: *_Ts
 ) -> None: ...
 
 
 @overload
-def dispatcher_send(hass: UniversalAssistant, signal: str, *args: Any) -> None: ...
+def dispatcher_send(hass: __HAC_KEEP__, signal: str, *args: Any) -> None: ...
 
 
 def dispatcher_send[*_Ts](  # type: ignore[misc]
-    hass: UniversalAssistant, signal: SignalType[*_Ts], *args: *_Ts
+    hass: __HAC_KEEP__, signal: SignalType[*_Ts], *args: *_Ts
 ) -> None:
     """Send signal and data."""
     hass.loop.call_soon_threadsafe(async_dispatcher_send_internal, hass, signal, *args)
@@ -170,18 +170,18 @@ def _generate_job[*_Ts](
 @overload
 @callback
 def async_dispatcher_send[*_Ts](
-    hass: UniversalAssistant, signal: SignalType[*_Ts], *args: *_Ts
+    hass: __HAC_KEEP__, signal: SignalType[*_Ts], *args: *_Ts
 ) -> None: ...
 
 
 @overload
 @callback
-def async_dispatcher_send(hass: UniversalAssistant, signal: str, *args: Any) -> None: ...
+def async_dispatcher_send(hass: __HAC_KEEP__, signal: str, *args: Any) -> None: ...
 
 
 @callback
 def async_dispatcher_send[*_Ts](
-    hass: UniversalAssistant, signal: SignalType[*_Ts] | str, *args: *_Ts
+    hass: __HAC_KEEP__, signal: SignalType[*_Ts] | str, *args: *_Ts
 ) -> None:
     """Send signal and data.
 
@@ -202,7 +202,7 @@ def async_dispatcher_send[*_Ts](
 
 @callback
 def async_dispatcher_send_internal[*_Ts](
-    hass: UniversalAssistant, signal: SignalType[*_Ts] | str, *args: *_Ts
+    hass: __HAC_KEEP__, signal: SignalType[*_Ts] | str, *args: *_Ts
 ) -> None:
     """Send signal and data.
 

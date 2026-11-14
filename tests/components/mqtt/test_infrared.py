@@ -33,7 +33,7 @@ from pytest_universalassistant.typing import MqttMockHAClientGenerator, MqttMock
 
 from universalassistant.components import infrared, mqtt
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType
 import universalassistant.util.dt as dt_util
 
@@ -77,7 +77,7 @@ TEST_COMMAND = NECCommand(address=0x04FB, command=0x0F7, modulation=38000)
 )
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG_RECEIVER])
 async def test_receiving_command_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     freezer: FrozenDateTimeFactory,
     payload_data: dict[str, Any],
@@ -133,7 +133,7 @@ async def test_receiving_command_success(
     ],
 )
 async def test_receiving_command_success_using_value_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_receiving_command_success_using_value_template(
 )
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG_RECEIVER])
 async def test_receiving_command_unsuccessful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
     payload: str,
@@ -288,7 +288,7 @@ async def test_receiving_command_unsuccessful(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG_EMITTER])
 async def test_async_send_command_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -332,7 +332,7 @@ async def test_async_send_command_success(
     ],
 )
 async def test_async_send_command_success_with_command_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -366,7 +366,7 @@ async def test_async_send_command_success_with_command_template(
     ],
 )
 async def test_discovery_ir_entity_succeeds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     discovery_config: dict[str, Any],
 ) -> None:
@@ -417,7 +417,7 @@ async def test_discovery_ir_entity_succeeds(
     ],
 )
 async def test_discovery_ir_entity_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
     discovery_config: dict[str, Any],
@@ -439,7 +439,7 @@ async def test_discovery_ir_entity_fails(
     "hass_config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER]
 )
 async def test_availability_when_connection_lost(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability after MQTT disconnection."""
     await help_test_availability_when_connection_lost(
@@ -451,7 +451,7 @@ async def test_availability_when_connection_lost(
     "hass_config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER]
 )
 async def test_availability_without_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     hass_config: ConfigType,
 ) -> None:
@@ -463,7 +463,7 @@ async def test_availability_without_topic(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_setting_attribute_via_mqtt_json_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -475,7 +475,7 @@ async def test_setting_attribute_via_mqtt_json_message(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_setting_blocked_attribute_via_mqtt_json_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -487,7 +487,7 @@ async def test_setting_blocked_attribute_via_mqtt_json_message(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_setting_attribute_with_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -499,7 +499,7 @@ async def test_setting_attribute_with_template(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_update_with_json_attrs_not_dict(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
     config: dict[str, Any],
@@ -512,7 +512,7 @@ async def test_update_with_json_attrs_not_dict(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_update_with_json_attrs_bad_json(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
     config: dict[str, Any],
@@ -525,7 +525,7 @@ async def test_update_with_json_attrs_bad_json(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_discovery_update_attr(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -578,7 +578,7 @@ async def test_discovery_update_attr(
     ids=["receiver", "emitter"],
 )
 async def test_unique_id(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test unique id option only creates one entity per unique_id."""
     await help_test_unique_id(hass, mqtt_mock_entry, infrared.DOMAIN)
@@ -586,7 +586,7 @@ async def test_unique_id(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_discovery_removal_infrared_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -597,7 +597,7 @@ async def test_discovery_removal_infrared_entity(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_entity_device_info_with_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -609,7 +609,7 @@ async def test_entity_device_info_with_connection(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_entity_device_info_with_identifier(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -621,7 +621,7 @@ async def test_entity_device_info_with_identifier(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_entity_device_info_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -633,7 +633,7 @@ async def test_entity_device_info_update(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_entity_device_info_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -645,7 +645,7 @@ async def test_entity_device_info_remove(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_RECEIVER])
 async def test_entity_id_update_subscriptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -657,7 +657,7 @@ async def test_entity_id_update_subscriptions(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_entity_id_update_discovery_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:
@@ -669,7 +669,7 @@ async def test_entity_id_update_discovery_update(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_reloadable(
-    hass: UniversalAssistant, mqtt_client_mock: MqttMockPahoClient, config: dict[str, Any]
+    hass: __HAC_KEEP__, mqtt_client_mock: MqttMockPahoClient, config: dict[str, Any]
 ) -> None:
     """Test reloading the MQTT platform."""
     domain = infrared.DOMAIN
@@ -692,7 +692,7 @@ async def test_reloadable(
     ],
 )
 async def test_setup_manual_entity_from_yaml(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setup manual configured MQTT entity."""
     await mqtt_mock_entry()
@@ -702,7 +702,7 @@ async def test_setup_manual_entity_from_yaml(
 
 @pytest.mark.parametrize("config", [DEFAULT_CONFIG_EMITTER, DEFAULT_CONFIG_RECEIVER])
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     config: dict[str, Any],
 ) -> None:

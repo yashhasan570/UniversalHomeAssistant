@@ -8,7 +8,7 @@ from pysyncthru import SyncThru, SyncthruState
 
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
 from universalassistant.const import PERCENTAGE, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SyncThruConfigEntry
@@ -119,7 +119,7 @@ SENSOR_TYPES: tuple[SyncThruSensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SyncThruConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -22,7 +22,7 @@ from universalassistant.components.litellm.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_MODEL, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import llm
 
@@ -40,7 +40,7 @@ CONVERSATION_MODEL_OPTIONS = [
     "url_input",
     ["http://localhost:4000", "http://localhost:4000/", TEST_URL, f"{TEST_URL}/"],
 )
-async def test_full_flow(hass: UniversalAssistant, url_input: str) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, url_input: str) -> None:
     """Test the full config flow normalizes the URL and stores the key."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -59,7 +59,7 @@ async def test_full_flow(hass: UniversalAssistant, url_input: str) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_models")
-async def test_full_flow_without_api_key(hass: UniversalAssistant) -> None:
+async def test_full_flow_without_api_key(hass: __HAC_KEEP__) -> None:
     """Test the config flow works without an API key."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -83,7 +83,7 @@ async def test_full_flow_without_api_key(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     error: str,
 ) -> None:
@@ -139,7 +139,7 @@ def _status_error(
     ],
 )
 async def test_user_step_proxy_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     error: str,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_user_step_proxy_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test aborting the flow if an entry with the same URL already exists."""
@@ -197,7 +197,7 @@ async def test_duplicate_entry(
     ],
 )
 async def test_stt_subentry_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -222,7 +222,7 @@ async def test_stt_subentry_exceptions(
 
 @pytest.mark.usefixtures("mock_models")
 async def test_create_stt_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -263,7 +263,7 @@ async def test_create_stt_subentry(
 
 
 async def _create_stt_with_hints(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> str:
     """Create an STT subentry with both optional hints enabled."""
     await setup_integration(hass, mock_config_entry)
@@ -311,7 +311,7 @@ async def _create_stt_with_hints(
     ],
 )
 async def test_reconfigure_stt_hints(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hints: dict[str, str],
     expected_hints: dict[str, str],
@@ -341,7 +341,7 @@ async def test_reconfigure_stt_hints(
 
 @pytest.mark.usefixtures("mock_openai_client", "mock_models")
 async def test_reconfigure_stt_disable_hints(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test disabling hints does not save the hidden STT fields."""
     subentry_id = await _create_stt_with_hints(hass, mock_config_entry)
@@ -366,7 +366,7 @@ async def test_reconfigure_stt_disable_hints(
 
 @pytest.mark.usefixtures("mock_models")
 async def test_create_conversation_agent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -404,7 +404,7 @@ async def test_create_conversation_agent(
 
 @pytest.mark.usefixtures("mock_models")
 async def test_create_conversation_agent_no_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -434,7 +434,7 @@ async def test_create_conversation_agent_no_control(
 
 
 async def test_conversation_agent_model_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -469,7 +469,7 @@ async def test_conversation_agent_model_options(
     ],
 )
 async def test_subentry_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -494,7 +494,7 @@ async def test_subentry_exceptions(
 
 @pytest.mark.usefixtures("mock_models")
 async def test_reconfigure_conversation_agent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -528,7 +528,7 @@ async def test_reconfigure_conversation_agent(
 
 @pytest.mark.usefixtures("mock_models")
 async def test_reconfigure_conversation_agent_disable_llm_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -558,7 +558,7 @@ async def test_reconfigure_conversation_agent_disable_llm_api(
 
 @pytest.mark.parametrize("subentry_type", ["conversation", "stt"])
 async def test_reconfigure_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     subentry_type: str,
 ) -> None:
@@ -590,7 +590,7 @@ async def test_reconfigure_entry_not_loaded(
 )
 @pytest.mark.usefixtures("mock_models")
 async def test_reconfigure_conversation_subentry_llm_api_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     current_llm_apis: list[str],
@@ -626,7 +626,7 @@ async def test_reconfigure_conversation_subentry_llm_api_schema(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_models")
 async def test_reauth_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the reauthentication flow."""
     mock_config_entry.add_to_hass(hass)
@@ -657,7 +657,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_models")
 async def test_reauth_flow_loaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     api_key: str,
@@ -692,7 +692,7 @@ async def test_reauth_flow_loaded_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
     error: str,

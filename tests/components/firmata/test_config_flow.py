@@ -7,11 +7,11 @@ from pymata_express.pymata_express_serial import serial
 from universalassistant import config_entries
 from universalassistant.components.firmata.const import CONF_SERIAL_PORT, DOMAIN
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_import_cannot_connect_pymata(hass: UniversalAssistant) -> None:
+async def test_import_cannot_connect_pymata(hass: __HAC_KEEP__) -> None:
     """Test we fail with an invalid board."""
 
     with patch(
@@ -28,7 +28,7 @@ async def test_import_cannot_connect_pymata(hass: UniversalAssistant) -> None:
         assert result["reason"] == "cannot_connect"
 
 
-async def test_import_cannot_connect_serial(hass: UniversalAssistant) -> None:
+async def test_import_cannot_connect_serial(hass: __HAC_KEEP__) -> None:
     """Test we fail with an invalid board."""
 
     with patch(
@@ -45,7 +45,7 @@ async def test_import_cannot_connect_serial(hass: UniversalAssistant) -> None:
         assert result["reason"] == "cannot_connect"
 
 
-async def test_import_cannot_connect_serial_timeout(hass: UniversalAssistant) -> None:
+async def test_import_cannot_connect_serial_timeout(hass: __HAC_KEEP__) -> None:
     """Test we fail with an invalid board."""
 
     with patch(
@@ -62,7 +62,7 @@ async def test_import_cannot_connect_serial_timeout(hass: UniversalAssistant) ->
         assert result["reason"] == "cannot_connect"
 
 
-async def test_import(hass: UniversalAssistant) -> None:
+async def test_import(hass: __HAC_KEEP__) -> None:
     """Test we create an entry from config."""
 
     with (

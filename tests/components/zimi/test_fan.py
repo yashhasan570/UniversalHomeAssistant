@@ -6,14 +6,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.fan import DOMAIN as FAN_DOMAIN, FanEntityFeature
 from universalassistant.const import SERVICE_TURN_OFF, SERVICE_TURN_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import ENTITY_INFO, mock_api_device, setup_platform
 
 
 async def test_fan_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_api: MagicMock,
     snapshot: SnapshotAssertion,

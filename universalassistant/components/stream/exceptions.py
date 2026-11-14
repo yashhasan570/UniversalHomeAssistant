@@ -1,11 +1,11 @@
 """Stream component exceptions."""
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import StreamClientError
 
 
-class StreamOpenClientError(UniversalAssistantError):
+class StreamOpenClientError(__HAC_KEEP__Error):
     """Raised when client error received when trying to open a stream.
 
     :param stream_client_error: The type of client error

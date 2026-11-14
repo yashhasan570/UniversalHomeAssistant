@@ -19,7 +19,7 @@
           "bucket": "Bucket name"
         },
         "data_description": {
-          "bucket": "The name of the bucket to store the Universal Universal Home Assistant backups in."
+          "bucket": "The name of the bucket to store the __HA_KEEP__ backups in."
         },
         "title": "Select IDrive e2 bucket"
       },

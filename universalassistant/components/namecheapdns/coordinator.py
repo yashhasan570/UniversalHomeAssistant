@@ -8,7 +8,7 @@ from aiohttp import ClientError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DOMAIN, CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -30,7 +30,7 @@ class NamecheapDnsUpdateCoordinator(DataUpdateCoordinator[None]):
 
     config_entry: NamecheapConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: NamecheapConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: NamecheapConfigEntry) -> None:
         """Initialize the Namecheap DynamicDNS update coordinator."""
         super().__init__(
             hass,

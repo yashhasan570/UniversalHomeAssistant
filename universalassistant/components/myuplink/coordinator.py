@@ -9,7 +9,7 @@ from typing import override
 from myuplink import Device, DevicePoint, MyUplinkAPI, System
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -33,7 +33,7 @@ class MyUplinkDataCoordinator(DataUpdateCoordinator[CoordinatorData]):
     config_entry: MyUplinkConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: MyUplinkConfigEntry, api: MyUplinkAPI
+        self, hass: __HAC_KEEP__, config_entry: MyUplinkConfigEntry, api: MyUplinkAPI
     ) -> None:
         """Initialize myUplink coordinator."""
         super().__init__(

@@ -19,7 +19,7 @@ from universalassistant.const import (
     UnitOfElectricPotential,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -229,7 +229,7 @@ def _get_temperature(value: float | None) -> float | None:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SFRConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

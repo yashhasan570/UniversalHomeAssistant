@@ -18,7 +18,7 @@
     },
     "step": {
       "dhcp_confirm": {
-        "description": "A PoolDose device was found on your network at {ip} with MAC address {mac}.\n\nDo you want to add {name} to Universal Universal Home Assistant?",
+        "description": "A PoolDose device was found on your network at {ip} with MAC address {mac}.\n\nDo you want to add {name} to __HA_KEEP__?",
         "title": "Confirm DHCP discovered PoolDose device"
       },
       "reconfigure": {

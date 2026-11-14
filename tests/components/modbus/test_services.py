@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_SENSORS,
     CONF_TYPE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import async_get_platforms
 from universalassistant.helpers.typing import ConfigType
@@ -72,7 +72,7 @@ HUB_SERVICES = [
 
 @pytest.mark.parametrize("service", SERVICES)
 async def test_services_registered_without_yaml(
-    hass: UniversalAssistant, service: str
+    hass: __HAC_KEEP__, service: str
 ) -> None:
     """Test the actions are registered without a Modbus YAML section."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -83,7 +83,7 @@ async def test_services_registered_without_yaml(
 
 @pytest.mark.parametrize(("service", "data"), HUB_SERVICES)
 async def test_service_without_yaml_raises(
-    hass: UniversalAssistant, service: str, data: dict
+    hass: __HAC_KEEP__, service: str, data: dict
 ) -> None:
     """Test the hub actions raise without a Modbus YAML section."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -101,7 +101,7 @@ async def test_service_without_yaml_raises(
 
 @pytest.mark.parametrize(("service", "data"), HUB_SERVICES)
 async def test_service_without_hubs_raises(
-    hass: UniversalAssistant, service: str, data: dict
+    hass: __HAC_KEEP__, service: str, data: dict
 ) -> None:
     """Test the hub actions raise when Modbus is configured without any hub."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: []})
@@ -117,7 +117,7 @@ async def test_service_without_hubs_raises(
 
 @pytest.mark.parametrize(("service", "data"), HUB_SERVICES)
 async def test_service_after_failed_setup_raises(
-    hass: UniversalAssistant, service: str, data: dict
+    hass: __HAC_KEEP__, service: str, data: dict
 ) -> None:
     """Test the hub actions raise after a failed hub setup.
 
@@ -141,7 +141,7 @@ async def test_service_after_failed_setup_raises(
 
 @pytest.mark.parametrize(("service", "data"), HUB_SERVICES)
 async def test_service_after_failed_reload_raises(
-    hass: UniversalAssistant, service: str, data: dict
+    hass: __HAC_KEEP__, service: str, data: dict
 ) -> None:
     """Test the hub actions raise after a reload failed to set the hubs up."""
     assert await async_setup_component(hass, DOMAIN, HUB_CONFIG)
@@ -169,7 +169,7 @@ async def test_service_after_failed_reload_raises(
 
 @pytest.mark.usefixtures("mock_pymodbus")
 async def test_reload_after_failed_setup(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reload does not set the hubs up after a failed setup."""
     with patch(
@@ -184,7 +184,7 @@ async def test_reload_after_failed_setup(
         await hass.services.async_call(DOMAIN, ModbusService.RELOAD, {}, blocking=True)
         await hass.async_block_till_done()
 
-    assert "Modbus failed to set up, restart Universal Universal Home Assistant to retry" in caplog.text
+    assert "Modbus failed to set up, restart __HA_KEEP__ to retry" in caplog.text
     assert DATA_MODBUS_HUBS not in hass.data
 
 
@@ -207,7 +207,7 @@ async def test_reload_after_failed_setup(
     ],
 )
 async def test_reload_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     start_config: ConfigType,
     yaml_file: str,
@@ -253,7 +253,7 @@ def _two_hub_config() -> dict:
 
 
 @pytest.mark.usefixtures("mock_pymodbus")
-async def test_stop_only_disables_the_selected_hub(hass: UniversalAssistant) -> None:
+async def test_stop_only_disables_the_selected_hub(hass: __HAC_KEEP__) -> None:
     """Test stopping one hub leaves the other hub's entities alone."""
     assert await async_setup_component(hass, DOMAIN, _two_hub_config())
     await hass.async_block_till_done()

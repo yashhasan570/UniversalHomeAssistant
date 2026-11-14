@@ -3,11 +3,11 @@
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     init_components,
     init_wyoming_stt: ConfigEntry,

@@ -1,6 +1,6 @@
 """Intents for the lawn mower integration."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import intent
 
 from . import LawnMowerEntityFeature
@@ -10,7 +10,7 @@ INTENT_LANW_MOWER_START_MOWING = "HassLawnMowerStartMowing"
 INTENT_LANW_MOWER_DOCK = "HassLawnMowerDock"
 
 
-async def async_setup_intents(hass: UniversalAssistant) -> None:
+async def async_setup_intents(hass: __HAC_KEEP__) -> None:
     """Set up the lawn mower intents."""
     intent.async_register(
         hass,

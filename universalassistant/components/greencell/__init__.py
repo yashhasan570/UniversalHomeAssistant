@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant integration for Greencell EVSE devices."""
+"""__HA_KEEP__ integration for Greencell EVSE devices."""
 
 import asyncio
 from collections.abc import Callable
@@ -11,8 +11,8 @@ from greencell_client.elec_data import ElecData3Phase, ElecDataSinglePhase
 from universalassistant.components import mqtt
 from universalassistant.components.mqtt import ReceiveMessage
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import ConfigEntryNotReady, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import ConfigEntryNotReady, __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import (
@@ -53,7 +53,7 @@ def make_ready_handler(
     return _on_message
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: GreencellConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: GreencellConfigEntry) -> None:
     """Set up Greencell from a config entry."""
 
     if not await mqtt.async_wait_for_mqtt_client(hass):
@@ -76,7 +76,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GreencellConfigEntr
             unsub_volt()
     except TimeoutError as err:
         raise ConfigEntryNotReady(f"No initial data from device {serial}") from err
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         raise ConfigEntryNotReady(f"MQTT error: {err}") from err
 
     access = GreencellAccess(GreencellHaAccessLevel.EXECUTE)
@@ -98,6 +98,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GreencellConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: GreencellConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: GreencellConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

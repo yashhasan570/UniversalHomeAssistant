@@ -2,7 +2,7 @@
 
 import logging
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import CONF_PAYLOAD_TEMPLATE, COORDINATOR, DOMAIN, PLATFORM_IDX, REST_IDX
@@ -28,7 +28,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the rest platforms."""
     async_setup_shared_data(hass)
     async_setup_services(hass)
@@ -37,7 +37,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_get_config_and_coordinator(
-    hass: UniversalAssistant, platform_domain: str, discovery_info: DiscoveryInfoType
+    hass: __HAC_KEEP__, platform_domain: str, discovery_info: DiscoveryInfoType
 ) -> tuple[ConfigType, RestCoordinator, RestData]:
     """Get the config and coordinator for the platform from discovery."""
     coordinator: RestCoordinator = hass.data[DOMAIN][COORDINATOR][

@@ -1,6 +1,6 @@
 """Support for Modbus."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.frame import ReportBehavior, report_usage
 from universalassistant.helpers.typing import ConfigType
 
@@ -20,7 +20,7 @@ __all__ = [
 ]
 
 
-def get_hub(hass: UniversalAssistant, name: str) -> ModbusHub:
+def get_hub(hass: __HAC_KEEP__, name: str) -> ModbusHub:
     """Return modbus hub with name.
 
     Deprecated. Use `async_get_unit` instead, which builds a connection from
@@ -43,7 +43,7 @@ def get_hub(hass: UniversalAssistant, name: str) -> ModbusHub:
     return hass.data[DATA_MODBUS_HUBS][name]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Modbus component."""
     async_setup_services(hass)
     websocket_api.async_setup(hass)

@@ -13,7 +13,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.restore_state import RestoreEntity
 from universalassistant.helpers.typing import ConfigType
@@ -69,7 +69,7 @@ class PilightBaseDevice(RestoreEntity):
     _attr_assumed_state = True
     _attr_should_poll = False
 
-    def __init__(self, hass: UniversalAssistant, name: str, config: ConfigType) -> None:
+    def __init__(self, hass: __HAC_KEEP__, name: str, config: ConfigType) -> None:
         """Initialize a device."""
         self._hass = hass
         self._attr_name = config.get(CONF_NAME, name)

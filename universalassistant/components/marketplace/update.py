@@ -5,8 +5,8 @@ from typing import Any, override
 import probatio
 
 from universalassistant.components.update import UpdateEntity, UpdateEntityFeature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -24,7 +24,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MarketplaceConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -100,7 +100,7 @@ class RepositoryUpdateEntity(RepositoryEntity, UpdateEntity):
         ):
             return None
 
-        # Served by Universal Universal Home Assistant, which prefers the icon an integration ships
+        # Served by __HA_KEEP__, which prefers the icon an integration ships
         return f"/api/brands/integration/{self.repository.data.domain}/icon.png"
 
     @override
@@ -127,14 +127,14 @@ class RepositoryUpdateEntity(RepositoryEntity, UpdateEntity):
             warning_accepted = self.marketplace.warning_accepted(user_id)
 
         if not warning_accepted:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="warning_not_accepted",
             )
 
         to_install = version or self.latest_version
         if to_install == self.installed_version:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="version_already_installed",
                 translation_placeholders={
@@ -146,7 +146,7 @@ class RepositoryUpdateEntity(RepositoryEntity, UpdateEntity):
         try:
             await self.repository.async_install_repository(ref=to_install)
         except GitHubAnonymousRateLimitError as exception:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="github_rate_limited",
             ) from exception
@@ -154,7 +154,7 @@ class RepositoryUpdateEntity(RepositoryEntity, UpdateEntity):
             # What the error says is translated already
             if exception.translation_key:
                 raise
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="install_failed",
                 translation_placeholders={

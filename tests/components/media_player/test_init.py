@@ -31,12 +31,12 @@ from universalassistant.components.media_player.const import (
 )
 from universalassistant.components.websocket_api import TYPE_RESULT
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: UniversalAssistant):
+async def setup_universalassistant(hass: __HAC_KEEP__):
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
@@ -60,7 +60,7 @@ async def setup_universalassistant(hass: UniversalAssistant):
         "grouping",
     ],
 )
-def test_support_properties(hass: UniversalAssistant, property_suffix: str) -> None:
+def test_support_properties(hass: __HAC_KEEP__, property_suffix: str) -> None:
     """Test support_*** properties explicitly."""
 
     all_features = media_player.MediaPlayerEntityFeature(653887)
@@ -92,7 +92,7 @@ def test_support_properties(hass: UniversalAssistant, property_suffix: str) -> N
 
 
 async def test_get_image_http(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test get image via http command."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
@@ -114,7 +114,7 @@ async def test_get_image_http(
 
 
 async def test_get_image_http_unauthenticated(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test get image via http with an unauthenticated client."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
@@ -142,7 +142,7 @@ async def test_get_image_http_unauthenticated(
 
 
 async def test_get_image_http_authenticated_unknown_entity(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test get image via http for an unknown entity with an authenticated client."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
@@ -155,7 +155,7 @@ async def test_get_image_http_authenticated_unknown_entity(
 
 
 async def test_get_image_http_remote(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test get image url via http command."""
     with patch(
@@ -185,7 +185,7 @@ async def test_get_image_http_remote(
 
 
 async def test_get_image_http_missing_image(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test advertised local image with missing bytes returns not found."""
     with (
@@ -216,7 +216,7 @@ async def test_get_image_http_missing_image(
 
 
 async def test_get_image_http_log_credentials_redacted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
@@ -250,7 +250,7 @@ async def test_get_image_http_log_credentials_redacted(
 
 
 async def test_get_image_http_truncated_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -276,7 +276,7 @@ async def test_get_image_http_truncated_response(
 
 
 async def test_get_image_http_complete_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -303,7 +303,7 @@ async def test_get_image_http_complete_response(
 
 
 async def test_get_image_http_content_encoding_skips_length_check(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -333,7 +333,7 @@ async def test_get_image_http_content_encoding_skips_length_check(
 
 
 async def test_get_image_http_truncated_fetch_is_not_cached(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -365,7 +365,7 @@ async def test_get_image_http_truncated_fetch_is_not_cached(
 
 
 async def test_get_async_get_browse_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -394,7 +394,7 @@ async def test_get_async_get_browse_image(
 
 
 async def test_media_browse(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test browsing media."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
@@ -465,7 +465,7 @@ async def test_media_browse(
 
 
 async def test_media_browse_search_media_classes(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test browse media exposes the searchable media classes of a node."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
@@ -502,7 +502,7 @@ async def test_media_browse_search_media_classes(
     assert msg["result"]["search_media_classes"] == ["album", "artist"]
 
 
-async def test_media_browse_service(hass: UniversalAssistant) -> None:
+async def test_media_browse_service(hass: __HAC_KEEP__) -> None:
     """Test browsing media using service call."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
     await hass.async_block_till_done()
@@ -570,7 +570,7 @@ async def test_media_browse_service(hass: UniversalAssistant) -> None:
 
 
 async def test_media_search(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
 ) -> None:
@@ -640,7 +640,7 @@ async def test_media_search(
     assert player._context.user_id == hass_admin_user.id
 
 
-async def test_media_search_service(hass: UniversalAssistant) -> None:
+async def test_media_search_service(hass: __HAC_KEEP__) -> None:
     """Test browsing media."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
     await hass.async_block_till_done()
@@ -685,7 +685,7 @@ async def test_media_search_service(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_group_members_available_when_off(hass: UniversalAssistant) -> None:
+async def test_group_members_available_when_off(hass: __HAC_KEEP__) -> None:
     """Test that group_members are still available when media_player is off."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
     await hass.async_block_till_done()
@@ -703,7 +703,7 @@ async def test_group_members_available_when_off(hass: UniversalAssistant) -> Non
     assert "group_members" in state.attributes
 
 
-async def test_group_members_without_grouping_support(hass: UniversalAssistant) -> None:
+async def test_group_members_without_grouping_support(hass: __HAC_KEEP__) -> None:
     """Test that group_members are exposed for a player that can not be regrouped."""
     entity = MediaPlayerEntity()
     entity.hass = hass
@@ -728,7 +728,7 @@ async def test_group_members_without_grouping_support(hass: UniversalAssistant) 
         ("replace", MediaPlayerEnqueue.REPLACE),
     ],
 )
-async def test_enqueue_rewrite(hass: UniversalAssistant, input, expected) -> None:
+async def test_enqueue_rewrite(hass: __HAC_KEEP__, input, expected) -> None:
     """Test that group_members are still available when media_player is off."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
     await hass.async_block_till_done()
@@ -753,7 +753,7 @@ async def test_enqueue_rewrite(hass: UniversalAssistant, input, expected) -> Non
     assert mock_play_media.mock_calls[0][2]["enqueue"] == expected
 
 
-async def test_enqueue_alert_exclusive(hass: UniversalAssistant) -> None:
+async def test_enqueue_alert_exclusive(hass: __HAC_KEEP__) -> None:
     """Test that alert and enqueue cannot be used together."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
     await hass.async_block_till_done()
@@ -783,7 +783,7 @@ async def test_enqueue_alert_exclusive(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_get_async_get_browse_image_quoting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     media_content_id: str,
@@ -813,7 +813,7 @@ async def test_get_async_get_browse_image_quoting(
         mock_browse_image.assert_called_with("album", media_content_id, None)
 
 
-async def test_play_media_via_selector(hass: UniversalAssistant) -> None:
+async def test_play_media_via_selector(hass: __HAC_KEEP__) -> None:
     """Test play_media data under 'media' is remapped for backward compat."""
     await async_setup_component(hass, DOMAIN, {"media_player": {"platform": "demo"}})
     await hass.async_block_till_done()

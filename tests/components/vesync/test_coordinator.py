@@ -15,12 +15,12 @@ from universalassistant.components.vesync.const import (
 )
 from universalassistant.components.vesync.coordinator import VeSyncDataCoordinator
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
 
 async def test_should_update_energy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     manager: VeSync,
     freezer: FrozenDateTimeFactory,
@@ -42,7 +42,7 @@ async def test_should_update_energy(
 
 
 async def test_update_failed_on_vesync_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     manager: VeSync,
     freezer: FrozenDateTimeFactory,
@@ -61,7 +61,7 @@ async def test_update_failed_on_vesync_error(
 
 
 async def test_reauth_started_on_login_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     manager: VeSync,
     outlet: Mock,

@@ -5,7 +5,7 @@ from pydiscovergy.authentication import BasicAuth
 import pydiscovergy.error as discovergyError
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.httpx_client import create_async_httpx_client
 
@@ -15,7 +15,7 @@ from .coordinator import DiscovergyConfigEntry, DiscovergyUpdateCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: DiscovergyConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: DiscovergyConfigEntry) -> None:
     """Set up Discovergy from a config entry."""
     client = Discovergy(
         email=entry.data[CONF_EMAIL],
@@ -60,11 +60,11 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DiscovergyConfigEnt
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: DiscovergyConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: DiscovergyConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_reload_entry(hass: UniversalAssistant, entry: DiscovergyConfigEntry) -> None:
+async def async_reload_entry(hass: __HAC_KEEP__, entry: DiscovergyConfigEntry) -> None:
     """Handle an options update."""
     await hass.config_entries.async_reload(entry.entry_id)

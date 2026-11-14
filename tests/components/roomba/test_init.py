@@ -8,7 +8,7 @@ from roombapy import RoombaAuthError, RoombaConnectionError
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -19,7 +19,7 @@ from universalassistant.core import UniversalAssistant
     ],
 )
 async def test_setup_retry_on_connect_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
     error: type[Exception],
@@ -35,7 +35,7 @@ async def test_setup_retry_on_connect_error(
 
 
 async def test_unload_disconnects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
 ) -> None:
@@ -53,11 +53,11 @@ async def test_unload_disconnects(
 
 
 async def test_stop_disconnects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
 ) -> None:
-    """Test that stopping Universal Universal Home Assistant closes the connection."""
+    """Test that stopping __HA_KEEP__ closes the connection."""
     mock_config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
@@ -70,7 +70,7 @@ async def test_stop_disconnects(
 
 @pytest.mark.usefixtures("mock_roomba")
 async def test_setup_cannot_connect(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup fails when no connection data is returned."""
     mock_config_entry.add_to_hass(hass)

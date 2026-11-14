@@ -19,7 +19,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
 )
 from universalassistant.const import ATTR_SUPPORTED_FEATURES, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .helper import (
@@ -31,7 +31,7 @@ from .helper import (
 
 
 async def test_hmip_light(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipLight."""
     entity_id = "light.treppe_ch"
@@ -79,7 +79,7 @@ async def test_hmip_light(
 
 
 async def test_hmip_notification_light(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipNotificationLight."""
     entity_id = "light.treppe_alarm_status"
@@ -176,7 +176,7 @@ async def test_hmip_notification_light(
 
 
 async def test_hmip_notification_light_2(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipNotificationLight."""
     entity_id = "light.bsl2_led_oben"
@@ -211,7 +211,7 @@ async def test_hmip_notification_light_2(
 
 
 async def test_hmip_notification_light_2_without_brightness_and_light(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipNotificationLight."""
     entity_id = "light.bsl2_led_oben"
@@ -244,7 +244,7 @@ async def test_hmip_notification_light_2_without_brightness_and_light(
 
 
 async def test_hmip_notification_light_2_turn_off(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipNotificationLight."""
     entity_id = "light.bsl2_led_oben"
@@ -271,7 +271,7 @@ async def test_hmip_notification_light_2_turn_off(
 
 
 async def test_hmip_dimmer(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipDimmer."""
     entity_id = "light.schlafzimmerlicht"
@@ -332,7 +332,7 @@ async def test_hmip_dimmer(
 
 
 async def test_hmip_light_measuring(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipLightMeasuring."""
     entity_id = "light.flur_oben"
@@ -379,7 +379,7 @@ async def test_hmip_light_measuring(
 
 
 async def test_hmip_universal_dimmer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     default_mock_hap_factory: HomeFactory,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -406,7 +406,7 @@ async def test_hmip_universal_dimmer(
 
 
 async def test_hmip_wired_multi_dimmer(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipMultiDimmer."""
     entity_id = "light.wired_dimmaktor_3_fach_kuche_raumlich_kuche"
@@ -467,7 +467,7 @@ async def test_hmip_wired_multi_dimmer(
 
 
 async def test_hmip_din_rail_dimmer_3_channel1(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicIP DinRailDimmer3 Channel 1."""
     entity_id = "light.3_dimmer_channel1"
@@ -527,7 +527,7 @@ async def test_hmip_din_rail_dimmer_3_channel1(
 
 
 async def test_hmip_din_rail_dimmer_3_channel2(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicIP DinRailDimmer3 Channel 2."""
     entity_id = "light.3_dimmer_channel2"
@@ -587,7 +587,7 @@ async def test_hmip_din_rail_dimmer_3_channel2(
 
 
 async def test_hmip_din_rail_dimmer_3_channel3(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicIP DinRailDimmer3 Channel 3."""
     entity_id = "light.3_dimmer_esstisch"
@@ -647,7 +647,7 @@ async def test_hmip_din_rail_dimmer_3_channel3(
 
 
 async def test_hmip_light_hs(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipLight with HS color mode."""
     entity_id = "light.rgbw_controller_channel1"
@@ -723,7 +723,7 @@ async def test_hmip_light_hs(
 
 
 async def test_hmip_light_hs_monochrome(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipLight with monochrome mode (no hue/saturation support)."""
     entity_id = "light.rgbw_controller_channel1"
@@ -766,7 +766,7 @@ async def test_hmip_light_hs_monochrome(
 
 
 async def test_hmip_wired_push_button_led(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipOpticalSignalLight."""
     entity_id = "light.wired_taster_6_fach_led_1"
@@ -823,7 +823,7 @@ async def test_hmip_wired_push_button_led(
 
 
 async def test_hmip_wired_push_button_led_turn_off(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipOpticalSignalLight turn off."""
     entity_id = "light.wired_taster_6_fach_led_1"
@@ -871,7 +871,7 @@ async def test_hmip_wired_push_button_led_turn_off(
 
 
 async def test_hmip_wired_push_button_led_2(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipOpticalSignalLight second LED."""
     entity_id = "light.wired_taster_6_fach_led_2"
@@ -907,7 +907,7 @@ async def test_hmip_wired_push_button_led_2(
 
 
 async def test_hmip_combination_signalling_light(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipCombinationSignallingLight (HmIP-MP3P)."""
     entity_id = "light.kombisignalmelder"
@@ -963,7 +963,7 @@ async def test_hmip_combination_signalling_light(
 
 
 async def test_hmip_light_unique_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     default_mock_hap_factory: HomeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1003,7 +1003,7 @@ async def test_hmip_light_unique_ids(
 
 
 async def test_hmip_light_unknown_device_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     default_mock_hap_factory: HomeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:

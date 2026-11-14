@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import RemoteCalendarConfigEntry, RemoteCalendarDataUpdateCoordinator
 
@@ -14,7 +14,7 @@ PLATFORMS: list[Platform] = [Platform.CALENDAR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: RemoteCalendarConfigEntry
+    hass: __HAC_KEEP__, entry: RemoteCalendarConfigEntry
 ) -> None:
     """Set up Remote Calendar from a config entry."""
     coordinator = RemoteCalendarDataUpdateCoordinator(hass, entry)
@@ -24,7 +24,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: RemoteCalendarConfigEntry
+    hass: __HAC_KEEP__, entry: RemoteCalendarConfigEntry
 ) -> None:
     """Handle unload of an entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

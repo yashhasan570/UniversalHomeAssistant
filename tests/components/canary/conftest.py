@@ -6,11 +6,11 @@ from unittest.mock import MagicMock, patch
 from canary.api import Api
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
-def mock_ffmpeg(hass: UniversalAssistant) -> None:
+def mock_ffmpeg(hass: __HAC_KEEP__) -> None:
     """Mock ffmpeg is loaded."""
     hass.config.components.add("ffmpeg")
 

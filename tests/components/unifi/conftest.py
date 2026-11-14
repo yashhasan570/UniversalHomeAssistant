@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     CONTENT_TYPE_JSON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -104,7 +104,7 @@ def fixture_discovery():
 
 @pytest.fixture(name="config_entry")
 def fixture_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_data: MappingProxyType[str, Any],
     config_entry_options: MappingProxyType[str, Any],
 ) -> MockConfigEntry:
@@ -334,7 +334,7 @@ def fixture_default_requests(
 
 @pytest.fixture(name="config_entry_factory")
 async def fixture_config_entry_factory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_requests: Callable[[str, str], None],
 ) -> ConfigEntryFactoryType:
@@ -368,7 +368,7 @@ class WebsocketStateManager(asyncio.Event):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         aioclient_mock: AiohttpClientMocker,
         mock_requests: Callable[[str, str], None],
     ) -> None:
@@ -424,7 +424,7 @@ def fixture_aiounifi_websocket_method() -> Generator[AsyncMock]:
 
 @pytest.fixture(autouse=True, name="mock_websocket_state")
 def fixture_aiounifi_websocket_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_requests: Callable[[str, str], None],
     _mock_websocket: AsyncMock,

@@ -14,8 +14,8 @@ from universalassistant.components.tesla_fleet.services import (
     TeslaFleetServiceArgument,
 )
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_platform
@@ -37,7 +37,7 @@ def get_vehicle_device_id(
 
 
 async def test_navigate_to_destination(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_navigate_to_destination(
 
 
 async def test_navigate_to_coordinates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_navigate_to_coordinates(
     ],
 )
 async def test_navigate_to_waypoints(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     place_ids: list[str],
@@ -153,7 +153,7 @@ async def test_navigate_to_waypoints(
     ],
 )
 async def test_navigate_to_waypoints_invalid_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     place_ids: list[str | int | None] | str,
@@ -183,7 +183,7 @@ async def test_navigate_to_waypoints_invalid_input(
 
 
 async def test_navigate_to_waypoints_missing_place_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -211,7 +211,7 @@ async def test_navigate_to_waypoints_missing_place_ids(
 
 
 async def test_navigate_to_destination_command_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_navigate_to_destination_command_error(
             "tesla_fleet_api.tesla.VehicleFleet.navigation_request",
             return_value=COMMAND_ERROR,
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -247,7 +247,7 @@ async def test_navigate_to_destination_command_error(
     ],
 )
 async def test_navigate_to_waypoints_command_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     result: dict[str, object],
@@ -260,7 +260,7 @@ async def test_navigate_to_waypoints_command_error(
             "tesla_fleet_api.tesla.VehicleFleet.navigation_waypoints_request",
             return_value=result,
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -277,7 +277,7 @@ async def test_navigate_to_waypoints_command_error(
 
 
 async def test_navigate_to_waypoints_wake_before_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_navigate_to_waypoints_wake_before_command(
 
 
 async def test_navigate_to_waypoints_wake_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -344,14 +344,14 @@ async def test_navigate_to_waypoints_wake_failure(
     with (
         patch(
             "universalassistant.components.tesla_fleet.services.wake_up_vehicle",
-            side_effect=UniversalAssistantError(
+            side_effect=__HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="wake_up_timeout"
             ),
         ),
         patch(
             "tesla_fleet_api.tesla.VehicleFleet.navigation_waypoints_request"
         ) as command,
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -384,7 +384,7 @@ async def test_navigate_to_waypoints_wake_failure(
     ],
 )
 async def test_missing_vehicle_cmds_scope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     readonly_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     service_name: str,
@@ -431,7 +431,7 @@ async def test_missing_vehicle_cmds_scope(
     ],
 )
 async def test_energy_site_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     service_name: str,
@@ -480,7 +480,7 @@ async def test_energy_site_device(
     ],
 )
 async def test_unknown_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     service_name: str,
     service_data: dict[str, list[str] | dict[str, float]],

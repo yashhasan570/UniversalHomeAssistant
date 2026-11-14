@@ -8,7 +8,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import MadVRConfigEntry, MadVRCoordinator
@@ -52,7 +52,7 @@ BINARY_SENSORS: tuple[MadvrBinarySensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MadVRConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

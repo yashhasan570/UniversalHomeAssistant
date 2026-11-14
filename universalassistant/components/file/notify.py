@@ -10,7 +10,7 @@ from universalassistant.components.notify import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_FILE_PATH, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.os_error import os_write_error
 from universalassistant.util import dt as dt_util
@@ -19,7 +19,7 @@ from .const import CONF_TIMESTAMP, DEFAULT_NAME, FILE_ICON
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

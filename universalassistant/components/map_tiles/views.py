@@ -10,8 +10,8 @@ import zlib
 
 from aiohttp import ClientError, hdrs, web
 
-from universalassistant.components.http import KEY_AUTHENTICATED, UniversalAssistantView
-from universalassistant.core import UniversalAssistant
+from universalassistant.components.http import KEY_AUTHENTICATED, __HAC_KEEP__View
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.json import json_bytes
 
@@ -73,7 +73,7 @@ def _upstream_ttl(cache_control: str) -> float | None:
     return None
 
 
-class _MapTilesView(UniversalAssistantView):
+class _MapTilesView(__HAC_KEEP__View):
     """Serve one class of map asset, from the cache or from upstream."""
 
     requires_auth = False
@@ -82,7 +82,7 @@ class _MapTilesView(UniversalAssistantView):
     ttl: int
     max_age: int
 
-    def __init__(self, hass: UniversalAssistant, cache: MapTilesCache) -> None:
+    def __init__(self, hass: __HAC_KEEP__, cache: MapTilesCache) -> None:
         """Initialize the view."""
         self._hass = hass
         self._cache = cache

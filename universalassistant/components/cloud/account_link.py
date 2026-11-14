@@ -9,7 +9,7 @@ from awesomeversion import AwesomeVersion
 from hass_nabucasa import account_link
 
 from universalassistant.const import __version__ as HA_VERSION
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_entry_oauth2_flow, event
 
 from .const import DATA_CLOUD, DOMAIN
@@ -25,7 +25,7 @@ CURRENT_PLAIN_VERSION = AwesomeVersion(
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up cloud account link."""
     config_entry_oauth2_flow.async_add_implementation_provider(
         hass, DOMAIN, async_provide_implementation
@@ -33,7 +33,7 @@ def async_setup(hass: UniversalAssistant) -> None:
 
 
 async def async_provide_implementation(
-    hass: UniversalAssistant, domain: str
+    hass: __HAC_KEEP__, domain: str
 ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
     """Provide an implementation for a domain."""
     services = await _get_services(hass)
@@ -58,7 +58,7 @@ async def async_provide_implementation(
     return []
 
 
-async def _get_services(hass: UniversalAssistant) -> list[dict[str, Any]]:
+async def _get_services(hass: __HAC_KEEP__) -> list[dict[str, Any]]:
     """Get the available services."""
     services: list[dict[str, Any]]
     if DATA_SERVICES in hass.data:
@@ -90,7 +90,7 @@ async def _get_services(hass: UniversalAssistant) -> list[dict[str, Any]]:
 class CloudOAuth2Implementation(config_entry_oauth2_flow.AbstractOAuth2Implementation):
     """Cloud implementation of the OAuth2 flow."""
 
-    def __init__(self, hass: UniversalAssistant, service: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, service: str) -> None:
         """Initialize cloud OAuth2 implementation."""
         self.hass = hass
         self.service = service
@@ -99,7 +99,7 @@ class CloudOAuth2Implementation(config_entry_oauth2_flow.AbstractOAuth2Implement
     @override
     def name(self) -> str:
         """Name of the implementation."""
-        return "Universal Universal Home Assistant Link"
+        return "__HA_KEEP__ Link"
 
     @property
     @override

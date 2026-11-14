@@ -40,7 +40,7 @@
       "message": "Cannot join player to itself"
     },
     "leader_not_loaded": {
-      "message": "The group leader {leader_id} is not set up in Universal Universal Home Assistant"
+      "message": "The group leader {leader_id} is not set up in __HA_KEEP__"
     },
     "player_unreachable": {
       "message": "Could not reach the Bluesound player: {error}"

@@ -12,13 +12,13 @@ from universalassistant.components.dsmr_reader.definitions import (
 )
 from universalassistant.components.dsmr_reader.sensor import DSMRSensor
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import issue_registry as ir
 
 
 async def test_dsmr_sensor_mqtt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test the DSMRSensor class, via an emluated MQTT message."""
@@ -73,7 +73,7 @@ async def test_dsmr_sensor_mqtt(
 
 @pytest.mark.usefixtures("mqtt_mock")
 async def test_cannot_subscribe_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test an issue linked to the entry is created when subscribing fails."""
@@ -81,7 +81,7 @@ async def test_cannot_subscribe_issue(
     config_entry.add_to_hass(hass)
     with patch(
         "universalassistant.components.dsmr_reader.sensor.mqtt.async_subscribe",
-        side_effect=UniversalAssistantError,
+        side_effect=__HAC_KEEP__Error,
     ):
         assert await hass.config_entries.async_setup(config_entry.entry_id)
         await hass.async_block_till_done()

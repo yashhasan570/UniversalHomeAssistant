@@ -9,7 +9,7 @@ from pydrawise import APIError, HydrawiseBase, NotAuthorizedError
 from pydrawise.schema import Controller, ControllerWaterUseSummary, Sensor, User, Zone
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceEntry
@@ -82,7 +82,7 @@ class HydrawiseMainDataUpdateCoordinator(HydrawiseDataUpdateCoordinator):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: HydrawiseConfigEntry,
         api: HydrawiseBase,
     ) -> None:
@@ -112,7 +112,7 @@ class HydrawiseMainDataUpdateCoordinator(HydrawiseDataUpdateCoordinator):
         """Fetch the latest data from Hydrawise."""
         # Don't fetch zones. We'll fetch them for each controller later.
         # This is to prevent 502 errors in some cases.
-        # See: https://github.com/yashhasan570/UniversalUniversalAssistant/issues/120128
+        # See: https://github.com/yashhasan570/__HAC_KEEP__/issues/120128
         async with self._handle_api_errors():
             data = HydrawiseData(user=await self.api.get_user(fetch_zones=False))
             for controller in data.user.controllers:
@@ -203,7 +203,7 @@ class HydrawiseWaterUseDataUpdateCoordinator(HydrawiseDataUpdateCoordinator):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: HydrawiseConfigEntry,
         api: HydrawiseBase,
         main_coordinator: HydrawiseMainDataUpdateCoordinator,

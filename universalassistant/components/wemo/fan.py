@@ -9,7 +9,7 @@ from pywemo import DesiredHumidity, FanMode, Humidifier
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -35,7 +35,7 @@ SPEED_RANGE = (FanMode.Minimum, FanMode.Maximum)  # off is not included
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     _config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

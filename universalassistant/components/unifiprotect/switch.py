@@ -21,8 +21,8 @@ from uiprotect.data.public_devices import PublicCamera, SensorFeatureCapability
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -500,7 +500,7 @@ class ProtectPrivacyModeSwitch(RestoreEntity, ProtectSwitch):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UFPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -618,12 +618,12 @@ class ProtectRelayOutputSwitch(
     async def _activate_output(self, state: Literal["on", "off"]) -> None:
         """Send activate_output to the relay, raising if unavailable."""
         if (relay := self._relay) is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="relay_not_available",
             )
         if relay.get_output(self._channel_id) is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="relay_not_available",
             )

@@ -10,7 +10,7 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .router import FreeboxConfigEntry, FreeboxRouter
@@ -40,7 +40,7 @@ BUTTON_DESCRIPTIONS: tuple[FreeboxButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FreeboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

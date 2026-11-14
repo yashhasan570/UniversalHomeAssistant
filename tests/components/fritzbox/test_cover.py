@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -35,7 +35,7 @@ ENTITY_ID = f"{COVER_DOMAIN}.{CONF_FAKE_NAME}"
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     fritz: Mock,
@@ -51,7 +51,7 @@ async def test_setup(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_unknown_position(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_unknown_position(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test cover with unknown position."""
     device = FritzDeviceCoverUnknownPositionMock()
     await setup_config_entry(
@@ -63,7 +63,7 @@ async def test_unknown_position(hass: UniversalAssistant, fritz: Mock) -> None:
     assert state.state == STATE_UNKNOWN
 
 
-async def test_open_cover(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_open_cover(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test opening the cover."""
     device = FritzDeviceCoverMock()
     await setup_config_entry(
@@ -76,7 +76,7 @@ async def test_open_cover(hass: UniversalAssistant, fritz: Mock) -> None:
     assert device.set_blind_open.call_count == 1
 
 
-async def test_close_cover(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_close_cover(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test closing the device."""
     device = FritzDeviceCoverMock()
     await setup_config_entry(
@@ -89,7 +89,7 @@ async def test_close_cover(hass: UniversalAssistant, fritz: Mock) -> None:
     assert device.set_blind_close.call_count == 1
 
 
-async def test_set_position_cover(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_set_position_cover(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test stopping the device."""
     device = FritzDeviceCoverMock()
     await setup_config_entry(
@@ -105,7 +105,7 @@ async def test_set_position_cover(hass: UniversalAssistant, fritz: Mock) -> None
     assert device.set_level_percentage.call_args_list == [call(50, True)]
 
 
-async def test_stop_cover(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_stop_cover(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test stopping the device."""
     device = FritzDeviceCoverMock()
     await setup_config_entry(
@@ -118,7 +118,7 @@ async def test_stop_cover(hass: UniversalAssistant, fritz: Mock) -> None:
     assert device.set_blind_stop.call_count == 1
 
 
-async def test_discover_new_device(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_discover_new_device(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test adding new discovered devices during runtime."""
     device = FritzDeviceCoverMock()
     await setup_config_entry(

@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -35,7 +35,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS = [Platform.SENSOR, Platform.SWITCH, Platform.UPDATE]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
 
     async_setup_services(hass)
@@ -44,7 +44,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 @callback
 def _async_migrate_device_identifiers(
-    hass: UniversalAssistant, entry: AdGuardConfigEntry
+    hass: __HAC_KEEP__, entry: AdGuardConfigEntry
 ) -> None:
     """Migrate devices identified by host, port and base path to the entry ID.
 
@@ -69,7 +69,7 @@ def _async_migrate_device_identifiers(
         device_registry.async_update_device(device.id, new_identifiers=identifiers)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: AdGuardConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: AdGuardConfigEntry) -> None:
     """Migrate an AdGuard Home config entry to the current version."""
     if entry.minor_version < 2:
         # Entities were identified by host and port, which change when
@@ -108,7 +108,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: AdGuardConfigEntr
         hass.config_entries.async_update_entry(entry, minor_version=2)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AdGuardConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AdGuardConfigEntry) -> None:
     """Set up AdGuard Home from a config entry."""
     _async_migrate_device_identifiers(hass, entry)
 
@@ -143,6 +143,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AdGuardConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AdGuardConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AdGuardConfigEntry) -> None:
     """Unload AdGuard Home config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

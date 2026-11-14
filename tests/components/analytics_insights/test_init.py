@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant analytics init module."""
+"""Test the __HA_KEEP__ analytics init module."""
 
 from unittest.mock import AsyncMock
 
@@ -11,14 +11,14 @@ from universalassistant.components.analytics_insights.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_analytics_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -35,7 +35,7 @@ async def test_load_unload_entry(
 
 
 async def test_integration_list_fetch_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_analytics_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -48,12 +48,12 @@ async def test_integration_list_fetch_failed(
     assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
     assert (
         mock_config_entry.reason
-        == "Could not fetch the integration list from Universal Universal Home Assistant"
+        == "Could not fetch the integration list from __HA_KEEP__"
     )
 
 
 async def test_migration_v1_to_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_analytics_client: AsyncMock,
 ) -> None:
@@ -62,7 +62,7 @@ async def test_migration_v1_to_v2(
         domain=DOMAIN,
         version=1,
         minor_version=1,
-        title="Universal Universal Home Assistant Analytics migration time!",
+        title="__HA_KEEP__ Analytics migration time!",
         data={},
         options={
             "tracked_addons": ["core_samba"],

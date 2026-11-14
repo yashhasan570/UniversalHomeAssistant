@@ -8,8 +8,8 @@ from aiotractive.exceptions import TractiveError
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ATTR_BUZZER, ATTR_LED, ATTR_LIVE_TRACKING, DOMAIN
@@ -49,7 +49,7 @@ SWITCH_TYPES: tuple[TractiveSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TractiveConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -101,7 +101,7 @@ class TractiveSwitch(TractiveEntity, SwitchEntity):
         try:
             await self._method(True)
         except TractiveError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_turn_on",
                 translation_placeholders={"entity": self.entity_id},
@@ -114,7 +114,7 @@ class TractiveSwitch(TractiveEntity, SwitchEntity):
         try:
             await self._method(False)
         except TractiveError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_turn_off",
                 translation_placeholders={"entity": self.entity_id},

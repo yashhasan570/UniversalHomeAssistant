@@ -22,7 +22,7 @@ from universalassistant.components.upnp.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.ssdp import ATTR_UPNP_UDN, SsdpServiceInfo
 
 from .conftest import (
@@ -37,7 +37,7 @@ from .conftest import (
 
 @pytest.mark.usefixtures("ssdp_instant_discovery", "mock_mac_address_from_host")
 async def test_async_setup_entry_default(
-    hass: UniversalAssistant, mock_igd_device: IgdDevice
+    hass: __HAC_KEEP__, mock_igd_device: IgdDevice
 ) -> None:
     """Test async_setup_entry."""
     entry = MockConfigEntry(
@@ -64,7 +64,7 @@ async def test_async_setup_entry_default(
 
 
 async def test_unload_stops_notify_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_igd_device: IgdDevice,
     mock_notify_server: AiohttpNotifyServer,
@@ -80,7 +80,7 @@ async def test_unload_stops_notify_server(
 
 
 @pytest.mark.usefixtures("ssdp_instant_discovery", "mock_no_mac_address_from_host")
-async def test_async_setup_entry_default_no_mac_address(hass: UniversalAssistant) -> None:
+async def test_async_setup_entry_default_no_mac_address(hass: __HAC_KEEP__) -> None:
     """Test async_setup_entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -107,7 +107,7 @@ async def test_async_setup_entry_default_no_mac_address(hass: UniversalAssistant
     "mock_mac_address_from_host",
 )
 async def test_async_setup_entry_multi_location(
-    hass: UniversalAssistant, mock_async_create_device: AsyncMock
+    hass: __HAC_KEEP__, mock_async_create_device: AsyncMock
 ) -> None:
     """Test async_setup_entry for a device both seen via IPv4 and IPv6.
 
@@ -138,7 +138,7 @@ async def test_async_setup_entry_multi_location(
 
 @pytest.mark.usefixtures("mock_mac_address_from_host")
 async def test_async_setup_udn_mismatch(
-    hass: UniversalAssistant, mock_async_create_device: AsyncMock
+    hass: __HAC_KEEP__, mock_async_create_device: AsyncMock
 ) -> None:
     """Test async_setup_entry for a device with different UDN from SSDP."""
     test_discovery = copy.deepcopy(TEST_DISCOVERY)
@@ -161,7 +161,7 @@ async def test_async_setup_udn_mismatch(
 
     # Set up device discovery callback.
     async def register_callback(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         callback: Callable[
             [SsdpServiceInfo, ssdp.SsdpChange], Coroutine[Any, Any, None] | None
         ],
@@ -195,7 +195,7 @@ async def test_async_setup_udn_mismatch(
     "mock_mac_address_from_host",
 )
 async def test_async_setup_entry_force_poll(
-    hass: UniversalAssistant, mock_igd_device: IgdDevice
+    hass: __HAC_KEEP__, mock_igd_device: IgdDevice
 ) -> None:
     """Test async_setup_entry with forced polling."""
     entry = MockConfigEntry(
@@ -231,7 +231,7 @@ async def test_async_setup_entry_force_poll(
     "mock_mac_address_from_host",
 )
 async def test_async_setup_entry_force_poll_subscribe_error(
-    hass: UniversalAssistant, mock_igd_device: IgdDevice
+    hass: __HAC_KEEP__, mock_igd_device: IgdDevice
 ) -> None:
     """Test async_setup_entry where subscribing fails."""
     entry = MockConfigEntry(

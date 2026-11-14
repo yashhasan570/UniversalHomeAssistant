@@ -1,9 +1,9 @@
-"""Event platform for Universal Universal Home Assistant Backup integration."""
+"""Event platform for __HA_KEEP__ Backup integration."""
 
 from typing import Final, override
 
 from universalassistant.components.event import EventEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import BackupConfigEntry, BackupDataUpdateCoordinator
@@ -15,7 +15,7 @@ ATTR_FAILED_REASON: Final[str] = "failed_reason"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BackupConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

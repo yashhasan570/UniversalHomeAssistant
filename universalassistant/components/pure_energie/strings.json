@@ -18,7 +18,7 @@
         }
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add Pure Energie Meter (`{model}`) to Universal Universal Home Assistant?",
+        "description": "Do you want to add Pure Energie Meter (`{model}`) to __HA_KEEP__?",
         "title": "Discovered Pure Energie Meter device"
       }
     }

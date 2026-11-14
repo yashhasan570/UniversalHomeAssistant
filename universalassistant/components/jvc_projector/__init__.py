@@ -9,7 +9,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.entity_registry import RegistryEntry, async_migrate_entries
 
@@ -24,7 +24,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: JVCConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: JVCConfigEntry) -> None:
     """Set up integration from a config entry."""
     device = JvcProjector(
         host=entry.data[CONF_HOST],
@@ -60,14 +60,14 @@ async def async_setup_entry(hass: UniversalAssistant, entry: JVCConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: JVCConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: JVCConfigEntry) -> None:
     """Unload config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.device.disconnect()
 
 
 async def async_migrate_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: JVCConfigEntry,
     coordinator: JvcProjectorDataUpdateCoordinator,
 ) -> None:

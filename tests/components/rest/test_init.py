@@ -21,13 +21,13 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfInformation,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
 
 async def test_setup_with_endpoint_timeout_with_recovery(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with an endpoint that times out that recovers."""
     await async_setup_component(hass, "universalassistant", {})
@@ -138,7 +138,7 @@ async def test_setup_with_endpoint_timeout_with_recovery(
 
 
 async def test_setup_with_ssl_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_setup_with_ssl_error(
 
 
 async def test_setup_minimum_resource_template(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with minimum configuration (resource_template)."""
 
@@ -237,7 +237,7 @@ async def test_setup_minimum_resource_template(
     assert hass.states.get("binary_sensor.binary_sensor2").state == "off"
 
 
-async def test_reload(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_reload(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
     """Verify we can reload."""
 
     aioclient_mock.get("http://localhost", text="")
@@ -286,7 +286,7 @@ async def test_reload(hass: UniversalAssistant, aioclient_mock: AiohttpClientMoc
 
 
 async def test_reload_and_remove_all(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Verify we can reload and remove all."""
 
@@ -334,7 +334,7 @@ async def test_reload_and_remove_all(
 
 
 async def test_reload_fails_to_read_configuration(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Verify reload when configuration is missing or broken."""
 
@@ -379,7 +379,7 @@ async def test_reload_fails_to_read_configuration(
 
 
 async def test_multiple_rest_endpoints(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test multiple rest endpoints."""
 
@@ -454,7 +454,7 @@ async def test_multiple_rest_endpoints(
     assert hass.states.get("binary_sensor.binary_sensor").state == "on"
 
 
-async def test_empty_config(hass: UniversalAssistant) -> None:
+async def test_empty_config(hass: __HAC_KEEP__) -> None:
     """Test setup with empty configuration.
 
     For example (with rest.yaml an empty file):
@@ -468,7 +468,7 @@ async def test_empty_config(hass: UniversalAssistant) -> None:
     assert_setup_component(0, DOMAIN)
 
 
-async def test_config_schema_via_packages(hass: UniversalAssistant) -> None:
+async def test_config_schema_via_packages(hass: __HAC_KEEP__) -> None:
     """Test configuration via packages."""
     packages = {
         "pack_dict": {"rest": {}},
@@ -485,7 +485,7 @@ async def test_config_schema_via_packages(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_minimum_payload_template(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with minimum configuration (payload_template)."""
 

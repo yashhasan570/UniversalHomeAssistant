@@ -5,7 +5,7 @@ from typing import Any, override
 
 from universalassistant.components.cover import ATTR_POSITION, CoverDeviceClass, CoverEntity
 from universalassistant.const import STATE_CLOSED, STATE_CLOSING, STATE_OPENING
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_INVERT_POSITION, DEFAULT_OFFSET
@@ -18,7 +18,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SlideConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

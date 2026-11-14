@@ -6,8 +6,8 @@ from mcp import types
 from mcp.server.streamable_http import DEFAULT_NEGOTIATED_VERSION
 
 from universalassistant.components import conversation
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import llm
 
 from .const import CONF_READ_ONLY, DOMAIN
@@ -17,7 +17,7 @@ from .types import MCPServerConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: MCPServerConfigEntry
+    hass: __HAC_KEEP__, entry: MCPServerConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     llm_api_ids = _entry_llm_api_ids(hass, entry)
@@ -36,7 +36,7 @@ async def async_get_config_entry_diagnostics(
             hass, llm_api_ids, llm_context, entry.data[CONF_READ_ONLY]
         )
     # Merged APIs raise ValueError on tool name collisions.
-    except (UniversalAssistantError, ValueError) as err:
+    except (__HAC_KEEP__Error, ValueError) as err:
         llm_api = {"error": str(err)}
     else:
         llm_api = {

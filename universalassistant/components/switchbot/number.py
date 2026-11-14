@@ -15,7 +15,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import EntityCategory, UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SwitchbotConfigEntry, SwitchbotDataUpdateCoordinator
@@ -29,7 +29,7 @@ _MAX_TIME_OFFSET_MINUTES = MAX_TIME_OFFSET // _SECONDS_IN_MINUTE
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SwitchbotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

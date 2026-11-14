@@ -1,4 +1,4 @@
-"""Config entry functions for Universal Universal Home Assistant templates."""
+"""Config entry functions for __HA_KEEP__ templates."""
 
 from collections.abc import Iterable
 from enum import Enum

@@ -141,7 +141,7 @@ self.async_show_form(description_placeholders={CONF_USERNAME: username})
         ),
         pytest.param(
             """
-raise UniversalAssistantError(
+raise __HAC_KEEP__Error(
     translation_domain=DOMAIN,
     translation_key="error",
     translation_placeholders={CONF_HOST: host},

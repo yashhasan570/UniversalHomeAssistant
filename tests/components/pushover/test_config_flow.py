@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.pushover.const import CONF_USER_KEY, DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_CONFIG
@@ -33,7 +33,7 @@ def pushover_setup_fixture():
         yield
 
 
-async def test_flow_user(hass: UniversalAssistant) -> None:
+async def test_flow_user(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -48,7 +48,7 @@ async def test_flow_user(hass: UniversalAssistant) -> None:
     assert result["data"] == MOCK_CONFIG
 
 
-async def test_flow_user_key_api_key_exists(hass: UniversalAssistant) -> None:
+async def test_flow_user_key_api_key_exists(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow with duplicate user key / api key pair."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -69,7 +69,7 @@ async def test_flow_user_key_api_key_exists(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_flow_name_already_configured(hass: UniversalAssistant) -> None:
+async def test_flow_name_already_configured(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow with duplicate server."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -95,7 +95,7 @@ async def test_flow_name_already_configured(hass: UniversalAssistant) -> None:
 
 
 async def test_flow_invalid_user_key(
-    hass: UniversalAssistant, mock_pushover: MagicMock
+    hass: __HAC_KEEP__, mock_pushover: MagicMock
 ) -> None:
     """Test user initialized flow with wrong user key."""
 
@@ -123,7 +123,7 @@ async def test_flow_invalid_user_key(
 
 
 async def test_flow_invalid_api_key(
-    hass: UniversalAssistant, mock_pushover: MagicMock
+    hass: __HAC_KEEP__, mock_pushover: MagicMock
 ) -> None:
     """Test user initialized flow with wrong api key."""
 
@@ -150,7 +150,7 @@ async def test_flow_invalid_api_key(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_conn_err(hass: UniversalAssistant, mock_pushover: MagicMock) -> None:
+async def test_flow_conn_err(hass: __HAC_KEEP__, mock_pushover: MagicMock) -> None:
     """Test user initialized flow with conn error."""
 
     mock_pushover.side_effect = BadAPIRequestError
@@ -176,7 +176,7 @@ async def test_flow_conn_err(hass: UniversalAssistant, mock_pushover: MagicMock)
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_success(hass: UniversalAssistant) -> None:
+async def test_reauth_success(hass: __HAC_KEEP__) -> None:
     """Test we can reauth."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -200,7 +200,7 @@ async def test_reauth_success(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "reauth_successful"
 
 
-async def test_reauth_failed(hass: UniversalAssistant, mock_pushover: MagicMock) -> None:
+async def test_reauth_failed(hass: __HAC_KEEP__, mock_pushover: MagicMock) -> None:
     """Test we can reauth."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -238,7 +238,7 @@ async def test_reauth_failed(hass: UniversalAssistant, mock_pushover: MagicMock)
     assert result2["reason"] == "reauth_successful"
 
 
-async def test_reauth_with_existing_config(hass: UniversalAssistant) -> None:
+async def test_reauth_with_existing_config(hass: __HAC_KEEP__) -> None:
     """Test reauth fails if the api key entered exists in another entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,

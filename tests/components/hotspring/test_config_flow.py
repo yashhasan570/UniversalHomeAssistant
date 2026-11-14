@@ -16,7 +16,7 @@ from pytest_universalassistant.common import MockConfigEntry, get_schema_suggest
 from universalassistant.components.hotspring.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -32,7 +32,7 @@ MOCK_ZEROCONF_DATA = ZeroconfServiceInfo(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_hotspring")
-async def test_full_user_flow_implementation(hass: UniversalAssistant) -> None:
+async def test_full_user_flow_implementation(hass: __HAC_KEEP__) -> None:
     """Test the full manual user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -54,7 +54,7 @@ async def test_full_user_flow_implementation(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_hotspring")
 async def test_user_device_exists_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort the config flow if Hot Spring spa is already configured."""
@@ -82,7 +82,7 @@ async def test_user_device_exists_abort(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hotspring: MagicMock,
     exception: type[Exception],
     error_key: str,
@@ -118,7 +118,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_no_mac_address(
-    hass: UniversalAssistant, mock_hotspring: MagicMock, device_fixture: Spa
+    hass: __HAC_KEEP__, mock_hotspring: MagicMock, device_fixture: Spa
 ) -> None:
     """Test we show user form on missing MAC address and recover."""
     device_fixture.info.root_topic = "unknownTopic123"
@@ -146,7 +146,7 @@ async def test_form_no_mac_address(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_hotspring")
-async def test_full_zeroconf_flow_implementation(hass: UniversalAssistant) -> None:
+async def test_full_zeroconf_flow_implementation(hass: __HAC_KEEP__) -> None:
     """Test the full zeroconf flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -177,7 +177,7 @@ async def test_full_zeroconf_flow_implementation(hass: UniversalAssistant) -> No
     ],
 )
 async def test_zeroconf_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hotspring: MagicMock,
     exception: type[Exception],
     reason: str,
@@ -197,7 +197,7 @@ async def test_zeroconf_error(
 
 @pytest.mark.usefixtures("mock_hotspring")
 async def test_zeroconf_device_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort zeroconf flow and update host if already configured."""
@@ -219,7 +219,7 @@ async def test_zeroconf_device_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_reconfigure_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
 ) -> None:
@@ -247,7 +247,7 @@ async def test_full_reconfigure_flow_success(
 
 
 async def test_full_reconfigure_flow_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
     device_fixture: Spa,
@@ -271,7 +271,7 @@ async def test_full_reconfigure_flow_unique_id_mismatch(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_reconfigure_flow_connection_error_and_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
 ) -> None:

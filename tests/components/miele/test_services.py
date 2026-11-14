@@ -12,8 +12,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.miele.const import DOMAIN
 from universalassistant.components.miele.services import MieleService, MieleServiceArgument
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceRegistry
 
 from . import setup_integration
@@ -22,7 +22,7 @@ TEST_APPLIANCE = "Dummy_Appliance_1"
 
 
 async def test_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -72,7 +72,7 @@ async def test_services(
     ],
 )
 async def test_services_oven(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -97,7 +97,7 @@ async def test_services_oven(
 
 
 async def test_services_with_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -128,7 +128,7 @@ async def test_services_with_response(
     ],
 )
 async def test_service_api_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -143,7 +143,7 @@ async def test_service_api_errors(
 
     # Test http error
     mock_miele_client.set_program.side_effect = ClientResponseError(Mock(), Mock())
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await hass.services.async_call(
             DOMAIN,
             service,
@@ -159,7 +159,7 @@ async def test_service_api_errors(
 
 
 async def test_get_service_api_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -172,7 +172,7 @@ async def test_get_service_api_errors(
 
     # Test http error
     mock_miele_client.get_programs.side_effect = ClientResponseError(Mock(), Mock())
-    with pytest.raises(UniversalAssistantError, match="'Get programs' action failed"):
+    with pytest.raises(__HAC_KEEP__Error, match="'Get programs' action failed"):
         await hass.services.async_call(
             DOMAIN,
             MieleService.GET_PROGRAMS,
@@ -184,7 +184,7 @@ async def test_get_service_api_errors(
 
 
 async def test_service_validation_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_miele_client: MagicMock,
     mock_config_entry: MockConfigEntry,

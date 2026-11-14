@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_SHOW_ON_MAP,
     CONF_STATE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.json import JsonObjectType
 
 TEST_API_KEY = "abcde12345"
@@ -68,7 +68,7 @@ def cloud_api_fixture(data_cloud: JsonObjectType) -> Mock:
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     config_entry_version: int,
     integration_type: str,
@@ -154,7 +154,7 @@ def node_samba_fixture(data_pro: JsonObjectType) -> Mock:
 
 @pytest.fixture(name="setup_config_entry")
 async def setup_config_entry_fixture(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_pyairvisual: None
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_pyairvisual: None
 ) -> None:
     """Define a fixture to set up airvisual."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)

@@ -2,11 +2,11 @@
 
 from universalassistant.components.voip.devices import VoIPDevice
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_pipeline_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     voip_device: VoIPDevice,
 ) -> None:
@@ -21,7 +21,7 @@ async def test_pipeline_select(
 
 
 async def test_vad_sensitivity_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     voip_device: VoIPDevice,
 ) -> None:

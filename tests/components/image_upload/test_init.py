@@ -12,7 +12,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator, WebSocketGe
 
 from universalassistant.components.image_upload import DOMAIN
 from universalassistant.components.websocket_api import TYPE_RESULT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -20,7 +20,7 @@ from . import TEST_IMAGE
 
 
 async def test_upload_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -106,7 +106,7 @@ async def test_upload_image(
     ],
 )
 async def test_upload_image_thumbnail_rgba_as_jpeg(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     hass_client: ClientSessionGenerator,
     image_mode: str,

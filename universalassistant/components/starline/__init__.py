@@ -1,7 +1,7 @@
 """The StarLine component."""
 
 from universalassistant.const import CONF_SCAN_INTERVAL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -19,13 +19,13 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the StarLine integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: StarlineConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: StarlineConfigEntry) -> None:
     """Set up the StarLine device from a config entry."""
     account = StarlineAccount(hass, entry)
     await account.update()
@@ -48,7 +48,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: StarlineConfigEntry
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: StarlineConfigEntry
+    hass: __HAC_KEEP__, config_entry: StarlineConfigEntry
 ) -> None:
     """Unload a config entry."""
     try:
@@ -60,7 +60,7 @@ async def async_unload_entry(
 
 
 async def async_options_updated(
-    hass: UniversalAssistant, config_entry: StarlineConfigEntry
+    hass: __HAC_KEEP__, config_entry: StarlineConfigEntry
 ) -> None:
     """Triggered by config entry options updates."""
     account = config_entry.runtime_data

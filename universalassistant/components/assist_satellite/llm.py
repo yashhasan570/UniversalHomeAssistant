@@ -1,7 +1,7 @@
 """LLM tools for the assist_satellite integration."""
 
 from universalassistant.components.llm import LLMTools
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import intent
 from universalassistant.helpers.llm import (
     LLM_API_ASSIST,
@@ -20,7 +20,7 @@ LLM_ANNOTATIONS = ToolAnnotations(destructive=False, open_world=False)
 
 @callback
 def async_get_tools(
-    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
+    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
     """Return the broadcast LLM tool."""
     if api_id != LLM_API_ASSIST:

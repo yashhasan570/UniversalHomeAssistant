@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.lyngdorf.const import CONF_SERIAL_NUMBER, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_MODEL, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -24,7 +24,7 @@ from universalassistant.helpers.aiohttp_client import async_get_clientsession
     ids=["connection_error", "os_error", "timeout"],
 )
 async def test_setup_entry_connection_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     exc: Exception,
@@ -44,11 +44,11 @@ async def test_setup_entry_connection_failures(
 
 
 async def test_receiver_disconnects_on_hass_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
-    """Test the receiver is disconnected when Universal Universal Home Assistant stops."""
+    """Test the receiver is disconnected when __HA_KEEP__ stops."""
     assert init_integration.state is ConfigEntryState.LOADED
 
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -58,7 +58,7 @@ async def test_receiver_disconnects_on_hass_stop(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test unloading the config entry."""
     assert init_integration.state is ConfigEntryState.LOADED
@@ -70,18 +70,18 @@ async def test_unload_entry(
 
 
 async def test_uses_the_universal_assistant_websession(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_create_receiver: MagicMock,
 ) -> None:
-    """Test the receiver is given Universal Universal Home Assistant's shared aiohttp session."""
+    """Test the receiver is given __HA_KEEP__'s shared aiohttp session."""
     assert mock_create_receiver.call_args.kwargs["session"] is async_get_clientsession(
         hass
     )
 
 
 async def test_unload_releases_receiver_subscriptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_zone_b_via_device_id(
 )
 @pytest.mark.usefixtures("mock_receiver")
 async def test_mac_connection_registered_when_serial_is_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     serial: str,
     expected_mac_connections: set[str],
@@ -160,7 +160,7 @@ async def test_mac_connection_registered_when_serial_is_mac(
 
 
 async def test_no_zone_b_device_for_model_without_zone_b(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     device_registry: dr.DeviceRegistry,

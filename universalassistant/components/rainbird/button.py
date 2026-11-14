@@ -7,8 +7,8 @@ from pyrainbird.timeline import ProgramId
 
 from universalassistant.components.button import ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 from universalassistant.util import dt as dt_util
@@ -18,7 +18,7 @@ from .types import RainbirdConfigEntry
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RainbirdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -59,11 +59,11 @@ class RainbirdProgramButton(CoordinatorEntity[RainbirdUpdateCoordinator], Button
         try:
             await self.coordinator.controller.set_program(self._program)
         except RainbirdDeviceBusyException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Rain Bird device is busy; Wait and try again"
             ) from err
         except RainbirdApiException as err:
-            raise UniversalAssistantError("Rain Bird device failure") from err
+            raise __HAC_KEEP__Error("Rain Bird device failure") from err
 
         # Zone switches reflect the running program after the next refresh.
         await self.coordinator.async_request_refresh()
@@ -72,7 +72,7 @@ class RainbirdProgramButton(CoordinatorEntity[RainbirdUpdateCoordinator], Button
 class RainbirdSyncTimeButton(
     CoordinatorEntity[RainbirdUpdateCoordinator], ButtonEntity
 ):
-    """A button that sets the controller clock to the Universal Universal Home Assistant local time."""
+    """A button that sets the controller clock to the __HA_KEEP__ local time."""
 
     _attr_translation_key = "sync_time"
     _attr_has_entity_name = True
@@ -96,8 +96,8 @@ class RainbirdSyncTimeButton(
             await self.coordinator.controller.set_current_time(now.time())
             await self.coordinator.controller.set_current_date(now.date())
         except RainbirdDeviceBusyException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Rain Bird device is busy; Wait and try again"
             ) from err
         except RainbirdApiException as err:
-            raise UniversalAssistantError("Rain Bird device failure") from err
+            raise __HAC_KEEP__Error("Rain Bird device failure") from err

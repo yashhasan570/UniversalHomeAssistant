@@ -6,11 +6,11 @@ from unittest.mock import AsyncMock, patch
 from zigpy.application import ControllerApplication
 
 from universalassistant.components.zha.backup import async_post_backup, async_pre_backup
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_pre_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zigpy_app_controller: ControllerApplication,
     setup_zha: Callable[..., Coroutine[None]],
 ) -> None:
@@ -27,7 +27,7 @@ async def test_pre_backup(
 
 @patch("universalassistant.components.zha.backup.get_zha_gateway", side_effect=ValueError())
 async def test_pre_backup_no_gateway(
-    hass: UniversalAssistant, setup_zha: Callable[..., Coroutine[None]]
+    hass: __HAC_KEEP__, setup_zha: Callable[..., Coroutine[None]]
 ) -> None:
     """Test graceful backup failure when no gateway exists."""
     await setup_zha()
@@ -35,7 +35,7 @@ async def test_pre_backup_no_gateway(
 
 
 async def test_post_backup(
-    hass: UniversalAssistant, setup_zha: Callable[..., Coroutine[None]]
+    hass: __HAC_KEEP__, setup_zha: Callable[..., Coroutine[None]]
 ) -> None:
     """Test no-op `async_post_backup`."""
     await setup_zha()

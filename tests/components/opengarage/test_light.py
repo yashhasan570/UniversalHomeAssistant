@@ -16,8 +16,8 @@ from universalassistant.const import (
     STATE_OPEN,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -26,7 +26,7 @@ ENTITY_ID = "light.garage_abcdef_light"
 
 @pytest.mark.parametrize(("initial", "expected"), [(0, STATE_OFF), (1, STATE_ON)])
 async def test_light_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -58,7 +58,7 @@ async def test_light_entity(
     ],
 )
 async def test_light_controls_refresh_device_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     service: str,
     requested: bool,
@@ -89,7 +89,7 @@ async def test_light_controls_refresh_device_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_light_controls_refresh_during_cooldown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
 ) -> None:
     """Test back-to-back light controls do not return stale entity state."""
@@ -129,7 +129,7 @@ async def test_light_controls_refresh_during_cooldown(
 
 
 async def test_light_not_created_without_capability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_opengarage: MagicMock,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_light_not_created_without_capability(
     ],
 )
 async def test_light_control_error_surfaces_to_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     result: int | None,
     message: str,
@@ -161,7 +161,7 @@ async def test_light_control_error_surfaces_to_user(
     mock_opengarage.set_light.return_value = result
     mock_opengarage.update_state.reset_mock()
 
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         await hass.services.async_call(
             light.DOMAIN,
             light.SERVICE_TURN_ON,
@@ -186,7 +186,7 @@ async def test_light_control_error_surfaces_to_user(
     ],
 )
 async def test_light_network_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     error: Exception,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_light_network_error(
     mock_opengarage.set_light.side_effect = error
     mock_opengarage.update_state.reset_mock()
 
-    with pytest.raises(UniversalAssistantError, match="device is unavailable") as exc_info:
+    with pytest.raises(__HAC_KEEP__Error, match="device is unavailable") as exc_info:
         await hass.services.async_call(
             light.DOMAIN,
             light.SERVICE_TURN_ON,
@@ -210,7 +210,7 @@ async def test_light_network_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_light_state_missing_after_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
 ) -> None:
     """A missing light state on later polls is unknown rather than off."""
@@ -226,7 +226,7 @@ async def test_light_state_missing_after_refresh(
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("reported", [0, None])
 async def test_light_empty_result_requires_confirmed_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     reported: int | None,
 ) -> None:
@@ -235,7 +235,7 @@ async def test_light_empty_result_requires_confirmed_state(
     mock_opengarage.update_state.reset_mock()
     mock_opengarage.update_state.return_value["light"] = reported
 
-    with pytest.raises(UniversalAssistantError, match="Unable to confirm the requested"):
+    with pytest.raises(__HAC_KEEP__Error, match="Unable to confirm the requested"):
         await hass.services.async_call(
             light.DOMAIN,
             light.SERVICE_TURN_ON,
@@ -249,7 +249,7 @@ async def test_light_empty_result_requires_confirmed_state(
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("response", [{"light": 0}, None])
 async def test_light_noop_cannot_use_cached_confirmation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     response: dict[str, int] | None,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_light_noop_cannot_use_cached_confirmation(
     mock_opengarage.update_state.reset_mock()
     mock_opengarage.update_state.return_value = response
 
-    with pytest.raises(UniversalAssistantError, match="Unable to confirm the requested"):
+    with pytest.raises(__HAC_KEEP__Error, match="Unable to confirm the requested"):
         await hass.services.async_call(
             light.DOMAIN,
             light.SERVICE_TURN_ON,

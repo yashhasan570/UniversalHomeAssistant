@@ -26,11 +26,11 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     HassJob,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, template
 from universalassistant.helpers.event import (
     async_track_point_in_time,
@@ -99,7 +99,7 @@ class TrackEntity(NamedTuple):
 
 
 async def async_attach_trigger(  # noqa: C901
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -262,7 +262,7 @@ async def async_attach_trigger(  # noqa: C901
             try:
                 at_time = _TIME_AT_SCHEMA(render)
             except probatio.Invalid as exc:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     f"Limited Template for 'at' rendered a"
                     f" unexpected value '{render}', expected"
                     " HH:MM, HH:MM:SS or Entity ID with domain"

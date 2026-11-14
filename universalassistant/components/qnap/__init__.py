@@ -1,7 +1,7 @@
 """The qnap component."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import QnapConfigEntry, QnapCoordinator
 
@@ -10,7 +10,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, config_entry: QnapConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, config_entry: QnapConfigEntry) -> None:
     """Set the config entry up."""
     coordinator = QnapCoordinator(hass, config_entry)
     await coordinator.async_config_entry_first_refresh()
@@ -19,7 +19,7 @@ async def async_setup_entry(hass: UniversalAssistant, config_entry: QnapConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: QnapConfigEntry
+    hass: __HAC_KEEP__, config_entry: QnapConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

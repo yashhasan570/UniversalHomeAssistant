@@ -13,7 +13,7 @@ from universalassistant.components.media_player import (
     MediaType,
     async_process_play_media_url,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -37,7 +37,7 @@ DUNEHD_PLAYER_SUPPORT: Final[MediaPlayerEntityFeature] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DuneHDConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

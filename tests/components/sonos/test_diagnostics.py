@@ -12,12 +12,12 @@ from syrupy.filters import paths
 
 from universalassistant.components.sonos.const import DOMAIN
 from universalassistant.components.sonos.diagnostics import TO_REDACT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntryDisabler, DeviceRegistry
 
 
 async def test_diagnostics_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     async_autosetup_sonos,
     config_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_diagnostics_config_entry(
 
 
 async def test_diagnostics_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: DeviceRegistry,
     async_autosetup_sonos,
@@ -67,7 +67,7 @@ async def test_diagnostics_device(
 
 
 async def test_diagnostics_disabled_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: DeviceRegistry,
     async_autosetup_sonos,
@@ -91,7 +91,7 @@ async def test_diagnostics_disabled_device(
 
 @pytest.mark.parametrize("key", sorted(TO_REDACT))
 async def test_diagnostics_redacts_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     async_autosetup_sonos,
     config_entry: MockConfigEntry,

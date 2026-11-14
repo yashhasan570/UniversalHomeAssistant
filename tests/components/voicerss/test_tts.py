@@ -15,7 +15,7 @@ from universalassistant.components.media_player import (
     DOMAIN as MP_DOMAIN,
     SERVICE_PLAY_MEDIA,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from tests.components.tts.common import retrieve_media
@@ -40,7 +40,7 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
     """Mock the TTS cache dir with empty dir."""
 
 
-async def test_setup_component(hass: UniversalAssistant) -> None:
+async def test_setup_component(hass: __HAC_KEEP__) -> None:
     """Test setup component."""
     config = {tts.DOMAIN: {"platform": "voicerss", "api_key": "1234567xx"}}
 
@@ -49,7 +49,7 @@ async def test_setup_component(hass: UniversalAssistant) -> None:
         await hass.async_block_till_done()
 
 
-async def test_setup_component_without_api_key(hass: UniversalAssistant) -> None:
+async def test_setup_component_without_api_key(hass: __HAC_KEEP__) -> None:
     """Test setup component without api key."""
     config = {tts.DOMAIN: {"platform": "voicerss"}}
 
@@ -59,7 +59,7 @@ async def test_setup_component_without_api_key(hass: UniversalAssistant) -> None
 
 
 async def test_service_say(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_service_say(
 
 
 async def test_service_say_german_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_service_say_german_config(
 
 
 async def test_service_say_german_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -173,7 +173,7 @@ async def test_service_say_german_service(
 
 
 async def test_service_say_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_service_say_error(
 
 
 async def test_service_say_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_service_say_timeout(
 
 
 async def test_service_say_error_msg(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

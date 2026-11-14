@@ -11,13 +11,13 @@ from pyvlx.dataobjects import DtoState
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.freeze_time("2025-01-01T00:00:00+00:00")
 @pytest.mark.parametrize("mock_pyvlx", ["mock_window"], indirect=True)
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_pyvlx: MagicMock,

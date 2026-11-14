@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 import aiounifi
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import (
@@ -39,7 +39,7 @@ class UnifiHub:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: UnifiConfigEntry,
         api: aiounifi.Controller,
     ) -> None:
@@ -64,7 +64,7 @@ class UnifiHub:
         self.site = config_entry.data[CONF_SITE_ID]
         self.is_admin = False
         self.time_zone: tzinfo | None = None
-        """The controller's time zone. None means use Universal Universal Home Assistant's."""
+        """The controller's time zone. None means use __HA_KEEP__'s."""
 
     @property
     def available(self) -> bool:
@@ -138,7 +138,7 @@ class UnifiHub:
             time_zone := sysinfo.timezone
         ):
             # Anything that isn't a loadable zone name falls back to
-            # Universal Universal Home Assistant's time zone.
+            # __HA_KEEP__'s time zone.
             with suppress(TypeError, ValueError):
                 self.time_zone = await dt_util.async_get_time_zone(time_zone)
 
@@ -198,7 +198,7 @@ class UnifiHub:
 
     @staticmethod
     async def async_config_entry_updated(
-        hass: UniversalAssistant, config_entry: UnifiConfigEntry
+        hass: __HAC_KEEP__, config_entry: UnifiConfigEntry
     ) -> None:
         """Reload when the data changed, otherwise apply updated options."""
         hub = config_entry.runtime_data

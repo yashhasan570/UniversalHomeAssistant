@@ -5,7 +5,7 @@ from typing import override
 from dwdwfsapi import DwdWeatherWarningsAPI
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import location as location_util
 
@@ -29,7 +29,7 @@ class DwdWeatherWarningsCoordinator(DataUpdateCoordinator[None]):
     api: DwdWeatherWarningsAPI
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: DwdWeatherWarningsConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: DwdWeatherWarningsConfigEntry
     ) -> None:
         """Initialize the dwd_weather_warnings coordinator."""
         super().__init__(

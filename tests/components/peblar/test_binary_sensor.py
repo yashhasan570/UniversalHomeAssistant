@@ -6,14 +6,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.peblar.const import DOMAIN
 from universalassistant.const import STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 @pytest.mark.parametrize("init_integration", [Platform.BINARY_SENSOR], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -36,7 +36,7 @@ async def test_entities(
 
 @pytest.mark.parametrize("init_integration", [Platform.BINARY_SENSOR], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
-async def test_socket_lock(hass: UniversalAssistant) -> None:
+async def test_socket_lock(hass: __HAC_KEEP__) -> None:
     """Test the socket lock reports in the lock device class polarity.
 
     The charger calls an unlocked socket LockState false, while the lock
@@ -50,6 +50,6 @@ async def test_socket_lock(hass: UniversalAssistant) -> None:
 @pytest.mark.parametrize("mock_peblar", [{"HwHasSocket": False}], indirect=True)
 @pytest.mark.parametrize("init_integration", [Platform.BINARY_SENSOR], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
-async def test_socket_lock_absent_without_socket(hass: UniversalAssistant) -> None:
+async def test_socket_lock_absent_without_socket(hass: __HAC_KEEP__) -> None:
     """A charger with a fixed cable has no socket lock to report."""
     assert hass.states.get("binary_sensor.peblar_ev_charger_socket_lock") is None

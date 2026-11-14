@@ -8,7 +8,7 @@ from requests import RequestException
 from venstarcolortouch import VenstarColorTouch
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import update_coordinator
 
 from .const import DOMAIN, LOGGER, VENSTAR_SLEEP
@@ -23,7 +23,7 @@ class VenstarDataUpdateCoordinator(update_coordinator.DataUpdateCoordinator[None
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: VenstarConfigEntry,
         venstar_connection: VenstarColorTouch,
     ) -> None:

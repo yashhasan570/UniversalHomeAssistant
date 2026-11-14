@@ -1,7 +1,7 @@
 """Helpers for hassio config entry access."""
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import (
     DEFAULT_UPDATE_OPTIONS,
@@ -13,7 +13,7 @@ from .const import (
 
 
 @callback
-def async_get_hassio_entry(hass: UniversalAssistant) -> ConfigEntry | None:
+def async_get_hassio_entry(hass: __HAC_KEEP__) -> ConfigEntry | None:
     """Return the active hassio config entry if it exists."""
     entries = hass.config_entries.async_entries(
         DOMAIN, include_ignore=False, include_disabled=False
@@ -23,7 +23,7 @@ def async_get_hassio_entry(hass: UniversalAssistant) -> ConfigEntry | None:
 
 @callback
 def async_get_update_options(
-    hass: UniversalAssistant, entry: ConfigEntry | None = None
+    hass: __HAC_KEEP__, entry: ConfigEntry | None = None
 ) -> dict[str, bool | int]:
     """Return hassio update options with defaults applied."""
     if entry is None:

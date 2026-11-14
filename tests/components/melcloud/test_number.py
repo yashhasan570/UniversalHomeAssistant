@@ -13,8 +13,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_platform
@@ -24,7 +24,7 @@ FLOW_TEMPERATURE_ENTITY = "number.ecodan_zone_1_flow_temperature"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_get_devices")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -36,7 +36,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_set_flow_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
 ) -> None:
@@ -56,14 +56,14 @@ async def test_set_flow_temperature(
 
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_set_flow_temperature_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
 ) -> None:
-    """A failed set surfaces as a UniversalAssistantError."""
+    """A failed set surfaces as a __HAC_KEEP__Error."""
     mock_atw_device.zones[0].set_target_flow_temperature.side_effect = ClientError
     await setup_platform(hass, mock_config_entry, [Platform.NUMBER])
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -86,7 +86,7 @@ async def test_set_flow_temperature_error(
 )
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
     operation_mode: str,
@@ -109,7 +109,7 @@ async def test_availability(
 )
 @pytest.mark.usefixtures("mock_get_devices")
 async def test_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atw_device: MagicMock,
     operation_mode: str,

@@ -11,11 +11,11 @@ from universalassistant.const import (
     ATTR_LONGITUDE,
     STATE_NOT_HOME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_gps_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     gps_sensor: Sensor,
     receive_message: Callable[[str], None],
 ) -> None:

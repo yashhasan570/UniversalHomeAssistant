@@ -7,13 +7,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_setup_entry(
     ],
 )
 async def test_setup_entry_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_autoskope_client: AsyncMock,
     exception: Exception,

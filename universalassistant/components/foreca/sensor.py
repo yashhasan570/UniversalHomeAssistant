@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE, UnitOfVolumetricFlux
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -55,7 +55,7 @@ SENSOR_TYPES: tuple[ForecaSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ForecaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

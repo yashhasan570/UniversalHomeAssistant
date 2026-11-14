@@ -9,7 +9,7 @@ from b2sdk.v2 import B2Api as BaseB2Api, InMemoryAccountInfo
 from b2sdk.v2.b2http import B2Http as BaseB2Http
 from b2sdk.v2.session import B2Session as BaseB2Session
 
-# Extended timeouts for Universal Universal Home Assistant backup operations
+# Extended timeouts for __HA_KEEP__ backup operations
 # Default CONNECTION_TIMEOUT is 46 seconds, which can be too short for slow connections
 CONNECTION_TIMEOUT = 120  # 2 minutes
 

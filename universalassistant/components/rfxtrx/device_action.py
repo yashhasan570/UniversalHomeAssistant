@@ -6,8 +6,8 @@ import probatio
 
 from universalassistant.components.device_automation import InvalidDeviceAutomationConfig
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_TYPE
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, TemplateVarsType
 
@@ -40,7 +40,7 @@ ACTION_SCHEMA = cv.DEVICE_ACTION_BASE_SCHEMA.extend(
 
 
 async def async_get_actions(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device actions for RFXCOM RFXtrx devices."""
 
@@ -63,7 +63,7 @@ async def async_get_actions(
 
 
 def _get_commands(
-    hass: UniversalAssistant, device_id: str, action_type: str
+    hass: __HAC_KEEP__, device_id: str, action_type: str
 ) -> tuple[dict[str, str], Callable[..., None]]:
     device = async_get_device_object(hass, device_id)
     send_fun = getattr(device, action_type)
@@ -72,7 +72,7 @@ def _get_commands(
 
 
 async def async_validate_action_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     config = ACTION_SCHEMA(config)
@@ -88,7 +88,7 @@ async def async_validate_action_config(
 
 
 async def async_call_action_from_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     variables: TemplateVarsType,
     context: Context | None,
@@ -98,7 +98,7 @@ async def async_call_action_from_config(
 
     entries: list[RfxtrxConfigEntry] = hass.config_entries.async_loaded_entries(DOMAIN)
     if not entries:
-        raise UniversalAssistantError("RFXtrx is not connected, cannot send command")
+        raise __HAC_KEEP__Error("RFXtrx is not connected, cannot send command")
     rfx = entries[0].runtime_data
     commands, send_fun = _get_commands(hass, config[CONF_DEVICE_ID], config[CONF_TYPE])
     sub_type = config[CONF_SUBTYPE]

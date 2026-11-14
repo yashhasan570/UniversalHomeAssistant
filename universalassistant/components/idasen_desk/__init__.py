@@ -8,7 +8,7 @@ from idasen_ha.errors import AuthFailedError
 from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth.match import ADDRESS, BluetoothCallbackMatcher
 from universalassistant.const import CONF_ADDRESS, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .coordinator import IdasenDeskConfigEntry, IdasenDeskCoordinator
@@ -18,7 +18,7 @@ PLATFORMS: list[Platform] = [Platform.BUTTON, Platform.COVER, Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IdasenDeskConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IdasenDeskConfigEntry) -> None:
     """Set up IKEA Idasen from a config entry."""
     address: str = entry.data[CONF_ADDRESS].upper()
 
@@ -63,7 +63,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IdasenDeskConfigEnt
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IdasenDeskConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IdasenDeskConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     coordinator = entry.runtime_data

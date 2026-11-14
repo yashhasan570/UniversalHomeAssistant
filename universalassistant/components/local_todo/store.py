@@ -3,14 +3,14 @@
 import asyncio
 from pathlib import Path
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.os_error import os_write_error
 
 
 class LocalTodoListStore:
     """Local storage for a single To-do list."""
 
-    def __init__(self, hass: UniversalAssistant, path: Path) -> None:
+    def __init__(self, hass: __HAC_KEEP__, path: Path) -> None:
         """Initialize LocalTodoListStore."""
         self._hass = hass
         self._path = path

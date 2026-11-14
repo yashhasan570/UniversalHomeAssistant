@@ -14,13 +14,13 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_altruist_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -36,7 +36,7 @@ async def test_all_entities(
 
 
 async def test_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_altruist_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

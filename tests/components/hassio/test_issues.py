@@ -34,7 +34,7 @@ from universalassistant.components.hassio.coordinator import (
     get_issues_info,
 )
 from universalassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir, system_state
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -43,7 +43,7 @@ from .test_init import MOCK_ENVIRON
 
 
 @pytest.fixture(autouse=True)
-async def setup_repairs(hass: UniversalAssistant) -> None:
+async def setup_repairs(hass: __HAC_KEEP__) -> None:
     """Set up the repairs integration."""
     assert await async_setup_component(hass, REPAIRS_DOMAIN, {REPAIRS_DOMAIN: {}})
 
@@ -145,7 +145,7 @@ def assert_issue_repair_in_list(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_unhealthy_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_unhealthy_issues(
 @pytest.mark.usefixtures("all_setup_requests")
 @pytest.mark.parametrize("unhealthy_reason", list(UnhealthyReason))
 async def test_unhealthy_reasons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_ws_client: WebSocketGenerator,
     unhealthy_reason: UnhealthyReason,
@@ -194,7 +194,7 @@ async def test_unhealthy_reasons(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_unsupported_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -225,7 +225,7 @@ async def test_unsupported_issues(
     [r for r in UnsupportedReason if r != UnsupportedReason.PRIVILEGED],
 )
 async def test_unsupported_reasons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_ws_client: WebSocketGenerator,
     unsupported_reason: UnsupportedReason,
@@ -249,7 +249,7 @@ async def test_unsupported_reasons(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_unhealthy_issues_add_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -306,7 +306,7 @@ async def test_unhealthy_issues_add_remove(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_unsupported_issues_add_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -363,7 +363,7 @@ async def test_unsupported_issues_add_remove(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_reset_issues_supervisor_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -439,7 +439,7 @@ async def test_reset_issues_supervisor_restart(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_no_reset_issues_supervisor_update_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -483,7 +483,7 @@ async def test_no_reset_issues_supervisor_update_found(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_reasons_added_and_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -538,7 +538,7 @@ async def test_reasons_added_and_removed(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_ignored_unsupported_skipped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -563,7 +563,7 @@ async def test_ignored_unsupported_skipped(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_new_unsupported_unhealthy_reason(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -615,7 +615,7 @@ async def test_new_unsupported_unhealthy_reason(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -689,7 +689,7 @@ async def test_supervisor_issues(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_initial_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     resolution_info: AsyncMock,
     hass_ws_client: WebSocketGenerator,
@@ -738,7 +738,7 @@ async def test_supervisor_issues_initial_failure(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_add_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -820,7 +820,7 @@ async def test_supervisor_issues_add_remove(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_suggestions_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     resolution_suggestions_for_issue: AsyncMock,
     hass_ws_client: WebSocketGenerator,
@@ -853,7 +853,7 @@ async def test_supervisor_issues_suggestions_fail(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_remove_missing_issue_without_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -888,7 +888,7 @@ async def test_supervisor_remove_missing_issue_without_error(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_system_is_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     resolution_info: AsyncMock,
 ) -> None:
     """Ensure hassio starts despite issues refresh errors."""
@@ -907,7 +907,7 @@ async def test_system_is_not_ready(
 )
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_app_port_conflict_single(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -972,7 +972,7 @@ async def test_supervisor_issues_app_port_conflict_single(
 )
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_app_port_conflict_menu(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1044,7 +1044,7 @@ async def test_supervisor_issues_app_port_conflict_menu(
 )
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_detached_addon_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1096,7 +1096,7 @@ async def test_supervisor_issues_detached_addon_missing(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_ntp_sync_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1153,7 +1153,7 @@ async def test_supervisor_issues_ntp_sync_failed(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_disk_lifetime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1201,7 +1201,7 @@ async def test_supervisor_issues_disk_lifetime(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_free_space(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1256,7 +1256,7 @@ async def test_supervisor_issues_free_space(
 )
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_addon_pwned(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1309,7 +1309,7 @@ async def test_supervisor_issues_addon_pwned(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_subscription_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1405,7 +1405,7 @@ async def test_supervisor_issues_subscription_events(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_periodic_refresh_backstop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
 ) -> None:
     """Test issues coordinator polls periodically without requiring subscribers."""
@@ -1438,7 +1438,7 @@ async def test_supervisor_issues_periodic_refresh_backstop(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_issue_repair_recreated_when_registry_entry_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1491,7 +1491,7 @@ async def test_issue_repair_recreated_when_registry_entry_missing(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_suggestions_change_updates_fixable_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1588,7 +1588,7 @@ async def test_supervisor_issues_suggestions_change_updates_fixable_state(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_periodic_refresh_recovers_after_initial_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     resolution_info: AsyncMock,
 ) -> None:
@@ -1637,7 +1637,7 @@ async def test_supervisor_issues_periodic_refresh_recovers_after_initial_failure
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_supervisor_issues_unload_disconnects_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     resolution_info: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
@@ -1727,7 +1727,7 @@ def _reboot_required_event(event: str, issue_uuid: str) -> dict[str, Any]:
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_host_reboot_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1756,7 +1756,7 @@ async def test_host_reboot_required(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_host_reboot_required_on_startup(
-    hass: UniversalAssistant, supervisor_client: AsyncMock
+    hass: __HAC_KEEP__, supervisor_client: AsyncMock
 ) -> None:
     """Test a reboot issue already known to Supervisor sets the host reboot flag."""
     mock_resolution_info(
@@ -1791,7 +1791,7 @@ async def test_host_reboot_required_on_startup(
 
 
 async def _poll_reasons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     client: MockHAClientWebSocket,
     unhealthy: list[str],
@@ -1803,7 +1803,7 @@ async def _poll_reasons(
 
 
 async def _push_reasons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     client: MockHAClientWebSocket,
     unhealthy: list[str],
@@ -1828,12 +1828,12 @@ async def _push_reasons(
     [pytest.param(_poll_reasons, id="poll"), pytest.param(_push_reasons, id="push")],
 )
 async def test_unhealthy_issue_ignore_kept_on_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     issue_registry: ir.IssueRegistry,
     hass_supervisor_ws_client: WebSocketGenerator,
     report_reasons: Callable[
-        [UniversalAssistant, AsyncMock, MockHAClientWebSocket, list[str]],
+        [__HAC_KEEP__, AsyncMock, MockHAClientWebSocket, list[str]],
         Awaitable[None],
     ],
 ) -> None:
@@ -1861,7 +1861,7 @@ async def test_unhealthy_issue_ignore_kept_on_update(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_stale_persisted_reason_issues_deleted_on_first_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     supervisor_client: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -1907,7 +1907,7 @@ async def test_stale_persisted_reason_issues_deleted_on_first_update(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_health_push_without_data_keeps_unsupported_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     resolution_info: AsyncMock,
     issue_registry: ir.IssueRegistry,

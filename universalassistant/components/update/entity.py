@@ -16,7 +16,7 @@ from universalassistant.const import (
     EntityCategory,
     EntityStateAttribute,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import system_state
 from universalassistant.helpers.entity import ABCCachedProperties, EntityDescription
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -191,7 +191,7 @@ class UpdateEntity(
 
     @cached_property
     def restart_required(self) -> bool:
-        """Return if Universal Universal Home Assistant needs a restart after installing the update."""
+        """Return if __HA_KEEP__ needs a restart after installing the update."""
         if hasattr(self, "_attr_restart_required"):
             return self._attr_restart_required
         if hasattr(self, "entity_description"):
@@ -227,13 +227,13 @@ class UpdateEntity(
     async def async_skip(self) -> None:
         """Skip the current offered version to update."""
         if (latest_version := self.latest_version) is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unknown_version_to_skip",
                 translation_placeholders={"entity_id": self.entity_id},
             )
         if self.installed_version == latest_version:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="no_update_available_to_skip",
                 translation_placeholders={"entity_id": self.entity_id},

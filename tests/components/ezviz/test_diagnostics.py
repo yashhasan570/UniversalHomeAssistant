@@ -9,7 +9,7 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 from .test_init import _mock_camera_data
@@ -19,7 +19,7 @@ from .test_init import _mock_camera_data
     "config_entry_fixture", ["mock_config_entry", "mock_camera_config_entry"]
 )
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_ezviz_client: AsyncMock,
     request: pytest.FixtureRequest,

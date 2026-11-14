@@ -17,8 +17,8 @@ from universalassistant.components.update import (
     UpdateEntityFeature,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
@@ -41,7 +41,7 @@ REBOOT_TIMEOUT = 300
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ElgatoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -184,7 +184,7 @@ class ElgatoUpdateEntity(ElgatoEntity, UpdateEntity):
         except ElgatoFirmwareError as err:
             # A device turns firmware away for reasons someone can act on:
             # too little battery left, an image for another model. Say which.
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="firmware_install_error",
                 translation_placeholders={"error": str(err)},
@@ -204,12 +204,12 @@ class ElgatoUpdateEntity(ElgatoEntity, UpdateEntity):
             return await self.firmware.catalog.download(board_type)
         except ElgatoConnectionError as err:
             self.firmware.async_set_update_error(err)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="firmware_communication_error",
             ) from err
         except ElgatoError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="firmware_unknown_error",
             ) from err

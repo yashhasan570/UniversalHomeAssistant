@@ -125,7 +125,7 @@ More info @ https://contributors.universalassistant.io/core/integrations/manifes
             {
                 "authentication": {
                     "prompt": (
-                        "Does Universal Universal Home Assistant need the user"
+                        "Does __HA_KEEP__ need the user"
                         " to authenticate to control the"
                         " device/service? (yes/no)"
                     ),

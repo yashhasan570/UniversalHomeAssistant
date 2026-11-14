@@ -14,8 +14,8 @@ from universalassistant.components.tts import (
 )
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_PROMPT
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_CHAT_MODEL, CONF_TTS_SPEED, RECOMMENDED_TTS_SPEED
@@ -29,7 +29,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: OpenAIConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -196,6 +196,6 @@ class OpenAITTSEntity(TextToSpeechEntity, OpenAIBaseLLMEntity):
                 async for chunk in response.iter_bytes():
                     response_data.extend(chunk)
         except OpenAIError as exc:
-            raise UniversalAssistantError(exc) from exc
+            raise __HAC_KEEP__Error(exc) from exc
 
         return response_format, bytes(response_data)

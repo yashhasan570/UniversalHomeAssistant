@@ -8,7 +8,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher
 
 from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth.match import BluetoothCallbackMatcher
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import PRIVATE_BLE_DEVICE_DATA
 
@@ -19,7 +19,7 @@ type Cancellable = Callable[[], None]
 
 
 def async_last_service_info(
-    hass: UniversalAssistant, irk: bytes
+    hass: __HAC_KEEP__, irk: bytes
 ) -> bluetooth.BluetoothServiceInfoBleak | None:
     """Find a BluetoothServiceInfoBleak for the irk.
 
@@ -52,7 +52,7 @@ class PrivateDevicesCoordinator:
     hashing (AES) operations as much as possible.
     """
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the manager."""
         self.hass = hass
 
@@ -236,10 +236,10 @@ class PrivateDevicesCoordinator:
         return _unsubscribe
 
 
-def async_get_coordinator(hass: UniversalAssistant) -> PrivateDevicesCoordinator:
+def async_get_coordinator(hass: __HAC_KEEP__) -> PrivateDevicesCoordinator:
     """Create or return an existing PrivateDeviceManager.
 
-    There should only be one per UniversalAssistant instance. Associating private
+    There should only be one per __HAC_KEEP__ instance. Associating private
     mac addresses with an IRK involves AES operations. We don't want to
     duplicate that work.
     """

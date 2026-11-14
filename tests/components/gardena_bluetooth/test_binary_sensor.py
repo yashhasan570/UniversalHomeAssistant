@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_entry
 
@@ -24,7 +24,7 @@ from . import setup_entry
     ],
 )
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
     mock_read_char_raw: dict[str, bytes],

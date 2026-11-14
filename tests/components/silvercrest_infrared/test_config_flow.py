@@ -13,7 +13,7 @@ from universalassistant.components.silvercrest_infrared.const import (
     SilverCrestIrDeviceType,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -28,7 +28,7 @@ from universalassistant.data_entry_flow import FlowResultType
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     device_type: SilverCrestIrDeviceType,
     device_name: str,
@@ -69,7 +69,7 @@ async def test_form(
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     user_input: dict[str, str],
 ) -> None:
@@ -95,7 +95,7 @@ async def test_form_already_configured(
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_user_flow_no_emitters_receivers(hass: UniversalAssistant) -> None:
+async def test_user_flow_no_emitters_receivers(hass: __HAC_KEEP__) -> None:
     """Test user flow aborts when no infrared emitters or receivers exist."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -107,7 +107,7 @@ async def test_user_flow_no_emitters_receivers(hass: UniversalAssistant) -> None
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity", "mock_setup_entry")
 async def test_user_flow_requires_emitter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test user flow requires an infrared emitter or receiver."""
     result = await hass.config_entries.flow.async_init(
@@ -133,7 +133,7 @@ async def test_user_flow_requires_emitter(
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
-async def test_flow_reconfigure(hass: UniversalAssistant) -> None:
+async def test_flow_reconfigure(hass: __HAC_KEEP__) -> None:
     """Test reconfigure flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -165,7 +165,7 @@ async def test_flow_reconfigure(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_reconfigure_flow_requires_emitter(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow requires an infrared emitter."""
     config_entry.add_to_hass(hass)
@@ -193,7 +193,7 @@ async def test_reconfigure_flow_requires_emitter(
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_flow_reconfigure_already_configured(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow."""
     config_entry_2 = MockConfigEntry(
@@ -224,7 +224,7 @@ async def test_flow_reconfigure_already_configured(
 
 @pytest.mark.usefixtures("init_infrared")
 async def test_reconfigure_flow_no_emitters(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow aborts when no infrared emitters exist."""
     config_entry.add_to_hass(hass)

@@ -24,8 +24,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -35,7 +35,7 @@ ENTITY_ID = "light.jar"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -48,7 +48,7 @@ async def test_entities(
 
 
 async def test_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_turn_off(
 
 
 async def test_state_update_via_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
 ) -> None:
@@ -101,7 +101,7 @@ async def test_state_update_via_callback(
 
 
 async def test_color_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that the light reports BRIGHTNESS color mode."""
@@ -125,7 +125,7 @@ async def test_color_mode(
     ],
 )
 async def test_brightness_snap_to_nearest(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     ha_brightness: int,
@@ -146,7 +146,7 @@ async def test_brightness_snap_to_nearest(
 
 
 async def test_brightness_update_via_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
 ) -> None:
@@ -168,12 +168,12 @@ async def test_brightness_update_via_callback(
     ],
 )
 async def test_command_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_casper_glow: MagicMock,
     service: str,
     mock_method: str,
 ) -> None:
-    """Test device error raises UniversalAssistantError.
+    """Test device error raises __HAC_KEEP__Error.
 
     The entity should not be marked as unavailable.
     """
@@ -181,7 +181,7 @@ async def test_command_error(
         "Connection failed"
     )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             service,
@@ -195,7 +195,7 @@ async def test_command_error(
 
 
 async def test_state_update_via_callback_after_command_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -204,7 +204,7 @@ async def test_state_update_via_callback_after_command_failure(
     mock_casper_glow.turn_on.side_effect = CasperGlowError("Connection failed")
 
     # Fail a command — entity remains in last known state (unknown), not unavailable
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,

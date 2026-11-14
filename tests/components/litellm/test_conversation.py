@@ -26,7 +26,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components import conversation
 from universalassistant.components.litellm.coordinator import UPDATE_INTERVAL_DISCONNECTED
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, intent
 from universalassistant.helpers.llm import ToolInput, ToolResult
 
@@ -46,7 +46,7 @@ def freeze_the_time():
 
 @pytest.mark.parametrize("enable_assist", [True, False], ids=["assist", "no_assist"])
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -63,7 +63,7 @@ async def test_all_entities(
 
 
 async def test_default_prompt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     mock_openai_client: AsyncMock,
@@ -87,7 +87,7 @@ async def test_default_prompt(
 
 
 async def test_empty_api_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -119,7 +119,7 @@ async def test_empty_api_response(
 
 
 async def test_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -143,7 +143,7 @@ async def test_api_error(
 
 
 async def test_connection_error_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -179,7 +179,7 @@ async def test_connection_error_availability(
 
 @pytest.mark.parametrize("enable_assist", [True])
 async def test_function_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

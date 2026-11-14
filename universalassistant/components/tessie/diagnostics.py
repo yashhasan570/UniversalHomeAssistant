@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import TessieConfigEntry
 
@@ -27,7 +27,7 @@ ENERGY_INFO_REDACT = ["installation_date", "serial_number"]
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: TessieConfigEntry
+    hass: __HAC_KEEP__, entry: TessieConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     vehicles = [

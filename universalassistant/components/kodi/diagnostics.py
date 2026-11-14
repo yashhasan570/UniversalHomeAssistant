@@ -5,14 +5,14 @@ from typing import Any
 from jsonrpc_base.jsonrpc import ProtocolError, TransportError
 
 from universalassistant.const import CONF_PORT, CONF_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import KodiConfigEntry
 from .const import CONF_WS_PORT
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: KodiConfigEntry
+    hass: __HAC_KEEP__, entry: KodiConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     connection = entry.runtime_data.connection

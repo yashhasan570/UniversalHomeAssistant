@@ -23,7 +23,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import UnitOfTemperature, UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_HAS_AMBIENT, CONF_PROBE_COUNT, MAX_PROBE_COUNT
@@ -235,7 +235,7 @@ ENTITY_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ToGrillConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

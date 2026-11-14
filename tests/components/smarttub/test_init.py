@@ -4,11 +4,11 @@ from smarttub import LoginFailed
 
 from universalassistant.components.smarttub.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_setup_with_no_config(
-    setup_component, hass: UniversalAssistant, smarttub_api
+    setup_component, hass: __HAC_KEEP__, smarttub_api
 ) -> None:
     """Test that we do not discover anything."""
 
@@ -19,7 +19,7 @@ async def test_setup_with_no_config(
 
 
 async def test_setup_entry_not_ready(
-    setup_component, hass: UniversalAssistant, config_entry, smarttub_api
+    setup_component, hass: __HAC_KEEP__, config_entry, smarttub_api
 ) -> None:
     """Test setup when the entry is not ready."""
     smarttub_api.login.side_effect = TimeoutError
@@ -30,7 +30,7 @@ async def test_setup_entry_not_ready(
 
 
 async def test_setup_auth_failed(
-    setup_component, hass: UniversalAssistant, config_entry, smarttub_api
+    setup_component, hass: __HAC_KEEP__, config_entry, smarttub_api
 ) -> None:
     """Test setup when the credentials are invalid."""
     smarttub_api.login.side_effect = LoginFailed
@@ -46,7 +46,7 @@ async def test_setup_auth_failed(
     assert flows[0]["context"]["source"] == SOURCE_REAUTH
 
 
-async def test_unload_entry(hass: UniversalAssistant, config_entry) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__, config_entry) -> None:
     """Test being able to unload an entry."""
     config_entry.add_to_hass(hass)
 

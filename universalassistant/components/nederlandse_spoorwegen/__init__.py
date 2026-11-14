@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import SUBENTRY_TYPE_ROUTE
 from .coordinator import NSConfigEntry, NSDataUpdateCoordinator
@@ -14,7 +14,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NSConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NSConfigEntry) -> None:
     """Set up Nederlandse Spoorwegen from a config entry."""
     coordinators: dict[str, NSDataUpdateCoordinator] = {}
 
@@ -36,11 +36,11 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NSConfigEntry) -> N
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_reload_entry(hass: UniversalAssistant, entry: NSConfigEntry) -> None:
+async def async_reload_entry(hass: __HAC_KEEP__, entry: NSConfigEntry) -> None:
     """Reload NS integration when options are updated."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NSConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NSConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

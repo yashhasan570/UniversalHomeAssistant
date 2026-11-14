@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MotionConfigEntry
 
@@ -19,7 +19,7 @@ TO_REDACT: Iterable[Any] = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: MotionConfigEntry
+    hass: __HAC_KEEP__, entry: MotionConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     device = entry.runtime_data

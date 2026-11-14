@@ -27,7 +27,7 @@ from universalassistant.components.weatherflow_cloud.sensor import (
     WeatherFlowWebsocketSensorWind,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -35,7 +35,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -53,7 +53,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities_with_lightning_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_rest_api: AsyncMock,
@@ -93,7 +93,7 @@ async def test_all_entities_with_lightning_error(
 
 
 async def test_rest_sensor_unavailable_with_empty_observation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_websocket_api: AsyncMock,
@@ -121,7 +121,7 @@ async def test_rest_sensor_unavailable_with_empty_observation(
 
 
 async def test_rest_sensor_unavailable_when_station_is_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_websocket_api: AsyncMock,
@@ -147,7 +147,7 @@ async def test_rest_sensor_unavailable_when_station_is_missing(
 
 
 async def test_websocket_sensor_observation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_websocket_api: AsyncMock,
@@ -190,7 +190,7 @@ async def test_websocket_sensor_observation(
 
 
 async def test_websocket_sensor_available_after_observation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_websocket_api: AsyncMock,
@@ -220,7 +220,7 @@ async def test_websocket_sensor_available_after_observation(
 
 
 async def test_websocket_sensor_wind(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_rest_api: AsyncMock,
     mock_websocket_api: AsyncMock,

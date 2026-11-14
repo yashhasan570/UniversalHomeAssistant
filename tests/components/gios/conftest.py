@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.gios.const import CONF_STATION_ID, DOMAIN
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -59,7 +59,7 @@ def mock_gios_stations() -> dict[int, GiosStation]:
 
 @pytest.fixture
 async def mock_gios(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gios_stations: dict[int, GiosStation],
     mock_gios_sensors: GiosSensors,
 ) -> AsyncGenerator[MagicMock]:
@@ -79,7 +79,7 @@ async def mock_gios(
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gios: MagicMock,
 ) -> None:

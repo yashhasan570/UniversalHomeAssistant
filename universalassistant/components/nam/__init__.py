@@ -12,7 +12,7 @@ from nettigo_air_monitor import (
 
 from universalassistant.components.air_quality import DOMAIN as AIR_QUALITY_DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -25,7 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.BUTTON, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NAMConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NAMConfigEntry) -> None:
     """Set up Nettigo as config entry."""
     host: str = entry.data[CONF_HOST]
     username: str | None = entry.data.get(CONF_USERNAME)
@@ -67,6 +67,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NAMConfigEntry) -> 
             ent_reg.async_remove(entity_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NAMConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NAMConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

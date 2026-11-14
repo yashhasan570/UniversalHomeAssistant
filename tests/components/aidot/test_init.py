@@ -8,13 +8,13 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.aidot.coordinator import UPDATE_DEVICE_LIST_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import async_init_integration
 
 
 async def test_async_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that async_unload_entry unloads the component correctly."""
     await async_init_integration(hass, mock_config_entry)
@@ -28,7 +28,7 @@ async def test_async_unload_entry(
 
 
 async def test_async_setup_entry_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     patch_aidot_client: MagicMock,
 ) -> None:
@@ -46,7 +46,7 @@ async def test_async_setup_entry_auth_failed(
 
 
 async def test_first_refresh_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     patch_aidot_client: MagicMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_first_refresh_auth_failed(
 
 
 async def test_scheduled_refresh_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     patch_aidot_client: MagicMock,
     freezer: FrozenDateTimeFactory,

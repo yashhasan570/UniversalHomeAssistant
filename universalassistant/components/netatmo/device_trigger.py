@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, async_noop
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, async_noop
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -64,7 +64,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_validate_trigger_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     config = TRIGGER_SCHEMA(config)
@@ -88,7 +88,7 @@ async def async_validate_trigger_config(
 
 
 async def async_get_triggers(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for Netatmo devices."""
     registry = er.async_get(hass)
@@ -129,7 +129,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

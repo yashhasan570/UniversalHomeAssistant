@@ -12,7 +12,7 @@ from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.components.steamvr_base_station.const import DOMAIN
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import STATION_SERVICE_INFO, TEST_ADDRESS, TEST_NAME, make_service_info
@@ -55,7 +55,7 @@ def mock_ble_device() -> Generator[AsyncMock]:
 
 
 async def test_bluetooth_discovery(
-    hass: UniversalAssistant, mock_read_device_info: AsyncMock
+    hass: __HAC_KEEP__, mock_read_device_info: AsyncMock
 ) -> None:
     """Test setting up a discovered station after a successful connection check."""
     result = await hass.config_entries.flow.async_init(
@@ -74,7 +74,7 @@ async def test_bluetooth_discovery(
 
 
 async def test_bluetooth_discovery_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test discovery aborts for a station that is already set up."""
     mock_config_entry.add_to_hass(hass)
@@ -85,7 +85,7 @@ async def test_bluetooth_discovery_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_bluetooth_discovery_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_bluetooth_discovery_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test a second discovery of the same station aborts."""
     await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_BLUETOOTH}, data=STATION_SERVICE_INFO
@@ -105,7 +105,7 @@ async def test_bluetooth_discovery_already_in_progress(hass: UniversalAssistant)
     ],
 )
 async def test_bluetooth_discovery_not_supported(
-    hass: UniversalAssistant, name: str
+    hass: __HAC_KEEP__, name: str
 ) -> None:
     """Test discovery aborts for devices that are not V2 base stations."""
     result = await hass.config_entries.flow.async_init(
@@ -127,7 +127,7 @@ async def test_bluetooth_discovery_not_supported(
     ],
 )
 async def test_bluetooth_confirm_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_read_device_info: AsyncMock,
     error: Exception,
     expected: str,
@@ -147,7 +147,7 @@ async def test_bluetooth_confirm_errors(
 
 
 async def test_bluetooth_confirm_device_gone(
-    hass: UniversalAssistant, mock_ble_device: AsyncMock, mock_read_device_info: AsyncMock
+    hass: __HAC_KEEP__, mock_ble_device: AsyncMock, mock_read_device_info: AsyncMock
 ) -> None:
     """Test the check fails without connecting when the station is out of range."""
     ble_device = mock_ble_device.return_value
@@ -165,7 +165,7 @@ async def test_bluetooth_confirm_device_gone(
 
 
 @pytest.mark.usefixtures("mock_discovered_service_info")
-async def test_user_step(hass: UniversalAssistant, mock_read_device_info: AsyncMock) -> None:
+async def test_user_step(hass: __HAC_KEEP__, mock_read_device_info: AsyncMock) -> None:
     """Test picking a station that is in range, recovering from a failed check."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -201,7 +201,7 @@ async def test_user_step(hass: UniversalAssistant, mock_read_device_info: AsyncM
     ],
 )
 async def test_user_step_no_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_discovered_service_info: AsyncMock,
     discovered: list[BluetoothServiceInfoBleak],

@@ -13,7 +13,7 @@ from demetriek import (
 
 from universalassistant.components.time import TimeEntity, TimeEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -38,7 +38,7 @@ def _shift(value: time, offset: timedelta) -> time:
 
 
 def _utc_offset() -> timedelta:
-    """Return the current offset of the Universal Universal Home Assistant time zone from UTC.
+    """Return the current offset of the __HA_KEEP__ time zone from UTC.
 
     The device stores the screensaver times in UTC. Converting both ways with
     the same, current offset makes reading the exact inverse of writing, also
@@ -76,7 +76,7 @@ TIMES = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LaMetricConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

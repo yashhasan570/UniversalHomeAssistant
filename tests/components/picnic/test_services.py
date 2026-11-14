@@ -15,8 +15,8 @@ from universalassistant.components.picnic.services import (
     PicnicServiceException,
 )
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.script import Script, async_validate_actions_config
 
@@ -41,7 +41,7 @@ def create_picnic_api_client(unique_id):
     return picnic_mock
 
 
-async def create_picnic_config_entry(hass: UniversalAssistant, unique_id):
+async def create_picnic_config_entry(hass: __HAC_KEEP__, unique_id):
     """Create a Picnic config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -71,13 +71,13 @@ def picnic_api_client():
 
 
 @pytest.fixture
-async def picnic_config_entry(hass: UniversalAssistant):
+async def picnic_config_entry(hass: __HAC_KEEP__):
     """Generate the default Picnic config entry."""
     return await create_picnic_config_entry(hass, UNIQUE_ID)
 
 
 async def test_add_product_using_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_add_product_using_id(
 
 
 async def test_add_product_using_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_add_product_using_name(
 
 
 async def test_add_product_using_name_no_results(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
 ) -> None:
@@ -156,7 +156,7 @@ async def test_add_product_using_name_no_results(
 
 
 async def test_add_product_using_name_no_named_results(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
 ) -> None:
@@ -180,7 +180,7 @@ async def test_add_product_using_name_no_named_results(
 
 
 async def test_add_product_multiple_config_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_add_product_multiple_config_entries(
 
 
 async def test_add_product_device_doesnt_exist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
 ) -> None:
@@ -234,7 +234,7 @@ async def test_add_product_device_doesnt_exist(
 )
 @pytest.mark.parametrize("amount", [1, 3])
 async def test_add_product_using_gtin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
     gtin: str | int,
@@ -261,7 +261,7 @@ async def test_add_product_using_gtin(
 
 @pytest.mark.parametrize("gtin", ["8720326041724", "08720326041724"])
 async def test_add_product_using_gtin_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
     gtin: str,
@@ -291,7 +291,7 @@ async def test_add_product_using_gtin_template(
 
 
 async def test_add_product_using_unknown_gtin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
 ) -> None:
@@ -325,7 +325,7 @@ async def test_add_product_using_unknown_gtin(
     ],
 )
 async def test_add_product_gtin_lookup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
     exception: Exception,
@@ -333,7 +333,7 @@ async def test_add_product_gtin_lookup_failure(
     """Report lookup errors without adding a product."""
     picnic_api_client.get_article_by_gtin.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError, match="Unable to look up") as err:
+    with pytest.raises(__HAC_KEEP__Error, match="Unable to look up") as err:
         await hass.services.async_call(
             DOMAIN,
             PicnicService.ADD_PRODUCT,
@@ -365,7 +365,7 @@ async def test_add_product_gtin_lookup_failure(
     ],
 )
 async def test_add_product_using_invalid_gtin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
     gtin: object,
@@ -406,7 +406,7 @@ async def test_add_product_using_invalid_gtin(
     ],
 )
 async def test_add_product_gtin_excludes_other_identifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
     identifiers: dict[str, str],
@@ -426,7 +426,7 @@ async def test_add_product_gtin_excludes_other_identifiers(
 
 
 async def test_add_product_using_gtin_multiple_config_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     picnic_api_client: MagicMock,
     picnic_config_entry: MockConfigEntry,
 ) -> None:

@@ -15,8 +15,8 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -39,17 +39,17 @@ def with_error_wrapping[**_P, _R](
         *args: _P.args,
         **kwargs: _P.kwargs,
     ) -> _R:
-        """Catch SFRBoxError errors and raise UniversalAssistantError."""
+        """Catch SFRBoxError errors and raise __HAC_KEEP__Error."""
         try:
             return await func(self, *args, **kwargs)
         except SFRBoxAuthenticationError as err:
             self._entry.async_start_reauth(self.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="invalid_credentials",
             ) from err
         except SFRBoxError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unknown_error",
                 translation_placeholders={"error": str(err)},
@@ -76,7 +76,7 @@ BUTTON_TYPES: tuple[SFRBoxButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SFRConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

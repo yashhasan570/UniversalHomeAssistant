@@ -16,8 +16,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.indevolt.coordinator import SCAN_INTERVAL
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN, SelectService
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -26,7 +26,7 @@ from . import setup_integration
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("generation", [2, 1], indirect=True)
 async def test_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_indevolt: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -49,7 +49,7 @@ async def test_select(
     ],
 )
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     option: str,
@@ -84,7 +84,7 @@ async def test_select_option(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_select_set_option_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_select_set_option_error(
     mock_indevolt.set_data.return_value = False
 
     # Attempt to change option
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -112,7 +112,7 @@ async def test_select_set_option_error(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_select_unavailable_outdoor_portable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_select_unavailable_outdoor_portable(
 
 @pytest.mark.parametrize("generation", [2], indirect=True)
 async def test_select_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

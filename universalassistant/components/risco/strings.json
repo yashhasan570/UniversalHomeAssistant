@@ -88,8 +88,8 @@
           "armed_home": "[%key:component::alarm_control_panel::entity_component::_::state::armed_home%]",
           "armed_night": "[%key:component::alarm_control_panel::entity_component::_::state::armed_night%]"
         },
-        "description": "Select what state to set your Risco alarm to when arming the Universal Universal Home Assistant alarm control panel",
-        "title": "Map Universal Universal Home Assistant states to Risco states"
+        "description": "Select what state to set your Risco alarm to when arming the __HA_KEEP__ alarm control panel",
+        "title": "Map __HA_KEEP__ states to Risco states"
       },
       "init": {
         "data": {
@@ -115,8 +115,8 @@
           "arm": "Armed (AWAY)",
           "partial_arm": "Partially Armed (STAY)"
         },
-        "description": "Select what state your Universal Universal Home Assistant alarm control panel will report for every state reported by Risco",
-        "title": "Map Risco states to Universal Universal Home Assistant states"
+        "description": "Select what state your __HA_KEEP__ alarm control panel will report for every state reported by Risco",
+        "title": "Map Risco states to __HA_KEEP__ states"
       }
     }
   },
@@ -129,7 +129,7 @@
           "name": "Config entry"
         },
         "time": {
-          "description": "The time to send to the alarm panel. Leave it empty to use the Universal Universal Home Assistant system time.",
+          "description": "The time to send to the alarm panel. Leave it empty to use the __HA_KEEP__ system time.",
           "name": "Time"
         }
       },

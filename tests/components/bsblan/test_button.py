@@ -11,8 +11,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.bsblan.const import DOMAIN
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -22,7 +22,7 @@ ENTITY_SYNC_TIME = "button.bsb_lan_sync_time"
 
 
 async def test_button_entity_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -34,7 +34,7 @@ async def test_button_entity_properties(
 
 
 async def test_button_press_syncs_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -66,7 +66,7 @@ async def test_button_press_syncs_time(
 
 
 async def test_button_press_no_update_when_same(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -99,7 +99,7 @@ async def test_button_press_no_update_when_same(
 
 
 async def test_button_press_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -109,8 +109,8 @@ async def test_button_press_error_handling(
     # Mock time() to raise an error
     mock_bsblan.time.side_effect = BSBLANError("Connection failed")
 
-    # Press the button - should raise UniversalAssistantError
-    with pytest.raises(UniversalAssistantError) as exc:
+    # Press the button - should raise __HAC_KEEP__Error
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -126,7 +126,7 @@ async def test_button_press_error_handling(
 
 
 async def test_button_press_set_time_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -144,8 +144,8 @@ async def test_button_press_set_time_error(
     # Mock set_time() to raise an error
     mock_bsblan.set_time.side_effect = BSBLANError("Write failed")
 
-    # Press the button - should raise UniversalAssistantError
-    with pytest.raises(UniversalAssistantError) as exc:
+    # Press the button - should raise __HAC_KEEP__Error
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

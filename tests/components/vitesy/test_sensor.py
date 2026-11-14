@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.vitesy.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ NATEDE_TEMPERATURE = "sensor.living_room_natede_temperature"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -46,7 +46,7 @@ async def test_all_entities(
 
 
 async def test_sensor_unavailable_when_device_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],
@@ -66,7 +66,7 @@ async def test_sensor_unavailable_when_device_disconnected(
 
 
 async def test_air_quality_score_without_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],
@@ -128,7 +128,7 @@ async def test_air_quality_score_without_value(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_unknown_on_invalid_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],
@@ -161,7 +161,7 @@ async def test_sensor_unknown_on_invalid_value(
     ],
 )
 async def test_program_levels_follow_active_program(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],
@@ -185,7 +185,7 @@ async def test_program_levels_follow_active_program(
 
 
 async def test_sensors_absent_from_measurement_are_not_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],
@@ -214,7 +214,7 @@ async def test_sensors_absent_from_measurement_are_not_created(
 
 
 async def test_reading_sensor_follows_reported_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],
@@ -233,7 +233,7 @@ async def test_reading_sensor_follows_reported_value(
 
 
 async def test_last_update_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

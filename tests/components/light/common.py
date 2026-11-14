@@ -37,11 +37,11 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def async_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str = ENTITY_MATCH_ALL,
     transition: float | None = None,
     brightness: int | None = None,
@@ -85,7 +85,7 @@ async def async_turn_on(
 
 
 async def async_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str = ENTITY_MATCH_ALL,
     transition: float | None = None,
     flash: str | None = None,
@@ -105,7 +105,7 @@ async def async_turn_off(
 
 
 async def async_toggle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str = ENTITY_MATCH_ALL,
     transition: float | None = None,
     brightness: int | None = None,

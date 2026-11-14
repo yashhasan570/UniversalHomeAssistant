@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import format_mac
 
 TEST_HOST = "1.2.3.4"
@@ -290,7 +290,7 @@ def reolink_platforms() -> Generator[None]:
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Add the reolink mock config entry to hass."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

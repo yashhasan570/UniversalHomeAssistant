@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import REDACTED, async_redact_data
 from universalassistant.const import CONF_ADDRESS, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .coordinator import TraccarServerConfigEntry, TraccarServerCoordinator
@@ -18,7 +18,7 @@ KEYS_TO_REDACT = {
 
 
 def _entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity: er.RegistryEntry,
     coordinator: TraccarServerCoordinator,
 ) -> dict[str, Any] | None:
@@ -34,7 +34,7 @@ def _entity_state(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TraccarServerConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
@@ -66,7 +66,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TraccarServerConfigEntry,
     device: dr.AnyDeviceEntry,
 ) -> dict[str, Any]:

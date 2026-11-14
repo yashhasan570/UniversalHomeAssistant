@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.pyload.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_HASSIO, SOURCE_IGNORE, SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -26,7 +26,7 @@ from .conftest import (
 
 @pytest.mark.parametrize("user_input", [USER_INPUT, USER_INPUT_API_KEY])
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_pyloadapi: AsyncMock,
     user_input: dict[str, str],
@@ -62,7 +62,7 @@ async def test_form(
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_pyloadapi: AsyncMock,
     exception: Exception,
@@ -96,7 +96,7 @@ async def test_form_errors(
 
 
 async def test_flow_user_already_configured(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_pyloadapi: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_pyloadapi: AsyncMock
 ) -> None:
     """Test we abort user data set when entry is already configured."""
 
@@ -127,7 +127,7 @@ async def test_flow_user_already_configured(
 )
 @pytest.mark.usefixtures("mock_pyloadapi")
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reauth_input: dict[str, str],
     new_input: dict[str, str],
@@ -169,7 +169,7 @@ async def test_reauth(
     ],
 )
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pyloadapi: AsyncMock,
     side_effect: Exception,
@@ -215,7 +215,7 @@ async def test_reauth_errors(
 )
 @pytest.mark.usefixtures("mock_pyloadapi")
 async def test_reconfiguration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     user_input: dict[str, str],
 ) -> None:
@@ -253,7 +253,7 @@ async def test_reconfiguration(
     [USER_INPUT, USER_INPUT_API_KEY],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pyloadapi: AsyncMock,
     side_effect: Exception,
@@ -293,7 +293,7 @@ async def test_reconfigure_errors(
 
 
 async def test_hassio_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_pyloadapi: AsyncMock,
 ) -> None:
@@ -324,7 +324,7 @@ async def test_hassio_discovery(
 
 @pytest.mark.usefixtures("mock_pyloadapi")
 async def test_hassio_discovery_confirm_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test flow started from Supervisor discovery. Abort with confirm only."""
@@ -356,7 +356,7 @@ async def test_hassio_discovery_confirm_only(
     ],
 )
 async def test_hassio_discovery_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_pyloadapi: AsyncMock,
     side_effect: Exception,
@@ -397,7 +397,7 @@ async def test_hassio_discovery_errors(
 
 @pytest.mark.usefixtures("mock_pyloadapi")
 async def test_hassio_discovery_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we abort discovery flow if already configured."""
 
@@ -422,7 +422,7 @@ async def test_hassio_discovery_already_configured(
 
 @pytest.mark.usefixtures("mock_pyloadapi")
 async def test_hassio_discovery_data_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we abort discovery if configured and update entry."""
 
@@ -452,7 +452,7 @@ async def test_hassio_discovery_data_update(
 
 @pytest.mark.usefixtures("mock_pyloadapi")
 async def test_hassio_discovery_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we abort discovery flow if discovery was ignored."""
 

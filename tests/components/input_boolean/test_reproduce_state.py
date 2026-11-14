@@ -1,12 +1,12 @@
 """Test reproduce state for input boolean."""
 
 from universalassistant.components.input_boolean import DOMAIN
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.state import async_reproduce_state
 from universalassistant.setup import async_setup_component
 
 
-async def test_reproducing_states(hass: UniversalAssistant) -> None:
+async def test_reproducing_states(hass: __HAC_KEEP__) -> None:
     """Test reproducing input_boolean states."""
     assert await async_setup_component(
         hass,

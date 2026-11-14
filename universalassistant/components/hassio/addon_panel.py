@@ -8,8 +8,8 @@ from aiohasupervisor.models import IngressPanel
 from aiohttp import web
 
 from universalassistant.components import frontend
-from universalassistant.components.http import UniversalAssistantView, require_admin
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.components.http import __HAC_KEEP__View, require_admin
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 
 from .const import MAIN_COORDINATOR
 from .coordinator import HassioMainDataUpdateCoordinator
@@ -18,14 +18,14 @@ from .handler import get_supervisor_client
 _LOGGER = logging.getLogger(__name__)
 
 
-def async_setup_addon_panel(hass: UniversalAssistant) -> None:
+def async_setup_addon_panel(hass: __HAC_KEEP__) -> None:
     """Register the add-on panel push API view."""
     hass.http.register_view(HassIOAddonPanel(hass))
 
 
 @callback
 def async_setup_addon_panel_coordinator(
-    hass: UniversalAssistant, coordinator: HassioMainDataUpdateCoordinator
+    hass: __HAC_KEEP__, coordinator: HassioMainDataUpdateCoordinator
 ) -> CALLBACK_TYPE:
     """Reconcile add-on panels registered with the frontend against coordinator data.
 
@@ -57,13 +57,13 @@ def async_setup_addon_panel_coordinator(
     return coordinator.async_add_listener(_async_reconcile_panels)
 
 
-class HassIOAddonPanel(UniversalAssistantView):
+class HassIOAddonPanel(__HAC_KEEP__View):
     """Hass.io view to handle base part."""
 
     name = "api:hassio_push:panel"
     url = "/api/hassio_push/panel/{addon}"
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize WebView."""
         self.hass = hass
         self.client = get_supervisor_client(hass)
@@ -103,7 +103,7 @@ class HassIOAddonPanel(UniversalAssistantView):
         return web.Response()
 
 
-def _register_panel(hass: UniversalAssistant, addon: str, data: IngressPanel) -> None:
+def _register_panel(hass: __HAC_KEEP__, addon: str, data: IngressPanel) -> None:
     """Helper to register the panel.
 
     Uses update=True so this is idempotent: a config entry reload can run this

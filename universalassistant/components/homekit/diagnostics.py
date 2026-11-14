@@ -6,7 +6,7 @@ from pyhap.accessory_driver import AccessoryDriver
 from pyhap.state import State
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .accessories import HomeAccessory, HomeBridge
 from .models import HomeKitConfigEntry
@@ -15,7 +15,7 @@ TO_REDACT = {"access_token", "entity_picture"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: HomeKitConfigEntry
+    hass: __HAC_KEEP__, entry: HomeKitConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     homekit = entry.runtime_data.homekit
@@ -52,7 +52,7 @@ async def async_get_config_entry_diagnostics(
     return data
 
 
-def _get_bridge_diagnostics(hass: UniversalAssistant, bridge: HomeBridge) -> dict[int, Any]:
+def _get_bridge_diagnostics(hass: __HAC_KEEP__, bridge: HomeBridge) -> dict[int, Any]:
     """Return diagnostics for a bridge."""
     return {
         aid: _get_accessory_diagnostics(hass, accessory)
@@ -61,7 +61,7 @@ def _get_bridge_diagnostics(hass: UniversalAssistant, bridge: HomeBridge) -> dic
 
 
 def _get_accessory_diagnostics(
-    hass: UniversalAssistant, accessory: HomeAccessory
+    hass: __HAC_KEEP__, accessory: HomeAccessory
 ) -> dict[str, Any]:
     """Return diagnostics for an accessory."""
     entity_state = None

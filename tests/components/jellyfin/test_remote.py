@@ -13,12 +13,12 @@ from universalassistant.components.remote import (
     SERVICE_SEND_COMMAND,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_remote(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -41,7 +41,7 @@ async def test_remote(
 
 
 async def test_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_jellyfin: MagicMock,
     mock_api: MagicMock,

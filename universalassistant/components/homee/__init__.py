@@ -7,7 +7,7 @@ from pyHomee.model import HomeeNode
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -36,7 +36,7 @@ PLATFORMS = [
 type HomeeConfigEntry = ConfigEntry[Homee]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HomeeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HomeeConfigEntry) -> None:
     """Set up homee from a config entry."""
     # Create the Homee api object using host, user,
     # password & pyHomee instance from the config
@@ -124,7 +124,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HomeeConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: HomeeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: HomeeConfigEntry) -> None:
     """Unload a homee config entry."""
     # Unload platforms
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

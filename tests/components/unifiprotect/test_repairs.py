@@ -17,7 +17,7 @@ from universalassistant.components.repairs import ConfirmRepairFlow
 from universalassistant.components.unifiprotect.const import CONF_DISABLE_RTSP, DOMAIN
 from universalassistant.components.unifiprotect.repairs import async_create_fix_flow
 from universalassistant.config_entries import SOURCE_REAUTH
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ _NO_STREAMS = RTSPSStreams()
 
 
 async def test_cloud_user_fix(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     cloud_account: CloudAccount,
     hass_client: ClientSessionGenerator,
@@ -71,7 +71,7 @@ async def test_cloud_user_fix(
 
 
 async def _raise_and_assert_repair(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     hass_client: ClientSessionGenerator,
@@ -94,7 +94,7 @@ async def _raise_and_assert_repair(
 
 
 async def test_rtsp_repair_fix(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     hass_client: ClientSessionGenerator,
@@ -139,7 +139,7 @@ async def test_rtsp_repair_fix(
     ],
 )
 async def test_rtsp_repair_confirm_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     hass_client: ClientSessionGenerator,
@@ -170,14 +170,14 @@ async def test_rtsp_repair_confirm_fallback(
     assert data["type"] == "create_entry"
 
 
-async def test_create_fix_flow_unknown_issue(hass: UniversalAssistant) -> None:
+async def test_create_fix_flow_unknown_issue(hass: __HAC_KEEP__) -> None:
     """An issue without matching data falls back to a confirm-only flow."""
     flow = await async_create_fix_flow(hass, "some_other_issue", None)
     assert isinstance(flow, ConfirmRepairFlow)
 
 
 async def test_rtsp_repair_when_not_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     hass_client: ClientSessionGenerator,
@@ -215,7 +215,7 @@ async def test_rtsp_repair_when_not_setup(
 
 
 async def test_rtsp_no_repair_if_active(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     issue_registry: ir.IssueRegistry,
@@ -236,7 +236,7 @@ async def test_rtsp_no_repair_if_active(
     ],
 )
 async def test_rtsp_no_repair_when_suppressed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     issue_registry: ir.IssueRegistry,

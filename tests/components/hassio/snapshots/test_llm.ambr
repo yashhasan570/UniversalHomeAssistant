@@ -31,7 +31,7 @@
         'type': 'integer',
       }),
       'source': dict({
-        'description': 'Logs to read (default: core, supervisor). Available: core (Universal Universal Home Assistant), supervisor (the Supervisor), host (the operating system, records have no level), dns (the DNS plugin, records have no level), audio (the audio plugin, records have no level), multicast (the multicast plugin, records have no level), app:core_mosquitto (the Mosquitto broker app, records have no level)',
+        'description': 'Logs to read (default: core, supervisor). Available: core (__HA_KEEP__), supervisor (the Supervisor), host (the operating system, records have no level), dns (the DNS plugin, records have no level), audio (the audio plugin, records have no level), multicast (the multicast plugin, records have no level), app:core_mosquitto (the Mosquitto broker app, records have no level)',
         'items': dict({
           'enum': list([
             'core',

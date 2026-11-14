@@ -22,8 +22,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import SCENARIOS
@@ -33,7 +33,7 @@ from .conftest import SCENARIOS
 @pytest.mark.parametrize("init_integration", [Platform.NUMBER], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -66,7 +66,7 @@ async def test_entities(
     ],
 )
 async def test_async_set_native_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     entity_id: str,
     endpoint: IntControlOumanEndpoint | FloatControlOumanEndpoint,
@@ -114,15 +114,15 @@ async def test_async_set_native_value(
     ],
 )
 async def test_async_set_native_value_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     client_error: Exception,
     expected_message: str,
 ) -> None:
-    """Test that client errors are mapped to UniversalAssistantError."""
+    """Test that client errors are mapped to __HAC_KEEP__Error."""
     mock_ouman_client.set_endpoint_value.side_effect = client_error
 
-    with pytest.raises(UniversalAssistantError, match=expected_message):
+    with pytest.raises(__HAC_KEEP__Error, match=expected_message):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

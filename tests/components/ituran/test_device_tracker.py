@@ -13,14 +13,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ituran.const import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_device_tracker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_ituran: AsyncMock,
@@ -33,7 +33,7 @@ async def test_device_tracker(
 
 
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_ituran: AsyncMock,
     mock_config_entry: MockConfigEntry,

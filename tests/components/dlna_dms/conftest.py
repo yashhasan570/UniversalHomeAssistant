@@ -16,7 +16,7 @@ from universalassistant.components.dlna_dms.const import (
 )
 from universalassistant.components.dlna_dms.dms import DlnaDmsData
 from universalassistant.const import CONF_DEVICE_ID, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 MOCK_DEVICE_HOST: Final = "192.88.99.21"
@@ -35,7 +35,7 @@ NEW_DEVICE_LOCATION: Final = "http://192.88.99.7" + "/dmr_description.xml"
 
 
 @pytest.fixture
-async def setup_media_source(hass: UniversalAssistant) -> None:
+async def setup_media_source(hass: __HAC_KEEP__) -> None:
     """Set up media source."""
     assert await async_setup_component(hass, "media_source", {})
 
@@ -144,7 +144,7 @@ def ssdp_server_mock() -> Generator[None]:
 
 @pytest.fixture
 async def device_source_mock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_mock: MockConfigEntry,
     ssdp_scanner_mock: Mock,
     dms_device_mock: Mock,

@@ -8,7 +8,7 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.citybikes import sensor as citybikes_sensor
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -50,7 +50,7 @@ def mock_citybikes_client_fixture() -> Generator[Mock]:
     ],
 )
 async def test_sensor_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_citybikes_client: Mock,
     station_factory: Callable[[dict[str, object]], citybikes_model.Station],

@@ -12,7 +12,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.senz.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -22,7 +22,7 @@ from .const import ENTRY_UNIQUE_ID
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_senz_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_load_unload_entry(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that an unavailable OAuth implementation raises ConfigEntryNotReady."""
 
@@ -54,7 +54,7 @@ async def test_oauth_implementation_not_available(
 
 
 async def test_migrate_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_senz_client: MagicMock,
     expires_at: float,
@@ -103,7 +103,7 @@ async def test_migrate_config_entry(
     ids=["unauthorized", "internal_server_error"],
 )
 async def test_expired_token_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     status: HTTPStatus,
@@ -146,7 +146,7 @@ async def test_expired_token_refresh_failure(
     ids=["unauthorized", "forbidden", "request_error"],
 )
 async def test_setup_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_senz_client: MagicMock,
     error: Exception,

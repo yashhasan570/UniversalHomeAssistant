@@ -14,9 +14,9 @@ from universalassistant.components.e3dc.const import DOMAIN
 from universalassistant.components.network import Adapter
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 from . import MOCK_ENTRY_DATA, MOCK_MODEL, MOCK_SERIAL, MOCK_TITLE, seed, seed_identity
@@ -27,7 +27,7 @@ def _patch_temporary_unit(connection: MockModbusConnection) -> _patch[AsyncMock]
 
     @asynccontextmanager
     async def _get_temporary_unit(
-        hass: UniversalAssistant, params: ModbusTcpParams, unit_id: int
+        hass: __HAC_KEEP__, params: ModbusTcpParams, unit_id: int
     ) -> AsyncIterator[MockModbusUnit]:
         yield connection.for_unit(unit_id)
 
@@ -68,7 +68,7 @@ def _zeroconf_info(
 
 @pytest.fixture(autouse=True)
 def mock_adapters() -> Generator[AsyncMock]:
-    """Connect Universal Universal Home Assistant to 192.168.1.0/24 only."""
+    """Connect __HA_KEEP__ to 192.168.1.0/24 only."""
     adapter = Adapter(
         name="eth0",
         index=1,
@@ -103,7 +103,7 @@ def identified() -> MockModbusConnection:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_success(
-    hass: UniversalAssistant, identified: MockModbusConnection, model: str, title: str
+    hass: __HAC_KEEP__, identified: MockModbusConnection, model: str, title: str
 ) -> None:
     """Test the flow creates an entry named after the model, with the serial number as unique ID."""
     seed_identity(identified.for_unit(1), model=model)
@@ -130,13 +130,13 @@ async def test_user_step_success(
 @pytest.mark.parametrize(
     ("error", "expected"),
     [
-        pytest.param(UniversalAssistantError("in use"), "cannot_connect", id="in_use"),
+        pytest.param(__HAC_KEEP__Error("in use"), "cannot_connect", id="in_use"),
         pytest.param(RuntimeError("bug"), "unknown", id="unexpected"),
     ],
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     identified: MockModbusConnection,
     error: Exception,
     expected: str,
@@ -164,7 +164,7 @@ async def test_user_step_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_timeout(
-    hass: UniversalAssistant, identified: MockModbusConnection
+    hass: __HAC_KEEP__, identified: MockModbusConnection
 ) -> None:
     """Test the form shows an error when the power station does not answer."""
     identified.for_unit(1).fail_requests(ModbusTimeoutError())
@@ -196,7 +196,7 @@ async def test_user_step_timeout(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_wrong_device(
-    hass: UniversalAssistant, holding: dict[int, int | list[int]], expected: str
+    hass: __HAC_KEEP__, holding: dict[int, int | list[int]], expected: str
 ) -> None:
     """Test the form shows an error for a device in SunSpec mode or without a serial number."""
     connection = MockModbusConnection()
@@ -221,7 +221,7 @@ async def test_user_step_wrong_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_step_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     identified: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_user_step_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     identified: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -269,7 +269,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_other_device(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring onto a station with another serial number keeps the old address."""
     connection = MockModbusConnection()
@@ -287,7 +287,7 @@ async def test_reconfigure_other_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     identified: MockModbusConnection,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -315,7 +315,7 @@ async def test_reconfigure_cannot_connect(
 
 
 async def test_reconfigure_reloads_a_loaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     identified: MockModbusConnection,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -340,8 +340,8 @@ async def test_reconfigure_reloads_a_loaded_entry(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_zeroconf(hass: UniversalAssistant, identified: MockModbusConnection) -> None:
-    """Test discovery picks the address on Universal Universal Home Assistant's network and probes it."""
+async def test_zeroconf(hass: __HAC_KEEP__, identified: MockModbusConnection) -> None:
+    """Test discovery picks the address on __HA_KEEP__'s network and probes it."""
     with _patch_temporary_unit(identified) as mock_temporary_unit:
         result = await hass.config_entries.flow.async_init(
             DOMAIN, context={"source": SOURCE_ZEROCONF}, data=_zeroconf_info()
@@ -368,7 +368,7 @@ async def test_zeroconf(hass: UniversalAssistant, identified: MockModbusConnecti
 
 
 async def test_zeroconf_cannot_connect(
-    hass: UniversalAssistant, identified: MockModbusConnection
+    hass: __HAC_KEEP__, identified: MockModbusConnection
 ) -> None:
     """Test discovery of a power station that does not answer aborts."""
     identified.for_unit(1).fail_requests(ModbusTimeoutError())
@@ -389,7 +389,7 @@ async def test_zeroconf_cannot_connect(
     ],
 )
 async def test_zeroconf_wrong_device(
-    hass: UniversalAssistant, holding: dict[int, int | list[int]], expected: str
+    hass: __HAC_KEEP__, holding: dict[int, int | list[int]], expected: str
 ) -> None:
     """Test discovery aborts for a device in SunSpec mode or without a serial number."""
     connection = MockModbusConnection()
@@ -403,7 +403,7 @@ async def test_zeroconf_wrong_device(
 
 
 async def test_zeroconf_updates_host(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test discovering a configured power station at a new address updates it."""
     mock_config_entry.add_to_hass(hass)
@@ -417,7 +417,7 @@ async def test_zeroconf_updates_host(
     assert mock_config_entry.data == {CONF_HOST: "192.168.1.200", CONF_PORT: 502}
 
 
-async def test_zeroconf_no_local_address(hass: UniversalAssistant) -> None:
+async def test_zeroconf_no_local_address(hass: __HAC_KEEP__) -> None:
     """Test discovery aborts when no announced IPv4 address is on our network."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

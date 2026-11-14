@@ -12,13 +12,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.google_photos.const import OAUTH2_TOKEN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test successful setup and unload."""
@@ -67,7 +67,7 @@ def mock_refresh_token(
 @pytest.mark.usefixtures("refresh_token", "setup_integration")
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 async def test_expired_token_refresh_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test expired token is refreshed."""
@@ -102,7 +102,7 @@ async def test_expired_token_refresh_success(
     ids=["unauthorized", "internal_server_error", "client_error"],
 )
 async def test_expired_token_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     expected_state: ConfigEntryState,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_expired_token_refresh_failure(
 @pytest.mark.usefixtures("setup_integration")
 @pytest.mark.parametrize("api_error", [GooglePhotosApiError("some error")])
 async def test_coordinator_init_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test init failure to load albums."""
@@ -122,7 +122,7 @@ async def test_coordinator_init_failure(
 
 
 async def test_setup_entry_implementation_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test setup entry when implementation is unavailable."""

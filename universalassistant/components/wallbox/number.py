@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant component for accessing the Wallbox Portal API.
+"""__HA_KEEP__ component for accessing the Wallbox Portal API.
 
 The number component allows control of charging current.
 """
@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from typing import cast, override
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -75,7 +75,7 @@ NUMBER_TYPES: dict[str, WallboxNumberEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WallboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

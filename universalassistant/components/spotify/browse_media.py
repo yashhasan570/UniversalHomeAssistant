@@ -22,7 +22,7 @@ from universalassistant.components.media_player import (
     MediaType,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     DOMAIN,
@@ -183,7 +183,7 @@ class UnknownMediaType(BrowseError):
 
 
 async def async_browse_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_content_type: str | None,
     media_content_id: str | None,
     *,
@@ -266,7 +266,7 @@ async def async_browse_media(
 
 
 async def async_browse_media_internal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     spotify: SpotifyClient,
     media_content_type: str | None,
     media_content_id: str | None,

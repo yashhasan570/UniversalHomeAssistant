@@ -1,4 +1,4 @@
-"""Websocket API for the Universal Universal Home Assistant Labs integration."""
+"""Websocket API for the __HA_KEEP__ Labs integration."""
 
 from typing import Any
 
@@ -6,7 +6,7 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.components.backup import async_get_manager
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import LABS_DATA
 from .helpers import (
@@ -18,7 +18,7 @@ from .models import EventLabsUpdatedData
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the number websocket API."""
     websocket_api.async_register_command(hass, websocket_list_preview_features)
     websocket_api.async_register_command(hass, websocket_update_preview_feature)
@@ -29,7 +29,7 @@ def async_setup(hass: UniversalAssistant) -> None:
 @websocket_api.require_admin
 @websocket_api.websocket_command({probatio.Required("type"): "labs/list"})
 def websocket_list_preview_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -61,7 +61,7 @@ def websocket_list_preview_features(
 )
 @websocket_api.async_response
 async def websocket_update_preview_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -110,7 +110,7 @@ async def websocket_update_preview_feature(
 )
 @websocket_api.async_response
 async def websocket_subscribe_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

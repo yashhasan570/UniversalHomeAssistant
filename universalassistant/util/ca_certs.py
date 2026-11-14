@@ -1,4 +1,4 @@
-"""CA certificates trusted by Universal Universal Home Assistant HTTP clients."""
+"""CA certificates trusted by __HA_KEEP__ HTTP clients."""
 
 from functools import cache
 import ssl

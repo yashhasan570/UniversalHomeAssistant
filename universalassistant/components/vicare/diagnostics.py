@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .types import ViCareConfigEntry
 
@@ -28,7 +28,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ViCareConfigEntry
+    hass: __HAC_KEEP__, entry: ViCareConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

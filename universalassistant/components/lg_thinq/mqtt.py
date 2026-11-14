@@ -15,7 +15,7 @@ from thinqconnect import (
     ThinQMQTTClient,
 )
 
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 
 from .const import DEVICE_PUSH_MESSAGE, DEVICE_STATUS_MESSAGE
 from .coordinator import DeviceDataUpdateCoordinator
@@ -28,7 +28,7 @@ class ThinQMQTT:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         thinq_api: ThinQApi,
         client_id: str,
         coordinators: dict[str, DeviceDataUpdateCoordinator],

@@ -6,7 +6,7 @@ from indevolt_api import IndevoltBattery, IndevoltSystem
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_SERIAL_NUMBER
 from .coordinator import IndevoltConfigEntry
@@ -35,7 +35,7 @@ def _redact_mac(mac_address: str) -> str:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: IndevoltConfigEntry
+    hass: __HAC_KEEP__, entry: IndevoltConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

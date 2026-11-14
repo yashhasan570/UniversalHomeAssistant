@@ -5,8 +5,8 @@ from typing import override
 from unifi_access_api import Door, UnifiAccessError
 
 from universalassistant.components.button import ButtonEntity
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UnifiAccessConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -59,7 +59,7 @@ class UnifiAccessUnlockButton(UnifiAccessEntity, ButtonEntity):
         try:
             await self.coordinator.client.unlock_door(self._door_id)
         except UnifiAccessError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unlock_failed",
             ) from err

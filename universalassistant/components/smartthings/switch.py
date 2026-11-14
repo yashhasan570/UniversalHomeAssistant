@@ -11,7 +11,7 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -307,7 +307,7 @@ DISHWASHER_WASHING_OPTIONS_TO_SWITCHES: dict[
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

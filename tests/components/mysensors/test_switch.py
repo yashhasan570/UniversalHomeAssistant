@@ -7,11 +7,11 @@ from mysensors.sensor import Sensor
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import ATTR_BATTERY_LEVEL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_relay_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     relay_node: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,

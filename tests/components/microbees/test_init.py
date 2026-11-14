@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.microbees.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
 
 
-async def test_migrate_entry_minor_version_1_2(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_minor_version_1_2(hass: __HAC_KEEP__) -> None:
     """Test migrating a 1.1 config entry to 1.2."""
     with patch(
         "universalassistant.components.microbees.async_setup_entry", return_value=None
@@ -40,7 +40,7 @@ async def test_migrate_entry_minor_version_1_2(hass: UniversalAssistant) -> None
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

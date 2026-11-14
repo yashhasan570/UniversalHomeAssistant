@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_platform
@@ -19,7 +19,7 @@ DEVICE_ID = "lock.test_lock"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -29,7 +29,7 @@ async def test_all_entities(
     await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
 
 
-async def test_lock(hass: UniversalAssistant) -> None:
+async def test_lock(hass: __HAC_KEEP__) -> None:
     """Test the lock can be locked."""
     await setup_platform(hass, LOCK_DOMAIN)
 
@@ -44,7 +44,7 @@ async def test_lock(hass: UniversalAssistant) -> None:
         mock_lock.assert_called_once()
 
 
-async def test_unlock(hass: UniversalAssistant) -> None:
+async def test_unlock(hass: __HAC_KEEP__) -> None:
     """Test the lock can be unlocked."""
     await setup_platform(hass, LOCK_DOMAIN)
 
@@ -60,7 +60,7 @@ async def test_unlock(hass: UniversalAssistant) -> None:
 
 
 async def test_retrofit_lock_discovered(
-    hass: UniversalAssistant, requests_mock: Mocker
+    hass: __HAC_KEEP__, requests_mock: Mocker
 ) -> None:
     """Test retrofit locks are discovered as lock entities."""
     devices = await async_load_json_array_fixture(hass, "devices.json", "abode")

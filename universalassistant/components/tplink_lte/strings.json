@@ -1,7 +1,7 @@
 {
   "issues": {
     "integration_removed": {
-      "description": "The TP-Link LTE integration has been removed from Universal Universal Home Assistant.\n\nThe integration has not been working since Universal Universal Home Assistant 2023.6.0, has no maintainer, and its underlying library depends on a package with a [critical security vulnerability]({ghsa_url}).\n\nTo resolve this issue, remove the `tplink_lte` configuration from your `configuration.yaml` file and restart Universal Universal Home Assistant.",
+      "description": "The TP-Link LTE integration has been removed from __HA_KEEP__.\n\nThe integration has not been working since __HA_KEEP__ 2023.6.0, has no maintainer, and its underlying library depends on a package with a [critical security vulnerability]({ghsa_url}).\n\nTo resolve this issue, remove the `tplink_lte` configuration from your `configuration.yaml` file and restart __HA_KEEP__.",
       "title": "The TP-Link LTE integration has been removed"
     }
   }

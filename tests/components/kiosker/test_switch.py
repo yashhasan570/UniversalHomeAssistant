@@ -17,8 +17,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -27,7 +27,7 @@ ENTITY_ID = "switch.kiosker_a98be1ce_disable_screensaver"
 
 
 async def _setup_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     *,
@@ -42,7 +42,7 @@ async def _setup_switch(
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -61,7 +61,7 @@ async def test_all_entities(
 
 
 async def test_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -86,7 +86,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_turn_off(
 
 
 async def test_state_reflects_coordinator_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -136,15 +136,15 @@ async def test_state_reflects_coordinator_data(
 @pytest.mark.parametrize(
     ("exception", "expected_exception"),
     [
-        (AuthenticationError, UniversalAssistantError),
-        (IPAuthenticationError, UniversalAssistantError),
-        (ConnectionError, UniversalAssistantError),
-        (TLSVerificationError, UniversalAssistantError),
+        (AuthenticationError, __HAC_KEEP__Error),
+        (IPAuthenticationError, __HAC_KEEP__Error),
+        (ConnectionError, __HAC_KEEP__Error),
+        (TLSVerificationError, __HAC_KEEP__Error),
         (BadRequestError, ServiceValidationError),
     ],
 )
 async def test_turn_on_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -167,15 +167,15 @@ async def test_turn_on_errors(
 @pytest.mark.parametrize(
     ("exception", "expected_exception"),
     [
-        (AuthenticationError, UniversalAssistantError),
-        (IPAuthenticationError, UniversalAssistantError),
-        (ConnectionError, UniversalAssistantError),
-        (TLSVerificationError, UniversalAssistantError),
+        (AuthenticationError, __HAC_KEEP__Error),
+        (IPAuthenticationError, __HAC_KEEP__Error),
+        (ConnectionError, __HAC_KEEP__Error),
+        (TLSVerificationError, __HAC_KEEP__Error),
         (BadRequestError, ServiceValidationError),
     ],
 )
 async def test_turn_off_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],

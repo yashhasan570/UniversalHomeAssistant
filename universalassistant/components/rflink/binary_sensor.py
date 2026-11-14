@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_NAME,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, event as evt
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -58,7 +58,7 @@ def devices_from_config(domain_config):
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

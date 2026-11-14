@@ -4,13 +4,13 @@ from typing import Any
 
 from mastodon.Mastodon import Account, Instance, InstanceV2, MastodonNotFoundError
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import MastodonConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: MastodonConfigEntry
+    hass: __HAC_KEEP__, config_entry: MastodonConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

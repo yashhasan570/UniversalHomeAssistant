@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from duco_connectivity import DucoClient
 
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -16,7 +16,7 @@ from .coordinator import DucoConfigEntry, DucoCoordinator
 _REMOVED_SENSOR_RE = re.compile(r"_\d+_(box_)?temperature$")
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: DucoConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: DucoConfigEntry) -> None:
     """Set up Duco from a config entry."""
     # Clean up stale temperature registry entries so removed entities from the
     # python-duco-connectivity migration do not linger after upgrade.
@@ -53,6 +53,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DucoConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: DucoConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: DucoConfigEntry) -> None:
     """Unload a Duco config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

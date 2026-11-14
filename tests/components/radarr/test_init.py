@@ -5,14 +5,14 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.radarr.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import create_entry, mock_connection_invalid_auth, setup_integration
 
 
 @pytest.mark.freeze_time("2021-12-03 00:00:00+00:00")
-async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_setup(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
     """Test unload."""
     entry = await setup_integration(hass, aioclient_mock)
     assert entry.state is ConfigEntryState.LOADED
@@ -25,7 +25,7 @@ async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMock
 
 
 async def test_async_setup_entry_not_ready(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
     entry = await setup_integration(hass, aioclient_mock, connection_error=True)
@@ -35,7 +35,7 @@ async def test_async_setup_entry_not_ready(
 
 
 async def test_async_setup_entry_auth_failed(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that it throws ConfigEntryAuthFailed when authentication fails."""
     entry = create_entry(hass)
@@ -48,7 +48,7 @@ async def test_async_setup_entry_auth_failed(
 
 @pytest.mark.freeze_time("2021-12-03 00:00:00+00:00")
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

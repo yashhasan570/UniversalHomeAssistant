@@ -9,7 +9,7 @@ from wsdot import WsdotTravelError
 from universalassistant.components.wsdot.const import DOMAIN, SUBENTRY_TRAVEL_TIMES
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_ID, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 VALID_USER_CONFIG = {
@@ -22,7 +22,7 @@ VALID_USER_TRAVEL_TIME_CONFIG = {
 
 
 async def test_create_user_entry(
-    hass: UniversalAssistant, mock_travel_time: AsyncMock
+    hass: __HAC_KEEP__, mock_travel_time: AsyncMock
 ) -> None:
     """Test that the user step works."""
     # No user data; form is being show for the first time
@@ -53,7 +53,7 @@ async def test_create_user_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_travel_time: AsyncMock,
     failed_travel_time_status: int,
     errors: dict[str, str],
@@ -95,7 +95,7 @@ async def test_errors(
     ],
 )
 async def test_create_travel_time_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_travel_time: AsyncMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_create_travel_time_subentry(
 
 
 async def test_integration_already_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_travel_time: AsyncMock,
     mock_config_entry: MockConfigEntry,
     init_integration: MockConfigEntry,
@@ -147,7 +147,7 @@ async def test_integration_already_exists(
 
 
 async def test_travel_route_already_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_travel_time: AsyncMock,
     mock_config_entry: MockConfigEntry,
     init_integration: MockConfigEntry,

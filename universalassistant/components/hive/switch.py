@@ -7,7 +7,7 @@ from apyhiveapi import Hive
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import ATTR_MODE, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HiveConfigEntry, refresh_system
@@ -29,7 +29,7 @@ SWITCH_TYPES: tuple[SwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HiveConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -55,7 +55,7 @@ class HiveSwitch(HiveEntity, SwitchEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: HiveConfigEntry,
         hive: Hive,
         hive_device: dict[str, Any],

@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
 
@@ -37,7 +37,7 @@ def met_setup_fixture(request: pytest.FixtureRequest) -> Generator[Any]:
             yield
 
 
-async def test_show_config_form(hass: UniversalAssistant) -> None:
+async def test_show_config_form(hass: __HAC_KEEP__) -> None:
     """Test show configuration form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -47,7 +47,7 @@ async def test_show_config_form(hass: UniversalAssistant) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_flow_with_home_location(hass: UniversalAssistant) -> None:
+async def test_flow_with_home_location(hass: __HAC_KEEP__) -> None:
     """Test config flow.
 
     Test the flow when a default location is configured.
@@ -74,7 +74,7 @@ async def test_flow_with_home_location(hass: UniversalAssistant) -> None:
     assert markers[1].description == {"suggested_value": 3}
 
 
-async def test_create_entry(hass: UniversalAssistant) -> None:
+async def test_create_entry(hass: __HAC_KEEP__) -> None:
     """Test create entry from user input."""
     test_data = {
         CONF_LOCATION: {
@@ -98,7 +98,7 @@ async def test_create_entry(hass: UniversalAssistant) -> None:
     assert result["data"] == test_data
 
 
-async def test_flow_entry_already_exists(hass: UniversalAssistant) -> None:
+async def test_flow_entry_already_exists(hass: __HAC_KEEP__) -> None:
     """Test user input for config_entry that already exists.
 
     Test when the form should show when user puts existing location
@@ -148,7 +148,7 @@ async def test_flow_entry_already_exists(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_onboarding_step(hass: UniversalAssistant) -> None:
+async def test_onboarding_step(hass: __HAC_KEEP__) -> None:
     """Test initializing via onboarding step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": "onboarding"}, data={}
@@ -163,7 +163,7 @@ async def test_onboarding_step(hass: UniversalAssistant) -> None:
     ("latitude", "longitude"), [(52.3731339, 4.8903147), (0.0, 0.0)]
 )
 async def test_onboarding_step_abort_no_home(
-    hass: UniversalAssistant, latitude, longitude
+    hass: __HAC_KEEP__, latitude, longitude
 ) -> None:
     """Test entry not created when default step fails."""
     await async_process_ha_core_config(
@@ -198,7 +198,7 @@ async def test_onboarding_step_abort_no_home(
     ],
 )
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     track_home: bool,
     initial_title: str | None,
     expected_title: str,

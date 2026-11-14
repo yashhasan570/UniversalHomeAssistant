@@ -9,7 +9,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.google_wifi import const
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -26,7 +26,7 @@ MONITORED_CONDITIONS = [
 
 
 async def setup_sensor_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     name: str | None = None,
     monitored_conditions: list[str] | None = None,
@@ -43,14 +43,14 @@ async def setup_sensor_platform(
     await hass.async_block_till_done()
 
 
-async def fire_polling_update(hass: UniversalAssistant, seconds: int) -> None:
+async def fire_polling_update(hass: __HAC_KEEP__, seconds: int) -> None:
     """Advance time far enough to trigger the coordinator update."""
     async_fire_time_changed(hass, dt_util.utcnow() + timedelta(seconds=seconds))
     await hass.async_block_till_done()
 
 
 @pytest.mark.usefixtures("mock_success")
-async def test_setup_minimum(hass: UniversalAssistant) -> None:
+async def test_setup_minimum(hass: __HAC_KEEP__) -> None:
     """Test setup with the minimum configuration."""
     await setup_sensor_platform(
         hass,
@@ -64,7 +64,7 @@ async def test_setup_minimum(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_success")
-async def test_setup_get(hass: UniversalAssistant) -> None:
+async def test_setup_get(hass: __HAC_KEEP__) -> None:
     """Test setup with full configuration."""
     await setup_sensor_platform(
         hass,
@@ -76,7 +76,7 @@ async def test_setup_get(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_unreachable")
-async def test_setup_when_router_unreachable(hass: UniversalAssistant) -> None:
+async def test_setup_when_router_unreachable(hass: __HAC_KEEP__) -> None:
     """Test platform setup completes when the router does not respond."""
     assert await async_setup_component(
         hass,
@@ -95,8 +95,8 @@ async def test_setup_when_router_unreachable(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_success")
-async def test_sensor_states_update_from_router_data(hass: UniversalAssistant) -> None:
-    """Test the entities expose the current router data through Universal Universal Home Assistant."""
+async def test_sensor_states_update_from_router_data(hass: __HAC_KEEP__) -> None:
+    """Test the entities expose the current router data through __HA_KEEP__."""
     await setup_sensor_platform(
         hass,
         name="Test Wifi",
@@ -113,7 +113,7 @@ async def test_sensor_states_update_from_router_data(hass: UniversalAssistant) -
 
 @pytest.mark.usefixtures("mock_unreachable")
 async def test_sensor_updates_after_failure_and_recovery(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the sensors become unavailable on failure and recover on the next poll."""
     await setup_sensor_platform(

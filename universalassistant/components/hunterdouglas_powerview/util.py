@@ -3,7 +3,7 @@
 from aiopvapi.helpers.aiorequest import AioRequest
 from aiopvapi.hub import Hub
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -12,7 +12,7 @@ from .model import PowerviewAPI, PowerviewDeviceInfo
 
 
 async def async_connect_hub(
-    hass: UniversalAssistant, address: str, api_version: int | None = None
+    hass: __HAC_KEEP__, address: str, api_version: int | None = None
 ) -> PowerviewAPI:
     """Create the hub and fetch the device info address."""
     websession = async_get_clientsession(hass)

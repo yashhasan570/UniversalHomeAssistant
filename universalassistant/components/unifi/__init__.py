@@ -4,7 +4,7 @@ from aiounifi.models.client import Client
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -30,7 +30,7 @@ STORAGE_VERSION = 1
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Integration doesn't support configuration through configuration.yaml."""
     async_setup_services(hass)
 
@@ -41,7 +41,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: UnifiConfigEntry
+    hass: __HAC_KEEP__, config_entry: UnifiConfigEntry
 ) -> None:
     """Set up the UniFi Network integration."""
     try:
@@ -68,7 +68,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: UnifiConfigEntry
+    hass: __HAC_KEEP__, config_entry: UnifiConfigEntry
 ) -> None:
     """Unload a config entry."""
     if not await config_entry.runtime_data.async_reset():
@@ -79,7 +79,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, config_entry: UnifiConfigEntry, device_entry: AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: UnifiConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove config entry from a device."""
     if not isinstance(device_entry, dr.DeviceEntry):
@@ -103,7 +103,7 @@ class UnifiWirelessClients:
     might get marked as wired by UniFi.
     """
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Set up client storage."""
         self.hass = hass
         self.data: dict[str, dict[str, list[str]] | list[str]] = {}

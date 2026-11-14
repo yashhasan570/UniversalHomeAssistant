@@ -20,8 +20,8 @@ from universalassistant.components.media_player import (
     MediaType,
     RepeatMode,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import CambridgeAudioConfigEntry, media_browser
@@ -62,7 +62,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CambridgeAudioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -352,7 +352,7 @@ class CambridgeAudioDevice(CambridgeAudioEntity, MediaPlayerEntity):
             CAMBRIDGE_MEDIA_TYPE_AIRABLE,
             CAMBRIDGE_MEDIA_TYPE_INTERNET_RADIO,
         }:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unsupported_media_type",
                 translation_placeholders={"media_type": media_type},

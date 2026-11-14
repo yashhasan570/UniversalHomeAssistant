@@ -13,7 +13,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 import universalassistant.helpers.entity_registry as er
 
@@ -26,7 +26,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_number_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_number_set_hysteresis_band(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
 ) -> None:
     """Test setting hysteresis band value."""
@@ -56,7 +56,7 @@ async def test_number_set_hysteresis_band(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_number_set_value_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
 ) -> None:
     """Test error handling when setting number value fails."""

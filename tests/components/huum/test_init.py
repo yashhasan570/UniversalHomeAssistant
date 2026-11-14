@@ -11,13 +11,13 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.huum.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_loading_and_unloading_config_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test loading and unloading a config entry."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -37,7 +37,7 @@ async def test_loading_and_unloading_config_entry(
     ],
 )
 async def test_setup_entry_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_huum_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -57,7 +57,7 @@ async def test_setup_entry_auth_error(
 
 
 async def test_setup_entry_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_huum_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_device_entry(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_coordinator_update_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_huum_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

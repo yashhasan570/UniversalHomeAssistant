@@ -8,7 +8,7 @@ from infrared_protocols.codes.dyson.cool import DysonCoolCode
 from universalassistant.components.fan import FanEntity, FanEntityFeature
 from universalassistant.components.infrared import InfraredEmitterConsumerEntity
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -20,7 +20,7 @@ _SPEED_STEP_DELAY = 0.2
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

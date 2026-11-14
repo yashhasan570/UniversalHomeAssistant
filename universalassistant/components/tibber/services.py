@@ -10,13 +10,13 @@ import probatio
 import tibber
 
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.util import dt as dt_util
 
 from .const import DOMAIN
@@ -85,12 +85,12 @@ async def __get_prices(call: ServiceCall) -> ServiceResponse:
             try:
                 await tibber_home.update_info_and_price_info()
             except TimeoutError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="get_prices_timeout",
                 ) from err
             except tibber.InvalidLoginError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="get_prices_invalid_login",
                 ) from err
@@ -98,13 +98,13 @@ async def __get_prices(call: ServiceCall) -> ServiceResponse:
                 tibber.RetryableHttpExceptionError,
                 tibber.FatalHttpExceptionError,
             ) as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="get_prices_communication_failed",
                     translation_placeholders={"detail": str(err.status)},
                 ) from err
             except aiohttp.ClientError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="get_prices_communication_failed",
                     translation_placeholders={"detail": str(err)},
@@ -151,7 +151,7 @@ def __get_date(date_input: str | None, mode: str | None) -> datetime:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for Tibber integration."""
 
     hass.services.async_register(

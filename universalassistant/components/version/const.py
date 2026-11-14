@@ -14,7 +14,7 @@ PLATFORMS: Final[list[Platform]] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 UPDATE_COORDINATOR_UPDATE_INTERVAL: Final[timedelta] = timedelta(minutes=5)
 
 ENTRY_TYPE_SERVICE: Final = "service"
-UNIVERSAL_ASSISTANT: Final = "Universal Universal Home Assistant"
+UNIVERSAL_ASSISTANT: Final = "__HA_KEEP__"
 POSTFIX_CONTAINER_NAME: Final = "-universalassistant"
 
 
@@ -30,10 +30,10 @@ ATTR_SOURCE: Final = CONF_SOURCE
 SOURCE_DOCKER: Final = "docker"  # Kept to not break existing configurations
 
 VERSION_SOURCE_DOCKER_HUB: Final = "Docker Hub"
-VERSION_SOURCE_HAIO: Final = "Universal Universal Home Assistant Website"
+VERSION_SOURCE_HAIO: Final = "__HA_KEEP__ Website"
 VERSION_SOURCE_LOCAL: Final = "Local installation"
 VERSION_SOURCE_PYPI: Final = "Python Package Index (PyPI)"
-VERSION_SOURCE_VERSIONS: Final = "Universal Universal Home Assistant Versions"
+VERSION_SOURCE_VERSIONS: Final = "__HA_KEEP__ Versions"
 
 DEFAULT_BETA: Final = False
 DEFAULT_BOARD: Final = "OVA"
@@ -73,8 +73,8 @@ BOARD_MAP: Final[dict[str, str]] = {
     "ODROID XU4": "odroid-xu4",
     "Generic AArch64": "generic-aarch64",
     "Generic x86-64": "generic-x86-64",
-    "Universal Universal Home Assistant Yellow": "yellow",
-    "Universal Universal Home Assistant Green": "green",
+    "__HA_KEEP__ Yellow": "yellow",
+    "__HA_KEEP__ Green": "green",
     "Khadas VIM3": "khadas-vim3",
 }
 

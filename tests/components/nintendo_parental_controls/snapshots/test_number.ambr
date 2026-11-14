@@ -44,7 +44,7 @@
 # name: test_number[number.universal_assistant_test_max_screentime_today-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Universal Universal Home Assistant Test Max screentime today',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '__HA_KEEP__ Test Max screentime today',
       <NumberEntityCapabilityAttribute.MAX: 'max'>: 360,
       <NumberEntityCapabilityAttribute.MIN: 'min'>: -1,
       <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,

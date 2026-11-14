@@ -16,7 +16,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import ATTR_MODE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
@@ -37,7 +37,7 @@ def number_only() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_demo_number(hass: UniversalAssistant, number_only: None) -> None:
+async def setup_demo_number(hass: __HAC_KEEP__, number_only: None) -> None:
     """Initialize setup demo Number entity."""
     assert await async_setup_component(
         hass, NUMBER_DOMAIN, {"number": {"platform": "demo"}}
@@ -45,13 +45,13 @@ async def setup_demo_number(hass: UniversalAssistant, number_only: None) -> None
     await hass.async_block_till_done()
 
 
-def test_setup_params(hass: UniversalAssistant) -> None:
+def test_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the initial parameters."""
     state = hass.states.get(ENTITY_VOLUME)
     assert state.state == "42.0"
 
 
-def test_default_setup_params(hass: UniversalAssistant) -> None:
+def test_default_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the setup with default parameters."""
     state = hass.states.get(ENTITY_VOLUME)
     assert state.attributes.get(ATTR_MIN) == 0.0
@@ -78,7 +78,7 @@ def test_default_setup_params(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_MODE) == NumberMode.AUTO
 
 
-async def test_set_value_bad_attr(hass: UniversalAssistant) -> None:
+async def test_set_value_bad_attr(hass: __HAC_KEEP__) -> None:
     """Test setting the value without required attribute."""
     state = hass.states.get(ENTITY_VOLUME)
     assert state.state == "42.0"
@@ -99,7 +99,7 @@ async def test_set_value_bad_attr(hass: UniversalAssistant) -> None:
     assert state.state == "42.0"
 
 
-async def test_set_value_bad_range(hass: UniversalAssistant) -> None:
+async def test_set_value_bad_range(hass: __HAC_KEEP__) -> None:
     """Test setting the value out of range."""
     state = hass.states.get(ENTITY_VOLUME)
     assert state.state == "42.0"
@@ -120,7 +120,7 @@ async def test_set_value_bad_range(hass: UniversalAssistant) -> None:
     assert state.state == "42.0"
 
 
-async def test_set_set_value(hass: UniversalAssistant) -> None:
+async def test_set_set_value(hass: __HAC_KEEP__) -> None:
     """Test the setting of the value."""
     state = hass.states.get(ENTITY_VOLUME)
     assert state.state == "42.0"

@@ -11,8 +11,8 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.peblar.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = [
@@ -24,7 +24,7 @@ pytestmark = [
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -55,7 +55,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -78,7 +78,7 @@ async def test_buttons(
     # Test connection error handling
     mocked_method.side_effect = PeblarConnectionError("Could not connect")
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             r"An error occurred while communicating "
             r"with the Peblar EV charger: Could not connect"
@@ -98,7 +98,7 @@ async def test_buttons(
     # Test unknown error handling
     mocked_method.side_effect = PeblarError("Unknown error")
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             r"An unknown error occurred while communicating "
             r"with the Peblar EV charger: Unknown error"
@@ -119,7 +119,7 @@ async def test_buttons(
     mocked_method.side_effect = PeblarAuthenticationError("Authentication error")
     mock_peblar.login.side_effect = PeblarAuthenticationError("Authentication error")
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             r"An authentication failure occurred while communicating "
             r"with the Peblar EV charger"
@@ -155,6 +155,6 @@ async def test_buttons(
 
 @pytest.mark.parametrize("mock_peblar", [{"HwHasSocket": False}], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_socket_unlock_absent_without_socket(hass: UniversalAssistant) -> None:
+async def test_socket_unlock_absent_without_socket(hass: __HAC_KEEP__) -> None:
     """A charger with a fixed cable has no socket to unlock."""
     assert hass.states.get("button.peblar_ev_charger_unlock_socket") is None

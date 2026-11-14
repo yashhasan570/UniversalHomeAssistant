@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant-aware ESPHome serial proxy URI handler for serialx."""
+"""__HA_KEEP__-aware ESPHome serial proxy URI handler for serialx."""
 
 import asyncio
 from collections.abc import Callable
@@ -25,7 +25,7 @@ from serialx.platforms.serial_esphome import (
 from yarl import URL
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import Event, UniversalAssistant, async_get_hass, callback
+from universalassistant.core import Event, __HAC_KEEP__, async_get_hass, callback
 
 from .const import DOMAIN
 from .entry_data import ESPHomeConfigEntry
@@ -153,7 +153,7 @@ async def _resolve_client(entry_id: str) -> APIClient:
 
     # This function is async specifically so that we can get a reference to the Home
     # Assistant Core instance from its own thread
-    hass: UniversalAssistant = async_get_hass()
+    hass: __HAC_KEEP__ = async_get_hass()
     entry = cast(ESPHomeConfigEntry, hass.config_entries.async_get_entry(entry_id))
 
     if entry is None or entry.domain != DOMAIN:

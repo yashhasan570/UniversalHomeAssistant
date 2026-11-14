@@ -14,14 +14,14 @@ from universalassistant.components.knx.const import (
 )
 from universalassistant.components.knx.schema import NumberSchema
 from universalassistant.const import CONF_NAME, CONF_TYPE, Platform
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.exceptions import ServiceValidationError
 
 from . import KnxEntityGenerator
 from .conftest import KNXTestKit
 
 
-async def test_number_set_value(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_number_set_value(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX number with passive_address and respond_to_read restoring state."""
     test_address = "1/1/1"
     await knx.setup_integration(
@@ -70,7 +70,7 @@ async def test_number_set_value(hass: UniversalAssistant, knx: KNXTestKit) -> No
     assert state.state == "90"
 
 
-async def test_number_restore_and_respond(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_number_restore_and_respond(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX number with passive_address and respond_to_read restoring state."""
     test_address = "1/1/1"
     test_passive_address = "3/3/3"
@@ -116,7 +116,7 @@ async def test_number_restore_and_respond(hass: UniversalAssistant, knx: KNXTest
     assert state.state == "9000.96"
 
 
-async def test_number_state_restore(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_number_state_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX number with state_address restores state until bus read completes."""
     test_address = "1/1/1"
     test_state_address = "2/2/2"
@@ -163,7 +163,7 @@ async def test_number_state_restore(hass: UniversalAssistant, knx: KNXTestKit) -
     ],
 )
 async def test_number_yaml_attribute_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     knx: KNXTestKit,
     attribute_config: dict[str, Any],
@@ -237,7 +237,7 @@ async def test_number_yaml_attribute_validation(
     ],
 )
 async def test_number_ui_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
     knx_config: dict[str, Any],

@@ -19,7 +19,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -65,7 +65,7 @@ EFFECT_CUSTOM: Final = "custom"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FluxLedConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

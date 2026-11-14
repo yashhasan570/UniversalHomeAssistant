@@ -6,11 +6,11 @@ from pytest_universalassistant.common import assert_setup_component
 
 from universalassistant.components.homematic import DOMAIN
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_setup_full(hass: UniversalAssistant) -> None:
+async def test_setup_full(hass: __HAC_KEEP__) -> None:
     """Test valid configuration."""
     with patch(
         "universalassistant.components.homematic.HMConnection",
@@ -40,7 +40,7 @@ async def test_setup_full(hass: UniversalAssistant) -> None:
     assert handle_config[NOTIFY_DOMAIN]
 
 
-async def test_setup_without_optional(hass: UniversalAssistant) -> None:
+async def test_setup_without_optional(hass: __HAC_KEEP__) -> None:
     """Test valid configuration without optional."""
     with patch(
         "universalassistant.components.homematic.HMConnection",
@@ -69,7 +69,7 @@ async def test_setup_without_optional(hass: UniversalAssistant) -> None:
     assert handle_config[NOTIFY_DOMAIN]
 
 
-async def test_bad_config(hass: UniversalAssistant) -> None:
+async def test_bad_config(hass: __HAC_KEEP__) -> None:
     """Test invalid configuration."""
     config = {NOTIFY_DOMAIN: {"name": "test", "platform": "homematic"}}
     with assert_setup_component(0, domain="notify") as handle_config:

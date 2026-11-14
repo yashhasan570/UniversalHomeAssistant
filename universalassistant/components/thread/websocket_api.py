@@ -6,13 +6,13 @@ import probatio
 from python_otbr_api.tlv_parser import TLVError
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from . import dataset_store, discovery
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the sensor websocket API."""
     websocket_api.async_register_command(hass, ws_add_dataset)
     websocket_api.async_register_command(hass, ws_delete_dataset)
@@ -33,7 +33,7 @@ def async_setup(hass: UniversalAssistant) -> None:
 )
 @websocket_api.async_response
 async def ws_add_dataset(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Add a thread dataset."""
     source = msg["source"]
@@ -63,7 +63,7 @@ async def ws_add_dataset(
 )
 @websocket_api.async_response
 async def ws_set_preferred_border_agent(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Set the preferred border agent's border agent ID and extended address."""
     dataset_id = msg["dataset_id"]
@@ -85,7 +85,7 @@ async def ws_set_preferred_border_agent(
 )
 @websocket_api.async_response
 async def ws_set_preferred_dataset(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Add a thread dataset."""
     dataset_id = msg["dataset_id"]
@@ -109,7 +109,7 @@ async def ws_set_preferred_dataset(
 )
 @websocket_api.async_response
 async def ws_delete_dataset(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Delete a thread dataset."""
     dataset_id = msg["dataset_id"]
@@ -136,7 +136,7 @@ async def ws_delete_dataset(
 )
 @websocket_api.async_response
 async def ws_get_dataset(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get a thread dataset in TLV format."""
     dataset_id = msg["dataset_id"]
@@ -157,7 +157,7 @@ async def ws_get_dataset(
 )
 @websocket_api.async_response
 async def ws_list_datasets(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get a list of thread datasets."""
 
@@ -190,7 +190,7 @@ async def ws_list_datasets(
 )
 @websocket_api.async_response
 async def ws_discover_routers(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Discover Thread routers."""
 

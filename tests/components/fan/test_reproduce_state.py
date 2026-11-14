@@ -13,12 +13,12 @@ from universalassistant.components.fan import (
     DIRECTION_REVERSE,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.state import async_reproduce_state
 
 
 async def test_reproducing_states(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Fan states."""
     hass.states.async_set("fan.entity_off", "off", {})
@@ -173,7 +173,7 @@ MODERN_FAN_PRESET_MODE_AUTO_REVERSE_STATE = {
         MODERN_FAN_OFF_PPRESET_MODE_ECO_STATE,
     ],
 )
-async def test_modern_turn_on_invalid(hass: UniversalAssistant, start_state) -> None:
+async def test_modern_turn_on_invalid(hass: __HAC_KEEP__, start_state) -> None:
     """Test modern fan state reproduction, turning on with invalid state."""
     hass.states.async_set(MODERN_FAN_ENTITY, "off", start_state)
 
@@ -219,7 +219,7 @@ async def test_modern_turn_on_invalid(hass: UniversalAssistant, start_state) -> 
     ],
 )
 async def test_modern_turn_on_percentage_from_different_speed(
-    hass: UniversalAssistant, start_state
+    hass: __HAC_KEEP__, start_state
 ) -> None:
     """Test modern fan state reproduction.
 
@@ -252,7 +252,7 @@ async def test_modern_turn_on_percentage_from_different_speed(
     assert len(set_preset_mode) == 0
 
 
-async def test_modern_turn_on_percentage_from_same_speed(hass: UniversalAssistant) -> None:
+async def test_modern_turn_on_percentage_from_same_speed(hass: __HAC_KEEP__) -> None:
     """Test modern fan state reproduction.
 
     Turning on with the same percentage as in the state.
@@ -293,7 +293,7 @@ async def test_modern_turn_on_percentage_from_same_speed(hass: UniversalAssistan
     ],
 )
 async def test_modern_turn_on_preset_mode_from_different_speed(
-    hass: UniversalAssistant, start_state
+    hass: __HAC_KEEP__, start_state
 ) -> None:
     """Test modern fan state reproduction.
 
@@ -326,7 +326,7 @@ async def test_modern_turn_on_preset_mode_from_different_speed(
     assert len(set_preset_mode) == 0
 
 
-async def test_modern_turn_on_preset_mode_from_same_speed(hass: UniversalAssistant) -> None:
+async def test_modern_turn_on_preset_mode_from_same_speed(hass: __HAC_KEEP__) -> None:
     """Test modern fan state reproduction.
 
     Turning on with the same preset mode as in the state.
@@ -369,7 +369,7 @@ async def test_modern_turn_on_preset_mode_from_same_speed(hass: UniversalAssista
     ],
 )
 async def test_modern_turn_on_preset_mode_reverse(
-    hass: UniversalAssistant, start_state
+    hass: __HAC_KEEP__, start_state
 ) -> None:
     """Test modern fan state reproduction.
 
@@ -416,7 +416,7 @@ async def test_modern_turn_on_preset_mode_reverse(
         MODERN_FAN_ON_PRESET_MODE_ECO_STATE,
     ],
 )
-async def test_modern_to_preset(hass: UniversalAssistant, start_state) -> None:
+async def test_modern_to_preset(hass: __HAC_KEEP__, start_state) -> None:
     """Test modern fan state reproduction, switching to preset mode "Auto"."""
     hass.states.async_set(MODERN_FAN_ENTITY, "on", start_state)
 
@@ -452,7 +452,7 @@ async def test_modern_to_preset(hass: UniversalAssistant, start_state) -> None:
         MODERN_FAN_ON_PRESET_MODE_ECO_STATE,
     ],
 )
-async def test_modern_to_percentage(hass: UniversalAssistant, start_state) -> None:
+async def test_modern_to_percentage(hass: __HAC_KEEP__, start_state) -> None:
     """Test modern fan state reproduction, switching to 15% speed."""
     hass.states.async_set(MODERN_FAN_ENTITY, "on", start_state)
 
@@ -480,7 +480,7 @@ async def test_modern_to_percentage(hass: UniversalAssistant, start_state) -> No
     assert len(set_preset_mode) == 0
 
 
-async def test_modern_direction(hass: UniversalAssistant) -> None:
+async def test_modern_direction(hass: __HAC_KEEP__) -> None:
     """Test modern fan state reproduction, switching only direction state."""
     hass.states.async_set(MODERN_FAN_ENTITY, "on", MODERN_FAN_ON_PRESET_MODE_AUTO_STATE)
 

@@ -11,7 +11,7 @@ from gassist_text import TextAssistantAsync
 from google.oauth2.credentials import Credentials
 from grpc import RpcError
 
-from universalassistant.components.http import UniversalAssistantView
+from universalassistant.components.http import __HAC_KEEP__View
 from universalassistant.components.media_player import (
     DOMAIN as MP_DOMAIN,
     MediaPlayerService,
@@ -20,9 +20,9 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_ENTITY_ID, CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     OAuth2TokenRequestReauthError,
     ServiceValidationError,
 )
@@ -63,7 +63,7 @@ class CommandResponse:
 
 
 async def async_send_text_commands(
-    hass: UniversalAssistant, commands: list[str], media_players: list[str] | None = None
+    hass: __HAC_KEEP__, commands: list[str], media_players: list[str] | None = None
 ) -> list[CommandResponse]:
     """Send text commands to Google Assistant Service."""
     # There can only be 1 entry (config_flow has single_instance_allowed)
@@ -92,7 +92,7 @@ async def async_send_text_commands(
             try:
                 resp = await assistant.assist(command)
             except RpcError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="grpc_error",
                     translation_placeholders={"command": command},
@@ -121,8 +121,8 @@ async def async_send_text_commands(
     return command_response_list
 
 
-def default_language_code(hass: UniversalAssistant) -> str:
-    """Get default language code based on Universal Universal Home Assistant config."""
+def default_language_code(hass: __HAC_KEEP__) -> str:
+    """Get default language code based on __HA_KEEP__ config."""
     language_code = f"{hass.config.language}-{hass.config.country}"
     if language_code in SUPPORTED_LANGUAGE_CODES:
         return language_code
@@ -130,7 +130,7 @@ def default_language_code(hass: UniversalAssistant) -> str:
 
 
 def best_matching_language_code(
-    hass: UniversalAssistant, assist_language: str, agent_language: str | None = None
+    hass: __HAC_KEEP__, assist_language: str, agent_language: str | None = None
 ) -> str:
     """Get the best matching language.
 
@@ -163,9 +163,9 @@ def best_matching_language_code(
 class InMemoryStorage:
     """Temporarily store and retrieve data from in memory storage."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize InMemoryStorage."""
-        self.hass: UniversalAssistant = hass
+        self.hass: __HAC_KEEP__ = hass
         self.mem: dict[str, bytes] = {}
 
     def store_and_get_identifier(self, data: bytes) -> str:
@@ -190,7 +190,7 @@ class InMemoryStorage:
         return self.mem.get(identifier)
 
 
-class GoogleAssistantSDKAudioView(UniversalAssistantView):
+class GoogleAssistantSDKAudioView(__HAC_KEEP__View):
     """Google Assistant SDK view to serve audio responses."""
 
     requires_auth = True

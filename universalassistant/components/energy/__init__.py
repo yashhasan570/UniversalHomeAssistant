@@ -2,7 +2,7 @@
 
 from universalassistant.components import frontend
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
 
@@ -19,7 +19,7 @@ __all__ = [
 ]
 
 
-async def is_configured(hass: UniversalAssistant) -> bool:
+async def is_configured(hass: __HAC_KEEP__) -> bool:
     """Return a boolean to indicate if energy is configured."""
     manager = await async_get_manager(hass)
     if manager.data is None:
@@ -27,7 +27,7 @@ async def is_configured(hass: UniversalAssistant) -> bool:
     return bool(manager.data != manager.default_preferences())
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Energy."""
     websocket_api.async_setup(hass)
     frontend.async_register_built_in_panel(hass, DOMAIN, DOMAIN, "mdi:lightning-bolt")

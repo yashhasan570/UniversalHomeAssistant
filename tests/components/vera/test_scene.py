@@ -4,14 +4,14 @@ from unittest.mock import MagicMock
 
 import pyvera as pv
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import ComponentFactory, new_simple_controller_config
 
 
 async def test_scene(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     vera_component_factory: ComponentFactory,
 ) -> None:

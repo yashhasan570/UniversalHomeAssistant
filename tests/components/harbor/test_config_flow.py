@@ -15,7 +15,7 @@ from universalassistant.components.harbor.const import (
 )
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_IP_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -54,7 +54,7 @@ NEW_IP_ADDRESS = "192.168.1.99"
     ],
 )
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mqtt_client: AsyncMock,
     source: str,
@@ -92,7 +92,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_uses_friendly_name(
-    hass: UniversalAssistant, mock_mqtt_client: AsyncMock
+    hass: __HAC_KEEP__, mock_mqtt_client: AsyncMock
 ) -> None:
     """Test the entry is titled with the camera's friendly name when set."""
     mock_mqtt_client.return_value.get_settings.return_value = SimpleNamespace(
@@ -128,7 +128,7 @@ async def test_user_flow_uses_friendly_name(
 )
 @pytest.mark.usefixtures("mock_mqtt_client", "mock_setup_entry")
 async def test_flow_invalid_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: str,
     discovery_info: DhcpServiceInfo | None,
     valid_input: dict[str, str],
@@ -160,7 +160,7 @@ async def test_flow_invalid_credentials(
     "serial", ["123", "abcdefghij"], ids=["too_short", "non_digit"]
 )
 @pytest.mark.usefixtures("mock_mqtt_client", "mock_setup_entry")
-async def test_user_flow_invalid_serial(hass: UniversalAssistant, serial: str) -> None:
+async def test_user_flow_invalid_serial(hass: __HAC_KEEP__, serial: str) -> None:
     """Test an invalid serial is surfaced and recoverable."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -181,7 +181,7 @@ async def test_user_flow_invalid_serial(hass: UniversalAssistant, serial: str) -
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the flow aborts when the serial is already configured."""
@@ -208,7 +208,7 @@ async def test_user_flow_already_configured(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mqtt_client: AsyncMock,
     source: str,
     discovery_info: DhcpServiceInfo | None,
@@ -246,7 +246,7 @@ async def test_flow_cannot_connect(
     ["harborc-123", "harborc-abcdefghij", "harborc-", "printer-1234567890"],
     ids=["short_serial", "non_digit_serial", "no_serial", "other_device"],
 )
-async def test_dhcp_flow_invalid_hostname(hass: UniversalAssistant, hostname: str) -> None:
+async def test_dhcp_flow_invalid_hostname(hass: __HAC_KEEP__, hostname: str) -> None:
     """Test discovery aborts for hostnames that carry no Harbor serial."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -259,7 +259,7 @@ async def test_dhcp_flow_invalid_hostname(hass: UniversalAssistant, hostname: st
 
 
 async def test_dhcp_flow_updates_ip_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
 ) -> None:
@@ -282,7 +282,7 @@ async def test_dhcp_flow_updates_ip_address(
 
 
 async def test_user_flow_aborts_while_discovery_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test adding a camera manually while its discovery is still pending."""
     result = await hass.config_entries.flow.async_init(

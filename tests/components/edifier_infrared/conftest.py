@@ -18,7 +18,7 @@ from universalassistant.components.edifier_infrared.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_MODEL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -103,7 +103,7 @@ def mock_edifier_code_to_command() -> Generator[None]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mock_edifier_code_to_command: None,

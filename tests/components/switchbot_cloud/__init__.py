@@ -5,10 +5,10 @@ from switchbot_api import Device
 
 from universalassistant.components.switchbot_cloud.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def configure_integration(hass: UniversalAssistant) -> MockConfigEntry:
+async def configure_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Configure the integration."""
     config = {
         CONF_API_TOKEN: "test-token",

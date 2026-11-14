@@ -13,7 +13,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.essent.const import UPDATE_INTERVAL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ pytestmark = pytest.mark.freeze_time("2025-11-24T14:11:00+01:00")
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_essent_client")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_essent_client")
 async def test_sensor_updates_on_hour_tick(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_essent_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,

@@ -6,7 +6,7 @@ from e3dc_ess_modbus.model import register
 from modbus_connection import ModbusError
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import HARDWARE_COMPONENTS, POLLED_COMPONENTS, E3dcConfigEntry
 
@@ -21,7 +21,7 @@ def _repr_or_none(value: object) -> str | None:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: E3dcConfigEntry
+    hass: __HAC_KEEP__, entry: E3dcConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry.
 

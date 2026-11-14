@@ -18,7 +18,7 @@ from aiotedee.models import TedeeBridge
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -46,7 +46,7 @@ class TedeeApiCoordinator(DataUpdateCoordinator[dict[int, TedeeLock]]):
     config_entry: TedeeConfigEntry
     bridge: TedeeBridge
 
-    def __init__(self, hass: UniversalAssistant, entry: TedeeConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: TedeeConfigEntry) -> None:
         """Initialize coordinator."""
         super().__init__(
             hass,

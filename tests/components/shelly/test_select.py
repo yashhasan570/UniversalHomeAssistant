@@ -23,8 +23,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -56,7 +56,7 @@ def fixture_platforms():
     ],
 )
 async def test_rpc_device_virtual_enum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -122,7 +122,7 @@ async def test_rpc_device_virtual_enum(
 
 @pytest.mark.usefixtures("disable_async_remove_shelly_rpc_entities")
 async def test_rpc_remove_virtual_enum_when_mode_label(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -161,7 +161,7 @@ async def test_rpc_remove_virtual_enum_when_mode_label(
 
 
 async def test_rpc_remove_virtual_enum_when_orphaned(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
     mock_rpc_device: Mock,
@@ -200,7 +200,7 @@ async def test_rpc_remove_virtual_enum_when_orphaned(
     ],
 )
 async def test_select_set_exc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     exception: Exception,
@@ -228,7 +228,7 @@ async def test_select_set_exc(
 
     mock_rpc_device.enum_set.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -241,7 +241,7 @@ async def test_select_set_exc(
 
 
 async def test_select_set_reauth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -292,7 +292,7 @@ async def test_select_set_reauth_error(
 
 
 async def test_rpc_cury_mode_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -351,7 +351,7 @@ async def test_rpc_cury_mode_select(
 
 
 async def test_rpc_ledstrip_palette_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ledstrip_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -400,7 +400,7 @@ async def test_rpc_ledstrip_palette_select(
     ],
 )
 async def test_rpc_ledstrip_palette_select_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ledstrip_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     ledstrip_status: dict[str, Any],
@@ -423,7 +423,7 @@ async def test_rpc_ledstrip_palette_select_availability(
     ],
 )
 async def test_rpc_ui_led_mode_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,

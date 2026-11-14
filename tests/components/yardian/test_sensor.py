@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.yardian.const import DOMAIN
 from universalassistant.components.yardian.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -38,7 +38,7 @@ def _make_oper_info(**overrides: object) -> OperationInfo:
 
 
 async def _async_trigger_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     freezer.tick(SCAN_INTERVAL)
@@ -48,7 +48,7 @@ async def _async_trigger_refresh(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -62,7 +62,7 @@ async def test_sensor_entities(
 
 
 async def test_diagnostic_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_yardian_client: object,
@@ -83,7 +83,7 @@ async def test_diagnostic_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_zone_delay_sensor_interprets_timestamp_and_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_yardian_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

@@ -6,11 +6,11 @@ from pytest_universalassistant.common import MockConfigEntry, patch
 
 from universalassistant.components.rpi_power.const import DOMAIN, ISSUE_UNDER_VOLTAGE
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 
-async def test_entry_setup_unload(hass: UniversalAssistant) -> None:
+async def test_entry_setup_unload(hass: __HAC_KEEP__) -> None:
     """Test integration setup and unload."""
 
     config_entry = MockConfigEntry(domain=DOMAIN)
@@ -26,7 +26,7 @@ async def test_entry_setup_unload(hass: UniversalAssistant) -> None:
     assert config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_config_entry_error(hass: UniversalAssistant) -> None:
+async def test_config_entry_error(hass: __HAC_KEEP__) -> None:
     """Test config entry error."""
     with patch(
         "universalassistant.components.rpi_power.new_under_voltage", return_value=None
@@ -39,7 +39,7 @@ async def test_config_entry_error(hass: UniversalAssistant) -> None:
     assert config_entry.state is ConfigEntryState.SETUP_ERROR
 
 
-def _create_unlinked_issue(hass: UniversalAssistant) -> None:
+def _create_unlinked_issue(hass: __HAC_KEEP__) -> None:
     """Create the issue as it was raised before issues were linked to entries."""
     ir.async_create_issue(
         hass,
@@ -53,7 +53,7 @@ def _create_unlinked_issue(hass: UniversalAssistant) -> None:
 
 
 async def test_unlinked_issue_linked_on_setup(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test setup links an issue raised before it was linked to the entry."""
     _create_unlinked_issue(hass)
@@ -74,7 +74,7 @@ async def test_unlinked_issue_linked_on_setup(
 
 
 async def test_unlinked_issue_removed_with_entry(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test removing an entry that never set up deletes its unlinked issue."""
     _create_unlinked_issue(hass)

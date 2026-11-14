@@ -10,8 +10,8 @@ from openevsehttp import OpenEVSE
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import OpenEVSEConfigEntry
@@ -52,7 +52,7 @@ SELECT_TYPES: tuple[OpenEVSESelectDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OpenEVSEConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -89,7 +89,7 @@ class OpenEVSESelect(OpenEVSEEntity, SelectEntity):
     async def async_added_to_hass(self) -> None:
         """Handle entity added to hass."""
         await super().async_added_to_hass()
-        with suppress(UniversalAssistantError):
+        with suppress(__HAC_KEEP__Error):
             await self._async_update_current_option()
 
     @callback
@@ -110,7 +110,7 @@ class OpenEVSESelect(OpenEVSEEntity, SelectEntity):
         """Fetch updated option and write HA state."""
         try:
             await self._async_update_current_option()
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             self._attr_current_option = None
         self.async_write_ha_state()
 

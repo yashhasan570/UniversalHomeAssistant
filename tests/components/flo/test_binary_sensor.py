@@ -4,12 +4,12 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import ATTR_FRIENDLY_NAME, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_binary_sensors(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test Flo by Moen sensors."""
     config_entry.add_to_hass(hass)

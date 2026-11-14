@@ -9,7 +9,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import PERCENTAGE, UnitOfSoundPressure, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -42,7 +42,7 @@ SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: PointConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -67,7 +67,7 @@ async def async_setup_entry(
 
 
 class MinutPointSensor(MinutPointEntity, SensorEntity):
-    """The platform class required by Universal Universal Home Assistant."""
+    """The platform class required by __HA_KEEP__."""
 
     def __init__(
         self,

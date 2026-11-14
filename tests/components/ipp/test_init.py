@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ipp.const import REQUEST_TIMEOUT
 from universalassistant.components.ipp.coordinator import IPPDataUpdateCoordinator
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @patch(
@@ -16,7 +16,7 @@ from universalassistant.core import UniversalAssistant
     side_effect=IPPConnectionError,
 )
 async def test_config_entry_not_ready(
-    mock_request: MagicMock, hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    mock_request: MagicMock, hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the IPP configuration entry not ready."""
     mock_config_entry.add_to_hass(hass)
@@ -28,7 +28,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ipp: AsyncMock,
 ) -> None:
@@ -46,7 +46,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_request_timeout(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a printer gets time to wake up before we give up on it."""
     coordinator = IPPDataUpdateCoordinator(hass, mock_config_entry)

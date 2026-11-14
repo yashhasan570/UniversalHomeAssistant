@@ -12,8 +12,8 @@ from universalassistant.components.update import (
     UpdateEntityFeature,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import OmadaConfigEntry
@@ -30,7 +30,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: OmadaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -168,14 +168,14 @@ class OmadaControllerUpdate(OmadaControllerEntity, UpdateEntity):
         update = self._update_data
 
         if update is None or update.hardware is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="firmware_update_rejected",
             )
 
         target_version = version or update.latest_version
         if not target_version:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="firmware_update_rejected",
             )
@@ -183,12 +183,12 @@ class OmadaControllerUpdate(OmadaControllerEntity, UpdateEntity):
         try:
             await self._omada_client.install_controller_firmware(target_version)
         except RequestFailed as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="firmware_update_rejected",
             ) from ex
         except OmadaClientException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="firmware_update_failed",
             ) from ex
@@ -240,12 +240,12 @@ class OmadaDeviceUpdate(
                 self.coordinator.data[self._mac].device
             )
         except RequestFailed as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="firmware_update_rejected",
             ) from ex
         except OmadaClientException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="firmware_update_failed",
             ) from ex

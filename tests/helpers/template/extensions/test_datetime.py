@@ -8,7 +8,7 @@ from unittest.mock import patch
 from freezegun import freeze_time
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import TemplateError
 from universalassistant.util import dt as dt_util
 from universalassistant.util.read_only_dict import ReadOnlyDict
@@ -30,7 +30,7 @@ from tests.helpers.template.helpers import render, render_to_info
         (datetime(2024, 1, 1, 0, 0, 0), True),
     ],
 )
-def test_is_datetime(hass: UniversalAssistant, value, expected) -> None:
+def test_is_datetime(hass: __HAC_KEEP__, value, expected) -> None:
     """Test is datetime."""
     assert render(hass, "{{ value is datetime }}", {"value": value}) == expected
 
@@ -53,12 +53,12 @@ def test_is_datetime(hass: UniversalAssistant, value, expected) -> None:
         (timedelta(hours=1, minutes=30), True),
     ],
 )
-def test_is_timedelta(hass: UniversalAssistant, value, expected) -> None:
+def test_is_timedelta(hass: __HAC_KEEP__, value, expected) -> None:
     """Test is timedelta."""
     assert render(hass, "{{ value is timedelta }}", {"value": value}) == expected
 
 
-def test_strptime(hass: UniversalAssistant) -> None:
+def test_strptime(hass: __HAC_KEEP__) -> None:
     """Test the parse timestamp method."""
     tests = [
         ("2016-10-19 15:22:05.588122 UTC", "%Y-%m-%d %H:%M:%S.%f %Z", None),
@@ -94,7 +94,7 @@ def test_strptime(hass: UniversalAssistant) -> None:
     assert render(hass, "{{ strptime('invalid', '%Y', default=1) }}") == 1
 
 
-async def test_timestamp_custom(hass: UniversalAssistant) -> None:
+async def test_timestamp_custom(hass: __HAC_KEEP__) -> None:
     """Test the timestamps to custom filter."""
     await hass.config.async_set_time_zone("UTC")
     now = dt_util.utcnow()
@@ -136,7 +136,7 @@ async def test_timestamp_custom(hass: UniversalAssistant) -> None:
     assert render(hass, "{{ None | timestamp_custom(default=1) }}") == 1
 
 
-async def test_timestamp_local(hass: UniversalAssistant) -> None:
+async def test_timestamp_local(hass: __HAC_KEEP__) -> None:
     """Test the timestamps to local filter."""
     await hass.config.async_set_time_zone("UTC")
     tests = [
@@ -171,7 +171,7 @@ async def test_timestamp_local(hass: UniversalAssistant) -> None:
         "invalid",
     ],
 )
-def test_as_datetime(hass: UniversalAssistant, input) -> None:
+def test_as_datetime(hass: __HAC_KEEP__, input) -> None:
     """Test converting a timestamp string to a date object."""
     expected = dt_util.parse_datetime(input)
     if expected is not None:
@@ -189,7 +189,7 @@ def test_as_datetime(hass: UniversalAssistant, input) -> None:
     ],
 )
 def test_as_datetime_from_timestamp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     input: float,
     output: str,
 ) -> None:
@@ -214,7 +214,7 @@ def test_as_datetime_from_timestamp(
     ],
 )
 def test_as_datetime_from_datetime(
-    hass: UniversalAssistant, input: str, output: str
+    hass: __HAC_KEEP__, input: str, output: str
 ) -> None:
     """Test using datetime.datetime or datetime.date objects as input."""
 
@@ -233,7 +233,7 @@ def test_as_datetime_from_datetime(
     ],
 )
 def test_as_datetime_default(
-    hass: UniversalAssistant, input: Any, default: Any, output: str
+    hass: __HAC_KEEP__, input: Any, default: Any, output: str
 ) -> None:
     """Test invalid input and return default value."""
 
@@ -241,7 +241,7 @@ def test_as_datetime_default(
     assert render(hass, f"{{{{ {input} | as_datetime({default}) }}}}") == output
 
 
-def test_as_local(hass: UniversalAssistant) -> None:
+def test_as_local(hass: __HAC_KEEP__) -> None:
     """Test converting time to local."""
 
     hass.states.async_set("test.object", "available")
@@ -254,7 +254,7 @@ def test_as_local(hass: UniversalAssistant) -> None:
     )
 
 
-def test_timestamp_utc(hass: UniversalAssistant) -> None:
+def test_timestamp_utc(hass: __HAC_KEEP__) -> None:
     """Test the timestamps to local filter."""
     now = dt_util.utcnow()
     tests = [
@@ -279,7 +279,7 @@ def test_timestamp_utc(hass: UniversalAssistant) -> None:
     assert render(hass, "{{ None | timestamp_utc(default=1) }}") == 1
 
 
-def test_as_timestamp(hass: UniversalAssistant) -> None:
+def test_as_timestamp(hass: __HAC_KEEP__) -> None:
     """Test the as_timestamp function."""
     with pytest.raises(TemplateError):
         render(hass, '{{ as_timestamp("invalid") }}')
@@ -301,7 +301,7 @@ def test_as_timestamp(hass: UniversalAssistant) -> None:
     assert render(hass, "{{ as_timestamp('invalid', default=1) }}") == 1
 
 
-def test_as_timedelta(hass: UniversalAssistant) -> None:
+def test_as_timedelta(hass: __HAC_KEEP__) -> None:
     """Test the as_timedelta function/filter."""
 
     result = render(hass, "{{ as_timedelta('PT10M') }}")
@@ -318,7 +318,7 @@ def test_as_timedelta(hass: UniversalAssistant) -> None:
     "universalassistant.helpers.template.TemplateEnvironment.is_safe_callable",
     return_value=True,
 )
-def test_now(mock_is_safe, hass: UniversalAssistant) -> None:
+def test_now(mock_is_safe, hass: __HAC_KEEP__) -> None:
     """Test now method."""
     now = dt_util.now()
     with freeze_time(now):
@@ -332,7 +332,7 @@ def test_now(mock_is_safe, hass: UniversalAssistant) -> None:
     "universalassistant.helpers.template.TemplateEnvironment.is_safe_callable",
     return_value=True,
 )
-def test_utcnow(mock_is_safe, hass: UniversalAssistant) -> None:
+def test_utcnow(mock_is_safe, hass: __HAC_KEEP__) -> None:
     """Test now method."""
     utcnow = dt_util.utcnow()
     with freeze_time(utcnow):
@@ -366,7 +366,7 @@ def test_utcnow(mock_is_safe, hass: UniversalAssistant) -> None:
     return_value=True,
 )
 async def test_today_at(
-    mock_is_safe, hass: UniversalAssistant, now, expected, expected_midnight, timezone_str
+    mock_is_safe, hass: __HAC_KEEP__, now, expected, expected_midnight, timezone_str
 ) -> None:
     """Test today_at method."""
     freezer = freeze_time(now)
@@ -399,7 +399,7 @@ async def test_today_at(
     "universalassistant.helpers.template.TemplateEnvironment.is_safe_callable",
     return_value=True,
 )
-async def test_relative_time(mock_is_safe, hass: UniversalAssistant) -> None:
+async def test_relative_time(mock_is_safe, hass: __HAC_KEEP__) -> None:
     """Test relative_time method."""
     await hass.config.async_set_time_zone("UTC")
     now = datetime.strptime("2000-01-01 10:00:00 +00:00", "%Y-%m-%d %H:%M:%S %z")
@@ -500,7 +500,7 @@ async def test_relative_time(mock_is_safe, hass: UniversalAssistant) -> None:
     "universalassistant.helpers.template.TemplateEnvironment.is_safe_callable",
     return_value=True,
 )
-async def test_time_since(mock_is_safe, hass: UniversalAssistant) -> None:
+async def test_time_since(mock_is_safe, hass: __HAC_KEEP__) -> None:
     """Test time_since method."""
     await hass.config.async_set_time_zone("UTC")
     now = datetime.strptime("2000-01-01 10:00:00 +00:00", "%Y-%m-%d %H:%M:%S %z")
@@ -657,7 +657,7 @@ async def test_time_since(mock_is_safe, hass: UniversalAssistant) -> None:
     "universalassistant.helpers.template.TemplateEnvironment.is_safe_callable",
     return_value=True,
 )
-async def test_time_until(mock_is_safe, hass: UniversalAssistant) -> None:
+async def test_time_until(mock_is_safe, hass: __HAC_KEEP__) -> None:
     """Test time_until method."""
     await hass.config.async_set_time_zone("UTC")
     now = datetime.strptime("2000-01-01 10:00:00 +00:00", "%Y-%m-%d %H:%M:%S %z")
@@ -837,7 +837,7 @@ async def test_time_until(mock_is_safe, hass: UniversalAssistant) -> None:
     ],
 )
 def test_timedelta_string(
-    hass: UniversalAssistant, template_str: str, expected: str | int
+    hass: __HAC_KEEP__, template_str: str, expected: str | int
 ) -> None:
     """Test timedelta_string function and filter."""
     assert render(hass, template_str) == expected

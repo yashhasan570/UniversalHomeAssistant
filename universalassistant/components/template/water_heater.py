@@ -21,7 +21,7 @@ from universalassistant.const import (
     PRECISION_TENTHS,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -142,7 +142,7 @@ WATER_HEATER_CONFIG_ENTRY_SCHEMA = probatio.All(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -161,7 +161,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -178,7 +178,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_water_heater(
-    hass: UniversalAssistant, name: str, config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
 ) -> StateWaterHeaterEntity:
     """Create a preview."""
     return async_setup_template_preview(
@@ -244,7 +244,7 @@ class AbstractTemplateWaterHeater(
     # the __init__ on AbstractTemplateEntity is not
     # called twice.
     def __init__(  # pylint: disable=super-init-not-called
-        self, hass: UniversalAssistant, name: str, config: dict[str, Any]
+        self, hass: __HAC_KEEP__, name: str, config: dict[str, Any]
     ) -> None:
         """Initialize the features."""
 
@@ -443,7 +443,7 @@ class StateWaterHeaterEntity(TemplateEntity, AbstractTemplateWaterHeater):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         unique_id: str | None,
     ) -> None:
@@ -462,7 +462,7 @@ class TriggerWaterHeaterEntity(TriggerEntity, AbstractTemplateWaterHeater):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: TriggerUpdateCoordinator,
         config: ConfigType,
     ) -> None:

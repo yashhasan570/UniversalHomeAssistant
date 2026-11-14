@@ -43,12 +43,12 @@ from universalassistant.const import (
     STATE_PLAYING,
     STATE_STANDBY,
 )
-from universalassistant.core import CoreState, Event, UniversalAssistant
+from universalassistant.core import CoreState, Event, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_media_player_set_state(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test if accessory and HA are updated accordingly."""
     config = {
@@ -184,7 +184,7 @@ async def test_media_player_set_state(
 
 
 async def test_media_player_television(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hk_driver,
     events: list[Event],
     caplog: pytest.LogCaptureFixture,
@@ -378,7 +378,7 @@ async def test_media_player_television(
 
 
 async def test_media_player_television_basic(
-    hass: UniversalAssistant, hk_driver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if basic television accessory and HA are updated accordingly."""
     entity_id = "media_player.television"
@@ -421,7 +421,7 @@ async def test_media_player_television_basic(
 
 
 async def test_media_player_television_supports_source_select_no_sources(
-    hass: UniversalAssistant, hk_driver
+    hass: __HAC_KEEP__, hk_driver
 ) -> None:
     """Test if basic tv that supports source select but is missing a source list."""
     entity_id = "media_player.television"
@@ -441,7 +441,7 @@ async def test_media_player_television_supports_source_select_no_sources(
 
 
 async def test_tv_restore(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, hk_driver
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, hk_driver
 ) -> None:
     """Test setting up an entity from state in the event registry."""
     hass.set_state(CoreState.not_running)
@@ -494,7 +494,7 @@ async def test_tv_restore(
 
 
 async def test_media_player_television_max_sources(
-    hass: UniversalAssistant, hk_driver
+    hass: __HAC_KEEP__, hk_driver
 ) -> None:
     """Test if television accessory that reaches the maximum number of sources."""
     entity_id = "media_player.television"
@@ -553,7 +553,7 @@ async def test_media_player_television_max_sources(
 
 
 async def test_media_player_television_duplicate_sources(
-    hass: UniversalAssistant, hk_driver
+    hass: __HAC_KEEP__, hk_driver
 ) -> None:
     """Test if television accessory with duplicate sources."""
     entity_id = "media_player.television"
@@ -598,7 +598,7 @@ async def test_media_player_television_duplicate_sources(
 
 
 async def test_media_player_television_unsafe_chars(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test if television accessory with unsafe characters."""
     entity_id = "media_player.television"
@@ -665,7 +665,7 @@ async def test_media_player_television_unsafe_chars(
 
 
 async def test_media_player_receiver(
-    hass: UniversalAssistant, hk_driver: HomeDriver, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hk_driver: HomeDriver, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if television accessory with unsafe characters."""
     entity_id = "media_player.receiver"

@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.energieleser.const import CONF_SW_VERSION, DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_DEVICE_ID, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -40,7 +40,7 @@ def _stromleser_zeroconf(ip: str = "192.168.1.100") -> ZeroconfServiceInfo:
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_energieleser_client")
-async def test_user_flow_stromleser(hass: UniversalAssistant) -> None:
+async def test_user_flow_stromleser(hass: __HAC_KEEP__) -> None:
     """Test a successful manual user flow for a stromleser device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -62,7 +62,7 @@ async def test_user_flow_stromleser(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_gasleser(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_energieleser_client: AsyncMock,
     mock_gasleser_device: GasleserDevice,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_user_flow_gasleser(
     ],
 )
 async def test_user_flow_client_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_energieleser_client: AsyncMock,
     side_effect: Exception,
     expected_error: str,
@@ -133,7 +133,7 @@ async def test_user_flow_client_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_energieleser_client")
 async def test_user_flow_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stromleser_config_entry: MockConfigEntry,
 ) -> None:
     """Test that a duplicate device is aborted."""
@@ -152,7 +152,7 @@ async def test_user_flow_duplicate(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_energieleser_client")
-async def test_zeroconf_flow(hass: UniversalAssistant) -> None:
+async def test_zeroconf_flow(hass: __HAC_KEEP__) -> None:
     """Test a successful zeroconf discovery flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -178,7 +178,7 @@ async def test_zeroconf_flow(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_energieleser_client: AsyncMock,
 ) -> None:
     """Test a zeroconf flow aborts and refreshes host/version for a known device."""
@@ -246,7 +246,7 @@ async def test_zeroconf_flow_already_configured(
     ],
 )
 async def test_zeroconf_device_id_derived_from_hostname(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_energieleser_client: AsyncMock,
     service_type: str,
     hostname: str,
@@ -305,7 +305,7 @@ async def test_zeroconf_device_id_derived_from_hostname(
     ],
 )
 async def test_zeroconf_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_energieleser_client: AsyncMock,
     side_effect: Exception,
     expected_reason: str,
@@ -325,7 +325,7 @@ async def test_zeroconf_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_energieleser_client")
 async def test_reconfigure_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stromleser_config_entry: MockConfigEntry,
 ) -> None:
     """Test a successful reconfiguration flow."""
@@ -347,7 +347,7 @@ async def test_reconfigure_flow_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_another_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stromleser_config_entry: MockConfigEntry,
     mock_energieleser_client: AsyncMock,
     mock_gasleser_device: GasleserDevice,
@@ -389,7 +389,7 @@ async def test_reconfigure_flow_another_device(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stromleser_config_entry: MockConfigEntry,
     mock_energieleser_client: AsyncMock,
     side_effect: Exception,

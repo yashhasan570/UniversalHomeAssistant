@@ -18,7 +18,7 @@ from universalassistant.components.here_travel_time.const import (
     ROUTE_MODE_FASTEST,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 from .const import DEFAULT_CONFIG
@@ -42,7 +42,7 @@ from .const import DEFAULT_CONFIG
         },
     ],
 )
-async def test_unload_entry(hass: UniversalAssistant, options: dict[str, Any]) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__, options: dict[str, Any]) -> None:
     """Test that unloading an entry works."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -61,7 +61,7 @@ async def test_unload_entry(hass: UniversalAssistant, options: dict[str, Any]) -
 
 @pytest.mark.usefixtures("valid_response")
 async def test_migrate_entry_v1_1_v1_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test successful migration of entry data."""
     mock_entry = MockConfigEntry(
@@ -84,7 +84,7 @@ async def test_migrate_entry_v1_1_v1_2(
 
 @pytest.mark.usefixtures("valid_response")
 async def test_issue_multiple_here_integrations_detected(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test that an issue is created when multiple HERE integrations are detected."""
     entry1 = MockConfigEntry(

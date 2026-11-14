@@ -17,7 +17,7 @@ from universalassistant.components.samsung_infrared.const import (
     SamsungDeviceType,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -58,7 +58,7 @@ def mock_make_samsung_tv_command() -> Generator[None]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity,
     mock_make_samsung_tv_command: None,

@@ -5,7 +5,7 @@ from urllib.error import URLError
 
 from universalassistant.components.youless.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -20,7 +20,7 @@ def _get_mock_youless_api(initialize=None):
     return mock_youless
 
 
-async def test_full_flow(hass: UniversalAssistant) -> None:
+async def test_full_flow(hass: __HAC_KEEP__) -> None:
     """Check setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -50,7 +50,7 @@ async def test_full_flow(hass: UniversalAssistant) -> None:
     assert len(mocked_youless.mock_calls) == 1
 
 
-async def test_not_found(hass: UniversalAssistant) -> None:
+async def test_not_found(hass: __HAC_KEEP__) -> None:
     """Check setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

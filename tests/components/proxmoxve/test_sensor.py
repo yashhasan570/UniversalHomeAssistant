@@ -11,7 +11,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import PVEVMUSER_PERMISSIONS, setup_integration
@@ -24,7 +24,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 @pytest.mark.freeze_time("2026-05-03T12:00:00+00:00")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_all_entities(
 
 
 async def test_storage_missing_used_fraction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_storage_missing_used_fraction(
 
 
 async def test_sensors_according_to_permissions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -94,7 +94,7 @@ async def test_sensors_according_to_permissions(
 
 
 async def test_sensors_for_offline_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

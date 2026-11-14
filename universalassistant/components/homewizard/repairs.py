@@ -8,7 +8,7 @@ from universalassistant.components.repairs import (
     RepairsFlowResult,
 )
 from universalassistant.const import CONF_IP_ADDRESS, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .config_flow import async_request_token
 from .const import ISSUE_BATTERY_MODE_CLOUD_DISABLED
@@ -98,7 +98,7 @@ class BatteryModeCloudDisabledRepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:

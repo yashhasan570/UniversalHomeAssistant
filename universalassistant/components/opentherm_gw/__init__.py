@@ -9,7 +9,7 @@ from serial import SerialException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE, CONF_ID, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -40,7 +40,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up OpenTherm Gateway integration."""
 
     async_setup_services(hass)
@@ -48,14 +48,14 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def options_updated(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def options_updated(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Handle options update."""
     gateway = hass.data[DATA_OPENTHERM_GW][DATA_GATEWAYS][entry.data[CONF_ID]]
     gateway.options = entry.options
     async_dispatcher_send(hass, gateway.options_update_signal, entry)
 
 
-async def async_setup_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
     """Set up the OpenTherm Gateway component."""
     if DATA_OPENTHERM_GW not in hass.data:
         hass.data[DATA_OPENTHERM_GW] = {DATA_GATEWAYS: {}}
@@ -77,7 +77,7 @@ async def async_setup_entry(hass: UniversalAssistant, config_entry: ConfigEntry)
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Cleanup and disconnect from gateway."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -89,7 +89,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> No
 class OpenThermGatewayHub:
     """OpenTherm Gateway hub class."""
 
-    def __init__(self, hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
         """Initialize the OpenTherm Gateway."""
         self.hass = hass
         self.device_path = config_entry.data[CONF_DEVICE]

@@ -19,7 +19,7 @@
           "password": "The password to authenticate with the device.",
           "username": "The username to authenticate with the device."
         },
-        "description": "A Teltonika device ({name}) was discovered at {host}. Enter the credentials to add it to Universal Universal Home Assistant.",
+        "description": "A Teltonika device ({name}) was discovered at {host}. Enter the credentials to add it to __HA_KEEP__.",
         "title": "Discovered Teltonika device"
       },
       "reauth_confirm": {

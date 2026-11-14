@@ -10,7 +10,7 @@ from voip_utils import SIP_PORT
 from universalassistant.auth.const import GROUP_ID_USER
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import CONF_SIP_PORT, DOMAIN
@@ -54,7 +54,7 @@ class VoipData:
 type VoipConfigEntry = ConfigEntry[VoipData]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: VoipConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: VoipConfigEntry) -> None:
     """Set up VoIP integration from a config entry."""
     # Make sure there is a valid user ID for VoIP in the config entry
     if (
@@ -85,13 +85,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: VoipConfigEntry) ->
     entry.async_on_unload(entry.add_update_listener(update_listener))
 
 
-async def update_listener(hass: UniversalAssistant, entry: VoipConfigEntry):
+async def update_listener(hass: __HAC_KEEP__, entry: VoipConfigEntry):
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def _create_sip_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     protocol_factory: Callable[
         [],
         asyncio.DatagramProtocol,
@@ -109,7 +109,7 @@ async def _create_sip_server(
     return transport, protocol
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: VoipConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: VoipConfigEntry) -> None:
     """Unload VoIP."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     _LOGGER.debug("Shutting down VoIP server")
@@ -119,13 +119,13 @@ async def async_unload_entry(hass: UniversalAssistant, entry: VoipConfigEntry) -
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, config_entry: VoipConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: VoipConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove device from a config entry."""
     return True
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: VoipConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: VoipConfigEntry) -> None:
     """Remove VoIP entry."""
     if "user" in entry.data and (
         user := await hass.auth.async_get_user(entry.data["user"])

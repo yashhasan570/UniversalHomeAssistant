@@ -16,7 +16,7 @@ from .discovery import PGLabDiscovery
 
 
 class PGLabBaseEntity(Entity):
-    """Base class of a PGLab entity in Universal Universal Home Assistant."""
+    """Base class of a PGLab entity in __HA_KEEP__."""
 
     _attr_has_entity_name = True
 
@@ -60,7 +60,7 @@ class PGLabBaseEntity(Entity):
 
 
 class PGLabEntity(PGLabBaseEntity):
-    """Representation of a PGLab entity in Universal Universal Home Assistant."""
+    """Representation of a PGLab entity in __HA_KEEP__."""
 
     def __init__(
         self,
@@ -104,7 +104,7 @@ class PGLabEntity(PGLabBaseEntity):
 
 
 class PGLabSensorEntity(PGLabBaseEntity, CoordinatorEntity[PGLabSensorsCoordinator]):
-    """Representation of a PGLab sensor entity in Universal Universal Home Assistant."""
+    """Representation of a PGLab sensor entity in __HA_KEEP__."""
 
     def __init__(
         self,

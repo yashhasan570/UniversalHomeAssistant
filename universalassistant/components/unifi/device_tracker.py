@@ -20,7 +20,7 @@ from universalassistant.components.device_tracker import (
     ScannerEntity,
     ScannerEntityDescription,
 )
-from universalassistant.core import Event as core_Event, UniversalAssistant, callback
+from universalassistant.core import Event as core_Event, __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -199,7 +199,7 @@ ENTITY_DESCRIPTIONS: tuple[UnifiTrackerEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: UnifiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

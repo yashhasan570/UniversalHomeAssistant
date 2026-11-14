@@ -20,7 +20,7 @@ from universalassistant.components.mitsubishi_comfort.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -72,7 +72,7 @@ def mock_two_devices(
     ],
 )
 async def test_setup_partial_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_two_devices: tuple[MagicMock, MagicMock],
     freezer: FrozenDateTimeFactory,
@@ -122,7 +122,7 @@ async def test_setup_partial_failure(
     ],
 )
 async def test_setup_all_devices_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_two_devices: tuple[MagicMock, MagicMock],
     failure: bool | DeviceConnectionError,
@@ -144,7 +144,7 @@ async def test_setup_all_devices_offline(
 
 @pytest.mark.usefixtures("mock_two_devices")
 async def test_setup_unexpected_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Partial setup must not suppress unexpected coordinator errors."""
@@ -165,7 +165,7 @@ def _cache_entry(ip: str, mac: str = MOCK_MAC) -> DhcpServiceInfo:
 
 
 async def test_setup_entry_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
@@ -188,7 +188,7 @@ async def test_setup_entry_success(
     ],
 )
 async def test_setup_entry_login_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_cloud_account: AsyncMock,
     exception: Exception,
@@ -205,7 +205,7 @@ async def test_setup_entry_login_failure(
 
 
 async def test_setup_entry_no_devices_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_cloud_account: AsyncMock,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_setup_entry_no_devices_raises(
 
 
 async def test_setup_entry_no_address_loads_and_registers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     issue_registry: ir.IssueRegistry,
@@ -295,7 +295,7 @@ async def test_setup_entry_no_address_loads_and_registers(
 )
 @pytest.mark.usefixtures("mock_setup_integration")
 async def test_setup_entry_dhcp_cache_seeding(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     entry_data: dict[str, Any],
     cache: list[DhcpServiceInfo],
@@ -327,7 +327,7 @@ async def test_setup_entry_dhcp_cache_seeding(
 
 
 async def test_setup_entry_caches_and_replays_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
 ) -> None:
@@ -361,7 +361,7 @@ async def test_setup_entry_caches_and_replays_credentials(
 
 
 async def test_setup_entry_resolves_address_from_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
@@ -388,7 +388,7 @@ async def test_setup_entry_resolves_address_from_entry(
 
 
 async def test_setup_entry_prunes_stale_addresses(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
 ) -> None:
     """Test a stored address for a device no longer on the account is dropped."""
@@ -415,7 +415,7 @@ async def test_setup_entry_prunes_stale_addresses(
 
 
 async def test_setup_entry_skips_incomplete_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
@@ -497,7 +497,7 @@ async def test_setup_entry_skips_incomplete_devices(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
 ) -> None:
@@ -515,7 +515,7 @@ async def test_unload_entry(
 
 
 async def test_setup_entry_registers_mac_less_devices_separately(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
 ) -> None:
@@ -569,7 +569,7 @@ async def test_setup_entry_registers_mac_less_devices_separately(
 
 
 async def test_failed_unload_keeps_missing_address_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_cloud_account: AsyncMock,
 ) -> None:
@@ -600,7 +600,7 @@ async def test_failed_unload_keeps_missing_address_issue(
 
 
 async def test_setup_retry_raises_issue_from_cached_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_cloud_account: AsyncMock,
 ) -> None:
@@ -635,7 +635,7 @@ async def test_setup_retry_raises_issue_from_cached_credentials(
 
 
 async def test_setup_retry_clears_stale_issue_when_all_addressed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_cloud_account: AsyncMock,
 ) -> None:
@@ -684,7 +684,7 @@ async def test_setup_retry_clears_stale_issue_when_all_addressed(
 
 
 async def test_remove_never_loaded_entry_clears_missing_address_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
     mock_device_info: DeviceInfo,
@@ -723,7 +723,7 @@ async def test_remove_never_loaded_entry_clears_missing_address_issue(
 
 
 async def test_reload_keeps_ignored_missing_address_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_cloud_account: AsyncMock,
 ) -> None:

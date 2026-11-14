@@ -13,7 +13,7 @@ from universalassistant.components.wilight.config_flow import (
 )
 from universalassistant.config_entries import SOURCE_SSDP
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -50,7 +50,7 @@ def mock_dummy_get_components_from_model_wrong():
         yield components
 
 
-async def test_show_ssdp_form(hass: UniversalAssistant) -> None:
+async def test_show_ssdp_form(hass: __HAC_KEEP__) -> None:
     """Test that the ssdp confirmation form is served."""
 
     discovery_info = dataclasses.replace(MOCK_SSDP_DISCOVERY_INFO_P_B)
@@ -66,7 +66,7 @@ async def test_show_ssdp_form(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_ssdp_not_wilight_abort_1(hass: UniversalAssistant) -> None:
+async def test_ssdp_not_wilight_abort_1(hass: __HAC_KEEP__) -> None:
     """Test that the ssdp aborts not_wilight."""
 
     discovery_info = dataclasses.replace(MOCK_SSDP_DISCOVERY_INFO_WRONG_MANUFACTURER)
@@ -78,7 +78,7 @@ async def test_ssdp_not_wilight_abort_1(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_wilight_device"
 
 
-async def test_ssdp_not_wilight_abort_2(hass: UniversalAssistant) -> None:
+async def test_ssdp_not_wilight_abort_2(hass: __HAC_KEEP__) -> None:
     """Test that the ssdp aborts not_wilight."""
 
     discovery_info = dataclasses.replace(MOCK_SSDP_DISCOVERY_INFO_MISSING_MANUFACTURER)
@@ -91,7 +91,7 @@ async def test_ssdp_not_wilight_abort_2(hass: UniversalAssistant) -> None:
 
 
 async def test_ssdp_not_wilight_abort_3(
-    hass: UniversalAssistant, dummy_get_components_from_model_clear
+    hass: __HAC_KEEP__, dummy_get_components_from_model_clear
 ) -> None:
     """Test that the ssdp aborts not_wilight."""
 
@@ -105,7 +105,7 @@ async def test_ssdp_not_wilight_abort_3(
 
 
 async def test_ssdp_not_supported_abort(
-    hass: UniversalAssistant, dummy_get_components_from_model_wrong
+    hass: __HAC_KEEP__, dummy_get_components_from_model_wrong
 ) -> None:
     """Test that the ssdp aborts not_supported."""
 
@@ -118,7 +118,7 @@ async def test_ssdp_not_supported_abort(
     assert result["reason"] == "not_supported_device"
 
 
-async def test_ssdp_device_exists_abort(hass: UniversalAssistant) -> None:
+async def test_ssdp_device_exists_abort(hass: __HAC_KEEP__) -> None:
     """Test abort SSDP flow if WiLight already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -143,7 +143,7 @@ async def test_ssdp_device_exists_abort(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_full_ssdp_flow_implementation(hass: UniversalAssistant) -> None:
+async def test_full_ssdp_flow_implementation(hass: __HAC_KEEP__) -> None:
     """Test the full SSDP flow from start to finish."""
 
     discovery_info = dataclasses.replace(MOCK_SSDP_DISCOVERY_INFO_P_B)

@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import async_init_integration
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -33,7 +33,7 @@ async def test_sensors(
     [ModelName.GS3_AV, ModelName.GS3_MP, ModelName.LINEA_MINI, ModelName.LINEA_MICRA],
 )
 async def test_steam_ready_entity_for_all_machines(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -52,7 +52,7 @@ async def test_steam_ready_entity_for_all_machines(
 
 
 async def test_sensors_unavailable_if_machine_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,

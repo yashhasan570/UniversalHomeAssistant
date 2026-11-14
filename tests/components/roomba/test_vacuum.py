@@ -23,13 +23,13 @@ from universalassistant.components.vacuum import (
     VacuumEntityFeature,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 ENTITY_ID = "vacuum.test_roomba"
 
 
-async def _setup(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
+async def _setup(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
     """Set up the vacuum platform only."""
     with patch("universalassistant.components.roomba.PLATFORMS", [Platform.VACUUM]):
         mock_config_entry.add_to_hass(hass)
@@ -55,7 +55,7 @@ async def _setup(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -
     ],
 )
 async def test_vacuum_activity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
     phase: str,
@@ -88,7 +88,7 @@ async def test_vacuum_activity(
     ],
 )
 async def test_braava_fan_speed_requires_rank_overlap(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
     extra_state: dict[str, Any],
@@ -129,7 +129,7 @@ async def test_braava_fan_speed_requires_rank_overlap(
     ],
 )
 async def test_braava_set_fan_speed_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
     fan_speed: str,
@@ -156,7 +156,7 @@ async def test_braava_set_fan_speed_invalid(
 
 
 async def test_carpet_boost_set_fan_speed_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_carpet_boost_set_fan_speed_invalid(
 
 
 async def test_carpet_boost_set_fan_speed_valid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_carpet_boost_set_fan_speed_valid(
 
 
 async def test_braava_set_fan_speed_valid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_braava_set_fan_speed_valid(
     ],
 )
 async def test_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
     phase: str,
@@ -270,7 +270,7 @@ async def test_commands(
 
 
 async def test_state_update_from_robot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
 ) -> None:
@@ -287,7 +287,7 @@ async def test_state_update_from_robot(
 
 
 async def test_state_update_after_reported_dictionary_replaced(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
 ) -> None:
@@ -318,7 +318,7 @@ async def test_state_update_after_reported_dictionary_replaced(
     ],
 )
 async def test_action_while_not_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
     service: str,
@@ -331,7 +331,7 @@ async def test_action_while_not_connected(
 
     await _setup(hass, mock_config_entry)
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             VACUUM_DOMAIN,
             service,
@@ -343,7 +343,7 @@ async def test_action_while_not_connected(
 
 
 async def test_send_command_with_empty_regions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
 ) -> None:

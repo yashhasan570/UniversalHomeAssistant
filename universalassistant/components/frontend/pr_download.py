@@ -16,8 +16,8 @@ from aiogithubapi import (
 )
 from aiohttp import ClientError, ClientResponseError, ClientTimeout
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 _LOGGER = logging.getLogger(__name__)
@@ -49,15 +49,15 @@ async def _get_pr_shas(client: GitHubAPI, pr_number: int) -> tuple[str, str]:
         )
         return str(response.data["head"]["sha"]), str(response.data["base"]["sha"])
     except GitHubAuthenticationException as err:
-        raise UniversalAssistantError(ERROR_INVALID_TOKEN) from err
+        raise __HAC_KEEP__Error(ERROR_INVALID_TOKEN) from err
     except (GitHubRatelimitException, GitHubPermissionException) as err:
-        raise UniversalAssistantError(ERROR_RATE_LIMIT) from err
+        raise __HAC_KEEP__Error(ERROR_RATE_LIMIT) from err
     except GitHubNotFoundException as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"PR #{pr_number} does not exist in repository {GITHUB_REPO}"
         ) from err
     except GitHubException as err:
-        raise UniversalAssistantError(f"GitHub API error: {err}") from err
+        raise __HAC_KEEP__Error(f"GitHub API error: {err}") from err
 
 
 async def _find_pr_artifact(client: GitHubAPI, pr_number: int, head_sha: str) -> str:
@@ -86,22 +86,22 @@ async def _find_pr_artifact(client: GitHubAPI, pr_number: int, head_sha: str) ->
                         )
                         return str(artifact["archive_download_url"])
 
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"No '{ARTIFACT_NAME}' artifact found for PR #{pr_number}. "
             "Possible reasons: CI has not run yet or is running, "
             "or the build failed, or the PR artifact expired. "
             f"Check https://github.com/{GITHUB_REPO}/pull/{pr_number}/checks"
         )
     except GitHubAuthenticationException as err:
-        raise UniversalAssistantError(ERROR_INVALID_TOKEN) from err
+        raise __HAC_KEEP__Error(ERROR_INVALID_TOKEN) from err
     except (GitHubRatelimitException, GitHubPermissionException) as err:
-        raise UniversalAssistantError(ERROR_RATE_LIMIT) from err
+        raise __HAC_KEEP__Error(ERROR_RATE_LIMIT) from err
     except GitHubException as err:
-        raise UniversalAssistantError(f"GitHub API error: {err}") from err
+        raise __HAC_KEEP__Error(f"GitHub API error: {err}") from err
 
 
 async def _download_artifact_data(
-    hass: UniversalAssistant, artifact_url: str, github_token: str
+    hass: __HAC_KEEP__, artifact_url: str, github_token: str
 ) -> bytes:
     """Download artifact data from GitHub."""
     session = async_get_clientsession(hass)
@@ -118,18 +118,18 @@ async def _download_artifact_data(
         return await response.read()
     except ClientResponseError as err:
         if err.status == 401:
-            raise UniversalAssistantError(ERROR_INVALID_TOKEN) from err
+            raise __HAC_KEEP__Error(ERROR_INVALID_TOKEN) from err
         if err.status == 403:
-            raise UniversalAssistantError(ERROR_RATE_LIMIT) from err
-        raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(ERROR_RATE_LIMIT) from err
+        raise __HAC_KEEP__Error(
             f"Failed to download artifact: HTTP {err.status}"
         ) from err
     except TimeoutError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             "Timeout downloading artifact (>60s). Check your network connection"
         ) from err
     except ClientError as err:
-        raise UniversalAssistantError(f"Network error downloading artifact: {err}") from err
+        raise __HAC_KEEP__Error(f"Network error downloading artifact: {err}") from err
 
 
 def _extract_artifact(
@@ -166,7 +166,7 @@ def _extract_artifact(
 
 
 async def download_pr_artifact(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     pr_number: int,
     github_token: str,
     tmp_dir: pathlib.Path,
@@ -174,12 +174,12 @@ async def download_pr_artifact(
     """Download and extract frontend PR artifact from GitHub.
 
     Returns the path to the tmp directory containing hass_frontend/.
-    Raises UniversalAssistantError on failure.
+    Raises __HAC_KEEP__Error on failure.
     """
     try:
         session = async_get_clientsession(hass)
     except Exception as err:
-        raise UniversalAssistantError(f"Failed to get HTTP client session: {err}") from err
+        raise __HAC_KEEP__Error(f"Failed to get HTTP client session: {err}") from err
 
     client = GitHubAPI(token=github_token, session=session)
 
@@ -220,15 +220,15 @@ async def download_pr_artifact(
             _extract_artifact, artifact_data, tmp_dir, cache_key
         )
     except zipfile.BadZipFile as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Downloaded artifact for PR #{pr_number} is corrupted or invalid"
         ) from err
     except ValueError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Downloaded artifact for PR #{pr_number} failed validation: {err}"
         ) from err
     except OSError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Failed to extract artifact for PR #{pr_number}: {err}"
         ) from err
 

@@ -9,14 +9,14 @@ import weakref
 import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import debounce
 from universalassistant.util.dt import utcnow
 
 _LOGGER = logging.getLogger(__name__)
 
 
-async def test_immediate_works(hass: UniversalAssistant) -> None:
+async def test_immediate_works(hass: __HAC_KEEP__) -> None:
     """Test immediate works."""
     calls = []
     debouncer = debounce.Debouncer(
@@ -72,7 +72,7 @@ async def test_immediate_works(hass: UniversalAssistant) -> None:
     debouncer.async_shutdown()
 
 
-async def test_immediate_works_with_schedule_call(hass: UniversalAssistant) -> None:
+async def test_immediate_works_with_schedule_call(hass: __HAC_KEEP__) -> None:
     """Test immediate works with scheduled calls."""
     calls = []
     debouncer = debounce.Debouncer(
@@ -132,7 +132,7 @@ async def test_immediate_works_with_schedule_call(hass: UniversalAssistant) -> N
     debouncer.async_shutdown()
 
 
-async def test_immediate_works_with_callback_function(hass: UniversalAssistant) -> None:
+async def test_immediate_works_with_callback_function(hass: __HAC_KEEP__) -> None:
     """Test immediate works with callback function."""
     calls = []
     debouncer = debounce.Debouncer(
@@ -153,7 +153,7 @@ async def test_immediate_works_with_callback_function(hass: UniversalAssistant) 
     debouncer.async_shutdown()
 
 
-async def test_immediate_works_with_executor_function(hass: UniversalAssistant) -> None:
+async def test_immediate_works_with_executor_function(hass: __HAC_KEEP__) -> None:
     """Test immediate works with executor function."""
     calls = []
     debouncer = debounce.Debouncer(
@@ -175,7 +175,7 @@ async def test_immediate_works_with_executor_function(hass: UniversalAssistant) 
 
 
 async def test_immediate_works_with_passed_callback_function_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test immediate works with a callback function that raises."""
     calls = []
@@ -241,7 +241,7 @@ async def test_immediate_works_with_passed_callback_function_raises(
 
 
 async def test_immediate_works_with_passed_coroutine_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test immediate works with a coroutine that raises."""
     calls = []
@@ -305,7 +305,7 @@ async def test_immediate_works_with_passed_coroutine_raises(
     debouncer.async_shutdown()
 
 
-async def test_not_immediate_works(hass: UniversalAssistant) -> None:
+async def test_not_immediate_works(hass: __HAC_KEEP__) -> None:
     """Test immediate works."""
     calls = []
     debouncer = debounce.Debouncer(
@@ -358,7 +358,7 @@ async def test_not_immediate_works(hass: UniversalAssistant) -> None:
     debouncer.async_shutdown()
 
 
-async def test_not_immediate_works_schedule_call(hass: UniversalAssistant) -> None:
+async def test_not_immediate_works_schedule_call(hass: __HAC_KEEP__) -> None:
     """Test immediate works with schedule call."""
     calls = []
     debouncer = debounce.Debouncer(
@@ -415,7 +415,7 @@ async def test_not_immediate_works_schedule_call(hass: UniversalAssistant) -> No
     debouncer.async_shutdown()
 
 
-async def test_immediate_works_with_function_swapped(hass: UniversalAssistant) -> None:
+async def test_immediate_works_with_function_swapped(hass: __HAC_KEEP__) -> None:
     """Test immediate works and we can change out the function."""
     calls = []
 
@@ -479,7 +479,7 @@ async def test_immediate_works_with_function_swapped(hass: UniversalAssistant) -
     debouncer.async_shutdown()
 
 
-async def test_shutdown(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
+async def test_shutdown(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
     """Test shutdown."""
     calls = []
     future = asyncio.Future()
@@ -514,7 +514,7 @@ async def test_shutdown(hass: UniversalAssistant, caplog: pytest.LogCaptureFixtu
 
 
 async def test_background(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test background tasks are created when background is True."""
     calls = []
@@ -545,10 +545,10 @@ async def test_background(
     assert len(calls) == 2
 
 
-async def test_shutdown_releases_parent_class(hass: UniversalAssistant) -> None:
+async def test_shutdown_releases_parent_class(hass: __HAC_KEEP__) -> None:
     """Test shutdown releases parent class.
 
-    See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/137237
+    See https://github.com/yashhasan570/__HAC_KEEP__/issues/137237
     """
     calls = []
 
@@ -581,7 +581,7 @@ async def test_shutdown_releases_parent_class(hass: UniversalAssistant) -> None:
     assert my_class_weak_ref() is None
 
 
-async def test_schedule_timer_cancels_previous_handle(hass: UniversalAssistant) -> None:
+async def test_schedule_timer_cancels_previous_handle(hass: __HAC_KEEP__) -> None:
     """Ensure _schedule_timer cancels any previously-scheduled handle."""
     # Use a large cooldown so the scheduled timer can't fire mid-test on a slow
     # event loop; the timer is only inspected and cancelled, never awaited.
@@ -608,7 +608,7 @@ async def test_schedule_timer_cancels_previous_handle(hass: UniversalAssistant) 
 
 
 async def test_concurrent_async_call_does_not_orphan_timer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Concurrent async_call during in-flight execution must not orphan a timer."""
     started = asyncio.Event()

@@ -8,7 +8,7 @@ from zhong_hong_hvac.hub import ZhongHongGateway
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 
 from .const import (
@@ -38,7 +38,7 @@ DISCOVERY_TIMEOUT = 15
 
 
 async def _async_validate_gateway(
-    hass: UniversalAssistant, data: dict[str, Any]
+    hass: __HAC_KEEP__, data: dict[str, Any]
 ) -> str | None:
     """Return an error key, or None when the gateway answered with devices."""
     host: str = data[CONF_HOST]

@@ -8,7 +8,7 @@ from pysiaalarm.aio import CommunicationsProtocol, SIAAccount, SIAClient, SIAEve
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_PORT, CONF_PROTOCOL, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -36,7 +36,7 @@ class SIAHub:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: SIAConfigEntry,
     ) -> None:
         """Create the SIAHub."""
@@ -136,7 +136,7 @@ class SIAHub:
 
     @staticmethod
     async def async_config_entry_updated(
-        hass: UniversalAssistant, config_entry: SIAConfigEntry
+        hass: __HAC_KEEP__, config_entry: SIAConfigEntry
     ) -> None:
         """Handle signals of config entry being updated.
 

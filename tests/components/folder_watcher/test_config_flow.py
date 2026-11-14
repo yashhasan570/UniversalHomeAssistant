@@ -12,13 +12,13 @@ from universalassistant.components.folder_watcher.const import (
     CONF_PATTERNS,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_form(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_form(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test we get the form."""
     path = tmp_path.as_posix()
     hass.config.allowlist_external_dirs = {path}
@@ -38,7 +38,7 @@ async def test_form(hass: UniversalAssistant, tmp_path: Path) -> None:
     assert result["options"] == {CONF_FOLDER: path, CONF_PATTERNS: ["*"]}
 
 
-async def test_form_not_allowed_path(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_form_not_allowed_path(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test we handle not allowed path."""
     path = tmp_path.as_posix()
     result = await hass.config_entries.flow.async_init(
@@ -66,7 +66,7 @@ async def test_form_not_allowed_path(hass: UniversalAssistant, tmp_path: Path) -
     assert result["options"] == {CONF_FOLDER: path, CONF_PATTERNS: ["*"]}
 
 
-async def test_form_not_directory(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_form_not_directory(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test we handle not a directory."""
     path = tmp_path.as_posix()
     result = await hass.config_entries.flow.async_init(
@@ -94,7 +94,7 @@ async def test_form_not_directory(hass: UniversalAssistant, tmp_path: Path) -> N
     assert result["options"] == {CONF_FOLDER: path, CONF_PATTERNS: ["*"]}
 
 
-async def test_form_not_readable_dir(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_form_not_readable_dir(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test we handle not able to read directory."""
     path = tmp_path.as_posix()
     result = await hass.config_entries.flow.async_init(
@@ -124,7 +124,7 @@ async def test_form_not_readable_dir(hass: UniversalAssistant, tmp_path: Path) -
     assert result["options"] == {CONF_FOLDER: path, CONF_PATTERNS: ["*"]}
 
 
-async def test_form_already_configured(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_form_already_configured(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test we abort when entry is already configured."""
     path = tmp_path.as_posix()
     hass.config.allowlist_external_dirs = {path}

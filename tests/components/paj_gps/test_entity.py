@@ -8,14 +8,14 @@ from pajgps_api.models.device import Device
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.paj_gps.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
 async def test_entity_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -33,7 +33,7 @@ async def test_entity_device_info(
 
 
 async def test_entity_device_info_with_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -57,7 +57,7 @@ async def test_entity_device_info_with_model(
 
 
 async def test_entity_device_info_fallback_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -77,7 +77,7 @@ async def test_entity_device_info_fallback_name(
 
 
 async def test_entity_device_info_non_dict_device_models(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

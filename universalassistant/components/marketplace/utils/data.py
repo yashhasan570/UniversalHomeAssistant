@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from universalassistant.core import Event, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import issue_registry as ir
 
 from ..const import DOMAIN, LEGACY_HACS_REPOSITORY_ID, RESTART_ISSUE_PREFIX
@@ -172,7 +172,7 @@ class MarketplaceData:
         try:
             data = await async_load_from_storage(self.marketplace.hass, key)
         # The error names the file, it can be one of the custom integration too
-        except UniversalAssistantError as exception:
+        except __HAC_KEEP__Error as exception:
             self._log_unreadable(str(exception))
             return None
         # What the storage helper raises for a version it does not know
@@ -386,7 +386,7 @@ class MarketplaceData:
     ) -> None:
         """Restore repository."""
         if entry == LEGACY_HACS_REPOSITORY_ID:
-            # The Marketplace is part of Universal Universal Home Assistant, it does not manage itself
+            # The Marketplace is part of __HA_KEEP__, it does not manage itself
             return
 
         repository: Repository | None = None

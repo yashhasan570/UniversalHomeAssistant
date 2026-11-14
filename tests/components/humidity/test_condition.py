@@ -28,31 +28,31 @@ from universalassistant.components.humidifier import (
 from universalassistant.components.humidity.condition import CONDITIONS
 from universalassistant.components.weather import WeatherEntityStateAttribute
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 _HUMIDITY_UNIT_ATTRS = {ATTR_UNIT_OF_MEASUREMENT: "%"}
 
 
 @pytest.fixture
-async def target_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple sensor entities associated with different targets."""
     return await target_entities(hass, "sensor")
 
 
 @pytest.fixture
-async def target_climates(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_climates(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple climate entities associated with different targets."""
     return await target_entities(hass, "climate")
 
 
 @pytest.fixture
-async def target_humidifiers(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_humidifiers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple humidifier entities associated with different targets."""
     return await target_entities(hass, "humidifier")
 
 
 @pytest.fixture
-async def target_weathers(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_weathers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple weather entities associated with different targets."""
     return await target_entities(hass, "weather")
 
@@ -72,7 +72,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_humidity_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -106,7 +106,7 @@ def test_condition_target_support() -> None:
     ),
 )
 async def test_humidity_sensor_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -141,7 +141,7 @@ async def test_humidity_sensor_condition_behavior_any(
     ),
 )
 async def test_humidity_sensor_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -177,7 +177,7 @@ async def test_humidity_sensor_condition_behavior_all(
     ),
 )
 async def test_humidity_climate_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -213,7 +213,7 @@ async def test_humidity_climate_condition_behavior_any(
     ),
 )
 async def test_humidity_climate_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_climates: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -249,7 +249,7 @@ async def test_humidity_climate_condition_behavior_all(
     ),
 )
 async def test_humidity_humidifier_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_humidifiers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -285,7 +285,7 @@ async def test_humidity_humidifier_condition_behavior_any(
     ),
 )
 async def test_humidity_humidifier_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_humidifiers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -321,7 +321,7 @@ async def test_humidity_humidifier_condition_behavior_all(
     ),
 )
 async def test_humidity_weather_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_weathers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -357,7 +357,7 @@ async def test_humidity_weather_condition_behavior_any(
     ),
 )
 async def test_humidity_weather_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_weathers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,

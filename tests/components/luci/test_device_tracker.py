@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.device_tracker import DOMAIN as DEVICE_TRACKER_DOMAIN
 from universalassistant.const import STATE_HOME, STATE_NOT_HOME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import MOCK_DEVICE_1, MOCK_DEVICE_2, MOCK_DEVICE_3
@@ -22,7 +22,7 @@ from .conftest import MOCK_DEVICE_1, MOCK_DEVICE_2, MOCK_DEVICE_3
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_luci_client")
 async def test_device_tracker_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -54,7 +54,7 @@ async def test_device_tracker_setup(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_tracker_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -83,7 +83,7 @@ async def test_tracker_device(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_tracker_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -111,7 +111,7 @@ async def test_device_tracker_disconnect(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_new_device_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -148,7 +148,7 @@ async def test_new_device_discovered(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_hostname_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -184,7 +184,7 @@ async def test_hostname_updated(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_reload_without_hostname_keeps_device_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -215,7 +215,7 @@ async def test_reload_without_hostname_keeps_device_name(
     ],
 )
 async def test_disabled_tracker_device_renamed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_luci_client: MagicMock,
     freezer: FrozenDateTimeFactory,

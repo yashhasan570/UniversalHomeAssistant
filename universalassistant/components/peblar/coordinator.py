@@ -20,7 +20,7 @@ from peblar import (
 )
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -142,7 +142,7 @@ class PeblarVersionDataUpdateCoordinator(
     """Set while the charger is busy installing a package."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: PeblarConfigEntry, peblar: Peblar
+        self, hass: __HAC_KEEP__, entry: PeblarConfigEntry, peblar: Peblar
     ) -> None:
         """Initialize the coordinator."""
         self.peblar = peblar
@@ -209,7 +209,7 @@ class PeblarAuthorizationDataUpdateCoordinator(
     """
 
     def __init__(
-        self, hass: UniversalAssistant, entry: PeblarConfigEntry, peblar: Peblar
+        self, hass: __HAC_KEEP__, entry: PeblarConfigEntry, peblar: Peblar
     ) -> None:
         """Initialize the coordinator."""
         self.peblar = peblar
@@ -373,7 +373,7 @@ class PeblarDataUpdateCoordinator(DataUpdateCoordinator[PeblarData]):
     config_entry: PeblarConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, entry: PeblarConfigEntry, api: PeblarApi
+        self, hass: __HAC_KEEP__, entry: PeblarConfigEntry, api: PeblarApi
     ) -> None:
         """Initialize the coordinator."""
         self.api = api
@@ -402,7 +402,7 @@ class PeblarUserConfigurationDataUpdateCoordinator(
     """Class to manage fetching Peblar user configuration data."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: PeblarConfigEntry, peblar: Peblar
+        self, hass: __HAC_KEEP__, entry: PeblarConfigEntry, peblar: Peblar
     ) -> None:
         """Initialize the coordinator."""
         self.peblar = peblar

@@ -44,7 +44,7 @@ CONNECT_ZBT1_CONFIG_ENTRY = MockConfigEntry(
         "pid": "EA60",
         "serial_number": "3c0ed67c628beb11b1cd64a0f320645d",
         "manufacturer": "Nabu Casa",
-        "product": "Universal Universal Home Assistant Connect ZBT-1",
+        "product": "__HA_KEEP__ Connect ZBT-1",
         "firmware": "ezsp",
     },
     version=2,

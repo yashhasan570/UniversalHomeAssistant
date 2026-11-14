@@ -18,7 +18,7 @@ from universalassistant.const import (
     EntityCategory,
     UnitOfElectricPotential,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import YALEXSBLEConfigEntry
@@ -72,7 +72,7 @@ SENSORS: tuple[YaleXSBLESensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: YALEXSBLEConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

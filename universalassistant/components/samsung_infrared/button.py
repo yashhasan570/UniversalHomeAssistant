@@ -8,7 +8,7 @@ from infrared_protocols.codes.samsung.tv import SamsungTVCode
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.components.infrared import InfraredEmitterConsumerEntity
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_DEVICE_TYPE, CONF_INFRARED_EMITTER_ENTITY_ID, SamsungDeviceType
@@ -139,7 +139,7 @@ TV_BUTTON_DESCRIPTIONS: tuple[SamsungIrButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

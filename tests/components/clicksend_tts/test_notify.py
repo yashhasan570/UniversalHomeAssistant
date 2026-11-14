@@ -11,7 +11,7 @@ import requests_mock
 
 from universalassistant.components import notify
 from universalassistant.components.clicksend_tts import notify as cs_tts
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 # Infos from https://developers.clicksend.com/docs/rest/v3/#testing
@@ -45,7 +45,7 @@ def mock_clicksend_tts_notify():
         yield ns
 
 
-async def setup_notify(hass: UniversalAssistant) -> None:
+async def setup_notify(hass: __HAC_KEEP__) -> None:
     """Test setup."""
     with assert_setup_component(1, notify.DOMAIN) as config:
         assert await async_setup_component(hass, notify.DOMAIN, CONFIG)
@@ -54,7 +54,7 @@ async def setup_notify(hass: UniversalAssistant) -> None:
 
 
 async def test_no_notify_service(
-    hass: UniversalAssistant, mock_clicksend_tts_notify, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_clicksend_tts_notify, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test missing platform notify service instance."""
     caplog.set_level(logging.ERROR)
@@ -65,7 +65,7 @@ async def test_no_notify_service(
     assert "Failed to initialize notification service clicksend_tts" in caplog.text
 
 
-async def test_send_simple_message(hass: UniversalAssistant) -> None:
+async def test_send_simple_message(hass: __HAC_KEEP__) -> None:
     """Test sending a simple message with success."""
 
     with requests_mock.Mocker() as mock:

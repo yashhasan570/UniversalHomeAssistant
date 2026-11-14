@@ -9,7 +9,7 @@ from universalassistant import config_entries
 from universalassistant.components.owntracks.config_flow import CONF_CLOUDHOOK, CONF_SECRET
 from universalassistant.components.owntracks.const import DOMAIN
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
@@ -49,7 +49,7 @@ def mock_not_supports_encryption():
         yield
 
 
-async def init_config_flow(hass: UniversalAssistant) -> config_entries.ConfigFlowResult:
+async def init_config_flow(hass: __HAC_KEEP__) -> config_entries.ConfigFlowResult:
     """Init a configuration flow."""
     await async_process_ha_core_config(
         hass,
@@ -60,7 +60,7 @@ async def init_config_flow(hass: UniversalAssistant) -> config_entries.ConfigFlo
     )
 
 
-async def test_user(hass: UniversalAssistant, webhook_id, secret) -> None:
+async def test_user(hass: __HAC_KEEP__, webhook_id, secret) -> None:
     """Test user step."""
     result = await init_config_flow(hass)
     assert result["type"] is FlowResultType.FORM
@@ -75,7 +75,7 @@ async def test_user(hass: UniversalAssistant, webhook_id, secret) -> None:
     assert result["description_placeholders"][CONF_WEBHOOK_URL] == WEBHOOK_URL
 
 
-async def test_import_setup(hass: UniversalAssistant) -> None:
+async def test_import_setup(hass: __HAC_KEEP__) -> None:
     """Test that we don't automatically create a config entry."""
     await async_process_ha_core_config(
         hass,
@@ -88,7 +88,7 @@ async def test_import_setup(hass: UniversalAssistant) -> None:
     assert not hass.config_entries.async_entries(DOMAIN)
 
 
-async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
+async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
     """Test that we can't add more than one instance."""
     MockConfigEntry(domain=DOMAIN, data={}).add_to_hass(hass)
     assert hass.config_entries.async_entries(DOMAIN)
@@ -103,7 +103,7 @@ async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
 
 
 async def test_user_not_supports_encryption(
-    hass: UniversalAssistant, not_supports_encryption
+    hass: __HAC_KEEP__, not_supports_encryption
 ) -> None:
     """Test user step."""
     result = await init_config_flow(hass)
@@ -116,7 +116,7 @@ async def test_user_not_supports_encryption(
     )
 
 
-async def test_unload(hass: UniversalAssistant) -> None:
+async def test_unload(hass: __HAC_KEEP__) -> None:
     """Test unloading a config flow."""
     await async_process_ha_core_config(
         hass,
@@ -154,7 +154,7 @@ async def test_unload(hass: UniversalAssistant) -> None:
     assert entry.data["webhook_id"] not in hass.data["webhook"]
 
 
-async def test_with_cloud_sub(hass: UniversalAssistant) -> None:
+async def test_with_cloud_sub(hass: __HAC_KEEP__) -> None:
     """Test creating a config flow while subscribed."""
     assert await async_setup_component(hass, "cloud", {})
 
@@ -190,7 +190,7 @@ async def test_with_cloud_sub(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_with_cloud_sub_not_connected(hass: UniversalAssistant) -> None:
+async def test_with_cloud_sub_not_connected(hass: __HAC_KEEP__) -> None:
     """Test creating a config flow while subscribed."""
     assert await async_setup_component(hass, "cloud", {})
 

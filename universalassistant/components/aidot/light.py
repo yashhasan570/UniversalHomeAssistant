@@ -11,7 +11,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -21,7 +21,7 @@ from .coordinator import AidotConfigEntry, AidotDeviceUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AidotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

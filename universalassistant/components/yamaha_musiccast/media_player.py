@@ -19,8 +19,8 @@ from universalassistant.components.media_player import (
     RepeatMode,
     async_process_play_media_url,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import uuid as uuid_util
@@ -51,7 +51,7 @@ MUSIC_PLAYER_BASE_SUPPORT = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MusicCastConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -266,7 +266,7 @@ class MusicCastMediaPlayer(MusicCastDeviceEntity, MediaPlayerEntity):
         if self._is_netusb:
             await self.coordinator.musiccast.netusb_play()
         else:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Service play is not supported for non NetUSB sources."
             )
 
@@ -276,7 +276,7 @@ class MusicCastMediaPlayer(MusicCastDeviceEntity, MediaPlayerEntity):
         if self._is_netusb:
             await self.coordinator.musiccast.netusb_pause()
         else:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Service pause is not supported for non NetUSB sources."
             )
 
@@ -286,7 +286,7 @@ class MusicCastMediaPlayer(MusicCastDeviceEntity, MediaPlayerEntity):
         if self._is_netusb:
             await self.coordinator.musiccast.netusb_stop()
         else:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Service stop is not supported for non NetUSB sources."
             )
 
@@ -296,7 +296,7 @@ class MusicCastMediaPlayer(MusicCastDeviceEntity, MediaPlayerEntity):
         if self._is_netusb:
             await self.coordinator.musiccast.netusb_shuffle(shuffle)
         else:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Service shuffle is not supported for non NetUSB sources."
             )
 
@@ -335,11 +335,11 @@ class MusicCastMediaPlayer(MusicCastDeviceEntity, MediaPlayerEntity):
                 media_id = async_process_play_media_url(self.hass, media_id)
 
                 await self.coordinator.musiccast.play_url_media(
-                    self._zone_id, media_id, "UniversalAssistant"
+                    self._zone_id, media_id, "__HAC_KEEP__"
                 )
                 return
 
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             "Only presets, media from media browser and http URLs are supported"
         )
 
@@ -356,7 +356,7 @@ class MusicCastMediaPlayer(MusicCastDeviceEntity, MediaPlayerEntity):
             )
 
         if self.state == MediaPlayerState.OFF:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "The device has to be turned on to be able to browse media."
             )
 
@@ -509,7 +509,7 @@ class MusicCastMediaPlayer(MusicCastDeviceEntity, MediaPlayerEntity):
         elif self._is_tuner:
             await self.coordinator.musiccast.tuner_previous_station()
         else:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Service previous track is not supported for non NetUSB or Tuner"
                 " sources."
             )
@@ -522,7 +522,7 @@ class MusicCastMediaPlayer(MusicCastDeviceEntity, MediaPlayerEntity):
         elif self._is_tuner:
             await self.coordinator.musiccast.tuner_next_station()
         else:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Service next track is not supported for non NetUSB or Tuner sources."
             )
 
@@ -534,7 +534,7 @@ class MusicCastMediaPlayer(MusicCastDeviceEntity, MediaPlayerEntity):
                 HA_REPEAT_MODE_TO_MC_MAPPING.get(repeat, "off")
             )
         else:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Service set repeat is not supported for non NetUSB sources."
             )
 
@@ -861,7 +861,7 @@ class MusicCastMediaPlayer(MusicCastDeviceEntity, MediaPlayerEntity):
                 return False
 
             # It is not possible to join a group hosted by zone2 from main zone.
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Can not join a zone other than main of the same device."
             )
 

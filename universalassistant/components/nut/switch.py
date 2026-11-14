@@ -8,7 +8,7 @@ from universalassistant.components.switch import (
     SwitchEntity,
     SwitchEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import outlet_numbers_from_status
@@ -21,7 +21,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: NutConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

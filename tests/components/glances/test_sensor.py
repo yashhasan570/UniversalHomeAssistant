@@ -9,14 +9,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.glances.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import HA_SENSOR_DATA, MOCK_REFERENCE_DATE, MOCK_USER_INPUT
 
 
 async def test_sensor_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -42,7 +42,7 @@ async def test_sensor_states(
 
 
 async def test_uptime_variation(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, mock_api: AsyncMock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, mock_api: AsyncMock
 ) -> None:
     """Test uptime small variation update."""
 
@@ -74,7 +74,7 @@ async def test_uptime_variation(
 
 
 async def test_sensor_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_api: AsyncMock,
     entity_registry: er.EntityRegistry,

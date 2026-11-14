@@ -12,7 +12,7 @@ from mysensors import BaseAsyncGateway, Message, Sensor, get_const, mysensors
 import probatio
 
 from universalassistant.const import CONF_DEVICE, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service_info.mqtt import ReceivePayloadType
 from universalassistant.setup import SetupPhases, async_pause_setup
@@ -69,7 +69,7 @@ def is_socket_address(value: str) -> str:
 
 
 async def try_connect(
-    hass: UniversalAssistant, gateway_type: ConfGatewayType, user_input: dict[str, Any]
+    hass: __HAC_KEEP__, gateway_type: ConfGatewayType, user_input: dict[str, Any]
 ) -> bool:
     """Try to connect to a gateway and report if it worked."""
     if gateway_type == "MQTT":
@@ -117,7 +117,7 @@ async def try_connect(
 
 
 async def setup_gateway(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry
 ) -> BaseAsyncGateway | None:
     """Set up the Gateway for the given ConfigEntry."""
 
@@ -139,7 +139,7 @@ async def setup_gateway(
 
 
 async def _get_gateway(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     gateway_type: ConfGatewayType,
     device: str,
     version: str,
@@ -231,14 +231,14 @@ async def _get_gateway(
     return gateway
 
 
-async def finish_setup(hass: UniversalAssistant, entry: MySensorsConfigEntry) -> None:
+async def finish_setup(hass: __HAC_KEEP__, entry: MySensorsConfigEntry) -> None:
     """Load any persistent devices and platforms and start gateway."""
     await _discover_persistent_devices(hass, entry)
     await _gw_start(hass, entry)
 
 
 async def _discover_persistent_devices(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry
 ) -> None:
     """Discover platforms for devices loaded via persistence file."""
     gateway = entry.runtime_data.gateway
@@ -266,7 +266,7 @@ async def gw_stop(entry: MySensorsConfigEntry) -> None:
     await entry.runtime_data.gateway.stop()
 
 
-async def _gw_start(hass: UniversalAssistant, entry: MySensorsConfigEntry) -> None:
+async def _gw_start(hass: __HAC_KEEP__, entry: MySensorsConfigEntry) -> None:
     """Start the gateway."""
     gateway = entry.runtime_data.gateway
     gateway_ready = asyncio.Event()
@@ -302,7 +302,7 @@ async def _gw_start(hass: UniversalAssistant, entry: MySensorsConfigEntry) -> No
 
 
 def _gw_callback_factory(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry
 ) -> Callable[[Message], None]:
     """Return a new callback for the gateway."""
 

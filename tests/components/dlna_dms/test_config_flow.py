@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.dlna_dms.const import CONF_SOURCE_ID, DOMAIN
 from universalassistant.const import CONF_DEVICE_ID, CONF_HOST, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_DEVICE_TYPE,
@@ -80,7 +80,7 @@ def mock_setup_entry() -> Generator[Mock]:
         yield mock
 
 
-async def test_user_flow(hass: UniversalAssistant, ssdp_scanner_mock: Mock) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, ssdp_scanner_mock: Mock) -> None:
     """Test user-init'd flow, user selects discovered device."""
     ssdp_scanner_mock.async_get_discovery_info_by_st.side_effect = [
         [MOCK_DISCOVERY],
@@ -113,7 +113,7 @@ async def test_user_flow(hass: UniversalAssistant, ssdp_scanner_mock: Mock) -> N
 
 
 async def test_user_flow_no_devices(
-    hass: UniversalAssistant, ssdp_scanner_mock: Mock
+    hass: __HAC_KEEP__, ssdp_scanner_mock: Mock
 ) -> None:
     """Test user-init'd flow, there's really no devices to choose from."""
     ssdp_scanner_mock.async_get_discovery_info_by_st.side_effect = [
@@ -130,7 +130,7 @@ async def test_user_flow_no_devices(
     assert result["reason"] == "no_devices_found"
 
 
-async def test_ssdp_flow_success(hass: UniversalAssistant) -> None:
+async def test_ssdp_flow_success(hass: __HAC_KEEP__) -> None:
     """Test that SSDP discovery with an available device works."""
     logging.getLogger("universalassistant.components.dlna_dms.config_flow").setLevel(
         logging.DEBUG
@@ -160,7 +160,7 @@ async def test_ssdp_flow_success(hass: UniversalAssistant) -> None:
 
 
 async def test_ssdp_flow_unavailable(
-    hass: UniversalAssistant, upnp_factory_mock: Mock
+    hass: __HAC_KEEP__, upnp_factory_mock: Mock
 ) -> None:
     """Test that SSDP discovery with an unavailable device still succeeds.
 
@@ -193,7 +193,7 @@ async def test_ssdp_flow_unavailable(
 
 
 async def test_ssdp_flow_existing(
-    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test that SSDP discovery of existing config entry updates the URL."""
     config_entry_mock.add_to_hass(hass)
@@ -218,7 +218,7 @@ async def test_ssdp_flow_existing(
 
 
 async def test_ssdp_flow_duplicate_location(
-    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test that discovery of device with URL matching existing entry gets aborted."""
     config_entry_mock.add_to_hass(hass)
@@ -232,7 +232,7 @@ async def test_ssdp_flow_duplicate_location(
     assert config_entry_mock.data[CONF_URL] == MOCK_DEVICE_LOCATION
 
 
-async def test_ssdp_flow_bad_data(hass: UniversalAssistant) -> None:
+async def test_ssdp_flow_bad_data(hass: __HAC_KEEP__) -> None:
     """Test bad SSDP discovery information is rejected cleanly."""
     # Missing location
     discovery = dataclasses.replace(MOCK_DISCOVERY, ssdp_location="")
@@ -256,7 +256,7 @@ async def test_ssdp_flow_bad_data(hass: UniversalAssistant) -> None:
 
 
 async def test_duplicate_name(
-    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test device with name same as other devices results in no error."""
     # Add two entries to test generate_source_id() tries for no collisions
@@ -311,7 +311,7 @@ async def test_duplicate_name(
 
 
 async def test_ssdp_flow_upnp_udn(
-    hass: UniversalAssistant, config_entry_mock: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_mock: MockConfigEntry
 ) -> None:
     """Test that SSDP discovery ignores the root device's UDN."""
     config_entry_mock.add_to_hass(hass)
@@ -335,7 +335,7 @@ async def test_ssdp_flow_upnp_udn(
     assert config_entry_mock.data[CONF_URL] == NEW_DEVICE_LOCATION
 
 
-async def test_ssdp_missing_services(hass: UniversalAssistant) -> None:
+async def test_ssdp_missing_services(hass: __HAC_KEEP__) -> None:
     """Test SSDP ignores devices that are missing required services."""
     # No service list at all
     discovery = dataclasses.replace(MOCK_DISCOVERY)
@@ -378,7 +378,7 @@ async def test_ssdp_missing_services(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_dms"
 
 
-async def test_ssdp_single_service(hass: UniversalAssistant) -> None:
+async def test_ssdp_single_service(hass: __HAC_KEEP__) -> None:
     """Test SSDP discovery info with only one service defined.
 
     THe etree_to_dict function turns multiple services into a list of dicts, but

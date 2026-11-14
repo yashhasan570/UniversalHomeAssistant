@@ -9,7 +9,7 @@ from libpyvivotek.vivotek import VivotekCamera, VivotekCameraError
 
 from universalassistant.components.camera import Camera, CameraEntityFeature
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -64,7 +64,7 @@ def _fetch_metadata(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VivotekConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

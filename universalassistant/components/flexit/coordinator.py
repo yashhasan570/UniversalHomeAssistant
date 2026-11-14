@@ -8,7 +8,7 @@ from flexit_modbus import Flexit
 from modbus_connection import ModbusError, ModbusUnit
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -24,7 +24,7 @@ class FlexitDataCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: FlexitConfigEntry,
         unit: ModbusUnit,
     ) -> None:

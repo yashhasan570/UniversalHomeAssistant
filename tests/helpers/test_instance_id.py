@@ -6,11 +6,11 @@ from unittest.mock import patch
 
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import instance_id
 
 
-async def test_get_id_empty(hass: UniversalAssistant, hass_storage: dict[str, Any]) -> None:
+async def test_get_id_empty(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -> None:
     """Get unique ID."""
     uuid = await instance_id.async_get(hass)
     assert uuid is not None
@@ -19,7 +19,7 @@ async def test_get_id_empty(hass: UniversalAssistant, hass_storage: dict[str, An
 
 
 async def test_get_id_load_fail(
-    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Migrate existing file with error."""
     hass_storage["core.uuid"] = None  # Invalid, will make store.async_load raise
@@ -38,7 +38,7 @@ async def test_get_id_load_fail(
 
 
 async def test_get_id_migrate(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Migrate existing file."""
     with (
@@ -58,7 +58,7 @@ async def test_get_id_migrate(
 
 
 async def test_get_id_migrate_fail(
-    hass: UniversalAssistant, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Migrate existing file with error."""
     with (
@@ -86,7 +86,7 @@ async def test_get_id_migrate_fail(
 
 
 async def test_async_recreate(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test recreating instance ID."""
     uuid1 = await instance_id.async_get(hass)

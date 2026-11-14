@@ -6,11 +6,11 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.diagnostics import REDACTED
 from universalassistant.components.guardian import GuardianData
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     setup_guardian: None,  # relies on config_entry fixture

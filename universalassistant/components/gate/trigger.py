@@ -6,7 +6,7 @@ from universalassistant.components.cover import (
     make_cover_closed_trigger,
     make_cover_opened_trigger,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.trigger import Trigger
 
 DEVICE_CLASSES_GATE: dict[str, str] = {
@@ -20,6 +20,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for gates."""
     return TRIGGERS

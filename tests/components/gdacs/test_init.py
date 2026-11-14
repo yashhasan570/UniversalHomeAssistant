@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_SCAN_INTERVAL,
     CONF_UNIT_SYSTEM,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
     US_CUSTOMARY_SYSTEM,
@@ -24,7 +24,7 @@ from universalassistant.util.unit_system import (
 
 
 async def test_component_unload_config_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test that loading and unloading of a config entry works."""
     config_entry.add_to_hass(hass)
@@ -47,7 +47,7 @@ async def test_component_unload_config_entry(
     ],
 )
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     units: UnitSystem,
     radius: float,

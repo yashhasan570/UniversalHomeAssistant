@@ -14,8 +14,8 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_CLOSE,
     EVENT_SERVICE_REMOVED,
 )
-from universalassistant.core import Context, Event, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, Unauthorized
+from universalassistant.core import Context, Event, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
 from universalassistant.util.hass_dict import HassKey
 from universalassistant.util.json import JsonObjectType
 from universalassistant.util.ulid import ulid_now
@@ -50,7 +50,7 @@ DATE_TIME_PROMPT = (
     'Today\'s date is {{ now().strftime("%Y-%m-%d") }}.\n'
 )
 
-DEFAULT_INSTRUCTIONS_PROMPT = """You are a voice assistant for Universal Universal Home Assistant.
+DEFAULT_INSTRUCTIONS_PROMPT = """You are a voice assistant for __HA_KEEP__.
 Answer questions about the world truthfully.
 Respond simply and to the point in plain text.
 """
@@ -58,17 +58,17 @@ Respond simply and to the point in plain text.
 
 @deprecated_function("an empty string", breaks_in_ha_version="2027.2")
 @callback
-def async_render_no_api_prompt(hass: UniversalAssistant) -> str:
+def async_render_no_api_prompt(hass: __HAC_KEEP__) -> str:
     """Return the prompt to be used when no API is configured.
 
-    No longer used since Universal Universal Home Assistant 2024.7.
+    No longer used since __HA_KEEP__ 2024.7.
     """
     return ""
 
 
 @singleton(APIS_CACHE)
 @callback
-def _async_get_apis(hass: UniversalAssistant) -> dict[str, API]:
+def _async_get_apis(hass: __HAC_KEEP__) -> dict[str, API]:
     """Return the registry of LLM APIs.
 
     APIs are registered by their owning integration; the Assist API is
@@ -78,12 +78,12 @@ def _async_get_apis(hass: UniversalAssistant) -> dict[str, API]:
 
 
 @callback
-def async_register_api(hass: UniversalAssistant, api: API) -> Callable[[], None]:
+def async_register_api(hass: __HAC_KEEP__, api: API) -> Callable[[], None]:
     """Register an API to be exposed to LLMs."""
     apis = _async_get_apis(hass)
 
     if api.id in apis:
-        raise UniversalAssistantError(f"API {api.id} is already registered")
+        raise __HAC_KEEP__Error(f"API {api.id} is already registered")
 
     apis[api.id] = api
 
@@ -96,7 +96,7 @@ def async_register_api(hass: UniversalAssistant, api: API) -> Callable[[], None]
 
 
 async def async_get_api(
-    hass: UniversalAssistant, api_id: str | list[str], llm_context: LLMContext
+    hass: __HAC_KEEP__, api_id: str | list[str], llm_context: LLMContext
 ) -> APIInstance:
     """Get an API.
 
@@ -110,7 +110,7 @@ async def async_get_api(
 
     for key in api_id:
         if key not in apis:
-            raise UniversalAssistantError(f"API {key} not found")
+            raise __HAC_KEEP__Error(f"API {key} not found")
 
     api: API
     if len(api_id) == 1:
@@ -137,7 +137,7 @@ async def async_get_authorized_api_instance(
 
 
 @callback
-def async_get_apis(hass: UniversalAssistant) -> list[API]:
+def async_get_apis(hass: __HAC_KEEP__) -> list[API]:
     """Get all registered LLM APIs.
 
     This is intended for discovery (e.g. config flows and UI listing).
@@ -193,7 +193,7 @@ class ToolAnnotations:
     """Properties describing how a tool behaves.
 
     The defaults describe the least safe case, so a tool that declares nothing
-    is taken to write, to be destructive, and to reach outside Universal Universal Home Assistant.
+    is taken to write, to be destructive, and to reach outside __HA_KEEP__.
     """
 
     read_only: bool = False
@@ -218,7 +218,7 @@ class Tool:
 
     @abstractmethod
     async def async_call(
-        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult | JsonObjectType:
         """Call the tool."""
         raise NotImplementedError
@@ -268,7 +268,7 @@ class APIInstance:
             if tool.name == tool_input.tool_name:
                 break
         else:
-            raise UniversalAssistantError(f'Tool "{tool_input.tool_name}" not found')
+            raise __HAC_KEEP__Error(f'Tool "{tool_input.tool_name}" not found')
 
         result = await tool.async_call(self.api.hass, tool_input, self.llm_context)
         if isinstance(result, ToolResult):
@@ -325,7 +325,7 @@ def _integration_domain(module: str) -> str | None:
 class API(ABC):
     """An API to expose to LLMs."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     id: str
     name: str
     requires_admin: bool = False
@@ -342,7 +342,7 @@ class API(ABC):
 
 @callback
 def async_get_match_preferences(
-    hass: UniversalAssistant, llm_context: LLMContext
+    hass: __HAC_KEEP__, llm_context: LLMContext
 ) -> intent.MatchTargetsPreferences:
     """Return target match preferences for the area of the requesting device."""
     area: ar.AreaEntry | None = None
@@ -381,7 +381,7 @@ class IntentTool(Tool):
         self.intent_type = intent_handler.intent_type
         self.description = (
             intent_handler.description
-            or f"Execute Universal Universal Home Assistant {self.intent_type} intent"
+            or f"Execute __HA_KEEP__ {self.intent_type} intent"
         )
         self.extra_slots = None
         if not (slot_schema := intent_handler.slot_schema):
@@ -401,7 +401,7 @@ class IntentTool(Tool):
 
     @override
     async def async_call(
-        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Handle the intent."""
         slots = {
@@ -470,7 +470,7 @@ class NamespacedTool(Tool):
 
     @override
     async def async_call(
-        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult | JsonObjectType:
         """Handle the intent."""
         return await self.tool.async_call(
@@ -733,7 +733,7 @@ def selector_serializer(schema: Any) -> Any:  # noqa: C901
 
 
 def _get_cached_action_parameters(
-    hass: UniversalAssistant, domain: str, action: str
+    hass: __HAC_KEEP__, domain: str, action: str
 ) -> tuple[str | None, probatio.Schema]:
     """Get action description and schema."""
     description = None
@@ -799,7 +799,7 @@ class ActionTool(Tool):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         domain: str,
         action: str,
     ) -> None:
@@ -820,7 +820,7 @@ class ActionTool(Tool):
 
     @override
     async def async_call(
-        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Call the action."""
 

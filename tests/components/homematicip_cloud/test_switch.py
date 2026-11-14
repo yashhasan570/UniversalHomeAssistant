@@ -6,14 +6,14 @@ from universalassistant.components.homematicip_cloud.entity import (
     ATTR_GROUP_MEMBER_UNREACHABLE,
 )
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .helper import HomeFactory, async_manipulate_test_data, get_and_check_entity_basics
 
 
 async def test_hmip_switch(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipSwitch."""
     entity_id = "switch.schrank"
@@ -52,7 +52,7 @@ async def test_hmip_switch(
 
 
 async def test_hmip_switch_on_a_sensor_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
     carbon_dioxide_sensor_device_data: dict[str, Any],
@@ -80,7 +80,7 @@ async def test_hmip_switch_on_a_sensor_device(
 
 
 async def test_hmip_switch_input(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipSwitch."""
     entity_id = "switch.wohnzimmer_beleuchtung"
@@ -119,7 +119,7 @@ async def test_hmip_switch_input(
 
 
 async def test_hmip_switch_measuring(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipSwitchMeasuring."""
     entity_id = "switch.pc"
@@ -159,7 +159,7 @@ async def test_hmip_switch_measuring(
 
 
 async def test_hmip_group_switch(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipGroupSwitch."""
     entity_id = "switch.strom_group"
@@ -201,7 +201,7 @@ async def test_hmip_group_switch(
 
 
 async def test_hmip_multi_switch(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipMultiSwitch."""
     entity_id = "switch.jalousien_1_kizi_2_schlazi_channel1"
@@ -256,7 +256,7 @@ async def test_hmip_multi_switch(
 
 
 async def test_hmip_wired_multi_switch(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipMultiSwitch."""
     entity_id = "switch.wired_schaltaktor_8_fach_fernseher_wohnzimmer"
@@ -297,7 +297,7 @@ async def test_hmip_wired_multi_switch(
 
 
 async def test_hmip_status_board_switch(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipMultiSwitch with StatusBoard8."""
     entity_id = "switch.status_board_led_1"

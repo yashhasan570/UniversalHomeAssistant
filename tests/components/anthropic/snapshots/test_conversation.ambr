@@ -321,10 +321,10 @@
   list([
     dict({
       'content': '''
-        You are a voice assistant for Universal Universal Home Assistant.
+        You are a voice assistant for __HA_KEEP__.
         Answer questions about the world truthfully.
         Respond simply and to the point in plain text.
-        Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+        Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
       ''',
       'created': HAFakeDatetime(2024, 5, 24, 12, 0, tzinfo=datetime.timezone.utc),
       'role': 'system',
@@ -381,10 +381,10 @@
           'type': 'ephemeral',
         }),
         'text': '''
-          You are a voice assistant for Universal Universal Home Assistant.
+          You are a voice assistant for __HA_KEEP__.
           Answer questions about the world truthfully.
           Respond simply and to the point in plain text.
-          Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+          Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
         ''',
         'type': 'text',
       }),
@@ -398,10 +398,10 @@
   list([
     dict({
       'content': '''
-        You are a voice assistant for Universal Universal Home Assistant.
+        You are a voice assistant for __HA_KEEP__.
         Answer questions about the world truthfully.
         Respond simply and to the point in plain text.
-        Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+        Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
       ''',
       'created': HAFakeDatetime(2024, 5, 24, 12, 0, tzinfo=datetime.timezone.utc),
       'role': 'system',
@@ -458,10 +458,10 @@
           'type': 'ephemeral',
         }),
         'text': '''
-          You are a voice assistant for Universal Universal Home Assistant.
+          You are a voice assistant for __HA_KEEP__.
           Answer questions about the world truthfully.
           Respond simply and to the point in plain text.
-          Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+          Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
         ''',
         'type': 'text',
       }),
@@ -475,10 +475,10 @@
   list([
     dict({
       'content': '''
-        You are a voice assistant for Universal Universal Home Assistant.
+        You are a voice assistant for __HA_KEEP__.
         Answer questions about the world truthfully.
         Respond simply and to the point in plain text.
-        Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+        Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
       ''',
       'created': HAFakeDatetime(2024, 5, 24, 12, 0, tzinfo=datetime.timezone.utc),
       'role': 'system',
@@ -535,10 +535,10 @@
           'type': 'ephemeral',
         }),
         'text': '''
-          You are a voice assistant for Universal Universal Home Assistant.
+          You are a voice assistant for __HA_KEEP__.
           Answer questions about the world truthfully.
           Respond simply and to the point in plain text.
-          Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+          Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
         ''',
         'type': 'text',
       }),
@@ -552,10 +552,10 @@
   list([
     dict({
       'content': '''
-        You are a voice assistant for Universal Universal Home Assistant.
+        You are a voice assistant for __HA_KEEP__.
         Answer questions about the world truthfully.
         Respond simply and to the point in plain text.
-        Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+        Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
       ''',
       'created': HAFakeDatetime(2024, 5, 24, 12, 0, tzinfo=datetime.timezone.utc),
       'role': 'system',
@@ -612,10 +612,10 @@
           'type': 'ephemeral',
         }),
         'text': '''
-          You are a voice assistant for Universal Universal Home Assistant.
+          You are a voice assistant for __HA_KEEP__.
           Answer questions about the world truthfully.
           Respond simply and to the point in plain text.
-          Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+          Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
         ''',
         'type': 'text',
       }),
@@ -629,10 +629,10 @@
   list([
     dict({
       'content': '''
-        You are a voice assistant for Universal Universal Home Assistant.
+        You are a voice assistant for __HA_KEEP__.
         Answer questions about the world truthfully.
         Respond simply and to the point in plain text.
-        Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+        Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
       ''',
       'created': HAFakeDatetime(2024, 5, 24, 12, 0, tzinfo=datetime.timezone.utc),
       'role': 'system',
@@ -686,10 +686,10 @@
           'type': 'ephemeral',
         }),
         'text': '''
-          You are a voice assistant for Universal Universal Home Assistant.
+          You are a voice assistant for __HA_KEEP__.
           Answer questions about the world truthfully.
           Respond simply and to the point in plain text.
-          Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+          Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
         ''',
         'type': 'text',
       }),
@@ -703,10 +703,10 @@
   list([
     dict({
       'content': '''
-        You are a voice assistant for Universal Universal Home Assistant.
+        You are a voice assistant for __HA_KEEP__.
         Answer questions about the world truthfully.
         Respond simply and to the point in plain text.
-        Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+        Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
       ''',
       'created': HAFakeDatetime(2024, 5, 24, 12, 0, tzinfo=datetime.timezone.utc),
       'role': 'system',
@@ -763,10 +763,10 @@
           'type': 'ephemeral',
         }),
         'text': '''
-          You are a voice assistant for Universal Universal Home Assistant.
+          You are a voice assistant for __HA_KEEP__.
           Answer questions about the world truthfully.
           Respond simply and to the point in plain text.
-          Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+          Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
         ''',
         'type': 'text',
       }),
@@ -792,7 +792,7 @@
         'content': list([
           dict({
             'signature': 'ErUBCkYIARgCIkCYXaVNJShe3A86Hp7XUzh9YsCYBbJTbQsrklTAPtJ2sP/NoB6tSzpK/nTL6CjSo2R6n0KNBIg5MH6asM2R/kmaEgyB/X1FtZq5OQAC7jUaDEPWCdcwGQ4RaBy5wiIwmRxExIlDhoY6tILoVPnOExkC/0igZxHEwxK8RU/fmw0b+o+TwAarzUitwzbo21E5Kh3pa3I6yqVROf1t2F8rFocNUeCegsWV/ytwYV+ayA==',
-            'thinking': 'The user has just greeted me with "Hi". This is a simple greeting and doesn\'t require any Universal Universal Home Assistant function calls. I should respond with a friendly greeting and let them know I\'m available to help with their smart home.',
+            'thinking': 'The user has just greeted me with "Hi". This is a simple greeting and doesn\'t require any __HA_KEEP__ function calls. I should respond with a friendly greeting and let them know I\'m available to help with their smart home.',
             'type': 'thinking',
           }),
           dict({
@@ -814,10 +814,10 @@
           'type': 'ephemeral',
         }),
         'text': '''
-          You are a voice assistant for Universal Universal Home Assistant.
+          You are a voice assistant for __HA_KEEP__.
           Answer questions about the world truthfully.
           Respond simply and to the point in plain text.
-          Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+          Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
         ''',
         'type': 'text',
       }),
@@ -845,7 +845,7 @@
         'content': list([
           dict({
             'signature': 'ErUBCkYIARgCIkCYXaVNJShe3A86Hp7XUzh9YsCYBbJTbQsrklTAPtJ2sP/NoB6tSzpK/nTL6CjSo2R6n0KNBIg5MH6asM2R/kmaEgyB/X1FtZq5OQAC7jUaDEPWCdcwGQ4RaBy5wiIwmRxExIlDhoY6tILoVPnOExkC/0igZxHEwxK8RU/fmw0b+o+TwAarzUitwzbo21E5Kh3pa3I6yqVROf1t2F8rFocNUeCegsWV/ytwYV+ayA==',
-            'thinking': 'The user has just greeted me with "Hi". This is a simple greeting and doesn\'t require any Universal Universal Home Assistant function calls. I should respond with a friendly greeting and let them know I\'m available to help with their smart home.',
+            'thinking': 'The user has just greeted me with "Hi". This is a simple greeting and doesn\'t require any __HA_KEEP__ function calls. I should respond with a friendly greeting and let them know I\'m available to help with their smart home.',
             'type': 'thinking',
           }),
           dict({
@@ -867,10 +867,10 @@
           'type': 'ephemeral',
         }),
         'text': '''
-          You are a voice assistant for Universal Universal Home Assistant.
+          You are a voice assistant for __HA_KEEP__.
           Answer questions about the world truthfully.
           Respond simply and to the point in plain text.
-          Only if the user wants to control a device, tell them to expose entities to their voice assistant in Universal Universal Home Assistant.
+          Only if the user wants to control a device, tell them to expose entities to their voice assistant in __HA_KEEP__.
         ''',
         'type': 'text',
       }),
@@ -886,7 +886,7 @@
   list([
     dict({
       'content': '''
-        You are a voice assistant for Universal Universal Home Assistant.
+        You are a voice assistant for __HA_KEEP__.
         Answer questions about the world truthfully.
         Respond simply and to the point in plain text.
         
@@ -1263,12 +1263,12 @@
             dict({
               'cited_text': 'This release iterates on some of the features we introduced in the last couple of releases, but also...',
               'encrypted_index': 'AAA==',
-              'title': 'Universal Universal Home Assistant Release',
+              'title': '__HA_KEEP__ Release',
               'type': 'web_search_result_location',
               'url': 'https://www.example.com/todays-news',
             }),
           ]),
-          'text': 'New Universal Universal Home Assistant release',
+          'text': 'New __HA_KEEP__ release',
           'type': 'text',
         }),
         dict({
@@ -1321,14 +1321,14 @@
 # name: test_history_conversion[web_fetch_citations]
   list([
     dict({
-      'content': "What's new in Universal Universal Home Assistant?",
+      'content': "What's new in __HA_KEEP__?",
       'role': 'user',
     }),
     dict({
       'content': list([
         dict({
           'signature': 'ErU/V+ayA==',
-          'thinking': 'I need to use the web_fetch tool to fetch the latest release notes from the Universal Universal Home Assistant website.',
+          'thinking': 'I need to use the web_fetch tool to fetch the latest release notes from the __HA_KEEP__ website.',
           'type': 'thinking',
         }),
         dict({
@@ -1351,7 +1351,7 @@
               }),
               'source': dict({
                 'data': '''
-                  Universal Universal Home Assistant new version is out!
+                  __HA_KEEP__ new version is out!
                   Many new features.
                   Anthropic integration now supports web fetch tool.
                   Enjoy the release!
@@ -1359,7 +1359,7 @@
                 'media_type': 'text/plain',
                 'type': 'text',
               }),
-              'title': 'Latest Universal Universal Home Assistant Release Notes',
+              'title': 'Latest __HA_KEEP__ Release Notes',
               'type': 'document',
             }),
             'retrieved_at': '2026-04-04T10:30:00Z',
@@ -1382,7 +1382,7 @@
             dict({
               'cited_text': 'Anthropic integration now supports web fetch tool.',
               'document_index': 0,
-              'document_title': 'Latest Universal Universal Home Assistant Release Notes',
+              'document_title': 'Latest __HA_KEEP__ Release Notes',
               'end_char_index': 105,
               'start_char_index': 56,
               'type': 'char_location',
@@ -3012,7 +3012,7 @@
   list([
     dict({
       'attachments': None,
-      'content': "What's new in Universal Universal Home Assistant? Please check on https://www.universalassistant.io/latest-release-notes/",
+      'content': "What's new in __HA_KEEP__? Please check on https://www.universalassistant.io/latest-release-notes/",
       'created': HAFakeDatetime(2025, 10, 31, 12, 0, tzinfo=datetime.timezone.utc),
       'role': 'user',
     }),
@@ -3052,7 +3052,7 @@
             }),
             'source': dict({
               'data': '''
-                Universal Universal Home Assistant new version is out!
+                __HA_KEEP__ new version is out!
                 Many new features.
                 Anthropic integration now supports web fetch tool.
                 Enjoy the release!
@@ -3060,7 +3060,7 @@
               'media_type': 'text/plain',
               'type': 'text',
             }),
-            'title': 'Latest Universal Universal Home Assistant Release Notes',
+            'title': 'Latest __HA_KEEP__ Release Notes',
             'type': 'document',
           }),
           'retrieved_at': '2025-10-31T12:00:00.637242Z',
@@ -3107,7 +3107,7 @@
               dict({
                 'cited_text': 'Anthropic integration now supports web fetch tool.',
                 'document_index': 0,
-                'document_title': 'Latest Universal Universal Home Assistant Release Notes',
+                'document_title': 'Latest __HA_KEEP__ Release Notes',
                 'end_char_index': 104,
                 'start_char_index': 54,
                 'type': 'char_location',
@@ -3131,7 +3131,7 @@
 # name: test_web_fetch.1
   list([
     dict({
-      'content': "What's new in Universal Universal Home Assistant? Please check on https://www.universalassistant.io/latest-release-notes/",
+      'content': "What's new in __HA_KEEP__? Please check on https://www.universalassistant.io/latest-release-notes/",
       'role': 'user',
     }),
     dict({
@@ -3161,7 +3161,7 @@
               }),
               'source': dict({
                 'data': '''
-                  Universal Universal Home Assistant new version is out!
+                  __HA_KEEP__ new version is out!
                   Many new features.
                   Anthropic integration now supports web fetch tool.
                   Enjoy the release!
@@ -3169,7 +3169,7 @@
                 'media_type': 'text/plain',
                 'type': 'text',
               }),
-              'title': 'Latest Universal Universal Home Assistant Release Notes',
+              'title': 'Latest __HA_KEEP__ Release Notes',
               'type': 'document',
             }),
             'retrieved_at': '2025-10-31T12:00:00.637242Z',
@@ -3203,7 +3203,7 @@
             dict({
               'cited_text': 'Anthropic integration now supports web fetch tool.',
               'document_index': 0,
-              'document_title': 'Latest Universal Universal Home Assistant Release Notes',
+              'document_title': 'Latest __HA_KEEP__ Release Notes',
               'end_char_index': 104,
               'start_char_index': 54,
               'type': 'char_location',
@@ -3228,7 +3228,7 @@
   list([
     dict({
       'attachments': None,
-      'content': "What's new in Universal Universal Home Assistant?",
+      'content': "What's new in __HA_KEEP__?",
       'created': HAFakeDatetime(2025, 10, 31, 12, 0, tzinfo=datetime.timezone.utc),
       'role': 'user',
     }),
@@ -3292,7 +3292,7 @@
 # name: test_web_fetch_error.1
   list([
     dict({
-      'content': "What's new in Universal Universal Home Assistant?",
+      'content': "What's new in __HA_KEEP__?",
       'role': 'user',
     }),
     dict({
@@ -3414,7 +3414,7 @@
     dict({
       'agent_id': 'conversation.claude_conversation',
       'content': '''
-        1. New Universal Universal Home Assistant release
+        1. New __HA_KEEP__ release
         2. Something incredible happened
         Those are the main headlines making news today.
       ''',
@@ -3426,7 +3426,7 @@
               dict({
                 'cited_text': 'This release iterates on some of the features we introduced in the last couple of releases, but also...',
                 'encrypted_index': 'AAA==',
-                'title': 'Universal Universal Home Assistant Release',
+                'title': '__HA_KEEP__ Release',
                 'type': 'web_search_result_location',
                 'url': 'https://www.example.com/todays-news',
               }),
@@ -3532,12 +3532,12 @@
             dict({
               'cited_text': 'This release iterates on some of the features we introduced in the last couple of releases, but also...',
               'encrypted_index': 'AAA==',
-              'title': 'Universal Universal Home Assistant Release',
+              'title': '__HA_KEEP__ Release',
               'type': 'web_search_result_location',
               'url': 'https://www.example.com/todays-news',
             }),
           ]),
-          'text': 'New Universal Universal Home Assistant release',
+          'text': 'New __HA_KEEP__ release',
           'type': 'text',
         }),
         dict({

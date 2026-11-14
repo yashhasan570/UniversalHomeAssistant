@@ -20,7 +20,7 @@ from pytest_universalassistant.components.common import (
 from universalassistant.components.switch import DOMAIN
 from universalassistant.components.switch.trigger import TRIGGERS
 from universalassistant.const import CONF_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TRIGGER_STATES = [
     *parametrize_trigger_states(
@@ -37,13 +37,13 @@ TRIGGER_STATES = [
 
 
 @pytest.fixture
-async def target_switches(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_switches(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple switch entities associated with different targets."""
     return await target_entities(hass, DOMAIN)
 
 
 @pytest.fixture
-async def target_input_booleans(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_input_booleans(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple input_boolean entities associated with different targets."""
     return await target_entities(hass, "input_boolean")
 
@@ -62,7 +62,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_switch_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -95,7 +95,7 @@ def test_trigger_target_support() -> None:
     TRIGGER_STATES,
 )
 async def test_switch_state_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_switches: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -126,7 +126,7 @@ async def test_switch_state_trigger_behavior_each(
     TRIGGER_STATES,
 )
 async def test_switch_state_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_switches: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -157,7 +157,7 @@ async def test_switch_state_trigger_behavior_first(
     TRIGGER_STATES,
 )
 async def test_switch_state_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_switches: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -191,7 +191,7 @@ async def test_switch_state_trigger_behavior_all(
     TRIGGER_STATES,
 )
 async def test_input_boolean_state_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_input_booleans: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -222,7 +222,7 @@ async def test_input_boolean_state_trigger_behavior_each(
     TRIGGER_STATES,
 )
 async def test_input_boolean_state_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_input_booleans: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -253,7 +253,7 @@ async def test_input_boolean_state_trigger_behavior_first(
     TRIGGER_STATES,
 )
 async def test_input_boolean_state_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_input_booleans: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -279,7 +279,7 @@ async def test_input_boolean_state_trigger_behavior_all(
 
 
 async def test_switch_trigger_fires_for_both_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the switch trigger fires for both switch and input_boolean entities."""
     calls: list[str] = []

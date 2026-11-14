@@ -13,7 +13,7 @@ from universalassistant.components.vitesy.const import DOMAIN
 from universalassistant.components.vitesy.coordinator import UPDATE_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -21,7 +21,7 @@ from .conftest import DEVICE_ID
 
 
 async def test_setup_and_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -35,7 +35,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_setup_auth_failure(
 
 
 async def test_setup_connection_failure_is_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_setup_connection_failure_is_retried(
 
 
 async def test_update_failure_marks_entities_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -84,7 +84,7 @@ async def test_update_failure_marks_entities_unavailable(
 
 @pytest.mark.parametrize("method", ["get_all_devices", "get_mode_status"])
 async def test_update_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -106,7 +106,7 @@ async def test_update_auth_failure(
 
 
 async def test_removed_device_is_removed_from_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],
@@ -114,7 +114,7 @@ async def test_removed_device_is_removed_from_registry(
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
-    """Test a device removed from the account is removed from Universal Universal Home Assistant."""
+    """Test a device removed from the account is removed from __HA_KEEP__."""
     removed_device_id = "80:65:99:34:F9:B5"
     mock_devices[removed_device_id] = replace(
         mock_devices[DEVICE_ID], device_id=removed_device_id, name="Living room Shelfy"
@@ -140,7 +140,7 @@ async def test_removed_device_is_removed_from_registry(
 
 
 async def test_new_device_is_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],
@@ -172,7 +172,7 @@ async def test_new_device_is_added(
 
 
 async def test_readded_device_is_added_again(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],

@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory, UnitOfDataRate
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -147,7 +147,7 @@ SENSOR_TYPES: Final = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VodafoneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

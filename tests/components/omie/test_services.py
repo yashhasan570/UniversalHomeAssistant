@@ -11,8 +11,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.omie.const import DOMAIN
 from universalassistant.components.omie.services import OMIEService, OMIEServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from . import setup_integration, spot_price_fetcher
 
@@ -29,7 +29,7 @@ TEST_DST_DATE = "2025-10-26"
     ],
 )
 async def test_get_prices_for_date(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,
     mock_omie_results_oct15: OMIEResults,
@@ -54,7 +54,7 @@ async def test_get_prices_for_date(
 
 
 async def test_get_prices_for_date_default_country(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,
     mock_omie_results_oct15: OMIEResults,
@@ -77,7 +77,7 @@ async def test_get_prices_for_date_default_country(
 
 
 async def test_get_prices_for_date_dst_fall_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,
     mock_omie_results_oct26_dst: OMIEResults,
@@ -129,30 +129,30 @@ async def test_get_prices_for_date_dst_fall_back(
             aiohttp.ClientResponseError(
                 request_info=MagicMock(), history=(), status=500
             ),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "cannot_connect",
             id="server_error",
         ),
         pytest.param(
             aiohttp.ClientError("Connection error"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "cannot_connect",
             id="client_error",
         ),
         pytest.param(
             TimeoutError(),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "cannot_connect",
             id="timeout",
         ),
     ],
 )
 async def test_get_prices_for_date_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,
     side_effect: Exception,
-    expected_exception: type[UniversalAssistantError],
+    expected_exception: type[__HAC_KEEP__Error],
     expected_translation_key: str,
 ) -> None:
     """Test the get_prices_for_date service error handling."""
@@ -173,7 +173,7 @@ async def test_get_prices_for_date_errors(
 
 @pytest.mark.usefixtures("mock_pyomie")
 async def test_get_prices_for_date_before_market_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the get_prices_for_date service with a date before the market start."""
@@ -193,7 +193,7 @@ async def test_get_prices_for_date_before_market_start(
 
 @pytest.mark.usefixtures("mock_pyomie")
 async def test_get_prices_for_date_unloaded_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the get_prices_for_date service with no loaded config entry."""

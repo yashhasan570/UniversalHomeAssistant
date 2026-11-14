@@ -11,7 +11,7 @@ from lunatone_rest_api_client import DALIScan, Device, Devices, Info, Sensor, Se
 from lunatone_rest_api_client.models import InfoData, ScanData, ScanLineData
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -70,7 +70,7 @@ class LunatoneInfoDataUpdateCoordinator(DataUpdateCoordinator[InfoData]):
     config_entry: LunatoneConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: LunatoneConfigEntry, info_api: Info
+        self, hass: __HAC_KEEP__, config_entry: LunatoneConfigEntry, info_api: Info
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(
@@ -129,7 +129,7 @@ class LunatoneDevicesDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LunatoneConfigEntry,
         devices_api: Devices,
     ) -> None:
@@ -188,7 +188,7 @@ class LunatoneSensorsDataUpdateCoordinator(DataUpdateCoordinator[dict[int, Senso
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LunatoneConfigEntry,
         sensors_api: Sensors,
     ) -> None:
@@ -250,7 +250,7 @@ class LunatoneScanDataUpdateCoordinator(DataUpdateCoordinator[ScanData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LunatoneConfigEntry,
         dali_scan_api: DALIScan,
     ) -> None:

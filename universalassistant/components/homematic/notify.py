@@ -9,7 +9,7 @@ from universalassistant.components.notify import (
     PLATFORM_SCHEMA as NOTIFY_PLATFORM_SCHEMA,
     BaseNotificationService,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, template as template_helper
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -36,7 +36,7 @@ PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
 
 
 def get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> HomematicNotificationService:

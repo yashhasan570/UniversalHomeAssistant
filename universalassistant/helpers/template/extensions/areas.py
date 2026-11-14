@@ -1,4 +1,4 @@
-"""Area functions for Universal Universal Home Assistant templates."""
+"""Area functions for __HA_KEEP__ templates."""
 
 from collections.abc import Iterable
 from typing import TYPE_CHECKING

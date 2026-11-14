@@ -15,7 +15,7 @@ from meater.MeaterApi import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -32,7 +32,7 @@ class MeaterCoordinator(DataUpdateCoordinator[dict[str, MeaterProbe]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: MeaterConfigEntry,
     ) -> None:
         """Initialize the Meater Coordinator."""

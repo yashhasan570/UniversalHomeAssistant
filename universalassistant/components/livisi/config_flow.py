@@ -1,4 +1,4 @@
-"""Config flow for Livisi Universal Universal Home Assistant."""
+"""Config flow for Livisi __HA_KEEP__."""
 
 from typing import override
 

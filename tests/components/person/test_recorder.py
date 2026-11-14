@@ -9,14 +9,14 @@ from pytest_universalassistant.components.recorder.common import async_wait_reco
 from universalassistant.components.person import DOMAIN
 from universalassistant.components.person.const import PersonEntityStateAttribute
 from universalassistant.components.recorder.history import get_significant_states
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 @pytest.mark.usefixtures("recorder_mock", "enable_custom_integrations")
 async def test_exclude_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     storage_setup,
 ) -> None:

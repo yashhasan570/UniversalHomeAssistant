@@ -7,8 +7,8 @@ from typing import Any, override
 from fullykiosk import FullyKiosk, FullyKioskError
 
 from universalassistant.components.image import ImageEntity, ImageEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -33,7 +33,7 @@ IMAGES: tuple[FullyImageEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FullyKioskConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -67,7 +67,7 @@ class FullyImageEntity(FullyKioskEntity, ImageEntity):
         try:
             image_bytes = await self.entity_description.image_fn(self.coordinator.fully)
         except FullyKioskError as err:
-            raise UniversalAssistantError(err) from err
+            raise __HAC_KEEP__Error(err) from err
         else:
             self._attr_image_last_updated = dt_util.utcnow()
             return image_bytes

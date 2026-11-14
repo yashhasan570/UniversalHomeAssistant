@@ -13,7 +13,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ADDONS_COORDINATOR, MAIN_COORDINATOR
@@ -60,7 +60,7 @@ MOUNT_ENTITY_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

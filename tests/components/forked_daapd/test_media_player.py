@@ -70,7 +70,7 @@ from universalassistant.const import (
     STATE_PLAYING,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant, ServiceResponse
+from universalassistant.core import __HAC_KEEP__, ServiceResponse
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -307,7 +307,7 @@ async def get_request_return_values_fixture() -> dict[str, Any]:
 
 @pytest.fixture(name="mock_api_object")
 async def mock_api_object_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     get_request_return_values: dict[str, Any],
 ) -> Mock:
@@ -354,7 +354,7 @@ async def mock_api_object_fixture(
 
 @pytest.mark.usefixtures("mock_api_object")
 async def test_unload_config_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test the player is set unavailable when the config entry is unloaded."""
     assert hass.states.get(TEST_MASTER_ENTITY_NAME)
@@ -365,7 +365,7 @@ async def test_unload_config_entry(
 
 
 @pytest.mark.usefixtures("mock_api_object")
-def test_master_state(hass: UniversalAssistant) -> None:
+def test_master_state(hass: __HAC_KEEP__) -> None:
     """Test master state attributes."""
     state = hass.states.get(TEST_MASTER_ENTITY_NAME)
     assert state.state == STATE_PAUSED
@@ -390,7 +390,7 @@ def test_master_state(hass: UniversalAssistant) -> None:
     [pytest.param(0, id="empty"), pytest.param(1, id="inconsistent-count")],
 )
 async def test_empty_queue_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_object: Mock,
     get_request_return_values: dict[str, Any],
     queue_count: int,
@@ -423,7 +423,7 @@ async def test_empty_queue_updates(
 
 
 async def test_no_update_when_get_request_returns_none(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_api_object: Mock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_api_object: Mock
 ) -> None:
     """Test when get request returns None."""
 
@@ -449,7 +449,7 @@ async def test_no_update_when_get_request_returns_none(
 
 
 async def _service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_name: str,
     service: str,
     additional_service_data: dict[str, Any] | None = None,
@@ -465,7 +465,7 @@ async def _service_call(
     )
 
 
-async def test_zone(hass: UniversalAssistant, mock_api_object: Mock) -> None:
+async def test_zone(hass: __HAC_KEEP__, mock_api_object: Mock) -> None:
     """Test zone attributes and methods."""
     zone_entity_name = TEST_ZONE_ENTITY_NAMES[0]
     state = hass.states.get(zone_entity_name)
@@ -504,7 +504,7 @@ async def test_zone(hass: UniversalAssistant, mock_api_object: Mock) -> None:
     mock_api_object.change_output.assert_any_call(output_id, selected=True)
 
 
-async def test_join_players(hass: UniversalAssistant, mock_api_object: Mock) -> None:
+async def test_join_players(hass: __HAC_KEEP__, mock_api_object: Mock) -> None:
     """Test joining players enables the corresponding outputs."""
     await _service_call(
         hass,
@@ -518,7 +518,7 @@ async def test_join_players(hass: UniversalAssistant, mock_api_object: Mock) -> 
 
 
 async def test_join_players_unknown_entity(
-    hass: UniversalAssistant, mock_api_object: Mock
+    hass: __HAC_KEEP__, mock_api_object: Mock
 ) -> None:
     """Test joining an unknown entity raises."""
     with pytest.raises(
@@ -534,7 +534,7 @@ async def test_join_players_unknown_entity(
 
 
 async def test_join_players_foreign_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_object: Mock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -551,7 +551,7 @@ async def test_join_players_foreign_entity(
 
 
 async def test_join_players_stale_output(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_object: Mock,
     get_request_return_values: dict[str, Any],
 ) -> None:
@@ -570,14 +570,14 @@ async def test_join_players_stale_output(
     mock_api_object.change_output.assert_not_called()
 
 
-async def test_unjoin_players(hass: UniversalAssistant, mock_api_object: Mock) -> None:
+async def test_unjoin_players(hass: __HAC_KEEP__, mock_api_object: Mock) -> None:
     """Test unjoining disables all outputs."""
     await _service_call(hass, TEST_MASTER_ENTITY_NAME, SERVICE_UNJOIN)
     mock_api_object.set_enabled_outputs.assert_called_once_with([])
 
 
 @pytest.mark.usefixtures("mock_api_object")
-def test_group_members(hass: UniversalAssistant) -> None:
+def test_group_members(hass: __HAC_KEEP__) -> None:
     """Test group_members lists the master and all selected outputs."""
     state = hass.states.get(TEST_MASTER_ENTITY_NAME)
     assert state.attributes[ATTR_GROUP_MEMBERS] == [
@@ -587,7 +587,7 @@ def test_group_members(hass: UniversalAssistant) -> None:
     ]
 
 
-async def test_last_outputs_master(hass: UniversalAssistant, mock_api_object: Mock) -> None:
+async def test_last_outputs_master(hass: __HAC_KEEP__, mock_api_object: Mock) -> None:
     """Test restoration of _last_outputs."""
     # Test turning on sends API call
     await _service_call(hass, TEST_MASTER_ENTITY_NAME, SERVICE_TURN_ON)
@@ -604,7 +604,7 @@ async def test_last_outputs_master(hass: UniversalAssistant, mock_api_object: Mo
 
 
 async def test_bunch_of_stuff_master(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_request_return_values: dict[str, Any],
     mock_api_object: Mock,
 ) -> None:
@@ -691,7 +691,7 @@ async def test_bunch_of_stuff_master(
 
 
 @pytest.mark.usefixtures("mock_api_object")
-async def test_async_play_media_from_paused(hass: UniversalAssistant) -> None:
+async def test_async_play_media_from_paused(hass: __HAC_KEEP__) -> None:
     """Test async play media from paused."""
     initial_state = hass.states.get(TEST_MASTER_ENTITY_NAME)
     await _service_call(
@@ -709,7 +709,7 @@ async def test_async_play_media_from_paused(hass: UniversalAssistant) -> None:
 
 
 async def test_async_play_media_announcement_from_stopped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_request_return_values: dict[str, Any],
     mock_api_object: Mock,
 ) -> None:
@@ -738,7 +738,7 @@ async def test_async_play_media_announcement_from_stopped(
 
 
 @pytest.mark.usefixtures("mock_api_object")
-async def test_async_play_media_unsupported(hass: UniversalAssistant) -> None:
+async def test_async_play_media_unsupported(hass: __HAC_KEEP__) -> None:
     """Test async play media on unsupported media type."""
     initial_state = hass.states.get(TEST_MASTER_ENTITY_NAME)
     await _service_call(
@@ -755,7 +755,7 @@ async def test_async_play_media_unsupported(hass: UniversalAssistant) -> None:
 
 
 async def test_async_play_media_announcement_tts_timeout(
-    hass: UniversalAssistant, mock_api_object: Mock
+    hass: __HAC_KEEP__, mock_api_object: Mock
 ) -> None:
     """Test async play media announcement with TTS timeout."""
     mock_api_object.add_to_queue.side_effect = None
@@ -777,7 +777,7 @@ async def test_async_play_media_announcement_tts_timeout(
 
 
 async def test_use_pipe_control_with_no_api(
-    hass: UniversalAssistant, mock_api_object: Mock
+    hass: __HAC_KEEP__, mock_api_object: Mock
 ) -> None:
     """Test using pipe control with no api set."""
     await _service_call(
@@ -791,7 +791,7 @@ async def test_use_pipe_control_with_no_api(
 
 
 @pytest.mark.usefixtures("mock_api_object")
-async def test_clear_source(hass: UniversalAssistant) -> None:
+async def test_clear_source(hass: __HAC_KEEP__) -> None:
     """Test changing source to clear."""
     await _service_call(
         hass,
@@ -805,7 +805,7 @@ async def test_clear_source(hass: UniversalAssistant) -> None:
 
 @pytest.fixture(name="pipe_control_api_object")
 async def pipe_control_api_object_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     get_request_return_values: dict[str, Any],
     mock_api_object: Mock,
@@ -839,7 +839,7 @@ async def pipe_control_api_object_fixture(
 
 
 async def test_librespot_java_stuff(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_request_return_values: dict[str, Any],
     mock_api_object: Mock,
     pipe_control_api_object: Mock,
@@ -878,7 +878,7 @@ async def test_librespot_java_stuff(
 
 
 @pytest.mark.usefixtures("pipe_control_api_object")
-async def test_librespot_java_play_announcement(hass: UniversalAssistant) -> None:
+async def test_librespot_java_play_announcement(hass: __HAC_KEEP__) -> None:
     """Test play announcement with librespot-java pipe."""
     initial_state = hass.states.get(TEST_MASTER_ENTITY_NAME)
     await _service_call(
@@ -897,7 +897,7 @@ async def test_librespot_java_play_announcement(hass: UniversalAssistant) -> Non
 
 
 async def test_librespot_java_play_media_pause_timeout(
-    hass: UniversalAssistant, pipe_control_api_object: Mock
+    hass: __HAC_KEEP__, pipe_control_api_object: Mock
 ) -> None:
     """Test play media with librespot-java pipe."""
     # test media play with pause timeout
@@ -920,7 +920,7 @@ async def test_librespot_java_play_media_pause_timeout(
         assert state.last_updated > initial_state.last_updated
 
 
-async def test_unsupported_update(hass: UniversalAssistant, mock_api_object: Mock) -> None:
+async def test_unsupported_update(hass: __HAC_KEEP__, mock_api_object: Mock) -> None:
     """Test unsupported update type."""
     last_updated = hass.states.get(TEST_MASTER_ENTITY_NAME).last_updated
     updater_update = mock_api_object.start_websocket_handler.call_args[0][2]
@@ -930,7 +930,7 @@ async def test_unsupported_update(hass: UniversalAssistant, mock_api_object: Moc
 
 
 async def test_invalid_websocket_port(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test invalid websocket port on async_init."""
     with patch(
@@ -944,7 +944,7 @@ async def test_invalid_websocket_port(
         assert hass.states.get(TEST_MASTER_ENTITY_NAME).state == STATE_UNAVAILABLE
 
 
-async def test_websocket_disconnect(hass: UniversalAssistant, mock_api_object: Mock) -> None:
+async def test_websocket_disconnect(hass: __HAC_KEEP__, mock_api_object: Mock) -> None:
     """Test websocket disconnection."""
     assert hass.states.get(TEST_MASTER_ENTITY_NAME).state != STATE_UNAVAILABLE
     assert hass.states.get(TEST_ZONE_ENTITY_NAMES[0]).state != STATE_UNAVAILABLE
@@ -956,7 +956,7 @@ async def test_websocket_disconnect(hass: UniversalAssistant, mock_api_object: M
 
 
 async def test_async_play_media_enqueue(
-    hass: UniversalAssistant, mock_api_object: Mock
+    hass: __HAC_KEEP__, mock_api_object: Mock
 ) -> None:
     """Test async play media with different enqueue options."""
     initial_state = hass.states.get(TEST_MASTER_ENTITY_NAME)
@@ -1033,7 +1033,7 @@ async def test_async_play_media_enqueue(
     )
 
 
-async def test_play_owntone_media(hass: UniversalAssistant, mock_api_object: Mock) -> None:
+async def test_play_owntone_media(hass: __HAC_KEEP__, mock_api_object: Mock) -> None:
     """Test async play media with an owntone source."""
     initial_state = hass.states.get(TEST_MASTER_ENTITY_NAME)
     await _service_call(
@@ -1059,7 +1059,7 @@ async def test_play_owntone_media(hass: UniversalAssistant, mock_api_object: Moc
     )
 
 
-async def test_play_spotify_media(hass: UniversalAssistant, mock_api_object: Mock) -> None:
+async def test_play_spotify_media(hass: __HAC_KEEP__, mock_api_object: Mock) -> None:
     """Test async play media with a spotify source."""
     initial_state = hass.states.get(TEST_MASTER_ENTITY_NAME)
     await _service_call(
@@ -1083,7 +1083,7 @@ async def test_play_spotify_media(hass: UniversalAssistant, mock_api_object: Moc
     )
 
 
-async def test_play_media_source(hass: UniversalAssistant, mock_api_object: Mock) -> None:
+async def test_play_media_source(hass: __HAC_KEEP__, mock_api_object: Mock) -> None:
     """Test async play media with a spotify source."""
     initial_state = hass.states.get(TEST_MASTER_ENTITY_NAME)
     with patch(

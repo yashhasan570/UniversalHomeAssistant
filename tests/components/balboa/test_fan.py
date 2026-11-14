@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.fan import ATTR_PERCENTAGE
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import client_update, init_integration
@@ -40,7 +40,7 @@ def mock_pump(client: MagicMock):
 
 
 async def test_fan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -52,7 +52,7 @@ async def test_fan(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_pump(hass: UniversalAssistant, client: MagicMock, mock_pump) -> None:
+async def test_pump(hass: __HAC_KEEP__, client: MagicMock, mock_pump) -> None:
     """Test spa pump."""
     await init_integration(hass)
 
@@ -88,7 +88,7 @@ async def test_pump(hass: UniversalAssistant, client: MagicMock, mock_pump) -> N
 
 
 async def test_pump_unknown_state(
-    hass: UniversalAssistant, client: MagicMock, mock_pump
+    hass: __HAC_KEEP__, client: MagicMock, mock_pump
 ) -> None:
     """Tests spa pump with unknown state."""
     await init_integration(hass)

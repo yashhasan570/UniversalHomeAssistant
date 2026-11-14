@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     HTTP_BASIC_AUTHENTICATION,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -66,7 +66,7 @@ def mock_mjpeg_requests(requests_mock: Mocker) -> Mocker:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_mjpeg_requests: Mocker
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_mjpeg_requests: Mocker
 ) -> MockConfigEntry:
     """Set up the MJPEG IP Camera integration for testing."""
     mock_config_entry.add_to_hass(hass)

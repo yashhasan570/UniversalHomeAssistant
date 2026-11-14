@@ -13,7 +13,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components import vacuum
 from universalassistant.components.ecovacs.controller import EcovacsController
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
 from .util import notify_and_wait
@@ -28,7 +28,7 @@ def platforms() -> Platform | list[Platform]:
 
 
 def _prepare_test(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entity_id: str,
 ) -> None:
@@ -73,7 +73,7 @@ def _prepare_test(
     ],
 )
 async def test_clean_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     controller: EcovacsController,
     entity_id: str,
@@ -134,7 +134,7 @@ async def test_clean_area(
 
 @pytest.mark.parametrize(("device_fixture", "entity_id"), [("qhe2o2", "vacuum.dusty")])
 async def test_clean_area_no_map(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     controller: EcovacsController,
@@ -167,7 +167,7 @@ async def test_clean_area_no_map(
 
 @pytest.mark.parametrize(("device_fixture", "entity_id"), [("qhe2o2", "vacuum.dusty")])
 async def test_clean_area_invalid_map_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     controller: EcovacsController,
@@ -230,7 +230,7 @@ async def test_clean_area_invalid_map_id(
 
 @pytest.mark.parametrize(("device_fixture", "entity_id"), [("qhe2o2", "vacuum.dusty")])
 async def test_clean_area_room_from_not_current_map(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     controller: EcovacsController,
@@ -390,7 +390,7 @@ async def test_clean_area_room_from_not_current_map(
 )
 @pytest.mark.parametrize(("device_fixture", "entity_id"), [("qhe2o2", "vacuum.dusty")])
 async def test_raise_segment_changed_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     controller: EcovacsController,
@@ -482,7 +482,7 @@ async def test_raise_segment_changed_issue(
 )
 @pytest.mark.parametrize(("device_fixture", "entity_id"), [("qhe2o2", "vacuum.dusty")])
 async def test_get_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     controller: EcovacsController,

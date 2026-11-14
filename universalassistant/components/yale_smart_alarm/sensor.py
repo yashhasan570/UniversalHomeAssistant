@@ -4,7 +4,7 @@ from typing import cast, override
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -13,7 +13,7 @@ from .entity import YaleEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: YaleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

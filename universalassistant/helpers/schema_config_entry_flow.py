@@ -16,7 +16,7 @@ from universalassistant.config_entries import (
     OptionsFlow,
     OptionsFlowWithReload,
 )
-from universalassistant.core import UniversalAssistant, callback, split_entity_id
+from universalassistant.core import __HAC_KEEP__, callback, split_entity_id
 from universalassistant.data_entry_flow import UnknownHandler
 
 from . import entity_registry as er, selector
@@ -358,7 +358,7 @@ class SchemaConfigFlowHandler(ConfigFlow, ABC):
 
     @staticmethod
     @override
-    async def async_setup_preview(hass: UniversalAssistant) -> None:
+    async def async_setup_preview(hass: __HAC_KEEP__) -> None:
         """Set up preview."""
 
     @classmethod
@@ -405,7 +405,7 @@ class SchemaConfigFlowHandler(ConfigFlow, ABC):
     @callback
     @staticmethod
     def async_options_flow_finished(
-        hass: UniversalAssistant, options: Mapping[str, Any]
+        hass: __HAC_KEEP__, options: Mapping[str, Any]
     ) -> None:
         """Take necessary actions after the options flow is finished, if needed.
 
@@ -434,9 +434,9 @@ class SchemaOptionsFlowHandler(OptionsFlow):
         self,
         config_entry: ConfigEntry,
         options_flow: Mapping[str, SchemaFlowStep],
-        async_options_flow_finished: Callable[[UniversalAssistant, Mapping[str, Any]], None]
+        async_options_flow_finished: Callable[[__HAC_KEEP__, Mapping[str, Any]], None]
         | None = None,
-        async_setup_preview: Callable[[UniversalAssistant], Coroutine[Any, Any, None]]
+        async_setup_preview: Callable[[__HAC_KEEP__], Coroutine[Any, Any, None]]
         | None = None,
     ) -> None:
         """Initialize options flow.
@@ -503,7 +503,7 @@ class SchemaOptionsFlowHandlerWithReload(
 
 @callback
 def wrapped_entity_config_entry_title(
-    hass: UniversalAssistant, entity_id_or_uuid: str
+    hass: __HAC_KEEP__, entity_id_or_uuid: str
 ) -> str:
     """Generate title for a config entry wrapping a single entity.
 

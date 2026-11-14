@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -83,7 +83,7 @@ class MockWeatherEntity(WeatherEntity):
     ],
 )
 async def test_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
     native_unit: str,
     state_unit: str,
@@ -142,7 +142,7 @@ async def test_temperature(
     ],
 )
 async def test_temperature_no_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
     native_unit: str,
     state_unit: str,
@@ -194,7 +194,7 @@ async def test_temperature_no_unit(
     ],
 )
 async def test_pressure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
     native_unit: str,
     state_unit: str,
@@ -223,7 +223,7 @@ async def test_pressure(
     [(UnitOfPressure.HPA, METRIC_SYSTEM), (UnitOfPressure.INHG, US_CUSTOMARY_SYSTEM)],
 )
 async def test_pressure_no_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
     native_unit: str,
     state_unit: str,
@@ -262,7 +262,7 @@ async def test_pressure_no_unit(
     ],
 )
 async def test_wind_speed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
     native_unit: str,
     state_unit: str,
@@ -301,7 +301,7 @@ async def test_wind_speed(
     ],
 )
 async def test_wind_gust_speed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
     native_unit: str,
     state_unit: str,
@@ -336,7 +336,7 @@ async def test_wind_gust_speed(
     ],
 )
 async def test_wind_speed_no_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
     native_unit: str,
     state_unit: str,
@@ -360,7 +360,7 @@ async def test_wind_speed_no_unit(
 
 
 async def test_wind_bearing_ozone_and_cloud_coverage_and_uv_index(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
 ) -> None:
     """Test wind bearing, ozone and cloud coverage."""
@@ -386,7 +386,7 @@ async def test_wind_bearing_ozone_and_cloud_coverage_and_uv_index(
 
 
 async def test_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
 ) -> None:
     """Test humidity."""
@@ -401,7 +401,7 @@ async def test_humidity(
 
 
 async def test_custom_units(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, config_flow_fixture: None
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, config_flow_fixture: None
 ) -> None:
     """Test custom unit."""
     wind_speed_value = 5
@@ -501,7 +501,7 @@ async def test_custom_units(
     )
 
 
-async def test_backwards_compatibility_round_temperature(hass: UniversalAssistant) -> None:
+async def test_backwards_compatibility_round_temperature(hass: __HAC_KEEP__) -> None:
     """Test backward compatibility for rounding temperature."""
 
     assert round_temperature(20.3, PRECISION_HALVES) == 20.5
@@ -510,7 +510,7 @@ async def test_backwards_compatibility_round_temperature(hass: UniversalAssistan
     assert round_temperature(None, PRECISION_WHOLE) is None
 
 
-async def test_attr(hass: UniversalAssistant) -> None:
+async def test_attr(hass: __HAC_KEEP__) -> None:
     """Test the _attr attributes."""
 
     weather = MockWeatherEntity()
@@ -534,7 +534,7 @@ async def test_attr(hass: UniversalAssistant) -> None:
 
 
 async def test_precision_for_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
 ) -> None:
     """Test the precision for temperature."""
@@ -563,7 +563,7 @@ async def test_precision_for_temperature(
 
 
 async def test_forecast_twice_daily_missing_is_daytime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     config_flow_fixture: None,
 ) -> None:
@@ -611,7 +611,7 @@ async def test_forecast_twice_daily_missing_is_daytime(
     ],
 )
 async def test_get_forecast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
     forecast_type: str,
     supported_features: int,
@@ -658,7 +658,7 @@ async def test_get_forecast(
 
 
 async def test_get_forecast_no_forecast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
 ) -> None:
     """Test get forecast service."""
@@ -704,7 +704,7 @@ async def test_get_forecast_no_forecast(
     ],
 )
 async def test_get_forecast_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
     forecast_types: list[str],
     supported_features: int,
@@ -757,7 +757,7 @@ ISSUE_TRACKER = "https://blablabla.com"
 
 
 async def test_units_when_unavailable(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, config_flow_fixture: None
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, config_flow_fixture: None
 ) -> None:
     """Test the units, including custom units, are kept when unavailable."""
     set_options = {

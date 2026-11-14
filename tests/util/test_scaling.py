@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant scaling utils."""
+"""Test __HA_KEEP__ scaling utils."""
 
 import math
 

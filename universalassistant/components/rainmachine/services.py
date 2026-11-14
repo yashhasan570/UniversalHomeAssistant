@@ -11,8 +11,8 @@ from regenmaschine.errors import RainMachineError
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.typing import VolDictType
 from universalassistant.util.dt import as_timestamp, utcnow
@@ -159,7 +159,7 @@ SERVICE_RESTRICT_WATERING_SCHEMA = SERVICE_SCHEMA.extend(
 
 
 async def async_update_programs_and_zones(
-    hass: UniversalAssistant, entry: RainMachineConfigEntry
+    hass: __HAC_KEEP__, entry: RainMachineConfigEntry
 ) -> None:
     """Update program and zone DataUpdateCoordinators.
 
@@ -175,7 +175,7 @@ async def async_update_programs_and_zones(
 
 @callback
 def async_get_entry_for_service_call(
-    hass: UniversalAssistant, call: ServiceCall
+    hass: __HAC_KEEP__, call: ServiceCall
 ) -> RainMachineConfigEntry:
     """Get the controller related to a service call (by device ID)."""
     config_entry: RainMachineConfigEntry
@@ -186,7 +186,7 @@ def async_get_entry_for_service_call(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register services."""
 
     def call_with_controller(
@@ -211,7 +211,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
                 try:
                     await func(call, data.controller)
                 except RainMachineError as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="action_failed",
                         translation_placeholders={"action": call.service},

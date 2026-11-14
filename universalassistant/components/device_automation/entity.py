@@ -5,7 +5,7 @@ import probatio
 from universalassistant.components.universalassistant.triggers import state as state_trigger
 from universalassistant.components.universalassistant.triggers.state import StateTriggerArgument
 from universalassistant.const import CONF_ENTITY_ID, CONF_FOR, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
@@ -31,7 +31,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -53,7 +53,7 @@ async def async_attach_trigger(
 
 
 async def _async_get_automations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_id: str,
     automation_templates: list[dict[str, str]],
     domain: str,
@@ -83,14 +83,14 @@ async def _async_get_automations(
 
 
 async def async_get_triggers(
-    hass: UniversalAssistant, device_id: str, domain: str
+    hass: __HAC_KEEP__, device_id: str, domain: str
 ) -> list[dict[str, str]]:
     """List device triggers."""
     return await _async_get_automations(hass, device_id, ENTITY_TRIGGERS, domain)
 
 
 async def async_get_trigger_capabilities(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List trigger capabilities."""
     return {

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_VELOV_STATION
@@ -17,7 +17,7 @@ from .conftest import MOCK_VELOV_STATION
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_velov_binary_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_velov_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_velov_binary_sensor_snapshot(
     ],
 )
 async def test_velov_binary_sensor_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_velov_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
     station_status: VelovStationStatus,
@@ -65,7 +65,7 @@ async def test_velov_binary_sensor_status(
 
 
 async def test_velov_binary_sensor_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_velov_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:

@@ -17,11 +17,11 @@ from pytest_universalassistant.components.common import (
 from universalassistant.components.doorbell.trigger import TRIGGERS
 from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_events(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_events(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple event entities associated with different targets."""
     return await target_entities(hass, "event")
 
@@ -38,7 +38,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_doorbell_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -265,7 +265,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_doorbell_rang_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_events: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,

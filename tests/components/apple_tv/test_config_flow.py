@@ -17,7 +17,7 @@ from universalassistant.components.apple_tv.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -70,7 +70,7 @@ def mock_setup_entry() -> Generator[Mock]:
 
 
 @pytest.mark.usefixtures("mrp_device", "pairing")
-async def test_user_input_device_not_found(hass: UniversalAssistant) -> None:
+async def test_user_input_device_not_found(hass: __HAC_KEEP__) -> None:
     """Test when user specifies a non-existing device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -104,7 +104,7 @@ async def test_user_input_device_not_found(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("pairing")
 async def test_user_input_unexpected_error(
-    hass: UniversalAssistant, mock_scan: AsyncMock
+    hass: __HAC_KEEP__, mock_scan: AsyncMock
 ) -> None:
     """Test that unexpected error yields an error message."""
     result = await hass.config_entries.flow.async_init(
@@ -139,7 +139,7 @@ async def test_user_input_unexpected_error(
 
 
 @pytest.mark.usefixtures("full_device", "pairing")
-async def test_user_adds_full_device(hass: UniversalAssistant) -> None:
+async def test_user_adds_full_device(hass: __HAC_KEEP__) -> None:
     """Test adding device with all services."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -190,7 +190,7 @@ async def test_user_adds_full_device(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mrp_device")
 async def test_user_pair_leading_zero_pin(
-    hass: UniversalAssistant, pairing: AsyncMock
+    hass: __HAC_KEEP__, pairing: AsyncMock
 ) -> None:
     """Test that a pairing PIN with a leading zero is passed through as a string."""
     result = await hass.config_entries.flow.async_init(
@@ -213,7 +213,7 @@ async def test_user_pair_leading_zero_pin(
 
 
 @pytest.mark.usefixtures("mrp_device", "pairing")
-async def test_user_adds_previously_ignored_device(hass: UniversalAssistant) -> None:
+async def test_user_adds_previously_ignored_device(hass: __HAC_KEEP__) -> None:
     """Test adding a device that was ignored before creates an entry."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -243,7 +243,7 @@ async def test_user_adds_previously_ignored_device(hass: UniversalAssistant) -> 
 @pytest.mark.usefixtures("mrp_device")
 @pytest.mark.parametrize("invalid_pin", ["abcd", "12ab", "١٢٣٤", "123\n"])
 async def test_user_pair_non_numeric_pin(
-    hass: UniversalAssistant, pairing: AsyncMock, invalid_pin: str
+    hass: __HAC_KEEP__, pairing: AsyncMock, invalid_pin: str
 ) -> None:
     """Test that a non-numeric PIN is rejected at the form."""
     result = await hass.config_entries.flow.async_init(
@@ -271,7 +271,7 @@ async def test_user_pair_non_numeric_pin(
 
 
 @pytest.mark.usefixtures("dmap_device", "dmap_pin", "pairing")
-async def test_user_adds_dmap_device(hass: UniversalAssistant) -> None:
+async def test_user_adds_dmap_device(hass: __HAC_KEEP__) -> None:
     """Test adding device with only DMAP service."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -306,7 +306,7 @@ async def test_user_adds_dmap_device(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("dmap_device", "dmap_pin")
 async def test_user_adds_dmap_device_failed(
-    hass: UniversalAssistant, pairing: AsyncMock
+    hass: __HAC_KEEP__, pairing: AsyncMock
 ) -> None:
     """Test adding DMAP device where remote device did not attempt to pair."""
     pairing.always_fail = True
@@ -328,7 +328,7 @@ async def test_user_adds_dmap_device_failed(
 
 
 @pytest.mark.usefixtures("dmap_device_with_credentials")
-async def test_user_adds_device_with_ip_filter(hass: UniversalAssistant) -> None:
+async def test_user_adds_device_with_ip_filter(hass: __HAC_KEEP__) -> None:
     """Test add device filtering by IP."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -347,7 +347,7 @@ async def test_user_adds_device_with_ip_filter(hass: UniversalAssistant) -> None
 
 @pytest.mark.parametrize("pairing_requirement", [(PairingRequirement.NotNeeded)])
 @pytest.mark.usefixtures("dmap_with_requirement", "pairing_mock")
-async def test_user_pair_no_interaction(hass: UniversalAssistant) -> None:
+async def test_user_pair_no_interaction(hass: __HAC_KEEP__) -> None:
     """Test pairing service without user interaction."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -371,7 +371,7 @@ async def test_user_pair_no_interaction(hass: UniversalAssistant) -> None:
 
 
 async def test_user_adds_device_by_ip_uses_unicast_scan(
-    hass: UniversalAssistant, mock_scan: AsyncMock
+    hass: __HAC_KEEP__, mock_scan: AsyncMock
 ) -> None:
     """Test add device by IP-address, verify unicast scan is used."""
     result = await hass.config_entries.flow.async_init(
@@ -387,7 +387,7 @@ async def test_user_adds_device_by_ip_uses_unicast_scan(
 
 
 @pytest.mark.usefixtures("mrp_device", "pairing")
-async def test_user_adds_existing_device(hass: UniversalAssistant) -> None:
+async def test_user_adds_existing_device(hass: __HAC_KEEP__) -> None:
     """Test that it is not possible to add existing device."""
     MockConfigEntry(domain=DOMAIN, unique_id="mrpid").add_to_hass(hass)
 
@@ -420,7 +420,7 @@ async def test_user_adds_existing_device(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mrp_device")
 async def test_user_connection_failed(
-    hass: UniversalAssistant, pairing_mock: AsyncMock
+    hass: __HAC_KEEP__, pairing_mock: AsyncMock
 ) -> None:
     """Test error message when connection to device fails."""
     pairing_mock.begin.side_effect = exceptions.ConnectionFailedError
@@ -449,7 +449,7 @@ async def test_user_connection_failed(
 
 @pytest.mark.usefixtures("mrp_device")
 async def test_user_start_pair_error_failed(
-    hass: UniversalAssistant, pairing_mock: AsyncMock
+    hass: __HAC_KEEP__, pairing_mock: AsyncMock
 ) -> None:
     """Test initiating pairing fails."""
     pairing_mock.begin.side_effect = exceptions.PairingError
@@ -472,7 +472,7 @@ async def test_user_start_pair_error_failed(
 
 
 @pytest.mark.usefixtures("airplay_device_with_password", "pairing_mock")
-async def test_user_pair_service_with_password(hass: UniversalAssistant) -> None:
+async def test_user_pair_service_with_password(hass: __HAC_KEEP__) -> None:
     """Test pairing with service requiring a password (not supported)."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -500,7 +500,7 @@ async def test_user_pair_service_with_password(hass: UniversalAssistant) -> None
 
 @pytest.mark.parametrize("pairing_requirement", [(PairingRequirement.Disabled)])
 @pytest.mark.usefixtures("dmap_with_requirement", "pairing_mock")
-async def test_user_pair_disabled_service(hass: UniversalAssistant) -> None:
+async def test_user_pair_disabled_service(hass: __HAC_KEEP__) -> None:
     """Test pairing with disabled service (is ignored with message)."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -528,7 +528,7 @@ async def test_user_pair_disabled_service(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("pairing_requirement", [(PairingRequirement.Unsupported)])
 @pytest.mark.usefixtures("dmap_with_requirement", "pairing_mock")
-async def test_user_pair_ignore_unsupported(hass: UniversalAssistant) -> None:
+async def test_user_pair_ignore_unsupported(hass: __HAC_KEEP__) -> None:
     """Test pairing with disabled service (is ignored silently)."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -549,7 +549,7 @@ async def test_user_pair_ignore_unsupported(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mrp_device")
 async def test_user_pair_invalid_pin(
-    hass: UniversalAssistant, pairing_mock: AsyncMock
+    hass: __HAC_KEEP__, pairing_mock: AsyncMock
 ) -> None:
     """Test pairing with invalid pin."""
     pairing_mock.finish.side_effect = exceptions.PairingError
@@ -586,7 +586,7 @@ async def test_user_pair_invalid_pin(
 
 @pytest.mark.usefixtures("mrp_device")
 async def test_user_pair_unexpected_error(
-    hass: UniversalAssistant, pairing_mock: AsyncMock
+    hass: __HAC_KEEP__, pairing_mock: AsyncMock
 ) -> None:
     """Test unexpected error when entering PIN code."""
 
@@ -623,7 +623,7 @@ async def test_user_pair_unexpected_error(
 
 @pytest.mark.usefixtures("mrp_device")
 async def test_user_pair_backoff_error(
-    hass: UniversalAssistant, pairing_mock: AsyncMock
+    hass: __HAC_KEEP__, pairing_mock: AsyncMock
 ) -> None:
     """Test that backoff error is displayed in case device requests it."""
     pairing_mock.begin.side_effect = exceptions.BackOffError
@@ -647,7 +647,7 @@ async def test_user_pair_backoff_error(
 
 @pytest.mark.usefixtures("mrp_device")
 async def test_user_pair_begin_unexpected_error(
-    hass: UniversalAssistant, pairing_mock: AsyncMock
+    hass: __HAC_KEEP__, pairing_mock: AsyncMock
 ) -> None:
     """Test unexpected error during start of pairing."""
     pairing_mock.begin.side_effect = Exception
@@ -670,7 +670,7 @@ async def test_user_pair_begin_unexpected_error(
 
 
 @pytest.mark.usefixtures("airplay_with_disabled_mrp", "pairing")
-async def test_ignores_disabled_service(hass: UniversalAssistant) -> None:
+async def test_ignores_disabled_service(hass: __HAC_KEEP__) -> None:
     """Test adding device with only DMAP service."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -709,7 +709,7 @@ async def test_ignores_disabled_service(hass: UniversalAssistant) -> None:
 # Zeroconf
 
 
-async def test_zeroconf_unsupported_service_aborts(hass: UniversalAssistant) -> None:
+async def test_zeroconf_unsupported_service_aborts(hass: __HAC_KEEP__) -> None:
     """Test discovering unsupported zeroconf service."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -729,7 +729,7 @@ async def test_zeroconf_unsupported_service_aborts(hass: UniversalAssistant) -> 
 
 
 @pytest.mark.usefixtures("mrp_device", "pairing")
-async def test_zeroconf_add_mrp_device(hass: UniversalAssistant) -> None:
+async def test_zeroconf_add_mrp_device(hass: __HAC_KEEP__) -> None:
     """Test add MRP device discovered by zeroconf."""
     unrelated_result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -786,7 +786,7 @@ async def test_zeroconf_add_mrp_device(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("dmap_device", "dmap_pin", "pairing")
-async def test_zeroconf_add_dmap_device(hass: UniversalAssistant) -> None:
+async def test_zeroconf_add_dmap_device(hass: __HAC_KEEP__) -> None:
     """Test add DMAP device discovered by zeroconf."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_ZEROCONF}, data=DMAP_SERVICE
@@ -815,7 +815,7 @@ async def test_zeroconf_add_dmap_device(hass: UniversalAssistant) -> None:
     assert result3["result"].unique_id == "dmapid"
 
 
-async def test_zeroconf_ip_change(hass: UniversalAssistant, mock_scan: AsyncMock) -> None:
+async def test_zeroconf_ip_change(hass: __HAC_KEEP__, mock_scan: AsyncMock) -> None:
     """Test that the config entry gets updated when the ip changes and reloads."""
     entry = MockConfigEntry(
         domain=DOMAIN, unique_id="mrpid", data={CONF_ADDRESS: "127.0.0.2"}
@@ -849,7 +849,7 @@ async def test_zeroconf_ip_change(hass: UniversalAssistant, mock_scan: AsyncMock
 
 
 async def test_zeroconf_ip_change_after_ip_conflict_with_ignored_entry(
-    hass: UniversalAssistant, mock_scan: AsyncMock
+    hass: __HAC_KEEP__, mock_scan: AsyncMock
 ) -> None:
     """Test that the config entry gets updated when the ip changes and reloads."""
     entry = MockConfigEntry(
@@ -887,7 +887,7 @@ async def test_zeroconf_ip_change_after_ip_conflict_with_ignored_entry(
 
 
 async def test_zeroconf_ip_change_via_secondary_identifier(
-    hass: UniversalAssistant, mock_scan: AsyncMock
+    hass: __HAC_KEEP__, mock_scan: AsyncMock
 ) -> None:
     """Test that the config entry gets updated when the ip changes and reloads.
 
@@ -929,7 +929,7 @@ async def test_zeroconf_ip_change_via_secondary_identifier(
 
 
 async def test_zeroconf_updates_identifiers_for_ignored_entries(
-    hass: UniversalAssistant, mock_scan: AsyncMock
+    hass: __HAC_KEEP__, mock_scan: AsyncMock
 ) -> None:
     """Test that an ignored config entry gets updated when the ip changes.
 
@@ -974,7 +974,7 @@ async def test_zeroconf_updates_identifiers_for_ignored_entries(
 
 
 @pytest.mark.usefixtures("dmap_device")
-async def test_zeroconf_add_existing_aborts(hass: UniversalAssistant) -> None:
+async def test_zeroconf_add_existing_aborts(hass: __HAC_KEEP__) -> None:
     """Test start new zeroconf flow while existing flow is active aborts."""
     await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_ZEROCONF}, data=DMAP_SERVICE
@@ -987,7 +987,7 @@ async def test_zeroconf_add_existing_aborts(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_in_progress"
 
 
-async def test_zeroconf_add_but_device_not_found(hass: UniversalAssistant) -> None:
+async def test_zeroconf_add_but_device_not_found(hass: __HAC_KEEP__) -> None:
     """Test add device which is not found with another scan."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_ZEROCONF}, data=DMAP_SERVICE
@@ -997,7 +997,7 @@ async def test_zeroconf_add_but_device_not_found(hass: UniversalAssistant) -> No
 
 
 @pytest.mark.usefixtures("dmap_device")
-async def test_zeroconf_add_existing_device(hass: UniversalAssistant) -> None:
+async def test_zeroconf_add_existing_device(hass: __HAC_KEEP__) -> None:
     """Test add already existing device from zeroconf."""
     MockConfigEntry(domain=DOMAIN, unique_id="dmapid").add_to_hass(hass)
 
@@ -1009,7 +1009,7 @@ async def test_zeroconf_add_existing_device(hass: UniversalAssistant) -> None:
 
 
 async def test_zeroconf_unexpected_error(
-    hass: UniversalAssistant, mock_scan: AsyncMock
+    hass: __HAC_KEEP__, mock_scan: AsyncMock
 ) -> None:
     """Test unexpected error aborts in zeroconf."""
     mock_scan.side_effect = Exception
@@ -1022,7 +1022,7 @@ async def test_zeroconf_unexpected_error(
 
 
 async def test_zeroconf_abort_if_other_in_progress(
-    hass: UniversalAssistant, mock_scan: AsyncMock
+    hass: __HAC_KEEP__, mock_scan: AsyncMock
 ) -> None:
     """Test discovering unsupported zeroconf service."""
     mock_scan.result = [
@@ -1071,7 +1071,7 @@ async def test_zeroconf_abort_if_other_in_progress(
 
 @pytest.mark.usefixtures("pairing", "mock_zeroconf")
 async def test_zeroconf_missing_device_during_protocol_resolve(
-    hass: UniversalAssistant, mock_scan: AsyncMock
+    hass: __HAC_KEEP__, mock_scan: AsyncMock
 ) -> None:
     """Test discovery after service been added to existing flow with missing device."""
     mock_scan.result = [
@@ -1130,7 +1130,7 @@ async def test_zeroconf_missing_device_during_protocol_resolve(
 
 @pytest.mark.usefixtures("pairing", "mock_zeroconf")
 async def test_zeroconf_additional_protocol_resolve_failure(
-    hass: UniversalAssistant, mock_scan: AsyncMock
+    hass: __HAC_KEEP__, mock_scan: AsyncMock
 ) -> None:
     """Test discovery with missing service."""
     mock_scan.result = [
@@ -1191,7 +1191,7 @@ async def test_zeroconf_additional_protocol_resolve_failure(
 
 @pytest.mark.usefixtures("pairing", "mock_zeroconf")
 async def test_zeroconf_pair_additionally_found_protocols(
-    hass: UniversalAssistant, mock_scan: AsyncMock
+    hass: __HAC_KEEP__, mock_scan: AsyncMock
 ) -> None:
     """Test discovered protocols are merged to original flow."""
     mock_scan.result = [
@@ -1294,7 +1294,7 @@ async def test_zeroconf_pair_additionally_found_protocols(
 
 
 @pytest.mark.usefixtures("pairing", "mock_zeroconf")
-async def test_zeroconf_mismatch(hass: UniversalAssistant, mock_scan: AsyncMock) -> None:
+async def test_zeroconf_mismatch(hass: __HAC_KEEP__, mock_scan: AsyncMock) -> None:
     """Test the technically possible case where a protocol has no service.
 
     This could happen in case of mDNS issues.
@@ -1334,7 +1334,7 @@ async def test_zeroconf_mismatch(hass: UniversalAssistant, mock_scan: AsyncMock)
 
 @pytest.mark.usefixtures("mrp_device", "pairing")
 async def test_reconfigure_update_credentials(
-    hass: UniversalAssistant, mock_setup_entry: Mock
+    hass: __HAC_KEEP__, mock_setup_entry: Mock
 ) -> None:
     """Test that reconfigure flow updates config entry."""
     config_entry = MockConfigEntry(
@@ -1374,7 +1374,7 @@ async def test_reconfigure_update_credentials(
 # Options
 
 
-async def test_option_start_off(hass: UniversalAssistant) -> None:
+async def test_option_start_off(hass: __HAC_KEEP__) -> None:
     """Test start off-option flag."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, unique_id="dmapid", options={"start_off": False}
@@ -1392,7 +1392,7 @@ async def test_option_start_off(hass: UniversalAssistant) -> None:
     assert config_entry.options[CONF_START_OFF]
 
 
-async def test_zeroconf_rejects_ipv6(hass: UniversalAssistant) -> None:
+async def test_zeroconf_rejects_ipv6(hass: __HAC_KEEP__) -> None:
     """Test zeroconf discovery rejects ipv6."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

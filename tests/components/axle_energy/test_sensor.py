@@ -24,7 +24,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.axle_energy.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -36,7 +36,7 @@ def sensor_platform_only() -> Generator[None]:
         yield
 
 
-async def setup(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def setup(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Load the integration."""
     entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(entry.entry_id)
@@ -44,7 +44,7 @@ async def setup(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
 
 
 async def test_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -63,7 +63,7 @@ async def test_sensor_snapshot(
     ],
 )
 async def test_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     entity_id: str,
@@ -88,7 +88,7 @@ async def test_values(
 
 
 async def test_no_event(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_client: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_client: AsyncMock
 ) -> None:
     """An empty schedule is unknown, not a failed connection."""
     mock_client.get_status.return_value = AxleStatus(None, opted_out=False)
@@ -97,7 +97,7 @@ async def test_no_event(
 
 
 async def test_opted_out(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -112,7 +112,7 @@ async def test_opted_out(
 
 @pytest.mark.parametrize("error", [AxleConnectionError(), AxleError()])
 async def test_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -133,7 +133,7 @@ async def test_recovery(
 
 
 async def test_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     mock_event: GridEvent,
@@ -157,7 +157,7 @@ async def test_polling(
 
 
 async def test_authentication_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

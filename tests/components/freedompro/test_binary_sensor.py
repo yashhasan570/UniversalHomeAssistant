@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -44,7 +44,7 @@ from .conftest import get_states_response_for_uid
     ],
 )
 async def test_binary_sensor_get_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,

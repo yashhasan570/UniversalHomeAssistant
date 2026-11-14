@@ -11,7 +11,7 @@ from pynintendoparental.device import Device
 from pynintendoparental.exceptions import BedtimeOutOfRangeError
 
 from universalassistant.components.time import TimeEntity, TimeEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -64,7 +64,7 @@ TIME_DESCRIPTIONS: tuple[NintendoParentalControlsTimeEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NintendoParentalControlsConfigEntry,
     async_add_devices: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.freebox.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .const import MOCK_HOST, MOCK_PORT
 
 
-async def setup_platform(hass: UniversalAssistant, platform: str) -> MockConfigEntry:
+async def setup_platform(hass: __HAC_KEEP__, platform: str) -> MockConfigEntry:
     """Set up the Freebox platform."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,

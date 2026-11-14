@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -46,7 +46,7 @@ TRACKED_DEVICE = Device(
 
 
 async def test_tracked_device_links_to_router(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a tracked device is linked to the router via its via_device."""
     entry = MockConfigEntry(
@@ -91,7 +91,7 @@ async def test_tracked_device_links_to_router(
 
 
 async def test_offline_device_keeps_stored_model(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a device restored while offline keeps its previously stored model.
 
@@ -147,7 +147,7 @@ async def test_offline_device_keeps_stored_model(
 
 
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:

@@ -14,7 +14,7 @@ from universalassistant.const import (
     Platform,
     UnitOfEnergy,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.parametrize("platform", [Platform.SENSOR])
@@ -25,7 +25,7 @@ pytestmark = pytest.mark.parametrize("platform", [Platform.SENSOR])
     "equipment_data", ["water_heater", "thermostat"], indirect=True
 )
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[None]],
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_sensors(
 
 
 async def test_running_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[None]],
     mock_equipment: Equipment,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_enabled_defaults(
 
 
 async def test_existing_registry_choices_preserved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[None]],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_existing_registry_choices_preserved(
 
 
 async def test_existing_id_can_be_regenerated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[None]],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_existing_id_can_be_regenerated(
     indirect=["energy_usage"],
 )
 async def test_energy_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: Callable[[], Awaitable[None]],
     expected: str,
 ) -> None:

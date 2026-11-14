@@ -11,7 +11,7 @@ from universalassistant.components.valve import (
     ValveEntity,
     ValveEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import HomematicipGenericEntity
@@ -19,7 +19,7 @@ from .hap import HomematicIPConfigEntry, HomematicipHAP
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomematicIPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -4,7 +4,7 @@ import logging
 from typing import Any
 
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import intent, llm
 from universalassistant.helpers.typing import ConfigType
 
@@ -39,7 +39,7 @@ def async_get_result_from_chat_log(
             " This could be due to the model not returning a valid response",
             last_content,
         )
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="no_response",
         )

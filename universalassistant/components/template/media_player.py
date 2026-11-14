@@ -45,7 +45,7 @@ from universalassistant.const import (
     SERVICE_VOLUME_UP,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.core import __HAC_KEEP__, State, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -202,7 +202,7 @@ MEDIA_PLAYER_CONFIG_ENTRY_SCHEMA = MEDIA_PLAYER_COMMON_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -221,7 +221,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -238,7 +238,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_media_player(
-    hass: UniversalAssistant, name: str, config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
 ) -> StateMediaPlayerEntity:
     """Create a preview."""
     return async_setup_template_preview(
@@ -685,7 +685,7 @@ class StateMediaPlayerEntity(TemplateEntity, AbstractTemplateMediaPlayer):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         unique_id: str | None,
     ) -> None:
@@ -710,7 +710,7 @@ class TriggerMediaPlayerEntity(TriggerEntity, AbstractTemplateMediaPlayer):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: TriggerUpdateCoordinator,
         config: ConfigType,
     ) -> None:

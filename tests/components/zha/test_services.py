@@ -12,7 +12,7 @@ from zigpy.zgp.types import ApplicationID, SrcID
 
 from universalassistant.components.zha.const import DOMAIN, ZHAService
 from universalassistant.components.zha.helpers import get_zha_gateway
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
@@ -29,7 +29,7 @@ CLUSTER_COMMAND_DATA = {
 }
 
 
-async def test_services_registered_without_gateway(hass: UniversalAssistant) -> None:
+async def test_services_registered_without_gateway(hass: __HAC_KEEP__) -> None:
     """Test the actions are registered during component setup."""
     assert await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -92,7 +92,7 @@ async def test_services_registered_without_gateway(hass: UniversalAssistant) -> 
     ],
 )
 async def test_service_without_gateway_raises(
-    hass: UniversalAssistant, service: str, data: dict
+    hass: __HAC_KEEP__, service: str, data: dict
 ) -> None:
     """Test the actions raise a user-facing error when no gateway is loaded."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -125,7 +125,7 @@ async def test_service_without_gateway_raises(
     ],
 )
 async def test_cluster_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
     service: str,
@@ -174,7 +174,7 @@ async def test_cluster_service(
     ],
 )
 async def test_cluster_service_unknown_device_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     service: str,
     data: dict,
@@ -204,7 +204,7 @@ async def test_cluster_service_unknown_device_raises(
     ],
 )
 async def test_cluster_service_green_power_device_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     service: str,
     data: dict,

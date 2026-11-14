@@ -6,12 +6,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.balboa.const import CONF_SYNC_TIME, DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 
 TEST_HOST = "balboatest.localdomain"
 
 
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Mock integration setup."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: TEST_HOST}, options={CONF_SYNC_TIME: True}
@@ -22,7 +22,7 @@ async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
     return entry
 
 
-async def client_update(hass: UniversalAssistant, client: MagicMock, entity: str) -> State:
+async def client_update(hass: __HAC_KEEP__, client: MagicMock, entity: str) -> State:
     """Update the client."""
     client.emit("")
     await hass.async_block_till_done()

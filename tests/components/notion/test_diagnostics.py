@@ -6,11 +6,11 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.diagnostics import REDACTED
 from universalassistant.components.notion.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry,
     hass_client: ClientSessionGenerator,
     setup_config_entry,

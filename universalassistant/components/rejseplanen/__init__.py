@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import RejseplanenConfigEntry, RejseplanenDataUpdateCoordinator
 
@@ -13,7 +13,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RejseplanenConfigEntry,
 ) -> None:
     """Set up Rejseplanen from a config entry."""
@@ -30,7 +30,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RejseplanenConfigEntry,
 ) -> None:
     """Unload a config entry."""
@@ -38,7 +38,7 @@ async def async_unload_entry(
 
 
 async def _async_update_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RejseplanenConfigEntry,
 ) -> None:
     """Handle update when subentries are added/removed."""

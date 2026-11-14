@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant trigger dispatcher."""
+"""__HA_KEEP__ trigger dispatcher."""
 
 from typing import cast, override
 
@@ -11,7 +11,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     __version__,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
 from universalassistant.helpers import system_state
 from universalassistant.helpers.importlib import async_import_module
 from universalassistant.helpers.trigger import (
@@ -31,7 +31,7 @@ _UPDATED_TRIGGER_SCHEMA = probatio.Schema({})
 
 
 async def _async_get_trigger_platform(
-    hass: UniversalAssistant, platform_name: str
+    hass: __HAC_KEEP__, platform_name: str
 ) -> TriggerProtocol:
     """Get trigger platform from cache or import it."""
     platform = await async_import_module(
@@ -41,7 +41,7 @@ async def _async_get_trigger_platform(
 
 
 async def async_validate_trigger_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     platform = await _async_get_trigger_platform(hass, config[CONF_PLATFORM])
@@ -52,7 +52,7 @@ async def async_validate_trigger_config(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -70,7 +70,7 @@ class _SystemStateTrigger(Trigger):
     @override
     @classmethod
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _SYSTEM_STATE_TRIGGER_SCHEMA(config))
@@ -109,13 +109,13 @@ class _SystemStateTrigger(Trigger):
 
 
 class RestartRequiredTrigger(_SystemStateTrigger):
-    """Trigger that fires when Universal Universal Home Assistant needs a restart."""
+    """Trigger that fires when __HA_KEEP__ needs a restart."""
 
-    _description = "Universal Universal Home Assistant restart required"
+    _description = "__HA_KEEP__ restart required"
 
     @override
     def _is_set(self, state: system_state.SystemState) -> bool:
-        """Return if a restart of Universal Universal Home Assistant is required."""
+        """Return if a restart of __HA_KEEP__ is required."""
         return state.universal_assistant_restart_required
 
     @override
@@ -135,13 +135,13 @@ class HostRebootRequiredTrigger(_SystemStateTrigger):
         return state.host_reboot_required
 
 
-class UniversalAssistantUpdatedTrigger(Trigger):
-    """Trigger that fires once after Universal Universal Home Assistant started on a new version."""
+class __HAC_KEEP__UpdatedTrigger(Trigger):
+    """Trigger that fires once after __HA_KEEP__ started on a new version."""
 
     @override
     @classmethod
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _UPDATED_TRIGGER_SCHEMA(config))
@@ -170,10 +170,10 @@ class UniversalAssistantUpdatedTrigger(Trigger):
             # A downgrade, like restoring an older backup, counts as well
             run_action(
                 {"from_version": previous_version, "to_version": __version__},
-                "Universal Universal Home Assistant updated",
+                "__HA_KEEP__ updated",
             )
 
-        # Only fires if armed before Universal Universal Home Assistant started, like the start
+        # Only fires if armed before __HA_KEEP__ started, like the start
         # event of the legacy trigger.
         unsub = self._hass.bus.async_listen_once(
             EVENT_HOMEASSISTANT_STARTED, hass_started
@@ -184,10 +184,10 @@ class UniversalAssistantUpdatedTrigger(Trigger):
 TRIGGERS: dict[str, type[Trigger]] = {
     "host_reboot_required": HostRebootRequiredTrigger,
     "restart_required": RestartRequiredTrigger,
-    "updated": UniversalAssistantUpdatedTrigger,
+    "updated": __HAC_KEEP__UpdatedTrigger,
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
-    """Return the new-style triggers for Universal Universal Home Assistant."""
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
+    """Return the new-style triggers for __HA_KEEP__."""
     return TRIGGERS

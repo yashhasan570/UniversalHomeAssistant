@@ -9,7 +9,7 @@ from pydrawise import Error as PydrawiseError, NotAuthorizedError
 from pydrawise.schema import Controller, Sensor, Zone
 
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
@@ -118,14 +118,14 @@ def exception_handler[_EntityT: HydrawiseEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except NotAuthorizedError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="invalid_auth",
             ) from error
         # Fetching the auth token happens outside of pydrawise's own error
         # translation, so raw aiohttp and timeout errors can surface too.
         except (PydrawiseError, ClientError, TimeoutError) as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_error",
             ) from error

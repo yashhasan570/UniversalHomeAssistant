@@ -13,7 +13,7 @@ from universalassistant.config_entries import (
     OptionsFlowWithReload,
 )
 from universalassistant.const import CONF_CLIENT_SECRET, CONF_HOST
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.ssdp import (
@@ -35,7 +35,7 @@ DATA_SCHEMA = probatio.Schema(
 
 
 async def async_control_connect(
-    hass: UniversalAssistant, host: str, key: str | None
+    hass: __HAC_KEEP__, host: str, key: str | None
 ) -> WebOsClient:
     """Create LG webOS client and connect to the TV."""
     client = WebOsClient(

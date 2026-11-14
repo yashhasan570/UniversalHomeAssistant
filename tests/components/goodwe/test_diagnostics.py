@@ -10,14 +10,14 @@ from syrupy.filters import props
 
 from universalassistant.components.goodwe import CONF_MODEL_FAMILY, DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .conftest import TEST_HOST, TEST_PORT
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     mock_inverter: MagicMock,

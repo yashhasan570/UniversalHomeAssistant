@@ -15,15 +15,15 @@ from aiohttp.web_exceptions import HTTPMovedPermanently
 
 from universalassistant.auth import EVENT_USER_REMOVED
 from universalassistant.components.frontend import async_register_built_in_panel
-from universalassistant.components.http import UniversalAssistantView, StaticPathConfig
+from universalassistant.components.http import __HAC_KEEP__View, StaticPathConfig
 from universalassistant.config_entries import SOURCE_SYSTEM
 from universalassistant.const import Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
     ConfigEntryNotReady,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
 )
 from universalassistant.helpers import (
     config_validation as cv,
@@ -68,7 +68,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 DATA_LEGACY_PLUGIN_PATH: HassKey[None] = HassKey(f"{DOMAIN}_legacy_plugin_path")
 
 
-class LegacyPanelRedirectView(UniversalAssistantView):
+class LegacyPanelRedirectView(__HAC_KEEP__View):
     """Redirect the paths below the panel of the custom integration."""
 
     url = "/hacs/{tail:.*}"
@@ -86,7 +86,7 @@ class LegacyPanelRedirectView(UniversalAssistantView):
         raise HTTPMovedPermanently(target)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Marketplace integration."""
     await async_remove_duplicate_entries(hass)
     _async_remove_restart_issues(hass)
@@ -122,10 +122,10 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 @callback
-def _async_remove_restart_issues(hass: UniversalAssistant) -> None:
+def _async_remove_restart_issues(hass: __HAC_KEEP__) -> None:
     """Remove the restart issues of installs from before this start.
 
-    Universal Universal Home Assistant just started, so every one of them has been dealt with.
+    __HA_KEEP__ just started, so every one of them has been dealt with.
     """
     for domain, issue_id in list(ir.async_get(hass).issues):
         if domain == DOMAIN and issue_id.startswith(RESTART_ISSUE_PREFIX):
@@ -133,7 +133,7 @@ def _async_remove_restart_issues(hass: UniversalAssistant) -> None:
 
 
 async def _async_serve_legacy_plugin_path(
-    hass: UniversalAssistant, lovelace_mode: LovelaceMode
+    hass: __HAC_KEEP__, lovelace_mode: LovelaceMode
 ) -> None:
     """Keep serving installed plugins on the path the custom integration used.
 
@@ -159,7 +159,7 @@ async def _async_serve_legacy_plugin_path(
     )
 
 
-async def _async_ensure_www_directory(hass: UniversalAssistant) -> bool:
+async def _async_ensure_www_directory(hass: __HAC_KEEP__) -> bool:
     """Create the www directory when it is missing, return if it was created.
 
     The frontend only registers /local when www/ exists at startup, so creating
@@ -180,7 +180,7 @@ async def _async_ensure_www_directory(hass: UniversalAssistant) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: MarketplaceConfigEntry
+    hass: __HAC_KEEP__, config_entry: MarketplaceConfigEntry
 ) -> None:
     """Set up the Marketplace from its config entry."""
     async_adopt_legacy_install(hass, config_entry)
@@ -206,7 +206,7 @@ async def async_setup_entry(
 
     marketplace.set_stage(MarketplaceStage.WAITING)
     LOGGER.info(
-        "Setup complete, waiting for Universal Universal Home Assistant before startup tasks starts"
+        "Setup complete, waiting for __HA_KEEP__ before startup tasks starts"
     )
     _async_start_once_started(hass, config_entry)
 
@@ -214,7 +214,7 @@ async def async_setup_entry(
 
 
 async def _async_prepare_config_directory(
-    hass: UniversalAssistant, marketplace: MarketplaceManager
+    hass: __HAC_KEEP__, marketplace: MarketplaceManager
 ) -> None:
     """Get the configuration directory ready for what is installed into it."""
     marketplace.status.created_www_directory = await _async_ensure_www_directory(hass)
@@ -285,18 +285,18 @@ def _raise_when_disabled(marketplace: MarketplaceManager) -> None:
 
 @callback
 def _async_start_once_started(
-    hass: UniversalAssistant, config_entry: MarketplaceConfigEntry
+    hass: __HAC_KEEP__, config_entry: MarketplaceConfigEntry
 ) -> None:
-    """Run the startup tasks once Universal Universal Home Assistant started, the unload stops them."""
+    """Run the startup tasks once __HA_KEEP__ started, the unload stops them."""
     marketplace = config_entry.runtime_data
 
     @callback
-    def _async_start_tasks(_: UniversalAssistant) -> None:
+    def _async_start_tasks(_: __HAC_KEEP__) -> None:
         marketplace.startup_task = config_entry.async_create_task(
             hass, marketplace.startup_tasks(), "marketplace_startup_tasks"
         )
 
-    # The catalog is fetched over the network, Universal Universal Home Assistant does not wait
+    # The catalog is fetched over the network, __HA_KEEP__ does not wait
     # for it to finish starting
     config_entry.async_on_unload(
         async_at_started(hass=hass, at_start_cb=_async_start_tasks)
@@ -304,7 +304,7 @@ def _async_start_once_started(
 
 
 async def _async_follow_removed_users(
-    hass: UniversalAssistant, config_entry: MarketplaceConfigEntry
+    hass: __HAC_KEEP__, config_entry: MarketplaceConfigEntry
 ) -> None:
     """Forget the warning acceptance of every user who is removed.
 
@@ -327,7 +327,7 @@ async def _async_follow_removed_users(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: MarketplaceConfigEntry
+    hass: __HAC_KEEP__, config_entry: MarketplaceConfigEntry
 ) -> None:
     """Unload the Marketplace, once the installs that run are done."""
     marketplace = config_entry.runtime_data
@@ -364,7 +364,7 @@ async def async_unload_entry(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MarketplaceConfigEntry,
     device_entry: AnyDeviceEntry,
 ) -> bool:
@@ -381,21 +381,21 @@ async def async_remove_config_entry_device(
             break
 
     if repository_id is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_without_a_repository",
             translation_placeholders={"device_id": device_entry.id},
         )
 
     if repository_id == LEGACY_HACS_SYSTEM_ID:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_of_the_marketplace",
         )
 
     repository = marketplace.repositories.get_by_id(repository_id)
     if repository is not None and repository.data.installed:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="repository_still_installed",
             translation_placeholders={"repository": repository.data.full_name},

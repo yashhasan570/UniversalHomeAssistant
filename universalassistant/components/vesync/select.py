@@ -9,8 +9,8 @@ from pyvesync.base_devices import VeSyncBaseDevice
 from pyvesync.device_container import DeviceContainer
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -50,21 +50,21 @@ def _set_humidifier_nightlight(device: VeSyncBaseDevice, *args) -> Awaitable[boo
     """Toggle humidifier nightlight on."""
     if is_humidifier(device):
         return device.set_nightlight_brightness(*args)
-    raise UniversalAssistantError("Device does not support toggling nightlight.")
+    raise __HAC_KEEP__Error("Device does not support toggling nightlight.")
 
 
 def _toggle_purifier_nightlight(device: VeSyncBaseDevice, *args) -> Awaitable[bool]:
     """Toggle air purifier nightlight on."""
     if is_purifier(device):
         return device.set_nightlight_mode(*args)
-    raise UniversalAssistantError("Device does not support toggling nightlight.")
+    raise __HAC_KEEP__Error("Device does not support toggling nightlight.")
 
 
 def _toggle_outlet_nightlight(device: VeSyncBaseDevice, *args) -> Awaitable[bool]:
     """Toggle outlet nightlight on."""
     if is_outlet(device) and device.supports_nightlight:
         return device.set_nightlight_state(*args)
-    raise UniversalAssistantError("Device does not support toggling nightlight.")
+    raise __HAC_KEEP__Error("Device does not support toggling nightlight.")
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -125,7 +125,7 @@ SELECT_DESCRIPTIONS: list[VeSyncSelectEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VesyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -190,6 +190,6 @@ class VeSyncSelectEntity(VeSyncBaseEntity, SelectEntity):
         """Set an option."""
         if not await self.entity_description.select_option_fn(self.device, option):
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Unknown error selecting option, no response.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Unknown error selecting option, no response.")
         self.async_write_ha_state()

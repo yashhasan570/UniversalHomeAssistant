@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_LIBRARY_ID, SUBENTRY_TYPE_LIBRARY
@@ -30,7 +30,7 @@ HISTORY_DESCRIPTION = SelectEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SeafileConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

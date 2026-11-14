@@ -28,7 +28,7 @@ from universalassistant.components.jewish_calendar.const import (
     YearlyCalendarEventType,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import GetCalendarEvents
@@ -58,7 +58,7 @@ def calendar_only() -> Generator[None]:
 @pytest.mark.parametrize("location_data", ["New York", "Jerusalem"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
@@ -71,7 +71,7 @@ async def test_entities(
 @pytest.mark.parametrize("location_data", ["New York"], indirect=True)
 @pytest.mark.usefixtures("setup")
 async def test_learning_schedule_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test the learning schedule calendar is disabled by default."""
@@ -88,7 +88,7 @@ async def test_learning_schedule_disabled_by_default(
 @pytest.mark.freeze_time("2024-01-15 12:00:00")
 @pytest.mark.parametrize("location_data", ["New York"], indirect=True)
 @pytest.mark.usefixtures("setup")
-async def test_all_day_event_format(hass: UniversalAssistant, get_calendar_events) -> None:
+async def test_all_day_event_format(hass: __HAC_KEEP__, get_calendar_events) -> None:
     """Test Hebrew date is an all-day event with date-only start/end."""
     events = await get_calendar_events(hass, DAILY_EVENTS, dt.datetime(2024, 1, 15))
     date_events = [e for e in events if e["description"].startswith("Hebrew date")]
@@ -101,7 +101,7 @@ async def test_all_day_event_format(hass: UniversalAssistant, get_calendar_event
 @pytest.mark.freeze_time("2024-01-15 12:00:00")
 @pytest.mark.parametrize("location_data", ["New York"], indirect=True)
 @pytest.mark.usefixtures("setup")
-async def test_timed_event_format(hass: UniversalAssistant, get_calendar_events) -> None:
+async def test_timed_event_format(hass: __HAC_KEEP__, get_calendar_events) -> None:
     """Test halachic times are timed instants (start == end, with timezone)."""
     events = await get_calendar_events(hass, DAILY_EVENTS, dt.datetime(2024, 1, 15))
     timed_events = [e for e in events if not e["description"].startswith("Hebrew date")]
@@ -184,7 +184,7 @@ async def test_timed_event_format(hass: UniversalAssistant, get_calendar_events)
 )
 @pytest.mark.usefixtures("setup")
 async def test_events_use_configured_language(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_calendar_events: GetCalendarEvents,
     entity_id: str,
     query_date: dt.datetime,
@@ -207,7 +207,7 @@ async def test_events_use_configured_language(
 @pytest.mark.parametrize("location_data", ["New York", "Jerusalem"], indirect=True)
 @pytest.mark.usefixtures("setup")
 async def test_daily_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_calendar_events,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_daily_events(
 @pytest.mark.parametrize("location_data", ["New York", "Jerusalem"], indirect=True)
 @pytest.mark.usefixtures("setup")
 async def test_weekly_portion_on_shabbat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_calendar_events,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_weekly_portion_on_shabbat(
 )
 @pytest.mark.usefixtures("setup")
 async def test_no_weekly_portion_on_weekday(
-    hass: UniversalAssistant, get_calendar_events, query_date: dt.datetime
+    hass: __HAC_KEEP__, get_calendar_events, query_date: dt.datetime
 ) -> None:
     """Test weekly Torah portion does not appear on non-Saturday weekdays."""
     events = await get_calendar_events(hass, YEARLY_EVENTS, query_date)
@@ -262,7 +262,7 @@ async def test_no_weekly_portion_on_weekday(
 @pytest.mark.parametrize("location_data", ["New York"], indirect=True)
 @pytest.mark.usefixtures("setup")
 async def test_no_weekly_portion_on_holiday_shabbat(
-    hass: UniversalAssistant, get_calendar_events
+    hass: __HAC_KEEP__, get_calendar_events
 ) -> None:
     """Test no weekly portion on Shabbat during Hol HaMoed Pesach."""
     # 2024-04-27 is Saturday during Hol HaMoed Pesach — no regular parasha is read
@@ -274,7 +274,7 @@ async def test_no_weekly_portion_on_holiday_shabbat(
 @pytest.mark.parametrize("location_data", ["Jerusalem"], indirect=True)
 @pytest.mark.usefixtures("setup")
 async def test_weekly_portion_on_simchat_torah_israel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_calendar_events,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -288,7 +288,7 @@ async def test_weekly_portion_on_simchat_torah_israel(
 @pytest.mark.parametrize("location_data", ["New York"], indirect=True)
 @pytest.mark.usefixtures("setup")
 async def test_weekly_portion_on_simchat_torah_diaspora(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_calendar_events,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -306,7 +306,7 @@ async def test_weekly_portion_on_simchat_torah_diaspora(
 @pytest.mark.parametrize("location_data", ["Jerusalem"], indirect=True)
 @pytest.mark.usefixtures("setup")
 async def test_holiday(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_calendar_events,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -328,7 +328,7 @@ async def test_holiday(
 )
 @pytest.mark.usefixtures("setup")
 async def test_omer_count(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_calendar_events,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -358,7 +358,7 @@ async def test_omer_count(
 )
 @pytest.mark.usefixtures("setup")
 async def test_candle_lighting_on_friday(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_calendar_events,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -384,7 +384,7 @@ async def test_candle_lighting_on_friday(
 )
 @pytest.mark.usefixtures("setup")
 async def test_havdalah_on_saturday(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_calendar_events,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -404,7 +404,7 @@ async def test_havdalah_on_saturday(
 @pytest.mark.parametrize("location_data", ["Jerusalem"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup")
 async def test_learning_schedule_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_calendar_events,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -430,7 +430,7 @@ async def test_learning_schedule_events(
 )
 @pytest.mark.usefixtures("setup")
 async def test_daily_events_custom_filter(
-    hass: UniversalAssistant, get_calendar_events
+    hass: __HAC_KEEP__, get_calendar_events
 ) -> None:
     """Test only configured daily event types are shown."""
     events = await get_calendar_events(hass, DAILY_EVENTS, dt.datetime(2024, 1, 15))
@@ -446,7 +446,7 @@ async def test_daily_events_custom_filter(
 )
 @pytest.mark.usefixtures("setup")
 async def test_yearly_events_custom_filter(
-    hass: UniversalAssistant, get_calendar_events
+    hass: __HAC_KEEP__, get_calendar_events
 ) -> None:
     """Test only configured yearly event types are shown (holiday on Shushan Purim)."""
     events = await get_calendar_events(hass, YEARLY_EVENTS, dt.datetime(2024, 3, 25))
@@ -467,7 +467,7 @@ async def test_yearly_events_custom_filter(
     ],
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "setup")
-async def test_empty_event_config(hass: UniversalAssistant, get_calendar_events) -> None:
+async def test_empty_event_config(hass: __HAC_KEEP__, get_calendar_events) -> None:
     """Test empty event configuration produces no events for any calendar."""
     start = dt.datetime(2024, 1, 15)
     assert await get_calendar_events(hass, DAILY_EVENTS, start) == []
@@ -483,7 +483,7 @@ async def test_empty_event_config(hass: UniversalAssistant, get_calendar_events)
 @pytest.mark.freeze_time("2024-01-15 12:00:00")
 @pytest.mark.parametrize("location_data", ["New York"], indirect=True)
 @pytest.mark.usefixtures("setup")
-async def test_multi_day_range(hass: UniversalAssistant, get_calendar_events) -> None:
+async def test_multi_day_range(hass: __HAC_KEEP__, get_calendar_events) -> None:
     """Test events are returned for each day in a multi-day range."""
     start = dt.datetime(2024, 1, 15, 0, 0, 0)
     end = dt.datetime.combine(dt.date(2024, 1, 17), dt.time.max)
@@ -500,7 +500,7 @@ async def test_multi_day_range(hass: UniversalAssistant, get_calendar_events) ->
 @pytest.mark.freeze_time("2024-01-15 12:00:00")
 @pytest.mark.parametrize("location_data", ["New York"], indirect=True)
 @pytest.mark.usefixtures("setup")
-async def test_event_property(hass: UniversalAssistant) -> None:
+async def test_event_property(hass: __HAC_KEEP__) -> None:
     """Test the entity state reflects the next upcoming event."""
     state = hass.states.get(DAILY_EVENTS)
     assert state is not None
@@ -527,7 +527,7 @@ async def test_event_property(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("setup")
 async def test_event_property_timed_events_only_returns_upcoming_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test timed-only daily calendars select the current/next upcoming event."""
     state = hass.states.get(DAILY_EVENTS)

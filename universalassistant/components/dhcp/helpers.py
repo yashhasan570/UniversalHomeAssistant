@@ -3,7 +3,7 @@
 from collections.abc import Callable
 from functools import partial
 
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 from .const import HOSTNAME, IP_ADDRESS
@@ -12,7 +12,7 @@ from .models import DATA_DHCP, DHCPAddressData
 
 @callback
 def async_register_dhcp_callback_internal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callback_: Callable[[dict[str, DHCPAddressData]], None],
 ) -> CALLBACK_TYPE:
     """Register a dhcp callback.
@@ -27,7 +27,7 @@ def async_register_dhcp_callback_internal(
 
 @callback
 def async_get_address_data_internal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, DHCPAddressData]:
     """Get the address data.
 
@@ -38,7 +38,7 @@ def async_get_address_data_internal(
 
 
 @callback
-def async_discovered_service_info(hass: UniversalAssistant) -> list[DhcpServiceInfo]:
+def async_discovered_service_info(hass: __HAC_KEEP__) -> list[DhcpServiceInfo]:
     """Return the discovered DHCP devices."""
     return [
         DhcpServiceInfo(

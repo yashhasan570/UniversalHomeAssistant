@@ -19,11 +19,11 @@ from universalassistant.components.dynalite.const import (
     ATTR_PRESET,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 
 
-async def test_update_device(hass: UniversalAssistant) -> None:
+async def test_update_device(hass: __HAC_KEEP__) -> None:
     """Test that update works."""
     host = "1.2.3.4"
     entry = MockConfigEntry(domain=dynalite.DOMAIN, data={CONF_HOST: host})
@@ -53,7 +53,7 @@ async def test_update_device(hass: UniversalAssistant) -> None:
     specific_func.assert_called_once()
 
 
-async def test_add_devices_then_register(hass: UniversalAssistant) -> None:
+async def test_add_devices_then_register(hass: __HAC_KEEP__) -> None:
     """Test that add_devices work."""
     host = "1.2.3.4"
     entry = MockConfigEntry(domain=dynalite.DOMAIN, data={CONF_HOST: host})
@@ -88,7 +88,7 @@ async def test_add_devices_then_register(hass: UniversalAssistant) -> None:
     assert hass.states.get("switch.name3")
 
 
-async def test_register_then_add_devices(hass: UniversalAssistant) -> None:
+async def test_register_then_add_devices(hass: __HAC_KEEP__) -> None:
     """Test that add_devices work after register_add_entities."""
     host = "1.2.3.4"
     entry = MockConfigEntry(domain=dynalite.DOMAIN, data={CONF_HOST: host})
@@ -117,7 +117,7 @@ async def test_register_then_add_devices(hass: UniversalAssistant) -> None:
     assert hass.states.get("switch.name2")
 
 
-async def test_notifications(hass: UniversalAssistant) -> None:
+async def test_notifications(hass: __HAC_KEEP__) -> None:
     """Test that update works."""
     host = "1.2.3.4"
     entry = MockConfigEntry(domain=dynalite.DOMAIN, data={CONF_HOST: host})

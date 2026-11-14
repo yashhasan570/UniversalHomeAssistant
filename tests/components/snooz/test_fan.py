@@ -28,14 +28,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import SnoozFixture, create_mock_snooz, create_mock_snooz_config_entry
 
 
-async def test_turn_on(hass: UniversalAssistant, snooz_fan_entity_id: str) -> None:
+async def test_turn_on(hass: __HAC_KEEP__, snooz_fan_entity_id: str) -> None:
     """Test turning on the device."""
     await hass.services.async_call(
         fan.DOMAIN,
@@ -71,7 +71,7 @@ async def test_turn_on(hass: UniversalAssistant, snooz_fan_entity_id: str) -> No
     ],
 )
 async def test_transition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snooz_fan_entity_id: str,
     service: str,
     command_name: str,
@@ -101,7 +101,7 @@ async def test_transition(
 
 @pytest.mark.parametrize("percentage", [1, 22, 50, 99, 100])
 async def test_turn_on_with_percentage(
-    hass: UniversalAssistant, snooz_fan_entity_id: str, percentage: int
+    hass: __HAC_KEEP__, snooz_fan_entity_id: str, percentage: int
 ) -> None:
     """Test turning on the device with a percentage."""
     await hass.services.async_call(
@@ -119,7 +119,7 @@ async def test_turn_on_with_percentage(
 
 @pytest.mark.parametrize("percentage", [1, 22, 50, 99, 100])
 async def test_set_percentage(
-    hass: UniversalAssistant, snooz_fan_entity_id: str, percentage: int
+    hass: __HAC_KEEP__, snooz_fan_entity_id: str, percentage: int
 ) -> None:
     """Test setting the fan percentage."""
     await hass.services.async_call(
@@ -135,7 +135,7 @@ async def test_set_percentage(
 
 
 async def test_set_0_percentage_turns_off(
-    hass: UniversalAssistant, snooz_fan_entity_id: str
+    hass: __HAC_KEEP__, snooz_fan_entity_id: str
 ) -> None:
     """Test turning off the device by setting the percentage/volume to 0."""
     await hass.services.async_call(
@@ -159,7 +159,7 @@ async def test_set_0_percentage_turns_off(
     assert ATTR_ASSUMED_STATE not in state.attributes
 
 
-async def test_turn_off(hass: UniversalAssistant, snooz_fan_entity_id: str) -> None:
+async def test_turn_off(hass: __HAC_KEEP__, snooz_fan_entity_id: str) -> None:
     """Test turning off the device."""
     await hass.services.async_call(
         fan.DOMAIN,
@@ -174,7 +174,7 @@ async def test_turn_off(hass: UniversalAssistant, snooz_fan_entity_id: str) -> N
 
 
 async def test_push_events(
-    hass: UniversalAssistant, mock_connected_snooz: SnoozFixture, snooz_fan_entity_id: str
+    hass: __HAC_KEEP__, mock_connected_snooz: SnoozFixture, snooz_fan_entity_id: str
 ) -> None:
     """Test state update events from snooz device."""
     mock_connected_snooz.device.trigger_state(SnoozDeviceState(False, 64))
@@ -201,7 +201,7 @@ async def test_push_events(
 
 
 async def test_restore_state(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests restoring entity state."""
     device = await create_mock_snooz(connected=False, initial_state=UnknownSnoozState)
@@ -235,7 +235,7 @@ async def test_restore_state(
 
 
 async def test_restore_unknown_state(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests restoring entity state that was unknown."""
     device = await create_mock_snooz(connected=False, initial_state=UnknownSnoozState)
@@ -259,7 +259,7 @@ async def test_restore_unknown_state(
 
 
 async def test_command_results(
-    hass: UniversalAssistant, mock_connected_snooz: SnoozFixture, snooz_fan_entity_id: str
+    hass: __HAC_KEEP__, mock_connected_snooz: SnoozFixture, snooz_fan_entity_id: str
 ) -> None:
     """Test device command results."""
     mock_execute = Mock(spec=mock_connected_snooz.device.async_execute_command)
@@ -313,7 +313,7 @@ async def test_command_results(
         SnoozCommandResultStatus.UNEXPECTED_ERROR, timedelta()
     )
 
-    with pytest.raises(UniversalAssistantError) as failure:
+    with pytest.raises(__HAC_KEEP__Error) as failure:
         await hass.services.async_call(
             fan.DOMAIN,
             fan.SERVICE_TURN_ON,
@@ -326,7 +326,7 @@ async def test_command_results(
 
 @pytest.fixture(name="snooz_fan_entity_id")
 async def fixture_snooz_fan_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connected_snooz: SnoozFixture,
     entity_registry: er.EntityRegistry,
 ) -> str:
@@ -336,7 +336,7 @@ async def fixture_snooz_fan_entity_id(
 
 
 def get_fan_entity_id(
-    hass: UniversalAssistant, device: MockSnoozDevice, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, device: MockSnoozDevice, entity_registry: er.EntityRegistry
 ) -> str:
     """Get the entity ID for a mock device."""
 

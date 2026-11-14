@@ -11,7 +11,7 @@ from pytest_universalassistant.components.repairs import (
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.notify import DOMAIN, migrate_notify_issue
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -24,7 +24,7 @@ THERMOSTAT_ID = 0
     [(None, "migrate_notify_test"), ("bla", "migrate_notify_test_bla")],
 )
 async def test_notify_migration_repair_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     service_name: str | None,

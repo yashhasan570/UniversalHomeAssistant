@@ -1,6 +1,6 @@
 {
   "type": "micro",
-  "wake_word": "Hey Universal Universal Home Assistant",
+  "wake_word": "Hey __HA_KEEP__",
   "author": "Michael Hansen",
   "website": "https://www.universalassistant.io",
   "model": "hey_universal_assistant.tflite",

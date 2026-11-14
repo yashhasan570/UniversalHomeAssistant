@@ -28,7 +28,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.redact import async_redact_data
@@ -50,11 +50,11 @@ type FirmwareUpdateCallback = Callable[[FirmwareUpdateInfo], None]
 class Hub:
     """Victron MQTT Hub for managing communication and sensors."""
 
-    def __init__(self, hass: UniversalAssistant, entry: VictronGxConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: VictronGxConfigEntry) -> None:
         """Initialize Victron MQTT Hub.
 
         Args:
-            hass: Universal Universal Home Assistant instance
+            hass: __HA_KEEP__ instance
             entry: ConfigEntry containing configuration
 
         """
@@ -141,7 +141,7 @@ class Hub:
         self, hub: VictronVenusHub, info: FirmwareUpdateInfo
     ) -> None:
         """Handle updated firmware information."""
-        # Transient checks must not clear Universal Universal Home Assistant's skipped version.
+        # Transient checks must not clear __HA_KEEP__'s skipped version.
         if info.state in {
             FirmwareUpdateState.CHECKING,
             FirmwareUpdateState.ERROR_DURING_CHECK,

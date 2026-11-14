@@ -14,7 +14,7 @@ from paho.mqtt.client import MQTTMessage
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_NAME, Platform
 from universalassistant.core import CALLBACK_TYPE, callback
 from universalassistant.exceptions import (
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceValidationError,
     TemplateError,
 )
@@ -75,7 +75,7 @@ class SubscriptionID:
 
         subscription_id = self._next_id
         if subscription_id > MAX_28BIT:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="mqtt_max_subscription_id_reached",
             )

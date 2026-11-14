@@ -18,7 +18,7 @@ from universalassistant.config_entries import (
 )
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_ID, CONF_MODEL, CONF_NAME
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
@@ -394,5 +394,5 @@ class OptionsFlowHandler(OptionsFlowWithReload):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

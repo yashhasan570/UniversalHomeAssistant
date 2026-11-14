@@ -6,7 +6,7 @@ import pytest
 
 from universalassistant.components.hue.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.json import JsonArrayType
 
@@ -28,7 +28,7 @@ MOTION_AREA_CONFIGURATION_ID = "5e6f7a8b-9c1d-4e2f-b3a4-5c6d7e8f9a0b"
 
 
 async def test_switch(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test if (config) switches get created."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -78,7 +78,7 @@ async def test_switch(
     ],
 )
 async def test_motionaware_switch_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     device_registry: dr.DeviceRegistry,
@@ -117,7 +117,7 @@ async def test_motionaware_switch_device(
 
 
 async def test_switch_turn_on_service(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test calling the turn on service on a switch."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -141,7 +141,7 @@ async def test_switch_turn_on_service(
 
 
 async def test_switch_turn_off_service(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test calling the turn off service on a switch."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -182,7 +182,7 @@ async def test_switch_turn_off_service(
 
 
 async def test_motionaware_switch_turn_on_off_service(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test enabling/disabling a MotionAware zone."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -236,7 +236,7 @@ async def test_motionaware_switch_turn_on_off_service(
     assert mock_bridge_v2.mock_requests[1]["json"]["enabled"] is True
 
 
-async def test_switch_added(hass: UniversalAssistant, mock_bridge_v2: Mock) -> None:
+async def test_switch_added(hass: __HAC_KEEP__, mock_bridge_v2: Mock) -> None:
     """Test new switch added to bridge."""
     await mock_bridge_v2.api.load_test_data([FAKE_DEVICE, FAKE_ZIGBEE_CONNECTIVITY])
 
@@ -280,7 +280,7 @@ async def test_switch_added(hass: UniversalAssistant, mock_bridge_v2: Mock) -> N
     ],
 )
 async def test_internal_behavior_instance_not_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     metadata: dict,
@@ -304,7 +304,7 @@ async def test_internal_behavior_instance_not_added(
 
 
 async def test_internal_behavior_instance_entity_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     entity_registry: er.EntityRegistry,
@@ -327,7 +327,7 @@ async def test_internal_behavior_instance_entity_removed(
     ("pm_state", "expected_state"), [("started", "on"), ("stopped", "off")]
 )
 async def test_presence_mimicking_switch_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     pm_state: str,
@@ -351,7 +351,7 @@ async def test_presence_mimicking_switch_state(
     [("turn_on", {"start": {}}), ("turn_off", {"stop": {}})],
 )
 async def test_presence_mimicking_switch_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     service: str,
@@ -381,7 +381,7 @@ async def test_presence_mimicking_switch_services(
 
 
 async def test_regular_automation_switch_uses_enabled(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test an automation without a run state still toggles enabled."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)

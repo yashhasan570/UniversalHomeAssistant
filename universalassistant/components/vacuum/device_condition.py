@@ -9,7 +9,7 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     CONF_TYPE,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import (
     condition,
     config_validation as cv,
@@ -31,7 +31,7 @@ CONDITION_SCHEMA = DEVICE_CONDITION_BASE_SCHEMA.extend(
 
 
 async def async_get_conditions(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device conditions for Vacuum devices."""
     registry = er.async_get(hass)
@@ -56,7 +56,7 @@ async def async_get_conditions(
 
 @callback
 def async_condition_from_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> condition.ConditionCheckerType:
     """Create a function to test a device condition."""
     if config[CONF_TYPE] == "is_docked":
@@ -67,7 +67,7 @@ def async_condition_from_config(
     registry = er.async_get(hass)
     entity_id = er.async_resolve_entity_id(registry, config[CONF_ENTITY_ID])
 
-    def test_is_state(hass: UniversalAssistant, variables: TemplateVarsType) -> bool:
+    def test_is_state(hass: __HAC_KEEP__, variables: TemplateVarsType) -> bool:
         """Test if an entity is a certain state."""
         return (
             entity_id is not None

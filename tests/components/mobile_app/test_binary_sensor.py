@@ -15,13 +15,13 @@ from universalassistant.components.mobile_app.const import (
     ATTR_SENSOR_UNIQUE_ID,
 )
 from universalassistant.const import CONF_WEBHOOK_ID, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
@@ -109,7 +109,7 @@ async def test_sensor(
 
 
 async def test_sensor_must_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_sensor_must_register(
 
 
 async def test_sensor_id_no_dupes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     caplog: pytest.LogCaptureFixture,
@@ -198,7 +198,7 @@ async def test_sensor_id_no_dupes(
 
 
 async def test_register_sensor_no_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -259,7 +259,7 @@ async def test_register_sensor_no_state(
 
 
 async def test_update_sensor_no_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:
@@ -310,7 +310,7 @@ async def test_update_sensor_no_state(
 
 
 async def test_dispatcher_cleanup_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:

@@ -9,7 +9,7 @@ from pytest_universalassistant.typing import MagicMock
 
 from universalassistant.components.icloud.const import ATTR_DEVICE_STATUS, DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import DEVICE, FEATURES, LOCATION
@@ -19,7 +19,7 @@ LOCATING_UNIQUE_ID = "device1_locating"
 
 
 async def _async_enable_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     unique_id: str,
@@ -103,7 +103,7 @@ async def _async_enable_entity(
     ],
 )
 async def test_binary_sensor_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -124,7 +124,7 @@ async def test_binary_sensor_state(
 
 
 async def test_binary_sensor_does_not_carry_device_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -161,7 +161,7 @@ async def test_locating_disabled_by_default(
 
 
 async def test_locating_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
@@ -237,7 +237,7 @@ async def test_binary_sensor_not_added_when_unsupported(
 
 
 async def test_location_binary_sensors_not_added_without_location(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -259,7 +259,7 @@ async def test_location_binary_sensors_not_added_without_location(
 
 
 async def test_location_binary_sensors_added_when_location_appears(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
@@ -288,7 +288,7 @@ async def test_location_binary_sensors_added_when_location_appears(
 
 
 async def test_location_flags_follow_the_reported_fix(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
@@ -321,7 +321,7 @@ async def test_location_flags_follow_the_reported_fix(
 
 
 async def test_lost_mode_binary_sensor_tracks_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,

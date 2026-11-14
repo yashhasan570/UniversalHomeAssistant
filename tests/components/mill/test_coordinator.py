@@ -10,11 +10,11 @@ from universalassistant.components.mill.const import DOMAIN
 from universalassistant.components.mill.coordinator import MillHistoricDataUpdateCoordinator
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.recorder.statistics import statistics_during_period
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
-async def test_mill_historic_data(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_mill_historic_data(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test historic data from Mill."""
 
     entry = MockConfigEntry(domain=DOMAIN)
@@ -94,7 +94,7 @@ async def test_mill_historic_data(recorder_mock: Recorder, hass: UniversalAssist
 
 
 async def test_mill_historic_data_no_heater(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test historic data from Mill."""
 
@@ -133,7 +133,7 @@ async def test_mill_historic_data_no_heater(
 
 
 async def test_mill_historic_data_no_data(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test historic data from Mill."""
 
@@ -194,7 +194,7 @@ async def test_mill_historic_data_no_data(
 
 
 async def test_mill_historic_data_invalid_data(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test historic data from Mill."""
 

@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.typing import RecorderInstanceGenerator
 
 from universalassistant.components.recorder.util import session_scope
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -18,7 +18,7 @@ from universalassistant.core import UniversalAssistant
 )
 async def test_get_non_existent_event_type(
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     from_recorder: bool,
     expected_task_queued: bool,
 ) -> None:

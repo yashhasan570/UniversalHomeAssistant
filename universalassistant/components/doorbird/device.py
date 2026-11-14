@@ -16,7 +16,7 @@ from doorbirdpy import (
 from propcache.api import cached_property
 
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.network import get_url
 from universalassistant.util import dt as dt_util, slugify
 
@@ -53,7 +53,7 @@ class ConfiguredDoorBird:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: DoorBird,
         name: str | None,
         custom_url: str | None,
@@ -101,7 +101,7 @@ class ConfiguredDoorBird:
         return self._token
 
     def _get_hass_url(self) -> str:
-        """Get the Universal Universal Home Assistant URL for this device."""
+        """Get the __HA_KEEP__ URL for this device."""
         if custom_url := self.custom_url:
             return custom_url
         return get_url(self._hass, prefer_external=False)
@@ -192,7 +192,7 @@ class ConfiguredDoorBird:
         hass_url = self._get_hass_url()
         for identifier, data in http_fav.items():
             title: str | None = data.get("title")
-            if not title or not title.startswith("Universal Universal Home Assistant"):
+            if not title or not title.startswith("__HA_KEEP__"):
                 continue
             value: str | None = data.get("value")
             if not value or not value.startswith(hass_url):
@@ -249,7 +249,7 @@ class ConfiguredDoorBird:
             return False
 
         if not await self.device.change_favorite(
-            HTTP_EVENT_TYPE, f"Universal Universal Home Assistant ({event})", url
+            HTTP_EVENT_TYPE, f"__HA_KEEP__ ({event})", url
         ):
             _LOGGER.warning(
                 'Unable to set favorite URL "%s". Event "%s" will not fire',

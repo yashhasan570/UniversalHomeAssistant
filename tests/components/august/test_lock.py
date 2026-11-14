@@ -13,7 +13,7 @@ from yalexs.pubnub_async import AugustPubNub
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceNotSupported
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
@@ -30,7 +30,7 @@ from .mocks import (
 
 
 async def test_lock_device_registry(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test creation of a lock with doorsense and bridge ands up in the registry."""
     lock_one = await _mock_doorsense_enabled_august_lock_detail(hass)
@@ -42,7 +42,7 @@ async def test_lock_device_registry(
     assert reg_device == snapshot
 
 
-async def test_lock_changed_by(hass: UniversalAssistant) -> None:
+async def test_lock_changed_by(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge."""
     lock_one = await _mock_doorsense_enabled_august_lock_detail(hass)
 
@@ -57,7 +57,7 @@ async def test_lock_changed_by(hass: UniversalAssistant) -> None:
     assert lock_state.attributes["changed_by"] == "Your favorite elven princess"
 
 
-async def test_state_locking(hass: UniversalAssistant) -> None:
+async def test_state_locking(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge that is locking."""
     lock_one = await _mock_doorsense_enabled_august_lock_detail(hass)
 
@@ -72,7 +72,7 @@ async def test_state_locking(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_state_unlocking(hass: UniversalAssistant) -> None:
+async def test_state_unlocking(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge that is unlocking."""
     lock_one = await _mock_doorsense_enabled_august_lock_detail(hass)
 
@@ -89,7 +89,7 @@ async def test_state_unlocking(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_state_jammed(hass: UniversalAssistant) -> None:
+async def test_state_jammed(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge that is jammed."""
     lock_one = await _mock_doorsense_enabled_august_lock_detail(hass)
 
@@ -105,7 +105,7 @@ async def test_state_jammed(hass: UniversalAssistant) -> None:
 
 
 async def test_one_lock_operation(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test creation of a lock with doorsense and bridge."""
     lock_one = await _mock_doorsense_enabled_august_lock_detail(hass)
@@ -154,7 +154,7 @@ async def test_one_lock_operation(
     )
 
 
-async def test_open_lock_operation(hass: UniversalAssistant) -> None:
+async def test_open_lock_operation(hass: __HAC_KEEP__) -> None:
     """Test open lock operation using the open service."""
     lock_with_unlatch = await _mock_lock_with_unlatch(hass)
     await _create_august_with_devices(hass, [lock_with_unlatch])
@@ -174,7 +174,7 @@ async def test_open_lock_operation(hass: UniversalAssistant) -> None:
 
 
 async def test_open_lock_operation_pubnub_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -215,7 +215,7 @@ async def test_open_lock_operation_pubnub_connected(
 
 
 async def test_one_lock_operation_pubnub_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -314,7 +314,7 @@ async def test_one_lock_operation_pubnub_connected(
     assert lock_state.state == LockState.UNLOCKED
 
 
-async def test_lock_jammed(hass: UniversalAssistant) -> None:
+async def test_lock_jammed(hass: __HAC_KEEP__) -> None:
     """Test lock gets jammed on unlock."""
 
     def _unlock_return_activities_side_effect(access_token, device_id):
@@ -350,7 +350,7 @@ async def test_lock_jammed(hass: UniversalAssistant) -> None:
 
 
 async def test_lock_throws_exception_on_unknown_status_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test lock throws exception."""
 
@@ -384,7 +384,7 @@ async def test_lock_throws_exception_on_unknown_status_code(
         )
 
 
-async def test_one_lock_unknown_state(hass: UniversalAssistant) -> None:
+async def test_one_lock_unknown_state(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge."""
     lock_one = await _mock_lock_from_fixture(
         hass,
@@ -395,7 +395,7 @@ async def test_one_lock_unknown_state(hass: UniversalAssistant) -> None:
     assert hass.states.get("lock.brokenid_name_brokenid_name").state == STATE_UNKNOWN
 
 
-async def test_lock_bridge_offline(hass: UniversalAssistant) -> None:
+async def test_lock_bridge_offline(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge that goes offline."""
     lock_one = await _mock_doorsense_enabled_august_lock_detail(hass)
 
@@ -412,7 +412,7 @@ async def test_lock_bridge_offline(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_lock_bridge_online(hass: UniversalAssistant) -> None:
+async def test_lock_bridge_online(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge that goes offline."""
     lock_one = await _mock_doorsense_enabled_august_lock_detail(hass)
 
@@ -429,7 +429,7 @@ async def test_lock_bridge_online(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_lock_update_via_pubnub(hass: UniversalAssistant) -> None:
+async def test_lock_update_via_pubnub(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge."""
     lock_one = await _mock_doorsense_enabled_august_lock_detail(hass)
     states = hass.states
@@ -540,7 +540,7 @@ async def test_lock_update_via_pubnub(hass: UniversalAssistant) -> None:
 
 
 async def test_open_throws_hass_service_not_supported_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test open throws correct error on entity does not support this service error."""
     await async_setup_component(hass, "universalassistant", {})

@@ -11,7 +11,7 @@ from sfrbox_api.exceptions import SFRBoxAuthenticationError, SFRBoxError
 from sfrbox_api.models import DslInfo, FtthInfo, SystemInfo, VoipInfo, WanInfo
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -43,7 +43,7 @@ class SFRDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SFRConfigEntry,
         box: SFRBox,
         name: str,

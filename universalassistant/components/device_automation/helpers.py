@@ -5,7 +5,7 @@ from typing import cast
 import probatio
 
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
 
@@ -43,7 +43,7 @@ ENTITY_PLATFORMS = {
 }
 
 
-def _resolve_device_id(hass: UniversalAssistant, device_id: str, domain: str) -> str:
+def _resolve_device_id(hass: __HAC_KEEP__, device_id: str, domain: str) -> str:
     """Resolve a device automation device id, following a composite device id.
 
     A device automation created when a device could be connected to more than one
@@ -73,7 +73,7 @@ def _resolve_device_id(hass: UniversalAssistant, device_id: str, domain: str) ->
 
 
 async def async_validate_device_automation_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     automation_schema: probatio.Schema,
     automation_type: DeviceAutomationType,

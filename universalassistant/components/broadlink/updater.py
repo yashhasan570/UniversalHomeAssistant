@@ -182,7 +182,7 @@ class BroadlinkRMUpdateManager(BroadlinkUpdateManager[blk.rm]):
     ) -> dict[str, Any]:
         """Fix firmware issue.
 
-        See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/42100.
+        See https://github.com/yashhasan570/__HAC_KEEP__/issues/42100.
         """
         if data["temperature"] == -7:
             if previous_data is None or previous_data["temperature"] is None:

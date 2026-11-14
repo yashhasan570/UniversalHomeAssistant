@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_NAME,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -82,7 +82,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Yeelight bulbs."""
     conf = config.get(DOMAIN, {})
     hass.data[DATA_CUSTOM_EFFECTS_KEY] = conf.get(CONF_CUSTOM_EFFECTS, [])
@@ -107,7 +107,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def _async_initialize(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: YeelightConfigEntry,
     device: YeelightDevice,
 ) -> None:
@@ -127,7 +127,7 @@ async def _async_initialize(
 
 @callback
 def _async_normalize_config_entry(
-    hass: UniversalAssistant, entry: YeelightConfigEntry
+    hass: __HAC_KEEP__, entry: YeelightConfigEntry
 ) -> None:
     """Move options from data for imported entries.
 
@@ -171,7 +171,7 @@ def _async_normalize_config_entry(
         )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: YeelightConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: YeelightConfigEntry) -> None:
     """Set up Yeelight from a config entry."""
     _async_normalize_config_entry(hass, entry)
 
@@ -201,13 +201,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: YeelightConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: YeelightConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: YeelightConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def _async_get_device(
-    hass: UniversalAssistant, host: str, entry: YeelightConfigEntry
+    hass: __HAC_KEEP__, host: str, entry: YeelightConfigEntry
 ) -> YeelightDevice:
     # Get model from config and capabilities
     model = entry.options.get(CONF_MODEL) or entry.data.get(CONF_DETECTED_MODEL)

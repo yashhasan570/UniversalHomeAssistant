@@ -22,7 +22,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.paj_gps.const import DOMAIN, UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -39,7 +39,7 @@ def sensor_only() -> Generator[None]:
 
 
 async def test_speed_none_when_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -85,7 +85,7 @@ def mock_paj_gps_api_with_voltage(mock_paj_gps_api: AsyncMock) -> AsyncMock:
 
 @pytest.mark.usefixtures("mock_paj_gps_api_with_battery")
 async def test_battery_sensor_created_when_has_battery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -98,7 +98,7 @@ async def test_battery_sensor_created_when_has_battery(
 
 @pytest.mark.usefixtures("mock_paj_gps_api")
 async def test_battery_sensor_not_created_when_no_battery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that no battery sensor is created for devices without a standalone battery."""
@@ -108,7 +108,7 @@ async def test_battery_sensor_not_created_when_no_battery(
 
 
 async def test_battery_none_when_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api_with_battery: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_battery_none_when_missing(
 
 @pytest.mark.usefixtures("mock_paj_gps_api_with_voltage")
 async def test_voltage_sensor_created_when_has_voltage_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -139,7 +139,7 @@ async def test_voltage_sensor_created_when_has_voltage_support(
 
 @pytest.mark.usefixtures("mock_paj_gps_api")
 async def test_voltage_sensor_not_created_when_no_voltage_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that no voltage sensor is created when alarm_volt is not supported."""
@@ -149,7 +149,7 @@ async def test_voltage_sensor_not_created_when_no_voltage_support(
 
 
 async def test_voltage_none_when_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_paj_gps_api_with_voltage: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_voltage_none_when_missing(
 
 
 async def test_voltage_partial_degrade_when_one_sensor_data_call_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_paj_gps_api: AsyncMock,
     mock_config_entry: MockConfigEntry,

@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.powersensor_au.config_flow import PowersensorConfigFlow
 from universalassistant.components.powersensor_au.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def _make_mock_devices() -> MagicMock:
@@ -45,7 +45,7 @@ def mock_devices() -> MagicMock:
 
 @pytest.fixture
 async def config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_devices: MagicMock,
     mock_async_zeroconf: MagicMock,
 ) -> AsyncGenerator[MockConfigEntry]:

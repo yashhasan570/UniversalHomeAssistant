@@ -7,7 +7,7 @@ from pyseventeentrack.errors import SeventeenTrackError
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import goto_future, init_integration
 from .conftest import DEFAULT_SUMMARY, get_package
@@ -16,7 +16,7 @@ IN_TRANSIT_ENTITY_ID = "sensor.17track_in_transit"
 
 
 async def test_full_valid_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -26,7 +26,7 @@ async def test_full_valid_config(
 
 
 async def test_valid_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -36,7 +36,7 @@ async def test_valid_config(
 
 
 async def test_invalid_config(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Ensure nothing is created when config is wrong."""
     await init_integration(hass, mock_config_entry)
@@ -44,7 +44,7 @@ async def test_invalid_config(
 
 
 async def test_login_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_login_exception(
 
 
 async def test_package_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_package_error(
 
 
 async def test_summary_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_summary_error(
 
 
 async def test_summary_sensor_unavailable_on_failed_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seventeentrack: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

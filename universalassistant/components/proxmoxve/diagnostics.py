@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_TOKEN_SECRET, CONF_USER
 from .coordinator import ProxmoxConfigEntry
@@ -14,7 +14,7 @@ TO_REDACT = [CONF_USERNAME, CONF_PASSWORD, CONF_HOST, CONF_TOKEN_SECRET, CONF_US
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: ProxmoxConfigEntry
+    hass: __HAC_KEEP__, config_entry: ProxmoxConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a Proxmox VE config entry."""
 

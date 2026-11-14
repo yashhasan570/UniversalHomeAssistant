@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.wiffi.const import DOMAIN
 from universalassistant.const import CONF_PORT, CONF_TIMEOUT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 MOCK_CONFIG = {CONF_PORT: 8765}
@@ -71,7 +71,7 @@ def mock_start_server_failed():
         yield server
 
 
-async def test_form(hass: UniversalAssistant, dummy_tcp_server) -> None:
+async def test_form(hass: __HAC_KEEP__, dummy_tcp_server) -> None:
     """Test how we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -87,7 +87,7 @@ async def test_form(hass: UniversalAssistant, dummy_tcp_server) -> None:
     assert result2["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_addr_in_use(hass: UniversalAssistant, addr_in_use) -> None:
+async def test_form_addr_in_use(hass: __HAC_KEEP__, addr_in_use) -> None:
     """Test how we handle addr_in_use error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -102,7 +102,7 @@ async def test_form_addr_in_use(hass: UniversalAssistant, addr_in_use) -> None:
 
 
 async def test_form_start_server_failed(
-    hass: UniversalAssistant, start_server_failed
+    hass: __HAC_KEEP__, start_server_failed
 ) -> None:
     """Test how we handle start_server_failed error."""
     result = await hass.config_entries.flow.async_init(
@@ -117,7 +117,7 @@ async def test_form_start_server_failed(
     assert result2["reason"] == "start_server_failed"
 
 
-async def test_option_flow(hass: UniversalAssistant) -> None:
+async def test_option_flow(hass: __HAC_KEEP__) -> None:
     """Test option flow."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG)
     entry.add_to_hass(hass)

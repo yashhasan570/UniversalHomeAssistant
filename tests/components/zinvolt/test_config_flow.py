@@ -9,14 +9,14 @@ from zinvolt.exceptions import ZinvoltAuthenticationError, ZinvoltError
 from universalassistant.components.zinvolt.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import TOKEN
 
 
 @pytest.mark.usefixtures("mock_zinvolt_client")
-async def test_full_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test the full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -51,7 +51,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) 
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zinvolt_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     method: str,
@@ -92,7 +92,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_zinvolt_client")
 async def test_duplicate_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we handle duplicate entries."""
     mock_config_entry.add_to_hass(hass)
@@ -115,7 +115,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.usefixtures("mock_zinvolt_client", "mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the reauthentication flow."""
     mock_config_entry.add_to_hass(hass)
@@ -151,7 +151,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zinvolt_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -191,7 +191,7 @@ async def test_reauth_flow_errors(
 
 
 @pytest.mark.usefixtures("mock_zinvolt_client", "mock_setup_entry")
-async def test_reauth_flow_unique_id_mismatch(hass: UniversalAssistant) -> None:
+async def test_reauth_flow_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
     """Test the reauthentication flow aborts when logging in to another account."""
     mock_config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -218,7 +218,7 @@ async def test_reauth_flow_unique_id_mismatch(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_zinvolt_client", "mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -255,7 +255,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zinvolt_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -295,7 +295,7 @@ async def test_reconfigure_flow_errors(
 
 
 @pytest.mark.usefixtures("mock_zinvolt_client", "mock_setup_entry")
-async def test_reconfigure_flow_unique_id_mismatch(hass: UniversalAssistant) -> None:
+async def test_reconfigure_flow_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
     """Test the reconfigure flow aborts when logging in to another account."""
     mock_config_entry = MockConfigEntry(
         domain=DOMAIN,

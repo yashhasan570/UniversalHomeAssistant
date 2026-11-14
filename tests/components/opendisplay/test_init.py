@@ -15,14 +15,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.opendisplay.const import CONF_ENCRYPTION_KEY, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import ENCRYPTION_KEY
 
 
 async def test_setup_and_unload(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting up and unloading a config entry."""
     mock_config_entry.add_to_hass(hass)
@@ -39,7 +39,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_encrypted_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_encrypted_config_entry: MockConfigEntry,
     mock_opendisplay_device: MagicMock,
     mock_opendisplay_device_class: MagicMock,
@@ -58,7 +58,7 @@ async def test_setup_encrypted_device(
 
 
 async def test_setup_device_not_found(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup retries when device is not visible."""
     mock_config_entry.add_to_hass(hass)
@@ -82,7 +82,7 @@ async def test_setup_device_not_found(
     ],
 )
 async def test_setup_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_setup_connection_error(
 
 
 async def test_setup_device_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_setup_device_registered(
     ],
 )
 async def test_setup_device_registry_fields(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_opendisplay_device: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -151,7 +151,7 @@ async def test_setup_device_registry_fields(
 
 
 async def test_unload_cancels_active_upload_task(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that unloading the entry cancels an in-progress upload task."""
     mock_config_entry.add_to_hass(hass)
@@ -174,7 +174,7 @@ async def test_unload_cancels_active_upload_task(
     ],
 )
 async def test_setup_authentication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_setup_authentication_error(
 
 
 async def test_setup_invalid_encryption_key_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that a malformed stored encryption key triggers reauth."""
     entry = MockConfigEntry(

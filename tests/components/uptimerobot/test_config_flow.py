@@ -16,7 +16,7 @@ from pyuptimerobot.const import API_PATH_USER_ME
 from universalassistant import config_entries
 from universalassistant.components.uptimerobot.const import DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .common import (
@@ -47,7 +47,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_user(hass: UniversalAssistant) -> None:
+async def test_user(hass: __HAC_KEEP__) -> None:
     """Test user flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -81,7 +81,7 @@ async def test_user(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_key_read_only(hass: UniversalAssistant) -> None:
+async def test_user_key_read_only(hass: __HAC_KEEP__) -> None:
     """Test user flow with read only key."""
 
     result = await hass.config_entries.flow.async_init(
@@ -125,7 +125,7 @@ async def test_user_key_read_only(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_exception_thrown(
-    hass: UniversalAssistant, exception: type[Exception], error_key: str
+    hass: __HAC_KEEP__, exception: type[Exception], error_key: str
 ) -> None:
     """Test user flow throwing exceptions."""
     result = await hass.config_entries.flow.async_init(
@@ -154,7 +154,7 @@ async def test_exception_thrown(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_api_error(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
+async def test_api_error(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
     """Test expected API error is catch."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -182,7 +182,7 @@ async def test_api_error(hass: UniversalAssistant, caplog: pytest.LogCaptureFixt
 
 
 async def test_user_unique_id_already_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test creating an entry where the unique_id already exists."""
     entry = MockConfigEntry(**MOCK_UPTIMEROBOT_CONFIG_ENTRY_DATA)
@@ -219,7 +219,7 @@ async def test_user_unique_id_already_exists(
 
 
 async def test_reauthentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test UptimeRobot reauthentication."""
     old_entry = MockConfigEntry(**MOCK_UPTIMEROBOT_CONFIG_ENTRY_DATA)
@@ -255,7 +255,7 @@ async def test_reauthentication(
 
 
 async def test_reauthentication_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test UptimeRobot reauthentication failure."""
     old_entry = MockConfigEntry(**MOCK_UPTIMEROBOT_CONFIG_ENTRY_DATA)
@@ -299,7 +299,7 @@ async def test_reauthentication_failure(
 
 
 async def test_reauthentication_failure_no_existing_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test UptimeRobot reauthentication with no existing entry."""
     old_entry = MockConfigEntry(
@@ -337,7 +337,7 @@ async def test_reauthentication_failure_no_existing_entry(
 
 
 async def test_reauthentication_failure_account_not_matching(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test UptimeRobot reauthentication failure when using another account."""
     old_entry = MockConfigEntry(**MOCK_UPTIMEROBOT_CONFIG_ENTRY_DATA)
@@ -387,7 +387,7 @@ async def test_reauthentication_failure_account_not_matching(
 
 
 async def test_reconfigure_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the entry can be reconfigured."""
     config_entry = MockConfigEntry(
@@ -428,7 +428,7 @@ async def test_reconfigure_successful(
 
 
 async def test_reconfigure_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the entry reconfigure fails with a wrong key."""
     config_entry = MockConfigEntry(

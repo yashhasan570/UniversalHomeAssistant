@@ -16,7 +16,7 @@ from universalassistant.components.homekit.const import (
 )
 from universalassistant.config_entries import SOURCE_IGNORE, SOURCE_IMPORT, ConfigFlowResult
 from universalassistant.const import CONF_NAME, CONF_PORT, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entityfilter import CONF_INCLUDE_DOMAINS
@@ -46,7 +46,7 @@ def _mock_config_entry_with_options_populated():
     )
 
 
-async def test_setup_in_bridge_mode(hass: UniversalAssistant) -> None:
+async def test_setup_in_bridge_mode(hass: __HAC_KEEP__) -> None:
     """Test we can setup a new instance in bridge mode."""
 
     result = await hass.config_entries.flow.async_init(
@@ -100,7 +100,7 @@ async def test_setup_in_bridge_mode(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_setup_in_bridge_mode_name_taken(hass: UniversalAssistant) -> None:
+async def test_setup_in_bridge_mode_name_taken(hass: __HAC_KEEP__) -> None:
     """Test we can setup a new instance in bridge mode when the name is taken."""
 
     entry = MockConfigEntry(
@@ -162,7 +162,7 @@ async def test_setup_in_bridge_mode_name_taken(hass: UniversalAssistant) -> None
 
 
 async def test_setup_creates_entries_for_accessory_mode_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setup creates entries for accessory mode devices."""
     hass.states.async_set("camera.one", "on")
@@ -256,7 +256,7 @@ async def test_setup_creates_entries_for_accessory_mode_devices(
     assert len(mock_setup_entry.mock_calls) == 7
 
 
-async def test_import(hass: UniversalAssistant) -> None:
+async def test_import(hass: __HAC_KEEP__) -> None:
     """Test we can import instance."""
 
     ignored_entry = MockConfigEntry(domain=DOMAIN, data={}, source=SOURCE_IGNORE)
@@ -301,7 +301,7 @@ async def test_import(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 2
 
 
-async def test_options_flow_exclude_mode(hass: UniversalAssistant) -> None:
+async def test_options_flow_exclude_mode(hass: __HAC_KEEP__) -> None:
     """Test config flow options in exclude mode."""
 
     config_entry = _mock_config_entry_with_options_populated()
@@ -369,7 +369,7 @@ async def test_options_flow_exclude_mode(hass: UniversalAssistant) -> None:
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_options_flow_devices(
     port_mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     demo_cleanup,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -495,7 +495,7 @@ async def test_options_flow_devices(
 
 
 async def test_options_flow_include_mode_with_non_existant_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test config flow options in include mode with a non-existent entity."""
     config_entry = MockConfigEntry(
@@ -567,7 +567,7 @@ async def test_options_flow_include_mode_with_non_existant_entity(
 
 
 async def test_options_flow_exclude_mode_with_non_existant_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test config flow options in exclude mode with a non-existent entity."""
     config_entry = MockConfigEntry(
@@ -633,7 +633,7 @@ async def test_options_flow_exclude_mode_with_non_existant_entity(
     await hass.config_entries.async_unload(config_entry.entry_id)
 
 
-async def test_options_flow_include_mode_basic(hass: UniversalAssistant) -> None:
+async def test_options_flow_include_mode_basic(hass: __HAC_KEEP__) -> None:
     """Test config flow options in include mode."""
 
     config_entry = _mock_config_entry_with_options_populated()
@@ -691,7 +691,7 @@ async def test_options_flow_include_mode_basic(hass: UniversalAssistant) -> None
     await hass.config_entries.async_unload(config_entry.entry_id)
 
 
-async def test_options_flow_exclude_mode_with_cameras(hass: UniversalAssistant) -> None:
+async def test_options_flow_exclude_mode_with_cameras(hass: __HAC_KEEP__) -> None:
     """Test config flow options in exclude mode with cameras."""
 
     config_entry = _mock_config_entry_with_options_populated()
@@ -807,7 +807,7 @@ async def test_options_flow_exclude_mode_with_cameras(hass: UniversalAssistant) 
     await hass.config_entries.async_unload(config_entry.entry_id)
 
 
-async def test_options_flow_include_mode_with_cameras(hass: UniversalAssistant) -> None:
+async def test_options_flow_include_mode_with_cameras(hass: __HAC_KEEP__) -> None:
     """Test config flow options in include mode with cameras."""
 
     config_entry = _mock_config_entry_with_options_populated()
@@ -961,7 +961,7 @@ async def test_options_flow_include_mode_with_cameras(hass: UniversalAssistant) 
 
 
 async def _async_options_flow_to_cameras(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> ConfigFlowResult:
     """Walk the options flow up to the camera step."""
     result = await hass.config_entries.options.async_init(config_entry.entry_id)
@@ -976,7 +976,7 @@ async def _async_options_flow_to_cameras(
     return result
 
 
-async def test_options_flow_with_camera_secure_video(hass: UniversalAssistant) -> None:
+async def test_options_flow_with_camera_secure_video(hass: __HAC_KEEP__) -> None:
     """Test cameras in accessory mode can record to HomeKit Secure Video."""
     config_entry = _mock_config_entry_with_options_populated()
     config_entry.add_to_hass(hass)
@@ -1003,7 +1003,7 @@ async def test_options_flow_with_camera_secure_video(hass: UniversalAssistant) -
     assert config_entry.options["entity_config"] == {}
 
 
-async def test_options_flow_with_camera_audio(hass: UniversalAssistant) -> None:
+async def test_options_flow_with_camera_audio(hass: __HAC_KEEP__) -> None:
     """Test config flow options with cameras that support audio."""
 
     config_entry = _mock_config_entry_with_options_populated()
@@ -1154,7 +1154,7 @@ async def test_options_flow_with_camera_audio(hass: UniversalAssistant) -> None:
     await hass.config_entries.async_unload(config_entry.entry_id)
 
 
-async def test_options_flow_blocked_when_from_yaml(hass: UniversalAssistant) -> None:
+async def test_options_flow_blocked_when_from_yaml(hass: __HAC_KEEP__) -> None:
     """Test config flow options."""
 
     config_entry = MockConfigEntry(
@@ -1198,7 +1198,7 @@ async def test_options_flow_blocked_when_from_yaml(hass: UniversalAssistant) -> 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_options_flow_include_mode_basic_accessory(
     port_mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hk_driver,
 ) -> None:
     """Test config flow options in include mode with a single accessory."""
@@ -1295,7 +1295,7 @@ async def test_options_flow_include_mode_basic_accessory(
 
 
 async def test_converting_bridge_to_accessory_mode(
-    hass: UniversalAssistant, hk_driver
+    hass: __HAC_KEEP__, hk_driver
 ) -> None:
     """Test we can convert a bridge to accessory mode."""
 
@@ -1418,7 +1418,7 @@ def _get_schema_default(schema, key_name):
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_options_flow_exclude_mode_skips_category_entities(
     port_mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hk_driver,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1526,7 +1526,7 @@ async def test_options_flow_exclude_mode_skips_category_entities(
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_options_flow_exclude_mode_skips_hidden_entities(
     port_mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hk_driver,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1615,7 +1615,7 @@ async def test_options_flow_exclude_mode_skips_hidden_entities(
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_options_flow_include_mode_allows_hidden_entities(
     port_mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hk_driver,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1705,7 +1705,7 @@ async def test_options_flow_include_mode_allows_hidden_entities(
 
 
 async def test_options_flow_climate_accessory_type_round_trip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setting and clearing the climate accessory type."""
     config_entry = _mock_config_entry_with_options_populated()
@@ -1756,7 +1756,7 @@ async def test_options_flow_climate_accessory_type_round_trip(
 
 
 async def test_options_flow_cameras_step_with_whole_domain_included(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the cameras step is offered for a whole camera domain include."""
     config_entry = _mock_config_entry_with_options_populated()
@@ -1821,7 +1821,7 @@ async def test_options_flow_cameras_step_with_whole_domain_included(
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_options_flow_climate_step_shows_current_accessory(
     port_mock: MagicMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hk_driver: HomeDriver,
     mode_options: dict[str, str],
     init_input: dict[str, Any],
@@ -1889,7 +1889,7 @@ async def test_options_flow_climate_step_shows_current_accessory(
 
 
 async def test_options_flow_climate_step_with_whole_domain_included(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the climate step lists all climate entities for a domain include."""
     config_entry = _mock_config_entry_with_options_populated()

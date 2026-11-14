@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD, CONF_UNIQUE_ID, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .coordinator import DexcomConfigEntry
@@ -14,7 +14,7 @@ TO_REDACT = {CONF_PASSWORD, CONF_UNIQUE_ID, CONF_USERNAME, "title"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: DexcomConfigEntry
+    hass: __HAC_KEEP__, entry: DexcomConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.e3dc.const import SCAN_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import seed
@@ -39,7 +39,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_all_entities(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_ems_status_bit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_unit: MockModbusUnit,
     bit: int,

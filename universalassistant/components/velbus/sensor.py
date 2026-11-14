@@ -21,7 +21,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import VelbusConfigEntry
@@ -137,7 +137,7 @@ SENSOR_DESCRIPTIONS: dict[str, VelbusSensorEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VelbusConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

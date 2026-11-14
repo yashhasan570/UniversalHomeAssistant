@@ -10,7 +10,7 @@ from anthropic.resources.messages.messages import DEPRECATED_MODELS
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -42,7 +42,7 @@ type AnthropicConfigEntry = ConfigEntry[AnthropicCoordinator]
 
 
 async def async_create_client(
-    hass: UniversalAssistant, api_key: str
+    hass: __HAC_KEEP__, api_key: str
 ) -> anthropic.AsyncAnthropic:
     """Create an Anthropic client."""
     return await hass.async_add_executor_job(
@@ -88,7 +88,7 @@ class AnthropicCoordinator(DataUpdateCoordinator[list[anthropic.types.ModelInfo]
     config_entry: AnthropicConfigEntry
     _client: anthropic.AsyncAnthropic
 
-    def __init__(self, hass: UniversalAssistant, config_entry: AnthropicConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: AnthropicConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

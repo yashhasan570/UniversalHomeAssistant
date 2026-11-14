@@ -7,14 +7,14 @@ import pytest
 
 from universalassistant.components.zoneminder.const import DOMAIN
 from universalassistant.components.zoneminder.services import ZoneMinderServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .conftest import MOCK_HOST, MOCK_HOST_2, create_mock_zm_client
 
 
 async def test_set_run_state_service_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:
@@ -26,7 +26,7 @@ async def test_set_run_state_service_registered(
 
 
 async def test_set_run_state_valid_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_set_run_state_valid_call(
 
 
 async def test_set_run_state_multi_server_targets_correct_server(
-    hass: UniversalAssistant, multi_server_config: dict
+    hass: __HAC_KEEP__, multi_server_config: dict
 ) -> None:
     """Test set_run_state targets specific server by id."""
     clients: dict[str, MagicMock] = {}
@@ -86,7 +86,7 @@ async def test_set_run_state_multi_server_targets_correct_server(
 
 
 async def test_set_run_state_missing_fields_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_set_run_state_missing_fields_rejected(
 
 
 async def test_set_run_state_invalid_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     caplog: pytest.LogCaptureFixture,

@@ -8,18 +8,18 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.dynalite import const as dynalite
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_empty_config(hass: UniversalAssistant) -> None:
+async def test_empty_config(hass: __HAC_KEEP__) -> None:
     """Test with an empty config."""
     assert await async_setup_component(hass, dynalite.DOMAIN, {}) is True
     assert len(hass.config_entries.flow.async_progress()) == 0
     assert len(hass.config_entries.async_entries(dynalite.DOMAIN)) == 0
 
 
-async def test_service_request_area_preset(hass: UniversalAssistant) -> None:
+async def test_service_request_area_preset(hass: __HAC_KEEP__) -> None:
     """Test requesting and area preset via service call."""
     entry = MockConfigEntry(
         domain=dynalite.DOMAIN,
@@ -92,7 +92,7 @@ async def test_service_request_area_preset(hass: UniversalAssistant) -> None:
         mock_req_area_pres.assert_called_once_with(7, 1)
 
 
-async def test_service_request_channel_level(hass: UniversalAssistant) -> None:
+async def test_service_request_channel_level(hass: __HAC_KEEP__) -> None:
     """Test requesting the level of a channel via service call."""
     entry = MockConfigEntry(
         domain=dynalite.DOMAIN,
@@ -142,7 +142,7 @@ async def test_service_request_channel_level(hass: UniversalAssistant) -> None:
         assert mock_req_chan_lvl.mock_calls == [call(4, 5), call(4, 5)]
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test being able to unload an entry."""
     host = "1.2.3.4"
     entry = MockConfigEntry(domain=dynalite.DOMAIN, data={CONF_HOST: host})

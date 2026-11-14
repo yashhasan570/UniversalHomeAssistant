@@ -15,7 +15,7 @@ from universalassistant.components.drop_connect.const import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_ID, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 TEST_DATA_HUB_TOPIC = "drop_connect/DROP-1_C0FFEE/255"
@@ -245,7 +245,7 @@ def config_entry_ro_filter() -> ConfigEntry:
 
 
 def help_assert_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     config_entry: ConfigEntry,

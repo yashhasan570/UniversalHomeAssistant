@@ -17,7 +17,7 @@ from universalassistant.components.device_tracker import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -67,7 +67,7 @@ class VodafoneStationRouter(DataUpdateCoordinator[UpdateCoordinatorDataType]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: VodafoneConfigEntry,
     ) -> None:
         """Initialize the scanner."""

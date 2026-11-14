@@ -12,8 +12,8 @@ from pysmlight.models import AmbilightPayload, FirmwareList
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.device_registry import (
     CONNECTION_NETWORK_MAC,
@@ -77,7 +77,7 @@ class SmBaseDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
     config_entry: SmConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: SmConfigEntry, client: Api2
+        self, hass: __HAC_KEEP__, config_entry: SmConfigEntry, client: Api2
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(
@@ -165,7 +165,7 @@ class SmBaseDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
                 translation_key="invalid_auth",
             ) from err
         except SmlightConnectionError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect_device",
                 translation_placeholders={"error": str(err)},
@@ -208,7 +208,7 @@ class SmFirmwareUpdateCoordinator(SmBaseDataUpdateCoordinator[SmFwData]):
     """Class to manage fetching SMLIGHT firmware update data from cloud."""
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: SmConfigEntry, client: Api2
+        self, hass: __HAC_KEEP__, config_entry: SmConfigEntry, client: Api2
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, config_entry, client)

@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.lg_infrared.const import LGDeviceType
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -30,7 +30,7 @@ def platforms() -> list[Platform]:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -87,7 +87,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_button_press_sends_correct_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_id: str,
     expected_code: LGTVCode,
@@ -106,7 +106,7 @@ async def test_button_press_sends_correct_code(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_button_availability_follows_ir_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test button becomes unavailable when IR entity is unavailable."""
     entity_id = "button.lg_tv_power_on"
@@ -132,7 +132,7 @@ async def test_button_availability_follows_ir_entity(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_ac_button_press_sends_correct_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_id: str,
     expected_code: LGACCode,
@@ -154,7 +154,7 @@ async def test_ac_button_press_sends_correct_code(
 @pytest.mark.parametrize("key", ["swing_v_toggle", "viraat"])
 @pytest.mark.usefixtures("init_integration")
 async def test_ac_buttons_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     key: str,
@@ -219,7 +219,7 @@ async def test_ac_buttons_disabled_by_default(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_home_theater_button_press_sends_correct_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_id: str,
     expected_code: LGHomeTheaterCode,
@@ -239,7 +239,7 @@ async def test_home_theater_button_press_sends_correct_code(
 @pytest.mark.parametrize("device_type", [LGDeviceType.HOME_THEATER])
 @pytest.mark.usefixtures("init_integration")
 async def test_home_theater_button_availability_follows_ir_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test Home Theater button becomes unavailable when IR entity is unavailable."""
     entity_id = "button.lg_home_theater_power"

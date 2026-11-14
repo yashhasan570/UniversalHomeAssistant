@@ -10,7 +10,7 @@ from universalassistant.components.universalassistant_hardware.repair_helpers im
     async_create_multi_pan_migration_issue,
     async_delete_multi_pan_migration_issue,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 TEST_DOMAIN = "test_hardware"
@@ -23,7 +23,7 @@ def ignore_translations_for_mock_domains() -> str:
 
 
 async def test_create_and_delete_multi_pan_migration_issue(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the helpers create and delete the migration issue per entry."""
     entry = MockConfigEntry(domain=TEST_DOMAIN, title="Test HW", data={})

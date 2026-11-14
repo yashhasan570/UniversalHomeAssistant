@@ -26,7 +26,7 @@ from universalassistant.components.google_travel_time.const import (
 )
 from universalassistant.components.google_travel_time.sensor import SCAN_INTERVAL
 from universalassistant.const import CONF_MODE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.util.unit_system import (
     METRIC_SYSTEM,
@@ -49,7 +49,7 @@ def mock_update_empty_fixture(routes_mock: AsyncMock) -> AsyncMock:
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 @pytest.mark.usefixtures("routes_mock", "mock_config")
-async def test_sensor(hass: UniversalAssistant) -> None:
+async def test_sensor(hass: __HAC_KEEP__) -> None:
     """Test that sensor works."""
     assert hass.states.get("sensor.google_travel_time").state == "27.0"
     assert (
@@ -80,7 +80,7 @@ async def test_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("routes_mock")
-async def test_sensor_name_from_entry_title(hass: UniversalAssistant) -> None:
+async def test_sensor_name_from_entry_title(hass: __HAC_KEEP__) -> None:
     """Test that the sensor name is taken from the config entry title."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -103,7 +103,7 @@ async def test_sensor_name_from_entry_title(hass: UniversalAssistant) -> None:
     ("data", "options"),
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
-async def test_sensor_empty_response(hass: UniversalAssistant) -> None:
+async def test_sensor_empty_response(hass: __HAC_KEEP__) -> None:
     """Test that sensor works for an empty response."""
     assert hass.states.get("sensor.google_travel_time").state == STATE_UNKNOWN
 
@@ -113,7 +113,7 @@ async def test_sensor_empty_response(hass: UniversalAssistant) -> None:
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 async def test_sensor_route_without_localized_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -145,7 +145,7 @@ async def test_sensor_route_without_localized_values(
     ],
 )
 @pytest.mark.usefixtures("routes_mock", "mock_config")
-async def test_sensor_departure_time(hass: UniversalAssistant) -> None:
+async def test_sensor_departure_time(hass: __HAC_KEEP__) -> None:
     """Test that sensor works for departure time."""
     assert hass.states.get("sensor.google_travel_time").state == "27.0"
 
@@ -166,7 +166,7 @@ async def test_sensor_departure_time(hass: UniversalAssistant) -> None:
     ],
 )
 @pytest.mark.usefixtures("routes_mock", "mock_config")
-async def test_sensor_arrival_time(hass: UniversalAssistant) -> None:
+async def test_sensor_arrival_time(hass: __HAC_KEEP__) -> None:
     """Test that sensor works for arrival time."""
     assert hass.states.get("sensor.google_travel_time").state == "27.0"
 
@@ -181,7 +181,7 @@ async def test_sensor_arrival_time(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_sensor_travel_routing_preference(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     routes_mock: AsyncMock,
     travel_routing_preference: str | None,
     expected_option: RoutingPreference,
@@ -218,7 +218,7 @@ async def test_sensor_travel_routing_preference(
     ],
 )
 async def test_sensor_unit_system(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     routes_mock: AsyncMock,
     unit_system: UnitSystem,
     expected_unit_option: Units,
@@ -248,7 +248,7 @@ async def test_sensor_unit_system(
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 async def test_sensor_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
@@ -270,7 +270,7 @@ async def test_sensor_exception(
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 async def test_sensor_routes_api_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,
@@ -305,7 +305,7 @@ async def test_sensor_routes_api_disabled(
     [(MOCK_CONFIG, DEFAULT_OPTIONS)],
 )
 async def test_sensor_auth_error_no_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     routes_mock: AsyncMock,
     mock_config: MockConfigEntry,

@@ -6,7 +6,7 @@ from typing import Any, override
 from jellyfin_apiclient_python import JellyfinClient
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import CONF_CLIENT_DEVICE_ID, DOMAIN, LOGGER, USER_APP_NAME
@@ -21,7 +21,7 @@ class JellyfinDataUpdateCoordinator(DataUpdateCoordinator[dict[str, dict[str, An
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: JellyfinConfigEntry,
         api_client: JellyfinClient,
         system_info: dict[str, Any],

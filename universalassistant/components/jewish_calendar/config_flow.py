@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_TIME_ZONE,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.selector import (
     BooleanSelector,
     LanguageSelector,
@@ -97,7 +97,7 @@ OPTIONS_SCHEMA = probatio.Schema(
 _LOGGER = logging.getLogger(__name__)
 
 
-async def _get_data_schema(hass: UniversalAssistant) -> probatio.Schema:
+async def _get_data_schema(hass: __HAC_KEEP__) -> probatio.Schema:
     default_location = {
         CONF_LATITUDE: hass.config.latitude,
         CONF_LONGITUDE: hass.config.longitude,

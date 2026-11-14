@@ -9,7 +9,7 @@ from pydroplet.droplet import Droplet
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_CODE, CONF_IP_ADDRESS, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -28,7 +28,7 @@ class DropletDataCoordinator(DataUpdateCoordinator[None]):
 
     config_entry: DropletConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: DropletConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: DropletConfigEntry) -> None:
         """Initialize the device."""
         super().__init__(
             hass, _LOGGER, config_entry=entry, name=f"{DOMAIN}-{entry.unique_id}"

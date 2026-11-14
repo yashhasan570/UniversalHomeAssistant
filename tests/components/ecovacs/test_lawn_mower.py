@@ -17,7 +17,7 @@ from universalassistant.components.lawn_mower import (
     LawnMowerService,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .util import notify_and_wait
@@ -38,7 +38,7 @@ def platforms() -> Platform | list[Platform]:
     ],
 )
 async def test_lawn_mower(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -84,7 +84,7 @@ async def test_lawn_mower(
     ],
 )
 async def test_lawn_mower_activity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     controller: EcovacsController,
     bot_state: State,
     expected: LawnMowerActivity,
@@ -123,7 +123,7 @@ class MowerTestCase:
     ids=["5xu9h3"],
 )
 async def test_mover_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     controller: EcovacsController,
     entity_id: list[str],
     tests: list[MowerTestCase],

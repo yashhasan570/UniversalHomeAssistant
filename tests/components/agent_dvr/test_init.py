@@ -7,7 +7,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.agent_dvr.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import CONF_DATA, create_entry, init_integration
 
@@ -26,7 +26,7 @@ def _patch_init_agent(mocked_agent):
 
 
 async def test_setup_config_and_unload(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup and unload."""
     entry = await init_integration(hass, aioclient_mock)
@@ -40,7 +40,7 @@ async def test_setup_config_and_unload(
     assert entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_async_setup_entry_not_ready(hass: UniversalAssistant) -> None:
+async def test_async_setup_entry_not_ready(hass: __HAC_KEEP__) -> None:
     """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
     entry = create_entry(hass)
     with patch(

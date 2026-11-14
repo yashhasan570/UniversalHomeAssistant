@@ -7,7 +7,7 @@ import pytest
 from universalassistant.components.energy import DOMAIN, async_get_manager
 from universalassistant.components.energy.data import EnergyManager
 from universalassistant.components.recorder import Recorder
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
@@ -47,7 +47,7 @@ def mock_get_metadata():
 
 @pytest.fixture
 async def mock_energy_manager(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> EnergyManager:
     """Set up energy."""
     assert await async_setup_component(hass, DOMAIN, {"energy": {}})

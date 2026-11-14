@@ -8,7 +8,7 @@ import probatio
 from universalassistant import config_entries
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import ERR_NOT_FOUND, require_admin
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import (
     config_validation as cv,
     entity_registry as er,
@@ -21,7 +21,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> bool:
+def async_setup(hass: __HAC_KEEP__) -> bool:
     """Enable the Entity Registry views."""
 
     websocket_api.async_register_command(hass, websocket_get_automatic_entity_ids)
@@ -41,7 +41,7 @@ def async_setup(hass: UniversalAssistant) -> bool:
 )
 @callback
 def websocket_list_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -72,7 +72,7 @@ _ENTITY_CATEGORIES_JSON = json_dumps(er.ENTITY_CATEGORY_INDEX_TO_VALUE)
 )
 @callback
 def websocket_list_entities_for_display(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -103,7 +103,7 @@ def websocket_list_entities_for_display(
 )
 @callback
 def websocket_get_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -132,7 +132,7 @@ def websocket_get_entity(
 )
 @callback
 def websocket_get_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -198,7 +198,7 @@ def websocket_get_entities(
 )
 @callback
 def websocket_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -303,7 +303,7 @@ def websocket_update_entity(
 )
 @callback
 def websocket_remove_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -339,7 +339,7 @@ def websocket_remove_entity(
 )
 @callback
 def websocket_get_automatic_entity_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -377,7 +377,7 @@ def websocket_get_automatic_entity_ids(
 )
 @callback
 def websocket_get_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -405,7 +405,7 @@ def websocket_get_settings(
 )
 @callback
 def websocket_update_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

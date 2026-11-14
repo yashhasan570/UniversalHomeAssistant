@@ -19,8 +19,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import create_mock_account, setup_integration
@@ -29,7 +29,7 @@ SELECT_ENTITY_ID = "select.test_clean_cycle_wait_time_minutes"
 
 
 async def test_wait_time_select(
-    hass: UniversalAssistant, mock_account, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, mock_account, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests the wait time select entity."""
     await setup_integration(hass, mock_account, SELECT_DOMAIN)
@@ -56,7 +56,7 @@ async def test_wait_time_select(
         assert mock_account.robots[0].set_wait_time.call_count == count + 1
 
 
-async def test_invalid_wait_time_select(hass: UniversalAssistant, mock_account) -> None:
+async def test_invalid_wait_time_select(hass: __HAC_KEEP__, mock_account) -> None:
     """Tests the wait time select entity with invalid value."""
     await setup_integration(hass, mock_account, SELECT_DOMAIN)
 
@@ -84,7 +84,7 @@ async def test_invalid_wait_time_select(hass: UniversalAssistant, mock_account) 
     ],
 )
 async def test_litterrobot_4_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_account_with_litterrobot_4: MagicMock,
     entity_registry: er.EntityRegistry,
     entity_id: str,
@@ -122,12 +122,12 @@ async def test_litterrobot_4_select(
 
 
 async def test_select_command_exception(
-    hass: UniversalAssistant, mock_account_with_side_effects: MagicMock
+    hass: __HAC_KEEP__, mock_account_with_side_effects: MagicMock
 ) -> None:
-    """Test that LitterRobotException is wrapped in UniversalAssistantError."""
+    """Test that LitterRobotException is wrapped in __HAC_KEEP__Error."""
     await setup_integration(hass, mock_account_with_side_effects, SELECT_DOMAIN)
 
-    with pytest.raises(UniversalAssistantError, match="Invalid command: oops"):
+    with pytest.raises(__HAC_KEEP__Error, match="Invalid command: oops"):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -140,7 +140,7 @@ async def test_select_command_exception(
 
 
 async def test_litterrobot_5_globe_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_account_with_litterrobot_5: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_litterrobot_5_globe_light(
 
 
 async def test_litterrobot_5_panel_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_account_with_litterrobot_5: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -213,7 +213,7 @@ async def test_litterrobot_5_panel_brightness(
         assert robot.set_panel_brightness.call_count == count + 1
 
 
-async def test_globe_brightness_unmapped_level(hass: UniversalAssistant) -> None:
+async def test_globe_brightness_unmapped_level(hass: __HAC_KEEP__) -> None:
     """A brightness matching no level leaves the select unknown, not "None".
 
     The LR5 firmware accepts any 0-100 brightness, so a value set outside the

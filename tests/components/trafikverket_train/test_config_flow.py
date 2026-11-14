@@ -21,14 +21,14 @@ from universalassistant.components.trafikverket_train.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_KEY, CONF_NAME, CONF_WEEKDAY, WEEKDAYS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import ENTRY_CONFIG, OPTIONS_CONFIG
 
 
 async def test_form(
-    hass: UniversalAssistant, get_train_stations: list[StationInfoModel]
+    hass: __HAC_KEEP__, get_train_stations: list[StationInfoModel]
 ) -> None:
     """Test we get the form."""
 
@@ -76,7 +76,7 @@ async def test_form(
 
 
 async def test_form_multiple_stations(
-    hass: UniversalAssistant, get_multiple_train_stations: list[StationInfoModel]
+    hass: __HAC_KEEP__, get_multiple_train_stations: list[StationInfoModel]
 ) -> None:
     """Test we get the form."""
 
@@ -137,7 +137,7 @@ async def test_form_multiple_stations(
 
 
 async def test_form_entry_already_exist(
-    hass: UniversalAssistant, get_train_stations: list[StationInfoModel]
+    hass: __HAC_KEEP__, get_train_stations: list[StationInfoModel]
 ) -> None:
     """Test flow aborts when entry already exist."""
 
@@ -210,7 +210,7 @@ async def test_form_entry_already_exist(
     ],
 )
 async def test_flow_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_train_stations: list[list[StationInfoModel]],
     side_effect: Exception,
     p_error: dict[str, str],
@@ -277,7 +277,7 @@ async def test_flow_fails(
     ],
 )
 async def test_flow_fails_departures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_train_stations: list[list[StationInfoModel]],
     side_effect: Exception,
     p_error: dict[str, str],
@@ -331,7 +331,7 @@ async def test_flow_fails_departures(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant, get_train_stations: list[StationInfoModel]
+    hass: __HAC_KEEP__, get_train_stations: list[StationInfoModel]
 ) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(
@@ -404,7 +404,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     p_error: dict[str, str],
     get_train_stations: list[StationInfoModel],
@@ -485,7 +485,7 @@ async def test_reauth_flow_error(
     ],
 )
 async def test_reauth_flow_error_departures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     p_error: dict[str, str],
     get_train_stations: list[StationInfoModel],
@@ -556,7 +556,7 @@ async def test_reauth_flow_error_departures(
 
 
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_trains: list[TrainStopModel],
     get_train_stop: TrainStopModel,
     get_train_stations: list[StationInfoModel],
@@ -627,7 +627,7 @@ async def test_options_flow(
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, get_train_stations: list[StationInfoModel]
+    hass: __HAC_KEEP__, get_train_stations: list[StationInfoModel]
 ) -> None:
     """Test reconfigure flow."""
 
@@ -673,7 +673,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_multiple_stations(
-    hass: UniversalAssistant, get_multiple_train_stations: list[StationInfoModel]
+    hass: __HAC_KEEP__, get_multiple_train_stations: list[StationInfoModel]
 ) -> None:
     """Test we can reconfigure with multiple stations."""
 
@@ -734,7 +734,7 @@ async def test_reconfigure_multiple_stations(
 
 
 async def test_reconfigure_entry_already_exist(
-    hass: UniversalAssistant, get_train_stations: list[StationInfoModel]
+    hass: __HAC_KEEP__, get_train_stations: list[StationInfoModel]
 ) -> None:
     """Test flow aborts when entry already exist in a reconfigure flow."""
 
@@ -815,7 +815,7 @@ async def test_reconfigure_entry_already_exist(
     ],
 )
 async def test_reconfigure_flow_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     p_error: dict[str, str],
     get_train_stations: list[StationInfoModel],
@@ -890,7 +890,7 @@ async def test_reconfigure_flow_fails(
     ],
 )
 async def test_reconfigure_flow_fails_departures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     p_error: dict[str, str],
     get_train_stations: list[StationInfoModel],

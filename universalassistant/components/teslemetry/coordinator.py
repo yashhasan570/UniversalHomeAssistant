@@ -33,7 +33,7 @@ from tesla_fleet_api.tesla.powerwall import (
 from tesla_fleet_api.teslemetry import EnergySite, Teslemetry, Vehicle
 from teslemetry_stream.const import EnergyTotalsEvent, WallConnectorTotalsEvent
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.event import async_track_time_interval
@@ -105,7 +105,7 @@ class TeslemetryMetadataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TeslemetryConfigEntry,
         teslemetry: Teslemetry,
     ) -> None:
@@ -151,7 +151,7 @@ class TeslemetryVehicleDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TeslemetryConfigEntry,
         api: Vehicle,
         product: dict[str, Any],
@@ -232,7 +232,7 @@ class TeslemetryEnergySiteLiveCoordinator(DataUpdateCoordinator[dict[str, Any]])
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TeslemetryConfigEntry,
         api: EnergySite,
         data: dict[str, Any],
@@ -376,7 +376,7 @@ class TeslemetryEnergySiteInfoCoordinator(DataUpdateCoordinator[dict[str, Any]])
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TeslemetryConfigEntry,
         api: EnergySite,
         product: dict[str, Any],
@@ -540,7 +540,7 @@ class TeslemetryStreamTotalsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TeslemetryConfigEntry,
         site_id: int,
         name: str,
@@ -562,7 +562,7 @@ class TeslemetryStreamTotalsCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             return
         if (zone := await dt_util.async_get_time_zone(name)) is None:
             LOGGER.warning(
-                "Unknown timezone %s for energy site %s, falling back to the Universal Universal Home Assistant timezone",
+                "Unknown timezone %s for energy site %s, falling back to the __HA_KEEP__ timezone",
                 name,
                 self.site_id,
             )
@@ -585,7 +585,7 @@ class TeslemetryEnergyHistoryCoordinator(TeslemetryStreamTotalsCoordinator):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TeslemetryConfigEntry,
         site_id: int,
     ) -> None:
@@ -606,7 +606,7 @@ class TeslemetryLocalCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TeslemetryConfigEntry,
         client: PowerwallClient,
         name: str,
@@ -644,7 +644,7 @@ class TeslemetryLocalStatusCoordinator(TeslemetryLocalCoordinator[dict[str, Any]
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TeslemetryConfigEntry,
         client: PowerwallClient,
         site_id: int,
@@ -669,7 +669,7 @@ class TeslemetryWallConnectorTotalsCoordinator(TeslemetryStreamTotalsCoordinator
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TeslemetryConfigEntry,
         site_id: int,
     ) -> None:
@@ -698,7 +698,7 @@ class TeslemetryLocalComponentsCoordinator(TeslemetryLocalCoordinator[dict[str, 
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TeslemetryConfigEntry,
         client: PowerwallClient,
         site_id: int,

@@ -8,8 +8,8 @@ import pytest
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import slugify
 
 from . import init_integration
@@ -31,7 +31,7 @@ SWING_OFF_EID = BASE_ENTITY_ID + "_vertical_swing_off"
 )
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_assume_button(
-    hass: UniversalAssistant, entity, state, mock_bridge, mock_api
+    hass: __HAC_KEEP__, entity, state, mock_bridge, mock_api
 ) -> None:
     """Test assume on/off button."""
     await init_integration(hass)
@@ -64,7 +64,7 @@ async def test_assume_button(
 )
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_swing_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity,
     swing,
     mock_bridge,
@@ -94,7 +94,7 @@ async def test_swing_button(
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_control_device_fail(
-    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test control device fail."""
     await init_integration(hass)
@@ -107,7 +107,7 @@ async def test_control_device_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.control_breeze_device",
         side_effect=RuntimeError("fake error"),
     ) as mock_control_device:
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 BUTTON_DOMAIN,
                 ButtonService.PRESS,
@@ -129,7 +129,7 @@ async def test_control_device_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.control_breeze_device",
         return_value=SwitcherBaseResponse(None),
     ) as mock_control_device:
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 BUTTON_DOMAIN,
                 ButtonService.PRESS,

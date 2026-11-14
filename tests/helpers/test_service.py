@@ -46,13 +46,13 @@ from universalassistant.core import (
     Context,
     EntityServiceResponse,
     HassJob,
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     area_registry as ar,
     config_validation as cv,
@@ -78,7 +78,7 @@ SUPPORT_C = 4
 
 
 @pytest.fixture
-def mock_entities(hass: UniversalAssistant) -> dict[str, MockEntity]:
+def mock_entities(hass: __HAC_KEEP__) -> dict[str, MockEntity]:
     """Return mock entities in an ordered dict."""
     kitchen = MockEntity(
         entity_id="light.kitchen",
@@ -131,7 +131,7 @@ def mock_entities_method() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-def floor_area_mock(hass: UniversalAssistant) -> None:
+def floor_area_mock(hass: __HAC_KEEP__) -> None:
     """Mock including floor and area info."""
     hass.states.async_set("light.Bowl", STATE_ON)
     hass.states.async_set("light.Ceiling", STATE_OFF)
@@ -304,7 +304,7 @@ def floor_area_mock(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture
-def label_mock(hass: UniversalAssistant) -> None:
+def label_mock(hass: __HAC_KEEP__) -> None:
     """Mock including label info."""
     hass.states.async_set("light.bowl", STATE_ON)
     hass.states.async_set("light.ceiling", STATE_OFF)
@@ -447,7 +447,7 @@ def label_mock(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_call_from_config(hass: UniversalAssistant) -> None:
+async def test_call_from_config(hass: __HAC_KEEP__) -> None:
     """Test the sync wrapper of service.async_call_from_config."""
     calls = async_mock_service(hass, "test_domain", "test_service")
     config = {
@@ -462,7 +462,7 @@ async def test_call_from_config(hass: UniversalAssistant) -> None:
     assert calls[0].data == {"hello": "goodbye", "entity_id": ["hello.world"]}
 
 
-async def test_service_call(hass: UniversalAssistant) -> None:
+async def test_service_call(hass: __HAC_KEEP__) -> None:
     """Test service call with templating."""
     calls = async_mock_service(hass, "test_domain", "test_service")
     config = {
@@ -561,7 +561,7 @@ async def test_service_call(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_service_template_service_call(hass: UniversalAssistant) -> None:
+async def test_service_template_service_call(hass: __HAC_KEEP__) -> None:
     """Test legacy service_template call with templating."""
     calls = async_mock_service(hass, "test_domain", "test_service")
     config = {
@@ -576,7 +576,7 @@ async def test_service_template_service_call(hass: UniversalAssistant) -> None:
     assert calls[0].data == {"hello": "goodbye", "entity_id": ["hello.world"]}
 
 
-async def test_passing_variables_to_templates(hass: UniversalAssistant) -> None:
+async def test_passing_variables_to_templates(hass: __HAC_KEEP__) -> None:
     """Test passing variables to templates."""
     calls = async_mock_service(hass, "test_domain", "test_service")
     config = {
@@ -598,7 +598,7 @@ async def test_passing_variables_to_templates(hass: UniversalAssistant) -> None:
     assert calls[0].data == {"hello": "goodbye", "entity_id": ["hello.world"]}
 
 
-async def test_bad_template(hass: UniversalAssistant) -> None:
+async def test_bad_template(hass: __HAC_KEEP__) -> None:
     """Test passing bad template."""
     calls = async_mock_service(hass, "test_domain", "test_service")
     config = {
@@ -620,7 +620,7 @@ async def test_bad_template(hass: UniversalAssistant) -> None:
     assert len(calls) == 0
 
 
-async def test_split_entity_string(hass: UniversalAssistant) -> None:
+async def test_split_entity_string(hass: __HAC_KEEP__) -> None:
     """Test splitting of entity string."""
     calls = async_mock_service(hass, "test_domain", "test_service")
     await service.async_call_from_config(
@@ -634,7 +634,7 @@ async def test_split_entity_string(hass: UniversalAssistant) -> None:
     assert calls[-1].data.get("entity_id") == ["hello.world", "sensor.beer"]
 
 
-async def test_not_mutate_input(hass: UniversalAssistant) -> None:
+async def test_not_mutate_input(hass: __HAC_KEEP__) -> None:
     """Test for immutable input."""
     async_mock_service(hass, "test_domain", "test_service")
     config = {
@@ -654,7 +654,7 @@ async def test_not_mutate_input(hass: UniversalAssistant) -> None:
 
 
 @patch("universalassistant.helpers.service._LOGGER.error")
-async def test_fail_silently_if_no_service(mock_log, hass: UniversalAssistant) -> None:
+async def test_fail_silently_if_no_service(mock_log, hass: __HAC_KEEP__) -> None:
     """Test failing if service is missing."""
     await service.async_call_from_config(hass, None)
     assert mock_log.call_count == 1
@@ -667,7 +667,7 @@ async def test_fail_silently_if_no_service(mock_log, hass: UniversalAssistant) -
 
 
 async def test_service_call_entry_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test service call with entity specified by entity registry ID."""
     calls = async_mock_service(hass, "test_domain", "test_service")
@@ -689,7 +689,7 @@ async def test_service_call_entry_id(
 
 
 @pytest.mark.parametrize("target", ["all", "none"])
-async def test_service_call_all_none(hass: UniversalAssistant, target) -> None:
+async def test_service_call_all_none(hass: __HAC_KEEP__, target) -> None:
     """Test service call targeting all."""
     calls = async_mock_service(hass, "test_domain", "test_service")
 
@@ -704,7 +704,7 @@ async def test_service_call_all_none(hass: UniversalAssistant, target) -> None:
     assert dict(calls[0].data) == {"entity_id": target}
 
 
-async def test_extract_entity_ids(hass: UniversalAssistant) -> None:
+async def test_extract_entity_ids(hass: __HAC_KEEP__) -> None:
     """Test extract_entity_ids method."""
     hass.states.async_set("light.Bowl", STATE_ON)
     hass.states.async_set("light.Ceiling", STATE_OFF)
@@ -747,7 +747,7 @@ async def test_extract_entity_ids(hass: UniversalAssistant) -> None:
 
 
 async def test_extract_entity_ids_from_area(
-    hass: UniversalAssistant, floor_area_mock
+    hass: __HAC_KEEP__, floor_area_mock
 ) -> None:
     """Test extract_entity_ids method with areas."""
     call = ServiceCall(hass, "light", "turn_on", {"area_id": "own-area"})
@@ -782,7 +782,7 @@ async def test_extract_entity_ids_from_area(
 
 
 async def test_extract_entity_ids_from_devices(
-    hass: UniversalAssistant, floor_area_mock
+    hass: __HAC_KEEP__, floor_area_mock
 ) -> None:
     """Test extract_entity_ids method with devices."""
     assert await service.async_extract_entity_ids(
@@ -807,7 +807,7 @@ async def test_extract_entity_ids_from_devices(
 
 
 @pytest.mark.usefixtures("floor_area_mock")
-async def test_extract_entity_ids_from_floor(hass: UniversalAssistant) -> None:
+async def test_extract_entity_ids_from_floor(hass: __HAC_KEEP__) -> None:
     """Test extract_entity_ids method with floors."""
     call = ServiceCall(hass, "light", "turn_on", {"floor_id": "test-floor"})
 
@@ -835,7 +835,7 @@ async def test_extract_entity_ids_from_floor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("label_mock")
-async def test_extract_entity_ids_from_labels(hass: UniversalAssistant) -> None:
+async def test_extract_entity_ids_from_labels(hass: __HAC_KEEP__) -> None:
     """Test extract_entity_ids method with labels."""
     call = ServiceCall(hass, "light", "turn_on", {"label_id": "my-label"})
 
@@ -875,7 +875,7 @@ async def test_extract_entity_ids_from_labels(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_async_get_all_descriptions(hass: UniversalAssistant) -> None:
+async def test_async_get_all_descriptions(hass: __HAC_KEEP__) -> None:
     """Test async_get_all_descriptions."""
     group_config = {GROUP_DOMAIN: {}}
     assert await async_setup_component(hass, GROUP_DOMAIN, group_config)
@@ -1021,7 +1021,7 @@ async def test_async_get_all_descriptions(hass: UniversalAssistant) -> None:
     assert await service.async_get_all_descriptions(hass) is descriptions
 
 
-async def test_async_get_all_descriptions_dot_keys(hass: UniversalAssistant) -> None:
+async def test_async_get_all_descriptions_dot_keys(hass: __HAC_KEEP__) -> None:
     """Test async_get_all_descriptions with keys starting with a period."""
     service_descriptions = """
         .anchor: &anchor
@@ -1076,7 +1076,7 @@ async def test_async_get_all_descriptions_dot_keys(hass: UniversalAssistant) -> 
     }
 
 
-async def test_async_get_all_descriptions_filter(hass: UniversalAssistant) -> None:
+async def test_async_get_all_descriptions_filter(hass: __HAC_KEEP__) -> None:
     """Test async_get_all_descriptions with filters."""
     service_descriptions = """
         test_service:
@@ -1228,7 +1228,7 @@ async def test_async_get_all_descriptions_filter(hass: UniversalAssistant) -> No
 
 
 async def test_async_get_all_descriptions_failing_integration(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test async_get_all_descriptions when async_get_integrations fails."""
     group_config = {GROUP_DOMAIN: {}}
@@ -1241,7 +1241,7 @@ async def test_async_get_all_descriptions_failing_integration(
     await async_setup_component(hass, INPUT_BUTTON_DOMAIN, input_button_config)
 
     async def wrap_get_integrations(
-        hass: UniversalAssistant, domains: Iterable[str]
+        hass: __HAC_KEEP__, domains: Iterable[str]
     ) -> dict[str, Integration | Exception]:
         integrations = await async_get_integrations(hass, domains)
         integrations[LOGGER_DOMAIN] = ImportError("Failed to load services.yaml")
@@ -1311,7 +1311,7 @@ async def test_async_get_all_descriptions_failing_integration(
 
 
 async def test_async_get_all_descriptions_dynamically_created_services(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test async_get_all_descriptions when services are dynamic."""
     group_config = {GROUP_DOMAIN: {}}
@@ -1335,7 +1335,7 @@ async def test_async_get_all_descriptions_dynamically_created_services(
 
 
 async def test_async_get_all_descriptions_new_service_added_while_loading(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_get_all_descriptions when a service is added while loading."""
     group_config = {GROUP_DOMAIN: {}}
@@ -1422,7 +1422,7 @@ async def test_async_get_all_descriptions_new_service_added_while_loading(
     assert descriptions[logger_domain]["new_service"]["description"] == "new service"
 
 
-async def test_async_get_descriptions_with_placeholders(hass: UniversalAssistant) -> None:
+async def test_async_get_descriptions_with_placeholders(hass: __HAC_KEEP__) -> None:
     """Test descriptions async_get_all_descriptions with placeholders.
 
     Placeholders supplied with a service registration should be included.
@@ -1528,7 +1528,7 @@ async def test_async_get_descriptions_with_placeholders(hass: UniversalAssistant
     ],
 )
 async def test_set_service_schema_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target: dict[str, Any],
     expected: dict[str, Any],
 ) -> None:
@@ -1545,7 +1545,7 @@ async def test_set_service_schema_target(
 
 
 async def test_set_service_schema_invalid_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test a target nothing can read is left out of the description."""
@@ -1563,7 +1563,7 @@ async def test_set_service_schema_invalid_target(
     )
 
 
-async def test_register_with_mixed_case(hass: UniversalAssistant) -> None:
+async def test_register_with_mixed_case(hass: __HAC_KEEP__) -> None:
     """Test registering a service with mixed case.
 
     For backwards compatibility, we have historically allowed mixed case,
@@ -1583,7 +1583,7 @@ async def test_register_with_mixed_case(hass: UniversalAssistant) -> None:
     assert descriptions[LOGGER_DOMAIN]["new_service"]["description"] == "new service"
 
 
-async def test_call_with_required_features(hass: UniversalAssistant, mock_entities) -> None:
+async def test_call_with_required_features(hass: __HAC_KEEP__, mock_entities) -> None:
     """Test service calls invoked only if entity has required features."""
     # Set up universalassistant component to fetch the translations
     test_service_mock = AsyncMock(return_value=None)
@@ -1623,7 +1623,7 @@ async def test_call_with_required_features(hass: UniversalAssistant, mock_entiti
 
 
 async def test_call_with_both_required_features(
-    hass: UniversalAssistant, mock_entities
+    hass: __HAC_KEEP__, mock_entities
 ) -> None:
     """Test service calls invoked only if entity has both features."""
     test_service_mock = AsyncMock(return_value=None)
@@ -1642,7 +1642,7 @@ async def test_call_with_both_required_features(
 
 
 async def test_call_with_one_of_required_features(
-    hass: UniversalAssistant, mock_entities
+    hass: __HAC_KEEP__, mock_entities
 ) -> None:
     """Test service calls invoked with one entity having the required features."""
     test_service_mock = AsyncMock(return_value=None)
@@ -1685,7 +1685,7 @@ async def test_call_with_one_of_required_features(
     ],
 )
 async def test_call_with_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities,
     entity_device_classes: list[str | None],
     expected_entities: list[str],
@@ -1725,7 +1725,7 @@ async def test_call_with_device_class(
     assert test_service_mock.call_count == 0
 
 
-async def test_call_with_sync_func(hass: UniversalAssistant, mock_entities) -> None:
+async def test_call_with_sync_func(hass: __HAC_KEEP__, mock_entities) -> None:
     """Test invoking sync service calls."""
     test_service_mock = Mock(return_value=None)
     await service.entity_service_call(
@@ -1739,7 +1739,7 @@ async def test_call_with_sync_func(hass: UniversalAssistant, mock_entities) -> N
     assert test_service_mock.call_count == 1
 
 
-async def test_call_with_sync_attr(hass: UniversalAssistant, mock_entities) -> None:
+async def test_call_with_sync_attr(hass: __HAC_KEEP__, mock_entities) -> None:
     """Test invoking sync service calls."""
     mock_method = mock_entities["light.kitchen"].sync_method = Mock(return_value=None)
     await service.entity_service_call(
@@ -1775,7 +1775,7 @@ async def test_call_with_sync_attr(hass: UniversalAssistant, mock_entities) -> N
     ],
 )
 async def test_entity_service_call_exclude(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
     mock_entities_method: AsyncMock,
     target: dict[str, Any],
@@ -1797,7 +1797,7 @@ async def test_entity_service_call_exclude(
 
 
 async def test_async_extract_entities_all_exclude(
-    hass: UniversalAssistant, mock_entities: dict[str, MockEntity]
+    hass: __HAC_KEEP__, mock_entities: dict[str, MockEntity]
 ) -> None:
     """Test async_extract_entities removes excluded entities when targeting all."""
     call = ServiceCall(
@@ -1822,7 +1822,7 @@ async def test_async_extract_entities_all_exclude(
     ],
 )
 async def test_async_extract_entities_all_exclude_group(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
     expand_group: bool,
     expected_entity_ids: set[str],
@@ -1854,7 +1854,7 @@ async def test_async_extract_entities_all_exclude_group(
 
 
 @pytest.fixture
-async def mock_group_entity(hass: UniversalAssistant) -> MockEntity:
+async def mock_group_entity(hass: __HAC_KEEP__) -> MockEntity:
     """Return a group entity expanded to light.kitchen and light.bedroom."""
     group_entity = MockEntity(
         entity_id="light.group", unique_id="group", available=True
@@ -1878,7 +1878,7 @@ async def mock_group_entity(hass: UniversalAssistant) -> MockEntity:
     ],
 )
 async def test_async_extract_entities_all_exclude_group_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
     mock_group_entity: MockEntity,
     expand_group: bool,
@@ -1911,7 +1911,7 @@ async def test_async_extract_entities_all_exclude_group_entity(
     ],
 )
 async def test_entity_service_call_exclude_group_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -1963,7 +1963,7 @@ async def test_entity_service_call_exclude_group_entity(
     } == expected_entity_ids
 
 
-async def test_service_call_exclude(hass: UniversalAssistant) -> None:
+async def test_service_call_exclude(hass: __HAC_KEEP__) -> None:
     """Test the exclude block of a target is passed on to the service call."""
     calls = async_mock_service(hass, "test_domain", "test_service")
 
@@ -2009,11 +2009,11 @@ async def test_service_call_exclude(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_service_call_exclude_invalid(
-    hass: UniversalAssistant, target: dict[str, Any] | str
+    hass: __HAC_KEEP__, target: dict[str, Any] | str
 ) -> None:
     """Test a rendered exclude block is validated like a static one."""
     with pytest.raises(
-        exceptions.UniversalAssistantError,
+        exceptions.__HAC_KEEP__Error,
         match="Template rendered invalid exclude block",
     ):
         service.async_prepare_call_from_config(
@@ -2041,13 +2041,13 @@ async def test_service_call_exclude_invalid(
     ],
 )
 async def test_service_call_data_template_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     data: dict[str, Any] | str,
     translation_key: str,
     translation_placeholders: dict[str, str] | None,
 ) -> None:
     """Test errors rendering the service data are translated."""
-    with pytest.raises(exceptions.UniversalAssistantError) as err:
+    with pytest.raises(exceptions.__HAC_KEEP__Error) as err:
         service.async_prepare_call_from_config(
             hass,
             {"action": "test_domain.test_service", "data": data},
@@ -2059,7 +2059,7 @@ async def test_service_call_data_template_error(
 
 
 async def test_call_single_entity_uses_parallel_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
     mock_entities_method: AsyncMock,
 ) -> None:
@@ -2094,7 +2094,7 @@ async def test_call_single_entity_uses_parallel_updates(
     mock_entities_method.assert_called_once_with(entity)
 
 
-async def test_call_context_user_not_exist(hass: UniversalAssistant) -> None:
+async def test_call_context_user_not_exist(hass: __HAC_KEEP__) -> None:
     """Check we don't allow deleted users to do things."""
     with pytest.raises(exceptions.UnknownUser) as err:
         await service.entity_service_call(
@@ -2113,7 +2113,7 @@ async def test_call_context_user_not_exist(hass: UniversalAssistant) -> None:
 
 
 async def test_call_context_target_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
     mock_entities_method: AsyncMock,
 ) -> None:
@@ -2144,7 +2144,7 @@ async def test_call_context_target_all(
 
 
 async def test_call_context_target_specific(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
     mock_entities_method: AsyncMock,
 ) -> None:
@@ -2174,7 +2174,7 @@ async def test_call_context_target_specific(
 
 
 async def test_call_context_target_specific_no_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
 ) -> None:
     """Check targeting specific entities without auth."""
@@ -2203,7 +2203,7 @@ async def test_call_context_target_specific_no_auth(
 
 
 async def test_call_no_context_target_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
     mock_entities_method: AsyncMock,
 ) -> None:
@@ -2223,7 +2223,7 @@ async def test_call_no_context_target_all(
 
 
 async def test_call_no_context_target_specific(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
     mock_entities_method: AsyncMock,
 ) -> None:
@@ -2244,7 +2244,7 @@ async def test_call_no_context_target_specific(
 
 
 async def test_call_with_omit_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
     mock_entities_method: AsyncMock,
 ) -> None:
@@ -2260,7 +2260,7 @@ async def test_call_with_omit_entity_id(
 
 
 async def test_register_admin_service(
-    hass: UniversalAssistant, hass_read_only_user: MockUser, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_read_only_user: MockUser, hass_admin_user: MockUser
 ) -> None:
     """Test the register admin service."""
     calls: list[ServiceCall] = []
@@ -2329,7 +2329,7 @@ async def test_register_admin_service(
 
 
 async def test_register_admin_service_with_placeholders(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test the register admin service with description placeholders."""
     calls = []
@@ -2364,7 +2364,7 @@ async def test_register_admin_service_with_placeholders(
     [SupportsResponse.ONLY, SupportsResponse.OPTIONAL],
 )
 async def test_register_admin_service_return_response(
-    hass: UniversalAssistant, supports_response: SupportsResponse
+    hass: __HAC_KEEP__, supports_response: SupportsResponse
 ) -> None:
     """Test the register admin service for a service that returns response data."""
 
@@ -2398,7 +2398,7 @@ async def test_register_admin_service_return_response(
     ],
 )
 async def test_domain_control_not_async(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities,
     decorator: Callable[[str], Any],
     in_caplog: bool,
@@ -2411,7 +2411,7 @@ async def test_domain_control_not_async(
         """Define a protected service."""
         calls.append(call)
 
-    with pytest.raises(exceptions.UniversalAssistantError):
+    with pytest.raises(exceptions.__HAC_KEEP__Error):
         decorator("test_domain")(mock_service_log)
 
 
@@ -2427,9 +2427,9 @@ async def test_domain_control_not_async(
     ],
 )
 async def test_domain_control_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities,
-    decorator: Callable[[UniversalAssistant, str], Any],
+    decorator: Callable[[__HAC_KEEP__, str], Any],
     in_caplog: bool,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2473,7 +2473,7 @@ async def test_domain_control_unknown(
     ],
 )
 async def test_domain_control_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_read_only_user: MockUser,
     decorator: Callable[[str], Any],
     in_caplog: bool,
@@ -2527,7 +2527,7 @@ async def test_domain_control_unauthorized(
     ],
 )
 async def test_domain_control_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     decorator: Callable[[str], Any],
     in_caplog: bool,
@@ -2580,7 +2580,7 @@ async def test_domain_control_admin(
     ],
 )
 async def test_domain_control_no_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     decorator: Callable[[str], Any],
     in_caplog: bool,
     caplog: pytest.LogCaptureFixture,
@@ -2620,7 +2620,7 @@ async def test_domain_control_no_user(
     assert len(calls) == 1
 
 
-async def test_extract_from_service_available_device(hass: UniversalAssistant) -> None:
+async def test_extract_from_service_available_device(hass: __HAC_KEEP__) -> None:
     """Test the extraction of entity from service and device is available."""
     entities = [
         MockEntity(name="test_1", entity_id="test_domain.test_1"),
@@ -2662,7 +2662,7 @@ async def test_extract_from_service_available_device(hass: UniversalAssistant) -
     )
 
 
-async def test_extract_from_service_empty_if_no_entity_id(hass: UniversalAssistant) -> None:
+async def test_extract_from_service_empty_if_no_entity_id(hass: __HAC_KEEP__) -> None:
     """Test the extraction from service without specifying entity."""
     entities = [
         MockEntity(name="test_1", entity_id="test_domain.test_1"),
@@ -2676,7 +2676,7 @@ async def test_extract_from_service_empty_if_no_entity_id(hass: UniversalAssista
 
 
 async def test_extract_from_service_filter_out_non_existing_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the extraction of non existing entities from service."""
     entities = [
@@ -2697,7 +2697,7 @@ async def test_extract_from_service_filter_out_non_existing_entities(
 
 
 async def test_extract_from_service_area_id(
-    hass: UniversalAssistant, floor_area_mock
+    hass: __HAC_KEEP__, floor_area_mock
 ) -> None:
     """Test the extraction using area ID as reference."""
     entities = [
@@ -2737,7 +2737,7 @@ async def test_extract_from_service_area_id(
 
 
 @pytest.mark.usefixtures("label_mock")
-async def test_extract_from_service_label_id(hass: UniversalAssistant) -> None:
+async def test_extract_from_service_label_id(hass: __HAC_KEEP__) -> None:
     """Test the extraction using label ID as reference."""
     entities = [
         MockEntity(name="with_my_label", entity_id="light.with_my_label"),
@@ -2781,7 +2781,7 @@ async def test_extract_from_service_label_id(hass: UniversalAssistant) -> None:
 
 
 async def test_entity_service_call_warn_referenced(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we only warn for referenced entities in entity_service_call."""
     call = ServiceCall(
@@ -2805,7 +2805,7 @@ async def test_entity_service_call_warn_referenced(
 
 
 async def test_entity_service_call_warn_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entities: dict[str, MockEntity],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2827,7 +2827,7 @@ async def test_entity_service_call_warn_unavailable(
 
 
 async def test_async_extract_entities_warn_referenced(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we only warn for referenced entities in async_extract_entities."""
     call = ServiceCall(
@@ -2851,7 +2851,7 @@ async def test_async_extract_entities_warn_referenced(
     ) in caplog.text
 
 
-async def test_async_extract_config_entry_ids(hass: UniversalAssistant) -> None:
+async def test_async_extract_config_entry_ids(hass: __HAC_KEEP__) -> None:
     """Test we can find devices that have no entities."""
 
     device_no_entities = dr.DeviceEntry(
@@ -2878,7 +2878,7 @@ async def test_async_extract_config_entry_ids(hass: UniversalAssistant) -> None:
     assert await service.async_extract_config_entry_ids(call) == {"abc"}
 
 
-async def test_reload_service_helper(hass: UniversalAssistant) -> None:
+async def test_reload_service_helper(hass: __HAC_KEEP__) -> None:
     """Test the reload service helper."""
 
     active_reload_calls = 0
@@ -3139,7 +3139,7 @@ async def test_reload_service_helper(hass: UniversalAssistant) -> None:
 
 
 async def test_register_platform_entity_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test registering a platform entity service."""
     entities = []
@@ -3184,7 +3184,7 @@ async def test_register_platform_entity_service(
 
 
 async def test_register_platform_entity_service_response_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test an entity service that supports response data."""
 
@@ -3224,7 +3224,7 @@ async def test_register_platform_entity_service_response_data(
 
 
 async def test_register_platform_entity_service_admin_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     hass_read_only_user: MockUser,
 ) -> None:
@@ -3274,7 +3274,7 @@ async def test_register_platform_entity_service_admin_only(
 
 
 async def test_register_platform_entity_service_response_data_multiple_matches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test an entity service with response data and matching many entities."""
 
@@ -3320,7 +3320,7 @@ async def test_register_platform_entity_service_response_data_multiple_matches(
 
 
 async def test_register_platform_entity_service_response_data_multiple_matches_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test entity service response matching many entities raises."""
 
@@ -3361,7 +3361,7 @@ async def test_register_platform_entity_service_response_data_multiple_matches_r
 
 
 async def test_register_platform_entity_service_limited_to_matching_platforms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
 ) -> None:
@@ -3445,7 +3445,7 @@ async def test_register_platform_entity_service_limited_to_matching_platforms(
 
 
 async def test_register_batched_platform_entity_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test registering a batched platform entity service."""
     calls: list[tuple[list[MockEntity], ServiceCall]] = []
@@ -3497,7 +3497,7 @@ async def test_register_batched_platform_entity_service(
 
 
 async def test_register_batched_platform_entity_service_response_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a batched platform entity service that supports response data."""
 
@@ -3546,7 +3546,7 @@ async def test_register_batched_platform_entity_service_response_data(
 
 
 async def test_register_platform_entity_service_none_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test registering a service with schema set to None.
 
@@ -3607,7 +3607,7 @@ async def test_register_platform_entity_service_none_schema(
 
 
 async def test_register_platform_entity_service_non_entity_service_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test attempting to register a service with a non entity service schema.
 
@@ -3622,7 +3622,7 @@ async def test_register_platform_entity_service_non_entity_service_schema(
             probatio.Any(probatio.Schema({"some": str})),
         )
     ):
-        with pytest.raises(UniversalAssistantError, match=expected_message):
+        with pytest.raises(__HAC_KEEP__Error, match=expected_message):
             service.async_register_platform_entity_service(
                 hass,
                 "mock_platform",
@@ -3631,7 +3631,7 @@ async def test_register_platform_entity_service_non_entity_service_schema(
                 schema=schema,
                 func=Mock(),
             )
-        with pytest.raises(UniversalAssistantError, match=expected_message):
+        with pytest.raises(__HAC_KEEP__Error, match=expected_message):
             service.async_register_batched_platform_entity_service(
                 hass,
                 "mock_platform",
@@ -3666,7 +3666,7 @@ async def test_register_platform_entity_service_non_entity_service_schema(
         )
 
 
-async def test_async_handle_entity_calls(hass: UniversalAssistant) -> None:
+async def test_async_handle_entity_calls(hass: __HAC_KEEP__) -> None:
     """Test async_handle_entity_calls dispatches calls to individual entities."""
     entity1 = MockEntity(entity_id="light.entity1", available=True, should_poll=False)
     entity2 = MockEntity(entity_id="light.entity2", available=True, should_poll=False)
@@ -3701,7 +3701,7 @@ async def test_async_handle_entity_calls(hass: UniversalAssistant) -> None:
     assert "light.entity2" in result
 
 
-async def test_get_service_config_entry(hass: UniversalAssistant) -> None:
+async def test_get_service_config_entry(hass: __HAC_KEEP__) -> None:
     """Test that we can get a service config entry."""
     domain = "mock_integration"
     entry_id = "mock_entry_id"
@@ -3728,7 +3728,7 @@ async def test_get_service_config_entry(hass: UniversalAssistant) -> None:
     assert err.value.translation_key == "service_config_entry_not_loaded"
 
 
-async def test_get_service_config_entry_none(hass: UniversalAssistant) -> None:
+async def test_get_service_config_entry_none(hass: __HAC_KEEP__) -> None:
     """Test that we can get a service config entry if no entry ID is provided."""
     domain = "mock_integration"
 
@@ -3769,7 +3769,7 @@ async def test_get_service_config_entry_none(hass: UniversalAssistant) -> None:
 
 
 async def test_get_service_device_and_config_entry(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we can get a device and its config entry."""
     domain = "mock_integration"
@@ -3809,7 +3809,7 @@ async def test_get_service_device_and_config_entry(
 
 
 async def test_get_service_device_and_config_entry_child_devices(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we can get a child device and its config entry."""
     domain = "mock_integration"
@@ -3859,7 +3859,7 @@ async def test_get_service_device_and_config_entry_child_devices(
 
 
 async def test_get_service_device_and_config_entry_no_main_devices(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test getting a device and its config entry with main devices excluded."""
     domain = "mock_integration"

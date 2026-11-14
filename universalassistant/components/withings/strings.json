@@ -20,7 +20,7 @@
     },
     "step": {
       "oauth_discovery": {
-        "description": "Universal Universal Home Assistant has found a Withings device on your network. Be aware that the setup of Withings is more complicated than many other integrations. Press **Submit** to continue setting up Withings."
+        "description": "__HA_KEEP__ has found a Withings device on your network. Be aware that the setup of Withings is more complicated than many other integrations. Press **Submit** to continue setting up Withings."
       },
       "pick_implementation": {
         "data": {

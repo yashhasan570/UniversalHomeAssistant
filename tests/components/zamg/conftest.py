@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 from zamg import ZamgData as ZamgDevice
 
 from universalassistant.components.zamg.const import CONF_STATION_ID, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_STATION_ID = "11240"
 TEST_STATION_NAME = "Graz/Flughafen"
@@ -87,7 +87,7 @@ def mock_zamg_coordinator() -> Generator[MagicMock]:
 
 
 @pytest.fixture
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Set up the Zamg integration for testing."""
     mock_config_entry.add_to_hass(hass)
 

@@ -13,7 +13,7 @@ from aioecosmart import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -46,7 +46,7 @@ class EcosmartCoordinator(DataUpdateCoordinator[dict[str, Spot]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: EcosmartConfigEntry,
         client: EcosmartClient,
         identity: Identity,
@@ -76,7 +76,7 @@ class EcosmartCoordinator(DataUpdateCoordinator[dict[str, Spot]]):
                 translation_domain=DOMAIN, translation_key="invalid_auth"
             ) from err
         except EcosmartRateLimitError as err:
-            # During the first refresh Universal Universal Home Assistant passes this delay on to
+            # During the first refresh __HA_KEEP__ passes this delay on to
             # the config entry retry, so setup waits for it too.
             retry_after = retry_delay(err)
             raise UpdateFailed(

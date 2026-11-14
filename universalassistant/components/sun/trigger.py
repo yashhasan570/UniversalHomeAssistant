@@ -18,7 +18,7 @@ from universalassistant.const import (
     SUN_EVENT_SUNRISE,
     SUN_EVENT_SUNSET,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import (
     DomainSpec,
@@ -141,7 +141,7 @@ class SunElevationTrigger(EntityNumericalStateTriggerBase):
     _domain_specs = _ELEVATION_DOMAIN_SPECS
     _valid_unit = DEGREE
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the trigger, targeting the singleton sun entity."""
         super().__init__(
             hass,
@@ -193,12 +193,12 @@ class SunEventTrigger(Trigger):
     @override
     @classmethod
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, cls._schema(config))
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the trigger."""
         super().__init__(hass, config)
         self._options = config.options or {}
@@ -309,7 +309,7 @@ class SunDawnDuskTrigger(SunEventTrigger):
 
     _schema = _DAWN_DUSK_TRIGGER_SCHEMA
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the trigger."""
         super().__init__(hass, config)
         self._twilight: str = self._options[CONF_TYPE]
@@ -374,7 +374,7 @@ class _GoldenBlueHourTrigger(SunEventTrigger):
     _setting_elevation: float
     _schema = _GOLDEN_BLUE_HOUR_TRIGGER_SCHEMA
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the trigger."""
         super().__init__(hass, config)
         self._period: str = self._options[CONF_PERIOD]
@@ -589,7 +589,7 @@ class LegacySunTrigger(SunEventTrigger):
     @override
     @classmethod
     async def async_validate_complete_config(
-        cls, hass: UniversalAssistant, complete_config: ConfigType
+        cls, hass: __HAC_KEEP__, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config, migrating the legacy top-level fields."""
         complete_config = move_top_level_schema_fields_to_options(
@@ -597,7 +597,7 @@ class LegacySunTrigger(SunEventTrigger):
         )
         return await super().async_validate_complete_config(hass, complete_config)
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the trigger."""
         super().__init__(hass, config)
         self._event = self._options[CONF_EVENT]
@@ -628,6 +628,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for the sun."""
     return TRIGGERS

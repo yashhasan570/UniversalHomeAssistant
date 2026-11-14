@@ -33,9 +33,9 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 NOTIFY_SERVICE = "frenck_s_lametric"
@@ -48,7 +48,7 @@ pytestmark = [
 
 
 async def test_notification_defaults(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test the LaMetric notification defaults."""
@@ -84,7 +84,7 @@ async def test_notification_defaults(
 
 
 async def test_notification_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test the LaMetric notification options."""
@@ -127,7 +127,7 @@ async def test_notification_options(
 
 @pytest.mark.parametrize("repeat", [0, 3])
 async def test_notification_sound_repeat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     repeat: int,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_notification_sound_repeat(
     ],
 )
 async def test_notification_invalid_repeat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     sound_data: dict[str, str],
     repeat: int | str | None,
@@ -189,7 +189,7 @@ async def test_notification_invalid_repeat(
 
 
 async def test_notification_unknown_sound(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test an unknown sound is refused, naming the sound."""
@@ -208,14 +208,14 @@ async def test_notification_unknown_sound(
 
 
 async def test_notification_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test the LaMetric notification error."""
     mock_lametric.notify.side_effect = LaMetricError("Fail to validate")
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Could not send the notification to the LaMetric device: Fail to validate",
     ):
         await hass.services.async_call(
@@ -229,7 +229,7 @@ async def test_notification_error(
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -240,7 +240,7 @@ async def test_all_entities(
 
 @pytest.mark.freeze_time("2022-09-19 12:07:30")
 async def test_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test sending a message through the LaMetric notify entity."""
@@ -291,7 +291,7 @@ async def test_send_message(
     ],
 )
 async def test_send_message_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     side_effect: type[LaMetricError],
     translation_key: str,
@@ -300,7 +300,7 @@ async def test_send_message_error(
     """Test error handling of the LaMetric notify entity."""
     mock_lametric.notify.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -321,7 +321,7 @@ async def test_send_message_error(
 
 @pytest.mark.parametrize("device_fixture", ["device_sa5_bluetooth_unavailable"])
 async def test_notification_without_audio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test the sound is left out for a device that cannot play it."""
@@ -338,7 +338,7 @@ async def test_notification_without_audio(
 
 @pytest.mark.parametrize("device_fixture", ["device_sa5_bluetooth_unavailable"])
 async def test_notification_unknown_sound_without_audio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test an unknown sound is still refused for a device without audio."""
@@ -355,7 +355,7 @@ async def test_notification_unknown_sound_without_audio(
 
 @pytest.mark.parametrize("repeat", [1, 3])
 async def test_notification_sound_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     repeat: int,
 ) -> None:
@@ -386,7 +386,7 @@ async def test_notification_sound_url(
 
 
 async def test_notification_invalid_sound_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test a sound URL that is no URL is refused, naming it."""
@@ -403,7 +403,7 @@ async def test_notification_invalid_sound_url(
 
 @pytest.mark.parametrize("device_fixture", ["device_sa5_bluetooth_unavailable"])
 async def test_notification_sound_url_without_audio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test a sound URL is left out for a device that cannot play it."""
@@ -422,10 +422,10 @@ async def test_notification_sound_url_without_audio(
 
 
 async def test_notification_sound_from_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
-    """Test a sound picked from the media in Universal Universal Home Assistant, in the notify data."""
+    """Test a sound picked from the media in __HA_KEEP__, in the notify data."""
     await async_process_ha_core_config(hass, {"internal_url": "http://10.0.0.2:8123"})
 
     with patch(

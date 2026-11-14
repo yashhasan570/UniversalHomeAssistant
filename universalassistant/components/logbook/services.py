@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 
 from .const import DOMAIN
@@ -55,7 +55,7 @@ def _log_message(service: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Activity integration."""
 
     hass.services.async_register(

@@ -55,8 +55,8 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -218,7 +218,7 @@ _CONDITION_MAP: dict[WeatherCondition.Type, str | None] = {
 def _get_condition(
     api_condition: WeatherCondition.Type, is_daytime: bool
 ) -> str | None:
-    """Map Google Weather condition to Universal Universal Home Assistant condition."""
+    """Map Google Weather condition to __HA_KEEP__ condition."""
     cond = _CONDITION_MAP[api_condition]
     if cond == ATTR_CONDITION_SUNNY and not is_daytime:
         return ATTR_CONDITION_CLEAR_NIGHT
@@ -252,7 +252,7 @@ _PRECIPITATION_INTENSITY_MAP: dict[
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GoogleWeatherConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -336,7 +336,7 @@ class GoogleWeatherEntity(
                 latitude=self._latitude, longitude=self._longitude
             )
         except GoogleWeatherApiError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="minute_forecast_error",
                 translation_placeholders={"error": str(err)},

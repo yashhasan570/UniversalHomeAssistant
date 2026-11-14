@@ -5,7 +5,7 @@ from typing import Any, Literal
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.util.json import JsonValueType
 
@@ -19,7 +19,7 @@ FORECAST_TYPE_TO_FLAG = {
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the weather websocket API."""
     websocket_api.async_register_command(hass, ws_convertible_units)
     websocket_api.async_register_command(hass, ws_subscribe_forecast)
@@ -32,7 +32,7 @@ def async_setup(hass: UniversalAssistant) -> None:
     }
 )
 def ws_convertible_units(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return supported units for a device class."""
     sorted_units = {
@@ -52,7 +52,7 @@ def ws_convertible_units(
 )
 @websocket_api.async_response
 async def ws_subscribe_forecast(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Subscribe to weather forecasts."""
     entity_id: str = msg["entity_id"]

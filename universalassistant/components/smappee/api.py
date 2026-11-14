@@ -1,4 +1,4 @@
-"""API for Smappee bound to Universal Universal Home Assistant OAuth."""
+"""API for Smappee bound to __HA_KEEP__ OAuth."""
 
 from asyncio import run_coroutine_threadsafe
 from typing import TYPE_CHECKING
@@ -20,7 +20,7 @@ class ConfigEntrySmappeeApi(api.SmappeeApi):
 
     def __init__(
         self,
-        hass: core.UniversalAssistant,
+        hass: core.__HAC_KEEP__,
         config_entry: SmappeeConfigEntry,
         session: config_entry_oauth2_flow.OAuth2Session,
     ) -> None:
@@ -44,7 +44,7 @@ class ConfigEntrySmappeeApi(api.SmappeeApi):
         )
 
     def refresh_tokens(self) -> dict:
-        """Refresh and return new Smappee tokens using Universal Universal Home Assistant OAuth2 session."""
+        """Refresh and return new Smappee tokens using __HA_KEEP__ OAuth2 session."""
         run_coroutine_threadsafe(
             self.session.async_ensure_token_valid(), self.hass.loop
         ).result()

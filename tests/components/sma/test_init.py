@@ -9,13 +9,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.sma.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_DEVICE, MOCK_USER_INPUT, setup_integration
 
 
 async def test_migrate_entry_minor_version_1_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_sma_client: AsyncGenerator,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_migrate_entry_minor_version_1_2(
     ],
 )
 async def test_setup_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sma_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -65,7 +65,7 @@ async def test_setup_exceptions(
     ],
 )
 async def test_unload_closes_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sma_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     close_session_error: type[Exception] | None,

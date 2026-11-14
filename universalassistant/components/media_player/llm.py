@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components.universalassistant import async_should_expose
 from universalassistant.components.llm import LLMTools
 from universalassistant.const import ATTR_ENTITY_ID, EntityStateAttribute
-from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.core import __HAC_KEEP__, State, callback
 from universalassistant.helpers import config_validation as cv, intent
 from universalassistant.helpers.llm import (
     LLM_API_ASSIST,
@@ -105,7 +105,7 @@ def _validate_args(
 
 @callback
 def _async_match_player(
-    hass: UniversalAssistant, llm_context: LLMContext, args: dict[str, Any]
+    hass: __HAC_KEEP__, llm_context: LLMContext, args: dict[str, Any]
 ) -> State:
     """Return the single media player that the target arguments match."""
     constraints = intent.MatchTargetsConstraints(
@@ -164,7 +164,7 @@ class MediaSearchTool(Tool):
 
     @override
     async def async_call(
-        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Search a media player."""
         args = _validate_args(self.parameters, tool_input.tool_args)
@@ -247,7 +247,7 @@ class MediaPlayTool(Tool):
 
     @override
     async def async_call(
-        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Play a media item."""
         args = _validate_args(self.parameters, tool_input.tool_args)
@@ -273,7 +273,7 @@ class MediaPlayTool(Tool):
 
 @callback
 def async_get_tools(
-    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
+    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
     """Return LLM tools for the integration when its domain is exposed."""
     if api_id != LLM_API_ASSIST:

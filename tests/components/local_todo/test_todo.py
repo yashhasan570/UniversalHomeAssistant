@@ -25,8 +25,8 @@ from universalassistant.components.todo import (
     TodoServices,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import dt as dt_util
 
 from .conftest import STORAGE_KEY, TEST_ENTITY, TODO_NAME
@@ -76,7 +76,7 @@ async def ws_move_item(hass_ws_client: WebSocketGenerator) -> WsMoveItemType:
 
 
 @pytest.fixture(autouse=True)
-async def set_time_zone(hass: UniversalAssistant) -> None:
+async def set_time_zone(hass: __HAC_KEEP__) -> None:
     """Set the time zone for the tests that keeps UTC-6 all year round."""
     await hass.config.async_set_time_zone("America/Regina")
 
@@ -101,12 +101,12 @@ EXPECTED_ADD_ITEM = {
     ],
 )
 async def test_add_item_write_error(
-    hass: UniversalAssistant, error: int, translation_key: str
+    hass: __HAC_KEEP__, error: int, translation_key: str
 ) -> None:
     """Test adding a todo item when the list can't be written."""
     with (
         patch.object(LocalTodoListStore, "_store", side_effect=OSError(error, "Error")),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             TODO_DOMAIN,
@@ -145,7 +145,7 @@ async def test_add_item_write_error(
     ],
 )
 async def test_add_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     setup_integration: None,
     ws_get_items: WsGetItemsType,
@@ -191,7 +191,7 @@ async def test_add_item(
     ],
 )
 async def test_remove_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     ws_get_items: WsGetItemsType,
     item_data: dict[str, Any],
@@ -235,7 +235,7 @@ async def test_remove_item(
 
 
 async def test_bulk_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     ws_get_items: WsGetItemsType,
 ) -> None:
@@ -309,7 +309,7 @@ EXPECTED_UPDATE_ITEM = {
     ],
 )
 async def test_update_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     ws_get_items: WsGetItemsType,
     item_data: dict[str, Any],
@@ -436,7 +436,7 @@ async def test_update_item(
     ],
 )
 async def test_update_existing_field(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     ws_get_items: WsGetItemsType,
     item_data: dict[str, Any],
@@ -487,7 +487,7 @@ async def test_update_existing_field(
 
 
 async def test_rename(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     ws_get_items: WsGetItemsType,
 ) -> None:
@@ -561,7 +561,7 @@ async def test_rename(
     ],
 )
 async def test_move_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     ws_get_items: WsGetItemsType,
     ws_move_item: WsMoveItemType,
@@ -597,7 +597,7 @@ async def test_move_item(
 
 
 async def test_move_item_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     ws_move_item: WsMoveItemType,
 ) -> None:
@@ -610,7 +610,7 @@ async def test_move_item_unknown(
 
 
 async def test_move_item_previous_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     ws_get_items: WsGetItemsType,
     ws_move_item: WsMoveItemType,
@@ -755,7 +755,7 @@ async def test_move_item_previous_unknown(
     ),
 )
 async def test_parse_existing_ics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     setup_integration: None,
     ws_get_items: WsGetItemsType,
@@ -773,7 +773,7 @@ async def test_parse_existing_ics(
 
 
 async def test_susbcribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -834,7 +834,7 @@ async def test_susbcribe(
 
 
 async def test_reset_item_via_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     ws_get_items: WsGetItemsType,
 ) -> None:
@@ -982,7 +982,7 @@ async def test_reset_item_via_update(
     ],
 )
 async def test_repair_legacy_crlf_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     ws_get_items: WsGetItemsType,
     caplog: pytest.LogCaptureFixture,
@@ -1035,7 +1035,7 @@ async def test_repair_legacy_crlf_on_setup(
     ],
 )
 async def test_repair_and_migrate_legacy_due_date(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     ws_get_items: WsGetItemsType,
     caplog: pytest.LogCaptureFixture,
@@ -1061,7 +1061,7 @@ async def test_repair_and_migrate_legacy_due_date(
 
 
 async def test_description_newlines_preserved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     config_entry: MockConfigEntry,
     ws_get_items: WsGetItemsType,
@@ -1107,7 +1107,7 @@ async def test_description_newlines_preserved(
 
 
 async def test_crlf_description_preserved_on_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     config_entry: MockConfigEntry,
     ws_get_items: WsGetItemsType,

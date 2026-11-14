@@ -14,7 +14,7 @@ from pywemo.subscribe import EVENT_TYPE_LONG_PRESS
 from universalassistant.components.wemo import CONF_DISCOVERY, CONF_STATIC
 from universalassistant.components.wemo.const import DOMAIN, WEMO_SUBSCRIPTION_EVENT
 from universalassistant.components.wemo.coordinator import Options, async_get_coordinator
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.update_coordinator import UpdateFailed
 from universalassistant.setup import async_setup_component
@@ -30,7 +30,7 @@ def pywemo_model():
 
 
 async def test_async_register_device_longpress_fails(
-    hass: UniversalAssistant, pywemo_device, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, pywemo_device, device_registry: dr.DeviceRegistry
 ) -> None:
     """Device is still registered if ensure_long_press_virtual_device fails."""
     with patch.object(pywemo_device, "ensure_long_press_virtual_device") as elp:
@@ -53,7 +53,7 @@ async def test_async_register_device_longpress_fails(
 
 
 async def test_long_press_event(
-    hass: UniversalAssistant, pywemo_registry, wemo_entity
+    hass: __HAC_KEEP__, pywemo_registry, wemo_entity
 ) -> None:
     """Device fires a long press event."""
     device = async_get_coordinator(hass, wemo_entity.device_id)
@@ -88,7 +88,7 @@ async def test_long_press_event(
 
 
 async def test_subscription_callback(
-    hass: UniversalAssistant, pywemo_registry, wemo_entity
+    hass: __HAC_KEEP__, pywemo_registry, wemo_entity
 ) -> None:
     """Device processes a registry subscription callback."""
     device = async_get_coordinator(hass, wemo_entity.device_id)
@@ -112,7 +112,7 @@ async def test_subscription_callback(
 
 
 async def test_subscription_update_action_exception(
-    hass: UniversalAssistant, pywemo_device, wemo_entity
+    hass: __HAC_KEEP__, pywemo_device, wemo_entity
 ) -> None:
     """Device handles ActionException on get_state properly."""
     device = async_get_coordinator(hass, wemo_entity.device_id)
@@ -132,7 +132,7 @@ async def test_subscription_update_action_exception(
 
 
 async def test_subscription_update_exception(
-    hass: UniversalAssistant, pywemo_device, wemo_entity
+    hass: __HAC_KEEP__, pywemo_device, wemo_entity
 ) -> None:
     """Device handles Exception on get_state properly."""
     device = async_get_coordinator(hass, wemo_entity.device_id)
@@ -152,7 +152,7 @@ async def test_subscription_update_exception(
 
 
 async def test_async_update_data_subscribed(
-    hass: UniversalAssistant, pywemo_registry, pywemo_device, wemo_entity
+    hass: __HAC_KEEP__, pywemo_registry, pywemo_device, wemo_entity
 ) -> None:
     """No update happens when the device is subscribed."""
     device = async_get_coordinator(hass, wemo_entity.device_id)
@@ -163,7 +163,7 @@ async def test_async_update_data_subscribed(
 
 
 async def test_device_info(
-    hass: UniversalAssistant, wemo_entity, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, wemo_entity, device_registry: dr.DeviceRegistry
 ) -> None:
     """Verify the DeviceInfo data is set properly."""
     device_entries = list(device_registry.devices)
@@ -179,7 +179,7 @@ async def test_device_info(
 
 
 async def test_dli_device_info(
-    hass: UniversalAssistant, wemo_dli_entity, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, wemo_dli_entity, device_registry: dr.DeviceRegistry
 ) -> None:
     """Verify the DeviceInfo data for Digital Loggers emulated wemo device."""
     device_entries = list(device_registry.devices)
@@ -189,7 +189,7 @@ async def test_dli_device_info(
 
 
 async def test_options_enable_subscription_false(
-    hass: UniversalAssistant, pywemo_registry, pywemo_device, wemo_entity
+    hass: __HAC_KEEP__, pywemo_registry, pywemo_device, wemo_entity
 ) -> None:
     """Test setting Options.enable_subscription = False."""
     config_entry = hass.config_entries.async_get_entry(wemo_entity.config_entry_id)
@@ -202,7 +202,7 @@ async def test_options_enable_subscription_false(
 
 
 async def test_options_enable_long_press_false(
-    hass: UniversalAssistant, pywemo_device, wemo_entity
+    hass: __HAC_KEEP__, pywemo_device, wemo_entity
 ) -> None:
     """Test setting Options.enable_long_press = False."""
     config_entry = hass.config_entries.async_get_entry(wemo_entity.config_entry_id)
@@ -246,7 +246,7 @@ class TestInsight:
     )
     async def test_should_poll(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         subscribed: bool,
         state: int,
         expected_calls: list[_Call],

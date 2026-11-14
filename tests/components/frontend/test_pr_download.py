@@ -15,12 +15,12 @@ import pytest
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.frontend import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 async def test_pr_download_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_github_api,
     aioclient_mock: AiohttpClientMocker,
@@ -52,7 +52,7 @@ async def test_pr_download_success(
 
 
 async def test_pr_download_uses_cache(
-    hass: UniversalAssistant, tmp_path: Path, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, tmp_path: Path, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that cached PR is used when commit hasn't changed."""
     hass.config.config_dir = str(tmp_path)
@@ -101,7 +101,7 @@ async def test_pr_download_uses_cache(
     ],
 )
 async def test_pr_download_cache_invalidated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_github_api,
     aioclient_mock: AiohttpClientMocker,
@@ -137,7 +137,7 @@ async def test_pr_download_cache_invalidated(
 
 
 async def test_pr_download_cache_sha_read_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_github_api: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -178,7 +178,7 @@ async def test_pr_download_cache_sha_read_error(
 
 
 async def test_pr_download_session_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -213,7 +213,7 @@ async def test_pr_download_session_error(
     ],
 )
 async def test_pr_download_github_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
     exc: Exception,
@@ -253,7 +253,7 @@ async def test_pr_download_github_errors(
     ],
 )
 async def test_pr_download_artifact_search_github_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
     exc: Exception,
@@ -296,7 +296,7 @@ async def test_pr_download_artifact_search_github_errors(
 
 
 async def test_pr_download_artifact_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -341,7 +341,7 @@ async def test_pr_download_artifact_not_found(
 
 
 async def test_pr_download_http_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_github_api: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -377,7 +377,7 @@ async def test_pr_download_http_error(
     ],
 )
 async def test_pr_download_http_status_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_github_api: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -408,7 +408,7 @@ async def test_pr_download_http_status_errors(
 
 
 async def test_pr_download_timeout_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_github_api: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -437,7 +437,7 @@ async def test_pr_download_timeout_error(
 
 
 async def test_pr_download_bad_zip_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_github_api: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -466,7 +466,7 @@ async def test_pr_download_bad_zip_file(
 
 
 async def test_pr_download_zip_bomb_too_many_files(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_github_api: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -502,7 +502,7 @@ async def test_pr_download_zip_bomb_too_many_files(
 
 
 async def test_pr_download_zip_bomb_too_large(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_github_api: AsyncMock,
     aioclient_mock: AiohttpClientMocker,
@@ -538,7 +538,7 @@ async def test_pr_download_zip_bomb_too_large(
 
 
 async def test_pr_download_extraction_os_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_github_api: AsyncMock,
     aioclient_mock: AiohttpClientMocker,

@@ -19,13 +19,13 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_UUID,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
 
 async def test_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_api: AsyncMock,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_create_entry(
     ],
 )
 async def test_user_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api: AsyncMock,
     side_effect: type[Exception],
     expected_error: str,
@@ -108,7 +108,7 @@ async def test_user_errors(
 
 
 async def test_create_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_create_subentry(
     assert mock_api.get_data.call_count == 1
 
 
-async def test_import(hass: UniversalAssistant, mock_api: AsyncMock) -> None:
+async def test_import(hass: __HAC_KEEP__, mock_api: AsyncMock) -> None:
     """Test that we can import a config entry."""
     import_data = {
         CONF_UUID: "import-uuid",
@@ -164,7 +164,7 @@ async def test_import(hass: UniversalAssistant, mock_api: AsyncMock) -> None:
 
 
 async def test_import_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_import_once(
 
 
 async def test_import_add_second_subentry_same_host(
-    hass: UniversalAssistant, mock_api: AsyncMock
+    hass: __HAC_KEEP__, mock_api: AsyncMock
 ) -> None:
     """Test that import adds a second channel to the existing entry on same host."""
     await async_setup_component(
@@ -224,7 +224,7 @@ async def test_import_add_second_subentry_same_host(
 
 
 async def test_import_validation_error(
-    hass: UniversalAssistant, mock_api: AsyncMock
+    hass: __HAC_KEEP__, mock_api: AsyncMock
 ) -> None:
     """Test that import aborts when input validation fails."""
     mock_api.get_data.side_effect = VolkszaehlerApiConnectionError
@@ -243,7 +243,7 @@ async def test_import_validation_error(
 
 
 async def test_user_duplicate_uuid_from_entry_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -271,7 +271,7 @@ async def test_user_duplicate_uuid_from_entry_unique_id(
 
 
 async def test_import_same_host_different_port_creates_new_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -298,7 +298,7 @@ async def test_import_same_host_different_port_creates_new_entry(
 
 
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -324,7 +324,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_validation_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -358,7 +358,7 @@ async def test_reconfigure_validation_error(
 
 
 async def test_reconfigure_duplicate_host_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -382,7 +382,7 @@ async def test_reconfigure_duplicate_host_port(
 
 
 async def test_subentry_duplicate_uuid(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that subentry flow aborts for duplicate UUID."""
     mock_config_entry.add_to_hass(hass)
@@ -403,7 +403,7 @@ async def test_subentry_duplicate_uuid(
 
 
 async def test_subentry_validation_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:

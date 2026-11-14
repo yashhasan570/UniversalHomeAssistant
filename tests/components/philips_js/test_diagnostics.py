@@ -9,7 +9,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TV_CONTEXT = ContextType(level1="NA", level2="NA", level3="NA", data="NA")
 TV_CHANNEL_LISTS = {
@@ -36,7 +36,7 @@ TV_FAVORITE_LISTS = {
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,

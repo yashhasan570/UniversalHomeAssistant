@@ -6,12 +6,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.powerwall.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .mocks import _mock_powerwall_restricted, _mock_powerwall_with_fixtures
 
 
-async def test_sensors(hass: UniversalAssistant) -> None:
+async def test_sensors(hass: __HAC_KEEP__) -> None:
     """Test creation of the binary sensors."""
 
     mock_powerwall = await _mock_powerwall_with_fixtures(hass)
@@ -81,7 +81,7 @@ async def test_sensors(hass: UniversalAssistant) -> None:
     assert all(item in state.attributes.items() for item in expected_attributes.items())
 
 
-async def test_sensors_with_empty_meters(hass: UniversalAssistant) -> None:
+async def test_sensors_with_empty_meters(hass: __HAC_KEEP__) -> None:
     """Test creation of the binary sensors with empty meters."""
 
     mock_powerwall = await _mock_powerwall_with_fixtures(hass, empty_meters=True)
@@ -104,7 +104,7 @@ async def test_sensors_with_empty_meters(hass: UniversalAssistant) -> None:
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_pw3_restricted_entities(hass: UniversalAssistant) -> None:
+async def test_pw3_restricted_entities(hass: __HAC_KEEP__) -> None:
     """Restricted PW3 surface should only expose the three meter-driven binary sensors."""
     mock_powerwall = await _mock_powerwall_restricted(hass)
 

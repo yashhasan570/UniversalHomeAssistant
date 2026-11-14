@@ -38,6 +38,6 @@ class StarlineEntity(Entity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Call when entity about to be added to Universal Universal Home Assistant."""
+        """Call when entity about to be added to __HA_KEEP__."""
         await super().async_added_to_hass()
         self.async_on_remove(self._account.api.add_update_listener(self.update))

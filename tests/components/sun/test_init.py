@@ -13,13 +13,13 @@ from universalassistant.components import sun
 from universalassistant.components.sun import entity
 from universalassistant.components.sun.const import SunEntityStateAttribute
 from universalassistant.const import EVENT_STATE_CHANGED, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
-async def test_setting_rising(hass: UniversalAssistant) -> None:
+async def test_setting_rising(hass: __HAC_KEEP__) -> None:
     """Test retrieving sun setting and rising."""
     utc_now = datetime(2016, 11, 1, 8, 0, 0, tzinfo=dt_util.UTC)
     with freeze_time(utc_now):
@@ -109,7 +109,7 @@ async def test_setting_rising(hass: UniversalAssistant) -> None:
 
 
 async def test_state_change(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if the state changes at next setting/rising."""
     now = datetime(2016, 6, 1, 8, 0, 0, tzinfo=dt_util.UTC)
@@ -163,7 +163,7 @@ async def test_state_change(
     assert hass.states.get(entity.ENTITY_ID).state == sun.STATE_BELOW_HORIZON
 
 
-async def test_norway_in_june(hass: UniversalAssistant) -> None:
+async def test_norway_in_june(hass: __HAC_KEEP__) -> None:
     """Test location in Norway where the sun doesn't set in summer."""
     hass.config.latitude = 69.6
     hass.config.longitude = 18.8
@@ -189,7 +189,7 @@ async def test_norway_in_june(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.skip
-async def test_state_change_count(hass: UniversalAssistant) -> None:
+async def test_state_change_count(hass: __HAC_KEEP__) -> None:
     """Count the number of state change events in a location."""
     # Skipped because it's a bit slow. Has been validated with
     # multiple lattitudes and dates
@@ -219,7 +219,7 @@ async def test_state_change_count(hass: UniversalAssistant) -> None:
     assert len(events) < 721
 
 
-async def test_setup_and_remove_config_entry(hass: UniversalAssistant) -> None:
+async def test_setup_and_remove_config_entry(hass: __HAC_KEEP__) -> None:
     """Test setting up and removing a config entry."""
     # Setup the config entry
     config_entry = MockConfigEntry(domain=sun.DOMAIN)
@@ -257,7 +257,7 @@ async def test_setup_and_remove_config_entry(hass: UniversalAssistant) -> None:
 
 
 async def test_cleanup_deprecated_solar_rising(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that the deprecated solar_rising entity is removed on setup."""

@@ -13,7 +13,7 @@ from pynintendoparental import Authenticator, NintendoParental
 from pynintendoparental.exceptions import NoDevicesFoundException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -32,7 +32,7 @@ class NintendoUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         authenticator: Authenticator,
         config_entry: NintendoParentalControlsConfigEntry,
     ) -> None:

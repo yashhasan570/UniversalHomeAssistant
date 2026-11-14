@@ -6,7 +6,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import singleton
 
 
@@ -17,11 +17,11 @@ def mock_hass():
 
 
 @pytest.mark.parametrize("result", [object(), {}, []])
-async def test_singleton_async(mock_hass: UniversalAssistant, result: Any) -> None:
+async def test_singleton_async(mock_hass: __HAC_KEEP__, result: Any) -> None:
     """Test singleton with async function."""
 
     @singleton.singleton("test_key")
-    async def something(hass: UniversalAssistant) -> Any:
+    async def something(hass: __HAC_KEEP__) -> Any:
         return result
 
     result1 = await something(mock_hass)
@@ -33,11 +33,11 @@ async def test_singleton_async(mock_hass: UniversalAssistant, result: Any) -> No
 
 
 @pytest.mark.parametrize("result", [object(), {}, []])
-def test_singleton(mock_hass: UniversalAssistant, result: Any) -> None:
+def test_singleton(mock_hass: __HAC_KEEP__, result: Any) -> None:
     """Test singleton with function."""
 
     @singleton.singleton("test_key")
-    def something(hass: UniversalAssistant) -> Any:
+    def something(hass: __HAC_KEEP__) -> Any:
         return result
 
     result1 = something(mock_hass)
@@ -48,12 +48,12 @@ def test_singleton(mock_hass: UniversalAssistant, result: Any) -> None:
     assert mock_hass.data["test_key"] is result1
 
 
-async def test_singleton_async_raises(mock_hass: UniversalAssistant) -> None:
+async def test_singleton_async_raises(mock_hass: __HAC_KEEP__) -> None:
     """Test the key is not poisoned when the wrapped coroutine raises."""
     calls = 0
 
     @singleton.singleton("test_key")
-    async def something(hass: UniversalAssistant) -> Any:
+    async def something(hass: __HAC_KEEP__) -> Any:
         nonlocal calls
         calls += 1
         if calls == 1:
@@ -71,13 +71,13 @@ async def test_singleton_async_raises(mock_hass: UniversalAssistant) -> None:
     assert calls == 2
 
 
-async def test_singleton_async_concurrent_raises(mock_hass: UniversalAssistant) -> None:
+async def test_singleton_async_concurrent_raises(mock_hass: __HAC_KEEP__) -> None:
     """Test a concurrent caller wakes up when the in-flight call raises."""
     release = asyncio.Event()
     calls = 0
 
     @singleton.singleton("test_key")
-    async def something(hass: UniversalAssistant) -> Any:
+    async def something(hass: __HAC_KEEP__) -> Any:
         nonlocal calls
         calls += 1
         await release.wait()
@@ -104,14 +104,14 @@ async def test_singleton_async_concurrent_raises(mock_hass: UniversalAssistant) 
 
 
 async def test_singleton_async_concurrent_waiter_cancelled(
-    mock_hass: UniversalAssistant,
+    mock_hass: __HAC_KEEP__,
 ) -> None:
     """Verify cancelling a waiting caller does not break the in-progress call."""
     release = asyncio.Event()
     result = object()
 
     @singleton.singleton("test_key")
-    async def something(hass: UniversalAssistant) -> Any:
+    async def something(hass: __HAC_KEEP__) -> Any:
         await release.wait()
         return result
 

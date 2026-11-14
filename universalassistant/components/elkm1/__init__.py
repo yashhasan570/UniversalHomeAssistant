@@ -24,7 +24,7 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.event import async_track_time_interval
@@ -169,7 +169,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, hass_config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, hass_config: ConfigType) -> bool:
     """Set up the Elk M1 platform."""
     async_setup_services(hass)
 
@@ -216,7 +216,7 @@ async def async_setup(hass: UniversalAssistant, hass_config: ConfigType) -> bool
 
 @callback
 def _async_find_matching_config_entry(
-    hass: UniversalAssistant, prefix: str
+    hass: __HAC_KEEP__, prefix: str
 ) -> ElkM1ConfigEntry | None:
     for entry in hass.config_entries.async_entries(DOMAIN):
         if entry.unique_id == prefix:
@@ -224,7 +224,7 @@ def _async_find_matching_config_entry(
     return None
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ElkM1ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ElkM1ConfigEntry) -> None:
     """Set up Elk-M1 Control from a config entry."""
     conf = entry.data
 
@@ -336,7 +336,7 @@ def _included(ranges: list[tuple[int, int]], set_to: bool, values: list[bool]) -
         values[rng[0] - 1 : rng[1]] = [set_to] * (rng[1] - rng[0] + 1)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ElkM1ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ElkM1ConfigEntry) -> None:
     """Unload a config entry."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

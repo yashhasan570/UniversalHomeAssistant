@@ -20,8 +20,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ HISTORY = "select.documents_history"
 
 @pytest.mark.usefixtures("mock_seafile_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -53,7 +53,7 @@ async def test_all_entities(
     ],
 )
 async def test_current_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     keep_days: int,
@@ -76,7 +76,7 @@ async def test_current_option(
     ],
 )
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     keep_days: int,
@@ -105,7 +105,7 @@ async def test_select_option(
 
 
 async def test_select_limited_keeps_days(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_select_limited_keeps_days(
 
 
 async def test_select_option_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_select_option_error(
     await setup_integration(hass, mock_config_entry)
     mock_seafile_client.set_library_history_limit.side_effect = SeafileConnectionError
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -161,7 +161,7 @@ async def test_select_option_error(
     ],
 )
 async def test_shared_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     permission: str,
@@ -178,7 +178,7 @@ async def test_shared_library(
 
 
 async def test_no_select_without_history_setting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_no_select_without_history_setting(
 
 
 async def test_select_unavailable_without_access(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -209,7 +209,7 @@ async def test_select_unavailable_without_access(
 
 
 async def test_select_added_when_shared_as_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

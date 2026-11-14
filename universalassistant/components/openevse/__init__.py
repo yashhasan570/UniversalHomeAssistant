@@ -4,7 +4,7 @@ from openevsehttp.__main__ import OpenEVSE
 from openevsehttp.exceptions import AuthenticationError, MissingSerial
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -26,13 +26,13 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the OpenEVSE component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OpenEVSEConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OpenEVSEConfigEntry) -> None:
     """Set up OpenEVSE from a config entry."""
     charger = OpenEVSE(
         entry.data[CONF_HOST],
@@ -70,6 +70,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OpenEVSEConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: OpenEVSEConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: OpenEVSEConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

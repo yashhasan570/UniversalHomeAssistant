@@ -19,7 +19,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -87,19 +87,19 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up RFXtrx services."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: RfxtrxConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: RfxtrxConfigEntry) -> None:
     """Set up the RFXtrx component."""
     await async_setup_internal(hass, entry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: RfxtrxConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: RfxtrxConfigEntry) -> None:
     """Unload RFXtrx component."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -163,7 +163,7 @@ def _get_device_lookup(entry: RfxtrxConfigEntry) -> dict[DeviceTuple, ConfigSube
     return lookup
 
 
-async def async_setup_internal(hass: UniversalAssistant, entry: RfxtrxConfigEntry) -> None:
+async def async_setup_internal(hass: __HAC_KEEP__, entry: RfxtrxConfigEntry) -> None:
     """Set up the RFXtrx component."""
     config = entry.data
 
@@ -193,7 +193,7 @@ async def async_setup_internal(hass: UniversalAssistant, entry: RfxtrxConfigEntr
     entry.async_on_unload(reload_debouncer.async_shutdown)
 
     async def _async_reload_on_update(
-        hass: UniversalAssistant, entry: RfxtrxConfigEntry
+        hass: __HAC_KEEP__, entry: RfxtrxConfigEntry
     ) -> None:
         """Reload the entry when it is updated through a config/subentry flow."""
         nonlocal pending_internal_updates
@@ -367,7 +367,7 @@ def _new_entities(
 
 
 async def async_setup_platform_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RfxtrxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     supported: Callable[[rfxtrxmod.RFXtrxEvent], bool],
@@ -434,7 +434,7 @@ async def async_setup_platform_entry(
     )
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: RfxtrxConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: RfxtrxConfigEntry) -> None:
     """Migrate an old config entry."""
     version = entry.version
 
@@ -688,7 +688,7 @@ def get_subentry_id_from_identifiers(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RfxtrxConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

@@ -5,8 +5,8 @@ from html import escape
 from aiohttp import web
 import probatio
 
-from universalassistant.components.http import UniversalAssistantView
-from universalassistant.core import UniversalAssistant
+from universalassistant.components.http import __HAC_KEEP__View
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.template import Template
 from universalassistant.helpers.typing import ConfigType
@@ -42,7 +42,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the RSS feed template component."""
     for feeduri, feedconfig in config[DOMAIN].items():
         url = f"/api/rss_template/{feeduri}"
@@ -56,7 +56,7 @@ def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-class RssView(UniversalAssistantView):
+class RssView(__HAC_KEEP__View):
     """Export states and other values as RSS."""
 
     name = "rss_template"
@@ -84,7 +84,7 @@ class RssView(UniversalAssistantView):
             rendered = escape(self._title.async_render(parse_result=False))
             response += f"    <title>{rendered}</title>\n"
         else:
-            response += "    <title>Universal Universal Home Assistant</title>\n"
+            response += "    <title>__HA_KEEP__</title>\n"
 
         response += "    <link>https://www.universalassistant.io/integrations/rss_feed_template/</link>\n"
         response += "    <description>Home automation feed</description>\n"

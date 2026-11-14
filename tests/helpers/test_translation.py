@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockModule, mock_integration
 
 from universalassistant import loader
 from universalassistant.const import EVENT_CORE_CONFIG_UPDATE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import translation
 from universalassistant.setup import async_setup_component
 
@@ -42,7 +42,7 @@ def test_recursive_flatten() -> None:
 
 
 def test_load_translations_files_by_language(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the load translation files function."""
     # Test one valid and one invalid file
@@ -141,7 +141,7 @@ def test_load_translations_files_by_language(
 )
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_load_translations_files_invalid_localized_placeholders(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     language: str,
     expected_translation: dict,
@@ -177,7 +177,7 @@ async def test_load_translations_files_invalid_localized_placeholders(
     ids=["english-fallback", "no-english-fallback"],
 )
 async def test_malformed_localized_placeholders(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     english: dict[str, str],
     expected: dict[str, str],
     caplog: pytest.LogCaptureFixture,
@@ -215,7 +215,7 @@ async def test_malformed_localized_placeholders(
     ],
 )
 async def test_malformed_english_placeholders(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     language: str,
     localized: dict[str, str],
     expected: dict[str, str],
@@ -248,7 +248,7 @@ async def test_malformed_english_placeholders(
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_get_translations(hass: UniversalAssistant, mock_config_flows) -> None:
+async def test_get_translations(hass: __HAC_KEEP__, mock_config_flows) -> None:
     """Test the get translations helper."""
     translations = await translation.async_get_translations(hass, "en", "entity")
     assert translations == {}
@@ -321,7 +321,7 @@ async def test_get_translations(hass: UniversalAssistant, mock_config_flows) -> 
 
 
 async def test_get_translations_loads_config_flows(
-    hass: UniversalAssistant, mock_config_flows
+    hass: __HAC_KEEP__, mock_config_flows
 ) -> None:
     """Test the get translations helper loads config flow translations."""
     mock_config_flows["integration"].append("component1")
@@ -390,7 +390,7 @@ async def test_get_translations_loads_config_flows(
     assert "component2" not in hass.config.components
 
 
-async def test_get_translations_while_loading_components(hass: UniversalAssistant) -> None:
+async def test_get_translations_while_loading_components(hass: __HAC_KEEP__) -> None:
     """Test the get translations helper loads config flow translations."""
     integration = Mock(file_path=pathlib.Path(__file__))
     integration.name = "Component 1"
@@ -428,7 +428,7 @@ async def test_get_translations_while_loading_components(hass: UniversalAssistan
     assert load_count == 1
 
 
-async def test_get_translation_categories(hass: UniversalAssistant) -> None:
+async def test_get_translation_categories(hass: __HAC_KEEP__) -> None:
     """Test the get translations helper loads config flow translations."""
     with patch.object(translation, "async_get_config_flows", return_value={"light"}):
         translations = await translation.async_get_translations(
@@ -443,7 +443,7 @@ async def test_get_translation_categories(hass: UniversalAssistant) -> None:
 
 
 async def test_translation_merging_loaded_together(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we merge translations of two integrations loaded at the same time."""
     hass.config.components.add("hue")
@@ -462,7 +462,7 @@ async def test_translation_merging_loaded_together(
 
 
 async def test_ensure_translations_still_load_if_one_integration_fails(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that if one integration fails to load we can still get translations."""
     hass.config.components.add("sensor")
@@ -493,7 +493,7 @@ async def test_ensure_translations_still_load_if_one_integration_fails(
 
 
 async def test_load_translations_all_integrations_broken(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Ensure we do not try to load translations again if the integration is broken."""
     hass.config.components.add("broken")
@@ -523,7 +523,7 @@ async def test_load_translations_all_integrations_broken(
     assert "Failed to load integration for translation" not in caplog.text
 
 
-async def test_caching(hass: UniversalAssistant) -> None:
+async def test_caching(hass: __HAC_KEEP__) -> None:
     """Test we cache data."""
     hass.config.components.add("sensor")
     hass.config.components.add("light")
@@ -593,7 +593,7 @@ async def test_caching(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_custom_component_translations(hass: UniversalAssistant) -> None:
+async def test_custom_component_translations(hass: __HAC_KEEP__) -> None:
     """Test getting translation from custom components."""
     hass.config.components.add("test_embedded")
     hass.config.components.add("test_package")
@@ -601,7 +601,7 @@ async def test_custom_component_translations(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_get_cached_translations(hass: UniversalAssistant, mock_config_flows) -> None:
+async def test_get_cached_translations(hass: __HAC_KEEP__, mock_config_flows) -> None:
     """Test the get cached translations helper."""
     translations = await translation.async_get_translations(hass, "en", "entity")
     assert translations == {}
@@ -661,7 +661,7 @@ async def test_get_cached_translations(hass: UniversalAssistant, mock_config_flo
     }
 
 
-async def test_setup(hass: UniversalAssistant) -> None:
+async def test_setup(hass: __HAC_KEEP__) -> None:
     """Test the setup load listeners helper."""
     translation.async_setup(hass)
 
@@ -689,7 +689,7 @@ async def test_setup(hass: UniversalAssistant) -> None:
         mock.assert_not_called()
 
 
-async def test_translate_state(hass: UniversalAssistant) -> None:
+async def test_translate_state(hass: __HAC_KEEP__) -> None:
     """Test the state translation helper."""
     result = translation.async_translate_state(
         hass, "unavailable", "binary_sensor", "platform", "translation_key", None
@@ -769,7 +769,7 @@ async def test_translate_state(hass: UniversalAssistant) -> None:
         assert result == "on"
 
 
-async def test_translate_state_attr(hass: UniversalAssistant) -> None:
+async def test_translate_state_attr(hass: __HAC_KEEP__) -> None:
     """Test the state attribute translation helper."""
     with patch(
         "universalassistant.helpers.translation.async_get_cached_translations",
@@ -862,7 +862,7 @@ async def test_translate_state_attr(hass: UniversalAssistant) -> None:
 
 
 async def test_get_translations_still_has_title_without_translations_files(
-    hass: UniversalAssistant, mock_config_flows
+    hass: __HAC_KEEP__, mock_config_flows
 ) -> None:
     """Test the title still gets added in if there are no translation files."""
     mock_config_flows["integration"].append("component1")
@@ -893,7 +893,7 @@ async def test_get_translations_still_has_title_without_translations_files(
 
 
 async def test_english_cache_populated_for_partial_batch_overlap(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test English caching when a non-English batch partially overlaps it."""
     integration_a = Mock(file_path=pathlib.Path(__file__))
@@ -959,7 +959,7 @@ async def test_english_cache_populated_for_partial_batch_overlap(
 @pytest.mark.parametrize("language", ["en", "de"])
 @pytest.mark.parametrize("category", ["title", "entity_component"])
 async def test_invalidate_translations(
-    hass: UniversalAssistant, language: str, category: str
+    hass: __HAC_KEEP__, language: str, category: str
 ) -> None:
     """Invalidation removes all categories and languages only for the domain."""
     for locale in ("en", "de"):
@@ -991,7 +991,7 @@ async def test_invalidate_translations(
     )
 
 
-async def test_invalidate_translations_during_load(hass: UniversalAssistant) -> None:
+async def test_invalidate_translations_during_load(hass: __HAC_KEEP__) -> None:
     """An older load cannot restore invalidated strings or English fallbacks."""
     started = asyncio.Event()
     resume = asyncio.Event()
@@ -1034,7 +1034,7 @@ async def test_invalidate_translations_during_load(hass: UniversalAssistant) -> 
     }
 
 
-async def test_invalidate_translations_before_first_load(hass: UniversalAssistant) -> None:
+async def test_invalidate_translations_before_first_load(hass: __HAC_KEEP__) -> None:
     """Invalidating an empty cache leaves subsequent loading functional."""
     translation.async_invalidate_translations(hass, {"sensor"})
     assert await translation.async_get_translations(
@@ -1050,7 +1050,7 @@ async def test_invalidate_translations_before_first_load(hass: UniversalAssistan
     ],
 )
 async def test_invalidate_translations_after_custom_integration_removal(
-    hass: UniversalAssistant, domain: str, expected: dict[str, str]
+    hass: __HAC_KEEP__, domain: str, expected: dict[str, str]
 ) -> None:
     """Removed custom integrations fall back to core translations when available."""
     custom = mock_integration(

@@ -1,12 +1,12 @@
 """Issues for the Notifications for Android TV / Fire TV integration."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.issue_registry import IssueSeverity, create_issue
 
 from .const import DOMAIN
 
 
-def deprecated_notify_action_call(hass: UniversalAssistant, service_name: str) -> None:
+def deprecated_notify_action_call(hass: __HAC_KEEP__, service_name: str) -> None:
     """Deprecated action call."""
 
     create_issue(

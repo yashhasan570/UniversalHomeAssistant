@@ -6,13 +6,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_setup_no_version_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_droplet_discovery: AsyncMock,
     mock_droplet_connection: AsyncMock,
@@ -27,7 +27,7 @@ async def test_setup_no_version_info(
 
 
 async def test_setup_droplet_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_droplet_discovery: AsyncMock,
     mock_droplet_connection: AsyncMock,

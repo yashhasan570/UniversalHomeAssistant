@@ -10,7 +10,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -56,7 +56,7 @@ REDUCED_TEMPERATURE = BSBLanSetpointNumberEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BSBLanConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

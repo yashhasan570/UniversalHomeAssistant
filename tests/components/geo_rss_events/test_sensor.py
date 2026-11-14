@@ -14,7 +14,7 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     EVENT_HOMEASSISTANT_START,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -58,7 +58,7 @@ def _generate_mock_feed_entry(
 
 
 async def test_setup(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, mock_feed
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, mock_feed
 ) -> None:
     """Test the general setup of the platform."""
     # Set up some mock feed entries for this test.
@@ -121,7 +121,7 @@ async def test_setup(
         }
 
 
-async def test_setup_with_categories(hass: UniversalAssistant, mock_feed) -> None:
+async def test_setup_with_categories(hass: __HAC_KEEP__, mock_feed) -> None:
     """Test the general setup of the platform."""
     # Set up some mock feed entries for this test.
     mock_entry_1 = _generate_mock_feed_entry(

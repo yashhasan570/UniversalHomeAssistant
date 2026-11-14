@@ -20,7 +20,7 @@ from universalassistant.components.recorder.statistics import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ID, UnitOfEnergy
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util, slugify
 from universalassistant.util.unit_conversion import EnergyConverter
@@ -89,7 +89,7 @@ class SRPEnergyDataUpdateCoordinator(DataUpdateCoordinator[float]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SRPEnergyConfigEntry,
         client: SrpEnergyClient,
     ) -> None:

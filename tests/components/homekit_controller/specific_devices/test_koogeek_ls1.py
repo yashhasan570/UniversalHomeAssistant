@@ -12,7 +12,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from universalassistant.components.homekit_controller.connection import (
     MAX_POLL_FAILURES_TO_DECLARE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from ..common import Helper, setup_accessories_from_file, setup_test_accessories
@@ -21,10 +21,10 @@ LIGHT_ON = ("lightbulb", "on")
 
 
 @pytest.mark.parametrize("failure_cls", [AccessoryDisconnectedError, EncryptionError])
-async def test_recover_from_failure(hass: UniversalAssistant, failure_cls) -> None:
+async def test_recover_from_failure(hass: __HAC_KEEP__, failure_cls) -> None:
     """Test that entity actually recovers from a network connection drop.
 
-    See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/18949
+    See https://github.com/yashhasan570/__HAC_KEEP__/issues/18949
     """
     accessories = await setup_accessories_from_file(hass, "koogeek_ls1.json")
     config_entry, pairing = await setup_test_accessories(hass, accessories)

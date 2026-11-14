@@ -9,14 +9,14 @@ from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN
 from universalassistant.components.yale_smart_alarm.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import ENTRY_CONFIG, OPTIONS_CONFIG
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_client: Mock,
 ) -> None:
     """Test setup entry."""
@@ -54,7 +54,7 @@ async def test_setup_entry(
     ],
 )
 async def test_child_devices_linked_to_panel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_config_entry: tuple[MockConfigEntry, Mock],
     device_registry: dr.DeviceRegistry,
     child_identifier: str,
@@ -80,7 +80,7 @@ async def test_child_devices_linked_to_panel(
 
 
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_client: Mock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_migrate_entry(
 
 
 async def test_migrate_panic_button_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_client: Mock,
     entity_registry: er.EntityRegistry,
 ) -> None:

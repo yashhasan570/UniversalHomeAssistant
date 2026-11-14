@@ -13,7 +13,7 @@ from universalassistant.components.besen.diagnostics import (
     async_get_config_entry_diagnostics,
 )
 from universalassistant.const import CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import publish_besen_state
 from .conftest import (
@@ -26,7 +26,7 @@ from .conftest import (
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -68,7 +68,7 @@ async def test_diagnostics(
     ],
 )
 async def test_diagnostics_connection_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
@@ -94,7 +94,7 @@ async def test_diagnostics_connection_state(
 
 
 async def test_diagnostics_missing_readings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -113,7 +113,7 @@ async def test_diagnostics_missing_readings(
 
 
 async def test_diagnostics_without_runtime_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
 ) -> None:

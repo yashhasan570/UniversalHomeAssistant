@@ -11,7 +11,7 @@ from powerfox import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -26,7 +26,7 @@ class PowerfoxLocalDataUpdateCoordinator(DataUpdateCoordinator[LocalResponse]):
 
     config_entry: PowerfoxLocalConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: PowerfoxLocalConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: PowerfoxLocalConfigEntry) -> None:
         """Initialize the coordinator."""
         self.client = PowerfoxLocal(
             host=entry.data[CONF_HOST],

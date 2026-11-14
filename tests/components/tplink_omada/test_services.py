@@ -10,13 +10,13 @@ from tplink_omada_client.exceptions import OmadaClientException, RequestFailed
 
 from universalassistant.components.tplink_omada.const import DOMAIN
 from universalassistant.components.tplink_omada.services import async_setup_services
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_service_reconnect_no_config_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test reconnect service raises error when no config entries exist."""
     # Register services directly without any config entries
@@ -35,7 +35,7 @@ async def test_service_reconnect_no_config_entries(
 
 
 async def test_service_reconnect_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -58,7 +58,7 @@ async def test_service_reconnect_client(
 
 
 async def test_service_reconnect_failed_with_invalid_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -82,7 +82,7 @@ async def test_service_reconnect_failed_with_invalid_entry(
 
 
 async def test_service_reconnect_without_config_entry_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -105,7 +105,7 @@ async def test_service_reconnect_without_config_entry_id(
 
 
 async def test_service_reconnect_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -136,7 +136,7 @@ async def test_service_reconnect_entry_not_loaded(
 
 
 async def test_service_reconnect_failed_raises_universalassistanterror(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -150,7 +150,7 @@ async def test_service_reconnect_failed_raises_universalassistanterror(
 
     mac = "AA:BB:CC:DD:EE:FF"
     mock_omada_site_client.reconnect_client.side_effect = OmadaClientException
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             "reconnect_client",
@@ -165,7 +165,7 @@ async def test_service_reconnect_failed_raises_universalassistanterror(
 
 
 def _add_client_device(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mac: str
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mac: str
 ) -> str:
     """Register a device with a network MAC connection."""
     device = dr.async_get(hass).async_get_or_create(
@@ -175,7 +175,7 @@ def _add_client_device(
     return device.id
 
 
-def _add_foreign_device(hass: UniversalAssistant, mac: str) -> str:
+def _add_foreign_device(hass: __HAC_KEEP__, mac: str) -> str:
     """Register a device owned by another integration with a network MAC."""
     foreign_entry = MockConfigEntry(domain="sonos", unique_id="foreign")
     foreign_entry.add_to_hass(hass)
@@ -187,7 +187,7 @@ def _add_foreign_device(hass: UniversalAssistant, mac: str) -> str:
 
 
 def _add_multi_mac_device(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, macs: list[str]
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, macs: list[str]
 ) -> str:
     """Register a device with multiple network MAC connections."""
     device = dr.async_get(hass).async_get_or_create(
@@ -197,7 +197,7 @@ def _add_multi_mac_device(
     return device.id
 
 
-def _add_device_without_mac(hass: UniversalAssistant, config_entry: MockConfigEntry) -> str:
+def _add_device_without_mac(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> str:
     """Register a device without a network MAC connection."""
     device = dr.async_get(hass).async_get_or_create(
         config_entry_id=config_entry.entry_id,
@@ -207,7 +207,7 @@ def _add_device_without_mac(hass: UniversalAssistant, config_entry: MockConfigEn
 
 
 async def test_service_set_client_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -238,7 +238,7 @@ async def test_service_set_client_name(
 
 
 async def test_service_set_client_name_invalid_config_entry_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -264,7 +264,7 @@ async def test_service_set_client_name_invalid_config_entry_id(
 
 
 async def test_service_set_client_name_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -297,7 +297,7 @@ async def test_service_set_client_name_entry_not_loaded(
 
 
 async def test_service_set_client_name_unknown_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -323,7 +323,7 @@ async def test_service_set_client_name_unknown_device(
 
 
 async def test_service_set_client_name_device_without_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -351,7 +351,7 @@ async def test_service_set_client_name_device_without_mac(
 
 
 async def test_service_set_client_name_failed_raises_universalassistanterror(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -366,7 +366,7 @@ async def test_service_set_client_name_failed_raises_universalassistanterror(
     device_id = _add_client_device(hass, mock_config_entry, mac)
 
     mock_omada_site_client.update_client.side_effect = OmadaClientException
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             "set_client_name",
@@ -388,7 +388,7 @@ async def test_service_set_client_name_failed_raises_universalassistanterror(
 
 
 async def test_service_set_client_name_empty_name_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -417,7 +417,7 @@ async def test_service_set_client_name_empty_name_rejected(
 
 
 async def test_service_set_client_name_non_client_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -449,7 +449,7 @@ async def test_service_set_client_name_non_client_device(
 
 
 async def test_service_set_client_name_foreign_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -483,7 +483,7 @@ async def test_service_set_client_name_foreign_device(
 
 
 async def test_service_set_client_name_foreign_controller_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -514,7 +514,7 @@ async def test_service_set_client_name_foreign_controller_entry(
 
 
 async def test_service_set_client_name_single_known_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -553,7 +553,7 @@ async def test_service_set_client_name_single_known_mac(
 
 
 async def test_service_set_client_name_multiple_known_macs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -585,7 +585,7 @@ async def test_service_set_client_name_multiple_known_macs(
 
 
 async def test_service_set_client_name_query_failed_raises_universalassistanterror(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_omada_site_client: MagicMock,
     mock_omada_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -599,7 +599,7 @@ async def test_service_set_client_name_query_failed_raises_universalassistanterr
     device_id = _add_client_device(hass, mock_config_entry, mac)
 
     mock_omada_site_client.get_client.side_effect = RequestFailed(-30109, "boom")
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             "set_client_name",

@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.button import ButtonDeviceClass, ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .device import ONVIFConfigEntry, ONVIFDevice
@@ -12,7 +12,7 @@ from .entity import ONVIFBaseEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ONVIFConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

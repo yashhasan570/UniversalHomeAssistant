@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -34,7 +34,7 @@ class NZBGetDataUpdateCoordinator(DataUpdateCoordinator[dict]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: NZBGetConfigEntry,
     ) -> None:
         """Initialize global NZBGet data updater."""

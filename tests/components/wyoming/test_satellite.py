@@ -28,7 +28,7 @@ from universalassistant.components.wyoming import DOMAIN
 from universalassistant.components.wyoming.assist_satellite import WyomingAssistSatellite
 from universalassistant.components.wyoming.devices import SatelliteDevice
 from universalassistant.const import STATE_ON
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er, intent as intent_helper
 from universalassistant.setup import async_setup_component
 
@@ -37,7 +37,7 @@ from . import SATELLITE_INFO, WAKE_WORD_INFO, MockAsyncTcpClient
 from tests.components.tts.common import MockResultStream
 
 
-async def setup_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def setup_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Set up config entry for Wyoming satellite.
 
     This is separated from the satellite_config_entry method in conftest.py so
@@ -223,7 +223,7 @@ class SatelliteAsyncTcpClient(MockAsyncTcpClient):
         self._responses_ready.set()
 
 
-async def test_satellite_pipeline(hass: UniversalAssistant) -> None:
+async def test_satellite_pipeline(hass: __HAC_KEEP__) -> None:
     """Test running a pipeline with a satellite."""
     assert await async_setup_component(hass, assist_pipeline.DOMAIN, {})
 
@@ -243,7 +243,7 @@ async def test_satellite_pipeline(hass: UniversalAssistant) -> None:
     audio_chunk_received = asyncio.Event()
 
     async def async_pipeline_from_audio_stream(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         context,
         event_callback,
         stt_metadata,
@@ -455,7 +455,7 @@ async def test_satellite_pipeline(hass: UniversalAssistant) -> None:
         await hass.async_block_till_done()
 
 
-async def test_satellite_pipeline_error_no_restart(hass: UniversalAssistant) -> None:
+async def test_satellite_pipeline_error_no_restart(hass: __HAC_KEEP__) -> None:
     """Test that a pipeline error does not auto-restart an "always on" satellite."""
     assert await async_setup_component(hass, assist_pipeline.DOMAIN, {})
 
@@ -473,7 +473,7 @@ async def test_satellite_pipeline_error_no_restart(hass: UniversalAssistant) -> 
     run_pipeline_called = asyncio.Event()
 
     async def async_pipeline_from_audio_stream(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         context,
         event_callback,
         stt_metadata,
@@ -546,7 +546,7 @@ async def test_satellite_pipeline_error_no_restart(hass: UniversalAssistant) -> 
         await hass.async_block_till_done()
 
 
-async def test_satellite_muted(hass: UniversalAssistant) -> None:
+async def test_satellite_muted(hass: __HAC_KEEP__) -> None:
     """Test callback for a satellite that has been muted."""
     on_muted_event = asyncio.Event()
 
@@ -591,7 +591,7 @@ async def test_satellite_muted(hass: UniversalAssistant) -> None:
         await hass.async_block_till_done()
 
 
-async def test_satellite_restart(hass: UniversalAssistant) -> None:
+async def test_satellite_restart(hass: __HAC_KEEP__) -> None:
     """Test pipeline loop restart after unexpected error."""
     on_restart_event = asyncio.Event()
 
@@ -622,7 +622,7 @@ async def test_satellite_restart(hass: UniversalAssistant) -> None:
             await on_restart_event.wait()
 
 
-async def test_satellite_reconnect(hass: UniversalAssistant) -> None:
+async def test_satellite_reconnect(hass: __HAC_KEEP__) -> None:
     """Test satellite reconnect call after connection refused."""
     num_reconnects = 0
     reconnect_event = asyncio.Event()
@@ -669,7 +669,7 @@ async def test_satellite_reconnect(hass: UniversalAssistant) -> None:
             await stopped_event.wait()
 
 
-async def test_satellite_disconnect_before_pipeline(hass: UniversalAssistant) -> None:
+async def test_satellite_disconnect_before_pipeline(hass: __HAC_KEEP__) -> None:
     """Test satellite disconnecting before pipeline run."""
     on_restart_event = asyncio.Event()
 
@@ -702,7 +702,7 @@ async def test_satellite_disconnect_before_pipeline(hass: UniversalAssistant) ->
         mock_run_pipeline.assert_not_called()
 
 
-async def test_satellite_disconnect_during_pipeline(hass: UniversalAssistant) -> None:
+async def test_satellite_disconnect_during_pipeline(hass: __HAC_KEEP__) -> None:
     """Test satellite disconnecting during pipeline run."""
     events = [
         RunPipeline(
@@ -758,7 +758,7 @@ async def test_satellite_disconnect_during_pipeline(hass: UniversalAssistant) ->
 
 
 async def test_satellite_disconnect_cancels_running_pipeline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that a satellite disconnect cancels the in-flight pipeline task.
 
@@ -828,7 +828,7 @@ async def test_satellite_disconnect_cancels_running_pipeline(
 
 
 async def test_on_pipeline_event_ignores_disconnected_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that ``on_pipeline_event`` is a no-op after the client disconnected.
 
@@ -922,11 +922,11 @@ async def test_on_pipeline_event_ignores_disconnected_client(
 
 
 async def test_run_start_without_tts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test RUN_START event without tts_output does not crash.
 
-    Regression test for https://github.com/yashhasan570/UniversalUniversalAssistant/issues/165734
+    Regression test for https://github.com/yashhasan570/__HAC_KEEP__/issues/165734
     """
     events: list[Event] = [
         RunPipeline(
@@ -973,7 +973,7 @@ async def test_run_start_without_tts(
 
 
 async def test_announce_raises_when_client_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that async_announce raises ConnectionError when client is None."""
     events: list[Event] = [
@@ -1025,7 +1025,7 @@ async def test_announce_raises_when_client_disconnected(
 
 
 async def test_stream_tts_noop_when_client_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that _stream_tts returns immediately when client is None."""
     events: list[Event] = [
@@ -1069,7 +1069,7 @@ async def test_stream_tts_noop_when_client_disconnected(
 
 
 async def test_handle_timer_noop_when_client_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that _handle_timer returns immediately when client is None."""
     events: list[Event] = [
@@ -1126,7 +1126,7 @@ async def test_handle_timer_noop_when_client_disconnected(
         )
 
 
-async def test_satellite_error_during_pipeline(hass: UniversalAssistant) -> None:
+async def test_satellite_error_during_pipeline(hass: __HAC_KEEP__) -> None:
     """Test satellite error occurring during pipeline run."""
     events = [
         RunPipeline(
@@ -1177,7 +1177,7 @@ async def test_satellite_error_during_pipeline(hass: UniversalAssistant) -> None
         assert mock_client.error.code == "test code"
 
 
-async def test_tts_not_wav(hass: UniversalAssistant) -> None:
+async def test_tts_not_wav(hass: __HAC_KEEP__) -> None:
     """Test satellite receiving non-WAV audio from text-to-speech."""
     assert await async_setup_component(hass, assist_pipeline.DOMAIN, {})
 
@@ -1257,7 +1257,7 @@ async def test_tts_not_wav(hass: UniversalAssistant) -> None:
         await hass.async_block_till_done()
 
 
-async def test_pipeline_changed(hass: UniversalAssistant) -> None:
+async def test_pipeline_changed(hass: __HAC_KEEP__) -> None:
     """Test that changing the pipeline setting stops the current pipeline."""
     assert await async_setup_component(hass, assist_pipeline.DOMAIN, {})
 
@@ -1274,7 +1274,7 @@ async def test_pipeline_changed(hass: UniversalAssistant) -> None:
     pipeline_stopped = asyncio.Event()
 
     async def async_pipeline_from_audio_stream(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         context,
         event_callback,
         stt_metadata,
@@ -1329,7 +1329,7 @@ async def test_pipeline_changed(hass: UniversalAssistant) -> None:
         await hass.async_block_till_done()
 
 
-async def test_audio_settings_changed(hass: UniversalAssistant) -> None:
+async def test_audio_settings_changed(hass: __HAC_KEEP__) -> None:
     """Test that changing audio settings stops the current pipeline."""
     assert await async_setup_component(hass, assist_pipeline.DOMAIN, {})
 
@@ -1346,7 +1346,7 @@ async def test_audio_settings_changed(hass: UniversalAssistant) -> None:
     pipeline_stopped = asyncio.Event()
 
     async def async_pipeline_from_audio_stream(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         context,
         event_callback,
         stt_metadata,
@@ -1401,7 +1401,7 @@ async def test_audio_settings_changed(hass: UniversalAssistant) -> None:
         await hass.async_block_till_done()
 
 
-async def test_invalid_stages(hass: UniversalAssistant) -> None:
+async def test_invalid_stages(hass: __HAC_KEEP__) -> None:
     """Test error when providing invalid pipeline stages."""
     assert await async_setup_component(hass, assist_pipeline.DOMAIN, {})
 
@@ -1463,7 +1463,7 @@ async def test_invalid_stages(hass: UniversalAssistant) -> None:
         await hass.async_block_till_done()
 
 
-async def test_client_stops_pipeline(hass: UniversalAssistant) -> None:
+async def test_client_stops_pipeline(hass: __HAC_KEEP__) -> None:
     """Test that an AudioStop message stops the current pipeline."""
     assert await async_setup_component(hass, assist_pipeline.DOMAIN, {})
 
@@ -1480,7 +1480,7 @@ async def test_client_stops_pipeline(hass: UniversalAssistant) -> None:
     pipeline_stopped = asyncio.Event()
 
     async def async_pipeline_from_audio_stream(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         context,
         event_callback,
         stt_metadata,
@@ -1534,7 +1534,7 @@ async def test_client_stops_pipeline(hass: UniversalAssistant) -> None:
         await hass.async_block_till_done()
 
 
-async def test_wake_word_phrase(hass: UniversalAssistant) -> None:
+async def test_wake_word_phrase(hass: __HAC_KEEP__) -> None:
     """Test that wake word phrase from info is given to pipeline."""
     events = [
         # Fake local wake word detection
@@ -1577,7 +1577,7 @@ async def test_wake_word_phrase(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_timers(hass: UniversalAssistant) -> None:
+async def test_timers(hass: __HAC_KEEP__) -> None:
     """Test timer events."""
     assert await async_setup_component(hass, "intent", {})
 
@@ -1759,12 +1759,12 @@ async def test_timers(hass: UniversalAssistant) -> None:
 
 
 async def test_announce(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test announce on satellite."""
     assert await async_setup_component(hass, assist_pipeline.DOMAIN, {})
 
-    def async_process_play_media_url(hass: UniversalAssistant, media_id: str) -> str:
+    def async_process_play_media_url(hass: __HAC_KEEP__, media_id: str) -> str:
         # Don't create a URL
         return media_id
 
@@ -1859,7 +1859,7 @@ async def test_announce(
 
 
 async def test_tts_timeout(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test entity state goes back to IDLE on a timeout."""
     events = [
@@ -1874,7 +1874,7 @@ async def test_tts_timeout(
     run_pipeline_called = asyncio.Event()
 
     async def async_pipeline_from_audio_stream(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         context,
         event_callback,
         stt_metadata,
@@ -1965,7 +1965,7 @@ async def test_tts_timeout(
         await hass.async_block_till_done()
 
 
-async def test_satellite_tts_streaming(hass: UniversalAssistant) -> None:
+async def test_satellite_tts_streaming(hass: __HAC_KEEP__) -> None:
     """Test running a streaming TTS pipeline with a satellite."""
     assert await async_setup_component(hass, assist_pipeline.DOMAIN, {})
 
@@ -1981,7 +1981,7 @@ async def test_satellite_tts_streaming(hass: UniversalAssistant) -> None:
     audio_chunk_received = asyncio.Event()
 
     async def async_pipeline_from_audio_stream(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         context,
         event_callback,
         stt_metadata,
@@ -2149,7 +2149,7 @@ async def test_satellite_tts_streaming(hass: UniversalAssistant) -> None:
 
 
 async def test_satellite_pauses_and_disconnects_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the satellite is paused and disconnected when the entry unloads.
 
@@ -2185,7 +2185,7 @@ async def test_satellite_pauses_and_disconnects_on_unload(
     assert mock_client.is_connected is False
 
 
-async def test_satellite_audio_without_run_pipeline(hass: UniversalAssistant) -> None:
+async def test_satellite_audio_without_run_pipeline(hass: __HAC_KEEP__) -> None:
     """Test audio after a wake detection without RunPipeline starts a pipeline.
 
     Some satellites report a local wake word detection and then start streaming
@@ -2206,7 +2206,7 @@ async def test_satellite_audio_without_run_pipeline(hass: UniversalAssistant) ->
     audio_chunk_received = asyncio.Event()
 
     async def async_pipeline_from_audio_stream(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         context,
         event_callback,
         stt_metadata,

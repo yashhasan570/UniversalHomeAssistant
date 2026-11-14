@@ -28,7 +28,7 @@ from universalassistant.const import (
     STATE_CLOSED,
     STATE_OPEN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_config_entry
@@ -40,7 +40,7 @@ from . import setup_config_entry
     indirect=True,
 )
 async def test_cover_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -68,7 +68,7 @@ async def test_cover_device(
     indirect=True,
 )
 async def test_cover_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -144,7 +144,7 @@ async def test_cover_update(
     indirect=["mock_hub_configuration", "mock_hub_status"],
 )
 async def test_cover_open_and_close(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -251,7 +251,7 @@ async def test_cover_open_and_close(
     indirect=["mock_hub_configuration", "mock_hub_status"],
 )
 async def test_cover_open_to_pos(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -324,7 +324,7 @@ async def test_cover_open_to_pos(
     indirect=["mock_hub_configuration", "mock_hub_status"],
 )
 async def test_cover_open_and_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -398,7 +398,7 @@ async def test_cover_open_and_stop(
     indirect=["mock_hub_configuration", "mock_hub_status"],
 )
 async def test_cover_tilt_open_and_close(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -471,7 +471,7 @@ async def test_cover_tilt_open_and_close(
     indirect=["mock_hub_configuration", "mock_hub_status"],
 )
 async def test_cover_tilt_to_pos(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -532,7 +532,7 @@ async def test_cover_tilt_to_pos(
     indirect=["mock_hub_configuration", "mock_hub_status"],
 )
 async def test_cover_tilt_with_open_and_close_pos(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,

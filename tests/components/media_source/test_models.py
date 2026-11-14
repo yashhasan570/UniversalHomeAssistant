@@ -8,7 +8,7 @@ from universalassistant.components.media_player import (
     SearchMediaQuery,
 )
 from universalassistant.components.media_source import const, models
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_browse_media_as_dict() -> None:
@@ -77,7 +77,7 @@ async def test_media_source_default_name() -> None:
     assert source.name == const.DOMAIN
 
 
-async def test_media_source_item_media_source_id(hass: UniversalAssistant) -> None:
+async def test_media_source_item_media_source_id(hass: __HAC_KEEP__) -> None:
     """Test MediaSourceItem media_source_id property."""
     # Test with domain and identifier
     item = models.MediaSourceItem(hass, "test_domain", "test/identifier", None)
@@ -92,7 +92,7 @@ async def test_media_source_item_media_source_id(hass: UniversalAssistant) -> No
     assert item.media_source_id == "media-source://"
 
 
-async def test_media_source_search_media_not_implemented(hass: UniversalAssistant) -> None:
+async def test_media_source_search_media_not_implemented(hass: __HAC_KEEP__) -> None:
     """Test the base MediaSource.async_search_media raises NotImplementedError."""
     source = models.MediaSource(const.DOMAIN)
     item = models.MediaSourceItem(hass, const.DOMAIN, "", None)

@@ -26,20 +26,20 @@ from universalassistant.const import (
     CONF_UNIT_OF_MEASUREMENT,
     CONF_VALUE_TEMPLATE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.template import Template
 from universalassistant.setup import async_setup_component
 
 from . import YAML_CONFIG_INVALID, YAML_CONFIG_NO_DB, init_integration
 
 
-async def test_setup_entry(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_setup_entry(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test setup entry."""
     config_entry = await init_integration(hass)
     assert config_entry.state is ConfigEntryState.LOADED
 
 
-async def test_unload_entry(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_unload_entry(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test unload an entry."""
     config_entry = await init_integration(hass)
     assert config_entry.state is ConfigEntryState.LOADED
@@ -49,7 +49,7 @@ async def test_unload_entry(recorder_mock: Recorder, hass: UniversalAssistant) -
     assert config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_setup_config(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_setup_config(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test setup from yaml config."""
     with patch(
         "universalassistant.components.sql.config_flow.sqlalchemy.create_engine",
@@ -59,7 +59,7 @@ async def test_setup_config(recorder_mock: Recorder, hass: UniversalAssistant) -
 
 
 async def test_setup_invalid_config(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test setup from yaml with invalid config."""
     with patch(
@@ -69,7 +69,7 @@ async def test_setup_invalid_config(
         await hass.async_block_till_done()
 
 
-async def test_invalid_query(hass: UniversalAssistant) -> None:
+async def test_invalid_query(hass: __HAC_KEEP__) -> None:
     """Test invalid query."""
     with pytest.raises(probatio.Invalid, match="SQL query must be of type SELECT"):
         validate_sql_select(Template("DROP TABLE *", hass))
@@ -81,7 +81,7 @@ async def test_invalid_query(hass: UniversalAssistant) -> None:
         validate_sql_select(Template(";;", hass))
 
 
-async def test_query_no_read_only(hass: UniversalAssistant) -> None:
+async def test_query_no_read_only(hass: __HAC_KEEP__) -> None:
     """Test query no read only."""
     with pytest.raises(probatio.Invalid, match="SQL query must be of type SELECT"):
         validate_sql_select(
@@ -89,7 +89,7 @@ async def test_query_no_read_only(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_query_no_read_only_cte(hass: UniversalAssistant) -> None:
+async def test_query_no_read_only_cte(hass: __HAC_KEEP__) -> None:
     """Test query no read only CTE."""
     with pytest.raises(probatio.Invalid, match="SQL query must be of type SELECT"):
         validate_sql_select(
@@ -101,7 +101,7 @@ async def test_query_no_read_only_cte(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_multiple_queries(hass: UniversalAssistant) -> None:
+async def test_multiple_queries(hass: __HAC_KEEP__) -> None:
     """Test multiple queries."""
     with pytest.raises(
         probatio.Invalid, match="Multiple SQL statements are not allowed"
@@ -112,7 +112,7 @@ async def test_multiple_queries(hass: UniversalAssistant) -> None:
 
 
 async def test_migration_from_future(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test migration from future version fails."""
     config_entry = MockConfigEntry(
@@ -137,7 +137,7 @@ async def test_migration_from_future(
 
 
 async def test_migration_from_v1_to_v3(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test migration from version 1 to 3."""
     config_entry = MockConfigEntry(
@@ -183,7 +183,7 @@ async def test_migration_from_v1_to_v3(
 
 
 async def test_migration_from_v2_to_v3(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test migration from version 2 to 3 renames the options section."""
     config_entry = MockConfigEntry(

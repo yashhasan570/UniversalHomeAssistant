@@ -14,7 +14,7 @@ from aioaquarite import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -56,7 +56,7 @@ class VistapoolData:
 type VistapoolConfigEntry = ConfigEntry[VistapoolData]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: VistapoolConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: VistapoolConfigEntry) -> None:
     """Set up Vistapool from a config entry.
 
     One config entry represents a Hayward account; the account can contain
@@ -66,7 +66,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: VistapoolConfigEntr
     session = async_get_clientsession(hass)
 
     auth = AquariteAuth(session, user_config[CONF_USERNAME], user_config[CONF_PASSWORD])
-    # Universal Universal Home Assistant runs these callbacks on a failed setup as well, so
+    # __HA_KEEP__ runs these callbacks on a failed setup as well, so
     # registering before authenticating releases the Firestore gRPC channels
     # on every path out of this function.
     entry.async_on_unload(auth.close)
@@ -103,7 +103,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: VistapoolConfigEntr
             await coordinator.async_shutdown()
         raise
 
-    # Catch pools removed from the account while Universal Universal Home Assistant was offline; the
+    # Catch pools removed from the account while __HA_KEEP__ was offline; the
     # first live snapshot is a no-op so it wouldn't clean these up.
     _async_remove_stale_devices(hass, entry, set(pools))
 
@@ -131,7 +131,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: VistapoolConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: VistapoolConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: VistapoolConfigEntry) -> None:
     """Unload Vistapool config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     # Hold sync_lock so a reconcile background task can't mutate the
@@ -143,7 +143,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: VistapoolConfigEnt
 
 @callback
 def _async_remove_stale_devices(
-    hass: UniversalAssistant, entry: VistapoolConfigEntry, valid_pool_ids: set[str]
+    hass: __HAC_KEEP__, entry: VistapoolConfigEntry, valid_pool_ids: set[str]
 ) -> None:
     """Remove registry devices for pools no longer present on the account."""
     device_registry = dr.async_get(hass)
@@ -169,7 +169,7 @@ async def _async_initial_refresh(
 
 
 async def _async_add_coordinator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VistapoolConfigEntry,
     pool_id: str,
     pool_name: str,
@@ -194,7 +194,7 @@ async def _async_add_coordinator(
 
 
 async def _async_reconcile_pools(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VistapoolConfigEntry,
     pool_ids: list[str],
 ) -> None:

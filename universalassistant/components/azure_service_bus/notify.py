@@ -21,8 +21,8 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.const import CONTENT_TYPE_JSON
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -55,7 +55,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> ServiceBusNotificationService | None:
@@ -113,7 +113,7 @@ class ServiceBusNotificationService(BaseNotificationService):
         try:
             await self._client.send_messages(queue_message)
         except ServiceBusError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="send_message_failed",
                 translation_placeholders={"target": self._client.name},

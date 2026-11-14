@@ -15,7 +15,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     EntityCategory,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceInfo
 from universalassistant.helpers.entity import Entity, EntityDescription
 from universalassistant.helpers.entity_platform import async_get_current_platform
@@ -235,7 +235,7 @@ class PassiveBluetoothDataUpdate[_T]:
 
 
 def async_register_coordinator_for_restore(
-    hass: UniversalAssistant, coordinator: PassiveBluetoothProcessorCoordinator[Any]
+    hass: __HAC_KEEP__, coordinator: PassiveBluetoothProcessorCoordinator[Any]
 ) -> CALLBACK_TYPE:
     """Register a coordinator to have its processors data restored."""
     data: PassiveBluetoothProcessorData = hass.data[PASSIVE_UPDATE_PROCESSOR]
@@ -252,7 +252,7 @@ def async_register_coordinator_for_restore(
     return _unregister_coordinator_for_restore
 
 
-async def async_setup(hass: UniversalAssistant) -> None:
+async def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the passive update processor coordinators."""
     storage: Store[dict[str, dict[str, RestoredPassiveBluetoothDataUpdate]]] = Store(
         hass, STORAGE_VERSION, STORAGE_KEY
@@ -303,7 +303,7 @@ class PassiveBluetoothProcessorCoordinator[_DataT](BasePassiveBluetoothCoordinat
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: logging.Logger,
         address: str,
         mode: BluetoothScanningMode,

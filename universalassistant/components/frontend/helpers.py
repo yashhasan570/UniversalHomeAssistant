@@ -6,7 +6,7 @@ from typing import Any
 import probatio
 
 from universalassistant.const import EVENT_THEMES_UPDATED
-from universalassistant.core import UniversalAssistant, async_get_hass, callback
+from universalassistant.core import __HAC_KEEP__, async_get_hass, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.json import json_dumps_sorted
 from universalassistant.helpers.storage import Store
@@ -157,8 +157,8 @@ MANIFEST_JSON = Manifest(
             }
         ],
         "lang": "en-US",
-        "name": "Universal Universal Home Assistant",
-        "short_name": "Universal Universal Home Assistant",
+        "name": "__HA_KEEP__",
+        "short_name": "__HA_KEEP__",
         "start_url": "/?homescreen=1",
         "id": "/?homescreen=1",
         "theme_color": DEFAULT_THEME_COLOR,
@@ -181,7 +181,7 @@ def validate_selected_theme(theme: str) -> str:
 
 
 @callback
-def async_update_theme_and_fire_event(hass: UniversalAssistant) -> None:
+def async_update_theme_and_fire_event(hass: __HAC_KEEP__) -> None:
     """Update theme_color in manifest."""
     name = hass.data[DATA_DEFAULT_THEME]
     themes = hass.data[DATA_THEMES]

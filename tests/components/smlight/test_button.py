@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.smlight.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_integration
@@ -40,7 +40,7 @@ MOCK_ROUTER = Info(MAC="AA:BB:CC:DD:EE:FF", radios=[Radio(zb_type=1)])
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     entity_registry: er.EntityRegistry,
     method: str,
@@ -75,7 +75,7 @@ async def test_buttons(
 
 @pytest.mark.parametrize("entity_id", ["zigbee_flash_mode", "reconnect_zigbee_router"])
 async def test_disabled_by_default_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -95,7 +95,7 @@ async def test_disabled_by_default_buttons(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_zigbee2_router_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
@@ -117,7 +117,7 @@ async def test_zigbee2_router_button(
 
 
 async def test_remove_router_reconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -157,7 +157,7 @@ async def test_remove_router_reconnect(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_ultima_client")
 async def test_multi_radio_buttons_u_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     key: str,
     idx: int,
@@ -185,7 +185,7 @@ async def test_multi_radio_buttons_u_device(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_multi_radio_press_calls_idx(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     key: str,
     method: str,
@@ -215,7 +215,7 @@ async def test_multi_radio_press_calls_idx(
 
 @pytest.mark.parametrize("key", ["zigbee_restart", "zigbee_flash_mode"])
 async def test_multi_radio_buttons_shared_non_u_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     key: str,
     mock_config_entry: MockConfigEntry,
@@ -235,7 +235,7 @@ async def test_multi_radio_buttons_shared_non_u_device(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_ultima_client")
 async def test_router_button_with_3_radios(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -255,7 +255,7 @@ async def test_router_button_with_3_radios(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_ultima_client")
 async def test_zwave_radio_naming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test Z-Wave radio (index 2) button entity naming."""
@@ -272,7 +272,7 @@ async def test_zwave_radio_naming(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_zwave_radio_naming_mr10(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:

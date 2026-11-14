@@ -22,7 +22,7 @@ from universalassistant.components.mcp.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_TOKEN, CONF_TOKEN, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
@@ -93,7 +93,7 @@ OAUTH_TOKEN_PAYLOAD = {
 }
 
 
-def encode_state(hass: UniversalAssistant, flow_id: str) -> str:
+def encode_state(hass: __HAC_KEEP__, flow_id: str) -> str:
     """Encode the OAuth JWT."""
     return config_entry_oauth2_flow._encode_jwt(
         hass,
@@ -105,7 +105,7 @@ def encode_state(hass: UniversalAssistant, flow_id: str) -> str:
 
 
 async def test_form(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_mcp_client: Mock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_mcp_client: Mock
 ) -> None:
     """Test the complete configuration flow."""
     result = await hass.config_entries.flow.async_init(
@@ -152,7 +152,7 @@ async def test_form(
     ],
 )
 async def test_form_mcp_client_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mcp_client: Mock,
     side_effect: Exception,
@@ -202,7 +202,7 @@ async def test_form_mcp_client_error(
     ],
 )
 async def test_input_form_validation_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mcp_client: Mock,
     user_input: dict[str, Any],
@@ -239,7 +239,7 @@ async def test_input_form_validation_error(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_unique_url(hass: UniversalAssistant, mock_mcp_client: Mock) -> None:
+async def test_unique_url(hass: __HAC_KEEP__, mock_mcp_client: Mock) -> None:
     """Test that the same url cannot be configured twice."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -271,7 +271,7 @@ async def test_unique_url(hass: UniversalAssistant, mock_mcp_client: Mock) -> No
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_server_missing_capbilities(
-    hass: UniversalAssistant, mock_mcp_client: Mock
+    hass: __HAC_KEEP__, mock_mcp_client: Mock
 ) -> None:
     """Test we handle different client library errors."""
     result = await hass.config_entries.flow.async_init(
@@ -296,7 +296,7 @@ async def test_server_missing_capbilities(
 @respx.mock
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_oauth_discovery_flow_without_credentials(
-    hass: UniversalAssistant, mock_mcp_client: Mock
+    hass: __HAC_KEEP__, mock_mcp_client: Mock
 ) -> None:
     """Test OAuth discoveryflow when user has no credentials yet."""
     result = await hass.config_entries.flow.async_init(
@@ -325,7 +325,7 @@ async def test_oauth_discovery_flow_without_credentials(
 
 
 async def perform_oauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_client_no_auth: ClientSessionGenerator,
     result: config_entries.ConfigFlowResult,
@@ -407,7 +407,7 @@ async def perform_oauth_flow(
 @pytest.mark.usefixtures("current_request_with_host")
 @respx.mock
 async def test_authentication_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mcp_client: Mock,
     credential: None,
@@ -514,7 +514,7 @@ async def test_authentication_flow(
     ],
 )
 async def test_authentication_discovery_via_header(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mcp_client: Mock,
     credential: None,
@@ -637,7 +637,7 @@ async def test_authentication_discovery_via_header(
     ],
 )
 async def test_invalid_protected_resource_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mcp_client: Mock,
     credential: None,
     aioclient_mock: AiohttpClientMocker,
@@ -704,7 +704,7 @@ async def test_invalid_protected_resource_metadata(
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 @respx.mock
 async def test_oauth_discovery_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mcp_client: Mock,
     credential: None,
     aioclient_mock: AiohttpClientMocker,
@@ -750,7 +750,7 @@ async def test_oauth_discovery_failure(
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 @respx.mock
 async def test_authentication_flow_server_failure_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mcp_client: Mock,
     credential: None,
     aioclient_mock: AiohttpClientMocker,
@@ -807,7 +807,7 @@ async def test_authentication_flow_server_failure_abort(
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 @respx.mock
 async def test_authentication_flow_server_missing_tool_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mcp_client: Mock,
     credential: None,
     aioclient_mock: AiohttpClientMocker,
@@ -867,7 +867,7 @@ async def test_authentication_flow_server_missing_tool_capabilities(
 @pytest.mark.usefixtures("current_request_with_host")
 @respx.mock
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mcp_client: Mock,
     credential: None,
@@ -920,7 +920,7 @@ async def test_reauth_flow(
 @pytest.mark.usefixtures("current_request_with_host")
 @respx.mock
 async def test_reauth_flow_upgrade_to_oauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mcp_client: Mock,
     credential: None,
@@ -1012,7 +1012,7 @@ async def test_reauth_flow_upgrade_to_oauth(
 @pytest.mark.usefixtures("current_request_with_host")
 @respx.mock
 async def test_reauth_flow_upgrade_to_oauth_no_auth_header(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mcp_client: Mock,
     credential: None,
@@ -1052,7 +1052,7 @@ async def test_reauth_flow_upgrade_to_oauth_no_auth_header(
 @pytest.mark.usefixtures("current_request_with_host")
 @respx.mock
 async def test_reauth_flow_missing_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mcp_client: Mock,
     credential: None,
@@ -1141,7 +1141,7 @@ async def test_reauth_flow_missing_implementation(
     ],
 )
 async def test_hassio_discovery_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mcp_client: Mock,
     mock_http_streamable_client: Mock,
@@ -1188,7 +1188,7 @@ async def test_hassio_discovery_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_hassio_discovery_invalid_url(
-    hass: UniversalAssistant, config: dict[str, Any]
+    hass: __HAC_KEEP__, config: dict[str, Any]
 ) -> None:
     """Test an app that sends discovery info without a usable URL."""
     result = await hass.config_entries.flow.async_init(
@@ -1237,7 +1237,7 @@ async def test_hassio_discovery_invalid_url(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_hassio_discovery_updates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_data: dict[str, str],
     discovery_info: HassioServiceInfo,
     expected_data: dict[str, str],
@@ -1279,7 +1279,7 @@ async def test_hassio_discovery_updates_entry(
     ],
 )
 async def test_hassio_discovery_new_token_reloads_entry(
-    hass: UniversalAssistant, state: config_entries.ConfigEntryState, unique_id: str
+    hass: __HAC_KEEP__, state: config_entries.ConfigEntryState, unique_id: str
 ) -> None:
     """Test a new token from the app reloads the entry so it gets used."""
     config_entry = MockConfigEntry(
@@ -1337,7 +1337,7 @@ async def test_hassio_discovery_new_token_reloads_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_hassio_discovery_new_uuid_updates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_data: dict[str, str],
     discovery_info: HassioServiceInfo,
     expected_data: dict[str, str],
@@ -1365,7 +1365,7 @@ async def test_hassio_discovery_new_uuid_updates_entry(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_hassio_discovery_other_app(hass: UniversalAssistant) -> None:
+async def test_hassio_discovery_other_app(hass: __HAC_KEEP__) -> None:
     """Test discovery of another app leaves the existing app entry alone."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1388,7 +1388,7 @@ async def test_hassio_discovery_other_app(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_hassio_discovery_already_configured(hass: UniversalAssistant) -> None:
+async def test_hassio_discovery_already_configured(hass: __HAC_KEEP__) -> None:
     """Test the discovered MCP server is already configured."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1422,7 +1422,7 @@ async def test_hassio_discovery_already_configured(hass: UniversalAssistant) -> 
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_hassio_discovery_mcp_client_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mcp_client: Mock,
     side_effect: Exception,
     expected_reason: str,
@@ -1443,7 +1443,7 @@ async def test_hassio_discovery_mcp_client_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_hassio_discovery_missing_capabilities(
-    hass: UniversalAssistant, mock_mcp_client: Mock
+    hass: __HAC_KEEP__, mock_mcp_client: Mock
 ) -> None:
     """Test the discovered MCP server does not support tools."""
     result = await hass.config_entries.flow.async_init(
@@ -1476,7 +1476,7 @@ async def test_hassio_discovery_missing_capabilities(
 @respx.mock
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_hassio_discovery_requires_authentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mcp_client: Mock,
     mock_http_streamable_client: Mock,
     discovery_info: HassioServiceInfo,
@@ -1507,7 +1507,7 @@ async def test_hassio_discovery_requires_authentication(
 @pytest.mark.usefixtures("current_request_with_host")
 @respx.mock
 async def test_hassio_discovery_authentication_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_mcp_client: Mock,
     credential: None,

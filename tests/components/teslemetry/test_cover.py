@@ -25,8 +25,8 @@ from universalassistant.components.cover import (
 from universalassistant.components.teslemetry.const import CONF_VIN, SUBENTRY_TYPE_VEHICLE
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import ATTR_ENTITY_ID, CONF_ADDRESS, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.restore_state import async_get as async_get_restore_state
 
@@ -56,7 +56,7 @@ TONNEAU_SERVICES = [
 
 @pytest.fixture
 async def ble_cybertruck(
-    hass: UniversalAssistant, mock_products: AsyncMock, mock_metadata: AsyncMock
+    hass: __HAC_KEEP__, mock_products: AsyncMock, mock_metadata: AsyncMock
 ) -> AsyncIterator[tuple[AsyncMock, MagicMock]]:
     """Set up a Bluetooth-paired Cybertruck, yielding its Bluetooth vehicle and lookup."""
     mock_products.return_value = PRODUCTS_CYBERTRUCK
@@ -102,7 +102,7 @@ async def ble_cybertruck(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_legacy: AsyncMock,
@@ -115,7 +115,7 @@ async def test_cover(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover_alt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -130,7 +130,7 @@ async def test_cover_alt(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -145,7 +145,7 @@ async def test_cover_none(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover_noscope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_metadata: AsyncMock,
@@ -165,7 +165,7 @@ async def test_cover_noscope(
     ],
 )
 async def test_cover_tonneau_model_gate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_products: AsyncMock,
     mock_metadata: AsyncMock,
     products: dict,
@@ -188,7 +188,7 @@ async def test_cover_tonneau_model_gate(
     ],
 )
 async def test_cover_tonneau_firmware_gate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_products: AsyncMock,
     mock_metadata: AsyncMock,
     firmware: str,
@@ -207,7 +207,7 @@ async def test_cover_tonneau_firmware_gate(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover_cybertruck(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_products: AsyncMock,
@@ -223,7 +223,7 @@ async def test_cover_cybertruck(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover_tonneau_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_products: AsyncMock,
     mock_metadata: AsyncMock,
 ) -> None:
@@ -282,7 +282,7 @@ async def test_cover_tonneau_services(
 
 @pytest.mark.parametrize(("service", "command"), TONNEAU_SERVICES)
 async def test_cover_tonneau_bluetooth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ble_cybertruck: tuple[AsyncMock, MagicMock],
     service: str,
     command: str,
@@ -304,7 +304,7 @@ async def test_cover_tonneau_bluetooth(
 
 @pytest.mark.parametrize(("service", "command"), TONNEAU_SERVICES)
 async def test_cover_tonneau_bluetooth_out_of_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ble_cybertruck: tuple[AsyncMock, MagicMock],
     service: str,
     command: str,
@@ -326,7 +326,7 @@ async def test_cover_tonneau_bluetooth_out_of_range(
 
 @pytest.mark.parametrize(("service", "command"), TONNEAU_SERVICES)
 async def test_cover_tonneau_bluetooth_failover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ble_cybertruck: tuple[AsyncMock, MagicMock],
     service: str,
     command: str,
@@ -347,7 +347,7 @@ async def test_cover_tonneau_bluetooth_failover(
 
 
 async def test_cover_tonneau_streaming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_products: AsyncMock,
     mock_metadata: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -396,7 +396,7 @@ async def test_cover_tonneau_streaming(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_legacy: AsyncMock,
 ) -> None:
     """Tests that the cover entities are correct."""
@@ -554,8 +554,8 @@ async def test_cover_services(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_legacy")
 @pytest.mark.parametrize("response", COMMAND_ERRORS)
-async def test_cover_command_errors(hass: UniversalAssistant, response: dict) -> None:
-    """Tests that vehicle command failures raise UniversalAssistantError."""
+async def test_cover_command_errors(hass: __HAC_KEEP__, response: dict) -> None:
+    """Tests that vehicle command failures raise __HAC_KEEP__Error."""
 
     await setup_platform(hass, [Platform.COVER])
 
@@ -564,7 +564,7 @@ async def test_cover_command_errors(hass: UniversalAssistant, response: dict) ->
             "tesla_fleet_api.teslemetry.Vehicle.window_control",
             return_value=response,
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             COVER_DOMAIN,
@@ -575,8 +575,8 @@ async def test_cover_command_errors(hass: UniversalAssistant, response: dict) ->
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_legacy")
-async def test_cover_command_exception(hass: UniversalAssistant) -> None:
-    """Tests that a command SDK exception raises UniversalAssistantError."""
+async def test_cover_command_exception(hass: __HAC_KEEP__) -> None:
+    """Tests that a command SDK exception raises __HAC_KEEP__Error."""
 
     await setup_platform(hass, [Platform.COVER])
 
@@ -585,7 +585,7 @@ async def test_cover_command_exception(hass: UniversalAssistant) -> None:
             "tesla_fleet_api.teslemetry.Vehicle.window_control",
             side_effect=InvalidCommand,
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             COVER_DOMAIN,
@@ -596,7 +596,7 @@ async def test_cover_command_exception(hass: UniversalAssistant) -> None:
 
 
 async def test_cover_streaming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
 ) -> None:
@@ -750,7 +750,7 @@ async def test_cover_streaming(
     ],
 )
 async def test_cover_streaming_windows_restore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_listener: AsyncMock,
     restored_state: CoverState,
     extra_data: dict[str, bool] | None,

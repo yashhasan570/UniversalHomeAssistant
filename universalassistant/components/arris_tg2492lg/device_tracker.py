@@ -12,7 +12,7 @@ from universalassistant.components.device_tracker import (
     DeviceScanner,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -28,7 +28,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 async def async_get_scanner(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ArrisDeviceScanner | None:
     """Return the Arris device scanner if successful."""
     conf = config[DEVICE_TRACKER_DOMAIN]

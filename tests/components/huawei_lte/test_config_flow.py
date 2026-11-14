@@ -27,7 +27,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_DEVICE_TYPE,
@@ -57,7 +57,7 @@ FIXTURE_USER_INPUT_OPTIONS = {
 }
 
 
-async def test_show_set_form(hass: UniversalAssistant) -> None:
+async def test_show_set_form(hass: __HAC_KEEP__) -> None:
     """Test that the setup form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -77,7 +77,7 @@ async def test_show_set_form(hass: UniversalAssistant) -> None:
 
 
 async def test_urlize_plain_host(
-    hass: UniversalAssistant, requests_mock: requests_mock.Mocker
+    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker
 ) -> None:
     """Test that plain host or IP gets converted to a URL."""
     requests_mock.request(ANY, ANY, exc=ConnectionError())
@@ -106,7 +106,7 @@ async def test_urlize_plain_host(
 
 
 async def test_already_configured(
-    hass: UniversalAssistant, requests_mock: requests_mock.Mocker, login_requests_mock
+    hass: __HAC_KEEP__, requests_mock: requests_mock.Mocker, login_requests_mock
 ) -> None:
     """Test we reject already configured devices."""
     MockConfigEntry(
@@ -157,7 +157,7 @@ async def test_already_configured(
     ],
 )
 async def test_connection_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requests_mock: requests_mock.Mocker,
     exception: Exception,
     errors: dict[str, str],
@@ -297,7 +297,7 @@ def login_requests_mock(requests_mock: requests_mock.Mocker) -> requests_mock.Mo
     ],
 )
 async def test_login_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     login_requests_mock: requests_mock.Mocker,
     request_outcome: dict[str, Any],
     fixture_override: dict[str, str],
@@ -345,7 +345,7 @@ async def test_login_error(
 
 
 @pytest.mark.parametrize("scheme", ["http", "https"])
-async def test_success(hass: UniversalAssistant, login_requests_mock, scheme: str) -> None:
+async def test_success(hass: __HAC_KEEP__, login_requests_mock, scheme: str) -> None:
     """Test successful flow provides entry creation data."""
     user_input = {
         **FIXTURE_USER_INPUT,
@@ -444,7 +444,7 @@ async def test_success(hass: UniversalAssistant, login_requests_mock, scheme: st
     ],
 )
 async def test_ssdp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     login_requests_mock,
     requests_mock_request_kwargs,
     upnp_data,
@@ -528,7 +528,7 @@ async def test_ssdp(
     ],
 )
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     login_requests_mock,
     login_response_text,
     expected_result,
@@ -574,7 +574,7 @@ async def test_reauth(
         assert entry.data[k] == v
 
 
-async def test_options(hass: UniversalAssistant) -> None:
+async def test_options(hass: __HAC_KEEP__) -> None:
     """Test options produce expected data."""
 
     config_entry = MockConfigEntry(

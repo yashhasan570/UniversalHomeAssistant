@@ -7,14 +7,14 @@ from universalassistant.components.assist_pipeline import OPTION_PREFERRED, VadS
 from universalassistant.components.assist_pipeline.pipeline import PipelineData  # pylint: disable=universal-assistant-component-root-import
 from universalassistant.components.wyoming.devices import SatelliteDevice
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import reload_satellite
 
 
 async def test_pipeline_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     satellite_config_entry: ConfigEntry,
     satellite_device: SatelliteDevice,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_pipeline_select(
 
 
 async def test_noise_suppression_level_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     satellite_config_entry: ConfigEntry,
     satellite_device: SatelliteDevice,
 ) -> None:
@@ -143,7 +143,7 @@ async def test_noise_suppression_level_select(
 
 
 async def test_vad_sensitivity_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     satellite_config_entry: ConfigEntry,
     satellite_device: SatelliteDevice,
 ) -> None:

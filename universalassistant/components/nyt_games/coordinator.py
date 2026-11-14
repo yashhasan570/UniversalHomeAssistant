@@ -14,7 +14,7 @@ from nyt_games import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -40,7 +40,7 @@ class NYTGamesCoordinator(DataUpdateCoordinator[NYTGamesData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: NYTGamesConfigEntry,
         client: NYTGamesClient,
     ) -> None:

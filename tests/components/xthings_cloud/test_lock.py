@@ -13,14 +13,14 @@ from universalassistant.components.lock import (
     LockState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import get_device_by_id, setup_integration
 
 
 async def test_locks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -43,7 +43,7 @@ async def test_locks(
     ],
 )
 async def test_lock_lock_unlock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     service: str,
@@ -63,7 +63,7 @@ async def test_lock_lock_unlock(
 
 
 async def test_lock_unavailable_when_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_lock_unavailable_when_offline(
 
 
 async def test_updating_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     mock_websocket: AsyncMock,

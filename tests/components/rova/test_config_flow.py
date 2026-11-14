@@ -13,7 +13,7 @@ from universalassistant.components.rova.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 ZIP_CODE = "7991AD"
@@ -21,7 +21,7 @@ HOUSE_NUMBER = "10"
 HOUSE_NUMBER_SUFFIX = "a"
 
 
-async def test_user(hass: UniversalAssistant, mock_rova: MagicMock) -> None:
+async def test_user(hass: __HAC_KEEP__, mock_rova: MagicMock) -> None:
     """Test user config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -51,7 +51,7 @@ async def test_user(hass: UniversalAssistant, mock_rova: MagicMock) -> None:
 
 
 async def test_error_if_not_rova_area(
-    hass: UniversalAssistant, mock_rova: MagicMock
+    hass: __HAC_KEEP__, mock_rova: MagicMock
 ) -> None:
     """Test we raise errors if rova does not collect at the given address."""
     result = await hass.config_entries.flow.async_init(
@@ -94,7 +94,7 @@ async def test_error_if_not_rova_area(
     }
 
 
-async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
+async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
     """Test we abort if rova is already setup."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -133,7 +133,7 @@ async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_abort_if_api_throws_exception(
-    hass: UniversalAssistant, exception: Exception, error: str, mock_rova: MagicMock
+    hass: __HAC_KEEP__, exception: Exception, error: str, mock_rova: MagicMock
 ) -> None:
     """Test different exceptions for the Rova entity."""
     result = await hass.config_entries.flow.async_init(

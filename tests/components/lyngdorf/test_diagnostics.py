@@ -11,7 +11,7 @@ from syrupy.filters import props
 
 from universalassistant.components.lyngdorf.const import SSDP_ST
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
 
@@ -22,7 +22,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -34,7 +34,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_includes_ssdp_description(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,

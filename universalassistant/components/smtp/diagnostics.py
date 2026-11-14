@@ -9,7 +9,7 @@ from universalassistant.const import (
     CONF_SENDER,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import SmtpConfigEntry
 from .const import CONF_REPLY_TO, CONF_REPLY_TO_NAME, CONF_SENDER_NAME, CONF_SERVER
@@ -27,7 +27,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: SmtpConfigEntry
+    hass: __HAC_KEEP__, config_entry: SmtpConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

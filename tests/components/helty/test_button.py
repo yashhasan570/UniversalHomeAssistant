@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ RESET_FILTER_ENTITY = "button.vmc_soggiorno_reset_filter"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -33,7 +33,7 @@ async def test_all_entities(
 
 
 async def test_reset_filter_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -50,16 +50,16 @@ async def test_reset_filter_press(
 
 
 async def test_reset_filter_press_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test a device failure during reset raises a UniversalAssistantError."""
+    """Test a device failure during reset raises a __HAC_KEEP__Error."""
     await setup_integration(hass, mock_config_entry)
 
     mock_helty_client.async_reset_filter.side_effect = HeltyError
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

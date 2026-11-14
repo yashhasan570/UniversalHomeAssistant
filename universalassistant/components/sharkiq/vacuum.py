@@ -10,7 +10,7 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
     VacuumEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -42,7 +42,7 @@ ATTR_RECHARGE_RESUME = "recharge_and_resume"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SharkIqConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

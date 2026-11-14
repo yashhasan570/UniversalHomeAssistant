@@ -10,13 +10,13 @@ from universalassistant.components.environment_canada.const import DOMAIN
 from universalassistant.components.environment_canada.services import (
     EnvironmentCanadaService,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.dt import UTC
 
 from . import init_integration
 
 
-async def test_camera_entity(hass: UniversalAssistant, ec_data: dict[str, Any]) -> None:
+async def test_camera_entity(hass: __HAC_KEEP__, ec_data: dict[str, Any]) -> None:
     """Test camera entity setup."""
     await init_integration(hass, ec_data)
 
@@ -35,7 +35,7 @@ async def test_camera_entity(hass: UniversalAssistant, ec_data: dict[str, Any]) 
     ],
 )
 async def test_set_radar_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ec_data: dict[str, Any],
     radar_type: str,
     expected_layer: str,
@@ -75,7 +75,7 @@ async def test_set_radar_type(
     ],
 )
 async def test_set_radar_type_auto(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ec_data: dict[str, Any],
     month: int,
     expected_layer: str,
@@ -102,7 +102,7 @@ async def test_set_radar_type_auto(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_radar_type_clears_cache(
-    hass: UniversalAssistant, ec_data: dict[str, Any]
+    hass: __HAC_KEEP__, ec_data: dict[str, Any]
 ) -> None:
     """Test that setting radar type clears the cache."""
     config_entry = await init_integration(hass, ec_data)

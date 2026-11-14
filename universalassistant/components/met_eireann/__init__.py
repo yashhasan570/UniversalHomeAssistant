@@ -1,7 +1,7 @@
 """The met_eireann component."""
 
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import MetEireannConfigEntry, MetEireannUpdateCoordinator
 
@@ -9,7 +9,7 @@ PLATFORMS = [Platform.WEATHER]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: MetEireannConfigEntry
+    hass: __HAC_KEEP__, config_entry: MetEireannConfigEntry
 ) -> None:
     """Set up Met Éireann as config entry."""
     coordinator = MetEireannUpdateCoordinator(hass, config_entry=config_entry)
@@ -21,14 +21,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: MetEireannConfigEntry
+    hass: __HAC_KEEP__, config_entry: MetEireannConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: MetEireannConfigEntry
+    hass: __HAC_KEEP__, entry: MetEireannConfigEntry
 ) -> None:
     """Migrate old config entry."""
 

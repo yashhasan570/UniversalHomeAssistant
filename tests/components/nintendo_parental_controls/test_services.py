@@ -26,7 +26,7 @@ from universalassistant.components.nintendo_parental_controls.services import (
     NintendoParentalServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, Context, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, Context, __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError, Unauthorized
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -35,7 +35,7 @@ from .const import PLAYER_ENTITY_ID
 
 
 async def test_add_bonus_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_client: AsyncMock,
@@ -152,7 +152,7 @@ async def test_add_bonus_time(
     ],
 )
 async def test_service_no_device_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_client: AsyncMock,
     service: NintendoParentalService,
@@ -187,7 +187,7 @@ async def test_service_no_device_exceptions(
     ],
 )
 async def test_service_invalid_device_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_client: AsyncMock,
@@ -217,7 +217,7 @@ async def test_service_invalid_device_exceptions(
 
 
 async def test_update_pin_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_client: AsyncMock,
@@ -263,7 +263,7 @@ async def test_update_pin_code(
     ],
 )
 async def test_service_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     hass_read_only_user: MockUser,
     mock_config_entry: MockConfigEntry,
@@ -291,7 +291,7 @@ async def test_service_requires_admin(
 
 
 async def test_get_player_application_report(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -321,7 +321,7 @@ async def test_get_player_application_report(
 
 
 async def test_get_device_application_report(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -371,7 +371,7 @@ async def test_get_device_application_report(
     ],
 )
 async def test_player_service_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_client: AsyncMock,
@@ -400,7 +400,7 @@ async def test_player_service_failures(
 
 
 async def test_update_daily_restrictions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_client: AsyncMock,
@@ -466,7 +466,7 @@ async def test_update_daily_restrictions(
 )
 @pytest.mark.usefixtures("mock_nintendo_client")
 async def test_update_daily_restrictions_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_device: AsyncMock,

@@ -6,7 +6,7 @@ from typing import Any, override
 from epion import Epion, EpionAuthenticationError, EpionConnectionError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -21,7 +21,7 @@ class EpionCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Epion data update coordinator."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: EpionConfigEntry, epion_api: Epion
+        self, hass: __HAC_KEEP__, entry: EpionConfigEntry, epion_api: Epion
     ) -> None:
         """Initialize the Epion coordinator."""
         super().__init__(

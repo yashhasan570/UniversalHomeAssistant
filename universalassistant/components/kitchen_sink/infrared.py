@@ -11,7 +11,7 @@ from universalassistant.components.infrared import (
     InfraredReceiverEntity,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -28,7 +28,7 @@ INFRARED_COMMAND_SIGNAL = f"{DOMAIN}_infrared_command_signal"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

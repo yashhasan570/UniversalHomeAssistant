@@ -6,12 +6,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.airq.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import TEST_DEVICE_INFO, TEST_USER_DATA
 
 
-async def setup_platform(hass: UniversalAssistant, platform: Platform) -> None:
+async def setup_platform(hass: __HAC_KEEP__, platform: Platform) -> None:
     """Load AirQ integration.
 
     This function does not patch AirQ itself, rather it depends on being

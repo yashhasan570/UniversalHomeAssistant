@@ -6,7 +6,7 @@ from phone_modem import PhoneModem
 
 from universalassistant.components.sensor import RestoreSensor
 from universalassistant.const import STATE_IDLE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -15,7 +15,7 @@ from .const import CID, DOMAIN
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ModemCallerIdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -52,7 +52,7 @@ class ModemCalleridSensor(RestoreSensor):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Call when the modem sensor is added to Universal Universal Home Assistant."""
+        """Call when the modem sensor is added to __HA_KEEP__."""
         await super().async_added_to_hass()
 
         if (last_state := await self.async_get_last_state()) is not None:

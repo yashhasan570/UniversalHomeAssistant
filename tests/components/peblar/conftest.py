@@ -24,7 +24,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.peblar.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -124,7 +124,7 @@ def mock_peblar(request: pytest.FixtureRequest) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_peblar: MagicMock,
     request: pytest.FixtureRequest,

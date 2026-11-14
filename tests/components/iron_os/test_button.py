@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -30,7 +30,7 @@ async def button_only() -> AsyncGenerator[None]:
     "entity_registry_enabled_by_default", "mock_pynecil", "ble_device"
 )
 async def test_button_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -54,7 +54,7 @@ async def test_button_platform(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "ble_device")
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
     entity_id: str,
@@ -79,7 +79,7 @@ async def test_button_press(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "ble_device")
 async def test_button_press_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
 ) -> None:

@@ -10,15 +10,15 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.time import TimeService
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -33,7 +33,7 @@ async def test_all_entities(
 
 
 async def test_set_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -71,7 +71,7 @@ async def test_set_time(
     ],
 )
 async def test_time_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     mock_device_client: MagicMock,
@@ -84,7 +84,7 @@ async def test_time_error(
     mock_device_client.set_light_schedule.side_effect = exception
 
     assert hass.states.get("time.garden_light_on") is not None
-    with pytest.raises(UniversalAssistantError, match=user_error):
+    with pytest.raises(__HAC_KEEP__Error, match=user_error):
         await hass.services.async_call(
             "time",
             TimeService.SET_VALUE,

@@ -20,13 +20,13 @@ from universalassistant.const import (
     ATTR_UNIT_OF_MEASUREMENT,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import LIGHT_SERVICE_INFO, NO_DATA_SERVICE_INFO, VOC_NOISE_SERVICE_INFO
 
 
-async def test_sensors(hass: UniversalAssistant) -> None:
+async def test_sensors(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -53,7 +53,7 @@ async def test_sensors(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_voc_index_and_noise_sensors(hass: UniversalAssistant) -> None:
+async def test_voc_index_and_noise_sensors(hass: __HAC_KEEP__) -> None:
     """Test VOC index (unitless) and noise sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -87,7 +87,7 @@ async def test_voc_index_and_noise_sensors(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_binary_sensor_restore_state(hass: UniversalAssistant) -> None:
+async def test_binary_sensor_restore_state(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the binary sensors and restoring state."""
     start_monotonic = time.monotonic()
     entry = MockConfigEntry(

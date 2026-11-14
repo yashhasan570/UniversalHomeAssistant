@@ -6,7 +6,7 @@ import requests_mock
 
 from universalassistant import config_entries
 from universalassistant.components.starline import DOMAIN, config_flow
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_APP_ID = "666"
@@ -41,7 +41,7 @@ def _mock_success(mock: requests_mock.Mocker) -> None:
     )
 
 
-async def test_flow_works(hass: UniversalAssistant) -> None:
+async def test_flow_works(hass: __HAC_KEEP__) -> None:
     """Test that config flow works."""
     with requests_mock.Mocker() as mock:
         mock.get(
@@ -103,7 +103,7 @@ async def test_flow_works(hass: UniversalAssistant) -> None:
         assert result["title"] == f"Application {TEST_APP_ID}"
 
 
-async def test_step_auth_app_code_falls(hass: UniversalAssistant) -> None:
+async def test_step_auth_app_code_falls(hass: __HAC_KEEP__) -> None:
     """Test config flow works when app auth code fails."""
     with requests_mock.Mocker() as mock:
         mock.get(
@@ -151,7 +151,7 @@ async def test_step_auth_app_code_falls(hass: UniversalAssistant) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_step_auth_app_token_falls(hass: UniversalAssistant) -> None:
+async def test_step_auth_app_token_falls(hass: __HAC_KEEP__) -> None:
     """Test config flow works when app auth token fails."""
     with requests_mock.Mocker() as mock:
         mock.get(
@@ -203,7 +203,7 @@ async def test_step_auth_app_token_falls(hass: UniversalAssistant) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_step_auth_user_falls(hass: UniversalAssistant) -> None:
+async def test_step_auth_user_falls(hass: __HAC_KEEP__) -> None:
     """Test config flow works when user fails."""
     with requests_mock.Mocker() as mock:
         _mock_success(mock)

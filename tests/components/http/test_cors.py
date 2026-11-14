@@ -19,8 +19,8 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.http import DOMAIN, StaticPathConfig
 from universalassistant.components.http.cors import setup_cors
-from universalassistant.core import UniversalAssistant
-from universalassistant.helpers.http import KEY_ALLOW_CONFIGURED_CORS, UniversalAssistantView
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.helpers.http import KEY_ALLOW_CONFIGURED_CORS, __HAC_KEEP__View
 from universalassistant.setup import async_setup_component
 
 from . import HTTP_HEADER_HA_AUTH
@@ -28,7 +28,7 @@ from . import HTTP_HEADER_HA_AUTH
 TRUSTED_ORIGIN = "https://universalassistant.io"
 
 
-async def test_cors_middleware_loaded_by_default(hass: UniversalAssistant) -> None:
+async def test_cors_middleware_loaded_by_default(hass: __HAC_KEEP__) -> None:
     """Test accessing to server from banned IP when feature is off."""
     with patch("universalassistant.components.http.server.setup_cors") as mock_setup:
         await async_setup_component(hass, DOMAIN, {"http": {}})
@@ -36,7 +36,7 @@ async def test_cors_middleware_loaded_by_default(hass: UniversalAssistant) -> No
     assert len(mock_setup.mock_calls) == 1
 
 
-async def test_cors_middleware_loaded_from_config(hass: UniversalAssistant) -> None:
+async def test_cors_middleware_loaded_from_config(hass: __HAC_KEEP__) -> None:
     """Test accessing to server from banned IP when feature is off."""
     with patch("universalassistant.components.http.server.setup_cors") as mock_setup:
         await async_setup_component(
@@ -106,10 +106,10 @@ async def test_cors_preflight_allowed(client) -> None:
     assert req.headers[ACCESS_CONTROL_ALLOW_HEADERS] == "X-REQUESTED-WITH"
 
 
-async def test_cors_middleware_with_cors_allowed_view(hass: UniversalAssistant) -> None:
+async def test_cors_middleware_with_cors_allowed_view(hass: __HAC_KEEP__) -> None:
     """Test that we can configure cors and have a cors_allowed view."""
 
-    class MyView(UniversalAssistantView):
+    class MyView(__HAC_KEEP__View):
         """Test view that allows CORS."""
 
         requires_auth = False
@@ -137,7 +137,7 @@ async def test_cors_middleware_with_cors_allowed_view(hass: UniversalAssistant) 
 
 
 async def test_cors_works_with_frontend(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test CORS works with the frontend."""
     assert await async_setup_component(
@@ -151,7 +151,7 @@ async def test_cors_works_with_frontend(
 
 
 async def test_cors_on_static_files(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test that we enable CORS for static files."""
     assert await async_setup_component(

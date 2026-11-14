@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_ON,
     EntityStateAttribute,
 )
-from universalassistant.core import Context, CoreState, UniversalAssistant, State
+from universalassistant.core import Context, CoreState, __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -29,7 +29,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @pytest.fixture
-def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
+def storage_setup(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
     """Storage setup."""
 
     async def _storage(items=None, config=None):
@@ -56,13 +56,13 @@ def storage_setup(hass: UniversalAssistant, hass_storage: dict[str, Any]):
     "invalid_config",
     [None, 1, {"name with space": None}],
 )
-async def test_config(hass: UniversalAssistant, invalid_config) -> None:
+async def test_config(hass: __HAC_KEEP__, invalid_config) -> None:
     """Test config."""
 
     assert not await async_setup_component(hass, DOMAIN, {DOMAIN: invalid_config})
 
 
-async def test_methods(hass: UniversalAssistant) -> None:
+async def test_methods(hass: __HAC_KEEP__) -> None:
     """Test is_on, turn_on, turn_off methods."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {"test_1": None}})
     entity_id = "input_boolean.test_1"
@@ -88,7 +88,7 @@ async def test_methods(hass: UniversalAssistant) -> None:
     assert is_on(hass, entity_id)
 
 
-async def test_config_options(hass: UniversalAssistant) -> None:
+async def test_config_options(hass: __HAC_KEEP__) -> None:
     """Test configuration options."""
     count_start = len(hass.states.async_entity_ids())
 
@@ -124,7 +124,7 @@ async def test_config_options(hass: UniversalAssistant) -> None:
     assert state_2.attributes.get(EntityStateAttribute.ICON) == "mdi:work"
 
 
-async def test_restore_state(hass: UniversalAssistant) -> None:
+async def test_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure states are restored on startup."""
     mock_restore_cache(
         hass,
@@ -149,7 +149,7 @@ async def test_restore_state(hass: UniversalAssistant) -> None:
     assert state.state == "off"
 
 
-async def test_initial_state_overrules_restore_state(hass: UniversalAssistant) -> None:
+async def test_initial_state_overrules_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure states are restored on startup."""
     mock_restore_cache(
         hass, (State("input_boolean.b1", "on"), State("input_boolean.b2", "off"))
@@ -173,7 +173,7 @@ async def test_initial_state_overrules_restore_state(hass: UniversalAssistant) -
 
 
 async def test_input_boolean_context(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Test that input_boolean context works."""
     assert await async_setup_component(
@@ -198,7 +198,7 @@ async def test_input_boolean_context(
 
 
 async def test_reload(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, hass_admin_user: MockUser
 ) -> None:
     """Test reload service."""
     count_start = len(hass.states.async_entity_ids())
@@ -276,7 +276,7 @@ async def test_reload(
     assert state_2.attributes.get(EntityStateAttribute.ICON) == "mdi:work_reloaded"
 
 
-async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> None:
+async def test_load_from_storage(hass: __HAC_KEEP__, storage_setup) -> None:
     """Test set up from storage."""
     assert await storage_setup()
     state = hass.states.get(f"{DOMAIN}.from_storage")
@@ -285,7 +285,7 @@ async def test_load_from_storage(hass: UniversalAssistant, storage_setup) -> Non
     assert state.attributes.get(InputBooleanEntityStateAttribute.EDITABLE)
 
 
-async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup) -> None:
+async def test_editable_state_attribute(hass: __HAC_KEEP__, storage_setup) -> None:
     """Test editable attribute."""
     assert await storage_setup(config={DOMAIN: {"from_yaml": None}})
 
@@ -300,7 +300,7 @@ async def test_editable_state_attribute(hass: UniversalAssistant, storage_setup)
 
 
 async def test_ws_list(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, storage_setup
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, storage_setup
 ) -> None:
     """Test listing via WS."""
     assert await storage_setup(config={DOMAIN: {"from_yaml": None}})
@@ -322,7 +322,7 @@ async def test_ws_list(
 
 
 async def test_ws_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -351,7 +351,7 @@ async def test_ws_delete(
 
 
 async def test_ws_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -410,7 +410,7 @@ async def test_ws_update(
 
 
 async def test_ws_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     storage_setup,
@@ -441,7 +441,7 @@ async def test_ws_create(
     assert state.state
 
 
-async def test_setup_no_config(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_setup_no_config(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test component setup with no config."""
     count_start = len(hass.states.async_entity_ids())
     assert await async_setup_component(hass, DOMAIN, {})

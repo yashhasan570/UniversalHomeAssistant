@@ -22,7 +22,7 @@ from universalassistant.components.history import DOMAIN
 from universalassistant.components.recorder.history import get_significant_states
 from universalassistant.components.recorder.models import process_timestamp
 from universalassistant.const import EVENT_HOMEASSISTANT_FINAL_WRITE
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.json import JSONEncoder
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -43,7 +43,7 @@ async def test_setup() -> None:
     # Verification occurs in the fixture
 
 
-async def test_get_significant_states(hass: UniversalAssistant, hass_history) -> None:
+async def test_get_significant_states(hass: __HAC_KEEP__, hass_history) -> None:
     """Test that only significant states are returned.
 
     We should get back every thermostat change that
@@ -56,7 +56,7 @@ async def test_get_significant_states(hass: UniversalAssistant, hass_history) ->
 
 
 async def test_get_significant_states_minimal_response(
-    hass: UniversalAssistant, hass_history
+    hass: __HAC_KEEP__, hass_history
 ) -> None:
     """Test that only significant states are returned.
 
@@ -122,7 +122,7 @@ async def test_get_significant_states_minimal_response(
 
 
 async def test_get_significant_states_with_initial(
-    hass: UniversalAssistant, hass_history
+    hass: __HAC_KEEP__, hass_history
 ) -> None:
     """Test that only significant states are returned.
 
@@ -150,7 +150,7 @@ async def test_get_significant_states_with_initial(
 
 
 async def test_get_significant_states_without_initial(
-    hass: UniversalAssistant, hass_history
+    hass: __HAC_KEEP__, hass_history
 ) -> None:
     """Test that only significant states are returned.
 
@@ -181,7 +181,7 @@ async def test_get_significant_states_without_initial(
 
 
 async def test_get_significant_states_entity_id(
-    hass: UniversalAssistant, hass_history
+    hass: __HAC_KEEP__, hass_history
 ) -> None:
     """Test that only significant states are returned for one entity."""
     zero, four, states = await async_record_states(hass)
@@ -196,7 +196,7 @@ async def test_get_significant_states_entity_id(
 
 
 async def test_get_significant_states_multiple_entity_ids(
-    hass: UniversalAssistant, hass_history
+    hass: __HAC_KEEP__, hass_history
 ) -> None:
     """Test that only significant states are returned for one entity."""
     zero, four, states = await async_record_states(hass)
@@ -215,7 +215,7 @@ async def test_get_significant_states_multiple_entity_ids(
 
 
 async def test_get_significant_states_are_ordered(
-    hass: UniversalAssistant, hass_history
+    hass: __HAC_KEEP__, hass_history
 ) -> None:
     """Test order of results from get_significant_states.
 
@@ -231,7 +231,7 @@ async def test_get_significant_states_are_ordered(
     assert list(hist.keys()) == entity_ids
 
 
-async def test_get_significant_states_only(hass: UniversalAssistant, hass_history) -> None:
+async def test_get_significant_states_only(hass: __HAC_KEEP__, hass_history) -> None:
     """Test significant states when significant_states_only is set."""
     entity_id = "sensor.test"
 
@@ -292,7 +292,7 @@ async def test_get_significant_states_only(hass: UniversalAssistant, hass_histor
 
 
 async def async_record_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> tuple[datetime, datetime, dict[str, list[State | None]]]:
     """Record some test states.
 
@@ -379,7 +379,7 @@ async def async_record_states(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the fetch period view for history."""
     await async_setup_component(hass, DOMAIN, {})
@@ -392,7 +392,7 @@ async def test_fetch_period_api(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api_with_use_include_order(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -411,7 +411,7 @@ async def test_fetch_period_api_with_use_include_order(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api_with_minimal_response(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the fetch period view for history with minimal_response."""
     now = dt_util.utcnow()
@@ -454,7 +454,7 @@ async def test_fetch_period_api_with_minimal_response(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api_with_no_timestamp(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the fetch period view for history with no timestamp."""
     await async_setup_component(hass, DOMAIN, {})
@@ -465,7 +465,7 @@ async def test_fetch_period_api_with_no_timestamp(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api_with_include_order(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -493,7 +493,7 @@ async def test_fetch_period_api_with_include_order(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_entity_ids_limit_via_api(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test limiting history to entity_ids."""
     await async_setup_component(
@@ -520,7 +520,7 @@ async def test_entity_ids_limit_via_api(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_entity_ids_limit_via_api_with_skip_initial_state(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test limiting history to entity_ids with skip_initial_state."""
     await async_setup_component(
@@ -555,7 +555,7 @@ async def test_entity_ids_limit_via_api_with_skip_initial_state(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api_before_history_started(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the fetch period view for history for the far past."""
     await async_setup_component(
@@ -577,7 +577,7 @@ async def test_fetch_period_api_before_history_started(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api_far_future(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the fetch period view for history for the far future."""
     await async_setup_component(
@@ -599,7 +599,7 @@ async def test_fetch_period_api_far_future(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api_with_invalid_datetime(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the fetch period view for history with an invalid date time."""
     await async_setup_component(
@@ -619,7 +619,7 @@ async def test_fetch_period_api_with_invalid_datetime(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api_invalid_end_time(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the fetch period view for history with an invalid end time."""
     await async_setup_component(
@@ -642,7 +642,7 @@ async def test_fetch_period_api_invalid_end_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_entity_ids_limit_via_api_with_end_time(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test limiting history to entity_ids with end_time."""
     await async_setup_component(
@@ -689,7 +689,7 @@ async def test_entity_ids_limit_via_api_with_end_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api_with_no_entity_ids(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the fetch period view for history with minimal_response."""
     await async_setup_component(hass, DOMAIN, {})
@@ -743,7 +743,7 @@ async def test_fetch_period_api_with_no_entity_ids(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_history_with_invalid_entity_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     filter_entity_id,
     status_code,
@@ -775,7 +775,7 @@ async def test_history_with_invalid_entity_ids(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fetch_period_api_filters_unauthorized_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_read_only_user: MockUser,
     hass_read_only_access_token: str,
     hass_client: ClientSessionGenerator,

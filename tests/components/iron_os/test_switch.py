@@ -22,7 +22,7 @@ from universalassistant.components.switch import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -41,7 +41,7 @@ async def switch_only() -> AsyncGenerator[None]:
     "entity_registry_enabled_by_default", "mock_pynecil", "ble_device"
 )
 async def test_switch_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -82,7 +82,7 @@ async def test_switch_platform(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "ble_device")
 async def test_turn_on_off_toggle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -124,7 +124,7 @@ async def test_turn_on_off_toggle(
 )
 @pytest.mark.usefixtures("ble_device")
 async def test_turn_on_off_toggle_boost(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -162,7 +162,7 @@ async def test_turn_on_off_toggle_boost(
     "entity_registry_enabled_by_default", "ble_device", "mock_pynecil"
 )
 async def test_turn_on_off_toggle_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
     service: str,

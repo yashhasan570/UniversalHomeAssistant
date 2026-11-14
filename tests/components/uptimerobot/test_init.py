@@ -14,7 +14,7 @@ from universalassistant.components.uptimerobot.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .common import (
@@ -28,7 +28,7 @@ from .common import (
 
 
 async def test_reauthentication_trigger_in_setup(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reauthentication trigger."""
     mock_config_entry = MockConfigEntry(**MOCK_UPTIMEROBOT_CONFIG_ENTRY_DATA)
@@ -63,7 +63,7 @@ async def test_reauthentication_trigger_in_setup(
 
 
 async def test_reauthentication_trigger_key_read_only(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reauthentication trigger."""
     mock_config_entry = MockConfigEntry(
@@ -96,7 +96,7 @@ async def test_reauthentication_trigger_key_read_only(
 
 
 async def test_reauthentication_trigger_after_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_reauthentication_trigger_after_setup(
 
 
 async def test_integration_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test integration reload."""
@@ -152,7 +152,7 @@ async def test_integration_reload(
 
 
 async def test_update_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_update_errors(
 
 
 async def test_device_management(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

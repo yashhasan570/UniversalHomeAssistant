@@ -12,7 +12,7 @@ from velbusaio.helpers import get_property_key_map
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady, PlatformNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -53,7 +53,7 @@ class VelbusData:
 
 
 async def velbus_scan_task(
-    controller: Velbus, hass: UniversalAssistant, entry_id: str
+    controller: Velbus, hass: __HAC_KEEP__, entry_id: str
 ) -> None:
     """Task to offload the long running scan."""
     try:
@@ -80,7 +80,7 @@ async def velbus_scan_task(
         )
 
 
-def _migrate_device_identifiers(hass: UniversalAssistant, entry_id: str) -> None:
+def _migrate_device_identifiers(hass: __HAC_KEEP__, entry_id: str) -> None:
     """Migrate old device identifiers."""
     dev_reg = dr.async_get(hass)
     devices: list[dr.DeviceEntry] = dr.async_entries_for_config_entry(dev_reg, entry_id)
@@ -94,7 +94,7 @@ def _migrate_device_identifiers(hass: UniversalAssistant, entry_id: str) -> None
             dev_reg.async_update_device(device.id, new_identifiers=new_identifier)
 
 
-async def _migrate_property_unique_ids(hass: UniversalAssistant, entry_id: str) -> None:
+async def _migrate_property_unique_ids(hass: __HAC_KEEP__, entry_id: str) -> None:
     """Ensure property entity unique_ids use {serial}-{property_key} format."""
     ent_reg = er.async_get(hass)
 
@@ -135,13 +135,13 @@ async def _migrate_property_unique_ids(hass: UniversalAssistant, entry_id: str) 
             )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the actions for the Velbus component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: VelbusConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: VelbusConfigEntry) -> None:
     """Establish connection with velbus."""
     controller = Velbus(
         dsn=entry.data[CONF_PORT],
@@ -166,7 +166,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: VelbusConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: VelbusConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: VelbusConfigEntry) -> None:
     """Unload (close) the velbus connection."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -174,7 +174,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: VelbusConfigEntry)
         await entry.runtime_data.controller.stop()
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: VelbusConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: VelbusConfigEntry) -> None:
     """Remove the velbus entry, so we also have to cleanup the cache dir."""
     await hass.async_add_executor_job(
         shutil.rmtree,
@@ -183,7 +183,7 @@ async def async_remove_entry(hass: UniversalAssistant, entry: VelbusConfigEntry)
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VelbusConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:
@@ -203,7 +203,7 @@ async def async_remove_config_entry_device(
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: VelbusConfigEntry
+    hass: __HAC_KEEP__, config_entry: VelbusConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.error(

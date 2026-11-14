@@ -8,13 +8,13 @@ from pybalboa.enums import HeatMode, LowHighRange
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import init_integration
 
 
 @pytest.fixture(name="integration")
-async def integration_fixture(hass: UniversalAssistant) -> MockConfigEntry:
+async def integration_fixture(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Set up the balboa integration."""
     return await init_integration(hass)
 

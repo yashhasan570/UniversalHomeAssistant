@@ -10,7 +10,7 @@ from universalassistant.components.bluetooth import (
     BaseHaRemoteScanner,
     async_register_scanner,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 
 from .const import DOMAIN
 from .coordinator import RuuviGatewayUpdateCoordinator
@@ -69,7 +69,7 @@ class RuuviGatewayScanner(BaseHaRemoteScanner):
 
 
 def async_connect_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RuuviGatewayConfigEntry,
     coordinator: RuuviGatewayUpdateCoordinator,
 ) -> tuple[RuuviGatewayScanner, CALLBACK_TYPE]:

@@ -33,12 +33,12 @@ from universalassistant.const import (
     ENTITY_MATCH_ALL,
     ENTITY_MATCH_ANY,
 )
-from universalassistant.core import UniversalAssistant, callback, valid_entity_id
+from universalassistant.core import __HAC_KEEP__, callback, valid_entity_id
 from universalassistant.exceptions import (
     ConditionError,
     ConditionErrorContainer,
     ConditionErrorIndex,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     TemplateError,
 )
 from universalassistant.helpers import config_validation as cv, entity_registry as er
@@ -206,7 +206,7 @@ CONDITION_PLATFORM_SUBSCRIPTIONS: HassKey[
 ] = HassKey("condition_platform_subscriptions")
 
 
-async def async_setup(hass: UniversalAssistant) -> None:
+async def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the condition helper."""
     hass.data[CONDITION_DESCRIPTION_CACHE] = {}
     hass.data[CONDITION_PLATFORM_SUBSCRIPTIONS] = []
@@ -220,7 +220,7 @@ async def async_setup(hass: UniversalAssistant) -> None:
 
 @callback
 def async_subscribe_platform_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     on_event: Callable[[set[str]], Coroutine[Any, Any, None]],
 ) -> Callable[[], None]:
     """Subscribe to condition platform events."""
@@ -234,7 +234,7 @@ def async_subscribe_platform_events(
 
 
 async def _register_condition_platform(
-    hass: UniversalAssistant, integration_domain: str, platform: ConditionProtocol
+    hass: __HAC_KEEP__, integration_domain: str, platform: ConditionProtocol
 ) -> None:
     """Register a condition platform and notify listeners.
 
@@ -282,7 +282,7 @@ class ConditionProtocol(Protocol):
     """Define the format of condition modules."""
 
     async def async_get_conditions(
-        self, hass: UniversalAssistant
+        self, hass: __HAC_KEEP__
     ) -> dict[str, type[Condition]]:
         """Return the conditions provided by this integration."""
 
@@ -305,7 +305,7 @@ def trace_condition_function(
     """Wrap a condition function to enable basic tracing."""
 
     @ft.wraps(condition)
-    def wrapper(hass: UniversalAssistant, variables: TemplateVarsType = None) -> bool | None:
+    def wrapper(hass: __HAC_KEEP__, variables: TemplateVarsType = None) -> bool | None:
         """Trace condition."""
         with trace_condition(variables):
             result = condition(hass, variables)
@@ -316,7 +316,7 @@ def trace_condition_function(
 
 
 async def _async_get_condition_platform(
-    hass: UniversalAssistant, condition_key: str
+    hass: __HAC_KEEP__, condition_key: str
 ) -> tuple[str, ConditionProtocol | None]:
     platform_and_sub_type = condition_key.split(".")
     platform: str | None = platform_and_sub_type[0]
@@ -327,13 +327,13 @@ async def _async_get_condition_platform(
     try:
         integration = await async_get_integration(hass, platform)
     except IntegrationNotFound:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f'Invalid condition "{condition_key}" specified'
         ) from None
     try:
         platform_module = await integration.async_get_platform("condition")
     except ImportError:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Integration '{platform}' does not provide condition support"
         ) from None
 
@@ -344,7 +344,7 @@ async def _async_get_condition_platform(
 
 
 async def async_from_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
 ) -> ConditionChecker:
     """Turn a condition configuration into a method.
@@ -358,7 +358,7 @@ async def async_from_config(
             try:
                 enabled = enabled.async_render(limited=True)
             except TemplateError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     f"Error rendering condition enabled template: {err}"
                 ) from err
         if not enabled:
@@ -409,7 +409,7 @@ async def async_from_config(
 
 
 async def async_and_from_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConditionChecker:
     """Create multi condition matcher using 'AND'."""
     checks = [await async_from_config(hass, entry) for entry in config["conditions"]]
@@ -417,7 +417,7 @@ async def async_and_from_config(
 
 
 async def async_or_from_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConditionChecker:
     """Create multi condition matcher using 'OR'."""
     checks = [await async_from_config(hass, entry) for entry in config["conditions"]]
@@ -425,7 +425,7 @@ async def async_or_from_config(
 
 
 async def async_not_from_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConditionChecker:
     """Create multi condition matcher using 'NOT'."""
     checks = [await async_from_config(hass, entry) for entry in config["conditions"]]
@@ -441,7 +441,7 @@ def async_numeric_state_from_config(config: ConfigType) -> ConditionCheckerType:
     value_template = config.get(CONF_VALUE_TEMPLATE)
 
     def if_numeric_state(
-        hass: UniversalAssistant, variables: TemplateVarsType = None
+        hass: __HAC_KEEP__, variables: TemplateVarsType = None
     ) -> bool:
         """Test numeric state condition."""
         errors = []
@@ -489,7 +489,7 @@ def state_from_config(config: ConfigType) -> ConditionCheckerType:
     if not isinstance(req_states, list):
         req_states = [req_states]
 
-    def if_state(hass: UniversalAssistant, variables: TemplateVarsType = None) -> bool:
+    def if_state(hass: __HAC_KEEP__, variables: TemplateVarsType = None) -> bool:
         """Test if condition."""
         errors = []
         result: bool = match != ENTITY_MATCH_ANY
@@ -533,7 +533,7 @@ def async_template_from_config(config: ConfigType) -> ConditionCheckerType:
     """Wrap action method with state based condition."""
     value_template = cast(Template, config.get(CONF_VALUE_TEMPLATE))
 
-    def template_if(hass: UniversalAssistant, variables: TemplateVarsType = None) -> bool:
+    def template_if(hass: __HAC_KEEP__, variables: TemplateVarsType = None) -> bool:
         """Validate template based if-condition."""
         return async_template(hass, value_template, variables)
 
@@ -546,7 +546,7 @@ def time_from_config(config: ConfigType) -> ConditionCheckerType:
     after = config.get(CONF_AFTER)
     weekday = config.get(CONF_WEEKDAY)
 
-    def time_if(hass: UniversalAssistant, variables: TemplateVarsType = None) -> bool:
+    def time_if(hass: __HAC_KEEP__, variables: TemplateVarsType = None) -> bool:
         """Validate time based if-condition."""
         return time(hass, before, after, weekday)
 
@@ -554,12 +554,12 @@ def time_from_config(config: ConfigType) -> ConditionCheckerType:
 
 
 async def async_trigger_from_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConditionCheckerType:
     """Test a trigger condition."""
     trigger_id = config[CONF_ID]
 
-    def trigger_if(hass: UniversalAssistant, variables: TemplateVarsType = None) -> bool:
+    def trigger_if(hass: __HAC_KEEP__, variables: TemplateVarsType = None) -> bool:
         """Validate trigger based if-condition."""
         return (
             variables is not None
@@ -571,7 +571,7 @@ async def async_trigger_from_config(
 
 
 def numeric_state_validate_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate numeric_state condition config."""
 
@@ -583,7 +583,7 @@ def numeric_state_validate_config(
     return config
 
 
-def state_validate_config(hass: UniversalAssistant, config: ConfigType) -> ConfigType:
+def state_validate_config(hass: __HAC_KEEP__, config: ConfigType) -> ConfigType:
     """Validate state condition config."""
 
     registry = er.async_get(hass)
@@ -595,7 +595,7 @@ def state_validate_config(hass: UniversalAssistant, config: ConfigType) -> Confi
 
 
 async def async_validate_condition_config(
-    hass: UniversalAssistant, config: ConfigType | str
+    hass: __HAC_KEEP__, config: ConfigType | str
 ) -> ConfigType:
     """Validate config."""
     if isinstance(config, str):
@@ -630,7 +630,7 @@ async def async_validate_condition_config(
 
     if condition_key in ("numeric_state", "state"):
         validator = cast(
-            Callable[[UniversalAssistant, ConfigType], ConfigType],
+            Callable[[__HAC_KEEP__, ConfigType], ConfigType],
             getattr(
                 sys.modules[__name__], VALIDATE_CONFIG_FORMAT.format(condition_key)
             ),
@@ -641,7 +641,7 @@ async def async_validate_condition_config(
 
 
 async def async_validate_conditions_config(
-    hass: UniversalAssistant, conditions: list[ConfigType]
+    hass: __HAC_KEEP__, conditions: list[ConfigType]
 ) -> list[ConfigType | Template]:
     """Validate config."""
     # No gather here because async_validate_condition_config is unlikely
@@ -657,7 +657,7 @@ async def async_validate_conditions_config(
 
 
 async def async_conditions_from_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_configs: list[ConfigType],
     logger: logging.Logger,
     name: str,

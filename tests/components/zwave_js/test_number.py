@@ -8,8 +8,8 @@ from zwave_js_server.event import Event
 
 from universalassistant.components.zwave_js import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 NUMBER_ENTITY = "number.thermostat_hvac_valve_control"
@@ -17,7 +17,7 @@ VOLUME_NUMBER_ENTITY = "number.indoor_siren_6_default_volume_2"
 
 
 async def test_number(
-    hass: UniversalAssistant, client, aeotec_radiator_thermostat, integration
+    hass: __HAC_KEEP__, client, aeotec_radiator_thermostat, integration
 ) -> None:
     """Test the number entity."""
     node = aeotec_radiator_thermostat
@@ -83,7 +83,7 @@ def mock_client_fixture():
 
 
 async def test_number_no_target_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     no_target_value,
     aeotec_radiator_thermostat,
@@ -91,7 +91,7 @@ async def test_number_no_target_value(
 ) -> None:
     """Test the number entity with no target value."""
     # Test turn on setting value fails
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "number",
             "set_value",
@@ -101,7 +101,7 @@ async def test_number_no_target_value(
 
 
 async def test_number_writeable(
-    hass: UniversalAssistant, client, aeotec_radiator_thermostat
+    hass: __HAC_KEEP__, client, aeotec_radiator_thermostat
 ) -> None:
     """Test the number entity where current value is writeable."""
     aeotec_radiator_thermostat.values["4-38-0-currentValue"].metadata.data[
@@ -138,7 +138,7 @@ async def test_number_writeable(
 
 
 async def test_volume_number(
-    hass: UniversalAssistant, client, aeotec_zw164_siren, integration
+    hass: __HAC_KEEP__, client, aeotec_zw164_siren, integration
 ) -> None:
     """Test the volume number entity."""
     node = aeotec_zw164_siren
@@ -219,7 +219,7 @@ async def test_volume_number(
 
 
 async def test_config_parameter_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     climate_adc_t3000,
     integration,

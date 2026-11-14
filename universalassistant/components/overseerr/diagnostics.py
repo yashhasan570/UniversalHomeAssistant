@@ -3,14 +3,14 @@
 from dataclasses import asdict
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import CONF_CLOUDHOOK_URL
 from .coordinator import OverseerrConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: OverseerrConfigEntry
+    hass: __HAC_KEEP__, entry: OverseerrConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

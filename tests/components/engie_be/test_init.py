@@ -27,7 +27,7 @@ from universalassistant.components.engie_be.const import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import (
@@ -45,7 +45,7 @@ from .conftest import (
 
 
 def _current_hour_price(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, ban: str
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, ban: str
 ) -> float:
     """Return the EPEX current hour price of one household."""
     entity_id = entity_registry.async_get_entity_id(
@@ -67,7 +67,7 @@ def _fetched_epex_days(client: MagicMock) -> list[date]:
 
 @pytest.mark.usefixtures("mock_engie_client")
 async def test_setup_and_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test successful setup and unload of a config entry."""
@@ -84,7 +84,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_relations_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_setup_relations_error(
 
 
 async def test_setup_relations_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_setup_relations_auth_error_starts_reauth(
 
 @pytest.mark.parametrize("method", ["async_get_prices", "async_get_service_point"])
 async def test_setup_prices_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     method: str,
@@ -146,7 +146,7 @@ async def test_setup_prices_auth_error_starts_reauth(
 
 
 async def test_prices_refresh_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -171,7 +171,7 @@ async def test_prices_refresh_auth_error_starts_reauth(
 
 
 async def test_setup_prices_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -199,7 +199,7 @@ async def test_setup_prices_error(
 
 
 async def test_partial_first_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -237,7 +237,7 @@ async def test_partial_first_refresh(
 
 
 async def test_all_households_loaded_despite_prices_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -266,7 +266,7 @@ async def test_all_households_loaded_despite_prices_failure(
 
 
 async def test_setup_without_active_agreements(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -302,7 +302,7 @@ async def test_setup_without_active_agreements(
 
 
 async def test_device_created_for_household_without_prices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -345,7 +345,7 @@ async def test_device_created_for_household_without_prices(
 
 
 async def test_token_refresh_skips_unchanged_tokens(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
 ) -> None:
@@ -369,7 +369,7 @@ async def test_token_refresh_skips_unchanged_tokens(
 
 
 async def test_token_refresh_persists_tokens(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
 ) -> None:
@@ -395,7 +395,7 @@ async def test_token_refresh_persists_tokens(
 
 
 async def test_unexpected_service_point_error_does_not_prevent_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -425,7 +425,7 @@ async def test_unexpected_service_point_error_does_not_prevent_setup(
 
 
 async def test_household_is_a_single_service_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -454,7 +454,7 @@ async def test_household_is_a_single_service_device(
     ],
 )
 async def test_epex_entities_only_for_dynamic_households(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -486,7 +486,7 @@ async def test_epex_entities_only_for_dynamic_households(
 
 
 async def test_contracts_communication_error_loads_without_epex(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -521,7 +521,7 @@ async def test_contracts_communication_error_loads_without_epex(
 
 
 async def test_contracts_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
 ) -> None:
@@ -543,7 +543,7 @@ async def test_contracts_auth_error_starts_reauth(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_contracts_retry_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -576,7 +576,7 @@ async def test_contracts_retry_auth_error_starts_reauth(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_contracts_retry_adds_epex_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -615,7 +615,7 @@ async def test_contracts_retry_adds_epex_entities(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_newly_dynamic_household_gets_entities_while_another_retries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -679,7 +679,7 @@ async def test_newly_dynamic_household_gets_entities_while_another_retries(
 
 
 async def test_contracts_failure_keeps_retrying(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -709,7 +709,7 @@ async def test_contracts_failure_keeps_retrying(
 
 
 async def test_contracts_retry_only_queries_pending_households(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -742,7 +742,7 @@ async def test_contracts_retry_only_queries_pending_households(
 
 
 async def test_contracts_retry_stops_once_classified(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -764,7 +764,7 @@ async def test_contracts_retry_stops_once_classified(
 
 
 async def test_contracts_retry_in_flight_is_cancelled_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -809,7 +809,7 @@ async def test_contracts_retry_in_flight_is_cancelled_on_unload(
 
 
 async def test_contracts_retry_finishing_while_unloading_adds_no_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -849,7 +849,7 @@ async def test_contracts_retry_finishing_while_unloading_adds_no_entities(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_contracts_retry_epex_refresh_during_unload_adds_no_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -898,7 +898,7 @@ async def test_contracts_retry_epex_refresh_during_unload_adds_no_entities(
 
 
 async def test_contracts_retry_resolving_fixed_shuts_down_epex(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -938,7 +938,7 @@ async def test_contracts_retry_resolving_fixed_shuts_down_epex(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_pending_household_does_not_release_epex_of_dynamic_household(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -994,7 +994,7 @@ async def test_pending_household_does_not_release_epex_of_dynamic_household(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_epex_first_refresh_fetches_both_granularities_for_both_days(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
 ) -> None:
@@ -1021,7 +1021,7 @@ async def test_epex_first_refresh_fetches_both_granularities_for_both_days(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_epex_refresh_skips_covered_days(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -1040,7 +1040,7 @@ async def test_epex_refresh_skips_covered_days(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_epex_setup_failure_recovers_on_next_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1073,7 +1073,7 @@ async def test_epex_setup_failure_recovers_on_next_poll(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_epex_setup_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
 ) -> None:
@@ -1095,7 +1095,7 @@ async def test_epex_setup_auth_error_starts_reauth(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_epex_refresh_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -1122,7 +1122,7 @@ async def test_epex_refresh_auth_error_starts_reauth(
 
 
 async def test_epex_midnight_rollover_fetches_only_the_new_tomorrow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1157,7 +1157,7 @@ async def test_epex_midnight_rollover_fetches_only_the_new_tomorrow(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_epex_fetches_stop_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -1179,7 +1179,7 @@ async def test_epex_fetches_stop_on_unload(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_no_epex_without_dynamic_household(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
     entity_registry: er.EntityRegistry,

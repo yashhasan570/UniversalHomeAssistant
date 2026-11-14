@@ -21,13 +21,13 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .utils import MockUFPFixture
 
 
 async def test_session_client_is_full_access_for_api_key_only_entry(
-    hass: UniversalAssistant, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, ufp: MockUFPFixture
 ) -> None:
     """A session clear on an API-key-only entry goes through a full client.
 
@@ -46,7 +46,7 @@ async def test_session_client_is_full_access_for_api_key_only_entry(
 
 
 async def test_session_client_none_without_credentials(
-    hass: UniversalAssistant, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, ufp: MockUFPFixture
 ) -> None:
     """An entry created in API-key-only mode has no session to clear."""
     data = {k: v for k, v in ufp.entry.data.items() if k != CONF_PASSWORD}
@@ -68,7 +68,7 @@ async def test_session_client_none_without_credentials(
     ],
 )
 async def test_host_override_reaches_the_client(
-    hass: UniversalAssistant, connection_mode: dict[str, str], public_only: bool
+    hass: __HAC_KEEP__, connection_mode: dict[str, str], public_only: bool
 ) -> None:
     """The host override option has to reach the client in both modes.
 

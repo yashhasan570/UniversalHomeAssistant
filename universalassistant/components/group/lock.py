@@ -20,7 +20,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -49,7 +49,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -67,7 +67,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -89,7 +89,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_lock(
-    hass: UniversalAssistant, name: str, validated_config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, validated_config: dict[str, Any]
 ) -> LockGroup:
     """Create a preview sensor."""
     return LockGroup(

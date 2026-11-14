@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_ENTITY_ID,
     CONF_TYPE,
 )
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.typing import ConfigType, TemplateVarsType
 
@@ -28,14 +28,14 @@ _ACTION_SCHEMA = cv.DEVICE_ACTION_BASE_SCHEMA.extend(
 
 
 async def async_validate_action_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     return async_validate_entity_schema(hass, config, _ACTION_SCHEMA)
 
 
 async def async_get_actions(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device actions for Text."""
     registry = er.async_get(hass)
@@ -59,7 +59,7 @@ async def async_get_actions(
 
 
 async def async_call_action_from_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     variables: TemplateVarsType,
     context: Context | None,
@@ -78,7 +78,7 @@ async def async_call_action_from_config(
 
 
 async def async_get_action_capabilities(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List action capabilities."""
     fields = {probatio.Required(ATTR_VALUE): cv.string}

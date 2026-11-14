@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.huawei_lte.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import magic_client
 
@@ -38,7 +38,7 @@ from . import magic_client
     ],
 )
 async def test_setup_serial_number_not_found(
-    hass: UniversalAssistant, data: dict[str, Any], reason: str
+    hass: __HAC_KEEP__, data: dict[str, Any], reason: str
 ) -> None:
     """Test setup fails when the serial number can't be resolved."""
     entry = MockConfigEntry(domain=DOMAIN, data=data)

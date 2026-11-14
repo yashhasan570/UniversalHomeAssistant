@@ -23,7 +23,7 @@ from universalassistant.components.input_text import (
 from universalassistant.components.template import DOMAIN
 from universalassistant.components.template.image import DEFAULT_NAME
 from universalassistant.const import ATTR_ENTITY_PICTURE, CONF_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -67,7 +67,7 @@ def imgbytes2_jpg():
 
 
 async def _assert_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     expected_state: str,
     expected_image: bytes | None,
@@ -99,7 +99,7 @@ async def _assert_state(
 @respx.mock
 @pytest.mark.freeze_time("2024-07-09 00:00:00+00:00")
 async def test_setup_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     imgbytes_jpg,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_setup_config_entry(
 @respx.mock
 @pytest.mark.freeze_time("2023-04-01 00:00:00+00:00")
 async def test_platform_config(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, imgbytes_jpg
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, imgbytes_jpg
 ) -> None:
     """Test configuring under the platform key does not work."""
     respx.get("http://example.com").respond(
@@ -161,7 +161,7 @@ async def test_platform_config(
 @respx.mock
 @pytest.mark.freeze_time("2023-04-01 00:00:00+00:00")
 async def test_missing_optional_config(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, imgbytes_jpg
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, imgbytes_jpg
 ) -> None:
     """Test: missing optional template is ok."""
     respx.get("http://example.com").respond(
@@ -197,7 +197,7 @@ async def test_missing_optional_config(
 @respx.mock
 @pytest.mark.freeze_time("2023-04-01 00:00:00+00:00")
 async def test_multiple_configs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     imgbytes_jpg,
     imgbytes2_jpg,
@@ -244,7 +244,7 @@ async def test_multiple_configs(
     )
 
 
-async def test_missing_required_keys(hass: UniversalAssistant) -> None:
+async def test_missing_required_keys(hass: __HAC_KEEP__) -> None:
     """Test: missing required fields will fail."""
     with assert_setup_component(0, "template"):
         assert await setup.async_setup_component(
@@ -267,7 +267,7 @@ async def test_missing_required_keys(hass: UniversalAssistant) -> None:
 
 
 async def test_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique_id configuration."""
     with assert_setup_component(1, "template"):
@@ -297,7 +297,7 @@ async def test_unique_id(
 @respx.mock
 @pytest.mark.freeze_time("2023-04-01 00:00:00+00:00")
 async def test_custom_entity_picture(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, imgbytes_jpg
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, imgbytes_jpg
 ) -> None:
     """Test custom entity picture."""
     respx.get("http://example.com").respond(
@@ -334,7 +334,7 @@ async def test_custom_entity_picture(
 
 @respx.mock
 async def test_template_error(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test handling template error."""
     respx.get("http://example.com").side_effect = httpx2.TimeoutException
@@ -369,7 +369,7 @@ async def test_template_error(
 @respx.mock
 @pytest.mark.freeze_time("2023-04-01 00:00:00+00:00")
 async def test_templates_with_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     imgbytes_jpg,
     imgbytes2_jpg,
@@ -440,7 +440,7 @@ async def test_templates_with_entities(
 @respx.mock
 @pytest.mark.freeze_time("2023-04-01 00:00:00+00:00")
 async def test_trigger_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     imgbytes_jpg,
     imgbytes2_jpg,
@@ -508,7 +508,7 @@ async def test_trigger_image(
 @respx.mock
 @pytest.mark.freeze_time("2023-04-01 00:00:00+00:00")
 async def test_trigger_image_custom_entity_picture(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, imgbytes_jpg
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, imgbytes_jpg
 ) -> None:
     """Test trigger based template image with custom entity picture."""
     respx.get("http://example.com").respond(
@@ -562,7 +562,7 @@ async def test_trigger_image_custom_entity_picture(
 
 @respx.mock
 async def test_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -608,7 +608,7 @@ async def test_device_id(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_extra_template_attributes(
-    hass: UniversalAssistant, style: ConfigurationStyle
+    hass: __HAC_KEEP__, style: ConfigurationStyle
 ) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
@@ -626,7 +626,7 @@ async def test_extra_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_blocked_template_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     attribute: image.ImageEntityStateAttribute,
     caplog: pytest.LogCaptureFixture,
@@ -651,7 +651,7 @@ async def test_blocked_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -672,7 +672,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     attribute: image.ImageEntityStateAttribute,
     caplog: pytest.LogCaptureFixture,

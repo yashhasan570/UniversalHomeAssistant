@@ -1,4 +1,4 @@
-"""Present Xiaomi observations and forecasts using Universal Universal Home Assistant units."""
+"""Present Xiaomi observations and forecasts using __HA_KEEP__ units."""
 
 from datetime import UTC, datetime, timedelta
 from typing import override
@@ -17,7 +17,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONDITIONS
@@ -28,7 +28,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: XiaomiWeatherConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

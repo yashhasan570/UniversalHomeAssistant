@@ -16,21 +16,21 @@ from universalassistant.components.smartthings.const import (
 )
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 
 @pytest.fixture
-def use_cloud(hass: UniversalAssistant) -> None:
+def use_cloud(hass: __HAC_KEEP__) -> None:
     """Set up the cloud component."""
     hass.config.components.add("cloud")
 
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -101,7 +101,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_not_enough_scopes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -161,7 +161,7 @@ async def test_not_enough_scopes(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -222,7 +222,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_no_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -238,7 +238,7 @@ async def test_no_cloud(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_reauthentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -299,7 +299,7 @@ async def test_reauthentication(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_reauthentication_wrong_scopes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -349,7 +349,7 @@ async def test_reauthentication_wrong_scopes(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_reauth_account_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -399,7 +399,7 @@ async def test_reauth_account_mismatch(
 
 @pytest.mark.usefixtures("current_request_with_host", "mock_setup_entry")
 async def test_reauthentication_no_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -421,7 +421,7 @@ async def test_reauthentication_no_cloud(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud")
 async def test_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -508,7 +508,7 @@ async def test_migration(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud")
 async def test_migration_wrong_location(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -586,7 +586,7 @@ async def test_migration_wrong_location(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_migration_no_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -610,7 +610,7 @@ async def test_migration_no_cloud(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud", "mock_setup_entry")
 async def test_dhcp_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_smartthings: AsyncMock,
@@ -678,7 +678,7 @@ async def test_dhcp_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "use_cloud")
 async def test_duplicate_entry_dhcp(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test duplicate entry is not able to set up."""
     mock_config_entry.add_to_hass(hass)

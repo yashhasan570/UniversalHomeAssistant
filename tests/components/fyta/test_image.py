@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant fyta sensor module."""
+"""Test the __HA_KEEP__ fyta sensor module."""
 
 from datetime import timedelta
 from http import HTTPStatus
@@ -20,7 +20,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.fyta.const import DOMAIN
 from universalassistant.components.image import ImageEntity
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -28,7 +28,7 @@ from . import setup_platform
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fyta_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -50,7 +50,7 @@ async def test_all_entities(
     ],
 )
 async def test_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     mock_fyta_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -70,7 +70,7 @@ async def test_connection_error(
 
 
 async def test_add_remove_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fyta_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -107,7 +107,7 @@ async def test_add_remove_entities(
 
 
 async def test_update_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fyta_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -154,7 +154,7 @@ async def test_update_image(
 
 async def test_update_user_image_error(
     freezer: FrozenDateTimeFactory,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_fyta_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -186,7 +186,7 @@ async def test_update_user_image_error(
 
 
 async def test_update_user_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_fyta_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,

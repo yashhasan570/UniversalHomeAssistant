@@ -12,7 +12,7 @@ from victron_mqtt import (
 )
 
 from universalassistant.components.number import NumberDeviceClass, NumberEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -43,7 +43,7 @@ METRIC_TYPE_TO_DEVICE_CLASS: dict[MetricType, NumberDeviceClass] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VictronGxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

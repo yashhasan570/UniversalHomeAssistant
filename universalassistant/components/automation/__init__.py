@@ -10,7 +10,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.typing import ConfigType
 
@@ -62,7 +62,7 @@ __all__ = [
 ]
 
 
-def is_on(hass: UniversalAssistant, entity_id: str) -> bool:
+def is_on(hass: __HAC_KEEP__, entity_id: str) -> bool:
     """Return true if specified automation entity_id is on.
 
     Async friendly.
@@ -71,7 +71,7 @@ def is_on(hass: UniversalAssistant, entity_id: str) -> bool:
 
 
 def _automations_with_x(
-    hass: UniversalAssistant, referenced_id: str, property_name: str
+    hass: __HAC_KEEP__, referenced_id: str, property_name: str
 ) -> list[str]:
     """Return all automations that reference the x."""
     if DATA_COMPONENT not in hass.data:
@@ -85,7 +85,7 @@ def _automations_with_x(
 
 
 def _x_in_automation(
-    hass: UniversalAssistant, entity_id: str, property_name: str
+    hass: __HAC_KEEP__, entity_id: str, property_name: str
 ) -> list[str]:
     """Return all x in an automation."""
     if DATA_COMPONENT not in hass.data:
@@ -98,67 +98,67 @@ def _x_in_automation(
 
 
 @callback
-def automations_with_entity(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def automations_with_entity(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return all automations that reference the entity."""
     return _automations_with_x(hass, entity_id, "referenced_entities")
 
 
 @callback
-def entities_in_automation(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def entities_in_automation(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return all entities in an automation."""
     return _x_in_automation(hass, entity_id, "referenced_entities")
 
 
 @callback
-def automations_with_device(hass: UniversalAssistant, device_id: str) -> list[str]:
+def automations_with_device(hass: __HAC_KEEP__, device_id: str) -> list[str]:
     """Return all automations that reference the device."""
     return _automations_with_x(hass, device_id, "referenced_devices")
 
 
 @callback
-def devices_in_automation(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def devices_in_automation(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return all devices in an automation."""
     return _x_in_automation(hass, entity_id, "referenced_devices")
 
 
 @callback
-def automations_with_area(hass: UniversalAssistant, area_id: str) -> list[str]:
+def automations_with_area(hass: __HAC_KEEP__, area_id: str) -> list[str]:
     """Return all automations that reference the area."""
     return _automations_with_x(hass, area_id, "referenced_areas")
 
 
 @callback
-def areas_in_automation(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def areas_in_automation(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return all areas in an automation."""
     return _x_in_automation(hass, entity_id, "referenced_areas")
 
 
 @callback
-def automations_with_floor(hass: UniversalAssistant, floor_id: str) -> list[str]:
+def automations_with_floor(hass: __HAC_KEEP__, floor_id: str) -> list[str]:
     """Return all automations that reference the floor."""
     return _automations_with_x(hass, floor_id, "referenced_floors")
 
 
 @callback
-def floors_in_automation(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def floors_in_automation(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return all floors in an automation."""
     return _x_in_automation(hass, entity_id, "referenced_floors")
 
 
 @callback
-def automations_with_label(hass: UniversalAssistant, label_id: str) -> list[str]:
+def automations_with_label(hass: __HAC_KEEP__, label_id: str) -> list[str]:
     """Return all automations that reference the label."""
     return _automations_with_x(hass, label_id, "referenced_labels")
 
 
 @callback
-def labels_in_automation(hass: UniversalAssistant, entity_id: str) -> list[str]:
+def labels_in_automation(hass: __HAC_KEEP__, entity_id: str) -> list[str]:
     """Return all labels in an automation."""
     return _x_in_automation(hass, entity_id, "referenced_labels")
 
 
 @callback
-def automations_with_blueprint(hass: UniversalAssistant, blueprint_path: str) -> list[str]:
+def automations_with_blueprint(hass: __HAC_KEEP__, blueprint_path: str) -> list[str]:
     """Return all automations that reference the blueprint."""
     if DOMAIN not in hass.data:
         return []
@@ -171,7 +171,7 @@ def automations_with_blueprint(hass: UniversalAssistant, blueprint_path: str) ->
 
 
 @callback
-def blueprint_in_automation(hass: UniversalAssistant, entity_id: str) -> str | None:
+def blueprint_in_automation(hass: __HAC_KEEP__, entity_id: str) -> str | None:
     """Return the blueprint the automation is based on or None."""
     if DATA_COMPONENT not in hass.data:
         return None
@@ -182,7 +182,7 @@ def blueprint_in_automation(hass: UniversalAssistant, entity_id: str) -> str | N
     return automation_entity.referenced_blueprint
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up all automations."""
     hass.data[DATA_COMPONENT] = component = EntityComponent[BaseAutomationEntity](
         LOGGER, DOMAIN, hass
@@ -212,7 +212,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 @websocket_api.websocket_command({"type": "automation/config", "entity_id": str})
 @websocket_api.require_admin
 def websocket_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

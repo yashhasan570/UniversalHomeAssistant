@@ -9,7 +9,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
 )
 from universalassistant.const import UnitOfElectricPotential
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import VegeHubConfigEntry, VegeHubCoordinator
@@ -34,7 +34,7 @@ SENSOR_TYPES: dict[str, SensorEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VegeHubConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

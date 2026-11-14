@@ -11,7 +11,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -73,7 +73,7 @@ BINARY_SENSORS: tuple[HydroQuebecPeakBinarySensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HydroQuebecPeakConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

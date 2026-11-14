@@ -18,7 +18,7 @@ from universalassistant.components.homee.const import (
     WINDOW_MAP_REVERSED,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -38,7 +38,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 
 async def setup_sensor(
-    hass: UniversalAssistant, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Setups the integration for sensor tests."""
     mock_homee.nodes = [build_mock_node("sensors.json")]
@@ -47,7 +47,7 @@ async def setup_sensor(
 
 
 async def test_up_down_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -74,7 +74,7 @@ async def test_up_down_values(
 
 
 async def test_window_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_window_position(
 
 
 async def test_entity_connection_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_entity_connection_listener(
 
 
 async def test_entity_update_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_entity_update_action(
 
 
 async def test_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

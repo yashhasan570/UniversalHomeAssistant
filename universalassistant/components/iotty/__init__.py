@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     OAuth2Session,
     async_get_config_entry_implementation,
@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.COVER, Platform.SWITCH]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IottyConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IottyConfigEntry) -> None:
     """Set up iotty from a config entry."""
     _LOGGER.debug("async_setup_entry entry_id=%s", entry.entry_id)
 
@@ -36,6 +36,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IottyConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IottyConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IottyConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

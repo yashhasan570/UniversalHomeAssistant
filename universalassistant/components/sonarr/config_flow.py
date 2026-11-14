@@ -17,7 +17,7 @@ from universalassistant.config_entries import (
     OptionsFlowWithReload,
 )
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import SectionConfig, section
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -35,7 +35,7 @@ from .coordinator import SonarrConfigEntry
 _LOGGER = logging.getLogger(__name__)
 
 
-async def _validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> None:
+async def _validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> None:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.

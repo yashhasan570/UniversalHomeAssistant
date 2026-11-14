@@ -8,7 +8,7 @@ from adax_local import Adax as AdaxLocal
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -23,7 +23,7 @@ type AdaxConfigEntry = ConfigEntry[AdaxCloudCoordinator | AdaxLocalCoordinator]
 class AdaxCloudCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
     """Coordinator for updating data to and from Adax (cloud)."""
 
-    def __init__(self, hass: UniversalAssistant, entry: AdaxConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: AdaxConfigEntry) -> None:
         """Initialize the Adax coordinator used for Cloud mode."""
         super().__init__(
             hass,
@@ -72,7 +72,7 @@ class AdaxCloudCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
 class AdaxLocalCoordinator(DataUpdateCoordinator[dict[str, Any] | None]):
     """Coordinator for updating data to and from Adax (local)."""
 
-    def __init__(self, hass: UniversalAssistant, entry: AdaxConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: AdaxConfigEntry) -> None:
         """Initialize the Adax coordinator used for Local mode."""
         super().__init__(
             hass,

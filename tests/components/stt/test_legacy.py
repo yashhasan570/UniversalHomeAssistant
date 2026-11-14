@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from universalassistant.components.stt import Provider
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -13,7 +13,7 @@ from .common import mock_stt_platform
 
 
 async def test_invalid_platform(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, tmp_path: Path
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, tmp_path: Path
 ) -> None:
     """Test platform setup with an invalid platform."""
     await async_load_platform(
@@ -29,12 +29,12 @@ async def test_invalid_platform(
 
 
 async def test_platform_setup_with_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, tmp_path: Path
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, tmp_path: Path
 ) -> None:
     """Test platform setup with an error during setup."""
 
     async def async_get_engine(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         discovery_info: DiscoveryInfoType | None = None,
     ) -> Provider:

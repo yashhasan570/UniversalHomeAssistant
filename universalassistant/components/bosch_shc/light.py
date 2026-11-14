@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, override
 from boschshcpy import SHCMicromoduleDimmer, SHCMotionDetector2
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.color import brightness_to_value, value_to_brightness
 
@@ -18,7 +18,7 @@ BRIGHTNESS_SCALE = (1, 100)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BoschConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -96,7 +96,7 @@ class SHCMotionDetectorLight(SHCEntity, LightEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: SHCMotionDetector2,
         parent_id: str,
         entry_id: str,

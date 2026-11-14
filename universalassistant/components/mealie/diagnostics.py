@@ -3,13 +3,13 @@
 from dataclasses import asdict
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import MealieConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: MealieConfigEntry
+    hass: __HAC_KEEP__, config_entry: MealieConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = config_entry.runtime_data

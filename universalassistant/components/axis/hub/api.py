@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from ..const import CONF_COMPANION, LOGGER
@@ -22,7 +22,7 @@ from ..errors import AuthenticationRequired, CannotConnect
 
 
 async def get_axis_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: Mapping[str, Any],
 ) -> axis.AxisDevice:
     """Create a Axis device API."""

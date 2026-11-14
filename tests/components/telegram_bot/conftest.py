@@ -33,7 +33,7 @@ from universalassistant.components.telegram_bot.const import (
 )
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_PLATFORM, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -366,7 +366,7 @@ def mock_webhooks_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 async def webhook_bot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_webhooks_config_entry: MockConfigEntry,
     mock_register_webhook: None,
     mock_external_calls: None,

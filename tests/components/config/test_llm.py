@@ -33,7 +33,7 @@ from universalassistant.config_entries import (
     ConfigFlow,
     ConfigFlowResult,
 )
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, DependencyError
 from universalassistant.helpers import config_entry_oauth2_flow, llm, selector
 from universalassistant.setup import async_setup_component
@@ -54,9 +54,9 @@ def llm_context() -> llm.LLMContext:
 
 
 async def test_async_get_tools(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
-    """Test async_get_tools returns tools only for Universal Universal Home Assistant API."""
+    """Test async_get_tools returns tools only for __HA_KEEP__ API."""
     assert async_get_tools(hass, llm_context, llm.LLM_API_ASSIST) is None
 
     ha_tools = async_get_tools(hass, llm_context, llm.LLM_API_UNIVERSAL_ASSISTANT)
@@ -86,9 +86,9 @@ def test_parameters_openapi(snapshot: SnapshotAssertion) -> None:
 
 
 async def test_call_through_api(
-    hass: UniversalAssistant, hass_admin_user: MockUser, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, hass_admin_user: MockUser, llm_context: llm.LLMContext
 ) -> None:
-    """Test tool discovery and execution through the Universal Universal Home Assistant API."""
+    """Test tool discovery and execution through the __HA_KEEP__ API."""
     mock_integration(hass, MockModule(TEST_DOMAIN))
     assert await async_setup_component(hass, config_component.DOMAIN, {})
     assert await async_setup_component(hass, "llm", {})
@@ -305,7 +305,7 @@ MOCK_EXCEPTION_TRANSLATIONS: dict[str, str] = {
     ],
 )
 async def test_get_config_entries_filtering_and_error_reasons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     tool_args: dict[str, Any],
     expected_result: list[dict[str, Any]],
@@ -414,7 +414,7 @@ async def test_get_config_entries_filtering_and_error_reasons(
     ],
 )
 async def test_get_config_entries_invalid_args(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     invalid_args: dict[str, Any],
 ) -> None:
@@ -425,7 +425,7 @@ async def test_get_config_entries_invalid_args(
 
 
 async def test_reload_config_entry_success(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test reloading a config entry by short ID."""
     mock_integration(
@@ -464,7 +464,7 @@ async def test_reload_config_entry_success(
 
 
 async def test_reload_config_entry_setup_failure_reason(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test reloading a config entry that fails setup with a reason."""
     mock_integration(
@@ -514,7 +514,7 @@ async def test_reload_config_entry_setup_failure_reason(
     ],
 )
 async def test_reload_config_entry_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     entry_id: str,
 ) -> None:
@@ -539,7 +539,7 @@ async def test_reload_config_entry_not_found(
 
 
 async def test_reload_config_entry_ambiguous_short_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
 ) -> None:
     """Test reloading with a short suffix that matches multiple entries in a domain."""
@@ -585,7 +585,7 @@ async def test_reload_config_entry_ambiguous_short_id(
     ],
 )
 async def test_reload_config_entry_disabled_or_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     entry_kwargs: dict[str, Any],
     expected_error: str,
@@ -612,7 +612,7 @@ async def test_reload_config_entry_disabled_or_ignored(
 
 
 async def test_reload_config_entry_operation_not_allowed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
 ) -> None:
     """Test reloading a config entry in a non-recoverable state."""
@@ -651,7 +651,7 @@ async def test_reload_config_entry_operation_not_allowed(
     ],
 )
 async def test_reload_config_entry_invalid_args(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     invalid_args: dict[str, Any],
 ) -> None:
@@ -721,7 +721,7 @@ async def test_reload_config_entry_invalid_args(
     ],
 )
 async def test_search_integrations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     tool_args: dict[str, Any],
     expected_prefix: list[dict[str, Any]],
@@ -753,7 +753,7 @@ async def test_search_integrations(
     ],
 )
 async def test_search_integrations_invalid_args(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     invalid_args: dict[str, Any],
 ) -> None:
@@ -764,7 +764,7 @@ async def test_search_integrations_invalid_args(
 
 
 async def test_start_and_configure_multi_step_config_flow(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test driving a real built-in multi-step MENU -> FORM -> CREATE_ENTRY config flow (random)."""
     start_tool = StartFlowTool()
@@ -929,7 +929,7 @@ async def test_start_and_configure_multi_step_config_flow(
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", [TEST_DOMAIN])
 @pytest.mark.usefixtures("ignore_translations_for_mock_domains")
 async def test_config_flow_sections_selectors_and_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
 ) -> None:
     """Test formatting form sections, select options, errors, and show_progress steps."""
@@ -960,7 +960,7 @@ async def test_config_flow_sections_selectors_and_progress(
     }
 
     async def _get_trans(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         language: str,
         category: str,
         integrations: Any = None,
@@ -1168,7 +1168,7 @@ async def test_config_flow_sections_selectors_and_progress(
 
 
 async def test_abort_flow_and_error_cases(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test aborting a flow and handling start_flow / configure_flow error cases."""
     start_tool = StartFlowTool()
@@ -1322,7 +1322,7 @@ async def _step_redirect_runtime_error(flow: _BaseOAuthTestFlow) -> ConfigFlowRe
     ],
 )
 async def test_oauth_and_external_step_new_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     step_action: Callable[[_BaseOAuthTestFlow], Coroutine[Any, Any, ConfigFlowResult]],
 ) -> None:
@@ -1375,7 +1375,7 @@ async def test_oauth_and_external_step_new_flow(
     ],
 )
 async def test_oauth_and_external_step_on_configure_step(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     step_action: Callable[[_BaseOAuthTestFlow], Coroutine[Any, Any, ConfigFlowResult]],
 ) -> None:
@@ -1483,7 +1483,7 @@ async def test_oauth_and_external_step_on_configure_step(
     ],
 )
 async def test_flow_tools_invalid_parameters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     tool: llm.Tool,
     tool_args: dict[str, Any],

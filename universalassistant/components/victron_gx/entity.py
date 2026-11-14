@@ -15,7 +15,7 @@ from victron_mqtt import (
 
 from universalassistant.const import EntityCategory
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
 
@@ -138,12 +138,12 @@ class VictronBaseEntity(Entity):
                 translation_key="invalid_value",
             ) from err
         except NotConnectedError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="not_connected",
             ) from err
         except PublishError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="publish_failed",
             ) from err

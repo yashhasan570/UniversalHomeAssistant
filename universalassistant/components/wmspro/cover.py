@@ -15,7 +15,7 @@ from universalassistant.components.cover import (
     CoverDeviceClass,
     CoverEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -31,7 +31,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WebControlProConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

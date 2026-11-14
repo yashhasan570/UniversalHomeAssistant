@@ -3,7 +3,7 @@
 from zwave_js_server.model.value import ConfigurationValue
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN
@@ -32,7 +32,7 @@ def generate_config_parameter_subtype(config_value: ConfigurationValue) -> str:
 
 
 @callback
-def async_bypass_dynamic_config_validation(hass: UniversalAssistant, device_id: str) -> bool:
+def async_bypass_dynamic_config_validation(hass: __HAC_KEEP__, device_id: str) -> bool:
     """Return whether device's config entries are not loaded."""
     device, config_entry = dr.async_get_device_and_config_entry_for_domain(
         hass, device_id, domain=DOMAIN

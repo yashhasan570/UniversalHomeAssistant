@@ -32,7 +32,7 @@ from universalassistant.config_entries import (
     FlowType,
 )
 from universalassistant.const import CONF_CODE, CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
 
 from . import (
@@ -69,7 +69,7 @@ from . import (
     ],
 )
 async def test_setup_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_setup_entry: AsyncMock,
     user_input_connection: dict[str, Any],
@@ -119,7 +119,7 @@ async def test_setup_flow(
     ],
 )
 async def test_setup_connection_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_setup_entry: AsyncMock,
     exception: Exception,
@@ -162,7 +162,7 @@ async def test_setup_connection_failed(
     ],
 )
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_reload_after_entry_update: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -197,7 +197,7 @@ async def test_options_flow(
     ],
 )
 async def test_options_flow_rejects_invalid_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_reload_after_entry_update: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -237,7 +237,7 @@ async def test_options_flow_rejects_invalid_code(
     ],
 )
 async def test_subentry_creation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_reload_after_entry_update: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -288,7 +288,7 @@ async def test_subentry_creation(
     ],
 )
 async def test_zone_temperature_sensor_validation_on_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_reload_after_entry_update: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -331,7 +331,7 @@ async def test_zone_temperature_sensor_validation_on_create(
 
 
 async def test_zone_temperature_sensor_validation_requires_loaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -402,7 +402,7 @@ async def test_zone_temperature_sensor_validation_requires_loaded_entry(
     ],
 )
 async def test_subentry_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     user_input: dict[str, Any],
@@ -447,7 +447,7 @@ async def test_subentry_reconfigure(
 
 
 async def test_zone_temperature_sensor_validation_on_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_reload_after_entry_update: MagicMock,
     mock_config_entry_with_subentries: MockConfigEntry,
@@ -506,7 +506,7 @@ async def test_zone_temperature_sensor_validation_on_reconfigure(
 
 
 async def test_zone_temperature_sensor_validation_on_reconfigure_requires_loaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -555,7 +555,7 @@ async def test_zone_temperature_sensor_validation_on_reconfigure_requires_loaded
     ],
 )
 async def test_cannot_create_same_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
@@ -592,7 +592,7 @@ async def test_cannot_create_same_subentry(
 
 
 async def test_reconfigure_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -627,7 +627,7 @@ async def test_reconfigure_flow_success(
 
 
 async def test_reconfigure_flow_config_unchanged_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -655,7 +655,7 @@ async def test_reconfigure_flow_config_unchanged_loaded(
 
 
 async def test_reconfigure_flow_config_unchanged_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -690,7 +690,7 @@ async def test_reconfigure_flow_config_unchanged_not_loaded(
     ],
 )
 async def test_reconfigure_connection_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -734,7 +734,7 @@ async def test_reconfigure_connection_failed(
 
 
 async def test_same_host_config_disallowed(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that only one Satel Integra configuration is allowed."""
     mock_config_entry.add_to_hass(hass)
@@ -758,7 +758,7 @@ async def test_same_host_config_disallowed(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_encryption_key_changed(
-    hass: UniversalAssistant, mock_satel: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_satel: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow when encryption key is changed."""
     mock_config_entry.add_to_hass(hass)
@@ -792,7 +792,7 @@ async def test_reconfigure_encryption_key_changed(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_encryption_key_removed(
-    hass: UniversalAssistant, mock_satel: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_satel: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow when encryption key is explicitly removed."""
     # Start with config that has encryption key

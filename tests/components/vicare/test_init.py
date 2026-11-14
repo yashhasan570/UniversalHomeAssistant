@@ -27,7 +27,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     OAuth2TokenRequestReauthError,
     OAuth2TokenRequestTransientError,
@@ -51,7 +51,7 @@ ZIGBEE_IEEE = "#" * 16
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_migrate_entry_v1_1_to_v2_1(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_v1_1_to_v2_1(hass: __HAC_KEEP__) -> None:
     """Test migration of config entry from v1.1 through to v2.1."""
     mock_token = {
         "access_token": "mock-access-token",
@@ -91,7 +91,7 @@ async def test_migrate_entry_v1_1_to_v2_1(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_migrate_entry_v1_2_to_v2_1(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_v1_2_to_v2_1(hass: __HAC_KEEP__) -> None:
     """Test migration of config entry from v1.2 to v2.1."""
     mock_token = {
         "access_token": "mock-access-token",
@@ -129,7 +129,7 @@ async def test_migrate_entry_v1_2_to_v2_1(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_migrate_entry_token_failure(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_token_failure(hass: __HAC_KEEP__) -> None:
     """Test migration completes even when token cannot be obtained."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -162,7 +162,7 @@ async def test_migrate_entry_token_failure(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migrate_entry_creates_repair_issue(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test migration creates a repair issue linked to the entry."""
     config_entry = MockConfigEntry(
@@ -202,7 +202,7 @@ async def test_migrate_entry_creates_repair_issue(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_migrate_entry_v1_3_stamp_bump(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_v1_3_stamp_bump(hass: __HAC_KEEP__) -> None:
     """Test pre-merge v1.3 entries are promoted to v2.1 without re-running migration."""
     token = {
         "access_token": "a",
@@ -229,7 +229,7 @@ async def test_migrate_entry_v1_3_stamp_bump(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_entry_token_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup raises ConfigEntryAuthFailed on invalid token."""
@@ -246,7 +246,7 @@ async def test_setup_entry_token_invalid(
 
 
 async def test_setup_entry_implementation_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup raises ConfigEntryAuthFailed when OAuth2 implementation is missing."""
@@ -263,7 +263,7 @@ async def test_setup_entry_implementation_unavailable(
 
 
 async def test_setup_entry_token_refresh_transient(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup raises ConfigEntryNotReady on transient token refresh error."""
@@ -285,7 +285,7 @@ async def test_setup_entry_token_refresh_transient(
 
 
 async def test_setup_entry_token_refresh_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup raises ConfigEntryAuthFailed when token refresh requires re-auth."""
@@ -307,7 +307,7 @@ async def test_setup_entry_token_refresh_reauth(
 
 
 async def test_setup_entry_transient_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup raises ConfigEntryNotReady on transient auth error."""
@@ -324,7 +324,7 @@ async def test_setup_entry_transient_error(
 
 
 async def test_coordinator_backs_off_until_the_quota_resets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -372,7 +372,7 @@ async def test_coordinator_backs_off_until_the_quota_resets(
 
 
 async def test_coordinator_backs_off_when_the_reset_has_passed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -420,7 +420,7 @@ async def test_coordinator_backs_off_when_the_reset_has_passed(
 
 
 async def test_setup_entry_invalid_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup raises ConfigEntryAuthFailed on PyViCare credentials error."""
@@ -441,7 +441,7 @@ async def test_setup_entry_invalid_credentials(
 
 
 async def test_setup_entry_rate_limited(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup retries when the daily API quota is spent."""
@@ -490,7 +490,7 @@ async def test_setup_entry_rate_limited(
     ],
 )
 async def test_setup_entry_transient_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     error: Exception | type[Exception],
 ) -> None:
@@ -513,7 +513,7 @@ async def test_setup_entry_transient_api_error(
 
 
 async def test_setup_entry_invalid_configuration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup raises ConfigEntryAuthFailed on PyViCare config error."""
@@ -535,7 +535,7 @@ async def test_setup_entry_invalid_configuration(
 
 # Device migration test can be removed in 2025.4.0
 async def test_device_and_entity_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -631,7 +631,7 @@ async def test_device_and_entity_migration(
 
 
 async def test_coordinator_recovers_after_transient_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -681,7 +681,7 @@ async def test_coordinator_recovers_after_transient_failure(
 
 
 async def test_coordinator_handles_invalid_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -716,7 +716,7 @@ async def test_coordinator_handles_invalid_data(
 
 
 async def test_per_gateway_failure_isolation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -766,7 +766,7 @@ async def test_per_gateway_failure_isolation(
 
 
 async def test_devices_on_same_gateway_share_coordinator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -813,7 +813,7 @@ async def test_devices_on_same_gateway_share_coordinator(
 
 
 async def test_coordinator_auth_failure_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -855,7 +855,7 @@ async def test_coordinator_auth_failure_triggers_reauth(
 
 
 async def test_device_via_device_links(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -885,7 +885,7 @@ async def test_device_via_device_links(
 
 
 async def test_device_via_device_missing_gateway(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -909,7 +909,7 @@ async def test_device_via_device_missing_gateway(
 
 
 async def test_setup_runs_pyvicare_init_and_fetches_once_per_gateway(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the via-gateway init, the cache duration and one fetch per gateway."""
@@ -953,7 +953,7 @@ async def test_setup_runs_pyvicare_init_and_fetches_once_per_gateway(
 
 
 async def test_offline_gateway_does_not_stretch_the_cache(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """An unreachable gateway is skipped, so it must not size the cache."""
@@ -997,7 +997,7 @@ async def test_offline_gateway_does_not_stretch_the_cache(
 
 
 async def test_device_reported_offline_with_data_is_set_up(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A device reported offline is set up when its gateway delivers data."""
@@ -1028,7 +1028,7 @@ async def test_device_reported_offline_with_data_is_set_up(
 
 
 async def test_setup_retries_until_a_device_is_online(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1067,7 +1067,7 @@ async def test_setup_retries_until_a_device_is_online(
 
 
 async def test_setup_loads_with_unpaid_package_gateway(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A gateway whose bulk fetch raises PACKAGE_NOT_PAID_FOR still loads."""
@@ -1096,7 +1096,7 @@ async def test_setup_loads_with_unpaid_package_gateway(
 
 
 async def test_coordinator_backs_off_on_gateway_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

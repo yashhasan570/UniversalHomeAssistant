@@ -51,7 +51,7 @@ from universalassistant.const import (
     ATTR_SUPPORTED_FEATURES,
     ATTR_TEMPERATURE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import utcnow
@@ -62,7 +62,7 @@ VALVE_POSITION = "valve_position"
 
 
 async def test_setup_thermostat(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, cube: MaxCube
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, cube: MaxCube
 ) -> None:
     """Test a successful setup of a thermostat device."""
     assert entity_registry.async_is_registered(ENTITY_ID)
@@ -102,7 +102,7 @@ async def test_setup_thermostat(
 
 
 async def test_setup_wallthermostat(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, cube: MaxCube
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, cube: MaxCube
 ) -> None:
     """Test a successful setup of a wall thermostat device."""
     assert entity_registry.async_is_registered(WALL_ENTITY_ID)
@@ -121,7 +121,7 @@ async def test_setup_wallthermostat(
 
 
 async def test_thermostat_set_hvac_mode_off(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Turn off thermostat."""
     await hass.services.async_call(
@@ -152,7 +152,7 @@ async def test_thermostat_set_hvac_mode_off(
 
 
 async def test_thermostat_set_hvac_mode_heat(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set hvac mode to heat."""
     await hass.services.async_call(
@@ -175,7 +175,7 @@ async def test_thermostat_set_hvac_mode_heat(
 
 
 async def test_thermostat_set_invalid_hvac_mode(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set hvac mode to heat."""
     with pytest.raises(ServiceValidationError):
@@ -189,7 +189,7 @@ async def test_thermostat_set_invalid_hvac_mode(
 
 
 async def test_thermostat_set_temperature(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set hvac mode to heat."""
     await hass.services.async_call(
@@ -212,7 +212,7 @@ async def test_thermostat_set_temperature(
 
 
 async def test_thermostat_set_no_temperature(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set hvac mode to heat."""
     with pytest.raises(ServiceValidationError):
@@ -230,7 +230,7 @@ async def test_thermostat_set_no_temperature(
 
 
 async def test_thermostat_set_preset_on(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set preset mode to on."""
     await hass.services.async_call(
@@ -256,7 +256,7 @@ async def test_thermostat_set_preset_on(
 
 
 async def test_thermostat_set_preset_comfort(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set preset mode to comfort."""
     await hass.services.async_call(
@@ -281,7 +281,7 @@ async def test_thermostat_set_preset_comfort(
 
 
 async def test_thermostat_set_preset_eco(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set preset mode to eco."""
     await hass.services.async_call(
@@ -306,7 +306,7 @@ async def test_thermostat_set_preset_eco(
 
 
 async def test_thermostat_set_preset_away(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set preset mode to away."""
     await hass.services.async_call(
@@ -331,7 +331,7 @@ async def test_thermostat_set_preset_away(
 
 
 async def test_thermostat_set_preset_boost(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set preset mode to boost."""
     await hass.services.async_call(
@@ -356,7 +356,7 @@ async def test_thermostat_set_preset_boost(
 
 
 async def test_thermostat_set_preset_none(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set preset mode to boost."""
     await hass.services.async_call(
@@ -371,7 +371,7 @@ async def test_thermostat_set_preset_none(
 
 
 async def test_thermostat_set_invalid_preset(
-    hass: UniversalAssistant, cube: MaxCube, thermostat: MaxThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, thermostat: MaxThermostat
 ) -> None:
     """Set hvac mode to heat."""
     with pytest.raises(ServiceValidationError):
@@ -385,7 +385,7 @@ async def test_thermostat_set_invalid_preset(
 
 
 async def test_wallthermostat_set_hvac_mode_heat(
-    hass: UniversalAssistant, cube: MaxCube, wallthermostat: MaxWallThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, wallthermostat: MaxWallThermostat
 ) -> None:
     """Set wall thermostat hvac mode to heat."""
     await hass.services.async_call(
@@ -408,7 +408,7 @@ async def test_wallthermostat_set_hvac_mode_heat(
 
 
 async def test_wallthermostat_set_hvac_mode_auto(
-    hass: UniversalAssistant, cube: MaxCube, wallthermostat: MaxWallThermostat
+    hass: __HAC_KEEP__, cube: MaxCube, wallthermostat: MaxWallThermostat
 ) -> None:
     """Set wall thermostat hvac mode to auto."""
     await hass.services.async_call(

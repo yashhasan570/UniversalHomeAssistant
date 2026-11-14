@@ -9,13 +9,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize("mock_api_get", [AsyncMock(side_effect=InvalidKeyError)])
 @pytest.mark.usefixtures("setup_airnow")
 async def test_setup_auth_failed(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test an invalid API key during setup starts a reauth flow."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -30,7 +30,7 @@ async def test_setup_auth_failed(
 
 
 async def test_update_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_api_get: AsyncMock,
     freezer: FrozenDateTimeFactory,

@@ -32,7 +32,7 @@ from universalassistant.components.media_source import (
     async_resolve_media,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.template import DATE_STR_FORMAT
 from universalassistant.setup import async_setup_component
@@ -109,7 +109,7 @@ def platforms() -> list[str]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_components(hass: UniversalAssistant) -> None:
+async def setup_components(hass: __HAC_KEEP__) -> None:
     """Fixture to initialize the integration."""
     await async_setup_component(hass, "media_source", {})
 
@@ -245,7 +245,7 @@ def create_battery_event_data(
         )
     ],
 )
-async def test_no_eligible_devices(hass: UniversalAssistant, setup_platform) -> None:
+async def test_no_eligible_devices(hass: __HAC_KEEP__, setup_platform) -> None:
     """Test a media source with no eligible camera devices."""
     await setup_platform()
     browse = await async_browse_media(hass, f"{URI_SCHEME}{DOMAIN}")
@@ -257,7 +257,7 @@ async def test_no_eligible_devices(hass: UniversalAssistant, setup_platform) -> 
 
 @pytest.mark.parametrize("device_traits", [CAMERA_TRAITS, BATTERY_CAMERA_TRAITS])
 async def test_supported_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, setup_platform
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, setup_platform
 ) -> None:
     """Test a media source with a supported camera."""
     await setup_platform()
@@ -290,7 +290,7 @@ async def test_supported_device(
 
 
 async def test_integration_unloaded(
-    hass: UniversalAssistant, auth: FakeAuth, setup_platform
+    hass: __HAC_KEEP__, auth: FakeAuth, setup_platform
 ) -> None:
     """Test the media player loads, but has no devices, when config unloaded."""
     await setup_platform()
@@ -318,7 +318,7 @@ async def test_integration_unloaded(
 
 
 async def test_camera_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     subscriber,
@@ -424,7 +424,7 @@ async def test_camera_event(
 
 
 async def test_event_order(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     subscriber,
@@ -500,7 +500,7 @@ async def test_event_order(
 
 
 async def test_multiple_image_events_in_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -621,7 +621,7 @@ async def test_multiple_image_events_in_session(
 
 @pytest.mark.parametrize("device_traits", [BATTERY_CAMERA_TRAITS])
 async def test_multiple_clip_preview_events_in_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -724,7 +724,7 @@ async def test_multiple_clip_preview_events_in_session(
 
 
 async def test_browse_invalid_device_id(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, auth, setup_platform
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, auth, setup_platform
 ) -> None:
     """Test a media source request for an invalid device id."""
     await setup_platform()
@@ -746,7 +746,7 @@ async def test_browse_invalid_device_id(
 
 
 async def test_browse_invalid_event_id(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, auth, setup_platform
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, auth, setup_platform
 ) -> None:
     """Test a media source browsing for an invalid event id."""
     await setup_platform()
@@ -770,7 +770,7 @@ async def test_browse_invalid_event_id(
 
 
 async def test_resolve_missing_event_id(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, auth, setup_platform
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, auth, setup_platform
 ) -> None:
     """Test a media source request missing an event id."""
     await setup_platform()
@@ -790,7 +790,7 @@ async def test_resolve_missing_event_id(
 
 
 async def test_resolve_invalid_device_id(
-    hass: UniversalAssistant, auth, setup_platform
+    hass: __HAC_KEEP__, auth, setup_platform
 ) -> None:
     """Test resolving media for an invalid event id."""
     await setup_platform()
@@ -803,7 +803,7 @@ async def test_resolve_invalid_device_id(
 
 
 async def test_resolve_invalid_event_id(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, auth, setup_platform
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, auth, setup_platform
 ) -> None:
     """Test resolving media for an invalid event id."""
     await setup_platform()
@@ -830,7 +830,7 @@ async def test_resolve_invalid_event_id(
 
 @pytest.mark.parametrize("device_traits", [BATTERY_CAMERA_TRAITS])
 async def test_camera_event_clip_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -941,7 +941,7 @@ async def test_camera_event_clip_preview(
 
 
 async def test_event_media_render_invalid_device_id(
-    hass: UniversalAssistant, auth, hass_client: ClientSessionGenerator, setup_platform
+    hass: __HAC_KEEP__, auth, hass_client: ClientSessionGenerator, setup_platform
 ) -> None:
     """Test event media API called with an invalid device id."""
     await setup_platform()
@@ -951,7 +951,7 @@ async def test_event_media_render_invalid_device_id(
 
 
 async def test_event_media_render_invalid_event_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -971,7 +971,7 @@ async def test_event_media_render_invalid_event_id(
 
 
 async def test_event_media_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -1028,7 +1028,7 @@ async def test_event_media_failure(
 
 
 async def test_media_permission_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -1060,7 +1060,7 @@ async def test_media_permission_unauthorized(
 
 
 async def test_multiple_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -1158,7 +1158,7 @@ def event_store() -> Generator[None]:
 
 @pytest.mark.parametrize("device_traits", [BATTERY_CAMERA_TRAITS])
 async def test_media_store_persistence(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -1255,7 +1255,7 @@ async def test_media_store_persistence(
 
 @pytest.mark.parametrize("device_traits", [BATTERY_CAMERA_TRAITS])
 async def test_media_store_save_filesystem_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -1312,7 +1312,7 @@ async def test_media_store_save_filesystem_error(
 
 @pytest.mark.parametrize("device_traits", [BATTERY_CAMERA_TRAITS])
 async def test_media_store_load_filesystem_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -1368,7 +1368,7 @@ async def test_media_store_load_filesystem_error(
 
 @pytest.mark.parametrize(("device_traits", "cache_size"), [(BATTERY_CAMERA_TRAITS, 5)])
 async def test_camera_event_media_eviction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -1447,7 +1447,7 @@ async def test_camera_event_media_eviction(
 
 
 async def test_camera_image_resize(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     hass_client: ClientSessionGenerator,
@@ -1528,7 +1528,7 @@ async def test_camera_image_resize(
 
 
 async def test_event_media_attachment(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     subscriber,
@@ -1584,7 +1584,7 @@ async def test_event_media_attachment(
 
 @pytest.mark.parametrize("device_traits", [BATTERY_CAMERA_TRAITS])
 async def test_event_clip_media_attachment(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     subscriber,
@@ -1641,7 +1641,7 @@ async def test_event_clip_media_attachment(
 
 @pytest.mark.parametrize(("device_traits", "cache_size"), [(BATTERY_CAMERA_TRAITS, 5)])
 async def test_remove_stale_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     auth,
     mp4,
@@ -1718,7 +1718,7 @@ async def test_remove_stale_media(
 
 
 async def test_media_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_platform,
     legacy_media_path: str,
     media_path: str,
@@ -1756,7 +1756,7 @@ async def test_media_migration(
 
 
 async def test_media_migration_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_platform,
     legacy_media_path: str,
     media_path: str,

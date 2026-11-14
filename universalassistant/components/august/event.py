@@ -13,7 +13,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import AugustConfigEntry
@@ -56,7 +56,7 @@ TYPES_DOORBELL: tuple[AugustEventEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AugustConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

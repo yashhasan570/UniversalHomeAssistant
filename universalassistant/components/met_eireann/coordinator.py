@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -57,7 +57,7 @@ class MetEireannUpdateCoordinator(DataUpdateCoordinator[MetEireannWeatherData]):
     config_entry: MetEireannConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: MetEireannConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: MetEireannConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

@@ -11,7 +11,7 @@ import tibber
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.tibber.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -24,7 +24,7 @@ def _prices_for_days(*days: str) -> dict[str, float]:
 
 
 async def _async_setup_price_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tibber_mock: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def _async_setup_price_sensor(
 
 
 async def _async_setup_data_api_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     data_api_client_mock: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -66,7 +66,7 @@ async def _async_setup_data_api_sensor(
 
 
 async def _async_fire_coordinator_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     delta: timedelta,
 ) -> None:
@@ -78,7 +78,7 @@ async def _async_fire_coordinator_update(
 
 async def test_price_fetch_refreshes_when_today_prices_are_missing(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tibber_mock: MagicMock,
     setup_credentials: None,
@@ -110,7 +110,7 @@ async def test_price_fetch_refreshes_when_today_prices_are_missing(
 
 async def test_price_fetch_waits_until_tomorrow_price_polling_window(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tibber_mock: MagicMock,
     setup_credentials: None,
@@ -151,7 +151,7 @@ async def test_price_fetch_waits_until_tomorrow_price_polling_window(
 
 async def test_price_fetch_skips_update_when_tomorrow_prices_exist(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tibber_mock: MagicMock,
     setup_credentials: None,
@@ -192,7 +192,7 @@ async def test_price_fetch_skips_update_when_tomorrow_prices_exist(
 )
 async def test_price_fetch_refresh_handles_update_exceptions(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tibber_mock: MagicMock,
     setup_credentials: None,
@@ -253,7 +253,7 @@ async def test_price_fetch_refresh_handles_update_exceptions(
 )
 @pytest.mark.usefixtures("recorder_mock", "setup_credentials")
 async def test_data_api_refresh_handles_update_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     data_api_client_mock: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -284,7 +284,7 @@ async def test_data_api_refresh_handles_update_exceptions(
 
 async def test_price_sensor_unavailable_when_cached_prices_run_out(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     tibber_mock: MagicMock,
     setup_credentials: None,

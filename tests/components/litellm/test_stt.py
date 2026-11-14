@@ -25,7 +25,7 @@ from universalassistant.components.litellm.const import (
 )
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_MODEL, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 from .conftest import TEST_URL
@@ -38,7 +38,7 @@ async def _audio_stream(*chunks: bytes) -> AsyncIterable[bytes]:
 
 
 async def _setup_stt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subentry_options: dict[str, object] | None = None,
 ) -> stt.SpeechToTextEntity:
     """Set up a LiteLLM STT entity."""
@@ -74,7 +74,7 @@ def _metadata() -> stt.SpeechMetadata:
 
 
 @pytest.mark.usefixtures("mock_openai_client")
-async def test_stt_entity_properties(hass: UniversalAssistant) -> None:
+async def test_stt_entity_properties(hass: __HAC_KEEP__) -> None:
     """Test STT entity audio properties."""
     entity = await _setup_stt(hass)
 
@@ -89,7 +89,7 @@ async def test_stt_entity_properties(hass: UniversalAssistant) -> None:
     assert entity.supported_channels == [stt.AudioChannels.CHANNEL_MONO]
 
 
-async def test_stt(hass: UniversalAssistant, mock_openai_client: AsyncMock) -> None:
+async def test_stt(hass: __HAC_KEEP__, mock_openai_client: AsyncMock) -> None:
     """Test transcription."""
     entity = await _setup_stt(hass)
     mock_openai_client.audio.transcriptions.create = AsyncMock(
@@ -114,7 +114,7 @@ async def test_stt(hass: UniversalAssistant, mock_openai_client: AsyncMock) -> N
 
 
 async def test_stt_passes_prompt_and_keywords(
-    hass: UniversalAssistant, mock_openai_client: AsyncMock
+    hass: __HAC_KEEP__, mock_openai_client: AsyncMock
 ) -> None:
     """Test passing optional prompt and keyword hints to LiteLLM."""
     entity = await _setup_stt(
@@ -140,7 +140,7 @@ async def test_stt_passes_prompt_and_keywords(
 
 
 async def test_stt_ignores_stale_hints_when_disabled(
-    hass: UniversalAssistant, mock_openai_client: AsyncMock
+    hass: __HAC_KEEP__, mock_openai_client: AsyncMock
 ) -> None:
     """Test disabled hints do not send stale configured values."""
     entity = await _setup_stt(
@@ -166,7 +166,7 @@ async def test_stt_ignores_stale_hints_when_disabled(
 
 
 async def test_stt_renders_prompt_and_keywords_templates(
-    hass: UniversalAssistant, mock_openai_client: AsyncMock
+    hass: __HAC_KEEP__, mock_openai_client: AsyncMock
 ) -> None:
     """Test rendering optional prompt and keyword templates."""
     hass.states.async_set("sensor.transcription_context", "Alice")
@@ -193,7 +193,7 @@ async def test_stt_renders_prompt_and_keywords_templates(
 
 
 async def test_stt_template_error(
-    hass: UniversalAssistant, mock_openai_client: AsyncMock
+    hass: __HAC_KEEP__, mock_openai_client: AsyncMock
 ) -> None:
     """Test a template error returns an STT error."""
     entity = await _setup_stt(
@@ -209,7 +209,7 @@ async def test_stt_template_error(
 
 
 async def test_stt_empty_response_keeps_entity_available(
-    hass: UniversalAssistant, mock_openai_client: AsyncMock
+    hass: __HAC_KEEP__, mock_openai_client: AsyncMock
 ) -> None:
     """Test an empty response keeps the proxy available."""
     entity = await _setup_stt(hass)
@@ -228,7 +228,7 @@ async def test_stt_empty_response_keeps_entity_available(
 
 
 async def test_stt_connection_error_marks_entity_unavailable(
-    hass: UniversalAssistant, mock_openai_client: AsyncMock
+    hass: __HAC_KEEP__, mock_openai_client: AsyncMock
 ) -> None:
     """Test connection errors mark the entity unavailable."""
     entity = await _setup_stt(hass)
@@ -246,7 +246,7 @@ async def test_stt_connection_error_marks_entity_unavailable(
 
 @pytest.mark.parametrize("error_cls", [AuthenticationError, PermissionDeniedError])
 async def test_stt_auth_error_refreshes_coordinator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     error_cls: type[AuthenticationError | PermissionDeniedError],
 ) -> None:
@@ -274,7 +274,7 @@ async def test_stt_auth_error_refreshes_coordinator(
 
 
 async def test_stt_provider_error_keeps_entity_available(
-    hass: UniversalAssistant, mock_openai_client: AsyncMock
+    hass: __HAC_KEEP__, mock_openai_client: AsyncMock
 ) -> None:
     """Test provider errors do not mark the proxy unavailable."""
     entity = await _setup_stt(hass)

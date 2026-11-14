@@ -15,7 +15,7 @@ from pytest_universalassistant.components.bluetooth import (
 from universalassistant.components.besen.const import DOMAIN, PLATFORMS
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.const import CONF_ADDRESS, CONF_NAME, CONF_PIN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import publish_besen_state
 
@@ -223,7 +223,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     platforms: list[Platform] | None = None,
 ) -> None:

@@ -17,7 +17,7 @@ from universalassistant.components.lutron_caseta.const import (
     CONF_KEYFILE,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -470,7 +470,7 @@ def make_mock_entry() -> MockConfigEntry:
 
 
 async def async_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge: MockBridge,
     config_entry_id: str | None = None,
     can_connect: bool = True,

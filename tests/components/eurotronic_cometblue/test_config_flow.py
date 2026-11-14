@@ -14,7 +14,7 @@ from universalassistant.components.eurotronic_cometblue.config_flow import (
 )
 from universalassistant.components.eurotronic_cometblue.const import DOMAIN
 from universalassistant.const import CONF_ADDRESS, CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import FIXTURE_DEVICE_NAME, FIXTURE_MAC, FIXTURE_USER_INPUT
@@ -22,7 +22,7 @@ from .conftest import FAKE_SERVICE_INFO
 
 
 async def test_user_step_no_devices(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we handle no devices found."""
     with patch(
@@ -41,7 +41,7 @@ async def test_user_step_no_devices(
 
 
 async def test_user_step_discovered_devices(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_service_info: None
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_service_info: None
 ) -> None:
     """Test we properly handle device picking."""
     result = await hass.config_entries.flow.async_init(
@@ -79,7 +79,7 @@ async def test_user_step_discovered_devices(
 
 
 async def test_user_step_with_existing_device(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we properly handle device picking if entry exists."""
     mock_config_entry.add_to_hass(hass)
@@ -96,7 +96,7 @@ async def test_user_step_with_existing_device(
     assert mock_setup_entry.call_count == 0
 
 
-async def test_bluetooth_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_bluetooth_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we can handle a bluetooth discovery flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -146,7 +146,7 @@ async def test_bluetooth_flow(hass: UniversalAssistant, mock_setup_entry: AsyncM
     ],
 )
 async def test_bluetooth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     patch_target: str,
     side_effect: Exception,
@@ -191,7 +191,7 @@ async def test_bluetooth_flow_errors(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_bluetooth_flow_no_device(hass: UniversalAssistant) -> None:
+async def test_bluetooth_flow_no_device(hass: __HAC_KEEP__) -> None:
     """Test we can handle a bluetooth discovery flow."""
 
     result = await hass.config_entries.flow.async_init(

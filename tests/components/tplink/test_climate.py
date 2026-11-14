@@ -22,7 +22,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -39,7 +39,7 @@ ENTITY_ID = "climate.thermostat"
 
 
 @pytest.fixture
-async def mocked_hub(hass: UniversalAssistant) -> Device:
+async def mocked_hub(hass: __HAC_KEEP__) -> Device:
     """Return mocked tplink hub."""
 
     features = [
@@ -70,7 +70,7 @@ async def mocked_hub(hass: UniversalAssistant) -> Device:
 
 
 async def test_climate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mocked_hub: Device,
@@ -91,7 +91,7 @@ async def test_climate(
 
 
 async def test_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -109,7 +109,7 @@ async def test_states(
 
 
 async def test_device_does_not_link_via_self(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -129,7 +129,7 @@ async def test_device_does_not_link_via_self(
 
 
 async def test_set_temperature(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mocked_hub: Device
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mocked_hub: Device
 ) -> None:
     """Test that set_temperature service calls the setter."""
     mocked_thermostat = mocked_hub.children[0]
@@ -152,7 +152,7 @@ async def test_set_temperature(
 
 
 async def test_set_hvac_mode(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mocked_hub: Device
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mocked_hub: Device
 ) -> None:
     """Test that set_hvac_mode service works."""
     await setup_platform_for_device(
@@ -191,7 +191,7 @@ async def test_set_hvac_mode(
 
 
 async def test_turn_on_and_off(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mocked_hub: Device
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mocked_hub: Device
 ) -> None:
     """Test that turn_on and turn_off services work as expected."""
     await setup_platform_for_device(
@@ -222,7 +222,7 @@ async def test_turn_on_and_off(
 
 
 async def test_unknown_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mocked_hub: Device,
     caplog: pytest.LogCaptureFixture,
@@ -254,7 +254,7 @@ async def test_unknown_mode(
 
 
 async def test_missing_feature_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mocked_hub: Device,
     caplog: pytest.LogCaptureFixture,

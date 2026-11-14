@@ -10,8 +10,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -22,7 +22,7 @@ FRIDGE_CLEANED = "button.kitchen_shelfy_mark_fridge_as_cleaned"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -43,7 +43,7 @@ async def test_all_entities(
     ],
 )
 async def test_press_resets_maintenance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -65,7 +65,7 @@ async def test_press_resets_maintenance(
 
 
 async def test_press_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_press_error(
     await setup_integration(hass, mock_config_entry)
     mock_vitesy_client.reset_maintenance.side_effect = VitesyError("boom")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -85,7 +85,7 @@ async def test_press_error(
 
 
 async def test_buttons_absent_without_maintenance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],

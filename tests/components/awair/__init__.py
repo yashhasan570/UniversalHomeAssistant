@@ -6,10 +6,10 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.awair.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def setup_awair(hass: UniversalAssistant, fixtures, unique_id, data) -> ConfigEntry:
+async def setup_awair(hass: __HAC_KEEP__, fixtures, unique_id, data) -> ConfigEntry:
     """Add Awair devices to hass, using specified fixtures for data."""
 
     entry = MockConfigEntry(domain=DOMAIN, unique_id=unique_id, data=data)

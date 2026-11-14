@@ -1,7 +1,7 @@
 """The SensorPush Cloud integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import SensorPushCloudConfigEntry, SensorPushCloudCoordinator
 
@@ -9,7 +9,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: SensorPushCloudConfigEntry
+    hass: __HAC_KEEP__, entry: SensorPushCloudConfigEntry
 ) -> None:
     """Set up SensorPush Cloud from a config entry."""
     coordinator = SensorPushCloudCoordinator(hass, entry)
@@ -19,7 +19,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: SensorPushCloudConfigEntry
+    hass: __HAC_KEEP__, entry: SensorPushCloudConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

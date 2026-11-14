@@ -20,8 +20,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 import universalassistant.helpers.device_registry as dr
 import universalassistant.helpers.entity_registry as er
 
@@ -39,7 +39,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -75,7 +75,7 @@ async def test_numbers_linked_to_zone_device(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_damper_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zones: list[Mock],
     entity_id: str,
     setter: str,
@@ -93,7 +93,7 @@ async def test_set_damper_limit(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_damper_limit_off_step_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zones: list[Mock],
 ) -> None:
     """Values that are not a multiple of 5% are rejected before reaching pizone."""
@@ -132,7 +132,7 @@ async def test_set_damper_limit_off_step_rejected(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_set_damper_limit_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zones: list[Mock],
     command_error: Exception,
     expect_unavailable: bool,
@@ -140,7 +140,7 @@ async def test_set_damper_limit_error_handling(
 ) -> None:
     """Rejected and transport failures raise; only transport clears availability."""
     mock_zones[0].set_airflow_max = AsyncMock(side_effect=command_error)
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -168,7 +168,7 @@ async def test_set_damper_limit_error_handling(
 )
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_airflow_lock_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_controller: Mock,
     airflow_lock: bool | None,
@@ -188,7 +188,7 @@ async def test_airflow_lock_availability(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_airflow_lock_follows_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_controller: Mock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

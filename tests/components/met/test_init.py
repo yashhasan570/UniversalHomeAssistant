@@ -21,13 +21,13 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 
 from . import init_integration
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test successful unload of entry."""
     entry = await init_integration(hass)
 
@@ -41,7 +41,7 @@ async def test_unload_entry(hass: UniversalAssistant) -> None:
     assert not hass.data.get(DOMAIN)
 
 
-async def test_fail_default_home_entry(hass: UniversalAssistant) -> None:
+async def test_fail_default_home_entry(hass: __HAC_KEEP__) -> None:
     """Test abort setup of default home location."""
     await async_process_ha_core_config(
         hass,
@@ -87,7 +87,7 @@ async def test_fail_default_home_entry(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     data: dict[str, Any],
     title: str,
     expected_data: dict[str, Any],

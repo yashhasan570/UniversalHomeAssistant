@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.syncthru.const import DOMAIN
 from universalassistant.config_entries import SOURCE_SSDP, SOURCE_USER
 from universalassistant.const import CONF_NAME, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_DEVICE_TYPE,
@@ -28,7 +28,7 @@ FIXTURE_USER_INPUT = {
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_syncthru: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_syncthru: AsyncMock) -> None:
     """Test the full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -48,7 +48,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_syncthru: AsyncMock) -> 
 
 
 async def test_already_configured_by_url(
-    hass: UniversalAssistant, mock_syncthru: AsyncMock
+    hass: __HAC_KEEP__, mock_syncthru: AsyncMock
 ) -> None:
     """Test we match and update already configured devices by URL."""
 
@@ -79,7 +79,7 @@ async def test_already_configured_by_url(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_syncthru_not_supported(
-    hass: UniversalAssistant, mock_syncthru: AsyncMock
+    hass: __HAC_KEEP__, mock_syncthru: AsyncMock
 ) -> None:
     """Test we show user form on unsupported device."""
     mock_syncthru.update.side_effect = SyncThruAPINotSupported
@@ -106,7 +106,7 @@ async def test_syncthru_not_supported(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_unknown_state(hass: UniversalAssistant, mock_syncthru: AsyncMock) -> None:
+async def test_unknown_state(hass: __HAC_KEEP__, mock_syncthru: AsyncMock) -> None:
     """Test we show user form on unsupported device."""
     mock_syncthru.is_unknown_state.return_value = True
     result = await hass.config_entries.flow.async_init(
@@ -137,7 +137,7 @@ async def test_unknown_state(hass: UniversalAssistant, mock_syncthru: AsyncMock)
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_ssdp(hass: UniversalAssistant, mock_syncthru: AsyncMock) -> None:
+async def test_ssdp(hass: __HAC_KEEP__, mock_syncthru: AsyncMock) -> None:
     """Test SSDP discovery initiates config properly."""
 
     url = "http://192.168.1.2/"
@@ -176,7 +176,7 @@ async def test_ssdp(hass: UniversalAssistant, mock_syncthru: AsyncMock) -> None:
 
 
 async def test_ssdp_already_configured(
-    hass: UniversalAssistant, mock_syncthru: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_syncthru: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test SSDP discovery initiates config properly."""
 

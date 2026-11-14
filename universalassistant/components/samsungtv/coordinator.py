@@ -5,7 +5,7 @@ from datetime import timedelta
 from typing import Any, override
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .bridge import SamsungTVBridge
@@ -23,7 +23,7 @@ class SamsungTVDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SamsungTVConfigEntry,
         bridge: SamsungTVBridge,
     ) -> None:

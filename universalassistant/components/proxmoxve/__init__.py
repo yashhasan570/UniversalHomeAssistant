@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import CONF_TOKEN, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import (
@@ -27,7 +27,7 @@ PLATFORMS = [
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ProxmoxConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ProxmoxConfigEntry) -> None:
     """Set up a ProxmoxVE from a config entry."""
     coordinator = ProxmoxCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -46,7 +46,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ProxmoxConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: ProxmoxConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: ProxmoxConfigEntry) -> None:
     """Migrate old config entries."""
 
     # Migration for only the old binary sensors to new unique_id format
@@ -90,6 +90,6 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: ProxmoxConfigEntr
         hass.config_entries.async_update_entry(entry, data=data, version=3)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ProxmoxConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ProxmoxConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

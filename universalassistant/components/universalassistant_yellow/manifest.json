@@ -1,6 +1,6 @@
 {
   "domain": "universalassistant_yellow",
-  "name": "Universal Universal Home Assistant Yellow",
+  "name": "__HA_KEEP__ Yellow",
   "after_dependencies": ["hassio"],
   "categories": [
     "hubs_protocols.smart_home_hubs",

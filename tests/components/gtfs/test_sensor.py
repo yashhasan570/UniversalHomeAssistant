@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.gtfs import sensor as gtfs_sensor
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import setup_yaml_sensor
@@ -44,7 +44,7 @@ def _feed_count(feed_file: Path) -> int:
 
 @pytest.mark.freeze_time("2026-10-19 07:30:00-04:00")
 @pytest.mark.usefixtures("feed_file")
-async def test_sensor(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_sensor(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test the sensor state and attributes."""
     await setup_yaml_sensor(hass, **DAY_ROUTE)
 
@@ -159,7 +159,7 @@ async def test_sensor(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> 
 )
 @pytest.mark.usefixtures("feed_file")
 async def test_next_departure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     now: str,
     config: dict[str, Any],
@@ -178,8 +178,8 @@ async def test_next_departure(
 
 @pytest.mark.freeze_time("2026-10-19 09:00:00-04:00")
 @pytest.mark.usefixtures("feed_file")
-async def test_next_departure_in_feed_time_zone(hass: UniversalAssistant) -> None:
-    """Test departures are chosen in the feed's time zone, not Universal Universal Home Assistant's."""
+async def test_next_departure_in_feed_time_zone(hass: __HAC_KEEP__) -> None:
+    """Test departures are chosen in the feed's time zone, not __HA_KEEP__'s."""
     # 06:00 in Los Angeles is 09:00 at the agency, after the 08:00 departure.
     await hass.config.async_set_time_zone("America/Los_Angeles")
     await setup_yaml_sensor(hass, **DAY_ROUTE)
@@ -191,7 +191,7 @@ async def test_next_departure_in_feed_time_zone(hass: UniversalAssistant) -> Non
 @pytest.mark.freeze_time("2026-10-19 07:30:00-04:00")
 @pytest.mark.usefixtures("feed_file")
 async def test_update(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, snapshot: SnapshotAssertion
 ) -> None:
     """Test polling through departures, to none, and back."""
     await setup_yaml_sensor(hass, **DAY_ROUTE)
@@ -218,7 +218,7 @@ async def test_update(
 @pytest.mark.freeze_time("2026-10-19 07:30:00-04:00")
 @pytest.mark.usefixtures("feed_file")
 async def test_update_releases_connections(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test polling does not accumulate checked-out database connections."""
     # Without a collection pass, an unclosed connection stays checked out.
@@ -247,7 +247,7 @@ async def test_update_releases_connections(
 
 
 async def test_missing_data_file(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test no sensor is created when the feed file is absent from the config dir."""
     await setup_yaml_sensor(hass, **DAY_ROUTE)
@@ -273,7 +273,7 @@ async def test_missing_data_file(
 )
 @pytest.mark.usefixtures("feed_file")
 async def test_unknown_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config: dict[str, Any],
     message: str,
@@ -288,7 +288,7 @@ async def test_unknown_stop(
 
 @pytest.mark.freeze_time("2026-10-19 07:30:00-04:00")
 async def test_existing_database_is_reused(
-    hass: UniversalAssistant, feed_file: Path
+    hass: __HAC_KEEP__, feed_file: Path
 ) -> None:
     """Test an already imported database is opened without re-importing."""
     await hass.async_add_executor_job(_import_feed, feed_file)
@@ -301,7 +301,7 @@ async def test_existing_database_is_reused(
 
 @pytest.mark.freeze_time("2026-10-19 07:30:00-04:00")
 async def test_sensors_sharing_a_feed(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, feed_file: Path
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, feed_file: Path
 ) -> None:
     """Test two sensors reading one already imported feed update independently."""
     await hass.async_add_executor_job(_import_feed, feed_file)
@@ -336,7 +336,7 @@ async def test_sensors_sharing_a_feed(
 
 
 @pytest.mark.freeze_time("2026-10-19 07:30:00-04:00")
-async def test_sensors_sharing_a_new_feed(hass: UniversalAssistant, feed_file: Path) -> None:
+async def test_sensors_sharing_a_new_feed(hass: __HAC_KEEP__, feed_file: Path) -> None:
     """Test two sensors set up concurrently import a new feed only once."""
     assert await async_setup_component(
         hass,

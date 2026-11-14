@@ -12,8 +12,8 @@ from universalassistant.components.siren import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_integration
@@ -21,7 +21,7 @@ from .mocks import HomeControlMock, HomeControlMockSiren
 
 
 async def test_siren(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup and state change of a siren device."""
     entry = configure_integration(hass)
@@ -51,7 +51,7 @@ async def test_siren(
 
 
 async def test_siren_switching(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup and state change via switching of a siren device."""
     entry = configure_integration(hass)
@@ -106,7 +106,7 @@ async def test_siren_switching(
             "devolo_home_control_api.properties.multi_level_switch_property.MultiLevelSwitchProperty.set",
             return_value=False,
         ),
-        pytest.raises(UniversalAssistantError) as error,
+        pytest.raises(__HAC_KEEP__Error) as error,
     ):
         await hass.services.async_call(
             SIREN_DOMAIN,
@@ -119,7 +119,7 @@ async def test_siren_switching(
 
 
 async def test_siren_change_default_tone(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test changing the default tone on message."""
     entry = configure_integration(hass)
@@ -149,7 +149,7 @@ async def test_siren_change_default_tone(
         property_set.assert_called_once_with(2)
 
 
-async def test_remove_from_hass(hass: UniversalAssistant) -> None:
+async def test_remove_from_hass(hass: __HAC_KEEP__) -> None:
     """Test removing entity."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMockSiren()

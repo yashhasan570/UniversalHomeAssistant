@@ -1,4 +1,4 @@
-"""LOQED lock integration for Universal Universal Home Assistant."""
+"""LOQED lock integration for __HA_KEEP__."""
 
 import logging
 from typing import Any, override
@@ -6,8 +6,8 @@ from typing import Any, override
 import aiohttp
 
 from universalassistant.components.lock import LockEntity, LockEntityFeature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import LoqedConfigEntry, LoqedDataCoordinator
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LoqedConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -78,7 +78,7 @@ class LoqedLock(LoqedEntity, LockEntity):
         try:
             await self._lock.lock()
         except (TimeoutError, aiohttp.ClientError) as ex:
-            raise UniversalAssistantError(f"Failed to lock {self._lock.id}") from ex
+            raise __HAC_KEEP__Error(f"Failed to lock {self._lock.id}") from ex
 
     @override
     async def async_unlock(self, **kwargs: Any) -> None:
@@ -86,7 +86,7 @@ class LoqedLock(LoqedEntity, LockEntity):
         try:
             await self._lock.unlock()
         except (TimeoutError, aiohttp.ClientError) as ex:
-            raise UniversalAssistantError(f"Failed to unlock {self._lock.id}") from ex
+            raise __HAC_KEEP__Error(f"Failed to unlock {self._lock.id}") from ex
 
     @override
     async def async_open(self, **kwargs: Any) -> None:
@@ -94,7 +94,7 @@ class LoqedLock(LoqedEntity, LockEntity):
         try:
             await self._lock.open()
         except (TimeoutError, aiohttp.ClientError) as ex:
-            raise UniversalAssistantError(f"Failed to open {self._lock.id}") from ex
+            raise __HAC_KEEP__Error(f"Failed to open {self._lock.id}") from ex
 
     @callback
     @override

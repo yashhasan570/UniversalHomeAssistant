@@ -5,7 +5,7 @@ import logging
 from lyngdorf import LyngdorfReceiver, create_receiver, lookup_model
 
 from universalassistant.const import CONF_HOST, CONF_MODEL, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -35,7 +35,7 @@ def _serial_as_mac(serial: str) -> str | None:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: LyngdorfConfigEntry
+    hass: __HAC_KEEP__, config_entry: LyngdorfConfigEntry
 ) -> None:
     """Set up Lyngdorf from a config entry."""
     lyngdorf_model = lookup_model(config_entry.data[CONF_MODEL])
@@ -130,7 +130,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: LyngdorfConfigEntry
+    hass: __HAC_KEEP__, config_entry: LyngdorfConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

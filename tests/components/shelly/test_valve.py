@@ -23,7 +23,7 @@ from universalassistant.const import (
     SERVICE_SET_VALVE_POSITION,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from . import init_integration, patch_platforms
@@ -39,7 +39,7 @@ def fixture_platforms():
 
 
 async def test_block_device_gas_valve(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -92,7 +92,7 @@ async def test_block_device_gas_valve(
 
 
 async def test_rpc_water_valve(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -180,7 +180,7 @@ async def test_rpc_water_valve(
 
 
 async def test_rpc_neo_water_valve(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,

@@ -15,8 +15,8 @@ from universalassistant.components.number import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -25,7 +25,7 @@ from .conftest import TEST_CAM_NAME, TEST_NVR_NAME
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -40,7 +40,7 @@ async def test_all_entities(
 
 
 async def test_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_number(
     reolink_host.set_volume.assert_called_with(0, volume=50)
 
     reolink_host.set_volume.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -77,7 +77,7 @@ async def test_number(
         )
 
     reolink_host.set_volume.side_effect = InvalidParameterError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -91,7 +91,7 @@ async def test_number(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_smart_ai_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_smart_ai_number(
     )
 
     reolink_host.baichuan.set_smart_ai.side_effect = InvalidParameterError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -131,7 +131,7 @@ async def test_smart_ai_number(
 
 
 async def test_host_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -156,7 +156,7 @@ async def test_host_number(
     reolink_host.set_hub_audio.assert_called_with(alarm_volume=45)
 
     reolink_host.set_hub_audio.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -168,7 +168,7 @@ async def test_host_number(
         )
 
     reolink_host.set_hub_audio.side_effect = InvalidParameterError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -182,7 +182,7 @@ async def test_host_number(
 
 @pytest.mark.parametrize("channel", [0, None])
 async def test_chime_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     reolink_chime: Chime,
@@ -210,7 +210,7 @@ async def test_chime_number(
     reolink_chime.set_option.assert_called_with(volume=2)
 
     reolink_chime.set_option.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -222,7 +222,7 @@ async def test_chime_number(
         )
 
     reolink_chime.set_option.side_effect = InvalidParameterError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

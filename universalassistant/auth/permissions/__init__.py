@@ -1,4 +1,4 @@
-"""Permissions for Universal Universal Home Assistant."""
+"""Permissions for __HA_KEEP__."""
 
 from collections.abc import Callable, Iterable
 from typing import TYPE_CHECKING, override

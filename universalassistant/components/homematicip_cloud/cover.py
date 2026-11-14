@@ -11,7 +11,7 @@ from universalassistant.components.cover import (
     CoverDeviceClass,
     CoverEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import HomematicipGenericEntity
@@ -24,7 +24,7 @@ HMIP_SLATS_CLOSED = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomematicIPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

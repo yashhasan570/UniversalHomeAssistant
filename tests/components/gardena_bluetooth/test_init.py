@@ -23,7 +23,7 @@ from universalassistant.components.gardena_bluetooth import DeviceUnavailable
 from universalassistant.components.gardena_bluetooth.const import CONF_PRODUCT_TYPE, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import (
     UpdateFailed,
@@ -80,7 +80,7 @@ from . import (
 )
 @pytest.mark.usefixtures("constant_advertisements")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_read_char_raw: dict[str, bytes],
     service_info: BluetoothServiceInfo,
@@ -103,7 +103,7 @@ async def test_setup(
 
 @pytest.mark.usefixtures("constant_advertisements")
 async def test_migrate_config_entry_product_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_read_char_raw: dict[str, bytes],
 ) -> None:
     """Test migration: product type resolved immediately from existing advertisement."""
@@ -128,7 +128,7 @@ async def test_migrate_config_entry_product_type(
 
 
 async def test_migrate_config_entry_product_type_delayed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_read_char_raw: dict[str, bytes],
     get_product_event: asyncio.Event,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_migrate_config_entry_product_type_delayed(
 
 @pytest.mark.usefixtures("constant_advertisements")
 async def test_migrate_config_entry_product_type_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test migration fails when no advertisement with a known product type is found."""
 
@@ -185,7 +185,7 @@ async def test_migrate_config_entry_product_type_fails(
 
 @pytest.mark.usefixtures("constant_advertisements")
 async def test_setup_retry(
-    hass: UniversalAssistant, mock_entry: MockConfigEntry, mock_client: Mock
+    hass: __HAC_KEEP__, mock_entry: MockConfigEntry, mock_client: Mock
 ) -> None:
     """Test setup creates expected devices."""
 
@@ -216,7 +216,7 @@ async def test_setup_retry(
 )
 @pytest.mark.usefixtures("constant_advertisements")
 async def test_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     mock_read_char_raw: dict[str, bytes | Exception],
     scan_step: Callable[[], Awaitable[None]],

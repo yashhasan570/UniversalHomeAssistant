@@ -4,7 +4,7 @@ from rpi_bad_power import UnderVoltage, new_under_voltage
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import issue_registry as ir
 
@@ -15,7 +15,7 @@ PLATFORMS = [Platform.BINARY_SENSOR]
 type RpiPowerConfigEntry = ConfigEntry[UnderVoltage]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: RpiPowerConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: RpiPowerConfigEntry) -> None:
     """Set up Raspberry Pi Power Supply Checker from a config entry."""
     # Link an issue raised before issues were linked to their entry
     if (
@@ -43,12 +43,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: RpiPowerConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: RpiPowerConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: RpiPowerConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: RpiPowerConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: RpiPowerConfigEntry) -> None:
     """Remove a config entry."""
     # Issues raised before they were linked to the entry outlive it otherwise
     ir.async_delete_issue(hass, DOMAIN, ISSUE_UNDER_VOLTAGE)

@@ -32,13 +32,13 @@ from universalassistant.core import (
     Context,
     HassJob,
     HassJobType,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
     get_hassjob_callable_job_type,
     is_callback,
     valid_entity_id,
 )
-from universalassistant.exceptions import UniversalAssistantError, TemplateError
+from universalassistant.exceptions import __HAC_KEEP__Error, TemplateError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import (
     get_absolute_description_key,
@@ -179,7 +179,7 @@ TRIGGER_PLATFORM_SUBSCRIPTIONS: HassKey[
 ] = HassKey("trigger_platform_subscriptions")
 
 
-async def async_setup(hass: UniversalAssistant) -> None:
+async def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the trigger helper."""
     hass.data[TRIGGER_DESCRIPTION_CACHE] = {}
     hass.data[TRIGGER_PLATFORM_SUBSCRIPTIONS] = []
@@ -192,7 +192,7 @@ async def async_setup(hass: UniversalAssistant) -> None:
 
 @callback
 def async_subscribe_platform_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     on_event: Callable[[set[str]], Coroutine[Any, Any, None]],
 ) -> Callable[[], None]:
     """Subscribe to trigger platform events."""
@@ -211,7 +211,7 @@ def _has_legacy_trigger(platform: TriggerProtocol) -> bool:
 
 
 async def _async_is_legacy_trigger(
-    hass: UniversalAssistant, platform: TriggerProtocol, trigger_key: str
+    hass: __HAC_KEEP__, platform: TriggerProtocol, trigger_key: str
 ) -> bool:
     """Return if the trigger key refers to a legacy trigger.
 
@@ -229,7 +229,7 @@ async def _async_is_legacy_trigger(
 
 
 async def _register_trigger_platform(
-    hass: UniversalAssistant, integration_domain: str, platform: TriggerProtocol
+    hass: __HAC_KEEP__, integration_domain: str, platform: TriggerProtocol
 ) -> None:
     """Register a trigger platform and notify listeners.
 
@@ -291,19 +291,19 @@ class TriggerProtocol(Protocol):
     New implementations should only implement async_get_triggers.
     """
 
-    async def async_get_triggers(self, hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(self, hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         """Return the triggers provided by this integration."""
 
     TRIGGER_SCHEMA: probatio.Schema
 
     async def async_validate_trigger_config(
-        self, hass: UniversalAssistant, config: ConfigType
+        self, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
 
     async def async_attach_trigger(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         action: TriggerActionType,
         trigger_info: TriggerInfo,
@@ -397,7 +397,7 @@ class PluggableAction:
 
     @staticmethod
     @callback
-    def async_get_registry(hass: UniversalAssistant) -> dict[tuple, PluggableActionsEntry]:
+    def async_get_registry(hass: __HAC_KEEP__) -> dict[tuple, PluggableActionsEntry]:
         """Return the pluggable actions registry."""
         if data := hass.data.get(DATA_PLUGGABLE_ACTIONS):
             return data
@@ -407,7 +407,7 @@ class PluggableAction:
     @staticmethod
     @callback
     def async_attach_trigger(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         trigger: dict[str, str],
         action: TriggerActionType,
         variables: dict[str, Any],
@@ -440,7 +440,7 @@ class PluggableAction:
 
     @callback
     def async_register(
-        self, hass: UniversalAssistant, trigger: dict[str, str]
+        self, hass: __HAC_KEEP__, trigger: dict[str, str]
     ) -> CALLBACK_TYPE:
         """Register plug in the global plugs dictionary."""
 
@@ -464,7 +464,7 @@ class PluggableAction:
         return _remove
 
     async def async_run(
-        self, hass: UniversalAssistant, context: Context | None = None
+        self, hass: __HAC_KEEP__, context: Context | None = None
     ) -> None:
         """Run all actions."""
         assert self._entry
@@ -475,7 +475,7 @@ class PluggableAction:
 
 
 async def _async_get_trigger_platform(
-    hass: UniversalAssistant, trigger_key: str
+    hass: __HAC_KEEP__, trigger_key: str
 ) -> tuple[str, TriggerProtocol]:
     platform_and_sub_type = trigger_key.split(".")
     platform = platform_and_sub_type[0]
@@ -502,7 +502,7 @@ async def _async_get_trigger_platform(
 
 
 async def async_validate_trigger_config(
-    hass: UniversalAssistant, trigger_config: list[ConfigType]
+    hass: __HAC_KEEP__, trigger_config: list[ConfigType]
 ) -> list[ConfigType]:
     """Validate triggers."""
     config = []
@@ -515,7 +515,7 @@ async def async_validate_trigger_config(
     return config
 
 
-async def _async_validate_trigger(hass: UniversalAssistant, conf: ConfigType) -> ConfigType:
+async def _async_validate_trigger(hass: __HAC_KEEP__, conf: ConfigType) -> ConfigType:
     """Validate a trigger."""
     trigger_key: str = conf[CONF_PLATFORM]
     platform_domain, platform = await _async_get_trigger_platform(hass, trigger_key)
@@ -537,7 +537,7 @@ async def _async_validate_trigger(hass: UniversalAssistant, conf: ConfigType) ->
 
 
 def _trigger_action_wrapper(
-    hass: UniversalAssistant, action: Callable, conf: ConfigType
+    hass: __HAC_KEEP__, action: Callable, conf: ConfigType
 ) -> Callable:
     """Wrap trigger action with extra vars if configured.
 
@@ -587,7 +587,7 @@ def _trigger_action_wrapper(
 
 
 async def _async_attach_trigger_cls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_cls: type[Trigger],
     trigger_key: str,
     conf: ConfigType,
@@ -678,7 +678,7 @@ async def _async_attach_trigger_cls(
 
 
 async def async_initialize_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_config: list[ConfigType],
     action: Callable,
     domain: str,
@@ -698,7 +698,7 @@ async def async_initialize_triggers(
     if universal_assistant_start is not Undefined:
         report_usage(
             "passes `universal_assistant_start` to `async_initialize_triggers`, which is "
-            "deprecated and will be removed in Universal Universal Home Assistant 2027.8; the parameter "
+            "deprecated and will be removed in __HA_KEEP__ 2027.8; the parameter "
             "no longer has any effect",
             breaks_in_ha_version="2027.8.0",
         )
@@ -749,7 +749,7 @@ async def async_initialize_triggers(
     removes: list[Callable[[], None]] = []
 
     for result in attach_results:
-        if isinstance(result, UniversalAssistantError):
+        if isinstance(result, __HAC_KEEP__Error):
             log_cb(logging.ERROR, f"Got error '{result}' when setting up triggers for")
         elif isinstance(result, Exception):
             log_cb(logging.ERROR, "Error setting up trigger", exc_info=result)

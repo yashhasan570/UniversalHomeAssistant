@@ -1,4 +1,4 @@
-"""API for Google Tasks bound to Universal Universal Home Assistant OAuth."""
+"""API for Google Tasks bound to __HA_KEEP__ OAuth."""
 
 from functools import partial
 import json
@@ -12,7 +12,7 @@ from googleapiclient.http import BatchHttpRequest, HttpRequest
 from httplib2 import ServerNotFoundError
 
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 
 from .exceptions import GoogleTasksApiError
@@ -38,7 +38,7 @@ class AsyncConfigEntryAuth:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         oauth2_session: config_entry_oauth2_flow.OAuth2Session,
     ) -> None:
         """Initialize Google Tasks Auth."""

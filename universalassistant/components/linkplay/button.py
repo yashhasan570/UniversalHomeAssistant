@@ -13,7 +13,7 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import LinkPlayConfigEntry
@@ -46,7 +46,7 @@ BUTTON_TYPES: tuple[LinkPlayButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LinkPlayConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.components.kaco_rs485.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import CYCLES_UNTIL_DARK, run_cycles
@@ -48,7 +48,7 @@ def fault_entity_id(
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -58,7 +58,7 @@ async def test_all_entities(
 
 
 async def test_a_tripped_inverter_reports_a_fault(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_bus: FakeBus,
     tripped_inverter: CannedInverter,
@@ -72,7 +72,7 @@ async def test_a_tripped_inverter_reports_a_fault(
 
 
 async def test_a_recovered_inverter_clears_the_fault(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_bus: FakeBus,
     tripped_inverter: CannedInverter,
@@ -90,7 +90,7 @@ async def test_a_recovered_inverter_clears_the_fault(
 
 
 async def test_a_dark_inverter_is_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_bus: FakeBus,
     fault_entity_id: str,

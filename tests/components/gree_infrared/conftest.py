@@ -23,7 +23,7 @@ from universalassistant.components.gree_infrared.const import (
     DOMAIN,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 ENTRY_ID = "01JTEST0000000000000000001"
 
@@ -75,7 +75,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,

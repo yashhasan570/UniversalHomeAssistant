@@ -27,7 +27,7 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.const import CONF_CLIENT_ID, CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
@@ -64,7 +64,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: ViCareConfigEntry
+    hass: __HAC_KEEP__, config_entry: ViCareConfigEntry
 ) -> None:
     """Migrate old entry."""
 
@@ -140,13 +140,13 @@ async def async_migrate_entry(
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Viessmann ViCare integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ViCareConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ViCareConfigEntry) -> None:
     """Set up from config entry."""
     _LOGGER.debug("Setting up ViCare component")
 
@@ -229,7 +229,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ViCareConfigEntry) 
 
 
 async def _async_register_zigbee_gateway_devices(
-    hass: UniversalAssistant, entry: ViCareConfigEntry
+    hass: __HAC_KEEP__, entry: ViCareConfigEntry
 ) -> None:
     """Register zigbee gateway devices before their sub-devices are added.
 
@@ -259,7 +259,7 @@ async def _async_register_zigbee_gateway_devices(
 
 
 async def _async_register_room_control_devices(
-    hass: UniversalAssistant, entry: ViCareConfigEntry
+    hass: __HAC_KEEP__, entry: ViCareConfigEntry
 ) -> None:
     """Register room controls, which may have no entity, before their rooms."""
     device_registry = dr.async_get(hass)
@@ -378,13 +378,13 @@ def _gateway_delivers_data(config: PyViCareDeviceConfig) -> bool:
     return True
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ViCareConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ViCareConfigEntry) -> None:
     """Unload ViCare config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_devices_and_entities(
-    hass: UniversalAssistant, entry: ViCareConfigEntry, device: ViCareDevice
+    hass: __HAC_KEEP__, entry: ViCareConfigEntry, device: ViCareDevice
 ) -> None:
     """Migrate old entry."""
     device_registry = dr.async_get(hass)

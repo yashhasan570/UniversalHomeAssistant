@@ -5,13 +5,13 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.netgear_lte.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

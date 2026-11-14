@@ -19,7 +19,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
 
@@ -90,7 +90,7 @@ SENSOR_TYPES_DOORBELL: tuple[YaleDoorbellBinarySensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: YaleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

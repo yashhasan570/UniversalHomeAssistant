@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_VALUE_TEMPLATE,
     UnitOfInformation,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.trigger_template_entity import (
     CONF_AVAILABILITY,
     CONF_PICTURE,
@@ -354,7 +354,7 @@ YAML_CONFIG_ALL_TEMPLATES = {
 
 
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     title: str = "Select value SQL query",
     config: dict[str, Any] | None = None,
@@ -362,7 +362,7 @@ async def init_integration(
     entry_id: str = "1",
     source: str = SOURCE_USER,
 ) -> MockConfigEntry:
-    """Set up the SQL integration in Universal Universal Home Assistant."""
+    """Set up the SQL integration in __HA_KEEP__."""
     if not options:
         options = ENTRY_CONFIG
     if CONF_ADDITIONAL_OPTIONS not in options:

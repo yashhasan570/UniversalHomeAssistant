@@ -16,7 +16,7 @@ from universalassistant.components.mqtt.schemas import (
     MQTT_ENTITY_DEVICE_INFO_SCHEMA,
 )
 from universalassistant.const import SERVICE_RELOAD, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import DATA_INSTANCES
 
@@ -44,13 +44,13 @@ DISCOVERY_SWITCH = {
 }
 
 
-def _entry_id(hass: UniversalAssistant) -> str:
+def _entry_id(hass: __HAC_KEEP__) -> str:
     """Return the MQTT config entry id."""
     return hass.config_entries.async_entries(DOMAIN)[0].entry_id
 
 
 def _get_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, identifier: str
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, identifier: str
 ) -> dr.DeviceEntry | None:
     """Return the main device with the identifier."""
     return device_registry.async_get_device_by_identifier(
@@ -59,7 +59,7 @@ def _get_device(
 
 
 def _get_child_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, identifier: str
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, identifier: str
 ) -> dr.ChildDeviceEntry | None:
     """Return the child device with the identifier."""
     return device_registry.async_get_child_device_by_identifier(
@@ -80,7 +80,7 @@ def _switch_config(unique_id: str, device: dict[str, Any], name: str = "Switch")
 
 
 async def _discover_switch(
-    hass: UniversalAssistant, unique_id: str, device: dict[str, Any], name: str = "Switch"
+    hass: __HAC_KEEP__, unique_id: str, device: dict[str, Any], name: str = "Switch"
 ) -> None:
     """Send a single component switch discovery message."""
     async_fire_mqtt_message(
@@ -149,7 +149,7 @@ def test_invalid_child_device_schema(
     ],
 )
 async def test_single_component_discovery_with_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -262,7 +262,7 @@ async def test_single_component_discovery_with_child_device(
     ],
 )
 async def test_device_discovery_with_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -295,7 +295,7 @@ async def test_device_discovery_with_child_device(
 
 
 async def test_device_discovery_with_child_devices_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -460,7 +460,7 @@ async def test_device_discovery_with_child_devices_only(
     ],
 )
 async def test_invalid_device_discovery_child_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -478,7 +478,7 @@ async def test_invalid_device_discovery_child_devices(
 
 
 async def test_device_discovery_update_child_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -546,7 +546,7 @@ async def test_device_discovery_update_child_devices(
     ],
 )
 async def test_yaml_with_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -565,7 +565,7 @@ async def test_yaml_with_child_device(
 
 
 async def test_discovery_without_unique_id_ignores_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -606,7 +606,7 @@ async def test_discovery_without_unique_id_ignores_device(
     ],
 )
 async def test_yaml_without_unique_id_ignores_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -618,7 +618,7 @@ async def test_yaml_without_unique_id_ignores_device(
 
 
 async def test_discovery_child_device_requires_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -639,7 +639,7 @@ async def test_discovery_child_device_requires_unique_id(
 
 
 async def test_discovery_update_child_device_requires_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -685,7 +685,7 @@ async def test_discovery_update_child_device_requires_unique_id(
     ],
 )
 async def test_yaml_child_device_requires_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -700,7 +700,7 @@ async def test_yaml_child_device_requires_unique_id(
 
 
 async def test_child_device_not_allowed_in_device_discovery_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -752,7 +752,7 @@ async def test_child_device_not_allowed_in_device_discovery_device(
 )
 @pytest.mark.usefixtures("tag_mock")
 async def test_child_device_not_supported_for_device_triggers_and_tags(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -771,7 +771,7 @@ async def test_child_device_not_supported_for_device_triggers_and_tags(
 
 
 async def test_discovery_update_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -817,7 +817,7 @@ async def test_discovery_update_child_device(
 
 
 async def test_cleanup_parent_device_with_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -845,7 +845,7 @@ async def test_cleanup_parent_device_with_child_device(
 
 
 async def test_remove_child_device_keeps_device_discovery_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -883,7 +883,7 @@ async def test_remove_child_device_keeps_device_discovery_topic(
     assert entity_registry.async_is_registered("switch.parent_switch")
     assert _get_device(hass, device_registry, "parent") is not None
     assert (
-        "Although entity switch.parent_sub_1_switch was removed from Universal Universal Home Assistant"
+        "Although entity switch.parent_sub_1_switch was removed from __HA_KEEP__"
         in caplog.text
     )
     # Clearing the device discovery topic would remove all device components
@@ -909,7 +909,7 @@ async def test_remove_child_device_keeps_device_discovery_topic(
 
 
 async def test_remove_last_child_device_removes_empty_parent_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -949,7 +949,7 @@ async def test_remove_last_child_device_removes_empty_parent_device(
 
 
 async def test_remove_last_child_device_entities_removes_empty_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -992,7 +992,7 @@ async def test_remove_last_child_device_entities_removes_empty_devices(
 
 
 async def test_remove_last_single_component_child_device_removes_parent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1030,7 +1030,7 @@ async def test_remove_last_single_component_child_device_removes_parent(
 
 
 async def test_remove_parent_device_with_child_device_components_clears_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1060,7 +1060,7 @@ async def test_remove_parent_device_with_child_device_components_clears_topic(
 
 
 async def test_device_discovery_child_device_registration_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -1088,7 +1088,7 @@ async def test_device_discovery_child_device_registration_error(
 
 
 async def test_reload_after_failed_parent_update_keeps_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1164,7 +1164,7 @@ async def test_reload_after_failed_parent_update_keeps_devices(
 
 
 async def test_remove_child_device_after_failed_parent_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1212,7 +1212,7 @@ async def test_remove_child_device_after_failed_parent_update(
 
 
 async def test_remove_parent_device_after_failed_move_to_existing_parent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1250,7 +1250,7 @@ async def test_remove_parent_device_after_failed_move_to_existing_parent(
 
 
 async def test_rejected_entity_cleans_up_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -1279,7 +1279,7 @@ async def test_rejected_entity_cleans_up_devices(
 
 
 async def test_disabled_entity_keeps_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1303,7 +1303,7 @@ async def test_disabled_entity_keeps_device(
 
 
 async def test_disabled_entity_rediscovery_cleans_up_old_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1330,7 +1330,7 @@ async def test_disabled_entity_rediscovery_cleans_up_old_child_device(
 
 
 async def test_discovery_update_child_device_keeps_disabled_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1363,7 +1363,7 @@ async def test_discovery_update_child_device_keeps_disabled_entity(
 
 
 async def test_child_device_registration_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1398,7 +1398,7 @@ async def test_child_device_registration_error(
 
 
 async def test_rediscovery_after_child_device_registration_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1430,7 +1430,7 @@ async def test_rediscovery_after_child_device_registration_error(
 
 
 async def test_discovery_update_registration_error_keeps_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1455,7 +1455,7 @@ async def test_discovery_update_registration_error_keeps_device_info(
 
 
 async def test_discovery_update_registration_error_keeps_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1493,7 +1493,7 @@ async def test_discovery_update_registration_error_keeps_config(
     ],
 )
 async def test_discovery_update_drops_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1527,7 +1527,7 @@ async def test_discovery_update_drops_device(
 
 
 async def test_device_discovery_parent_change_with_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1591,7 +1591,7 @@ async def test_device_discovery_parent_change_with_child_device(
     ],
 )
 async def test_yaml_reload_moves_entity_to_other_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1627,7 +1627,7 @@ async def test_yaml_reload_moves_entity_to_other_child_device(
 
 
 async def test_device_registration_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1675,7 +1675,7 @@ async def test_device_registration_error(
     ],
 )
 async def test_yaml_device_registration_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1729,7 +1729,7 @@ async def test_yaml_device_registration_error(
     ],
 )
 async def test_yaml_rejected_duplicate_keeps_shared_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1747,7 +1747,7 @@ async def test_yaml_rejected_duplicate_keeps_shared_child_device(
 
 
 async def test_via_device_referencing_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -1784,7 +1784,7 @@ async def test_via_device_referencing_child_device(
     ],
 )
 async def test_device_trigger_and_tag_registration_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -1811,7 +1811,7 @@ async def test_device_trigger_and_tag_registration_error(
 
 
 async def test_device_trigger_update_registration_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -1847,7 +1847,7 @@ async def test_device_trigger_update_registration_error(
 
 
 async def test_tag_update_registration_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock: AsyncMock,
     caplog: pytest.LogCaptureFixture,

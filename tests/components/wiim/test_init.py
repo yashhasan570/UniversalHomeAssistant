@@ -10,14 +10,14 @@ from wiim.exceptions import WiimDeviceException, WiimRequestException
 from universalassistant.components.wiim.util import async_get_event_callback_host
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import setup_integration
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
     mock_wiim_controller: AsyncMock,
@@ -35,11 +35,11 @@ async def test_load_unload_entry(
 
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_shutdown_disconnects_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
 ) -> None:
-    """Test the device is disconnected when Universal Universal Home Assistant stops."""
+    """Test the device is disconnected when __HA_KEEP__ stops."""
     await setup_integration(hass, mock_config_entry)
 
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -50,7 +50,7 @@ async def test_shutdown_disconnects_device(
 
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_unload_entry_fails_when_platform_cannot_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the entry reports a failed unload when its platform cannot unload."""
@@ -82,7 +82,7 @@ async def test_unload_entry_fails_when_platform_cannot_unload(
     ],
 )
 async def test_setup_raises_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_controller: AsyncMock,
     exc: Exception,
@@ -104,7 +104,7 @@ async def test_setup_raises_config_entry_not_ready(
 
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_setup_uses_route_to_device_for_event_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
     mock_local_ip: AsyncMock,
@@ -128,7 +128,7 @@ async def test_setup_uses_route_to_device_for_event_callback(
     ],
 )
 async def test_event_callback_host_preserves_address_family(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_local_ip: AsyncMock,
     family: AddressFamily,
     local_ip: str,
@@ -145,7 +145,7 @@ async def test_event_callback_host_preserves_address_family(
 
 
 async def test_event_callback_host_falls_back_to_source_ip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_local_ip: AsyncMock,
 ) -> None:
     """Test an unroutable device falls back to the announced source address."""
@@ -167,7 +167,7 @@ async def test_event_callback_host_falls_back_to_source_ip(
 
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_setup_retries_when_no_local_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_local_ip: AsyncMock,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_setup_retries_when_no_local_address(
 
     with patch(
         "universalassistant.components.wiim.util.async_get_source_ip",
-        side_effect=UniversalAssistantError("no enabled IPv4 addresses"),
+        side_effect=__HAC_KEEP__Error("no enabled IPv4 addresses"),
     ):
         mock_config_entry.add_to_hass(hass)
         await hass.config_entries.async_setup(mock_config_entry.entry_id)

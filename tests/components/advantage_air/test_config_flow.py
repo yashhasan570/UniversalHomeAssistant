@@ -6,13 +6,13 @@ from advantage_air import ApiError
 
 from universalassistant import config_entries
 from universalassistant.components.advantage_air.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import TEST_SYSTEM_DATA, TEST_SYSTEM_DATA_NO_RID, USER_INPUT
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test that form shows up."""
 
     result1 = await hass.config_entries.flow.async_init(
@@ -60,7 +60,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert result4["type"] is FlowResultType.ABORT
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
 
     result = await hass.config_entries.flow.async_init(
@@ -99,7 +99,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_without_rid_uses_mid(hass: UniversalAssistant) -> None:
+async def test_form_without_rid_uses_mid(hass: __HAC_KEEP__) -> None:
     """Test a tablet that reports no rid uses its mid as unique id."""
 
     result = await hass.config_entries.flow.async_init(
@@ -125,7 +125,7 @@ async def test_form_without_rid_uses_mid(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "d88039efd4a3"
 
 
-async def test_form_without_rid_or_mid(hass: UniversalAssistant) -> None:
+async def test_form_without_rid_or_mid(hass: __HAC_KEEP__) -> None:
     """Test the flow aborts when the tablet reports neither rid nor mid."""
 
     system = {

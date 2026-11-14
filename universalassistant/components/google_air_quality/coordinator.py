@@ -11,7 +11,7 @@ from google_air_quality_api.model import AirQualityCurrentConditionsData
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_COUNTRY, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -37,7 +37,7 @@ class GoogleAirQualityUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GoogleAirQualityConfigEntry,
         subentry_id: str,
         client: GoogleAirQualityApi,

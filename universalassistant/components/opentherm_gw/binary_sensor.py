@@ -12,7 +12,7 @@ from universalassistant.components.binary_sensor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ID, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -392,7 +392,7 @@ BINARY_SENSOR_DESCRIPTIONS: tuple[OpenThermBinarySensorEntityDescription, ...] =
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

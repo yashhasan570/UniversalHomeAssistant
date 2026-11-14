@@ -9,8 +9,8 @@ import probatio
 from universalassistant import loader
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import require_admin
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, label_registry as lr
 from universalassistant.helpers.device_registry import DeviceEntryDisabler
 
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> bool:
+def async_setup(hass: __HAC_KEEP__) -> bool:
     """Enable the Device Registry views."""
 
     websocket_api.async_register_command(hass, websocket_list_composite_splits)
@@ -39,7 +39,7 @@ def async_setup(hass: UniversalAssistant) -> bool:
     }
 )
 def websocket_list_composite_splits(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -78,7 +78,7 @@ def websocket_list_composite_splits(
     }
 )
 def websocket_list_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -109,7 +109,7 @@ def websocket_list_devices(
     }
 )
 def websocket_list_linked_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -164,7 +164,7 @@ def websocket_list_linked_devices(
 )
 @callback
 def websocket_update_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -214,7 +214,7 @@ def websocket_update_device(
 
 
 async def _async_remove_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     *,
@@ -240,35 +240,35 @@ async def _async_remove_device(
         )
         is not None
     ):
-        raise UniversalAssistantError("Cannot remove a composite device")
+        raise __HAC_KEEP__Error("Cannot remove a composite device")
     if (
         device_entry := registry.async_get(device_id, include_composite_devices=False)
     ) is None:
-        raise UniversalAssistantError("Unknown device")
+        raise __HAC_KEEP__Error("Unknown device")
 
     if (
         expected_config_entry_id is not None
         and expected_config_entry_id != device_entry.config_entry_id
     ):
-        raise UniversalAssistantError("Config entry not in device")
+        raise __HAC_KEEP__Error("Config entry not in device")
 
     config_entry_id = device_entry.config_entry_id
     if (config_entry := hass.config_entries.async_get_entry(config_entry_id)) is None:
-        raise UniversalAssistantError("Unknown config entry")
+        raise __HAC_KEEP__Error("Unknown config entry")
 
     if not config_entry.supports_remove_device:
-        raise UniversalAssistantError("Config entry does not support device removal")
+        raise __HAC_KEEP__Error("Config entry does not support device removal")
 
     try:
         integration = await loader.async_get_integration(hass, config_entry.domain)
         component = await integration.async_get_component()
     except (ImportError, loader.IntegrationNotFound) as exc:
-        raise UniversalAssistantError("Integration not found") from exc
+        raise __HAC_KEEP__Error("Integration not found") from exc
 
     if not await component.async_remove_config_entry_device(
         hass, config_entry, device_entry
     ):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             "Failed to remove device entry, rejected by integration"
         )
 
@@ -288,7 +288,7 @@ async def _async_remove_device(
 )
 @websocket_api.async_response
 async def websocket_remove_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -306,7 +306,7 @@ async def websocket_remove_device(
 )
 @websocket_api.async_response
 async def websocket_remove_config_entry_from_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -318,7 +318,7 @@ async def websocket_remove_config_entry_from_device(
     """
     _LOGGER.warning(
         "The websocket command config/device_registry/remove_config_entry is "
-        "deprecated and will be removed in Universal Universal Home Assistant 2027.9; use "
+        "deprecated and will be removed in __HA_KEEP__ 2027.9; use "
         "config/device_registry/remove instead"
     )
     await _async_remove_device(

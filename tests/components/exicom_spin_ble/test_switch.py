@@ -40,8 +40,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration, setup_persistent
@@ -59,7 +59,7 @@ def platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_charger")
 async def test_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -88,7 +88,7 @@ async def test_switches(
     ],
 )
 async def test_the_switch_follows_the_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     state: ChargerState | None,
@@ -123,7 +123,7 @@ async def test_the_switch_follows_the_session(
     ],
 )
 async def test_commands_reach_the_charger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -158,7 +158,7 @@ async def test_commands_reach_the_charger(
 
 
 async def test_a_poll_right_after_a_command_waits_for_the_charger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -195,7 +195,7 @@ async def test_a_poll_right_after_a_command_waits_for_the_charger(
 
 
 async def test_a_persistent_link_is_held_through_a_command(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
 ) -> None:
     """A command does not give up a slot the user chose to keep."""
     await setup_persistent(hass, mock_config_entry)
@@ -225,7 +225,7 @@ async def test_a_persistent_link_is_held_through_a_command(
     ],
 )
 async def test_a_failed_command_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     error: SpinEvError,
@@ -237,7 +237,7 @@ async def test_a_failed_command_raises(
     mock_charger.async_start_charging.side_effect = error
     await setup_persistent(hass, mock_config_entry)
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -250,7 +250,7 @@ async def test_a_failed_command_raises(
 
 
 async def test_teardown_waits_for_a_command_in_flight(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
 ) -> None:
     """Unloading hands the link back only once a running command is done."""
     await setup_persistent(hass, mock_config_entry)
@@ -285,7 +285,7 @@ async def test_teardown_waits_for_a_command_in_flight(
 
 
 async def test_a_command_queued_behind_teardown_is_refused(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
 ) -> None:
     """A command that only gets the link after unloading never reconnects."""
     await setup_persistent(hass, mock_config_entry)
@@ -320,7 +320,7 @@ async def test_a_command_queued_behind_teardown_is_refused(
     assert await hass.config_entries.async_unload(mock_config_entry.entry_id)
     await running
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await queued
 
     assert err.value.translation_key == "unloading"
@@ -329,7 +329,7 @@ async def test_a_command_queued_behind_teardown_is_refused(
 
 
 async def test_a_poll_waits_for_a_command_holding_the_link(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -375,7 +375,7 @@ async def test_a_poll_waits_for_a_command_holding_the_link(
 
 
 async def test_a_command_waits_for_a_poll_holding_the_link(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: AsyncMock,
     freezer: FrozenDateTimeFactory,

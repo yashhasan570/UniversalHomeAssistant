@@ -43,7 +43,7 @@ from universalassistant.components.recorder.models import (
 from universalassistant.components.recorder.tasks import RecorderTask, StatisticsTask
 from universalassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from universalassistant.const import DEGREE, UnitOfTemperature
-from universalassistant.core import Event, UniversalAssistant, State
+from universalassistant.core import Event, __HAC_KEEP__, State
 from universalassistant.helpers import recorder as recorder_helper
 from universalassistant.util import dt as dt_util
 from universalassistant.util.json import json_loads, json_loads_object
@@ -76,7 +76,7 @@ class ForceReturnConnectionToPool(RecorderTask):
         instance.event_session.commit()
 
 
-async def async_block_recorder(hass: UniversalAssistant, seconds: float) -> None:
+async def async_block_recorder(hass: __HAC_KEEP__, seconds: float) -> None:
     """Block the recorders event loop for testing.
 
     Returns as soon as the recorder has started the block.
@@ -88,7 +88,7 @@ async def async_block_recorder(hass: UniversalAssistant, seconds: float) -> None
     await event.wait()
 
 
-async def async_wait_recorder(hass: UniversalAssistant) -> bool:
+async def async_wait_recorder(hass: __HAC_KEEP__) -> bool:
     """Wait for recorder to initialize and return connection status."""
     return await hass.data[recorder_helper.DATA_RECORDER].db_connected
 
@@ -99,7 +99,7 @@ def get_start_time(start: datetime) -> datetime:
     return start.replace(minute=start_minutes, second=0, microsecond=0)
 
 
-def do_adhoc_statistics(hass: UniversalAssistant, **kwargs: Any) -> None:
+def do_adhoc_statistics(hass: __HAC_KEEP__, **kwargs: Any) -> None:
     """Trigger an adhoc statistics run."""
     if not (start := kwargs.get("start")):
         start = statistics.get_start_time()
@@ -108,7 +108,7 @@ def do_adhoc_statistics(hass: UniversalAssistant, **kwargs: Any) -> None:
     get_instance(hass).queue_task(StatisticsTask(start, False))
 
 
-def wait_recording_done(hass: UniversalAssistant) -> None:
+def wait_recording_done(hass: __HAC_KEEP__) -> None:
     """Block till recording is done."""
     hass.block_till_done()
     trigger_db_commit(hass)
@@ -117,12 +117,12 @@ def wait_recording_done(hass: UniversalAssistant) -> None:
     hass.block_till_done()
 
 
-def trigger_db_commit(hass: UniversalAssistant) -> None:
+def trigger_db_commit(hass: __HAC_KEEP__) -> None:
     """Force the recorder to commit."""
     recorder.get_instance(hass)._async_commit(dt_util.utcnow())
 
 
-async def async_wait_recording_done(hass: UniversalAssistant) -> None:
+async def async_wait_recording_done(hass: __HAC_KEEP__) -> None:
     """Async wait until recording is done."""
     await hass.async_block_till_done()
     async_trigger_db_commit(hass)
@@ -132,7 +132,7 @@ async def async_wait_recording_done(hass: UniversalAssistant) -> None:
 
 
 async def async_wait_purge_done(
-    hass: UniversalAssistant, max_number: int | None = None
+    hass: __HAC_KEEP__, max_number: int | None = None
 ) -> None:
     """Wait for max number of purge events.
 
@@ -148,12 +148,12 @@ async def async_wait_purge_done(
 
 
 @ha.callback
-def async_trigger_db_commit(hass: UniversalAssistant) -> None:
+def async_trigger_db_commit(hass: __HAC_KEEP__) -> None:
     """Force the recorder to commit. Async friendly."""
     recorder.get_instance(hass)._async_commit(dt_util.utcnow())
 
 
-async def async_recorder_block_till_done(hass: UniversalAssistant) -> None:
+async def async_recorder_block_till_done(hass: __HAC_KEEP__) -> None:
     """Non blocking version of recorder.block_till_done()."""
     await hass.async_add_executor_job(recorder.get_instance(hass).block_till_done)
 
@@ -194,7 +194,7 @@ def run_information_with_session(
 
 
 def statistics_during_period(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     start_time: datetime,
     end_time: datetime | None = None,
     statistic_ids: set[str] | None = None,
@@ -280,14 +280,14 @@ def assert_dict_of_states_equal_without_context_and_last_changed(
 
 
 async def async_record_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> tuple[datetime, datetime, dict[str, list[State | None]]]:
     """Record some test states."""
     return await hass.async_add_executor_job(record_states, hass)
 
 
 def record_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> tuple[datetime, datetime, dict[str, list[State | None]]]:
     """Record some test states.
 
@@ -433,7 +433,7 @@ def create_engine_test_for_schema_version_postfix(
     old_db_schema = sys.modules[schema_module]
     instance: Recorder | None = None
     if "hass" in kwargs:
-        hass: UniversalAssistant = kwargs.pop("hass")
+        hass: __HAC_KEEP__ = kwargs.pop("hass")
         instance = recorder.get_instance(hass)
     engine = create_engine(*args, **kwargs)
     if instance is not None:
@@ -469,7 +469,7 @@ def get_patched_live_version(old_db_schema: ModuleType) -> int:
 
 
 @contextmanager
-def old_db_schema(hass: UniversalAssistant, schema_version_postfix: str) -> Iterator[None]:
+def old_db_schema(hass: __HAC_KEEP__, schema_version_postfix: str) -> Iterator[None]:
     """Fixture to initialize the db with the old schema."""
     schema_module = get_schema_module_path(schema_version_postfix)
     importlib.import_module(schema_module)
@@ -502,7 +502,7 @@ def old_db_schema(hass: UniversalAssistant, schema_version_postfix: str) -> Iter
         yield
 
 
-async def async_attach_db_engine(hass: UniversalAssistant) -> None:
+async def async_attach_db_engine(hass: __HAC_KEEP__) -> None:
     """Attach a database engine to the recorder."""
     instance = recorder.get_instance(hass)
 

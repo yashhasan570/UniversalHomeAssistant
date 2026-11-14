@@ -10,7 +10,7 @@ from universalassistant.components.climate import (
     HVACAction,
     HVACMode,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import GeniusHubConfigEntry
@@ -27,7 +27,7 @@ GH_ZONES = ["radiator", "wet underfloor"]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GeniusHubConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -15,7 +15,7 @@ from universalassistant.components.lock import (
     LockEntityFeature,
     LockState,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import Undefined
@@ -24,7 +24,7 @@ from .conftest import MockLock
 
 
 async def help_test_async_lock_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     service: str,
     code: str | Undefined | None = Undefined,
@@ -37,7 +37,7 @@ async def help_test_async_lock_service(
     await hass.services.async_call(DOMAIN, service, data, blocking=True)
 
 
-async def test_lock_default(hass: UniversalAssistant, mock_lock_entity: MockLock) -> None:
+async def test_lock_default(hass: __HAC_KEEP__, mock_lock_entity: MockLock) -> None:
     """Test lock entity with defaults."""
 
     assert mock_lock_entity.code_format is None
@@ -50,7 +50,7 @@ async def test_lock_default(hass: UniversalAssistant, mock_lock_entity: MockLock
     assert mock_lock_entity.is_open is None
 
 
-async def test_lock_states(hass: UniversalAssistant, mock_lock_entity: MockLock) -> None:
+async def test_lock_states(hass: __HAC_KEEP__, mock_lock_entity: MockLock) -> None:
     """Test lock entity states."""
 
     assert mock_lock_entity.state is None
@@ -97,7 +97,7 @@ async def test_lock_states(hass: UniversalAssistant, mock_lock_entity: MockLock)
     [(r"^\d{4}$", LockEntityFeature.OPEN)],
 )
 async def test_set_mock_lock_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lock_entity: MockLock,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_set_mock_lock_options(
 
 @pytest.mark.parametrize("code_format", [r"^\d{4}$"])
 async def test_default_code_option_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lock_entity: MockLock,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_default_code_option_update(
     [(r"^\d{4}$", LockEntityFeature.OPEN)],
 )
 async def test_lock_open_with_code(
-    hass: UniversalAssistant, mock_lock_entity: MockLock
+    hass: __HAC_KEEP__, mock_lock_entity: MockLock
 ) -> None:
     """Test lock entity with open service."""
     state = hass.states.get(mock_lock_entity.entity_id)
@@ -167,7 +167,7 @@ async def test_lock_open_with_code(
     [(r"^\d{4}$", LockEntityFeature.OPEN)],
 )
 async def test_lock_lock_with_code(
-    hass: UniversalAssistant, mock_lock_entity: MockLock
+    hass: __HAC_KEEP__, mock_lock_entity: MockLock
 ) -> None:
     """Test lock entity with open service."""
     state = hass.states.get(mock_lock_entity.entity_id)
@@ -203,7 +203,7 @@ async def test_lock_lock_with_code(
     [(r"^\d{4}$", LockEntityFeature.OPEN)],
 )
 async def test_lock_unlock_with_code(
-    hass: UniversalAssistant, mock_lock_entity: MockLock
+    hass: __HAC_KEEP__, mock_lock_entity: MockLock
 ) -> None:
     """Test unlock entity with open service."""
     state = hass.states.get(mock_lock_entity.entity_id)
@@ -239,7 +239,7 @@ async def test_lock_unlock_with_code(
     [(r"^\d{4}$", LockEntityFeature.OPEN)],
 )
 async def test_lock_with_illegal_code(
-    hass: UniversalAssistant, mock_lock_entity: MockLock
+    hass: __HAC_KEEP__, mock_lock_entity: MockLock
 ) -> None:
     """Test lock entity with default code that does not match the code format."""
 
@@ -262,7 +262,7 @@ async def test_lock_with_illegal_code(
     [(None, LockEntityFeature.OPEN)],
 )
 async def test_lock_with_no_code(
-    hass: UniversalAssistant, mock_lock_entity: MockLock
+    hass: __HAC_KEEP__, mock_lock_entity: MockLock
 ) -> None:
     """Test lock entity without code."""
     await help_test_async_lock_service(hass, mock_lock_entity.entity_id, SERVICE_OPEN)
@@ -295,7 +295,7 @@ async def test_lock_with_no_code(
     [(r"^\d{4}$", LockEntityFeature.OPEN)],
 )
 async def test_lock_with_default_code(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_lock_entity: MockLock
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_lock_entity: MockLock
 ) -> None:
     """Test lock entity with default code."""
     entity_registry.async_update_entity_options(
@@ -342,7 +342,7 @@ async def test_lock_with_default_code(
     [(r"^\d{4}$", LockEntityFeature.OPEN)],
 )
 async def test_lock_with_illegal_default_code(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_lock_entity: MockLock
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_lock_entity: MockLock
 ) -> None:
     """Test lock entity with illegal default code."""
     entity_registry.async_update_entity_options(

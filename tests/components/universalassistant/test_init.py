@@ -26,7 +26,7 @@ from universalassistant.components.universalassistant import (
     SERVICE_RELOAD_CUSTOM_TEMPLATES,
     SERVICE_SET_LOCATION,
 )
-from universalassistant.components.universalassistant.const import UniversalAssistantServiceArgument
+from universalassistant.components.universalassistant.const import __HAC_KEEP__ServiceArgument
 from universalassistant.const import (
     ATTR_ENTITY_ID,
     CONF_EXCLUDE,
@@ -42,13 +42,13 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, Unauthorized
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
 from universalassistant.helpers import entity, entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
-async def test_turn_on_without_entities(hass: UniversalAssistant) -> None:
+async def test_turn_on_without_entities(hass: __HAC_KEEP__) -> None:
     """Test turn_on method without entities."""
     await async_setup_component(hass, ha.DOMAIN, {})
     calls = async_mock_service(hass, "light", SERVICE_TURN_ON)
@@ -56,7 +56,7 @@ async def test_turn_on_without_entities(hass: UniversalAssistant) -> None:
     assert len(calls) == 0
 
 
-async def test_turn_on(hass: UniversalAssistant) -> None:
+async def test_turn_on(hass: __HAC_KEEP__) -> None:
     """Test turn_on method."""
     await async_setup_component(hass, ha.DOMAIN, {})
     calls = async_mock_service(hass, "light", SERVICE_TURN_ON)
@@ -69,7 +69,7 @@ async def test_turn_on(hass: UniversalAssistant) -> None:
     assert len(calls) == 1
 
 
-async def test_turn_off(hass: UniversalAssistant) -> None:
+async def test_turn_off(hass: __HAC_KEEP__) -> None:
     """Test turn_off method."""
     await async_setup_component(hass, ha.DOMAIN, {})
     calls = async_mock_service(hass, "light", SERVICE_TURN_OFF)
@@ -82,7 +82,7 @@ async def test_turn_off(hass: UniversalAssistant) -> None:
     assert len(calls) == 1
 
 
-async def test_toggle(hass: UniversalAssistant) -> None:
+async def test_toggle(hass: __HAC_KEEP__) -> None:
     """Test toggle method."""
     await async_setup_component(hass, ha.DOMAIN, {})
     calls = async_mock_service(hass, "light", SERVICE_TOGGLE)
@@ -96,7 +96,7 @@ async def test_toggle(hass: UniversalAssistant) -> None:
 
 
 @patch("universalassistant.config.os.path.isfile", Mock(return_value=True))
-async def test_reload_core_conf(hass: UniversalAssistant) -> None:
+async def test_reload_core_conf(hass: __HAC_KEEP__) -> None:
     """Test reload core conf service."""
     await async_setup_component(hass, ha.DOMAIN, {})
     ent = entity.Entity()
@@ -155,7 +155,7 @@ async def test_reload_core_conf(hass: UniversalAssistant) -> None:
 async def test_reload_core_with_wrong_conf(
     mock_process,
     mock_error,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     files_patch: dict[str, str],
     expected_error: str,
 ) -> None:
@@ -164,9 +164,9 @@ async def test_reload_core_with_wrong_conf(
     with (
         patch_yaml_files(files_patch, True),
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             match=(
-                "Failed to reload the Universal Universal Home Assistant Core configuration - "
+                "Failed to reload the __HA_KEEP__ Core configuration - "
                 f"{expected_error}"
             ),
         ),
@@ -179,17 +179,17 @@ async def test_reload_core_with_wrong_conf(
     assert mock_process.called is False
 
 
-@patch("universalassistant.core.UniversalAssistant.async_stop", return_value=None)
+@patch("universalassistant.core.__HAC_KEEP__.async_stop", return_value=None)
 @patch(
     "universalassistant.config.async_check_ha_config_file",
-    side_effect=UniversalAssistantError("Test error"),
+    side_effect=__HAC_KEEP__Error("Test error"),
 )
 async def test_restart_universalassistant_wrong_conf(
-    mock_check, mock_restart, hass: UniversalAssistant
+    mock_check, mock_restart, hass: __HAC_KEEP__
 ) -> None:
     """Test restart service with error."""
     await async_setup_component(hass, ha.DOMAIN, {})
-    with pytest.raises(UniversalAssistantError, match="Test error"):
+    with pytest.raises(__HAC_KEEP__Error, match="Test error"):
         await hass.services.async_call(
             ha.DOMAIN, SERVICE_HOMEASSISTANT_RESTART, blocking=True
         )
@@ -197,9 +197,9 @@ async def test_restart_universalassistant_wrong_conf(
     assert not mock_restart.called
 
 
-@patch("universalassistant.core.UniversalAssistant.async_stop", return_value=None)
+@patch("universalassistant.core.__HAC_KEEP__.async_stop", return_value=None)
 @patch("universalassistant.config.async_check_ha_config_file", return_value=None)
-async def test_check_config(mock_check, mock_stop, hass: UniversalAssistant) -> None:
+async def test_check_config(mock_check, mock_stop, hass: __HAC_KEEP__) -> None:
     """Test stop service."""
     await async_setup_component(hass, ha.DOMAIN, {})
     await hass.services.async_call(ha.DOMAIN, SERVICE_CHECK_CONFIG, blocking=True)
@@ -208,7 +208,7 @@ async def test_check_config(mock_check, mock_stop, hass: UniversalAssistant) -> 
 
 
 async def test_turn_on_skips_domains_without_service(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if turn_on is blocking domain with no service."""
     await async_setup_component(hass, DOMAIN, {})
@@ -249,7 +249,7 @@ async def test_turn_on_skips_domains_without_service(
     )
 
 
-async def test_entity_update(hass: UniversalAssistant) -> None:
+async def test_entity_update(hass: __HAC_KEEP__) -> None:
     """Test being able to call entity update."""
     await async_setup_component(hass, DOMAIN, {})
 
@@ -268,7 +268,7 @@ async def test_entity_update(hass: UniversalAssistant) -> None:
     assert mock_update.mock_calls[0][1][1] == "light.kitchen"
 
 
-async def test_setting_location(hass: UniversalAssistant) -> None:
+async def test_setting_location(hass: __HAC_KEEP__) -> None:
     """Test setting the location."""
     await async_setup_component(hass, DOMAIN, {})
     events = async_capture_events(hass, EVENT_CORE_CONFIG_UPDATE)
@@ -281,8 +281,8 @@ async def test_setting_location(hass: UniversalAssistant) -> None:
         DOMAIN,
         SERVICE_SET_LOCATION,
         {
-            UniversalAssistantServiceArgument.LATITUDE: 30,
-            UniversalAssistantServiceArgument.LONGITUDE: 40,
+            __HAC_KEEP__ServiceArgument.LATITUDE: 30,
+            __HAC_KEEP__ServiceArgument.LONGITUDE: 40,
         },
         blocking=True,
     )
@@ -295,9 +295,9 @@ async def test_setting_location(hass: UniversalAssistant) -> None:
         DOMAIN,
         SERVICE_SET_LOCATION,
         {
-            UniversalAssistantServiceArgument.LATITUDE: 30,
-            UniversalAssistantServiceArgument.LONGITUDE: 40,
-            UniversalAssistantServiceArgument.ELEVATION: 50,
+            __HAC_KEEP__ServiceArgument.LATITUDE: 30,
+            __HAC_KEEP__ServiceArgument.LONGITUDE: 40,
+            __HAC_KEEP__ServiceArgument.ELEVATION: 50,
         },
         blocking=True,
     )
@@ -309,9 +309,9 @@ async def test_setting_location(hass: UniversalAssistant) -> None:
         DOMAIN,
         SERVICE_SET_LOCATION,
         {
-            UniversalAssistantServiceArgument.LATITUDE: 30,
-            UniversalAssistantServiceArgument.LONGITUDE: 40,
-            UniversalAssistantServiceArgument.ELEVATION: 0.6,
+            __HAC_KEEP__ServiceArgument.LATITUDE: 30,
+            __HAC_KEEP__ServiceArgument.LONGITUDE: 40,
+            __HAC_KEEP__ServiceArgument.ELEVATION: 0.6,
         },
         blocking=True,
     )
@@ -321,7 +321,7 @@ async def test_setting_location(hass: UniversalAssistant) -> None:
 
 
 async def test_require_admin(
-    hass: UniversalAssistant, hass_read_only_user: MockUser
+    hass: __HAC_KEEP__, hass_read_only_user: MockUser
 ) -> None:
     """Test services requiring admin."""
     await async_setup_component(hass, DOMAIN, {})
@@ -346,8 +346,8 @@ async def test_require_admin(
             ha.DOMAIN,
             SERVICE_SET_LOCATION,
             {
-                UniversalAssistantServiceArgument.LATITUDE: 0,
-                UniversalAssistantServiceArgument.LONGITUDE: 0,
+                __HAC_KEEP__ServiceArgument.LATITUDE: 0,
+                __HAC_KEEP__ServiceArgument.LONGITUDE: 0,
             },
             context=ha.Context(user_id=hass_read_only_user.id),
             blocking=True,
@@ -355,7 +355,7 @@ async def test_require_admin(
 
 
 async def test_turn_on_off_toggle_schema(
-    hass: UniversalAssistant, hass_read_only_user: MockUser
+    hass: __HAC_KEEP__, hass_read_only_user: MockUser
 ) -> None:
     """Test the schemas for the turn on/off/toggle services."""
     await async_setup_component(hass, DOMAIN, {})
@@ -372,7 +372,7 @@ async def test_turn_on_off_toggle_schema(
                 )
 
 
-async def test_turn_on_exclude(hass: UniversalAssistant) -> None:
+async def test_turn_on_exclude(hass: __HAC_KEEP__) -> None:
     """Test turn_on skips entities matched by the exclude block."""
     await async_setup_component(hass, DOMAIN, {})
     calls = async_mock_service(hass, "light", SERVICE_TURN_ON)
@@ -401,7 +401,7 @@ async def test_turn_on_exclude(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_turn_on_off_toggle_invalid_exclude(
-    hass: UniversalAssistant, service: str, exclude: object
+    hass: __HAC_KEEP__, service: str, exclude: object
 ) -> None:
     """Test an invalid exclude is rejected before any entity is acted on."""
     await async_setup_component(hass, DOMAIN, {})
@@ -421,7 +421,7 @@ async def test_turn_on_off_toggle_invalid_exclude(
 
 
 async def test_not_allowing_recursion(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we do not allow recursion."""
     await async_setup_component(hass, DOMAIN, {})
@@ -440,7 +440,7 @@ async def test_not_allowing_recursion(
 
 
 async def test_reload_config_entry_by_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -474,7 +474,7 @@ async def test_reload_config_entry_by_entity_id(
     }
     assert (
         "Reloading a config entry by target is deprecated and will stop working in "
-        "Universal Universal Home Assistant 2027.4, please specify the config entry to reload in the "
+        "__HA_KEEP__ 2027.4, please specify the config entry to reload in the "
         "'entry_id' parameter instead"
     ) in caplog.text
 
@@ -488,7 +488,7 @@ async def test_reload_config_entry_by_entity_id(
 
 
 async def test_reload_config_entry_by_entry_id(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test being able to reload a config entry by config entry id."""
     await async_setup_component(hass, DOMAIN, {})
@@ -500,7 +500,7 @@ async def test_reload_config_entry_by_entry_id(
         await hass.services.async_call(
             DOMAIN,
             "reload_config_entry",
-            {UniversalAssistantServiceArgument.ENTRY_ID: "8955375327824e14ba89e4b29cc3ec9a"},
+            {__HAC_KEEP__ServiceArgument.ENTRY_ID: "8955375327824e14ba89e4b29cc3ec9a"},
             blocking=True,
         )
 
@@ -513,14 +513,14 @@ async def test_reload_config_entry_by_entry_id(
     "service", [SERVICE_HOMEASSISTANT_RESTART, SERVICE_HOMEASSISTANT_STOP]
 )
 async def test_raises_when_db_upgrade_in_progress(
-    hass: UniversalAssistant, service: str
+    hass: __HAC_KEEP__, service: str
 ) -> None:
     """Test an exception is raised when the database migration is in progress."""
     await async_setup_component(hass, DOMAIN, {})
 
     with (
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             match=f"The system cannot {service} while a database upgrade is in progress",
         ),
         patch(
@@ -552,13 +552,13 @@ async def test_raises_when_db_upgrade_in_progress(
 
 
 async def test_raises_when_config_is_invalid(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an exception is raised when the configuration is invalid."""
     await async_setup_component(hass, DOMAIN, {})
 
     with (
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
         patch(
             "universalassistant.helpers.recorder.async_migration_in_progress",
             return_value=False,
@@ -601,12 +601,12 @@ async def test_raises_when_config_is_invalid(
     ("service_data", "safe_mode_enabled"),
     [
         ({}, False),
-        ({UniversalAssistantServiceArgument.SAFE_MODE: False}, False),
-        ({UniversalAssistantServiceArgument.SAFE_MODE: True}, True),
+        ({__HAC_KEEP__ServiceArgument.SAFE_MODE: False}, False),
+        ({__HAC_KEEP__ServiceArgument.SAFE_MODE: True}, True),
     ],
 )
 async def test_restart_universalassistant(
-    hass: UniversalAssistant, service_data: dict, safe_mode_enabled: bool
+    hass: __HAC_KEEP__, service_data: dict, safe_mode_enabled: bool
 ) -> None:
     """Test we can restart when there is no configuration error."""
     await async_setup_component(hass, DOMAIN, {})
@@ -616,7 +616,7 @@ async def test_restart_universalassistant(
         ) as mock_check,
         patch("universalassistant.config.async_enable_safe_mode") as mock_safe_mode,
         patch(
-            "universalassistant.core.UniversalAssistant.async_stop", return_value=None
+            "universalassistant.core.__HAC_KEEP__.async_stop", return_value=None
         ) as mock_restart,
     ):
         await hass.services.async_call(
@@ -631,7 +631,7 @@ async def test_restart_universalassistant(
         assert mock_safe_mode.called == safe_mode_enabled
 
 
-async def test_stop_universalassistant(hass: UniversalAssistant) -> None:
+async def test_stop_universalassistant(hass: __HAC_KEEP__) -> None:
     """Test we can stop when there is a configuration error."""
     await async_setup_component(hass, DOMAIN, {})
     with (
@@ -639,7 +639,7 @@ async def test_stop_universalassistant(hass: UniversalAssistant) -> None:
             "universalassistant.config.async_check_ha_config_file", return_value=None
         ) as mock_check,
         patch(
-            "universalassistant.core.UniversalAssistant.async_stop", return_value=None
+            "universalassistant.core.__HAC_KEEP__.async_stop", return_value=None
         ) as mock_restart,
     ):
         await hass.services.async_call(
@@ -652,7 +652,7 @@ async def test_stop_universalassistant(hass: UniversalAssistant) -> None:
         assert mock_restart.called
 
 
-async def test_save_persistent_states(hass: UniversalAssistant) -> None:
+async def test_save_persistent_states(hass: __HAC_KEEP__) -> None:
     """Test we can call save_persistent_states."""
     await async_setup_component(hass, DOMAIN, {})
     with patch(
@@ -667,7 +667,7 @@ async def test_save_persistent_states(hass: UniversalAssistant) -> None:
         assert mock_save.called
 
 
-async def test_reload_custom_templates(hass: UniversalAssistant) -> None:
+async def test_reload_custom_templates(hass: __HAC_KEEP__) -> None:
     """Test we can call reload_custom_templates."""
     await async_setup_component(hass, DOMAIN, {})
     with patch(
@@ -682,7 +682,7 @@ async def test_reload_custom_templates(hass: UniversalAssistant) -> None:
         assert mock_load_custom_templates.called
 
 
-async def test_reload_all(hass: UniversalAssistant) -> None:
+async def test_reload_all(hass: __HAC_KEEP__) -> None:
     """Test reload_all service."""
     await async_setup_component(hass, DOMAIN, {})
     test1 = async_mock_service(hass, "test1", "reload")
@@ -713,7 +713,7 @@ async def test_reload_all(hass: UniversalAssistant) -> None:
 
     with (
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             match=(
                 "Cannot quick reload all YAML configurations"
                 " because the configuration is "
@@ -752,7 +752,7 @@ async def test_reload_all(hass: UniversalAssistant) -> None:
         (
             "i386",
             True,
-            "Universal Universal Home Assistant Core",
+            "__HA_KEEP__ Core",
             True,
             [
                 (
@@ -764,7 +764,7 @@ async def test_reload_all(hass: UniversalAssistant) -> None:
         (
             "armhf",
             True,
-            "Universal Universal Home Assistant Core",
+            "__HA_KEEP__ Core",
             True,
             [
                 (
@@ -776,7 +776,7 @@ async def test_reload_all(hass: UniversalAssistant) -> None:
         (
             "armv7",
             True,
-            "Universal Universal Home Assistant Core",
+            "__HA_KEEP__ Core",
             True,
             [
                 (
@@ -788,14 +788,14 @@ async def test_reload_all(hass: UniversalAssistant) -> None:
         (
             "aarch64",
             False,
-            "Universal Universal Home Assistant Core",
+            "__HA_KEEP__ Core",
             True,
             [("deprecated_method", {"installation_type": "Core", "arch": "aarch64"})],
         ),
         (
             "generic-x86-64",
             False,
-            "Universal Universal Home Assistant Core",
+            "__HA_KEEP__ Core",
             True,
             [
                 (
@@ -807,7 +807,7 @@ async def test_reload_all(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_deprecated_installation_issue_core(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     arch: str,
     bit_32: bool,
@@ -852,7 +852,7 @@ async def test_deprecated_installation_issue_core(
     ],
 )
 async def test_deprecated_installation_issue_container_32bit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     arch: str,
 ) -> None:
@@ -861,7 +861,7 @@ async def test_deprecated_installation_issue_container_32bit(
         patch(
             "universalassistant.components.universalassistant.async_get_system_info",
             return_value={
-                "installation_type": "Universal Universal Home Assistant Container",
+                "installation_type": "__HA_KEEP__ Container",
                 "container_arch": arch,
                 "arch": arch,
                 "docker": True,
@@ -885,7 +885,7 @@ async def test_deprecated_installation_issue_container_32bit(
 
 
 async def test_remove_legacy_almond_user(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test the system user of the removed almond integration is removed."""
     almond_user = await hass.auth.async_create_system_user("Almond")
@@ -912,7 +912,7 @@ async def test_remove_legacy_almond_user(
     ],
 )
 async def test_remove_legacy_almond_store_without_user(
-    hass: UniversalAssistant, hass_storage: dict[str, Any], data: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any], data: dict[str, Any]
 ) -> None:
     """Test the almond store is removed if it does not reference an existing user."""
     other_user = await hass.auth.async_create_system_user("Other")
@@ -926,7 +926,7 @@ async def test_remove_legacy_almond_store_without_user(
 
 
 async def test_no_legacy_almond_store(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test no user is removed without an almond store."""
     other_user = await hass.auth.async_create_system_user("Other")

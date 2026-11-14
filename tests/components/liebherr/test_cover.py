@@ -36,8 +36,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_DEVICE, MOCK_DEVICE_STATE, SSEStreamHelper
@@ -74,7 +74,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_covers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -93,7 +93,7 @@ async def test_covers(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_cover_state_after_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     sse_helper: SSEStreamHelper,
     door_state: DoorState | None,
@@ -120,7 +120,7 @@ async def test_cover_state_after_poll(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_cover_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     sse_helper: SSEStreamHelper,
     service: str,
@@ -156,7 +156,7 @@ async def test_cover_service_calls(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_cover_state_settles_after_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     sse_helper: SSEStreamHelper,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_cover_state_settles_after_poll(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_cover_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     service: str,
     message: str,
@@ -210,7 +210,7 @@ async def test_cover_failure(
         "Connection failed"
     )
 
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         await hass.services.async_call(
             COVER_DOMAIN,
             service,
@@ -226,7 +226,7 @@ async def test_cover_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_cover_when_control_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     sse_helper: SSEStreamHelper,
 ) -> None:
@@ -248,7 +248,7 @@ async def test_cover_when_control_missing(
 
 
 async def test_no_cover_entity_without_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
@@ -267,7 +267,7 @@ async def test_no_cover_entity_without_control(
 
 
 async def test_single_zone_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
@@ -317,7 +317,7 @@ async def test_single_zone_cover(
 
 
 async def test_dynamic_device_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform],
@@ -376,7 +376,7 @@ async def test_dynamic_device_discovery(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_cover_optimistic_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     service: str,
     expected_state: str,

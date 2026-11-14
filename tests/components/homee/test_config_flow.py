@@ -16,7 +16,7 @@ from universalassistant.components.homee.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -53,7 +53,7 @@ PARAMETRIZED_ERRORS = (
 
 @pytest.mark.usefixtures("mock_homee", "mock_config_entry", "mock_setup_entry")
 async def test_config_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the complete config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -86,7 +86,7 @@ async def test_config_flow(
 
 @pytest.mark.parametrize(*PARAMETRIZED_ERRORS)
 async def test_config_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: AsyncMock,
     side_eff: Exception,
     error: dict[str, str],
@@ -127,7 +127,7 @@ async def test_config_flow_errors(
 
 @pytest.mark.usefixtures("mock_homee")
 async def test_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test config flow aborts when already configured."""
@@ -152,7 +152,7 @@ async def test_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_homee", "mock_config_entry")
 async def test_zeroconf_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_homee: AsyncMock,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_zeroconf_success(
 
 @pytest.mark.parametrize(*PARAMETRIZED_ERRORS)
 async def test_zeroconf_confirm_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: AsyncMock,
     side_eff: Exception,
     error: dict[str, str],
@@ -262,7 +262,7 @@ async def test_zeroconf_confirm_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     ip: str,
     connected: bool,
@@ -305,7 +305,7 @@ async def test_zeroconf_already_configured(
     ],
 )
 async def test_zeroconf_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: AsyncMock,
     side_eff: Exception,
     ip: str,
@@ -333,7 +333,7 @@ async def test_zeroconf_errors(
 
 @pytest.mark.usefixtures("mock_homee", "mock_setup_entry")
 async def test_reauth_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reauth flow."""
@@ -364,7 +364,7 @@ async def test_reauth_success(
 
 @pytest.mark.parametrize(*PARAMETRIZED_ERRORS)
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: AsyncMock,
     side_eff: Exception,
@@ -412,7 +412,7 @@ async def test_reauth_errors(
 
 
 async def test_reauth_wrong_uid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: AsyncMock,
 ) -> None:
@@ -441,7 +441,7 @@ async def test_reauth_wrong_uid(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: AsyncMock,
 ) -> None:
@@ -473,7 +473,7 @@ async def test_reconfigure_success(
 
 @pytest.mark.parametrize(*PARAMETRIZED_ERRORS)
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: AsyncMock,
     side_eff: Exception,
@@ -519,7 +519,7 @@ async def test_reconfigure_errors(
 
 
 async def test_reconfigure_wrong_uid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: AsyncMock,
 ) -> None:

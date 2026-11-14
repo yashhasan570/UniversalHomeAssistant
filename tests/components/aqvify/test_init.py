@@ -17,7 +17,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.aqvify.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 import universalassistant.helpers.device_registry as dr
 
 from . import setup_integration
@@ -29,7 +29,7 @@ EXPECTED_IN_FLOW = "24.4735918930962"
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aqvify_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_load_unload_entry(
     ids=["no_error", "auth_error", "timeout_error", "communications_error"],
 )
 async def test_setup_entry_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aqvify_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     error: Exception | None,
@@ -71,7 +71,7 @@ async def test_setup_entry_with_error(
 
 
 async def test_device_registry_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aqvify_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -92,7 +92,7 @@ async def test_device_registry_integration(
 
 
 async def test_setup_entry_auth_error_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aqvify_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_setup_entry_auth_error_triggers_reauth(
 
 
 async def test_autoremove_stale_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aqvify_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -136,7 +136,7 @@ async def test_autoremove_stale_devices(
 
 
 async def test_devices_multiple_created_count(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_aqvify_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -184,7 +184,7 @@ async def test_devices_multiple_created_count(
     ids=["timeout_error", "communications_error", "auth_error"],
 )
 async def test_coordinator_get_devices_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aqvify_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -229,7 +229,7 @@ async def test_coordinator_get_devices_error(
     ids=["timeout_error", "communications_error", "auth_error"],
 )
 async def test_coordinator_get_device_data_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aqvify_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -273,7 +273,7 @@ async def test_coordinator_get_device_data_error(
     ids=["timeout_error", "communications_error", "auth_error"],
 )
 async def test_coordinator_async_get_hour_aggregation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aqvify_client: MagicMock,
     freezer: FrozenDateTimeFactory,

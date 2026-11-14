@@ -10,14 +10,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.rainmachine.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     config: dict[str, Any],
@@ -35,7 +35,7 @@ async def test_sensors(
 
 
 async def test_device_info_hw_version_is_string(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config: dict[str, Any],
     config_entry: MockConfigEntry,

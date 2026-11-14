@@ -14,7 +14,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
     CodeFormat,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 import universalassistant.helpers.entity_registry as er
@@ -38,7 +38,7 @@ NASWEB_STATE_TO_HA_STATE = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: NASwebConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

@@ -24,7 +24,7 @@ from universalassistant.components.teslemetry.diagnostics import (
 )
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.json import JsonObjectType
 
@@ -40,7 +40,7 @@ STREAM_NAME = "Stream"
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     freezer: FrozenDateTimeFactory,
@@ -64,7 +64,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_streaming_vehicle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     mock_vehicle_data: AsyncMock,
@@ -94,7 +94,7 @@ async def test_diagnostics_streaming_vehicle(
 
 
 async def test_diagnostics_streaming_and_polling_vehicles(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_products: AsyncMock,
     mock_metadata: AsyncMock,
@@ -156,7 +156,7 @@ async def test_diagnostics_streaming_and_polling_vehicles(
 )
 @pytest.mark.usefixtures("mock_legacy")
 async def test_diagnostics_listener_that_cannot_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     mock_products: AsyncMock,
@@ -201,7 +201,7 @@ async def test_diagnostics_listener_that_cannot_poll(
 )
 @pytest.mark.usefixtures("mock_legacy")
 async def test_diagnostics_entity_sources(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     platforms: list[Platform],
     expected_sources: set[str],
@@ -222,7 +222,7 @@ async def test_diagnostics_entity_sources(
 
 @pytest.mark.usefixtures("mock_legacy")
 async def test_diagnostics_enabled_entity_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -278,7 +278,7 @@ def _entry_with_ble() -> MockConfigEntry:
     ],
 )
 async def test_diagnostics_bluetooth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     ble_device: MagicMock | None,

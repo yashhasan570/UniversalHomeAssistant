@@ -31,7 +31,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.dt import utcnow
 
 
@@ -162,7 +162,7 @@ def _mocked_ismartgate_sensor_response(battery_level: int, temperature: float):
 
 
 @patch("universalassistant.components.gogogate2.common.GogoGate2Api")
-async def test_sensor_update(gogogate2api_mock, hass: UniversalAssistant) -> None:
+async def test_sensor_update(gogogate2api_mock, hass: __HAC_KEEP__) -> None:
     """Test data update."""
 
     bat_attributes = {
@@ -247,7 +247,7 @@ async def test_sensor_update(gogogate2api_mock, hass: UniversalAssistant) -> Non
 
 
 @patch("universalassistant.components.gogogate2.common.ISmartGateApi")
-async def test_availability(ismartgateapi_mock, hass: UniversalAssistant) -> None:
+async def test_availability(ismartgateapi_mock, hass: __HAC_KEEP__) -> None:
     """Test availability."""
     bat_attributes = {
         "device_class": "battery",

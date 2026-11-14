@@ -11,7 +11,7 @@ from greenplanet_energy_api import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -27,7 +27,7 @@ class GreenPlanetEnergyUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Class to manage fetching data from Green Planet Energy API."""
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: GreenPlanetEnergyConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: GreenPlanetEnergyConfigEntry
     ) -> None:
         """Initialize."""
         super().__init__(

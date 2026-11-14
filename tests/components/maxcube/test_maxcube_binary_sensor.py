@@ -14,7 +14,7 @@ from universalassistant.const import (
     STATE_ON,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import utcnow
 
@@ -23,7 +23,7 @@ BATTERY_ENTITY_ID = f"{ENTITY_ID}_battery"
 
 
 async def test_window_shuttler(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     cube: MaxCube,
     windowshutter: MaxWindowShutter,
@@ -49,7 +49,7 @@ async def test_window_shuttler(
 
 
 async def test_window_shuttler_battery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     cube: MaxCube,
     windowshutter: MaxWindowShutter,

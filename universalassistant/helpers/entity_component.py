@@ -18,14 +18,14 @@ from universalassistant.core import (
     EntityServiceResponse,
     Event,
     HassJobType,
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     SupportsResponse,
     callback,
 )
 from universalassistant.exceptions import (
     ConfigValidationError,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceValidationError,
 )
 from universalassistant.loader import async_get_integration
@@ -40,7 +40,7 @@ DEFAULT_SCAN_INTERVAL = timedelta(seconds=15)
 DATA_INSTANCES: HassKey[dict[str, EntityComponent]] = HassKey("entity_components")
 
 
-async def async_update_entity(hass: UniversalAssistant, entity_id: str) -> None:
+async def async_update_entity(hass: __HAC_KEEP__, entity_id: str) -> None:
     """Trigger an update for an entity."""
     domain = entity_id.partition(".")[0]
     entity_comp = hass.data.get(DATA_INSTANCES, {}).get(domain)
@@ -78,7 +78,7 @@ class EntityComponent[_EntityT: entity.Entity = entity.Entity]:
         self,
         logger: logging.Logger,
         domain: str,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         scan_interval: timedelta = DEFAULT_SCAN_INTERVAL,
     ) -> None:
         """Initialize an entity component."""
@@ -113,7 +113,7 @@ class EntityComponent[_EntityT: entity.Entity = entity.Entity]:
         return self._entities.get(entity_id)
 
     def register_shutdown(self) -> None:
-        """Register shutdown on Universal Universal Home Assistant STOP event.
+        """Register shutdown on __HA_KEEP__ STOP event.
 
         Note: this is only required if the integration never calls
         `setup` or `async_setup`.
@@ -363,7 +363,7 @@ class EntityComponent[_EntityT: entity.Entity = entity.Entity]:
         """
         try:
             conf = await conf_util.async_hass_config_yaml(self.hass)
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             raise ServiceValidationError(
                 f"Failed to load configuration: {err}"
             ) from err
@@ -416,6 +416,6 @@ class EntityComponent[_EntityT: entity.Entity = entity.Entity]:
 
     @callback
     def _async_shutdown(self, event: Event) -> None:
-        """Call when Universal Universal Home Assistant is stopping."""
+        """Call when __HA_KEEP__ is stopping."""
         for platform in self._platforms.values():
             platform.async_shutdown()

@@ -3,7 +3,7 @@
 from togrill_bluetooth.packets import Packet, PacketA5Notify
 
 from universalassistant.components.event import EventEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import slugify
 
@@ -15,7 +15,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ToGrillConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

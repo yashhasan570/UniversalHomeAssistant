@@ -16,13 +16,13 @@ import probatio
 from universalassistant.components.todo import DOMAIN as TODO_DOMAIN
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.typing import VolDictType
 from universalassistant.util import dt as dt_util
@@ -221,7 +221,7 @@ async def _async_get_mealplan(call: ServiceCall) -> ServiceResponse:
     try:
         mealplans = await client.get_mealplans(start_date, end_date)
     except MealieConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_error",
         ) from err
@@ -238,7 +238,7 @@ async def _async_get_recipe(call: ServiceCall) -> ServiceResponse:
     try:
         recipe = await client.get_recipe(recipe_id)
     except MealieConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_error",
         ) from err
@@ -262,7 +262,7 @@ async def _async_get_recipes(call: ServiceCall) -> ServiceResponse:
     try:
         recipes = await client.get_recipes(search=search_terms, per_page=result_limit)
     except MealieConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_error",
         ) from err
@@ -290,7 +290,7 @@ async def _async_import_recipe(call: ServiceCall) -> ServiceResponse:
             translation_key="could_not_import_recipe",
         ) from err
     except MealieConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_error",
         ) from err
@@ -313,7 +313,7 @@ async def _async_set_random_mealplan(call: ServiceCall) -> ServiceResponse:
     try:
         mealplan = await client.random_mealplan(mealplan_date, entry_type)
     except MealieConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_error",
         ) from err
@@ -342,7 +342,7 @@ async def _async_set_mealplan(call: ServiceCall) -> ServiceResponse:
             note_text=call.data.get(MealieServiceArgument.NOTE_TEXT),
         )
     except MealieConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_error",
         ) from err
@@ -364,7 +364,7 @@ async def _async_delete_mealplan(call: ServiceCall) -> ServiceResponse:
             mealplan_id,
         )
     except MealieConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_error",
         ) from err
@@ -399,7 +399,7 @@ async def _async_update_mealplan(call: ServiceCall) -> ServiceResponse:
             note_text=call.data.get(MealieServiceArgument.NOTE_TEXT),
         )
     except MealieConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_error",
         ) from err
@@ -426,7 +426,7 @@ async def _async_parse_ingredient(call: ServiceCall) -> ServiceResponse:
     try:
         result = await client.parse_ingredient(ingredient, parser)
     except MealieConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_error",
         ) from err
@@ -440,7 +440,7 @@ async def _async_parse_ingredient(call: ServiceCall) -> ServiceResponse:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Mealie integration."""
 
     hass.services.async_register(

@@ -30,8 +30,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import (
@@ -47,7 +47,7 @@ NoException = nullcontext()
 
 @pytest.mark.parametrize("device_name", ALL_DEVICE_NAMES)
 async def test_humidifier_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -84,7 +84,7 @@ async def test_humidifier_state(
 
 
 async def test_humidifier_state_assert(
-    hass: UniversalAssistant, humidifier_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, humidifier_config_entry: MockConfigEntry
 ) -> None:
     """Test the resulting setup state is as expected for the platform."""
 
@@ -107,7 +107,7 @@ async def test_humidifier_state_assert(
 
 
 async def test_set_target_humidity_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     humidifier_config_entry: MockConfigEntry,
 ) -> None:
     """Test handling of invalid value in set_humidify method."""
@@ -132,10 +132,10 @@ async def test_set_target_humidity_invalid(
 
 @pytest.mark.parametrize(
     ("api_response", "expectation"),
-    [(True, NoException), (False, pytest.raises(UniversalAssistantError))],
+    [(True, NoException), (False, pytest.raises(__HAC_KEEP__Error))],
 )
 async def test_set_target_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     humidifier_config_entry: MockConfigEntry,
     api_response: bool,
     expectation,
@@ -143,7 +143,7 @@ async def test_set_target_humidity(
     """Test handling of return value from VeSyncHumid200300S.set_humidity."""
 
     # If VeSyncHumid200300S.set_humidity fails (returns False),
-    # then UniversalAssistantError is raised
+    # then __HAC_KEEP__Error is raised
     with (
         expectation,
         patch(
@@ -163,10 +163,10 @@ async def test_set_target_humidity(
 
 @pytest.mark.parametrize(
     ("api_response", "expectation"),
-    [(False, pytest.raises(UniversalAssistantError)), (True, NoException)],
+    [(False, pytest.raises(__HAC_KEEP__Error)), (True, NoException)],
 )
 async def test_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     humidifier_config_entry: MockConfigEntry,
     api_response: bool,
     expectation,
@@ -174,7 +174,7 @@ async def test_turn_on(
     """Test turn_on method."""
 
     # turn_on returns False indicating failure in which case humidifier.turn_on
-    # raises UniversalAssistantError.
+    # raises __HAC_KEEP__Error.
     with (
         expectation,
         patch(
@@ -199,10 +199,10 @@ async def test_turn_on(
 
 @pytest.mark.parametrize(
     ("api_response", "expectation"),
-    [(False, pytest.raises(UniversalAssistantError)), (True, NoException)],
+    [(False, pytest.raises(__HAC_KEEP__Error)), (True, NoException)],
 )
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     humidifier_config_entry: MockConfigEntry,
     api_response: bool,
     expectation,
@@ -210,7 +210,7 @@ async def test_turn_off(
     """Test turn_off method."""
 
     # turn_off returns False indicating failure in which case humidifier.turn_off
-    # raises UniversalAssistantError.
+    # raises __HAC_KEEP__Error.
     with (
         expectation,
         patch(
@@ -234,7 +234,7 @@ async def test_turn_off(
 
 
 async def test_set_mode_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     humidifier_config_entry: MockConfigEntry,
 ) -> None:
     """Test handling of invalid value in set_mode method."""
@@ -242,7 +242,7 @@ async def test_set_mode_invalid(
     with patch(
         "pyvesync.devices.vesynchumidifier.VeSyncHumid200300S.set_mode"
     ) as method_mock:
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 HUMIDIFIER_DOMAIN,
                 SERVICE_SET_MODE,
@@ -255,10 +255,10 @@ async def test_set_mode_invalid(
 
 @pytest.mark.parametrize(
     ("api_response", "expectation"),
-    [(True, NoException), (False, pytest.raises(UniversalAssistantError))],
+    [(True, NoException), (False, pytest.raises(__HAC_KEEP__Error))],
 )
 async def test_set_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     humidifier_config_entry: MockConfigEntry,
     api_response: bool,
     expectation,
@@ -266,7 +266,7 @@ async def test_set_mode(
     """Test handling of value in set_mode method."""
 
     # If VeSyncHumid200300S.set_mode fails (returns False),
-    # then UniversalAssistantError is raised
+    # then __HAC_KEEP__Error is raised
     with (
         expectation,
         patch(
@@ -285,7 +285,7 @@ async def test_set_mode(
 
 
 async def test_base_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     humidifier_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -296,7 +296,7 @@ async def test_base_unique_id(
 
 
 async def test_invalid_mist_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     humidifier,
     manager,
@@ -316,7 +316,7 @@ async def test_invalid_mist_modes(
 
 
 async def test_valid_mist_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     humidifier,
     manager,
@@ -337,7 +337,7 @@ async def test_valid_mist_modes(
 
 
 async def test_set_mode_sleep_turns_display_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     humidifier,
     manager,

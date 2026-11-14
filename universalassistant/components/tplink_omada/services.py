@@ -9,8 +9,8 @@ from tplink_omada_client.exceptions import OmadaClientException, RequestFailed
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -76,7 +76,7 @@ async def _handle_reconnect_client(call: ServiceCall) -> None:
     try:
         await controller.omada_client.reconnect_client(mac)
     except OmadaClientException as ex:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="reconnect_failed",
             translation_placeholders={"mac": mac},
@@ -137,13 +137,13 @@ async def _resolve_client_controller(
             # -41011 is the controller's "client not found" code (no public accessor).
             if getattr(ex, "_error_code", None) == -41011:
                 continue
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="client_query_failed",
                 translation_placeholders={"mac": controller_mac},
             ) from ex
         except OmadaClientException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="client_query_failed",
                 translation_placeholders={"mac": controller_mac},
@@ -171,7 +171,7 @@ async def _handle_set_client_name(call: ServiceCall) -> None:
     try:
         await controller.omada_client.update_client(mac, OmadaClientSettings(name=name))
     except OmadaClientException as ex:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="set_client_name_failed",
             translation_placeholders={"mac": mac},
@@ -179,7 +179,7 @@ async def _handle_set_client_name(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the TP-Link Omada integration."""
 
     async_register_admin_service(

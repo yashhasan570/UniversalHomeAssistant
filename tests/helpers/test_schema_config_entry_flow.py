@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant import config_entries, data_entry_flow
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.schema_config_entry_flow import (
@@ -77,7 +77,7 @@ def manager_fixture():
     return mgr
 
 
-async def test_name(hass: UniversalAssistant, entity_registry: er.EntityRegistry) -> None:
+async def test_name(hass: __HAC_KEEP__, entity_registry: er.EntityRegistry) -> None:
     """Test config flow name is copied from registry, with state fallback."""
     entity_id = "switch.ceiling"
 
@@ -108,7 +108,7 @@ async def test_name(hass: UniversalAssistant, entity_registry: er.EntityRegistry
     assert wrapped_entity_config_entry_title(hass, entry.id) == "Custom Name"
 
 
-async def test_menu_step(hass: UniversalAssistant) -> None:
+async def test_menu_step(hass: __HAC_KEEP__) -> None:
     """Test menu step."""
 
     MENU_1 = ["option1", "option2"]
@@ -168,7 +168,7 @@ async def test_menu_step(hass: UniversalAssistant) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_schema_none(hass: UniversalAssistant) -> None:
+async def test_schema_none(hass: __HAC_KEEP__) -> None:
     """Test SchemaFlowFormStep with schema set to None."""
 
     CONFIG_FLOW: dict[str, SchemaFlowFormStep | SchemaFlowMenuStep] = {
@@ -199,7 +199,7 @@ async def test_schema_none(hass: UniversalAssistant) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_last_step(hass: UniversalAssistant) -> None:
+async def test_last_step(hass: __HAC_KEEP__) -> None:
     """Test SchemaFlowFormStep with schema set to None."""
 
     async def _step2_next_step(_: dict[str, Any]) -> str:
@@ -240,7 +240,7 @@ async def test_last_step(hass: UniversalAssistant) -> None:
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_next_step_function(hass: UniversalAssistant) -> None:
+async def test_next_step_function(hass: __HAC_KEEP__) -> None:
     """Test SchemaFlowFormStep with a next_step function."""
 
     async def _step1_next_step(_: dict[str, Any]) -> str:
@@ -277,7 +277,7 @@ async def test_next_step_function(hass: UniversalAssistant) -> None:
 
 
 async def test_suggested_values(
-    hass: UniversalAssistant, manager: data_entry_flow.FlowManager
+    hass: __HAC_KEEP__, manager: data_entry_flow.FlowManager
 ) -> None:
     """Test suggested_values handling in SchemaFlowFormStep."""
     manager.hass = hass
@@ -391,7 +391,7 @@ async def test_suggested_values(
 
 
 async def test_description_placeholders(
-    hass: UniversalAssistant, manager: data_entry_flow.FlowManager
+    hass: __HAC_KEEP__, manager: data_entry_flow.FlowManager
 ) -> None:
     """Test description_placeholders handling in SchemaFlowFormStep."""
     manager.hass = hass
@@ -429,7 +429,7 @@ async def test_description_placeholders(
     assert result["description_placeholders"] == {"option1": "a dynamic string"}
 
 
-async def test_options_flow_state(hass: UniversalAssistant) -> None:
+async def test_options_flow_state(hass: __HAC_KEEP__) -> None:
     """Test flow_state handling in SchemaFlowFormStep."""
 
     OPTIONS_SCHEMA = probatio.Schema(
@@ -512,7 +512,7 @@ async def test_options_flow_state(hass: UniversalAssistant) -> None:
 
 
 async def test_options_flow_omit_optional_keys(
-    hass: UniversalAssistant, manager: data_entry_flow.FlowManager
+    hass: __HAC_KEEP__, manager: data_entry_flow.FlowManager
 ) -> None:
     """Test handling of optional keys in options flow."""
     manager.hass = hass
@@ -574,7 +574,7 @@ async def test_options_flow_omit_optional_keys(
     ids=["should_not_reload", "should_reload"],
 )
 async def test_options_flow_with_automatic_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: data_entry_flow.FlowManager,
     new_options: dict[str, str],
     expected_loads: int,

@@ -19,7 +19,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.senz.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
 
@@ -34,7 +34,7 @@ def load_device_file() -> str:
 
 @pytest.fixture
 async def device_fixture(
-    hass: UniversalAssistant, load_device_file: str
+    hass: __HAC_KEEP__, load_device_file: str
 ) -> list[dict[str, Any]]:
     """Fixture for device."""
     return await async_load_json_array_fixture(hass, load_device_file, DOMAIN)
@@ -48,7 +48,7 @@ def load_account_file() -> str:
 
 @pytest.fixture
 async def account_fixture(
-    hass: UniversalAssistant, load_account_file: str
+    hass: __HAC_KEEP__, load_account_file: str
 ) -> dict[str, Any]:
     """Fixture for device."""
     return await async_load_json_object_fixture(hass, load_account_file, DOMAIN)
@@ -61,7 +61,7 @@ def mock_expires_at() -> float:
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant, expires_at: float) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__, expires_at: float) -> MockConfigEntry:
     """Return the default mocked config entry."""
     config_entry = MockConfigEntry(
         minor_version=2,
@@ -99,7 +99,7 @@ def mock_senz_client(account_fixture, device_fixture) -> Generator[MagicMock]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -120,7 +120,7 @@ def unique_id() -> str:
 
 
 @pytest.fixture
-async def access_token(hass: UniversalAssistant, unique_id: str) -> str:
+async def access_token(hass: __HAC_KEEP__, unique_id: str) -> str:
     """Return a valid access token."""
     return config_entry_oauth2_flow._encode_jwt(
         hass,

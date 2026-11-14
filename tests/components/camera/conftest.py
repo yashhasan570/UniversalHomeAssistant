@@ -19,7 +19,7 @@ from universalassistant.components.camera.const import DOMAIN, StreamType
 from universalassistant.components.camera.webrtc import WebRTCAnswer, WebRTCSendMessage
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.setup import async_setup_component
 
@@ -27,7 +27,7 @@ from .common import STREAM_SOURCE, WEBRTC_ANSWER, SomeTestProvider
 
 
 @pytest.fixture(autouse=True)
-async def setup_universalassistant(hass: UniversalAssistant) -> None:
+async def setup_universalassistant(hass: __HAC_KEEP__) -> None:
     """Set up the universalassistant integration."""
     await async_setup_component(hass, "universalassistant", {})
 
@@ -43,7 +43,7 @@ def camera_only() -> Generator[None]:
 
 
 @pytest.fixture(name="mock_camera")
-async def mock_camera_fixture(hass: UniversalAssistant) -> AsyncGenerator[None]:
+async def mock_camera_fixture(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
     """Initialize a demo camera platform."""
     assert await async_setup_component(
         hass, DOMAIN, {camera.DOMAIN: {"platform": "demo"}}
@@ -132,7 +132,7 @@ def mock_camera_with_no_name_fixture(mock_camera_with_device: None) -> Generator
 
 
 @pytest.fixture(name="mock_stream")
-async def mock_stream_fixture(hass: UniversalAssistant) -> None:
+async def mock_stream_fixture(hass: __HAC_KEEP__) -> None:
     """Initialize a demo camera platform with streaming."""
     assert await async_setup_component(hass, "stream", {"stream": {}})
 
@@ -164,7 +164,7 @@ def mock_create_stream_fixture() -> Generator[Mock]:
 
 
 @pytest.fixture
-async def mock_test_webrtc_cameras(hass: UniversalAssistant) -> None:
+async def mock_test_webrtc_cameras(hass: __HAC_KEEP__) -> None:
     """Initialize test WebRTC cameras with native RTC support."""
 
     # Cannot use the fixture mock_camera_web_rtc as it's
@@ -216,7 +216,7 @@ async def mock_test_webrtc_cameras(hass: UniversalAssistant) -> None:
     entry.add_to_hass(hass)
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -224,7 +224,7 @@ async def mock_test_webrtc_cameras(hass: UniversalAssistant) -> None:
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Unload test config entry."""
         await hass.config_entries.async_forward_entry_unload(
@@ -254,7 +254,7 @@ async def mock_test_webrtc_cameras(hass: UniversalAssistant) -> None:
 
 @pytest.fixture
 async def register_test_provider(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> AsyncGenerator[SomeTestProvider]:
     """Add WebRTC test provider."""
     await async_setup_component(hass, DOMAIN, {})

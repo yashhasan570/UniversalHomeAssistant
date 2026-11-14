@@ -1,7 +1,7 @@
-"""API for microBees bound to Universal Universal Home Assistant OAuth."""
+"""API for microBees bound to __HA_KEEP__ OAuth."""
 
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 
 
@@ -10,7 +10,7 @@ class ConfigEntryAuth:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         oauth2_session: config_entry_oauth2_flow.OAuth2Session,
     ) -> None:
         """Initialize microBees Auth."""

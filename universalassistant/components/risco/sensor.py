@@ -8,7 +8,7 @@ from pyrisco.cloud.event import Event
 
 from universalassistant.components.binary_sensor import DOMAIN as BS_DOMAIN
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -41,7 +41,7 @@ EVENT_ATTRIBUTES = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RiscoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

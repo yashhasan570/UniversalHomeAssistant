@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.rfxtrx import get_rfx_object
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_rfx_test_cfg
@@ -26,7 +26,7 @@ def required_platforms_only():
 
 
 async def test_control_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rfxtrx,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -54,7 +54,7 @@ async def test_control_event(
 
 
 async def test_status_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rfxtrx,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -78,7 +78,7 @@ async def test_status_event(
 
 
 async def test_invalid_event_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rfxtrx,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -105,7 +105,7 @@ async def test_invalid_event_type(
 
 
 async def test_ignoring_lighting4(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, rfxtrx
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, rfxtrx
 ) -> None:
     """Test with 1 sensor."""
     entry = await setup_rfx_test_cfg(

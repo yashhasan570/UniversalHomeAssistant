@@ -13,7 +13,7 @@ from universalassistant.components import azure_data_explorer
 from universalassistant.components.azure_data_explorer.const import CONF_SEND_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.dt import utcnow
 
 from . import FilterTest
@@ -25,7 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 @pytest.mark.freeze_time("2024-01-01 00:00:00")
 @pytest.mark.usefixtures("entry_managed")
 async def test_put_event_on_queue_with_managed_client(
-    hass: UniversalAssistant, mock_managed_streaming: Mock
+    hass: __HAC_KEEP__, mock_managed_streaming: Mock
 ) -> None:
     """Test listening to events from Hass. and writing to ADX with managed client."""
 
@@ -54,7 +54,7 @@ async def test_put_event_on_queue_with_managed_client(
 )
 @pytest.mark.usefixtures("entry_managed")
 async def test_put_event_on_queue_with_managed_client_with_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_managed_streaming: Mock,
     sideeffect: Exception,
     log_message: str,
@@ -75,7 +75,7 @@ async def test_put_event_on_queue_with_managed_client_with_errors(
 
 
 async def test_put_event_on_queue_with_queueing_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_queued: MockConfigEntry,
     mock_queued_ingest: Mock,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_put_event_on_queue_with_queueing_client(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_managed: MockConfigEntry,
     mock_managed_streaming: Mock,
 ) -> None:
@@ -113,7 +113,7 @@ async def test_unload_entry(
 
 @pytest.mark.freeze_time("2024-01-01 00:00:00")
 @pytest.mark.usefixtures("entry_with_one_event")
-async def test_late_event(hass: UniversalAssistant, mock_managed_streaming: Mock) -> None:
+async def test_late_event(hass: __HAC_KEEP__, mock_managed_streaming: Mock) -> None:
     """Test the check on late events."""
     with patch(
         f"{AZURE_DATA_EXPLORER_PATH}.utcnow",
@@ -193,7 +193,7 @@ async def test_late_event(hass: UniversalAssistant, mock_managed_streaming: Mock
     ids=["allowlist", "denylist", "filtered_allowlist", "filtered_denylist"],
 )
 async def test_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_managed: MockConfigEntry,
     tests: list[FilterTest],
     mock_managed_streaming: Mock,
@@ -221,7 +221,7 @@ async def test_filter(
     ids=["None_event", "Mailformed_event"],
 )
 async def test_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_managed: MockConfigEntry,
     mock_managed_streaming: Mock,
     event: str | None,
@@ -248,7 +248,7 @@ async def test_event(
     ids=["KustoServiceError", "KustoAuthenticationError", "Exception"],
 )
 async def test_connection(
-    hass: UniversalAssistant, mock_execute_query: MagicMock, sideeffect: Exception
+    hass: __HAC_KEEP__, mock_execute_query: MagicMock, sideeffect: Exception
 ) -> None:
     """Test Error when no getting proper connection with Exception."""
     entry = MockConfigEntry(

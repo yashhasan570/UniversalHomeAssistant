@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import EcobeeConfigEntry
 
@@ -24,7 +24,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: EcobeeConfigEntry
+    hass: __HAC_KEEP__, entry: EcobeeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

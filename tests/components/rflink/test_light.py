@@ -17,7 +17,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import CoreState, UniversalAssistant, State, callback
+from universalassistant.core import CoreState, __HAC_KEEP__, State, callback
 
 from .test_init import mock_rflink
 
@@ -40,7 +40,7 @@ CONFIG = {
 
 
 async def test_default_setup(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test all basic functionality of the RFLink switch component."""
     # setup mocking rflink module
@@ -150,7 +150,7 @@ async def test_default_setup(
 
 
 async def test_firing_bus_event(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Incoming RFLink command events should be put on the HA event bus."""
     config = {
@@ -188,7 +188,7 @@ async def test_firing_bus_event(
 
 
 async def test_signal_repetitions(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Command should be sent amount of configured repetitions."""
     config = {
@@ -247,7 +247,7 @@ async def test_signal_repetitions(
 
 
 async def test_signal_repetitions_alternation(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Simultaneously switching entities must alternate repetitions."""
     config = {
@@ -281,7 +281,7 @@ async def test_signal_repetitions_alternation(
 
 
 async def test_signal_repetitions_cancelling(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Cancel outstanding repetitions when state changed."""
     config = {
@@ -318,7 +318,7 @@ async def test_signal_repetitions_cancelling(
 
 
 async def test_type_toggle(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test toggle type lights (on/on)."""
     config = {
@@ -366,7 +366,7 @@ async def test_type_toggle(
 
 
 async def test_set_level_command(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test 'set_level=XX' events."""
     config = {
@@ -456,7 +456,7 @@ async def test_set_level_command(
 
 
 async def test_group_alias(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Group aliases should only respond to group commands (allon/alloff)."""
     config = {
@@ -499,7 +499,7 @@ async def test_group_alias(
 
 
 async def test_nogroup_alias(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Non group aliases should not respond to group commands."""
     config = {
@@ -535,7 +535,7 @@ async def test_nogroup_alias(
 
 
 async def test_nogroup_device_id(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Device id that do not respond to group commands (allon/alloff)."""
     config = {
@@ -566,7 +566,7 @@ async def test_nogroup_device_id(
 
 
 async def test_disable_automatic_add(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """If disabled new devices should not be automatically added."""
     config = {
@@ -588,7 +588,7 @@ async def test_disable_automatic_add(
 
 
 async def test_restore_state(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Ensure states are restored on startup."""
     config = {

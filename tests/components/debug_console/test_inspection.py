@@ -375,7 +375,7 @@ async def test_describing_does_not_exit(
     preview: str,
     length: int | None,
 ) -> None:
-    """Test values whose methods exit still show, and Universal Universal Home Assistant keeps going."""
+    """Test values whose methods exit still show, and __HA_KEEP__ keeps going."""
     result = await async_execute(websocket_client, code)
 
     assert result["result"]["preview"] == preview

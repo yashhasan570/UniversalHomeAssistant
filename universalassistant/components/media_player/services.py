@@ -6,7 +6,7 @@ from typing import Any
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, SupportsResponse, callback
+from universalassistant.core import __HAC_KEEP__, SupportsResponse, callback
 from universalassistant.helpers import config_validation as cv
 
 from .const import (
@@ -69,7 +69,7 @@ def _rename_keys(**keys: Any) -> Callable[[dict[str, Any]], dict[str, Any]]:
     return rename
 
 
-# Remove in Universal Universal Home Assistant 2022.9
+# Remove in __HA_KEEP__ 2022.9
 def _rewrite_enqueue(value: dict[str, Any]) -> dict[str, Any]:
     """Rewrite the enqueue value."""
     if MediaPlayerServiceArgument.ENQUEUE not in value:
@@ -89,7 +89,7 @@ def _rewrite_enqueue(value: dict[str, Any]) -> dict[str, Any]:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the media_player services."""
     component = hass.data[DATA_COMPONENT]
 

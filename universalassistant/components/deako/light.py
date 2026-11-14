@@ -5,7 +5,7 @@ from typing import Any, override
 from pydeako import Deako
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -18,7 +18,7 @@ MODEL_DIMMER = "dimmer"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: DeakoConfigEntry,
     add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

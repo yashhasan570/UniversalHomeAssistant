@@ -4,13 +4,13 @@ import pytest
 
 from universalassistant.components.matrix import DOMAIN, MatrixBot
 from universalassistant.components.matrix.const import MatrixService, MatrixServiceArgument
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 
 from .conftest import TEST_JOINABLE_ROOMS
 
 
 async def test_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matrix_bot: MatrixBot,
     image_path,
     matrix_events: list[Event],

@@ -14,7 +14,7 @@ from flow_it_api.exceptions import (
 from flow_it_api.models import MachineData, MachineStatusResponse
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -48,7 +48,7 @@ class AriaQCoordinator(DataUpdateCoordinator[AriaQCoordinatorData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AriaQConfigEntry,
         vmc: FlowItVMCMachine,
     ) -> None:

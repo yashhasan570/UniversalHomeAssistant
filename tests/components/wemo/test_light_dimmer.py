@@ -9,7 +9,7 @@ from universalassistant.components.universalassistant import (
 )
 from universalassistant.components.light import ATTR_BRIGHTNESS, DOMAIN as LIGHT_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import entity_test_helpers
@@ -36,7 +36,7 @@ test_async_update_locked_callback_and_update = (
 
 
 async def test_available_after_update(
-    hass: UniversalAssistant, pywemo_registry, pywemo_device, wemo_entity
+    hass: __HAC_KEEP__, pywemo_registry, pywemo_device, wemo_entity
 ) -> None:
     """Test the availability when an On call fails and after an update."""
     pywemo_device.on.side_effect = ActionException
@@ -46,13 +46,13 @@ async def test_available_after_update(
     )
 
 
-async def test_turn_off_state(hass: UniversalAssistant, wemo_entity) -> None:
+async def test_turn_off_state(hass: __HAC_KEEP__, wemo_entity) -> None:
     """Test that the device state is updated after turning off."""
     await entity_test_helpers.test_turn_off_state(hass, wemo_entity, LIGHT_DOMAIN)
 
 
 async def test_turn_on_brightness(
-    hass: UniversalAssistant, pywemo_device, wemo_entity
+    hass: __HAC_KEEP__, pywemo_device, wemo_entity
 ) -> None:
     """Test setting the brightness value of the light."""
     brightness = 0
@@ -81,7 +81,7 @@ async def test_turn_on_brightness(
 
 
 async def test_light_registry_state_callback(
-    hass: UniversalAssistant, pywemo_registry, pywemo_device, wemo_entity
+    hass: __HAC_KEEP__, pywemo_registry, pywemo_device, wemo_entity
 ) -> None:
     """Verify that the light receives state updates from the registry."""
     # On state.
@@ -98,7 +98,7 @@ async def test_light_registry_state_callback(
 
 
 async def test_light_update_entity(
-    hass: UniversalAssistant, pywemo_registry, pywemo_device, wemo_entity
+    hass: __HAC_KEEP__, pywemo_registry, pywemo_device, wemo_entity
 ) -> None:
     """Verify that the light performs state updates."""
     await async_setup_component(hass, HA_DOMAIN, {})

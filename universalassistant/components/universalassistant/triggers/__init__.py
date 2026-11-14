@@ -1,1 +1,1 @@
-"""Universal Universal Home Assistant triggers."""
+"""__HA_KEEP__ triggers."""

@@ -20,7 +20,7 @@ from spotifyaio import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.config_entry_oauth2_flow import OAuth2Session
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
@@ -76,7 +76,7 @@ class SpotifyCoordinator(DataUpdateCoordinator[SpotifyCoordinatorData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SpotifyConfigEntry,
         client: SpotifyClient,
     ) -> None:
@@ -206,7 +206,7 @@ class SpotifyDeviceCoordinator(DataUpdateCoordinator[list[Device]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SpotifyConfigEntry,
         client: SpotifyClient,
     ) -> None:

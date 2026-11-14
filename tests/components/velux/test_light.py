@@ -16,7 +16,7 @@ from universalassistant.components.light import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import update_callback_entity
@@ -35,7 +35,7 @@ def platform() -> Platform:
     "mock_pyvlx", ["mock_light", "mock_onoff_light"], indirect=True
 )
 async def test_light_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -50,7 +50,7 @@ async def test_light_setup(
 
 
 async def test_light_device_association(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_light: AsyncMock,
@@ -74,7 +74,7 @@ async def test_light_device_association(
 # This test is not light specific, it just uses the light platform
 # to test the base entity class.
 async def test_entity_callbacks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_light: AsyncMock,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_entity_callbacks(
 
 # Test availability functionality by using the light platform
 async def test_entity_availability(
-    hass: UniversalAssistant, mock_light: AsyncMock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_light: AsyncMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that entity availability updates based on device connection status."""
 
@@ -147,7 +147,7 @@ async def test_entity_availability(
 
 
 async def test_light_brightness_and_is_on(
-    hass: UniversalAssistant, mock_light: AsyncMock
+    hass: __HAC_KEEP__, mock_light: AsyncMock
 ) -> None:
     """Validate brightness mapping and on/off state from intensity."""
 
@@ -176,7 +176,7 @@ async def test_light_brightness_and_is_on(
 
 
 async def test_light_turn_on_with_brightness_uses_set_intensity(
-    hass: UniversalAssistant, mock_light: AsyncMock
+    hass: __HAC_KEEP__, mock_light: AsyncMock
 ) -> None:
     """Turning on with brightness calls set_intensity with percent."""
 
@@ -206,7 +206,7 @@ async def test_light_turn_on_with_brightness_uses_set_intensity(
     "mock_pyvlx", ["mock_light", "mock_onoff_light"], indirect=True
 )
 async def test_light_turn_on_without_brightness_calls_turn_on(
-    hass: UniversalAssistant, mock_pyvlx: MagicMock
+    hass: __HAC_KEEP__, mock_pyvlx: MagicMock
 ) -> None:
     """Turning on without brightness uses node.turn_on."""
 
@@ -228,7 +228,7 @@ async def test_light_turn_on_without_brightness_calls_turn_on(
     "mock_pyvlx", ["mock_light", "mock_onoff_light"], indirect=True
 )
 async def test_light_turn_off_calls_turn_off(
-    hass: UniversalAssistant, mock_pyvlx: MagicMock
+    hass: __HAC_KEEP__, mock_pyvlx: MagicMock
 ) -> None:
     """Turning off calls device.turn_off with wait_for_completion."""
 

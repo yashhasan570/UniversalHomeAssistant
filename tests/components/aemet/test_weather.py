@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.aemet.coordinator import WEATHER_UPDATE_INTERVAL
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN, WeatherService
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .util import async_init_integration, mock_api_call
@@ -27,7 +27,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -49,7 +49,7 @@ async def test_all_entities(
     [WeatherService.GET_FORECASTS],
 )
 async def test_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
     service: str,
@@ -87,7 +87,7 @@ async def test_forecast_service(
 
 @pytest.mark.parametrize("forecast_type", ["daily", "hourly"])
 async def test_forecast_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,

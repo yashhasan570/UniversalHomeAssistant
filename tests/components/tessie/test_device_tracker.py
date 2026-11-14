@@ -3,14 +3,14 @@
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import assert_entities, setup_platform
 
 
 async def test_device_tracker(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
 ) -> None:
     """Tests that the device tracker entities are correct."""
 

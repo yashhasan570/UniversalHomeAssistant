@@ -3,13 +3,13 @@
 import pytest
 
 from universalassistant.components import llm as llm_component
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def init_integrations(hass: UniversalAssistant) -> None:
+async def init_integrations(hass: __HAC_KEEP__) -> None:
     """Set up the integrations; assist_satellite registers the broadcast intent."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "intent", {})
@@ -28,7 +28,7 @@ def _llm_context() -> llm.LLMContext:
     )
 
 
-async def test_broadcast_tool_offered(hass: UniversalAssistant) -> None:
+async def test_broadcast_tool_offered(hass: __HAC_KEEP__) -> None:
     """Test the broadcast intent is exposed as an LLM tool."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     tools = {tool.name: tool for tool in result.tools}

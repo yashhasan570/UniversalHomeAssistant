@@ -43,7 +43,7 @@ class WyomingService:
             self.platforms.append(Platform.CONVERSATION)
 
     def has_services(self) -> bool:
-        """Return True if services are installed that Universal Universal Home Assistant can use."""
+        """Return True if services are installed that __HA_KEEP__ can use."""
         return (
             any(asr for asr in self.info.asr if asr.installed)
             or any(tts for tts in self.info.tts if tts.installed)

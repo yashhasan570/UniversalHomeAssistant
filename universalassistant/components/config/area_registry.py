@@ -5,12 +5,12 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import area_registry as ar, label_registry as lr
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> bool:
+def async_setup(hass: __HAC_KEEP__) -> bool:
     """Enable the Area Registry views."""
     websocket_api.async_register_command(hass, websocket_list_areas)
     websocket_api.async_register_command(hass, websocket_create_area)
@@ -25,7 +25,7 @@ def async_setup(hass: UniversalAssistant) -> bool:
 )
 @callback
 def websocket_list_areas(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -53,7 +53,7 @@ def websocket_list_areas(
 @websocket_api.require_admin
 @callback
 def websocket_create_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -91,7 +91,7 @@ def websocket_create_area(
 @websocket_api.require_admin
 @callback
 def websocket_delete_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -123,7 +123,7 @@ def websocket_delete_area(
 @websocket_api.require_admin
 @callback
 def websocket_update_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -161,7 +161,7 @@ def websocket_update_area(
 @websocket_api.require_admin
 @callback
 def websocket_reorder_areas(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

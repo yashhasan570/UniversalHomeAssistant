@@ -10,7 +10,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.omie.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import price_enc, spot_price_fetcher
@@ -35,14 +35,14 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-async def hass_lisbon(hass: UniversalAssistant) -> None:
-    """Universal Universal Home Assistant configured for Lisbon timezone."""
+async def hass_lisbon(hass: __HAC_KEEP__) -> None:
+    """__HA_KEEP__ configured for Lisbon timezone."""
     await hass.config.async_set_time_zone("Europe/Lisbon")
 
 
 @pytest.fixture
-async def hass_madrid(hass: UniversalAssistant) -> None:
-    """Universal Universal Home Assistant configured for Madrid timezone."""
+async def hass_madrid(hass: __HAC_KEEP__) -> None:
+    """__HA_KEEP__ configured for Madrid timezone."""
     await hass.config.async_set_time_zone("Europe/Madrid")
 
 

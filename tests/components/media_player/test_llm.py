@@ -19,7 +19,7 @@ from universalassistant.components.media_player import (
     llm as media_player_llm,
 )
 from universalassistant.const import ATTR_SUPPORTED_FEATURES
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -76,7 +76,7 @@ ARTIST = BrowseMedia(
 
 
 @pytest.fixture(autouse=True)
-async def setup_integrations(hass: UniversalAssistant) -> None:
+async def setup_integrations(hass: __HAC_KEEP__) -> None:
     """Set up the integrations and expose a media_player entity."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "intent", {})
@@ -105,14 +105,14 @@ def _llm_context(device_id: str | None = None) -> llm.LLMContext:
     )
 
 
-async def _tool_names(hass: UniversalAssistant) -> set[str]:
+async def _tool_names(hass: __HAC_KEEP__) -> set[str]:
     """Return the names of the tools offered by the media_player platform."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     return {tool.name for tool in result.tools}
 
 
 async def _async_call_tool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tool_name: str,
     tool_args: dict[str, Any],
     device_id: str | None = None,
@@ -124,7 +124,7 @@ async def _async_call_tool(
     )
 
 
-async def test_tools_exposed(hass: UniversalAssistant) -> None:
+async def test_tools_exposed(hass: __HAC_KEEP__) -> None:
     """Test the tools are offered for an exposed media_player entity."""
     result = await llm_component.async_get_tools(hass, _llm_context(), "assist")
     tools = {tool.name: tool for tool in result.tools}
@@ -167,7 +167,7 @@ async def test_tools_exposed(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_tools_not_exposed(hass: UniversalAssistant) -> None:
+async def test_tools_not_exposed(hass: __HAC_KEEP__) -> None:
     """Test the tools are hidden when no media_player entity is exposed."""
     async_expose_entity(hass, "conversation", ENTITY_ID, False)
     assert not TOOL_NAMES & await _tool_names(hass)
@@ -183,7 +183,7 @@ async def test_tools_not_exposed(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_search_play_tools_need_features(
-    hass: UniversalAssistant, supported_features: MediaPlayerEntityFeature
+    hass: __HAC_KEEP__, supported_features: MediaPlayerEntityFeature
 ) -> None:
     """Test the search and play tools need a player that can search and play."""
     hass.states.async_set(
@@ -194,12 +194,12 @@ async def test_search_play_tools_need_features(
     assert not SEARCH_PLAY_TOOL_NAMES & tool_names
 
 
-async def test_no_tools_for_other_api(hass: UniversalAssistant) -> None:
+async def test_no_tools_for_other_api(hass: __HAC_KEEP__) -> None:
     """Test the platform returns None for an unsupported API."""
     assert media_player_llm.async_get_tools(hass, _llm_context(), "other") is None
 
 
-async def test_search_media(hass: UniversalAssistant) -> None:
+async def test_search_media(hass: __HAC_KEEP__) -> None:
     """Test the search tool returns the results of the player."""
     search_calls = async_mock_service(
         hass,
@@ -255,7 +255,7 @@ async def test_search_media(hass: UniversalAssistant) -> None:
     assert search_calls[0].data == {"entity_id": ENTITY_ID, "search_query": "queen"}
 
 
-async def test_search_media_limits_results(hass: UniversalAssistant) -> None:
+async def test_search_media_limits_results(hass: __HAC_KEEP__) -> None:
     """Test the search tool returns at most 35 results."""
     tracks = [
         BrowseMedia(
@@ -303,7 +303,7 @@ async def test_search_media_limits_results(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_search_media_within_result(
-    hass: UniversalAssistant, within: dict[str, str], service_data: dict[str, str]
+    hass: __HAC_KEEP__, within: dict[str, str], service_data: dict[str, str]
 ) -> None:
     """Test the search tool searches inside a result of an earlier search."""
     search_calls = async_mock_service(
@@ -326,7 +326,7 @@ async def test_search_media_within_result(
     }
 
 
-async def test_search_media_no_results(hass: UniversalAssistant) -> None:
+async def test_search_media_no_results(hass: __HAC_KEEP__) -> None:
     """Test the search tool returns an empty list when nothing matches."""
     async_mock_service(
         hass,
@@ -358,7 +358,7 @@ async def test_search_media_no_results(hass: UniversalAssistant) -> None:
         ),
     ],
 )
-async def test_play_media(hass: UniversalAssistant, media: dict[str, str]) -> None:
+async def test_play_media(hass: __HAC_KEEP__, media: dict[str, str]) -> None:
     """Test the play tool plays the chosen item on the player."""
     play_calls = async_mock_service(hass, DOMAIN, SERVICE_PLAY_MEDIA)
 
@@ -371,7 +371,7 @@ async def test_play_media(hass: UniversalAssistant, media: dict[str, str]) -> No
     assert play_calls[0].data == {"entity_id": ENTITY_ID, **media}
 
 
-async def test_blank_target_values_omitted(hass: UniversalAssistant) -> None:
+async def test_blank_target_values_omitted(hass: __HAC_KEEP__) -> None:
     """Test the tools treat blank target values as omitted."""
     search_calls = async_mock_service(
         hass,
@@ -420,7 +420,7 @@ async def test_blank_target_values_omitted(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_player_without_features_not_matched(
-    hass: UniversalAssistant, tool_name: str, tool_args: dict[str, Any]
+    hass: __HAC_KEEP__, tool_name: str, tool_args: dict[str, Any]
 ) -> None:
     """Test the tools only target a player that can search and play."""
     hass.states.async_set(
@@ -452,7 +452,7 @@ async def test_player_without_features_not_matched(
     ],
 )
 async def test_play_media_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,
     floor_registry: fr.FloorRegistry,
@@ -500,7 +500,7 @@ async def test_play_media_target(
 
 
 async def test_search_and_play_use_device_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

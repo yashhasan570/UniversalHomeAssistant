@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import EntityCategory, Platform, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -102,7 +102,7 @@ def _value_key(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PlugwiseConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

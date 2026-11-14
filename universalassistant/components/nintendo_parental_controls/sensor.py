@@ -16,7 +16,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import NintendoParentalControlsConfigEntry, NintendoUpdateCoordinator
@@ -95,7 +95,7 @@ PLAYER_SENSOR_DESCRIPTIONS: tuple[
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NintendoParentalControlsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

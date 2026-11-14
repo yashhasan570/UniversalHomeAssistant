@@ -38,7 +38,7 @@ from universalassistant.components.androidtv.const import (
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_DEVICE_CLASS, CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import patchers
@@ -114,7 +114,7 @@ class MockConfigDevice:
     ],
 )
 async def test_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_input: dict[str, Any],
     expected_data: dict[str, Any],
     eth_mac: str | None,
@@ -149,7 +149,7 @@ async def test_user(
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_adbkey(hass: UniversalAssistant) -> None:
+async def test_user_adbkey(hass: __HAC_KEEP__) -> None:
     """Test user step with adbkey file."""
     flow_input = {
         **CONFIG_PYTHON_ADB,
@@ -187,7 +187,7 @@ async def test_user_adbkey(hass: UniversalAssistant) -> None:
         assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_error_both_key_server(hass: UniversalAssistant) -> None:
+async def test_error_both_key_server(hass: __HAC_KEEP__) -> None:
     """Test we abort if both adb key and server are provided."""
     flow_input = {
         CONF_HOST: HOST,
@@ -231,7 +231,7 @@ async def test_error_both_key_server(hass: UniversalAssistant) -> None:
         assert result2["data"] == CONFIG_ADB_SERVER
 
 
-async def test_error_invalid_key(hass: UniversalAssistant) -> None:
+async def test_error_invalid_key(hass: __HAC_KEEP__) -> None:
     """Test we abort if component is already setup."""
     flow_input = {
         **CONFIG_PYTHON_ADB,
@@ -281,7 +281,7 @@ async def test_error_invalid_key(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_invalid_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_input: dict[str, Any],
     eth_mac: str | None,
     wifi_mac: str | None,
@@ -307,7 +307,7 @@ async def test_invalid_mac(
         assert result["reason"] == "invalid_unique_id"
 
 
-async def test_abort_if_host_exist(hass: UniversalAssistant) -> None:
+async def test_abort_if_host_exist(hass: __HAC_KEEP__) -> None:
     """Test we abort if component is already setup."""
     MockConfigEntry(
         domain=DOMAIN, data=CONFIG_ADB_SERVER, unique_id=ETH_MAC
@@ -330,7 +330,7 @@ async def test_abort_if_host_exist(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_abort_if_unique_exist(hass: UniversalAssistant) -> None:
+async def test_abort_if_unique_exist(hass: __HAC_KEEP__) -> None:
     """Test we abort if component is already setup."""
     config_data = CONFIG_ADB_SERVER.copy()
     config_data[CONF_HOST] = "127.0.0.2"
@@ -359,7 +359,7 @@ async def test_abort_if_unique_exist(hass: UniversalAssistant) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_on_connect_failed(hass: UniversalAssistant) -> None:
+async def test_on_connect_failed(hass: __HAC_KEEP__) -> None:
     """Test when we have errors connecting the router."""
     flow_result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -400,7 +400,7 @@ async def test_on_connect_failed(hass: UniversalAssistant) -> None:
         assert result3["data"] == CONFIG_ADB_SERVER
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test config flow options."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -644,7 +644,7 @@ RECONFIGURE_INPUT = {
     ],
 )
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_data: dict[str, Any],
     flow_input: dict[str, Any],
     expected_data: dict[str, Any],
@@ -672,7 +672,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_reloads_loaded_entry(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reconfiguring a loaded entry reloads it without the deprecated helper."""
     patch_key, _, entry = setup_mock_entry(CONFIG_ANDROID_DEFAULT, MP_DOMAIN)
@@ -739,7 +739,7 @@ async def test_reconfigure_reloads_loaded_entry(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_input: dict[str, Any],
     connect_kwargs: dict[str, Any],
     error: str,
@@ -782,7 +782,7 @@ async def test_reconfigure_errors(
     ],
 )
 async def test_reconfigure_unique_id_mismatch(
-    hass: UniversalAssistant, eth_mac: str | None, wifi_mac: str | None
+    hass: __HAC_KEEP__, eth_mac: str | None, wifi_mac: str | None
 ) -> None:
     """Test reconfiguring to a different device aborts."""
     entry = MockConfigEntry(domain=DOMAIN, data=CONFIG_PYTHON_ADB, unique_id=ETH_MAC)

@@ -14,8 +14,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.parametrize("platforms", [(Platform.LIGHT,)])
@@ -24,7 +24,7 @@ ENTITY_ID = "light.hood_light"
 
 
 async def test_light_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_light_states(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_light_states_api_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -57,7 +57,7 @@ async def test_light_states_api_push(
     ],
 )
 async def test_light_toggle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
     service: str,
@@ -81,7 +81,7 @@ async def test_light_toggle(
     ],
 )
 async def test_api_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
     service: str,
@@ -90,7 +90,7 @@ async def test_api_failure(
     mock_miele_client.send_action.side_effect = ClientResponseError(Mock(), Mock())
 
     with pytest.raises(
-        UniversalAssistantError, match=f"Failed to set state for {ENTITY_ID}"
+        __HAC_KEEP__Error, match=f"Failed to set state for {ENTITY_ID}"
     ):
         await hass.services.async_call(
             LIGHT_DOMAIN, service, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True

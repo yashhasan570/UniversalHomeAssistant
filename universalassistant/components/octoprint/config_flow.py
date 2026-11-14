@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
 )
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 from universalassistant.util.ssl import get_default_context, get_default_no_verify_context
@@ -326,7 +326,7 @@ class OctoPrintConfigFlow(ConfigFlow, domain=DOMAIN):
 
         try:
             self._user_input[CONF_API_KEY] = await octoprint.request_app_key(
-                "Universal Universal Home Assistant", self._user_input[CONF_USERNAME], 300
+                "__HA_KEEP__", self._user_input[CONF_USERNAME], 300
             )
         finally:
             await self._sessions.pop().close()
@@ -353,5 +353,5 @@ class OctoPrintConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

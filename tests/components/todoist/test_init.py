@@ -14,14 +14,14 @@ from universalassistant.components.todoist.services import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import PROJECT_ID, make_api_response
 
 
 async def test_load_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     api: AsyncMock,
     todoist_config_entry: MockConfigEntry | None,
@@ -38,12 +38,12 @@ async def test_load_unload(
 
 
 async def test_shutdown_closes_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     api: AsyncMock,
     todoist_config_entry: MockConfigEntry | None,
 ) -> None:
-    """Test the API client is closed when Universal Universal Home Assistant stops."""
+    """Test the API client is closed when __HA_KEEP__ stops."""
     assert todoist_config_entry.state is ConfigEntryState.LOADED
     api.close.assert_not_awaited()
 
@@ -55,7 +55,7 @@ async def test_shutdown_closes_api(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_new_task_service_uses_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     api: AsyncMock,
 ) -> None:
     """Test the new_task service reaches the config entry coordinator."""
@@ -78,7 +78,7 @@ async def test_new_task_service_uses_config_entry(
 
 @pytest.mark.parametrize("todoist_api_status", [HTTPStatus.INTERNAL_SERVER_ERROR])
 async def test_init_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     api: AsyncMock,
     todoist_config_entry: MockConfigEntry | None,
@@ -91,7 +91,7 @@ async def test_init_failure(
     "view_style", ["list", "board", "calendar", "table", "future_layout"]
 )
 async def test_project_deserialization_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     api: AsyncMock,
     todoist_config_entry: MockConfigEntry,
     view_style: str,

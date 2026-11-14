@@ -29,7 +29,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import publish_besen_state
@@ -43,7 +43,7 @@ CHARGING_MESSAGE_ENTITY_ID = "sensor.garage_charging_message"
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("phases", [1, 3], ids=["single_phase", "three_phase"])
 async def test_sensor_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -61,7 +61,7 @@ async def test_sensor_state(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_updates_from_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
@@ -120,7 +120,7 @@ async def test_sensor_updates_from_client(
 
 
 async def test_sensor_unknown_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_sensor_unknown_value(
     ],
 )
 async def test_enum_sensors_unknown_for_unsupported_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     value: str | None,
@@ -197,7 +197,7 @@ async def test_enum_sensors_unknown_for_unsupported_values(
     ],
 )
 async def test_sensor_unavailable_from_client_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
     available: bool,
@@ -218,7 +218,7 @@ async def test_sensor_unavailable_from_client_state(
 
 
 async def test_diagnostic_sensors_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
@@ -263,7 +263,7 @@ async def test_diagnostic_sensors_disabled_by_default(
     ],
 )
 async def test_optional_session_sensors_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
@@ -280,7 +280,7 @@ async def test_optional_session_sensors_disabled_by_default(
 
 @pytest.mark.parametrize(("phases", "expected"), [(1, False), (3, True)])
 async def test_three_phase_sensor_filtering(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_besen_client: Mock,
@@ -308,7 +308,7 @@ async def test_three_phase_sensor_filtering(
 
 
 def test_enum_sensor_options_cover_known_library_states() -> None:
-    """Test every known library state has a stable Universal Universal Home Assistant option."""
+    """Test every known library state has a stable __HA_KEEP__ option."""
 
     assert set(ERROR_STATES) == set(ERRORS.values()) - {"Unknown"}
     assert set(CHARGING_STATES) == set(CHARGING_STATUS.values())

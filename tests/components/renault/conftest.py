@@ -12,7 +12,7 @@ from renault_api.renault_account import RenaultAccount
 
 from universalassistant.components.renault.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 
 from .const import MOCK_ACCOUNT_ID, MOCK_CONFIG, MOCK_VEHICLES
@@ -46,7 +46,7 @@ def get_vehicle_type(request: pytest.FixtureRequest) -> str:
 
 
 @pytest.fixture(name="config_entry")
-def get_config_entry(hass: UniversalAssistant) -> ConfigEntry:
+def get_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
     """Create and register mock config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -61,7 +61,7 @@ def get_config_entry(hass: UniversalAssistant) -> ConfigEntry:
 
 
 @pytest.fixture(name="patch_renault_account")
-async def patch_renault_account(hass: UniversalAssistant) -> AsyncGenerator[RenaultAccount]:
+async def patch_renault_account(hass: __HAC_KEEP__) -> AsyncGenerator[RenaultAccount]:
     """Create a Renault account."""
     renault_account = RenaultAccount(
         MOCK_ACCOUNT_ID,
@@ -82,7 +82,7 @@ def get_account_ids() -> list[str]:
 
 @pytest.fixture(name="patch_get_api_accounts")
 def patch_get_api_accounts(
-    hass: UniversalAssistant, account_ids: list[str]
+    hass: __HAC_KEEP__, account_ids: list[str]
 ) -> Generator[None]:
     """Mock the list of Kamereon accounts."""
     websession = aiohttp_client.async_get_clientsession(hass)

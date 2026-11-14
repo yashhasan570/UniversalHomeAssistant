@@ -19,14 +19,14 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import configure_integration
 
 
 async def test_relay_switch(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test turn on and turn off."""
     mock_list_devices.return_value = [
@@ -67,7 +67,7 @@ async def test_relay_switch(
 
 
 async def test_switchmode_bot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_list_devices,
     mock_get_status,
     mock_setup_webhook,
@@ -122,7 +122,7 @@ async def test_switchmode_bot(
 
 
 async def test_pressmode_bot_no_switch_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_list_devices,
     mock_get_status,
     mock_setup_webhook,
@@ -157,7 +157,7 @@ async def test_pressmode_bot_no_switch_entity(
 
 
 async def test_switch_relay_2pm_turn_on(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test switch relay 2pm turn on."""
     mock_list_devices.return_value = [
@@ -188,7 +188,7 @@ async def test_switch_relay_2pm_turn_on(
 
 
 async def test_switch_relay_2pm_turn_off(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test switch relay 2pm turn off."""
     mock_list_devices.return_value = [
@@ -220,7 +220,7 @@ async def test_switch_relay_2pm_turn_off(
 
 
 async def test_switch_relay_2pm_coordination_is_none(
-    hass: UniversalAssistant, mock_list_devices, mock_get_status
+    hass: __HAC_KEEP__, mock_list_devices, mock_get_status
 ) -> None:
     """Test switch relay 2pm coordination is none."""
     mock_list_devices.return_value = [
@@ -251,13 +251,13 @@ async def test_switch_relay_2pm_coordination_is_none(
     ],
 )
 async def test_switch_api_error_is_translated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_list_devices,
     mock_get_status,
     api_error: Exception,
     translation_key: str,
 ) -> None:
-    """Library exceptions are translated to UniversalAssistantError so script flags work."""
+    """Library exceptions are translated to __HAC_KEEP__Error so script flags work."""
     mock_list_devices.return_value = [
         Device(
             version="V1.0",
@@ -274,7 +274,7 @@ async def test_switch_api_error_is_translated(
 
     with (
         patch.object(SwitchBotAPI, "send_command", side_effect=api_error),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,

@@ -13,7 +13,7 @@ from universalassistant.components.frontier_silicon.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_PIN, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
@@ -44,7 +44,7 @@ INVALID_MOCK_DISCOVERY = SsdpServiceInfo(
     [("mock_radio_id", None), (None, FSNotImplementedError)],
 )
 async def test_form_default_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_afsapi: AsyncMock,
     mock_setup_entry: AsyncMock,
     radio_id_return_value: str | None,
@@ -80,7 +80,7 @@ async def test_form_default_pin(
     [("mock_radio_id", None), (None, FSNotImplementedError)],
 )
 async def test_form_nondefault_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_afsapi: AsyncMock,
     mock_setup_entry: AsyncMock,
     radio_id_return_value: str | None,
@@ -132,7 +132,7 @@ async def test_form_nondefault_pin(
     ],
 )
 async def test_form_nondefault_pin_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_afsapi: AsyncMock,
     friendly_name_error: Exception,
     result_error: str,
@@ -192,7 +192,7 @@ async def test_form_nondefault_pin_invalid(
     ],
 )
 async def test_invalid_device_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_afsapi: AsyncMock,
     webfsapi_endpoint_error: Exception,
     result_error: str,
@@ -234,7 +234,7 @@ async def test_invalid_device_url(
 
 
 async def test_user_already_configured_without_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_afsapi: AsyncMock,
 ) -> None:
     """Test manual setup aborts when an entry with the same endpoint already exists."""
@@ -263,7 +263,7 @@ async def test_user_already_configured_without_unique_id(
     [("mock_radio_id", None), (None, FSNotImplementedError)],
 )
 async def test_ssdp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_afsapi: AsyncMock,
     mock_setup_entry: AsyncMock,
     radio_id_return_value: str | None,
@@ -300,7 +300,7 @@ async def test_ssdp(
     mock_setup_entry.assert_called_once()
 
 
-async def test_ssdp_invalid_location(hass: UniversalAssistant) -> None:
+async def test_ssdp_invalid_location(hass: __HAC_KEEP__) -> None:
     """Test a device being discovered."""
 
     result = await hass.config_entries.flow.async_init(
@@ -314,7 +314,7 @@ async def test_ssdp_invalid_location(hass: UniversalAssistant) -> None:
 
 
 async def test_ssdp_already_configured(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test an already known device being discovered."""
 
@@ -335,7 +335,7 @@ async def test_ssdp_already_configured(
     [(ValueError, "unknown"), (FSConnectionError, "cannot_connect")],
 )
 async def test_ssdp_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_afsapi: AsyncMock,
     webfsapi_endpoint_error: Exception,
     result_error: str,
@@ -352,7 +352,7 @@ async def test_ssdp_fail(
     assert result["reason"] == result_error
 
 
-async def test_ssdp_nondefault_pin(hass: UniversalAssistant, mock_afsapi: AsyncMock) -> None:
+async def test_ssdp_nondefault_pin(hass: __HAC_KEEP__, mock_afsapi: AsyncMock) -> None:
     """Test a device being discovered."""
 
     mock_afsapi.get_friendly_name.side_effect = InvalidPinError
@@ -366,7 +366,7 @@ async def test_ssdp_nondefault_pin(hass: UniversalAssistant, mock_afsapi: AsyncM
     assert result["reason"] == "invalid_auth"
 
 
-async def test_reauth_flow(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def test_reauth_flow(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Test reauth flow."""
     config_entry.add_to_hass(hass)
     assert config_entry.data[CONF_PIN] == "1234"
@@ -393,7 +393,7 @@ async def test_reauth_flow(hass: UniversalAssistant, config_entry: MockConfigEnt
     ],
 )
 async def test_reauth_flow_friendly_name_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_afsapi: AsyncMock,
     exception: Exception,
     reason: str,
@@ -429,7 +429,7 @@ async def test_reauth_flow_friendly_name_error(
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, mock_afsapi: AsyncMock, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_afsapi: AsyncMock, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring the device address."""
     config_entry.add_to_hass(hass)
@@ -453,7 +453,7 @@ async def test_reconfigure_flow(
 
 
 async def test_reconfigure_flow_without_unique_id(
-    hass: UniversalAssistant, mock_afsapi: AsyncMock
+    hass: __HAC_KEEP__, mock_afsapi: AsyncMock
 ) -> None:
     """Test reconfiguring a device that does not report a radio ID."""
     entry = MockConfigEntry(
@@ -491,7 +491,7 @@ async def test_reconfigure_flow_without_unique_id(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_afsapi: AsyncMock,
     config_entry: MockConfigEntry,
     webfsapi_endpoint_error: type[Exception] | None,
@@ -528,7 +528,7 @@ async def test_reconfigure_flow_errors(
 
 
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: UniversalAssistant, mock_afsapi: AsyncMock, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_afsapi: AsyncMock, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow aborts when pointed at a different device."""
     config_entry.add_to_hass(hass)
@@ -548,7 +548,7 @@ async def test_reconfigure_flow_unique_id_mismatch(
 
 
 async def test_reconfigure_flow_already_configured(
-    hass: UniversalAssistant, mock_afsapi: AsyncMock
+    hass: __HAC_KEEP__, mock_afsapi: AsyncMock
 ) -> None:
     """Test reconfigure aborts when another entry uses the endpoint."""
     entry = MockConfigEntry(
@@ -584,7 +584,7 @@ async def test_reconfigure_flow_already_configured(
     ],
 )
 async def test_reconfigure_flow_suggested_values(
-    hass: UniversalAssistant, webfsapi_url: str, expected_port: int
+    hass: __HAC_KEEP__, webfsapi_url: str, expected_port: int
 ) -> None:
     """Test the reconfigure form is prefilled from the stored URL."""
     entry = MockConfigEntry(

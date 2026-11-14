@@ -11,8 +11,8 @@ from universalassistant.components.text import (
     SERVICE_SET_VALUE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .common import ERROR_UNKNOWN, assert_entities, setup_platform
@@ -21,7 +21,7 @@ NAVIGATION_ENTITY_ID = "text.test_navigation_destination"
 
 
 async def test_text_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_text_entities(
     assert_entities(hass, entry.entry_id, entity_registry, snapshot)
 
 
-async def test_set_navigation_destination(hass: UniversalAssistant) -> None:
+async def test_set_navigation_destination(hass: __HAC_KEEP__) -> None:
     """Test sending a navigation destination to the vehicle."""
     await setup_platform(hass, [Platform.TEXT])
 
@@ -49,8 +49,8 @@ async def test_set_navigation_destination(hass: UniversalAssistant) -> None:
         mock_nav.assert_called_once_with("1 Infinite Loop, Cupertino, CA")
 
 
-async def test_set_navigation_destination_error(hass: UniversalAssistant) -> None:
-    """Test that a transport error is translated to UniversalAssistantError."""
+async def test_set_navigation_destination_error(hass: __HAC_KEEP__) -> None:
+    """Test that a transport error is translated to __HAC_KEEP__Error."""
     await setup_platform(hass, [Platform.TEXT])
 
     with (
@@ -58,7 +58,7 @@ async def test_set_navigation_destination_error(hass: UniversalAssistant) -> Non
             "tesla_fleet_api.tessie.Vehicle.navigation_request",
             side_effect=ERROR_UNKNOWN,
         ) as mock_nav,
-        pytest.raises(UniversalAssistantError) as error,
+        pytest.raises(__HAC_KEEP__Error) as error,
     ):
         await hass.services.async_call(
             TEXT_DOMAIN,

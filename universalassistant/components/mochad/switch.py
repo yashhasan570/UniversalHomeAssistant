@@ -9,8 +9,8 @@ from pymochad.exceptions import MochadException
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import CONF_ADDRESS, CONF_DEVICES, CONF_NAME, CONF_PLATFORM
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -35,7 +35,7 @@ PLATFORM_SCHEMA = probatio.Schema(
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -50,7 +50,7 @@ class MochadSwitch(SwitchEntity):
     """Representation of a X10 switch over Mochad."""
 
     def __init__(
-        self, hass: UniversalAssistant, ctrl: controller.PyMochad, dev: dict[str, str]
+        self, hass: __HAC_KEEP__, ctrl: controller.PyMochad, dev: dict[str, str]
     ) -> None:
         """Initialize a Mochad Switch Device."""
 
@@ -81,7 +81,7 @@ class MochadSwitch(SwitchEntity):
                     self._controller.read_data()
                 self._attr_is_on = True
             except (MochadException, OSError) as exc:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="turn_on_failed",
                     translation_placeholders={"error": str(exc)},
@@ -102,7 +102,7 @@ class MochadSwitch(SwitchEntity):
                     self._controller.read_data()
                 self._attr_is_on = False
             except (MochadException, OSError) as exc:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="turn_off_failed",
                     translation_placeholders={"error": str(exc)},

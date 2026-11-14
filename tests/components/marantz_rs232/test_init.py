@@ -15,13 +15,13 @@ from serialx import SerialException
 from universalassistant.components.marantz_rs232.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_setup_and_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_setup_and_unload(
 
 @pytest.mark.parametrize("method", ["connect", "query_state", "query_multi_room_a"])
 async def test_setup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
     method: str,
@@ -55,7 +55,7 @@ async def test_setup_failure(
 
 
 async def test_cancelled_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_cancelled_setup(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_failed_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_failed_unload(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_remove_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -111,14 +111,14 @@ async def test_remove_entry(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_connection_logging(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
     receiver_update: Callable[[V2007ReceiverState | None], None],
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Log one outage while Universal Universal Home Assistant retries the connection."""
+    """Log one outage while __HA_KEEP__ retries the connection."""
     await hass.async_start()
     caplog.clear()
     connect = mock_receiver.connect.side_effect
@@ -154,7 +154,7 @@ async def test_connection_logging(
 
 @pytest.mark.parametrize("method", ["connect", "query_state"])
 async def test_invalid_serial_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
     method: str,
@@ -170,7 +170,7 @@ async def test_invalid_serial_port(
 
 
 async def test_generic_receiver(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_receiver: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -194,7 +194,7 @@ async def test_generic_receiver(
 
 
 async def test_setup_serial_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Retry setup when the serial transport cannot be opened."""

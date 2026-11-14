@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.anthemav.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_form_with_valid_connection(
-    hass: UniversalAssistant, mock_connection_create: AsyncMock, mock_anthemav: AsyncMock
+    hass: __HAC_KEEP__, mock_connection_create: AsyncMock, mock_anthemav: AsyncMock
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -49,7 +49,7 @@ async def test_form_with_valid_connection(
 
 
 @pytest.mark.usefixtures("mock_connection_create")
-async def test_form_device_info_error(hass: UniversalAssistant) -> None:
+async def test_form_device_info_error(hass: __HAC_KEEP__) -> None:
     """Test we handle DeviceError from library."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -89,7 +89,7 @@ async def test_form_device_info_error(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_connection_create")
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -129,7 +129,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
 
 
 async def test_device_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection_create: AsyncMock,
     mock_anthemav: AsyncMock,
     mock_config_entry: MockConfigEntry,

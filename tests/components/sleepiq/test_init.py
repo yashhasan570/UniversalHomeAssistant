@@ -35,7 +35,7 @@ from universalassistant.components.sleepiq.coordinator import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_USERNAME, PRESSURE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
@@ -58,7 +58,7 @@ ENTITY_SLEEP_NUMBER = (
 )
 
 
-async def test_unload_entry(hass: UniversalAssistant, mock_asyncsleepiq) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
     """Test unloading the SleepIQ entry."""
     entry = await setup_platform(hass, "sensor")
     assert await hass.config_entries.async_unload(entry.entry_id)
@@ -68,7 +68,7 @@ async def test_unload_entry(hass: UniversalAssistant, mock_asyncsleepiq) -> None
     assert not hass.data.get(DOMAIN)
 
 
-async def test_entry_setup_login_error(hass: UniversalAssistant, mock_asyncsleepiq) -> None:
+async def test_entry_setup_login_error(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
     """Test when sleepiq client is unable to login."""
     mock_asyncsleepiq.login.side_effect = SleepIQLoginException
     entry = await setup_platform(hass, None)
@@ -76,7 +76,7 @@ async def test_entry_setup_login_error(hass: UniversalAssistant, mock_asyncsleep
 
 
 async def test_entry_setup_timeout_error(
-    hass: UniversalAssistant, mock_asyncsleepiq
+    hass: __HAC_KEEP__, mock_asyncsleepiq
 ) -> None:
     """Test when sleepiq client timeout."""
     mock_asyncsleepiq.login.side_effect = SleepIQTimeoutException
@@ -85,7 +85,7 @@ async def test_entry_setup_timeout_error(
 
 
 async def test_entry_setup_connection_error(
-    hass: UniversalAssistant, mock_asyncsleepiq: MagicMock
+    hass: __HAC_KEEP__, mock_asyncsleepiq: MagicMock
 ) -> None:
     """Test that a transient connection failure retries instead of triggering reauth."""
     mock_asyncsleepiq.login.side_effect = SleepIQConnectionException(
@@ -96,7 +96,7 @@ async def test_entry_setup_connection_error(
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_update_interval(hass: UniversalAssistant, mock_asyncsleepiq) -> None:
+async def test_update_interval(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
     """Test update interval."""
     await setup_platform(hass, "sensor")
     assert mock_asyncsleepiq.fetch_bed_statuses.call_count == 1
@@ -107,14 +107,14 @@ async def test_update_interval(hass: UniversalAssistant, mock_asyncsleepiq) -> N
     assert mock_asyncsleepiq.fetch_bed_statuses.call_count == 2
 
 
-async def test_api_error(hass: UniversalAssistant, mock_asyncsleepiq) -> None:
+async def test_api_error(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
     """Test when sleepiq client is unable to login."""
     mock_asyncsleepiq.init_beds.side_effect = SleepIQAPIException
     entry = await setup_platform(hass, None)
     assert not await hass.config_entries.async_setup(entry.entry_id)
 
 
-async def test_api_timeout(hass: UniversalAssistant, mock_asyncsleepiq) -> None:
+async def test_api_timeout(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
     """Test when sleepiq client timeout."""
     mock_asyncsleepiq.init_beds.side_effect = SleepIQTimeoutException
     entry = await setup_platform(hass, None)
@@ -151,7 +151,7 @@ FETCH_PARAMS = [
 
 @pytest.mark.parametrize(("get_fetch_mock", "platform", "interval"), FETCH_PARAMS)
 async def test_update_auth_error_starts_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_asyncsleepiq: MagicMock,
     mock_bed: MagicMock,
@@ -176,7 +176,7 @@ async def test_update_auth_error_starts_reauth_flow(
 
 
 async def test_update_api_error_does_not_start_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_asyncsleepiq: MagicMock,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_update_api_error_does_not_start_reauth_flow(
     ],
 )
 async def test_update_failure_log_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
     mock_asyncsleepiq: MagicMock,
@@ -234,7 +234,7 @@ async def test_update_failure_log_level(
     ] == [level]
 
 
-async def test_unique_id_migration(hass: UniversalAssistant, mock_asyncsleepiq) -> None:
+async def test_unique_id_migration(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
     """Test migration of sensor unique IDs."""
 
     mock_entry = MockConfigEntry(
@@ -333,7 +333,7 @@ def _make_controller() -> MagicMock:
 
 
 async def test_duplicate_beds_filtered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_asyncsleepiq: MagicMock,
 ) -> None:
@@ -363,7 +363,7 @@ async def test_duplicate_beds_filtered(
 
 
 async def test_duplicate_beds_controller_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_asyncsleepiq: MagicMock,
 ) -> None:
@@ -381,7 +381,7 @@ async def test_duplicate_beds_controller_first(
 
 
 async def test_duplicate_beds_none_sleeper_ids_not_filtered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_asyncsleepiq: MagicMock,
 ) -> None:
     """Test that beds with None sleeper IDs are not falsely treated as duplicates."""
@@ -419,7 +419,7 @@ async def test_duplicate_beds_none_sleeper_ids_not_filtered(
 
 
 async def test_real_beds_sharing_sleeper_not_filtered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_asyncsleepiq: MagicMock,
 ) -> None:
     """Test that two real beds sharing a sleeper profile are both preserved."""
@@ -469,7 +469,7 @@ async def test_real_beds_sharing_sleeper_not_filtered(
 
 
 async def test_identical_sleepers_both_with_features_preserved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_asyncsleepiq: MagicMock,
 ) -> None:
     """Test that two feature-bearing beds with identical sleeper sets are both kept."""
@@ -594,7 +594,7 @@ def test_deduplicate_sleepers_empty() -> None:
 
 
 async def test_duplicate_sleepers_no_unique_id_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_asyncsleepiq: MagicMock,
     mock_bed: MagicMock,
     caplog: pytest.LogCaptureFixture,

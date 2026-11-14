@@ -10,7 +10,7 @@ from wolf_comm.token_auth import InvalidAuth
 from wolf_comm.wolf_client import FetchFailed, ParameterReadError, WolfClient
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
     UpdateFailed,
@@ -31,7 +31,7 @@ class WolfLinkCoordinator(DataUpdateCoordinator[dict[int, tuple[int, str]]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: WolflinkConfigEntry,
         wolf_client: WolfClient,
         device: Device,

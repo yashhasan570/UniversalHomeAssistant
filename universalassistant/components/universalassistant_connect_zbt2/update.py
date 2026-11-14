@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant Connect ZBT-2 firmware update entity."""
+"""__HA_KEEP__ Connect ZBT-2 firmware update entity."""
 
 import logging
 from typing import override
@@ -17,12 +17,12 @@ from universalassistant.components.universalassistant_hardware.util import (
 )
 from universalassistant.components.update import UpdateDeviceClass
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from . import UniversalAssistantConnectZBT2ConfigEntry
+from . import __HAC_KEEP__ConnectZBT2ConfigEntry
 from .const import DOMAIN, FIRMWARE, FIRMWARE_VERSION, HARDWARE_NAME, SERIAL_NUMBER
 
 _LOGGER = logging.getLogger(__name__)
@@ -79,8 +79,8 @@ FIRMWARE_ENTITY_DESCRIPTIONS: dict[
 
 
 def _async_create_update_entity(
-    hass: UniversalAssistant,
-    config_entry: UniversalAssistantConnectZBT2ConfigEntry,
+    hass: __HAC_KEEP__,
+    config_entry: __HAC_KEEP__ConnectZBT2ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> FirmwareUpdateEntity:
     """Create an update entity that handles firmware type changes."""
@@ -120,8 +120,8 @@ def _async_create_update_entity(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
-    config_entry: UniversalAssistantConnectZBT2ConfigEntry,
+    hass: __HAC_KEEP__,
+    config_entry: __HAC_KEEP__ConnectZBT2ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the firmware update config entry."""
@@ -138,7 +138,7 @@ class FirmwareUpdateEntity(BaseFirmwareUpdateEntity):
     def __init__(
         self,
         device: str,
-        config_entry: UniversalAssistantConnectZBT2ConfigEntry,
+        config_entry: __HAC_KEEP__ConnectZBT2ConfigEntry,
         update_coordinator: FirmwareUpdateCoordinator,
         entity_description: FirmwareUpdateEntityDescription,
     ) -> None:

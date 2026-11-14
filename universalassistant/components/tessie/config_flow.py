@@ -10,7 +10,7 @@ from tesla_fleet_api.tessie import Tessie
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN
@@ -25,7 +25,7 @@ DESCRIPTION_PLACEHOLDERS = {
 
 
 async def _async_validate_access_token(
-    hass: UniversalAssistant, access_token: str, *, only_active: bool = False
+    hass: __HAC_KEEP__, access_token: str, *, only_active: bool = False
 ) -> dict[str, str]:
     """Validate a Tessie access token."""
     try:

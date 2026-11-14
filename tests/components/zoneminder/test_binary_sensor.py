@@ -9,7 +9,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.components.zoneminder.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .conftest import MOCK_HOST, MOCK_HOST_2
@@ -20,7 +20,7 @@ ENTITY_ID_2 = f"binary_sensor.{MOCK_HOST_2.replace('.', '_')}"
 
 
 async def _setup_and_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict,
     mock_zoneminder_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -35,7 +35,7 @@ async def _setup_and_update(
 
 
 async def test_binary_sensor_created_per_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -48,7 +48,7 @@ async def test_binary_sensor_created_per_server(
 
 
 async def test_binary_sensor_name_from_hostname(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -62,7 +62,7 @@ async def test_binary_sensor_name_from_hostname(
 
 
 async def test_binary_sensor_device_class_connectivity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -76,7 +76,7 @@ async def test_binary_sensor_device_class_connectivity(
 
 
 async def test_binary_sensor_state_on_when_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -91,7 +91,7 @@ async def test_binary_sensor_state_on_when_available(
 
 
 async def test_binary_sensor_state_off_when_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -106,7 +106,7 @@ async def test_binary_sensor_state_off_when_unavailable(
 
 
 async def test_multi_server_creates_multiple_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     multi_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -123,7 +123,7 @@ async def test_multi_server_creates_multiple_binary_sensors(
 
 
 async def test_binary_sensor_state_updates_on_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,

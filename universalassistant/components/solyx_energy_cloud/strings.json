@@ -18,7 +18,7 @@
           "nymo_client_id": "The Client ID that is copied from the Solyx Energy app.",
           "nymo_client_secret": "The Client secret that is copied from the Solyx Energy app."
         },
-        "description": "Set up your Solyx Energy Cloud account to integrate with Universal Universal Home Assistant."
+        "description": "Set up your Solyx Energy Cloud account to integrate with __HA_KEEP__."
       }
     }
   },

@@ -26,8 +26,8 @@ from universalassistant.components.todo import (
 )
 from universalassistant.config_entries import ConfigSubentryDataWithId
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 
 from .const import CREATE_ENTRY_DATA
@@ -80,7 +80,7 @@ def _lists_response(rtm_list_mock: Callable[[int, str], MagicMock]) -> None:
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a mock config entry with one list subentry."""
     entry = MockConfigEntry(
         data=CREATE_ENTRY_DATA,
@@ -101,7 +101,7 @@ def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.mark.usefixtures("storage")
 async def test_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_entity_state(
 
 @pytest.mark.usefixtures("client", "storage")
 async def test_device_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -146,7 +146,7 @@ async def test_device_entry(
 
 @pytest.mark.usefixtures("storage")
 async def test_create_todo_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_create_todo_item(
 
 @pytest.mark.usefixtures("storage")
 async def test_create_todo_item_with_due_date(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_create_todo_item_with_due_date(
 
 @pytest.mark.usefixtures("storage")
 async def test_create_todo_item_with_description(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_create_todo_item_with_description(
 )
 @pytest.mark.usefixtures("storage")
 async def test_update_todo_item_rename(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     new_name: str,
@@ -306,7 +306,7 @@ async def test_update_todo_item_rename(
 )
 @pytest.mark.usefixtures("storage")
 async def test_update_todo_item_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     initial_completed: datetime | None,
@@ -341,7 +341,7 @@ async def test_update_todo_item_status(
 
 @pytest.mark.usefixtures("storage")
 async def test_delete_todo_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -388,7 +388,7 @@ async def test_delete_todo_items(
 )
 @pytest.mark.usefixtures("storage")
 async def test_update_todo_item_set_due_date(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     initial_due: datetime | None,
@@ -424,7 +424,7 @@ async def test_update_todo_item_set_due_date(
 
 @pytest.mark.usefixtures("storage")
 async def test_update_todo_item_add_description(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -467,7 +467,7 @@ async def test_update_todo_item_add_description(
 )
 @pytest.mark.usefixtures("storage")
 async def test_update_todo_item_edit_description(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     new_description: str,
@@ -502,7 +502,7 @@ async def test_update_todo_item_edit_description(
 
 @pytest.mark.usefixtures("storage")
 async def test_update_todo_item_delete_description(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -535,7 +535,7 @@ async def test_update_todo_item_delete_description(
 
 @pytest.mark.usefixtures("storage")
 async def test_update_todo_item_empty_note_preserved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -574,7 +574,7 @@ async def test_update_todo_item_empty_note_preserved(
 
 
 @pytest.mark.usefixtures("client", "storage")
-async def test_setup_skips_non_list_subentries(hass: UniversalAssistant) -> None:
+async def test_setup_skips_non_list_subentries(hass: __HAC_KEEP__) -> None:
     """Test that async_setup_entry ignores subentries that are not list subentries."""
     entry = MockConfigEntry(
         data=CREATE_ENTRY_DATA,
@@ -614,17 +614,17 @@ async def test_setup_skips_non_list_subentries(hass: UniversalAssistant) -> None
 )
 @pytest.mark.usefixtures("storage")
 async def test_todo_item_api_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     side_effect: Exception,
     translation_key: str,
 ) -> None:
-    """Test that RTM API errors during a todo operation raise UniversalAssistantError."""
+    """Test that RTM API errors during a todo operation raise __HAC_KEEP__Error."""
     await hass.config_entries.async_setup(config_entry.entry_id)
     await hass.async_block_till_done()
     client.rtm.timelines.create.side_effect = side_effect
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.ADD_ITEM,

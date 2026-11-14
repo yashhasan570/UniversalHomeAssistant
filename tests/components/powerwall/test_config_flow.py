@@ -17,7 +17,7 @@ from universalassistant.components.powerwall.const import DOMAIN
 from universalassistant.components.powerwall.helpers import is_api_404
 from universalassistant.config_entries import ConfigEntryState, ConfigFlowResult
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.util import dt as dt_util
@@ -34,7 +34,7 @@ VALID_CONFIG = {CONF_IP_ADDRESS: "1.2.3.4", CONF_PASSWORD: "00GGX"}
 
 
 async def _async_configure_success(
-    hass: UniversalAssistant, flow_id: str
+    hass: __HAC_KEEP__, flow_id: str
 ) -> ConfigFlowResult:
     """Configure the flow with a reachable Powerwall."""
     mock_powerwall = await _mock_powerwall_site_name(hass, "MySite")
@@ -51,7 +51,7 @@ async def _async_configure_success(
         return await hass.config_entries.flow.async_configure(flow_id, VALID_CONFIG)
 
 
-async def test_form_source_user(hass: UniversalAssistant) -> None:
+async def test_form_source_user(hass: __HAC_KEEP__) -> None:
     """Test we get config flow setup form as a user."""
 
     result = await hass.config_entries.flow.async_init(
@@ -86,7 +86,7 @@ async def test_form_source_user(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.parametrize("exc", [PowerwallUnreachableError, TimeoutError])
-async def test_form_cannot_connect(hass: UniversalAssistant, exc: Exception) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__, exc: Exception) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -110,7 +110,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant, exc: Exception) -> 
     assert result2["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -136,7 +136,7 @@ async def test_invalid_auth(hass: UniversalAssistant) -> None:
     assert result2["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_pw3_restricted(hass: UniversalAssistant) -> None:
+async def test_form_pw3_restricted(hass: __HAC_KEEP__) -> None:
     """Test config flow succeeds for a PW3-style restricted gateway."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -169,7 +169,7 @@ async def test_form_pw3_restricted(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_non_404_api_error_propagates(hass: UniversalAssistant) -> None:
+async def test_form_non_404_api_error_propagates(hass: __HAC_KEEP__) -> None:
     """Non-404 ApiError from get_gateway_din must surface as unknown."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -196,7 +196,7 @@ async def test_form_non_404_api_error_propagates(hass: UniversalAssistant) -> No
     assert result2["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_exception(hass: UniversalAssistant) -> None:
+async def test_form_unknown_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle an unknown exception."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -219,7 +219,7 @@ async def test_form_unknown_exception(hass: UniversalAssistant) -> None:
     assert result2["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_wrong_version(hass: UniversalAssistant) -> None:
+async def test_form_wrong_version(hass: __HAC_KEEP__) -> None:
     """Test we can handle wrong version error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -245,7 +245,7 @@ async def test_form_wrong_version(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_already_configured(hass: UniversalAssistant) -> None:
+async def test_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we abort when already configured."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data={CONF_IP_ADDRESS: "1.1.1.1"})
@@ -264,7 +264,7 @@ async def test_already_configured(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_already_configured_with_ignored(hass: UniversalAssistant) -> None:
+async def test_already_configured_with_ignored(hass: __HAC_KEEP__) -> None:
     """Test ignored entries do not break checking for existing entries."""
 
     config_entry = MockConfigEntry(
@@ -313,7 +313,7 @@ async def test_already_configured_with_ignored(hass: UniversalAssistant) -> None
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_discovery_manual_configure(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_manual_configure(hass: __HAC_KEEP__) -> None:
     """Test we can process the discovery from dhcp and manually configure."""
     mock_powerwall = await _mock_powerwall_site_name(hass, "Some site")
 
@@ -355,7 +355,7 @@ async def test_dhcp_discovery_manual_configure(hass: UniversalAssistant) -> None
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_discovery_restricted_clears_unique_id(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_restricted_clears_unique_id(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery of a restricted PW3 stores no unique id.
 
     A PW3 advertises a ``TeslaPW_*`` hostname that is not the DIN, so the
@@ -403,7 +403,7 @@ async def test_dhcp_discovery_restricted_clears_unique_id(hass: UniversalAssista
     assert result2["result"].unique_id is None
 
 
-async def test_dhcp_discovery_auto_configure_restricted(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_auto_configure_restricted(hass: __HAC_KEEP__) -> None:
     """Test DHCP auto-configure of a restricted gateway stores no unique id.
 
     When the default password is accepted but the gateway is restricted (no DIN
@@ -448,7 +448,7 @@ async def test_dhcp_discovery_auto_configure_restricted(hass: UniversalAssistant
     assert result2["result"].unique_id is None
 
 
-async def test_dhcp_discovery_auto_configure(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_auto_configure(hass: __HAC_KEEP__) -> None:
     """Test we can process the discovery from dhcp and auto configure."""
     mock_powerwall = await _mock_powerwall_site_name(hass, "Some site")
 
@@ -491,7 +491,7 @@ async def test_dhcp_discovery_auto_configure(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_discovery_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we can process the discovery from dhcp and we cannot connect."""
     mock_powerwall = await _mock_powerwall_side_effect(
         site_info=PowerwallUnreachableError
@@ -515,7 +515,7 @@ async def test_dhcp_discovery_cannot_connect(hass: UniversalAssistant) -> None:
 
 
 async def test_dhcp_discovery_aborts_with_restricted_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery aborts when a restricted gateway (no unique id) is set up.
 
@@ -542,7 +542,7 @@ async def test_dhcp_discovery_aborts_with_restricted_entry(
     assert result["reason"] == "already_configured"
 
 
-async def test_form_reauth(hass: UniversalAssistant) -> None:
+async def test_form_reauth(hass: __HAC_KEEP__) -> None:
     """Test reauthenticate."""
 
     entry = MockConfigEntry(
@@ -586,7 +586,7 @@ async def test_form_reauth(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_discovery_update_ip_address(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_update_ip_address(hass: __HAC_KEEP__) -> None:
     """Test we can update the ip address from dhcp."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -623,7 +623,7 @@ async def test_dhcp_discovery_update_ip_address(hass: UniversalAssistant) -> Non
 
 
 async def test_dhcp_discovery_does_not_update_ip_when_auth_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we do not switch to another interface when auth is failing."""
     entry = MockConfigEntry(
@@ -660,7 +660,7 @@ async def test_dhcp_discovery_does_not_update_ip_when_auth_fails(
 
 
 async def test_dhcp_discovery_does_not_update_ip_when_auth_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we do not switch to another interface when auth is successful."""
     entry = MockConfigEntry(
@@ -696,7 +696,7 @@ async def test_dhcp_discovery_does_not_update_ip_when_auth_successful(
     assert entry.data[CONF_IP_ADDRESS] == "1.2.3.4"
 
 
-async def test_dhcp_discovery_updates_unique_id(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_updates_unique_id(hass: __HAC_KEEP__) -> None:
     """Test we can update the unique id from dhcp."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -733,7 +733,7 @@ async def test_dhcp_discovery_updates_unique_id(hass: UniversalAssistant) -> Non
 
 
 async def test_dhcp_discovery_updates_unique_id_when_entry_is_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we can update the unique id from dhcp in a failed state."""
     entry = MockConfigEntry(
@@ -772,7 +772,7 @@ async def test_dhcp_discovery_updates_unique_id_when_entry_is_failed(
 
 
 async def test_discovered_wifi_does_not_update_ip_if_is_still_online(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery does not update IP if powerwall is still online."""
     entry = MockConfigEntry(
@@ -810,7 +810,7 @@ async def test_discovered_wifi_does_not_update_ip_if_is_still_online(
 
 
 async def test_discovered_wifi_does_not_update_ip_online_but_access_denied(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery does not update IP if powerwall is still online."""
     entry = MockConfigEntry(
@@ -869,7 +869,7 @@ def test_is_api_404() -> None:
 
 
 async def test_dhcp_discovery_does_not_overwrite_real_din(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """DHCP must not stomp an existing real-DIN unique_id with a different DIN."""
     existing_din = "111-0----2-000000000AAA"

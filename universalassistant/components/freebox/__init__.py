@@ -7,7 +7,7 @@ from aiohttp import ClientError
 from freebox_api.exceptions import HttpRequestError
 
 from universalassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import async_track_time_interval
@@ -31,7 +31,7 @@ _STATIC_UNIQUE_ID_MIGRATIONS: tuple[tuple[Platform, str, str], ...] = (
 )
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: FreeboxConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: FreeboxConfigEntry) -> None:
     """Migrate old config entries."""
     if entry.version < 2:
         api = await get_api(hass, entry.data[CONF_HOST])
@@ -78,7 +78,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: FreeboxConfigEntr
         hass.config_entries.async_update_entry(entry, version=2)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FreeboxConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FreeboxConfigEntry) -> None:
     """Set up Freebox entry."""
     api = await get_api(hass, entry.data[CONF_HOST])
     # The library raises its own error only for a request the router refused,
@@ -132,6 +132,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FreeboxConfigEntry)
     entry.async_on_unload(router.close)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FreeboxConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FreeboxConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

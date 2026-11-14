@@ -18,12 +18,12 @@ from universalassistant.const import (
 from universalassistant.core import (
     CALLBACK_TYPE,
     DOMAIN as HOMEASSISTANT_DOMAIN,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     async_get_hass_or_none,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import (
     DomainSpec,
@@ -144,12 +144,12 @@ class EntityTriggerBase(Trigger):
     @override
     @classmethod
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, cls._schema(config))
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the state trigger."""
         super().__init__(hass, config)
         if TYPE_CHECKING:
@@ -560,7 +560,7 @@ class EntityNumericalStateTriggerBase(EntityTriggerBase):
     _valid_unit: str | Undefined | None = Undefined
     _threshold_type: NumericThresholdType
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the state trigger."""
         super().__init__(hass, config)
         threshold_options: dict[str, Any] = self._options["threshold"]
@@ -796,7 +796,7 @@ class EntityNumericalStateTriggerWithUnitBase(EntityNumericalStateTriggerBase):
         unit = state.attributes.get(EntityStateAttribute.UNIT_OF_MEASUREMENT)
         try:
             return self._unit_converter.convert(value, unit, self._base_unit)
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             # Unit conversion failed (i.e. incompatible units), treat as invalid number
             report_not_triggered(
                 "threshold_unit_not_supported",
@@ -825,7 +825,7 @@ class EntityNumericalStateTriggerWithUnitBase(EntityNumericalStateTriggerBase):
             return self._unit_converter.convert(
                 value, self._get_entity_unit(state), self._base_unit
             )
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             # Unit conversion failed (i.e. incompatible units), treat as invalid number
             return None
 

@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.components.infrared import InfraredReceivedSignal
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -29,7 +29,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_event_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     freezer: FrozenDateTimeFactory,
     command_byte: int,
@@ -75,7 +75,7 @@ async def test_event_fires(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_event_ignores_other_nec_addresses(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test the event entity ignores NEC signals from other addresses."""
@@ -93,7 +93,7 @@ async def test_event_ignores_other_nec_addresses(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_event_ignores_non_nec_signals(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
 ) -> None:
     """Test the event entity ignores signals that cannot be decoded as NEC."""
@@ -110,7 +110,7 @@ async def test_event_ignores_non_nec_signals(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_event_resubscribes_after_receiver_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_receiver_entity: MockInfraredReceiverEntity,
     freezer: FrozenDateTimeFactory,
 ) -> None:

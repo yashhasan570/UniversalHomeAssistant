@@ -99,7 +99,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.util import dt as dt_util
 
 from .const import (
@@ -156,7 +156,7 @@ class AlexaCapability:
     """Base class for Alexa capability interfaces.
 
     The Smart Home Skills API defines a number of "capability interfaces",
-    roughly analogous to domains in Universal Universal Home Assistant. The supported interfaces
+    roughly analogous to domains in __HA_KEEP__. The supported interfaces
     describe what actions can be performed on a particular device.
 
     https://developer.amazon.com/docs/device-apis/message-guide.html
@@ -347,7 +347,7 @@ class Alexa(AlexaCapability):
 
     https://developer.amazon.com/docs/device-apis/alexa-interface.html
 
-    To compare current supported locales in Universal Universal Home Assistant
+    To compare current supported locales in __HA_KEEP__
     with Alexa supported locales, run the following script:
     python -m script.alexa_locales
     """
@@ -403,7 +403,7 @@ class AlexaEndpointHealth(AlexaCapability):
         "pt-BR",
     }
 
-    def __init__(self, hass: UniversalAssistant, entity: State) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entity: State) -> None:
         """Initialize the entity."""
         super().__init__(entity)
         self.hass = hass
@@ -1038,7 +1038,7 @@ class AlexaTemperatureSensor(AlexaCapability):
         "pt-BR",
     }
 
-    def __init__(self, hass: UniversalAssistant, entity: State) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entity: State) -> None:
         """Initialize the entity."""
         super().__init__(entity)
         self.hass = hass
@@ -1132,7 +1132,7 @@ class AlexaContactSensor(AlexaCapability):
         "pt-BR",
     }
 
-    def __init__(self, hass: UniversalAssistant, entity: State) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entity: State) -> None:
         """Initialize the entity."""
         super().__init__(entity)
         self.hass = hass
@@ -1192,7 +1192,7 @@ class AlexaMotionSensor(AlexaCapability):
         "pt-BR",
     }
 
-    def __init__(self, hass: UniversalAssistant, entity: State) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entity: State) -> None:
         """Initialize the entity."""
         super().__init__(entity)
         self.hass = hass
@@ -1254,7 +1254,7 @@ class AlexaThermostatController(AlexaCapability):
         "pt-BR",
     }
 
-    def __init__(self, hass: UniversalAssistant, entity: State) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entity: State) -> None:
         """Initialize the entity."""
         super().__init__(entity)
         self.hass = hass
@@ -1465,7 +1465,7 @@ class AlexaSecurityPanelController(AlexaCapability):
         "pt-BR",
     }
 
-    def __init__(self, hass: UniversalAssistant, entity: State) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entity: State) -> None:
         """Initialize the entity."""
         super().__init__(entity)
         self.hass = hass
@@ -2581,7 +2581,7 @@ class AlexaEventDetectionSensor(AlexaCapability):
 
     supported_locales = {"en-US"}
 
-    def __init__(self, hass: UniversalAssistant, entity: State) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entity: State) -> None:
         """Initialize the entity."""
         super().__init__(entity)
         self.hass = hass

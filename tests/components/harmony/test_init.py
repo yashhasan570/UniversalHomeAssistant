@@ -15,7 +15,7 @@ from universalassistant.components.harmony import async_setup_entry
 from universalassistant.components.harmony.const import DOMAIN
 from universalassistant.config_entries import SOURCE_SSDP, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
@@ -39,7 +39,7 @@ NEW_CONFIG_FILE = f"{STORAGE_DIR}/{DOMAIN}/harmony_123.conf"
 
 
 async def test_unique_id_migration(
-    mock_hc, hass: UniversalAssistant, mock_write_config
+    mock_hc, hass: __HAC_KEEP__, mock_write_config
 ) -> None:
     """Test migration of switch unique ids to stable ones."""
     entry = MockConfigEntry(
@@ -107,7 +107,7 @@ async def test_unique_id_migration(
 
 @pytest.mark.usefixtures("mock_hc")
 async def test_connect_timeout_retries_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     harmony_client: FakeHarmonyClient,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_connect_timeout_retries_setup(
 
 @pytest.mark.usefixtures("mock_hc", "mock_write_config")
 async def test_reconfigure_loaded_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring a loaded entry reloads it once with the new host."""
     mock_config_entry.add_to_hass(hass)
@@ -158,7 +158,7 @@ async def test_reconfigure_loaded_entry(
 
 @pytest.mark.usefixtures("mock_hc", "mock_write_config")
 async def test_ssdp_host_change_reloads_loaded_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test discovering a loaded hub on a new host reloads it once."""
     mock_config_entry.add_to_hass(hass)
@@ -195,7 +195,7 @@ async def test_ssdp_host_change_reloads_loaded_entry(
 
 
 async def test_remove_entry_removes_config_file(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, tmp_path: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, tmp_path: Path
 ) -> None:
     """Test removing the entry removes the hub configuration file."""
     hass.config.config_dir = str(tmp_path)
@@ -212,7 +212,7 @@ async def test_remove_entry_removes_config_file(
 
 @pytest.mark.usefixtures("mock_hc", "mock_write_config")
 async def test_migrate_config_file_to_storage(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, tmp_path: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, tmp_path: Path
 ) -> None:
     """Test the hub configuration file is moved from the config root into .storage."""
     hass.config.config_dir = str(tmp_path)
@@ -235,7 +235,7 @@ async def test_migrate_config_file_to_storage(
 
 @pytest.mark.usefixtures("mock_hc")
 async def test_config_file_written_to_storage(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, tmp_path: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, tmp_path: Path
 ) -> None:
     """Test the hub configuration file is written into .storage."""
     hass.config.config_dir = str(tmp_path)

@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.hydrawise.const import DOMAIN, MAIN_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import DeviceRegistry
@@ -21,7 +21,7 @@ from universalassistant.helpers.device_registry import DeviceRegistry
 
 @pytest.mark.parametrize("side_effect", [ClientError, APIError("unavailable")])
 async def test_connect_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     side_effect: Exception,
@@ -35,7 +35,7 @@ async def test_connect_retry(
 
 
 async def test_setup_auth_error_starts_reauth(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_pydrawise: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_pydrawise: AsyncMock
 ) -> None:
     """Test that an authorization error during setup starts a reauth flow."""
     mock_pydrawise.get_user.side_effect = NotAuthorizedError("HTTP 401")
@@ -47,7 +47,7 @@ async def test_setup_auth_error_starts_reauth(
 
 
 async def test_update_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -74,7 +74,7 @@ async def test_update_api_error(
 
 
 async def test_update_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -89,7 +89,7 @@ async def test_update_auth_error_starts_reauth(
 
 
 async def test_update_version(
-    hass: UniversalAssistant, mock_config_entry_legacy: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry_legacy: MockConfigEntry
 ) -> None:
     """Test updating to the GaphQL API works."""
     mock_config_entry_legacy.add_to_hass(hass)
@@ -105,7 +105,7 @@ async def test_update_version(
 
 
 async def test_auto_add_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
@@ -183,7 +183,7 @@ async def test_auto_add_devices(
 
 
 async def test_auto_remove_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_added_config_entry: MockConfigEntry,
     user: User,
@@ -228,7 +228,7 @@ async def test_auto_remove_devices(
 
 
 async def test_zones_of_one_controller_go_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     zones: list[Zone],
@@ -260,10 +260,10 @@ async def test_zones_of_one_controller_go_missing(
 
 @pytest.mark.usefixtures("mock_pydrawise")
 async def test_setup_uses_shared_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test that the integration passes Universal Universal Home Assistant's client session along."""
+    """Test that the integration passes __HA_KEEP__'s client session along."""
     mock_config_entry.add_to_hass(hass)
 
     with patch("pydrawise.auth.HybridAuth", autospec=True) as mock_hybrid_auth:

@@ -17,7 +17,7 @@ from universalassistant.components.geosphere_austria_warnings.coordinator import
     UPDATE_INTERVAL,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -25,7 +25,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_client")
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the config entry."""
@@ -54,7 +54,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_setup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -68,7 +68,7 @@ async def test_setup_failure(
 
 @pytest.mark.freeze_time("2023-03-27 12:00:00+00:00")
 async def test_warnings_fetch_skipped_when_unchanged(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -99,7 +99,7 @@ async def test_warnings_fetch_skipped_when_unchanged(
 )
 @pytest.mark.usefixtures("mock_client")
 async def test_migrate_warning_level_preserves_registry_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     custom_entity_id: str | None,
@@ -145,7 +145,7 @@ async def test_migrate_warning_level_preserves_registry_entry(
 
 
 async def test_migration_conflict(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     entity_registry: er.EntityRegistry,

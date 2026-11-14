@@ -12,7 +12,7 @@ from zwave_js_server.util.node import dump_node_state
 
 from universalassistant.components.diagnostics import REDACTED, async_redact_data
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -71,7 +71,7 @@ def redact_node_state(node_state: dict) -> dict:
 
 
 def get_device_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     node: Node,
     config_entry: ZwaveJSConfigEntry,
     device: dr.AnyDeviceEntry,
@@ -135,7 +135,7 @@ def get_device_entities(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: ZwaveJSConfigEntry
+    hass: __HAC_KEEP__, config_entry: ZwaveJSConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     msgs: list[dict] = async_redact_data(
@@ -154,7 +154,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, config_entry: ZwaveJSConfigEntry, device: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: ZwaveJSConfigEntry, device: dr.AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     client: Client = config_entry.runtime_data.client

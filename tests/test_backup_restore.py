@@ -229,7 +229,7 @@ def test_aborting_for_older_versions(restore_config: str, tmp_path: Path) -> Non
         pytest.raises(
             ValueError,
             match=(
-                "You need at least Universal Universal Home Assistant version"
+                "You need at least __HA_KEEP__ version"
                 " 9999.99.99 to restore this backup"
             ),
         ),
@@ -237,7 +237,7 @@ def test_aborting_for_older_versions(restore_config: str, tmp_path: Path) -> Non
         assert backup_restore.restore_backup(tmp_path.as_posix()) is True
     assert restore_result_file_content(tmp_path) == {
         "error": (
-            "You need at least Universal Universal Home Assistant version 9999.99.99 to restore this backup"
+            "You need at least __HA_KEEP__ version 9999.99.99 to restore this backup"
         ),
         "error_type": "ValueError",
         "success": False,

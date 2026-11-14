@@ -14,7 +14,7 @@ from pvo import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -30,7 +30,7 @@ class PVOutputDataUpdateCoordinator(DataUpdateCoordinator[Status]):
     config_entry: PvOutputConfigEntry
     system: System
 
-    def __init__(self, hass: UniversalAssistant, entry: PvOutputConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: PvOutputConfigEntry) -> None:
         """Initialize the PVOutput coordinator."""
         self.pvoutput = PVOutput(
             api_key=entry.data[CONF_API_KEY],

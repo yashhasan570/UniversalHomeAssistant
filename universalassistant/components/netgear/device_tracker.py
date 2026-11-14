@@ -4,7 +4,7 @@ import logging
 from typing import override
 
 from universalassistant.components.device_tracker import ScannerEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DEVICE_ICONS
@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NetgearConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

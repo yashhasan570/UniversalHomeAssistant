@@ -3,13 +3,13 @@
 import romy
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import LOGGER, PLATFORMS
 from .coordinator import RomyConfigEntry, RomyVacuumCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, config_entry: RomyConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, config_entry: RomyConfigEntry) -> None:
     """Initialize the ROMY platform via config entry."""
 
     new_romy = await romy.create_romy(
@@ -26,12 +26,12 @@ async def async_setup_entry(hass: UniversalAssistant, config_entry: RomyConfigEn
     config_entry.async_on_unload(config_entry.add_update_listener(update_listener))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: RomyConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: RomyConfigEntry) -> None:
     """Handle removal of an entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def update_listener(hass: UniversalAssistant, config_entry: RomyConfigEntry) -> None:
+async def update_listener(hass: __HAC_KEEP__, config_entry: RomyConfigEntry) -> None:
     """Handle options update."""
     LOGGER.debug("update_listener")
     await hass.config_entries.async_reload(config_entry.entry_id)

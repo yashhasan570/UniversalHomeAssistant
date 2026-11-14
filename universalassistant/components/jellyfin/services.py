@@ -10,7 +10,7 @@ from universalassistant.components.media_player import (
     DOMAIN as MP_DOMAIN,
     MediaPlayerEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -57,7 +57,7 @@ def _promote_media_fields(data: dict[str, Any]) -> dict[str, Any]:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for the Jellyfin component."""
 
     service.async_register_platform_entity_service(

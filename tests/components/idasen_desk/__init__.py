@@ -9,7 +9,7 @@ from pytest_universalassistant.components.bluetooth import (
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.components.idasen_desk.const import DOMAIN
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 IDASEN_DISCOVERY_INFO = BluetoothServiceInfoBleak(
     name="Desk 1234",
@@ -44,8 +44,8 @@ NOT_IDASEN_DISCOVERY_INFO = BluetoothServiceInfoBleak(
 UPDATE_DEBOUNCE_TIME = 0.2
 
 
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the IKEA Idasen Desk integration in Universal Universal Home Assistant."""
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the IKEA Idasen Desk integration in __HA_KEEP__."""
     entry = MockConfigEntry(
         title="Test",
         domain=DOMAIN,

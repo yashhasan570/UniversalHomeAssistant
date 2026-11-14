@@ -10,7 +10,7 @@ import pytest
 from universalassistant.components.ecovacs.const import DOMAIN
 from universalassistant.components.ecovacs.services import EcovacsService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 pytestmark = [pytest.mark.usefixtures("init_integration")]
 
@@ -70,7 +70,7 @@ def mock_device_execute_response(data: dict[str, Any]) -> Generator[dict[str, An
     ids=["yna5x1"],
 )
 async def test_get_positions_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device_execute_response: dict[str, Any],
     entity_id: str,
 ) -> None:

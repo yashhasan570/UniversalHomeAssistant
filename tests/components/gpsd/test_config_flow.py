@@ -7,13 +7,13 @@ from gps3.agps3threaded import GPSD_PORT as DEFAULT_PORT
 from universalassistant import config_entries
 from universalassistant.components.gpsd.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 HOST = "gpsd.local"
 
 
-async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -43,7 +43,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> No
     mock_setup_entry.assert_called_once()
 
 
-async def test_connection_error(hass: UniversalAssistant) -> None:
+async def test_connection_error(hass: __HAC_KEEP__) -> None:
     """Test connection to host error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

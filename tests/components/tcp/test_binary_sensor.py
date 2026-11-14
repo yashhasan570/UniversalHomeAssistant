@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import assert_setup_component, async_fire_time_changed
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -38,14 +38,14 @@ def now():
     return utcnow()
 
 
-async def test_setup_platform_valid_config(hass: UniversalAssistant, mock_socket) -> None:
+async def test_setup_platform_valid_config(hass: __HAC_KEEP__, mock_socket) -> None:
     """Check a valid configuration."""
     with assert_setup_component(1, "binary_sensor"):
         assert await async_setup_component(hass, "binary_sensor", TEST_CONFIG)
         await hass.async_block_till_done()
 
 
-async def test_setup_platform_invalid_config(hass: UniversalAssistant, mock_socket) -> None:
+async def test_setup_platform_invalid_config(hass: __HAC_KEEP__, mock_socket) -> None:
     """Check the invalid configuration."""
     with assert_setup_component(0):
         assert await async_setup_component(
@@ -56,7 +56,7 @@ async def test_setup_platform_invalid_config(hass: UniversalAssistant, mock_sock
         await hass.async_block_till_done()
 
 
-async def test_state(hass: UniversalAssistant, mock_socket, now) -> None:
+async def test_state(hass: __HAC_KEEP__, mock_socket, now) -> None:
     """Check the state and update of the binary sensor."""
     mock_socket.recv.return_value = b"off"
     assert await async_setup_component(hass, "binary_sensor", TEST_CONFIG)

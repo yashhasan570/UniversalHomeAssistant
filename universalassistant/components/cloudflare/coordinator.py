@@ -10,7 +10,7 @@ import pycfdns
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_TOKEN, CONF_ZONE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -32,7 +32,7 @@ class CloudflareCoordinator(DataUpdateCoordinator[None]):
     zone: pycfdns.ZoneModel
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: CloudflareConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: CloudflareConfigEntry
     ) -> None:
         """Initialize an coordinator."""
         super().__init__(

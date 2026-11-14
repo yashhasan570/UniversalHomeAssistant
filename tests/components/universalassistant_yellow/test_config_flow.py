@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant Yellow config flow."""
+"""Test the __HA_KEEP__ Yellow config flow."""
 
 from collections.abc import Generator
 from unittest.mock import ANY, AsyncMock, Mock, call, patch
@@ -28,13 +28,13 @@ from universalassistant.components.universalassistant_hardware.util import (
 )
 from universalassistant.components.universalassistant_yellow.const import DOMAIN, RADIO_DEVICE
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-def config_flow_handler(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_handler(hass: __HAC_KEEP__) -> Generator[None]:
     """Fixture for a test config flow."""
     with patch(
         "universalassistant.components.universalassistant_hardware.silabs_multiprotocol_addon.WaitingAddonManager.async_wait_until_addon_state"
@@ -74,7 +74,7 @@ def setup_entry_fixture() -> Generator[AsyncMock]:
         yield mock_setup_entry
 
 
-async def test_config_flow(hass: UniversalAssistant) -> None:
+async def test_config_flow(hass: __HAC_KEEP__) -> None:
     """Test the config flow."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -100,7 +100,7 @@ async def test_config_flow(hass: UniversalAssistant) -> None:
         )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == "Universal Universal Home Assistant Yellow"
+    assert result["title"] == "__HA_KEEP__ Yellow"
     assert result["data"] == {"firmware": "ezsp", "firmware_version": None}
     assert result["options"] == {}
     assert len(mock_setup_entry.mock_calls) == 1
@@ -108,10 +108,10 @@ async def test_config_flow(hass: UniversalAssistant) -> None:
     config_entry = hass.config_entries.async_entries(DOMAIN)[0]
     assert config_entry.data == {"firmware": "ezsp", "firmware_version": None}
     assert config_entry.options == {}
-    assert config_entry.title == "Universal Universal Home Assistant Yellow"
+    assert config_entry.title == "__HA_KEEP__ Yellow"
 
 
-async def test_config_flow_single_entry(hass: UniversalAssistant) -> None:
+async def test_config_flow_single_entry(hass: __HAC_KEEP__) -> None:
     """Test only a single entry is allowed."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -121,7 +121,7 @@ async def test_config_flow_single_entry(hass: UniversalAssistant) -> None:
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -146,7 +146,7 @@ async def test_config_flow_single_entry(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("os_yellow_info")
 async def test_option_flow_led_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_yellow_settings: AsyncMock,
     reboot_host: AsyncMock,
     reboot_menu_choice: str,
@@ -161,7 +161,7 @@ async def test_option_flow_led_settings(
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -197,7 +197,7 @@ async def test_option_flow_led_settings(
 
 @pytest.mark.usefixtures("os_yellow_info")
 async def test_option_flow_led_settings_unchanged(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_yellow_settings: AsyncMock,
 ) -> None:
     """Test updating LED settings."""
@@ -209,7 +209,7 @@ async def test_option_flow_led_settings_unchanged(
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -235,7 +235,7 @@ async def test_option_flow_led_settings_unchanged(
 
 @pytest.mark.parametrize("exc", [SupervisorError, TimeoutError])
 async def test_option_flow_led_settings_fail_1(
-    hass: UniversalAssistant, os_yellow_info: AsyncMock, exc: type[Exception]
+    hass: __HAC_KEEP__, os_yellow_info: AsyncMock, exc: type[Exception]
 ) -> None:
     """Test updating LED settings."""
     mock_integration(hass, MockModule("hassio"))
@@ -246,7 +246,7 @@ async def test_option_flow_led_settings_fail_1(
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -268,7 +268,7 @@ async def test_option_flow_led_settings_fail_1(
 @pytest.mark.parametrize("exc", [SupervisorError, TimeoutError])
 @pytest.mark.usefixtures("os_yellow_info")
 async def test_option_flow_led_settings_fail_2(
-    hass: UniversalAssistant, set_yellow_settings: AsyncMock, exc: type[Exception]
+    hass: __HAC_KEEP__, set_yellow_settings: AsyncMock, exc: type[Exception]
 ) -> None:
     """Test updating LED settings."""
     mock_integration(hass, MockModule("hassio"))
@@ -279,7 +279,7 @@ async def test_option_flow_led_settings_fail_2(
         data={"firmware": ApplicationType.EZSP},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -305,7 +305,7 @@ async def test_option_flow_led_settings_fail_2(
 
 
 @pytest.mark.usefixtures("addon_store_info")
-async def test_firmware_options_flow_zigbee(hass: UniversalAssistant) -> None:
+async def test_firmware_options_flow_zigbee(hass: __HAC_KEEP__) -> None:
     """Test the firmware options flow for Yellow."""
     fw_type = ApplicationType.EZSP
     fw_version = "7.4.4.0 build 0"
@@ -316,7 +316,7 @@ async def test_firmware_options_flow_zigbee(hass: UniversalAssistant) -> None:
         data={"firmware": ApplicationType.SPINEL},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -338,7 +338,7 @@ async def test_firmware_options_flow_zigbee(hass: UniversalAssistant) -> None:
     description_placeholders = result["description_placeholders"]
     assert description_placeholders is not None
     assert description_placeholders["firmware_type"] == "spinel"
-    assert description_placeholders["model"] == "Universal Universal Home Assistant Yellow"
+    assert description_placeholders["model"] == "__HA_KEEP__ Yellow"
 
     mock_update_client = AsyncMock()
     mock_manifest = Mock()
@@ -442,7 +442,7 @@ async def test_firmware_options_flow_zigbee(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("addon_installed")
 async def test_firmware_options_flow_thread(
-    hass: UniversalAssistant, start_addon: AsyncMock
+    hass: __HAC_KEEP__, start_addon: AsyncMock
 ) -> None:
     """Test the firmware options flow for Yellow with Thread."""
     fw_type = ApplicationType.SPINEL
@@ -454,7 +454,7 @@ async def test_firmware_options_flow_thread(
         data={"firmware": ApplicationType.SPINEL},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )
@@ -476,7 +476,7 @@ async def test_firmware_options_flow_thread(
     description_placeholders = result["description_placeholders"]
     assert description_placeholders is not None
     assert description_placeholders["firmware_type"] == "spinel"
-    assert description_placeholders["model"] == "Universal Universal Home Assistant Yellow"
+    assert description_placeholders["model"] == "__HA_KEEP__ Yellow"
 
     async def mock_install_firmware_step(
         self,
@@ -532,7 +532,7 @@ async def test_firmware_options_flow_thread(
 
 
 @pytest.mark.usefixtures("addon_store_info", "supervisor_client")
-async def test_options_flow_multipan_uninstall(hass: UniversalAssistant) -> None:
+async def test_options_flow_multipan_uninstall(hass: __HAC_KEEP__) -> None:
     """Test options flow for when multi-PAN firmware is installed."""
     mock_integration(hass, MockModule("hassio"))
     await async_setup_component(hass, HASSIO_DOMAIN, {})
@@ -541,7 +541,7 @@ async def test_options_flow_multipan_uninstall(hass: UniversalAssistant) -> None
         data={"firmware": ApplicationType.CPC},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.homevolt.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 DEVICE_IDENTIFIER = "ems_40580137858664"
 
@@ -111,7 +111,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homevolt_client: MagicMock,
     platforms: list[Platform],

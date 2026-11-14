@@ -5,10 +5,10 @@ from unittest.mock import AsyncMock
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> bool:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> bool:
     """Set up the component."""
     config_entry.add_to_hass(hass)
     if success := await hass.config_entries.async_setup(config_entry.entry_id):

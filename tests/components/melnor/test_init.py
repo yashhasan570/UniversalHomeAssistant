@@ -3,7 +3,7 @@
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.melnor.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import (
@@ -16,7 +16,7 @@ from .conftest import (
 
 
 async def test_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -38,7 +38,7 @@ async def test_device_registry(
 
 
 async def test_zone_device_via_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that zone devices link to the parent device via via_device_id."""

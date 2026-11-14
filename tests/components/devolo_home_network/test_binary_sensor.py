@@ -12,7 +12,7 @@ from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_
 from universalassistant.components.devolo_home_network.const import LONG_UPDATE_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import configure_integration
@@ -22,7 +22,7 @@ from .mock import MockDevice
 
 @pytest.mark.usefixtures("mock_device")
 async def test_binary_sensor_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test default setup of the binary sensor component."""
@@ -39,7 +39,7 @@ async def test_binary_sensor_setup(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_update_attached_to_router(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device: MockDevice,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,

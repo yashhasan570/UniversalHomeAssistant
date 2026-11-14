@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
     SensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import TwenteMilieuConfigEntry
@@ -60,7 +60,7 @@ SENSORS: tuple[TwenteMilieuSensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TwenteMilieuConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

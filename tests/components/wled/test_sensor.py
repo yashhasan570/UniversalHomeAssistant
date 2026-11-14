@@ -26,7 +26,7 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -41,7 +41,7 @@ def override_platforms() -> Generator[None]:
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.freeze_time("2021-11-04 17:36:59+01:00")
 async def test_snapshots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -63,7 +63,7 @@ async def test_snapshots(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_disabled_by_default_sensors(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_id: str
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_id: str
 ) -> None:
     """Test the disabled by default WLED sensors."""
     assert hass.states.get(entity_id) is None
@@ -75,7 +75,7 @@ async def test_disabled_by_default_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_no_wifi_sensors_when_wired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -111,7 +111,7 @@ async def test_no_wifi_sensors_when_wired(
 
 
 async def test_no_current_measurement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_no_current_measurement(
 
 
 async def test_current_measurement_once_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -169,7 +169,7 @@ async def test_current_measurement_once_reported(
 
 
 async def test_current_measurement_kept_when_not_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_current_measurement_kept_when_not_reported(
     await hass.async_block_till_done()
     assert hass.states.get("sensor.wled_rgb_light_estimated_current")
 
-    # The light is off when Universal Universal Home Assistant starts again.
+    # The light is off when __HA_KEEP__ starts again.
     device = mock_wled.update.return_value
     device.info.leds.max_power = 0
     device.info.leds.power = 0
@@ -193,7 +193,7 @@ async def test_current_measurement_kept_when_not_reported(
 
 
 async def test_current_measurement_with_per_output_limiters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -214,7 +214,7 @@ async def test_current_measurement_with_per_output_limiters(
 
 
 async def test_fail_when_other_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
@@ -239,7 +239,7 @@ async def test_fail_when_other_device(
 
 
 async def _async_setup_with_readings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
     readings: dict[str, Any],
@@ -266,7 +266,7 @@ async def _async_setup_with_readings(
             UnitOfTemperature.CELSIUS,
             SensorDeviceClass.TEMPERATURE,
         ),
-        # Universal Universal Home Assistant shows it in the system's unit, Celsius in tests.
+        # __HA_KEEP__ shows it in the system's unit, Celsius in tests.
         (
             {"temperature": [70.7, "°F"]},
             "sensor.wled_rgb_light_temperature",
@@ -292,7 +292,7 @@ async def _async_setup_with_readings(
     ],
 )
 async def test_usermod_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
     readings: dict[str, Any],
@@ -312,7 +312,7 @@ async def test_usermod_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_usermod_internal_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -329,7 +329,7 @@ async def test_usermod_internal_temperature(
 
 
 async def test_usermod_internal_temperature_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -347,7 +347,7 @@ async def test_usermod_internal_temperature_disabled_by_default(
 
 
 async def test_usermod_readings_without_a_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -369,7 +369,7 @@ async def test_usermod_readings_without_a_sensor(
 
 
 async def test_usermod_readings_in_a_unit_of_another_kind(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
 ) -> None:
@@ -386,7 +386,7 @@ async def test_usermod_readings_in_a_unit_of_another_kind(
 
 
 async def test_usermod_sensor_follows_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wled: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -407,7 +407,7 @@ async def test_usermod_sensor_follows_device(
     assert (sensor := hass.states.get("sensor.wled_rgb_light_temperature"))
     assert sensor.state == "21.5"
 
-    # The usermod is set to Fahrenheit; Universal Universal Home Assistant shows it in Celsius.
+    # The usermod is set to Fahrenheit; __HA_KEEP__ shows it in Celsius.
     await async_report({"temperature": [77, "°F"]})
     assert (sensor := hass.states.get("sensor.wled_rgb_light_temperature"))
     assert sensor.state == "25.0"

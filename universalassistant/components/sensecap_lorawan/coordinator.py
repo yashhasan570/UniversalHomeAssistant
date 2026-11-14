@@ -6,7 +6,7 @@ from typing import override
 from sensecap_lorawan import SenseCapDevice
 
 from universalassistant.components.lorawan import device_identifier
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 class SenseCapCoordinator(DataUpdateCoordinator[SenseCapDevice]):
     """Distribute push updates from one physical device."""
 
-    def __init__(self, hass: UniversalAssistant, device: SenseCapDevice) -> None:
+    def __init__(self, hass: __HAC_KEEP__, device: SenseCapDevice) -> None:
         """Subscribe once to the library model."""
         super().__init__(
             hass,

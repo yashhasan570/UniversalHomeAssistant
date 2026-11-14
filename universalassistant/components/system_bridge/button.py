@@ -22,8 +22,8 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -78,7 +78,7 @@ BUTTON_TYPES: tuple[SystemBridgeButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SystemBridgeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -108,7 +108,7 @@ async def async_setup_entry(
                 SystemBridgeCommandButton(coordinator, api_port, command_id)
                 for command_id in new_ids
             )
-        # Also catches commands deleted while Universal Universal Home Assistant wasn't running
+        # Also catches commands deleted while __HA_KEEP__ wasn't running
         for registry_entry in er.async_entries_for_config_entry(
             entity_registry, entry.entry_id
         ):
@@ -148,7 +148,7 @@ class SystemBridgeButton(SystemBridgeEntity, ButtonEntity):
                 self.coordinator.websocket_client
             )
         except ConnectionClosedException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_failed",
                 translation_placeholders={
@@ -157,7 +157,7 @@ class SystemBridgeButton(SystemBridgeEntity, ButtonEntity):
                 },
             ) from e
         if response.type == EventType.ERROR:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="power_command_failed",
                 translation_placeholders={"error": response.message or ""},
@@ -211,7 +211,7 @@ class SystemBridgeCommandButton(SystemBridgeEntity, ButtonEntity):
                 ExecuteRequest(commandID=self._command_id)
             )
         except (ConnectionClosedException, ConnectionResetError) as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_failed",
                 translation_placeholders={
@@ -220,25 +220,25 @@ class SystemBridgeCommandButton(SystemBridgeEntity, ButtonEntity):
                 },
             ) from e
         except ConnectionErrorException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_timeout",
                 translation_placeholders={"name": self.name},
             ) from e
         except BadRequestException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"name": self.name, "error": str(e)},
             ) from e
         if result.error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"name": self.name, "error": result.error},
             )
         if result.exitCode != 0:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_exit_code",
                 translation_placeholders={

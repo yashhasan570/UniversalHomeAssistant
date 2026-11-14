@@ -13,7 +13,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.typing import ConfigType
 
@@ -56,7 +56,7 @@ PLATFORMS = {
 }
 
 
-def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up EufyHome devices."""
 
     if CONF_USERNAME in config[DOMAIN] and CONF_PASSWORD in config[DOMAIN]:

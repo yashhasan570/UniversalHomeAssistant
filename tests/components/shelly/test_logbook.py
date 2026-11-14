@@ -10,7 +10,7 @@ from universalassistant.components.shelly.const import (
     EVENT_SHELLY_CLICK,
 )
 from universalassistant.const import ATTR_DEVICE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -20,7 +20,7 @@ from tests.components.logbook.common import MockRow, mock_humanify
 
 
 async def test_humanify_shelly_click_event_block_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, mock_block_device: Mock
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, mock_block_device: Mock
 ) -> None:
     """Test humanifying Shelly click event for block device."""
     entry = await init_integration(hass, 1)
@@ -70,7 +70,7 @@ async def test_humanify_shelly_click_event_block_device(
 
 
 async def test_humanify_shelly_click_event_rpc_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, mock_rpc_device: Mock
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, mock_rpc_device: Mock
 ) -> None:
     """Test humanifying Shelly click event for rpc device."""
     entry = await init_integration(hass, 2)

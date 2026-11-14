@@ -13,7 +13,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -166,7 +166,7 @@ DEVICE_CATEGORY_BINARY_PUBLISHERS: Final[list[NetatmoDeviceCategory]] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NetatmoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

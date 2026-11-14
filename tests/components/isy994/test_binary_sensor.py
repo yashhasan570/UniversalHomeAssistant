@@ -17,7 +17,7 @@ from universalassistant.components.isy994.binary_sensor import (
     ISYInsteonBinarySensorEntity,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import DATA_INSTANCES
 
@@ -61,7 +61,7 @@ def leak_sensor_nodes(
 
 
 async def _async_setup_leak_sensor(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> tuple[ISYInsteonBinarySensorEntity, ISYBinarySensorHeartbeat]:
     """Set up the integration and return the leak sensor and heartbeat entities."""
     config_entry.add_to_hass(hass)
@@ -76,7 +76,7 @@ async def _async_setup_leak_sensor(
 
 
 async def test_insteon_listeners_removed_with_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     leak_sensor_nodes: tuple[MagicMock, MagicMock, MagicMock],
@@ -104,7 +104,7 @@ async def test_insteon_listeners_removed_with_entity(
 
 
 async def test_heartbeat_attached_to_parent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     leak_sensor_nodes: tuple[MagicMock, MagicMock, MagicMock],
@@ -125,7 +125,7 @@ async def test_heartbeat_attached_to_parent(
 
 
 async def test_heartbeat_removed_with_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -165,7 +165,7 @@ async def test_heartbeat_removed_with_entity(
 
 
 async def test_heartbeat_entity_id_change_keeps_attachment(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     leak_sensor_nodes: tuple[MagicMock, MagicMock, MagicMock],

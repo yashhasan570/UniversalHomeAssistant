@@ -13,7 +13,7 @@ from universalassistant.components.notify import (
     SERVICE_SEND_MESSAGE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -31,13 +31,13 @@ async def notify_only() -> AsyncGenerator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: UniversalAssistant, notify_only: None):
+async def setup_comp(hass: __HAC_KEEP__, notify_only: None):
     """Set up demo component."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
 
 
-def test_setup_params(hass: UniversalAssistant) -> None:
+def test_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the initial parameters."""
     state = hass.states.get(ENTITY_DIRECT_MESSAGE)
     assert state
@@ -45,7 +45,7 @@ def test_setup_params(hass: UniversalAssistant) -> None:
 
 
 async def test_send_message(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test pressing the button."""
     state = hass.states.get(ENTITY_DIRECT_MESSAGE)

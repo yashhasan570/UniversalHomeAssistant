@@ -2,7 +2,7 @@
 
 from enum import StrEnum
 
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 
 from .const import DATA_ROUTE53, DOMAIN
 from .helpers import update_route53
@@ -19,6 +19,6 @@ def _update_records(call: ServiceCall) -> None:
     update_route53(call.hass.data[DATA_ROUTE53])
 
 
-def setup_services(hass: UniversalAssistant) -> None:
+def setup_services(hass: __HAC_KEEP__) -> None:
     """Register the Route53 services."""
     hass.services.register(DOMAIN, Route53Service.UPDATE_RECORDS, _update_records)

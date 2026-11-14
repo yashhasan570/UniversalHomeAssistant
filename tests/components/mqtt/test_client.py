@@ -41,8 +41,8 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     UnitOfTemperature,
 )
-from universalassistant.core import CALLBACK_TYPE, CoreState, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import CALLBACK_TYPE, CoreState, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.util.dt import utcnow
 
 from .conftest import ENTRY_DEFAULT_BIRTH_MESSAGE
@@ -69,7 +69,7 @@ def help_assert_message(
 
 
 async def test_mqtt_connects_on_universal_assistant_mqtt_setup(
-    hass: UniversalAssistant, setup_with_birth_msg_client_mock: MqttMockPahoClient
+    hass: __HAC_KEEP__, setup_with_birth_msg_client_mock: MqttMockPahoClient
 ) -> None:
     """Test if client is connected after mqtt init on bootstrap."""
     mqtt_client_mock = setup_with_birth_msg_client_mock
@@ -77,7 +77,7 @@ async def test_mqtt_connects_on_universal_assistant_mqtt_setup(
 
 
 async def test_mqtt_does_not_disconnect_on_universal_assistant_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_mqtt_does_not_disconnect_on_universal_assistant_stop(
     assert mqtt_client_mock.disconnect.call_count == 0
 
 
-async def test_mqtt_await_ack_at_disconnect(hass: UniversalAssistant) -> None:
+async def test_mqtt_await_ack_at_disconnect(hass: __HAC_KEEP__) -> None:
     """Test if ACK is awaited correctly when disconnecting."""
 
     class FakeInfo:
@@ -157,7 +157,7 @@ async def test_mqtt_await_ack_at_disconnect(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_publish(
-    hass: UniversalAssistant, setup_with_birth_msg_client_mock: MqttMockPahoClient
+    hass: __HAC_KEEP__, setup_with_birth_msg_client_mock: MqttMockPahoClient
 ) -> None:
     """Test the publish function."""
     publish_mock: MagicMock = setup_with_birth_msg_client_mock.publish
@@ -261,7 +261,7 @@ async def test_publish(
     ],
 )
 async def test_message_expiry_interval_fails_for_legacy_protocols(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     protocol: str,
 ) -> None:
@@ -294,7 +294,7 @@ async def test_message_expiry_interval_fails_for_legacy_protocols(
     publish_mock.assert_not_called()
 
 
-async def test_convert_outgoing_payload(hass: UniversalAssistant) -> None:
+async def test_convert_outgoing_payload(hass: __HAC_KEEP__) -> None:
     """Test the converting of outgoing MQTT payloads without template."""
     command_template = mqtt.MqttCommandTemplate(None)
     assert command_template.async_render(b"\xde\xad\xbe\xef") == b"\xde\xad\xbe\xef"
@@ -308,7 +308,7 @@ async def test_convert_outgoing_payload(hass: UniversalAssistant) -> None:
 
 
 async def test_all_subscriptions_run_when_decode_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -325,7 +325,7 @@ async def test_all_subscriptions_run_when_decode_fails(
 
 
 async def test_subscribe_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -349,12 +349,12 @@ async def test_subscribe_topic(
     assert len(recorded_calls) == 1
 
     # Cannot unsubscribe twice
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         unsub()
 
 
 async def test_status_subscription_done(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
@@ -402,7 +402,7 @@ async def test_status_subscription_done(
 
 
 async def test_subscribe_mqtt_config_entry_disabled(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, record_calls: MessageCallbackType
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, record_calls: MessageCallbackType
 ) -> None:
     """Test the subscription of a topic when MQTT config entry is disabled."""
     mqtt_mock.connected = True
@@ -421,12 +421,12 @@ async def test_subscribe_mqtt_config_entry_disabled(
     )
     mqtt_mock.connected = False
 
-    with pytest.raises(UniversalAssistantError, match=r".*MQTT is not enabled"):
+    with pytest.raises(__HAC_KEEP__Error, match=r".*MQTT is not enabled"):
         await mqtt.async_subscribe(hass, "test-topic", record_calls)
 
 
 async def test_subscribe_and_resubscribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     recorded_calls: list[ReceiveMessage],
@@ -466,7 +466,7 @@ async def test_subscribe_and_resubscribe(
 @patch("universalassistant.components.mqtt.client.SUBSCRIBE_COOLDOWN", 0.0)
 @patch("universalassistant.components.mqtt.client.UNSUBSCRIBE_COOLDOWN", 0.0)
 async def test_subscribe_topic_non_async(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
@@ -497,18 +497,18 @@ async def test_subscribe_topic_non_async(
 
 
 async def test_subscribe_bad_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     record_calls: MessageCallbackType,
 ) -> None:
     """Test the subscription of a topic."""
     await mqtt_mock_entry()
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await mqtt.async_subscribe(hass, 55, record_calls)  # type: ignore[arg-type]
 
 
 async def test_subscribe_topic_not_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -524,7 +524,7 @@ async def test_subscribe_topic_not_match(
 
 
 async def test_subscribe_topic_level_wildcard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -542,7 +542,7 @@ async def test_subscribe_topic_level_wildcard(
 
 
 async def test_subscribe_topic_level_wildcard_no_subtree_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -558,7 +558,7 @@ async def test_subscribe_topic_level_wildcard_no_subtree_match(
 
 
 async def test_subscribe_topic_level_wildcard_root_topic_no_subtree_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -574,7 +574,7 @@ async def test_subscribe_topic_level_wildcard_root_topic_no_subtree_match(
 
 
 async def test_subscribe_topic_subtree_wildcard_subtree_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -592,7 +592,7 @@ async def test_subscribe_topic_subtree_wildcard_subtree_topic(
 
 
 async def test_subscribe_topic_subtree_wildcard_root_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -610,7 +610,7 @@ async def test_subscribe_topic_subtree_wildcard_root_topic(
 
 
 async def test_subscribe_topic_subtree_wildcard_no_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -626,7 +626,7 @@ async def test_subscribe_topic_subtree_wildcard_no_match(
 
 
 async def test_subscribe_topic_level_wildcard_and_wildcard_root_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -644,7 +644,7 @@ async def test_subscribe_topic_level_wildcard_and_wildcard_root_topic(
 
 
 async def test_subscribe_topic_level_wildcard_and_wildcard_subtree_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -662,7 +662,7 @@ async def test_subscribe_topic_level_wildcard_and_wildcard_subtree_topic(
 
 
 async def test_subscribe_topic_level_wildcard_and_wildcard_level_no_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -678,7 +678,7 @@ async def test_subscribe_topic_level_wildcard_and_wildcard_level_no_match(
 
 
 async def test_subscribe_topic_level_wildcard_and_wildcard_no_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -694,7 +694,7 @@ async def test_subscribe_topic_level_wildcard_and_wildcard_no_match(
 
 
 async def test_subscribe_topic_sys_root(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -712,7 +712,7 @@ async def test_subscribe_topic_sys_root(
 
 
 async def test_subscribe_topic_sys_root_and_wildcard_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -730,7 +730,7 @@ async def test_subscribe_topic_sys_root_and_wildcard_topic(
 
 
 async def test_subscribe_topic_sys_root_and_wildcard_subtree_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -748,7 +748,7 @@ async def test_subscribe_topic_sys_root_and_wildcard_subtree_topic(
 
 
 async def test_subscribe_special_characters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -768,7 +768,7 @@ async def test_subscribe_special_characters(
 
 
 async def test_subscribe_same_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -813,7 +813,7 @@ async def test_subscribe_same_topic(
 
 
 async def test_replaying_payload_same_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -906,7 +906,7 @@ async def test_replaying_payload_same_topic(
 
 
 async def test_replaying_payload_after_resubscribing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -958,7 +958,7 @@ async def test_replaying_payload_after_resubscribing(
 
 
 async def test_replaying_payload_wildcard_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -1037,7 +1037,7 @@ async def test_replaying_payload_wildcard_topic(
 
 
 async def test_not_calling_unsubscribe_with_active_subscribers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     record_calls: MessageCallbackType,
@@ -1061,7 +1061,7 @@ async def test_not_calling_unsubscribe_with_active_subscribers(
 
 
 async def test_not_calling_subscribe_when_unsubscribed_within_cooldown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     record_calls: MessageCallbackType,
@@ -1103,7 +1103,7 @@ async def test_not_calling_subscribe_when_unsubscribed_within_cooldown(
     ids=["v3.1", "v3.1.1", "v5"],
 )
 async def test_unsubscribe_race(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -1177,7 +1177,7 @@ async def test_unsubscribe_race(
 )
 @pytest.mark.parametrize("mqtt_config_entry_options", [ENTRY_DEFAULT_BIRTH_MESSAGE])
 async def test_wildcard_unsubscribe_race(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -1254,7 +1254,7 @@ async def test_wildcard_unsubscribe_race(
     ],
 )
 async def test_wildcard_resubscribe_while_unsubscribe_in_flight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     deliver_unsuback: Callable[..., Any],
@@ -1326,7 +1326,7 @@ async def test_wildcard_resubscribe_while_unsubscribe_in_flight(
     [({mqtt.CONF_BROKER: "mock-broker"}, {mqtt.CONF_DISCOVERY: False})],
 )
 async def test_restore_subscriptions_on_reconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     record_calls: MessageCallbackType,
@@ -1368,7 +1368,7 @@ async def test_restore_subscriptions_on_reconnect(
     ],
 )
 async def test_restore_all_active_subscriptions_on_reconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     record_calls: MessageCallbackType,
@@ -1409,7 +1409,7 @@ async def test_restore_all_active_subscriptions_on_reconnect(
     [({mqtt.CONF_BROKER: "mock-broker"}, {mqtt.CONF_DISCOVERY: False})],
 )
 async def test_subscribed_at_highest_qos(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     record_calls: MessageCallbackType,
@@ -1436,7 +1436,7 @@ async def test_subscribed_at_highest_qos(
 
 
 async def test_initial_setup_logs_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mqtt_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -1451,13 +1451,13 @@ async def test_initial_setup_logs_error(
     mqtt_client_mock.connect.side_effect = MagicMock(return_value=1)
     try:
         assert await hass.config_entries.async_setup(entry.entry_id)
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         assert True
     assert "Failed to connect to MQTT server:" in caplog.text
 
 
 async def test_logs_error_if_no_connect_broker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -1479,7 +1479,7 @@ async def test_logs_error_if_no_connect_broker(
     "mqtt_config_entry_data", [{mqtt.CONF_BROKER: "mock-broker", CONF_PROTOCOL: "5"}]
 )
 async def test_logs_error_if_broker_does_not_support_subscription_identifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -1508,7 +1508,7 @@ async def test_logs_error_if_broker_does_not_support_subscription_identifiers(
     ],
 )
 async def test_triggers_reauth_flow_if_auth_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     reason_code: MockMqttReasonCode,
 ) -> None:
@@ -1526,7 +1526,7 @@ async def test_triggers_reauth_flow_if_auth_fails(
 
 @patch("universalassistant.components.mqtt.client.TIMEOUT_ACK", 0.3)
 async def test_handle_mqtt_on_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -1551,7 +1551,7 @@ async def test_handle_mqtt_on_callback(
 
 
 async def test_handle_mqtt_on_callback_after_cancellation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mqtt_client_mock: MqttMockPahoClient,
@@ -1568,7 +1568,7 @@ async def test_handle_mqtt_on_callback_after_cancellation(
 
 
 async def test_handle_mqtt_on_callback_after_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mqtt_client_mock: MqttMockPahoClient,
@@ -1585,7 +1585,7 @@ async def test_handle_mqtt_on_callback_after_timeout(
 
 
 async def test_publish_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test publish error."""
     entry = MockConfigEntry(
@@ -1601,7 +1601,7 @@ async def test_publish_error(
         mock_client().connect = lambda **kwargs: 1
         mock_client().publish().rc = 1
         assert await hass.config_entries.async_setup(entry.entry_id)
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await mqtt.async_publish(
                 hass, "some-topic", b"test-payload", qos=0, retain=False, encoding=None
             )
@@ -1609,7 +1609,7 @@ async def test_publish_error(
 
 
 async def test_subscribe_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mqtt_client_mock: MqttMockPahoClient,
     record_calls: MessageCallbackType,
@@ -1630,7 +1630,7 @@ async def test_subscribe_error(
 
 
 async def test_handle_message_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -1689,7 +1689,7 @@ async def test_handle_message_callback(
     ids=["v3.1", "v3.1.1", "v5"],
 )
 async def test_setup_mqtt_client_clean_session_and_protocol(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     protocol: int,
     clean_session: bool | None,
@@ -1734,7 +1734,7 @@ async def test_setup_mqtt_client_clean_session_and_protocol(
     ids=["v3.1", "v3.1.1", "v5"],
 )
 async def test_setup_mqtt_client_clean_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mqtt_client_mock: MqttMockPahoClient,
     connect_args: tuple[Any],
@@ -1749,7 +1749,7 @@ async def test_setup_mqtt_client_clean_start(
 
 @patch("universalassistant.components.mqtt.client.TIMEOUT_ACK", 0.2)
 async def test_handle_mqtt_timeout_on_callback(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, mock_debouncer: asyncio.Event
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, mock_debouncer: asyncio.Event
 ) -> None:
     """Test publish without receiving an ACK callback."""
     mid = 0
@@ -1816,7 +1816,7 @@ async def test_handle_mqtt_timeout_on_callback(
     ],
 )
 async def test_setup_raises_config_entry_not_ready_if_no_connect_broker(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, exception: Exception
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, exception: Exception
 ) -> None:
     """Test for setup failure if connection to broker is missing."""
     entry = MockConfigEntry(
@@ -1846,7 +1846,7 @@ async def test_setup_raises_config_entry_not_ready_if_no_connect_broker(
     ],
 )
 async def test_setup_uses_certificate_on_certificate_set_to_auto_and_insecure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     insecure_param: bool | str,
 ) -> None:
@@ -1896,7 +1896,7 @@ async def test_setup_uses_certificate_on_certificate_set_to_auto_and_insecure(
     ],
 )
 async def test_client_id_is_set(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     client_id: str | None,
 ) -> None:
@@ -1923,7 +1923,7 @@ async def test_client_id_is_set(
     ],
 )
 async def test_tls_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_client_mock: MqttMockPahoClient,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -1956,7 +1956,7 @@ async def test_tls_version(
 @patch("universalassistant.components.mqtt.client.DISCOVERY_COOLDOWN", 0.0)
 @patch("universalassistant.components.mqtt.client.SUBSCRIBE_COOLDOWN", 0.0)
 async def test_custom_birth_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     mqtt_config_entry_data: dict[str, Any],
     mqtt_config_entry_options: dict[str, Any],
@@ -1988,7 +1988,7 @@ async def test_custom_birth_message(
     [ENTRY_DEFAULT_BIRTH_MESSAGE],
 )
 async def test_default_birth_message(
-    hass: UniversalAssistant, setup_with_birth_msg_client_mock: MqttMockPahoClient
+    hass: __HAC_KEEP__, setup_with_birth_msg_client_mock: MqttMockPahoClient
 ) -> None:
     """Test sending birth message."""
     mqtt_client_mock = setup_with_birth_msg_client_mock
@@ -2006,7 +2006,7 @@ async def test_default_birth_message(
 @patch("universalassistant.components.mqtt.client.DISCOVERY_COOLDOWN", 0.0)
 @patch("universalassistant.components.mqtt.client.SUBSCRIBE_COOLDOWN", 0.0)
 async def test_no_birth_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     record_calls: MessageCallbackType,
     mock_debouncer: asyncio.Event,
     mqtt_config_entry_data: dict[str, Any],
@@ -2045,12 +2045,12 @@ async def test_no_birth_message(
 )
 @patch("universalassistant.components.mqtt.client.DISCOVERY_COOLDOWN", 0.2)
 async def test_delayed_birth_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_config_entry_data: dict[str, Any],
     mqtt_config_entry_options: dict[str, Any],
     mqtt_client_mock: MqttMockPahoClient,
 ) -> None:
-    """Test sending birth message does not happen until Universal Universal Home Assistant starts."""
+    """Test sending birth message does not happen until __HA_KEEP__ starts."""
     hass.set_state(CoreState.starting)
     await hass.async_block_till_done()
     birth = asyncio.Event()
@@ -2128,7 +2128,7 @@ async def test_subscription_done_when_birth_message_is_sent(
     ],
 )
 async def test_custom_will_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_config_entry_data: dict[str, Any],
     mqtt_config_entry_options: dict[str, Any],
     mqtt_client_mock: MqttMockPahoClient,
@@ -2166,7 +2166,7 @@ async def test_default_will_message(
     [({mqtt.CONF_BROKER: "mock-broker"}, {mqtt.CONF_WILL_MESSAGE: {}})],
 )
 async def test_no_will_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_config_entry_data: dict[str, Any],
     mqtt_config_entry_options: dict[str, Any],
     mqtt_client_mock: MqttMockPahoClient,
@@ -2192,7 +2192,7 @@ async def test_no_will_message(
     [ENTRY_DEFAULT_BIRTH_MESSAGE | {mqtt.CONF_DISCOVERY: False}],
 )
 async def test_mqtt_subscribes_topics_on_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     record_calls: MessageCallbackType,
@@ -2223,7 +2223,7 @@ async def test_mqtt_subscribes_topics_on_connect(
 
 @pytest.mark.parametrize("mqtt_config_entry_options", [ENTRY_DEFAULT_BIRTH_MESSAGE])
 async def test_mqtt_subscribes_wildcard_topics_in_correct_order(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     record_calls: MessageCallbackType,
@@ -2284,7 +2284,7 @@ async def test_mqtt_subscribes_wildcard_topics_in_correct_order(
     [ENTRY_DEFAULT_BIRTH_MESSAGE | {mqtt.CONF_DISCOVERY: False}],
 )
 async def test_mqtt_discovery_not_subscribes_when_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
@@ -2317,7 +2317,7 @@ async def test_mqtt_discovery_not_subscribes_when_disabled(
     [ENTRY_DEFAULT_BIRTH_MESSAGE],
 )
 async def test_mqtt_subscribes_in_single_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     record_calls: MessageCallbackType,
@@ -2343,7 +2343,7 @@ async def test_mqtt_subscribes_in_single_call(
 @patch("universalassistant.components.mqtt.client.MAX_SUBSCRIBES_PER_CALL", 2)
 @patch("universalassistant.components.mqtt.client.MAX_UNSUBSCRIBES_PER_CALL", 2)
 async def test_mqtt_subscribes_and_unsubscribes_in_chunks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     record_calls: MessageCallbackType,
@@ -2387,7 +2387,7 @@ async def test_mqtt_subscribes_and_unsubscribes_in_chunks(
     ],
 )
 async def test_auto_reconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     caplog: pytest.LogCaptureFixture,
     exception: Exception,
@@ -2431,7 +2431,7 @@ async def test_auto_reconnect(
 
 
 async def test_server_sock_connect_and_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     recorded_calls: list[ReceiveMessage],
@@ -2476,7 +2476,7 @@ async def test_server_sock_connect_and_disconnect(
 
 
 async def test_server_sock_buffer_size(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2503,7 +2503,7 @@ async def test_server_sock_buffer_size(
 
 
 async def test_server_sock_buffer_size_with_websocket(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2539,7 +2539,7 @@ async def test_server_sock_buffer_size_with_websocket(
 
 
 async def test_client_sock_failure_after_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     recorded_calls: list[ReceiveMessage],
     record_calls: MessageCallbackType,
@@ -2576,7 +2576,7 @@ async def test_client_sock_failure_after_connect(
 
 
 async def test_loop_write_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2633,7 +2633,7 @@ async def test_loop_write_failure(
     ids=["v5"],
 )
 async def test_overlapping_subscriptions_only_processed_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
 ) -> None:
     """Test messages are only processed once per subscription in case of overlap.
@@ -2705,7 +2705,7 @@ async def test_overlapping_subscriptions_only_processed_once(
         assert len(mock_async_ha_write_state.mock_calls) == 3
 
 
-async def test_subscriptions_id_generation(hass: UniversalAssistant) -> None:
+async def test_subscriptions_id_generation(hass: __HAC_KEEP__) -> None:
     """Test subscription identifier generation."""
 
     generator = mqtt.models.SubscriptionID()
@@ -2719,7 +2719,7 @@ async def test_subscriptions_id_generation(hass: UniversalAssistant) -> None:
     assert new_id_2 == mqtt.models.MAX_28BIT - 1
     new_id_3 = generator.get_or_generate("test3/#")
     assert new_id_3 == mqtt.models.MAX_28BIT
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         generator.get_or_generate("test4/#")
     assert exc.value.translation_domain == DOMAIN
     assert exc.value.translation_key == "mqtt_max_subscription_id_reached"
@@ -2729,7 +2729,7 @@ async def test_subscriptions_id_generation(hass: UniversalAssistant) -> None:
     # Check we reused the ID
     assert new_id_4 == mqtt.models.MAX_28BIT - 1
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         generator.get_or_generate("test5/#")
     assert exc.value.translation_domain == DOMAIN
     assert exc.value.translation_key == "mqtt_max_subscription_id_reached"
@@ -2742,7 +2742,7 @@ async def test_subscriptions_id_generation(hass: UniversalAssistant) -> None:
 
     assert {new_id_5, new_id_6} == {new_id_1, new_id_3}
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         generator.get_or_generate("test7/#")
     assert exc.value.translation_domain == DOMAIN
     assert exc.value.translation_key == "mqtt_max_subscription_id_reached"

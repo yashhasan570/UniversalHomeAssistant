@@ -78,7 +78,7 @@
     "step": {
       "init": {
         "data": {
-          "code": "Code (used in Universal Universal Home Assistant UI)"
+          "code": "Code (used in __HA_KEEP__ UI)"
         },
         "title": "Configure SimpliSafe"
       }

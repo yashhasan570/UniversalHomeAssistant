@@ -10,7 +10,7 @@ from universalassistant.components.fan import (
     FanEntity,
     FanEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     ordered_list_item_to_percentage,
@@ -30,7 +30,7 @@ ORDERED_NAMED_FAN_SPEEDS: list[LightFanSpeed] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DeconzConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ FILTER_ENTITY = "binary_sensor.vmc_soggiorno_filter"
 
 @pytest.mark.usefixtures("mock_helty_cloud")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def test_all_entities(
     ],
 )
 async def test_filter_alarm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
     alarms: str,
@@ -60,7 +60,7 @@ async def test_filter_alarm(
 
 
 async def test_no_alarm_bitmap(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -11,7 +11,7 @@ from universalassistant.const import (
     EVENT_CORE_CONFIG_UPDATE,
     Platform,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.debounce import Debouncer
@@ -41,7 +41,7 @@ PLATFORMS = [Platform.SENSOR]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Forecast.Solar integration."""
     async_setup_services(hass)
     _async_track_sensor_renames(hass)
@@ -49,7 +49,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: ForecastSolarConfigEntry
+    hass: __HAC_KEEP__, entry: ForecastSolarConfigEntry
 ) -> None:
     """Migrate old config entry."""
 
@@ -94,7 +94,7 @@ async def async_migrate_entry(
 
 
 @callback
-def _async_track_sensor_renames(hass: UniversalAssistant) -> None:
+def _async_track_sensor_renames(hass: __HAC_KEEP__) -> None:
     """Keep the planes' sensor references pointing at their sensors when renamed.
 
     Tracked for the integration, not per entry: an entry whose sensor is unreadable
@@ -144,7 +144,7 @@ def _async_track_sensor_renames(hass: UniversalAssistant) -> None:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: ForecastSolarConfigEntry
+    hass: __HAC_KEEP__, entry: ForecastSolarConfigEntry
 ) -> None:
     """Set up Forecast.Solar from a config entry."""
     plane_subentries = entry.get_subentries_of_type(SUBENTRY_TYPE_PLANE)
@@ -174,9 +174,9 @@ async def async_setup_entry(
 
 @callback
 def _async_refresh_on_home_move(
-    hass: UniversalAssistant, entry: ForecastSolarConfigEntry
+    hass: __HAC_KEEP__, entry: ForecastSolarConfigEntry
 ) -> None:
-    """Refresh when Universal Universal Home Assistant's location moves, for an entry following it."""
+    """Refresh when __HA_KEEP__'s location moves, for an entry following it."""
     coordinator = entry.runtime_data
 
     @callback
@@ -215,7 +215,7 @@ def _async_refresh_on_home_move(
 
 
 def _forecast_inputs(
-    hass: UniversalAssistant, entry: ForecastSolarConfigEntry, refs: dict[str, str]
+    hass: __HAC_KEEP__, entry: ForecastSolarConfigEntry, refs: dict[str, str]
 ) -> tuple[Any, ...]:
     """Return the entry values the forecast is built from.
 
@@ -244,7 +244,7 @@ def _forecast_inputs(
 
 @callback
 def _async_reload_on_forecast_change(
-    hass: UniversalAssistant, entry: ForecastSolarConfigEntry
+    hass: __HAC_KEEP__, entry: ForecastSolarConfigEntry
 ) -> CALLBACK_TYPE:
     """Reload on option and plane changes, but not on a title or sensor rename."""
     refs: dict[str, str] = {}
@@ -261,7 +261,7 @@ def _async_reload_on_forecast_change(
             reloading = False
 
     async def _async_entry_updated(
-        hass: UniversalAssistant, entry: ForecastSolarConfigEntry
+        hass: __HAC_KEEP__, entry: ForecastSolarConfigEntry
     ) -> None:
         nonlocal reloading
         # Several updates may land before the check runs; one reload covers them all.
@@ -280,7 +280,7 @@ def _async_reload_on_forecast_change(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: ForecastSolarConfigEntry
+    hass: __HAC_KEEP__, entry: ForecastSolarConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -10,7 +10,7 @@ from xknx.telegram.address import DeviceGroupAddress, parse_device_group_address
 from xknx.telegram.apci import GroupValueRead, GroupValueResponse, GroupValueWrite
 
 from universalassistant.const import CONF_OPTIONS, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import move_top_level_schema_fields_to_options
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -59,7 +59,7 @@ _TELEGRAM_TRIGGER_SCHEMA = probatio.Schema(
 
 @callback
 def async_subscribe_telegrams(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     options: ConfigType,
     telegram_callback: Callable[[dict[str, Any]], None],
 ) -> CALLBACK_TYPE:
@@ -131,7 +131,7 @@ class TelegramTrigger(Trigger):
     @override
     @classmethod
     async def async_validate_complete_config(
-        cls, hass: UniversalAssistant, complete_config: ConfigType
+        cls, hass: __HAC_KEEP__, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config, migrating the legacy top-level fields."""
         complete_config = move_top_level_schema_fields_to_options(
@@ -142,12 +142,12 @@ class TelegramTrigger(Trigger):
     @override
     @classmethod
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _TELEGRAM_TRIGGER_SCHEMA(config))
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the trigger."""
         super().__init__(hass, config)
         assert config.options is not None
@@ -179,6 +179,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for KNX."""
     return TRIGGERS

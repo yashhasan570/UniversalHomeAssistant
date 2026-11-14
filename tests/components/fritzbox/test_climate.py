@@ -35,8 +35,8 @@ from universalassistant.components.fritzbox.climate import (
 from universalassistant.components.fritzbox.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, CONF_DEVICES, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -52,7 +52,7 @@ ENTITY_ID = f"{CLIMATE_DOMAIN}.{CONF_FAKE_NAME}"
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     fritz: Mock,
@@ -67,7 +67,7 @@ async def test_setup(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_hkr_wo_temperature_sensor(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_hkr_wo_temperature_sensor(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test hkr without exposing dedicated temperature sensor data block."""
     device = FritzDeviceClimateWithoutTempSensorMock()
     await setup_config_entry(
@@ -79,7 +79,7 @@ async def test_hkr_wo_temperature_sensor(hass: UniversalAssistant, fritz: Mock) 
     assert state.attributes[ATTR_CURRENT_TEMPERATURE] == 18.0
 
 
-async def test_target_temperature_on(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_target_temperature_on(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test turn device on."""
     device = FritzDeviceClimateMock()
     device.target_temperature = 127.0
@@ -92,7 +92,7 @@ async def test_target_temperature_on(hass: UniversalAssistant, fritz: Mock) -> N
     assert state.attributes[ATTR_TEMPERATURE] is None
 
 
-async def test_target_temperature_off(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_target_temperature_off(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test turn device on."""
     device = FritzDeviceClimateMock()
     device.target_temperature = 126.5
@@ -105,7 +105,7 @@ async def test_target_temperature_off(hass: UniversalAssistant, fritz: Mock) -> 
     assert state.attributes[ATTR_TEMPERATURE] is None
 
 
-async def test_update(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_update(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test update without error."""
     device = FritzDeviceClimateMock()
     await setup_config_entry(
@@ -133,7 +133,7 @@ async def test_update(hass: UniversalAssistant, fritz: Mock) -> None:
     assert state.attributes[ATTR_TEMPERATURE] == 20
 
 
-async def test_automatic_offset(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_automatic_offset(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test when automatic offset is configured on fritz!box device."""
     device = FritzDeviceClimateMock()
     device.temperature = 18
@@ -151,7 +151,7 @@ async def test_automatic_offset(hass: UniversalAssistant, fritz: Mock) -> None:
     assert state.attributes[ATTR_TEMPERATURE] == 20
 
 
-async def test_update_error(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_update_error(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test update with error."""
     device = FritzDeviceClimateMock()
     fritz().update_devices.side_effect = ["", HTTPError("Boom"), ""]
@@ -198,7 +198,7 @@ async def test_update_error(hass: UniversalAssistant, fritz: Mock) -> None:
     ],
 )
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fritz: Mock,
     service_data: dict,
     expected_set_target_temperature_call_args: list[_Call],
@@ -275,7 +275,7 @@ async def test_set_temperature(
     ],
 )
 async def test_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fritz: Mock,
     service_data: dict,
     target_temperature: float,
@@ -327,7 +327,7 @@ async def test_set_hvac_mode(
     ],
 )
 async def test_set_preset_mode_comfort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fritz: Mock,
     comfort_temperature: int,
     expected_call_args: list[_Call],
@@ -360,7 +360,7 @@ async def test_set_preset_mode_comfort(
     ],
 )
 async def test_set_preset_mode_eco(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fritz: Mock,
     eco_temperature: int,
     expected_call_args: list[_Call],
@@ -385,7 +385,7 @@ async def test_set_preset_mode_eco(
 
 
 async def test_set_preset_mode_boost(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fritz: Mock,
 ) -> None:
     """Test setting preset mode."""
@@ -406,7 +406,7 @@ async def test_set_preset_mode_boost(
     assert device.set_hkr_state.call_args_list == [call("on", True)]
 
 
-async def test_preset_mode_update(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_preset_mode_update(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test preset mode."""
     device = FritzDeviceClimateMock()
     device.comfort_temperature = 23
@@ -465,7 +465,7 @@ async def test_preset_mode_update(hass: UniversalAssistant, fritz: Mock) -> None
     assert state.attributes[ATTR_PRESET_MODE] == PRESET_BOOST
 
 
-async def test_discover_new_device(hass: UniversalAssistant, fritz: Mock) -> None:
+async def test_discover_new_device(hass: __HAC_KEEP__, fritz: Mock) -> None:
     """Test adding new discovered devices during runtime."""
     device = FritzDeviceClimateMock()
     await setup_config_entry(
@@ -499,7 +499,7 @@ async def test_discover_new_device(hass: UniversalAssistant, fritz: Mock) -> Non
     ],
 )
 async def test_set_temperature_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fritz: Mock,
     service_data: dict,
 ) -> None:
@@ -512,7 +512,7 @@ async def test_set_temperature_lock(
     )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             "Can't change settings while manual access for"
             " telephone, app, or user interface is disabled"
@@ -549,7 +549,7 @@ async def test_set_temperature_lock(
     ],
 )
 async def test_set_hvac_mode_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fritz: Mock,
     service_data: dict,
     target_temperature: float,
@@ -574,7 +574,7 @@ async def test_set_hvac_mode_lock(
     )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             "Can't change settings while manual access for"
             " telephone, app, or user interface is disabled"
@@ -590,7 +590,7 @@ async def test_set_hvac_mode_lock(
 
 
 async def test_holidy_summer_mode(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, fritz: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, fritz: Mock
 ) -> None:
     """Test holiday and summer mode."""
     device = FritzDeviceClimateMock()
@@ -625,7 +625,7 @@ async def test_holidy_summer_mode(
     assert state.attributes[ATTR_PRESET_MODES] == [PRESET_HOLIDAY]
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             "Can't change settings while holiday or summer mode is active on the device"
         ),
@@ -637,7 +637,7 @@ async def test_holidy_summer_mode(
             blocking=True,
         )
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             "Can't change settings while holiday or summer mode is active on the device"
         ),
@@ -663,7 +663,7 @@ async def test_holidy_summer_mode(
     assert state.attributes[ATTR_PRESET_MODES] == [PRESET_SUMMER]
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             "Can't change settings while holiday or summer mode is active on the device"
         ),
@@ -675,7 +675,7 @@ async def test_holidy_summer_mode(
             blocking=True,
         )
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             "Can't change settings while holiday or summer mode is active on the device"
         ),

@@ -26,9 +26,9 @@ from universalassistant.components.openai_conversation.const import (
     RECOMMENDED_DECISION_MODEL,
 )
 from universalassistant.config_entries import ConfigSubentryData
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, issue_registry as ir, selector
 from universalassistant.util.json import JsonValueType
 
@@ -102,7 +102,7 @@ def mock_decisions() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def evaluation_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_init_component: None,
     mock_decisions: AsyncMock,
@@ -129,7 +129,7 @@ async def evaluation_entity(
 @pytest.mark.usefixtures("mock_init_component")
 @pytest.mark.parametrize("expected_store", [False, True])
 async def test_generate_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -197,7 +197,7 @@ async def test_generate_data(
     ],
 )
 async def test_generate_structured_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     model: str,
@@ -254,7 +254,7 @@ async def test_generate_structured_data(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_invalid_structured_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -266,7 +266,7 @@ async def test_generate_invalid_structured_data(
     ]
 
     with pytest.raises(
-        UniversalAssistantError, match="Error with OpenAI structured response"
+        __HAC_KEEP__Error, match="Error with OpenAI structured response"
     ):
         await ai_task.async_generate_data(
             hass,
@@ -310,7 +310,7 @@ def selection_structure() -> probatio.Schema:
     ],
 )
 async def test_generate_selection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_create_stream: AsyncMock,
     selection_structure: probatio.Schema,
@@ -339,7 +339,7 @@ async def test_generate_selection(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_data_with_attachments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -463,7 +463,7 @@ async def test_generate_data_with_attachments(
     ],
 )
 async def test_generate_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_stream: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -561,7 +561,7 @@ async def test_generate_image(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_repair_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -598,7 +598,7 @@ async def test_repair_issue(
         ),
     ):
         for entity_id in ("ai_task.openai_ai_task", "ai_task.other_ai_task"):
-            with pytest.raises(UniversalAssistantError, match="Error talking to OpenAI"):
+            with pytest.raises(__HAC_KEEP__Error, match="Error talking to OpenAI"):
                 await ai_task.async_generate_image(
                     hass,
                     task_name="Test Task",
@@ -633,7 +633,7 @@ async def test_repair_issue(
     ],
 )
 async def test_evaluate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     evaluation_entity: str,
     mock_decisions: AsyncMock,
     state: JsonValueType,
@@ -677,7 +677,7 @@ async def test_evaluate(
     ],
 )
 async def test_images(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     evaluation_entity: str,
     mock_decisions: AsyncMock,
     tmp_path: Path,
@@ -712,7 +712,7 @@ async def test_images(
 
 
 async def test_unsupported_attachment(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     evaluation_entity: str,
     mock_decisions: AsyncMock,
     tmp_path: Path,
@@ -728,7 +728,7 @@ async def test_unsupported_attachment(
             ),
         ),
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             match="only support JPEG, PNG, WebP, and GIF image attachments; received audio/wav",
         ),
     ):
@@ -789,7 +789,7 @@ async def test_unsupported_attachment(
     ],
 )
 async def test_invalid_responses(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     evaluation_entity: str,
     mock_decisions: AsyncMock,
     answers: list[dict],
@@ -797,7 +797,7 @@ async def test_invalid_responses(
 ) -> None:
     """Handle refusals and malformed provider responses as action errors."""
     mock_decisions.return_value = decision(answers)
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await ai_task.async_evaluate(
             hass,
             task_name="Delivery",
@@ -808,13 +808,13 @@ async def test_invalid_responses(
 
 
 async def test_api_error(
-    hass: UniversalAssistant, evaluation_entity: str, mock_decisions: AsyncMock
+    hass: __HAC_KEEP__, evaluation_entity: str, mock_decisions: AsyncMock
 ) -> None:
-    """Translate SDK errors into Universal Universal Home Assistant errors."""
+    """Translate SDK errors into __HA_KEEP__ errors."""
     mock_decisions.side_effect = APIConnectionError(
         request=httpx2.Request("POST", "https://api.openai.com/v1/decisions")
     )
-    with pytest.raises(UniversalAssistantError, match="Error evaluating OpenAI task"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error evaluating OpenAI task"):
         await ai_task.async_evaluate(
             hass,
             task_name="Delivery",
@@ -825,7 +825,7 @@ async def test_api_error(
 
 
 async def test_flow_entry_not_loaded(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Require the parent integration to be loaded before adding an entity."""
     result = await hass.config_entries.subentries.async_init(
@@ -837,7 +837,7 @@ async def test_flow_entry_not_loaded(
 
 
 async def test_missing_attachment(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     evaluation_entity: str,
     mock_decisions: AsyncMock,
     tmp_path: Path,
@@ -852,7 +852,7 @@ async def test_missing_attachment(
                 path=tmp_path / "missing.jpg",
             ),
         ),
-        pytest.raises(UniversalAssistantError, match="Unable to read evaluation attachment"),
+        pytest.raises(__HAC_KEEP__Error, match="Unable to read evaluation attachment"),
     ):
         await ai_task.async_evaluate(
             hass,
@@ -874,7 +874,7 @@ async def test_missing_attachment(
     ["image/jpeg", "image/jpg", "IMAGE/JPEG", "image/jpeg; charset=binary"],
 )
 async def test_camera_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     evaluation_entity: str,
     mock_decisions: AsyncMock,
     content_type: str,
@@ -922,7 +922,7 @@ async def test_camera_snapshot(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_custom_model(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Allow custom decision models when adding an evaluation subentry."""
     result = await hass.config_entries.subentries.async_init(
@@ -938,7 +938,7 @@ async def test_custom_model(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_reconfigure_model(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Change an existing decision model without replacing its subentry."""
     subentry = next(

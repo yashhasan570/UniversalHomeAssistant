@@ -7,7 +7,7 @@ import probatio
 from tesla_fleet_api.const import Scope
 
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
@@ -40,7 +40,7 @@ class TeslaFleetServiceArgument(StrEnum):
 
 
 def async_get_vehicle_for_service_call(
-    hass: UniversalAssistant, call: ServiceCall
+    hass: __HAC_KEEP__, call: ServiceCall
 ) -> TeslaFleetVehicleData:
     """Get the vehicle targeted by a service call and ensure it accepts commands."""
     device: dr.DeviceEntry
@@ -68,7 +68,7 @@ def async_get_vehicle_for_service_call(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the Tesla Fleet services."""
 
     async def navigate_to_destination(call: ServiceCall) -> None:

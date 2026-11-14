@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.fastdotcom.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED, STATE_UNKNOWN
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 
 from . import MOCK_DATA
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test unload an entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -36,7 +36,7 @@ async def test_unload_entry(hass: UniversalAssistant) -> None:
 
 
 async def test_delayed_speedtest_during_startup(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test delayed speedtest during startup."""
     config_entry = MockConfigEntry(

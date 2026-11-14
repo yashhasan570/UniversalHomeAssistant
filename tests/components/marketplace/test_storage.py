@@ -19,7 +19,7 @@ from universalassistant.components.marketplace.utils.storage import (
     async_save_to_storage,
     get_storage_for_key,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import create_install_folders, get_marketplace, setup_integration
 from .const import REPOSITORY_INTEGRATION, REPOSITORY_PLUGIN
@@ -74,25 +74,25 @@ def hacs_storage(
     return hass_storage
 
 
-async def test_encoded_off_the_event_loop(hass: UniversalAssistant) -> None:
+async def test_encoded_off_the_event_loop(hass: __HAC_KEEP__) -> None:
     """Test the stores encode their data in the executor, the files are large."""
     assert get_storage_for_key(hass, "repositories")._serialize_in_event_loop is False
 
 
-async def test_load(hass: UniversalAssistant, hass_storage: dict[str, Any]) -> None:
+async def test_load(hass: __HAC_KEEP__, hass_storage: dict[str, Any]) -> None:
     """Test loading a store."""
     hass_storage["marketplace.test"] = _stored({"test": "test"})
 
     assert await async_load_from_storage(hass, "test") == {"test": "test"}
 
 
-async def test_load_missing(hass: UniversalAssistant) -> None:
+async def test_load_missing(hass: __HAC_KEEP__) -> None:
     """Test loading a store without a file of its own."""
     assert await async_load_from_storage(hass, "test") == {}
 
 
 async def test_save_skips_unchanged_content(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_save_skips_unchanged_content(
         assert async_save_mock.call_count == 1
 
 
-async def test_instance_cached_per_key(hass: UniversalAssistant) -> None:
+async def test_instance_cached_per_key(hass: __HAC_KEEP__) -> None:
     """Repeated calls for the same key must return the same Store instance.
 
     Store.async_delay_save() debounces via instance state, so callers that
@@ -121,7 +121,7 @@ async def test_instance_cached_per_key(hass: UniversalAssistant) -> None:
     assert get_storage_for_key(hass, "test") is not get_storage_for_key(hass, "other")
 
 
-async def test_cache_cleared_on_unload(hass: UniversalAssistant) -> None:
+async def test_cache_cleared_on_unload(hass: __HAC_KEEP__) -> None:
     """Clearing STORAGE_CACHE_KEY (as async_unload_entry does) drops cached Stores."""
     first = get_storage_for_key(hass, "test")
     hass.data.pop(STORAGE_CACHE_KEY, None)
@@ -129,7 +129,7 @@ async def test_cache_cleared_on_unload(hass: UniversalAssistant) -> None:
 
 
 async def test_hacs_data_is_adopted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hacs_storage: dict[str, Any],
     hacs_repositories: dict[str, Any],
     mock_config_entry: MockConfigEntry,
@@ -169,7 +169,7 @@ async def test_hacs_data_is_adopted(
     ],
 )
 async def test_hacs_data_is_adopted_as_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     config_dir: Path,
     mock_config_entry: MockConfigEntry,
@@ -221,7 +221,7 @@ async def test_hacs_data_is_adopted_as_fallback(
     ],
 )
 async def test_hacs_file_of_another_format_not_adopted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     config_dir: Path,
     contents: Any,
@@ -254,7 +254,7 @@ async def test_hacs_file_of_another_format_not_adopted(
     ],
 )
 async def test_hacs_data_not_adopted_over_a_corrupt_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     config_dir: Path,
     key: str,
@@ -275,7 +275,7 @@ async def test_hacs_data_not_adopted_over_a_corrupt_file(
 
 
 async def test_own_data_wins(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hacs_storage: dict[str, Any],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -299,7 +299,7 @@ async def test_own_data_wins(
 
 @pytest.mark.usefixtures("hass_storage")
 async def test_fresh_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test an installation without any stored data at all."""

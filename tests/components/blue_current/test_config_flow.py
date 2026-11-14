@@ -13,11 +13,11 @@ from universalassistant.components.blue_current.config_flow import (
     RequestLimitReached,
     WebsocketError,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test if the form is created."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -26,7 +26,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_user(hass: UniversalAssistant) -> None:
+async def test_user(hass: __HAC_KEEP__) -> None:
     """Test if the api token is set."""
 
     result = await hass.config_entries.flow.async_init(
@@ -73,7 +73,7 @@ async def test_user(hass: UniversalAssistant) -> None:
         (WebsocketError(), "cannot_connect"),
     ],
 )
-async def test_flow_fails(hass: UniversalAssistant, error: Exception, message: str) -> None:
+async def test_flow_fails(hass: __HAC_KEEP__, error: Exception, message: str) -> None:
     """Test bluecurrent api errors during configuration flow."""
     with patch(
         "universalassistant.components.blue_current.config_flow.Client.validate_api_token",
@@ -128,7 +128,7 @@ async def test_flow_fails(hass: UniversalAssistant, error: Exception, message: s
     ],
 )
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     customer_id: str,
     reason: str,

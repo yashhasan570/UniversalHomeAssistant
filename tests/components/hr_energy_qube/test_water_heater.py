@@ -16,8 +16,8 @@ from universalassistant.components.water_heater import (
     STATE_PERFORMANCE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -26,7 +26,7 @@ ENTITY_ID = "water_heater.qube_heat_pump_domestic_hot_water"
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_qube_client: MagicMock,
@@ -43,7 +43,7 @@ async def test_entities(
 
 
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -68,19 +68,19 @@ async def test_set_temperature(
     ],
 )
 async def test_set_temperature_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception] | None,
     return_value: bool | None,
 ) -> None:
-    """Test set temperature raises UniversalAssistantError on failure."""
+    """Test set temperature raises __HAC_KEEP__Error on failure."""
     await setup_integration(hass, mock_config_entry)
 
     mock_qube_client.write_setpoint = AsyncMock(
         side_effect=side_effect, return_value=return_value
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -97,7 +97,7 @@ async def test_set_temperature_failure(
     ],
 )
 async def test_set_operation_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     operation_mode: str,
@@ -126,19 +126,19 @@ async def test_set_operation_mode(
     ],
 )
 async def test_set_operation_mode_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception] | None,
     return_value: bool | None,
 ) -> None:
-    """Test set operation mode raises UniversalAssistantError on failure."""
+    """Test set operation mode raises __HAC_KEEP__Error on failure."""
     await setup_integration(hass, mock_config_entry)
 
     mock_qube_client.write_switch = AsyncMock(
         side_effect=side_effect, return_value=return_value
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
             SERVICE_SET_OPERATION_MODE,
@@ -148,7 +148,7 @@ async def test_set_operation_mode_failure(
 
 
 async def test_current_operation_boost(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_current_operation_boost(
 
 
 async def test_current_operation_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

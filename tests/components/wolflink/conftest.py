@@ -24,7 +24,7 @@ from wolf_comm.models import Device
 
 from universalassistant.components.wolflink.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -126,7 +126,7 @@ def mock_wolflink() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_wolflink: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_wolflink: MagicMock
 ) -> MockConfigEntry:
     """Set up the Wolflink integration for testing."""
     await setup_integration(hass, mock_config_entry)

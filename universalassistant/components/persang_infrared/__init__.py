@@ -1,17 +1,17 @@
-"""Persang Infrared integration for Universal Universal Home Assistant."""
+"""Persang Infrared integration for __HA_KEEP__."""
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 PLATFORMS = [Platform.BUTTON, Platform.MEDIA_PLAYER]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up Persang IR from a config entry."""
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a Persang IR config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

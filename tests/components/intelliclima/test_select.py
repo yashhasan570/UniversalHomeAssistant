@@ -16,7 +16,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import async_poll, setup_integration
@@ -26,7 +26,7 @@ SELECT_ENTITY_ID = "select.test_vmc_fan_direction_mode"
 
 @pytest.fixture(autouse=True)
 async def setup_intelliclima_select_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_cloud_interface: AsyncMock,
 ) -> AsyncGenerator[None]:
@@ -40,7 +40,7 @@ async def setup_intelliclima_select_only(
 
 
 async def test_all_select_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -75,7 +75,7 @@ async def test_all_select_entities(
     ],
 )
 async def test_select_option_keeps_current_speed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_interface: AsyncMock,
     option: str,
     expected_mode: FanMode,
@@ -98,7 +98,7 @@ async def test_select_option_keeps_current_speed(
 
 
 async def test_select_option_when_off_defaults_speed_to_sleep(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_interface: AsyncMock,
     single_eco_device,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_select_option_when_off_defaults_speed_to_sleep(
 
 
 async def test_select_option_in_auto_mode_defaults_speed_to_sleep(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_interface: AsyncMock,
     single_eco_device,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_select_option_in_auto_mode_defaults_speed_to_sleep(
 
 @pytest.mark.parametrize("option", ["forward", "reverse", "alternate", "sensor"])
 async def test_select_option_does_not_call_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_interface: AsyncMock,
     option: str,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_select_option_does_not_call_turn_off(
 
 
 async def test_select_option_triggers_coordinator_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_interface: AsyncMock,
 ) -> None:
     """Selecting an option should trigger a coordinator refresh after the API call."""
@@ -197,7 +197,7 @@ async def test_select_option_triggers_coordinator_refresh(
     ],
 )
 async def test_select_running_direction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     single_eco_device: IntelliClimaDevices,
     mode_state: str,

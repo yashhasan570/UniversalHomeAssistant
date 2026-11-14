@@ -62,7 +62,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util import dt as dt_util
 from universalassistant.util.json import JsonObjectType
@@ -123,7 +123,7 @@ async def async_get_lights(client: TestClient) -> JsonObjectType:
     return await result.json()
 
 
-async def _async_setup_emulated_hue(hass: UniversalAssistant, conf: ConfigType) -> None:
+async def _async_setup_emulated_hue(hass: __HAC_KEEP__, conf: ConfigType) -> None:
     """Set up emulated_hue with a specific config."""
     with patch_upnp():
         await setup.async_setup_component(
@@ -135,7 +135,7 @@ async def _async_setup_emulated_hue(hass: UniversalAssistant, conf: ConfigType) 
 
 
 @pytest.fixture
-async def base_setup(hass: UniversalAssistant) -> None:
+async def base_setup(hass: __HAC_KEEP__) -> None:
     """Set up universalassistant and http."""
     await asyncio.gather(
         setup.async_setup_component(hass, "universalassistant", {}),
@@ -163,7 +163,7 @@ def wanted_platforms_only() -> Generator[None]:
 
 
 @pytest.fixture
-async def demo_setup(hass: UniversalAssistant, wanted_platforms_only: None) -> None:
+async def demo_setup(hass: __HAC_KEEP__, wanted_platforms_only: None) -> None:
     """Fixture to setup demo platforms."""
     # We need to do this to get access to universalassistant/turn_(on,off)
     setups = [
@@ -216,9 +216,9 @@ async def demo_setup(hass: UniversalAssistant, wanted_platforms_only: None) -> N
 
 @pytest.fixture
 async def hass_hue(
-    hass: UniversalAssistant, base_setup: None, demo_setup: None
-) -> UniversalAssistant:
-    """Set up a Universal Universal Home Assistant instance for these tests."""
+    hass: __HAC_KEEP__, base_setup: None, demo_setup: None
+) -> __HAC_KEEP__:
+    """Set up a __HA_KEEP__ instance for these tests."""
     await _async_setup_emulated_hue(
         hass,
         {
@@ -233,7 +233,7 @@ async def hass_hue(
 
 @callback
 def _mock_hue_endpoints(
-    hass: UniversalAssistant, conf: ConfigType, entity_numbers: dict[str, str]
+    hass: __HAC_KEEP__, conf: ConfigType, entity_numbers: dict[str, str]
 ) -> None:
     """Override the hue config with specific entity numbers."""
     web_app = hass.http.app
@@ -251,7 +251,7 @@ def _mock_hue_endpoints(
 
 @pytest.fixture
 async def hue_client(
-    hass_hue: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass_hue: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> TestClient:
     """Create web client for emulated hue api."""
     _mock_hue_endpoints(
@@ -291,7 +291,7 @@ async def hue_client(
     return await hass_client_no_auth()
 
 
-async def test_discover_lights(hass: UniversalAssistant, hue_client: TestClient) -> None:
+async def test_discover_lights(hass: __HAC_KEEP__, hue_client: TestClient) -> None:
     """Test the discovery of lights."""
     result = await hue_client.get("/api/username/lights")
 
@@ -361,7 +361,7 @@ async def test_light_without_brightness_supported(hue_client: TestClient) -> Non
 
 
 async def test_lights_all_dimmable(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test CONF_LIGHTS_ALL_DIMMABLE."""
     # create a lamp without brightness support
@@ -390,7 +390,7 @@ async def test_lights_all_dimmable(
 
 
 async def test_light_without_brightness_can_be_turned_off(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test that light without brightness can be turned off."""
     hass_hue.states.async_set("light.no_brightness", "on", {})
@@ -427,7 +427,7 @@ async def test_light_without_brightness_can_be_turned_off(
 
 
 async def test_light_without_brightness_can_be_turned_on(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test that light without brightness can be turned on."""
     hass_hue.states.async_set("light.no_brightness", "off", {})
@@ -480,7 +480,7 @@ async def test_light_without_brightness_can_be_turned_on(
     ],
 )
 async def test_reachable_for_state(
-    hass_hue: UniversalAssistant, hue_client: TestClient, state: str, is_reachable: bool
+    hass_hue: __HAC_KEEP__, hue_client: TestClient, state: str, is_reachable: bool
 ) -> None:
     """Test that an entity is reported as unreachable if in unavailable state."""
     entity_id = "light.ceiling_lights"
@@ -601,7 +601,7 @@ async def test_discover_config(hue_client: TestClient) -> None:
     assert "error" not in config_json
 
 
-async def test_get_light_state(hass_hue: UniversalAssistant, hue_client: TestClient) -> None:
+async def test_get_light_state(hass_hue: __HAC_KEEP__, hue_client: TestClient) -> None:
     """Test the getting of light state."""
     # Turn ceiling lights on and set to 127 brightness, and set light color
     await hass_hue.services.async_call(
@@ -663,7 +663,7 @@ async def test_get_light_state(hass_hue: UniversalAssistant, hue_client: TestCli
 
 
 async def test_put_light_state(
-    hass: UniversalAssistant, hass_hue: UniversalAssistant, hue_client: TestClient
+    hass: __HAC_KEEP__, hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test the setting of light states."""
     await perform_put_test_on_ceiling_lights(hass_hue, hue_client)
@@ -841,7 +841,7 @@ async def test_put_light_state(
 
 
 async def test_put_light_state_script(
-    hass: UniversalAssistant, hass_hue: UniversalAssistant, hue_client: TestClient
+    hass: __HAC_KEEP__, hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test the setting of script variables."""
     # Turn the kitchen light off first
@@ -875,7 +875,7 @@ async def test_put_light_state_script(
 
 
 async def test_put_light_state_climate_set_temperature(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test setting climate temperature."""
     brightness = 19
@@ -902,7 +902,7 @@ async def test_put_light_state_climate_set_temperature(
 
 
 async def test_put_light_state_humidifier_set_humidity(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test setting humidifier target humidity."""
     # Turn the humidifier off first
@@ -937,7 +937,7 @@ async def test_put_light_state_humidifier_set_humidity(
 
 
 async def test_put_light_state_media_player(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test turning on media player and setting volume."""
     # Turn the music player off first
@@ -968,7 +968,7 @@ async def test_put_light_state_media_player(
 
 @patch.object(hue_api, "STATE_CHANGE_WAIT_TIMEOUT", 0.000001)
 async def test_open_cover_without_position(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test opening cover ."""
     cover_id = "cover.living_room_window"
@@ -1034,7 +1034,7 @@ async def test_open_cover_without_position(
 
 @patch.object(hue_api, "STATE_CHANGE_WAIT_TIMEOUT", 0.000001)
 async def test_set_position_cover(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test setting position cover ."""
     cover_id = "cover.living_room_window"
@@ -1093,7 +1093,7 @@ async def test_set_position_cover(
 
 
 async def test_put_light_state_fan(
-    hass_hue: UniversalAssistant, hue_client: TestClient, freezer: FrozenDateTimeFactory
+    hass_hue: __HAC_KEEP__, hue_client: TestClient, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test turning on fan and setting speed."""
     # Turn the fan off first
@@ -1201,7 +1201,7 @@ async def test_put_light_state_fan(
 
 
 async def test_put_with_form_urlencoded_content_type(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test the form with urlencoded content."""
     entity_number = ENTITY_NUMBERS_BY_ID["light.ceiling_lights"]
@@ -1283,7 +1283,7 @@ async def test_get_empty_groups_state(hue_client: TestClient) -> None:
 
 
 async def perform_put_test_on_ceiling_lights(
-    hass_hue: UniversalAssistant,
+    hass_hue: __HAC_KEEP__,
     hue_client: TestClient,
     content_type: str = CONTENT_TYPE_JSON,
 ):
@@ -1349,7 +1349,7 @@ async def perform_get_light_state(
 
 
 async def perform_put_light_state(
-    hass_hue: UniversalAssistant,
+    hass_hue: __HAC_KEEP__,
     client: TestClient,
     entity_id: str,
     is_on: bool,
@@ -1449,8 +1449,8 @@ async def test_unauthorized_user_blocked(hue_client: TestClient) -> None:
 
 
 async def test_put_then_get_cached_properly(
-    hass: UniversalAssistant,
-    hass_hue: UniversalAssistant,
+    hass: __HAC_KEEP__,
+    hass_hue: __HAC_KEEP__,
     hue_client: TestClient,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1588,7 +1588,7 @@ async def test_put_then_get_cached_properly(
 
 
 async def test_put_than_get_when_service_call_fails(
-    hass: UniversalAssistant, hass_hue: UniversalAssistant, hue_client: TestClient
+    hass: __HAC_KEEP__, hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test putting and getting the light state when the service call fails."""
 
@@ -1649,7 +1649,7 @@ async def test_get_invalid_entity(hue_client: TestClient) -> None:
 
 
 async def test_put_light_state_scene(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test the setting of scene variables."""
     # Turn the kitchen lights off first
@@ -1694,7 +1694,7 @@ async def test_put_light_state_scene(
 
 
 async def test_only_change_contrast(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test when only changing the contrast of a light state."""
 
@@ -1730,7 +1730,7 @@ async def test_only_change_contrast(
 
 
 async def test_only_change_hue_or_saturation(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test setting either the hue or the saturation but not both."""
 
@@ -1780,7 +1780,7 @@ async def test_only_change_hue_or_saturation(
     ],
 )
 async def test_listed_entity_exposed_with_expose_by_default_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     entity_config: dict[str, bool],
     expected_exposed: bool,
@@ -1802,7 +1802,7 @@ async def test_listed_entity_exposed_with_expose_by_default_off(
 
 @pytest.mark.usefixtures("base_setup")
 async def test_specificly_exposed_entities(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test specific entities with expose by default off."""
     conf = {
@@ -1833,7 +1833,7 @@ async def test_specificly_exposed_entities(
 
 @pytest.mark.usefixtures("base_setup")
 async def test_unlisted_entity_not_exposed_with_expose_by_default_off(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test an entity not listed in the config is not exposed by default off."""
     conf = {
@@ -1850,7 +1850,7 @@ async def test_unlisted_entity_not_exposed_with_expose_by_default_off(
 
 
 async def test_get_light_state_when_none(
-    hass_hue: UniversalAssistant, hue_client: TestClient
+    hass_hue: __HAC_KEEP__, hue_client: TestClient
 ) -> None:
     """Test the getting of light state when brightness is None."""
     hass_hue.states.async_set(

@@ -5,7 +5,7 @@ from typing import Any, override
 from pyvlx import Scene as PyVLXScene
 
 from universalassistant.components.scene import Scene
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VeluxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

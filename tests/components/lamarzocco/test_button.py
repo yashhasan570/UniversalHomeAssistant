@@ -8,15 +8,15 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
 
 
 async def test_start_backflush(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -59,7 +59,7 @@ async def test_start_backflush(
     ],
 )
 async def test_button_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     side_effect: Exception | type[Exception],
 ) -> None:
@@ -70,7 +70,7 @@ async def test_button_error(
     assert state
 
     mock_lamarzocco.start_backflush.side_effect = side_effect
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

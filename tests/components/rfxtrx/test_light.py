@@ -7,12 +7,12 @@ from pytest_universalassistant.common import mock_restore_cache
 
 from universalassistant.components.light import ATTR_BRIGHTNESS
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 
 from .conftest import create_rfx_test_entry
 
 
-async def test_one_light(hass: UniversalAssistant, rfxtrx) -> None:
+async def test_one_light(hass: __HAC_KEEP__, rfxtrx) -> None:
     """Test with 1 light."""
     mock_entry = create_rfx_test_entry(devices={"0b1100cd0213c7f210020f51": {}})
     mock_entry.add_to_hass(hass)
@@ -89,7 +89,7 @@ async def test_one_light(hass: UniversalAssistant, rfxtrx) -> None:
 @pytest.mark.parametrize(
     ("state", "brightness"), [("on", 100), ("on", 50), ("off", None)]
 )
-async def test_state_restore(hass: UniversalAssistant, rfxtrx, state, brightness) -> None:
+async def test_state_restore(hass: __HAC_KEEP__, rfxtrx, state, brightness) -> None:
     """State restoration."""
 
     entity_id = "light.ac_213c7f2_16"
@@ -108,7 +108,7 @@ async def test_state_restore(hass: UniversalAssistant, rfxtrx, state, brightness
     assert hass.states.get(entity_id).attributes.get(ATTR_BRIGHTNESS) == brightness
 
 
-async def test_several_lights(hass: UniversalAssistant, rfxtrx) -> None:
+async def test_several_lights(hass: __HAC_KEEP__, rfxtrx) -> None:
     """Test with 3 lights."""
     mock_entry = create_rfx_test_entry(
         devices={
@@ -155,7 +155,7 @@ async def test_several_lights(hass: UniversalAssistant, rfxtrx) -> None:
     assert state.attributes.get("brightness") == 255
 
 
-async def test_discover_light(hass: UniversalAssistant, rfxtrx_automatic) -> None:
+async def test_discover_light(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
     """Test with discovery of lights."""
     rfxtrx = rfxtrx_automatic
 

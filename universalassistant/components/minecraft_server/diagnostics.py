@@ -6,7 +6,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import MinecraftServerConfigEntry
 
@@ -14,7 +14,7 @@ TO_REDACT: Iterable[Any] = {CONF_ADDRESS, "players_list"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: MinecraftServerConfigEntry
+    hass: __HAC_KEEP__, config_entry: MinecraftServerConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = config_entry.runtime_data

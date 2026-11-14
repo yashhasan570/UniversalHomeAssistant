@@ -1,4 +1,4 @@
-"""Config flow for the Universal Universal Home Assistant Yellow integration."""
+"""Config flow for the __HA_KEEP__ Yellow integration."""
 
 from abc import ABC, abstractmethod
 import asyncio
@@ -33,10 +33,10 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
     OptionsFlow,
 )
-from universalassistant.core import UniversalAssistant, async_get_hass, callback
+from universalassistant.core import __HAC_KEEP__, async_get_hass, callback
 from universalassistant.helpers import discovery_flow, selector
 
-from . import UniversalAssistantYellowConfigEntry
+from . import __HAC_KEEP__YellowConfigEntry
 from .const import (
     DOMAIN,
     FIRMWARE,
@@ -79,7 +79,7 @@ else:
 
 
 class YellowFirmwareMixin(ConfigEntryBaseFlow, FirmwareInstallFlowProtocol):
-    """Mixin for Universal Universal Home Assistant Yellow firmware methods."""
+    """Mixin for __HA_KEEP__ Yellow firmware methods."""
 
     ZIGBEE_BAUDRATE = 115200
     _flasher_type = FlasherType.YELLOW
@@ -111,10 +111,10 @@ class YellowFirmwareMixin(ConfigEntryBaseFlow, FirmwareInstallFlowProtocol):
         )
 
 
-class UniversalAssistantYellowConfigFlow(
+class __HAC_KEEP__YellowConfigFlow(
     YellowFirmwareMixin, BaseFirmwareConfigFlow, domain=DOMAIN
 ):
-    """Handle a config flow for Universal Universal Home Assistant Yellow."""
+    """Handle a config flow for __HA_KEEP__ Yellow."""
 
     VERSION = 1
     MINOR_VERSION = 4
@@ -129,16 +129,16 @@ class UniversalAssistantYellowConfigFlow(
     @callback
     @override
     def async_get_options_flow(
-        config_entry: UniversalAssistantYellowConfigEntry,
+        config_entry: __HAC_KEEP__YellowConfigEntry,
     ) -> OptionsFlow:
         """Return the options flow."""
         firmware_type = ApplicationType(config_entry.data[FIRMWARE])
         hass = async_get_hass()
 
         if firmware_type is ApplicationType.CPC:
-            return UniversalAssistantYellowMultiPanOptionsFlowHandler(hass, config_entry)
+            return __HAC_KEEP__YellowMultiPanOptionsFlowHandler(hass, config_entry)
 
-        return UniversalAssistantYellowOptionsFlowHandler(hass, config_entry)
+        return __HAC_KEEP__YellowOptionsFlowHandler(hass, config_entry)
 
     async def async_step_system(
         self, data: dict[str, Any] | None = None
@@ -187,12 +187,12 @@ class UniversalAssistantYellowConfigFlow(
         )
 
 
-class BaseUniversalAssistantYellowOptionsFlow(OptionsFlow, ABC):
-    """Base Universal Universal Home Assistant Yellow options flow shared between firmware and multi-PAN."""
+class Base__HAC_KEEP__YellowOptionsFlow(OptionsFlow, ABC):
+    """Base __HA_KEEP__ Yellow options flow shared between firmware and multi-PAN."""
 
     _hw_settings: dict[str, bool] | None = None
 
-    def __init__(self, hass: UniversalAssistant, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, hass: __HAC_KEEP__, *args: Any, **kwargs: Any) -> None:
         """Instantiate options flow."""
         super().__init__(*args, **kwargs)
         self._supervisor_client = get_supervisor_client(hass)
@@ -273,10 +273,10 @@ class BaseUniversalAssistantYellowOptionsFlow(OptionsFlow, ABC):
         return self.async_create_entry(data={})
 
 
-class UniversalAssistantYellowMultiPanOptionsFlowHandler(
-    BaseUniversalAssistantYellowOptionsFlow, MultiprotocolOptionsFlowHandler
+class __HAC_KEEP__YellowMultiPanOptionsFlowHandler(
+    Base__HAC_KEEP__YellowOptionsFlow, MultiprotocolOptionsFlowHandler
 ):
-    """Handle a multi-PAN options flow for Universal Universal Home Assistant Yellow."""
+    """Handle a multi-PAN options flow for __HA_KEEP__ Yellow."""
 
     @override
     async def async_step_main_menu(self, _: None = None) -> ConfigFlowResult:
@@ -359,14 +359,14 @@ class UniversalAssistantYellowMultiPanOptionsFlowHandler(
         return await super().async_step_flashing_complete(user_input)
 
 
-class UniversalAssistantYellowOptionsFlowHandler(
+class __HAC_KEEP__YellowOptionsFlowHandler(
     YellowFirmwareMixin,
-    BaseUniversalAssistantYellowOptionsFlow,
+    Base__HAC_KEEP__YellowOptionsFlow,
     BaseFirmwareOptionsFlow,
 ):
-    """Handle a firmware options flow for Universal Universal Home Assistant Yellow."""
+    """Handle a firmware options flow for __HA_KEEP__ Yellow."""
 
-    def __init__(self, hass: UniversalAssistant, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, hass: __HAC_KEEP__, *args: Any, **kwargs: Any) -> None:
         """Instantiate options flow."""
         super().__init__(hass, *args, **kwargs)
 

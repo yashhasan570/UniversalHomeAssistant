@@ -11,7 +11,7 @@ from systembridgeconnector.exceptions import (
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY, CONF_HOST, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import SystemBridgeConfigEntry
 
@@ -47,7 +47,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: SystemBridgeConfigEntry
+    hass: __HAC_KEEP__, entry: SystemBridgeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

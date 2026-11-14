@@ -20,7 +20,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import (
@@ -53,17 +53,17 @@ WARM_DEVICE_TYPES = {
 
 
 def to_lutron_level(level):
-    """Convert the given Universal Universal Home Assistant light level (0-255) to Lutron (0-100)."""
+    """Convert the given __HA_KEEP__ light level (0-255) to Lutron (0-100)."""
     return round((level * 100) / 255)
 
 
 def to_hass_level(level):
-    """Convert the given Lutron (0-100) light level to Universal Universal Home Assistant (0-255)."""
+    """Convert the given Lutron (0-100) light level to __HA_KEEP__ (0-255)."""
     return int((level * 255) // 100)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LutronCasetaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -90,7 +90,7 @@ class LutronCasetaLight(LutronCasetaUpdatableEntity, LightEntity):
     _prev_brightness: int | None = None
 
     def __init__(
-        self, hass: UniversalAssistant, light: dict[str, Any], data: LutronCasetaData
+        self, hass: __HAC_KEEP__, light: dict[str, Any], data: LutronCasetaData
     ) -> None:
         """Initialize the light and set the supported color modes."""
         super().__init__(hass, light, data)

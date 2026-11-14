@@ -15,7 +15,7 @@ import httpx2
 
 from universalassistant.components.climate import SWING_ON, HVACMode
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -35,7 +35,7 @@ class CCM15Coordinator(DataUpdateCoordinator[CCM15DeviceState]):
     """Class to coordinate multiple CCM15Climate devices."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: CCM15ConfigEntry, host: str, port: int
+        self, hass: __HAC_KEEP__, entry: CCM15ConfigEntry, host: str, port: int
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

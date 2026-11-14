@@ -10,7 +10,7 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -22,7 +22,7 @@ SERIAL_ADDRESSES = [
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -36,7 +36,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_leave_out_serial_registers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_diagnostics_leave_out_serial_registers(
 
 
 async def test_diagnostics_when_device_does_not_answer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,

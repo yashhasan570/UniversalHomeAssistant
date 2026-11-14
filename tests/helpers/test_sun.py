@@ -9,12 +9,12 @@ from freezegun import freeze_time
 import pytest
 
 from universalassistant.const import SUN_EVENT_SUNRISE, SUN_EVENT_SUNSET
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import sun
 from universalassistant.util import dt as dt_util
 
 
-def test_next_events(hass: UniversalAssistant) -> None:
+def test_next_events(hass: __HAC_KEEP__) -> None:
     """Test retrieving next sun events."""
     utc_now = datetime(2016, 11, 1, 8, 0, 0, tzinfo=dt_util.UTC)
 
@@ -87,7 +87,7 @@ def test_next_events(hass: UniversalAssistant) -> None:
         assert next_setting == sun.get_astral_event_next(hass, SUN_EVENT_SUNSET)
 
 
-def test_date_events(hass: UniversalAssistant) -> None:
+def test_date_events(hass: __HAC_KEEP__) -> None:
     """Test retrieving next sun events."""
     utc_now = datetime(2016, 11, 1, 8, 0, 0, tzinfo=dt_util.UTC)
 
@@ -112,7 +112,7 @@ def test_date_events(hass: UniversalAssistant) -> None:
     assert sunset == sun.get_astral_event_date(hass, SUN_EVENT_SUNSET, utc_today)
 
 
-def test_date_events_default_date(hass: UniversalAssistant) -> None:
+def test_date_events_default_date(hass: __HAC_KEEP__) -> None:
     """Test retrieving next sun events."""
     utc_now = datetime(2016, 11, 1, 8, 0, 0, tzinfo=dt_util.UTC)
 
@@ -138,7 +138,7 @@ def test_date_events_default_date(hass: UniversalAssistant) -> None:
         assert sunset == sun.get_astral_event_date(hass, SUN_EVENT_SUNSET, utc_today)
 
 
-def test_date_events_accepts_datetime(hass: UniversalAssistant) -> None:
+def test_date_events_accepts_datetime(hass: __HAC_KEEP__) -> None:
     """Test retrieving next sun events."""
     utc_now = datetime(2016, 11, 1, 8, 0, 0, tzinfo=dt_util.UTC)
 
@@ -163,7 +163,7 @@ def test_date_events_accepts_datetime(hass: UniversalAssistant) -> None:
     assert sunset == sun.get_astral_event_date(hass, SUN_EVENT_SUNSET, utc_now)
 
 
-def test_is_up(hass: UniversalAssistant) -> None:
+def test_is_up(hass: __HAC_KEEP__) -> None:
     """Test retrieving next sun events."""
     utc_now = datetime(2016, 11, 1, 12, 0, 0, tzinfo=dt_util.UTC)
     with freeze_time(utc_now):
@@ -174,7 +174,7 @@ def test_is_up(hass: UniversalAssistant) -> None:
         assert sun.is_up(hass)
 
 
-def test_norway_in_june(hass: UniversalAssistant) -> None:
+def test_norway_in_june(hass: __HAC_KEEP__) -> None:
     """Test location in Norway where the sun doesn't set in summer."""
     hass.config.latitude = 69.6
     hass.config.longitude = 18.8
@@ -191,7 +191,7 @@ def test_norway_in_june(hass: UniversalAssistant) -> None:
     assert sun.get_astral_event_date(hass, SUN_EVENT_SUNSET, june) is None
 
 
-def test_impossible_elevation(hass: UniversalAssistant) -> None:
+def test_impossible_elevation(hass: __HAC_KEEP__) -> None:
     """Test altitude where the sun can't set."""
     hass.config.latitude = 69.6
     hass.config.longitude = 18.8
@@ -204,7 +204,7 @@ def test_impossible_elevation(hass: UniversalAssistant) -> None:
 
 
 def test_deprecated_get_astral_location(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the deprecated get_astral_location helper."""
     location, elevation = sun.get_astral_location(hass)
@@ -220,7 +220,7 @@ def test_deprecated_get_astral_location(
 
 
 def test_deprecated_get_location_astral_event_next(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the deprecated get_location_astral_event_next helper."""
     utc_now = datetime(2016, 11, 1, 8, 0, 0, tzinfo=dt_util.UTC)

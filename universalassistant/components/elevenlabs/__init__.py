@@ -11,7 +11,7 @@ from httpx2 import ConnectError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_MODEL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -64,7 +64,7 @@ class ElevenLabsData:
 type ElevenLabsConfigEntry = ConfigEntry[ElevenLabsData]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ElevenLabsConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ElevenLabsConfigEntry) -> None:
     """Set up ElevenLabs text-to-speech from a config entry."""
     entry.async_on_unload(entry.add_update_listener(update_listener))
     httpx_client = get_async_client(hass)
@@ -94,20 +94,20 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ElevenLabsConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ElevenLabsConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ElevenLabsConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def update_listener(
-    hass: UniversalAssistant, config_entry: ElevenLabsConfigEntry
+    hass: __HAC_KEEP__, config_entry: ElevenLabsConfigEntry
 ) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(config_entry.entry_id)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: ElevenLabsConfigEntry
+    hass: __HAC_KEEP__, config_entry: ElevenLabsConfigEntry
 ) -> None:
     """Migrate old config entry to new format."""
 

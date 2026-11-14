@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.peco.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_ENTRY_DATA = {"county": "TOTAL"}
 COUNTY_ENTRY_DATA = {"county": "BUCKS"}
@@ -25,7 +25,7 @@ INVALID_COUNTY_DATA = {"county": "INVALID"}
     ],
 )
 async def test_sensor_available(
-    hass: UniversalAssistant, sensor: str, expected: str
+    hass: __HAC_KEEP__, sensor: str, expected: str
 ) -> None:
     """Test that the sensors are working."""
     # Totals Test

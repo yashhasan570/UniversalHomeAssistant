@@ -38,7 +38,7 @@ from universalassistant.components.tesla_fleet.coordinator import (
 from universalassistant.components.tesla_fleet.models import TeslaFleetData
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.exceptions import (
     OAuth2TokenRequestReauthError,
@@ -66,7 +66,7 @@ RUNTIME_ERRORS = [InvalidToken, OAuthExpired, LoginRequired, TeslaFleetError]
 
 
 async def test_load_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
 ) -> None:
     """Test load and unload."""
@@ -87,7 +87,7 @@ async def test_load_unload(
 
 @pytest.mark.parametrize(("side_effect", "state"), SETUP_ERRORS)
 async def test_init_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_products: AsyncMock,
     side_effect: type[Exception],
@@ -101,7 +101,7 @@ async def test_init_error(
 
 
 async def test_vehicle_first_refresh_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_vehicle_first_refresh_timeout(
 
 
 async def test_oauth_refresh_expired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_products: AsyncMock,
 ) -> None:
@@ -144,7 +144,7 @@ async def test_oauth_refresh_expired(
 
 
 async def test_oauth_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_products: AsyncMock,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_oauth_refresh_error(
 
 
 async def test_setup_uses_scopes_from_refreshed_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     noscope_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup uses scopes from the refreshed OAuth token."""
@@ -191,7 +191,7 @@ async def test_setup_uses_scopes_from_refreshed_token(
 
 
 async def test_invalidate_access_token_updates_when_not_expired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
 ) -> None:
     """Test invalidating token updates entry when token is not expired."""
@@ -210,7 +210,7 @@ async def test_invalidate_access_token_updates_when_not_expired(
 
 
 async def test_invalidate_access_token_noop_when_already_expired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
 ) -> None:
     """Test invalidating token does not update an already expired token."""
@@ -224,7 +224,7 @@ async def test_invalidate_access_token_noop_when_already_expired(
 
 
 async def test_invalidate_access_token_noop_when_token_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test invalidating token does not update when token data is missing."""
 
@@ -242,7 +242,7 @@ async def test_invalidate_access_token_noop_when_token_missing(
 
 # Test devices
 async def test_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -258,7 +258,7 @@ async def test_devices(
 
 
 async def test_vehicle_device_model_from_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -279,7 +279,7 @@ async def test_vehicle_device_model_from_library(
 
 # Vehicle Coordinator
 async def test_vehicle_refresh_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_state: AsyncMock,
     mock_vehicle_data: AsyncMock,
@@ -317,7 +317,7 @@ async def test_vehicle_refresh_offline(
 
 @pytest.mark.parametrize("side_effect", RUNTIME_ERRORS)
 async def test_vehicle_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
     side_effect: type[TeslaFleetError],
@@ -337,7 +337,7 @@ async def test_vehicle_refresh_error(
 
 
 async def test_vehicle_refresh_token_expired_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -372,7 +372,7 @@ async def test_vehicle_refresh_token_expired_recovery(
 
 
 async def test_vehicle_refresh_ratelimited(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -407,7 +407,7 @@ async def test_vehicle_refresh_ratelimited(
 
 
 async def test_vehicle_refresh_ratelimited_on_first_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
 ) -> None:
@@ -423,7 +423,7 @@ async def test_vehicle_refresh_ratelimited_on_first_refresh(
 
 
 async def test_vehicle_refresh_ratelimited_backoff_not_sticky(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_state: AsyncMock,
     mock_vehicle_data: AsyncMock,
@@ -468,7 +468,7 @@ async def test_vehicle_refresh_ratelimited_backoff_not_sticky(
     ],
 )
 async def test_vehicle_refresh_ratelimited_no_after(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -499,7 +499,7 @@ async def test_vehicle_refresh_ratelimited_no_after(
 
 
 async def test_init_invalid_region(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expires_at: int,
 ) -> None:
     """Test init with an invalid region in the token."""
@@ -517,7 +517,7 @@ async def test_init_invalid_region(
 
 
 async def test_vehicle_sleep(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -580,7 +580,7 @@ async def test_vehicle_sleep(
 # Test Energy Live Coordinator
 @pytest.mark.parametrize("side_effect", RUNTIME_ERRORS)
 async def test_energy_live_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_live_status: AsyncMock,
     side_effect: type[TeslaFleetError],
@@ -600,7 +600,7 @@ async def test_energy_live_refresh_error(
 
 
 async def test_setup_retries_on_initial_energy_live_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_live_status: AsyncMock,
 ) -> None:
@@ -621,7 +621,7 @@ async def test_setup_retries_on_initial_energy_live_refresh_error(
     ],
 )
 async def test_setup_does_not_skip_initial_energy_site_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_site_info: AsyncMock,
     side_effect: BaseException,
@@ -636,7 +636,7 @@ async def test_setup_does_not_skip_initial_energy_site_auth_error(
 
 
 async def test_setup_retries_on_initial_energy_site_bad_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_site_info: AsyncMock,
 ) -> None:
@@ -657,7 +657,7 @@ async def test_setup_retries_on_initial_energy_site_bad_response(
     ],
 )
 async def test_setup_retries_on_initial_energy_site_retryable_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_site_info: AsyncMock,
     side_effect: BaseException,
@@ -671,7 +671,7 @@ async def test_setup_retries_on_initial_energy_site_retryable_error(
 
 
 async def test_energy_live_refresh_bad_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_live_status: AsyncMock,
 ) -> None:
@@ -689,7 +689,7 @@ async def test_energy_live_refresh_bad_response(
 
 
 async def test_energy_live_refresh_bad_wall_connectors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_live_status: AsyncMock,
 ) -> None:
@@ -709,7 +709,7 @@ async def test_energy_live_refresh_bad_wall_connectors(
 # Test Energy Site Coordinator
 @pytest.mark.parametrize("side_effect", RUNTIME_ERRORS)
 async def test_energy_site_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_site_info: AsyncMock,
     side_effect: type[TeslaFleetError],
@@ -743,7 +743,7 @@ async def test_energy_site_refresh_error(
     ],
 )
 async def test_setup_skips_stale_energy_site(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_products: AsyncMock,
     mock_live_status: AsyncMock,
@@ -779,7 +779,7 @@ async def test_setup_skips_stale_energy_site(
 
 
 async def test_energy_refresh_token_expired_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_live_status: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -816,7 +816,7 @@ async def test_energy_refresh_token_expired_recovery(
 # Test Energy History Coordinator
 @pytest.mark.parametrize("side_effect", RUNTIME_ERRORS)
 async def test_energy_history_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_energy_history: AsyncMock,
     side_effect: type[TeslaFleetError],
@@ -837,7 +837,7 @@ async def test_energy_history_refresh_error(
 
 
 async def test_energy_live_refresh_ratelimited(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_live_status,
     freezer: FrozenDateTimeFactory,
@@ -877,7 +877,7 @@ async def test_energy_live_refresh_ratelimited(
     ],
 )
 async def test_energy_info_refresh_ratelimited(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_site_info: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -912,7 +912,7 @@ async def test_energy_info_refresh_ratelimited(
 
 
 async def test_refresh_ratelimited_logs_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_site_info: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -952,7 +952,7 @@ async def test_refresh_ratelimited_logs_once(
 
 
 async def test_refresh_ratelimited_invalid_response_no_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_live_status: AsyncMock,
     mock_energy_history: AsyncMock,
@@ -991,7 +991,7 @@ async def test_refresh_ratelimited_invalid_response_no_recovery(
 
 
 async def test_energy_history_refresh_ratelimited(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_energy_history: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -1024,7 +1024,7 @@ async def test_energy_history_refresh_ratelimited(
 
 
 async def test_energy_history_refresh_ratelimited_not_sticky(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_energy_history: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -1059,7 +1059,7 @@ async def test_energy_history_refresh_ratelimited_not_sticky(
 
 
 async def test_init_region_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_products: AsyncMock,
     mock_find_server: AsyncMock,
@@ -1073,7 +1073,7 @@ async def test_init_region_issue(
 
 
 async def test_init_region_issue_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_products: AsyncMock,
     mock_find_server: AsyncMock,
@@ -1088,7 +1088,7 @@ async def test_init_region_issue_failed(
 
 
 async def test_signing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_products: AsyncMock,
 ) -> None:
@@ -1107,7 +1107,7 @@ async def test_signing(
 
 
 async def test_bad_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bad_config_entry: MockConfigEntry,
 ) -> None:
     """Test handling of a bad authentication implementation."""
@@ -1124,7 +1124,7 @@ async def test_bad_implementation(
 
 
 async def test_vehicle_without_location_scope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expires_at: int,
     mock_vehicle_data: AsyncMock,
 ) -> None:
@@ -1161,7 +1161,7 @@ async def test_vehicle_without_location_scope(
 
 
 async def test_vehicle_with_location_scope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
     mock_vehicle_data: AsyncMock,
 ) -> None:
@@ -1186,7 +1186,7 @@ async def test_vehicle_with_location_scope(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

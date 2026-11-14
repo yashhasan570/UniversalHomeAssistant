@@ -8,7 +8,7 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -17,7 +17,7 @@ from .const import NC_DATA, VALID_CONFIG
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -29,7 +29,7 @@ async def test_async_setup_entry(
 
 
 async def test_setup_entity_without_update(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
 ) -> None:
     """Test update entity is created w/o available update."""
     with patch("universalassistant.components.nextcloud.PLATFORMS", [Platform.UPDATE]):
@@ -46,7 +46,7 @@ async def test_setup_entity_without_update(
 
 
 async def test_setup_entity_with_update(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
 ) -> None:
     """Test update entity is created with available update."""
     data = deepcopy(NC_DATA)
@@ -65,7 +65,7 @@ async def test_setup_entity_with_update(
     )
 
 
-async def test_setup_no_entity(hass: UniversalAssistant) -> None:
+async def test_setup_no_entity(hass: __HAC_KEEP__) -> None:
     """Test no update entity is created, when no data available."""
     data = deepcopy(NC_DATA)
     data["nextcloud"]["system"].pop("update")  # only nc<28.0.0

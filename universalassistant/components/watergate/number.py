@@ -14,8 +14,8 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import EntityCategory, UnitOfTime, UnitOfVolume
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -64,7 +64,7 @@ DESCRIPTIONS: tuple[WatergateNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WatergateConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -103,7 +103,7 @@ class SonicAutoShutOffThreshold(WatergateEntity, NumberEntity):
         try:
             await self.entity_description.set_fn(self._api_client, round(value))
         except WatergateApiException as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="auto_shut_off_update_failed",
             ) from exc

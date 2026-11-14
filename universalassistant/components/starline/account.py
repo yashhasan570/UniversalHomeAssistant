@@ -8,7 +8,7 @@ from typing import Any
 from starline import StarlineApi, StarlineDevice
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.util import dt as dt_util
@@ -36,9 +36,9 @@ def _parse_datetime(dt_str: str | None) -> str | None:
 class StarlineAccount:
     """StarLine Account class."""
 
-    def __init__(self, hass: UniversalAssistant, config_entry: StarlineConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: StarlineConfigEntry) -> None:
         """Initialize StarLine account."""
-        self._hass: UniversalAssistant = hass
+        self._hass: __HAC_KEEP__ = hass
         self._config_entry: StarlineConfigEntry = config_entry
         self._update_interval: int = DEFAULT_SCAN_INTERVAL
         self._update_obd_interval: int = DEFAULT_SCAN_OBD_INTERVAL

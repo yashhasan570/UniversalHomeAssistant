@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MusicAssistantConfigEntry
@@ -13,7 +13,7 @@ from .helpers import catch_musicassistant_error
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MusicAssistantConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

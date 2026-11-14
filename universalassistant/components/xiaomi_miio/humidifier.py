@@ -22,7 +22,7 @@ from universalassistant.components.humidifier import (
     HumidifierEntityFeature,
 )
 from universalassistant.const import ATTR_MODE, CONF_DEVICE, CONF_MODEL
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util.percentage import percentage_to_ranged_value
@@ -68,7 +68,7 @@ AVAILABLE_MODES_OTHER = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: XiaomiMiioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -11,9 +11,9 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.faa_delays.const import DOMAIN
 from universalassistant.const import CONF_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
 async def mock_valid_airport(self, *args, **kwargs):
@@ -33,7 +33,7 @@ def _patch_valid_airport() -> Generator[None]:
         yield
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -66,7 +66,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_duplicate_error(hass: UniversalAssistant) -> None:
+async def test_duplicate_error(hass: __HAC_KEEP__) -> None:
     """Test that we handle a duplicate configuration."""
     conf = {CONF_ID: "test"}
 
@@ -88,7 +88,7 @@ async def test_duplicate_error(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle a connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -114,13 +114,13 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unexpected_exception(hass: UniversalAssistant) -> None:
+async def test_form_unexpected_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle an unexpected exception."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
 
-    with patch("faadelays.Airport.update", side_effect=UniversalAssistantError):
+    with patch("faadelays.Airport.update", side_effect=__HAC_KEEP__Error):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
             {

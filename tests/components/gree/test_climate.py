@@ -71,7 +71,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import (
@@ -85,7 +85,7 @@ from .common import async_setup_gree, build_device_mock
 ENTITY_ID = f"{CLIMATE_DOMAIN}.fake_device_1"
 
 
-async def test_discovery_called_once(hass: UniversalAssistant, discovery, device) -> None:
+async def test_discovery_called_once(hass: __HAC_KEEP__, discovery, device) -> None:
     """Test discovery is only ever called once."""
     await async_setup_gree(hass)
     assert discovery.call_count == 1
@@ -94,7 +94,7 @@ async def test_discovery_called_once(hass: UniversalAssistant, discovery, device
     assert discovery.call_count == 1
 
 
-async def test_discovery_setup(hass: UniversalAssistant, discovery, device) -> None:
+async def test_discovery_setup(hass: __HAC_KEEP__, discovery, device) -> None:
     """Test setup of platform."""
     MockDevice1 = build_device_mock(
         name="fake-device-1", ipAddress="1.1.1.1", mac="aabbcc112233"
@@ -113,7 +113,7 @@ async def test_discovery_setup(hass: UniversalAssistant, discovery, device) -> N
 
 
 async def test_discovery_setup_connection_error(
-    hass: UniversalAssistant, discovery, device
+    hass: __HAC_KEEP__, discovery, device
 ) -> None:
     """Test gree integration is setup."""
     MockDevice1 = build_device_mock(
@@ -135,7 +135,7 @@ async def test_discovery_setup_connection_error(
 
 
 async def test_discovery_after_setup(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, discovery, device
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, discovery, device
 ) -> None:
     """Test gree devices don't change after multiple discoveries."""
     MockDevice1 = build_device_mock(
@@ -169,7 +169,7 @@ async def test_discovery_after_setup(
 
 
 async def test_discovery_add_device_after_setup(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, discovery, device
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, discovery, device
 ) -> None:
     """Test gree devices can be added after initial setup."""
     MockDevice1 = build_device_mock(
@@ -206,7 +206,7 @@ async def test_discovery_add_device_after_setup(
 
 
 async def test_discovery_device_bind_after_setup(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, discovery, device
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, discovery, device
 ) -> None:
     """Test gree devices can be added after a late device bind."""
     MockDevice1 = build_device_mock(
@@ -238,7 +238,7 @@ async def test_discovery_device_bind_after_setup(
 
 
 async def test_update_connection_failure(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, discovery, device
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, discovery, device
 ) -> None:
     """Testing update hvac connection failure exception."""
     device().update_state.side_effect = [
@@ -272,7 +272,7 @@ async def test_update_connection_failure(
 
 
 async def test_update_connection_send_failure_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     device: MagicMock,
 ) -> None:
@@ -311,7 +311,7 @@ async def test_update_connection_send_failure_recovery(
 
 
 async def test_update_unhandled_exception(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, discovery, device
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, discovery, device
 ) -> None:
     """Testing update hvac connection unhandled response exception."""
     device().update_state.side_effect = [DEFAULT_MOCK, Exception]
@@ -332,7 +332,7 @@ async def test_update_unhandled_exception(
 
 
 async def test_send_command_device_timeout(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, discovery, device
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, discovery, device
 ) -> None:
     """Test for sending power on command to the device with a device timeout."""
     await async_setup_gree(hass)
@@ -361,7 +361,7 @@ async def test_send_command_device_timeout(
 
 
 async def test_unresponsive_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     device: MagicMock,
 ) -> None:
@@ -395,7 +395,7 @@ async def test_unresponsive_device(
     assert state.state != STATE_UNAVAILABLE
 
 
-async def test_send_power_on(hass: UniversalAssistant, discovery, device) -> None:
+async def test_send_power_on(hass: __HAC_KEEP__, discovery, device) -> None:
     """Test for sending power on command to the device."""
     await async_setup_gree(hass)
 
@@ -412,7 +412,7 @@ async def test_send_power_on(hass: UniversalAssistant, discovery, device) -> Non
 
 
 async def test_send_power_off_device_timeout(
-    hass: UniversalAssistant, discovery, device
+    hass: __HAC_KEEP__, discovery, device
 ) -> None:
     """Test for sending power off command to the device with a device timeout."""
     device().push_state_update.side_effect = DeviceTimeoutError
@@ -436,7 +436,7 @@ async def test_send_power_off_device_timeout(
     [(METRIC_SYSTEM, 26), (US_CUSTOMARY_SYSTEM, 73)],
 )
 async def test_send_target_temperature(
-    hass: UniversalAssistant, discovery, device, units: UnitSystem, temperature
+    hass: __HAC_KEEP__, discovery, device, units: UnitSystem, temperature
 ) -> None:
     """Test for sending target temperature command to the device."""
     hass.config.units = units
@@ -486,7 +486,7 @@ async def test_send_target_temperature(
     ],
 )
 async def test_send_target_temperature_with_hvac_mode(
-    hass: UniversalAssistant, discovery, device, temperature, hvac_mode
+    hass: __HAC_KEEP__, discovery, device, temperature, hvac_mode
 ) -> None:
     """Test for sending target temperature command to the device alongside hvac mode."""
     await async_setup_gree(hass)
@@ -517,7 +517,7 @@ async def test_send_target_temperature_with_hvac_mode(
     ],
 )
 async def test_send_target_temperature_device_timeout(
-    hass: UniversalAssistant, discovery, device, units: UnitSystem, temperature
+    hass: __HAC_KEEP__, discovery, device, units: UnitSystem, temperature
 ) -> None:
     """Test sending target temperature command with device timeout."""
     hass.config.units = units
@@ -548,7 +548,7 @@ async def test_send_target_temperature_device_timeout(
     ],
 )
 async def test_update_target_temperature(
-    hass: UniversalAssistant, discovery, device, units: UnitSystem, temperature
+    hass: __HAC_KEEP__, discovery, device, units: UnitSystem, temperature
 ) -> None:
     """Test for updating target temperature from the device."""
     hass.config.units = units
@@ -573,7 +573,7 @@ async def test_update_target_temperature(
 @pytest.mark.parametrize(
     "preset", [PRESET_AWAY, PRESET_ECO, PRESET_SLEEP, PRESET_BOOST, PRESET_NONE]
 )
-async def test_send_preset_mode(hass: UniversalAssistant, discovery, device, preset) -> None:
+async def test_send_preset_mode(hass: __HAC_KEEP__, discovery, device, preset) -> None:
     """Test for sending preset mode command to the device."""
     await async_setup_gree(hass)
 
@@ -589,7 +589,7 @@ async def test_send_preset_mode(hass: UniversalAssistant, discovery, device, pre
     assert state.attributes.get(ATTR_PRESET_MODE) == preset
 
 
-async def test_send_invalid_preset_mode(hass: UniversalAssistant, discovery, device) -> None:
+async def test_send_invalid_preset_mode(hass: __HAC_KEEP__, discovery, device) -> None:
     """Test for sending preset mode command to the device."""
     await async_setup_gree(hass)
 
@@ -610,7 +610,7 @@ async def test_send_invalid_preset_mode(hass: UniversalAssistant, discovery, dev
     "preset", [PRESET_AWAY, PRESET_ECO, PRESET_SLEEP, PRESET_BOOST, PRESET_NONE]
 )
 async def test_send_preset_mode_device_timeout(
-    hass: UniversalAssistant, discovery, device, preset
+    hass: __HAC_KEEP__, discovery, device, preset
 ) -> None:
     """Test for sending preset mode command to the device with a device timeout."""
     device().push_state_update.side_effect = DeviceTimeoutError
@@ -633,7 +633,7 @@ async def test_send_preset_mode_device_timeout(
     "preset", [PRESET_AWAY, PRESET_ECO, PRESET_SLEEP, PRESET_BOOST, PRESET_NONE]
 )
 async def test_update_preset_mode(
-    hass: UniversalAssistant, discovery, device, preset
+    hass: __HAC_KEEP__, discovery, device, preset
 ) -> None:
     """Test for updating preset mode from the device."""
     device().steady_heat = preset == PRESET_AWAY
@@ -660,7 +660,7 @@ async def test_update_preset_mode(
     ],
 )
 async def test_send_hvac_mode(
-    hass: UniversalAssistant, discovery, device, hvac_mode
+    hass: __HAC_KEEP__, discovery, device, hvac_mode
 ) -> None:
     """Test for sending hvac mode command to the device."""
     await async_setup_gree(hass)
@@ -682,7 +682,7 @@ async def test_send_hvac_mode(
     [HVACMode.AUTO, HVACMode.COOL, HVACMode.DRY, HVACMode.FAN_ONLY, HVACMode.HEAT],
 )
 async def test_send_hvac_mode_device_timeout(
-    hass: UniversalAssistant, discovery, device, hvac_mode
+    hass: __HAC_KEEP__, discovery, device, hvac_mode
 ) -> None:
     """Test for sending hvac mode command to the device with a device timeout."""
     device().push_state_update.side_effect = DeviceTimeoutError
@@ -713,7 +713,7 @@ async def test_send_hvac_mode_device_timeout(
     ],
 )
 async def test_update_hvac_mode(
-    hass: UniversalAssistant, discovery, device, hvac_mode
+    hass: __HAC_KEEP__, discovery, device, hvac_mode
 ) -> None:
     """Test for updating hvac mode from the device."""
     device().power = hvac_mode != HVACMode.OFF
@@ -730,7 +730,7 @@ async def test_update_hvac_mode(
     "fan_mode",
     [FAN_AUTO, FAN_LOW, FAN_MEDIUM_LOW, FAN_MEDIUM, FAN_MEDIUM_HIGH, FAN_HIGH],
 )
-async def test_send_fan_mode(hass: UniversalAssistant, discovery, device, fan_mode) -> None:
+async def test_send_fan_mode(hass: __HAC_KEEP__, discovery, device, fan_mode) -> None:
     """Test for sending fan mode command to the device."""
     await async_setup_gree(hass)
 
@@ -746,7 +746,7 @@ async def test_send_fan_mode(hass: UniversalAssistant, discovery, device, fan_mo
     assert state.attributes.get(ATTR_FAN_MODE) == fan_mode
 
 
-async def test_send_invalid_fan_mode(hass: UniversalAssistant, discovery, device) -> None:
+async def test_send_invalid_fan_mode(hass: __HAC_KEEP__, discovery, device) -> None:
     """Test for sending fan mode command to the device."""
     await async_setup_gree(hass)
 
@@ -768,7 +768,7 @@ async def test_send_invalid_fan_mode(hass: UniversalAssistant, discovery, device
     [FAN_AUTO, FAN_LOW, FAN_MEDIUM_LOW, FAN_MEDIUM, FAN_MEDIUM_HIGH, FAN_HIGH],
 )
 async def test_send_fan_mode_device_timeout(
-    hass: UniversalAssistant, discovery, device, fan_mode
+    hass: __HAC_KEEP__, discovery, device, fan_mode
 ) -> None:
     """Test for sending fan mode command to the device with a device timeout."""
     device().push_state_update.side_effect = DeviceTimeoutError
@@ -792,7 +792,7 @@ async def test_send_fan_mode_device_timeout(
     [FAN_AUTO, FAN_LOW, FAN_MEDIUM_LOW, FAN_MEDIUM, FAN_MEDIUM_HIGH, FAN_HIGH],
 )
 async def test_update_fan_mode(
-    hass: UniversalAssistant, discovery, device, fan_mode
+    hass: __HAC_KEEP__, discovery, device, fan_mode
 ) -> None:
     """Test for updating fan mode from the device."""
     device().fan_speed = FAN_MODES_INVERSE.get(fan_mode)
@@ -809,7 +809,7 @@ async def test_update_fan_mode(
     ["default", "full_swing", "fixed_upper", "fixed_lower"],
 )
 async def test_send_swing_mode(
-    hass: UniversalAssistant, discovery, device, swing_mode: str
+    hass: __HAC_KEEP__, discovery, device, swing_mode: str
 ) -> None:
     """Test for sending swing mode command to the device."""
     await async_setup_gree(hass)
@@ -826,7 +826,7 @@ async def test_send_swing_mode(
     assert state.attributes.get(ATTR_SWING_MODE) == swing_mode
 
 
-async def test_send_invalid_swing_mode(hass: UniversalAssistant, discovery, device) -> None:
+async def test_send_invalid_swing_mode(hass: __HAC_KEEP__, discovery, device) -> None:
     """Test for sending swing mode command to the device."""
     await async_setup_gree(hass)
 
@@ -848,7 +848,7 @@ async def test_send_invalid_swing_mode(hass: UniversalAssistant, discovery, devi
     ["default", "full_swing", "fixed_upper", "fixed_lower"],
 )
 async def test_send_swing_mode_device_timeout(
-    hass: UniversalAssistant, discovery, device, swing_mode: str
+    hass: __HAC_KEEP__, discovery, device, swing_mode: str
 ) -> None:
     """Test for sending swing mode command to the device with a device timeout."""
     device().push_state_update.side_effect = DeviceTimeoutError
@@ -872,7 +872,7 @@ async def test_send_swing_mode_device_timeout(
     [VerticalSwing.Default, VerticalSwing.FullSwing, VerticalSwing.FixedUpper],
 )
 async def test_update_swing_mode(
-    hass: UniversalAssistant, discovery, device, vertical_swing: VerticalSwing
+    hass: __HAC_KEEP__, discovery, device, vertical_swing: VerticalSwing
 ) -> None:
     """Test for updating swing mode from the device."""
     device().vertical_swing = vertical_swing
@@ -892,7 +892,7 @@ async def test_update_swing_mode(
     ["default", "full_swing", "left", "right"],
 )
 async def test_send_swing_horizontal_mode(
-    hass: UniversalAssistant, discovery, device, swing_horizontal_mode: str
+    hass: __HAC_KEEP__, discovery, device, swing_horizontal_mode: str
 ) -> None:
     """Test for sending horizontal swing mode command to the device."""
     await async_setup_gree(hass)
@@ -910,7 +910,7 @@ async def test_send_swing_horizontal_mode(
 
 
 async def test_send_invalid_swing_horizontal_mode(
-    hass: UniversalAssistant, discovery, device
+    hass: __HAC_KEEP__, discovery, device
 ) -> None:
     """Test for sending an invalid horizontal swing mode command to the device."""
     await async_setup_gree(hass)
@@ -933,7 +933,7 @@ async def test_send_invalid_swing_horizontal_mode(
     ["default", "full_swing", "left", "right"],
 )
 async def test_send_swing_horizontal_mode_device_timeout(
-    hass: UniversalAssistant, discovery, device, swing_horizontal_mode: str
+    hass: __HAC_KEEP__, discovery, device, swing_horizontal_mode: str
 ) -> None:
     """Test for sending horizontal swing mode command to the device with a device timeout."""
     device().push_state_update.side_effect = DeviceTimeoutError
@@ -957,7 +957,7 @@ async def test_send_swing_horizontal_mode_device_timeout(
     [HorizontalSwing.Default, HorizontalSwing.FullSwing, HorizontalSwing.Left],
 )
 async def test_update_swing_horizontal_mode(
-    hass: UniversalAssistant, discovery, device, horizontal_swing: HorizontalSwing
+    hass: __HAC_KEEP__, discovery, device, horizontal_swing: HorizontalSwing
 ) -> None:
     """Test for updating horizontal swing mode from the device."""
     device().horizontal_swing = horizontal_swing
@@ -973,7 +973,7 @@ async def test_update_swing_horizontal_mode(
 
 
 async def test_swing_mode_unknown_device_value(
-    hass: UniversalAssistant, discovery, device
+    hass: __HAC_KEEP__, discovery, device
 ) -> None:
     """Test that an out-of-range vertical swing value from the device returns None."""
     device().vertical_swing = 99
@@ -986,7 +986,7 @@ async def test_swing_mode_unknown_device_value(
 
 
 async def test_swing_horizontal_mode_unknown_device_value(
-    hass: UniversalAssistant, discovery, device
+    hass: __HAC_KEEP__, discovery, device
 ) -> None:
     """Test that an out-of-range horizontal swing value from the device returns None."""
     device().horizontal_swing = 99
@@ -999,7 +999,7 @@ async def test_swing_horizontal_mode_unknown_device_value(
 
 
 async def test_coordinator_update_handler(
-    hass: UniversalAssistant, discovery, device
+    hass: __HAC_KEEP__, discovery, device
 ) -> None:
     """Test for coordinator update handler."""
     await async_setup_gree(hass)
@@ -1041,7 +1041,7 @@ async def test_coordinator_update_handler(
 )
 @pytest.mark.parametrize("response", [Response.DATA, Response.RESULT])
 async def test_fahrenheit_temperature_unit_sync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device: MagicMock,
     initial_state: tuple[TemperatureUnits | None, int | None, int | None],
     response: Response,
@@ -1094,7 +1094,7 @@ async def test_fahrenheit_temperature_unit_sync(
 
 @patch("universalassistant.components.gree.PLATFORMS", [CLIMATE_DOMAIN])
 async def test_registry_settings(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test for entity registry settings (unique_id)."""
     entry = await async_setup_gree(hass)
@@ -1104,7 +1104,7 @@ async def test_registry_settings(
 
 
 @patch("universalassistant.components.gree.PLATFORMS", [CLIMATE_DOMAIN])
-async def test_entity_states(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_entity_states(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test for entity registry settings (unique_id)."""
     await async_setup_gree(hass)
     states = hass.states.async_all()

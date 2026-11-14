@@ -10,7 +10,7 @@ from toonapi.models import ThermostatInfo
 from universalassistant.components.toon import DOMAIN
 from universalassistant.components.toon.const import CONF_MIGRATE
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow, device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -18,7 +18,7 @@ from universalassistant.helpers.config_entry_oauth2_flow import (
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
     config_entry = MockConfigEntry(
@@ -47,7 +47,7 @@ async def test_oauth_implementation_not_available(
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_migrate_entry_version_1(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_version_1(hass: __HAC_KEEP__) -> None:
     """Test a version 1 config entry starts a new flow and fails migration."""
     entry = MockConfigEntry(domain=DOMAIN, data={}, version=1)
     entry.add_to_hass(hass)
@@ -68,7 +68,7 @@ async def test_migrate_entry_version_1(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_migrate_entry_minor_version_2_2(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_minor_version_2_2(hass: __HAC_KEEP__) -> None:
     """Test migrating a 2.1 config entry to 2.2."""
     with patch("universalassistant.components.toon.async_setup_entry", return_value=None):
         entry = MockConfigEntry(
@@ -95,7 +95,7 @@ async def test_migrate_entry_minor_version_2_2(hass: UniversalAssistant) -> None
 
 
 async def test_device_registry_via_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that child devices are linked to their parent via via_device_id."""

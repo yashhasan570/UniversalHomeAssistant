@@ -25,8 +25,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_integration
@@ -39,7 +39,7 @@ def platforms() -> Platform | list[Platform]:
 
 
 def _build_fire_sse_ambilight(
-    hass: UniversalAssistant, mock_ultima_client: MagicMock
+    hass: __HAC_KEEP__, mock_ultima_client: MagicMock
 ) -> Callable[[dict[str, object]], Awaitable[None]]:
     """Build helper to push ambilight SSE events and wait for state updates."""
     page_callback = mock_ultima_client.sse.register_page_cb.call_args[0][1]
@@ -52,7 +52,7 @@ def _build_fire_sse_ambilight(
 
 
 async def test_light_setup_ultima(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
@@ -67,7 +67,7 @@ async def test_light_setup_ultima(
 
 
 async def test_light_not_created_non_ultima(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_light_not_created_non_ultima(
 
 
 async def test_light_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_light_turn_on_off(
 
 
 async def test_light_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -159,7 +159,7 @@ async def test_light_brightness(
 
 
 async def test_light_rgb_color(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_light_rgb_color(
 
 
 async def test_light_effect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -234,7 +234,7 @@ async def test_light_effect(
 
 
 async def test_light_invalid_effect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -244,7 +244,7 @@ async def test_light_invalid_effect(
     entity_id = "light.mock_title_ambilight"
 
     mock_ultima_client.actions.ambilight.reset_mock()
-    with pytest.raises(UniversalAssistantError, match="Unknown effect: InvalidEffect"):
+    with pytest.raises(__HAC_KEEP__Error, match="Unknown effect: InvalidEffect"):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,
@@ -256,7 +256,7 @@ async def test_light_invalid_effect(
 
 
 async def test_light_turn_on_when_on_is_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -280,7 +280,7 @@ async def test_light_turn_on_when_on_is_noop(
 
 
 async def test_light_state_handles_invalid_attributes_from_sse(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -305,7 +305,7 @@ async def test_light_state_handles_invalid_attributes_from_sse(
 
 
 async def test_ambilight_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ultima_client: MagicMock,
 ) -> None:
@@ -318,7 +318,7 @@ async def test_ambilight_connection_error(
 
     mock_ultima_client.actions.ambilight.side_effect = SmlightConnectionError
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             LIGHT_DOMAIN,
             SERVICE_TURN_ON,

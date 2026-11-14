@@ -10,7 +10,7 @@ from tesla_fleet_api.router import VehicleRouter
 from tesla_fleet_api.teslemetry import Vehicle
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import TeslemetryVehicleCommandEntity
@@ -74,7 +74,7 @@ DESCRIPTIONS: tuple[TeslemetryButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslemetryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

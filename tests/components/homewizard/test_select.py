@@ -16,8 +16,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -62,7 +62,7 @@ pytestmark = [
     ],
 )
 async def test_entities_not_created_for_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_ids: list[str],
 ) -> None:
     """Ensures entities for a specific device are not created."""
@@ -77,7 +77,7 @@ async def test_entities_not_created_for_device(
     ],
 )
 async def test_select_entity_snapshots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -125,7 +125,7 @@ async def test_select_entity_snapshots(
     ],
 )
 async def test_select_set_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     entity_id: str,
     option: str,
@@ -145,7 +145,7 @@ async def test_select_set_option(
 
 
 @pytest.mark.parametrize("device_fixture", ["HWE-P1-predictive"])
-async def test_select_predictive_mode_is_available(hass: UniversalAssistant) -> None:
+async def test_select_predictive_mode_is_available(hass: __HAC_KEEP__) -> None:
     """Test that predictive mode is available when supported by the device."""
     assert (state := hass.states.get("select.device_battery_group_charging_strategy"))
     assert "predictive" in state.attributes["options"]
@@ -160,15 +160,15 @@ async def test_select_predictive_mode_is_available(hass: UniversalAssistant) -> 
     ],
 )
 async def test_select_request_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     entity_id: str,
     option: str,
 ) -> None:
-    """Test that RequestError is handled and raises UniversalAssistantError."""
+    """Test that RequestError is handled and raises __HAC_KEEP__Error."""
     mock_homewizardenergy.batteries.side_effect = RequestError
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=r"^An error occurred while communicating with your HomeWizard device$",
     ):
         await hass.services.async_call(
@@ -189,15 +189,15 @@ async def test_select_request_error(
     ],
 )
 async def test_select_unauthorized_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     entity_id: str,
     option: str,
 ) -> None:
-    """Test that UnauthorizedError is handled and raises UniversalAssistantError."""
+    """Test that UnauthorizedError is handled and raises __HAC_KEEP__Error."""
     mock_homewizardenergy.batteries.side_effect = UnauthorizedError
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             r"^The local API is unauthorized\. Restore API"
             r" access by following the instructions in the"
@@ -224,7 +224,7 @@ async def test_select_unauthorized_error(
     ],
 )
 async def test_select_unreachable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     exception: Exception,
     entity_id: str,
@@ -247,7 +247,7 @@ async def test_select_unreachable(
     ],
 )
 async def test_select_multiple_state_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     entity_id: str,
 ) -> None:
@@ -298,7 +298,7 @@ async def test_select_multiple_state_changes(
     ],
 )
 async def test_disabled_by_default_selects(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_ids: list[str]
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_ids: list[str]
 ) -> None:
     """Test the disabled by default selects."""
     for entity_id in entity_ids:

@@ -5,7 +5,7 @@ from typing import Any, override
 from pydeconz.models.event import EventType
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, Scene
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DeconzConfigEntry
@@ -13,7 +13,7 @@ from .entity import DeconzSceneMixin
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DeconzConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

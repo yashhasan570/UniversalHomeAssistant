@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.event import EventDeviceClass, EventEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -12,7 +12,7 @@ from .coordinator import HomeLinkConfigEntry, HomeLinkCoordinator, HomeLinkEvent
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeLinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

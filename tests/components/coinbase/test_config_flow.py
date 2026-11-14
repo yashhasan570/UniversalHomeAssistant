@@ -15,7 +15,7 @@ from universalassistant.components.coinbase.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_KEY, CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .common import (
@@ -44,7 +44,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -84,7 +84,7 @@ async def test_form(hass: UniversalAssistant) -> None:
 
 
 async def test_form_invalid_auth(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
@@ -160,7 +160,7 @@ async def test_form_invalid_auth(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -197,7 +197,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_catch_all_exception(hass: UniversalAssistant) -> None:
+async def test_form_catch_all_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle unknown exceptions."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -234,7 +234,7 @@ async def test_form_catch_all_exception(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_option_form(hass: UniversalAssistant) -> None:
+async def test_option_form(hass: __HAC_KEEP__) -> None:
     """Test we handle a good wallet currency option."""
 
     with (
@@ -264,7 +264,7 @@ async def test_option_form(hass: UniversalAssistant) -> None:
         await hass.async_block_till_done()
 
 
-async def test_form_bad_account_currency(hass: UniversalAssistant) -> None:
+async def test_form_bad_account_currency(hass: __HAC_KEEP__) -> None:
     """Test we handle a bad currency option."""
     with (
         patch(
@@ -306,7 +306,7 @@ async def test_form_bad_account_currency(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_bad_exchange_rate(hass: UniversalAssistant) -> None:
+async def test_form_bad_exchange_rate(hass: __HAC_KEEP__) -> None:
     """Test we handle a bad exchange rate."""
     with (
         patch(
@@ -347,7 +347,7 @@ async def test_form_bad_exchange_rate(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_option_catch_all_exception(hass: UniversalAssistant) -> None:
+async def test_option_catch_all_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle an unknown exception in the option flow."""
     with (
         patch(
@@ -394,7 +394,7 @@ async def test_option_catch_all_exception(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_flow(hass: UniversalAssistant) -> None:
+async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     """Test reauth flow."""
     with (
         patch(
@@ -441,7 +441,7 @@ async def test_reauth_flow(hass: UniversalAssistant) -> None:
     assert config_entry.data[CONF_API_TOKEN] == "new_secret"
 
 
-async def test_reauth_flow_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_reauth_flow_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test reauth flow with invalid credentials."""
     with (
         patch(

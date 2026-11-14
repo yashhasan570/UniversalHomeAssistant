@@ -7,7 +7,7 @@ from pyhomeworks.pyhomeworks import Homeworks
 
 from universalassistant.components.button import ButtonEntity
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -25,7 +25,7 @@ from .entity import HomeworksEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HomeworksConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

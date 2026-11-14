@@ -4,7 +4,7 @@ import logging
 
 from universalassistant.components.sensor import SensorEntity
 from universalassistant.const import CONF_DEVICE, CONF_NAME, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -14,7 +14,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

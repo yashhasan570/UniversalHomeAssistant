@@ -4,7 +4,7 @@ from dremel3dpy import Dremel3DPrinter
 from requests.exceptions import ConnectTimeout, HTTPError
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import CAMERA_MODEL
@@ -14,7 +14,7 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.BUTTON, Platform.CAMERA, Platform.
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: DremelConfigEntry
+    hass: __HAC_KEEP__, config_entry: DremelConfigEntry
 ) -> None:
     """Set up Dremel 3D Printer from a config entry."""
     try:
@@ -36,7 +36,7 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(config_entry, platforms)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: DremelConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: DremelConfigEntry) -> None:
     """Unload Dremel config entry."""
     platforms = list(PLATFORMS)
     if entry.runtime_data.api.get_model() != CAMERA_MODEL:

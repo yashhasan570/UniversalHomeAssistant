@@ -21,7 +21,7 @@ from pyotgw.vars import (
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ID, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import OpenThermGatewayHub
@@ -108,7 +108,7 @@ class PyotgwLEDMode(StrEnum):
 def pyotgw_led_mode_to_ha_led_mode(
     pyotgw_led_mode: PyotgwLEDMode,
 ) -> OpenThermSelectLEDMode | None:
-    """Convert pyotgw LED mode to Universal Universal Home Assistant LED mode."""
+    """Convert pyotgw LED mode to __HA_KEEP__ LED mode."""
     return (
         OpenThermSelectLEDMode[PyotgwLEDMode(pyotgw_led_mode).name]
         if pyotgw_led_mode in PyotgwLEDMode
@@ -261,7 +261,7 @@ SELECT_DESCRIPTIONS: tuple[OpenThermSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

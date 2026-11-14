@@ -8,7 +8,7 @@ from aio_geojson_geonetnz_quakes.feed_entry import GeonetnzQuakesFeedEntry
 
 from universalassistant.components.geo_location import GeolocationEvent
 from universalassistant.const import ATTR_TIME, UnitOfLength
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -34,7 +34,7 @@ SOURCE = "geonetnz_quakes"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GeonetnzQuakesConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

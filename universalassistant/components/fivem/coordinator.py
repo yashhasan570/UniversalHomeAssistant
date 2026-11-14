@@ -8,7 +8,7 @@ from fivem import FiveM, FiveMServerOfflineError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -30,7 +30,7 @@ type FiveMConfigEntry = ConfigEntry[FiveMDataUpdateCoordinator]
 class FiveMDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Class to manage fetching FiveM data."""
 
-    def __init__(self, hass: UniversalAssistant, entry: FiveMConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: FiveMConfigEntry) -> None:
         """Initialize server instance."""
         self.unique_id = entry.entry_id
         self.server = None

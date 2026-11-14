@@ -13,8 +13,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 EXTENSION_ENTITY_ID = "number.my_motionmount_extension"
 TURN_ENTITY_ID = "number.my_motionmount_turn"
@@ -28,7 +28,7 @@ TURN_ENTITY_ID = "number.my_motionmount_turn"
     ],
 )
 async def test_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_motionmount: MagicMock,
     entity_id: str,
@@ -71,21 +71,21 @@ async def test_set_value(
     ],
 )
 async def test_set_value_communication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_motionmount: MagicMock,
     entity_id: str,
     method: str,
     exception: type[Exception],
 ) -> None:
-    """Test a communication error while setting a value raises UniversalAssistantError."""
+    """Test a communication error while setting a value raises __HAC_KEEP__Error."""
     mock_motionmount.is_authenticated = True
     mock_config_entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
 
     getattr(mock_motionmount, method).side_effect = exception
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

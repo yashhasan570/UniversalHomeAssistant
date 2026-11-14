@@ -13,7 +13,7 @@ from universalassistant.components.media_player import (
     MediaType,
     SearchMediaQuery,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .client_wrapper import get_artwork_url
 from .const import (
@@ -52,7 +52,7 @@ PLAYABLE_MEDIA_TYPES = [
 
 
 async def item_payload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: JellyfinClient,
     user_id: str,
     item: dict[str, Any],
@@ -79,7 +79,7 @@ async def item_payload(
 
 
 async def build_root_response(
-    hass: UniversalAssistant, client: JellyfinClient, user_id: str
+    hass: __HAC_KEEP__, client: JellyfinClient, user_id: str
 ) -> BrowseMedia:
     """Create response payload for root folder."""
     folders = await hass.async_add_executor_job(client.jellyfin.get_media_folders)
@@ -103,7 +103,7 @@ async def build_root_response(
 
 
 async def build_item_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: JellyfinClient,
     user_id: str,
     media_content_id: str,
@@ -172,7 +172,7 @@ def fetch_items(
 
 
 async def search_items(
-    hass: UniversalAssistant, client: JellyfinClient, user_id: str, query: SearchMediaQuery
+    hass: __HAC_KEEP__, client: JellyfinClient, user_id: str, query: SearchMediaQuery
 ) -> list[BrowseMedia]:
     """Search items in Jellyfin server."""
     items: list[dict[str, Any]] = []
@@ -220,7 +220,7 @@ async def search_items(
 
 
 async def get_media_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: JellyfinClient,
     user_id: str,
     media_content_id: str,

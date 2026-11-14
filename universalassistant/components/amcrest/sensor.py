@@ -8,7 +8,7 @@ from amcrest import AmcrestError
 
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
 from universalassistant.const import CONF_NAME, CONF_SENSORS, PERCENTAGE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -44,7 +44,7 @@ SENSOR_KEYS: list[str] = [desc.key for desc in SENSOR_TYPES]
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

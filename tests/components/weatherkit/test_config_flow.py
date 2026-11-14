@@ -22,7 +22,7 @@ from universalassistant.components.weatherkit.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import EXAMPLE_CONFIG_DATA
@@ -41,7 +41,7 @@ EXAMPLE_USER_INPUT = {
 }
 
 
-async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form and create an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -78,7 +78,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> No
     ],
 )
 async def test_error_handling(
-    hass: UniversalAssistant, exception: Exception, expected_error: str
+    hass: __HAC_KEEP__, exception: Exception, expected_error: str
 ) -> None:
     """Test that we handle various exceptions and generate appropriate errors."""
     result = await hass.config_entries.flow.async_init(
@@ -109,7 +109,7 @@ async def test_error_handling(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unsupported_location(hass: UniversalAssistant) -> None:
+async def test_form_unsupported_location(hass: __HAC_KEEP__) -> None:
     """Test we handle when WeatherKit does not support the location."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -161,7 +161,7 @@ async def test_form_unsupported_location(hass: UniversalAssistant) -> None:
     ids=["Correct footer", "No footer", "Trailing characters", "Em dash in footer"],
 )
 async def test_auto_fix_key_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     input_header: str,
     input_footer: str,

@@ -6,7 +6,7 @@ from typing import Any, override
 from triggercmd import client, ha
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TriggercmdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -81,7 +81,7 @@ class TRIGGERcmdSwitch(SwitchEntity):
                 "computer": self._switch.computer_id,
                 "trigger": self._switch.trigger_id,
                 "params": params,
-                "sender": "Universal Universal Home Assistant",
+                "sender": "__HA_KEEP__",
             },
             self._switch.hub.httpx_client,
         )

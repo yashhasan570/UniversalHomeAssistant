@@ -5,7 +5,7 @@ from insteon_frontend import get_build_id, locate_dir
 from universalassistant.components import panel_custom, websocket_api
 from universalassistant.components.frontend import async_panel_exists
 from universalassistant.components.http import StaticPathConfig
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from ..const import DOMAIN
 from .aldb import (
@@ -92,7 +92,7 @@ def async_load_api(hass):
 
 
 async def async_register_insteon_frontend(
-    hass: UniversalAssistant, dev_path: str | None = None
+    hass: __HAC_KEEP__, dev_path: str | None = None
 ) -> None:
     """Register the Insteon frontend configuration panel."""
     # Add to sidepanel if needed

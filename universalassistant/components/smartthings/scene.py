@@ -5,14 +5,14 @@ from typing import Any, override
 from pysmartthings import Scene as STScene, SmartThings
 
 from universalassistant.components.scene import Scene
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SmartThingsConfigEntry
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -6,7 +6,7 @@ from aioqsw.const import QSD_MAC, QSD_SERIAL
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD, CONF_UNIQUE_ID, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import QnapQswConfigEntry
 
@@ -23,7 +23,7 @@ TO_REDACT_DATA = [
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: QnapQswConfigEntry
+    hass: __HAC_KEEP__, config_entry: QnapQswConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

@@ -8,7 +8,7 @@ import aiohttp
 
 from universalassistant.components.camera import Camera, CameraEntityFeature
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -26,7 +26,7 @@ _TIMEOUT = 15  # seconds
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DoorBirdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

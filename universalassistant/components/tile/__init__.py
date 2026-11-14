@@ -4,7 +4,7 @@ from pytile import async_login
 from pytile.errors import InvalidAuthError, TileError
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client
 from universalassistant.util.async_ import gather_with_limited_concurrency
@@ -19,7 +19,7 @@ DEFAULT_INIT_TASK_LIMIT = 2
 CONF_SHOW_INACTIVE = "show_inactive"
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TileConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TileConfigEntry) -> None:
     """Set up Tile as config entry."""
 
     # Tile's API uses cookies to identify a consumer; in order to allow for multiple
@@ -55,6 +55,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TileConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TileConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TileConfigEntry) -> None:
     """Unload a Tile config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

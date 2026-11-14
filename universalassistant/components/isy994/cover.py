@@ -10,7 +10,7 @@ from universalassistant.components.cover import (
     CoverEntityFeature,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LOGGER, UOM_8_BIT_RANGE
@@ -19,7 +19,7 @@ from .models import IsyConfigEntry
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IsyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

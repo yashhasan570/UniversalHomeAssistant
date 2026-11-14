@@ -16,7 +16,7 @@ from universalassistant.components.event import (
     EventEntityStateAttribute,
 )
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from . import (
@@ -42,7 +42,7 @@ def fixture_platforms():
 
 
 async def test_rpc_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -86,7 +86,7 @@ async def test_rpc_button(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_script_1_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -143,7 +143,7 @@ async def test_rpc_script_1_event(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_script_2_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -158,7 +158,7 @@ async def test_rpc_script_2_event(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_rpc_script_ble_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_rpc_script_ble_event(
 
 
 async def test_rpc_event_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -189,7 +189,7 @@ async def test_rpc_event_removal(
 
 
 async def test_block_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     monkeypatch: pytest.MonkeyPatch,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
@@ -224,7 +224,7 @@ async def test_block_event(
 
 
 async def test_block_event_single_output(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device event when num_outputs is 1."""
     monkeypatch.setitem(mock_block_device.shelly, "num_outputs", 1)
@@ -234,7 +234,7 @@ async def test_block_event_single_output(
 
 
 async def test_block_event_custom_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     monkeypatch: pytest.MonkeyPatch,
     mock_block_device: Mock,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_block_event_custom_name(
 
 
 async def test_block_event_custom_name_single_output(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device event with custom name when num_outputs is 1."""
     monkeypatch.setitem(mock_block_device.shelly, "num_outputs", 1)
@@ -265,7 +265,7 @@ async def test_block_event_custom_name_single_output(
 
 
 async def test_block_event_shix3_1(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device event for SHIX3-1."""
     blocks = deepcopy(MOCK_BLOCKS)

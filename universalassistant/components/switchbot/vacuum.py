@@ -10,7 +10,7 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
     VacuumEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SwitchbotConfigEntry, SwitchbotDataUpdateCoordinator
@@ -72,7 +72,7 @@ SWITCHBOT_VACUUM_STATE_MAP: dict[int, dict[int, VacuumActivity]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SwitchbotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

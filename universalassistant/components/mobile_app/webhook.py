@@ -47,8 +47,8 @@ from universalassistant.const import (
     EntityCategory,
     EntityStateAttribute,
 )
-from universalassistant.core import EventOrigin, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceNotFound, TemplateError
+from universalassistant.core import EventOrigin, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceNotFound, TemplateError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -124,7 +124,7 @@ _LOGGER = logging.getLogger(__name__)
 DELAY_SAVE = 10
 
 WEBHOOK_COMMANDS: Registry[
-    str, Callable[[UniversalAssistant, ConfigEntry, Any], Coroutine[Any, Any, Response]]
+    str, Callable[[__HAC_KEEP__, ConfigEntry, Any], Coroutine[Any, Any, Response]]
 ] = Registry()
 
 WEBHOOK_PAYLOAD_SCHEMA = probatio.Any(
@@ -182,7 +182,7 @@ def validate_schema(schema):
 
 
 async def handle_webhook(
-    hass: UniversalAssistant, webhook_id: str, request: Request
+    hass: __HAC_KEEP__, webhook_id: str, request: Request
 ) -> Response:
     """Handle webhook callback."""
     if webhook_id in hass.data[DOMAIN][DATA_DELETED_IDS]:
@@ -289,7 +289,7 @@ async def handle_webhook(
     }
 )
 async def webhook_call_service(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, Any]
 ) -> Response:
     """Handle a call service webhook."""
     try:
@@ -322,7 +322,7 @@ async def webhook_call_service(
     }
 )
 async def webhook_fire_event(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, Any]
 ) -> Response:
     """Handle a fire event webhook."""
     event_type: str = data[ATTR_EVENT_TYPE]
@@ -344,7 +344,7 @@ async def webhook_fire_event(
     }
 )
 async def webhook_conversation_process(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, Any]
 ) -> Response:
     """Handle a conversation process webhook."""
     # The app may register again while awaiting
@@ -362,7 +362,7 @@ async def webhook_conversation_process(
 @WEBHOOK_COMMANDS.register("stream_camera")
 @validate_schema({probatio.Required(ATTR_CAMERA_ENTITY_ID): cv.string})
 async def webhook_stream_camera(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, str]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, str]
 ) -> Response:
     """Handle a request to HLS-stream a camera."""
     # The app may register again while awaiting
@@ -386,7 +386,7 @@ async def webhook_stream_camera(
             resp["hls_path"] = await camera.async_request_stream(
                 hass, camera_state.entity_id, "hls"
             )
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             resp["hls_path"] = None
     else:
         resp["hls_path"] = None
@@ -395,7 +395,7 @@ async def webhook_stream_camera(
 
 
 @lru_cache
-def _cached_template(template_str: str, hass: UniversalAssistant) -> template.Template:
+def _cached_template(template_str: str, hass: __HAC_KEEP__) -> template.Template:
     """Return a cached template."""
     return template.Template(template_str, hass)
 
@@ -410,7 +410,7 @@ def _cached_template(template_str: str, hass: UniversalAssistant) -> template.Te
     }
 )
 async def webhook_render_template(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, Any]
 ) -> Response:
     """Handle a render template webhook."""
     resp = {}
@@ -427,7 +427,7 @@ async def webhook_render_template(
 @WEBHOOK_COMMANDS.register("update_location")
 @validate_schema(LOCATION_UPDATE_SCHEMA)
 async def webhook_update_location(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, Any]
 ) -> Response:
     """Handle an update location webhook."""
     async_dispatcher_send(
@@ -448,7 +448,7 @@ async def webhook_update_location(
     }
 )
 async def webhook_update_registration(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, Any]
 ) -> Response:
     """Handle an update registration webhook."""
     new_registration = {**config_entry.data, **data}
@@ -476,7 +476,7 @@ async def webhook_update_registration(
 
 @WEBHOOK_COMMANDS.register("enable_encryption")
 async def webhook_enable_encryption(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: Any
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: Any
 ) -> Response:
     """Handle a encryption enable webhook."""
     if config_entry.data[ATTR_SUPPORTS_ENCRYPTION]:
@@ -554,7 +554,7 @@ def _extract_sensor_unique_id(webhook_id: str, unique_id: str) -> str:
     )
 )
 async def webhook_register_sensor(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, Any]
 ) -> Response:
     """Handle a register sensor webhook."""
     entity_type: str = data[ATTR_SENSOR_TYPE]
@@ -643,7 +643,7 @@ async def webhook_register_sensor(
     )
 )
 async def webhook_update_sensor_states(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: list[dict[str, Any]]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: list[dict[str, Any]]
 ) -> Response:
     """Handle an update sensor states webhook."""
     device_name: str = config_entry.data[ATTR_DEVICE_NAME]
@@ -712,7 +712,7 @@ async def webhook_update_sensor_states(
 
 
 def _async_update_sensor_entity(
-    hass: UniversalAssistant, entity_type: str, unique_store_key: str, data: dict[str, Any]
+    hass: __HAC_KEEP__, entity_type: str, unique_store_key: str, data: dict[str, Any]
 ) -> None:
     """Update a sensor entity with new data."""
     # Replace existing pending update with the latest sensor data.
@@ -728,7 +728,7 @@ def _async_update_sensor_entity(
 
 @WEBHOOK_COMMANDS.register("get_zones")
 async def webhook_get_zones(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: Any
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: Any
 ) -> Response:
     """Handle a get zones webhook."""
     zones = [
@@ -740,7 +740,7 @@ async def webhook_get_zones(
 
 @WEBHOOK_COMMANDS.register("get_config")
 async def webhook_get_config(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: Any
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: Any
 ) -> Response:
     """Handle a get config webhook."""
     # The app may register again while awaiting
@@ -794,7 +794,7 @@ async def webhook_get_config(
 @WEBHOOK_COMMANDS.register("scan_tag")
 @validate_schema({probatio.Required("tag_id"): cv.string})
 async def webhook_scan_tag(
-    hass: UniversalAssistant, config_entry: ConfigEntry, data: dict[str, str]
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, data: dict[str, str]
 ) -> Response:
     """Handle a fire event webhook."""
     await tag.async_scan_tag(

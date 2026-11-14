@@ -9,13 +9,13 @@ from universalassistant import config_entries
 from universalassistant.components.ld2410_ble.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IGNORE
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import LD2410_BLE_DISCOVERY_INFO, NOT_LD2410_BLE_DISCOVERY_INFO
 
 
-async def test_user_step_success(hass: UniversalAssistant) -> None:
+async def test_user_step_success(hass: __HAC_KEEP__) -> None:
     """Test user step success path."""
     with (
         patch(
@@ -60,7 +60,7 @@ async def test_user_step_success(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_step_no_new_devices_found(hass: UniversalAssistant) -> None:
+async def test_user_step_no_new_devices_found(hass: __HAC_KEEP__) -> None:
     """Test user step with only existing devices found."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -81,7 +81,7 @@ async def test_user_step_no_new_devices_found(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_step_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_user_step_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test user step and we cannot connect."""
     with patch(
         "universalassistant.components.ld2410_ble.config_flow.async_discovered_service_info",
@@ -136,7 +136,7 @@ async def test_user_step_cannot_connect(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_step_unknown_exception(hass: UniversalAssistant) -> None:
+async def test_user_step_unknown_exception(hass: __HAC_KEEP__) -> None:
     """Test user step with an unknown exception."""
     with patch(
         "universalassistant.components.ld2410_ble.config_flow.async_discovered_service_info",
@@ -191,7 +191,7 @@ async def test_user_step_unknown_exception(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_bluetooth_step_success(hass: UniversalAssistant) -> None:
+async def test_bluetooth_step_success(hass: __HAC_KEEP__) -> None:
     """Test bluetooth step success path."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -228,7 +228,7 @@ async def test_bluetooth_step_success(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_setup_replaces_ignored_device(hass: UniversalAssistant) -> None:
+async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form can replace an ignored device."""
     entry = MockConfigEntry(
         domain=DOMAIN,

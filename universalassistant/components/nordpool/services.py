@@ -19,7 +19,7 @@ from pynordpool import (
 )
 
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -102,7 +102,7 @@ SERVICE_GET_PRICE_INDICES_SCHEMA = SERVICE_GET_PRICES_SCHEMA.extend(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for Nord Pool integration."""
 
     def get_service_params(

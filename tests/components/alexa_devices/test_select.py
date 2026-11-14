@@ -23,8 +23,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_device_removed_and_readded, setup_integration
@@ -36,7 +36,7 @@ ENTITY_ID_2 = "select.fake_email_gmail_com_default_device"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_all_entities(
 
 
 async def test_select_dropin_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_select_dropin_option(
 
 
 async def test_offline_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_offline_device(
 
 
 async def test_device_removed_and_readded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -135,7 +135,7 @@ async def test_device_removed_and_readded(
 
 
 async def test_service_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -172,7 +172,7 @@ async def test_service_select_option(
 
 
 async def test_service_select_option_state_persists_after_coordinator_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -207,7 +207,7 @@ async def test_service_select_option_state_persists_after_coordinator_update(
 
 
 async def test_service_select_option_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -236,7 +236,7 @@ async def test_service_select_entity_invalid_option_raises_universal_assistant_e
     )
     entity = AmazonSelectServiceEntity(coordinator, SERVICE_SELECTS[0])
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await entity.async_select_option("Nonexistent Device")
 
     assert excinfo.value.translation_key == "select_option_not_found"
@@ -244,7 +244,7 @@ async def test_service_select_entity_invalid_option_raises_universal_assistant_e
 
 
 async def test_service_select_option_loaded_from_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

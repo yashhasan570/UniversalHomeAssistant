@@ -23,7 +23,7 @@ from universalassistant.components.water_heater import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -249,7 +249,7 @@ def _e6_device() -> DummyDevice:
 
 
 async def _assert_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     service: str,
     service_data: dict,
@@ -293,7 +293,7 @@ async def _assert_service_calls(
     ],
 )
 async def test_midea_water_heater_default_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     device: DummyDevice,
     snapshot: SnapshotAssertion,
@@ -455,7 +455,7 @@ async def test_midea_water_heater_default_state(
     ],
 )
 async def test_midea_water_heater_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     device: DummyDevice,
     services: list[str],
@@ -483,7 +483,7 @@ async def test_midea_water_heater_services(
 
 
 async def test_e2_min_max_temperature_from_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test E2 min/max temperature are read from the device attributes."""
@@ -499,7 +499,7 @@ async def test_e2_min_max_temperature_from_device(
 
 
 async def test_e3_min_max_temperature_from_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test E3 min/max temperature are read from the device attributes."""

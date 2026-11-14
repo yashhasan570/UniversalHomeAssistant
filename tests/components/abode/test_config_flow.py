@@ -14,13 +14,13 @@ from requests.exceptions import ConnectTimeout
 from universalassistant.components.abode.const import CONF_POLLING, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_one_config_allowed(hass: UniversalAssistant) -> None:
+async def test_one_config_allowed(hass: __HAC_KEEP__) -> None:
     """Test that only one Abode configuration is allowed."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -35,7 +35,7 @@ async def test_one_config_allowed(hass: UniversalAssistant) -> None:
     assert result["reason"] == "single_instance_allowed"
 
 
-async def test_user_flow(hass: UniversalAssistant) -> None:
+async def test_user_flow(hass: __HAC_KEEP__) -> None:
     """Test user flow, with various errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -102,7 +102,7 @@ async def test_user_flow(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_step_mfa(hass: UniversalAssistant) -> None:
+async def test_step_mfa(hass: __HAC_KEEP__) -> None:
     """Test that the MFA step works."""
 
     result = await hass.config_entries.flow.async_init(
@@ -149,7 +149,7 @@ async def test_step_mfa(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_step_reauth_with_a_different_account(hass: UniversalAssistant) -> None:
+async def test_step_reauth_with_a_different_account(hass: __HAC_KEEP__) -> None:
     """Test reauthenticating with an account other than the configured one."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -176,7 +176,7 @@ async def test_step_reauth_with_a_different_account(hass: UniversalAssistant) ->
     assert entry.data[CONF_USERNAME] == "user@email.com"
 
 
-async def test_step_reauth(hass: UniversalAssistant) -> None:
+async def test_step_reauth(hass: __HAC_KEEP__) -> None:
     """Test the reauth flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,

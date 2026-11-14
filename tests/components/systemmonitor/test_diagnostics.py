@@ -9,12 +9,12 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.freeze_time("2024-02-24 15:00:00", tz_offset=0)
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_psutil: Mock,
     mock_os: Mock,
@@ -29,7 +29,7 @@ async def test_diagnostics(
 
 @pytest.mark.freeze_time("2024-02-24 15:00:00", tz_offset=0)
 async def test_diagnostics_missing_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_psutil: Mock,
     mock_os: Mock,

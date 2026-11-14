@@ -9,13 +9,13 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_default_state(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test binary_sensor group default state."""
     hass.states.async_set("binary_sensor.kitchen", "on")
@@ -52,7 +52,7 @@ async def test_default_state(
     assert entry.original_device_class == "presence"
 
 
-async def test_state_reporting_all(hass: UniversalAssistant) -> None:
+async def test_state_reporting_all(hass: __HAC_KEEP__) -> None:
     """Test the state reporting in 'all' mode.
 
     The group state is unavailable if all group members are unavailable.
@@ -150,7 +150,7 @@ async def test_state_reporting_all(hass: UniversalAssistant) -> None:
 
 
 async def test_state_reporting_any(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the state reporting in 'any' mode.
 

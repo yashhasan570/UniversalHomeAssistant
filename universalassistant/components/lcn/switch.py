@@ -9,7 +9,7 @@ import pypck
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchEntity
 from universalassistant.const import CONF_DOMAIN, CONF_ENTITIES
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType
 
@@ -44,7 +44,7 @@ def add_lcn_switch_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LcnConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

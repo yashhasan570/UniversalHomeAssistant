@@ -18,8 +18,8 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -59,7 +59,7 @@ ALARM_ENABLED_STATES: WeakKeyDictionary[MatterEndpoint, _AlarmEnabledState] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MatterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -223,7 +223,7 @@ class MatterBitmapSwitch(MatterSwitch):
         if status := _write_error_status(result):
             # the spec answers an unsupported mode bit with CONSTRAINT_ERROR
             unsupported = status == clusters.Globals.Enums.status.kConstraintError
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key=(
                     "bitmap_write_not_supported"

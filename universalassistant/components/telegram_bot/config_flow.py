@@ -417,7 +417,7 @@ class TelegramBotConfigFlow(ConfigFlow, domain=DOMAIN):
                 description_placeholders[ERROR_MESSAGE] = (
                     "URL is required since you have not"
                     " configured an external URL"
-                    " in Universal Universal Home Assistant"
+                    " in __HA_KEEP__"
                 )
                 return
         elif (

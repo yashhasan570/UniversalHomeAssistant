@@ -1,4 +1,4 @@
-"""Platform to retrieve Islamic prayer times information for Universal Universal Home Assistant."""
+"""Platform to retrieve Islamic prayer times information for __HA_KEEP__."""
 
 from datetime import datetime
 from typing import override
@@ -8,7 +8,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
     SensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -52,7 +52,7 @@ SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: IslamicPrayerTimesConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

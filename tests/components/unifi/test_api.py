@@ -28,7 +28,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -86,7 +86,7 @@ def tls_contexts(
 
 @pytest.fixture
 async def tls_controller(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_server: Callable[[], TestServer],
     tls_contexts: tuple[ssl.SSLContext, ssl.SSLContext, Path],
     verify_ssl: bool | str | None,
@@ -154,7 +154,7 @@ async def tls_controller(
 
 @pytest.fixture
 async def websocket_api(
-    hass: UniversalAssistant, tls_controller: tuple[dict[str, Any], list[str]]
+    hass: __HAC_KEEP__, tls_controller: tuple[dict[str, Any], list[str]]
 ) -> aiounifi.Controller:
     """Skip login so HTTPS rejection cannot mask a WebSocket validation defect."""
     config, _ = tls_controller
@@ -184,7 +184,7 @@ REJECTED_CERTIFICATES = pytest.mark.parametrize(
 
 @ACCEPTED_CERTIFICATES
 async def test_https_accepts_certificate(
-    hass: UniversalAssistant, tls_controller: tuple[dict[str, Any], list[str]]
+    hass: __HAC_KEEP__, tls_controller: tuple[dict[str, Any], list[str]]
 ) -> None:
     """Verify login succeeds with the configured certificate policy."""
     config, requests = tls_controller
@@ -194,7 +194,7 @@ async def test_https_accepts_certificate(
 
 @REJECTED_CERTIFICATES
 async def test_https_rejects_certificate(
-    hass: UniversalAssistant, tls_controller: tuple[dict[str, Any], list[str]]
+    hass: __HAC_KEEP__, tls_controller: tuple[dict[str, Any], list[str]]
 ) -> None:
     """Reject invalid certificates before sending any HTTP request."""
     config, requests = tls_controller

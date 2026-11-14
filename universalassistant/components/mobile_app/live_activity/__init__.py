@@ -8,7 +8,7 @@ from functools import partial
 from typing import Any
 
 from universalassistant.components.notify import ATTR_DATA, ATTR_MESSAGE
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from ..const import (
@@ -49,7 +49,7 @@ class LiveActivityPush:
 
 
 def prepare_live_activity_remote_push(
-    hass: UniversalAssistant, registration: Mapping[str, Any], data: dict[str, Any]
+    hass: __HAC_KEEP__, registration: Mapping[str, Any], data: dict[str, Any]
 ) -> tuple[dict[str, Any], CALLBACK_TYPE | None]:
     """Return remote notification data and an optional on-success callback.
 
@@ -82,7 +82,7 @@ def prepare_live_activity_remote_push(
 
 
 def resolve_live_activity_push(
-    hass: UniversalAssistant, registration: Mapping[str, Any], data: dict[str, Any]
+    hass: __HAC_KEEP__, registration: Mapping[str, Any], data: dict[str, Any]
 ) -> LiveActivityPush | None:
     """Return Live Activity token routing data for a notification, or ``None``."""
     notification_data = data.get(ATTR_DATA) or {}

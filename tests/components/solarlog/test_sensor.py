@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant solarlog sensor module."""
+"""Test the __HA_KEEP__ solarlog sensor module."""
 
 from datetime import timedelta
 from unittest.mock import AsyncMock
@@ -19,7 +19,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.solarlog.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -27,7 +27,7 @@ from . import setup_platform
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_solarlog_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -40,7 +40,7 @@ async def test_all_entities(
 
 
 async def test_add_remove_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_solarlog_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
@@ -84,7 +84,7 @@ async def test_add_remove_entities(
 
 @pytest.mark.usefixtures("mock_solarlog_connector")
 async def test_inverter_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,
@@ -114,7 +114,7 @@ async def test_inverter_via_device_id(
     ],
 )
 async def test_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     mock_solarlog_connector: AsyncMock,
     mock_config_entry: MockConfigEntry,

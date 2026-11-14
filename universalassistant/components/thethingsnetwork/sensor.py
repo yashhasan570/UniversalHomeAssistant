@@ -6,7 +6,7 @@ from typing import override
 from ttn_client import TTNSensorValue
 
 from universalassistant.components.sensor import SensorEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TTNConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -50,7 +50,7 @@ async def async_setup_entry(
 
 
 class TtnDataSensor(TTNEntity, SensorEntity):
-    """Represents a TTN Universal Universal Home Assistant Sensor."""
+    """Represents a TTN __HA_KEEP__ Sensor."""
 
     _ttn_value: TTNSensorValue
 

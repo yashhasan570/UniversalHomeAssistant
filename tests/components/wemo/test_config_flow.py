@@ -7,11 +7,11 @@ from pytest_universalassistant.common import MockConfigEntry, patch
 from universalassistant.components.wemo.const import DOMAIN
 from universalassistant.components.wemo.coordinator import Options
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_not_discovered(hass: UniversalAssistant) -> None:
+async def test_not_discovered(hass: __HAC_KEEP__) -> None:
     """Test setting up with no devices discovered."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -25,7 +25,7 @@ async def test_not_discovered(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_options(hass: UniversalAssistant) -> None:
+async def test_options(hass: __HAC_KEEP__) -> None:
     """Test updating options."""
     options = Options(enable_subscription=False, enable_long_press=False)
     entry = MockConfigEntry(domain=DOMAIN, title="Wemo")
@@ -44,7 +44,7 @@ async def test_options(hass: UniversalAssistant) -> None:
     assert Options(**result["data"]) == options
 
 
-async def test_invalid_options(hass: UniversalAssistant) -> None:
+async def test_invalid_options(hass: __HAC_KEEP__) -> None:
     """Test invalid option combinations."""
     entry = MockConfigEntry(domain=DOMAIN, title="Wemo")
     entry.add_to_hass(hass)

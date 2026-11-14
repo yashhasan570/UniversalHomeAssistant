@@ -6,7 +6,7 @@ from pybalboa import SpaControl
 from pybalboa.enums import LowHighRange
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BalboaConfigEntry
@@ -14,7 +14,7 @@ from .entity import BalboaEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BalboaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

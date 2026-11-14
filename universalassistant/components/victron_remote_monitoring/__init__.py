@@ -3,7 +3,7 @@
 from datetime import datetime
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.event import async_track_time_change
 
 from .coordinator import (
@@ -15,7 +15,7 @@ _PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: VictronRemoteMonitoringConfigEntry
+    hass: __HAC_KEEP__, entry: VictronRemoteMonitoringConfigEntry
 ) -> None:
     """Set up VRM from a config entry."""
     coordinator = VictronRemoteMonitoringDataUpdateCoordinator(hass, entry)
@@ -36,7 +36,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: VictronRemoteMonitoringConfigEntry
+    hass: __HAC_KEEP__, entry: VictronRemoteMonitoringConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

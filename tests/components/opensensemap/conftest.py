@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_load_json_object_fixture
 
 from universalassistant.components.opensensemap.const import CONF_STATION_ID, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_STATION_ID = "test-station-id"
 
@@ -23,7 +23,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-async def station_data(hass: UniversalAssistant) -> dict:
+async def station_data(hass: __HAC_KEEP__) -> dict:
     """Load the example station data."""
     return await async_load_json_object_fixture(hass, "station.json", DOMAIN)
 

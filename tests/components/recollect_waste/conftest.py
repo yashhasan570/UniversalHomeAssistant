@@ -14,7 +14,7 @@ from universalassistant.components.recollect_waste.const import (
     CONF_SERVICE_ID,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_PLACE_ID = "12345"
 TEST_SERVICE_ID = "67890"
@@ -28,7 +28,7 @@ def client_fixture(pickup_events: list[PickupEvent]) -> Mock:
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: UniversalAssistant, config: dict[str, Any]
+    hass: __HAC_KEEP__, config: dict[str, Any]
 ) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
@@ -75,7 +75,7 @@ def mock_aiorecollect_fixture(client: Mock) -> Generator[None]:
 
 @pytest.fixture(name="setup_config_entry")
 async def setup_config_entry_fixture(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_aiorecollect: None
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_aiorecollect: None
 ) -> None:
     """Define a fixture to set up recollect_waste."""
     assert await hass.config_entries.async_setup(config_entry.entry_id)

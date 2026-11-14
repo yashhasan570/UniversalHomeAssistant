@@ -11,7 +11,7 @@ from hatasmota.models import DiscoveryHashType
 from universalassistant.components import binary_sensor
 from universalassistant.components.binary_sensor import BinarySensorEntity
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import event as evt
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -22,7 +22,7 @@ from .entity import TasmotaAvailability, TasmotaDiscoveryUpdate
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

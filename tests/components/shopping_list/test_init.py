@@ -22,12 +22,12 @@ from universalassistant.components.websocket_api import (
     TYPE_RESULT,
 )
 from universalassistant.const import ATTR_NAME, EVENT_SHOPPING_LIST_UPDATED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import intent
 
 
-def assert_shopping_list_data(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+def assert_shopping_list_data(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Assert shopping list data matches snapshot."""
     path = Path(hass.config.path(".shopping_list.json"))
     if not path.exists():
@@ -42,7 +42,7 @@ def assert_shopping_list_data(hass: UniversalAssistant, snapshot: SnapshotAssert
 
 
 async def test_add_item(
-    hass: UniversalAssistant, sl_setup: None, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, sl_setup: None, snapshot: SnapshotAssertion
 ) -> None:
     """Test adding an item intent."""
     events = async_capture_events(hass, EVENT_SHOPPING_LIST_UPDATED)
@@ -61,7 +61,7 @@ async def test_add_item(
 
 
 async def test_remove_item(
-    hass: UniversalAssistant, sl_setup: None, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, sl_setup: None, snapshot: SnapshotAssertion
 ) -> None:
     """Test removing list items."""
     await intent.async_handle(
@@ -92,7 +92,7 @@ async def test_remove_item(
 
 
 async def test_update_list(
-    hass: UniversalAssistant, sl_setup: None, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, sl_setup: None, snapshot: SnapshotAssertion
 ) -> None:
     """Test updating all list items."""
     await intent.async_handle(
@@ -131,7 +131,7 @@ async def test_update_list(
 
 
 async def test_clear_completed_items(
-    hass: UniversalAssistant, sl_setup: None, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, sl_setup: None, snapshot: SnapshotAssertion
 ) -> None:
     """Test clear completed list items."""
     await intent.async_handle(
@@ -159,7 +159,7 @@ async def test_clear_completed_items(
 
 
 async def test_recent_items_intent(
-    hass: UniversalAssistant, sl_setup: None, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, sl_setup: None, snapshot: SnapshotAssertion
 ) -> None:
     """Test recent items."""
 
@@ -184,7 +184,7 @@ async def test_recent_items_intent(
 
 
 async def test_deprecated_api_get_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -213,7 +213,7 @@ async def test_deprecated_api_get_all(
 
 
 async def test_ws_get_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -249,7 +249,7 @@ async def test_ws_get_items(
 
 
 async def test_deprecated_api_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -295,7 +295,7 @@ async def test_deprecated_api_update(
 
 
 async def test_ws_update_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -349,7 +349,7 @@ async def test_ws_update_item(
 
 
 async def test_api_update_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -377,7 +377,7 @@ async def test_api_update_fails(
 
 
 async def test_ws_update_item_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -412,7 +412,7 @@ async def test_ws_update_item_fail(
 
 
 async def test_deprecated_api_clear_completed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -453,7 +453,7 @@ async def test_deprecated_api_clear_completed(
 
 
 async def test_ws_clear_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -494,7 +494,7 @@ async def test_ws_clear_items(
 
 
 async def test_deprecated_api_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -519,7 +519,7 @@ async def test_deprecated_api_create(
 
 
 async def test_deprecated_api_create_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -537,7 +537,7 @@ async def test_deprecated_api_create_fail(
 
 
 async def test_ws_add_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -561,7 +561,7 @@ async def test_ws_add_item(
 
 
 async def test_ws_add_item_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -578,7 +578,7 @@ async def test_ws_add_item_fail(
 
 
 async def test_ws_remove_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -613,7 +613,7 @@ async def test_ws_remove_item(
 
 
 async def test_ws_remove_item_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -633,7 +633,7 @@ async def test_ws_remove_item_fail(
 
 
 async def test_ws_reorder_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -725,7 +725,7 @@ async def test_ws_reorder_items(
 
 
 async def test_ws_reorder_items_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     sl_setup: None,
     snapshot: SnapshotAssertion,
@@ -779,7 +779,7 @@ async def test_ws_reorder_items_failure(
 
 
 async def test_add_item_service(
-    hass: UniversalAssistant, sl_setup: None, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, sl_setup: None, snapshot: SnapshotAssertion
 ) -> None:
     """Test adding shopping_list item service."""
     events = async_capture_events(hass, EVENT_SHOPPING_LIST_UPDATED)
@@ -795,7 +795,7 @@ async def test_add_item_service(
 
 
 async def test_add_item_service_allows_duplicates(
-    hass: UniversalAssistant, sl_setup: None
+    hass: __HAC_KEEP__, sl_setup: None
 ) -> None:
     """Test adding duplicate items with the shopping list service."""
     for _ in range(2):
@@ -810,7 +810,7 @@ async def test_add_item_service_allows_duplicates(
 
 
 async def test_remove_item_service(
-    hass: UniversalAssistant, sl_setup: None, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, sl_setup: None, snapshot: SnapshotAssertion
 ) -> None:
     """Test removing shopping_list item service."""
     events = async_capture_events(hass, EVENT_SHOPPING_LIST_UPDATED)
@@ -851,7 +851,7 @@ async def test_remove_item_service(
     ],
 )
 @pytest.mark.usefixtures("sl_setup")
-async def test_item_service_item_not_found(hass: UniversalAssistant, service: str) -> None:
+async def test_item_service_item_not_found(hass: __HAC_KEEP__, service: str) -> None:
     """Test item services raise when no item matches the name."""
     with pytest.raises(ServiceValidationError) as exc_info:
         await hass.services.async_call(
@@ -865,7 +865,7 @@ async def test_item_service_item_not_found(hass: UniversalAssistant, service: st
 
 
 async def test_clear_completed_items_service(
-    hass: UniversalAssistant, sl_setup: None, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, sl_setup: None, snapshot: SnapshotAssertion
 ) -> None:
     """Test clearing completed shopping_list items service."""
     events = async_capture_events(hass, EVENT_SHOPPING_LIST_UPDATED)
@@ -903,7 +903,7 @@ async def test_clear_completed_items_service(
 
 
 async def test_sort_list_service(
-    hass: UniversalAssistant, sl_setup: None, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, sl_setup: None, snapshot: SnapshotAssertion
 ) -> None:
     """Test sort_all service."""
 

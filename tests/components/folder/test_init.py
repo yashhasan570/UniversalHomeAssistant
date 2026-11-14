@@ -3,11 +3,11 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the config entry is loaded and unloaded."""
     mock_config_entry.add_to_hass(hass)
@@ -23,7 +23,7 @@ async def test_load_unload_entry(
 
 
 async def test_setup_path_not_allowed(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup fails when the folder is no longer in the allowlist."""
     hass.config.allowlist_external_dirs = set()

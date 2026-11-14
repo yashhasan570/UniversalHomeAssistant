@@ -11,10 +11,10 @@ from Tami4EdgeAPI.device_metadata import DeviceMetadata
 from Tami4EdgeAPI.water_quality import UV, Filter, WaterQuality
 
 from universalassistant.components.tami4.const import CONF_REFRESH_TOKEN, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def create_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def create_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create an entry in hass."""
 
     entry = MockConfigEntry(

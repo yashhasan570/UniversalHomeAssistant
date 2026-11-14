@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.hypontech.const import CONF_OEM, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -24,7 +24,7 @@ from . import setup_integration
     ],
 )
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hyponcloud: AsyncMock,
     side_effect: Exception,
@@ -38,7 +38,7 @@ async def test_setup_entry(
 
 
 async def test_setup_entry_uses_oem(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hyponcloud: AsyncMock,
 ) -> None:
     """Test setup entry passes the stored OEM to the API."""
@@ -60,7 +60,7 @@ async def test_setup_entry_uses_oem(
 
 
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hyponcloud: AsyncMock,
 ) -> None:

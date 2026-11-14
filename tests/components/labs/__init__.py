@@ -1,4 +1,4 @@
-"""Tests for the Universal Universal Home Assistant Labs integration."""
+"""Tests for the __HA_KEEP__ Labs integration."""
 
 from typing import Any
 

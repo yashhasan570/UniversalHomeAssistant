@@ -4,7 +4,7 @@ import logging
 
 from universalassistant.config_entries import SOURCE_IMPORT
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.typing import ConfigType
@@ -34,7 +34,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Track the state of the sun."""
     if not hass.config_entries.async_entries(DOMAIN):
         # We avoid creating an import flow if its already
@@ -50,7 +50,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SunConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SunConfigEntry) -> None:
     """Set up from a config entry."""
     # Remove deprecated solar_rising sensor entity (removed in 2026.1)
     ent_reg = er.async_get(hass)
@@ -67,7 +67,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SunConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SunConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SunConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.async_remove()

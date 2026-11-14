@@ -14,21 +14,21 @@ from universalassistant.components.media_source import (
 )
 from universalassistant.components.stream import FORMAT_CONTENT_TYPE, HLS_PROVIDER
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import Camera, _async_get_image
 from .const import DATA_COMPONENT, DOMAIN, StreamType
 from .helper import async_stream_endpoint_url
 
 
-async def async_get_media_source(hass: UniversalAssistant) -> CameraMediaSource:
+async def async_get_media_source(hass: __HAC_KEEP__) -> CameraMediaSource:
     """Set up camera media source."""
     return CameraMediaSource(hass)
 
 
 def _media_source_for_camera(
-    hass: UniversalAssistant, camera: Camera, content_type: str
+    hass: __HAC_KEEP__, camera: Camera, content_type: str
 ) -> BrowseMediaSource:
     camera_state = hass.states.get(camera.entity_id)
     title = camera.name
@@ -54,7 +54,7 @@ class CameraMediaSource(MediaSource):
 
     name: str = "Camera"
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize CameraMediaSource."""
         super().__init__(DOMAIN)
         self.hass = hass
@@ -78,7 +78,7 @@ class CameraMediaSource(MediaSource):
 
         try:
             url = await async_stream_endpoint_url(self.hass, camera, HLS_PROVIDER)
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             # Handle known error
             if StreamType.HLS not in stream_types:
                 raise Unresolvable(

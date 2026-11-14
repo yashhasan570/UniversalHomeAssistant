@@ -1,4 +1,4 @@
-"""Template helper methods for rendering strings with Universal Universal Home Assistant data."""
+"""Template helper methods for rendering strings with __HA_KEEP__ data."""
 
 from ast import literal_eval
 import asyncio
@@ -24,7 +24,7 @@ from lru import LRU
 from typing_extensions import Sentinel as sentinel
 
 from universalassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers.singleton import singleton
 from universalassistant.helpers.trace import (
@@ -114,7 +114,7 @@ MAX_CUSTOM_TEMPLATE_SIZE = 5 * 1024 * 1024
 MAX_TEMPLATE_OUTPUT = 256 * 1024  # 256KiB
 
 
-def async_setup(hass: UniversalAssistant) -> bool:
+def async_setup(hass: __HAC_KEEP__) -> bool:
     """Set up tracking the template LRUs."""
 
     @callback
@@ -371,7 +371,7 @@ class Template:
         "template",
     )
 
-    def __init__(self, template: str, hass: UniversalAssistant) -> None:
+    def __init__(self, template: str, hass: __HAC_KEEP__) -> None:
         """Instantiate a template."""
         if not isinstance(template, str):
             raise TypeError("Expected template to be a string")
@@ -790,13 +790,13 @@ def make_logging_undefined(
     return LoggingUndefined
 
 
-async def async_load_custom_templates(hass: UniversalAssistant) -> None:
+async def async_load_custom_templates(hass: __HAC_KEEP__) -> None:
     """Load all custom jinja files under 5MiB into memory."""
     custom_templates = await hass.async_add_executor_job(_load_custom_templates, hass)
     _get_hass_loader(hass).sources = custom_templates
 
 
-def _load_custom_templates(hass: UniversalAssistant) -> dict[str, str]:
+def _load_custom_templates(hass: __HAC_KEEP__) -> dict[str, str]:
     result = {}
     jinja_path = hass.config.path("custom_templates")
     all_files = [
@@ -812,7 +812,7 @@ def _load_custom_templates(hass: UniversalAssistant) -> dict[str, str]:
 
 
 @singleton(_HASS_LOADER)
-def _get_hass_loader(hass: UniversalAssistant) -> HassLoader:
+def _get_hass_loader(hass: __HAC_KEEP__) -> HassLoader:
     return HassLoader({})
 
 
@@ -846,11 +846,11 @@ class HassLoader(jinja2.BaseLoader):
 
 
 class TemplateEnvironment(ImmutableSandboxedEnvironment):
-    """The Universal Universal Home Assistant template environment."""
+    """The __HA_KEEP__ template environment."""
 
     def __init__(
         self,
-        hass: UniversalAssistant | None,
+        hass: __HAC_KEEP__ | None,
         limited: bool | None = False,
         strict: bool | None = False,
         log_fn: Callable[[int, str], None] | None = None,

@@ -31,14 +31,14 @@ from universalassistant.components.watts.const import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
 async def test_setup_entry_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_setup_entry_success(
 
 
 async def test_setup_entry_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test setup with authentication failure."""
@@ -86,7 +86,7 @@ async def test_setup_entry_auth_failed(
 
 
 async def test_setup_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test setup when network is temporarily unavailable."""
@@ -115,7 +115,7 @@ async def test_setup_entry_not_ready(
 
 
 async def test_setup_entry_hub_coordinator_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_setup_entry_hub_coordinator_update_failed(
 
 
 async def test_setup_entry_server_error_5xx(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test setup when server returns error."""
@@ -174,7 +174,7 @@ async def test_setup_entry_server_error_5xx(
     ],
 )
 async def test_setup_entry_discover_devices_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -193,7 +193,7 @@ async def test_setup_entry_discover_devices_errors(
 
 
 async def test_dynamic_device_creation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -250,7 +250,7 @@ async def test_dynamic_device_creation(
 
 
 async def test_stale_device_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -294,7 +294,7 @@ async def test_stale_device_removal(
     ],
 )
 async def test_hub_coordinator_update_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -325,7 +325,7 @@ async def test_hub_coordinator_update_errors(
 
 
 async def test_device_coordinator_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watts_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

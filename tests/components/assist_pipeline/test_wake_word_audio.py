@@ -8,7 +8,7 @@ import pytest
 from universalassistant.components import assist_pipeline, stt, tts
 from universalassistant.components.assist_pipeline import PipelineEvent, PipelineEventType
 from universalassistant.components.assist_pipeline.const import MS_PER_CHUNK
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 
 from .conftest import MockSTTProviderEntity, make_10ms_chunk
 
@@ -23,7 +23,7 @@ async def _audio_stream(*chunks: bytes) -> AsyncGenerator[bytes]:
 
 
 async def _async_run_pipeline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     audio_stream: AsyncIterable[bytes],
     wake_word_audio_ms: int,
     end_stage: assist_pipeline.PipelineStage = assist_pipeline.PipelineStage.STT,
@@ -66,7 +66,7 @@ async def _async_run_pipeline(
 )
 @pytest.mark.usefixtures("init_components")
 async def test_wake_word_audio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stt_provider_entity: MockSTTProviderEntity,
     wake_word_audio_ms: int,
     expected_stt_audio: bytes,
@@ -101,7 +101,7 @@ async def test_wake_word_audio(
 )
 @pytest.mark.usefixtures("init_components", "mock_stt_provider_entity")
 async def test_wake_word_audio_duplicate(
-    hass: UniversalAssistant, end_stage: assist_pipeline.PipelineStage
+    hass: __HAC_KEEP__, end_stage: assist_pipeline.PipelineStage
 ) -> None:
     """Test a wake word another satellite just woke up with ends the run."""
     first_events = await _async_run_pipeline(
@@ -126,7 +126,7 @@ async def test_wake_word_audio_duplicate(
 @pytest.mark.usefixtures(
     "init_components", "mock_stt_provider_entity", "mock_wake_word_provider_entity"
 )
-async def test_wake_word_audio_detected_by_pipeline(hass: UniversalAssistant) -> None:
+async def test_wake_word_audio_detected_by_pipeline(hass: __HAC_KEEP__) -> None:
     """Test a run starting at wake word detection accepts the wake word once."""
     events = await _async_run_pipeline(
         hass,
@@ -149,7 +149,7 @@ async def test_wake_word_audio_detected_by_pipeline(hass: UniversalAssistant) ->
 
 @pytest.mark.usefixtures("init_components")
 async def test_wake_word_audio_requires_phrase(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stt_provider_entity: MockSTTProviderEntity,
 ) -> None:
     """Test wake word audio is rejected without the phrase it belongs to."""
@@ -171,7 +171,7 @@ async def test_wake_word_audio_requires_phrase(
 
 @pytest.mark.usefixtures("init_components")
 async def test_wake_word_audio_timestamps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stt_provider_entity: MockSTTProviderEntity,
 ) -> None:
     """Test audio timestamps count from the start of the stream."""

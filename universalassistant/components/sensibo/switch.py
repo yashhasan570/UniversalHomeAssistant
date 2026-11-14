@@ -11,8 +11,8 @@ from universalassistant.components.switch import (
     SwitchEntity,
     SwitchEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SensiboConfigEntry
@@ -74,7 +74,7 @@ DESCRIPTION_BY_MODELS = {"pure": PURE_SWITCH_TYPES}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SensiboConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -191,7 +191,7 @@ class SensiboDeviceSwitch(SensiboDeviceBaseEntity, SwitchEntity):
     async def async_turn_on_off_smart(self, key: str, value: bool) -> bool:
         """Make service call to api for setting Climate React."""
         if self.device_data.smart_type is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="climate_react_not_available",
             )

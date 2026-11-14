@@ -26,7 +26,7 @@ from universalassistant.components.application_credentials import (
 from universalassistant.components.volvo.api import VolvoAuth
 from universalassistant.components.volvo.const import CONF_VIN, DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     OAuth2Session,
     async_get_config_entry_implementation,
@@ -78,7 +78,7 @@ def full_model(request: pytest.FixtureRequest) -> str:
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return the default mocked config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -101,7 +101,7 @@ def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture
 async def mock_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     full_model: str,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
@@ -161,7 +161,7 @@ async def mock_api(
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -173,7 +173,7 @@ async def setup_credentials(hass: UniversalAssistant) -> None:
 
 @pytest.fixture
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> Callable[[], Awaitable[bool]]:
@@ -202,7 +202,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def _async_load_mock_api_data(
-    hass: UniversalAssistant, full_model: str
+    hass: __HAC_KEEP__, full_model: str
 ) -> MockApiData:
     """Load all mock API data from fixtures."""
     vehicle_data = await async_load_fixture_as_json(hass, "vehicle", full_model)

@@ -9,7 +9,7 @@ from letpot.models import DeviceFeature, LetPotDeviceStatus, LetPotGardenStatus
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import LetPotConfigEntry, LetPotDeviceCoordinator
@@ -82,7 +82,7 @@ SWITCHES: tuple[LetPotSwitchEntityDescription[LetPotGardenStatus], ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LetPotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

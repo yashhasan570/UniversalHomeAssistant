@@ -5,7 +5,7 @@ from typing import Any, override
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_CODE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -22,7 +22,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SatelConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

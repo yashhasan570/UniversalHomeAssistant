@@ -5,7 +5,7 @@ from typing import override
 import probatio
 
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import config_validation as cv, intent, translation
 
 from .const import (
@@ -25,7 +25,7 @@ FAN_MODE_TRANSLATION_PREFIX = (
 )
 
 
-async def async_setup_intents(hass: UniversalAssistant) -> None:
+async def async_setup_intents(hass: __HAC_KEEP__) -> None:
     """Set up the climate intents."""
     intent.async_register(hass, SetTemperatureIntent())
     intent.async_register(hass, SetFanModeIntent())
@@ -204,7 +204,7 @@ class SetFanModeIntent(intent.IntentHandler):
 
 
 async def _async_resolve_fan_mode(
-    hass: UniversalAssistant, language: str, climate_state: State, requested: str
+    hass: __HAC_KEEP__, language: str, climate_state: State, requested: str
 ) -> str | None:
     """Return a matching fan mode using translations if necessary."""
     available: list[str] = (

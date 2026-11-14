@@ -21,8 +21,8 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.const import CONF_API_KEY, CONF_SENDER
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -33,7 +33,7 @@ CONF_DEFAULT_RECIPIENTS = "default_recipients"
 
 ATTR_SENDER = CONF_SENDER
 
-DEFAULT_SENDER = "Universal Universal Home Assistant"
+DEFAULT_SENDER = "__HA_KEEP__"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -50,7 +50,7 @@ PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
 
 
 def get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> SinchNotificationService:
@@ -92,7 +92,7 @@ class SinchNotificationService(BaseNotificationService):
                     'Successfully sent SMS to "%s" (batch_id: %s)', target, batch_id
                 )
         except UnauthorizedException as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unauthorized",
             ) from ex
@@ -101,7 +101,7 @@ class SinchNotificationService(BaseNotificationService):
             NotFoundException,
             UnexpectedResponseException,
         ) as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="send_message_failed",
             ) from ex

@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.harmony.const import DOMAIN, PREVIOUS_ACTIVE_ACTIVITY
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
@@ -46,7 +46,7 @@ def _get_mock_harmonyapi(connect=None, close=None):
     ],
 )
 async def test_user_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_input: dict[str, Any],
     expected_data: dict[str, Any],
 ) -> None:
@@ -83,7 +83,7 @@ async def test_user_form(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_ssdp(hass: UniversalAssistant) -> None:
+async def test_form_ssdp(hass: __HAC_KEEP__) -> None:
     """Test we get the form with ssdp source."""
 
     with patch(
@@ -138,7 +138,7 @@ async def test_form_ssdp(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_ssdp_fails_to_get_remote_id(hass: UniversalAssistant) -> None:
+async def test_form_ssdp_fails_to_get_remote_id(hass: __HAC_KEEP__) -> None:
     """Test we abort if we cannot get the remote id."""
 
     with patch(
@@ -162,7 +162,7 @@ async def test_form_ssdp_fails_to_get_remote_id(hass: UniversalAssistant) -> Non
 
 
 async def test_form_ssdp_aborts_before_checking_remoteid_if_host_known(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we abort without connecting if the host is already known."""
 
@@ -207,7 +207,7 @@ async def test_form_ssdp_aborts_before_checking_remoteid_if_host_known(
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: type[Exception] | None,
     error: str,
 ) -> None:
@@ -259,7 +259,7 @@ async def test_form_errors(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_flow_entry_not_loaded(hass: UniversalAssistant) -> None:
+async def test_options_flow_entry_not_loaded(hass: __HAC_KEEP__) -> None:
     """Test the options flow aborts while the entry is not set up."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -274,7 +274,7 @@ async def test_options_flow_entry_not_loaded(hass: UniversalAssistant) -> None:
     assert result["reason"] == "entry_not_loaded"
 
 
-async def test_options_flow(hass: UniversalAssistant, mock_hc, mock_write_config) -> None:
+async def test_options_flow(hass: __HAC_KEEP__, mock_hc, mock_write_config) -> None:
     """Test config flow options."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -307,7 +307,7 @@ async def test_options_flow(hass: UniversalAssistant, mock_hc, mock_write_config
 
 
 async def test_reconfigure(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring the host of the hub."""
     mock_config_entry.add_to_hass(hass)
@@ -349,7 +349,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception] | None,
     error: str,
@@ -396,7 +396,7 @@ async def test_reconfigure_errors(
 
 
 async def test_reconfigure_unique_id_mismatch(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring to a different hub aborts."""
     mock_config_entry.add_to_hass(hass)

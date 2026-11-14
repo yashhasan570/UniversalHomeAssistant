@@ -5,7 +5,7 @@ from collections.abc import Mapping
 from google_nest_sdm.device import Device
 from google_nest_sdm.device_traits import ConnectivityTrait, InfoTrait
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 
@@ -77,7 +77,7 @@ class NestDeviceInfo:
 
 
 @callback
-def async_nest_devices_by_device_id(hass: UniversalAssistant) -> Mapping[str, Device]:
+def async_nest_devices_by_device_id(hass: __HAC_KEEP__) -> Mapping[str, Device]:
     """Return a mapping of all nest devices by HA device id."""
     device_registry = dr.async_get(hass)
     devices = {}

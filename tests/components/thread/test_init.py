@@ -1,11 +1,11 @@
 """Test the Thread integration."""
 
 from universalassistant.components import thread
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_create_entry(hass: UniversalAssistant) -> None:
+async def test_create_entry(hass: __HAC_KEEP__) -> None:
     """Test an entry is created by async_setup."""
     assert len(hass.config_entries.async_entries(thread.DOMAIN)) == 0
     assert await async_setup_component(hass, thread.DOMAIN, {})
@@ -14,7 +14,7 @@ async def test_create_entry(hass: UniversalAssistant) -> None:
     assert len(hass.config_entries.async_entries(thread.DOMAIN)) == 1
 
 
-async def test_remove_entry(hass: UniversalAssistant, thread_config_entry) -> None:
+async def test_remove_entry(hass: __HAC_KEEP__, thread_config_entry) -> None:
     """Test removing the entry."""
 
     config_entry = hass.config_entries.async_entries(thread.DOMAIN)[0]
@@ -23,7 +23,7 @@ async def test_remove_entry(hass: UniversalAssistant, thread_config_entry) -> No
     }
 
 
-async def test_import_once(hass: UniversalAssistant, thread_config_entry) -> None:
+async def test_import_once(hass: __HAC_KEEP__, thread_config_entry) -> None:
     """Test only a single entry is created."""
     await hass.async_block_till_done()
     assert len(hass.config_entries.async_entries(thread.DOMAIN)) == 1

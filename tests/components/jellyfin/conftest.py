@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.jellyfin.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import load_json_fixture
 from .const import TEST_PASSWORD, TEST_URL, TEST_USERNAME
@@ -119,7 +119,7 @@ def mock_jellyfin(mock_client: MagicMock) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_jellyfin: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_jellyfin: MagicMock
 ) -> MockConfigEntry:
     """Set up the Jellyfin integration for testing."""
     mock_config_entry.add_to_hass(hass)

@@ -8,13 +8,13 @@ from pytest_universalassistant.common import patch_yaml_files
 
 from universalassistant.components.python_script.const import DOMAIN, FOLDER
 from universalassistant.components.python_script.helpers import execute
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.service import async_get_all_descriptions
 from universalassistant.setup import async_setup_component
 
 
-async def test_setup(hass: UniversalAssistant) -> None:
+async def test_setup(hass: __HAC_KEEP__) -> None:
     """Test we can discover scripts."""
     scripts = [
         "/some/config/dir/python_scripts/hello.py",
@@ -55,7 +55,7 @@ async def test_setup(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_fails_on_no_dir(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we fail setup when no dir found."""
     with patch(
@@ -68,7 +68,7 @@ async def test_setup_fails_on_no_dir(
 
 
 async def test_execute_with_data(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test executing a script."""
     caplog.set_level(logging.WARNING)
@@ -86,7 +86,7 @@ hass.states.set('test.entity', data.get('name', 'not set'))
 
 
 async def test_execute_warns_print(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test print triggers warning."""
     caplog.set_level(logging.WARNING)
@@ -101,7 +101,7 @@ print("This triggers warning.")
 
 
 async def test_execute_logging(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test logging works."""
     caplog.set_level(logging.INFO)
@@ -116,7 +116,7 @@ logger.info('Logging from inside script')
 
 
 async def test_execute_compile_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test compile error logs error."""
     caplog.set_level(logging.ERROR)
@@ -131,7 +131,7 @@ this is not valid Python
 
 
 async def test_execute_runtime_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test compile error logs error."""
     caplog.set_level(logging.ERROR)
@@ -145,7 +145,7 @@ raise Exception('boom')
     assert "Error executing script" in caplog.text
 
 
-async def test_execute_runtime_error_with_response(hass: UniversalAssistant) -> None:
+async def test_execute_runtime_error_with_response(hass: __HAC_KEEP__) -> None:
     """Test compile error logs error."""
     source = """
 raise Exception('boom')
@@ -154,12 +154,12 @@ raise Exception('boom')
     task = hass.async_add_executor_job(execute, hass, "test.py", source, {}, True)
     await hass.async_block_till_done(wait_background_tasks=True)
 
-    assert type(task.exception()) is UniversalAssistantError
+    assert type(task.exception()) is __HAC_KEEP__Error
     assert "Error executing script (Exception): boom" in str(task.exception())
 
 
 async def test_accessing_async_methods(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test compile error logs error."""
     caplog.set_level(logging.ERROR)
@@ -173,7 +173,7 @@ hass.async_stop()
     assert "Not allowed to access async methods" in caplog.text
 
 
-async def test_accessing_async_methods_with_response(hass: UniversalAssistant) -> None:
+async def test_accessing_async_methods_with_response(hass: __HAC_KEEP__) -> None:
     """Test compile error logs error."""
     source = """
 hass.async_stop()
@@ -187,7 +187,7 @@ hass.async_stop()
 
 
 async def test_using_complex_structures(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that dicts and lists work."""
     caplog.set_level(logging.INFO)
@@ -204,13 +204,13 @@ logger.info('Logging from inside script: %s %s' % (mydict["a"], mylist[2]))
 
 
 async def test_accessing_forbidden_methods(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test compile error logs error."""
     caplog.set_level(logging.ERROR)
 
     for source, name in {
-        "hass.stop()": "UniversalAssistant.stop",
+        "hass.stop()": "__HAC_KEEP__.stop",
         "dt_util.set_default_time_zone()": "module.set_default_time_zone",
         "datetime.non_existing": "module.non_existing",
         "time.tzset()": "TimeWrapper.tzset",
@@ -221,10 +221,10 @@ async def test_accessing_forbidden_methods(
         assert f"Not allowed to access {name}" in caplog.text
 
 
-async def test_accessing_forbidden_methods_with_response(hass: UniversalAssistant) -> None:
+async def test_accessing_forbidden_methods_with_response(hass: __HAC_KEEP__) -> None:
     """Test compile error logs error."""
     for source, name in {
-        "hass.stop()": "UniversalAssistant.stop",
+        "hass.stop()": "__HAC_KEEP__.stop",
         "dt_util.set_default_time_zone()": "module.set_default_time_zone",
         "datetime.non_existing": "module.non_existing",
         "time.tzset()": "TimeWrapper.tzset",
@@ -236,7 +236,7 @@ async def test_accessing_forbidden_methods_with_response(hass: UniversalAssistan
         assert f"Not allowed to access {name}" in str(task.exception())
 
 
-async def test_iterating(hass: UniversalAssistant) -> None:
+async def test_iterating(hass: __HAC_KEEP__) -> None:
     """Test compile error logs error."""
     source = """
 for i in [1, 2]:
@@ -250,7 +250,7 @@ for i in [1, 2]:
     assert hass.states.is_state("hello.2", "world")
 
 
-async def test_using_enumerate(hass: UniversalAssistant) -> None:
+async def test_using_enumerate(hass: __HAC_KEEP__) -> None:
     """Test that enumerate is accepted and executed."""
     source = """
 for index, value in enumerate(["earth", "mars"]):
@@ -265,7 +265,7 @@ for index, value in enumerate(["earth", "mars"]):
 
 
 async def test_unpacking_sequence(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test compile error logs error."""
     caplog.set_level(logging.ERROR)
@@ -289,7 +289,7 @@ hass.states.set('hello.ab_list', '{}'.format(ab_list))
 
 
 async def test_execute_sorted(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test sorted() function."""
     caplog.set_level(logging.ERROR)
@@ -311,7 +311,7 @@ hass.states.set('hello.c', a[2])
 
 
 async def test_exposed_modules(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test datetime and time modules exposed."""
     caplog.set_level(logging.ERROR)
@@ -335,7 +335,7 @@ hass.states.set('module.datetime',
 
 
 async def test_execute_functions(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test functions defined in script can call one another."""
     caplog.set_level(logging.ERROR)
@@ -358,7 +358,7 @@ b()
     assert caplog.text == ""
 
 
-async def test_reload(hass: UniversalAssistant) -> None:
+async def test_reload(hass: __HAC_KEEP__) -> None:
     """Test we can re-discover scripts."""
     scripts = [
         "/some/config/dir/python_scripts/hello.py",
@@ -403,7 +403,7 @@ async def test_reload(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("filename", ["reload.py", "RELOAD.py"])
 async def test_reload_name_is_reserved(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, filename: str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, filename: str
 ) -> None:
     """Test a script named reload does not replace the reload action."""
     scripts = [
@@ -444,7 +444,7 @@ async def test_reload_name_is_reserved(
     assert hass.services.has_service("python_script", "hello2")
 
 
-async def test_service_descriptions(hass: UniversalAssistant) -> None:
+async def test_service_descriptions(hass: __HAC_KEEP__) -> None:
     """Test that service descriptions are loaded and reloaded correctly."""
     # Test 1: no user-provided services.yaml file
     scripts1 = [
@@ -552,7 +552,7 @@ async def test_service_descriptions(hass: UniversalAssistant) -> None:
 
 
 async def test_sleep_warns_one(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test time.sleep warns once."""
     caplog.set_level(logging.WARNING)
@@ -569,7 +569,7 @@ time.sleep(5)
 
 
 async def test_execute_with_output(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test executing a script with a return value."""
     caplog.set_level(logging.WARNING)
@@ -614,7 +614,7 @@ output = {"result": f"hello {data.get('name', 'World')}"}
 
 
 async def test_execute_no_output(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test executing a script without a return value."""
     caplog.set_level(logging.WARNING)
@@ -657,7 +657,7 @@ no_output = {"result": f"hello {data.get('name', 'World')}"}
     assert caplog.text == ""
 
 
-async def test_execute_wrong_output_type(hass: UniversalAssistant) -> None:
+async def test_execute_wrong_output_type(hass: __HAC_KEEP__) -> None:
     """Test executing a script without a return value."""
     scripts = [
         "/some/config/dir/python_scripts/hello.py",
@@ -694,7 +694,7 @@ output = f"hello {data.get('name', 'World')}"
         )
 
 
-async def test_augmented_assignment_operations(hass: UniversalAssistant) -> None:
+async def test_augmented_assignment_operations(hass: __HAC_KEEP__) -> None:
     """Test that augmented assignment operations work."""
     source = """
 a = 10
@@ -731,7 +731,7 @@ hass.states.set('hello.c', c)
     ],
 )
 async def test_prohibited_augmented_assignment_operations(
-    hass: UniversalAssistant, case: str, error: str, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, case: str, error: str, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that prohibited augmented assignment operations raise an error."""
     hass.async_add_executor_job(execute, hass, "aug_assign_prohibited.py", case, {})
@@ -740,7 +740,7 @@ async def test_prohibited_augmented_assignment_operations(
 
 
 async def test_import_allow_strptime(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test calling datetime.datetime.strptime works."""
     source = """
@@ -754,7 +754,7 @@ logger.info(f'Date {test_date}')
 
 
 async def test_no_other_imports_allowed(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test imports are not allowed."""
     source = "import sys"

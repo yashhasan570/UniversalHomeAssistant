@@ -23,7 +23,7 @@ from .coordinator import SolyxEnergyConfigEntry, SolyxEnergyData
 from .entity import SolyxNymoEntity
 
 if TYPE_CHECKING:
-    from universalassistant.core import UniversalAssistant
+    from universalassistant.core import __HAC_KEEP__
     from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 PARALLEL_UPDATES = 0
@@ -120,7 +120,7 @@ SENSOR_DESCRIPTIONS: tuple[SolyxSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    _hass: UniversalAssistant,
+    _hass: __HAC_KEEP__,
     entry: SolyxEnergyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

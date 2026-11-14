@@ -16,7 +16,7 @@
         "title": "Reconnect GitHub"
       },
       "reconfigure": {
-        "description": "Browsing and installing from the catalog work without GitHub. A connection is needed to add custom repositories and keep them up to date, and it raises the limit GitHub puts on requests from your network.\n\nNext, you get a code to enter on GitHub. You never enter your GitHub password in Universal Universal Home Assistant. The connection only reads public information, the same as anyone without an account, and you can revoke it at any time in your GitHub settings.",
+        "description": "Browsing and installing from the catalog work without GitHub. A connection is needed to add custom repositories and keep them up to date, and it raises the limit GitHub puts on requests from your network.\n\nNext, you get a code to enter on GitHub. You never enter your GitHub password in __HA_KEEP__. The connection only reads public information, the same as anyone without an account, and you can revoke it at any time in your GitHub settings.",
         "submit": "Continue",
         "title": "Connect GitHub"
       }
@@ -119,7 +119,7 @@
       "message": "Could not write the downloaded content: {error}"
     },
     "core_repository": {
-      "message": "The integrations of Universal Universal Home Assistant itself come with Universal Universal Home Assistant, there is nothing to add."
+      "message": "The integrations of __HA_KEEP__ itself come with __HA_KEEP__, there is nothing to add."
     },
     "device_of_the_marketplace": {
       "message": "Cannot remove the service of the Marketplace itself."
@@ -155,7 +155,7 @@
       "message": "GitHub limits how often the Marketplace can reach it without a GitHub connection. Try again later, or connect GitHub in the Marketplace for a higher limit."
     },
     "install_checks_failed": {
-      "message": "Could not install {repository}. Check the Universal Universal Home Assistant logs for details."
+      "message": "Could not install {repository}. Check the __HA_KEEP__ logs for details."
     },
     "install_failed": {
       "message": "Installing {repository} failed: {error}"
@@ -167,10 +167,10 @@
       "message": "The manifest.json of the installed content is for {found}, not {domain}."
     },
     "installed_manifest_unusable": {
-      "message": "The installed content has no usable manifest.json where Universal Universal Home Assistant looks for it: {error}"
+      "message": "The installed content has no usable manifest.json where __HA_KEEP__ looks for it: {error}"
     },
     "installed_manifest_without_version": {
-      "message": "The manifest.json of the installed content has no valid version, Universal Universal Home Assistant would not load it."
+      "message": "The manifest.json of the installed content has no valid version, __HA_KEEP__ would not load it."
     },
     "installed_resource_missing": {
       "message": "The installed content has no {file}."
@@ -269,7 +269,7 @@
       "message": "Cannot remove the service for {repository}, it is still installed."
     },
     "requires_newer_universal_assistant": {
-      "message": "This version requires Universal Universal Home Assistant {version} or newer."
+      "message": "This version requires __HA_KEEP__ {version} or newer."
     },
     "restore_failed": {
       "message": "Could not read the stored data of the Marketplace."
@@ -290,7 +290,7 @@
       "message": "The {file} template belongs to {owner}."
     },
     "template_too_large": {
-      "message": "{file} is larger than the {limit} bytes Universal Universal Home Assistant reads."
+      "message": "{file} is larger than the {limit} bytes __HA_KEEP__ reads."
     },
     "theme_invalid": {
       "message": "{file} is not a valid theme: {error}"
@@ -302,7 +302,7 @@
       "message": "The {directory} theme folder belongs to {owner}."
     },
     "uninstall_failed": {
-      "message": "Could not uninstall {repository}. Check the Universal Universal Home Assistant logs for details."
+      "message": "Could not uninstall {repository}. Check the __HA_KEEP__ logs for details."
     },
     "validation_failed": {
       "message": "Checking {repository} failed: {error}"
@@ -332,7 +332,7 @@
       "fix_flow": {
         "step": {
           "confirm": {
-            "description": "The Marketplace uninstalled {repository} and restarted Universal Universal Home Assistant, because the Marketplace catalog marks it as critical.\n\nThe reason given: {reason}\n\nCheck whether anything that depended on {repository} needs your attention. Select **Submit** once you have read this.",
+            "description": "The Marketplace uninstalled {repository} and restarted __HA_KEEP__, because the Marketplace catalog marks it as critical.\n\nThe reason given: {reason}\n\nCheck whether anything that depended on {repository} needs your attention. Select **Submit** once you have read this.",
             "title": "{repository} was removed"
           }
         }
@@ -378,7 +378,7 @@
       "fix_flow": {
         "step": {
           "confirm_restart": {
-            "description": "Restart Universal Universal Home Assistant to finish installing or updating {name}.",
+            "description": "Restart __HA_KEEP__ to finish installing or updating {name}.",
             "submit": "[%key:common::action::restart%]",
             "title": "Restart required for {name}"
           }
@@ -390,7 +390,7 @@
       "fix_flow": {
         "step": {
           "confirm_restart": {
-            "description": "Restart Universal Universal Home Assistant to finish uninstalling {name}. It is not fully removed until then.",
+            "description": "Restart __HA_KEEP__ to finish uninstalling {name}. It is not fully removed until then.",
             "submit": "[%key:common::action::restart%]",
             "title": "Restart required for {name}"
           }
@@ -416,7 +416,7 @@
     "profile": {
       "options": {
         "default": "GitHub (run by GitHub and the Open Home Foundation)",
-        "hasscn": "Unofficial China relays (run by the Universal Universal Home Assistant China community, hasscn.top, with third-party relays as a fallback)"
+        "hasscn": "Unofficial China relays (run by the __HA_KEEP__ China community, hasscn.top, with third-party relays as a fallback)"
       }
     }
   },

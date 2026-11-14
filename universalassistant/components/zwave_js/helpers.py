@@ -41,8 +41,8 @@ from universalassistant.const import (
     ATTR_ENTITY_ID,
     __version__ as HA_VERSION,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import ChildDeviceInfo, DeviceInfo
@@ -167,11 +167,11 @@ def get_opening_state_notification_value(
 
 async def async_enable_statistics(driver: Driver) -> None:
     """Enable statistics on the driver."""
-    await driver.async_enable_statistics("Universal Universal Home Assistant", HA_VERSION)
+    await driver.async_enable_statistics("__HA_KEEP__", HA_VERSION)
 
 
 async def async_enable_server_logging_if_needed(
-    hass: UniversalAssistant, entry: ZwaveJSConfigEntry, driver: Driver
+    hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry, driver: Driver
 ) -> None:
     """Enable logging of zwave-js-server in the lib."""
     # If lib log level is set to debug, we want to enable server logging. First we
@@ -192,7 +192,7 @@ async def async_enable_server_logging_if_needed(
 
 
 async def async_disable_server_logging_if_needed(
-    hass: UniversalAssistant, entry: ZwaveJSConfigEntry, driver: Driver
+    hass: __HAC_KEEP__, entry: ZwaveJSConfigEntry, driver: Driver
 ) -> None:
     """Disable logging of zwave-js-server in the lib if still connected to server."""
     if not driver.client.connected or not driver.client.server_logging_enabled:
@@ -412,7 +412,7 @@ class DriverNotReadyError(ValueError):
 
 
 @callback
-def async_get_node_from_device_id(hass: UniversalAssistant, device_id: str) -> ZwaveNode:
+def async_get_node_from_device_id(hass: __HAC_KEEP__, device_id: str) -> ZwaveNode:
     """Get node from a device ID.
 
     Raises ValueError if device is invalid or node can't be found.
@@ -453,7 +453,7 @@ def async_get_node_from_device_id(hass: UniversalAssistant, device_id: str) -> Z
 
 @callback
 def async_get_config_entry_from_node(
-    hass: UniversalAssistant, node: ZwaveNode
+    hass: __HAC_KEEP__, node: ZwaveNode
 ) -> ZwaveJSConfigEntry:
     """Get the config entry from a Z-Wave JS node."""
     return next(
@@ -465,7 +465,7 @@ def async_get_config_entry_from_node(
 
 
 async def async_get_provisioning_entry_from_device_id(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> ProvisioningEntry | None:
     """Get provisioning entry from a device ID.
 
@@ -506,7 +506,7 @@ async def async_get_provisioning_entry_from_device_id(
 
 @callback
 def async_get_node_from_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     ent_reg: er.EntityRegistry | None = None,
 ) -> ZwaveNode:
@@ -529,7 +529,7 @@ def async_get_node_from_entity_id(
 
 @callback
 def async_get_nodes_from_area_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_id: str,
     ent_reg: er.EntityRegistry | None = None,
     dev_reg: dr.DeviceRegistry | None = None,
@@ -563,7 +563,7 @@ def async_get_nodes_from_area_id(
 
 @callback
 def async_get_nodes_from_targets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     val: dict[str, Any],
     ent_reg: er.EntityRegistry | None = None,
     dev_reg: dr.DeviceRegistry | None = None,
@@ -646,7 +646,7 @@ def value_matches_state(value: ZwaveValue, expected: Any) -> bool:
 
 
 def get_zwave_js_config_entry_id(
-    hass: UniversalAssistant, device: dr.DeviceEntry
+    hass: __HAC_KEEP__, device: dr.DeviceEntry
 ) -> str | None:
     """Find zwave_js config entry from a device."""
     _, config_entry = dr.async_get_device_and_config_entry_for_domain(
@@ -657,7 +657,7 @@ def get_zwave_js_config_entry_id(
 
 @callback
 def async_get_node_status_sensor_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_id: str,
     ent_reg: er.EntityRegistry | None = None,
     dev_reg: dr.DeviceRegistry | None = None,
@@ -668,7 +668,7 @@ def async_get_node_status_sensor_entity_id(
     if not dev_reg:
         dev_reg = dr.async_get(hass)
     if not (device := dev_reg.async_get(device_id, include_child_devices=False)):
-        raise UniversalAssistantError("Invalid Device ID provided")
+        raise __HAC_KEEP__Error("Invalid Device ID provided")
 
     if not (entry_id := get_zwave_js_config_entry_id(hass, device)):
         return None
@@ -782,7 +782,7 @@ def get_device_info(
 
 
 def get_network_identifier_for_notification(
-    hass: UniversalAssistant, config_entry: ZwaveJSConfigEntry, controller: Controller
+    hass: __HAC_KEEP__, config_entry: ZwaveJSConfigEntry, controller: Controller
 ) -> str:
     """Return the network identifier string for persistent notifications."""
     home_id = format_home_id_for_display(controller.home_id)
@@ -793,7 +793,7 @@ def get_network_identifier_for_notification(
     return ""
 
 
-async def async_get_version_info(hass: UniversalAssistant, ws_address: str) -> VersionInfo:
+async def async_get_version_info(hass: __HAC_KEEP__, ws_address: str) -> VersionInfo:
     """Return Z-Wave JS version info."""
     try:
         async with asyncio.timeout(SERVER_VERSION_TIMEOUT):
@@ -861,13 +861,13 @@ def async_wait_for_driver_ready_event(
     return wait_for_events
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Indicate connection error."""
 
 
 @callback
 def async_bypass_dynamic_config_validation(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> bool:
     """Return whether a referenced zwave_js config entry is not loaded or ready."""
     dev_reg = dr.async_get(hass)

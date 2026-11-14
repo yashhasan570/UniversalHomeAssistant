@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ ENTITY_ID = "sensor.kitchen_basil_temperature"
 
 @pytest.mark.usefixtures("mock_willow_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -32,7 +32,7 @@ async def test_all_entities(
 
 
 async def test_sensor_unknown_without_reading(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_willow_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

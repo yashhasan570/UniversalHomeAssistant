@@ -13,7 +13,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -55,7 +55,7 @@ SOURCE_KEYS = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LibreSyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     CONTENT_TYPE_JSON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
@@ -50,7 +50,7 @@ FIXTURE_USER_INPUT = {
 URL_STATUS = "https://127.0.0.1:3000/control/status"
 
 
-async def test_show_authenticate_form(hass: UniversalAssistant) -> None:
+async def test_show_authenticate_form(hass: __HAC_KEEP__) -> None:
     """Test that the setup form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -61,7 +61,7 @@ async def test_show_authenticate_form(hass: UniversalAssistant) -> None:
 
 
 async def test_connection_error(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we show user form on AdGuard Home connection error."""
     aioclient_mock.get(
@@ -108,7 +108,7 @@ async def test_connection_error(
     ],
 )
 async def test_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     status: int,
     error: str,
@@ -140,7 +140,7 @@ async def test_flow_errors(
 
 
 async def test_full_flow_implementation(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test registering an integration and finishing flow works."""
     aioclient_mock.get(
@@ -181,7 +181,7 @@ async def test_full_flow_implementation(
     assert not config_entry.options
 
 
-async def test_integration_already_exists(hass: UniversalAssistant) -> None:
+async def test_integration_already_exists(hass: __HAC_KEEP__) -> None:
     """Test we only allow a single config flow."""
     MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "mock-adguard", CONF_PORT: 3000}
@@ -203,7 +203,7 @@ async def test_integration_already_exists(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_hassio_already_configured(hass: UniversalAssistant) -> None:
+async def test_hassio_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we only allow a single config flow."""
     MockConfigEntry(
         domain=DOMAIN, data={"host": "mock-adguard", "port": "3000"}
@@ -228,7 +228,7 @@ async def test_hassio_already_configured(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_hassio_ignored(hass: UniversalAssistant) -> None:
+async def test_hassio_ignored(hass: __HAC_KEEP__) -> None:
     """Test we supervisor discovered instance can be ignored."""
     MockConfigEntry(domain=DOMAIN, source=config_entries.SOURCE_IGNORE).add_to_hass(
         hass
@@ -254,7 +254,7 @@ async def test_hassio_ignored(hass: UniversalAssistant) -> None:
 
 
 async def test_hassio_confirm(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we can finish a config flow."""
     aioclient_mock.get(
@@ -300,7 +300,7 @@ async def test_hassio_confirm(
 
 
 async def test_hassio_connection_error(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we show Hass.io confirm form on AdGuard Home connection error."""
     aioclient_mock.get(
@@ -341,7 +341,7 @@ async def test_hassio_connection_error(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_reauth(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
     """Test authenticating again stores the new credentials."""
     entry = MockConfigEntry(domain=DOMAIN, data=FIXTURE_USER_INPUT)
     entry.add_to_hass(hass)
@@ -379,7 +379,7 @@ async def test_reauth(hass: UniversalAssistant, aioclient_mock: AiohttpClientMoc
     ],
 )
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_kwargs: dict,
     error: str,
@@ -415,7 +415,7 @@ async def test_reauth_errors(
 
 
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -458,7 +458,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_migrates_disabled_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -504,7 +504,7 @@ async def test_reconfigure_migrates_disabled_entry(
 
 
 async def test_reconfigure_without_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -545,7 +545,7 @@ async def test_reconfigure_without_credentials(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
     mock_kwargs: dict[str, Any],
@@ -579,7 +579,7 @@ async def test_reconfigure_errors(
 
 
 async def test_reconfigure_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring to the host and port of another entry aborts."""
     mock_config_entry.add_to_hass(hass)

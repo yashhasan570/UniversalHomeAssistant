@@ -12,8 +12,8 @@ from subarulink.const import (
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_DEVICE_ID, CONF_PASSWORD, CONF_PIN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from .const import VEHICLE_VIN
@@ -24,7 +24,7 @@ DATA_FIELDS_TO_REDACT = [VEHICLE_VIN, VEHICLE_NAME, LATITUDE, LONGITUDE, ODOMETE
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: SubaruConfigEntry
+    hass: __HAC_KEEP__, config_entry: SubaruConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = config_entry.runtime_data.coordinator
@@ -40,7 +40,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, config_entry: SubaruConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: SubaruConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     coordinator = config_entry.runtime_data.coordinator
@@ -60,4 +60,4 @@ async def async_get_device_diagnostics(
             ),
         }
 
-    raise UniversalAssistantError("Device not found")
+    raise __HAC_KEEP__Error("Device not found")

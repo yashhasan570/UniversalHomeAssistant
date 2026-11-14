@@ -13,7 +13,7 @@ from universalassistant.components.coinbase.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_API_KEY, CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import entity_registry as er
 
@@ -31,7 +31,7 @@ from .const import (
 )
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test successful unload of entry."""
     with (
         patch(
@@ -60,7 +60,7 @@ async def test_unload_entry(hass: UniversalAssistant) -> None:
 
 
 async def test_option_updates(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test handling option updates."""
 
@@ -140,7 +140,7 @@ async def test_option_updates(
 
 
 async def test_ignore_vaults_wallets(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test vaults are ignored in wallet sensors."""
 
@@ -166,7 +166,7 @@ async def test_ignore_vaults_wallets(
         assert API_TYPE_VAULT not in entity.original_name.lower()
 
 
-async def test_v2_api_credentials_trigger_reauth(hass: UniversalAssistant) -> None:
+async def test_v2_api_credentials_trigger_reauth(hass: __HAC_KEEP__) -> None:
     """Test that v2 API credentials trigger a reauth flow."""
 
     config_entry_data = {
@@ -187,7 +187,7 @@ async def test_v2_api_credentials_trigger_reauth(hass: UniversalAssistant) -> No
     assert "deprecated v2 API" in str(exc_info.value)
 
 
-async def test_v3_api_credentials_work(hass: UniversalAssistant) -> None:
+async def test_v3_api_credentials_work(hass: __HAC_KEEP__) -> None:
     """Test that v3 API credentials with 'organizations' don't trigger reauth."""
 
     config_entry_data = {

@@ -8,7 +8,7 @@ from py_dormakaba_dkey import DKEYLock
 from py_dormakaba_dkey.errors import DKEY_EXCEPTIONS, NotAssociated
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -24,7 +24,7 @@ class DormakabaDkeyCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: DormakabaDkeyConfigEntry,
         lock: DKEYLock,
     ) -> None:

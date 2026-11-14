@@ -3,7 +3,7 @@
 from homevolt import Homevolt
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import HomevoltConfigEntry, HomevoltDataUpdateCoordinator
@@ -16,7 +16,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HomevoltConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HomevoltConfigEntry) -> None:
     """Set up Homevolt from a config entry."""
     host: str = entry.data[CONF_HOST]
     password: str | None = entry.data.get(CONF_PASSWORD)
@@ -32,7 +32,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HomevoltConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: HomevoltConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: HomevoltConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

@@ -14,7 +14,7 @@ from openevsehttp.exceptions import (
 
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceValidationError,
 )
 
@@ -38,7 +38,7 @@ def openevse_exception_handler(value: Any = None) -> Iterator[None]:
             translation_key="authentication_error",
         ) from err
     except UnsupportedFeature as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="unsupported_feature",
         ) from err
@@ -50,7 +50,7 @@ def openevse_exception_handler(value: Any = None) -> Iterator[None]:
         UnknownError,
         RuntimeError,
     ) as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="communication_error",
         ) from err

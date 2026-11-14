@@ -18,7 +18,7 @@ from universalassistant.components.marantz_infrared.const import (
     MODELS,
 )
 from universalassistant.const import CONF_MODEL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import slugify
 
 MOCK_MODEL = "pm6006_integrated_amplifier"
@@ -78,7 +78,7 @@ def mock_marantz_to_command() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     mock_marantz_to_command: MagicMock,

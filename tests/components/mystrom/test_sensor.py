@@ -5,13 +5,13 @@ from datetime import timedelta
 from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .test_init import init_integration
 
 
 async def test_pir_sensors_are_polled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

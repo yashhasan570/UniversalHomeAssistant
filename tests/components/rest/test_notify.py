@@ -9,12 +9,12 @@ from universalassistant import config as hass_config
 from universalassistant.components import notify
 from universalassistant.components.rest import DOMAIN
 from universalassistant.components.rest.services import RestService
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @respx.mock
-async def test_reload_notify(hass: UniversalAssistant) -> None:
+async def test_reload_notify(hass: __HAC_KEEP__) -> None:
     """Verify we can reload the notify service."""
     respx.get("http://localhost") % 200
 

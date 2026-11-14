@@ -9,7 +9,7 @@ from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothReachabilityIntent
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ADDRESS, CONF_CLIENT_ID, CONF_PIN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .const import DOMAIN, LOGGER
@@ -23,7 +23,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HusqvarnaConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HusqvarnaConfigEntry) -> None:
     """Set up Husqvarna Autoconnect Bluetooth from a config entry."""
     if CONF_PIN not in entry.data:
         raise ConfigEntryAuthFailed(
@@ -105,7 +105,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HusqvarnaConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: HusqvarnaConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: HusqvarnaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     coordinator: HusqvarnaCoordinator = entry.runtime_data

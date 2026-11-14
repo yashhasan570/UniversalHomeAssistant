@@ -30,8 +30,8 @@ from universalassistant.components import usb
 from universalassistant.components.universalassistant_hardware.firmware_config_flow import (
     ZigbeeFlowStrategy,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
 from . import repairs
@@ -144,7 +144,7 @@ def _prevent_overwrite_ezsp_ieee(
 class ZhaRadioManager:
     """Helper class with radio related functionality."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
 
     def __init__(self) -> None:
         """Initialize ZhaRadioManager instance."""
@@ -157,7 +157,7 @@ class ZhaRadioManager:
 
     @classmethod
     def from_config_entry(
-        cls, hass: UniversalAssistant, config_entry: config_entries.ConfigEntry
+        cls, hass: __HAC_KEEP__, config_entry: config_entries.ConfigEntry
     ) -> Self:
         """Create an instance from a config entry."""
         mgr = cls()
@@ -205,7 +205,7 @@ class ZhaRadioManager:
             ):
                 database_path = None
         except OSError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Could not read the ZHA database {database_path}: {error}"
             ) from error
 
@@ -226,7 +226,7 @@ class ZhaRadioManager:
                 try:
                     await app.connect()
                 except OSError as error:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         f"Failed to connect to Zigbee adapter: {error}"
                     ) from error
 
@@ -370,12 +370,12 @@ class ZhaMultiPANMigrationHelper:
     """Helper class for automatic migration when upgrading the firmware of a radio.
 
     This class is currently only intended to be used when changing the firmware on the
-    radio used in the Universal Universal Home Assistant SkyConnect USB stick and the Universal Universal Home Assistant Yellow
+    radio used in the __HA_KEEP__ SkyConnect USB stick and the __HA_KEEP__ Yellow
     from Zigbee only firmware to firmware supporting both Zigbee and Thread.
     """
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: config_entries.ConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: config_entries.ConfigEntry
     ) -> None:
         """Initialize MigrationHelper instance."""
         self._config_entry = config_entry
@@ -435,7 +435,7 @@ class ZhaMultiPANMigrationHelper:
                     create_backup=True
                 )
                 break
-            except (OSError, UniversalAssistantError) as err:
+            except (OSError, __HAC_KEEP__Error) as err:
                 if retry >= BACKUP_RETRIES - 1:
                     raise
 
@@ -476,7 +476,7 @@ class ZhaMultiPANMigrationHelper:
             try:
                 await self._radio_mgr.restore_backup(overwrite_ieee=True)
                 break
-            except (OSError, UniversalAssistantError) as err:
+            except (OSError, __HAC_KEEP__Error) as err:
                 if retry >= MIGRATION_RETRIES - 1:
                     raise
 

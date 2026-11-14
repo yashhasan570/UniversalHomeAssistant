@@ -13,7 +13,7 @@ from universalassistant.components.klik_aan_klik_uit.const import (
     CONF_TRANSMITTER,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 TRANSMITTER_ENTITY_ID = "radio_frequency.test_rf_transmitter"
@@ -43,7 +43,7 @@ def mock_config_entry(
 
 @pytest.fixture
 async def init_klik_aan_klik_uit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> MockConfigEntry:
     """Set up Kaku RC integration."""

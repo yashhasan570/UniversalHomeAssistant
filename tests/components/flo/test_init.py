@@ -9,13 +9,13 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.flo.const import CONF_USE_SSO
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("aioclient_mock_fixture")
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -36,7 +36,7 @@ async def test_setup_entry(
 
 
 async def test_setup_entry_persists_sso_flag(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test setup stores use_sso when legacy auth fails and SSO succeeds."""
     config_entry.add_to_hass(hass)

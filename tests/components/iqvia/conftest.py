@@ -8,14 +8,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, load_json_object_fixture
 
 from universalassistant.components.iqvia.const import CONF_ZIP_CODE, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonObjectType
 
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: UniversalAssistant, config: dict[str, Any]
+    hass: __HAC_KEEP__, config: dict[str, Any]
 ) -> MockConfigEntry:
     """Define a config entry fixture."""
     entry = MockConfigEntry(
@@ -80,7 +80,7 @@ def data_disease_index_fixture() -> JsonObjectType:
 
 @pytest.fixture(name="setup_iqvia")
 async def setup_iqvia_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     data_allergy_forecast: JsonObjectType,
     data_allergy_index: JsonObjectType,

@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MockConfigEntryFactory
@@ -48,7 +48,7 @@ AUTH_ERROR = TrapError("invalid user name or password")
 CONN_ERROR = ConnectionClosed()
 
 
-async def test_flow_works(hass: UniversalAssistant) -> None:
+async def test_flow_works(hass: __HAC_KEEP__) -> None:
     """Test config flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -70,7 +70,7 @@ async def test_flow_works(hass: UniversalAssistant) -> None:
 
 
 async def test_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntryFactory,
 ) -> None:
     """Test updating options."""
@@ -105,7 +105,7 @@ async def test_options(
 @pytest.mark.parametrize("mock_api_error", [AUTH_ERROR], indirect=True)
 @pytest.mark.usefixtures("mock_api_error")
 async def test_host_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntryFactory,
 ) -> None:
     """Test host already configured."""
@@ -125,7 +125,7 @@ async def test_host_already_configured(
 
 @pytest.mark.parametrize("mock_api_error", [CONN_ERROR], indirect=True)
 @pytest.mark.usefixtures("mock_api_error", "mock_setup_entry")
-async def test_connection_error(hass: UniversalAssistant) -> None:
+async def test_connection_error(hass: __HAC_KEEP__) -> None:
     """Test error when connection is unsuccessful."""
 
     result = await hass.config_entries.flow.async_init(
@@ -146,7 +146,7 @@ async def test_connection_error(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("mock_api_error", [AUTH_ERROR], indirect=True)
 @pytest.mark.usefixtures("mock_api_error", "mock_setup_entry")
-async def test_wrong_credentials(hass: UniversalAssistant) -> None:
+async def test_wrong_credentials(hass: __HAC_KEEP__) -> None:
     """Test error when credentials are wrong."""
 
     result = await hass.config_entries.flow.async_init(
@@ -170,7 +170,7 @@ async def test_wrong_credentials(hass: UniversalAssistant) -> None:
 
 
 async def test_reauth_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntryFactory,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_reauth_success(
 @pytest.mark.parametrize("mock_api_error", [AUTH_ERROR], indirect=True)
 @pytest.mark.usefixtures("mock_api_error", "mock_setup_entry")
 async def test_reauth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntryFactory,
 ) -> None:
     """Test reauth fails due to wrong password."""
@@ -244,7 +244,7 @@ async def test_reauth_failed(
 @pytest.mark.parametrize("mock_api_error", [CONN_ERROR], indirect=True)
 @pytest.mark.usefixtures("mock_api_error", "mock_setup_entry")
 async def test_reauth_failed_conn_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntryFactory,
 ) -> None:
     """Test reauth failed due to connection error."""
@@ -289,7 +289,7 @@ RECONFIGURE_INPUT = {
 
 
 async def test_reconfigure_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntryFactory,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -315,7 +315,7 @@ async def test_reconfigure_success(
 
 
 async def test_reconfigure_host_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntryFactory,
 ) -> None:
     """Test reconfigure aborts when the new host belongs to another entry."""
@@ -346,7 +346,7 @@ async def test_reconfigure_host_already_configured(
     ],
 )
 async def test_reconfigure_error_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntryFactory,
     mock_setup_entry: AsyncMock,
     side_effect: Exception,

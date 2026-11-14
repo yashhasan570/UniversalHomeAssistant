@@ -4,7 +4,7 @@ from typing import Any
 
 from govee_local_api import GoveeDevice, GoveeLightFeatures
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import GoveeLocalConfigEntry
 
@@ -33,7 +33,7 @@ def _device_diagnostics(device: GoveeDevice) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: GoveeLocalConfigEntry
+    hass: __HAC_KEEP__, entry: GoveeLocalConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

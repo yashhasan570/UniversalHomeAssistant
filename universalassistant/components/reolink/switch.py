@@ -8,7 +8,7 @@ from reolink_aio.api import Chime, Host
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import (
@@ -360,7 +360,7 @@ RULE_SWITCH_ENTITY = ReolinkSwitchIndexEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ReolinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

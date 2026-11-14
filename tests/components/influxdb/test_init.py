@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_STANDBY,
 )
-from universalassistant.core import UniversalAssistant, split_entity_id
+from universalassistant.core import __HAC_KEEP__, split_entity_id
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
 
@@ -38,7 +38,7 @@ from . import (
 )
 
 
-async def async_wait_for_queue_to_process(hass: UniversalAssistant) -> None:
+async def async_wait_for_queue_to_process(hass: __HAC_KEEP__) -> None:
     """Wait for the queue to be processed."""
     entry = hass.config_entries.async_entries(DOMAIN)[0]
     await hass.async_add_executor_job(entry.runtime_data.block_till_done)
@@ -223,7 +223,7 @@ def get_mock_call_fixture(request: pytest.FixtureRequest):
     indirect=["mock_client"],
 )
 async def test_setup_config_ssl(
-    hass: UniversalAssistant, mock_client, config_base, config_ext, expected_client_args
+    hass: __HAC_KEEP__, mock_client, config_base, config_ext, expected_client_args
 ) -> None:
     """Test the setup with various verify_ssl values."""
     config = config_base.copy()
@@ -268,7 +268,7 @@ async def test_setup_config_ssl(
     indirect=["mock_client"],
 )
 async def test_setup_config_path(
-    hass: UniversalAssistant, mock_client, config_ext: dict, expected_path: str | None
+    hass: __HAC_KEEP__, mock_client, config_ext: dict, expected_path: str | None
 ) -> None:
     """Test that path='/' is not passed to InfluxDBClient, but other paths are."""
     config = BASE_V1_CONFIG.copy()
@@ -283,7 +283,7 @@ async def test_setup_config_path(
     assert mock_client.call_args.kwargs.get(CONF_PATH) == expected_path
 
 
-async def test_invalid_config_schema(hass: UniversalAssistant) -> None:
+async def test_invalid_config_schema(hass: __HAC_KEEP__) -> None:
     """Test that invalid options are rejected in YAML."""
     with pytest.raises(probatio.Invalid):
         influxdb.CONFIG_SCHEMA({"influxdb": {"precision": "invalid"}})
@@ -316,7 +316,7 @@ async def test_invalid_config_schema(hass: UniversalAssistant) -> None:
     indirect=["mock_client"],
 )
 async def test_removed_connection_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_config: ConfigType,
     mock_client: MagicMock,
     config_base: dict[str, Any],
@@ -336,7 +336,7 @@ async def test_removed_connection_keys(
 
 
 async def _setup(
-    hass: UniversalAssistant, mock_influx_client, config, get_write_api
+    hass: __HAC_KEEP__, mock_influx_client, config, get_write_api
 ) -> None:
     """Prepare client for next test and return event handler method."""
     mock_entry = MockConfigEntry(
@@ -374,7 +374,7 @@ async def _setup(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener(
-    hass: UniversalAssistant, mock_client, config_ext, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_ext, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener."""
     await _setup(hass, mock_client, config_ext, get_write_api)
@@ -467,7 +467,7 @@ async def test_event_listener(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_multiline_strings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     config_ext: dict[str, Any],
     get_write_api: Callable[[MagicMock], MagicMock],
@@ -526,7 +526,7 @@ async def test_event_listener_multiline_strings(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_no_units(
-    hass: UniversalAssistant, mock_client, config_ext, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_ext, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener for missing units."""
     await _setup(hass, mock_client, config_ext, get_write_api)
@@ -575,7 +575,7 @@ async def test_event_listener_no_units(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_inf(
-    hass: UniversalAssistant, mock_client, config_ext, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_ext, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener with large or invalid numbers."""
     await _setup(hass, mock_client, config_ext, get_write_api)
@@ -619,7 +619,7 @@ async def test_event_listener_inf(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_states(
-    hass: UniversalAssistant, mock_client, config_ext, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_ext, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener against ignored states."""
     await _setup(hass, mock_client, config_ext, get_write_api)
@@ -646,7 +646,7 @@ async def test_event_listener_states(
         write_api.reset_mock()
 
 
-async def execute_filter_test(hass: UniversalAssistant, tests, write_api, get_mock_call):
+async def execute_filter_test(hass: __HAC_KEEP__, tests, write_api, get_mock_call):
     """Execute all tests for a given filtering test."""
     for test in tests:
         domain, entity_id = split_entity_id(test.id)
@@ -707,7 +707,7 @@ async def execute_filter_test(hass: UniversalAssistant, tests, write_api, get_mo
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_denylist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client,
     config_base,
     get_write_api,
@@ -761,7 +761,7 @@ async def test_event_listener_denylist(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_denylist_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client,
     config_base,
     get_write_api,
@@ -815,7 +815,7 @@ async def test_event_listener_denylist_domain(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_denylist_glob(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client,
     config_base,
     get_write_api,
@@ -869,7 +869,7 @@ async def test_event_listener_denylist_glob(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_allowlist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client,
     config_base,
     get_write_api,
@@ -915,7 +915,7 @@ async def test_event_listener_allowlist(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_allowlist_domain(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener against a domain allowlist."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -965,7 +965,7 @@ async def test_event_listener_allowlist_domain(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_allowlist_glob(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener against a glob allowlist."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1025,7 +1025,7 @@ async def test_event_listener_allowlist_glob(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_filtered_allowlist(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener against an allowlist filtered by denylist."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1090,7 +1090,7 @@ async def test_event_listener_filtered_allowlist(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_filtered_denylist(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test event listener with domain/glob denylist and entity allowlist."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1127,7 +1127,7 @@ async def test_event_listener_filtered_denylist(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_invalid_type(
-    hass: UniversalAssistant, mock_client, config_ext, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_ext, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener when an attribute has an invalid type."""
     await _setup(hass, mock_client, config_ext, get_write_api)
@@ -1196,7 +1196,7 @@ async def test_event_listener_invalid_type(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_default_measurement(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener with a default measurement."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1238,7 +1238,7 @@ async def test_event_listener_default_measurement(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_unit_of_measurement_field(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener for unit of measurement field."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1282,7 +1282,7 @@ async def test_event_listener_unit_of_measurement_field(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_tags_attributes(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener when some attributes should be tags."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1354,7 +1354,7 @@ async def test_event_listener_tags_attributes(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_component_override_measurement(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener with overridden measurements."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1431,7 +1431,7 @@ async def test_event_listener_component_override_measurement(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_component_measurement_attr(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener with a different measurement_attr."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1514,7 +1514,7 @@ async def test_event_listener_component_measurement_attr(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_ignore_attributes(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener with overridden measurements."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1606,7 +1606,7 @@ async def test_event_listener_ignore_attributes(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_ignore_attributes_overlapping_entities(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener with overridden measurements."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1649,7 +1649,7 @@ async def test_event_listener_ignore_attributes_overlapping_entities(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_scheduled_write(
-    hass: UniversalAssistant, mock_client, config_base, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_base, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener retries after a write failure."""
     await _setup(hass, mock_client, config_base, get_write_api)
@@ -1695,7 +1695,7 @@ async def test_event_listener_scheduled_write(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_event_listener_backlog_full(
-    hass: UniversalAssistant, mock_client, config_ext, get_write_api, get_mock_call
+    hass: __HAC_KEEP__, mock_client, config_ext, get_write_api, get_mock_call
 ) -> None:
     """Test the event listener drops old events when backlog gets full."""
     await _setup(hass, mock_client, config_ext, get_write_api)
@@ -1767,7 +1767,7 @@ async def test_event_listener_backlog_full(
     ],
 )
 async def test_event_listener_attribute_name_conflict(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     config_ext: dict[str, Any],
     get_write_api: Callable[[MagicMock], MagicMock],
@@ -1848,7 +1848,7 @@ async def test_event_listener_attribute_name_conflict(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_connection_failure_on_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_client,
     config_base,
@@ -1905,7 +1905,7 @@ async def test_connection_failure_on_startup(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_invalid_inputs_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_client,
     config_ext,
@@ -2065,7 +2065,7 @@ async def test_invalid_inputs_error(
     indirect=["mock_client", "get_mock_call"],
 )
 async def test_precision(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client,
     config_base,
     get_write_api,

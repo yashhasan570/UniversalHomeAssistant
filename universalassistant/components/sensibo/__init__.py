@@ -5,7 +5,7 @@ from pysensibo.exceptions import AuthenticationError
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -26,14 +26,14 @@ type SensiboConfigEntry = ConfigEntry[SensiboDataUpdateCoordinator]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Sensibo component."""
     async_setup_services(hass)
 
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SensiboConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SensiboConfigEntry) -> None:
     """Set up Sensibo from a config entry."""
 
     coordinator = SensiboDataUpdateCoordinator(hass, entry)
@@ -60,12 +60,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SensiboConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SensiboConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SensiboConfigEntry) -> None:
     """Unload Sensibo config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: SensiboConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: SensiboConfigEntry) -> None:
     """Migrate old entry."""
     # Change entry unique id from api_key to username
     if entry.version == 1:
@@ -99,7 +99,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: SensiboConfigEntr
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, entry: SensiboConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: SensiboConfigEntry, device: AnyDeviceEntry
 ) -> bool:
     """Remove Sensibo config entry from a device."""
     entity_registry = er.async_get(hass)

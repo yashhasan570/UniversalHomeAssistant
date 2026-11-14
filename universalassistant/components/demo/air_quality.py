@@ -4,12 +4,12 @@ from typing import override
 
 from universalassistant.components.air_quality import AirQualityEntity
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -22,7 +22,7 @@ async def async_setup_entry(
 class DemoAirQuality(AirQualityEntity):
     """Representation of Air Quality data."""
 
-    _attr_attribution = "Powered by Universal Universal Home Assistant"
+    _attr_attribution = "Powered by __HA_KEEP__"
     _attr_should_poll = False
 
     def __init__(self, name: str, pm_2_5: int, pm_10: int, n2o: int | None) -> None:

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_json_ob
 from universalassistant import config_entries
 from universalassistant.components.hunterdouglas_powerview.const import DOMAIN
 from universalassistant.const import CONF_API_VERSION, CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -20,7 +20,7 @@ from .const import DHCP_DATA, DISCOVERY_DATA, HOMEKIT_DATA, MOCK_SERIAL
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_user_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: MagicMock,
     api_version: int,
 ) -> None:
@@ -62,7 +62,7 @@ async def test_user_form(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize(("source", "discovery_info", "api_version"), DISCOVERY_DATA)
 async def test_form_homekit_and_dhcp_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: MagicMock,
     source: str,
     discovery_info: DhcpServiceInfo,
@@ -109,7 +109,7 @@ async def test_form_homekit_and_dhcp_cannot_connect(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize(("source", "discovery_info", "api_version"), DISCOVERY_DATA)
 async def test_form_homekit_and_dhcp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: MagicMock,
     source: str,
     discovery_info: DhcpServiceInfo | ZeroconfServiceInfo,
@@ -163,7 +163,7 @@ async def test_form_homekit_and_dhcp(
     ("dhcp_source", "dhcp_discovery", "dhcp_api_version"), DHCP_DATA
 )
 async def test_discovered_by_homekit_and_dhcp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     homekit_source: str,
     homekit_discovery: ZeroconfServiceInfo,
     api_version: int,
@@ -194,7 +194,7 @@ async def test_discovered_by_homekit_and_dhcp(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_form_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: MagicMock,
     api_version: int,
 ) -> None:
@@ -233,7 +233,7 @@ async def test_form_cannot_connect(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_form_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: MagicMock,
     api_version: int,
 ) -> None:
@@ -277,7 +277,7 @@ async def test_form_no_data(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_form_unknown_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: MagicMock,
     api_version: int,
 ) -> None:
@@ -316,7 +316,7 @@ async def test_form_unknown_exception(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [3])  # only gen 3 present secondary hubs
 async def test_form_unsupported_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: MagicMock,
     api_version: int,
 ) -> None:
@@ -357,7 +357,7 @@ async def test_form_unsupported_device(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     api_version: int,
 ) -> None:

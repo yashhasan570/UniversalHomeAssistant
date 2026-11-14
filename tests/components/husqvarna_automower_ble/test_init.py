@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.husqvarna_automower_ble.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ADDRESS, CONF_CLIENT_ID, CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import AUTOMOWER_SERVICE_INFO_SERIAL
@@ -19,7 +19,7 @@ pytestmark = pytest.mark.usefixtures("mock_automower_client")
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -41,7 +41,7 @@ async def test_setup(
 
 
 async def test_setup_missing_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
 ) -> None:
     """Test a setup that was created before PIN support."""
@@ -72,7 +72,7 @@ async def test_setup_missing_pin(
 
 
 async def test_setup_failed_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -100,7 +100,7 @@ async def test_setup_failed_connect(
 
 
 async def test_setup_device_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup retries when the device is not found by any scanner."""
@@ -124,7 +124,7 @@ async def test_setup_device_not_found(
 
 
 async def test_setup_unknown_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_setup_unknown_error(
 
 
 async def test_setup_invalid_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

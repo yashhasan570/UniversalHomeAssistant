@@ -21,7 +21,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 TRACKER_ENTITY_ID = "device_tracker.demo_tracker"
@@ -39,7 +39,7 @@ def device_tracker_only() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: UniversalAssistant, device_tracker_only: None) -> None:
+async def setup_comp(hass: __HAC_KEEP__, device_tracker_only: None) -> None:
     """Set up demo component."""
     hass.config.latitude = 32.87336
     hass.config.longitude = -117.22743
@@ -47,13 +47,13 @@ async def setup_comp(hass: UniversalAssistant, device_tracker_only: None) -> Non
     await hass.async_block_till_done()
 
 
-async def test_states(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_states(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test the expected device_tracker entities are added."""
     states = hass.states.async_all()
     assert set(states) == snapshot
 
 
-async def test_set_tracker_location(hass: UniversalAssistant) -> None:
+async def test_set_tracker_location(hass: __HAC_KEEP__) -> None:
     """Test the set_tracker_location service updates tracker attributes."""
     state = hass.states.get(TRACKER_ENTITY_ID)
     assert state is not None
@@ -78,7 +78,7 @@ async def test_set_tracker_location(hass: UniversalAssistant) -> None:
     assert state.state == STATE_NOT_HOME
 
 
-async def test_set_scanner_connected(hass: UniversalAssistant) -> None:
+async def test_set_scanner_connected(hass: __HAC_KEEP__) -> None:
     """Test the set_scanner_connected service updates scanner state."""
     state = hass.states.get(SCANNER_ENTITY_ID)
     assert state is not None
@@ -112,7 +112,7 @@ async def test_set_scanner_connected(hass: UniversalAssistant) -> None:
     assert state.state == STATE_HOME
 
 
-async def test_set_tracker_location_on_scanner_raises(hass: UniversalAssistant) -> None:
+async def test_set_tracker_location_on_scanner_raises(hass: __HAC_KEEP__) -> None:
     """Calling set_tracker_location on the scanner surfaces an AttributeError.
 
     The service is registered for the device_tracker domain and dispatches by
@@ -136,7 +136,7 @@ async def test_set_tracker_location_on_scanner_raises(hass: UniversalAssistant) 
         )
 
 
-async def test_set_scanner_connected_on_tracker_raises(hass: UniversalAssistant) -> None:
+async def test_set_scanner_connected_on_tracker_raises(hass: __HAC_KEEP__) -> None:
     """Calling set_scanner_connected on the tracker surfaces an AttributeError."""
     with pytest.raises(
         AttributeError,

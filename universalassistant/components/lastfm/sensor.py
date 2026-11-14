@@ -4,7 +4,7 @@ import hashlib
 from typing import Any, override
 
 from universalassistant.components.sensor import SensorEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -22,7 +22,7 @@ from .coordinator import LastFMConfigEntry, LastFMDataUpdateCoordinator, LastFMU
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LastFMConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

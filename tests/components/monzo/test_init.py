@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.monzo.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -22,7 +22,7 @@ from .conftest import TEST_ACCOUNTS, TITLE, USER_ID
 
 
 async def test_config_entry_title_uses_authenticated_owner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     polling_config_entry: MockConfigEntry,
     monzo: AsyncMock,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_config_entry_title_uses_authenticated_owner(
 
 
 async def test_config_entry_title_falls_back_without_owner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     polling_config_entry: MockConfigEntry,
     monzo: AsyncMock,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_config_entry_title_falls_back_without_owner(
 
 
 async def test_config_entry_title_preserves_custom_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     polling_config_entry: MockConfigEntry,
     monzo: AsyncMock,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_config_entry_title_preserves_custom_name(
 
 
 async def test_device_names(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     polling_config_entry: MockConfigEntry,
     monzo: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -132,7 +132,7 @@ async def test_device_names(
 
 
 async def test_joint_account_owners_with_same_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     polling_config_entry: MockConfigEntry,
     monzo: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -166,7 +166,7 @@ async def test_joint_account_owners_with_same_name(
 
 
 async def test_api_can_trigger_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     polling_config_entry: MockConfigEntry,
     monzo: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -195,7 +195,7 @@ async def test_api_can_trigger_reauth(
     ],
 )
 async def test_migrate_entry(
-    hass: UniversalAssistant, minor_version: int, unique_id: int | str
+    hass: __HAC_KEEP__, minor_version: int, unique_id: int | str
 ) -> None:
     """Test migrating an older config entry to 1.3."""
     entry = MockConfigEntry(
@@ -233,7 +233,7 @@ async def test_migrate_entry(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     polling_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

@@ -16,8 +16,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .common import MockConfigEntry, setup_platform
@@ -69,7 +69,7 @@ class ChimeCapabilityLostDoorbell:
 
 @pytest.mark.usefixtures("mock_ring_client")
 async def test_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -89,7 +89,7 @@ async def test_states(
     ],
 )
 @pytest.mark.usefixtures("mock_ring_client")
-async def test_switch_can_be_turned_on_and_off(hass: UniversalAssistant, entity_id) -> None:
+async def test_switch_can_be_turned_on_and_off(hass: __HAC_KEEP__, entity_id) -> None:
     """Tests the switch turns on and off correctly."""
     await setup_platform(hass, Platform.SWITCH)
 
@@ -122,7 +122,7 @@ async def test_switch_can_be_turned_on_and_off(hass: UniversalAssistant, entity_
 
 @pytest.mark.usefixtures("mock_ring_client")
 async def test_switch_setup_succeeds_with_unknown_chime_type(
-    hass: UniversalAssistant, mock_ring_devices: Any
+    hass: __HAC_KEEP__, mock_ring_devices: Any
 ) -> None:
     """Test that an unknown doorbell chime type does not abort switch setup."""
     mock_ring_devices.all_devices.append(BadChimeDoorbell())
@@ -135,7 +135,7 @@ async def test_switch_setup_succeeds_with_unknown_chime_type(
 
 @pytest.mark.usefixtures("mock_ring_client")
 async def test_in_home_chime_unknown_when_type_becomes_unreadable(
-    hass: UniversalAssistant, mock_ring_devices: Any
+    hass: __HAC_KEEP__, mock_ring_devices: Any
 ) -> None:
     """Test that an in-home chime switch reads as unknown when its type becomes unreadable."""
     mock_ring_devices.all_devices.append(ChimeCapabilityLostDoorbell())
@@ -149,7 +149,7 @@ async def test_in_home_chime_unknown_when_type_becomes_unreadable(
 
 @pytest.mark.usefixtures("mock_ring_client")
 async def test_in_home_chime_toggle_errors_when_type_unreadable(
-    hass: UniversalAssistant, mock_ring_devices: Any
+    hass: __HAC_KEEP__, mock_ring_devices: Any
 ) -> None:
     """Test that toggling raises a translated error when the chime type becomes unreadable."""
     mock_ring_devices.all_devices.append(ChimeCapabilityLostDoorbell())
@@ -160,7 +160,7 @@ async def test_in_home_chime_toggle_errors_when_type_unreadable(
     assert state
     assert state.state == STATE_UNKNOWN
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

@@ -11,7 +11,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FumisConfigEntry, FumisDataUpdateCoordinator
@@ -40,7 +40,7 @@ STOVE_STATUS_TO_HVAC_ACTION: dict[StoveStatus, HVACAction | None] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FumisConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

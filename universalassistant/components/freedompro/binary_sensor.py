@@ -6,7 +6,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -32,7 +32,7 @@ SUPPORTED_SENSORS = {"smokeSensor", "occupancySensor", "motionSensor", "contactS
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FreedomproConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

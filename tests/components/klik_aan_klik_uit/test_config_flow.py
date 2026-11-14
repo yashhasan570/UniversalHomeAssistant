@@ -14,7 +14,7 @@ from universalassistant.components.klik_aan_klik_uit.const import (
 )
 from universalassistant.components.radio_frequency import DATA_COMPONENT, DOMAIN as RF_DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
@@ -22,7 +22,7 @@ from universalassistant.setup import async_setup_component
 from .conftest import TRANSMITTER_ENTITY_ID
 
 
-async def _start_user_flow(hass: UniversalAssistant) -> dict:
+async def _start_user_flow(hass: __HAC_KEEP__) -> dict:
     """Start user flow and assert first form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -33,7 +33,7 @@ async def _start_user_flow(hass: UniversalAssistant) -> dict:
 
 
 async def test_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rf_entity: MockRadioFrequencyEntity,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_user_flow(
 
 
 async def test_user_flow_retry_learn(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rf_entity: MockRadioFrequencyEntity,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -119,7 +119,7 @@ async def test_user_flow_retry_learn(
 
 
 async def test_unique_id_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test aborting when same transmitter/id/channel/group is configured."""
@@ -140,7 +140,7 @@ async def test_unique_id_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_no_transmitters(hass: UniversalAssistant) -> None:
+async def test_no_transmitters(hass: __HAC_KEEP__) -> None:
     """Test flow aborts when no RF transmitters are set up."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -150,7 +150,7 @@ async def test_no_transmitters(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_transmitters"
 
 
-async def test_no_compatible_transmitters(hass: UniversalAssistant) -> None:
+async def test_no_compatible_transmitters(hass: __HAC_KEEP__) -> None:
     """Test aborting when transmitters exist but none support 433.92 MHz OOK."""
     assert await async_setup_component(hass, RF_DOMAIN, {})
     await hass.async_block_till_done()

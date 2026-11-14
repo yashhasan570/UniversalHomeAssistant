@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .conftest import ALERT
@@ -42,7 +42,7 @@ pytestmark = pytest.mark.freeze_time("2026-01-01T12:00:00+00:00")
 
 
 async def test_active_alert(
-    hass: UniversalAssistant, mock_meteoalert: MagicMock, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, mock_meteoalert: MagicMock, snapshot: SnapshotAssertion
 ) -> None:
     """Test the sensor is on and exposes the alert while it has not expired."""
     assert await async_setup_component(hass, BINARY_SENSOR_DOMAIN, CONFIG)
@@ -63,7 +63,7 @@ async def test_active_alert(
     ],
 )
 async def test_no_active_alert(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_meteoalert: MagicMock,
     snapshot: SnapshotAssertion,
     alert: dict[str, Any],
@@ -78,7 +78,7 @@ async def test_no_active_alert(
 
 
 async def test_alert_without_expires(
-    hass: UniversalAssistant, mock_meteoalert: MagicMock
+    hass: __HAC_KEEP__, mock_meteoalert: MagicMock
 ) -> None:
     """Test an alert without an expiration time is active."""
     alert = dict(ALERT)
@@ -94,7 +94,7 @@ async def test_alert_without_expires(
     assert "expires" not in state.attributes
 
 
-async def test_defaults(hass: UniversalAssistant, mock_meteoalert: MagicMock) -> None:
+async def test_defaults(hass: __HAC_KEEP__, mock_meteoalert: MagicMock) -> None:
     """Test the default name and language."""
     config = {
         BINARY_SENSOR_DOMAIN: {
@@ -112,7 +112,7 @@ async def test_defaults(hass: UniversalAssistant, mock_meteoalert: MagicMock) ->
 
 
 async def test_unknown_country_or_province(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_meteoalert: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_unknown_country_or_province(
 
 
 async def test_alert_expires(
-    hass: UniversalAssistant, mock_meteoalert: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_meteoalert: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the sensor turns off once the alert in the feed has expired."""
     assert await async_setup_component(hass, BINARY_SENSOR_DOMAIN, CONFIG)
@@ -146,7 +146,7 @@ async def test_alert_expires(
 
 
 async def test_alert_withdrawn(
-    hass: UniversalAssistant, mock_meteoalert: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_meteoalert: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the sensor turns off when the alert is no longer in the feed."""
     assert await async_setup_component(hass, BINARY_SENSOR_DOMAIN, CONFIG)

@@ -11,12 +11,12 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.anthemav.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection_create: AsyncMock,
     mock_anthemav: AsyncMock,
     init_integration: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -58,7 +58,7 @@ async def test_device_registry(
 
 @pytest.mark.parametrize("error", [OSError, DeviceError])
 async def test_config_entry_not_ready_when_oserror(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, error: Exception
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, error: Exception
 ) -> None:
     """Test AnthemAV configuration entry not ready."""
     with patch(
@@ -72,7 +72,7 @@ async def test_config_entry_not_ready_when_oserror(
 
 
 async def test_anthemav_dispatcher_signal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection_create: AsyncMock,
     mock_anthemav: AsyncMock,
     init_integration: MockConfigEntry,

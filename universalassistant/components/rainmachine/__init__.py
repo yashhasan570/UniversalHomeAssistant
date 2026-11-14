@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_SSL,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import (
     aiohttp_client,
@@ -82,13 +82,13 @@ class RainMachineData:
     coordinators: dict[str, RainMachineDataUpdateCoordinator]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up RainMachine."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: RainMachineConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: RainMachineConfigEntry) -> None:
     """Set up RainMachine as config entry."""
     websession = aiohttp_client.async_get_clientsession(hass)
     client = Client(session=websession)
@@ -199,14 +199,14 @@ async def async_setup_entry(hass: UniversalAssistant, entry: RainMachineConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: RainMachineConfigEntry
+    hass: __HAC_KEEP__, entry: RainMachineConfigEntry
 ) -> None:
     """Unload an RainMachine config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: RainMachineConfigEntry
+    hass: __HAC_KEEP__, entry: RainMachineConfigEntry
 ) -> None:
     """Migrate an old config entry."""
     version = entry.version
@@ -238,7 +238,7 @@ async def async_migrate_entry(
 
 
 async def async_reload_entry(
-    hass: UniversalAssistant, entry: RainMachineConfigEntry
+    hass: __HAC_KEEP__, entry: RainMachineConfigEntry
 ) -> None:
     """Handle an options update."""
     await hass.config_entries.async_reload(entry.entry_id)

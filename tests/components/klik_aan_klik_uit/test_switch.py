@@ -8,13 +8,13 @@ from rf_protocols.commands.kaku import _DEFAULT_REPEATS
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 SWITCH_ENTITY_ID = "switch.kaku_id_123456_ch_1_output"
 
 
 async def test_turn_on_off_sends_kaku_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rf_entity: MockRadioFrequencyEntity,
     init_klik_aan_klik_uit: MockConfigEntry,
 ) -> None:

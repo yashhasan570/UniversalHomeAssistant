@@ -20,7 +20,7 @@ from universalassistant.components.rejseplanen.const import (
 )
 from universalassistant.config_entries import ConfigSubentryDataWithId
 from universalassistant.const import CONF_API_KEY, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def make_mock_departures(stop_id: int) -> list[Departure]:
@@ -202,7 +202,7 @@ def mock_subentries() -> list[ConfigSubentryDataWithId]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: UniversalAssistant, mock_subentries: list[ConfigSubentryDataWithId]
+    hass: __HAC_KEEP__, mock_subentries: list[ConfigSubentryDataWithId]
 ) -> MockConfigEntry:
     """Fixture for a config entry with subentries."""
     return MockConfigEntry(
@@ -215,7 +215,7 @@ def mock_config_entry(
 
 
 @pytest.fixture(name="mock_api")
-def mock_rejseplanen_coordinator(hass: UniversalAssistant) -> Generator[Mock]:
+def mock_rejseplanen_coordinator(hass: __HAC_KEEP__) -> Generator[Mock]:
     """Fixture to mock Rejseplanen API client."""
     with patch(
         "universalassistant.components.rejseplanen.coordinator.DeparturesAPIClient",
@@ -239,7 +239,7 @@ def mock_rejseplanen_coordinator(hass: UniversalAssistant) -> Generator[Mock]:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: Mock,
 ) -> AsyncGenerator[Any]:

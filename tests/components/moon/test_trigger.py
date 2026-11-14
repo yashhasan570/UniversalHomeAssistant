@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.components import automation
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -16,14 +16,14 @@ _PHASE = "universalassistant.components.moon.helpers.moon.phase"
 
 
 @pytest.fixture(autouse=True)
-async def setup_moon(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
+async def setup_moon(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
     """Set up the moon integration so its trigger platform is available."""
     mock_config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
 
 
-async def _arm(hass: UniversalAssistant, options: dict[str, Any] | None = None) -> None:
+async def _arm(hass: __HAC_KEEP__, options: dict[str, Any] | None = None) -> None:
     """Set up an automation with the moon phase_changed trigger."""
     trigger: dict[str, Any] = {"platform": "moon.phase_changed"}
     if options is not None:
@@ -53,7 +53,7 @@ def _next_local_midnight() -> datetime:
 
 
 async def test_phase_changed_fires_on_any_change(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test the trigger fires on every phase change when unfiltered."""
     with patch(_PHASE, return_value=0.0):
@@ -70,7 +70,7 @@ async def test_phase_changed_fires_on_any_change(
 
 
 async def test_phase_changed_ignores_same_phase(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test the trigger does not fire when the phase is unchanged."""
     with patch(_PHASE, return_value=14.0):
@@ -86,7 +86,7 @@ async def test_phase_changed_ignores_same_phase(
     [(14.0, 1), (5.0, 0)],
 )
 async def test_phase_changed_with_phase_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     new_value: float,
     expected_calls: int,

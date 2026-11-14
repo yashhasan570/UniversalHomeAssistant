@@ -16,7 +16,7 @@ SUBENTRY_TYPE_LIBRARY = "library"
 
 CONF_BACKUP = "backup"
 CONF_BACKUP_PATH = "backup_path"
-DEFAULT_BACKUP_PATH = "/Universal Universal Home Assistant backups"
+DEFAULT_BACKUP_PATH = "/__HA_KEEP__ backups"
 
 DATA_BACKUP_AGENT_LISTENERS: HassKey[list[Callable[[], None]]] = HassKey(
     f"{DOMAIN}.backup_agent_listeners"

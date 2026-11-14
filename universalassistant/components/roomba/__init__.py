@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_BLID, DOMAIN, PLATFORMS, ROOMBA_SESSION
 from .models import RoombaConfigEntry, RoombaData
@@ -28,7 +28,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: RoombaConfigEntry
+    hass: __HAC_KEEP__, config_entry: RoombaConfigEntry
 ) -> None:
     """Set the config entry up."""
     roomba = await async_create_roomba(
@@ -61,7 +61,7 @@ async def async_setup_entry(
 
 
 async def async_create_roomba(
-    hass: UniversalAssistant, host: str, blid: str, password: str
+    hass: __HAC_KEEP__, host: str, blid: str, password: str
 ) -> RoombaClient:
     """Create a client without loading the TLS trust store in the event loop."""
     tls_context = await hass.async_add_executor_job(generate_tls_context)
@@ -71,7 +71,7 @@ async def async_create_roomba(
 
 
 async def async_connect_or_timeout(
-    hass: UniversalAssistant, roomba: RoombaClient
+    hass: __HAC_KEEP__, roomba: RoombaClient
 ) -> dict[str, Any]:
     """Connect to vacuum."""
     try:
@@ -95,7 +95,7 @@ async def async_connect_or_timeout(
 
 
 async def async_disconnect_or_timeout(
-    hass: UniversalAssistant, roomba: RoombaClient
+    hass: __HAC_KEEP__, roomba: RoombaClient
 ) -> None:
     """Disconnect to vacuum."""
     _LOGGER.debug("Disconnect vacuum")
@@ -105,7 +105,7 @@ async def async_disconnect_or_timeout(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: RoombaConfigEntry
+    hass: __HAC_KEEP__, config_entry: RoombaConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
@@ -117,5 +117,5 @@ def roomba_reported_state(roomba: RoombaClient) -> dict[str, Any]:
     return roomba.master_state.get("state", {}).get("reported", {})
 
 
-class CannotConnect(exceptions.UniversalAssistantError):
+class CannotConnect(exceptions.__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

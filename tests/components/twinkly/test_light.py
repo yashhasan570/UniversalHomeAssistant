@@ -34,7 +34,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -43,7 +43,7 @@ from .const import TEST_MAC
 
 @pytest.mark.usefixtures("mock_twinkly_client")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -56,7 +56,7 @@ async def test_entities(
 
 
 async def test_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_turn_on_off(
 
 
 async def test_turn_on_with_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_turn_on_with_brightness(
 
 
 async def test_brightness_to_zero(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_brightness_to_zero(
 
 
 async def test_turn_on_with_color_rgbw(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_turn_on_with_color_rgbw(
 
 
 async def test_turn_on_with_color_rgb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -177,7 +177,7 @@ async def test_turn_on_with_color_rgb(
 
 
 async def test_turn_on_with_effect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_turn_on_with_effect(
 
 
 async def test_color_mode_reports_effect_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_color_mode_reports_effect_off(
 
 
 async def test_turn_on_reapplies_current_effect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_turn_on_reapplies_current_effect(
 
 @pytest.mark.parametrize("mode", ["color", "rt"])
 async def test_turn_on_with_current_movie_in_other_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
     mode: str,
@@ -263,7 +263,7 @@ async def test_turn_on_with_current_movie_in_other_mode(
 
 
 async def test_turn_on_with_current_movie_in_movie_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -291,7 +291,7 @@ async def test_turn_on_with_current_movie_in_movie_mode(
     ],
 )
 async def test_turn_on_with_color_and_current_movie(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
     led_profile: str,
@@ -317,7 +317,7 @@ async def test_turn_on_with_color_and_current_movie(
 
 @pytest.mark.parametrize("effect", [EFFECT_OFF, "None", "none"])
 async def test_turn_on_with_no_effect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
     effect: str,
@@ -348,7 +348,7 @@ async def test_turn_on_with_no_effect(
     ],
 )
 async def test_turn_on_with_missing_effect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
     data: dict[str, Any],
@@ -378,7 +378,7 @@ async def test_turn_on_with_missing_effect(
 
 
 async def test_turn_on_with_color_rgbw_and_missing_effect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -403,7 +403,7 @@ async def test_turn_on_with_color_rgbw_and_missing_effect(
 
 
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -420,7 +420,7 @@ async def test_turn_off(
 
 
 async def test_no_current_movie(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -443,7 +443,7 @@ async def test_no_current_movie(
 
 
 async def test_update_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,

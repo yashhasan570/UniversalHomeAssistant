@@ -29,7 +29,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MOCK_VELOV_STATION
@@ -42,7 +42,7 @@ TZ_PARIS = ZoneInfo("Europe/Paris")
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -58,7 +58,7 @@ async def test_all_entities(
 
 
 async def test_stop_sensor_secondary_departure_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
@@ -89,7 +89,7 @@ async def test_stop_sensor_secondary_departure_disabled_by_default(
 
 
 async def test_stop_sensor_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_stop_sensor_no_data(
 
 
 async def test_stop_sensor_aware_datetime_passthrough(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_stop_sensor_aware_datetime_passthrough(
 
 
 async def test_coordinator_stop_fetch_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_coordinator_stop_fetch_error(
 
 
 async def test_coordinator_stop_http_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -165,7 +165,7 @@ async def test_coordinator_stop_http_error(
 
 
 async def test_coordinator_velov_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_velov_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_coordinator_velov_auth_error(
 
 
 async def test_coordinator_velov_http_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_velov_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_coordinator_velov_http_error(
 
 
 async def test_coordinator_all_fetch_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tcl_client: AsyncMock,
     mock_velov_subentries: list[ConfigSubentryData],
     mock_subentries: list[ConfigSubentryData],
@@ -227,7 +227,7 @@ async def test_coordinator_all_fetch_errors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_velov_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_velov_config_entry: MockConfigEntry,
@@ -245,7 +245,7 @@ async def test_velov_all_entities(
 
 
 async def test_velov_sensor_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_velov_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
@@ -280,7 +280,7 @@ async def test_velov_sensor_disabled_by_default(
 
 
 async def test_velov_sensor_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_velov_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -296,7 +296,7 @@ async def test_velov_sensor_no_data(
 
 
 async def test_coordinator_velov_fetch_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_velov_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -310,7 +310,7 @@ async def test_coordinator_velov_fetch_error(
 
 
 async def test_coordinator_mixed_partial_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tcl_client: AsyncMock,
 ) -> None:
     """Test that when one coordinator fails at setup, the entry retries."""
@@ -350,7 +350,7 @@ async def test_coordinator_mixed_partial_failure(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_park_and_ride_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_park_and_ride_config_entry: MockConfigEntry,
@@ -368,7 +368,7 @@ async def test_park_and_ride_all_entities(
 
 
 async def test_park_and_ride_sensor_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_park_and_ride_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
@@ -397,7 +397,7 @@ async def test_park_and_ride_sensor_disabled_by_default(
 
 
 async def test_park_and_ride_sensor_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_park_and_ride_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -413,7 +413,7 @@ async def test_park_and_ride_sensor_no_data(
 
 
 async def test_coordinator_park_and_ride_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_park_and_ride_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -432,7 +432,7 @@ async def test_coordinator_park_and_ride_auth_error(
 
 
 async def test_coordinator_park_and_ride_http_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_park_and_ride_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -448,7 +448,7 @@ async def test_coordinator_park_and_ride_http_error(
 
 
 async def test_coordinator_park_and_ride_fetch_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_park_and_ride_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:

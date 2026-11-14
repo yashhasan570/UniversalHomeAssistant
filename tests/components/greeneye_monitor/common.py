@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_SENSORS,
     CONF_TEMPERATURE_UNIT,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
 
@@ -158,7 +158,7 @@ MULTI_MONITOR_CONFIG = {
 
 
 async def setup_greeneye_monitor_component_with_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> bool:
     """Set up the greeneye_monitor component with the given config."""
     result = await async_setup_component(
@@ -241,9 +241,9 @@ def mock_monitor(serial_number: int) -> MagicMock:
 
 
 async def connect_monitor(
-    hass: UniversalAssistant, monitors: AsyncMock, serial_number: int
+    hass: __HAC_KEEP__, monitors: AsyncMock, serial_number: int
 ) -> MagicMock:
-    """Simulate a monitor connecting to Universal Universal Home Assistant."""
+    """Simulate a monitor connecting to __HA_KEEP__."""
     monitor = mock_monitor(serial_number)
     monitors.add_monitor(monitor)
     await hass.async_block_till_done()

@@ -9,15 +9,15 @@ from zwave_js_server.model.node import Node
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.components.zwave_js.helpers import ZwaveValueMatcher
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .common import SWITCH_ENTITY, replace_value_of_zwave_value
 
 
 async def test_switch(
-    hass: UniversalAssistant, hank_binary_switch, integration, client
+    hass: __HAC_KEEP__, hank_binary_switch, integration, client
 ) -> None:
     """Test the switch."""
     state = hass.states.get(SWITCH_ENTITY)
@@ -83,7 +83,7 @@ async def test_switch(
 
 
 async def test_barrier_signaling_switch(
-    hass: UniversalAssistant, gdc_zw062, integration, client
+    hass: __HAC_KEEP__, gdc_zw062, integration, client
 ) -> None:
     """Test barrier signaling state switch."""
     node = gdc_zw062
@@ -195,7 +195,7 @@ async def test_barrier_signaling_switch(
 
 
 async def test_switch_no_value(
-    hass: UniversalAssistant, hank_binary_switch_state, integration, client
+    hass: __HAC_KEEP__, hank_binary_switch_state, integration, client
 ) -> None:
     """Test the switch where primary value value is None."""
     node_state = replace_value_of_zwave_value(
@@ -219,7 +219,7 @@ async def test_switch_no_value(
 
 
 async def test_config_parameter_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hank_binary_switch,
     integration,
@@ -292,7 +292,7 @@ async def test_config_parameter_switch(
     client.async_send_command.side_effect = FailedZWaveCommand("test", 1, "test")
 
     # Test turning off error raises proper exception
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

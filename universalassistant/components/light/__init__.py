@@ -16,7 +16,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
@@ -178,12 +178,12 @@ __all__ = [
 _LOGGER = logging.getLogger(__name__)
 
 
-def is_on(hass: UniversalAssistant, entity_id: str) -> bool:
+def is_on(hass: __HAC_KEEP__, entity_id: str) -> bool:
     """Return if the lights are on based on the statemachine."""
     return hass.states.is_state(entity_id, STATE_ON)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Expose light control via state machine and services."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[LightEntity](
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL
@@ -202,7 +202,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -212,7 +212,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
@@ -287,7 +287,7 @@ class Profiles:
     until otherwise decided in an architecture discussion.
     """
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize profiles."""
         self.hass = hass
         self.data: dict[str, Profile] = {}

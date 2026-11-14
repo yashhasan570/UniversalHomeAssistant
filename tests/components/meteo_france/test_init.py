@@ -14,7 +14,7 @@ from universalassistant.components.meteo_france.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
@@ -24,7 +24,7 @@ def override_platforms() -> Generator[None]:
         yield
 
 
-def _second_city(hass: UniversalAssistant) -> MockConfigEntry:
+def _second_city(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a second entry for a different city in the same department."""
     entry_data = {
         CONF_CITY: "Le Grand-Bornand",
@@ -43,7 +43,7 @@ def _second_city(hass: UniversalAssistant) -> MockConfigEntry:
 
 
 async def test_only_one_city_per_department_provides_alerts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test the second city in a department does not also provide alerts."""
@@ -61,7 +61,7 @@ async def test_only_one_city_per_department_provides_alerts(
 
 
 async def test_unload_releases_the_department(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test unloading releases the department so another city can claim it."""
@@ -83,7 +83,7 @@ async def test_unload_releases_the_department(
 
 
 async def test_unload_the_city_with_alerts_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test a city without alerts unloads after the city with alerts."""
@@ -102,7 +102,7 @@ async def test_unload_the_city_with_alerts_first(
 
 
 async def test_unload_closes_the_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_requests: MagicMock,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_unload_closes_the_session(
 
 
 async def test_setup_retry_when_forecast_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_requests: MagicMock,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_setup_retry_when_forecast_fails(
 
 
 async def test_setup_without_rain_forecast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_requests: MagicMock,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_setup_without_rain_forecast(
 
 
 async def test_setup_without_weather_alerts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_requests: MagicMock,
 ) -> None:

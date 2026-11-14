@@ -4,7 +4,7 @@
       "bluetooth_not_available": "At least one Bluetooth adapter or remote Bluetooth proxy must be configured to track Private BLE Devices."
     },
     "error": {
-      "irk_not_found": "The provided IRK does not match any BLE devices that Universal Universal Home Assistant can see.",
+      "irk_not_found": "The provided IRK does not match any BLE devices that __HA_KEEP__ can see.",
       "irk_not_valid": "The key does not look like a valid IRK."
     },
     "flow_title": "{name}",

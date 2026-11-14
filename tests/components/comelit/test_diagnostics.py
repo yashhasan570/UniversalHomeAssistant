@@ -8,13 +8,13 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_entry_diagnostics_bridge(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -35,7 +35,7 @@ async def test_entry_diagnostics_bridge(
 
 
 async def test_entry_diagnostics_vedo(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,

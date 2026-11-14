@@ -19,8 +19,8 @@ from universalassistant.components.system_log.llm import (
     async_get_tools,
 )
 from universalassistant.const import KEY_DATA_LOGGING
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 from universalassistant.util.hass_dict import HassKey
@@ -43,9 +43,9 @@ def llm_context() -> llm.LLMContext:
 
 
 async def test_async_get_tools(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
-    """Test async_get_tools returns tools only for Universal Universal Home Assistant API."""
+    """Test async_get_tools returns tools only for __HA_KEEP__ API."""
     assert async_get_tools(hass, llm_context, llm.LLM_API_ASSIST) is None
 
     universal_assistant_tools = async_get_tools(
@@ -74,7 +74,7 @@ def test_parameters_openapi(snapshot: SnapshotAssertion) -> None:
     ],
 )
 async def test_invalid_parameters(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, tool_args: JsonObjectType
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, tool_args: JsonObjectType
 ) -> None:
     """Test invalid arguments are rejected by the Probatio schema."""
     assert await async_setup_component(hass, system_log.DOMAIN, {})
@@ -85,9 +85,9 @@ async def test_invalid_parameters(
 
 
 async def test_call_through_api(
-    hass: UniversalAssistant, hass_admin_user: MockUser, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, hass_admin_user: MockUser, llm_context: llm.LLMContext
 ) -> None:
-    """Test tool discovery and structured results through the Universal Universal Home Assistant API."""
+    """Test tool discovery and structured results through the __HA_KEEP__ API."""
     assert await async_setup_component(hass, system_log.DOMAIN, {})
     assert await async_setup_component(hass, "llm", {})
     llm_context.context = Context(user_id=hass_admin_user.id)
@@ -104,7 +104,7 @@ async def test_call_through_api(
 
 
 async def test_system_log_not_loaded(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test tool error when system_log is not loaded in hass.data."""
     tool = SystemLogGetEntriesTool()
@@ -117,7 +117,7 @@ async def test_system_log_not_loaded(
 
 
 async def test_get_entries_default(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test retrieving entries with default arguments."""
     assert await async_setup_component(hass, system_log.DOMAIN, {})
@@ -153,7 +153,7 @@ async def test_get_entries_default(
     [pytest.param(True, id="boolean"), pytest.param("true", id="string")],
 )
 async def test_get_entries_with_traceback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     include_traceback: bool | str,
 ) -> None:
@@ -196,7 +196,7 @@ async def test_get_entries_with_traceback(
     ],
 )
 async def test_filter_by_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     filter_level: str,
     expected_levels: list[str],
@@ -232,7 +232,7 @@ async def test_filter_by_level(
     ],
 )
 async def test_filter_by_logger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     logger_query: str,
     expected_names: list[str],
@@ -252,7 +252,7 @@ async def test_filter_by_logger(
     assert [entry["name"] for entry in result.data["result"]] == expected_names
 
 
-async def test_limit(hass: UniversalAssistant, llm_context: llm.LLMContext) -> None:
+async def test_limit(hass: __HAC_KEEP__, llm_context: llm.LLMContext) -> None:
     """Test limiting the number of returned entries."""
     assert await async_setup_component(hass, system_log.DOMAIN, {})
     await hass.async_block_till_done()
@@ -287,7 +287,7 @@ def frozen_time(freezer: FrozenDateTimeFactory) -> None:
 
 @pytest.fixture
 def logs_tool(
-    hass: UniversalAssistant, tmp_path: Path, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, tmp_path: Path, llm_context: llm.LLMContext
 ) -> llm.Tool:
     """Return the logs tool for a log file."""
     path = tmp_path / "universal-assistant.log"
@@ -317,7 +317,7 @@ def logs_tool(
     ],
 )
 async def test_async_get_tools_logs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     data: dict[HassKey[str], str],
     components: set[str],
@@ -336,7 +336,7 @@ async def test_async_get_tools_logs(
 def test_logs_parameters_openapi(snapshot: SnapshotAssertion) -> None:
     """Test that the logs tool schema can be exported for LLM clients."""
     tool = SystemLogGetLogsTool(
-        {"core": "Universal Universal Home Assistant", "host": "the operating system"}, ["core"]
+        {"core": "__HA_KEEP__", "host": "the operating system"}, ["core"]
     )
 
     assert probatio.to_openapi(tool.parameters) == snapshot
@@ -344,7 +344,7 @@ def test_logs_parameters_openapi(snapshot: SnapshotAssertion) -> None:
 
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     logs_tool: llm.Tool,
     snapshot: SnapshotAssertion,
@@ -403,7 +403,7 @@ async def test_get_logs_default(
 )
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_filters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     logs_tool: llm.Tool,
     tool_args: JsonObjectType,
@@ -435,7 +435,7 @@ async def test_get_logs_filters(
     ],
 )
 async def test_get_logs_invalid_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     logs_tool: llm.Tool,
     tool_args: JsonObjectType,
@@ -451,7 +451,7 @@ async def test_get_logs_invalid_time(
 
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_file_line_limit(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, logs_tool: llm.Tool
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, logs_tool: llm.Tool
 ) -> None:
     """Test the next page starts at the last record of a full read."""
     with patch("universalassistant.components.system_log.llm.LOG_QUERY_READ_LINES", 3):
@@ -475,7 +475,7 @@ async def test_get_logs_file_line_limit(
 
 
 async def test_get_logs_file_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     logs_tool: llm.Tool,
     tmp_path: Path,
@@ -494,9 +494,9 @@ async def test_get_logs_file_error(
 
 
 async def _async_call_with_logs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
-    logs: dict[str, list[str] | UniversalAssistantError],
+    logs: dict[str, list[str] | __HAC_KEEP__Error],
     tool_args: JsonObjectType,
 ) -> llm.ToolResult:
     """Call the logs tool with the logs as default sources, plus an unread one."""
@@ -505,13 +505,13 @@ async def _async_call_with_logs(
     )
 
     async def _read_source(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         source: str,
         start_time: datetime,
         end_time: datetime,
         lines: int,
     ) -> list[str]:
-        if isinstance(log := logs[source], UniversalAssistantError):
+        if isinstance(log := logs[source], __HAC_KEEP__Error):
             raise log
         return log
 
@@ -523,7 +523,7 @@ async def _async_call_with_logs(
 
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_merge_sources(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, snapshot: SnapshotAssertion
 ) -> None:
     """Test the sources are merged into one log that is read from the start."""
     result = await _async_call_with_logs(
@@ -542,7 +542,7 @@ async def test_get_logs_merge_sources(
                 "2026-10-20 13:51:30.000+02:00 quiet[1]: Without a level",
                 "2026-10-20 13:52:00.000+02:00 quiet[1]: Same time as busy",
             ],
-            "failing": UniversalAssistantError("Could not read"),
+            "failing": __HAC_KEEP__Error("Could not read"),
         },
         {"limit": 4, "level": "info"},
     )
@@ -553,7 +553,7 @@ async def test_get_logs_merge_sources(
 
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_source_line_limit(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test the merged log stops where a source stopped reading."""
     with patch("universalassistant.components.system_log.llm.LOG_QUERY_READ_LINES", 3):
@@ -604,7 +604,7 @@ async def test_get_logs_source_line_limit(
 )
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_records_fill_line_limit(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, lines: list[str]
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, lines: list[str]
 ) -> None:
     """Test records with one time that fill all lines are returned."""
     with patch("universalassistant.components.system_log.llm.LOG_QUERY_READ_LINES", 3):
@@ -652,7 +652,7 @@ async def test_get_logs_records_fill_line_limit(
 )
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_pages(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     logs_tool: llm.Tool,
     tmp_path: Path,
@@ -684,7 +684,7 @@ async def test_get_logs_pages(
 
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_pages_to_end_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     logs_tool: llm.Tool,
     tmp_path: Path,
@@ -776,7 +776,7 @@ async def test_get_logs_pages_to_end_time(
 )
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_mask_secrets(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, message: str, expected: str
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, message: str, expected: str
 ) -> None:
     """Test values that look like credentials are masked."""
     result = await _async_call_with_logs(
@@ -799,7 +799,7 @@ async def test_get_logs_mask_secrets(
 
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_contains_secret(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test a masked value cannot be found with contains."""
     result = await _async_call_with_logs(
@@ -825,7 +825,7 @@ async def test_get_logs_contains_secret(
     ],
 )
 async def test_get_logs_mask_long_payload(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, payload: str
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, payload: str
 ) -> None:
     """Test masking a long payload without secrets takes linear time."""
 
@@ -854,7 +854,7 @@ async def test_get_logs_mask_long_payload(
 
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_shorten_record(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
     """Test a long record keeps its start and its end."""
     result = await _async_call_with_logs(
@@ -922,7 +922,7 @@ async def test_get_logs_shorten_record(
 )
 @pytest.mark.usefixtures("frozen_time")
 async def test_get_logs_character_budget(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_context: llm.LLMContext,
     max_characters: int,
     expected_messages: list[str],
@@ -961,10 +961,10 @@ async def test_get_logs_character_budget(
     ],
 )
 async def test_get_logs_invalid_source(
-    hass: UniversalAssistant, llm_context: llm.LLMContext, source: list[str]
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext, source: list[str]
 ) -> None:
     """Test only available sources are accepted."""
-    tool = SystemLogGetLogsTool({"core": "Universal Universal Home Assistant"}, ["core"])
+    tool = SystemLogGetLogsTool({"core": "__HA_KEEP__"}, ["core"])
 
     with pytest.raises(probatio.Invalid):
         await tool.async_call(

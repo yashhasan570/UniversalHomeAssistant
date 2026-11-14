@@ -15,7 +15,7 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway_proxy,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import find_entity_id, send_attributes_report
@@ -39,7 +39,7 @@ def binary_sensor_platform_only():
 
 
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],

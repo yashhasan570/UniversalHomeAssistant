@@ -16,7 +16,7 @@ from universalassistant.components.device_tracker import (
     DeviceScanner,
 )
 from universalassistant.const import CONF_HOST, CONF_TOKEN, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -33,7 +33,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 )
 
 
-def get_scanner(hass: UniversalAssistant, config: ConfigType) -> FortiOSDeviceScanner | None:
+def get_scanner(hass: __HAC_KEEP__, config: ConfigType) -> FortiOSDeviceScanner | None:
     """Validate the configuration and return a FortiOSDeviceScanner."""
     config = config[DEVICE_TRACKER_DOMAIN]
 

@@ -3,14 +3,14 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import entity_entry_as_dict
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import HistoryStatsConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: HistoryStatsConfigEntry
+    hass: __HAC_KEEP__, config_entry: HistoryStatsConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

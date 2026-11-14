@@ -46,16 +46,16 @@
   },
   "exceptions": {
     "connection_error": {
-      "message": "Could not reach Universal Universal Home Assistant Analytics while fetching {endpoint}: {error}"
+      "message": "Could not reach __HA_KEEP__ Analytics while fetching {endpoint}: {error}"
     },
     "integration_list_fetch_failed": {
-      "message": "Could not fetch the integration list from Universal Universal Home Assistant"
+      "message": "Could not fetch the integration list from __HA_KEEP__"
     },
     "not_modified_without_data": {
-      "message": "Universal Universal Home Assistant Analytics reported no changes for {endpoint}, but no previous data is available"
+      "message": "__HA_KEEP__ Analytics reported no changes for {endpoint}, but no previous data is available"
     },
     "unexpected_response": {
-      "message": "Unexpected response from Universal Universal Home Assistant Analytics for {endpoint}"
+      "message": "Unexpected response from __HA_KEEP__ Analytics for {endpoint}"
     }
   },
   "options": {

@@ -20,7 +20,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import TOGRILL_SERVICE_INFO, setup_entry
@@ -74,7 +74,7 @@ from . import TOGRILL_SERVICE_INFO, setup_entry
     ],
 )
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
@@ -139,7 +139,7 @@ async def test_setup(
     ],
 )
 async def test_set_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
     packets,

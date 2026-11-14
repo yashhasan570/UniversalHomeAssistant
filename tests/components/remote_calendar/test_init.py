@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     STATE_OFF,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 from .conftest import CALENDAR_NAME, CALENDER_URL, TEST_ENTITY
@@ -22,7 +22,7 @@ from .conftest import CALENDAR_NAME, CALENDER_URL, TEST_ENTITY
 
 @respx.mock
 async def test_load_unload(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, ics_content: str
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, ics_content: str
 ) -> None:
     """Test loading and unloading a config entry."""
     route = respx.get(CALENDER_URL).mock(
@@ -48,7 +48,7 @@ async def test_load_unload(
 
 @respx.mock
 async def test_raise_for_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test update failed using respx to simulate HTTP exceptions."""
@@ -72,7 +72,7 @@ async def test_raise_for_status(
 )
 @respx.mock
 async def test_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     side_effect: Exception,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_update_failed(
 
 @respx.mock
 async def test_calendar_parse_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_calendar_parse_error(
 
 
 @respx.mock
-async def test_load_with_auth(hass: UniversalAssistant, ics_content: str) -> None:
+async def test_load_with_auth(hass: __HAC_KEEP__, ics_content: str) -> None:
     """Test loading a config entry with basic auth credentials."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

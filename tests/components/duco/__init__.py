@@ -8,11 +8,11 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.duco.const import SCAN_INTERVAL
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def async_fire_coordinator_update(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Trigger a scheduled coordinator update."""
     freezer.tick(SCAN_INTERVAL)
@@ -21,7 +21,7 @@ async def async_fire_coordinator_update(
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> MockConfigEntry:
     """Set up the full Duco integration for testing."""
@@ -32,7 +32,7 @@ async def setup_integration(
 
 
 async def setup_platform_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     platforms: Sequence[Platform],
 ) -> MockConfigEntry:

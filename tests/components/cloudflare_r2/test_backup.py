@@ -32,7 +32,7 @@ from universalassistant.components.cloudflare_r2.const import (
     DATA_BACKUP_AGENT_LISTENERS,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import setup_integration
@@ -54,7 +54,7 @@ PROTECTED_BACKUP_DATA = (
 
 @pytest.fixture(autouse=True)
 async def setup_backup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> AsyncGenerator[None]:
     """Set up R2 integration."""
@@ -115,7 +115,7 @@ async def test_suggested_filenames() -> None:
 
 
 async def test_agents_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_agents_info(
 
 
 async def test_agents_list_backups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     test_backup: AgentBackup,
@@ -189,7 +189,7 @@ async def test_agents_list_backups(
 
 
 async def test_agents_get_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     test_backup: AgentBackup,
@@ -228,7 +228,7 @@ async def test_agents_get_backup(
 
 
 async def test_agents_get_backup_does_not_throw_on_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_client: MagicMock,
 ) -> None:
@@ -246,7 +246,7 @@ async def test_agents_get_backup_does_not_throw_on_not_found(
 
 
 async def test_agents_list_backups_with_corrupted_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_client: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -285,7 +285,7 @@ async def test_agents_list_backups_with_corrupted_metadata(
 
 
 async def test_agents_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_client: MagicMock,
 ) -> None:
@@ -307,7 +307,7 @@ async def test_agents_delete(
 
 
 async def test_agents_delete_not_throwing_on_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_client: MagicMock,
 ) -> None:
@@ -449,7 +449,7 @@ async def test_multipart_upload_consistent_part_sizes(
     ids=["large"],
 )
 async def test_agents_upload_on_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -491,7 +491,7 @@ async def test_agents_download(
 
 
 async def test_error_during_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -522,7 +522,7 @@ async def test_error_during_delete(
 
 
 async def test_cache_expiration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -550,7 +550,7 @@ async def test_cache_expiration(
     assert mock_client.get_object.call_count == 2
 
 
-async def test_listeners_get_cleaned_up(hass: UniversalAssistant) -> None:
+async def test_listeners_get_cleaned_up(hass: __HAC_KEEP__) -> None:
     """Test listener gets cleaned up."""
     listener = MagicMock()
     remove_listener = async_register_backup_agents_listener(hass, listener=listener)
@@ -564,7 +564,7 @@ async def test_listeners_get_cleaned_up(hass: UniversalAssistant) -> None:
 
 
 async def test_list_backups_with_pagination(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_client: MagicMock,
 ) -> None:
@@ -653,7 +653,7 @@ async def test_agent_upload_large_backup_parametrized(
     ids=["with_prefix", "no_prefix"],
 )
 async def test_agent_list_backups_parametrized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_client: MagicMock,
     test_backup: AgentBackup,
@@ -707,7 +707,7 @@ def downloaded_bodies(
     ],
 )
 async def test_can_decrypt_on_download_closes_body(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     downloaded_bodies: list[StreamingBody],

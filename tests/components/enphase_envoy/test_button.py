@@ -21,8 +21,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -35,7 +35,7 @@ ALL_SERIALS = ["121000000001", "122000000002"]
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
@@ -59,7 +59,7 @@ async def test_button(
     indirect=True,
 )
 async def test_no_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -72,7 +72,7 @@ async def test_no_button(
 
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 async def test_button_sleep(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_button_sleep(
 
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 async def test_button_wake(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_button_wake(
 
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 async def test_button_sleep_uses_selected_soc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -152,16 +152,16 @@ async def test_button_sleep_uses_selected_soc(
 
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 async def test_button_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
-    """Test button press surfaces Envoy errors as UniversalAssistantError."""
+    """Test button press surfaces Envoy errors as __HAC_KEEP__Error."""
     with patch("universalassistant.components.enphase_envoy.PLATFORMS", [Platform.BUTTON]):
         await setup_integration(hass, config_entry)
 
     mock_envoy.set_acb_sleep.side_effect = EnvoyError("Test")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -172,16 +172,16 @@ async def test_button_error(
 
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 async def test_button_value_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
-    """Test button press surfaces pyenphase ValueError as UniversalAssistantError."""
+    """Test button press surfaces pyenphase ValueError as __HAC_KEEP__Error."""
     with patch("universalassistant.components.enphase_envoy.PLATFORMS", [Platform.BUTTON]):
         await setup_integration(hass, config_entry)
 
     mock_envoy.set_acb_sleep.side_effect = ValueError("invalid soc")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -192,7 +192,7 @@ async def test_button_value_error(
 
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 async def test_button_no_inventory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

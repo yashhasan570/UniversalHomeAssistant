@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant import config_entries
 from universalassistant.components.homewizard.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -24,7 +24,7 @@ from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_manual_flow_works(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     mock_setup_entry: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -52,7 +52,7 @@ async def test_manual_flow_works(
 
 @pytest.mark.usefixtures("mock_homewizardenergy", "mock_setup_entry")
 async def test_discovery_flow_works(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test discovery setup flow works."""
@@ -96,7 +96,7 @@ async def test_discovery_flow_works(
 
 @pytest.mark.usefixtures("mock_homewizardenergy")
 async def test_discovery_flow_during_onboarding(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_onboarding: MagicMock,
     snapshot: SnapshotAssertion,
@@ -130,7 +130,7 @@ async def test_discovery_flow_during_onboarding(
 
 
 async def test_discovery_flow_during_onboarding_disabled_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     mock_setup_entry: AsyncMock,
     mock_onboarding: MagicMock,
@@ -180,7 +180,7 @@ async def test_discovery_flow_during_onboarding_disabled_api(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_disabled_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
 ) -> None:
     """Test discovery detecting disabled api."""
@@ -225,7 +225,7 @@ async def test_discovery_disabled_api(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_discovery_missing_data_in_service_info(hass: UniversalAssistant) -> None:
+async def test_discovery_missing_data_in_service_info(hass: __HAC_KEEP__) -> None:
     """Test discovery detecting missing discovery info."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -252,7 +252,7 @@ async def test_discovery_missing_data_in_service_info(hass: UniversalAssistant) 
 
 
 async def test_dhcp_discovery_updates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -280,7 +280,7 @@ async def test_dhcp_discovery_updates_entry(
     [(DisabledError), (RequestError)],
 )
 async def test_dhcp_discovery_updates_entry_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -304,7 +304,7 @@ async def test_dhcp_discovery_updates_entry_fails(
 
 
 async def test_dhcp_discovery_ignores_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
 ) -> None:
     """Test DHCP discovery is only used for updates.
@@ -326,7 +326,7 @@ async def test_dhcp_discovery_ignores_unknown(
 
 
 async def test_dhcp_discovery_aborts_for_v2_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -352,7 +352,7 @@ async def test_dhcp_discovery_aborts_for_v2_api(
 
 
 async def test_discovery_flow_updates_new_ip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test discovery setup updates new config data."""
@@ -389,7 +389,7 @@ async def test_discovery_flow_updates_new_ip(
 
 @pytest.mark.usefixtures("mock_homewizardenergy", "mock_setup_entry")
 async def test_manual_flow_ignores_pending_discovery_for_same_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the user flow is not blocked by a stale discovery flow for the same device."""
     discovery_result = await hass.config_entries.flow.async_init(
@@ -437,7 +437,7 @@ async def test_manual_flow_ignores_pending_discovery_for_same_device(
     [(DisabledError, "api_not_enabled"), (RequestError, "network_error")],
 )
 async def test_error_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     exception: Exception,
     reason: str,
@@ -478,7 +478,7 @@ async def test_error_flow(
     ],
 )
 async def test_abort_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     exception: Exception,
     reason: str,
@@ -503,7 +503,7 @@ async def test_abort_flow(
 
 @pytest.mark.usefixtures("mock_homewizardenergy", "mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth flow while API is enabled."""
@@ -522,7 +522,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -549,7 +549,7 @@ async def test_reauth_error(
 
 
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -577,7 +577,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_nochange(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -605,7 +605,7 @@ async def test_reconfigure_nochange(
 
 
 async def test_reconfigure_wrongdevice(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -636,7 +636,7 @@ async def test_reconfigure_wrongdevice(
     [(DisabledError, "api_not_enabled"), (RequestError, "network_error")],
 )
 async def test_reconfigure_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -682,7 +682,7 @@ async def test_reconfigure_cannot_connect(
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize(("device_fixture"), ["HWE-P1", "HWE-KWH1"])
 async def test_manual_flow_works_with_v2_api_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy_v2: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -722,7 +722,7 @@ async def test_manual_flow_works_with_v2_api_support(
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize(("device_fixture"), ["HWE-P1", "HWE-KWH1"])
 async def test_manual_flow_detects_failed_user_authorization(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy_v2: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -768,7 +768,7 @@ async def test_manual_flow_detects_failed_user_authorization(
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize(("device_fixture"), ["HWE-P1", "HWE-KWH1"])
 async def test_reauth_flow_updates_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry_v2: MockConfigEntry,
     mock_homewizardenergy_v2: MagicMock,
@@ -804,7 +804,7 @@ async def test_reauth_flow_updates_token(
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize(("device_fixture"), ["HWE-P1", "HWE-KWH1"])
 async def test_reauth_flow_handles_user_not_pressing_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry_v2: MockConfigEntry,
     mock_homewizardenergy_v2: MagicMock,
@@ -851,7 +851,7 @@ async def test_reauth_flow_handles_user_not_pressing_button(
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize(("device_fixture"), ["HWE-P1", "HWE-KWH1"])
 async def test_discovery_with_v2_api_ask_authorization(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homewizardenergy_v2: MagicMock,
 ) -> None:
     """Test discovery detecting missing discovery info."""

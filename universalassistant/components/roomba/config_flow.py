@@ -14,7 +14,7 @@ from roombapy import (
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -37,7 +37,7 @@ AUTH_HELP_URL_VALUE = (
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -328,7 +328,7 @@ def _async_blid_from_hostname(hostname: str) -> str:
 
 
 async def _async_discover_roombas(
-    hass: UniversalAssistant, host: str | None = None
+    hass: __HAC_KEEP__, host: str | None = None
 ) -> list[RoombaInfo]:
     discovered_hosts: set[str] = set()
     devices: list[RoombaInfo] = []

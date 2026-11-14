@@ -48,7 +48,7 @@ from universalassistant.const import (
     SERVICE_VOLUME_UP,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import HOST, NAME, setup_integration
@@ -103,7 +103,7 @@ SERVICE_TO_DATA = {
 
 
 async def test_media_player_playing(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the Devialet configuration entry loading and unloading."""
     await async_setup_component(hass, HOMEASSISTANT_DOMAIN, {})
@@ -231,7 +231,7 @@ async def test_media_player_playing(
 
 
 async def test_media_player_offline(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the Devialet configuration entry loading and unloading."""
     entry = await setup_integration(hass, aioclient_mock, state=STATE_UNAVAILABLE)
@@ -249,7 +249,7 @@ async def test_media_player_offline(
 
 
 async def test_media_player_without_serial(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the Devialet configuration entry loading and unloading."""
     entry = await setup_integration(hass, aioclient_mock, serial=None)
@@ -264,7 +264,7 @@ async def test_media_player_without_serial(
 
 
 async def test_media_player_services(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the Devialet services."""
     entry = await setup_integration(

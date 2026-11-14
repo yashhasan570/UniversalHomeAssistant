@@ -1,14 +1,14 @@
 """The sia integration."""
 
 from universalassistant.const import CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import PLATFORMS
 from .hub import SIAConfigEntry, SIAHub
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SIAConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SIAConfigEntry) -> None:
     """Set up sia from a config entry."""
     hub = SIAHub(hass, entry)
     hub.async_setup_hub()
@@ -25,7 +25,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SIAConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SIAConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SIAConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.async_shutdown()

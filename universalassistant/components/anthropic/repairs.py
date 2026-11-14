@@ -9,8 +9,8 @@ import probatio
 
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
 from universalassistant.config_entries import ConfigEntryState, ConfigSubentry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import SelectOptionDict, SelectSelector
 
 from .const import CONF_CHAT_MODEL, DOMAIN
@@ -202,7 +202,7 @@ class ModelDeprecatedRepairFlow(RepairsFlow):
             is None
             or (subentry := entry.subentries.get(self._current_subentry_id)) is None
         ):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="subentry_not_found"
             )
 
@@ -249,13 +249,13 @@ class ModelDeprecatedRepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:
     """Create flow."""
     if issue_id.startswith("model_deprecated_") and data is not None:
         return ModelDeprecatedRepairFlow(cast(str, data["entry_id"]))
-    raise UniversalAssistantError(
+    raise __HAC_KEEP__Error(
         translation_domain=DOMAIN, translation_key="unknown_issue_id"
     )

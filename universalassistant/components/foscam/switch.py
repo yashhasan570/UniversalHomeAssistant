@@ -7,7 +7,7 @@ from typing import Any, override
 from libpyfoscamcgi import FoscamCamera
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FoscamConfigEntry, FoscamCoordinator
@@ -155,7 +155,7 @@ SWITCH_DESCRIPTIONS: list[FoscamSwitchEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FoscamConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

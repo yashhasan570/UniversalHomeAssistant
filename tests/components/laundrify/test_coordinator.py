@@ -9,7 +9,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from universalassistant.components.laundrify.const import DEFAULT_POLL_INTERVAL, DOMAIN
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 # Device ID from fixtures/machines.json
@@ -17,7 +17,7 @@ DEVICE_ID = "14"
 
 
 async def test_coordinator_update_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     laundrify_config_entry,
     freezer: FrozenDateTimeFactory,
@@ -36,7 +36,7 @@ async def test_coordinator_update_success(
 
 
 async def test_coordinator_update_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     laundrify_config_entry,
     laundrify_api_mock,
@@ -58,7 +58,7 @@ async def test_coordinator_update_unauthorized(
 
 
 async def test_coordinator_update_connection_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     laundrify_config_entry,
     laundrify_api_mock,

@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import assert_setup_component
 
 from universalassistant.components.fido import sensor as fido
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 CONTRACT = "123456789"
@@ -40,7 +40,7 @@ class FidoClientMockError(FidoClientMock):
         raise PyFidoError("Fake Error")
 
 
-async def test_fido_sensor(hass: UniversalAssistant) -> None:
+async def test_fido_sensor(hass: __HAC_KEEP__) -> None:
     """Test the Fido number sensor."""
     with patch("universalassistant.components.fido.sensor.FidoClient", new=FidoClientMock):
         config = {
@@ -62,7 +62,7 @@ async def test_fido_sensor(hass: UniversalAssistant) -> None:
         assert state.state == "100.33"
 
 
-async def test_error(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
+async def test_error(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
     """Test the Fido sensor errors."""
     caplog.set_level(logging.ERROR)
 

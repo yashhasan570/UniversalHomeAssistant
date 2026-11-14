@@ -19,7 +19,7 @@ from universalassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSI
 from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
-    UniversalAssistant,
+    __HAC_KEEP__,
     async_noop,
     callback as hass_callback,
 )
@@ -51,7 +51,7 @@ _LOGGER = logging.getLogger(__name__)
 _USB_DATA: HassKey[USBDiscovery] = HassKey(DOMAIN)
 
 PORT_EVENT_CALLBACK_TYPE = Callable[[set[USBDevice], set[USBDevice]], None]
-SERIAL_PORT_SCANNER_TYPE = Callable[[UniversalAssistant], Sequence[USBDevice | SerialDevice]]
+SERIAL_PORT_SCANNER_TYPE = Callable[[__HAC_KEEP__], Sequence[USBDevice | SerialDevice]]
 
 POLLING_MONITOR_SCAN_PERIOD = timedelta(seconds=5)
 REQUEST_SCAN_COOLDOWN = 10  # 10 second cooldown
@@ -90,7 +90,7 @@ class USBCallbackMatcher(USBMatcher):
 
 @hass_callback
 def async_register_scan_request_callback(
-    hass: UniversalAssistant, callback: CALLBACK_TYPE
+    hass: __HAC_KEEP__, callback: CALLBACK_TYPE
 ) -> CALLBACK_TYPE:
     """Register to receive a callback when a scan should be initiated."""
     return hass.data[_USB_DATA].async_register_scan_request_callback(callback)
@@ -98,7 +98,7 @@ def async_register_scan_request_callback(
 
 @hass_callback
 def async_register_initial_scan_callback(
-    hass: UniversalAssistant, callback: CALLBACK_TYPE
+    hass: __HAC_KEEP__, callback: CALLBACK_TYPE
 ) -> CALLBACK_TYPE:
     """Register to receive a callback when the initial USB scan is done.
 
@@ -109,20 +109,20 @@ def async_register_initial_scan_callback(
 
 @hass_callback
 def async_register_port_event_callback(
-    hass: UniversalAssistant, callback: PORT_EVENT_CALLBACK_TYPE
+    hass: __HAC_KEEP__, callback: PORT_EVENT_CALLBACK_TYPE
 ) -> CALLBACK_TYPE:
     """Register to receive a callback when a USB device is connected or disconnected."""
     return hass.data[_USB_DATA].async_register_port_event_callback(callback)
 
 
 async def async_scan_serial_ports(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> Sequence[USBDevice | SerialDevice]:
     """Scan serial ports and return USB and other serial devices."""
     return await hass.data[_USB_DATA].async_scan_serial_ports()
 
 
-async def async_is_serial_port_present(hass: UniversalAssistant, device_path: str) -> bool:
+async def async_is_serial_port_present(hass: __HAC_KEEP__, device_path: str) -> bool:
     """Return whether a port with this device path is currently present."""
     if "://" not in device_path:
         return await hass.async_add_executor_job(os.path.exists, device_path)
@@ -134,13 +134,13 @@ async def async_is_serial_port_present(hass: UniversalAssistant, device_path: st
 
 
 @hass_callback
-def async_find_moved_serial_port(hass: UniversalAssistant, device_path: str) -> str | None:
+def async_find_moved_serial_port(hass: __HAC_KEEP__, device_path: str) -> str | None:
     """Return the path a configured port's device is now at, if it has moved."""
     return hass.data[_USB_DATA].async_find_moved_serial_port(device_path)
 
 
 @hass_callback
-def async_notify_serial_ports_changed(hass: UniversalAssistant) -> None:
+def async_notify_serial_ports_changed(hass: __HAC_KEEP__) -> None:
     """Rescan after ports a scanner contributes appeared or disappeared."""
     # Unlike `async_request_scan`, this also rescans while the udev watcher is running
     hass.data[_USB_DATA].async_delayed_add_remove_scan()
@@ -148,7 +148,7 @@ def async_notify_serial_ports_changed(hass: UniversalAssistant) -> None:
 
 @hass_callback
 def async_register_serial_port_scanner(
-    hass: UniversalAssistant, scanner: SERIAL_PORT_SCANNER_TYPE
+    hass: __HAC_KEEP__, scanner: SERIAL_PORT_SCANNER_TYPE
 ) -> CALLBACK_TYPE:
     """Register a scanner that contributes additional serial ports to scans."""
     return hass.data[_USB_DATA].async_register_serial_port_scanner(scanner)
@@ -156,7 +156,7 @@ def async_register_serial_port_scanner(
 
 @hass_callback
 def async_get_usb_matchers_for_device(
-    hass: UniversalAssistant, device: USBDevice
+    hass: __HAC_KEEP__, device: USBDevice
 ) -> list[USBMatcher]:
     """Return a list of matchers that match the given device."""
     return hass.data[_USB_DATA].async_get_usb_matchers_for_device(device)
@@ -215,7 +215,7 @@ def get_serial_by_id(dev_path: str) -> str:
     return dev_path
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the USB Discovery integration."""
     usb = await async_get_usb(hass)
     usb_discovery = USBDiscovery(hass, usb)
@@ -230,7 +230,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_request_scan(hass: UniversalAssistant) -> None:
+async def async_request_scan(hass: __HAC_KEEP__) -> None:
     """Request a USB scan."""
     usb_discovery = hass.data[_USB_DATA]
     if not usb_discovery.observer_active:
@@ -242,7 +242,7 @@ class USBDiscovery:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         usb: list[USBMatcher],
     ) -> None:
         """Init USB Discovery."""
@@ -593,7 +593,7 @@ class USBDiscovery:
 @websocket_api.websocket_command({probatio.Required("type"): "usb/scan"})
 @websocket_api.async_response
 async def websocket_usb_scan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -604,7 +604,7 @@ async def websocket_usb_scan(
 
 @hass_callback
 def _async_serialize_port(
-    hass: UniversalAssistant, port: USBDevice | SerialDevice, *, present: bool = True
+    hass: __HAC_KEEP__, port: USBDevice | SerialDevice, *, present: bool = True
 ) -> dict[str, Any]:
     """Serialize a serial port for the websocket API."""
     entry: dict[str, Any] = {
@@ -633,7 +633,7 @@ def _async_serialize_port(
 
 @hass_callback
 def _async_get_discovery_flows(
-    hass: UniversalAssistant, device: str
+    hass: __HAC_KEEP__, device: str
 ) -> list[dict[str, str]]:
     """Return the in-progress USB discovery flows for a device path."""
     return [
@@ -665,7 +665,7 @@ def _serialize_consumer(consumer: SerialPortConsumer) -> dict[str, Any]:
 )
 @websocket_api.async_response
 async def websocket_usb_list_serial_ports(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -718,7 +718,7 @@ async def websocket_usb_list_serial_ports(
 )
 @websocket_api.async_response
 async def websocket_usb_list_serial_integrations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

@@ -7,13 +7,13 @@ from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.NEW_DOMAIN import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_get_conditions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_get_conditions(
     assert conditions == unordered(expected_conditions)
 
 
-async def test_if_state(hass: UniversalAssistant, service_calls: list[ServiceCall]) -> None:
+async def test_if_state(hass: __HAC_KEEP__, service_calls: list[ServiceCall]) -> None:
     """Test for turn_on and turn_off conditions."""
     hass.states.async_set("NEW_DOMAIN.entity", STATE_ON)
 

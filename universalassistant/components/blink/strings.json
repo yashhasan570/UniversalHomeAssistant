@@ -94,7 +94,7 @@
       "fix_flow": {
         "step": {
           "confirm": {
-            "description": "Blink update service is deprecated and will be removed.\nPlease update your automations and scripts to use `Universal Universal Home Assistant Core Integration: Update entity`.",
+            "description": "Blink update service is deprecated and will be removed.\nPlease update your automations and scripts to use `__HA_KEEP__ Core Integration: Update entity`.",
             "title": "[%key:component::blink::issues::service_deprecation::title%]"
           }
         }

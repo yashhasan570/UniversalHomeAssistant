@@ -17,8 +17,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.update_coordinator import REQUEST_REFRESH_DEFAULT_COOLDOWN
 
@@ -30,7 +30,7 @@ UPDATE_ALL_DEVICES = "pyvesync.vesync.VeSync.update_all_devices"
 
 
 async def test_button_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -48,7 +48,7 @@ async def test_button_state(
 
 
 async def test_reset_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
@@ -88,13 +88,13 @@ async def test_reset_filter(
     ids=["returns_false", "raises"],
 )
 async def test_reset_filter_raises_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
     reset_filter: dict[str, Any],
 ) -> None:
-    """Test a failed filter reset raises UniversalAssistantError and skips the refresh."""
+    """Test a failed filter reset raises __HAC_KEEP__Error and skips the refresh."""
 
     mock_devices_response(aioclient_mock, "Air Purifier 200s")
 
@@ -106,7 +106,7 @@ async def test_reset_filter_raises_error(
         patch(UPDATE_ALL_DEVICES) as update_mock,
     ):
         with pytest.raises(
-            UniversalAssistantError, match="Invalid response from the VeSync API"
+            __HAC_KEEP__Error, match="Invalid response from the VeSync API"
         ):
             await hass.services.async_call(
                 BUTTON_DOMAIN,

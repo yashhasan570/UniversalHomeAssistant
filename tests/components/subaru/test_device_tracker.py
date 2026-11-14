@@ -17,7 +17,7 @@ from universalassistant.const import (
     STATE_NOT_HOME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .api_responses import EXPECTED_STATE_EV_IMPERIAL, VEHICLE_STATUS_EV
@@ -27,7 +27,7 @@ DEVICE_ID = "device_tracker.test_vehicle_2"
 
 
 async def test_device_tracker(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, ev_entry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, ev_entry
 ) -> None:
     """Test subaru device tracker entity exists and has correct info."""
     entry = entity_registry.async_get(DEVICE_ID)
@@ -39,7 +39,7 @@ async def test_device_tracker(
     assert actual.attributes.get(ATTR_LATITUDE) == EXPECTED_STATE_EV_IMPERIAL[LATITUDE]
 
 
-async def test_device_tracker_none_data(hass: UniversalAssistant, ev_entry) -> None:
+async def test_device_tracker_none_data(hass: __HAC_KEEP__, ev_entry) -> None:
     """Test when location information contains None."""
     bad_status = deepcopy(VEHICLE_STATUS_EV)
     bad_status[VEHICLE_STATUS][LATITUDE] = None
@@ -54,7 +54,7 @@ async def test_device_tracker_none_data(hass: UniversalAssistant, ev_entry) -> N
     assert not actual.attributes.get(ATTR_LONGITUDE)
 
 
-async def test_device_tracker_missing_data(hass: UniversalAssistant, ev_entry) -> None:
+async def test_device_tracker_missing_data(hass: __HAC_KEEP__, ev_entry) -> None:
     """Test when location keys are missing from vehicle status."""
     bad_status = deepcopy(VEHICLE_STATUS_EV)
     bad_status[VEHICLE_STATUS].pop(LATITUDE)
@@ -71,7 +71,7 @@ async def test_device_tracker_missing_data(hass: UniversalAssistant, ev_entry) -
 
 @pytest.mark.usefixtures("ev_entry")
 async def test_device_tracker_unavailable_on_update_failure(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the device tracker is unavailable while the coordinator update fails."""
     assert hass.states.get(DEVICE_ID).state == STATE_NOT_HOME

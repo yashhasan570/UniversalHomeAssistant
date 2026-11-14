@@ -16,7 +16,7 @@ from systembridgeconnector.models.notification import (
 
 from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 ENTITY_ID = "event.hostname_notification"
@@ -33,7 +33,7 @@ def event_only() -> Generator[None]:
 
 
 async def _setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     version: str,
@@ -52,7 +52,7 @@ async def _setup(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_event_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -66,7 +66,7 @@ async def test_event_platform(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_no_event_entity_before_5_20(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_no_event_entity_before_5_20(
     ],
 )
 async def test_notification_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: AsyncMock,
     event: NotificationEvent,

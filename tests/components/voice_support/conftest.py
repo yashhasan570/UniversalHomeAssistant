@@ -15,7 +15,7 @@ from universalassistant.components.voice_support import PREVIEW_FEATURE_NEXT_GEN
 from universalassistant.components.voice_support.app import APP_SLUG
 from universalassistant.components.voice_support.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 HOST = "192.168.1.5"
@@ -57,13 +57,13 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture
-async def labs(hass: UniversalAssistant) -> None:
+async def labs(hass: __HAC_KEEP__) -> None:
     """Set up Labs, with the feature off."""
     assert await async_setup_component(hass, "labs", {})
 
 
 @pytest.fixture
-async def preview_feature_enabled(hass: UniversalAssistant, labs: None) -> None:
+async def preview_feature_enabled(hass: __HAC_KEEP__, labs: None) -> None:
     """Turn on the Labs feature."""
     await async_update_preview_feature(
         hass, DOMAIN, PREVIEW_FEATURE_NEXT_GENERATION_VOICE, True
@@ -79,7 +79,7 @@ def app_info(aioclient_mock: AiohttpClientMocker) -> dict[str, Any]:
 
 
 @pytest.fixture
-def supervisor(hass: UniversalAssistant) -> None:
+def supervisor(hass: __HAC_KEEP__) -> None:
     """Run under the Supervisor."""
     hass.config.components.add("hassio")
 
@@ -108,7 +108,7 @@ def app_wait_time() -> Generator[None]:
 
 @pytest.fixture
 async def setup_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, app_info: dict[str, Any]
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, app_info: dict[str, Any]
 ) -> MockConfigEntry:
     """Set the entry up against an answering app."""
     mock_config_entry.add_to_hass(hass)

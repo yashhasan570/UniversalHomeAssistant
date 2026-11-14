@@ -27,8 +27,8 @@ from universalassistant.components.camera import (
     WebRTCSendMessage,
 )
 from universalassistant.components.stream import CONF_EXTRA_PART_WAIT_TIME
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_point_in_utc_time
 from universalassistant.util.dt import utcnow
@@ -50,7 +50,7 @@ BACKOFF_MULTIPLIER = 1.5
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NestConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -83,7 +83,7 @@ class StreamRefresh:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         expires_at: dt.datetime,
         refresh_cb: Callable[[], Awaitable[dt.datetime | None]],
     ) -> None:
@@ -203,7 +203,7 @@ class NestRTSPEntity(NestCameraBaseEntity):
                         await self._rtsp_live_stream_trait.generate_rtsp_stream()
                     )
                 except ApiException as err:
-                    raise UniversalAssistantError(f"Nest API error: {err}") from err
+                    raise __HAC_KEEP__Error(f"Nest API error: {err}") from err
                 refresh = StreamRefresh(
                     self.hass,
                     self._rtsp_stream.expires_at,
@@ -308,7 +308,7 @@ class NestWebRTCEntity(NestCameraBaseEntity):
         try:
             stream = await trait.generate_web_rtc_stream(offer_sdp)
         except ApiException as err:
-            raise UniversalAssistantError(f"Nest API error: {err}") from err
+            raise __HAC_KEEP__Error(f"Nest API error: {err}") from err
         _LOGGER.debug(
             "Started WebRTC session %s, %s", session_id, stream.media_session_id
         )

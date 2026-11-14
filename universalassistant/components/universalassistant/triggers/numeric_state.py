@@ -26,7 +26,7 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     HassJob,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
 )
@@ -108,7 +108,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_validate_trigger_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate trigger config."""
     config = _TRIGGER_SCHEMA(config)
@@ -120,7 +120,7 @@ async def async_validate_trigger_config(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

@@ -23,7 +23,7 @@ from universalassistant.const import (
     EntityStateAttribute,
     UnitOfLength,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -35,7 +35,7 @@ CONFIG = {DOMAIN: {CONF_RADIUS: 200}}
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_setup(
 
 
 async def test_setup_imperial(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the setup of the integration using imperial unit system."""
     hass.config.units = US_CUSTOMARY_SYSTEM

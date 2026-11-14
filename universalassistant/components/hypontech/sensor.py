@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE, UnitOfEnergy, UnitOfPower
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import HypontechConfigEntry, HypontechDataCoordinator, HypontechPlant
@@ -144,7 +144,7 @@ BATTERY_SENSORS: tuple[HypontechPlantSensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HypontechConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

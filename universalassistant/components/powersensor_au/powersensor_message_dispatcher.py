@@ -66,7 +66,7 @@ from typing import TYPE_CHECKING, Any
 from powersensor_local import VirtualHousehold
 from powersensor_local.zeroconf_devices import PowersensorZeroconfDevices
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import (
@@ -95,7 +95,7 @@ class PowersensorMessageDispatcher:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: PowersensorConfigEntry,
         vhh: VirtualHousehold,
         devices: PowersensorZeroconfDevices,
@@ -103,7 +103,7 @@ class PowersensorMessageDispatcher:
         """Initialize the dispatcher.
 
         Args:
-            hass: The Universal Universal Home Assistant instance.
+            hass: The __HA_KEEP__ instance.
             entry: The config entry this dispatcher belongs to.
             vhh: The VirtualHousehold calculation engine.
             devices: The library instance whose events this dispatcher routes.

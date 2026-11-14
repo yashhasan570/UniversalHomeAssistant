@@ -8,7 +8,7 @@ from pyseventeentrack.package import PACKAGE_STATUS_MAP, Package
 
 from universalassistant.const import ATTR_LOCATION, CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -160,7 +160,7 @@ def _package_to_dict(package: Package) -> dict[str, Any]:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the seventeentrack integration."""
 
     hass.services.async_register(

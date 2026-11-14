@@ -4,8 +4,8 @@ from aerosmart_modbus import AerosmartDevice
 
 from universalassistant.components.modbus import async_get_unit
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryError, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryError, __HAC_KEEP__Error
 
 from .const import (
     CONF_UNIT_HEAT_PUMP,
@@ -26,7 +26,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AerosmartConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AerosmartConfigEntry) -> None:
     """Set up aerosmart from a config entry."""
     params = create_modbus_params(entry.data)
     try:
@@ -36,7 +36,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AerosmartConfigEntr
         unit_heat_pump = async_get_unit(
             hass, entry, params, entry.data[CONF_UNIT_HEAT_PUMP]
         )
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         raise ConfigEntryError(
             translation_domain=DOMAIN,
             translation_key="connect_failed",
@@ -66,6 +66,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AerosmartConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AerosmartConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AerosmartConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

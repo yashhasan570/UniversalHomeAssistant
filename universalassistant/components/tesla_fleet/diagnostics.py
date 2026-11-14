@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import TeslaFleetConfigEntry
 
@@ -34,7 +34,7 @@ ENERGY_INFO_REDACT = ["installation_date", "serial_number"]
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: TeslaFleetConfigEntry
+    hass: __HAC_KEEP__, entry: TeslaFleetConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     vehicles = [

@@ -8,8 +8,8 @@ from pytest_universalassistant.common import MockEntity, MockEntityPlatform
 from universalassistant.components import automation
 from universalassistant.components.samsungtv.const import DOMAIN
 from universalassistant.const import SERVICE_RELOAD, SERVICE_TURN_ON
-from universalassistant.core import UniversalAssistant, ServiceCall
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -20,7 +20,7 @@ from .const import ENTRYDATA_ENCRYPTED_WEBSOCKET
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
 @pytest.mark.parametrize("entity_domain", ["media_player", "remote"])
 async def test_turn_on_trigger_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     entity_domain: str,
@@ -72,7 +72,7 @@ async def test_turn_on_trigger_device_id(
     service_calls.clear()
 
     # Turn on fails when trigger not present
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             entity_domain, SERVICE_TURN_ON, {"entity_id": entity_id}, blocking=True
         )
@@ -85,7 +85,7 @@ async def test_turn_on_trigger_device_id(
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
 @pytest.mark.parametrize("entity_domain", ["media_player", "remote"])
 async def test_turn_on_trigger_entity_id(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], entity_domain: str
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], entity_domain: str
 ) -> None:
     """Test for turn_on triggers by entity_id firing."""
     await setup_samsungtv_entry(hass, ENTRYDATA_ENCRYPTED_WEBSOCKET)
@@ -127,7 +127,7 @@ async def test_turn_on_trigger_entity_id(
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
 @pytest.mark.parametrize("entity_domain", ["media_player", "remote"])
 async def test_wrong_trigger_platform_type(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, entity_domain: str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, entity_domain: str
 ) -> None:
     """Test wrong trigger platform type."""
     await setup_samsungtv_entry(hass, ENTRYDATA_ENCRYPTED_WEBSOCKET)
@@ -164,7 +164,7 @@ async def test_wrong_trigger_platform_type(
 @pytest.mark.usefixtures("remote_encrypted_websocket", "rest_api")
 @pytest.mark.parametrize("entity_domain", ["media_player", "remote"])
 async def test_trigger_invalid_entity_id(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, entity_domain: str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, entity_domain: str
 ) -> None:
     """Test turn on trigger using invalid entity_id."""
     await setup_samsungtv_entry(hass, ENTRYDATA_ENCRYPTED_WEBSOCKET)

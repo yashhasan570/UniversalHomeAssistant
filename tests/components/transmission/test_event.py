@@ -19,14 +19,14 @@ from universalassistant.components.transmission.const import (
     EVENT_TYPE_STARTED,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import setup_integration
 
 
 async def test_event_entity_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_event_entity_setup(
     ],
 )
 async def test_event_updates_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

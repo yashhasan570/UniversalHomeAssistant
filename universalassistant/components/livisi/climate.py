@@ -10,8 +10,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -30,7 +30,7 @@ from .entity import LivisiEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LivisiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -98,7 +98,7 @@ class LivisiClimate(LivisiEntity, ClimateEntity):
         if not success:
             self._attr_available = False
             self.coordinator.mark_device_unreachable(self._device_id)
-            raise UniversalAssistantError(f"Failed to set temperature on {self.entity_id}")
+            raise __HAC_KEEP__Error(f"Failed to set temperature on {self.entity_id}")
         self._attr_available = True
 
     @override

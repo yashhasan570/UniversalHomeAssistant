@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.filesize.const import DOMAIN
 from universalassistant.const import CONF_FILE_PATH, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -23,7 +23,7 @@ from . import TEST_FILE_NAME, async_create_file
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     tmp_path: Path,
     entity_registry: er.EntityRegistry,
@@ -54,7 +54,7 @@ async def test_sensors(
 
 
 async def test_invalid_path(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, tmp_path: Path
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, tmp_path: Path
 ) -> None:
     """Test that an invalid path is caught."""
     test_file = str(tmp_path.joinpath(TEST_FILE_NAME))
@@ -68,7 +68,7 @@ async def test_invalid_path(
 
 
 async def test_valid_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -98,7 +98,7 @@ async def test_valid_path(
 
 
 async def test_state_unavailable(
-    hass: UniversalAssistant, tmp_path: Path, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, tmp_path: Path, mock_config_entry: MockConfigEntry
 ) -> None:
     """Verify we handle state unavailable."""
     testfile = str(tmp_path.joinpath("file.txt"))

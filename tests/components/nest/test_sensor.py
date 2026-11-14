@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import DEVICE_ID, CreateDevice, PlatformSetup, create_nest_event
@@ -42,7 +42,7 @@ def device_traits() -> dict[str, Any]:
 
 
 async def test_thermostat_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     create_device: CreateDevice,
@@ -97,7 +97,7 @@ async def test_thermostat_device(
 
 
 async def test_thermostat_device_available(
-    hass: UniversalAssistant, create_device: CreateDevice, setup_platform: PlatformSetup
+    hass: __HAC_KEEP__, create_device: CreateDevice, setup_platform: PlatformSetup
 ) -> None:
     """Test a thermostat with temperature and humidity sensors that is Online."""
     create_device.create(
@@ -123,7 +123,7 @@ async def test_thermostat_device_available(
 
 
 async def test_thermostat_device_unavailable(
-    hass: UniversalAssistant, create_device: CreateDevice, setup_platform: PlatformSetup
+    hass: __HAC_KEEP__, create_device: CreateDevice, setup_platform: PlatformSetup
 ) -> None:
     """Test a thermostat with temperature and humidity sensors that is Offline."""
     create_device.create(
@@ -148,7 +148,7 @@ async def test_thermostat_device_unavailable(
     assert humidity.state == STATE_UNAVAILABLE
 
 
-async def test_no_devices(hass: UniversalAssistant, setup_platform: PlatformSetup) -> None:
+async def test_no_devices(hass: __HAC_KEEP__, setup_platform: PlatformSetup) -> None:
     """Test no devices returned by the api."""
     await setup_platform()
 
@@ -160,7 +160,7 @@ async def test_no_devices(hass: UniversalAssistant, setup_platform: PlatformSetu
 
 
 async def test_device_no_sensor_traits(
-    hass: UniversalAssistant, create_device: CreateDevice, setup_platform: PlatformSetup
+    hass: __HAC_KEEP__, create_device: CreateDevice, setup_platform: PlatformSetup
 ) -> None:
     """Test a device with applicable sensor traits."""
     create_device.create({})
@@ -175,7 +175,7 @@ async def test_device_no_sensor_traits(
 
 @pytest.mark.parametrize("device_traits", [{}])  # Disable default name
 async def test_device_name_from_structure(
-    hass: UniversalAssistant, create_device: CreateDevice, setup_platform: PlatformSetup
+    hass: __HAC_KEEP__, create_device: CreateDevice, setup_platform: PlatformSetup
 ) -> None:
     """Test a device without a custom name, inferring name from structure."""
     create_device.create(
@@ -198,7 +198,7 @@ async def test_device_name_from_structure(
 
 
 async def test_event_updates_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subscriber: AsyncMock,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
@@ -242,7 +242,7 @@ async def test_event_updates_sensor(
 
 @pytest.mark.parametrize("device_type", ["some-unknown-type"])
 async def test_device_with_unknown_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     create_device: CreateDevice,
@@ -274,7 +274,7 @@ async def test_device_with_unknown_type(
 
 
 async def test_temperature_rounding(
-    hass: UniversalAssistant, create_device: CreateDevice, setup_platform: PlatformSetup
+    hass: __HAC_KEEP__, create_device: CreateDevice, setup_platform: PlatformSetup
 ) -> None:
     """Test the rounding of overly precise temperatures."""
     create_device.create(
@@ -291,7 +291,7 @@ async def test_temperature_rounding(
 
 
 async def test_thermostat_fan_timer_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     create_device: CreateDevice,
@@ -325,7 +325,7 @@ async def test_thermostat_fan_timer_sensor(
 
 
 async def test_thermostat_fan_timer_sensor_not_active(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
 ) -> None:
@@ -346,7 +346,7 @@ async def test_thermostat_fan_timer_sensor_not_active(
 
 
 async def test_thermostat_fan_timer_sensor_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_device: CreateDevice,
     setup_platform: PlatformSetup,
 ) -> None:

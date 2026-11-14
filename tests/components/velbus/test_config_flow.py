@@ -13,7 +13,7 @@ from velbusaio.exceptions import VelbusConnectionFailed
 from universalassistant.components.velbus.const import CONF_TLS, CONF_VLP_FILE, DOMAIN
 from universalassistant.config_entries import SOURCE_USB, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
@@ -39,7 +39,7 @@ def mock_process_uploaded_file(
 
     @contextmanager
     def _mock_process_uploaded_file(
-        hass: UniversalAssistant, uploaded_file_id: str
+        hass: __HAC_KEEP__, uploaded_file_id: str
     ) -> Iterator[Path | None]:
         with open(tmp_path / uploaded_file_id, "wb") as vlpfile:
             vlpfile.write(mock_vlp_file)
@@ -101,7 +101,7 @@ def mock_controller_connection_failed():
     ],
 )
 async def test_user_network_succes(
-    hass: UniversalAssistant, inputParams: str, expected: str
+    hass: __HAC_KEEP__, inputParams: str, expected: str
 ) -> None:
     """Test user network config."""
     # inttial menu show
@@ -145,7 +145,7 @@ async def test_user_network_succes(
 
 @pytest.mark.usefixtures("controller_connection_failed")
 async def test_user_network_connect_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test user network config."""
     # inttial menu show
@@ -193,7 +193,7 @@ async def test_user_network_connect_failure(
 
 
 @pytest.mark.usefixtures("controller_connection_failed")
-async def test_user_usb_connect_failure(hass: UniversalAssistant) -> None:
+async def test_user_usb_connect_failure(hass: __HAC_KEEP__) -> None:
     """Test user usb step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -226,7 +226,7 @@ async def test_user_usb_connect_failure(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("controller")
-async def test_user_usb_success(hass: UniversalAssistant) -> None:
+async def test_user_usb_success(hass: __HAC_KEEP__) -> None:
     """Test user usb step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -260,7 +260,7 @@ async def test_user_usb_success(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("controller")
 async def test_vlp_step_no_modules(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_process_uploaded_file: MagicMock,
 ) -> None:
     """Test VLP step."""
@@ -323,7 +323,7 @@ async def test_vlp_step_no_modules(
 
 @pytest.mark.usefixtures("controller")
 async def test_vlp_step_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_process_uploaded_file: MagicMock,
 ) -> None:
     """Test VLP step."""
@@ -375,7 +375,7 @@ async def test_vlp_step_success(
 
 @pytest.mark.usefixtures("controller")
 async def test_reconfigure_step(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_process_uploaded_file: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -422,7 +422,7 @@ async def test_reconfigure_step(
 
 @pytest.mark.usefixtures("controller")
 async def test_reconfigure_step_change_host_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_process_uploaded_file: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -469,7 +469,7 @@ async def test_reconfigure_step_change_host_port(
 
 @pytest.mark.usefixtures("controller")
 async def test_reconfigure_step_password_preserved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_process_uploaded_file: MagicMock,
 ) -> None:
     """Test that an existing password is pre-filled and preserved during reconfigure."""
@@ -523,7 +523,7 @@ async def test_reconfigure_step_password_preserved(
 
 
 @pytest.mark.usefixtures("controller")
-async def test_network_abort_if_already_setup(hass: UniversalAssistant) -> None:
+async def test_network_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
     """Test we abort if Velbus is already setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -552,7 +552,7 @@ async def test_network_abort_if_already_setup(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("controller")
-async def test_flow_usb(hass: UniversalAssistant) -> None:
+async def test_flow_usb(hass: __HAC_KEEP__) -> None:
     """Test usb discovery flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -573,7 +573,7 @@ async def test_flow_usb(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("controller")
-async def test_flow_usb_if_already_setup(hass: UniversalAssistant) -> None:
+async def test_flow_usb_if_already_setup(hass: __HAC_KEEP__) -> None:
     """Test we abort if Velbus USB discovbery aborts in case it is already setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -602,7 +602,7 @@ async def test_flow_usb_if_already_setup(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("controller_connection_failed")
-async def test_flow_usb_failed(hass: UniversalAssistant) -> None:
+async def test_flow_usb_failed(hass: __HAC_KEEP__) -> None:
     """Test usb discovery flow with a failed velbus test."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

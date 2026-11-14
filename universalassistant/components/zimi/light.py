@@ -7,7 +7,7 @@ from zcc import ControlPoint
 from zcc.device import ControlPointDevice
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import ZimiConfigEntry
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ZimiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -45,7 +45,7 @@ class ZimiLight(ZimiEntity, LightEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: ControlPointDevice,
         api: ControlPoint,
         config_entry_id: str,
@@ -89,7 +89,7 @@ class ZimiDimmer(ZimiLight):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: ControlPointDevice,
         api: ControlPoint,
         config_entry_id: str,

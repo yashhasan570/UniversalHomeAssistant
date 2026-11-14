@@ -4,7 +4,7 @@ import pytest
 import smarttub
 
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -19,7 +19,7 @@ from universalassistant.core import UniversalAssistant
     ],
 )
 async def test_sensor(
-    spa, setup_entry, hass: UniversalAssistant, entity_suffix, expected_state
+    spa, setup_entry, hass: __HAC_KEEP__, entity_suffix, expected_state
 ) -> None:
     """Test simple sensors."""
 
@@ -29,12 +29,12 @@ async def test_sensor(
     assert state.state == expected_state
 
 
-# https://github.com/yashhasan570/UniversalUniversalAssistant/issues/102339
+# https://github.com/yashhasan570/__HAC_KEEP__/issues/102339
 async def test_null_blowoutcycle(
     spa,
     spa_state,
     config_entry,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test blowoutCycle having null value."""
 
@@ -51,7 +51,7 @@ async def test_null_blowoutcycle(
 
 
 async def test_primary_filtration(
-    spa, spa_state, setup_entry, hass: UniversalAssistant
+    spa, spa_state, setup_entry, hass: __HAC_KEEP__
 ) -> None:
     """Test the primary filtration cycle sensor."""
 
@@ -74,7 +74,7 @@ async def test_primary_filtration(
 
 
 async def test_secondary_filtration(
-    spa, spa_state, setup_entry, hass: UniversalAssistant
+    spa, spa_state, setup_entry, hass: __HAC_KEEP__
 ) -> None:
     """Test the secondary filtration cycle sensor."""
 

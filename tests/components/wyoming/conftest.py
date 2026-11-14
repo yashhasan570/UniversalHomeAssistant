@@ -11,7 +11,7 @@ from universalassistant.components import stt
 from universalassistant.components.wyoming import DOMAIN
 from universalassistant.components.wyoming.devices import SatelliteDevice
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import (
@@ -31,7 +31,7 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def init_components(hass: UniversalAssistant):
+async def init_components(hass: __HAC_KEEP__):
     """Set up required components."""
     assert await async_setup_component(hass, "universalassistant", {})
 
@@ -46,7 +46,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 @pytest.fixture
-def stt_config_entry(hass: UniversalAssistant) -> ConfigEntry:
+def stt_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
     """Create a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -61,7 +61,7 @@ def stt_config_entry(hass: UniversalAssistant) -> ConfigEntry:
 
 
 @pytest.fixture
-def tts_config_entry(hass: UniversalAssistant) -> ConfigEntry:
+def tts_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
     """Create a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -76,7 +76,7 @@ def tts_config_entry(hass: UniversalAssistant) -> ConfigEntry:
 
 
 @pytest.fixture
-def wake_word_config_entry(hass: UniversalAssistant) -> ConfigEntry:
+def wake_word_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
     """Create a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -91,7 +91,7 @@ def wake_word_config_entry(hass: UniversalAssistant) -> ConfigEntry:
 
 
 @pytest.fixture
-def intent_config_entry(hass: UniversalAssistant) -> ConfigEntry:
+def intent_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
     """Create a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -106,7 +106,7 @@ def intent_config_entry(hass: UniversalAssistant) -> ConfigEntry:
 
 
 @pytest.fixture
-def handle_config_entry(hass: UniversalAssistant) -> ConfigEntry:
+def handle_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
     """Create a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -122,7 +122,7 @@ def handle_config_entry(hass: UniversalAssistant) -> ConfigEntry:
 
 @pytest.fixture
 async def init_wyoming_stt(
-    hass: UniversalAssistant, stt_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, stt_config_entry: ConfigEntry
 ) -> ConfigEntry:
     """Initialize Wyoming STT."""
     with patch(
@@ -136,7 +136,7 @@ async def init_wyoming_stt(
 
 @pytest.fixture
 async def init_wyoming_tts(
-    hass: UniversalAssistant, tts_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, tts_config_entry: ConfigEntry
 ) -> ConfigEntry:
     """Initialize Wyoming TTS."""
     with patch(
@@ -150,7 +150,7 @@ async def init_wyoming_tts(
 
 @pytest.fixture
 async def init_wyoming_streaming_tts(
-    hass: UniversalAssistant, tts_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, tts_config_entry: ConfigEntry
 ) -> ConfigEntry:
     """Initialize Wyoming streaming TTS."""
     with patch(
@@ -164,7 +164,7 @@ async def init_wyoming_streaming_tts(
 
 @pytest.fixture
 async def init_wyoming_wake_word(
-    hass: UniversalAssistant, wake_word_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, wake_word_config_entry: ConfigEntry
 ) -> ConfigEntry:
     """Initialize Wyoming Wake Word."""
     with patch(
@@ -178,7 +178,7 @@ async def init_wyoming_wake_word(
 
 @pytest.fixture
 async def init_wyoming_intent(
-    hass: UniversalAssistant, intent_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, intent_config_entry: ConfigEntry
 ) -> ConfigEntry:
     """Initialize Wyoming intent recognizer."""
     with patch(
@@ -192,7 +192,7 @@ async def init_wyoming_intent(
 
 @pytest.fixture
 async def init_wyoming_handle(
-    hass: UniversalAssistant, handle_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, handle_config_entry: ConfigEntry
 ) -> ConfigEntry:
     """Initialize Wyoming intent handler."""
     with patch(
@@ -205,7 +205,7 @@ async def init_wyoming_handle(
 
 
 @pytest.fixture
-def metadata(hass: UniversalAssistant) -> stt.SpeechMetadata:
+def metadata(hass: __HAC_KEEP__) -> stt.SpeechMetadata:
     """Get default STT metadata."""
     return stt.SpeechMetadata(
         language=hass.config.language,
@@ -218,7 +218,7 @@ def metadata(hass: UniversalAssistant) -> stt.SpeechMetadata:
 
 
 @pytest.fixture
-def satellite_config_entry(hass: UniversalAssistant) -> ConfigEntry:
+def satellite_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
     """Create a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -233,7 +233,7 @@ def satellite_config_entry(hass: UniversalAssistant) -> ConfigEntry:
 
 
 @pytest.fixture
-async def init_satellite(hass: UniversalAssistant, satellite_config_entry: ConfigEntry):
+async def init_satellite(hass: __HAC_KEEP__, satellite_config_entry: ConfigEntry):
     """Initialize Wyoming satellite."""
     with (
         patch(
@@ -250,7 +250,7 @@ async def init_satellite(hass: UniversalAssistant, satellite_config_entry: Confi
 
 @pytest.fixture
 async def satellite_device(
-    hass: UniversalAssistant, init_satellite, satellite_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, init_satellite, satellite_config_entry: ConfigEntry
 ) -> SatelliteDevice:
     """Get a satellite device fixture."""
     return satellite_config_entry.runtime_data.device

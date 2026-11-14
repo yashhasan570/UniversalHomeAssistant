@@ -25,7 +25,7 @@ from universalassistant.components.cover import (
 )
 from universalassistant.components.script import scripts_with_entity
 from universalassistant.const import Platform
-from universalassistant.core import CoreState, UniversalAssistant, callback
+from universalassistant.core import CoreState, __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -562,7 +562,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OverkizDataConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -598,7 +598,7 @@ async def async_setup_entry(
 # Remove in 2027.5.0 together with OverkizLowSpeedCover and its repair issue
 @callback
 def _async_keep_deprecated_low_speed_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OverkizDataConfigEntry,
     entity_registry: er.EntityRegistry,
     device_url: str,
@@ -614,7 +614,7 @@ def _async_keep_deprecated_low_speed_cover(
         # Automations and scripts may not be loaded yet during startup, so an
         # entity still used by them would wrongly be seen as unused
         @callback
-        def _async_check_at_started(hass: UniversalAssistant) -> None:
+        def _async_check_at_started(hass: __HAC_KEEP__) -> None:
             _async_check_deprecated_low_speed_cover(hass, entity_registry, device_url)
 
         entry.async_on_unload(async_at_started(hass, _async_check_at_started))
@@ -625,7 +625,7 @@ def _async_keep_deprecated_low_speed_cover(
 
 @callback
 def _async_check_deprecated_low_speed_cover(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, device_url: str
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, device_url: str
 ) -> bool:
     """Update the repair issue and return if the low speed cover is kept."""
     issue_id = f"deprecated_low_speed_cover_{device_url}"

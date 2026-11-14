@@ -9,12 +9,12 @@ import xmltodict
 
 from universalassistant.components.moehlenhoff_alpha2.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_BASE_HOST = "fake-base-host"
 
 
-async def mock_update_data(self: Alpha2Base, hass: UniversalAssistant) -> None:
+async def mock_update_data(self: Alpha2Base, hass: __HAC_KEEP__) -> None:
     """Mock Alpha2Base.update_data."""
     data = xmltodict.parse(await async_load_fixture(hass, "static2.xml", DOMAIN))
     for _type in ("HEATAREA", "HEATCTRL", "IODEVICE"):
@@ -23,7 +23,7 @@ async def mock_update_data(self: Alpha2Base, hass: UniversalAssistant) -> None:
     self._static_data = data
 
 
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Mock integration setup."""
     with patch(
         "universalassistant.components.moehlenhoff_alpha2.coordinator.Alpha2Base.update_data",

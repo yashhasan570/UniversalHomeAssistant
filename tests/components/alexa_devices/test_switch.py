@@ -23,8 +23,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_device_removed_and_readded, setup_integration
@@ -50,7 +50,7 @@ LED_ENTITY_ID = "switch.air_quality_monitor_test_led_indicator"
     ],
 )
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -67,7 +67,7 @@ async def test_all_entities(
 
 
 async def test_switch_dnd(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_switch_dnd(
 
 
 async def test_switch_dnd_pushed_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_switch_dnd_pushed_event(
 
 
 async def test_switch_dnd_unavailable_when_missing_from_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_switch_dnd_unavailable_when_missing_from_push(
 
 
 async def test_switch_dnd_not_created_without_synced_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_switch_dnd_not_created_without_synced_state(
 
 
 async def test_switch_dnd_created_by_late_pushed_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -188,7 +188,7 @@ async def test_switch_dnd_created_by_late_pushed_event(
 
 
 async def test_switch_dnd_created_for_new_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -214,7 +214,7 @@ async def test_switch_dnd_created_for_new_device(
 
 
 async def test_offline_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -242,7 +242,7 @@ async def test_offline_device(
 
 
 async def test_device_removed_and_readded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -260,7 +260,7 @@ async def test_device_removed_and_readded(
 
 
 async def test_switch_communication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -326,7 +326,7 @@ async def test_switch_communication(
 
 
 async def test_switch_led(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -376,7 +376,7 @@ async def test_switch_led(
 
 
 async def test_switch_led_unavailable_on_sensor_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -392,7 +392,7 @@ async def test_switch_led_unavailable_on_sensor_error(
 
 
 async def test_switch_led_created_without_sensor_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -408,7 +408,7 @@ async def test_switch_led_created_without_sensor_value(
 
 
 async def test_switch_led_not_created_without_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -424,7 +424,7 @@ async def test_switch_led_not_created_without_feature(
 
 
 async def test_switch_led_cannot_set_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -435,7 +435,7 @@ async def test_switch_led_cannot_set_feature(
     mock_amazon_devices_client.call_feature_operation.side_effect = CannotSetFeature
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

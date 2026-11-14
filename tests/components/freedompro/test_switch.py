@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.util.dt import utcnow
@@ -21,7 +21,7 @@ uid = (
 
 
 async def test_switch_get_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_switch_get_state(
 
 
 async def test_switch_set_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_switch_set_off(
 
 
 async def test_switch_set_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:

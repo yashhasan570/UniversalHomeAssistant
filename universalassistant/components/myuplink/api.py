@@ -1,4 +1,4 @@
-"""API for myUplink bound to Universal Universal Home Assistant OAuth."""
+"""API for myUplink bound to __HA_KEEP__ OAuth."""
 
 from typing import cast, override
 

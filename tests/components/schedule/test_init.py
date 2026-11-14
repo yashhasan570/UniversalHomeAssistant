@@ -40,13 +40,13 @@ from universalassistant.const import (
     STATE_ON,
     EntityStateAttribute,
 )
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.parametrize("invalid_config", [None, {"name with space": None}])
-async def test_invalid_config(hass: UniversalAssistant, invalid_config) -> None:
+async def test_invalid_config(hass: __HAC_KEEP__, invalid_config) -> None:
     """Test invalid configs."""
 
     assert not await async_setup_component(hass, DOMAIN, {DOMAIN: invalid_config})
@@ -92,7 +92,7 @@ async def test_invalid_config(hass: UniversalAssistant, invalid_config) -> None:
     ],
 )
 async def test_invalid_schedules(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
     caplog: pytest.LogCaptureFixture,
     schedule: list[dict[str, str]],
@@ -114,7 +114,7 @@ async def test_invalid_schedules(
 
 
 async def test_events_one_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -167,7 +167,7 @@ async def test_events_one_day(
 
 
 async def test_adjacent_cross_midnight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -240,7 +240,7 @@ async def test_adjacent_cross_midnight(
 
 
 async def test_adjacent_within_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -315,7 +315,7 @@ async def test_adjacent_within_day(
 
 
 async def test_non_adjacent_within_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -409,7 +409,7 @@ async def test_non_adjacent_within_day(
     ],
 )
 async def test_to_midnight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
     caplog: pytest.LogCaptureFixture,
     schedule: list[dict[str, str]],
@@ -486,7 +486,7 @@ async def test_to_midnight(
     ],
 )
 async def test_dst_fall_back_next_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
     freezer: FrozenDateTimeFactory,
     now: str,
@@ -517,7 +517,7 @@ async def test_dst_fall_back_next_event(
     )
 
 
-async def test_setup_no_config(hass: UniversalAssistant, hass_admin_user: MockUser) -> None:
+async def test_setup_no_config(hass: __HAC_KEEP__, hass_admin_user: MockUser) -> None:
     """Test component setup with no config."""
     count_start = len(hass.states.async_entity_ids())
     assert await async_setup_component(hass, DOMAIN, {})
@@ -538,7 +538,7 @@ async def test_setup_no_config(hass: UniversalAssistant, hass_admin_user: MockUs
 
 @pytest.mark.freeze_time("2022-08-10 20:10:00-07:00")
 async def test_load(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
 ) -> None:
     """Test set up from storage and YAML."""
@@ -568,7 +568,7 @@ async def test_load(
 
 
 async def test_schedule_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -597,7 +597,7 @@ async def test_schedule_updates(
 
 
 async def test_ws_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
 ) -> None:
@@ -627,7 +627,7 @@ async def test_ws_list(
 
 
 async def test_ws_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
@@ -678,7 +678,7 @@ async def test_ws_delete(
     ],
 )
 async def test_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
@@ -756,7 +756,7 @@ async def test_update(
     ],
 )
 async def test_ws_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],
@@ -822,7 +822,7 @@ async def test_ws_create(
 
 
 async def test_service_get(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
     schedule_setup: Callable[..., Coroutine[Any, Any, bool]],

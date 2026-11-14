@@ -6,7 +6,7 @@ from typing import Final, override
 from pyatmo import modules as NaModules
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -26,7 +26,7 @@ PRESETS = {v: k for k, v in PRESET_MAPPING.items()}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NetatmoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

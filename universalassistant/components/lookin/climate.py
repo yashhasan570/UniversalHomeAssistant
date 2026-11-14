@@ -24,7 +24,7 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import TYPE_TO_PLATFORM
@@ -60,7 +60,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LookinConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

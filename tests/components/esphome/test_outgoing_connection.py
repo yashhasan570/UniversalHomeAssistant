@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_PORT,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 
 from . import VALID_NOISE_PSK
 from .conftest import MockESPHomeDeviceType
@@ -39,7 +39,7 @@ def _make_entry(
 
 
 async def test_outgoing_connection_registration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_outgoing_connection_server: MagicMock,
@@ -64,7 +64,7 @@ async def test_outgoing_connection_registration(
 
 @pytest.mark.parametrize("noise_psk", [None, "", ZERO_NOISE_PSK])
 async def test_outgoing_connection_requires_noise_psk(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_outgoing_connection_server: MagicMock,
@@ -81,7 +81,7 @@ async def test_outgoing_connection_requires_noise_psk(
 
 
 async def test_outgoing_connection_shared_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_outgoing_connection_server: MagicMock,
@@ -109,7 +109,7 @@ async def test_outgoing_connection_shared_listener(
 
 
 async def test_outgoing_connection_requires_mac_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_outgoing_connection_server: MagicMock,
@@ -125,12 +125,12 @@ async def test_outgoing_connection_requires_mac_unique_id(
 
 
 async def test_outgoing_connection_stops_on_hass_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_outgoing_connection_server: MagicMock,
 ) -> None:
-    """The shared listener is closed when Universal Universal Home Assistant stops."""
+    """The shared listener is closed when __HA_KEEP__ stops."""
     entry = _make_entry()
     entry.add_to_hass(hass)
     await mock_esphome_device(mock_client=mock_client, entry=entry, device_info={})
@@ -142,17 +142,17 @@ async def test_outgoing_connection_stops_on_hass_stop(
 
 
 async def test_outgoing_connection_not_started_during_shutdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_outgoing_connection_server: MagicMock,
 ) -> None:
-    """No route is registered once Universal Universal Home Assistant is stopping."""
+    """No route is registered once __HA_KEEP__ is stopping."""
     hass.set_state(CoreState.stopping)
     assert async_register_outgoing_target(hass, MAC, MagicMock()) is None
     mock_outgoing_connection_server.register.assert_not_called()
 
 
 async def test_outgoing_connection_register_error_does_not_fail_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     mock_outgoing_connection_server: MagicMock,
@@ -170,7 +170,7 @@ async def test_outgoing_connection_register_error_does_not_fail_setup(
 
 
 async def test_outgoing_connection_route_removed_on_failed_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_outgoing_connection_server: MagicMock,
 ) -> None:

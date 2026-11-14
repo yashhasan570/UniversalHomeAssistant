@@ -18,7 +18,7 @@
           "serial_number": "Device serial number"
         },
         "data_description": {
-          "serial_number": "Select the device you want to add to Universal Universal Home Assistant"
+          "serial_number": "Select the device you want to add to __HA_KEEP__"
         },
         "description": "Multiple Greencell devices were found (total: {count}). Please choose which one you want to configure.",
         "title": "Select your device"
@@ -70,7 +70,7 @@
   },
   "exceptions": {
     "execute_not_allowed": {
-      "message": "The device does not allow Universal Universal Home Assistant to execute commands. Enable it in the device settings."
+      "message": "The device does not allow __HA_KEEP__ to execute commands. Enable it in the device settings."
     }
   }
 }

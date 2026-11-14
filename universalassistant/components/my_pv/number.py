@@ -8,8 +8,8 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -49,7 +49,7 @@ ENTITY_DESCRIPTIONS: Final[tuple[NumberEntityDescription, ...]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MyPVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -100,6 +100,6 @@ class MyPVNumber(MyPVSetupEntity, NumberEntity):
         if not await self.coordinator.set_setup_value(
             self.entity_description.key, value
         ):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="unknown_error"
             )

@@ -7,12 +7,12 @@ import pytest
 
 from universalassistant import config_entries
 from universalassistant.components.eafm import const
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_flow_no_discovered_stations(
-    hass: UniversalAssistant, mock_get_stations
+    hass: __HAC_KEEP__, mock_get_stations
 ) -> None:
     """Test config flow discovers no station."""
     mock_get_stations.return_value = []
@@ -23,7 +23,7 @@ async def test_flow_no_discovered_stations(
     assert result["reason"] == "no_stations"
 
 
-async def test_flow_invalid_station(hass: UniversalAssistant, mock_get_stations) -> None:
+async def test_flow_invalid_station(hass: __HAC_KEEP__, mock_get_stations) -> None:
     """Test config flow errors on invalid station."""
     mock_get_stations.return_value = [
         {"label": "My station", "stationReference": "L12345", "RLOIid": "R12345"}
@@ -41,7 +41,7 @@ async def test_flow_invalid_station(hass: UniversalAssistant, mock_get_stations)
 
 
 async def test_flow_works(
-    hass: UniversalAssistant, mock_get_stations, mock_get_station
+    hass: __HAC_KEEP__, mock_get_stations, mock_get_station
 ) -> None:
     """Test config flow discovers no station."""
     mock_get_stations.return_value = [

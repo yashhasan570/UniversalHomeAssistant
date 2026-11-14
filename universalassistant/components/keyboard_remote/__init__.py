@@ -16,7 +16,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     DOMAIN as HOMEASSISTANT_DOMAIN,
     Event,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
 from universalassistant.exceptions import ConfigEntryNotReady
@@ -132,7 +132,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Keyboard Remote from YAML (triggers import only)."""
     if DOMAIN not in config:
         return True
@@ -144,7 +144,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def _async_import_yaml_device(
-    hass: UniversalAssistant, dev_block: dict[str, Any]
+    hass: __HAC_KEEP__, dev_block: dict[str, Any]
 ) -> None:
     """Import a single YAML device block and flag YAML as deprecated."""
     # The schema guarantees a usable block, so the import creates an entry or
@@ -174,13 +174,13 @@ type KeyboardRemoteConfigEntry = ConfigEntry[DeviceHandler]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: KeyboardRemoteConfigEntry
+    hass: __HAC_KEEP__, entry: KeyboardRemoteConfigEntry
 ) -> None:
     """Set up a single keyboard remote device from a config entry."""
     if (manager := hass.data.get(DATA_MANAGER)) is None:
         manager = KeyboardRemoteManager(hass)
         # Open the watcher now rather than at start, so a failure fails setup
-        # and Universal Universal Home Assistant retries it instead of leaving the entry inactive.
+        # and __HA_KEEP__ retries it instead of leaving the entry inactive.
         try:
             manager.open_watcher()
         except OSError as err:
@@ -195,14 +195,14 @@ async def async_setup_entry(
     entry.runtime_data = DeviceHandler(hass, entry)
     manager.register_handler(entry.runtime_data)
 
-    async def _async_start(_: UniversalAssistant) -> None:
+    async def _async_start(_: __HAC_KEEP__) -> None:
         await manager.async_start()
 
     entry.async_on_unload(async_at_start(hass, _async_start))
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: KeyboardRemoteConfigEntry
+    hass: __HAC_KEEP__, entry: KeyboardRemoteConfigEntry
 ) -> None:
     """Migrate an old config entry."""
     if entry.minor_version < 2:
@@ -217,7 +217,7 @@ async def async_migrate_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: KeyboardRemoteConfigEntry
+    hass: __HAC_KEEP__, entry: KeyboardRemoteConfigEntry
 ) -> None:
     """Unload a keyboard remote config entry."""
     manager = hass.data[DATA_MANAGER]
@@ -237,7 +237,7 @@ class KeyboardRemoteManager:
     config entry unloads.
     """
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the shared manager."""
         self.hass = hass
         self._lock = asyncio.Lock()
@@ -288,7 +288,7 @@ class KeyboardRemoteManager:
             _LOGGER.debug("Start monitoring")
             self._accepting_devices = True
 
-            # Config entries are not unloaded when Universal Universal Home Assistant stops, so
+            # Config entries are not unloaded when __HA_KEEP__ stops, so
             # without this the devices are never ungrabbed on shutdown.
             self._stop_listener = self.hass.bus.async_listen_once(
                 EVENT_HOMEASSISTANT_STOP, self._async_handle_hass_stop
@@ -325,7 +325,7 @@ class KeyboardRemoteManager:
             )
 
     async def _async_handle_hass_stop(self, event: Event) -> None:
-        """Tear down when Universal Universal Home Assistant stops."""
+        """Tear down when __HA_KEEP__ stops."""
         self._stop_listener = None
         await self.async_stop()
 
@@ -801,7 +801,7 @@ class KeyboardRemoteManager:
 class DeviceHandler:
     """Manage input events for a single keyboard device (one config entry)."""
 
-    def __init__(self, hass: UniversalAssistant, entry: KeyboardRemoteConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: KeyboardRemoteConfigEntry) -> None:
         """Initialize from config entry data and options."""
         self.hass = hass
         self.entry = entry

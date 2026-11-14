@@ -5,7 +5,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.components.sleepiq.coordinator import LONGER_UPDATE_INTERVAL
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -13,7 +13,7 @@ from .conftest import BED_ID, BED_NAME, BED_NAME_LOWER, setup_platform
 
 
 async def test_setup(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_asyncsleepiq
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_asyncsleepiq
 ) -> None:
     """Test for successfully setting up the SleepIQ platform."""
     entry = await setup_platform(hass, LIGHT_DOMAIN)
@@ -35,7 +35,7 @@ async def test_setup(
     assert entry.unique_id == f"{BED_ID}-light-2"
 
 
-async def test_light_set_states(hass: UniversalAssistant, mock_asyncsleepiq) -> None:
+async def test_light_set_states(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
     """Test light change."""
     await setup_platform(hass, LIGHT_DOMAIN)
 
@@ -66,7 +66,7 @@ async def test_light_set_states(hass: UniversalAssistant, mock_asyncsleepiq) -> 
     mock_asyncsleepiq.beds[BED_ID].foundation.lights[0].turn_off.assert_called_once()
 
 
-async def test_switch_get_states(hass: UniversalAssistant, mock_asyncsleepiq) -> None:
+async def test_switch_get_states(hass: __HAC_KEEP__, mock_asyncsleepiq) -> None:
     """Test light update."""
     await setup_platform(hass, LIGHT_DOMAIN)
 

@@ -10,8 +10,8 @@ from universalassistant.components.update import (
     UpdateEntity,
     UpdateEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -29,7 +29,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WLEDConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -204,7 +204,7 @@ class WLEDUpdateEntity(WLEDEntity, UpdateEntity):
         try:
             await self.coordinator.wled.upgrade(version=version)
         except WLEDUpgradeError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="firmware_upgrade_failed",
                 translation_placeholders={"error": str(error)},

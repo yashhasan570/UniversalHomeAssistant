@@ -34,7 +34,7 @@ from universalassistant.const import (
     EVENT_LOGBOOK_ENTRY,
     EntityStateAttribute,
 )
-from universalassistant.core import UniversalAssistant, split_entity_id
+from universalassistant.core import __HAC_KEEP__, split_entity_id
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.recorder import session_scope
 from universalassistant.util import dt as dt_util
@@ -133,7 +133,7 @@ class EventProcessor:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         event_types: Collection[EventType[Any] | str],
         entity_ids: list[str] | None = None,
         device_ids: list[str] | None = None,
@@ -313,7 +313,7 @@ def _exposed_state_attributes(
 
 
 def _humanify(  # noqa: C901
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rows: Generator[EventAsRow] | Sequence[Row] | Result,
     ent_reg: er.EntityRegistry,
     logbook_run: LogbookRun,
@@ -560,7 +560,7 @@ class EntityNameCache:
     that are expected to change state.
     """
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Init the cache."""
         self._hass = hass
         self._names: dict[str, str] = {}

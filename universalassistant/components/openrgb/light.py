@@ -15,8 +15,8 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -40,7 +40,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: OpenRGBConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -275,7 +275,7 @@ class OpenRGBLight(CoordinatorEntity[OpenRGBCoordinator], LightEntity):
                     self.device.set_color, scaled_color, True
                 )
             except CONNECTION_ERRORS as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="communication_error",
                     translation_placeholders={
@@ -284,7 +284,7 @@ class OpenRGBLight(CoordinatorEntity[OpenRGBCoordinator], LightEntity):
                     },
                 ) from err
             except ValueError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="openrgb_error",
                     translation_placeholders={
@@ -298,7 +298,7 @@ class OpenRGBLight(CoordinatorEntity[OpenRGBCoordinator], LightEntity):
             try:
                 await self.hass.async_add_executor_job(self.device.set_mode, mode)
             except CONNECTION_ERRORS as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="communication_error",
                     translation_placeholders={
@@ -307,7 +307,7 @@ class OpenRGBLight(CoordinatorEntity[OpenRGBCoordinator], LightEntity):
                     },
                 ) from err
             except ValueError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="openrgb_error",
                     translation_placeholders={

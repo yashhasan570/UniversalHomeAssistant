@@ -10,7 +10,7 @@ from blockchain.exceptions import APIException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_CURRENCY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_CURRENCY, DOMAIN
@@ -37,7 +37,7 @@ class BitcoinDataUpdateCoordinator(DataUpdateCoordinator[BitcoinData]):
 
     config_entry: BitcoinConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: BitcoinConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: BitcoinConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

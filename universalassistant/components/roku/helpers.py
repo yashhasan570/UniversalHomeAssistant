@@ -6,7 +6,7 @@ from typing import Any, Concatenate
 
 from rokuecp import RokuConnectionError, RokuConnectionTimeoutError, RokuError
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .entity import RokuEntity
 
@@ -40,13 +40,13 @@ def roku_exception_handler[_RokuEntityT: RokuEntity, **_P](
                 await func(self, *args, **kwargs)
             except RokuConnectionTimeoutError as error:
                 if not ignore_timeout:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         "Timeout communicating with Roku API"
                     ) from error
             except RokuConnectionError as error:
-                raise UniversalAssistantError("Error communicating with Roku API") from error
+                raise __HAC_KEEP__Error("Error communicating with Roku API") from error
             except RokuError as error:
-                raise UniversalAssistantError("Invalid response from Roku API") from error
+                raise __HAC_KEEP__Error("Invalid response from Roku API") from error
 
         return wrapper
 

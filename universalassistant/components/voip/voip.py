@@ -22,7 +22,7 @@ from universalassistant.components.assist_pipeline import (
     select as pipeline_select,
 )
 from universalassistant.const import __version__
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CHANNELS, DOMAIN, RATE, RTP_AUDIO_SETTINGS, WIDTH
 
@@ -33,7 +33,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def make_protocol(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: VoIPDevices,
     call_info: CallInfo,
     rtcp_state: RtcpState | None = None,
@@ -77,7 +77,7 @@ def make_protocol(
 class HassVoipDatagramProtocol(VoipDatagramProtocol):
     """HA UDP server for Voice over IP (VoIP)."""
 
-    def __init__(self, hass: UniversalAssistant, devices: VoIPDevices) -> None:
+    def __init__(self, hass: __HAC_KEEP__, devices: VoIPDevices) -> None:
         """Set up VoIP call handler."""
         super().__init__(
             sdp_info=SdpInfo(
@@ -121,7 +121,7 @@ class PreRecordMessageProtocol(RtpDatagramProtocol):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         file_name: str,
         opus_payload_type: int,
         message_delay: float = 1.0,

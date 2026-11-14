@@ -8,7 +8,7 @@ from lyngdorf import Trim
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.components.ssdp import async_get_discovery_info_by_st
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.ssdp import ATTR_UPNP_SERIAL
 
 from .const import CONF_SERIAL_NUMBER, SSDP_ST
@@ -42,7 +42,7 @@ TO_REDACT = {
 
 
 async def _async_ssdp_description(
-    hass: UniversalAssistant, serial: str
+    hass: __HAC_KEEP__, serial: str
 ) -> dict[str, Any] | None:
     """Return the UPnP description this device is currently announcing."""
     for info in await async_get_discovery_info_by_st(hass, SSDP_ST):
@@ -60,7 +60,7 @@ async def _async_ssdp_description(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: LyngdorfConfigEntry
+    hass: __HAC_KEEP__, config_entry: LyngdorfConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     receiver = config_entry.runtime_data.receiver

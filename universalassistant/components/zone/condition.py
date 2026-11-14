@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityStateAttribute,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.exceptions import ConditionErrorContainer, ConditionErrorMessage
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import (
@@ -53,7 +53,7 @@ _CONDITION_SCHEMA = probatio.Schema({CONF_OPTIONS: _OPTIONS_SCHEMA_DICT})
 
 
 def zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_ent: str | State | None,
     entity: str | State | None,
 ) -> bool:
@@ -120,7 +120,7 @@ class ZoneCondition(Condition):
     @classmethod
     @override
     async def async_validate_complete_config(
-        cls, hass: UniversalAssistant, complete_config: ConfigType
+        cls, hass: __HAC_KEEP__, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config."""
         complete_config = move_top_level_schema_fields_to_options(
@@ -131,12 +131,12 @@ class ZoneCondition(Condition):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _CONDITION_SCHEMA(config))
 
-    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
         """Initialize condition."""
         super().__init__(hass, config)
         assert config.options is not None
@@ -199,7 +199,7 @@ class _ZoneTargetConditionBase(EntityConditionBase):
     _domain_specs = _DOMAIN_SPECS
     _schema = _ZONE_CONDITION_SCHEMA
 
-    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
         """Initialize the condition."""
         super().__init__(hass, config)
         assert config.options is not None
@@ -251,7 +251,7 @@ class _ZoneOccupancyConditionBase(EntityConditionBase):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config and synthesize a target from the zone option.
 
@@ -307,6 +307,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
     """Return the zone conditions."""
     return CONDITIONS

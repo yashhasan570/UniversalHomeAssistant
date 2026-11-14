@@ -11,7 +11,7 @@ from aiohttp.typedefs import LooseHeaders
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.components.http import KEY_AUTHENTICATED, UniversalAssistantView
+from universalassistant.components.http import KEY_AUTHENTICATED, __HAC_KEEP__View
 from universalassistant.components.websocket_api import ERR_NOT_SUPPORTED, ERR_UNKNOWN_ERROR
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import (
@@ -37,7 +37,7 @@ from universalassistant.const import (
     STATE_PLAYING,
     STATE_STANDBY,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
@@ -230,7 +230,7 @@ __all__ = [
 # mypy: disallow-any-generics
 
 
-def is_on(hass: UniversalAssistant, entity_id: str | None = None) -> bool:
+def is_on(hass: __HAC_KEEP__, entity_id: str | None = None) -> bool:
     """Return true if specified media player entity_id is on.
 
     Check all media player if no entity_id specified.
@@ -242,7 +242,7 @@ def is_on(hass: UniversalAssistant, entity_id: str | None = None) -> bool:
     )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Track states and offer events for media_players."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[MediaPlayerEntity](
         logging.getLogger(__name__), DOMAIN, hass, SCAN_INTERVAL
@@ -259,7 +259,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -269,12 +269,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
 
-class MediaPlayerImageView(UniversalAssistantView):
+class MediaPlayerImageView(__HAC_KEEP__View):
     """Media player view to serve an image."""
 
     requires_auth = False
@@ -354,7 +354,7 @@ class MediaPlayerImageView(UniversalAssistantView):
 )
 @websocket_api.async_response
 async def websocket_browse_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -437,7 +437,7 @@ async def websocket_browse_media(
 )
 @websocket_api.async_response
 async def websocket_search_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

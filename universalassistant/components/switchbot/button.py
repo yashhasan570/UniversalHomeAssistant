@@ -8,7 +8,7 @@ from switchbot import SwitchbotModel
 
 from universalassistant.components.button import ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -21,7 +21,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SwitchbotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -160,7 +160,7 @@ class SwitchBotMeterProSyncDateTimeButton(SwitchbotEntity, ButtonEntity):
     @exception_handler
     @override
     async def async_press(self) -> None:
-        """Sync time with Universal Universal Home Assistant."""
+        """Sync time with __HA_KEEP__."""
         now = dt_util.now()
 
         # Get UTC offset components

@@ -9,7 +9,7 @@ from theben_conexa_smgw import ConexaSMGW, ConexaSmgwErr, checkNetworkConnection
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_track_utc_time_change
@@ -28,7 +28,7 @@ class SmgwSensorCoordinator(DataUpdateCoordinator[dict[str, ConexaSMGW.MeterValu
     config_entry: ThebenConfigEntry
     smgw_user: str
 
-    def __init__(self, hass: UniversalAssistant, entry: ThebenConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: ThebenConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

@@ -4,7 +4,7 @@
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
     },
     "create_entry": {
-      "add_sensor_mapping_hint": "You can now add mappings from any sensor in Universal Universal Home Assistant to {integration_name} using the '+ add sensor mapping' button."
+      "add_sensor_mapping_hint": "You can now add mappings from any sensor in __HA_KEEP__ to {integration_name} using the '+ add sensor mapping' button."
     },
     "error": {
       "cannot_connect": "Failed to connect to {integration_name} API.",
@@ -14,7 +14,7 @@
     },
     "step": {
       "auth_and_claim": {
-        "description": "This Universal Universal Home Assistant connection needs to be claimed in your {integration_name} portal before it can send data.\n\n1. Go to: {claim_url}\n2. Enter code: **{claim_code}**\n3. (Code expires: {valid_until})\n\nAfter successfully claiming the device in {integration_name}, select **Submit** below to continue.",
+        "description": "This __HA_KEEP__ connection needs to be claimed in your {integration_name} portal before it can send data.\n\n1. Go to: {claim_url}\n2. Enter code: **{claim_code}**\n3. (Code expires: {valid_until})\n\nAfter successfully claiming the device in {integration_name}, select **Submit** below to continue.",
         "title": "Claim device in {integration_name}"
       },
       "reauth_confirm": {
@@ -47,7 +47,7 @@
     "sensor_mapping": {
       "entry_type": "service",
       "error": {
-        "entity_already_mapped": "This Universal Universal Home Assistant entity is already mapped.",
+        "entity_already_mapped": "This __HA_KEEP__ entity is already mapped.",
         "entity_required": "You must select a sensor entity."
       },
       "initiate_flow": {
@@ -56,12 +56,12 @@
       "step": {
         "user": {
           "data": {
-            "ha_entity_id": "Universal Universal Home Assistant sensor"
+            "ha_entity_id": "__HA_KEEP__ sensor"
           },
           "data_description": {
-            "ha_entity_id": "Select the sensor from Universal Universal Home Assistant to send to {integration_name}."
+            "ha_entity_id": "Select the sensor from __HA_KEEP__ to send to {integration_name}."
           },
-          "description": "Select a Universal Universal Home Assistant sensor to send to {integration_name}. The sensor name will be used as the {integration_name} metric key.",
+          "description": "Select a __HA_KEEP__ sensor to send to {integration_name}. The sensor name will be used as the {integration_name} metric key.",
           "title": "Add sensor mapping"
         }
       }
@@ -81,7 +81,7 @@
       "message": "Unexpected error authenticating with EnergyID."
     },
     "device_not_claimed": {
-      "message": "This Universal Universal Home Assistant connection is not claimed in EnergyID. Re-authenticate to claim it."
+      "message": "This __HA_KEEP__ connection is not claimed in EnergyID. Re-authenticate to claim it."
     },
     "invalid_credentials": {
       "message": "Invalid provisioning credentials."

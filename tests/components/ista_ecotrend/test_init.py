@@ -9,13 +9,13 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ista_ecotrend.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 @pytest.mark.usefixtures("mock_ista")
 async def test_entry_setup_unload(
-    hass: UniversalAssistant, ista_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, ista_config_entry: MockConfigEntry
 ) -> None:
     """Test integration setup and unload."""
 
@@ -36,7 +36,7 @@ async def test_entry_setup_unload(
     [ServerError, ParserError],
 )
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
     mock_ista: MagicMock,
     side_effect: Exception,
@@ -55,7 +55,7 @@ async def test_config_entry_not_ready(
     [LoginError, KeycloakError],
 )
 async def test_config_entry_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
     mock_ista: MagicMock,
     side_effect: Exception,
@@ -72,7 +72,7 @@ async def test_config_entry_auth_failed(
 
 @pytest.mark.usefixtures("mock_ista")
 async def test_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -91,7 +91,7 @@ async def test_device_registry(
 
 
 async def test_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
     mock_ista: MagicMock,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_update_failed(
 
 
 async def test_auth_failed(
-    hass: UniversalAssistant, ista_config_entry: MockConfigEntry, mock_ista: MagicMock
+    hass: __HAC_KEEP__, ista_config_entry: MockConfigEntry, mock_ista: MagicMock
 ) -> None:
     """Test coordinator auth failed and reauth flow started."""
     with patch(

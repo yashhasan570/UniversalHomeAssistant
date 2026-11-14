@@ -9,7 +9,7 @@ from aioengiebelgium import EngieBeAuthenticationError, EngieBeClient, EngieBeEr
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -68,7 +68,7 @@ async def _async_is_dynamic(client: EngieBeClient, ban: str) -> bool | None:
     return contracts.is_dynamic()
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: EngieBeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: EngieBeConfigEntry) -> None:
     """Set up ENGIE Belgium from a config entry."""
 
     async def _persist_tokens(access_token: str, refresh_token: str) -> None:
@@ -162,7 +162,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: EngieBeConfigEntry)
 
 @callback
 def _async_start_tariff_retry(
-    hass: UniversalAssistant, entry: EngieBeConfigEntry, epex: EngieBeEpexCoordinator
+    hass: __HAC_KEEP__, entry: EngieBeConfigEntry, epex: EngieBeEpexCoordinator
 ) -> None:
     """Retry the tariff lookup of the households whose lookup failed at setup."""
     runtime_data = entry.runtime_data
@@ -211,6 +211,6 @@ def _async_start_tariff_retry(
     entry.async_on_unload(cancel_retry)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: EngieBeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: EngieBeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

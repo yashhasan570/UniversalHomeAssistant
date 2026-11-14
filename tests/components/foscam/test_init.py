@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.foscam.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_mock_foscam_camera
@@ -14,7 +14,7 @@ from .const import ENTRY_ID, VALID_CONFIG
 
 
 async def test_unique_id_new_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test unique ID for a newly added device is correct."""
@@ -39,7 +39,7 @@ async def test_unique_id_new_entry(
 
 
 async def test_switch_unique_id_migration_ok(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that the unique ID for a sleep switch is migrated to the new format."""
@@ -78,7 +78,7 @@ async def test_switch_unique_id_migration_ok(
 
 
 async def test_unique_id_migration_not_needed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test unique ID for sleep switch skipped if already correct."""

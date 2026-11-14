@@ -13,8 +13,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -26,7 +26,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_buttons(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_restart_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
 ) -> None:
     """Test restart button."""
@@ -53,13 +53,13 @@ async def test_restart_button(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_restart_button_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
 ) -> None:
     """Test restart button error handling for unexpected errors."""
     mock_airobot_client.reboot_thermostat.side_effect = AirobotError("Test error")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -72,7 +72,7 @@ async def test_restart_button_error(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_recalibrate_co2_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
 ) -> None:
     """Test recalibrate CO2 sensor button."""
@@ -98,14 +98,14 @@ async def test_recalibrate_co2_button(
     ],
 )
 async def test_recalibrate_co2_button_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_airobot_client: AsyncMock,
     exception: Exception,
 ) -> None:
     """Test recalibrate CO2 sensor button error handling."""
     mock_airobot_client.recalibrate_co2_sensor.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

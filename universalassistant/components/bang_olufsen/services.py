@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.media_player import DOMAIN as MEDIA_PLAYER_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import BEOLINK_JOIN_SOURCES, DOMAIN
@@ -31,8 +31,8 @@ class BeoServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
-    """Universal Universal Home Assistant services."""
+def async_setup_services(hass: __HAC_KEEP__) -> None:
+    """__HA_KEEP__ services."""
 
     jid_regex = probatio.Match(
         r"(^\d{4})[.](\d{7})[.](\d{8})(@products\.bang-olufsen\.com)$"

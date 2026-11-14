@@ -6,7 +6,7 @@ import logging
 
 from govee_local_api import GoveeController
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_flow
 
 from . import async_get_listening_addresses
@@ -22,7 +22,7 @@ from .coordinator import log_bound_addresses
 _LOGGER = logging.getLogger(__name__)
 
 
-async def _async_has_devices(hass: UniversalAssistant) -> bool:
+async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
     """Return if there are devices that can be discovered."""
 
     listening_addresses = await async_get_listening_addresses(hass)

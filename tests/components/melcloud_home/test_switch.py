@@ -29,8 +29,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -43,7 +43,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 @pytest.mark.usefixtures("mock_melcloud_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -102,7 +102,7 @@ async def test_all_entities(
 )
 @pytest.mark.parametrize("service_call", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -139,13 +139,13 @@ async def test_turn_on_off(
 @pytest.mark.parametrize(
     ("raise_exception", "expected_exception"),
     [
-        (MelCloudHomeAuthenticationError, UniversalAssistantError),
-        (MelCloudHomeConnectionError, UniversalAssistantError),
-        (MelCloudHomeTimeoutError, UniversalAssistantError),
+        (MelCloudHomeAuthenticationError, __HAC_KEEP__Error),
+        (MelCloudHomeConnectionError, __HAC_KEEP__Error),
+        (MelCloudHomeTimeoutError, __HAC_KEEP__Error),
     ],
 )
 async def test_turn_on_off_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -154,7 +154,7 @@ async def test_turn_on_off_exceptions(
     raise_exception: type[Exception],
     expected_exception: type[Exception],
 ) -> None:
-    """Test switch actions raise UniversalAssistantError on client errors."""
+    """Test switch actions raise __HAC_KEEP__Error on client errors."""
     await setup_integration(hass, mock_config_entry)
 
     method_mock = getattr(mock_melcloud_client, method)
@@ -170,7 +170,7 @@ async def test_turn_on_off_exceptions(
 
 
 async def test_no_standby_switch_without_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -196,7 +196,7 @@ async def test_no_standby_switch_without_support(
 )
 @pytest.mark.parametrize("service_call", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_standby_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -238,18 +238,18 @@ async def test_standby_turn_on_off(
     ],
 )
 async def test_standby_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_melcloud_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
     method: str,
     exception: type[Exception],
 ) -> None:
-    """Test the standby switch raises UniversalAssistantError on client errors."""
+    """Test the standby switch raises __HAC_KEEP__Error on client errors."""
     await setup_integration(hass, mock_config_entry)
     getattr(mock_melcloud_client, method).side_effect = exception
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,

@@ -12,14 +12,14 @@ from universalassistant.components.recorder import Recorder
 from universalassistant.components.sql.const import DOMAIN
 from universalassistant.components.sql.services import SQLService
 from universalassistant.components.sql.util import generate_lambda_stmt
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
 
 async def test_query_service_recorder_db(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the query service with the default recorder database."""
     await async_setup_component(hass, DOMAIN, {})
@@ -54,7 +54,7 @@ async def test_query_service_recorder_db(
     }
 
 
-async def test_query_service_external_db(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_query_service_external_db(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test the query service with an external database via db_url."""
     db_path = tmp_path / "test.db"
     db_url = f"sqlite:///{db_path}"
@@ -85,7 +85,7 @@ async def test_query_service_external_db(hass: UniversalAssistant, tmp_path: Pat
     }
 
 
-async def test_query_service_rollback_on_error(hass: UniversalAssistant) -> None:
+async def test_query_service_rollback_on_error(hass: __HAC_KEEP__) -> None:
     """Test the query service."""
     await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -115,7 +115,7 @@ async def test_query_service_rollback_on_error(hass: UniversalAssistant) -> None
 
 
 async def test_query_service_data_conversion(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test the query service correctly converts data types."""
     db_path = tmp_path / "test_types.db"
@@ -157,7 +157,7 @@ async def test_query_service_data_conversion(
 
 async def test_query_service_no_results(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the query service when a query returns no results."""
     await async_setup_component(hass, DOMAIN, {})
@@ -176,7 +176,7 @@ async def test_query_service_no_results(
 
 async def test_query_service_invalid_query_not_select(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the service rejects non-SELECT queries."""
     await async_setup_component(hass, DOMAIN, {})
@@ -194,7 +194,7 @@ async def test_query_service_invalid_query_not_select(
 
 async def test_query_service_sqlalchemy_error(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the service handles SQLAlchemy errors during query execution."""
     await async_setup_component(hass, DOMAIN, {})
@@ -213,7 +213,7 @@ async def test_query_service_sqlalchemy_error(
         )
 
 
-async def test_query_service_invalid_db_url(hass: UniversalAssistant) -> None:
+async def test_query_service_invalid_db_url(hass: __HAC_KEEP__) -> None:
     """Test the service handles an invalid database URL."""
     await async_setup_component(hass, DOMAIN, {})
     await hass.async_block_till_done()
@@ -241,7 +241,7 @@ async def test_query_service_invalid_db_url(hass: UniversalAssistant) -> None:
 
 async def test_query_service_performance_issue_validation(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the service validates queries against the recorder."""
     await async_setup_component(hass, DOMAIN, {})

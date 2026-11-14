@@ -44,9 +44,9 @@ CONF_MONITORED_USERS = "monitored_users"
 AUTH_CALLBACK_PATH = "/auth/plex/callback"
 AUTH_CALLBACK_NAME = "auth:plex:callback"
 
-X_PLEX_DEVICE_NAME = "Universal Universal Home Assistant"
-X_PLEX_PLATFORM = "Universal Universal Home Assistant"
-X_PLEX_PRODUCT = "Universal Universal Home Assistant"
+X_PLEX_DEVICE_NAME = "__HA_KEEP__"
+X_PLEX_PLATFORM = "__HA_KEEP__"
+X_PLEX_PRODUCT = "__HA_KEEP__"
 X_PLEX_VERSION = __version__
 
 PLEX_URI_SCHEME = "plex://"

@@ -8,7 +8,7 @@ from igloohome_api import Api as IgloohomeApi, ApiException, GetDeviceInfoRespon
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.const import UnitOfRatio
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import IgloohomeConfigEntry
@@ -21,7 +21,7 @@ SCAN_INTERVAL = timedelta(hours=1)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IgloohomeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

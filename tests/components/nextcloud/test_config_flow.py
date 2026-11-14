@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.nextcloud.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import VALID_CONFIG
@@ -23,7 +23,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_user_create_entry(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
 ) -> None:
     """Test that the user step works."""
     # start user flow
@@ -93,7 +93,7 @@ async def test_user_create_entry(
 
 
 async def test_reconfigure_entry(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
 ) -> None:
     """Test that the reconfigure step works."""
     entry = MockConfigEntry(
@@ -172,7 +172,7 @@ async def test_reconfigure_entry(
     assert entry.data == snapshot
 
 
-async def test_user_already_configured(hass: UniversalAssistant) -> None:
+async def test_user_already_configured(hass: __HAC_KEEP__) -> None:
     """Test that errors are shown when duplicates are added."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -203,7 +203,7 @@ async def test_user_already_configured(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_reauth(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test that the re-auth flow works."""
     entry = MockConfigEntry(
         domain=DOMAIN,

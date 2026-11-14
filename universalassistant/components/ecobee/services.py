@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_register_platform_entity_service
 from universalassistant.util.hass_dict import HassKey
@@ -127,7 +127,7 @@ SET_FAN_MIN_ON_TIME_SCHEMA = probatio.Schema(
 
 
 @callback
-def _async_get_thermostats(hass: UniversalAssistant) -> list[Thermostat]:
+def _async_get_thermostats(hass: __HAC_KEEP__) -> list[Thermostat]:
     """Return loaded ecobee thermostat entities."""
     return hass.data[ECOBEE_THERMOSTATS]
 
@@ -185,7 +185,7 @@ def _resume_program_set_service(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register ecobee services."""
     hass.data[ECOBEE_THERMOSTATS] = []
 

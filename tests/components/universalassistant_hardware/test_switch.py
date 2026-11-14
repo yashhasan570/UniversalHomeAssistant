@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant Hardware beta firmware switch entity."""
+"""Test __HA_KEEP__ Hardware beta firmware switch entity."""
 
 from collections.abc import AsyncGenerator
 from unittest.mock import Mock, call, patch
@@ -33,7 +33,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -67,7 +67,7 @@ class MockBetaFirmwareSwitch(BaseBetaFirmwareSwitch):
 
 
 def _mock_async_create_switch_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> MockBetaFirmwareSwitch:
@@ -85,7 +85,7 @@ def _mock_async_create_switch_entity(
 
 
 async def mock_async_setup_entry(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Set up test config entry."""
     await hass.config_entries.async_forward_entry_setups(
@@ -94,7 +94,7 @@ async def mock_async_setup_entry(
 
 
 async def mock_async_setup_switch_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -116,7 +116,7 @@ def mock_firmware_client_fixture():
 
 @pytest.fixture(name="switch_config_entry")
 async def mock_switch_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_firmware_client,
 ) -> AsyncGenerator[ConfigEntry]:
     """Set up a mock config entry for testing."""
@@ -153,7 +153,7 @@ async def mock_switch_config_entry(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_default_off_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     switch_config_entry: ConfigEntry,
     mock_firmware_client,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_switch_default_off_state(
     ],
 )
 async def test_switch_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     switch_config_entry: ConfigEntry,
     mock_firmware_client,
@@ -218,7 +218,7 @@ async def test_switch_restore_state(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     switch_config_entry: ConfigEntry,
     mock_firmware_client,
     service: str,

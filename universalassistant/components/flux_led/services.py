@@ -6,7 +6,7 @@ from flux_led.const import MultiColorEffects
 import probatio
 
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.typing import VolDictType
 
@@ -96,7 +96,7 @@ SET_ZONES_DICT: VolDictType = {
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Magic Home integration."""
 
     service.async_register_platform_entity_service(

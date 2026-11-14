@@ -9,7 +9,7 @@ import probatio
 from universalassistant.components import http, websocket_api
 from universalassistant.components.http.data_validator import RequestDataValidator
 from universalassistant.const import MATCH_ALL
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.chat_session import async_get_chat_session
 from universalassistant.util import language as language_util
 
@@ -26,7 +26,7 @@ from .models import ConversationInput
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the HTTP API for the conversation integration."""
     hass.http.register_view(ConversationProcessView())
     websocket_api.async_register_command(hass, websocket_process)
@@ -52,7 +52,7 @@ def async_setup(hass: UniversalAssistant) -> None:
 )
 @websocket_api.async_response
 async def websocket_process(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -79,7 +79,7 @@ async def websocket_process(
 )
 @websocket_api.async_response
 async def websocket_prepare(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -103,7 +103,7 @@ async def websocket_prepare(
 )
 @websocket_api.async_response
 async def websocket_list_agents(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """List conversation agents and, optionally, if they support a given language."""
     country = msg.get("country")
@@ -162,7 +162,7 @@ async def websocket_list_agents(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_list_sentences(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """List custom registered sentences."""
     manager = get_agent_manager(hass)
@@ -180,7 +180,7 @@ async def websocket_list_sentences(
 )
 @websocket_api.async_response
 async def websocket_hass_agent_debug(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """Return intents matched by the default agent for a list of sentences."""
     agent = get_agent_manager(hass).default_agent
@@ -213,7 +213,7 @@ async def websocket_hass_agent_debug(
 )
 @websocket_api.async_response
 async def websocket_hass_agent_language_scores(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -237,7 +237,7 @@ async def websocket_hass_agent_language_scores(
     connection.send_result(msg["id"], result)
 
 
-class ConversationProcessView(http.UniversalAssistantView):
+class ConversationProcessView(http.__HAC_KEEP__View):
     """View to process text."""
 
     url = "/api/conversation/process"
@@ -281,7 +281,7 @@ class ConversationProcessView(http.UniversalAssistantView):
 )
 @websocket_api.require_admin
 def websocket_subscribe_chat_log(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -340,7 +340,7 @@ def websocket_subscribe_chat_log(
 )
 @websocket_api.require_admin
 def websocket_subscribe_chat_log_index(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

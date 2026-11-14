@@ -9,7 +9,7 @@ from aioeafm import get_station
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -32,7 +32,7 @@ def _get_measures(station_data: dict[str, Any]) -> list[dict[str, Any]]:
 class EafmCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
     """Class to manage fetching UK Flood Monitoring data."""
 
-    def __init__(self, hass: UniversalAssistant, entry: EafmConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: EafmConfigEntry) -> None:
         """Initialize."""
         self._station_key = entry.data["station"]
         self._session = async_get_clientsession(hass=hass)

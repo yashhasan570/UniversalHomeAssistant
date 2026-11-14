@@ -12,14 +12,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.overseerr import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import call_webhook, setup_integration
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -33,7 +33,7 @@ async def test_all_entities(
 
 
 async def test_webhook_trigger_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -59,7 +59,7 @@ async def test_webhook_trigger_update(
 
 
 async def test_webhook_issue_trigger_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_overseerr_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,

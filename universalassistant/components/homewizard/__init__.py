@@ -9,7 +9,7 @@ from homewizard_energy import (
 
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import CONF_IP_ADDRESS, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -20,7 +20,7 @@ from .coordinator import HomeWizardConfigEntry, HWEnergyDeviceUpdateCoordinator
 from .entity import create_main_device_info
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HomeWizardConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HomeWizardConfigEntry) -> None:
     """Set up Homewizard from a config entry."""
 
     api: HomeWizardEnergy
@@ -74,13 +74,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HomeWizardConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: HomeWizardConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: HomeWizardConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 def get_main_device(
-    hass: UniversalAssistant, entry: HomeWizardConfigEntry
+    hass: __HAC_KEEP__, entry: HomeWizardConfigEntry
 ) -> dr.DeviceEntry | None:
     """Helper function to get the main device for the config entry."""
     device_registry = dr.async_get(hass)
@@ -101,7 +101,7 @@ def get_main_device(
 
 
 async def async_check_v2_support_and_create_issue(
-    hass: UniversalAssistant, entry: HomeWizardConfigEntry
+    hass: __HAC_KEEP__, entry: HomeWizardConfigEntry
 ) -> None:
     """Check if the device supports v2 and create an issue if not."""
 

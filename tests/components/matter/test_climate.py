@@ -17,8 +17,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -40,7 +40,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_climates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -50,7 +50,7 @@ async def test_climates(
 
 @pytest.mark.parametrize("node_fixture", ["longan_link_thermostat"])
 async def test_thermostat_base(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -198,7 +198,7 @@ async def test_thermostat_base(
 
 @pytest.mark.parametrize("node_fixture", ["longan_link_thermostat"])
 async def test_thermostat_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_thermostat_humidity(
 
 @pytest.mark.parametrize("node_fixture", ["longan_link_thermostat"])
 async def test_thermostat_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -452,7 +452,7 @@ async def test_thermostat_service_calls(
 
 @pytest.mark.parametrize("node_fixture", ["mock_room_airconditioner"])
 async def test_room_airconditioner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -505,7 +505,7 @@ async def test_room_airconditioner(
 
 @pytest.mark.parametrize("node_fixture", ["eve_thermo_v5"])
 async def test_eve_thermo_v5_presets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -724,7 +724,7 @@ async def test_eve_thermo_v5_presets(
 
 @pytest.mark.parametrize("node_fixture", ["eve_thermo_v5"])
 async def test_preset_mode_with_unnamed_preset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -800,7 +800,7 @@ async def test_preset_mode_with_unnamed_preset(
 @pytest.mark.parametrize("node_fixture", ["longan_link_thermostat"])
 @pytest.mark.parametrize("attributes", [{"1/513/0": None}])
 async def test_thermostat_with_null_local_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -820,7 +820,7 @@ async def test_thermostat_with_null_local_temperature(
     ],
 )
 async def test_turn_on_restores_reported_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     system_mode: int,
@@ -857,7 +857,7 @@ async def test_turn_on_restores_reported_mode(
 )
 @pytest.mark.usefixtures("matter_node")
 async def test_turn_on_keeps_running_mode(
-    hass: UniversalAssistant, matter_client: MagicMock
+    hass: __HAC_KEEP__, matter_client: MagicMock
 ) -> None:
     """Turning on an already running thermostat does not send commands."""
     initial_state = hass.states.get(THERMOSTAT_ENTITY_ID)
@@ -874,7 +874,7 @@ async def test_turn_on_keeps_running_mode(
 
 @pytest.mark.parametrize("node_fixture", ["longan_link_thermostat"])
 async def test_turn_on_after_reload(
-    hass: UniversalAssistant, matter_client: MagicMock, matter_node: MatterNode
+    hass: __HAC_KEEP__, matter_client: MagicMock, matter_node: MatterNode
 ) -> None:
     """Reload keeps the thermostat off until turn_on restores its previous mode."""
     await hass.services.async_call(
@@ -917,7 +917,7 @@ async def test_turn_on_after_reload(
     ],
 )
 async def test_turn_on_restored_history(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     stored_mode: str | None,
     system_mode: int,
@@ -952,7 +952,7 @@ async def test_turn_on_restored_history(
 
 @pytest.mark.parametrize("node_fixture", ["longan_link_thermostat"])
 async def test_turn_on_after_supported_modes_change(
-    hass: UniversalAssistant, matter_client: MagicMock, matter_node: MatterNode
+    hass: __HAC_KEEP__, matter_client: MagicMock, matter_node: MatterNode
 ) -> None:
     """Fall back when a previously used mode is no longer supported."""
     set_node_attribute(matter_node, 1, 513, 28, 0)
@@ -982,7 +982,7 @@ async def test_turn_on_after_supported_modes_change(
     ],
 )
 async def test_turn_on_uses_mode_selected_with_power_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     hvac_mode: HVACMode,
@@ -1021,13 +1021,13 @@ async def test_turn_on_uses_mode_selected_with_power_off(
 @pytest.mark.parametrize("node_fixture", ["mock_room_airconditioner"])
 @pytest.mark.parametrize("attributes", [{"1/6/0": True, "1/513/28": 4}])
 async def test_failed_mode_write_keeps_previous_mode(
-    hass: UniversalAssistant, matter_client: MagicMock, matter_node: MatterNode
+    hass: __HAC_KEEP__, matter_client: MagicMock, matter_node: MatterNode
 ) -> None:
     """A failed mode write while power is off does not change the remembered mode."""
     set_node_attribute(matter_node, 1, 6, 0, False)
     await trigger_subscription_callback(hass, matter_client)
     matter_client.write_attribute.side_effect = MatterError("Mode write failed")
-    with pytest.raises(UniversalAssistantError, match="Mode write failed"):
+    with pytest.raises(__HAC_KEEP__Error, match="Mode write failed"):
         await hass.services.async_call(
             "climate",
             "set_hvac_mode",
@@ -1068,7 +1068,7 @@ async def test_failed_mode_write_keeps_previous_mode(
     ],
 )
 async def test_mode_reported_while_powered_off_is_remembered(
-    hass: UniversalAssistant, matter_client: MagicMock, matter_node: MatterNode
+    hass: __HAC_KEEP__, matter_client: MagicMock, matter_node: MatterNode
 ) -> None:
     """Remember external mode changes even when dedicated power is off."""
     set_node_attribute(matter_node, 1, 6, 0, False)
@@ -1105,7 +1105,7 @@ async def test_mode_reported_while_powered_off_is_remembered(
     [{"1/6/0": True, "1/513/28": 3, "1/513/65532": 3, "0/40/2": 0, "0/40/4": 0}],
 )
 async def test_unsupported_reported_mode_keeps_remembered_mode(
-    hass: UniversalAssistant, matter_client: MagicMock, matter_node: MatterNode
+    hass: __HAC_KEEP__, matter_client: MagicMock, matter_node: MatterNode
 ) -> None:
     """A reported mode the entity does not support does not replace history."""
     set_node_attribute(matter_node, 1, 513, 28, 8)
@@ -1127,7 +1127,7 @@ async def test_unsupported_reported_mode_keeps_remembered_mode(
     [pytest.param(None, id="no-history"), pytest.param("heat", id="stale-history")],
 )
 async def test_powered_off_startup_remembers_device_mode(
-    hass: UniversalAssistant, matter_client: MagicMock, stored_mode: str | None
+    hass: __HAC_KEEP__, matter_client: MagicMock, stored_mode: str | None
 ) -> None:
     """The device's selected mode at startup takes precedence over saved history."""
     mock_restore_cache_with_extra_data(
@@ -1174,7 +1174,7 @@ async def test_powered_off_startup_remembers_device_mode(
     ],
 )
 async def test_dead_front_powers_on_before_mode_write(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     expected_mode: int,
@@ -1209,7 +1209,7 @@ async def test_dead_front_powers_on_before_mode_write(
 @pytest.mark.parametrize("node_fixture", ["mock_room_airconditioner"])
 @pytest.mark.parametrize("attributes", [{"1/6/0": False, "1/513/28": 3}])
 async def test_turn_on_keeps_retained_mode_without_writing(
-    hass: UniversalAssistant, matter_client: MagicMock, matter_node: MatterNode
+    hass: __HAC_KEEP__, matter_client: MagicMock, matter_node: MatterNode
 ) -> None:
     """A device retaining its own mode needs only the On command."""
     matter_client.write_attribute.side_effect = MatterError("INVALID_IN_STATE")
@@ -1226,11 +1226,11 @@ async def test_turn_on_keeps_retained_mode_without_writing(
 @pytest.mark.parametrize("attributes", [{"1/6/0": False, "1/513/28": 0}])
 @pytest.mark.usefixtures("matter_node")
 async def test_failed_power_on_does_not_write_mode(
-    hass: UniversalAssistant, matter_client: MagicMock
+    hass: __HAC_KEEP__, matter_client: MagicMock
 ) -> None:
     """Do not write a mode if powering on failed."""
     matter_client.send_device_command.side_effect = MatterError("Power on failed")
-    with pytest.raises(UniversalAssistantError, match="Power on failed"):
+    with pytest.raises(__HAC_KEEP__Error, match="Power on failed"):
         await hass.services.async_call(
             "climate", "turn_on", {"entity_id": ROOM_AC_ENTITY_ID}, blocking=True
         )

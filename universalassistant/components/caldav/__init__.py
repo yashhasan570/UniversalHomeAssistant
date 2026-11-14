@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -29,7 +29,7 @@ type CalDavConfigEntry = ConfigEntry[DAVClient]
 PLATFORMS: list[Platform] = [Platform.CALENDAR, Platform.TODO]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: CalDavConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: CalDavConfigEntry) -> None:
     """Set up CalDAV from a config entry."""
     client = await hass.async_add_executor_job(
         partial(
@@ -64,6 +64,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: CalDavConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: CalDavConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: CalDavConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

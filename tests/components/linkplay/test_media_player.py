@@ -51,7 +51,7 @@ from universalassistant.const import (
     SERVICE_REPEAT_SET,
     STATE_PLAYING,
 )
-from universalassistant.core import Event, EventStateReportedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateReportedData, __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
@@ -67,7 +67,7 @@ RENAMED_ENTITY_ID = "media_player.renamed"
 
 @pytest.fixture
 async def leader_player(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> AsyncGenerator[AsyncMock]:
     """Set up a device that is a follower in a multiroom group and mock its leader."""
 
@@ -114,7 +114,7 @@ async def leader_player(
 
 
 @pytest.mark.usefixtures("leader_player")
-async def test_follower_mirrors_leader_media_info(hass: UniversalAssistant) -> None:
+async def test_follower_mirrors_leader_media_info(hass: __HAC_KEEP__) -> None:
     """Test that a follower shows the media info of its group leader."""
 
     state = hass.states.get(ENTITY_ID)
@@ -140,7 +140,7 @@ async def test_follower_mirrors_leader_media_info(hass: UniversalAssistant) -> N
     ],
 )
 async def test_album_art(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     leader_player: AsyncMock,
     album_art: str,
     has_picture: bool,
@@ -180,7 +180,7 @@ async def test_album_art(
     ],
 )
 async def test_follower_transport_commands_go_to_leader(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     leader_player: AsyncMock,
     service: str,
     service_data: dict[str, Any],
@@ -201,7 +201,7 @@ async def test_follower_transport_commands_go_to_leader(
 
 @pytest.mark.usefixtures("leader_player")
 async def test_group_members_follow_renamed_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_group_members_follow_renamed_entity_id(
 
 @pytest.mark.usefixtures("leader_player")
 async def test_join_renamed_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -283,7 +283,7 @@ async def test_join_renamed_entity_id(
 
 
 async def test_group_members_follow_renamed_group_member(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

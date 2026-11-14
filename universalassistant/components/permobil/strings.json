@@ -1,7 +1,7 @@
 {
   "issues": {
     "integration_removed": {
-      "description": "The Permobil integration has been removed from Universal Universal Home Assistant.\n\nTo resolve this issue, please remove the (now defunct) integration entries from your Universal Universal Home Assistant setup. [View your existing Permobil integration entries]({entries}).",
+      "description": "The Permobil integration has been removed from __HA_KEEP__.\n\nTo resolve this issue, please remove the (now defunct) integration entries from your __HA_KEEP__ setup. [View your existing Permobil integration entries]({entries}).",
       "title": "The Permobil integration has been removed"
     }
   }

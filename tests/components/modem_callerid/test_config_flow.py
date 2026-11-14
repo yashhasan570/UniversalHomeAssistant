@@ -8,7 +8,7 @@ from universalassistant.components import usb
 from universalassistant.components.modem_callerid.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USB, SOURCE_USER
 from universalassistant.const import CONF_DEVICE, CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
@@ -34,7 +34,7 @@ def _patch_setup():
     "universalassistant.components.modem_callerid.config_flow.usb.async_scan_serial_ports",
     AsyncMock(return_value=[com_port()]),
 )
-async def test_flow_usb(hass: UniversalAssistant) -> None:
+async def test_flow_usb(hass: __HAC_KEEP__) -> None:
     """Test usb discovery flow."""
     with patch_config_flow_modem(), _patch_setup():
         result = await hass.config_entries.flow.async_init(
@@ -58,7 +58,7 @@ async def test_flow_usb(hass: UniversalAssistant) -> None:
     "universalassistant.components.modem_callerid.config_flow.usb.async_scan_serial_ports",
     AsyncMock(return_value=[com_port()]),
 )
-async def test_flow_usb_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_flow_usb_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test usb flow connection error."""
     with patch_config_flow_modem() as modemmock:
         modemmock.side_effect = phone_modem.exceptions.SerialError
@@ -73,7 +73,7 @@ async def test_flow_usb_cannot_connect(hass: UniversalAssistant) -> None:
     "universalassistant.components.modem_callerid.config_flow.usb.async_scan_serial_ports",
     AsyncMock(return_value=[com_port()]),
 )
-async def test_flow_user(hass: UniversalAssistant) -> None:
+async def test_flow_user(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow."""
     port = com_port()
     port_select = usb.human_readable_device_name(
@@ -110,7 +110,7 @@ async def test_flow_user(hass: UniversalAssistant) -> None:
     "universalassistant.components.modem_callerid.config_flow.usb.async_scan_serial_ports",
     AsyncMock(return_value=[com_port()]),
 )
-async def test_flow_user_error(hass: UniversalAssistant) -> None:
+async def test_flow_user_error(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow with unreachable device."""
     port = com_port()
     port_select = usb.human_readable_device_name(
@@ -143,7 +143,7 @@ async def test_flow_user_error(hass: UniversalAssistant) -> None:
     "universalassistant.components.modem_callerid.config_flow.usb.async_scan_serial_ports",
     AsyncMock(return_value=[]),
 )
-async def test_flow_user_no_port_list(hass: UniversalAssistant) -> None:
+async def test_flow_user_no_port_list(hass: __HAC_KEEP__) -> None:
     """Test user with no list of ports."""
     with patch_config_flow_modem():
         result = await hass.config_entries.flow.async_init(
@@ -155,7 +155,7 @@ async def test_flow_user_no_port_list(hass: UniversalAssistant) -> None:
         assert result["reason"] == "no_devices_found"
 
 
-async def test_abort_user_with_existing_flow(hass: UniversalAssistant) -> None:
+async def test_abort_user_with_existing_flow(hass: __HAC_KEEP__) -> None:
     """Test user flow is aborted when another discovery has happened."""
     with patch_config_flow_modem():
         result = await hass.config_entries.flow.async_init(

@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 GATEWAY_SERIAL = "6A242121110E"
 GATEWAY_HOST = "192.168.1.100"
@@ -88,7 +88,7 @@ MOTION_SENSOR_DATA: dict[str, Any] = {
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gateway: MagicMock,
     mock_devices: list[MagicMock],

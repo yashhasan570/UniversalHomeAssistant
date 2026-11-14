@@ -9,7 +9,7 @@ from simplepush.legacy import UnknownError
 from universalassistant import config_entries
 from universalassistant.components.simplepush.const import CONF_DEVICE_KEY, CONF_SALT, DOMAIN
 from universalassistant.const import CONF_NAME, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 MOCK_CONFIG = {
@@ -34,7 +34,7 @@ def mock_api_request():
         yield
 
 
-async def test_flow_successful(hass: UniversalAssistant) -> None:
+async def test_flow_successful(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow with minimum config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -50,7 +50,7 @@ async def test_flow_successful(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "abc"
 
 
-async def test_flow_with_password(hass: UniversalAssistant) -> None:
+async def test_flow_with_password(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow with password and salt."""
     mock_config_pass = {**MOCK_CONFIG, CONF_PASSWORD: "password", CONF_SALT: "salt"}
     result = await hass.config_entries.flow.async_init(
@@ -67,7 +67,7 @@ async def test_flow_with_password(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "abc"
 
 
-async def test_flow_user_device_key_already_configured(hass: UniversalAssistant) -> None:
+async def test_flow_user_device_key_already_configured(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow with duplicate device key."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -89,7 +89,7 @@ async def test_flow_user_device_key_already_configured(hass: UniversalAssistant)
     assert result["reason"] == "already_configured"
 
 
-async def test_flow_user_name_already_configured(hass: UniversalAssistant) -> None:
+async def test_flow_user_name_already_configured(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow with duplicate name."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -114,7 +114,7 @@ async def test_flow_user_name_already_configured(hass: UniversalAssistant) -> No
     assert result["reason"] == "already_configured"
 
 
-async def test_error_on_connection_failure(hass: UniversalAssistant) -> None:
+async def test_error_on_connection_failure(hass: __HAC_KEEP__) -> None:
     """Test when connection to api fails."""
     with patch(
         "universalassistant.components.simplepush.config_flow.send",

@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_UUID,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -44,7 +44,7 @@ DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict) -> dict[str, Any]:
+async def validate_input(hass: __HAC_KEEP__, data: dict) -> dict[str, Any]:
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.

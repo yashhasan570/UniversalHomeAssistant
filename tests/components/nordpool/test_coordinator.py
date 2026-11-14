@@ -22,14 +22,14 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.nordpool.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import ENTRY_CONFIG
 
 
 @pytest.mark.freeze_time("2025-10-01T10:00:00+02:00")
 async def test_coordinator_happy_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_client: NordPoolClient,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -92,7 +92,7 @@ async def test_coordinator_happy_path(
     ],
 )
 async def test_coordinator_setup_errors_today(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_client: NordPoolClient,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -176,7 +176,7 @@ async def test_coordinator_setup_errors_today(
     ],
 )
 async def test_coordinator_setup_errors_tomorrow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_client: NordPoolClient,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -257,7 +257,7 @@ async def test_coordinator_setup_errors_tomorrow(
 
 @pytest.mark.freeze_time("2025-10-01T00:05:00+02:00")
 async def test_coordinator_update_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_client: NordPoolClient,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,

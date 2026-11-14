@@ -18,7 +18,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import CoreState, UniversalAssistant, State, callback
+from universalassistant.core import CoreState, __HAC_KEEP__, State, callback
 from universalassistant.util import dt as dt_util
 
 from .test_init import mock_rflink
@@ -46,7 +46,7 @@ CONFIG = {
 
 
 async def test_default_setup(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test all basic functionality of the rflink sensor component."""
     # setup mocking rflink module
@@ -87,7 +87,7 @@ async def test_default_setup(
 
 
 async def test_entity_availability(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """If Rflink device is disconnected, entities should become unavailable."""
     # Make sure Rflink mock does not 'recover' too quickly from the
@@ -135,7 +135,7 @@ async def test_entity_availability(
     assert hass.states.get("binary_sensor.test").state == STATE_ON
 
 
-async def test_off_delay(hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_off_delay(hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch) -> None:
     """Test off_delay option."""
     # setup mocking rflink module
     event_callback, create, _, _ = await mock_rflink(hass, CONFIG, DOMAIN, monkeypatch)
@@ -199,7 +199,7 @@ async def test_off_delay(hass: UniversalAssistant, monkeypatch: pytest.MonkeyPat
 
 
 async def test_restore_state(
-    hass: UniversalAssistant, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Ensure states are restored on startup."""
     mock_restore_cache(

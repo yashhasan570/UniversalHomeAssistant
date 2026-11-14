@@ -38,7 +38,7 @@ from universalassistant.components.sensor import (
 )
 from universalassistant.components.wattwaechter.const import DEFAULT_SCAN_INTERVAL, DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import (
@@ -54,7 +54,7 @@ from .conftest import (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -69,7 +69,7 @@ async def test_all_entities(
 
 
 async def test_minimal_meter_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -165,7 +165,7 @@ async def test_minimal_meter_data(
 )
 @pytest.mark.usefixtures("mock_client", "entity_registry_enabled_by_default")
 async def test_generic_obis_sensor_classification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     obis_code: str,
@@ -190,7 +190,7 @@ async def test_generic_obis_sensor_classification(
 
 @pytest.mark.usefixtures("mock_client", "entity_registry_enabled_by_default")
 async def test_generic_obis_sensor_name_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_generic_obis_sensor_name_fallback(
 
 @pytest.mark.usefixtures("mock_client", "entity_registry_enabled_by_default")
 async def test_no_entities_for_metadata_registers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -233,7 +233,7 @@ async def test_no_entities_for_metadata_registers(
 
 @pytest.mark.usefixtures("mock_client")
 async def test_generic_obis_sensors_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_generic_obis_sensors_disabled_by_default(
 )
 @pytest.mark.usefixtures("mock_client")
 async def test_phase_power_sensors_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     obis_code: str,
@@ -283,7 +283,7 @@ async def test_phase_power_sensors_disabled_by_default(
 
 @pytest.mark.usefixtures("mock_client")
 async def test_phase_power_takes_over_generic_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -321,7 +321,7 @@ async def test_phase_power_takes_over_generic_entity(
     ids=["connection", "rate_limit", "not_found"],
 )
 async def test_system_info_error_is_best_effort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     error: WattwaechterError,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
@@ -357,7 +357,7 @@ async def test_system_info_error_is_best_effort(
 
 
 async def test_sensor_value_unknown_when_obis_stops_reporting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -391,7 +391,7 @@ async def test_sensor_value_unknown_when_obis_stops_reporting(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_gas_water_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -411,7 +411,7 @@ async def test_gas_water_entities(
 
 
 async def test_gas_water_medium_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -485,7 +485,7 @@ async def test_gas_water_medium_change(
 
 
 async def test_gas_water_volume_last_reset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -544,7 +544,7 @@ async def test_gas_water_volume_last_reset(
 
 
 async def test_stale_medium_entities_removed_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -572,7 +572,7 @@ async def test_stale_medium_entities_removed_on_setup(
 
 
 async def test_generic_entities_of_previous_medium_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -603,7 +603,7 @@ async def test_generic_entities_of_previous_medium_removed(
 
 
 async def test_meter_without_gw_block_keeps_all_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -632,7 +632,7 @@ async def test_meter_without_gw_block_keeps_all_media(
 
 
 async def test_gw_ignores_codes_of_other_medium(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -658,7 +658,7 @@ async def test_gw_ignores_codes_of_other_medium(
 
 
 async def test_new_obis_code_adds_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -732,7 +732,7 @@ async def test_new_obis_code_adds_entity(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_generic_full_obis_sensor_classification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: AsyncMock,
     entity_registry: er.EntityRegistry,

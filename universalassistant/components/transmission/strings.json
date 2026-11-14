@@ -127,7 +127,7 @@
       "message": "Could not add torrent: unsupported type or no permission."
     },
     "version_error": {
-      "message": "You are running {transmission_version} of Transmission. Minimum required version is {min_version}. Please upgrade Transmission and then restart Universal Universal Home Assistant."
+      "message": "You are running {transmission_version} of Transmission. Minimum required version is {min_version}. Please upgrade Transmission and then restart __HA_KEEP__."
     }
   },
   "options": {

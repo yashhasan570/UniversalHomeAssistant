@@ -41,8 +41,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.helpers.service_info.ssdp import ATTR_UPNP_UDN, SsdpServiceInfo
@@ -61,7 +61,7 @@ ALARM_15_UNIQUE_ID = "alarm-test_household_id:15"
 
 
 async def test_entity_registry(
-    hass: UniversalAssistant, async_autosetup_sonos, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, async_autosetup_sonos, entity_registry: er.EntityRegistry
 ) -> None:
     """Test sonos device with alarm registered in the device registry."""
     assert "media_player.zone_a" in entity_registry.entities
@@ -76,7 +76,7 @@ async def test_entity_registry(
 
 
 async def test_switch_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_autosetup_sonos,
     soco,
     fire_zgs_event,
@@ -176,7 +176,7 @@ async def test_switch_attributes(
     ],
 )
 async def test_switch_speech_enhancement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco: MockSoCo,
     speaker_info: dict[str, str],
@@ -219,7 +219,7 @@ async def test_switch_speech_enhancement(
     ],
 )
 async def test_switch_alarm_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco: MockSoCo,
     service: str,
@@ -242,7 +242,7 @@ async def test_switch_alarm_turn_on(
 
 
 async def test_alarm_create_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco,
     alarm_clock,
@@ -298,7 +298,7 @@ async def test_alarm_create_delete(
 
 
 async def test_alarm_change_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos: Callable[[], Coroutine[Any, Any, None]],
     alarm_clock: SonosMockAlarmClock,
     alarm_clock_extended: SonosMockAlarmClock,
@@ -361,7 +361,7 @@ async def test_alarm_change_device(
 
 
 async def test_tv_autoplay_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco: MockSoCo,
     speaker_info: dict[str, str],
@@ -408,7 +408,7 @@ async def test_tv_autoplay_switch(
 
 
 async def test_tv_autoplay_poll_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco: MockSoCo,
     speaker_info: dict[str, str],
@@ -453,7 +453,7 @@ async def test_tv_autoplay_poll_state(
     ],
 )
 async def test_tv_autoplay_poll_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos: Callable[[], Coroutine[Any, Any, None]],
     soco: MockSoCo,
     speaker_info: dict[str, str],
@@ -488,7 +488,7 @@ async def test_tv_autoplay_poll_error(
 
 
 async def test_tv_autoplay_not_created_for_non_ht(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_autosetup_sonos,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -503,12 +503,12 @@ async def test_tv_autoplay_not_created_for_non_ht(
 
 
 async def test_tv_autoplay_toggle_failure_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco: MockSoCo,
     speaker_info: dict[str, str],
 ) -> None:
-    """Test that UniversalAssistantError is raised when TV autoplay toggle fails."""
+    """Test that __HAC_KEEP__Error is raised when TV autoplay toggle fails."""
     entity_id = f"switch.zone_a_{ATTR_TV_AUTOPLAY}"
 
     speaker_info["model_name"] = "Sonos Beam"
@@ -521,7 +521,7 @@ async def test_tv_autoplay_toggle_failure_raises(
     soco.deviceProperties.SetAutoplayRoomUUID = Mock(
         side_effect=SoCoUPnPException("Toggle failed", 500, "")
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -531,7 +531,7 @@ async def test_tv_autoplay_toggle_failure_raises(
 
 
 async def test_tv_ungroup_autoplay_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco: MockSoCo,
     speaker_info: dict[str, str],
@@ -582,7 +582,7 @@ async def test_tv_ungroup_autoplay_switch(
 
 
 async def test_tv_ungroup_autoplay_available_independently_of_tv_autoplay(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco: MockSoCo,
     speaker_info: dict[str, str],
@@ -629,7 +629,7 @@ async def test_tv_ungroup_autoplay_available_independently_of_tv_autoplay(
 
 
 async def test_tv_ungroup_autoplay_unavailable_when_linked_zones_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco: MockSoCo,
     speaker_info: dict[str, str],
@@ -661,12 +661,12 @@ async def test_tv_ungroup_autoplay_unavailable_when_linked_zones_missing(
 
 
 async def test_tv_ungroup_autoplay_toggle_failure_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     soco: MockSoCo,
     speaker_info: dict[str, str],
 ) -> None:
-    """Test that UniversalAssistantError is raised when ungroup-on-autoplay toggle fails."""
+    """Test that __HAC_KEEP__Error is raised when ungroup-on-autoplay toggle fails."""
     entity_id = f"switch.zone_a_{ATTR_TV_UNGROUP_AUTOPLAY}"
 
     speaker_info["model_name"] = "Sonos Beam"
@@ -682,7 +682,7 @@ async def test_tv_ungroup_autoplay_toggle_failure_raises(
     soco.deviceProperties.SetAutoplayLinkedZones = Mock(
         side_effect=SoCoUPnPException("Toggle failed", 500, "")
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -692,7 +692,7 @@ async def test_tv_ungroup_autoplay_toggle_failure_raises(
 
 
 async def test_tv_ungroup_autoplay_not_created_for_non_ht(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_autosetup_sonos,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -707,7 +707,7 @@ async def test_tv_ungroup_autoplay_not_created_for_non_ht(
 
 
 async def test_alarm_update_exception_logs_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     entity_registry: er.EntityRegistry,
     soco: MockSoCo,
@@ -730,7 +730,7 @@ async def test_alarm_update_exception_logs_warning(
 
 
 async def test_alarm_setup_for_undiscovered_speaker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_sonos,
     alarm_clock,
     entity_registry: er.EntityRegistry,

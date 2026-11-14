@@ -14,12 +14,12 @@ from universalassistant.components.nightscout.const import (
 from universalassistant.components.nightscout.coordinator import SCAN_INTERVAL
 from universalassistant.components.sensor import ATTR_STATE_CLASS, SensorStateClass
 from universalassistant.const import ATTR_DATE, ATTR_ICON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import GLUCOSE_READINGS, init_integration
 
 
-async def test_sensor_state(hass: UniversalAssistant) -> None:
+async def test_sensor_state(hass: __HAC_KEEP__) -> None:
     """Test sensor state data."""
     await init_integration(hass)
 
@@ -30,7 +30,7 @@ async def test_sensor_state(hass: UniversalAssistant) -> None:
 
 
 async def test_sensor_error(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the sensor becomes unavailable on update errors and recovers."""
     await init_integration(hass)
@@ -59,7 +59,7 @@ async def test_sensor_error(
 
 
 async def test_sensor_empty_response(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the sensor becomes unavailable if no readings are returned."""
     await init_integration(hass)
@@ -75,7 +75,7 @@ async def test_sensor_empty_response(
     assert hass.states.get("sensor.blood_sugar").state == STATE_UNAVAILABLE
 
 
-async def test_sensor_attributes(hass: UniversalAssistant) -> None:
+async def test_sensor_attributes(hass: __HAC_KEEP__) -> None:
     """Test sensor attributes."""
     await init_integration(hass)
 

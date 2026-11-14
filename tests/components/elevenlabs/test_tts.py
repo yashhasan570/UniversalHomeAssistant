@@ -33,7 +33,7 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.components.tts import TextToSpeechCommonOption, TTSAudioRequest
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.core_config import async_process_ha_core_config
 
 from tests.components.tts.common import retrieve_media
@@ -149,13 +149,13 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
 
 
 @pytest.fixture
-async def calls(hass: UniversalAssistant) -> list[ServiceCall]:
+async def calls(hass: __HAC_KEEP__) -> list[ServiceCall]:
     """Mock media player calls."""
     return async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)
 
 
 @pytest.fixture(autouse=True)
-async def setup_internal_url(hass: UniversalAssistant) -> None:
+async def setup_internal_url(hass: __HAC_KEEP__) -> None:
     """Set up internal url."""
     await async_process_ha_core_config(
         hass, {"internal_url": "http://example.local:8123"}
@@ -223,7 +223,7 @@ async def setup_internal_url(hass: UniversalAssistant) -> None:
 )
 async def test_tts_service_speak(
     setup: AsyncMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     capture_stream_calls,
     calls: list[ServiceCall],
@@ -301,7 +301,7 @@ async def test_tts_service_speak(
 )
 async def test_tts_service_speak_lang_config(
     setup: AsyncMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     capture_stream_calls,
     calls: list[ServiceCall],
@@ -354,7 +354,7 @@ async def test_tts_service_speak_lang_config(
 )
 async def test_tts_service_speak_error(
     setup: AsyncMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     capture_stream_calls,
     calls: list[ServiceCall],
@@ -422,7 +422,7 @@ async def test_tts_service_speak_error(
 )
 async def test_tts_service_speak_voice_settings(
     setup: AsyncMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     capture_stream_calls,
     calls: list[ServiceCall],
@@ -483,7 +483,7 @@ async def test_tts_service_speak_voice_settings(
 )
 async def test_tts_service_speak_without_options(
     setup: AsyncMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     capture_stream_calls,
     calls: list[ServiceCall],
@@ -547,7 +547,7 @@ async def test_tts_service_speak_without_options(
 )
 async def test_stream_tts_with_request_ids(
     setup: AsyncMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     capture_stream_calls,
     stream_sentence_helpers,
@@ -631,7 +631,7 @@ async def test_stream_tts_with_request_ids(
 )
 async def test_stream_tts_without_previous_info(
     setup: AsyncMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     capture_stream_calls,
     stream_sentence_helpers,

@@ -14,7 +14,7 @@ from universalassistant.const import (
     Platform,
     UnitOfTime,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.helpers.typing import ConfigType
@@ -125,7 +125,7 @@ COMPONENT_SCHEMA = probatio.Schema(
 CONFIG_SCHEMA = probatio.Schema({DOMAIN: COMPONENT_SCHEMA}, extra=probatio.ALLOW_EXTRA)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the GreenEye Monitor component."""
     monitors = greeneye.Monitors()
     hass.data[DATA_GREENEYE_MONITOR] = monitors

@@ -8,7 +8,7 @@ import aiohttp
 from eagle100 import Eagle as Eagle100Reader
 from requests.exceptions import ConnectionError as ConnectError, HTTPError, Timeout
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import aiohttp_client
 
 from .const import TYPE_EAGLE_100, TYPE_EAGLE_200
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 UPDATE_100_ERRORS = (ConnectError, HTTPError, Timeout)
 
 
-class RainforestError(UniversalAssistantError):
+class RainforestError(__HAC_KEEP__Error):
     """Base error."""
 
 

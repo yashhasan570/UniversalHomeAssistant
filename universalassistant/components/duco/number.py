@@ -12,8 +12,8 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import EntityCategory, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import BOX_NODE_ID, DOMAIN
@@ -35,7 +35,7 @@ NUMBER_DESCRIPTIONS: tuple[NumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DucoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -134,7 +134,7 @@ class DucoBypassSupplyTemperatureTargetNumber(DucoEntity, NumberEntity):
                 self._zone_id, value, target=target
             )
         except ValueError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="invalid_bypass_supply_temperature_target_step",
                 translation_placeholders={
@@ -144,12 +144,12 @@ class DucoBypassSupplyTemperatureTargetNumber(DucoEntity, NumberEntity):
                 },
             ) from err
         except DucoRateLimitError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="rate_limit_exceeded",
             ) from err
         except DucoError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_set_bypass_supply_temperature_target",
             ) from err

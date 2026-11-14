@@ -13,7 +13,7 @@ from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.number import DOMAIN, device_action
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -24,7 +24,7 @@ from universalassistant.setup import async_setup_component
 
 
 async def test_get_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_get_actions(
     ],
 )
 async def test_get_actions_hidden_auxiliary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hidden_by,
@@ -103,7 +103,7 @@ async def test_get_actions_hidden_auxiliary(
 
 
 async def test_get_action_no_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_get_action_no_state(
 
 
 async def test_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -185,7 +185,7 @@ async def test_action(
 
 
 async def test_action_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_action_legacy(
 
 
 async def test_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -269,7 +269,7 @@ async def test_capabilities(
 
 
 async def test_capabilities_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

@@ -1,9 +1,9 @@
 """Errors for the UniFi Network integration."""
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
-class UnifiException(UniversalAssistantError):
+class UnifiException(__HAC_KEEP__Error):
     """Base class for UniFi Network exceptions."""
 
 

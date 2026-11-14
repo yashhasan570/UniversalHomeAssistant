@@ -23,7 +23,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.dt import utcnow
@@ -109,7 +109,7 @@ SENSOR_TYPES_SWITCH: tuple[MyStromSensorEntityDescription[MyStromSwitch], ...] =
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MyStromConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -21,7 +21,7 @@ from universalassistant.const import (
     UnitOfFrequency,
     UnitOfPower,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -281,7 +281,7 @@ SENSOR_UNIT_MAPPING = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -309,7 +309,7 @@ class EDL21:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: Mapping[str, Any],
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -368,7 +368,7 @@ class EDL21:
                     LOGGER.warning(
                         "Unhandled sensor %s detected. Please report at %s",
                         obis,
-                        "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+edl21%22",
+                        "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+edl21%22",
                     )
                     self._OBIS_BLACKLIST.add(obis)
 

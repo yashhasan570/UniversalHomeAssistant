@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_ENTITIES,
     CONF_NAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -59,13 +59,13 @@ from .schemas import (
 )
 
 type AsyncLcnWebSocketCommandHandler = Callable[
-    [UniversalAssistant, ActiveConnection, dict[str, Any], LcnConfigEntry], Awaitable[None]
+    [__HAC_KEEP__, ActiveConnection, dict[str, Any], LcnConfigEntry], Awaitable[None]
 ]
 
 URL_BASE: Final = "/lcn_static"
 
 
-async def register_panel_and_ws_api(hass: UniversalAssistant) -> None:
+async def register_panel_and_ws_api(hass: __HAC_KEEP__) -> None:
     """Register the LCN Panel and Websocket API."""
     websocket_api.async_register_command(hass, websocket_get_device_configs)
     websocket_api.async_register_command(hass, websocket_get_entity_configs)
@@ -103,7 +103,7 @@ def get_config_entry(
 
     @wraps(func)
     async def get_entry(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -123,7 +123,7 @@ def get_config_entry(
 @websocket_api.async_response
 @get_config_entry
 async def websocket_get_device_configs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     config_entry: LcnConfigEntry,
@@ -143,7 +143,7 @@ async def websocket_get_device_configs(
 @websocket_api.async_response
 @get_config_entry
 async def websocket_get_entity_configs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     config_entry: LcnConfigEntry,
@@ -177,7 +177,7 @@ async def websocket_get_entity_configs(
 @websocket_api.async_response
 @get_config_entry
 async def websocket_scan_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     config_entry: LcnConfigEntry,
@@ -209,7 +209,7 @@ async def websocket_scan_devices(
 @websocket_api.async_response
 @get_config_entry
 async def websocket_add_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     config_entry: LcnConfigEntry,
@@ -255,7 +255,7 @@ async def websocket_add_device(
 @websocket_api.async_response
 @get_config_entry
 async def websocket_delete_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     config_entry: LcnConfigEntry,
@@ -317,7 +317,7 @@ async def websocket_delete_device(
 @websocket_api.async_response
 @get_config_entry
 async def websocket_add_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     config_entry: LcnConfigEntry,
@@ -383,7 +383,7 @@ async def websocket_add_entity(
 @websocket_api.async_response
 @get_config_entry
 async def websocket_delete_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
     config_entry: LcnConfigEntry,
@@ -424,7 +424,7 @@ async def websocket_delete_entity(
 
 
 async def async_create_or_update_device_in_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_connection: DeviceConnection,
     config_entry: LcnConfigEntry,
 ) -> None:
@@ -455,7 +455,7 @@ async def async_create_or_update_device_in_config_entry(
 
 
 def get_entity_entry(
-    hass: UniversalAssistant, entity_config: dict[str, Any], config_entry: LcnConfigEntry
+    hass: __HAC_KEEP__, entity_config: dict[str, Any], config_entry: LcnConfigEntry
 ) -> er.RegistryEntry | None:
     """Get entity RegistryEntry from entity_config."""
     entity_registry = er.async_get(hass)

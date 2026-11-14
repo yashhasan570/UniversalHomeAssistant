@@ -2,7 +2,7 @@
 
 from typing import cast, override
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, intent
 
 from .common import NoMatchingShoppingListItem, _get_shopping_data
@@ -13,7 +13,7 @@ INTENT_COMPLETE_ITEM = "HassShoppingListCompleteItem"
 INTENT_LAST_ITEMS = "HassShoppingListLastItems"
 
 
-async def async_setup_intents(hass: UniversalAssistant) -> None:
+async def async_setup_intents(hass: __HAC_KEEP__) -> None:
     """Set up the Shopping List intents."""
     intent.async_register(hass, AddItemIntent())
     intent.async_register(hass, CompleteItemIntent())

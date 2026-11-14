@@ -13,11 +13,11 @@
     "flow_title": "{host}",
     "step": {
       "hassio_confirm": {
-        "description": "Do you want to configure Universal Universal Home Assistant to connect to the deCONZ gateway provided by the app {addon}?",
-        "title": "deCONZ Zigbee gateway via Universal Universal Home Assistant app"
+        "description": "Do you want to configure __HA_KEEP__ to connect to the deCONZ gateway provided by the app {addon}?",
+        "title": "deCONZ Zigbee gateway via __HA_KEEP__ app"
       },
       "link": {
-        "description": "Unlock your deCONZ gateway to register with Universal Universal Home Assistant.\n\n1. Go to deCONZ Settings > Gateway > Advanced\n2. Select the **Authenticate app** button",
+        "description": "Unlock your deCONZ gateway to register with __HA_KEEP__.\n\n1. Go to deCONZ Settings > Gateway > Advanced\n2. Select the **Authenticate app** button",
         "title": "Link with deCONZ"
       },
       "manual_input": {

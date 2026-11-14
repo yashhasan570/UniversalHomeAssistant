@@ -6,12 +6,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.season.const import DOMAIN, TYPE_ASTRONOMICAL
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_user_flow(hass: UniversalAssistant) -> None:
+async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -32,7 +32,7 @@ async def test_full_user_flow(hass: UniversalAssistant) -> None:
 
 
 async def test_single_instance_allowed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort if already setup."""

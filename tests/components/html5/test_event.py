@@ -16,7 +16,7 @@ from universalassistant.components.html5.http import ATTR_TYPE
 from universalassistant.components.notify import ATTR_DATA, ATTR_TARGET
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -36,7 +36,7 @@ def event_only() -> Generator[None]:
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid", "event_only")
 @pytest.mark.freeze_time("1970-01-01T00:00:00.000Z")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -81,7 +81,7 @@ async def test_setup(
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid")
 @pytest.mark.freeze_time("1970-01-01T00:00:00.000Z")
 async def test_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     load_config: MagicMock,
     event_payload: dict[str, Any],
@@ -123,7 +123,7 @@ async def test_events(
 @pytest.mark.parametrize("event_type", ["clicked", "received", "closed"])
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid")
 async def test_deprecation_event_bus(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     load_config: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -164,7 +164,7 @@ async def test_deprecation_event_bus(
 @pytest.mark.parametrize("event_type", ["clicked", "received", "closed"])
 @pytest.mark.usefixtures("mock_jwt", "mock_uuid")
 async def test_deprecation_event_bus_no_listeners(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     load_config: MagicMock,
     issue_registry: ir.IssueRegistry,

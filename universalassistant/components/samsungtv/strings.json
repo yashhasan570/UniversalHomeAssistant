@@ -2,7 +2,7 @@
   "config": {
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
-      "auth_missing": "Universal Universal Home Assistant is not authorized to connect to this Samsung TV. Check your TV's External Device Manager settings to authorize Universal Universal Home Assistant.",
+      "auth_missing": "__HA_KEEP__ is not authorized to connect to this Samsung TV. Check your TV's External Device Manager settings to authorize __HA_KEEP__.",
       "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
       "id_missing": "This Samsung device doesn't have a serial number to identify it.",
       "not_supported": "This Samsung device is currently not supported."
@@ -15,7 +15,7 @@
     "flow_title": "{device}",
     "step": {
       "confirm": {
-        "description": "Do you want to set up {device}? If you have never connected Universal Universal Home Assistant before, you should see a popup on your TV asking for authorization."
+        "description": "Do you want to set up {device}? If you have never connected __HA_KEEP__ before, you should see a popup on your TV asking for authorization."
       },
       "encrypted_pairing": {
         "data": {
@@ -57,9 +57,9 @@
         },
         "data_description": {
           "host": "The hostname or IP address of your TV.",
-          "name": "The name of your TV. This will be used to identify the device in Universal Universal Home Assistant."
+          "name": "The name of your TV. This will be used to identify the device in __HA_KEEP__."
         },
-        "description": "Enter your Samsung TV information. If you have never connected Universal Universal Home Assistant before, you should see a popup on your TV asking for authorization."
+        "description": "Enter your Samsung TV information. If you have never connected __HA_KEEP__ before, you should see a popup on your TV asking for authorization."
       }
     }
   },

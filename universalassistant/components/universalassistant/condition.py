@@ -1,11 +1,11 @@
-"""Offer Universal Universal Home Assistant system state conditions."""
+"""Offer __HA_KEEP__ system state conditions."""
 
 from typing import Unpack, cast, override
 
 import probatio
 
 from universalassistant.const import CONF_OPTIONS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import system_state
 from universalassistant.helpers.condition import Condition, ConditionCheckParams
 from universalassistant.helpers.typing import ConfigType
@@ -21,14 +21,14 @@ class _SystemStateCondition(Condition):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _SYSTEM_STATE_CONDITION_SCHEMA(config))
 
 
 class RestartRequiredCondition(_SystemStateCondition):
-    """Test if Universal Universal Home Assistant needs a restart."""
+    """Test if __HA_KEEP__ needs a restart."""
 
     @override
     def _async_check(self, **kwargs: Unpack[ConditionCheckParams]) -> bool:
@@ -51,6 +51,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
-    """Return the Universal Universal Home Assistant conditions."""
+async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
+    """Return the __HA_KEEP__ conditions."""
     return CONDITIONS

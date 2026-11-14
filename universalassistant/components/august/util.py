@@ -9,7 +9,7 @@ from yalexs.doorbell import DoorbellDetail
 from yalexs.lock import LockDetail
 from yalexs.manager.const import ACTIVITY_UPDATE_INTERVAL
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import aiohttp_client
 from universalassistant.util import dt as dt_util
 
@@ -19,7 +19,7 @@ TIME_TO_DECLARE_DETECTION = timedelta(seconds=ACTIVITY_UPDATE_INTERVAL.total_sec
 
 
 @callback
-def async_create_august_clientsession(hass: UniversalAssistant) -> aiohttp.ClientSession:
+def async_create_august_clientsession(hass: __HAC_KEEP__) -> aiohttp.ClientSession:
     """Create an aiohttp session for the august integration."""
     # Create an aiohttp session instead of using the default one since the
     # default one is likely to trigger august's WAF if another integration

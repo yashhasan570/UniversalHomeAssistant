@@ -13,8 +13,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = [
@@ -24,7 +24,7 @@ pytestmark = [
 
 
 async def test_button_app_next(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -72,7 +72,7 @@ async def test_button_app_next(
 
 
 async def test_button_app_previous(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -119,7 +119,7 @@ async def test_button_app_previous(
 
 
 async def test_button_dismiss_current_notification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -170,7 +170,7 @@ async def test_button_dismiss_current_notification(
 
 
 async def test_button_dismiss_all_notifications(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -221,14 +221,14 @@ async def test_button_dismiss_all_notifications(
 
 
 async def test_button_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test error handling of the LaMetric buttons."""
     mock_lametric.app_next.side_effect = LaMetricError
 
     with pytest.raises(
-        UniversalAssistantError, match="Invalid response from the LaMetric device"
+        __HAC_KEEP__Error, match="Invalid response from the LaMetric device"
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,
@@ -243,14 +243,14 @@ async def test_button_error(
 
 
 async def test_button_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lametric: MagicMock,
 ) -> None:
     """Test connection error handling of the LaMetric buttons."""
     mock_lametric.app_next.side_effect = LaMetricConnectionError
 
     with pytest.raises(
-        UniversalAssistantError, match="Error communicating with the LaMetric device"
+        __HAC_KEEP__Error, match="Error communicating with the LaMetric device"
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,

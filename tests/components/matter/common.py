@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.matter import DOMAIN
 from universalassistant.components.matter.const import ID_TYPE_DEVICE_ID
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 FIXTURES = [
@@ -154,7 +154,7 @@ def load_and_parse_node_fixture(fixture: str) -> dict[str, Any]:
 
 
 async def _setup_integration_with_nodes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     nodes: list[MatterNode],
 ) -> None:
@@ -178,7 +178,7 @@ async def _setup_integration_with_nodes(
 
 
 async def setup_integration_with_node_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     node_fixture: str,
     client: MagicMock,
     override_attributes: dict[str, Any] | None = None,
@@ -192,7 +192,7 @@ async def setup_integration_with_node_fixture(
 
 
 async def setup_integration_with_node_fixtures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
 ) -> None:
     """Set up Matter integration with all fixtures as nodes."""
@@ -238,7 +238,7 @@ def set_node_attribute(
 
 
 async def trigger_subscription_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     event: EventType = EventType.ATTRIBUTE_UPDATED,
     data: Any = None,
@@ -262,7 +262,7 @@ async def trigger_subscription_callback(
 
 
 async def set_node_attribute_and_notify(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     node: MatterNode,
     *,
@@ -292,7 +292,7 @@ def _get_fixture_names() -> dict[int, str]:
 
 
 def snapshot_matter_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     platform: Platform,
@@ -337,7 +337,7 @@ def _device_entity_names(
 
 
 def snapshot_matter_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

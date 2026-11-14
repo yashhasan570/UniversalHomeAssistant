@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.portainer.const import CONTAINER_STATE_EVENT_TYPES, DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -25,7 +25,7 @@ from .conftest import TEST_CONTAINER_ID, TEST_CONTAINER_NAME
 
 
 async def _fire_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_event_listeners: dict[int, MagicMock],
     endpoint_id: int,
     action: str,
@@ -53,7 +53,7 @@ def enable_all_entities(entity_registry_enabled_by_default: None) -> None:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_portainer_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -73,7 +73,7 @@ async def test_all_entities(
 @pytest.mark.freeze_time("2023-10-21")
 @pytest.mark.parametrize("expected_event_type", CONTAINER_STATE_EVENT_TYPES)
 async def test_state_event_triggers_entity_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_client: AsyncMock,
     mock_portainer_event_listeners: dict[int, MagicMock],
     mock_config_entry: MockConfigEntry,
@@ -111,7 +111,7 @@ async def test_state_event_triggers_entity_event(
 
 @pytest.mark.usefixtures("mock_portainer_client")
 async def test_ignored_action_does_not_change_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_event_listeners: dict[int, MagicMock],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_ignored_action_does_not_change_data(
 
 @pytest.mark.usefixtures("mock_portainer_client")
 async def test_unknown_container_id_does_not_change_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_portainer_event_listeners: dict[int, MagicMock],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -169,7 +169,7 @@ TEST_CONTAINER_SWITCH = f"switch.{TEST_CONTAINER_NAME}_container"
 )
 @pytest.mark.usefixtures("mock_portainer_client")
 async def test_docker_event_updates_container_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_portainer_event_listeners: dict[int, MagicMock],
     action: str,
@@ -188,7 +188,7 @@ async def test_docker_event_updates_container_switch(
 
 @pytest.mark.usefixtures("mock_portainer_client")
 async def test_docker_start_event_turns_container_switch_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_portainer_event_listeners: dict[int, MagicMock],
 ) -> None:

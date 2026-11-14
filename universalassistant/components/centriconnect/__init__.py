@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import CentriConnectConfigEntry, CentriConnectCoordinator
 
@@ -13,7 +13,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: CentriConnectConfigEntry
+    hass: __HAC_KEEP__, entry: CentriConnectConfigEntry
 ) -> None:
     """Set up CentriConnect/MyPropane API from a config entry."""
     coordinator = CentriConnectCoordinator(hass, entry)
@@ -23,7 +23,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: CentriConnectConfigEntry
+    hass: __HAC_KEEP__, entry: CentriConnectConfigEntry
 ) -> None:
     """Unload CentriConnect/MyPropane API integration platforms and coordinator."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

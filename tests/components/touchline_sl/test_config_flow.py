@@ -9,7 +9,7 @@ from pytouchlinesl.client import RothAPIError
 from universalassistant.components.touchline_sl.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 RESULT_UNIQUE_ID = "12345"
@@ -21,7 +21,7 @@ CONFIG_DATA = {
 
 
 async def test_config_flow_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_touchlinesl_client: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_touchlinesl_client: AsyncMock
 ) -> None:
     """Test the happy path where username/password result in a new entry."""
     result = await hass.config_entries.flow.async_init(
@@ -51,7 +51,7 @@ async def test_config_flow_success(
     ],
 )
 async def test_config_flow_failure_api_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     error_base: str,
     mock_setup_entry: AsyncMock,
@@ -90,7 +90,7 @@ async def test_config_flow_failure_api_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_failure_adding_non_unique_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_touchlinesl_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_config_flow_failure_adding_non_unique_account(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_touchlinesl_client")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reauthentication flow updates the password."""
@@ -147,7 +147,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_touchlinesl_client: AsyncMock,
     exception: Exception,
@@ -179,7 +179,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_touchlinesl_client: AsyncMock,
 ) -> None:

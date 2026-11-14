@@ -14,12 +14,12 @@ from universalassistant.components.proximity.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ZONE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_entry_diagnostics(
 
 
 async def test_entry_diagnostics_renamed_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:

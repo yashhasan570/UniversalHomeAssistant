@@ -10,7 +10,7 @@ from universalassistant.components.light import (
     ColorMode,
     LightEntity,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BAFConfigEntry
@@ -18,7 +18,7 @@ from .entity import BAFEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BAFConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

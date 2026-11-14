@@ -5,14 +5,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.elkm1.const import DOMAIN
 from universalassistant.components.elkm1.util import deprecate_entity
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
 ISSUE_ID = "deprecated_sensor_elkm1_setting_1"
 
 
 async def test_deprecate_entity_issue_linked_to_owner_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:

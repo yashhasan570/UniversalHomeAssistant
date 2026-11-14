@@ -36,72 +36,72 @@ from universalassistant.const import (
     SERVICE_VOLUME_SET,
     SERVICE_VOLUME_UP,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def async_turn_on(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_turn_on(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Turn on specified media player or all."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(DOMAIN, SERVICE_TURN_ON, data, blocking=True)
 
 
-def turn_on(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def turn_on(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Turn on specified media player or all."""
     hass.add_job(async_turn_on, hass, entity_id)
 
 
 async def async_turn_off(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Turn off specified media player or all."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(DOMAIN, SERVICE_TURN_OFF, data, blocking=True)
 
 
-def turn_off(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def turn_off(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Turn off specified media player or all."""
     hass.add_job(async_turn_off, hass, entity_id)
 
 
-async def async_toggle(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+async def async_toggle(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Toggle specified media player or all."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(DOMAIN, SERVICE_TOGGLE, data, blocking=True)
 
 
-def toggle(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def toggle(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Toggle specified media player or all."""
     hass.add_job(async_toggle, hass, entity_id)
 
 
 async def async_volume_up(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for volume up."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(DOMAIN, SERVICE_VOLUME_UP, data, blocking=True)
 
 
-def volume_up(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def volume_up(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Send the media player the command for volume up."""
     hass.add_job(async_volume_up, hass, entity_id)
 
 
 async def async_volume_down(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for volume down."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(DOMAIN, SERVICE_VOLUME_DOWN, data, blocking=True)
 
 
-def volume_down(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def volume_down(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Send the media player the command for volume down."""
     hass.add_job(async_volume_down, hass, entity_id)
 
 
 async def async_mute_volume(
-    hass: UniversalAssistant, mute: bool, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, mute: bool, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for muting the volume."""
     data = {ATTR_MEDIA_VOLUME_MUTED: mute}
@@ -113,14 +113,14 @@ async def async_mute_volume(
 
 
 def mute_volume(
-    hass: UniversalAssistant, mute: bool, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, mute: bool, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for muting the volume."""
     hass.add_job(async_mute_volume, hass, mute, entity_id)
 
 
 async def async_set_volume_level(
-    hass: UniversalAssistant, volume: float, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, volume: float, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for setting the volume."""
     data = {ATTR_MEDIA_VOLUME_LEVEL: volume}
@@ -132,14 +132,14 @@ async def async_set_volume_level(
 
 
 def set_volume_level(
-    hass: UniversalAssistant, volume: float, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, volume: float, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for setting the volume."""
     hass.add_job(async_set_volume_level, hass, volume, entity_id)
 
 
 async def async_media_play_pause(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for play/pause."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
@@ -148,52 +148,52 @@ async def async_media_play_pause(
     )
 
 
-def media_play_pause(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def media_play_pause(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Send the media player the command for play/pause."""
     hass.add_job(async_media_play_pause, hass, entity_id)
 
 
 async def async_media_play(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for play/pause."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(DOMAIN, SERVICE_MEDIA_PLAY, data, blocking=True)
 
 
-def media_play(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def media_play(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Send the media player the command for play/pause."""
     hass.add_job(async_media_play, hass, entity_id)
 
 
 async def async_media_pause(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for pause."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(DOMAIN, SERVICE_MEDIA_PAUSE, data, blocking=True)
 
 
-def media_pause(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def media_pause(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Send the media player the command for pause."""
     hass.add_job(async_media_pause, hass, entity_id)
 
 
 async def async_media_stop(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for stop."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(DOMAIN, SERVICE_MEDIA_STOP, data, blocking=True)
 
 
-def media_stop(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def media_stop(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Send the media player the command for stop."""
     hass.add_job(async_media_stop, hass, entity_id)
 
 
 async def async_media_next_track(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for next track."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
@@ -202,13 +202,13 @@ async def async_media_next_track(
     )
 
 
-def media_next_track(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def media_next_track(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Send the media player the command for next track."""
     hass.add_job(async_media_next_track, hass, entity_id)
 
 
 async def async_media_previous_track(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for prev track."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
@@ -218,14 +218,14 @@ async def async_media_previous_track(
 
 
 def media_previous_track(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for prev track."""
     hass.add_job(async_media_previous_track, hass, entity_id)
 
 
 async def async_media_seek(
-    hass: UniversalAssistant, position: float, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, position: float, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command to seek in current playing media."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
@@ -234,14 +234,14 @@ async def async_media_seek(
 
 
 def media_seek(
-    hass: UniversalAssistant, position: float, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, position: float, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command to seek in current playing media."""
     hass.add_job(async_media_seek, hass, position, entity_id)
 
 
 async def async_play_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_type: str,
     media_id: str,
     entity_id: str = ENTITY_MATCH_ALL,
@@ -260,7 +260,7 @@ async def async_play_media(
 
 
 def play_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_type: str,
     media_id: str,
     entity_id: str = ENTITY_MATCH_ALL,
@@ -271,7 +271,7 @@ def play_media(
 
 
 async def async_select_source(
-    hass: UniversalAssistant, source: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, source: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command to select input source."""
     data = {ATTR_INPUT_SOURCE: source}
@@ -283,20 +283,20 @@ async def async_select_source(
 
 
 def select_source(
-    hass: UniversalAssistant, source: str, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, source: str, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command to select input source."""
     hass.add_job(async_select_source, hass, source, entity_id)
 
 
 async def async_clear_playlist(
-    hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL
+    hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL
 ) -> None:
     """Send the media player the command for clear playlist."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(DOMAIN, SERVICE_CLEAR_PLAYLIST, data, blocking=True)
 
 
-def clear_playlist(hass: UniversalAssistant, entity_id: str = ENTITY_MATCH_ALL) -> None:
+def clear_playlist(hass: __HAC_KEEP__, entity_id: str = ENTITY_MATCH_ALL) -> None:
     """Send the media player the command for clear playlist."""
     hass.add_job(async_clear_playlist, hass, entity_id)

@@ -16,7 +16,7 @@ from universalassistant.components.tts import (
     TtsAudioType,
 )
 from universalassistant.const import ATTR_CREDENTIALS, CONF_PROFILE_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.generated.amazon_polly import (
     SUPPORTED_ENGINES,
     SUPPORTED_REGIONS,
@@ -89,7 +89,7 @@ PLATFORM_SCHEMA: Final = TTS_PLATFORM_SCHEMA.extend(
 
 
 def get_engine(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> Provider | None:

@@ -5,13 +5,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.nextbus.const import CONF_AGENCY, CONF_ROUTE, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import VALID_AGENCY_TITLE, VALID_ROUTE_TITLE, VALID_STOP_TITLE
 
 
 async def assert_setup_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, dict[str, str]],
     expected_state=ConfigEntryState.LOADED,
     route_title: str = VALID_ROUTE_TITLE,

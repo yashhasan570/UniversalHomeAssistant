@@ -14,7 +14,7 @@ from universalassistant.config_entries import (
 )
 from universalassistant.const import CONF_IP_ADDRESS, CONF_MAC
 from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.selector import SelectSelector, SelectSelectorConfig
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -352,7 +352,7 @@ class NoboHubConfigFlow(ConfigFlow, domain=DOMAIN):
         return OptionsFlowHandler()
 
 
-class NoboHubConnectError(UniversalAssistantError):
+class NoboHubConnectError(__HAC_KEEP__Error):
     """Error with connecting to Nobø Ecohub."""
 
     def __init__(self, msg: str) -> None:

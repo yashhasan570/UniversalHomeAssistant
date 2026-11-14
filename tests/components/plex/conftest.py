@@ -9,7 +9,7 @@ import requests_mock
 
 from universalassistant.components.plex.const import DOMAIN, PLEX_SERVER_CONFIG
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DEFAULT_DATA, DEFAULT_OPTIONS, PLEX_DIRECT_URL
 from .helpers import websocket_connected
@@ -546,7 +546,7 @@ def mock_plex_calls(
 
 @pytest.fixture
 def setup_plex_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry,
     livetv_sessions,
     mock_websocket,

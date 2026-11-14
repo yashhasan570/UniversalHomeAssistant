@@ -8,7 +8,7 @@ from unittest.mock import Mock, patch
 import pytest
 from pytest_universalassistant.common import extract_stack_to_frame
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import loop as haloop
 
 
@@ -73,7 +73,7 @@ async def test_raise_for_blocking_call_async_non_strict_core(
     assert "Detected blocking call to banned_function" in caplog.text
     assert "Traceback (most recent call last)" in caplog.text
     assert (
-        "Please create a bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues"
+        "Please create a bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues"
         in caplog.text
     )
     assert (
@@ -135,7 +135,7 @@ async def test_raise_for_blocking_call_async_integration(
         " inside the event loop by integration"
         " 'hue' at universalassistant/components/hue/light.py, line 18: self.light.is_on "
         "(offender: /home/paulus/aiohue/lights.py, line 8: mock_line), please create "
-        "a bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues?"
+        "a bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues?"
         "q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+hue%22" in caplog.text
     )
     assert (
@@ -173,7 +173,7 @@ async def test_raise_for_blocking_call_async_integration_non_strict(
         " inside the event loop by integration"
         " 'hue' at universalassistant/components/hue/light.py, line 15: self.light.is_on "
         "(offender: /home/paulus/aiohue/lights.py, line 1: mock_line), "
-        "please create a bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues?"
+        "please create a bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues?"
         "q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+hue%22" in caplog.text
     )
     assert "Traceback (most recent call last)" in caplog.text
@@ -182,7 +182,7 @@ async def test_raise_for_blocking_call_async_integration_non_strict(
         in caplog.text
     )
     assert (
-        "please create a bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues"
+        "please create a bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues"
         in caplog.text
     )
     assert (
@@ -239,7 +239,7 @@ async def test_raise_for_blocking_call_async_custom(
         " inside the event loop by custom "
         "integration 'hue' at custom_components/hue/light.py, line 12: self.light.is_on"
         " (offender: /home/paulus/aiohue/lights.py, line 3: mock_line), "
-        "please create a bug report at https://github.com/yashhasan570/UniversalUniversalAssistant/issues?"
+        "please create a bug report at https://github.com/yashhasan570/__HAC_KEEP__/issues?"
         "q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+hue%22"
     ) in caplog.text
     assert "Traceback (most recent call last)" in caplog.text
@@ -254,7 +254,7 @@ async def test_raise_for_blocking_call_async_custom(
 
 
 async def test_raise_for_blocking_call_sync(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test raise_for_blocking_call does nothing when called from thread."""
     func = haloop.protect_loop(banned_function, threading.get_ident())

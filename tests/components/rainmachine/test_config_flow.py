@@ -15,14 +15,14 @@ from universalassistant.components.rainmachine.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_PORT, CONF_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 
 @pytest.mark.usefixtures("config_entry")
-async def test_duplicate_error(hass: UniversalAssistant) -> None:
+async def test_duplicate_error(hass: __HAC_KEEP__) -> None:
     """Test that errors are shown when duplicates are added."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -43,7 +43,7 @@ async def test_duplicate_error(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_invalid_password(hass: UniversalAssistant, client: AsyncMock) -> None:
+async def test_invalid_password(hass: __HAC_KEEP__, client: AsyncMock) -> None:
     """Test that an invalid password throws an error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -103,7 +103,7 @@ async def test_invalid_password(hass: UniversalAssistant, client: AsyncMock) -> 
     ],
 )
 async def test_migrate_1_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     client: AsyncMock,
     config_entry: MockConfigEntry,
@@ -144,7 +144,7 @@ async def test_migrate_1_2(
     assert entity_registry.async_get_entity_id(platform, DOMAIN, old_unique_id) is None
 
 
-async def test_options_flow(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def test_options_flow(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Test config flow options."""
     with patch(
         "universalassistant.components.rainmachine.async_setup_entry", return_value=None
@@ -170,7 +170,7 @@ async def test_options_flow(hass: UniversalAssistant, config_entry: MockConfigEn
         }
 
 
-async def test_show_form(hass: UniversalAssistant) -> None:
+async def test_show_form(hass: __HAC_KEEP__) -> None:
     """Test that the form is served with no input."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -180,7 +180,7 @@ async def test_show_form(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_rainmachine")
-async def test_step_user(hass: UniversalAssistant, controller_mac: str) -> None:
+async def test_step_user(hass: __HAC_KEEP__, controller_mac: str) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -214,7 +214,7 @@ async def test_step_user(hass: UniversalAssistant, controller_mac: str) -> None:
 )
 @pytest.mark.usefixtures("config_entry")
 async def test_step_homekit_zeroconf_ip_already_exists(
-    hass: UniversalAssistant, client: AsyncMock, source: str
+    hass: __HAC_KEEP__, client: AsyncMock, source: str
 ) -> None:
     """Test homekit and zeroconf with an ip that already exists."""
     with patch(
@@ -242,7 +242,7 @@ async def test_step_homekit_zeroconf_ip_already_exists(
     "source", [config_entries.SOURCE_ZEROCONF, config_entries.SOURCE_HOMEKIT]
 )
 async def test_step_homekit_zeroconf_ip_change(
-    hass: UniversalAssistant, client: AsyncMock, config_entry: MockConfigEntry, source: str
+    hass: __HAC_KEEP__, client: AsyncMock, config_entry: MockConfigEntry, source: str
 ) -> None:
     """Test zeroconf with an ip change."""
     with patch(
@@ -271,7 +271,7 @@ async def test_step_homekit_zeroconf_ip_change(
     "source", [config_entries.SOURCE_ZEROCONF, config_entries.SOURCE_HOMEKIT]
 )
 async def test_step_homekit_zeroconf_new_controller_when_some_exist(
-    hass: UniversalAssistant, client: AsyncMock, controller_mac: str, source: str
+    hass: __HAC_KEEP__, client: AsyncMock, controller_mac: str, source: str
 ) -> None:
     """Test homekit and zeroconf for a new controller when one already exists."""
     with patch(
@@ -326,7 +326,7 @@ async def test_step_homekit_zeroconf_new_controller_when_some_exist(
 
 
 async def test_discovery_by_homekit_and_zeroconf_same_time(
-    hass: UniversalAssistant, client: AsyncMock
+    hass: __HAC_KEEP__, client: AsyncMock
 ) -> None:
     """Test the same controller gets discovered by two different methods."""
     with patch(

@@ -8,11 +8,11 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_easyenergy: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_easyenergy: MagicMock
 ) -> None:
     """Test the easyEnergy configuration entry loading/unloading."""
     mock_config_entry.add_to_hass(hass)
@@ -29,7 +29,7 @@ async def test_load_unload_config_entry(
 
 @pytest.mark.freeze_time("2026-04-19 14:00:00+00:00")
 async def test_load_config_entry_without_tomorrow_energy_data(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_easyenergy: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_easyenergy: MagicMock
 ) -> None:
     """Test the entry loads when tomorrow's energy data is not available yet."""
     mock_easyenergy.energy_prices.side_effect = [
@@ -52,7 +52,7 @@ async def test_load_config_entry_without_tomorrow_energy_data(
 )
 async def test_config_flow_entry_not_ready(
     mock_request: MagicMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the easyEnergy configuration entry not ready."""
@@ -66,7 +66,7 @@ async def test_config_flow_entry_not_ready(
 
 @pytest.mark.freeze_time("2026-04-19 14:00:00+00:00")
 async def test_no_energy_tomorrow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_easyenergy: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_easyenergy: MagicMock
 ) -> None:
     """Test the coordinator handles missing tomorrow energy prices."""
     mock_easyenergy.energy_prices.side_effect = [

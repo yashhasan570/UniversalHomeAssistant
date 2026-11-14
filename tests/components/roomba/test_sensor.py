@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.roomba.const import CONF_BLID, DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -27,7 +27,7 @@ def _config_entry(blid: str) -> MockConfigEntry:
     )
 
 
-def _dock_tank_level_entities(hass: UniversalAssistant) -> list[str]:
+def _dock_tank_level_entities(hass: __HAC_KEEP__) -> list[str]:
     """Return every dock tank level entity currently set up."""
     return sorted(
         entity_id
@@ -38,7 +38,7 @@ def _dock_tank_level_entities(hass: UniversalAssistant) -> list[str]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -54,7 +54,7 @@ async def test_entities(
 
 
 async def test_two_docked_robots_do_not_collide(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roomba: AsyncMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_two_docked_robots_do_not_collide(
 
 
 async def test_robot_without_dock_has_no_dock_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roomba: AsyncMock,
 ) -> None:
     """Test a robot without a dock does not get a dock sensor.
@@ -104,7 +104,7 @@ async def test_robot_without_dock_has_no_dock_sensor(
 
 
 async def test_rssi_refreshes_on_wifi_only_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -158,7 +158,7 @@ async def test_rssi_refreshes_on_wifi_only_message(
     ],
 )
 async def test_lifetime_stats_from_run_report(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
     entity_registry: er.EntityRegistry,

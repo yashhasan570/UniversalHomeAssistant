@@ -1,7 +1,7 @@
 {
   "config": {
     "abort": {
-      "no_home": "No home coordinates are set in the Universal Universal Home Assistant configuration"
+      "no_home": "No home coordinates are set in the __HA_KEEP__ configuration"
     },
     "error": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_service%]"

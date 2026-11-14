@@ -8,7 +8,7 @@ from mysensors import BaseAsyncGateway, Sensor
 from mysensors.sensor import ChildSensor
 
 from universalassistant.const import ATTR_BATTERY_LEVEL, CONF_DEVICE, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -29,7 +29,7 @@ ATTR_HEARTBEAT = "heartbeat"
 class MySensorNodeEntity(Entity):
     """Representation of a MySensors device."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
 
     def __init__(self, config_entry: MySensorsConfigEntry, node_id: int) -> None:
         """Set up the MySensors node entity."""

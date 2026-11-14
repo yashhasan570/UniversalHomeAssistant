@@ -19,7 +19,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -72,13 +72,13 @@ DEVICE_EXCEPTIONS = (
 type AppleTvConfigEntry = ConfigEntry[AppleTVManager]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Apple TV component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AppleTvConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AppleTvConfigEntry) -> None:
     """Set up a config entry for Apple TV."""
     manager = AppleTVManager(hass, entry)
 
@@ -114,7 +114,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AppleTvConfigEntry)
     await manager.init()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AppleTvConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AppleTvConfigEntry) -> None:
     """Unload an Apple TV config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -132,7 +132,7 @@ class AppleTVManager(DeviceListener):
     _connection_was_lost = False
     _task: asyncio.Task[None] | None = None
 
-    def __init__(self, hass: UniversalAssistant, config_entry: AppleTvConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: AppleTvConfigEntry) -> None:
         """Initialize power manager."""
         self.config_entry = config_entry
         self.hass = hass

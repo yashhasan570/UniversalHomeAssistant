@@ -6,8 +6,8 @@ import probatio
 from pydeconz import errors
 from pydeconz.utils import normalize_bridge_id
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -62,7 +62,7 @@ SERVICE_TO_SCHEMA = {
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for deCONZ integration."""
 
     async def async_call_deconz_service(service_call: ServiceCall) -> None:
@@ -156,7 +156,7 @@ async def async_configure_service(hub: DeconzHub, data: ReadOnlyDict) -> None:
     try:
         await hub.api.request("put", field, json=data)
     except (TimeoutError, errors.pydeconzException) as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="configure_failed",
         ) from err
@@ -170,7 +170,7 @@ async def async_refresh_devices_service(hub: DeconzHub) -> None:
         await hub.api.refresh_state()
         hub.load_ignored_devices()
     except (TimeoutError, errors.pydeconzException) as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_refresh_failed",
         ) from err

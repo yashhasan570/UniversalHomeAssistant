@@ -11,7 +11,7 @@ import probatio
 from probatio.humanize import humanize_error
 
 from universalassistant.const import CONF_SELECTOR
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, selector, service
 from universalassistant.util.yaml import load_yaml_dict
 
@@ -227,7 +227,7 @@ def validate_services(config: Config, integration: Integration) -> None:  # noqa
                 "services", "Registers services but has no services.yaml"
             )
         return
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         integration.add_error("services", "Invalid services.yaml")
         return
 

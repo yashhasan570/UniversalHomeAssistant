@@ -23,8 +23,8 @@ from universalassistant.components.camera import (
     WebRTCError,
     WebRTCSendMessage,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_aiohttp_proxy_stream
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -72,7 +72,7 @@ CAMERA_DESCRIPTIONS: tuple[RingCameraEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -163,7 +163,7 @@ class RingCam(RingEntity[RingDoorBell], Camera):
         """Return a still image response from the camera."""
         if self._video_url is None:
             if not self._device.has_subscription:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="no_subscription",
                 )
@@ -237,7 +237,7 @@ class RingCam(RingEntity[RingDoorBell], Camera):
     ) -> None:
         """Handle a WebRTC candidate."""
         if candidate.sdp_m_line_index is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="sdp_m_line_index_required",
                 translation_placeholders={

@@ -39,7 +39,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.ouman_eh_800.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_URL = "http://192.168.1.100"
 TEST_USERNAME = "test-user"
@@ -277,7 +277,7 @@ def mock_ouman_client(registry_set: OumanRegistrySet) -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ouman_client: AsyncMock,
     request: pytest.FixtureRequest,

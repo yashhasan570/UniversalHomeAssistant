@@ -7,7 +7,7 @@ from universalassistant.components.application_credentials import (
     AuthorizationServer,
     ClientCredential,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import SCOPE_VALUES
 
@@ -19,7 +19,7 @@ class ElectricKiwiLocalOAuth2Implementation(AuthImplementation):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         domain: str,
         client_credential: ClientCredential,
         authorization_server: AuthorizationServer,

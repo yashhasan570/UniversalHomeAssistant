@@ -60,7 +60,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import Context, Event, UniversalAssistant
+from universalassistant.core import Context, Event, __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entityfilter import CONF_ENTITY_GLOBS
 from universalassistant.setup import async_setup_component
@@ -78,19 +78,19 @@ EMPTY_CONFIG = logbook.CONFIG_SCHEMA({logbook.DOMAIN: {}})
 
 
 @pytest.fixture
-async def hass_(recorder_mock: Recorder, hass: UniversalAssistant) -> UniversalAssistant:
+async def hass_(recorder_mock: Recorder, hass: __HAC_KEEP__) -> __HAC_KEEP__:
     """Set up things to be run when tests are started."""
     assert await async_setup_component(hass, logbook.DOMAIN, EMPTY_CONFIG)
     return hass
 
 
 @pytest.fixture
-async def set_utc(hass: UniversalAssistant) -> None:
+async def set_utc(hass: __HAC_KEEP__) -> None:
     """Set timezone to UTC."""
     await hass.config.async_set_time_zone("UTC")
 
 
-async def test_service_call_create_logbook_entry(hass_: UniversalAssistant) -> None:
+async def test_service_call_create_logbook_entry(hass_: __HAC_KEEP__) -> None:
     """Test if service call create log book entry."""
     calls = async_capture_events(hass_, EVENT_LOGBOOK_ENTRY)
 
@@ -145,7 +145,7 @@ async def test_service_call_create_logbook_entry(hass_: UniversalAssistant) -> N
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_service_call_create_logbook_entry_invalid_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if service call create log book entry with an invalid entity id."""
     await async_setup_component(hass, DOMAIN, {})
@@ -175,7 +175,7 @@ async def test_service_call_create_logbook_entry_invalid_entity_id(
 
 
 async def test_service_call_create_log_book_entry_no_message(
-    hass_: UniversalAssistant,
+    hass_: __HAC_KEEP__,
 ) -> None:
     """Test if service call create log book entry without message."""
     calls = async_capture_events(hass_, EVENT_LOGBOOK_ENTRY)
@@ -192,7 +192,7 @@ async def test_service_call_create_log_book_entry_no_message(
 
 
 async def test_filter_sensor(
-    hass_: UniversalAssistant,
+    hass_: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_filter_sensor(
     _assert_entry(entries[2], name="ble", entity_id=entity_id4, state="10")
 
 
-async def test_universal_assistant_start_stop_not_grouped(hass_: UniversalAssistant) -> None:
+async def test_universal_assistant_start_stop_not_grouped(hass_: __HAC_KEEP__) -> None:
     """Test if HA start and stop events are no longer grouped."""
     await async_setup_component(hass_, "universalassistant", {})
     await hass_.async_block_till_done()
@@ -253,11 +253,11 @@ async def test_universal_assistant_start_stop_not_grouped(hass_: UniversalAssist
     )
 
     assert len(entries) == 2
-    assert_entry(entries[0], name="Universal Universal Home Assistant", message="stopped", domain=ha.DOMAIN)
-    assert_entry(entries[1], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN)
+    assert_entry(entries[0], name="__HA_KEEP__", message="stopped", domain=ha.DOMAIN)
+    assert_entry(entries[1], name="__HA_KEEP__", message="started", domain=ha.DOMAIN)
 
 
-async def test_universal_assistant_start(hass_: UniversalAssistant) -> None:
+async def test_universal_assistant_start(hass_: __HAC_KEEP__) -> None:
     """Test if HA start is not filtered or converted into a restart."""
     await async_setup_component(hass_, "universalassistant", {})
     await hass_.async_block_till_done()
@@ -273,11 +273,11 @@ async def test_universal_assistant_start(hass_: UniversalAssistant) -> None:
     )
 
     assert len(entries) == 2
-    assert_entry(entries[0], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN)
+    assert_entry(entries[0], name="__HA_KEEP__", message="started", domain=ha.DOMAIN)
     assert_entry(entries[1], pointA, "bla", entity_id=entity_id)
 
 
-def test_process_custom_logbook_entries(hass_: UniversalAssistant) -> None:
+def test_process_custom_logbook_entries(hass_: __HAC_KEEP__) -> None:
     """Test if custom log book entries get added as an entry."""
     name = "Nice name"
     message = "has a custom entry"
@@ -365,7 +365,7 @@ def create_state_changed_event_from_old_new(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_view(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view."""
     await async_setup_component(hass, DOMAIN, {})
@@ -377,7 +377,7 @@ async def test_logbook_view(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_view_invalid_start_date_time(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view with an invalid date time."""
     await async_setup_component(hass, DOMAIN, {})
@@ -389,7 +389,7 @@ async def test_logbook_view_invalid_start_date_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_view_invalid_end_date_time(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view."""
     await async_setup_component(hass, DOMAIN, {})
@@ -403,7 +403,7 @@ async def test_logbook_view_invalid_end_date_time(
 
 @pytest.mark.usefixtures("recorder_mock", "set_utc")
 async def test_logbook_view_period_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test the logbook view with period and entity."""
@@ -488,7 +488,7 @@ async def test_logbook_view_period_entity(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_describe_event(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test teaching logbook about a new event."""
 
@@ -537,7 +537,7 @@ async def test_logbook_describe_event(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_exclude_described_event(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test exclusions of events that are described by another integration."""
     name = "My Automation Rule"
@@ -554,7 +554,7 @@ async def test_exclude_described_event(
         }
 
     def async_describe_events(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         async_describe_event: Callable[
             [str, str, Callable[[Event], dict[str, str]]], None
         ],
@@ -612,7 +612,7 @@ async def test_exclude_described_event(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_view_end_time_entity(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view with end_time and entity."""
     await async_setup_component(hass, DOMAIN, {})
@@ -673,7 +673,7 @@ async def test_logbook_view_end_time_entity(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_entity_filter_with_automations(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view with end_time and entity with automations and scripts."""
     await asyncio.gather(
@@ -760,7 +760,7 @@ async def test_logbook_entity_filter_with_automations(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_entity_no_longer_in_state_machine(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test logbook view with entity removed from state machine."""
     await async_setup_component(hass, DOMAIN, {})
@@ -800,7 +800,7 @@ async def test_logbook_entity_no_longer_in_state_machine(
 
 @pytest.mark.usefixtures("recorder_mock", "set_utc")
 async def test_filter_continuous_sensor_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test remove continuous sensor events from logbook."""
@@ -843,7 +843,7 @@ async def test_filter_continuous_sensor_values(
 
 @pytest.mark.usefixtures("recorder_mock", "set_utc")
 async def test_exclude_new_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test if events are excluded on first update."""
@@ -884,7 +884,7 @@ async def test_exclude_new_entities(
 
 @pytest.mark.usefixtures("recorder_mock", "set_utc")
 async def test_exclude_removed_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test if events are excluded on last update."""
@@ -932,7 +932,7 @@ async def test_exclude_removed_entities(
 
 @pytest.mark.usefixtures("recorder_mock", "set_utc")
 async def test_exclude_attribute_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test if events of attribute changes are filtered."""
@@ -976,7 +976,7 @@ async def test_exclude_attribute_changes(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_entity_context_id(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view with end_time and entity with automations and scripts."""
     await asyncio.gather(
@@ -1130,7 +1130,7 @@ async def test_logbook_entity_context_id(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_context_id_automation_script_started_manually(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test logbook context_ids for manually started scripts/automations."""
     await asyncio.gather(
@@ -1223,7 +1223,7 @@ async def test_logbook_context_id_automation_script_started_manually(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_entity_context_parent_id(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view links events via context parent_id."""
     await asyncio.gather(
@@ -1406,7 +1406,7 @@ async def test_logbook_entity_context_parent_id(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_context_from_template(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view with end_time and entity with automations and scripts."""
     await asyncio.gather(
@@ -1495,7 +1495,7 @@ async def test_logbook_context_from_template(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view with a single entity and ."""
     await async_setup_component(hass, DOMAIN, {})
@@ -1565,7 +1565,7 @@ async def test_logbook_(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_many_entities_multiple_calls(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view with a many entities called multiple times."""
     await async_setup_component(hass, DOMAIN, {})
@@ -1638,7 +1638,7 @@ async def test_logbook_many_entities_multiple_calls(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_custom_log_entry_discoverable_via_(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test if a custom log entry is later discoverable via ."""
     await async_setup_component(hass, DOMAIN, {})
@@ -1676,7 +1676,7 @@ async def test_custom_log_entry_discoverable_via_(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_multiple_entities(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view with a multiple entities."""
     await async_setup_component(hass, DOMAIN, {})
@@ -1801,7 +1801,7 @@ async def test_logbook_multiple_entities(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_invalid_entity(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view with requesting an invalid entity."""
     await async_setup_component(hass, DOMAIN, {})
@@ -1822,7 +1822,7 @@ async def test_logbook_invalid_entity(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_icon_and_state(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test to ensure state and custom icons are returned."""
     await asyncio.gather(
@@ -1868,7 +1868,7 @@ async def test_icon_and_state(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_state_attributes_in_logbook(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test state attributes are exposed in the logbook like the history.
 
@@ -1908,7 +1908,7 @@ async def test_state_attributes_in_logbook(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_fire_logbook_entries(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test many logbook entry calls."""
     await async_setup_component(hass, DOMAIN, {})
@@ -1947,7 +1947,7 @@ async def test_fire_logbook_entries(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_exclude_events_domain(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test if events are filtered if domain is excluded in config."""
     entity_id = "switch.bla"
@@ -1977,14 +1977,14 @@ async def test_exclude_events_domain(
 
     assert len(entries) == 2
     _assert_entry(
-        entries[0], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN
+        entries[0], name="__HA_KEEP__", message="started", domain=ha.DOMAIN
     )
     _assert_entry(entries[1], name="blu", entity_id=entity_id2)
 
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_exclude_events_domain_glob(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test if events are filtered if domain or glob is excluded in config."""
     entity_id = "switch.bla"
@@ -2023,14 +2023,14 @@ async def test_exclude_events_domain_glob(
 
     assert len(entries) == 2
     _assert_entry(
-        entries[0], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN
+        entries[0], name="__HA_KEEP__", message="started", domain=ha.DOMAIN
     )
     _assert_entry(entries[1], name="blu", entity_id=entity_id2)
 
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_include_events_entity(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test if events are filtered if entity is included in config."""
     entity_id = "sensor.bla"
@@ -2066,14 +2066,14 @@ async def test_include_events_entity(
 
     assert len(entries) == 2
     _assert_entry(
-        entries[0], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN
+        entries[0], name="__HA_KEEP__", message="started", domain=ha.DOMAIN
     )
     _assert_entry(entries[1], name="blu", entity_id=entity_id2)
 
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_exclude_events_entity(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test if events are filtered if entity is excluded in config."""
     entity_id = "sensor.bla"
@@ -2103,14 +2103,14 @@ async def test_exclude_events_entity(
     entries = await _async_fetch_logbook(client)
     assert len(entries) == 2
     _assert_entry(
-        entries[0], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN
+        entries[0], name="__HA_KEEP__", message="started", domain=ha.DOMAIN
     )
     _assert_entry(entries[1], name="blu", entity_id=entity_id2)
 
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_include_events_domain(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test if events are filtered if domain is included in config."""
     assert await async_setup_component(hass, "alexa", {})
@@ -2147,7 +2147,7 @@ async def test_include_events_domain(
 
     assert len(entries) == 3
     _assert_entry(
-        entries[0], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN
+        entries[0], name="__HA_KEEP__", message="started", domain=ha.DOMAIN
     )
     _assert_entry(entries[1], name="Amazon Alexa", domain="alexa")
     _assert_entry(entries[2], name="blu", entity_id=entity_id2)
@@ -2155,7 +2155,7 @@ async def test_include_events_domain(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_include_events_domain_glob(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test if events are filtered if domain or glob is included in config."""
     assert await async_setup_component(hass, "alexa", {})
@@ -2206,7 +2206,7 @@ async def test_include_events_domain_glob(
 
     assert len(entries) == 4
     _assert_entry(
-        entries[0], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN
+        entries[0], name="__HA_KEEP__", message="started", domain=ha.DOMAIN
     )
     _assert_entry(entries[1], name="Amazon Alexa", domain="alexa")
     _assert_entry(entries[2], name="blu", entity_id=entity_id2)
@@ -2215,7 +2215,7 @@ async def test_include_events_domain_glob(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_include_exclude_events_no_globs(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test if events are filtered if include and exclude is configured."""
     entity_id = "switch.bla"
@@ -2263,7 +2263,7 @@ async def test_include_exclude_events_no_globs(
 
     assert len(entries) == 6
     _assert_entry(
-        entries[0], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN
+        entries[0], name="__HA_KEEP__", message="started", domain=ha.DOMAIN
     )
     _assert_entry(entries[1], name="bla", entity_id=entity_id, state="10")
     _assert_entry(entries[2], name="blu", entity_id=entity_id2, state="10")
@@ -2274,7 +2274,7 @@ async def test_include_exclude_events_no_globs(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_include_exclude_events_with_glob_filters(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test if events are filtered if include and exclude is configured."""
     entity_id = "switch.bla"
@@ -2329,7 +2329,7 @@ async def test_include_exclude_events_with_glob_filters(
 
     assert len(entries) == 7
     _assert_entry(
-        entries[0], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN
+        entries[0], name="__HA_KEEP__", message="started", domain=ha.DOMAIN
     )
     _assert_entry(entries[1], name="bla", entity_id=entity_id, state="10")
     _assert_entry(entries[2], name="blu", entity_id=entity_id2, state="10")
@@ -2341,7 +2341,7 @@ async def test_include_exclude_events_with_glob_filters(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_empty_config(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test we can handle an empty entity filter."""
     entity_id = "sensor.blu"
@@ -2369,14 +2369,14 @@ async def test_empty_config(
 
     assert len(entries) == 2
     _assert_entry(
-        entries[0], name="Universal Universal Home Assistant", message="started", domain=ha.DOMAIN
+        entries[0], name="__HA_KEEP__", message="started", domain=ha.DOMAIN
     )
     _assert_entry(entries[1], name="blu", entity_id=entity_id)
 
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_context_filter(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test we can filter by context."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -2454,7 +2454,7 @@ def _assert_entry(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_get_events(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test logbook get_events."""
     now = dt_util.utcnow()
@@ -2575,7 +2575,7 @@ async def test_get_events(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_get_events_future_start_time(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_events with a future start time."""
     await async_setup_component(hass, DOMAIN, {})
@@ -2601,7 +2601,7 @@ async def test_get_events_future_start_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_get_events_bad_start_time(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_events bad start time."""
     await async_setup_component(hass, DOMAIN, {})
@@ -2622,7 +2622,7 @@ async def test_get_events_bad_start_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_get_events_bad_end_time(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_events bad end time."""
     now = dt_util.utcnow()
@@ -2645,7 +2645,7 @@ async def test_get_events_bad_end_time(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_get_events_invalid_filters(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test get_events invalid filters."""
     await async_setup_component(hass, DOMAIN, {})
@@ -2676,7 +2676,7 @@ async def test_get_events_invalid_filters(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_get_events_with_device_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -2707,7 +2707,7 @@ async def test_get_events_with_device_ids(
 
         @ha.callback
         def async_describe_events(
-            hass: UniversalAssistant,  # noqa: N805
+            hass: __HAC_KEEP__,  # noqa: N805
             async_describe_event: Callable[
                 [str, str, Callable[[Event], dict[str, str]]], None
             ],
@@ -2817,7 +2817,7 @@ async def test_get_events_with_device_ids(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_select_entities_context_id(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the logbook view with end_time and entity with automations and scripts."""
     await asyncio.gather(
@@ -2953,7 +2953,7 @@ async def test_logbook_select_entities_context_id(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_get_events_with_context_state(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test logbook get_events with a context state."""
     now = dt_util.utcnow()
@@ -3018,7 +3018,7 @@ async def test_get_events_with_context_state(
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_logbook_with_empty_config(hass: UniversalAssistant) -> None:
+async def test_logbook_with_empty_config(hass: __HAC_KEEP__) -> None:
     """Test we handle a empty configuration."""
     assert await async_setup_component(
         hass,
@@ -3032,7 +3032,7 @@ async def test_logbook_with_empty_config(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_logbook_with_non_iterable_entity_filter(hass: UniversalAssistant) -> None:
+async def test_logbook_with_non_iterable_entity_filter(hass: __HAC_KEEP__) -> None:
     """Test we handle a non-iterable entity filter."""
     assert await async_setup_component(
         hass,
@@ -3057,7 +3057,7 @@ async def test_logbook_with_non_iterable_entity_filter(hass: UniversalAssistant)
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_user_id_from_parent_context(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test user attribution is inherited through the full context chain.
 
@@ -3106,7 +3106,7 @@ async def test_logbook_user_id_from_parent_context(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_logbook_user_id_from_parent_context_state_changes_only(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test user attribution is inherited when only state changes are present.
 
@@ -3202,7 +3202,7 @@ async def test_logbook_user_id_from_parent_context_state_changes_only(
 
 
 async def test_context_user_ids_lru_eviction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that the parent context user-id cache is bounded by LRU eviction.
@@ -3309,7 +3309,7 @@ async def test_context_user_ids_lru_eviction(
 
 
 async def test_parent_user_attribution_does_not_use_origin_event_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that parent context lookup doesn't fall back to origin_event.

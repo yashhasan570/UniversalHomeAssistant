@@ -9,7 +9,7 @@ from universalassistant.components.device_automation import (
     InvalidDeviceAutomationConfig,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
 from universalassistant.helpers import selector
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
@@ -38,7 +38,7 @@ _TELEGRAM_OPTIONS_SCHEMA: Final = probatio.Schema(TELEGRAM_TRIGGER_SCHEMA)
 
 
 async def async_get_triggers(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, Any]]:
     """List device triggers for KNX devices."""
     triggers = []
@@ -60,7 +60,7 @@ async def async_get_triggers(
 
 
 async def async_get_trigger_capabilities(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List trigger capabilities."""
     project = hass.data[KNX_MODULE_KEY].project
@@ -100,7 +100,7 @@ async def async_get_trigger_capabilities(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

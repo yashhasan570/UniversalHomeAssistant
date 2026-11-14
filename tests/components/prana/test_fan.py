@@ -18,7 +18,7 @@ from universalassistant.components.fan import (
 )
 from universalassistant.components.prana.fan import PRANA_SPEED_MULTIPLIER
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.percentage import percentage_to_ranged_value
 
@@ -33,7 +33,7 @@ FAN_TEST_CASES = [
 
 
 async def _async_setup_fan_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_prana_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -58,7 +58,7 @@ async def _async_setup_fan_entity(
 
 
 async def test_fans(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_prana_api: AsyncMock,
@@ -76,7 +76,7 @@ async def test_fans(
     FAN_TEST_CASES,
 )
 async def test_fans_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_prana_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -123,7 +123,7 @@ async def test_fans_turn_on_off(
     FAN_TEST_CASES,
 )
 async def test_fans_set_percentage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_prana_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -184,7 +184,7 @@ async def test_fans_set_percentage(
     ],
 )
 async def test_fans_percentage_maps_to_nearest_step(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_prana_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -226,7 +226,7 @@ async def test_fans_percentage_maps_to_nearest_step(
     FAN_TEST_CASES,
 )
 async def test_fans_set_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_prana_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

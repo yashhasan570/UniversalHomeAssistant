@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.myuplink.const import DOMAIN, OAUTH2_TOKEN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -25,7 +25,7 @@ from .const import UNIQUE_ID
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_myuplink_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -42,7 +42,7 @@ async def test_load_unload_entry(
 
 
 async def test_oauth2_implementation_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test OAuth2 implementation unavailable error."""
@@ -76,7 +76,7 @@ async def test_oauth2_implementation_unavailable(
     ids=["unauthorized", "internal_server_error"],
 )
 async def test_expired_token_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     status: http.HTTPStatus,
@@ -108,7 +108,7 @@ async def test_expired_token_refresh_failure(
     ],
 )
 async def test_expired_token_refresh_connection_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     expected_state: ConfigEntryState,
@@ -131,7 +131,7 @@ async def test_expired_token_refresh_connection_failure(
     [load_fixture("systems.json", DOMAIN)],
 )
 async def test_devices_created_count(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_myuplink_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -143,7 +143,7 @@ async def test_devices_created_count(
 
 
 async def test_devices_multiple_created_count(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_myuplink_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -155,7 +155,7 @@ async def test_devices_multiple_created_count(
 
 
 async def test_migrate_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_myuplink_client: MagicMock,
     expires_at: float,
@@ -188,7 +188,7 @@ async def test_migrate_config_entry(
 
 
 async def test_oaut2_scope_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_myuplink_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_oaut2_scope_failure(
 
 
 async def test_device_remove_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_myuplink_client: MagicMock,
@@ -264,7 +264,7 @@ async def test_device_remove_devices(
     ],
 )
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_myuplink_client: MagicMock,
     mock_config_entry: MockConfigEntry,

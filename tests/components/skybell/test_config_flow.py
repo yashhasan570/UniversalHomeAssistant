@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.skybell.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import CONF_DATA, PASSWORD, USER_ID
@@ -25,7 +25,7 @@ def setup_entry() -> None:
         yield
 
 
-async def test_flow_user(hass: UniversalAssistant) -> None:
+async def test_flow_user(hass: __HAC_KEEP__) -> None:
     """Test that the user step works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -45,7 +45,7 @@ async def test_flow_user(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == USER_ID
 
 
-async def test_flow_user_already_configured(hass: UniversalAssistant) -> None:
+async def test_flow_user_already_configured(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow with duplicate server."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -69,7 +69,7 @@ async def test_flow_user_already_configured(hass: UniversalAssistant) -> None:
 
 
 async def test_flow_user_cannot_connect(
-    hass: UniversalAssistant, skybell_mock: AsyncMock
+    hass: __HAC_KEEP__, skybell_mock: AsyncMock
 ) -> None:
     """Test user initialized flow with unreachable server."""
     skybell_mock.async_initialize.side_effect = exceptions.SkybellException(hass)
@@ -95,7 +95,7 @@ async def test_flow_user_cannot_connect(
 
 
 async def test_invalid_credentials(
-    hass: UniversalAssistant, skybell_mock: AsyncMock
+    hass: __HAC_KEEP__, skybell_mock: AsyncMock
 ) -> None:
     """Test that invalid credentials throws an error."""
     skybell_mock.async_initialize.side_effect = (
@@ -124,7 +124,7 @@ async def test_invalid_credentials(
 
 
 async def test_flow_user_unknown_error(
-    hass: UniversalAssistant, skybell_mock: AsyncMock
+    hass: __HAC_KEEP__, skybell_mock: AsyncMock
 ) -> None:
     """Test user initialized flow with unreachable server."""
     skybell_mock.async_initialize.side_effect = Exception
@@ -149,7 +149,7 @@ async def test_flow_user_unknown_error(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_step_reauth(hass: UniversalAssistant) -> None:
+async def test_step_reauth(hass: __HAC_KEEP__) -> None:
     """Test the reauth flow."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=USER_ID, data=CONF_DATA)
     entry.add_to_hass(hass)
@@ -167,7 +167,7 @@ async def test_step_reauth(hass: UniversalAssistant) -> None:
     assert result["reason"] == "reauth_successful"
 
 
-async def test_step_reauth_failed(hass: UniversalAssistant, skybell_mock) -> None:
+async def test_step_reauth_failed(hass: __HAC_KEEP__, skybell_mock) -> None:
     """Test the reauth flow fails and recovers."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=USER_ID, data=CONF_DATA)
     entry.add_to_hass(hass)

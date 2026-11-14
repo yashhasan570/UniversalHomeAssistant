@@ -1,4 +1,4 @@
-"""Tests for the Universal Universal Home Assistant Cloud AI Task entity."""
+"""Tests for the __HA_KEEP__ Cloud AI Task entity."""
 
 from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -22,12 +22,12 @@ from universalassistant.components.cloud.ai_task import (
     CloudAITaskEntity,
     async_prepare_image_generation_attachments,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
 @pytest.fixture
-def mock_cloud_ai_task_entity(hass: UniversalAssistant) -> CloudAITaskEntity:
+def mock_cloud_ai_task_entity(hass: __HAC_KEEP__) -> CloudAITaskEntity:
     """Return a CloudAITaskEntity with a mocked cloud LLM."""
     cloud = MagicMock()
     cloud.llm = MagicMock(
@@ -65,7 +65,7 @@ def mock_prepare_generation_attachments_fixture() -> AsyncMock:
 
 
 async def test_prepare_image_generation_attachments(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test preparing attachments for image generation."""
     image_path = tmp_path / "snapshot.jpg"
@@ -89,7 +89,7 @@ async def test_prepare_image_generation_attachments(
 
 
 async def test_prepare_image_generation_attachments_only_images(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test non image attachments are rejected."""
     doc_path = tmp_path / "context.txt"
@@ -104,14 +104,14 @@ async def test_prepare_image_generation_attachments_only_images(
     ]
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Only image attachments are supported for image generation",
     ):
         await async_prepare_image_generation_attachments(hass, attachments)
 
 
 async def test_prepare_image_generation_attachments_missing_file(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test missing attachments raise a helpful error."""
     missing_path = tmp_path / "missing.png"
@@ -124,12 +124,12 @@ async def test_prepare_image_generation_attachments_missing_file(
         )
     ]
 
-    with pytest.raises(UniversalAssistantError, match="`.*missing.png` does not exist"):
+    with pytest.raises(__HAC_KEEP__Error, match="`.*missing.png` does not exist"):
         await async_prepare_image_generation_attachments(hass, attachments)
 
 
 async def test_prepare_image_generation_attachments_processing_error(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test invalid image data raises a processing error."""
     broken_path = tmp_path / "broken.png"
@@ -144,14 +144,14 @@ async def test_prepare_image_generation_attachments_processing_error(
     ]
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Failed to process image attachment",
     ):
         await async_prepare_image_generation_attachments(hass, attachments)
 
 
 async def test_generate_data_returns_text(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_ai_task_entity: CloudAITaskEntity,
     mock_handle_chat_log: AsyncMock,
 ) -> None:
@@ -180,7 +180,7 @@ async def test_generate_data_returns_text(
 
 
 async def test_generate_data_returns_json(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_ai_task_entity: CloudAITaskEntity,
     mock_handle_chat_log: AsyncMock,
 ) -> None:
@@ -208,7 +208,7 @@ async def test_generate_data_returns_json(
 
 
 async def test_generate_data_invalid_json(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_ai_task_entity: CloudAITaskEntity,
     mock_handle_chat_log: AsyncMock,
 ) -> None:
@@ -231,13 +231,13 @@ async def test_generate_data_invalid_json(
 
     mock_handle_chat_log.side_effect = fake_handle
     with pytest.raises(
-        UniversalAssistantError, match="Error with OpenAI structured response"
+        __HAC_KEEP__Error, match="Error with OpenAI structured response"
     ):
         await mock_cloud_ai_task_entity._async_generate_data(task, chat_log)
 
 
 async def test_generate_image_no_attachments(
-    hass: UniversalAssistant, mock_cloud_ai_task_entity: CloudAITaskEntity
+    hass: __HAC_KEEP__, mock_cloud_ai_task_entity: CloudAITaskEntity
 ) -> None:
     """Test generating an image without attachments."""
     mock_cloud_ai_task_entity._cloud.llm.async_generate_image.return_value = {
@@ -261,7 +261,7 @@ async def test_generate_image_no_attachments(
 
 
 async def test_generate_image_with_attachments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_ai_task_entity: CloudAITaskEntity,
     mock_prepare_generation_attachments: AsyncMock,
 ) -> None:
@@ -300,33 +300,33 @@ async def test_generate_image_with_attachments(
     [
         (
             LLMAuthenticationError("auth"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Cloud LLM authentication failed",
         ),
         (
             LLMRateLimitError("limit"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Cloud LLM is rate limited",
         ),
         (
             LLMResponseError("bad response"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "bad response",
         ),
         (
             LLMServiceError("service"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Error talking to Cloud LLM",
         ),
         (
             LLMError("generic"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "generic",
         ),
     ],
 )
 async def test_generate_image_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_ai_task_entity: CloudAITaskEntity,
     err: Exception,
     expected_exception: type[Exception],

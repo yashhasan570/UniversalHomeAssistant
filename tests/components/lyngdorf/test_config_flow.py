@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.lyngdorf.const import CONF_SERIAL_NUMBER, DOMAIN
 from universalassistant.config_entries import SOURCE_SSDP, SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.ssdp import (
@@ -28,7 +28,7 @@ MOCK_SERIAL = "0050c27c76b2"
 
 @pytest.mark.usefixtures("mock_find_receiver_model")
 async def test_user_flow(
-    hass: UniversalAssistant, mock_get_device_serial: AsyncMock
+    hass: __HAC_KEEP__, mock_get_device_serial: AsyncMock
 ) -> None:
     """Test the user configuration flow with serial lookup."""
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_user_flow(
 
 @pytest.mark.usefixtures("mock_find_receiver_model")
 async def test_user_flow_cannot_determine_id_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_device_serial: AsyncMock,
 ) -> None:
     """Test user flow shows error when serial cannot be determined, then recovers."""
@@ -87,7 +87,7 @@ async def test_user_flow_cannot_determine_id_recovers(
 
 @pytest.mark.usefixtures("mock_find_receiver_model", "mock_get_device_serial")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test user flow when device is already configured."""
@@ -110,7 +110,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_get_device_serial")
 async def test_user_flow_unsupported_model_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_find_receiver_model: AsyncMock,
 ) -> None:
     """Test user flow shows unsupported_model error, then recovers."""
@@ -148,7 +148,7 @@ async def test_user_flow_unsupported_model_recovers(
 )
 @pytest.mark.usefixtures("mock_get_device_serial")
 async def test_user_flow_connection_errors_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_find_receiver_model: AsyncMock,
     exc: Exception,
     expected_error: str,
@@ -187,7 +187,7 @@ async def test_user_flow_connection_errors_recover(
 )
 @pytest.mark.usefixtures("mock_find_receiver_model")
 async def test_ssdp_discovery(
-    hass: UniversalAssistant, friendly_name: str, expected_title: str
+    hass: __HAC_KEEP__, friendly_name: str, expected_title: str
 ) -> None:
     """Test successful SSDP discovery flow."""
     result = await hass.config_entries.flow.async_init(
@@ -219,7 +219,7 @@ async def test_ssdp_discovery(
 
 
 async def test_ssdp_discovery_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test SSDP discovery aborts when device is already configured."""
@@ -245,7 +245,7 @@ async def test_ssdp_discovery_already_configured(
     assert mock_config_entry.data[CONF_HOST] == "192.168.1.100"
 
 
-async def test_ssdp_discovery_no_serial(hass: UniversalAssistant) -> None:
+async def test_ssdp_discovery_no_serial(hass: __HAC_KEEP__) -> None:
     """Test SSDP discovery aborts when no serial number is available."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -266,7 +266,7 @@ async def test_ssdp_discovery_no_serial(hass: UniversalAssistant) -> None:
 
 
 async def test_ssdp_discovery_unsupported_model(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test SSDP discovery aborts when model is not supported."""
     result = await hass.config_entries.flow.async_init(
@@ -288,7 +288,7 @@ async def test_ssdp_discovery_unsupported_model(
     assert "UNKNOWN-MODEL" in caplog.text
 
 
-async def test_ssdp_discovery_missing_model(hass: UniversalAssistant) -> None:
+async def test_ssdp_discovery_missing_model(hass: __HAC_KEEP__) -> None:
     """Test SSDP discovery aborts when model name is missing."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -315,7 +315,7 @@ async def test_ssdp_discovery_missing_model(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_ssdp_discovery_no_host(
-    hass: UniversalAssistant, ssdp_location: str | None
+    hass: __HAC_KEEP__, ssdp_location: str | None
 ) -> None:
     """Test SSDP discovery aborts when no hostname can be determined."""
     result = await hass.config_entries.flow.async_init(
@@ -347,7 +347,7 @@ async def test_ssdp_discovery_no_host(
     ],
 )
 async def test_ssdp_discovery_connectivity_check_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_find_receiver_model: AsyncMock,
     side_effect: Exception | None,
     expected_reason: str,
@@ -377,7 +377,7 @@ async def test_ssdp_discovery_connectivity_check_aborts(
 
 @pytest.mark.usefixtures("mock_find_receiver_model", "mock_get_device_serial")
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguring an entry updates the host."""
@@ -399,7 +399,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("mock_find_receiver_model")
 async def test_reconfigure_different_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_get_device_serial: AsyncMock,
 ) -> None:
@@ -429,7 +429,7 @@ async def test_reconfigure_different_device(
 )
 @pytest.mark.usefixtures("mock_get_device_serial")
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_find_receiver_model: AsyncMock,
     side_effect: type[Exception],
@@ -468,7 +468,7 @@ async def test_reconfigure_errors(
 )
 @pytest.mark.usefixtures("mock_find_receiver_model")
 async def test_user_flow_serial_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_device_serial: AsyncMock,
     side_effect: type[Exception],
     error: str,
@@ -503,7 +503,7 @@ async def test_user_flow_serial_errors(
     ],
 )
 async def test_reconfigure_device_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_find_receiver_model: AsyncMock,
     mock_get_device_serial: AsyncMock,

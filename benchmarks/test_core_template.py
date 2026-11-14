@@ -12,7 +12,7 @@ from collections.abc import Callable
 import pytest
 from pytest_codspeed import BenchmarkFixture
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.template import Template
 
 _STATES_TEMPLATE = (
@@ -22,7 +22,7 @@ _STATES_TEMPLATE = (
 )
 
 
-def test_template_compile(benchmark: BenchmarkFixture, hass: UniversalAssistant) -> None:
+def test_template_compile(benchmark: BenchmarkFixture, hass: __HAC_KEEP__) -> None:
     """Compile a template from source (parse plus codegen).
 
     A unique source on every call (a varying Jinja comment) keeps the
@@ -45,7 +45,7 @@ def test_template_compile(benchmark: BenchmarkFixture, hass: UniversalAssistant)
 
 
 def test_template_render_simple(
-    benchmark: BenchmarkFixture, hass: UniversalAssistant
+    benchmark: BenchmarkFixture, hass: __HAC_KEEP__
 ) -> None:
     """Render a pure-math template (warm), the engine's baseline overhead."""
     template = Template("{{ 1 + 1 }}", hass)
@@ -57,7 +57,7 @@ def test_template_render_simple(
 
 
 def test_template_render_states(
-    benchmark: BenchmarkFixture, hass: UniversalAssistant
+    benchmark: BenchmarkFixture, hass: __HAC_KEEP__
 ) -> None:
     """Render a template that reads states, attributes and a filter (warm)."""
     hass.states.async_set("sensor.power", "1200", {"unit_of_measurement": "W"})
@@ -71,7 +71,7 @@ def test_template_render_states(
 
 
 def test_template_render_to_info(
-    benchmark: BenchmarkFixture, hass: UniversalAssistant
+    benchmark: BenchmarkFixture, hass: __HAC_KEEP__
 ) -> None:
     """Render and collect the entity dependency filter (the tracking path).
 
@@ -92,7 +92,7 @@ def test_template_render_to_info(
 def test_template_iterate_states(
     benchmark: BenchmarkFixture,
     populate_states: Callable[[int], None],
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
 ) -> None:
     """Render a template that walks every sensor state, at several sizes.

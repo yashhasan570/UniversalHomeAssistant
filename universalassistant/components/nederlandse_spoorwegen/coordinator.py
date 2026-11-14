@@ -10,7 +10,7 @@ from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 from universalassistant.config_entries import ConfigEntry, ConfigSubentry
 from universalassistant.const import CONF_API_KEY, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -57,7 +57,7 @@ class NSDataUpdateCoordinator(DataUpdateCoordinator[NSRouteResult]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: NSConfigEntry,
         route_id: str,
         subentry: ConfigSubentry,
@@ -93,7 +93,7 @@ class NSDataUpdateCoordinator(DataUpdateCoordinator[NSRouteResult]):
             )
 
         except (ConnectionError, Timeout, HTTPError, ValueError) as err:
-            # Surface API failures to Universal Universal Home Assistant so the entities become unavailable
+            # Surface API failures to __HA_KEEP__ so the entities become unavailable
             raise UpdateFailed(f"API communication error: {err}") from err
 
         # Filter out trips that have already departed (trips are already sorted)

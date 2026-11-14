@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.hydrawise.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -20,7 +20,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_auth: AsyncMock,
     mock_pydrawise: AsyncMock,
@@ -75,7 +75,7 @@ async def test_form(
     ],
 )
 async def test_form_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth: AsyncMock,
     mock_pydrawise: AsyncMock,
     user: User,
@@ -116,7 +116,7 @@ async def test_form_api_error(
     ],
 )
 async def test_form_auth_check_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth: AsyncMock,
     mock_pydrawise: AsyncMock,
     user: User,
@@ -148,7 +148,7 @@ async def test_form_auth_check_error(
 
 @pytest.mark.usefixtures("mock_auth")
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pydrawise: AsyncMock,
     user: User,
 ) -> None:
@@ -181,7 +181,7 @@ async def test_form_already_configured(
 
 
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user: User,
     mock_auth: AsyncMock,
     mock_pydrawise: AsyncMock,
@@ -228,7 +228,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("mock_auth")
 async def test_reauth_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user: User,
     mock_pydrawise: AsyncMock,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_reauth_wrong_account(
 
 @pytest.mark.usefixtures("mock_auth")
 async def test_reauth_legacy_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user: User,
     mock_pydrawise: AsyncMock,
 ) -> None:
@@ -302,7 +302,7 @@ async def test_reauth_legacy_entry(
 
 
 async def test_reauth_fails(
-    hass: UniversalAssistant, mock_auth: AsyncMock, mock_pydrawise: AsyncMock, user: User
+    hass: __HAC_KEEP__, mock_auth: AsyncMock, mock_pydrawise: AsyncMock, user: User
 ) -> None:
     """Test that the reauth flow handles API errors."""
     mock_config_entry = MockConfigEntry(
@@ -348,7 +348,7 @@ async def test_reauth_fails(
 
 @pytest.mark.usefixtures("mock_auth")
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user: User,
     mock_pydrawise: AsyncMock,
 ) -> None:
@@ -391,7 +391,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("mock_auth")
 async def test_reconfigure_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user: User,
     mock_pydrawise: AsyncMock,
 ) -> None:
@@ -425,7 +425,7 @@ async def test_reconfigure_wrong_account(
 
 
 async def test_reconfigure_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user: User,
     mock_auth: AsyncMock,
     mock_pydrawise: AsyncMock,
@@ -466,7 +466,7 @@ async def test_reconfigure_error(
 
 @pytest.mark.usefixtures("mock_auth")
 async def test_reconfigure_legacy_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user: User,
     mock_pydrawise: AsyncMock,
 ) -> None:

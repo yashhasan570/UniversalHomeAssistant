@@ -33,7 +33,7 @@ from universalassistant.const import (
     UnitOfTime,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util.dt import as_utc, parse_datetime
@@ -58,7 +58,7 @@ class RenaultSensorEntityDescription[T: KamereonVehicleDataAttributes](
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RenaultConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

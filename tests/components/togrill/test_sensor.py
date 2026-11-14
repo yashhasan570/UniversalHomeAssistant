@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from togrill_bluetooth.packets import PacketA0Notify, PacketA1Notify
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import TOGRILL_SERVICE_INFO, setup_entry
@@ -50,7 +50,7 @@ def patch_async_ble_device_from_address(
     ],
 )
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
@@ -92,7 +92,7 @@ async def test_setup(
     ],
 )
 async def test_setup_with_ambient(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_entry_with_ambient: MockConfigEntry,
@@ -114,7 +114,7 @@ async def test_setup_with_ambient(
 
 
 async def test_device_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_device_disconnected(
 
 
 async def test_device_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_device_discovered(
 
 
 async def test_ambient_sensor_not_created_without_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_entry: MockConfigEntry,
     mock_client: Mock,

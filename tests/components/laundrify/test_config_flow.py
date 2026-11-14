@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.laundrify.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_CODE, CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import VALID_ACCESS_TOKEN, VALID_AUTH_CODE, VALID_USER_INPUT
 
 
 async def _assert_recovers(
-    hass: UniversalAssistant, laundrify_api_mock: LaundrifyAPI, flow_id: str
+    hass: __HAC_KEEP__, laundrify_api_mock: LaundrifyAPI, flow_id: str
 ) -> None:
     """Clear the error and assert the flow creates an entry."""
     laundrify_api_mock.exchange_auth_code.side_effect = None
@@ -24,7 +24,7 @@ async def _assert_recovers(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -47,7 +47,7 @@ async def test_form(hass: UniversalAssistant) -> None:
 
 
 async def test_form_invalid_format(
-    hass: UniversalAssistant, laundrify_api_mock: LaundrifyAPI
+    hass: __HAC_KEEP__, laundrify_api_mock: LaundrifyAPI
 ) -> None:
     """Test we handle invalid format."""
     laundrify_api_mock.exchange_auth_code.side_effect = exceptions.InvalidFormat
@@ -65,7 +65,7 @@ async def test_form_invalid_format(
 
 
 async def test_form_invalid_auth(
-    hass: UniversalAssistant, laundrify_api_mock: LaundrifyAPI
+    hass: __HAC_KEEP__, laundrify_api_mock: LaundrifyAPI
 ) -> None:
     """Test we handle invalid auth."""
     laundrify_api_mock.exchange_auth_code.side_effect = exceptions.UnknownAuthCode
@@ -82,7 +82,7 @@ async def test_form_invalid_auth(
 
 
 async def test_form_cannot_connect(
-    hass: UniversalAssistant, laundrify_api_mock: LaundrifyAPI
+    hass: __HAC_KEEP__, laundrify_api_mock: LaundrifyAPI
 ) -> None:
     """Test we handle cannot connect error."""
     laundrify_api_mock.exchange_auth_code.side_effect = (
@@ -101,7 +101,7 @@ async def test_form_cannot_connect(
 
 
 async def test_form_unkown_exception(
-    hass: UniversalAssistant, laundrify_api_mock: LaundrifyAPI
+    hass: __HAC_KEEP__, laundrify_api_mock: LaundrifyAPI
 ) -> None:
     """Test we handle all other errors."""
     laundrify_api_mock.exchange_auth_code.side_effect = Exception
@@ -118,7 +118,7 @@ async def test_form_unkown_exception(
 
 
 async def test_step_reauth(
-    hass: UniversalAssistant, laundrify_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, laundrify_config_entry: MockConfigEntry
 ) -> None:
     """Test the reauth form is shown."""
     result = await laundrify_config_entry.start_reauth_flow(hass)
@@ -136,7 +136,7 @@ async def test_step_reauth(
 
 
 async def test_integration_already_exists(
-    hass: UniversalAssistant, laundrify_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, laundrify_config_entry: MockConfigEntry
 ) -> None:
     """Test we only allow a single config flow."""
     result = await hass.config_entries.flow.async_init(

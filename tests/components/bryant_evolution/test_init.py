@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.bryant_evolution.const import CONF_SYSTEM_ZONE, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_FILENAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -21,7 +21,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def test_setup_integration_prevented_by_unavailable_client(
-    hass: UniversalAssistant, mock_evolution_client_factory: AsyncMock
+    hass: __HAC_KEEP__, mock_evolution_client_factory: AsyncMock
 ) -> None:
     """Test that setup throws ConfigEntryNotReady when the client is unavailable."""
     mock_evolution_client_factory.side_effect = FileNotFoundError("test error")
@@ -39,7 +39,7 @@ async def test_setup_integration_prevented_by_unavailable_client(
 
 
 async def test_setup_integration_client_returns_none(
-    hass: UniversalAssistant, mock_evolution_client_factory: AsyncMock
+    hass: __HAC_KEEP__, mock_evolution_client_factory: AsyncMock
 ) -> None:
     """Test that an unavailable client causes ConfigEntryNotReady."""
     mock_client = AsyncMock(spec=BryantEvolutionLocalClient)
@@ -61,7 +61,7 @@ async def test_setup_integration_client_returns_none(
 
 
 async def test_setup_multiple_systems_zones(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_evolution_client_factory: AsyncMock,
     freezer: FrozenDateTimeFactory,

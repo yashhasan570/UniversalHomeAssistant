@@ -15,7 +15,7 @@ from universalassistant.components.lock import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_CODE, CONF_NAME, CONF_STATE, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError, TemplateError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
@@ -81,7 +81,7 @@ LOCK_CONFIG_ENTRY_SCHEMA = LOCK_COMMON_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -100,7 +100,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -117,7 +117,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_lock(
-    hass: UniversalAssistant, name: str, config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
 ) -> StateLockEntity:
     """Create a preview."""
     return async_setup_template_preview(
@@ -337,7 +337,7 @@ class StateLockEntity(TemplateEntity, AbstractTemplateLock):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: dict[str, Any],
         unique_id: str | None,
     ) -> None:
@@ -356,7 +356,7 @@ class TriggerLockEntity(TriggerEntity, AbstractTemplateLock):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: TriggerUpdateCoordinator,
         config: ConfigType,
     ) -> None:

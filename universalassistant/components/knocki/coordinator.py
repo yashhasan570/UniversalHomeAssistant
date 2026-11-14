@@ -6,7 +6,7 @@ from knocki import Event, KnockiClient, KnockiConnectionError, Trigger
 
 from universalassistant.components.event import DOMAIN as EVENT_DOMAIN
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -21,7 +21,7 @@ class KnockiCoordinator(DataUpdateCoordinator[dict[int, Trigger]]):
     config_entry: KnockiConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: KnockiConfigEntry, client: KnockiClient
+        self, hass: __HAC_KEEP__, config_entry: KnockiConfigEntry, client: KnockiClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

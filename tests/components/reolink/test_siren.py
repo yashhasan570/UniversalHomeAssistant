@@ -22,8 +22,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ from .conftest import TEST_CAM_NAME, TEST_NVR_NAME
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -47,7 +47,7 @@ async def test_all_entities(
 
 
 async def test_siren(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_siren(
     [
         (
             AsyncMock(side_effect=ReolinkError("Test error")),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
         (
             AsyncMock(side_effect=InvalidParameterError("Test error")),
@@ -104,7 +104,7 @@ async def test_siren(
     ],
 )
 async def test_siren_turn_on_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     attr: str,
@@ -133,7 +133,7 @@ async def test_siren_turn_on_errors(
 
 
 async def test_siren_turn_off_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_siren_turn_off_errors(
     entity_id = f"{Platform.SIREN}.{TEST_CAM_NAME}_siren"
 
     reolink_host.set_siren.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SIREN_DOMAIN,
             SERVICE_TURN_OFF,
@@ -156,7 +156,7 @@ async def test_siren_turn_off_errors(
 
 
 async def test_host_siren(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:

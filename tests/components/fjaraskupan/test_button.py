@@ -20,8 +20,8 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.fjaraskupan.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import COOKER_SERVICE_INFO
 
@@ -40,7 +40,7 @@ GREASE_FILTER_FULL_SERVICE_INFO = BluetoothServiceInfo(
 
 
 @pytest.fixture
-async def setup_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def setup_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Set up the integration with a device reporting a full grease filter."""
     config_entry = MockConfigEntry(domain=DOMAIN, data={})
     config_entry.add_to_hass(hass)
@@ -78,7 +78,7 @@ def mock_send_command() -> Iterator[AsyncMock]:
 
 @pytest.mark.usefixtures("setup_entry")
 async def test_reset_grease_filter(
-    hass: UniversalAssistant, mock_send_command: AsyncMock
+    hass: __HAC_KEEP__, mock_send_command: AsyncMock
 ) -> None:
     """Test pressing the button resets the filter and refreshes the state."""
     state = hass.states.get(GREASE_FILTER_ENTITY_ID)
@@ -100,12 +100,12 @@ async def test_reset_grease_filter(
 
 @pytest.mark.usefixtures("setup_entry")
 async def test_reset_grease_filter_error(
-    hass: UniversalAssistant, mock_send_command: AsyncMock
+    hass: __HAC_KEEP__, mock_send_command: AsyncMock
 ) -> None:
     """Test a write error is raised as a translated error."""
     mock_send_command.side_effect = FjaraskupanWriteError
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

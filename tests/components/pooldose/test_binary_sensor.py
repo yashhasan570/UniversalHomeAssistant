@@ -14,13 +14,13 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -37,7 +37,7 @@ async def test_all_binary_sensors(
 
 @pytest.mark.parametrize("exception", [TimeoutError, ConnectionError, OSError])
 async def test_exception_raising(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -63,7 +63,7 @@ async def test_exception_raising(
 
 
 async def test_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -91,7 +91,7 @@ async def test_no_data(
 
 
 async def test_binary_sensor_entity_unavailable_no_coordinator_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pooldose_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -122,7 +122,7 @@ async def test_binary_sensor_entity_unavailable_no_coordinator_data(
 
 
 async def test_binary_sensor_state_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pooldose_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -163,7 +163,7 @@ async def test_binary_sensor_state_changes(
 
 
 async def test_binary_sensor_missing_from_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pooldose_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

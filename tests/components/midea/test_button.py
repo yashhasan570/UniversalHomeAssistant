@@ -13,8 +13,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -54,7 +54,7 @@ def _ac_device() -> DummyDevice:
     ],
 )
 async def test_button_state_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -76,7 +76,7 @@ async def test_button_state_snapshot(
     ],
 )
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     device: DummyDevice,
     entity_name: str,
@@ -104,7 +104,7 @@ async def test_button_press(
 
 
 async def test_button_press_raises_when_device_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test pressing the button while the dishwasher is off raises a clear error."""
@@ -130,7 +130,7 @@ async def test_button_press_raises_when_device_off(
 
 
 async def test_button_unavailable_when_device_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test the button follows base device availability, even with a mode selected."""
@@ -152,7 +152,7 @@ async def test_button_unavailable_when_device_offline(
 
 
 async def test_button_not_created_for_unsupported_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test no button is created for an E1 device with an unsupported model."""
@@ -165,7 +165,7 @@ async def test_button_not_created_for_unsupported_model(
 
 
 async def test_button_not_created_for_other_device_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test no button is created for a device type other than E1."""
@@ -187,10 +187,10 @@ async def test_button_not_created_for_other_device_type(
 
 
 async def test_button_press_raises_on_device_communication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
-    """Test a device communication failure surfaces as a UniversalAssistantError."""
+    """Test a device communication failure surfaces as a __HAC_KEEP__Error."""
     device = _e1_device()
     config_entry = mock_config_entry(device)
     with patch("universalassistant.components.midea._PLATFORMS", [Platform.BUTTON]):
@@ -200,7 +200,7 @@ async def test_button_press_raises_on_device_communication_error(
 
     with (
         patch.object(device, "start_work", side_effect=ValueWrongType("no mode")),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             BUTTON_DOMAIN,

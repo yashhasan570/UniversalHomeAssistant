@@ -7,7 +7,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.util import dt as dt_util
@@ -21,7 +21,7 @@ CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 CACHE_DURATION = timedelta(hours=24)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the usage prediction integration."""
     websocket_api.async_register_command(hass, ws_common_control)
     hass.data[DATA_CACHE] = {}
@@ -38,7 +38,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 )
 @websocket_api.async_response
 async def ws_common_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -54,7 +54,7 @@ async def ws_common_control(
 
 
 async def get_cached_common_control(
-    hass: UniversalAssistant, user_id: str
+    hass: __HAC_KEEP__, user_id: str
 ) -> EntityUsagePredictions:
     """Get cached common control predictions or fetch new ones.
 

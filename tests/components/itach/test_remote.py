@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_PORT,
     DEVICE_DEFAULT_NAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 # Test helpers.
@@ -45,7 +45,7 @@ def _default_config(**overrides: Any) -> dict[str, Any]:
 
 
 def _remote_config(**overrides: Any) -> dict[str, Any]:
-    """Return a Universal Universal Home Assistant remote config for the iTach platform."""
+    """Return a __HA_KEEP__ remote config for the iTach platform."""
     return {
         REMOTE_DOMAIN: [
             {
@@ -57,10 +57,10 @@ def _remote_config(**overrides: Any) -> dict[str, Any]:
 
 
 async def _async_setup_itach_remote(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     **overrides: Any,
 ) -> None:
-    """Set up the iTach remote platform through Universal Universal Home Assistant."""
+    """Set up the iTach remote platform through __HA_KEEP__."""
     assert await async_setup_component(
         hass,
         REMOTE_DOMAIN,
@@ -69,7 +69,7 @@ async def _async_setup_itach_remote(
     await hass.async_block_till_done()
 
 
-async def test_setup_platform_creates_entity(hass: UniversalAssistant) -> None:
+async def test_setup_platform_creates_entity(hass: __HAC_KEEP__) -> None:
     """Test setup creates one remote entity from YAML config."""
     mock_itach = MagicMock()
     mock_itach.ready.return_value = True
@@ -86,7 +86,7 @@ async def test_setup_platform_creates_entity(hass: UniversalAssistant) -> None:
     assert state.state == "off"
 
 
-async def test_setup_platform_initializes_library(hass: UniversalAssistant) -> None:
+async def test_setup_platform_initializes_library(hass: __HAC_KEEP__) -> None:
     """Test setup initializes the pyitachip2ir client with YAML values."""
     mock_itach = MagicMock()
     mock_itach.ready.return_value = True
@@ -108,7 +108,7 @@ async def test_setup_platform_initializes_library(hass: UniversalAssistant) -> N
 
 
 async def test_setup_platform_ready_failure(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup does not create an entity when iTach is not ready."""
     mock_itach = MagicMock()
@@ -129,7 +129,7 @@ async def test_setup_platform_ready_failure(
 
 
 async def test_setup_platform_adds_device_with_command_table(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setup adds a device with the expected command table."""
     mock_itach = MagicMock()
@@ -225,7 +225,7 @@ def test_update_calls_library_update() -> None:
     mock_itach.update.assert_called_once_with()
 
 
-async def test_setup_platform_uses_default_values(hass: UniversalAssistant) -> None:
+async def test_setup_platform_uses_default_values(hass: __HAC_KEEP__) -> None:
     """Test setup uses default values for optional YAML fields."""
     mock_itach = MagicMock()
     mock_itach.ready.return_value = True
@@ -261,7 +261,7 @@ async def test_setup_platform_uses_default_values(hass: UniversalAssistant) -> N
 
 
 async def test_setup_platform_uses_empty_string_placeholders_for_empty_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setup converts empty command names and data to placeholders."""
     mock_itach = MagicMock()

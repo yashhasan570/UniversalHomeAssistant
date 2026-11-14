@@ -1,4 +1,4 @@
-"""Collection and data structure functions for Universal Universal Home Assistant templates."""
+"""Collection and data structure functions for __HA_KEEP__ templates."""
 
 from collections.abc import Iterable, MutableSequence
 import random

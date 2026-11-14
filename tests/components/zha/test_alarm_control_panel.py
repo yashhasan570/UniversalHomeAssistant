@@ -21,7 +21,7 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway_proxy,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import find_entity_id
 from .conftest import SIG_EP_INPUT, SIG_EP_OUTPUT, SIG_EP_PROFILE, SIG_EP_TYPE
@@ -47,7 +47,7 @@ def alarm_control_panel_platform_only():
     new=AsyncMock(return_value=[sentinel.data, zcl_f.Status.SUCCESS]),
 )
 async def test_alarm_control_panel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -279,7 +279,7 @@ async def test_alarm_control_panel(
     cluster.client_command.reset_mock()
 
 
-async def reset_alarm_panel(hass: UniversalAssistant, cluster: Cluster, entity_id: str):
+async def reset_alarm_panel(hass: __HAC_KEEP__, cluster: Cluster, entity_id: str):
     """Reset the state of the alarm panel."""
     cluster.client_command.reset_mock()
     await hass.services.async_call(

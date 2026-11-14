@@ -25,7 +25,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
@@ -100,7 +100,7 @@ TEST_SSDP_SERVICE_INFO = SsdpServiceInfo(
 )
 
 
-async def _create_mock_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def _create_mock_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Add a test Hyperion entity to hass."""
     entry: MockConfigEntry = MockConfigEntry(
         entry_id=TEST_CONFIG_ENTRY_ID,
@@ -127,7 +127,7 @@ async def _create_mock_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 
 async def _init_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: str = SOURCE_USER,
     data: dict[str, Any] | None = None,
 ) -> Any:
@@ -140,7 +140,7 @@ async def _init_flow(
 
 
 async def _configure_flow(
-    hass: UniversalAssistant, result: FlowResult, user_input: dict[str, Any] | None = None
+    hass: __HAC_KEEP__, result: FlowResult, user_input: dict[str, Any] | None = None
 ) -> Any:
     """Provide input to a flow."""
     user_input = user_input or {}
@@ -156,7 +156,7 @@ async def _configure_flow(
     return result
 
 
-async def test_user_if_no_configuration(hass: UniversalAssistant) -> None:
+async def test_user_if_no_configuration(hass: __HAC_KEEP__) -> None:
     """Check flow behavior when no configuration is present."""
     result = await _init_flow(hass)
 
@@ -165,7 +165,7 @@ async def test_user_if_no_configuration(hass: UniversalAssistant) -> None:
     assert result["handler"] == DOMAIN
 
 
-async def test_user_existing_id_abort(hass: UniversalAssistant) -> None:
+async def test_user_existing_id_abort(hass: __HAC_KEEP__) -> None:
     """Verify a duplicate ID results in an abort."""
     result = await _init_flow(hass)
 
@@ -179,7 +179,7 @@ async def test_user_existing_id_abort(hass: UniversalAssistant) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_user_client_errors(hass: UniversalAssistant) -> None:
+async def test_user_client_errors(hass: __HAC_KEEP__) -> None:
     """Verify correct behaviour with client errors."""
     result = await _init_flow(hass)
 
@@ -206,7 +206,7 @@ async def test_user_client_errors(hass: UniversalAssistant) -> None:
         assert result["reason"] == "auth_required_error"
 
 
-async def test_user_confirm_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_user_confirm_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test a failure to connect during confirmation."""
 
     result = await _init_flow(hass)
@@ -225,7 +225,7 @@ async def test_user_confirm_cannot_connect(hass: UniversalAssistant) -> None:
         assert result["reason"] == "cannot_connect"
 
 
-async def test_user_confirm_id_error(hass: UniversalAssistant) -> None:
+async def test_user_confirm_id_error(hass: __HAC_KEEP__) -> None:
     """Test a failure fetching the server id during confirmation."""
     result = await _init_flow(hass)
 
@@ -241,7 +241,7 @@ async def test_user_confirm_id_error(hass: UniversalAssistant) -> None:
         assert result["reason"] == "no_id"
 
 
-async def test_user_noauth_flow_success(hass: UniversalAssistant) -> None:
+async def test_user_noauth_flow_success(hass: __HAC_KEEP__) -> None:
     """Check a full flow without auth."""
     result = await _init_flow(hass)
 
@@ -260,7 +260,7 @@ async def test_user_noauth_flow_success(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == TEST_SYSINFO_ID
 
 
-async def test_user_auth_required(hass: UniversalAssistant) -> None:
+async def test_user_auth_required(hass: __HAC_KEEP__) -> None:
     """Verify correct behaviour when auth is required."""
     result = await _init_flow(hass)
 
@@ -275,7 +275,7 @@ async def test_user_auth_required(hass: UniversalAssistant) -> None:
     assert result["step_id"] == "auth"
 
 
-async def test_auth_static_token_auth_required_fail(hass: UniversalAssistant) -> None:
+async def test_auth_static_token_auth_required_fail(hass: __HAC_KEEP__) -> None:
     """Verify correct behaviour with a failed auth required call."""
     result = await _init_flow(hass)
 
@@ -289,7 +289,7 @@ async def test_auth_static_token_auth_required_fail(hass: UniversalAssistant) ->
     assert result["reason"] == "auth_required_error"
 
 
-async def test_auth_static_token_success(hass: UniversalAssistant) -> None:
+async def test_auth_static_token_success(hass: __HAC_KEEP__) -> None:
     """Test a successful flow with a static token."""
     result = await _init_flow(hass)
     assert result["step_id"] == "user"
@@ -315,7 +315,7 @@ async def test_auth_static_token_success(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == TEST_SYSINFO_ID
 
 
-async def test_auth_static_token_login_connect_fail(hass: UniversalAssistant) -> None:
+async def test_auth_static_token_login_connect_fail(hass: __HAC_KEEP__) -> None:
     """Test correct behavior with a static token that cannot connect."""
     result = await _init_flow(hass)
     assert result["step_id"] == "user"
@@ -336,7 +336,7 @@ async def test_auth_static_token_login_connect_fail(hass: UniversalAssistant) ->
     assert result["reason"] == "cannot_connect"
 
 
-async def test_auth_static_token_login_fail(hass: UniversalAssistant) -> None:
+async def test_auth_static_token_login_fail(hass: __HAC_KEEP__) -> None:
     """Test correct behavior with a static token that cannot login."""
     result = await _init_flow(hass)
     assert result["step_id"] == "user"
@@ -371,7 +371,7 @@ async def test_auth_static_token_login_fail(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_auth_create_token_approval_declined(hass: UniversalAssistant) -> None:
+async def test_auth_create_token_approval_declined(hass: __HAC_KEEP__) -> None:
     """Verify correct behaviour when a token request is declined."""
     result = await _init_flow(hass)
 
@@ -419,7 +419,7 @@ async def test_auth_create_token_approval_declined(hass: UniversalAssistant) -> 
 
 
 async def test_auth_create_token_approval_declined_task_canceled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify correct behaviour when a token request is declined."""
     result = await _init_flow(hass)
@@ -485,7 +485,7 @@ async def test_auth_create_token_approval_declined_task_canceled(
 
 
 async def test_auth_create_token_when_issued_token_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify correct behaviour when a token is granted by fails to authenticate."""
     result = await _init_flow(hass)
@@ -534,7 +534,7 @@ async def test_auth_create_token_when_issued_token_fails(
         assert result["reason"] == "cannot_connect"
 
 
-async def test_auth_create_token_success(hass: UniversalAssistant) -> None:
+async def test_auth_create_token_success(hass: __HAC_KEEP__) -> None:
     """Verify correct behaviour when a token is successfully created."""
     result = await _init_flow(hass)
 
@@ -585,7 +585,7 @@ async def test_auth_create_token_success(hass: UniversalAssistant) -> None:
 
 
 async def test_auth_create_token_success_but_login_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Verify behaviour when token is created but login fails."""
     result = await _init_flow(hass)
@@ -629,7 +629,7 @@ async def test_auth_create_token_success_but_login_fail(
         assert result["reason"] == "auth_new_token_not_work_error"
 
 
-async def test_ssdp_success(hass: UniversalAssistant) -> None:
+async def test_ssdp_success(hass: __HAC_KEEP__) -> None:
     """Check an SSDP flow."""
 
     client = create_mock_client()
@@ -655,7 +655,7 @@ async def test_ssdp_success(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == TEST_SYSINFO_ID
 
 
-async def test_ssdp_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_ssdp_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Check an SSDP flow that cannot connect."""
 
     client = create_mock_client()
@@ -671,7 +671,7 @@ async def test_ssdp_cannot_connect(hass: UniversalAssistant) -> None:
     assert result["reason"] == "cannot_connect"
 
 
-async def test_ssdp_missing_serial(hass: UniversalAssistant) -> None:
+async def test_ssdp_missing_serial(hass: __HAC_KEEP__) -> None:
     """Check an SSDP flow where no id is provided."""
 
     client = create_mock_client()
@@ -689,7 +689,7 @@ async def test_ssdp_missing_serial(hass: UniversalAssistant) -> None:
         assert result["reason"] == "no_id"
 
 
-async def test_ssdp_failure_bad_port_json(hass: UniversalAssistant) -> None:
+async def test_ssdp_failure_bad_port_json(hass: __HAC_KEEP__) -> None:
     """Check an SSDP flow with bad json port."""
 
     client = create_mock_client()
@@ -709,7 +709,7 @@ async def test_ssdp_failure_bad_port_json(hass: UniversalAssistant) -> None:
         assert result["result"].unique_id == TEST_SYSINFO_ID
 
 
-async def test_ssdp_failure_bad_port_ui(hass: UniversalAssistant) -> None:
+async def test_ssdp_failure_bad_port_ui(hass: __HAC_KEEP__) -> None:
     """Check an SSDP flow with bad ui port."""
 
     client = create_mock_client()
@@ -748,7 +748,7 @@ async def test_ssdp_failure_bad_port_ui(hass: UniversalAssistant) -> None:
         }
 
 
-async def test_ssdp_abort_duplicates(hass: UniversalAssistant) -> None:
+async def test_ssdp_abort_duplicates(hass: __HAC_KEEP__) -> None:
     """Check an SSDP flow where no id is provided."""
 
     client = create_mock_client()
@@ -768,7 +768,7 @@ async def test_ssdp_abort_duplicates(hass: UniversalAssistant) -> None:
     assert result_2["reason"] == "already_in_progress"
 
 
-async def test_options_priority(hass: UniversalAssistant) -> None:
+async def test_options_priority(hass: __HAC_KEEP__) -> None:
     """Check an options flow priority option."""
 
     config_entry = add_test_config_entry(hass)
@@ -805,7 +805,7 @@ async def test_options_priority(hass: UniversalAssistant) -> None:
         assert client.async_send_set_color.call_args[1][CONF_PRIORITY] == new_priority
 
 
-async def test_options_effect_show_list(hass: UniversalAssistant) -> None:
+async def test_options_effect_show_list(hass: __HAC_KEEP__) -> None:
     """Check an options flow effect show list."""
 
     config_entry = add_test_config_entry(hass)
@@ -837,7 +837,7 @@ async def test_options_effect_show_list(hass: UniversalAssistant) -> None:
         assert result["data"][CONF_EFFECT_HIDE_LIST] == ["effect2"]
 
 
-async def test_options_effect_hide_list_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_options_effect_hide_list_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Check an options flow effect hide list with a failed connection."""
 
     config_entry = add_test_config_entry(hass)
@@ -856,7 +856,7 @@ async def test_options_effect_hide_list_cannot_connect(hass: UniversalAssistant)
         assert result["reason"] == "cannot_connect"
 
 
-async def test_reauth_success(hass: UniversalAssistant) -> None:
+async def test_reauth_success(hass: __HAC_KEEP__) -> None:
     """Check a reauth flow that succeeds."""
 
     config_data = {
@@ -887,7 +887,7 @@ async def test_reauth_success(hass: UniversalAssistant) -> None:
         assert CONF_TOKEN in config_entry.data
 
 
-async def test_reauth_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_reauth_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Check a reauth flow that fails to connect."""
 
     config_data = {

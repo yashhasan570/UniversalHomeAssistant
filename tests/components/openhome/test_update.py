@@ -22,8 +22,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import setup_integration
 
@@ -70,7 +70,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_not_supported(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_device: MagicMock
 ) -> None:
     """Ensure update entity works if service not supported."""
     mock_device.software_status.return_value = None
@@ -90,7 +90,7 @@ async def test_not_supported(
 
 
 async def test_on_latest_firmware(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_device: MagicMock
 ) -> None:
     """Test device on latest firmware."""
 
@@ -111,7 +111,7 @@ async def test_on_latest_firmware(
 
 
 async def test_update_available(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_device: MagicMock
 ) -> None:
     """Test device has firmware update available."""
 
@@ -147,7 +147,7 @@ async def test_update_available(
 
 
 async def test_firmware_update_error(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_device: MagicMock
 ) -> None:
     """Ensure a failed firmware install is raised to the user."""
     mock_device.software_status.return_value = FIRMWARE_UPDATE_AVAILABLE
@@ -157,7 +157,7 @@ async def test_firmware_update_error(
 
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -168,7 +168,7 @@ async def test_firmware_update_error(
 
 
 async def test_firmware_update_not_required(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_device: MagicMock
 ) -> None:
     """Ensure firmware install does nothing if up to date."""
 
@@ -176,7 +176,7 @@ async def test_firmware_update_not_required(
 
     await setup_integration(hass, mock_config_entry)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,

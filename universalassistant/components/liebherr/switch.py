@@ -13,7 +13,7 @@ from pyliebherrhomeapi.const import (
 )
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -129,7 +129,7 @@ def _create_switch_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LiebherrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

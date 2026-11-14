@@ -12,7 +12,7 @@ from universalassistant.components.zwave_js.const import DOMAIN, ZWaveJSService
 from universalassistant.components.zwave_js.helpers import get_valueless_base_unique_id
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import CommonServiceArgument, EntityCategory, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -24,7 +24,7 @@ def platforms() -> list[str]:
 
 
 async def test_ping_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     client,
     climate_radio_thermostat_ct100_plus_different_endpoints,
@@ -80,7 +80,7 @@ async def test_ping_entity(
 
 
 async def test_notification_idle_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
     multisensor_6: Node,

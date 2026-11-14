@@ -10,7 +10,7 @@ from universalassistant.components.remote import (
     DEFAULT_DELAY_SECS,
     RemoteEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.trigger import PluggableAction
 
@@ -22,7 +22,7 @@ from .helpers import async_get_turn_on_trigger
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: PhilipsTVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

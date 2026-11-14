@@ -16,7 +16,7 @@ from universalassistant.components.alpha_bidet_infrared.const import (
     AlphaBidetModel,
 )
 from universalassistant.const import CONF_MODEL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -42,7 +42,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     platforms: list[Platform],

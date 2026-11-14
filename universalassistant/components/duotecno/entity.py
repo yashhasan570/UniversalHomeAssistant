@@ -6,7 +6,7 @@ from typing import Any, Concatenate, override
 
 from duotecno.unit import BaseUnit
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
 
@@ -58,7 +58,7 @@ def api_call[_T: DuotecnoEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except OSError as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error calling {func.__name__} on entity {self.entity_id}"
             ) from exc
 

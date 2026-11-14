@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_get_device_a
 from universalassistant.components import automation
 from universalassistant.components.arcam_fmj.const import DOMAIN
 from universalassistant.components.device_automation import DeviceAutomationType
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -14,7 +14,7 @@ from .conftest import MOCK_ENTITY_ID
 
 
 async def test_get_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_get_triggers(
 
 
 async def test_if_fires_on_turn_on_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
     player_setup,
@@ -103,7 +103,7 @@ async def test_if_fires_on_turn_on_request(
 
 
 async def test_if_fires_on_turn_on_request_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
     player_setup,

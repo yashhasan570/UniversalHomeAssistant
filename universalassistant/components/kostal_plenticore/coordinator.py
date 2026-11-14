@@ -16,7 +16,7 @@ from pykoplenti import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -170,7 +170,7 @@ class PlenticoreUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: PlenticoreConfigEntry,
         logger: logging.Logger,
         name: str,
@@ -263,7 +263,7 @@ class PlenticoreSelectUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: PlenticoreConfigEntry,
         logger: logging.Logger,
         name: str,

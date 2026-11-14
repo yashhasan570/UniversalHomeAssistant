@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.xiaomi_aqara import config_flow, const
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_NAME, CONF_PORT, CONF_PROTOCOL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -86,7 +86,7 @@ def get_mock_discovery(
 
 
 async def _async_finish_user_flow(
-    hass: UniversalAssistant, flow_id: str, user_input: dict[str, str]
+    hass: __HAC_KEEP__, flow_id: str, user_input: dict[str, str]
 ) -> ConfigFlowResult:
     """Submit the user step again and finish the flow."""
     result = await hass.config_entries.flow.async_configure(flow_id, user_input)
@@ -96,7 +96,7 @@ async def _async_finish_user_flow(
     )
 
 
-async def test_config_flow_user_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_success(hass: __HAC_KEEP__) -> None:
     """Test a successful config flow initialized by the user."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -134,7 +134,7 @@ async def test_config_flow_user_success(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == TEST_MAC
 
 
-async def test_config_flow_user_multiple_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_multiple_success(hass: __HAC_KEEP__) -> None:
     """Test successful config flow with multiple gateways discovered."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -187,7 +187,7 @@ async def test_config_flow_user_multiple_success(hass: UniversalAssistant) -> No
     assert result["result"].unique_id == TEST_MAC
 
 
-async def test_config_flow_user_no_key_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_no_key_success(hass: __HAC_KEEP__) -> None:
     """Test a successful config flow initialized by the user without a key."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -225,7 +225,7 @@ async def test_config_flow_user_no_key_success(hass: UniversalAssistant) -> None
     assert result["result"].unique_id == TEST_MAC
 
 
-async def test_config_flow_user_host_mac_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_host_mac_success(hass: __HAC_KEEP__) -> None:
     """Test successful config flow with host and mac specified."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -273,7 +273,7 @@ async def test_config_flow_user_host_mac_success(hass: UniversalAssistant) -> No
     assert result["result"].unique_id == TEST_MAC
 
 
-async def test_config_flow_user_discovery_error(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_discovery_error(hass: __HAC_KEEP__) -> None:
     """Test a failed config flow initialized by the user with no gateways discovered."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -304,7 +304,7 @@ async def test_config_flow_user_discovery_error(hass: UniversalAssistant) -> Non
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_user_invalid_interface(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_invalid_interface(hass: __HAC_KEEP__) -> None:
     """Test a failed config flow initialized by the user with an invalid interface."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -335,7 +335,7 @@ async def test_config_flow_user_invalid_interface(hass: UniversalAssistant) -> N
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_user_invalid_host(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_invalid_host(hass: __HAC_KEEP__) -> None:
     """Test a failed config flow initialized by the user with an invalid host."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -376,7 +376,7 @@ async def test_config_flow_user_invalid_host(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_user_invalid_mac(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_invalid_mac(hass: __HAC_KEEP__) -> None:
     """Test a failed config flow initialized by the user with an invalid mac."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -417,7 +417,7 @@ async def test_config_flow_user_invalid_mac(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_user_invalid_key(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_invalid_key(hass: __HAC_KEEP__) -> None:
     """Test a failed config flow initialized by the user with an invalid key."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -461,7 +461,7 @@ async def test_config_flow_user_invalid_key(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zeroconf_success(hass: UniversalAssistant) -> None:
+async def test_zeroconf_success(hass: __HAC_KEEP__) -> None:
     """Test a successful zeroconf discovery of a xiaomi aqara gateway."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN,
@@ -509,7 +509,7 @@ async def test_zeroconf_success(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == TEST_MAC
 
 
-async def test_zeroconf_missing_data(hass: UniversalAssistant) -> None:
+async def test_zeroconf_missing_data(hass: __HAC_KEEP__) -> None:
     """Test a failed zeroconf discovery because of missing data."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN,
@@ -529,7 +529,7 @@ async def test_zeroconf_missing_data(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_xiaomi_aqara"
 
 
-async def test_zeroconf_unknown_device(hass: UniversalAssistant) -> None:
+async def test_zeroconf_unknown_device(hass: __HAC_KEEP__) -> None:
     """Test a failed zeroconf discovery because of a unknown device."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN,

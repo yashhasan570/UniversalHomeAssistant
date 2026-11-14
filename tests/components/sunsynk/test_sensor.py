@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sunsynk.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -26,7 +26,7 @@ ENTITY_ID_GRID_POWER_2 = "sensor.inverter_2938475610_grid_power"
 
 @pytest.mark.usefixtures("mock_sunsynk_client", "entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -37,7 +37,7 @@ async def test_sensors(
 
 
 async def test_sensors_unavailable_on_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sunsynk_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -61,7 +61,7 @@ async def test_sensors_unavailable_on_error(
 
 
 async def test_one_inverter_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sunsynk_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -94,7 +94,7 @@ async def test_one_inverter_unavailable(
 
 @pytest.mark.usefixtures("mock_sunsynk_client")
 async def test_power_sensors_use_total_of_all_phases(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the grid and load power sensors report the total across all phases."""
     await setup_integration(hass, mock_config_entry)
@@ -104,7 +104,7 @@ async def test_power_sensors_use_total_of_all_phases(
 
 @pytest.mark.usefixtures("mock_sunsynk_client")
 async def test_no_battery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

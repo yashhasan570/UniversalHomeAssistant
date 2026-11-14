@@ -8,7 +8,7 @@ from universalassistant.components.wilight.config_flow import (
     CONF_SERIAL_NUMBER,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_MANUFACTURER,
     ATTR_UPNP_MODEL_NAME,
@@ -70,9 +70,9 @@ MOCK_SSDP_DISCOVERY_INFO_MISSING_MANUFACTURER = SsdpServiceInfo(
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> MockConfigEntry:
-    """Mock ConfigEntry in Universal Universal Home Assistant."""
+    """Mock ConfigEntry in __HA_KEEP__."""
 
     entry = MockConfigEntry(
         domain=DOMAIN,

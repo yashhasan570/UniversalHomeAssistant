@@ -32,7 +32,7 @@
           "name": "A name for this integration entry, like the name of the computer running the OpenRGB SDK server.",
           "port": "The port number that the OpenRGB SDK server is running on."
         },
-        "description": "Set up your OpenRGB SDK server to allow control from within Universal Universal Home Assistant.",
+        "description": "Set up your OpenRGB SDK server to allow control from within __HA_KEEP__.",
         "title": "Set up OpenRGB SDK server"
       }
     }

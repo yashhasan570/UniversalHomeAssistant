@@ -12,7 +12,7 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import DOMAIN
@@ -38,7 +38,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> NotifyEventsNotificationService:

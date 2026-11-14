@@ -12,8 +12,8 @@ from universalassistant.components.camera import (
     CameraEntityFeature,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -55,7 +55,7 @@ RPC_CAMERA_ENTITIES: Final = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -148,7 +148,7 @@ class ShellyCameraEntity(ShellyRpcAttributeEntity, Camera):
         try:
             return await self.coordinator.device.camera_get_image(self._id)
         except DeviceConnectionError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_communication_error",
                 translation_placeholders={
@@ -156,7 +156,7 @@ class ShellyCameraEntity(ShellyRpcAttributeEntity, Camera):
                 },
             ) from err
         except HttpCallError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="http_call_error",
                 translation_placeholders={

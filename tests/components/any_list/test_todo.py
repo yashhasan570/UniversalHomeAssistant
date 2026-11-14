@@ -18,8 +18,8 @@ from universalassistant.components.todo import (
     TodoServices,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -29,7 +29,7 @@ ENTITY_ID = "todo.groceries"
 
 
 async def test_todo_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -50,7 +50,7 @@ async def test_todo_entity(
 
 
 async def test_add_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -73,7 +73,7 @@ async def test_add_item(
 
 
 async def test_update_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_update_item(
 
 
 async def test_delete_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_delete_items(
 )
 @pytest.mark.parametrize("error", [AnyListError(), TimeoutError()])
 async def test_todo_action_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
     service: str,
@@ -160,11 +160,11 @@ async def test_todo_action_errors(
     translation_key: str,
     error: Exception,
 ) -> None:
-    """Test AnyList mutation errors are translated to Universal Universal Home Assistant errors."""
+    """Test AnyList mutation errors are translated to __HA_KEEP__ errors."""
     await setup_integration(hass, mock_config_entry)
     attrgetter(method)(mock_anylist_client).side_effect = error
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             TODO_DOMAIN,
             service,
@@ -178,12 +178,12 @@ async def test_todo_action_errors(
 
 
 async def test_stale_list_entity_removed_on_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
-    """Test a list deleted while Universal Universal Home Assistant was offline is removed on startup."""
+    """Test a list deleted while __HA_KEEP__ was offline is removed on startup."""
     mock_config_entry.add_to_hass(hass)
     stale_unique_id = f"{mock_config_entry.unique_id}_deleted-list"
     stale = entity_registry.async_get_or_create(
@@ -205,7 +205,7 @@ async def test_stale_list_entity_removed_on_startup(
 
 
 async def test_realtime_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_realtime_update(
 
 
 async def test_dynamic_lists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_dynamic_lists(
 
 
 async def test_list_rename(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:

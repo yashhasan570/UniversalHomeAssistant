@@ -13,7 +13,7 @@ from universalassistant.components.victron_remote_monitoring.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -31,7 +31,7 @@ def _make_site(site_id: int, name: str = "ESS System") -> Mock:
 
 
 async def test_full_flow_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_vrm_client: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_vrm_client: AsyncMock
 ) -> None:
     """Test the 2-step flow: token -> select site -> create entry."""
     site1 = _make_site(123456, "ESS")
@@ -67,7 +67,7 @@ async def test_full_flow_success(
 
 
 async def test_user_step_no_sites(
-    hass: UniversalAssistant, mock_vrm_client: AsyncMock
+    hass: __HAC_KEEP__, mock_vrm_client: AsyncMock
 ) -> None:
     """No sites available keeps user step with no_sites error."""
     result = await hass.config_entries.flow.async_init(
@@ -108,7 +108,7 @@ async def test_user_step_no_sites(
     ],
 )
 async def test_user_step_errors_then_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vrm_client: AsyncMock,
     side_effect: Exception,
     expected_error: str,
@@ -161,7 +161,7 @@ async def test_user_step_errors_then_success(
     ],
 )
 async def test_select_site_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vrm_client: AsyncMock,
     side_effect: Exception | None,
     return_value: Mock | None,
@@ -203,7 +203,7 @@ async def test_select_site_errors(
 
 
 async def test_select_site_duplicate_aborts(
-    hass: UniversalAssistant, mock_vrm_client: AsyncMock
+    hass: __HAC_KEEP__, mock_vrm_client: AsyncMock
 ) -> None:
     """Selecting already configured site aborts during select step."""
     site_id = 555
@@ -257,7 +257,7 @@ async def test_select_site_duplicate_aborts(
 
 
 async def test_reauth_flow_success(
-    hass: UniversalAssistant, mock_vrm_client: AsyncMock
+    hass: __HAC_KEEP__, mock_vrm_client: AsyncMock
 ) -> None:
     """Test successful reauthentication with new token."""
     # Existing configured entry
@@ -296,7 +296,7 @@ async def test_reauth_flow_success(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vrm_client: AsyncMock,
     side_effect: Exception,
     expected_error: str,

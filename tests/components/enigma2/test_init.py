@@ -7,14 +7,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_json_ob
 
 from universalassistant.components.enigma2.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import TEST_REQUIRED
 
 
 async def test_device_without_mac_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     openwebif_device_mock: AsyncMock,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -38,7 +38,7 @@ async def test_device_without_mac_address(
 
 
 @pytest.mark.usefixtures("openwebif_device_mock")
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test successful unload of entry."""
     entry = MockConfigEntry(domain=DOMAIN, data=TEST_REQUIRED, title="name")
     entry.add_to_hass(hass)

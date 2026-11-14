@@ -24,7 +24,7 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway_proxy,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import (
     async_shift_time,
@@ -115,7 +115,7 @@ def light_platform_only():
     [(LIGHT_ON_OFF, (1, 0, 0)), (LIGHT_LEVEL, (1, 1, 0)), (LIGHT_COLOR, (1, 1, 6))],
 )
 async def test_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
     device,
@@ -195,7 +195,7 @@ async def test_light(
     new=AsyncMock(return_value=[sentinel.data, zcl_f.Status.SUCCESS]),
 )
 async def test_on_with_off_color(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -362,7 +362,7 @@ async def test_on_with_off_color(
 
 
 async def async_test_on_off_from_light(
-    hass: UniversalAssistant, cluster: Cluster, entity_id: str
+    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
 ):
     """Test on off functionality from the light."""
     # turn on at light
@@ -377,7 +377,7 @@ async def async_test_on_off_from_light(
 
 
 async def async_test_on_from_light(
-    hass: UniversalAssistant, cluster: Cluster, entity_id: str
+    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
 ):
     """Test on off functionality from the light."""
     # turn on at light
@@ -387,7 +387,7 @@ async def async_test_on_from_light(
 
 
 async def async_test_on_off_from_hass(
-    hass: UniversalAssistant, cluster: Cluster, entity_id: str
+    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
 ):
     """Test on off functionality from hass."""
     # turn on via UI
@@ -409,9 +409,9 @@ async def async_test_on_off_from_hass(
 
 
 async def async_test_off_from_hass(
-    hass: UniversalAssistant, cluster: Cluster, entity_id: str
+    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str
 ):
-    """Test turning off the light from Universal Universal Home Assistant."""
+    """Test turning off the light from __HA_KEEP__."""
 
     # turn off via UI
     cluster.request.reset_mock()
@@ -430,7 +430,7 @@ async def async_test_off_from_hass(
 
 
 async def async_test_level_on_off_from_hass(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     on_off_cluster: Cluster,
     level_cluster: Cluster,
     entity_id: str,
@@ -511,7 +511,7 @@ async def async_test_level_on_off_from_hass(
 
 
 async def async_test_dimmer_from_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cluster: Cluster,
     entity_id: str,
     level: int,
@@ -531,7 +531,7 @@ async def async_test_dimmer_from_light(
 
 
 async def async_test_flash_from_hass(
-    hass: UniversalAssistant, cluster: Cluster, entity_id: str, flash
+    hass: __HAC_KEEP__, cluster: Cluster, entity_id: str, flash
 ):
     """Test flash functionality from hass."""
     # turn on via UI
@@ -572,7 +572,7 @@ async def async_test_flash_from_hass(
     new=AsyncMock(return_value=[sentinel.data, zcl_f.Status.SUCCESS]),
 )
 async def test_light_exception_on_creation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
     caplog: pytest.LogCaptureFixture,

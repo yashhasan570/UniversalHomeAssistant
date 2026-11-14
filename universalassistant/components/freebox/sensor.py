@@ -16,7 +16,7 @@ from universalassistant.const import (
     UnitOfDataRate,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -103,7 +103,7 @@ DISK_PARTITION_SENSORS: tuple[SensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FreeboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

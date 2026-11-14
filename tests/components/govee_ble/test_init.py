@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.bluetooth import BluetoothScanningMode
 from universalassistant.components.govee_ble.const import CONF_DEVICE_TYPE, DOMAIN
 from universalassistant.components.govee_ble.coordinator import ACTIVE_SCAN_DURATION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -35,7 +35,7 @@ from universalassistant.core import UniversalAssistant
     ],
 )
 async def test_active_scan_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_type: str,
     expected_mode: BluetoothScanningMode,
     expected_scan_duration: float | None,

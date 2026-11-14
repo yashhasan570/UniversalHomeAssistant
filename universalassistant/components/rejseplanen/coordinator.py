@@ -11,7 +11,7 @@ from py_rejseplan.exceptions import APIError, ConnectionError, HTTPError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import (
@@ -35,7 +35,7 @@ class RejseplanenDataUpdateCoordinator(TimestampDataUpdateCoordinator[DepartureB
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: RejseplanenConfigEntry,
     ) -> None:
         """Initialize."""

@@ -19,7 +19,7 @@ from pytest_unordered import unordered
 
 from universalassistant.components.config import entity_registry
 from universalassistant.const import ATTR_ICON, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -37,7 +37,7 @@ from universalassistant.util.dt import utcnow
 
 @pytest.fixture
 async def client(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> MockHAClientWebSocket:
     """Fixture that can interact with the config manager API."""
     entity_registry.async_setup(hass)
@@ -46,7 +46,7 @@ async def client(
 
 @pytest.mark.usefixtures("freezer")
 async def test_list_entities(
-    hass: UniversalAssistant, client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, client: MockHAClientWebSocket
 ) -> None:
     """Test list entries."""
     mock_registry(
@@ -202,7 +202,7 @@ async def test_list_entities(
 
 
 async def test_list_entities_for_display(
-    hass: UniversalAssistant, client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, client: MockHAClientWebSocket
 ) -> None:
     """Test list entries."""
     mock_registry(
@@ -416,7 +416,7 @@ async def test_list_entities_for_display(
     }
 
 
-async def test_get_entity(hass: UniversalAssistant, client: MockHAClientWebSocket) -> None:
+async def test_get_entity(hass: __HAC_KEEP__, client: MockHAClientWebSocket) -> None:
     """Test get entry."""
     name_created_at = datetime(1994, 2, 14, 12, 0, 0)
     no_name_created_at = datetime(2024, 2, 14, 12, 0, 1)
@@ -513,7 +513,7 @@ async def test_get_entity(hass: UniversalAssistant, client: MockHAClientWebSocke
     }
 
 
-async def test_get_entities(hass: UniversalAssistant, client: MockHAClientWebSocket) -> None:
+async def test_get_entities(hass: __HAC_KEEP__, client: MockHAClientWebSocket) -> None:
     """Test get entry."""
     name_created_at = datetime(1994, 2, 14, 12, 0, 0)
     no_name_created_at = datetime(2024, 2, 14, 12, 0, 1)
@@ -612,7 +612,7 @@ async def test_get_entities(hass: UniversalAssistant, client: MockHAClientWebSoc
 
 
 async def test_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MockHAClientWebSocket,
     freezer: FrozenDateTimeFactory,
     label_registry: lr.LabelRegistry,
@@ -1010,7 +1010,7 @@ async def test_update_entity(
 
 
 async def test_update_entity_own_area_without_own_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MockHAClientWebSocket,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1059,7 +1059,7 @@ async def test_update_entity_own_area_without_own_name(
     ],
 )
 async def test_update_entity_strips_unknown_labels(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MockHAClientWebSocket,
     label_registry: lr.LabelRegistry,
     labels: list[str],
@@ -1099,7 +1099,7 @@ async def test_update_entity_strips_unknown_labels(
 
 
 async def test_update_entity_require_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MockHAClientWebSocket,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -1173,7 +1173,7 @@ async def test_update_entity_require_restart(
 
 
 async def test_enable_entity_disabled_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MockHAClientWebSocket,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1234,7 +1234,7 @@ async def test_enable_entity_disabled_device(
 
 
 async def test_update_entity_no_changes(
-    hass: UniversalAssistant, client: MockHAClientWebSocket, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, client: MockHAClientWebSocket, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test update entity with no changes."""
     created = datetime.fromisoformat("2024-02-14T12:00:00.900075+00:00")
@@ -1335,7 +1335,7 @@ async def test_update_nonexisting_entity(client: MockHAClientWebSocket) -> None:
 
 
 async def test_update_entity_id(
-    hass: UniversalAssistant, client: MockHAClientWebSocket, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, client: MockHAClientWebSocket, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test update entity id."""
     created = datetime.fromisoformat("2024-02-14T12:00:00.900075+00:00")
@@ -1406,7 +1406,7 @@ async def test_update_entity_id(
 
 
 async def test_update_existing_entity_id(
-    hass: UniversalAssistant, client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, client: MockHAClientWebSocket
 ) -> None:
     """Test update entity id to an already registered entity id."""
     mock_registry(
@@ -1444,7 +1444,7 @@ async def test_update_existing_entity_id(
 
 
 async def test_update_invalid_entity_id(
-    hass: UniversalAssistant, client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, client: MockHAClientWebSocket
 ) -> None:
     """Test update entity id to an invalid entity id."""
     mock_registry(
@@ -1476,7 +1476,7 @@ async def test_update_invalid_entity_id(
 
 
 async def test_remove_entity(
-    hass: UniversalAssistant, client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, client: MockHAClientWebSocket
 ) -> None:
     """Test removing entity."""
     registry = mock_registry(
@@ -1506,7 +1506,7 @@ async def test_remove_entity(
 
 
 async def test_remove_non_existing_entity(
-    hass: UniversalAssistant, client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, client: MockHAClientWebSocket
 ) -> None:
     """Test removing non existing entity."""
     mock_registry(hass, {})
@@ -1528,7 +1528,7 @@ DOMAIN = "test_domain"
 
 
 async def test_get_automatic_entity_ids(
-    hass: UniversalAssistant, client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, client: MockHAClientWebSocket
 ) -> None:
     """Test get_automatic_entity_ids."""
     mock_registry(
@@ -1752,7 +1752,7 @@ async def test_get_automatic_entity_ids(
     ],
 )
 async def test_get_automatic_entity_ids_overrides(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MockHAClientWebSocket,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,

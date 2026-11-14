@@ -19,8 +19,8 @@ from aiohomeconnect.model.program import Program, ProgramDefinition
 import probatio
 
 from universalassistant.const import CommonServiceArgument, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.util.unit_conversion import TemperatureConverter
 
@@ -188,7 +188,7 @@ SERVICE_START_SELECTED_PROGRAM_SCHEMA = probatio.All(
 
 
 async def _get_client_and_ha_id(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> tuple[HomeConnectClient, str]:
     config_entry: HomeConnectConfigEntry
     device, config_entry = service.async_get_device_and_config_entry(
@@ -221,7 +221,7 @@ async def async_service_setting(call: ServiceCall) -> None:
     try:
         await client.set_setting(ha_id, setting_key=key, value=value)
     except HomeConnectError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="set_setting",
             translation_placeholders={
@@ -336,7 +336,7 @@ async def async_service_set_program_and_options(call: ServiceCall) -> None:
     try:
         await method_call
     except HomeConnectError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key=exception_translation_key,
             translation_placeholders={
@@ -358,13 +358,13 @@ async def async_service_start_selected_program(call: ServiceCall) -> None:
         except NoProgramActiveError:
             program_obj = await client.get_selected_program(ha_id)
     except HomeConnectError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="fetch_program_error",
             translation_placeholders=get_dict_from_home_connect_error(err),
         ) from err
     if not program_obj.key:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="no_program_to_start",
         )
@@ -379,7 +379,7 @@ async def async_service_start_selected_program(call: ServiceCall) -> None:
             None,
         )
         if not base_program:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="favorite_program_missing_base_program",
             )
@@ -392,7 +392,7 @@ async def async_service_start_selected_program(call: ServiceCall) -> None:
             ha_id, program_key=program
         )
     except HomeConnectError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="fetch_program_error",
             translation_placeholders=get_dict_from_home_connect_error(err),
@@ -414,7 +414,7 @@ async def async_service_start_selected_program(call: ServiceCall) -> None:
     for option, value in data.items():
         option_key = PROGRAM_OPTIONS[option][0]
         if option_key not in writable_keys:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="start_program_option_not_writable",
                 translation_placeholders={
@@ -431,7 +431,7 @@ async def async_service_start_selected_program(call: ServiceCall) -> None:
             options=list(options_dict.values()) if options_dict else None,
         )
     except HomeConnectError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="start_program",
             translation_placeholders={
@@ -442,7 +442,7 @@ async def async_service_start_selected_program(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register custom actions."""
 
     hass.services.async_register(

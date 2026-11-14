@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.rachio.const import CONF_MANUAL_RUN_MINS, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_API_KEY, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import BASE_STATION_ID, BASE_STATION_SERIAL
 
@@ -129,7 +129,7 @@ def mock_rachio(mock_rachio: MagicMock) -> MagicMock:
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,

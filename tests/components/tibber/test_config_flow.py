@@ -26,7 +26,7 @@ from universalassistant.components.tibber.config_flow import (
 )
 from universalassistant.components.tibber.const import AUTH_IMPLEMENTATION, DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -63,7 +63,7 @@ def _mock_tibber(
 )
 async def test_oauth_create_entry_abort_exceptions(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tibber_mock: MagicMock,
     exception: Exception,
     expected_error: str,
@@ -94,7 +94,7 @@ async def test_oauth_create_entry_abort_exceptions(
 )
 async def test_oauth_create_entry_connection_error_retry(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     tibber_mock: MagicMock,
@@ -140,7 +140,7 @@ async def test_oauth_create_entry_connection_error_retry(
 
 async def test_data_api_requires_credentials(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Abort when OAuth credentials are missing."""
     result = await hass.config_entries.flow.async_init(
@@ -154,7 +154,7 @@ async def test_data_api_requires_credentials(
 @pytest.mark.usefixtures("setup_credentials", "current_request_with_host")
 async def test_data_api_extra_authorize_scope(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Ensure the OAuth implementation requests Tibber scopes."""
     result = await hass.config_entries.flow.async_init(
@@ -168,7 +168,7 @@ async def test_data_api_extra_authorize_scope(
 @pytest.mark.usefixtures("setup_credentials", "current_request_with_host")
 async def test_full_flow_success(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     tibber_mock: MagicMock,
@@ -210,7 +210,7 @@ async def test_full_flow_success(
 @pytest.mark.usefixtures("setup_credentials", "current_request_with_host")
 async def test_data_api_abort_when_already_configured(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     tibber_mock: MagicMock,
@@ -259,7 +259,7 @@ async def test_data_api_abort_when_already_configured(
 @pytest.mark.usefixtures("setup_credentials", "current_request_with_host")
 async def test_reauth_flow_success(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     tibber_mock: MagicMock,
@@ -315,7 +315,7 @@ async def test_reauth_flow_success(
 @pytest.mark.usefixtures("setup_credentials", "current_request_with_host")
 async def test_reauth_flow_wrong_account(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     tibber_mock: MagicMock,
@@ -386,7 +386,7 @@ async def test_reauth_flow_wrong_account(
 )
 async def test_reconfigure_flow(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     tibber_mock: MagicMock,

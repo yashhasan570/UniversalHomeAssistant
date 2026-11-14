@@ -5,7 +5,7 @@ from typing import Any, override
 from duotecno.unit import SwitchUnit
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DuotecnoConfigEntry
@@ -13,7 +13,7 @@ from .entity import DuotecnoEntity, api_call
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DuotecnoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

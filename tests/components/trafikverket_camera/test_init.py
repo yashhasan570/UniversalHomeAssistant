@@ -10,14 +10,14 @@ from pytrafikverket import CameraInfoModel, UnknownError
 
 from universalassistant.components.trafikverket_camera.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import ENTRY_CONFIG, ENTRY_CONFIG_OLD_CONFIG
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_camera: CameraInfoModel,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_setup_entry(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_camera: CameraInfoModel,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_unload_entry(
 
 
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_camera: CameraInfoModel,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_migrate_entry(
     ],
 )
 async def test_migrate_entry_fails_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_camera: CameraInfoModel,
     aioclient_mock: AiohttpClientMocker,
     version: int,
@@ -182,7 +182,7 @@ async def test_migrate_entry_fails_with_error(
     ],
 )
 async def test_migrate_entry_fails_no_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     version: int,
     unique_id: str,

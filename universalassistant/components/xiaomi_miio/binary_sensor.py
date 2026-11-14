@@ -13,7 +13,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import CONF_DEVICE, CONF_MODEL, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -129,7 +129,7 @@ HUMIDIFIER_MJJSQ_BINARY_SENSORS = (ATTR_NO_WATER, ATTR_WATER_TANK_DETACHED)
 
 
 def _setup_vacuum_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: XiaomiMiioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -170,7 +170,7 @@ def _setup_vacuum_sensors(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: XiaomiMiioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

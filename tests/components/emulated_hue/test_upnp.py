@@ -17,7 +17,7 @@ from universalassistant import setup
 from universalassistant.components import emulated_hue
 from universalassistant.components.emulated_hue import upnp
 from universalassistant.const import CONTENT_TYPE_JSON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 BRIDGE_SERVER_PORT = get_test_instance_port()
 
@@ -60,7 +60,7 @@ def hue_client(
         yield client
 
 
-async def setup_hue(hass: UniversalAssistant) -> None:
+async def setup_hue(hass: __HAC_KEEP__) -> None:
     """Set up the emulated_hue integration."""
     with patch(
         "universalassistant.components.emulated_hue.async_create_upnp_datagram_endpoint"
@@ -158,7 +158,7 @@ MX:3
     assert not mock_transport.sends
 
 
-async def test_description_xml(hass: UniversalAssistant, hue_client) -> None:
+async def test_description_xml(hass: __HAC_KEEP__, hue_client) -> None:
     """Test the description."""
     await setup_hue(hass)
     client = await hue_client()
@@ -175,7 +175,7 @@ async def test_description_xml(hass: UniversalAssistant, hue_client) -> None:
         pytest.fail("description.xml is not valid XML!")
 
 
-async def test_create_username(hass: UniversalAssistant, hue_client) -> None:
+async def test_create_username(hass: __HAC_KEEP__, hue_client) -> None:
     """Test the creation of an username."""
     await setup_hue(hass)
     client = await hue_client()
@@ -193,7 +193,7 @@ async def test_create_username(hass: UniversalAssistant, hue_client) -> None:
     assert "username" in success_json["success"]
 
 
-async def test_unauthorized_view(hass: UniversalAssistant, hue_client) -> None:
+async def test_unauthorized_view(hass: __HAC_KEEP__, hue_client) -> None:
     """Test unauthorized view."""
     await setup_hue(hass)
     client = await hue_client()
@@ -219,7 +219,7 @@ async def test_unauthorized_view(hass: UniversalAssistant, hue_client) -> None:
     assert "1" in error_json["type"]
 
 
-async def test_valid_username_request(hass: UniversalAssistant, hue_client) -> None:
+async def test_valid_username_request(hass: __HAC_KEEP__, hue_client) -> None:
     """Test request with a valid username."""
     await setup_hue(hass)
     client = await hue_client()

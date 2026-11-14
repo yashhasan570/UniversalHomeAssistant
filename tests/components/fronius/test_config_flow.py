@@ -10,7 +10,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant import config_entries
 from universalassistant.components.fronius.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -38,7 +38,7 @@ MOCK_DHCP_DATA = DhcpServiceInfo(
 )
 
 
-async def assert_finish_flow_with_logger(hass: UniversalAssistant, flow_id: str) -> None:
+async def assert_finish_flow_with_logger(hass: __HAC_KEEP__, flow_id: str) -> None:
     """Assert finishing the flow with a logger device."""
     with patch(
         "fronius_solarapi.FroniusSolarApi.logger_info",
@@ -64,7 +64,7 @@ async def assert_finish_flow_with_logger(hass: UniversalAssistant, flow_id: str)
 
 
 async def assert_abort_flow_with_logger(
-    hass: UniversalAssistant, flow_id: str, reason: str
+    hass: __HAC_KEEP__, flow_id: str, reason: str
 ) -> config_entries.ConfigFlowResult:
     """Assert the flow was aborted when a logger device responded."""
     with patch(
@@ -84,7 +84,7 @@ async def assert_abort_flow_with_logger(
     return result
 
 
-async def test_form_with_logger(hass: UniversalAssistant) -> None:
+async def test_form_with_logger(hass: __HAC_KEEP__) -> None:
     """Test the basic flow with a logger device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -94,7 +94,7 @@ async def test_form_with_logger(hass: UniversalAssistant) -> None:
     await assert_finish_flow_with_logger(hass, result["flow_id"])
 
 
-async def test_form_with_inverter(hass: UniversalAssistant) -> None:
+async def test_form_with_inverter(hass: __HAC_KEEP__) -> None:
     """Test the basic flow with a Gen24 device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -141,7 +141,7 @@ async def test_form_with_inverter(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_form_cannot_connect(
-    hass: UniversalAssistant, inverter_side_effect: type[FroniusError] | None
+    hass: __HAC_KEEP__, inverter_side_effect: type[FroniusError] | None
 ) -> None:
     """Test we handle cannot connect error."""
     INVERTER_INFO_NONE = Mock(data={})
@@ -172,7 +172,7 @@ async def test_form_cannot_connect(
     await assert_finish_flow_with_logger(hass, result2["flow_id"])
 
 
-async def test_form_unexpected(hass: UniversalAssistant) -> None:
+async def test_form_unexpected(hass: __HAC_KEEP__) -> None:
     """Test we handle unexpected error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -194,7 +194,7 @@ async def test_form_unexpected(hass: UniversalAssistant) -> None:
     await assert_finish_flow_with_logger(hass, result2["flow_id"])
 
 
-async def test_form_already_existing(hass: UniversalAssistant) -> None:
+async def test_form_already_existing(hass: __HAC_KEEP__) -> None:
     """Test existing entry."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -212,7 +212,7 @@ async def test_form_already_existing(hass: UniversalAssistant) -> None:
 
 
 async def test_config_flow_already_configured(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test existing entry doesn't get updated by config flow."""
     old_host = "http://10.1.0.1"
@@ -257,7 +257,7 @@ async def test_config_flow_already_configured(
     }
 
 
-async def test_dhcp(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_dhcp(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
     """Test starting a flow from discovery."""
     with (
         patch("universalassistant.components.fronius.config_flow.DHCP_REQUEST_DELAY", 0),
@@ -310,7 +310,7 @@ async def test_dhcp(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocke
     ],
 )
 async def test_dhcp_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     configured_host: str,
     discovery_info: DhcpServiceInfo,
@@ -340,7 +340,7 @@ async def test_dhcp_already_configured(
 
 
 async def test_dhcp_invalid(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test starting a flow from discovery."""
     with (
@@ -361,7 +361,7 @@ async def test_dhcp_invalid(
     assert result["reason"] == "invalid_host"
 
 
-async def test_reconfigure(hass: UniversalAssistant) -> None:
+async def test_reconfigure(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring an entry."""
     old_host = "http://10.1.0.1"
     new_host = "http://10.1.0.2"
@@ -408,7 +408,7 @@ async def test_reconfigure(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_reconfigure_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_reconfigure_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -447,7 +447,7 @@ async def test_reconfigure_cannot_connect(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_reconfigure_unexpected(hass: UniversalAssistant) -> None:
+async def test_reconfigure_unexpected(hass: __HAC_KEEP__) -> None:
     """Test we handle unexpected error."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -480,7 +480,7 @@ async def test_reconfigure_unexpected(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_reconfigure_to_different_device(hass: UniversalAssistant) -> None:
+async def test_reconfigure_to_different_device(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring an entry to a different device."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -4,16 +4,16 @@ from aiohttp import encode_basic_auth
 from aiohttp.hdrs import AUTHORIZATION
 
 from universalassistant.components.blebox.helpers import get_maybe_authenticated_session
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_get_maybe_authenticated_session_none(hass: UniversalAssistant) -> None:
+async def test_get_maybe_authenticated_session_none(hass: __HAC_KEEP__) -> None:
     """Tests if the session has no authorization header."""
     session = get_maybe_authenticated_session(hass=hass, username="", password="")
     assert AUTHORIZATION not in session.headers
 
 
-async def test_get_maybe_authenticated_session_auth(hass: UniversalAssistant) -> None:
+async def test_get_maybe_authenticated_session_auth(hass: __HAC_KEEP__) -> None:
     """Tests if the session has a basic authorization header."""
     session = get_maybe_authenticated_session(
         hass=hass, username="user", password="password"

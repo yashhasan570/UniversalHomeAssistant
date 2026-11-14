@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.control4.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_HOST, MOCK_PASSWORD, MOCK_USERNAME
 
 
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_c4_account: AsyncMock,
     mock_c4_director: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -63,7 +63,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_c4_account: AsyncMock,
     mock_c4_director: AsyncMock,
     exception: Exception,
@@ -113,7 +113,7 @@ async def test_user_flow_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_director_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_c4_account: AsyncMock,
     mock_c4_director: AsyncMock,
     exception: Exception,
@@ -153,7 +153,7 @@ async def test_user_flow_director_errors(
 
 
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_c4_account: AsyncMock,
     mock_c4_director: AsyncMock,
     mock_config_entry: MockConfigEntry,

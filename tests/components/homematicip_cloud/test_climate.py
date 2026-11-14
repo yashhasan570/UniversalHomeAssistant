@@ -27,7 +27,7 @@ from universalassistant.components.homematicip_cloud.entity import (
     ATTR_GROUP_MEMBER_UNREACHABLE,
 )
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 
 from .helper import (
@@ -39,7 +39,7 @@ from .helper import (
 
 
 async def test_hmip_heating_group_heat(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipHeatingGroup."""
     entity_id = "climate.badezimmer"
@@ -250,7 +250,7 @@ async def test_hmip_heating_group_heat(
 
 
 async def test_hmip_heating_group_cool(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipHeatingGroup."""
     entity_id = "climate.badezimmer"
@@ -373,7 +373,7 @@ async def test_hmip_heating_group_cool(
 
 
 async def test_hmip_heating_group_heat_with_switch(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipHeatingGroup."""
     entity_id = "climate.schlafzimmer"
@@ -404,7 +404,7 @@ async def test_hmip_heating_group_heat_with_switch(
 
 
 async def test_hmip_heating_group_heat_with_radiator(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipHeatingGroup."""
     entity_id = "climate.vorzimmer"
@@ -433,7 +433,7 @@ async def test_hmip_heating_group_heat_with_radiator(
 
 
 async def test_hmip_heating_group_availability(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test heating group stays available when group member is unreachable."""
     entity_id = "climate.badezimmer"
@@ -457,7 +457,7 @@ async def test_hmip_heating_group_availability(
 
 
 async def test_hmip_heating_profile_default_name(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test visible profile 1 without a name should be displayed as 'Default'."""
     entity_id = "climate.vorzimmer3"
@@ -482,7 +482,7 @@ async def test_hmip_heating_profile_default_name(
 
 
 async def test_hmip_heating_profile_naming(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test Heating Profile Naming."""
     entity_id = "climate.vorzimmer2"
@@ -507,7 +507,7 @@ async def test_hmip_heating_profile_naming(
 
 
 async def test_hmip_heating_profile_name_not_in_list(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test set profile when profile is not in available profiles."""
     expected_profile = "Testprofile"
@@ -538,7 +538,7 @@ async def test_hmip_heating_profile_name_not_in_list(
 
 
 async def test_hmip_climate_services(
-    hass: UniversalAssistant, mock_hap_with_service
+    hass: __HAC_KEEP__, mock_hap_with_service
 ) -> None:
     """Test HomematicipHeatingGroup."""
 
@@ -653,7 +653,7 @@ async def test_hmip_climate_services(
 
 
 async def test_hmip_set_home_cooling_mode(
-    hass: UniversalAssistant, mock_hap_with_service
+    hass: __HAC_KEEP__, mock_hap_with_service
 ) -> None:
     """Test HomematicipSetHomeCoolingMode."""
 
@@ -701,7 +701,7 @@ async def test_hmip_set_home_cooling_mode(
 
 
 async def test_hmip_heating_group_services(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipHeatingGroup services."""
     entity_id = "climate.badezimmer"

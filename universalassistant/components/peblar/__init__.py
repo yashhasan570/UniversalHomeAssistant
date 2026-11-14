@@ -12,7 +12,7 @@ from peblar import (
 )
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
@@ -44,13 +44,13 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Peblar integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PeblarConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PeblarConfigEntry) -> None:
     """Set up Peblar from a config entry."""
     # Set up connection to the Peblar charger
     peblar = Peblar(
@@ -117,6 +117,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PeblarConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: PeblarConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: PeblarConfigEntry) -> None:
     """Unload Peblar config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

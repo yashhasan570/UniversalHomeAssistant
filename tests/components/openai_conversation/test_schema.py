@@ -11,7 +11,7 @@ from universalassistant.components.openai_conversation.entity import (
     _format_structured_output,
 )
 from universalassistant.components.openai_conversation.schema import adjust_schema
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import selector
 
 
@@ -197,7 +197,7 @@ def test_reference_constraint_siblings(
     field: dict[str, Any], keyword: str, required: list[str]
 ) -> None:
     """Reject reference constraints instead of dropping them or expanding cycles."""
-    with pytest.raises(UniversalAssistantError, match="reference siblings") as err:
+    with pytest.raises(__HAC_KEEP__Error, match="reference siblings") as err:
         adjust_schema(
             {
                 "type": "object",
@@ -250,7 +250,7 @@ def test_selector_schemas(
 )
 def test_unsupported_selectors(field: selector.Selector, message: str) -> None:
     """Reject constraints that cannot be preserved in strict output."""
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         _format_structured_output(
             probatio.Schema({probatio.Required("value"): field}), None
         )
@@ -275,7 +275,7 @@ def test_unsupported_selectors(field: selector.Selector, message: str) -> None:
 )
 def test_unsupported_schema(field: dict[str, Any] | bool, message: str) -> None:
     """Unsupported schemas fail locally with their field location."""
-    with pytest.raises(UniversalAssistantError, match=message) as err:
+    with pytest.raises(__HAC_KEEP__Error, match=message) as err:
         adjust_schema({"type": "object", "properties": {"value": field}})
     assert "$.properties.value" in str(err.value)
 
@@ -289,7 +289,7 @@ def test_unsupported_schema(field: dict[str, Any] | bool, message: str) -> None:
 )
 def test_invalid_root(schema: dict[str, Any]) -> None:
     """Require an object at the root of a structured output schema."""
-    with pytest.raises(UniversalAssistantError, match="object root"):
+    with pytest.raises(__HAC_KEEP__Error, match="object root"):
         adjust_schema(schema)
 
 
@@ -347,7 +347,7 @@ def test_invalid_reference(reference: str) -> None:
             "alias": {"$ref": reference},
         },
     }
-    with pytest.raises(UniversalAssistantError, match="reference"):
+    with pytest.raises(__HAC_KEEP__Error, match="reference"):
         adjust_schema(schema)
 
 

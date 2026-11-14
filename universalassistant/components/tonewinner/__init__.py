@@ -6,7 +6,7 @@ from tonewinner_rs232 import TonewinnerReceiver
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 
@@ -21,7 +21,7 @@ type TonewinnerConfigEntry = ConfigEntry[TonewinnerReceiver]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TonewinnerConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TonewinnerConfigEntry) -> None:
     """Set up Tonewinner from a config entry."""
     port = entry.data[CONF_SERIAL_PORT]
 
@@ -40,7 +40,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TonewinnerConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TonewinnerConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TonewinnerConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.disconnect()

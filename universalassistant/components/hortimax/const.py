@@ -51,7 +51,7 @@ READOUT_ICONS: Final[dict[str, str]] = {
 # This only decides which readout gets the wind direction device class.
 WIND_DIRECTION_SUBJECT: Final = "cardinalwinddirection"
 
-# HortOS unit identifiers to Universal Universal Home Assistant units. Unknown identifiers fall
+# HortOS unit identifiers to __HA_KEEP__ units. Unknown identifiers fall
 # back to the raw string, without a device class.
 UNIT_MAP: Final[dict[str, str]] = {
     # Observed on a live installation

@@ -291,10 +291,10 @@
   },
   "exceptions": {
     "no_url_available": {
-      "message": "Unable to determine Universal Universal Home Assistant URL to send to device."
+      "message": "Unable to determine __HA_KEEP__ URL to send to device."
     },
     "no_url_available_configure_urls": {
-      "message": "Unable to determine Universal Universal Home Assistant URL to send to device. Configure internal and external URL in general settings."
+      "message": "Unable to determine __HA_KEEP__ URL to send to device. Configure internal and external URL in general settings."
     }
   },
   "selector": {

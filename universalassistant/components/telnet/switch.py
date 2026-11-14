@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_TIMEOUT,
     CONF_VALUE_TEMPLATE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.template import Template
@@ -57,7 +57,7 @@ SCAN_INTERVAL = timedelta(seconds=10)
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

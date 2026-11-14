@@ -9,7 +9,7 @@ import requests
 
 from universalassistant.components.tank_utility.sensor import SENSOR_ATTRS
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -60,7 +60,7 @@ def mock_get_device_data() -> MagicMock:
 
 
 async def test_setup_platform_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_token: MagicMock,
     mock_get_device_data: MagicMock,
 ) -> None:
@@ -77,7 +77,7 @@ async def test_setup_platform_success(
 
 
 async def test_setup_platform_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_token: MagicMock,
 ) -> None:
     """Test setup with invalid credentials (401 error)."""
@@ -93,7 +93,7 @@ async def test_setup_platform_unauthorized(
 
 
 async def test_setup_platform_other_http_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_token: MagicMock,
 ) -> None:
     """Test setup with another HTTP error fails cleanly."""
@@ -109,7 +109,7 @@ async def test_setup_platform_other_http_error(
 
 
 async def test_sensor_update_token_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_get_token: MagicMock,
     mock_get_device_data: MagicMock,
 ) -> None:

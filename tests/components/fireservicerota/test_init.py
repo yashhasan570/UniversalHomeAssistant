@@ -7,10 +7,10 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.fireservicerota.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_setup_token_refresh_failure(hass: UniversalAssistant) -> None:
+async def test_setup_token_refresh_failure(hass: __HAC_KEEP__) -> None:
     """Test setup fails and starts reauth when refreshing tokens failed."""
     entry = MockConfigEntry(
         domain=DOMAIN,

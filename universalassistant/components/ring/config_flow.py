@@ -15,8 +15,8 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -44,7 +44,7 @@ UNKNOWN_RING_ACCOUNT = "unknown_ring_account"
 
 
 async def validate_input(
-    hass: UniversalAssistant, hardware_id: str, data: dict[str, str]
+    hass: __HAC_KEEP__, hardware_id: str, data: dict[str, str]
 ) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
 
@@ -251,9 +251,9 @@ class RingConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class Require2FA(UniversalAssistantError):
+class Require2FA(__HAC_KEEP__Error):
     """Error to indicate we require 2FA."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

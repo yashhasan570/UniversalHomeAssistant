@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from uiprotect.data import Light
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .utils import MockUFPFixture, init_entry
 
@@ -80,7 +80,7 @@ def _normalize_diagnostics(data: Any, parent_key: str | None = None) -> Any:
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     light: Light,
     hass_client: ClientSessionGenerator,
@@ -108,7 +108,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_before_public_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     light: Light,
     hass_client: ClientSessionGenerator,
@@ -124,7 +124,7 @@ async def test_diagnostics_before_public_fetch(
 
 
 async def test_public_only_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],

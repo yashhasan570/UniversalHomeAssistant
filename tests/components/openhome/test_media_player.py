@@ -47,8 +47,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import async_poll, setup_integration
@@ -186,7 +186,7 @@ ACTIONS = [
         },
         Device.play_media,
         "Playlist",
-        ({"title": "Universal Universal Home Assistant", "uri": MEDIA_ID},),
+        ({"title": "__HA_KEEP__", "uri": MEDIA_ID},),
         id="play_media",
     ),
 ]
@@ -206,7 +206,7 @@ def platforms() -> list[Platform]:
 
 
 async def setup_media_player(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Load the media player platform and poll once."""
     await setup_integration(hass, mock_config_entry)
@@ -219,7 +219,7 @@ async def setup_media_player(
     ("domain", "service", "data", "method", "source_type", "expected_args"), ACTIONS
 )
 async def test_action_calls_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_device: MagicMock,
     domain: str,
@@ -249,7 +249,7 @@ async def test_action_calls_device(
     ("domain", "service", "data", "method", "source_type", "expected_args"), ACTIONS
 )
 async def test_action_error_is_raised(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_device: MagicMock,
     domain: str,
@@ -272,7 +272,7 @@ async def test_action_error_is_raised(
     mocked = getattr(mock_device, method.__name__)
     mocked.side_effect = OpenhomeConnectionError("no route to host")
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             domain, service, {ATTR_ENTITY_ID: ENTITY_ID, **data}, blocking=True
         )
@@ -284,7 +284,7 @@ async def test_action_error_is_raised(
 
 
 async def test_invoke_pin_calls_device(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_device: MagicMock
 ) -> None:
     """Test the invoke_pin action passes the requested pin to the device."""
     await setup_media_player(hass, mock_config_entry)
@@ -307,7 +307,7 @@ async def test_invoke_pin_calls_device(
     ],
 )
 async def test_invoke_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_device: MagicMock,
     pins_enabled: bool,
@@ -320,7 +320,7 @@ async def test_invoke_pin(
     await setup_media_player(hass, mock_config_entry)
     mock_device.invoke_pin.side_effect = OpenhomeConnectionError("no route to host")
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             OpenhomeService.INVOKE_PIN,
@@ -337,7 +337,7 @@ async def test_invoke_pin(
 
 
 async def test_media_player(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_device: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -352,7 +352,7 @@ async def test_media_player(
 
 
 async def test_becomes_unavailable_and_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_device: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -393,7 +393,7 @@ async def test_becomes_unavailable_and_recovers(
     ],
 )
 async def test_state_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_device: MagicMock,
     in_standby: bool,

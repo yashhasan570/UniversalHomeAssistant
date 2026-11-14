@@ -15,7 +15,7 @@ from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.entity_platform import (
@@ -81,7 +81,7 @@ def _has_shell_features(command: str) -> bool:
 
 @callback
 def _update_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     prog: str,
     platform: str,
@@ -125,7 +125,7 @@ def build_shell_template_issue_id(platform: str, name: str) -> str:
 
 
 @callback
-def async_refresh_shell_template_issues(hass: UniversalAssistant) -> ir.IssuesRefresh:
+def async_refresh_shell_template_issues(hass: __HAC_KEEP__) -> ir.IssuesRefresh:
     """Begin a refresh of the deprecation issues, which deletes orphaned ones."""
     return ir.async_refresh_issues(hass, DOMAIN, issue_id_pattern=_ISSUE_ID_PREFIX)
 
@@ -137,7 +137,7 @@ def notify_name(notify_config: dict[str, Any]) -> str:
 
 @callback
 def async_keep_shell_template_issue(
-    hass: UniversalAssistant, platform: str, platform_config: dict[str, Any]
+    hass: __HAC_KEEP__, platform: str, platform_config: dict[str, Any]
 ) -> None:
     """Keep the deprecation issue of an entity which is being set up.
 
@@ -279,7 +279,7 @@ async def async_check_output_or_log(
 
 @callback
 def render_template_args(
-    hass: UniversalAssistant, command: str, platform: str, name: str
+    hass: __HAC_KEEP__, command: str, platform: str, name: str
 ) -> str | list[str] | None:
     """Render template arguments for command line utilities."""
     if " " not in command:
@@ -347,7 +347,7 @@ def render_template_args(
 
 
 def create_platform_yaml_not_supported_issue(
-    hass: UniversalAssistant, platform_domain: str
+    hass: __HAC_KEEP__, platform_domain: str
 ) -> None:
     """Create an issue when platform yaml is used."""
     async_create_platform_config_not_supported_issue(

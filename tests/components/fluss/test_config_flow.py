@@ -12,14 +12,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.fluss.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 NEW_API_KEY = "new_api_key"
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_api_client: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_api_client: AsyncMock) -> None:
     """Test full config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -48,7 +48,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_api_client: AsyncMock) -
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_user_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     exception: Exception,
     expected_error: str,
@@ -85,7 +85,7 @@ async def test_step_user_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant, mock_api_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_api_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test error cases for user step with recovery."""
     mock_config_entry.add_to_hass(hass)
@@ -108,7 +108,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_reauth_flow_duplicate(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

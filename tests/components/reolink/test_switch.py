@@ -23,8 +23,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -33,7 +33,7 @@ from .conftest import TEST_CAM_NAME, TEST_NVR_NAME
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -49,7 +49,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities_dual_lens(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -78,7 +78,7 @@ async def test_all_entities_dual_lens(
 
 
 async def test_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
@@ -111,7 +111,7 @@ async def test_switch(
     reolink_host.set_audio.assert_called_with(0, True)
 
     reolink_host.set_audio.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -130,7 +130,7 @@ async def test_switch(
     reolink_host.set_audio.assert_called_with(0, False)
 
     reolink_host.set_audio.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -149,7 +149,7 @@ async def test_switch(
 
 
 async def test_host_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
@@ -184,7 +184,7 @@ async def test_host_switch(
     reolink_host.set_email.assert_called_with(None, True)
 
     reolink_host.set_email.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -203,7 +203,7 @@ async def test_host_switch(
     reolink_host.set_email.assert_called_with(None, False)
 
     reolink_host.set_email.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -214,7 +214,7 @@ async def test_host_switch(
 
 @pytest.mark.parametrize("channel", [0, None])
 async def test_chime_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
@@ -250,7 +250,7 @@ async def test_chime_switch(
     reolink_chime.set_option.assert_called_with(led=True)
 
     reolink_chime.set_option.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -269,7 +269,7 @@ async def test_chime_switch(
     reolink_chime.set_option.assert_called_with(led=False)
 
     reolink_chime.set_option.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -279,7 +279,7 @@ async def test_chime_switch(
 
 
 async def test_rule_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
@@ -315,7 +315,7 @@ async def test_rule_switch(
     reolink_host.baichuan.set_rule_enabled.assert_called_with(0, 1, True)
 
     reolink_host.baichuan.set_rule_enabled.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -334,7 +334,7 @@ async def test_rule_switch(
     reolink_host.baichuan.set_rule_enabled.assert_called_with(0, 1, False)
 
     reolink_host.baichuan.set_rule_enabled.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

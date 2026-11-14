@@ -43,7 +43,7 @@
           "host": "The hostname or IP address of your Tailwind device. You can find the IP address by going into the Tailwind app and selecting your Tailwind device's cog icon. The IP address is shown in the **Device Info** section.",
           "token": "To find local control key token, browse to the [Tailwind web portal]({url}), log in with your Tailwind account, and select the [**Local Control Key**]({url}) tab. The 6-digit number shown is your local control key token."
         },
-        "description": "Set up your Tailwind garage door opener to integrate with Universal Universal Home Assistant.\n\nTo do so, you will need to get the local control key and IP address of your Tailwind device. For more details, see the description below the fields down below."
+        "description": "Set up your Tailwind garage door opener to integrate with __HA_KEEP__.\n\nTo do so, you will need to get the local control key and IP address of your Tailwind device. For more details, see the description below the fields down below."
       },
       "zeroconf_confirm": {
         "data": {
@@ -52,7 +52,7 @@
         "data_description": {
           "token": "[%key:component::tailwind::config::step::user::data_description::token%]"
         },
-        "description": "Set up your discovered Tailwind garage door opener to integrate with Universal Universal Home Assistant.\n\nTo do so, you will need to get the local control key of your Tailwind device. For more details, see the description below the field down below."
+        "description": "Set up your discovered Tailwind garage door opener to integrate with __HA_KEEP__.\n\nTo do so, you will need to get the local control key of your Tailwind device. For more details, see the description below the field down below."
       }
     }
   },

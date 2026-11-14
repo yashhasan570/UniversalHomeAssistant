@@ -8,7 +8,7 @@ from typing import override
 from async_upnp_client.exceptions import UpnpCommunicationError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntry
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -27,7 +27,7 @@ class UpnpDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: UpnpConfigEntry,
         device: Device,
         device_entry: DeviceEntry,

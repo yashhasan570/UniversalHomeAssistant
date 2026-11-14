@@ -10,7 +10,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.components.brunt.const import REGULAR_INTERVAL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -25,7 +25,7 @@ from universalassistant.core import UniversalAssistant
     ],
 )
 async def test_refresh_log_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_brunt_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

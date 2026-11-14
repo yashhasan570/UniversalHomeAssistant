@@ -9,7 +9,7 @@ import python_otbr_api
 
 from universalassistant.components import otbr, thread
 from universalassistant.components.otbr import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import (
@@ -23,7 +23,7 @@ from . import (
 
 @pytest.fixture
 async def websocket_client(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> MockHAClientWebSocket:
     """Create a websocket client."""
     return await hass_ws_client(hass)
@@ -35,7 +35,7 @@ def mock_supervisor_client(supervisor_client: AsyncMock) -> None:
 
 
 async def test_get_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -80,7 +80,7 @@ async def test_get_info(
 
 
 async def test_get_info_no_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_get_info_no_entry(
 
 
 async def test_get_info_fetch_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -119,7 +119,7 @@ async def test_get_info_fetch_fails(
 
 
 async def test_create_network(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -170,7 +170,7 @@ async def test_create_network(
 
 
 async def test_create_network_no_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_create_network_no_entry(
 
 
 async def test_create_network_fails_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -216,7 +216,7 @@ async def test_create_network_fails_1(
 
 
 async def test_create_network_fails_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -249,7 +249,7 @@ async def test_create_network_fails_2(
 
 
 async def test_create_network_fails_3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -284,7 +284,7 @@ async def test_create_network_fails_3(
 
 
 async def test_create_network_fails_4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -318,7 +318,7 @@ async def test_create_network_fails_4(
 
 
 async def test_create_network_fails_5(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -347,7 +347,7 @@ async def test_create_network_fails_5(
 
 
 async def test_create_network_fails_6(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -379,7 +379,7 @@ async def test_create_network_fails_6(
 
 
 async def test_create_network_fails_7(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -402,7 +402,7 @@ async def test_create_network_fails_7(
 
 
 async def test_create_network_fails_8(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -425,7 +425,7 @@ async def test_create_network_fails_8(
 
 
 async def test_set_network(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -465,7 +465,7 @@ async def test_set_network(
 
 
 async def test_set_network_no_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -486,7 +486,7 @@ async def test_set_network_no_entry(
 
 
 async def test_set_network_channel_conflict(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     multiprotocol_addon_manager_mock,
     otbr_config_entry_multipan,
@@ -518,7 +518,7 @@ async def test_set_network_channel_conflict(
 
 
 async def test_set_network_unknown_dataset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -544,7 +544,7 @@ async def test_set_network_unknown_dataset(
 
 
 async def test_set_network_fails_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -578,7 +578,7 @@ async def test_set_network_fails_1(
 
 
 async def test_set_network_fails_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -615,7 +615,7 @@ async def test_set_network_fails_2(
 
 
 async def test_set_network_fails_3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -652,7 +652,7 @@ async def test_set_network_fails_3(
 
 
 async def test_set_network_fails_4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -676,7 +676,7 @@ async def test_set_network_fails_4(
 
 
 async def test_set_network_fails_5(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -700,7 +700,7 @@ async def test_set_network_fails_5(
 
 
 async def test_set_channel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_thread,
     websocket_client,
@@ -728,7 +728,7 @@ async def test_set_channel(
 
 
 async def test_set_channel_multiprotocol(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -756,7 +756,7 @@ async def test_set_channel_multiprotocol(
 
 
 async def test_set_channel_no_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -777,7 +777,7 @@ async def test_set_channel_no_entry(
 
 
 async def test_set_channel_fails_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_thread,
     websocket_client,
@@ -807,7 +807,7 @@ async def test_set_channel_fails_1(
 
 
 async def test_set_channel_fails_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,
@@ -831,7 +831,7 @@ async def test_set_channel_fails_2(
 
 
 async def test_set_channel_fails_3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     otbr_config_entry_multipan,
     websocket_client,

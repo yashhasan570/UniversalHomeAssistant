@@ -16,7 +16,7 @@ from hassil.util import (
 import probatio
 
 from universalassistant.const import CONF_COMMAND, CONF_PLATFORM
-from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.script import ScriptRunResult
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
@@ -89,7 +89,7 @@ TRIGGER_SCHEMA = cv.TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

@@ -17,7 +17,7 @@ def async_add_entities_by_subentry(
     subentry_id_for_endpoint: Callable[[int], str | None],
     entities: Iterable[tuple[Entity, int]],
 ) -> None:
-    """Add entities to Universal Universal Home Assistant, grouped by their endpoint's subentry."""
+    """Add entities to __HA_KEEP__, grouped by their endpoint's subentry."""
     grouped: dict[str, list[Entity]] = defaultdict(list)
     for entity, endpoint_id in entities:
         if (subentry_id := subentry_id_for_endpoint(endpoint_id)) is not None:

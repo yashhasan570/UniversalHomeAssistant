@@ -34,7 +34,7 @@ from universalassistant.const import (
     Platform,
     UnitOfElectricCurrent,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -87,7 +87,7 @@ def configure_settings(
     mock_inverter.write_setting = AsyncMock()
 
 
-async def setup_integration(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Set up the GoodWe integration."""
     entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(entry.entry_id)
@@ -95,7 +95,7 @@ async def setup_integration(hass: UniversalAssistant, entry: MockConfigEntry) ->
 
 
 async def test_battery_charge_current_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_inverter: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -124,7 +124,7 @@ async def test_battery_charge_current_limit(
 
 
 async def test_battery_charge_current_limit_not_advertised(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_inverter: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -144,7 +144,7 @@ async def test_battery_charge_current_limit_not_advertised(
     ids=["inverter_error", "value_error", "rejected"],
 )
 async def test_battery_charge_current_limit_read_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_inverter: MagicMock,
     mock_config_entry: MockConfigEntry,
     read_result: Exception | None,
@@ -172,7 +172,7 @@ async def test_battery_charge_current_limit_read_error(
     ],
 )
 async def test_set_battery_charge_current_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_inverter: MagicMock,
     mock_config_entry: MockConfigEntry,
     requested_value: float,
@@ -201,7 +201,7 @@ async def test_set_battery_charge_current_limit(
 
 @pytest.mark.parametrize("requested_value", [-0.1, 100.1])
 async def test_set_battery_charge_current_limit_out_of_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_inverter: MagicMock,
     mock_config_entry: MockConfigEntry,
     requested_value: float,
@@ -226,7 +226,7 @@ async def test_set_battery_charge_current_limit_out_of_range(
 
 
 async def test_set_battery_charge_current_limit_write_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_inverter: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -258,7 +258,7 @@ async def test_set_battery_charge_current_limit_write_error(
     ],
 )
 async def test_grid_export_limit_max(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_inverter: MagicMock,
     rated_power: int,

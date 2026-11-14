@@ -10,13 +10,13 @@ from universalassistant.components.text import (
     SERVICE_SET_VALUE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import MockGenericDeviceEntryType
 
 
 async def test_generic_text_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_generic_text_entity(
 
 
 async def test_generic_text_entity_no_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_generic_text_entity_no_state(
 
 
 async def test_generic_text_entity_missing_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:

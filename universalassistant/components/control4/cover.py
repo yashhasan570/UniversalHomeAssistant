@@ -11,7 +11,7 @@ from universalassistant.components.cover import (
     CoverEntityFeature,
     CoverServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import Control4ConfigEntry, get_items_of_category
@@ -30,7 +30,7 @@ CONTROL4_CATEGORY = "blinds_shades"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: Control4ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

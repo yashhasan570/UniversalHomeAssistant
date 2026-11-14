@@ -6,7 +6,7 @@ from aioairzone.const import API_MAC, AZD_MAC
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import AirzoneConfigEntry
 
@@ -24,7 +24,7 @@ TO_REDACT_COORD = [
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: AirzoneConfigEntry
+    hass: __HAC_KEEP__, config_entry: AirzoneConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = config_entry.runtime_data

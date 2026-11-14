@@ -22,7 +22,7 @@ def test_hass_property_raises_when_hass_is_none() -> None:
     with pytest.raises(
         RuntimeError,
         match=(
-            "Universal Universal Home Assistant instance is not available. "
+            "__HA_KEEP__ instance is not available. "
             "This property should only be used in extensions with "
             "functions marked requires_hass=True."
         ),

@@ -4,14 +4,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryDisabler
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.util import dt as dt_util
 
 from tests.helpers.template.helpers import assert_result_info, render_to_info
 
 
-async def test_issues(hass: UniversalAssistant, issue_registry: ir.IssueRegistry) -> None:
+async def test_issues(hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry) -> None:
     """Test issues function."""
     # Test no issues
     info = render_to_info(hass, "{{ issues() }}")
@@ -96,7 +96,7 @@ async def test_issues(hass: UniversalAssistant, issue_registry: ir.IssueRegistry
     assert info.rate_limit is None
 
 
-async def test_issue(hass: UniversalAssistant, issue_registry: ir.IssueRegistry) -> None:
+async def test_issue(hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry) -> None:
     """Test issue function."""
     # Test non existent issue
     info = render_to_info(hass, "{{ issue('non_existent', 'issue') }}")
@@ -131,7 +131,7 @@ async def test_issue(hass: UniversalAssistant, issue_registry: ir.IssueRegistry)
     ],
 )
 async def test_issues_of_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     disabled_by: ConfigEntryDisabler | None,
     expected_issue_ids: list[str],

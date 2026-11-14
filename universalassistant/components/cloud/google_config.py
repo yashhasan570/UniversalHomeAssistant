@@ -30,12 +30,12 @@ from universalassistant.const import CONF_NAME
 from universalassistant.core import (
     CoreState,
     Event,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
     split_entity_id,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er, start
 from universalassistant.helpers.entity import get_device_class
 from universalassistant.helpers.entityfilter import EntityFilter
@@ -103,7 +103,7 @@ SUPPORTED_SENSOR_DEVICE_CLASSES = {
 }
 
 
-def _supported_legacy(hass: UniversalAssistant, entity_id: str) -> bool:
+def _supported_legacy(hass: __HAC_KEEP__, entity_id: str) -> bool:
     """Return if the entity is supported.
 
     This is called when migrating from legacy config format to avoid exposing
@@ -115,7 +115,7 @@ def _supported_legacy(hass: UniversalAssistant, entity_id: str) -> bool:
 
     try:
         device_class = get_device_class(hass, entity_id)
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         # The entity no longer exists
         return False
 
@@ -133,7 +133,7 @@ def _supported_legacy(hass: UniversalAssistant, entity_id: str) -> bool:
 
 @callback
 def _async_should_expose_legacy(
-    hass: UniversalAssistant, prefs: CloudPreferences, entity_id: str
+    hass: __HAC_KEEP__, prefs: CloudPreferences, entity_id: str
 ) -> bool:
     """Return if an entity should be exposed according to the legacy settings."""
     entity_configs = prefs.google_entity_configs
@@ -166,7 +166,7 @@ def _async_should_expose_legacy(
 
 @callback
 def _async_migrate_entity_settings_v1(
-    hass: UniversalAssistant, config: dict[str, Any], prefs: CloudPreferences
+    hass: __HAC_KEEP__, config: dict[str, Any], prefs: CloudPreferences
 ) -> None:
     """Migrate Google entity settings to entity registry options."""
     if not config[CONF_FILTER].empty_filter:
@@ -195,7 +195,7 @@ def _async_migrate_entity_settings_v1(
 
 
 async def _async_migrate_entity_settings_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     prefs: CloudPreferences,
     cloud: Cloud[CloudClient],
@@ -215,7 +215,7 @@ async def _async_migrate_entity_settings_v2(
 
 
 async def async_migrate_entity_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     prefs: CloudPreferences,
     cloud: Cloud[CloudClient],
@@ -262,7 +262,7 @@ class CloudGoogleConfig(AbstractConfig):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: dict[str, Any],
         cloud_user: str,
         prefs: CloudPreferences,
@@ -311,7 +311,7 @@ class CloudGoogleConfig(AbstractConfig):
 
     @override
     def get_local_user_id(self, webhook_id: Any) -> str:
-        """Map webhook ID to a Universal Universal Home Assistant user ID.
+        """Map webhook ID to a __HA_KEEP__ user ID.
 
         Any action initiated by Google Assistant via the local SDK will be attributed
         to the returned user ID.
@@ -329,7 +329,7 @@ class CloudGoogleConfig(AbstractConfig):
         _LOGGER.debug("async_initialize")
         await super().async_initialize()
 
-        async def on_hass_started(hass: UniversalAssistant) -> None:
+        async def on_hass_started(hass: __HAC_KEEP__) -> None:
             _LOGGER.debug("async_initialize on_hass_started")
             self._on_deinitialize.append(
                 async_listen_entity_updates(
@@ -337,7 +337,7 @@ class CloudGoogleConfig(AbstractConfig):
                 )
             )
 
-        async def on_hass_start(hass: UniversalAssistant) -> None:
+        async def on_hass_start(hass: __HAC_KEEP__) -> None:
             _LOGGER.debug("async_initialize on_hass_start")
             if self.enabled and GOOGLE_DOMAIN not in self.hass.config.components:
                 await async_setup_component(self.hass, GOOGLE_DOMAIN, {})
@@ -401,7 +401,7 @@ class CloudGoogleConfig(AbstractConfig):
         """If an entity should be checked for 2FA."""
         try:
             settings = async_get_entity_settings(self.hass, state.entity_id)
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             # Handle the entity has been removed
             return False
 

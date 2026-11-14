@@ -12,7 +12,7 @@ from universalassistant.const import (
     CONF_NAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 
@@ -26,7 +26,7 @@ from .coordinator import (
 PLATFORMS = [Platform.SENSOR, Platform.WEATHER]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MetOfficeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MetOfficeConfigEntry) -> None:
     """Set up a Met Office entry."""
 
     latitude: float = entry.data[CONF_LOCATION][CONF_LATITUDE]
@@ -83,7 +83,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: MetOfficeConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MetOfficeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MetOfficeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -98,7 +98,7 @@ def get_device_info(coordinates: str, name: str) -> DeviceInfo:
     )
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: MetOfficeConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: MetOfficeConfigEntry) -> None:
     """Migrate old config entry."""
 
     if entry.version < 2:

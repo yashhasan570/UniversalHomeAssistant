@@ -13,7 +13,7 @@ from universalassistant.components.notion.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_PASSWORD, TEST_REFRESH_TOKEN, TEST_USER_UUID, TEST_USERNAME
@@ -31,7 +31,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 )
 @pytest.mark.usefixtures("client", "mock_aionotion")
 async def test_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     errors: str,
     side_effect: type[Exception],
 ) -> None:
@@ -75,7 +75,7 @@ async def test_create_entry(
 
 
 @pytest.mark.usefixtures("config_entry")
-async def test_duplicate_error(hass: UniversalAssistant) -> None:
+async def test_duplicate_error(hass: __HAC_KEEP__) -> None:
     """Test that errors are shown when duplicates are added."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -105,7 +105,7 @@ async def test_duplicate_error(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_aionotion")
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     errors: str,
     side_effect: type[Exception],

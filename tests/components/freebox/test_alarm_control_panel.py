@@ -20,14 +20,14 @@ from universalassistant.const import (
     SERVICE_ALARM_TRIGGER,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import setup_platform
 from .const import DATA_HOME_ALARM_GET_VALUE, DATA_HOME_GET_NODES
 
 
 async def test_alarm_changed_from_external(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, router: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, router: Mock
 ) -> None:
     """Test Freebox Home alarm which state depends on external changes."""
     data_get_home_nodes = deepcopy(DATA_HOME_GET_NODES)
@@ -72,7 +72,7 @@ async def test_alarm_changed_from_external(
     )
 
 
-async def test_alarm_changed_from_hass(hass: UniversalAssistant, router: Mock) -> None:
+async def test_alarm_changed_from_hass(hass: __HAC_KEEP__, router: Mock) -> None:
     """Test Freebox Home alarm which state depends on HA."""
     data_get_home_endpoint_value = deepcopy(DATA_HOME_ALARM_GET_VALUE)
 
@@ -158,7 +158,7 @@ async def test_alarm_changed_from_hass(hass: UniversalAssistant, router: Mock) -
     )
 
 
-async def test_alarm_undefined_fetch_status(hass: UniversalAssistant, router: Mock) -> None:
+async def test_alarm_undefined_fetch_status(hass: __HAC_KEEP__, router: Mock) -> None:
     """Test Freebox Home alarm which state is undefined or null."""
     data_get_home_endpoint_value = deepcopy(DATA_HOME_ALARM_GET_VALUE)
     data_get_home_endpoint_value["value"] = None

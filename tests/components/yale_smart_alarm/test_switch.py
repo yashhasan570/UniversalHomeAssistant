@@ -9,7 +9,7 @@ from yalesmartalarmclient import YaleSmartAlarmData
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -18,7 +18,7 @@ from universalassistant.helpers import entity_registry as er
     [[Platform.SWITCH]],
 )
 async def test_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     load_config_entry: tuple[MockConfigEntry, Mock],
     get_data: YaleSmartAlarmData,

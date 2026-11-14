@@ -9,12 +9,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.saunum.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_setup_and_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
 ) -> None:
@@ -29,7 +29,7 @@ async def test_setup_and_unload(
 
 
 async def test_async_setup_entry_connection_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client,
 ) -> None:

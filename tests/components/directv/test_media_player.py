@@ -47,7 +47,7 @@ from universalassistant.const import (
     STATE_PLAYING,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -68,38 +68,38 @@ def mock_now() -> datetime:
     return dt_util.utcnow()
 
 
-async def async_turn_on(hass: UniversalAssistant, entity_id: str | None = None) -> None:
+async def async_turn_on(hass: __HAC_KEEP__, entity_id: str | None = None) -> None:
     """Turn on specified media player or all."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(MP_DOMAIN, SERVICE_TURN_ON, data)
 
 
-async def async_turn_off(hass: UniversalAssistant, entity_id: str | None = None) -> None:
+async def async_turn_off(hass: __HAC_KEEP__, entity_id: str | None = None) -> None:
     """Turn off specified media player or all."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(MP_DOMAIN, SERVICE_TURN_OFF, data)
 
 
-async def async_media_pause(hass: UniversalAssistant, entity_id: str | None = None) -> None:
+async def async_media_pause(hass: __HAC_KEEP__, entity_id: str | None = None) -> None:
     """Send the media player the command for pause."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(MP_DOMAIN, SERVICE_MEDIA_PAUSE, data)
 
 
-async def async_media_play(hass: UniversalAssistant, entity_id: str | None = None) -> None:
+async def async_media_play(hass: __HAC_KEEP__, entity_id: str | None = None) -> None:
     """Send the media player the command for play/pause."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(MP_DOMAIN, SERVICE_MEDIA_PLAY, data)
 
 
-async def async_media_stop(hass: UniversalAssistant, entity_id: str | None = None) -> None:
+async def async_media_stop(hass: __HAC_KEEP__, entity_id: str | None = None) -> None:
     """Send the media player the command for stop."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
     await hass.services.async_call(MP_DOMAIN, SERVICE_MEDIA_STOP, data)
 
 
 async def async_media_next_track(
-    hass: UniversalAssistant, entity_id: str | None = None
+    hass: __HAC_KEEP__, entity_id: str | None = None
 ) -> None:
     """Send the media player the command for next track."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
@@ -107,7 +107,7 @@ async def async_media_next_track(
 
 
 async def async_media_previous_track(
-    hass: UniversalAssistant, entity_id: str | None = None
+    hass: __HAC_KEEP__, entity_id: str | None = None
 ) -> None:
     """Send the media player the command for prev track."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
@@ -115,7 +115,7 @@ async def async_media_previous_track(
 
 
 async def async_play_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_type: str,
     media_id: str,
     entity_id: str | None = None,
@@ -133,7 +133,7 @@ async def async_play_media(
     await hass.services.async_call(MP_DOMAIN, SERVICE_PLAY_MEDIA, data)
 
 
-async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_setup(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
     """Test setup with basic config."""
     await setup_integration(hass, aioclient_mock)
     assert hass.states.get(MAIN_ENTITY_ID)
@@ -142,7 +142,7 @@ async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMock
 
 
 async def test_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -163,7 +163,7 @@ async def test_unique_id(
 
 
 async def test_client_device_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
@@ -186,7 +186,7 @@ async def test_client_device_via_device_id(
 
 
 async def test_supported_features(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test supported features."""
     await setup_integration(hass, aioclient_mock)
@@ -219,7 +219,7 @@ async def test_supported_features(
 
 
 async def test_check_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_now: dt_util.dt.datetime,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -326,7 +326,7 @@ async def test_check_attributes(
 
 
 async def test_attributes_paused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_now: dt_util.dt.datetime,
     freezer: FrozenDateTimeFactory,
     aioclient_mock: AiohttpClientMocker,
@@ -349,7 +349,7 @@ async def test_attributes_paused(
 
 
 async def test_main_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_now: dt_util.dt.datetime,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

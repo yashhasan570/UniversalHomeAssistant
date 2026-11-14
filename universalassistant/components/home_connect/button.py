@@ -6,8 +6,8 @@ from aiohomeconnect.model import CommandKey
 from aiohomeconnect.model.error import HomeConnectError
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import setup_home_connect_entry
@@ -63,7 +63,7 @@ def _get_entities_for_appliance(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HomeConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -109,7 +109,7 @@ class HomeConnectCommandButtonEntity(HomeConnectButtonEntity):
                 value=True,
             )
         except HomeConnectError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="execute_command",
                 translation_placeholders={
@@ -138,7 +138,7 @@ class HomeConnectStopProgramButtonEntity(HomeConnectButtonEntity):
         try:
             await self.coordinator.client.stop_program(self.appliance.info.ha_id)
         except HomeConnectError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="stop_program",
                 translation_placeholders=get_dict_from_home_connect_error(error),

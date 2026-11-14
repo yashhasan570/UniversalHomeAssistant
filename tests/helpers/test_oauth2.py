@@ -6,7 +6,7 @@ from multidict import CIMultiDict
 import pytest
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     OAuth2TokenRequestError,
     OAuth2TokenRequestReauthError,
@@ -39,7 +39,7 @@ def test_compute_code_challenge_invalid_code_verifier(code_verifier: str) -> Non
     ],
 )
 async def test_oauth2_request_replaces_caller_authorization_header(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     header_name: str,
 ) -> None:
@@ -79,7 +79,7 @@ def test_build_authorize_url_keeps_endpoint_query() -> None:
 
 
 async def test_token_request_passes_headers(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test extra headers reach the token endpoint."""
     aioclient_mock.post(TOKEN_URL, json={"access_token": "at"})
@@ -98,7 +98,7 @@ async def test_token_request_passes_headers(
     }
 
 
-async def test_token_request_refuses_redirect(hass: UniversalAssistant) -> None:
+async def test_token_request_refuses_redirect(hass: __HAC_KEEP__) -> None:
     """Test a redirect is an error when redirects are not followed."""
     # The aiohttp mock ignores allow_redirects, so the session is patched to see it.
     response = Mock(status=307, request_info=Mock(), history=(), headers={})

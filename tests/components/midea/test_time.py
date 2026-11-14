@@ -16,7 +16,7 @@ from universalassistant.components.time import (
     TimeServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -25,7 +25,7 @@ from .const import TEST_DEVICE_ID
 
 
 async def _assert_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     time: time,
     service: str,
@@ -119,7 +119,7 @@ async def _assert_service_call(
     ],
 )
 async def test_switch_state_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -134,7 +134,7 @@ async def test_switch_state_snapshot(
 
 
 async def test_ed_time_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test ED time service call reach the device."""

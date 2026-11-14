@@ -3,7 +3,7 @@
 from typing import Any, Final, override
 
 from universalassistant.components.device_tracker import TrackerEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import NRGkickConfigEntry, NRGkickDataUpdateCoordinator
@@ -15,7 +15,7 @@ TRACKER_KEY: Final = "gps_tracker"
 
 
 async def async_setup_entry(
-    _hass: UniversalAssistant,
+    _hass: __HAC_KEEP__,
     entry: NRGkickConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

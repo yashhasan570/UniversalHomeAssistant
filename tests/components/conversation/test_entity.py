@@ -6,13 +6,13 @@ from pytest_universalassistant.common import mock_restore_cache
 
 from universalassistant.components import conversation
 from universalassistant.components.conversation import DOMAIN
-from universalassistant.core import Context, UniversalAssistant, State
+from universalassistant.core import Context, __HAC_KEEP__, State
 from universalassistant.helpers import intent
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
-async def test_state_set_and_restore(hass: UniversalAssistant) -> None:
+async def test_state_set_and_restore(hass: __HAC_KEEP__) -> None:
     """Test we set and restore state in the integration."""
     entity_id = "conversation.universal_assistant"
     timestamp = "2023-01-01T23:59:59+00:00"

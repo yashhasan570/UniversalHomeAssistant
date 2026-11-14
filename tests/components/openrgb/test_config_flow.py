@@ -10,12 +10,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.openrgb.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_openrgb_client")
-async def test_full_user_flow(hass: UniversalAssistant) -> None:
+async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
     """Test the full user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -58,7 +58,7 @@ async def test_full_user_flow(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: UniversalAssistant, exception: Exception, error_key: str, mock_openrgb_client
+    hass: __HAC_KEEP__, exception: Exception, error_key: str, mock_openrgb_client
 ) -> None:
     """Test user flow with various errors."""
     result = await hass.config_entries.flow.async_init(
@@ -96,7 +96,7 @@ async def test_user_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_openrgb_client")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user flow when device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -117,7 +117,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_openrgb_client")
 async def test_user_flow_duplicate_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test user flow when trying to add duplicate host/port combination."""
     mock_config_entry.add_to_hass(hass)
@@ -156,7 +156,7 @@ async def test_user_flow_duplicate_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_openrgb_client")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the reconfiguration flow."""
     mock_config_entry.add_to_hass(hass)
@@ -194,7 +194,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
     error_key: str,
@@ -232,7 +232,7 @@ async def test_reconfigure_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_openrgb_client")
 async def test_reconfigure_flow_duplicate_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguration flow when new config matches another existing entry."""
     mock_config_entry.add_to_hass(hass)

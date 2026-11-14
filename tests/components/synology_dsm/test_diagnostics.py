@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import mock_dsm_hardware, mock_dsm_information
 from .consts import HOST, MACS, PASSWORD, PORT, SERIAL, USE_SSL, USERNAME
@@ -157,7 +157,7 @@ def mock_dsm_with_usb():
 
 @pytest.fixture
 async def setup_dsm_with_usb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dsm_with_usb: MagicMock,
 ):
     """Mock setup of synology dsm config entry with USB."""
@@ -185,7 +185,7 @@ async def setup_dsm_with_usb(
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     setup_dsm_with_usb: MagicMock,
     snapshot: SnapshotAssertion,

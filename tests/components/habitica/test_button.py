@@ -20,8 +20,8 @@ from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, Button
 from universalassistant.components.habitica.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ERROR_BAD_REQUEST, ERROR_NOT_AUTHORIZED, ERROR_TOO_MANY_REQUESTS
@@ -47,7 +47,7 @@ def button_only() -> Generator[None]:
     ],
 )
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -155,7 +155,7 @@ async def test_buttons(
     ],
 )
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     entity_id: str,
@@ -216,12 +216,12 @@ async def test_button_press(
         (
             ERROR_TOO_MANY_REQUESTS,
             "Rate limit exceeded, try again in 5 seconds",
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
         (
             ERROR_BAD_REQUEST,
             "Unable to connect to Habitica: reason",
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
         (
             ERROR_NOT_AUTHORIZED,
@@ -231,12 +231,12 @@ async def test_button_press(
         (
             ClientError,
             "Unable to connect to Habitica: ",
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
     ],
 )
 async def test_button_press_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     entity_id: str,
@@ -311,7 +311,7 @@ async def test_button_press_exceptions(
     ],
 )
 async def test_button_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     fixture: str,
@@ -335,7 +335,7 @@ async def test_button_unavailable(
 
 
 async def test_class_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     freezer: FrozenDateTimeFactory,

@@ -1,4 +1,4 @@
-"""Support for Universal Universal Home Assistant Cloud binary sensors."""
+"""Support for __HA_KEEP__ Cloud binary sensors."""
 
 import asyncio
 from typing import Any, override
@@ -10,7 +10,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -22,11 +22,11 @@ WAIT_UNTIL_CHANGE = 3
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: CloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up the Universal Universal Home Assistant Cloud binary sensors."""
+    """Set up the __HA_KEEP__ Cloud binary sensors."""
     cloud = hass.data[DATA_CLOUD]
     async_add_entities([CloudRemoteBinary(cloud)])
 

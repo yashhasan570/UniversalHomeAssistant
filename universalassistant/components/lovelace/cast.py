@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant Cast platform."""
+"""__HA_KEEP__ Cast platform."""
 
 from typing import Any
 
@@ -18,8 +18,8 @@ from universalassistant.components.media_player import (
     MediaType,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.network import NoURLAvailableError, get_url
 
 from .const import DOMAIN, LOVELACE_DATA, ConfigNotFound
@@ -28,7 +28,7 @@ DEFAULT_DASHBOARD = "_default_"
 
 
 async def async_get_media_browser_root_object(
-    hass: UniversalAssistant, cast_type: str
+    hass: __HAC_KEEP__, cast_type: str
 ) -> list[BrowseMedia]:
     """Create a root object for media browsing."""
     if cast_type != CAST_TYPE_CHROMECAST:
@@ -47,7 +47,7 @@ async def async_get_media_browser_root_object(
 
 
 async def async_browse_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     media_content_type: MediaType | str,
     media_content_id: str,
     cast_type: str,
@@ -113,7 +113,7 @@ async def async_browse_media(
 
 
 async def async_play_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cast_entity_id: str,
     chromecast: Chromecast,
     media_type: MediaType | str,
@@ -130,7 +130,7 @@ async def async_play_media(
         try:
             info = await _get_dashboard_info(hass, media_id)
         except ValueError as err:
-            raise UniversalAssistantError(f"Invalid dashboard {media_id} specified") from err
+            raise __HAC_KEEP__Error(f"Invalid dashboard {media_id} specified") from err
         view_path = info["views"][0]["path"] if info["views"] else "0"
 
     data: dict[str, Any] = {
@@ -150,7 +150,7 @@ async def async_play_media(
 
 
 async def _get_dashboard_info(
-    hass: UniversalAssistant, url_path: str | None
+    hass: __HAC_KEEP__, url_path: str | None
 ) -> dict[str, Any]:
     """Load a dashboard and return info on views."""
     if url_path == DEFAULT_DASHBOARD:

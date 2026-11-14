@@ -28,9 +28,9 @@ from universalassistant.components.media_player import (
 from universalassistant.components.tts import TTSAudioRequest
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import ATTR_ENTITY_ID, CONF_API_KEY
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from tests.components.tts.common import retrieve_media
 
@@ -46,7 +46,7 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_internal_url(hass: UniversalAssistant) -> None:
+async def setup_internal_url(hass: __HAC_KEEP__) -> None:
     """Set up internal url."""
     await async_process_ha_core_config(
         hass, {"internal_url": "http://example.local:8123"}
@@ -54,7 +54,7 @@ async def setup_internal_url(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture
-async def calls(hass: UniversalAssistant) -> list[ServiceCall]:
+async def calls(hass: __HAC_KEEP__) -> list[ServiceCall]:
     """Mock media player calls."""
     return async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)
 
@@ -66,7 +66,7 @@ async def _failing_stream(error: Exception) -> AsyncGenerator[bytes]:
 
 
 async def test_tts_service_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_tts_service_success(
 
 
 async def test_tts_stream_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_tts_stream_success(
 
 
 async def test_tts_rate_limited(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_tts_rate_limited(
     )
 
     # Test that the error is raised
-    with pytest.raises(UniversalAssistantError, match="Rate limited"):
+    with pytest.raises(__HAC_KEEP__Error, match="Rate limited"):
         await entity.async_get_tts_audio(
             message="Hello world",
             language="en",
@@ -161,7 +161,7 @@ async def test_tts_rate_limited(
 
 
 async def test_tts_missing_voice_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_tts_missing_voice_id(
 
 
 async def test_tts_supported_languages(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -235,7 +235,7 @@ async def test_tts_supported_languages(
     ],
 )
 async def test_tts_speed_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     options: dict[str, float],
@@ -259,7 +259,7 @@ async def test_tts_speed_option(
 
 
 async def test_tts_speed_from_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
 ) -> None:
     """Test the configured per-voice speed is used without a per-call option.
@@ -306,7 +306,7 @@ async def test_tts_speed_from_subentry(
 
 @pytest.mark.parametrize("speed", [0.1, 5.0])
 async def test_tts_speed_out_of_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     speed: float,
@@ -333,7 +333,7 @@ async def test_tts_speed_out_of_range(
 
 
 async def test_tts_service_speak(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -363,7 +363,7 @@ async def test_tts_service_speak(
 
 
 async def test_tts_service_speak_with_language(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -394,7 +394,7 @@ async def test_tts_service_speak_with_language(
 
 
 async def test_tts_service_speak_server_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -431,7 +431,7 @@ async def test_tts_service_speak_server_error(
 
 
 async def test_tts_service_speak_rate_limit_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fishaudio_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,

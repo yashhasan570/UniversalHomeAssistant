@@ -21,7 +21,7 @@ from pytest_universalassistant.components.common import (
 )
 
 from universalassistant.const import CONF_TARGET, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.condition import (
     Condition,
@@ -62,7 +62,7 @@ class _NoTargetSlotTrigger(_ValidTrigger):
 class _MutatesConfigTargetTrigger(_ValidTrigger):
     """``__init__`` rewrites the user target before delegating."""
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Rewrite the user target."""
         config.target = {CONF_TARGET: {}}
         super().__init__(hass, config)
@@ -71,7 +71,7 @@ class _MutatesConfigTargetTrigger(_ValidTrigger):
 class _InitNoSuperTrigger(_ValidTrigger):
     """``__init__`` does not delegate the config to super."""
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Fail to delegate to super."""
         # pylint: disable=super-init-not-called,unused-argument
         self._hass = hass
@@ -80,7 +80,7 @@ class _InitNoSuperTrigger(_ValidTrigger):
 class _RebuildsConfigTrigger(_ValidTrigger):
     """``__init__`` rebuilds the config object."""
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Rebuild the config."""
         config = TriggerConfig(target=config.target)
         super().__init__(hass, config)
@@ -89,7 +89,7 @@ class _RebuildsConfigTrigger(_ValidTrigger):
 class _AssignsTargetTrigger(_ValidTrigger):
     """``__init__`` assigns ``self._target``."""
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Assign the resolved target directly."""
         super().__init__(hass, config)
         self._target = config.target
@@ -116,7 +116,7 @@ class _NestedBadInitTrigger(_MutatesConfigTargetTrigger):
     parent, so this only fails if the MRO scan continues past the clean child.
     """
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         # pylint: disable=useless-parent-delegation
         """Delegate cleanly to super."""
         super().__init__(hass, config)
@@ -155,7 +155,7 @@ class _MutatesConfigTargetCondition(_ValidCondition):
     runtime; the helper must catch it statically.
     """
 
-    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
         """Rewrite the user target."""
         config.target = {CONF_TARGET: {}}
         super().__init__(hass, config)
@@ -164,7 +164,7 @@ class _MutatesConfigTargetCondition(_ValidCondition):
 class _RebuildsConfigCondition(_ValidCondition):
     """``__init__`` rebuilds the config object (exercises the ConditionConfig wiring)."""
 
-    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
         """Rebuild the config."""
         config = ConditionConfig(target=config.target)
         super().__init__(hass, config)
@@ -183,7 +183,7 @@ class _NestedBadInitCondition(_MutatesConfigTargetCondition):
     ``_init_hygiene_violation`` is wired with ``config_cls="ConditionConfig"``.
     """
 
-    def __init__(self, hass: UniversalAssistant, config: ConditionConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConditionConfig) -> None:
         # pylint: disable=useless-parent-delegation
         """Delegate cleanly to super."""
         super().__init__(hass, config)

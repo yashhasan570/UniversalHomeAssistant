@@ -4,7 +4,7 @@ from pykmtronic.auth import Auth
 from pykmtronic.hub import KMTronicHubAPI
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 
 from .coordinator import KMTronicConfigEntry, KMtronicCoordinator
@@ -12,7 +12,7 @@ from .coordinator import KMTronicConfigEntry, KMtronicCoordinator
 PLATFORMS = [Platform.SWITCH]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: KMTronicConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: KMTronicConfigEntry) -> None:
     """Set up kmtronic from a config entry."""
     session = aiohttp_client.async_get_clientsession(hass)
     auth = Auth(
@@ -33,12 +33,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: KMTronicConfigEntry
 
 
 async def async_update_options(
-    hass: UniversalAssistant, config_entry: KMTronicConfigEntry
+    hass: __HAC_KEEP__, config_entry: KMTronicConfigEntry
 ) -> None:
     """Update options."""
     await hass.config_entries.async_reload(config_entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: KMTronicConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: KMTronicConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

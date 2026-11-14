@@ -18,12 +18,12 @@ from universalassistant.components.mqtt.models import MessageCallbackType
 from universalassistant.components.mqtt.util import EnsureJobAfterCooldown
 from universalassistant.config_entries import ConfigEntryDisabler, ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.util.dt import utcnow
 
 
 async def test_canceling_debouncer_on_shutdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     record_calls: MessageCallbackType,
     mock_debouncer: asyncio.Event,
     setup_with_birth_msg_client_mock: MqttMockPahoClient,
@@ -62,7 +62,7 @@ async def test_canceling_debouncer_on_shutdown(
 
 
 async def test_canceling_debouncer_normal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test canceling the debouncer before completion."""
@@ -79,7 +79,7 @@ async def test_canceling_debouncer_normal(
 
 
 async def test_canceling_debouncer_throws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test canceling the debouncer when HA shuts down."""
@@ -102,7 +102,7 @@ async def test_canceling_debouncer_throws(
 
 
 async def help_create_test_certificate_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_temp_dir: str,
     option: str,
     content: bytes = b"old content",
@@ -131,7 +131,7 @@ async def help_create_test_certificate_file(
 )
 @pytest.mark.parametrize("temp_dir_prefix", ["create-test1"])
 async def test_async_create_certificate_temp_files(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_temp_dir: str,
     option: str,
     content: str,
@@ -172,7 +172,7 @@ async def test_async_create_certificate_temp_files(
 
 @pytest.mark.parametrize("temp_dir_prefix", ["create-test2"])
 async def test_certificate_temp_files_with_auto_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_temp_dir: str,
 ) -> None:
     """Test creating and reading and recovery certificate files with auto mode."""
@@ -199,7 +199,7 @@ async def test_reading_non_exitisting_certificate_file() -> None:
 
 
 async def test_return_default_get_file_path(
-    hass: UniversalAssistant, mock_temp_dir: str
+    hass: __HAC_KEEP__, mock_temp_dir: str
 ) -> None:
     """Test get_file_path returns default."""
 
@@ -214,7 +214,7 @@ async def test_return_default_get_file_path(
 
 
 async def test_waiting_for_client_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_client_mock: MqttMockPahoClient,
 ) -> None:
     """Test waiting for client while mqtt entry is not yet loaded."""
@@ -252,7 +252,7 @@ async def test_waiting_for_client_not_loaded(
 
 
 async def test_waiting_for_client_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test waiting for client where mqtt entry is loaded."""
@@ -273,7 +273,7 @@ async def test_waiting_for_client_loaded(
 
 
 async def test_waiting_for_client_entry_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_client_mock: MqttMockPahoClient,
 ) -> None:
     """Test waiting for client where mqtt entry is failing."""
@@ -303,7 +303,7 @@ async def test_waiting_for_client_entry_fails(
 
 
 async def test_waiting_for_client_setup_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_client_mock: MqttMockPahoClient,
 ) -> None:
     """Test waiting for client where mqtt entry is failing during setup."""
@@ -333,7 +333,7 @@ async def test_waiting_for_client_setup_fails(
 
 @patch("universalassistant.components.mqtt.util.AVAILABILITY_TIMEOUT", 0.01)
 async def test_waiting_for_client_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test waiting for client with timeout."""
     hass.set_state(CoreState.starting)
@@ -354,7 +354,7 @@ async def test_waiting_for_client_timeout(
 
 
 async def test_waiting_for_client_with_disabled_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test waiting for client with timeout."""
     hass.set_state(CoreState.starting)

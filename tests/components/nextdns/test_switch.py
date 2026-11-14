@@ -26,8 +26,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -35,7 +35,7 @@ from . import init_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -49,7 +49,7 @@ async def test_switch(
 
 
 async def test_switch_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_switch_on(
 
 
 async def test_switch_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_switch_off(
     ],
 )
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exc: Exception,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -160,17 +160,17 @@ async def test_availability(
     ],
 )
 async def test_switch_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
     exc: Exception,
 ) -> None:
-    """Tests that the turn on/off service throws UniversalAssistantError."""
+    """Tests that the turn on/off service throws __HAC_KEEP__Error."""
     await init_integration(hass, mock_config_entry)
 
     mock_nextdns_client.set_setting.side_effect = exc
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -180,7 +180,7 @@ async def test_switch_failure(
 
 
 async def test_switch_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_switch_auth_error(
     mock_nextdns_client.set_setting.side_effect = InvalidApiKeyError
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Authentication failed for NextDNS, please update your API key",
     ):
         await hass.services.async_call(
@@ -215,7 +215,7 @@ async def test_switch_auth_error(
 
 
 async def test_switch_set_setting_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_switch_set_setting_failure(
     assert state.state == STATE_OFF
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="An error occurred while changing the setting for"
         " switch.fake_profile_block_page",
     ):

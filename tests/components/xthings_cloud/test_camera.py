@@ -17,15 +17,15 @@ from universalassistant.components.camera import (
     get_camera_from_entity_id,
 )
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import get_device_by_id, setup_integration
 
 
 async def setup_camera_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the integration with only the camera platform."""
     with patch("universalassistant.components.xthings_cloud.PLATFORMS", [Platform.CAMERA]):
@@ -33,7 +33,7 @@ async def setup_camera_integration(
 
 
 async def test_cameras(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -49,7 +49,7 @@ async def test_cameras(
 
 
 async def test_camera_unavailable_when_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_camera_unavailable_when_offline(
 
 
 async def test_camera_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_camera_image(
 
 
 async def test_camera_image_fetch_error_returns_no_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_camera_image_fetch_error_returns_no_image(
         "Request failed"
     )
 
-    with pytest.raises(UniversalAssistantError, match="Unable to get image"):
+    with pytest.raises(__HAC_KEEP__Error, match="Unable to get image"):
         await async_get_image(hass, "camera.front_door_camera")
     mock_api_client.async_get_snapshot.assert_called_with(
         "https://example.com/new_snapshot.jpg"
@@ -108,7 +108,7 @@ async def test_camera_image_fetch_error_returns_no_image(
 
 
 async def test_updating_state_updates_snapshot_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
     mock_websocket: AsyncMock,
@@ -138,7 +138,7 @@ async def test_updating_state_updates_snapshot_url(
 
 
 async def test_webrtc_offer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_webrtc_offer(
 
 
 async def test_webrtc_candidate_caching_and_flush(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_webrtc_candidate_caching_and_flush(
 
 
 async def test_webrtc_session_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -334,7 +334,7 @@ async def test_webrtc_session_cleanup(
 
 
 async def test_webrtc_offer_closed_while_fetching_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -388,7 +388,7 @@ async def test_webrtc_offer_closed_while_fetching_credentials(
 
 
 async def test_webrtc_session_cleanup_on_entity_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -426,7 +426,7 @@ async def test_webrtc_session_cleanup_on_entity_removal(
 
 
 async def test_webrtc_offer_kvs_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:
@@ -460,7 +460,7 @@ async def test_webrtc_offer_kvs_error(
 
 
 async def test_webrtc_offer_unexpected_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api_client: AsyncMock,
 ) -> None:

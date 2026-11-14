@@ -9,7 +9,7 @@
     },
     "step": {
       "troubleshoot": {
-        "description": "Universal Universal Home Assistant could not communicate with the Samsung TV over the serial port.\n\nThe most common cause is that ExLink control is not enabled. On TVs that use the USB-to-ExLink dongle, **EXT Link Support** and **USB Serial** must be enabled in the hidden service menu (on the remote, press **Mute → 1 → 8 → 2 → Power**); the exact path varies by model, so check your TV's documentation.\n\nAlso make sure that:\n- The TV is powered on. A TV in standby does not answer status queries.\n- The cable is connected to the TV's 3.5 mm ExLink jack (or the Samsung USB-to-ExLink dongle) and is fully seated.\n- The correct serial port was selected.\n\nSelect **Submit** to try again.",
+        "description": "__HA_KEEP__ could not communicate with the Samsung TV over the serial port.\n\nThe most common cause is that ExLink control is not enabled. On TVs that use the USB-to-ExLink dongle, **EXT Link Support** and **USB Serial** must be enabled in the hidden service menu (on the remote, press **Mute → 1 → 8 → 2 → Power**); the exact path varies by model, so check your TV's documentation.\n\nAlso make sure that:\n- The TV is powered on. A TV in standby does not answer status queries.\n- The cable is connected to the TV's 3.5 mm ExLink jack (or the Samsung USB-to-ExLink dongle) and is fully seated.\n- The correct serial port was selected.\n\nSelect **Submit** to try again.",
         "title": "Connection failed"
       },
       "user": {
@@ -21,7 +21,7 @@
           "device": "Serial port path to connect to.",
           "model": "Select your TV's generation to translate the active input back into a named source. Leave empty if your model is not listed; you can still switch sources."
         },
-        "description": "Make sure the TV is powered on before continuing. Universal Universal Home Assistant queries the TV during setup to confirm the connection, and a TV in standby will not respond."
+        "description": "Make sure the TV is powered on before continuing. __HA_KEEP__ queries the TV during setup to confirm the connection, and a TV in standby will not respond."
       }
     }
   },

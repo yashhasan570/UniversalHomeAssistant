@@ -18,7 +18,7 @@ from universalassistant.components.sensor import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ATTRIBUTION, ATTR_DEVICE_CLASS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_registry import EntityRegistry
 from universalassistant.util import dt as dt_util
 
@@ -45,7 +45,7 @@ def restore_timezone():
     ],
 )
 async def test_hop_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     electrickiwi_api: Mock,
     ek_auth: AsyncMock,
@@ -104,7 +104,7 @@ async def test_hop_sensors(
     ],
 )
 async def test_account_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     electrickiwi_api: AsyncMock,
     ek_auth: AsyncMock,
@@ -131,7 +131,7 @@ async def test_account_sensors(
 
 
 async def test_hop_percentage_without_power_connections(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     electrickiwi_api: AsyncMock,
     ek_auth: AsyncMock,

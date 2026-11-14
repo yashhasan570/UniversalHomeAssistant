@@ -10,8 +10,8 @@ from yoto_api import YotoError
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -20,7 +20,7 @@ from .conftest import PLAYER_ID
 pytestmark = pytest.mark.usefixtures("setup_credentials")
 
 
-async def _setup(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
+async def _setup(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
     """Set up the integration with only the switch platform."""
     with patch("universalassistant.components.yoto.PLATFORMS", [Platform.SWITCH]):
         await setup_integration(hass, mock_config_entry)
@@ -28,7 +28,7 @@ async def _setup(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -
 
 @pytest.mark.usefixtures("mock_yoto_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -40,7 +40,7 @@ async def test_all_entities(
 
 
 async def test_available_when_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_available_when_offline(
 
 
 async def test_auto_brightness_requires_light_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_auto_brightness_requires_light_sensor(
     ],
 )
 async def test_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -147,7 +147,7 @@ async def test_turn_on(
     ],
 )
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -170,16 +170,16 @@ async def test_turn_off(
 
 
 async def test_turn_on_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yoto_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """A failed config write raises a Universal Universal Home Assistant error."""
+    """A failed config write raises a __HA_KEEP__ error."""
     await _setup(hass, mock_config_entry)
     mock_yoto_client.set_player_config.side_effect = YotoError("MQTT timeout")
 
     with pytest.raises(
-        UniversalAssistantError, match="Failed to update Yoto player settings"
+        __HAC_KEEP__Error, match="Failed to update Yoto player settings"
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,

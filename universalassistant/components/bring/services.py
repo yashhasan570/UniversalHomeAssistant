@@ -14,8 +14,8 @@ import probatio
 from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.components.todo import DOMAIN as TODO_DOMAIN
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import (
     config_validation as cv,
     entity_registry as er,
@@ -56,7 +56,7 @@ SERVICE_ACTIVITY_STREAM_REACTION_SCHEMA = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for Bring! integration."""
 
     async def async_send_activity_stream_reaction(call: ServiceCall) -> None:
@@ -105,7 +105,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:
                 reaction=reaction,
             )
         except (BringRequestException, BringAuthException) as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="reaction_request_failed",
             ) from e

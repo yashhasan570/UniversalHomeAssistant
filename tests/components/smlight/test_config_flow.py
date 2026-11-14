@@ -16,7 +16,7 @@ from universalassistant.config_entries import (
     SOURCE_ZEROCONF,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -51,7 +51,7 @@ DISCOVERY_INFO_LEGACY = ZeroconfServiceInfo(
 
 
 @pytest.mark.usefixtures("mock_smlight_client")
-async def test_user_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test the full manual user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -77,7 +77,7 @@ async def test_user_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) 
 
 
 async def test_user_flow_auth(
-    hass: UniversalAssistant, mock_smlight_client: MagicMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_smlight_client: MagicMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the full manual user flow with authentication."""
 
@@ -117,7 +117,7 @@ async def test_user_flow_auth(
 
 
 async def test_zeroconf_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smlight_client: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -156,7 +156,7 @@ async def test_zeroconf_flow(
 
 
 async def test_zeroconf_flow_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smlight_client: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_zeroconf_flow_auth(
 
 
 async def test_zeroconf_unsupported_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -242,7 +242,7 @@ async def test_zeroconf_unsupported_abort(
 
 
 async def test_user_unsupported_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -269,7 +269,7 @@ async def test_user_unsupported_abort(
 
 
 async def test_user_unsupported_device_abort_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smlight_client: MagicMock,
 ) -> None:
@@ -312,7 +312,7 @@ async def test_user_unsupported_device_abort_auth(
 
 @pytest.mark.usefixtures("mock_smlight_client")
 async def test_user_device_exists_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort user flow if device already configured."""
@@ -338,7 +338,7 @@ async def test_user_device_exists_abort(
 
 @pytest.mark.usefixtures("mock_smlight_client")
 async def test_user_flow_can_override_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -376,7 +376,7 @@ async def test_user_flow_can_override_discovery(
 
 @pytest.mark.usefixtures("mock_smlight_client")
 async def test_zeroconf_device_exists_abort(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort zeroconf flow if device already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -392,7 +392,7 @@ async def test_zeroconf_device_exists_abort(
 
 
 async def test_user_invalid_auth(
-    hass: UniversalAssistant, mock_smlight_client: MagicMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_smlight_client: MagicMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we handle invalid auth."""
     mock_smlight_client.check_auth_needed.return_value = True
@@ -452,7 +452,7 @@ async def test_user_invalid_auth(
 
 
 async def test_user_cannot_connect(
-    hass: UniversalAssistant, mock_smlight_client: MagicMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_smlight_client: MagicMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we handle user cannot connect error."""
     mock_smlight_client.check_auth_needed.side_effect = SmlightConnectionError
@@ -489,7 +489,7 @@ async def test_user_cannot_connect(
 
 
 async def test_auth_cannot_connect(
-    hass: UniversalAssistant, mock_smlight_client: MagicMock
+    hass: __HAC_KEEP__, mock_smlight_client: MagicMock
 ) -> None:
     """Test we abort auth step on cannot connect error."""
     mock_smlight_client.check_auth_needed.return_value = True
@@ -523,7 +523,7 @@ async def test_auth_cannot_connect(
 
 
 async def test_zeroconf_cannot_connect(
-    hass: UniversalAssistant, mock_smlight_client: MagicMock
+    hass: __HAC_KEEP__, mock_smlight_client: MagicMock
 ) -> None:
     """Test we abort flow on zeroconf cannot connect error."""
     mock_smlight_client.check_auth_needed.side_effect = SmlightConnectionError
@@ -546,7 +546,7 @@ async def test_zeroconf_cannot_connect(
 
 
 async def test_zeroconf_legacy_cannot_connect(
-    hass: UniversalAssistant, mock_smlight_client: MagicMock
+    hass: __HAC_KEEP__, mock_smlight_client: MagicMock
 ) -> None:
     """Test we abort flow on zeroconf discovery unsupported firmware."""
     mock_smlight_client.get_info.side_effect = SmlightConnectionError
@@ -563,7 +563,7 @@ async def test_zeroconf_legacy_cannot_connect(
 
 @pytest.mark.usefixtures("mock_smlight_client")
 async def test_zeroconf_legacy_mac(
-    hass: UniversalAssistant, mock_smlight_client: MagicMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_smlight_client: MagicMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we can get unique id MAC address for older firmwares."""
     result = await hass.config_entries.flow.async_init(
@@ -592,7 +592,7 @@ async def test_zeroconf_legacy_mac(
 
 @pytest.mark.usefixtures("mock_smlight_client", "mock_setup_entry")
 async def test_zeroconf_updates_host(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf discovery updates host ip."""
     mock_config_entry.add_to_hass(hass)
@@ -612,7 +612,7 @@ async def test_zeroconf_updates_host(
 
 @pytest.mark.usefixtures("mock_smlight_client", "mock_setup_entry")
 async def test_dhcp_discovery_updates_host(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test dhcp discovery updates host ip."""
     mock_config_entry.add_to_hass(hass)
@@ -634,7 +634,7 @@ async def test_dhcp_discovery_updates_host(
 
 @pytest.mark.usefixtures("mock_smlight_client", "mock_setup_entry")
 async def test_dhcp_discovery_aborts(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test dhcp discovery updates host ip."""
     mock_config_entry.add_to_hass(hass)
@@ -656,7 +656,7 @@ async def test_dhcp_discovery_aborts(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smlight_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -691,7 +691,7 @@ async def test_reauth_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smlight_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -739,7 +739,7 @@ async def test_reauth_auth_error(
 
 
 async def test_reauth_connect_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smlight_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -770,7 +770,7 @@ async def test_reauth_connect_error(
 @pytest.mark.usefixtures("mock_smlight_client")
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow completes successfully."""
@@ -801,7 +801,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_connect_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smlight_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_method: str,
@@ -846,7 +846,7 @@ async def test_reconfigure_connect_error(
     ],
 )
 async def test_reconfigure_abort_cases(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smlight_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     get_info_return: Info,
@@ -876,7 +876,7 @@ async def test_reconfigure_abort_cases(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smlight_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -925,7 +925,7 @@ async def test_reconfigure_auth_error(
 
 
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ultima_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -952,7 +952,7 @@ async def test_options_flow(
 
 
 async def test_options_flow_enable_from_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ultima_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -982,7 +982,7 @@ async def test_options_flow_enable_from_disabled(
 
 
 async def test_options_flow_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ultima_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1022,7 +1022,7 @@ async def test_options_flow_error(
 
 @pytest.mark.usefixtures("mock_smlight_client")
 async def test_options_flow_no_ble(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test options flow for device without BLE support redirects to no_settings step."""
@@ -1045,7 +1045,7 @@ async def test_options_flow_no_ble(
 
 @pytest.mark.usefixtures("mock_ultima_client")
 async def test_options_flow_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test options flow returns cannot_connect error when config entry has not finished loading."""
@@ -1069,7 +1069,7 @@ async def test_options_flow_not_loaded(
 
 
 async def test_options_flow_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ultima_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

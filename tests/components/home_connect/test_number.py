@@ -52,8 +52,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -65,7 +65,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.parametrize("appliance", [ApplianceType.WASHER], indirect=True)
 async def test_paired_depaired_devices_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -145,7 +145,7 @@ async def test_paired_depaired_devices_flow(
     indirect=["appliance"],
 )
 async def test_connected_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -205,7 +205,7 @@ async def test_connected_devices(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.OVEN], indirect=True)
 async def test_number_entity_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -306,7 +306,7 @@ async def test_number_entity_availability(
     ],
 )
 async def test_number_entity_functionality(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -392,7 +392,7 @@ async def test_number_entity_functionality(
 )
 @patch("universalassistant.components.home_connect.entity.API_DEFAULT_RETRY_AFTER", new=0)
 async def test_fetch_constraints_after_rate_limit_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -467,7 +467,7 @@ async def test_fetch_constraints_after_rate_limit_error(
     ],
 )
 async def test_number_entity_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client_with_exception: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -498,7 +498,7 @@ async def test_number_entity_error(
         await getattr(client_with_exception, mock_attr)()
 
     with pytest.raises(
-        UniversalAssistantError, match=r"Error.*assign.*value.*to.*setting.*"
+        __HAC_KEEP__Error, match=r"Error.*assign.*value.*to.*setting.*"
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,
@@ -547,7 +547,7 @@ async def test_number_entity_error(
     indirect=["appliance"],
 )
 async def test_options_functionality(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -644,7 +644,7 @@ async def test_options_functionality(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.OVEN], indirect=True)
 async def test_options_unavailable_when_option_is_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -712,7 +712,7 @@ async def test_options_unavailable_when_option_is_missing(
     ],
 )
 async def test_options_available_when_program_is_null(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -774,7 +774,7 @@ async def test_options_available_when_program_is_null(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.OVEN], indirect=True)
 async def test_restore_option_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
     config_entry: MockConfigEntry,

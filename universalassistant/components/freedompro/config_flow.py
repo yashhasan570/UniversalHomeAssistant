@@ -7,8 +7,8 @@ from pyfreedompro import get_list
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import aiohttp_client
 
 from .const import DOMAIN
@@ -22,7 +22,7 @@ API_KEY_URL = "https://freedompro.eu/"
 class Hub:
     """Freedompro Hub class."""
 
-    def __init__(self, hass: UniversalAssistant, api_key: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, api_key: str) -> None:
         """Freedompro Hub class init."""
         self._hass = hass
         self._api_key = api_key
@@ -34,7 +34,7 @@ class Hub:
         )
 
 
-async def validate_input(hass: UniversalAssistant, api_key: str) -> None:
+async def validate_input(hass: __HAC_KEEP__, api_key: str) -> None:
     """Validate api key."""
     hub = Hub(hass, api_key)
     result = await hub.authenticate()
@@ -85,9 +85,9 @@ class FreedomProConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

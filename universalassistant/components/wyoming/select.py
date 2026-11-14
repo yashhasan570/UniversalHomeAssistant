@@ -9,7 +9,7 @@ from universalassistant.components.assist_pipeline import (
 )
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import restore_state
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -29,7 +29,7 @@ _DEFAULT_NOISE_SUPPRESSION_LEVEL: Final = "off"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WyomingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -51,7 +51,7 @@ async def async_setup_entry(
 class WyomingSatellitePipelineSelect(WyomingSatelliteEntity, AssistPipelineSelect):
     """Pipeline selector for Wyoming satellites."""
 
-    def __init__(self, hass: UniversalAssistant, device: SatelliteDevice) -> None:
+    def __init__(self, hass: __HAC_KEEP__, device: SatelliteDevice) -> None:
         """Initialize a pipeline selector."""
         self.device = device
 
@@ -81,7 +81,7 @@ class WyomingSatelliteNoiseSuppressionLevelSelect(
 
     @override
     async def async_added_to_hass(self) -> None:
-        """When entity is added to Universal Universal Home Assistant."""
+        """When entity is added to __HA_KEEP__."""
         await super().async_added_to_hass()
 
         state = await self.async_get_last_state()
@@ -101,7 +101,7 @@ class WyomingSatelliteVadSensitivitySelect(
 ):
     """VAD sensitivity selector for Wyoming satellites."""
 
-    def __init__(self, hass: UniversalAssistant, device: SatelliteDevice) -> None:
+    def __init__(self, hass: __HAC_KEEP__, device: SatelliteDevice) -> None:
         """Initialize a VAD sensitivity selector."""
         self.device = device
 

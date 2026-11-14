@@ -9,7 +9,7 @@ from deluge_client.client import DelugeRPCClient, FailedToReconnectException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -37,7 +37,7 @@ class DelugeDataUpdateCoordinator(
     config_entry: DelugeConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, api: DelugeRPCClient, entry: DelugeConfigEntry
+        self, hass: __HAC_KEEP__, api: DelugeRPCClient, entry: DelugeConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

@@ -16,7 +16,7 @@ from universalassistant.components.bluetooth import DOMAIN as BLUETOOTH_DOMAIN
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.xiaomi_ble.const import CONF_SUBTYPE, DOMAIN
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -30,7 +30,7 @@ def get_device_id(mac: str) -> tuple[str, str]:
 
 
 async def _async_setup_xiaomi_device(
-    hass: UniversalAssistant, mac: str, data: Any | None = None
+    hass: __HAC_KEEP__, mac: str, data: Any | None = None
 ):
     config_entry = MockConfigEntry(domain=DOMAIN, unique_id=mac, data=data)
     config_entry.add_to_hass(hass)
@@ -41,7 +41,7 @@ async def _async_setup_xiaomi_device(
     return config_entry
 
 
-async def test_event_button_press(hass: UniversalAssistant) -> None:
+async def test_event_button_press(hass: __HAC_KEEP__) -> None:
     """Make sure that a button press event is fired."""
     mac = "54:EF:44:E3:9C:BC"
     data = {"bindkey": "5b51a7c91cde6707c9ef18dfda143a58"}
@@ -68,7 +68,7 @@ async def test_event_button_press(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_event_unlock_outside_the_door(hass: UniversalAssistant) -> None:
+async def test_event_unlock_outside_the_door(hass: __HAC_KEEP__) -> None:
     """Make sure that a unlock outside the door event is fired."""
     mac = "D7:1F:44:EB:8A:91"
     entry = await _async_setup_xiaomi_device(hass, mac)
@@ -94,7 +94,7 @@ async def test_event_unlock_outside_the_door(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_event_successful_fingerprint_match_the_door(hass: UniversalAssistant) -> None:
+async def test_event_successful_fingerprint_match_the_door(hass: __HAC_KEEP__) -> None:
     """Make sure that a successful fingerprint match event is fired."""
     mac = "D7:1F:44:EB:8A:91"
     entry = await _async_setup_xiaomi_device(hass, mac)
@@ -120,7 +120,7 @@ async def test_event_successful_fingerprint_match_the_door(hass: UniversalAssist
     await hass.async_block_till_done()
 
 
-async def test_event_motion_detected(hass: UniversalAssistant) -> None:
+async def test_event_motion_detected(hass: __HAC_KEEP__) -> None:
     """Make sure that a motion detected event is fired."""
     mac = "DE:70:E8:B2:39:0C"
     entry = await _async_setup_xiaomi_device(hass, mac)
@@ -143,7 +143,7 @@ async def test_event_motion_detected(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_event_dimmer_rotate(hass: UniversalAssistant) -> None:
+async def test_event_dimmer_rotate(hass: __HAC_KEEP__) -> None:
     """Make sure that a dimmer rotate event is fired."""
     mac = "F8:24:41:C5:98:8B"
     data = {"bindkey": "b853075158487ca39a5b5ea9"}
@@ -170,7 +170,7 @@ async def test_event_dimmer_rotate(hass: UniversalAssistant) -> None:
 
 
 async def test_get_triggers_button(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we get the expected triggers from a Xiaomi BLE button sensor."""
     mac = "54:EF:44:E3:9C:BC"
@@ -213,7 +213,7 @@ async def test_get_triggers_button(
 
 
 async def test_get_triggers_double_button(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test expected triggers from a Xiaomi BLE switch with 2 buttons."""
     mac = "DC:ED:83:87:12:73"
@@ -256,7 +256,7 @@ async def test_get_triggers_double_button(
 
 
 async def test_get_triggers_lock(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test expected triggers from a Xiaomi BLE lock with fingerprint."""
     mac = "98:0C:33:A3:04:3D"
@@ -300,7 +300,7 @@ async def test_get_triggers_lock(
 
 
 async def test_get_triggers_motion(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we get the expected triggers from a Xiaomi BLE motion sensor."""
     mac = "DE:70:E8:B2:39:0C"
@@ -339,7 +339,7 @@ async def test_get_triggers_motion(
 
 
 async def test_get_triggers_for_invalid_xiami_ble_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we don't get triggers for an device that does not emit events."""
     mac = "C4:7C:8D:6A:3E:7A"
@@ -371,7 +371,7 @@ async def test_get_triggers_for_invalid_xiami_ble_device(
 
 
 async def test_get_triggers_for_invalid_device_id(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test that we don't get triggers when using an invalid device_id."""
     mac = "DE:70:E8:B2:39:0C"
@@ -401,7 +401,7 @@ async def test_get_triggers_for_invalid_device_id(
 
 
 async def test_if_fires_on_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -466,7 +466,7 @@ async def test_if_fires_on_button_press(
 
 
 async def test_if_fires_on_double_button_long_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -531,7 +531,7 @@ async def test_if_fires_on_double_button_long_press(
 
 
 async def test_if_fires_on_motion_detected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
 ) -> None:
@@ -589,7 +589,7 @@ async def test_if_fires_on_motion_detected(
 
 
 async def test_automation_with_invalid_trigger_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -640,7 +640,7 @@ async def test_automation_with_invalid_trigger_type(
 
 
 async def test_automation_with_invalid_trigger_event_property(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -695,7 +695,7 @@ async def test_automation_with_invalid_trigger_event_property(
 
 
 async def test_triggers_for_invalid__model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
 ) -> None:

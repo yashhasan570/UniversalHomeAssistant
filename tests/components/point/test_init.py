@@ -14,7 +14,7 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.point import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -132,7 +132,7 @@ class FakePointSession:
 
 
 @pytest.fixture
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to set up application credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -143,7 +143,7 @@ async def setup_credentials(hass: UniversalAssistant) -> None:
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
     config_entry = MockConfigEntry(
@@ -172,7 +172,7 @@ async def test_oauth_implementation_not_available(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_device_via_device_link(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that a Point device is linked to its home via_device."""

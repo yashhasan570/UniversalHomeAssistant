@@ -37,21 +37,21 @@ from universalassistant.components.conversation.trace import (
     async_conversation_trace,
 )
 from universalassistant.components.llm import LLMTools
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, Unauthorized
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
 from universalassistant.helpers import chat_session, llm
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture(autouse=True)
-async def setup_llm(hass: UniversalAssistant) -> None:
+async def setup_llm(hass: __HAC_KEEP__) -> None:
     """Set up the llm integration so the Assist API can pull its tools."""
     assert await async_setup_component(hass, "llm", {})
 
 
 async def test_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
 ) -> None:
     """Test cleanup of the chat log."""
@@ -84,7 +84,7 @@ async def test_cleanup(
 
 
 async def test_default_content(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput
 ) -> None:
     """Test filtering of messages."""
     with (
@@ -101,7 +101,7 @@ async def test_default_content(
 
 
 async def test_llm_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
 ) -> None:
     """Test when we reference an LLM API."""
@@ -197,7 +197,7 @@ class CountingAPI(llm.API):
     ],
 )
 async def test_llm_api_reuse(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
     agent_id: str | None,
     user_id: str | None,
@@ -241,7 +241,7 @@ async def test_llm_api_reuse(
 
 
 async def test_llm_api_cleared(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
 ) -> None:
     """Test the LLM API instance is cleared when no LLM API is requested."""
@@ -265,7 +265,7 @@ async def test_llm_api_cleared(
 
 
 async def test_unknown_llm_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -290,7 +290,7 @@ async def test_unknown_llm_api(
 
 
 async def test_concurrent_turn_busy(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput
 ) -> None:
     """Test a second turn of a conversation raises while the first is open."""
 
@@ -321,7 +321,7 @@ async def test_concurrent_turn_busy(
 
 
 async def test_turn_without_reply(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput
 ) -> None:
     """Test a user message without an assistant reply gets a placeholder reply."""
     with (
@@ -339,7 +339,7 @@ async def test_turn_without_reply(
 
 
 async def test_trace_keeps_messages_of_its_turn(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput
 ) -> None:
     """Test a later turn does not change the messages in the trace of a turn."""
     with (
@@ -381,7 +381,7 @@ async def test_trace_keeps_messages_of_its_turn(
     ],
 )
 async def test_failed_turn_stored(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput, layers: list[str]
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput, layers: list[str]
 ) -> None:
     """Test a failed turn stays in the history with its error once."""
     with (
@@ -390,11 +390,11 @@ async def test_failed_turn_stored(
     ):
         for layer in layers:
             stack.enter_context(
-                pytest.raises(UniversalAssistantError)
+                pytest.raises(__HAC_KEEP__Error)
                 if layer == "raises"
                 else async_get_chat_log(hass, session, mock_conversation_input)
             )
-        raise UniversalAssistantError("Provider is down")
+        raise __HAC_KEEP__Error("Provider is down")
 
     content = hass.data[DATA_CHAT_LOGS]["koala"].content
     assert [(item.role, item.content) for item in content] == [
@@ -407,7 +407,7 @@ async def test_failed_turn_stored(
 
 @freeze_time("2025-10-31 12:00:00")
 async def test_failed_turn_tool_call_result(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput
 ) -> None:
     """Test a failed turn gets an error result for a tool call without one."""
 
@@ -457,7 +457,7 @@ async def test_failed_turn_tool_call_result(
 
 @freeze_time("2025-10-31 12:00:00")
 async def test_failed_turn_trigger_sentence_result(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput
 ) -> None:
     """Test a failed turn gets an error result for an open sentence trigger."""
     trigger_call = llm.ToolInput(
@@ -477,9 +477,9 @@ async def test_failed_turn_trigger_sentence_result(
                     tool_calls=[trigger_call, provider_call],
                 )
             )
-            raise UniversalAssistantError("Automation failed")
+            raise __HAC_KEEP__Error("Automation failed")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         run_turn()
 
     content = hass.data[DATA_CHAT_LOGS]["koala"].content
@@ -489,7 +489,7 @@ async def test_failed_turn_trigger_sentence_result(
         tool_call_id=trigger_call.id,
         tool_name="trigger_sentence",
         result=llm.ToolResult(
-            data={"error": "UniversalAssistantError", "error_text": "Automation failed"},
+            data={"error": "__HAC_KEEP__Error", "error_text": "Automation failed"},
             error=True,
         ),
     )
@@ -497,7 +497,7 @@ async def test_failed_turn_trigger_sentence_result(
 
 
 async def test_streamed_reply_sent_to_subscribers(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput
 ) -> None:
     """Test subscribers get a streamed reply."""
     events: list[tuple[ChatLogEventType, dict[str, Any]]] = []
@@ -542,7 +542,7 @@ class AdminAPI(llm.API):
     ],
 )
 async def test_llm_api_object_requires_admin_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
     user_id: str | None,
 ) -> None:
@@ -570,7 +570,7 @@ async def test_llm_api_object_requires_admin_unauthorized(
 
 
 async def test_llm_api_object_requires_admin_authorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
     hass_admin_user: MockUser,
 ) -> None:
@@ -597,7 +597,7 @@ async def test_llm_api_object_requires_admin_authorized(
 
 
 async def test_multiple_llm_apis(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
 ) -> None:
     """Test when we reference an LLM API."""
@@ -639,7 +639,7 @@ async def test_multiple_llm_apis(
 
 
 async def test_dynamic_time_injection(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput
 ) -> None:
     """Test that dynamic time injection works correctly."""
 
@@ -739,7 +739,7 @@ async def test_dynamic_time_injection(
 
 
 async def test_template_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -764,7 +764,7 @@ async def test_template_error(
 
 
 async def test_template_variables(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput
 ) -> None:
     """Test that template variables work."""
     mock_user = Mock()
@@ -795,7 +795,7 @@ async def test_template_variables(
 
 
 async def test_extra_systen_prompt(
-    hass: UniversalAssistant, mock_conversation_input: ConversationInput
+    hass: __HAC_KEEP__, mock_conversation_input: ConversationInput
 ) -> None:
     """Test that extra system prompt works."""
     extra_system_prompt = (
@@ -904,7 +904,7 @@ async def test_extra_systen_prompt(
     ],
 )
 async def test_tool_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
     prerun_tool_tasks: tuple[str],
 ) -> None:
@@ -983,7 +983,7 @@ async def test_tool_call(
 
 @freeze_time("2025-10-31 12:00:00")
 async def test_tool_call_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
 ) -> None:
     """Test using the session tool calling API."""
@@ -994,7 +994,7 @@ async def test_tool_call_exception(
     mock_tool.parameters = probatio.Schema(
         {probatio.Optional("param1", description="Test parameters"): str}
     )
-    mock_tool.async_call.side_effect = UniversalAssistantError("Test error")
+    mock_tool.async_call.side_effect = __HAC_KEEP__Error("Test error")
 
     with (
         patch(
@@ -1031,7 +1031,7 @@ async def test_tool_call_exception(
         agent_id=mock_conversation_input.agent_id,
         tool_call_id="mock-tool-call-id",
         result=llm.ToolResult(
-            data={"error": "UniversalAssistantError", "error_text": "Test error"},
+            data={"error": "__HAC_KEEP__Error", "error_text": "Test error"},
             error=True,
         ),
         tool_name="test_tool",
@@ -1165,7 +1165,7 @@ async def test_tool_call_exception(
     ],
 )
 async def test_add_delta_content_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
     snapshot: SnapshotAssertion,
     deltas: list[dict],
@@ -1180,7 +1180,7 @@ async def test_add_delta_content_stream(
     )
 
     async def tool_call(
-        hass: UniversalAssistant, tool_input: llm.ToolInput, llm_context: llm.LLMContext
+        hass: __HAC_KEEP__, tool_input: llm.ToolInput, llm_context: llm.LLMContext
     ) -> llm.ToolResult:
         """Call the tool."""
         return llm.ToolResult(data=tool_input.tool_args["param1"])
@@ -1258,7 +1258,7 @@ async def test_add_delta_content_stream(
     ],
 )
 async def test_add_delta_content_stream_empty_content(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
     deltas: list[AssistantContentDeltaDict],
     expected_content: list[str],
@@ -1287,7 +1287,7 @@ async def test_add_delta_content_stream_empty_content(
 
 
 async def test_add_delta_content_stream_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
 ) -> None:
     """Test streaming deltas error handling."""
@@ -1349,7 +1349,7 @@ async def test_add_delta_content_stream_errors(
 
 
 async def test_chat_log_reuse(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
 ) -> None:
     """Test that we can reuse a chat log."""
@@ -1372,7 +1372,7 @@ async def test_chat_log_reuse(
 
 
 async def test_chat_log_continue_conversation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
 ) -> None:
     """Test continue conversation."""
@@ -1407,7 +1407,7 @@ async def test_chat_log_continue_conversation(
     ],
 )
 async def test_assistant_content_serialization(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     content: str | None,
     expected_content: dict[str, str],
 ) -> None:
@@ -1437,7 +1437,7 @@ async def test_assistant_content_serialization(
 
 @freeze_time("2025-10-31 12:00:00")
 async def test_chat_log_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
 ) -> None:
     """Test comprehensive chat log subscription functionality."""
@@ -1620,7 +1620,7 @@ async def test_tool_result_content_deprecated_property() -> None:
 
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_add_delta_content_stream_deprecated_tool_result(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: ConversationInput,
 ) -> None:
     """Test setting the deprecated tool_result key on a delta is reported."""

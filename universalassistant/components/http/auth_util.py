@@ -5,7 +5,7 @@ from ipaddress import ip_address
 from aiohttp.web import Request
 
 from universalassistant.auth.models import User
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.http import current_request
 from universalassistant.helpers.network import is_cloud_connection
 from universalassistant.util.network import is_local
@@ -13,7 +13,7 @@ from universalassistant.util.network import is_local
 
 @callback
 def async_user_not_allowed_do_auth(
-    hass: UniversalAssistant, user: User, request: Request | None = None
+    hass: __HAC_KEEP__, user: User, request: Request | None = None
 ) -> str | None:
     """Validate that user is not allowed to do auth things."""
     if not user.is_active:

@@ -10,7 +10,7 @@ from caldav.lib.http_sync import requests as caldav_requests
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import CalDavConfigEntry
@@ -19,7 +19,7 @@ TO_REDACT = {CONF_PASSWORD, CONF_URL, CONF_USERNAME}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: CalDavConfigEntry
+    hass: __HAC_KEEP__, entry: CalDavConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     payload: dict[str, Any] = {

@@ -31,8 +31,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -54,7 +54,7 @@ async def notify_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("mock_notifications_android_tv")
 async def test_notify_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -79,7 +79,7 @@ async def test_notify_platform(
 )
 @pytest.mark.freeze_time("1970-01-01T00:00:00+00:00")
 async def test_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_notifications_android_tv: AsyncMock,
     message_to_send: str,
@@ -118,7 +118,7 @@ async def test_send_message(
 
 
 async def test_send_message_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_notifications_android_tv: AsyncMock,
 ) -> None:
@@ -132,7 +132,7 @@ async def test_send_message_exception(
 
     mock_notifications_android_tv.send.side_effect = ConnectError
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -161,7 +161,7 @@ async def test_send_message_exception(
     ],
 )
 async def test_legacy_send_message_invalid_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_notifications_android_tv: MagicMock,
     service_data: dict[str, str | None],
@@ -195,7 +195,7 @@ async def test_legacy_send_message_invalid_data(
 )
 @pytest.mark.freeze_time("1970-01-01T00:00:00+00:00")
 async def test_nfandroidtv_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_notifications_android_tv: AsyncMock,
     message_to_send: str,
@@ -248,7 +248,7 @@ async def test_nfandroidtv_send_message(
 
 @pytest.mark.freeze_time("1970-01-01T00:00:00+00:00")
 async def test_nfandroidtv_send_message_camera_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_notifications_android_tv: AsyncMock,
 ) -> None:
@@ -297,7 +297,7 @@ async def test_nfandroidtv_send_message_camera_snapshot(
 
 @pytest.mark.freeze_time("1970-01-01T00:00:00+00:00")
 async def test_nfandroidtv_send_message_image_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_notifications_android_tv: AsyncMock,
 ) -> None:
@@ -343,7 +343,7 @@ async def test_nfandroidtv_send_message_image_snapshot(
 
 @pytest.mark.freeze_time("1970-01-01T00:00:00+00:00")
 async def test_nfandroidtv_send_message_local_media_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_notifications_android_tv: AsyncMock,
 ) -> None:
@@ -386,7 +386,7 @@ async def test_nfandroidtv_send_message_local_media_source(
 @pytest.mark.usefixtures("mock_notifications_android_tv")
 @pytest.mark.freeze_time("1970-01-01T00:00:00+00:00")
 async def test_nfandroidtv_send_message_unsupported_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test sending a message with unsupported media source via nfandroidtv.send_message action."""
@@ -433,7 +433,7 @@ async def test_nfandroidtv_send_message_unsupported_source(
 @pytest.mark.usefixtures("mock_notifications_android_tv")
 @pytest.mark.freeze_time("1970-01-01T00:00:00+00:00")
 async def test_nfandroidtv_send_message_media_not_readable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test sending a message with unreadable media (e.g. file not found) via nfandroidtv.send_message action."""
@@ -455,7 +455,7 @@ async def test_nfandroidtv_send_message_media_not_readable(
                 errno.ENOENT, "No such file or directory", "/media/screenshot.jpg"
             ),
         ),
-        pytest.raises(UniversalAssistantError) as err,
+        pytest.raises(__HAC_KEEP__Error) as err,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -486,7 +486,7 @@ async def test_nfandroidtv_send_message_media_not_readable(
     ],
 )
 async def test_nfandroidtv_send_message_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_notifications_android_tv: AsyncMock,
     side_effect: list[Any] | type[Exception],
@@ -502,7 +502,7 @@ async def test_nfandroidtv_send_message_exception(
 
     mock_notifications_android_tv.send.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             NFAndroidTVService.SEND_MESSAGE,
@@ -524,7 +524,7 @@ async def test_nfandroidtv_send_message_exception(
 
 @pytest.mark.usefixtures("mock_notifications_android_tv")
 async def test_deprecated_legacy_notify_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
 ) -> None:

@@ -29,7 +29,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
@@ -124,7 +124,7 @@ async def binary_sensor_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_satel")
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -160,7 +160,7 @@ async def test_binary_sensors(
     ],
 )
 async def test_binary_sensor_initial_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     device_state: bool | None,
@@ -184,7 +184,7 @@ async def test_binary_sensor_initial_state(
 
 
 async def test_binary_sensor_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_binary_sensor_callback(
     ],
 )
 async def test_system_status_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -261,7 +261,7 @@ async def test_system_status_sensor(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize(("key", "trouble"), SPECIFIC_TROUBLE_CASES)
 async def test_specific_system_trouble_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -298,7 +298,7 @@ async def test_specific_system_trouble_sensor(
 
 
 async def test_other_specific_trouble_sensors_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,
@@ -319,7 +319,7 @@ async def test_other_specific_trouble_sensors_disabled_by_default(
 
 
 async def test_binary_sensor_last_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -350,7 +350,7 @@ async def test_binary_sensor_last_reported(
 
 @pytest.mark.parametrize("unique_id_suffix", ["zones_1", "system_trouble"])
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     mock_config_entry_with_subentries: MockConfigEntry,
     entity_registry: EntityRegistry,

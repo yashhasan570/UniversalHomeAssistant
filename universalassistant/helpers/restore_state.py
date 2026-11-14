@@ -6,8 +6,8 @@ import logging
 from typing import Any, Self, cast, override
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, EntityStateAttribute
-from universalassistant.core import Event, UniversalAssistant, State, callback, valid_entity_id
-from universalassistant.exceptions import UniversalAssistantError, UnsupportedStorageVersionError
+from universalassistant.core import Event, __HAC_KEEP__, State, callback, valid_entity_id
+from universalassistant.exceptions import __HAC_KEEP__Error, UnsupportedStorageVersionError
 from universalassistant.util import dt as dt_util
 from universalassistant.util.hass_dict import HassKey
 from universalassistant.util.json import json_loads
@@ -40,7 +40,7 @@ class ExtraStoredData(ABC):
     def as_dict(self) -> dict[str, Any]:
         """Return a dict representation of the extra data.
 
-        Must be serializable by Universal Universal Home Assistant's JSONEncoder.
+        Must be serializable by __HA_KEEP__'s JSONEncoder.
         """
 
 
@@ -104,7 +104,7 @@ class StoredState:
         )
 
 
-async def async_load(hass: UniversalAssistant, *, load_empty: bool = False) -> None:
+async def async_load(hass: __HAC_KEEP__, *, load_empty: bool = False) -> None:
     """Load the restore state task."""
     data = async_get(hass)
     if load_empty:
@@ -114,7 +114,7 @@ async def async_load(hass: UniversalAssistant, *, load_empty: bool = False) -> N
 
 @callback
 @singleton(DATA_RESTORE_STATE)
-def async_get(hass: UniversalAssistant) -> RestoreStateData:
+def async_get(hass: __HAC_KEEP__) -> RestoreStateData:
     """Get the restore state data helper."""
     return RestoreStateData(hass)
 
@@ -123,13 +123,13 @@ class RestoreStateData:
     """Helper class for managing the helper saved data."""
 
     @classmethod
-    async def async_save_persistent_states(cls, hass: UniversalAssistant) -> None:
+    async def async_save_persistent_states(cls, hass: __HAC_KEEP__) -> None:
         """Dump states now."""
         await async_get(hass).async_dump_states()
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the restore state data class."""
-        self.hass: UniversalAssistant = hass
+        self.hass: __HAC_KEEP__ = hass
         self.store = Store[list[dict[str, Any]]](
             hass, STORAGE_VERSION, STORAGE_KEY, encoder=JSONEncoder
         )
@@ -150,7 +150,7 @@ class RestoreStateData:
         await self.async_load()
 
         @callback
-        def hass_start(hass: UniversalAssistant) -> None:
+        def hass_start(hass: __HAC_KEEP__) -> None:
             """Start the restore state task."""
             self.async_setup_dump()
 
@@ -185,7 +185,7 @@ class RestoreStateData:
             stored_states = await self.store.async_load()
         except UnsupportedStorageVersionError:
             raise
-        except UniversalAssistantError as exc:
+        except __HAC_KEEP__Error as exc:
             _LOGGER.error("Error loading last states", exc_info=exc)
             stored_states = None
 
@@ -332,7 +332,7 @@ class RestoreStateData:
                     for stored_state in self.async_get_stored_states()
                 ]
             )
-        except UniversalAssistantError as exc:
+        except __HAC_KEEP__Error as exc:
             _LOGGER.error("Error saving current states", exc_info=exc)
         except Exception:
             _LOGGER.exception("Unexpected error saving current states")
@@ -345,7 +345,7 @@ class RestoreStateData:
             await self.async_dump_states()
 
         # Dump the initial states now. This helps minimize the risk of having
-        # old states loaded by overwriting the last states once Universal Universal Home Assistant
+        # old states loaded by overwriting the last states once __HA_KEEP__
         # has started and the old states have been read.
         self.hass.async_create_task_internal(
             _async_dump_states(), "RestoreStateData dump"
@@ -410,7 +410,7 @@ class RestoreStateData:
         # When removed and re-added, it is already tracked under its new
         # entity_id, this is backwards compatibility for custom integrations
         # not yet migrated to async_entity_id_changed, can be removed in
-        # Universal Universal Home Assistant Core 2027.11.
+        # __HA_KEEP__ Core 2027.11.
         if self.entities.get(old_entity_id) is entity:
             del self.entities[old_entity_id]
             self.entities[entity.entity_id] = entity

@@ -15,8 +15,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -32,7 +32,7 @@ SCAN_INTERVAL = timedelta(seconds=60)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BryantEvolutionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -84,7 +84,7 @@ class BryantEvolutionClimate(ClimateEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         client: BryantEvolutionLocalClient,
         system_id: int,
         zone_id: int,
@@ -148,7 +148,7 @@ class BryantEvolutionClimate(ClimateEntity):
     async def _read_hvac_mode(self) -> HVACMode:
         mode_and_active = await self._client.read_hvac_mode()
         if not mode_and_active:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="failed_to_read_hvac_mode"
             )
         mode = mode_and_active[0]
@@ -159,7 +159,7 @@ class BryantEvolutionClimate(ClimateEntity):
             "OFF": HVACMode.OFF,
         }.get(mode.upper())
         if mode_enum is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_parse_hvac_mode",
                 translation_placeholders={"mode": mode},
@@ -170,7 +170,7 @@ class BryantEvolutionClimate(ClimateEntity):
         """Return the current running hvac operation."""
         mode_and_active = await self._client.read_hvac_mode()
         if not mode_and_active:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="failed_to_read_hvac_action"
             )
         mode, is_active = mode_and_active
@@ -199,7 +199,7 @@ class BryantEvolutionClimate(ClimateEntity):
                         # then we must be cooling.
                         return HVACAction.COOLING
                     return HVACAction.HEATING
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="failed_to_parse_hvac_action",
             translation_placeholders={
@@ -215,7 +215,7 @@ class BryantEvolutionClimate(ClimateEntity):
         if hvac_mode == HVACMode.HEAT_COOL:
             hvac_mode = HVACMode.AUTO
         if not await self._client.set_hvac_mode(hvac_mode):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="failed_to_set_hvac_mode"
             )
         self._attr_hvac_mode = hvac_mode
@@ -227,7 +227,7 @@ class BryantEvolutionClimate(ClimateEntity):
         if value := kwargs.get(ATTR_TARGET_TEMP_HIGH):
             temp = int(value)
             if not await self._client.set_cooling_setpoint(temp):
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN, translation_key="failed_to_set_clsp"
                 )
             self._attr_native_target_temperature_high = temp
@@ -235,7 +235,7 @@ class BryantEvolutionClimate(ClimateEntity):
         if value := kwargs.get(ATTR_TARGET_TEMP_LOW):
             temp = int(value)
             if not await self._client.set_heating_setpoint(temp):
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN, translation_key="failed_to_set_htsp"
                 )
             self._attr_native_target_temperature_low = temp
@@ -248,7 +248,7 @@ class BryantEvolutionClimate(ClimateEntity):
                 else self._client.set_cooling_setpoint
             )
             if not await fn(temp):
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN, translation_key="failed_to_set_temp"
                 )
             self._attr_native_target_temperature = temp
@@ -261,7 +261,7 @@ class BryantEvolutionClimate(ClimateEntity):
     async def async_set_fan_mode(self, fan_mode: str) -> None:
         """Set new target fan mode."""
         if not await self._client.set_fan_mode(fan_mode):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="failed_to_set_fan_mode"
             )
         self._attr_fan_mode = fan_mode.lower()

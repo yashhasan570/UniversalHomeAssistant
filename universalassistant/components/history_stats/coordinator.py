@@ -8,7 +8,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
 from universalassistant.exceptions import TemplateError
@@ -32,7 +32,7 @@ class HistoryStatsUpdateCoordinator(DataUpdateCoordinator[HistoryStatsState]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         history_stats: HistoryStats,
         config_entry: HistoryStatsConfigEntry | None,
         name: str,

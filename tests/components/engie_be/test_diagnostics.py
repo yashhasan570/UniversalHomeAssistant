@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import build_epex_payload, setup_dynamic_entry, setup_entry
 
@@ -29,7 +29,7 @@ def _build_payload_without_final_quarter(
 
 @pytest.mark.usefixtures("frozen_afternoon", "mock_engie_client")
 async def test_diagnostics_fixed_tariff(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_diagnostics_fixed_tariff(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_diagnostics_dynamic_tariff(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
@@ -60,7 +60,7 @@ async def test_diagnostics_dynamic_tariff(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_diagnostics_setup_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
@@ -83,7 +83,7 @@ async def test_diagnostics_setup_retry(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_diagnostics_prices_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,
@@ -106,7 +106,7 @@ async def test_diagnostics_prices_failure(
 
 @pytest.mark.usefixtures("frozen_afternoon")
 async def test_diagnostics_epex_truncated_quarter_hour(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_engie_client: MagicMock,

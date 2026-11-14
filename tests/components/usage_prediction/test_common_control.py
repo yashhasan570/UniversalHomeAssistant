@@ -15,7 +15,7 @@ from universalassistant.components.usage_prediction.common_control import (
 from universalassistant.components.usage_prediction.const import DEFAULT_LIMIT
 from universalassistant.components.usage_prediction.models import EntityUsagePredictions
 from universalassistant.const import EVENT_CALL_SERVICE
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -32,7 +32,7 @@ def test_time_category() -> None:
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_empty_database(hass: UniversalAssistant) -> None:
+async def test_empty_database(hass: __HAC_KEEP__) -> None:
     """Test function with empty database returns empty results."""
     user_id = str(uuid.uuid4())
 
@@ -49,7 +49,7 @@ async def test_empty_database(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_invalid_user_id(hass: UniversalAssistant) -> None:
+async def test_invalid_user_id(hass: __HAC_KEEP__) -> None:
     """Test function with invalid user ID returns empty results."""
     # Invalid user ID format (not a valid UUID)
     with pytest.raises(ValueError, match=r"Invalid user_id format"):
@@ -57,7 +57,7 @@ async def test_invalid_user_id(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_with_service_calls(hass: UniversalAssistant) -> None:
+async def test_with_service_calls(hass: __HAC_KEEP__) -> None:
     """Test function with actual service call events in database."""
     user_id = str(uuid.uuid4())
 
@@ -138,7 +138,7 @@ async def test_with_service_calls(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_multiple_entities_in_one_call(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test handling of service calls with multiple entity IDs."""
     user_id = str(uuid.uuid4())
@@ -196,7 +196,7 @@ async def test_multiple_entities_in_one_call(
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_context_deduplication(hass: UniversalAssistant) -> None:
+async def test_context_deduplication(hass: __HAC_KEEP__) -> None:
     """Test that multiple events with the same context are deduplicated."""
     user_id = str(uuid.uuid4())
     context = Context(user_id=user_id)
@@ -243,7 +243,7 @@ async def test_context_deduplication(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_old_events_excluded(hass: UniversalAssistant) -> None:
+async def test_old_events_excluded(hass: __HAC_KEEP__) -> None:
     """Test that events older than 30 days are excluded."""
     user_id = str(uuid.uuid4())
 
@@ -292,7 +292,7 @@ async def test_old_events_excluded(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_more_than_default_limit_predicted(hass: UniversalAssistant) -> None:
+async def test_more_than_default_limit_predicted(hass: __HAC_KEEP__) -> None:
     """Test more entities are predicted than a client gets by default."""
     user_id = str(uuid.uuid4())
     entity_ids = [f"light.light_{index}" for index in range(DEFAULT_LIMIT + 2)]
@@ -325,7 +325,7 @@ async def test_more_than_default_limit_predicted(hass: UniversalAssistant) -> No
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_different_users_separated(hass: UniversalAssistant) -> None:
+async def test_different_users_separated(hass: __HAC_KEEP__) -> None:
     """Test that events from different users are properly separated."""
     user_id_1 = str(uuid.uuid4())
     user_id_2 = str(uuid.uuid4())
@@ -398,7 +398,7 @@ async def test_different_users_separated(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_events_without_entity_ids_ignored(
-    hass: UniversalAssistant, event_data: dict[str, Any]
+    hass: __HAC_KEEP__, event_data: dict[str, Any]
 ) -> None:
     """Test that service call events without entity IDs are skipped."""
     user_id = str(uuid.uuid4())
@@ -428,7 +428,7 @@ async def test_events_without_entity_ids_ignored(
     ],
 )
 async def test_unusable_event_data_ignored(
-    hass: UniversalAssistant, json_loads_kwargs: dict[str, Any]
+    hass: __HAC_KEEP__, json_loads_kwargs: dict[str, Any]
 ) -> None:
     """Test that events whose stored data cannot be used are skipped."""
     user_id = str(uuid.uuid4())

@@ -23,9 +23,9 @@ from universalassistant.components.system_log.stream import (
     WEBSOCKET_CONNECTION_LOGGER,
 )
 from universalassistant.const import KEY_DATA_LOGGING
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
-from universalassistant.util.logging import UniversalAssistantQueueHandler
+from universalassistant.util.logging import __HAC_KEEP__QueueHandler
 
 _LOGGER = logging.getLogger("test_logger")
 
@@ -41,7 +41,7 @@ def _log_reader(log_lines: list[str]) -> Mock:
 
 
 async def test_subscribe_raw(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     tmp_path: Path,
@@ -99,7 +99,7 @@ async def test_subscribe_raw(
     [pytest.param({}, id="all"), pytest.param({"integration": "demo"}, id="demo")],
 )
 async def test_subscribe_raw_without_log_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     log_file: str | None,
     integration: dict[str, str],
@@ -130,7 +130,7 @@ async def test_subscribe_raw_without_log_file(
     ],
 )
 async def test_subscribe_raw_log_reader(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     integration: dict[str, str],
     lines: int,
@@ -162,7 +162,7 @@ async def test_subscribe_raw_log_reader(
 
 
 async def test_subscribe_raw_log_file_before_reader(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, tmp_path: Path
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, tmp_path: Path
 ) -> None:
     """Test the log file is read instead of the log reader."""
     log_file = tmp_path / "universal-assistant.log"
@@ -183,7 +183,7 @@ async def test_subscribe_raw_log_file_before_reader(
 
 
 async def test_unsubscribe_raw(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the handler is only attached while there are subscribers."""
     await async_setup_component(hass, system_log.DOMAIN, {})
@@ -208,7 +208,7 @@ async def test_unsubscribe_raw(
 
 
 async def test_subscribe_raw_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
@@ -259,7 +259,7 @@ async def test_subscribe_raw_integration(
 
 
 async def test_subscribe_raw_lines_logged_while_reading(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     tmp_path: Path,
     caplog: pytest.LogCaptureFixture,
@@ -294,7 +294,7 @@ async def test_subscribe_raw_lines_logged_while_reading(
 
 
 async def test_subscribe_raw_unknown_integration(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test subscribing to an unknown integration fails."""
     await async_setup_component(hass, system_log.DOMAIN, {})
@@ -310,7 +310,7 @@ async def test_subscribe_raw_unknown_integration(
 
 
 async def test_subscribe_raw_console_formatter(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test the stream uses the formatter of the console log."""
     await async_setup_component(hass, system_log.DOMAIN, {})
@@ -318,7 +318,7 @@ async def test_subscribe_raw_console_formatter(
 
     console = logging.StreamHandler()
     console.setFormatter(logging.Formatter("console: %(message)s"))
-    queue_handler = UniversalAssistantQueueHandler(SimpleQueue())
+    queue_handler = __HAC_KEEP__QueueHandler(SimpleQueue())
     queue_handler.listener = logging.handlers.QueueListener(SimpleQueue(), console)
     logging.root.addHandler(queue_handler)
     try:
@@ -337,7 +337,7 @@ async def test_subscribe_raw_console_formatter(
 
 
 async def test_subscribe_raw_all_and_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:

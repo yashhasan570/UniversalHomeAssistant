@@ -1,7 +1,7 @@
 """API client helper for llama.cpp integration.
 
 This module contains thin wrappers around the OpenAI completions APIs used
-to simplify Universal Universal Home Assistant integration and configuration. It handles client
+to simplify __HA_KEEP__ integration and configuration. It handles client
 setup, model validation, and API error handling.
 """
 
@@ -19,8 +19,8 @@ from openai.types.chat import (
 )
 
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.httpx_client import get_async_client
 
 from .const import (
@@ -55,7 +55,7 @@ _TEST_MAX_TOKENS = 3
 
 
 async def async_create_client(
-    hass: UniversalAssistant, config_entry_data: Mapping[str, Any]
+    hass: __HAC_KEEP__, config_entry_data: Mapping[str, Any]
 ) -> openai.AsyncOpenAI:
     """Create a new OpenAI client."""
     api_key = config_entry_data.get(CONF_API_KEY) or DEFAULT_API_KEY
@@ -139,14 +139,14 @@ def _extract_error_message(err: openai.APIStatusError) -> str:
 
 @contextmanager
 def api_error_handler() -> Generator[None]:
-    """Context manager to handle API errors and translate them to UniversalAssistantErrors."""
+    """Context manager to handle API errors and translate them to __HAC_KEEP__Errors."""
     try:
         yield
     except openai.APITimeoutError as err:
         # pylint: disable-next=universal-assistant-log-and-raise
         _LOGGER.error("Timeout talking to API: %s", err)
         error_message = err.message or str(err)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="timeout",
             translation_placeholders={"message": error_message},
@@ -155,7 +155,7 @@ def api_error_handler() -> Generator[None]:
         # pylint: disable-next=universal-assistant-log-and-raise
         _LOGGER.error("Connection error talking to API: %s", err)
         error_message = err.message or str(err)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="cannot_connect",
             translation_placeholders={"message": error_message},
@@ -164,7 +164,7 @@ def api_error_handler() -> Generator[None]:
         # pylint: disable-next=universal-assistant-log-and-raise
         _LOGGER.error("Authentication error talking to API: %s", err)
         error_message = _extract_error_message(err)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="invalid_auth",
             translation_placeholders={"message": error_message},
@@ -175,13 +175,13 @@ def api_error_handler() -> Generator[None]:
         error_message = _extract_error_message(err)
 
         if err.status_code == 402:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="quota_exceeded",
                 translation_placeholders={"message": error_message},
             ) from err
 
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="api_error",
             translation_placeholders={"message": error_message},
@@ -190,7 +190,7 @@ def api_error_handler() -> Generator[None]:
         # pylint: disable-next=universal-assistant-log-and-raise
         _LOGGER.error("Generic error talking to API: %s", err)
         error_message = getattr(err, "message", None) or str(err)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="api_error",
             translation_placeholders={"message": error_message},

@@ -3,13 +3,13 @@
 from dataclasses import asdict
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import SleepIQConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: SleepIQConfigEntry
+    hass: __HAC_KEEP__, entry: SleepIQConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     # Names, IDs and MAC addresses identify the account and are left out.

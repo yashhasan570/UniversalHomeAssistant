@@ -14,7 +14,7 @@ from universalassistant.components.goodwe.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_SERIAL
@@ -23,7 +23,7 @@ TEST_HOST = "1.2.3.4"
 TEST_PORT = GOODWE_UDP_PORT
 
 
-async def test_manual_setup(hass: UniversalAssistant, mock_inverter: MagicMock) -> None:
+async def test_manual_setup(hass: __HAC_KEEP__, mock_inverter: MagicMock) -> None:
     """Test manually setting up."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -54,7 +54,7 @@ async def test_manual_setup(hass: UniversalAssistant, mock_inverter: MagicMock) 
 
 
 async def test_manual_setup_already_exists(
-    hass: UniversalAssistant, mock_inverter: MagicMock
+    hass: __HAC_KEEP__, mock_inverter: MagicMock
 ) -> None:
     """Test manually setting up and the device already exists."""
     entry = MockConfigEntry(
@@ -81,7 +81,7 @@ async def test_manual_setup_already_exists(
 
 
 @pytest.mark.usefixtures("mock_inverter")
-async def test_manual_setup_device_offline(hass: UniversalAssistant) -> None:
+async def test_manual_setup_device_offline(hass: __HAC_KEEP__) -> None:
     """Test manually setting up, device offline."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

@@ -7,8 +7,8 @@ from watergate_local_api import WatergateApiException, WatergateIndeterminateErr
 
 from universalassistant.components.button import ButtonDeviceClass, ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -22,7 +22,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WatergateConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -52,7 +52,7 @@ class SonicRebootButton(WatergateEntity, ButtonEntity):
             # on the next poll or when the device reports it is back online.
             _LOGGER.debug("Reboot sent, no response received (device is restarting)")
         except WatergateApiException as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="reboot_failed",
             ) from exc

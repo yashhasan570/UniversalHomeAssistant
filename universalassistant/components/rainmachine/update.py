@@ -12,8 +12,8 @@ from universalassistant.components.update import (
     UpdateEntityDescription,
     UpdateEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import RainMachineConfigEntry
@@ -56,7 +56,7 @@ UPDATE_DESCRIPTION = RainMachineUpdateEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RainMachineConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -84,7 +84,7 @@ class RainMachineUpdateEntity(RainMachineEntity, UpdateEntity):
         try:
             await self._data.controller.machine.update_firmware()
         except RequestError as err:
-            raise UniversalAssistantError(f"Error while updating firmware: {err}") from err
+            raise __HAC_KEEP__Error(f"Error while updating firmware: {err}") from err
 
         await self.coordinator.async_refresh()
 

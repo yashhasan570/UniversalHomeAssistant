@@ -21,7 +21,7 @@ from universalassistant.components.todo import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import TEST_DOMAIN, MockFlow, MockTodoListEntity
 
@@ -29,7 +29,7 @@ TEST_TIMEZONE = zoneinfo.ZoneInfo("America/Regina")
 
 
 @pytest.fixture(autouse=True)
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -38,11 +38,11 @@ def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-def mock_setup_integration(hass: UniversalAssistant) -> None:
+def mock_setup_integration(hass: __HAC_KEEP__) -> None:
     """Fixture to set up a mock integration."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -50,7 +50,7 @@ def mock_setup_integration(hass: UniversalAssistant) -> None:
         )
 
     async def async_unload_entry_init(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
     ) -> None:
         await hass.config_entries.async_unload_platforms(config_entry, [Platform.TODO])
@@ -67,7 +67,7 @@ def mock_setup_integration(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def set_time_zone(hass: UniversalAssistant) -> None:
+async def set_time_zone(hass: __HAC_KEEP__) -> None:
     """Set the time zone for the tests that keeps UTC-6 all year round."""
     await hass.config.async_set_time_zone("America/Regina")
 

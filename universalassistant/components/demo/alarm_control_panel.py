@@ -6,12 +6,12 @@ from universalassistant.components.alarm_control_panel import AlarmControlPanelS
 from universalassistant.components.manual.alarm_control_panel import ManualAlarm  # pylint: disable=universal-assistant-component-root-import
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ARMING_TIME, CONF_DELAY_TIME, CONF_TRIGGER_TIME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -6,13 +6,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.devialet.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

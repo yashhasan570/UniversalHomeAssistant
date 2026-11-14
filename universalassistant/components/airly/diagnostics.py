@@ -9,7 +9,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_UNIQUE_ID,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import AirlyConfigEntry
 
@@ -17,7 +17,7 @@ TO_REDACT = {CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE, CONF_UNIQUE_ID}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: AirlyConfigEntry
+    hass: __HAC_KEEP__, config_entry: AirlyConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = config_entry.runtime_data

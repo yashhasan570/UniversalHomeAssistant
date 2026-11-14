@@ -6,7 +6,7 @@ from hatasmota.const import CONF_HOSTNAME, CONF_IP, CONF_MAC, CONF_TOPIC
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .discovery import DISCOVERY_DATA
@@ -16,7 +16,7 @@ TO_REDACT = {CONF_HOSTNAME, CONF_IP, CONF_MAC, CONF_TOPIC}
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, entry: ConfigEntry, device: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: ConfigEntry, device: dr.AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     if TYPE_CHECKING:

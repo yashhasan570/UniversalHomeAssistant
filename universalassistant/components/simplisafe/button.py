@@ -9,8 +9,8 @@ from simplipy.system import System
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SimpliSafe, SimpliSafeConfigEntry
@@ -43,7 +43,7 @@ BUTTON_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SimpliSafeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -83,6 +83,6 @@ class SimpliSafeButton(SimpliSafeEntity, ButtonEntity):
         try:
             await self.entity_description.push_action(self._system)
         except SimplipyError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f'Error while pressing button "{self.entity_id}": {err}'
             ) from err

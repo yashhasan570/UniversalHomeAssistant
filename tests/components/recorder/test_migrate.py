@@ -40,7 +40,7 @@ from universalassistant.components.recorder.db_schema import (
     States,
 )
 from universalassistant.components.recorder.util import get_engine_db_url, session_scope
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.util import dt as dt_util
 
 from .conftest import InstrumentedMigration
@@ -53,7 +53,7 @@ async def mock_recorder_before_hass(
     """Set up recorder."""
 
 
-def _get_native_states(hass: UniversalAssistant, entity_id: str) -> list[State]:
+def _get_native_states(hass: __HAC_KEEP__, entity_id: str) -> list[State]:
     with session_scope(hass=hass, read_only=True) as session:
         instance = recorder.get_instance(hass)
         metadata_id = instance.states_meta_manager.get(entity_id, session, True)
@@ -65,7 +65,7 @@ def _get_native_states(hass: UniversalAssistant, entity_id: str) -> list[State]:
 
 
 async def test_schema_update_calls(
-    hass: UniversalAssistant, async_setup_recorder_instance: RecorderInstanceGenerator
+    hass: __HAC_KEEP__, async_setup_recorder_instance: RecorderInstanceGenerator
 ) -> None:
     """Test that schema migrations occur in correct order."""
     assert recorder.util.async_migration_in_progress(hass) is False
@@ -130,7 +130,7 @@ async def test_schema_update_calls(
 
 
 async def test_migration_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_db_url: str,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     instrument_migration: InstrumentedMigration,
@@ -179,7 +179,7 @@ async def test_migration_in_progress(
     ],
 )
 async def test_database_migration_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     func_to_patch: str,
     expected_setup_result: bool,
@@ -241,7 +241,7 @@ async def test_database_migration_failed(
 @pytest.mark.skip_on_db_engine(["sqlite"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_database_migration_failed_non_sqlite(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     instrument_migration: InstrumentedMigration,
     patch_version: int,
@@ -302,7 +302,7 @@ async def test_database_migration_failed_non_sqlite(
 @pytest.mark.skip_on_db_engine(["mysql", "postgresql"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_live_database_migration_encounters_corruption(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_db_url: str,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
@@ -350,7 +350,7 @@ async def test_live_database_migration_encounters_corruption(
 @pytest.mark.skip_on_db_engine(["mysql", "postgresql"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_non_live_database_migration_encounters_corruption(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_db_url: str,
     async_setup_recorder_instance: RecorderInstanceGenerator,
 ) -> None:
@@ -413,7 +413,7 @@ async def test_non_live_database_migration_encounters_corruption(
     ],
 )
 async def test_database_migration_encounters_corruption_not_sqlite(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     live_migration: bool,
     func_to_patch: str,
@@ -465,7 +465,7 @@ async def test_database_migration_encounters_corruption_not_sqlite(
 
 
 async def test_events_during_migration_are_queued(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     instrument_migration: InstrumentedMigration,
 ) -> None:
@@ -504,7 +504,7 @@ async def test_events_during_migration_are_queued(
 
 
 async def test_events_during_migration_queue_exhausted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     instrument_migration: InstrumentedMigration,
 ) -> None:
@@ -568,7 +568,7 @@ async def test_events_during_migration_queue_exhausted(
     ],
 )
 async def test_schema_migrate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_db_url: str,
     async_setup_recorder_instance: RecorderInstanceGenerator,
     instrument_migration: InstrumentedMigration,
@@ -663,7 +663,7 @@ async def test_schema_migrate(
         assert instrument_migration.apply_update_mock.called
 
 
-def test_invalid_update(hass: UniversalAssistant) -> None:
+def test_invalid_update(hass: __HAC_KEEP__) -> None:
     """Test that an invalid new version raises an exception."""
     with pytest.raises(ValueError):
         migration._apply_update(Mock(), hass, Mock(), Mock(), -1, 0)

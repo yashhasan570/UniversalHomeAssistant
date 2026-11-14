@@ -17,13 +17,13 @@ from universalassistant.const import (
     UnitOfLength,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .test_common import TEST_URL, get_default_config
 
 
 async def test_report_state(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test proactive state reports."""
     aioclient_mock.post(TEST_URL, text="", status=202)
@@ -59,7 +59,7 @@ async def test_report_state(
 
 
 async def test_report_state_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_report_state_fail(
 
 
 async def test_report_state_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_report_state_timeout(
 
 
 async def test_report_state_retry(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test proactive state retries once."""
     aioclient_mock.post(
@@ -172,7 +172,7 @@ async def test_report_state_retry(
 
 
 async def test_report_state_unsets_authorized_on_error(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test proactive state unsets authorized on error."""
     aioclient_mock.post(
@@ -205,7 +205,7 @@ async def test_report_state_unsets_authorized_on_error(
 
 @pytest.mark.parametrize("exc", [errors.NoTokenAvailable, errors.RequireRelink])
 async def test_report_state_unsets_authorized_on_access_token_error(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, exc: Exception
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, exc: Exception
 ) -> None:
     """Test proactive state unsets authorized on error."""
     aioclient_mock.post(TEST_URL, text="", status=202)
@@ -235,7 +235,7 @@ async def test_report_state_unsets_authorized_on_access_token_error(
 
 
 async def test_report_state_fan(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test proactive state reports with fan instance."""
     aioclient_mock.post(TEST_URL, text="", status=202)
@@ -303,7 +303,7 @@ async def test_report_state_fan(
 
 
 async def test_report_state_humidifier(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test proactive state reports with humidifier instance."""
     aioclient_mock.post(TEST_URL, text="", status=202)
@@ -398,7 +398,7 @@ async def test_report_state_humidifier(
     ],
 )
 async def test_report_state_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     domain: str,
     value: float,
@@ -460,7 +460,7 @@ async def test_report_state_number(
 
 
 async def test_send_add_or_update_message(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test sending an AddOrUpdateReport message."""
     aioclient_mock.post(TEST_URL, text="")
@@ -499,7 +499,7 @@ async def test_send_add_or_update_message(
 
 
 async def test_send_delete_message(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test sending an AddOrUpdateReport message."""
     aioclient_mock.post(TEST_URL, json={"data": "is irrelevant"})
@@ -529,7 +529,7 @@ async def test_send_delete_message(
 
 @pytest.mark.parametrize("http_status", [202, 204])
 async def test_doorbell_event_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     http_status: int,
 ) -> None:
@@ -609,7 +609,7 @@ async def test_doorbell_event_binary_sensor(
 
 @pytest.mark.parametrize("http_status", [202, 204])
 async def test_doorbell_event_for_event_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -716,7 +716,7 @@ async def test_doorbell_event_for_event_entity(
 
 
 async def test_doorbell_event_from_unknown(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test doorbell press reports."""
     aioclient_mock.post(TEST_URL, text="", status=202)
@@ -746,7 +746,7 @@ async def test_doorbell_event_from_unknown(
 
 
 async def test_doorbell_event_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -793,7 +793,7 @@ async def test_doorbell_event_fail(
 
 
 async def test_doorbell_event_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -830,7 +830,7 @@ async def test_doorbell_event_timeout(
 
 
 async def test_proactive_mode_filter_states(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test all the cases that filter states."""
     aioclient_mock.post(TEST_URL, text="", status=202)

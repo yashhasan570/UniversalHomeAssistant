@@ -24,7 +24,7 @@ from universalassistant.config_entries import (
     ConfigSubentryDataWithId,
 )
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import CREATE_ENTRY_DATA, PROFILE, TOKEN_RESPONSE
@@ -55,7 +55,7 @@ def get_suggested_value(data_schema: probatio.Schema, key: str) -> Any:
 
 
 @pytest.fixture
-def config_entry_with_subentry(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry_with_subentry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a loaded mock config entry with one list subentry."""
     entry = MockConfigEntry(
         data=CREATE_ENTRY_DATA,
@@ -76,7 +76,7 @@ def config_entry_with_subentry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.mark.usefixtures("client")
 async def test_successful_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test successful flow creates subentries for existing lists."""
@@ -114,7 +114,7 @@ async def test_successful_flow(
 )
 @pytest.mark.usefixtures("client")
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     exception: type[Exception],
     error: str,
@@ -173,7 +173,7 @@ async def mock_get_token(*args: Any) -> None:
     ],
 )
 async def test_token_abort_reasons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: type[Exception] | Awaitable[None],
     reason: str,
     timeout: int,
@@ -208,7 +208,7 @@ async def test_token_abort_reasons(
 
 
 @pytest.mark.usefixtures("client", "config_entry")
-async def test_abort_if_already_configured(hass: UniversalAssistant) -> None:
+async def test_abort_if_already_configured(hass: __HAC_KEEP__) -> None:
     """Test abort if the same username is already configured."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -246,7 +246,7 @@ async def test_abort_if_already_configured(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: str,
     reauth_unique_id: str,
     abort_reason: str,
@@ -295,7 +295,7 @@ async def test_reauth(
 
 
 @pytest.mark.usefixtures("client", "mock_setup_entry")
-async def test_reauth_change_credentials(hass: UniversalAssistant) -> None:
+async def test_reauth_change_credentials(hass: __HAC_KEEP__) -> None:
     """Test reauth flow where the user changes the stored credentials."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN, unique_id=TOKEN_RESPONSE["user"]["id"], data=CREATE_ENTRY_DATA
@@ -343,7 +343,7 @@ async def test_reauth_change_credentials(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reauth_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: type[Exception],
     error: str,
 ) -> None:
@@ -407,7 +407,7 @@ async def test_reauth_form_errors(
     ],
 )
 async def test_reauth_token_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: type[Exception | Awaitable[None]],
     reason: str,
     timeout: int,
@@ -448,7 +448,7 @@ async def test_reauth_token_abort(
 
 @pytest.mark.usefixtures("client")
 async def test_import_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test import flow with a valid stored token."""
@@ -486,7 +486,7 @@ async def test_import_flow(
     ],
 )
 async def test_import_flow_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     token: str | None,
     side_effect: type[Exception] | None,
     reason: str,
@@ -511,7 +511,7 @@ async def test_import_flow_abort(
 
 
 @pytest.mark.usefixtures("client")
-async def test_import_flow_username_mismatch(hass: UniversalAssistant) -> None:
+async def test_import_flow_username_mismatch(hass: __HAC_KEEP__) -> None:
     """Test import flow aborts when the token username doesn't match the name."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -528,7 +528,7 @@ async def test_import_flow_username_mismatch(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("client", "config_entry")
-async def test_import_flow_already_configured(hass: UniversalAssistant) -> None:
+async def test_import_flow_already_configured(hass: __HAC_KEEP__) -> None:
     """Test import flow aborts when the account name is already configured."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -546,7 +546,7 @@ async def test_import_flow_already_configured(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("storage")
 async def test_create_new_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
@@ -597,7 +597,7 @@ async def test_create_new_list(
     ],
 )
 async def test_create_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
@@ -643,7 +643,7 @@ async def test_create_error(
 
 
 async def test_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test abort when the parent config entry is not loaded."""
@@ -656,7 +656,7 @@ async def test_entry_not_loaded(
 
 
 async def test_reconfigure_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_subentry: MockConfigEntry,
 ) -> None:
     """Test abort in reconfigure when the parent config entry is not loaded."""
@@ -671,7 +671,7 @@ async def test_reconfigure_entry_not_loaded(
 
 @pytest.mark.usefixtures("storage")
 async def test_reconfigure_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry_with_subentry: MockConfigEntry,
     rtm_list_mock: Callable[[int, str], MagicMock],
@@ -723,7 +723,7 @@ async def test_reconfigure_subentry(
     ],
 )
 async def test_reconfigure_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry_with_subentry: MockConfigEntry,
     exception: type[Exception],

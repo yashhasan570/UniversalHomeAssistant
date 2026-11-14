@@ -8,14 +8,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.flexit_bacnet.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_flexit_bacnet: AsyncMock,
@@ -30,7 +30,7 @@ async def test_sensors(
 
 @pytest.mark.parametrize("humidity", [None, 0.0])
 async def test_extract_air_humidity_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_flexit_bacnet: AsyncMock,
     mock_config_entry: MockConfigEntry,

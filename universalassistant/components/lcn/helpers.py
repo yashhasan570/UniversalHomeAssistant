@@ -24,8 +24,8 @@ from universalassistant.const import (
     CONF_SENSORS,
     CONF_SWITCHES,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
 
@@ -79,7 +79,7 @@ DOMAIN_LOOKUP = {
 
 
 def get_device_connection(
-    hass: UniversalAssistant, address: AddressType, config_entry: LcnConfigEntry
+    hass: __HAC_KEEP__, address: AddressType, config_entry: LcnConfigEntry
 ) -> DeviceConnection:
     """Return a lcn device_connection."""
     host_connection = config_entry.runtime_data.connection
@@ -99,7 +99,7 @@ def get_resource(domain_name: str, domain_data: ConfigType) -> str:
         return cast(str, domain_data["setpoint"])
     if domain_name == "scene":
         return f"{domain_data['register']}{domain_data['scene']}"
-    raise UniversalAssistantError(
+    raise __HAC_KEEP__Error(
         translation_domain=DOMAIN,
         translation_key="invalid_domain",
         translation_placeholders={"domain": domain_name},
@@ -121,7 +121,7 @@ def generate_unique_id(
 
 
 def purge_entity_registry(
-    hass: UniversalAssistant, entry_id: str, imported_entry_data: ConfigType
+    hass: __HAC_KEEP__, entry_id: str, imported_entry_data: ConfigType
 ) -> None:
     """Remove orphans from entity registry which are not in entry data."""
     entity_registry = er.async_get(hass)
@@ -152,7 +152,7 @@ def purge_entity_registry(
 
 
 def purge_device_registry(
-    hass: UniversalAssistant, entry_id: str, imported_entry_data: ConfigType
+    hass: __HAC_KEEP__, entry_id: str, imported_entry_data: ConfigType
 ) -> None:
     """Remove orphans from device registry which are not in entry data."""
     device_registry = dr.async_get(hass)
@@ -188,7 +188,7 @@ def purge_device_registry(
         device_registry.async_remove_device(device_id)
 
 
-def register_lcn_host_device(hass: UniversalAssistant, config_entry: LcnConfigEntry) -> None:
+def register_lcn_host_device(hass: __HAC_KEEP__, config_entry: LcnConfigEntry) -> None:
     """Register LCN host for given config_entry in device registry."""
     device_registry = dr.async_get(hass)
 
@@ -202,7 +202,7 @@ def register_lcn_host_device(hass: UniversalAssistant, config_entry: LcnConfigEn
 
 
 def register_lcn_address_devices(
-    hass: UniversalAssistant, config_entry: LcnConfigEntry
+    hass: __HAC_KEEP__, config_entry: LcnConfigEntry
 ) -> None:
     """Register LCN modules and groups as devices.
 
@@ -285,7 +285,7 @@ async def async_update_device_config(
 
 
 async def async_update_config_entry(
-    hass: UniversalAssistant, config_entry: LcnConfigEntry
+    hass: __HAC_KEEP__, config_entry: LcnConfigEntry
 ) -> None:
     """Fill missing values in config_entry with infos from LCN bus."""
     device_configs = deepcopy(config_entry.data[CONF_DEVICES])
@@ -317,7 +317,7 @@ def get_device_config(
 def is_states_string(states_string: str) -> list[str]:
     """Validate the given states string and return states list."""
     if len(states_string) != 8:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="invalid_length_of_states_string"
         )
     states = {"1": "ON", "0": "OFF", "T": "TOGGLE", "-": "NOCHANGE"}

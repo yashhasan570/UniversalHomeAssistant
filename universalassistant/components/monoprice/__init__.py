@@ -7,7 +7,7 @@ from serialx import SerialException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -31,13 +31,13 @@ class MonopriceRuntimeData:
     first_run: bool
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MonopriceConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MonopriceConfigEntry) -> None:
     """Set up Monoprice 6-Zone Amplifier from a config entry."""
     port = entry.data[CONF_PORT]
 
@@ -66,7 +66,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: MonopriceConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MonopriceConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MonopriceConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -82,6 +82,6 @@ async def async_unload_entry(hass: UniversalAssistant, entry: MonopriceConfigEnt
     await hass.async_add_executor_job(_cleanup, entry.runtime_data.client)
 
 
-async def _update_listener(hass: UniversalAssistant, entry: MonopriceConfigEntry) -> None:
+async def _update_listener(hass: __HAC_KEEP__, entry: MonopriceConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)

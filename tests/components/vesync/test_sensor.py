@@ -6,7 +6,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import ALL_DEVICE_NAMES, ENTITY_HUMIDIFIER_HUMIDITY, mock_devices_response
@@ -14,7 +14,7 @@ from .common import ALL_DEVICE_NAMES, ENTITY_HUMIDIFIER_HUMIDITY, mock_devices_r
 
 @pytest.mark.parametrize("device_name", ALL_DEVICE_NAMES)
 async def test_sensor_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -58,7 +58,7 @@ async def test_sensor_state(
     ],
 )
 async def test_cook_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     cook_status: str | None,
@@ -80,7 +80,7 @@ async def test_cook_status(
 
 
 async def test_humidity(
-    hass: UniversalAssistant, humidifier_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, humidifier_config_entry: MockConfigEntry
 ) -> None:
     """Test the state of humidity sensor entity."""
 

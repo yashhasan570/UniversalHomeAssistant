@@ -9,13 +9,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.opengarage.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_opengarage")
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test we get the form."""
@@ -54,7 +54,7 @@ async def test_form(
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     mock_setup_entry: AsyncMock,
     side_effect: list[Any] | type[Exception],
@@ -99,7 +99,7 @@ async def test_form_errors(
 
 
 @pytest.mark.usefixtures("mock_opengarage")
-async def test_flow_entry_already_exists(hass: UniversalAssistant) -> None:
+async def test_flow_entry_already_exists(hass: __HAC_KEEP__) -> None:
     """Test user input for config_entry that already exists."""
     first_entry = MockConfigEntry(
         domain=DOMAIN,

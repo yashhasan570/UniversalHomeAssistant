@@ -22,7 +22,7 @@ from universalassistant.components.guntamatic.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.components.guntamatic.sensor import GUNTAMATIC_SENSORS
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntityDescription
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.translation import async_get_translations
 from universalassistant.util import dt as dt_util
@@ -33,7 +33,7 @@ from .conftest import MOCK_PARSE_DATA
 
 @pytest.mark.usefixtures("mock_heater")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -83,7 +83,7 @@ async def test_all_entities(
     ],
 )
 async def test_state_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_heater: MagicMock,
     side_effect: Exception,
@@ -151,7 +151,7 @@ enum_descriptions = [
     ids=lambda description: description.key,
 )
 async def test_enum_states_translated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     description: SensorEntityDescription,
 ) -> None:
     """Test every option of an enum sensor has a state translation."""
@@ -162,7 +162,7 @@ async def test_enum_states_translated(
 
 
 async def test_enum_sensor_unmapped_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_heater: MagicMock,
 ) -> None:
@@ -184,7 +184,7 @@ _SERIAL = "959103"
 
 @pytest.mark.usefixtures("mock_heater")
 async def test_heating_circuit_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_heating_circuit_devices(
 
 
 async def test_key_disappearing_makes_entity_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_heater: MagicMock,
 ) -> None:
@@ -236,7 +236,7 @@ async def test_key_disappearing_makes_entity_unavailable(
 
 
 async def test_service_date_fractional_days(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_heater: MagicMock,
     freezer: FrozenDateTimeFactory,

@@ -11,7 +11,7 @@ from theben_conexa_smgw import ConexaSMGW
 from universalassistant import config_entries
 from universalassistant.components.theben_conexa.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_CONFIG_DATA = {
@@ -36,7 +36,7 @@ def _assert_create_entry_result(
 
 
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_conexa_smgw: SimpleNamespace,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_full_flow(
     ],
 )
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_conexa_smgw: SimpleNamespace,
     side_effect: type[Exception],
@@ -111,7 +111,7 @@ async def test_form_exceptions(
 
 
 async def test_form_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_conexa_smgw: SimpleNamespace,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_form_cannot_connect(
 
 
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test if integration aborts if the user tries to configure an already configured smgw."""
@@ -170,7 +170,7 @@ async def test_form_already_configured(
 
 
 async def test_same_gateway_different_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_conexa_smgw: SimpleNamespace,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_same_gateway_different_user(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_conexa_smgw: SimpleNamespace,
     mock_config_entry: MockConfigEntry,
@@ -261,7 +261,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_conexa_smgw: SimpleNamespace,
     mock_config_entry: MockConfigEntry,
@@ -296,7 +296,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_conexa_smgw: SimpleNamespace,
     mock_config_entry: MockConfigEntry,

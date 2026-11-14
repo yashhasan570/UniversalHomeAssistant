@@ -1,4 +1,4 @@
-"""Test fixtures for the Universal Universal Home Assistant Hardware integration."""
+"""Test fixtures for the __HA_KEEP__ Hardware integration."""
 
 from collections.abc import Generator
 from typing import Any

@@ -14,7 +14,7 @@ from librehardwaremonitor_api.model import LibreHardwareMonitorData
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryError
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -33,7 +33,7 @@ class LibreHardwareMonitorCoordinator(DataUpdateCoordinator[LibreHardwareMonitor
     config_entry: LibreHardwareMonitorConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: LibreHardwareMonitorConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: LibreHardwareMonitorConfigEntry
     ) -> None:
         """Initialize."""
         super().__init__(

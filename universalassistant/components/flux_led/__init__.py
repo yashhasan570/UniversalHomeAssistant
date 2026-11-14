@@ -10,7 +10,7 @@ from flux_led.const import ATTR_ID, WhiteChannelType
 from flux_led.scanner import FluxLEDDiscovery
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -84,7 +84,7 @@ def async_wifi_bulb_for_host(
     return AIOWifiLedBulb(host, discovery=discovery)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the flux_led component."""
     async_setup_services(hass)
     hass.data[FLUX_LED_DISCOVERY] = []
@@ -112,7 +112,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def _async_migrate_unique_ids(
-    hass: UniversalAssistant, entry: FluxLedConfigEntry
+    hass: __HAC_KEEP__, entry: FluxLedConfigEntry
 ) -> None:
     """Migrate entities when the mac address gets discovered."""
 
@@ -147,7 +147,7 @@ async def _async_migrate_unique_ids(
 
 
 async def _async_update_listener(
-    hass: UniversalAssistant, entry: FluxLedConfigEntry
+    hass: __HAC_KEEP__, entry: FluxLedConfigEntry
 ) -> None:
     """Handle options update."""
     coordinator = entry.runtime_data
@@ -155,7 +155,7 @@ async def _async_update_listener(
         await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FluxLedConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FluxLedConfigEntry) -> None:
     """Set up Flux LED/MagicLight from a config entry."""
     host = entry.data[CONF_HOST]
     discovery_cached = True
@@ -241,7 +241,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FluxLedConfigEntry)
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FluxLedConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FluxLedConfigEntry) -> None:
     """Unload a config entry."""
     device = entry.runtime_data.device
     platforms = PLATFORMS_BY_TYPE[device.device_type]

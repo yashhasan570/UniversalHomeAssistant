@@ -8,13 +8,13 @@ from pytest_universalassistant.typing import MqttMockHAClient, MqttMockHAClientG
 
 from universalassistant.components import automation
 from universalassistant.const import ATTR_ENTITY_ID, ENTITY_MATCH_ALL, SERVICE_TURN_OFF
-from universalassistant.core import HassJobType, UniversalAssistant, ServiceCall
+from universalassistant.core import HassJobType, __HAC_KEEP__, ServiceCall
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
 async def setup_comp(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> MqttMockHAClient:
     """Initialize components."""
     mock_component(hass, "group")
@@ -22,7 +22,7 @@ async def setup_comp(
 
 
 async def test_if_fires_on_topic_match(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test if message is fired on topic match."""
     assert await async_setup_component(
@@ -65,7 +65,7 @@ async def test_if_fires_on_topic_match(
 
 
 async def test_if_fires_on_topic_and_payload_match(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test if message is fired on topic and payload match."""
     assert await async_setup_component(
@@ -89,7 +89,7 @@ async def test_if_fires_on_topic_and_payload_match(
 
 
 async def test_if_fires_on_topic_and_payload_match2(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test if message is fired on topic and payload match.
 
@@ -116,7 +116,7 @@ async def test_if_fires_on_topic_and_payload_match2(
 
 
 async def test_if_fires_on_templated_topic_and_payload_match(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test if message is fired on templated topic and payload match."""
     assert await async_setup_component(
@@ -148,7 +148,7 @@ async def test_if_fires_on_templated_topic_and_payload_match(
 
 
 async def test_if_fires_on_payload_template(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test if message is fired on templated topic and payload match."""
     assert await async_setup_component(
@@ -181,7 +181,7 @@ async def test_if_fires_on_payload_template(
 
 
 async def test_non_allowed_templates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -207,7 +207,7 @@ async def test_non_allowed_templates(
 
 
 async def test_if_not_fires_on_topic_but_no_payload_match(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test if message is not fired on topic but no payload."""
     assert await async_setup_component(
@@ -231,7 +231,7 @@ async def test_if_not_fires_on_topic_but_no_payload_match(
 
 
 async def test_encoding_default(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], setup_comp
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], setup_comp
 ) -> None:
     """Test default encoding."""
     assert await async_setup_component(
@@ -251,7 +251,7 @@ async def test_encoding_default(
 
 
 async def test_encoding_custom(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], setup_comp
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], setup_comp
 ) -> None:
     """Test default encoding."""
     assert await async_setup_component(

@@ -49,7 +49,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, State
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -192,7 +192,7 @@ SLAVE_UNIQUE_ID = "ground_floor_sensor"
         },
     ],
 )
-async def test_config_sensor(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_config_sensor(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configuration test for sensor."""
     assert SENSOR_DOMAIN in hass.config.components
 
@@ -304,7 +304,7 @@ async def test_config_sensor(hass: UniversalAssistant, mock_modbus) -> None:
     ],
 )
 async def test_config_wrong_struct_sensor(
-    hass: UniversalAssistant, error_message, mock_modbus, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, error_message, mock_modbus, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Run test for sensor with wrong struct."""
     messages = str([x.message for x in caplog.get_records("setup")])
@@ -718,7 +718,7 @@ async def test_config_wrong_struct_sensor(
         ),
     ],
 )
-async def test_all_sensor(hass: UniversalAssistant, mock_do_cycle, expected) -> None:
+async def test_all_sensor(hass: __HAC_KEEP__, mock_do_cycle, expected) -> None:
     """Run test for sensor."""
     assert hass.states.get(ENTITY_ID).state == expected
 
@@ -934,7 +934,7 @@ async def test_all_sensor(hass: UniversalAssistant, mock_do_cycle, expected) -> 
     ],
 )
 async def test_virtual_sensor(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_do_cycle, expected
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_do_cycle, expected
 ) -> None:
     """Run test for sensor."""
     for i, expected_value in enumerate(expected):
@@ -1104,7 +1104,7 @@ async def test_virtual_sensor(
     ],
 )
 async def test_virtual_swap_sensor(
-    hass: UniversalAssistant, mock_do_cycle, expected
+    hass: __HAC_KEEP__, mock_do_cycle, expected
 ) -> None:
     """Run test for sensor."""
     for i, expected_value in enumerate(expected):
@@ -1146,7 +1146,7 @@ async def test_virtual_swap_sensor(
         ),
     ],
 )
-async def test_wrong_unpack(hass: UniversalAssistant, mock_do_cycle) -> None:
+async def test_wrong_unpack(hass: __HAC_KEEP__, mock_do_cycle) -> None:
     """Run test for sensor."""
     assert hass.states.get(ENTITY_ID).state == STATE_UNKNOWN
 
@@ -1205,7 +1205,7 @@ async def test_wrong_unpack(hass: UniversalAssistant, mock_do_cycle) -> None:
         ),
     ],
 )
-async def test_unpack_ok(hass: UniversalAssistant, mock_do_cycle, expected) -> None:
+async def test_unpack_ok(hass: __HAC_KEEP__, mock_do_cycle, expected) -> None:
     """Run test for sensor."""
     assert hass.states.get(ENTITY_ID).state == expected
 
@@ -1296,7 +1296,7 @@ async def test_unpack_ok(hass: UniversalAssistant, mock_do_cycle, expected) -> N
         ),
     ],
 )
-async def test_struct_sensor(hass: UniversalAssistant, mock_do_cycle, expected) -> None:
+async def test_struct_sensor(hass: __HAC_KEEP__, mock_do_cycle, expected) -> None:
     """Run test for sensor struct."""
     assert hass.states.get(ENTITY_ID).state == expected
 
@@ -1365,7 +1365,7 @@ async def test_struct_sensor(hass: UniversalAssistant, mock_do_cycle, expected) 
         ),
     ],
 )
-async def test_wrap_sensor(hass: UniversalAssistant, mock_do_cycle, expected) -> None:
+async def test_wrap_sensor(hass: __HAC_KEEP__, mock_do_cycle, expected) -> None:
     """Run test for sensor struct."""
     assert hass.states.get(ENTITY_ID).state == expected
 
@@ -1397,7 +1397,7 @@ async def test_wrap_sensor(hass: UniversalAssistant, mock_do_cycle, expected) ->
     ],
 )
 async def test_wrap_regs_ok_sensor(
-    hass: UniversalAssistant, mock_modbus_ha, mock_do_cycle, expected
+    hass: __HAC_KEEP__, mock_modbus_ha, mock_do_cycle, expected
 ) -> None:
     """Run test for sensor struct."""
     assert hass.states.get(ENTITY_ID).state == expected
@@ -1411,7 +1411,7 @@ async def test_wrap_regs_ok_sensor(
 
 
 @pytest.fixture(name="mock_restore")
-async def mock_restore(hass: UniversalAssistant) -> None:
+async def mock_restore(hass: __HAC_KEEP__) -> None:
     """Mock restore cache."""
     mock_restore_cache_with_extra_data(
         hass,
@@ -1444,7 +1444,7 @@ async def mock_restore(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_restore_state_sensor(
-    hass: UniversalAssistant, mock_restore, mock_modbus
+    hass: __HAC_KEEP__, mock_restore, mock_modbus
 ) -> None:
     """Run test for sensor restore state."""
     state = hass.states.get(ENTITY_ID).state
@@ -1467,7 +1467,7 @@ async def test_restore_state_sensor(
         },
     ],
 )
-async def test_service_sensor_update(hass: UniversalAssistant, mock_modbus_ha) -> None:
+async def test_service_sensor_update(hass: __HAC_KEEP__, mock_modbus_ha) -> None:
     """Run test for service universalassistant.update_entity."""
     mock_modbus_ha.read_input_registers.return_value = ReadResult([27])
     await hass.services.async_call(
@@ -1488,7 +1488,7 @@ async def test_service_sensor_update(hass: UniversalAssistant, mock_modbus_ha) -
 
 
 async def test_no_discovery_info_sensor(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup without discovery info."""
     assert SENSOR_DOMAIN not in hass.config.components
@@ -1517,7 +1517,7 @@ async def test_no_discovery_info_sensor(
     ],
 )
 async def test_err_config_sensor(
-    hass: UniversalAssistant, mock_modbus_to_test_errors_config
+    hass: __HAC_KEEP__, mock_modbus_to_test_errors_config
 ) -> None:
     """Run a wrong configuration test for sensor."""
     assert SENSOR_DOMAIN not in hass.config.components

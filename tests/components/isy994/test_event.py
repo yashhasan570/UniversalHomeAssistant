@@ -27,7 +27,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.isy994.const import EVENT_ISY994_CONTROL
 from universalassistant.components.isy994.event import _sub_button_name
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 SWITCH_ENTITY_ID = "switch.garage_relay"
@@ -78,7 +78,7 @@ def _make_button_nodes(
 
 
 async def test_event_entity_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -141,7 +141,7 @@ def test_sub_button_name_requires_separator(
     ],
 )
 async def test_control_event_triggers_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
     mock_node: Callable[..., Any],
@@ -182,7 +182,7 @@ async def test_control_event_triggers_entity(
     ],
 )
 async def test_fade_stop_direction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
     mock_node: Callable[..., Any],
@@ -217,7 +217,7 @@ async def test_fade_stop_direction(
 
 
 async def test_disabling_node_marks_entity_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
     mock_node: Callable[..., Any],
@@ -246,7 +246,7 @@ async def test_disabling_node_marks_entity_unavailable(
 
 
 async def test_control_event_suppressed_while_websocket_syncing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
     mock_node: Callable[..., Any],
@@ -279,7 +279,7 @@ async def test_control_event_suppressed_while_websocket_syncing(
     "control", [CMD_ON, CMD_OFF, CMD_ON_FAST, CMD_OFF_FAST, CMD_FADE_UP, CMD_FADE_STOP]
 )
 async def test_legacy_control_bus_event_not_duplicated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
     mock_node: Callable[..., Any],
@@ -312,7 +312,7 @@ async def test_legacy_control_bus_event_not_duplicated(
 
 
 async def test_unsupported_control_is_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
     mock_node: Callable[..., Any],
@@ -346,7 +346,7 @@ async def test_unsupported_control_is_ignored(
     ],
 )
 async def test_legacy_insteon_type_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
     mock_node: Callable[..., Any],
@@ -366,7 +366,7 @@ async def test_legacy_insteon_type_fallback(
 
 
 async def test_event_entity_created_despite_sensor_string_override(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
     mock_node: Callable[..., Any],

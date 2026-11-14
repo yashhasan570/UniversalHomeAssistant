@@ -27,7 +27,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
 from universalassistant.helpers import (
     config_validation as cv,
     event as event_helper,
@@ -79,7 +79,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-def setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+def setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Zabbix component."""
 
     conf = config[DOMAIN]
@@ -212,7 +212,7 @@ class ZabbixThread(threading.Thread):
         self.float_keys: set[str] = set()
         self.string_keys: set[str] = set()
 
-    def setup(self, hass: UniversalAssistant) -> None:
+    def setup(self, hass: __HAC_KEEP__) -> None:
         """Set up the thread and start it."""
         hass.bus.listen(EVENT_STATE_CHANGED, self._event_listener)
         hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, self._shutdown)

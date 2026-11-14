@@ -9,12 +9,12 @@ from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.mobile_app.const import DATA_LIVE_ACTIVITY_TOKENS, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
 async def test_webhook_update_live_activity_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     freezer: FrozenDateTimeFactory,
@@ -53,7 +53,7 @@ async def test_webhook_update_live_activity_token(
 
 
 async def test_webhook_live_activity_token_schedules_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     freezer: FrozenDateTimeFactory,
@@ -99,7 +99,7 @@ async def test_webhook_live_activity_token_schedules_cleanup(
 
 
 async def test_webhook_live_activity_token_cleanup_reschedules_for_remaining(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     freezer: FrozenDateTimeFactory,
@@ -169,7 +169,7 @@ async def test_webhook_live_activity_token_cleanup_reschedules_for_remaining(
 
 
 async def test_webhook_live_activity_dismissed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
     freezer: FrozenDateTimeFactory,
@@ -224,7 +224,7 @@ async def test_webhook_live_activity_dismissed(
 
 
 async def test_webhook_live_activity_dismissed_nonexistent_tag(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_registrations: tuple[dict[str, Any], dict[str, Any]],
     webhook_client: TestClient,
 ) -> None:

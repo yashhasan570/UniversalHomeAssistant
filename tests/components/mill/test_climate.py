@@ -20,8 +20,8 @@ from universalassistant.components.climate import (
 from universalassistant.components.mill.const import DOMAIN
 from universalassistant.components.recorder import Recorder
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 HEATER_ID = "dev_id"
 HEATER_NAME = "heater_name"
@@ -94,7 +94,7 @@ async def mock_mill_local():
 
 
 @pytest.fixture
-async def cloud_heater(hass: UniversalAssistant, mock_mill: MagicMock) -> Heater:
+async def cloud_heater(hass: __HAC_KEEP__, mock_mill: MagicMock) -> Heater:
     """Load Mill integration and creates one cloud heater."""
 
     heater = Heater(
@@ -189,7 +189,7 @@ async def functional_cloud_heater(
 
 
 @pytest.fixture
-async def local_heater(hass: UniversalAssistant, mock_mill_local: MagicMock) -> dict:
+async def local_heater(hass: __HAC_KEEP__, mock_mill_local: MagicMock) -> dict:
     """Local Mill Heater.
 
     This returns a by-reference status dict
@@ -313,7 +313,7 @@ async def functional_local_heater(
             {},
             SERVICE_SET_HVAC_MODE,
             {ATTR_HVAC_MODE: HVACMode.COOL},
-            pytest.raises(UniversalAssistantError),
+            pytest.raises(__HAC_KEEP__Error),
             [],
             [],
             HVACMode.OFF,
@@ -358,7 +358,7 @@ async def functional_local_heater(
             {ATTR_TEMPERATURE: TEST_AMBIENT_TEMPERATURE},
             SERVICE_SET_TEMPERATURE,
             {ATTR_TEMPERATURE: TEST_SET_TEMPERATURE, ATTR_HVAC_MODE: HVACMode.COOL},
-            pytest.raises(UniversalAssistantError),
+            pytest.raises(__HAC_KEEP__Error),
             # MillHeater will set the temperature before calling
             # async_handle_set_hvac_mode, meaning an invalid HVAC mode
             # will raise only after the temperature is set.
@@ -374,7 +374,7 @@ async def functional_local_heater(
 )
 async def test_cloud_heater(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     functional_cloud_heater: MagicMock,
     cloud_heater_control: MagicMock,
     cloud_heater_set_temp: MagicMock,
@@ -463,7 +463,7 @@ async def test_cloud_heater(
             {},
             SERVICE_SET_HVAC_MODE,
             {ATTR_HVAC_MODE: HVACMode.COOL},
-            pytest.raises(UniversalAssistantError),
+            pytest.raises(__HAC_KEEP__Error),
             [],
             [],
             [],
@@ -512,7 +512,7 @@ async def test_cloud_heater(
             {ATTR_TEMPERATURE: TEST_AMBIENT_TEMPERATURE},
             SERVICE_SET_TEMPERATURE,
             {ATTR_TEMPERATURE: TEST_SET_TEMPERATURE, ATTR_HVAC_MODE: HVACMode.COOL},
-            pytest.raises(UniversalAssistantError),
+            pytest.raises(__HAC_KEEP__Error),
             # LocalMillHeater will set the temperature before calling
             # async_handle_set_hvac_mode, meaning an invalid HVAC mode
             # will raise only after the temperature is set.
@@ -528,7 +528,7 @@ async def test_cloud_heater(
     ],
 )
 async def test_local_heater(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     functional_local_heater: MagicMock,
     local_heater_set_mode_control_individually: MagicMock,
     local_heater_set_mode_off: MagicMock,

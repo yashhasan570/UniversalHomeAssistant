@@ -9,14 +9,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def _setup_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -29,7 +29,7 @@ async def _setup_button(
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_all_entities(
     ],
 )
 async def test_press_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kiosker_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,

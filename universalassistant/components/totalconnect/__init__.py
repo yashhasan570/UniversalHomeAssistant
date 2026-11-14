@@ -4,7 +4,7 @@ from total_connect_client.client import TotalConnectClient
 from total_connect_client.exceptions import AuthenticationError
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -19,14 +19,14 @@ PLATFORMS = [Platform.ALARM_CONTROL_PANEL, Platform.BINARY_SENSOR, Platform.BUTT
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Total Connect integration."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: TotalConnectConfigEntry
+    hass: __HAC_KEEP__, entry: TotalConnectConfigEntry
 ) -> None:
     """Set up upon config entry in user interface."""
     conf = entry.data
@@ -60,13 +60,13 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: TotalConnectConfigEntry
+    hass: __HAC_KEEP__, entry: TotalConnectConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def update_listener(hass: UniversalAssistant, entry: TotalConnectConfigEntry) -> None:
+async def update_listener(hass: __HAC_KEEP__, entry: TotalConnectConfigEntry) -> None:
     """Update listener."""
     bypass = entry.options.get(AUTO_BYPASS, False)
     client = entry.runtime_data.client

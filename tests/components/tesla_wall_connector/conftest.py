@@ -14,7 +14,7 @@ from universalassistant.components.tesla_wall_connector.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -51,7 +51,7 @@ def get_default_version_data():
 
 
 async def create_wall_connector_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: type[Exception] | Exception | None = None,
     vitals_data: Vitals | None = None,
     lifetime_data: Lifetime | None = None,
@@ -138,7 +138,7 @@ class EntityAndExpectedValues:
 
 
 async def _test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entities_and_expected_values: list[EntityAndExpectedValues],
     vitals_first_update: Vitals,
     vitals_second_update: Vitals,

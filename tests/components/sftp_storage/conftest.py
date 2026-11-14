@@ -17,7 +17,7 @@ from universalassistant.components.sftp_storage.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.storage import STORAGE_DIR
 from universalassistant.setup import async_setup_component
 from universalassistant.util.ulid import ulid
@@ -67,7 +67,7 @@ def hass_config_dir(hass_tmp_config_dir: str) -> str:
     return hass_tmp_config_dir
 
 
-def create_private_key_file(hass: UniversalAssistant) -> str:
+def create_private_key_file(hass: __HAC_KEEP__) -> str:
     """Create private key file in integration storage directory."""
 
     # Create private key file and parent directory.
@@ -84,7 +84,7 @@ def create_private_key_file(hass: UniversalAssistant) -> str:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_ssh_connection: SSHClientConnectionMock,
 ) -> ComponentSetup:
@@ -99,7 +99,7 @@ async def mock_setup_integration(
 
 
 @pytest.fixture(name="config_entry")
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Fixture for MockConfigEntry."""
 
     private_key = create_private_key_file(hass)

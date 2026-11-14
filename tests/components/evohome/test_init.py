@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.evohome.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -121,7 +121,7 @@ CLIENT_REQUEST_TESTS: dict[Exception, list] = {
 
 @pytest.mark.parametrize("exception", AUTHENTICATION_TESTS)
 async def test_authentication_failure_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, str],
     exception: Exception,
     caplog: pytest.LogCaptureFixture,
@@ -147,7 +147,7 @@ async def test_authentication_failure_v2(
 
 @pytest.mark.parametrize("exception", CLIENT_REQUEST_TESTS)
 async def test_client_request_failure_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, str],
     exception: Exception,
     caplog: pytest.LogCaptureFixture,
@@ -174,7 +174,7 @@ async def test_client_request_failure_v2(
 
 @pytest.mark.parametrize("install", ["default"])
 @pytest.mark.usefixtures("evohome")
-async def test_setup(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_setup(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test services after setup of evohome.
 
     Registered services vary by the type of system.
@@ -196,7 +196,7 @@ async def test_setup(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> N
 )
 @pytest.mark.usefixtures("evohome")
 async def test_setup_non_default_location(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
     zone_id: str,
     snapshot: SnapshotAssertion,
@@ -229,7 +229,7 @@ _STALE_ISSUES = {  # issue_id: translation_key
     ],
 )
 async def test_stale_deprecation_issues_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, str],
     install: str,
     issue_registry: ir.IssueRegistry,

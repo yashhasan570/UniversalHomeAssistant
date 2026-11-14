@@ -5,7 +5,7 @@ from requests.exceptions import ConnectionError as RequestsConnectionError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -19,7 +19,7 @@ type FritzBoxCallMonitorConfigEntry = ConfigEntry[FritzBoxPhonebook]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: FritzBoxCallMonitorConfigEntry
+    hass: __HAC_KEEP__, config_entry: FritzBoxCallMonitorConfigEntry
 ) -> None:
     """Set up the fritzbox_callmonitor platforms."""
     fritzbox_phonebook = FritzBoxPhonebook(
@@ -51,7 +51,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: FritzBoxCallMonitorConfigEntry
+    hass: __HAC_KEEP__, config_entry: FritzBoxCallMonitorConfigEntry
 ) -> None:
     """Unloading the fritzbox_callmonitor platforms."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

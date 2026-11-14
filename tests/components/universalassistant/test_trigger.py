@@ -1,4 +1,4 @@
-"""Tests for the Universal Universal Home Assistant triggers."""
+"""Tests for the __HA_KEEP__ triggers."""
 
 import asyncio
 from unittest.mock import patch
@@ -10,7 +10,7 @@ from universalassistant.components import automation
 from universalassistant.components.universalassistant.trigger import RestartRequiredTrigger
 from universalassistant.config import DATA_PREVIOUS_VERSION
 from universalassistant.const import __version__
-from universalassistant.core import Context, CoreState, UniversalAssistant, ServiceCall, callback
+from universalassistant.core import Context, CoreState, __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import system_state
 from universalassistant.helpers.trigger import TriggerConfig
 from universalassistant.helpers.typing import ConfigType
@@ -42,7 +42,7 @@ UPDATED_AUTOMATION = {
 )
 @pytest.mark.usefixtures("mock_hass_config")
 async def test_updated_fires_once(
-    hass: UniversalAssistant, hass_config: ConfigType, previous_version: str
+    hass: __HAC_KEEP__, hass_config: ConfigType, previous_version: str
 ) -> None:
     """Test the updated trigger fires once after a version change."""
     calls = async_mock_service(hass, "test", "automation")
@@ -55,7 +55,7 @@ async def test_updated_fires_once(
 
     assert len(calls) == 1
     assert calls[0].data == {
-        "description": "Universal Universal Home Assistant updated",
+        "description": "__HA_KEEP__ updated",
         "from_version": previous_version,
         "to_version": __version__,
     }
@@ -69,7 +69,7 @@ async def test_updated_fires_once(
     assert len(calls) == 1
 
 
-async def test_updated_not_fired_without_version_change(hass: UniversalAssistant) -> None:
+async def test_updated_not_fired_without_version_change(hass: __HAC_KEEP__) -> None:
     """Test the updated trigger stays silent on a normal start."""
     calls = async_mock_service(hass, "test", "automation")
     hass.set_state(CoreState.not_running)
@@ -81,7 +81,7 @@ async def test_updated_not_fired_without_version_change(hass: UniversalAssistant
     assert len(calls) == 0
 
 
-async def _arm(hass: UniversalAssistant, trigger: str) -> None:
+async def _arm(hass: __HAC_KEEP__, trigger: str) -> None:
     """Set up an automation with a system state trigger."""
     assert await async_setup_component(
         hass,
@@ -103,7 +103,7 @@ async def _arm(hass: UniversalAssistant, trigger: str) -> None:
 
 
 async def test_restart_required(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test the restart trigger fires once, when the first integration asks."""
     await _arm(hass, "universalassistant.restart_required")
@@ -114,13 +114,13 @@ async def test_restart_required(
 
     assert len(service_calls) == 1
     assert service_calls[0].data == {
-        "description": "Universal Universal Home Assistant restart required",
+        "description": "__HA_KEEP__ restart required",
         "sources": ["hacs"],
     }
 
 
 async def test_restart_required_already_set(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test the restart trigger does not fire for a flag set before it attached."""
     system_state.async_set_universal_assistant_restart_required(hass, "hacs")
@@ -132,7 +132,7 @@ async def test_restart_required_already_set(
     assert len(service_calls) == 0
 
 
-async def test_restart_required_reentrant(hass: UniversalAssistant) -> None:
+async def test_restart_required_reentrant(hass: __HAC_KEEP__) -> None:
     """Test an action that adds a restart source does not fire the trigger again."""
     trigger = RestartRequiredTrigger(
         hass, TriggerConfig(key="universalassistant.restart_required")
@@ -159,7 +159,7 @@ async def test_restart_required_reentrant(hass: UniversalAssistant) -> None:
 
 
 async def test_host_reboot_required(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test the reboot trigger fires each time Supervisor raises the flag."""
     await _arm(hass, "universalassistant.host_reboot_required")
@@ -183,7 +183,7 @@ async def test_host_reboot_required(
     ["universalassistant.restart_required", "universalassistant.host_reboot_required"],
 )
 async def test_unload(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], trigger: str
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], trigger: str
 ) -> None:
     """Test a turned off automation no longer fires."""
     await _arm(hass, trigger)
@@ -203,7 +203,7 @@ async def test_unload(
 
 
 @pytest.mark.parametrize("event", ["start", "shutdown"])
-async def test_legacy_trigger_still_works(hass: UniversalAssistant, event: str) -> None:
+async def test_legacy_trigger_still_works(hass: __HAC_KEEP__, event: str) -> None:
     """Test the legacy universalassistant trigger is not taken over by the new one."""
     calls = async_mock_service(hass, "test", "automation")
     hass.set_state(CoreState.not_running)

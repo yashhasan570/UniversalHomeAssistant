@@ -44,7 +44,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import build_mocks, init_integration
@@ -107,7 +107,7 @@ def mocked_stations():
 
 @pytest.mark.parametrize(("language", "ec_language"), LANGUAGE_PARAMS)
 async def test_create_entry(
-    hass: UniversalAssistant, language: str, ec_language: str
+    hass: __HAC_KEEP__, language: str, ec_language: str
 ) -> None:
     """Test creating an entry."""
     with (
@@ -132,7 +132,7 @@ async def test_create_entry(
         assert result["result"].unique_id == f"{TEST_STATION}-{ec_language}"
 
 
-async def test_create_same_entry_twice(hass: UniversalAssistant) -> None:
+async def test_create_same_entry_twice(hass: __HAC_KEEP__) -> None:
     """Test duplicate entries."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -171,7 +171,7 @@ async def test_create_same_entry_twice(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_exception_handling(
-    hass: UniversalAssistant, error: tuple[Exception | type[Exception], str]
+    hass: __HAC_KEEP__, error: tuple[Exception | type[Exception], str]
 ) -> None:
     """Test exception handling."""
     exc, base_error = error
@@ -209,7 +209,7 @@ async def test_exception_handling(
 
 @pytest.mark.parametrize(("language", "ec_language"), LANGUAGE_PARAMS)
 async def test_coordinates_without_station(
-    hass: UniversalAssistant, language: str, ec_language: str
+    hass: __HAC_KEEP__, language: str, ec_language: str
 ) -> None:
     """Test setup with coordinates but no station ID."""
     with (
@@ -244,7 +244,7 @@ async def test_coordinates_without_station(
 
 
 async def _setup_with_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     ec_data: dict[str, Any],
     options: dict[str, Any],
@@ -293,7 +293,7 @@ def _section_defaults(data_schema: probatio.Schema, section_key: str) -> dict[st
     raise KeyError(section_key)
 
 
-async def test_options_flow_form(hass: UniversalAssistant, ec_data: dict[str, Any]) -> None:
+async def test_options_flow_form(hass: __HAC_KEEP__, ec_data: dict[str, Any]) -> None:
     """Test the options form shows all radar fields, grouped into sections."""
     config_entry = await init_integration(hass, ec_data)
 
@@ -326,7 +326,7 @@ async def test_options_flow_form(hass: UniversalAssistant, ec_data: dict[str, An
     }
 
 
-async def test_options_flow_save(hass: UniversalAssistant, ec_data: dict[str, Any]) -> None:
+async def test_options_flow_save(hass: __HAC_KEEP__, ec_data: dict[str, Any]) -> None:
     """Test submitting the options form stores the flattened values and reloads the entry."""
     config_entry = await init_integration(hass, ec_data)
 
@@ -376,7 +376,7 @@ async def test_options_flow_save(hass: UniversalAssistant, ec_data: dict[str, An
 
 
 async def test_options_flow_prefills_saved_options(
-    hass: UniversalAssistant, ec_data: dict[str, Any]
+    hass: __HAC_KEEP__, ec_data: dict[str, Any]
 ) -> None:
     """Test the options form is pre-filled with previously saved (flat) values."""
     saved_options = {
@@ -462,7 +462,7 @@ async def test_options_flow_prefills_saved_options(
     ],
 )
 async def test_ecmap_built_from_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ec_data: dict[str, Any],
     mock_config_entry: MockConfigEntry,
     options: dict[str, Any],

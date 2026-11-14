@@ -5,7 +5,7 @@ from typing import Any, override
 
 from universalassistant.components.sensor import SensorEntity
 from universalassistant.const import CONF_SHOW_ON_MAP, EntityStateAttribute
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IssConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.bitvis.const import DEFAULT_NAME, DEFAULT_PORT, DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -223,7 +223,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     patch_shared_listener: FakeListener,
 ) -> MockConfigEntry:

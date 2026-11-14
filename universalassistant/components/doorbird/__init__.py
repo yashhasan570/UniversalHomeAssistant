@@ -13,7 +13,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -31,14 +31,14 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the DoorBird component."""
     # Provide an endpoint for the door stations to call to trigger events
     hass.http.register_view(DoorBirdRequestView)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: DoorBirdConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: DoorBirdConfigEntry) -> None:
     """Set up DoorBird from a config entry."""
     door_station_config = entry.data
     config_entry_id = entry.entry_id
@@ -76,13 +76,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DoorBirdConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: DoorBirdConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: DoorBirdConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def _async_register_events(
-    hass: UniversalAssistant, door_station: ConfiguredDoorBird, entry: DoorBirdConfigEntry
+    hass: __HAC_KEEP__, door_station: ConfiguredDoorBird, entry: DoorBirdConfigEntry
 ) -> bool:
     """Register events on device."""
     issue_id = f"doorbird_schedule_error_{entry.entry_id}"
@@ -111,7 +111,7 @@ async def _async_register_events(
     return True
 
 
-async def _update_listener(hass: UniversalAssistant, entry: DoorBirdConfigEntry) -> None:
+async def _update_listener(hass: __HAC_KEEP__, entry: DoorBirdConfigEntry) -> None:
     """Handle options update."""
     # The entities are built from the registered events, so rebuild them.
     await hass.config_entries.async_reload(entry.entry_id)

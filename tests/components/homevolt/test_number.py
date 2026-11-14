@@ -31,10 +31,10 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceValidationError,
 )
 from universalassistant.helpers import entity_registry as er
@@ -53,7 +53,7 @@ def platforms(mock_homevolt_client: MagicMock) -> list[Platform]:
 
 
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -75,7 +75,7 @@ async def test_number_entities(
     ],
 )
 async def test_set_number_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_homevolt_client: MagicMock,
     key: str,
@@ -113,7 +113,7 @@ async def test_set_number_value(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_unknown_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_number_unknown_value(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_numbers_unavailable_without_writable_manual_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_numbers_unavailable_without_writable_manual_schedule(
     [pytest.param(-1, id="below-minimum"), pytest.param(11001, id="above-maximum")],
 )
 async def test_invalid_number_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     value: int,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_invalid_number_value(
         ),
         pytest.param(
             HomevoltCommandRejectedError("command rejected"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "command_rejected",
             None,
             0,
@@ -198,7 +198,7 @@ async def test_invalid_number_value(
         ),
         pytest.param(
             HomevoltCommandVerificationError("command verification failed"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "command_verification_failed",
             None,
             1,
@@ -206,7 +206,7 @@ async def test_invalid_number_value(
         ),
         pytest.param(
             HomevoltCommandOutcomeUnknownError("command outcome unknown"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "command_outcome_unknown",
             None,
             1,
@@ -214,7 +214,7 @@ async def test_invalid_number_value(
         ),
         pytest.param(
             HomevoltConnectionError("connection failed"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "communication_error",
             {"error": "connection failed"},
             0,
@@ -222,7 +222,7 @@ async def test_invalid_number_value(
         ),
         pytest.param(
             HomevoltError("unknown error"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "unknown_error",
             {"error": "unknown error"},
             0,
@@ -231,10 +231,10 @@ async def test_invalid_number_value(
     ],
 )
 async def test_set_number_value_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     error: HomevoltError,
-    expected_exception: type[UniversalAssistantError],
+    expected_exception: type[__HAC_KEEP__Error],
     translation_key: str,
     translation_placeholders: dict[str, str] | None,
     refresh_count: int,
@@ -262,7 +262,7 @@ async def test_set_number_value_error(
 
 
 async def test_commands_preserve_telemetry_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_homevolt_client: MagicMock,

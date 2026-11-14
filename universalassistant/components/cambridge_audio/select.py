@@ -9,7 +9,7 @@ from aiostreammagic.models import ControlBusMode, DisplayBrightness
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import CambridgeAudioConfigEntry
@@ -95,7 +95,7 @@ CONTROL_ENTITIES: tuple[CambridgeAudioSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CambridgeAudioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

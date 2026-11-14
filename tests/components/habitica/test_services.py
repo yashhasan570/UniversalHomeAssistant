@@ -29,8 +29,8 @@ from universalassistant.components.habitica.services import (
     HabiticaServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from .conftest import (
     ERROR_BAD_REQUEST,
@@ -55,7 +55,7 @@ def services_only() -> Generator[None]:
 
 @pytest.fixture(autouse=True)
 async def load_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     services_only: Generator,
@@ -154,7 +154,7 @@ def uuid_mock() -> Generator[None]:
     ],
 )
 async def test_cast_skill(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -198,7 +198,7 @@ async def test_cast_skill(
                 HabiticaServiceArgument.SKILL: "smash",
             },
             ERROR_TOO_MANY_REQUESTS,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             RATE_LIMIT_EXCEPTION_MSG,
         ),
         (
@@ -227,7 +227,7 @@ async def test_cast_skill(
                 HabiticaServiceArgument.SKILL: "smash",
             },
             ERROR_BAD_REQUEST,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             REQUEST_EXCEPTION_MSG,
         ),
         (
@@ -236,13 +236,13 @@ async def test_cast_skill(
                 HabiticaServiceArgument.SKILL: "smash",
             },
             ClientError,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Unable to connect to Habitica: ",
         ),
     ],
 )
 async def test_cast_skill_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -267,7 +267,7 @@ async def test_cast_skill_exceptions(
 
 
 async def test_get_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test Habitica config entry exceptions."""
@@ -315,7 +315,7 @@ async def test_get_config_entry(
     ],
 )
 async def test_handle_quests(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service: str,
@@ -342,7 +342,7 @@ async def test_handle_quests(
     [
         (
             ERROR_TOO_MANY_REQUESTS,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             RATE_LIMIT_EXCEPTION_MSG,
         ),
         (
@@ -358,12 +358,12 @@ async def test_handle_quests(
         ),
         (
             ERROR_BAD_REQUEST,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             REQUEST_EXCEPTION_MSG,
         ),
         (
             ClientError,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Unable to connect to Habitica: ",
         ),
     ],
@@ -380,7 +380,7 @@ async def test_handle_quests(
     ],
 )
 async def test_handle_quests_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     raise_exception: Exception,
@@ -468,7 +468,7 @@ async def test_handle_quests_exceptions(
     ],
 )
 async def test_score_task(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service: str,
@@ -514,7 +514,7 @@ async def test_score_task(
                 HabiticaServiceArgument.DIRECTION: "up",
             },
             ERROR_TOO_MANY_REQUESTS,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             RATE_LIMIT_EXCEPTION_MSG,
         ),
         (
@@ -523,7 +523,7 @@ async def test_score_task(
                 HabiticaServiceArgument.DIRECTION: "up",
             },
             ERROR_BAD_REQUEST,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             REQUEST_EXCEPTION_MSG,
         ),
         (
@@ -532,7 +532,7 @@ async def test_score_task(
                 HabiticaServiceArgument.DIRECTION: "up",
             },
             ClientError,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Unable to connect to Habitica: ",
         ),
         (
@@ -541,14 +541,14 @@ async def test_score_task(
                 HabiticaServiceArgument.DIRECTION: "up",
             },
             ERROR_NOT_AUTHORIZED,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Unable to buy reward, not enough gold. Your character"
             " has 137.63 GP, but the reward costs 10.00 GP",
         ),
     ],
 )
 async def test_score_task_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -679,7 +679,7 @@ async def test_score_task_exceptions(
     ],
 )
 async def test_transformation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -738,7 +738,7 @@ async def test_transformation(
             },
             ERROR_BAD_REQUEST,
             None,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             REQUEST_EXCEPTION_MSG,
         ),
         (
@@ -748,7 +748,7 @@ async def test_transformation(
             },
             None,
             ERROR_TOO_MANY_REQUESTS,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             RATE_LIMIT_EXCEPTION_MSG,
         ),
         (
@@ -768,7 +768,7 @@ async def test_transformation(
             },
             None,
             ERROR_BAD_REQUEST,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             REQUEST_EXCEPTION_MSG,
         ),
         (
@@ -778,7 +778,7 @@ async def test_transformation(
             },
             None,
             ClientError,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Unable to connect to Habitica: ",
         ),
         (
@@ -788,13 +788,13 @@ async def test_transformation(
             },
             ClientError,
             None,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Unable to connect to Habitica: ",
         ),
     ],
 )
 async def test_transformation_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -844,7 +844,7 @@ async def test_transformation_exceptions(
         {HabiticaServiceArgument.TASK: ["alias_zahnseide_benutzen"]},
         {HabiticaServiceArgument.TAG: ["Training", "Gesundheit + Wohlbefinden"]},
         {HabiticaServiceArgument.KEYWORD: "gewohnheit"},
-        {HabiticaServiceArgument.TAG: ["Universal Universal Home Assistant"]},
+        {HabiticaServiceArgument.TAG: ["__HA_KEEP__"]},
     ],
     ids=[
         "all_tasks",
@@ -868,7 +868,7 @@ async def test_transformation_exceptions(
 )
 @pytest.mark.usefixtures("habitica")
 async def test_get_tasks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     service_data: dict[str, Any],
@@ -894,17 +894,17 @@ async def test_get_tasks(
     [
         (
             ERROR_TOO_MANY_REQUESTS,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             RATE_LIMIT_EXCEPTION_MSG,
         ),
         (
             ERROR_BAD_REQUEST,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             REQUEST_EXCEPTION_MSG,
         ),
         (
             ClientError,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Unable to connect to Habitica: ",
         ),
     ],
@@ -920,7 +920,7 @@ async def test_get_tasks(
 )
 @pytest.mark.usefixtures("habitica")
 async def test_update_task_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     exception: Exception,
@@ -950,17 +950,17 @@ async def test_update_task_exceptions(
     [
         (
             ERROR_TOO_MANY_REQUESTS,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             RATE_LIMIT_EXCEPTION_MSG,
         ),
         (
             ERROR_BAD_REQUEST,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             REQUEST_EXCEPTION_MSG,
         ),
         (
             ClientError,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Unable to connect to Habitica: ",
         ),
     ],
@@ -976,7 +976,7 @@ async def test_update_task_exceptions(
 )
 @pytest.mark.usefixtures("habitica")
 async def test_create_task_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     exception: Exception,
@@ -1002,7 +1002,7 @@ async def test_create_task_exceptions(
 
 @pytest.mark.usefixtures("habitica")
 async def test_task_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
 ) -> None:
@@ -1058,7 +1058,7 @@ async def test_task_not_found(
     ],
 )
 async def test_update_reward(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -1117,7 +1117,7 @@ async def test_update_reward(
     ],
 )
 async def test_create_reward(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -1199,7 +1199,7 @@ async def test_create_reward(
     ],
 )
 async def test_update_habit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -1283,7 +1283,7 @@ async def test_update_habit(
     ],
 )
 async def test_create_habit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -1471,7 +1471,7 @@ async def test_create_habit(
 )
 @pytest.mark.usefixtures("mock_uuid4")
 async def test_update_todo(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -1583,7 +1583,7 @@ async def test_update_todo(
 )
 @pytest.mark.usefixtures("mock_uuid4")
 async def test_create_todo(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -1809,7 +1809,7 @@ async def test_create_todo(
 @pytest.mark.usefixtures("mock_uuid4")
 @pytest.mark.freeze_time("2025-02-25T22:00:00.000Z")
 async def test_update_daily(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -1987,7 +1987,7 @@ async def test_update_daily(
 @pytest.mark.usefixtures("mock_uuid4")
 @pytest.mark.freeze_time("2025-02-25T22:00:00.000Z")
 async def test_create_daily(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -2028,7 +2028,7 @@ async def test_create_daily(
 @pytest.mark.usefixtures("mock_uuid4")
 @pytest.mark.freeze_time("2025-02-25T22:00:00.000Z")
 async def test_update_daily_service_validation_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     service_data: dict[str, Any],
@@ -2051,7 +2051,7 @@ async def test_update_daily_service_validation_errors(
 
 
 async def test_tags(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
 ) -> None:
@@ -2080,7 +2080,7 @@ async def test_tags(
 
 
 async def test_create_new_tag(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
 ) -> None:
@@ -2093,13 +2093,13 @@ async def test_create_new_tag(
         service_data={
             HabiticaServiceArgument.CONFIG_ENTRY: config_entry.entry_id,
             HabiticaServiceArgument.TASK: task_id,
-            HabiticaServiceArgument.TAG: ["Universal Universal Home Assistant"],
+            HabiticaServiceArgument.TAG: ["__HA_KEEP__"],
         },
         return_response=True,
         blocking=True,
     )
 
-    habitica.create_tag.assert_awaited_with("Universal Universal Home Assistant")
+    habitica.create_tag.assert_awaited_with("__HA_KEEP__")
 
     call_args = habitica.update_task.call_args[0]
     assert call_args[0] == UUID(task_id)
@@ -2115,23 +2115,23 @@ async def test_create_new_tag(
     [
         (
             ERROR_TOO_MANY_REQUESTS,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             RATE_LIMIT_EXCEPTION_MSG,
         ),
         (
             ERROR_BAD_REQUEST,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             REQUEST_EXCEPTION_MSG,
         ),
         (
             ClientError,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Unable to connect to Habitica: ",
         ),
     ],
 )
 async def test_create_new_tag_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
     exception: Exception,
@@ -2149,7 +2149,7 @@ async def test_create_new_tag_exception(
             service_data={
                 HabiticaServiceArgument.CONFIG_ENTRY: config_entry.entry_id,
                 HabiticaServiceArgument.TASK: task_id,
-                HabiticaServiceArgument.TAG: ["Universal Universal Home Assistant"],
+                HabiticaServiceArgument.TAG: ["__HA_KEEP__"],
             },
             return_response=True,
             blocking=True,
@@ -2157,7 +2157,7 @@ async def test_create_new_tag_exception(
 
 
 async def test_remove_tags(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     habitica: AsyncMock,
 ) -> None:

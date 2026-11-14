@@ -28,7 +28,7 @@ from universalassistant.components.voice_support.const import (
 )
 from universalassistant.config_entries import SOURCE_SYSTEM, SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -36,7 +36,7 @@ from .conftest import APP_HOST, INFO, INFO_URL, PORT
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant, setup_integration: MockConfigEntry
+    hass: __HAC_KEEP__, setup_integration: MockConfigEntry
 ) -> None:
     """Test setup connects to the app and unload removes the client."""
     assert setup_integration.state is ConfigEntryState.LOADED
@@ -60,7 +60,7 @@ async def test_setup_entry(
     ],
 )
 async def test_setup_entry_cannot_use_app(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     response: dict[str, Any],
@@ -77,7 +77,7 @@ async def test_setup_entry_cannot_use_app(
 
 
 async def test_info_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_info_refresh(
     ],
 )
 async def test_info_refresh_reloads_unusable_app(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     response: dict[str, Any],
@@ -149,7 +149,7 @@ async def test_info_refresh_reloads_unusable_app(
 )
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_setup_updates_owned_app(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     addon_info: AsyncMock,
@@ -192,7 +192,7 @@ SYSTEM_FLOW = call(ANY, DOMAIN, context={"source": SOURCE_SYSTEM}, data={})
 )
 @pytest.mark.usefixtures("labs")
 async def test_loading_provisions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     components: set[str],
     feature: bool,
     expected_flows: list[Any],
@@ -213,7 +213,7 @@ async def test_loading_provisions(
 
 @pytest.mark.usefixtures("supervisor", "preview_feature_enabled")
 async def test_provision_once(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test an entry, or a flow already underway, means nothing more to do."""
     with patch(
@@ -239,7 +239,7 @@ async def test_provision_once(
 
 
 @pytest.mark.usefixtures("supervisor", "preview_feature_enabled")
-async def test_enabling_the_feature_asks_for_the_app(hass: UniversalAssistant) -> None:
+async def test_enabling_the_feature_asks_for_the_app(hass: __HAC_KEEP__) -> None:
     """Test turning the feature on is one of the moments the app is wanted."""
     with patch(
         "universalassistant.components.voice_support.discovery_flow.async_create_flow"
@@ -271,7 +271,7 @@ async def test_enabling_the_feature_asks_for_the_app(hass: UniversalAssistant) -
     "supervisor", "addon_running", "preview_feature_enabled", "app_info"
 )
 async def test_disabling_removes_managed_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
     stop_addon: AsyncMock,
@@ -321,7 +321,7 @@ async def test_disabling_removes_managed_entry(
 
 @pytest.mark.parametrize("component", ["assist_pipeline", "assist_satellite"])
 async def test_voice_component_loads_the_integration(
-    hass: UniversalAssistant, component: str
+    hass: __HAC_KEEP__, component: str
 ) -> None:
     """Test voice support loads through the pipeline dependency."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -339,7 +339,7 @@ async def test_voice_component_loads_the_integration(
 )
 @pytest.mark.usefixtures("supervisor", "addon_running")
 async def test_remove_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     stop_addon: AsyncMock,
     create_backup: AsyncMock,
     uninstall_addon: AsyncMock,
@@ -364,7 +364,7 @@ async def test_remove_entry(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "create_backup")
 async def test_remove_entry_app_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     stop_addon: AsyncMock,
     uninstall_addon: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -388,7 +388,7 @@ async def test_remove_entry_app_error(
 
 @pytest.mark.usefixtures("labs", "app_info")
 async def test_verifies_wake_word(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a wake word is verified only with the feature on and an app that has it."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -412,7 +412,7 @@ async def test_verifies_wake_word(
 
 @pytest.mark.usefixtures("labs", "app_info")
 async def test_wake_words_changed(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test listeners hear when the app comes and goes and the feature changes."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -447,7 +447,7 @@ async def _no_audio() -> AsyncGenerator[bytes]:
 
 
 @pytest.mark.usefixtures("labs")
-async def test_start_run_without_entry(hass: UniversalAssistant) -> None:
+async def test_start_run_without_entry(hass: __HAC_KEEP__) -> None:
     """Test there is no run to give before the integration loads, nor without an entry."""
     assert await async_start_run(hass, AudioRunRequest(), _no_audio()) is None
 
@@ -457,7 +457,7 @@ async def test_start_run_without_entry(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_start_run_gated_by_preview_feature(
-    hass: UniversalAssistant, labs: None
+    hass: __HAC_KEEP__, labs: None
 ) -> None:
     """Test the pipeline gets no run while the feature is off."""
     client = hass.data[DATA_CLIENT]
@@ -483,7 +483,7 @@ async def test_start_run_gated_by_preview_feature(
 )
 @pytest.mark.usefixtures("supervisor", "addon_running", "app_info")
 async def test_setup_updates_compatible_app(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     addon_info: AsyncMock,
     update_addon: AsyncMock,
@@ -507,7 +507,7 @@ async def test_setup_updates_compatible_app(
 
 @pytest.mark.usefixtures("supervisor", "addon_running", "app_info")
 async def test_refresh_does_not_update_managed_app(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     addon_info: AsyncMock,
     update_addon: AsyncMock,
@@ -531,7 +531,7 @@ async def test_refresh_does_not_update_managed_app(
 
 
 async def test_setup_waits_for_info_before_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the app cannot update while the initial info request is pending."""
@@ -584,7 +584,7 @@ async def test_setup_waits_for_info_before_update(
 )
 @pytest.mark.usefixtures("setup_integration", "preview_feature_enabled")
 async def test_info_refresh_notifies_verification_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     wake_words: list[dict[str, str]],
     expected_calls: int,
@@ -616,7 +616,7 @@ async def test_info_refresh_notifies_verification_changes(
 )
 @pytest.mark.usefixtures("setup_integration", "preview_feature_enabled")
 async def test_run_failure_notifies_verification_loss_and_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection_error: type[Exception] | None,
     send_error: type[Exception] | None,
 ) -> None:

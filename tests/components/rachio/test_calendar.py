@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 CALENDAR_ENTITY_ID = "calendar.rachio_base_station_sn123456"
 
@@ -17,7 +17,7 @@ pytestmark = [
 
 
 async def test_get_events_empty_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rachio: MagicMock,
 ) -> None:
     """Test that get_events returns empty list when no events are scheduled."""

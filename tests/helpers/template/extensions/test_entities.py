@@ -1,15 +1,15 @@
-"""Test entity functions for Universal Universal Home Assistant templates."""
+"""Test entity functions for __HA_KEEP__ templates."""
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from tests.helpers.template.helpers import render
 
 
 def test_entity_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -102,7 +102,7 @@ def test_entity_name(
 
 
 def test_is_hidden_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test is_hidden_entity method."""

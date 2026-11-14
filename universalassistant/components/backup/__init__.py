@@ -2,8 +2,8 @@
 
 from universalassistant.config_entries import SOURCE_SYSTEM
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, discovery_flow
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.typing import ConfigType
@@ -96,7 +96,7 @@ PLATFORMS = [Platform.EVENT, Platform.SENSOR]
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Backup integration."""
     with_hassio = is_hassio(hass)
 
@@ -126,7 +126,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BackupConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BackupConfigEntry) -> None:
     """Set up a config entry."""
     backup_manager: BackupManager = hass.data[DATA_MANAGER]
     coordinator = BackupDataUpdateCoordinator(hass, entry, backup_manager)
@@ -139,18 +139,18 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BackupConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BackupConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BackupConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 @callback
-def async_get_manager(hass: UniversalAssistant) -> BackupManager:
+def async_get_manager(hass: __HAC_KEEP__) -> BackupManager:
     """Get the backup manager instance.
 
-    Raises UniversalAssistantError if the backup integration is not available.
+    Raises __HAC_KEEP__Error if the backup integration is not available.
     """
     if DATA_MANAGER not in hass.data:
-        raise UniversalAssistantError("Backup integration is not available")
+        raise __HAC_KEEP__Error("Backup integration is not available")
 
     return hass.data[DATA_MANAGER]

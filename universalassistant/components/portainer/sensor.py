@@ -16,7 +16,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import EntityCategory, UnitOfInformation, UnitOfRatio
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util import dt as dt_util
@@ -439,7 +439,7 @@ VOLUME_DISK_SPACE_SENSORS: tuple[
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PortainerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

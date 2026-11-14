@@ -29,8 +29,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import ALL_DEVICE_NAMES, mock_devices_response
@@ -38,7 +38,7 @@ from .common import ALL_DEVICE_NAMES, mock_devices_response
 
 @pytest.mark.parametrize("device_name", ALL_DEVICE_NAMES)
 async def test_light_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -75,7 +75,7 @@ async def test_light_state(
 
 
 async def _async_setup_bulb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -94,7 +94,7 @@ async def _async_setup_bulb(
 
 
 async def test_tunable_light_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -141,7 +141,7 @@ async def test_tunable_light_turn_on(
 
 
 async def test_dimmable_light_turn_on_and_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -201,7 +201,7 @@ async def test_dimmable_light_turn_on_and_off(
 
 
 async def _async_setup_rgb_nightlight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -220,7 +220,7 @@ async def _async_setup_rgb_nightlight(
 
 
 async def test_rgb_nightlight_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -250,7 +250,7 @@ async def test_rgb_nightlight_state(
     ],
 )
 async def test_rgb_nightlight_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -288,7 +288,7 @@ async def test_rgb_nightlight_brightness(
     ],
 )
 async def test_rgb_nightlight_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -314,7 +314,7 @@ async def test_rgb_nightlight_turn_on(
 
 
 async def test_rgb_nightlight_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -350,7 +350,7 @@ async def test_rgb_nightlight_turn_off(
     ],
 )
 async def test_rgb_nightlight_commands_update_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rgb_humidifier_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
@@ -401,7 +401,7 @@ async def test_rgb_nightlight_commands_update_state(
 
 @pytest.mark.parametrize("native_brightness", [40, 70, 100])
 async def test_rgb_nightlight_restore_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -427,7 +427,7 @@ async def test_rgb_nightlight_restore_brightness(
 
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_rgb_nightlight_command_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -440,7 +440,7 @@ async def test_rgb_nightlight_command_failure(
     entity_id = await _async_setup_rgb_nightlight(
         hass, config_entry, manager, entity_registry, rgb_humidifier
     )
-    with pytest.raises(UniversalAssistantError, match="Failed to control the night light"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to control the night light"):
         await hass.services.async_call(
             LIGHT_DOMAIN, service, {ATTR_ENTITY_ID: entity_id}, blocking=True
         )
@@ -455,7 +455,7 @@ async def test_rgb_nightlight_command_failure(
     ],
 )
 async def test_rgb_nightlight_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -475,7 +475,7 @@ async def test_rgb_nightlight_availability(
 
 
 async def test_rgb_nightlight_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,
@@ -501,7 +501,7 @@ async def test_rgb_nightlight_discovery(
 
 
 async def test_humidifier_without_rgb_nightlight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     manager: VeSync,
     entity_registry: er.EntityRegistry,

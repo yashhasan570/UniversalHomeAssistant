@@ -27,11 +27,11 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def async_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id=ENTITY_MATCH_ALL,
     percentage: int | None = None,
     preset_mode: str | None = None,
@@ -51,7 +51,7 @@ async def async_turn_on(
     await hass.async_block_till_done()
 
 
-async def async_turn_off(hass: UniversalAssistant, entity_id=ENTITY_MATCH_ALL) -> None:
+async def async_turn_off(hass: __HAC_KEEP__, entity_id=ENTITY_MATCH_ALL) -> None:
     """Turn all or specified fan off."""
     data = {ATTR_ENTITY_ID: entity_id} if entity_id else {}
 
@@ -60,7 +60,7 @@ async def async_turn_off(hass: UniversalAssistant, entity_id=ENTITY_MATCH_ALL) -
 
 
 async def async_oscillate(
-    hass: UniversalAssistant, entity_id=ENTITY_MATCH_ALL, should_oscillate: bool = True
+    hass: __HAC_KEEP__, entity_id=ENTITY_MATCH_ALL, should_oscillate: bool = True
 ) -> None:
     """Set oscillation on all or specified fan."""
     data = {
@@ -77,7 +77,7 @@ async def async_oscillate(
 
 
 async def async_set_preset_mode(
-    hass: UniversalAssistant, entity_id=ENTITY_MATCH_ALL, preset_mode: str | None = None
+    hass: __HAC_KEEP__, entity_id=ENTITY_MATCH_ALL, preset_mode: str | None = None
 ) -> None:
     """Set preset mode for all or specified fan."""
     data = {
@@ -91,7 +91,7 @@ async def async_set_preset_mode(
 
 
 async def async_set_percentage(
-    hass: UniversalAssistant, entity_id=ENTITY_MATCH_ALL, percentage: int | None = None
+    hass: __HAC_KEEP__, entity_id=ENTITY_MATCH_ALL, percentage: int | None = None
 ) -> None:
     """Set percentage for all or specified fan."""
     data = {
@@ -105,7 +105,7 @@ async def async_set_percentage(
 
 
 async def async_increase_speed(
-    hass: UniversalAssistant, entity_id=ENTITY_MATCH_ALL, percentage_step: int | None = None
+    hass: __HAC_KEEP__, entity_id=ENTITY_MATCH_ALL, percentage_step: int | None = None
 ) -> None:
     """Increase speed for all or specified fan."""
     data = {
@@ -122,7 +122,7 @@ async def async_increase_speed(
 
 
 async def async_decrease_speed(
-    hass: UniversalAssistant, entity_id=ENTITY_MATCH_ALL, percentage_step: int | None = None
+    hass: __HAC_KEEP__, entity_id=ENTITY_MATCH_ALL, percentage_step: int | None = None
 ) -> None:
     """Decrease speed for all or specified fan."""
     data = {
@@ -139,7 +139,7 @@ async def async_decrease_speed(
 
 
 async def async_set_direction(
-    hass: UniversalAssistant, entity_id=ENTITY_MATCH_ALL, direction: str | None = None
+    hass: __HAC_KEEP__, entity_id=ENTITY_MATCH_ALL, direction: str | None = None
 ) -> None:
     """Set direction for all or specified fan."""
     data = {

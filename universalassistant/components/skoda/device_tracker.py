@@ -9,7 +9,7 @@ from universalassistant.components.device_tracker import (
     TrackerEntity,
     TrackerEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SkodaConfigEntry, SkodaUpdateCoordinator
@@ -21,7 +21,7 @@ PARKING_POSITION_DESCRIPTION = TrackerEntityDescription(key="parking_position")
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SkodaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

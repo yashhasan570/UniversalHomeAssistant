@@ -1,4 +1,4 @@
-"""Data models for the Universal Universal Home Assistant Labs integration."""
+"""Data models for the __HA_KEEP__ Labs integration."""
 
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Self, TypedDict

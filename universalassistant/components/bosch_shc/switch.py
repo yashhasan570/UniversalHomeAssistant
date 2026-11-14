@@ -26,7 +26,7 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BoschConfigEntry
@@ -267,7 +267,7 @@ SWITCH_TYPES: dict[str, SHCSwitchEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BoschConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -650,7 +650,7 @@ class SHCSwitch(SHCEntity, SwitchEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: SHCDevice,
         parent_id: str,
         entry_id: str,
@@ -701,7 +701,7 @@ class SHCRoutingSwitch(SHCEntity, SwitchEntity):
     _device: SHCSmartPlug
 
     def __init__(
-        self, hass: UniversalAssistant, device: SHCDevice, parent_id: str, entry_id: str
+        self, hass: __HAC_KEEP__, device: SHCDevice, parent_id: str, entry_id: str
     ) -> None:
         """Initialize an SHC routing switch."""
         super().__init__(hass, device, parent_id, entry_id)
@@ -733,7 +733,7 @@ class SHCBypassInfiniteSwitch(SHCEntity, SwitchEntity):
     _device: SHCShutterContact2
 
     def __init__(
-        self, hass: UniversalAssistant, device: SHCDevice, parent_id: str, entry_id: str
+        self, hass: __HAC_KEEP__, device: SHCDevice, parent_id: str, entry_id: str
     ) -> None:
         """Initialize an SHC bypass-never-expires switch."""
         super().__init__(hass, device, parent_id, entry_id)

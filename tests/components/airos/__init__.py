@@ -5,13 +5,13 @@ from airos.airos8 import AirOS8Data
 from pytest_universalassistant.common import MockConfigEntry, patch
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 AirOSData = AirOS8Data | AirOS6Data
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     platforms: list[Platform] | None = None,
 ) -> None:

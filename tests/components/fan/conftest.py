@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import mock_config_flow, mock_platform
 
 from universalassistant.config_entries import ConfigFlow
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 class MockFlow(ConfigFlow):
@@ -14,7 +14,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, "test.config_flow")
 

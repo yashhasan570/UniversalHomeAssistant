@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import CONF_API_KEY, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import PLATFORMS, TTN_API_HOST
 from .coordinator import TTNConfigEntry, TTNCoordinator
@@ -11,7 +11,7 @@ from .coordinator import TTNConfigEntry, TTNCoordinator
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TTNConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TTNConfigEntry) -> None:
     """Establish connection with The Things Network."""
 
     _LOGGER.debug(
@@ -29,7 +29,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TTNConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TTNConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TTNConfigEntry) -> None:
     """Unload a config entry."""
 
     _LOGGER.debug(

@@ -17,8 +17,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ pytestmark = pytest.mark.usefixtures("entity_registry_enabled_by_default")
 
 @pytest.mark.usefixtures("mock_my_pv_client")
 async def test_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -41,7 +41,7 @@ async def test_select(
 
 
 async def test_select_unavailable_not_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_select_unavailable_not_connected(
 
 
 async def test_select_unavailable_setup_value_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_select_unavailable_setup_value_none(
 
 
 async def test_select_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -97,16 +97,16 @@ async def test_select_select_option(
 
 
 async def test_select_select_option_returns_false(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
-    """Test for UniversalAssistantError when set_setup_value returns false."""
+    """Test for __HAC_KEEP__Error when set_setup_value returns false."""
     await setup_integration(hass, mock_config_entry)
 
     mock_my_pv_client.set_setup_value.return_value = False
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -125,19 +125,19 @@ async def test_select_select_option_returns_false(
 @pytest.mark.parametrize(
     ("error", "expected_ha_error"),
     [
-        (MyPVConnectionError(), UniversalAssistantError),
+        (MyPVConnectionError(), __HAC_KEEP__Error),
         (MyPVAuthenticationError(), ConfigEntryAuthFailed),
-        (MyPVTooManyRequestsError(), UniversalAssistantError),
+        (MyPVTooManyRequestsError(), __HAC_KEEP__Error),
     ],
 )
 async def test_select_select_option_raises_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     error: MyPVConnectionError | MyPVAuthenticationError,
-    expected_ha_error: type[UniversalAssistantError],
+    expected_ha_error: type[__HAC_KEEP__Error],
 ) -> None:
-    """Test for UniversalAssistantError when set_setup_value raises error."""
+    """Test for __HAC_KEEP__Error when set_setup_value raises error."""
     await setup_integration(hass, mock_config_entry)
 
     mock_my_pv_client.set_setup_value.side_effect = error

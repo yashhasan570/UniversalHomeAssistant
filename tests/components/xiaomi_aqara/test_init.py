@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.xiaomi_aqara import const
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_PORT, CONF_PROTOCOL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 TEST_HOST = "1.2.3.4"
@@ -19,7 +19,7 @@ TEST_MOTION_SID = "158d0001a2b3c4"
 
 
 async def test_child_device_links_to_gateway_via_device_id(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a Zigbee child device is linked to its gateway via via_device_id."""
     mock_gateway = Mock()

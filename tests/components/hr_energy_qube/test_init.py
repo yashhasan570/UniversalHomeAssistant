@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.hr_energy_qube.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 
 from . import async_shared_connections, setup_integration
@@ -18,7 +18,7 @@ from . import async_shared_connections, setup_integration
 
 @pytest.mark.usefixtures("mock_qube_client")
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_setup_and_unload_entry(
 
 @pytest.mark.usefixtures("mock_qube_client")
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -54,7 +54,7 @@ async def test_device_info(
 
 
 async def test_setup_entry_connection_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -72,12 +72,12 @@ async def test_setup_entry_connection_failure(
 
 @pytest.mark.usefixtures("mock_qube_client")
 async def test_setup_entry_link_settings_in_use(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup fails when the device is in use over other link settings."""
     with patch(
         "universalassistant.components.hr_energy_qube.async_get_unit",
-        side_effect=UniversalAssistantError("in use"),
+        side_effect=__HAC_KEEP__Error("in use"),
     ):
         await setup_integration(hass, mock_config_entry)
 

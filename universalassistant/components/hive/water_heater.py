@@ -9,7 +9,7 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HiveConfigEntry, refresh_system
@@ -34,7 +34,7 @@ SUPPORT_WATER_HEATER = [STATE_ECO, STATE_ON, STATE_OFF]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HiveConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

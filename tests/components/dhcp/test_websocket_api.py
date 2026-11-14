@@ -8,12 +8,12 @@ import aiodhcpwatcher
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.dhcp import DOMAIN
-from universalassistant.core import EVENT_HOMEASSISTANT_STARTED, UniversalAssistant
+from universalassistant.core import EVENT_HOMEASSISTANT_STARTED, __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 async def test_subscribe_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test dhcp subscribe_discovery."""

@@ -32,7 +32,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.liebherr.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import MOCK_DEVICE, MOCK_DEVICE_STATE, SSEStreamHelper
@@ -49,7 +49,7 @@ from .conftest import MOCK_DEVICE, MOCK_DEVICE_STATE, SSEStreamHelper
     ids=["auth_failed", "connection_error", "timeout"],
 )
 async def test_setup_entry_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_liebherr_client: MagicMock,
     side_effect: Any,
@@ -77,7 +77,7 @@ async def test_setup_entry_errors(
     ids=["auth_failed", "connection_error", "timeout"],
 )
 async def test_coordinator_setup_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_liebherr_client: MagicMock,
     side_effect: Exception,
@@ -103,7 +103,7 @@ async def test_coordinator_setup_errors(
     ids=["auth_failed", "timeout"],
 )
 async def test_coordinator_initial_refresh_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_liebherr_client: MagicMock,
     side_effect: Exception,
@@ -188,7 +188,7 @@ async def test_stream_delta_preserves_same_control_in_other_zone(
     ids=["not_found", "precondition_failed"],
 )
 async def test_terminal_stream_error_marks_entities_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     sse_helper: SSEStreamHelper,
     exception: Exception,
@@ -205,7 +205,7 @@ async def test_terminal_stream_error_marks_entities_unavailable(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_repeated_stream_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     sse_helper: SSEStreamHelper,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_repeated_stream_disconnect(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_liebherr_client: MagicMock,
 ) -> None:
@@ -281,7 +281,7 @@ NEW_DEVICE_STATE = DeviceState(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_dynamic_device_discovery_no_new_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -311,7 +311,7 @@ async def test_dynamic_device_discovery_no_new_devices(
     ids=["connection_error", "auth_error", "timeout"],
 )
 async def test_dynamic_device_discovery_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -335,7 +335,7 @@ async def test_dynamic_device_discovery_api_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_dynamic_device_discovery_unexpected_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -356,7 +356,7 @@ async def test_dynamic_device_discovery_unexpected_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_dynamic_device_discovery_coordinator_setup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_liebherr_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -385,7 +385,7 @@ async def test_dynamic_device_discovery_coordinator_setup_failure(
 
 
 async def test_dynamic_device_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_liebherr_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -442,7 +442,7 @@ async def test_dynamic_device_discovery(
 
 
 async def test_stale_device_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_liebherr_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -525,7 +525,7 @@ async def test_stale_device_removal(
 
 
 async def test_stale_device_removal_without_coordinator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_liebherr_client: MagicMock,
     device_registry: dr.DeviceRegistry,

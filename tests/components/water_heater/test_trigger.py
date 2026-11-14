@@ -36,7 +36,7 @@ from universalassistant.const import (
     STATE_ON,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 ALL_ON_STATES = [
     STATE_ECO,
@@ -52,7 +52,7 @@ ALL_STATES = [STATE_OFF, *ALL_ON_STATES]
 
 
 @pytest.fixture
-async def target_water_heaters(hass: UniversalAssistant) -> list[str]:
+async def target_water_heaters(hass: __HAC_KEEP__) -> list[str]:
     """Create multiple water heater entities associated with different targets."""
     return await target_entities(hass, "water_heater")
 
@@ -104,7 +104,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_water_heater_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -163,7 +163,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_water_heater_state_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_water_heaters: list[str],
     trigger_target_config: dict,
     entity_id: str,
@@ -211,7 +211,7 @@ async def test_water_heater_state_trigger_behavior_each(
     ],
 )
 async def test_water_heater_state_attribute_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_water_heaters: list[str],
     trigger_target_config: dict,
     entity_id: str,
@@ -271,7 +271,7 @@ async def test_water_heater_state_attribute_trigger_behavior_each(
     ],
 )
 async def test_water_heater_state_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_water_heaters: list[str],
     trigger_target_config: dict,
     entity_id: str,
@@ -311,7 +311,7 @@ async def test_water_heater_state_trigger_behavior_first(
     ],
 )
 async def test_water_heater_state_attribute_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_water_heaters: list[str],
     trigger_target_config: dict,
     entity_id: str,
@@ -371,7 +371,7 @@ async def test_water_heater_state_attribute_trigger_behavior_first(
     ],
 )
 async def test_water_heater_state_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_water_heaters: list[str],
     trigger_target_config: dict,
     entity_id: str,
@@ -411,7 +411,7 @@ async def test_water_heater_state_trigger_behavior_all(
     ],
 )
 async def test_water_heater_state_attribute_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_water_heaters: list[str],
     trigger_target_config: dict,
     entity_id: str,
@@ -434,7 +434,7 @@ async def test_water_heater_state_attribute_trigger_behavior_all(
 
 
 async def test_water_heater_target_temperature_trigger_temperature_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the trigger uses the temperature_unit attribute, not the system unit."""
     calls: list[str] = []

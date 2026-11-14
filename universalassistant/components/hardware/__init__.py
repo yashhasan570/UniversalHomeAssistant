@@ -2,7 +2,7 @@
 
 import psutil_universal_assistant as ha_psutil
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.integration_platform import LazyIntegrationPlatforms
 from universalassistant.helpers.typing import ConfigType
@@ -29,13 +29,13 @@ CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 @callback
 def _process_hardware_platform(
-    hass: UniversalAssistant, integration_domain: str, platform: HardwareProtocol
+    hass: __HAC_KEEP__, integration_domain: str, platform: HardwareProtocol
 ) -> HardwareProtocol:
     """Process a hardware platform."""
     return platform
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Hardware."""
     hass.data[DATA_HARDWARE] = HardwareData(
         hardware_platforms=LazyIntegrationPlatforms(

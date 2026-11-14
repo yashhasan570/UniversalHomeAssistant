@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.huawei_lte.const import DOMAIN
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import magic_client
@@ -29,7 +29,7 @@ TRACKER_MAC = "11:22:33:44:55:66"
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_tracker_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     hostname: str | None,
@@ -68,7 +68,7 @@ async def test_tracker_device(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_hostname_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,

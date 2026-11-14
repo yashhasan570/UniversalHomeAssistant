@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.netatmo.const import DOMAIN
 from universalassistant.components.webhook import async_handle_webhook
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.aiohttp import MockRequest
 
@@ -32,7 +32,7 @@ FAKE_WEBHOOK_ACTIVATION = {
 
 
 async def snapshot_platform_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     platform: Platform,
     entity_registry: er.EntityRegistry,
@@ -55,7 +55,7 @@ async def snapshot_platform_entities(
         )
 
 
-async def fake_post_request(hass: UniversalAssistant, *args: Any, **kwargs: Any):
+async def fake_post_request(hass: __HAC_KEEP__, *args: Any, **kwargs: Any):
     """Return fake data."""
     if "endpoint" not in kwargs:
         return "{}"
@@ -107,7 +107,7 @@ async def fake_get_image(*args: Any, **kwargs: Any) -> bytes | str | None:
     return None
 
 
-async def simulate_webhook(hass: UniversalAssistant, webhook_id: str, response) -> None:
+async def simulate_webhook(hass: __HAC_KEEP__, webhook_id: str, response) -> None:
     """Simulate a webhook event."""
     request = MockRequest(
         method="POST",

@@ -25,8 +25,8 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, Unauthorized
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
 from universalassistant.setup import async_setup_component
 from universalassistant.util import color as color_util
 
@@ -35,7 +35,7 @@ from .common import MockLight
 orig_Profiles = light.Profiles
 
 
-async def test_methods(hass: UniversalAssistant) -> None:
+async def test_methods(hass: __HAC_KEEP__) -> None:
     """Test if methods call the services as expected."""
     # Test is_on
     hass.states.async_set("light.test", STATE_ON)
@@ -116,7 +116,7 @@ async def test_methods(hass: UniversalAssistant) -> None:
 
 
 async def test_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_light_profiles,
     mock_light_entities: list[MockLight],
 ) -> None:
@@ -512,7 +512,7 @@ async def test_services(
     ],
 )
 async def test_light_profiles(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_light_profiles,
     profile_name,
     expected_data,
@@ -564,7 +564,7 @@ async def test_light_profiles(
 
 
 async def test_default_profiles_group(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_light_profiles,
     mock_light_entities: list[MockLight],
 ) -> None:
@@ -764,7 +764,7 @@ async def test_default_profiles_group(
     ],
 )
 async def test_default_profiles_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_light_profiles,
     extra_call_params,
     expected_params_state_was_off,
@@ -836,7 +836,7 @@ async def test_default_profiles_light(
 
 
 async def test_light_context(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     mock_light_entities: list[MockLight],
 ) -> None:
@@ -864,7 +864,7 @@ async def test_light_context(
 
 
 async def test_light_turn_on_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_read_only_user: MockUser,
     mock_light_entities: list[MockLight],
 ) -> None:
@@ -889,7 +889,7 @@ async def test_light_turn_on_auth(
         )
 
 
-async def test_light_brightness_step(hass: UniversalAssistant) -> None:
+async def test_light_brightness_step(hass: __HAC_KEEP__) -> None:
     """Test that light context works."""
     entities = [
         MockLight("Test_0", STATE_ON),
@@ -941,7 +941,7 @@ async def test_light_brightness_step(hass: UniversalAssistant) -> None:
     assert entity0.state == "off"  # 40 - 126; brightness is 0, light should turn off
 
 
-async def test_light_brightness_step_pct(hass: UniversalAssistant) -> None:
+async def test_light_brightness_step_pct(hass: __HAC_KEEP__) -> None:
     """Test that percentage based brightness steps work as expected."""
     entity = MockLight("Test_0", STATE_ON)
 
@@ -983,7 +983,7 @@ async def test_light_brightness_step_pct(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("enable_custom_integrations")
 async def test_light_brightness_pct_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_light_entities: list[MockLight],
 ) -> None:
     """Test that light brightness percent conversion."""
@@ -1051,7 +1051,7 @@ async def test_light_brightness_pct_conversion(
     assert data["brightness"] == 255
 
 
-async def test_profiles(hass: UniversalAssistant) -> None:
+async def test_profiles(hass: __HAC_KEEP__) -> None:
     """Test profiles loading."""
     profiles = orig_Profiles(hass)
     await profiles.async_initialize()
@@ -1068,7 +1068,7 @@ async def test_profiles(hass: UniversalAssistant) -> None:
 
 
 @patch("os.path.isfile", MagicMock(side_effect=(True, False)))
-async def test_profile_load_optional_hs_color(hass: UniversalAssistant) -> None:
+async def test_profile_load_optional_hs_color(hass: __HAC_KEEP__) -> None:
     """Test profile loading with profiles containing no xy color."""
 
     csv_file = """the first line is skipped
@@ -1140,7 +1140,7 @@ invalid_no_brightness_no_color_no_transition,,,
         assert invalid_profile_name not in profiles.data
 
 
-async def test_light_service_call_rgbw(hass: UniversalAssistant) -> None:
+async def test_light_service_call_rgbw(hass: __HAC_KEEP__) -> None:
     """Test rgbw functionality in service calls."""
     entity0 = MockLight("Test_rgbw", STATE_ON)
     entity0.supported_color_modes = {light.ColorMode.RGBW}
@@ -1169,7 +1169,7 @@ async def test_light_service_call_rgbw(hass: UniversalAssistant) -> None:
     assert data == {"brightness": 255, "rgbw_color": (10, 20, 30, 40)}
 
 
-async def test_light_state_off(hass: UniversalAssistant) -> None:
+async def test_light_state_off(hass: __HAC_KEEP__) -> None:
     """Test rgbw color conversion in state updates."""
     entities = [
         MockLight("Test_onoff", STATE_OFF),
@@ -1237,7 +1237,7 @@ async def test_light_state_off(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_light_state_rgbw(hass: UniversalAssistant) -> None:
+async def test_light_state_rgbw(hass: __HAC_KEEP__) -> None:
     """Test rgbw color conversion in state updates."""
     entity0 = MockLight("Test_rgbw", STATE_ON)
     setup_test_component_platform(hass, light.DOMAIN, [entity0])
@@ -1268,7 +1268,7 @@ async def test_light_state_rgbw(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_light_state_rgbww(hass: UniversalAssistant) -> None:
+async def test_light_state_rgbww(hass: __HAC_KEEP__) -> None:
     """Test rgbww color conversion in state updates."""
     entity0 = MockLight("Test_rgbww", STATE_ON)
     setup_test_component_platform(hass, light.DOMAIN, [entity0])
@@ -1299,7 +1299,7 @@ async def test_light_state_rgbww(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_light_service_call_color_conversion(hass: UniversalAssistant) -> None:
+async def test_light_service_call_color_conversion(hass: __HAC_KEEP__) -> None:
     """Test color conversion in service calls."""
     entities = [
         MockLight("Test_hs", STATE_ON),
@@ -1723,7 +1723,7 @@ async def test_light_service_call_color_conversion(hass: UniversalAssistant) -> 
     ],
 )
 async def test_light_turn_on_rgb_color_is_plain_tuple(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     color_input: dict[str, Any],
 ) -> None:
     """Test that rgb_color passed to entity turn_on is always a plain tuple.
@@ -1782,7 +1782,7 @@ async def test_light_turn_on_rgb_color_is_plain_tuple(
     assert data == {"brightness": 64, "rgbww_color": (128, 0, 0, 0, 0)}
 
 
-async def test_light_service_call_color_temp_emulation(hass: UniversalAssistant) -> None:
+async def test_light_service_call_color_temp_emulation(hass: __HAC_KEEP__) -> None:
     """Test color conversion in service calls."""
     entities = [
         MockLight("Test_hs_ct", STATE_ON),
@@ -1843,7 +1843,7 @@ async def test_light_service_call_color_temp_emulation(hass: UniversalAssistant)
     assert data == {"brightness": 255, "hs_color": (27.001, 19.243)}
 
 
-async def test_light_service_call_color_temp_conversion(hass: UniversalAssistant) -> None:
+async def test_light_service_call_color_temp_conversion(hass: __HAC_KEEP__) -> None:
     """Test color temp conversion in service calls."""
     entities = [
         MockLight("Test_rgbww_ct", STATE_ON),
@@ -1894,7 +1894,7 @@ async def test_light_service_call_color_temp_conversion(hass: UniversalAssistant
     _, data = entity0.last_call("turn_on")
     assert data == {"brightness": 255, "color_temp_kelvin": 6535}
     _, data = entity1.last_call("turn_on")
-    # Universal Universal Home Assistant uses RGBCW so a mireds of 153 should be
+    # __HA_KEEP__ uses RGBCW so a mireds of 153 should be
     # maximum cold at 100% brightness so 255
     assert data == {"brightness": 255, "rgbww_color": (0, 0, 0, 255, 0)}
 
@@ -1914,7 +1914,7 @@ async def test_light_service_call_color_temp_conversion(hass: UniversalAssistant
     _, data = entity0.last_call("turn_on")
     assert data == {"brightness": 128, "color_temp_kelvin": 2000}
     _, data = entity1.last_call("turn_on")
-    # Universal Universal Home Assistant uses RGBCW so a mireds of 500 should be
+    # __HA_KEEP__ uses RGBCW so a mireds of 500 should be
     # maximum warm at 50% brightness so 128
     assert data == {"brightness": 128, "rgbww_color": (0, 0, 0, 0, 128)}
 
@@ -1934,7 +1934,7 @@ async def test_light_service_call_color_temp_conversion(hass: UniversalAssistant
     _, data = entity0.last_call("turn_on")
     assert data == {"brightness": 255, "color_temp_kelvin": 3058}
     _, data = entity1.last_call("turn_on")
-    # Universal Universal Home Assistant uses RGBCW so a mireds of 328 should be the
+    # __HA_KEEP__ uses RGBCW so a mireds of 328 should be the
     # midway point at 100% brightness so 127 (rounding), 128
     assert data == {"brightness": 255, "rgbww_color": (0, 0, 0, 127, 128)}
 
@@ -1996,7 +1996,7 @@ async def test_light_service_call_color_temp_conversion(hass: UniversalAssistant
     ],
 )
 async def test_light_service_call_color_temp_conversion_rgbww_only(
-    hass: UniversalAssistant, service_data: dict[str, Any], expected: dict[str, Any]
+    hass: __HAC_KEEP__, service_data: dict[str, Any], expected: dict[str, Any]
 ) -> None:
     """Test color temp conversion for a light which only supports rgbww."""
     entity = MockLight("Test_rgbww", STATE_ON)
@@ -2049,7 +2049,7 @@ async def test_light_service_call_color_temp_conversion_rgbww_only(
     ],
 )
 async def test_light_service_call_color_temp_conversion_out_of_range(
-    hass: UniversalAssistant, service_data: dict[str, Any], expected: dict[str, Any]
+    hass: __HAC_KEEP__, service_data: dict[str, Any], expected: dict[str, Any]
 ) -> None:
     """Test colors far from white are converted to the light's color temp range."""
     entity = MockLight("Test_temperature", STATE_ON)
@@ -2070,7 +2070,7 @@ async def test_light_service_call_color_temp_conversion_out_of_range(
     assert data == expected
 
 
-async def test_light_service_call_white_mode(hass: UniversalAssistant) -> None:
+async def test_light_service_call_white_mode(hass: __HAC_KEEP__) -> None:
     """Test color_mode white in service calls."""
     entity0 = MockLight("Test_white", STATE_ON)
     entity0.supported_color_modes = {light.ColorMode.HS, light.ColorMode.WHITE}
@@ -2170,7 +2170,7 @@ async def test_light_service_call_white_mode(hass: UniversalAssistant) -> None:
     assert data == {"white": 128}
 
 
-async def test_light_state_color_conversion(hass: UniversalAssistant) -> None:
+async def test_light_state_color_conversion(hass: __HAC_KEEP__) -> None:
     """Test color conversion in state updates."""
     entities = [
         MockLight("Test_hs", STATE_ON),
@@ -2223,7 +2223,7 @@ async def test_light_state_color_conversion(hass: UniversalAssistant) -> None:
 
 
 async def test_services_filter_parameters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_light_profiles,
     mock_light_entities: list[MockLight],
 ) -> None:
@@ -2421,16 +2421,16 @@ def test_filter_supported_color_modes() -> None:
 
     # Supported color modes must not be empty
     supported = set()
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         light.filter_supported_color_modes(supported)
 
     # ColorMode.WHITE must be combined with a color mode supporting color
     supported = {light.ColorMode.WHITE}
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         light.filter_supported_color_modes(supported)
 
     supported = {light.ColorMode.WHITE, light.ColorMode.COLOR_TEMP}
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         light.filter_supported_color_modes(supported)
 
     supported = {light.ColorMode.WHITE, light.ColorMode.HS}
@@ -2463,7 +2463,7 @@ def test_filter_supported_color_modes() -> None:
     ],
 )
 async def test_report_no_color_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     color_mode: str,
     supported_color_modes: set[str],
@@ -2483,7 +2483,7 @@ async def test_report_no_color_mode(
     raised_error = ""
     try:
         entity._async_calculate_state()
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         raised_error = str(err)
     expected_error = "does not report a color mode"
     assert (expected_error in raised_error) is error_expected
@@ -2497,7 +2497,7 @@ async def test_report_no_color_mode(
     ],
 )
 async def test_report_no_color_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     color_mode: str,
     supported_color_modes: set[str],
@@ -2517,7 +2517,7 @@ async def test_report_no_color_modes(
     raised_error = ""
     try:
         entity._async_calculate_state()
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         raised_error = str(err)
     expected_error = "does not set supported color modes"
     assert (expected_error in raised_error) is error_expected
@@ -2549,7 +2549,7 @@ async def test_report_no_color_modes(
     ],
 )
 async def test_report_invalid_color_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     color_mode: str,
     supported_color_modes: set[str],
@@ -2571,7 +2571,7 @@ async def test_report_invalid_color_mode(
     raised_error = ""
     try:
         entity._async_calculate_state()
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         raised_error = str(err)
     expected_error = f"set to unsupported color mode {color_mode}"
     assert (expected_error in raised_error) is error_expected
@@ -2607,7 +2607,7 @@ async def test_report_invalid_color_mode(
     ],
 )
 def test_report_invalid_color_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     color_mode: str,
     supported_color_modes: set[str],
@@ -2627,7 +2627,7 @@ def test_report_invalid_color_modes(
     raised_error = ""
     try:
         entity._async_calculate_state()
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         raised_error = str(err)
     expected_error = "sets invalid supported color modes"
     assert (expected_error in raised_error) is error_expected

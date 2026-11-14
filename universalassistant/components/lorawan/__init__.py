@@ -1,7 +1,7 @@
 """The LoRaWAN integration."""
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service_info.lorawan import LoRaWANDiscoveryInfo
 from universalassistant.helpers.typing import ConfigType
@@ -32,7 +32,7 @@ __all__ = [
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the LoRaWAN integration."""
     registry = hass.data[DATA_REGISTRY] = ConnectionRegistry(
         await async_get_lorawan(hass)

@@ -13,7 +13,7 @@ from universalassistant.const import (
     CONF_VARIABLES,
     EVENT_HOMEASSISTANT_START,
 )
-from universalassistant.core import Context, CoreState, Event, UniversalAssistant, callback
+from universalassistant.core import Context, CoreState, Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers import condition, discovery, trigger as trigger_helper
 from universalassistant.helpers.entity import Entity
@@ -40,7 +40,7 @@ class TriggerUpdateCoordinator(DataUpdateCoordinator[TriggerData]):
 
     REMOVE_TRIGGER = object()
 
-    def __init__(self, hass: UniversalAssistant, config: ConfigType) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConfigType) -> None:
         """Instantiate trigger data."""
         super().__init__(
             hass, _LOGGER, config_entry=None, name="Trigger Update Coordinator"

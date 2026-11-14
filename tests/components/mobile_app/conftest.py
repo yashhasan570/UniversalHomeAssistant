@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.mobile_app.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .const import REGISTER, REGISTER_CLEARTEXT
@@ -16,7 +16,7 @@ from .const import REGISTER, REGISTER_CLEARTEXT
 
 @pytest.fixture
 async def create_registrations(
-    hass: UniversalAssistant, webhook_client: TestClient
+    hass: __HAC_KEEP__, webhook_client: TestClient
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Return two new registrations."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -39,7 +39,7 @@ async def create_registrations(
 
 
 @pytest.fixture
-async def push_registration(hass: UniversalAssistant, webhook_client: TestClient):
+async def push_registration(hass: __HAC_KEEP__, webhook_client: TestClient):
     """Return registration with push notifications enabled."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
 
@@ -60,7 +60,7 @@ async def push_registration(hass: UniversalAssistant, webhook_client: TestClient
 
 @pytest.fixture
 async def webhook_client(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> TestClient:
     """Provide an authenticated client for mobile_app to use."""
     await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -69,7 +69,7 @@ async def webhook_client(
 
 
 @pytest.fixture(autouse=True)
-async def setup_ws(hass: UniversalAssistant) -> None:
+async def setup_ws(hass: __HAC_KEEP__) -> None:
     """Configure the websocket_api component."""
     assert await async_setup_component(hass, "repairs", {})
     assert await async_setup_component(hass, "websocket_api", {})

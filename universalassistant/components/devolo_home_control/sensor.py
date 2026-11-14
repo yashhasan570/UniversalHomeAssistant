@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DevoloHomeControlConfigEntry
@@ -38,7 +38,7 @@ STATE_CLASS_MAPPING = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DevoloHomeControlConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

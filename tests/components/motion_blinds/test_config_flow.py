@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.motion_blinds import const
 from universalassistant.components.motion_blinds.config_flow import DEFAULT_GATEWAY_NAME
 from universalassistant.const import CONF_API_KEY, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -126,7 +126,7 @@ def motion_blinds_connect_fixture():
         yield
 
 
-async def test_config_flow_manual_host_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_manual_host_success(hass: __HAC_KEEP__) -> None:
     """Successful flow manually initialized by the user."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -160,7 +160,7 @@ async def test_config_flow_manual_host_success(hass: UniversalAssistant) -> None
     assert result["result"].unique_id == TEST_MAC
 
 
-async def test_config_flow_discovery_1_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_discovery_1_success(hass: __HAC_KEEP__) -> None:
     """Successful flow with 1 gateway discovered."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -197,7 +197,7 @@ async def test_config_flow_discovery_1_success(hass: UniversalAssistant) -> None
     }
 
 
-async def test_config_flow_discovery_2_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_discovery_2_success(hass: __HAC_KEEP__) -> None:
     """Successful flow with 2 gateway discovered."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -251,7 +251,7 @@ async def test_config_flow_discovery_2_success(hass: UniversalAssistant) -> None
     }
 
 
-async def test_config_flow_connection_error(hass: UniversalAssistant) -> None:
+async def test_config_flow_connection_error(hass: __HAC_KEEP__) -> None:
     """Failed flow manually initialized by the user with connection timeout."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -283,7 +283,7 @@ async def test_config_flow_connection_error(hass: UniversalAssistant) -> None:
     assert result["reason"] == "connection_error"
 
 
-async def test_config_flow_discovery_fail(hass: UniversalAssistant) -> None:
+async def test_config_flow_discovery_fail(hass: __HAC_KEEP__) -> None:
     """Failed flow with no gateways discovered."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -322,7 +322,7 @@ async def test_config_flow_discovery_fail(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_invalid_interface(hass: UniversalAssistant) -> None:
+async def test_config_flow_invalid_interface(hass: __HAC_KEEP__) -> None:
     """Failed flow manually initialized by the user with invalid interface."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -359,7 +359,7 @@ async def test_config_flow_invalid_interface(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_dhcp_flow(hass: UniversalAssistant) -> None:
+async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
     """Successful flow from DHCP discovery."""
     dhcp_data = DhcpServiceInfo(
         ip=TEST_HOST,
@@ -393,7 +393,7 @@ async def test_dhcp_flow(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_dhcp_flow_abort(hass: UniversalAssistant) -> None:
+async def test_dhcp_flow_abort(hass: __HAC_KEEP__) -> None:
     """Test that DHCP discovery aborts if not Motionblinds."""
     dhcp_data = DhcpServiceInfo(
         ip=TEST_HOST,
@@ -413,7 +413,7 @@ async def test_dhcp_flow_abort(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_motionblinds"
 
 
-async def test_dhcp_flow_abort_invalid_response(hass: UniversalAssistant) -> None:
+async def test_dhcp_flow_abort_invalid_response(hass: __HAC_KEEP__) -> None:
     """Test that DHCP discovery aborts if device responded with invalid data."""
     dhcp_data = DhcpServiceInfo(
         ip=TEST_HOST,
@@ -433,7 +433,7 @@ async def test_dhcp_flow_abort_invalid_response(hass: UniversalAssistant) -> Non
     assert result["reason"] == "not_motionblinds"
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test specifying non default settings using options flow."""
     config_entry = MockConfigEntry(
         domain=const.DOMAIN,
@@ -465,7 +465,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_change_connection_settings(hass: UniversalAssistant) -> None:
+async def test_change_connection_settings(hass: __HAC_KEEP__) -> None:
     """Test changing connection settings by issuing a second user config flow."""
     config_entry = MockConfigEntry(
         domain=const.DOMAIN,

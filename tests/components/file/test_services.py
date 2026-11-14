@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.file import DOMAIN
 from universalassistant.components.file.services import FileService, FileServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 
 @pytest.mark.parametrize(
@@ -22,7 +22,7 @@ from universalassistant.exceptions import UniversalAssistantError, ServiceValida
     ],
 )
 async def test_read_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_is_allowed_path: MagicMock,
     setup_ha_file_integration,
     file_name: str,
@@ -44,7 +44,7 @@ async def test_read_file(
 
 
 async def test_read_file_disallowed_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_ha_file_integration,
 ) -> None:
     """Test reading in a disallowed path generates error."""
@@ -67,7 +67,7 @@ async def test_read_file_disallowed_path(
 
 
 async def test_read_file_bad_encoding_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_is_allowed_path: MagicMock,
     setup_ha_file_integration,
 ) -> None:
@@ -99,14 +99,14 @@ async def test_read_file_bad_encoding_option(
     ],
 )
 async def test_read_file_decoding_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_is_allowed_path: MagicMock,
     setup_ha_file_integration,
     file_name: str,
     file_encoding: str,
 ) -> None:
     """Test decoding errors are handled correctly."""
-    with pytest.raises(UniversalAssistantError) as hae:
+    with pytest.raises(__HAC_KEEP__Error) as hae:
         await hass.services.async_call(
             DOMAIN,
             FileService.READ_FILE,
@@ -133,7 +133,7 @@ async def test_read_file_decoding_error(
     ],
 )
 async def test_read_file_os_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_is_allowed_path: MagicMock,
     setup_ha_file_integration,
     error_no: int,
@@ -147,7 +147,7 @@ async def test_read_file_os_errors(
             "universalassistant.components.file.services.open",
             side_effect=OSError(error_no, os.strerror(error_no)),
         ),
-        pytest.raises(UniversalAssistantError) as hae,
+        pytest.raises(__HAC_KEEP__Error) as hae,
     ):
         await hass.services.async_call(
             DOMAIN,

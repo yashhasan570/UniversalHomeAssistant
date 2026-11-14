@@ -25,8 +25,8 @@ from universalassistant.components.ring.camera import FORCE_REFRESH_INTERVAL
 from universalassistant.components.ring.const import SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.aiohttp import MockStreamReader
@@ -44,7 +44,7 @@ SMALLEST_VALID_JPEG_BYTES = bytes.fromhex(SMALLEST_VALID_JPEG)
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client: Mock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -68,7 +68,7 @@ async def test_states(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_camera_motion_detection_state_reports_correctly(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     entity_name,
     expected_state,
@@ -84,7 +84,7 @@ async def test_camera_motion_detection_state_reports_correctly(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_camera_motion_detection_can_be_turned_on_and_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
 ) -> None:
     """Tests the siren turns on correctly."""
@@ -120,7 +120,7 @@ async def test_camera_motion_detection_can_be_turned_on_and_off(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_camera_motion_detection_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_ring_devices,
     caplog: pytest.LogCaptureFixture,
@@ -168,7 +168,7 @@ async def test_camera_motion_detection_not_supported(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_motion_detection_errors_when_turned_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_ring_devices,
     exception_type,
@@ -183,7 +183,7 @@ async def test_motion_detection_errors_when_turned_on(
     front_camera_mock = mock_ring_devices.get_device(765432)
     front_camera_mock.async_set_motion_detection.side_effect = exception_type
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "camera",
             "enable_motion_detection",
@@ -204,7 +204,7 @@ async def test_motion_detection_errors_when_turned_on(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_camera_handle_mjpeg_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_ring_devices,
     freezer: FrozenDateTimeFactory,
@@ -287,7 +287,7 @@ async def test_camera_handle_mjpeg_stream(
 
 
 async def test_camera_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_ring_devices,
     freezer: FrozenDateTimeFactory,
@@ -308,7 +308,7 @@ async def test_camera_image(
             "universalassistant.components.ring.camera.ffmpeg.async_get_image",
             return_value=SMALLEST_VALID_JPEG_BYTES,
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         image = await async_get_image(hass, "camera.front_live_view")
 
@@ -328,7 +328,7 @@ async def test_camera_image(
 
 
 async def test_camera_live_view_no_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_ring_devices,
     freezer: FrozenDateTimeFactory,
@@ -355,13 +355,13 @@ async def test_camera_live_view_no_subscription(
     front_camera_mock.async_recording_url.assert_not_called()
 
     # Requesting an image without subscription should raise an error
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await async_get_image(hass, "camera.front_live_view")
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_camera_stream_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client: Mock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -395,7 +395,7 @@ async def test_camera_stream_attributes(
     ],
 )
 async def test_camera_two_way_audio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client: Mock,
     hass_ws_client: WebSocketGenerator,
     entity_id: str,
@@ -420,7 +420,7 @@ async def test_camera_two_way_audio(
 
 
 async def test_camera_webrtc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client: Mock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

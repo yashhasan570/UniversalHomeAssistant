@@ -21,8 +21,8 @@ from universalassistant.components.zwave_js.helpers import (
     get_device_id,
     get_endpoint_device_id,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -32,7 +32,7 @@ from universalassistant.setup import async_setup_component
 
 
 async def test_no_controller_triggers(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, client, integration
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, client, integration
 ) -> None:
     """Test that we do not get triggers for the controller."""
     device = device_registry.async_get_device_by_identifier(
@@ -49,7 +49,7 @@ async def test_no_controller_triggers(
 
 
 async def test_get_notification_notification_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -75,7 +75,7 @@ async def test_get_notification_notification_triggers(
 
 
 async def test_if_notification_notification_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -175,7 +175,7 @@ async def test_if_notification_notification_fires(
 
 
 async def test_get_trigger_capabilities_notification_notification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -216,7 +216,7 @@ async def test_get_trigger_capabilities_notification_notification(
 
 
 async def test_if_entry_control_notification_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -315,7 +315,7 @@ async def test_if_entry_control_notification_fires(
 
 
 async def test_get_trigger_capabilities_entry_control_notification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -359,7 +359,7 @@ async def test_get_trigger_capabilities_entry_control_notification(
 
 
 async def test_get_node_status_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client,
@@ -393,7 +393,7 @@ async def test_get_node_status_triggers(
 
 
 async def test_if_node_status_change_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client,
@@ -476,7 +476,7 @@ async def test_if_node_status_change_fires(
 
 
 async def test_if_node_status_change_fires_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client,
@@ -559,7 +559,7 @@ async def test_if_node_status_change_fires_legacy(
 
 
 async def test_get_trigger_capabilities_node_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client,
@@ -627,7 +627,7 @@ async def test_get_trigger_capabilities_node_status(
 
 
 async def test_get_basic_value_notification_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     ge_in_wall_dimmer_switch,
@@ -657,7 +657,7 @@ async def test_get_basic_value_notification_triggers(
 
 
 async def test_if_basic_value_notification_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     ge_in_wall_dimmer_switch,
@@ -771,7 +771,7 @@ async def test_if_basic_value_notification_fires(
 
 
 async def test_get_trigger_capabilities_basic_value_notification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     ge_in_wall_dimmer_switch,
@@ -813,7 +813,7 @@ async def test_get_trigger_capabilities_basic_value_notification(
 
 
 async def test_get_central_scene_value_notification_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     wallmote_central_scene,
@@ -843,7 +843,7 @@ async def test_get_central_scene_value_notification_triggers(
 
 
 async def test_if_central_scene_value_notification_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     wallmote_central_scene,
@@ -967,7 +967,7 @@ async def test_if_central_scene_value_notification_fires(
 
 
 async def test_get_trigger_capabilities_central_scene_value_notification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     wallmote_central_scene,
@@ -1012,7 +1012,7 @@ async def test_get_trigger_capabilities_central_scene_value_notification(
 
 
 async def test_get_scene_activation_value_notification_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     hank_binary_switch,
@@ -1042,7 +1042,7 @@ async def test_get_scene_activation_value_notification_triggers(
 
 
 async def test_if_scene_activation_value_notification_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     hank_binary_switch,
@@ -1160,7 +1160,7 @@ async def test_if_scene_activation_value_notification_fires(
 
 
 async def test_get_trigger_capabilities_scene_activation_value_notification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     hank_binary_switch,
@@ -1202,7 +1202,7 @@ async def test_get_trigger_capabilities_scene_activation_value_notification(
 
 
 async def test_get_value_updated_value_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -1227,7 +1227,7 @@ async def test_get_value_updated_value_triggers(
 
 
 async def test_get_triggers_endpoint_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -1281,7 +1281,7 @@ async def test_get_triggers_endpoint_child_device(
     ],
 )
 async def test_if_value_updated_value_fires_endpoint_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -1386,7 +1386,7 @@ async def test_if_value_updated_value_fires_endpoint_child_device(
 
 
 async def test_validate_value_updated_endpoint_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -1431,7 +1431,7 @@ async def test_validate_value_updated_endpoint_child_device(
 
 
 async def test_if_notification_notification_fires_endpoint_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     shelly_qnsh_001P10_shutter: Node,
@@ -1634,7 +1634,7 @@ async def test_if_notification_notification_fires_endpoint_child_device(
     ],
 )
 async def test_if_event_device_trigger_fires_endpoint_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     shelly_qnsh_001P10_shutter: Node,
@@ -1697,7 +1697,7 @@ async def test_if_event_device_trigger_fires_endpoint_child_device(
 
 
 async def test_if_value_updated_value_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -1793,7 +1793,7 @@ async def test_if_value_updated_value_fires(
 
 
 async def test_value_updated_value_no_driver(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -1868,7 +1868,7 @@ async def test_value_updated_value_no_driver(
 
 
 async def test_get_trigger_capabilities_value_updated_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -1922,7 +1922,7 @@ async def test_get_trigger_capabilities_value_updated_value(
 
 
 async def test_get_trigger_capabilities_value_updated_value_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     climate_heatit_z_trm3,
@@ -1968,7 +1968,7 @@ async def test_get_trigger_capabilities_value_updated_value_child_device(
 
 
 async def test_get_trigger_capabilities_value_updated_value_group_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     aeotec_zwa046,
@@ -2005,7 +2005,7 @@ async def test_get_trigger_capabilities_value_updated_value_group_child_device(
 
 
 async def test_get_trigger_capabilities_value_updated_value_stale_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
@@ -2039,7 +2039,7 @@ async def test_get_trigger_capabilities_value_updated_value_stale_child_device(
 
 
 async def test_get_value_updated_config_parameter_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -2069,7 +2069,7 @@ async def test_get_value_updated_config_parameter_triggers(
 
 
 async def test_if_value_updated_config_parameter_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -2144,7 +2144,7 @@ async def test_if_value_updated_config_parameter_fires(
 
 
 async def test_get_trigger_capabilities_value_updated_config_parameter_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -2194,7 +2194,7 @@ async def test_get_trigger_capabilities_value_updated_config_parameter_range(
 
 
 async def test_get_trigger_capabilities_value_updated_config_parameter_enumerated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -2242,19 +2242,19 @@ async def test_get_trigger_capabilities_value_updated_config_parameter_enumerate
 
 
 async def test_failure_scenarios(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     hank_binary_switch,
     integration,
 ) -> None:
     """Test failure scenarios."""
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await device_trigger.async_attach_trigger(
             hass, {"type": "failed.test", "device_id": "invalid_device_id"}, None, {}
         )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await device_trigger.async_attach_trigger(
             hass,
             {"type": "event.failed_type", "device_id": "invalid_device_id"},
@@ -2267,12 +2267,12 @@ async def test_failure_scenarios(
     )
     assert device
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await device_trigger.async_attach_trigger(
             hass, {"type": "failed.test", "device_id": device.id}, None, {}
         )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await device_trigger.async_attach_trigger(
             hass,
             {"type": "event.failed_type", "device_id": device.id},
@@ -2280,7 +2280,7 @@ async def test_failure_scenarios(
             {},
         )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await device_trigger.async_attach_trigger(
             hass,
             {"type": "state.failed_type", "device_id": device.id},
@@ -2305,7 +2305,7 @@ async def test_failure_scenarios(
             == {}
         )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_get_node_status_sensor_entity_id(hass, "invalid_device_id")
 
     INVALID_CONFIG = {

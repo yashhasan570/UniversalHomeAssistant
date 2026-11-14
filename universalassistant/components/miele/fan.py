@@ -12,8 +12,8 @@ from universalassistant.components.fan import (
     FanEntityDescription,
     FanEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -59,7 +59,7 @@ FAN_TYPES: Final[tuple[MieleFanDefinition, ...]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MieleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -148,7 +148,7 @@ class MieleFan(MieleEntity, FanEntity):
                 )
             except ClientResponseError as err:
                 _LOGGER.debug("Error setting fan state for %s: %s", self.entity_id, err)
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="set_state_error",
                     translation_placeholders={
@@ -172,7 +172,7 @@ class MieleFan(MieleEntity, FanEntity):
         try:
             await self.api.send_action(self._device_id, {POWER_ON: True})
         except ClientResponseError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_state_error",
                 translation_placeholders={
@@ -190,7 +190,7 @@ class MieleFan(MieleEntity, FanEntity):
         try:
             await self.api.send_action(self._device_id, {POWER_OFF: True})
         except ClientResponseError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_state_error",
                 translation_placeholders={

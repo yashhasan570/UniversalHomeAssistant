@@ -13,14 +13,14 @@ from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant.components import mqtt_eventstream as eventstream
 from universalassistant.const import EVENT_STATE_CHANGED, MATCH_ALL
-from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.core import __HAC_KEEP__, State, callback
 from universalassistant.helpers.json import JSONEncoder
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 async def add_eventstream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sub_topic: str | None = None,
     pub_topic: str | None = None,
     ignore_event: list[str] | None = None,
@@ -38,20 +38,20 @@ async def add_eventstream(
     )
 
 
-async def test_setup_succeeds(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_setup_succeeds(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test the success of the setup."""
     assert await add_eventstream(hass)
 
 
 async def test_setup_no_mqtt(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the failure of the setup if mqtt is not set up."""
     assert not await add_eventstream(hass)
     assert "MQTT integration is not available" in caplog.text
 
 
-async def test_setup_with_pub(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_setup_with_pub(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test the setup with subscription."""
     # Should start off with no listeners for all events
     assert not hass.bus.async_listeners().get("*")
@@ -63,7 +63,7 @@ async def test_setup_with_pub(hass: UniversalAssistant, mqtt_mock: MqttMockHACli
     assert hass.bus.async_listeners().get("*") == 1
 
 
-async def test_subscribe(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_subscribe(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test the subscription."""
     sub_topic = "foo"
     assert await add_eventstream(hass, sub_topic=sub_topic)
@@ -74,7 +74,7 @@ async def test_subscribe(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) 
 
 
 async def test_state_changed_event_sends_message(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the sending of a new message if event changed."""
     now = dt_util.as_utc(dt_util.now())
@@ -126,7 +126,7 @@ async def test_state_changed_event_sends_message(
 
 
 async def test_time_event_does_not_send_message(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the sending of a new message if time event."""
     assert await add_eventstream(hass, pub_topic="bar")
@@ -142,7 +142,7 @@ async def test_time_event_does_not_send_message(
 
 
 async def test_receiving_remote_event_fires_hass_event(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the receiving of the remotely fired event."""
     sub_topic = "foo"
@@ -170,7 +170,7 @@ async def test_receiving_remote_event_fires_hass_event(
 
 
 async def test_receiving_blocked_event_fires_hass_event(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the receiving of blocked event does not fire."""
     sub_topic = "foo"
@@ -197,7 +197,7 @@ async def test_receiving_blocked_event_fires_hass_event(
 
 
 async def test_ignored_event_doesnt_send_over_stream(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the ignoring of sending events if defined."""
     assert await add_eventstream(hass, pub_topic="bar", ignore_event=["state_changed"])
@@ -222,7 +222,7 @@ async def test_ignored_event_doesnt_send_over_stream(
 
 
 async def test_wrong_ignored_event_sends_over_stream(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the ignoring of sending events if defined."""
     assert await add_eventstream(hass, pub_topic="bar", ignore_event=["statee_changed"])

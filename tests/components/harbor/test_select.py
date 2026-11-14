@@ -15,8 +15,8 @@ from universalassistant.components.select import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -31,7 +31,7 @@ SELECT_SETTINGS_PAYLOAD: dict[str, Any] = {
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_selects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
@@ -57,7 +57,7 @@ async def test_selects(
     ],
 )
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
     option: str,
@@ -89,17 +89,17 @@ async def test_select_option(
     ],
 )
 async def test_select_option_failure_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
     error: Exception | type[Exception],
 ) -> None:
-    """Test a failed camera command surfaces as a UniversalAssistantError."""
+    """Test a failed camera command surfaces as a __HAC_KEEP__Error."""
     await setup_integration(hass, mock_config_entry)
 
     mock_mqtt_client.return_value.set_night_mode.side_effect = error
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -112,7 +112,7 @@ async def test_select_option_failure_raises(
 
 
 async def test_unexpected_option_stays_valid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_mqtt_client: AsyncMock,
 ) -> None:

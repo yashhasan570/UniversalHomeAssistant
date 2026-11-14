@@ -11,7 +11,7 @@ from reolink_aio.enums import ChimeToneEnum
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN
 from universalassistant.components.camera import DOMAIN as CAMERA_DOMAIN
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.os_error import os_write_error
@@ -102,7 +102,7 @@ async def _async_play_chime(service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up Reolink services."""
 
     hass.services.async_register(

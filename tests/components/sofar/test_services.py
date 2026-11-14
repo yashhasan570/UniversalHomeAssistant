@@ -13,8 +13,8 @@ from sofar_modbus import BatteryConfigCellType, BatteryConfigWriteStatus
 from universalassistant.components.sofar.const import DOMAIN
 from universalassistant.components.sofar.services import SofarService, SofarServiceArgument
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from . import (
     MOCK_ENTRY_DATA,
@@ -48,7 +48,7 @@ DISCHARGE_CUTOFFS = {
 
 
 async def _setup_hybrid(
-    hass: UniversalAssistant, *seeds: Callable[[MockModbusUnit], None]
+    hass: __HAC_KEEP__, *seeds: Callable[[MockModbusUnit], None]
 ) -> tuple[MockConfigEntry, MockModbusConnection]:
     """Set up a hybrid inverter, which serves the passive-mode registers."""
     connection = MockModbusConnection()
@@ -71,7 +71,7 @@ async def _setup_hybrid(
 
 
 async def test_set_feed_in_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockModbusConnection,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_set_feed_in_limit(
 
 
 async def test_set_active_power_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockModbusConnection,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_set_active_power_limit(
     assert holding[ACTIVE_POWER_LIMIT_REGISTER] == 425
 
 
-async def test_set_passive_mode_timeout(hass: UniversalAssistant) -> None:
+async def test_set_passive_mode_timeout(hass: __HAC_KEEP__) -> None:
     """Test the passive-mode timeout and its action go out together."""
     entry, connection = await _setup_hybrid(hass)
 
@@ -136,7 +136,7 @@ async def test_set_passive_mode_timeout(hass: UniversalAssistant) -> None:
     assert holding[PASSIVE_TIMEOUT_ACTION_REGISTER] == 1
 
 
-async def test_set_passive_mode_power(hass: UniversalAssistant) -> None:
+async def test_set_passive_mode_power(hass: __HAC_KEEP__) -> None:
     """Test the three passive-mode setpoints go out as one block."""
     entry, connection = await _setup_hybrid(hass)
 
@@ -182,7 +182,7 @@ def _commit_battery_config(unit: MockModbusUnit) -> None:
     ],
 )
 async def test_set_battery_cutoffs(
-    hass: UniversalAssistant, data: dict[str, int], charge_cutoff: int
+    hass: __HAC_KEEP__, data: dict[str, int], charge_cutoff: int
 ) -> None:
     """Test the app's cut-offs reach the battery config registers."""
     entry, connection = await _setup_hybrid(hass, _commit_battery_config)
@@ -210,7 +210,7 @@ async def test_set_battery_cutoffs(
     ] == [70, 90, 5, charge_cutoff]
 
 
-async def test_charge_cutoff_rejected_when_not_served(hass: UniversalAssistant) -> None:
+async def test_charge_cutoff_rejected_when_not_served(hass: __HAC_KEEP__) -> None:
     """Test a charge cut-off is refused when the mask leaves out 0x105B."""
     entry, connection = await _setup_hybrid(
         hass, deny_charge_cutoff, _commit_battery_config
@@ -256,7 +256,7 @@ async def test_charge_cutoff_rejected_when_not_served(hass: UniversalAssistant) 
     ],
 )
 async def test_action_rejected_when_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     service: str,
     data: dict[str, int | str],
@@ -276,7 +276,7 @@ async def test_action_rejected_when_unsupported(
     [pytest.param(3050, id="int"), pytest.param(3000.9, id="fractional")],
 )
 async def test_max_power_not_a_multiple_of_100_is_a_service_error(
-    hass: UniversalAssistant, init_integration: MockConfigEntry, max_power: float
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry, max_power: float
 ) -> None:
     """Test a non-multiple-of-100 max_power is rejected before writing."""
     with pytest.raises(ServiceValidationError) as exc_info:
@@ -294,7 +294,7 @@ async def test_max_power_not_a_multiple_of_100_is_a_service_error(
 
 
 async def test_unexpected_value_error_is_a_service_error(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test a library ValueError the handlers don't preempt still translates."""
     device = init_integration.runtime_data.readings.device
@@ -318,14 +318,14 @@ async def test_unexpected_value_error_is_a_service_error(
 
 
 async def test_write_failure_is_a_universal_assistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: MockModbusConnection,
     init_integration: MockConfigEntry,
 ) -> None:
-    """Test a ModbusError surfaces as a UniversalAssistantError."""
+    """Test a ModbusError surfaces as a __HAC_KEEP__Error."""
     mock_connection.for_unit(1).fail_write(FEED_IN_MODE_REGISTER, ModbusError("busy"))
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             SofarService.SET_FEED_IN_LIMIT,
@@ -395,7 +395,7 @@ async def test_write_failure_is_a_universal_assistant_error(
     ],
 )
 async def test_value_past_the_selector_bounds_is_refused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     data: dict[str, int | str],
 ) -> None:

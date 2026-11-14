@@ -22,8 +22,8 @@ from universalassistant.components.websocket_api import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EVENT
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
-from universalassistant.exceptions import ConfigEntryError, UniversalAssistantError, Unauthorized
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
+from universalassistant.exceptions import ConfigEntryError, __HAC_KEEP__Error, Unauthorized
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.typing import ConfigType
@@ -144,7 +144,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Track states and offer events for calendars."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[CalendarEntity](
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL
@@ -165,7 +165,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -175,7 +175,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
@@ -221,7 +221,7 @@ def is_offset_reached(start: dt.datetime, offset_time: dt.timedelta) -> bool:
     return start + offset_time <= dt_util.now(start.tzinfo)
 
 
-class CalendarEventView(http.UniversalAssistantView):
+class CalendarEventView(http.__HAC_KEEP__View):
     """View to retrieve calendar content."""
 
     url = "/api/calendars/{entity_id}"
@@ -262,7 +262,7 @@ class CalendarEventView(http.UniversalAssistantView):
                 dt_util.as_local(start_date),
                 dt_util.as_local(end_date),
             )
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             _LOGGER.debug("Error reading events: %s", err)
             return self.json_message(
                 f"Error reading events: {err}", HTTPStatus.INTERNAL_SERVER_ERROR
@@ -276,7 +276,7 @@ class CalendarEventView(http.UniversalAssistantView):
         )
 
 
-class CalendarListView(http.UniversalAssistantView):
+class CalendarListView(http.__HAC_KEEP__View):
     """View to retrieve calendar list."""
 
     url = "/api/calendars"
@@ -312,7 +312,7 @@ class CalendarListView(http.UniversalAssistantView):
 )
 @websocket_api.async_response
 async def handle_calendar_event_create(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle creation of a calendar event."""
     if not connection.user.permissions.check_entity(msg["entity_id"], POLICY_CONTROL):
@@ -335,7 +335,7 @@ async def handle_calendar_event_create(
 
     try:
         await entity.async_create_event(**msg[CONF_EVENT])
-    except UniversalAssistantError as ex:
+    except __HAC_KEEP__Error as ex:
         connection.send_error(msg["id"], "failed", str(ex))
     else:
         connection.send_result(msg["id"])
@@ -354,7 +354,7 @@ async def handle_calendar_event_create(
 )
 @websocket_api.async_response
 async def handle_calendar_event_delete(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle delete of a calendar event."""
     if not connection.user.permissions.check_entity(msg["entity_id"], POLICY_CONTROL):
@@ -381,7 +381,7 @@ async def handle_calendar_event_delete(
             recurrence_id=msg.get(EVENT_RECURRENCE_ID),
             recurrence_range=msg.get(EVENT_RECURRENCE_RANGE),
         )
-    except (UniversalAssistantError, ValueError) as ex:
+    except (__HAC_KEEP__Error, ValueError) as ex:
         _LOGGER.error("Error handling Calendar Event call: %s", ex)
         connection.send_error(msg["id"], "failed", str(ex))
     else:
@@ -402,7 +402,7 @@ async def handle_calendar_event_delete(
 )
 @websocket_api.async_response
 async def handle_calendar_event_update(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle update of a calendar event."""
     if not connection.user.permissions.check_entity(msg["entity_id"], POLICY_CONTROL):
@@ -430,7 +430,7 @@ async def handle_calendar_event_update(
             recurrence_id=msg.get(EVENT_RECURRENCE_ID),
             recurrence_range=msg.get(EVENT_RECURRENCE_RANGE),
         )
-    except (UniversalAssistantError, ValueError) as ex:
+    except (__HAC_KEEP__Error, ValueError) as ex:
         _LOGGER.error("Error handling Calendar Event call: %s", ex)
         connection.send_error(msg["id"], "failed", str(ex))
     else:
@@ -447,7 +447,7 @@ async def handle_calendar_event_update(
 )
 @websocket_api.async_response
 async def handle_calendar_event_subscribe(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Subscribe to calendar event updates."""
     entity_id: str = msg["entity_id"]

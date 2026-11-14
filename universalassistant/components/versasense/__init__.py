@@ -6,7 +6,7 @@ import probatio
 import pyversasense as pyv
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.helpers.typing import ConfigType
@@ -33,7 +33,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the versasense component."""
     session = aiohttp_client.async_get_clientsession(hass)
     consumer = pyv.Consumer(config[DOMAIN]["host"], session)

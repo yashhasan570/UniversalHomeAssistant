@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant integration module for Greencell EVSE charging control over MQTT."""
+"""__HA_KEEP__ integration module for Greencell EVSE charging control over MQTT."""
 
 import json
 from typing import Any, override
@@ -9,8 +9,8 @@ from greencell_client.state import EvseStateData
 from universalassistant.components import mqtt
 from universalassistant.components.mqtt import ReceiveMessage
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_SERIAL_NUMBER, DOMAIN
@@ -21,7 +21,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GreencellConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -51,7 +51,7 @@ class GreencellChargingSwitch(GreencellEntity, SwitchEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Register the entity with Universal Universal Home Assistant."""
+        """Register the entity with __HA_KEEP__."""
         await super().async_added_to_hass()
         self.async_on_remove(
             await mqtt.async_subscribe(
@@ -84,7 +84,7 @@ class GreencellChargingSwitch(GreencellEntity, SwitchEntity):
     async def _async_send_command(self, name: str) -> None:
         """Publish a command to the device."""
         if not self._access.can_execute():
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="execute_not_allowed",
             )

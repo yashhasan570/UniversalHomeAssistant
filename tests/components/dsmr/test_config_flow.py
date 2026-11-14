@@ -18,7 +18,7 @@ from universalassistant.components.dsmr.config_flow import (
 from universalassistant.components.dsmr.const import DOMAIN
 from universalassistant.components.usb import SerialDevice
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 SERIAL_DATA = {"serial_id": "12345678", "serial_id_gas": "123456789"}
@@ -36,7 +36,7 @@ def com_port() -> SerialDevice:
 
 
 async def test_setup_network(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
 ) -> None:
     """Test we can setup a network connection via a socket URL."""
@@ -71,7 +71,7 @@ async def test_setup_network(
 
 
 async def test_setup_network_rfxtrx(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
     rfxtrx_dsmr_connection_send_validate_fixture: tuple[
         MagicMock, MagicMock, MagicMock
@@ -186,7 +186,7 @@ async def test_setup_network_rfxtrx(
     ],
 )
 async def test_setup_serial(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
     version: str,
     entry_data: dict[str, Any],
@@ -224,7 +224,7 @@ async def test_setup_serial(
     ],
 )
 async def test_setup_serial_encrypted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
     version: str,
     serial_data: dict[str, str | None],
@@ -276,7 +276,7 @@ async def test_setup_serial_encrypted(
 
 
 async def test_setup_serial_encrypted_invalid_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
 ) -> None:
     """Test an encrypted meter with a wrong encryption key reports an error."""
@@ -329,7 +329,7 @@ async def test_setup_serial_encrypted_invalid_key(
     ids=["too_short", "non_hex", "too_long"],
 )
 async def test_setup_serial_encrypted_malformed_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
     encryption_key: str,
 ) -> None:
@@ -371,7 +371,7 @@ async def test_setup_serial_encrypted_malformed_key(
 
 @pytest.mark.usefixtures("dsmr_connection_send_validate_fixture")
 async def test_setup_serial_encrypted_cannot_communicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test an encrypted meter does not fall back to RFXtrx when it stays silent."""
     port = com_port()
@@ -414,7 +414,7 @@ async def test_setup_serial_encrypted_cannot_communicate(
 
 
 async def test_setup_serial_rfxtrx(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
     rfxtrx_dsmr_connection_send_validate_fixture: tuple[
         MagicMock, MagicMock, MagicMock
@@ -467,7 +467,7 @@ async def test_setup_serial_rfxtrx(
     ],
 )
 async def test_setup_serial_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
     exception: Exception | type[Exception],
 ) -> None:
@@ -514,7 +514,7 @@ async def test_setup_serial_fail(
 
 
 async def test_setup_serial_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
     rfxtrx_dsmr_connection_send_validate_fixture: tuple[
         MagicMock, MagicMock, MagicMock
@@ -573,7 +573,7 @@ async def test_setup_serial_timeout(
 
 
 async def test_setup_serial_wrong_telegram(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
     rfxtrx_dsmr_connection_send_validate_fixture: tuple[
         MagicMock, MagicMock, MagicMock
@@ -622,7 +622,7 @@ async def test_setup_serial_wrong_telegram(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test options flow."""
 
     entry_data = {
@@ -678,7 +678,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.mark.usefixtures("dsmr_connection_send_validate_fixture")
 async def test_reconfigure(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring the port of the meter reloads the entry once."""
     mock_config_entry.add_to_hass(hass)
@@ -712,7 +712,7 @@ async def test_reconfigure(
 
 
 @pytest.mark.usefixtures("dsmr_connection_send_validate_fixture")
-async def test_reconfigure_legacy_network_entry(hass: UniversalAssistant) -> None:
+async def test_reconfigure_legacy_network_entry(hass: __HAC_KEEP__) -> None:
     """Test reconfiguring an entry with separate host and port fields."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -748,7 +748,7 @@ async def test_reconfigure_legacy_network_entry(hass: UniversalAssistant) -> Non
 
 
 async def test_reconfigure_encrypted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dsmr_connection_send_validate_fixture: tuple[MagicMock, MagicMock, MagicMock],
 ) -> None:
     """Test reconfiguring an encrypted meter asks for the encryption key."""
@@ -807,7 +807,7 @@ async def test_reconfigure_encrypted(
 )
 @pytest.mark.usefixtures("dsmr_connection_send_validate_fixture")
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
     error: str,
@@ -840,7 +840,7 @@ async def test_reconfigure_errors(
 
 @pytest.mark.usefixtures("dsmr_connection_send_validate_fixture")
 async def test_reconfigure_unique_id_mismatch(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring to a different meter aborts."""
     mock_config_entry.add_to_hass(hass)
@@ -857,7 +857,7 @@ async def test_reconfigure_unique_id_mismatch(
 
 
 async def test_reconfigure_port_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring to the port of another entry aborts."""
     mock_config_entry.add_to_hass(hass)

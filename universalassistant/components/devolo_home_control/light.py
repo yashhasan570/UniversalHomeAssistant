@@ -7,8 +7,8 @@ from devolo_home_control_api.exceptions import SwitchingProtected
 from devolo_home_control_api.homecontrol import HomeControl
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DevoloHomeControlConfigEntry
@@ -17,7 +17,7 @@ from .entity import DevoloMultiLevelSwitchDeviceEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DevoloHomeControlConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -86,7 +86,7 @@ class DevoloLightDeviceEntity(DevoloMultiLevelSwitchDeviceEntity, LightEntity):
     def _set_brightness(self, value: int) -> None:
         """Set the brightness to the given value."""
         if not self._multi_level_switch_property.set(value):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_failed",
             )
@@ -99,7 +99,7 @@ class DevoloLightDeviceEntity(DevoloMultiLevelSwitchDeviceEntity, LightEntity):
             return
         try:
             if not self._binary_switch_property.set(state):
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="set_failed",
                 )

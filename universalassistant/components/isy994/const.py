@@ -124,7 +124,7 @@ PLATFORMS = {
 
 SUPPORTED_BIN_SENS_CLASSES = ["moisture", "opening", "motion", "climate"]
 
-# ISY Scenes are more like Switches than Universal Universal Home Assistant Scenes
+# ISY Scenes are more like Switches than __HA_KEEP__ Scenes
 # (they can turn off, and report their state)
 ISY_GROUP_PLATFORM = Platform.SWITCH
 
@@ -196,8 +196,8 @@ UOM_INDEX = "25"
 UOM_ON_OFF = "2"
 UOM_PERCENTAGE = "51"
 
-# Do not use the Universal Universal Home Assistant consts for the states here - we're matching exact API
-# responses, not using them for Universal Universal Home Assistant states
+# Do not use the __HA_KEEP__ consts for the states here - we're matching exact API
+# responses, not using them for __HA_KEEP__ states
 # Insteon Types: https://www.universal-devices.com/developers/wsdk/5.0.4/1_fam.xml
 # Z-Wave Categories: https://www.universal-devices.com/developers/wsdk/5.0.4/4_fam.xml
 NODE_FILTERS: dict[Platform, dict[str, list[str]]] = {

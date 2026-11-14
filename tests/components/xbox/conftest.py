@@ -26,7 +26,7 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.xbox.const import DOMAIN
 from universalassistant.config_entries import ConfigSubentryData
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 CLIENT_ID = "1234"
@@ -34,7 +34,7 @@ CLIENT_SECRET = "5678"
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(

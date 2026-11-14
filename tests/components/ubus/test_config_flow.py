@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.ubus.const import CONF_DHCP_SOFTWARE, DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_CONFIG, MOCK_HOST
@@ -21,7 +21,7 @@ USER_INPUT = {
 
 
 async def test_user_flow_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
 ) -> None:
     """Test the user flow creates an entry with the default DHCP software."""
     result = await hass.config_entries.flow.async_init(
@@ -39,7 +39,7 @@ async def test_user_flow_success(
 
 
 async def test_user_flow_cannot_connect(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
 ) -> None:
     """Test the user flow recovers after a connection error."""
     mock_ubus.return_value.connect.side_effect = ConnectionError("boom")
@@ -73,7 +73,7 @@ async def test_user_flow_cannot_connect(
     ],
 )
 async def test_user_flow_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_ubus: MagicMock,
     connect: dict,
@@ -102,7 +102,7 @@ async def test_user_flow_invalid_auth(
 
 
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -122,7 +122,7 @@ async def test_user_flow_already_configured(
 
 
 async def test_import_flow(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
 ) -> None:
     """Test importing a YAML configuration."""
     result = await hass.config_entries.flow.async_init(
@@ -135,7 +135,7 @@ async def test_import_flow(
 
 
 async def test_import_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_ubus: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -152,7 +152,7 @@ async def test_import_flow_already_configured(
 
 
 async def test_import_flow_preserves_dhcp_software(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_ubus: MagicMock
 ) -> None:
     """Test a non-default DHCP software choice survives the import."""
     result = await hass.config_entries.flow.async_init(
@@ -173,7 +173,7 @@ async def test_import_flow_preserves_dhcp_software(
     ],
 )
 async def test_import_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_ubus: MagicMock,
     side_effect: type[Exception],

@@ -9,7 +9,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from vizaio import SystemVersions, VizioConnectionError
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import setup_integration
 
@@ -30,7 +30,7 @@ MOCK_VERSIONS = SystemVersions(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_tv_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -50,7 +50,7 @@ async def test_diagnostics(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_diagnostics_versions_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_tv_config_entry: MockConfigEntry,
 ) -> None:

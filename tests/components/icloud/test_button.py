@@ -7,7 +7,7 @@ from pytest_universalassistant.typing import MagicMock
 
 from universalassistant.components.icloud.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import DEVICE
@@ -16,7 +16,7 @@ PLAY_SOUND_UNIQUE_ID = "device1_play_sound"
 
 
 async def test_play_sound_button_added_for_sound_capable_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -33,7 +33,7 @@ async def test_play_sound_button_added_for_sound_capable_device(
 
 
 async def test_play_sound_button_not_added_without_sound(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -50,7 +50,7 @@ async def test_play_sound_button_not_added_without_sound(
 
 
 async def test_play_sound_button_press_plays_sound(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -73,7 +73,7 @@ async def test_play_sound_button_press_plays_sound(
 
 
 async def test_play_sound_button_added_when_device_appears_later(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,

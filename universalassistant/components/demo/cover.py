@@ -11,7 +11,7 @@ from universalassistant.components.cover import (
     CoverSpeed,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_utc_time_change
@@ -20,7 +20,7 @@ from . import DOMAIN
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -70,7 +70,7 @@ class DemoCover(CoverEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         unique_id: str,
         device_name: str,
         position: int | None = None,

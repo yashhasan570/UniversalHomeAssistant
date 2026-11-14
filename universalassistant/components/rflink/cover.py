@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.components.cover import CoverEntity, CoverState
 from universalassistant.const import CONF_DEVICES, CONF_NAME, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -112,7 +112,7 @@ def devices_from_config(domain_config):
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

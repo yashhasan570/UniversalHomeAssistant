@@ -16,7 +16,7 @@ from universalassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
 from universalassistant.components.zeroconf import DOMAIN, discovery, repairs
 from universalassistant.components.zeroconf.discovery import ZEROCONF_TYPE
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import instance_id, issue_registry as ir
 from universalassistant.setup import async_setup_component
@@ -42,7 +42,7 @@ def _get_hass_service_info_mock(
     *,
     instance_id="abc123",
 ) -> AsyncServiceInfo:
-    """Return service info for Universal Universal Home Assistant instance."""
+    """Return service info for __HA_KEEP__ instance."""
     return AsyncServiceInfo(
         ZEROCONF_TYPE,
         name,
@@ -64,7 +64,7 @@ def _get_hass_service_info_mock(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_instance_id_conflict_creates_repair_issue_remove(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test repair issue on instance ID conflict removed on disappear."""
     with (
@@ -110,7 +110,7 @@ async def test_instance_id_conflict_creates_repair_issue_remove(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_instance_id_conflict_creates_repair_issue_changing_id(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test repair issue on instance ID conflict removed on ID change."""
     with (
@@ -165,7 +165,7 @@ async def test_instance_id_conflict_creates_repair_issue_changing_id(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_instance_id_no_repair_issue_own_ip(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test no repair issue when other instance ID matches our IP."""
     with (
@@ -195,7 +195,7 @@ async def test_instance_id_no_repair_issue_own_ip(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_instance_id_no_conflict_no_repair_issue(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test that a repair issue is not created when no instance ID conflict exists."""
     with (
@@ -220,7 +220,7 @@ async def test_instance_id_no_conflict_no_repair_issue(
         )
 
 
-async def test_create_fix_flow_raises_on_unknown_issue_id(hass: UniversalAssistant) -> None:
+async def test_create_fix_flow_raises_on_unknown_issue_id(hass: __HAC_KEEP__) -> None:
     """Test create_fix_flow raises on unknown issue_id."""
 
     with pytest.raises(ValueError):
@@ -229,7 +229,7 @@ async def test_create_fix_flow_raises_on_unknown_issue_id(hass: UniversalAssista
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_duplicate_repair_issue_repair_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_duplicate_repair_issue_repair_flow(
             instance_id, "async_recreate", return_value="new-uuid"
         ) as mock_recreate,
         patch("universalassistant.config.async_check_ha_config_file", return_value=None),
-        patch("universalassistant.core.UniversalAssistant.async_stop", return_value=None),
+        patch("universalassistant.core.__HAC_KEEP__.async_stop", return_value=None),
     ):
         assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)

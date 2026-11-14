@@ -12,8 +12,8 @@ from universalassistant.components.repairs import repairs_flow_manager
 from universalassistant.components.repairs.const import DATA_REPAIRS, DOMAIN
 from universalassistant.components.repairs.issue_handler import RepairsFlowManager
 from universalassistant.const import __version__ as ha_version
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -21,7 +21,7 @@ from universalassistant.setup import async_setup_component
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
 @pytest.mark.freeze_time("2022-07-19 07:53:05")
 async def test_create_update_issue(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test creating and updating issues."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -119,7 +119,7 @@ async def test_create_update_issue(
 
 @pytest.mark.parametrize("ha_version", ["2022.9.cat", "In the future: 2023.1.1"])
 async def test_create_issue_invalid_version(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, ha_version
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, ha_version
 ) -> None:
     """Test creating an issue with invalid breaks in version."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -161,7 +161,7 @@ async def test_create_issue_invalid_version(
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
 @pytest.mark.freeze_time("2022-07-19 07:53:05")
 async def test_ignore_issue(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test ignoring issues."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -331,7 +331,7 @@ async def test_ignore_issue(
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 @pytest.mark.freeze_time("2022-07-19 07:53:05")
 async def test_delete_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -460,7 +460,7 @@ async def test_delete_issue(
 
 @pytest.mark.no_fail_on_log_exception
 async def test_non_compliant_platform(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test non-compliant platforms are not registered."""
 
@@ -486,7 +486,7 @@ async def test_non_compliant_platform(
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 @pytest.mark.freeze_time("2022-07-21 08:22:00")
 async def test_sync_methods(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test sync method for creating and deleting an issue."""
@@ -549,9 +549,9 @@ async def test_sync_methods(
     assert msg["result"] == {"issues": []}
 
 
-async def test_flow_manager_helper(hass: UniversalAssistant) -> None:
+async def test_flow_manager_helper(hass: __HAC_KEEP__) -> None:
     """Test accessing the repairs flow manager with the helper."""
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         repairs_flow_manager(hass)
 
     assert await async_setup_component(hass, DOMAIN, {})

@@ -15,7 +15,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HiveConfigEntry, refresh_system
@@ -49,7 +49,7 @@ _LOGGER = logging.getLogger()
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HiveConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -77,7 +77,7 @@ class HiveClimateEntity(HiveEntity, ClimateEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: HiveConfigEntry,
         hive: Hive,
         hive_device: dict[str, Any],

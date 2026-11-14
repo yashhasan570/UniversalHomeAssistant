@@ -3,7 +3,7 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_CLIENT_SECRET
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 USER_INPUT = {
     CONF_ACCESS_TOKEN: "test-access-token",
@@ -12,7 +12,7 @@ USER_INPUT = {
 
 
 async def async_init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the Arve integration for testing."""
     mock_config_entry.add_to_hass(hass)

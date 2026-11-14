@@ -12,7 +12,7 @@ from universalassistant.components.device_tracker import (
 )
 from universalassistant.components.mqtt import CONF_QOS
 from universalassistant.const import ATTR_BATTERY_LEVEL, ATTR_GPS_ACCURACY, CONF_DEVICES
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -36,7 +36,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(mqtt.config.SCHEMA_BASE)
 
 
 async def async_setup_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_see: AsyncSeeCallback,
     discovery_info: DiscoveryInfoType | None = None,

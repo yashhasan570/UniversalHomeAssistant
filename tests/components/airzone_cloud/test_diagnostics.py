@@ -21,7 +21,7 @@ from syrupy.filters import props
 
 from universalassistant.components.airzone_cloud.const import DOMAIN
 from universalassistant.const import CONF_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import CONFIG, WS_ID, WS_ID_AIDOO, WS_ID_AIDOO_PRO, async_init_integration
 
@@ -98,7 +98,7 @@ RAW_DATA_MOCK = {
 
 
 async def test_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:

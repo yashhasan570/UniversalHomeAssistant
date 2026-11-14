@@ -1,6 +1,6 @@
 """Checker that enforces ``universalassistant.util.dt.naive_now`` over ``datetime.now()``.
 
-Universal Universal Home Assistant exposes ``universalassistant.util.dt.naive_now`` -- a helper that
+__HA_KEEP__ exposes ``universalassistant.util.dt.naive_now`` -- a helper that
 returns a naive ``datetime`` in system local time. Calling
 ``datetime.datetime.now()`` with no time zone argument does the same thing but
 bypasses the helper. Using ``dt_util.naive_now`` keeps the codebase consistent

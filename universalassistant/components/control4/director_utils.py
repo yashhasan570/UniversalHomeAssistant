@@ -10,7 +10,7 @@ from pyControl4.director import C4Director
 from pyControl4.error_handling import BadToken
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 
 from .const import CONF_CONTROLLER_UNIQUE_ID
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def _update_variables_for_config_entry(
-    hass: UniversalAssistant, entry: Control4ConfigEntry, variable_names: set[str]
+    hass: __HAC_KEEP__, entry: Control4ConfigEntry, variable_names: set[str]
 ) -> dict[int, dict[str, Any]]:
     """Retrieve data from the Control4 director."""
     director = entry.runtime_data.director
@@ -41,7 +41,7 @@ async def _update_variables_for_config_entry(
 
 
 async def update_variables_for_config_entry(
-    hass: UniversalAssistant, entry: Control4ConfigEntry, variable_names: set[str]
+    hass: __HAC_KEEP__, entry: Control4ConfigEntry, variable_names: set[str]
 ) -> dict[int, dict[str, Any]]:
     """Try to Retrieve data from the Control4 director for update_coordinator."""
     try:
@@ -52,7 +52,7 @@ async def update_variables_for_config_entry(
         return await _update_variables_for_config_entry(hass, entry, variable_names)
 
 
-async def refresh_tokens(hass: UniversalAssistant, entry: Control4ConfigEntry):
+async def refresh_tokens(hass: __HAC_KEEP__, entry: Control4ConfigEntry):
     """Store updated authentication and director tokens in runtime_data."""
     config = entry.data
     account_session = aiohttp_client.async_get_clientsession(hass)

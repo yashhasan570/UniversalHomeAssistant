@@ -8,7 +8,7 @@ from typing import override
 from pyloadapi import CannotConnect, InvalidAuth, ParserError, PyLoadAPI
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -44,7 +44,7 @@ class PyLoadCoordinator(DataUpdateCoordinator[PyLoadData]):
     config_entry: PyLoadConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: PyLoadConfigEntry, pyload: PyLoadAPI
+        self, hass: __HAC_KEEP__, config_entry: PyLoadConfigEntry, pyload: PyLoadAPI
     ) -> None:
         """Initialize pyLoad coordinator."""
         super().__init__(

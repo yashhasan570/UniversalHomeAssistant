@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import (
     DISCONNECT,
@@ -21,7 +21,7 @@ from . import (
 
 @pytest.mark.usefixtures("mock_receiver")
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test load and unload entry."""
@@ -43,7 +43,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_initialization_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     receiver_infos: list[ReceiverInfo] | None,
     translation_key: str,
@@ -60,7 +60,7 @@ async def test_initialization_failure(
 
 
 async def test_connection_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connect: AsyncMock,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_connection_failure(
 
 @pytest.mark.usefixtures("mock_receiver")
 async def test_reconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connect: AsyncMock,
     read_queue: asyncio.Queue[Status | None],

@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import probatio
 
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -65,7 +65,7 @@ async def _async_get_forecasts_service(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the weather services."""
     hass.data[DATA_COMPONENT].async_register_entity_service(
         WeatherService.GET_FORECASTS,

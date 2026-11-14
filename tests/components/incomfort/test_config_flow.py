@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.incomfort.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER, ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -32,7 +32,7 @@ DHCP_SERVICE_INFO_ALT = DhcpServiceInfo(
 
 
 async def test_form(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_incomfort: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_incomfort: MagicMock
 ) -> None:
     """Test we get the full form."""
     result = await hass.config_entries.flow.async_init(
@@ -54,7 +54,7 @@ async def test_form(
 
 
 async def test_entry_already_configured(
-    hass: UniversalAssistant, mock_incomfort: MagicMock
+    hass: __HAC_KEEP__, mock_incomfort: MagicMock
 ) -> None:
     """Test aborting if the entry is already configured."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG)
@@ -100,7 +100,7 @@ async def test_entry_already_configured(
     ],
 )
 async def test_form_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     exc: Exception,
     error: str,
@@ -131,7 +131,7 @@ async def test_form_validation(
 
 
 async def test_dhcp_flow_simple(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_dhcp_flow_simple(
 
 
 async def test_dhcp_flow_migrates_existing_entry_without_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -230,7 +230,7 @@ async def test_dhcp_flow_migrates_existing_entry_without_unique_id(
 
 
 async def test_dhcp_flow_wih_auth(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_incomfort: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_incomfort: MagicMock
 ) -> None:
     """Test dhcp flow for with authentication."""
     result = await hass.config_entries.flow.async_init(
@@ -267,7 +267,7 @@ async def test_dhcp_flow_wih_auth(
 
 
 async def test_reauth_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -287,7 +287,7 @@ async def test_reauth_flow_success(
 
 
 async def test_reauth_flow_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -319,7 +319,7 @@ async def test_reauth_flow_failure(
 
 
 async def test_reconfigure_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -339,7 +339,7 @@ async def test_reconfigure_flow_success(
 
 
 async def test_reconfigure_flow_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -379,7 +379,7 @@ async def test_reconfigure_flow_failure(
     ],
 )
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_incomfort: MagicMock,
     user_input: dict[str, Any],
     legacy_setpoint_status: bool,

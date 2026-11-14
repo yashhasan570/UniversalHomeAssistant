@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.wake_on_lan.const import CONF_SECUREON_PASSWORD, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_BROADCAST_ADDRESS, CONF_BROADCAST_PORT, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 DEFAULT_MAC = "00:01:02:03:04:05"
 
@@ -63,9 +63,9 @@ async def get_config_to_integration_load() -> dict[str, Any]:
 
 @pytest.fixture(name="loaded_entry")
 async def load_integration(
-    hass: UniversalAssistant, get_config: dict[str, Any]
+    hass: __HAC_KEEP__, get_config: dict[str, Any]
 ) -> MockConfigEntry:
-    """Set up the Wake on LAN integration in Universal Universal Home Assistant."""
+    """Set up the Wake on LAN integration in __HA_KEEP__."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
         title=f"Wake on LAN {DEFAULT_MAC}",

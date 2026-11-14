@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import TransmissionConfigEntry, TransmissionDataUpdateCoordinator
@@ -44,7 +44,7 @@ SWITCH_TYPES: tuple[TransmissionSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TransmissionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

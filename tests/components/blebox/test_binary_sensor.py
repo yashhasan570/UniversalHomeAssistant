@@ -7,7 +7,7 @@ import pytest
 
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import async_setup_entity, mock_feature
@@ -99,7 +99,7 @@ def inputsensor_fixture() -> tuple[AsyncMock, str]:
     ],
 )
 async def test_init(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fixture_name: str,
     unique_id: str,
     expected_name: str,
@@ -123,7 +123,7 @@ async def test_init(
     assert device.name == expected_device_name
 
 
-async def test_binary_sensor_with_name(hass: UniversalAssistant) -> None:
+async def test_binary_sensor_with_name(hass: __HAC_KEEP__) -> None:
     """Test that a binary sensor with a feature name uses it as the entity name."""
     feature = mock_feature(
         "binary_sensors",
@@ -147,7 +147,7 @@ async def test_binary_sensor_with_name(hass: UniversalAssistant) -> None:
 async def test_open_sensor_init(
     open_sensor: tuple[AsyncMock, str],
     device_registry: dr.DeviceRegistry,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test open/window binary sensor initialisation."""
     _, entity_id = open_sensor
@@ -172,7 +172,7 @@ async def test_open_sensor_init(
 )
 async def test_open_sensor_state(
     open_sensor: tuple[AsyncMock, str],
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     is_open: bool,
     expected_state: str,
 ) -> None:

@@ -17,7 +17,7 @@ from universalassistant.components.tado.const import (
 )
 from universalassistant.config_entries import SOURCE_HOMEKIT, SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import (
     ATTR_PROPERTIES_ID,
@@ -26,7 +26,7 @@ from universalassistant.helpers.service_info.zeroconf import (
 
 
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tado_api: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_full_flow(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow_reauth(hass: UniversalAssistant, mock_tado_api: MagicMock) -> None:
+async def test_full_flow_reauth(hass: __HAC_KEEP__, mock_tado_api: MagicMock) -> None:
     """Test the full flow of the config when reauthticating."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -107,7 +107,7 @@ async def test_full_flow_reauth(hass: UniversalAssistant, mock_tado_api: MagicMo
 
 
 async def test_auth_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tado_api: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_auth_timeout(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_no_homes(hass: UniversalAssistant, mock_tado_api: MagicMock) -> None:
+async def test_no_homes(hass: __HAC_KEEP__, mock_tado_api: MagicMock) -> None:
     """Test the full flow of the config flow."""
     mock_tado_api.get_me.return_value["homes"] = []
 
@@ -182,7 +182,7 @@ async def test_no_homes(hass: UniversalAssistant, mock_tado_api: MagicMock) -> N
     assert result["reason"] == "no_homes"
 
 
-async def test_tado_creation(hass: UniversalAssistant) -> None:
+async def test_tado_creation(hass: __HAC_KEEP__) -> None:
     """Test we handle Form Exceptions."""
 
     with patch(
@@ -204,7 +204,7 @@ async def test_tado_creation(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_wait_for_login_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tado_api: MagicMock,
     exception: Exception,
     error: str,
@@ -221,7 +221,7 @@ async def test_wait_for_login_exception(
 
 
 async def test_wait_for_login_rate_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tado_api: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_wait_for_login_rate_limit(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow(
-    hass: UniversalAssistant, mock_tado_api: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tado_api: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test config flow options."""
     mock_config_entry.add_to_hass(hass)
@@ -261,7 +261,7 @@ async def test_options_flow(
 
 
 async def test_show_progress_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tado_api: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -298,7 +298,7 @@ async def test_show_progress_polling(
     assert result["result"].unique_id == "1"
 
 
-async def test_homekit(hass: UniversalAssistant, mock_tado_api: MagicMock) -> None:
+async def test_homekit(hass: __HAC_KEEP__, mock_tado_api: MagicMock) -> None:
     """Test that we abort from homekit if tado is already setup."""
 
     result = await hass.config_entries.flow.async_init(
@@ -324,7 +324,7 @@ async def test_homekit(hass: UniversalAssistant, mock_tado_api: MagicMock) -> No
 
 
 async def test_homekit_already_setup(
-    hass: UniversalAssistant, mock_tado_api: MagicMock
+    hass: __HAC_KEEP__, mock_tado_api: MagicMock
 ) -> None:
     """Test that we abort from homekit if tado is already setup."""
 

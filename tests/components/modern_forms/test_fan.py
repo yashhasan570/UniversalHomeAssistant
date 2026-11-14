@@ -38,8 +38,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -51,7 +51,7 @@ from . import (
 
 
 async def test_fan_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_fan_state(
 
 
 async def test_change_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_change_state(
 
 
 async def test_sleep_timer_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_sleep_timer_services(
 
 
 async def test_change_direction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_change_direction(
 
 
 async def test_set_percentage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_set_percentage(
 
 
 async def test_fan_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test error handling of the Modern Forms fans."""
@@ -211,7 +211,7 @@ async def test_fan_error(
         patch(
             "universalassistant.components.modern_forms.coordinator.ModernFormsDevice.update"
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             FAN_DOMAIN,
@@ -225,7 +225,7 @@ async def test_fan_error(
 
 
 async def test_fan_connection_error(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test error handling of the Modern Forms fans."""
     await init_integration(hass, aioclient_mock)
@@ -238,7 +238,7 @@ async def test_fan_connection_error(
             "universalassistant.components.modern_forms.coordinator.ModernFormsDevice.fan",
             side_effect=ModernFormsConnectionError,
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             FAN_DOMAIN,
@@ -255,7 +255,7 @@ async def test_fan_connection_error(
 
 
 async def test_breeze_preset_mode_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test fans without breeze hardware expose no preset mode."""
@@ -279,10 +279,10 @@ async def test_breeze_preset_mode_unsupported(
     ],
 )
 async def test_breeze_preset_mode_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_type: Callable[
-        [UniversalAssistant, str, str, dict[str, Any]],
+        [__HAC_KEEP__, str, str, dict[str, Any]],
         Coroutine[Any, Any, Any],
     ],
     expected_preset_mode: str,
@@ -297,7 +297,7 @@ async def test_breeze_preset_mode_state(
 
 
 async def test_set_breeze_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test setting the breeze preset mode."""
@@ -333,7 +333,7 @@ async def test_set_breeze_preset_mode(
 
 
 async def test_turn_on_with_breeze_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test turning on the fan with a breeze preset mode."""
@@ -356,7 +356,7 @@ async def test_turn_on_with_breeze_preset_mode(
 
 
 async def test_turn_on_with_percentage_and_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test turning on the fan with both a percentage and a preset mode."""
@@ -380,7 +380,7 @@ async def test_turn_on_with_percentage_and_preset_mode(
 
 
 async def test_turn_off_does_not_touch_wind(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test turning off the fan does not send the wind flag."""
@@ -400,13 +400,13 @@ async def test_turn_off_does_not_touch_wind(
 
 
 async def test_fan_sleep_timer_not_supported_gen4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test setting a sleep timer on a Gen4 fan raises an error."""
     await init_integration_gen4(hass, aioclient_mock)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ModernFormsService.SET_FAN_SLEEP_TIMER,
@@ -422,13 +422,13 @@ async def test_fan_sleep_timer_not_supported_gen4(
 
 
 async def test_clear_fan_sleep_timer_not_supported_gen4(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test clearing a sleep timer on a Gen4 fan raises an error."""
     await init_integration_gen4(hass, aioclient_mock)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ModernFormsService.CLEAR_FAN_SLEEP_TIMER,

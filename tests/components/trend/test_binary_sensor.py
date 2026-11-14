@@ -15,14 +15,14 @@ from pytest_universalassistant.common import (
 from universalassistant import setup
 from universalassistant.components.trend.const import DOMAIN, TrendEntityStateAttribute
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 from .conftest import ComponentSetup
 
 
-async def _setup_legacy_component(hass: UniversalAssistant, params: dict[str, Any]) -> None:
+async def _setup_legacy_component(hass: __HAC_KEEP__, params: dict[str, Any]) -> None:
     """Set up the trend component the legacy way."""
     assert await async_setup_component(
         hass,
@@ -50,7 +50,7 @@ async def _setup_legacy_component(hass: UniversalAssistant, params: dict[str, An
     ids=["up", "down", "up inverted", "down inverted"],
 )
 async def test_basic_trend_setup_from_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     states: list[str],
     inverted: bool,
@@ -82,7 +82,7 @@ async def test_basic_trend_setup_from_yaml(
 
 
 async def test_trend_setup_from_yaml_with_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test trend setup from YAML with unique_id."""
@@ -132,7 +132,7 @@ async def test_trend_setup_from_yaml_with_unique_id(
     ],
 )
 async def test_basic_trend(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     states: list[str],
     inverted: bool,
@@ -184,7 +184,7 @@ async def test_basic_trend(
     ids=["up", "up inverted", "down"],
 )
 async def test_using_trendline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     setup_component: ComponentSetup,
@@ -222,7 +222,7 @@ async def test_using_trendline(
     ids=["up", "down"],
 )
 async def test_attribute_trend(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     setup_component: ComponentSetup,
     attr_values: list[str],
@@ -245,7 +245,7 @@ async def test_attribute_trend(
 
 
 async def test_max_samples(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, setup_component: ComponentSetup
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, setup_component: ComponentSetup
 ) -> None:
     """Test that sample count is limited correctly."""
     await setup_component(
@@ -265,7 +265,7 @@ async def test_max_samples(
 
 
 async def test_non_numeric(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, setup_component: ComponentSetup
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, setup_component: ComponentSetup
 ) -> None:
     """Test for non-numeric sensor."""
     await setup_component({"entity_id": "sensor.test_state"})
@@ -279,7 +279,7 @@ async def test_non_numeric(
 
 
 async def test_missing_attribute(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, setup_component: ComponentSetup
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, setup_component: ComponentSetup
 ) -> None:
     """Test for missing attribute."""
     await setup_component(
@@ -296,7 +296,7 @@ async def test_missing_attribute(
     assert state.state == STATE_UNKNOWN
 
 
-async def test_invalid_name_does_not_create(hass: UniversalAssistant) -> None:
+async def test_invalid_name_does_not_create(hass: __HAC_KEEP__) -> None:
     """Test for invalid name."""
     with assert_setup_component(0):
         assert await setup.async_setup_component(
@@ -314,7 +314,7 @@ async def test_invalid_name_does_not_create(hass: UniversalAssistant) -> None:
     assert hass.states.async_all("binary_sensor") == []
 
 
-async def test_invalid_sensor_does_not_create(hass: UniversalAssistant) -> None:
+async def test_invalid_sensor_does_not_create(hass: __HAC_KEEP__) -> None:
     """Test invalid sensor."""
     with assert_setup_component(0):
         assert await setup.async_setup_component(
@@ -332,7 +332,7 @@ async def test_invalid_sensor_does_not_create(hass: UniversalAssistant) -> None:
     assert hass.states.async_all("binary_sensor") == []
 
 
-async def test_no_sensors_does_not_create(hass: UniversalAssistant) -> None:
+async def test_no_sensors_does_not_create(hass: __HAC_KEEP__) -> None:
     """Test no sensors."""
     with assert_setup_component(0):
         assert await setup.async_setup_component(
@@ -346,7 +346,7 @@ async def test_no_sensors_does_not_create(hass: UniversalAssistant) -> None:
     [("on", "on"), ("off", "off"), ("unknown", "unknown")],
 )
 async def test_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     setup_component: ComponentSetup,
@@ -388,7 +388,7 @@ async def test_restore_state(
 
 
 async def test_invalid_min_sample(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test if error is logged when min_sample is larger than max_samples."""
@@ -411,7 +411,7 @@ async def test_invalid_min_sample(
 
 
 async def test_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -454,7 +454,7 @@ async def test_device_id(
 
 
 async def test_device_id_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -507,7 +507,7 @@ async def test_device_id_yaml(
     ],
 )
 async def test_unavailable_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     setup_component: ComponentSetup,
@@ -542,7 +542,7 @@ async def test_unavailable_source(
 
 
 async def test_invalid_state_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     setup_component: ComponentSetup,
     freezer: FrozenDateTimeFactory,

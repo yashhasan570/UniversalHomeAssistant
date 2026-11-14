@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant exposed entities helper."""
+"""Test __HA_KEEP__ exposed entities helper."""
 
 import pytest
 from pytest_universalassistant.common import flush_store
@@ -17,15 +17,15 @@ from universalassistant.components.universalassistant.exposed_entities import (
     async_should_expose,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(name="entities")
 def entities_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     request: pytest.FixtureRequest,
 ) -> dict[str, str]:
@@ -74,7 +74,7 @@ def entities_unique_id(entity_registry: er.EntityRegistry) -> dict[str, str]:
     }
 
 
-def entities_no_unique_id(hass: UniversalAssistant) -> dict[str, str]:
+def entities_no_unique_id(hass: __HAC_KEEP__) -> dict[str, str]:
     """Create some entities not in the entity registry."""
     group = "group.all_locks"
     lock = "lock.test"
@@ -99,7 +99,7 @@ def entities_no_unique_id(hass: UniversalAssistant) -> dict[str, str]:
     }
 
 
-async def test_load_preferences(hass: UniversalAssistant) -> None:
+async def test_load_preferences(hass: __HAC_KEEP__) -> None:
     """Make sure that we can load/save data correctly."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -128,7 +128,7 @@ async def test_load_preferences(hass: UniversalAssistant) -> None:
 
 
 async def test_expose_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_expose_entity(
 
 
 async def test_expose_entity_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test behavior when exposing an unknown entity."""
@@ -304,7 +304,7 @@ async def test_expose_entity_unknown(
     ],
 )
 async def test_expose_entity_default_notifies_listeners(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     entity_id: str,
@@ -340,7 +340,7 @@ async def test_expose_entity_default_notifies_listeners(
 
 @pytest.mark.parametrize("expose_new", [True, False])
 async def test_expose_new_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     expose_new,
@@ -394,7 +394,7 @@ async def test_expose_new_entities(
 
 
 async def test_listen_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test listen to updates."""
@@ -428,7 +428,7 @@ async def test_listen_updates(
 
 
 async def test_get_assistant_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -445,7 +445,7 @@ async def test_get_assistant_settings(
     assert async_get_assistant_settings(hass, "cloud.alexa") == snapshot
     assert async_get_assistant_settings(hass, "cloud.google_assistant") == snapshot
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_get_entity_settings(hass, "light.unknown")
 
 
@@ -453,7 +453,7 @@ async def test_get_assistant_settings(
     "entities", ["entities_unique_id", "entities_no_unique_id"], indirect=True
 )
 async def test_should_expose(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
     entities: dict[str, str],
@@ -517,7 +517,7 @@ async def test_should_expose(
 
 
 async def test_should_expose_hidden_categorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -550,7 +550,7 @@ async def test_should_expose_hidden_categorized(
 
 
 async def test_list_exposed_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -622,7 +622,7 @@ async def test_list_exposed_entities(
 
 
 async def test_listeners(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Make sure we call entity listeners."""
     assert await async_setup_component(hass, DOMAIN, {})

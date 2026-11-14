@@ -5,7 +5,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -13,7 +13,7 @@ from universalassistant.helpers import entity_registry as er
     "mock_ista", "recorder_mock", "entity_registry_enabled_by_default"
 )
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ista_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

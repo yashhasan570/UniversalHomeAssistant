@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.tankerkoenig.const import DOMAIN
 from universalassistant.const import CONF_SHOW_ON_MAP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .const import CONFIG_DATA, NEARBY_STATIONS, PRICES, STATION
@@ -35,7 +35,7 @@ def mock_tankerkoenig() -> Generator[AsyncMock]:
 
 
 @pytest.fixture(name="config_entry")
-async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a MockConfigEntry for testing."""
     return MockConfigEntry(
         domain=DOMAIN,
@@ -51,7 +51,7 @@ async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, tankerkoenig: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, tankerkoenig: AsyncMock
 ) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)

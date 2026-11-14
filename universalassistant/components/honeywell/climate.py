@@ -30,8 +30,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -88,7 +88,7 @@ SCAN_INTERVAL = dt.timedelta(seconds=30)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HoneywellConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -108,7 +108,7 @@ async def async_setup_entry(
 
 
 def _async_migrate_unique_id(
-    hass: UniversalAssistant, devices: dict[str, SomeComfortDevice]
+    hass: __HAC_KEEP__, devices: dict[str, SomeComfortDevice]
 ) -> None:
     """Migrate entities to string."""
     entity_registry = er.async_get(hass)
@@ -123,7 +123,7 @@ def _async_migrate_unique_id(
 
 
 def remove_stale_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HoneywellConfigEntry,
     devices: dict[str, SomeComfortDevice],
 ) -> None:
@@ -391,7 +391,7 @@ class HoneywellUSThermostat(ClimateEntity):
                     await self._device.set_setpoint_heat(temperature)
 
         except (AscConnectionError, UnexpectedResponse) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="temp_failed",
             ) from err
@@ -415,7 +415,7 @@ class HoneywellUSThermostat(ClimateEntity):
                     await self._device.set_setpoint_heat(temperature)
 
             except (AscConnectionError, UnexpectedResponse) as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="temp_failed",
                 ) from err
@@ -434,7 +434,7 @@ class HoneywellUSThermostat(ClimateEntity):
             await self._device.set_fan_mode(self._fan_mode_map[fan_mode])
 
         except SomeComfortError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="fan_mode_failed",
             ) from err
@@ -446,7 +446,7 @@ class HoneywellUSThermostat(ClimateEntity):
             await self._device.set_system_mode(self._hvac_mode_map[hvac_mode])
 
         except SomeComfortError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="sys_mode_failed",
             ) from err
@@ -470,7 +470,7 @@ class HoneywellUSThermostat(ClimateEntity):
                 await self._device.set_hold_heat(True, self._heat_away_temp)
 
         except (AscConnectionError, UnexpectedResponse) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="away_mode_failed",
             ) from err
@@ -500,12 +500,12 @@ class HoneywellUSThermostat(ClimateEntity):
                     await self._device.set_hold_heat(True)
 
             except SomeComfortError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="set_hold_failed",
                 ) from err
         else:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_mode_failed",
                 translation_placeholders={"mode": mode},
@@ -520,7 +520,7 @@ class HoneywellUSThermostat(ClimateEntity):
             await self._device.set_hold_heat(False)
 
         except SomeComfortError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="stop_hold_failed",
             ) from err

@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.greencell.const import GREENCELL_HABU_DEN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.util import slugify
 
@@ -37,7 +37,7 @@ from .conftest import (
 
 
 async def test_sensor_states_and_snapshots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_sensor_states_and_snapshots(
     ],
 )
 async def test_sensor_status_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: MockConfigEntry,
     payload: bytes,
     expected_state: str,
@@ -119,7 +119,7 @@ async def test_sensor_status_states(
 
 
 async def test_sensor_availability_and_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: MockConfigEntry,
 ) -> None:
     """Verify availability logic (UNAVAILABLE) and payload error handling."""
@@ -135,7 +135,7 @@ async def test_sensor_availability_and_errors(
     assert state.state == STATE_UNAVAILABLE
 
 
-async def _cycle_offline_and_back(hass: UniversalAssistant) -> None:
+async def _cycle_offline_and_back(hass: __HAC_KEEP__) -> None:
     """Take the device offline and bring it back, repeating each message."""
     for _ in range(2):
         async_fire_mqtt_message(
@@ -151,7 +151,7 @@ async def _cycle_offline_and_back(hass: UniversalAssistant) -> None:
 
 
 async def test_log_when_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

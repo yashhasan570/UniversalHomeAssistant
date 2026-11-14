@@ -29,7 +29,7 @@ from universalassistant.components.tesla_fleet.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigFlowResult
 from universalassistant.const import CONF_DOMAIN, CONF_REGION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
@@ -39,7 +39,7 @@ UNIQUE_ID = "uid"
 
 
 @pytest.fixture
-async def access_token(hass: UniversalAssistant) -> str:
+async def access_token(hass: __HAC_KEEP__) -> str:
     """Return a valid access token."""
     return config_entry_oauth2_flow._encode_jwt(
         hass,
@@ -61,7 +61,7 @@ async def access_token(hass: UniversalAssistant) -> str:
 
 
 @pytest.fixture(autouse=True)
-async def create_credential(hass: UniversalAssistant) -> None:
+async def create_credential(hass: __HAC_KEEP__) -> None:
     """Create a user credential."""
     # Create user application credential
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
@@ -74,7 +74,7 @@ async def create_credential(hass: UniversalAssistant) -> None:
 
 
 async def _complete_registration(
-    hass: UniversalAssistant, flow_id: str, user_input: dict[str, Any]
+    hass: __HAC_KEEP__, flow_id: str, user_input: dict[str, Any]
 ) -> ConfigFlowResult:
     """Submit a step that registers the domain and finish the flow."""
     with patch(
@@ -107,7 +107,7 @@ def mock_private_key():
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_partner_login_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -163,7 +163,7 @@ async def test_partner_login_auth_error(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_region_partner_login_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -254,7 +254,7 @@ async def test_region_partner_login_error(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow_with_domain_registration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -390,7 +390,7 @@ async def test_full_flow_with_domain_registration(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_domain_input_invalid_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -494,7 +494,7 @@ async def test_domain_input_invalid_domain(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_domain_registration_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -567,7 +567,7 @@ async def test_domain_registration_errors(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_domain_registration_precondition_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -641,7 +641,7 @@ async def test_domain_registration_precondition_failed(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_domain_registration_public_key_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -711,7 +711,7 @@ async def test_domain_registration_public_key_not_found(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_domain_registration_public_key_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -785,7 +785,7 @@ async def test_domain_registration_public_key_mismatch(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_region_override(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -868,7 +868,7 @@ async def test_region_override(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_region_default_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -918,7 +918,7 @@ async def test_region_default_fallback(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauthentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -971,7 +971,7 @@ async def test_reauthentication(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth_account_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -1016,7 +1016,7 @@ async def test_reauth_account_mismatch(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_duplicate_unique_id_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,
@@ -1063,7 +1063,7 @@ async def test_duplicate_unique_id_abort(
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth_confirm_form(hass: UniversalAssistant) -> None:
+async def test_reauth_confirm_form(hass: __HAC_KEEP__) -> None:
     """Test reauth confirm form display."""
     old_entry = MockConfigEntry(
         domain=DOMAIN,

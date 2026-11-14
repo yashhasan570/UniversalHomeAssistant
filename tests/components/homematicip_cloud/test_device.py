@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.homematicip_cloud import DOMAIN
 from universalassistant.components.homematicip_cloud.hap import HomematicipHAP
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .helper import HomeFactory, async_manipulate_test_data, get_and_check_entity_basics
 
 
 async def test_hmip_load_all_supported_devices(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Ensure that all supported devices could be loaded."""
     mock_hap = await default_mock_hap_factory.async_get_mock_hap(
@@ -28,7 +28,7 @@ async def test_hmip_load_all_supported_devices(
 
 
 async def test_hmip_remove_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     default_mock_hap_factory: HomeFactory,
@@ -62,7 +62,7 @@ async def test_hmip_remove_device(
 
 
 async def test_hmip_add_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     default_mock_hap_factory: HomeFactory,
@@ -116,7 +116,7 @@ async def test_hmip_add_device(
 
 
 async def test_hmip_remove_group(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     default_mock_hap_factory: HomeFactory,
@@ -147,7 +147,7 @@ async def test_hmip_remove_group(
 
 
 async def test_all_devices_unavailable_when_hap_not_connected(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test make all devices unavaulable when hap is not connected."""
     entity_id = "light.treppe_ch"
@@ -173,7 +173,7 @@ async def test_all_devices_unavailable_when_hap_not_connected(
 
 
 async def test_hap_reconnected(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test reconnect hap."""
     entity_id = "light.treppe_ch"
@@ -210,7 +210,7 @@ async def test_hap_reconnected(
 
 
 async def test_hap_with_name(
-    hass: UniversalAssistant, mock_connection, hmip_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_connection, hmip_config_entry: MockConfigEntry
 ) -> None:
     """Test hap with name."""
     home_name = "TestName"
@@ -237,7 +237,7 @@ async def test_hap_with_name(
 
 
 async def test_hmip_reset_energy_counter_services(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test reset_energy_counter service."""
     entity_id = "switch.pc"
@@ -269,7 +269,7 @@ async def test_hmip_reset_energy_counter_services(
 
 
 async def test_hmip_reset_energy_counter_after_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
 ) -> None:
@@ -302,7 +302,7 @@ async def test_hmip_reset_energy_counter_after_entity_id_change(
 
 
 async def test_hmip_multi_area_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     default_mock_hap_factory: HomeFactory,
@@ -334,7 +334,7 @@ async def test_hmip_multi_area_device(
 
 
 async def test_hmip_child_device_links_to_access_point(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     default_mock_hap_factory: HomeFactory,
@@ -367,7 +367,7 @@ async def test_hmip_child_device_links_to_access_point(
 
 
 async def test_hmip_unknown_device_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     default_mock_hap_factory: HomeFactory,
@@ -409,7 +409,7 @@ def _entity_handlers(handlers: list[Callable[..., Any]], entity_id: str) -> list
 
 
 async def test_hmip_entity_removal_removes_device_callbacks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
 ) -> None:
@@ -431,7 +431,7 @@ async def test_hmip_entity_removal_removes_device_callbacks(
 
 
 async def test_hmip_entity_id_change_keeps_single_device_callbacks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
 ) -> None:

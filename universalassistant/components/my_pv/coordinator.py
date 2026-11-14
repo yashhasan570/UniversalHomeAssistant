@@ -14,8 +14,8 @@ from my_pv.exceptions import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -35,14 +35,14 @@ def _handle_device_errors[**P](
     async def wrapper(self: MyPVCoordinator, *args: P.args, **kwargs: P.kwargs) -> bool:
         try:
             if not self.device.connected and not await self.device.connect():
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="cannot_connect",
                 )
 
             return await func(self, *args, **kwargs)
         except MyPVTooManyRequestsError as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="rate_limiting"
             ) from exc
         except MyPVAuthenticationError as exc:
@@ -52,7 +52,7 @@ def _handle_device_errors[**P](
                 translation_key="auth_error",
             ) from exc
         except MyPVConnectionError as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_unavailable",
                 translation_placeholders={"uri": str(self.device.uri)},
@@ -71,7 +71,7 @@ class MyPVCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: MyPVConfigEntry,
         device: MyPVDevice,
     ) -> None:

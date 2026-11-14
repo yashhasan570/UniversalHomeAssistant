@@ -21,7 +21,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.electric_kiwi.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 CLIENT_ID = "1234"
@@ -30,7 +30,7 @@ REDIRECT_URI = "https://example.com/auth/external/callback"
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup application credentials component."""
     await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -80,7 +80,7 @@ def electrickiwi_api() -> Generator[AsyncMock]:
 
 
 @pytest.fixture(name="config_entry")
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create mocked config entry."""
     return MockConfigEntry(
         title="Electric Kiwi",
@@ -103,7 +103,7 @@ def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 
 @pytest.fixture(name="config_entry2")
-def mock_config_entry2(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry2(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create mocked config entry."""
     return MockConfigEntry(
         title="Electric Kiwi",
@@ -126,7 +126,7 @@ def mock_config_entry2(hass: UniversalAssistant) -> MockConfigEntry:
 
 
 @pytest.fixture(name="migrated_config_entry")
-def mock_migrated_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_migrated_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create mocked config entry."""
     return MockConfigEntry(
         title="Electric Kiwi",

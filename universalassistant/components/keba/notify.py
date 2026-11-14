@@ -3,14 +3,14 @@
 from typing import Any, override
 
 from universalassistant.components.notify import ATTR_DATA, BaseNotificationService
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import DOMAIN
 
 
 async def async_get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> KebaNotificationService:

@@ -17,7 +17,7 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.google_tasks.const import DOMAIN, OAUTH2_SCOPES
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 CLIENT_ID = "1234"
@@ -85,7 +85,7 @@ def mock_config_entry(token_entry: dict[str, Any]) -> MockConfigEntry:
 
 
 @pytest.fixture
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -97,7 +97,7 @@ async def setup_credentials(hass: UniversalAssistant) -> None:
 
 @pytest.fixture(name="integration_setup")
 async def mock_integration_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     platforms: list[str],
 ) -> Callable[[], Awaitable[bool]]:

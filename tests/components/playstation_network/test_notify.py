@@ -30,8 +30,8 @@ from universalassistant.components.notify import (
 from universalassistant.components.playstation_network.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
 
@@ -47,7 +47,7 @@ async def notify_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("mock_psnawpapi", "entity_registry_enabled_by_default")
 async def test_notify_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -73,7 +73,7 @@ async def test_notify_platform(
 @pytest.mark.freeze_time("2025-07-28T00:00:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     entity_id: str,
@@ -116,7 +116,7 @@ async def test_send_message(
     ],
 )
 async def test_send_message_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     exception: Exception,
@@ -135,7 +135,7 @@ async def test_send_message_exceptions(
     assert state
     assert state.state == STATE_UNKNOWN
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -150,7 +150,7 @@ async def test_send_message_exceptions(
 
 
 async def test_notify_skip_forbidden(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -185,7 +185,7 @@ async def test_notify_skip_forbidden(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_notify_dynamic_dm_entity_creation_and_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -237,7 +237,7 @@ async def test_notify_dynamic_dm_entity_creation_and_removal(
 
 @pytest.mark.freeze_time("2025-01-01 00:00:00+00:00")
 async def test_notify_dynamic_group_entity_creation_and_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     entity_registry: er.EntityRegistry,

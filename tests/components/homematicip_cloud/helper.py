@@ -22,7 +22,7 @@ from universalassistant.components.homematicip_cloud.entity import (
     ATTR_MODEL_TYPE,
 )
 from universalassistant.components.homematicip_cloud.hap import HomematicipHAP
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.setup import async_setup_component
 
 HAPID = "3014F7110000000000000001"
@@ -32,7 +32,7 @@ FIXTURE_DATA = load_fixture("homematicip_cloud.json", "homematicip_cloud")
 
 
 def get_and_check_entity_basics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hap: HomematicipHAP,
     entity_id: str,
     entity_name: str,
@@ -58,7 +58,7 @@ def get_and_check_entity_basics(
 
 
 async def async_manipulate_test_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hmip_device: HomeMaticIPObject,
     attribute: str,
     new_value: Any,
@@ -102,7 +102,7 @@ class HomeFactory:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         mock_connection,
         hmip_config_entry: MockConfigEntry,
     ) -> None:

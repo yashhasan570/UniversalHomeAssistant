@@ -20,7 +20,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -216,7 +216,7 @@ SENSORS_BATTERY: tuple[SunsynkSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SunsynkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

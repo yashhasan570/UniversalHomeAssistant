@@ -21,18 +21,18 @@ from pytest_universalassistant.components.common import (
 
 from universalassistant.components.select.condition import CONDITIONS, CONF_OPTION
 from universalassistant.const import CONF_ENTITY_ID, CONF_OPTIONS, CONF_TARGET
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.condition import async_validate_condition_config
 
 
 @pytest.fixture
-async def target_selects(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_selects(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple select entities associated with different targets."""
     return await target_entities(hass, "select")
 
 
 @pytest.fixture
-async def target_input_selects(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_input_selects(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple input_select entities associated with different targets."""
     return await target_entities(hass, "input_select")
 
@@ -49,7 +49,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_select_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -84,7 +84,7 @@ def test_condition_target_support() -> None:
     ),
 )
 async def test_select_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_selects: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -120,7 +120,7 @@ async def test_select_condition_behavior_any(
     ),
 )
 async def test_select_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_selects: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -156,7 +156,7 @@ async def test_select_condition_behavior_all(
     ),
 )
 async def test_input_select_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_input_selects: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -192,7 +192,7 @@ async def test_input_select_condition_behavior_any(
     ),
 )
 async def test_input_select_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_input_selects: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -218,7 +218,7 @@ async def test_input_select_condition_behavior_all(
 
 
 async def test_select_condition_evaluates_both_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test select condition evaluates both select and input_select."""
     entity_id_select = "select.test_select"
@@ -284,7 +284,7 @@ async def test_select_condition_evaluates_both_domains(
     ],
 )
 async def test_select_is_option_selected_condition_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition: str,
     condition_options: dict[str, Any],
     expected_result: AbstractContextManager,

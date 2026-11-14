@@ -12,18 +12,18 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import Context, UniversalAssistant, ServiceCall
+from universalassistant.core import Context, __HAC_KEEP__, ServiceCall
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-def calls(hass: UniversalAssistant) -> list[ServiceCall]:
+def calls(hass: __HAC_KEEP__) -> list[ServiceCall]:
     """Track calls to a mock service."""
     return async_mock_service(hass, "test", "automation")
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: UniversalAssistant) -> None:
+async def setup_comp(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     mock_component(hass, "group")
     await async_setup_component(
@@ -41,7 +41,7 @@ async def setup_comp(hass: UniversalAssistant) -> None:
 
 
 async def test_if_fires_on_zone_enter(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on zone enter."""
     context = Context()
@@ -123,7 +123,7 @@ async def test_if_fires_on_zone_enter(
 
 
 async def test_if_not_fires_for_enter_on_zone_leave(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing on zone leave."""
     hass.states.async_set(
@@ -160,7 +160,7 @@ async def test_if_not_fires_for_enter_on_zone_leave(
 
 
 async def test_if_fires_on_zone_leave(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on zone leave."""
     hass.states.async_set(
@@ -197,7 +197,7 @@ async def test_if_fires_on_zone_leave(
 
 
 async def test_if_fires_on_zone_leave_2(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing on zone leave for unavailable entity."""
     hass.states.async_set(
@@ -234,7 +234,7 @@ async def test_if_fires_on_zone_leave_2(
 
 
 async def test_if_not_fires_for_leave_on_zone_enter(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test for not firing on zone enter."""
     hass.states.async_set(
@@ -271,7 +271,7 @@ async def test_if_not_fires_for_leave_on_zone_enter(
 
 
 async def test_if_fires_on_zone_appear(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if entity appears in zone."""
     assert await async_setup_component(
@@ -320,7 +320,7 @@ async def test_if_fires_on_zone_appear(
 
 
 async def test_if_fires_on_zone_appear_2(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if entity appears in zone."""
     assert await async_setup_component(
@@ -377,7 +377,7 @@ async def test_if_fires_on_zone_appear_2(
 
 
 async def test_if_fires_on_zone_disappear(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test for firing if entity disappears from zone."""
     hass.states.async_set(
@@ -426,7 +426,7 @@ async def test_if_fires_on_zone_disappear(
 
 
 async def test_zone_undefined(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
 ) -> None:

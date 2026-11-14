@@ -1,11 +1,11 @@
 """Exceptions raised by IMAP integration."""
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Raise exception for invalid credentials."""
 
 
-class InvalidFolder(UniversalAssistantError):
+class InvalidFolder(__HAC_KEEP__Error):
     """Raise exception for invalid folder."""

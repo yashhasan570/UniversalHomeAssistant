@@ -20,8 +20,8 @@ from sonos_websocket import SonosWebsocket
 from sonos_websocket.exception import SonosWebsocketError
 
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.dispatcher import (
@@ -98,7 +98,7 @@ class SonosSpeaker:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SonosConfigEntry,
         soco: SoCo,
         speaker_info: dict[str, Any],
@@ -1081,7 +1081,7 @@ class SonosSpeaker:
 
     @staticmethod
     async def join_multi(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SonosConfigEntry,
         master: SonosSpeaker,
         speakers: list[SonosSpeaker],
@@ -1112,7 +1112,7 @@ class SonosSpeaker:
 
     @staticmethod
     async def unjoin_multi(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SonosConfigEntry,
         speakers: list[SonosSpeaker],
     ) -> None:
@@ -1148,7 +1148,7 @@ class SonosSpeaker:
 
     @staticmethod
     async def snapshot_multi(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SonosConfigEntry,
         speakers: list[SonosSpeaker],
         with_group: bool,
@@ -1184,7 +1184,7 @@ class SonosSpeaker:
 
     @staticmethod
     async def restore_multi(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SonosConfigEntry,
         speakers: list[SonosSpeaker],
         with_group: bool,
@@ -1257,7 +1257,7 @@ class SonosSpeaker:
         # Find all affected players
         speakers_set = {s for s in speakers if s.soco_snapshot}
         if missing_snapshots := set(speakers) - speakers_set:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="restore_missing_snapshots",
                 translation_placeholders={
@@ -1279,7 +1279,7 @@ class SonosSpeaker:
 
     @staticmethod
     async def wait_for_groups(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SonosConfigEntry,
         groups: list[list[SonosSpeaker]],
         action: str = "join",
@@ -1312,7 +1312,7 @@ class SonosSpeaker:
                 f"{', '.join(speaker.zone_name for speaker in group)}"
                 for group in groups
             )
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key=f"timeout_{action}",
                 translation_placeholders={
@@ -1330,7 +1330,7 @@ class SonosSpeaker:
                 translation_key="cancel_announcement_no_id",
             )
         if not self.websocket:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="announcement_connection_error",
                 translation_placeholders={"error": "websocket not available"},
@@ -1339,13 +1339,13 @@ class SonosSpeaker:
         try:
             response, _ = await self.websocket.cancel_clip(announcement_id)
         except SonosWebsocketError as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="announcement_connection_error",
                 translation_placeholders={"error": str(exc)},
             ) from exc
         if not response.get("success"):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cancel_announcement_error",
                 translation_placeholders={"response": str(response)},

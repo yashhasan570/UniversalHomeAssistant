@@ -3,7 +3,7 @@
 from pyforked_daapd import ForkedDaapdAPI
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .coordinator import ForkedDaapdConfigEntry, ForkedDaapdUpdater
@@ -11,7 +11,7 @@ from .coordinator import ForkedDaapdConfigEntry, ForkedDaapdUpdater
 PLATFORMS = [Platform.MEDIA_PLAYER]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ForkedDaapdConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ForkedDaapdConfigEntry) -> None:
     """Set up forked-daapd from a config entry by forwarding to platform."""
     host: str = entry.data[CONF_HOST]
     port: int = entry.data[CONF_PORT]
@@ -25,7 +25,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ForkedDaapdConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: ForkedDaapdConfigEntry
+    hass: __HAC_KEEP__, entry: ForkedDaapdConfigEntry
 ) -> None:
     """Remove forked-daapd component."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

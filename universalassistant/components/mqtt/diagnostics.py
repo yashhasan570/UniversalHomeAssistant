@@ -6,7 +6,7 @@ from universalassistant.components import device_tracker
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, EntityStateAttribute
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -20,14 +20,14 @@ REDACT_STATE_DEVICE_TRACKER = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ConfigEntry
+    hass: __HAC_KEEP__, entry: ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return _async_get_diagnostics(hass, entry)
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, entry: ConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: ConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device entry."""
     return _async_get_diagnostics(hass, entry, device)
@@ -35,7 +35,7 @@ async def async_get_device_diagnostics(
 
 @callback
 def _async_get_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     device: AnyDeviceEntry | None = None,
 ) -> dict[str, Any]:
@@ -70,11 +70,11 @@ def _async_get_diagnostics(
 
 @callback
 def _async_device_as_dict(
-    hass: UniversalAssistant, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Represent an MQTT device as a dictionary."""
 
-    # Gather information how this MQTT device is represented in Universal Universal Home Assistant
+    # Gather information how this MQTT device is represented in __HA_KEEP__
     entity_registry = er.async_get(hass)
     data: dict[str, Any] = {
         "id": device.id,

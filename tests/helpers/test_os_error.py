@@ -4,8 +4,8 @@ import errno
 
 import pytest
 
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.os_error import os_read_error, os_write_error
 from universalassistant.helpers.translation import async_load_integrations
 
@@ -67,35 +67,35 @@ def test_os_write_error(err: OSError, translation_key: str) -> None:
         ),
         pytest.param(
             PermissionError(errno.EACCES, "Permission denied"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "os_read_permission_denied",
             "Cannot read /test/file.txt: permission denied",
             id="eacces",
         ),
         pytest.param(
             OSError(errno.EPERM, "Operation not permitted"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "os_read_permission_denied",
             "Cannot read /test/file.txt: permission denied",
             id="eperm",
         ),
         pytest.param(
             IsADirectoryError(errno.EISDIR, "Is a directory"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "os_read_is_directory",
             "Cannot read /test/file.txt: it is a folder, not a file",
             id="eisdir",
         ),
         pytest.param(
             OSError(errno.EIO, "Input/output error"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "os_read_error",
             "Cannot read /test/file.txt",
             id="unmapped_errno",
         ),
         pytest.param(
             TimeoutError(),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "os_read_error",
             "Cannot read /test/file.txt",
             id="no_errno",
@@ -103,9 +103,9 @@ def test_os_write_error(err: OSError, translation_key: str) -> None:
     ],
 )
 async def test_os_read_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     err: OSError,
-    error_class: type[UniversalAssistantError],
+    error_class: type[__HAC_KEEP__Error],
     translation_key: str,
     message: str,
 ) -> None:

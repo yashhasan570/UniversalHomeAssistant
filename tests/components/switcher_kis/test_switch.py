@@ -9,8 +9,8 @@ import pytest
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import slugify
 
 from . import init_integration
@@ -33,7 +33,7 @@ ENTITY_ID3_2 = f"{SWITCH_DOMAIN}.{slugify(DEVICE3.name)}_child_lock_2"
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_WATER_HEATER_DEVICE]], indirect=True)
 async def test_switch(
-    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test the switch."""
     await init_integration(hass)
@@ -89,7 +89,7 @@ async def test_switch(
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_HEATER_DEVICE]], indirect=True)
 async def test_switch_token_needed(
-    hass: UniversalAssistant, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_bridge, mock_api, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test the switch."""
     await init_integration(hass, USERNAME, TOKEN)
@@ -145,7 +145,7 @@ async def test_switch_token_needed(
 
 @pytest.mark.parametrize("mock_bridge", [[DUMMY_WATER_HEATER_DEVICE]], indirect=True)
 async def test_switch_ignore_previous_async_state(
-    hass: UniversalAssistant, mock_bridge, mock_api
+    hass: __HAC_KEEP__, mock_bridge, mock_api
 ) -> None:
     """Test switch ignores previous async state."""
     await init_integration(hass)
@@ -194,7 +194,7 @@ async def test_switch_ignore_previous_async_state(
     ],
 )
 async def test_switch_control_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge,
     mock_api,
     monkeypatch: pytest.MonkeyPatch,
@@ -222,7 +222,7 @@ async def test_switch_control_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.control_device",
         side_effect=side_effect,
     ) as mock_control_device:
-        with pytest.raises(UniversalAssistantError) as exc_info:
+        with pytest.raises(__HAC_KEEP__Error) as exc_info:
             await hass.services.async_call(
                 SWITCH_DOMAIN,
                 SwitchService.TURN_ON,
@@ -241,7 +241,7 @@ async def test_switch_control_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.control_device",
         return_value=SwitcherBaseResponse(None),
     ) as mock_control_device:
-        with pytest.raises(UniversalAssistantError) as exc_info:
+        with pytest.raises(__HAC_KEEP__Error) as exc_info:
             await hass.services.async_call(
                 SWITCH_DOMAIN,
                 SwitchService.TURN_ON,
@@ -292,7 +292,7 @@ async def test_switch_control_fail(
 )
 @pytest.mark.parametrize("mock_bridge", [[DEVICE, DEVICE2, DEVICE3]], indirect=True)
 async def test_child_lock_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge,
     mock_api,
     monkeypatch: pytest.MonkeyPatch,
@@ -352,7 +352,7 @@ async def test_child_lock_switch(
 
 @pytest.mark.parametrize("mock_bridge", [[DEVICE]], indirect=True)
 async def test_child_lock_switch_ignore_previous_async_state(
-    hass: UniversalAssistant, mock_bridge, mock_api
+    hass: __HAC_KEEP__, mock_bridge, mock_api
 ) -> None:
     """Test child lock switch ignores previous async state."""
     await init_integration(hass)
@@ -427,7 +427,7 @@ async def test_child_lock_switch_ignore_previous_async_state(
 )
 @pytest.mark.parametrize("mock_bridge", [[DEVICE, DEVICE2, DEVICE3]], indirect=True)
 async def test_child_lock_control_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge,
     mock_api,
     monkeypatch: pytest.MonkeyPatch,
@@ -453,7 +453,7 @@ async def test_child_lock_control_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.set_shutter_child_lock",
         side_effect=RuntimeError("fake error"),
     ) as mock_control_device:
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 SWITCH_DOMAIN,
                 SwitchService.TURN_ON,
@@ -471,7 +471,7 @@ async def test_child_lock_control_fail(
         "universalassistant.components.switcher_kis.entity.SwitcherApi.set_shutter_child_lock",
         return_value=SwitcherBaseResponse(None),
     ) as mock_control_device:
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 SWITCH_DOMAIN,
                 SwitchService.TURN_ON,

@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant Yellow repairs flow."""
+"""Test the __HA_KEEP__ Yellow repairs flow."""
 
 from unittest.mock import AsyncMock, Mock, patch
 
@@ -23,14 +23,14 @@ from universalassistant.components.universalassistant_hardware.silabs_multiproto
 )
 from universalassistant.components.universalassistant_hardware.util import ApplicationType
 from universalassistant.components.universalassistant_yellow.const import DOMAIN, RADIO_DEVICE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
 async def test_multi_pan_migration_repair_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supervisor_client: AsyncMock,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
@@ -44,7 +44,7 @@ async def test_multi_pan_migration_repair_flow(
         data={"firmware": ApplicationType.CPC},
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Yellow",
+        title="__HA_KEEP__ Yellow",
         version=1,
         minor_version=2,
     )

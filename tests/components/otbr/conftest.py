@@ -12,7 +12,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from python_otbr_api import KeyFormat
 
 from universalassistant.components import otbr
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import (
     CONFIG_ENTRY_DATA_MULTIPAN,
@@ -108,7 +108,7 @@ def get_coprocessor_version_fixture() -> Generator[AsyncMock]:
 
 @pytest.fixture(name="otbr_config_entry_multipan")
 async def otbr_config_entry_multipan_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_active_dataset_tlvs: AsyncMock,
     get_border_agent_id: AsyncMock,
     get_extended_address: AsyncMock,
@@ -129,7 +129,7 @@ async def otbr_config_entry_multipan_fixture(
 
 @pytest.fixture(name="otbr_config_entry_thread")
 async def otbr_config_entry_thread_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_active_dataset_tlvs: AsyncMock,
     get_border_agent_id: AsyncMock,
     get_extended_address: AsyncMock,
@@ -163,7 +163,7 @@ def use_mocked_zeroconf(mock_async_zeroconf: MagicMock) -> None:
 
 
 @pytest.fixture(name="multiprotocol_addon_manager_mock")
-def multiprotocol_addon_manager_mock_fixture(hass: UniversalAssistant):
+def multiprotocol_addon_manager_mock_fixture(hass: __HAC_KEEP__):
     """Mock the Silicon Labs Multiprotocol add-on manager."""
     mock_manager = Mock()
     mock_manager.async_get_channel = Mock(return_value=None)

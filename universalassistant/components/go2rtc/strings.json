@@ -10,7 +10,7 @@
       "title": "Outdated go2rtc server detected"
     },
     "unsupported_version": {
-      "description": "The go2rtc server runs a version that Universal Universal Home Assistant does not support: {error}.\nWebRTC streaming through go2rtc is unavailable until you update the go2rtc server to a supported version. Universal Universal Home Assistant retries automatically and removes this message when the connection succeeds.",
+      "description": "The go2rtc server runs a version that __HA_KEEP__ does not support: {error}.\nWebRTC streaming through go2rtc is unavailable until you update the go2rtc server to a supported version. __HA_KEEP__ retries automatically and removes this message when the connection succeeds.",
       "title": "Unsupported go2rtc server version"
     }
   }

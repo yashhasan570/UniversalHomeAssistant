@@ -18,7 +18,7 @@ from universalassistant.components.media_player import (
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.recorder.history import get_significant_states
 from universalassistant.const import ATTR_ENTITY_PICTURE, ATTR_FRIENDLY_NAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -33,7 +33,7 @@ async def media_player_only() -> None:
         yield
 
 
-async def test_exclude_attributes(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_exclude_attributes(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test media_player registered attributes to be excluded."""
     now = dt_util.utcnow()
     await async_setup_component(hass, "universalassistant", {})

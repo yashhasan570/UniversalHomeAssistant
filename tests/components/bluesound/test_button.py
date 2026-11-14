@@ -11,15 +11,15 @@ import pytest
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .conftest import PlayerMocks
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_sleep_timer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     player_mocks: PlayerMocks,
     setup_config_entry: None,
 ) -> None:
@@ -36,7 +36,7 @@ async def test_set_sleep_timer(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_clear_sleep_timer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     player_mocks: PlayerMocks,
     setup_config_entry: None,
 ) -> None:
@@ -77,16 +77,16 @@ async def test_clear_sleep_timer(
     ],
 )
 async def test_press_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     player_mocks: PlayerMocks,
     entity_id: str,
     error: PlayerError,
     message: str,
 ) -> None:
-    """Test that a failing button press raises UniversalAssistantError."""
+    """Test that a failing button press raises __HAC_KEEP__Error."""
     player_mocks.player_data.player.sleep_timer.side_effect = error
 
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

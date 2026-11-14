@@ -5,7 +5,7 @@ from typing import Any
 from neopool_modbus.decoders import parse_version
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import NeoPoolConfigEntry
 
@@ -13,7 +13,7 @@ TO_REDACT = {"password", "token", "host", "port", "device", "name", "MBF_PAR_SER
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: NeoPoolConfigEntry
+    hass: __HAC_KEEP__, entry: NeoPoolConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a NeoPool config entry."""
     coordinator = entry.runtime_data

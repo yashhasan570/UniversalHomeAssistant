@@ -11,7 +11,7 @@ from universalassistant.config_entries import (
     ConfigEntry,
     ConfigEntryChange,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -23,14 +23,14 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Register the device overview commands."""
     websocket_api.async_register_command(hass, websocket_list_devices)
     websocket_api.async_register_command(hass, websocket_subscribe_devices)
 
 
 @callback
-def _snapshot(hass: UniversalAssistant) -> dict[str, Any]:
+def _snapshot(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Describe devices using current config entries and device registry names."""
     registry = hass.data[DATA_REGISTRY]
     device_registry = dr.async_get(hass)
@@ -124,7 +124,7 @@ def _snapshot(hass: UniversalAssistant) -> dict[str, Any]:
 @websocket_api.websocket_command({probatio.Required("type"): "lorawan/devices/list"})
 @callback
 def websocket_list_devices(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """List devices across all LoRaWAN connections."""
     connection.send_result(msg["id"], _snapshot(hass))
@@ -136,7 +136,7 @@ def websocket_list_devices(
 )
 @callback
 def websocket_subscribe_devices(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Send the current devices and subsequent changes."""
 

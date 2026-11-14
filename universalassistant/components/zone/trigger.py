@@ -18,7 +18,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
 )
@@ -104,7 +104,7 @@ class LegacyZoneTrigger(Trigger):
     @classmethod
     @override
     async def async_validate_complete_config(
-        cls, hass: UniversalAssistant, complete_config: ConfigType
+        cls, hass: __HAC_KEEP__, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config, migrating legacy format to options."""
         complete_config = move_top_level_schema_fields_to_options(
@@ -115,7 +115,7 @@ class LegacyZoneTrigger(Trigger):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         config = cast(ConfigType, _LEGACY_TRIGGER_OPTIONS_SCHEMA(config))
@@ -125,7 +125,7 @@ class LegacyZoneTrigger(Trigger):
         )
         return config
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize trigger."""
         super().__init__(hass, config)
         if TYPE_CHECKING:
@@ -194,7 +194,7 @@ class ZoneTriggerBase(EntityTriggerBase):
     _domain_specs = _DOMAIN_SPECS
     _schema = _ZONE_TRIGGER_SCHEMA
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the trigger."""
         super().__init__(hass, config)
         self._zone: str = self._options[CONF_ZONE]
@@ -263,7 +263,7 @@ class _ZoneOccupancyTriggerBase(EntityTriggerBase):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config and synthesize a target from the zone option.
 
@@ -334,6 +334,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for zones."""
     return TRIGGERS

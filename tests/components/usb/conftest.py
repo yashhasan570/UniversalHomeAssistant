@@ -6,7 +6,7 @@ from aiousbwatcher import InotifyNotAvailableError
 import pytest
 
 from universalassistant.components.usb import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import patch_scanned_serial_ports
@@ -24,7 +24,7 @@ def force_usb_polling_watcher():
 
 @pytest.fixture(name="setup_usb")
 async def setup_usb_fixture(
-    hass: UniversalAssistant, force_usb_polling_watcher: None
+    hass: __HAC_KEEP__, force_usb_polling_watcher: None
 ) -> MagicMock:
     """Set up USB integration and return the scanned serial ports mock."""
     with (

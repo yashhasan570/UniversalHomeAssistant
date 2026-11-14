@@ -25,7 +25,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EheimDigitalConfigEntry, EheimDigitalUpdateCoordinator
@@ -197,7 +197,7 @@ GENERAL_DESCRIPTIONS: tuple[EheimDigitalNumberDescription[EheimDigitalDevice], .
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: EheimDigitalConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

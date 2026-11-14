@@ -19,8 +19,8 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.components.nanoleaf.const import DOMAIN
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import get_reauth_flows, setup_integration
@@ -28,7 +28,7 @@ from . import get_reauth_flows, setup_integration
 ENTITY_ID = "button.nanoleaf_identify"
 
 
-async def _press(hass: UniversalAssistant) -> None:
+async def _press(hass: __HAC_KEEP__) -> None:
     await hass.services.async_call(
         BUTTON_DOMAIN,
         ButtonService.PRESS,
@@ -38,7 +38,7 @@ async def _press(hass: UniversalAssistant) -> None:
 
 
 async def test_press_identifies_the_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_press_identifies_the_device(
 
 
 async def test_no_identify_button_without_event_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -71,7 +71,7 @@ async def test_no_identify_button_without_event_support(
 
 
 async def test_stale_identify_button_is_removed_without_event_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -107,17 +107,17 @@ async def test_stale_identify_button_is_removed_without_event_support(
     ],
 )
 async def test_press_maps_nanoleaf_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
     error: NanoleafError,
 ) -> None:
-    """Test library errors become a Universal Universal Home Assistant error without reauth."""
+    """Test library errors become a __HA_KEEP__ error without reauth."""
     with patch("universalassistant.components.nanoleaf.PLATFORMS", [Platform.BUTTON]):
         await setup_integration(hass, mock_config_entry)
     mock_nanoleaf.identify.side_effect = error
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await _press(hass)
     await hass.async_block_till_done()
 
@@ -137,17 +137,17 @@ async def test_press_maps_nanoleaf_errors(
     ],
 )
 async def test_press_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nanoleaf: AsyncMock,
     mock_config_entry: MockConfigEntry,
     error: NanoleafError,
 ) -> None:
-    """Test a rejected token raises a Universal Universal Home Assistant error and starts reauth."""
+    """Test a rejected token raises a __HA_KEEP__ error and starts reauth."""
     with patch("universalassistant.components.nanoleaf.PLATFORMS", [Platform.BUTTON]):
         await setup_integration(hass, mock_config_entry)
     mock_nanoleaf.identify.side_effect = error
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await _press(hass)
     await hass.async_block_till_done()
 

@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.shopping_list import DOMAIN, intent as sl_intent
 from universalassistant.components.shopping_list.common import PERSISTENCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
-def shopping_list_tmp_path(tmp_path: Path, hass: UniversalAssistant) -> Generator[None]:
+def shopping_list_tmp_path(tmp_path: Path, hass: __HAC_KEEP__) -> Generator[None]:
     """Use a unique temp directory for shopping list storage per test."""
     orig_path = hass.config.path
 
@@ -33,7 +33,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 
 @pytest.fixture
-async def sl_setup(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
+async def sl_setup(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
     """Set up the shopping list."""
 
     mock_config_entry.add_to_hass(hass)

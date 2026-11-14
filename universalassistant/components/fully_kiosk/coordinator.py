@@ -8,7 +8,7 @@ from fullykiosk.exceptions import FullyKioskError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_SSL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -22,7 +22,7 @@ class FullyKioskDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     config_entry: FullyKioskConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: FullyKioskConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: FullyKioskConfigEntry) -> None:
         """Initialize."""
         self.use_ssl = entry.data.get(CONF_SSL, False)
         self.fully = FullyKiosk(

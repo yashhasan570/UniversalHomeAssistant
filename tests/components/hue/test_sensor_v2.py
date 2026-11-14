@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import hue
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.json import JsonArrayType
@@ -16,7 +16,7 @@ from .const import FAKE_DEVICE, FAKE_SENSOR, FAKE_ZIGBEE_CONNECTIVITY
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
@@ -79,7 +79,7 @@ async def test_sensors(
 
 
 async def test_enable_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
@@ -123,7 +123,7 @@ async def test_enable_sensor(
     assert state.attributes["mac_address"] == "00:17:88:01:0b:aa:bb:99"
 
 
-async def test_sensor_add_update(hass: UniversalAssistant, mock_bridge_v2: Mock) -> None:
+async def test_sensor_add_update(hass: __HAC_KEEP__, mock_bridge_v2: Mock) -> None:
     """Test if sensors get added/updated from events."""
     await mock_bridge_v2.api.load_test_data([FAKE_DEVICE, FAKE_ZIGBEE_CONNECTIVITY])
     await setup_platform(hass, mock_bridge_v2, Platform.SENSOR)
@@ -152,7 +152,7 @@ async def test_sensor_add_update(hass: UniversalAssistant, mock_bridge_v2: Mock)
 
 
 async def test_grouped_light_level_sensor(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test HueGroupedLightLevelSensor functionality."""
     await mock_bridge_v2.api.load_test_data(v2_resources_test_data)
@@ -188,7 +188,7 @@ async def test_grouped_light_level_sensor(
 
 
 async def test_temperature_sensor_none_value(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test that temperature sensor handles None value without crashing."""
     for resource in v2_resources_test_data:
@@ -206,7 +206,7 @@ async def test_temperature_sensor_none_value(
 
 
 async def test_light_level_sensor_none_value(
-    hass: UniversalAssistant, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
+    hass: __HAC_KEEP__, mock_bridge_v2: Mock, v2_resources_test_data: JsonArrayType
 ) -> None:
     """Test that light level sensor handles None value without crashing."""
     # Modify the light_level sensor to have None value (simulates sensor unavailability)

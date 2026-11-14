@@ -14,14 +14,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.hydrawise.const import WATER_USE_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 _SPECIAL_ENTITIES = {"binary_sensor.home_controller_connectivity": STATE_OFF}
 
 
 async def test_controller_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_config_entry: Callable[[], Awaitable[MockConfigEntry]],
     entity_registry: er.EntityRegistry,
     controller: Controller,
@@ -34,7 +34,7 @@ async def test_controller_offline(
 
 @pytest.mark.parametrize("side_effect", [ClientError, APIError("unavailable")])
 async def test_api_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_config_entry: Callable[[], Awaitable[MockConfigEntry]],
     entity_registry: er.EntityRegistry,
     mock_pydrawise: AsyncMock,
@@ -55,7 +55,7 @@ async def test_api_offline(
 
 
 def _test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

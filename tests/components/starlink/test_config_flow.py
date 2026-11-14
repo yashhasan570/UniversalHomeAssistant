@@ -6,13 +6,13 @@ from universalassistant import config_entries
 from universalassistant.components.starlink.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_IP_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .patchers import DEVICE_FOUND_PATCHER, NO_DEVICE_PATCHER, SETUP_ENTRY_PATCHER
 
 
-async def test_flow_user_fails_can_succeed(hass: UniversalAssistant) -> None:
+async def test_flow_user_fails_can_succeed(hass: __HAC_KEEP__) -> None:
     """Test user flow can succeed after failure when Starlink is available."""
     user_input = {CONF_IP_ADDRESS: "192.168.100.1:9200"}
 
@@ -42,7 +42,7 @@ async def test_flow_user_fails_can_succeed(hass: UniversalAssistant) -> None:
     assert result["data"] == user_input
 
 
-async def test_flow_user_success(hass: UniversalAssistant) -> None:
+async def test_flow_user_success(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow succeeds when Starlink is available."""
     user_input = {CONF_IP_ADDRESS: "192.168.100.1:9200"}
 
@@ -63,7 +63,7 @@ async def test_flow_user_success(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "some-valid-id"
 
 
-async def test_flow_user_duplicate_abort(hass: UniversalAssistant) -> None:
+async def test_flow_user_duplicate_abort(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow aborts when Starlink is already configured."""
     user_input = {CONF_IP_ADDRESS: "192.168.100.1:9200"}
 

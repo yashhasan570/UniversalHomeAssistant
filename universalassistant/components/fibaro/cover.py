@@ -11,7 +11,7 @@ from universalassistant.components.cover import (
     CoverEntityFeature,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FibaroConfigEntry, FibaroController
@@ -19,7 +19,7 @@ from .entity import FibaroEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FibaroConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

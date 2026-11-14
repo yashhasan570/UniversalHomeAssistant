@@ -7,7 +7,7 @@ import probatio
 from universalassistant.components.universalassistant import exposed_entities
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ENTITY_ID
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.helper_integration import (
@@ -25,7 +25,7 @@ __all__ = [
 
 
 @callback
-def async_get_parent_device_id(hass: UniversalAssistant, entity_id: str) -> str | None:
+def async_get_parent_device_id(hass: __HAC_KEEP__, entity_id: str) -> str | None:
     """Get the parent device id."""
     registry = er.async_get(hass)
 
@@ -35,7 +35,7 @@ def async_get_parent_device_id(hass: UniversalAssistant, entity_id: str) -> str 
     return wrapped_switch.device_id
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     entity_registry = er.async_get(hass)
     try:
@@ -78,7 +78,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
     )
 
 
-async def async_migrate_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
     """Migrate old entry."""
     _LOGGER.debug(
         "Migrating from version %s.%s", config_entry.version, config_entry.minor_version
@@ -109,14 +109,14 @@ async def async_migrate_entry(hass: UniversalAssistant, config_entry: ConfigEntr
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
         entry, (entry.options[CONF_TARGET_DOMAIN],)
     )
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry.
 
     This will unhide the wrapped entity and restore assistant expose settings.

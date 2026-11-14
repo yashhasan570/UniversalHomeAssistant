@@ -3,11 +3,11 @@
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.debug_console.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_setup(hass: UniversalAssistant, hass_ws_client: WebSocketGenerator) -> None:
+async def test_setup(hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator) -> None:
     """Test the console is set up from YAML, asking for the warning first."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     client = await hass_ws_client(hass)

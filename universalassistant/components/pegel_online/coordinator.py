@@ -6,7 +6,7 @@ from typing import override
 from aiopegelonline import CONNECT_ERRORS, PegelOnline, Station, StationMeasurements
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, MIN_TIME_BETWEEN_UPDATES
@@ -23,7 +23,7 @@ class PegelOnlineDataUpdateCoordinator(DataUpdateCoordinator[StationMeasurements
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: PegelOnlineConfigEntry,
         api: PegelOnline,
         station: Station,

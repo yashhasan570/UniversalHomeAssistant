@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant import data_entry_flow
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import FlowContext
 from universalassistant.util.hass_dict import HassKey
 
@@ -49,7 +49,7 @@ class MfaFlowManager(data_entry_flow.FlowManager):
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Init mfa setup flow manager."""
     hass.data[DATA_SETUP_FLOW_MGR] = MfaFlowManager(hass)
 
@@ -73,7 +73,7 @@ def async_setup(hass: UniversalAssistant) -> None:
 )
 @websocket_api.ws_require_user(allow_system_user=False)
 def websocket_setup_mfa(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return a setup flow for mfa auth module."""
 
@@ -117,7 +117,7 @@ def websocket_setup_mfa(
 )
 @websocket_api.ws_require_user(allow_system_user=False)
 def websocket_depose_mfa(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Remove user from mfa module."""
 

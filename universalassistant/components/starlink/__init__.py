@@ -1,7 +1,7 @@
 """The Starlink integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import StarlinkConfigEntry, StarlinkUpdateCoordinator
 
@@ -16,7 +16,7 @@ PLATFORMS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: StarlinkConfigEntry
+    hass: __HAC_KEEP__, config_entry: StarlinkConfigEntry
 ) -> None:
     """Set up Starlink from a config entry."""
     config_entry.runtime_data = StarlinkUpdateCoordinator(hass, config_entry)
@@ -26,7 +26,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: StarlinkConfigEntry
+    hass: __HAC_KEEP__, config_entry: StarlinkConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

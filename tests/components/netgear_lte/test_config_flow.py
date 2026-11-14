@@ -9,7 +9,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.netgear_lte.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_SOURCE, CONTENT_TYPE_JSON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import CONF_DATA, HOST
@@ -21,7 +21,7 @@ def _patch_setup():
     )
 
 
-async def test_flow_user_form(hass: UniversalAssistant, connection: None) -> None:
+async def test_flow_user_form(hass: __HAC_KEEP__, connection: None) -> None:
     """Test that the user set up form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -43,7 +43,7 @@ async def test_flow_user_form(hass: UniversalAssistant, connection: None) -> Non
 
 
 async def test_flow_already_configured(
-    hass: UniversalAssistant, setup_integration: None
+    hass: __HAC_KEEP__, setup_integration: None
 ) -> None:
     """Test config flow aborts when already configured."""
     result = await hass.config_entries.flow.async_init(
@@ -58,7 +58,7 @@ async def test_flow_already_configured(
 
 @pytest.mark.usefixtures("cannot_connect")
 async def test_flow_user_cannot_connect(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test connection error."""
     result = await hass.config_entries.flow.async_init(

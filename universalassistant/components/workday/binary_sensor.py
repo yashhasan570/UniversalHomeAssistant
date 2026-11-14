@@ -6,7 +6,7 @@ from typing import override
 from holidays import HolidayBase
 
 from universalassistant.components.binary_sensor import BinarySensorEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import WorkdayConfigEntry
@@ -15,7 +15,7 @@ from .entity import BaseWorkdayEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WorkdayConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

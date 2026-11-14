@@ -36,8 +36,8 @@ from universalassistant.components.calendar import (
     is_offset_reached,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_ENTITIES, CONF_NAME, CONF_OFFSET
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, PlatformNotReady
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, PlatformNotReady
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity import generate_entity_id
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -93,7 +93,7 @@ class GoogleCalendarEntityDescription(CalendarEntityDescription):
 
 
 def _get_entity_descriptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: GoogleConfigEntry,
     calendar_item: Calendar,
     calendar_info: Mapping[str, Any],
@@ -189,7 +189,7 @@ def _get_entity_descriptions(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: GoogleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -404,7 +404,7 @@ class GoogleCalendarEntity(
 
     @override
     async def async_get_events(
-        self, hass: UniversalAssistant, start_date: datetime, end_date: datetime
+        self, hass: __HAC_KEEP__, start_date: datetime, end_date: datetime
     ) -> list[CalendarEvent]:
         """Get all events in a specific time frame."""
         result_items = await self.coordinator.async_get_events(start_date, end_date)
@@ -469,7 +469,7 @@ class GoogleCalendarEntity(
                 CalendarSyncUpdateCoordinator, self.coordinator
             ).sync.store_service.async_add_event(event)
         except ApiException as err:
-            raise UniversalAssistantError(f"Error while creating event: {err!s}") from err
+            raise __HAC_KEEP__Error(f"Error while creating event: {err!s}") from err
         await self.coordinator.async_refresh()
 
     @override
@@ -496,7 +496,7 @@ class GoogleCalendarEntity(
 def _get_calendar_event(event: Event) -> CalendarEvent:
     """Return a CalendarEvent from an API event."""
     rrule: str | None = None
-    # Universal Universal Home Assistant expects a single RRULE: and all other
+    # __HA_KEEP__ expects a single RRULE: and all other
     # rule types are unsupported or ignored
     if (
         len(event.recurrence) == 1

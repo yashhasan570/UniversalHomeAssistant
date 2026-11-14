@@ -9,7 +9,7 @@ from tuya_sharing import CustomerDevice, Manager
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import initialize_entry
@@ -24,7 +24,7 @@ def platform_autouse():
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -42,7 +42,7 @@ async def test_platform_setup_and_discovery(
     ["sd_lr33znaodtyarrrz"],
 )
 async def test_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

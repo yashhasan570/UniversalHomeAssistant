@@ -10,7 +10,7 @@ from vilfo.exceptions import AuthenticationException, VilfoException
 from universalassistant.components.vilfo.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -40,7 +40,7 @@ from universalassistant.data_entry_flow import FlowResultType
     ],
 )
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vilfo_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     mock_is_valid_host: AsyncMock,
@@ -76,7 +76,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_invalid_auth(
-    hass: UniversalAssistant, mock_vilfo_client: AsyncMock, mock_is_valid_host: AsyncMock
+    hass: __HAC_KEEP__, mock_vilfo_client: AsyncMock, mock_is_valid_host: AsyncMock
 ) -> None:
     """Test we handle invalid auth."""
     mock_vilfo_client.get_board_information.side_effect = AuthenticationException
@@ -116,7 +116,7 @@ async def test_form_invalid_auth(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vilfo_client: AsyncMock,
     mock_is_valid_host: AsyncMock,
     side_effect: Exception,
@@ -149,7 +149,7 @@ async def test_form_exceptions(
 
 @pytest.mark.usefixtures("mock_vilfo_client", "mock_setup_entry")
 async def test_form_wrong_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_is_valid_host: AsyncMock,
 ) -> None:
     """Test we handle wrong host errors."""
@@ -183,7 +183,7 @@ async def test_form_wrong_host(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vilfo_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_is_valid_host: AsyncMock,

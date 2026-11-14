@@ -16,7 +16,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
 )
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -28,7 +28,7 @@ from .conftest import (
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     entity_registry: er.EntityRegistry,
@@ -41,7 +41,7 @@ async def test_setup(
 
 
 async def _setup_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     *,
@@ -71,7 +71,7 @@ async def _setup_binary_sensor(
     ],
 )
 async def test_binary_sensor_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     entity_registry: er.EntityRegistry,
@@ -98,11 +98,11 @@ async def test_binary_sensor_device_class(
 
 
 async def test_binary_sensor_off_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
-    """Test binary sensor off state is exposed through Universal Universal Home Assistant."""
+    """Test binary sensor off state is exposed through __HA_KEEP__."""
     entity_id = await _setup_binary_sensor(
         hass,
         config_entry,

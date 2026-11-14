@@ -5,7 +5,7 @@ from typing import override
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -25,7 +25,7 @@ HOP_SELECT = SelectEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ElectricKiwiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

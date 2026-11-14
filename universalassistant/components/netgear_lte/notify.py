@@ -7,15 +7,15 @@ from eternalegypt.eternalegypt import Modem
 
 from universalassistant.components.notify import ATTR_TARGET, BaseNotificationService
 from universalassistant.const import CONF_RECIPIENT
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import CONF_NOTIFY, DOMAIN, LOGGER
 
 
 async def async_get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> NetgearNotifyService | None:
@@ -59,7 +59,7 @@ class NetgearNotifyService(BaseNotificationService):
             try:
                 await self.modem.sms(target, message)
             except eternalegypt.Error as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="send_message_failed",
                     translation_placeholders={"target": target},

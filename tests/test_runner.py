@@ -18,7 +18,7 @@ import pytest
 
 from universalassistant import core, runner
 from universalassistant.const import __version__
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import executor, thread
 
 # https://github.com/universal-assistant/supervisor/blob/main/supervisor/docker/universalassistant.py
@@ -41,7 +41,7 @@ async def test_cumulative_shutdown_timeout_less_than_supervisor() -> None:
     )
 
 
-async def test_setup_and_run_hass(hass: UniversalAssistant, tmpdir: py.path.local) -> None:
+async def test_setup_and_run_hass(hass: __HAC_KEEP__, tmpdir: py.path.local) -> None:
     """Test we can setup and run."""
     test_dir = tmpdir.mkdir("config")
     default_config = runner.RuntimeConfig(test_dir)
@@ -49,7 +49,7 @@ async def test_setup_and_run_hass(hass: UniversalAssistant, tmpdir: py.path.loca
     with (
         patch("universalassistant.bootstrap.async_setup_hass", return_value=hass),
         patch("threading._shutdown"),
-        patch("universalassistant.core.UniversalAssistant.async_run") as mock_run,
+        patch("universalassistant.core.__HAC_KEEP__.async_run") as mock_run,
     ):
         await runner.setup_and_run_hass(default_config)
         assert threading._shutdown == thread.deadlock_safe_shutdown
@@ -57,7 +57,7 @@ async def test_setup_and_run_hass(hass: UniversalAssistant, tmpdir: py.path.loca
     assert mock_run.called
 
 
-def test_run(hass: UniversalAssistant, tmpdir: py.path.local) -> None:
+def test_run(hass: __HAC_KEEP__, tmpdir: py.path.local) -> None:
     """Test we can run."""
     test_dir = tmpdir.mkdir("config")
     default_config = runner.RuntimeConfig(test_dir)
@@ -66,7 +66,7 @@ def test_run(hass: UniversalAssistant, tmpdir: py.path.local) -> None:
         patch.object(runner, "TASK_CANCELATION_TIMEOUT", 1),
         patch("universalassistant.bootstrap.async_setup_hass", return_value=hass),
         patch("threading._shutdown"),
-        patch("universalassistant.core.UniversalAssistant.async_run") as mock_run,
+        patch("universalassistant.core.__HAC_KEEP__.async_run") as mock_run,
     ):
         runner.run(default_config)
 
@@ -74,7 +74,7 @@ def test_run(hass: UniversalAssistant, tmpdir: py.path.local) -> None:
 
 
 def test_run_executor_shutdown_throws(
-    hass: UniversalAssistant, tmpdir: py.path.local
+    hass: __HAC_KEEP__, tmpdir: py.path.local
 ) -> None:
     """Test we can run and we still shutdown if the executor shutdown throws."""
     test_dir = tmpdir.mkdir("config")
@@ -90,7 +90,7 @@ def test_run_executor_shutdown_throws(
             side_effect=RuntimeError,
         ) as mock_shutdown,
         patch(
-            "universalassistant.core.UniversalAssistant.async_run",
+            "universalassistant.core.__HAC_KEEP__.async_run",
         ) as mock_run,
     ):
         runner.run(default_config)
@@ -100,7 +100,7 @@ def test_run_executor_shutdown_throws(
 
 
 def test_run_does_not_block_forever_with_shielded_task(
-    hass: UniversalAssistant, tmpdir: py.path.local, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, tmpdir: py.path.local, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we can shutdown and not block forever."""
     test_dir = tmpdir.mkdir("config")
@@ -134,7 +134,7 @@ def test_run_does_not_block_forever_with_shielded_task(
         patch.object(runner, "TASK_CANCELATION_TIMEOUT", 0.1),
         patch("universalassistant.bootstrap.async_setup_hass", return_value=hass),
         patch("threading._shutdown"),
-        patch("universalassistant.core.UniversalAssistant.async_run", _async_create_tasks),
+        patch("universalassistant.core.__HAC_KEEP__.async_run", _async_create_tasks),
     ):
         runner.run(default_config)
 
@@ -151,7 +151,7 @@ def test_run_does_not_block_forever_with_shielded_task(
 
 
 async def test_unhandled_exception_traceback(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an unhandled exception gets a traceback in debug mode."""
 
@@ -251,7 +251,7 @@ def test_ensure_single_execution_blocked(
             assert lock.exit_code == 1
 
         captured = capfd.readouterr()
-        assert "Another Universal Universal Home Assistant instance is already running!" in captured.err
+        assert "Another __HA_KEEP__ instance is already running!" in captured.err
         assert "PID: 12345" in captured.err
         assert "Version: 2025.1.0" in captured.err
         assert "Started: " in captured.err
@@ -278,7 +278,7 @@ def test_ensure_single_execution_corrupt_lock_file(
 
         # Check error output
         captured = capfd.readouterr()
-        assert "Another Universal Universal Home Assistant instance is already running!" in captured.err
+        assert "Another __HA_KEEP__ instance is already running!" in captured.err
         assert "Unable to read lock file details:" in captured.err
         assert f"Config directory: {config_dir}" in captured.err
 
@@ -301,7 +301,7 @@ def test_ensure_single_execution_empty_lock_file(
 
         # Check error output
         captured = capfd.readouterr()
-        assert "Another Universal Universal Home Assistant instance is already running!" in captured.err
+        assert "Another __HA_KEEP__ instance is already running!" in captured.err
         assert "Unable to read lock file details." in captured.err
 
 
@@ -331,7 +331,7 @@ def test_ensure_single_execution_with_timezone(
             assert lock.exit_code == 1
 
         captured = capfd.readouterr()
-        assert "Another Universal Universal Home Assistant instance is already running!" in captured.err
+        assert "Another __HA_KEEP__ instance is already running!" in captured.err
         assert "PID: 54321" in captured.err
         assert "Version: 2025.2.0" in captured.err
         assert "Started: " in captured.err
@@ -378,7 +378,7 @@ def test_ensure_single_execution_with_tz_abbreviation(
                 assert lock.exit_code == 1
 
         captured = capfd.readouterr()
-        assert "Another Universal Universal Home Assistant instance is already running!" in captured.err
+        assert "Another __HA_KEEP__ instance is already running!" in captured.err
         assert "PID: 98765" in captured.err
         assert "Version: 2025.3.0" in captured.err
         assert "Started: 2025-09-03 10:30:45 PST" in captured.err
@@ -448,17 +448,17 @@ def test_ensure_single_execution_sequential_runs(tmp_path: Path) -> None:
 
 
 def _assert_hass_event_loop(loop: asyncio.AbstractEventLoop) -> None:
-    """Assert the loop carries the Universal Universal Home Assistant customizations."""
+    """Assert the loop carries the __HA_KEEP__ customizations."""
     assert loop.time is runner.monotonic
     assert isinstance(loop._default_executor, executor.InterruptibleThreadPoolExecutor)
 
 
-def test_sync_test_gets_hass_event_loop(hass: UniversalAssistant) -> None:
+def test_sync_test_gets_hass_event_loop(hass: __HAC_KEEP__) -> None:
     """Test a synchronous test builds the async hass fixture on our loop."""
     _assert_hass_event_loop(hass.loop)
 
 
-async def test_async_test_gets_hass_event_loop(hass: UniversalAssistant) -> None:
+async def test_async_test_gets_hass_event_loop(hass: __HAC_KEEP__) -> None:
     """Test an async test runs on our loop."""
     _assert_hass_event_loop(asyncio.get_running_loop())
     _assert_hass_event_loop(hass.loop)

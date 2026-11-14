@@ -8,12 +8,12 @@ import pytest
 
 from universalassistant.components import hassio
 from universalassistant.const import __version__ as current_version
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.system_info import async_get_system_info
 
 
-async def test_get_system_info(hass: UniversalAssistant) -> None:
+async def test_get_system_info(hass: __HAC_KEEP__) -> None:
     """Test the get system info."""
     info = await async_get_system_info(hass)
     assert isinstance(info, dict)
@@ -23,7 +23,7 @@ async def test_get_system_info(hass: UniversalAssistant) -> None:
 
 
 async def test_get_system_info_supervisor_not_available(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the get system info when supervisor is not available."""
     hass.config.components.add("hassio")
@@ -41,11 +41,11 @@ async def test_get_system_info_supervisor_not_available(
         assert info["version"] == current_version
         assert info["user"] is not None
         assert json.dumps(info) is not None
-        assert info["installation_type"] == "Universal Universal Home Assistant Supervised"
-        assert "No Universal Universal Home Assistant Supervisor info available" in caplog.text
+        assert info["installation_type"] == "__HA_KEEP__ Supervised"
+        assert "No __HA_KEEP__ Supervisor info available" in caplog.text
 
 
-async def test_get_system_info_supervisor_not_loaded(hass: UniversalAssistant) -> None:
+async def test_get_system_info_supervisor_not_loaded(hass: __HAC_KEEP__) -> None:
     """Test the get system info when supervisor is not loaded."""
     assert is_hassio(hass) is False
     with (
@@ -67,19 +67,19 @@ async def test_get_system_info_supervisor_not_loaded(hass: UniversalAssistant) -
     ("is_docker_env", "is_official", "is_venv", "user", "expected_installation_type"),
     [
         # Docker environment true, venv flag is ignored in this case
-        (True, True, True, "root", "Universal Universal Home Assistant Container"),
+        (True, True, True, "root", "__HA_KEEP__ Container"),
         (True, True, True, "user", "Unsupported Third Party Container"),
         (True, False, True, "root", "Unsupported Third Party Container"),
         (True, False, True, "user", "Unsupported Third Party Container"),
-        (True, True, False, "root", "Universal Universal Home Assistant Container"),
+        (True, True, False, "root", "__HA_KEEP__ Container"),
         (True, True, False, "user", "Unsupported Third Party Container"),
         (True, False, False, "root", "Unsupported Third Party Container"),
         (True, False, False, "user", "Unsupported Third Party Container"),
-        # Docker environment false, unknown if not venv, otherwise Universal Universal Home Assistant Core
-        (False, True, True, "root", "Universal Universal Home Assistant Core"),
-        (False, True, True, "user", "Universal Universal Home Assistant Core"),
-        (False, False, True, "root", "Universal Universal Home Assistant Core"),
-        (False, False, True, "user", "Universal Universal Home Assistant Core"),
+        # Docker environment false, unknown if not venv, otherwise __HA_KEEP__ Core
+        (False, True, True, "root", "__HA_KEEP__ Core"),
+        (False, True, True, "user", "__HA_KEEP__ Core"),
+        (False, False, True, "root", "__HA_KEEP__ Core"),
+        (False, False, True, "user", "__HA_KEEP__ Core"),
         (False, True, False, "root", "Unknown"),
         (False, True, False, "user", "Unknown"),
         (False, False, False, "root", "Unknown"),
@@ -87,7 +87,7 @@ async def test_get_system_info_supervisor_not_loaded(hass: UniversalAssistant) -
     ],
 )
 async def test_non_hassio_installation_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user: str,
     is_docker_env: bool,
     is_official: bool,
@@ -121,7 +121,7 @@ async def test_non_hassio_installation_type(
 
 
 @pytest.mark.parametrize("error", [KeyError, OSError])
-async def test_getuser_oserror(hass: UniversalAssistant, error: Exception) -> None:
+async def test_getuser_oserror(hass: __HAC_KEEP__, error: Exception) -> None:
     """Test getuser oserror."""
     with patch("universalassistant.helpers.system_info.cached_get_user", side_effect=error):
         info = await async_get_system_info(hass)

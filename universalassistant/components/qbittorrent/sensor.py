@@ -12,7 +12,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import STATE_IDLE, UnitOfDataRate, UnitOfInformation
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -232,7 +232,7 @@ SENSOR_TYPES: tuple[QBittorrentSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: QBittorrentConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

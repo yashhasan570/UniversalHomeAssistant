@@ -80,8 +80,8 @@ from universalassistant.const import (
     EVENT_STATE_REPORTED,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import Event, EventStateReportedData, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import Event, EventStateReportedData, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -138,12 +138,12 @@ def _build_mock_wiim_device(
 
 
 async def test_state_machine_updates_from_device_callbacks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
 ) -> None:
-    """Test cached device state is reflected in Universal Universal Home Assistant."""
+    """Test cached device state is reflected in __HA_KEEP__."""
     await setup_integration(hass, mock_config_entry)
     state = hass.states.get(MEDIA_PLAYER_ENTITY_ID)
     assert state.state == MediaPlayerState.IDLE
@@ -217,7 +217,7 @@ async def test_state_machine_updates_from_device_callbacks(
 
 
 async def test_general_update_handles_offline_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -236,7 +236,7 @@ async def test_general_update_handles_offline_device(
 
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_general_update_renews_http_subscriptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_general_update_renews_http_subscriptions(
 
 
 async def test_state_machine_updates_from_transport_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -297,7 +297,7 @@ async def test_state_machine_updates_from_transport_events(
 )
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_transport_services_call_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     *,
@@ -366,7 +366,7 @@ async def test_transport_services_call_device(
     ],
 )
 async def test_control_services_update_state_machine(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -379,7 +379,7 @@ async def test_control_services_update_state_machine(
     state_attr: str,
     state_value: object,
 ) -> None:
-    """Test control services are exercised through Universal Universal Home Assistant."""
+    """Test control services are exercised through __HA_KEEP__."""
     await setup_integration(hass, mock_config_entry)
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -403,17 +403,17 @@ async def test_control_services_update_state_machine(
     [WiimRequestException("request failed"), RuntimeError("command failed")],
 )
 async def test_command_error_uses_translation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
     device_error: Exception,
 ) -> None:
-    """Test command errors raise a translated Universal Universal Home Assistant error."""
+    """Test command errors raise a translated __HA_KEEP__ error."""
     await setup_integration(hass, mock_config_entry)
     mock_wiim_device.async_play.side_effect = device_error
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             SERVICE_MEDIA_PLAY,
@@ -430,7 +430,7 @@ async def test_command_error_uses_translation(
 
 
 async def test_repeat_and_shuffle_services_update_state_machine(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -490,7 +490,7 @@ async def test_repeat_and_shuffle_services_update_state_machine(
 
 
 async def test_play_pause_and_seek_services_update_state_machine(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -550,7 +550,7 @@ async def test_play_pause_and_seek_services_update_state_machine(
 
 
 async def test_follower_routes_commands_and_reads_leader_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -623,7 +623,7 @@ async def test_follower_routes_commands_and_reads_leader_metadata(
 
 
 async def test_group_refresh_dispatcher_sends_to_followers_and_refreshes_member(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -708,7 +708,7 @@ async def test_group_refresh_dispatcher_sends_to_followers_and_refreshes_member(
 
 
 async def test_follower_routes_repeat_shuffle_but_keeps_source_local(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -796,12 +796,12 @@ async def test_follower_routes_repeat_shuffle_but_keeps_source_local(
 
 
 async def test_play_media_services_call_device_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
 ) -> None:
-    """Test play_media services are driven through Universal Universal Home Assistant."""
+    """Test play_media services are driven through __HA_KEEP__."""
     await setup_integration(hass, mock_config_entry)
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -878,7 +878,7 @@ async def test_play_media_services_call_device_commands(
     ],
 )
 async def test_play_media_validation_error_uses_translation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -910,7 +910,7 @@ async def test_play_media_validation_error_uses_translation(
 
 @pytest.mark.parametrize("media_type", [MediaType.MUSIC, MediaType.URL])
 async def test_play_media_url_service_uses_processed_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -940,7 +940,7 @@ async def test_play_media_url_service_uses_processed_url(
 
 
 async def test_play_media_source_service_uses_resolved_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -978,7 +978,7 @@ async def test_play_media_source_service_uses_resolved_url(
 
 
 async def test_browse_media_service_returns_wiim_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -1038,7 +1038,7 @@ async def test_browse_media_service_returns_wiim_library(
 
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_browse_media_does_not_refresh_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
 ) -> None:
@@ -1064,7 +1064,7 @@ async def test_browse_media_does_not_refresh_entity_state(
 
 
 async def test_browse_media_service_includes_media_sources_when_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -1137,7 +1137,7 @@ async def test_browse_media_service_includes_media_sources_when_supported(
     ],
 )
 async def test_browse_media_error_uses_translation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -1198,7 +1198,7 @@ async def test_browse_media_error_uses_translation(
     ],
 )
 async def test_browse_media_failure_returns_empty_without_changing_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -1244,7 +1244,7 @@ async def test_browse_media_failure_returns_empty_without_changing_state(
 
 
 async def test_join_and_unjoin_services_use_resolved_member_udns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -1355,7 +1355,7 @@ async def test_join_and_unjoin_services_use_resolved_member_udns(
 
 
 async def test_join_service_resolves_renamed_member(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
@@ -1452,7 +1452,7 @@ async def test_join_service_resolves_renamed_member(
     ],
 )
 async def test_group_members_follow_renamed_member(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
@@ -1530,7 +1530,7 @@ async def test_group_members_follow_renamed_member(
 
 
 async def test_join_service_invalid_member_uses_translation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     mock_wiim_controller: MagicMock,
@@ -1588,7 +1588,7 @@ async def test_join_service_invalid_member_uses_translation(
 )
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_media_image_ssl_verification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     aioclient_mock: AiohttpClientMocker,
@@ -1650,7 +1650,7 @@ async def test_media_image_ssl_verification(
 )
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_local_https_media_image_fetch_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     aioclient_mock: AiohttpClientMocker,
@@ -1684,7 +1684,7 @@ async def test_local_https_media_image_fetch_error(
 
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_media_image_hash_changes_for_same_local_artwork_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     aioclient_mock: AiohttpClientMocker,

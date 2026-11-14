@@ -20,14 +20,14 @@ from universalassistant.components.zwave_js.helpers import (
     get_endpoint_device_id,
     get_zwave_value_from_config,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.setup import async_setup_component
 
 
 async def test_get_conditions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
@@ -88,7 +88,7 @@ async def test_get_conditions(
 
 
 async def test_get_conditions_endpoint_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
     integration: MockConfigEntry,
@@ -114,7 +114,7 @@ async def test_get_conditions_endpoint_child_device(
 
 
 async def test_node_status_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
@@ -279,7 +279,7 @@ async def test_node_status_state(
 
 
 async def test_config_parameter_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
@@ -406,7 +406,7 @@ async def test_config_parameter_state(
     ],
 )
 async def test_value_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
@@ -483,7 +483,7 @@ async def test_value_state(
     ],
 )
 async def test_value_state_endpoint_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_heatit_z_trm3: Node,
     integration: MockConfigEntry,
@@ -543,7 +543,7 @@ async def test_value_state_endpoint_child_device(
 
 
 async def test_get_condition_capabilities_node_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
@@ -583,7 +583,7 @@ async def test_get_condition_capabilities_node_status(
 
 
 async def test_get_condition_capabilities_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     lock_schlage_be469,
     integration,
@@ -635,7 +635,7 @@ async def test_get_condition_capabilities_value(
 
 
 async def test_get_condition_capabilities_config_parameter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     climate_radio_thermostat_ct100_plus,
     integration,
@@ -722,7 +722,7 @@ async def test_get_condition_capabilities_config_parameter(
 
 
 async def test_failure_scenarios(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client,
     hank_binary_switch,
     integration,
@@ -734,7 +734,7 @@ async def test_failure_scenarios(
     )
     assert device
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await device_condition.async_condition_from_config(
             hass, {"type": "failed.test", "device_id": device.id}
         )
@@ -799,7 +799,7 @@ async def test_failure_scenarios(
 
 
 async def test_get_value_from_config_failure(
-    hass: UniversalAssistant, client, hank_binary_switch, integration
+    hass: __HAC_KEEP__, client, hank_binary_switch, integration
 ) -> None:
     """Test get_value_from_config invalid value ID."""
     with pytest.raises(probatio.Invalid):

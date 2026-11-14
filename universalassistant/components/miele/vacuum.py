@@ -14,8 +14,8 @@ from universalassistant.components.vacuum import (
     VacuumActivity,
     VacuumEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, PROCESS_ACTION, PROGRAM_ID, MieleActions, MieleAppliance
@@ -122,7 +122,7 @@ VACUUM_TYPES: Final[tuple[MieleVacuumDefinition, ...]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MieleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -193,7 +193,7 @@ class MieleVacuum(MieleEntity, StateVacuumEntity):
             await self.api.send_action(device_id, action)
         except ClientResponseError as err:
             _LOGGER.debug("Error setting vacuum state for %s: %s", self.entity_id, err)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_state_error",
                 translation_placeholders={

@@ -5,7 +5,7 @@ from typing import Any
 from airly import Airly
 
 from universalassistant.components import system_health
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import DOMAIN
 from .coordinator import AirlyConfigEntry
@@ -13,13 +13,13 @@ from .coordinator import AirlyConfigEntry
 
 @callback
 def async_register(
-    hass: UniversalAssistant, register: system_health.SystemHealthRegistration
+    hass: __HAC_KEEP__, register: system_health.SystemHealthRegistration
 ) -> None:
     """Register system health callbacks."""
     register.async_register_info(system_health_info)
 
 
-async def system_health_info(hass: UniversalAssistant) -> dict[str, Any]:
+async def system_health_info(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Get info for the info page."""
     config_entry: AirlyConfigEntry = hass.config_entries.async_entries(DOMAIN)[0]
 

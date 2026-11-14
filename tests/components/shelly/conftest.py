@@ -25,7 +25,7 @@ from universalassistant.components.shelly.const import (
     EVENT_SHELLY_CLICK,
     REST_SENSORS_UPDATE_INTERVAL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_MAC
 
@@ -604,7 +604,7 @@ def mock_ws_server():
 
 
 @pytest.fixture
-def events(hass: UniversalAssistant):
+def events(hass: __HAC_KEEP__):
     """Yield caught shelly_click events."""
     return async_capture_events(hass, EVENT_SHELLY_CLICK)
 

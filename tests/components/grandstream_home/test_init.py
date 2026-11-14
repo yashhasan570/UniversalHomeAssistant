@@ -11,13 +11,13 @@ from universalassistant.components.grandstream_home.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceRegistry
 
 
 @pytest.mark.usefixtures("mock_gds_api")
 async def test_setup_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setting up the integration."""
     mock_config_entry.add_to_hass(hass)
@@ -29,7 +29,7 @@ async def test_setup_entry(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_gds_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_gds_api: MagicMock
 ) -> None:
     """Test unloading the integration."""
     mock_config_entry.add_to_hass(hass)
@@ -44,7 +44,7 @@ async def test_unload_entry(
 
 
 async def test_setup_api_ha_control_disabled(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup retries when HA control is disabled."""
     mock_config_entry.add_to_hass(hass)
@@ -60,7 +60,7 @@ async def test_setup_api_ha_control_disabled(
 
 
 async def test_setup_api_offline(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup succeeds when device is offline."""
     mock_config_entry.add_to_hass(hass)
@@ -82,7 +82,7 @@ async def test_setup_api_offline(
 
 
 async def test_setup_api_account_locked(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup succeeds when account is locked."""
     mock_config_entry.add_to_hass(hass)
@@ -104,7 +104,7 @@ async def test_setup_api_account_locked(
 
 
 async def test_setup_api_exception(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup retries when API raises exception."""
     mock_config_entry.add_to_hass(hass)
@@ -120,7 +120,7 @@ async def test_setup_api_exception(
 
 
 async def test_setup_with_product_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_product_model: MockConfigEntry,
     mock_gds_api: MagicMock,
     device_registry: DeviceRegistry,
@@ -139,7 +139,7 @@ async def test_setup_with_product_model(
 
 
 async def test_setup_api_invalid_auth_error(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup retries when authentication fails with unrecognized error."""
     mock_config_entry.add_to_hass(hass)
@@ -155,7 +155,7 @@ async def test_setup_api_invalid_auth_error(
 
 
 async def test_coordinator_update_failed_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_coordinator_update_failed_exception(
 
 
 async def test_coordinator_firmware_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     device_registry: DeviceRegistry,
     freezer: FrozenDateTimeFactory,
@@ -194,7 +194,7 @@ async def test_coordinator_firmware_update(
 
 
 async def test_coordinator_null_result(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

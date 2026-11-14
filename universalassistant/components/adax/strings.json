@@ -3,7 +3,7 @@
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
       "heater_not_available": "Heater not available. Try to reset the heater by pressing + and OK for some seconds.",
-      "heater_not_found": "Heater not found. Try to move the heater closer to Universal Universal Home Assistant computer.",
+      "heater_not_found": "Heater not found. Try to move the heater closer to __HA_KEEP__ computer.",
       "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]"
     },
     "error": {

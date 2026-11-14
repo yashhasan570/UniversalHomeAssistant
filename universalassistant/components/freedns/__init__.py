@@ -8,7 +8,7 @@ import aiohttp
 import probatio
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_SCAN_INTERVAL, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.event import async_track_time_interval
@@ -41,7 +41,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Initialize the FreeDNS component."""
     conf = config[DOMAIN]
     url = conf.get(CONF_URL)

@@ -9,14 +9,14 @@ from universalassistant.components.climate import (
     SERVICE_SET_TEMPERATURE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_setup_platform(
-    hass: UniversalAssistant, mock_melissa, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, mock_melissa, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup_platform."""
     await setup_integration(hass)
@@ -25,7 +25,7 @@ async def test_setup_platform(
 
 
 async def test_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_melissa: AsyncMock,

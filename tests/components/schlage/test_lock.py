@@ -23,15 +23,15 @@ from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockServic
 from universalassistant.components.schlage.const import DOMAIN, UPDATE_INTERVAL
 from universalassistant.components.schlage.services import SchlageService
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import MockSchlageConfigEntry
 
 
 async def test_lock_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_config_entry: Callable[[], Awaitable[MockSchlageConfigEntry]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -43,7 +43,7 @@ async def test_lock_attributes(
 
 
 async def test_lock_jammed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -61,7 +61,7 @@ async def test_lock_jammed(
 
 
 async def test_lock_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -77,7 +77,7 @@ async def test_lock_disconnected(
 
 
 async def test_lock_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_lock_services(
 
 
 async def test_changed_by(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -130,7 +130,7 @@ async def test_changed_by(
     ids=["notify-true", "notify-false"],
 )
 async def test_add_code_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
     notify_on_use: bool,
@@ -164,7 +164,7 @@ async def test_add_code_service(
 
 
 async def test_add_code_service_integer_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_add_code_service_integer_code(
 
 
 async def test_add_code_service_default_notify_on_use_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -235,7 +235,7 @@ async def test_add_code_service_default_notify_on_use_value(
     ids=["non_digits", "too_short", "too_long", "mixed"],
 )
 async def test_add_code_service_invalid_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
     code: str,
@@ -258,7 +258,7 @@ async def test_add_code_service_invalid_code(
 
 
 async def test_add_code_service_duplicate_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -290,7 +290,7 @@ async def test_add_code_service_duplicate_name(
 
 
 async def test_add_code_service_duplicate_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -321,7 +321,7 @@ async def test_add_code_service_duplicate_code(
 
 
 async def test_delete_code_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -348,7 +348,7 @@ async def test_delete_code_service(
 
 
 async def test_delete_code_service_case_insensitive(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -374,7 +374,7 @@ async def test_delete_code_service_case_insensitive(
 
 
 async def test_delete_code_service_nonexistent_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -395,7 +395,7 @@ async def test_delete_code_service_nonexistent_code(
 
 
 async def test_delete_code_service_no_access_codes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -416,7 +416,7 @@ async def test_delete_code_service_no_access_codes(
 
 
 async def test_get_codes_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -546,7 +546,7 @@ _LATER_TEMPORARY_START = datetime(2025, 1, 2, 8, 0, 0, tzinfo=UTC)
     ],
 )
 async def test_get_codes_service_schedule_time_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
     schedule: MultiRecurringSchedule | RecurringSchedule,
@@ -583,7 +583,7 @@ async def test_get_codes_service_schedule_time_values(
 
 
 async def test_get_codes_service_temporary_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -625,7 +625,7 @@ async def test_get_codes_service_temporary_schedule(
 
 
 async def test_get_codes_service_no_codes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -647,7 +647,7 @@ async def test_get_codes_service_no_codes(
 
 
 async def test_get_codes_service_empty_codes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -669,7 +669,7 @@ async def test_get_codes_service_empty_codes(
 
 
 async def test_delete_code_service_nonexistent_code_with_existing_codes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -697,14 +697,14 @@ async def test_delete_code_service_nonexistent_code_with_existing_codes(
 
 
 async def test_add_code_service_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
-    """Test add_code service raises UniversalAssistantError on refresh failure."""
+    """Test add_code service raises __HAC_KEEP__Error on refresh failure."""
     mock_lock.refresh_access_codes.side_effect = SchlageError("API error")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             SchlageService.ADD_CODE,
@@ -720,15 +720,15 @@ async def test_add_code_service_refresh_error(
 
 
 async def test_add_code_service_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
-    """Test add_code service raises UniversalAssistantError on add failure."""
+    """Test add_code service raises __HAC_KEEP__Error on add failure."""
     mock_lock.access_codes = {}
     mock_lock.add_access_code.side_effect = SchlageError("API error")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             SchlageService.ADD_CODE,
@@ -744,17 +744,17 @@ async def test_add_code_service_api_error(
 
 
 async def test_delete_code_service_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
-    """Test delete_code service raises UniversalAssistantError on delete failure."""
+    """Test delete_code service raises __HAC_KEEP__Error on delete failure."""
     existing_code = Mock()
     existing_code.name = "test_user"
     existing_code.delete.side_effect = SchlageError("API error")
     mock_lock.access_codes = {"1": existing_code}
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             SchlageService.DELETE_CODE,
@@ -768,14 +768,14 @@ async def test_delete_code_service_api_error(
 
 
 async def test_get_codes_service_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
-    """Test get_codes service raises UniversalAssistantError on refresh failure."""
+    """Test get_codes service raises __HAC_KEEP__Error on refresh failure."""
     mock_lock.refresh_access_codes.side_effect = SchlageError("API error")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             SchlageService.GET_CODES,
@@ -789,7 +789,7 @@ async def test_get_codes_service_refresh_error(
 
 
 async def test_add_code_service_temporary_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -823,7 +823,7 @@ async def test_add_code_service_temporary_pin(
 
 
 async def test_add_code_service_validation_before_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -882,7 +882,7 @@ async def test_add_code_service_validation_before_refresh(
     ],
 )
 async def test_add_code_service_invalid_datetime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
     service_data: dict[str, str],
@@ -906,7 +906,7 @@ async def test_add_code_service_invalid_datetime(
 
 
 async def test_add_code_service_temporary_pin_non_utc_timezone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:

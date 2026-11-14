@@ -13,8 +13,8 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntity,
     WaterHeaterEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -27,7 +27,7 @@ from .coordinator import CoilCoordinator, NibeHeatpumpConfigEntry
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: NibeHeatpumpConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -184,7 +184,7 @@ class WaterHeater(CoordinatorEntity[CoilCoordinator], WaterHeaterEntity):
     async def async_set_operation_mode(self, operation_mode: str) -> None:
         """Set new target operation mode."""
         if not self._coil_temporary_lux:
-            raise UniversalAssistantError("Not supported")
+            raise __HAC_KEEP__Error("Not supported")
 
         lux = self._operation_mode_to_lux.get(operation_mode)
         if not lux:

@@ -7,7 +7,7 @@ from compit_inext_api.consts import CompitParameter
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -55,7 +55,7 @@ DEVICE_DEFINITIONS: dict[int, CompitDeviceDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CompitConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

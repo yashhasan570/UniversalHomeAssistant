@@ -3,7 +3,7 @@
 from collections.abc import Awaitable, Callable
 from typing import TYPE_CHECKING, override
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.template import MAX_CUSTOM_TEMPLATE_SIZE
 
 from ..const import DOMAIN
@@ -133,9 +133,9 @@ class TemplateRepository(Repository):
 
     @override
     async def async_check_written_content(self) -> None:
-        """Refuse a template Universal Universal Home Assistant can not read.
+        """Refuse a template __HA_KEEP__ can not read.
 
-        Universal Universal Home Assistant reads every template at startup, one it can not decode
+        __HA_KEEP__ reads every template at startup, one it can not decode
         stops it from starting.
         """
 
@@ -202,7 +202,7 @@ class TemplateRepository(Repository):
             await self.marketplace.hass.services.async_call(
                 "universalassistant", "reload_custom_templates", {}
             )
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             self.logger.exception("%s Reloading custom templates failed", self.string)
 
     @override

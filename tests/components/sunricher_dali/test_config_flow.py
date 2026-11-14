@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -22,7 +22,7 @@ from .conftest import GATEWAY_SERIAL
 
 
 async def test_discovery_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_discovery: MagicMock,
     mock_gateway: MagicMock,
@@ -62,7 +62,7 @@ async def test_discovery_flow_success(
 
 
 async def test_discovery_no_gateways_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discovery: MagicMock,
     mock_gateway: MagicMock,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_discovery_no_gateways_found(
 
 
 async def test_discovery_gateway_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discovery: MagicMock,
     mock_gateway: MagicMock,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_discovery_gateway_error(
 
 
 async def test_discovery_connection_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discovery: MagicMock,
     mock_gateway: MagicMock,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_discovery_connection_failure(
 
 
 async def test_discovery_duplicate_filtered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discovery: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_gateway: MagicMock,
@@ -203,7 +203,7 @@ async def test_discovery_duplicate_filtered(
 
 
 async def test_discovery_unique_id_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discovery: MagicMock,
     mock_config_entry: MockConfigEntry,
     mock_gateway: MagicMock,
@@ -226,7 +226,7 @@ async def test_discovery_unique_id_already_configured(
 
 
 async def test_dhcp_updates_existing_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test DHCP discovery updates IP of existing entry."""
@@ -249,7 +249,7 @@ async def test_dhcp_updates_existing_entry(
     assert mock_config_entry.data[CONF_HOST] == "192.168.1.200"
 
 
-async def test_dhcp_unknown_device(hass: UniversalAssistant) -> None:
+async def test_dhcp_unknown_device(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery of unknown device aborts."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

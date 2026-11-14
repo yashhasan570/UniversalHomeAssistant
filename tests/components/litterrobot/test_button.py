@@ -7,8 +7,8 @@ import pytest
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_integration
@@ -17,7 +17,7 @@ BUTTON_ENTITY = "button.test_reset_waste_drawer"
 
 
 async def test_button(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_account: MagicMock
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, mock_account: MagicMock
 ) -> None:
     """Test the creation and values of the Litter-Robot button."""
     await setup_integration(hass, mock_account, BUTTON_DOMAIN)
@@ -47,12 +47,12 @@ async def test_button(
 
 
 async def test_button_command_exception(
-    hass: UniversalAssistant, mock_account_with_side_effects: MagicMock
+    hass: __HAC_KEEP__, mock_account_with_side_effects: MagicMock
 ) -> None:
-    """Test that LitterRobotException is wrapped in UniversalAssistantError."""
+    """Test that LitterRobotException is wrapped in __HAC_KEEP__Error."""
     await setup_integration(hass, mock_account_with_side_effects, BUTTON_DOMAIN)
 
-    with pytest.raises(UniversalAssistantError, match="Invalid command: oops"):
+    with pytest.raises(__HAC_KEEP__Error, match="Invalid command: oops"):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,
@@ -69,7 +69,7 @@ async def test_button_command_exception(
     ],
 )
 async def test_litter_robot_5_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_account_with_litterrobot_5: MagicMock,
     entity_registry: er.EntityRegistry,
     entity_id: str,

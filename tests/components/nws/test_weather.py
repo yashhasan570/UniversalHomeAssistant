@@ -26,7 +26,7 @@ from universalassistant.components.weather import (
     WeatherService,
 )
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.unit_system import METRIC_SYSTEM, US_CUSTOMARY_SYSTEM
@@ -55,7 +55,7 @@ from .const import (
     ],
 )
 async def test_imperial_metric(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     units,
     result_observation,
     result_forecast,
@@ -83,7 +83,7 @@ async def test_imperial_metric(
         assert data.get(key) == value
 
 
-async def test_night_clear(hass: UniversalAssistant, mock_simple_nws, no_sensor) -> None:
+async def test_night_clear(hass: __HAC_KEEP__, mock_simple_nws, no_sensor) -> None:
     """Test with clear-night in observation."""
     instance = mock_simple_nws.return_value
     instance.observation = CLEAR_NIGHT_OBSERVATION
@@ -101,7 +101,7 @@ async def test_night_clear(hass: UniversalAssistant, mock_simple_nws, no_sensor)
     assert state.state == ATTR_CONDITION_CLEAR_NIGHT
 
 
-async def test_none_values(hass: UniversalAssistant, mock_simple_nws, no_sensor) -> None:
+async def test_none_values(hass: __HAC_KEEP__, mock_simple_nws, no_sensor) -> None:
     """Test with none values in observation and forecast dicts."""
     instance = mock_simple_nws.return_value
     instance.observation = NONE_OBSERVATION
@@ -124,7 +124,7 @@ async def test_none_values(hass: UniversalAssistant, mock_simple_nws, no_sensor)
 
 
 async def test_data_caching_error_observation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_simple_nws,
     no_sensor,
@@ -175,7 +175,7 @@ async def test_data_caching_error_observation(
 
 
 async def test_no_data_error_observation(
-    hass: UniversalAssistant, mock_simple_nws, no_sensor, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_simple_nws, no_sensor, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test catching NwsNoDataDrror."""
     instance = mock_simple_nws.return_value
@@ -197,7 +197,7 @@ async def test_no_data_error_observation(
 
 
 async def test_no_data_error_forecast(
-    hass: UniversalAssistant, mock_simple_nws, no_sensor, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_simple_nws, no_sensor, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test catching NwsNoDataDrror."""
     instance = mock_simple_nws.return_value
@@ -218,7 +218,7 @@ async def test_no_data_error_forecast(
 
 
 async def test_no_data_error_forecast_hourly(
-    hass: UniversalAssistant, mock_simple_nws, no_sensor, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_simple_nws, no_sensor, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test catching NwsNoDataDrror."""
     instance = mock_simple_nws.return_value
@@ -239,7 +239,7 @@ async def test_no_data_error_forecast_hourly(
     )
 
 
-async def test_none(hass: UniversalAssistant, mock_simple_nws, no_sensor) -> None:
+async def test_none(hass: __HAC_KEEP__, mock_simple_nws, no_sensor) -> None:
     """Test with None as observation and forecast."""
     instance = mock_simple_nws.return_value
     instance.observation = None
@@ -263,7 +263,7 @@ async def test_none(hass: UniversalAssistant, mock_simple_nws, no_sensor) -> Non
         assert data.get(key) is None
 
 
-async def test_error_station(hass: UniversalAssistant, mock_simple_nws, no_sensor) -> None:
+async def test_error_station(hass: __HAC_KEEP__, mock_simple_nws, no_sensor) -> None:
     """Test error in setting station."""
 
     instance = mock_simple_nws.return_value
@@ -280,7 +280,7 @@ async def test_error_station(hass: UniversalAssistant, mock_simple_nws, no_senso
     assert hass.states.get("weather.nws_35_75_abc") is None
 
 
-async def test_entity_refresh(hass: UniversalAssistant, mock_simple_nws, no_sensor) -> None:
+async def test_entity_refresh(hass: __HAC_KEEP__, mock_simple_nws, no_sensor) -> None:
     """Test manual refresh."""
     instance = mock_simple_nws.return_value
 
@@ -311,7 +311,7 @@ async def test_entity_refresh(hass: UniversalAssistant, mock_simple_nws, no_sens
 
 
 async def test_error_observation(
-    hass: UniversalAssistant, mock_simple_nws, no_sensor
+    hass: __HAC_KEEP__, mock_simple_nws, no_sensor
 ) -> None:
     """Test error during update observation."""
     instance = mock_simple_nws.return_value
@@ -335,7 +335,7 @@ async def test_error_observation(
 
 
 async def test_new_config_entry(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, no_sensor
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, no_sensor
 ) -> None:
     """Test the expected entities are created."""
     entry = MockConfigEntry(
@@ -360,7 +360,7 @@ async def test_new_config_entry(
     ],
 )
 async def test_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
     mock_simple_nws,
@@ -469,7 +469,7 @@ async def test_forecast_service(
     [("hourly", "weather.nws_35_75_abc")],
 )
 async def test_forecast_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -537,7 +537,7 @@ async def test_forecast_subscription(
     [("hourly", "weather.nws_35_75_abc")],
 )
 async def test_forecast_subscription_with_failing_coordinator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -586,7 +586,7 @@ async def test_forecast_subscription_with_failing_coordinator(
     ],
 )
 async def test_detailed_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
     mock_simple_nws,
@@ -626,7 +626,7 @@ async def test_detailed_forecast_service(
     ],
 )
 async def test_detailed_forecast_service_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
     mock_simple_nws,
@@ -663,7 +663,7 @@ async def test_detailed_forecast_service_no_data(
 @pytest.mark.parametrize("forecast_type", ["hourly", "twice_daily"])
 @pytest.mark.usefixtures("mock_simple_nws", "no_sensor")
 async def test_forecast_subscription_single_event_per_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     forecast_type: str,

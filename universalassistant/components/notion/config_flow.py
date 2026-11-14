@@ -9,7 +9,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_REFRESH_TOKEN, CONF_USER_UUID, DOMAIN, LOGGER
 from .util import async_get_client_with_credentials
@@ -37,7 +37,7 @@ class CredentialsValidationResult:
 
 
 async def async_validate_credentials(
-    hass: UniversalAssistant, username: str, password: str
+    hass: __HAC_KEEP__, username: str, password: str
 ) -> CredentialsValidationResult:
     """Validate a Notion username and password."""
     errors = {}

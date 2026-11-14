@@ -10,7 +10,7 @@ from universalassistant.components.motioneye.const import DOMAIN
 from universalassistant.components.motioneye.entity import get_motioneye_entity_unique_id
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import entity_registry as er
 
@@ -152,7 +152,7 @@ def create_mock_motioneye_client() -> AsyncMock:
 
 
 def create_mock_motioneye_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     data: dict[str, Any] | None = None,
     options: dict[str, Any] | None = None,
 ) -> ConfigEntry:
@@ -169,7 +169,7 @@ def create_mock_motioneye_config_entry(
 
 
 async def setup_mock_motioneye_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry | None = None,
     client: Mock | None = None,
 ) -> ConfigEntry:
@@ -196,7 +196,7 @@ async def setup_mock_motioneye_config_entry(
 
 
 def register_test_entity(
-    hass: UniversalAssistant, platform: str, camera_id: int, type_name: str, entity_id: str
+    hass: __HAC_KEEP__, platform: str, camera_id: int, type_name: str, entity_id: str
 ) -> None:
     """Register a test entity."""
 

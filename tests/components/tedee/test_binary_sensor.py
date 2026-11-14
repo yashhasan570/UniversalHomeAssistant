@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -24,7 +24,7 @@ BINARY_SENSORS = ("charging", "semi_locked", "pullspring_enabled", "lock_uncalib
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tedee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -40,7 +40,7 @@ async def test_binary_sensors(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.usefixtures("init_integration")
 async def test_new_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tedee: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:

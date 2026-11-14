@@ -27,9 +27,9 @@ from universalassistant.components.unifiprotect.services import (
 )
 from universalassistant.config_entries import ConfigEntryDisabler
 from universalassistant.const import ATTR_DEVICE_ID, ATTR_ENTITY_ID, CommonServiceArgument
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, Context, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, Context, __HAC_KEEP__
 from universalassistant.exceptions import (
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceValidationError,
     Unauthorized,
 )
@@ -42,7 +42,7 @@ from .utils import MockUFPFixture, init_entry, setup_public_chime
 
 @pytest.fixture(name="device")
 async def device_fixture(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, ufp: MockUFPFixture
 ):
     """Fixture with entry setup to call services with."""
 
@@ -53,7 +53,7 @@ async def device_fixture(
 
 @pytest.fixture(name="subdevice")
 async def subdevice_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
     light: Light,
@@ -66,7 +66,7 @@ async def subdevice_fixture(
 
 
 async def test_global_service_bad_device(
-    hass: UniversalAssistant, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, ufp: MockUFPFixture
 ) -> None:
     """Test global service, invalid device ID."""
 
@@ -93,7 +93,7 @@ async def test_global_service_bad_device(
 
 
 async def test_global_service_device_from_other_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_global_service_device_from_other_integration(
 
 
 async def test_global_service_exception(
-    hass: UniversalAssistant, device: dr.DeviceEntry, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, device: dr.DeviceEntry, ufp: MockUFPFixture
 ) -> None:
     """Test global service, unexpected error."""
 
@@ -136,7 +136,7 @@ async def test_global_service_exception(
         new_callable=AsyncMock,
         side_effect=BadRequest,
     ) as mock_method:
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 DOMAIN,
                 ProtectService.ADD_DOORBELL_TEXT,
@@ -150,7 +150,7 @@ async def test_global_service_exception(
 
 
 async def test_add_doorbell_text(
-    hass: UniversalAssistant, device: dr.DeviceEntry, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, device: dr.DeviceEntry, ufp: MockUFPFixture
 ) -> None:
     """Test add_doorbell_text service."""
 
@@ -172,7 +172,7 @@ async def test_add_doorbell_text(
 
 
 async def test_remove_doorbell_text(
-    hass: UniversalAssistant, subdevice: dr.DeviceEntry, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, subdevice: dr.DeviceEntry, ufp: MockUFPFixture
 ) -> None:
     """Test remove_doorbell_text service."""
 
@@ -194,7 +194,7 @@ async def test_remove_doorbell_text(
 
 
 async def test_add_doorbell_text_disabled_config_entry(
-    hass: UniversalAssistant, device: dr.DeviceEntry, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, device: dr.DeviceEntry, ufp: MockUFPFixture
 ) -> None:
     """Test add_doorbell_text service."""
     nvr = ufp.api.bootstrap.nvr
@@ -224,7 +224,7 @@ async def test_add_doorbell_text_disabled_config_entry(
 
 
 async def _setup_chime_pairing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -255,7 +255,7 @@ async def _setup_chime_pairing(
 
 
 async def test_set_chime_paired_doorbells(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -286,7 +286,7 @@ async def test_set_chime_paired_doorbells(
     ],
 )
 async def test_set_chime_paired_doorbells_entity_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -316,7 +316,7 @@ async def test_set_chime_paired_doorbells_entity_target(
     ],
 )
 async def test_set_chime_paired_doorbells_ignores_other_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -338,7 +338,7 @@ async def test_set_chime_paired_doorbells_ignores_other_entities(
 
 
 async def test_set_chime_paired_doorbells_with_foreign_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -372,7 +372,7 @@ async def test_set_chime_paired_doorbells_with_foreign_entity(
 
 
 async def test_set_chime_paired_doorbells_readopted_chime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -406,7 +406,7 @@ async def test_set_chime_paired_doorbells_readopted_chime(
     ],
 )
 async def test_set_chime_paired_doorbells_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -419,7 +419,7 @@ async def test_set_chime_paired_doorbells_error(
     public = ufp.api.public_bootstrap.chimes[chime.id]
     public.set_camera_ids.side_effect = error
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN, ProtectService.SET_CHIME_PAIRED_DOORBELLS, data, blocking=True
         )
@@ -428,7 +428,7 @@ async def test_set_chime_paired_doorbells_error(
 
 
 async def test_set_chime_paired_doorbells_without_public_chime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
@@ -440,7 +440,7 @@ async def test_set_chime_paired_doorbells_without_public_chime(
     assert not ufp.api.public_bootstrap.chimes
     device_registry.async_update_device(data[ATTR_DEVICE_ID], name_by_user="Hallway")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN, ProtectService.SET_CHIME_PAIRED_DOORBELLS, data, blocking=True
         )
@@ -450,7 +450,7 @@ async def test_set_chime_paired_doorbells_without_public_chime(
 
 
 async def test_set_chime_paired_doorbells_without_public_camera(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -463,7 +463,7 @@ async def test_set_chime_paired_doorbells_without_public_camera(
     )
     del ufp.api.public_bootstrap.cameras[camera1.id]
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN, ProtectService.SET_CHIME_PAIRED_DOORBELLS, data, blocking=True
         )
@@ -474,7 +474,7 @@ async def test_set_chime_paired_doorbells_without_public_camera(
 
 
 async def test_set_chime_paired_doorbells_public_nvr_without_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -497,7 +497,7 @@ async def test_set_chime_paired_doorbells_public_nvr_without_mac(
 
 
 async def test_set_chime_paired_doorbells_device_without_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
@@ -514,7 +514,7 @@ async def test_set_chime_paired_doorbells_device_without_mac(
     )
     data[ATTR_DEVICE_ID] = device.id
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN, ProtectService.SET_CHIME_PAIRED_DOORBELLS, data, blocking=True
         )
@@ -525,7 +525,7 @@ async def test_set_chime_paired_doorbells_device_without_mac(
 
 
 async def test_set_chime_paired_doorbells_unpair_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     chime: Chime,
@@ -552,7 +552,7 @@ async def test_set_chime_paired_doorbells_unpair_all(
     ],
 )
 async def test_set_chime_paired_doorbells_not_a_chime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
@@ -584,7 +584,7 @@ async def test_set_chime_paired_doorbells_not_a_chime(
 
 
 async def test_remove_privacy_zone_no_zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -598,7 +598,7 @@ async def test_remove_privacy_zone_no_zone(
 
     camera_entry = entity_registry.async_get("event.test_camera_doorbell")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             ProtectService.REMOVE_PRIVACY_ZONE,
@@ -612,7 +612,7 @@ async def test_remove_privacy_zone_no_zone(
 
 
 async def test_remove_privacy_zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -642,7 +642,7 @@ async def test_remove_privacy_zone(
 
 
 async def get_user_keyring_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -697,7 +697,7 @@ async def get_user_keyring_info(
 
 
 async def test_get_user_keyring_info_no_users(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -712,7 +712,7 @@ async def test_get_user_keyring_info_no_users(
     camera_entry = entity_registry.async_get("event.test_camera_doorbell")
 
     with pytest.raises(
-        UniversalAssistantError, match="No users found, please check Protect permissions"
+        __HAC_KEEP__Error, match="No users found, please check Protect permissions"
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -745,7 +745,7 @@ def _make_presets() -> list[PTZPreset]:
 
 
 async def test_ptz_goto_preset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     ptz_camera: Camera,
@@ -773,7 +773,7 @@ async def test_ptz_goto_preset(
 
 
 async def test_ptz_goto_preset_home(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     ptz_camera: Camera,
@@ -800,7 +800,7 @@ async def test_ptz_goto_preset_home(
 
 
 async def test_ptz_goto_preset_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     ptz_camera: Camera,
@@ -827,7 +827,7 @@ async def test_ptz_goto_preset_not_found(
 
 
 async def test_ptz_goto_preset_not_ptz_camera(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     doorbell: Camera,
@@ -850,7 +850,7 @@ async def test_ptz_goto_preset_not_ptz_camera(
 
 
 async def test_ptz_goto_preset_client_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     ptz_camera: Camera,
@@ -864,7 +864,7 @@ async def test_ptz_goto_preset_client_error(
         "camera.ptz_camera_high_resolution_channel"
     )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             ProtectService.PTZ_GOTO_PRESET,
@@ -877,7 +877,7 @@ async def test_ptz_goto_preset_client_error(
 
 
 async def test_ptz_goto_preset_public_client_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     ptz_camera: Camera,
@@ -893,7 +893,7 @@ async def test_ptz_goto_preset_public_client_error(
 
     public = ufp.api.public_bootstrap.cameras[ptz_camera.id]
     public.ptz_goto_preset.side_effect = ClientError("Connection failed")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             ProtectService.PTZ_GOTO_PRESET,
@@ -906,7 +906,7 @@ async def test_ptz_goto_preset_public_client_error(
 
 
 async def test_ptz_goto_home_preset_client_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     ptz_camera: Camera,
@@ -921,7 +921,7 @@ async def test_ptz_goto_home_preset_client_error(
 
     public = ufp.api.public_bootstrap.cameras[ptz_camera.id]
     public.ptz_goto_preset.side_effect = ClientError("Connection failed")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             ProtectService.PTZ_GOTO_PRESET,
@@ -934,7 +934,7 @@ async def test_ptz_goto_home_preset_client_error(
 
 
 async def test_ptz_goto_preset_no_public_camera(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     ptz_camera: Camera,
@@ -947,7 +947,7 @@ async def test_ptz_goto_preset_no_public_camera(
     )
 
     ufp.api.public_bootstrap.cameras = {}
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ProtectService.PTZ_GOTO_PRESET,
@@ -961,7 +961,7 @@ async def test_ptz_goto_preset_no_public_camera(
 
 
 async def test_public_only_action_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
@@ -973,7 +973,7 @@ async def test_public_only_action_rejected(
     )
     assert device is not None
 
-    with pytest.raises(UniversalAssistantError, match="requires a local user"):
+    with pytest.raises(__HAC_KEEP__Error, match="requires a local user"):
         await hass.services.async_call(
             DOMAIN,
             ProtectService.ADD_DOORBELL_TEXT,
@@ -986,7 +986,7 @@ async def test_public_only_action_rejected(
 
 
 async def test_trigger_alarm_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_public_only: MockUFPFixture,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
@@ -1010,12 +1010,12 @@ async def test_trigger_alarm_webhook(
 
 @pytest.mark.usefixtures("device")
 async def test_trigger_alarm_webhook_error(
-    hass: UniversalAssistant, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, ufp: MockUFPFixture
 ) -> None:
     """Test trigger_alarm_webhook reports Protect errors."""
     ufp.api.send_alarm_webhook_public = AsyncMock(side_effect=BadRequest("400"))
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             ProtectService.TRIGGER_ALARM_WEBHOOK,
@@ -1031,7 +1031,7 @@ async def test_trigger_alarm_webhook_error(
 
 @pytest.mark.usefixtures("device")
 async def test_trigger_alarm_webhook_empty_trigger_id(
-    hass: UniversalAssistant, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, ufp: MockUFPFixture
 ) -> None:
     """Test trigger_alarm_webhook rejects an empty trigger ID."""
     ufp.api.send_alarm_webhook_public = AsyncMock()
@@ -1051,7 +1051,7 @@ async def test_trigger_alarm_webhook_empty_trigger_id(
 
 @pytest.mark.usefixtures("device")
 async def test_trigger_alarm_webhook_non_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     hass_read_only_user: MockUser,
 ) -> None:

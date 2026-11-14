@@ -15,8 +15,8 @@ from universalassistant.components.select import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -25,7 +25,7 @@ from universalassistant.helpers import entity_registry as er
     [[Platform.SELECT]],
 )
 async def test_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -49,7 +49,7 @@ async def test_select(
 
 
 async def test_select_set_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: ConfigEntry,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -78,7 +78,7 @@ async def test_select_set_option(
     }
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -111,7 +111,7 @@ async def test_select_set_option(
     }
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,

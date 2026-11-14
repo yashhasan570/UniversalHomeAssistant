@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant Cast integration for Cast."""
+"""__HA_KEEP__ Cast integration for Cast."""
 
 from typing import TYPE_CHECKING
 
@@ -7,11 +7,11 @@ from universalassistant import auth, core
 if TYPE_CHECKING:
     from . import CastConfigEntry
 
-CAST_USER_NAME = "Universal Universal Home Assistant Cast"
+CAST_USER_NAME = "__HA_KEEP__ Cast"
 
 
-async def async_setup_ha_cast(hass: core.UniversalAssistant, entry: CastConfigEntry) -> str:
-    """Set up Universal Universal Home Assistant Cast and return its refresh token."""
+async def async_setup_ha_cast(hass: core.__HAC_KEEP__, entry: CastConfigEntry) -> str:
+    """Set up __HA_KEEP__ Cast and return its refresh token."""
     user_id: str | None = entry.data.get("user_id")
     user: auth.models.User | None = None
 
@@ -36,8 +36,8 @@ async def async_setup_ha_cast(hass: core.UniversalAssistant, entry: CastConfigEn
     return refresh_token.token
 
 
-async def async_remove_user(hass: core.UniversalAssistant, entry: CastConfigEntry) -> None:
-    """Remove Universal Universal Home Assistant Cast user."""
+async def async_remove_user(hass: core.__HAC_KEEP__, entry: CastConfigEntry) -> None:
+    """Remove __HA_KEEP__ Cast user."""
     user_id: str | None = entry.data.get("user_id")
 
     if user_id is not None and (user := await hass.auth.async_get_user(user_id)):

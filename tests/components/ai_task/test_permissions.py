@@ -5,14 +5,14 @@ from pytest_universalassistant.common import MockUser
 
 from universalassistant.auth.permissions.const import POLICY_CONTROL, POLICY_READ
 from universalassistant.components.ai_task.permissions import async_check_permissions
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.exceptions import Unauthorized, UnknownUser
 
 from .conftest import TEST_ENTITY_ID
 
 
 @pytest.mark.parametrize("context", [None, Context()])
-async def test_system_context(hass: UniversalAssistant, context: Context | None) -> None:
+async def test_system_context(hass: __HAC_KEEP__, context: Context | None) -> None:
     """System tasks can use entities without a user permission check."""
     await async_check_permissions(
         hass,
@@ -22,7 +22,7 @@ async def test_system_context(hass: UniversalAssistant, context: Context | None)
     )
 
 
-async def test_unknown_user(hass: UniversalAssistant) -> None:
+async def test_unknown_user(hass: __HAC_KEEP__) -> None:
     """An unknown user cannot use even the default task entity."""
     context = Context(user_id="unknown")
     with pytest.raises(UnknownUser) as err:
@@ -31,7 +31,7 @@ async def test_unknown_user(hass: UniversalAssistant) -> None:
 
 
 async def test_explicit_entity_denied(
-    hass: UniversalAssistant, hass_read_only_user: MockUser
+    hass: __HAC_KEEP__, hass_read_only_user: MockUser
 ) -> None:
     """Explicitly selected task entities require control permission."""
     context = Context(user_id=hass_read_only_user.id)
@@ -43,7 +43,7 @@ async def test_explicit_entity_denied(
 
 
 async def test_explicit_entity_allowed(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Users with control permission can select a task entity."""
     await async_check_permissions(
@@ -52,7 +52,7 @@ async def test_explicit_entity_allowed(
 
 
 async def test_default_entity(
-    hass: UniversalAssistant, hass_read_only_user: MockUser
+    hass: __HAC_KEEP__, hass_read_only_user: MockUser
 ) -> None:
     """Using the default task entity does not require control permission."""
     await async_check_permissions(
@@ -63,7 +63,7 @@ async def test_default_entity(
 @pytest.mark.parametrize("domain", ["camera", "image"])
 @pytest.mark.parametrize("entity_id", [None, TEST_ENTITY_ID])
 async def test_attachment_denied(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     domain: str,
     entity_id: str | None,
@@ -88,7 +88,7 @@ async def test_attachment_denied(
 
 @pytest.mark.parametrize("domain", ["camera", "image"])
 async def test_attachment_allowed(
-    hass: UniversalAssistant, hass_read_only_user: MockUser, domain: str
+    hass: __HAC_KEEP__, hass_read_only_user: MockUser, domain: str
 ) -> None:
     """Read permission is sufficient for an entity attachment."""
     await async_check_permissions(
@@ -99,7 +99,7 @@ async def test_attachment_allowed(
     )
 
 
-async def test_local_media(hass: UniversalAssistant, hass_read_only_user: MockUser) -> None:
+async def test_local_media(hass: __HAC_KEEP__, hass_read_only_user: MockUser) -> None:
     """Local media attachments do not have entity permissions."""
     hass_read_only_user.mock_policy({})
     await async_check_permissions(

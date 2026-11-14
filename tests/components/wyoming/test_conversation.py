@@ -14,7 +14,7 @@ from universalassistant.components import conversation
 from universalassistant.components.conversation import chat_log
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import MATCH_ALL
-from universalassistant.core import Context, UniversalAssistant, State
+from universalassistant.core import Context, __HAC_KEEP__, State
 from universalassistant.helpers import intent
 
 from . import HANDLE_INFO, INTENT_INFO, MockAsyncTcpClient
@@ -23,7 +23,7 @@ from tests.components.conversation import MockChatLog, mock_chat_log  # noqa: F4
 
 
 async def test_intent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_wyoming_intent: ConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
 ) -> None:
@@ -130,7 +130,7 @@ async def test_intent(
 
 
 async def test_multiple_intents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_wyoming_intent: ConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
 ) -> None:
@@ -223,7 +223,7 @@ async def test_multiple_intents(
 
 
 async def test_intent_handle_error(
-    hass: UniversalAssistant, init_wyoming_intent: ConfigEntry
+    hass: __HAC_KEEP__, init_wyoming_intent: ConfigEntry
 ) -> None:
     """Test error during handling when an intent is recognized."""
     agent_id = "conversation.test_intent"
@@ -259,7 +259,7 @@ async def test_intent_handle_error(
 
 
 async def test_multiple_intents_handle_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_wyoming_intent: ConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
 ) -> None:
@@ -320,7 +320,7 @@ async def test_multiple_intents_handle_error(
 
 
 async def test_not_recognized(
-    hass: UniversalAssistant, init_wyoming_intent: ConfigEntry
+    hass: __HAC_KEEP__, init_wyoming_intent: ConfigEntry
 ) -> None:
     """Test when an intent is not recognized."""
     agent_id = "conversation.test_intent"
@@ -344,7 +344,7 @@ async def test_not_recognized(
     assert result.response.speech.get("plain", {}).get("speech") == "failure"
 
 
-async def test_handle(hass: UniversalAssistant, init_wyoming_handle: ConfigEntry) -> None:
+async def test_handle(hass: __HAC_KEEP__, init_wyoming_handle: ConfigEntry) -> None:
     """Test when an intent is handled."""
     agent_id = "conversation.test_handle"
     conversation_id = "conversation-1234"
@@ -387,7 +387,7 @@ async def test_handle(hass: UniversalAssistant, init_wyoming_handle: ConfigEntry
     [(True, True), (False, False), (None, False)],
 )
 async def test_handle_continue_conversation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_wyoming_handle: ConfigEntry,
     continue_conversation: bool | None,
     expected: bool,
@@ -417,7 +417,7 @@ async def test_handle_continue_conversation(
 
 
 async def test_handle_other_user(
-    hass: UniversalAssistant, init_wyoming_handle: ConfigEntry
+    hass: __HAC_KEEP__, init_wyoming_handle: ConfigEntry
 ) -> None:
     """Test the text of a refused user is not sent to the service."""
     agent_id = "conversation.test_handle"
@@ -453,7 +453,7 @@ async def test_handle_other_user(
 
 
 async def test_not_handled(
-    hass: UniversalAssistant, init_wyoming_handle: ConfigEntry
+    hass: __HAC_KEEP__, init_wyoming_handle: ConfigEntry
 ) -> None:
     """Test when an intent is not handled."""
     agent_id = "conversation.test_handle"
@@ -490,7 +490,7 @@ async def test_not_handled(
     ],
 )
 async def test_error_event(
-    hass: UniversalAssistant, error_code: str | None, expected_message: str
+    hass: __HAC_KEEP__, error_code: str | None, expected_message: str
 ) -> None:
     """Test that an error event from the service is reported."""
     agent_id = "conversation.test_intent"
@@ -515,7 +515,7 @@ async def test_error_event(
 
 
 @pytest.mark.usefixtures("init_wyoming_intent")
-async def test_error_event_discards_received_intents(hass: UniversalAssistant) -> None:
+async def test_error_event_discards_received_intents(hass: __HAC_KEEP__) -> None:
     """Test that intents received before an error event are not handled."""
     agent_id = "conversation.test_intent"
 
@@ -548,7 +548,7 @@ async def test_error_event_discards_received_intents(hass: UniversalAssistant) -
 
 
 async def test_connection_lost(
-    hass: UniversalAssistant, init_wyoming_handle: ConfigEntry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, init_wyoming_handle: ConfigEntry, snapshot: SnapshotAssertion
 ) -> None:
     """Test connection to client is lost."""
     agent_id = "conversation.test_handle"
@@ -573,7 +573,7 @@ async def test_connection_lost(
 
 
 async def test_oserror(
-    hass: UniversalAssistant, init_wyoming_handle: ConfigEntry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, init_wyoming_handle: ConfigEntry, snapshot: SnapshotAssertion
 ) -> None:
     """Test connection error."""
     agent_id = "conversation.test_handle"
@@ -619,7 +619,7 @@ async def test_oserror(
     ],
 )
 async def test_supported_languages_empty_means_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request: pytest.FixtureRequest,
     config_entry_fixture: str,
     info_obj,
@@ -644,7 +644,7 @@ async def test_supported_languages_empty_means_all(
 
 
 async def test_intent_supports_home_control(
-    hass: UniversalAssistant, intent_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, intent_config_entry: ConfigEntry
 ) -> None:
     """Test that the CONTROL supported feature is always set for intent services."""
     agent_id = "conversation.test_intent"
@@ -668,7 +668,7 @@ async def test_intent_supports_home_control(
     [False, True],
 )
 async def test_handle_supports_home_control(
-    hass: UniversalAssistant, intent_config_entry: ConfigEntry, supports_home_control: bool
+    hass: __HAC_KEEP__, intent_config_entry: ConfigEntry, supports_home_control: bool
 ) -> None:
     """Test that the CONTROL supported feature matches the Wyoming info."""
     agent_id = "conversation.test_handle"

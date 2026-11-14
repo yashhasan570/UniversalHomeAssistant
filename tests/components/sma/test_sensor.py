@@ -17,7 +17,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.sma.const import DEFAULT_SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -26,7 +26,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_sma_client: Generator,
     mock_config_entry: MockConfigEntry,
@@ -54,7 +54,7 @@ async def test_all_entities(
     ],
 )
 async def test_refresh_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_sma_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -83,7 +83,7 @@ async def test_refresh_exceptions(
     ],
 )
 async def test_refresh_log_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_sma_client: MagicMock,
     freezer: FrozenDateTimeFactory,

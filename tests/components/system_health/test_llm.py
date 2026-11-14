@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockModule, MockUser, mock_integrat
 
 from universalassistant.components.system_health import DOMAIN
 from universalassistant.components.system_health.llm import async_get_tools
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
@@ -18,7 +18,7 @@ BASE_SYSTEM_INFO = {
     "arch": "x86_64",
     "dev": False,
     "docker": True,
-    "installation_type": "Universal Universal Home Assistant Container",
+    "installation_type": "__HA_KEEP__ Container",
     "os_name": "Linux",
     "os_version": "6.12.0",
     "python_version": "3.14.2",
@@ -28,7 +28,7 @@ BASE_SYSTEM_INFO = {
     "virtualenv": False,
 }
 BASE_RESULT = {
-    "installation_type": "Universal Universal Home Assistant Container",
+    "installation_type": "__HA_KEEP__ Container",
     "core_version": "2026.11.0",
     "frontend_version": "20261101.0",
     "python_version": "3.14.2",
@@ -52,9 +52,9 @@ def llm_context() -> llm.LLMContext:
 
 
 async def test_async_get_tools(
-    hass: UniversalAssistant, llm_context: llm.LLMContext
+    hass: __HAC_KEEP__, llm_context: llm.LLMContext
 ) -> None:
-    """Test async_get_tools returns tools only for Universal Universal Home Assistant API."""
+    """Test async_get_tools returns tools only for __HA_KEEP__ API."""
     assert async_get_tools(hass, llm_context, llm.LLM_API_ASSIST) is None
 
     ha_tools = async_get_tools(hass, llm_context, llm.LLM_API_UNIVERSAL_ASSISTANT)
@@ -70,31 +70,31 @@ async def test_async_get_tools(
         pytest.param(
             {
                 **BASE_SYSTEM_INFO,
-                "installation_type": "Universal Universal Home Assistant OS",
+                "installation_type": "__HA_KEEP__ OS",
                 "hassio": True,
                 "supervisor": "2026.10.2",
-                "host_os": "Universal Universal Home Assistant OS 17.0",
+                "host_os": "__HA_KEEP__ OS 17.0",
                 "docker_version": "28.3.3",
                 "chassis": "embedded",
             },
             {
                 **BASE_RESULT,
-                "installation_type": "Universal Universal Home Assistant OS",
+                "installation_type": "__HA_KEEP__ OS",
                 "supervisor_version": "2026.10.2",
-                "host_os": "Universal Universal Home Assistant OS 17.0",
+                "host_os": "__HA_KEEP__ OS 17.0",
             },
             id="supervisor",
         ),
     ],
 )
 async def test_get_system_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     llm_context: llm.LLMContext,
     system_info: dict[str, Any],
     expected_result: dict[str, Any],
 ) -> None:
-    """Test the system info tool through the Universal Universal Home Assistant API."""
+    """Test the system info tool through the __HA_KEEP__ API."""
     mock_integration(
         hass,
         MockModule("frontend", requirements=["universal-assistant-frontend==20261101.0"]),

@@ -6,20 +6,20 @@ from typing import TYPE_CHECKING
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, instance_id
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.network import NoURLAvailableError, get_url
 from universalassistant.helpers.service import async_register_admin_service
 
-from .const import DOMAIN, SIGNAL_HASS_CAST_SHOW_VIEW, UniversalAssistantControllerData
+from .const import DOMAIN, SIGNAL_HASS_CAST_SHOW_VIEW, __HAC_KEEP__ControllerData
 
 if TYPE_CHECKING:
     from . import CastConfigEntry
 
 NO_URL_AVAILABLE_ERROR = (
-    "Universal Universal Home Assistant Cast requires your instance to be reachable via HTTPS. Enable Home"
+    "__HA_KEEP__ Cast requires your instance to be reachable via HTTPS. Enable Home"
     " Assistant Cloud or set up an external URL with valid SSL certificates"
 )
 
@@ -48,12 +48,12 @@ async def _handle_show_view(call: ServiceCall) -> None:
     try:
         hass_url = get_url(hass, require_ssl=True, prefer_external=True)
     except NoURLAvailableError as err:
-        raise UniversalAssistantError(NO_URL_AVAILABLE_ERROR) from err
+        raise __HAC_KEEP__Error(NO_URL_AVAILABLE_ERROR) from err
 
     hass_uuid = await instance_id.async_get(hass)
 
-    controller_data = UniversalAssistantControllerData(
-        # If you are developing Universal Universal Home Assistant Cast, uncomment and set to
+    controller_data = __HAC_KEEP__ControllerData(
+        # If you are developing __HA_KEEP__ Cast, uncomment and set to
         # your dev app id.
         # app_id="5FE44367",
         hass_url=hass_url,
@@ -73,7 +73,7 @@ async def _handle_show_view(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Google Cast integration."""
     async_register_admin_service(
         hass,

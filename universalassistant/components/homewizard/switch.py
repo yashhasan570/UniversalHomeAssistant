@@ -13,7 +13,7 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import HomeWizardConfigEntry, HWEnergyDeviceUpdateCoordinator
@@ -65,7 +65,7 @@ SWITCHES = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HomeWizardConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

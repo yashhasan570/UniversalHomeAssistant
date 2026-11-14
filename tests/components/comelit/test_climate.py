@@ -30,7 +30,7 @@ from universalassistant.components.comelit.const import (
     SCAN_INTERVAL,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -39,7 +39,7 @@ ENTITY_ID = "climate.climate0"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -90,7 +90,7 @@ async def test_all_entities(
     ],
 )
 async def test_climate_data_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -130,7 +130,7 @@ async def test_climate_data_update(
 
 
 async def test_climate_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_climate_set_temperature(
 
 
 async def test_climate_set_temperature_when_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_climate_set_temperature_when_off(
 
 
 async def test_climate_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_climate_hvac_mode(
 
 
 async def test_climate_hvac_mode_when_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -256,7 +256,7 @@ async def test_climate_hvac_mode_when_off(
 
 
 async def test_climate_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -284,7 +284,7 @@ async def test_climate_preset_mode(
 
 
 async def test_climate_preset_mode_when_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -321,7 +321,7 @@ async def test_climate_preset_mode_when_off(
 
 
 async def test_climate_remove_stale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:

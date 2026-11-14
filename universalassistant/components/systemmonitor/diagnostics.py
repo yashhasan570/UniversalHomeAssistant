@@ -2,13 +2,13 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import SystemMonitorConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: SystemMonitorConfigEntry
+    hass: __HAC_KEEP__, entry: SystemMonitorConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for Sensibo config entry."""
     coordinator = entry.runtime_data.coordinator

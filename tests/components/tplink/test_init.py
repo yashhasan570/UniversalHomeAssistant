@@ -39,7 +39,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -75,7 +75,7 @@ from .const import (
 
 
 async def test_configuring_tplink_causes_discovery(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that specifying empty config does discovery."""
     with (
@@ -101,7 +101,7 @@ async def test_configuring_tplink_causes_discovery(
         assert len(discover.mock_calls) == call_count * 3
 
 
-async def test_config_entry_reload(hass: UniversalAssistant) -> None:
+async def test_config_entry_reload(hass: __HAC_KEEP__) -> None:
     """Test that a config entry can be reloaded."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -116,7 +116,7 @@ async def test_config_entry_reload(hass: UniversalAssistant) -> None:
         assert already_migrated_config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_config_entry_retry(hass: UniversalAssistant) -> None:
+async def test_config_entry_retry(hass: __HAC_KEEP__) -> None:
     """Test that a config entry can be retried."""
     already_migrated_config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS}, unique_id=MAC_ADDRESS
@@ -133,7 +133,7 @@ async def test_config_entry_retry(hass: UniversalAssistant) -> None:
 
 
 async def test_dimmer_switch_unique_id_fix_original_entity_still_exists(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test no migration happens if the original entity id still exists."""
     config_entry = MockConfigEntry(
@@ -178,7 +178,7 @@ async def test_dimmer_switch_unique_id_fix_original_entity_still_exists(
 
 
 async def test_config_entry_wrong_mac_Address(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test config entry enters setup retry when mac address mismatches."""
     mismatched_mac = f"{MAC_ADDRESS[:-1]}0"
@@ -198,7 +198,7 @@ async def test_config_entry_wrong_mac_Address(
 
 
 async def test_config_entry_device_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -216,7 +216,7 @@ async def test_config_entry_device_config(
 
 
 async def test_config_entry_with_stored_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
 ) -> None:
@@ -253,7 +253,7 @@ async def test_config_entry_with_stored_credentials(
 
 
 async def test_config_entry_conn_params_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -287,7 +287,7 @@ async def test_config_entry_conn_params_invalid(
     ids=["invalid-auth", "unknown-error"],
 )
 async def test_config_entry_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discovery: AsyncMock,
     mock_connect: AsyncMock,
     error_type,
@@ -312,7 +312,7 @@ async def test_config_entry_errors(
     )
 
 
-async def test_plug_auth_fails(hass: UniversalAssistant) -> None:
+async def test_plug_auth_fails(hass: __HAC_KEEP__) -> None:
     """Test a smart plug auth failure."""
     config_entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: "127.0.0.1"}, unique_id=MAC_ADDRESS
@@ -344,7 +344,7 @@ async def test_plug_auth_fails(hass: UniversalAssistant) -> None:
 
 
 async def test_update_attrs_fails_in_init(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -379,7 +379,7 @@ async def test_update_attrs_fails_in_init(
 
 
 async def test_update_attrs_fails_on_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -432,7 +432,7 @@ async def test_update_attrs_fails_on_update(
 
 
 async def test_feature_no_category(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -493,7 +493,7 @@ async def test_feature_no_category(
     ],
 )
 async def test_unlink_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     device_id,
@@ -569,7 +569,7 @@ async def test_unlink_devices(
 
 
 async def test_move_credentials_hash(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test credentials hash moved to parent.
@@ -619,7 +619,7 @@ async def test_move_credentials_hash(
 
 
 async def test_move_credentials_hash_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test credentials hash moved to parent.
 
@@ -664,7 +664,7 @@ async def test_move_credentials_hash_auth_error(
 
 
 async def test_move_credentials_hash_other_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test credentials hash moved to parent.
 
@@ -708,7 +708,7 @@ async def test_move_credentials_hash_other_error(
 
 
 async def test_credentials_hash(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test credentials_hash used to call connect."""
     entry_data = {
@@ -743,7 +743,7 @@ async def test_credentials_hash(
 
 
 async def test_credentials_hash_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test credentials_hash is deleted after an auth failure."""
     entry_data = {
@@ -797,7 +797,7 @@ async def test_credentials_hash_auth_error(
     ],
 )
 async def test_migrate_remove_device_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connect: AsyncMock,
     mock_discovery: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -884,7 +884,7 @@ async def test_migrate_remove_device_config(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_automatic_feature_device_addition_and_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connect: AsyncMock,
     mock_discovery: AsyncMock,
@@ -1047,7 +1047,7 @@ async def test_automatic_feature_device_addition_and_removal(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_automatic_module_device_addition_and_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
     mock_connect: AsyncMock,
     mock_discovery: AsyncMock,
@@ -1194,7 +1194,7 @@ async def test_automatic_module_device_addition_and_removal(
 
 
 async def test_automatic_device_addition_does_not_remove_disabled_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
     mock_connect: AsyncMock,
     mock_discovery: AsyncMock,
@@ -1264,7 +1264,7 @@ async def test_automatic_device_addition_does_not_remove_disabled_default(
 
 
 async def test_device_via_device_links(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that strip child devices link to the parent via via_device_id."""
@@ -1304,7 +1304,7 @@ async def test_device_via_device_links(
 
 
 async def test_wall_switch_child_uses_connections(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test that WallSwitch child devices merge with the parent via connections."""

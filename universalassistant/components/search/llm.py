@@ -12,7 +12,7 @@ from universalassistant.components.automation import DOMAIN as AUTOMATION_DOMAIN
 from universalassistant.components.llm import LLMTools
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN
 from universalassistant.components.script import DOMAIN as SCRIPT_DOMAIN
-from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.core import __HAC_KEEP__, State, callback
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -76,7 +76,7 @@ def _set(*values: str | None) -> Iterator[str]:
 
 
 def _entity_aliases(
-    hass: UniversalAssistant, ent_reg: er.EntityRegistry, entity_id: str
+    hass: __HAC_KEEP__, ent_reg: er.EntityRegistry, entity_id: str
 ) -> Iterator[str]:
     """Yield the aliases of an entity."""
     if entry := ent_reg.async_get(entity_id):
@@ -84,7 +84,7 @@ def _entity_aliases(
 
 
 def _entity_item(
-    hass: UniversalAssistant, ent_reg: er.EntityRegistry, state: State
+    hass: __HAC_KEEP__, ent_reg: er.EntityRegistry, state: State
 ) -> _Item:
     """Return the item for an entity."""
     return (
@@ -96,7 +96,7 @@ def _entity_item(
     )
 
 
-def _entities(hass: UniversalAssistant) -> Iterator[_Item]:
+def _entities(hass: __HAC_KEEP__) -> Iterator[_Item]:
     """Yield the entities that are not automations, scripts or scenes."""
     ent_reg = er.async_get(hass)
     for state in hass.states.async_all():
@@ -104,7 +104,7 @@ def _entities(hass: UniversalAssistant) -> Iterator[_Item]:
             yield _entity_item(hass, ent_reg, state)
 
 
-def _devices(hass: UniversalAssistant) -> Iterator[_Item]:
+def _devices(hass: __HAC_KEEP__) -> Iterator[_Item]:
     """Yield the enabled devices, including child devices."""
     dev_reg = dr.async_get(hass)
     for device in chain(dev_reg.devices, dev_reg.child_devices):
@@ -122,26 +122,26 @@ def _devices(hass: UniversalAssistant) -> Iterator[_Item]:
         )
 
 
-def _areas(hass: UniversalAssistant) -> Iterator[_Item]:
+def _areas(hass: __HAC_KEEP__) -> Iterator[_Item]:
     """Yield the areas."""
     for area in ar.async_get(hass).async_list_areas():
         yield area.id, area.name, (area.name,), area.aliases, ()
 
 
-def _labels(hass: UniversalAssistant) -> Iterator[_Item]:
+def _labels(hass: __HAC_KEEP__) -> Iterator[_Item]:
     """Yield the labels."""
     for label in lr.async_get(hass).async_list_labels():
         yield label.label_id, label.name, (label.name,), (), ()
 
 
-def _domain_entities(domain: str, hass: UniversalAssistant) -> Iterator[_Item]:
+def _domain_entities(domain: str, hass: __HAC_KEEP__) -> Iterator[_Item]:
     """Yield the entities of a domain."""
     ent_reg = er.async_get(hass)
     for state in hass.states.async_all(domain):
         yield _entity_item(hass, ent_reg, state)
 
 
-_ITEMS: dict[str, Callable[[UniversalAssistant], Iterator[_Item]]] = {
+_ITEMS: dict[str, Callable[[__HAC_KEEP__], Iterator[_Item]]] = {
     "entity": _entities,
     "device": _devices,
     "area": _areas,
@@ -173,10 +173,10 @@ def _search(
 
 
 class SearchTool(Tool):
-    """LLM Tool to search Universal Universal Home Assistant by name."""
+    """LLM Tool to search __HA_KEEP__ by name."""
 
     name = "search__search"
-    title = "Search Universal Universal Home Assistant"
+    title = "Search __HA_KEEP__"
     description = (
         "Search entities, devices, areas, labels, automations, scripts and scenes "
         "by name. Returns the ID and name of each match, grouped by type."
@@ -206,9 +206,9 @@ class SearchTool(Tool):
 
     @override
     async def async_call(
-        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
-        """Search Universal Universal Home Assistant."""
+        """Search __HA_KEEP__."""
         args = self.parameters(tool_input.tool_args)
         query: str = args["query"].casefold()
         item_type: str | None = args.get("type")
@@ -239,9 +239,9 @@ class SearchTool(Tool):
 
 @callback
 def async_get_tools(
-    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
+    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
-    """Return the search LLM tools for the Universal Universal Home Assistant API."""
+    """Return the search LLM tools for the __HA_KEEP__ API."""
     if api_id != LLM_API_UNIVERSAL_ASSISTANT:
         return None
 

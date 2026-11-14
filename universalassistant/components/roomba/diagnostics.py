@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import roomba_reported_state
 from .models import RoombaConfigEntry
@@ -28,7 +28,7 @@ def _omit_keys(data: Any) -> Any:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: RoombaConfigEntry
+    hass: __HAC_KEEP__, entry: RoombaConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     roomba = entry.runtime_data.roomba

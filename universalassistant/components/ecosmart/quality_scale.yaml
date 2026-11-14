@@ -62,7 +62,7 @@ rules:
   entity-device-class:
     status: exempt
     comment: >-
-      Universal Universal Home Assistant has no device class for an energy price, and the monetary
+      __HA_KEEP__ has no device class for an energy price, and the monetary
       class does not fit a rate in cents per kilowatt hour.
   entity-disabled-by-default:
     status: exempt

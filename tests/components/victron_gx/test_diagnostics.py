@@ -7,13 +7,13 @@ from syrupy.assertion import SnapshotAssertion
 from victron_mqtt import Hub as VictronVenusHub
 from victron_mqtt.testing import finalize_injection, inject_message
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import MOCK_INSTALLATION_ID
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     snapshot: SnapshotAssertion,

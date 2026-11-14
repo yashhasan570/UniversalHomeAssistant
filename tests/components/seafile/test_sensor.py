@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.seafile.const import DOMAIN
 from universalassistant.components.seafile.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ LIBRARY_SIZE = "sensor.documents_size"
 @pytest.mark.freeze_time("2026-10-15 10:00:00+00:00")
 @pytest.mark.usefixtures("mock_seafile_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -48,7 +48,7 @@ async def test_all_entities(
 
 
 async def test_library_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -74,7 +74,7 @@ async def test_library_removed(
     ],
 )
 async def test_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

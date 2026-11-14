@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import EntityCategory, UnitOfTime
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BAFConfigEntry
@@ -112,7 +112,7 @@ LIGHT_NUMBER_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BAFConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

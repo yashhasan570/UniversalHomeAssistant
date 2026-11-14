@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client, device_registry as dr
 
@@ -80,7 +80,7 @@ async def call_c4_api_retry(func, *func_args):
     ) from exc
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: Control4ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: Control4ConfigEntry) -> None:
     """Set up Control4 from a config entry."""
     account_session = aiohttp_client.async_get_clientsession(hass)
 
@@ -190,13 +190,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: Control4ConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: Control4ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: Control4ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def get_items_of_category(
-    hass: UniversalAssistant, entry: Control4ConfigEntry, category: str
+    hass: __HAC_KEEP__, entry: Control4ConfigEntry, category: str
 ):
     """Return a list of all Control4 items with the specified category."""
     return [

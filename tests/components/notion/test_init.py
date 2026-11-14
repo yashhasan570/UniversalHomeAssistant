@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.notion.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 # The id of the bridge in the bridge fixture; the sensor must reference it to link.
@@ -45,7 +45,7 @@ def data_listener_fixture(data_listener: dict[str, Any]) -> dict[str, Any]:
 
 @pytest.mark.usefixtures("setup_config_entry")
 async def test_device_via_device_links(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

@@ -15,7 +15,7 @@ from universalassistant.components.light import (
     ColorMode,
     LightEntity,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import DaliDeviceEntity
@@ -27,7 +27,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DaliCenterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -51,7 +51,7 @@ class DaliCenterLight(DaliDeviceEntity, LightEntity):
     _white_level: int | None = None
 
     def __init__(
-        self, hass: UniversalAssistant, light: Device, entry: DaliCenterConfigEntry
+        self, hass: __HAC_KEEP__, light: Device, entry: DaliCenterConfigEntry
     ) -> None:
         """Initialize the light entity."""
         super().__init__(hass, light, entry)
@@ -94,7 +94,7 @@ class DaliCenterLight(DaliDeviceEntity, LightEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle entity addition to Universal Universal Home Assistant."""
+        """Handle entity addition to __HA_KEEP__."""
         await super().async_added_to_hass()
 
         self.async_on_remove(

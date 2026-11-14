@@ -45,15 +45,15 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
 
 async def test_weather(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -68,7 +68,7 @@ async def test_weather(
 
 
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -111,7 +111,7 @@ async def test_availability(
 
 
 async def test_manual_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_manual_update_entity(
     ],
 )
 async def test_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
     api_condition: WeatherCondition.Type,
@@ -180,7 +180,7 @@ def test_all_precipitation_segment_values_mapped() -> None:
 
 @pytest.mark.parametrize(("forecast_type"), ["daily", "hourly", "twice_daily"])
 async def test_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     mock_google_weather_api: AsyncMock,
@@ -203,7 +203,7 @@ async def test_forecast_service(
 
 
 async def test_forecast_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
@@ -249,7 +249,7 @@ async def test_forecast_subscription(
 
 
 async def test_minute_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     mock_google_weather_api: AsyncMock,
@@ -271,7 +271,7 @@ async def test_minute_forecast_service(
 
 
 async def test_minute_forecast_service_unit_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -295,7 +295,7 @@ async def test_minute_forecast_service_unit_conversion(
 
 
 async def test_minute_forecast_service_keeps_small_amounts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -319,7 +319,7 @@ async def test_minute_forecast_service_keeps_small_amounts(
 
 
 async def test_minute_forecast_service_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -329,7 +329,7 @@ async def test_minute_forecast_service_error(
     mock_google_weather_api.async_get_minute_forecast.side_effect = (
         GoogleWeatherApiError("boom")
     )
-    with pytest.raises(UniversalAssistantError, match="Error fetching minute forecast"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error fetching minute forecast"):
         await hass.services.async_call(
             DOMAIN,
             GoogleWeatherService.GET_MINUTE_FORECAST,
@@ -377,7 +377,7 @@ def mock_regional_weather_api(mock_google_weather_api: AsyncMock) -> AsyncMock:
 
 @pytest.mark.usefixtures("mock_regional_weather_api")
 async def test_weather_full_day_forecast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -393,7 +393,7 @@ async def test_weather_full_day_forecast(
 @pytest.mark.usefixtures("mock_regional_weather_api")
 @pytest.mark.parametrize("forecast_type", ["daily", "hourly"])
 async def test_forecast_service_full_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     forecast_type: str,
@@ -416,7 +416,7 @@ async def test_forecast_service_full_day(
 
 @pytest.mark.parametrize("forecast_type", ["daily", "twice_daily"])
 async def test_forecast_service_partial_dayparts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -457,7 +457,7 @@ async def test_forecast_service_partial_dayparts(
 
 
 async def test_minute_forecast_service_unspecified_quantity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -477,7 +477,7 @@ async def test_minute_forecast_service_unspecified_quantity(
 
 
 async def test_supported_features_updated_on_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_regional_weather_api: AsyncMock,
     entity_registry: er.EntityRegistry,

@@ -10,11 +10,11 @@ from requests.exceptions import ConnectionError as RequestsConnectionError, HTTP
 from universalassistant.components.iss.const import MAX_CONSECUTIVE_FAILURES
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_LATITUDE, ATTR_LONGITUDE, CONF_SHOW_ON_MAP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
 
-async def _async_poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+async def _async_poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     """Advance the time to the next coordinator update."""
     freezer.tick(timedelta(seconds=60))
     async_fire_time_changed(hass)
@@ -22,7 +22,7 @@ async def _async_poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) 
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test successful setup of config entry."""
     assert init_integration.state is ConfigEntryState.LOADED
@@ -36,7 +36,7 @@ async def test_setup_entry(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test unload of config entry."""
     assert init_integration.state is ConfigEntryState.LOADED
@@ -48,7 +48,7 @@ async def test_unload_entry(
 
 
 async def test_update_listener(
-    hass: UniversalAssistant, init_integration: MockConfigEntry, mock_pyiss: MagicMock
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry, mock_pyiss: MagicMock
 ) -> None:
     """Test options update triggers reload and applies new options."""
     state = hass.states.get("sensor.iss")
@@ -73,7 +73,7 @@ async def test_update_listener(
 
 
 async def test_coordinator_single_failure_uses_cached_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_pyiss: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -93,7 +93,7 @@ async def test_coordinator_single_failure_uses_cached_data(
 
 
 async def test_coordinator_multiple_failures_uses_cached_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_pyiss: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -121,7 +121,7 @@ async def test_coordinator_multiple_failures_uses_cached_data(
 
 
 async def test_coordinator_max_failures_marks_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_pyiss: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -141,7 +141,7 @@ async def test_coordinator_max_failures_marks_unavailable(
 
 
 async def test_coordinator_failure_counter_resets_on_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_pyiss: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -174,7 +174,7 @@ async def test_coordinator_failure_counter_resets_on_success(
 
 
 async def test_coordinator_initial_failure_no_cached_data(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_pyiss: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_pyiss: MagicMock
 ) -> None:
     """Test coordinator fails immediately on initial setup with no cached data."""
     mock_pyiss.number_of_people_in_space.side_effect = HTTPError("API Error")
@@ -188,7 +188,7 @@ async def test_coordinator_initial_failure_no_cached_data(
 
 
 async def test_coordinator_handles_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_pyiss: MagicMock,
     freezer: FrozenDateTimeFactory,

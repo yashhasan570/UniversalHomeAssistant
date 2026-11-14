@@ -2,11 +2,11 @@
 
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
-def config_zones(hass: UniversalAssistant):
+def config_zones(hass: __HAC_KEEP__):
     """Set up zones for test."""
     hass.config.components.add("zone")
     hass.states.async_set(

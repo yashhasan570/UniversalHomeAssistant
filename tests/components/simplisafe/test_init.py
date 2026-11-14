@@ -26,13 +26,13 @@ from universalassistant.components.simplisafe import DOMAIN, WEBSOCKET_RETRY_DEL
 from universalassistant.components.simplisafe.coordinator import DEFAULT_SCAN_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import ATTR_DEVICE_CLASS, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_base_station_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     api: Mock,
     config: dict[str, str],
@@ -67,7 +67,7 @@ async def test_base_station_migration(
 
 
 async def test_base_station_model_is_string(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     patch_simplisafe_api,
@@ -84,7 +84,7 @@ async def test_base_station_model_is_string(
 
 
 async def test_glass_break_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     patch_simplisafe_api: None,
@@ -114,7 +114,7 @@ async def test_glass_break_device_class(
 
 
 async def test_coordinator_update_triggers_reauth_on_invalid_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_simplisafe_api,
     system_v3,
@@ -142,7 +142,7 @@ async def test_coordinator_update_triggers_reauth_on_invalid_credentials(
     [RequestError, EndpointUnavailableError, SimplipyError],
 )
 async def test_coordinator_update_failure_keeps_entity_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_simplisafe_api,
     system_v3,
@@ -166,7 +166,7 @@ async def test_coordinator_update_failure_keeps_entity_available(
 
 
 async def test_camera_device_registration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     patch_simplisafe_api,
@@ -192,7 +192,7 @@ async def test_camera_device_registration(
 
 
 async def test_websocket_event_updates_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_simplisafe_api,
     websocket: Mock,
@@ -227,7 +227,7 @@ async def test_websocket_event_updates_entity_state(
 
 
 async def test_websocket_retry_delay_resets_after_successful_listen(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_simplisafe_api,
     websocket: Mock,
@@ -273,7 +273,7 @@ async def test_websocket_retry_delay_resets_after_successful_listen(
 
 
 async def test_websocket_listener_failures_are_capped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_simplisafe_api,
     websocket: Mock,
@@ -305,7 +305,7 @@ async def test_websocket_listener_failures_are_capped(
 
 
 async def test_websocket_start_and_restart_are_logged(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_simplisafe_api,
     websocket: Mock,

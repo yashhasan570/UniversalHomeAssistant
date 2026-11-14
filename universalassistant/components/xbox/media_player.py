@@ -20,8 +20,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
     MediaType,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .browse_media import build_item_response
@@ -58,7 +58,7 @@ XBOX_STATE_MAP: dict[PlaybackState | PowerState, MediaPlayerState | None] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: XboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -99,17 +99,17 @@ def exception_handler[**_P, _R](
         *args: _P.args,
         **kwargs: _P.kwargs,
     ) -> _R:
-        """Catch Xbox errors and raise UniversalAssistantError."""
+        """Catch Xbox errors and raise __HAC_KEEP__Error."""
         try:
             return await func(self, *args, **kwargs)
         except TimeoutException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="timeout_exception",
             ) from e
         except (RequestError, HTTPStatusError) as e:
             _LOGGER.debug("Xbox exception:", exc_info=True)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="request_exception",
             ) from e
@@ -201,7 +201,7 @@ class XboxMediaPlayer(XboxConsoleBaseEntity, MediaPlayerEntity):
             _LOGGER.debug(
                 "Xbox error: %s (%s)", err.status.error_message, err.status.error_code
             )
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_on_failed",
             )

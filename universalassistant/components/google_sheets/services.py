@@ -11,13 +11,13 @@ import probatio
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_TOKEN
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.selector import ConfigEntrySelector
 from universalassistant.util import dt as dt_util
@@ -140,7 +140,7 @@ async def _async_append_to_sheet(call: ServiceCall) -> None:
         entry.async_start_reauth(call.hass)
         raise
     except (GSpreadException, PermissionError) as ex:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="append_failed"
         ) from ex
 
@@ -157,13 +157,13 @@ async def _async_get_from_sheet(call: ServiceCall) -> ServiceResponse:
         entry.async_start_reauth(call.hass)
         raise
     except (GSpreadException, PermissionError) as ex:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="get_failed"
         ) from ex
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Add the services for Google Sheets."""
 
     hass.services.async_register(

@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import async_init_integration, get_bluetooth_service_info
@@ -64,7 +64,7 @@ def build_entity_id(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_bluetooth_coordinator_updates_based_on_websocket_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -101,7 +101,7 @@ async def test_bluetooth_coordinator_updates_based_on_websocket_state(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_bluetooth_model_info_skipped_with_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_bluetooth_model_info_skipped_with_cloud(
     ],
 )
 async def test_bt_offline_mode_entity_available_when_cloud_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -163,7 +163,7 @@ async def test_bt_offline_mode_entity_available_when_cloud_fails(
 
 @pytest.mark.parametrize("device_fixture", [ModelName.LINEA_MICRA])
 async def test_bt_offline_mode_steam_boiler_missing_widget(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -195,7 +195,7 @@ async def test_bt_offline_mode_steam_boiler_missing_widget(
 
 
 async def test_entity_without_bt_becomes_unavailable_when_cloud_fails_no_bt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -230,7 +230,7 @@ async def test_entity_without_bt_becomes_unavailable_when_cloud_fails_no_bt(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_bluetooth_coordinator_handles_connection_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -268,7 +268,7 @@ async def test_bluetooth_coordinator_handles_connection_failure(
 
 
 async def test_bluetooth_coordinator_triggers_entity_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -311,7 +311,7 @@ async def test_bluetooth_coordinator_triggers_entity_updates(
 )
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_setup_through_bluetooth_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_bluetooth: MockConfigEntry,
     mock_lamarzocco_bluetooth: MagicMock,
     mock_cloud_client: MagicMock,
@@ -358,7 +358,7 @@ async def test_setup_through_bluetooth_only(
 
 
 async def test_manual_offline_mode_no_bluetooth_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -377,7 +377,7 @@ async def test_manual_offline_mode_no_bluetooth_device(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_manual_offline_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -439,7 +439,7 @@ async def test_manual_offline_mode(
 )
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_bluetooth_is_set_from_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_lamarzocco: MagicMock,
     mock_cloud_client: MagicMock,
@@ -473,11 +473,11 @@ async def test_bluetooth_is_set_from_discovery(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_disconnect_on_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_bluetooth: MockConfigEntry,
     mock_bluetooth_client: MagicMock,
 ) -> None:
-    """Test we close the connection with the La Marzocco when Universal Universal Home Assistant stops."""
+    """Test we close the connection with the La Marzocco when __HA_KEEP__ stops."""
     await async_init_integration(hass, mock_config_entry_bluetooth)
     await hass.async_block_till_done()
 
@@ -491,7 +491,7 @@ async def test_disconnect_on_stop(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_updates_brew_active(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     mock_websocket_terminated: PropertyMock,
@@ -530,7 +530,7 @@ async def test_shot_timer_updates_brew_active(
 )
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_retried_after_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -557,7 +557,7 @@ async def test_shot_timer_retried_after_failure(
 )
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_characteristic_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -579,7 +579,7 @@ async def test_shot_timer_characteristic_missing(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_retry_backoff(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -608,7 +608,7 @@ async def test_shot_timer_retry_backoff(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_unexpected_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -632,7 +632,7 @@ async def test_shot_timer_unexpected_error(
 
 @pytest.mark.usefixtures("mock_lamarzocco")
 async def test_bluetooth_client_refreshes_ble_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_bluetooth: MockConfigEntry,
     mock_ble_device_from_address: MagicMock,
     mock_ble_device: BLEDevice,
@@ -660,7 +660,7 @@ async def test_bluetooth_client_refreshes_ble_device(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_only_connected_outside_standby(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
 ) -> None:
@@ -693,7 +693,7 @@ async def test_shot_timer_only_connected_outside_standby(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_follows_bluetooth_mode_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -715,7 +715,7 @@ async def test_shot_timer_follows_bluetooth_mode_offline(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_connect_updates_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     mock_websocket_terminated: PropertyMock,
@@ -747,7 +747,7 @@ async def test_shot_timer_connect_updates_entities(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_catches_up_on_mode_change_while_connecting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
 ) -> None:
@@ -780,7 +780,7 @@ async def test_shot_timer_catches_up_on_mode_change_while_connecting(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_power_cycles_with_listener_feedback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -810,7 +810,7 @@ async def test_shot_timer_power_cycles_with_listener_feedback(
 
 @pytest.mark.usefixtures("mock_ble_device_from_address")
 async def test_shot_timer_stops_on_bluetooth_standby(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry_bluetooth: MockConfigEntry,
 ) -> None:

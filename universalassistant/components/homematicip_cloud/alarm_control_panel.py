@@ -12,8 +12,8 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     AlarmControlPanelState,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -30,7 +30,7 @@ CONST_ALARM_CONTROL_PANEL_NAME = "HmIP Alarm Control Panel"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomematicIPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -123,7 +123,7 @@ class HomematicipAlarmControlPanelEntity(AlarmControlPanelEntity):
             return
 
         if not problems:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="alarm_activation_failed",
             )
@@ -131,7 +131,7 @@ class HomematicipAlarmControlPanelEntity(AlarmControlPanelEntity):
             self._home.get_security_zone_activation_problem_channels(result)
         )
         self._hap.async_set_arming_blocked(True)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="alarm_activation_blocked",
             translation_placeholders={"devices": ", ".join(problems)},
@@ -170,7 +170,7 @@ class HomematicipAlarmControlPanelEntity(AlarmControlPanelEntity):
         if any(channel not in approved for channel in channels):
             self._blocking_channels = channels
             self._hap.async_set_arming_blocked(True)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="alarm_activation_outdated",
                 translation_placeholders={

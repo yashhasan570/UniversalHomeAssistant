@@ -13,7 +13,7 @@ from universalassistant.components.binary_sensor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType
 
@@ -214,7 +214,7 @@ class CharacteristicBinarySensor(CharacteristicEntity, BinarySensorEntity):
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

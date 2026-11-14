@@ -10,7 +10,7 @@ from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.tractive.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -20,7 +20,7 @@ ACTIVITY_ENTITY_ID = "sensor.test_pet_activity_time"
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -32,7 +32,7 @@ async def test_setup_entry(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_unload_entry(
     ],
 )
 async def test_setup_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     method: str,
@@ -81,7 +81,7 @@ async def test_setup_failed(
 
 
 async def test_server_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -124,7 +124,7 @@ async def test_server_unavailable(
 
 
 async def test_pet_without_health_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_pet_without_health_data(
 
 
 async def test_reauth_on_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_reauth_on_unauthorized(
 
 @pytest.mark.parametrize("sensor", ["activity_label", "calories", "sleep_label"])
 async def test_remove_unsupported_sensor_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

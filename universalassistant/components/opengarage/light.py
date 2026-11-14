@@ -10,8 +10,8 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -22,7 +22,7 @@ LIGHT_DESCRIPTION = LightEntityDescription(key="light", translation_key="light")
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OpenGarageConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -72,7 +72,7 @@ class OpenGarageLight(OpenGarageEntity, LightEntity):
         try:
             result = await self.coordinator.open_garage_connection.set_light(turn_on)
         except (ClientError, TimeoutError, OpenGarageError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="light_control_unavailable",
             ) from err
@@ -81,7 +81,7 @@ class OpenGarageLight(OpenGarageEntity, LightEntity):
             return
 
         if result == 2:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="light_control_invalid_auth",
             )
@@ -90,12 +90,12 @@ class OpenGarageLight(OpenGarageEntity, LightEntity):
             await self.coordinator.async_refresh()
             if self.coordinator.last_update_success and self.is_on is turn_on:
                 return
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="light_control_state_not_confirmed",
             )
 
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="light_control_failed",
             translation_placeholders={"result": str(result)},

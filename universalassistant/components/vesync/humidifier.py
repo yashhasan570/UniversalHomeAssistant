@@ -12,8 +12,8 @@ from universalassistant.components.humidifier import (
     HumidifierEntity,
     HumidifierEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -43,7 +43,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VesyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -169,23 +169,23 @@ class VeSyncHumidifierHA(VeSyncBaseEntity[VeSyncHumidifier], HumidifierEntity):
         """Set the target humidity of the device."""
         if not await self.device.set_humidity(humidity):
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Failed to set humidity.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Failed to set humidity.")
 
     @override
     async def async_set_mode(self, mode: str) -> None:
         """Set the mode of the device."""
         if mode not in self.available_modes:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Invalid mode {mode}. Available modes: {self.available_modes}"
             )
         set_mode = self._get_vs_mode(mode)
         if set_mode is None:
-            raise UniversalAssistantError(f"Could not map mode {mode} to VeSync mode.")
+            raise __HAC_KEEP__Error(f"Could not map mode {mode} to VeSync mode.")
         if not await self.device.set_mode(self._get_vs_mode(mode)):
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Failed to set mode.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Failed to set mode.")
 
         if mode == MODE_SLEEP:
             # We successfully changed the mode. Consider it
@@ -200,8 +200,8 @@ class VeSyncHumidifierHA(VeSyncBaseEntity[VeSyncHumidifier], HumidifierEntity):
         success = await self.device.turn_on()
         if not success:
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Failed to turn on humidifier.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Failed to turn on humidifier.")
 
         self.async_write_ha_state()
 
@@ -211,8 +211,8 @@ class VeSyncHumidifierHA(VeSyncBaseEntity[VeSyncHumidifier], HumidifierEntity):
         success = await self.device.turn_off()
         if not success:
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Failed to turn off humidifier.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Failed to turn off humidifier.")
 
         self.async_write_ha_state()
 

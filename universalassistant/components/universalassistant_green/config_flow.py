@@ -1,4 +1,4 @@
-"""Config flow for the Universal Universal Home Assistant Green integration."""
+"""Config flow for the __HA_KEEP__ Green integration."""
 
 import asyncio
 import logging
@@ -17,7 +17,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
     OptionsFlow,
 )
-from universalassistant.core import UniversalAssistant, async_get_hass, callback
+from universalassistant.core import __HAC_KEEP__, async_get_hass, callback
 from universalassistant.helpers import selector
 from universalassistant.helpers.hassio import is_hassio
 
@@ -35,8 +35,8 @@ STEP_HW_SETTINGS_SCHEMA = probatio.Schema(
 )
 
 
-class UniversalAssistantGreenConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Universal Universal Home Assistant Green."""
+class __HAC_KEEP__GreenConfigFlow(ConfigFlow, domain=DOMAIN):
+    """Handle a config flow for __HA_KEEP__ Green."""
 
     VERSION = 1
 
@@ -45,23 +45,23 @@ class UniversalAssistantGreenConfigFlow(ConfigFlow, domain=DOMAIN):
     @override
     def async_get_options_flow(
         config_entry: ConfigEntry,
-    ) -> UniversalAssistantGreenOptionsFlow:
+    ) -> __HAC_KEEP__GreenOptionsFlow:
         """Return the options flow."""
-        return UniversalAssistantGreenOptionsFlow(async_get_hass())
+        return __HAC_KEEP__GreenOptionsFlow(async_get_hass())
 
     async def async_step_system(
         self, data: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Handle the initial step."""
-        return self.async_create_entry(title="Universal Universal Home Assistant Green", data={})
+        return self.async_create_entry(title="__HA_KEEP__ Green", data={})
 
 
-class UniversalAssistantGreenOptionsFlow(OptionsFlow):
-    """Handle an option flow for Universal Universal Home Assistant Green."""
+class __HAC_KEEP__GreenOptionsFlow(OptionsFlow):
+    """Handle an option flow for __HA_KEEP__ Green."""
 
     _hw_settings: dict[str, bool] | None = None
 
-    def __init__(self, hass: UniversalAssistant, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, hass: __HAC_KEEP__, *args: Any, **kwargs: Any) -> None:
         """Instantiate options flow."""
         super().__init__(*args, **kwargs)
         self._supervisor_client = get_supervisor_client(hass)

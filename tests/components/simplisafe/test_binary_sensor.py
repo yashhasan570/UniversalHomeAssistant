@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, load_json_object_fixture
 
 from universalassistant.const import STATE_OFF, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.json import JsonObjectType
 
 ENTRY_SENSOR_SERIAL = "825"
@@ -32,7 +32,7 @@ def data_sensor_fixture(request: pytest.FixtureRequest) -> JsonObjectType:
 )
 @pytest.mark.usefixtures("patch_simplisafe_api")
 async def test_entry_sensor_offline(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, expected_state: str
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, expected_state: str
 ) -> None:
     """Test an entry sensor reported offline by SimpliSafe is unavailable."""
     await hass.config_entries.async_setup(config_entry.entry_id)

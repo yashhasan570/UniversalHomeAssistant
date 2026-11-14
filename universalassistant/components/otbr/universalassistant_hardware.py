@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant Hardware firmware utilities."""
+"""__HA_KEEP__ Hardware firmware utilities."""
 
 import logging
 
@@ -13,8 +13,8 @@ from universalassistant.components.universalassistant_hardware.util import (
     get_otbr_addon_firmware_info,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.hassio import is_hassio
 
 from .const import DOMAIN
@@ -24,7 +24,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_get_firmware_info(
-    hass: UniversalAssistant, config_entry: OTBRConfigEntry
+    hass: __HAC_KEEP__, config_entry: OTBRConfigEntry
 ) -> FirmwareInfo | None:
     """Return firmware information for the OpenThread Border Router."""
     owners: list[OwningIntegration | OwningAddon] = [
@@ -59,7 +59,7 @@ async def async_get_firmware_info(
     ):
         try:
             firmware_version = await config_entry.runtime_data.get_coprocessor_version()
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             firmware_version = None
 
     if device is None:

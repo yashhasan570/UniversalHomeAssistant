@@ -4,7 +4,7 @@ from aiohttp import ClientError
 from ttls.client import Twinkly
 
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -15,7 +15,7 @@ from .coordinator import TwinklyConfigEntry, TwinklyCoordinator
 PLATFORMS = [Platform.LIGHT, Platform.SELECT]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TwinklyConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TwinklyConfigEntry) -> None:
     """Set up entries from config flow."""
     # We setup the client here so if at some point we add
     # any other entity for this device,
@@ -33,13 +33,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TwinklyConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TwinklyConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TwinklyConfigEntry) -> None:
     """Remove a twinkly entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: TwinklyConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: TwinklyConfigEntry) -> None:
     """Migrate old entry."""
     if entry.minor_version == 1:
         client = Twinkly(

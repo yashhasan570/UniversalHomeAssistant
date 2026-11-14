@@ -14,7 +14,7 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -72,7 +72,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SwitchbotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

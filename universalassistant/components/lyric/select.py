@@ -9,8 +9,8 @@ from aiolyric.objects.priority import LyricRoom
 
 from universalassistant.components.select import SelectEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, LYRIC_EXCEPTIONS
@@ -29,7 +29,7 @@ OPTION_FOLLOW_ME = "follow_me"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LyricConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -125,7 +125,7 @@ class LyricRoomPrioritySelect(LyricDeviceEntity, SelectEntity):
                 rooms=rooms,
             )
         except LYRIC_EXCEPTIONS as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_to_set_room_priority",
             ) from err

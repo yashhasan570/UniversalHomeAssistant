@@ -1,8 +1,8 @@
-"""Universal Universal Home Assistant pytest fixtures and test helpers."""
+"""__HA_KEEP__ pytest fixtures and test helpers."""
 
 import pytest
 
-# Install Universal Universal Home Assistant's httpx and voluptuous aliases before test dependencies.
+# Install __HA_KEEP__'s httpx and voluptuous aliases before test dependencies.
 import universalassistant  # noqa: F401
 
 # Preserve assertion introspection when helpers are imported through compatibility modules.

@@ -9,7 +9,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
     SensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import GoogleMailConfigEntry
@@ -25,7 +25,7 @@ SENSOR_TYPE = SensorEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GoogleMailConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

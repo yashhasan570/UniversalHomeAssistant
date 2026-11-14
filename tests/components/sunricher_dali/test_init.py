@@ -8,12 +8,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sunricher_dali.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_setup_entry_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gateway: MagicMock,
 ) -> None:
@@ -29,7 +29,7 @@ async def test_setup_entry_success(
 
 
 async def test_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gateway: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -48,7 +48,7 @@ async def test_devices(
 
 
 async def test_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gateway: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -78,7 +78,7 @@ async def test_via_device_id(
 
 
 async def test_setup_entry_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gateway: MagicMock,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_setup_entry_connection_error(
 
 
 async def test_setup_entry_discovery_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gateway: MagicMock,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_setup_entry_discovery_error(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gateway: MagicMock,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_unload_entry(
 
 
 async def test_remove_stale_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_gateway: MagicMock,
     mock_devices: list[MagicMock],

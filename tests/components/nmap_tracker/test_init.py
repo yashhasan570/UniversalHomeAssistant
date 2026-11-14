@@ -15,11 +15,11 @@ from universalassistant.components.nmap_tracker.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_EXCLUDE, CONF_HOSTS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_migrate_entry(hass: UniversalAssistant) -> None:
+async def test_migrate_entry(hass: __HAC_KEEP__) -> None:
     """Test migrating a config entry from version 1 to version 2."""
     mock_entry = MockConfigEntry(
         unique_id="test_nmap_tracker",
@@ -61,7 +61,7 @@ async def test_migrate_entry(hass: UniversalAssistant) -> None:
     assert updated_entry.state is ConfigEntryState.LOADED
 
 
-async def test_migrate_entry_fails_on_downgrade(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_fails_on_downgrade(hass: __HAC_KEEP__) -> None:
     """Test that migration fails when user downgrades from a future version."""
     mock_entry = MockConfigEntry(
         unique_id="test_nmap_tracker",

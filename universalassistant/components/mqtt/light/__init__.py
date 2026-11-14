@@ -4,7 +4,7 @@ import probatio
 
 from universalassistant.components import light
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from ..const import CONF_SCHEMA
@@ -55,7 +55,7 @@ PLATFORM_SCHEMA_MODERN = probatio.All(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.neato.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a Neato config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -59,7 +59,7 @@ def mock_robot() -> MagicMock:
 
 @pytest.fixture
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_robot: MagicMock,
 ) -> AsyncGenerator[None]:

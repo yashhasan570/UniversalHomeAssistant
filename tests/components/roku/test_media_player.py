@@ -59,7 +59,7 @@ from universalassistant.const import (
     STATE_PLAYING,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import (
     area_registry as ar,
@@ -74,7 +74,7 @@ TV_ENTITY_ID = f"{MP_DOMAIN}.living_room_58_onn_roku_tv"
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -107,7 +107,7 @@ async def test_setup(
 
 @pytest.mark.parametrize("mock_device", ["roku/roku3-idle.json"], indirect=True)
 async def test_idle_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -119,7 +119,7 @@ async def test_idle_setup(
 
 @pytest.mark.parametrize("mock_device", ["roku/rokutv-7820x.json"], indirect=True)
 async def test_tv_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -159,7 +159,7 @@ async def test_tv_setup(
     [RokuConnectionTimeoutError, RokuConnectionError, RokuError],
 )
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roku: MagicMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -189,7 +189,7 @@ async def test_availability(
 
 
 async def test_supported_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -214,7 +214,7 @@ async def test_supported_features(
 
 @pytest.mark.parametrize("mock_device", ["roku/rokutv-7820x.json"], indirect=True)
 async def test_tv_supported_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_tv_supported_features(
 
 
 async def test_attributes(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test attributes."""
     state = hass.states.get(MAIN_ENTITY_ID)
@@ -253,7 +253,7 @@ async def test_attributes(
 
 @pytest.mark.parametrize("mock_device", ["roku/roku3-app.json"], indirect=True)
 async def test_attributes_app(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_attributes_app(
     "mock_device", ["roku/roku3-media-playing.json"], indirect=True
 )
 async def test_attributes_app_media_playing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -291,7 +291,7 @@ async def test_attributes_app_media_playing(
 
 @pytest.mark.parametrize("mock_device", ["roku/roku3-media-paused.json"], indirect=True)
 async def test_attributes_app_media_paused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -310,7 +310,7 @@ async def test_attributes_app_media_paused(
 
 @pytest.mark.parametrize("mock_device", ["roku/roku3-screensaver.json"], indirect=True)
 async def test_attributes_screensaver(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -327,7 +327,7 @@ async def test_attributes_screensaver(
 
 @pytest.mark.parametrize("mock_device", ["roku/rokutv-7820x.json"], indirect=True)
 async def test_tv_attributes(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test attributes for Roku TV."""
     state = hass.states.get(TV_ENTITY_ID)
@@ -343,7 +343,7 @@ async def test_tv_attributes(
 
 
 async def test_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -482,7 +482,7 @@ async def test_services(
 
 
 async def test_services_play_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -533,7 +533,7 @@ async def test_services_play_media(
     ],
 )
 async def test_services_play_media_audio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
     content_type: str,
@@ -559,7 +559,7 @@ async def test_services_play_media_audio(
             "t": "a",
             "songName": resolved_name,
             "songFormat": resolved_format,
-            "artistName": "Universal Universal Home Assistant",
+            "artistName": "__HA_KEEP__",
         },
     )
 
@@ -579,7 +579,7 @@ async def test_services_play_media_audio(
     ],
 )
 async def test_services_play_media_video(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
     content_type: str,
@@ -610,7 +610,7 @@ async def test_services_play_media_video(
 
 
 async def test_services_camera_play_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -639,7 +639,7 @@ async def test_services_camera_play_stream(
 
 
 async def test_services_play_media_local_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -685,7 +685,7 @@ async def test_services_play_media_local_source(
 
 @pytest.mark.parametrize("mock_device", ["roku/rokutv-7820x.json"], indirect=True)
 async def test_tv_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:
@@ -733,7 +733,7 @@ async def test_tv_services(
 
 
 async def test_media_browse(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration,
     mock_roku,
     hass_ws_client: WebSocketGenerator,
@@ -793,7 +793,7 @@ async def test_media_browse(
 
 
 async def test_media_browse_internal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration,
     mock_roku,
     hass_ws_client: WebSocketGenerator,
@@ -846,7 +846,7 @@ async def test_media_browse_internal(
 
 
 async def test_media_browse_local_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration,
     mock_roku,
     hass_ws_client: WebSocketGenerator,
@@ -968,7 +968,7 @@ async def test_media_browse_local_source(
 
 @pytest.mark.parametrize("mock_device", ["roku/rokutv-7820x.json"], indirect=True)
 async def test_tv_media_browse(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration,
     mock_roku,
     hass_ws_client: WebSocketGenerator,
@@ -1077,7 +1077,7 @@ async def test_tv_media_browse(
 
 
 async def test_integration_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_roku: MagicMock,
 ) -> None:

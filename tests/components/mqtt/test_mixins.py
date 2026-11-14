@@ -28,7 +28,7 @@ from universalassistant.const import (
     EVENT_STATE_CHANGED,
     SERVICE_RELOAD,
 )
-from universalassistant.core import CoreState, UniversalAssistant, callback
+from universalassistant.core import CoreState, __HAC_KEEP__, callback
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -57,7 +57,7 @@ from universalassistant.util import slugify
     ],
 )
 async def test_availability_with_shared_state_topic(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the state is not changed twice.
 
@@ -316,7 +316,7 @@ async def test_availability_with_shared_state_topic(
 @patch("universalassistant.components.mqtt.client.DISCOVERY_COOLDOWN", 0.0)
 @pytest.mark.usefixtures("mqtt_client_mock")
 async def test_default_entity_and_device_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     entity_id: str,
@@ -366,7 +366,7 @@ async def test_default_entity_and_device_name(
 
 
 async def test_name_attribute_is_set_or_not(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test frendly name with device_class set.
 
@@ -464,7 +464,7 @@ async def test_name_attribute_is_set_or_not(
     ],
 )
 async def test_value_template_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -492,7 +492,7 @@ async def test_value_template_fails(
     ],
 )
 async def test_default_entity_id_with_wrong_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -525,7 +525,7 @@ async def test_default_entity_id_with_wrong_domain(
     ],
 )
 async def test_registry_enabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -553,7 +553,7 @@ async def test_registry_enabled_by_default(
     ],
 )
 async def test_registry_not_enabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -567,7 +567,7 @@ async def test_registry_not_enabled_by_default(
 
 
 async def test_registry_enable_not_enabled_or_visible_by_default_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -699,7 +699,7 @@ async def test_registry_enable_not_enabled_or_visible_by_default_entity(
 
 
 async def test_visible_by_default_with_user_override(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -819,7 +819,7 @@ async def test_visible_by_default_with_user_override(
     ],
 )
 async def test_registry_visible_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -849,7 +849,7 @@ async def test_registry_visible_by_default(
     ],
 )
 async def test_registry_not_visible_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -875,7 +875,7 @@ async def test_registry_not_visible_by_default(
     ],
 )
 async def test_loading_subentries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     mqtt_config_subentries_data: tuple[dict[str, Any]],
     device_registry: dr.DeviceRegistry,
@@ -930,7 +930,7 @@ async def test_loading_subentries(
     ],
 )
 async def test_loading_subentry_with_bad_component_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -963,7 +963,7 @@ async def test_loading_subentry_with_bad_component_schema(
     ],
 )
 async def test_qos_on_mqtt_device_from_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1035,7 +1035,7 @@ TAG_KEEPER = (
 )
 
 
-async def _async_reload_mqtt_entry(hass: UniversalAssistant) -> None:
+async def _async_reload_mqtt_entry(hass: __HAC_KEEP__) -> None:
     """Reload the MQTT config entry, which drops all discovered items."""
     entry = hass.config_entries.async_entries(DOMAIN)[0]
     with patch("universalassistant.components.mqtt.client.AsyncMQTTClient"):
@@ -1058,7 +1058,7 @@ async def _async_reload_mqtt_entry(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_cleanup_previous_device_after_entry_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1131,7 +1131,7 @@ async def test_cleanup_previous_device_after_entry_reload(
     ],
 )
 async def test_previous_device_kept_after_entry_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1179,7 +1179,7 @@ async def test_previous_device_kept_after_entry_reload(
     ],
 )
 async def test_cleanup_previous_device_after_discovery_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1241,7 +1241,7 @@ async def test_cleanup_previous_device_after_discovery_update(
     ],
 )
 async def test_previous_device_kept_after_discovery_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1284,7 +1284,7 @@ async def test_previous_device_kept_after_discovery_update(
     ],
 )
 async def test_previous_device_cleanup_keeps_retained_discovery_payload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     keeper_topic: str,
@@ -1333,7 +1333,7 @@ async def test_previous_device_cleanup_keeps_retained_discovery_payload(
     ],
 )
 async def test_cleanup_previous_device_after_yaml_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

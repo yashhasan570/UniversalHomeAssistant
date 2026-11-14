@@ -18,7 +18,7 @@ from universalassistant.components.rfxtrx.const import (
 )
 from universalassistant.config_entries import ConfigSubentryDataWithId
 from universalassistant.const import CONF_DEVICE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import ulid as ulid_util
 from universalassistant.util.dt import utcnow
 
@@ -111,7 +111,7 @@ def create_rfx_test_entry(
 
 
 async def setup_rfx_test_cfg(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device="abcd",
     automatic_add=False,
     devices: dict[str, dict] | None = None,
@@ -157,7 +157,7 @@ def connect_mock() -> Generator[MagicMock]:
 
 
 @pytest.fixture(autouse=True, name="rfxtrx")
-def rfxtrx_fixture(hass: UniversalAssistant, connect_mock: MagicMock) -> Mock:
+def rfxtrx_fixture(hass: __HAC_KEEP__, connect_mock: MagicMock) -> Mock:
     """Fixture that cleans up threads from integration."""
 
     rfx = Mock(spec=Connect)
@@ -186,7 +186,7 @@ def rfxtrx_fixture(hass: UniversalAssistant, connect_mock: MagicMock) -> Mock:
 
 
 @pytest.fixture(name="rfxtrx_automatic")
-async def rfxtrx_automatic_fixture(hass: UniversalAssistant, rfxtrx: Mock) -> Mock:
+async def rfxtrx_automatic_fixture(hass: __HAC_KEEP__, rfxtrx: Mock) -> Mock:
     """Fixture that starts up with automatic additions."""
     await setup_rfx_test_cfg(hass, automatic_add=True, devices={})
     return rfxtrx
@@ -194,7 +194,7 @@ async def rfxtrx_automatic_fixture(hass: UniversalAssistant, rfxtrx: Mock) -> Mo
 
 @pytest.fixture
 def timestep(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> Generator[Callable[[int], Coroutine[Any, Any, None]]]:
     """Step system time forward."""
 

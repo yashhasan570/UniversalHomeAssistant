@@ -15,7 +15,7 @@
       }),
       dict({
         'id': 'universalassistant',
-        'name': 'Universal Universal Home Assistant',
+        'name': '__HA_KEEP__',
         'requires_admin': True,
       }),
     ]),
@@ -58,7 +58,7 @@
       }),
       dict({
         'id': 'universalassistant',
-        'name': 'Universal Universal Home Assistant',
+        'name': '__HA_KEEP__',
         'requires_admin': True,
       }),
     ]),
@@ -95,7 +95,7 @@
       }),
       dict({
         'id': 'universalassistant',
-        'name': 'Universal Universal Home Assistant',
+        'name': '__HA_KEEP__',
         'requires_admin': True,
       }),
     ]),
@@ -138,7 +138,7 @@
       }),
       dict({
         'id': 'universalassistant',
-        'name': 'Universal Universal Home Assistant',
+        'name': '__HA_KEEP__',
         'requires_admin': True,
       }),
     ]),

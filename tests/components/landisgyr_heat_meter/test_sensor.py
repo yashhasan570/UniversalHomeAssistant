@@ -12,7 +12,7 @@ from ultraheat_api.response import HeatMeterResponse
 from universalassistant.components.universalassistant import DOMAIN as HA_DOMAIN
 from universalassistant.components.landisgyr_heat_meter.const import DOMAIN, POLLING_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -96,7 +96,7 @@ MOCK_RESPONSE_MWH = {
 @patch(API_HEAT_METER_SERVICE)
 async def test_create_sensors(
     mock_heat_meter,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_heat_meter_response,
@@ -123,7 +123,7 @@ async def test_create_sensors(
 
 @patch(API_HEAT_METER_SERVICE)
 async def test_exception_on_polling(
-    mock_heat_meter, hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    mock_heat_meter, hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test sensor."""
     entry_data = {

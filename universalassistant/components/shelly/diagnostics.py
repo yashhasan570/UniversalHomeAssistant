@@ -5,7 +5,7 @@ from typing import Any
 from universalassistant.components.bluetooth import async_scanner_by_source
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import ShellyConfigEntry
 from .utils import get_rpc_ws_url
@@ -14,7 +14,7 @@ TO_REDACT = {CONF_USERNAME, CONF_PASSWORD}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ShellyConfigEntry
+    hass: __HAC_KEEP__, entry: ShellyConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     shelly_entry_data = entry.runtime_data

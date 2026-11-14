@@ -10,8 +10,8 @@ from universalassistant.components.update import (
     UpdateEntityDescription,
     UpdateEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EzvizConfigEntry, EzvizDataUpdateCoordinator
@@ -26,7 +26,7 @@ UPDATE_ENTITY_TYPES = UpdateEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: EzvizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -110,6 +110,6 @@ class EzvizUpdateEntity(EzvizEntity, UpdateEntity):
             )
 
         except (HTTPError, PyEzvizError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Failed to update firmware on {self.name}"
             ) from err

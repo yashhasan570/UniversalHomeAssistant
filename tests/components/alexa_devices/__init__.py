@@ -8,10 +8,10 @@ from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.components.alexa_devices.coordinator import SCAN_INTERVAL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
 
@@ -20,7 +20,7 @@ async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEn
 
 
 async def assert_device_removed_and_readded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     config_entry: MockConfigEntry,

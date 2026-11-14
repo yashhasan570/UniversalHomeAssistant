@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_DOMAIN,
     CONF_NAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
@@ -59,14 +59,14 @@ async def config_credential() -> ClientCredential | None:
 
 @pytest.fixture
 async def import_config_credential(
-    hass: UniversalAssistant, config_credential: ClientCredential
+    hass: __HAC_KEEP__, config_credential: ClientCredential
 ) -> None:
     """Fixture to import the yaml based credential."""
     await async_import_client_credential(hass, TEST_DOMAIN, config_credential)
 
 
 async def setup_application_credentials_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     authorization_server: AuthorizationServer,
 ) -> None:
@@ -85,7 +85,7 @@ async def setup_application_credentials_integration(
 
 @pytest.fixture(autouse=True)
 async def mock_application_credentials_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     authorization_server: AuthorizationServer,
 ):
     """Mock a application_credentials integration."""
@@ -110,7 +110,7 @@ class FakeConfigFlow(config_entry_oauth2_flow.AbstractOAuth2FlowHandler):
 
 @pytest.fixture(autouse=True)
 def config_flow_handler(
-    hass: UniversalAssistant, current_request_with_host: None
+    hass: __HAC_KEEP__, current_request_with_host: None
 ) -> Generator[None]:
     """Fixture for a test config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
@@ -123,7 +123,7 @@ class OAuthFixture:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         hass_client: ClientSessionGenerator,
         aioclient_mock: AiohttpClientMocker,
     ) -> None:
@@ -175,7 +175,7 @@ class OAuthFixture:
 
 @pytest.fixture
 async def oauth_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> OAuthFixture:
@@ -236,7 +236,7 @@ async def test_websocket_list_empty(ws_client: ClientFixture) -> None:
 
 
 async def test_websocket_config_entry_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:
@@ -285,7 +285,7 @@ async def test_websocket_create(ws_client: ClientFixture) -> None:
 
 @pytest.mark.parametrize("cmd", ["list", "subscribe"])
 async def test_websocket_list_subscribe_require_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
     cmd: str,
@@ -411,7 +411,7 @@ async def test_websocket_import_config(
 
 @pytest.mark.parametrize("config_credential", [DEVELOPER_CREDENTIAL])
 async def test_import_duplicate_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_client: ClientFixture,
     config_credential: ClientCredential,
     import_config_credential: Any,
@@ -456,7 +456,7 @@ async def test_import_named_credential(
 
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
-async def test_config_flow_no_credentials(hass: UniversalAssistant) -> None:
+async def test_config_flow_no_credentials(hass: __HAC_KEEP__) -> None:
     """Test config flow base case with no credentials registered."""
     result = await hass.config_entries.flow.async_init(
         TEST_DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -467,7 +467,7 @@ async def test_config_flow_no_credentials(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 async def test_config_flow_other_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_client: ClientFixture,
     authorization_server: AuthorizationServer,
 ) -> None:
@@ -494,7 +494,7 @@ async def test_config_flow_other_domain(
 
 
 async def test_config_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_client: ClientFixture,
     oauth_fixture: OAuthFixture,
 ) -> None:
@@ -551,7 +551,7 @@ async def test_config_flow(
 
 
 async def test_config_flow_multiple_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_client: ClientFixture,
     oauth_fixture: OAuthFixture,
 ) -> None:
@@ -595,7 +595,7 @@ async def test_config_flow_multiple_entries(
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 async def test_config_flow_create_delete_credential(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_client: ClientFixture,
     oauth_fixture: OAuthFixture,
 ) -> None:
@@ -621,7 +621,7 @@ async def test_config_flow_create_delete_credential(
 
 @pytest.mark.parametrize("config_credential", [DEVELOPER_CREDENTIAL])
 async def test_config_flow_with_config_credential(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     oauth_fixture,
@@ -641,7 +641,7 @@ async def test_config_flow_with_config_credential(
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 @pytest.mark.parametrize("mock_application_credentials_integration", [None])
-async def test_import_without_setup(hass: UniversalAssistant, config_credential) -> None:
+async def test_import_without_setup(hass: __HAC_KEEP__, config_credential) -> None:
     """Test import of credentials without setting up the integration."""
 
     with pytest.raises(ValueError):
@@ -658,7 +658,7 @@ async def test_import_without_setup(hass: UniversalAssistant, config_credential)
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 @pytest.mark.parametrize("mock_application_credentials_integration", [None])
 async def test_websocket_without_platform(
-    hass: UniversalAssistant, ws_client: ClientFixture
+    hass: __HAC_KEEP__, ws_client: ClientFixture
 ) -> None:
     """Test an integration without the application credential platform."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -687,7 +687,7 @@ async def test_websocket_without_platform(
 
 @pytest.mark.parametrize("mock_application_credentials_integration", [None])
 async def test_websocket_without_authorization_server(
-    hass: UniversalAssistant, ws_client: ClientFixture
+    hass: __HAC_KEEP__, ws_client: ClientFixture
 ) -> None:
     """Test platform with incorrect implementation."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -725,7 +725,7 @@ async def test_websocket_without_authorization_server(
 
 @pytest.mark.parametrize("config_credential", [DEVELOPER_CREDENTIAL])
 async def test_platform_with_auth_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     oauth_fixture,
@@ -739,7 +739,7 @@ async def test_platform_with_auth_implementation(
     hass.config.components.add(TEST_DOMAIN)
 
     async def get_auth_impl(
-        hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
+        hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
     ) -> config_entry_oauth2_flow.AbstractOAuth2Implementation:
         return AuthImplementation(hass, auth_domain, credential, authorization_server)
 
@@ -779,7 +779,7 @@ async def test_websocket_integration_list(ws_client: ClientFixture) -> None:
 
 
 async def test_name(
-    hass: UniversalAssistant, ws_client: ClientFixture, oauth_fixture: OAuthFixture
+    hass: __HAC_KEEP__, ws_client: ClientFixture, oauth_fixture: OAuthFixture
 ) -> None:
     """Test a credential with a name set."""
     client = await ws_client()
@@ -823,7 +823,7 @@ async def test_name(
 
 
 async def test_remove_config_entry_without_app_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_client: ClientFixture,
     authorization_server: AuthorizationServer,
 ) -> None:

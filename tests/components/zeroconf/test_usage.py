@@ -8,7 +8,7 @@ from pytest_universalassistant.common import extract_stack_to_frame
 
 from universalassistant.components.zeroconf import async_get_instance
 from universalassistant.components.zeroconf.usage import install_multiple_zeroconf_catcher
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 DOMAIN = "zeroconf"
@@ -26,7 +26,7 @@ class MockZeroconf:
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "mock_zeroconf")
 async def test_multiple_zeroconf_instances(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test creating multiple zeroconf throws without an integration."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
@@ -44,7 +44,7 @@ async def test_multiple_zeroconf_instances(
 
 @pytest.mark.usefixtures("mock_async_zeroconf", "mock_zeroconf")
 async def test_multiple_zeroconf_instances_gives_shared(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test creating multiple zeroconf gives the shared instance to an integration."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})

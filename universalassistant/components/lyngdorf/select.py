@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, override
 from lyngdorf import LyngdorfInvalidValueError, LyngdorfReceiver
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -47,7 +47,7 @@ SELECT_ENTITIES: tuple[LyngdorfSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LyngdorfConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

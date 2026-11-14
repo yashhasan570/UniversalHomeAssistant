@@ -8,7 +8,7 @@ from aiohomekit.model.services import Service, ServicesTypes
 from universalassistant.components.lock import LockEntity, LockState
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_BATTERY_LEVEL, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .connection import HKDevice
@@ -28,7 +28,7 @@ REVERSED_TARGET_STATE_MAP = {v: k for k, v in TARGET_STATE_MAP.items()}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -126,7 +126,7 @@ class HomeKitLock(HomeKitEntity, LockEntity):
         )
         # Some locks need to be polled to update the current state
         # after a target state change.
-        # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/81887
+        # https://github.com/yashhasan570/__HAC_KEEP__/issues/81887
         await self._accessory.async_request_update()
 
     @property

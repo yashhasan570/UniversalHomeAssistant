@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -28,7 +28,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_all_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -39,7 +39,7 @@ async def test_all_switches(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_switches_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that switch entities are created."""
     # Verify all three switches exist
@@ -50,7 +50,7 @@ async def test_switches_created(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_entity_unavailable_no_coordinator_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_switch_entity_unavailable_no_coordinator_data(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_state_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_switch_state_changes(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
 ) -> None:
     """Test turning on a switch."""
@@ -128,7 +128,7 @@ async def test_turn_on_switch(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_off_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
 ) -> None:
     """Test turning off a switch."""
@@ -154,7 +154,7 @@ async def test_turn_off_switch(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_actions_cannot_connect_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -182,7 +182,7 @@ async def test_actions_cannot_connect_switch(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_actions_write_rejected_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pooldose_client: AsyncMock,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,

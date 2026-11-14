@@ -14,7 +14,7 @@ from typing import cast
 from aioesphomeapi import APIConnectionError, DeviceCapabilities
 from aioesphomeapi.model import SendspinFeature
 
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.event import async_call_later
 
 from .domain_data import DomainData
@@ -31,14 +31,14 @@ type SendspinClientsCallback = Callable[[list[str]], None]
 
 
 @callback
-def async_sendspin_client_ids(hass: UniversalAssistant) -> list[str]:
+def async_sendspin_client_ids(hass: __HAC_KEEP__) -> list[str]:
     """Return the client ids of the connected devices that hand out a pairing token."""
     return sorted(DomainData.get(hass).sendspin_client_ids)
 
 
 @callback
 def async_subscribe_sendspin_clients(
-    hass: UniversalAssistant, subscriber: SendspinClientsCallback
+    hass: __HAC_KEEP__, subscriber: SendspinClientsCallback
 ) -> CALLBACK_TYPE:
     """Call the subscriber with the client ids whenever they change."""
     subscribers = DomainData.get(hass).sendspin_subscribers
@@ -48,7 +48,7 @@ def async_subscribe_sendspin_clients(
 
 @callback
 def async_sendspin_entry_data(
-    hass: UniversalAssistant, client_id: str
+    hass: __HAC_KEEP__, client_id: str
 ) -> RuntimeEntryData | None:
     """Return the connected device with this Sendspin client id."""
     if (entry_id := DomainData.get(hass).sendspin_client_ids.get(client_id)) is None:
@@ -59,7 +59,7 @@ def async_sendspin_entry_data(
 
 @callback
 def async_sendspin_on_connect(
-    hass: UniversalAssistant, entry_data: RuntimeEntryData
+    hass: __HAC_KEEP__, entry_data: RuntimeEntryData
 ) -> None:
     """Start tracking the Sendspin client id of a device that just connected."""
     assert entry_data.device_capabilities is not None
@@ -77,7 +77,7 @@ def async_sendspin_on_connect(
 
 @callback
 def _async_set_client_id(
-    hass: UniversalAssistant, entry_data: RuntimeEntryData, client_id: str
+    hass: __HAC_KEEP__, entry_data: RuntimeEntryData, client_id: str
 ) -> None:
     client_ids = DomainData.get(hass).sendspin_client_ids
     if client_ids.get(client_id) == entry_data.entry_id:
@@ -87,7 +87,7 @@ def _async_set_client_id(
 
 
 @callback
-def _async_forget_client_id(hass: UniversalAssistant, entry_data: RuntimeEntryData) -> None:
+def _async_forget_client_id(hass: __HAC_KEEP__, entry_data: RuntimeEntryData) -> None:
     # the tracked id is the one in the cached capabilities, which outlive the connection
     assert entry_data.device_capabilities is not None
     client_id = entry_data.device_capabilities.sendspin.client_id
@@ -98,7 +98,7 @@ def _async_forget_client_id(hass: UniversalAssistant, entry_data: RuntimeEntryDa
 
 
 @callback
-def _async_notify_subscribers(hass: UniversalAssistant) -> None:
+def _async_notify_subscribers(hass: __HAC_KEEP__) -> None:
     client_ids = async_sendspin_client_ids(hass)
     for subscriber in DomainData.get(hass).sendspin_subscribers.copy():
         subscriber(client_ids)
@@ -106,7 +106,7 @@ def _async_notify_subscribers(hass: UniversalAssistant) -> None:
 
 @callback
 def _async_schedule_client_id_refresh(
-    hass: UniversalAssistant, entry_data: RuntimeEntryData, delay: float
+    hass: __HAC_KEEP__, entry_data: RuntimeEntryData, delay: float
 ) -> None:
     """Fetch the capabilities again later, until they carry the client id."""
 

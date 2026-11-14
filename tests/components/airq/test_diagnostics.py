@@ -7,7 +7,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.airq.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import TEST_DEVICE_INFO, TEST_USER_DATA
 
@@ -16,7 +16,7 @@ FIXED_MOCK_ENTRY_ID = "01JGFJJZ008DNE3BKJ7ZE14YFE"
 
 @pytest.mark.freeze_time("2025-01-01T00:00:00+00:00")
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_airq,
     snapshot: SnapshotAssertion,

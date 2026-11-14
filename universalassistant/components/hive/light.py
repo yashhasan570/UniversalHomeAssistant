@@ -13,7 +13,7 @@ from universalassistant.components.light import (
     LightEntity,
 )
 from universalassistant.const import ATTR_MODE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import color as color_util
 
@@ -25,7 +25,7 @@ SCAN_INTERVAL = timedelta(seconds=15)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HiveConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -48,7 +48,7 @@ class HiveDeviceLight(HiveEntity, LightEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: HiveConfigEntry,
         hive: Hive,
         hive_device: dict[str, Any],

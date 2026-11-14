@@ -1,4 +1,4 @@
-"""Support for functionality to have conversations with Universal Universal Home Assistant."""
+"""Support for functionality to have conversations with __HA_KEEP__."""
 
 from collections.abc import Callable
 import logging
@@ -9,7 +9,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import MATCH_ALL
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, intent
 from universalassistant.helpers.entity_component import EntityComponent
@@ -103,7 +103,7 @@ CONFIG_SCHEMA = probatio.Schema(
 
 @callback
 def async_set_agent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     agent: AbstractConversationAgent,
 ) -> None:
@@ -113,7 +113,7 @@ def async_set_agent(
 
 @callback
 def async_unset_agent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
 ) -> None:
     """Unset the agent to handle the conversations."""
@@ -122,7 +122,7 @@ def async_unset_agent(
 
 @callback
 def async_get_conversation_languages(
-    hass: UniversalAssistant, agent_id: str | None = None
+    hass: __HAC_KEEP__, agent_id: str | None = None
 ) -> set[str] | Literal["*"]:
     """Return languages supported by conversation agents.
 
@@ -168,7 +168,7 @@ def async_get_conversation_languages(
 
 @callback
 def async_get_agent_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     agent_id: str | None = None,
 ) -> AgentInfo | None:
     """Get information on the agent or None if not found."""
@@ -197,7 +197,7 @@ def async_get_agent_info(
 
 
 async def async_prepare_agent(
-    hass: UniversalAssistant, agent_id: str | None, language: str
+    hass: __HAC_KEEP__, agent_id: str | None, language: str
 ) -> None:
     """Prepare given agent."""
     agent = async_get_agent(hass, agent_id)
@@ -208,7 +208,7 @@ async def async_prepare_agent(
     await agent.async_prepare(language)
 
 
-async def async_prepare_intents(hass: UniversalAssistant, language: str) -> None:
+async def async_prepare_intents(hass: __HAC_KEEP__, language: str) -> None:
     """Prepare sentence triggers and strict intent matching in a language."""
     agent = get_agent_manager(hass).default_agent
     assert agent is not None
@@ -217,7 +217,7 @@ async def async_prepare_intents(hass: UniversalAssistant, language: str) -> None
 
 
 async def async_handle_sentence_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_input: ConversationInput,
     chat_log: ChatLog,
 ) -> str | None:
@@ -232,7 +232,7 @@ async def async_handle_sentence_triggers(
 
 
 async def async_handle_intents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_input: ConversationInput,
     chat_log: ChatLog,
     *,
@@ -250,7 +250,7 @@ async def async_handle_intents(
     )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Register the process service."""
     entity_component = EntityComponent[ConversationEntity](_LOGGER, DOMAIN, hass)
     hass.data[DATA_COMPONENT] = entity_component
@@ -268,7 +268,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -278,6 +278,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)

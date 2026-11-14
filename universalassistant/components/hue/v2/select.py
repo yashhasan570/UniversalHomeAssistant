@@ -12,7 +12,7 @@ from aiohue.v2.models.zone import Zone
 from aiohue.v2.scene_activity import SceneActivityTracker
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -22,7 +22,7 @@ from .entity import HueBaseEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HueConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -114,7 +114,7 @@ class HueSceneSelectEntity(HueBaseEntity, SelectEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Register listeners when added to Universal Universal Home Assistant."""
+        """Register listeners when added to __HA_KEEP__."""
         await super().async_added_to_hass()
 
         @callback

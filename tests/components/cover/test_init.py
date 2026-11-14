@@ -14,7 +14,7 @@ from universalassistant.const import (
     SERVICE_SET_COVER_POSITION,
     SERVICE_TOGGLE,
 )
-from universalassistant.core import UniversalAssistant, ServiceResponse
+from universalassistant.core import __HAC_KEEP__, ServiceResponse
 from universalassistant.helpers.entity import Entity
 from universalassistant.setup import async_setup_component
 
@@ -22,7 +22,7 @@ from .common import MockCover
 
 
 async def test_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cover_entities: list[MockCover],
 ) -> None:
     """Test the provided services."""
@@ -120,7 +120,7 @@ async def test_services(
 
 
 async def test_toggle_after_opened_outside_universal_assistant(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cover_entities: list[MockCover],
 ) -> None:
     """Test toggle closes a cover that opened without reporting opening."""
@@ -135,14 +135,14 @@ async def test_toggle_after_opened_outside_universal_assistant(
     # like a garage door opener with a contact sensor
     ent6 = mock_cover_entities[5]
 
-    # Closed by Universal Universal Home Assistant: it reports closing, then closed
+    # Closed by __HA_KEEP__: it reports closing, then closed
     await call_service(hass, SERVICE_TOGGLE, ent6)
     assert is_closing(hass, ent6)
     set_state(ent6, CoverState.CLOSED)
     ent6.async_write_ha_state()
     assert is_closed(hass, ent6)
 
-    # Opened outside Universal Universal Home Assistant (a wall button or remote): straight to open
+    # Opened outside __HA_KEEP__ (a wall button or remote): straight to open
     set_state(ent6, CoverState.OPEN)
     ent6.async_write_ha_state()
     assert is_open(hass, ent6)
@@ -152,7 +152,7 @@ async def test_toggle_after_opened_outside_universal_assistant(
     assert is_closing(hass, ent6)
 
 
-def call_service(hass: UniversalAssistant, service: str, ent: Entity) -> ServiceResponse:
+def call_service(hass: __HAC_KEEP__, service: str, ent: Entity) -> ServiceResponse:
     """Call any service on entity."""
     return hass.services.async_call(
         cover.DOMAIN, service, {ATTR_ENTITY_ID: ent.entity_id}, blocking=True
@@ -170,7 +170,7 @@ def set_state(ent, state) -> None:
 
 
 def _check_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ent: Entity,
     *,
     expected_state: str,
@@ -185,7 +185,7 @@ def _check_state(
     return all([correct_state, correct_is_closed, correct_position])
 
 
-def is_open(hass: UniversalAssistant, ent: Entity, position: int | None = None) -> bool:
+def is_open(hass: __HAC_KEEP__, ent: Entity, position: int | None = None) -> bool:
     """Return if the cover is open based on the statemachine."""
     return _check_state(
         hass,
@@ -197,7 +197,7 @@ def is_open(hass: UniversalAssistant, ent: Entity, position: int | None = None) 
 
 
 def is_opening(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ent: Entity,
     position: int | None = None,
     *,
@@ -213,7 +213,7 @@ def is_opening(
     )
 
 
-def is_closed(hass: UniversalAssistant, ent: Entity, position: int | None = None) -> bool:
+def is_closed(hass: __HAC_KEEP__, ent: Entity, position: int | None = None) -> bool:
     """Return if the cover is closed based on the statemachine."""
     return _check_state(
         hass,
@@ -224,7 +224,7 @@ def is_closed(hass: UniversalAssistant, ent: Entity, position: int | None = None
     )
 
 
-def is_closing(hass: UniversalAssistant, ent: Entity, position: int | None = None) -> bool:
+def is_closing(hass: __HAC_KEEP__, ent: Entity, position: int | None = None) -> bool:
     """Return if the cover is closing based on the statemachine."""
     return _check_state(
         hass,
@@ -236,7 +236,7 @@ def is_closing(hass: UniversalAssistant, ent: Entity, position: int | None = Non
 
 
 async def test_services_with_speed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cover_entities: list[MockCover],
 ) -> None:
     """Test the speed argument in cover services."""
@@ -353,7 +353,7 @@ async def test_services_with_speed(
 
 
 async def test_deprecated_is_closed(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the deprecated is_closed helper."""
     hass.states.async_set("cover.test", CoverState.CLOSED)

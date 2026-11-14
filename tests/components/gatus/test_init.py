@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.gatus.coordinator import GatusDataUpdateCoordinator
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -17,7 +17,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_gatus_client")
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test standard successful setup and unload cycle of the integration."""
     await setup_integration(hass, mock_config_entry)
@@ -33,7 +33,7 @@ async def test_setup_and_unload_entry(
 
 
 async def test_setup_failure_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -48,7 +48,7 @@ async def test_setup_failure_retry(
 
 
 async def test_setup_failure_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gatus_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_setup_failure_auth(
 
 @pytest.mark.usefixtures("mock_gatus_client")
 async def test_remove_stale_device_runtime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_gatus_client: AsyncMock,
@@ -108,7 +108,7 @@ async def test_remove_stale_device_runtime(
 
 @pytest.mark.usefixtures("mock_gatus_client")
 async def test_remove_stale_device_on_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

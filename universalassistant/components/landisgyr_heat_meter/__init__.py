@@ -6,7 +6,7 @@ from typing import Any
 import ultraheat_api
 
 from universalassistant.const import CONF_DEVICE, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_registry import RegistryEntry, async_migrate_entries
 
 from .const import DOMAIN
@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: UltraheatConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: UltraheatConfigEntry) -> None:
     """Set up heat meter from a config entry."""
 
     _LOGGER.debug("Initializing %s integration on %s", DOMAIN, entry.data[CONF_DEVICE])
@@ -32,13 +32,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: UltraheatConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: UltraheatConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: UltraheatConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: UltraheatConfigEntry
+    hass: __HAC_KEEP__, config_entry: UltraheatConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s", config_entry.version)

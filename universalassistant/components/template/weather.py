@@ -42,7 +42,7 @@ from universalassistant.const import (
     CONF_TEMPERATURE_UNIT,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.core import __HAC_KEEP__, State, callback
 from universalassistant.helpers import config_validation as cv, template
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -278,7 +278,7 @@ WEATHER_CONFIG_ENTRY_SCHEMA = WEATHER_COMMON_MODERN_SCHEMA.extend(
 
 
 def rewrite_legacy_options_to_modern_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_cfg: dict[str, Any],
 ) -> dict[str, Any]:
     """Rewrite legacy config."""
@@ -300,7 +300,7 @@ def rewrite_legacy_options_to_modern_options(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -335,7 +335,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -351,7 +351,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_weather(
-    hass: UniversalAssistant, name: str, config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
 ) -> StateWeatherEntity:
     """Create a preview."""
     return async_setup_template_preview(
@@ -612,7 +612,7 @@ class AbstractTemplateWeather(AbstractTemplateEntity, WeatherEntity, RestoreEnti
     def attribution(self) -> str | None:
         """Return the attribution."""
         if self._attribution is None:
-            return "Powered by Universal Universal Home Assistant"
+            return "Powered by __HA_KEEP__"
         return self._attribution
 
     @callback
@@ -701,7 +701,7 @@ class StateWeatherEntity(TemplateEntity, AbstractTemplateWeather):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         unique_id: str | None,
     ) -> None:
@@ -717,7 +717,7 @@ class TriggerWeatherEntity(TriggerEntity, AbstractTemplateWeather):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: TriggerUpdateCoordinator,
         config: ConfigType,
     ) -> None:

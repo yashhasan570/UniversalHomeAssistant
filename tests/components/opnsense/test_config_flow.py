@@ -16,7 +16,7 @@ from universalassistant.components.opnsense import OPNsenseSSLError, OPNsenseUnk
 from universalassistant.components.opnsense.const import CONF_TRACKER_INTERFACES, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import CONFIG_DATA
@@ -26,7 +26,7 @@ TEST_URL = "http://router.lan/api"
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user(hass: UniversalAssistant, mock_opnsense_client: AsyncMock) -> None:
+async def test_user(hass: __HAC_KEEP__, mock_opnsense_client: AsyncMock) -> None:
     """Test user config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -68,7 +68,7 @@ async def test_user(hass: UniversalAssistant, mock_opnsense_client: AsyncMock) -
     ],
 )
 async def test_user_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opnsense_client: AsyncMock,
     exc: type[Exception],
     expected: str,
@@ -99,7 +99,7 @@ async def test_user_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_config_entry")
 async def test_user_unique_id_already_configured(
-    hass: UniversalAssistant, mock_opnsense_client: AsyncMock
+    hass: __HAC_KEEP__, mock_opnsense_client: AsyncMock
 ) -> None:
     """Test user flow aborts when unique ID is already configured."""
 
@@ -118,7 +118,7 @@ async def test_user_unique_id_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_no_unique_id_aborts(
-    hass: UniversalAssistant, mock_opnsense_client: AsyncMock
+    hass: __HAC_KEEP__, mock_opnsense_client: AsyncMock
 ) -> None:
     """Test that the user flow aborts if the router has no unique id."""
     mock_opnsense_client.get_device_unique_id.return_value = None
@@ -136,7 +136,7 @@ async def test_user_no_unique_id_aborts(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_on_unknown_error(
-    hass: UniversalAssistant, mock_opnsense_client: AsyncMock
+    hass: __HAC_KEEP__, mock_opnsense_client: AsyncMock
 ) -> None:
     """Test when we have unknown errors."""
     result = await hass.config_entries.flow.async_init(
@@ -174,7 +174,7 @@ async def test_on_unknown_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_interfaces_step_with_tracker_interfaces(
-    hass: UniversalAssistant, mock_opnsense_client: AsyncMock
+    hass: __HAC_KEEP__, mock_opnsense_client: AsyncMock
 ) -> None:
     """Test interfaces step with tracker_interfaces in user_input (covering the missing branch)."""
     # Patch the client to return interfaces

@@ -9,7 +9,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -32,7 +32,7 @@ ATTR_DENSITY = "Density"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: XiaomiAqaraConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -224,7 +224,7 @@ class XiaomiMotionSensor(XiaomiBinarySensor):
     def __init__(
         self,
         device: dict[str, Any],
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         xiaomi_hub: XiaomiGateway,
         config_entry: XiaomiAqaraConfigEntry,
     ) -> None:
@@ -295,7 +295,7 @@ class XiaomiMotionSensor(XiaomiBinarySensor):
             _LOGGER.debug(
                 "Skipping heartbeat of the motion sensor. "
                 "It can introduce an incorrect state because of a firmware "
-                "bug (https://github.com/yashhasan570/UniversalUniversalAssistant/pull/"
+                "bug (https://github.com/yashhasan570/__HAC_KEEP__/pull/"
                 "11631#issuecomment-357507744)"
             )
             return None
@@ -570,7 +570,7 @@ class XiaomiButton(XiaomiBinarySensor):
         device: dict[str, Any],
         name: str,
         data_key: str,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         xiaomi_hub: XiaomiGateway,
         config_entry: XiaomiAqaraConfigEntry,
     ) -> None:
@@ -640,7 +640,7 @@ class XiaomiCube(XiaomiBinarySensor):
     def __init__(
         self,
         device: dict[str, Any],
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         xiaomi_hub: XiaomiGateway,
         config_entry: XiaomiAqaraConfigEntry,
     ) -> None:

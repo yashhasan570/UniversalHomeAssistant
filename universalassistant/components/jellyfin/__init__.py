@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -16,13 +16,13 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Jellyfin component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: JellyfinConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: JellyfinConfigEntry) -> None:
     """Set up Jellyfin from a config entry."""
     if CONF_CLIENT_DEVICE_ID not in entry.data:
         entry_data = entry.data.copy()
@@ -64,20 +64,20 @@ async def async_setup_entry(hass: UniversalAssistant, entry: JellyfinConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: JellyfinConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: JellyfinConfigEntry) -> None:
     """Migrate an old config entry."""
     if entry.version == 1 and entry.minor_version < 2:
         new_data = {**entry.data, CONF_URL: entry.data[CONF_URL].rstrip("/")}
         hass.config_entries.async_update_entry(entry, data=new_data, minor_version=2)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: JellyfinConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: JellyfinConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: JellyfinConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

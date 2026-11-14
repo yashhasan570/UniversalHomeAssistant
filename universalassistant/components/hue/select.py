@@ -1,6 +1,6 @@
 """Support for select platform for Hue scenes (V2 only)."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .bridge import HueConfigEntry
@@ -10,7 +10,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HueConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

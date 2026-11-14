@@ -1,16 +1,16 @@
-"""Plugwise platform for Universal Universal Home Assistant Core."""
+"""Plugwise platform for __HA_KEEP__ Core."""
 
 from typing import Any
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import DEV_CLASS, DOMAIN, LOGGER, PLATFORMS
 from .coordinator import PlugwiseConfigEntry, PlugwiseDataUpdateCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PlugwiseConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PlugwiseConfigEntry) -> None:
     """Set up Plugwise components from a config entry."""
     await er.async_migrate_entries(hass, entry.entry_id, async_migrate_entity_entry)
 
@@ -34,7 +34,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PlugwiseConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: PlugwiseConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: PlugwiseConfigEntry) -> None:
     """Unload the Plugwise components."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -68,7 +68,7 @@ def async_migrate_entity_entry(entry: er.RegistryEntry) -> dict[str, Any] | None
 
 
 def migrate_sensor_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     coordinator: PlugwiseDataUpdateCoordinator,
 ) -> None:
     """Migrate Sensors if needed."""

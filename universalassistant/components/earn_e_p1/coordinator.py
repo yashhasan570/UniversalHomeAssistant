@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, override
 
 from earn_e_p1 import EarnEP1Device, EarnEP1Listener
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -28,7 +28,7 @@ class EarnEP1Coordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: EarnEP1ConfigEntry,
         host: str,
         serial: str,

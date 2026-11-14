@@ -29,7 +29,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import (
     CONNECTION_BLUETOOTH,
     DeviceInfo,
@@ -294,7 +294,7 @@ SENSOR_DESCRIPTIONS: tuple[SpecializedSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SpecializedTurboConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

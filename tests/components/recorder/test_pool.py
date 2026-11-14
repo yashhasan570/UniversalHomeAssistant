@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 
 from universalassistant.components.recorder.const import DB_WORKER_PREFIX
 from universalassistant.components.recorder.pool import RecorderPool
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_recorder_pool_called_from_event_loop() -> None:
@@ -25,7 +25,7 @@ async def test_recorder_pool_called_from_event_loop() -> None:
 
 
 async def test_recorder_pool(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test RecorderPool gives the same connection in the creating thread."""
     recorder_and_worker_thread_ids: set[int] = set()

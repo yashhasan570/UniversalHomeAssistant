@@ -19,8 +19,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 import universalassistant.helpers.entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_number_entities(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -81,20 +81,20 @@ async def test_number_set_value(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
     method: str,
 ) -> None:
-    """Test set number value raises UniversalAssistantError on API failure."""
+    """Test set number value raises __HAC_KEEP__Error on API failure."""
 
     getattr(mock_hdfury_client, method).side_effect = HDFuryError()
 
     await setup_integration(hass, mock_config_entry, [Platform.NUMBER])
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="An error occurred while communicating with HDFury device",
     ):
         await hass.services.async_call(
@@ -119,7 +119,7 @@ async def test_number_error(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_entities_unavailable_on_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hdfury_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_EMAIL,
     CONF_PASSWORD,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -45,7 +45,7 @@ def mock_setup_entry_fixture() -> Generator[AsyncMock]:
 
 
 async def test_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_anylist_client: MagicMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_user_flow(
     ],
 )
 async def test_user_flow_errors_and_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_anylist_client: MagicMock,
     error: Exception,
@@ -124,7 +124,7 @@ async def test_user_flow_errors_and_recovery(
 
 
 async def test_duplicate_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_anylist_client: MagicMock,
 ) -> None:

@@ -18,7 +18,7 @@ from aiohomekit.exceptions import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -43,7 +43,7 @@ _LOGGER = logging.getLogger(__name__)
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a HomeKit connection on a config entry."""
     conn = HKDevice(hass, entry, entry.data)
     hass.data[KNOWN_DEVICES][conn.unique_id] = conn
@@ -68,7 +68,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         raise ConfigEntryNotReady from ex
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up for Homekit devices."""
     await async_get_controller(hass)
 
@@ -87,7 +87,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Disconnect from HomeKit devices before unloading entry."""
     hkid = entry.data["AccessoryPairingID"]
 
@@ -96,7 +96,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> No
         await connection.async_unload()
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Cleanup caches before removing config entry."""
     hkid = entry.data["AccessoryPairingID"]
 
@@ -110,7 +110,7 @@ async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> No
     except aiohomekit.AccessoryDisconnectedError:
         _LOGGER.warning(
             (
-                "Accessory %s was removed from UniversalAssistant but was not reachable "
+                "Accessory %s was removed from __HAC_KEEP__ but was not reachable "
                 "to properly unpair. It may need resetting before you can use it with "
                 "HomeKit again"
             ),
@@ -119,7 +119,7 @@ async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> No
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove homekit_controller config entry from a device."""
     hkid = config_entry.data["AccessoryPairingID"]

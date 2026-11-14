@@ -17,7 +17,7 @@ from zcc import (
 from universalassistant import config_entries
 from universalassistant.components.zimi.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 
@@ -54,7 +54,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 
 async def test_user_discovery_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_mock: MagicMock,
 ) -> None:
     """Test user form transitions to creation if zcc discovery succeeds."""
@@ -84,7 +84,7 @@ async def test_user_discovery_success(
 
 
 async def test_user_discovery_success_selection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_mock: MagicMock,
 ) -> None:
     """Test user form to creation when discovery finds multiple hosts."""
@@ -125,7 +125,7 @@ async def test_user_discovery_success_selection(
 
 
 async def test_user_discovery_duplicates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_mock: MagicMock,
 ) -> None:
     """Test that flow is aborted if duplicates are added."""
@@ -157,7 +157,7 @@ async def test_user_discovery_duplicates(
 
 
 async def test_finish_manual_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_mock: MagicMock,
 ) -> None:
     """Test manual form transitions to creation with valid data."""
@@ -193,7 +193,7 @@ async def test_finish_manual_success(
 
 
 async def test_manual_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_mock: MagicMock,
 ) -> None:
     """Test manual form transitions via cannot_connect to creation."""
@@ -249,7 +249,7 @@ async def test_manual_cannot_connect(
 
 
 async def test_manual_gethostbyname_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_mock: MagicMock,
 ) -> None:
     """Test manual form transitions via gethostbyname failure to creation."""
@@ -330,7 +330,7 @@ async def test_manual_gethostbyname_error(
     ],
 )
 async def test_manual_connection_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_mock: MagicMock,
     side_effect: Exception,
     error_expected: dict,

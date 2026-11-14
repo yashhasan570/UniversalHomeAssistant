@@ -18,8 +18,8 @@ from pylamarzocco.models import BrewByWeightDoses, PreBrewing, SteamBoilerLevel
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -167,7 +167,7 @@ ENTITIES: tuple[LaMarzoccoSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LaMarzoccoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -203,7 +203,7 @@ class LaMarzoccoSelectEntity(LaMarzoccoEntity, SelectEntity):
                     self.coordinator.device, option
                 )
             except (LaMarzoccoError, TimeoutError) as exc:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="select_option_error",
                     translation_placeholders={

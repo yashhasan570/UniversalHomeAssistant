@@ -12,12 +12,12 @@ from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant.components import mqtt_statestream as statestream
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CoreState, UniversalAssistant, State
+from universalassistant.core import CoreState, __HAC_KEEP__, State
 from universalassistant.setup import async_setup_component
 
 
 async def add_statestream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     base_topic=None,
     publish_attributes=None,
     publish_timestamps=None,
@@ -42,21 +42,21 @@ async def add_statestream(
 
 
 async def test_fails_with_no_base(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Setup should fail if no base_topic is set."""
     assert await add_statestream(hass) is False
 
 
 async def test_setup_succeeds_without_attributes(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the success of the setup with a valid base_topic."""
     assert await add_statestream(hass, base_topic="pub")
 
 
 async def test_setup_and_stop_waits_for_ha(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the success of the setup with a valid base_topic."""
     e_id = "fake.entity"
@@ -107,7 +107,7 @@ async def test_setup_and_stop_waits_for_ha(
 # The exception is raised by mqtt.async_publish.
 @pytest.mark.xfail
 async def test_startup_no_mqtt(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test startup without MQTT support."""
     e_id = "fake.entity"
@@ -121,14 +121,14 @@ async def test_startup_no_mqtt(
 
 
 async def test_setup_succeeds_with_attributes(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test setup with a valid base_topic and publish_attributes."""
     assert await add_statestream(hass, base_topic="pub", publish_attributes=True)
 
 
 async def test_state_changed_event_sends_message(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the sending of a new message if event changed."""
     e_id = "fake.entity"
@@ -180,7 +180,7 @@ async def test_state_changed_event_sends_message(
 
 
 async def test_state_changed_event_sends_message_and_timestamp(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the sending of a message and timestamps if event changed."""
     e_id = "another.entity"
@@ -227,7 +227,7 @@ async def test_state_changed_event_sends_message_and_timestamp(
 
 
 async def test_state_changed_attr_sends_message(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test the sending of a new message if attribute changed."""
     e_id = "fake.entity"
@@ -273,7 +273,7 @@ async def test_state_changed_attr_sends_message(
 
 
 async def test_state_changed_event_include_domain(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test that filtering on included domain works as expected."""
     base_topic = "pub"
@@ -313,7 +313,7 @@ async def test_state_changed_event_include_domain(
 
 
 async def test_state_changed_event_include_entity(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test that filtering on included entity works as expected."""
     base_topic = "pub"
@@ -353,7 +353,7 @@ async def test_state_changed_event_include_entity(
 
 
 async def test_state_changed_event_exclude_domain(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test that filtering on excluded domain works as expected."""
     base_topic = "pub"
@@ -393,7 +393,7 @@ async def test_state_changed_event_exclude_domain(
 
 
 async def test_state_changed_event_exclude_entity(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test that filtering on excluded entity works as expected."""
     base_topic = "pub"
@@ -433,7 +433,7 @@ async def test_state_changed_event_exclude_entity(
 
 
 async def test_state_changed_event_exclude_domain_include_entity(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test filtering with excluded domain and included entity."""
     base_topic = "pub"
@@ -473,7 +473,7 @@ async def test_state_changed_event_exclude_domain_include_entity(
 
 
 async def test_state_changed_event_include_domain_exclude_entity(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test filtering with included domain and excluded entity."""
     base_topic = "pub"
@@ -513,7 +513,7 @@ async def test_state_changed_event_include_domain_exclude_entity(
 
 
 async def test_state_changed_event_include_globs(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test that filtering on included glob works as expected."""
     base_topic = "pub"
@@ -553,7 +553,7 @@ async def test_state_changed_event_include_globs(
 
 
 async def test_state_changed_event_exclude_globs(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test that filtering on excluded globs works as expected."""
     base_topic = "pub"
@@ -593,7 +593,7 @@ async def test_state_changed_event_exclude_globs(
 
 
 async def test_state_changed_event_exclude_domain_globs_include_entity(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test filtering with excluded domain and glob and included entity."""
     base_topic = "pub"
@@ -653,7 +653,7 @@ async def test_state_changed_event_exclude_domain_globs_include_entity(
 
 
 async def test_state_changed_event_include_domain_globs_exclude_entity(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test filtering with included domain and glob and excluded entity."""
     base_topic = "pub"

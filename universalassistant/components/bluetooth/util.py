@@ -17,8 +17,8 @@ from habluetooth import BluetoothScanningMode, get_manager
 from universal_assistant_bluetooth import BluetoothServiceInfoBleak
 
 from universalassistant.const import CONF_MODE
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import CONF_PASSIVE, DEFAULT_MODE
 from .storage import BluetoothStorage
@@ -41,11 +41,11 @@ def resolve_scanning_mode(options: Mapping[str, Any]) -> BluetoothScanningMode:
     return BluetoothScanningMode(DEFAULT_MODE)
 
 
-class InvalidConfigEntryID(UniversalAssistantError):
+class InvalidConfigEntryID(__HAC_KEEP__Error):
     """Invalid config entry id."""
 
 
-class InvalidSource(UniversalAssistantError):
+class InvalidSource(__HAC_KEEP__Error):
     """Invalid source."""
 
 
@@ -126,7 +126,7 @@ def adapter_title(adapter: str, details: AdapterDetails) -> str:
     return f"{manufacturer} {model} ({unique_name})"
 
 
-def config_entry_id_to_source(hass: UniversalAssistant, config_entry_id: str) -> str:
+def config_entry_id_to_source(hass: __HAC_KEEP__, config_entry_id: str) -> str:
     """Convert a config entry id to a source."""
     if not (entry := hass.config_entries.async_get_entry(config_entry_id)):
         raise InvalidConfigEntryID(f"Config entry {config_entry_id} not found")

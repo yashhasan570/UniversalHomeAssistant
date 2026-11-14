@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components import config
 from universalassistant.components.config import DOMAIN, automation
 from universalassistant.const import STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import yaml as yaml_util
@@ -19,7 +19,7 @@ from universalassistant.util import yaml as yaml_util
 
 @pytest.fixture
 async def setup_automation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     automation_config: dict[str, Any],
 ) -> None:
     """Set up automation integration."""
@@ -31,7 +31,7 @@ async def setup_automation(
 @pytest.mark.parametrize("automation_config", [{}])
 @pytest.mark.usefixtures("setup_automation")
 async def test_get_automation_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -54,7 +54,7 @@ async def test_get_automation_config(
 @pytest.mark.parametrize("automation_config", [{}])
 @pytest.mark.usefixtures("setup_automation")
 async def test_update_automation_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -146,7 +146,7 @@ async def test_update_automation_config(
 )
 @pytest.mark.usefixtures("setup_automation")
 async def test_update_automation_config_with_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
@@ -199,7 +199,7 @@ async def test_update_automation_config_with_error(
 )
 @pytest.mark.usefixtures("setup_automation")
 async def test_update_automation_config_with_blueprint_substitution_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
@@ -238,7 +238,7 @@ async def test_update_automation_config_with_blueprint_substitution_error(
 @pytest.mark.parametrize("automation_config", [{}])
 @pytest.mark.usefixtures("setup_automation")
 async def test_update_remove_key_automation_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -280,7 +280,7 @@ async def test_update_remove_key_automation_config(
 @pytest.mark.parametrize("automation_config", [{}])
 @pytest.mark.usefixtures("setup_automation")
 async def test_bad_formatted_automations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -345,7 +345,7 @@ async def test_bad_formatted_automations(
 )
 @pytest.mark.usefixtures("setup_automation")
 async def test_delete_automation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     hass_config_store: dict[str, Any],
@@ -386,7 +386,7 @@ async def test_delete_automation(
 @pytest.mark.parametrize("automation_config", [{}])
 @pytest.mark.usefixtures("setup_automation")
 async def test_api_calls_require_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_read_only_access_token: str,
     hass_config_store: dict[str, Any],

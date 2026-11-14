@@ -7,7 +7,7 @@ from homematicip.base.enums import LockState, MotorState
 from homematicip.device import DoorLockDrive
 
 from universalassistant.components.lock import LockEntity, LockEntityFeature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import HomematicipGenericEntity
@@ -32,7 +32,7 @@ DEVICE_DLD_ATTRIBUTES = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomematicIPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

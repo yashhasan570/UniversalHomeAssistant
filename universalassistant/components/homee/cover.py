@@ -14,7 +14,7 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import HomeeConfigEntry
@@ -101,7 +101,7 @@ def get_device_class(node: HomeeNode) -> CoverDeviceClass | None:
 
 
 async def add_cover_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -119,7 +119,7 @@ async def add_cover_entities(
                 _LOGGER.warning(
                     "Cover %s could not be added, because it is missing an Attribute "
                     "for closed indication. Please open an issue at "
-                    "https://github.com/yashhasan570/UniversalUniversalAssistant/issues",
+                    "https://github.com/yashhasan570/__HAC_KEEP__/issues",
                     node.name,
                 )
 
@@ -127,7 +127,7 @@ async def add_cover_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -155,7 +155,7 @@ class HomeeCover(HomeeNodeEntity, CoverEntity):
     _attr_name = None
 
     def __init__(
-        self, hass: UniversalAssistant, node: HomeeNode, entry: HomeeConfigEntry
+        self, hass: __HAC_KEEP__, node: HomeeNode, entry: HomeeConfigEntry
     ) -> None:
         """Initialize a homee cover entity."""
         super().__init__(hass, node, entry)

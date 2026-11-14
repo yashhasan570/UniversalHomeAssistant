@@ -17,7 +17,7 @@ from pyzonneplan import (
 from universalassistant import config_entries
 from universalassistant.components.zonneplan.const import DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_ACCOUNT, MOCK_EMAIL, MOCK_USER_INPUT
@@ -31,7 +31,7 @@ MOCK_OTHER_ACCOUNT = replace(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_zonneplan_client: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_zonneplan_client: AsyncMock) -> None:
     """Test the full OTP config flow creates an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -72,7 +72,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_zonneplan_client: AsyncM
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_user_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zonneplan_client: AsyncMock,
     exception: Exception,
     reason: str,
@@ -126,7 +126,7 @@ async def test_step_user_exceptions(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_otp_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zonneplan_client: AsyncMock,
     exception: Exception,
     reason: str,
@@ -165,7 +165,7 @@ async def test_step_otp_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test aborting when the account is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -185,7 +185,7 @@ async def test_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_confirm_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     exception: Exception,
@@ -279,7 +279,7 @@ async def test_reauth_confirm_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
@@ -301,7 +301,7 @@ async def test_reauth_wrong_account(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:
@@ -352,7 +352,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_confirm_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
     exception: Exception,
@@ -392,7 +392,7 @@ async def test_reconfigure_confirm_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_zonneplan_client: AsyncMock,
 ) -> None:

@@ -15,7 +15,7 @@ from universalassistant.components.unifiprotect.const import (
 )
 from universalassistant.components.unifiprotect.event import EVENT_DESCRIPTIONS
 from universalassistant.const import ATTR_FRIENDLY_NAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .utils import (
     MockUFPFixture,
@@ -27,7 +27,7 @@ from .utils import (
 
 async def test_exclude_attributes(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     doorbell: Camera,
     unadopted_camera: Camera,

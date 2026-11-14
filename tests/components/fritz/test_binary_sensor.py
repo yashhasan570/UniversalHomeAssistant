@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.fritz.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import MOCK_USER_DATA
@@ -22,7 +22,7 @@ from .const import MOCK_USER_DATA
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensor_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     fc_class_mock,
     fh_class_mock,
@@ -41,7 +41,7 @@ async def test_binary_sensor_setup(
 
 
 async def test_binary_sensor_missing_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     fc_class_mock,
     fh_class_mock,

@@ -10,7 +10,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.isy994.const import DOMAIN, ISY_URL_POSTFIX
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .test_config_flow import MOCK_HOSTNAME, MOCK_UUID
@@ -21,7 +21,7 @@ MOCK_HEARTBEAT = "2021-05-01T00:00:00.000000"
 
 
 async def test_system_health(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test system health."""
     aioclient_mock.get(f"http://{MOCK_HOSTNAME}{ISY_URL_POSTFIX}", text="")
@@ -63,7 +63,7 @@ async def test_system_health(
 
 
 async def test_system_health_failed_connect(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test system health."""
     aioclient_mock.get(f"http://{MOCK_HOSTNAME}{ISY_URL_POSTFIX}", exc=ClientError)

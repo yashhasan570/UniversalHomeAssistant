@@ -25,7 +25,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.bluetooth.const import UNAVAILABLE_TRACK_SECONDS
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -41,7 +41,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_sensors_before_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: Callable[[], Awaitable[None]],
 ) -> None:
     """Test that sensors are created but unavailable before data arrives."""
@@ -56,7 +56,7 @@ async def test_sensors_before_data(
 
 
 async def test_sensor_entities_usb_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -72,7 +72,7 @@ async def test_sensor_entities_usb_device(
 
 
 async def test_sensor_entities_battery_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_opendisplay_device: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -97,7 +97,7 @@ async def test_sensor_entities_battery_device(
 
 
 async def test_battery_sensors_not_created_for_usb_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     setup_entry: Callable[[], Awaitable[None]],
 ) -> None:
@@ -112,7 +112,7 @@ async def test_battery_sensors_not_created_for_usb_devices(
 
 
 async def test_no_sensors_for_non_flex_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opendisplay_device: MagicMock,
     entity_registry: er.EntityRegistry,
     setup_entry: Callable[[], Awaitable[None]],
@@ -127,7 +127,7 @@ async def test_no_sensors_for_non_flex_devices(
 
 
 async def test_coordinator_ignores_unknown_manufacturer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: Callable[[], Awaitable[None]],
 ) -> None:
     """Test that advertisements from an unknown manufacturer ID are ignored."""
@@ -145,7 +145,7 @@ async def test_coordinator_ignores_unknown_manufacturer(
 
 
 async def test_sensor_goes_unavailable_when_device_disappears(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: Callable[[], Awaitable[None]],
 ) -> None:
     """Test that sensors become unavailable when the device stops advertising."""
@@ -185,7 +185,7 @@ async def test_sensor_goes_unavailable_when_device_disappears(
 
 
 async def test_battery_sensor_defaults_to_liion_when_capacity_estimator_unset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opendisplay_device: MagicMock,
     setup_entry: Callable[[], Awaitable[None]],
 ) -> None:

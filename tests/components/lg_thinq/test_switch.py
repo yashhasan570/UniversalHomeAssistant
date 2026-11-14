@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -18,7 +18,7 @@ from . import setup_integration
     "device_fixture", ["air_conditioner", "dehumidifier", "washer"]
 )
 async def test_switch_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_thinq_api: AsyncMock,

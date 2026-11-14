@@ -1,4 +1,4 @@
-"""Init file for Universal Universal Home Assistant."""
+"""Init file for __HA_KEEP__."""
 
 import httpx2
 import probatio
@@ -17,7 +17,7 @@ httpx2.alias_httpx()
 # `import voluptuous`, hence the package __init__.
 install_as_voluptuous()
 
-# Defer schema compilation until a schema is first validated. Universal Universal Home Assistant builds
+# Defer schema compilation until a schema is first validated. __HA_KEEP__ builds
 # a large number of schemas, many of which are never validated in a given run, so
 # lazy building avoids that upfront cost. Only the application may set this policy.
 set_build_policy(BuildPolicy.LAZY)

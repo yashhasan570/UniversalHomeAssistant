@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from adguardhome import AdGuardHomeAuthenticationError
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 
@@ -53,7 +53,7 @@ SERVICE_REFRESH_SCHEMA = probatio.Schema(
 )
 
 
-def _get_adguard_entries(hass: UniversalAssistant) -> list[AdGuardConfigEntry]:
+def _get_adguard_entries(hass: __HAC_KEEP__) -> list[AdGuardConfigEntry]:
     """Get the loaded AdGuard Home config entries."""
     entries: list[AdGuardConfigEntry] = hass.config_entries.async_loaded_entries(DOMAIN)
     if not entries:
@@ -65,7 +65,7 @@ def _get_adguard_entries(hass: UniversalAssistant) -> list[AdGuardConfigEntry]:
 
 @asynccontextmanager
 async def _reauthenticate_on_rejection(
-    hass: UniversalAssistant, entry: AdGuardConfigEntry
+    hass: __HAC_KEEP__, entry: AdGuardConfigEntry
 ) -> AsyncIterator[None]:
     """Ask for new credentials when AdGuard Home rejects the ones of the entry."""
     try:
@@ -127,7 +127,7 @@ async def _refresh(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the AdGuard Home integration."""
 
     hass.services.async_register(

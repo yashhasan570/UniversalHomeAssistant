@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_SWITCHES,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -127,7 +127,7 @@ CONFIG_SCHEMA = probatio.Schema(
 type FirmataConfigEntry = ConfigEntry[FirmataBoard]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Firmata domain."""
     # Delete specific entries that no longer exist in the config
     if hass.config_entries.async_entries(DOMAIN):
@@ -163,7 +163,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: FirmataConfigEntry
+    hass: __HAC_KEEP__, config_entry: FirmataConfigEntry
 ) -> None:
     """Set up a Firmata board for a config entry."""
     _LOGGER.debug(
@@ -185,7 +185,7 @@ async def async_setup_entry(
     config_entry.runtime_data = board
 
     async def handle_shutdown(event) -> None:
-        """Handle shutdown of board when Universal Universal Home Assistant shuts down."""
+        """Handle shutdown of board when __HA_KEEP__ shuts down."""
         await board.async_reset()
 
     config_entry.async_on_unload(
@@ -213,7 +213,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: FirmataConfigEntry
+    hass: __HAC_KEEP__, config_entry: FirmataConfigEntry
 ) -> None:
     """Shutdown and close a Firmata board for a config entry."""
     _LOGGER.debug("Closing Firmata board %s", config_entry.data[CONF_NAME])

@@ -1,4 +1,4 @@
-"""Template helper functions for Universal Universal Home Assistant."""
+"""Template helper functions for __HA_KEEP__."""
 
 from typing import TYPE_CHECKING, Any, NoReturn, overload
 
@@ -15,7 +15,7 @@ from universalassistant.helpers import (
 from .context import template_cv
 
 if TYPE_CHECKING:
-    from universalassistant.core import UniversalAssistant
+    from universalassistant.core import __HAC_KEEP__
 
 _SENTINEL = sentinel("_SENTINEL")
 
@@ -29,7 +29,7 @@ def raise_no_default(function: str, value: Any) -> NoReturn:
     )
 
 
-def resolve_area_id(hass: UniversalAssistant, lookup_value: Any) -> str | None:
+def resolve_area_id(hass: __HAC_KEEP__, lookup_value: Any) -> str | None:
     """Resolve lookup value to an area ID.
 
     Accepts area name, area alias, device ID, or entity ID.

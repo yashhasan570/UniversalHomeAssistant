@@ -15,7 +15,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_fixture
 from universalassistant.components.iometer.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -35,7 +35,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_http_client: MagicMock,
 ) -> None:
     """Test full user configuration flow."""
@@ -59,7 +59,7 @@ async def test_user_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_http_client: MagicMock,
 ) -> None:
     """Test zeroconf flow."""
@@ -83,7 +83,7 @@ async def test_zeroconf_flow(
 
 
 async def test_zeroconf_flow_abort_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test zeroconf flow aborts with duplicate."""
@@ -107,7 +107,7 @@ async def test_zeroconf_flow_abort_duplicate(
     ids=["connection-error", "timeout", "status-missing"],
 )
 async def test_zeroconf_flow_abort_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_http_client: MagicMock,
     exception: Exception,
     reason: str,
@@ -126,7 +126,7 @@ async def test_zeroconf_flow_abort_errors(
 
 
 async def test_zeroconf_flow_abort_no_meter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_http_client: MagicMock,
 ) -> None:
     """Test zeroconf flow aborts when the status contains no meter info."""
@@ -155,7 +155,7 @@ async def test_zeroconf_flow_abort_no_meter(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_http_client: MagicMock,
     exception: Exception,
     error_key: str,
@@ -191,7 +191,7 @@ async def test_user_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_no_meter_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_http_client: MagicMock,
 ) -> None:
     """Test user flow shows error when status contains no meter info."""
@@ -227,7 +227,7 @@ async def test_user_flow_no_meter_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_abort_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_http_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

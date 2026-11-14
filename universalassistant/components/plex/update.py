@@ -7,8 +7,8 @@ from plexapi.exceptions import PlexApiException
 import requests.exceptions
 
 from universalassistant.components.update import UpdateEntity, UpdateEntityFeature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: PlexConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -73,7 +73,7 @@ class PlexUpdate(UpdateEntity):
         try:
             self._server.plex_server.installUpdate()
         except (requests.exceptions.RequestException, PlexApiException) as exc:
-            raise UniversalAssistantError(str(exc)) from exc
+            raise __HAC_KEEP__Error(str(exc)) from exc
 
     @property
     @override

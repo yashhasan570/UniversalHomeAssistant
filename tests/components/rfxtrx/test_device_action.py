@@ -10,8 +10,8 @@ import RFXtrx
 from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.rfxtrx import DOMAIN, device_action
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -42,7 +42,7 @@ async def test_device_test_data(rfxtrx, device: DeviceTestData) -> None:
     )
 
 
-async def setup_entry(hass: UniversalAssistant, devices: dict[str, Any]) -> MockConfigEntry:
+async def setup_entry(hass: __HAC_KEEP__, devices: dict[str, Any]) -> MockConfigEntry:
     """Construct a config setup."""
     mock_entry = create_rfx_test_entry(devices=devices)
     mock_entry.add_to_hass(hass)
@@ -74,7 +74,7 @@ def _get_expected_actions(data):
     ],
 )
 async def test_get_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     device: DeviceTestData,
     expected,
@@ -122,7 +122,7 @@ async def test_get_actions(
     ],
 )
 async def test_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     rfxtrx: RFXtrx.Connect,
     device: DeviceTestData,
@@ -166,7 +166,7 @@ async def test_action(
 
 
 async def test_get_actions_missing_identifier(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test we get no actions for a device without a rfxtrx identifier."""
     mock_entry = await setup_entry(hass, {})
@@ -180,7 +180,7 @@ async def test_get_actions_missing_identifier(
 
 
 async def test_get_actions_missing_subentry(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test we get no actions for a device pointing at a removed subentry."""
     mock_entry = await setup_entry(hass, {})
@@ -194,7 +194,7 @@ async def test_get_actions_missing_subentry(
 
 
 async def test_get_actions_invalid_event_code(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test we get no actions for a device whose subentry has an invalid event code."""
     mock_entry = await setup_entry(hass, {"invalid": {}})
@@ -210,7 +210,7 @@ async def test_get_actions_invalid_event_code(
 
 
 async def test_invalid_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_invalid_action(
 
 
 async def test_action_not_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test an action when RFXtrx is not connected."""
@@ -267,7 +267,7 @@ async def test_action_not_connected(
 
     await hass.config_entries.async_unload(mock_entry.entry_id)
 
-    with pytest.raises(UniversalAssistantError, match="RFXtrx is not connected"):
+    with pytest.raises(__HAC_KEEP__Error, match="RFXtrx is not connected"):
         await device_action.async_call_action_from_config(
             hass,
             {

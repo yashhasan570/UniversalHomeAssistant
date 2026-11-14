@@ -8,7 +8,7 @@ from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
 from universalassistant.components.yamaha import media_player as yamaha
 from universalassistant.components.yamaha.const import DOMAIN
 from universalassistant.components.yamaha.services import YamahaService
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.discovery import async_load_platform
 from universalassistant.setup import async_setup_component
@@ -68,7 +68,7 @@ def device2_fixture(main_zone):
         yield device
 
 
-async def test_setup_host(hass: UniversalAssistant, device, device2, main_zone) -> None:
+async def test_setup_host(hass: __HAC_KEEP__, device, device2, main_zone) -> None:
     """Test set up integration with host."""
     assert await async_setup_component(hass, MP_DOMAIN, CONFIG)
     await hass.async_block_till_done()
@@ -96,7 +96,7 @@ async def test_setup_host(hass: UniversalAssistant, device, device2, main_zone) 
         UnicodeDecodeError("", b"", 1, 0, ""),
     ],
 )
-async def test_setup_find_errors(hass: UniversalAssistant, device, main_zone, error) -> None:
+async def test_setup_find_errors(hass: __HAC_KEEP__, device, main_zone, error) -> None:
     """Test set up integration encountering an Error."""
 
     with patch("rxv.find", side_effect=error):
@@ -109,7 +109,7 @@ async def test_setup_find_errors(hass: UniversalAssistant, device, main_zone, er
         assert state.state == "off"
 
 
-async def test_setup_no_host(hass: UniversalAssistant, device, main_zone) -> None:
+async def test_setup_no_host(hass: __HAC_KEEP__, device, main_zone) -> None:
     """Test set up integration without host."""
     with patch("rxv.find", return_value=[device]):
         assert await async_setup_component(
@@ -123,7 +123,7 @@ async def test_setup_no_host(hass: UniversalAssistant, device, main_zone) -> Non
     assert state.state == "off"
 
 
-async def test_setup_discovery(hass: UniversalAssistant, device, main_zone) -> None:
+async def test_setup_discovery(hass: __HAC_KEEP__, device, main_zone) -> None:
     """Test set up integration via discovery."""
     discovery_info = {
         "name": "Yamaha Receiver",
@@ -142,7 +142,7 @@ async def test_setup_discovery(hass: UniversalAssistant, device, main_zone) -> N
     assert state.state == "off"
 
 
-async def test_setup_zone_ignore(hass: UniversalAssistant, device, main_zone) -> None:
+async def test_setup_zone_ignore(hass: __HAC_KEEP__, device, main_zone) -> None:
     """Test set up integration without host."""
     assert await async_setup_component(
         hass,
@@ -162,7 +162,7 @@ async def test_setup_zone_ignore(hass: UniversalAssistant, device, main_zone) ->
     assert state is None
 
 
-async def test_enable_output(hass: UniversalAssistant, device, main_zone) -> None:
+async def test_enable_output(hass: __HAC_KEEP__, device, main_zone) -> None:
     """Test enable output service."""
     assert await async_setup_component(hass, MP_DOMAIN, CONFIG)
     await hass.async_block_till_done()
@@ -193,7 +193,7 @@ async def test_enable_output(hass: UniversalAssistant, device, main_zone) -> Non
     ],
 )
 @pytest.mark.usefixtures("device")
-async def test_menu_cursor(hass: UniversalAssistant, main_zone, cursor, method) -> None:
+async def test_menu_cursor(hass: __HAC_KEEP__, main_zone, cursor, method) -> None:
     """Verify that the correct menu method is called for the menu_cursor service."""
     assert await async_setup_component(hass, MP_DOMAIN, CONFIG)
     await hass.async_block_till_done()
@@ -207,7 +207,7 @@ async def test_menu_cursor(hass: UniversalAssistant, main_zone, cursor, method) 
     getattr(main_zone, method).assert_called_once_with()
 
 
-async def test_select_scene(hass: UniversalAssistant, device, main_zone) -> None:
+async def test_select_scene(hass: __HAC_KEEP__, device, main_zone) -> None:
     """Test select scene service."""
     scene_prop = PropertyMock(return_value=None)
     type(main_zone).scene = scene_prop

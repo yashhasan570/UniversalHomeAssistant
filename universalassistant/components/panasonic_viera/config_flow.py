@@ -144,7 +144,7 @@ class PanasonicVieraConfigFlow(ConfigFlow, domain=DOMAIN):
 
         try:
             await self.hass.async_add_executor_job(
-                partial(self._remote.request_pin_code, name="Universal Universal Home Assistant")
+                partial(self._remote.request_pin_code, name="__HA_KEEP__")
             )
         except (URLError, SOAPError, OSError) as err:
             _LOGGER.error("The remote connection was lost: %s", err)

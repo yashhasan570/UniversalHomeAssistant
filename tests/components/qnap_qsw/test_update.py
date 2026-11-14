@@ -13,7 +13,7 @@ from universalassistant.components.update import (
     UpdateServiceArgument,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import (
     FIRMWARE_INFO_MOCK,
@@ -29,7 +29,7 @@ FIRMWARE_UPDATE_LIVE_MOCK = {
 }
 
 
-async def test_qnap_qsw_update(hass: UniversalAssistant) -> None:
+async def test_qnap_qsw_update(hass: __HAC_KEEP__) -> None:
     """Test creation of update entities."""
 
     await async_init_integration(hass)

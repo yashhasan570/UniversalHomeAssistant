@@ -9,8 +9,8 @@ from soco.exceptions import SoCoSlaveException, SoCoUPnPException
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import ATTR_TIME, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -86,7 +86,7 @@ MODEL_FEATURE_SUBSTITUTIONS: dict[str, dict[str, str]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: SonosConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -340,7 +340,7 @@ class SonosTVAutoplaySwitchEntity(SonosPollingEntity, SwitchEntity):
                 [("RoomUUID", room_uuid), *_TV_SOURCE]
             )
         except SoCoUPnPException as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="toggle_failed",
                 translation_placeholders={"entity_id": self.entity_id},
@@ -419,7 +419,7 @@ class SonosTVUngroupAutoplaySwitchEntity(SonosPollingEntity, SwitchEntity):
                 [("IncludeLinkedZones", "0" if enable else "1"), *_TV_SOURCE]
             )
         except SoCoUPnPException as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="toggle_failed",
                 translation_placeholders={"entity_id": self.entity_id},

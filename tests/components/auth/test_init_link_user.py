@@ -8,13 +8,13 @@ from pytest_universalassistant.common import CLIENT_ID, CLIENT_REDIRECT_URI
 from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.auth import create_auth_code
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import async_setup_auth
 
 
 async def async_get_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     code_challenge: str | None = None,
     code_challenge_method: str | None = None,
@@ -79,7 +79,7 @@ async def async_get_code(
 
 
 async def test_link_user(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test linking a user to new credentials."""
     info = await async_get_code(hass, aiohttp_client)
@@ -98,7 +98,7 @@ async def test_link_user(
 
 
 async def test_link_user_invalid_client_id(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test linking a user to new credentials."""
     info = await async_get_code(hass, aiohttp_client)
@@ -117,7 +117,7 @@ async def test_link_user_invalid_client_id(
 
 
 async def test_link_user_invalid_code(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test linking a user to new credentials."""
     info = await async_get_code(hass, aiohttp_client)
@@ -135,7 +135,7 @@ async def test_link_user_invalid_code(
 
 
 async def test_link_user_invalid_auth(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test linking a user to new credentials."""
     info = await async_get_code(hass, aiohttp_client)
@@ -154,7 +154,7 @@ async def test_link_user_invalid_auth(
 
 
 async def test_link_user_already_linked_same_user(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test linking a user to a credential it's already linked to."""
     info = await async_get_code(hass, aiohttp_client)
@@ -177,7 +177,7 @@ async def test_link_user_already_linked_same_user(
 
 
 async def test_link_user_already_linked_other_user(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test linking a user to a credential already linked to other user."""
     info = await async_get_code(hass, aiohttp_client)
@@ -203,7 +203,7 @@ async def test_link_user_already_linked_other_user(
 
 
 async def test_link_user_rejects_pkce_code(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test linking a user rejects codes issued with PKCE code_challenge."""
     info = await async_get_code(
@@ -227,7 +227,7 @@ async def test_link_user_rejects_pkce_code(
 
 
 async def test_link_user_rejects_removed_credentials(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test a code issued before its credentials were removed cannot link them."""
     info = await async_get_code(hass, aiohttp_client)

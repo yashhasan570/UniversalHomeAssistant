@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from watergate_local_api import WatergateApiException
 
 from universalassistant.const import STATE_UNAVAILABLE, EntityCategory, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -32,7 +32,7 @@ BATTERY_VOLTAGE = "sensor.sonic_battery_voltage"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -48,7 +48,7 @@ async def test_sensor(
 
 
 async def test_diagnostics_are_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -85,7 +85,7 @@ async def test_diagnostics_are_disabled_by_default(
     ],
 )
 async def test_water_meter_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
     device_state_v2_side_effect: WatergateApiException | None,
@@ -113,7 +113,7 @@ async def test_water_meter_sensors(
 
 
 async def test_telemetry_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -147,7 +147,7 @@ async def test_telemetry_webhook(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_wifi_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -181,7 +181,7 @@ async def test_wifi_webhook(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_power_supply_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
@@ -206,7 +206,7 @@ async def test_power_supply_webhook(
 
 
 async def test_battery_voltage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
 ) -> None:
@@ -218,7 +218,7 @@ async def test_battery_voltage(
 
 
 async def test_battery_voltage_unavailable_without_battery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
 ) -> None:
@@ -234,7 +234,7 @@ async def test_battery_voltage_unavailable_without_battery(
 
 
 async def test_battery_voltage_unavailable_when_power_request_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     mock_watergate_client: Generator[AsyncMock],
 ) -> None:

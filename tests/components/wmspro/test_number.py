@@ -14,7 +14,7 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.wmspro.number import SCAN_INTERVAL
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_config_entry, unload_config_entry
 
@@ -33,7 +33,7 @@ from . import setup_config_entry, unload_config_entry
     indirect=True,
 )
 async def test_number_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -76,7 +76,7 @@ async def test_number_update(
     indirect=True,
 )
 async def test_number_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -140,7 +140,7 @@ async def test_number_set_value(
     indirect=True,
 )
 async def test_number_set_and_restore_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -187,7 +187,7 @@ async def test_number_set_and_restore_value(
     indirect=True,
 )
 async def test_number_update_handles_zero_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,

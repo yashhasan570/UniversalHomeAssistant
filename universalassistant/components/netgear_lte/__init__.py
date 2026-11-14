@@ -5,7 +5,7 @@ import eternalegypt
 from eternalegypt.eternalegypt import SMS
 
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, discovery
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
@@ -54,7 +54,7 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Netgear LTE component."""
     hass.data[DATA_HASS_CONFIG] = config
     async_setup_services(hass)
@@ -62,7 +62,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NetgearLTEConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NetgearLTEConfigEntry) -> None:
     """Set up Netgear LTE from a config entry."""
     host = entry.data[CONF_HOST]
     password = entry.data[CONF_PASSWORD]
@@ -102,6 +102,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NetgearLTEConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NetgearLTEConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NetgearLTEConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

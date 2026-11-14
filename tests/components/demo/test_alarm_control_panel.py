@@ -10,7 +10,7 @@ from universalassistant.components.alarm_control_panel import (
     AlarmControlPanelState,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 ENTITY_SECURITY = "alarm_control_panel.security"
@@ -28,7 +28,7 @@ async def alarm_control_panel_only() -> AsyncGenerator[None]:
 
 @pytest.fixture(autouse=True)
 async def setup_demo_alarm_control_panel(
-    hass: UniversalAssistant, alarm_control_panel_only
+    hass: __HAC_KEEP__, alarm_control_panel_only
 ) -> None:
     """Initialize setup demo alarm control panel entity."""
     assert await async_setup_component(
@@ -37,7 +37,7 @@ async def setup_demo_alarm_control_panel(
     await hass.async_block_till_done()
 
 
-def test_setup_params(hass: UniversalAssistant) -> None:
+def test_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the initial parameters."""
     state = hass.states.get(ENTITY_SECURITY)
     assert state

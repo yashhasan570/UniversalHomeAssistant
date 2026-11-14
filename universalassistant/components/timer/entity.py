@@ -125,7 +125,7 @@ class Timer(collection.CollectionEntity, RestoreEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Call when entity is about to be added to Universal Universal Home Assistant."""
+        """Call when entity is about to be added to __HA_KEEP__."""
         # If we don't need to restore a previous state or no previous state exists,
         # start at idle
         if not self._restore or (state := await self.async_get_last_state()) is None:

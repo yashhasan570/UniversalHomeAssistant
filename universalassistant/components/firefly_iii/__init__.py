@@ -1,14 +1,14 @@
 """The Firefly III integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import FireflyConfigEntry, FireflyDataUpdateCoordinator
 
 _PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FireflyConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FireflyConfigEntry) -> None:
     """Set up Firefly III from a config entry."""
 
     coordinator = FireflyDataUpdateCoordinator(hass, entry)
@@ -18,6 +18,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FireflyConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FireflyConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FireflyConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

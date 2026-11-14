@@ -7,7 +7,7 @@ from synology_dsm.api.core.hardware import FanSpeed, SynoCoreHardware
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import SynoApi
@@ -31,7 +31,7 @@ class SynologyDSMSelectEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SynologyDSMConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

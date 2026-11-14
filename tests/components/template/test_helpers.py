@@ -32,7 +32,7 @@ from universalassistant.components.template.vacuum import (
     CONF_CLEAN_SEGMENTS as VACUUM_CLEAN_SEGMENTS,
     SCRIPT_FIELDS as VACUUM_SCRIPT_FIELDS,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.typing import ConfigType
@@ -48,7 +48,7 @@ from .conftest import (
 
 
 async def _setup_and_test_yaml_device_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     domain: str,
     script_fields,
@@ -206,7 +206,7 @@ async def _setup_and_test_yaml_device_action(
     ],
 )
 async def test_yaml_device_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     domain: str,
     script_fields,
@@ -246,7 +246,7 @@ async def test_yaml_device_actions(
     ],
 )
 async def test_yaml_device_actions_modern_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     domain: str,
     script_fields,
@@ -408,7 +408,7 @@ async def test_yaml_device_actions_modern_config(
     ],
 )
 async def test_config_entry_device_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     script_fields,
     extra_config: str,
@@ -454,7 +454,7 @@ async def test_config_entry_device_actions(
 
 
 async def test_platform_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_setup_template_platform raises PlatformNotReady."""
     with pytest.raises(PlatformNotReady):

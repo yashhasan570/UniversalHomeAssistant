@@ -22,8 +22,8 @@ from universalassistant.components.tts import (
     Voice,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -66,7 +66,7 @@ def to_voice_settings(options: Mapping[str, Any]) -> VoiceSettings:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ElevenLabsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -169,7 +169,7 @@ class ElevenLabsTTSEntity(TextToSpeechEntity):
             bytes_combined = b"".join([byte_seg async for byte_seg in audio])
 
         except ApiError as exc:
-            raise UniversalAssistantError(exc) from exc
+            raise __HAC_KEEP__Error(exc) from exc
         return "mp3", bytes_combined
 
     @override
@@ -317,7 +317,7 @@ class ElevenLabsTTSEntity(TextToSpeechEntity):
                     _add_sentences_task.cancel()
                     with contextlib.suppress(asyncio.CancelledError):
                         await _add_sentences_task
-                    raise UniversalAssistantError(exc) from exc
+                    raise __HAC_KEEP__Error(exc) from exc
 
                 # Capture and store server request-id for
                 # next calls (only when supported)

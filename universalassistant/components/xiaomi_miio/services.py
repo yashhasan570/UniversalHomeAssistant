@@ -15,7 +15,7 @@ from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.components.remote import DOMAIN as REMOTE_DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.components.vacuum import DOMAIN as VACUUM_DOMAIN
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.entity import Entity
 from universalassistant.util.dt import utcnow
@@ -117,7 +117,7 @@ async def _async_remote_learn(entity, service_call: ServiceCall) -> None:
 
     timeout = service_call.data.get(XiaomiMiioServiceArgument.TIMEOUT, entity.timeout)
 
-    _LOGGER.info("Press the key you want Universal Universal Home Assistant to learn")
+    _LOGGER.info("Press the key you want __HA_KEEP__ to learn")
     start_time = utcnow()
     while (utcnow() - start_time) < timedelta(seconds=timeout):
         message = await hass.async_add_executor_job(device.read, slot)
@@ -143,7 +143,7 @@ async def _async_remote_learn(entity, service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services."""
 
     # Light Services

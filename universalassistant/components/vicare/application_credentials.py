@@ -10,7 +10,7 @@ from PyViCare.PyViCareAbstractOAuthManager import (
 )
 
 from universalassistant.components.application_credentials import ClientCredential
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     LocalOAuth2ImplementationWithPkce,
 )
@@ -18,7 +18,7 @@ from universalassistant.helpers.config_entry_oauth2_flow import (
 VICARE_SCOPES = [SCOPE_IOT, SCOPE_OFFLINE_ACCESS]
 
 
-async def async_get_description_placeholders(hass: UniversalAssistant) -> dict[str, str]:
+async def async_get_description_placeholders(hass: __HAC_KEEP__) -> dict[str, str]:
     """Return description placeholders for the credentials dialog."""
     return {
         "more_info_url": "https://www.universalassistant.io/integrations/vicare/#prerequisites"
@@ -26,7 +26,7 @@ async def async_get_description_placeholders(hass: UniversalAssistant) -> dict[s
 
 
 async def async_get_auth_implementation(
-    hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
+    hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
 ) -> ViCareOAuth2Implementation:
     """Return auth implementation with PKCE support."""
     return ViCareOAuth2Implementation(

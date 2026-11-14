@@ -22,8 +22,8 @@ from universalassistant.components.notify import (
     NotifyEntity,
 )
 from universalassistant.const import CONF_ICON, CONF_REPEAT
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.util.enum import try_parse_enum
@@ -63,7 +63,7 @@ def _coerce_repeat(repeat: Any) -> int:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LaMetricConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -95,7 +95,7 @@ class LaMetricNotifyEntity(LaMetricEntity, NotifyEntity):
 
 
 async def async_get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> LaMetricNotificationService | None:
@@ -177,7 +177,7 @@ class LaMetricNotificationService(BaseNotificationService):
         try:
             await self.coordinator.lametric.notify(notification=notification)
         except LaMetricError as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="notification_failed",
                 translation_placeholders={"error": str(ex)},

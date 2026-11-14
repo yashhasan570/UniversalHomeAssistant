@@ -12,13 +12,13 @@ from universalassistant import config_entries
 from universalassistant.components.dormakaba_dkey.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IGNORE
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 
 from . import DKEY_DISCOVERY_INFO, NOT_DKEY_DISCOVERY_INFO
 
 
-async def test_user_step_success(hass: UniversalAssistant) -> None:
+async def test_user_step_success(hass: __HAC_KEEP__) -> None:
     """Test user step success path."""
     with patch(
         "universalassistant.components.dormakaba_dkey.config_flow.async_discovered_service_info",
@@ -44,7 +44,7 @@ async def test_user_step_success(hass: UniversalAssistant) -> None:
     await _test_common_success(hass, result)
 
 
-async def test_user_step_no_devices_found(hass: UniversalAssistant) -> None:
+async def test_user_step_no_devices_found(hass: __HAC_KEEP__) -> None:
     """Test user step with no devices found."""
     with patch(
         "universalassistant.components.dormakaba_dkey.config_flow.async_discovered_service_info",
@@ -57,7 +57,7 @@ async def test_user_step_no_devices_found(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_step_no_new_devices_found(hass: UniversalAssistant) -> None:
+async def test_user_step_no_new_devices_found(hass: __HAC_KEEP__) -> None:
     """Test user step with only existing devices found."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -78,7 +78,7 @@ async def test_user_step_no_new_devices_found(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_step_device_added_between_steps_1(hass: UniversalAssistant) -> None:
+async def test_user_step_device_added_between_steps_1(hass: __HAC_KEEP__) -> None:
     """Test the device gets added via another flow between steps."""
     with patch(
         "universalassistant.components.dormakaba_dkey.config_flow.async_discovered_service_info",
@@ -106,7 +106,7 @@ async def test_user_step_device_added_between_steps_1(hass: UniversalAssistant) 
 
 
 async def test_async_step_user_takes_precedence_over_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test manual setup takes precedence over discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -143,7 +143,7 @@ async def test_async_step_user_takes_precedence_over_discovery(
     assert not hass.config_entries.flow.async_progress(DOMAIN)
 
 
-async def test_user_setup_removes_ignored_entry(hass: UniversalAssistant) -> None:
+async def test_user_setup_removes_ignored_entry(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form can replace an ignored device."""
     ignored_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -180,7 +180,7 @@ async def test_user_setup_removes_ignored_entry(hass: UniversalAssistant) -> Non
     assert ignored_entry not in hass.config_entries.async_entries(DOMAIN)
 
 
-async def test_bluetooth_step_success(hass: UniversalAssistant) -> None:
+async def test_bluetooth_step_success(hass: __HAC_KEEP__) -> None:
     """Test bluetooth step success path."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -199,7 +199,7 @@ async def test_bluetooth_step_success(hass: UniversalAssistant) -> None:
     await _test_common_success(hass, result)
 
 
-async def _test_common_success(hass: UniversalAssistant, result: FlowResult) -> None:
+async def _test_common_success(hass: __HAC_KEEP__, result: FlowResult) -> None:
     """Test bluetooth and user flow success paths."""
 
     with (
@@ -227,7 +227,7 @@ async def _test_common_success(hass: UniversalAssistant, result: FlowResult) -> 
     mock_associate.assert_awaited_once_with("1234-1234")
 
 
-async def test_bluetooth_step_already_configured(hass: UniversalAssistant) -> None:
+async def test_bluetooth_step_already_configured(hass: __HAC_KEEP__) -> None:
     """Test bluetooth step success path."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=DKEY_DISCOVERY_INFO.address)
     entry.add_to_hass(hass)
@@ -241,7 +241,7 @@ async def test_bluetooth_step_already_configured(hass: UniversalAssistant) -> No
     assert result["reason"] == "already_configured"
 
 
-async def test_bluetooth_step_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_bluetooth_step_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test we can't start a flow for the same device twice."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -267,7 +267,7 @@ async def test_bluetooth_step_already_in_progress(hass: UniversalAssistant) -> N
         (Exception, "unknown"),
     ],
 )
-async def test_bluetooth_step_cannot_connect(hass: UniversalAssistant, exc, error) -> None:
+async def test_bluetooth_step_cannot_connect(hass: __HAC_KEEP__, exc, error) -> None:
     """Test bluetooth step and we cannot connect."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -307,7 +307,7 @@ async def test_bluetooth_step_cannot_connect(hass: UniversalAssistant, exc, erro
     ],
 )
 async def test_bluetooth_step_cannot_associate(
-    hass: UniversalAssistant, exc: type[Exception], error: str
+    hass: __HAC_KEEP__, exc: type[Exception], error: str
 ) -> None:
     """Test bluetooth step and we cannot associate."""
     result = await hass.config_entries.flow.async_init(
@@ -343,7 +343,7 @@ async def test_bluetooth_step_cannot_associate(
     await _test_common_success(hass, result)
 
 
-async def test_reauth(hass: UniversalAssistant) -> None:
+async def test_reauth(hass: __HAC_KEEP__) -> None:
     """Test reauthentication."""
     entry = MockConfigEntry(
         domain=DOMAIN,

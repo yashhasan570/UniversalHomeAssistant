@@ -5,14 +5,14 @@ from unittest.mock import AsyncMock
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import get_subscription_callback
 from .common import setup_integration
 
 
 async def test_update_data_happy_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -32,7 +32,7 @@ async def test_update_data_happy_path(
 
 
 async def test_handle_subscription_data_updates_known_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_handle_subscription_data_updates_known_device(
 
 
 async def test_handle_subscription_data_ignores_unknown_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_handle_subscription_data_ignores_unknown_device(
 
 
 async def test_handle_subscription_data_filters_low_accuracy_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_traccar_api_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

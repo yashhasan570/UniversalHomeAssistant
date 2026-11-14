@@ -21,8 +21,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.duco.const import SCAN_INTERVAL
 from universalassistant.components.number import DOMAIN as NUMBER_DOMAIN, NumberService
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
@@ -36,7 +36,7 @@ _ZONE_8_ENTITY_ID = "number.living_bypass_target_8"
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
 ) -> MockConfigEntry:
@@ -45,7 +45,7 @@ async def init_integration(
 
 
 async def test_bypass_supply_temperature_target_numbers_support_all_exposed_zones(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bypass_supply_temperature_targets: dict[int, BypassSupplyTemperatureTarget],
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
@@ -72,7 +72,7 @@ async def test_bypass_supply_temperature_target_numbers_support_all_exposed_zone
 
 
 async def test_successful_write_does_not_recover_failed_coordinator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_bypass_supply_temperature_targets: dict[int, BypassSupplyTemperatureTarget],
     mock_config_entry: MockConfigEntry,
@@ -136,7 +136,7 @@ async def test_successful_write_does_not_recover_failed_coordinator(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_bypass_supply_temperature_target_number_entities_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -147,7 +147,7 @@ async def test_bypass_supply_temperature_target_number_entities_state(
 
 @pytest.mark.usefixtures("mock_duco_client")
 async def test_bypass_supply_temperature_targets_missing_skips_number_creation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bypass_supply_temperature_targets: dict[int, BypassSupplyTemperatureTarget],
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_bypass_supply_temperature_targets_missing_skips_number_creation(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_bypass_supply_temperature_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bypass_supply_temperature_targets: dict[int, BypassSupplyTemperatureTarget],
     mock_duco_client: AsyncMock,
 ) -> None:
@@ -193,7 +193,7 @@ async def test_set_bypass_supply_temperature_target(
 
 
 async def test_set_bypass_supply_temperature_target_honors_increment_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bypass_supply_temperature_targets: dict[int, BypassSupplyTemperatureTarget],
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
@@ -221,7 +221,7 @@ async def test_set_bypass_supply_temperature_target_honors_increment_metadata(
     )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="supported increment of 0.5 starting at 10.0",
     ):
         await hass.services.async_call(
@@ -233,7 +233,7 @@ async def test_set_bypass_supply_temperature_target_honors_increment_metadata(
 
 
 async def test_set_bypass_supply_temperature_target_in_fahrenheit_units(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bypass_supply_temperature_targets: dict[int, BypassSupplyTemperatureTarget],
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
@@ -266,7 +266,7 @@ async def test_set_bypass_supply_temperature_target_in_fahrenheit_units(
 
 
 async def test_set_bypass_supply_temperature_target_stays_within_maximum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bypass_supply_temperature_targets: dict[int, BypassSupplyTemperatureTarget],
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
@@ -297,7 +297,7 @@ async def test_set_bypass_supply_temperature_target_stays_within_maximum(
 
 @pytest.mark.usefixtures("mock_duco_client")
 async def test_bypass_supply_temperature_target_becomes_unavailable_when_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_bypass_supply_temperature_targets: dict[int, BypassSupplyTemperatureTarget],
     mock_config_entry: MockConfigEntry,
@@ -325,7 +325,7 @@ async def test_bypass_supply_temperature_target_becomes_unavailable_when_missing
 
 
 async def test_bypass_supply_temperature_target_recovers_from_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_bypass_supply_temperature_targets: dict[int, BypassSupplyTemperatureTarget],
     mock_config_entry: MockConfigEntry,
@@ -368,15 +368,15 @@ async def test_bypass_supply_temperature_target_recovers_from_refresh_error(
     ],
 )
 async def test_set_bypass_supply_temperature_target_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_duco_client: AsyncMock,
     exception: Exception,
     match: str,
 ) -> None:
-    """Test write failures raise translated Universal Universal Home Assistant errors."""
+    """Test write failures raise translated __HA_KEEP__ errors."""
     mock_duco_client.async_set_bypass_supply_temperature_target.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError, match=match):
+    with pytest.raises(__HAC_KEEP__Error, match=match):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

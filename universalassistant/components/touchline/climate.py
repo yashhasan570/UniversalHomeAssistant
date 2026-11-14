@@ -12,8 +12,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -46,7 +46,7 @@ SCAN_INTERVAL = timedelta(minutes=1)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TouchlineConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -104,11 +104,11 @@ class Touchline(ClimateEntity):
                 self.unit.set_operation_mode(preset.mode)
                 and self.unit.set_week_program(preset.program)
             ):
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN, translation_key="error_set_preset"
                 )
         except (OSError, ConnectionError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="error_set_preset"
             ) from err
 
@@ -125,10 +125,10 @@ class Touchline(ClimateEntity):
             if not self.unit.set_target_temperature(
                 self._attr_native_target_temperature
             ):
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN, translation_key="error_set_temperature"
                 )
         except (OSError, ConnectionError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="error_set_temperature"
             ) from err

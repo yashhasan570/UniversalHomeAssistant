@@ -38,7 +38,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import envoy_token
 
@@ -55,7 +55,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture(name="config_entry")
 def config_entry_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     request: pytest.FixtureRequest,
 ) -> MockConfigEntry:

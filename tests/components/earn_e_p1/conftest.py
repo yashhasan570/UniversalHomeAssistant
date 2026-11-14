@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.earn_e_p1.const import CONF_SERIAL, DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 MOCK_HOST = "192.168.1.100"
@@ -85,7 +85,7 @@ def mock_listener() -> Generator[MagicMock]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: UniversalAssistant, request: pytest.FixtureRequest
+    hass: __HAC_KEEP__, request: pytest.FixtureRequest
 ) -> MockConfigEntry:
     """Create a mock config entry, optionally extended with indirect data."""
     entry = MockConfigEntry(
@@ -100,7 +100,7 @@ def mock_config_entry(
 
 
 @pytest.fixture
-def mock_config_entry_2(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry_2(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create a mock config entry for a second meter."""
     entry = MockConfigEntry(
         domain=DOMAIN,

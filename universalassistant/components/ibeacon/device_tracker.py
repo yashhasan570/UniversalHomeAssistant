@@ -5,7 +5,7 @@ from typing import override
 from ibeacon_ble import iBeaconAdvertisement
 
 from universalassistant.components.device_tracker import BaseScannerEntity, SourceType
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -15,7 +15,7 @@ from .entity import IBeaconEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IBeaconConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

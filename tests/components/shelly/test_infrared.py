@@ -16,8 +16,8 @@ from universalassistant.components.infrared import (
 from universalassistant.components.shelly.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_registry import EntityRegistry
 
 from . import init_integration, inject_rpc_device_event
@@ -51,7 +51,7 @@ IR_COMMAND = MockIrCommand(
 
 @pytest.mark.parametrize("entity_id", [ENTITY_ID_EMITTER, ENTITY_ID_RECEIVER])
 async def test_infrared_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     snapshot: SnapshotAssertion,
     entity_registry: EntityRegistry,
@@ -68,7 +68,7 @@ async def test_infrared_entities(
 
 
 async def test_rpc_send_ir_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
 ) -> None:
     """Test RPC send IR command."""
@@ -99,7 +99,7 @@ async def test_rpc_send_ir_command(
     ],
 )
 async def test_rpc_send_ir_command_exc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     exception: Exception,
     error: str,
@@ -109,12 +109,12 @@ async def test_rpc_send_ir_command_exc(
 
     mock_rpc_device.ir_emit_raw.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError, match=error):
+    with pytest.raises(__HAC_KEEP__Error, match=error):
         await async_send_command(hass, ENTITY_ID_EMITTER, IR_COMMAND)
 
 
 async def test_rpc_send_ir_command_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
 ) -> None:
     """Test RPC send IR command with authentication error."""
@@ -139,7 +139,7 @@ async def test_rpc_send_ir_command_reauth(
 
 
 async def test_infrared_receiver_signal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_infrared_receiver_signal(
     ],
 )
 async def test_infrared_receiver_ignores_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     event: dict,

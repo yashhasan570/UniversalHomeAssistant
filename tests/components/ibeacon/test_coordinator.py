@@ -24,7 +24,7 @@ from universalassistant.components.ibeacon.const import (
     UPDATE_INTERVAL,
 )
 from universalassistant.const import STATE_HOME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 from universalassistant.util import dt as dt_util
 
@@ -43,7 +43,7 @@ def mock_bluetooth(enable_bluetooth: None) -> None:
     """Auto mock bluetooth."""
 
 
-async def test_many_groups_same_address_ignored(hass: UniversalAssistant) -> None:
+async def test_many_groups_same_address_ignored(hass: __HAC_KEEP__) -> None:
     """Test rotating uuid/major/minor removes all associated entities."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -78,7 +78,7 @@ async def test_many_groups_same_address_ignored(hass: UniversalAssistant) -> Non
     assert hass.states.get("sensor.bluecharm_177999_8105_estimated_distance") is None
 
 
-async def test_ignore_not_ibeacons(hass: UniversalAssistant) -> None:
+async def test_ignore_not_ibeacons(hass: __HAC_KEEP__) -> None:
     """Test we ignore non-ibeacon data."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -99,7 +99,7 @@ async def test_ignore_not_ibeacons(hass: UniversalAssistant) -> None:
     assert len(hass.states.async_entity_ids()) == before_entity_count
 
 
-async def test_ignore_no_name_but_create_if_set_later(hass: UniversalAssistant) -> None:
+async def test_ignore_no_name_but_create_if_set_later(hass: __HAC_KEEP__) -> None:
     """Test we ignore devices with no name but create it if it set set later."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -133,7 +133,7 @@ async def test_ignore_no_name_but_create_if_set_later(hass: UniversalAssistant) 
     assert len(hass.states.async_entity_ids()) > before_entity_count
 
 
-async def test_ignore_default_name(hass: UniversalAssistant) -> None:
+async def test_ignore_default_name(hass: __HAC_KEEP__) -> None:
     """Test we ignore devices with default name."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -155,7 +155,7 @@ async def test_ignore_default_name(hass: UniversalAssistant) -> None:
     assert len(hass.states.async_entity_ids()) == before_entity_count
 
 
-async def test_default_name_allowlisted(hass: UniversalAssistant) -> None:
+async def test_default_name_allowlisted(hass: __HAC_KEEP__) -> None:
     """Test we do NOT ignore beacons with default device name but allowlisted UUID."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -178,7 +178,7 @@ async def test_default_name_allowlisted(hass: UniversalAssistant) -> None:
     assert len(hass.states.async_entity_ids()) > before_entity_count
 
 
-async def test_default_name_allowlisted_restore(hass: UniversalAssistant) -> None:
+async def test_default_name_allowlisted_restore(hass: __HAC_KEEP__) -> None:
     """Test ignored nameless iBeacons restore on allowlist add."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -209,7 +209,7 @@ async def test_default_name_allowlisted_restore(hass: UniversalAssistant) -> Non
     assert len(hass.states.async_entity_ids()) > before_entity_count
 
 
-async def test_default_name_allowlisted_restore_late(hass: UniversalAssistant) -> None:
+async def test_default_name_allowlisted_restore_late(hass: __HAC_KEEP__) -> None:
     """Test allowlisting a no-longer-advertised nameless iBeacon has no effect."""
     start_monotonic = time.monotonic()
 
@@ -258,7 +258,7 @@ async def test_default_name_allowlisted_restore_late(hass: UniversalAssistant) -
     assert len(hass.states.async_entity_ids()) == before_entity_count
 
 
-async def test_rotating_major_minor_and_mac_with_name(hass: UniversalAssistant) -> None:
+async def test_rotating_major_minor_and_mac_with_name(hass: __HAC_KEEP__) -> None:
     """Test rotating major/minor/mac with name removes entities."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -293,7 +293,7 @@ async def test_rotating_major_minor_and_mac_with_name(hass: UniversalAssistant) 
     assert len(hass.states.async_entity_ids("device_tracker")) == before_entity_count
 
 
-async def test_rotating_major_minor_and_mac_no_name(hass: UniversalAssistant) -> None:
+async def test_rotating_major_minor_and_mac_no_name(hass: __HAC_KEEP__) -> None:
     """Test no-name devices with rotating major/minor/mac removes entities."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -329,7 +329,7 @@ async def test_rotating_major_minor_and_mac_no_name(hass: UniversalAssistant) ->
 
 
 async def test_ignore_transient_devices_unless_we_see_them_a_few_times(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we ignore transient devices unless we see them a few times."""
     entry = MockConfigEntry(
@@ -376,7 +376,7 @@ async def test_ignore_transient_devices_unless_we_see_them_a_few_times(
     assert hass.states.get("device_tracker.s6da7c9389bd5452cc_cccc").state == STATE_HOME
 
 
-async def test_changing_source_attribute(hass: UniversalAssistant) -> None:
+async def test_changing_source_attribute(hass: __HAC_KEEP__) -> None:
     """Test update of the source attribute."""
     entry = MockConfigEntry(
         domain=DOMAIN,

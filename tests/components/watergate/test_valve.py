@@ -9,14 +9,14 @@ from watergate_local_api import WatergateApiException, WatergateIndeterminateErr
 
 from universalassistant.components.valve import DOMAIN as VALVE_DOMAIN, ValveState
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_CLOSE_VALVE, SERVICE_OPEN_VALVE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import init_integration
 
 
 async def test_change_valve_state_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
@@ -33,7 +33,7 @@ async def test_change_valve_state_snapshot(
 
 
 async def test_change_valve_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -79,19 +79,19 @@ async def test_change_valve_state(
     "exception", [WatergateApiException, WatergateIndeterminateError]
 )
 async def test_valve_action_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     service: str,
     exception: type[WatergateApiException],
 ) -> None:
-    """Test a failing valve action raises a translated UniversalAssistantError."""
+    """Test a failing valve action raises a translated __HAC_KEEP__Error."""
     await init_integration(hass, mock_entry)
 
     entity_id = "valve.sonic"
     mock_watergate_client.async_set_valve_state.side_effect = exception("boom")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             VALVE_DOMAIN,
             service,

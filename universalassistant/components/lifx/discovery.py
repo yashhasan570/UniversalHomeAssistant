@@ -11,7 +11,7 @@ from lifx import DiscoveredDevice, discover_devices
 from universalassistant import config_entries
 from universalassistant.components import network
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import HassJob, UniversalAssistant, callback
+from universalassistant.core import HassJob, __HAC_KEEP__, callback
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.event import async_call_later, async_track_time_interval
 
@@ -26,9 +26,9 @@ DISCOVERY_COOLDOWN = 5
 
 
 async def async_discover_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> Collection[DiscoveredDevice]:
-    """Discover LIFX devices on Universal Universal Home Assistant-selected interfaces."""
+    """Discover LIFX devices on __HA_KEEP__-selected interfaces."""
     found: dict[str, DiscoveredDevice] = {}
 
     async def _async_discover_on(broadcast_address: str) -> None:
@@ -54,7 +54,7 @@ async def async_discover_devices(
 
 
 @callback
-def async_init_discovery_flow(hass: UniversalAssistant, host: str, serial: str) -> None:
+def async_init_discovery_flow(hass: __HAC_KEEP__, host: str, serial: str) -> None:
     """Start discovery of a device."""
     discovery_flow.async_create_flow(
         hass,
@@ -66,7 +66,7 @@ def async_init_discovery_flow(hass: UniversalAssistant, host: str, serial: str) 
 
 @callback
 def async_trigger_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovered_devices: Iterable[DiscoveredDevice],
 ) -> None:
     """Trigger config flows for discovered devices."""
@@ -77,7 +77,7 @@ def async_trigger_discovery(
 class LIFXDiscoveryManager:
     """Manage discovery."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Init the manager."""
         self.hass = hass
         self.lock = asyncio.Lock()
@@ -90,7 +90,7 @@ class LIFXDiscoveryManager:
 
 
 @callback
-def async_setup_discovery(hass: UniversalAssistant) -> None:
+def async_setup_discovery(hass: __HAC_KEEP__) -> None:
     """Start periodic discovery."""
     discovery_manager = LIFXDiscoveryManager(hass)
 

@@ -17,7 +17,7 @@ from visionpluspython.exceptions import (
 from visionpluspython.models import Device
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -49,7 +49,7 @@ class WattsVisionHubCoordinator(DataUpdateCoordinator[dict[str, Device]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         client: WattsVisionClient,
         config_entry: WattsVisionConfigEntry,
     ) -> None:
@@ -165,7 +165,7 @@ class WattsVisionDeviceCoordinator(DataUpdateCoordinator[WattsVisionDeviceData])
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         client: WattsVisionClient,
         config_entry: WattsVisionConfigEntry,
         hub_coordinator: WattsVisionHubCoordinator,

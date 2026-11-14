@@ -9,7 +9,7 @@ from zwave_js_server.model.node import Node
 from universalassistant.components.zwave_js.helpers import ZwaveValueMatcher
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_UNKNOWN, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import replace_value_of_zwave_value
@@ -20,7 +20,7 @@ MULTILEVEL_SWITCH_SELECT_ENTITY = "select.outside_front_door_siren"
 
 
 async def test_default_tone_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
     aeotec_zw164_siren: Node,
@@ -117,7 +117,7 @@ async def test_default_tone_select(
 
 
 async def test_protection_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
     inovelli_lzw36: Node,
@@ -212,7 +212,7 @@ async def test_protection_select(
 
 
 async def test_multilevel_switch_select(
-    hass: UniversalAssistant, client, fortrezz_ssa1_siren, integration
+    hass: __HAC_KEEP__, client, fortrezz_ssa1_siren, integration
 ) -> None:
     """Test Multilevel Switch CC based select entity."""
     node = fortrezz_ssa1_siren
@@ -274,7 +274,7 @@ async def test_multilevel_switch_select(
 
 
 async def test_multilevel_switch_select_no_value(
-    hass: UniversalAssistant, client, fortrezz_ssa1_siren_state, integration
+    hass: __HAC_KEEP__, client, fortrezz_ssa1_siren_state, integration
 ) -> None:
     """Test Multilevel Switch CC based select entity with primary value is None."""
     node_state = replace_value_of_zwave_value(
@@ -298,7 +298,7 @@ async def test_multilevel_switch_select_no_value(
 
 
 async def test_config_parameter_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     climate_adc_t3000,
     integration,
@@ -326,7 +326,7 @@ async def test_config_parameter_select(
 
 
 async def test_lock_popp_electric_strike_lock_control_select(
-    hass: UniversalAssistant, client, lock_popp_electric_strike_lock_control, integration
+    hass: __HAC_KEEP__, client, lock_popp_electric_strike_lock_control, integration
 ) -> None:
     """Test that the Popp Electric Strike Lock Control select entity."""
     LOCK_SELECT_ENTITY = "select.node_62_current_lock_mode"

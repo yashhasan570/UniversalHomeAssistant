@@ -6,7 +6,7 @@ from aioghost.exceptions import GhostAuthError, GhostConnectionError
 import pytest
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -19,7 +19,7 @@ from . import setup_integration
     ],
 )
 async def test_setup_entry_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ghost_api: AsyncMock,
     mock_config_entry,
     side_effect: Exception,
@@ -34,7 +34,7 @@ async def test_setup_entry_errors(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, mock_ghost_api: AsyncMock, mock_config_entry
+    hass: __HAC_KEEP__, mock_ghost_api: AsyncMock, mock_config_entry
 ) -> None:
     """Test unloading config entry."""
     await setup_integration(hass, mock_config_entry)

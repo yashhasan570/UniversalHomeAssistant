@@ -19,11 +19,11 @@ from pytest_universalassistant.components.common import (
 
 from universalassistant.components.motion.condition import CONDITIONS
 from universalassistant.const import ATTR_DEVICE_CLASS, CONF_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_binary_sensors(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_binary_sensors(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple binary sensor entities associated with different targets."""
     return await target_entities(hass, "binary_sensor")
 
@@ -42,7 +42,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_motion_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -85,7 +85,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_motion_binary_sensor_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_binary_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -129,7 +129,7 @@ async def test_motion_binary_sensor_condition_behavior_any(
     ],
 )
 async def test_motion_binary_sensor_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_binary_sensors: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -174,7 +174,7 @@ async def test_motion_binary_sensor_condition_behavior_all(
     ],
 )
 async def test_motion_condition_excludes_non_motion_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     state_matching: str,
     state_non_matching: str,

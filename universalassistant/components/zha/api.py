@@ -14,10 +14,10 @@ from .radio_manager import ZhaRadioManager
 
 if TYPE_CHECKING:
     from universalassistant.config_entries import ConfigEntry
-    from universalassistant.core import UniversalAssistant
+    from universalassistant.core import __HAC_KEEP__
 
 
-def _get_config_entry(hass: UniversalAssistant) -> ConfigEntry:
+def _get_config_entry(hass: __HAC_KEEP__) -> ConfigEntry:
     """Find the singleton ZHA config entry, if one exists."""
 
     # If ZHA is already running, use its config entry
@@ -35,7 +35,7 @@ def _get_config_entry(hass: UniversalAssistant) -> ConfigEntry:
     return entries[0]
 
 
-def async_get_active_network_settings(hass: UniversalAssistant) -> NetworkBackup:
+def async_get_active_network_settings(hass: __HAC_KEEP__) -> NetworkBackup:
     """Get the network settings for the currently active ZHA network."""
     app = get_zha_gateway(hass).application_controller
 
@@ -46,7 +46,7 @@ def async_get_active_network_settings(hass: UniversalAssistant) -> NetworkBackup
 
 
 async def async_get_last_network_settings(
-    hass: UniversalAssistant, config_entry: ConfigEntry | None = None
+    hass: __HAC_KEEP__, config_entry: ConfigEntry | None = None
 ) -> NetworkBackup | None:
     """Get the network settings for the last-active ZHA network."""
     if config_entry is None:
@@ -59,7 +59,7 @@ async def async_get_last_network_settings(
 
 
 async def async_get_network_settings(
-    hass: UniversalAssistant, config_entry: ConfigEntry | None = None
+    hass: __HAC_KEEP__, config_entry: ConfigEntry | None = None
 ) -> NetworkBackup | None:
     """Get ZHA network settings, preferring the active settings if ZHA is running."""
 
@@ -70,7 +70,7 @@ async def async_get_network_settings(
 
 
 def async_get_radio_type(
-    hass: UniversalAssistant, config_entry: ConfigEntry | None = None
+    hass: __HAC_KEEP__, config_entry: ConfigEntry | None = None
 ) -> RadioType:
     """Get ZHA radio type."""
     if config_entry is None:
@@ -80,7 +80,7 @@ def async_get_radio_type(
 
 
 def async_get_radio_path(
-    hass: UniversalAssistant, config_entry: ConfigEntry | None = None
+    hass: __HAC_KEEP__, config_entry: ConfigEntry | None = None
 ) -> str:
     """Get ZHA radio path."""
     if config_entry is None:
@@ -90,7 +90,7 @@ def async_get_radio_path(
 
 
 async def async_change_channel(
-    hass: UniversalAssistant, new_channel: int | Literal["auto"]
+    hass: __HAC_KEEP__, new_channel: int | Literal["auto"]
 ) -> None:
     """Migrate the ZHA network to a new channel."""
 

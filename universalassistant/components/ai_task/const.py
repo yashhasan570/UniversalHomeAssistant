@@ -36,7 +36,7 @@ ATTR_REQUIRED: Final = "required"
 ATTR_ATTACHMENTS: Final = "attachments"
 
 DEFAULT_SYSTEM_PROMPT = (
-    "You are a Universal Universal Home Assistant expert and help users with their tasks."
+    "You are a __HA_KEEP__ expert and help users with their tasks."
 )
 
 

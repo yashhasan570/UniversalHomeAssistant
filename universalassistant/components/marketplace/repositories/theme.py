@@ -12,7 +12,7 @@ from universalassistant.components.frontend import (
     CONFIG_SCHEMA as FRONTEND_CONFIG_SCHEMA,
     DOMAIN as FRONTEND_DOMAIN,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util.yaml import load_yaml
 
 from ..const import DOMAIN
@@ -115,20 +115,20 @@ class ThemeRepository(Repository):
         """Refuse a theme the frontend can not load.
 
         Themes are included in configuration.yaml, a broken one stops
-        Universal Universal Home Assistant from loading its configuration at the next start. No
+        __HA_KEEP__ from loading its configuration at the next start. No
         tags either: a theme is served to every user, an include would hand
         them whatever file it points at.
         """
 
         def _check() -> None:
             for theme in Path(self.content.path.local).rglob("*.yaml"):
-                # The plain loader refuses the tags, the loader of Universal Universal Home Assistant
+                # The plain loader refuses the tags, the loader of __HA_KEEP__
                 # reads it the way the include in configuration.yaml does
                 try:
                     yaml.safe_load(theme.read_text(encoding="utf-8"))
                     themes = load_yaml(theme)
                 except (
-                    UniversalAssistantError,
+                    __HAC_KEEP__Error,
                     UnicodeDecodeError,
                     yaml.YAMLError,
                 ) as exception:
@@ -199,7 +199,7 @@ class ThemeRepository(Repository):
             await self.marketplace.hass.services.async_call(
                 "frontend", "reload_themes", {}
             )
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             self.logger.exception("%s Reloading frontend themes failed", self.string)
 
     @override

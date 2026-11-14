@@ -3,7 +3,7 @@ rules:
   appropriate-polling:
     status: exempt
     comment: Nothing is fetched on a schedule, the actions run on demand. The
-      iot_class marks every Farmad request as initiated by Universal Universal Home Assistant.
+      iot_class marks every Farmad request as initiated by __HA_KEEP__.
   brands: done
   common-modules: done
   config-flow: done

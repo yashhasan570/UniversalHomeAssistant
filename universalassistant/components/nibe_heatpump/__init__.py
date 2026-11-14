@@ -11,8 +11,8 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 
 from .const import (
@@ -43,7 +43,7 @@ COIL_READ_RETRIES = 5
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: NibeHeatpumpConfigEntry
+    hass: __HAC_KEEP__, entry: NibeHeatpumpConfigEntry
 ) -> None:
     """Set up Nibe Heat Pump from a config entry."""
 
@@ -67,7 +67,7 @@ async def async_setup_entry(
             heatpump, entry.data[CONF_MODBUS_URL], entry.data[CONF_MODBUS_UNIT]
         )
     else:
-        raise UniversalAssistantError(f"Connection type {connection_type} is not supported.")
+        raise __HAC_KEEP__Error(f"Connection type {connection_type} is not supported.")
 
     await connection.start()
 
@@ -113,7 +113,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: NibeHeatpumpConfigEntry
+    hass: __HAC_KEEP__, entry: NibeHeatpumpConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

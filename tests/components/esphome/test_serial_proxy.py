@@ -22,7 +22,7 @@ from yarl import URL
 from universalassistant.components.esphome import _async_scan_serial_ports, serial_proxy
 from universalassistant.components.esphome.const import DOMAIN
 from universalassistant.components.usb import SerialDevice, USBDevice
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -44,7 +44,7 @@ def test_build_url_escapes_port_name() -> None:
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_async_setup_stores_event_loop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """async_setup registers hass.loop on the serial_proxy module."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -52,7 +52,7 @@ async def test_async_setup_stores_event_loop(
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_connect_kwargs_reach_serial(hass: UniversalAssistant) -> None:
+async def test_connect_kwargs_reach_serial(hass: __HAC_KEEP__) -> None:
     """Backend kwargs like `mode` are passed through to `HassESPHomeSerial`."""
     assert await async_setup_component(hass, DOMAIN, {})
 
@@ -64,7 +64,7 @@ async def test_connect_kwargs_reach_serial(hass: UniversalAssistant) -> None:
     assert port._mode is SerialProxyModeName.PROTOCOL
 
 
-async def test_resolve_client_unknown_entry(hass: UniversalAssistant) -> None:
+async def test_resolve_client_unknown_entry(hass: __HAC_KEEP__) -> None:
     """An unknown entry_id raises InvalidSettingsError."""
     with (
         patch.object(serial_proxy, "async_get_hass", return_value=hass),
@@ -73,7 +73,7 @@ async def test_resolve_client_unknown_entry(hass: UniversalAssistant) -> None:
         await serial_proxy._resolve_client("does-not-exist")
 
 
-async def test_resolve_client_wrong_domain(hass: UniversalAssistant) -> None:
+async def test_resolve_client_wrong_domain(hass: __HAC_KEEP__) -> None:
     """A config entry from a different domain raises InvalidSettingsError."""
     entry = MockConfigEntry(domain="other", data={})
     entry.add_to_hass(hass)
@@ -85,7 +85,7 @@ async def test_resolve_client_wrong_domain(hass: UniversalAssistant) -> None:
         await serial_proxy._resolve_client(entry.entry_id)
 
 
-async def test_resolve_client_unloaded_entry(hass: UniversalAssistant) -> None:
+async def test_resolve_client_unloaded_entry(hass: __HAC_KEEP__) -> None:
     """An ESPHome entry that isn't loaded raises InvalidSettingsError."""
     entry = MockConfigEntry(domain=DOMAIN, data={})
     entry.add_to_hass(hass)
@@ -99,7 +99,7 @@ async def test_resolve_client_unloaded_entry(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_resolve_client_loaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -171,14 +171,14 @@ def _zbt2_port(entry_id: str) -> USBDevice:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_scan_serial_ports_no_entries(hass: UniversalAssistant) -> None:
+async def test_scan_serial_ports_no_entries(hass: __HAC_KEEP__) -> None:
     """No loaded ESPHome entries yields no ports."""
     assert _async_scan_serial_ports(hass) == []
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_scan_serial_ports_happy_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_scan_serial_ports_happy_path(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_scan_serial_ports_uses_project_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_scan_serial_ports_uses_project_info(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_scan_serial_ports_defaults_manufacturer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -280,7 +280,7 @@ async def test_scan_serial_ports_defaults_manufacturer(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_scan_serial_ports_skips_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -301,7 +301,7 @@ async def test_scan_serial_ports_skips_unavailable(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_scan_serial_ports_usb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -321,7 +321,7 @@ async def test_scan_serial_ports_usb(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_device_capabilities_match_scan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
@@ -359,7 +359,7 @@ async def test_device_capabilities_match_scan(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_scan_serial_ports_usb_vendor_specific_interface(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -438,7 +438,7 @@ async def test_scan_serial_ports_usb_vendor_specific_interface(
 )
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_scan_serial_ports_usb_non_unique_serial_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     serial_number: str,
@@ -496,7 +496,7 @@ async def test_scan_serial_ports_usb_non_unique_serial_number(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_scan_serial_ports_identity_without_usb_descriptor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -544,7 +544,7 @@ async def test_scan_serial_ports_identity_without_usb_descriptor(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_serial_proxy_identity_hotplug(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -585,7 +585,7 @@ async def test_serial_proxy_identity_hotplug(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_serial_proxy_device_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -614,7 +614,7 @@ async def test_serial_proxy_device_offline(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_serial_proxy_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -638,7 +638,7 @@ async def test_serial_proxy_unload(
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_async_open_missing_host(hass: UniversalAssistant) -> None:
+async def test_async_open_missing_host(hass: __HAC_KEEP__) -> None:
     """A URL with an invalid entry_id raises InvalidSettingsError."""
     assert await async_setup_component(hass, DOMAIN, {})
     proxy = serial_proxy.HassESPHomeSerial("esphome-hass://unknown/?port_name=uart0")
@@ -649,7 +649,7 @@ async def test_async_open_missing_host(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_async_open_without_port_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -677,7 +677,7 @@ async def test_async_open_without_port_name(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_async_open_happy_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:

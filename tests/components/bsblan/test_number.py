@@ -14,8 +14,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -52,7 +52,7 @@ def mock_static_values(mock_bsblan: AsyncMock) -> None:
     )
 
 
-async def _async_set_value(hass: UniversalAssistant, entity_id: str, value: float) -> None:
+async def _async_set_value(hass: __HAC_KEEP__, entity_id: str, value: float) -> None:
     """Set the value of a number entity."""
     await hass.services.async_call(
         NUMBER_DOMAIN,
@@ -66,7 +66,7 @@ async def _async_set_value(hass: UniversalAssistant, entity_id: str, value: floa
 
 
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -79,7 +79,7 @@ async def test_number_entities(
 
 
 async def test_reduced_setpoint_unknown_without_circuit_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_reduced_setpoint_unknown_without_circuit_config(
 
 
 async def test_number_entities_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_number_entities_not_available(
     ],
 )
 async def test_set_circuit_setpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -140,7 +140,7 @@ async def test_set_circuit_setpoint(
     ],
 )
 async def test_set_hot_water_setpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -165,7 +165,7 @@ async def test_set_hot_water_setpoint(
     ],
 )
 async def test_set_setpoint_rejects_order(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -184,7 +184,7 @@ async def test_set_setpoint_rejects_order(
 
 
 async def test_set_setpoint_from_fahrenheit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -210,7 +210,7 @@ async def test_set_setpoint_from_fahrenheit(
     ],
 )
 async def test_set_setpoint_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
@@ -222,7 +222,7 @@ async def test_set_setpoint_error(
     await setup_with_selected_platforms(hass, mock_config_entry, [Platform.NUMBER])
     getattr(mock_bsblan, method).side_effect = BSBLANError("Test error")
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await _async_set_value(hass, entity_id, value)
 
     assert exc.value.translation_key == translation_key

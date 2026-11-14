@@ -11,7 +11,7 @@ from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, Switch
 from universalassistant.components.wmspro.const import DOMAIN
 from universalassistant.components.wmspro.switch import SCAN_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_config_entry
@@ -23,7 +23,7 @@ from . import setup_config_entry
     indirect=True,
 )
 async def test_switch_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -50,7 +50,7 @@ async def test_switch_device(
     indirect=True,
 )
 async def test_switch_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -84,7 +84,7 @@ async def test_switch_update(
     indirect=True,
 )
 async def test_switch_turn_on_and_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,

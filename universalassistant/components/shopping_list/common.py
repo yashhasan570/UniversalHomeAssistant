@@ -9,7 +9,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_NAME, EVENT_SHOPPING_LIST_UPDATED
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import service
 from universalassistant.helpers.json import save_json
 from universalassistant.util.json import JsonValueType, load_json_array
@@ -34,7 +34,7 @@ class NoMatchingShoppingListItem(Exception):
 class ShoppingData:
     """Class to hold shopping list data."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the shopping list."""
         self.hass = hass
         self.items: list[dict[str, JsonValueType]] = []
@@ -270,6 +270,6 @@ class ShoppingData:
             listener()
 
 
-def _get_shopping_data(hass: UniversalAssistant) -> ShoppingData:
+def _get_shopping_data(hass: __HAC_KEEP__) -> ShoppingData:
     entry: ShoppingListConfigEntry = service.async_get_config_entry(hass, DOMAIN, None)
     return entry.runtime_data

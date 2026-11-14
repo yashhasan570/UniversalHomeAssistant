@@ -5,8 +5,8 @@ from zwave_js_server.const import CommandClass
 
 from universalassistant.components.device_automation import InvalidDeviceAutomationConfig
 from universalassistant.const import CONF_CONDITION, CONF_DEVICE_ID, CONF_DOMAIN, CONF_TYPE
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     condition,
     config_validation as cv,
@@ -88,7 +88,7 @@ CONDITION_SCHEMA = probatio.All(
 
 
 async def async_validate_condition_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     config = CONDITION_SCHEMA(config)
@@ -118,7 +118,7 @@ async def async_validate_condition_config(
 
 
 async def async_get_conditions(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device conditions for Z-Wave JS devices."""
     # Conditions are node-scoped; endpoint child devices don't expose any.
@@ -161,14 +161,14 @@ async def async_get_conditions(
 
 @callback
 def async_condition_from_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> condition.ConditionCheckerType:
     """Create a function to test a device condition."""
     condition_type = config[CONF_TYPE]
     device_id = config[CONF_DEVICE_ID]
 
     @callback
-    def test_node_status(hass: UniversalAssistant, variables: TemplateVarsType) -> bool:
+    def test_node_status(hass: __HAC_KEEP__, variables: TemplateVarsType) -> bool:
         """Test if node status is a certain state."""
         node = async_get_node_from_device_id(hass, device_id)
         return node_status_matches(node, config[CONF_STATUS])
@@ -177,7 +177,7 @@ def async_condition_from_config(
         return test_node_status
 
     @callback
-    def test_config_parameter(hass: UniversalAssistant, variables: TemplateVarsType) -> bool:
+    def test_config_parameter(hass: __HAC_KEEP__, variables: TemplateVarsType) -> bool:
         """Test if config parameter is a certain state."""
         node = async_get_node_from_device_id(hass, device_id)
         return value_matches_state(
@@ -188,7 +188,7 @@ def async_condition_from_config(
         return test_config_parameter
 
     @callback
-    def test_value(hass: UniversalAssistant, variables: TemplateVarsType) -> bool:
+    def test_value(hass: __HAC_KEEP__, variables: TemplateVarsType) -> bool:
         """Test if value is a certain state."""
         node = async_get_node_from_device_id(hass, device_id)
         return value_matches_state(
@@ -198,11 +198,11 @@ def async_condition_from_config(
     if condition_type == VALUE_TYPE:
         return test_value
 
-    raise UniversalAssistantError(f"Unhandled condition type {condition_type}")
+    raise __HAC_KEEP__Error(f"Unhandled condition type {condition_type}")
 
 
 async def async_get_condition_capabilities(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List condition capabilities."""
     device_id = config[CONF_DEVICE_ID]

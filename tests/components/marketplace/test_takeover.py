@@ -2,7 +2,7 @@
 
 The fixtures in hacs_install are what the HACS custom integration wrote after
 installing an integration, a plugin and a theme: its storage files, its config
-entry and the registries, in the storage versions of that Universal Universal Home Assistant.
+entry and the registries, in the storage versions of that __HA_KEEP__.
 """
 
 from collections.abc import Generator
@@ -19,7 +19,7 @@ from universalassistant import bootstrap, config_entries
 from universalassistant.components.lovelace import LOVELACE_DATA
 from universalassistant.components.marketplace.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryDisabler, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -114,7 +114,7 @@ def marketplace_files_on_disk() -> Generator[None]:
         yield
 
 
-async def _async_load_storage(hass: UniversalAssistant) -> None:
+async def _async_load_storage(hass: __HAC_KEEP__) -> None:
     """Load the registries and config entries from storage, like a boot does."""
     await bootstrap.async_load_base_functionality(hass)
 
@@ -123,7 +123,7 @@ async def _async_load_storage(hass: UniversalAssistant) -> None:
     await hass.config_entries.async_initialize()
 
 
-async def _async_boot(hass: UniversalAssistant) -> str:
+async def _async_boot(hass: __HAC_KEEP__) -> str:
     """Boot from storage and set up the Marketplace entry."""
     await _async_load_storage(hass)
 
@@ -133,7 +133,7 @@ async def _async_boot(hass: UniversalAssistant) -> str:
     return entry.entry_id
 
 
-def _platforms(hass: UniversalAssistant, entry_id: str) -> set[str]:
+def _platforms(hass: __HAC_KEEP__, entry_id: str) -> set[str]:
     """Return the platforms of the entities of the entry."""
     return {
         entity.platform
@@ -142,7 +142,7 @@ def _platforms(hass: UniversalAssistant, entry_id: str) -> set[str]:
 
 
 def _registries(
-    hass: UniversalAssistant, entry_id: str, known_entity_ids: set[str]
+    hass: __HAC_KEEP__, entry_id: str, known_entity_ids: set[str]
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Return what the takeover changes in the registries, device ids replaced.
 
@@ -196,7 +196,7 @@ def _registries(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("marketplace_files_on_disk")
 async def test_takeover_of_a_hacs_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hacs_install: dict[str, Any],
     config_dir: Path,
@@ -274,7 +274,7 @@ async def test_takeover_of_a_hacs_install(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.usefixtures("marketplace_files_on_disk")
 async def test_takeover_waits_for_a_disabled_entry(
-    hass: UniversalAssistant, hacs_install: dict[str, Any], config_dir: Path
+    hass: __HAC_KEEP__, hacs_install: dict[str, Any], config_dir: Path
 ) -> None:
     """Test a HACS entry the user disabled is only taken over once enabled."""
     (hacs_entry,) = hacs_install["core.config_entries"]["data"]["entries"]

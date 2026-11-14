@@ -38,7 +38,7 @@
   },
   "issues": {
     "get_get_border_agent_id_unsupported": {
-      "description": "Your OTBR does not support Border Agent ID.\n\nTo fix this issue, update the OTBR to the latest version and restart Universal Universal Home Assistant.\nIf you are using an OTBR integrated in Universal Universal Home Assistant, update either the OpenThread Border Router app or the Silicon Labs Multiprotocol app. Otherwise update your self-managed OTBR.",
+      "description": "Your OTBR does not support Border Agent ID.\n\nTo fix this issue, update the OTBR to the latest version and restart __HA_KEEP__.\nIf you are using an OTBR integrated in __HA_KEEP__, update either the OpenThread Border Router app or the Silicon Labs Multiprotocol app. Otherwise update your self-managed OTBR.",
       "title": "The OTBR does not support Border Agent ID"
     },
     "insecure_thread_network": {

@@ -3,13 +3,13 @@
 from nexia.home import NexiaHome
 
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import setup_integration
 
 
 async def test_create_binary_sensors(
-    hass: UniversalAssistant, patch_nexia_home: NexiaHome
+    hass: __HAC_KEEP__, patch_nexia_home: NexiaHome
 ) -> None:
     """Test creation of binary sensors."""
 

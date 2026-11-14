@@ -6,7 +6,7 @@ from awesomeversion import AwesomeVersion
 
 from universalassistant.components.button import ButtonDeviceClass, ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -29,7 +29,7 @@ def _can_skip_playlist_entry(coordinator: WLEDDataUpdateCoordinator) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WLEDConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

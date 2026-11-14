@@ -19,11 +19,11 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_ir_transceiver(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ir_transceiver: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,

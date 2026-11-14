@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_ADDRESS = "00:15:42:AA:BB:CC"  # 00:15:42 is ISEO's OUI
 MOCK_UUID_HEX = "eaa06132486f426cb0d26c6b9b578add"
@@ -35,7 +35,7 @@ MOCK_SERVICE_INFO = BluetoothServiceInfoBleak(
 )
 
 
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Set up the ISEO Argo BLE integration for testing."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)

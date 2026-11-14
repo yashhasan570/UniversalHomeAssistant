@@ -32,7 +32,7 @@ from universalassistant.const import (
     UnitOfRatio,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -319,7 +319,7 @@ _SIREN_SOLAR_CHARGING_DESCRIPTION: SHCSensorEntityDescription[SHCOutdoorSiren] =
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BoschConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -515,7 +515,7 @@ class SHCSensor[_DeviceT: SHCDevice](SHCEntity, SensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: _DeviceT,
         entity_description: SHCSensorEntityDescription[_DeviceT],
         parent_id: str,

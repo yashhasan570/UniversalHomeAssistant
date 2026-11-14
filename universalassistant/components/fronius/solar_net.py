@@ -9,7 +9,7 @@ from fronius_solarapi import FroniusError, FroniusSolarApi
 
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
@@ -43,7 +43,7 @@ class FroniusSolarNet:
     """Discover the devices of a SolarNet system and hold their coordinators."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: FroniusConfigEntry, fronius: FroniusSolarApi
+        self, hass: __HAC_KEEP__, entry: FroniusConfigEntry, fronius: FroniusSolarApi
     ) -> None:
         """Initialize FroniusSolarNet class."""
         self.hass = hass

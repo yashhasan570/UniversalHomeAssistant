@@ -4,8 +4,8 @@ import glob
 import os
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.json import JSONEncoder
 from universalassistant.helpers.storage import STORAGE_DIR, Store
 from universalassistant.util import json as json_util
@@ -40,7 +40,7 @@ def get_storage_key(key: str) -> str:
     return f"{STORENAME}.{key}"
 
 
-def get_storage_for_key(hass: UniversalAssistant, key: str) -> Store[Any]:
+def get_storage_for_key(hass: __HAC_KEEP__, key: str) -> Store[Any]:
     """Get (or create and cache) the Store object for the key.
 
     The cache is cleared in async_unload_entry so Store instances do not
@@ -86,7 +86,7 @@ def is_adoptable_legacy_file(path: str) -> bool:
     """Return if a storage file of the custom integration is one we take data from."""
     try:
         return _load_legacy_file(path) is not None
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         return False
 
 
@@ -103,7 +103,7 @@ def _load_legacy_repositories_from_data(path: str) -> dict[str, Any] | None:
 
 
 async def _async_adopt_legacy_data(
-    hass: UniversalAssistant, key: str, store: Store[Any]
+    hass: __HAC_KEEP__, key: str, store: Store[Any]
 ) -> Any:
     """Copy the data the custom integration wrote for this key over to our own key.
 
@@ -134,7 +134,7 @@ async def _async_adopt_legacy_data(
     return data
 
 
-async def async_load_from_storage(hass: UniversalAssistant, key: str) -> Any:
+async def async_load_from_storage(hass: __HAC_KEEP__, key: str) -> Any:
     """Load the retained data from store and return de-serialized data."""
     store = get_storage_for_key(hass, key)
     if (data := await store.async_load()) is not None:
@@ -142,7 +142,7 @@ async def async_load_from_storage(hass: UniversalAssistant, key: str) -> Any:
     return await _async_adopt_legacy_data(hass, key, store) or {}
 
 
-async def async_save_to_storage(hass: UniversalAssistant, key: str, data: Any) -> None:
+async def async_save_to_storage(hass: __HAC_KEEP__, key: str, data: Any) -> None:
     """Save the data, unless it matches what is stored already."""
     current = await async_load_from_storage(hass, key)
     if current != data:

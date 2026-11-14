@@ -28,7 +28,7 @@ from universalassistant.components.onedrive.backup import (
 )
 from universalassistant.components.onedrive.const import DATA_BACKUP_AGENT_LISTENERS, DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import setup_integration
@@ -37,7 +37,7 @@ from .const import BACKUP_METADATA
 
 @pytest.fixture(autouse=True)
 async def setup_backup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> AsyncGenerator[None]:
     """Set up onedrive integration."""
@@ -53,7 +53,7 @@ async def setup_backup_integration(
 
 
 async def test_agents_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_agents_info(
 
 
 async def test_agents_list_backups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test agent list backups."""
@@ -122,7 +122,7 @@ async def test_agents_list_backups(
 
 
 async def test_agents_list_backups_with_download_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_agents_list_backups_with_download_failure(
 
 
 async def test_agents_list_backups_downloads_metadata_concurrently(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
     mock_backup_file: File,
@@ -181,7 +181,7 @@ async def test_agents_list_backups_downloads_metadata_concurrently(
 
 
 async def test_agents_get_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_agents_get_backup(
 
 
 async def test_agents_get_backup_missing_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_onedrive_client: MagicMock,
@@ -243,7 +243,7 @@ async def test_agents_get_backup_missing_file(
 
 
 async def test_agents_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -434,7 +434,7 @@ async def test_error_on_agents_download(
     ],
 )
 async def test_delete_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -472,7 +472,7 @@ async def test_delete_error(
 
 
 async def test_agents_delete_not_found_does_not_throw(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -493,7 +493,7 @@ async def test_agents_delete_not_found_does_not_throw(
 
 
 async def test_agents_backup_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
 ) -> None:
@@ -510,7 +510,7 @@ async def test_agents_backup_not_found(
 
 
 async def test_reauth_on_403(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_onedrive_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -542,7 +542,7 @@ async def test_reauth_on_403(
     assert flow["context"]["entry_id"] == mock_config_entry.entry_id
 
 
-async def test_listeners_get_cleaned_up(hass: UniversalAssistant) -> None:
+async def test_listeners_get_cleaned_up(hass: __HAC_KEEP__) -> None:
     """Test listener gets cleaned up."""
     listener = MagicMock()
     remove_listener = async_register_backup_agents_listener(hass, listener=listener)

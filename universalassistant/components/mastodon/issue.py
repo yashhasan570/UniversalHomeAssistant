@@ -1,13 +1,13 @@
 """Issues for Mastodon integration."""
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
 
 from .const import DOMAIN
 
 
 @callback
-def async_deprecated_media_path(hass: UniversalAssistant) -> None:
+def async_deprecated_media_path(hass: __HAC_KEEP__) -> None:
     """Deprecated media path issue."""
 
     async_create_issue(

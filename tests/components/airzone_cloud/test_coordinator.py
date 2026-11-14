@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.airzone_cloud.const import DOMAIN
 from universalassistant.components.airzone_cloud.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.dt import utcnow
 
 from .util import (
@@ -21,7 +21,7 @@ from .util import (
 )
 
 
-async def test_coordinator_client_connector_error(hass: UniversalAssistant) -> None:
+async def test_coordinator_client_connector_error(hass: __HAC_KEEP__) -> None:
     """Test ClientConnectorError on coordinator update."""
 
     config_entry = MockConfigEntry(

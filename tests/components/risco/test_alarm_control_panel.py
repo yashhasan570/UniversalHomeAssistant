@@ -21,8 +21,8 @@ from universalassistant.const import (
     SERVICE_ALARM_DISARM,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -140,7 +140,7 @@ def two_part_local_alarm():
 
 @pytest.mark.parametrize("exception", [CannotConnectError, UnauthorizedError])
 async def test_error_on_login(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     login_with_error,
     cloud_config_entry,
@@ -153,7 +153,7 @@ async def test_error_on_login(
 
 
 async def test_cloud_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     two_part_cloud_alarm,
@@ -177,7 +177,7 @@ async def test_cloud_setup(
 
 
 async def _check_cloud_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     partitions: dict[int, Any],
     property: str,
     state: str,
@@ -193,7 +193,7 @@ async def _check_cloud_state(
 
 @pytest.mark.parametrize("options", [CUSTOM_MAPPING_OPTIONS])
 async def test_cloud_states(
-    hass: UniversalAssistant, two_part_cloud_alarm, setup_risco_cloud
+    hass: __HAC_KEEP__, two_part_cloud_alarm, setup_risco_cloud
 ) -> None:
     """Test the various alarm states."""
     assert hass.states.get(FIRST_CLOUD_ENTITY_ID).state == STATE_UNKNOWN
@@ -259,7 +259,7 @@ async def test_cloud_states(
 
 
 async def _call_alarm_service(
-    hass: UniversalAssistant, service: str, entity_id: str, **kwargs: Any
+    hass: __HAC_KEEP__, service: str, entity_id: str, **kwargs: Any
 ) -> None:
     data = {"entity_id": entity_id, **kwargs}
 
@@ -269,7 +269,7 @@ async def _call_alarm_service(
 
 
 async def _test_cloud_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     method: str,
     entity_id: str,
@@ -283,7 +283,7 @@ async def _test_cloud_service_call(
 
 
 async def _test_cloud_no_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     method: str,
     entity_id: str,
@@ -297,7 +297,7 @@ async def _test_cloud_no_service_call(
 
 @pytest.mark.parametrize("options", [CUSTOM_MAPPING_OPTIONS])
 async def test_cloud_sets_custom_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     two_part_cloud_alarm,
     setup_risco_cloud,
@@ -334,7 +334,7 @@ async def test_cloud_sets_custom_mapping(
 
 @pytest.mark.parametrize("options", [FULL_CUSTOM_MAPPING])
 async def test_cloud_sets_full_custom_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     two_part_cloud_alarm,
     setup_risco_cloud,
@@ -393,7 +393,7 @@ async def test_cloud_sets_full_custom_mapping(
     [{**CUSTOM_MAPPING_OPTIONS, **CODES_REQUIRED_OPTIONS}],
 )
 async def test_cloud_sets_with_correct_code(
-    hass: UniversalAssistant, two_part_cloud_alarm, setup_risco_cloud
+    hass: __HAC_KEEP__, two_part_cloud_alarm, setup_risco_cloud
 ) -> None:
     """Test settings the various modes when code is required."""
     code = {"code": 1234}
@@ -433,7 +433,7 @@ async def test_cloud_sets_with_correct_code(
         "C",
         **code,
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_cloud_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -442,7 +442,7 @@ async def test_cloud_sets_with_correct_code(
             0,
             **code,
         )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_cloud_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -458,7 +458,7 @@ async def test_cloud_sets_with_correct_code(
     [{**CUSTOM_MAPPING_OPTIONS, **CODES_NOT_REQUIRED_OPTIONS}],
 )
 async def test_cloud_sets_without_code(
-    hass: UniversalAssistant, two_part_cloud_alarm, setup_risco_cloud
+    hass: __HAC_KEEP__, two_part_cloud_alarm, setup_risco_cloud
 ) -> None:
     """Test settings the various modes when code is not required."""
     await _test_cloud_service_call(
@@ -485,7 +485,7 @@ async def test_cloud_sets_without_code(
     await _test_cloud_service_call(
         hass, SERVICE_ALARM_ARM_NIGHT, "group_arm", SECOND_CLOUD_ENTITY_ID, 1, "C"
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_cloud_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -493,7 +493,7 @@ async def test_cloud_sets_without_code(
             FIRST_CLOUD_ENTITY_ID,
             0,
         )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_cloud_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -508,7 +508,7 @@ async def test_cloud_sets_without_code(
     [{**CUSTOM_MAPPING_OPTIONS, **CODES_REQUIRED_OPTIONS}],
 )
 async def test_cloud_sets_with_incorrect_code(
-    hass: UniversalAssistant, two_part_cloud_alarm, setup_risco_cloud
+    hass: __HAC_KEEP__, two_part_cloud_alarm, setup_risco_cloud
 ) -> None:
     """Test settings the various modes when code is required and incorrect."""
     code = {"code": 4321}
@@ -536,7 +536,7 @@ async def test_cloud_sets_with_incorrect_code(
     await _test_cloud_no_service_call(
         hass, SERVICE_ALARM_ARM_NIGHT, "group_arm", SECOND_CLOUD_ENTITY_ID, 1, **code
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_cloud_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -545,7 +545,7 @@ async def test_cloud_sets_with_incorrect_code(
             0,
             **code,
         )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_cloud_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -558,7 +558,7 @@ async def test_cloud_sets_with_incorrect_code(
 
 @pytest.mark.parametrize("exception", [CannotConnectError, UnauthorizedError])
 async def test_error_on_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     connect_with_error,
     local_config_entry,
@@ -571,7 +571,7 @@ async def test_error_on_connect(
 
 
 async def test_local_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     two_part_local_alarm,
@@ -598,7 +598,7 @@ async def test_local_setup(
 
 
 async def _check_local_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     partitions: dict[int, Any],
     property: str,
     state: str,
@@ -623,7 +623,7 @@ def mock_partition_handler():
 
 @pytest.mark.parametrize("options", [CUSTOM_MAPPING_OPTIONS])
 async def test_local_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     two_part_local_alarm,
     mock_partition_handler,
     setup_risco_local,
@@ -702,7 +702,7 @@ async def test_local_states(
 
 
 async def _test_local_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     method: str,
     entity_id: str,
@@ -716,7 +716,7 @@ async def _test_local_service_call(
 
 
 async def _test_local_no_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     method: str,
     entity_id: str,
@@ -730,7 +730,7 @@ async def _test_local_no_service_call(
 
 @pytest.mark.parametrize("options", [CUSTOM_MAPPING_OPTIONS])
 async def test_local_sets_custom_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     two_part_local_alarm,
     setup_risco_local,
@@ -801,7 +801,7 @@ async def test_local_sets_custom_mapping(
 
 @pytest.mark.parametrize("options", [FULL_CUSTOM_MAPPING])
 async def test_local_sets_full_custom_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     two_part_local_alarm,
     setup_risco_local,
@@ -894,7 +894,7 @@ async def test_local_sets_full_custom_mapping(
     [{**CUSTOM_MAPPING_OPTIONS, **CODES_REQUIRED_OPTIONS}],
 )
 async def test_local_sets_with_correct_code(
-    hass: UniversalAssistant, two_part_local_alarm, setup_risco_local
+    hass: __HAC_KEEP__, two_part_local_alarm, setup_risco_local
 ) -> None:
     """Test settings the various modes when code is required."""
     code = {"code": 1234}
@@ -964,7 +964,7 @@ async def test_local_sets_with_correct_code(
         "C",
         **code,
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_local_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -973,7 +973,7 @@ async def test_local_sets_with_correct_code(
             two_part_local_alarm[0],
             **code,
         )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_local_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -989,7 +989,7 @@ async def test_local_sets_with_correct_code(
     [{**CUSTOM_MAPPING_OPTIONS, **CODES_REQUIRED_OPTIONS}],
 )
 async def test_local_sets_with_incorrect_code(
-    hass: UniversalAssistant, two_part_local_alarm, setup_risco_local
+    hass: __HAC_KEEP__, two_part_local_alarm, setup_risco_local
 ) -> None:
     """Test settings the various modes when code is required and incorrect."""
     code = {"code": 4321}
@@ -1057,7 +1057,7 @@ async def test_local_sets_with_incorrect_code(
         two_part_local_alarm[1],
         **code,
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_local_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -1066,7 +1066,7 @@ async def test_local_sets_with_incorrect_code(
             two_part_local_alarm[0],
             **code,
         )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_local_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -1082,7 +1082,7 @@ async def test_local_sets_with_incorrect_code(
     [{**CUSTOM_MAPPING_OPTIONS, **CODES_NOT_REQUIRED_OPTIONS}],
 )
 async def test_local_sets_without_code(
-    hass: UniversalAssistant, two_part_local_alarm, setup_risco_local
+    hass: __HAC_KEEP__, two_part_local_alarm, setup_risco_local
 ) -> None:
     """Test settings the various modes when code is not required."""
     await _test_local_service_call(
@@ -1143,7 +1143,7 @@ async def test_local_sets_without_code(
         two_part_local_alarm[1],
         "C",
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_local_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,
@@ -1151,7 +1151,7 @@ async def test_local_sets_without_code(
             FIRST_LOCAL_ENTITY_ID,
             two_part_local_alarm[0],
         )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _test_local_no_service_call(
             hass,
             SERVICE_ALARM_ARM_CUSTOM_BYPASS,

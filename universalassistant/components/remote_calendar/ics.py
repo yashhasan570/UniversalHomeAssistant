@@ -12,7 +12,7 @@ from ical.calendar_stream import IcsCalendarStream
 from ical.compat import enable_compat_mode
 from ical.exceptions import CalendarParseError
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ def _compat_calendar_from_ics(ics: str) -> Calendar:
         return IcsCalendarStream.calendar_from_ics(compat_ics)
 
 
-async def parse_calendar(hass: UniversalAssistant, ics: str) -> Calendar:
+async def parse_calendar(hass: __HAC_KEEP__, ics: str) -> Calendar:
     """Parse the ICS content and return a Calendar object."""
     try:
         return await hass.async_add_executor_job(_compat_calendar_from_ics, ics)

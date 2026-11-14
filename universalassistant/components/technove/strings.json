@@ -17,10 +17,10 @@
         "data_description": {
           "host": "Hostname or IP address of your TechnoVE station."
         },
-        "description": "Set up your TechnoVE station to integrate with Universal Universal Home Assistant."
+        "description": "Set up your TechnoVE station to integrate with __HA_KEEP__."
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add the TechnoVE Station named `{name}` to Universal Universal Home Assistant?",
+        "description": "Do you want to add the TechnoVE Station named `{name}` to __HA_KEEP__?",
         "title": "Discovered TechnoVE station"
       }
     }

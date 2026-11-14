@@ -21,17 +21,17 @@ SIGNAL_CAST_DISCOVERED: SignalType[ChromecastInfo] = SignalType("cast_discovered
 # removed
 SIGNAL_CAST_REMOVED: SignalType[ChromecastInfo] = SignalType("cast_removed")
 
-# Dispatcher signal fired when a Chromecast should show a Universal Universal Home Assistant Cast view.
+# Dispatcher signal fired when a Chromecast should show a __HA_KEEP__ Cast view.
 SIGNAL_HASS_CAST_SHOW_VIEW: SignalType[
-    UniversalAssistantControllerData, str, str, str | None
+    __HAC_KEEP__ControllerData, str, str, str | None
 ] = SignalType("cast_show_view")
 
 CONF_IGNORE_CEC = "ignore_cec"
 CONF_KNOWN_HOSTS = "known_hosts"
 
 
-class UniversalAssistantControllerData(TypedDict):
-    """Data for creating a UniversalAssistantController."""
+class __HAC_KEEP__ControllerData(TypedDict):
+    """Data for creating a __HAC_KEEP__Controller."""
 
     hass_url: str
     hass_uuid: str

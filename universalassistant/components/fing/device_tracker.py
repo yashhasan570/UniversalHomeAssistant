@@ -5,7 +5,7 @@ from typing import override
 from fing_agent_api.models import Device
 
 from universalassistant.components.device_tracker import ScannerEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -16,7 +16,7 @@ from .utils import get_icon_from_type
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

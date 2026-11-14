@@ -7,14 +7,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -27,7 +27,7 @@ async def test_entities(
 
 
 async def test_switch_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_relay: AsyncMock,
     config_entry: MockConfigEntry,
@@ -44,7 +44,7 @@ async def test_switch_disabled(
 
 
 async def test_switch_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_relay: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:

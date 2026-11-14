@@ -9,14 +9,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.mealie.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -48,7 +48,7 @@ async def test_device_info(
     ],
 )
 async def test_setup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     field: str,
@@ -72,7 +72,7 @@ async def test_setup_failure(
     ],
 )
 async def test_setup_too_old(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     version,
@@ -86,7 +86,7 @@ async def test_setup_too_old(
 
 
 async def test_setup_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -104,7 +104,7 @@ async def test_setup_invalid(
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_load_unload_entry(
 
 
 async def test_update_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_update_options(
     ],
 )
 async def test_mealplan_initialization_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exc: Exception,
@@ -170,7 +170,7 @@ async def test_mealplan_initialization_failure(
     ],
 )
 async def test_shoppingitems_initialization_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exc: Exception,

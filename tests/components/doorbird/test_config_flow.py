@@ -16,7 +16,7 @@ from universalassistant.components.doorbird.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -28,7 +28,7 @@ from . import (
 )
 
 
-async def test_user_form(hass: UniversalAssistant, doorbird_api: DoorBird) -> None:
+async def test_user_form(hass: __HAC_KEEP__, doorbird_api: DoorBird) -> None:
     """Test we get the user form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -68,7 +68,7 @@ async def test_user_form(hass: UniversalAssistant, doorbird_api: DoorBird) -> No
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_zeroconf_wrong_oui(hass: UniversalAssistant) -> None:
+async def test_form_zeroconf_wrong_oui(hass: __HAC_KEEP__) -> None:
     """Test we abort when we get the wrong OUI via zeroconf."""
 
     result = await hass.config_entries.flow.async_init(
@@ -88,7 +88,7 @@ async def test_form_zeroconf_wrong_oui(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_doorbird_device"
 
 
-async def test_form_zeroconf_link_local_ignored(hass: UniversalAssistant) -> None:
+async def test_form_zeroconf_link_local_ignored(hass: __HAC_KEEP__) -> None:
     """Test we abort when we get a link local address via zeroconf."""
 
     result = await hass.config_entries.flow.async_init(
@@ -109,7 +109,7 @@ async def test_form_zeroconf_link_local_ignored(hass: UniversalAssistant) -> Non
 
 
 async def test_form_zeroconf_ipv4_address(
-    hass: UniversalAssistant, doorbird_api: DoorBird
+    hass: __HAC_KEEP__, doorbird_api: DoorBird
 ) -> None:
     """Test we abort and update the ip address from zeroconf with an ipv4 address."""
 
@@ -146,7 +146,7 @@ async def test_form_zeroconf_ipv4_address(
 
 
 async def test_form_zeroconf_ignored_entry(
-    hass: UniversalAssistant, doorbird_api: DoorBird
+    hass: __HAC_KEEP__, doorbird_api: DoorBird
 ) -> None:
     """Test we abort when the entry was ignored, without attempting to connect."""
 
@@ -177,7 +177,7 @@ async def test_form_zeroconf_ignored_entry(
 
 
 async def test_form_zeroconf_ipv4_address_wrong_device(
-    hass: UniversalAssistant, doorbird_api: DoorBird
+    hass: __HAC_KEEP__, doorbird_api: DoorBird
 ) -> None:
     """Test we abort when the device MAC doesn't match during zeroconf update."""
 
@@ -215,7 +215,7 @@ async def test_form_zeroconf_ipv4_address_wrong_device(
 
 
 async def test_form_zeroconf_ipv4_address_cannot_connect(
-    hass: UniversalAssistant, doorbird_api: DoorBird
+    hass: __HAC_KEEP__, doorbird_api: DoorBird
 ) -> None:
     """Test we abort when we cannot connect to validate during zeroconf update."""
 
@@ -249,7 +249,7 @@ async def test_form_zeroconf_ipv4_address_cannot_connect(
     assert config_entry.data[CONF_HOST] == "1.2.3.4"
 
 
-async def test_form_zeroconf_non_ipv4_ignored(hass: UniversalAssistant) -> None:
+async def test_form_zeroconf_non_ipv4_ignored(hass: __HAC_KEEP__) -> None:
     """Test we abort when we get a non ipv4 address via zeroconf."""
 
     result = await hass.config_entries.flow.async_init(
@@ -270,7 +270,7 @@ async def test_form_zeroconf_non_ipv4_ignored(hass: UniversalAssistant) -> None:
 
 
 async def test_form_zeroconf_correct_oui(
-    hass: UniversalAssistant, doorbird_api: DoorBird
+    hass: __HAC_KEEP__, doorbird_api: DoorBird
 ) -> None:
     """Test we can setup from zeroconf with the correct OUI source."""
 
@@ -329,7 +329,7 @@ async def test_form_zeroconf_correct_oui(
     ],
 )
 async def test_form_zeroconf_correct_oui_wrong_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     doorbird_api: DoorBird,
     doorbell_state_side_effect: Exception | None,
 ) -> None:
@@ -360,7 +360,7 @@ async def test_form_zeroconf_correct_oui_wrong_device(
 
 
 @pytest.mark.usefixtures("doorbird_api")
-async def test_form_user_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_user_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -395,7 +395,7 @@ async def test_form_user_cannot_connect(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("doorbird_api")
-async def test_form_user_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_user_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot invalid auth error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -431,7 +431,7 @@ async def test_form_user_invalid_auth(hass: UniversalAssistant) -> None:
 
 
 async def test_form_user_doorbird_not_found(
-    doorbird_api: DoorBird, hass: UniversalAssistant
+    doorbird_api: DoorBird, hass: __HAC_KEEP__
 ) -> None:
     """Test handling unable to connect to the device."""
     result = await hass.config_entries.flow.async_init(
@@ -479,7 +479,7 @@ async def test_form_user_doorbird_not_found(
 
 
 async def test_form_user_doorbird_unknown_exception(
-    doorbird_api: DoorBird, hass: UniversalAssistant
+    doorbird_api: DoorBird, hass: __HAC_KEEP__
 ) -> None:
     """Test handling unable an unknown exception."""
     result = await hass.config_entries.flow.async_init(
@@ -535,7 +535,7 @@ async def test_form_user_doorbird_unknown_exception(
     ],
 )
 async def test_options_flow(
-    hass: UniversalAssistant, user_input: str, expected_events: list[str]
+    hass: __HAC_KEEP__, user_input: str, expected_events: list[str]
 ) -> None:
     """Test config flow options."""
 
@@ -563,7 +563,7 @@ async def test_options_flow(
         assert config_entry.options == {CONF_EVENTS: expected_events}
 
 
-async def test_reauth(hass: UniversalAssistant) -> None:
+async def test_reauth(hass: __HAC_KEEP__) -> None:
     """Test reauth flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

@@ -6,7 +6,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.plugwise.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -16,7 +16,7 @@ from universalassistant.helpers import entity_registry as er
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -27,7 +27,7 @@ async def test_adam_sensor_snapshot(
 
 @pytest.mark.usefixtures("mock_smile_adam_jip")
 async def test_adam_climate_sensor_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test creation of climate related humidity sensor entity."""
@@ -38,7 +38,7 @@ async def test_adam_climate_sensor_humidity(
 
 @pytest.mark.usefixtures("mock_smile_adam_jip")
 async def test_unique_id_migration_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_unique_id_migration_humidity(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_anna_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -98,7 +98,7 @@ async def test_anna_sensor_snapshot(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_anna_p1_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -115,7 +115,7 @@ async def test_anna_p1_sensor_snapshot(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_p1_dsmr_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -132,7 +132,7 @@ async def test_p1_dsmr_sensor_snapshot(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_p1_3ph_dsmr_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -147,7 +147,7 @@ async def test_p1_3ph_dsmr_sensor_snapshot(
     "gateway_id", ["03e65b16e4b247a29ae0d75a78cb492e"], indirect=True
 )
 async def test_p1_3ph_dsmr_sensor_disabled_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -171,7 +171,7 @@ async def test_p1_3ph_dsmr_sensor_disabled_entities(
 @pytest.mark.parametrize("platforms", [(SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_stretch_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,

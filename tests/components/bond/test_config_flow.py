@@ -13,7 +13,7 @@ from universalassistant import config_entries
 from universalassistant.components.bond.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -29,7 +29,7 @@ from .common import (
 )
 
 
-async def test_user_form(hass: UniversalAssistant) -> None:
+async def test_user_form(hass: __HAC_KEEP__) -> None:
     """Test we get the user initiated form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -64,7 +64,7 @@ async def test_user_form(hass: UniversalAssistant) -> None:
 
 
 async def test_user_form_can_create_when_already_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we get the user initiated form can create when already discovered."""
 
@@ -116,7 +116,7 @@ async def test_user_form_can_create_when_already_discovered(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_form_with_non_bridge(hass: UniversalAssistant) -> None:
+async def test_user_form_with_non_bridge(hass: __HAC_KEEP__) -> None:
     """Test setup a smart by bond fan."""
 
     result = await hass.config_entries.flow.async_init(
@@ -154,7 +154,7 @@ async def test_user_form_with_non_bridge(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_form_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_user_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -190,7 +190,7 @@ async def test_user_form_invalid_auth(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_user_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -224,7 +224,7 @@ async def test_user_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_form_old_firmware(hass: UniversalAssistant) -> None:
+async def test_user_form_old_firmware(hass: __HAC_KEEP__) -> None:
     """Test we handle unsupported old firmware."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -258,7 +258,7 @@ async def test_user_form_old_firmware(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_form_unexpected_client_error(hass: UniversalAssistant) -> None:
+async def test_user_form_unexpected_client_error(hass: __HAC_KEEP__) -> None:
     """Test we handle unexpected client error gracefully."""
     await _help_test_form_unexpected_error(
         hass,
@@ -268,7 +268,7 @@ async def test_user_form_unexpected_client_error(hass: UniversalAssistant) -> No
     )
 
 
-async def test_user_form_unexpected_error(hass: UniversalAssistant) -> None:
+async def test_user_form_unexpected_error(hass: __HAC_KEEP__) -> None:
     """Test we handle unexpected error gracefully."""
     await _help_test_form_unexpected_error(
         hass,
@@ -278,7 +278,7 @@ async def test_user_form_unexpected_error(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_user_form_one_entry_per_device_allowed(hass: UniversalAssistant) -> None:
+async def test_user_form_one_entry_per_device_allowed(hass: __HAC_KEEP__) -> None:
     """Test that only one entry allowed per unique ID reported by Bond hub device."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -308,7 +308,7 @@ async def test_user_form_one_entry_per_device_allowed(hass: UniversalAssistant) 
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_zeroconf_form(hass: UniversalAssistant) -> None:
+async def test_zeroconf_form(hass: __HAC_KEEP__) -> None:
     """Test we get the discovery form."""
 
     with patch_bond_version(), patch_bond_token():
@@ -350,7 +350,7 @@ async def test_zeroconf_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_discovery(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery."""
 
     with patch_bond_version(), patch_bond_token():
@@ -387,7 +387,7 @@ async def test_dhcp_discovery(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_discovery_already_exists(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_already_exists(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery for an already existing entry."""
 
     entry = MockConfigEntry(
@@ -413,7 +413,7 @@ async def test_dhcp_discovery_already_exists(hass: UniversalAssistant) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_dhcp_discovery_short_name(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_short_name(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery with the name cut off."""
 
     with patch_bond_version(), patch_bond_token():
@@ -451,7 +451,7 @@ async def test_dhcp_discovery_short_name(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf_form_token_unavailable(hass: UniversalAssistant) -> None:
+async def test_zeroconf_form_token_unavailable(hass: __HAC_KEEP__) -> None:
     """Test we get the discovery form and we handle the token being unavailable."""
 
     with patch_bond_version(), patch_bond_token():
@@ -494,7 +494,7 @@ async def test_zeroconf_form_token_unavailable(hass: UniversalAssistant) -> None
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf_form_token_times_out(hass: UniversalAssistant) -> None:
+async def test_zeroconf_form_token_times_out(hass: __HAC_KEEP__) -> None:
     """Test we get the discovery form and we handle the token request timeout."""
 
     with patch_bond_version(), patch_bond_token(side_effect=TimeoutError):
@@ -536,7 +536,7 @@ async def test_zeroconf_form_token_times_out(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf_form_with_token_available(hass: UniversalAssistant) -> None:
+async def test_zeroconf_form_with_token_available(hass: __HAC_KEEP__) -> None:
     """Test we get the discovery form when we can get the token."""
 
     with (
@@ -580,7 +580,7 @@ async def test_zeroconf_form_with_token_available(hass: UniversalAssistant) -> N
 
 
 async def test_zeroconf_form_with_token_available_name_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery form when we can get the token but name is unavailable."""
 
@@ -623,7 +623,7 @@ async def test_zeroconf_form_with_token_available_name_unavailable(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf_already_configured(hass: UniversalAssistant) -> None:
+async def test_zeroconf_already_configured(hass: __HAC_KEEP__) -> None:
     """Test starting a flow from discovery when already configured."""
 
     entry = MockConfigEntry(
@@ -655,7 +655,7 @@ async def test_zeroconf_already_configured(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_zeroconf_in_setup_retry_state(hass: UniversalAssistant) -> None:
+async def test_zeroconf_in_setup_retry_state(hass: __HAC_KEEP__) -> None:
     """Test we retry right away on zeroconf discovery."""
 
     entry = MockConfigEntry(
@@ -694,7 +694,7 @@ async def test_zeroconf_in_setup_retry_state(hass: UniversalAssistant) -> None:
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_zeroconf_already_configured_refresh_token(hass: UniversalAssistant) -> None:
+async def test_zeroconf_already_configured_refresh_token(hass: __HAC_KEEP__) -> None:
     """Test zeroconf flow when already configured and token is outdated."""
     entry2 = MockConfigEntry(
         domain=DOMAIN,
@@ -744,7 +744,7 @@ async def test_zeroconf_already_configured_refresh_token(hass: UniversalAssistan
 
 
 async def test_zeroconf_already_configured_no_reload_same_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test zeroconf when already configured does not reload if host is the same."""
     entry = MockConfigEntry(
@@ -779,7 +779,7 @@ async def test_zeroconf_already_configured_no_reload_same_host(
 
 
 async def test_zeroconf_already_configured_keeps_valid_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test zeroconf keeps the stored host when the bridge still announces it."""
     entry = MockConfigEntry(
@@ -814,7 +814,7 @@ async def test_zeroconf_already_configured_keeps_valid_host(
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_zeroconf_form_unexpected_error(hass: UniversalAssistant) -> None:
+async def test_zeroconf_form_unexpected_error(hass: __HAC_KEEP__) -> None:
     """Test we handle unexpected error gracefully."""
     await _help_test_form_unexpected_error(
         hass,
@@ -834,7 +834,7 @@ async def test_zeroconf_form_unexpected_error(hass: UniversalAssistant) -> None:
 
 
 async def _help_test_form_unexpected_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     source: str,
     initial_input: dict[str, Any] | None = None,
@@ -886,7 +886,7 @@ def _patch_async_setup_entry():
         pytest.param(None, id="no_unique_id"),
     ],
 )
-async def test_reauth(hass: UniversalAssistant, unique_id: str | None) -> None:
+async def test_reauth(hass: __HAC_KEEP__, unique_id: str | None) -> None:
     """Test reauth updates the access token."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -946,7 +946,7 @@ async def test_reauth(hass: UniversalAssistant, unique_id: str | None) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     version: dict[str, Any],
     device_ids_side_effect: Exception | None,
     error: str,
@@ -990,7 +990,7 @@ async def test_reauth_errors(
     assert entry.data[CONF_ACCESS_TOKEN] == "new-token"
 
 
-async def test_reauth_wrong_device(hass: UniversalAssistant) -> None:
+async def test_reauth_wrong_device(hass: __HAC_KEEP__) -> None:
     """Test reauth aborts when the token belongs to another Bond device."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1022,7 +1022,7 @@ async def test_reauth_wrong_device(hass: UniversalAssistant) -> None:
         pytest.param(None, id="no_unique_id"),
     ],
 )
-async def test_reconfigure(hass: UniversalAssistant, unique_id: str | None) -> None:
+async def test_reconfigure(hass: __HAC_KEEP__, unique_id: str | None) -> None:
     """Test reconfigure updates the host and access token."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1083,7 +1083,7 @@ async def test_reconfigure(hass: UniversalAssistant, unique_id: str | None) -> N
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     version: dict[str, Any],
     device_ids_side_effect: Exception | None,
     error: str,
@@ -1129,7 +1129,7 @@ async def test_reconfigure_errors(
     assert entry.data == {CONF_HOST: "new host", CONF_ACCESS_TOKEN: "new-token"}
 
 
-async def test_reconfigure_unique_id_mismatch(hass: UniversalAssistant) -> None:
+async def test_reconfigure_unique_id_mismatch(hass: __HAC_KEEP__) -> None:
     """Test reconfigure aborts when pointed at another Bond device."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1156,7 +1156,7 @@ async def test_reconfigure_unique_id_mismatch(hass: UniversalAssistant) -> None:
 
 
 async def test_reconfigure_no_unique_id_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test reconfigure of an entry without unique ID aborts on another entry's hub."""
     MockConfigEntry(

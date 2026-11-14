@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.aladdin_connect import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     OAuth2TokenRequestConnectionError,
     OAuth2TokenRequestError,
@@ -26,7 +26,7 @@ from . import init_integration
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -43,7 +43,7 @@ async def test_oauth_implementation_not_available(
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a successful setup entry."""
     await init_integration(hass, mock_config_entry)
@@ -51,7 +51,7 @@ async def test_setup_entry(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a successful unload entry."""
     await init_integration(hass, mock_config_entry)
@@ -85,7 +85,7 @@ async def test_unload_entry(
     ids=["auth_failure", "server_error"],
 )
 async def test_setup_entry_token_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     exc: OAuth2TokenRequestError,
     expected_state: ConfigEntryState,
@@ -101,7 +101,7 @@ async def test_setup_entry_token_error(
 
 
 async def test_setup_entry_token_connection_error(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup entry retries when token validation has a connection error."""
     with patch(
@@ -122,7 +122,7 @@ async def test_setup_entry_token_connection_error(
     ids=["auth_failure", "server_error"],
 )
 async def test_setup_entry_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aladdin_connect_api: AsyncMock,
     status: http.HTTPStatus,
@@ -137,7 +137,7 @@ async def test_setup_entry_api_error(
 
 
 async def test_setup_entry_api_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aladdin_connect_api: AsyncMock,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_setup_entry_api_connection_error(
 
 
 async def test_remove_stale_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -177,7 +177,7 @@ async def test_remove_stale_devices(
 
 
 async def test_dynamic_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

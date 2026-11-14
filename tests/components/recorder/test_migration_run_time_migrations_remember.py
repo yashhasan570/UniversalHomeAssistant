@@ -27,7 +27,7 @@ from universalassistant.components.recorder.util import (
     session_scope,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 CREATE_ENGINE_TARGET = "universalassistant.components.recorder.core.create_engine"
 SCHEMA_MODULE_32 = "pytest_universalassistant.components.recorder.db_schema_32"
@@ -41,13 +41,13 @@ async def mock_recorder_before_hass(
     """Set up recorder."""
 
 
-async def _async_wait_migration_done(hass: UniversalAssistant) -> None:
+async def _async_wait_migration_done(hass: __HAC_KEEP__) -> None:
     """Wait for the migration to be done."""
     await recorder.get_instance(hass).async_block_till_done()
     await async_recorder_block_till_done(hass)
 
 
-def _get_migration_id(hass: UniversalAssistant) -> dict[str, int]:
+def _get_migration_id(hass: __HAC_KEEP__) -> dict[str, int]:
     with session_scope(hass=hass, read_only=True) as session:
         return dict(execute_stmt_lambda_element(session, get_migration_changes()))
 
@@ -174,7 +174,7 @@ def _create_engine_test(
                 # run event_id_post_migration up until
                 # schema 44 since its the first one we can
                 # be sure has the foreign key constraint was removed
-                # via https://github.com/yashhasan570/UniversalUniversalAssistant/pull/120779
+                # via https://github.com/yashhasan570/__HAC_KEEP__/pull/120779
                 "event_id_post_migration": (1, 1),
                 "entity_id_post_migration": (0, 0),
             },
@@ -318,7 +318,7 @@ async def test_migration_changes_prevent_trying_to_migrate_again(
 ) -> None:
     """Test we skip migration when migration_changes says done.
 
-    This test will start Universal Universal Home Assistant 3 times:
+    This test will start __HA_KEEP__ 3 times:
 
     1. With schema 32 to populate the data
     2. With current schema so the migration happens

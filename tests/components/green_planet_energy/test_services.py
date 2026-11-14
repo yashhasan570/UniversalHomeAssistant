@@ -14,12 +14,12 @@ from universalassistant.components.green_planet_energy.services import (
     GreenPlanetEnergyServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
 
-async def _call_get_prices(hass: UniversalAssistant, hours: float, entry_id: str) -> dict:
+async def _call_get_prices(hass: __HAC_KEEP__, hours: float, entry_id: str) -> dict:
     """Call get_prices and return the service response."""
     return await hass.services.async_call(
         DOMAIN,
@@ -34,7 +34,7 @@ async def _call_get_prices(hass: UniversalAssistant, hours: float, entry_id: str
 
 
 async def _call_get_cheapest_duration(
-    hass: UniversalAssistant, duration: float, time_range: str | None = None
+    hass: __HAC_KEEP__, duration: float, time_range: str | None = None
 ) -> dict:
     """Call get_cheapest_duration and return the service response."""
     data: dict[str, float | str] = {"duration": duration}
@@ -52,7 +52,7 @@ async def _call_get_cheapest_duration(
 
 @pytest.mark.freeze_time("2026-03-24 14:07:00-07:00")
 async def test_get_prices_basic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_get_prices_basic(
 
 @pytest.mark.freeze_time("2026-03-24 14:07:00-07:00")
 async def test_get_prices_slot_start_snapped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Slot start is snapped to the current 15-minute boundary."""
@@ -78,7 +78,7 @@ async def test_get_prices_slot_start_snapped(
 
 @pytest.mark.freeze_time("2026-03-24 14:07:00-07:00")
 async def test_get_prices_correct_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Prices match the expected 15-minute mock data values."""
@@ -98,7 +98,7 @@ async def test_get_prices_correct_values(
 
 @pytest.mark.freeze_time("2026-03-24 23:45:00-07:00")
 async def test_get_prices_crosses_midnight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_get_prices_crosses_midnight(
 
 @pytest.mark.freeze_time("2026-03-24 14:07:00-07:00")
 async def test_get_prices_missing_slots_omitted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_get_prices_missing_slots_omitted(
     assert result == snapshot
 
 
-async def test_get_prices_entry_not_found(hass: UniversalAssistant) -> None:
+async def test_get_prices_entry_not_found(hass: __HAC_KEEP__) -> None:
     """Service raises when the config entry does not exist."""
     await async_setup_component(hass, DOMAIN, {})
     with pytest.raises(ServiceValidationError) as exc_info:
@@ -132,7 +132,7 @@ async def test_get_prices_entry_not_found(hass: UniversalAssistant) -> None:
 
 
 async def test_get_prices_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Service raises when the config entry exists but is not loaded."""
@@ -145,7 +145,7 @@ async def test_get_prices_entry_not_loaded(
 
 @pytest.mark.freeze_time("2026-03-24 14:07:00-07:00")
 async def test_get_prices_quarter_hour(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Requesting 0.25 h returns exactly one slot."""
@@ -156,7 +156,7 @@ async def test_get_prices_quarter_hour(
 
 @pytest.mark.freeze_time("2026-03-24 14:07:00-07:00")
 async def test_get_prices_non_quarter_hour_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Hours must be a multiple of 0.25 according to schema validation."""
@@ -166,7 +166,7 @@ async def test_get_prices_non_quarter_hour_rejected(
 
 @pytest.mark.freeze_time("2026-03-24 00:00:00-07:00")
 async def test_get_prices_max_hours(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Requesting 24 h from midnight returns one day of quarter-hour slots."""
@@ -177,7 +177,7 @@ async def test_get_prices_max_hours(
 
 @freeze_time("2024-01-01 08:00:00+00:00")
 async def test_get_cheapest_duration_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_get_cheapest_duration_day(
 
 @freeze_time("2024-01-01 08:00:00+00:00")
 async def test_get_cheapest_duration_night(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_get_cheapest_duration_night(
 
 @freeze_time("2024-01-01 08:00:00+00:00")
 async def test_get_cheapest_duration_full_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
 ) -> None:
@@ -248,7 +248,7 @@ async def test_get_cheapest_duration_full_day(
 
 @freeze_time("2024-01-01 08:00:00+00:00")
 async def test_get_cheapest_duration_default_time_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
 ) -> None:
@@ -270,7 +270,7 @@ async def test_get_cheapest_duration_default_time_range(
     assert response["hours_until_start"] == 2.0
 
 
-async def test_get_cheapest_duration_no_config_entry(hass: UniversalAssistant) -> None:
+async def test_get_cheapest_duration_no_config_entry(hass: __HAC_KEEP__) -> None:
     """Service raises when no integration config entry exists."""
     await async_setup_component(hass, DOMAIN, {})
 
@@ -280,7 +280,7 @@ async def test_get_cheapest_duration_no_config_entry(hass: UniversalAssistant) -
 
 
 async def test_get_cheapest_duration_config_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Service raises when config entry exists but is not loaded."""
@@ -295,7 +295,7 @@ async def test_get_cheapest_duration_config_entry_not_loaded(
 
 @freeze_time("2024-01-01 08:00:00+00:00")
 async def test_get_cheapest_duration_no_data_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
 ) -> None:
@@ -313,7 +313,7 @@ async def test_get_cheapest_duration_no_data_available(
 
 @freeze_time("2024-01-01 20:00:00+00:00")
 async def test_get_cheapest_duration_past_start_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
 ) -> None:

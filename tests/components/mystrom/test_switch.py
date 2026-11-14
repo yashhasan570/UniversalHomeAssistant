@@ -8,15 +8,15 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.mystrom.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .test_init import init_integration
 
 
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_switch_action_raises_when_plug_unreachable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     service: str,
 ) -> None:
@@ -28,7 +28,7 @@ async def test_switch_action_raises_when_plug_unreachable(
     device.turn_on = AsyncMock(side_effect=MyStromConnectionError())
     device.turn_off = AsyncMock(side_effect=MyStromConnectionError())
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             "switch",
             service,

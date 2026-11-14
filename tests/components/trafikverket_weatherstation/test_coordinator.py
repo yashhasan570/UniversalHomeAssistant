@@ -15,7 +15,7 @@ from universalassistant.components.trafikverket_weatherstation.coordinator impor
     TIME_BETWEEN_UPDATES,
 )
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 ENTITY_ID = "sensor.arlanda_air_temperature"
 
@@ -29,7 +29,7 @@ ENTITY_ID = "sensor.arlanda_air_temperature"
     ],
 )
 async def test_coordinator_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,

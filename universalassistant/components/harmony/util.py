@@ -4,7 +4,7 @@ import aioharmony.exceptions as harmony_exceptions
 from aioharmony.harmonyapi import HarmonyAPI
 
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.storage import STORAGE_DIR
 
 from .const import DOMAIN
@@ -19,7 +19,7 @@ def find_unique_id_for_remote(harmony: HarmonyAPI):
     return harmony.config["global"]["timeStampHash"].split(";")[-1]
 
 
-def config_file_path(hass: UniversalAssistant, unique_id: str | None) -> str:
+def config_file_path(hass: __HAC_KEEP__, unique_id: str | None) -> str:
     """Return the path the hub configuration is written to."""
     return hass.config.path(STORAGE_DIR, DOMAIN, f"harmony_{unique_id}.conf")
 

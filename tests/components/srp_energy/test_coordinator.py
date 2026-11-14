@@ -14,7 +14,7 @@ from universalassistant.components.recorder.statistics import (
     statistics_during_period,
 )
 from universalassistant.components.srp_energy import SRPEnergyDataUpdateCoordinator
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .conftest import PHOENIX_ZONE_INFO
@@ -23,7 +23,7 @@ from .conftest import PHOENIX_ZONE_INFO
 @freeze_time("2022-08-02T12:00:00-07:00")
 async def test_coordinator_first_run(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_srp_energy: MagicMock,
     snapshot: SnapshotAssertion,
@@ -46,7 +46,7 @@ async def test_coordinator_first_run(
 
 async def test_coordinator_subsequent_run(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_srp_energy: MagicMock,
     snapshot: SnapshotAssertion,
@@ -114,7 +114,7 @@ def assert_stat(
 
 async def test_coordinator_statistics_gap(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_srp_energy: MagicMock,
 ) -> None:
@@ -196,7 +196,7 @@ async def test_coordinator_statistics_gap(
 
 async def test_coordinator_subsequent_run_no_energy_data(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_srp_energy: MagicMock,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_coordinator_subsequent_run_no_energy_data(
     await async_wait_recording_done(hass)
 
 
-async def get_stats(hass: UniversalAssistant) -> dict[str, list[StatisticsRow]]:
+async def get_stats(hass: __HAC_KEEP__) -> dict[str, list[StatisticsRow]]:
     """Helper function to get the latest statistics."""
     return await hass.async_add_executor_job(
         statistics_during_period,

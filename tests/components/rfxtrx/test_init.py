@@ -29,7 +29,7 @@ from universalassistant.config_entries import (
     ConfigSubentryDataWithId,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -50,14 +50,14 @@ def reload_cooldown() -> Generator[None]:
         yield
 
 
-async def _async_run_pending_reload(hass: UniversalAssistant) -> None:
+async def _async_run_pending_reload(hass: __HAC_KEEP__) -> None:
     """Advance time so the debounced reload runs."""
     async_fire_time_changed(hass, dt_util.utcnow() + timedelta(seconds=RELOAD_COOLDOWN))
     await hass.async_block_till_done()
 
 
 async def test_fire_event(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, rfxtrx
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, rfxtrx
 ) -> None:
     """Test fire event."""
     mock_entry = await setup_rfx_test_cfg(
@@ -115,7 +115,7 @@ async def test_fire_event(
     ]
 
 
-async def test_send(hass: UniversalAssistant, rfxtrx) -> None:
+async def test_send(hass: __HAC_KEEP__, rfxtrx) -> None:
     """Test configuration."""
     await setup_rfx_test_cfg(hass, device="/dev/null", devices={})
 
@@ -149,7 +149,7 @@ def test_get_pt2262_cmd_invalid_hex() -> None:
 
 
 async def test_ws_device_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -186,7 +186,7 @@ async def test_ws_device_remove(
 
 
 async def test_rediscover_removed_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     rfxtrx: Mock,
 ) -> None:
@@ -223,7 +223,7 @@ async def test_rediscover_removed_device(
 
 @pytest.mark.usefixtures("reload_cooldown")
 async def test_automatic_add_syncs_device_lookup_before_subentry_creation(
-    hass: UniversalAssistant, rfxtrx: Mock
+    hass: __HAC_KEEP__, rfxtrx: Mock
 ) -> None:
     """Test a packet for a device just saved by a flow doesn't duplicate-add it."""
     mock_entry = await setup_rfx_test_cfg(hass, automatic_add=True, devices={})
@@ -250,7 +250,7 @@ async def test_automatic_add_syncs_device_lookup_before_subentry_creation(
 
 @pytest.mark.usefixtures("reload_cooldown")
 async def test_automatic_add_syncs_device_lookup_after_reconfigure(
-    hass: UniversalAssistant, rfxtrx: Mock
+    hass: __HAC_KEEP__, rfxtrx: Mock
 ) -> None:
     """Test packets around a reconfigure that changes a subentry's address."""
     mock_entry = await setup_rfx_test_cfg(
@@ -289,7 +289,7 @@ async def test_automatic_add_syncs_device_lookup_after_reconfigure(
 
 @pytest.mark.usefixtures("reload_cooldown")
 async def test_device_lookup_syncs_after_remove_and_re_add(
-    hass: UniversalAssistant, rfxtrx: Mock
+    hass: __HAC_KEEP__, rfxtrx: Mock
 ) -> None:
     """Test packets use a subentry recreated for the same address before reload."""
     mock_entry = await setup_rfx_test_cfg(
@@ -324,7 +324,7 @@ async def test_device_lookup_syncs_after_remove_and_re_add(
 
 @pytest.mark.parametrize("automatic_add", [True, False])
 async def test_rediscover_additional_entity_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     rfxtrx: Mock,
     automatic_add: bool,
 ) -> None:
@@ -355,7 +355,7 @@ async def test_rediscover_additional_entity_type(
     assert hass.states.get("siren.kd101_smoke_detector_a10900_32")
 
 
-async def test_invalid_secondary_event_code(hass: UniversalAssistant, rfxtrx: Mock) -> None:
+async def test_invalid_secondary_event_code(hass: __HAC_KEEP__, rfxtrx: Mock) -> None:
     """Test a subentry with an unparsable secondary event code is skipped."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -387,7 +387,7 @@ async def test_invalid_secondary_event_code(hass: UniversalAssistant, rfxtrx: Mo
 
 
 async def test_connect(
-    rfxtrx, connect_mock, transport_mock, hass: UniversalAssistant
+    rfxtrx, connect_mock, transport_mock, hass: __HAC_KEEP__
 ) -> None:
     """Test that we attempt to connect to the device."""
 
@@ -400,7 +400,7 @@ async def test_connect(
 
 
 async def test_connect_network(
-    rfxtrx, connect_mock, transport_mock, hass: UniversalAssistant
+    rfxtrx, connect_mock, transport_mock, hass: __HAC_KEEP__
 ) -> None:
     """Test that we attempt to connect to the device."""
 
@@ -413,7 +413,7 @@ async def test_connect_network(
 
 
 async def test_connect_with_protocols(
-    rfxtrx, connect_mock, transport_mock, hass: UniversalAssistant
+    rfxtrx, connect_mock, transport_mock, hass: __HAC_KEEP__
 ) -> None:
     """Test that we attempt to set protocols."""
     config_entry = await setup_rfx_test_cfg(
@@ -429,7 +429,7 @@ async def test_connect_with_protocols(
 
 
 async def test_connect_timeout(
-    rfxtrx, connect_mock, transport_mock, hass: UniversalAssistant
+    rfxtrx, connect_mock, transport_mock, hass: __HAC_KEEP__
 ) -> None:
     """Test that we attempt to connect to the device."""
 
@@ -444,7 +444,7 @@ async def test_connect_timeout(
 
 
 async def test_connect_failed(
-    rfxtrx, connect_mock, transport_mock, hass: UniversalAssistant
+    rfxtrx, connect_mock, transport_mock, hass: __HAC_KEEP__
 ) -> None:
     """Test that we attempt to connect to the device."""
 
@@ -458,7 +458,7 @@ async def test_connect_failed(
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_reconnect(rfxtrx: Mock, hass: UniversalAssistant) -> None:
+async def test_reconnect(rfxtrx: Mock, hass: __HAC_KEEP__) -> None:
     """Test that we reconnect on connection loss."""
     config_entry = await setup_rfx_test_cfg(hass, device="/dev/ttyUSBfake")
 
@@ -475,8 +475,8 @@ async def test_reconnect(rfxtrx: Mock, hass: UniversalAssistant) -> None:
     rfxtrx.connect.call_count = 2
 
 
-async def test_shutdown_closes_connection(rfxtrx: Mock, hass: UniversalAssistant) -> None:
-    """Test the connection is closed when Universal Universal Home Assistant stops."""
+async def test_shutdown_closes_connection(rfxtrx: Mock, hass: __HAC_KEEP__) -> None:
+    """Test the connection is closed when __HA_KEEP__ stops."""
     await setup_rfx_test_cfg(hass, device="/dev/ttyUSBfake")
 
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -485,7 +485,7 @@ async def test_shutdown_closes_connection(rfxtrx: Mock, hass: UniversalAssistant
     rfxtrx.close_connection.assert_called_once()
 
 
-async def test_unload_entry_platforms_fail(rfxtrx: Mock, hass: UniversalAssistant) -> None:
+async def test_unload_entry_platforms_fail(rfxtrx: Mock, hass: __HAC_KEEP__) -> None:
     """Test unload fails if a platform fails to unload."""
     config_entry = await setup_rfx_test_cfg(hass, device="/dev/ttyUSBfake")
 
@@ -498,7 +498,7 @@ async def test_unload_entry_platforms_fail(rfxtrx: Mock, hass: UniversalAssistan
     assert result is False
 
 
-async def test_receive_event_without_device(rfxtrx: Mock, hass: UniversalAssistant) -> None:
+async def test_receive_event_without_device(rfxtrx: Mock, hass: __HAC_KEEP__) -> None:
     """Test an event without a device is ignored."""
     await setup_rfx_test_cfg(hass, devices={})
 
@@ -508,7 +508,7 @@ async def test_receive_event_without_device(rfxtrx: Mock, hass: UniversalAssista
     await hass.async_block_till_done()
 
 
-async def test_ignores_non_device_subentries(hass: UniversalAssistant) -> None:
+async def test_ignores_non_device_subentries(hass: __HAC_KEEP__) -> None:
     """Test that a subentry of a different type is ignored."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -539,7 +539,7 @@ async def test_ignores_non_device_subentries(hass: UniversalAssistant) -> None:
 
 
 async def test_updated_device_other_entry_ignored(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test removing a device from another config entry is ignored."""
     entry = await setup_rfx_test_cfg(hass, devices={"0b1100cd0213c7f230010f71": {}})
@@ -560,7 +560,7 @@ async def test_updated_device_other_entry_ignored(
 
 
 async def test_updated_device_no_identifier_ignored(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test removing a device without a rfxtrx identifier is ignored."""
     entry = await setup_rfx_test_cfg(hass, devices={"0b1100cd0213c7f230010f71": {}})
@@ -579,7 +579,7 @@ async def test_updated_device_no_identifier_ignored(
 
 
 async def test_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -746,7 +746,7 @@ async def test_migrate_entry(
 
 
 async def test_migrate_entry_skips_foreign_and_migrated_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

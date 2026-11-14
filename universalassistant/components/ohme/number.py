@@ -8,8 +8,8 @@ from ohme import ApiException, OhmeApiClient
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import PERCENTAGE, UnitOfTime
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -66,7 +66,7 @@ NUMBER_DESCRIPTION = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: OhmeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -98,7 +98,7 @@ class OhmeNumber(OhmeEntity, NumberEntity):
         try:
             await self.entity_description.set_fn(self.coordinator.client, value)
         except ApiException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_key="api_failed", translation_domain=DOMAIN
             ) from e
         await self.coordinator.async_request_refresh()

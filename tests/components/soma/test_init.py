@@ -10,7 +10,7 @@ from requests import RequestException
 
 from universalassistant.components.soma import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -21,7 +21,7 @@ SUCCESS_RESPONSE = {"result": "success", "shades": []}
 
 
 async def test_import_yaml(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a YAML configuration is imported and raises a deprecation issue."""
     with patch.object(SomaApi, "list_devices", return_value=SUCCESS_RESPONSE):
@@ -43,7 +43,7 @@ async def test_import_yaml(
 
 
 async def test_import_yaml_already_setup(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a YAML configuration with an existing entry raises a deprecation issue."""
     MockConfigEntry(
@@ -75,7 +75,7 @@ async def test_import_yaml_already_setup(
     ],
 )
 async def test_import_yaml_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     patch_kwargs: dict[str, Any],
     reason: str,

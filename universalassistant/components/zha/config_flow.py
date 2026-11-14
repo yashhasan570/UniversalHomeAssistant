@@ -31,9 +31,9 @@ from universalassistant.config_entries import (
     OptionsFlow,
 )
 from universalassistant.const import CONF_NAME
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import (
     FileSelector,
     FileSelectorConfig,
@@ -140,7 +140,7 @@ class BaseZhaFlow(ConfigEntryBaseFlow):
 
     _flow_strategy: ZigbeeFlowStrategy | None = None
     _overwrite_ieee_during_restore: bool = False
-    _hass: UniversalAssistant
+    _hass: __HAC_KEEP__
 
     def __init__(self) -> None:
         """Initialize flow instance."""
@@ -161,12 +161,12 @@ class BaseZhaFlow(ConfigEntryBaseFlow):
     # because the explicit-override check is not enabled yet.
     @property  # type: ignore[explicit-override, unused-ignore]
     @override
-    def hass(self) -> UniversalAssistant:
+    def hass(self) -> __HAC_KEEP__:
         """Return hass."""
         return self._hass
 
     @hass.setter
-    def hass(self, hass: UniversalAssistant) -> None:
+    def hass(self, hass: __HAC_KEEP__) -> None:
         """Set hass."""
         self._hass = hass
         self._radio_mgr.hass = hass
@@ -455,7 +455,7 @@ class BaseZhaFlow(ConfigEntryBaseFlow):
 
         try:
             await self._reset_old_radio_task
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             _LOGGER.exception("Failed to reset old radio during migration")
             # Old adapter not found or cannot connect, show prompt to plug back in
             return self.async_show_progress_done(next_step_id="plug_in_old_radio")
@@ -708,7 +708,7 @@ class BaseZhaFlow(ConfigEntryBaseFlow):
             return self.async_show_progress_done(
                 next_step_id="pre_confirm_ezsp_ieee_overwrite"
             )
-        except UniversalAssistantError:
+        except __HAC_KEEP__Error:
             _LOGGER.exception("Failed to restore network backup to new radio")
             # User unplugged the new adapter, allow retry
             return self.async_show_progress_done(next_step_id="pre_plug_in_new_radio")

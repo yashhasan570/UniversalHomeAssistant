@@ -2,7 +2,7 @@
 
 from bsblan import BSBLAN, BSBLANError, EntityInfo, StaticState
 
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.util import dt as dt_util
 
 from .const import DOMAIN, Setpoint
@@ -81,16 +81,16 @@ def setpoint_to_change(
 
 
 async def async_sync_device_time(client: BSBLAN, device_name: str) -> None:
-    """Synchronize BSB-LAN device time with Universal Universal Home Assistant.
+    """Synchronize BSB-LAN device time with __HA_KEEP__.
 
-    Only updates if device time differs from Universal Universal Home Assistant time.
+    Only updates if device time differs from __HA_KEEP__ time.
 
     Args:
         client: The BSB-LAN client instance.
         device_name: The name of the device (used in error messages).
 
     Raises:
-        UniversalAssistantError: If the time sync operation fails.
+        __HAC_KEEP__Error: If the time sync operation fails.
 
     """
     try:
@@ -101,7 +101,7 @@ async def async_sync_device_time(client: BSBLAN, device_name: str) -> None:
         if device_time.time.value != current_time.strftime("%d.%m.%Y %H:%M:%S"):
             await client.set_time(current_time)
     except BSBLANError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="sync_time_failed",
             translation_placeholders={

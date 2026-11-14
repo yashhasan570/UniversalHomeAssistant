@@ -31,7 +31,7 @@ from universalassistant.config_entries import (
     ConfigSubentryData,
 )
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -48,7 +48,7 @@ def _suggested(result: ConfigFlowResult, key: str) -> Any:
 
 
 async def test_user_flow_fixed_location(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the full user flow with fixed coordinates and fixed angles."""
     result = await hass.config_entries.flow.async_init(
@@ -103,8 +103,8 @@ async def test_user_flow_fixed_location(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow_home_location(hass: UniversalAssistant) -> None:
-    """Test following the Universal Universal Home Assistant location stores no coordinates."""
+async def test_user_flow_home_location(hass: __HAC_KEEP__) -> None:
+    """Test following the __HA_KEEP__ location stores no coordinates."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
     )
@@ -174,7 +174,7 @@ async def test_user_flow_home_location(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_plane_fields_follow_sources(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sources: dict[str, str],
     plane_data: dict[str, Any],
     title: str,
@@ -203,7 +203,7 @@ async def test_user_flow_plane_fields_follow_sources(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_switch_to_fixed_location(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test switching an existing entry from home tracking to fixed coordinates."""
@@ -241,7 +241,7 @@ async def test_reconfigure_flow_switch_to_fixed_location(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_suggests_stored_coordinates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reconfigure forms offer the entry's current location."""
@@ -265,7 +265,7 @@ async def test_reconfigure_flow_suggests_stored_coordinates(
 
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_reconfigure_flow_reloads_entry_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_forecast_solar: MagicMock,
 ) -> None:
@@ -304,7 +304,7 @@ async def test_reconfigure_flow_reloads_entry_once(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_invalid_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test options config flow when API key is invalid."""
@@ -352,7 +352,7 @@ async def test_options_flow_invalid_api(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test config flow options."""
@@ -387,7 +387,7 @@ async def test_options_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_without_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test config flow options."""
@@ -421,7 +421,7 @@ async def test_options_flow_without_key(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_required_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test config flow options requires API key when multiple planes are present."""
     mock_config_entry = MockConfigEntry(
@@ -520,7 +520,7 @@ async def test_options_flow_required_api_key(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_flow_add_plane(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     states: dict[str, str],
@@ -573,7 +573,7 @@ async def test_subentry_flow_add_plane(
 
 @pytest.mark.usefixtures("mock_forecast_solar")
 async def test_subentry_flow_reconfigure_plane(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguring a plane from a fixed azimuth to an azimuth sensor."""
@@ -633,7 +633,7 @@ async def test_subentry_flow_reconfigure_plane(
 @pytest.mark.parametrize("api_key_present", [False])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_flow_no_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that adding more than one plane without API key is not allowed."""
@@ -652,7 +652,7 @@ async def test_subentry_flow_no_api_key(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_flow_max_planes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that adding more than 4 planes is not allowed."""
@@ -701,7 +701,7 @@ async def test_subentry_flow_max_planes(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_flow_add_plane_rechecks_limits_on_submit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     removed_options: set[str],
     added_planes: int,
@@ -770,7 +770,7 @@ async def test_subentry_flow_add_plane_rechecks_limits_on_submit(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_flow_reconfigure_plane_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     title: str,
     reconfigured_title: str,
@@ -826,7 +826,7 @@ async def test_subentry_flow_reconfigure_plane_not_loaded(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_flow_rejects_unusable_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     state: str,
     attributes: dict[str, Any],
@@ -879,7 +879,7 @@ async def test_subentry_flow_rejects_unusable_sensor(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_flow_resolves_registry_uuid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     missing_sensor: str,
@@ -928,7 +928,7 @@ async def test_subentry_flow_resolves_registry_uuid(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_flow_refuses_non_sensor_uuid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -978,7 +978,7 @@ async def test_subentry_flow_refuses_non_sensor_uuid(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_flow_reconfigure_rejects_new_unusable_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure refuses a newly picked sensor that can't be read as an angle."""
@@ -1031,7 +1031,7 @@ async def test_subentry_flow_reconfigure_rejects_new_unusable_sensor(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_subentry_flow_reconfigure_keeps_unreadable_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     states: dict[str, str],
 ) -> None:

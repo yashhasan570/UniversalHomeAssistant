@@ -14,7 +14,7 @@ from universalassistant.components.switchbot.services import (
     async_setup_services,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
@@ -33,7 +33,7 @@ from . import (
     ],
 )
 async def test_add_password_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     ble_service_info: BluetoothServiceInfoBleak,
     sensor_type: str,
@@ -72,7 +72,7 @@ async def test_add_password_service(
 
 
 async def test_device_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test the add_password service with non-existent device."""
@@ -105,7 +105,7 @@ async def test_device_not_found(
 
 
 async def test_device_not_belonging(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_device_not_belonging(
 
 
 async def test_device_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_device_entry_not_loaded(
 
 
 async def test_service_unsupported_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -232,7 +232,7 @@ async def test_service_unsupported_device(
 
 
 async def test_device_without_config_entry_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test service errors when device has no config entry id."""

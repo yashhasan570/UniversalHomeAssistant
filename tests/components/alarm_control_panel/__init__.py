@@ -2,11 +2,11 @@
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def help_async_setup_entry_init(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Set up test config entry."""
     await hass.config_entries.async_forward_entry_setups(
@@ -15,7 +15,7 @@ async def help_async_setup_entry_init(
 
 
 async def help_async_unload_entry(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Unload test config emntry."""
     await hass.config_entries.async_unload_platforms_or_raise(

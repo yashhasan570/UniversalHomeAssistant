@@ -4,7 +4,7 @@ from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .bridge import DynaliteConfigEntry
@@ -12,7 +12,7 @@ from .entity import DynaliteBase, async_setup_entry_base
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DynaliteConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -23,7 +23,7 @@ async def async_setup_entry(
 
 
 class DynaliteSwitch(DynaliteBase, SwitchEntity):
-    """Representation of a Dynalite Channel as a Universal Universal Home Assistant Switch."""
+    """Representation of a Dynalite Channel as a __HA_KEEP__ Switch."""
 
     @property
     @override

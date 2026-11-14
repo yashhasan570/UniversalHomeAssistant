@@ -5,7 +5,7 @@ import probatio
 
 from universalassistant import config_entries
 from universalassistant.const import CONF_EXCLUDE, CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -47,7 +47,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Register the iZone component config."""
     async_setup_services(hass)
     # Pre-2026.8 HomeKit discovery ignores; they never migrate and match nothing.
@@ -68,7 +68,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IZoneConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IZoneConfigEntry) -> None:
     """Set up from a config entry."""
     try:
         discovery = await async_ensure_discovery(hass)
@@ -157,7 +157,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IZoneConfigEntry) -
     coordinator.async_set_updated_data(controller)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: IZoneConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: IZoneConfigEntry) -> None:
     """Migrate old config entry schema to the current version.
 
     Discovery for legacy ``unique_id=DOMAIN`` / missing ``CONF_HOST`` runs here so
@@ -248,7 +248,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: IZoneConfigEntry)
         _async_maybe_create_exclude_issue(hass)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IZoneConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IZoneConfigEntry) -> None:
     """Unload the config entry and release the controller."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     coordinator = entry.runtime_data
@@ -259,7 +259,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: IZoneConfigEntry) 
 
 
 @callback
-def _async_maybe_create_exclude_issue(hass: UniversalAssistant) -> None:
+def _async_maybe_create_exclude_issue(hass: __HAC_KEEP__) -> None:
     """Flag a YAML ``exclude`` once no legacy entry still needs it to migrate."""
     if not yaml_excluded_uids(hass) or any(
         entry.unique_id == DOMAIN

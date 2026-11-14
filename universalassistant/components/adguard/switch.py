@@ -7,8 +7,8 @@ from typing import Any, override
 from adguardhome import AdGuardHome, AdGuardHomeError
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -78,7 +78,7 @@ SWITCHES: tuple[AdGuardHomeSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AdGuardConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -112,7 +112,7 @@ class AdGuardHomeSwitch(AdGuardHomeEntity[AdGuardHomeStateCoordinator], SwitchEn
         try:
             await self.entity_description.turn_off_fn(self.coordinator.client)()
         except AdGuardHomeError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="error_while_turn_off",
             ) from err
@@ -125,7 +125,7 @@ class AdGuardHomeSwitch(AdGuardHomeEntity[AdGuardHomeStateCoordinator], SwitchEn
         try:
             await self.entity_description.turn_on_fn(self.coordinator.client)()
         except AdGuardHomeError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="error_while_turn_on",
             ) from err

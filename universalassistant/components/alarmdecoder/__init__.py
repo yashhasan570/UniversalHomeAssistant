@@ -17,7 +17,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import dispatcher_send
 from universalassistant.helpers.event import async_call_later
@@ -59,14 +59,14 @@ class AlarmDecoderData:
     restart: bool
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: AlarmDecoderConfigEntry
+    hass: __HAC_KEEP__, entry: AlarmDecoderConfigEntry
 ) -> None:
     """Set up AlarmDecoder config flow."""
     undo_listener = entry.add_update_listener(_update_listener)
@@ -153,7 +153,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: AlarmDecoderConfigEntry
+    hass: __HAC_KEEP__, entry: AlarmDecoderConfigEntry
 ) -> None:
     """Unload a AlarmDecoder entry."""
     data = entry.runtime_data
@@ -166,7 +166,7 @@ async def async_unload_entry(
     await hass.async_add_executor_job(data.client.close)
 
 
-async def _update_listener(hass: UniversalAssistant, entry: AlarmDecoderConfigEntry) -> None:
+async def _update_listener(hass: __HAC_KEEP__, entry: AlarmDecoderConfigEntry) -> None:
     """Handle options update."""
     _LOGGER.debug("AlarmDecoder options updated: %s", entry.as_dict()["options"])
     await hass.config_entries.async_reload(entry.entry_id)

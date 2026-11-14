@@ -12,7 +12,7 @@ from universalassistant.components.nintendo_parental_controls.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import ACCOUNT_ID, API_TOKEN, LOGIN_URL
@@ -20,7 +20,7 @@ from .const import ACCOUNT_ID, API_TOKEN, LOGIN_URL
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nintendo_authenticator: AsyncMock,
     mock_nintendo_api: AsyncMock,
 ) -> None:
@@ -45,7 +45,7 @@ async def test_full_flow(
 
 
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_authenticator: AsyncMock,
     mock_nintendo_api: AsyncMock,
@@ -68,7 +68,7 @@ async def test_already_configured(
 
 
 async def test_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nintendo_authenticator: AsyncMock,
     mock_nintendo_api: AsyncMock,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_invalid_auth(
 
 
 async def test_missing_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nintendo_authenticator: AsyncMock,
     mock_nintendo_api: AsyncMock,
 ) -> None:
@@ -136,7 +136,7 @@ async def test_missing_devices(
 
 
 async def test_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nintendo_authenticator: AsyncMock,
     mock_nintendo_api: AsyncMock,
 ) -> None:
@@ -177,7 +177,7 @@ async def test_cannot_connect(
 
 
 async def test_reauthentication_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_authenticator: AsyncMock,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_reauthentication_success(
 
 
 async def test_reauthentication_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nintendo_authenticator: AsyncMock,
 ) -> None:

@@ -6,7 +6,7 @@ from pathlib import Path
 from tarfile import TarError
 from typing import Any, override
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.hassio import is_hassio
 
 from .agent import BackupAgent, LocalBackupAgent, OnProgressCallback
@@ -16,7 +16,7 @@ from .util import read_backup, suggested_filename
 
 
 async def async_get_backup_agents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     **kwargs: Any,
 ) -> list[BackupAgent]:
     """Return the local backup agent."""
@@ -32,7 +32,7 @@ class CoreLocalBackupAgent(LocalBackupAgent):
     name = "local"
     unique_id = "local"
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the backup agent."""
         super().__init__()
         self._hass = hass

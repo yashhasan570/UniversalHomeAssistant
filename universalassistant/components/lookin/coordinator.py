@@ -6,7 +6,7 @@ import logging
 import time
 from typing import TYPE_CHECKING, override
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import NEVER_TIME, POLLING_FALLBACK_SECONDS
@@ -49,7 +49,7 @@ class LookinDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LookinConfigEntry,
         push_coordinator: LookinPushCoordinator,
         name: str,

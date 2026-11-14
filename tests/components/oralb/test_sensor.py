@@ -19,7 +19,7 @@ from universalassistant.components.bluetooth import (
 from universalassistant.components.oralb.const import DOMAIN
 from universalassistant.components.sensor import ATTR_OPTIONS
 from universalassistant.const import ATTR_ASSUMED_STATE, ATTR_FRIENDLY_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import (
@@ -33,7 +33,7 @@ from . import (
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_sensors(hass: UniversalAssistant) -> None:
+async def test_sensors(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors."""
     start_monotonic = time.monotonic()
     entry = MockConfigEntry(
@@ -84,7 +84,7 @@ async def test_sensors(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_sensors_io_series_4(hass: UniversalAssistant) -> None:
+async def test_sensors_io_series_4(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors with an io series 4."""
     start_monotonic = time.monotonic()
 
@@ -145,7 +145,7 @@ async def test_sensors_io_series_4(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_sector_sensor_six_sectors(hass: UniversalAssistant) -> None:
+async def test_sector_sensor_six_sectors(hass: __HAC_KEEP__) -> None:
     """Test the sector sensor while brushing with a six sector routine."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -189,7 +189,7 @@ async def test_sector_sensor_six_sectors(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_sensors_post_brushing_smart_adapt(hass: UniversalAssistant) -> None:
+async def test_sensors_post_brushing_smart_adapt(hass: __HAC_KEEP__) -> None:
     """Test the post-brushing statistics state and the Smart Adapt mode."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -215,7 +215,7 @@ async def test_sensors_post_brushing_smart_adapt(hass: UniversalAssistant) -> No
     await hass.async_block_till_done()
 
 
-async def test_sensors_battery(hass: UniversalAssistant) -> None:
+async def test_sensors_battery(hass: __HAC_KEEP__) -> None:
     """Test receiving battery percentage."""
     entry = MockConfigEntry(
         domain=DOMAIN,

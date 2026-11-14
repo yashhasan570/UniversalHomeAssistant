@@ -13,7 +13,7 @@ from universalassistant.components.bluetooth.passive_update_processor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
@@ -30,7 +30,7 @@ def _service_info_to_adv(
     return Aranet4Advertisement(service_info.device, service_info.advertisement)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AranetConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AranetConfigEntry) -> None:
     """Set up Aranet from a config entry."""
 
     address = entry.unique_id
@@ -48,6 +48,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AranetConfigEntry) 
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AranetConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AranetConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -2,7 +2,7 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -14,7 +14,7 @@ from tests.helpers.template.helpers import assert_result_info, render_to_info
 
 
 async def test_floors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
 ) -> None:
     """Test floors function."""
@@ -38,7 +38,7 @@ async def test_floors(
 
 
 async def test_floor_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -110,7 +110,7 @@ async def test_floor_id(
 
 
 async def test_floor_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
@@ -182,7 +182,7 @@ async def test_floor_name(
 
 
 async def test_floor_areas(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
     area_registry: ar.AreaRegistry,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_floor_areas(
 
 
 async def test_floor_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     floor_registry: fr.FloorRegistry,
     area_registry: ar.AreaRegistry,
     entity_registry: er.EntityRegistry,

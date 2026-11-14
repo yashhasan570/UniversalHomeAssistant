@@ -17,7 +17,7 @@ import requests.exceptions
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN, BrowseError
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_URL, CONF_VERIFY_SSL, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -87,7 +87,7 @@ async def async_browse_media(hass, media_content_type, media_content_id, platfor
     )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Plex integration."""
     gdm = GDM()
 
@@ -108,7 +108,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PlexConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PlexConfigEntry) -> None:
     """Set up Plex from a config entry."""
     server_config = entry.data[PLEX_SERVER_CONFIG]
 
@@ -255,7 +255,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PlexConfigEntry) ->
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: PlexConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: PlexConfigEntry) -> None:
     """Unload a config entry."""
     entry.runtime_data.websocket.close()
 
@@ -265,7 +265,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: PlexConfigEntry) -
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_options_updated(hass: UniversalAssistant, entry: PlexConfigEntry) -> None:
+async def async_options_updated(hass: __HAC_KEEP__, entry: PlexConfigEntry) -> None:
     """Triggered by config entry options updates."""
     # Guard incomplete setup during reauth flows
     if entry.state is ConfigEntryState.LOADED:

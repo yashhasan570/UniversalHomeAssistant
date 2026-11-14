@@ -35,8 +35,8 @@ from universalassistant.components.backup.manager import (
     ManagerBackup,
     NewBackup,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import issue_registry as ir
 
 from .common import (
@@ -144,7 +144,7 @@ def mock_get_backups() -> Generator[AsyncMock]:
     ],
 )
 async def test_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     remote_agents: list[str],
     remote_backups: dict[str, list[AgentBackup]],
@@ -169,7 +169,7 @@ async def test_info(
     "side_effect",
     [
         Exception("Oops"),
-        UniversalAssistantError("Boom!"),
+        __HAC_KEEP__Error("Boom!"),
         BackupAgentUnreachableError,
         BackupAgentError(
             translation_domain=DOMAIN, translation_key="agent_operation_failed"
@@ -183,7 +183,7 @@ async def test_info(
     ],
 )
 async def test_info_with_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     side_effect: Exception,
     snapshot: SnapshotAssertion,
@@ -221,7 +221,7 @@ async def test_info_with_errors(
     ],
 )
 async def test_details(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     remote_agents: list[str],
     backups: dict[str, list[AgentBackup]],
@@ -246,7 +246,7 @@ async def test_details(
     "side_effect",
     [
         Exception("Oops"),
-        UniversalAssistantError("Boom!"),
+        __HAC_KEEP__Error("Boom!"),
         BackupAgentUnreachableError,
         BackupAgentError(
             translation_domain=DOMAIN, translation_key="agent_operation_failed"
@@ -254,7 +254,7 @@ async def test_details(
     ],
 )
 async def test_details_with_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     side_effect: Exception,
     snapshot: SnapshotAssertion,
@@ -295,7 +295,7 @@ async def test_details_with_errors(
     ],
 )
 async def test_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     remote_agents: list[str],
     backups: dict[str, list[AgentBackup]],
@@ -346,7 +346,7 @@ async def test_delete(
     "side_effect",
     [
         None,
-        UniversalAssistantError("Boom!"),
+        __HAC_KEEP__Error("Boom!"),
         BackupAgentUnreachableError,
         BackupAgentError(
             translation_domain=DOMAIN, translation_key="agent_operation_failed"
@@ -354,7 +354,7 @@ async def test_delete(
     ],
 )
 async def test_delete_with_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     side_effect: Exception,
@@ -390,7 +390,7 @@ async def test_delete_with_errors(
 
 
 async def test_agent_delete_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -423,7 +423,7 @@ async def test_agent_delete_backup(
     ],
 )
 async def test_generate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     data: dict[str, Any] | None,
     freezer: FrozenDateTimeFactory,
@@ -450,7 +450,7 @@ async def test_generate(
     [
         (
             {"include_universalassistant": False},
-            "Universal Universal Home Assistant must be included in backup",
+            "__HA_KEEP__ must be included in backup",
         ),
         (
             {"include_addons": ["blah"]},
@@ -467,7 +467,7 @@ async def test_generate(
     ],
 )
 async def test_generate_wrong_parameters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     parameters: dict[str, Any],
     expected_error: str,
@@ -509,7 +509,7 @@ async def test_generate_wrong_parameters(
     ],
 )
 async def test_generate_calls_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -644,7 +644,7 @@ async def test_generate_calls_create(
     ],
 )
 async def test_generate_with_default_settings_calls_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
     freezer: FrozenDateTimeFactory,
@@ -728,7 +728,7 @@ async def test_generate_with_default_settings_calls_create(
     ],
 )
 async def test_restore_local_agent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     backups: dict[str, list[AgentBackup]],
     snapshot: SnapshotAssertion,
@@ -764,7 +764,7 @@ async def test_restore_local_agent(
     ],
 )
 async def test_restore_remote_agent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     remote_agents: list[str],
     backups: dict[str, list[AgentBackup]],
@@ -797,7 +797,7 @@ async def test_restore_remote_agent(
 
 
 async def test_restore_wrong_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -842,7 +842,7 @@ async def test_restore_wrong_password(
 )
 @pytest.mark.usefixtures("supervisor_client")
 async def test_backup_end(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
     sync_access_token_proxy: str,
@@ -876,7 +876,7 @@ async def test_backup_end(
 )
 @pytest.mark.usefixtures("supervisor_client")
 async def test_backup_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
     sync_access_token_proxy: str,
@@ -901,13 +901,13 @@ async def test_backup_start(
     "exception",
     [
         TimeoutError(),
-        UniversalAssistantError("Boom"),
+        __HAC_KEEP__Error("Boom"),
         Exception("Boom"),
     ],
 )
 @pytest.mark.usefixtures("supervisor_client")
 async def test_backup_end_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
     hass_supervisor_access_token: str,
@@ -931,13 +931,13 @@ async def test_backup_end_exception(
     "exception",
     [
         TimeoutError(),
-        UniversalAssistantError("Boom"),
+        __HAC_KEEP__Error("Boom"),
         Exception("Boom"),
     ],
 )
 @pytest.mark.usefixtures("supervisor_client")
 async def test_backup_start_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
     hass_supervisor_access_token: str,
@@ -958,7 +958,7 @@ async def test_backup_start_exception(
 
 
 async def test_agents_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -1323,7 +1323,7 @@ async def test_agents_info(
 @pytest.mark.usefixtures("supervisor_client")
 @patch("universalassistant.components.backup.config.random.randint", Mock(return_value=600))
 async def test_config_load_config_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -1501,7 +1501,7 @@ async def test_config_load_config_info(
 )
 @patch("universalassistant.components.backup.config.random.randint", Mock(return_value=600))
 async def test_config_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -1605,7 +1605,7 @@ async def test_config_update(
     ],
 )
 async def test_config_update_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
     command: dict[str, Any],
@@ -1909,7 +1909,7 @@ async def test_config_update_errors(
 )
 @patch("universalassistant.components.backup.config.random.randint", Mock(return_value=600))
 async def test_config_schedule_logic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     hass_storage: dict[str, Any],
@@ -2030,7 +2030,7 @@ async def test_config_schedule_logic(
     ],
 )
 async def test_config_schedule_logic_dst_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     hass_storage: dict[str, Any],
@@ -2917,7 +2917,7 @@ async def test_config_schedule_logic_dst_change(
 )
 @patch("universalassistant.components.backup.config.BACKUP_START_TIME_JITTER", 0)
 async def test_config_retention_copies_logic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     hass_storage: dict[str, Any],
@@ -3200,7 +3200,7 @@ async def test_config_retention_copies_logic(
     ],
 )
 async def test_config_retention_copies_logic_manual_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     hass_storage: dict[str, Any],
@@ -3872,7 +3872,7 @@ async def test_config_retention_copies_logic_manual_backup(
     ],
 )
 async def test_config_retention_days_logic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     hass_storage: dict[str, Any],
@@ -3951,7 +3951,7 @@ async def test_config_retention_days_logic(
 
 
 async def test_configured_agents_unavailable_repair(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     issue_registry: ir.IssueRegistry,
     hass_storage: dict[str, Any],
@@ -4130,7 +4130,7 @@ async def test_configured_agents_unavailable_repair(
 
 
 async def test_configured_agents_unavailable_repair_keeps_ignore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -4197,7 +4197,7 @@ async def test_configured_agents_unavailable_repair_keeps_ignore(
 
 
 async def test_subscribe_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -4235,7 +4235,7 @@ async def test_subscribe_event(
 )
 @pytest.mark.usefixtures("mock_backups")
 async def test_can_decrypt_on_download(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
     agent_id: str,
@@ -4266,7 +4266,7 @@ async def test_can_decrypt_on_download(
     ],
 )
 async def test_can_decrypt_on_download_closes_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     password: str,
     success: bool,
@@ -4305,7 +4305,7 @@ async def test_can_decrypt_on_download_closes_stream(
 )
 @pytest.mark.usefixtures("mock_backups")
 async def test_can_decrypt_on_download_with_agent_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
     error: Exception,

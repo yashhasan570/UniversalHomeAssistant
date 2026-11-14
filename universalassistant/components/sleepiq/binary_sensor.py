@@ -8,7 +8,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ICON_EMPTY, ICON_OCCUPIED, IS_IN_BED
@@ -17,7 +17,7 @@ from .entity import SleepIQSleeperEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SleepIQConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

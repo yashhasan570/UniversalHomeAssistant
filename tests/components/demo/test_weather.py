@@ -12,7 +12,7 @@ from universalassistant.components import weather
 from universalassistant.components.demo.weather import WEATHER_UPDATE_INTERVAL
 from universalassistant.components.weather import WeatherEntityStateAttribute
 from universalassistant.const import ATTR_ATTRIBUTION, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.unit_system import METRIC_SYSTEM
 
@@ -27,7 +27,7 @@ async def weather_only() -> None:
         yield
 
 
-async def test_attributes(hass: UniversalAssistant, weather_only) -> None:
+async def test_attributes(hass: __HAC_KEEP__, weather_only) -> None:
     """Test weather attributes."""
     assert await async_setup_component(
         hass, weather.DOMAIN, {"weather": {"platform": "demo"}}
@@ -47,7 +47,7 @@ async def test_attributes(hass: UniversalAssistant, weather_only) -> None:
     assert data.get(WeatherEntityStateAttribute.WIND_SPEED) == 1.8  # 0.5 m/s -> km/h
     assert data.get(WeatherEntityStateAttribute.WIND_BEARING) is None
     assert data.get(WeatherEntityStateAttribute.OZONE) is None
-    assert data.get(ATTR_ATTRIBUTION) == "Powered by Universal Universal Home Assistant"
+    assert data.get(ATTR_ATTRIBUTION) == "Powered by __HA_KEEP__"
 
 
 TEST_TIME_ADVANCE_INTERVAL = dt.timedelta(seconds=5 + 1)
@@ -116,7 +116,7 @@ TEST_TIME_ADVANCE_INTERVAL = dt.timedelta(seconds=5 + 1)
     ],
 )
 async def test_forecast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     weather_only: None,

@@ -7,8 +7,8 @@ from typing import Any, override
 from directv import DIRECTV, DIRECTVError
 
 from universalassistant.components.remote import ATTR_NUM_REPEATS, RemoteEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import DirecTVConfigEntry
@@ -19,7 +19,7 @@ SCAN_INTERVAL = timedelta(minutes=2)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DirecTVConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -47,7 +47,7 @@ class DIRECTVRemote(DIRECTVEntity, RemoteEntity):
     def __init__(
         self,
         *,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         dtv: DIRECTV,
         entry: DirecTVConfigEntry,
         name: str,
@@ -105,7 +105,7 @@ class DIRECTVRemote(DIRECTVEntity, RemoteEntity):
                 try:
                     await self.dtv.remote(single_command, self._address)
                 except DIRECTVError as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="send_command_failed",
                         translation_placeholders={

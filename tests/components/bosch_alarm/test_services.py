@@ -15,8 +15,8 @@ from universalassistant.components.bosch_alarm.services import (
     BoschAlarmServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -31,7 +31,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def test_set_date_time_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -51,7 +51,7 @@ async def test_set_date_time_service(
 
 
 async def test_set_date_time_service_fails_bad_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -73,7 +73,7 @@ async def test_set_date_time_service_fails_bad_entity(
 
 
 async def test_set_date_time_service_fails_bad_params(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -96,7 +96,7 @@ async def test_set_date_time_service_fails_bad_params(
 
 
 async def test_set_date_time_service_fails_bad_year_before(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -119,7 +119,7 @@ async def test_set_date_time_service_fails_bad_year_before(
 
 
 async def test_set_date_time_service_fails_bad_year_after(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -143,7 +143,7 @@ async def test_set_date_time_service_fails_bad_year_after(
 
 
 async def test_set_date_time_service_fails_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -152,7 +152,7 @@ async def test_set_date_time_service_fails_connection_error(
     await setup_integration(hass, mock_config_entry)
     mock_panel.set_panel_date.side_effect = asyncio.InvalidStateError()
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f'Could not connect to "{mock_config_entry.title}"',
     ):
         await hass.services.async_call(
@@ -167,7 +167,7 @@ async def test_set_date_time_service_fails_connection_error(
 
 
 async def test_set_date_time_service_fails_unloaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,

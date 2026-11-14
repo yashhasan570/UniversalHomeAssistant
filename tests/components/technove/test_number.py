@@ -14,8 +14,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_with_selected_platforms
@@ -23,7 +23,7 @@ from . import setup_with_selected_platforms
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_technove")
 async def test_numbers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -45,7 +45,7 @@ async def test_numbers(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_number_expected_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_technove: MagicMock,
     entity_id: str,
     method: str,
@@ -85,7 +85,7 @@ async def test_number_expected_value(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_number_out_of_bound(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     value: float,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_number_out_of_bound(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_max_current_sharing_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_technove: MagicMock,
 ) -> None:
     """Test failure to set the max current when the station is in sharing mode."""
@@ -149,7 +149,7 @@ async def test_set_max_current_sharing_mode(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_invalid_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_technove: MagicMock,
     entity_id: str,
     method: str,
@@ -159,7 +159,7 @@ async def test_invalid_response(
     method_mock = getattr(mock_technove, method)
 
     method_mock.side_effect = TechnoVEError
-    with pytest.raises(UniversalAssistantError, match="Invalid response from TechnoVE API"):
+    with pytest.raises(__HAC_KEEP__Error, match="Invalid response from TechnoVE API"):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -186,7 +186,7 @@ async def test_invalid_response(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_technove: MagicMock,
     entity_id: str,
     method: str,
@@ -197,7 +197,7 @@ async def test_connection_error(
 
     method_mock.side_effect = TechnoVEConnectionError
     with pytest.raises(
-        UniversalAssistantError, match="Error communicating with TechnoVE API"
+        __HAC_KEEP__Error, match="Error communicating with TechnoVE API"
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,

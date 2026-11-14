@@ -17,14 +17,14 @@ from universalassistant.const import (
     HTTP_DIGEST_AUTHENTICATION,
     SERVICE_RELOAD,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.setup import async_setup_component
 
 from .conftest import TEST_URL, ComponentSetup
 
 
-async def test_reload(hass: UniversalAssistant, setup_component: ComponentSetup) -> None:
+async def test_reload(hass: __HAC_KEEP__, setup_component: ComponentSetup) -> None:
     """Verify we can reload rest_command integration."""
     await setup_component()
 
@@ -48,7 +48,7 @@ async def test_reload(hass: UniversalAssistant, setup_component: ComponentSetup)
 
 
 async def test_reload_without_domain_config(
-    hass: UniversalAssistant, setup_component: ComponentSetup
+    hass: __HAC_KEEP__, setup_component: ComponentSetup
 ) -> None:
     """Verify reload removes all commands when the domain key is gone."""
     await setup_component()
@@ -67,7 +67,7 @@ async def test_reload_without_domain_config(
 
 
 async def test_setup_tests(
-    hass: UniversalAssistant, setup_component: ComponentSetup
+    hass: __HAC_KEEP__, setup_component: ComponentSetup
 ) -> None:
     """Set up test config and test it."""
     await setup_component()
@@ -79,7 +79,7 @@ async def test_setup_tests(
 
 
 async def test_rest_command_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_rest_command_timeout(
 
     aioclient_mock.get(TEST_URL, exc=TimeoutError())
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(DOMAIN, "get_test", {}, blocking=True)
     assert str(exc.value) == 'Timeout when calling resource "https://example.com/"'
 
@@ -96,7 +96,7 @@ async def test_rest_command_timeout(
 
 
 async def test_rest_command_aiohttp_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_rest_command_aiohttp_error(
 
     aioclient_mock.get(TEST_URL, exc=aiohttp.ClientError())
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(DOMAIN, "get_test", {}, blocking=True)
 
     assert (
@@ -116,7 +116,7 @@ async def test_rest_command_aiohttp_error(
 
 
 async def test_rest_command_http_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_rest_command_http_error(
 
 
 async def test_rest_command_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_rest_command_auth(
     assert CIMultiDict(headers).getall("Authorization") == [f"Basic {encoded}"]
 
 
-async def test_rest_command_auth_username_with_colon(hass: UniversalAssistant) -> None:
+async def test_rest_command_auth_username_with_colon(hass: __HAC_KEEP__) -> None:
     """Call a rest command configured with a colon in the username."""
     config = {
         "auth_test": {
@@ -165,7 +165,7 @@ async def test_rest_command_auth_username_with_colon(hass: UniversalAssistant) -
 
 
 async def test_rest_command_auth_outside_latin_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_rest_command_auth_outside_latin_1(
     ],
 )
 async def test_rest_command_configured_authorization_header_wins(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     header_name: str,
@@ -225,7 +225,7 @@ async def test_rest_command_configured_authorization_header_wins(
 
 @pytest.mark.usefixtures("aioclient_mock")
 async def test_rest_command_digest_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
 ) -> None:
     """Call a rest command with HTTP digest authentication."""
@@ -273,7 +273,7 @@ async def test_rest_command_digest_auth(
 
 
 async def test_rest_command_form_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -299,7 +299,7 @@ async def test_rest_command_form_data(
     ],
 )
 async def test_rest_command_methods(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     method: str,
@@ -315,7 +315,7 @@ async def test_rest_command_methods(
 
 
 async def test_rest_command_headers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -421,7 +421,7 @@ async def test_rest_command_headers(
 
 
 async def test_rest_command_get_response_plaintext(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -443,7 +443,7 @@ async def test_rest_command_get_response_plaintext(
 
 
 async def test_rest_command_get_response_json(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -468,7 +468,7 @@ async def test_rest_command_get_response_json(
 
 
 async def test_rest_command_get_response_multiple_headers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -501,7 +501,7 @@ async def test_rest_command_get_response_multiple_headers(
 
 
 async def test_rest_command_get_response_malformed_json(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -519,7 +519,7 @@ async def test_rest_command_get_response_malformed_json(
     assert not response
 
     # Throws error when requesting response
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN, "get_test", {}, blocking=True, return_response=True
         )
@@ -530,7 +530,7 @@ async def test_rest_command_get_response_malformed_json(
 
 
 async def test_rest_command_get_response_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -553,7 +553,7 @@ async def test_rest_command_get_response_none(
     assert not response
 
     # Throws Decode error when requesting response
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         response = await hass.services.async_call(
             DOMAIN, "get_test", {}, blocking=True, return_response=True
         )
@@ -566,7 +566,7 @@ async def test_rest_command_get_response_none(
 
 
 async def test_rest_command_response_iter_chunked(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -590,7 +590,7 @@ async def test_rest_command_response_iter_chunked(
 
 
 async def test_rest_command_skip_url_encoding(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_component: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

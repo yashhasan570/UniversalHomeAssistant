@@ -20,8 +20,8 @@ from zwave_js_server.util.lock import (
 )
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockEntity, LockState
-from universalassistant.core import UniversalAssistant, ServiceResponse, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceResponse, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -55,9 +55,9 @@ STATE_TO_ZWAVE_MAP: dict[int, dict[str, int | bool]] = {
 
 def _credential_service_error(
     translation_key: str, err: Exception, **extra: str
-) -> UniversalAssistantError:
+) -> __HAC_KEEP__Error:
     """Wrap a zwave-js-server error with a credential-service translation."""
-    return UniversalAssistantError(
+    return __HAC_KEEP__Error(
         translation_domain=DOMAIN,
         translation_key=translation_key,
         translation_placeholders={"error": str(err), **extra},
@@ -65,7 +65,7 @@ def _credential_service_error(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ZwaveJSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -136,7 +136,7 @@ class ZWaveLock(ZWaveBaseEntity, LockEntity):
         try:
             await set_usercode(self.info.node, code_slot, usercode)
         except BaseZwaveJSServerError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_lock_usercode_failed",
                 translation_placeholders={
@@ -161,7 +161,7 @@ class ZWaveLock(ZWaveBaseEntity, LockEntity):
         try:
             slot = get_usercode(self.info.node, code_slot)
         except NotFoundError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="get_lock_usercode_not_found",
                 translation_placeholders={
@@ -193,7 +193,7 @@ class ZWaveLock(ZWaveBaseEntity, LockEntity):
         try:
             await clear_usercode(self.info.node, code_slot)
         except BaseZwaveJSServerError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="clear_lock_usercode_failed",
                 translation_placeholders={

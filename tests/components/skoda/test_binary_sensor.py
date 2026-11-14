@@ -22,7 +22,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.skoda.const import DOMAIN
 from universalassistant.components.skoda.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -39,7 +39,7 @@ def platforms() -> Generator[None]:
     "vehicle_fixture", ["vehicle_electric.json", "vehicle_hybrid.json"]
 )
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -53,7 +53,7 @@ async def test_binary_sensors(
 
 @pytest.mark.parametrize("vehicle_fixture", ["vehicle_combustion.json"])
 async def test_only_non_status_binary_sensors_without_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -78,7 +78,7 @@ async def test_only_non_status_binary_sensors_without_status(
     ],
 )
 async def test_lock_prefers_reliable_lock_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     reliable_lock_status: str,
@@ -110,7 +110,7 @@ async def test_lock_prefers_reliable_lock_status(
     ],
 )
 async def test_binary_sensor_unknown_when_data_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -144,7 +144,7 @@ async def test_binary_sensor_unknown_when_data_missing(
     ],
 )
 async def test_charging_cable_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     plug_state: PlugConnectionState | None,
@@ -170,7 +170,7 @@ async def test_charging_cable_state(
     ],
 )
 async def test_air_conditioning_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     air_conditioning_state: AirConditioningState,
@@ -196,7 +196,7 @@ async def test_air_conditioning_state(
     ],
 )
 async def test_auxiliary_heating_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     auxiliary_heating_state: AuxiliaryHeatingState,

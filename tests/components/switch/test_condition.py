@@ -19,17 +19,17 @@ from pytest_universalassistant.components.common import (
 
 from universalassistant.components.switch.condition import CONDITIONS
 from universalassistant.const import CONF_ENTITY_ID, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_switches(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_switches(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple switch entities associated with different targets."""
     return await target_entities(hass, "switch", domain_excluded="light")
 
 
 @pytest.fixture
-async def target_input_booleans(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_input_booleans(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple input_boolean entities associated with different targets."""
     return await target_entities(hass, "input_boolean")
 
@@ -48,7 +48,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_switch_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -91,7 +91,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_switch_state_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_switches: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -135,7 +135,7 @@ async def test_switch_state_condition_behavior_any(
     ],
 )
 async def test_switch_state_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_switches: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -193,7 +193,7 @@ CONDITION_STATES_ALL = [
     CONDITION_STATES,
 )
 async def test_input_boolean_state_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_input_booleans: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -224,7 +224,7 @@ async def test_input_boolean_state_condition_behavior_any(
     CONDITION_STATES_ALL,
 )
 async def test_input_boolean_state_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_input_booleans: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -247,7 +247,7 @@ async def test_input_boolean_state_condition_behavior_all(
 
 
 async def test_switch_condition_evaluates_both_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test switch condition evaluates both switch and input_boolean."""
     entity_id_switch = "switch.test_switch"

@@ -24,7 +24,7 @@ from universalassistant.components.nina.const import (
     SENSOR_SUFFIXES,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -46,7 +46,7 @@ def assert_dummy_entry_created(result: dict[str, Any]) -> None:
 
 
 async def test_step_user_connection_error(
-    hass: UniversalAssistant, mock_nina_class: AsyncMock
+    hass: __HAC_KEEP__, mock_nina_class: AsyncMock
 ) -> None:
     """Test starting a flow by user but no connection."""
     mock_nina_class.get_all_regional_codes.side_effect = ApiError(
@@ -62,7 +62,7 @@ async def test_step_user_connection_error(
 
 
 async def test_step_user_unexpected_exception(
-    hass: UniversalAssistant, mock_nina_class: AsyncMock
+    hass: __HAC_KEEP__, mock_nina_class: AsyncMock
 ) -> None:
     """Test starting a flow by user but with an unexpected exception."""
     mock_nina_class.get_all_regional_codes.side_effect = Exception("DUMMY")
@@ -76,7 +76,7 @@ async def test_step_user_unexpected_exception(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_step_user(hass: UniversalAssistant, mock_nina_class: AsyncMock) -> None:
+async def test_step_user(hass: __HAC_KEEP__, mock_nina_class: AsyncMock) -> None:
     """Test starting a flow by user with valid values."""
     result: dict[str, Any] = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -91,7 +91,7 @@ async def test_step_user(hass: UniversalAssistant, mock_nina_class: AsyncMock) -
 
 
 async def test_step_user_no_selection(
-    hass: UniversalAssistant, mock_nina_class: AsyncMock
+    hass: __HAC_KEEP__, mock_nina_class: AsyncMock
 ) -> None:
     """Test starting a flow by user with no selection."""
     result: dict[str, Any] = await hass.config_entries.flow.async_init(
@@ -120,7 +120,7 @@ async def test_step_user_no_selection(
 
 
 async def test_step_user_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_nina_class: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_nina_class: AsyncMock
 ) -> None:
     """Test starting a flow by user, but it was already configured."""
     result = await hass.config_entries.flow.async_init(
@@ -133,7 +133,7 @@ async def test_step_user_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_init(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
@@ -180,7 +180,7 @@ async def test_options_flow_init(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_with_no_selection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
@@ -244,7 +244,7 @@ async def test_options_flow_with_no_selection(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
@@ -264,7 +264,7 @@ async def test_options_flow_connection_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_unexpected_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
@@ -281,7 +281,7 @@ async def test_options_flow_unexpected_exception(
 
 
 async def test_options_flow_entity_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
@@ -329,7 +329,7 @@ async def test_options_flow_entity_removal(
 
 
 async def test_options_flow_device_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry_multiple_regions: MockConfigEntry,
     mock_nina_class: AsyncMock,

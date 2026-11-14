@@ -3,14 +3,14 @@
 import random
 
 from universalassistant.components.device_tracker import SeeCallback
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import DOMAIN, SERVICE_RANDOMIZE_DEVICE_TRACKER_DATA
 
 
 def setup_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     see: SeeCallback,
     discovery_info: DiscoveryInfoType | None = None,

@@ -2,7 +2,7 @@
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import HOUSEHOLD_ID, HUB_ID
@@ -17,7 +17,7 @@ EXPECTED_ENTITY_IDS = {
 
 
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     surepetcare,
     mock_config_entry_setup: MockConfigEntry,

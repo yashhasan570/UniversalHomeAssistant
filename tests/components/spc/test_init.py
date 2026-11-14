@@ -3,11 +3,11 @@
 from unittest.mock import AsyncMock
 
 from universalassistant.components.spc import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_valid_device_config(hass: UniversalAssistant, mock_client: AsyncMock) -> None:
+async def test_valid_device_config(hass: __HAC_KEEP__, mock_client: AsyncMock) -> None:
     """Test valid device config."""
     config = {"spc": {"api_url": "http://localhost/", "ws_url": "ws://localhost/"}}
 
@@ -15,7 +15,7 @@ async def test_valid_device_config(hass: UniversalAssistant, mock_client: AsyncM
 
 
 async def test_invalid_device_config(
-    hass: UniversalAssistant, mock_client: AsyncMock
+    hass: __HAC_KEEP__, mock_client: AsyncMock
 ) -> None:
     """Test valid device config."""
     config = {"spc": {"api_url": "http://localhost/"}}

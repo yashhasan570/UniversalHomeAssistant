@@ -5,14 +5,14 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.auth.providers.universalassistant import HassAuthProvider
 from universalassistant.components.websocket_api.auth import TYPE_AUTH_REQUIRED
 from universalassistant.components.websocket_api.http import URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .test_auth import test_auth_active_with_token
 
 
 async def test_websocket_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     hass_access_token: str,
     local_auth: HassAuthProvider,

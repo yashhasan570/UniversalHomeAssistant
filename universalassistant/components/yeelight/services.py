@@ -8,7 +8,7 @@ from yeelight.enums import PowerMode, SceneClass
 
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.typing import VolDictType
 
@@ -150,7 +150,7 @@ async def _async_set_auto_delay_off_scene(entity, service_call):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up custom services."""
     service.async_register_platform_entity_service(
         hass,

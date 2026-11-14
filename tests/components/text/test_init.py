@@ -21,7 +21,7 @@ from universalassistant.components.text import (
 )
 from universalassistant.components.text.services import _async_set_value
 from universalassistant.const import ATTR_ENTITY_ID, MAX_LENGTH_STATE_STATE
-from universalassistant.core import UniversalAssistant, ServiceCall, State
+from universalassistant.core import __HAC_KEEP__, ServiceCall, State
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
 from universalassistant.setup import async_setup_component
@@ -29,7 +29,7 @@ from universalassistant.setup import async_setup_component
 from .common import MockRestoreText, MockTextEntity
 
 
-async def test_text_default(hass: UniversalAssistant) -> None:
+async def test_text_default(hass: __HAC_KEEP__) -> None:
     """Test text entity with defaults."""
     text = MockTextEntity()
     text.hass = hass
@@ -44,7 +44,7 @@ async def test_text_default(hass: UniversalAssistant) -> None:
     assert text.state == "test"
 
 
-async def test_text_new_min_max_pattern(hass: UniversalAssistant) -> None:
+async def test_text_new_min_max_pattern(hass: __HAC_KEEP__) -> None:
     """Test text entity with new min, max, and pattern."""
     text = MockTextEntity(native_min=-1, native_max=500, pattern=r"[a-z]")
     text.hass = hass
@@ -57,7 +57,7 @@ async def test_text_new_min_max_pattern(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_text_set_value(hass: UniversalAssistant) -> None:
+async def test_text_set_value(hass: __HAC_KEEP__) -> None:
     """Test text entity with set_value service."""
     text = MockTextEntity(native_min=1, native_max=5, pattern=r"[a-z]")
     text.hass = hass
@@ -93,7 +93,7 @@ async def test_text_set_value(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_text_set_value_invalid(
-    hass: UniversalAssistant, value: str, translation_key: str, message: str
+    hass: __HAC_KEEP__, value: str, translation_key: str, message: str
 ) -> None:
     """Test set_value service raises a translated error for invalid values."""
     entity = MockTextEntity(native_min=1, native_max=5, pattern=r"[a-z]")
@@ -116,7 +116,7 @@ async def test_text_set_value_invalid(
     assert hass.states.get("text.test").state == "test"
 
 
-async def test_text_value_outside_bounds(hass: UniversalAssistant) -> None:
+async def test_text_value_outside_bounds(hass: __HAC_KEEP__) -> None:
     """Test text entity with value that is outside min and max."""
     with pytest.raises(ValueError):
         _ = MockTextEntity(
@@ -138,7 +138,7 @@ RESTORE_DATA = {
 
 
 async def test_restore_number_save_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
 ) -> None:
     """Test RestoreNumber."""
@@ -175,7 +175,7 @@ async def test_restore_number_save_state(
     ],
 )
 async def test_restore_number_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     native_max,
     native_min,

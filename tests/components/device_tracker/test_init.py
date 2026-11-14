@@ -40,8 +40,8 @@ from universalassistant.const import (
     STATE_NOT_HOME,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant, State, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import discovery, issue_registry as ir
 from universalassistant.helpers.discovery import DiscoveryInfoType
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -59,20 +59,20 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @pytest.fixture(name="yaml_devices")
-def mock_yaml_devices(hass: UniversalAssistant) -> str:
+def mock_yaml_devices(hass: __HAC_KEEP__) -> str:
     """Get a path for storing yaml devices."""
     return hass.config.path(legacy.YAML_DEVICES)
 
 
 @pytest.fixture(autouse=True)
 def _mock_legacy_device_tracker_setup(
-    hass: UniversalAssistant, mock_legacy_device_scanner: MockScanner
+    hass: __HAC_KEEP__, mock_legacy_device_scanner: MockScanner
 ) -> None:
     """Mock legacy device tracker setup."""
     mock_legacy_device_tracker_setup(hass, mock_legacy_device_scanner)
 
 
-async def test_is_on(hass: UniversalAssistant) -> None:
+async def test_is_on(hass: __HAC_KEEP__) -> None:
     """Test is_on method."""
     entity_id = f"{const.DOMAIN}.test"
 
@@ -85,7 +85,7 @@ async def test_is_on(hass: UniversalAssistant) -> None:
     assert not device_tracker.is_on(hass, entity_id)
 
 
-async def test_reading_broken_yaml_config(hass: UniversalAssistant) -> None:
+async def test_reading_broken_yaml_config(hass: __HAC_KEEP__) -> None:
     """Test when known devices contains invalid data."""
     files = {
         "empty.yaml": "",
@@ -113,7 +113,7 @@ async def test_reading_broken_yaml_config(hass: UniversalAssistant) -> None:
         assert res[0].dev_id == "my_device"
 
 
-async def test_reading_yaml_config(hass: UniversalAssistant, yaml_devices: str) -> None:
+async def test_reading_yaml_config(hass: __HAC_KEEP__, yaml_devices: str) -> None:
     """Test the rendering of the YAML configuration."""
     dev_id = "test"
     device = legacy.Device(
@@ -154,7 +154,7 @@ async def test_reading_yaml_config(hass: UniversalAssistant, yaml_devices: str) 
 
 
 @patch("universalassistant.components.device_tracker.const.LOGGER.warning")
-async def test_duplicate_mac_dev_id(mock_warning, hass: UniversalAssistant) -> None:
+async def test_duplicate_mac_dev_id(mock_warning, hass: __HAC_KEEP__) -> None:
     """Test adding duplicate MACs or device IDs to DeviceTracker."""
     devices = [
         legacy.Device(
@@ -191,14 +191,14 @@ async def test_duplicate_mac_dev_id(mock_warning, hass: UniversalAssistant) -> N
     assert "Duplicate device IDs" in args[0], "Duplicate device IDs warning expected"
 
 
-async def test_setup_without_yaml_file(hass: UniversalAssistant, yaml_devices: str) -> None:
+async def test_setup_without_yaml_file(hass: __HAC_KEEP__, yaml_devices: str) -> None:
     """Test with no YAML file."""
     with assert_setup_component(1, device_tracker.DOMAIN):
         assert await async_setup_component(hass, device_tracker.DOMAIN, TEST_PLATFORM)
         await hass.async_block_till_done()
 
 
-async def test_gravatar(hass: UniversalAssistant) -> None:
+async def test_gravatar(hass: __HAC_KEEP__) -> None:
     """Test the Gravatar generation."""
     dev_id = "test"
     device = legacy.Device(
@@ -217,7 +217,7 @@ async def test_gravatar(hass: UniversalAssistant) -> None:
     assert device.config_picture == gravatar_url
 
 
-async def test_gravatar_and_picture(hass: UniversalAssistant) -> None:
+async def test_gravatar_and_picture(hass: __HAC_KEEP__) -> None:
     """Test that Gravatar overrides picture."""
     dev_id = "test"
     device = legacy.Device(
@@ -240,7 +240,7 @@ async def test_gravatar_and_picture(hass: UniversalAssistant) -> None:
 @patch("universalassistant.components.device_tracker.legacy.DeviceTracker.see")
 @patch("universalassistant.components.demo.device_tracker.setup_scanner", autospec=True)
 async def test_discover_platform(
-    mock_demo_setup_scanner, mock_see, hass: UniversalAssistant
+    mock_demo_setup_scanner, mock_see, hass: __HAC_KEEP__
 ) -> None:
     """Test discovery of device_tracker demo platform."""
     await async_setup_component(hass, "universalassistant", {})
@@ -263,7 +263,7 @@ async def test_discover_platform(
 
 
 async def test_discover_platform_missing_platform(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test discovery of device_tracker missing platform."""
     await async_setup_component(hass, "universalassistant", {})
@@ -288,7 +288,7 @@ async def test_discover_platform_missing_platform(
 
 
 async def test_update_stale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device_tracker_conf: list[legacy.Device],
     mock_legacy_device_scanner: MockScanner,
 ) -> None:
@@ -334,7 +334,7 @@ async def test_update_stale(
 
 
 async def test_entity_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device_tracker_conf: list[legacy.Device],
 ) -> None:
     """Test the entity attributes."""
@@ -369,7 +369,7 @@ async def test_entity_attributes(
 
 
 @patch("universalassistant.components.device_tracker.legacy.DeviceTracker.async_see")
-async def test_see_service(mock_see, hass: UniversalAssistant) -> None:
+async def test_see_service(mock_see, hass: __HAC_KEEP__) -> None:
     """Test the see service with a unicode dev_id and NO MAC."""
     with assert_setup_component(1, device_tracker.DOMAIN):
         assert await async_setup_component(hass, device_tracker.DOMAIN, TEST_PLATFORM)
@@ -398,7 +398,7 @@ async def test_see_service(mock_see, hass: UniversalAssistant) -> None:
 
 
 async def test_see_service_guard_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device_tracker_conf: list[legacy.Device],
 ) -> None:
     """Test the guard if the device is registered in the entity registry."""
@@ -424,7 +424,7 @@ async def test_see_service_guard_config_entry(
 
 
 async def test_new_device_event_fired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device_tracker_conf: list[legacy.Device],
 ) -> None:
     """Test that the device tracker will fire an event."""
@@ -458,7 +458,7 @@ async def test_new_device_event_fired(
 
 
 async def test_duplicate_yaml_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device_tracker_conf: list[legacy.Device],
 ) -> None:
     """Test that the device tracker will not generate invalid YAML."""
@@ -477,7 +477,7 @@ async def test_duplicate_yaml_keys(
 
 
 async def test_invalid_dev_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device_tracker_conf: list[legacy.Device],
 ) -> None:
     """Test that the device tracker will not allow invalid dev ids."""
@@ -492,7 +492,7 @@ async def test_invalid_dev_id(
     assert not devices
 
 
-async def test_see_state(hass: UniversalAssistant, yaml_devices: str) -> None:
+async def test_see_state(hass: __HAC_KEEP__, yaml_devices: str) -> None:
     """Test device tracker see records state correctly."""
     assert await async_setup_component(hass, device_tracker.DOMAIN, TEST_PLATFORM)
     await hass.async_block_till_done()
@@ -530,7 +530,7 @@ async def test_see_state(hass: UniversalAssistant, yaml_devices: str) -> None:
 
 
 async def test_see_passive_zone_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_device_tracker_conf: list[legacy.Device],
     mock_legacy_device_scanner: MockScanner,
 ) -> None:
@@ -608,7 +608,7 @@ async def test_see_passive_zone_state(
 
 @patch("universalassistant.components.device_tracker.const.LOGGER.warning")
 async def test_see_failures(
-    mock_warning, hass: UniversalAssistant, mock_device_tracker_conf: list[legacy.Device]
+    mock_warning, hass: __HAC_KEEP__, mock_device_tracker_conf: list[legacy.Device]
 ) -> None:
     """Test that the device tracker see failures."""
     devices = mock_device_tracker_conf
@@ -618,7 +618,7 @@ async def test_see_failures(
     await tracker.async_see(mac=567, host_name="Number MAC")
 
     # No device id or MAC(not added)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await tracker.async_see()
     assert mock_warning.call_count == 0
 
@@ -632,7 +632,7 @@ async def test_see_failures(
     assert len(devices) == 4
 
 
-async def test_async_added_to_hass(hass: UniversalAssistant) -> None:
+async def test_async_added_to_hass(hass: __HAC_KEEP__) -> None:
     """Test restoring state."""
     attr = {
         ATTR_LONGITUDE: 18,
@@ -659,7 +659,7 @@ async def test_async_added_to_hass(hass: UniversalAssistant) -> None:
         assert atr == val, f"{key}={atr} expected: {val}"
 
 
-async def test_bad_platform(hass: UniversalAssistant) -> None:
+async def test_bad_platform(hass: __HAC_KEEP__) -> None:
     """Test bad platform."""
     config = {"device_tracker": [{"platform": "bad_platform"}]}
     with assert_setup_component(0, device_tracker.DOMAIN):
@@ -671,7 +671,7 @@ async def test_bad_platform(hass: UniversalAssistant) -> None:
 
 async def test_adding_unknown_device_to_config(
     mock_device_tracker_conf: list[legacy.Device],
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_legacy_device_scanner: MockScanner,
 ) -> None:
     """Test the adding of unknown devices to configuration file."""
@@ -691,7 +691,7 @@ async def test_adding_unknown_device_to_config(
 
 
 async def test_picture_and_icon_on_see_discovery(
-    mock_device_tracker_conf: list[legacy.Device], hass: UniversalAssistant
+    mock_device_tracker_conf: list[legacy.Device], hass: __HAC_KEEP__
 ) -> None:
     """Test that picture and icon are set in initial see."""
     tracker = legacy.DeviceTracker(hass, timedelta(seconds=60), False, {}, [])
@@ -703,7 +703,7 @@ async def test_picture_and_icon_on_see_discovery(
 
 
 async def test_backward_compatibility_for_track_new(
-    mock_device_tracker_conf: list[legacy.Device], hass: UniversalAssistant
+    mock_device_tracker_conf: list[legacy.Device], hass: __HAC_KEEP__
 ) -> None:
     """Test backward compatibility for track new."""
     tracker = legacy.DeviceTracker(
@@ -716,7 +716,7 @@ async def test_backward_compatibility_for_track_new(
 
 
 async def test_old_style_track_new_is_skipped(
-    mock_device_tracker_conf: list[legacy.Device], hass: UniversalAssistant
+    mock_device_tracker_conf: list[legacy.Device], hass: __HAC_KEEP__
 ) -> None:
     """Test old style config is skipped."""
     tracker = legacy.DeviceTracker(
@@ -745,7 +745,7 @@ def test_see_schema_allowing_ios_calls() -> None:
     )
 
 
-async def test_modern_platform_setup(hass: UniversalAssistant) -> None:
+async def test_modern_platform_setup(hass: __HAC_KEEP__) -> None:
     """Test modern platform setup."""
 
     test_domain = "test"
@@ -768,7 +768,7 @@ async def test_modern_platform_setup(hass: UniversalAssistant) -> None:
     entity3._attr_source_type = SourceType.ROUTER
 
     async def async_setup_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         async_add_entities: AddEntitiesCallback,
         discovery_info: DiscoveryInfoType | None = None,
@@ -776,7 +776,7 @@ async def test_modern_platform_setup(hass: UniversalAssistant) -> None:
         async_add_entities([entity1, entity2, entity3])
         return True
 
-    async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         hass.async_create_task(
             discovery.async_load_platform(
                 hass, "device_tracker", test_domain, {}, config
@@ -831,7 +831,7 @@ async def test_modern_platform_setup(hass: UniversalAssistant) -> None:
 
 
 async def test_unsupported_legacy_config_creates_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -839,7 +839,7 @@ async def test_unsupported_legacy_config_creates_issue(
 
     integration_domain = "test"
 
-    async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         hass.async_create_task(
             discovery.async_load_platform(
                 hass, "device_tracker", integration_domain, {}, config

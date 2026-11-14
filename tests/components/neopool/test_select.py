@@ -23,8 +23,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ from .conftest import MOCK_POOL_DATA
 
 
 def _select_entity_id(
-    hass: UniversalAssistant, entry: MockConfigEntry, key_lower_suffix: str
+    hass: __HAC_KEEP__, entry: MockConfigEntry, key_lower_suffix: str
 ) -> str:
     """Resolve a select entity by its trailing unique_id segment."""
     registry = er.async_get(hass)
@@ -52,7 +52,7 @@ def _select_entity_id(
     return entries[0].entity_id
 
 
-async def _select_option(hass: UniversalAssistant, entity_id: str, option: str) -> None:
+async def _select_option(hass: __HAC_KEEP__, entity_id: str, option: str) -> None:
     await hass.services.async_call(
         SELECT_DOMAIN,
         SelectService.SELECT_OPTION,
@@ -61,7 +61,7 @@ async def _select_option(hass: UniversalAssistant, entity_id: str, option: str) 
     )
 
 
-async def _poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+async def _poll(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     """Advance past the scan interval so the coordinator polls the device."""
     freezer.tick(timedelta(seconds=DEFAULT_SCAN_INTERVAL))
     async_fire_time_changed(hass)
@@ -69,7 +69,7 @@ async def _poll(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> Non
 
 
 async def test_filt_mode_select_writes_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_filt_mode_select_writes_register(
 
 
 async def test_filt_mode_leaving_manual_delegates_exit_to_lib(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_filt_mode_leaving_manual_delegates_exit_to_lib(
 
 
 async def test_filt_mode_backwash_option_is_display_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
@@ -143,7 +143,7 @@ async def test_filt_mode_backwash_option_is_display_only(
 
 
 async def test_filt_mode_invalid_state_maps_to_validation_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_filt_mode_invalid_state_maps_to_validation_error(
 
 
 async def test_filt_mode_invalid_state_unmapped_reason_falls_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_filt_mode_invalid_state_unmapped_reason_falls_back(
 
 
 async def test_filtvalve_period_minutes_writes_mapped_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_filtvalve_period_minutes_writes_mapped_register(
 
 
 async def test_filtvalve_interval_writes_mapped_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_filtvalve_interval_writes_mapped_register(
 
 
 async def test_relay_activation_delay_uses_dedicated_lib_method(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_relay_activation_delay_uses_dedicated_lib_method(
 
 
 async def test_relay_activation_delay_reads_back_user_facing_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
@@ -265,7 +265,7 @@ async def test_relay_activation_delay_reads_back_user_facing_value(
 
 
 async def test_filtvalve_interval_current_option_reads_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
@@ -291,7 +291,7 @@ async def test_filtvalve_interval_current_option_reads_register(
 
 
 async def test_filtvalve_mode_select_switches_via_lib_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -315,7 +315,7 @@ async def test_filtvalve_mode_select_switches_via_lib_api(
 
 
 async def test_filtvalve_mode_manual_writes_always_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -338,7 +338,7 @@ async def test_filtvalve_mode_manual_writes_always_off(
 
 
 async def test_filtvalve_mode_manual_to_manual_is_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -357,7 +357,7 @@ async def test_filtvalve_mode_manual_to_manual_is_noop(
 
 
 async def test_filtvalve_mode_disabled_is_read_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -389,7 +389,7 @@ async def test_filtvalve_mode_disabled_is_read_only(
     ],
 )
 async def test_filtvalve_mode_current_option_maps_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
@@ -416,11 +416,11 @@ async def test_filtvalve_mode_current_option_maps_register(
 
 
 async def test_filtvalve_mode_maps_communication_error_to_universal_assistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
-    """A NeoPoolError from async_set_filtvalve_mode surfaces as UniversalAssistantError."""
+    """A NeoPoolError from async_set_filtvalve_mode surfaces as __HAC_KEEP__Error."""
     await setup_integration(hass, mock_config_entry_timers)
     entity_id = _select_entity_id(
         hass, mock_config_entry_timers, "mbf_par_filtvalve_mode"
@@ -428,13 +428,13 @@ async def test_filtvalve_mode_maps_communication_error_to_universal_assistant_er
     mock_neopool_client.async_set_filtvalve_mode = AsyncMock(
         side_effect=NeoPoolError("boom"),
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _select_option(hass, entity_id, "auto")
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cell_boost_active_redox_writes_composite_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -458,7 +458,7 @@ async def test_cell_boost_active_redox_writes_composite_value(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cell_boost_current_option_decodes_register_bits(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     raw: int,
@@ -478,7 +478,7 @@ async def test_cell_boost_current_option_decodes_register_bits(
 
 
 async def test_relay_mode_current_option_handles_disabled_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -508,7 +508,7 @@ async def test_relay_mode_current_option_handles_disabled_state(
 
 
 async def test_timer_period_options_and_current_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -536,7 +536,7 @@ async def test_timer_period_options_and_current_option(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cell_boost_options_drop_active_redox_when_no_redox_module(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -554,7 +554,7 @@ async def test_cell_boost_options_drop_active_redox_when_no_redox_module(
 
 
 async def test_filtration_speed_packs_into_filtration_conf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -570,7 +570,7 @@ async def test_filtration_speed_packs_into_filtration_conf(
 
 
 async def test_filtration_speed_raises_when_not_manual_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -599,7 +599,7 @@ async def test_filtration_speed_raises_when_not_manual_mode(
     ],
 )
 async def test_filtration_speed_current_option_decodes_filtration_conf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
     speed_bits: int,
@@ -621,7 +621,7 @@ async def test_filtration_speed_current_option_decodes_filtration_conf(
 
 
 async def test_filtration_speed_timer_writes_per_timer_slot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -643,7 +643,7 @@ async def test_filtration_speed_timer_writes_per_timer_slot(
 
 
 async def test_filtration_speed_timer_current_option_decodes_timer_slot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -662,7 +662,7 @@ async def test_filtration_speed_timer_current_option_decodes_timer_slot(
 
 
 async def test_timer_period_select_calls_set_timer_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -677,7 +677,7 @@ async def test_timer_period_select_calls_set_timer_service(
 
 
 async def test_timer_period_no_repeat_writes_zero(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -692,7 +692,7 @@ async def test_timer_period_no_repeat_writes_zero(
 
 
 async def test_timer_period_off_map_value_surfaced_as_raw_seconds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -718,7 +718,7 @@ async def test_timer_period_off_map_value_surfaced_as_raw_seconds(
 
 
 async def test_timer_period_zero_reads_as_no_repeat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -731,7 +731,7 @@ async def test_timer_period_zero_reads_as_no_repeat(
 
 
 async def test_timer_period_write_holds_block_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -756,7 +756,7 @@ async def test_timer_period_write_holds_block_lock(
 
 
 async def test_relay_mode_select_switches_via_lib_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -774,7 +774,7 @@ async def test_relay_mode_select_switches_via_lib_api(
 
 
 async def test_relay_mode_write_holds_block_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -800,7 +800,7 @@ async def test_relay_mode_write_holds_block_lock(
 
 
 async def test_relay_mode_manual_to_manual_is_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -825,7 +825,7 @@ async def test_relay_mode_manual_to_manual_is_noop(
 
 
 async def test_relay_mode_selecting_disabled_is_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
@@ -851,36 +851,36 @@ async def test_relay_mode_selecting_disabled_is_noop(
 
 
 async def test_timer_period_maps_communication_error_to_universal_assistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
-    """A NeoPoolError from write_timer surfaces as a translated UniversalAssistantError."""
+    """A NeoPoolError from write_timer surfaces as a translated __HAC_KEEP__Error."""
     await setup_integration(hass, mock_config_entry_timers)
     entity_id = _select_entity_id(hass, mock_config_entry_timers, "relay_aux1_period")
     mock_neopool_client.write_timer = AsyncMock(side_effect=NeoPoolError("boom"))
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _select_option(hass, entity_id, "1_week")
 
 
 async def test_relay_mode_maps_communication_error_to_universal_assistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_timers: MockConfigEntry,
     mock_neopool_client: MagicMock,
 ) -> None:
-    """A NeoPoolError from async_set_relay_mode surfaces as a translated UniversalAssistantError."""
+    """A NeoPoolError from async_set_relay_mode surfaces as a translated __HAC_KEEP__Error."""
     await setup_integration(hass, mock_config_entry_timers)
     entity_id = _select_entity_id(hass, mock_config_entry_timers, "relay_aux1_mode")
     mock_neopool_client.async_set_relay_mode = AsyncMock(
         side_effect=NeoPoolError("boom"),
     )
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _select_option(hass, entity_id, "auto")
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_neopool_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry_timers: MockConfigEntry,
@@ -895,7 +895,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup_when_modules_absent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry_timers: MockConfigEntry,

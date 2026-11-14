@@ -1,4 +1,4 @@
-"""API for Viessmann ViCare bound to Universal Universal Home Assistant OAuth."""
+"""API for Viessmann ViCare bound to __HA_KEEP__ OAuth."""
 
 from asyncio import run_coroutine_threadsafe
 import logging
@@ -7,7 +7,7 @@ from typing import Any, override
 from PyViCare.PyViCareAbstractOAuthManager import AbstractViCareOAuthManager
 import requests
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 
 _LOGGER = logging.getLogger(__name__)
@@ -31,7 +31,7 @@ class ConfigEntryAuth(AbstractViCareOAuthManager):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         oauth_session: config_entry_oauth2_flow.OAuth2Session,
     ) -> None:
         """Initialize Viessmann ViCare Auth."""

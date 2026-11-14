@@ -30,9 +30,9 @@ from universalassistant.components.todo import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_SUPPORTED_FEATURES
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceNotSupported,
     ServiceValidationError,
 )
@@ -57,7 +57,7 @@ ITEM_2 = {
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test unloading a config entry with a todo entity."""
@@ -77,7 +77,7 @@ async def test_unload_entry(
 
 
 async def test_list_todo_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entity: TodoListEntity,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_list_todo_items(
     ],
 )
 async def test_get_items_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entity: TodoListEntity,
     service_data: dict[str, Any],
@@ -145,7 +145,7 @@ async def test_get_items_service(
 
 
 async def test_unsupported_websocket(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test a To-do list for an entity that does not exist."""
@@ -176,7 +176,7 @@ async def test_unsupported_websocket(
     ],
 )
 async def test_add_item_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     new_item_name: str,
 ) -> None:
@@ -202,15 +202,15 @@ async def test_add_item_service(
 
 
 async def test_add_item_service_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test adding an item in a To-do list that raises an error."""
 
     await create_mock_platform(hass, [test_entity])
 
-    test_entity.async_create_todo_item.side_effect = UniversalAssistantError("Ooops")
-    with pytest.raises(UniversalAssistantError, match="Ooops"):
+    test_entity.async_create_todo_item.side_effect = __HAC_KEEP__Error("Ooops")
+    with pytest.raises(__HAC_KEEP__Error, match="Ooops"):
         await hass.services.async_call(
             DOMAIN,
             TodoServices.ADD_ITEM,
@@ -247,7 +247,7 @@ async def test_add_item_service_raises(
     ],
 )
 async def test_add_item_service_invalid_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     item_data: dict[str, Any],
     expected_exception: str,
@@ -323,7 +323,7 @@ async def test_add_item_service_invalid_input(
     ],
 )
 async def test_add_item_service_extended_fields(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     supported_entity_feature: int,
     item_data: dict[str, Any],
@@ -358,7 +358,7 @@ async def test_add_item_service_extended_fields(
     ],
 )
 async def test_update_todo_item_service_by_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     new_item_name: str,
 ) -> None:
@@ -384,7 +384,7 @@ async def test_update_todo_item_service_by_id(
 
 
 async def test_update_todo_item_service_by_id_status_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test updating an item in a To-do list."""
@@ -409,7 +409,7 @@ async def test_update_todo_item_service_by_id_status_only(
 
 
 async def test_update_todo_item_service_by_id_rename(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test updating an item in a To-do list."""
@@ -434,7 +434,7 @@ async def test_update_todo_item_service_by_id_rename(
 
 
 async def test_update_todo_item_service_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test updating an item in a To-do list that raises an error."""
@@ -449,8 +449,8 @@ async def test_update_todo_item_service_raises(
         blocking=True,
     )
 
-    test_entity.async_update_todo_item.side_effect = UniversalAssistantError("Ooops")
-    with pytest.raises(UniversalAssistantError, match="Ooops"):
+    test_entity.async_update_todo_item.side_effect = __HAC_KEEP__Error("Ooops")
+    with pytest.raises(__HAC_KEEP__Error, match="Ooops"):
         await hass.services.async_call(
             DOMAIN,
             TodoServices.UPDATE_ITEM,
@@ -461,7 +461,7 @@ async def test_update_todo_item_service_raises(
 
 
 async def test_update_todo_item_service_by_summary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test updating an item in a To-do list by summary."""
@@ -486,7 +486,7 @@ async def test_update_todo_item_service_by_summary(
 
 
 async def test_update_todo_item_service_by_summary_only_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test updating an item in a To-do list by summary."""
@@ -511,7 +511,7 @@ async def test_update_todo_item_service_by_summary_only_status(
 
 
 async def test_update_todo_item_service_by_summary_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test updating an item in a To-do list by summary which is not found."""
@@ -541,7 +541,7 @@ async def test_update_todo_item_service_by_summary_not_found(
     ],
 )
 async def test_update_item_service_invalid_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     item_data: dict[str, Any],
     expected_error: str,
@@ -569,7 +569,7 @@ async def test_update_item_service_invalid_input(
     ],
 )
 async def test_update_todo_item_field_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     update_data: dict[str, Any],
 ) -> None:
@@ -623,7 +623,7 @@ async def test_update_todo_item_field_unsupported(
     ],
 )
 async def test_update_todo_item_extended_fields(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     supported_entity_feature: int,
     update_data: dict[str, Any],
@@ -711,7 +711,7 @@ async def test_update_todo_item_extended_fields(
     ],
 )
 async def test_update_todo_item_extended_fields_overwrite_existing_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     update_data: dict[str, Any],
     expected_update: TodoItem,
@@ -741,7 +741,7 @@ async def test_update_todo_item_extended_fields_overwrite_existing_values(
 
 
 async def test_remove_todo_item_service_by_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test removing an item in a To-do list."""
@@ -762,15 +762,15 @@ async def test_remove_todo_item_service_by_id(
 
 
 async def test_remove_todo_item_service_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test removing an item in a To-do list that raises an error."""
 
     await create_mock_platform(hass, [test_entity])
 
-    test_entity.async_delete_todo_items.side_effect = UniversalAssistantError("Ooops")
-    with pytest.raises(UniversalAssistantError, match="Ooops"):
+    test_entity.async_delete_todo_items.side_effect = __HAC_KEEP__Error("Ooops")
+    with pytest.raises(__HAC_KEEP__Error, match="Ooops"):
         await hass.services.async_call(
             DOMAIN,
             TodoServices.REMOVE_ITEM,
@@ -781,7 +781,7 @@ async def test_remove_todo_item_service_raises(
 
 
 async def test_remove_todo_item_service_invalid_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test invalid input to the remove item service."""
@@ -799,7 +799,7 @@ async def test_remove_todo_item_service_invalid_input(
 
 
 async def test_remove_todo_item_service_by_summary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test removing an item in a To-do list by summary."""
@@ -820,7 +820,7 @@ async def test_remove_todo_item_service_by_summary(
 
 
 async def test_remove_todo_item_service_by_summary_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test removing an item in a To-do list by summary which is not found."""
@@ -838,7 +838,7 @@ async def test_remove_todo_item_service_by_summary_not_found(
 
 
 async def test_move_todo_item_service_by_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -867,7 +867,7 @@ async def test_move_todo_item_service_by_id(
 
 
 async def test_move_todo_item_service_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -875,7 +875,7 @@ async def test_move_todo_item_service_raises(
 
     await create_mock_platform(hass, [test_entity])
 
-    test_entity.async_move_todo_item.side_effect = UniversalAssistantError("Ooops")
+    test_entity.async_move_todo_item.side_effect = __HAC_KEEP__Error("Ooops")
     client = await hass_ws_client()
     await client.send_json(
         {
@@ -909,7 +909,7 @@ async def test_move_todo_item_service_raises(
     ],
 )
 async def test_move_todo_item_service_invalid_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
     hass_ws_client: WebSocketGenerator,
     item_data: dict[str, Any],
@@ -963,7 +963,7 @@ async def test_move_todo_item_service_invalid_input(
     ],
 )
 async def test_unsupported_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_name: str,
     payload: dict[str, Any] | None,
 ) -> None:
@@ -988,7 +988,7 @@ async def test_unsupported_service(
 
 
 async def test_move_item_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test invalid input for the move item service."""
@@ -1013,7 +1013,7 @@ async def test_move_item_unsupported(
 
 
 async def test_remove_completed_items_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test remove completed todo items service."""
@@ -1043,15 +1043,15 @@ async def test_remove_completed_items_service(
 
 
 async def test_remove_completed_items_service_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_entity: TodoListEntity,
 ) -> None:
     """Test removing all completed item from a To-do list that raises an error."""
 
     await create_mock_platform(hass, [test_entity])
 
-    test_entity.async_delete_todo_items.side_effect = UniversalAssistantError("Ooops")
-    with pytest.raises(UniversalAssistantError, match="Ooops"):
+    test_entity.async_delete_todo_items.side_effect = __HAC_KEEP__Error("Ooops")
+    with pytest.raises(__HAC_KEEP__Error, match="Ooops"):
         await hass.services.async_call(
             DOMAIN,
             TodoServices.REMOVE_COMPLETED_ITEMS,
@@ -1061,7 +1061,7 @@ async def test_remove_completed_items_service_raises(
 
 
 async def test_subscribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entity: TodoListEntity,
 ) -> None:
@@ -1153,7 +1153,7 @@ async def test_subscribe(
 
 
 async def test_subscribe_new_subscriber_does_not_notify_existing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entity: TodoListEntity,
 ) -> None:
@@ -1195,7 +1195,7 @@ async def test_subscribe_new_subscriber_does_not_notify_existing(
 
 
 async def test_subscribe_entity_does_not_exist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entity: TodoListEntity,
 ) -> None:
@@ -1260,7 +1260,7 @@ def test_todo_item_fields(snapshot: SnapshotAssertion) -> None:
     ],
 )
 async def test_list_todo_items_extended_fields(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entity: TodoListEntity,
     item_data: dict[str, Any],
@@ -1313,7 +1313,7 @@ async def test_list_todo_items_extended_fields(
 
 
 async def test_async_subscribe_updates(
-    hass: UniversalAssistant, test_entity: TodoListEntity
+    hass: __HAC_KEEP__, test_entity: TodoListEntity
 ) -> None:
     """Test async_subscribe_updates delivers list updates to listeners."""
     test_entity._attr_todo_items = []
@@ -1388,7 +1388,7 @@ async def test_async_subscribe_updates(
 
 
 async def test_subscribe_duplicate_state_write_does_not_broadcast(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     test_entity: TodoListEntity,
     freezer: FrozenDateTimeFactory,

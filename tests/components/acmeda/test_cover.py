@@ -5,13 +5,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.acmeda.const import DOMAIN
 from universalassistant.components.cover import DOMAIN as COVER_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.usefixtures("mock_hub_run")
 async def test_cover_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

@@ -22,7 +22,7 @@ from universalassistant.components.sensor import (
 )
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_AUTHENTICATION, CONF_NAME, UnitOfTime
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -201,7 +201,7 @@ SENSORS: tuple[RejseplanenSensorEntityDescription, ...] = (
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -224,7 +224,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RejseplanenConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -276,7 +276,7 @@ class RejseplanenTransportSensor(RejseplanenEntity, SensorEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Handle entity addition to Universal Universal Home Assistant."""
+        """Handle entity addition to __HA_KEEP__."""
         await super().async_added_to_hass()
 
         # Use async_on_remove for proper cleanup registration

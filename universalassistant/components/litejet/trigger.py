@@ -7,7 +7,7 @@ from typing import cast
 import probatio
 
 from universalassistant.const import CONF_PLATFORM
-from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import track_point_in_utc_time
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
@@ -35,7 +35,7 @@ TRIGGER_SCHEMA = cv.TRIGGER_BASE_SCHEMA.extend(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

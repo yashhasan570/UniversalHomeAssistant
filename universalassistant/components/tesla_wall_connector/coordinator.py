@@ -14,7 +14,7 @@ from tesla_wall_connector.exceptions import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -48,7 +48,7 @@ class WallConnectorCoordinator(DataUpdateCoordinator[dict]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: WallConnectorConfigEntry,
         hostname: str,
         wall_connector: WallConnector,

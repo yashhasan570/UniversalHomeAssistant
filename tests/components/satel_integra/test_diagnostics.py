@@ -10,7 +10,7 @@ from satel_integra import SatelUnexpectedResponseError
 from syrupy.assertion import SnapshotAssertion
 from syrupy.filters import props
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -23,7 +23,7 @@ from . import setup_integration
     ],
 )
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     hass_client: ClientSessionGenerator,
     mock_satel: AsyncMock,
@@ -39,7 +39,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_without_panel_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_satel: AsyncMock,
     mock_config_entry: MockConfigEntry,

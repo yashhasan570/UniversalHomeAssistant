@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant file utility functions."""
+"""Test __HA_KEEP__ file utility functions."""
 
 import os
 from pathlib import Path

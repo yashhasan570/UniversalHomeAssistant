@@ -20,7 +20,7 @@ from universalassistant.components.wallbox.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import http_403_error, http_404_error, setup_integration
@@ -36,7 +36,7 @@ test_response = {
 }
 
 
-async def test_show_set_form(hass: UniversalAssistant, mock_wallbox) -> None:
+async def test_show_set_form(hass: __HAC_KEEP__, mock_wallbox) -> None:
     """Test that the setup form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -45,7 +45,7 @@ async def test_show_set_form(hass: UniversalAssistant, mock_wallbox) -> None:
     assert result["step_id"] == "user"
 
 
-async def test_form_cannot_authenticate(hass: UniversalAssistant) -> None:
+async def test_form_cannot_authenticate(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -91,7 +91,7 @@ async def test_form_cannot_authenticate(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -138,7 +138,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
 
 
 async def test_form_validate_input(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test we can validate input."""
     result = await hass.config_entries.flow.async_init(
@@ -167,7 +167,7 @@ async def test_form_validate_input(
 
 
 async def test_form_reauth(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test we handle reauth flow."""
     await setup_integration(hass, entry)
@@ -200,7 +200,7 @@ async def test_form_reauth(
 
 
 async def test_form_reauth_invalid(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox: MagicMock
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox: MagicMock
 ) -> None:
     """Test we handle reauth invalid flow."""
     await setup_integration(hass, entry)

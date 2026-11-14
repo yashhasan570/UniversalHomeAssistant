@@ -3,7 +3,7 @@
 from aiocomelit.const import BRIDGE
 
 from universalassistant.const import CONF_HOST, CONF_PIN, CONF_PORT, CONF_TYPE, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import CONF_VEDO_PIN, DEFAULT_PORT, DOMAIN, LOGGER
@@ -40,7 +40,7 @@ VEDO_PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ComelitConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ComelitConfigEntry) -> None:
     """Set up Comelit platform."""
 
     coordinator: ComelitBaseCoordinator
@@ -81,7 +81,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ComelitConfigEntry)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: ComelitConfigEntry
+    hass: __HAC_KEEP__, config_entry: ComelitConfigEntry
 ) -> None:
     """Migrate old entry."""
 
@@ -124,7 +124,7 @@ async def async_migrate_entry(
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ComelitConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ComelitConfigEntry) -> None:
     """Unload a config entry."""
 
     if entry.data.get(CONF_TYPE, BRIDGE) == BRIDGE:

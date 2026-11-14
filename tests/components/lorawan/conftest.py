@@ -18,7 +18,7 @@ from pytest_universalassistant.common import (
 from universalassistant.components.lorawan import DeviceManager, async_register_connection
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.setup import async_setup_component
 
@@ -33,16 +33,16 @@ def mock_connection() -> MockConnection:
 
 @pytest.fixture(autouse=True)
 def connection_integration(
-    hass: UniversalAssistant, mock_connection: MockConnection
+    hass: __HAC_KEEP__, mock_connection: MockConnection
 ) -> Generator[None]:
     """Mock a connection integration."""
 
-    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         entry.async_on_unload(
             await async_register_connection(hass, entry, connection=mock_connection)
         )
 
-    async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Unload a config entry."""
 
     mock_integration(
@@ -60,10 +60,10 @@ def connection_integration(
 
 
 @pytest.fixture(autouse=True)
-def device_integration(hass: UniversalAssistant) -> Generator[None]:
+def device_integration(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock a device integration with a sensor platform."""
 
-    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         manager = entry.runtime_data = DeviceManager(
             hass,
             entry,
@@ -74,13 +74,13 @@ def device_integration(hass: UniversalAssistant) -> Generator[None]:
         await manager.async_setup()
         await hass.config_entries.async_forward_entry_setups(entry, [Platform.SENSOR])
 
-    async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         await hass.config_entries.async_unload_platforms_or_raise(
             entry, [Platform.SENSOR]
         )
 
     async def setup_sensor(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -121,7 +121,7 @@ def device_integration(hass: UniversalAssistant) -> Generator[None]:
 
 
 @pytest.fixture
-def connection_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def connection_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create a config entry for the connection integration."""
     entry = MockConfigEntry(domain="test_provider", entry_id="network")
     entry.add_to_hass(hass)
@@ -134,7 +134,7 @@ type RegisterBackend = Callable[
 
 
 @pytest.fixture
-def registered_backend(hass: UniversalAssistant) -> Generator[RegisterBackend]:
+def registered_backend(hass: __HAC_KEEP__) -> Generator[RegisterBackend]:
     """Register independently controlled connections."""
     cleanups: list[Unsubscribe] = []
 

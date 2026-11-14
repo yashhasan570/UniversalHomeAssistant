@@ -3,8 +3,8 @@
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MicroBeesConfigEntry
@@ -16,7 +16,7 @@ SWITCH_PRODUCT_IDS = {25, 26, 27, 35, 38, 46, 63, 64, 65, 86}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MicroBeesConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -61,7 +61,7 @@ class MBSwitch(MicroBeesActuatorEntity, SwitchEntity):
         """Turn on the switch."""
         send_command = await self.coordinator.microbees.sendCommand(self.actuator_id, 1)
         if not send_command:
-            raise UniversalAssistantError(f"Failed to turn on {self.name}")
+            raise __HAC_KEEP__Error(f"Failed to turn on {self.name}")
 
         self.actuator.value = True
         self.async_write_ha_state()
@@ -71,7 +71,7 @@ class MBSwitch(MicroBeesActuatorEntity, SwitchEntity):
         """Turn off the switch."""
         send_command = await self.coordinator.microbees.sendCommand(self.actuator_id, 0)
         if not send_command:
-            raise UniversalAssistantError(f"Failed to turn off {self.name}")
+            raise __HAC_KEEP__Error(f"Failed to turn off {self.name}")
 
         self.actuator.value = False
         self.async_write_ha_state()

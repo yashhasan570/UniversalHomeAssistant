@@ -8,8 +8,8 @@ from aioaquarite import AquariteError
 
 from universalassistant.components.time import TimeEntity, TimeEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -71,7 +71,7 @@ def _build_time_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VistapoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -141,7 +141,7 @@ class VistapoolTime(VistapoolEntity, TimeEntity):
                 seconds,
             )
         except AquariteError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_failed",
                 translation_placeholders={"entity": self.entity_id},

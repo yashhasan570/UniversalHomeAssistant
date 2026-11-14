@@ -10,8 +10,8 @@ from aiohttp import ClientResponseError
 from pymiele import MieleDevice
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -65,7 +65,7 @@ SELECT_TYPES: Final[tuple[MieleSelectDefinition, ...]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MieleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -146,7 +146,7 @@ class MieleSelectMode(MieleEntity, SelectEntity):
             )
         except ClientResponseError as err:
             _LOGGER.debug("Error setting select state for %s: %s", self.entity_id, err)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_state_error",
                 translation_placeholders={

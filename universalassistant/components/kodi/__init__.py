@@ -15,7 +15,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -38,13 +38,13 @@ class KodiRuntimeData:
     kodi: Kodi
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: KodiConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: KodiConfigEntry) -> None:
     """Set up Kodi from a config entry."""
     conn = get_kodi_connection(
         entry.data[CONF_HOST],
@@ -79,7 +79,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: KodiConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: KodiConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: KodiConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.connection.close()

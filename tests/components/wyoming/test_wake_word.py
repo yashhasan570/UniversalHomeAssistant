@@ -13,13 +13,13 @@ from wyoming.wake import Detection
 
 from universalassistant.components import wake_word
 from universalassistant.components.wyoming.coordinator import UPDATE_INTERVAL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import TEST_ATTR, MockAsyncTcpClient
 
 
-async def test_support(hass: UniversalAssistant, init_wyoming_wake_word) -> None:
+async def test_support(hass: __HAC_KEEP__, init_wyoming_wake_word) -> None:
     """Test supported properties."""
     state = hass.states.get("wake_word.test_wake_word")
     assert state is not None
@@ -35,7 +35,7 @@ async def test_support(hass: UniversalAssistant, init_wyoming_wake_word) -> None
 
 
 async def test_streaming_audio(
-    hass: UniversalAssistant, init_wyoming_wake_word, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, init_wyoming_wake_word, snapshot: SnapshotAssertion
 ) -> None:
     """Test streaming audio."""
     entity = wake_word.async_get_wake_word_detection_entity(
@@ -68,7 +68,7 @@ async def test_streaming_audio(
 
 
 async def test_streaming_audio_connection_lost(
-    hass: UniversalAssistant, init_wyoming_wake_word
+    hass: __HAC_KEEP__, init_wyoming_wake_word
 ) -> None:
     """Test streaming audio and losing connection."""
     entity = wake_word.async_get_wake_word_detection_entity(
@@ -103,7 +103,7 @@ async def test_streaming_audio_connection_lost(
     ],
 )
 async def test_streaming_audio_error_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     error_code: str | None,
     expected_message: str,
@@ -130,7 +130,7 @@ async def test_streaming_audio_error_event(
 
 
 async def test_streaming_audio_oserror(
-    hass: UniversalAssistant, init_wyoming_wake_word
+    hass: __HAC_KEEP__, init_wyoming_wake_word
 ) -> None:
     """Test streaming audio and error raising."""
     entity = wake_word.async_get_wake_word_detection_entity(
@@ -158,7 +158,7 @@ async def test_streaming_audio_oserror(
 
 
 async def test_detect_message_with_wake_word(
-    hass: UniversalAssistant, init_wyoming_wake_word
+    hass: __HAC_KEEP__, init_wyoming_wake_word
 ) -> None:
     """Test that specifying a wake word id produces a Detect message with that id."""
     entity = wake_word.async_get_wake_word_detection_entity(
@@ -184,7 +184,7 @@ async def test_detect_message_with_wake_word(
 
 
 async def test_detect_message_with_wrong_wake_word(
-    hass: UniversalAssistant, init_wyoming_wake_word
+    hass: __HAC_KEEP__, init_wyoming_wake_word
 ) -> None:
     """Test that specifying a wake word id filters invalid detections."""
     entity = wake_word.async_get_wake_word_detection_entity(
@@ -209,7 +209,7 @@ async def test_detect_message_with_wrong_wake_word(
 
 
 async def test_dynamic_wake_word_info(
-    hass: UniversalAssistant, init_wyoming_wake_word
+    hass: __HAC_KEEP__, init_wyoming_wake_word
 ) -> None:
     """Test that supported wake words are loaded dynamically."""
     entity = wake_word.async_get_wake_word_detection_entity(
@@ -269,7 +269,7 @@ async def test_dynamic_wake_word_info(
 
 
 @pytest.mark.usefixtures("init_wyoming_wake_word")
-async def test_uninstalled_wake_service_skipped(hass: UniversalAssistant) -> None:
+async def test_uninstalled_wake_service_skipped(hass: __HAC_KEEP__) -> None:
     """Test that wake words are taken from an installed program."""
     entity = wake_word.async_get_wake_word_detection_entity(
         hass, "wake_word.test_wake_word"

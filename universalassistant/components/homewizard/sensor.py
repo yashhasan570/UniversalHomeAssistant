@@ -30,7 +30,7 @@ from universalassistant.const import (
     UnitOfVolume,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import (
     DeviceInfo,
@@ -722,7 +722,7 @@ EXTERNAL_SENSORS = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HomeWizardConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

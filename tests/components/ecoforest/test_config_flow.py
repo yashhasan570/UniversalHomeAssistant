@@ -8,14 +8,14 @@ import pytest
 from universalassistant import config_entries
 from universalassistant.components.ecoforest.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_form(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_device, config
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_device, config
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -47,7 +47,7 @@ async def test_form(
 
 
 async def test_form_device_already_configured(
-    hass: UniversalAssistant, config_entry, mock_device, config
+    hass: __HAC_KEEP__, config_entry, mock_device, config
 ) -> None:
     """Test device already exists."""
     result = await hass.config_entries.flow.async_init(
@@ -84,7 +84,7 @@ async def test_form_device_already_configured(
     ],
 )
 async def test_flow_fails(
-    hass: UniversalAssistant, error: Exception, message: str, mock_device, config
+    hass: __HAC_KEEP__, error: Exception, message: str, mock_device, config
 ) -> None:
     """Test we handle failed flow."""
     result = await hass.config_entries.flow.async_init(

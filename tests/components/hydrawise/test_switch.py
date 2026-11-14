@@ -19,14 +19,14 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
 
 async def test_all_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_config_entry: Callable[[], Awaitable[MockConfigEntry]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -41,7 +41,7 @@ async def test_all_switches(
 
 
 async def test_manual_watering_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     zones: list[Zone],
@@ -79,7 +79,7 @@ async def test_manual_watering_services(
 
 @pytest.mark.freeze_time("2023-10-01 00:00:00+00:00")
 async def test_auto_watering_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: MockConfigEntry,
     mock_pydrawise: AsyncMock,
     zones: list[Zone],
@@ -126,7 +126,7 @@ async def test_auto_watering_services(
 )
 @pytest.mark.usefixtures("mock_added_config_entry")
 async def test_switch_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pydrawise: AsyncMock,
     entity_id: str,
     service: str,
@@ -135,7 +135,7 @@ async def test_switch_api_error(
     """Test that API errors raise a translated error."""
     getattr(mock_pydrawise, api_method).side_effect = APIError("Boom")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,

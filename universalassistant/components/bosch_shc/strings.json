@@ -13,7 +13,7 @@
     "flow_title": "Bosch SHC: {name}",
     "step": {
       "confirm_discovery": {
-        "description": "Smart Home Controller I: Please press the front-side button until LED starts flashing.\nSmart Home Controller II: Press the function button shortly. Cloud and network lights start blinking orange.\nDevice is now ready to be paired.\n\nReady to continue to set up {model} @ {host} with Universal Universal Home Assistant?"
+        "description": "Smart Home Controller I: Please press the front-side button until LED starts flashing.\nSmart Home Controller II: Press the function button shortly. Cloud and network lights start blinking orange.\nDevice is now ready to be paired.\n\nReady to continue to set up {model} @ {host} with __HA_KEEP__?"
       },
       "credentials": {
         "data": {
@@ -37,7 +37,7 @@
         "data_description": {
           "host": "The hostname or IP address of your Bosch Smart Home Controller."
         },
-        "description": "Set up your Bosch Smart Home Controller to allow monitoring and control with Universal Universal Home Assistant.",
+        "description": "Set up your Bosch Smart Home Controller to allow monitoring and control with __HA_KEEP__.",
         "title": "SHC authentication parameters"
       }
     }

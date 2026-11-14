@@ -47,7 +47,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Context, CoreState, UniversalAssistant, callback
+from universalassistant.core import Context, CoreState, __HAC_KEEP__, callback
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -57,7 +57,7 @@ from universalassistant.util.dt import utcnow
 REMOTE_UI_UNIQUE_ID = "cloud-remote-ui-connectivity"
 
 
-async def test_constructor_loads_info_from_config(hass: UniversalAssistant) -> None:
+async def test_constructor_loads_info_from_config(hass: __HAC_KEEP__) -> None:
     """Test non-dev mode loads info from SERVERS constant."""
     with patch("hass_nabucasa.Cloud.initialize"):
         result = await async_setup_component(
@@ -100,7 +100,7 @@ async def test_constructor_loads_info_from_config(hass: UniversalAssistant) -> N
 
 @pytest.mark.usefixtures("mock_cloud_fixture")
 async def test_disabling_remote_without_backend(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test disabling remote before the remote backend is initialized.
@@ -123,7 +123,7 @@ async def test_disabling_remote_without_backend(
 
 @pytest.mark.usefixtures("mock_cloud_fixture")
 async def test_remote_services(
-    hass: UniversalAssistant, hass_read_only_user: MockUser
+    hass: __HAC_KEEP__, hass_read_only_user: MockUser
 ) -> None:
     """Setup cloud component and test services."""
     cloud = hass.data[DATA_CLOUD]
@@ -180,7 +180,7 @@ async def test_remote_services(
 
 
 @pytest.mark.usefixtures("mock_cloud_fixture")
-async def test_shutdown_event(hass: UniversalAssistant) -> None:
+async def test_shutdown_event(hass: __HAC_KEEP__) -> None:
     """Test if the cloud will stop on shutdown event."""
     with patch("hass_nabucasa.Cloud.stop") as mock_stop:
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -190,7 +190,7 @@ async def test_shutdown_event(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_existing_cloud_user(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test setup with API push default data."""
     user = await hass.auth.async_create_system_user("Cloud test")
@@ -217,7 +217,7 @@ async def test_setup_existing_cloud_user(
 
 
 @pytest.mark.usefixtures("mock_cloud_fixture")
-async def test_on_connect(hass: UniversalAssistant) -> None:
+async def test_on_connect(hass: __HAC_KEEP__) -> None:
     """Test cloud on connect triggers."""
     cl = hass.data[DATA_CLOUD]
 
@@ -275,7 +275,7 @@ async def test_on_connect(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_cloud_fixture")
-async def test_remote_ui_url(hass: UniversalAssistant) -> None:
+async def test_remote_ui_url(hass: __HAC_KEEP__) -> None:
     """Test getting remote ui url."""
     cl = hass.data[DATA_CLOUD]
 
@@ -308,7 +308,7 @@ async def test_remote_ui_url(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_cloud_fixture")
-async def test_remote_ui_urls(hass: UniversalAssistant) -> None:
+async def test_remote_ui_urls(hass: __HAC_KEEP__) -> None:
     """Test getting the remote ui urls with custom domains first."""
     cl = hass.data[DATA_CLOUD]
 
@@ -360,7 +360,7 @@ async def test_remote_ui_urls(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_cloud_fixture")
 async def test_on_initialized_updates_remote_domain(
-    hass: UniversalAssistant, stored_domain: str | None, expected_calls: int
+    hass: __HAC_KEEP__, stored_domain: str | None, expected_calls: int
 ) -> None:
     """Test the remote domain preference is synced when cloud is initialized."""
     cl = hass.data[DATA_CLOUD]
@@ -380,7 +380,7 @@ async def test_on_initialized_updates_remote_domain(
 
 
 async def test_async_get_or_create_cloudhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     set_cloud_prefs: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
 ) -> None:
@@ -435,7 +435,7 @@ async def test_async_get_or_create_cloudhook(
 
 
 async def test_setup_removes_stale_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
 ) -> None:
     """Test cloud setup with existing config entry when user is logged out."""
@@ -451,7 +451,7 @@ async def test_setup_removes_stale_config_entry(
 
 
 async def test_logout_removes_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -488,7 +488,7 @@ async def test_logout_removes_config_entry(
 
 @pytest.fixture(name="pending_auto_login")
 async def pending_auto_login_fixture(
-    hass: UniversalAssistant, cloud: MagicMock
+    hass: __HAC_KEEP__, cloud: MagicMock
 ) -> AutoLoginController:
     """Set up cloud with a registration waiting for its confirmation."""
     assert await async_setup_component(hass, DOMAIN, {"cloud": {}})
@@ -500,7 +500,7 @@ async def pending_auto_login_fixture(
     return controller
 
 
-def _track_cloud_events(hass: UniversalAssistant) -> list[dict[str, Any]]:
+def _track_cloud_events(hass: __HAC_KEEP__) -> list[dict[str, Any]]:
     """Collect the payloads pushed on the cloud event signal."""
     events: list[dict[str, Any]] = []
 
@@ -514,7 +514,7 @@ def _track_cloud_events(hass: UniversalAssistant) -> list[dict[str, Any]]:
 
 @pytest.mark.usefixtures("pending_auto_login")
 async def test_login_event_clears_pending_auto_login(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
 ) -> None:
     """Test a successful login forgets the registration and tells the frontend."""
@@ -529,7 +529,7 @@ async def test_login_event_clears_pending_auto_login(
 
 @pytest.mark.usefixtures("pending_auto_login")
 async def test_logout_event_clears_pending_auto_login(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
 ) -> None:
     """Test a logout forgets the registration without pushing an event."""
@@ -542,7 +542,7 @@ async def test_logout_event_clears_pending_auto_login(
 
 
 async def test_auto_login_failed_event_keeps_controller(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     pending_auto_login: AutoLoginController,
 ) -> None:
@@ -566,7 +566,7 @@ async def test_auto_login_failed_event_keeps_controller(
 
 @pytest.mark.usefixtures("pending_auto_login")
 async def test_interactive_login_failed_event_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
 ) -> None:
     """Test a failed interactive login is left to the caller that asked for it."""
@@ -580,7 +580,7 @@ async def test_interactive_login_failed_event_ignored(
 
 
 async def test_async_listen_cloudhook_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     set_cloud_prefs: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
 ) -> None:
@@ -672,7 +672,7 @@ async def test_async_listen_cloudhook_change(
 
 
 async def test_async_listen_cloudhook_change_cloud_setup_later(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     set_cloud_prefs: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
 ) -> None:
@@ -726,7 +726,7 @@ async def test_async_listen_cloudhook_change_cloud_setup_later(
 
 
 async def test_assistant_settings_migrated_at_startup(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test outdated assistant settings are migrated at startup without a login."""
     hass.set_state(CoreState.not_running)
@@ -755,12 +755,12 @@ async def test_assistant_settings_migrated_at_startup(
 @pytest.mark.parametrize(
     ("title", "expected_title"),
     [
-        pytest.param("Universal Universal Home Assistant Cloud", "Universal Universal Home Assistant Link", id="legacy"),
+        pytest.param("__HA_KEEP__ Cloud", "__HA_KEEP__ Link", id="legacy"),
         pytest.param("Custom title", "Custom title", id="custom"),
     ],
 )
 async def test_setup_entry_renames_legacy_title(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     title: str,
     expected_title: str,

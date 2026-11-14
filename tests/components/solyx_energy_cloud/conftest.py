@@ -17,7 +17,7 @@ from universalassistant.components.solyx_energy_cloud.const import (
 from .const import NYMO_CLIENT_ID, NYMO_CLIENT_SECRET
 
 if TYPE_CHECKING:
-    from universalassistant.core import UniversalAssistant
+    from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -72,7 +72,7 @@ def mock_setup_entry() -> Generator[None]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api_client_class: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> MockConfigEntry:

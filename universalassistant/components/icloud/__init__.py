@@ -3,7 +3,7 @@
 from typing import Any
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.storage import Store
 from universalassistant.helpers.typing import ConfigType
@@ -25,7 +25,7 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up iCloud integration."""
 
     async_setup_services(hass)
@@ -33,7 +33,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IcloudConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IcloudConfigEntry) -> None:
     """Set up an iCloud account from a config entry."""
 
     username = entry.data[CONF_USERNAME]
@@ -90,7 +90,7 @@ async def _async_first_refresh(account: IcloudAccount) -> None:
     await account.reminders_coordinator.async_refresh()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IcloudConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IcloudConfigEntry) -> None:
     """Unload a config entry."""
     account = entry.runtime_data
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

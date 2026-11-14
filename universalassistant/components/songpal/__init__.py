@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_NAME, Platform
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.typing import ConfigType
@@ -36,7 +36,7 @@ PLATFORMS = [Platform.MEDIA_PLAYER]
 INTEGRATION_TITLE = "Sony Songpal"
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up songpal environment."""
     async_setup_services(hass)
 
@@ -47,7 +47,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def _async_import_yaml(
-    hass: UniversalAssistant, import_data: list[dict[str, Any]]
+    hass: __HAC_KEEP__, import_data: list[dict[str, Any]]
 ) -> None:
     """Import the YAML devices into config entries."""
     # Eager tasks register the import flows before setup waits for them.
@@ -102,11 +102,11 @@ async def _async_import_yaml(
     )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up songpal media player."""
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload songpal media player."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

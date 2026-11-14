@@ -28,7 +28,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import (
@@ -478,7 +478,7 @@ DEVICE_CATEGORY_SENSOR_URLS: Final[dict[NetatmoDeviceCategory, str]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NetatmoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

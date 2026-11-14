@@ -16,15 +16,15 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     EVENT_CORE_CONFIG_UPDATE,
 )
-from universalassistant.core import Event, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Event, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
 from .const import CONF_TRACK_HOME, DOMAIN
 
-# Dedicated Universal Universal Home Assistant endpoint - do not change!
+# Dedicated __HA_KEEP__ endpoint - do not change!
 URL = "https://aa015h6buqvih86i1.api.met.no/weatherapi/locationforecast/2.0/complete"
 
 _LOGGER = logging.getLogger(__name__)
@@ -32,14 +32,14 @@ _LOGGER = logging.getLogger(__name__)
 type MetWeatherConfigEntry = ConfigEntry[MetDataUpdateCoordinator]
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Unable to connect to the web site."""
 
 
 class MetWeatherData:
     """Keep data for Met.no weather entities."""
 
-    def __init__(self, hass: UniversalAssistant, config: Mapping[str, Any]) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: Mapping[str, Any]) -> None:
         """Initialise the weather entity data."""
         self.hass = hass
         self._config = config
@@ -94,7 +94,7 @@ class MetDataUpdateCoordinator(DataUpdateCoordinator[MetWeatherData]):
     config_entry: MetWeatherConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: MetWeatherConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: MetWeatherConfigEntry
     ) -> None:
         """Initialize global Met data updater."""
         self._unsub_track_home: Callable[[], None] | None = None

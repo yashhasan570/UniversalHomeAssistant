@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_TYPE,
 )
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import VolDictType
 
@@ -615,5 +615,5 @@ def _test_transport(host: str | None, port: int | None, device: str | None) -> b
     return True
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

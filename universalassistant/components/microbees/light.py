@@ -3,8 +3,8 @@
 from typing import Any, override
 
 from universalassistant.components.light import ATTR_RGBW_COLOR, ColorMode, LightEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MicroBeesConfigEntry
@@ -13,7 +13,7 @@ from .entity import MicroBeesActuatorEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MicroBeesConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -64,7 +64,7 @@ class MBLight(MicroBeesActuatorEntity, LightEntity):
             self.actuator_id, 1, color=self._attr_rgbw_color
         )
         if not send_command:
-            raise UniversalAssistantError(f"Failed to turn on {self.name}")
+            raise __HAC_KEEP__Error(f"Failed to turn on {self.name}")
 
         self.actuator.value = True
         self.async_write_ha_state()
@@ -76,7 +76,7 @@ class MBLight(MicroBeesActuatorEntity, LightEntity):
             self.actuator_id, 0, color=self._attr_rgbw_color
         )
         if not send_command:
-            raise UniversalAssistantError(f"Failed to turn off {self.name}")
+            raise __HAC_KEEP__Error(f"Failed to turn off {self.name}")
 
         self.actuator.value = False
         self.async_write_ha_state()

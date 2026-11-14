@@ -16,8 +16,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import SMART_THERMOSTAT_RADIATOR_SERVICE_INFO
 
@@ -31,7 +31,7 @@ from . import SMART_THERMOSTAT_RADIATOR_SERVICE_INFO
     ],
 )
 async def test_smart_thermostat_radiator_controlling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -83,7 +83,7 @@ async def test_smart_thermostat_radiator_controlling(
     ],
 )
 async def test_exception_handling_smart_thermostat_radiator_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     service_data: dict,
@@ -108,7 +108,7 @@ async def test_exception_handling_smart_thermostat_radiator_service(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(UniversalAssistantError, match=error_message):
+        with pytest.raises(__HAC_KEEP__Error, match=error_message):
             await hass.services.async_call(
                 CLIMATE_DOMAIN,
                 service,

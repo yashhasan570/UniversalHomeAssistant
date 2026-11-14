@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import modernforms_exception_handler
@@ -12,7 +12,7 @@ from .entity import ModernFormsDeviceEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ModernFormsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

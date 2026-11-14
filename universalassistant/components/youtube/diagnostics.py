@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     ATTR_DESCRIPTION,
@@ -14,7 +14,7 @@ from .coordinator import YouTubeConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: YouTubeConfigEntry
+    hass: __HAC_KEEP__, entry: YouTubeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     sensor_data: dict[str, Any] = {}

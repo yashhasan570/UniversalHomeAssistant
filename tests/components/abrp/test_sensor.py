@@ -14,7 +14,7 @@ from universalassistant.components.universalassistant import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -38,7 +38,7 @@ _ABSENT_VEHICLE_ID = 999999999999
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_telemetry_sensors_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_vehicles: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_telemetry_stream: MagicMock,
@@ -86,7 +86,7 @@ async def test_telemetry_sensors_snapshot(
 )
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_charging_state_lazy_create_on_first_frame(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
     charging_state: ChargingState,
@@ -111,7 +111,7 @@ async def test_charging_state_lazy_create_on_first_frame(
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_availability_follows_stream_auth_not_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -174,7 +174,7 @@ async def test_availability_follows_stream_auth_not_connection(
 )
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_first_frame_creates_only_that_metric(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_vehicles: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_telemetry_stream: MagicMock,
@@ -197,7 +197,7 @@ async def test_first_frame_creates_only_that_metric(
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_lazy_create_idempotent_on_repeated_frames(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_vehicles: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_telemetry_stream: MagicMock,
@@ -265,7 +265,7 @@ async def test_lazy_create_idempotent_on_repeated_frames(
 )
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_multi_vehicle_entity_isolation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_vehicles: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_telemetry_stream: MagicMock,
@@ -302,7 +302,7 @@ async def test_multi_vehicle_entity_isolation(
 
 @pytest.mark.usefixtures("mock_abrp_client")
 async def test_update_entity_keeps_streamed_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_with_vehicles: MockConfigEntry,
     mock_telemetry_stream: MagicMock,
     caplog: pytest.LogCaptureFixture,

@@ -6,7 +6,7 @@ from livisi import LivisiException, WrongCredentialException
 
 from universalassistant import core
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 
@@ -16,7 +16,7 @@ from .coordinator import LivisiConfigEntry, LivisiDataUpdateCoordinator
 PLATFORMS: Final = [Platform.BINARY_SENSOR, Platform.CLIMATE, Platform.SWITCH]
 
 
-async def async_setup_entry(hass: core.UniversalAssistant, entry: LivisiConfigEntry) -> None:
+async def async_setup_entry(hass: core.__HAC_KEEP__, entry: LivisiConfigEntry) -> None:
     """Set up Livisi Smart Home from a config entry."""
     coordinator = LivisiDataUpdateCoordinator(hass, entry)
     try:
@@ -43,6 +43,6 @@ async def async_setup_entry(hass: core.UniversalAssistant, entry: LivisiConfigEn
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LivisiConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LivisiConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

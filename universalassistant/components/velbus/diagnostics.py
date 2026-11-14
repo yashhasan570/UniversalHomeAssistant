@@ -5,13 +5,13 @@ from typing import Any
 from velbusaio.channels import Channel as VelbusChannel
 from velbusaio.module import Module as VelbusModule
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import VelbusConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: VelbusConfigEntry
+    hass: __HAC_KEEP__, entry: VelbusConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     controller = entry.runtime_data.controller

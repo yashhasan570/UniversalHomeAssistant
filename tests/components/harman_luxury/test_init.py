@@ -8,7 +8,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 from .conftest import DEVICE_INFO
@@ -16,7 +16,7 @@ from .conftest import DEVICE_INFO
 
 @pytest.mark.usefixtures("mock_client")
 async def test_setup_and_unload(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a config entry loads and unloads cleanly."""
     await setup_integration(hass, mock_config_entry)
@@ -28,7 +28,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_cannot_connect(
-    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the config entry retries setup when the device is unreachable."""
     mock_client.async_get_info.side_effect = HarmanLuxuryError
@@ -38,7 +38,7 @@ async def test_setup_cannot_connect(
 
 
 async def test_setup_unexpected_device(
-    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup fails when the host answers as a different device."""
     mock_client.async_get_info.return_value = replace(DEVICE_INFO, serial="different")

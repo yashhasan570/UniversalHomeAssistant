@@ -5,8 +5,8 @@ from typing import Any, override
 from aiotedee import TedeeClientException, TedeeLock, TedeeLockState
 
 from universalassistant.components.lock import LockEntity, LockEntityFeature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TedeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -110,7 +110,7 @@ class TedeeLockEntity(TedeeEntity, LockEntity):
             await self.coordinator.tedee_client.unlock(self._lock.id)
             await self.coordinator.async_request_refresh()
         except (TedeeClientException, Exception) as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unlock_failed",
                 translation_placeholders={"lock_id": str(self._lock.id)},
@@ -126,7 +126,7 @@ class TedeeLockEntity(TedeeEntity, LockEntity):
             await self.coordinator.tedee_client.lock(self._lock.id)
             await self.coordinator.async_request_refresh()
         except (TedeeClientException, Exception) as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="lock_failed",
                 translation_placeholders={"lock_id": str(self._lock.id)},
@@ -152,7 +152,7 @@ class TedeeLockWithLatchEntity(TedeeLockEntity):
             await self.coordinator.tedee_client.open(self._lock.id)
             await self.coordinator.async_request_refresh()
         except (TedeeClientException, Exception) as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="open_failed",
                 translation_placeholders={"lock_id": str(self._lock.id)},

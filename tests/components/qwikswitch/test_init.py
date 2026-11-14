@@ -14,7 +14,7 @@ from yarl import URL
 
 from universalassistant.components.qwikswitch import DOMAIN
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
@@ -53,7 +53,7 @@ EMPTY_PACKET = {"cmd": ""}
 
 
 async def test_binary_sensor_device(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, qs_devices
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, qs_devices
 ) -> None:
     """Test a binary sensor device."""
     config = {
@@ -92,7 +92,7 @@ async def test_binary_sensor_device(
 
 
 async def test_sensor_device(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, qs_devices
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, qs_devices
 ) -> None:
     """Test a sensor device."""
     config = {
@@ -127,7 +127,7 @@ async def test_sensor_device(
 
 
 async def test_switch_device(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, qs_devices
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, qs_devices
 ) -> None:
     """Test a switch device."""
 
@@ -191,7 +191,7 @@ async def test_switch_device(
 
 
 async def test_light_device(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, qs_devices
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, qs_devices
 ) -> None:
     """Test a light device."""
 
@@ -263,7 +263,7 @@ async def test_light_device(
 
 
 async def test_button(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, qs_devices
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, qs_devices
 ) -> None:
     """Test that buttons fire an event."""
 
@@ -290,7 +290,7 @@ async def test_button(
 
 
 async def test_failed_update_devices(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that code behaves correctly when unable to get the devices."""
 
@@ -305,7 +305,7 @@ async def test_failed_update_devices(
 
 
 async def test_single_invalid_sensor(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, qs_devices
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, qs_devices
 ) -> None:
     """Test that a single misconfigured sensor doesn't block the others."""
 
@@ -331,7 +331,7 @@ async def test_single_invalid_sensor(
 
 
 async def test_non_binary_sensor_with_binary_args(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     qs_devices,
     caplog: pytest.LogCaptureFixture,
@@ -363,7 +363,7 @@ async def test_non_binary_sensor_with_binary_args(
 
 
 async def test_non_relay_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     qs_devices,
     caplog: pytest.LogCaptureFixture,
@@ -383,7 +383,7 @@ async def test_non_relay_switch(
 
 
 async def test_unknown_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     qs_devices,
     caplog: pytest.LogCaptureFixture,
@@ -406,7 +406,7 @@ async def test_unknown_device(
 
 
 async def test_no_discover_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,

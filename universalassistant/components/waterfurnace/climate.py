@@ -14,8 +14,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import WaterFurnaceConfigEntry
@@ -63,7 +63,7 @@ COOLING_MAX = 90
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WaterFurnaceConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -175,7 +175,7 @@ class WaterFurnaceClimate(WaterFurnaceEntity, ClimateEntity):
                 self.coordinator.client.set_mode, HVAC_TO_WF_MODE[hvac_mode]
             )
         except (WFException, ValueError) as err:
-            raise UniversalAssistantError(f"Failed to set HVAC mode: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to set HVAC mode: {err}") from err
 
     @override
     async def async_set_temperature(self, **kwargs: Any) -> None:
@@ -192,7 +192,7 @@ class WaterFurnaceClimate(WaterFurnaceEntity, ClimateEntity):
                 self._set_temperature, low, high, temp, current_mode
             )
         except (WFException, ValueError) as err:
-            raise UniversalAssistantError(f"Failed to set temperature: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to set temperature: {err}") from err
 
     def _set_temperature(
         self,
@@ -220,4 +220,4 @@ class WaterFurnaceClimate(WaterFurnaceEntity, ClimateEntity):
                 self.coordinator.client.set_humidity, humidity
             )
         except (WFException, ValueError) as err:
-            raise UniversalAssistantError(f"Failed to set humidity: {err}") from err
+            raise __HAC_KEEP__Error(f"Failed to set humidity: {err}") from err

@@ -9,8 +9,8 @@ import probatio
 
 from universalassistant.components import websocket_api
 from universalassistant.const import CONF_ID, CONF_NAME
-from universalassistant.core import Context, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Context, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     collection,
     config_validation as cv,
@@ -57,7 +57,7 @@ __all__ = [
 ]
 
 
-class TagIDExistsError(UniversalAssistantError):
+class TagIDExistsError(__HAC_KEEP__Error):
     """Raised when an item is not found."""
 
     def __init__(self, item_id: str) -> None:
@@ -212,7 +212,7 @@ class TagDictStorageCollectionWebsocket(
     @callback
     @override
     def ws_list_item(
-        self, hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+        self, hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """List items specifically for tag.
 
@@ -234,7 +234,7 @@ class TagDictStorageCollectionWebsocket(
         connection.send_result(msg["id"], tag_items)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Tag component."""
     component = EntityComponent[TagEntity](LOGGER, DOMAIN, hass)
     id_manager = TagIDManager()
@@ -327,14 +327,14 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_scan_tag(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tag_id: str,
     device_id: str | None,
     context: Context | None = None,
 ) -> None:
     """Handle when a tag is scanned."""
     if DOMAIN not in hass.config.components:
-        raise UniversalAssistantError("tag component has not been set up.")
+        raise __HAC_KEEP__Error("tag component has not been set up.")
 
     storage_collection = hass.data[TAG_DATA]
     entity_registry = er.async_get(hass)

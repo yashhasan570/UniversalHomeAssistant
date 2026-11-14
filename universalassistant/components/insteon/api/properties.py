@@ -31,7 +31,7 @@ from pyinsteon.constants import (
 from pyinsteon.device_types.device_base import Device
 
 from universalassistant.components import websocket_api
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 
 from ..const import (
@@ -232,7 +232,7 @@ def update_property(device, prop_name, value):
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_get_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -257,7 +257,7 @@ async def websocket_get_properties(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_change_properties_record(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -279,7 +279,7 @@ async def websocket_change_properties_record(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_write_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -309,7 +309,7 @@ async def websocket_write_properties(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_load_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -340,7 +340,7 @@ async def websocket_load_properties(
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_reset_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.connection.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

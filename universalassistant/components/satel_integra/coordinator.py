@@ -13,7 +13,7 @@ from satel_integra import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -49,7 +49,7 @@ class SatelIntegraBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: SatelConfigEntry,
         client: SatelClient,
         update_interval: timedelta | None = None,
@@ -83,7 +83,7 @@ class SatelIntegraZonesCoordinator(SatelIntegraBaseCoordinator[dict[int, bool | 
     """DataUpdateCoordinator to handle zone updates."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: SatelConfigEntry, client: SatelClient
+        self, hass: __HAC_KEEP__, entry: SatelConfigEntry, client: SatelClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, client)
@@ -116,7 +116,7 @@ class SatelIntegraOutputsCoordinator(
     """DataUpdateCoordinator to handle output updates."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: SatelConfigEntry, client: SatelClient
+        self, hass: __HAC_KEEP__, entry: SatelConfigEntry, client: SatelClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, client)
@@ -152,7 +152,7 @@ class SatelIntegraPartitionsCoordinator(
     """DataUpdateCoordinator to handle partition state updates."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: SatelConfigEntry, client: SatelClient
+        self, hass: __HAC_KEEP__, entry: SatelConfigEntry, client: SatelClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, client)
@@ -204,7 +204,7 @@ class SatelIntegraSystemStatusCoordinator(
     """DataUpdateCoordinator to handle system status updates."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: SatelConfigEntry, client: SatelClient
+        self, hass: __HAC_KEEP__, entry: SatelConfigEntry, client: SatelClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(hass, entry, client)
@@ -241,7 +241,7 @@ class SatelIntegraTemperaturesCoordinator(
     """DataUpdateCoordinator to poll zone temperatures."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: SatelConfigEntry, client: SatelClient
+        self, hass: __HAC_KEEP__, entry: SatelConfigEntry, client: SatelClient
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

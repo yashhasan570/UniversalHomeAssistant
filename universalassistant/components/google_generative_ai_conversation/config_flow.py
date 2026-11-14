@@ -20,7 +20,7 @@ from universalassistant.config_entries import (
     SubentryFlowResult,
 )
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_NAME, CONF_PROMPT
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import llm
 from universalassistant.helpers.field_visibility import FieldCondition
 from universalassistant.helpers.selector import (
@@ -83,7 +83,7 @@ STEP_API_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> None:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> None:
     """Validate the user input allows us to connect.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
@@ -287,7 +287,7 @@ class LLMSubentryFlowHandler(ConfigSubentryFlow):
 
 
 async def google_generative_ai_config_option_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     is_new: bool,
     subentry_type: str,
     options: Mapping[str, Any],

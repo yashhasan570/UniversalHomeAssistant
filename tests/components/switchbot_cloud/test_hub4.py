@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.switchbot_cloud.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_WEBHOOK_ID, STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import entity_registry as er
 
@@ -21,7 +21,7 @@ from . import configure_integration
 @pytest.mark.usefixtures("mock_delete_webhook", "mock_setup_webhook")
 @pytest.mark.parametrize("motion", [True, False])
 async def test_hub4_polling_and_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_list_devices: AsyncMock,

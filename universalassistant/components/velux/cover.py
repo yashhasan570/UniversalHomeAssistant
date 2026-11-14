@@ -26,7 +26,7 @@ from universalassistant.components.cover import (
     CoverEntityFeature,
     CoverSpeed,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -49,7 +49,7 @@ _DEPRECATED_SPEED_TO_VELOCITY: dict[str, Velocity | None] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VeluxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -102,7 +102,7 @@ class VeluxCover(VeluxEntity, CoverEntity):
     _attr_supported_speeds = [*_SPEED_TO_VELOCITY, *_DEPRECATED_SPEED_TO_VELOCITY]
 
     def __init__(
-        self, hass: UniversalAssistant, node: OpeningDevice, config_entry_id: str
+        self, hass: __HAC_KEEP__, node: OpeningDevice, config_entry_id: str
     ) -> None:
         """Initialize VeluxCover."""
         super().__init__(hass, node, config_entry_id)
@@ -226,7 +226,7 @@ class VeluxDualRollerShutter(VeluxCover):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         node: DualRollerShutter,
         config_entry_id: str,
         part: VeluxDualRollerPart,
@@ -306,7 +306,7 @@ class VeluxBlind(VeluxCover):
     node: Blind
     _attr_device_class = CoverDeviceClass.BLIND
 
-    def __init__(self, hass: UniversalAssistant, node: Blind, config_entry_id: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, node: Blind, config_entry_id: str) -> None:
         """Initialize VeluxBlind."""
         super().__init__(hass, node, config_entry_id)
 

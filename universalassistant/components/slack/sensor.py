@@ -7,7 +7,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
     SensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -17,7 +17,7 @@ from .entity import SlackEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SlackConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

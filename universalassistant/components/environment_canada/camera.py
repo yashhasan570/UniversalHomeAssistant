@@ -5,7 +5,7 @@ from typing import override
 from env_canada import ECMap
 
 from universalassistant.components.camera import Camera
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 from universalassistant.util import dt as dt_util
@@ -21,7 +21,7 @@ _RADAR_TYPE_TO_LAYER: dict[str, str] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ECConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

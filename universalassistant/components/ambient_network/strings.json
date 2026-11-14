@@ -11,7 +11,7 @@
         "data": {
           "station": "Station"
         },
-        "description": "Select the weather station you want to add to Universal Universal Home Assistant.",
+        "description": "Select the weather station you want to add to __HA_KEEP__.",
         "title": "Select station"
       },
       "user": {

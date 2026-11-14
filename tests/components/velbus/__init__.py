@@ -1,11 +1,11 @@
 """Tests for the Velbus component."""
 
 from universalassistant.components.velbus import VelbusConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VelbusConfigEntry,
 ) -> None:
     """Load the Velbus integration."""

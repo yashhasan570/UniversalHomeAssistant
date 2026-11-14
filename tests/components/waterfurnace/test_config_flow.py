@@ -9,13 +9,13 @@ from waterfurnace.waterfurnace import WFCredentialError, WFException
 from universalassistant.components.waterfurnace.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_success(
-    hass: UniversalAssistant, mock_waterfurnace_client: Mock
+    hass: __HAC_KEEP__, mock_waterfurnace_client: Mock
 ) -> None:
     """Test successful user flow."""
     result = await hass.config_entries.flow.async_init(
@@ -52,7 +52,7 @@ async def test_user_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     exception: Exception,
     error: str,
@@ -86,7 +86,7 @@ async def test_user_flow_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_no_devices(
-    hass: UniversalAssistant, mock_waterfurnace_client: Mock
+    hass: __HAC_KEEP__, mock_waterfurnace_client: Mock
 ) -> None:
     """Test user flow with no devices."""
     mock_waterfurnace_client.devices = []
@@ -122,7 +122,7 @@ async def test_user_flow_no_devices(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_account_id_none(
-    hass: UniversalAssistant, mock_waterfurnace_client: Mock
+    hass: __HAC_KEEP__, mock_waterfurnace_client: Mock
 ) -> None:
     """Test user flow when account_id is None."""
     mock_waterfurnace_client.account_id = None
@@ -150,7 +150,7 @@ async def test_user_flow_account_id_none(
 
 
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_reauth_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -243,7 +243,7 @@ async def test_reauth_flow_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -265,7 +265,7 @@ async def test_reauth_flow_wrong_account(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_no_account_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_waterfurnace_client: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

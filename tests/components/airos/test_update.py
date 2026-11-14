@@ -11,8 +11,8 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -27,7 +27,7 @@ from . import setup_integration
     indirect=["ap_status_fixture", "ap_firmware_fixture"],
 )
 async def test_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_airos_client: AsyncMock,
@@ -73,7 +73,7 @@ async def test_update_entity(
     indirect=True,
 )
 async def test_no_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_airos_client: AsyncMock,
@@ -110,7 +110,7 @@ async def test_no_update_entity(
     indirect=["ap_status_fixture", "ap_firmware_fixture"],
 )
 async def test_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_airos_client: AsyncMock,
@@ -134,7 +134,7 @@ async def test_update_failure(
 
     mock_airos_client.download.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             "update",
             "install",

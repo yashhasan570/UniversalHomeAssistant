@@ -33,7 +33,7 @@ from universalassistant.config_entries import (
     ConfigFlow,
 )
 from universalassistant.const import __version__ as ha_version
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -52,7 +52,7 @@ DEFAULT_ISSUES = [
 
 
 async def create_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ws_client: MockHAClientWebSocket,
     issues: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
@@ -142,12 +142,12 @@ class MockFixFlowAbort(RepairsFlow):
 
 
 @pytest.fixture(autouse=True)
-async def mock_repairs_integration(hass: UniversalAssistant) -> None:
+async def mock_repairs_integration(hass: __HAC_KEEP__) -> None:
     """Mock a repairs integration."""
     hass.config.components.add("fake_integration")
 
     def async_create_fix_flow(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         issue_id: str,
         data: dict[str, str | int | float | None] | None,
     ) -> RepairsFlow:
@@ -179,7 +179,7 @@ async def mock_repairs_integration(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 async def test_dismiss_issue(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can dismiss an issue."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -267,7 +267,7 @@ async def test_dismiss_issue(
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 async def test_fix_non_existing_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -330,7 +330,7 @@ async def test_fix_non_existing_issue(
     ],
 )
 async def test_fix_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     domain,
@@ -479,7 +479,7 @@ class MockFixFlowNextFlow(RepairsFlow):
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 async def test_fix_issue_next_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -529,7 +529,7 @@ async def test_fix_issue_next_flow(
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 async def test_fix_issue_next_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -597,7 +597,7 @@ async def test_fix_issue_next_flow_errors(
 
 
 async def test_fix_issue_unauth(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, hass_admin_user: MockUser
 ) -> None:
     """Test we can't query the result if not authorized."""
     assert await async_setup_component(hass, "http", {})
@@ -617,7 +617,7 @@ async def test_fix_issue_unauth(
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 async def test_get_progress_unauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
@@ -649,7 +649,7 @@ async def test_get_progress_unauth(
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 async def test_step_unauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
@@ -682,7 +682,7 @@ async def test_step_unauth(
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
 @pytest.mark.freeze_time("2022-07-19 07:53:05")
 async def test_list_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -789,7 +789,7 @@ def mock_test_config_flow() -> Iterator[None]:
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
 @pytest.mark.usefixtures("mock_test_config_flow")
 async def test_list_issues_hides_disabled_config_entry_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -876,7 +876,7 @@ async def test_list_issues_hides_disabled_config_entry_issues(
 
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["fake_integration"])
 async def test_fix_issue_aborted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -938,7 +938,7 @@ async def test_fix_issue_aborted(
 @pytest.mark.parametrize("ignore_translations_for_mock_domains", ["test"])
 @pytest.mark.freeze_time("2022-07-19 07:53:05")
 async def test_get_issue_data(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can get issue data."""
 

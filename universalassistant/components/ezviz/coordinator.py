@@ -15,7 +15,7 @@ from pyezvizapi.exceptions import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -31,7 +31,7 @@ class EzvizDataUpdateCoordinator(DataUpdateCoordinator[dict]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: EzvizConfigEntry,
         *,
         api: EzvizClient,

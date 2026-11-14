@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.recorder import Recorder
 from universalassistant.components.suez_water.const import CONF_COUNTER_ID, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import MOCK_DATA
 
 
 async def test_form(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, suez_client: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, suez_client: AsyncMock
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -39,7 +39,7 @@ async def test_form(
 
 
 async def test_form_invalid_auth(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, suez_client: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, suez_client: AsyncMock
 ) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
@@ -70,7 +70,7 @@ async def test_form_invalid_auth(
 
 
 async def test_form_already_configured(
-    hass: UniversalAssistant, recorder_mock: Recorder, suez_client: AsyncMock
+    hass: __HAC_KEEP__, recorder_mock: Recorder, suez_client: AsyncMock
 ) -> None:
     """Test we abort when entry is already configured."""
 
@@ -98,7 +98,7 @@ async def test_form_already_configured(
     ("exception", "error"), [(PySuezError, "cannot_connect"), (Exception, "unknown")]
 )
 async def test_form_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     exception: Exception,
     suez_client: AsyncMock,
@@ -132,7 +132,7 @@ async def test_form_error(
 
 
 async def test_form_auto_counter(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, suez_client: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, suez_client: AsyncMock
 ) -> None:
     """Test form set counter if not set by user."""
     result = await hass.config_entries.flow.async_init(

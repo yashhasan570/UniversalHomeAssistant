@@ -1,2 +1,2 @@
-# This always raises UniversalAssistantError
+# This always raises __HAC_KEEP__Error
 custom_validator_bad_1:

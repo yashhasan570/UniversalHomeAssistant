@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import RadioThermConfigEntry, RadioThermUpdateCoordinator
@@ -13,7 +13,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RadioThermConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

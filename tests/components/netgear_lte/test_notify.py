@@ -11,15 +11,15 @@ from universalassistant.components.notify import (
     ATTR_TARGET,
     DOMAIN as NOTIFY_DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 ICON_PATH = "/some/path"
 MESSAGE = "one, two, testing, testing"
 TARGET = "5555555556"
 
 
-async def test_notify(hass: UniversalAssistant, setup_integration: None) -> None:
+async def test_notify(hass: __HAC_KEEP__, setup_integration: None) -> None:
     """Test sending a message."""
     assert hass.services.has_service(NOTIFY_DOMAIN, "netgear_lm1200")
 
@@ -37,14 +37,14 @@ async def test_notify(hass: UniversalAssistant, setup_integration: None) -> None
 
 
 @pytest.mark.usefixtures("setup_integration")
-async def test_notify_error(hass: UniversalAssistant) -> None:
+async def test_notify_error(hass: __HAC_KEEP__) -> None:
     """Test that a failed send raises an error with a translation key."""
     with (
         patch(
             "universalassistant.components.netgear_lte.eternalegypt.Modem.sms",
             side_effect=eternalegypt.Error,
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             NOTIFY_DOMAIN,

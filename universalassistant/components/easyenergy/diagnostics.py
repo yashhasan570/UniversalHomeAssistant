@@ -3,7 +3,7 @@
 from datetime import timedelta
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .coordinator import EasyEnergyConfigEntry, EasyEnergyData
@@ -26,7 +26,7 @@ def get_gas_price(data: EasyEnergyData, hours: int) -> float | None:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: EasyEnergyConfigEntry
+    hass: __HAC_KEEP__, entry: EasyEnergyConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator_data = entry.runtime_data.data

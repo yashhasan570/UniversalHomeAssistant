@@ -1,6 +1,6 @@
 {
   "universal_assistant": {
-    "installation_type": "Universal Universal Home Assistant Container",
+    "installation_type": "__HA_KEEP__ Container",
     "version": "2024.7.4",
     "dev": false,
     "hassio": false,

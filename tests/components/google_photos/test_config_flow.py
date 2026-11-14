@@ -16,7 +16,7 @@ from universalassistant.components.google_photos.const import (
     OAUTH2_AUTHORIZE,
     OAUTH2_TOKEN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -71,7 +71,7 @@ def mock_token_request(
 @pytest.mark.usefixtures("current_request_with_host", "mock_api")
 @pytest.mark.parametrize("fixture_name", ["list_mediaitems.json"])
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     mock_setup: Mock,
 ) -> None:
@@ -140,7 +140,7 @@ async def test_full_flow(
     ],
 )
 async def test_api_not_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
     """Check flow aborts if api is not enabled."""
@@ -179,7 +179,7 @@ async def test_api_not_enabled(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_general_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     mock_api: Mock,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_general_exception(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     user_identifier: str,

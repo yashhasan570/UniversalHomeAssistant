@@ -10,8 +10,8 @@ from regenmaschine.errors import RainMachineError
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import ATTR_ID, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import RainMachineConfigEntry, RainMachineData
@@ -115,7 +115,7 @@ def raise_on_request_error[_T: RainMachineBaseSwitch, **_P](
         try:
             await func(self, *args, **kwargs)
         except RainMachineError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error while executing {func.__name__}: {err}",
             ) from err
 
@@ -166,7 +166,7 @@ RESTRICTIONS_SWITCH_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RainMachineConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -293,7 +293,7 @@ class RainMachineActivitySwitch(RainMachineBaseSwitch):
             not self._entry.options[CONF_ALLOW_INACTIVE_ZONES_TO_RUN]
             and not self.coordinator.data[self.entity_description.uid]["active"]
         ):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Cannot turn off an inactive program/zone: {self.name}"
             )
 
@@ -313,7 +313,7 @@ class RainMachineActivitySwitch(RainMachineBaseSwitch):
         ):
             self._attr_is_on = False
             self.async_write_ha_state()
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Cannot turn on an inactive program/zone: {self.name}"
             )
 

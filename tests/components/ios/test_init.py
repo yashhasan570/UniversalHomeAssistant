@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import mock_component
 
 from universalassistant.components import ios
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
@@ -18,13 +18,13 @@ def mock_load_json():
 
 
 @pytest.fixture(autouse=True)
-def mock_dependencies(hass: UniversalAssistant) -> None:
+def mock_dependencies(hass: __HAC_KEEP__) -> None:
     """Mock dependencies loaded."""
     mock_component(hass, "zeroconf")
     mock_component(hass, "device_tracker")
 
 
-async def test_creating_entry_sets_up_sensor(hass: UniversalAssistant) -> None:
+async def test_creating_entry_sets_up_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up iOS loads the sensor component."""
     with patch(
         "universalassistant.components.ios.sensor.async_setup_entry",
@@ -36,7 +36,7 @@ async def test_creating_entry_sets_up_sensor(hass: UniversalAssistant) -> None:
     assert len(mock_setup.mock_calls) == 1
 
 
-async def test_configuring_ios_creates_entry(hass: UniversalAssistant) -> None:
+async def test_configuring_ios_creates_entry(hass: __HAC_KEEP__) -> None:
     """Test that specifying config will create an entry."""
     with patch(
         "universalassistant.components.ios.async_setup_entry",
@@ -48,7 +48,7 @@ async def test_configuring_ios_creates_entry(hass: UniversalAssistant) -> None:
     assert len(mock_setup.mock_calls) == 1
 
 
-async def test_not_configuring_ios_not_creates_entry(hass: UniversalAssistant) -> None:
+async def test_not_configuring_ios_not_creates_entry(hass: __HAC_KEEP__) -> None:
     """Test that no config will not create an entry."""
     with patch(
         "universalassistant.components.ios.async_setup_entry",

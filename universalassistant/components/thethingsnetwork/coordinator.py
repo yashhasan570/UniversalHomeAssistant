@@ -8,7 +8,7 @@ from ttn_client import TTNAuthError, TTNClient
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -24,7 +24,7 @@ class TTNCoordinator(DataUpdateCoordinator[TTNClient.DATA_TYPE]):
 
     config_entry: TTNConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: TTNConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: TTNConfigEntry) -> None:
         """Initialize my coordinator."""
         super().__init__(
             hass,

@@ -16,11 +16,11 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_light_attributes_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homeworks: MagicMock,
     snapshot: SnapshotAssertion,
@@ -54,7 +54,7 @@ async def test_light_attributes_state_update(
 
 
 async def test_light_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homeworks: MagicMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_light_service_calls(
 
 
 async def test_light_restore_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homeworks: MagicMock,
 ) -> None:

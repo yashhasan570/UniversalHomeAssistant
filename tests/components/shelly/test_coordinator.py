@@ -42,7 +42,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import Event, UniversalAssistant, State
+from universalassistant.core import Event, __HAC_KEEP__, State
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
@@ -66,7 +66,7 @@ DEVICE_BLOCK_ID = 4
 
 
 async def test_block_reload_on_cfg_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -111,7 +111,7 @@ async def test_block_reload_on_cfg_change(
 
 
 async def test_block_no_reload_on_bulb_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -161,7 +161,7 @@ async def test_block_no_reload_on_bulb_changes(
 
 
 async def test_block_polling_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -196,7 +196,7 @@ async def test_block_polling_auth_error(
 
 
 async def test_block_rest_update_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -232,7 +232,7 @@ async def test_block_rest_update_auth_error(
 
 
 async def test_block_sleeping_device_firmware_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     issue_registry: ir.IssueRegistry,
@@ -253,7 +253,7 @@ async def test_block_sleeping_device_firmware_unsupported(
 
 
 async def test_block_polling_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -282,7 +282,7 @@ async def test_block_polling_connection_error(
 
 @pytest.mark.parametrize("exc", [DeviceConnectionError, MacAddressMismatchError])
 async def test_block_rest_update_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -306,7 +306,7 @@ async def test_block_rest_update_connection_error(
 
 
 async def test_block_sleeping_device_no_periodic_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -337,7 +337,7 @@ async def test_block_sleeping_device_no_periodic_updates(
 
 
 async def test_block_device_push_updates_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -355,7 +355,7 @@ async def test_block_device_push_updates_failure(
 
 
 async def test_block_button_click_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_block_device: Mock,
     events: list[Event],
@@ -401,7 +401,7 @@ async def test_block_button_click_event(
 
 
 async def test_rpc_reload_on_cfg_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -484,7 +484,7 @@ def _inject_config_changed(
     ],
 )
 async def test_rpc_cfg_change_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -534,7 +534,7 @@ async def test_rpc_cfg_change_refresh(
     ],
 )
 async def test_rpc_reload_without_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -565,7 +565,7 @@ async def test_rpc_reload_without_refresh(
     ],
 )
 async def test_rpc_cfg_change_refresh_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -589,7 +589,7 @@ async def test_rpc_cfg_change_refresh_error(
 
 
 async def test_rpc_reload_with_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -644,7 +644,7 @@ async def test_rpc_reload_with_invalid_auth(
 
 
 async def test_rpc_connection_error_during_unload(
-    hass: UniversalAssistant, mock_rpc_device: Mock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_rpc_device: Mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test RPC DeviceConnectionError suppressed during config entry unload."""
     entry = await init_integration(hass, 2)
@@ -663,11 +663,11 @@ async def test_rpc_connection_error_during_unload(
 
 
 async def test_block_shutdown_on_ha_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Test the device is shut down when Universal Universal Home Assistant stops."""
+    """Test the device is shut down when __HA_KEEP__ stops."""
     await init_integration(hass, 1)
 
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -678,7 +678,7 @@ async def test_block_shutdown_on_ha_stop(
 
 
 async def test_rpc_click_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_rpc_device: Mock,
     events: list[Event],
@@ -718,7 +718,7 @@ async def test_rpc_click_event(
 
 
 async def test_rpc_ignore_virtual_click_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_rpc_device: Mock,
     events: list[Event],
@@ -769,7 +769,7 @@ async def test_rpc_ignore_virtual_click_event(
 
 
 async def test_rpc_update_entry_sleep_period(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -802,7 +802,7 @@ async def test_rpc_update_entry_sleep_period(
 
 
 async def test_rpc_sleeping_device_no_periodic_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -837,7 +837,7 @@ async def test_rpc_sleeping_device_no_periodic_updates(
 
 
 async def test_rpc_sleeping_device_firmware_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     issue_registry: ir.IssueRegistry,
@@ -859,7 +859,7 @@ async def test_rpc_sleeping_device_firmware_unsupported(
 
 
 async def test_rpc_reconnect_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -898,7 +898,7 @@ async def test_rpc_reconnect_auth_error(
 
 
 async def test_rpc_polling_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -935,7 +935,7 @@ async def test_rpc_polling_auth_error(
 
 @pytest.mark.parametrize("exc", [DeviceConnectionError, MacAddressMismatchError])
 async def test_rpc_reconnect_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -977,7 +977,7 @@ def _inject_ota_event(
 
 
 async def _mock_rpc_device_rebooting(
-    hass: UniversalAssistant, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_rpc_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Disconnect the rpc device and fail to reconnect while it reboots."""
     monkeypatch.setattr(mock_rpc_device, "connected", False)
@@ -991,7 +991,7 @@ async def _mock_rpc_device_rebooting(
 
 @pytest.mark.parametrize("event_type", [OTA_BEGIN, OTA_PROGRESS, OTA_SUCCESS])
 async def test_rpc_reconnect_error_during_ota_reboot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1022,7 +1022,7 @@ async def test_rpc_reconnect_error_during_ota_reboot(
 
 
 async def test_rpc_reconnect_error_after_ota_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -1038,7 +1038,7 @@ async def test_rpc_reconnect_error_after_ota_error(
 
 
 async def test_rpc_reconnect_error_after_ota_reboot_completed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -1055,7 +1055,7 @@ async def test_rpc_reconnect_error_after_ota_reboot_completed(
 
 
 async def test_rpc_error_running_connected_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1088,7 +1088,7 @@ async def test_rpc_error_running_connected_events(
 
 
 async def test_rpc_polling_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1115,7 +1115,7 @@ async def test_rpc_polling_connection_error(
 
 
 async def test_rpc_polling_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1136,7 +1136,7 @@ async def test_rpc_polling_disconnected(
 
 
 async def test_rpc_polling_not_initialized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1159,7 +1159,7 @@ async def test_rpc_polling_not_initialized(
 
 
 async def test_rpc_update_entry_fw_ver(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1201,7 +1201,7 @@ async def test_rpc_update_entry_fw_ver(
     ],
 )
 async def test_rpc_runs_connected_events_when_initialized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -1238,7 +1238,7 @@ async def test_rpc_runs_connected_events_when_initialized(
 
 
 async def test_rpc_sleeping_device_unload_ignore_ble_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1259,7 +1259,7 @@ async def test_rpc_sleeping_device_unload_ignore_ble_scanner(
 
 
 async def test_block_sleeping_device_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
     mock_block_device: Mock,
@@ -1312,7 +1312,7 @@ async def test_block_sleeping_device_connection_error(
 
 
 async def test_rpc_sleeping_device_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
@@ -1366,7 +1366,7 @@ async def test_rpc_sleeping_device_connection_error(
 
 
 async def test_rpc_sleeping_device_late_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1398,7 +1398,7 @@ async def test_rpc_sleeping_device_late_setup(
 
 
 async def test_rpc_already_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_rpc_device: Mock,
     caplog: pytest.LogCaptureFixture,
@@ -1414,7 +1414,7 @@ async def test_rpc_already_connected(
 
 
 async def test_xmod_model_lookup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1444,7 +1444,7 @@ async def test_xmod_model_lookup(
     ],
 )
 async def test_xmod_manufacturer_lookup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -1464,7 +1464,7 @@ async def test_xmod_manufacturer_lookup(
 
 @pytest.mark.usefixtures("mock_sleepy_rpc_device")
 async def test_sleeping_device_manufacturer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test not initialized sleeping device manufacturer falls back to Shelly."""
@@ -1479,7 +1479,7 @@ async def test_sleeping_device_manufacturer(
 
 
 async def test_sub_device_area_from_main_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -1521,7 +1521,7 @@ async def test_sub_device_area_from_main_device(
 
 @pytest.mark.parametrize("restart_required", [True, False])
 async def test_rpc_ble_scanner_enable_reboot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,

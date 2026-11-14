@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.components.speedtestdotnet.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_RESULTS, MOCK_SERVERS, MOCK_STATES
 
 
 async def test_speedtestdotnet_sensors(
-    hass: UniversalAssistant, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_api: MagicMock
 ) -> None:
     """Test sensors created for speedtestdotnet integration."""
     entry = MockConfigEntry(domain=DOMAIN, data={})

@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.components.zimi.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .common import DEVICE_INFO, ENTITY_INFO, mock_api_device, setup_platform
@@ -15,7 +15,7 @@ from .conftest import INPUT_MAC
 
 
 async def test_switch_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_api: MagicMock,
     snapshot: SnapshotAssertion,
@@ -58,7 +58,7 @@ async def test_switch_entity(
 
 
 async def test_switch_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_api: MagicMock,
 ) -> None:

@@ -7,7 +7,7 @@ from universalassistant.components import panel_custom, websocket_api
 from universalassistant.components.cover import DEVICE_CLASSES
 from universalassistant.components.http import StaticPathConfig
 from universalassistant.const import CONF_DEFAULT, CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import (
     CONF_ACTIVE,
@@ -45,7 +45,7 @@ RELEVANT_CONFS = [
 @websocket_api.require_admin
 @callback
 def get_dynalite_config(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """Retrieve the Dynalite config for the frontend."""
     entries = hass.config_entries.async_entries(DOMAIN)
@@ -75,7 +75,7 @@ def get_dynalite_config(
 @websocket_api.require_admin
 @callback
 def save_dynalite_config(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
 ) -> None:
     """Retrieve the Dynalite config for the frontend."""
     entry_id = msg["entry_id"]
@@ -95,7 +95,7 @@ def save_dynalite_config(
     connection.send_result(msg["id"], {})
 
 
-async def async_register_dynalite_frontend(hass: UniversalAssistant):
+async def async_register_dynalite_frontend(hass: __HAC_KEEP__):
     """Register the Dynalite frontend configuration panel."""
     websocket_api.async_register_command(hass, get_dynalite_config)
     websocket_api.async_register_command(hass, save_dynalite_config)

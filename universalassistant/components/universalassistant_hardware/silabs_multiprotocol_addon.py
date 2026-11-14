@@ -24,9 +24,9 @@ from universalassistant.config_entries import (
     OptionsFlow,
     OptionsFlowManager,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import AbortFlow
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.hassio import is_hassio
 from universalassistant.helpers.integration_platform import (
@@ -71,7 +71,7 @@ SAVE_DELAY = 10
 
 @singleton(DATA_MULTIPROTOCOL_ADDON_MANAGER)
 async def get_multiprotocol_addon_manager(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> MultiprotocolAddonManager:
     """Get the add-on manager."""
     manager = MultiprotocolAddonManager(hass)
@@ -82,7 +82,7 @@ async def get_multiprotocol_addon_manager(
 class MultiprotocolAddonManager(WaitingAddonManager):
     """Silicon Labs Multiprotocol add-on manager."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the manager."""
         super().__init__(
             hass,
@@ -111,7 +111,7 @@ class MultiprotocolAddonManager(WaitingAddonManager):
         await self.async_load()
 
     async def _register_multipan_platform(
-        self, hass: UniversalAssistant, integration_domain: str, platform: MultipanProtocol
+        self, hass: __HAC_KEEP__, integration_domain: str, platform: MultipanProtocol
     ) -> None:
         """Register a multipan platform."""
         self._platforms[integration_domain] = platform
@@ -208,20 +208,20 @@ class MultipanProtocol(Protocol):
     """Define the format of multipan platforms."""
 
     async def async_change_channel(
-        self, hass: UniversalAssistant, channel: int, delay: float
+        self, hass: __HAC_KEEP__, channel: int, delay: float
     ) -> asyncio.Task | None:
         """Set the channel to be used.
 
         Does nothing if not configured or the multiprotocol add-on is not used.
         """
 
-    async def async_get_channel(self, hass: UniversalAssistant) -> int | None:
+    async def async_get_channel(self, hass: __HAC_KEEP__) -> int | None:
         """Return the channel.
 
         Returns None if not configured or the multiprotocol add-on is not used.
         """
 
-    async def async_using_multipan(self, hass: UniversalAssistant) -> bool:
+    async def async_using_multipan(self, hass: __HAC_KEEP__) -> bool:
         """Return if the multiprotocol device is used.
 
         Returns False if not configured.
@@ -753,7 +753,7 @@ class OptionsFlowHandler(OptionsFlow, ABC):
                         ManifestMissing,
                         ValueError,
                     ) as err:
-                        raise UniversalAssistantError(
+                        raise __HAC_KEEP__Error(
                             "Failed to fetch Zigbee firmware"
                         ) from err
 
@@ -788,7 +788,7 @@ class OptionsFlowHandler(OptionsFlow, ABC):
 
         try:
             await self.install_task
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             _LOGGER.error("Failed to flash Zigbee firmware: %s", err)
             return self.async_show_progress_done(next_step_id="firmware_flash_failed")
         finally:
@@ -820,7 +820,7 @@ class OptionsFlowHandler(OptionsFlow, ABC):
         return self.async_create_entry(title="", data={})
 
 
-async def check_multi_pan_addon(hass: UniversalAssistant) -> None:
+async def check_multi_pan_addon(hass: __HAC_KEEP__) -> None:
     """Check the multiprotocol addon state, and start it if installed but not started.
 
     Does nothing if Hass.io is not loaded.
@@ -835,7 +835,7 @@ async def check_multi_pan_addon(hass: UniversalAssistant) -> None:
     except AddonError as err:
         # pylint: disable-next=universal-assistant-log-and-raise
         _LOGGER.error(err)
-        raise UniversalAssistantError from err
+        raise __HAC_KEEP__Error from err
 
     # Request the addon to start if it's not started
     # `async_start_addon` returns as soon as the start request has been sent
@@ -845,10 +845,10 @@ async def check_multi_pan_addon(hass: UniversalAssistant) -> None:
 
     if addon_info.state not in (AddonState.NOT_INSTALLED, AddonState.RUNNING):
         _LOGGER.debug("Multi pan addon installed and in state %s", addon_info.state)
-        raise UniversalAssistantError
+        raise __HAC_KEEP__Error
 
 
-async def multi_pan_addon_using_device(hass: UniversalAssistant, device_path: str) -> bool:
+async def multi_pan_addon_using_device(hass: __HAC_KEEP__, device_path: str) -> bool:
     """Return True if the multi-PAN addon is using the given device.
 
     Returns False if Hass.io is not loaded, the addon is not running or the addon is

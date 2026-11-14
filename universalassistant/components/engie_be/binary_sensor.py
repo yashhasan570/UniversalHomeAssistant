@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, override
 
 from universalassistant.components.binary_sensor import BinarySensorEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -21,7 +21,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: EngieBeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

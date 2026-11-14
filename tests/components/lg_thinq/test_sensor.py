@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.lg_thinq.const import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -26,7 +26,7 @@ from . import setup_integration
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.freeze_time(datetime(2024, 10, 10, tzinfo=UTC))
 async def test_sensor_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_sensor_entities(
 )
 @pytest.mark.freeze_time(datetime(2024, 10, 9, 10, 0, tzinfo=UTC))
 async def test_update_energy_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_thinq_api: AsyncMock,
@@ -86,7 +86,7 @@ async def test_update_energy_entity(
 @pytest.mark.parametrize("device_fixture", ["air_conditioner"])
 @pytest.mark.freeze_time(datetime(2024, 10, 9, 10, 0, tzinfo=UTC))
 async def test_energy_today_updates_hourly(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_thinq_api: AsyncMock,
@@ -118,7 +118,7 @@ async def test_energy_today_updates_hourly(
 @pytest.mark.parametrize("device_fixture", ["air_conditioner"])
 @pytest.mark.freeze_time(datetime(2024, 10, 9, 10, 0, tzinfo=UTC))
 async def test_energy_today_last_reset_set_on_first_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_thinq_api: AsyncMock,
@@ -152,7 +152,7 @@ async def test_energy_today_last_reset_set_on_first_fetch(
 @pytest.mark.parametrize("device_fixture", ["air_conditioner"])
 @pytest.mark.freeze_time(datetime(2024, 10, 9, 23, 30, tzinfo=UTC))
 async def test_energy_today_last_reset_advances_on_new_day_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_thinq_api: AsyncMock,

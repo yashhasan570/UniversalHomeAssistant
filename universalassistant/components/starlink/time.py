@@ -7,8 +7,8 @@ import math
 from typing import override
 
 from universalassistant.components.time import TimeEntity, TimeEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -17,7 +17,7 @@ from .entity import StarlinkEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: StarlinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -74,7 +74,7 @@ def _utc_minutes_to_time(utc_minutes: int, timezone: tzinfo) -> time:
             hour=hour, minute=minute, second=0, microsecond=0
         )
     except ValueError as exc:
-        raise UniversalAssistantError from exc
+        raise __HAC_KEEP__Error from exc
     return utc.astimezone(timezone).time()
 
 
@@ -84,7 +84,7 @@ def _time_to_utc_minutes(t: time, timezone: tzinfo) -> int:
             hour=t.hour, minute=t.minute, second=0, microsecond=0
         )
     except ValueError as exc:
-        raise UniversalAssistantError from exc
+        raise __HAC_KEEP__Error from exc
     utc_time = zoned_time.astimezone(UTC).time()
     return (utc_time.hour * 60) + utc_time.minute
 

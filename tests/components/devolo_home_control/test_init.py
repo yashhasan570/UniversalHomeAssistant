@@ -9,7 +9,7 @@ from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_
 from universalassistant.components.devolo_home_control.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -17,7 +17,7 @@ from . import configure_integration
 from .mocks import HomeControlMock, HomeControlMockBinarySensor
 
 
-async def test_setup_entry(hass: UniversalAssistant) -> None:
+async def test_setup_entry(hass: __HAC_KEEP__) -> None:
     """Test setup entry."""
     entry = configure_integration(hass)
     with patch("universalassistant.components.devolo_home_control.HomeControl"):
@@ -26,7 +26,7 @@ async def test_setup_entry(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_entry_credentials_invalid(
-    hass: UniversalAssistant, mydevolo: MagicMock
+    hass: __HAC_KEEP__, mydevolo: MagicMock
 ) -> None:
     """Test setup entry fails if credentials are invalid."""
     mydevolo.credentials_valid.return_value = False
@@ -36,7 +36,7 @@ async def test_setup_entry_credentials_invalid(
 
 
 async def test_setup_entry_maintenance(
-    hass: UniversalAssistant, mydevolo: MagicMock
+    hass: __HAC_KEEP__, mydevolo: MagicMock
 ) -> None:
     """Test setup entry fails if mydevolo is in maintenance mode."""
     mydevolo.maintenance.return_value = True
@@ -45,7 +45,7 @@ async def test_setup_entry_maintenance(
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_setup_gateway_offline(hass: UniversalAssistant) -> None:
+async def test_setup_gateway_offline(hass: __HAC_KEEP__) -> None:
     """Test setup entry with one gateway online and one gateway offline."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMock()
@@ -57,7 +57,7 @@ async def test_setup_gateway_offline(hass: UniversalAssistant) -> None:
         assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_setup_all_gateways_offline(hass: UniversalAssistant) -> None:
+async def test_setup_all_gateways_offline(hass: __HAC_KEEP__) -> None:
     """Test setup entry fails on all gateways offline."""
     entry = configure_integration(hass)
     with patch(
@@ -68,7 +68,7 @@ async def test_setup_all_gateways_offline(hass: UniversalAssistant) -> None:
         assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test unload entry."""
     entry = configure_integration(hass)
     with patch("universalassistant.components.devolo_home_control.HomeControl"):
@@ -78,7 +78,7 @@ async def test_unload_entry(hass: UniversalAssistant) -> None:
         assert entry.state is ConfigEntryState.NOT_LOADED
 
 
-async def test_universal_assistant_stop(hass: UniversalAssistant) -> None:
+async def test_universal_assistant_stop(hass: __HAC_KEEP__) -> None:
     """Test universal assistant stop."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMock()
@@ -96,7 +96,7 @@ async def test_universal_assistant_stop(hass: UniversalAssistant) -> None:
 
 
 async def test_remove_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:

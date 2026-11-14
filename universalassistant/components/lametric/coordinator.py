@@ -6,7 +6,7 @@ from demetriek import Device, LaMetricAuthenticationError, LaMetricDevice, LaMet
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -21,7 +21,7 @@ class LaMetricDataUpdateCoordinator(DataUpdateCoordinator[Device]):
 
     config_entry: LaMetricConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: LaMetricConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: LaMetricConfigEntry) -> None:
         """Initialize the LaMatric coordinator."""
         self.lametric = LaMetricDevice(
             host=entry.data[CONF_HOST],

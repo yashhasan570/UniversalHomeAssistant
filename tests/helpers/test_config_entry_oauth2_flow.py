@@ -31,7 +31,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from yarl import URL
 
 from universalassistant import config_entries, data_entry_flow, setup
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
@@ -62,7 +62,7 @@ MOCK_SECRET_TOKEN_URLSAFE = (
 
 @pytest.fixture
 async def local_impl(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> config_entry_oauth2_flow.LocalOAuth2Implementation:
     """Local implementation."""
     assert await setup.async_setup_component(hass, "auth", {})
@@ -73,7 +73,7 @@ async def local_impl(
 
 @pytest.fixture
 async def local_impl_pkce(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> AsyncGenerator[config_entry_oauth2_flow.LocalOAuth2ImplementationWithPkce]:
     """Local implementation."""
     assert await setup.async_setup_component(hass, "auth", {})
@@ -89,7 +89,7 @@ async def local_impl_pkce(
 
 @pytest.fixture
 def flow_handler(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> Generator[type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler]]:
     """Return a registered config flow."""
 
@@ -164,7 +164,7 @@ def test_inherit_enforces_domain_set() -> None:
 
 
 async def test_abort_if_no_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
 ) -> None:
     """Check flow abort when no implementations."""
@@ -178,13 +178,13 @@ async def test_abort_if_no_implementation(
 
 
 async def test_abort_if_oauth_implementation_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
 ) -> None:
     """Check flow abort when implementation is unavailable."""
 
     async def mock_provider(
-        hass: UniversalAssistant, domain: str
+        hass: __HAC_KEEP__, domain: str
     ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
         raise config_entry_oauth2_flow.ImplementationUnavailableError("Test error")
 
@@ -215,7 +215,7 @@ async def test_abort_if_oauth_implementation_unavailable(
     ],
 )
 async def test_shared_abort_reasons_use_universalassistant_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     reason: str,
 ) -> None:
@@ -232,7 +232,7 @@ async def test_shared_abort_reasons_use_universalassistant_domain(
 
 
 async def test_abort_reason_translation_domain_not_overridden(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
 ) -> None:
     """Test an explicit domain wins and unknown reasons stay untranslated."""
@@ -249,7 +249,7 @@ async def test_abort_reason_translation_domain_not_overridden(
 
 
 async def test_missing_credentials_for_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
 ) -> None:
     """Check flow abort for integration supporting application credentials."""
@@ -264,7 +264,7 @@ async def test_missing_credentials_for_domain(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_abort_if_authorization_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
 ) -> None:
@@ -286,7 +286,7 @@ async def test_abort_if_authorization_timeout(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_abort_if_no_url_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
 ) -> None:
@@ -308,7 +308,7 @@ async def test_abort_if_no_url_available(
 @pytest.mark.parametrize("expires_in_dict", [{}, {"expires_in": "badnumber"}])
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_abort_if_oauth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     hass_client_no_auth: ClientSessionGenerator,
@@ -371,7 +371,7 @@ async def test_abort_if_oauth_error(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_abort_if_oauth_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     hass_client_no_auth: ClientSessionGenerator,
@@ -425,7 +425,7 @@ async def test_abort_if_oauth_rejected(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_abort_on_oauth_timeout_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     hass_client_no_auth: ClientSessionGenerator,
@@ -480,7 +480,7 @@ async def test_abort_on_oauth_timeout_error(
 
 
 async def test_step_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
 ) -> None:
@@ -509,7 +509,7 @@ async def test_step_discovery(
 
 
 async def test_abort_discovered_multiple(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
 ) -> None:
@@ -577,7 +577,7 @@ async def test_abort_discovered_multiple(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_abort_if_oauth_token_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     hass_client_no_auth: ClientSessionGenerator,
@@ -644,7 +644,7 @@ async def test_abort_if_oauth_token_error(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_abort_if_oauth_token_closing_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     hass_client_no_auth: ClientSessionGenerator,
@@ -703,7 +703,7 @@ async def test_abort_if_oauth_token_closing_error(
 
 
 async def test_abort_discovered_existing_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
 ) -> None:
@@ -738,7 +738,7 @@ async def test_abort_discovered_existing_entries(
 )
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     hass_client_no_auth: ClientSessionGenerator,
@@ -819,7 +819,7 @@ async def test_full_flow(
 
 
 async def test_local_refresh_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -855,7 +855,7 @@ async def test_local_refresh_token(
 
 
 async def test_local_refresh_token_client_secret_basic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test overriding token_auth_method sends the credentials as basic auth."""
@@ -885,7 +885,7 @@ async def test_local_refresh_token_client_secret_basic(
 
 
 async def test_oauth_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
@@ -935,7 +935,7 @@ async def test_oauth_session(
 
 
 async def test_oauth_session_with_clock_slightly_out_of_sync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
@@ -985,7 +985,7 @@ async def test_oauth_session_with_clock_slightly_out_of_sync(
 
 
 async def test_oauth_session_no_token_refresh_needed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
@@ -1029,7 +1029,7 @@ async def test_oauth_session_no_token_refresh_needed(
     assert round(config_entry.data["token"]["expires_at"] - now) == 500
 
 
-async def test_implementation_provider(hass: UniversalAssistant, local_impl) -> None:
+async def test_implementation_provider(hass: __HAC_KEEP__, local_impl) -> None:
     """Test providing an implementation provider."""
     assert (
         await config_entry_oauth2_flow.async_get_implementations(hass, TEST_DOMAIN)
@@ -1049,7 +1049,7 @@ async def test_implementation_provider(hass: UniversalAssistant, local_impl) -> 
     provider_source = []
 
     async def async_provide_implementation(
-        hass: UniversalAssistant, domain: str
+        hass: __HAC_KEEP__, domain: str
     ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
         """Mock implementation provider."""
         return provider_source
@@ -1109,7 +1109,7 @@ async def test_implementation_provider(hass: UniversalAssistant, local_impl) -> 
     ],
 )
 async def test_oauth_session_refresh_failure_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
@@ -1159,7 +1159,7 @@ async def test_oauth_session_refresh_failure_exceptions(
     ],
 )
 async def test_oauth_session_refresh_connection_error_is_transient(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
@@ -1215,7 +1215,7 @@ async def test_oauth_session_refresh_connection_error_is_transient(
     ],
 )
 async def test_oauth_session_malformed_refresh_response_is_not_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
     response: dict[str, Any],
@@ -1259,7 +1259,7 @@ async def test_oauth_session_malformed_refresh_response_is_not_reauth(
     ],
 )
 async def test_oauth_session_refresh_without_access_token_is_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
     response: dict[str, Any],
@@ -1297,7 +1297,7 @@ async def test_oauth_session_refresh_without_access_token_is_rejected(
     ],
 )
 async def test_oauth_session_custom_implementation_without_access_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     refreshed: dict[str, Any],
 ) -> None:
     """Test an implementation returning no usable access token is rejected."""
@@ -1339,7 +1339,7 @@ async def test_oauth_session_custom_implementation_without_access_token(
     ],
 )
 async def test_oauth_session_never_stores_an_unusable_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     refreshed: dict[str, Any],
 ) -> None:
     """Test the session checks the new token even when the refresh skips its own."""
@@ -1397,7 +1397,7 @@ async def test_oauth_session_never_stores_an_unusable_token(
     ],
 )
 async def test_oauth_session_refresh_body_error_is_mapped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
@@ -1475,7 +1475,7 @@ async def test_oauth_session_refresh_body_error_is_mapped(
     ],
 )
 async def test_refresh_maps_errors_from_custom_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     raised: Exception,
     expected_exception: type[Exception],
     expected_base: type[Exception],
@@ -1510,7 +1510,7 @@ async def test_refresh_maps_errors_from_custom_implementation(
     ],
 )
 async def test_oauth_session_reauth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
     entry_state: config_entries.ConfigEntryState,
@@ -1543,7 +1543,7 @@ async def test_oauth_session_reauth_error_starts_reauth(
 
 
 async def test_oauth_session_reauth_error_starts_reauth_when_caller_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1586,7 +1586,7 @@ async def test_oauth_session_reauth_error_starts_reauth_when_caller_recovers(
     ],
 )
 async def test_oauth_session_recoverable_error_does_not_start_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
     status_code: int,
@@ -1630,7 +1630,7 @@ async def test_oauth2_without_secret_init(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_abort_oauth_with_pkce_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl_pkce: config_entry_oauth2_flow.LocalOAuth2ImplementationWithPkce,
     hass_client_no_auth: ClientSessionGenerator,
@@ -1678,7 +1678,7 @@ async def test_abort_oauth_with_pkce_rejected(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_oauth_with_pkce_adds_code_verifier_to_token_resolve(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl_pkce: config_entry_oauth2_flow.LocalOAuth2ImplementationWithPkce,
     hass_client_no_auth: ClientSessionGenerator,
@@ -1751,19 +1751,19 @@ async def test_oauth_with_pkce_adds_code_verifier_to_token_resolve(
 
 
 async def test_async_get_config_entry_impl_with_failing_and_succeeding_provider(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
 ) -> None:
     """Test async_get_config_entry_implementation with mixed providers."""
 
     async def failing_cloud_provider(
-        _hass: UniversalAssistant, _domain: str
+        _hass: __HAC_KEEP__, _domain: str
     ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
         """Provider that raises an exception."""
         raise config_entry_oauth2_flow.ImplementationUnavailableError
 
     async def successful_local_provider(
-        _hass: UniversalAssistant, _domain: str
+        _hass: __HAC_KEEP__, _domain: str
     ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
         """Provider that returns implementations."""
         return [local_impl]
@@ -1793,18 +1793,18 @@ async def test_async_get_config_entry_impl_with_failing_and_succeeding_provider(
 
 
 async def test_async_get_config_entry_implementation_with_failing_provider(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_get_config_entry_implementation with all failing providers."""
 
     async def failing_cloud_provider(
-        _hass: UniversalAssistant, _domain: str
+        _hass: __HAC_KEEP__, _domain: str
     ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
         """Provider that raises an exception."""
         raise config_entry_oauth2_flow.ImplementationUnavailableError
 
     async def empty_local_provider(
-        _hass: UniversalAssistant, _domain: str
+        _hass: __HAC_KEEP__, _domain: str
     ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
         """Provider that returns implementations."""
         return []
@@ -1832,12 +1832,12 @@ async def test_async_get_config_entry_implementation_with_failing_provider(
 
 
 async def test_async_get_config_entry_implementation_missing_provider(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_get_config_entry_implementation when both providers are empty."""
 
     async def empty_provider(
-        _hass: UniversalAssistant, _domain: str
+        _hass: __HAC_KEEP__, _domain: str
     ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
         """Provider that returns implementations."""
         return []
@@ -1888,7 +1888,7 @@ async def test_async_get_config_entry_implementation_missing_provider(
 )
 @pytest.mark.usefixtures("flow_handler")
 async def test_token_error_handled_without_integration_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
     status_code: int,
@@ -1916,7 +1916,7 @@ async def test_token_error_handled_without_integration_mapping(
     config_entry.add_to_hass(hass)
 
     async def async_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Refresh the token without mapping the OAuth errors."""
         session = config_entry_oauth2_flow.OAuth2Session(hass, entry, local_impl)
@@ -1933,7 +1933,7 @@ async def test_token_error_handled_without_integration_mapping(
 
 @pytest.mark.usefixtures("flow_handler")
 async def test_token_error_integration_can_handle_it_itself(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1954,7 +1954,7 @@ async def test_token_error_integration_can_handle_it_itself(
     config_entry.add_to_hass(hass)
 
     async def async_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Treat a reauth error as recoverable instead."""
         session = config_entry_oauth2_flow.OAuth2Session(hass, entry, local_impl)
@@ -1971,7 +1971,7 @@ async def test_token_error_integration_can_handle_it_itself(
     assert config_entry.state is config_entries.ConfigEntryState.SETUP_RETRY
 
 
-async def test_unknown_implementation_asks_for_reauth(hass: UniversalAssistant) -> None:
+async def test_unknown_implementation_asks_for_reauth(hass: __HAC_KEEP__) -> None:
     """Test an entry referencing a removed implementation asks for reauth."""
     config_entry = MockConfigEntry(
         domain=TEST_DOMAIN,
@@ -1989,11 +1989,11 @@ async def test_unknown_implementation_asks_for_reauth(hass: UniversalAssistant) 
 
 
 @pytest.mark.usefixtures("flow_handler")
-async def test_implementation_unavailable_retries_setup(hass: UniversalAssistant) -> None:
+async def test_implementation_unavailable_retries_setup(hass: __HAC_KEEP__) -> None:
     """Test an unavailable implementation retries setup without integration mapping."""
 
     async def failing_provider(
-        hass: UniversalAssistant, domain: str
+        hass: __HAC_KEEP__, domain: str
     ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
         """Fail like the cloud provider does when it cannot reach the server."""
         raise config_entry_oauth2_flow.ImplementationUnavailableError("cloud is down")
@@ -2009,7 +2009,7 @@ async def test_implementation_unavailable_retries_setup(hass: UniversalAssistant
     config_entry.add_to_hass(hass)
 
     async def async_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Resolve the implementation without mapping the error."""
         await config_entry_oauth2_flow.async_get_config_entry_implementation(
@@ -2028,7 +2028,7 @@ async def test_implementation_unavailable_retries_setup(hass: UniversalAssistant
 
 
 async def test_config_entry_implementation_unavailable_provider(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
 ) -> None:
     """Test a temporarily unavailable provider is not mistaken for a removed one.
@@ -2038,7 +2038,7 @@ async def test_config_entry_implementation_unavailable_provider(
     """
 
     async def failing_cloud_provider(
-        _hass: UniversalAssistant, _domain: str
+        _hass: __HAC_KEEP__, _domain: str
     ) -> list[config_entry_oauth2_flow.AbstractOAuth2Implementation]:
         """Fail like the cloud provider does when it cannot reach the server."""
         raise config_entry_oauth2_flow.ImplementationUnavailableError("cloud is down")
@@ -2066,7 +2066,7 @@ async def test_config_entry_implementation_unavailable_provider(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_pick_implementation_falls_back_when_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
     local_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     hass_client_no_auth: ClientSessionGenerator,
@@ -2152,7 +2152,7 @@ async def test_pick_implementation_falls_back_when_removed(
 
 
 async def test_pick_implementation_removed_without_any_left(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_handler: type[config_entry_oauth2_flow.AbstractOAuth2FlowHandler],
 ) -> None:
     """Test a stale implementation id aborts cleanly when nothing is available."""

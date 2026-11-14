@@ -22,7 +22,7 @@ from universalassistant.const import (
     CONF_RADIUS,
     CONF_SHOW_ON_MAP,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -52,7 +52,7 @@ MOCK_OPTIONS_DATA = {
 }
 
 
-async def test_user(hass: UniversalAssistant) -> None:
+async def test_user(hass: __HAC_KEEP__) -> None:
     """Test starting a flow by user."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -95,7 +95,7 @@ async def test_user(hass: UniversalAssistant) -> None:
     assert mock_setup_entry.called
 
 
-async def test_user_already_configured(hass: UniversalAssistant) -> None:
+async def test_user_already_configured(hass: __HAC_KEEP__) -> None:
     """Test starting a flow by user with an already configured region."""
 
     mock_config = MockConfigEntry(
@@ -134,7 +134,7 @@ async def test_user_already_configured(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_user_errors(
-    hass: UniversalAssistant, side_effect: type[Exception], errors: dict[str, Any]
+    hass: __HAC_KEEP__, side_effect: type[Exception], errors: dict[str, Any]
 ) -> None:
     """Test starting a flow by user with an error from the API."""
     result = await hass.config_entries.flow.async_init(
@@ -175,7 +175,7 @@ async def test_user_errors(
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_no_stations(hass: UniversalAssistant) -> None:
+async def test_user_no_stations(hass: __HAC_KEEP__) -> None:
     """Test starting a flow by user which does not find any station."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -234,7 +234,7 @@ async def test_user_no_stations(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     side_effect: Exception,
     errors: dict[str, Any],
@@ -283,7 +283,7 @@ async def test_reauth(
     assert entry.data[CONF_API_KEY] == "269534f6-aaaa-bbbb-cccc-yyyyzzzzxxxx"
 
 
-async def test_options_flow(hass: UniversalAssistant, tankerkoenig: AsyncMock) -> None:
+async def test_options_flow(hass: __HAC_KEEP__, tankerkoenig: AsyncMock) -> None:
     """Test options flow."""
 
     mock_config = MockConfigEntry(
@@ -324,7 +324,7 @@ async def test_options_flow(hass: UniversalAssistant, tankerkoenig: AsyncMock) -
         assert mock_async_reload.call_count == 1
 
 
-async def test_options_flow_error(hass: UniversalAssistant) -> None:
+async def test_options_flow_error(hass: __HAC_KEEP__) -> None:
     """Test options flow."""
 
     mock_config = MockConfigEntry(
@@ -365,7 +365,7 @@ async def test_options_flow_error(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_options_flow_cannot_connect(
-    hass: UniversalAssistant, side_effect: Exception
+    hass: __HAC_KEEP__, side_effect: Exception
 ) -> None:
     """Test options flow aborts when the API can't be reached."""
 

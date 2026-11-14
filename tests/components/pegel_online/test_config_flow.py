@@ -13,7 +13,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_RADIUS,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import PegelOnlineMock
@@ -27,7 +27,7 @@ MOCK_USER_DATA_STEP1 = {
 MOCK_USER_DATA_STEP2 = {CONF_STATION: "70272185-xxxx-xxxx-xxxx-43bea330dcae"}
 
 
-async def test_user(hass: UniversalAssistant) -> None:
+async def test_user(hass: __HAC_KEEP__) -> None:
     """Test starting a flow by user."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -63,7 +63,7 @@ async def test_user(hass: UniversalAssistant) -> None:
     assert mock_setup_entry.called
 
 
-async def test_user_already_configured(hass: UniversalAssistant) -> None:
+async def test_user_already_configured(hass: __HAC_KEEP__) -> None:
     """Test starting a flow by user with an already configured statioon."""
     mock_config = MockConfigEntry(
         domain=DOMAIN,
@@ -95,7 +95,7 @@ async def test_user_already_configured(hass: UniversalAssistant) -> None:
         assert result["reason"] == "already_configured"
 
 
-async def test_connection_error(hass: UniversalAssistant) -> None:
+async def test_connection_error(hass: __HAC_KEEP__) -> None:
     """Test connection error during user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -140,7 +140,7 @@ async def test_connection_error(hass: UniversalAssistant) -> None:
     assert mock_setup_entry.called
 
 
-async def test_user_no_stations(hass: UniversalAssistant) -> None:
+async def test_user_no_stations(hass: __HAC_KEEP__) -> None:
     """Test starting a flow by user which does not find any station."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

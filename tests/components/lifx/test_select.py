@@ -7,8 +7,8 @@ import pytest
 
 from universalassistant.components.select import ATTR_OPTIONS, DOMAIN as SELECT_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import SERIAL, async_setup_lifx_entry, async_trigger_update
@@ -21,7 +21,7 @@ from .helpers import (
 
 
 async def test_theme_select(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test theme options and selected theme remain lower case."""
     device = create_mock_multizone_light()
@@ -67,7 +67,7 @@ async def test_theme_select(
     ],
 )
 async def test_infrared_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     option: str,
     level: float,
@@ -118,18 +118,18 @@ async def test_infrared_brightness(
     ],
 )
 async def test_select_library_error_becomes_universal_assistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     factory: Callable[[], MockDevice],
     method: str,
     entity_id: str,
     option: str,
 ) -> None:
-    """Test a library failure surfaces as a Universal Universal Home Assistant error."""
+    """Test a library failure surfaces as a __HA_KEEP__ error."""
     device = factory()
     await async_setup_lifx_entry(hass, device)
     getattr(device, method).side_effect = LifxError("device unreachable")
 
-    with pytest.raises(UniversalAssistantError, match="device unreachable"):
+    with pytest.raises(__HAC_KEEP__Error, match="device unreachable"):
         await hass.services.async_call(
             SELECT_DOMAIN,
             "select_option",

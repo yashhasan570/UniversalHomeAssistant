@@ -14,7 +14,7 @@ from ritualsgenie import (
 )
 
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -68,19 +68,19 @@ def rituals_action[_DiffuserEntityT: DiffuserEntity, **_P](
             await func(self, *args, **kwargs)
         except RitualsGenieAuthenticationError as err:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="authentication_failed"
             ) from err
         except RitualsGenieRateLimitError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="rate_limited"
             ) from err
         except RitualsGenieConnectionError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="communication_error"
             ) from err
         except RitualsGenieError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unknown_error",
                 translation_placeholders={"error": str(err)},

@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING, Any, cast
 import probatio
 
 from universalassistant.const import CONF_SELECTOR
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, selector
 from universalassistant.helpers.automation import get_absolute_description_key
 from universalassistant.helpers.selector import TargetSelector
@@ -71,7 +71,7 @@ def _load_conditions_file(integration: Integration) -> dict[str, Any]:
             "Unable to find conditions.yaml for the %s integration", integration.domain
         )
         return {}
-    except (UniversalAssistantError, probatio.Invalid) as ex:
+    except (__HAC_KEEP__Error, probatio.Invalid) as ex:
         _LOGGER.warning(
             "Unable to parse conditions.yaml for the %s integration: %s",
             integration.domain,
@@ -94,7 +94,7 @@ def _load_conditions_files(
 
 
 async def async_get_all_descriptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, dict[str, Any] | None]:
     """Return descriptions (i.e. user documentation) for all conditions."""
     descriptions_cache = hass.data[CONDITION_DESCRIPTION_CACHE]

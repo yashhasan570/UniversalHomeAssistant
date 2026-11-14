@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant import config_entries
 from universalassistant.components.kitchen_sink import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -25,14 +25,14 @@ async def sensor_only() -> None:
 
 
 @pytest.fixture
-async def setup_comp(hass: UniversalAssistant, sensor_only):
+async def setup_comp(hass: __HAC_KEEP__, sensor_only):
     """Set up demo component."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
 
 
 @pytest.mark.usefixtures("setup_comp")
-async def test_states(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+async def test_states(hass: __HAC_KEEP__, snapshot: SnapshotAssertion) -> None:
     """Test the expected sensor entities are added."""
     states = hass.states.async_all()
     assert set(states) == snapshot
@@ -40,7 +40,7 @@ async def test_states(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> 
 
 @pytest.mark.usefixtures("setup_comp")
 async def test_outlet_power_sensors_on_child_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_outlet_power_sensors_on_child_devices(
 
 @pytest.mark.usefixtures("sensor_only")
 async def test_states_with_subentry(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
 ) -> None:
     """Test the expected sensor entities are added."""
     config_entry = MockConfigEntry(

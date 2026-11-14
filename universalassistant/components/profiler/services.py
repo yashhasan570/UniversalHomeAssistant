@@ -19,8 +19,8 @@ from lru import LRU
 import probatio
 
 from universalassistant.components import persistent_notification
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.helpers.service import async_register_admin_service
@@ -77,7 +77,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:  # noqa: C901
+def async_setup_services(hass: __HAC_KEEP__) -> None:  # noqa: C901
     """Register the profiler services."""
     lock = asyncio.Lock()
     domain_data = hass.data[DATA_PROFILER] = {}
@@ -92,7 +92,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:  # noqa: C901
 
     async def _async_start_log_objects(call: ServiceCall) -> None:
         if LOG_INTERVAL_SUB in domain_data:
-            raise UniversalAssistantError("Object logging already started")
+            raise __HAC_KEEP__Error("Object logging already started")
 
         persistent_notification.async_create(
             hass,
@@ -110,14 +110,14 @@ def async_setup_services(hass: UniversalAssistant) -> None:  # noqa: C901
 
     async def _async_stop_log_objects(call: ServiceCall) -> None:
         if LOG_INTERVAL_SUB not in domain_data:
-            raise UniversalAssistantError("Object logging not running")
+            raise __HAC_KEEP__Error("Object logging not running")
 
         persistent_notification.async_dismiss(hass, "profile_object_logging")
         domain_data.pop(LOG_INTERVAL_SUB)()
 
     async def _async_start_object_sources(call: ServiceCall) -> None:
         if LOG_INTERVAL_SUB in domain_data:
-            raise UniversalAssistantError("Object logging already started")
+            raise __HAC_KEEP__Error("Object logging already started")
 
         persistent_notification.async_create(
             hass,
@@ -158,7 +158,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:  # noqa: C901
     @callback
     def _async_stop_object_sources(call: ServiceCall) -> None:
         if LOG_INTERVAL_SUB not in domain_data:
-            raise UniversalAssistantError("Object logging not running")
+            raise __HAC_KEEP__Error("Object logging not running")
 
         persistent_notification.async_dismiss(hass, "profile_object_source_logging")
         domain_data.pop(LOG_INTERVAL_SUB)()
@@ -237,7 +237,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:  # noqa: C901
         import objgraph  # noqa: PLC0415
 
         _LOGGER.critical(
-            "Sockets used by Universal Universal Home Assistant:\n%s",
+            "Sockets used by __HA_KEEP__:\n%s",
             "\n".join(repr(sock) for sock in objgraph.by_type("socket")),
         )
 
@@ -414,7 +414,7 @@ def async_setup_services(hass: UniversalAssistant) -> None:  # noqa: C901
     )
 
 
-async def _async_generate_profile(hass: UniversalAssistant, call: ServiceCall):
+async def _async_generate_profile(hass: __HAC_KEEP__, call: ServiceCall):
     # Imports deferred to avoid loading modules
     # in memory since usually only one part of this
     # integration is used at a time
@@ -451,7 +451,7 @@ async def _async_generate_profile(hass: UniversalAssistant, call: ServiceCall):
     )
 
 
-async def _async_generate_memory_profile(hass: UniversalAssistant, call: ServiceCall):
+async def _async_generate_memory_profile(hass: __HAC_KEEP__, call: ServiceCall):
     # Imports deferred to avoid loading modules
     # in memory since usually only one part of this
     # integration is used at a time

@@ -26,7 +26,7 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -44,7 +44,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_fans(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_fans(
 
 @pytest.mark.parametrize("node_fixture", ["mock_air_purifier"])
 async def test_fan_base(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_fan_base(
 @pytest.mark.parametrize("expected_lingering_tasks", [True])
 @pytest.mark.parametrize("node_fixture", ["mock_air_purifier"])
 async def test_fan_turn_on_with_percentage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -163,7 +163,7 @@ async def test_fan_turn_on_with_percentage(
 @pytest.mark.parametrize("expected_lingering_tasks", [True])
 @pytest.mark.parametrize("node_fixture", ["mock_air_purifier"])
 async def test_fan_turn_on_replays_last_known_percentage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_fan_turn_on_replays_last_known_percentage(
 @pytest.mark.parametrize("expected_lingering_tasks", [True])
 @pytest.mark.parametrize("node_fixture", ["mock_fan"])
 async def test_fan_turn_on_with_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -266,7 +266,7 @@ async def test_fan_turn_on_with_preset_mode(
 
 @pytest.mark.parametrize("node_fixture", ["mock_air_purifier"])
 async def test_fan_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -309,7 +309,7 @@ async def test_fan_turn_off(
 
 @pytest.mark.parametrize("node_fixture", ["mock_air_purifier"])
 async def test_fan_oscillate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -333,7 +333,7 @@ async def test_fan_oscillate(
 
 @pytest.mark.parametrize("node_fixture", ["mock_air_purifier"])
 async def test_fan_set_direction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -407,7 +407,7 @@ async def test_fan_set_direction(
     ],
 )
 async def test_fan_supported_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -469,7 +469,7 @@ async def test_fan_supported_features(
     ],
 )
 async def test_fan_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -483,7 +483,7 @@ async def test_fan_features(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_range_hood"])
 async def test_fan_set_percentage_without_multispeed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -515,7 +515,7 @@ async def test_fan_set_percentage_without_multispeed(
 @pytest.mark.parametrize("node_fixture", ["mock_air_purifier"])
 @pytest.mark.parametrize("attributes", [{"1/514/4": 0}])
 async def test_fan_without_speed_steps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

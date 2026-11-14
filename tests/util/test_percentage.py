@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant percentage conversions."""
+"""Test __HA_KEEP__ percentage conversions."""
 
 import math
 

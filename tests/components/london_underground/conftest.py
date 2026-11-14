@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_fixture
 from pytest_universalassistant.plugins import AiohttpClientMocker
 
 from universalassistant.components.london_underground.const import CONF_LINE, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -24,7 +24,7 @@ def mock_setup_entry():
 
 
 @pytest.fixture
-async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Mock the config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -40,7 +40,7 @@ async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture
 async def mock_london_underground_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> AsyncGenerator[AsyncMock]:
     """Mock a London Underground client."""

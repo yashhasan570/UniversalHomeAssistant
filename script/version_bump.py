@@ -127,7 +127,7 @@ def bump_version(
 
 
 def write_version(version):
-    """Update Universal Universal Home Assistant constant file with new version."""
+    """Update __HA_KEEP__ constant file with new version."""
     content = Path("universalassistant/const.py").read_text()
 
     major, minor, patch = str(version).split(".", 2)
@@ -171,7 +171,7 @@ def write_ci_workflow(version: Version) -> None:
 
 def main() -> None:
     """Execute script."""
-    parser = argparse.ArgumentParser(description="Bump version of Universal Universal Home Assistant")
+    parser = argparse.ArgumentParser(description="Bump version of __HA_KEEP__")
     parser.add_argument(
         "type",
         help="The type of the bump the version to.",

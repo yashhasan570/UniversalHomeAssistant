@@ -19,7 +19,7 @@ from psnawp_api.models.group.group_datatypes import GroupDetails
 from psnawp_api.models.trophies import TrophyTitle
 
 from universalassistant.config_entries import ConfigEntry, ConfigSubentry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -55,7 +55,7 @@ class PlayStationNetworkBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         psn: PlaystationNetwork,
         config_entry: PlaystationNetworkConfigEntry,
     ) -> None:
@@ -205,7 +205,7 @@ class PlaystationNetworkFriendDataCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         psn: PlaystationNetwork,
         config_entry: PlaystationNetworkConfigEntry,
         subentry: ConfigSubentry,

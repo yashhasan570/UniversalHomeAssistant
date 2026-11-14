@@ -9,8 +9,8 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -43,7 +43,7 @@ def _create_cover_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LiebherrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -150,10 +150,10 @@ class LiebherrAutoDoor(LiebherrEntity, CoverEntity):
                     value=value,
                 )
             )
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             self._optimistic_state = None
             self.async_write_ha_state()
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="open_auto_door_error"
                 if value

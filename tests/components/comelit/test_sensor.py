@@ -26,7 +26,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.comelit.const import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -35,7 +35,7 @@ ENTITY_ID = "sensor.zone0"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
@@ -54,7 +54,7 @@ async def test_all_entities(
 
 
 async def test_sensor_state_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
@@ -106,7 +106,7 @@ async def test_sensor_state_unknown(
 
 
 async def test_serial_bridge_sensor_dynamic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
@@ -156,7 +156,7 @@ async def test_serial_bridge_sensor_dynamic(
 
 
 async def test_vedo_sensor_dynamic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
@@ -196,7 +196,7 @@ async def test_vedo_sensor_dynamic(
 
 
 async def test_vedo_sensor_unavailable_on_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,

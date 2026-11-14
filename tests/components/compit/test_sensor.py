@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration, snapshot_compit_entities
 
 
 async def test_sensor_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_connector,
@@ -35,7 +35,7 @@ async def test_sensor_entities_snapshot(
     ],
 )
 async def test_sensor_return_value_enum_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
     mock_return_value: Any | None,
@@ -54,7 +54,7 @@ async def test_sensor_return_value_enum_sensor(
 
 
 async def test_sensor_enum_value_cannot_return_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_sensor_enum_value_cannot_return_number(
     ],
 )
 async def test_sensor_return_value_number_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
     mock_return_value: Any | None,
@@ -97,7 +97,7 @@ async def test_sensor_return_value_number_sensor(
 
 
 async def test_sensor_number_value_cannot_return_enum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connector: MagicMock,
 ) -> None:

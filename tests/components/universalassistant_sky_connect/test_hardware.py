@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant SkyConnect hardware platform."""
+"""Test the __HA_KEEP__ SkyConnect hardware platform."""
 
 from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.typing import WebSocketGenerator
@@ -6,7 +6,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.universalassistant_sky_connect.const import DOMAIN
 from universalassistant.components.usb import DOMAIN as USB_DOMAIN
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 CONFIG_ENTRY_DATA = {
@@ -33,7 +33,7 @@ CONFIG_ENTRY_DATA_2 = {
     "pid": "EA60",
     "serial_number": "3c0ed67c628beb11b1cd64a0f320645d",
     "manufacturer": "Nabu Casa",
-    "product": "Universal Universal Home Assistant Connect ZBT-1",
+    "product": "__HA_KEEP__ Connect ZBT-1",
     "firmware": "ezsp",
 }
 
@@ -47,7 +47,7 @@ CONFIG_ENTRY_DATA_BAD = {
 
 
 async def test_hardware_info(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, addon_store_info
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, addon_store_info
 ) -> None:
     """Test we can get the board info."""
     assert await async_setup_component(hass, USB_DOMAIN, {})
@@ -58,7 +58,7 @@ async def test_hardware_info(
         data=CONFIG_ENTRY_DATA,
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant SkyConnect",
+        title="__HA_KEEP__ SkyConnect",
         unique_id="unique_1",
         version=1,
         minor_version=2,
@@ -70,7 +70,7 @@ async def test_hardware_info(
         data=CONFIG_ENTRY_DATA_2,
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Connect ZBT-1",
+        title="__HA_KEEP__ Connect ZBT-1",
         unique_id="unique_2",
         version=1,
         minor_version=2,
@@ -82,7 +82,7 @@ async def test_hardware_info(
         data=CONFIG_ENTRY_DATA_BAD,
         domain=DOMAIN,
         options={},
-        title="Universal Universal Home Assistant Connect ZBT-1",
+        title="__HA_KEEP__ Connect ZBT-1",
         unique_id="unique_3",
         version=1,
         minor_version=2,
@@ -109,7 +109,7 @@ async def test_hardware_info(
                     "manufacturer": "Nabu Casa",
                     "description": "SkyConnect v1.0",
                 },
-                "name": "Universal Universal Home Assistant SkyConnect",
+                "name": "__HA_KEEP__ SkyConnect",
                 "url": "https://support.nabucasa.com/hc/en-us/categories/24734620813469-Universal-Assistant-Connect-ZBT-1",
             },
             {
@@ -120,9 +120,9 @@ async def test_hardware_info(
                     "pid": "EA60",
                     "serial_number": "3c0ed67c628beb11b1cd64a0f320645d",
                     "manufacturer": "Nabu Casa",
-                    "description": "Universal Universal Home Assistant Connect ZBT-1",
+                    "description": "__HA_KEEP__ Connect ZBT-1",
                 },
-                "name": "Universal Universal Home Assistant Connect ZBT-1",
+                "name": "__HA_KEEP__ Connect ZBT-1",
                 "url": "https://support.nabucasa.com/hc/en-us/categories/24734620813469-Universal-Assistant-Connect-ZBT-1",
             },
             # Bad entry is skipped

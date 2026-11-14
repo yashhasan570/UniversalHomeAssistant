@@ -12,8 +12,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_HALVES, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, LOGGER
@@ -49,7 +49,7 @@ PRESET_API_HKR_STATE_MAPPING = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FritzboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -203,13 +203,13 @@ class FritzboxThermostat(FritzBoxDeviceEntity, ClimateEntity):
     def check_active_or_lock_mode(self) -> None:
         """Check if in summer/vacation mode or lock enabled."""
         if self.data.holiday_active or self.data.summer_active:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="change_settings_while_active_mode",
             )
 
         if self.data.lock:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="change_settings_while_lock_enabled",
             )

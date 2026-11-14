@@ -7,8 +7,8 @@ import probatio
 
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
 from universalassistant.components.water_heater import DOMAIN as WATER_HEATER_DOMAIN
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, selector, service
 from universalassistant.helpers.service import async_register_platform_entity_service
 from universalassistant.helpers.typing import VolDictType
@@ -99,11 +99,11 @@ async def _add_meter_reading(call: ServiceCall) -> None:
     )
 
     if ATTR_MESSAGE in response:
-        raise UniversalAssistantError(response[ATTR_MESSAGE])
+        raise __HAC_KEEP__Error(response[ATTR_MESSAGE])
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Tado integration."""
 
     hass.services.async_register(

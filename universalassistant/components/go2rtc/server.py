@@ -10,8 +10,8 @@ from tempfile import NamedTemporaryFile
 from aiohttp import ClientSession
 from go2rtc_client import Go2RtcRestClient
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import HA_MANAGED_API_PORT, HA_MANAGED_URL
 from .util import get_go2rtc_unix_socket_path
@@ -29,7 +29,7 @@ _RESPAWN_COOLDOWN = 1
 # - HTTP API only enabled when UI is enabled
 # - Enable rtsp for localhost only as ffmpeg needs it
 # - Clear default ice servers
-_GO2RTC_CONFIG_FORMAT = r"""# This file is managed by Universal Universal Home Assistant
+_GO2RTC_CONFIG_FORMAT = r"""# This file is managed by __HA_KEEP__
 # Do not edit it manually
 
 app:
@@ -121,13 +121,13 @@ def _redact_url_credentials(msg: str) -> str:
     return _URL_CREDENTIAL_QUERY.sub(r"\1****", msg)
 
 
-class Go2RTCServerStartError(UniversalAssistantError):
+class Go2RTCServerStartError(__HAC_KEEP__Error):
     """Raised when server does not start."""
 
     _message = "Go2rtc server didn't start correctly"
 
 
-class Go2RTCWatchdogError(UniversalAssistantError):
+class Go2RTCWatchdogError(__HAC_KEEP__Error):
     """Raised on watchdog error."""
 
 
@@ -179,7 +179,7 @@ class Server:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         binary: str,
         session: ClientSession,
         *,

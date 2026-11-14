@@ -16,13 +16,13 @@ from universalassistant.components.electrasmart.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 
 @asynccontextmanager
-async def _patch_success(hass: UniversalAssistant) -> AsyncGenerator[None]:
+async def _patch_success(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
     """Patch the Electra API to accept the phone number and OTP."""
     mock_generate_token = loads(
         await async_load_fixture(hass, "generate_token_response.json", DOMAIN)
@@ -44,7 +44,7 @@ async def _patch_success(hass: UniversalAssistant) -> AsyncGenerator[None]:
         yield
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test user config."""
 
     mock_generate_token = loads(
@@ -86,7 +86,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert result["step_id"] == CONF_OTP
 
 
-async def test_one_time_password(hass: UniversalAssistant) -> None:
+async def test_one_time_password(hass: __HAC_KEEP__) -> None:
     """Test one time password."""
 
     async with _patch_success(hass):
@@ -110,7 +110,7 @@ async def test_one_time_password(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "0521234567"
 
 
-async def test_one_time_password_api_error(hass: UniversalAssistant) -> None:
+async def test_one_time_password_api_error(hass: __HAC_KEEP__) -> None:
     """Test one time password."""
     mock_generate_token = loads(
         await async_load_fixture(hass, "generate_token_response.json", DOMAIN)
@@ -144,7 +144,7 @@ async def test_one_time_password_api_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test cannot connect."""
 
     with patch(
@@ -178,7 +178,7 @@ async def test_cannot_connect(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_invalid_phone_number(hass: UniversalAssistant) -> None:
+async def test_invalid_phone_number(hass: __HAC_KEEP__) -> None:
     """Test invalid phone number."""
 
     mock_invalid_phone_number_response = loads(
@@ -217,7 +217,7 @@ async def test_invalid_phone_number(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test invalid auth."""
 
     mock_generate_token_response = loads(
@@ -264,7 +264,7 @@ async def test_invalid_auth(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def test_reauth(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Test reauthentication of a locked out account."""
     config_entry.add_to_hass(hass)
 
@@ -290,7 +290,7 @@ async def test_reauth(hass: UniversalAssistant, config_entry: MockConfigEntry) -
 
 
 async def test_reauth_confirm_does_not_request_a_code(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test that showing the confirmation does not send a one-time password."""
     config_entry.add_to_hass(hass)
@@ -311,7 +311,7 @@ async def test_reauth_confirm_does_not_request_a_code(
 
 
 async def test_reauth_generate_token_failure_can_be_retried(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test that a failed request for a one-time password can be retried."""
     config_entry.add_to_hass(hass)
@@ -347,7 +347,7 @@ async def test_reauth_generate_token_failure_can_be_retried(
 
 
 async def test_reauth_rejected_phone_number_can_be_retried(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test that a phone number the API refuses keeps the confirmation."""
     config_entry.add_to_hass(hass)
@@ -384,7 +384,7 @@ async def test_reauth_rejected_phone_number_can_be_retried(
 
 
 async def test_reauth_invalid_otp(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test a rejected one-time password, then a successful retry."""
     config_entry.add_to_hass(hass)
@@ -434,7 +434,7 @@ async def test_reauth_invalid_otp(
     assert result["reason"] == "reauth_successful"
 
 
-async def test_dhcp_discovery(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery(hass: __HAC_KEEP__) -> None:
     """Test a flow started by DHCP discovery."""
     async with _patch_success(hass):
         with patch(
@@ -474,7 +474,7 @@ async def test_dhcp_discovery(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_dhcp_discovery_already_configured(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_already_configured(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery aborts when an account is already configured."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -499,7 +499,7 @@ async def test_dhcp_discovery_already_configured(hass: UniversalAssistant) -> No
     assert result["reason"] == "already_configured"
 
 
-async def test_dhcp_discovery_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test a second DHCP discovery aborts while one is in progress."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

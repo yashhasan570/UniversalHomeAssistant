@@ -31,7 +31,7 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import MOCK_INFRARED_EMITTER_ENTITY_ID, media_player_entity_id
@@ -52,7 +52,7 @@ def platforms() -> list[Platform]:
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -82,7 +82,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_source_feature_matches_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     model: str,
     has_select_source: bool,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_select_source_feature_matches_model(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_action_sends_correct_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     service: str,
     service_data: dict[str, bool],
@@ -138,7 +138,7 @@ async def test_media_player_action_sends_correct_code(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_select_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     source: str,
     expected_code: MarantzAudioCode,
@@ -169,7 +169,7 @@ async def test_media_player_select_source(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_off_update_assumed_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Turn-on sends POWER_ON and turn-off sends POWER_OFF."""
@@ -201,7 +201,7 @@ async def test_turn_on_off_update_assumed_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_availability_follows_ir_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test media player becomes unavailable when IR entity is unavailable."""
     await assert_availability_follows_source_entity(
@@ -210,7 +210,7 @@ async def test_media_player_availability_follows_ir_entity(
 
 
 async def _setup_with_restore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     restored: State,
     extra_data: dict[str, Any],
@@ -228,7 +228,7 @@ async def _setup_with_restore(
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity", "mock_marantz_to_command")
 async def test_restores_state_source_and_mute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     restored_state: MediaPlayerState,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_restores_state_source_and_mute(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_initial_state_unknown_when_no_restore(hass: UniversalAssistant) -> None:
+async def test_initial_state_unknown_when_no_restore(hass: __HAC_KEEP__) -> None:
     """With no previous state to restore, the entity reports unknown."""
     state = hass.states.get(MEDIA_PLAYER_ENTITY_ID)
     assert state is not None
@@ -275,7 +275,7 @@ async def test_initial_state_unknown_when_no_restore(hass: UniversalAssistant) -
 
 @pytest.mark.usefixtures("init_integration")
 async def test_toggle_flips_between_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_marantz_to_command: MagicMock,
 ) -> None:
     """The RC-5 toggle bit must alternate so the receiver sees distinct presses."""
@@ -293,7 +293,7 @@ async def test_toggle_flips_between_commands(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_power_on_sends_repeat_count(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_marantz_to_command: MagicMock,
 ) -> None:
     """Power-on sends repeat_count=5 so the receiver reliably wakes up."""

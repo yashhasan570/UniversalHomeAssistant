@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.gree.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -21,7 +21,7 @@ ENTITY_ID_FRESH_AIR = f"{SWITCH_DOMAIN}.fake_device_1_fresh_air"
 ENTITY_ID_XTRA_FAN = f"{SWITCH_DOMAIN}.fake_device_1_xtra_fan"
 
 
-async def async_setup_gree(hass: UniversalAssistant) -> MockConfigEntry:
+async def async_setup_gree(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Set up the gree switch platform."""
     entry = MockConfigEntry(domain=DOMAIN)
     entry.add_to_hass(hass)
@@ -32,7 +32,7 @@ async def async_setup_gree(hass: UniversalAssistant) -> MockConfigEntry:
 
 @patch("universalassistant.components.gree.PLATFORMS", [SWITCH_DOMAIN])
 async def test_registry_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_registry_settings(
     ],
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_send_switch_on(hass: UniversalAssistant, entity: str) -> None:
+async def test_send_switch_on(hass: __HAC_KEEP__, entity: str) -> None:
     """Test for sending power on command to the device."""
     await async_setup_gree(hass)
 
@@ -82,7 +82,7 @@ async def test_send_switch_on(hass: UniversalAssistant, entity: str) -> None:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_send_switch_on_device_timeout(
-    hass: UniversalAssistant, device, entity: str
+    hass: __HAC_KEEP__, device, entity: str
 ) -> None:
     """Test for sending power on command to the device with a device timeout."""
     device().push_state_update.side_effect = DeviceTimeoutError
@@ -112,7 +112,7 @@ async def test_send_switch_on_device_timeout(
     ],
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_send_switch_off(hass: UniversalAssistant, entity: str) -> None:
+async def test_send_switch_off(hass: __HAC_KEEP__, entity: str) -> None:
     """Test for sending power on command to the device."""
     await async_setup_gree(hass)
 
@@ -139,7 +139,7 @@ async def test_send_switch_off(hass: UniversalAssistant, entity: str) -> None:
     ],
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_send_switch_toggle(hass: UniversalAssistant, entity: str) -> None:
+async def test_send_switch_toggle(hass: __HAC_KEEP__, entity: str) -> None:
     """Test for sending power on command to the device."""
     await async_setup_gree(hass)
 
@@ -182,7 +182,7 @@ async def test_send_switch_toggle(hass: UniversalAssistant, entity: str) -> None
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:

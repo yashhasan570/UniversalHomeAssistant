@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.frontend import async_get_version
 from universalassistant.components.llm import LLMTools
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.llm import (
     LLM_API_UNIVERSAL_ASSISTANT,
     LLMContext,
@@ -20,13 +20,13 @@ from . import DOMAIN
 
 
 class GetSystemInfoTool(Tool):
-    """LLM Tool to get information about the system Universal Universal Home Assistant runs on."""
+    """LLM Tool to get information about the system __HA_KEEP__ runs on."""
 
     name = "system_health__get_system_info"
     title = "Get system info"
     description = (
-        "Get the installation type of Universal Universal Home Assistant, the time zone, and the "
-        "versions of Universal Universal Home Assistant Core, the frontend, Python, the operating "
+        "Get the installation type of __HA_KEEP__, the time zone, and the "
+        "versions of __HA_KEEP__ Core, the frontend, Python, the operating "
         "system, and the Supervisor. Use this for example to fill in a bug report."
     )
     annotations = ToolAnnotations(
@@ -36,7 +36,7 @@ class GetSystemInfoTool(Tool):
 
     @override
     async def async_call(
-        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Return the system info."""
         info = await async_get_system_info(hass)
@@ -60,9 +60,9 @@ class GetSystemInfoTool(Tool):
 
 @callback
 def async_get_tools(
-    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
+    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
-    """Return the system_health LLM tools for the Universal Universal Home Assistant API."""
+    """Return the system_health LLM tools for the __HA_KEEP__ API."""
     if api_id != LLM_API_UNIVERSAL_ASSISTANT:
         return None
 

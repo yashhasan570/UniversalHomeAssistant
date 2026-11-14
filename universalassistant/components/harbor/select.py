@@ -9,8 +9,8 @@ from harbor.mqtt import NIGHT_MODE_MODES, NightMode
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -43,7 +43,7 @@ CAMERA_SELECTS: tuple[HarborSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HarborConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -83,7 +83,7 @@ class HarborSelect(HarborEntity, SelectEntity):
         try:
             await self.entity_description.select_fn(self.coordinator, option)
         except (HarborCommandError, TimeoutError, ConnectionError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="select_option_failed",
                 translation_placeholders={

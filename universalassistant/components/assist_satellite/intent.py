@@ -4,7 +4,7 @@ from typing import Final, override
 
 import probatio
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, intent
 
 from .const import DOMAIN, AssistSatelliteEntityFeature
@@ -12,7 +12,7 @@ from .const import DOMAIN, AssistSatelliteEntityFeature
 EXCLUDED_DOMAINS: Final[set[str]] = {"voip"}
 
 
-async def async_setup_intents(hass: UniversalAssistant) -> None:
+async def async_setup_intents(hass: __HAC_KEEP__) -> None:
     """Set up the intents."""
     intent.async_register(hass, BroadcastIntentHandler())
 

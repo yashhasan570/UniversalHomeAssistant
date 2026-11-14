@@ -16,7 +16,7 @@ from universalassistant.components.nx584.const import (
 )
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.setup import async_setup_component
 
@@ -51,7 +51,7 @@ def held_validation(
     return entered, release
 
 
-async def _async_user_flow(hass: UniversalAssistant) -> ConfigFlowResult:
+async def _async_user_flow(hass: __HAC_KEEP__) -> ConfigFlowResult:
     """Run the user flow for the test server."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -61,7 +61,7 @@ async def _async_user_flow(hass: UniversalAssistant) -> ConfigFlowResult:
     )
 
 
-async def _async_import_flow(hass: UniversalAssistant) -> ConfigFlowResult:
+async def _async_import_flow(hass: __HAC_KEEP__) -> ConfigFlowResult:
     """Run the import flow for the test server."""
     return await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_IMPORT}, data=IMPORT_DATA
@@ -69,7 +69,7 @@ async def _async_import_flow(hass: UniversalAssistant) -> ConfigFlowResult:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow(hass: UniversalAssistant, mock_client: MagicMock) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
     """Test the user flow creates an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -102,7 +102,7 @@ async def test_user_flow(hass: UniversalAssistant, mock_client: MagicMock) -> No
     ],
 )
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     side_effect: type[Exception],
     error: str,
@@ -129,7 +129,7 @@ async def test_user_flow_errors(
 
 @pytest.mark.usefixtures("mock_client")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the user flow aborts for a server that is already set up."""
     mock_config_entry.add_to_hass(hass)
@@ -146,7 +146,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_client")
 async def test_user_flow_same_host_other_port(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the user flow sets up another server on the same host."""
     mock_config_entry.add_to_hass(hass)
@@ -170,7 +170,7 @@ async def test_user_flow_same_host_other_port(
     ],
 )
 async def test_import_flow(
-    hass: UniversalAssistant, name: dict[str, str], title: str
+    hass: __HAC_KEEP__, name: dict[str, str], title: str
 ) -> None:
     """Test the import titles the entry by the alarm name and keeps the zones."""
     result = await hass.config_entries.flow.async_init(
@@ -196,7 +196,7 @@ async def test_import_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_client")
 async def test_import_flow_merges_into_existing_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test an import for a server set up from the UI keeps all platforms."""
     mock_config_entry.add_to_hass(hass)
@@ -251,7 +251,7 @@ async def test_import_flow_merges_into_existing_entry(
     ],
 )
 async def test_import_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     mock_setup_entry: AsyncMock,
     side_effect: type[Exception],
@@ -302,10 +302,10 @@ async def test_import_flow_errors(
     ],
 )
 async def test_flow_server_configured_during_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     held_validation: tuple[threading.Event, threading.Event],
-    first_flow: Callable[[UniversalAssistant], Awaitable[ConfigFlowResult]],
-    second_flow: Callable[[UniversalAssistant], Awaitable[ConfigFlowResult]],
+    first_flow: Callable[[__HAC_KEEP__], Awaitable[ConfigFlowResult]],
+    second_flow: Callable[[__HAC_KEEP__], Awaitable[ConfigFlowResult]],
     title: str,
     options: dict[str, object],
 ) -> None:

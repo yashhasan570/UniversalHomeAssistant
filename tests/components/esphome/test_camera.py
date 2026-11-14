@@ -5,7 +5,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.camera import CameraState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import MockESPHomeDeviceType
 
@@ -18,7 +18,7 @@ SMALLEST_VALID_JPEG_BYTES = bytes.fromhex(SMALLEST_VALID_JPEG)
 
 
 async def test_camera_single_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_client: ClientSessionGenerator,
@@ -62,7 +62,7 @@ async def test_camera_single_image(
 
 
 async def test_camera_single_image_unavailable_before_requested(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_client: ClientSessionGenerator,
@@ -99,7 +99,7 @@ async def test_camera_single_image_unavailable_before_requested(
 
 
 async def test_camera_single_image_unavailable_during_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_client: ClientSessionGenerator,
@@ -140,7 +140,7 @@ async def test_camera_single_image_unavailable_during_request(
 
 
 async def test_camera_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_client: ClientSessionGenerator,
@@ -196,7 +196,7 @@ async def test_camera_stream(
 
 
 async def test_camera_stream_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_client: ClientSessionGenerator,
@@ -232,7 +232,7 @@ async def test_camera_stream_unavailable(
 
 
 async def test_camera_stream_with_disconnection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
     hass_client: ClientSessionGenerator,

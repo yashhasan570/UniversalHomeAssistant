@@ -40,7 +40,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.helpers.trigger_template_entity import (
     CONF_AVAILABILITY,
@@ -55,7 +55,7 @@ DOMAIN = "scrape"
 
 
 async def test_platform_config_creates_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_platform_config_creates_issue(
     )
 
 
-async def test_scrape_sensor(hass: UniversalAssistant) -> None:
+async def test_scrape_sensor(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor minimal."""
     config = {
         DOMAIN: [
@@ -92,7 +92,7 @@ async def test_scrape_sensor(hass: UniversalAssistant) -> None:
 
 
 async def test_scrape_xml_content_type(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test Scrape sensor with XML Content-Type header uses XML parser."""
     config = {
@@ -130,7 +130,7 @@ async def test_scrape_xml_content_type(
 
 
 async def test_scrape_xml_declaration(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test Scrape sensor with XML declaration (no XML Content-Type) uses XML parser."""
     config = {
@@ -158,7 +158,7 @@ async def test_scrape_xml_declaration(
 
 
 async def test_scrape_html5_with_xml_declaration(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test HTML5 with XML declaration strips XML prefix and uses HTML parser.
 
@@ -201,7 +201,7 @@ async def test_scrape_html5_with_xml_declaration(
     assert "XMLParsedAsHTMLWarning" not in caplog.text
 
 
-async def test_scrape_sensor_value_template(hass: UniversalAssistant) -> None:
+async def test_scrape_sensor_value_template(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor with value template."""
     config = {
         DOMAIN: [
@@ -229,7 +229,7 @@ async def test_scrape_sensor_value_template(hass: UniversalAssistant) -> None:
     assert state.state == "2021.12.10"
 
 
-async def test_scrape_uom_and_classes(hass: UniversalAssistant) -> None:
+async def test_scrape_uom_and_classes(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor for unit of measurement, device class and state class."""
     config = {
         DOMAIN: [
@@ -263,7 +263,7 @@ async def test_scrape_uom_and_classes(hass: UniversalAssistant) -> None:
     assert state.attributes[CONF_STATE_CLASS] == SensorStateClass.MEASUREMENT
 
 
-async def test_scrape_numeric_value_template_none(hass: UniversalAssistant) -> None:
+async def test_scrape_numeric_value_template_none(hass: __HAC_KEEP__) -> None:
     """Test a numeric Scrape sensor is unknown when the value template renders none."""
     config = {
         DOMAIN: [
@@ -295,7 +295,7 @@ async def test_scrape_numeric_value_template_none(hass: UniversalAssistant) -> N
 
 
 async def test_scrape_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test Scrape sensor for unique id."""
     config = {
@@ -327,7 +327,7 @@ async def test_scrape_unique_id(
     assert entry.unique_id == "very_unique_id"
 
 
-async def test_scrape_sensor_authentication(hass: UniversalAssistant) -> None:
+async def test_scrape_sensor_authentication(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor with authentication."""
     config = {
         DOMAIN: [
@@ -370,7 +370,7 @@ async def test_scrape_sensor_authentication(hass: UniversalAssistant) -> None:
 
 
 async def test_scrape_sensor_no_data(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test Scrape sensor fails on no data."""
     config = {
@@ -393,7 +393,7 @@ async def test_scrape_sensor_no_data(
     assert "Platform scrape not ready yet" in caplog.text
 
 
-async def test_scrape_sensor_no_data_refresh(hass: UniversalAssistant) -> None:
+async def test_scrape_sensor_no_data_refresh(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor no data on refresh."""
     config = {
         DOMAIN: [
@@ -424,7 +424,7 @@ async def test_scrape_sensor_no_data_refresh(hass: UniversalAssistant) -> None:
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_scrape_sensor_attribute_and_tag(hass: UniversalAssistant) -> None:
+async def test_scrape_sensor_attribute_and_tag(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor with attribute and tag."""
     config = {
         DOMAIN: [
@@ -456,7 +456,7 @@ async def test_scrape_sensor_attribute_and_tag(hass: UniversalAssistant) -> None
     assert state2.state == "Trying to get"
 
 
-async def test_scrape_sensor_device_date(hass: UniversalAssistant) -> None:
+async def test_scrape_sensor_device_date(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor with a device of type DATE."""
     config = {
         DOMAIN: [
@@ -487,7 +487,7 @@ async def test_scrape_sensor_device_date(hass: UniversalAssistant) -> None:
     assert state.state == "2022-01-17"
 
 
-async def test_scrape_sensor_device_date_errors(hass: UniversalAssistant) -> None:
+async def test_scrape_sensor_device_date_errors(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor with a device of type DATE."""
     config = {
         DOMAIN: [
@@ -515,7 +515,7 @@ async def test_scrape_sensor_device_date_errors(hass: UniversalAssistant) -> Non
     assert state.state == STATE_UNKNOWN
 
 
-async def test_scrape_sensor_device_timestamp(hass: UniversalAssistant) -> None:
+async def test_scrape_sensor_device_timestamp(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor with a device of type TIMESTAMP."""
     config = {
         DOMAIN: [
@@ -543,7 +543,7 @@ async def test_scrape_sensor_device_timestamp(hass: UniversalAssistant) -> None:
     assert state.state == "2022-12-22T13:15:30+00:00"
 
 
-async def test_scrape_sensor_device_timestamp_error(hass: UniversalAssistant) -> None:
+async def test_scrape_sensor_device_timestamp_error(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor with a device of type TIMESTAMP."""
     config = {
         DOMAIN: [
@@ -571,7 +571,7 @@ async def test_scrape_sensor_device_timestamp_error(hass: UniversalAssistant) ->
     assert state.state == STATE_UNKNOWN
 
 
-async def test_scrape_sensor_errors(hass: UniversalAssistant) -> None:
+async def test_scrape_sensor_errors(hass: __HAC_KEEP__) -> None:
     """Test Scrape sensor handle errors."""
     config = {
         DOMAIN: [
@@ -608,7 +608,7 @@ async def test_scrape_sensor_errors(hass: UniversalAssistant) -> None:
 
 
 async def test_scrape_sensor_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test Scrape sensor with unique_id."""
     config = {
@@ -642,7 +642,7 @@ async def test_scrape_sensor_unique_id(
 
 
 async def test_setup_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     loaded_entry: MockConfigEntry,
 ) -> None:
@@ -656,7 +656,7 @@ async def test_setup_config_entry(
     assert entity.unique_id == "01JZN07D8D23994A49YKS649S7"
 
 
-async def test_templates_with_yaml(hass: UniversalAssistant) -> None:
+async def test_templates_with_yaml(hass: __HAC_KEEP__) -> None:
     """Test the Scrape sensor from yaml config with templates."""
 
     hass.states.async_set("sensor.input1", "on")
@@ -788,7 +788,7 @@ async def test_templates_with_yaml(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     loaded_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -818,7 +818,7 @@ async def test_availability(
 
 
 async def test_template_render_with_availability_syntax_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test availability template render with syntax errors."""
     config = {
@@ -856,7 +856,7 @@ async def test_template_render_with_availability_syntax_error(
 
 
 async def test_availability_blocks_value_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test availability blocks value_template from rendering."""

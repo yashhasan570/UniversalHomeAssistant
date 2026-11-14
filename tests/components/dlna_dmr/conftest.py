@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.dlna_dmr.const import DOMAIN
 from universalassistant.components.dlna_dmr.data import DlnaDmrData
 from universalassistant.const import CONF_DEVICE_ID, CONF_MAC, CONF_TYPE, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_DEVICE_HOST_ADDR = "198.51.100.4"
 MOCK_DEVICE_LOCATION = f"http://{MOCK_DEVICE_HOST_ADDR}/dmr_description.xml"
@@ -29,7 +29,7 @@ NEW_DEVICE_LOCATION = "http://198.51.100.7" + "/dmr_description.xml"
 
 
 @pytest.fixture
-def domain_data_mock(hass: UniversalAssistant) -> Mock:
+def domain_data_mock(hass: __HAC_KEEP__) -> Mock:
     """Mock the global data used by this component.
 
     This includes network clients and library object factories. Mocking it

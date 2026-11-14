@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_REFERRER
 from .coordinator import GoogleWeatherConfigEntry
@@ -18,7 +18,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: GoogleWeatherConfigEntry
+    hass: __HAC_KEEP__, entry: GoogleWeatherConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     diag_data: dict[str, Any] = {

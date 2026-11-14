@@ -115,7 +115,7 @@ class RadioFrequencyTransmitterEntity(_RadioFrequencyEntity):
             command: The RF command to send.
 
         Raises:
-            UniversalAssistantError: If transmission fails.
+            __HAC_KEEP__Error: If transmission fails.
         """
 
 

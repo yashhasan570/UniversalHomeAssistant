@@ -2,7 +2,7 @@
 
 from RFXtrx import RFXtrxDevice, get_device
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 
 from . import (
@@ -14,7 +14,7 @@ from .const import CONF_DATA_BITS, CONF_EVENT_CODE
 
 
 @callback
-def async_get_device_object(hass: UniversalAssistant, device_id: str) -> RFXtrxDevice:
+def async_get_device_object(hass: __HAC_KEEP__, device_id: str) -> RFXtrxDevice:
     """Get a device for the given device registry id."""
     device_registry = dr.async_get(hass)
     registry_device = device_registry.async_get(device_id)

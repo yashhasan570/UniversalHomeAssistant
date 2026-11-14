@@ -10,7 +10,7 @@ import requests
 from universalassistant.components.discogs.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_TOKEN, MOCK_USER_ID, MOCK_USERNAME
@@ -18,7 +18,7 @@ from . import MOCK_TOKEN, MOCK_USER_ID, MOCK_USERNAME
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_user_flow(
-    hass: UniversalAssistant, mock_discogs_client: MagicMock
+    hass: __HAC_KEEP__, mock_discogs_client: MagicMock
 ) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
@@ -50,7 +50,7 @@ async def test_full_user_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors_then_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discogs_client: MagicMock,
     error: Exception,
     message: str,
@@ -82,7 +82,7 @@ async def test_flow_errors_then_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discogs_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_flow_already_configured(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_import_flow(hass: UniversalAssistant, mock_discogs_client: MagicMock) -> None:
+async def test_import_flow(hass: __HAC_KEEP__, mock_discogs_client: MagicMock) -> None:
     """Test YAML import creates a config entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -118,7 +118,7 @@ async def test_import_flow(hass: UniversalAssistant, mock_discogs_client: MagicM
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_flow_with_name(
-    hass: UniversalAssistant, mock_discogs_client: MagicMock
+    hass: __HAC_KEEP__, mock_discogs_client: MagicMock
 ) -> None:
     """Test YAML import preserves custom name as entry title."""
     result = await hass.config_entries.flow.async_init(
@@ -134,7 +134,7 @@ async def test_import_flow_with_name(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_import_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_discogs_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

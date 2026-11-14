@@ -19,7 +19,7 @@ from universalassistant.components.energyid.energyid_sensor_mapping_flow import 
     EnergyIDSensorMappingFlowHandler,
 )
 from universalassistant.const import CONF_DEVICE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 # Test constants
@@ -57,7 +57,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield mock_setup
 
 
-async def test_config_flow_user_step_success_claimed(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_step_success_claimed(hass: __HAC_KEEP__) -> None:
     """Test user step where device is already claimed."""
     mock_client = MagicMock()
     mock_client.authenticate = AsyncMock(return_value=True)
@@ -98,7 +98,7 @@ async def test_config_flow_user_step_success_claimed(hass: UniversalAssistant) -
         assert entry.data[CONF_DEVICE_ID] == entry.unique_id
 
 
-async def test_config_flow_auth_and_claim_step_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_auth_and_claim_step_success(hass: __HAC_KEEP__) -> None:
     """Test auth_and_claim step where the device becomes claimed after polling."""
     mock_unclaimed_client = MagicMock()
     mock_unclaimed_client.authenticate = AsyncMock(return_value=False)
@@ -153,7 +153,7 @@ async def test_config_flow_auth_and_claim_step_success(hass: UniversalAssistant)
         assert final_result["description"] == "add_sensor_mapping_hint"
 
 
-async def test_config_flow_claim_timeout(hass: UniversalAssistant) -> None:
+async def test_config_flow_claim_timeout(hass: __HAC_KEEP__) -> None:
     """Test claim step when polling times out and user continues."""
     mock_unclaimed_client = MagicMock()
     mock_unclaimed_client.authenticate = AsyncMock(return_value=False)
@@ -202,7 +202,7 @@ async def test_config_flow_claim_timeout(hass: UniversalAssistant) -> None:
         assert result_after_timeout["step_id"] == "auth_and_claim"
 
 
-async def test_duplicate_unique_id_prevented(hass: UniversalAssistant) -> None:
+async def test_duplicate_unique_id_prevented(hass: __HAC_KEEP__) -> None:
     """Test that duplicate device_id (unique_id) is detected and aborted."""
     # Create existing entry with a specific device_id as unique_id
     # The generated device_id format is: universalassistant_eid_{instance_id}_{timestamp_ms}
@@ -262,7 +262,7 @@ async def test_duplicate_unique_id_prevented(hass: UniversalAssistant) -> None:
         assert result2["reason"] == "already_configured"
 
 
-async def test_multiple_different_devices_allowed(hass: UniversalAssistant) -> None:
+async def test_multiple_different_devices_allowed(hass: __HAC_KEEP__) -> None:
     """Test that multiple config entries with different device_ids are allowed."""
     # Create existing entry with one device_id
     entry = MockConfigEntry(
@@ -315,7 +315,7 @@ async def test_multiple_different_devices_allowed(hass: UniversalAssistant) -> N
         assert new_entry.unique_id != entry.unique_id  # Different from first entry
 
 
-async def test_config_flow_connection_error(hass: UniversalAssistant) -> None:
+async def test_config_flow_connection_error(hass: __HAC_KEEP__) -> None:
     """Test connection error during authentication."""
     with patch(
         "universalassistant.components.energyid.config_flow.WebhookClient.authenticate",
@@ -352,7 +352,7 @@ async def test_config_flow_connection_error(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_unexpected_error(hass: UniversalAssistant) -> None:
+async def test_config_flow_unexpected_error(hass: __HAC_KEEP__) -> None:
     """Test unexpected error during authentication."""
     with patch(
         "universalassistant.components.energyid.config_flow.WebhookClient.authenticate",
@@ -390,7 +390,7 @@ async def test_config_flow_unexpected_error(hass: UniversalAssistant) -> None:
 
 
 async def test_config_flow_external_step_claimed_during_display(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test when device gets claimed while external step is being displayed."""
     call_count = 0
@@ -445,7 +445,7 @@ async def test_config_flow_external_step_claimed_during_display(
         assert final_result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_auth_and_claim_step_not_claimed(hass: UniversalAssistant) -> None:
+async def test_config_flow_auth_and_claim_step_not_claimed(hass: __HAC_KEEP__) -> None:
     """Test auth_and_claim step when device is not claimed after polling."""
     mock_client = MagicMock()
     mock_client.authenticate = AsyncMock(return_value=False)
@@ -478,7 +478,7 @@ async def test_config_flow_auth_and_claim_step_not_claimed(hass: UniversalAssist
 
 
 async def test_config_flow_reauth_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the reauthentication flow for EnergyID integration (success path)."""
     # Existing config entry
@@ -534,7 +534,7 @@ async def test_config_flow_reauth_success(
     ],
 )
 async def test_config_flow_client_response_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     auth_status: int,
     auth_message: str,
     expected_error: str,
@@ -583,7 +583,7 @@ async def test_config_flow_client_response_error(
         assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_reauth_needs_claim(hass: UniversalAssistant) -> None:
+async def test_config_flow_reauth_needs_claim(hass: __HAC_KEEP__) -> None:
     """Test reauth flow when device needs to be claimed."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -625,7 +625,7 @@ async def test_config_flow_reauth_needs_claim(hass: UniversalAssistant) -> None:
         assert result2["step_id"] == "auth_and_claim"
 
 
-async def test_async_get_supported_subentry_types(hass: UniversalAssistant) -> None:
+async def test_async_get_supported_subentry_types(hass: __HAC_KEEP__) -> None:
     """Test async_get_supported_subentry_types returns correct types."""
 
     mock_entry = MockConfigEntry(domain=DOMAIN, data={})
@@ -636,7 +636,7 @@ async def test_async_get_supported_subentry_types(hass: UniversalAssistant) -> N
     assert result["sensor_mapping"] == EnergyIDSensorMappingFlowHandler
 
 
-async def test_polling_stops_on_invalid_auth_error(hass: UniversalAssistant) -> None:
+async def test_polling_stops_on_invalid_auth_error(hass: __HAC_KEEP__) -> None:
     """Test polling stops on invalid_auth error during auth_and_claim."""
     mock_unclaimed_client = MagicMock()
     mock_unclaimed_client.authenticate = AsyncMock(return_value=False)
@@ -687,7 +687,7 @@ async def test_polling_stops_on_invalid_auth_error(hass: UniversalAssistant) -> 
         await hass.async_block_till_done()
 
 
-async def test_polling_stops_on_cannot_connect_error(hass: UniversalAssistant) -> None:
+async def test_polling_stops_on_cannot_connect_error(hass: __HAC_KEEP__) -> None:
     """Test polling stops on cannot_connect error during auth_and_claim."""
     mock_unclaimed_client = MagicMock()
     mock_unclaimed_client.authenticate = AsyncMock(return_value=False)
@@ -734,7 +734,7 @@ async def test_polling_stops_on_cannot_connect_error(hass: UniversalAssistant) -
         await hass.async_block_till_done()
 
 
-async def test_auth_and_claim_subsequent_auth_error(hass: UniversalAssistant) -> None:
+async def test_auth_and_claim_subsequent_auth_error(hass: __HAC_KEEP__) -> None:
     """Test auth_and_claim handles auth errors during polling."""
     mock_unclaimed_client = MagicMock()
     mock_unclaimed_client.authenticate = AsyncMock(return_value=False)
@@ -790,7 +790,7 @@ async def test_auth_and_claim_subsequent_auth_error(hass: UniversalAssistant) ->
         assert final_result["step_id"] == "auth_and_claim"
 
 
-async def test_reauth_with_error(hass: UniversalAssistant) -> None:
+async def test_reauth_with_error(hass: __HAC_KEEP__) -> None:
     """Test that reauth flow shows error when authentication fails with 401."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -846,7 +846,7 @@ async def test_reauth_with_error(hass: UniversalAssistant) -> None:
         assert result3["reason"] == "reauth_successful"
 
 
-async def test_polling_cancellation_on_auth_failure(hass: UniversalAssistant) -> None:
+async def test_polling_cancellation_on_auth_failure(hass: __HAC_KEEP__) -> None:
     """Test polling is cancelled when auth fails during auth_and_claim."""
     call_count = 0
     auth_call_count = 0
@@ -916,7 +916,7 @@ async def test_polling_cancellation_on_auth_failure(hass: UniversalAssistant) ->
         )  # One more for the manual check
 
 
-async def test_polling_cancellation_on_success(hass: UniversalAssistant) -> None:
+async def test_polling_cancellation_on_success(hass: __HAC_KEEP__) -> None:
     """Test polling is cancelled when device becomes claimed successfully."""
     call_count = 0
     auth_call_count = 0

@@ -26,7 +26,7 @@ from universalassistant.components.device_tracker import (
     DOMAIN as DEVICE_TRACKER_DOMAIN,
 )
 from universalassistant.const import CONF_PLATFORM
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util, slugify
 
@@ -70,7 +70,7 @@ class MockBleakClientBattery5(MockBleakClient):
 
 
 @pytest.mark.usefixtures("mock_device_tracker_conf")
-async def test_do_not_see_device_if_time_not_updated(hass: UniversalAssistant) -> None:
+async def test_do_not_see_device_if_time_not_updated(hass: __HAC_KEEP__) -> None:
     """Test device goes not_home after consider_home threshold.
 
     Subsequent scans have not incremented last seen time.
@@ -139,7 +139,7 @@ async def test_do_not_see_device_if_time_not_updated(hass: UniversalAssistant) -
 
 
 @pytest.mark.usefixtures("mock_device_tracker_conf")
-async def test_see_device_if_time_updated(hass: UniversalAssistant) -> None:
+async def test_see_device_if_time_updated(hass: __HAC_KEEP__) -> None:
     """Test device stays home after consider_home threshold.
 
     Subsequent scans have incremented last seen time.
@@ -224,7 +224,7 @@ async def test_see_device_if_time_updated(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_device_tracker_conf")
-async def test_preserve_new_tracked_device_name(hass: UniversalAssistant) -> None:
+async def test_preserve_new_tracked_device_name(hass: __HAC_KEEP__) -> None:
     """Test preserving tracked device name across new seens."""  # codespell:ignore seens
 
     address = "DE:AD:BE:EF:13:37"
@@ -293,7 +293,7 @@ async def test_preserve_new_tracked_device_name(hass: UniversalAssistant) -> Non
 
 
 @pytest.mark.usefixtures("mock_device_tracker_conf")
-async def test_tracking_battery_times_out(hass: UniversalAssistant) -> None:
+async def test_tracking_battery_times_out(hass: __HAC_KEEP__) -> None:
     """Test tracking the battery times out."""
 
     address = "DE:AD:BE:EF:13:37"
@@ -361,7 +361,7 @@ async def test_tracking_battery_times_out(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_device_tracker_conf")
-async def test_tracking_battery_fails(hass: UniversalAssistant) -> None:
+async def test_tracking_battery_fails(hass: __HAC_KEEP__) -> None:
     """Test tracking the battery fails."""
 
     address = "DE:AD:BE:EF:13:37"
@@ -428,7 +428,7 @@ async def test_tracking_battery_fails(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_device_tracker_conf")
-async def test_tracking_battery_successful(hass: UniversalAssistant) -> None:
+async def test_tracking_battery_successful(hass: __HAC_KEEP__) -> None:
     """Test tracking the battery gets a value."""
 
     address = "DE:AD:BE:EF:13:37"

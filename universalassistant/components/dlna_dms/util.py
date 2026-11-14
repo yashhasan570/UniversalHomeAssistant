@@ -1,12 +1,12 @@
 """Small utility functions for the dlna_dms integration."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import slugify
 
 from .const import CONF_SOURCE_ID, DOMAIN
 
 
-def generate_source_id(hass: UniversalAssistant, name: str) -> str:
+def generate_source_id(hass: __HAC_KEEP__, name: str) -> str:
     """Generate a unique source ID."""
     other_entries = hass.config_entries.async_entries(DOMAIN)
     other_source_ids: set[str] = {

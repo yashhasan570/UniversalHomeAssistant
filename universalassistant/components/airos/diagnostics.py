@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import AirOSConfigEntry
 
@@ -22,7 +22,7 @@ TO_REDACT_AIROS = [
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: AirOSConfigEntry
+    hass: __HAC_KEEP__, entry: AirOSConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

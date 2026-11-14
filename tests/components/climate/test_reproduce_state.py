@@ -23,14 +23,14 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.climate.reproduce_state import async_reproduce_states
 from universalassistant.const import ATTR_TEMPERATURE
-from universalassistant.core import Context, UniversalAssistant, State
+from universalassistant.core import Context, __HAC_KEEP__, State
 
 ENTITY_1 = "climate.test1"
 ENTITY_2 = "climate.test2"
 
 
 @pytest.mark.parametrize("state", [HVACMode.AUTO, HVACMode.HEAT, HVACMode.OFF])
-async def test_with_hvac_mode(hass: UniversalAssistant, state) -> None:
+async def test_with_hvac_mode(hass: __HAC_KEEP__, state) -> None:
     """Test that state different hvac states."""
     calls = async_mock_service(hass, DOMAIN, SERVICE_SET_HVAC_MODE)
 
@@ -42,7 +42,7 @@ async def test_with_hvac_mode(hass: UniversalAssistant, state) -> None:
     assert calls[0].data == {"entity_id": ENTITY_1, "hvac_mode": state}
 
 
-async def test_multiple_state(hass: UniversalAssistant) -> None:
+async def test_multiple_state(hass: __HAC_KEEP__) -> None:
     """Test that multiple states gets calls."""
     calls_1 = async_mock_service(hass, DOMAIN, SERVICE_SET_HVAC_MODE)
 
@@ -64,7 +64,7 @@ async def test_multiple_state(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_state_with_none(hass: UniversalAssistant) -> None:
+async def test_state_with_none(hass: __HAC_KEEP__) -> None:
     """Test that none is not a hvac state."""
     calls = async_mock_service(hass, DOMAIN, SERVICE_SET_HVAC_MODE)
 
@@ -75,7 +75,7 @@ async def test_state_with_none(hass: UniversalAssistant) -> None:
     assert len(calls) == 0
 
 
-async def test_state_with_context(hass: UniversalAssistant) -> None:
+async def test_state_with_context(hass: __HAC_KEEP__) -> None:
     """Test that context is forwarded."""
     calls = async_mock_service(hass, DOMAIN, SERVICE_SET_HVAC_MODE)
 
@@ -105,7 +105,7 @@ async def test_state_with_context(hass: UniversalAssistant) -> None:
         (SERVICE_SET_TEMPERATURE, ATTR_TARGET_TEMP_LOW),
     ],
 )
-async def test_attribute(hass: UniversalAssistant, service, attribute) -> None:
+async def test_attribute(hass: __HAC_KEEP__, service, attribute) -> None:
     """Test that service call is made for each attribute."""
     calls_1 = async_mock_service(hass, DOMAIN, service)
 
@@ -129,7 +129,7 @@ async def test_attribute(hass: UniversalAssistant, service, attribute) -> None:
         (SERVICE_SET_TEMPERATURE, ATTR_TEMPERATURE),
     ],
 )
-async def test_attribute_with_none(hass: UniversalAssistant, service, attribute) -> None:
+async def test_attribute_with_none(hass: __HAC_KEEP__, service, attribute) -> None:
     """Test that service call is not made for attributes with None value."""
     calls_1 = async_mock_service(hass, DOMAIN, service)
 
@@ -140,7 +140,7 @@ async def test_attribute_with_none(hass: UniversalAssistant, service, attribute)
     assert len(calls_1) == 0
 
 
-async def test_attribute_partial_temperature(hass: UniversalAssistant) -> None:
+async def test_attribute_partial_temperature(hass: __HAC_KEEP__) -> None:
     """Test that service call ignores null attributes."""
     calls_1 = async_mock_service(hass, DOMAIN, SERVICE_SET_TEMPERATURE)
 
@@ -165,7 +165,7 @@ async def test_attribute_partial_temperature(hass: UniversalAssistant) -> None:
     assert calls_1[0].data == {"entity_id": ENTITY_1, ATTR_TEMPERATURE: 23.1}
 
 
-async def test_attribute_partial_high_low_temperature(hass: UniversalAssistant) -> None:
+async def test_attribute_partial_high_low_temperature(hass: __HAC_KEEP__) -> None:
     """Test that service call ignores null attributes."""
     calls_1 = async_mock_service(hass, DOMAIN, SERVICE_SET_TEMPERATURE)
 

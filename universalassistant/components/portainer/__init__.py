@@ -24,7 +24,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 import universalassistant.helpers.config_validation as cv
@@ -59,13 +59,13 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def _async_update_listener(
-    hass: UniversalAssistant, entry: PortainerConfigEntry
+    hass: __HAC_KEEP__, entry: PortainerConfigEntry
 ) -> None:
     """Reload the entry when it, or one of its environment subentries, changes."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PortainerConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PortainerConfigEntry) -> None:
     """Set up Portainer from a config entry."""
 
     session = async_create_clientsession(
@@ -120,8 +120,8 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PortainerConfigEntr
 
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
-    async def _defer_initial_refreshes(_: UniversalAssistant) -> None:
-        """Defer the first refresh until Universal Universal Home Assistant has started."""
+    async def _defer_initial_refreshes(_: __HAC_KEEP__) -> None:
+        """Defer the first refresh until __HA_KEEP__ has started."""
         hass.async_create_task(
             docker_disk_space_coordinator.async_refresh(),
             "portainer_docker_disk_space_initial_refresh",
@@ -137,7 +137,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PortainerConfigEntr
     entry.async_on_unload(async_at_started(hass, _defer_initial_refreshes))
 
     @callback
-    def _start_watcher(_hass: UniversalAssistant) -> None:
+    def _start_watcher(_hass: __HAC_KEEP__) -> None:
         """Start the image watcher in the event loop."""
         watcher.start()
 
@@ -153,7 +153,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PortainerConfigEntr
     )
 
     @callback
-    def _start_event_listeners(_hass: UniversalAssistant) -> None:
+    def _start_event_listeners(_hass: __HAC_KEEP__) -> None:
         """Start the Docker event listeners in the event loop."""
         coordinator.async_start_event_listeners()
 
@@ -170,18 +170,18 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PortainerConfigEntr
     )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Portainer integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: PortainerConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: PortainerConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: PortainerConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: PortainerConfigEntry) -> None:
     """Migrate old entry."""
 
     if entry.version < 2:
@@ -371,7 +371,7 @@ _DISK_SPACE_TRANSLATION_KEYS = {
 
 @callback
 def _async_disable_disk_space_sensors(
-    hass: UniversalAssistant, entry: PortainerConfigEntry
+    hass: __HAC_KEEP__, entry: PortainerConfigEntry
 ) -> None:
     """Disable the disk space sensors, which became opt-in as Docker computes them slowly."""
     entity_registry = er.async_get(hass)
@@ -387,7 +387,7 @@ def _async_disable_disk_space_sensors(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PortainerConfigEntry,
     device: AnyDeviceEntry,
 ) -> bool:

@@ -7,7 +7,7 @@ import aiohttp
 from meteo_lt import Forecast as MeteoLtForecast, MeteoLtAPI
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -23,7 +23,7 @@ class MeteoLtUpdateCoordinator(DataUpdateCoordinator[MeteoLtForecast]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         place_code: str,
         config_entry: MeteoLtConfigEntry,
     ) -> None:

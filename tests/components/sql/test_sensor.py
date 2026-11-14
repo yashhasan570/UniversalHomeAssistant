@@ -42,7 +42,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfInformation,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -58,7 +58,7 @@ from . import (
 )
 
 
-async def test_query_basic(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_query_basic(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test the SQL sensor."""
     options = {
         CONF_QUERY: "SELECT 5 as value",
@@ -71,7 +71,7 @@ async def test_query_basic(recorder_mock: Recorder, hass: UniversalAssistant) ->
     assert state.attributes["value"] == 5
 
 
-async def test_query_cte(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_query_cte(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test the SQL sensor with CTE."""
     options = {
         CONF_QUERY: (
@@ -88,7 +88,7 @@ async def test_query_cte(recorder_mock: Recorder, hass: UniversalAssistant) -> N
 
 
 async def test_query_value_template(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test the SQL sensor."""
     options = {
@@ -116,7 +116,7 @@ async def test_query_value_template(
 
 async def test_template_query(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test the SQL sensor with a query template."""
@@ -145,7 +145,7 @@ async def test_template_query(
 
 
 async def test_query_value_template_invalid(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test the SQL sensor."""
     options = {
@@ -161,7 +161,7 @@ async def test_query_value_template_invalid(
 
 async def test_broken_template_query(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test the SQL sensor with a query template which is broken."""
@@ -180,7 +180,7 @@ async def test_broken_template_query(
 
 async def test_broken_template_query_2(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -216,7 +216,7 @@ async def test_broken_template_query_2(
     )
 
 
-async def test_query_limit(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_query_limit(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test the SQL sensor with a query containing 'LIMIT' in lowercase."""
     options = {
         CONF_QUERY: "SELECT 5 as value limit 1",
@@ -230,7 +230,7 @@ async def test_query_limit(recorder_mock: Recorder, hass: UniversalAssistant) ->
 
 
 async def test_query_no_value(
-    recorder_mock: Recorder, hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    recorder_mock: Recorder, hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the SQL sensor with a query that returns no value."""
     options = {
@@ -248,7 +248,7 @@ async def test_query_no_value(
 
 async def test_query_on_disk_sqlite_no_result(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     tmp_path: Path,
 ) -> None:
@@ -297,7 +297,7 @@ async def test_query_on_disk_sqlite_no_result(
 )
 async def test_invalid_url_setup(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     url: str,
     expected_patterns: str,
@@ -335,7 +335,7 @@ async def test_invalid_url_setup(
 
 async def test_invalid_url_on_update(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test invalid db url with redacted credentials on retry."""
@@ -365,7 +365,7 @@ async def test_invalid_url_on_update(
     assert "sqlite://****:****@universalassistant.local" in caplog.text
 
 
-async def test_query_from_yaml(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_query_from_yaml(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test the SQL sensor from yaml config."""
 
     assert await async_setup_component(hass, DOMAIN, YAML_CONFIG)
@@ -376,7 +376,7 @@ async def test_query_from_yaml(recorder_mock: Recorder, hass: UniversalAssistant
 
 
 async def test_templates_with_yaml(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test the SQL sensor from yaml config with templates."""
 
@@ -438,7 +438,7 @@ async def test_templates_with_yaml(
 
 async def test_config_from_old_yaml(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -469,7 +469,7 @@ async def test_config_from_old_yaml(
 )
 async def test_invalid_url_setup_from_yaml(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     url: str,
     expected_patterns: str,
@@ -499,7 +499,7 @@ async def test_invalid_url_setup_from_yaml(
 
 
 async def test_postgresql_url_uses_psycopg2_from_yaml(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test the engine for a driverless PostgreSQL URL uses psycopg2."""
     config = {
@@ -524,7 +524,7 @@ async def test_postgresql_url_uses_psycopg2_from_yaml(
 
 
 async def test_attributes_from_yaml_setup(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test attributes from yaml config."""
 
@@ -540,7 +540,7 @@ async def test_attributes_from_yaml_setup(
 
 
 async def test_binary_data_from_yaml_setup(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test binary data from yaml config."""
 
@@ -553,7 +553,7 @@ async def test_binary_data_from_yaml_setup(
 
 async def test_issue_when_using_old_query(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -578,7 +578,7 @@ async def test_issue_when_using_old_query(
 
 async def test_issue_when_using_old_query_from_config_entry(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test the full table scan issue is linked to the config entry."""
@@ -607,7 +607,7 @@ async def test_issue_when_using_old_query_from_config_entry(
 )
 async def test_issue_when_using_old_query_without_unique_id(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     yaml_config: dict[str, Any],
     issue_registry: ir.IssueRegistry,
@@ -630,7 +630,7 @@ async def test_issue_when_using_old_query_without_unique_id(
 
 
 async def test_no_issue_when_view_has_the_text_entity_id_in_it(
-    recorder_mock: Recorder, hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    recorder_mock: Recorder, hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we do not trigger the full table scan issue for a custom view."""
 
@@ -658,7 +658,7 @@ async def test_no_issue_when_view_has_the_text_entity_id_in_it(
 
 
 async def test_multiple_sensors_using_same_db(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test multiple sensors using the same db."""
     options = {
@@ -687,7 +687,7 @@ async def test_multiple_sensors_using_same_db(
 
 
 async def test_engine_is_disposed_at_stop(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test we dispose of the engine at stop."""
     config = {CONF_DB_URL: "sqlite:///"}
@@ -710,7 +710,7 @@ async def test_engine_is_disposed_at_stop(
 
 
 async def test_attributes_from_entry_config(
-    recorder_mock: Recorder, hass: UniversalAssistant
+    recorder_mock: Recorder, hass: __HAC_KEEP__
 ) -> None:
     """Test attributes from entry config."""
 
@@ -759,7 +759,7 @@ async def test_attributes_from_entry_config(
 
 async def test_query_recover_from_rollback(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -797,7 +797,7 @@ async def test_query_recover_from_rollback(
     assert state.attributes.get("value") == 5
 
 
-async def test_setup_without_recorder(hass: UniversalAssistant) -> None:
+async def test_setup_without_recorder(hass: __HAC_KEEP__) -> None:
     """Test the SQL sensor without recorder."""
 
     assert await async_setup_component(hass, DOMAIN, YAML_CONFIG)
@@ -808,7 +808,7 @@ async def test_setup_without_recorder(hass: UniversalAssistant) -> None:
 
 
 async def test_availability_blocks_value_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test availability blocks value_template from rendering."""

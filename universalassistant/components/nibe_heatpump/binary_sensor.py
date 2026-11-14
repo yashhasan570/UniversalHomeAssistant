@@ -6,7 +6,7 @@ from nibe.coil import Coil, CoilData
 
 from universalassistant.components.binary_sensor import ENTITY_ID_FORMAT, BinarySensorEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import CoilCoordinator, NibeHeatpumpConfigEntry
@@ -14,7 +14,7 @@ from .entity import CoilEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: NibeHeatpumpConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

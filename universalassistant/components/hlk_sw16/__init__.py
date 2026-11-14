@@ -10,7 +10,7 @@ import probatio
 
 from universalassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PORT, CONF_SWITCHES, Platform
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_validation as cv, issue_registry as ir
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -60,7 +60,7 @@ CONFIG_SCHEMA = probatio.Schema(
 type HlkConfigEntry = ConfigEntry[SW16Client]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Component setup, do nothing."""
     if DOMAIN not in config:
         return True
@@ -78,7 +78,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def _async_import_yaml(
-    hass: UniversalAssistant, import_data: list[dict[str, Any]]
+    hass: __HAC_KEEP__, import_data: list[dict[str, Any]]
 ) -> None:
     """Import the YAML devices into config entries."""
     # Eager tasks register the import flows before setup waits for them.
@@ -133,7 +133,7 @@ async def _async_import_yaml(
     )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HlkConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HlkConfigEntry) -> None:
     """Set up the HLK-SW16 switch."""
     host = entry.data[CONF_HOST]
     port = entry.data[CONF_PORT]
@@ -174,7 +174,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HlkConfigEntry) -> 
     _LOGGER.debug("Connected to HLK-SW16 device: %s", address)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: HlkConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: HlkConfigEntry) -> None:
     """Unload a config entry."""
     entry.runtime_data.stop()
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

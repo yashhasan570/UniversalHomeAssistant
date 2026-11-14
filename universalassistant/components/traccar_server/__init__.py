@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.event import async_track_time_interval
@@ -31,7 +31,7 @@ PLATFORMS: list[Platform] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: TraccarServerConfigEntry
+    hass: __HAC_KEEP__, entry: TraccarServerConfigEntry
 ) -> None:
     """Set up Traccar Server from a config entry."""
     if CONF_API_TOKEN not in entry.data:
@@ -83,21 +83,21 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: TraccarServerConfigEntry
+    hass: __HAC_KEEP__, entry: TraccarServerConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_reload_entry(
-    hass: UniversalAssistant, entry: TraccarServerConfigEntry
+    hass: __HAC_KEEP__, entry: TraccarServerConfigEntry
 ) -> None:
     """Handle an options update."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: TraccarServerConfigEntry
+    hass: __HAC_KEEP__, entry: TraccarServerConfigEntry
 ) -> None:
     """Migrate old entry."""
 

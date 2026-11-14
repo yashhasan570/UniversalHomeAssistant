@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity import get_supported_features
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
@@ -71,7 +71,7 @@ TRIGGER_SCHEMA = probatio.TaggedUnion(
 
 
 async def async_get_triggers(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers for Cover devices."""
     registry = er.async_get(hass)
@@ -122,7 +122,7 @@ async def async_get_triggers(
 
 
 async def async_get_trigger_capabilities(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> dict[str, probatio.Schema]:
     """List trigger capabilities."""
     if config[CONF_TYPE] not in POSITION_TRIGGER_TYPES:
@@ -147,7 +147,7 @@ async def async_get_trigger_capabilities(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

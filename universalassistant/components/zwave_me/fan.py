@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -15,7 +15,7 @@ DEVICE_NAME = ZWaveMePlatform.FAN
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ZWaveMeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

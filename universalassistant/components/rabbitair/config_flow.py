@@ -9,8 +9,8 @@ from rabbitair import UdpClient
 from universalassistant.components import zeroconf
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST, CONF_MAC
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -19,7 +19,7 @@ from .const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, Any]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
     try:
         try:
@@ -110,17 +110,17 @@ class RabbitAirConfigFlow(ConfigFlow, domain=DOMAIN):
         return await self.async_step_user()
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAccessToken(UniversalAssistantError):
+class InvalidAccessToken(__HAC_KEEP__Error):
     """Error to indicate the access token is not valid."""
 
 
-class InvalidHost(UniversalAssistantError):
+class InvalidHost(__HAC_KEEP__Error):
     """Error to indicate the host is not valid."""
 
 
-class TimeoutConnect(UniversalAssistantError):
+class TimeoutConnect(__HAC_KEEP__Error):
     """Error to indicate the connection attempt is timed out."""

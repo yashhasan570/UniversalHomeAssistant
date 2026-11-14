@@ -5,7 +5,7 @@ from typing import Literal, override
 from universalassistant.components import conversation
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_LLM_HASS_API, CONF_PROMPT, MATCH_ALL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import GoogleGenerativeAIConfigEntry
@@ -14,7 +14,7 @@ from .entity import GoogleGenerativeAILLMBaseEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: GoogleGenerativeAIConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -56,13 +56,13 @@ class GoogleGenerativeAIConversationEntity(
 
     @override
     async def async_added_to_hass(self) -> None:
-        """When entity is added to Universal Universal Home Assistant."""
+        """When entity is added to __HA_KEEP__."""
         await super().async_added_to_hass()
         conversation.async_set_agent(self.hass, self.entry, self)
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """When entity will be removed from Universal Universal Home Assistant."""
+        """When entity will be removed from __HA_KEEP__."""
         conversation.async_unset_agent(self.hass, self.entry)
         await super().async_will_remove_from_hass()
 

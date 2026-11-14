@@ -5,8 +5,8 @@ import logging
 from typing import TYPE_CHECKING, override
 
 from universalassistant.components import ai_task, conversation
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.json import json_loads
 
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AnthropicConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -59,7 +59,7 @@ class AnthropicTaskEntity(
         await self._async_handle_chat_log(chat_log, task.structure, max_iterations=1000)
 
         if not isinstance(chat_log.content[-1], conversation.AssistantContent):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="response_not_found"
             )
 
@@ -79,7 +79,7 @@ class AnthropicTaskEntity(
                 err,
                 text,
             )
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="json_parse_error"
             ) from err
 

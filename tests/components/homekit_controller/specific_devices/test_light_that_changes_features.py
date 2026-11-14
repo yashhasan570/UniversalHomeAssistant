@@ -1,7 +1,7 @@
-"""Test for a Universal Universal Home Assistant bridge that changes light features at runtime."""
+"""Test for a __HA_KEEP__ bridge that changes light features at runtime."""
 
 from universalassistant.components.light import ATTR_SUPPORTED_COLOR_MODES, ColorMode
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from ..common import (
@@ -12,7 +12,7 @@ from ..common import (
 
 
 async def test_light_add_feature_at_runtime(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that new features can be added at runtime."""
 

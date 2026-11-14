@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.smartyplants.const import CONF_WEBHOOK_SECRET, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
 
@@ -25,13 +25,13 @@ NEW_API_KEY = "sp_rotated_key_87654321"
 
 
 @pytest.fixture
-async def external_url(hass: UniversalAssistant) -> None:
-    """Give Universal Universal Home Assistant an address reachable from the internet."""
+async def external_url(hass: __HAC_KEEP__) -> None:
+    """Give __HA_KEEP__ an address reachable from the internet."""
     await async_process_ha_core_config(hass, {"external_url": "https://example.test"})
 
 
 @pytest.mark.usefixtures("mock_smartyplants_client", "mock_setup_entry", "external_url")
-async def test_full_flow(hass: UniversalAssistant) -> None:
+async def test_full_flow(hass: __HAC_KEEP__) -> None:
     """Test the flow stores the key, a webhook id and the secret."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -58,7 +58,7 @@ async def test_full_flow(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_smartyplants_client", "mock_setup_entry", "external_url")
-async def test_flow_without_webhook_secret(hass: UniversalAssistant) -> None:
+async def test_flow_without_webhook_secret(hass: __HAC_KEEP__) -> None:
     """Test the secret can be left empty to poll only."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -85,7 +85,7 @@ async def test_flow_without_webhook_secret(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry", "external_url")
 async def test_flow_errors_then_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smartyplants_client: AsyncMock,
     error: SmartyPlantsError,
     expected: str,
@@ -122,7 +122,7 @@ async def test_flow_errors_then_recovers(
 )
 @pytest.mark.usefixtures("mock_smartyplants_client", "mock_setup_entry")
 async def test_duplicate_account_aborts(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, api_key: str
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, api_key: str
 ) -> None:
     """Test the same account cannot be added twice, even with a rotated key."""
     mock_config_entry.add_to_hass(hass)
@@ -139,7 +139,7 @@ async def test_duplicate_account_aborts(
 
 
 @pytest.mark.usefixtures("mock_smartyplants_client", "mock_setup_entry")
-async def test_no_external_url_skips_webhook_step(hass: UniversalAssistant) -> None:
+async def test_no_external_url_skips_webhook_step(hass: __HAC_KEEP__) -> None:
     """Test the webhook step is skipped when there is no address to offer."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -154,7 +154,7 @@ async def test_no_external_url_skips_webhook_step(hass: UniversalAssistant) -> N
 
 
 @pytest.mark.usefixtures("mock_smartyplants_client", "mock_setup_entry")
-async def test_reauth(hass: UniversalAssistant, mock_config_entry: MockConfigEntry) -> None:
+async def test_reauth(hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry) -> None:
     """Test reauthentication stores the new key and keeps the rest."""
     mock_config_entry.add_to_hass(hass)
 
@@ -187,7 +187,7 @@ async def test_reauth(hass: UniversalAssistant, mock_config_entry: MockConfigEnt
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_errors_then_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smartyplants_client: AsyncMock,
     error: SmartyPlantsError,
@@ -216,7 +216,7 @@ async def test_reauth_errors_then_recovers(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_other_account_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smartyplants_client: AsyncMock,
 ) -> None:

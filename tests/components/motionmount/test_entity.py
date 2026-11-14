@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import format_mac
 
@@ -12,7 +12,7 @@ from . import ZEROCONF_NAME
 
 
 async def test_entity_rename(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

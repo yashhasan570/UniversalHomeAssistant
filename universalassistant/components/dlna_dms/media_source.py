@@ -19,13 +19,13 @@ from universalassistant.components.media_source import (
     MediaSourceItem,
     Unresolvable,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DOMAIN, LOGGER, PATH_OBJECT_ID_FLAG, ROOT_OBJECT_ID, SOURCE_SEP
 from .dms import DidlPlayMedia, get_domain_data
 
 
-async def async_get_media_source(hass: UniversalAssistant) -> DmsMediaSource:
+async def async_get_media_source(hass: __HAC_KEEP__) -> DmsMediaSource:
     """Set up DLNA DMS media source."""
     LOGGER.debug("Setting up DLNA media sources")
     return DmsMediaSource(hass)
@@ -36,7 +36,7 @@ class DmsMediaSource(MediaSource):
 
     name = "DLNA Servers"
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize DLNA source."""
         super().__init__(DOMAIN)
 

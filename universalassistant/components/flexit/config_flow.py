@@ -10,8 +10,8 @@ import probatio
 from universalassistant.components.modbus import async_get_temporary_unit
 from universalassistant.config_entries import ConfigEntryState, ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
@@ -63,14 +63,14 @@ STEP_SERIAL_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def check_connection(hass: UniversalAssistant, data: dict[str, Any]) -> str | None:
+async def check_connection(hass: __HAC_KEEP__, data: dict[str, Any]) -> str | None:
     """Check we can open a connection and read from the Flexit unit."""
     try:
         async with async_get_temporary_unit(
             hass, create_modbus_params(data), data[CONF_UNIT]
         ) as unit:
             await Flexit(unit).async_update()
-    except UniversalAssistantError, ModbusError:
+    except __HAC_KEEP__Error, ModbusError:
         _LOGGER.debug("Cannot connect to Flexit device", exc_info=True)
         return "cannot_connect"
     except Exception:

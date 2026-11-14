@@ -6,12 +6,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.progettihwsw.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_switch_setup_and_control(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the switch setup, state, and control."""
     entry = MockConfigEntry(

@@ -3,11 +3,11 @@
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: ConfigEntry,
 ) -> None:
     """Test the Coolmaster button."""

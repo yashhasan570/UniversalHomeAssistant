@@ -8,7 +8,7 @@ import krakenex
 import pykrakenapi
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -31,7 +31,7 @@ type KrakenConfigEntry = ConfigEntry[KrakenData]
 class KrakenData:
     """Define an object to hold kraken data."""
 
-    def __init__(self, hass: UniversalAssistant, config_entry: KrakenConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: KrakenConfigEntry) -> None:
         """Initialize."""
         self._hass = hass
         self._config_entry = config_entry

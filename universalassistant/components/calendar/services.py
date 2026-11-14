@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any, Final
 import probatio
 
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -210,7 +210,7 @@ async def async_get_events_service(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the calendar services."""
     component = hass.data[DATA_COMPONENT]
 

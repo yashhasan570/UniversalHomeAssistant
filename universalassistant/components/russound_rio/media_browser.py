@@ -5,11 +5,11 @@ from aiorussound.rio import RussoundRIOClient, Zone
 from aiorussound.util import is_feature_supported
 
 from universalassistant.components.media_player import BrowseMedia, MediaClass
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def async_browse_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: RussoundRIOClient,
     media_content_id: str | None,
     media_content_type: str | None,
@@ -23,7 +23,7 @@ async def async_browse_media(
 
 
 async def _root_payload(
-    hass: UniversalAssistant, presets_by_zone: dict[int, dict[int, str]]
+    hass: __HAC_KEEP__, presets_by_zone: dict[int, dict[int, str]]
 ) -> BrowseMedia:
     """Return root payload for Russound RIO."""
     children: list[BrowseMedia] = []

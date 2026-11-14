@@ -8,7 +8,7 @@ from yalesmartalarmclient.client import YaleSmartAlarmClient
 from yalesmartalarmclient.exceptions import AuthenticationError
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -32,7 +32,7 @@ class YaleDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     yale: YaleSmartAlarmClient
     config_entry: YaleConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: YaleConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: YaleConfigEntry) -> None:
         """Initialize the Yale hub."""
         super().__init__(
             hass,

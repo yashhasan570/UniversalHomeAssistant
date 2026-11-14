@@ -10,7 +10,7 @@ from universalassistant.components.date import (
     SERVICE_SET_VALUE,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 ENTITY_DATE = "date.date"
@@ -27,7 +27,7 @@ async def date_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_demo_date(hass: UniversalAssistant, date_only) -> None:
+async def setup_demo_date(hass: __HAC_KEEP__, date_only) -> None:
     """Initialize setup demo date."""
     assert await async_setup_component(
         hass, DATE_DOMAIN, {"date": {"platform": "demo"}}
@@ -35,13 +35,13 @@ async def setup_demo_date(hass: UniversalAssistant, date_only) -> None:
     await hass.async_block_till_done()
 
 
-def test_setup_params(hass: UniversalAssistant) -> None:
+def test_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the initial parameters."""
     state = hass.states.get(ENTITY_DATE)
     assert state.state == "2020-01-01"
 
 
-async def test_set_datetime(hass: UniversalAssistant) -> None:
+async def test_set_datetime(hass: __HAC_KEEP__) -> None:
     """Test set datetime service."""
     await hass.services.async_call(
         DATE_DOMAIN,

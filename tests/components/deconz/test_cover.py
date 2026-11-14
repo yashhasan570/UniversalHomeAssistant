@@ -24,7 +24,7 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType, WebsocketDataType
@@ -51,7 +51,7 @@ from .conftest import ConfigEntryFactoryType, WebsocketDataType
     ],
 )
 async def test_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
@@ -140,7 +140,7 @@ async def test_cover(
     ],
 )
 async def test_tilt_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
@@ -221,7 +221,7 @@ async def test_tilt_cover(
     ],
 )
 async def test_level_controllable_output_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],

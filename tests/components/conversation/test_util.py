@@ -1,12 +1,12 @@
 """Tests for conversation utility functions."""
 
 from universalassistant.components import conversation
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import chat_session, intent, llm
 
 
 async def test_async_get_result_from_chat_log(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_conversation_input: conversation.ConversationInput,
 ) -> None:
     """Test getting result from chat log."""

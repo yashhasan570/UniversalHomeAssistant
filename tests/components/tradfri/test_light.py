@@ -34,7 +34,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import CommandStore, setup_integration
 
@@ -127,7 +127,7 @@ def bulb_cws_color_temp() -> str:
     indirect=["device"],
 )
 async def test_light_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device: Device,
     entity_id: str,
     state_attributes: dict[str, Any],
@@ -144,7 +144,7 @@ async def test_light_state(
 
 @pytest.mark.parametrize("device", ["bulb_w"], indirect=True)
 async def test_light_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     command_store: CommandStore,
     device: Device,
 ) -> None:
@@ -283,7 +283,7 @@ async def test_light_available(
     ],
 )
 async def test_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     command_store: CommandStore,
     device: Device,
     entity_id: str,
@@ -337,7 +337,7 @@ async def test_turn_on(
     indirect=["device"],
 )
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     command_store: CommandStore,
     device: Device,
     entity_id: str,
@@ -404,7 +404,7 @@ async def test_turn_off(
     indirect=["device"],
 )
 async def test_turn_on_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     command_store: CommandStore,
     device: Device,
     entity_id: str,
@@ -456,7 +456,7 @@ async def test_turn_on_commands(
     ],
 )
 async def test_turn_off_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     command_store: CommandStore,
     device: Device,
     transition: dict[str, float],
@@ -481,7 +481,7 @@ async def test_turn_off_commands(
 
 @pytest.mark.parametrize("device", ["bulb_ws_without_values"], indirect=True)
 async def test_light_without_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     command_store: CommandStore,
     device: Device,
     bulb_ws: str,

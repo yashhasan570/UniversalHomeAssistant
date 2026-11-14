@@ -5,7 +5,7 @@ from contextlib import contextmanager
 import contextvars
 
 from universalassistant.components.application_credentials import AuthorizationServer
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 CONF_ACTIVE_AUTHORIZATION_SERVER = "active_authorization_server"
 
@@ -26,7 +26,7 @@ def authorization_server_context(
         _mcp_context.reset(token)
 
 
-async def async_get_authorization_server(hass: UniversalAssistant) -> AuthorizationServer:
+async def async_get_authorization_server(hass: __HAC_KEEP__) -> AuthorizationServer:
     """Return authorization server, for the default auth implementation."""
     if _mcp_context.get() is None:
         raise RuntimeError("No MCP authorization server set in context")

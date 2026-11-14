@@ -10,14 +10,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.togrill.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import TOGRILL_SERVICE_INFO, setup_entry
 
 
 async def test_setup_device_present(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
@@ -38,7 +38,7 @@ async def test_setup_device_present(
 
 
 async def test_setup_device_not_present(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
@@ -51,7 +51,7 @@ async def test_setup_device_not_present(
 
 
 async def test_setup_device_failing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
@@ -69,7 +69,7 @@ async def test_setup_device_failing(
 
 
 async def test_migrate_probe_to_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry,
     mock_client: Mock,
     mock_client_class: Mock,

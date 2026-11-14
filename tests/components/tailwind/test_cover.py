@@ -19,8 +19,8 @@ from universalassistant.components.cover import (
 )
 from universalassistant.components.tailwind.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
@@ -34,7 +34,7 @@ pytestmark = pytest.mark.usefixtures("init_integration")
     ],
 )
 async def test_cover_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -53,7 +53,7 @@ async def test_cover_entities(
 
 
 async def test_cover_operations(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tailwind: MagicMock,
 ) -> None:
     """Test operating the doors."""
@@ -87,7 +87,7 @@ async def test_cover_operations(
     # Test door disabled error handling
     mock_tailwind.operate.side_effect = TailwindDoorDisabledError("Door disabled")
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_OPEN_COVER,
@@ -101,7 +101,7 @@ async def test_cover_operations(
     assert excinfo.value.translation_domain == DOMAIN
     assert excinfo.value.translation_key == "door_disabled"
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_CLOSE_COVER,
@@ -118,7 +118,7 @@ async def test_cover_operations(
     # Test door locked out error handling
     mock_tailwind.operate.side_effect = TailwindDoorLockedOutError("Door locked out")
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_OPEN_COVER,
@@ -132,7 +132,7 @@ async def test_cover_operations(
     assert excinfo.value.translation_domain == DOMAIN
     assert excinfo.value.translation_key == "door_locked_out"
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_CLOSE_COVER,
@@ -149,7 +149,7 @@ async def test_cover_operations(
     # Test door error handling
     mock_tailwind.operate.side_effect = TailwindError("Some error")
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_OPEN_COVER,
@@ -166,7 +166,7 @@ async def test_cover_operations(
     assert excinfo.value.translation_domain == DOMAIN
     assert excinfo.value.translation_key == "communication_error"
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_CLOSE_COVER,

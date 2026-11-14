@@ -12,7 +12,7 @@ from universalassistant import config_entries
 from universalassistant.components.hive.const import CONF_CODE, CONF_DEVICE_NAME, DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 USERNAME = "username@universal-assistant.com"
@@ -20,7 +20,7 @@ UPDATED_USERNAME = "updated_username@universal-assistant.com"
 PASSWORD = "test-password"
 UPDATED_PASSWORD = "updated-password"
 INCORRECT_PASSWORD = "incorrect-password"
-DEVICE_NAME = "Test Universal Universal Home Assistant"
+DEVICE_NAME = "Test __HA_KEEP__"
 MFA_CODE = "1234"
 MFA_RESEND_CODE = "0000"
 MFA_INVALID_CODE = "HIVE"
@@ -46,7 +46,7 @@ def _patch_login_success() -> Generator[None]:
         yield
 
 
-async def _finish_2fa(hass: UniversalAssistant, flow_id: str) -> ConfigFlowResult:
+async def _finish_2fa(hass: __HAC_KEEP__, flow_id: str) -> ConfigFlowResult:
     """Enter a valid 2FA code and register the device."""
     with patch(
         "universalassistant.components.hive.config_flow.Auth.sms_2fa",
@@ -85,7 +85,7 @@ async def _finish_2fa(hass: UniversalAssistant, flow_id: str) -> ConfigFlowResul
     [USERNAME, USERNAME.upper()],
     ids=["lowercase", "uppercase"],
 )
-async def test_user_flow(hass: UniversalAssistant, username: str) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, username: str) -> None:
     """Test the user flow normalizes the username for Hive auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -135,7 +135,7 @@ async def test_user_flow(hass: UniversalAssistant, username: str) -> None:
     assert hass.config_entries.async_entries(DOMAIN)[0].unique_id == username.lower()
 
 
-async def test_user_flow_with_no_2fa(hass: UniversalAssistant) -> None:
+async def test_user_flow_with_no_2fa(hass: __HAC_KEEP__) -> None:
     """Test user flow with no 2FA required and device registration."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -224,7 +224,7 @@ async def test_user_flow_with_no_2fa(hass: UniversalAssistant) -> None:
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_user_flow_2fa(hass: UniversalAssistant) -> None:
+async def test_user_flow_2fa(hass: __HAC_KEEP__) -> None:
     """Test user flow with 2FA."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -322,7 +322,7 @@ async def test_user_flow_2fa(hass: UniversalAssistant) -> None:
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_reauth_flow(hass: UniversalAssistant) -> None:
+async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     """Test the reauth flow."""
 
     mock_config = MockConfigEntry(
@@ -374,7 +374,7 @@ async def test_reauth_flow(hass: UniversalAssistant) -> None:
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_reauth_2fa_flow(hass: UniversalAssistant) -> None:
+async def test_reauth_2fa_flow(hass: __HAC_KEEP__) -> None:
     """Test the reauth 2FA flow when the device is still registered."""
 
     mock_config = MockConfigEntry(
@@ -449,7 +449,7 @@ async def test_reauth_2fa_flow(hass: UniversalAssistant) -> None:
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_reauth_2fa_flow_device_not_registered(hass: UniversalAssistant) -> None:
+async def test_reauth_2fa_flow_device_not_registered(hass: __HAC_KEEP__) -> None:
     """Test the reauth 2FA flow when the device has been deleted from the Hive app."""
 
     mock_config = MockConfigEntry(
@@ -545,7 +545,7 @@ async def test_reauth_2fa_flow_device_not_registered(hass: UniversalAssistant) -
 
 
 async def test_reauth_2fa_flow_device_registration_check_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the reauth 2FA flow when is_device_registered() raises HiveApiError."""
 
@@ -638,7 +638,7 @@ async def test_reauth_2fa_flow_device_registration_check_fails(
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_user_flow_2fa_send_new_code(hass: UniversalAssistant) -> None:
+async def test_user_flow_2fa_send_new_code(hass: __HAC_KEEP__) -> None:
     """Resend a 2FA code if it didn't arrive."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -747,7 +747,7 @@ async def test_user_flow_2fa_send_new_code(hass: UniversalAssistant) -> None:
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_abort_if_existing_entry(hass: UniversalAssistant) -> None:
+async def test_abort_if_existing_entry(hass: __HAC_KEEP__) -> None:
     """Check flow abort when an entry already exist."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -775,7 +775,7 @@ async def test_abort_if_existing_entry(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_user_flow_invalid_username(hass: UniversalAssistant) -> None:
+async def test_user_flow_invalid_username(hass: __HAC_KEEP__) -> None:
     """Test user flow with invalid username."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -807,7 +807,7 @@ async def test_user_flow_invalid_username(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_invalid_password(hass: UniversalAssistant) -> None:
+async def test_user_flow_invalid_password(hass: __HAC_KEEP__) -> None:
     """Test user flow with invalid password."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -839,7 +839,7 @@ async def test_user_flow_invalid_password(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_no_internet_connection(hass: UniversalAssistant) -> None:
+async def test_user_flow_no_internet_connection(hass: __HAC_KEEP__) -> None:
     """Test user flow with no internet connection."""
 
     result = await hass.config_entries.flow.async_init(
@@ -872,7 +872,7 @@ async def test_user_flow_no_internet_connection(hass: UniversalAssistant) -> Non
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_2fa_no_internet_connection(hass: UniversalAssistant) -> None:
+async def test_user_flow_2fa_no_internet_connection(hass: __HAC_KEEP__) -> None:
     """Test user flow with no internet connection."""
 
     result = await hass.config_entries.flow.async_init(
@@ -914,7 +914,7 @@ async def test_user_flow_2fa_no_internet_connection(hass: UniversalAssistant) ->
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_2fa_invalid_code(hass: UniversalAssistant) -> None:
+async def test_user_flow_2fa_invalid_code(hass: __HAC_KEEP__) -> None:
     """Test user flow with 2FA."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -954,7 +954,7 @@ async def test_user_flow_2fa_invalid_code(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_unknown_error(hass: UniversalAssistant) -> None:
+async def test_user_flow_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test user flow when unknown error occurs."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -986,7 +986,7 @@ async def test_user_flow_unknown_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_2fa_unknown_error(hass: UniversalAssistant) -> None:
+async def test_user_flow_2fa_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test 2fa flow when unknown error occurs."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

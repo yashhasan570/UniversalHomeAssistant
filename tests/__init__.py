@@ -1,4 +1,4 @@
-"""Tests for Universal Universal Home Assistant."""
+"""Tests for __HA_KEEP__."""
 
 from pathlib import Path
 

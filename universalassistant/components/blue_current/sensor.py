@@ -15,7 +15,7 @@ from universalassistant.const import (
     UnitOfEnergy,
     UnitOfPower,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BlueCurrentConfigEntry, Connector
@@ -210,7 +210,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BlueCurrentConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

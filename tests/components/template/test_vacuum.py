@@ -30,8 +30,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.helpers.restore_state import STORAGE_KEY as RESTORE_STATE_KEY
@@ -97,7 +97,7 @@ TEMPLATE_VACUUM_ACTIONS = {
 
 
 def _verify(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_state: str,
     expected_fan_speed: str | None = None,
 ) -> None:
@@ -110,7 +110,7 @@ def _verify(
 
 @pytest.fixture
 async def setup_vacuum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     vacuum_config: dict[str, Any],
@@ -121,7 +121,7 @@ async def setup_vacuum(
 
 @pytest.fixture
 async def setup_test_vacuum_with_extra_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     vacuum_config: dict[str, Any],
@@ -135,7 +135,7 @@ async def setup_test_vacuum_with_extra_config(
 
 @pytest.fixture
 async def setup_state_vacuum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     state_template: str,
@@ -148,7 +148,7 @@ async def setup_state_vacuum(
 
 @pytest.fixture
 async def setup_base_vacuum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     state_template: str | None,
@@ -160,7 +160,7 @@ async def setup_base_vacuum(
 
 @pytest.fixture
 async def setup_single_attribute_state_vacuum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     state_template: str | None,
@@ -183,7 +183,7 @@ async def setup_single_attribute_state_vacuum(
 
 @pytest.fixture
 async def setup_attributes_state_vacuum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     count: int,
     style: ConfigurationStyle,
     state_template: str | None,
@@ -270,7 +270,7 @@ async def setup_attributes_state_vacuum(
     ],
 )
 @pytest.mark.usefixtures("setup_base_vacuum")
-async def test_valid_configs(hass: UniversalAssistant, count, parm1) -> None:
+async def test_valid_configs(hass: __HAC_KEEP__, count, parm1) -> None:
     """Test: configs."""
 
     # Ensure trigger entity templates are rendered
@@ -294,7 +294,7 @@ async def test_valid_configs(hass: UniversalAssistant, count, parm1) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_base_vacuum")
-async def test_invalid_configs(hass: UniversalAssistant, count) -> None:
+async def test_invalid_configs(hass: __HAC_KEEP__, count) -> None:
     """Test: configs."""
     assert len(hass.states.async_all("vacuum")) == count
 
@@ -328,7 +328,7 @@ async def test_invalid_configs(hass: UniversalAssistant, count) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_vacuum")
-async def test_fan_speed_template(hass: UniversalAssistant, expected: str | None) -> None:
+async def test_fan_speed_template(hass: __HAC_KEEP__, expected: str | None) -> None:
     """Test templates with values from other entities."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID)
     _verify(hass, STATE_UNKNOWN, expected)
@@ -354,7 +354,7 @@ async def test_fan_speed_template(hass: UniversalAssistant, expected: str | None
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_vacuum")
-async def test_icon_template(hass: UniversalAssistant, expected: int) -> None:
+async def test_icon_template(hass: __HAC_KEEP__, expected: int) -> None:
     """Test icon template."""
     state = hass.states.get(TEST_VACUUM.entity_id)
     assert state.attributes.get("icon") == expected
@@ -386,7 +386,7 @@ async def test_icon_template(hass: UniversalAssistant, expected: int) -> None:
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_vacuum")
-async def test_picture_template(hass: UniversalAssistant, expected: int) -> None:
+async def test_picture_template(hass: __HAC_KEEP__, expected: int) -> None:
     """Test picture template."""
     state = hass.states.get(TEST_VACUUM.entity_id)
     assert state.attributes.get("entity_picture") == expected
@@ -417,7 +417,7 @@ async def test_picture_template(hass: UniversalAssistant, expected: int) -> None
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_vacuum")
-async def test_available_template_with_entities(hass: UniversalAssistant) -> None:
+async def test_available_template_with_entities(hass: __HAC_KEEP__) -> None:
     """Test availability templates with values from other entities."""
 
     # When template returns true..
@@ -455,7 +455,7 @@ async def test_available_template_with_entities(hass: UniversalAssistant) -> Non
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_vacuum")
 async def test_invalid_availability_template_keeps_component_available(
-    hass: UniversalAssistant, caplog_setup_text, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog_setup_text, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that an invalid availability keeps the device available."""
     await async_trigger(hass, TEST_STATE_ENTITY_ID)
@@ -476,7 +476,7 @@ async def test_invalid_availability_template_keeps_component_available(
     ],
 )
 @pytest.mark.usefixtures("setup_attributes_state_vacuum")
-async def test_attribute_templates(hass: UniversalAssistant) -> None:
+async def test_attribute_templates(hass: __HAC_KEEP__) -> None:
     """Test attribute_templates template."""
     state = hass.states.get(TEST_VACUUM.entity_id)
     assert state.attributes["test_attribute"] == "It ."
@@ -504,7 +504,7 @@ async def test_attribute_templates(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("setup_attributes_state_vacuum")
 async def test_invalid_attribute_template(
-    hass: UniversalAssistant, caplog_setup_text, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog_setup_text, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that errors are logged if rendering template fails."""
 
@@ -522,7 +522,7 @@ async def test_invalid_attribute_template(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 async def test_unique_id(
-    hass: UniversalAssistant, style: ConfigurationStyle, config: ConfigType
+    hass: __HAC_KEEP__, style: ConfigurationStyle, config: ConfigType
 ) -> None:
     """Test unique_id option only creates one vacuum per id."""
     await setup_and_test_unique_id(hass, TEST_VACUUM, style, config)
@@ -533,7 +533,7 @@ async def test_unique_id(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     config: ConfigType,
     entity_registry: er.EntityRegistry,
@@ -552,35 +552,35 @@ async def test_nested_unique_id(
     [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER],
 )
 @pytest.mark.usefixtures("setup_base_vacuum")
-async def test_unused_services(hass: UniversalAssistant) -> None:
+async def test_unused_services(hass: __HAC_KEEP__) -> None:
     """Test calling unused services raises."""
     # Pause vacuum
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await common.async_pause(hass, TEST_VACUUM.entity_id)
     await hass.async_block_till_done()
 
     # Stop vacuum
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await common.async_stop(hass, TEST_VACUUM.entity_id)
     await hass.async_block_till_done()
 
     # Return vacuum to base
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await common.async_return_to_base(hass, TEST_VACUUM.entity_id)
     await hass.async_block_till_done()
 
     # Spot cleaning
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await common.async_clean_spot(hass, TEST_VACUUM.entity_id)
     await hass.async_block_till_done()
 
     # Locate vacuum
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await common.async_locate(hass, TEST_VACUUM.entity_id)
     await hass.async_block_till_done()
 
     # Set fan's speed
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await common.async_set_fan_speed(hass, "medium", TEST_VACUUM.entity_id)
     await hass.async_block_till_done()
 
@@ -608,7 +608,7 @@ async def test_unused_services(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("setup_state_vacuum")
 async def test_state_services(
-    hass: UniversalAssistant, action: str, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, action: str, calls: list[ServiceCall]
 ) -> None:
     """Test locate service."""
 
@@ -645,7 +645,7 @@ async def test_state_services(
     ],
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_vacuum")
-async def test_set_fan_speed(hass: UniversalAssistant, calls: list[ServiceCall]) -> None:
+async def test_set_fan_speed(hass: __HAC_KEEP__, calls: list[ServiceCall]) -> None:
     """Test set valid fan speed."""
 
     # Set vacuum's fan speed to high
@@ -690,7 +690,7 @@ async def test_set_fan_speed(hass: UniversalAssistant, calls: list[ServiceCall])
 )
 @pytest.mark.usefixtures("setup_single_attribute_state_vacuum")
 async def test_set_invalid_fan_speed(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test set invalid fan speed when fan has valid speed."""
 
@@ -757,7 +757,7 @@ async def test_set_invalid_fan_speed(
 )
 @pytest.mark.usefixtures("setup_test_vacuum_with_extra_config")
 async def test_empty_action_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supported_features: VacuumEntityFeature,
 ) -> None:
     """Test configuration with empty script."""
@@ -795,7 +795,7 @@ async def test_empty_action_config(
 )
 @pytest.mark.usefixtures("setup_vacuum")
 async def test_assumed_optimistic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     expected: VacuumActivity,
     calls: list[ServiceCall],
@@ -845,7 +845,7 @@ async def test_assumed_optimistic(
 )
 @pytest.mark.usefixtures("setup_vacuum")
 async def test_optimistic_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     expected: VacuumActivity,
     calls: list[ServiceCall],
@@ -909,7 +909,7 @@ async def test_optimistic_option(
 )
 @pytest.mark.usefixtures("setup_vacuum")
 async def test_not_optimistic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     calls: list[ServiceCall],
 ) -> None:
@@ -949,7 +949,7 @@ async def test_not_optimistic(
 )
 @pytest.mark.usefixtures("setup_vacuum")
 async def test_clean_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     calls: list[ServiceCall],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1011,7 +1011,7 @@ async def test_clean_area(
 )
 @pytest.mark.usefixtures("setup_test_vacuum_with_extra_config")
 async def test_get_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     expected_segments: list[Segment],
 ) -> None:
@@ -1100,7 +1100,7 @@ async def test_get_segments(
 )
 @pytest.mark.usefixtures("setup_test_vacuum_with_extra_config")
 async def test_invalid_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     caplog_setup_text,
     caplog: pytest.LogCaptureFixture,
@@ -1144,7 +1144,7 @@ async def test_invalid_segments(
 )
 @pytest.mark.usefixtures("setup_vacuum")
 async def test_raise_segments_changed_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1198,7 +1198,7 @@ async def test_raise_segments_changed_issue(
 )
 @pytest.mark.usefixtures("setup_test_vacuum_with_extra_config")
 async def test_segments_part_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog_setup_text,
     caplog: pytest.LogCaptureFixture,
     count: int,
@@ -1236,7 +1236,7 @@ async def test_segments_part_config(
 )
 @pytest.mark.usefixtures("setup_test_vacuum_with_extra_config")
 async def test_segments_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog_setup_text,
     caplog: pytest.LogCaptureFixture,
     count: int,
@@ -1248,7 +1248,7 @@ async def test_segments_unique_id(
 
 
 async def test_setup_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Tests creating a vacuum from a config entry."""
@@ -1281,7 +1281,7 @@ async def test_setup_config_entry(
 
 
 async def test_flow_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""
@@ -1377,7 +1377,7 @@ async def test_flow_preview(
     ],
 )
 async def test_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     saved_state: str,
     saved_extra_data: dict | None,
@@ -1435,7 +1435,7 @@ async def test_restore_state(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_saving_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1508,7 +1508,7 @@ async def test_saving_state(
     ],
 )
 async def test_invalid_yaml_actions_do_not_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     action: str,
     config: ConfigType,
@@ -1540,7 +1540,7 @@ async def test_invalid_yaml_actions_do_not_create_entities(
     ],
 )
 async def test_invalid_config_entry_actions_do_not_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action: str,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -1555,7 +1555,7 @@ async def test_invalid_config_entry_actions_do_not_create_entities(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1579,7 +1579,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     attribute: StrEnum,
     caplog: pytest.LogCaptureFixture,

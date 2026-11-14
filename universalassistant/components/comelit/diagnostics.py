@@ -7,7 +7,7 @@ from aiocomelit.const import BRIDGE
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PIN, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import ComelitConfigEntry
 
@@ -15,7 +15,7 @@ TO_REDACT = {CONF_PIN}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ComelitConfigEntry
+    hass: __HAC_KEEP__, entry: ComelitConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

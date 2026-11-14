@@ -22,7 +22,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.components.okok_scale.const import DOMAIN
 from universalassistant.const import ATTR_ASSUMED_STATE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 from universalassistant.util import dt as dt_util
@@ -47,7 +47,7 @@ from . import (
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     service_info: BluetoothServiceInfo,
@@ -66,7 +66,7 @@ async def test_sensors(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_sleepy_device_keeps_state(hass: UniversalAssistant) -> None:
+async def test_sleepy_device_keeps_state(hass: __HAC_KEEP__) -> None:
     """Test the scale keeps its state and goes to assumed_state when idle."""
     start_monotonic = time.monotonic()
     entry = MockConfigEntry(domain=DOMAIN, unique_id=OKOK_F0_SERVICE_INFO.address)
@@ -110,7 +110,7 @@ async def test_sleepy_device_keeps_state(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_f0(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:

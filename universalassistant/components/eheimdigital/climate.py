@@ -19,7 +19,7 @@ from universalassistant.const import (
     PRECISION_TENTHS,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import HEATER_BIO_MODE, HEATER_PRESET_TO_HEATER_MODE, HEATER_SMART_MODE
@@ -31,7 +31,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: EheimDigitalConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -4,7 +4,7 @@ from datetime import time, timedelta
 
 from pytest_universalassistant.common import async_fire_time_changed
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .conftest import (
@@ -15,7 +15,7 @@ from .conftest import (
 )
 
 
-async def test_schedule_start_time(hass: UniversalAssistant) -> None:
+async def test_schedule_start_time(hass: __HAC_KEEP__) -> None:
     """Test the frequency schedule start time."""
 
     now = dt_util.utcnow()

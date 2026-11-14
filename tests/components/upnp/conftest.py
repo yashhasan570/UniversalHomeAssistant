@@ -23,7 +23,7 @@ from universalassistant.components.upnp.const import (
     CONFIG_ENTRY_UDN,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_DEVICE_TYPE,
     ATTR_UPNP_FRIENDLY_NAME,
@@ -195,7 +195,7 @@ async def ssdp_instant_discovery():
 
     # Set up device discovery callback.
     async def register_callback(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         callback: Callable[
             [SsdpServiceInfo, ssdp.SsdpChange], Coroutine[Any, Any, None] | None
         ],
@@ -228,7 +228,7 @@ async def ssdp_instant_discovery_multi_location():
 
     # Set up device discovery callback.
     async def register_callback(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         callback: Callable[
             [SsdpServiceInfo, ssdp.SsdpChange], Coroutine[Any, Any, None] | None
         ],
@@ -257,7 +257,7 @@ async def ssdp_no_discovery():
 
     # Set up device discovery callback.
     async def register_callback(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         callback: Callable[
             [SsdpServiceInfo, ssdp.SsdpChange], Coroutine[Any, Any, None] | None
         ],
@@ -281,7 +281,7 @@ async def ssdp_no_discovery():
 
 @pytest.fixture
 async def mock_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ssdp_instant_discovery,
     mock_igd_device: IgdDevice,
     mock_mac_address_from_host,

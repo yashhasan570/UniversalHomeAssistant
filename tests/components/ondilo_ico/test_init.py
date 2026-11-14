@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ondilo_ico.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     OAuth2TokenRequestReauthError,
     OAuth2TokenRequestTransientError,
@@ -26,7 +26,7 @@ from . import setup_integration
 
 
 async def test_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ondilo_client: MagicMock,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -47,7 +47,7 @@ async def test_devices(
 
 
 async def test_get_pools_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ondilo_client: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_get_pools_error(
 
 
 async def test_init_with_no_ico_attached(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ondilo_client: MagicMock,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -96,7 +96,7 @@ async def test_init_with_no_ico_attached(
 
 
 async def test_adding_pool_after_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_ondilo_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -138,7 +138,7 @@ async def test_adding_pool_after_setup(
 
 
 async def test_removing_pool_after_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_ondilo_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -182,7 +182,7 @@ async def test_removing_pool_after_setup(
     ],
 )
 async def test_details_error_all_pools(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ondilo_client: MagicMock,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -207,7 +207,7 @@ async def test_details_error_all_pools(
 
 
 async def test_details_error_one_pool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ondilo_client: MagicMock,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -232,7 +232,7 @@ async def test_details_error_one_pool(
 
 
 async def test_measures_error_one_pool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_ondilo_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -283,7 +283,7 @@ async def test_measures_error_one_pool(
 
 
 async def test_measures_scheduling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_ondilo_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -443,7 +443,7 @@ async def test_measures_scheduling(
     ],
 )
 async def test_token_refresh_error_during_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ondilo_client: MagicMock,
     config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -465,7 +465,7 @@ async def test_token_refresh_error_during_setup(
 
 
 async def test_token_refresh_auth_error_during_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_ondilo_client: MagicMock,
     config_entry: MockConfigEntry,
@@ -489,7 +489,7 @@ async def test_token_refresh_auth_error_during_update(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

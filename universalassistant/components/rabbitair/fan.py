@@ -5,7 +5,7 @@ from typing import Any, override
 from rabbitair import Mode, Model, Speed
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     ordered_list_item_to_percentage,
@@ -35,7 +35,7 @@ PRESET_MODES = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RabbitAirConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

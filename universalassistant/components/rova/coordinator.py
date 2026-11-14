@@ -6,7 +6,7 @@ from typing import override
 from rova.rova import Rova
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util.dt import get_time_zone
 
@@ -23,7 +23,7 @@ class RovaCoordinator(DataUpdateCoordinator[dict[str, datetime]]):
     config_entry: RovaConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: RovaConfigEntry, api: Rova
+        self, hass: __HAC_KEEP__, config_entry: RovaConfigEntry, api: Rova
     ) -> None:
         """Initialize."""
         super().__init__(

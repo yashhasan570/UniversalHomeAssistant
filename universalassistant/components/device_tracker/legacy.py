@@ -32,8 +32,8 @@ from universalassistant.const import (
     STATE_NOT_HOME,
     EntityStateAttribute,
 )
-from universalassistant.core import Event, UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Event, __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     config_validation as cv,
     entity_registry as er,
@@ -181,7 +181,7 @@ class AsyncSeeCallback(Protocol):
 
 
 def see(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mac: str | None = None,
     dev_id: str | None = None,
     host_name: str | None = None,
@@ -211,7 +211,7 @@ def see(
 
 
 async def async_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     tracker_future: asyncio.Future[DeviceTracker],
 ) -> None:
@@ -227,7 +227,7 @@ async def async_setup_integration(
         if not warned_called_see:
             _LOGGER.warning(
                 "The %s.%s action is deprecated and will be removed in "
-                "Universal Universal Home Assistant Core 2027.5",
+                "__HA_KEEP__ Core 2027.5",
                 DOMAIN,
                 SERVICE_SEE,
             )
@@ -279,7 +279,7 @@ async def async_setup_integration(
 
     @callback
     def _on_hass_stop(_: Event) -> None:
-        """Cleanup when Universal Universal Home Assistant stops.
+        """Cleanup when __HA_KEEP__ stops.
 
         Cancel the async_update_stale schedule.
         """
@@ -314,7 +314,7 @@ class DeviceTrackerPlatform:
 
     async def async_setup_legacy(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         tracker: DeviceTracker,
         discovery_info: dict[str, Any] | None = None,
     ) -> None:
@@ -366,7 +366,7 @@ class DeviceTrackerPlatform:
                         discovery_info,
                     )
                 else:
-                    raise UniversalAssistantError("Invalid legacy device_tracker platform.")  # noqa: TRY301
+                    raise __HAC_KEEP__Error("Invalid legacy device_tracker platform.")  # noqa: TRY301
 
                 if scanner is not None:
                     async_setup_scanner_platform(
@@ -388,7 +388,7 @@ class DeviceTrackerPlatform:
 
 
 async def async_extract_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> list[DeviceTrackerPlatform]:
     """Extract device tracker config and split between legacy and modern."""
     legacy: list[DeviceTrackerPlatform] = []
@@ -414,7 +414,7 @@ async def async_extract_config(
 
 
 async def async_create_platform_type(
-    hass: UniversalAssistant, config: ConfigType, p_type: str, p_config: dict
+    hass: __HAC_KEEP__, config: ConfigType, p_type: str, p_config: dict
 ) -> DeviceTrackerPlatform | None:
     """Determine type of platform."""
     platform = await async_prepare_setup_platform(hass, config, DOMAIN, p_type)
@@ -448,7 +448,7 @@ def _load_device_names_and_attributes(
 
 @callback
 def async_setup_scanner_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     scanner: DeviceScanner,
     async_see_device: Callable[..., Coroutine[None, None, None]],
@@ -550,7 +550,7 @@ def async_setup_scanner_platform(
 
     @callback
     def _on_hass_stop(_: Event) -> None:
-        """Cleanup when Universal Universal Home Assistant stops.
+        """Cleanup when __HA_KEEP__ stops.
 
         Cancel the legacy scan.
         """
@@ -559,7 +559,7 @@ def async_setup_scanner_platform(
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _on_hass_stop)
 
 
-async def get_tracker(hass: UniversalAssistant, config: ConfigType) -> DeviceTracker:
+async def get_tracker(hass: __HAC_KEEP__, config: ConfigType) -> DeviceTracker:
     """Create a tracker."""
     yaml_path = hass.config.path(YAML_DEVICES)
 
@@ -580,7 +580,7 @@ class DeviceTracker:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         consider_home: timedelta,
         track_new: bool,
         defaults: dict[str, Any],
@@ -659,7 +659,7 @@ class DeviceTracker:
         """
         registry = er.async_get(self.hass)
         if mac is None and dev_id is None:
-            raise UniversalAssistantError("Neither mac or device id passed in")
+            raise __HAC_KEEP__Error("Neither mac or device id passed in")
         if mac is not None:
             mac = str(mac).upper()
             if (device := self.mac_to_dev.get(mac)) is None:
@@ -801,7 +801,7 @@ class Device(RestoreEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         consider_home: timedelta,
         track: bool,
         dev_id: str,
@@ -996,7 +996,7 @@ class Device(RestoreEntity):
 class DeviceScanner:
     """Device scanner object."""
 
-    hass: UniversalAssistant | None = None
+    hass: __HAC_KEEP__ | None = None
 
     def scan_devices(self) -> list[str]:
         """Scan for devices."""
@@ -1033,7 +1033,7 @@ class DeviceScanner:
 
 
 async def async_load_config(
-    path: str, hass: UniversalAssistant, consider_home: timedelta
+    path: str, hass: __HAC_KEEP__, consider_home: timedelta
 ) -> list[Device]:
     """Load devices from YAML configuration file.
 
@@ -1057,7 +1057,7 @@ async def async_load_config(
     result: list[Device] = []
     try:
         devices = await hass.async_add_executor_job(load_yaml_config_file, path)
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         LOGGER.error("Unable to load %s: %s", path, str(err))
         return []
     except FileNotFoundError:
@@ -1094,7 +1094,7 @@ def update_config(path: str, dev_id: str, device: Device) -> None:
         out.write(dump(device_config))
 
 
-def remove_device_from_config(hass: UniversalAssistant, device_id: str) -> None:
+def remove_device_from_config(hass: __HAC_KEEP__, device_id: str) -> None:
     """Remove device from YAML configuration file."""
     path = hass.config.path(YAML_DEVICES)
     devices = load_yaml_config_file(path)

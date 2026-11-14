@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.progettihwsw.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 mock_value_step_user = {
@@ -18,7 +18,7 @@ mock_value_step_user = {
 }
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -61,7 +61,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert result3["data"]["relay_count"] == result3["data"]["input_count"] == 1
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle unexisting board."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -106,7 +106,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_existing_entry_exception(hass: UniversalAssistant) -> None:
+async def test_form_existing_entry_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle existing board."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -132,7 +132,7 @@ async def test_form_existing_entry_exception(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "already_configured"
 
 
-async def test_form_user_exception(hass: UniversalAssistant) -> None:
+async def test_form_user_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle unknown exception."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

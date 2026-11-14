@@ -23,7 +23,7 @@ from universalassistant.components.wilight.switch import (
     ATTR_TRIGGER_4,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -62,7 +62,7 @@ def mock_dummy_device_from_host_switch():
 
 
 async def test_loading_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     dummy_device_from_host_switch,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_loading_switch(
 
 
 async def test_on_off_switch_state(
-    hass: UniversalAssistant, dummy_device_from_host_switch
+    hass: __HAC_KEEP__, dummy_device_from_host_switch
 ) -> None:
     """Test the change of state of the switch."""
     await setup_integration(hass)
@@ -151,7 +151,7 @@ async def test_on_off_switch_state(
 
 
 async def test_switch_services(
-    hass: UniversalAssistant, dummy_device_from_host_switch
+    hass: __HAC_KEEP__, dummy_device_from_host_switch
 ) -> None:
     """Test the services of the switch."""
     await setup_integration(hass)
@@ -272,7 +272,7 @@ async def test_switch_services(
 
 
 async def test_status_callback_after_entity_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     dummy_device_from_host_switch: PyWiLightDevice,
 ) -> None:
@@ -296,7 +296,7 @@ async def test_status_callback_after_entity_removed(
 
 
 async def test_status_callback_after_entity_readded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     dummy_device_from_host_switch: PyWiLightDevice,
 ) -> None:

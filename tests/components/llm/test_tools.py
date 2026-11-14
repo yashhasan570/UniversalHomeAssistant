@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockUser
 
 from universalassistant.components import llm as llm_component
 from universalassistant.components.llm.llm import GetDateTimeTool
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
@@ -25,7 +25,7 @@ def test_get_datetime_equality() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_integrations(hass: UniversalAssistant) -> None:
+async def setup_integrations(hass: __HAC_KEEP__) -> None:
     """Set up the integrations for the llm tools platform."""
     assert await async_setup_component(hass, "universalassistant", {})
     assert await async_setup_component(hass, "llm", {})
@@ -44,7 +44,7 @@ def _llm_context() -> llm.LLMContext:
     )
 
 
-async def test_get_datetime_tool(hass: UniversalAssistant) -> None:
+async def test_get_datetime_tool(hass: __HAC_KEEP__) -> None:
     """Test the llm__GetDateTime tool is always offered and returns the current time."""
     llm_context = _llm_context()
     result = await llm_component.async_get_tools(hass, llm_context, "assist")
@@ -76,7 +76,7 @@ async def test_get_datetime_tool(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_builtin_apis_merge_without_prefixes(
-    hass: UniversalAssistant, hass_admin_user: MockUser, api_ids: list[str]
+    hass: __HAC_KEEP__, hass_admin_user: MockUser, api_ids: list[str]
 ) -> None:
     """Shared built-in tools must compare equal so merging preserves their names."""
     llm_context = _llm_context()

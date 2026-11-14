@@ -15,7 +15,7 @@ from universalassistant.components.bsblan.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -68,7 +68,7 @@ def zeroconf_discovery_info_different_mac() -> ZeroconfServiceInfo:
 # Helper functions to reduce repetition
 
 
-async def _init_user_flow(hass: UniversalAssistant):
+async def _init_user_flow(hass: __HAC_KEEP__):
     """Initialize a user config flow."""
     return await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -76,7 +76,7 @@ async def _init_user_flow(hass: UniversalAssistant):
     )
 
 
-async def _init_zeroconf_flow(hass: UniversalAssistant, discovery_info):
+async def _init_zeroconf_flow(hass: __HAC_KEEP__, discovery_info):
     """Initialize a zeroconf config flow."""
     return await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -85,7 +85,7 @@ async def _init_zeroconf_flow(hass: UniversalAssistant, discovery_info):
     )
 
 
-async def _configure_flow(hass: UniversalAssistant, flow_id: str, user_input: dict):
+async def _configure_flow(hass: __HAC_KEEP__, flow_id: str, user_input: dict):
     """Configure a flow with user input."""
     return await hass.config_entries.flow.async_configure(
         flow_id,
@@ -124,7 +124,7 @@ def _assert_abort_result(result, expected_reason: str):
 
 
 async def test_full_user_flow_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_full_user_flow_implementation(
     assert len(mock_bsblan.device.mock_calls) == 1
 
 
-async def test_show_user_form(hass: UniversalAssistant) -> None:
+async def test_show_user_form(hass: __HAC_KEEP__) -> None:
     """Test that the user set up form is served."""
     result = await _init_user_flow(hass)
     _assert_form_result(result, "user")
@@ -174,7 +174,7 @@ async def test_show_user_form(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_circuit_discovery_failure_falls_back_to_default(
-    hass: UniversalAssistant, mock_bsblan: MagicMock, side_effect: type[Exception]
+    hass: __HAC_KEEP__, mock_bsblan: MagicMock, side_effect: type[Exception]
 ) -> None:
     """Test that circuit discovery failure falls back to single circuit."""
     mock_bsblan.initialize.side_effect = side_effect
@@ -211,7 +211,7 @@ async def test_circuit_discovery_failure_falls_back_to_default(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_circuit_discovery_empty_result_falls_back_to_default(
-    hass: UniversalAssistant, mock_bsblan: MagicMock
+    hass: __HAC_KEEP__, mock_bsblan: MagicMock
 ) -> None:
     """Test that empty circuit discovery falls back to single circuit."""
     mock_bsblan.get_available_circuits.return_value = []
@@ -248,7 +248,7 @@ async def test_circuit_discovery_empty_result_falls_back_to_default(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_authentication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test we show user form on BSBLan authentication error with field preservation."""
@@ -317,7 +317,7 @@ async def test_authentication_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_authentication_error_vs_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test that authentication and connection errors are handled differently."""
@@ -374,7 +374,7 @@ async def test_authentication_error_vs_connection_error(
 
 
 async def test_user_device_exists_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -400,7 +400,7 @@ async def test_user_device_exists_abort(
 
 
 async def test_zeroconf_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_setup_entry: AsyncMock,
     zeroconf_discovery_info: ZeroconfServiceInfo,
@@ -438,7 +438,7 @@ async def test_zeroconf_discovery(
 
 
 async def test_abort_if_existing_entry_for_zeroconf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     zeroconf_discovery_info: ZeroconfServiceInfo,
 ) -> None:
@@ -461,7 +461,7 @@ async def test_abort_if_existing_entry_for_zeroconf(
 
 
 async def test_zeroconf_discovery_no_mac_requires_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     zeroconf_discovery_info_no_mac: ZeroconfServiceInfo,
 ) -> None:
@@ -507,7 +507,7 @@ async def test_zeroconf_discovery_no_mac_requires_auth(
 
 
 async def test_zeroconf_discovery_no_mac_no_auth_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_setup_entry: AsyncMock,
     zeroconf_discovery_info_no_mac: ZeroconfServiceInfo,
@@ -541,7 +541,7 @@ async def test_zeroconf_discovery_no_mac_no_auth_required(
 
 
 async def test_zeroconf_discovery_updates_host_port_on_existing_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     zeroconf_discovery_info: ZeroconfServiceInfo,
 ) -> None:
@@ -568,7 +568,7 @@ async def test_zeroconf_discovery_updates_host_port_on_existing_entry(
 
 
 async def test_user_flow_can_update_existing_host_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test that manual user configuration can update host/port of existing entries."""
@@ -609,7 +609,7 @@ async def test_user_flow_can_update_existing_host_port(
 
 
 async def test_zeroconf_discovery_connection_error_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_setup_entry: AsyncMock,
     zeroconf_discovery_info: ZeroconfServiceInfo,
@@ -666,7 +666,7 @@ async def test_zeroconf_discovery_connection_error_recovery(
 
 
 async def test_connection_error_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -726,7 +726,7 @@ async def test_connection_error_recovery(
 
 
 async def test_zeroconf_discovery_no_mac_duplicate_host_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     zeroconf_discovery_info_no_mac: ZeroconfServiceInfo,
 ) -> None:
@@ -752,7 +752,7 @@ async def test_zeroconf_discovery_no_mac_duplicate_host_port(
 
 
 async def test_reauth_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -795,7 +795,7 @@ async def test_reauth_flow_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -855,7 +855,7 @@ async def test_reauth_flow_auth_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -899,7 +899,7 @@ async def test_reauth_flow_connection_error(
 
 
 async def test_reauth_flow_preserves_existing_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -929,7 +929,7 @@ async def test_reauth_flow_preserves_existing_values(
 
 
 async def test_reauth_flow_partial_credentials_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -961,7 +961,7 @@ async def test_reauth_flow_partial_credentials_update(
 
 
 async def test_reauth_flow_preserves_non_credential_fields(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test reauth flow preserves non-credential fields using data_updates."""
@@ -1011,7 +1011,7 @@ async def test_reauth_flow_preserves_non_credential_fields(
 
 
 async def test_reauth_flow_clears_credentials_with_empty_strings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test reauth flow can clear credentials by providing empty strings."""
@@ -1056,7 +1056,7 @@ async def test_reauth_flow_clears_credentials_with_empty_strings(
 
 
 async def test_reauth_flow_partial_clear_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
 ) -> None:
     """Test reauth flow can partially clear some credentials while updating others."""
@@ -1102,7 +1102,7 @@ async def test_reauth_flow_partial_clear_credentials(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_discovery_auth_error_during_confirm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     zeroconf_discovery_info: ZeroconfServiceInfo,
 ) -> None:
@@ -1153,7 +1153,7 @@ async def test_zeroconf_discovery_auth_error_during_confirm(
 
 
 async def test_reconfigure_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1187,7 +1187,7 @@ async def test_reconfigure_flow_success(
 
 
 async def test_reconfigure_flow_empty_circuit_discovery_falls_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1226,7 +1226,7 @@ async def test_reconfigure_flow_empty_circuit_discovery_falls_back(
     ],
 )
 async def test_reconfigure_flow_error_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -1281,7 +1281,7 @@ async def test_reconfigure_flow_error_recovery(
 
 
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

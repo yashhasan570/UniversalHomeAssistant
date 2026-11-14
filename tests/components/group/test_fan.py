@@ -37,7 +37,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -103,7 +103,7 @@ CONFIG_ATTRIBUTES = {
 
 @pytest.fixture
 async def setup_comp(
-    hass: UniversalAssistant, config_count: tuple[dict[str, Any], int]
+    hass: __HAC_KEEP__, config_count: tuple[dict[str, Any], int]
 ) -> None:
     """Set up group fan component."""
     config, count = config_count
@@ -116,7 +116,7 @@ async def setup_comp(
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ATTRIBUTES, 1)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_state(hass: UniversalAssistant, entity_registry: er.EntityRegistry) -> None:
+async def test_state(hass: __HAC_KEEP__, entity_registry: er.EntityRegistry) -> None:
     """Test handling of state.
 
     The group state is on if at least one group member is on.
@@ -212,7 +212,7 @@ async def test_state(hass: UniversalAssistant, entity_registry: er.EntityRegistr
 
 @pytest.mark.parametrize("config_count", [(CONFIG_ATTRIBUTES, 1)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_attributes(hass: UniversalAssistant) -> None:
+async def test_attributes(hass: __HAC_KEEP__) -> None:
     """Test handling of state attributes."""
     state = hass.states.get(FAN_GROUP)
     assert state.state == STATE_UNAVAILABLE
@@ -270,7 +270,7 @@ async def test_attributes(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_FULL_SUPPORT, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_direction_oscillating(hass: UniversalAssistant) -> None:
+async def test_direction_oscillating(hass: __HAC_KEEP__) -> None:
     """Test handling of direction and oscillating attributes."""
 
     hass.states.async_set(
@@ -382,14 +382,14 @@ async def test_direction_oscillating(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_MISSING_FAN, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_state_missing_entity_id(hass: UniversalAssistant) -> None:
+async def test_state_missing_entity_id(hass: __HAC_KEEP__) -> None:
     """Test we can still setup with a missing entity id."""
     state = hass.states.get(FAN_GROUP)
     await hass.async_block_till_done()
     assert state.state == STATE_OFF
 
 
-async def test_setup_before_started(hass: UniversalAssistant) -> None:
+async def test_setup_before_started(hass: __HAC_KEEP__) -> None:
     """Test we can setup before starting."""
     hass.set_state(CoreState.stopped)
     assert await async_setup_component(hass, FAN_DOMAIN, CONFIG_MISSING_FAN)
@@ -403,7 +403,7 @@ async def test_setup_before_started(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_MISSING_FAN, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_reload(hass: UniversalAssistant) -> None:
+async def test_reload(hass: __HAC_KEEP__) -> None:
     """Test the ability to reload fans."""
     await hass.async_block_till_done()
     await hass.async_start()
@@ -427,7 +427,7 @@ async def test_reload(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("config_count", [(CONFIG_FULL_SUPPORT, 2)])
 @pytest.mark.usefixtures("setup_comp")
-async def test_service_calls(hass: UniversalAssistant) -> None:
+async def test_service_calls(hass: __HAC_KEEP__) -> None:
     """Test calling services."""
     await hass.services.async_call(
         FAN_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: FAN_GROUP}, blocking=True
@@ -533,7 +533,7 @@ async def test_service_calls(hass: UniversalAssistant) -> None:
     assert fan_group_state.attributes[ATTR_DIRECTION] == DIRECTION_REVERSE
 
 
-async def test_nested_group(hass: UniversalAssistant) -> None:
+async def test_nested_group(hass: __HAC_KEEP__) -> None:
     """Test nested fan group."""
     await async_setup_component(
         hass,
@@ -588,7 +588,7 @@ async def test_nested_group(hass: UniversalAssistant) -> None:
     assert hass.states.get("fan.nested_group").state == STATE_ON
 
 
-async def test_assumed_state(hass: UniversalAssistant) -> None:
+async def test_assumed_state(hass: __HAC_KEEP__) -> None:
     """Test assumed_state attribute behavior."""
     await async_setup_component(
         hass,

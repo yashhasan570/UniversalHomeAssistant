@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.vistapool.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -36,7 +36,7 @@ def _only_binary_sensor_platform() -> Generator[None]:
     ],
 )
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_all_entities(
 
 
 async def test_binary_sensors_hydrolysis_branch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_binary_sensors_hydrolysis_branch(
 
 
 async def test_binary_sensors_dosing_tank_low(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_binary_sensors_dosing_tank_low(
 
 
 async def test_binary_sensors_dosing_tank_unknown_when_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_binary_sensors_dosing_tank_unknown_when_no_data(
 
 
 async def test_binary_sensors_string_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_binary_sensors_string_values(
 
 
 async def test_binary_sensors_fl2_requires_hidro(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_binary_sensors_fl2_requires_hidro(
 
 
 async def test_binary_sensors_multi_pool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],

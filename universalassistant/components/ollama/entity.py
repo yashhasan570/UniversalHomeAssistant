@@ -13,7 +13,7 @@ import probatio
 from universalassistant.components import conversation
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_MODEL
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, llm
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.json import json_dumps
@@ -125,7 +125,7 @@ def _convert_content(
         images: list[ollama.Image] = []
         for attachment in chat_content.attachments or ():
             if not attachment.mime_type.startswith("image/"):
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="unsupported_attachment_type",
                 )
@@ -305,7 +305,7 @@ class OllamaBaseLLMEntity(Entity):
             ) as err:
                 # pylint: disable-next=universal-assistant-log-and-raise
                 _LOGGER.error("Unexpected error talking to Ollama server: %s", err)
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     f"Sorry, I had a problem talking to the Ollama server: {err}"
                 ) from err
 

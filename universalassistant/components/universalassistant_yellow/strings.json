@@ -16,10 +16,10 @@
   },
   "exceptions": {
     "not_hassio": {
-      "message": "Universal Universal Home Assistant is not running on Universal Universal Home Assistant OS, the Universal Universal Home Assistant Yellow entry will be removed"
+      "message": "__HA_KEEP__ is not running on __HA_KEEP__ OS, the __HA_KEEP__ Yellow entry will be removed"
     },
     "unsupported_board": {
-      "message": "Universal Universal Home Assistant is not running on a Universal Universal Home Assistant Yellow ({board}), the Universal Universal Home Assistant Yellow entry will be removed"
+      "message": "__HA_KEEP__ is not running on a __HA_KEEP__ Yellow ({board}), the __HA_KEEP__ Yellow entry will be removed"
     }
   },
   "issues": {

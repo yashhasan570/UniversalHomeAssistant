@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.opnsense.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import ARP, CONFIG_DATA, INTERFACES
 
@@ -16,7 +16,7 @@ CONF_OPNSENSE_CLIENT = "opnsense_client"
 
 @pytest.fixture
 def mock_config_entry(
-    hass: UniversalAssistant, mock_opnsense_client: AsyncMock
+    hass: __HAC_KEEP__, mock_opnsense_client: AsyncMock
 ) -> MockConfigEntry:
     """Return the default mocked config entry."""
     mock_config_entry = MockConfigEntry(

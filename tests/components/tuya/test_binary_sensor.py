@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from tuya_sharing import CustomerDevice, Manager
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import TuyaNotificationHelper, check_selective_state_update, initialize_entry
@@ -25,7 +25,7 @@ def platform_autouse():
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -60,7 +60,7 @@ async def test_platform_setup_and_discovery(
 )
 @pytest.mark.freeze_time("2024-01-01")
 async def test_selective_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -101,7 +101,7 @@ async def test_selective_state_update(
     ],
 )
 async def test_bitmap(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -137,7 +137,7 @@ async def test_bitmap(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "no_quirk")
 async def test_drop_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -167,7 +167,7 @@ async def test_drop_state_update(
     ],
 )
 async def test_camera_pet_feeder(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

@@ -5,7 +5,7 @@ import logging
 from aioaseko import Aseko, AsekoNotLoggedIn
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryError
 
 from .const import DOMAIN
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[str] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AsekoConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AsekoConfigEntry) -> None:
     """Set up Aseko Pool Live from a config entry."""
     aseko = Aseko(entry.data[CONF_EMAIL], entry.data[CONF_PASSWORD])
 
@@ -31,13 +31,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AsekoConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AsekoConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AsekoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: AsekoConfigEntry
+    hass: __HAC_KEEP__, config_entry: AsekoConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s", config_entry.version)

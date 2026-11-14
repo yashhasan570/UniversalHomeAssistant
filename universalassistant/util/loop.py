@@ -62,7 +62,7 @@ def raise_for_blocking_call(
                     "line %s: %s inside the event loop; "
                     "This is causing stability issues. "
                     "Please create a bug report at "
-                    "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%%3Aopen+is%%3Aissue\n"
+                    "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%%3Aopen+is%%3Aissue\n"
                     "%s\n",
                     func.__name__,
                     mapped_args.get("args"),
@@ -77,7 +77,7 @@ def raise_for_blocking_call(
                     "line %s: %s inside the event loop; "
                     "This is causing stability issues. "
                     "Please create a bug report at "
-                    "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%%3Aopen+is%%3Aissue\n"
+                    "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%%3Aopen+is%%3Aissue\n"
                     "%s\n"
                     "Traceback (most recent call last):\n%s",
                     func.__name__,
@@ -98,7 +98,7 @@ def raise_for_blocking_call(
                 "inside the event loop; "
                 "This is causing stability issues. "
                 "Please create a bug report at "
-                "https://github.com/yashhasan570/UniversalUniversalAssistant/issues?q=is%3Aopen+is%3Aissue\n"
+                "https://github.com/yashhasan570/__HAC_KEEP__/issues?q=is%3Aopen+is%3Aissue\n"
                 f"{_dev_help_message(func.__name__)}"
             )
 

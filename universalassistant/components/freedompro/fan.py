@@ -7,7 +7,7 @@ from pyfreedompro import put_state
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -18,7 +18,7 @@ from .coordinator import FreedomproConfigEntry, FreedomproDataUpdateCoordinator
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FreedomproConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -42,7 +42,7 @@ class FreedomproFan(CoordinatorEntity[FreedomproDataUpdateCoordinator], FanEntit
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         api_key: str,
         device: dict[str, Any],
         coordinator: FreedomproDataUpdateCoordinator,

@@ -32,13 +32,13 @@ from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CommonServiceA
 from universalassistant.core import (
     Context,
     CoreState,
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -140,7 +140,7 @@ def async_watch_for_action(script_obj, message):
 
 
 async def test_firing_event_basic(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the firing of events."""
     event = "test_event"
@@ -179,7 +179,7 @@ async def test_firing_event_basic(
     )
 
 
-async def test_firing_event_template(hass: UniversalAssistant) -> None:
+async def test_firing_event_template(hass: __HAC_KEEP__) -> None:
     """Test the firing of events."""
     event = "test_event"
     context = Context()
@@ -241,7 +241,7 @@ async def test_firing_event_template(hass: UniversalAssistant) -> None:
 
 
 async def test_calling_service_basic(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the calling of a service."""
     context = Context()
@@ -280,7 +280,7 @@ async def test_calling_service_basic(
     )
 
 
-async def test_calling_service_template(hass: UniversalAssistant) -> None:
+async def test_calling_service_template(hass: __HAC_KEEP__) -> None:
     """Test the calling of a service."""
     context = Context()
     calls = async_mock_service(hass, "test", "script")
@@ -334,7 +334,7 @@ async def test_calling_service_template(hass: UniversalAssistant) -> None:
 
 
 async def test_calling_service_response_data(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the calling of a service with response data."""
     context = Context()
@@ -421,7 +421,7 @@ async def test_calling_service_response_data(
     ],
 )
 async def test_service_response_data_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     supports_response: SupportsResponse,
     params: dict[str, str],
     expected_error: str,
@@ -452,7 +452,7 @@ async def test_service_response_data_errors(
         await script_obj.async_run(context=context)
 
 
-async def test_calling_service_response_data_in_scopes(hass: UniversalAssistant) -> None:
+async def test_calling_service_response_data_in_scopes(hass: __HAC_KEEP__) -> None:
     """Test response variable is still set after scopes end."""
     expected_var = {"data": "value-12345"}
 
@@ -514,7 +514,7 @@ async def test_calling_service_response_data_in_scopes(hass: UniversalAssistant)
     assert_action_trace(expected_trace)
 
 
-async def test_data_template_with_templated_key(hass: UniversalAssistant) -> None:
+async def test_data_template_with_templated_key(hass: __HAC_KEEP__) -> None:
     """Test the calling of a service with a data_template with a templated key."""
     context = Context()
     calls = async_mock_service(hass, "test", "script")
@@ -553,7 +553,7 @@ async def test_data_template_with_templated_key(hass: UniversalAssistant) -> Non
     )
 
 
-async def test_multiple_runs_no_wait(hass: UniversalAssistant) -> None:
+async def test_multiple_runs_no_wait(hass: __HAC_KEEP__) -> None:
     """Test multiple runs with no wait in script."""
     logger = logging.getLogger("TEST")
     calls = []
@@ -627,7 +627,7 @@ async def test_multiple_runs_no_wait(hass: UniversalAssistant) -> None:
 
 
 async def test_activating_scene(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the activation of a scene."""
     context = Context()
@@ -653,7 +653,7 @@ async def test_activating_scene(
 
 
 @pytest.mark.parametrize("count", [1, 3])
-async def test_stop_no_wait(hass: UniversalAssistant, count) -> None:
+async def test_stop_no_wait(hass: __HAC_KEEP__, count) -> None:
     """Test stopping script."""
     service_started_sem = asyncio.Semaphore(0)
     finish_service_event = asyncio.Event()
@@ -703,7 +703,7 @@ async def test_stop_no_wait(hass: UniversalAssistant, count) -> None:
     assert len(events) == 0
 
 
-async def test_delay_basic(hass: UniversalAssistant) -> None:
+async def test_delay_basic(hass: __HAC_KEEP__) -> None:
     """Test the delay."""
     delay_alias = "delay step"
     sequence = cv.SCRIPT_SCHEMA({"delay": {"seconds": 5}, "alias": delay_alias})
@@ -733,7 +733,7 @@ async def test_delay_basic(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_empty_delay(hass: UniversalAssistant) -> None:
+async def test_empty_delay(hass: __HAC_KEEP__) -> None:
     """Test an empty delay."""
     delay_alias = "delay step"
     sequence = cv.SCRIPT_SCHEMA({"delay": {"seconds": 0}, "alias": delay_alias})
@@ -758,7 +758,7 @@ async def test_empty_delay(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_multiple_runs_delay(hass: UniversalAssistant) -> None:
+async def test_multiple_runs_delay(hass: __HAC_KEEP__) -> None:
     """Test multiple runs with delay in script."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -801,7 +801,7 @@ async def test_multiple_runs_delay(hass: UniversalAssistant) -> None:
         assert events[-1].data["value"] == 2
 
 
-async def test_delay_template_ok(hass: UniversalAssistant) -> None:
+async def test_delay_template_ok(hass: __HAC_KEEP__) -> None:
     """Test the delay as a template."""
     sequence = cv.SCRIPT_SCHEMA({"delay": "00:00:{{ 5 }}"})
     script_obj = script.Script(hass, sequence, "Test Name", "test_domain")
@@ -829,7 +829,7 @@ async def test_delay_template_ok(hass: UniversalAssistant) -> None:
 
 
 async def test_delay_template_invalid(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the delay as a template that fails."""
     event = "test_event"
@@ -872,7 +872,7 @@ async def test_delay_template_invalid(
     )
 
 
-async def test_delay_template_complex_ok(hass: UniversalAssistant) -> None:
+async def test_delay_template_complex_ok(hass: __HAC_KEEP__) -> None:
     """Test the delay with a working complex template."""
     sequence = cv.SCRIPT_SCHEMA({"delay": {"seconds": "{{ 5 }}"}})
     script_obj = script.Script(hass, sequence, "Test Name", "test_domain")
@@ -899,7 +899,7 @@ async def test_delay_template_complex_ok(hass: UniversalAssistant) -> None:
 
 
 async def test_delay_template_complex_invalid(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the delay with a complex template that fails."""
     event = "test_event"
@@ -940,7 +940,7 @@ async def test_delay_template_complex_invalid(
     )
 
 
-async def test_cancel_delay(hass: UniversalAssistant) -> None:
+async def test_cancel_delay(hass: __HAC_KEEP__) -> None:
     """Test the cancelling while the delay is present."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -979,7 +979,7 @@ async def test_cancel_delay(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.parametrize("action_type", ["template", "trigger"])
-async def test_wait_basic(hass: UniversalAssistant, action_type) -> None:
+async def test_wait_basic(hass: __HAC_KEEP__, action_type) -> None:
     """Test wait actions."""
     wait_alias = "wait step"
     action = {"alias": wait_alias}
@@ -1042,7 +1042,7 @@ async def test_wait_basic(hass: UniversalAssistant, action_type) -> None:
     )
 
 
-async def test_wait_for_trigger_variables(hass: UniversalAssistant) -> None:
+async def test_wait_for_trigger_variables(hass: __HAC_KEEP__) -> None:
     """Test variables are passed to wait_for_trigger action."""
     context = Context()
     wait_alias = "wait step"
@@ -1081,7 +1081,7 @@ async def test_wait_for_trigger_variables(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.parametrize("action_type", ["template", "trigger"])
-async def test_wait_basic_times_out(hass: UniversalAssistant, action_type) -> None:
+async def test_wait_basic_times_out(hass: __HAC_KEEP__, action_type) -> None:
     """Test wait actions times out when the action does not happen."""
     wait_alias = "wait step"
     action = {"alias": wait_alias}
@@ -1133,7 +1133,7 @@ async def test_wait_basic_times_out(hass: UniversalAssistant, action_type) -> No
 
 
 @pytest.mark.parametrize("action_type", ["template", "trigger"])
-async def test_multiple_runs_wait(hass: UniversalAssistant, action_type) -> None:
+async def test_multiple_runs_wait(hass: __HAC_KEEP__, action_type) -> None:
     """Test multiple runs with wait in script."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -1190,7 +1190,7 @@ async def test_multiple_runs_wait(hass: UniversalAssistant, action_type) -> None
 
 
 @pytest.mark.parametrize("action_type", ["template", "trigger"])
-async def test_cancel_wait(hass: UniversalAssistant, action_type) -> None:
+async def test_cancel_wait(hass: __HAC_KEEP__, action_type) -> None:
     """Test the cancelling while wait is present."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -1250,7 +1250,7 @@ async def test_cancel_wait(hass: UniversalAssistant, action_type) -> None:
     )
 
 
-async def test_wait_template_not_schedule(hass: UniversalAssistant) -> None:
+async def test_wait_template_not_schedule(hass: __HAC_KEEP__) -> None:
     """Test the wait template with correct condition."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -1289,7 +1289,7 @@ async def test_wait_template_not_schedule(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.parametrize("action_type", ["template", "trigger"])
 async def test_wait_timeout(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, timeout_param, action_type
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, timeout_param, action_type
 ) -> None:
     """Test the wait timeout option."""
     event = "test_event"
@@ -1356,7 +1356,7 @@ async def test_wait_timeout(
     "timeout_param", [0, "{{ 0 }}", {"minutes": 0}, {"minutes": "{{ 0 }}"}]
 )
 async def test_wait_trigger_with_zero_timeout(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, timeout_param: int | str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, timeout_param: int | str
 ) -> None:
     """Test the wait trigger with zero timeout option."""
     event = "test_event"
@@ -1404,7 +1404,7 @@ async def test_wait_trigger_with_zero_timeout(
     "timeout_param", [0, "{{ 0 }}", {"minutes": 0}, {"minutes": "{{ 0 }}"}]
 )
 async def test_wait_trigger_matches_with_zero_timeout(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, timeout_param: int | str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, timeout_param: int | str
 ) -> None:
     """Test the wait trigger that matches with zero timeout option."""
     event = "test_event"
@@ -1452,7 +1452,7 @@ async def test_wait_trigger_matches_with_zero_timeout(
     "timeout_param", [0, "{{ 0 }}", {"minutes": 0}, {"minutes": "{{ 0 }}"}]
 )
 async def test_wait_template_with_zero_timeout(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, timeout_param: int | str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, timeout_param: int | str
 ) -> None:
     """Test the wait template with zero timeout option."""
     event = "test_event"
@@ -1493,7 +1493,7 @@ async def test_wait_template_with_zero_timeout(
     "timeout_param", [0, "{{ 0 }}", {"minutes": 0}, {"minutes": "{{ 0 }}"}]
 )
 async def test_wait_template_matches_with_zero_timeout(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, timeout_param: int | str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, timeout_param: int | str
 ) -> None:
     """Test the wait template that matches with zero timeout option."""
     event = "test_event"
@@ -1535,7 +1535,7 @@ async def test_wait_template_matches_with_zero_timeout(
 )
 @pytest.mark.parametrize("action_type", ["template", "trigger"])
 async def test_wait_continue_on_timeout(
-    hass: UniversalAssistant, continue_on_timeout, n_events, action_type
+    hass: __HAC_KEEP__, continue_on_timeout, n_events, action_type
 ) -> None:
     """Test the wait continue_on_timeout option."""
     event = "test_event"
@@ -1593,7 +1593,7 @@ async def test_wait_continue_on_timeout(
     assert_action_trace(expected_trace, expected_script_execution)
 
 
-async def test_wait_template_variables_in(hass: UniversalAssistant) -> None:
+async def test_wait_template_variables_in(hass: __HAC_KEEP__) -> None:
     """Test the wait template with input variables."""
     sequence = cv.SCRIPT_SCHEMA({"wait_template": "{{ is_state(data, 'off') }}"})
     script_obj = script.Script(hass, sequence, "Test Name", "test_domain")
@@ -1631,7 +1631,7 @@ async def test_wait_template_variables_in(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_wait_template_with_utcnow(hass: UniversalAssistant) -> None:
+async def test_wait_template_with_utcnow(hass: __HAC_KEEP__) -> None:
     """Test the wait template with utcnow."""
     sequence = cv.SCRIPT_SCHEMA({"wait_template": "{{ utcnow().hour == 12 }}"})
     script_obj = script.Script(hass, sequence, "Test Name", "test_domain")
@@ -1667,7 +1667,7 @@ async def test_wait_template_with_utcnow(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_wait_template_with_utcnow_no_match(hass: UniversalAssistant) -> None:
+async def test_wait_template_with_utcnow_no_match(hass: __HAC_KEEP__) -> None:
     """Test the wait template with utcnow that does not match."""
     sequence = cv.SCRIPT_SCHEMA({"wait_template": "{{ utcnow().hour == 12 }}"})
     script_obj = script.Script(hass, sequence, "Test Name", "test_domain")
@@ -1708,7 +1708,7 @@ async def test_wait_template_with_utcnow_no_match(hass: UniversalAssistant) -> N
 
 @pytest.mark.parametrize("mode", ["no_timeout", "timeout_finish", "timeout_not_finish"])
 @pytest.mark.parametrize("action_type", ["template", "trigger"])
-async def test_wait_variables_out(hass: UniversalAssistant, mode, action_type) -> None:
+async def test_wait_variables_out(hass: __HAC_KEEP__, mode, action_type) -> None:
     """Test the wait output variable."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -1776,7 +1776,7 @@ async def test_wait_variables_out(hass: UniversalAssistant, mode, action_type) -
             assert float(remaining) == 0.0
 
 
-async def test_wait_in_sequence(hass: UniversalAssistant) -> None:
+async def test_wait_in_sequence(hass: __HAC_KEEP__) -> None:
     """Test wait variable is still set after sequence ends."""
     sequence = cv.SCRIPT_SCHEMA(
         [
@@ -1817,7 +1817,7 @@ async def test_wait_in_sequence(hass: UniversalAssistant) -> None:
     assert_action_trace(expected_trace)
 
 
-async def test_wait_in_parallel(hass: UniversalAssistant) -> None:
+async def test_wait_in_parallel(hass: __HAC_KEEP__) -> None:
     """Test wait variable is not set after parallel ends."""
     sequence = cv.SCRIPT_SCHEMA(
         {
@@ -1861,7 +1861,7 @@ async def test_wait_in_parallel(hass: UniversalAssistant) -> None:
 
 
 async def test_wait_for_trigger_bad(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test bad wait_for_trigger."""
     sequence = cv.SCRIPT_SCHEMA(
@@ -1904,7 +1904,7 @@ async def test_wait_for_trigger_bad(
 
 
 async def test_wait_for_trigger_generated_exception(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test bad wait_for_trigger."""
     sequence = cv.SCRIPT_SCHEMA(
@@ -1949,7 +1949,7 @@ async def test_wait_for_trigger_generated_exception(
 
 
 async def test_condition_warning(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test warning on condition."""
     event = "test_event"
@@ -1997,7 +1997,7 @@ async def test_condition_warning(
 
 
 async def test_condition_basic(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if we can use conditions in a script."""
     event = "test_event"
@@ -2054,7 +2054,7 @@ async def test_condition_basic(
 
 
 async def test_condition_subscript(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test failing conditions in a subscript don't stop the parent script."""
     event = "test_event"
@@ -2105,7 +2105,7 @@ async def test_condition_subscript(
 
 
 async def test_and_default_condition(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that a list of conditions evaluates as AND."""
     alias = "condition step"
@@ -2143,7 +2143,7 @@ async def test_and_default_condition(
 
 
 async def test_shorthand_template_condition(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if we can use shorthand template conditions in a script."""
     event = "test_event"
@@ -2199,7 +2199,7 @@ async def test_shorthand_template_condition(
 
 
 async def test_condition_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2276,7 +2276,7 @@ async def test_condition_validation(
 
 
 @patch("universalassistant.helpers.script.condition.async_from_config")
-async def test_condition_created_once(async_from_config, hass: UniversalAssistant) -> None:
+async def test_condition_created_once(async_from_config, hass: __HAC_KEEP__) -> None:
     """Test that the conditions do not get created multiple times."""
     sequence = cv.SCRIPT_SCHEMA(
         {
@@ -2300,7 +2300,7 @@ async def test_condition_created_once(async_from_config, hass: UniversalAssistan
     assert len(script_obj._condition_cache) == 1
 
 
-async def test_condition_all_cached(hass: UniversalAssistant) -> None:
+async def test_condition_all_cached(hass: __HAC_KEEP__) -> None:
     """Test that multiple conditions get cached."""
     sequence = cv.SCRIPT_SCHEMA(
         [
@@ -2325,7 +2325,7 @@ async def test_condition_all_cached(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("count", [3, script.ACTION_TRACE_NODE_MAX_LEN * 2])
 async def test_repeat_count(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, count
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, count
 ) -> None:
     """Test repeat action w/ count option."""
     event = "test_event"
@@ -2390,7 +2390,7 @@ async def test_repeat_count(
 
 
 async def test_repeat_count_0(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test repeat action w/ count option."""
     event = "test_event"
@@ -2430,7 +2430,7 @@ async def test_repeat_count_0(
 
 
 async def test_repeat_for_each(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test repeat action using for each."""
     events = async_capture_events(hass, "test_event")
@@ -2528,7 +2528,7 @@ async def test_repeat_for_each(
     )
 
 
-async def test_repeat_for_each_template(hass: UniversalAssistant) -> None:
+async def test_repeat_for_each_template(hass: __HAC_KEEP__) -> None:
     """Test repeat action using for each template."""
     events = async_capture_events(hass, "test_event")
     sequence = cv.SCRIPT_SCHEMA(
@@ -2589,7 +2589,7 @@ async def test_repeat_for_each_template(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_repeat_for_each_non_list_template(hass: UniversalAssistant) -> None:
+async def test_repeat_for_each_non_list_template(hass: __HAC_KEEP__) -> None:
     """Test repeat action using for each with a template not resulting in a list."""
     events = async_capture_events(hass, "test_event")
     sequence = cv.SCRIPT_SCHEMA(
@@ -2619,7 +2619,7 @@ async def test_repeat_for_each_non_list_template(hass: UniversalAssistant) -> No
 
 
 async def test_repeat_for_each_invalid_template(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test repeat action using for each with an invalid template."""
     events = async_capture_events(hass, "test_event")
@@ -2660,7 +2660,7 @@ async def test_repeat_for_each_invalid_template(
 
 @pytest.mark.parametrize("condition", ["while", "until"])
 async def test_repeat_condition_warning(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, condition
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, condition
 ) -> None:
     """Test warning on repeat conditions."""
     event = "test_event"
@@ -2733,7 +2733,7 @@ async def test_repeat_condition_warning(
 @pytest.mark.parametrize("condition", ["while", "until"])
 @pytest.mark.parametrize("direct_template", [False, True])
 async def test_repeat_conditional(
-    hass: UniversalAssistant, condition, direct_template
+    hass: __HAC_KEEP__, condition, direct_template
 ) -> None:
     """Test repeat action w/ while option."""
     event = "test_event"
@@ -2807,7 +2807,7 @@ async def test_repeat_conditional(
 
 
 async def test_repeat_until_condition_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2870,7 +2870,7 @@ async def test_repeat_until_condition_validation(
 
 
 async def test_repeat_while_condition_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2933,7 +2933,7 @@ async def test_repeat_while_condition_validation(
 
 
 @pytest.mark.parametrize("condition", ["while", "until"])
-async def test_repeat_var_in_condition(hass: UniversalAssistant, condition) -> None:
+async def test_repeat_var_in_condition(hass: __HAC_KEEP__, condition) -> None:
     """Test repeat action w/ while option."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -3020,7 +3020,7 @@ async def test_repeat_var_in_condition(hass: UniversalAssistant, condition) -> N
     ],
 )
 async def test_repeat_nested(
-    hass: UniversalAssistant, variables, first_last, inside_x
+    hass: __HAC_KEEP__, variables, first_last, inside_x
 ) -> None:
     """Test nested repeats."""
     event = "test_event"
@@ -3161,7 +3161,7 @@ async def test_repeat_nested(
     ("condition", "check"), [("while", "above"), ("until", "below")]
 )
 async def test_repeat_limits(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, condition: str, check: str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, condition: str, check: str
 ) -> None:
     """Test limits on repeats prevent the system from hanging."""
     event = "test_event"
@@ -3207,7 +3207,7 @@ async def test_repeat_limits(
 
 
 async def test_choose_warning(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test warning on choose."""
     event = "test_event"
@@ -3261,7 +3261,7 @@ async def test_choose_warning(
     ("var", "result"), [(1, "first"), (2, "second"), (3, "default")]
 )
 async def test_choose(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, var, result
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, var, result
 ) -> None:
     """Test choose action."""
     event = "test_event"
@@ -3353,7 +3353,7 @@ async def test_choose(
 
 
 async def test_choose_condition_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -3446,7 +3446,7 @@ async def test_choose_condition_validation(
     ],
 )
 async def test_multiple_runs_repeat_choose(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, action
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, action
 ) -> None:
     """Test parallel runs with repeat & choose actions & max_runs > default."""
     max_runs = script.DEFAULT_MAX + 1
@@ -3472,7 +3472,7 @@ async def test_multiple_runs_repeat_choose(
 
 
 async def test_if_warning(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test warning on if."""
     event = "test_event"
@@ -3512,7 +3512,7 @@ async def test_if_warning(
     ("var", "if_result", "choice"), [(1, True, "then"), (2, False, "else")]
 )
 async def test_if(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     var: int,
     if_result: bool,
@@ -3561,7 +3561,7 @@ async def test_if(
 
 
 async def test_if_disabled(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if action with a disabled condition."""
     sequence = cv.SCRIPT_SCHEMA(
@@ -3600,7 +3600,7 @@ async def test_if_disabled(
 
 
 async def test_if_condition_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -3677,7 +3677,7 @@ async def test_if_condition_validation(
     )
 
 
-async def test_sequence(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
+async def test_sequence(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
     """Test sequence action."""
     events = async_capture_events(hass, "test_event")
 
@@ -3775,7 +3775,7 @@ async def test_sequence(hass: UniversalAssistant, caplog: pytest.LogCaptureFixtu
     assert_action_trace(expected_trace)
 
 
-async def test_parallel(hass: UniversalAssistant, caplog: pytest.LogCaptureFixture) -> None:
+async def test_parallel(hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture) -> None:
     """Test parallel action."""
     events = async_capture_events(hass, "test_event")
     hass.states.async_set("switch.trigger", "off")
@@ -3893,7 +3893,7 @@ async def test_parallel(hass: UniversalAssistant, caplog: pytest.LogCaptureFixtu
 
 
 async def test_parallel_loop(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test parallel loops do not affect each other."""
     events_loop1 = async_capture_events(hass, "loop1")
@@ -4034,7 +4034,7 @@ async def test_parallel_loop(
 
 
 async def test_parallel_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test parallel action failure handling."""
     events = async_capture_events(hass, "test_event")
@@ -4072,7 +4072,7 @@ async def test_parallel_error(
     assert_action_trace(expected_trace, expected_script_execution="error")
 
 
-async def test_last_triggered(hass: UniversalAssistant) -> None:
+async def test_last_triggered(hass: __HAC_KEEP__) -> None:
     """Test the last_triggered."""
     event = "test_event"
     sequence = cv.SCRIPT_SCHEMA({"event": event})
@@ -4088,7 +4088,7 @@ async def test_last_triggered(hass: UniversalAssistant) -> None:
     assert script_obj.last_triggered == time
 
 
-async def test_propagate_error_service_not_found(hass: UniversalAssistant) -> None:
+async def test_propagate_error_service_not_found(hass: __HAC_KEEP__) -> None:
     """Test that a script aborts when a service is not found."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -4120,7 +4120,7 @@ async def test_propagate_error_service_not_found(hass: UniversalAssistant) -> No
     assert_action_trace(expected_trace, expected_script_execution="error")
 
 
-async def test_propagate_error_invalid_service_data(hass: UniversalAssistant) -> None:
+async def test_propagate_error_invalid_service_data(hass: __HAC_KEEP__) -> None:
     """Test that a script aborts when we send invalid service data."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -4156,7 +4156,7 @@ async def test_propagate_error_invalid_service_data(hass: UniversalAssistant) ->
     assert_action_trace(expected_trace, expected_script_execution="error")
 
 
-async def test_propagate_error_service_exception(hass: UniversalAssistant) -> None:
+async def test_propagate_error_service_exception(hass: __HAC_KEEP__) -> None:
     """Test that a script aborts when a service throws an exception."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -4196,7 +4196,7 @@ async def test_propagate_error_service_exception(hass: UniversalAssistant) -> No
     assert_action_trace(expected_trace, expected_script_execution="error")
 
 
-async def test_referenced_labels(hass: UniversalAssistant) -> None:
+async def test_referenced_labels(hass: __HAC_KEEP__) -> None:
     """Test referenced labels."""
     script_obj = script.Script(
         hass,
@@ -4396,7 +4396,7 @@ async def test_referenced_labels(hass: UniversalAssistant) -> None:
     assert script_obj.referenced_labels is script_obj.referenced_labels
 
 
-async def test_referenced_floors(hass: UniversalAssistant) -> None:
+async def test_referenced_floors(hass: __HAC_KEEP__) -> None:
     """Test referenced floors."""
     script_obj = script.Script(
         hass,
@@ -4593,7 +4593,7 @@ async def test_referenced_floors(hass: UniversalAssistant) -> None:
     assert script_obj.referenced_floors is script_obj.referenced_floors
 
 
-async def test_referenced_areas(hass: UniversalAssistant) -> None:
+async def test_referenced_areas(hass: __HAC_KEEP__) -> None:
     """Test referenced areas."""
     script_obj = script.Script(
         hass,
@@ -4791,7 +4791,7 @@ async def test_referenced_areas(hass: UniversalAssistant) -> None:
     assert script_obj.referenced_areas is script_obj.referenced_areas
 
 
-async def test_referenced_entities(hass: UniversalAssistant) -> None:
+async def test_referenced_entities(hass: __HAC_KEEP__) -> None:
     """Test referenced entities."""
     script_obj = script.Script(
         hass,
@@ -5023,7 +5023,7 @@ async def test_referenced_entities(hass: UniversalAssistant) -> None:
     assert script_obj.referenced_entities is script_obj.referenced_entities
 
 
-async def test_referenced_devices(hass: UniversalAssistant) -> None:
+async def test_referenced_devices(hass: __HAC_KEEP__) -> None:
     """Test referenced entities."""
     script_obj = script.Script(
         hass,
@@ -5253,7 +5253,7 @@ def does_not_raise():
 
 
 async def test_script_mode_single(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test overlapping runs with max_runs = 1."""
     event = "test_event"
@@ -5300,7 +5300,7 @@ async def test_script_mode_single(
     ("script_mode", "max_runs"), [("single", 1), ("parallel", 2), ("queued", 2)]
 )
 async def test_max_exceeded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     max_exceeded,
     script_mode,
@@ -5362,7 +5362,7 @@ async def test_max_exceeded(
     [("restart", ["Restarting"], [2]), ("parallel", [], [2, 2])],
 )
 async def test_script_mode_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     script_mode,
     messages,
@@ -5433,7 +5433,7 @@ async def test_script_mode_2(
             assert events[idx].data["value"] == value
 
 
-async def test_script_mode_queued(hass: UniversalAssistant) -> None:
+async def test_script_mode_queued(hass: __HAC_KEEP__) -> None:
     """Test overlapping runs with script_mode = 'queued' & max_runs > 1."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -5530,7 +5530,7 @@ async def test_script_mode_queued(hass: UniversalAssistant) -> None:
         assert events[3].data["value"] == 2
 
 
-async def test_script_mode_queued_cancel(hass: UniversalAssistant) -> None:
+async def test_script_mode_queued_cancel(hass: __HAC_KEEP__) -> None:
     """Test canceling with a queued run."""
     script_obj = script.Script(
         hass,
@@ -5572,7 +5572,7 @@ async def test_script_mode_queued_cancel(hass: UniversalAssistant) -> None:
         raise
 
 
-async def test_script_mode_queued_stop(hass: UniversalAssistant) -> None:
+async def test_script_mode_queued_stop(hass: __HAC_KEEP__) -> None:
     """Test stopping with a queued run."""
     script_obj = script.Script(
         hass,
@@ -5604,7 +5604,7 @@ async def test_script_mode_queued_stop(hass: UniversalAssistant) -> None:
 
 
 async def test_script_logging(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test script logging."""
     script_obj = script.Script(hass, [], "Script with % Name", "test_domain")
@@ -5614,7 +5614,7 @@ async def test_script_logging(
 
 
 async def test_shutdown_at(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test stopping scripts at shutdown."""
     delay_alias = "delay step"
@@ -5646,7 +5646,7 @@ async def test_shutdown_at(
 
 @pytest.mark.parametrize("wait_for_stop_scripts_after_shutdown", [True])
 async def test_shutdown_after(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test stopping scripts at shutdown."""
     delay_alias = "delay step"
@@ -5685,7 +5685,7 @@ async def test_shutdown_after(
 
 @pytest.mark.parametrize("wait_for_stop_scripts_after_shutdown", [True])
 async def test_start_script_after_shutdown(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test starting scripts after shutdown is blocked."""
     delay_alias = "delay step"
@@ -5703,11 +5703,11 @@ async def test_start_script_after_shutdown(
     # Attempt to spawn additional script run
     await script_obj.async_run(context=Context())
     assert not script_obj.is_running
-    assert "Universal Universal Home Assistant is shutting down, starting script blocked" in caplog.text
+    assert "__HA_KEEP__ is shutting down, starting script blocked" in caplog.text
 
 
 async def test_update_logger(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test updating logger."""
     sequence = cv.SCRIPT_SCHEMA({"event": "test_event"})
@@ -5728,7 +5728,7 @@ async def test_update_logger(
 
 
 async def test_started_action(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the callback of started_action."""
     event = "test_event"
@@ -5749,7 +5749,7 @@ async def test_started_action(
 
 
 async def test_set_variable(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setting variables in scripts."""
     sequence = cv.SCRIPT_SCHEMA(
@@ -5819,7 +5819,7 @@ async def test_set_variable(
 
 
 async def test_set_redefines_variable(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setting variables based on their current value."""
     sequence = cv.SCRIPT_SCHEMA(
@@ -5874,7 +5874,7 @@ async def test_set_redefines_variable(
 
 
 async def test_validate_action_config(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Validate action config."""
 
@@ -6000,7 +6000,7 @@ async def test_validate_action_config(
             assert isinstance(device_action["message"], template.Template)
 
 
-async def test_embedded_wait_for_trigger_in_automation(hass: UniversalAssistant) -> None:
+async def test_embedded_wait_for_trigger_in_automation(hass: __HAC_KEEP__) -> None:
     """Test an embedded wait for trigger."""
     assert await async_setup_component(
         hass,
@@ -6059,7 +6059,7 @@ async def test_embedded_wait_for_trigger_in_automation(hass: UniversalAssistant)
     assert len(mock_calls) == 1
 
 
-async def test_breakpoints_1(hass: UniversalAssistant) -> None:
+async def test_breakpoints_1(hass: __HAC_KEEP__) -> None:
     """Test setting a breakpoint halts execution, and execution can be resumed."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -6154,7 +6154,7 @@ async def test_breakpoints_1(hass: UniversalAssistant) -> None:
     assert events[-1].data["value"] == 7
 
 
-async def test_breakpoints_2(hass: UniversalAssistant) -> None:
+async def test_breakpoints_2(hass: __HAC_KEEP__) -> None:
     """Test setting a breakpoint halts execution, and execution can be aborted."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -6221,7 +6221,7 @@ async def test_breakpoints_2(hass: UniversalAssistant) -> None:
     assert len(events) == 1
 
 
-async def test_platform_async_validate_action_config(hass: UniversalAssistant) -> None:
+async def test_platform_async_validate_action_config(hass: __HAC_KEEP__) -> None:
     """Test platform.async_validate_action_config will be called if it exists."""
     config = {CONF_DEVICE_ID: "test", CONF_DOMAIN: "test"}
     with patch(
@@ -6456,7 +6456,7 @@ _NESTED_INVALID_TRIGGER = {
     ],
 )
 async def test_validate_actions_config_error_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     actions: list[dict[str, Any]],
     expected_exception: type[probatio.Invalid],
     expected_error: str,
@@ -6490,22 +6490,22 @@ async def test_validate_actions_config_error_path(
         ),
         pytest.param(
             [{"repeat": {"while": [{"condition": "non_existing"}], "sequence": []}}],
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             'Invalid condition "non_existing" specified',
             id="nested_condition",
         ),
     ],
 )
 async def test_validate_actions_config_universalassistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     actions: list[dict[str, Any]],
-    expected_exception: type[UniversalAssistantError],
+    expected_exception: type[__HAC_KEEP__Error],
     expected_error: str,
 ) -> None:
-    """Test a UniversalAssistantError keeps its type and message."""
+    """Test a __HAC_KEEP__Error keeps its type and message."""
     config = cv.SCRIPT_SCHEMA(actions)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await script.async_validate_actions_config(hass, config)
 
     assert type(exc_info.value) is expected_exception
@@ -6551,7 +6551,7 @@ async def test_validate_actions_config_universalassistant_error(
     ],
 )
 async def test_validate_action_config_missing_required_block(
-    hass: UniversalAssistant, action_type: str, action: dict[str, Any], expected_key: str
+    hass: __HAC_KEEP__, action_type: str, action: dict[str, Any], expected_key: str
 ) -> None:
     """Test a block required by the schema is not skipped when it is missing."""
     with (
@@ -6649,7 +6649,7 @@ async def test_validate_action_config_missing_required_block(
     ],
 )
 async def test_validate_action_config_first_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action: dict[str, Any],
     expected_exception: type[Exception],
     expected_error: str,
@@ -6665,7 +6665,7 @@ async def test_validate_action_config_first_error(
 
 
 async def test_stop_action(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if automation stops on calling the stop action."""
     event = "test_event"
@@ -6707,7 +6707,7 @@ async def test_stop_action(
     ],
 )
 async def test_stop_action_subscript(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     error,
     error_dict,
@@ -6765,7 +6765,7 @@ async def test_stop_action_subscript(
     ("script_mode", "max_runs"), [("single", 1), ("parallel", 2), ("queued", 2)]
 )
 async def test_stop_action_response_variables(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     var: int,
     response: str,
     script_mode,
@@ -6807,7 +6807,7 @@ async def test_stop_action_response_variables(
     [(1, True, "then", "If: Then"), (2, False, "else", "If: Else")],
 )
 async def test_stop_action_nested_response_variables(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     var: int,
     if_result: bool,
     choice: str,
@@ -6857,7 +6857,7 @@ async def test_stop_action_nested_response_variables(
 
 
 async def test_stop_action_with_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if automation fails on calling the error action."""
     event = "test_event"
@@ -6898,14 +6898,14 @@ async def test_stop_action_with_error(
     )
 
 
-async def test_continue_on_error(hass: UniversalAssistant) -> None:
+async def test_continue_on_error(hass: __HAC_KEEP__) -> None:
     """Test if automation continue when a step fails."""
     events = async_capture_events(hass, "test_event")
 
     @callback
     def broken_service(service: ServiceCall) -> None:
         """Break this service with an error."""
-        raise UniversalAssistantError("It is not working!")
+        raise __HAC_KEEP__Error("It is not working!")
 
     hass.services.async_register("broken", "service", broken_service)
 
@@ -6926,7 +6926,7 @@ async def test_continue_on_error(hass: UniversalAssistant) -> None:
     )
     script_obj = script.Script(hass, sequence, "Test Name", "test_domain")
 
-    with pytest.raises(exceptions.UniversalAssistantError, match="It is not working!"):
+    with pytest.raises(exceptions.__HAC_KEEP__Error, match="It is not working!"):
         await script_obj.async_run(context=Context())
 
     assert len(events) == 2
@@ -6968,7 +6968,7 @@ async def test_continue_on_error(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_continue_on_error_with_stop(hass: UniversalAssistant) -> None:
+async def test_continue_on_error_with_stop(hass: __HAC_KEEP__) -> None:
     """Test continue on error doesn't work with explicit an stop."""
     sequence = cv.SCRIPT_SCHEMA(
         [
@@ -6990,7 +6990,7 @@ async def test_continue_on_error_with_stop(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_continue_on_error_automation_issue(hass: UniversalAssistant) -> None:
+async def test_continue_on_error_automation_issue(hass: __HAC_KEEP__) -> None:
     """Test continue on error doesn't block action automation errors."""
     sequence = cv.SCRIPT_SCHEMA(
         [
@@ -7026,7 +7026,7 @@ async def test_continue_on_error_automation_issue(hass: UniversalAssistant) -> N
     )
 
 
-async def test_continue_on_error_unknown_error(hass: UniversalAssistant) -> None:
+async def test_continue_on_error_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test continue_on_error with unknown errors bubbling up from service calls."""
 
     class MyLibraryError(Exception):
@@ -7074,7 +7074,7 @@ async def test_continue_on_error_unknown_error(hass: UniversalAssistant) -> None
 
 @pytest.mark.parametrize("enabled_value", [False, "{{ 1 == 9 }}"])
 async def test_disabled_actions(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, enabled_value: bool | str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, enabled_value: bool | str
 ) -> None:
     """Test disabled action steps."""
     events = async_capture_events(hass, "test_event")
@@ -7082,7 +7082,7 @@ async def test_disabled_actions(
     @callback
     def broken_service(service: ServiceCall) -> None:
         """Break this service with an error."""
-        raise UniversalAssistantError("This service should not be called")
+        raise __HAC_KEEP__Error("This service should not be called")
 
     hass.services.async_register("broken", "service", broken_service)
 
@@ -7120,7 +7120,7 @@ async def test_disabled_actions(
     )
 
 
-async def test_enabled_template_uses_state(hass: UniversalAssistant) -> None:
+async def test_enabled_template_uses_state(hass: __HAC_KEEP__) -> None:
     """Test an action enabled template is rendered with full access to states."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -7152,7 +7152,7 @@ async def test_enabled_template_uses_state(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_enabled_template_uses_variables(hass: UniversalAssistant) -> None:
+async def test_enabled_template_uses_variables(hass: __HAC_KEEP__) -> None:
     """Test an action enabled template is rendered with the run variables."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -7186,7 +7186,7 @@ async def test_enabled_template_uses_variables(hass: UniversalAssistant) -> None
     assert [event.data["step"] for event in events] == ["sequence", "sequence", "run"]
 
 
-async def test_enabled_template_on_condition_step(hass: UniversalAssistant) -> None:
+async def test_enabled_template_on_condition_step(hass: __HAC_KEEP__) -> None:
     """Test the enabled template of a condition step uses states and variables."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -7241,7 +7241,7 @@ async def test_enabled_template_on_condition_step(hass: UniversalAssistant) -> N
     assert len(events) == 3
 
 
-async def test_enabled_template_error(hass: UniversalAssistant) -> None:
+async def test_enabled_template_error(hass: __HAC_KEEP__) -> None:
     """Test that a script aborts when an action enabled template fails to render."""
     event = "test_event"
     events = async_capture_events(hass, event)
@@ -7279,7 +7279,7 @@ async def test_enabled_template_error(hass: UniversalAssistant) -> None:
 
 
 async def test_condition_and_shorthand(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if we can use the shorthand and conditions in a script."""
     events = async_capture_events(hass, "test_event")
@@ -7320,7 +7320,7 @@ async def test_condition_and_shorthand(
 
 
 async def test_condition_or_shorthand(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if we can use the shorthand or conditions in a script."""
     events = async_capture_events(hass, "test_event")
@@ -7361,7 +7361,7 @@ async def test_condition_or_shorthand(
 
 
 async def test_condition_not_shorthand(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if we can use the shorthand not conditions in a script."""
     events = async_capture_events(hass, "test_event")
@@ -7402,7 +7402,7 @@ async def test_condition_not_shorthand(
 
 
 async def test_conversation_response(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setting conversation response."""
     sequence = cv.SCRIPT_SCHEMA([{"set_conversation_response": "Testing 123"}])
@@ -7419,7 +7419,7 @@ async def test_conversation_response(
 
 
 async def test_conversation_response_template(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a templated conversation response."""
     sequence = cv.SCRIPT_SCHEMA(
@@ -7442,7 +7442,7 @@ async def test_conversation_response_template(
 
 
 async def test_conversation_response_not_set(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test not setting conversation response."""
     sequence = cv.SCRIPT_SCHEMA([])
@@ -7455,7 +7455,7 @@ async def test_conversation_response_not_set(
 
 
 async def test_conversation_response_unset(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test clearing conversation response."""
     sequence = cv.SCRIPT_SCHEMA(
@@ -7482,7 +7482,7 @@ async def test_conversation_response_unset(
     [(1, True, "then", "If: Then"), (2, False, "else", "If: Else")],
 )
 async def test_conversation_response_subscript_if(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     var: int,
     if_result: bool,
     choice: str,
@@ -7527,7 +7527,7 @@ async def test_conversation_response_subscript_if(
     ("var", "if_result", "choice"), [(1, True, "then"), (2, False, "else")]
 )
 async def test_conversation_response_not_set_subscript_if(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     var: int,
     if_result: bool,
     choice: str,
@@ -7567,7 +7567,7 @@ async def test_conversation_response_not_set_subscript_if(
 
 
 async def test_conversation_response_nested_with_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setting conversation response in a child block with a stop."""
     sequence = cv.SCRIPT_SCHEMA(
@@ -7593,7 +7593,7 @@ async def test_conversation_response_nested_with_stop(
 
 
 async def test_stopping_run_before_starting(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test stopping a script run before its started."""
     sequence = cv.SCRIPT_SCHEMA(
@@ -7610,7 +7610,7 @@ async def test_stopping_run_before_starting(
 
 
 async def test_disallowed_recursion(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a queued mode script disallowed recursion."""
     context = Context()
@@ -7679,7 +7679,7 @@ async def test_disallowed_recursion(
 
 
 async def test_calling_service_backwards_compatible(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the calling of a service with the service instead of the action key."""
     context = Context()
@@ -7719,7 +7719,7 @@ async def test_calling_service_backwards_compatible(
 
 
 async def test_enabled_sequence_in_parallel(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test to ensure sequence inside parallel follows enabled tag."""
     event = "test_event"
@@ -7756,7 +7756,7 @@ async def test_enabled_sequence_in_parallel(
     assert_action_trace(expected_trace)
 
 
-async def _setup_mock_condition_integration(hass: UniversalAssistant) -> None:
+async def _setup_mock_condition_integration(hass: __HAC_KEEP__) -> None:
     """Set up a mock integration with conditions that track async_unload calls."""
 
     class MockCondition(Condition):
@@ -7769,7 +7769,7 @@ async def _setup_mock_condition_integration(hass: UniversalAssistant) -> None:
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: dict[str, Any]
+            cls, hass: __HAC_KEEP__, config: dict[str, Any]
         ) -> dict[str, Any]:
             """Validate config."""
             return config
@@ -7779,7 +7779,7 @@ async def _setup_mock_condition_integration(hass: UniversalAssistant) -> None:
             raise NotImplementedError
 
     async def async_get_conditions(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Condition]]:
         return {"_": MockCondition}
 
@@ -7789,7 +7789,7 @@ async def _setup_mock_condition_integration(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_async_unload_clears_condition_cache(hass: UniversalAssistant) -> None:
+async def test_async_unload_clears_condition_cache(hass: __HAC_KEEP__) -> None:
     """Test that async_unload clears _condition_cache and unloads conditions."""
     await _setup_mock_condition_integration(hass)
     sequence = cv.SCRIPT_SCHEMA(
@@ -7812,7 +7812,7 @@ async def test_async_unload_clears_condition_cache(hass: UniversalAssistant) -> 
     cached_cond.async_unload.assert_called_once()
 
 
-async def test_async_unload_clears_repeat_scripts(hass: UniversalAssistant) -> None:
+async def test_async_unload_clears_repeat_scripts(hass: __HAC_KEEP__) -> None:
     """Test that async_unload unloads repeat sub-scripts."""
     sequence = cv.SCRIPT_SCHEMA(
         [
@@ -7839,7 +7839,7 @@ async def test_async_unload_clears_repeat_scripts(hass: UniversalAssistant) -> N
     unload_mock.assert_called_once()
 
 
-async def test_async_unload_clears_choose_data(hass: UniversalAssistant) -> None:
+async def test_async_unload_clears_choose_data(hass: __HAC_KEEP__) -> None:
     """Test that async_unload unloads choose sub-scripts."""
     sequence = cv.SCRIPT_SCHEMA(
         [
@@ -7875,7 +7875,7 @@ async def test_async_unload_clears_choose_data(hass: UniversalAssistant) -> None
     default_unload.assert_called_once()
 
 
-async def test_async_unload_clears_if_data(hass: UniversalAssistant) -> None:
+async def test_async_unload_clears_if_data(hass: __HAC_KEEP__) -> None:
     """Test that async_unload unloads if/then/else sub-scripts."""
     sequence = cv.SCRIPT_SCHEMA(
         [
@@ -7907,7 +7907,7 @@ async def test_async_unload_clears_if_data(hass: UniversalAssistant) -> None:
     else_unload.assert_called_once()
 
 
-async def test_async_unload_clears_parallel_scripts(hass: UniversalAssistant) -> None:
+async def test_async_unload_clears_parallel_scripts(hass: __HAC_KEEP__) -> None:
     """Test that async_unload unloads parallel sub-scripts."""
     sequence = cv.SCRIPT_SCHEMA(
         [
@@ -7939,7 +7939,7 @@ async def test_async_unload_clears_parallel_scripts(hass: UniversalAssistant) ->
     unload_1.assert_called_once()
 
 
-async def test_script_del_calls_async_unload(hass: UniversalAssistant) -> None:
+async def test_script_del_calls_async_unload(hass: __HAC_KEEP__) -> None:
     """Test that __del__ calls _async_unload if not already called."""
     sequence = cv.SCRIPT_SCHEMA([{"event": "test_event"}])
     script_obj = script.Script(hass, sequence, "Test Name", "test_domain")
@@ -7952,7 +7952,7 @@ async def test_script_del_calls_async_unload(hass: UniversalAssistant) -> None:
     unload_mock.assert_called_once()
 
 
-async def test_script_del_skips_if_already_unloaded(hass: UniversalAssistant) -> None:
+async def test_script_del_skips_if_already_unloaded(hass: __HAC_KEEP__) -> None:
     """Test that __del__ does not call _async_unload if already called."""
     sequence = cv.SCRIPT_SCHEMA([{"event": "test_event"}])
     script_obj = script.Script(hass, sequence, "Test Name", "test_domain")
@@ -7971,7 +7971,7 @@ async def test_script_del_skips_if_already_unloaded(hass: UniversalAssistant) ->
     unload_mock.assert_not_called()
 
 
-async def test_async_unload_stops_running_script(hass: UniversalAssistant) -> None:
+async def test_async_unload_stops_running_script(hass: __HAC_KEEP__) -> None:
     """Test that async_unload stops in-flight runs and unloads the script."""
     sequence = cv.SCRIPT_SCHEMA(
         [
@@ -7991,7 +7991,7 @@ async def test_async_unload_stops_running_script(hass: UniversalAssistant) -> No
     assert script_obj._unloaded
 
 
-async def test_async_unload_removes_from_data_scripts(hass: UniversalAssistant) -> None:
+async def test_async_unload_removes_from_data_scripts(hass: __HAC_KEEP__) -> None:
     """Test that async_unload removes the script from hass.data[DATA_SCRIPTS]."""
     sequence = cv.SCRIPT_SCHEMA([{"event": "test_event"}])
     script_obj = script.Script(hass, sequence, "Test Name", "test_domain")
@@ -8005,7 +8005,7 @@ async def test_async_unload_removes_from_data_scripts(hass: UniversalAssistant) 
 
 
 async def test_async_unload_non_top_level_does_not_touch_data_scripts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that async_unload on a non-top-level script doesn't touch DATA_SCRIPTS."""
     sequence = cv.SCRIPT_SCHEMA([{"event": "test_event"}])
@@ -8022,7 +8022,7 @@ async def test_async_unload_non_top_level_does_not_touch_data_scripts(
     assert len(all_scripts) == count_before
 
 
-async def test_async_run_raises_if_unloaded(hass: UniversalAssistant) -> None:
+async def test_async_run_raises_if_unloaded(hass: __HAC_KEEP__) -> None:
     """Test that async_run raises RuntimeError if the script has been unloaded."""
     sequence = cv.SCRIPT_SCHEMA([{"event": "test_event"}])
     script_obj = script.Script(hass, sequence, "Test Name", "test_domain")
@@ -8036,7 +8036,7 @@ async def test_async_run_raises_if_unloaded(hass: UniversalAssistant) -> None:
 
 
 async def test_async_unload_blocks_new_runs_during_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that new runs are rejected once unload has started.
 

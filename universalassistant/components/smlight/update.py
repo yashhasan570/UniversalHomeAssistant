@@ -16,8 +16,8 @@ from universalassistant.components.update import (
     UpdateEntityFeature,
 )
 from universalassistant.const import CONF_HOST, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, ZWAVE_TYPES
@@ -59,7 +59,7 @@ ZB_UPDATE_ENTITY = SmUpdateEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -255,7 +255,7 @@ class SmUpdateEntity(SmEntity, UpdateEntity):
     def _update_failed(self, event: MessageEvent) -> None:
         self._update_done()
         self.coordinator.in_progress = False
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="firmware_update_failed",
             translation_placeholders={
@@ -297,7 +297,7 @@ class SmUpdateEntity(SmEntity, UpdateEntity):
                             await self.coordinator.async_refresh()
                             await asyncio.sleep(1)
                 except TimeoutError as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="reboot_timeout",
                         translation_placeholders={

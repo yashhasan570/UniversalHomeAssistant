@@ -9,12 +9,12 @@ from uhooapi.errors import ForbiddenError, UhooError, UnauthorizedError
 from universalassistant.components.uhoo.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_user_flow(
-    hass: UniversalAssistant, mock_uhoo_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_uhoo_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test a complete user flow."""
     result = await hass.config_entries.flow.async_init(
@@ -34,7 +34,7 @@ async def test_user_flow(
 
 
 async def test_user_duplicate_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test duplicate entry aborts."""
     mock_config_entry.add_to_hass(hass)
@@ -61,7 +61,7 @@ async def test_user_duplicate_entry(
     ],
 )
 async def test_user_flow_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_uhoo_client: AsyncMock,
     exception: Exception,
     error_type: str,
@@ -97,7 +97,7 @@ async def test_user_flow_exceptions(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_uhoo_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -128,7 +128,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_uhoo_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

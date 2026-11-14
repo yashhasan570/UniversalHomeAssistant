@@ -9,7 +9,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.radarr.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_SOURCE, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -26,7 +26,7 @@ from . import (
 )
 
 
-async def test_show_user_form(hass: UniversalAssistant) -> None:
+async def test_show_user_form(hass: __HAC_KEEP__) -> None:
     """Test that the user set up form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -38,7 +38,7 @@ async def test_show_user_form(hass: UniversalAssistant) -> None:
 
 
 async def test_cannot_connect(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we show user form on connection error."""
     mock_connection_error(aioclient_mock)
@@ -65,7 +65,7 @@ async def test_cannot_connect(
 
 
 async def test_invalid_auth(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we show user form on invalid auth."""
     mock_connection_invalid_auth(aioclient_mock)
@@ -88,7 +88,7 @@ async def test_invalid_auth(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_wrong_app(hass: UniversalAssistant) -> None:
+async def test_wrong_app(hass: __HAC_KEEP__) -> None:
     """Test we show user form on wrong app."""
     with patch(
         "universalassistant.components.radarr.config_flow.RadarrClient.async_try_zeroconf",
@@ -119,7 +119,7 @@ async def test_wrong_app(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zero_conf_failure(hass: UniversalAssistant) -> None:
+async def test_zero_conf_failure(hass: __HAC_KEEP__) -> None:
     """Test we show user form on api key retrieval failure."""
     with patch(
         "universalassistant.components.radarr.config_flow.RadarrClient.async_try_zeroconf",
@@ -151,7 +151,7 @@ async def test_zero_conf_failure(hass: UniversalAssistant) -> None:
 
 
 async def test_unknown_error(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test we show user form on unknown error."""
     with patch(
@@ -179,7 +179,7 @@ async def test_unknown_error(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zero_conf(hass: UniversalAssistant) -> None:
+async def test_zero_conf(hass: __HAC_KEEP__) -> None:
     """Test the manual flow for zero config."""
     with (
         patch(
@@ -215,7 +215,7 @@ async def test_zero_conf(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_url_rewrite(
-    hass: UniversalAssistant, input_url: str, expected_url: str
+    hass: __HAC_KEEP__, input_url: str, expected_url: str
 ) -> None:
     """Test auth flow url rewrite."""
     with (
@@ -238,7 +238,7 @@ async def test_url_rewrite(
 
 @pytest.mark.freeze_time("2021-12-03 00:00:00+00:00")
 async def test_full_reauth_flow_implementation(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the manual reauth flow from start to finish."""
     entry = await setup_integration(hass, aioclient_mock)
@@ -269,7 +269,7 @@ async def test_full_reauth_flow_implementation(
 
 
 async def test_full_user_flow_implementation(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the full manual user flow from start to finish."""
     mock_connection(aioclient_mock)

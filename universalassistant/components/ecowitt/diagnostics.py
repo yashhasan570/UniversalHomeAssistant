@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
 from . import EcowittConfigEntry
@@ -10,7 +10,7 @@ from .const import DOMAIN
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, entry: EcowittConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: EcowittConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device entry."""
     ecowitt = entry.runtime_data

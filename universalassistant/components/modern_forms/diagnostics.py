@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import ModernFormsConfigEntry
 
@@ -15,7 +15,7 @@ REDACT_DEVICE_STATUS = {"name", "schedule", "user_data"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ModernFormsConfigEntry
+    hass: __HAC_KEEP__, entry: ModernFormsConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

@@ -6,5 +6,5 @@ import os
 
 @cache
 def is_official_image() -> bool:
-    """Return True if Universal Universal Home Assistant is running in an official container."""
+    """Return True if __HA_KEEP__ is running in an official container."""
     return os.path.isfile("/OFFICIAL_IMAGE")

@@ -1,6 +1,6 @@
-"""Universal Universal Home Assistant Pylint plugin package.
+"""__HA_KEEP__ Pylint plugin package.
 
-Registers all Universal Universal Home Assistant-specific checkers with pylint.
+Registers all __HA_KEEP__-specific checkers with pylint.
 Checker modules are auto-discovered from the ``checkers`` subpackage —
 any module that defines a ``register(linter)`` function will be loaded.
 """
@@ -15,7 +15,7 @@ from pylint_universal_assistant import checkers
 
 
 def register(linter: PyLinter) -> None:
-    """Register all Universal Universal Home Assistant checkers which have not been registered yet."""
+    """Register all __HA_KEEP__ checkers which have not been registered yet."""
     existing_checker_types: set[type] = {
         type(checker)
         for checkers_list in linter._checkers.values()  # noqa: SLF001

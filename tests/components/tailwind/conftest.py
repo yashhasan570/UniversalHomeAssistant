@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_fixture
 
 from universalassistant.components.tailwind.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -62,7 +62,7 @@ def mock_tailwind(device_fixture: str) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tailwind: MagicMock,
 ) -> MockConfigEntry:

@@ -13,7 +13,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.litellm.const import CONF_PROMPT, DOMAIN
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_MODEL, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
@@ -56,7 +56,7 @@ def conversation_subentry_data(enable_assist: bool) -> dict[str, Any]:
 
 @pytest.fixture
 def mock_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     conversation_subentry_data: dict[str, Any],
 ) -> MockConfigEntry:
     """Mock a config entry."""
@@ -127,6 +127,6 @@ def mock_models() -> Generator[AsyncMock]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_ha(hass: UniversalAssistant) -> None:
-    """Set up Universal Universal Home Assistant."""
+async def setup_ha(hass: __HAC_KEEP__) -> None:
+    """Set up __HA_KEEP__."""
     assert await async_setup_component(hass, "universalassistant", {})

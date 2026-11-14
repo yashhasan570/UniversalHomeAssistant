@@ -24,8 +24,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_owproxy_mock_devices
@@ -41,7 +41,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -57,7 +57,7 @@ async def test_switches(
 @pytest.mark.parametrize("device_id", ["05.111111111111"])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switches_delayed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_id: str,
@@ -84,7 +84,7 @@ async def test_switches_delayed(
 @pytest.mark.parametrize("device_id", ["05.111111111111"])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_toggle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_id: str,
@@ -123,7 +123,7 @@ async def test_switch_toggle(
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_write_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_id: str,
@@ -135,7 +135,7 @@ async def test_switch_write_failure(
     await hass.async_block_till_done()
 
     owproxy.return_value.write.side_effect = OWServerConnectionError
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,

@@ -15,8 +15,8 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_webostv
@@ -26,7 +26,7 @@ SWITCH_ENTITY_ID = f"{SWITCH_DOMAIN}.lg_webos_tv_model_screen"
 
 
 async def test_screen_switch_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: AsyncMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_screen_switch_setup(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_screen_switch_state_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: AsyncMock,
 ) -> None:
     """Test screen switch state updates from client."""
@@ -80,7 +80,7 @@ async def test_screen_switch_state_updates(
     ],
 )
 async def test_screen_switch_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: AsyncMock,
     service: str,
     screen_state: bool,
@@ -101,7 +101,7 @@ async def test_screen_switch_commands(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_screen_switch_command_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: AsyncMock,
     service: str,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_screen_switch_command_error(
     await setup_webostv(hass)
     client.set_screen_state.side_effect = WebOsTvCommandError("Communication error")
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,
@@ -124,7 +124,7 @@ async def test_screen_switch_command_error(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_screen_switch_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: AsyncMock,
     service: str,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_screen_switch_not_supported(
         "404 no such service or method"
     )
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,

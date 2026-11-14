@@ -16,14 +16,14 @@ from pythonkuma import (
 
 from universalassistant.components.uptime_kuma.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_entry_setup_unload(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test integration setup and unload."""
 
@@ -47,7 +47,7 @@ async def test_entry_setup_unload(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pythonkuma: AsyncMock,
     exception: Exception,
@@ -64,7 +64,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pythonkuma: AsyncMock,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_config_entry_error(
 
 
 async def test_config_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pythonkuma: AsyncMock,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_config_reauth_flow(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_remove_stale_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -141,7 +141,7 @@ async def test_remove_stale_device(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_remove_current_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -170,7 +170,7 @@ async def test_remove_current_device(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_remove_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -199,7 +199,7 @@ async def test_remove_entry_device(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_device_info_sw_version_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     mock_pythonkuma: AsyncMock,

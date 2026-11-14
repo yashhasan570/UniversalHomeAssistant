@@ -15,8 +15,8 @@ from universalassistant.components.switch import (
     SwitchEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -36,21 +36,21 @@ def _toggle_switch(device: VeSyncBaseDevice, *args: Any) -> Awaitable[bool]:
         return device.turn_on()
     if args and args[0] is False and hasattr(device, "turn_off"):
         return device.turn_off()
-    raise UniversalAssistantError("Device does not support toggling power.")
+    raise __HAC_KEEP__Error("Device does not support toggling power.")
 
 
 def _toggle_display(device: VeSyncBaseDevice, *args: Any) -> Awaitable[bool]:
     """Toggle display on."""
     if hasattr(device, "toggle_display"):
         return device.toggle_display(*args)
-    raise UniversalAssistantError("Device does not support toggling display.")
+    raise __HAC_KEEP__Error("Device does not support toggling display.")
 
 
 def _toggle_child_lock(device: VeSyncBaseDevice, *args: Any) -> Awaitable[bool]:
     """Toggle child lock on."""
     if hasattr(device, "toggle_child_lock"):
         return device.toggle_child_lock(*args)
-    raise UniversalAssistantError("Device does not support toggling child lock.")
+    raise __HAC_KEEP__Error("Device does not support toggling child lock.")
 
 
 def _toggle_auto_stop(device: VeSyncBaseDevice, *args: Any) -> Awaitable[bool]:
@@ -59,7 +59,7 @@ def _toggle_auto_stop(device: VeSyncBaseDevice, *args: Any) -> Awaitable[bool]:
         case VeSyncHumidifier() as sw if hasattr(sw, "toggle_automatic_stop"):
             return sw.toggle_automatic_stop(*args)
         case _:
-            raise UniversalAssistantError("Device does not support toggling automatic stop.")
+            raise __HAC_KEEP__Error("Device does not support toggling automatic stop.")
 
 
 def _toggle_drying_mode_on_power_off(
@@ -70,7 +70,7 @@ def _toggle_drying_mode_on_power_off(
         case VeSyncHumidifier() as sw if hasattr(sw, "toggle_drying_mode"):
             return sw.toggle_drying_mode(target)
         case _:
-            raise UniversalAssistantError("Device does not support toggling drying mode.")
+            raise __HAC_KEEP__Error("Device does not support toggling drying mode.")
 
 
 def _toggle_mute(device: VeSyncBaseDevice, target: bool) -> Awaitable[bool]:
@@ -79,7 +79,7 @@ def _toggle_mute(device: VeSyncBaseDevice, target: bool) -> Awaitable[bool]:
         case VeSyncFanBase() as sw if hasattr(sw, "toggle_mute"):
             return sw.toggle_mute(target)
         case _:
-            raise UniversalAssistantError("Device does not support toggling mute.")
+            raise __HAC_KEEP__Error("Device does not support toggling mute.")
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -157,7 +157,7 @@ SENSOR_DESCRIPTIONS: Final[tuple[VeSyncSwitchEntityDescription, ...]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VesyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -227,8 +227,8 @@ class VeSyncSwitchEntity(SwitchEntity, VeSyncBaseEntity[VeSyncBaseDevice]):
         """Turn the entity off."""
         if not await self.entity_description.off_fn(self.device):
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Unknown error turning off device, no response.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Unknown error turning off device, no response.")
 
         self.async_write_ha_state()
 
@@ -237,7 +237,7 @@ class VeSyncSwitchEntity(SwitchEntity, VeSyncBaseEntity[VeSyncBaseDevice]):
         """Turn the entity on."""
         if not await self.entity_description.on_fn(self.device):
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Unknown error turning on device, no response.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Unknown error turning on device, no response.")
 
         self.async_write_ha_state()

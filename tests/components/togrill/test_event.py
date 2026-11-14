@@ -10,7 +10,7 @@ from togrill_bluetooth.packets import PacketA1Notify, PacketA5Notify
 
 from universalassistant.components.event import EventEntityStateAttribute
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import slugify
 
@@ -27,7 +27,7 @@ from . import TOGRILL_SERVICE_INFO, setup_entry
     ],
 )
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,
@@ -52,7 +52,7 @@ async def test_setup(
     [pytest.param(message, id=message.name) for message in PacketA5Notify.Message],
 )
 async def test_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_entry: MockConfigEntry,

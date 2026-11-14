@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
 from universalassistant.const import STATE_OFF, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_mikrotik_entry
@@ -29,7 +29,7 @@ ROUTERBOARD_UPDATE_ENTITY_ID = "update.mikrotik_routerboard"
     ],
 )
 async def test_update_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_kwargs: dict[str, Any],
@@ -59,7 +59,7 @@ async def test_update_entities(
     ],
 )
 async def test_update_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_api: MagicMock,
     setup_kwargs: dict[str, Any],
     entity_id: str,
@@ -79,7 +79,7 @@ async def test_update_install(
 
 
 async def test_firmware_update_install_with_backup(
-    hass: UniversalAssistant, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_api: MagicMock
 ) -> None:
     """Test installing a RouterOS firmware update with a backup beforehand."""
     await setup_mikrotik_entry(hass, **UPDATE_DATA[0])
@@ -103,7 +103,7 @@ async def test_firmware_update_install_with_backup(
     ],
 )
 async def test_no_update_available(
-    hass: UniversalAssistant, entity_id: str, expected_version: str
+    hass: __HAC_KEEP__, entity_id: str, expected_version: str
 ) -> None:
     """Test update entities report no update available by default."""
     update_data = deepcopy(UPDATE_DATA[0])

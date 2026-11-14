@@ -24,7 +24,7 @@ from universalassistant.components.esphome import repairs
 from universalassistant.components.esphome.const import DOMAIN
 from universalassistant.components.esphome.manager import DEVICE_CONFLICT_ISSUE_FORMAT
 from universalassistant.const import STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import (
     device_registry as dr,
@@ -35,7 +35,7 @@ from universalassistant.helpers import (
 from .conftest import MockESPHomeDeviceType
 
 
-async def test_create_fix_flow_raises_on_unknown_issue_id(hass: UniversalAssistant) -> None:
+async def test_create_fix_flow_raises_on_unknown_issue_id(hass: __HAC_KEEP__) -> None:
     """Test create_fix_flow raises on unknown issue_id."""
 
     with pytest.raises(ValueError):
@@ -43,7 +43,7 @@ async def test_create_fix_flow_raises_on_unknown_issue_id(hass: UniversalAssista
 
 
 async def test_device_conflict_manual(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -111,7 +111,7 @@ async def test_device_conflict_manual(
 
 
 async def test_device_conflict_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -276,7 +276,7 @@ async def test_device_conflict_migration(
 
 
 async def test_device_conflict_issue_deleted_on_entry_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,

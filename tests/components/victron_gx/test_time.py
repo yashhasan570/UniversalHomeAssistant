@@ -8,14 +8,14 @@ from victron_mqtt.testing import finalize_injection, inject_message
 
 from universalassistant.components.victron_gx.const import DOMAIN
 from universalassistant.components.victron_gx.time import VictronTime
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import MOCK_INSTALLATION_ID
 
 
 async def test_victron_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -77,7 +77,7 @@ def test_victron_time_to_time_none() -> None:
 
 
 async def test_victron_time_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:

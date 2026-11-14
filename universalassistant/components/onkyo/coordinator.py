@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, cast, override
 
 from aioonkyo import Kind, Status, Zone, command, query, status
 
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
@@ -53,7 +53,7 @@ class ChannelMutingCoordinator(DataUpdateCoordinator[ChannelMutingData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: OnkyoConfigEntry,
         manager: ReceiverManager,
     ) -> None:

@@ -116,7 +116,7 @@ rules:
   docs-use-cases:
     status: todo
     comment: |
-      Document use cases for sending Universal Universal Home Assistant state changes to Splunk.
+      Document use cases for sending __HA_KEEP__ state changes to Splunk.
   dynamic-devices:
     status: exempt
     comment: |

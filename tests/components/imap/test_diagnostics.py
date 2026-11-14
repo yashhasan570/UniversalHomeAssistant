@@ -15,7 +15,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components import imap
 from universalassistant.components.sensor import SensorStateClass
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .const import TEST_FETCH_RESPONSE_TEXT_PLAIN, TEST_SEARCH_RESPONSE
@@ -26,7 +26,7 @@ from .test_config_flow import MOCK_CONFIG
 @pytest.mark.parametrize("imap_fetch", [TEST_FETCH_RESPONSE_TEXT_PLAIN])
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
     hass_client: ClientSessionGenerator,
 ) -> None:

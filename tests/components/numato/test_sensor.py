@@ -4,7 +4,7 @@ import pytest
 
 from universalassistant.components.numato import DOMAIN
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import discovery
 from universalassistant.setup import async_setup_component
 
@@ -16,7 +16,7 @@ MOCKUP_ENTITY_IDS = {
 
 
 async def test_failing_setups_no_entities(
-    hass: UniversalAssistant, numato_fixture, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, numato_fixture, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """When port setup fails, no entity shall be created."""
     monkeypatch.setattr(numato_fixture.NumatoDeviceMock, "setup", mockup_raise)
@@ -27,7 +27,7 @@ async def test_failing_setups_no_entities(
 
 
 async def test_failing_sensor_update(
-    hass: UniversalAssistant, numato_fixture, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, numato_fixture, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test condition when a sensor update fails."""
     monkeypatch.setattr(numato_fixture.NumatoDeviceMock, "adc_read", mockup_raise)
@@ -37,7 +37,7 @@ async def test_failing_sensor_update(
 
 
 async def test_sensor_setup_without_discovery_info(
-    hass: UniversalAssistant, config, numato_fixture
+    hass: __HAC_KEEP__, config, numato_fixture
 ) -> None:
     """Test handling of empty discovery_info."""
     numato_fixture.discover()

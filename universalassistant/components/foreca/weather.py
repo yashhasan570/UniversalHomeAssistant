@@ -21,8 +21,8 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, ServiceResponse, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceResponse, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 from universalassistant.util.json import JsonValueType
@@ -39,7 +39,7 @@ _THREE_HOUR_PERIODS = 112
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ForecaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -52,9 +52,9 @@ async def async_setup_entry(
 
 
 def _daily_to_forecast(day: DailyForecast) -> Forecast | None:
-    """Convert a Foreca daily forecast to a Universal Universal Home Assistant forecast."""
+    """Convert a Foreca daily forecast to a __HA_KEEP__ forecast."""
     # The API dates a day rather than timing it, so anchor it to the start of
-    # that day where Universal Universal Home Assistant is: midnight UTC lands on the day before
+    # that day where __HA_KEEP__ is: midnight UTC lands on the day before
     # for anyone west of it.
     if (date := dt_util.parse_date(day.date or "")) is None:
         return None
@@ -77,7 +77,7 @@ def _daily_to_forecast(day: DailyForecast) -> Forecast | None:
 
 
 def _hourly_to_forecast(hour: HourlyForecast) -> Forecast | None:
-    """Convert a Foreca hourly forecast to a Universal Universal Home Assistant forecast."""
+    """Convert a Foreca hourly forecast to a __HA_KEEP__ forecast."""
     if (timestamp := dt_util.parse_datetime(hour.time or "")) is None:
         return None
     return Forecast(
@@ -230,7 +230,7 @@ class ForecaWeather(
         }
 
     def _hourly_extra(self, hour: HourlyForecast) -> dict[str, JsonValueType] | None:
-        """Return an hour's values that a Universal Universal Home Assistant forecast cannot hold."""
+        """Return an hour's values that a __HA_KEEP__ forecast cannot hold."""
         if (timestamp := dt_util.parse_datetime(hour.time or "")) is None:
             return None
         return {"datetime": timestamp.isoformat(), **self._hourly_extra_values(hour)}
@@ -247,7 +247,7 @@ class ForecaWeather(
         }
 
     def _daily_extra(self, day: DailyForecast) -> dict[str, JsonValueType] | None:
-        """Return a day's values that a Universal Universal Home Assistant forecast cannot hold."""
+        """Return a day's values that a __HA_KEEP__ forecast cannot hold."""
         if (date := dt_util.parse_date(day.date or "")) is None:
             return None
         return {
@@ -283,7 +283,7 @@ class ForecaWeather(
                 rounding=0,
             )
         except ForecaError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="three_hour_forecast_error",
             ) from err

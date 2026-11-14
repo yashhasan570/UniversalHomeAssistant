@@ -4,10 +4,10 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.rhasspy.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_load_unload_config_entry(hass: UniversalAssistant) -> None:
+async def test_load_unload_config_entry(hass: __HAC_KEEP__) -> None:
     """Test the Rhasspy configuration entry loading/unloading."""
     mock_config_entry = MockConfigEntry(
         title="Rhasspy",

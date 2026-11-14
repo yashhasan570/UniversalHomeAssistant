@@ -17,7 +17,7 @@ from pytest_universalassistant.components.bluetooth import (
 from universalassistant.components.airthings_ble.const import DOMAIN
 from universalassistant.components.bluetooth.models import BluetoothServiceInfoBleak
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import (
     CONNECTION_BLUETOOTH,
     DeviceEntry,
@@ -305,7 +305,7 @@ CORENTIUM_HOME_2_DEVICE_INFO = AirthingsDevice(
 
 
 def create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_info: BluetoothServiceInfoBleak,
     device_info: AirthingsDevice,
 ) -> MockConfigEntry:

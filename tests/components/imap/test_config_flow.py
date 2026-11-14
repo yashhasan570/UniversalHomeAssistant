@@ -20,7 +20,7 @@ from universalassistant.components.imap.const import (
 )
 from universalassistant.components.imap.errors import InvalidAuth, InvalidFolder
 from universalassistant.const import CONF_NAME, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 MOCK_CONFIG = {
@@ -55,7 +55,7 @@ def _patch_imap_success() -> Generator[None]:
         yield
 
 
-async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -81,7 +81,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> No
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_entry_already_configured(hass: UniversalAssistant) -> None:
+async def test_entry_already_configured(hass: __HAC_KEEP__) -> None:
     """Test aborting if the entry is already configured."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG)
     entry.add_to_hass(hass)
@@ -109,7 +109,7 @@ async def test_entry_already_configured(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "already_configured"
 
 
-async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -150,7 +150,7 @@ async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_form_cannot_connect(
-    hass: UniversalAssistant, exc: Exception, error: str
+    hass: __HAC_KEEP__, exc: Exception, error: str
 ) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
@@ -183,7 +183,7 @@ async def test_form_cannot_connect(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_charset(hass: UniversalAssistant) -> None:
+async def test_form_invalid_charset(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid charset."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -212,7 +212,7 @@ async def test_form_invalid_charset(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_folder(hass: UniversalAssistant) -> None:
+async def test_form_invalid_folder(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid folder selection."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -238,7 +238,7 @@ async def test_form_invalid_folder(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_invalid_search(hass: UniversalAssistant) -> None:
+async def test_form_invalid_search(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid search."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -273,7 +273,7 @@ async def test_form_invalid_search(hass: UniversalAssistant) -> None:
     ids=["NUL", "CR", "LF"],
 )
 async def test_form_invalid_characters(
-    hass: UniversalAssistant, key: str, value: str
+    hass: __HAC_KEEP__, key: str, value: str
 ) -> None:
     """Test we reject input that aioimaplib refuses to send to the server."""
     result = await hass.config_entries.flow.async_init(
@@ -300,7 +300,7 @@ async def test_form_invalid_characters(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_success(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_reauth_success(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we can reauth."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -336,7 +336,7 @@ async def test_reauth_success(hass: UniversalAssistant, mock_setup_entry: AsyncM
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_reauth_failed(hass: UniversalAssistant) -> None:
+async def test_reauth_failed(hass: __HAC_KEEP__) -> None:
     """Test we can reauth."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -378,7 +378,7 @@ async def test_reauth_failed(hass: UniversalAssistant) -> None:
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_reauth_failed_conn_error(hass: UniversalAssistant) -> None:
+async def test_reauth_failed_conn_error(hass: __HAC_KEEP__) -> None:
     """Test we can reauth."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -417,7 +417,7 @@ async def test_reauth_failed_conn_error(hass: UniversalAssistant) -> None:
     assert result3["reason"] == "reauth_successful"
 
 
-async def test_options_form(hass: UniversalAssistant) -> None:
+async def test_options_form(hass: __HAC_KEEP__) -> None:
     """Test the options form."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG)
@@ -463,7 +463,7 @@ async def test_options_form(hass: UniversalAssistant) -> None:
 
 
 async def test_options_form_reset_template(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test resetting the custom_event_data_template option."""
 
@@ -543,7 +543,7 @@ async def test_options_form_reset_template(
     assert "custom_event_data_template" not in entry.data
 
 
-async def test_key_options_in_options_form(hass: UniversalAssistant) -> None:
+async def test_key_options_in_options_form(hass: __HAC_KEEP__) -> None:
     """Test we cannot change options if that would cause duplicates."""
 
     entry1 = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG)
@@ -616,7 +616,7 @@ async def test_key_options_in_options_form(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_options_flow_when_connection_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     test_options: dict[str, str],
     assert_result: FlowResultType,
 ) -> None:
@@ -660,7 +660,7 @@ async def test_options_flow_when_connection_fails(
 
 
 @pytest.mark.parametrize("key", [CONF_FOLDER, CONF_SEARCH])
-async def test_options_form_invalid_characters(hass: UniversalAssistant, key: str) -> None:
+async def test_options_form_invalid_characters(hass: __HAC_KEEP__, key: str) -> None:
     """Test the options flow rejects input that aioimaplib refuses to send."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG)
     entry.add_to_hass(hass)
@@ -692,7 +692,7 @@ async def test_options_form_invalid_characters(hass: UniversalAssistant, key: st
 @pytest.mark.parametrize("cipher_list", ["python_default", "modern", "intermediate"])
 @pytest.mark.parametrize("verify_ssl", [False, True])
 async def test_config_flow_with_cipherlist_and_ssl_verify(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, cipher_list: str, verify_ssl: True
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, cipher_list: str, verify_ssl: True
 ) -> None:
     """Test with alternate cipherlist or disabled ssl verification."""
     config = MOCK_CONFIG.copy()
@@ -725,7 +725,7 @@ async def test_config_flow_with_cipherlist_and_ssl_verify(
 
 @pytest.mark.parametrize("event_message_data", [[], ["headers"], ["text", "headers"]])
 async def test_config_flow_with_event_message_data(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, event_message_data: list
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, event_message_data: list
 ) -> None:
     """Test with different message data."""
     config = MOCK_CONFIG.copy()
@@ -756,7 +756,7 @@ async def test_config_flow_with_event_message_data(
 
 
 async def test_cipher_settings_in_config_flow(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test cipher settings in config flow."""
     config = MOCK_CONFIG.copy()

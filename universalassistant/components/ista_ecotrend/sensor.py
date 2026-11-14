@@ -23,7 +23,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfEnergy, UnitOfVolume
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import (
     DeviceEntry,
     DeviceEntryType,
@@ -155,7 +155,7 @@ SENSOR_DESCRIPTIONS: tuple[IstaSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: IstaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

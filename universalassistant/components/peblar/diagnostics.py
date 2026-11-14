@@ -2,13 +2,13 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import PeblarConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: PeblarConfigEntry
+    hass: __HAC_KEEP__, entry: PeblarConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     runtime_data = entry.runtime_data

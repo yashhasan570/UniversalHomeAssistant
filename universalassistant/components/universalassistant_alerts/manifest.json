@@ -1,6 +1,6 @@
 {
   "domain": "universalassistant_alerts",
-  "name": "Universal Universal Home Assistant Alerts",
+  "name": "__HA_KEEP__ Alerts",
   "after_dependencies": ["hassio"],
   "codeowners": ["@universal-assistant/core"],
   "config_flow": false,

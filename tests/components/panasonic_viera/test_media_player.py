@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.dt import utcnow
 
 from .conftest import MOCK_CONFIG_DATA, MOCK_DEVICE_INFO, MOCK_INPUTS
@@ -34,7 +34,7 @@ ENTITY_ID = "media_player.panasonic_viera_tv"
 
 
 async def test_media_player_handle_URLerror(
-    hass: UniversalAssistant, init_integration: MockConfigEntry, mock_remote: Mock
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry, mock_remote: Mock
 ) -> None:
     """Test remote handle URLError as Unavailable."""
 
@@ -52,7 +52,7 @@ async def test_media_player_handle_URLerror(
 
 
 async def test_media_player_handle_HTTPError(
-    hass: UniversalAssistant, init_integration: MockConfigEntry, mock_remote: Mock
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry, mock_remote: Mock
 ) -> None:
     """Test remote handle HTTPError as Off."""
 
@@ -70,7 +70,7 @@ async def test_media_player_handle_HTTPError(
 
 
 async def test_media_player_select_source(
-    hass: UniversalAssistant, init_integration: MockConfigEntry, mock_remote: Mock
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry, mock_remote: Mock
 ) -> None:
     """Test the input sources are exposed and can be selected."""
 
@@ -103,7 +103,7 @@ async def test_media_player_select_source(
     ],
 )
 async def test_media_player_select_source_unsupported(
-    hass: UniversalAssistant, mock_remote: Mock, probe_error: Exception
+    hass: __HAC_KEEP__, mock_remote: Mock, probe_error: Exception
 ) -> None:
     """Test a TV without the PAC service does not offer source selection."""
     mock_remote.list_inputs = Mock(side_effect=probe_error)
@@ -133,7 +133,7 @@ async def test_media_player_select_source_unsupported(
 
 
 async def test_media_player_volume_set(
-    hass: UniversalAssistant, init_integration: MockConfigEntry, mock_remote: Mock
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry, mock_remote: Mock
 ) -> None:
     """Test the volume can be set."""
 

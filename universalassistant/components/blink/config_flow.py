@@ -16,7 +16,7 @@ from universalassistant.config_entries import (
 )
 from universalassistant.const import CONF_PASSWORD, CONF_PIN, CONF_USERNAME
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN, LEGACY_HARDWARE_ID
@@ -238,5 +238,5 @@ class BlinkConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_create_entry(title=DOMAIN, data=self.auth.login_attributes)
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

@@ -6,12 +6,12 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_load_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test loading and unloading the config entry."""
     assert mock_config_entry.state is ConfigEntryState.LOADED
@@ -30,7 +30,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_setup_retry_on_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pytouchline: MagicMock,
     method: str,

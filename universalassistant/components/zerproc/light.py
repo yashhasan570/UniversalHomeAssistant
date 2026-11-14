@@ -15,7 +15,7 @@ from universalassistant.components.light import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.event import async_track_time_interval
@@ -28,7 +28,7 @@ _LOGGER = logging.getLogger(__name__)
 DISCOVERY_INTERVAL = timedelta(seconds=60)
 
 
-async def discover_entities(hass: UniversalAssistant) -> list[ZerprocLight]:
+async def discover_entities(hass: __HAC_KEEP__) -> list[ZerprocLight]:
     """Attempt to discover new lights."""
     lights = await pyzerproc.discover()
 
@@ -48,7 +48,7 @@ async def discover_entities(hass: UniversalAssistant) -> list[ZerprocLight]:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

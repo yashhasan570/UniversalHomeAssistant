@@ -6,7 +6,7 @@ from psutil._ntuples import sdiskpart
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -18,7 +18,7 @@ from universalassistant.core import UniversalAssistant
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_disk_setup_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     mock_config_entry: MockConfigEntry,
@@ -41,7 +41,7 @@ async def test_disk_setup_failure(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_disk_util(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     mock_config_entry: MockConfigEntry,

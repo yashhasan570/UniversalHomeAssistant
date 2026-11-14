@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     API_DISCOVERY_BASIC_DEVICE_INFO,
@@ -63,7 +63,7 @@ async def test_setup_entry_stores_companion(
 
 
 async def test_setup_entry_fails(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test failed setup of entry."""
     config_entry.add_to_hass(hass)
@@ -78,7 +78,7 @@ async def test_setup_entry_fails(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test successful unload of entry."""
     assert config_entry_setup.state is ConfigEntryState.LOADED
@@ -89,7 +89,7 @@ async def test_unload_entry(
 
 @pytest.mark.parametrize("config_entry_version", [1])
 async def test_migrate_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test successful migration of entry data."""
     config_entry.add_to_hass(hass)

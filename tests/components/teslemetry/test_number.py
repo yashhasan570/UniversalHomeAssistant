@@ -28,8 +28,8 @@ from universalassistant.components.teslemetry.number import (
     TeslemetryChargeOnSolarLowerLimitNumberEntity,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -44,7 +44,7 @@ from .const import (
 )
 
 
-async def _async_enable_charge_on_solar_preview_feature(hass: UniversalAssistant) -> None:
+async def _async_enable_charge_on_solar_preview_feature(hass: __HAC_KEEP__) -> None:
     """Enable the Teslemetry charge-on-solar preview feature."""
     assert await async_setup_component(hass, "labs", {})
     await async_update_preview_feature(hass, DOMAIN, LABS_CHARGE_ON_SOLAR_FEATURE, True)
@@ -52,7 +52,7 @@ async def _async_enable_charge_on_solar_preview_feature(hass: UniversalAssistant
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_legacy: AsyncMock,
@@ -65,7 +65,7 @@ async def test_number(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_number_services(
-    hass: UniversalAssistant, mock_vehicle_data: AsyncMock
+    hass: __HAC_KEEP__, mock_vehicle_data: AsyncMock
 ) -> None:
     """Tests that the number services work."""
     mock_vehicle_data.return_value = VEHICLE_DATA_ALT
@@ -147,9 +147,9 @@ async def test_number_services(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("response", COMMAND_ERRORS)
 async def test_number_command_errors(
-    hass: UniversalAssistant, mock_vehicle_data: AsyncMock, response: dict
+    hass: __HAC_KEEP__, mock_vehicle_data: AsyncMock, response: dict
 ) -> None:
-    """Tests that vehicle command failures raise UniversalAssistantError."""
+    """Tests that vehicle command failures raise __HAC_KEEP__Error."""
     mock_vehicle_data.return_value = VEHICLE_DATA_ALT
     await setup_platform(hass, [Platform.NUMBER])
 
@@ -158,7 +158,7 @@ async def test_number_command_errors(
             "tesla_fleet_api.teslemetry.Vehicle.set_charging_amps",
             return_value=response,
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,
@@ -172,8 +172,8 @@ async def test_number_command_errors(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_number_command_exception(hass: UniversalAssistant) -> None:
-    """Tests that an energy command SDK exception raises UniversalAssistantError."""
+async def test_number_command_exception(hass: __HAC_KEEP__) -> None:
+    """Tests that an energy command SDK exception raises __HAC_KEEP__Error."""
     await setup_platform(hass, [Platform.NUMBER])
 
     with (
@@ -181,7 +181,7 @@ async def test_number_command_exception(hass: UniversalAssistant) -> None:
             "tesla_fleet_api.teslemetry.EnergySite.backup",
             side_effect=InvalidCommand,
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,
@@ -195,7 +195,7 @@ async def test_number_command_exception(hass: UniversalAssistant) -> None:
 
 
 async def test_number_streaming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
 ) -> None:
@@ -225,7 +225,7 @@ async def test_number_streaming(
 
 
 async def test_charge_on_solar_lower_limit_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test charge-on-solar lower limit is disabled by default."""
     await setup_platform(hass, [Platform.NUMBER])
@@ -234,7 +234,7 @@ async def test_charge_on_solar_lower_limit_disabled_by_default(
 
 
 async def test_charge_on_solar_lower_limit_enabled_by_labs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test charge-on-solar lower limit appears when Labs feature is enabled."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -247,7 +247,7 @@ async def test_charge_on_solar_lower_limit_enabled_by_labs(
 
 
 async def test_charge_on_solar_lower_limit_capped_by_charge_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the lower limit's max value tracks the current charge limit SOC."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -288,7 +288,7 @@ async def test_charge_on_solar_lower_limit_capped_by_charge_limit(
 
 
 async def test_charge_on_solar_lower_limit_capped_by_charge_limit_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_vehicle_data: AsyncMock,
     mock_legacy: AsyncMock,
@@ -326,7 +326,7 @@ async def test_charge_on_solar_lower_limit_capped_by_charge_limit_polling(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_old_firmware")
 async def test_charge_on_solar_lower_limit_old_firmware_follows_polled_charge_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test a stream-only vehicle on pre-streaming firmware is capped by the polled charge limit."""
@@ -376,7 +376,7 @@ async def test_charge_on_solar_lower_limit_old_firmware_follows_polled_charge_li
 
 
 async def test_charge_on_solar_lower_limit_restores_max_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the lower limit's max value survives a reload without new telemetry."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -407,7 +407,7 @@ async def test_charge_on_solar_lower_limit_restores_max_value(
 
 
 async def test_charge_on_solar_lower_limit_set_value_while_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setting the lower limit while charge-on-solar is off updates state only."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -434,7 +434,7 @@ async def test_charge_on_solar_lower_limit_set_value_while_disabled(
 
 
 async def test_charge_on_solar_lower_limit_set_value_while_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setting the lower limit while charge-on-solar is on sends the command."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -485,7 +485,7 @@ async def test_charge_on_solar_lower_limit_set_value_while_enabled(
 
 
 async def test_charge_on_solar_lower_limit_reaches_vehicle_when_switch_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test a number change still reaches the vehicle once the switch entity is registry-disabled."""
@@ -539,7 +539,7 @@ async def test_charge_on_solar_lower_limit_reaches_vehicle_when_switch_disabled(
 
 
 async def test_charge_on_solar_lower_limit_uses_stored_state_when_switch_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -592,7 +592,7 @@ async def test_charge_on_solar_lower_limit_uses_stored_state_when_switch_disable
 
 
 async def test_charge_on_solar_lower_limit_uses_live_charge_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the lower limit command carries the live charge limit, not a stale cache."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -654,7 +654,7 @@ async def test_charge_on_solar_lower_limit_uses_live_charge_limit(
 
 
 async def test_charge_on_solar_lower_limit_rejects_stale_max_while_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the lower limit's advertised max tracks a locally lowered charge limit."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -692,7 +692,7 @@ async def test_charge_on_solar_lower_limit_rejects_stale_max_while_disabled(
 
 
 async def test_charge_on_solar_switch_and_lower_limit_are_serialized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a concurrent switch turn-on and lower-limit set don't diverge from the vehicle."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -783,7 +783,7 @@ async def test_charge_on_solar_switch_and_lower_limit_are_serialized(
 
 
 async def test_charge_on_solar_lower_limit_set_value_command_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a failed command leaves the previous value intact, not the optimistic one."""
     await _async_enable_charge_on_solar_preview_feature(hass)
@@ -814,7 +814,7 @@ async def test_charge_on_solar_lower_limit_set_value_command_failure(
             "tesla_fleet_api.teslemetry.Vehicle.charge_on_solar",
             side_effect=InvalidCommand,
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             NUMBER_DOMAIN,
@@ -832,7 +832,7 @@ async def test_charge_on_solar_lower_limit_set_value_command_failure(
 
 
 async def test_disable_charge_on_solar_preview_removes_lower_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test disabling preview removes the lower limit from entity registry."""
@@ -855,7 +855,7 @@ async def test_disable_charge_on_solar_preview_removes_lower_limit(
 
 
 async def test_charge_on_solar_lower_limit_removed_without_command_scope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_metadata: MagicMock,
 ) -> None:
@@ -881,10 +881,10 @@ async def test_charge_on_solar_lower_limit_removed_without_command_scope(
     ],
 )
 async def test_charge_on_solar_locally_set_charge_limit_survives_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     charge_limit_echo: tuple[int, ...],
 ) -> None:
-    """Test a charge limit set from Universal Universal Home Assistant survives a reload, echoed or not."""
+    """Test a charge limit set from __HA_KEEP__ survives a reload, echoed or not."""
     await _async_enable_charge_on_solar_preview_feature(hass)
 
     with patch(
@@ -940,9 +940,9 @@ async def test_charge_on_solar_locally_set_charge_limit_survives_reload(
 
 
 async def test_charge_on_solar_switch_uses_locally_set_charge_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
-    """Test the switch sends a charge limit set from Universal Universal Home Assistant as the upper bound."""
+    """Test the switch sends a charge limit set from __HA_KEEP__ as the upper bound."""
     await _async_enable_charge_on_solar_preview_feature(hass)
 
     with patch(
@@ -989,7 +989,7 @@ async def test_charge_on_solar_switch_uses_locally_set_charge_limit(
 
 @pytest.mark.usefixtures("mock_legacy")
 async def test_charge_on_solar_unknown_polled_charge_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vehicle_data: AsyncMock,
 ) -> None:
     """Test a polled vehicle without a charge limit leaves the upper bound unset."""

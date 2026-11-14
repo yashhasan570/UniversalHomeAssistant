@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockUser, async_fire_time_changed
 
 from universalassistant.components import configurator
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.exceptions import Unauthorized
 from universalassistant.util import dt as dt_util
 
@@ -17,7 +17,7 @@ from universalassistant.util import dt as dt_util
 @pytest.mark.parametrize(
     "ignore_missing_translations", ["component.configurator.services.configure."]
 )
-async def test_request_least_info(hass: UniversalAssistant) -> None:
+async def test_request_least_info(hass: __HAC_KEEP__) -> None:
     """Test request config with least amount of data."""
     request_id = configurator.async_request_config(hass, "Test Request", lambda _: None)
 
@@ -38,7 +38,7 @@ async def test_request_least_info(hass: UniversalAssistant) -> None:
 @pytest.mark.parametrize(
     "ignore_missing_translations", ["component.configurator.services.configure."]
 )
-async def test_request_all_info(hass: UniversalAssistant) -> None:
+async def test_request_all_info(hass: __HAC_KEEP__) -> None:
     """Test request config with all possible info."""
     exp_attr = {
         EntityStateAttribute.FRIENDLY_NAME: "Test Request",
@@ -75,7 +75,7 @@ async def test_request_all_info(hass: UniversalAssistant) -> None:
 @pytest.mark.parametrize(
     "ignore_missing_translations", ["component.configurator.services.configure."]
 )
-async def test_callback_called_on_configure(hass: UniversalAssistant) -> None:
+async def test_callback_called_on_configure(hass: __HAC_KEEP__) -> None:
     """Test if our callback gets called when configure service called."""
     calls = []
     request_id = configurator.async_request_config(
@@ -95,7 +95,7 @@ async def test_callback_called_on_configure(hass: UniversalAssistant) -> None:
 @pytest.mark.parametrize(
     "ignore_missing_translations", ["component.configurator.services.configure."]
 )
-async def test_state_change_on_notify_errors(hass: UniversalAssistant) -> None:
+async def test_state_change_on_notify_errors(hass: __HAC_KEEP__) -> None:
     """Test state change on notify errors."""
     request_id = configurator.async_request_config(hass, "Test Request", lambda _: None)
     error = "Oh no bad bad bad"
@@ -108,7 +108,7 @@ async def test_state_change_on_notify_errors(hass: UniversalAssistant) -> None:
 
 
 async def test_notify_errors_fail_silently_on_bad_request_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if notify errors fails silently with a bad request id."""
     configurator.async_notify_errors(hass, 2015, "Try this error")
@@ -117,7 +117,7 @@ async def test_notify_errors_fail_silently_on_bad_request_id(
 @pytest.mark.parametrize(
     "ignore_missing_translations", ["component.configurator.services.configure."]
 )
-async def test_request_done_works(hass: UniversalAssistant) -> None:
+async def test_request_done_works(hass: __HAC_KEEP__) -> None:
     """Test if calling request done works."""
     request_id = configurator.async_request_config(hass, "Test Request", lambda _: None)
     configurator.async_request_done(hass, request_id)
@@ -128,7 +128,7 @@ async def test_request_done_works(hass: UniversalAssistant) -> None:
 
 
 async def test_request_done_fail_silently_on_bad_request_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that request_done fails silently with a bad request id."""
     configurator.async_request_done(hass, 2016)
@@ -138,7 +138,7 @@ async def test_request_done_fail_silently_on_bad_request_id(
     "ignore_missing_translations", ["component.configurator.services.configure."]
 )
 async def test_configure_service_requires_admin(
-    hass: UniversalAssistant, hass_read_only_user: MockUser
+    hass: __HAC_KEEP__, hass_read_only_user: MockUser
 ) -> None:
     """Test the configure service requires admin."""
     request_id = configurator.async_request_config(hass, "Test Request", lambda _: None)
@@ -154,14 +154,14 @@ async def test_configure_service_requires_admin(
 
 
 async def _async_request_config(
-    hass: UniversalAssistant, name: str, callback: configurator.ConfiguratorCallback
+    hass: __HAC_KEEP__, name: str, callback: configurator.ConfiguratorCallback
 ) -> str:
     """Request config using the async API."""
     return configurator.async_request_config(hass, name, callback)
 
 
 async def _sync_request_config(
-    hass: UniversalAssistant, name: str, callback: configurator.ConfiguratorCallback
+    hass: __HAC_KEEP__, name: str, callback: configurator.ConfiguratorCallback
 ) -> str:
     """Request config using the sync API from an executor thread."""
     return await hass.async_add_executor_job(
@@ -180,10 +180,10 @@ async def _sync_request_config(
     ids=["async", "sync"],
 )
 async def test_request_config_deprecated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     request_config: Callable[
-        [UniversalAssistant, str, configurator.ConfiguratorCallback],
+        [__HAC_KEEP__, str, configurator.ConfiguratorCallback],
         Coroutine[Any, Any, str],
     ],
 ) -> None:
@@ -200,4 +200,4 @@ async def test_request_config_deprecated(
         "Detected that custom integration 'my_integration' uses the deprecated "
         "configurator integration" in caplog.text
     )
-    assert "This will stop working in Universal Universal Home Assistant 2027.10" in caplog.text
+    assert "This will stop working in __HA_KEEP__ 2027.10" in caplog.text

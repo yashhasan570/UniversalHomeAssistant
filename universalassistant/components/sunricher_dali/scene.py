@@ -6,7 +6,7 @@ from typing import Any, override
 from PySrDaliGateway import Scene
 
 from universalassistant.components.scene import Scene as SceneEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -20,7 +20,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DaliCenterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 import pyombi
 
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import config_validation as cv
 
 from .const import DEFAULT_SEASON, DOMAIN
@@ -86,7 +86,7 @@ def _submit_music_request(call: ServiceCall) -> None:
         raise Warning("No music album found.")
 
 
-def setup_services(hass: UniversalAssistant) -> None:
+def setup_services(hass: __HAC_KEEP__) -> None:
     """Register the Ombi services."""
     hass.services.register(
         DOMAIN,

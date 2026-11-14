@@ -15,8 +15,8 @@ from universalassistant.components.todo import (
     TodoListEntityFeature,
 )
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -28,7 +28,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RememberTheMilkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -44,19 +44,19 @@ async def async_setup_entry(
 def handle_api_errors[**_P](
     func: Callable[_P, Awaitable[None]],
 ) -> Callable[_P, Coroutine[Any, Any, None]]:
-    """Catch aiortm errors and re-raise as UniversalAssistantError."""
+    """Catch aiortm errors and re-raise as __HAC_KEEP__Error."""
 
     @wraps(func)
     async def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> None:
         try:
             await func(*args, **kwargs)
         except AuthError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="invalid_auth",
             ) from err
         except AioRTMError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_error",
             ) from err

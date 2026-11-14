@@ -34,7 +34,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
     EntityCategory,
 )
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.setup import async_setup_component
@@ -46,19 +46,19 @@ def cloud_stub() -> Mock:
     return Mock(is_logged_in=True, subscription_expired=False)
 
 
-def expose_new(hass: UniversalAssistant, expose_new: bool) -> None:
+def expose_new(hass: __HAC_KEEP__, expose_new: bool) -> None:
     """Enable exposing new entities to Alexa."""
     exposed_entities = hass.data[DATA_EXPOSED_ENTITIES]
     exposed_entities.async_set_expose_new_entities("cloud.alexa", expose_new)
 
 
-def expose_entity(hass: UniversalAssistant, entity_id: str, should_expose: bool) -> None:
+def expose_entity(hass: __HAC_KEEP__, entity_id: str, should_expose: bool) -> None:
     """Expose an entity to Alexa."""
     async_expose_entity(hass, "cloud.alexa", entity_id, should_expose)
 
 
 async def test_alexa_config_expose_entity_prefs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     cloud_stub: Mock,
     entity_registry: er.EntityRegistry,
@@ -141,7 +141,7 @@ async def test_alexa_config_expose_entity_prefs(
 
 
 async def test_alexa_config_report_state(
-    hass: UniversalAssistant, cloud_prefs: CloudPreferences, cloud_stub: Mock
+    hass: __HAC_KEEP__, cloud_prefs: CloudPreferences, cloud_stub: Mock
 ) -> None:
     """Test Alexa config should expose using prefs."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -176,7 +176,7 @@ async def test_alexa_config_report_state(
 
 
 async def test_alexa_config_invalidate_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -237,7 +237,7 @@ async def test_alexa_config_invalidate_token(
     ],
 )
 async def test_alexa_config_fail_refresh_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
@@ -359,7 +359,7 @@ def patch_sync_helper():
 
 
 async def test_alexa_update_expose_trigger_sync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     cloud_prefs: CloudPreferences,
     cloud_stub: Mock,
@@ -437,7 +437,7 @@ async def test_alexa_update_expose_trigger_sync(
 
 @pytest.mark.usefixtures("mock_cloud_login")
 async def test_alexa_entity_registry_sync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     cloud_prefs: CloudPreferences,
 ) -> None:
@@ -505,7 +505,7 @@ async def test_alexa_entity_registry_sync(
 
 
 async def test_alexa_update_report_state(
-    hass: UniversalAssistant, cloud_prefs: CloudPreferences, cloud_stub: Mock
+    hass: __HAC_KEEP__, cloud_prefs: CloudPreferences, cloud_stub: Mock
 ) -> None:
     """Test Alexa config responds to reporting state."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -534,7 +534,7 @@ async def test_alexa_update_report_state(
 
 @pytest.mark.usefixtures("mock_expired_cloud_login")
 def test_enabled_requires_valid_sub(
-    hass: UniversalAssistant, cloud_prefs: CloudPreferences
+    hass: __HAC_KEEP__, cloud_prefs: CloudPreferences
 ) -> None:
     """Test that alexa config enabled requires a valid Cloud sub."""
     assert cloud_prefs.alexa_enabled
@@ -549,7 +549,7 @@ def test_enabled_requires_valid_sub(
 
 
 async def test_alexa_handle_logout(
-    hass: UniversalAssistant, cloud_prefs: CloudPreferences, cloud_stub: Mock
+    hass: __HAC_KEEP__, cloud_prefs: CloudPreferences, cloud_stub: Mock
 ) -> None:
     """Test Alexa config responds to logging out."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -590,7 +590,7 @@ async def test_alexa_handle_logout(
 
 @pytest.mark.parametrize("alexa_settings_version", [1, 2])
 async def test_alexa_config_migrate_expose_entity_prefs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     cloud_stub: Mock,
     entity_registry: er.EntityRegistry,
@@ -688,7 +688,7 @@ async def test_alexa_config_migrate_expose_entity_prefs(
 
 
 async def test_alexa_config_migrate_expose_entity_prefs_v2_no_exposed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -733,7 +733,7 @@ async def test_alexa_config_migrate_expose_entity_prefs_v2_no_exposed(
 
 
 async def test_alexa_config_migrate_expose_entity_prefs_v2_exposed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -778,7 +778,7 @@ async def test_alexa_config_migrate_expose_entity_prefs_v2_exposed(
 
 
 async def test_alexa_config_migrate_expose_entity_prefs_default_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     cloud_stub: Mock,
     entity_registry: er.EntityRegistry,
@@ -814,7 +814,7 @@ async def test_alexa_config_migrate_expose_entity_prefs_default_none(
 
 
 async def test_alexa_config_migrate_expose_entity_prefs_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     cloud_stub: Mock,
     entity_registry: er.EntityRegistry,
@@ -919,7 +919,7 @@ async def test_alexa_config_migrate_expose_entity_prefs_default(
     ],
 )
 async def test_alexa_config_migrate_entity_names(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
     enabled: bool,
@@ -994,7 +994,7 @@ async def test_alexa_config_migrate_entity_names(
     ],
 )
 async def test_alexa_config_prefs_update_without_linked_skill(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -1047,7 +1047,7 @@ async def test_alexa_config_prefs_update_without_linked_skill(
     ],
 )
 async def test_alexa_entity_registry_sync_without_linked_skill(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud_prefs: CloudPreferences,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,

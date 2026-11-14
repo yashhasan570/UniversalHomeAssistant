@@ -65,7 +65,7 @@ rules:
   docs-use-cases: todo
   dynamic-devices:
     status: todo
-    comment: Clients connecting after setup are not added until Universal Universal Home Assistant restarts.
+    comment: Clients connecting after setup are not added until __HA_KEEP__ restarts.
   entity-category:
     status: exempt
     comment: This integration only creates device tracker entities.

@@ -70,7 +70,7 @@
         "description": "Set up an inverter reached over the network, either directly or through a Modbus TCP bridge. The inverter model and register map are detected automatically from its serial number."
       },
       "user": {
-        "description": "A Sofar inverter can be set up in Universal Universal Home Assistant in two different ways.\n\nYou can reach it over the network, which covers a Modbus TCP bridge or a stick that speaks Modbus TCP, or over a serial port its RS485 terminals are wired to, which covers ports shared over the network by a serial proxy.",
+        "description": "A Sofar inverter can be set up in __HA_KEEP__ in two different ways.\n\nYou can reach it over the network, which covers a Modbus TCP bridge or a stick that speaks Modbus TCP, or over a serial port its RS485 terminals are wired to, which covers ports shared over the network by a serial proxy.",
         "menu_options": {
           "serial": "[%key:component::modbus::common::serial_rtu%]",
           "tcp": "[%key:component::modbus::common::modbus_tcp%]"

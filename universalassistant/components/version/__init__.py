@@ -3,7 +3,7 @@
 from pyhaversion import HaVersion
 
 from universalassistant.const import CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -11,7 +11,7 @@ from .const import BOARD_MAP, CONF_BOARD, CONF_CHANNEL, CONF_IMAGE, DOMAIN, PLAT
 from .coordinator import VersionConfigEntry, VersionDataUpdateCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: VersionConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: VersionConfigEntry) -> None:
     """Set up the version integration from a config entry."""
 
     board = entry.data[CONF_BOARD]
@@ -41,6 +41,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: VersionConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: VersionConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: VersionConfigEntry) -> None:
     """Unload the config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

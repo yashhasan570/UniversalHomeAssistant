@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.device_tracker import TrackerEntity
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -16,7 +16,7 @@ from .const import DOMAIN
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: GeofencyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

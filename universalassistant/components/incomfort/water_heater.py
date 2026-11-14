@@ -7,7 +7,7 @@ from incomfortclient import Heater as InComfortHeater
 
 from universalassistant.components.water_heater import WaterHeaterEntity
 from universalassistant.const import EntityCategory, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import InComfortConfigEntry, InComfortDataCoordinator
@@ -21,7 +21,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: InComfortConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

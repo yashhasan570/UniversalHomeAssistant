@@ -35,7 +35,7 @@ from universalassistant.const import (
     Platform,
     UnitOfSpeed,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -47,7 +47,7 @@ from . import ENTITY_ID, TEST_CONFIG
     [[Platform.WEATHER]],
 )
 async def test_setup_hass(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_setup_hass(
 )
 @pytest.mark.freeze_time(datetime(2026, 4, 3, 1, tzinfo=dt_util.UTC))
 async def test_clear_night(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: SMHIPointForecast,
     mock_fire_client: SMHIFirePointForecast,
     snapshot: SnapshotAssertion,
@@ -103,7 +103,7 @@ async def test_clear_night(
 
 
 async def test_properties_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     mock_client: MagicMock,
     mock_fire_client: SMHIFirePointForecast,
@@ -139,7 +139,7 @@ async def test_properties_no_data(
 
 
 async def test_properties_unknown_symbol(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: SMHIPointForecast,
     mock_fire_client: SMHIFirePointForecast,
 ) -> None:
@@ -247,7 +247,7 @@ async def test_properties_unknown_symbol(
 
 @pytest.mark.parametrize("error", [SmhiForecastException(), TimeoutError()])
 async def test_refresh_weather_forecast_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     error: Exception,
     load_int: MockConfigEntry,
     mock_client: SMHIPointForecast,
@@ -346,7 +346,7 @@ def test_condition_class() -> None:
 
 
 async def test_custom_speed_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     load_int: MockConfigEntry,
 ) -> None:
@@ -374,7 +374,7 @@ async def test_custom_speed_unit(
     [[Platform.WEATHER]],
 )
 async def test_forecast_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     load_int: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -437,7 +437,7 @@ async def test_forecast_services(
     [2],
 )
 async def test_forecast_services_lack_of_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     load_int: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -470,7 +470,7 @@ async def test_forecast_services_lack_of_data(
     [[Platform.WEATHER]],
 )
 async def test_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -490,7 +490,7 @@ async def test_forecast_service(
     [[Platform.WEATHER]],
 )
 async def test_twice_daily_forecast_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:

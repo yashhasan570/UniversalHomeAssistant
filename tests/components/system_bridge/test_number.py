@@ -22,8 +22,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import FIXTURE_REQUEST_ID
@@ -43,7 +43,7 @@ def number_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_number_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -54,7 +54,7 @@ async def test_number_platform(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_brightness_added_later(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_brightness_added_later(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_brightness_display_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -113,7 +113,7 @@ async def test_brightness_display_disconnected(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_input_volume_added_once_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test an input without a volume gets its number once it reports one."""
@@ -142,7 +142,7 @@ async def test_input_volume_added_once_reported(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_input_volume_amplified(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test an amplified input volume stays within the number's range."""
@@ -160,7 +160,7 @@ async def test_input_volume_amplified(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_input_volume(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
 ) -> None:
     """Test setting an input's volume sends an audio control."""
@@ -181,7 +181,7 @@ async def test_set_input_volume(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
 ) -> None:
     """Test setting the brightness sends a display control."""
@@ -199,7 +199,7 @@ async def test_set_brightness(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_brightness_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
 ) -> None:
     """Test an error from System Bridge raises."""
@@ -211,7 +211,7 @@ async def test_set_brightness_error(
     )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Failed to control display abc123: Failed to set display brightness",
     ):
         await hass.services.async_call(
@@ -227,7 +227,7 @@ async def test_set_brightness_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_brightness_connection_closed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
 ) -> None:
     """Test a closed connection raises."""
@@ -236,7 +236,7 @@ async def test_set_brightness_connection_closed(
     )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=r"A connection error occurred for TestSystem \(127\.0\.0\.1\)",
     ):
         await hass.services.async_call(

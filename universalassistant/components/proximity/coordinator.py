@@ -29,7 +29,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
 )
@@ -65,7 +65,7 @@ def tracked_entity_removed_issue_id(config_entry_id: str, entity_id: str) -> str
 
 @callback
 def async_create_tracked_entity_removed_issue(
-    hass: UniversalAssistant, config_entry: ProximityConfigEntry, entity_id: str
+    hass: __HAC_KEEP__, config_entry: ProximityConfigEntry, entity_id: str
 ) -> None:
     """Create a repair issue for a removed tracked entity."""
     ir.async_create_issue(
@@ -123,7 +123,7 @@ class ProximityDataUpdateCoordinator(DataUpdateCoordinator[ProximityData]):
 
     config_entry: ProximityConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: ProximityConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: ProximityConfigEntry) -> None:
         """Initialize the Proximity coordinator."""
         self.ignored_zone_ids: list[str] = config_entry.options[CONF_IGNORED_ZONES]
         self.tracked_entities: list[str] = config_entry.options[CONF_TRACKED_ENTITIES]

@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.bluesound.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .utils import LongPollingMock
 
@@ -177,7 +177,7 @@ def config_entry_non_default_port() -> MockConfigEntry:
 
 @pytest.fixture
 async def setup_config_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, player_mocks: PlayerMocks
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, player_mocks: PlayerMocks
 ) -> None:
     """Set up the platform."""
     config_entry.add_to_hass(hass)
@@ -187,7 +187,7 @@ async def setup_config_entry(
 
 @pytest.fixture
 async def setup_config_entry_secondary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_secondary: MockConfigEntry,
     player_mocks: PlayerMocks,
 ) -> None:

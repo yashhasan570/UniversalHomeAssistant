@@ -24,7 +24,7 @@ from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.zha import DOMAIN, device_action
 from universalassistant.components.zha.helpers import get_zha_gateway, get_zha_gateway_proxy
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -62,7 +62,7 @@ def required_platforms_only():
 
 
 async def test_get_actions_group_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_app_controller_with_group: ControllerApplication,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_get_actions_group_device(
 
 
 async def test_get_actions_green_power_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
 ) -> None:
     """Test that Green Power devices expose no ZHA device actions."""
@@ -107,7 +107,7 @@ async def test_get_actions_green_power_device(
 
 
 async def test_get_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
@@ -197,7 +197,7 @@ async def test_get_actions(
 
 
 async def test_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     setup_zha: Callable[..., Coroutine[None]],
@@ -297,7 +297,7 @@ async def test_action(
     ],
 )
 async def test_inovelli_led_effect_from_unvalidated_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action_type: str,
     extra_config: dict[str, int],
     cluster_method: str,
@@ -342,7 +342,7 @@ async def test_inovelli_led_effect_from_unvalidated_config(
 )
 @pytest.mark.parametrize("effect_type", [77, "77", "Unknown"])
 async def test_inovelli_led_effect_rejects_unknown_effect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action_type: str,
     extra_config: dict[str, int],
     effect_type: int | str,
@@ -363,7 +363,7 @@ async def test_inovelli_led_effect_rejects_unknown_effect(
         await device_action.async_validate_action_config(hass, config)
 
 
-async def test_action_without_type_is_invalid(hass: UniversalAssistant) -> None:
+async def test_action_without_type_is_invalid(hass: __HAC_KEEP__) -> None:
     """Test an action without a type fails validation."""
     config = {"device_id": "device_id", "domain": DOMAIN}
 
@@ -372,7 +372,7 @@ async def test_action_without_type_is_invalid(hass: UniversalAssistant) -> None:
 
 
 async def test_client_unique_id_suffix_stripped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:

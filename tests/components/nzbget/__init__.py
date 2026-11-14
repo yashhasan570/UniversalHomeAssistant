@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 ENTRY_CONFIG = {
     CONF_HOST: "10.10.10.30",
@@ -60,8 +60,8 @@ MOCK_HISTORY = [
 ]
 
 
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the NZBGet integration in Universal Universal Home Assistant."""
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the NZBGet integration in __HA_KEEP__."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRY_CONFIG, options=ENTRY_OPTIONS)
     entry.add_to_hass(hass)
 

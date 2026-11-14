@@ -9,11 +9,11 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.diagnostics import REDACTED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -25,7 +25,7 @@ async def test_entry_diagnostics(
 
 
 async def test_entry_diagnostics_redacts_unknown_model_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     mock_nobo_hub: MagicMock,

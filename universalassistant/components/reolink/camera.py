@@ -15,7 +15,7 @@ from universalassistant.components.camera import (
     CameraEntityFeature,
 )
 from universalassistant.components.ffmpeg import get_ffmpeg_manager
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -125,7 +125,7 @@ CAMERA_ENTITIES = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ReolinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

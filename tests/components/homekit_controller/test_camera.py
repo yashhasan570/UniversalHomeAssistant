@@ -10,8 +10,8 @@ from aiohomekit.testing import FAKE_CAMERA_IMAGE
 import pytest
 
 from universalassistant.components import camera
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_test_component
@@ -23,7 +23,7 @@ def create_camera(accessory: Accessory) -> None:
 
 
 async def test_migrate_unique_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     get_next_aid: Callable[[], int],
 ) -> None:
@@ -41,7 +41,7 @@ async def test_migrate_unique_ids(
     )
 
 
-async def test_read_state(hass: UniversalAssistant, get_next_aid: Callable[[], int]) -> None:
+async def test_read_state(hass: __HAC_KEEP__, get_next_aid: Callable[[], int]) -> None:
     """Test reading the state of a HomeKit camera."""
     helper = await setup_test_component(hass, get_next_aid(), create_camera)
 
@@ -49,7 +49,7 @@ async def test_read_state(hass: UniversalAssistant, get_next_aid: Callable[[], i
     assert state.state == "idle"
 
 
-async def test_get_image(hass: UniversalAssistant, get_next_aid: Callable[[], int]) -> None:
+async def test_get_image(hass: __HAC_KEEP__, get_next_aid: Callable[[], int]) -> None:
     """Test getting a JPEG from a camera."""
     helper = await setup_test_component(hass, get_next_aid(), create_camera)
     image = await camera.async_get_image(hass, helper.entity_id)
@@ -57,7 +57,7 @@ async def test_get_image(hass: UniversalAssistant, get_next_aid: Callable[[], in
 
 
 async def test_get_image_default_size(
-    hass: UniversalAssistant, get_next_aid: Callable[[], int]
+    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
 ) -> None:
     """Test the default size is requested when none is given."""
     helper = await setup_test_component(hass, get_next_aid(), create_camera)
@@ -72,7 +72,7 @@ async def test_get_image_default_size(
 
 
 async def test_get_image_requested_size_supported(
-    hass: UniversalAssistant, get_next_aid: Callable[[], int]
+    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
 ) -> None:
     """Test a supported requested size is passed to the accessory unchanged."""
     helper = await setup_test_component(hass, get_next_aid(), create_camera)
@@ -89,7 +89,7 @@ async def test_get_image_requested_size_supported(
 
 
 async def test_get_image_unsupported_size_falls_back_to_default(
-    hass: UniversalAssistant, get_next_aid: Callable[[], int]
+    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
 ) -> None:
     """Test falling back to the default size when the accessory rejects a size."""
     helper = await setup_test_component(hass, get_next_aid(), create_camera)
@@ -116,14 +116,14 @@ async def test_get_image_unsupported_size_falls_back_to_default(
 
 
 async def test_get_image_fails_when_default_size_also_fails(
-    hass: UniversalAssistant, get_next_aid: Callable[[], int]
+    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
 ) -> None:
     """Test the error is still raised if the fallback does not return an image."""
     helper = await setup_test_component(hass, get_next_aid(), create_camera)
 
     with (
         patch.object(helper.pairing, "image", return_value=None) as mock_image,
-        pytest.raises(UniversalAssistantError, match="Unable to get image"),
+        pytest.raises(__HAC_KEEP__Error, match="Unable to get image"),
     ):
         await camera.async_get_image(hass, helper.entity_id, width=500, height=375)
 
@@ -134,14 +134,14 @@ async def test_get_image_fails_when_default_size_also_fails(
 
 
 async def test_get_image_default_size_failure_is_not_retried(
-    hass: UniversalAssistant, get_next_aid: Callable[[], int]
+    hass: __HAC_KEEP__, get_next_aid: Callable[[], int]
 ) -> None:
     """Test a failure at the default size is not retried."""
     helper = await setup_test_component(hass, get_next_aid(), create_camera)
 
     with (
         patch.object(helper.pairing, "image", return_value=None) as mock_image,
-        pytest.raises(UniversalAssistantError, match="Unable to get image"),
+        pytest.raises(__HAC_KEEP__Error, match="Unable to get image"),
     ):
         await camera.async_get_image(hass, helper.entity_id)
 

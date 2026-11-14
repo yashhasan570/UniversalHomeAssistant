@@ -7,13 +7,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.trend.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 type ComponentSetup = Callable[[dict[str, Any]], Awaitable[None]]
 
 
 @pytest.fixture(name="config_entry")
-async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a MockConfigEntry for testing."""
     return MockConfigEntry(
         data={},
@@ -32,7 +32,7 @@ async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture(name="setup_component")
 async def mock_setup_component(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> ComponentSetup:
     """Set up the trend component."""
 

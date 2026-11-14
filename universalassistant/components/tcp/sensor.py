@@ -7,7 +7,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
 )
 from universalassistant.const import CONF_UNIT_OF_MEASUREMENT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType, StateType
 
@@ -18,7 +18,7 @@ PLATFORM_SCHEMA: Final = SENSOR_PLATFORM_SCHEMA.extend(TCP_PLATFORM_SCHEMA)
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

@@ -3,7 +3,7 @@
 from py_aosmith import AOSmithAPIClient
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client, device_registry as dr
 
 from .const import DOMAIN
@@ -17,7 +17,7 @@ from .coordinator import (
 PLATFORMS: list[Platform] = [Platform.SELECT, Platform.SENSOR, Platform.WATER_HEATER]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AOSmithConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AOSmithConfigEntry) -> None:
     """Set up A. O. Smith from a config entry."""
     email = entry.data[CONF_EMAIL]
     password = entry.data[CONF_PASSWORD]
@@ -55,6 +55,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AOSmithConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AOSmithConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AOSmithConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

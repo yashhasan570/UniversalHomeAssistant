@@ -10,7 +10,7 @@ from openai import OpenAIError, omit
 
 from universalassistant.components import stt
 from universalassistant.const import CONF_PROMPT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_CHAT_MODEL, DEFAULT_STT_PROMPT, RECOMMENDED_STT_MODEL
@@ -25,7 +25,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: OpenAIConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

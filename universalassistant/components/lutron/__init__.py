@@ -16,7 +16,7 @@ from pylutron import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -58,7 +58,7 @@ class LutronData:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: LutronConfigEntry
+    hass: __HAC_KEEP__, config_entry: LutronConfigEntry
 ) -> None:
     """Set up the Lutron integration."""
 
@@ -150,7 +150,7 @@ async def async_setup_entry(
 
 
 def _setup_output(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_data: LutronData,
     output: Output,
     area_name: str,
@@ -192,7 +192,7 @@ def _setup_output(
 
 
 def _setup_keypad(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_data: LutronData,
     keypad: Keypad,
     area_name: str,
@@ -248,7 +248,7 @@ def _setup_keypad(
 
 
 def _async_check_entity_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     platform: str,
     uuid: str,
@@ -272,7 +272,7 @@ def _async_check_entity_unique_id(
 
 
 def _async_check_device_identifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     uuid: str,
     legacy_uuid: str,
@@ -297,7 +297,7 @@ def _async_check_device_identifiers(
 
 
 def _async_check_keypad_identifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     keypad_id: int,
     uuid: str,
@@ -309,7 +309,7 @@ def _async_check_keypad_identifiers(
 
     # First check for the very old integer-based ID
     # We use cast(Any, ...) here because legacy devices may have integer identifiers
-    # in the registry, but modern Universal Universal Home Assistant expects strings.
+    # in the registry, but modern __HA_KEEP__ expects strings.
     device = device_registry.async_get_device_by_identifier(
         (DOMAIN, cast(Any, keypad_id)), config_entry_id
     )
@@ -327,6 +327,6 @@ def _async_check_keypad_identifiers(
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LutronConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LutronConfigEntry) -> None:
     """Clean up resources and entities associated with the integration."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

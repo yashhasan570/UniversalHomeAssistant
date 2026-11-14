@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.remember_the_milk.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CREATE_ENTRY_DATA, PROFILE, TOKEN_RESPONSE
 
@@ -90,7 +90,7 @@ def client_fixture() -> Generator[MagicMock]:
 
 
 @pytest.fixture
-async def storage(hass: UniversalAssistant, client) -> AsyncGenerator[MagicMock]:
+async def storage(hass: __HAC_KEEP__, client) -> AsyncGenerator[MagicMock]:
     """Mock the config storage."""
     with patch(
         "universalassistant.components.remember_the_milk.RememberTheMilkConfiguration"
@@ -102,7 +102,7 @@ async def storage(hass: UniversalAssistant, client) -> AsyncGenerator[MagicMock]
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a mock config entry."""
     entry = MockConfigEntry(
         data=CREATE_ENTRY_DATA,

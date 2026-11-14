@@ -10,7 +10,7 @@ from universalassistant.components.zwave_js.const import (
     ZWAVE_JS_VALUE_NOTIFICATION_EVENT,
 )
 from universalassistant.components.zwave_js.helpers import get_device_id
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -18,7 +18,7 @@ from tests.components.logbook.common import MockRow, mock_humanify
 
 
 async def test_humanifying_zwave_js_notification_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -119,7 +119,7 @@ async def test_humanifying_zwave_js_notification_event(
 
 
 async def test_humanifying_zwave_js_value_notification_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client,
     lock_schlage_be469,
@@ -191,7 +191,7 @@ def nameless_device_id_fixture(
     indirect=True,
 )
 async def test_humanifying_zwave_js_events_no_device_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     nameless_device_id: str,
 ) -> None:
     """Test humanifying Z-Wave JS events when the device name is unavailable."""

@@ -25,7 +25,7 @@
         "data_description": {
           "folder_name": "Name of the folder"
         },
-        "description": "This name will be used to create a folder that is specific for this Universal Universal Home Assistant instance. This folder will be created inside `{apps_folder}/{approot}`",
+        "description": "This name will be used to create a folder that is specific for this __HA_KEEP__ instance. This folder will be created inside `{apps_folder}/{approot}`",
         "title": "Pick a folder name"
       },
       "pick_implementation": {
@@ -154,7 +154,7 @@
           "name": "Config entry ID"
         },
         "destination_path": {
-          "description": "One or more paths to files inside the OneDrive app folder (Apps/Universal Universal Home Assistant) to delete.",
+          "description": "One or more paths to files inside the OneDrive app folder (Apps/__HA_KEEP__) to delete.",
           "example": "[\"photos/snapshots/image.jpg\", \"photos/snapshots/image2.jpg\"]",
           "name": "Destination paths"
         }
@@ -169,7 +169,7 @@
           "name": "Config entry ID"
         },
         "destination_folder": {
-          "description": "Folder inside the OneDrive app folder (Apps/Universal Universal Home Assistant) you want to upload the files to. Will be created if it does not exist.",
+          "description": "Folder inside the OneDrive app folder (Apps/__HA_KEEP__) you want to upload the files to. Will be created if it does not exist.",
           "example": "photos/snapshots",
           "name": "Destination folder"
         },

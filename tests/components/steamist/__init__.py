@@ -11,7 +11,7 @@ from universalassistant.components import steamist
 from universalassistant.components.steamist.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_MODEL, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -59,7 +59,7 @@ DEFAULT_ENTRY_DATA = {
 
 
 async def _async_setup_entry_with_status(
-    hass: UniversalAssistant, status: SteamistStatus
+    hass: __HAC_KEEP__, status: SteamistStatus
 ) -> tuple[Steamist, ConfigEntry]:
     config_entry = MockConfigEntry(
         domain=DOMAIN,

@@ -8,7 +8,7 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.fibaro.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -16,7 +16,7 @@ from .conftest import TEST_SERIALNUMBER, init_integration
 
 
 async def test_migrate_device_identifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_fibaro_client: Mock,
@@ -39,7 +39,7 @@ async def test_migrate_device_identifiers(
 
 
 async def test_unload_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
     mock_light: Mock,
@@ -60,7 +60,7 @@ async def test_unload_integration(
 
 
 async def test_load_integration_links_device_to_hub(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -96,7 +96,7 @@ async def test_load_integration_links_device_to_hub(
     ],
 )
 async def test_remove_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
     mock_fibaro_client: Mock,

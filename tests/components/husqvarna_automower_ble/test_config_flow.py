@@ -11,7 +11,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 from universalassistant.components.husqvarna_automower_ble.const import DOMAIN
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER
 from universalassistant.const import CONF_ADDRESS, CONF_CLIENT_ID, CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
@@ -38,7 +38,7 @@ def mock_random() -> Mock:
         yield mock_random
 
 
-async def test_user_selection(hass: UniversalAssistant) -> None:
+async def test_user_selection(hass: __HAC_KEEP__) -> None:
     """Test we can select a device."""
 
     await hass.async_block_till_done(wait_background_tasks=True)
@@ -84,7 +84,7 @@ async def test_user_selection(hass: UniversalAssistant) -> None:
 
 
 async def test_user_selection_incorrect_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
 ) -> None:
     """Test we can select a device."""
@@ -146,7 +146,7 @@ async def test_user_selection_incorrect_pin(
     [AUTOMOWER_SERVICE_INFO_MOWER, AUTOMOWER_SERVICE_INFO_SERIAL],
 )
 async def test_bluetooth(
-    hass: UniversalAssistant, service_info: BluetoothServiceInfo
+    hass: __HAC_KEEP__, service_info: BluetoothServiceInfo
 ) -> None:
     """Test bluetooth device discovery."""
 
@@ -173,7 +173,7 @@ async def test_bluetooth(
 
 
 async def test_bluetooth_incorrect_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
 ) -> None:
     """Test we can select a device."""
@@ -226,7 +226,7 @@ async def test_bluetooth_incorrect_pin(
 
 
 async def test_bluetooth_unknown_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
 ) -> None:
     """Test we can select a device."""
@@ -249,7 +249,7 @@ async def test_bluetooth_unknown_error(
 
 
 async def test_bluetooth_not_paired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
 ) -> None:
     """Test we can select a device."""
@@ -289,7 +289,7 @@ async def test_bluetooth_not_paired(
 
 
 async def test_bluetooth_not_pairable_logs_on_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test not-pairable warning is logged only when connection is attempted."""
@@ -335,7 +335,7 @@ async def test_bluetooth_not_pairable_logs_on_connect(
     ],
 )
 async def test_bluetooth_invalid(
-    hass: UniversalAssistant, service_info: BluetoothServiceInfo
+    hass: __HAC_KEEP__, service_info: BluetoothServiceInfo
 ) -> None:
     """Test bluetooth device discovery with invalid data."""
 
@@ -352,7 +352,7 @@ async def test_bluetooth_invalid(
 
 
 async def test_successful_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -427,7 +427,7 @@ async def test_successful_reauth(
     assert mock_config_entry.data[CONF_PIN] == "1234"
 
 
-async def test_user_device_not_found(hass: UniversalAssistant) -> None:
+async def test_user_device_not_found(hass: __HAC_KEEP__) -> None:
     """Test we handle the device not being found gracefully."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -461,7 +461,7 @@ async def test_user_device_not_found(hass: UniversalAssistant) -> None:
 
 
 async def test_user_unable_to_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
 ) -> None:
     """Test we can select a device."""
@@ -487,7 +487,7 @@ async def test_user_unable_to_connect(
 
 
 async def test_failed_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -525,7 +525,7 @@ async def test_failed_reauth(
 
 
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -565,7 +565,7 @@ async def test_duplicate_entry(
     ],
 )
 async def test_exception_probe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
     probe_side_effect: type[Exception] | list[tuple[str | None, str | None, str]],
 ) -> None:
@@ -595,7 +595,7 @@ async def test_exception_probe(
 
 
 async def test_exception_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_automower_client: Mock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

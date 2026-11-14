@@ -18,7 +18,7 @@ from universalassistant.components.camera import (
     CameraEntityFeature,
 )
 from universalassistant.config_entries import ConfigFlowContext
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import async_aiohttp_proxy_stream
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -57,7 +57,7 @@ CAMERA_DESCRIPTIONS: tuple[TPLinkCameraEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TPLinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

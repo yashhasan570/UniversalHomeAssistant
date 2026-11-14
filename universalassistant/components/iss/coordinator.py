@@ -10,7 +10,7 @@ import requests
 from requests.exceptions import HTTPError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, MAX_CONSECUTIVE_FAILURES
@@ -33,7 +33,7 @@ class IssDataUpdateCoordinator(DataUpdateCoordinator[IssData]):
 
     config_entry: IssConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: IssConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: IssConfigEntry) -> None:
         """Initialize the ISS coordinator."""
         super().__init__(
             hass,

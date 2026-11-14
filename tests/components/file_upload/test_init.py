@@ -16,7 +16,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components import file_upload
 from universalassistant.components.file_upload import DOMAIN, FileUploadView
 from universalassistant.components.http import KEY_HASS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from tests.components.image_upload import TEST_IMAGE
@@ -24,7 +24,7 @@ from tests.components.image_upload import TEST_IMAGE
 
 @pytest.fixture(name="uploaded_file_dir")
 async def upload_file_dir(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> Path:
     """Test uploading and using a file."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -48,7 +48,7 @@ async def upload_file_dir(
     return file_dir
 
 
-async def test_using_file(hass: UniversalAssistant, uploaded_file_dir) -> None:
+async def test_using_file(hass: __HAC_KEEP__, uploaded_file_dir) -> None:
     """Test uploading and using a file."""
     # Test we can use it
     with file_upload.process_uploaded_file(hass, uploaded_file_dir.name) as file_path:
@@ -60,7 +60,7 @@ async def test_using_file(hass: UniversalAssistant, uploaded_file_dir) -> None:
 
 
 async def test_removing_file(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, uploaded_file_dir
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, uploaded_file_dir
 ) -> None:
     """Test uploading and using a file."""
     client = await hass_client()
@@ -75,7 +75,7 @@ async def test_removing_file(
 
 
 async def test_removed_on_stop(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, uploaded_file_dir
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, uploaded_file_dir
 ) -> None:
     """Test uploading and using a file."""
     await hass.async_stop()
@@ -85,7 +85,7 @@ async def test_removed_on_stop(
 
 
 async def test_upload_large_file(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, large_file_io
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, large_file_io
 ) -> None:
     """Test uploading large file."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -119,7 +119,7 @@ async def test_upload_large_file(
 
 
 async def test_upload_with_wrong_key_fails(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, large_file_io
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, large_file_io
 ) -> None:
     """Test uploading fails."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -136,7 +136,7 @@ async def test_upload_with_wrong_key_fails(
 
 
 async def test_upload_large_file_fails(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, large_file_io
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, large_file_io
 ) -> None:
     """Test uploading large file."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -178,7 +178,7 @@ async def test_upload_large_file_fails(
 
 
 async def test_upload_stream_error_releases_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     large_file_io: StringIO,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_upload_stream_error_releases_lock(
     assert res.status == 200
 
 
-async def test_upload_cancelled_releases_consumer(hass: UniversalAssistant) -> None:
+async def test_upload_cancelled_releases_consumer(hass: __HAC_KEEP__) -> None:
     """Test cancelling an upload mid-transfer does not deadlock the consumer.
 
     Driven at the view level because the test HTTP client cannot produce a true
@@ -290,7 +290,7 @@ async def test_upload_cancelled_releases_consumer(hass: UniversalAssistant) -> N
 
 
 async def test_receive_file_field_cancelled_while_joining_writer(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test a cancel while joining the writer waits for the writer to finish.
 
@@ -372,7 +372,7 @@ async def test_receive_file_field_cancelled_while_joining_writer(
 
 
 async def test_receive_file_field_cancel_wins_over_writer_error(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test a writer error during the join does not mask the cancellation.
 
@@ -440,7 +440,7 @@ async def test_receive_file_field_cancel_wins_over_writer_error(
 
 
 async def test_receive_file_field_cancel_in_stream_wins_over_writer_error(
-    hass: UniversalAssistant, tmp_path: Path
+    hass: __HAC_KEEP__, tmp_path: Path
 ) -> None:
     """Test a cancel in the streaming loop is not masked by a writer error.
 

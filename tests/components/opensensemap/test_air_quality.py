@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.air_quality import DOMAIN as AIR_QUALITY_DOMAIN
 from universalassistant.components.automation import DOMAIN as AUTOMATION_DOMAIN
 from universalassistant.components.opensensemap.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -34,7 +34,7 @@ def _register_air_quality_entity(
     return entry.entity_id
 
 
-async def _setup_automation(hass: UniversalAssistant, entity_id: str) -> None:
+async def _setup_automation(hass: __HAC_KEEP__, entity_id: str) -> None:
     """Set up an automation referencing an entity."""
     assert await async_setup_component(
         hass,
@@ -51,7 +51,7 @@ async def _setup_automation(hass: UniversalAssistant, entity_id: str) -> None:
 
 @pytest.mark.usefixtures("mock_opensensemap_api")
 async def test_air_quality_not_created_on_fresh_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
@@ -73,7 +73,7 @@ async def test_air_quality_not_created_on_fresh_setup(
 
 @pytest.mark.usefixtures("mock_opensensemap_api")
 async def test_air_quality_kept_when_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
@@ -102,7 +102,7 @@ async def test_air_quality_kept_when_enabled(
 
 @pytest.mark.usefixtures("mock_opensensemap_api")
 async def test_air_quality_removed_when_disabled_and_unused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
@@ -133,7 +133,7 @@ async def test_air_quality_removed_when_disabled_and_unused(
 )
 @pytest.mark.usefixtures("mock_opensensemap_api")
 async def test_air_quality_issue_when_used(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,

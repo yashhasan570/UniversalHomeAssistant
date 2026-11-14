@@ -4,7 +4,7 @@ import slugify as unicode_slug
 
 from universalassistant.components.universalassistant import async_should_expose
 from universalassistant.components.llm import LLMTools
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import intent
 from universalassistant.helpers.llm import LLM_API_ASSIST, IntentTool, LLMContext, Tool
 
@@ -14,7 +14,7 @@ from .helpers import ScriptIntentHandler
 
 @callback
 def async_get_tools(
-    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
+    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
     """Return an LLM tool for each configured intent script."""
     if api_id != LLM_API_ASSIST:

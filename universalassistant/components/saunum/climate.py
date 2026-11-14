@@ -24,8 +24,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_WHOLE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import LeilSaunaConfigEntry
@@ -44,7 +44,7 @@ from .entity import LeilSaunaEntity
 
 PARALLEL_UPDATES = 1
 
-# Map Saunum fan speed (0-3) to Universal Universal Home Assistant fan modes
+# Map Saunum fan speed (0-3) to __HA_KEEP__ fan modes
 FAN_SPEED_TO_MODE = {
     0: FAN_OFF,
     1: FAN_LOW,
@@ -55,7 +55,7 @@ FAN_MODE_TO_SPEED = {v: k for k, v in FAN_SPEED_TO_MODE.items()}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LeilSaunaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -109,7 +109,7 @@ class LeilSaunaClimate(LeilSaunaEntity, ClimateEntity):
         )
 
     async def _async_update_listener(
-        self, hass: UniversalAssistant, entry: LeilSaunaConfigEntry
+        self, hass: __HAC_KEEP__, entry: LeilSaunaConfigEntry
     ) -> None:
         """Handle options update."""
         self._update_preset_names()
@@ -181,7 +181,7 @@ class LeilSaunaClimate(LeilSaunaEntity, ClimateEntity):
             else:
                 await self.coordinator.client.async_stop_session()
         except SaunumException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_hvac_mode_failed",
                 translation_placeholders={"hvac_mode": hvac_mode},
@@ -201,7 +201,7 @@ class LeilSaunaClimate(LeilSaunaEntity, ClimateEntity):
                 int(kwargs[ATTR_TEMPERATURE])
             )
         except SaunumException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_temperature_failed",
                 translation_placeholders={"temperature": str(kwargs[ATTR_TEMPERATURE])},
@@ -223,7 +223,7 @@ class LeilSaunaClimate(LeilSaunaEntity, ClimateEntity):
                 FAN_MODE_TO_SPEED[fan_mode]
             )
         except SaunumException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_fan_mode_failed",
             ) from err
@@ -249,7 +249,7 @@ class LeilSaunaClimate(LeilSaunaEntity, ClimateEntity):
         try:
             await self.coordinator.client.async_set_sauna_type(sauna_type_value)
         except SaunumException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_preset_failed",
                 translation_placeholders={"preset_mode": preset_mode},
@@ -283,7 +283,7 @@ class LeilSaunaClimate(LeilSaunaEntity, ClimateEntity):
             )
             await self.coordinator.client.async_start_session()
         except SaunumException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="start_session_failed",
             ) from err

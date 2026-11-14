@@ -7,7 +7,7 @@ from plexapi.exceptions import NotFound
 import requests.exceptions
 
 from universalassistant.components.sensor import SensorEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -43,7 +43,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: PlexConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

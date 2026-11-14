@@ -142,7 +142,7 @@ from universalassistant.const import (
     EntityStateAttribute,
     UnitOfTemperature,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import area_registry as ar, entity_registry as er
 from universalassistant.helpers.network import get_url
 from universalassistant.util import color as color_util, dt as dt_util
@@ -350,7 +350,7 @@ class _Trait(ABC):
     def supported(domain, features, device_class, attributes):
         """Test if state is supported."""
 
-    def __init__(self, hass: UniversalAssistant, state, config) -> None:
+    def __init__(self, hass: __HAC_KEEP__, state, config) -> None:
         """Initialize a trait for a state."""
         self.hass = hass
         self.state = state
@@ -1978,7 +1978,7 @@ class FanSpeedTrait(_Trait):
     name = TRAIT_FAN_SPEED
     commands = [COMMAND_SET_FAN_SPEED, COMMAND_REVERSE]
 
-    def __init__(self, hass: UniversalAssistant, state, config) -> None:
+    def __init__(self, hass: __HAC_KEEP__, state, config) -> None:
         """Initialize a trait for a state."""
         super().__init__(hass, state, config)
         if state.domain == FAN_DOMAIN:

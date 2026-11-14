@@ -46,8 +46,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 import universalassistant.helpers.device_registry as dr
 import universalassistant.helpers.entity_registry as er
 import universalassistant.helpers.issue_registry as ir
@@ -74,7 +74,7 @@ def _raise_on_controller_property(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_climate_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -107,7 +107,7 @@ async def test_zone_device_linked_to_controller(
 
 
 async def test_set_controller_temperature_when_controller_owns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -136,7 +136,7 @@ async def test_set_controller_temperature_when_controller_owns(
 )
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_set_temperature_rejects_off_step_setpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_controller: Mock,
     mock_zones: list[Mock],
@@ -169,7 +169,7 @@ async def test_set_temperature_rejects_off_step_setpoint(
 )
 @pytest.mark.usefixtures("mock_create_discovery")
 async def test_set_temperature_normalizes_fahrenheit_setpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_controller: Mock,
     mock_zones: list[Mock],
@@ -198,7 +198,7 @@ async def test_set_temperature_normalizes_fahrenheit_setpoint(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_controller_hvac_and_fan(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_controller: Mock,
 ) -> None:
     """HVAC and fan mode services call through to the controller."""
@@ -220,7 +220,7 @@ async def test_set_controller_hvac_and_fan(
 
 
 async def test_unknown_fan_mode_reports_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -245,7 +245,7 @@ async def test_unknown_fan_mode_reports_unknown(
 
 
 async def test_unknown_mode_keeps_entity_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -270,7 +270,7 @@ async def test_unknown_mode_keeps_entity_available(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_zone_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zones: list[Mock],
 ) -> None:
     """Zone HVAC mode changes call the zone library API."""
@@ -309,7 +309,7 @@ async def test_set_zone_mode(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_zone_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zones: list[Mock],
     service: str,
     expected_mode: Zone.Mode,
@@ -326,7 +326,7 @@ async def test_zone_turn_on_off(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_controller_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_controller: Mock,
 ) -> None:
     """Turning the controller on switches the system on."""
@@ -347,7 +347,7 @@ async def test_controller_turn_on(
     ],
 )
 async def test_set_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -372,7 +372,7 @@ async def test_set_preset_mode(
     [create_mock_controller(free_air_enabled=True, free_air=True, zones_total=1)],
 )
 async def test_free_air_shows_fan_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -398,7 +398,7 @@ async def test_free_air_shows_fan_only(
     ],
 )
 async def test_auto_zone_target_temperature_follows_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_zones: list[Mock],
@@ -424,7 +424,7 @@ async def test_auto_zone_target_temperature_follows_mode(
 
 
 async def test_target_temperature_when_controller_owns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -443,7 +443,7 @@ async def test_target_temperature_when_controller_owns(
 
 
 async def test_target_temperature_when_zone_owns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -463,7 +463,7 @@ async def test_target_temperature_when_zone_owns(
 
 
 async def test_target_temperature_feature_follows_live_ownership(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -512,7 +512,7 @@ async def test_target_temperature_feature_follows_live_ownership(
 
 
 async def test_control_zone_extra_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -539,7 +539,7 @@ async def test_control_zone_extra_attributes(
 
 
 async def test_control_zone_source_controller_owner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -565,7 +565,7 @@ async def test_control_zone_source_controller_owner(
     ],
 )
 async def test_control_zone_source_unmatched_owner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -595,7 +595,7 @@ async def test_control_zone_source_unmatched_owner(
     ],
 )
 async def test_control_zone_source_follows_entity_id_rename(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -633,7 +633,7 @@ async def test_control_zone_source_follows_entity_id_rename(
 
 
 async def test_control_zone_source_follows_library_zone_owner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -661,7 +661,7 @@ async def test_control_zone_source_follows_library_zone_owner(
 
 
 async def test_const_control_zone_current_temperature_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -705,7 +705,7 @@ async def test_const_control_zone_current_temperature_unknown(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_refresh_failure_makes_entities_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_controller: Mock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -728,7 +728,7 @@ async def test_refresh_failure_makes_entities_unavailable(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_unavailable_logged_once_until_reconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_controller: Mock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -785,17 +785,17 @@ async def test_unavailable_logged_once_until_reconnect(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_controller_command_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_controller: Mock,
     command_error: Exception,
     expect_unavailable: bool,
     translation_key: str,
 ) -> None:
-    """Rejected and transport failures raise UniversalAssistantError; only transport clears availability."""
+    """Rejected and transport failures raise __HAC_KEEP__Error; only transport clears availability."""
     assert hass.states.get(CONTROLLER_ENTITY).state == HVACMode.COOL
 
     mock_controller.set_fan = AsyncMock(side_effect=command_error)
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,
@@ -811,7 +811,7 @@ async def test_controller_command_error_handling(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_command_on_reconfigured_system_reloads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_controller: Mock,
 ) -> None:
@@ -836,7 +836,7 @@ async def test_command_on_reconfigured_system_reloads(
         )
 
     assert all(
-        isinstance(result, UniversalAssistantError)
+        isinstance(result, __HAC_KEEP__Error)
         and result.translation_key == "system_reconfigured"
         for result in results
     )
@@ -845,15 +845,15 @@ async def test_command_on_reconfigured_system_reloads(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_controller_rejected_command_does_not_log_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_controller: Mock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Rejected commands raise UniversalAssistantError without a duplicate warning log."""
+    """Rejected commands raise __HAC_KEEP__Error without a duplicate warning log."""
     mock_controller.set_fan = AsyncMock(side_effect=ControllerCommandError("rejected"))
     with (
         caplog.at_level(logging.WARNING),
-        pytest.raises(UniversalAssistantError) as err,
+        pytest.raises(__HAC_KEEP__Error) as err,
     ):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
@@ -888,18 +888,18 @@ async def test_controller_rejected_command_does_not_log_warning(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_zone_command_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zones: list[Mock],
     command_error: Exception,
     expect_unavailable: bool,
     translation_key: str,
 ) -> None:
-    """Zone command errors raise UniversalAssistantError; only transport clears availability."""
+    """Zone command errors raise __HAC_KEEP__Error; only transport clears availability."""
     assert hass.states.get(CONTROLLER_ENTITY).state == HVACMode.COOL
     assert hass.states.get(ZONE_ENTITY) is not None
 
     mock_zones[0].set_mode = AsyncMock(side_effect=command_error)
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -929,7 +929,7 @@ async def test_zone_command_error_handling(
     ],
 )
 async def test_set_hvac_mode_free_air_noop_when_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -965,7 +965,7 @@ async def test_set_hvac_mode_free_air_noop_when_on(
     ],
 )
 async def test_set_hvac_mode_free_air_noop_when_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -976,7 +976,7 @@ async def test_set_hvac_mode_free_air_noop_when_unavailable(
     await setup_integration(hass, mock_config_entry)
 
     mock_controller.set_fan = AsyncMock(side_effect=ConnectionError("disconnected"))
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,
@@ -1012,7 +1012,7 @@ async def test_set_hvac_mode_free_air_noop_when_unavailable(
     ],
 )
 async def test_set_hvac_mode_free_air_turns_on_when_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -1048,7 +1048,7 @@ async def test_set_hvac_mode_free_air_turns_on_when_off(
     ],
 )
 async def test_set_hvac_mode_off_while_free_air(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -1077,7 +1077,7 @@ async def test_set_hvac_mode_off_while_free_air(
     [create_mock_controller(is_on=False, zone_ctrl=1, zones_total=1)],
 )
 async def test_set_hvac_mode_connection_error_on_turn_on_skips_set_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_create_discovery: AsyncMock,
     mock_controller: Mock,
@@ -1090,7 +1090,7 @@ async def test_set_hvac_mode_connection_error_on_turn_on_skips_set_mode(
     mock_controller.set_on = AsyncMock(side_effect=ConnectionError("disconnected"))
     mock_controller.set_mode = AsyncMock()
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -1105,13 +1105,13 @@ async def test_set_hvac_mode_connection_error_on_turn_on_skips_set_mode(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_command_connection_error_recovers_on_coordinator_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_controller: Mock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Entities recover when a later coordinator refresh succeeds after a transport failure."""
     mock_controller.set_fan = AsyncMock(side_effect=ConnectionError("disconnected"))
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,
@@ -1140,7 +1140,7 @@ async def test_command_connection_error_recovers_on_coordinator_refresh(
     ],
 )
 async def test_deprecated_airflow_action_still_works_and_raises_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_zones: list[Mock],
     service: str,
@@ -1175,7 +1175,7 @@ async def test_deprecated_airflow_action_still_works_and_raises_issue(
     ],
 )
 async def test_airflow_rejects_non_multiples_of_five(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zones: list[Mock],
     service: str,
     airflow: float,
@@ -1205,7 +1205,7 @@ async def test_airflow_rejects_non_multiples_of_five(
     ],
 )
 async def test_airflow_rejects_controller(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zones: list[Mock],
     service: str,
 ) -> None:

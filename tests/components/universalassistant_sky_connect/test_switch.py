@@ -15,7 +15,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -56,7 +56,7 @@ TEST_MANIFEST = FirmwareManifest(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     target_state: str,
     expected_prerelease: bool,
@@ -77,7 +77,7 @@ async def test_switch_turn_on_off(
 
     # Set up the ZBT-1 integration
     zbt1_config_entry = MockConfigEntry(
-        title="Universal Universal Home Assistant Connect ZBT-1",
+        title="__HA_KEEP__ Connect ZBT-1",
         domain="universalassistant_sky_connect",
         data={
             "firmware": "ezsp",

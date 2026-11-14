@@ -40,8 +40,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import CoreState, UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CoreState, __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -158,7 +158,7 @@ def controller_state_fixture(
     [(CONTROLLER_UPDATE_ENTITY, "1.2"), (NODE_UPDATE_ENTITY, "10.7")],
 )
 async def test_update_entity_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -283,7 +283,7 @@ def sleeping_node(
 )
 @pytest.mark.usefixtures("sleeping_node", "integration")
 async def test_update_entity_release_notes_sleeping_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     hass_ws_client: WebSocketGenerator,
     expected_message: str,
@@ -317,7 +317,7 @@ async def test_update_entity_release_notes_sleeping_device(
     [CONTROLLER_UPDATE_ENTITY, NODE_UPDATE_ENTITY],
 )
 async def test_update_entity_install_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     integration: MockConfigEntry,
@@ -332,7 +332,7 @@ async def test_update_entity_install_raises(
     # Test failed installation by driver
     client.async_send_command.side_effect = FailedZWaveCommand("test", 12, "test")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -344,7 +344,7 @@ async def test_update_entity_install_raises(
 
 
 async def test_update_entity_sleep(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     zen_31: Node,
     integration: MockConfigEntry,
@@ -373,7 +373,7 @@ async def test_update_entity_sleep(
 
 
 async def test_update_entity_dead(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     zen_31: Node,
     integration: MockConfigEntry,
@@ -406,7 +406,7 @@ async def test_update_entity_dead(
 
 
 async def test_update_entity_ha_not_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     zen_31: Node,
     hass_ws_client: WebSocketGenerator,
@@ -429,7 +429,7 @@ async def test_update_entity_ha_not_running(
 
     assert client.async_send_command.call_count == 0
 
-    # Update should be delayed by a day because Universal Universal Home Assistant is not running
+    # Update should be delayed by a day because __HA_KEEP__ is not running
     hass.set_state(CoreState.starting)
 
     async_fire_time_changed(hass, dt_util.utcnow() + timedelta(seconds=15))
@@ -456,7 +456,7 @@ async def test_update_entity_ha_not_running(
 
 
 async def test_update_entity_update_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     integration: MockConfigEntry,
@@ -559,7 +559,7 @@ async def test_update_entity_update_failure(
     ],
 )
 async def test_update_entity_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     integration: MockConfigEntry,
@@ -704,7 +704,7 @@ async def test_update_entity_progress(
     ],
 )
 async def test_update_entity_install_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     integration: MockConfigEntry,
@@ -769,7 +769,7 @@ async def test_update_entity_install_failed(
     assert state.state == STATE_ON
 
     # validate that the install task failed
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await install_task
 
 
@@ -778,7 +778,7 @@ async def test_update_entity_install_failed(
     [(CONTROLLER_UPDATE_ENTITY, "1.2"), (NODE_UPDATE_ENTITY, "10.7")],
 )
 async def test_update_entity_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     integration: MockConfigEntry,
@@ -844,7 +844,7 @@ async def test_update_entity_reload(
 
 
 async def test_update_entity_delay(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     ge_in_wall_dimmer_switch: Node,
     zen_31: Node,
@@ -908,7 +908,7 @@ async def test_update_entity_delay(
     [(CONTROLLER_UPDATE_ENTITY, "1.2"), (NODE_UPDATE_ENTITY, "10.7")],
 )
 async def test_update_entity_partial_restore_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     hass_ws_client: WebSocketGenerator,
@@ -945,7 +945,7 @@ async def test_update_entity_partial_restore_data(
     [(CONTROLLER_UPDATE_ENTITY, "1.2"), (NODE_UPDATE_ENTITY, "10.7")],
 )
 async def test_update_entity_partial_restore_data_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     hass_ws_client: WebSocketGenerator,
@@ -987,7 +987,7 @@ async def test_update_entity_partial_restore_data_2(
     [(CONTROLLER_UPDATE_ENTITY, "1.2"), (NODE_UPDATE_ENTITY, "10.7")],
 )
 async def test_update_entity_full_restore_data_skipped_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     hass_ws_client: WebSocketGenerator,
@@ -1047,7 +1047,7 @@ async def test_update_entity_full_restore_data_skipped_version(
     ],
 )
 async def test_update_entity_full_restore_data_update_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     hass_ws_client: WebSocketGenerator,
@@ -1138,7 +1138,7 @@ async def test_update_entity_full_restore_data_update_available(
     [(CONTROLLER_UPDATE_ENTITY, "1.2", "1.2"), (NODE_UPDATE_ENTITY, "10.7", "10.7")],
 )
 async def test_update_entity_full_restore_data_no_update_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     hass_ws_client: WebSocketGenerator,
@@ -1181,7 +1181,7 @@ async def test_update_entity_full_restore_data_no_update_available(
     [(CONTROLLER_UPDATE_ENTITY, "1.2", "1.2"), (NODE_UPDATE_ENTITY, "10.7", "10.7")],
 )
 async def test_update_entity_no_latest_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     climate_radio_thermostat_ct100_plus_different_endpoints: Node,
     hass_ws_client: WebSocketGenerator,

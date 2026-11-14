@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.scene import BaseScene
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import NikoHomeControlConfigEntry
@@ -11,7 +11,7 @@ from .entity import NikoHomeControlEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NikoHomeControlConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

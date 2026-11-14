@@ -17,7 +17,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -59,7 +59,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the ISY 994 integration."""
 
     async_setup_services(hass)
@@ -67,7 +67,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: IsyConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: IsyConfigEntry) -> None:
     """Migrate old config entries."""
     if entry.version == 1 and entry.minor_version == 1:
         new_data = {key: value for key, value in entry.data.items() if key != "tls"}
@@ -75,7 +75,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: IsyConfigEntry) -
         hass.config_entries.async_update_entry(entry, data=new_data, minor_version=2)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IsyConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IsyConfigEntry) -> None:
     """Set up the ISY 994 integration."""
     isy_config = entry.data
     isy_options = entry.options
@@ -185,7 +185,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IsyConfigEntry) -> 
 
     @callback
     def _async_stop_auto_update(event: Event) -> None:
-        """Stop the isy auto update on Universal Universal Home Assistant Shutdown."""
+        """Stop the isy auto update on __HA_KEEP__ Shutdown."""
         LOGGER.debug("ISY Stopping Event Stream and automatic updates")
         isy.websocket.stop()
 
@@ -199,7 +199,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IsyConfigEntry) -> 
 
 @callback
 def _async_get_or_create_isy_device_in_registry(
-    hass: UniversalAssistant, entry: IsyConfigEntry, isy: ISY
+    hass: __HAC_KEEP__, entry: IsyConfigEntry, isy: ISY
 ) -> None:
     device_registry = dr.async_get(hass)
     device_registry.async_get_or_create(
@@ -237,7 +237,7 @@ def _create_service_device_info(
     return device_info
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IsyConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IsyConfigEntry) -> None:
     """Unload a config entry."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -247,7 +247,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: IsyConfigEntry) ->
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: IsyConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

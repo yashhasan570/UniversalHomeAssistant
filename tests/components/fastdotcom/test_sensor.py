@@ -6,13 +6,13 @@ from freezegun.api import FrozenDateTimeFactory
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.fastdotcom.const import DEFAULT_NAME, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_DATA
 
 
 async def test_fastdotcom_data_update_coordinator(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the update coordinator."""
     config_entry = MockConfigEntry(

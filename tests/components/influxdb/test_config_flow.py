@@ -33,7 +33,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import (
@@ -152,7 +152,7 @@ def patch_file_upload(return_value=PATH_FIXTURE, side_effect=None):
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_setup_v1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     config_base: dict[str, Any],
     config_url: dict[str, Any],
@@ -223,7 +223,7 @@ async def test_setup_v1(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_setup_v1_ssl_cert(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     config_base: dict[str, Any],
     config_url: dict[str, Any],
@@ -291,7 +291,7 @@ async def test_setup_v1_ssl_cert(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_setup_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     config_base: dict[str, Any],
     get_write_api: Any,
@@ -352,7 +352,7 @@ async def test_setup_v2(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_setup_v2_ssl_cert(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     config_base: dict[str, Any],
     get_write_api: Any,
@@ -510,7 +510,7 @@ async def test_setup_v2_ssl_cert(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_setup_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     config_base: dict[str, Any],
     api_version: str,
@@ -569,7 +569,7 @@ async def test_setup_connection_error(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_single_instance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     config_base: dict[str, Any],
     get_write_api: Any,
@@ -667,7 +667,7 @@ async def test_single_instance(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_v1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     entry_data: dict[str, Any],
     user_input: dict[str, Any],
@@ -732,7 +732,7 @@ async def test_reconfigure_v1(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     entry_data: dict[str, Any],
     user_input: dict[str, Any],
@@ -793,7 +793,7 @@ async def test_reconfigure_v2(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_v1_ssl_cert(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     entry_data: dict[str, Any],
     user_input: dict[str, Any],
@@ -849,7 +849,7 @@ async def test_reconfigure_v1_ssl_cert(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_v2_ssl_cert(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     entry_data: dict[str, Any],
     user_input: dict[str, Any],
@@ -926,7 +926,7 @@ async def test_reconfigure_v2_ssl_cert(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_preserves_existing_cert(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     entry_data: dict[str, Any],
     user_input: dict[str, Any],
@@ -1028,7 +1028,7 @@ async def test_reconfigure_preserves_existing_cert(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     entry_data: dict[str, Any],
     user_input: dict[str, Any],

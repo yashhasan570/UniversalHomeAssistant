@@ -27,7 +27,7 @@ from universalassistant.components.monzo.sensor import (
 )
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -46,7 +46,7 @@ EXPECTED_VALUE_GETTERS = {
 
 
 async def async_get_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     acc_id: str,
     description: MonzoSensorEntityDescription,
 ) -> str | None:
@@ -74,7 +74,7 @@ def async_assert_state_equals(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_default_enabled_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -97,7 +97,7 @@ async def test_sensor_default_enabled_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_unavailable_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     basic_monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -116,7 +116,7 @@ async def test_unavailable_entity(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_deleted_pot_is_removed_and_can_be_rediscovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     basic_monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -186,12 +186,12 @@ async def test_deleted_pot_is_removed_and_can_be_rediscovered(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "monzo")
 async def test_stale_resource_is_removed_during_initial_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     polling_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
-    """Test a resource removed while Universal Universal Home Assistant was stopped is cleaned up."""
+    """Test a resource removed while __HA_KEEP__ was stopped is cleaned up."""
     polling_config_entry.add_to_hass(hass)
     stale_device = device_registry.async_get_or_create(
         config_entry_id=polling_config_entry.entry_id,
@@ -214,7 +214,7 @@ async def test_stale_resource_is_removed_during_initial_refresh(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_new_accounts_and_pots_are_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -273,7 +273,7 @@ async def test_new_accounts_and_pots_are_discovered(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     monzo: AsyncMock,
@@ -308,7 +308,7 @@ async def test_all_entities(
     ],
 )
 async def test_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     monzo: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

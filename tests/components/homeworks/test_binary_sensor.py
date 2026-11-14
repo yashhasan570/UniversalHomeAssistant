@@ -10,11 +10,11 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.components.homeworks import KEYPAD_LEDSTATE_POLL_COOLDOWN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_binary_sensor_attributes_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homeworks: MagicMock,
     freezer: FrozenDateTimeFactory,

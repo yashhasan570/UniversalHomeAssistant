@@ -19,11 +19,11 @@ from pytest_universalassistant.components.common import (
 
 from universalassistant.components.vacuum import VacuumActivity
 from universalassistant.components.vacuum.condition import CONDITIONS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_vacuums(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_vacuums(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple vacuum entities associated with different targets."""
     return await target_entities(hass, "vacuum")
 
@@ -48,7 +48,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_vacuum_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -104,7 +104,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_vacuum_state_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_vacuums: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -161,7 +161,7 @@ async def test_vacuum_state_condition_behavior_any(
     ],
 )
 async def test_vacuum_state_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_vacuums: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,

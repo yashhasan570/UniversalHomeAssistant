@@ -12,7 +12,7 @@ from typing import Any
 from aiohasupervisor import SupervisorBadRequestError, SupervisorError
 from aiohasupervisor.models import (
     GreenOptions,
-    UniversalAssistantOptions,
+    __HAC_KEEP__Options,
     LogsOptions,
     SupervisorOptions,
     YellowOptions,
@@ -27,7 +27,7 @@ from universalassistant.components.onboarding import async_is_onboarded
 from universalassistant.components.system_log import async_register_log_reader
 from universalassistant.config_entries import SOURCE_SYSTEM, ConfigEntry
 from universalassistant.const import EVENT_CORE_CONFIG_UPDATE, HASSIO_USER_NAME, Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -199,7 +199,7 @@ def hostname_from_addon_slug(addon_slug: str) -> str:
 
 
 async def _async_get_or_create_supervisor_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry | None,
     legacy_user_id: str | None = None,
 ) -> User:
@@ -287,7 +287,7 @@ def _async_migrate_legacy_options(
 
 
 @callback
-def _check_deprecated_setup(hass: UniversalAssistant) -> None:
+def _check_deprecated_setup(hass: __HAC_KEEP__) -> None:
     """Create issues for deprecated installation types and architectures."""
     os_info = get_os_info(hass)
     info = get_info(hass)
@@ -339,7 +339,7 @@ def _check_deprecated_setup(hass: UniversalAssistant) -> None:
         )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Hass.io component."""
     missing_env: str | None = None
     if not os.environ.get(ENV_SUPERVISOR):
@@ -361,7 +361,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     ir.async_delete_issue(hass, DOMAIN, "legacy_universalassistant_folder")
 
     async def _async_read_core_log(lines: int) -> AsyncIterator[str]:
-        """Stream the last lines of the log of Universal Universal Home Assistant since it started."""
+        """Stream the last lines of the log of __HA_KEEP__ since it started."""
         client = get_supervisor_client(hass)
         try:
             stream = await client.universalassistant.logs(
@@ -373,9 +373,9 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
                 async for line in stream:
                     yield line
         except SupervisorError as err:
-            _LOGGER.debug("Could not read the Universal Universal Home Assistant log: %s", err)
+            _LOGGER.debug("Could not read the __HA_KEEP__ log: %s", err)
 
-    # Without a log file, Universal Universal Home Assistant only logs to the Supervisor journal
+    # Without a log file, __HA_KEEP__ only logs to the Supervisor journal
     async_register_log_reader(hass, _async_read_core_log)
 
     legacy_store = HassioConfigStore(hass)
@@ -402,7 +402,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
     if entry is None:
         # Create the config entry directly instead of via the discovery flow
-        # helper, which defers flow creation until Universal Universal Home Assistant has started.
+        # helper, which defers flow creation until __HA_KEEP__ has started.
         # All Supervisor data is fetched by the entry's coordinators, so on
         # first boot deferring would leave system info unavailable during
         # onboarding and race listeners of the started event.
@@ -415,7 +415,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     # Deprecated in 2026.8: remove this legacy store migration path after the
     # deprecation window for .storage/hassio has elapsed.
@@ -564,7 +564,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
     )
 
-    async def _async_stop(hass: UniversalAssistant, restart: bool) -> None:
+    async def _async_stop(hass: __HAC_KEEP__, restart: bool) -> None:
         """Stop or restart universal assistant."""
         if restart:
             await supervisor_client.universalassistant.restart()
@@ -601,11 +601,11 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
     entry.async_on_unload(hass.bus.async_listen(EVENT_CORE_CONFIG_UPDATE, push_config))
 
     async def update_hass_api() -> None:
-        """Update Universal Universal Home Assistant API data on Hass.io."""
+        """Update __HA_KEEP__ API data on Hass.io."""
         # hass.config.api is always set here: hassio depends on http, and the
         # http integration assigns hass.config.api during its async_setup.
         assert hass.config.api is not None
-        options = UniversalAssistantOptions(
+        options = __HAC_KEEP__Options(
             ssl=hass.config.api.use_ssl,
             port=hass.config.api.port,
             refresh_token=None,
@@ -615,7 +615,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
             await supervisor_client.universalassistant.set_options(options)
         except SupervisorError as err:
             _LOGGER.warning(
-                "Failed to update Universal Universal Home Assistant options in Supervisor: %s", err
+                "Failed to update __HA_KEEP__ options in Supervisor: %s", err
             )
 
     # Push initial config to Supervisor and refresh issues state
@@ -649,7 +649,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         await legacy_store.async_remove()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

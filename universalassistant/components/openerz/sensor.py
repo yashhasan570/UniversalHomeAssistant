@@ -11,7 +11,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
 )
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -31,7 +31,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -65,6 +65,6 @@ class OpenERZSensor(SensorEntity):
     def update(self) -> None:
         """Fetch new state data for the sensor.
 
-        This is the only method that should fetch new data for Universal Universal Home Assistant.
+        This is the only method that should fetch new data for __HA_KEEP__.
         """
         self._state = self.api_connector.find_next_pickup(day_offset=31)

@@ -10,7 +10,7 @@ from universalassistant.components.bluetooth.passive_update_processor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 type RuuvitagBLEConfigEntry = ConfigEntry[PassiveBluetoothProcessorCoordinator]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: RuuvitagBLEConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: RuuvitagBLEConfigEntry) -> None:
     """Set up Ruuvi BLE device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -39,7 +39,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: RuuvitagBLEConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: RuuvitagBLEConfigEntry
+    hass: __HAC_KEEP__, entry: RuuvitagBLEConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

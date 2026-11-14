@@ -31,7 +31,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -62,7 +62,7 @@ from . import (
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_sensors(hass: UniversalAssistant) -> None:
+async def test_sensors(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, WOHAND_SERVICE_INFO)
@@ -102,7 +102,7 @@ async def test_sensors(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_co2_sensor(hass: UniversalAssistant) -> None:
+async def test_co2_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the co2 sensor for a WoTHPc."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, WOMETERTHPC_SERVICE_INFO)
@@ -148,7 +148,7 @@ async def test_co2_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_relay_switch_1pm_sensor(hass: UniversalAssistant) -> None:
+async def test_relay_switch_1pm_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the relay switch 1PM sensor."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, WORELAY_SWITCH_1PM_SERVICE_INFO)
@@ -222,7 +222,7 @@ async def test_relay_switch_1pm_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_leak_sensor(hass: UniversalAssistant) -> None:
+async def test_leak_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up the leak detector."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, LEAK_SERVICE_INFO)
@@ -264,7 +264,7 @@ async def test_leak_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_remote(hass: UniversalAssistant) -> None:
+async def test_remote(hass: __HAC_KEEP__) -> None:
     """Test setting up the remote sensor."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, REMOTE_SERVICE_INFO)
@@ -303,7 +303,7 @@ async def test_remote(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_universal_remote_sensor(hass: UniversalAssistant) -> None:
+async def test_universal_remote_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up the Universal Remote battery sensor and charging binary sensor."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, UNIVERSAL_REMOTE_SERVICE_INFO)
@@ -348,7 +348,7 @@ async def test_universal_remote_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_hub2_sensor(hass: UniversalAssistant) -> None:
+async def test_hub2_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensor for WoHub2."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, WOHUB2_SERVICE_INFO)
@@ -405,7 +405,7 @@ async def test_hub2_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_hubmini_matter_sensor(hass: UniversalAssistant) -> None:
+async def test_hubmini_matter_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensor for HubMini Matter."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, HUBMINI_MATTER_SERVICE_INFO)
@@ -451,7 +451,7 @@ async def test_hubmini_matter_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_fan_sensors(hass: UniversalAssistant) -> None:
+async def test_fan_sensors(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, CIRCULATOR_FAN_SERVICE_INFO)
@@ -495,7 +495,7 @@ async def test_fan_sensors(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_hub3_sensor(hass: UniversalAssistant) -> None:
+async def test_hub3_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensor for Hub3."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, HUB3_SERVICE_INFO)
@@ -554,7 +554,7 @@ async def test_hub3_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_evaporative_humidifier_sensor(hass: UniversalAssistant) -> None:
+async def test_evaporative_humidifier_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensor for evaporative humidifier."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, EVAPORATIVE_HUMIDIFIER_SERVICE_INFO)
@@ -612,7 +612,7 @@ async def test_evaporative_humidifier_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_plug_mini_eu_sensor(hass: UniversalAssistant) -> None:
+async def test_plug_mini_eu_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the plug mini eu sensor."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, PLUG_MINI_EU_SERVICE_INFO)
@@ -686,7 +686,7 @@ async def test_plug_mini_eu_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_relay_switch_2pm_sensor(hass: UniversalAssistant) -> None:
+async def test_relay_switch_2pm_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the relay switch 2PM sensor."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, RELAY_SWITCH_2PM_SERVICE_INFO)
@@ -796,7 +796,7 @@ async def test_relay_switch_2pm_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_climate_panel_sensor(hass: UniversalAssistant) -> None:
+async def test_climate_panel_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensor for Climate Panel."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, CLIMATE_PANEL_SERVICE_INFO)
@@ -859,7 +859,7 @@ async def test_climate_panel_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_presence_sensor(hass: UniversalAssistant) -> None:
+async def test_presence_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors for Presence Sensor."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, PRESENCE_SENSOR_SERVICE_INFO)
@@ -916,7 +916,7 @@ async def test_presence_sensor(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_presence_sensor_without_battery(hass: UniversalAssistant) -> None:
+async def test_presence_sensor_without_battery(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors for Presence Sensor without battery."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, PRESENCE_SENSOR_SERVICE_INFO)
@@ -1000,7 +1000,7 @@ async def test_presence_sensor_without_battery(hass: UniversalAssistant) -> None
     ],
 )
 async def test_presence_sensor_battery_range_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     raw_battery_range: str,
     expected_state: str,
 ) -> None:
@@ -1088,7 +1088,7 @@ async def test_presence_sensor_battery_range_mapping(
     ],
 )
 async def test_keypad_vision_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     adv_info: BluetoothServiceInfoBleak,
     sensor_type: str,
     charging_state: str,
@@ -1191,7 +1191,7 @@ async def test_keypad_vision_sensor(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_air_purifier_sensor(hass: UniversalAssistant) -> None:
+async def test_air_purifier_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the air purifier sensor."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, AIR_PURIFIER_TABLE_US_SERVICE_INFO)
@@ -1272,7 +1272,7 @@ async def test_air_purifier_sensor(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_air_purifier_filter_usage_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service_info: BluetoothServiceInfoBleak,
@@ -1325,7 +1325,7 @@ async def test_air_purifier_filter_usage_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_air_purifier_pm25_sensor_unknown_before_first_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test PM2.5 sensor shows unknown state when active poll has not yet returned data.
 
@@ -1372,7 +1372,7 @@ async def test_air_purifier_pm25_sensor_unknown_before_first_poll(
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_weather_station_sensor(hass: UniversalAssistant) -> None:
+async def test_weather_station_sensor(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors for Weather Station."""
     await async_setup_component(hass, DOMAIN, {})
     inject_bluetooth_service_info(hass, WEATHER_STATION_SERVICE_INFO)

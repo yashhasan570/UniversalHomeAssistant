@@ -6,25 +6,25 @@ import contextlib
 import os
 import shutil
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 # From typeshed
 type StrOrBytesPath = str | bytes | os.PathLike[str] | os.PathLike[bytes]
 type FileDescriptorOrPath = int | StrOrBytesPath
 
 
-async def async_exists(hass: UniversalAssistant, path: FileDescriptorOrPath) -> bool:
+async def async_exists(hass: __HAC_KEEP__, path: FileDescriptorOrPath) -> bool:
     """Test whether a path exists."""
     return await hass.async_add_executor_job(os.path.exists, path)
 
 
-async def async_lexists(hass: UniversalAssistant, path: StrOrBytesPath) -> bool:
+async def async_lexists(hass: __HAC_KEEP__, path: StrOrBytesPath) -> bool:
     """Test whether a path exists, a broken symlink counts."""
     return await hass.async_add_executor_job(os.path.lexists, path)
 
 
 async def async_remove(
-    hass: UniversalAssistant, path: StrOrBytesPath, *, missing_ok: bool = False
+    hass: __HAC_KEEP__, path: StrOrBytesPath, *, missing_ok: bool = False
 ) -> None:
     """Remove a path."""
     try:
@@ -36,7 +36,7 @@ async def async_remove(
 
 
 async def async_remove_directory(
-    hass: UniversalAssistant, path: StrOrBytesPath, *, missing_ok: bool = False
+    hass: __HAC_KEEP__, path: StrOrBytesPath, *, missing_ok: bool = False
 ) -> None:
     """Remove a directory, or the symlink to one."""
     try:
@@ -49,7 +49,7 @@ async def async_remove_directory(
         raise
 
 
-async def async_run_to_completion[T](hass: UniversalAssistant, target: Callable[[], T]) -> T:
+async def async_run_to_completion[T](hass: __HAC_KEEP__, target: Callable[[], T]) -> T:
     """Run in the executor, when cancelled wait for it to finish first.
 
     Cancelling does not stop the thread, it would keep writing while the

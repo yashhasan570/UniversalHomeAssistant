@@ -13,7 +13,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker, Cli
 from universalassistant import config_entries
 from universalassistant.components.hue import DOMAIN, config_flow, const
 from universalassistant.components.hue.errors import CannotConnect
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.zeroconf import (
@@ -55,7 +55,7 @@ def create_mock_api_discovery(aioclient_mock, bridges):
         )
 
 
-async def test_flow_works(hass: UniversalAssistant) -> None:
+async def test_flow_works(hass: __HAC_KEEP__) -> None:
     """Test config flow ."""
     disc_bridge = get_discovered_bridge(supports_v2=True)
 
@@ -98,7 +98,7 @@ async def test_flow_works(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_manual_flow_works(hass: UniversalAssistant) -> None:
+async def test_manual_flow_works(hass: __HAC_KEEP__) -> None:
     """Test config flow discovers only already configured bridges."""
     disc_bridge = get_discovered_bridge(bridge_id="id-1234", host="2.2.2.2")
 
@@ -151,7 +151,7 @@ async def test_manual_flow_works(hass: UniversalAssistant) -> None:
     assert entry.unique_id == "id-1234"
 
 
-async def test_manual_flow_bridge_exist(hass: UniversalAssistant) -> None:
+async def test_manual_flow_bridge_exist(hass: __HAC_KEEP__) -> None:
     """Test config flow aborts on already configured bridges."""
     MockConfigEntry(
         domain=DOMAIN, unique_id="id-1234", data={"host": "2.2.2.2"}
@@ -177,7 +177,7 @@ async def test_manual_flow_bridge_exist(hass: UniversalAssistant) -> None:
 
 
 async def test_manual_flow_no_discovered_bridges(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test config flow discovers no bridges."""
     create_mock_api_discovery(aioclient_mock, [])
@@ -190,7 +190,7 @@ async def test_manual_flow_no_discovered_bridges(
 
 
 async def test_flow_all_discovered_bridges_exist(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test config flow discovers only already configured bridges."""
     mock_host = "1.2.3.4"
@@ -210,7 +210,7 @@ async def test_flow_all_discovered_bridges_exist(
 
 
 async def test_flow_bridges_discovered(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test config flow discovers two bridges."""
     # Add ignored config entry. Should still show up as option.
@@ -237,7 +237,7 @@ async def test_flow_bridges_discovered(
 
 
 async def test_flow_two_bridges_discovered_one_new(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test config flow discovers two bridges."""
     create_mock_api_discovery(aioclient_mock, [("1.2.3.4", "bla"), ("5.6.7.8", "beer")])
@@ -257,7 +257,7 @@ async def test_flow_two_bridges_discovered_one_new(
         assert not result["data_schema"]({"id": "bla"})
 
 
-async def test_flow_timeout_discovery(hass: UniversalAssistant) -> None:
+async def test_flow_timeout_discovery(hass: __HAC_KEEP__) -> None:
     """Test config flow ."""
     with patch(
         "universalassistant.components.hue.config_flow.discover_nupnp",
@@ -271,7 +271,7 @@ async def test_flow_timeout_discovery(hass: UniversalAssistant) -> None:
     assert result["step_id"] == "manual"
 
 
-async def test_flow_link_unknown_error(hass: UniversalAssistant) -> None:
+async def test_flow_link_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test if a unknown error happened during the linking processes."""
     disc_bridge = get_discovered_bridge()
     with patch(
@@ -303,7 +303,7 @@ async def test_flow_link_unknown_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_link_button_not_pressed(hass: UniversalAssistant) -> None:
+async def test_flow_link_button_not_pressed(hass: __HAC_KEEP__) -> None:
     """Test config flow ."""
     disc_bridge = get_discovered_bridge()
     with patch(
@@ -335,7 +335,7 @@ async def test_flow_link_button_not_pressed(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_link_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_flow_link_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test config flow ."""
     disc_bridge = get_discovered_bridge()
     with patch(
@@ -360,7 +360,7 @@ async def test_flow_link_cannot_connect(hass: UniversalAssistant) -> None:
 
 
 async def test_import_with_no_config(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test importing a host without an existing config file."""
     create_mock_api_discovery(aioclient_mock, [("0.0.0.0", "1234")])
@@ -375,7 +375,7 @@ async def test_import_with_no_config(
 
 
 async def test_creating_entry_removes_entries_for_same_host_or_bridge(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test that we clean up entries for same host and bridge.
 
@@ -432,7 +432,7 @@ async def test_creating_entry_removes_entries_for_same_host_or_bridge(
 
 
 async def test_bridge_homekit(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test a bridge being discovered via HomeKit."""
     create_mock_api_discovery(aioclient_mock, [("0.0.0.0", "bla")])
@@ -462,7 +462,7 @@ async def test_bridge_homekit(
     assert flow["context"]["unique_id"] == config_entries.DEFAULT_DISCOVERY_UNIQUE_ID
 
 
-async def test_bridge_import_already_configured(hass: UniversalAssistant) -> None:
+async def test_bridge_import_already_configured(hass: __HAC_KEEP__) -> None:
     """Test if a import flow aborts if host is already configured."""
     MockConfigEntry(
         domain=DOMAIN, unique_id="aabbccddeeff", data={"host": "0.0.0.0"}
@@ -479,7 +479,7 @@ async def test_bridge_import_already_configured(hass: UniversalAssistant) -> Non
 
 
 async def test_bridge_homekit_already_configured(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test if a HomeKit discovered bridge has already been configured."""
     create_mock_api_discovery(aioclient_mock, [("0.0.0.0", "aabbccddeeff")])
@@ -505,7 +505,7 @@ async def test_bridge_homekit_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_options_flow_v1(hass: UniversalAssistant) -> None:
+async def test_options_flow_v1(hass: __HAC_KEEP__) -> None:
     """Test options config flow for a V1 bridge."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -552,7 +552,7 @@ def _get_schema_default(schema, key_name):
 
 
 async def test_options_flow_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test options config flow for a V2 bridge."""
@@ -587,7 +587,7 @@ async def test_options_flow_v2(
 
 
 async def test_bridge_zeroconf(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test a bridge being discovered."""
     create_mock_api_discovery(aioclient_mock, [("192.168.1.217", "ecb5fafffeabcabc")])
@@ -614,7 +614,7 @@ async def test_bridge_zeroconf(
 
 
 async def test_bridge_zeroconf_already_exists(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test a bridge being discovered by zeroconf already exists."""
     create_mock_api_discovery(
@@ -650,7 +650,7 @@ async def test_bridge_zeroconf_already_exists(
     assert entry.data["host"] == "192.168.1.217"
 
 
-async def test_bridge_zeroconf_ipv6(hass: UniversalAssistant) -> None:
+async def test_bridge_zeroconf_ipv6(hass: __HAC_KEEP__) -> None:
     """Test a bridge being discovered by zeroconf and ipv6 address."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN,
@@ -675,7 +675,7 @@ async def test_bridge_zeroconf_ipv6(hass: UniversalAssistant) -> None:
 
 
 async def test_bridge_connection_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -748,7 +748,7 @@ async def test_bridge_connection_failed(
 
 
 async def test_bsb003_bridge_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -815,7 +815,7 @@ async def test_bsb003_bridge_discovery(
 
 
 async def test_bsb003_bridge_discovery_old_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -856,7 +856,7 @@ async def test_bsb003_bridge_discovery_old_version(
 
 
 async def test_bsb003_bridge_discovery_same_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -908,7 +908,7 @@ async def test_bsb003_bridge_discovery_same_host(
 
 @pytest.mark.parametrize("exception", [AiohueException, ClientError])
 async def test_bsb003_bridge_discovery_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     device_registry: dr.DeviceRegistry,
     exception: Exception,

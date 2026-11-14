@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.lyric.api import OAuth2SessionLyric
 from universalassistant.components.lyric.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -19,7 +19,7 @@ from .conftest import build_mock_lyric, location_json, lyric_exception, thermost
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
     entry = MockConfigEntry(
@@ -48,7 +48,7 @@ async def test_oauth_implementation_not_available(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_setup_retry_on_room_priority_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A non-400 error fetching room priority data should mark the entry as not ready."""
@@ -69,7 +69,7 @@ async def test_setup_retry_on_room_priority_error(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_setup_retry_on_unexpected_bad_request_reason(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A 400 for a reason other than GetPriorityFailed should mark the entry as not ready."""
@@ -90,7 +90,7 @@ async def test_setup_retry_on_unexpected_bad_request_reason(
 
 @pytest.mark.usefixtures("setup_credentials")
 async def test_setup_error_starts_reauth_on_authentication_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Authentication errors should fail setup and start a reauth flow."""

@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -16,7 +16,7 @@ from universalassistant.helpers import entity_registry as er
 @pytest.mark.parametrize("platforms", [(BUTTON_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_button_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -26,7 +26,7 @@ async def test_adam_button_snapshot(
 
 
 async def test_adam_press_reboot_button(
-    hass: UniversalAssistant, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, mock_smile_adam: MagicMock, init_integration: MockConfigEntry
 ) -> None:
     """Test pressing of button entity."""
     await hass.services.async_call(

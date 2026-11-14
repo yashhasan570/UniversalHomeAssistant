@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
@@ -34,7 +34,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def _remove_missing_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: DaliCenterConfigEntry,
     devices: Sequence[Device],
     gateway_identifier: tuple[str, str],
@@ -62,7 +62,7 @@ def _remove_missing_devices(
             device_registry.async_remove_device(device_entry.id)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: DaliCenterConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: DaliCenterConfigEntry) -> None:
     """Set up Sunricher DALI from a config entry."""
 
     gateway = DaliGateway(
@@ -117,7 +117,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DaliCenterConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: DaliCenterConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: DaliCenterConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)
     await entry.runtime_data.gateway.disconnect()

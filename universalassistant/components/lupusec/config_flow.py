@@ -9,8 +9,8 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DOMAIN
 
@@ -63,7 +63,7 @@ class LupusecConfigFlowHandler(ConfigFlow, domain=DOMAIN):
 
 
 async def test_host_connection(
-    hass: UniversalAssistant, host: str, username: str, password: str
+    hass: __HAC_KEEP__, host: str, username: str, password: str
 ):
     """Test if the host is reachable and is actually a Lupusec device."""
 
@@ -74,5 +74,5 @@ async def test_host_connection(
         raise CannotConnect from ex
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

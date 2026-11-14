@@ -20,8 +20,8 @@ from universalassistant.components.valve import (
     ValveEntityDescription,
     ValveEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DEV_MODEL_WATER_METER_YS5007, DOMAIN
@@ -108,7 +108,7 @@ DEVICE_TYPE = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: YoLinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -171,7 +171,7 @@ class YoLinkValveEntity(YoLinkEntity, ValveEntity):
             self.coordinator.device.is_support_mode_switching()
             and self.coordinator.dev_net_type == ATTR_DEVICE_MODEL_A
         ):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="valve_inoperable_currently"
             )
         if (

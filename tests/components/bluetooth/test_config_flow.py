@@ -28,7 +28,7 @@ from universalassistant.components.bluetooth.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import area_registry as ar, device_registry as dr
 from universalassistant.setup import async_setup_component
@@ -38,7 +38,7 @@ from universalassistant.setup import async_setup_component
     "macos_adapter", "mock_bleak_scanner_start", "mock_bluetooth_adapters"
 )
 async def test_options_flow_disabled_not_setup(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test options are disabled if the integration has not been setup."""
     await async_setup_component(hass, "config", {})
@@ -65,7 +65,7 @@ async def test_options_flow_disabled_not_setup(
 
 
 @pytest.mark.usefixtures("macos_adapter")
-async def test_async_step_user_macos(hass: UniversalAssistant) -> None:
+async def test_async_step_user_macos(hass: __HAC_KEEP__) -> None:
     """Test setting up manually with one adapter on MacOS."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -89,7 +89,7 @@ async def test_async_step_user_macos(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("one_adapter")
-async def test_async_step_user_linux_one_adapter(hass: UniversalAssistant) -> None:
+async def test_async_step_user_linux_one_adapter(hass: __HAC_KEEP__) -> None:
     """Test setting up manually with one adapter on Linux."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -118,7 +118,7 @@ async def test_async_step_user_linux_one_adapter(hass: UniversalAssistant) -> No
 
 
 async def test_async_step_user_linux_crashed_adapter(
-    hass: UniversalAssistant, crashed_adapter: None
+    hass: __HAC_KEEP__, crashed_adapter: None
 ) -> None:
     """Test setting up manually with one crashed adapter on Linux."""
     result = await hass.config_entries.flow.async_init(
@@ -129,7 +129,7 @@ async def test_async_step_user_linux_crashed_adapter(
 
 
 @pytest.mark.usefixtures("two_adapters")
-async def test_async_step_user_linux_two_adapters(hass: UniversalAssistant) -> None:
+async def test_async_step_user_linux_two_adapters(hass: __HAC_KEEP__) -> None:
     """Test setting up manually with two adapters on Linux."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -157,7 +157,7 @@ async def test_async_step_user_linux_two_adapters(hass: UniversalAssistant) -> N
 
 
 @pytest.mark.usefixtures("macos_adapter")
-async def test_async_step_user_only_allows_one(hass: UniversalAssistant) -> None:
+async def test_async_step_user_only_allows_one(hass: __HAC_KEEP__) -> None:
     """Test setting up manually with an existing entry."""
     entry = MockConfigEntry(domain=DOMAIN, unique_id=DEFAULT_ADDRESS)
     entry.add_to_hass(hass)
@@ -168,7 +168,7 @@ async def test_async_step_user_only_allows_one(hass: UniversalAssistant) -> None
     assert result["reason"] == "no_adapters"
 
 
-async def test_async_step_integration_discovery(hass: UniversalAssistant) -> None:
+async def test_async_step_integration_discovery(hass: __HAC_KEEP__) -> None:
     """Test setting up from integration discovery."""
 
     details = AdapterDetails(
@@ -208,7 +208,7 @@ async def test_async_step_integration_discovery(hass: UniversalAssistant) -> Non
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_async_step_integration_discovery_during_onboarding_one_adapter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setting up from integration discovery during onboarding."""
     details = AdapterDetails(
@@ -243,7 +243,7 @@ async def test_async_step_integration_discovery_during_onboarding_one_adapter(
 
 @pytest.mark.usefixtures("two_adapters")
 async def test_async_step_integration_discovery_during_onboarding_two_adapters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setting up from integration discovery during onboarding."""
     details1 = AdapterDetails(
@@ -294,7 +294,7 @@ async def test_async_step_integration_discovery_during_onboarding_two_adapters(
 
 @pytest.mark.usefixtures("macos_adapter")
 async def test_async_step_integration_discovery_during_onboarding(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setting up from integration discovery during onboarding."""
     details = AdapterDetails(
@@ -328,7 +328,7 @@ async def test_async_step_integration_discovery_during_onboarding(
 
 
 async def test_async_step_integration_discovery_already_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setting up from integration discovery when an entry already exists."""
     details = AdapterDetails(
@@ -353,7 +353,7 @@ async def test_async_step_integration_discovery_already_exists(
 @pytest.mark.usefixtures(
     "one_adapter", "mock_bleak_scanner_start", "mock_bluetooth_adapters"
 )
-async def test_options_flow_linux(hass: UniversalAssistant, mode: str) -> None:
+async def test_options_flow_linux(hass: __HAC_KEEP__, mode: str) -> None:
     """Test options on Linux."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -398,7 +398,7 @@ async def test_options_flow_linux(hass: UniversalAssistant, mode: str) -> None:
     "one_adapter", "mock_bleak_scanner_start", "mock_bluetooth_adapters"
 )
 async def test_options_flow_default_reflects_existing_options(
-    hass: UniversalAssistant, options: dict[str, Any], expected_default: str
+    hass: __HAC_KEEP__, options: dict[str, Any], expected_default: str
 ) -> None:
     """Options form preselects the current mode, including legacy CONF_PASSIVE."""
     entry = MockConfigEntry(
@@ -425,7 +425,7 @@ async def test_options_flow_default_reflects_existing_options(
     "macos_adapter", "mock_bleak_scanner_start", "mock_bluetooth_adapters"
 )
 async def test_options_flow_disabled_macos(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test options are disabled on MacOS."""
     await async_setup_component(hass, "config", {})
@@ -455,7 +455,7 @@ async def test_options_flow_disabled_macos(
     "one_adapter", "mock_bleak_scanner_start", "mock_bluetooth_adapters"
 )
 async def test_options_flow_enabled_linux(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test options are enabled on Linux."""
     await async_setup_component(hass, "config", {})
@@ -487,7 +487,7 @@ async def test_options_flow_enabled_linux(
 @pytest.mark.usefixtures(
     "one_adapter", "mock_bleak_scanner_start", "mock_bluetooth_adapters"
 )
-async def test_options_flow_remote_adapter(hass: UniversalAssistant) -> None:
+async def test_options_flow_remote_adapter(hass: __HAC_KEEP__) -> None:
     """Test options are not available for remote adapters."""
     source_entry = MockConfigEntry(
         domain="test",
@@ -519,7 +519,7 @@ async def test_options_flow_remote_adapter(hass: UniversalAssistant) -> None:
 @pytest.mark.usefixtures(
     "one_adapter", "mock_bleak_scanner_start", "mock_bluetooth_adapters"
 )
-async def test_options_flow_local_no_passive_support(hass: UniversalAssistant) -> None:
+async def test_options_flow_local_no_passive_support(hass: __HAC_KEEP__) -> None:
     """Test options are not available for local adapters without passive support."""
     source_entry = MockConfigEntry(
         domain="test",
@@ -547,7 +547,7 @@ async def test_options_flow_local_no_passive_support(hass: UniversalAssistant) -
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_async_step_user_linux_adapter_replace_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we can replace an ignored adapter from user flow."""
     entry = MockConfigEntry(
@@ -579,7 +579,7 @@ async def test_async_step_user_linux_adapter_replace_ignored(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_async_step_integration_discovery_remote_adapter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     area_registry: ar.AreaRegistry,
 ) -> None:
@@ -643,7 +643,7 @@ async def test_async_step_integration_discovery_remote_adapter(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_async_step_integration_discovery_remote_adapter_composite_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -707,7 +707,7 @@ async def test_async_step_integration_discovery_remote_adapter_composite_source(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_async_step_integration_discovery_remote_adapter_child_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     area_registry: ar.AreaRegistry,
 ) -> None:
@@ -777,7 +777,7 @@ async def test_async_step_integration_discovery_remote_adapter_child_source(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_async_step_integration_discovery_remote_adapter_mac_fix(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     area_registry: ar.AreaRegistry,
 ) -> None:

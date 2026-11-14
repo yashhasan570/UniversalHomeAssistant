@@ -13,10 +13,10 @@ from universalassistant.components.update.significant_change import (
     async_check_significant_change,
 )
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_significant_change(hass: UniversalAssistant) -> None:
+async def test_significant_change(hass: __HAC_KEEP__) -> None:
     """Detect update significant changes."""
     assert async_check_significant_change(hass, STATE_ON, {}, STATE_OFF, {})
     assert async_check_significant_change(hass, STATE_OFF, {}, STATE_ON, {})

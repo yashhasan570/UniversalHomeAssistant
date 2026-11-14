@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import WizConfigEntry, WizData
@@ -85,7 +85,7 @@ def _supports_number_description(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

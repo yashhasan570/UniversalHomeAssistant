@@ -7,7 +7,7 @@ from rf_protocols.codes.novy.cooker_hood import NovyCookerHoodButton
 from universalassistant.components.light import ColorMode, LightEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_CODE, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 
@@ -18,7 +18,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

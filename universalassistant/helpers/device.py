@@ -1,6 +1,6 @@
 """Provides useful helpers for handling devices."""
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from . import device_registry as dr, entity_registry as er
 from .frame import ReportBehavior, report_usage
@@ -8,7 +8,7 @@ from .frame import ReportBehavior, report_usage
 
 @callback
 def async_entity_id_to_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id_or_uuid: str,
 ) -> str | None:
     """Resolve the device id to the entity id or entity uuid."""
@@ -24,7 +24,7 @@ def async_entity_id_to_device_id(
 
 @callback
 def async_entity_id_to_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id_or_uuid: str,
 ) -> dr.AnyDeviceEntry | None:
     """Resolve the device entry for the entity id or entity uuid."""
@@ -37,7 +37,7 @@ def async_entity_id_to_device(
 
 @callback
 def async_device_info_to_link_from_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id_or_uuid: str,
 ) -> dr.DeviceInfo | None:
     """DeviceInfo with information to link a device from an entity.
@@ -58,7 +58,7 @@ def async_device_info_to_link_from_entity(
 
 @callback
 def async_device_info_to_link_from_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_id: str | None,
 ) -> dr.DeviceInfo | None:
     """DeviceInfo with information to link a device from a device id.
@@ -78,7 +78,7 @@ def async_device_info_to_link_from_device_id(
 
 @callback
 def async_remove_stale_devices_links_keep_entity_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_id: str,
     source_entity_id_or_uuid: str | None,
 ) -> None:
@@ -103,7 +103,7 @@ def async_remove_stale_devices_links_keep_entity_device(
 
 @callback
 def async_remove_stale_devices_links_keep_current_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_id: str,
     current_device_id: str | None,
 ) -> None:

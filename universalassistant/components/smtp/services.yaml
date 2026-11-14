@@ -8,8 +8,8 @@ send_message:
       required: false
       selector:
         text:
-      example: Universal Universal Home Assistant
-      default: Universal Universal Home Assistant
+      example: __HA_KEEP__
+      default: __HA_KEEP__
     message:
       required: true
       selector:

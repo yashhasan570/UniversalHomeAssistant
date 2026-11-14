@@ -10,13 +10,13 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components import config
 from universalassistant.components.config import DOMAIN, scene
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-async def setup_scene(hass: UniversalAssistant, scene_config: dict[str, Any]) -> None:
+async def setup_scene(hass: __HAC_KEEP__, scene_config: dict[str, Any]) -> None:
     """Set up scene integration."""
     assert await async_setup_component(hass, "scene", {"scene": scene_config})
     await hass.async_block_till_done()
@@ -25,7 +25,7 @@ async def setup_scene(hass: UniversalAssistant, scene_config: dict[str, Any]) ->
 @pytest.mark.parametrize("scene_config", [{}])
 @pytest.mark.usefixtures("setup_scene")
 async def test_create_scene(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -72,7 +72,7 @@ async def test_create_scene(
 @pytest.mark.parametrize("scene_config", [{}])
 @pytest.mark.usefixtures("setup_scene")
 async def test_update_scene(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -120,7 +120,7 @@ async def test_update_scene(
 @pytest.mark.parametrize("scene_config", [{}])
 @pytest.mark.usefixtures("setup_scene")
 async def test_bad_formatted_scene(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_config_store: dict[str, Any],
 ) -> None:
@@ -186,7 +186,7 @@ async def test_bad_formatted_scene(
 )
 @pytest.mark.usefixtures("setup_scene")
 async def test_delete_scene(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     hass_config_store: dict[str, Any],
@@ -229,7 +229,7 @@ async def test_delete_scene(
 @pytest.mark.parametrize("scene_config", [{}])
 @pytest.mark.usefixtures("setup_scene")
 async def test_api_calls_require_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_read_only_access_token: str,
     hass_config_store: dict[str, Any],

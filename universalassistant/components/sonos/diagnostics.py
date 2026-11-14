@@ -4,7 +4,7 @@ import time
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -46,7 +46,7 @@ TO_REDACT = {"third_party_media_servers_x"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: SonosConfigEntry
+    hass: __HAC_KEEP__, config_entry: SonosConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     payload: dict[str, Any] = {"current_timestamp": time.monotonic()}
@@ -68,7 +68,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, config_entry: SonosConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: SonosConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     uid = next(
@@ -87,7 +87,7 @@ async def async_get_device_diagnostics(
 
 
 async def async_generate_media_info(
-    hass: UniversalAssistant, speaker: SonosSpeaker
+    hass: __HAC_KEEP__, speaker: SonosSpeaker
 ) -> dict[str, Any]:
     """Generate a diagnostic payload for current media metadata."""
     payload: dict[str, Any] = {}
@@ -112,7 +112,7 @@ async def async_generate_media_info(
 
 
 async def async_generate_speaker_info(
-    hass: UniversalAssistant, config_entry: SonosConfigEntry, speaker: SonosSpeaker
+    hass: __HAC_KEEP__, config_entry: SonosConfigEntry, speaker: SonosSpeaker
 ) -> dict[str, Any]:
     """Generate the diagnostic payload for a specific speaker."""
     payload: dict[str, Any] = {}

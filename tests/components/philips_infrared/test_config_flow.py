@@ -11,7 +11,7 @@ from universalassistant.components.philips_infrared.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -27,7 +27,7 @@ from universalassistant.helpers import entity_registry as er
     ],
 )
 async def test_user_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entity_name: str | None,
     expected_title: str,
@@ -57,7 +57,7 @@ async def test_user_flow_success(
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test flow aborts when the emitter is already used by another entry."""
     mock_config_entry.add_to_hass(hass)
@@ -75,7 +75,7 @@ async def test_user_flow_already_configured(
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_user_flow_no_emitters(hass: UniversalAssistant) -> None:
+async def test_user_flow_no_emitters(hass: __HAC_KEEP__) -> None:
     """Test flow aborts when no infrared emitters exist."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}

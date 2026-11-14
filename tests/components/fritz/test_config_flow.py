@@ -37,7 +37,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_FRIENDLY_NAME,
@@ -129,7 +129,7 @@ def _patch_fritz_connection(fc_class_mock: MagicMock) -> Generator[None]:
     ],
 )
 async def test_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock,
     user_input: dict,
     expected_config: dict,
@@ -185,7 +185,7 @@ async def test_user(
     [(MOCK_USER_DATA), (MOCK_USER_INPUT_SIMPLE)],
 )
 async def test_user_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock,
     user_input,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_user_already_configured(
     [(MOCK_USER_DATA), (MOCK_USER_INPUT_SIMPLE)],
 )
 async def test_exception_security(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock: MagicMock,
     error: type[Exception],
     user_input: dict[str, Any],
@@ -293,7 +293,7 @@ CALL_ACTION_ERRORS = [
 
 @pytest.mark.parametrize(("error", "expected_error"), CALL_ACTION_ERRORS)
 async def test_user_call_action_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock: MagicMock,
     error: type[Exception],
     expected_error: str,
@@ -330,7 +330,7 @@ async def test_user_call_action_exception(
     [(MOCK_USER_DATA), (MOCK_USER_INPUT_SIMPLE)],
 )
 async def test_exception_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock: MagicMock,
     user_input: dict[str, Any],
 ) -> None:
@@ -367,7 +367,7 @@ async def test_exception_connection(
     [(MOCK_USER_DATA), (MOCK_USER_INPUT_SIMPLE)],
 )
 async def test_exception_unknown(
-    hass: UniversalAssistant, fc_class_mock: MagicMock, user_input: dict[str, Any]
+    hass: __HAC_KEEP__, fc_class_mock: MagicMock, user_input: dict[str, Any]
 ) -> None:
     """Test starting a flow by user with an unknown exception."""
 
@@ -398,7 +398,7 @@ async def test_exception_unknown(
 
 
 async def test_reauth_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock,
 ) -> None:
     """Test starting a reauthentication flow."""
@@ -456,7 +456,7 @@ async def test_reauth_successful(
     ],
 )
 async def test_reauth_not_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock,
     side_effect,
     error,
@@ -550,7 +550,7 @@ async def test_reauth_not_successful(
     ],
 )
 async def test_reconfigure_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock,
     initial_config: dict,
     user_input: dict,
@@ -607,7 +607,7 @@ async def test_reconfigure_successful(
 
 
 async def test_reconfigure_not_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock,
 ) -> None:
     """Test starting a reconfigure flow but no connection found."""
@@ -675,7 +675,7 @@ async def test_reconfigure_not_successful(
         }
 
 
-async def test_ssdp_already_configured(hass: UniversalAssistant, fc_class_mock) -> None:
+async def test_ssdp_already_configured(hass: __HAC_KEEP__, fc_class_mock) -> None:
     """Test starting a flow from discovery with an already configured device."""
 
     mock_config = MockConfigEntry(
@@ -702,7 +702,7 @@ async def test_ssdp_already_configured(hass: UniversalAssistant, fc_class_mock) 
         assert result["reason"] == "already_configured"
 
 
-async def test_ssdp_already_configured_host(hass: UniversalAssistant, fc_class_mock) -> None:
+async def test_ssdp_already_configured_host(hass: __HAC_KEEP__, fc_class_mock) -> None:
     """Test starting a flow from discovery with an already configured host."""
 
     mock_config = MockConfigEntry(
@@ -730,7 +730,7 @@ async def test_ssdp_already_configured_host(hass: UniversalAssistant, fc_class_m
 
 
 async def test_ssdp_already_configured_host_uuid(
-    hass: UniversalAssistant, fc_class_mock
+    hass: __HAC_KEEP__, fc_class_mock
 ) -> None:
     """Test starting a flow from discovery with an already configured uuid."""
 
@@ -759,7 +759,7 @@ async def test_ssdp_already_configured_host_uuid(
 
 
 async def test_ssdp_already_in_progress_host(
-    hass: UniversalAssistant, fc_class_mock
+    hass: __HAC_KEEP__, fc_class_mock
 ) -> None:
     """Test starting a flow from discovery twice."""
     with (
@@ -788,7 +788,7 @@ async def test_ssdp_already_in_progress_host(
         assert result["reason"] == "already_in_progress"
 
 
-async def test_ssdp(hass: UniversalAssistant, fc_class_mock) -> None:
+async def test_ssdp(hass: __HAC_KEEP__, fc_class_mock) -> None:
     """Test starting a flow from discovery."""
     with (
         patch(
@@ -834,7 +834,7 @@ async def test_ssdp(hass: UniversalAssistant, fc_class_mock) -> None:
     assert mock_setup_entry.called
 
 
-async def test_ssdp_exception(hass: UniversalAssistant) -> None:
+async def test_ssdp_exception(hass: __HAC_KEEP__) -> None:
     """Test starting a flow from discovery but setup fails later."""
     with (
         patch(
@@ -866,7 +866,7 @@ async def test_ssdp_exception(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize(("error", "expected_error"), CALL_ACTION_ERRORS)
 async def test_ssdp_call_action_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fc_class_mock: MagicMock,
     error: type[Exception],
     expected_error: str,
@@ -897,7 +897,7 @@ async def test_ssdp_call_action_exception(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_ssdp_not_supported(hass: UniversalAssistant) -> None:
+async def test_ssdp_not_supported(hass: __HAC_KEEP__) -> None:
     """Test discovery is aborted when the router does not provide TR-064."""
     with (
         patch(
@@ -917,7 +917,7 @@ async def test_ssdp_not_supported(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_supported"
 
 
-async def test_options_flow(hass: UniversalAssistant, fc_class_mock) -> None:
+async def test_options_flow(hass: __HAC_KEEP__, fc_class_mock) -> None:
     """Test options flow."""
 
     mock_config = MockConfigEntry(domain=DOMAIN, data=MOCK_USER_DATA)
@@ -939,7 +939,7 @@ async def test_options_flow(hass: UniversalAssistant, fc_class_mock) -> None:
     }
 
 
-async def test_ssdp_ipv6_link_local(hass: UniversalAssistant) -> None:
+async def test_ssdp_ipv6_link_local(hass: __HAC_KEEP__) -> None:
     """Test ignoring ipv6-link-local while ssdp discovery."""
 
     result = await hass.config_entries.flow.async_init(
@@ -959,7 +959,7 @@ async def test_ssdp_ipv6_link_local(hass: UniversalAssistant) -> None:
     assert result["reason"] == "ignore_ip6_link_local"
 
 
-async def test_upnp_not_enabled(hass: UniversalAssistant) -> None:
+async def test_upnp_not_enabled(hass: __HAC_KEEP__) -> None:
     """Test if UPNP service is enabled on the router."""
 
     result = await hass.config_entries.flow.async_init(

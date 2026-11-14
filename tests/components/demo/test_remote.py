@@ -14,7 +14,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 ENTITY_ID = "remote.remote_one"
@@ -32,7 +32,7 @@ async def remote_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_component(hass: UniversalAssistant, remote_only: None):
+async def setup_component(hass: __HAC_KEEP__, remote_only: None):
     """Initialize components."""
     assert await async_setup_component(
         hass, remote.DOMAIN, {"remote": {"platform": "demo"}}
@@ -40,7 +40,7 @@ async def setup_component(hass: UniversalAssistant, remote_only: None):
     await hass.async_block_till_done()
 
 
-async def test_methods(hass: UniversalAssistant) -> None:
+async def test_methods(hass: __HAC_KEEP__) -> None:
     """Test if services call the entity methods as expected."""
     await hass.services.async_call(
         remote.DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID}

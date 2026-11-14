@@ -33,7 +33,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -41,7 +41,7 @@ from .conftest import get_aqualink_device, get_aqualink_system, setup_integratio
 
 
 async def _advance_coordinator_time(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Advance time to trigger coordinator update interval."""
     update_interval = UPDATE_INTERVAL_BY_SYSTEM_TYPE["iaqua"]
@@ -60,7 +60,7 @@ async def _advance_coordinator_time(
     ],
 )
 async def test_system_refresh_failure_marks_entities_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     freezer: FrozenDateTimeFactory,
@@ -91,7 +91,7 @@ async def test_system_refresh_failure_marks_entities_unavailable(
 
 
 async def test_system_rate_limited_keeps_entities_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     freezer: FrozenDateTimeFactory,
@@ -152,7 +152,7 @@ async def test_system_rate_limited_keeps_entities_available(
     ],
 )
 async def test_system_refresh_failure_log_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     freezer: FrozenDateTimeFactory,
@@ -178,7 +178,7 @@ async def test_system_refresh_failure_log_level(
 
 
 async def test_light_service_calls_update_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
@@ -232,7 +232,7 @@ async def test_light_service_calls_update_entity_state(
     ],
 )
 async def test_setup_login_retry_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     raised_exception: Exception | type[Exception],
 ) -> None:
@@ -250,7 +250,7 @@ async def test_setup_login_retry_exceptions(
 
 
 async def test_setup_login_unauthorized(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test setup encountering an unauthorized exception during login."""
     config_entry.add_to_hass(hass)
@@ -278,7 +278,7 @@ async def test_setup_login_unauthorized(
     ],
 )
 async def test_setup_systems_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     raised_exception: Exception | type[Exception],
 ) -> None:
@@ -302,7 +302,7 @@ async def test_setup_systems_exception(
 
 
 async def test_setup_systems_unauthorized(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test setup encountering an unauthorized exception while retrieving systems."""
     config_entry.add_to_hass(hass)
@@ -328,7 +328,7 @@ async def test_setup_systems_unauthorized(
 
 
 async def test_setup_first_refresh_unauthorized_closes_client(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, client: AqualinkClient
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, client: AqualinkClient
 ) -> None:
     """Test setup closes the client when first refresh triggers reauthentication."""
     config_entry.add_to_hass(hass)
@@ -363,7 +363,7 @@ async def test_setup_first_refresh_unauthorized_closes_client(
 
 
 async def test_setup_no_systems_recognized(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test setup ending in no systems recognized."""
     config_entry.add_to_hass(hass)
@@ -393,7 +393,7 @@ async def test_setup_no_systems_recognized(
     ],
 )
 async def test_setup_devices_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     raised_exception: Exception | type[Exception],
@@ -428,7 +428,7 @@ async def test_setup_devices_exception(
 
 
 async def test_setup_devices_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
@@ -466,7 +466,7 @@ async def test_setup_devices_unauthorized(
 
 
 async def test_setup_all_good_no_recognized_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
@@ -514,7 +514,7 @@ async def test_setup_all_good_no_recognized_devices(
 
 
 async def test_setup_all_good_all_device_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     entity_registry: er.EntityRegistry,
@@ -549,7 +549,7 @@ async def test_setup_all_good_all_device_types(
 
 
 async def test_multiple_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     freezer: FrozenDateTimeFactory,
@@ -651,7 +651,7 @@ async def test_multiple_updates(
 
 
 async def test_entity_assumed_and_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     freezer: FrozenDateTimeFactory,
@@ -685,7 +685,7 @@ async def test_entity_assumed_and_available(
 
 
 async def test_system_refresh_unauthorized_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     freezer: FrozenDateTimeFactory,

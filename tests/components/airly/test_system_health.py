@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry, get_system_health_
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.airly.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import init_integration
 
 
 async def test_airly_system_health(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
@@ -39,7 +39,7 @@ async def test_airly_system_health(
 
 
 async def test_airly_system_health_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import call_observable, setup_integration
@@ -23,7 +23,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_panel: AsyncMock,
@@ -36,7 +36,7 @@ async def test_sensor(
 
 
 async def test_faulting_points(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -52,7 +52,7 @@ async def test_faulting_points(
 
 
 async def test_alarm_faults(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_panel: AsyncMock,
     area: AsyncMock,
     mock_config_entry: MockConfigEntry,

@@ -11,12 +11,12 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.imou.coordinator import SCAN_INTERVAL
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
 async def test_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -29,7 +29,7 @@ async def test_config_entry_diagnostics(
 
 
 async def test_diagnostics_reports_open_api_quota(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -60,7 +60,7 @@ async def test_diagnostics_reports_open_api_quota(
 
 
 async def test_diagnostics_reports_quota_from_status_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -75,7 +75,7 @@ async def test_diagnostics_reports_quota_from_status_refresh(
     await hass.async_block_till_done(wait_background_tasks=True)
 
     last_exception = init_integration.runtime_data.last_exception
-    assert isinstance(last_exception, UniversalAssistantError)
+    assert isinstance(last_exception, __HAC_KEEP__Error)
     assert last_exception.translation_key == "quota_exceeded"
     diagnostics = await get_diagnostics_for_config_entry(
         hass, hass_client, init_integration
@@ -98,7 +98,7 @@ async def test_diagnostics_reports_quota_from_status_refresh(
     ],
 )
 async def test_quota_flag_clears_when_a_later_poll_is_not_quota(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,

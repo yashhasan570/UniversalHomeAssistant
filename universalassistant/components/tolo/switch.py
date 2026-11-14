@@ -7,7 +7,7 @@ from typing import Any, override
 from tololib import ToloClient, ToloStatus
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ToloConfigEntry, ToloSaunaUpdateCoordinator
@@ -39,7 +39,7 @@ SWITCHES = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ToloConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

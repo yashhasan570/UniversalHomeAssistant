@@ -7,7 +7,7 @@ from haffmpeg.camera import CameraMjpeg
 
 from universalassistant.components.camera import Camera, CameraEntityDescription
 from universalassistant.components.ffmpeg import get_ffmpeg_manager
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_aiohttp_proxy_stream
 from universalassistant.helpers.entity import EntityDescription
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -28,7 +28,7 @@ CAMERA_TYPES: tuple[CameraEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SkybellConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

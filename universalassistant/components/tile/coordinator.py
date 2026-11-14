@@ -9,7 +9,7 @@ from pytile.tile import Tile
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -24,7 +24,7 @@ class TileCoordinator(DataUpdateCoordinator[None]):
     config_entry: TileConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, entry: TileConfigEntry, client: API, tile: Tile
+        self, hass: __HAC_KEEP__, entry: TileConfigEntry, client: API, tile: Tile
     ) -> None:
         """Initialize."""
         super().__init__(

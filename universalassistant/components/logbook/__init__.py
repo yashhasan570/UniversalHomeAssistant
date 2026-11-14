@@ -12,7 +12,7 @@ from universalassistant.components.recorder.filters import (
     merge_include_exclude_filters,
     sqlalchemy_filter_from_include_exclude_conf,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entityfilter import (
     INCLUDE_EXCLUDE_BASE_FILTER_SCHEMA,
     convert_include_exclude_filter,
@@ -61,7 +61,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Logbook setup."""
 
     frontend.async_register_built_in_panel(
@@ -97,7 +97,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 @callback
-def _process_logbook_platform(hass: UniversalAssistant, domain: str, platform: Any) -> None:
+def _process_logbook_platform(hass: __HAC_KEEP__, domain: str, platform: Any) -> None:
     """Process a logbook platform."""
     logbook_config: LogbookConfig = hass.data[DOMAIN]
     external_events = logbook_config.external_events

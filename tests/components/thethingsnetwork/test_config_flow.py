@@ -7,7 +7,7 @@ from ttn_client import TTNAuthError
 from universalassistant.components.thethingsnetwork.const import CONF_APP_ID, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import init_integration
@@ -16,7 +16,7 @@ from .conftest import API_KEY, APP_ID, HOST
 USER_DATA = {CONF_HOST: HOST, CONF_APP_ID: APP_ID, CONF_API_KEY: API_KEY}
 
 
-async def test_user(hass: UniversalAssistant, mock_ttnclient) -> None:
+async def test_user(hass: __HAC_KEEP__, mock_ttnclient) -> None:
     """Test user config."""
 
     result = await hass.config_entries.flow.async_init(
@@ -43,7 +43,7 @@ async def test_user(hass: UniversalAssistant, mock_ttnclient) -> None:
     [(TTNAuthError, "invalid_auth"), (Exception, "unknown")],
 )
 async def test_user_errors(
-    hass: UniversalAssistant, fetch_data_exception, base_error, mock_ttnclient
+    hass: __HAC_KEEP__, fetch_data_exception, base_error, mock_ttnclient
 ) -> None:
     """Test user config errors."""
 
@@ -72,7 +72,7 @@ async def test_user_errors(
 
 
 async def test_duplicate_entry(
-    hass: UniversalAssistant, mock_ttnclient, mock_config_entry
+    hass: __HAC_KEEP__, mock_ttnclient, mock_config_entry
 ) -> None:
     """Test that duplicate entries are caught."""
 
@@ -94,7 +94,7 @@ async def test_duplicate_entry(
 
 
 async def test_step_reauth(
-    hass: UniversalAssistant, mock_ttnclient, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_ttnclient, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that the reauth step works."""
 

@@ -2,11 +2,11 @@
 
 import os
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 
 @callback
-def is_hassio(hass: UniversalAssistant) -> bool:
+def is_hassio(hass: __HAC_KEEP__) -> bool:
     """Return true if Hass.io is loaded.
 
     Async friendly.

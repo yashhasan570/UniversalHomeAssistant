@@ -22,7 +22,7 @@ from universalassistant.components.sftp_storage.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.storage import STORAGE_DIR
 
@@ -32,7 +32,7 @@ type ComponentSetup = Callable[[], Awaitable[None]]
 
 
 @pytest.fixture
-def mock_process_uploaded_file(hass: UniversalAssistant):
+def mock_process_uploaded_file(hass: __HAC_KEEP__):
     """Mocks ability to process uploaded private key."""
     # Ensure .storage directory exists, as it would in a real HA instance
     Path(hass.config.path(STORAGE_DIR)).mkdir(parents=True, exist_ok=True)
@@ -55,7 +55,7 @@ def mock_process_uploaded_file(hass: UniversalAssistant):
 @pytest.mark.usefixtures("mock_process_uploaded_file")
 @pytest.mark.usefixtures("mock_ssh_connection")
 async def test_backup_sftp_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the full backup_sftp config flow with valid user input."""
 
@@ -88,7 +88,7 @@ async def test_backup_sftp_full_flow(
 @pytest.mark.usefixtures("mock_process_uploaded_file")
 @pytest.mark.usefixtures("mock_ssh_connection")
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test successful failure of already added config entry."""
@@ -124,7 +124,7 @@ async def test_already_configured(
 async def test_config_flow_exceptions(
     exception_type: Exception,
     error_base: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ssh_connection: SSHClientConnectionMock,
 ) -> None:
     """Test config flow errors and recovering from them."""
@@ -156,7 +156,7 @@ async def test_config_flow_exceptions(
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.usefixtures("mock_process_uploaded_file")
 @pytest.mark.usefixtures("mock_ssh_connection")
-async def test_config_entry_error(hass: UniversalAssistant) -> None:
+async def test_config_entry_error(hass: __HAC_KEEP__) -> None:
     """Test config flow with raised `KeyImportError`."""
 
     result = await hass.config_entries.flow.async_init(
@@ -194,7 +194,7 @@ async def test_config_entry_error(hass: UniversalAssistant) -> None:
 @pytest.mark.usefixtures("mock_process_uploaded_file")
 @pytest.mark.usefixtures("mock_ssh_connection")
 async def test_relative_backup_location_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that a relative backup location path is rejected."""
 

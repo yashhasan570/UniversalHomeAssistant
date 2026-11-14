@@ -25,7 +25,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import DATA_INSTANCES
 
@@ -36,7 +36,7 @@ MOCK_UUID = "ce:fb:72:31:b7:b9"
 
 
 async def test_migrate_minor_version_drops_tls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test minor migration drops legacy "tls" and seeds verify_ssl."""
     entry = MockConfigEntry(
@@ -63,7 +63,7 @@ async def test_migrate_minor_version_drops_tls(
     assert entry.data[CONF_VERIFY_SSL] is False
 
 
-async def test_setup_invalid_host(hass: UniversalAssistant) -> None:
+async def test_setup_invalid_host(hass: __HAC_KEEP__) -> None:
     """Test setup fails when the host has an unsupported scheme."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -88,7 +88,7 @@ async def test_setup_invalid_host(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("verify_ssl", [True, False])
 async def test_setup_forwards_verify_ssl_to_pyisy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_isy: MagicMock,
     verify_ssl: bool,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_setup_forwards_verify_ssl_to_pyisy(
 
 
 async def test_node_device_linked_to_isy_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
@@ -152,7 +152,7 @@ async def test_node_device_linked_to_isy_device(
     ],
 )
 async def test_node_listeners_removed_with_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
@@ -255,7 +255,7 @@ async def test_node_listeners_removed_with_entity(
     ],
 )
 async def test_overridden_listeners_removed_with_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,
@@ -318,7 +318,7 @@ async def test_overridden_listeners_removed_with_entity(
     [pytest.param("", id="value"), pytest.param("_init", id="initial_value")],
 )
 async def test_variable_listener_removed_with_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_isy: MagicMock,

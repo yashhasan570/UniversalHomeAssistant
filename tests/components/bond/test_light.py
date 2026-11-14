@@ -24,8 +24,8 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import utcnow
 
@@ -160,7 +160,7 @@ def light_brightness_increase_decrease_only(name: str):
 
 
 async def test_fan_entity_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Tests that fan with light devices are registered in the entity registry."""
@@ -177,7 +177,7 @@ async def test_fan_entity_registry(
 
 
 async def test_fan_up_light_entity_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Tests that fan with up light devices are registered in the entity registry."""
@@ -194,7 +194,7 @@ async def test_fan_up_light_entity_registry(
 
 
 async def test_fan_down_light_entity_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Tests that fan with down light devices are registered in the entity registry."""
@@ -211,7 +211,7 @@ async def test_fan_down_light_entity_registry(
 
 
 async def test_fireplace_entity_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Tests that flame fireplace devices are registered in the entity registry."""
@@ -228,7 +228,7 @@ async def test_fireplace_entity_registry(
 
 
 async def test_fireplace_with_light_entity_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Tests that flame+light devices are registered in the entity registry."""
@@ -247,7 +247,7 @@ async def test_fireplace_with_light_entity_registry(
 
 
 async def test_light_entity_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Tests lights are registered in the entity registry."""
@@ -263,7 +263,7 @@ async def test_light_entity_registry(
     assert entity.unique_id == "test-hub-id_test-device-id"
 
 
-async def test_sbb_trust_state(hass: UniversalAssistant) -> None:
+async def test_sbb_trust_state(hass: __HAC_KEEP__) -> None:
     """Assumed state should be False if device is a Smart by Bond."""
     version = {
         "model": "MR123A",
@@ -277,7 +277,7 @@ async def test_sbb_trust_state(hass: UniversalAssistant) -> None:
     assert device.attributes.get(ATTR_ASSUMED_STATE) is not True
 
 
-async def test_trust_state_not_specified(hass: UniversalAssistant) -> None:
+async def test_trust_state_not_specified(hass: __HAC_KEEP__) -> None:
     """Assumed state should be True if Trust State is not specified."""
     await setup_platform(hass, LIGHT_DOMAIN, ceiling_fan("name-1"))
 
@@ -285,7 +285,7 @@ async def test_trust_state_not_specified(hass: UniversalAssistant) -> None:
     assert device.attributes.get(ATTR_ASSUMED_STATE) is True
 
 
-async def test_trust_state(hass: UniversalAssistant) -> None:
+async def test_trust_state(hass: __HAC_KEEP__) -> None:
     """Assumed state should be True if Trust State is False."""
     await setup_platform(
         hass, LIGHT_DOMAIN, ceiling_fan("name-1"), props={"trust_state": False}
@@ -295,7 +295,7 @@ async def test_trust_state(hass: UniversalAssistant) -> None:
     assert device.attributes.get(ATTR_ASSUMED_STATE) is True
 
 
-async def test_no_trust_state(hass: UniversalAssistant) -> None:
+async def test_no_trust_state(hass: __HAC_KEEP__) -> None:
     """Assumed state should be False if Trust State is True."""
     await setup_platform(
         hass, LIGHT_DOMAIN, ceiling_fan("name-1"), props={"trust_state": True}
@@ -304,7 +304,7 @@ async def test_no_trust_state(hass: UniversalAssistant) -> None:
     assert device.attributes.get(ATTR_ASSUMED_STATE) is not True
 
 
-async def test_light_set_brightness_belief_full(hass: UniversalAssistant) -> None:
+async def test_light_set_brightness_belief_full(hass: __HAC_KEEP__) -> None:
     """Tests that the set brightness belief function of a light delegates to API."""
     await setup_platform(
         hass,
@@ -327,8 +327,8 @@ async def test_light_set_brightness_belief_full(hass: UniversalAssistant) -> Non
     )
 
 
-async def test_light_set_brightness_belief_api_error(hass: UniversalAssistant) -> None:
-    """Tests that set brightness belief throws UniversalAssistantError on api error."""
+async def test_light_set_brightness_belief_api_error(hass: __HAC_KEEP__) -> None:
+    """Tests that set brightness belief throws __HAC_KEEP__Error on api error."""
     await setup_platform(
         hass,
         LIGHT_DOMAIN,
@@ -337,7 +337,7 @@ async def test_light_set_brightness_belief_api_error(hass: UniversalAssistant) -
     )
 
     with (
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
         patch_bond_action_returns_clientresponseerror(),
         patch_bond_device_state(),
     ):
@@ -349,7 +349,7 @@ async def test_light_set_brightness_belief_api_error(hass: UniversalAssistant) -
         )
 
 
-async def test_fp_light_set_brightness_belief_full(hass: UniversalAssistant) -> None:
+async def test_fp_light_set_brightness_belief_full(hass: __HAC_KEEP__) -> None:
     """Tests that the set brightness belief function of a light delegates to API."""
     await setup_platform(
         hass,
@@ -372,8 +372,8 @@ async def test_fp_light_set_brightness_belief_full(hass: UniversalAssistant) -> 
     )
 
 
-async def test_fp_light_set_brightness_belief_api_error(hass: UniversalAssistant) -> None:
-    """Tests that set brightness belief throws UniversalAssistantError on api error."""
+async def test_fp_light_set_brightness_belief_api_error(hass: __HAC_KEEP__) -> None:
+    """Tests that set brightness belief throws __HAC_KEEP__Error on api error."""
     await setup_platform(
         hass,
         LIGHT_DOMAIN,
@@ -382,7 +382,7 @@ async def test_fp_light_set_brightness_belief_api_error(hass: UniversalAssistant
     )
 
     with (
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
         patch_bond_action_returns_clientresponseerror(),
         patch_bond_device_state(),
     ):
@@ -395,7 +395,7 @@ async def test_fp_light_set_brightness_belief_api_error(hass: UniversalAssistant
 
 
 async def test_light_set_brightness_belief_brightness_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Tests that set brightness belief returns error when brightness is unsupported."""
     await setup_platform(
@@ -405,7 +405,7 @@ async def test_light_set_brightness_belief_brightness_not_supported(
         bond_device_id="test-device-id",
     )
 
-    with pytest.raises(UniversalAssistantError), patch_bond_device_state():
+    with pytest.raises(__HAC_KEEP__Error), patch_bond_device_state():
         await hass.services.async_call(
             DOMAIN,
             BondService.SET_LIGHT_BRIGHTNESS_TRACKED_STATE,
@@ -414,7 +414,7 @@ async def test_light_set_brightness_belief_brightness_not_supported(
         )
 
 
-async def test_light_set_brightness_belief_zero(hass: UniversalAssistant) -> None:
+async def test_light_set_brightness_belief_zero(hass: __HAC_KEEP__) -> None:
     """Tests that the set brightness belief function of a light delegates to API."""
     await setup_platform(
         hass,
@@ -437,7 +437,7 @@ async def test_light_set_brightness_belief_zero(hass: UniversalAssistant) -> Non
     )
 
 
-async def test_fp_light_set_brightness_belief_zero(hass: UniversalAssistant) -> None:
+async def test_fp_light_set_brightness_belief_zero(hass: __HAC_KEEP__) -> None:
     """Tests that the set brightness belief function of a light delegates to API."""
     await setup_platform(
         hass,
@@ -460,7 +460,7 @@ async def test_fp_light_set_brightness_belief_zero(hass: UniversalAssistant) -> 
     )
 
 
-async def test_light_set_power_belief(hass: UniversalAssistant) -> None:
+async def test_light_set_power_belief(hass: __HAC_KEEP__) -> None:
     """Tests that the set brightness belief function of a light delegates to API."""
     await setup_platform(
         hass,
@@ -483,8 +483,8 @@ async def test_light_set_power_belief(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_light_set_power_belief_api_error(hass: UniversalAssistant) -> None:
-    """Tests that set power belief throws UniversalAssistantError on api error."""
+async def test_light_set_power_belief_api_error(hass: __HAC_KEEP__) -> None:
+    """Tests that set power belief throws __HAC_KEEP__Error on api error."""
     await setup_platform(
         hass,
         LIGHT_DOMAIN,
@@ -493,7 +493,7 @@ async def test_light_set_power_belief_api_error(hass: UniversalAssistant) -> Non
     )
 
     with (
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
         patch_bond_action_returns_clientresponseerror(),
         patch_bond_device_state(),
     ):
@@ -505,7 +505,7 @@ async def test_light_set_power_belief_api_error(hass: UniversalAssistant) -> Non
         )
 
 
-async def test_fp_light_set_power_belief(hass: UniversalAssistant) -> None:
+async def test_fp_light_set_power_belief(hass: __HAC_KEEP__) -> None:
     """Tests that the set brightness belief function of a light delegates to API."""
     await setup_platform(
         hass,
@@ -528,8 +528,8 @@ async def test_fp_light_set_power_belief(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_fp_light_set_power_belief_api_error(hass: UniversalAssistant) -> None:
-    """Tests that set power belief throws UniversalAssistantError on api error."""
+async def test_fp_light_set_power_belief_api_error(hass: __HAC_KEEP__) -> None:
+    """Tests that set power belief throws __HAC_KEEP__Error on api error."""
     await setup_platform(
         hass,
         LIGHT_DOMAIN,
@@ -538,7 +538,7 @@ async def test_fp_light_set_power_belief_api_error(hass: UniversalAssistant) -> 
     )
 
     with (
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
         patch_bond_action_returns_clientresponseerror(),
         patch_bond_device_state(),
     ):
@@ -551,7 +551,7 @@ async def test_fp_light_set_power_belief_api_error(hass: UniversalAssistant) -> 
 
 
 async def test_fp_light_set_brightness_belief_brightness_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Tests set brightness belief returns error for fireplace without brightness."""
     await setup_platform(
@@ -561,7 +561,7 @@ async def test_fp_light_set_brightness_belief_brightness_not_supported(
         bond_device_id="test-device-id",
     )
 
-    with pytest.raises(UniversalAssistantError), patch_bond_device_state():
+    with pytest.raises(__HAC_KEEP__Error), patch_bond_device_state():
         await hass.services.async_call(
             DOMAIN,
             BondService.SET_LIGHT_BRIGHTNESS_TRACKED_STATE,
@@ -570,7 +570,7 @@ async def test_fp_light_set_brightness_belief_brightness_not_supported(
         )
 
 
-async def test_light_start_increasing_brightness(hass: UniversalAssistant) -> None:
+async def test_light_start_increasing_brightness(hass: __HAC_KEEP__) -> None:
     """Tests a light with only increase/decrease brightness can start increasing."""
     await setup_platform(
         hass,
@@ -594,14 +594,14 @@ async def test_light_start_increasing_brightness(hass: UniversalAssistant) -> No
 
 
 async def test_light_start_increasing_brightness_missing_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Tests a light does not have start increasing brightness throws."""
     await setup_platform(
         hass, LIGHT_DOMAIN, light("name-1"), bond_device_id="test-device-id"
     )
 
-    with pytest.raises(UniversalAssistantError), patch_bond_device_state():
+    with pytest.raises(__HAC_KEEP__Error), patch_bond_device_state():
         await hass.services.async_call(
             DOMAIN,
             BondService.START_INCREASING_BRIGHTNESS,
@@ -610,7 +610,7 @@ async def test_light_start_increasing_brightness_missing_service(
         )
 
 
-async def test_light_start_decreasing_brightness(hass: UniversalAssistant) -> None:
+async def test_light_start_decreasing_brightness(hass: __HAC_KEEP__) -> None:
     """Tests a light with only increase/decrease brightness can start decreasing."""
     await setup_platform(
         hass,
@@ -634,7 +634,7 @@ async def test_light_start_decreasing_brightness(hass: UniversalAssistant) -> No
 
 
 async def test_light_start_decreasing_brightness_missing_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Tests a light does not have start decreasing brightness throws."""
     await setup_platform(
@@ -644,7 +644,7 @@ async def test_light_start_decreasing_brightness_missing_service(
         bond_device_id="test-device-id",
     )
 
-    with pytest.raises(UniversalAssistantError), patch_bond_device_state():
+    with pytest.raises(__HAC_KEEP__Error), patch_bond_device_state():
         await hass.services.async_call(
             DOMAIN,
             BondService.START_DECREASING_BRIGHTNESS,
@@ -653,7 +653,7 @@ async def test_light_start_decreasing_brightness_missing_service(
         )
 
 
-async def test_light_stop(hass: UniversalAssistant) -> None:
+async def test_light_stop(hass: __HAC_KEEP__) -> None:
     """Tests a light with only increase/decrease brightness can stop."""
     await setup_platform(
         hass,
@@ -675,7 +675,7 @@ async def test_light_stop(hass: UniversalAssistant) -> None:
 
 
 async def test_light_stop_missing_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Tests a light does not have stop throws."""
     await setup_platform(
@@ -685,7 +685,7 @@ async def test_light_stop_missing_service(
         bond_device_id="test-device-id",
     )
 
-    with pytest.raises(UniversalAssistantError), patch_bond_device_state():
+    with pytest.raises(__HAC_KEEP__Error), patch_bond_device_state():
         await hass.services.async_call(
             DOMAIN,
             BondService.STOP,
@@ -694,7 +694,7 @@ async def test_light_stop_missing_service(
         )
 
 
-async def test_turn_on_light(hass: UniversalAssistant) -> None:
+async def test_turn_on_light(hass: __HAC_KEEP__) -> None:
     """Tests that turn on command delegates to API."""
     await setup_platform(
         hass, LIGHT_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -712,7 +712,7 @@ async def test_turn_on_light(hass: UniversalAssistant) -> None:
     mock_turn_light_on.assert_called_once_with("test-device-id", Action.turn_light_on())
 
 
-async def test_turn_off_light(hass: UniversalAssistant) -> None:
+async def test_turn_off_light(hass: __HAC_KEEP__) -> None:
     """Tests that turn off command delegates to API."""
     await setup_platform(
         hass, LIGHT_DOMAIN, ceiling_fan("name-1"), bond_device_id="test-device-id"
@@ -732,7 +732,7 @@ async def test_turn_off_light(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_brightness_support(hass: UniversalAssistant) -> None:
+async def test_brightness_support(hass: __HAC_KEEP__) -> None:
     """Tests that a dimmable light should support the brightness feature."""
     await setup_platform(
         hass,
@@ -758,7 +758,7 @@ async def test_brightness_support(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_SUPPORTED_FEATURES] == 0
 
 
-async def test_brightness_not_supported(hass: UniversalAssistant) -> None:
+async def test_brightness_not_supported(hass: __HAC_KEEP__) -> None:
     """Tests that a non-dimmable light should not support the brightness feature."""
     await setup_platform(
         hass,
@@ -784,7 +784,7 @@ async def test_brightness_not_supported(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_SUPPORTED_FEATURES] == 0
 
 
-async def test_turn_on_light_with_brightness(hass: UniversalAssistant) -> None:
+async def test_turn_on_light_with_brightness(hass: __HAC_KEEP__) -> None:
     """Tests turning on a dimmable light delegates to API and parses brightness."""
     await setup_platform(
         hass,
@@ -807,7 +807,7 @@ async def test_turn_on_light_with_brightness(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_color_temp_support(hass: UniversalAssistant) -> None:
+async def test_color_temp_support(hass: __HAC_KEEP__) -> None:
     """Tests that a dimmable CCT light should support the color temperature feature."""
     await setup_platform(
         hass,
@@ -837,7 +837,7 @@ async def test_color_temp_support(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_COLOR_TEMP_KELVIN] == 3000
 
 
-async def test_turn_on_light_with_color(hass: UniversalAssistant) -> None:
+async def test_turn_on_light_with_color(hass: __HAC_KEEP__) -> None:
     """Tests turning on a dimmable CCT light delegates to API and parses brightness + color temp."""
     await setup_platform(
         hass,
@@ -867,7 +867,7 @@ async def test_turn_on_light_with_color(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_turn_on_up_light(hass: UniversalAssistant) -> None:
+async def test_turn_on_up_light(hass: __HAC_KEEP__) -> None:
     """Tests that turn on command, on an up light, delegates to API."""
     await setup_platform(
         hass,
@@ -890,7 +890,7 @@ async def test_turn_on_up_light(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_turn_off_up_light(hass: UniversalAssistant) -> None:
+async def test_turn_off_up_light(hass: __HAC_KEEP__) -> None:
     """Tests that turn off command, on an up light, delegates to API."""
     await setup_platform(
         hass,
@@ -913,7 +913,7 @@ async def test_turn_off_up_light(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_turn_on_down_light(hass: UniversalAssistant) -> None:
+async def test_turn_on_down_light(hass: __HAC_KEEP__) -> None:
     """Tests that turn on command, on a down light, delegates to API."""
     await setup_platform(
         hass,
@@ -936,7 +936,7 @@ async def test_turn_on_down_light(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_turn_off_down_light(hass: UniversalAssistant) -> None:
+async def test_turn_off_down_light(hass: __HAC_KEEP__) -> None:
     """Tests that turn off command, on a down light, delegates to API."""
     await setup_platform(
         hass,
@@ -959,7 +959,7 @@ async def test_turn_off_down_light(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_update_reports_light_is_on(hass: UniversalAssistant) -> None:
+async def test_update_reports_light_is_on(hass: __HAC_KEEP__) -> None:
     """Tests that update sets correct state when Bond API reports light is on."""
     await setup_platform(hass, LIGHT_DOMAIN, ceiling_fan("name-1"))
 
@@ -970,7 +970,7 @@ async def test_update_reports_light_is_on(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.name_1").state == "on"
 
 
-async def test_update_reports_light_is_off(hass: UniversalAssistant) -> None:
+async def test_update_reports_light_is_off(hass: __HAC_KEEP__) -> None:
     """Tests that update sets correct state when Bond API reports light is off."""
     await setup_platform(hass, LIGHT_DOMAIN, ceiling_fan("name-1"))
 
@@ -981,7 +981,7 @@ async def test_update_reports_light_is_off(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.name_1").state == "off"
 
 
-async def test_update_reports_up_light_is_on(hass: UniversalAssistant) -> None:
+async def test_update_reports_up_light_is_on(hass: __HAC_KEEP__) -> None:
     """Tests that update sets correct state when Bond API reports up light is on."""
     await setup_platform(hass, LIGHT_DOMAIN, up_light_ceiling_fan("name-1"))
 
@@ -992,7 +992,7 @@ async def test_update_reports_up_light_is_on(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.name_1_up_light").state == "on"
 
 
-async def test_update_reports_up_light_is_off(hass: UniversalAssistant) -> None:
+async def test_update_reports_up_light_is_off(hass: __HAC_KEEP__) -> None:
     """Tests that update sets correct state when Bond API reports up light is off."""
     await setup_platform(hass, LIGHT_DOMAIN, up_light_ceiling_fan("name-1"))
 
@@ -1003,7 +1003,7 @@ async def test_update_reports_up_light_is_off(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.name_1_up_light").state == "off"
 
 
-async def test_update_reports_down_light_is_on(hass: UniversalAssistant) -> None:
+async def test_update_reports_down_light_is_on(hass: __HAC_KEEP__) -> None:
     """Tests that update sets correct state when Bond API reports down light is on."""
     await setup_platform(hass, LIGHT_DOMAIN, down_light_ceiling_fan("name-1"))
 
@@ -1014,7 +1014,7 @@ async def test_update_reports_down_light_is_on(hass: UniversalAssistant) -> None
     assert hass.states.get("light.name_1_down_light").state == "on"
 
 
-async def test_update_reports_down_light_is_off(hass: UniversalAssistant) -> None:
+async def test_update_reports_down_light_is_off(hass: __HAC_KEEP__) -> None:
     """Tests that update sets correct state when Bond API reports down light is off."""
     await setup_platform(hass, LIGHT_DOMAIN, down_light_ceiling_fan("name-1"))
 
@@ -1025,7 +1025,7 @@ async def test_update_reports_down_light_is_off(hass: UniversalAssistant) -> Non
     assert hass.states.get("light.name_1_down_light").state == "off"
 
 
-async def test_turn_on_fireplace_with_brightness(hass: UniversalAssistant) -> None:
+async def test_turn_on_fireplace_with_brightness(hass: __HAC_KEEP__) -> None:
     """Tests that turn on command delegates to set flame API."""
     await setup_platform(
         hass, LIGHT_DOMAIN, fireplace("name-1"), bond_device_id="test-device-id"
@@ -1043,7 +1043,7 @@ async def test_turn_on_fireplace_with_brightness(hass: UniversalAssistant) -> No
     mock_set_flame.assert_called_once_with("test-device-id", Action.set_flame(50))
 
 
-async def test_turn_on_fireplace_without_brightness(hass: UniversalAssistant) -> None:
+async def test_turn_on_fireplace_without_brightness(hass: __HAC_KEEP__) -> None:
     """Tests that turn on command delegates to turn on API."""
     await setup_platform(
         hass, LIGHT_DOMAIN, fireplace("name-1"), bond_device_id="test-device-id"
@@ -1061,7 +1061,7 @@ async def test_turn_on_fireplace_without_brightness(hass: UniversalAssistant) ->
     mock_turn_on.assert_called_once_with("test-device-id", Action.turn_on())
 
 
-async def test_turn_off_fireplace(hass: UniversalAssistant) -> None:
+async def test_turn_off_fireplace(hass: __HAC_KEEP__) -> None:
     """Tests that turn off command delegates to API."""
     await setup_platform(
         hass, LIGHT_DOMAIN, fireplace("name-1"), bond_device_id="test-device-id"
@@ -1079,7 +1079,7 @@ async def test_turn_off_fireplace(hass: UniversalAssistant) -> None:
     mock_turn_off.assert_called_once_with("test-device-id", Action.turn_off())
 
 
-async def test_flame_converted_to_brightness(hass: UniversalAssistant) -> None:
+async def test_flame_converted_to_brightness(hass: __HAC_KEEP__) -> None:
     """Tests that reported flame level (0..100) converted to HA brightness (0...255)."""
     await setup_platform(hass, LIGHT_DOMAIN, fireplace("name-1"))
 
@@ -1090,14 +1090,14 @@ async def test_flame_converted_to_brightness(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.name_1").attributes[ATTR_BRIGHTNESS] == 128
 
 
-async def test_light_available(hass: UniversalAssistant) -> None:
+async def test_light_available(hass: __HAC_KEEP__) -> None:
     """Tests that available state is updated based on API errors."""
     await help_test_entity_available(
         hass, LIGHT_DOMAIN, ceiling_fan("name-1"), "light.name_1"
     )
 
 
-async def test_parse_brightness(hass: UniversalAssistant) -> None:
+async def test_parse_brightness(hass: __HAC_KEEP__) -> None:
     """Tests that reported brightness (0..100) converted to HA brightness (0..255)."""
     await setup_platform(hass, LIGHT_DOMAIN, dimmable_ceiling_fan("name-1"))
 
@@ -1108,7 +1108,7 @@ async def test_parse_brightness(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.name_1").attributes[ATTR_BRIGHTNESS] == 128
 
 
-async def test_parse_color_temp(hass: UniversalAssistant) -> None:
+async def test_parse_color_temp(hass: __HAC_KEEP__) -> None:
     """Tests that HA color temp converts to nearest 100K (max precision of Bond API)."""
     await setup_platform(
         hass,

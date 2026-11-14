@@ -30,8 +30,8 @@ from universalassistant.components.notify import (
 )
 from universalassistant.config_entries import ConfigEntry, ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -44,7 +44,7 @@ REGISTER_LOCAL_PUSH_ONLY = {
     "app_version": "1.0",
     "device_id": "4d5e6f",
     "device_name": "Test",
-    "manufacturer": "Universal Universal Home Assistant",
+    "manufacturer": "__HA_KEEP__",
     "model": "mobile_app",
     "os_name": "Linux",
     "os_version": "5.0.6",
@@ -61,7 +61,7 @@ REGISTER_NEW_PUSH_TOKEN = {
 
 @pytest.fixture
 async def setup_push_receiver(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, hass_admin_user: MockUser
 ) -> None:
     """Fixture that sets up a mocked push receiver."""
     push_url = "https://mobile-push.universal-assistant.dev/push"
@@ -92,7 +92,7 @@ async def setup_push_receiver(
             "app_version": "1.0",
             "device_id": "4d5e6f",
             "device_name": "Test",
-            "manufacturer": "Universal Universal Home Assistant",
+            "manufacturer": "__HA_KEEP__",
             "model": "mobile_app",
             "os_name": "Linux",
             "os_version": "5.0.6",
@@ -120,7 +120,7 @@ async def setup_push_receiver(
             "app_version": "1.0",
             "device_id": "4d5e6f2",
             "device_name": "Loaded Late",
-            "manufacturer": "Universal Universal Home Assistant",
+            "manufacturer": "__HA_KEEP__",
             "model": "mobile_app",
             "os_name": "Linux",
             "os_version": "5.0.6",
@@ -156,7 +156,7 @@ async def setup_push_receiver(
 
 @pytest.fixture
 async def setup_apple_push_receiver(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, hass_admin_user: MockUser
 ) -> None:
     """Set up a mocked push receiver on an Apple device for Live Activity tests.
 
@@ -213,7 +213,7 @@ async def setup_apple_push_receiver(
 
 @pytest.fixture
 async def setup_websocket_channel_only_push(
-    hass: UniversalAssistant, hass_admin_user: MockUser
+    hass: __HAC_KEEP__, hass_admin_user: MockUser
 ) -> None:
     """Set up local push."""
     entry = MockConfigEntry(
@@ -224,7 +224,7 @@ async def setup_websocket_channel_only_push(
             "app_version": "1.0",
             "device_id": "websocket-push-device-id",
             "device_name": "Websocket Push Name",
-            "manufacturer": "Universal Universal Home Assistant",
+            "manufacturer": "__HA_KEEP__",
             "model": "mobile_app",
             "os_name": "Linux",
             "os_version": "5.0.6",
@@ -257,7 +257,7 @@ async def notify_only() -> AsyncGenerator[None]:
 
 @pytest.mark.freeze_time("1970-01-01T00:00:00.000Z")
 async def test_notify_works(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, setup_push_receiver
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, setup_push_receiver
 ) -> None:
     """Test notify works."""
 
@@ -298,7 +298,7 @@ async def test_notify_works(
 
 
 async def test_notify_ws_works(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     setup_push_receiver,
     hass_ws_client: WebSocketGenerator,
@@ -384,7 +384,7 @@ async def test_notify_ws_works(
 
 
 async def test_notify_ws_confirming_works(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     setup_push_receiver,
     hass_ws_client: WebSocketGenerator,
@@ -469,7 +469,7 @@ async def test_notify_ws_confirming_works(
 
 
 async def test_notify_ws_not_confirming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     setup_push_receiver,
     hass_ws_client: WebSocketGenerator,
@@ -527,7 +527,7 @@ async def test_notify_ws_not_confirming(
 )
 @pytest.mark.usefixtures("setup_push_receiver")
 async def test_notify_ws_fallback_after_registering_again(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
@@ -568,7 +568,7 @@ async def test_notify_ws_fallback_after_registering_again(
 
 @pytest.mark.usefixtures("setup_push_receiver")
 async def test_notify_target_while_registering_again(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -577,7 +577,7 @@ async def test_notify_target_while_registering_again(
     continue_unload = asyncio.Event()
     original_unload_entry = mobile_app.async_unload_entry
 
-    async def _blocking_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def _blocking_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         unload_started.set()
         await continue_unload.wait()
         await original_unload_entry(hass, entry)
@@ -592,7 +592,7 @@ async def test_notify_target_while_registering_again(
         await unload_started.wait()
 
         # The entry has the new registration, but the old webhook is the target
-        with pytest.raises(UniversalAssistantError, match="mock-webhook_id"):
+        with pytest.raises(__HAC_KEEP__Error, match="mock-webhook_id"):
             await hass.services.async_call(
                 NOTIFY_DOMAIN,
                 "mobile_app_test",
@@ -608,13 +608,13 @@ async def test_notify_target_while_registering_again(
 
 @pytest.mark.freeze_time("1970-01-01T00:00:00.000Z")
 async def test_local_push_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     setup_websocket_channel_only_push,
 ) -> None:
     """Test a local only push registration."""
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             r"Device.*websocket-push-webhook-id"
             r".*not connected to local push notifications"
@@ -665,7 +665,7 @@ async def test_local_push_only(
     "target", [["webhook_id_2", "mock-webhook_id", "websocket-push-webhook-id"], None]
 )
 async def test_notify_multiple_targets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_push_receiver,
@@ -747,7 +747,7 @@ async def test_notify_multiple_targets(
     "target", [["webhook_id_2", "mock-webhook_id", "websocket-push-webhook-id"], None]
 )
 async def test_notify_multiple_targets_if_any_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     aioclient_mock: AiohttpClientMocker,
     setup_push_receiver,
@@ -792,7 +792,7 @@ async def test_notify_multiple_targets_if_any_disconnected(
     sub_id = sub_result["id"]
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=r".*websocket-push-webhook-id.*not connected to local push notifications",
     ):
         await hass.services.async_call(
@@ -828,7 +828,7 @@ async def test_notify_multiple_targets_if_any_disconnected(
 
 @pytest.mark.usefixtures("notify_only")
 async def test_notify_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -845,7 +845,7 @@ async def test_notify_platform(
             "app_version": "1.0",
             "device_id": "4d5e6f",
             "device_name": "Test",
-            "manufacturer": "Universal Universal Home Assistant",
+            "manufacturer": "__HA_KEEP__",
             "model": "mobile_app",
             "os_name": "Linux",
             "os_version": "5.0.6",
@@ -872,7 +872,7 @@ async def test_notify_platform(
 @pytest.mark.usefixtures("setup_push_receiver")
 @pytest.mark.freeze_time("1970-01-01T00:00:00.000Z")
 async def test_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test sending message via notify.send_message action."""
@@ -912,7 +912,7 @@ async def test_send_message(
 @pytest.mark.usefixtures("setup_websocket_channel_only_push")
 @pytest.mark.freeze_time("1970-01-01T00:00:00.000Z")
 async def test_send_message_local_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test sending message via notify.send_message action through local push."""
@@ -978,7 +978,7 @@ async def test_send_message_local_push(
 @pytest.mark.usefixtures("setup_push_receiver")
 @pytest.mark.freeze_time("1970-01-01T00:00:00.000Z")
 async def test_send_message_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     exc: Exception | None,
     status: HTTPStatus,
@@ -1004,7 +1004,7 @@ async def test_send_message_exceptions(
         exc=exc,
     )
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -1022,9 +1022,9 @@ async def test_send_message_exceptions(
 
 
 @pytest.mark.usefixtures("setup_websocket_channel_only_push")
-async def test_send_message_local_push_exception(hass: UniversalAssistant) -> None:
+async def test_send_message_local_push_exception(hass: __HAC_KEEP__) -> None:
     """Test send_message via local push with exceptions."""
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_SEND_MESSAGE,
@@ -1044,7 +1044,7 @@ async def test_send_message_local_push_exception(hass: UniversalAssistant) -> No
 
 
 async def test_notify_live_activity_uses_stored_token(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, setup_apple_push_receiver
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, setup_apple_push_receiver
 ) -> None:
     """Test that live_update notifications include live_activity_token in the relay payload."""
     # Simulate the iOS app having registered a per-activity token via webhook.
@@ -1090,7 +1090,7 @@ async def test_notify_live_activity_uses_stored_token(
 
 
 async def test_notify_live_activity_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1122,8 +1122,8 @@ async def test_notify_live_activity_start(
                 "push_url": push_url,
                 "start_live_activity_token": "PUSH_TO_START_HEX_TOKEN",
             },
-            "app_id": "io.robbie.UniversalAssistant",
-            "app_name": "Universal Universal Home Assistant",
+            "app_id": "io.robbie.__HAC_KEEP__",
+            "app_name": "__HA_KEEP__",
             "app_version": "2024.1",
             "device_id": "ios-device-1",
             "device_name": "iPhone",
@@ -1165,7 +1165,7 @@ async def test_notify_live_activity_start(
         "message": "Laundry started",
         "data": {"live_update": True, "tag": "laundry", "event": "start"},
         "registration_info": {
-            "app_id": "io.robbie.UniversalAssistant",
+            "app_id": "io.robbie.__HAC_KEEP__",
             "app_version": "2024.1",
             "os_version": "17.2",
             "webhook_id": "ios-webhook-1",
@@ -1174,7 +1174,7 @@ async def test_notify_live_activity_start(
 
 
 async def test_notify_live_activity_without_tag_uses_fcm(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, setup_apple_push_receiver
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, setup_apple_push_receiver
 ) -> None:
     """Test that live_update without a tag falls through to normal FCM push."""
     await hass.services.async_call(
@@ -1205,7 +1205,7 @@ async def test_notify_live_activity_without_tag_uses_fcm(
 
 
 async def test_notify_normal_notification_ignores_live_activity_tokens(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, setup_apple_push_receiver
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, setup_apple_push_receiver
 ) -> None:
     """Test that normal notifications don't route through live activity tokens."""
     # Store a live activity token — it should be ignored for non-live-activity pushes.
@@ -1244,7 +1244,7 @@ async def test_notify_normal_notification_ignores_live_activity_tokens(
 
 
 async def test_notify_clear_notification_allows_same_tag_to_start_again(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1272,8 +1272,8 @@ async def test_notify_clear_notification_allows_same_tag_to_start_again(
                 "push_url": push_url,
                 "start_live_activity_token": "PUSH_TO_START_HEX_TOKEN",
             },
-            "app_id": "io.robbie.UniversalAssistant",
-            "app_name": "Universal Universal Home Assistant",
+            "app_id": "io.robbie.__HAC_KEEP__",
+            "app_name": "__HA_KEEP__",
             "app_version": "2024.1",
             "device_id": "ios-device-1",
             "device_name": "iPhone",
@@ -1328,7 +1328,7 @@ async def test_notify_clear_notification_allows_same_tag_to_start_again(
         "message": "clear_notification",
         "data": {"tag": "laundry", "event": "end"},
         "registration_info": {
-            "app_id": "io.robbie.UniversalAssistant",
+            "app_id": "io.robbie.__HAC_KEEP__",
             "app_version": "2024.1",
             "os_version": "17.2",
             "webhook_id": "ios-webhook-1",
@@ -1340,7 +1340,7 @@ async def test_notify_clear_notification_allows_same_tag_to_start_again(
         "message": "Laundry started",
         "data": {"live_update": True, "tag": "laundry", "event": "start"},
         "registration_info": {
-            "app_id": "io.robbie.UniversalAssistant",
+            "app_id": "io.robbie.__HAC_KEEP__",
             "app_version": "2024.1",
             "os_version": "17.2",
             "webhook_id": "ios-webhook-1",
@@ -1349,7 +1349,7 @@ async def test_notify_clear_notification_allows_same_tag_to_start_again(
 
 
 async def test_notify_clear_notification_without_stored_token_passes_through(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, setup_apple_push_receiver
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, setup_apple_push_receiver
 ) -> None:
     """Test clear_notification with no matching live activity is unmodified."""
     await hass.services.async_call(
@@ -1377,7 +1377,7 @@ async def test_notify_clear_notification_without_stored_token_passes_through(
 
 
 async def test_notify_clear_notification_without_tag_passes_through(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker, setup_apple_push_receiver
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker, setup_apple_push_receiver
 ) -> None:
     """Test clear_notification without a tag never enters the live activity path."""
     hass.data[DOMAIN][DATA_LIVE_ACTIVITY_TOKENS]["mock-webhook_id"] = {
@@ -1410,7 +1410,7 @@ async def test_notify_clear_notification_without_tag_passes_through(
 
 
 async def test_notify_non_apple_device_skips_live_activity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     hass_admin_user: MockUser,
 ) -> None:
@@ -1438,7 +1438,7 @@ async def test_notify_non_apple_device_skips_live_activity(
                 "push_url": push_url,
             },
             "app_id": "io.universalassistant.companion.android",
-            "app_name": "Universal Universal Home Assistant",
+            "app_name": "__HA_KEEP__",
             "app_version": "2024.1",
             "device_id": "android-device-1",
             "device_name": "Pixel",

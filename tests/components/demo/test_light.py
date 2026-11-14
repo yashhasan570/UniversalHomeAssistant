@@ -20,7 +20,7 @@ from universalassistant.components.light import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 ENTITY_LIGHT = "light.bed_light"
@@ -37,7 +37,7 @@ def light_only() -> Generator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: UniversalAssistant, light_only: None) -> None:
+async def setup_comp(hass: __HAC_KEEP__, light_only: None) -> None:
     """Set up demo component."""
     assert await async_setup_component(
         hass, LIGHT_DOMAIN, {LIGHT_DOMAIN: {"platform": DOMAIN}}
@@ -45,7 +45,7 @@ async def setup_comp(hass: UniversalAssistant, light_only: None) -> None:
     await hass.async_block_till_done()
 
 
-async def test_state_attributes(hass: UniversalAssistant) -> None:
+async def test_state_attributes(hass: __HAC_KEEP__) -> None:
     """Test light state attributes."""
     await hass.services.async_call(
         LIGHT_DOMAIN,
@@ -108,7 +108,7 @@ async def test_state_attributes(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_BRIGHTNESS) == 128
 
 
-async def test_turn_off(hass: UniversalAssistant) -> None:
+async def test_turn_off(hass: __HAC_KEEP__) -> None:
     """Test light turn off method."""
     await hass.services.async_call(
         LIGHT_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_LIGHT}, blocking=True
@@ -125,7 +125,7 @@ async def test_turn_off(hass: UniversalAssistant) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_turn_off_without_entity_id(hass: UniversalAssistant) -> None:
+async def test_turn_off_without_entity_id(hass: __HAC_KEEP__) -> None:
     """Test light turn off all lights."""
     await hass.services.async_call(
         LIGHT_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: "all"}, blocking=True

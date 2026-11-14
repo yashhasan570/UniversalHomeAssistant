@@ -1,7 +1,7 @@
 {
   "config": {
     "abort": {
-      "latitude_longitude_not_defined": "Latitude and longitude are not defined in Universal Universal Home Assistant."
+      "latitude_longitude_not_defined": "Latitude and longitude are not defined in __HA_KEEP__."
     },
     "step": {
       "user": {

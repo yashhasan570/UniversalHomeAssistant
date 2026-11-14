@@ -11,8 +11,8 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.unifi.const import CONF_SITE_ID, DOMAIN
 from universalassistant.components.unifi.services import UnifiService
 from universalassistant.const import ATTR_DEVICE_ID, CONF_HOST
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 
@@ -20,7 +20,7 @@ from universalassistant.helpers import device_registry as dr
     "client_payload", [[{"is_wired": False, "mac": "00:00:00:00:00:01"}]]
 )
 async def test_reconnect_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
@@ -49,7 +49,7 @@ async def test_reconnect_client(
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_reconnect_non_existent_device(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Verify ServiceValidationError is raised if device does not exist."""
     aioclient_mock.clear_requests()
@@ -67,7 +67,7 @@ async def test_reconnect_non_existent_device(
 
 
 async def test_reconnect_device_without_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
@@ -96,7 +96,7 @@ async def test_reconnect_device_without_mac(
     "client_payload", [[{"is_wired": False, "mac": "00:00:00:00:00:01"}]]
 )
 async def test_reconnect_client_hub_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
@@ -128,7 +128,7 @@ async def test_reconnect_client_hub_unavailable(
 
 
 async def test_reconnect_client_unknown_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
@@ -153,7 +153,7 @@ async def test_reconnect_client_unknown_mac(
     "client_payload", [[{"is_wired": True, "mac": "00:00:00:00:00:01"}]]
 )
 async def test_reconnect_wired_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
@@ -206,7 +206,7 @@ async def test_reconnect_wired_client(
     ],
 )
 async def test_remove_clients(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_remove_clients(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_remove_clients_hub_unavailable(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Verify no call is made if UniFi Network is unavailable."""
     aioclient_mock.clear_requests()
@@ -268,7 +268,7 @@ async def test_remove_clients_hub_unavailable(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_remove_clients_no_call_on_empty_list(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Verify no call is made if no fitting client has been added to the list."""
     aioclient_mock.clear_requests()
@@ -289,7 +289,7 @@ async def test_remove_clients_no_call_on_empty_list(
     ],
 )
 async def test_services_handle_unloaded_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
@@ -309,12 +309,12 @@ async def test_services_handle_unloaded_config_entry(
     "client_payload", [[{"is_wired": False, "mac": "00:00:00:00:00:01"}]]
 )
 async def test_reconnect_client_request_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry_setup: MockConfigEntry,
     client_payload: list[dict[str, Any]],
 ) -> None:
-    """Verify UniversalAssistantError is raised when API request fails."""
+    """Verify __HAC_KEEP__Error is raised when API request fails."""
     device_entry = device_registry.async_get_or_create(
         config_entry_id=config_entry_setup.entry_id,
         connections={(dr.CONNECTION_NETWORK_MAC, client_payload[0]["mac"])},
@@ -326,7 +326,7 @@ async def test_reconnect_client_request_failed(
             "request",
             side_effect=aiounifi.AiounifiException,
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -351,18 +351,18 @@ async def test_reconnect_client_request_failed(
     ],
 )
 async def test_remove_clients_request_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     clients_all_payload: list[dict[str, Any]],
 ) -> None:
-    """Verify UniversalAssistantError is raised when API request fails."""
+    """Verify __HAC_KEEP__Error is raised when API request fails."""
     with (
         patch.object(
             config_entry_setup.runtime_data.api,
             "request",
             side_effect=aiounifi.AiounifiException,
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             DOMAIN, UnifiService.REMOVE_CLIENTS, blocking=True

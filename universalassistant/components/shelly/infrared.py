@@ -11,7 +11,7 @@ from universalassistant.components.infrared import (
     InfraredReceiverEntity,
     InfraredReceiverEntityDescription,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ShellyConfigEntry
@@ -96,7 +96,7 @@ RPC_INFRARED_ENTITIES: Final = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ShellyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

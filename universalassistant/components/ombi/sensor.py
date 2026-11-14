@@ -6,7 +6,7 @@ import logging
 from pyombi import OmbiError
 
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -52,7 +52,7 @@ SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

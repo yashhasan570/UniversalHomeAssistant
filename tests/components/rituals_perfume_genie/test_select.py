@@ -19,8 +19,8 @@ from universalassistant.const import (
     EntityCategory,
     UnitOfArea,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ from .common import init_integration, mock_config_entry, mock_diffuser
 
 
 async def test_select_entity(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the creation and state of the diffuser select entity."""
     config_entry = mock_config_entry(unique_id="select_test")
@@ -47,7 +47,7 @@ async def test_select_entity(
     assert entry.entity_category == EntityCategory.CONFIG
 
 
-async def test_select_option(hass: UniversalAssistant) -> None:
+async def test_select_option(hass: __HAC_KEEP__) -> None:
     """Test selecting of a option."""
     config_entry = mock_config_entry(unique_id="select_invalid_option_test")
     diffuser = mock_diffuser(hublot="lot123", room_size_square_meter=60)
@@ -85,7 +85,7 @@ async def test_select_option(hass: UniversalAssistant) -> None:
     assert state.state == "30"
 
 
-async def test_select_invalid_option(hass: UniversalAssistant) -> None:
+async def test_select_invalid_option(hass: __HAC_KEEP__) -> None:
     """Test selecting an invalid option."""
     config_entry = mock_config_entry(unique_id="select_invalid_option_test")
     diffuser = mock_diffuser(hublot="lot123", room_size_square_meter=60)
@@ -119,7 +119,7 @@ async def test_select_invalid_option(hass: UniversalAssistant) -> None:
     assert state.state == "60"
 
 
-async def test_select_next_twice(hass: UniversalAssistant) -> None:
+async def test_select_next_twice(hass: __HAC_KEEP__) -> None:
     """Test selecting the next option twice before an update moves on twice."""
     config_entry = mock_config_entry(unique_id="select_next_twice_test")
     diffuser = mock_diffuser(hublot="lot123", room_size_square_meter=15)
@@ -143,7 +143,7 @@ async def test_select_next_twice(hass: UniversalAssistant) -> None:
     assert state.state == "60"
 
 
-async def test_select_option_category_only(hass: UniversalAssistant) -> None:
+async def test_select_option_category_only(hass: __HAC_KEEP__) -> None:
     """Test a diffuser without square meters only gets the category set."""
     config_entry = mock_config_entry(unique_id="select_category_only_test")
     diffuser = mock_diffuser(hublot="lot123", has_square_meters=False)
@@ -169,13 +169,13 @@ async def test_select_option_category_only(hass: UniversalAssistant) -> None:
     assert state.state == "30"
 
 
-async def test_select_action_error(hass: UniversalAssistant) -> None:
+async def test_select_action_error(hass: __HAC_KEEP__) -> None:
     """Test a failing change of the room size raises a translated error."""
     config_entry = mock_config_entry(unique_id="id_123_select_action_error")
     client = await init_integration(hass, config_entry, [mock_diffuser("lot123")])
     client.set_room_square_meters.side_effect = RitualsGenieConnectionError
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

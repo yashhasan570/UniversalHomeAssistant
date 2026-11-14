@@ -9,15 +9,15 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .common import MockConfigEntry, setup_platform
 
 
 async def test_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client: Mock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -30,7 +30,7 @@ async def test_states(
 
 
 async def test_light_off_reports_correctly(
-    hass: UniversalAssistant, mock_ring_client
+    hass: __HAC_KEEP__, mock_ring_client
 ) -> None:
     """Tests that the initial state of a device that should be off is correct."""
     await setup_platform(hass, Platform.LIGHT)
@@ -41,7 +41,7 @@ async def test_light_off_reports_correctly(
 
 
 async def test_light_on_reports_correctly(
-    hass: UniversalAssistant, mock_ring_client
+    hass: __HAC_KEEP__, mock_ring_client
 ) -> None:
     """Tests that the initial state of a device that should be on is correct."""
     await setup_platform(hass, Platform.LIGHT)
@@ -51,7 +51,7 @@ async def test_light_on_reports_correctly(
     assert state.attributes.get("friendly_name") == "Internal Light"
 
 
-async def test_light_can_be_turned_on(hass: UniversalAssistant, mock_ring_client) -> None:
+async def test_light_can_be_turned_on(hass: __HAC_KEEP__, mock_ring_client) -> None:
     """Tests the light turns on correctly."""
     await setup_platform(hass, Platform.LIGHT)
 
@@ -77,7 +77,7 @@ async def test_light_can_be_turned_on(hass: UniversalAssistant, mock_ring_client
     ids=["Authentication", "Timeout", "Other"],
 )
 async def test_light_errors_when_turned_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_ring_devices,
     exception_type,
@@ -92,7 +92,7 @@ async def test_light_errors_when_turned_on(
     front_light_mock = mock_ring_devices.get_device(765432)
     front_light_mock.async_set_lights.side_effect = exception_type
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "light", "turn_on", {"entity_id": "light.front_light"}, blocking=True
         )

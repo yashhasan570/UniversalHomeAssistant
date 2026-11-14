@@ -18,7 +18,7 @@ from aiomealie import (
 from awesomeversion import AwesomeVersion
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -50,7 +50,7 @@ class MealieDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
     _update_interval: timedelta
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: MealieConfigEntry, client: MealieClient
+        self, hass: __HAC_KEEP__, config_entry: MealieConfigEntry, client: MealieClient
     ) -> None:
         """Initialize the Mealie data coordinator."""
         super().__init__(

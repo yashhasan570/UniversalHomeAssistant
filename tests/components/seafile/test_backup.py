@@ -31,7 +31,7 @@ from universalassistant.components.seafile.const import (
     DATA_BACKUP_AGENT_LISTENERS,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import setup_integration
@@ -56,7 +56,7 @@ AGENT_ID = f"{DOMAIN}.{SUBENTRY_ID}"
 
 @pytest.fixture(autouse=True)
 async def setup_backup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> AsyncGenerator[None]:
@@ -71,7 +71,7 @@ async def setup_backup_integration(
 
 
 async def _ws_request(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, message: dict
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, message: dict
 ) -> dict:
     client = await hass_ws_client(hass)
     await client.send_json_auto_id(message)
@@ -81,7 +81,7 @@ async def _ws_request(
 
 
 async def test_agents_info(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test a library that stores backups is a backup agent."""
     result = await _ws_request(hass, hass_ws_client, {"type": "backup/agents/info"})
@@ -96,7 +96,7 @@ async def test_agents_info(
 
 
 async def test_agent_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_agent_disabled(
 
 
 async def test_agents_removed_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_agents_removed_on_unload(
 
 
 async def test_agents_list_backups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_seafile_client: AsyncMock,
 ) -> None:
@@ -181,7 +181,7 @@ async def test_agents_list_backups(
     ],
 )
 async def test_agents_list_backups_empty(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_seafile_client: AsyncMock,
     method: str,
@@ -198,7 +198,7 @@ async def test_agents_list_backups_empty(
 
 
 async def test_agents_get_backup(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting a backup."""
     result = await _ws_request(
@@ -215,7 +215,7 @@ async def test_agents_get_backup(
 
 
 async def test_agents_get_backup_not_found(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting a backup that doesn't exist."""
     result = await _ws_request(
@@ -248,7 +248,7 @@ async def _upload(hass_client: ClientSessionGenerator) -> int:
 
 
 async def test_agents_upload_to_library_root(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -342,7 +342,7 @@ async def test_agents_upload(
 
 
 async def test_agents_upload_on_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_seafile_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -420,7 +420,7 @@ async def test_agents_download_stream_error(
 
 
 async def test_agents_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_seafile_client: AsyncMock,
 ) -> None:
@@ -440,7 +440,7 @@ async def test_agents_delete(
 
 
 async def test_agents_list_cached(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_seafile_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -466,7 +466,7 @@ async def test_agents_list_cached(
 
 
 async def test_agents_list_finishing_after_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_seafile_client: AsyncMock,
 ) -> None:
@@ -498,7 +498,7 @@ async def test_agents_list_finishing_after_delete(
 
 
 async def test_agents_delete_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_seafile_client: AsyncMock,
 ) -> None:
@@ -529,7 +529,7 @@ async def test_agents_delete_not_found(
     ],
 )
 async def test_agents_delete_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_seafile_client: AsyncMock,
     error: type[Exception],
@@ -557,7 +557,7 @@ async def test_agents_delete_error(
     }
 
 
-async def test_listeners_get_cleaned_up(hass: UniversalAssistant) -> None:
+async def test_listeners_get_cleaned_up(hass: __HAC_KEEP__) -> None:
     """Test the listener store is removed with the last listener."""
     # Start without the listener of the backup integration.
     hass.data.pop(DATA_BACKUP_AGENT_LISTENERS)

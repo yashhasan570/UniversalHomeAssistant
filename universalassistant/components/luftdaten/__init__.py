@@ -7,7 +7,7 @@ the integration name.
 from luftdaten import Luftdaten
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.httpx_client import get_async_client
 
 from .const import CONF_SENSOR_ID
@@ -16,7 +16,7 @@ from .coordinator import LuftdatenConfigEntry, LuftdatenDataUpdateCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LuftdatenConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LuftdatenConfigEntry) -> None:
     """Set up Sensor.Community as config entry."""
 
     # For backwards compat, set unique ID
@@ -36,6 +36,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LuftdatenConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LuftdatenConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LuftdatenConfigEntry) -> None:
     """Unload an Sensor.Community config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -28,12 +28,12 @@ from universalassistant.components.alexa import (
 from universalassistant.components.frontend import async_get_theme_names
 from universalassistant.components.google_assistant import helpers as google_helpers
 from universalassistant.components.universalassistant import exposed_entities
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView, require_admin
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View, require_admin
 from universalassistant.components.http.data_validator import RequestDataValidator
 from universalassistant.components.system_health import get_info as get_system_health_info
 from universalassistant.components.websocket_api import ERR_NOT_FOUND
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -85,7 +85,7 @@ _CLOUD_ERRORS: dict[
 ] = {
     TimeoutError: (
         HTTPStatus.BAD_GATEWAY,
-        "Unable to reach Universal Universal Home Assistant Link.",
+        "Unable to reach __HA_KEEP__ Link.",
     ),
     auth.AuthTimeoutError: (
         HTTPStatus.GATEWAY_TIMEOUT,
@@ -103,7 +103,7 @@ class MFAExpiredOrNotStarted(auth.CloudError):
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Initialize the HTTP API."""
     websocket_api.async_register_command(hass, websocket_cloud_remove_data)
     websocket_api.async_register_command(hass, websocket_cloud_status)
@@ -172,7 +172,7 @@ def async_setup(hass: UniversalAssistant) -> None:
     )
 
 
-def _handle_cloud_errors[_HassViewT: UniversalAssistantView, **_P](
+def _handle_cloud_errors[_HassViewT: __HAC_KEEP__View, **_P](
     handler: Callable[
         Concatenate[_HassViewT, web.Request, _P], Awaitable[web.Response]
     ],
@@ -200,18 +200,18 @@ def _handle_cloud_errors[_HassViewT: UniversalAssistantView, **_P](
 
 def _ws_handle_cloud_errors(
     handler: Callable[
-        [UniversalAssistant, websocket_api.ActiveConnection, dict[str, Any]],
+        [__HAC_KEEP__, websocket_api.ActiveConnection, dict[str, Any]],
         Coroutine[None, None, None],
     ],
 ) -> Callable[
-    [UniversalAssistant, websocket_api.ActiveConnection, dict[str, Any]],
+    [__HAC_KEEP__, websocket_api.ActiveConnection, dict[str, Any]],
     Coroutine[None, None, None],
 ]:
     """Websocket decorator to handle auth errors."""
 
     @wraps(handler)
     async def error_handler(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -246,7 +246,7 @@ def _process_cloud_exception(exc: Exception, where: str) -> tuple[HTTPStatus, st
     return err_info
 
 
-class GoogleActionsSyncView(UniversalAssistantView):
+class GoogleActionsSyncView(__HAC_KEEP__View):
     """Trigger a Google Actions Smart Home Sync."""
 
     url = "/api/cloud/google_actions/sync"
@@ -263,8 +263,8 @@ class GoogleActionsSyncView(UniversalAssistantView):
         return self.json({}, status_code=status)
 
 
-class CloudLoginView(UniversalAssistantView):
-    """Login to Universal Universal Home Assistant cloud."""
+class CloudLoginView(__HAC_KEEP__View):
+    """Login to __HA_KEEP__ cloud."""
 
     _mfa_tokens: dict[str, str] = {}
     _mfa_tokens_set_time: float = 0
@@ -335,8 +335,8 @@ class CloudLoginView(UniversalAssistantView):
         return self.json({"success": True})
 
 
-class CloudLogoutView(UniversalAssistantView):
-    """Log out of the Universal Universal Home Assistant cloud."""
+class CloudLogoutView(__HAC_KEEP__View):
+    """Log out of the __HA_KEEP__ cloud."""
 
     url = "/api/cloud/logout"
     name = "api:cloud:logout"
@@ -359,7 +359,7 @@ class CloudLogoutView(UniversalAssistantView):
 
 
 async def _async_location_client_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, str] | None:
     """Detect location info to attach as registration client metadata."""
     client_metadata = None
@@ -384,8 +384,8 @@ _REGISTER_SCHEMA = probatio.Schema(
 )
 
 
-class CloudRegisterView(UniversalAssistantView):
-    """Register on the Universal Universal Home Assistant cloud."""
+class CloudRegisterView(__HAC_KEEP__View):
+    """Register on the __HA_KEEP__ cloud."""
 
     url = "/api/cloud/register"
     name = "api:cloud:register"
@@ -410,8 +410,8 @@ class CloudRegisterView(UniversalAssistantView):
         return self.json_message("ok")
 
 
-class CloudRegisterAutoLoginView(UniversalAssistantView):
-    """Register on the Universal Universal Home Assistant cloud and log in once confirmed."""
+class CloudRegisterAutoLoginView(__HAC_KEEP__View):
+    """Register on the __HA_KEEP__ cloud and log in once confirmed."""
 
     url = "/api/cloud/register_auto_login"
     name = "api:cloud:register_auto_login"
@@ -436,7 +436,7 @@ class CloudRegisterAutoLoginView(UniversalAssistantView):
         return self.json_message("ok")
 
 
-class CloudResendConfirmView(UniversalAssistantView):
+class CloudResendConfirmView(__HAC_KEEP__View):
     """Resend email confirmation code."""
 
     url = "/api/cloud/resend_confirm"
@@ -456,7 +456,7 @@ class CloudResendConfirmView(UniversalAssistantView):
         return self.json_message("ok")
 
 
-class CloudForgotPasswordView(UniversalAssistantView):
+class CloudForgotPasswordView(__HAC_KEEP__View):
     """View to start Forgot Password flow.."""
 
     url = "/api/cloud/forgot_password"
@@ -480,13 +480,13 @@ class CloudForgotPasswordView(UniversalAssistantView):
         return self.json_message("ok")
 
 
-class DownloadSupportPackageView(UniversalAssistantView):
+class DownloadSupportPackageView(__HAC_KEEP__View):
     """Download support package view."""
 
     url = "/api/cloud/support_package"
     name = "api:cloud:support_package"
 
-    async def _get_integration_info(self, hass: UniversalAssistant) -> dict[str, Any]:
+    async def _get_integration_info(self, hass: __HAC_KEEP__) -> dict[str, Any]:
         """Collect information about active and custom integrations."""
         # Get loaded components from hass.config.components
         loaded_components = hass.config.components.copy()
@@ -544,7 +544,7 @@ class DownloadSupportPackageView(UniversalAssistantView):
                 else:
                     # This is a built-in integration.
                     # No version needed, as it is always the same as the
-                    # Universal Universal Home Assistant version
+                    # __HA_KEEP__ version
                     builtin_integrations.append(
                         {
                             "domain": domain,
@@ -560,7 +560,7 @@ class DownloadSupportPackageView(UniversalAssistantView):
         }
 
     @callback
-    def _get_themes_info(self, hass: UniversalAssistant) -> dict[str, Any]:
+    def _get_themes_info(self, hass: __HAC_KEEP__) -> dict[str, Any]:
         """Collect information about user-installed custom themes."""
         themes = async_get_theme_names(hass)
         return {
@@ -570,7 +570,7 @@ class DownloadSupportPackageView(UniversalAssistantView):
 
     async def _generate_markdown(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         hass_info: dict[str, Any],
         domains_info: dict[str, dict[str, str]],
     ) -> str:
@@ -717,14 +717,14 @@ class DownloadSupportPackageView(UniversalAssistantView):
 
 
 @callback
-def _async_auto_login_controller(hass: UniversalAssistant) -> AutoLoginController | None:
+def _async_auto_login_controller(hass: __HAC_KEEP__) -> AutoLoginController | None:
     """Return the controls of a retry loop that is still running."""
     controller = hass.data[DATA_PENDING_AUTO_LOGIN]
     return controller if controller is not None and controller.active else None
 
 
 @callback
-def _async_clear_pending_auto_login(hass: UniversalAssistant) -> None:
+def _async_clear_pending_auto_login(hass: __HAC_KEEP__) -> None:
     """Cancel and forget a pending auto-login, telling subscribers it is gone."""
     if (controller := hass.data[DATA_PENDING_AUTO_LOGIN]) is None:
         return
@@ -738,7 +738,7 @@ def _async_clear_pending_auto_login(hass: UniversalAssistant) -> None:
 @websocket_api.websocket_command({probatio.Required("type"): "cloud/remove_data"})
 @websocket_api.async_response
 async def websocket_cloud_remove_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -767,7 +767,7 @@ async def websocket_cloud_remove_data(
 @websocket_api.websocket_command({probatio.Required("type"): "cloud/status"})
 @websocket_api.async_response
 async def websocket_cloud_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -796,7 +796,7 @@ async def websocket_cloud_status(
 @websocket_api.websocket_command({probatio.Required("type"): "cloud/subscribe_events"})
 @callback
 def websocket_subscribe_cloud_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -818,7 +818,7 @@ def websocket_subscribe_cloud_events(
 )
 @callback
 def websocket_attempt_auto_login_now(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -844,7 +844,7 @@ def websocket_attempt_auto_login_now(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def websocket_resend_auto_login_confirm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -869,7 +869,7 @@ async def websocket_resend_auto_login_confirm(
 @websocket_api.websocket_command({probatio.Required("type"): "cloud/cancel_auto_login"})
 @callback
 def websocket_cancel_auto_login(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -890,18 +890,18 @@ def websocket_cancel_auto_login(
 
 def _require_cloud_login(
     handler: Callable[
-        [UniversalAssistant, websocket_api.ActiveConnection, dict[str, Any]],
+        [__HAC_KEEP__, websocket_api.ActiveConnection, dict[str, Any]],
         None,
     ],
 ) -> Callable[
-    [UniversalAssistant, websocket_api.ActiveConnection, dict[str, Any]],
+    [__HAC_KEEP__, websocket_api.ActiveConnection, dict[str, Any]],
     None,
 ]:
     """Websocket decorator that requires cloud to be logged in."""
 
     @wraps(handler)
     def with_cloud_auth(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         connection: websocket_api.ActiveConnection,
         msg: dict[str, Any],
     ) -> None:
@@ -925,7 +925,7 @@ def _require_cloud_login(
 @websocket_api.websocket_command({probatio.Required("type"): "cloud/subscription"})
 @websocket_api.async_response
 async def websocket_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -981,7 +981,7 @@ def validate_language_voice(value: tuple[str, str]) -> tuple[str, str]:
 )
 @websocket_api.async_response
 async def websocket_update_prefs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1008,7 +1008,7 @@ async def websocket_update_prefs(
                 msg["id"],
                 "alexa_relink",
                 (
-                    "Please go to the Alexa app and re-link the Universal Universal Home Assistant "
+                    "Please go to the Alexa app and re-link the __HA_KEEP__ "
                     "skill and then try to enable state reporting."
                 ),
             )
@@ -1030,7 +1030,7 @@ async def websocket_update_prefs(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def websocket_cloud_onboarding_postpone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1052,7 +1052,7 @@ async def websocket_cloud_onboarding_postpone(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def websocket_cloud_onboarding_complete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1077,7 +1077,7 @@ async def websocket_cloud_onboarding_complete(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def websocket_hook_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1098,7 +1098,7 @@ async def websocket_hook_create(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def websocket_hook_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1109,7 +1109,7 @@ async def websocket_hook_delete(
 
 
 async def _account_data(
-    hass: UniversalAssistant, cloud: Cloud[CloudClient]
+    hass: __HAC_KEEP__, cloud: Cloud[CloudClient]
 ) -> dict[str, Any]:
     """Generate the auth data JSON response."""
 
@@ -1171,7 +1171,7 @@ async def _account_data(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def websocket_remote_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1187,7 +1187,7 @@ async def websocket_remote_connect(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def websocket_remote_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1208,7 +1208,7 @@ async def websocket_remote_disconnect(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def google_assistant_get(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1236,7 +1236,7 @@ async def google_assistant_get(
         return
 
     assistant_options: Mapping[str, Any] = {}
-    with suppress(UniversalAssistantError, KeyError):
+    with suppress(__HAC_KEEP__Error, KeyError):
         settings = exposed_entities.async_get_entity_settings(hass, entity_id)
         assistant_options = settings[CLOUD_GOOGLE]
 
@@ -1256,7 +1256,7 @@ async def google_assistant_get(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def google_assistant_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1289,7 +1289,7 @@ async def google_assistant_list(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def google_assistant_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1297,7 +1297,7 @@ async def google_assistant_update(
     entity_id: str = msg["entity_id"]
 
     assistant_options: Mapping[str, Any] = {}
-    with suppress(UniversalAssistantError, KeyError):
+    with suppress(__HAC_KEEP__Error, KeyError):
         settings = exposed_entities.async_get_entity_settings(hass, entity_id)
         assistant_options = settings[CLOUD_GOOGLE]
 
@@ -1322,7 +1322,7 @@ async def google_assistant_update(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def alexa_get(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1346,7 +1346,7 @@ async def alexa_get(
 @websocket_api.async_response
 @_ws_handle_cloud_errors
 async def alexa_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1372,7 +1372,7 @@ async def alexa_list(
 @websocket_api.websocket_command({"type": "cloud/alexa/sync"})
 @websocket_api.async_response
 async def alexa_sync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1387,7 +1387,7 @@ async def alexa_sync(
             connection.send_error(
                 msg["id"],
                 "alexa_relink",
-                "Please go to the Alexa app and re-link the Universal Universal Home Assistant skill.",
+                "Please go to the Alexa app and re-link the __HA_KEEP__ skill.",
             )
             return
 
@@ -1402,7 +1402,7 @@ async def alexa_sync(
 @websocket_api.websocket_command({"type": "cloud/tts/info"})
 @callback
 def tts_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1438,7 +1438,7 @@ def tts_info(
 @_require_cloud_login
 @callback
 def websocket_webrtc_ice_servers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

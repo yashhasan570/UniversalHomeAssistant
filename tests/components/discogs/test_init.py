@@ -6,11 +6,11 @@ import discogs_client
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_discogs_client: MagicMock,
 ) -> None:
@@ -28,7 +28,7 @@ async def test_setup_and_unload_entry(
 
 
 async def test_setup_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_discogs_client: MagicMock,
 ) -> None:

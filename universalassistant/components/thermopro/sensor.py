@@ -27,7 +27,7 @@ from universalassistant.const import (
     EntityCategory,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.sensor import sensor_device_info_to_hass_device_info
 
@@ -107,7 +107,7 @@ def sensor_update_to_bluetooth_data_update(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ThermoProConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

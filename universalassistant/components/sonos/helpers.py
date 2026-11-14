@@ -13,7 +13,7 @@ from soco.exceptions import SoCoException, SoCoUPnPException
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.core import CALLBACK_TYPE
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import dispatcher_send
 
 from .const import DOMAIN, SONOS_SPEAKER_ACTIVITY
@@ -152,7 +152,7 @@ class UnjoinData:
 
     speakers: list[SonosSpeaker] = field(default_factory=list)
     event: asyncio.Event = field(default_factory=asyncio.Event)
-    exception: UniversalAssistantError | OSError | SoCoException | None = None
+    exception: __HAC_KEEP__Error | OSError | SoCoException | None = None
 
 
 @dataclass

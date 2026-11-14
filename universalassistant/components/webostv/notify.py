@@ -6,8 +6,8 @@ from aiowebostv import WebOsClient
 
 from universalassistant.components.notify import ATTR_DATA, BaseNotificationService
 from universalassistant.const import ATTR_CONFIG_ENTRY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import ATTR_ICON, DOMAIN, WEBOSTV_EXCEPTIONS
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> BaseNotificationService | None:
@@ -49,7 +49,7 @@ class LgWebOSNotificationService(BaseNotificationService):
         icon_path = data.get(ATTR_ICON) if data else None
 
         if not client.tv_state.is_on:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="notify_device_off",
                 translation_placeholders={"name": str(self._entry.title)},
@@ -57,7 +57,7 @@ class LgWebOSNotificationService(BaseNotificationService):
         try:
             await client.send_message(message, icon_path=icon_path)
         except FileNotFoundError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="notify_icon_not_found",
                 translation_placeholders={
@@ -66,7 +66,7 @@ class LgWebOSNotificationService(BaseNotificationService):
                 },
             ) from error
         except WEBOSTV_EXCEPTIONS as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="notify_communication_error",
                 translation_placeholders={

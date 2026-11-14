@@ -40,7 +40,7 @@ from universalassistant.components.esphome.encryption_key_storage import (
 )
 from universalassistant.config_entries import SOURCE_IGNORE, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -59,7 +59,7 @@ from .conftest import (
 
 
 async def test_retrieve_encryption_key_from_storage_with_device_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -110,7 +110,7 @@ async def test_retrieve_encryption_key_from_storage_with_device_mac(
 
 
 async def test_reauth_fixed_from_from_storage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -148,7 +148,7 @@ async def test_reauth_fixed_from_from_storage(
 
 
 async def test_retrieve_encryption_key_from_storage_no_key_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test _retrieve_encryption_key_from_storage when no key is found."""
@@ -187,7 +187,7 @@ def mock_setup_entry():
         yield
 
 
-def get_flow_context(hass: UniversalAssistant, result: ConfigFlowResult) -> dict[str, Any]:
+def get_flow_context(hass: __HAC_KEEP__, result: ConfigFlowResult) -> dict[str, Any]:
     """Get the flow context from the result of async_init or async_configure."""
     flow = next(
         flow
@@ -200,7 +200,7 @@ def get_flow_context(hass: UniversalAssistant, result: ConfigFlowResult) -> dict
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_connection_works(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test we can finish a config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -240,7 +240,7 @@ async def test_user_connection_works(
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_user_connection_updates_host(hass: UniversalAssistant) -> None:
+async def test_user_connection_updates_host(hass: __HAC_KEEP__) -> None:
     """Test setup up the same name updates the host."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -271,7 +271,7 @@ async def test_user_connection_updates_host(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_user_sets_unique_id(hass: UniversalAssistant) -> None:
+async def test_user_sets_unique_id(hass: __HAC_KEEP__) -> None:
     """Test that the user flow sets the unique id."""
     service_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.43.183"),
@@ -331,7 +331,7 @@ async def test_user_sets_unique_id(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
-async def test_user_resolve_error(hass: UniversalAssistant, mock_client: APIClient) -> None:
+async def test_user_resolve_error(hass: __HAC_KEEP__, mock_client: APIClient) -> None:
     """Test user step with IP resolve error."""
 
     result = await hass.config_entries.flow.async_init(
@@ -380,7 +380,7 @@ async def test_user_resolve_error(hass: UniversalAssistant, mock_client: APIClie
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_user_causes_zeroconf_to_abort(hass: UniversalAssistant) -> None:
+async def test_user_causes_zeroconf_to_abort(hass: __HAC_KEEP__) -> None:
     """Test that the user flow sets the unique id and aborts the zeroconf flow."""
     service_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.43.183"),
@@ -430,7 +430,7 @@ async def test_user_causes_zeroconf_to_abort(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_provisioning_closed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test user step when the device closed its provisioning window."""
@@ -476,7 +476,7 @@ async def test_user_provisioning_closed(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test user step with connection error."""
@@ -524,7 +524,7 @@ async def test_user_connection_error(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_with_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test user step with password."""
@@ -565,7 +565,7 @@ async def test_user_with_password(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_user_invalid_password(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test user step with invalid password."""
     mock_client.device_info.return_value = DeviceInfo(uses_password=True, name="test")
@@ -617,7 +617,7 @@ async def test_user_invalid_password(
 
 @pytest.mark.usefixtures("mock_dashboard", "mock_setup_entry", "mock_zeroconf")
 async def test_user_dashboard_has_wrong_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test user step with key from dashboard that is incorrect."""
@@ -669,7 +669,7 @@ async def test_user_dashboard_has_wrong_key(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_discovers_name_and_gets_key_from_dashboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
 ) -> None:
@@ -727,7 +727,7 @@ async def test_user_discovers_name_and_gets_key_from_dashboard(
 )
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_discovers_name_and_gets_key_from_dashboard_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dashboard_exception: Exception,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
@@ -789,7 +789,7 @@ async def test_user_discovers_name_and_gets_key_from_dashboard_fails(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_discovers_name_and_dashboard_is_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
 ) -> None:
@@ -850,7 +850,7 @@ async def test_user_discovers_name_and_dashboard_is_unavailable(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_login_connection_error(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test user step with connection error on login attempt."""
     mock_client.device_info.return_value = DeviceInfo(uses_password=True, name="test")
@@ -900,7 +900,7 @@ async def test_login_connection_error(
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_initiation(hass: UniversalAssistant) -> None:
+async def test_discovery_initiation(hass: __HAC_KEEP__) -> None:
     """Test discovery importing works."""
     service_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.43.183"),
@@ -937,7 +937,7 @@ async def test_discovery_initiation(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_no_mac(hass: UniversalAssistant) -> None:
+async def test_discovery_no_mac(hass: __HAC_KEEP__) -> None:
     """Test discovery aborted if old ESPHome without mac in zeroconf."""
     service_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.43.183"),
@@ -956,7 +956,7 @@ async def test_discovery_no_mac(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_already_configured(hass: UniversalAssistant) -> None:
+async def test_discovery_already_configured(hass: __HAC_KEEP__) -> None:
     """Test discovery aborts if already configured via hostname."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -990,7 +990,7 @@ async def test_discovery_already_configured(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_discovery_does_not_update_host_when_device_is_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1028,7 +1028,7 @@ async def test_discovery_does_not_update_host_when_device_is_connected(
 
 @pytest.mark.usefixtures("mock_zeroconf")
 async def test_discovery_does_not_update_host_when_device_is_connected_dhcp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_esphome_device: MockESPHomeDeviceType,
 ) -> None:
@@ -1062,7 +1062,7 @@ async def test_discovery_does_not_update_host_when_device_is_connected_dhcp(
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_ignored(hass: UniversalAssistant) -> None:
+async def test_discovery_ignored(hass: __HAC_KEEP__) -> None:
     """Test discovery does not probe and ignored entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1091,7 +1091,7 @@ async def test_discovery_ignored(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_duplicate_data(hass: UniversalAssistant) -> None:
+async def test_discovery_duplicate_data(hass: __HAC_KEEP__) -> None:
     """Test discovery aborts if same mDNS packet arrives."""
     service_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.43.183"),
@@ -1118,7 +1118,7 @@ async def test_discovery_duplicate_data(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_updates_unique_id(hass: UniversalAssistant) -> None:
+async def test_discovery_updates_unique_id(hass: __HAC_KEEP__) -> None:
     """Test a duplicate discovery host aborts and updates existing entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -1155,7 +1155,7 @@ async def test_discovery_updates_unique_id(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
 async def test_discovery_abort_without_update_same_host_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery aborts without update when hsot and port are the same."""
     entry = MockConfigEntry(
@@ -1184,7 +1184,7 @@ async def test_discovery_abort_without_update_same_host_port(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
-async def test_user_requires_psk(hass: UniversalAssistant, mock_client: APIClient) -> None:
+async def test_user_requires_psk(hass: __HAC_KEEP__, mock_client: APIClient) -> None:
     """Test user step with requiring encryption key."""
     mock_client.device_info.side_effect = RequiresEncryptionAPIError
     result = await hass.config_entries.flow.async_init(
@@ -1234,7 +1234,7 @@ async def test_user_requires_psk(hass: UniversalAssistant, mock_client: APIClien
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_encryption_key_valid_psk(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test encryption key step with valid key."""
 
@@ -1279,7 +1279,7 @@ async def test_encryption_key_valid_psk(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_encryption_key_invalid_psk(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test encryption key step with invalid key."""
 
@@ -1330,7 +1330,7 @@ async def test_encryption_key_invalid_psk(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_confirm_valid(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reauth initiation with valid PSK."""
     entry = MockConfigEntry(
@@ -1361,7 +1361,7 @@ async def test_reauth_confirm_valid(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reauth_attempt_to_change_mac_aborts(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reauth initiation with valid PSK attempting to change mac.
 
@@ -1403,7 +1403,7 @@ async def test_reauth_attempt_to_change_mac_aborts(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reauth_password_changed(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reauth when password has changed."""
     entry = MockConfigEntry(
@@ -1439,7 +1439,7 @@ async def test_reauth_password_changed(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_fixed_via_dashboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
 ) -> None:
@@ -1485,7 +1485,7 @@ async def test_reauth_fixed_via_dashboard(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_stale_storage_key_tries_dashboard_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
     hass_storage: dict[str, Any],
@@ -1535,7 +1535,7 @@ async def test_reauth_stale_storage_key_tries_dashboard_key(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_working_storage_key_never_asks_dashboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
     hass_storage: dict[str, Any],
@@ -1581,7 +1581,7 @@ async def test_reauth_working_storage_key_never_asks_dashboard(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_both_keys_wrong_falls_back_to_manual(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
     hass_storage: dict[str, Any],
@@ -1638,7 +1638,7 @@ async def test_reauth_both_keys_wrong_falls_back_to_manual(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_flow_stale_storage_key_falls_back_to_dashboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
     hass_storage: dict[str, Any],
@@ -1688,7 +1688,7 @@ async def test_user_flow_stale_storage_key_falls_back_to_dashboard(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_offline_device_stops_candidate_probing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
     hass_storage: dict[str, Any],
@@ -1746,7 +1746,7 @@ async def test_reauth_offline_device_stops_candidate_probing(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_flow_offline_device_stops_candidate_probing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
     hass_storage: dict[str, Any],
@@ -1801,7 +1801,7 @@ async def test_user_flow_offline_device_stops_candidate_probing(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_flow_manual_key_repairs_stale_storage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1849,7 +1849,7 @@ async def test_user_flow_manual_key_repairs_stale_storage(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_manual_key_is_not_enrolled_in_storage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1892,7 +1892,7 @@ async def test_reauth_manual_key_is_not_enrolled_in_storage(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_fixed_via_dashboard_add_encryption_remove_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
     mock_config_entry: MockConfigEntry,
@@ -1928,7 +1928,7 @@ async def test_reauth_fixed_via_dashboard_add_encryption_remove_password(
 
 @pytest.mark.usefixtures("mock_dashboard", "mock_setup_entry", "mock_zeroconf")
 async def test_reauth_fixed_via_remove_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1946,7 +1946,7 @@ async def test_reauth_fixed_via_remove_password(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_fixed_via_dashboard_at_confirm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
 ) -> None:
@@ -2001,7 +2001,7 @@ async def test_reauth_fixed_via_dashboard_at_confirm(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_confirm_invalid(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reauth initiation with invalid PSK."""
     entry = MockConfigEntry(
@@ -2045,7 +2045,7 @@ async def test_reauth_confirm_invalid(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_reauth_confirm_invalid_with_unique_id(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reauth initiation with invalid PSK."""
     entry = MockConfigEntry(
@@ -2088,7 +2088,7 @@ async def test_reauth_confirm_invalid_with_unique_id(
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_reauth_encryption_key_removed(hass: UniversalAssistant) -> None:
+async def test_reauth_encryption_key_removed(hass: __HAC_KEEP__) -> None:
     """Test reauth when the encryption key was removed."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -2119,7 +2119,7 @@ async def test_reauth_encryption_key_removed(hass: UniversalAssistant) -> None:
 
 
 async def test_reauth_different_device_at_same_address(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reauth aborts when a different device is found at the same IP address."""
     entry = MockConfigEntry(
@@ -2159,7 +2159,7 @@ async def test_reauth_different_device_at_same_address(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_discovery_dhcp_updates_host(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test dhcp discovery updates host and aborts."""
     entry = MockConfigEntry(
@@ -2197,7 +2197,7 @@ async def test_discovery_dhcp_updates_host(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_dhcp_does_not_update_host_wrong_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test dhcp discovery does not update the host if the mac is wrong."""
@@ -2237,7 +2237,7 @@ async def test_discovery_dhcp_does_not_update_host_wrong_mac(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_dhcp_does_not_update_host_wrong_mac_bad_key(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test dhcp discovery does not update the host if the mac is wrong."""
     entry = MockConfigEntry(
@@ -2272,7 +2272,7 @@ async def test_discovery_dhcp_does_not_update_host_wrong_mac_bad_key(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_dhcp_does_not_update_host_missing_mac_bad_key(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test dhcp discovery does not update the host if the mac is missing."""
     entry = MockConfigEntry(
@@ -2307,7 +2307,7 @@ async def test_discovery_dhcp_does_not_update_host_missing_mac_bad_key(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_dhcp_no_changes(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test dhcp discovery updates host and aborts."""
     entry = MockConfigEntry(
@@ -2339,7 +2339,7 @@ async def test_discovery_dhcp_no_changes(
 
 
 @pytest.mark.usefixtures("mock_dashboard")
-async def test_discovery_hassio(hass: UniversalAssistant) -> None:
+async def test_discovery_hassio(hass: __HAC_KEEP__) -> None:
     """Test dashboard discovery."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -2365,7 +2365,7 @@ async def test_discovery_hassio(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_zeroconf_encryption_key_via_dashboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
 ) -> None:
@@ -2431,7 +2431,7 @@ async def test_zeroconf_encryption_key_via_dashboard(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_zeroconf_encryption_key_via_dashboard_with_api_encryption_prop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_dashboard: dict[str, Any],
 ) -> None:
@@ -2497,7 +2497,7 @@ async def test_zeroconf_encryption_key_via_dashboard_with_api_encryption_prop(
 
 @pytest.mark.usefixtures("mock_dashboard", "mock_setup_entry", "mock_zeroconf")
 async def test_zeroconf_no_encryption_key_via_dashboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test encryption key not retrieved from dashboard."""
@@ -2549,7 +2549,7 @@ async def test_zeroconf_no_encryption_key_via_dashboard(
 
 
 async def test_option_flow_allow_service_calls(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -2591,7 +2591,7 @@ async def test_option_flow_allow_service_calls(
 
 
 async def test_option_flow_subscribe_logs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -2627,7 +2627,7 @@ async def test_option_flow_subscribe_logs(
 
 
 async def test_option_flow_shows_saved_scanning_mode_when_proxy_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -2655,7 +2655,7 @@ async def test_option_flow_shows_saved_scanning_mode_when_proxy_unavailable(
 
 
 async def test_option_flow_unloaded_entry_without_saved_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -2670,7 +2670,7 @@ async def test_option_flow_unloaded_entry_without_saved_mode(
 
 
 async def test_option_flow_hides_bluetooth_scanning_mode_without_proxy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
     mock_generic_device_entry: MockGenericDeviceEntryType,
 ) -> None:
@@ -2691,7 +2691,7 @@ async def test_option_flow_hides_bluetooth_scanning_mode_without_proxy(
 
 
 async def test_option_flow_bluetooth_scanning_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bluetooth_entry: MockBluetoothEntryType,
 ) -> None:
     """Bluetooth proxy devices with FEATURE_STATE_AND_MODE expose the option."""
@@ -2727,7 +2727,7 @@ async def test_option_flow_bluetooth_scanning_mode(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_discovers_name_no_dashboard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test user step can discover the name and the there is not dashboard."""
@@ -2774,7 +2774,7 @@ async def test_user_discovers_name_no_dashboard(
 
 
 async def mqtt_discovery_test_abort(
-    hass: UniversalAssistant, payload: str, reason: str
+    hass: __HAC_KEEP__, payload: str, reason: str
 ) -> None:
     """Test discovery aborted."""
     service_info = MqttServiceInfo(
@@ -2793,25 +2793,25 @@ async def mqtt_discovery_test_abort(
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_mqtt_no_mac(hass: UniversalAssistant) -> None:
+async def test_discovery_mqtt_no_mac(hass: __HAC_KEEP__) -> None:
     """Test discovery aborted if mac is missing in MQTT payload."""
     await mqtt_discovery_test_abort(hass, "{}", "mqtt_missing_mac")
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_mqtt_empty_payload(hass: UniversalAssistant) -> None:
+async def test_discovery_mqtt_empty_payload(hass: __HAC_KEEP__) -> None:
     """Test discovery aborted if MQTT payload is empty."""
     await mqtt_discovery_test_abort(hass, "", "mqtt_missing_payload")
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_mqtt_no_api(hass: UniversalAssistant) -> None:
+async def test_discovery_mqtt_no_api(hass: __HAC_KEEP__) -> None:
     """Test discovery aborted if api/port is missing in MQTT payload."""
     await mqtt_discovery_test_abort(hass, '{"mac":"abcdef123456"}', "mqtt_missing_api")
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_mqtt_no_ip(hass: UniversalAssistant) -> None:
+async def test_discovery_mqtt_no_ip(hass: __HAC_KEEP__) -> None:
     """Test discovery aborted if ip is missing in MQTT payload."""
     await mqtt_discovery_test_abort(
         hass, '{"mac":"abcdef123456","port":6053}', "mqtt_missing_ip"
@@ -2819,7 +2819,7 @@ async def test_discovery_mqtt_no_ip(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_client", "mock_setup_entry", "mock_zeroconf")
-async def test_discovery_mqtt_initiation(hass: UniversalAssistant) -> None:
+async def test_discovery_mqtt_initiation(hass: __HAC_KEEP__) -> None:
     """Test discovery importing works."""
     service_info = MqttServiceInfo(
         topic="esphome/discover/test",
@@ -2848,7 +2848,7 @@ async def test_discovery_mqtt_initiation(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_flow_name_conflict_migrate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test handle migration on name conflict."""
@@ -2907,7 +2907,7 @@ async def test_user_flow_name_conflict_migrate(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_flow_name_conflict_overwrite(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test handle overwrite on name conflict."""
@@ -2959,7 +2959,7 @@ async def test_user_flow_name_conflict_overwrite(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reconfig_success_with_same_ip_new_name(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reconfig initiation with same ip and new name."""
     entry = MockConfigEntry(
@@ -2991,7 +2991,7 @@ async def test_reconfig_success_with_same_ip_new_name(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reconfig_success_with_new_ip_new_name(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reconfig initiation with new ip and new name."""
     entry = MockConfigEntry(
@@ -3023,7 +3023,7 @@ async def test_reconfig_success_with_new_ip_new_name(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reconfig_success_with_new_ip_same_name(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reconfig initiation with new ip and same name."""
     entry = MockConfigEntry(
@@ -3057,7 +3057,7 @@ async def test_reconfig_success_with_new_ip_same_name(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reconfig_success_noise_psk_changes(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reconfig initiation with new ip and new noise psk."""
     entry = MockConfigEntry(
@@ -3105,7 +3105,7 @@ async def test_reconfig_success_noise_psk_changes(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reconfig_name_conflict_with_existing_entry(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reconfig with a name conflict with an existing entry."""
     entry = MockConfigEntry(
@@ -3152,7 +3152,7 @@ async def test_reconfig_name_conflict_with_existing_entry(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reconfig_attempt_to_change_mac_aborts(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reconfig initiation with valid PSK attempting to change mac."""
     entry = MockConfigEntry(
@@ -3190,7 +3190,7 @@ async def test_reconfig_attempt_to_change_mac_aborts(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reconfig_mac_used_by_other_entry(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reconfig when there is another entry for the mac."""
     entry = MockConfigEntry(
@@ -3235,7 +3235,7 @@ async def test_reconfig_mac_used_by_other_entry(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reconfig_name_conflict_migrate(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reconfig initiation when device has been replaced."""
     entry = MockConfigEntry(
@@ -3280,7 +3280,7 @@ async def test_reconfig_name_conflict_migrate(
 
 @pytest.mark.usefixtures("mock_zeroconf", "mock_setup_entry")
 async def test_reconfig_name_conflict_overwrite(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test reconfig initiation when device has been replaced."""
     entry = MockConfigEntry(
@@ -3329,7 +3329,7 @@ async def test_reconfig_name_conflict_overwrite(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_discovery_dhcp_no_probe_same_host_port_none(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test dhcp discovery does not probe when host matches and port is None."""
     entry = MockConfigEntry(
@@ -3362,7 +3362,7 @@ async def test_discovery_dhcp_no_probe_same_host_port_none(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_flow_starts_zwave_discovery(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test user flow starts Z-Wave JS discovery with Z-Wave device."""
     # Mock device with Z-Wave capabilities
@@ -3452,7 +3452,7 @@ async def test_user_flow_starts_zwave_discovery(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_flow_no_zwave_discovery_without_home_id(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test user flow skips Z-Wave discovery when home_id is not set."""
     # Mock device with Z-Wave capabilities but no home ID
@@ -3513,7 +3513,7 @@ async def test_user_flow_no_zwave_discovery_without_home_id(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_flow_no_zwave_discovery_without_capabilities(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test user flow skips Z-Wave discovery without Z-Wave capabilities."""
     # Mock device without Z-Wave capabilities
@@ -3563,7 +3563,7 @@ async def test_user_flow_no_zwave_discovery_without_capabilities(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_user_flow_zwave_discovery_aborts(
-    hass: UniversalAssistant, mock_client: APIClient
+    hass: __HAC_KEEP__, mock_client: APIClient
 ) -> None:
     """Test that the user flow handles Z-Wave discovery abort gracefully."""
     # Mock device with Z-Wave capabilities
@@ -3645,7 +3645,7 @@ async def test_user_flow_zwave_discovery_aborts(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_zeroconf_notifies_improv_ble(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test that zeroconf discovery notifies improv_ble integration."""
@@ -3677,7 +3677,7 @@ async def test_zeroconf_notifies_improv_ble(
     # Verify improv_ble.async_register_next_flow was called with correct parameters
     assert len(mock_register.mock_calls) == 1
     call_args = mock_register.mock_calls[0].args
-    assert call_args[0] is hass  # UniversalAssistant instance
+    assert call_args[0] is hass  # __HAC_KEEP__ instance
     # WiFi MAC aabbccddeeff + 1 = Bluetooth MAC aabbccddee00
     # (wifi_mac_to_bluetooth_mac from aioesphomeapi)
     expected_ble_mac = wifi_mac_to_bluetooth_mac("aa:bb:cc:dd:ee:ff")
@@ -3687,7 +3687,7 @@ async def test_zeroconf_notifies_improv_ble(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_zeroconf")
 async def test_zeroconf_when_improv_ble_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: APIClient,
 ) -> None:
     """Test that zeroconf discovery works when improv_ble is not available."""

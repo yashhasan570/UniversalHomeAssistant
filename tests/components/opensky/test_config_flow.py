@@ -21,14 +21,14 @@ from universalassistant.const import (
     CONF_RADIUS,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_user_flow(hass: UniversalAssistant) -> None:
+async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -79,7 +79,7 @@ async def test_full_user_flow(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     opensky_client: AsyncMock,
     config_entry: MockConfigEntry,
     user_input: dict[str, Any],
@@ -127,7 +127,7 @@ async def test_options_flow_failures(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow(
-    hass: UniversalAssistant, opensky_client: AsyncMock, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, opensky_client: AsyncMock, config_entry: MockConfigEntry
 ) -> None:
     """Test options flow."""
     await setup_integration(hass, config_entry)

@@ -13,7 +13,7 @@ from universalassistant.components.lifx import DOMAIN
 from universalassistant.components.lifx.const import CONF_SERIAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -22,7 +22,7 @@ from . import IP_ADDRESS, SERIAL, _patch_config_flow_try_connect, async_setup_li
 from .helpers import create_mock_light
 
 
-async def test_configuring_lifx_causes_discovery(hass: UniversalAssistant) -> None:
+async def test_configuring_lifx_causes_discovery(hass: __HAC_KEEP__) -> None:
     """Test that specifying empty config does discovery."""
     discovery_calls = 0
 
@@ -61,7 +61,7 @@ async def test_configuring_lifx_causes_discovery(hass: UniversalAssistant) -> No
 
 
 async def test_setup_connects_once_using_stored_host_and_serial(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setup makes one targeted connection with the stored entry data."""
     entry = MockConfigEntry(
@@ -81,7 +81,7 @@ async def test_setup_connects_once_using_stored_host_and_serial(
     connect.assert_awaited_once_with(ip=IP_ADDRESS, serial=SERIAL)
 
 
-async def test_setup_resolves_a_stored_hostname(hass: UniversalAssistant) -> None:
+async def test_setup_resolves_a_stored_hostname(hass: __HAC_KEEP__) -> None:
     """Test an entry holding a hostname is connected to by literal address."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -109,7 +109,7 @@ async def test_setup_resolves_a_stored_hostname(hass: UniversalAssistant) -> Non
 
 
 async def test_setup_connection_error_schedules_retry_without_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test a targeted connection error is preserved without discovery."""
@@ -131,7 +131,7 @@ async def test_setup_connection_error_schedules_retry_without_discovery(
     assert f"Unable to connect to the LIFX device at {IP_ADDRESS}" in caplog.text
 
 
-async def test_config_entry_owns_one_persistent_device(hass: UniversalAssistant) -> None:
+async def test_config_entry_owns_one_persistent_device(hass: __HAC_KEEP__) -> None:
     """Test setup refreshes and unload closes the persistent device."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS}, unique_id=SERIAL
@@ -156,7 +156,7 @@ async def test_config_entry_owns_one_persistent_device(hass: UniversalAssistant)
 
 
 async def test_device_is_named_after_its_label(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the device carries the label the bulb reports, group prefix and all."""
     device = create_mock_light()
@@ -172,7 +172,7 @@ async def test_device_is_named_after_its_label(
     assert hass.states.get("light.my_group_my_group_downlight")
 
 
-async def test_first_refresh_failure_closes_device(hass: UniversalAssistant) -> None:
+async def test_first_refresh_failure_closes_device(hass: __HAC_KEEP__) -> None:
     """Test a failed first refresh closes the connected device."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS}, unique_id=SERIAL
@@ -189,7 +189,7 @@ async def test_first_refresh_failure_closes_device(hass: UniversalAssistant) -> 
     device.close.assert_awaited_once_with()
 
 
-async def test_platform_setup_failure_closes_device(hass: UniversalAssistant) -> None:
+async def test_platform_setup_failure_closes_device(hass: __HAC_KEEP__) -> None:
     """Test a failed platform setup closes the connected device."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS}, unique_id=SERIAL
@@ -213,7 +213,7 @@ async def test_platform_setup_failure_closes_device(hass: UniversalAssistant) ->
 
 
 async def test_unload_survives_an_unreachable_device(
-    hass: UniversalAssistant, mock_effect_conductor: MagicMock
+    hass: __HAC_KEEP__, mock_effect_conductor: MagicMock
 ) -> None:
     """Test a device that cannot be reached does not block unloading."""
     device = create_mock_light()
@@ -229,7 +229,7 @@ async def test_unload_survives_an_unreachable_device(
 
 # The failed unload leaves the entry loaded with its refresh interval scheduled
 @pytest.mark.parametrize("expected_lingering_timers", [True])
-async def test_failed_unload_keeps_device_open(hass: UniversalAssistant) -> None:
+async def test_failed_unload_keeps_device_open(hass: __HAC_KEEP__) -> None:
     """Test the device closes only after all platforms unload."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={CONF_HOST: IP_ADDRESS}, unique_id=SERIAL
@@ -249,7 +249,7 @@ async def test_failed_unload_keeps_device_open(hass: UniversalAssistant) -> None
 
 
 async def test_discovery_keeps_devices_found_on_working_interfaces(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test one failing broadcast interface does not discard the other results."""
 

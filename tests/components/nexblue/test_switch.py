@@ -18,8 +18,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.nexblue.const import DOMAIN, UPDATE_INTERVAL
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import ATTR_ASSUMED_STATE, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import CHARGER, CHARGER_STATUS
@@ -33,7 +33,7 @@ def fixture_platforms() -> Generator[None]:
 
 
 async def test_switch_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -49,7 +49,7 @@ async def test_switch_entities_snapshot(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_charger_removed_from_list_becomes_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_charger_removed_from_list_becomes_unavailable(
 
 
 async def test_turn_on_starts_charging(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -87,7 +87,7 @@ async def test_turn_on_starts_charging(
 
 
 async def test_turn_off_stops_charging(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -117,7 +117,7 @@ async def test_turn_off_stops_charging(
     ],
 )
 async def test_repeated_assumed_command_is_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -147,12 +147,12 @@ async def test_repeated_assumed_command_is_ignored(
 
 
 async def test_command_error_is_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
-    """Test a rejected command is reported as a Universal Universal Home Assistant error."""
+    """Test a rejected command is reported as a __HA_KEEP__ error."""
     mock_client.async_start_charging.side_effect = NexBlueError(
         "The charger rejected the command"
     )
@@ -162,7 +162,7 @@ async def test_command_error_is_reported(
     )
     assert entity_id
 
-    with pytest.raises(UniversalAssistantError, match="rejected the command"):
+    with pytest.raises(__HAC_KEEP__Error, match="rejected the command"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             "turn_on",
@@ -172,7 +172,7 @@ async def test_command_error_is_reported(
 
 
 async def test_assumed_state_clears_after_confirmed_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -205,7 +205,7 @@ async def test_assumed_state_clears_after_confirmed_refresh(
 
 
 async def test_assumed_state_clears_after_final_command_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -250,7 +250,7 @@ async def test_assumed_state_clears_after_final_command_refresh(
 
 
 async def test_new_command_replaces_pending_command_refreshes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -284,7 +284,7 @@ async def test_new_command_replaces_pending_command_refreshes(
 
 
 async def test_command_keeps_other_charger_pending_refreshes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -340,7 +340,7 @@ async def test_command_keeps_other_charger_pending_refreshes(
 
 
 async def test_pending_command_refreshes_cancelled_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -381,7 +381,7 @@ async def test_pending_command_refreshes_cancelled_on_unload(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_charging_session_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     freezer: FrozenDateTimeFactory,
     charging_state: int,

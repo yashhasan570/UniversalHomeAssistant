@@ -13,10 +13,10 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.components.http.static import CACHE_HEADERS
 from universalassistant.const import CONF_ID
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import collection, config_validation as cv
 from universalassistant.helpers.storage import Store
 from universalassistant.helpers.typing import ConfigType, VolDictType
@@ -46,7 +46,7 @@ __all__ = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Image integration."""
     image_dir = pathlib.Path(hass.config.path(FOLDER_IMAGE))
     hass.data[DOMAIN] = storage_collection = ImageStorageCollection(hass, image_dir)
@@ -70,7 +70,7 @@ class ImageStorageCollection(collection.DictStorageCollection):
     CREATE_SCHEMA = probatio.Schema(CREATE_FIELDS)
     UPDATE_SCHEMA = probatio.Schema(UPDATE_FIELDS)
 
-    def __init__(self, hass: UniversalAssistant, image_dir: pathlib.Path) -> None:
+    def __init__(self, hass: __HAC_KEEP__, image_dir: pathlib.Path) -> None:
         """Initialize media storage collection."""
         super().__init__(
             Store(hass, STORAGE_VERSION, STORAGE_KEY),
@@ -163,7 +163,7 @@ class ImageUploadStorageCollectionWebsocket(collection.DictStorageCollectionWebs
 
     @override
     async def ws_create_item(
-        self, hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict
+        self, hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict
     ) -> None:
         """Create an item.
 
@@ -172,7 +172,7 @@ class ImageUploadStorageCollectionWebsocket(collection.DictStorageCollectionWebs
         raise NotImplementedError
 
 
-class ImageUploadView(UniversalAssistantView):
+class ImageUploadView(__HAC_KEEP__View):
     """View to upload images."""
 
     url = "/api/image/upload"
@@ -188,7 +188,7 @@ class ImageUploadView(UniversalAssistantView):
         return self.json(item)
 
 
-class ImageServeView(UniversalAssistantView):
+class ImageServeView(__HAC_KEEP__View):
     """View to download images."""
 
     url = "/api/image/serve/{image_id}/{filename}"

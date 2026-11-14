@@ -37,7 +37,7 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -64,7 +64,7 @@ from .conftest import (
 
 
 async def test_setup_with_tcp_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -85,7 +85,7 @@ async def test_setup_with_tcp_push(
 
 
 async def test_tcp_push_clears_webhook_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -134,7 +134,7 @@ async def test_tcp_push_clears_webhook_issues(
 
 
 async def test_unloading_with_tcp_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_unloading_with_tcp_push(
 
 
 async def test_webhook_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
@@ -240,7 +240,7 @@ async def test_webhook_callback(
 
 
 async def test_bc_webhook_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -261,7 +261,7 @@ async def test_bc_webhook_callback(
 
 
 async def test_no_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -276,7 +276,7 @@ async def test_no_mac(
 
 
 async def test_invalid_bc_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
 ) -> None:
     """Test setup of host with an outdated, invalid bc_connection."""
@@ -307,7 +307,7 @@ async def test_invalid_bc_connection(
 
 
 async def test_subscribe_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -320,7 +320,7 @@ async def test_subscribe_error(
 
 
 async def test_subscribe_unsuccesfull(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -332,7 +332,7 @@ async def test_subscribe_unsuccesfull(
 
 
 async def test_initial_ONVIF_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -352,7 +352,7 @@ async def test_initial_ONVIF_not_supported(
 
 
 async def test_ONVIF_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -374,7 +374,7 @@ async def test_ONVIF_not_supported(
 
 
 async def test_immediate_fast_polling_ONVIF_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -422,7 +422,7 @@ async def test_immediate_fast_polling_ONVIF_not_supported(
 
 
 async def test_renew(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -459,7 +459,7 @@ async def test_renew(
 
 
 async def test_long_poll_renew_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -480,7 +480,7 @@ async def test_long_poll_renew_fail(
 
 
 async def test_register_webhook_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
 ) -> None:
@@ -495,7 +495,7 @@ async def test_register_webhook_errors(
 
 
 async def test_long_poll_stop_when_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
@@ -525,7 +525,7 @@ async def test_long_poll_stop_when_push(
 
 
 async def test_long_poll_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -557,7 +557,7 @@ async def test_long_poll_errors(
 
 
 async def test_fast_polling_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -591,7 +591,7 @@ async def test_fast_polling_errors(
 
 
 async def test_diagnostics_event_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_client_no_auth: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,

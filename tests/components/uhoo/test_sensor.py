@@ -17,14 +17,14 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_sensor_snapshot(
 
 
 async def test_async_setup_entry_multiple_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_uhoo_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_device: MagicMock,
@@ -95,7 +95,7 @@ async def test_async_setup_entry_multiple_devices(
 
 
 async def test_sensor_availability_changes_with_connection_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_uhoo_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -129,7 +129,7 @@ async def test_sensor_availability_changes_with_connection_errors(
 
 
 async def test_different_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_uhoo_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_device: MagicMock,

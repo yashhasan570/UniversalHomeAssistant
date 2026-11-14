@@ -24,7 +24,7 @@ from flux_led.scanner import FluxLEDDiscovery
 from universalassistant.components import network
 from universalassistant.config_entries import SOURCE_INTEGRATION_DISCOVERY, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_MODEL, CONF_NAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, discovery_flow
 from universalassistant.util.async_ import create_eager_task
 from universalassistant.util.network import is_ip_address
@@ -113,7 +113,7 @@ def async_populate_data_from_discovery(
 
 @callback
 def async_update_entry_from_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FluxLedConfigEntry,
     device: FluxLEDDiscovery,
     model_num: int | None,
@@ -149,7 +149,7 @@ def async_update_entry_from_discovery(
 
 
 @callback
-def async_get_discovery(hass: UniversalAssistant, host: str) -> FluxLEDDiscovery | None:
+def async_get_discovery(hass: __HAC_KEEP__, host: str) -> FluxLEDDiscovery | None:
     """Check if a device was already discovered via a broadcast discovery."""
     for discovery in hass.data[FLUX_LED_DISCOVERY]:
         if discovery[ATTR_IPADDR] == host:
@@ -158,7 +158,7 @@ def async_get_discovery(hass: UniversalAssistant, host: str) -> FluxLEDDiscovery
 
 
 @callback
-def async_clear_discovery_cache(hass: UniversalAssistant, host: str) -> None:
+def async_clear_discovery_cache(hass: __HAC_KEEP__, host: str) -> None:
     """Clear the host from the discovery cache."""
     hass.data[FLUX_LED_DISCOVERY] = [
         discovery
@@ -168,7 +168,7 @@ def async_clear_discovery_cache(hass: UniversalAssistant, host: str) -> None:
 
 
 async def async_discover_devices(
-    hass: UniversalAssistant, timeout: int, address: str | None = None
+    hass: __HAC_KEEP__, timeout: int, address: str | None = None
 ) -> list[FluxLEDDiscovery]:
     """Discover flux led devices."""
     if address:
@@ -206,7 +206,7 @@ async def async_discover_devices(
 
 
 async def async_discover_device(
-    hass: UniversalAssistant, host: str
+    hass: __HAC_KEEP__, host: str
 ) -> FluxLEDDiscovery | None:
     """Direct discovery at a single ip instead of broadcast."""
     # If we are missing the unique_id we should be able to fetch it
@@ -219,7 +219,7 @@ async def async_discover_device(
 
 @callback
 def async_trigger_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovered_devices: list[FluxLEDDiscovery],
 ) -> None:
     """Trigger config flows for discovered devices."""

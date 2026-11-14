@@ -23,7 +23,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 from universalassistant.util import dt as dt_util
@@ -517,7 +517,7 @@ ZONNEPLAN_BATTERY_SENSORS: tuple[ZonneplanBatterySensorEntityDescription, ...] =
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ZonneplanConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

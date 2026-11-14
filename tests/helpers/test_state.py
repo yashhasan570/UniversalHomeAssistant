@@ -18,11 +18,11 @@ from universalassistant.const import (
     STATE_ON,
     STATE_OPEN,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import state
 
 
-async def test_call_to_component(hass: UniversalAssistant) -> None:
+async def test_call_to_component(hass: __HAC_KEEP__) -> None:
     """Test calls to components state reproduction functions."""
     with patch(
         "universalassistant.components.media_player.reproduce_state.async_reproduce_states"
@@ -55,7 +55,7 @@ async def test_call_to_component(hass: UniversalAssistant) -> None:
             )
 
 
-async def test_reproduce_with_no_entity(hass: UniversalAssistant) -> None:
+async def test_reproduce_with_no_entity(hass: __HAC_KEEP__) -> None:
     """Test reproduce_state with no entity."""
     calls = async_mock_service(hass, "light", SERVICE_TURN_ON)
 
@@ -67,7 +67,7 @@ async def test_reproduce_with_no_entity(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.test") is None
 
 
-async def test_reproduce_turn_on(hass: UniversalAssistant) -> None:
+async def test_reproduce_turn_on(hass: __HAC_KEEP__) -> None:
     """Test reproduce_state with SERVICE_TURN_ON."""
     calls = async_mock_service(hass, "light", SERVICE_TURN_ON)
 
@@ -84,7 +84,7 @@ async def test_reproduce_turn_on(hass: UniversalAssistant) -> None:
     assert last_call.data.get("entity_id") == "light.test"
 
 
-async def test_reproduce_turn_off(hass: UniversalAssistant) -> None:
+async def test_reproduce_turn_off(hass: __HAC_KEEP__) -> None:
     """Test reproduce_state with SERVICE_TURN_OFF."""
     calls = async_mock_service(hass, "light", SERVICE_TURN_OFF)
 
@@ -101,7 +101,7 @@ async def test_reproduce_turn_off(hass: UniversalAssistant) -> None:
     assert last_call.data.get("entity_id") == "light.test"
 
 
-async def test_reproduce_complex_data(hass: UniversalAssistant) -> None:
+async def test_reproduce_complex_data(hass: __HAC_KEEP__) -> None:
     """Test reproduce_state with complex service data."""
     calls = async_mock_service(hass, "light", SERVICE_TURN_ON)
 
@@ -122,7 +122,7 @@ async def test_reproduce_complex_data(hass: UniversalAssistant) -> None:
     assert last_call.data.get("rgb_color") == complex_data
 
 
-async def test_reproduce_bad_state(hass: UniversalAssistant) -> None:
+async def test_reproduce_bad_state(hass: __HAC_KEEP__) -> None:
     """Test reproduce_state with bad state."""
     calls = async_mock_service(hass, "light", SERVICE_TURN_ON)
 
@@ -136,7 +136,7 @@ async def test_reproduce_bad_state(hass: UniversalAssistant) -> None:
     assert hass.states.get("light.test").state == "off"
 
 
-async def test_as_number_states(hass: UniversalAssistant) -> None:
+async def test_as_number_states(hass: __HAC_KEEP__) -> None:
     """Test state_as_number with states."""
     zero_states = (
         STATE_OFF,
@@ -158,7 +158,7 @@ async def test_as_number_states(hass: UniversalAssistant) -> None:
         assert state.state_as_number(State("domain.test", _state, {})) == 1
 
 
-async def test_as_number_coercion(hass: UniversalAssistant) -> None:
+async def test_as_number_coercion(hass: __HAC_KEEP__) -> None:
     """Test state_as_number with number."""
     for _state in ("0", "0.0", 0, 0.0):
         assert state.state_as_number(State("domain.test", _state, {})) == 0.0
@@ -166,7 +166,7 @@ async def test_as_number_coercion(hass: UniversalAssistant) -> None:
         assert state.state_as_number(State("domain.test", _state, {})) == 1.0
 
 
-async def test_as_number_invalid_cases(hass: UniversalAssistant) -> None:
+async def test_as_number_invalid_cases(hass: __HAC_KEEP__) -> None:
     """Test state_as_number with invalid cases."""
     for _state in ("", "foo", "foo.bar", None, False, True, object, object()):
         with pytest.raises(ValueError):

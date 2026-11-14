@@ -12,8 +12,8 @@ from roborock.exceptions import RoborockException
 
 from universalassistant.components.time import TimeEntity, TimeEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -115,7 +115,7 @@ TIME_DESCRIPTIONS: list[RoborockTimeDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RoborockConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -184,7 +184,7 @@ class RoborockTimeEntity(RoborockEntityV1, TimeEntity):
         try:
             await self.entity_description.update_value(self._trait, value)
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err

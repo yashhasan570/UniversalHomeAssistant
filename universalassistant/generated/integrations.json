@@ -670,7 +670,7 @@
       "supported_by": "motion_blinds"
     },
     "analytics_insights": {
-      "name": "Universal Universal Home Assistant Analytics Insights",
+      "name": "__HA_KEEP__ Analytics Insights",
       "integration_type": "service",
       "categories": [
         "computers_network.cloud_developer_tools"
@@ -5916,7 +5916,7 @@
       "iot_class": "local_polling"
     },
     "hassio": {
-      "name": "Universal Universal Home Assistant Supervisor",
+      "name": "__HA_KEEP__ Supervisor",
       "integration_type": "hub",
       "categories": [
         "computers_network.nas_servers"
@@ -6252,7 +6252,7 @@
       "supported_by": "netatmo"
     },
     "universalassistant_connect_zbt2": {
-      "name": "Universal Universal Home Assistant Connect ZBT-2",
+      "name": "__HA_KEEP__ Connect ZBT-2",
       "integration_type": "hardware",
       "categories": [
         "hubs_protocols.wireless_protocols"
@@ -6260,7 +6260,7 @@
       "config_flow": true
     },
     "universalassistant_green": {
-      "name": "Universal Universal Home Assistant Green",
+      "name": "__HA_KEEP__ Green",
       "integration_type": "hardware",
       "categories": [
         "hubs_protocols.smart_home_hubs"
@@ -6269,7 +6269,7 @@
       "single_config_entry": true
     },
     "universalassistant_sky_connect": {
-      "name": "Universal Universal Home Assistant Connect ZBT-1",
+      "name": "__HA_KEEP__ Connect ZBT-1",
       "integration_type": "hardware",
       "categories": [
         "hubs_protocols.wireless_protocols"
@@ -6277,7 +6277,7 @@
       "config_flow": true
     },
     "universalassistant_yellow": {
-      "name": "Universal Universal Home Assistant Yellow",
+      "name": "__HA_KEEP__ Yellow",
       "integration_type": "hardware",
       "categories": [
         "hubs_protocols.smart_home_hubs",
@@ -7078,7 +7078,7 @@
       "iot_class": "local_push"
     },
     "ios": {
-      "name": "Universal Universal Home Assistant iOS",
+      "name": "__HA_KEEP__ iOS",
       "integration_type": "hub",
       "categories": [
         "presence_location.phones_companion_apps",

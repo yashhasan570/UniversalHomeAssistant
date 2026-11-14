@@ -115,7 +115,7 @@ from universalassistant.const import (
     EntityStateAttribute,
     UnitOfTemperature,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import network
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.redact import async_redact_data
@@ -156,7 +156,7 @@ _LOGGER = logging.getLogger(__name__)
 DIRECTIVE_NOT_SUPPORTED = "Entity does not support directive"
 TO_REDACT_SERVICE_DATA = {ATTR_CODE}
 
-# Alexa expects the SDP answer within 6 seconds, including the Universal Universal Home Assistant
+# Alexa expects the SDP answer within 6 seconds, including the __HA_KEEP__
 # Cloud round trip, and does not support trickle ICE. Negotiation and candidate
 # gathering therefore share one overall deadline.
 RTC_ANSWER_TIMEOUT = 5
@@ -192,14 +192,14 @@ SERVICE_SET_TEMPERATURE: dict[str, str] = {
 HANDLERS: Registry[
     tuple[str, str],
     Callable[
-        [ha.UniversalAssistant, AbstractConfig, AlexaDirective, ha.Context],
+        [ha.__HAC_KEEP__, AbstractConfig, AlexaDirective, ha.Context],
         Coroutine[Any, Any, AlexaResponse],
     ],
 ] = Registry()
 
 
 async def _async_call_service(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     directive: AlexaDirective,
     domain: str,
     service: str,
@@ -224,7 +224,7 @@ async def _async_call_service(
 
 @HANDLERS.register(("Alexa.Discovery", "Discover"))
 async def async_api_discovery(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -255,7 +255,7 @@ async def async_api_discovery(
 
 @HANDLERS.register(("Alexa.Authorization", "AcceptGrant"))
 async def async_api_accept_grant(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -279,7 +279,7 @@ async def async_api_accept_grant(
 
 @HANDLERS.register(("Alexa.PowerController", "TurnOn"))
 async def async_api_turn_on(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -328,7 +328,7 @@ async def async_api_turn_on(
 
 @HANDLERS.register(("Alexa.PowerController", "TurnOff"))
 async def async_api_turn_off(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -378,7 +378,7 @@ async def async_api_turn_off(
 
 @HANDLERS.register(("Alexa.BrightnessController", "SetBrightness"))
 async def async_api_set_brightness(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -405,7 +405,7 @@ async def async_api_set_brightness(
 
 @HANDLERS.register(("Alexa.BrightnessController", "AdjustBrightness"))
 async def async_api_adjust_brightness(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -433,7 +433,7 @@ async def async_api_adjust_brightness(
 
 @HANDLERS.register(("Alexa.ColorController", "SetColor"))
 async def async_api_set_color(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -461,7 +461,7 @@ async def async_api_set_color(
 
 @HANDLERS.register(("Alexa.ColorTemperatureController", "SetColorTemperature"))
 async def async_api_set_color_temperature(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -488,7 +488,7 @@ async def async_api_set_color_temperature(
 
 @HANDLERS.register(("Alexa.ColorTemperatureController", "DecreaseColorTemperature"))
 async def async_api_decrease_color_temp(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -519,7 +519,7 @@ async def async_api_decrease_color_temp(
 
 @HANDLERS.register(("Alexa.ColorTemperatureController", "IncreaseColorTemperature"))
 async def async_api_increase_color_temp(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -550,7 +550,7 @@ async def async_api_increase_color_temp(
 
 @HANDLERS.register(("Alexa.SceneController", "Activate"))
 async def async_api_activate(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -587,7 +587,7 @@ async def async_api_activate(
 
 @HANDLERS.register(("Alexa.SceneController", "Deactivate"))
 async def async_api_deactivate(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -618,7 +618,7 @@ async def async_api_deactivate(
 
 @HANDLERS.register(("Alexa.LockController", "Lock"))
 async def async_api_lock(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -644,7 +644,7 @@ async def async_api_lock(
 
 @HANDLERS.register(("Alexa.LockController", "Unlock"))
 async def async_api_unlock(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -696,7 +696,7 @@ async def async_api_unlock(
 
 @HANDLERS.register(("Alexa.Speaker", "SetVolume"))
 async def async_api_set_volume(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -725,7 +725,7 @@ async def async_api_set_volume(
 
 @HANDLERS.register(("Alexa.InputController", "SelectInput"))
 async def async_api_select_input(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -779,7 +779,7 @@ async def async_api_select_input(
 
 @HANDLERS.register(("Alexa.Speaker", "AdjustVolume"))
 async def async_api_adjust_volume(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -820,7 +820,7 @@ async def async_api_adjust_volume(
 
 @HANDLERS.register(("Alexa.StepSpeaker", "AdjustVolume"))
 async def async_api_adjust_volume_step(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -865,7 +865,7 @@ async def async_api_adjust_volume_step(
 @HANDLERS.register(("Alexa.StepSpeaker", "SetMute"))
 @HANDLERS.register(("Alexa.Speaker", "SetMute"))
 async def async_api_set_mute(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -893,7 +893,7 @@ async def async_api_set_mute(
 
 @HANDLERS.register(("Alexa.PlaybackController", "Play"))
 async def async_api_play(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -917,7 +917,7 @@ async def async_api_play(
 
 @HANDLERS.register(("Alexa.PlaybackController", "Pause"))
 async def async_api_pause(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -941,7 +941,7 @@ async def async_api_pause(
 
 @HANDLERS.register(("Alexa.PlaybackController", "Stop"))
 async def async_api_stop(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -989,7 +989,7 @@ async def async_api_stop(
 
 @HANDLERS.register(("Alexa.PlaybackController", "Next"))
 async def async_api_next(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1013,7 +1013,7 @@ async def async_api_next(
 
 @HANDLERS.register(("Alexa.PlaybackController", "Previous"))
 async def async_api_previous(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1055,7 +1055,7 @@ def temperature_from_object(
 
 @HANDLERS.register(("Alexa.ThermostatController", "SetTargetTemperature"))
 async def async_api_set_target_temp(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1126,7 +1126,7 @@ async def async_api_set_target_temp(
 
 @HANDLERS.register(("Alexa.ThermostatController", "AdjustTargetTemperature"))
 async def async_api_adjust_target_temp(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1220,7 +1220,7 @@ async def async_api_adjust_target_temp(
 
 @HANDLERS.register(("Alexa.ThermostatController", "SetThermostatMode"))
 async def async_api_set_thermostat_mode(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1300,7 +1300,7 @@ async def async_api_set_thermostat_mode(
 
 @HANDLERS.register(("Alexa", "ReportState"))
 async def async_api_reportstate(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1311,7 +1311,7 @@ async def async_api_reportstate(
 
 @HANDLERS.register(("Alexa.SecurityPanelController", "Arm"))
 async def async_api_arm(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1365,7 +1365,7 @@ async def async_api_arm(
 
 @HANDLERS.register(("Alexa.SecurityPanelController", "Disarm"))
 async def async_api_disarm(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1410,7 +1410,7 @@ async def async_api_disarm(
 
 @HANDLERS.register(("Alexa.ModeController", "SetMode"))
 async def async_api_set_mode(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1537,7 +1537,7 @@ async def async_api_set_mode(
 
 @HANDLERS.register(("Alexa.ModeController", "AdjustMode"))
 async def async_api_adjust_mode(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1555,7 +1555,7 @@ async def async_api_adjust_mode(
 
 @HANDLERS.register(("Alexa.ToggleController", "TurnOn"))
 async def async_api_toggle_on(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1601,7 +1601,7 @@ async def async_api_toggle_on(
 
 @HANDLERS.register(("Alexa.ToggleController", "TurnOff"))
 async def async_api_toggle_off(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1640,7 +1640,7 @@ async def async_api_toggle_off(
 
 @HANDLERS.register(("Alexa.RangeController", "SetRangeValue"))
 async def async_api_set_range(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1758,7 +1758,7 @@ async def async_api_set_range(
 
 @HANDLERS.register(("Alexa.RangeController", "AdjustRangeValue"))
 async def async_api_adjust_range(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1930,7 +1930,7 @@ async def async_api_adjust_range(
 
 @HANDLERS.register(("Alexa.ChannelController", "ChangeChannel"))
 async def async_api_changechannel(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -1989,7 +1989,7 @@ async def async_api_changechannel(
 
 @HANDLERS.register(("Alexa.ChannelController", "SkipChannels"))
 async def async_api_skipchannel(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -2031,7 +2031,7 @@ async def async_api_skipchannel(
 
 @HANDLERS.register(("Alexa.SeekController", "AdjustSeekPosition"))
 async def async_api_seek(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -2083,7 +2083,7 @@ async def async_api_seek(
 
 @HANDLERS.register(("Alexa.EqualizerController", "SetMode"))
 async def async_api_set_eq_mode(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -2119,7 +2119,7 @@ async def async_api_set_eq_mode(
 @HANDLERS.register(("Alexa.EqualizerController", "ResetBands"))
 @HANDLERS.register(("Alexa.EqualizerController", "SetBands"))
 async def async_api_bands_directive(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -2134,7 +2134,7 @@ async def async_api_bands_directive(
 
 @HANDLERS.register(("Alexa.TimeHoldController", "Hold"))
 async def async_api_hold(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -2161,7 +2161,7 @@ async def async_api_hold(
 
 @HANDLERS.register(("Alexa.TimeHoldController", "Resume"))
 async def async_api_resume(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -2188,7 +2188,7 @@ async def async_api_resume(
 
 @HANDLERS.register(("Alexa.CameraStreamController", "InitializeCameraStreams"))
 async def async_api_initialize_camera_stream(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -2293,7 +2293,7 @@ def _embed_candidates(sdp: str, candidates: list[RTCIceCandidateInit]) -> str:
 
 
 async def _async_get_webrtc_answer(
-    hass: ha.UniversalAssistant, camera_entity: camera.Camera, offer: str, session_id: str
+    hass: ha.__HAC_KEEP__, camera_entity: camera.Camera, offer: str, session_id: str
 ) -> str:
     """Negotiate a WebRTC session and return a complete SDP answer."""
     answer_future: asyncio.Future[str] = hass.loop.create_future()
@@ -2324,7 +2324,7 @@ async def _async_get_webrtc_answer(
                 error = message.message
                 gathering_done.set()
                 if not answer_future.done():
-                    answer_future.set_exception(UniversalAssistantError(message.message))
+                    answer_future.set_exception(__HAC_KEEP__Error(message.message))
 
     deadline = hass.loop.time() + RTC_ANSWER_TIMEOUT
     try:
@@ -2338,7 +2338,7 @@ async def _async_get_webrtc_answer(
         raise AlexaEndpointUnreachableError(
             "Failed to negotiate WebRTC session: camera did not answer in time"
         ) from err
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         camera_entity.close_webrtc_session(session_id)
         raise AlexaEndpointUnreachableError(
             f"Failed to negotiate WebRTC session: {err}"
@@ -2380,11 +2380,11 @@ async def _async_get_webrtc_answer(
     return answer
 
 
-def _get_webrtc_camera(hass: ha.UniversalAssistant, entity_id: str) -> camera.Camera:
+def _get_webrtc_camera(hass: ha.__HAC_KEEP__, entity_id: str) -> camera.Camera:
     """Return the camera entity if it supports WebRTC."""
     try:
         camera_entity = camera.get_camera_from_entity_id(hass, entity_id)
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         raise AlexaEndpointUnreachableError(str(err)) from err
 
     if (
@@ -2398,7 +2398,7 @@ def _get_webrtc_camera(hass: ha.UniversalAssistant, entity_id: str) -> camera.Ca
 
 @HANDLERS.register(("Alexa.RTCSessionController", "InitiateSessionWithOffer"))
 async def async_api_initiate_session_with_offer(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -2457,7 +2457,7 @@ async def async_api_initiate_session_with_offer(
 
 @HANDLERS.register(("Alexa.RTCSessionController", "SessionConnected"))
 async def async_api_rtc_session_connected(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,
@@ -2474,7 +2474,7 @@ async def async_api_rtc_session_connected(
 
 @HANDLERS.register(("Alexa.RTCSessionController", "SessionDisconnected"))
 async def async_api_rtc_session_disconnected(
-    hass: ha.UniversalAssistant,
+    hass: ha.__HAC_KEEP__,
     config: AbstractConfig,
     directive: AlexaDirective,
     context: ha.Context,

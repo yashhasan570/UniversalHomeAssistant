@@ -25,7 +25,7 @@ from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth.active_update_coordinator import (
     ActiveBluetoothDataUpdateCoordinator,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 _POLL_INTERVAL = 60
 
@@ -37,7 +37,7 @@ class SpecializedTurboCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: logging.Logger,
         *,
         address: str,
@@ -213,7 +213,7 @@ class SpecializedTurboCoordinator(
         _message: object,
         snapshot: TelemetrySnapshot,
     ) -> None:
-        """Publish an upstream notification update to Universal Universal Home Assistant."""
+        """Publish an upstream notification update to __HA_KEEP__."""
         self._snapshot = snapshot
         self.data = snapshot
         self.async_update_listeners()
@@ -224,7 +224,7 @@ class SpecializedTurboCoordinator(
         return self._connection is not None and self._connection.is_connected
 
     def _on_disconnect(self, _client: BleakClient) -> None:
-        """Schedule disconnect handling on the Universal Universal Home Assistant event loop."""
+        """Schedule disconnect handling on the __HA_KEEP__ event loop."""
         self.hass.loop.call_soon_threadsafe(self._handle_disconnect)
 
     @callback

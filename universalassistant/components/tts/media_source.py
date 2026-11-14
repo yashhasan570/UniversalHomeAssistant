@@ -14,8 +14,8 @@ from universalassistant.components.media_source import (
     Unresolvable,
     generate_media_source_id as ms_generate_media_source_id,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from .const import DATA_COMPONENT, DATA_TTS_MANAGER, DOMAIN, MEDIA_SOURCE_STREAM_PATH
 from .helper import get_engine_instance
@@ -23,14 +23,14 @@ from .helper import get_engine_instance
 URL_QUERY_TTS_OPTIONS = "tts_options"
 
 
-async def async_get_media_source(hass: UniversalAssistant) -> TTSMediaSource:
+async def async_get_media_source(hass: __HAC_KEEP__) -> TTSMediaSource:
     """Set up tts media source."""
     return TTSMediaSource(hass)
 
 
 @callback
 def generate_media_source_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     message: str,
     engine: str | None = None,
     language: str | None = None,
@@ -128,7 +128,7 @@ class TTSMediaSource(MediaSource):
 
     name: str = "Text-to-speech"
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize TTSMediaSource."""
         super().__init__(DOMAIN)
         self.hass = hass
@@ -148,7 +148,7 @@ class TTSMediaSource(MediaSource):
                 stream.async_set_message(parsed["message"])
         except Unresolvable:
             raise
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             raise Unresolvable(str(err)) from err
 
         if stream is None:

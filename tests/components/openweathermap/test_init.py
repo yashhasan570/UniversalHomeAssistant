@@ -4,14 +4,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.openweathermap.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 
 @pytest.mark.parametrize("mode", ["v2.5"], indirect=True)
 @pytest.mark.usefixtures("owm_client_mock")
 async def test_deprecated_v25_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

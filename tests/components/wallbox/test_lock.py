@@ -8,15 +8,15 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.lock import LockService
 from universalassistant.components.wallbox.coordinator import InsufficientRights
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .conftest import http_403_error, http_404_error, http_429_error, setup_integration
 from .const import MOCK_LOCK_ENTITY_ID
 
 
 async def test_wallbox_lock_class(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox lock class."""
 
@@ -46,7 +46,7 @@ async def test_wallbox_lock_class(
 
 
 async def test_wallbox_lock_class_error_handling(
-    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+    hass: __HAC_KEEP__, entry: MockConfigEntry, mock_wallbox
 ) -> None:
     """Test wallbox lock class connection error."""
 
@@ -54,7 +54,7 @@ async def test_wallbox_lock_class_error_handling(
 
     with (
         patch.object(mock_wallbox, "lockCharger", side_effect=http_404_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             "lock",
@@ -68,7 +68,7 @@ async def test_wallbox_lock_class_error_handling(
     with (
         patch.object(mock_wallbox, "lockCharger", side_effect=http_404_error),
         patch.object(mock_wallbox, "unlockCharger", side_effect=http_404_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             "lock",
@@ -81,7 +81,7 @@ async def test_wallbox_lock_class_error_handling(
     with (
         patch.object(mock_wallbox, "lockCharger", side_effect=http_404_error),
         patch.object(mock_wallbox, "unlockCharger", side_effect=http_404_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             "lock",
@@ -109,7 +109,7 @@ async def test_wallbox_lock_class_error_handling(
     with (
         patch.object(mock_wallbox, "lockCharger", side_effect=http_429_error),
         patch.object(mock_wallbox, "unlockCharger", side_effect=http_429_error),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             "lock",

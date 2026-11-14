@@ -16,7 +16,7 @@ from universalassistant.components.recorder.auto_repairs.schema import (
 from universalassistant.components.recorder.db_schema import States
 from universalassistant.components.recorder.migration import _modify_columns
 from universalassistant.components.recorder.util import session_scope
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -30,7 +30,7 @@ async def mock_recorder_before_hass(
 @pytest.mark.parametrize("db_engine", ["mysql", "postgresql"])
 @pytest.mark.usefixtures("recorder_mock")
 async def test_validate_db_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     db_engine: str,
     recorder_dialect_name: None,
@@ -48,7 +48,7 @@ async def test_validate_db_schema(
 @pytest.mark.skip_on_db_engine(["postgresql", "sqlite"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_validate_db_schema_fix_utf8_issue_good_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_mock: Recorder,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_validate_db_schema_fix_utf8_issue_good_schema(
 @pytest.mark.skip_on_db_engine(["postgresql", "sqlite"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_validate_db_schema_fix_utf8_issue_with_broken_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_mock: Recorder,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_validate_db_schema_fix_utf8_issue_with_broken_schema(
     [("utf8mb3", "utf8_general_ci"), ("utf8mb4", "utf8mb4_unicode_ci")],
 )
 async def test_validate_db_schema_fix_incorrect_collation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_mock: Recorder,
     caplog: pytest.LogCaptureFixture,
     charset: str,
@@ -146,7 +146,7 @@ async def test_validate_db_schema_fix_incorrect_collation(
 @pytest.mark.skip_on_db_engine(["postgresql", "sqlite"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_validate_db_schema_precision_correct_collation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_mock: Recorder,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -163,7 +163,7 @@ async def test_validate_db_schema_precision_correct_collation(
 @pytest.mark.skip_on_db_engine(["postgresql", "sqlite"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_validate_db_schema_fix_utf8_issue_with_broken_schema_unrepairable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_mock: Recorder,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_validate_db_schema_fix_utf8_issue_with_broken_schema_unrepairable
 @pytest.mark.skip_on_db_engine(["sqlite"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_validate_db_schema_precision_good_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_mock: Recorder,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_validate_db_schema_precision_good_schema(
 @pytest.mark.skip_on_db_engine(["sqlite"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_validate_db_schema_precision_with_broken_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_mock: Recorder,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -261,7 +261,7 @@ async def test_validate_db_schema_precision_with_broken_schema(
 @pytest.mark.skip_on_db_engine(["postgresql", "sqlite"])
 @pytest.mark.usefixtures("skip_by_db_engine")
 async def test_validate_db_schema_precision_with_unrepairable_broken_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_mock: Recorder,
     recorder_db_url: str,
     caplog: pytest.LogCaptureFixture,

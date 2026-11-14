@@ -10,7 +10,7 @@ from universalassistant.components.esphome import DOMAIN
 from universalassistant.components.esphome.assist_satellite import EsphomeAssistSatellite
 from universalassistant.components.esphome.coordinator import REFRESH_INTERVAL
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.util import dt as dt_util
@@ -19,7 +19,7 @@ from universalassistant.util import dt as dt_util
 class MockDashboardRefresh:
     """Mock dashboard refresh."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the mock dashboard refresh."""
         self.hass = hass
         self.last_time: datetime | None = None
@@ -34,7 +34,7 @@ class MockDashboardRefresh:
 
 
 def get_satellite_entity(
-    hass: UniversalAssistant, mac_address: str
+    hass: __HAC_KEEP__, mac_address: str
 ) -> EsphomeAssistSatellite | None:
     """Get the satellite entity for a device."""
     ent_reg = er.async_get(hass)

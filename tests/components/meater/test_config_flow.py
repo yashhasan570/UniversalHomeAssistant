@@ -9,12 +9,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.meater.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_user_flow(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_meater_client: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_meater_client: AsyncMock
 ) -> None:
     """Test that the user flow works."""
     result = await hass.config_entries.flow.async_init(
@@ -47,7 +47,7 @@ async def test_user_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_exceptions(
-    hass: UniversalAssistant, mock_meater_client: AsyncMock, exception: Exception, error: str
+    hass: __HAC_KEEP__, mock_meater_client: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test that an invalid API/App Key throws an error."""
     result = await hass.config_entries.flow.async_init(
@@ -76,7 +76,7 @@ async def test_user_flow_exceptions(
 
 
 async def test_duplicate_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_meater_client: AsyncMock,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_duplicate_error(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_meater_client: AsyncMock,
 ) -> None:

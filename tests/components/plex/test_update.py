@@ -11,15 +11,15 @@ from universalassistant.components.update import (
     UpdateService,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import dt as dt_util
 
 UPDATE_ENTITY = "update.plex_server_1_update"
 
 
 async def test_plex_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
     mock_plex_server,
@@ -59,7 +59,7 @@ async def test_plex_update(
     await hass.async_block_till_done(wait_background_tasks=True)
     assert hass.states.get(UPDATE_ENTITY).state == STATE_ON
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -101,7 +101,7 @@ async def test_plex_update(
 
     # Failed upgrade request
     requests_mock.put("/updater/apply", status_code=500)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,

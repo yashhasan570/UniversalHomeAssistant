@@ -17,7 +17,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.diagnostics import DOMAIN as DIAGNOSTICS_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 CLIENT_ERROR_CASES = [
@@ -46,7 +46,7 @@ CLIENT_ERROR_CASES = [
 
 @pytest.mark.usefixtures("init_integration")
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
@@ -65,7 +65,7 @@ async def test_diagnostics(
     CLIENT_ERROR_CASES,
 )
 async def test_diagnostics_client_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
@@ -84,7 +84,7 @@ async def test_diagnostics_client_error(
 
 
 async def test_diagnostics_without_optional_software_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
@@ -112,7 +112,7 @@ async def test_diagnostics_without_optional_software_version(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_diagnostics_without_optional_api_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
@@ -134,7 +134,7 @@ async def test_diagnostics_without_optional_api_metadata(
 
 
 async def test_diagnostics_redacts_raw_payload_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,

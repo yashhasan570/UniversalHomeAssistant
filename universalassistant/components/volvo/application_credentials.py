@@ -6,14 +6,14 @@ from volvocarsapi.auth import AUTHORIZE_URL, TOKEN_URL
 from volvocarsapi.scopes import ALL_SCOPES
 
 from universalassistant.components.application_credentials import ClientCredential
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     LocalOAuth2ImplementationWithPkce,
 )
 
 
 async def async_get_auth_implementation(
-    hass: UniversalAssistant, auth_domain: str, credential: ClientCredential
+    hass: __HAC_KEEP__, auth_domain: str, credential: ClientCredential
 ) -> VolvoOAuth2Implementation:
     """Return auth implementation for a custom auth implementation."""
     return VolvoOAuth2Implementation(

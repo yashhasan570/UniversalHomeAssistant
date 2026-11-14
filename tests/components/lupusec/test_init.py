@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.lupusec.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 MOCK_DATA = {
@@ -49,7 +49,7 @@ def _mock_lupusec_system() -> MagicMock:
 
 
 async def test_child_device_links_to_parent(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the child device is linked to the alarm panel via via_device_id.
 
@@ -95,7 +95,7 @@ async def test_child_device_links_to_parent(
         pytest.param(JSONDecodeError("Test", "", 0), id="json_decode"),
     ],
 )
-async def test_setup_cannot_connect(hass: UniversalAssistant, exception: Exception) -> None:
+async def test_setup_cannot_connect(hass: __HAC_KEEP__, exception: Exception) -> None:
     """Test setup fails when connecting to the device fails."""
     entry = MockConfigEntry(domain=DOMAIN, title=MOCK_DATA[CONF_HOST], data=MOCK_DATA)
     entry.add_to_hass(hass)

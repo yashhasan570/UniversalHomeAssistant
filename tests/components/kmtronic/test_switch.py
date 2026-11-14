@@ -8,13 +8,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.kmtronic.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
 async def test_relay_on_off(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Tests the relay turns on correctly."""
 
@@ -88,7 +88,7 @@ async def test_relay_on_off(
     assert state.state == "on"
 
 
-async def test_update(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_update(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
     """Tests switch refreshes status periodically."""
     now = dt_util.utcnow()
     future = now + timedelta(minutes=10)
@@ -120,7 +120,7 @@ async def test_update(hass: UniversalAssistant, aioclient_mock: AiohttpClientMoc
 
 
 async def test_failed_update(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Tests coordinator update fails."""
     now = dt_util.utcnow()
@@ -166,7 +166,7 @@ async def test_failed_update(
 
 
 async def test_relay_on_off_reversed(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Tests the relay turns on correctly when configured as reverse."""
 

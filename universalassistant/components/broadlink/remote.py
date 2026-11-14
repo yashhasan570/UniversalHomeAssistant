@@ -36,8 +36,8 @@ from universalassistant.components.remote import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_COMMAND, STATE_OFF
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -99,7 +99,7 @@ SERVICE_DELETE_SCHEMA = COMMAND_SCHEMA.extend(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -270,7 +270,7 @@ class BroadlinkRemote(BroadlinkEntity, RemoteEntity, RestoreEntity):
                 try:
                     await device.async_request(device.api.send_data, code)
                 except (BroadlinkException, OSError) as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="send_command_failed",
                         translation_placeholders={"error": str(err)},
@@ -331,7 +331,7 @@ class BroadlinkRemote(BroadlinkEntity, RemoteEntity, RestoreEntity):
                             code = [code, await learn_command(command)]
 
                     except (AuthorizationError, NetworkTimeoutError, OSError) as err:
-                        raise UniversalAssistantError(
+                        raise __HAC_KEEP__Error(
                             translation_domain=DOMAIN,
                             translation_key="learn_command_failed",
                             translation_placeholders={
@@ -358,7 +358,7 @@ class BroadlinkRemote(BroadlinkEntity, RemoteEntity, RestoreEntity):
 
             if failed_commands:
                 if len(failed_commands) == 1:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="learn_command_failed",
                         translation_placeholders={
@@ -367,7 +367,7 @@ class BroadlinkRemote(BroadlinkEntity, RemoteEntity, RestoreEntity):
                         },
                     )
 
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="learn_commands_failed",
                     translation_placeholders={

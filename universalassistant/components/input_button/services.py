@@ -3,7 +3,7 @@
 import probatio
 
 from universalassistant.const import CONF_ID
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers.service import async_register_admin_service
 
 from .const import DATA_INPUT_BUTTON, DOMAIN, InputButtonService
@@ -22,7 +22,7 @@ async def _async_reload_service(service_call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the input_button services."""
     async_register_admin_service(
         hass,

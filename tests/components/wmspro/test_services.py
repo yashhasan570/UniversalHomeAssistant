@@ -15,7 +15,7 @@ from universalassistant.components.wmspro.const import (
     WebControlProServiceArgument,
 )
 from universalassistant.const import STATE_OPEN, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 
 from . import setup_config_entry
@@ -27,7 +27,7 @@ from . import setup_config_entry
     indirect=True,
 )
 async def test_set_cover_position_and_tilt_service_is_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -56,7 +56,7 @@ async def test_set_cover_position_and_tilt_service_is_registered(
     indirect=["mock_hub_configuration", "mock_hub_status"],
 )
 async def test_set_cover_position_and_tilt_service_executes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,
@@ -117,7 +117,7 @@ async def test_set_cover_position_and_tilt_service_executes(
     indirect=["mock_hub_configuration", "mock_hub_status"],
 )
 async def test_set_cover_position_and_tilt_unsupported_entity_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hub_ping: AsyncMock,
     mock_hub_configuration: AsyncMock,

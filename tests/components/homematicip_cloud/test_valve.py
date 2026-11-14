@@ -13,14 +13,14 @@ from universalassistant.components.valve import (
     ValveState,
 )
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .helper import HomeFactory, async_manipulate_test_data, get_and_check_entity_basics
 
 
 async def test_watering_valve(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicIP watering valve."""
     entity_id = "valve.bewaesserungsaktor_watering"
@@ -48,7 +48,7 @@ async def test_watering_valve(
 
 
 async def test_water_supply_valve(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     default_mock_hap_factory: HomeFactory,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

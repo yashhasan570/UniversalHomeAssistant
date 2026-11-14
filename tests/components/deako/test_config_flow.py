@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.deako.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     pydeako_discoverer_mock: MagicMock,
     mock_deako_setup: MagicMock,
 ) -> None:
@@ -34,7 +34,7 @@ async def test_found(
 
 
 async def test_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     pydeako_discoverer_mock: MagicMock,
     mock_deako_setup: MagicMock,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_not_found(
 
 
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_deako_setup: MagicMock,
 ) -> None:

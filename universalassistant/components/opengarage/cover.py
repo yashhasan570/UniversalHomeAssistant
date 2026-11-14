@@ -9,7 +9,7 @@ from universalassistant.components.cover import (
     CoverEntityFeature,
     CoverState,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import OpenGarageConfigEntry, OpenGarageDataUpdateCoordinator
@@ -21,7 +21,7 @@ STATES_MAP = {0: CoverState.CLOSED, 1: CoverState.OPEN}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OpenGarageConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

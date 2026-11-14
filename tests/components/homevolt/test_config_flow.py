@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.homevolt.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -26,7 +26,7 @@ DISCOVERY_INFO = ZeroconfServiceInfo(
 
 
 async def test_full_flow_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_homevolt_client: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_homevolt_client: MagicMock
 ) -> None:
     """Test a complete successful user flow."""
     result = await hass.config_entries.flow.async_init(
@@ -53,7 +53,7 @@ async def test_full_flow_success(
 
 
 async def test_flow_auth_error_then_password_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_homevolt_client: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_homevolt_client: MagicMock
 ) -> None:
     """Test flow when authentication is required."""
     result = await hass.config_entries.flow.async_init(
@@ -107,7 +107,7 @@ async def test_flow_auth_error_then_password_success(
     ],
 )
 async def test_step_user_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_homevolt_client: MagicMock,
     exception: Exception,
@@ -152,7 +152,7 @@ async def test_step_user_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -181,7 +181,7 @@ async def test_duplicate_entry(
 
 
 async def test_credentials_step_invalid_password(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_homevolt_client: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_homevolt_client: MagicMock
 ) -> None:
     """Test invalid password in credentials step shows error."""
     result = await hass.config_entries.flow.async_init(
@@ -236,7 +236,7 @@ async def test_credentials_step_invalid_password(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -276,7 +276,7 @@ async def test_reauth_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -317,7 +317,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_zeroconf_confirm_flow_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_homevolt_client: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_homevolt_client: MagicMock
 ) -> None:
     """Test zeroconf flow shows confirm step before creating entry."""
 
@@ -342,7 +342,7 @@ async def test_zeroconf_confirm_flow_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_duplicate_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -361,7 +361,7 @@ async def test_zeroconf_duplicate_aborts(
 
 
 async def test_zeroconf_confirm_with_password_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_homevolt_client: MagicMock,
     monkeypatch: pytest.MonkeyPatch,
@@ -398,7 +398,7 @@ async def test_zeroconf_confirm_with_password_success(
 
 
 async def test_zeroconf_confirm_with_password_invalid_then_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_homevolt_client: MagicMock,
     monkeypatch: pytest.MonkeyPatch,
@@ -452,7 +452,7 @@ async def test_zeroconf_confirm_with_password_invalid_then_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_error_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homevolt_client: MagicMock,
     exception: Exception,
     expected_reason: str,

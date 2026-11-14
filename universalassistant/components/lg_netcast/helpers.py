@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 from pylgnetcast import LgNetCastClient
 from requests import RequestException
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceEntry
 
@@ -26,7 +26,7 @@ class NetcastDetails(TypedDict):
 
 
 async def async_discover_netcast_details(
-    hass: UniversalAssistant, client: LgNetCastClient
+    hass: __HAC_KEEP__, client: LgNetCastClient
 ) -> NetcastDetails:
     """Discover UUID and Model Name from Netcast Tv."""
     try:
@@ -46,7 +46,7 @@ async def async_discover_netcast_details(
 
 @callback
 def async_get_device_entry_by_device_id(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> DeviceEntry:
     """Get Device Entry from Device Registry by device ID.
 

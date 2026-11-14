@@ -20,7 +20,7 @@ from universalassistant.config_entries import (
     SubentryFlowResult,
 )
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import (
     SERVER_SOFTWARE,
     async_get_clientsession,
@@ -38,7 +38,7 @@ from .const import (
 from .coordinator import GithubConfigEntry
 
 
-async def get_repositories(hass: UniversalAssistant, access_token: str) -> list[str]:
+async def get_repositories(hass: __HAC_KEEP__, access_token: str) -> list[str]:
     """Return a list of repositories that the user owns or has starred."""
     client = GitHubAPI(token=access_token, session=async_get_clientsession(hass))
     repositories: set[str] = set()

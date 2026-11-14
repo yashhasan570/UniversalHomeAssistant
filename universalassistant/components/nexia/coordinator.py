@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, override
 
 from nexia.home import NexiaHome
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 if TYPE_CHECKING:
@@ -24,7 +24,7 @@ class NexiaDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: NexiaConfigEntry,
         nexia_home: NexiaHome,
     ) -> None:

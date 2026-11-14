@@ -12,8 +12,8 @@ from roborock.exceptions import RoborockException
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import PERCENTAGE, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -94,7 +94,7 @@ Q10_NUMBER_DESCRIPTIONS: list[RoborockNumberDescriptionQ10] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RoborockConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -174,7 +174,7 @@ class RoborockNumberEntity(RoborockEntityV1, NumberEntity):
         try:
             await self.entity_description.set_value(self._trait, value)
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err
@@ -216,7 +216,7 @@ class RoborockNumberEntityQ10(RoborockCoordinatedEntityB01Q10, NumberEntity):
         try:
             await self.entity_description.set_value(self._trait, value)
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="update_options_failed",
             ) from err

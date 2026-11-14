@@ -2,7 +2,7 @@
   "config": {
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
-      "install_app": "Open the mobile app to set up the integration with Universal Universal Home Assistant. See [the docs]({apps_url}) for a list of compatible apps."
+      "install_app": "Open the mobile app to set up the integration with __HA_KEEP__. See [the docs]({apps_url}) for a list of compatible apps."
     },
     "step": {
       "confirm": {

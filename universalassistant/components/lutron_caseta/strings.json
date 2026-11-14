@@ -99,7 +99,7 @@
   },
   "issues": {
     "deprecated_yaml_import_issue_cannot_connect": {
-      "description": "Configuring {integration_title} using YAML is being removed, but Universal Universal Home Assistant couldn’t connect to a bridge while importing your YAML configuration. Make sure the bridge is reachable and the certificate files are valid, then restart Universal Universal Home Assistant to try the import again, or remove the `{domain}` configuration from your `configuration.yaml` file and set up the integration from the UI.",
+      "description": "Configuring {integration_title} using YAML is being removed, but __HA_KEEP__ couldn’t connect to a bridge while importing your YAML configuration. Make sure the bridge is reachable and the certificate files are valid, then restart __HA_KEEP__ to try the import again, or remove the `{domain}` configuration from your `configuration.yaml` file and set up the integration from the UI.",
       "title": "The {integration_title} YAML configuration import failed"
     }
   }

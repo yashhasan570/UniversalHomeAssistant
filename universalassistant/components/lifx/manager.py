@@ -23,7 +23,7 @@ from lifx import (
     TileEffectSkyType,
 )
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 
 from .const import DOMAIN, LIFXService, LIFXServiceArgument
@@ -72,7 +72,7 @@ PAINT_THEME_DEFAULT_TRANSITION = 1
 class LIFXManager:
     """Representation of all known LIFX entities."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the manager."""
         self.hass = hass
         self.effects_conductor = Conductor()
@@ -101,7 +101,7 @@ class LIFXManager:
     def _build_palette(
         palette: list[tuple[float, float, float, int]] | None,
     ) -> list[HSBK]:
-        """Build a public-unit palette from Universal Universal Home Assistant values."""
+        """Build a public-unit palette from __HA_KEEP__ values."""
         if palette is None:
             return []
         return [

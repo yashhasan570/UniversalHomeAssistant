@@ -22,7 +22,7 @@ from aioengiebelgium import (
     bare_ean,
 )
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.event import async_track_utc_time_change
@@ -86,7 +86,7 @@ class EngieBeRelationsCoordinator(DataUpdateCoordinator[dict[str, BusinessAgreem
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: EngieBeConfigEntry,
         client: EngieBeClient,
     ) -> None:
@@ -132,7 +132,7 @@ class EngieBePricesCoordinator(DataUpdateCoordinator[EngieBePricesData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: EngieBeConfigEntry,
         client: EngieBeClient,
         ban: str,
@@ -330,7 +330,7 @@ class EngieBePeaksCoordinator(DataUpdateCoordinator[EngieBePeaksData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: EngieBeConfigEntry,
         client: EngieBeClient,
         ban: str,
@@ -383,7 +383,7 @@ class EngieBeEpexCoordinator(DataUpdateCoordinator[EngieBeEpexData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: EngieBeConfigEntry,
         client: EngieBeClient,
     ) -> None:

@@ -8,7 +8,7 @@ from logging import getLogger
 from typing import Any
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.storage import Store
 from universalassistant.util import dt as dt_util
@@ -55,7 +55,7 @@ class AuthStore:
     called that needs it.
     """
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the auth store."""
         self.hass = hass
         self._loaded = False

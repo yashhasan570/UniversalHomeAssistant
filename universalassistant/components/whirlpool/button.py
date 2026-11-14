@@ -5,7 +5,7 @@ from typing import override
 from whirlpool.oven import Cavity as OvenCavity, Oven
 
 from universalassistant.components.button import ButtonEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import WhirlpoolConfigEntry
@@ -15,7 +15,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WhirlpoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

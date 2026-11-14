@@ -10,7 +10,7 @@ from tesla_fleet_api.const import TeslaEnergyPeriod
 from tesla_fleet_api.exceptions import InvalidToken, MissingToken, TeslaFleetError
 from tesla_fleet_api.tessie import EnergySite, Vehicle
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -49,7 +49,7 @@ class TessieStateUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TessieConfigEntry,
         api: Vehicle,
         api_key: str,
@@ -104,7 +104,7 @@ class TessieEnergySiteLiveCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TessieConfigEntry,
         api: EnergySite,
         data: dict[str, Any],
@@ -153,7 +153,7 @@ class TessieEnergySiteInfoCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: TessieConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: TessieConfigEntry, api: EnergySite
+        self, hass: __HAC_KEEP__, config_entry: TessieConfigEntry, api: EnergySite
     ) -> None:
         """Initialize Tessie Energy Info coordinator."""
         super().__init__(
@@ -189,7 +189,7 @@ class TessieEnergyHistoryCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TessieConfigEntry,
         api: EnergySite,
     ) -> None:

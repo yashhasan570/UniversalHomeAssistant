@@ -14,7 +14,7 @@ PLATFORMS = [Platform.MEDIA_PLAYER]
 
 
 async def async_setup_entry(
-    hass: core.UniversalAssistant, entry: config_entries.ConfigEntry
+    hass: core.__HAC_KEEP__, entry: config_entries.ConfigEntry
 ) -> None:
     """Set up platform from a ConfigEntry."""
     # Verify the device is reachable with the given
@@ -30,7 +30,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: core.UniversalAssistant, entry: config_entries.ConfigEntry
+    hass: core.__HAC_KEEP__, entry: config_entries.ConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

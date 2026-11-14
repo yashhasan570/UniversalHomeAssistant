@@ -34,11 +34,11 @@ from universalassistant.core import (
     Event,
     HassJob,
     HassJobType,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
     get_hassjob_callable_job_type,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
     async_dispatcher_send,
@@ -124,7 +124,7 @@ type SubscribePayloadType = str | bytes | bytearray  # Only bytes if encoding is
 
 
 def publish(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     topic: str,
     payload: PublishPayloadType,
     qos: int = 0,
@@ -148,7 +148,7 @@ def publish(
 
 
 async def async_publish(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     topic: str,
     payload: PublishPayloadType,
     qos: int = 0,
@@ -159,7 +159,7 @@ async def async_publish(
 ) -> None:
     """Publish message to a MQTT topic."""
     if not mqtt_config_entry_enabled(hass):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_key="mqtt_not_setup_cannot_publish",
             translation_domain=DOMAIN,
             translation_placeholders={"topic": topic},
@@ -219,7 +219,7 @@ async def async_publish(
 
 @callback
 def async_on_subscribe_done(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     topic: str,
     qos: int,
     on_subscribe_status: CALLBACK_TYPE,
@@ -250,7 +250,7 @@ def async_on_subscribe_done(
 
 
 async def async_subscribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     topic: str,
     msg_callback: Callable[[ReceiveMessage], Coroutine[Any, Any, None] | None],
     qos: int = DEFAULT_QOS,
@@ -265,7 +265,7 @@ async def async_subscribe(
 
 @callback
 def async_subscribe_internal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     topic: str,
     msg_callback: Callable[[ReceiveMessage], Coroutine[Any, Any, None] | None],
     qos: int = DEFAULT_QOS,
@@ -283,14 +283,14 @@ def async_subscribe_internal(
     try:
         mqtt_data = hass.data[DATA_MQTT]
     except KeyError as exc:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_key="mqtt_not_setup_cannot_subscribe",
             translation_domain=DOMAIN,
             translation_placeholders={"topic": topic},
         ) from exc
     client = mqtt_data.client
     if not mqtt_config_entry_enabled(hass):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_key="mqtt_not_enabled_cannot_subscribe",
             translation_domain=DOMAIN,
             translation_placeholders={"topic": topic},
@@ -299,7 +299,7 @@ def async_subscribe_internal(
 
 
 def subscribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     topic: str,
     msg_callback: MessageCallbackType,
     qos: int = DEFAULT_QOS,
@@ -469,7 +469,7 @@ def try_connection(
 
 
 class MQTT:
-    """Universal Universal Home Assistant MQTT client."""
+    """__HA_KEEP__ MQTT client."""
 
     _mqttc: AsyncMQTTClient
     _last_subscribe: float
@@ -477,9 +477,9 @@ class MQTT:
     _supports_subscription_identifiers: bool = False
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: ConfigEntry, conf: ConfigType
+        self, hass: __HAC_KEEP__, config_entry: ConfigEntry, conf: ConfigType
     ) -> None:
-        """Initialize Universal Universal Home Assistant MQTT client."""
+        """Initialize __HA_KEEP__ MQTT client."""
         self.hass = hass
         self.loop = hass.loop
         self.config_entry = config_entry
@@ -529,7 +529,7 @@ class MQTT:
         self._socket_buffersize: int | None = None
 
     @callback
-    def _async_ha_started(self, _hass: UniversalAssistant) -> None:
+    def _async_ha_started(self, _hass: __HAC_KEEP__) -> None:
         """Handle HA started."""
         self._ha_started.set()
 
@@ -541,7 +541,7 @@ class MQTT:
         self,
         mqtt_data: MqttData,
     ) -> None:
-        """Start Universal Universal Home Assistant MQTT client."""
+        """Start __HA_KEEP__ MQTT client."""
         self._mqtt_data = mqtt_data
         await self.async_init_client()
 
@@ -859,7 +859,7 @@ class MQTT:
         """Stop the MQTT client.
 
         We only disconnect grafully if disconnect_paho_client is set, but not
-        when Universal Universal Home Assistant is shut down.
+        when __HA_KEEP__ is shut down.
         """
 
         # stop waiting for any pending subscriptions
@@ -941,7 +941,7 @@ class MQTT:
             else:
                 del self._wildcard_subscriptions[subscription]
         except (KeyError, ValueError) as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="mqtt_not_setup_cannot_unsubscribe_twice",
                 translation_placeholders={"topic": topic},
@@ -991,7 +991,7 @@ class MQTT:
     ) -> Callable[[], None]:
         """Set up a subscription to a topic with the provided qos."""
         if not isinstance(topic, str):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="mqtt_topic_not_a_string",
                 translation_placeholders={"topic": topic},
@@ -1187,7 +1187,7 @@ class MQTT:
         """Resubscribe to all topics and publish birth message."""
         self._async_queue_resubscribe()
         self._subscribe_debouncer.async_schedule()
-        await self._ha_started.wait()  # Wait for Universal Universal Home Assistant to start
+        await self._ha_started.wait()  # Wait for __HA_KEEP__ to start
         await self._discovery_cooldown()  # Wait for MQTT discovery to cool down
         # Update subscribe cooldown period to a shorter time
         # and make sure we flush the debouncer
@@ -1507,7 +1507,7 @@ class MQTT:
     ) -> None:
         """Wait for ACK from broker or raise on error."""
         if result_code != 0:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="mqtt_broker_error",
                 translation_placeholders={

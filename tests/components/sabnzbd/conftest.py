@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.sabnzbd.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
@@ -34,7 +34,7 @@ def mock_sabnzbd() -> Generator[AsyncMock]:
 
 
 @pytest.fixture(name="config_entry")
-async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a MockConfigEntry for testing."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -52,7 +52,7 @@ async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Fixture for setting up the component."""
     assert await async_setup_component(hass, DOMAIN, {})

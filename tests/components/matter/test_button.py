@@ -9,7 +9,7 @@ import pytest
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import snapshot_matter_entities
@@ -23,7 +23,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("matter_devices")
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -33,7 +33,7 @@ async def test_buttons(
 
 @pytest.mark.parametrize("node_fixture", ["eve_energy_plug"])
 async def test_identify_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_identify_button(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_dishwasher"])
 async def test_operational_state_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_operational_state_buttons(
 
 @pytest.mark.parametrize("node_fixture", ["heiman_smoke_detector"])
 async def test_heiman_temporary_mute_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_heiman_temporary_mute_button(
 @pytest.mark.parametrize("attributes", [{"1/302775297/65529": []}])
 @pytest.mark.usefixtures("matter_node")
 async def test_heiman_temporary_mute_button_not_discovered_without_muting_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test mute button not created when MutingSensor absent from commands."""
     assert hass.states.get("button.smoke_sensor_temporary_mute") is None
@@ -125,7 +125,7 @@ async def test_heiman_temporary_mute_button_not_discovered_without_muting_comman
 
 @pytest.mark.parametrize("node_fixture", ["heiman_smoke_detector"])
 async def test_smoke_detector_self_test(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:

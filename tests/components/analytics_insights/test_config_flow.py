@@ -14,7 +14,7 @@ from universalassistant.components.analytics_insights.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -58,7 +58,7 @@ from . import setup_integration
     ],
 )
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_analytics_client: AsyncMock,
     user_input: dict[str, Any],
@@ -77,7 +77,7 @@ async def test_form(
     await hass.async_block_till_done()
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == "Universal Universal Home Assistant Analytics Insights"
+    assert result["title"] == "__HA_KEEP__ Analytics Insights"
     assert result["data"] == {}
     assert result["options"] == expected_options
     assert len(mock_setup_entry.mock_calls) == 1
@@ -95,7 +95,7 @@ async def test_form(
     ],
 )
 async def test_submitting_empty_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_analytics_client: AsyncMock,
     user_input: dict[str, Any],
@@ -126,7 +126,7 @@ async def test_submitting_empty_form(
     await hass.async_block_till_done()
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == "Universal Universal Home Assistant Analytics Insights"
+    assert result["title"] == "__HA_KEEP__ Analytics Insights"
     assert result["data"] == {}
     assert result["options"] == {
         CONF_TRACKED_APPS: ["core_samba"],
@@ -144,7 +144,7 @@ async def test_submitting_empty_form(
     ],
 )
 async def test_form_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_analytics_client: AsyncMock,
     exception: Exception,
     reason: str,
@@ -161,7 +161,7 @@ async def test_form_cannot_connect(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_already_configured(hass: UniversalAssistant) -> None:
+async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -229,7 +229,7 @@ async def test_form_already_configured(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_analytics_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     user_input: dict[str, Any],
@@ -266,7 +266,7 @@ async def test_options_flow(
     ],
 )
 async def test_submitting_empty_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_analytics_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     user_input: dict[str, Any],
@@ -306,7 +306,7 @@ async def test_submitting_empty_options_flow(
 
 
 async def test_options_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_analytics_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

@@ -34,7 +34,7 @@ from universalassistant.const import (
     Platform,
     UnitOfEnergy,
 )
-from universalassistant.core import Event, EventStateReportedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateReportedData, __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.dt import utc_from_timestamp, utcnow
@@ -94,7 +94,7 @@ def _unique_ids(entity_registry: er.EntityRegistry, entry: MockConfigEntry) -> s
 
 
 async def test_plug_discovery_creates_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -108,7 +108,7 @@ async def test_plug_discovery_creates_entities(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_devices_found_before_platform_setup_are_seeded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_devices: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_devices_found_before_platform_setup_are_seeded(
 
 
 async def test_sensor_no_role_creates_universal_entities_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -198,7 +198,7 @@ async def test_sensor_no_role_creates_universal_entities_only(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_sensor_with_persisted_housenet_role_creates_full_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_devices: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_sensor_with_persisted_housenet_role_creates_full_entities(
 
 
 async def test_now_relaying_for_triggers_role_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -255,7 +255,7 @@ async def test_now_relaying_for_triggers_role_update(
 
 
 async def test_now_relaying_for_without_role_is_a_noop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -278,7 +278,7 @@ async def test_now_relaying_for_without_role_is_a_noop(
 
 
 async def test_measurement_with_role_creates_role_gated_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -308,7 +308,7 @@ async def test_measurement_with_role_creates_role_gated_entities(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_measurement_updates_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -337,7 +337,7 @@ async def test_measurement_updates_entity_state(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_battery_level_converted_from_volts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -363,7 +363,7 @@ async def test_battery_level_converted_from_volts(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_energy_converted_from_joules(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -426,7 +426,7 @@ async def test_energy_converted_from_joules(
 )
 @pytest.mark.usefixtures("config_entry")
 async def test_energy_last_reset_follows_device_reset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
     discovery: list[dict[str, Any]],
@@ -478,7 +478,7 @@ async def test_energy_last_reset_follows_device_reset(
 
 
 async def test_water_sensor_creates_water_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -501,7 +501,7 @@ async def test_water_sensor_creates_water_entities(
 
 
 async def test_role_change_adds_entities_without_duplicates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -551,7 +551,7 @@ async def test_role_change_adds_entities_without_duplicates(
 
 
 async def test_vhh_mains_entities_created_when_housenet_sensor_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -574,7 +574,7 @@ async def test_vhh_mains_entities_created_when_housenet_sensor_found(
 
 
 async def test_vhh_solar_entities_added_when_solar_sensor_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -604,7 +604,7 @@ async def test_vhh_solar_entities_added_when_solar_sensor_found(
 
 
 async def test_vhh_solar_not_created_without_mains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -627,7 +627,7 @@ async def test_vhh_solar_not_created_without_mains(
 
 
 async def test_repeated_role_adds_no_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -665,7 +665,7 @@ async def test_repeated_role_adds_no_entities(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_unchanged_role_keeps_device_role_available_without_writes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -763,7 +763,7 @@ async def test_unchanged_role_keeps_device_role_available_without_writes(
 )
 @pytest.mark.usefixtures("config_entry")
 async def test_entity_becomes_unavailable_after_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
     mac: str,
@@ -803,7 +803,7 @@ async def test_entity_becomes_unavailable_after_timeout(
 
 
 async def test_device_lost_does_not_remove_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -846,7 +846,7 @@ async def test_device_lost_does_not_remove_entities(
     ],
 )
 async def test_event_with_no_mac_is_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -871,7 +871,7 @@ async def test_event_with_no_mac_is_ignored(
     ],
 )
 async def test_rediscovery_resubscribes_without_duplicates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_devices: MagicMock,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
@@ -895,7 +895,7 @@ async def test_rediscovery_resubscribes_without_duplicates(
 
 
 async def test_now_relaying_for_other_than_a_sensor_is_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
@@ -927,7 +927,7 @@ async def test_now_relaying_for_other_than_a_sensor_is_ignored(
 
 
 async def test_role_change_writes_device_registry_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     device_registry: dr.DeviceRegistry,
@@ -987,7 +987,7 @@ async def test_role_change_writes_device_registry_once(
     ],
 )
 async def test_sensor_without_a_role_is_shown_as_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,
     role_field: dict[str, str],
@@ -1007,7 +1007,7 @@ async def test_sensor_without_a_role_is_shown_as_unknown(
 
 
 async def test_unsupported_role_is_shown_as_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     entity_registry: er.EntityRegistry,

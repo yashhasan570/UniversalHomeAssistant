@@ -9,14 +9,14 @@ from victron_mqtt.testing import finalize_injection, inject_message
 from universalassistant.components.number import NumberDeviceClass
 from universalassistant.components.victron_gx.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import MOCK_INSTALLATION_ID
 
 
 async def test_victron_number_with_step(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -63,7 +63,7 @@ async def test_victron_number_with_step(
 
 
 async def test_victron_number_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_victron_number_update(
 
 
 async def test_nullable_number_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_nullable_number_availability(
 
 
 async def test_victron_number_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: tuple[VictronVenusHub, MockConfigEntry],
     entity_registry: er.EntityRegistry,
 ) -> None:

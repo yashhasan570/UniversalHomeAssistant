@@ -15,7 +15,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -34,7 +34,7 @@ def platform() -> Platform:
 @pytest.mark.freeze_time("2025-01-01T14:00:00+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "matter_devices")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_sensors(
 
 @pytest.mark.parametrize("node_fixture", ["mock_flow_sensor"])
 async def test_sensor_null_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_sensor_null_value(
 @pytest.mark.parametrize("node_fixture", ["mock_flow_sensor"])
 @pytest.mark.parametrize("attributes", [{"1/1028/0": None}])
 async def test_flow_sensor_discovered_with_null_value_at_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_flow_sensor_discovered_with_null_value_at_startup(
 @pytest.mark.parametrize("node_fixture", ["mock_battery_storage"])
 @pytest.mark.parametrize("attributes", [{"1/47/13": None, "1/47/27": None}])
 async def test_battery_time_sensors_discovered_with_null_value_at_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_battery_time_sensors_discovered_with_null_value_at_startup(
 
 @pytest.mark.parametrize("node_fixture", ["mock_flow_sensor"])
 async def test_flow_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_flow_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["mock_humidity_sensor"])
 async def test_humidity_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_humidity_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["mock_soil_sensor"])
 async def test_soil_moisture_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_soil_moisture_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["mock_light_sensor"])
 async def test_light_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_light_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["mock_temperature_sensor"])
 async def test_temperature_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -221,7 +221,7 @@ async def test_temperature_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["eve_contact_sensor"])
 async def test_battery_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -247,7 +247,7 @@ async def test_battery_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["eve_contact_sensor"])
 async def test_battery_sensor_voltage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -273,7 +273,7 @@ async def test_battery_sensor_voltage(
 
 @pytest.mark.parametrize("node_fixture", ["heiman_smoke_detector"])
 async def test_battery_sensor_description(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -299,7 +299,7 @@ async def test_battery_sensor_description(
 
 @pytest.mark.parametrize("node_fixture", ["eve_thermo_v4"])
 async def test_eve_thermo_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_eve_thermo_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["longan_link_thermostat"])
 async def test_thermostat_outdoor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -351,7 +351,7 @@ async def test_thermostat_outdoor(
 
 @pytest.mark.parametrize("node_fixture", ["mock_pressure_sensor"])
 async def test_pressure_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -370,7 +370,7 @@ async def test_pressure_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["eve_weather_sensor"])
 async def test_eve_weather_sensor_custom_cluster(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -394,7 +394,7 @@ def test_air_quality_map_complete() -> None:
 
 @pytest.mark.parametrize("node_fixture", ["air_quality_sensor"])
 async def test_air_quality_out_of_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -417,7 +417,7 @@ async def test_air_quality_out_of_range(
 @pytest.mark.parametrize("node_fixture", ["air_quality_sensor"])
 @pytest.mark.parametrize("attributes", [{"1/1070/8": 1}])
 async def test_air_quality_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -510,7 +510,7 @@ async def test_air_quality_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["mock_air_purifier"])
 async def test_tvoc_level_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -557,7 +557,7 @@ async def test_tvoc_level_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["mock_air_purifier"])
 @pytest.mark.usefixtures("matter_node")
-async def test_tvoc_concentration_sensor_ugm3(hass: UniversalAssistant) -> None:
+async def test_tvoc_concentration_sensor_ugm3(hass: __HAC_KEEP__) -> None:
     """Test TVOC concentration sensor with µg/m³ unit and matching device class."""
     state = hass.states.get("sensor.mock_air_purifier_volatile_organic_compounds")
     assert state
@@ -575,7 +575,7 @@ async def test_tvoc_concentration_sensor_ugm3(hass: UniversalAssistant) -> None:
     ],
 )
 @pytest.mark.usefixtures("matter_node")
-async def test_concentration_sensor_unit_fallback(hass: UniversalAssistant) -> None:
+async def test_concentration_sensor_unit_fallback(hass: __HAC_KEEP__) -> None:
     """Test the statically defined unit is kept for unusable MeasurementUnits."""
     state = hass.states.get("sensor.lightfi_aq1_air_quality_sensor_carbon_dioxide")
     assert state
@@ -585,7 +585,7 @@ async def test_concentration_sensor_unit_fallback(hass: UniversalAssistant) -> N
 
 @pytest.mark.parametrize("node_fixture", ["silabs_dishwasher"])
 async def test_operational_state_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -612,7 +612,7 @@ async def test_operational_state_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_dishwasher"])
 async def test_operational_error_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -637,7 +637,7 @@ async def test_operational_error_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["yandex_smart_socket"])
 async def test_draft_electrical_measurement_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -666,7 +666,7 @@ async def test_draft_electrical_measurement_sensor(
 @pytest.mark.freeze_time("2025-01-01T14:00:00+00:00")
 @pytest.mark.parametrize("node_fixture", ["mock_microwave_oven"])
 async def test_countdown_time_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -680,7 +680,7 @@ async def test_countdown_time_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_laundrywasher"])
 async def test_list_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -700,7 +700,7 @@ async def test_list_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_evse_charging"])
 async def test_evse_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -768,7 +768,7 @@ async def test_evse_sensor(
 
 @pytest.mark.parametrize("node_fixture", ["silabs_water_heater"])
 async def test_water_heater(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -836,7 +836,7 @@ async def test_water_heater(
 
 @pytest.mark.parametrize("node_fixture", ["mock_pump"])
 async def test_pump(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -868,7 +868,7 @@ async def test_pump(
 
 @pytest.mark.parametrize("node_fixture", ["mock_vacuum_cleaner"])
 async def test_vacuum_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -888,7 +888,7 @@ async def test_vacuum_actions(
 
 @pytest.mark.parametrize("node_fixture", ["mock_vacuum_cleaner"])
 async def test_vacuum_operational_error_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -938,7 +938,7 @@ async def test_vacuum_operational_error_sensor(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("node_fixture", ["mock_lock"])
 async def test_optional_door_event_sensors_from_featuremap(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -972,7 +972,7 @@ async def test_optional_door_event_sensors_from_featuremap(
 
 @pytest.mark.parametrize("node_fixture", ["mock_valve"])
 async def test_valve(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1004,7 +1004,7 @@ async def test_valve(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_thermostat_w500"])
 async def test_aqara_thermostat_w500_entity_exists_and_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1019,7 +1019,7 @@ async def test_aqara_thermostat_w500_entity_exists_and_unknown(
 
 @pytest.mark.parametrize("node_fixture", ["aqara_thermostat_w500_presets"])
 async def test_aqara_thermostat_w500_setpoint_change_source_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1057,7 +1057,7 @@ async def test_aqara_thermostat_w500_setpoint_change_source_options(
     ],
 )
 async def test_aqara_thermostat_w500_setpoint_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
     entity_id: str,
@@ -1082,7 +1082,7 @@ async def test_aqara_thermostat_w500_setpoint_change(
 @pytest.mark.parametrize("node_fixture", ["aqara_thermostat_w500_presets"])
 @pytest.mark.parametrize("attributes", [{"1/513/49": None}])
 async def test_aqara_thermostat_w500_setpoint_change_amount_null_at_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1105,7 +1105,7 @@ async def test_aqara_thermostat_w500_setpoint_change_amount_null_at_startup(
 
 @pytest.mark.parametrize("node_fixture", ["eve_thermo_v5"])
 async def test_eve_thermo_v5_setpoint_change_not_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1122,7 +1122,7 @@ async def test_eve_thermo_v5_setpoint_change_not_discovered(
 
 @pytest.mark.parametrize("node_fixture", ["atios_knx_bridge"])
 async def test_bridged_device_reachable_updates_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     matter_node: MatterNode,
 ) -> None:
@@ -1157,7 +1157,7 @@ async def test_bridged_device_reachable_updates_availability(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("node_fixture", ["device_diagnostics"])
 async def test_wifi_rssi_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -1208,7 +1208,7 @@ async def test_wifi_rssi_sensor(
 )
 @pytest.mark.parametrize("node_fixture", ["aqara_multi_state_p100"])
 async def test_thread_diagnostic_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -1252,7 +1252,7 @@ async def test_thread_diagnostic_sensors(
 )
 @pytest.mark.parametrize("node_fixture", ["aqara_multi_state_p100"])
 async def test_thread_routing_role_enum_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -1286,7 +1286,7 @@ async def test_thread_routing_role_enum_mapping(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("node_fixture", ["device_diagnostics"])
 async def test_general_diagnostics_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,
@@ -1339,7 +1339,7 @@ async def test_general_diagnostics_sensors(
 
 @pytest.mark.parametrize("node_fixture", ["device_diagnostics"])
 async def test_general_diagnostics_sensors_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     matter_client: MagicMock,
     matter_node: MatterNode,

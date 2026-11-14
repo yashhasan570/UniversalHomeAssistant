@@ -48,7 +48,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
@@ -85,7 +85,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
 @dataclass
-class UniversalAssistantOverkizData:
+class __HAC_KEEP__OverkizData:
     """Overkiz data stored in the runtime data object."""
 
     coordinator: OverkizDataUpdateCoordinator
@@ -93,10 +93,10 @@ class UniversalAssistantOverkizData:
     scenarios: list[PersistedActionGroup]
 
 
-type OverkizDataConfigEntry = ConfigEntry[UniversalAssistantOverkizData]
+type OverkizDataConfigEntry = ConfigEntry[__HAC_KEEP__OverkizData]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Overkiz component."""
     async_setup_services(hass)
 
@@ -111,7 +111,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def create_client(
-    hass: UniversalAssistant, entry: OverkizDataConfigEntry
+    hass: __HAC_KEEP__, entry: OverkizDataConfigEntry
 ) -> OverkizClient:
     """Create the Overkiz client matching the API type of a config entry."""
     # Local API
@@ -140,7 +140,7 @@ async def create_client(
     )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OverkizDataConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OverkizDataConfigEntry) -> None:
     """Set up Overkiz from a config entry."""
     api_type = entry.data.get(CONF_API_TYPE, APIType.CLOUD)
     client = await create_client(hass, entry)
@@ -212,11 +212,11 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OverkizDataConfigEn
 
     platforms: defaultdict[Platform, list[Device]] = defaultdict(list)
 
-    entry.runtime_data = UniversalAssistantOverkizData(
+    entry.runtime_data = __HAC_KEEP__OverkizData(
         coordinator=coordinator, platforms=platforms, scenarios=scenarios
     )
 
-    # Map Overkiz entities to Universal Universal Home Assistant platform
+    # Map Overkiz entities to __HA_KEEP__ platform
     for device in coordinator.data.values():
         if platform := OVERKIZ_DEVICE_TO_PLATFORM.get(
             device.widget
@@ -260,14 +260,14 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OverkizDataConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: OverkizDataConfigEntry
+    hass: __HAC_KEEP__, entry: OverkizDataConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: OverkizDataConfigEntry
+    hass: __HAC_KEEP__, entry: OverkizDataConfigEntry
 ) -> None:
     """Migrate old entry."""
 
@@ -357,7 +357,7 @@ async def async_migrate_entry(
 
 
 async def _async_migrate_strenum_unique_ids(
-    hass: UniversalAssistant, config_entry: OverkizDataConfigEntry
+    hass: __HAC_KEEP__, config_entry: OverkizDataConfigEntry
 ) -> None:
     """Migrate entities to the StrEnum-style unique IDs."""
     entity_registry = er.async_get(hass)
@@ -422,7 +422,7 @@ async def _async_migrate_strenum_unique_ids(
 
 
 def create_local_client(
-    hass: UniversalAssistant, host: str, token: str, verify_ssl: bool
+    hass: __HAC_KEEP__, host: str, token: str, verify_ssl: bool
 ) -> OverkizClient:
     """Create Overkiz local client."""
     session = async_create_clientsession(hass, verify_ssl=verify_ssl)
@@ -439,7 +439,7 @@ def create_local_client(
 
 
 def create_cloud_client(
-    hass: UniversalAssistant, username: str, password: str, server: Server
+    hass: __HAC_KEEP__, username: str, password: str, server: Server
 ) -> OverkizClient:
     """Create Overkiz cloud client."""
     # To allow users with multiple accounts/hubs, we create a
@@ -457,9 +457,9 @@ def create_cloud_client(
 
 
 async def create_rexel_client(
-    hass: UniversalAssistant, entry: OverkizDataConfigEntry
+    hass: __HAC_KEEP__, entry: OverkizDataConfigEntry
 ) -> OverkizClient:
-    """Create Overkiz Rexel client backed by a Universal Universal Home Assistant OAuth2 session."""
+    """Create Overkiz Rexel client backed by a __HA_KEEP__ OAuth2 session."""
     implementation = (
         await config_entry_oauth2_flow.async_get_config_entry_implementation(
             hass, entry
@@ -486,7 +486,7 @@ async def create_rexel_client(
 
 
 async def create_somfy_client(
-    hass: UniversalAssistant, entry: OverkizDataConfigEntry
+    hass: __HAC_KEEP__, entry: OverkizDataConfigEntry
 ) -> OverkizClient:
     """Create an Overkiz client for a Somfy multi-account, resumed from a token."""
 

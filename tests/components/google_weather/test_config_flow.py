@@ -19,7 +19,7 @@ from universalassistant.const import (
     CONF_LONGITUDE,
     CONF_NAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -44,7 +44,7 @@ def _assert_create_entry_result(
 
 
 async def test_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_create_entry(
 
 
 async def test_form_with_referrer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_form_with_referrer(
     ],
 )
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_google_weather_api: AsyncMock,
     api_exception,
@@ -175,7 +175,7 @@ async def test_form_exceptions(
 
 
 async def test_form_api_key_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_form_api_key_already_configured(
 
 
 async def test_form_location_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_form_location_already_configured(
 
 
 async def test_form_not_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
@@ -273,7 +273,7 @@ async def test_form_not_already_configured(
 
 
 async def test_subentry_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -325,7 +325,7 @@ async def test_subentry_flow(
 
 
 async def test_subentry_flow_location_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -359,7 +359,7 @@ async def test_subentry_flow_location_already_configured(
 
 
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
@@ -410,7 +410,7 @@ async def test_reauth(
     ],
 )
 async def test_reauth_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
     api_exception: Exception,
@@ -451,7 +451,7 @@ async def test_reauth_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_same_api_key_different_referrer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -479,7 +479,7 @@ async def test_reauth_same_api_key_different_referrer(
 
 
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
@@ -531,7 +531,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
@@ -573,7 +573,7 @@ async def test_reconfigure_exceptions(
 
 
 async def test_reconfigure_no_subentries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -605,7 +605,7 @@ async def test_reconfigure_no_subentries(
 
 
 async def test_subentry_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_google_weather_api: AsyncMock,
 ) -> None:
@@ -647,7 +647,7 @@ async def test_subentry_reconfigure(
 
 
 async def test_subentry_flow_entry_not_loaded(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test creating a location subentry when the parent entry is not loaded."""
     await hass.config_entries.async_setup(mock_config_entry.entry_id)

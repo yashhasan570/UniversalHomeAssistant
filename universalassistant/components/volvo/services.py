@@ -9,8 +9,8 @@ from urllib import parse
 from httpx2 import AsyncClient, HTTPError, HTTPStatusError
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, SupportsResponse, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, SupportsResponse, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import service
 from universalassistant.helpers.httpx_client import get_async_client
 
@@ -68,7 +68,7 @@ _IMAGE_ANGLE_MAP = {
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services."""
 
     hass.services.async_register(
@@ -186,13 +186,13 @@ async def _async_image_exists(client: AsyncClient, url: str) -> bool:
             _LOGGER.debug("Image does not exist: %s", url)
             return False
 
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="image_error",
             translation_placeholders={"url": url},
         ) from ex
     except HTTPError as ex:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="image_error",
             translation_placeholders={"url": url},

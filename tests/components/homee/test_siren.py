@@ -14,7 +14,7 @@ from universalassistant.components.siren import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import async_update_attribute_value, build_mock_node, setup_integration
@@ -28,7 +28,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def setup_siren(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_homee: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_homee: MagicMock
 ) -> None:
     """Setups the integration siren tests."""
     mock_homee.nodes = [build_mock_node("siren.json")]
@@ -45,7 +45,7 @@ async def setup_siren(
     ],
 )
 async def test_siren_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     service: str,
@@ -63,7 +63,7 @@ async def test_siren_services(
 
 
 async def test_siren_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_siren_state(
 
 
 async def test_siren_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_homee: MagicMock,
     entity_registry: er.EntityRegistry,

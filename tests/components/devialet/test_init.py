@@ -4,13 +4,13 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN, MediaPlayerState
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import NAME, setup_integration
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the Devialet configuration entry loading and unloading."""
     entry = await setup_integration(hass, aioclient_mock)
@@ -28,7 +28,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_load_unload_config_entry_when_device_unavailable(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test the Devialet config entry loading/unloading when device is unavailable."""
     entry = await setup_integration(hass, aioclient_mock, state="unavailable")

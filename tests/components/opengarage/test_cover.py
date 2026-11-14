@@ -15,12 +15,12 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_CLOSED, STATE_OPEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
 async def _simulate_door_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     door_state: int,
 ) -> None:
@@ -39,7 +39,7 @@ async def _simulate_door_state(
     ids=["closed", "open"],
 )
 async def test_cover_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     init_integration: MockConfigEntry,
     door_state: int,
@@ -56,7 +56,7 @@ async def test_cover_position(
 
 
 async def test_cover_position_during_transition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_cover_position_during_transition(
     ids=["closed_to_open", "open_to_closed"],
 )
 async def test_toggle_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     init_integration: MockConfigEntry,
     initial_door_state: int,
@@ -128,7 +128,7 @@ async def test_toggle_cover(
 
 
 async def test_toggle_does_not_reuse_stale_close_direction(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_toggle_does_not_reuse_stale_close_direction(
     ids=["open", "close"],
 )
 async def test_cover_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opengarage: MagicMock,
     init_integration: MockConfigEntry,
     initial_door_state: int,

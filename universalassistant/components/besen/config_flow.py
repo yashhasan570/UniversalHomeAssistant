@@ -16,7 +16,7 @@ from universalassistant.components.bluetooth import (
     async_discovered_service_info,
 )
 from universalassistant.const import CONF_ADDRESS, CONF_NAME, CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import selector
 
 from .const import DOMAIN
@@ -73,7 +73,7 @@ def _user_schema(
 
 
 async def _async_validate_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     address: str,
     pin: str,

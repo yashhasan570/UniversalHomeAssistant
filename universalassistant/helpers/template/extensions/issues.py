@@ -1,4 +1,4 @@
-"""Issue functions for Universal Universal Home Assistant templates."""
+"""Issue functions for __HA_KEEP__ templates."""
 
 from typing import TYPE_CHECKING, Any
 

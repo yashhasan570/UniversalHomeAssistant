@@ -18,11 +18,11 @@ from universalassistant.components.sentry.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_full_user_flow_implementation(hass: UniversalAssistant) -> None:
+async def test_full_user_flow_implementation(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -53,7 +53,7 @@ async def test_full_user_flow_implementation(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_integration_already_exists(hass: UniversalAssistant) -> None:
+async def test_integration_already_exists(hass: __HAC_KEEP__) -> None:
     """Test we only allow a single config flow."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
 
@@ -64,7 +64,7 @@ async def test_integration_already_exists(hass: UniversalAssistant) -> None:
     assert result.get("reason") == "single_instance_allowed"
 
 
-async def test_user_flow_bad_dsn(hass: UniversalAssistant) -> None:
+async def test_user_flow_bad_dsn(hass: __HAC_KEEP__) -> None:
     """Test we handle bad dsn error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -97,7 +97,7 @@ async def test_user_flow_bad_dsn(hass: UniversalAssistant) -> None:
     assert result3.get("type") is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_flow_unknown_exception(hass: UniversalAssistant) -> None:
+async def test_user_flow_unknown_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle any unknown exception error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -130,7 +130,7 @@ async def test_user_flow_unknown_exception(hass: UniversalAssistant) -> None:
     assert result3.get("type") is FlowResultType.CREATE_ENTRY
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test options config flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,

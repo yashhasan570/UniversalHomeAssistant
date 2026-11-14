@@ -10,8 +10,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.update import ATTR_LATEST_VERSION
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -23,7 +23,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -33,7 +33,7 @@ async def test_update(
 
 
 async def test_update_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_update_disabled(
 
 
 async def test_update_no_new_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -69,7 +69,7 @@ async def test_update_no_new_version(
 
 
 async def test_update_check_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_update_check_failed(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_update_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
 ) -> None:
     """Test the adguard update installation."""
@@ -106,13 +106,13 @@ async def test_update_install(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_update_install_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
 ) -> None:
     """Test the adguard update install failed."""
     mock_adguard.update.install.side_effect = AdGuardHomeError("boom")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "update",
             "install",

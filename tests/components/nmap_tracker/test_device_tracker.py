@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_HOME,
     STATE_NOT_HOME,
 )
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 CLIENT_MAC = "aa:bb:cc:dd:ee:ff"
@@ -73,7 +73,7 @@ def mock_port_scanner() -> Generator[MagicMock]:
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return the default mocked config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -91,8 +91,8 @@ def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
     return entry
 
 
-async def _async_setup_at_startup(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
-    """Set up the entry before Universal Universal Home Assistant has started."""
+async def _async_setup_at_startup(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
+    """Set up the entry before __HA_KEEP__ has started."""
     hass.set_state(CoreState.not_running)
     assert await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
@@ -111,7 +111,7 @@ NO_HOSTNAME = [
 @pytest.mark.parametrize("no_hostname", NO_HOSTNAME)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_hostname_change_renames_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_port_scanner: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -158,7 +158,7 @@ async def test_hostname_change_renames_device(
 @pytest.mark.parametrize("no_hostname", NO_HOSTNAME)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_client_without_hostname(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_port_scanner: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -184,7 +184,7 @@ async def test_client_without_hostname(
 @pytest.mark.parametrize("no_hostname", NO_HOSTNAME)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_startup_without_hostname_keeps_device_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_port_scanner: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -227,7 +227,7 @@ async def test_startup_without_hostname_keeps_device_name(
     ],
 )
 async def test_restoring_client_name_with_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_port_scanner: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -264,7 +264,7 @@ async def test_restoring_client_name_with_device(
 
 
 async def test_restoring_client_name_without_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_port_scanner: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

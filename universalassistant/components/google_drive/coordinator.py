@@ -7,7 +7,7 @@ from typing import override
 from google_drive_api.exceptions import GoogleDriveApiError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .api import DriveClient, StorageQuotaData
@@ -36,7 +36,7 @@ class GoogleDriveDataUpdateCoordinator(DataUpdateCoordinator[SensorData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         *,
         client: DriveClient,
         backup_folder_id: str,

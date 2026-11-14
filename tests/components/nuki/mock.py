@@ -4,7 +4,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.nuki.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 NAME = "Nuki_Bridge_BC614E"
 HOST = "1.1.1.1"
@@ -17,7 +17,7 @@ ID_HEX = "BC614E"
 MOCK_INFO = load_json_object_fixture("info.json", DOMAIN)
 
 
-async def setup_nuki_integration(hass: UniversalAssistant) -> MockConfigEntry:
+async def setup_nuki_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create the Nuki device."""
 
     entry = MockConfigEntry(

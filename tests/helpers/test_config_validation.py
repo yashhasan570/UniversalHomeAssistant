@@ -21,8 +21,8 @@ import py
 import pytest
 
 import universalassistant
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     config_validation as cv,
     issue_registry as ir,
@@ -927,7 +927,7 @@ def test_service() -> None:
         {"action": "light.turn_on", "target": "{{ {'area_id': 'kitchen'} }}"},
     ],
 )
-def test_service_schema(hass: UniversalAssistant, config: dict[str, Any]) -> None:
+def test_service_schema(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
     """Test service_schema validation."""
     validated = cv.SERVICE_SCHEMA(config)
 
@@ -975,7 +975,7 @@ def test_service_schema(hass: UniversalAssistant, config: dict[str, Any]) -> Non
     ],
 )
 def test_invalid_service_schema(
-    hass: UniversalAssistant, config: dict[str, Any] | None
+    hass: __HAC_KEEP__, config: dict[str, Any] | None
 ) -> None:
     """Test service_schema validation fails."""
     with pytest.raises(probatio.MultipleInvalid):
@@ -1165,7 +1165,7 @@ def test_slug() -> None:
         schema(value)
 
 
-def test_string(hass: UniversalAssistant) -> None:
+def test_string(hass: __HAC_KEEP__) -> None:
     """Test string validation."""
     schema = probatio.Schema(cv.string)
 
@@ -1252,7 +1252,7 @@ def test_x10_address() -> None:
     schema("C11")
 
 
-def test_template(hass: UniversalAssistant) -> None:
+def test_template(hass: __HAC_KEEP__) -> None:
     """Test template validator."""
     schema = probatio.Schema(cv.template)
 
@@ -1270,9 +1270,9 @@ def test_template(hass: UniversalAssistant) -> None:
         "Hello",
         "{{ beer }}",
         "{% if 1 == 1 %}Hello{% else %}World{% endif %}",
-        # Function 'expand' added as an extension by Universal Universal Home Assistant
+        # Function 'expand' added as an extension by __HA_KEEP__
         "{{ expand('group.foo')|map(attribute='entity_id')|list }}",
-        # Filter 'expand' added as an extension by Universal Universal Home Assistant
+        # Filter 'expand' added as an extension by __HA_KEEP__
         "{{ ['group.foo']|expand|map(attribute='entity_id')|list }}",
         # Non existing function 'no_such_function' is not detected by Jinja2
         "{{ no_such_function('group.foo')|map(attribute='entity_id')|list }}",
@@ -1281,7 +1281,7 @@ def test_template(hass: UniversalAssistant) -> None:
         schema(value)
 
 
-async def test_template_no_hass(hass: UniversalAssistant) -> None:
+async def test_template_no_hass(hass: __HAC_KEEP__) -> None:
     """Test template validator."""
     schema = probatio.Schema(cv.template)
 
@@ -1290,7 +1290,7 @@ async def test_template_no_hass(hass: UniversalAssistant) -> None:
         "{{ partial_print }",
         "{% if True %}Hello",
         ["test"],
-        # Filter added as an extension by Universal Universal Home Assistant
+        # Filter added as an extension by __HA_KEEP__
         "{{ ['group.foo']|expand|map(attribute='entity_id')|list }}",
     ):
         with pytest.raises(probatio.Invalid):
@@ -1301,7 +1301,7 @@ async def test_template_no_hass(hass: UniversalAssistant) -> None:
         "Hello",
         "{{ beer }}",
         "{% if 1 == 1 %}Hello{% else %}World{% endif %}",
-        # Function 'expand' added as an extension by Universal Universal Home Assistant, no error
+        # Function 'expand' added as an extension by __HA_KEEP__, no error
         # because non existing functions are not detected by Jinja2
         "{{ expand('group.foo')|map(attribute='entity_id')|list }}",
         # Non existing function 'no_such_function' is not detected by Jinja2
@@ -1314,7 +1314,7 @@ async def test_template_no_hass(hass: UniversalAssistant) -> None:
             await hass.async_add_executor_job(schema, value)
 
 
-def test_dynamic_template(hass: UniversalAssistant) -> None:
+def test_dynamic_template(hass: __HAC_KEEP__) -> None:
     """Test dynamic template validator."""
     schema = probatio.Schema(cv.dynamic_template)
 
@@ -1332,9 +1332,9 @@ def test_dynamic_template(hass: UniversalAssistant) -> None:
     options = (
         "{{ beer }}",
         "{% if 1 == 1 %}Hello{% else %}World{% endif %}",
-        # Function 'expand' added as an extension by Universal Universal Home Assistant
+        # Function 'expand' added as an extension by __HA_KEEP__
         "{{ expand('group.foo')|map(attribute='entity_id')|list }}",
-        # Filter 'expand' added as an extension by Universal Universal Home Assistant
+        # Filter 'expand' added as an extension by __HA_KEEP__
         "{{ ['group.foo']|expand|map(attribute='entity_id')|list }}",
         # Non existing function 'no_such_function' is not detected by Jinja2
         "{{ no_such_function('group.foo')|map(attribute='entity_id')|list }}",
@@ -1818,14 +1818,14 @@ def test_deprecated_with_replacement_key(
         pytest.param(
             None,
             {"mars": True},
-            "The 'mars' option is deprecated and will be removed in Universal Universal Home Assistant "
+            "The 'mars' option is deprecated and will be removed in __HA_KEEP__ "
             "2027.6, please remove it from your configuration",
             id="no_replacement_key",
         ),
         pytest.param(
             "jupiter",
             {"jupiter": True},
-            "The 'mars' option is deprecated and will be removed in Universal Universal Home Assistant "
+            "The 'mars' option is deprecated and will be removed in __HA_KEEP__ "
             "2027.6, please replace it with 'jupiter'",
             id="replacement_key",
         ),
@@ -1865,7 +1865,7 @@ def test_deprecated_with_breaks_in_ha_version_and_raise(
     with pytest.raises(
         probatio.Invalid,
         match=(
-            "The 'mars' option is deprecated and will be removed in Universal Universal Home Assistant "
+            "The 'mars' option is deprecated and will be removed in __HA_KEEP__ "
             "2027.6, please remove it from your configuration"
         ),
     ):
@@ -2913,7 +2913,7 @@ def test_condition_shorthand(
     assert schema(config) == expected
 
 
-async def test_condition_shorthand_template(hass: UniversalAssistant) -> None:
+async def test_condition_shorthand_template(hass: __HAC_KEEP__) -> None:
     """Test condition shorthands with a template condition."""
     validated_template = template.Template("{{ true }}", hass)
 
@@ -3503,7 +3503,7 @@ def test_empty_schema_cant_find_module() -> None:
 
 
 def test_config_entry_only_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -3534,14 +3534,14 @@ def test_config_entry_only_schema_cant_find_module() -> None:
 
 
 def test_config_entry_only_schema_no_hass(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test if the hass context is not set in our context."""
     with patch(
         "universalassistant.helpers.config_validation.async_get_hass",
-        side_effect=UniversalAssistantError,
+        side_effect=__HAC_KEEP__Error,
     ):
         cv.config_entry_only_config_schema("test_domain")(
             {"test_domain": {"foo": "bar"}}
@@ -3555,7 +3555,7 @@ def test_config_entry_only_schema_no_hass(
 
 
 def test_platform_only_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -3644,7 +3644,7 @@ def test_determine_script_action_non_ambiguous() -> None:
     assert cv.determine_script_action({"delay": "00:00:05"}) == "delay"
 
 
-async def test_async_validate(hass: UniversalAssistant, tmpdir: py.path.local) -> None:
+async def test_async_validate(hass: __HAC_KEEP__, tmpdir: py.path.local) -> None:
     """Test the async_validate helper."""
     validator_calls: dict[str, list[int]] = {}
 
@@ -3987,7 +3987,7 @@ async def test_trigger_backwards_compatibility() -> None:
 
 
 async def test_is_entity_service_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test cv.is_entity_service_schema."""
     for schema in (

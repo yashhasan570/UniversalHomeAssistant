@@ -12,13 +12,13 @@ from pytest_universalassistant.typing import WebSocketGenerator
 from universalassistant.components.mysensors import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_gateway_setup_failed(
-    hass: UniversalAssistant, serial_entry: MockConfigEntry
+    hass: __HAC_KEEP__, serial_entry: MockConfigEntry
 ) -> None:
     """Test setup fails when the gateway can't be set up."""
     serial_entry.add_to_hass(hass)
@@ -32,7 +32,7 @@ async def test_gateway_setup_failed(
 
 
 async def test_load_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     door_sensor: Sensor,
     transport: MagicMock,
     integration: MockConfigEntry,
@@ -77,7 +77,7 @@ async def test_load_unload(
 
 @pytest.mark.usefixtures("door_sensor")
 async def test_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     transport: MagicMock,
     integration: MockConfigEntry,
 ) -> None:
@@ -103,7 +103,7 @@ async def test_reload(
 
 @pytest.mark.usefixtures("text_node", "integration")
 async def test_disabling_entity_keeps_other_platforms_dev_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     receive_message: Callable[[str], None],
     caplog: pytest.LogCaptureFixture,
@@ -142,7 +142,7 @@ async def test_disabling_entity_keeps_other_platforms_dev_id(
 
 
 async def test_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     gps_sensor: Sensor,
@@ -182,7 +182,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     integration: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,

@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -71,7 +71,7 @@ type BSBLanConfigEntry = ConfigEntry[BSBLanData]
 
 @dataclasses.dataclass
 class BSBLanData:
-    """BSBLan data stored in the Universal Universal Home Assistant data object."""
+    """BSBLan data stored in the __HA_KEEP__ data object."""
 
     fast_coordinator: BSBLanFastCoordinator
     slow_coordinator: BSBLanSlowCoordinator
@@ -109,7 +109,7 @@ def get_bsblan_device_info(
     )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the BSB-LAN integration."""
     async_setup_services(hass)
     return True
@@ -133,7 +133,7 @@ def _is_reduced_api_mode(json_api_version: str | None) -> bool:
 
 
 def _async_manage_outdated_firmware_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BSBLanConfigEntry,
     firmware_version: str,
     json_api_version: str | None,
@@ -160,7 +160,7 @@ def _async_manage_outdated_firmware_issue(
         ir.async_delete_issue(hass, DOMAIN, issue_id)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BSBLanConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BSBLanConfigEntry) -> None:
     """Set up BSB-LAN from a config entry."""
 
     # create config using BSBLANConfig
@@ -302,12 +302,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BSBLanConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BSBLanConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BSBLanConfigEntry) -> None:
     """Unload BSBLAN config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: BSBLanConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: BSBLanConfigEntry) -> None:
     """Migrate old config entries to the latest schema."""
     LOGGER.debug(
         "Migrating BSB-LAN entry from version %s.%s",

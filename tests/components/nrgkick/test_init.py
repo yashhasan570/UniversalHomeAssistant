@@ -20,14 +20,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.nrgkick.const import DEFAULT_SCAN_INTERVAL, DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 
 from . import setup_integration
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_entry_setup_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     exception: Exception,
@@ -112,7 +112,7 @@ async def test_entry_setup_errors(
 
 
 async def test_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -129,7 +129,7 @@ async def test_device(
 
 
 async def test_json_api_disabled_at_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     issue_registry: ir.IssueRegistry,
@@ -158,7 +158,7 @@ async def test_json_api_disabled_at_setup(
 
 
 async def test_json_api_disabled_at_runtime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nrgkick_api: AsyncMock,
     issue_registry: ir.IssueRegistry,

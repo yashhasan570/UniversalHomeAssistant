@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 import universalassistant.helpers.device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH
 
@@ -19,7 +19,7 @@ from .conftest import DEFAULT_NAME
 
 @pytest.mark.usefixtures("mock_pynecil", "ble_device")
 async def test_setup_and_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test integration setup and unload."""
@@ -38,7 +38,7 @@ async def test_setup_and_unload(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "ble_device")
 async def test_settings_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -63,7 +63,7 @@ async def test_settings_exception(
     "entity_registry_enabled_by_default", "mock_pynecil", "ble_device"
 )
 async def test_v223_entities_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
 ) -> None:
@@ -93,7 +93,7 @@ async def test_v223_entities_not_loaded(
 
 @pytest.mark.usefixtures("ble_device")
 async def test_device_info_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
     device_registry: dr.DeviceRegistry,

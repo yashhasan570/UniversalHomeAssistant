@@ -18,12 +18,12 @@ from universalassistant.components.dnsip.const import (
 )
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import RetrieveDNS
 
 
-async def test_load_unload_entry(hass: UniversalAssistant) -> None:
+async def test_load_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test load and unload an entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -59,7 +59,7 @@ async def test_load_unload_entry(hass: UniversalAssistant) -> None:
 
 
 async def test_port_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test migration of the config entry from no ports to with ports."""
 
@@ -98,7 +98,7 @@ async def test_port_migration(
 
 
 async def test_remove_unique_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test migration of the config entry removing the unique_id."""
 
@@ -137,7 +137,7 @@ async def test_remove_unique_id_migration(
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_migrate_error_from_future(hass: UniversalAssistant) -> None:
+async def test_migrate_error_from_future(hass: __HAC_KEEP__) -> None:
     """Test a future version isn't migrated."""
 
     entry = MockConfigEntry(
@@ -179,7 +179,7 @@ async def test_migrate_error_from_future(hass: UniversalAssistant) -> None:
         DNSError(),
     ],
 )
-async def test_setup_dns_error(hass: UniversalAssistant, error: Exception) -> None:
+async def test_setup_dns_error(hass: __HAC_KEEP__, error: Exception) -> None:
     """Test setup raises ConfigEntryNotReady when DNS lookup fails."""
 
     entry = MockConfigEntry(
@@ -212,7 +212,7 @@ async def test_setup_dns_error(hass: UniversalAssistant, error: Exception) -> No
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_setup_ipv6_only(hass: UniversalAssistant) -> None:
+async def test_setup_ipv6_only(hass: __HAC_KEEP__) -> None:
     """Test setup with only IPv6 enabled creates only the IPv6 entity."""
 
     entry = MockConfigEntry(
@@ -247,7 +247,7 @@ async def test_setup_ipv6_only(hass: UniversalAssistant) -> None:
     assert hass.states.get("sensor.universal_assistant_io") is None
 
 
-async def test_setup_dns_timeout(hass: UniversalAssistant) -> None:
+async def test_setup_dns_timeout(hass: __HAC_KEEP__) -> None:
     """Test setup raises ConfigEntryNotReady when DNS lookup times out."""
 
     entry = MockConfigEntry(

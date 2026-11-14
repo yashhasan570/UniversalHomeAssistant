@@ -23,7 +23,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.duco.const import BOX_NODE_ID, DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import async_fire_coordinator_update, setup_platform_integration
@@ -52,7 +52,7 @@ VENTILATION_TEMPERATURE_ENTITY_IDS = (
     ],
 )
 async def test_ventilation_related_sensors_created_for_supported_node_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -105,7 +105,7 @@ async def test_ventilation_related_sensors_created_for_supported_node_types(
     ],
 )
 async def test_ventilation_related_sensors_created_for_box_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -153,7 +153,7 @@ async def test_ventilation_related_sensors_created_for_box_node(
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -165,7 +165,7 @@ async def init_integration(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensor_entities_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -176,7 +176,7 @@ async def test_sensor_entities_state(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_iaq_sensor_entities_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that IAQ sensor entities are disabled by default."""
@@ -196,7 +196,7 @@ async def test_iaq_sensor_entities_disabled_by_default(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_diagnostic_sensor_entities_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that diagnostic sensor entities are disabled by default."""
@@ -215,7 +215,7 @@ async def test_diagnostic_sensor_entities_disabled_by_default(
     ],
 )
 async def test_coordinator_update_failure_marks_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_duco_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
     exception_type: type[DucoError],
@@ -240,7 +240,7 @@ async def test_coordinator_update_failure_marks_unavailable(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_info_overview_failures_keep_node_entities_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_duco_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
     exception: Exception,
@@ -267,7 +267,7 @@ async def test_info_overview_failures_keep_node_entities_available(
     ],
 )
 async def test_time_filter_remaining_is_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -295,7 +295,7 @@ async def test_time_filter_remaining_is_retried(
 
 
 async def test_empty_ventilation_temperatures_are_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -324,7 +324,7 @@ async def test_empty_ventilation_temperatures_are_retried(
 
 
 async def test_partial_ventilation_temperatures_only_expose_available_sensor_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
 ) -> None:
@@ -380,7 +380,7 @@ async def test_partial_ventilation_temperatures_only_expose_available_sensor_val
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_new_node_added_dynamically(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -410,7 +410,7 @@ async def test_new_node_added_dynamically(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_deregistered_node_removes_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
     mock_config_entry: MockConfigEntry,
@@ -440,7 +440,7 @@ async def test_deregistered_node_removes_device(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_box_node_not_removed_on_transient_incomplete_node_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -498,7 +498,7 @@ async def test_box_node_not_removed_on_transient_incomplete_node_list(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_unknown_node_type_logs_warning_and_creates_no_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -537,7 +537,7 @@ async def test_unknown_node_type_logs_warning_and_creates_no_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_previously_unknown_node_gets_entities_after_type_becomes_known(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -590,7 +590,7 @@ async def test_previously_unknown_node_gets_entities_after_type_becomes_known(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_unknown_node_logged_at_debug_when_data_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
@@ -642,7 +642,7 @@ async def test_unknown_node_logged_at_debug_when_data_changes(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_ventilation_state_unknown_returns_state_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_duco_client: AsyncMock,
     mock_sensor_nodes: list[Node],
     freezer: FrozenDateTimeFactory,

@@ -21,8 +21,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -35,7 +35,7 @@ from .common import (
 
 
 async def test_switch_entity(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the creation and values of the Rituals Perfume Genie diffuser switch."""
     config_entry = mock_config_entry(unique_id="id_123_switch_test")
@@ -51,7 +51,7 @@ async def test_switch_entity(
     assert entry.unique_id == f"{diffuser.hublot}-is_on"
 
 
-async def test_switch_handle_coordinator_update(hass: UniversalAssistant) -> None:
+async def test_switch_handle_coordinator_update(hass: __HAC_KEEP__) -> None:
     """Test handling a coordinator update."""
     config_entry = mock_config_entry(unique_id="switch_handle_coordinator_update_test")
     diffuser = mock_diffuser_v1_battery_cartridge()
@@ -83,7 +83,7 @@ async def test_switch_handle_coordinator_update(hass: UniversalAssistant) -> Non
 
 
 async def test_device_info(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the device info, with the model and firmware from Rituals."""
     diffuser = mock_diffuser(hublot="lot123device", model="Genie 3.0", version="7.1")
@@ -99,7 +99,7 @@ async def test_device_info(
     assert device_entry.sw_version == "7.1"
 
 
-async def test_set_switch_state(hass: UniversalAssistant) -> None:
+async def test_set_switch_state(hass: __HAC_KEEP__) -> None:
     """Test changing the diffuser switch entity state."""
     config_entry = mock_config_entry(unique_id="id_123_switch_set_state_test")
     diffuser = mock_diffuser_v1_battery_cartridge()
@@ -135,7 +135,7 @@ async def test_set_switch_state(hass: UniversalAssistant) -> None:
 
 
 async def test_standby_led(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test turning the standby LED of a diffuser on and off."""
     config_entry = mock_config_entry(unique_id="id_123_standby_led")
@@ -177,7 +177,7 @@ async def test_standby_led(
     assert state.state == STATE_OFF
 
 
-async def test_standby_led_unsupported(hass: UniversalAssistant) -> None:
+async def test_standby_led_unsupported(hass: __HAC_KEEP__) -> None:
     """Test a diffuser without a standby LED setting gets no switch for it."""
     config_entry = mock_config_entry(unique_id="id_123_standby_led_unsupported")
     await init_integration(
@@ -197,14 +197,14 @@ async def test_standby_led_unsupported(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_switch_action_error(
-    hass: UniversalAssistant, exception: Exception, translation_key: str
+    hass: __HAC_KEEP__, exception: Exception, translation_key: str
 ) -> None:
     """Test a failing action raises a translated error."""
     config_entry = mock_config_entry(unique_id="id_123_switch_action_error")
     client = await init_integration(hass, config_entry, [mock_diffuser("lot123")])
     client.turn_off.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -218,13 +218,13 @@ async def test_switch_action_error(
     assert state.state == STATE_ON
 
 
-async def test_switch_action_authentication_error(hass: UniversalAssistant) -> None:
+async def test_switch_action_authentication_error(hass: __HAC_KEEP__) -> None:
     """Test rejected credentials during an action start a reauthentication."""
     config_entry = mock_config_entry(unique_id="id_123_switch_action_auth")
     client = await init_integration(hass, config_entry, [mock_diffuser("lot123")])
     client.turn_off.side_effect = RitualsGenieAuthenticationError
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

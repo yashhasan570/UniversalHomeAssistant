@@ -30,7 +30,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components import conversation
 from universalassistant.components.llama_cpp.const import CONF_STREAMING
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import intent
 from universalassistant.setup import async_setup_component
 
@@ -54,7 +54,7 @@ def mock_ulid() -> Generator[AsyncMock]:
 
 @pytest.fixture(autouse=True)
 async def mock_setup_integration_fixture(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Setup the integration."""
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
@@ -62,7 +62,7 @@ async def mock_setup_integration_fixture(
 
 
 async def test_conversation_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -111,7 +111,7 @@ async def test_conversation_entity(
     [({CONF_STREAMING: True}, True), ({CONF_STREAMING: False}, False)],
 )
 async def test_conversation_entity_streaming_support(
-    hass: UniversalAssistant, supports_streaming: bool
+    hass: __HAC_KEEP__, supports_streaming: bool
 ) -> None:
     """Verify the conversation entity advertises streaming support."""
     agent_info = conversation.async_get_agent_info(
@@ -124,7 +124,7 @@ async def test_conversation_entity_streaming_support(
 
 @pytest.mark.parametrize(("config_entry_options"), [ASSIST_OPTIONS])
 async def test_function_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -216,7 +216,7 @@ async def test_function_call(
 
 @pytest.mark.parametrize(("config_entry_options"), [ASSIST_OPTIONS])
 async def test_function_call_with_datetime_tool_results(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -319,7 +319,7 @@ async def test_function_call_with_datetime_tool_results(
     ],
 )
 async def test_function_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,
     mock_config_entry: MockConfigEntry,
     tool_arguments: str,
@@ -407,7 +407,7 @@ async def test_function_exception(
 
 @pytest.mark.parametrize(("config_entry_options"), [ASSIST_OPTIONS])
 async def test_assist_api_tools_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that we are able to convert actual tools from Assist API."""
@@ -462,7 +462,7 @@ async def test_assist_api_tools_conversion(
 
 @pytest.mark.parametrize(("config_entry_options"), [{CONF_STREAMING: True}])
 async def test_streaming_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -535,7 +535,7 @@ async def test_streaming_response(
 
 @pytest.mark.parametrize(("config_entry_options"), [{CONF_STREAMING: True}])
 async def test_streaming_response_redundant_role(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -635,7 +635,7 @@ def _tool_call_delta(
 
 @pytest.mark.parametrize(("config_entry_options"), [{CONF_STREAMING: True}])
 async def test_streaming_response_content_in_final_chunk(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -666,7 +666,7 @@ async def test_streaming_response_content_in_final_chunk(
     ("config_entry_options"), [{CONF_STREAMING: True, **ASSIST_OPTIONS}]
 )
 async def test_streaming_tool_call_arguments_in_final_chunk(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -741,7 +741,7 @@ async def test_streaming_tool_call_arguments_in_final_chunk(
     ],
 )
 async def test_streaming_response_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,
     mock_config_entry: MockConfigEntry,
     error: openai.OpenAIError,
@@ -786,7 +786,7 @@ async def test_streaming_response_error(
     ("config_entry_options"), [{CONF_LLM_HASS_API: ["non-existing"]}]
 )
 async def test_unknown_hass_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -799,7 +799,7 @@ async def test_unknown_hass_api(
 
 
 async def test_conversation_agent_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test handling of OpenAI API connection errors in conversation entity."""
@@ -825,7 +825,7 @@ async def test_conversation_agent_error(
 
 
 async def test_conversation_agent_structured_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test handling of OpenAI API structured errors in conversation entity."""

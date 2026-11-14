@@ -37,7 +37,7 @@ from universalassistant.components.ecovacs.const import DOMAIN
 from universalassistant.components.ecovacs.controller import EcovacsController
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .util import block_till_done
@@ -163,7 +163,7 @@ class SwitchTestCase:
     ids=["yna5x1", "5xu9h3", "55uoqe"],
 )
 async def test_switch_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -246,7 +246,7 @@ async def test_switch_entities(
     ids=["yna5x1", "5xu9h3", "55uoqe"],
 )
 async def test_disabled_by_default_switch_entities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, entity_ids: list[str]
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, entity_ids: list[str]
 ) -> None:
     """Test the disabled by default switch entities."""
     for entity_id in entity_ids:

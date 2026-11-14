@@ -1,7 +1,7 @@
 """The NZBGet integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -13,7 +13,7 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS = [Platform.SENSOR, Platform.SWITCH]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up NZBGet integration."""
 
     async_setup_services(hass)
@@ -21,7 +21,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NZBGetConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NZBGetConfigEntry) -> None:
     """Set up NZBGet from a config entry."""
     coordinator = NZBGetDataUpdateCoordinator(hass, entry)
 
@@ -34,11 +34,11 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NZBGetConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NZBGetConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NZBGetConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def _async_update_listener(hass: UniversalAssistant, entry: NZBGetConfigEntry) -> None:
+async def _async_update_listener(hass: __HAC_KEEP__, entry: NZBGetConfigEntry) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)

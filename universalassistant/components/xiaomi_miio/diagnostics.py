@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_DEVICE, CONF_MAC, CONF_TOKEN, CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_CLOUD_PASSWORD, CONF_CLOUD_USERNAME, CONF_FLOW_TYPE
 from .typing import XiaomiMiioConfigEntry
@@ -19,7 +19,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: XiaomiMiioConfigEntry
+    hass: __HAC_KEEP__, config_entry: XiaomiMiioConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     diagnostics_data: dict[str, Any] = {

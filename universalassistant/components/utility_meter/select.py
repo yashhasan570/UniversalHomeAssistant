@@ -6,7 +6,7 @@ from typing import override
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN, SelectEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME, CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device import async_entity_id_to_device
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 from universalassistant.helpers.entity_platform import (
@@ -23,7 +23,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -48,7 +48,7 @@ async def async_setup_entry(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     conf: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

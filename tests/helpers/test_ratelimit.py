@@ -3,11 +3,11 @@
 import asyncio
 import time
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import ratelimit
 
 
-async def test_hit(hass: UniversalAssistant) -> None:
+async def test_hit(hass: __HAC_KEEP__) -> None:
     """Test hitting the rate limit."""
 
     refresh_called = False
@@ -38,7 +38,7 @@ async def test_hit(hass: UniversalAssistant) -> None:
     rate_limiter.async_remove()
 
 
-async def test_miss(hass: UniversalAssistant) -> None:
+async def test_miss(hass: __HAC_KEEP__) -> None:
     """Test missing the rate limit."""
 
     refresh_called = False
@@ -63,7 +63,7 @@ async def test_miss(hass: UniversalAssistant) -> None:
     rate_limiter.async_remove()
 
 
-async def test_no_limit(hass: UniversalAssistant) -> None:
+async def test_no_limit(hass: __HAC_KEEP__) -> None:
     """Test async_schedule_action always return None when there is no rate limit."""
 
     refresh_called = False

@@ -8,7 +8,7 @@ import aioharmony.exceptions as aioexc
 from aioharmony.harmonyapi import HarmonyAPI as HarmonyClient
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.device_registry import DeviceInfo
 
@@ -27,7 +27,7 @@ class HarmonyData(HarmonySubscriberMixin):
     _client: HarmonyClient
 
     def __init__(
-        self, hass: UniversalAssistant, address: str, name: str, unique_id: str | None
+        self, hass: __HAC_KEEP__, address: str, name: str, unique_id: str | None
     ) -> None:
         """Initialize a data object."""
         super().__init__(hass)

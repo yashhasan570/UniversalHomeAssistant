@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.sensor import ATTR_STATE_CLASS, SensorStateClass
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.util import dt as dt_util
@@ -34,7 +34,7 @@ def platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_session")
 async def test_open_windows_doors_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -90,7 +90,7 @@ async def test_open_windows_doors_sensor(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_valve_tappet_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A thermostat's valve motor status is exposed as an ENUM sensor."""
@@ -108,7 +108,7 @@ async def test_thermostat_valve_tappet_state(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_valvetappet_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_thermostat_valvetappet_disabled_by_default(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_valvetappet_state_attribute_preserved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -175,7 +175,7 @@ async def test_thermostat_valvetappet_state_attribute_preserved(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_room_thermostat_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A Room Thermostat II exposes room temperature, humidity and floor temperature."""
@@ -205,7 +205,7 @@ async def test_room_thermostat_sensors(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_room_thermostat_optional_sensors_absent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Humidity and floor temperature are skipped when the device has none."""
@@ -235,7 +235,7 @@ async def test_room_thermostat_optional_sensors_absent(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_room_thermostat_no_floor_temperature_for_other_probe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A terminal reading from a non-floor probe is not labeled as floor temperature."""
@@ -283,7 +283,7 @@ def _siren_power_supply() -> MagicMock:
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_twinguard_humidity_is_measurement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Twinguard humidity is a measurement so long-term statistics are kept."""
@@ -302,7 +302,7 @@ async def test_twinguard_humidity_is_measurement(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_outdoor_siren_power_supply_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The siren reports battery level, power source and solar charging."""
@@ -320,7 +320,7 @@ async def test_outdoor_siren_power_supply_sensors(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_outdoor_siren_without_power_supply(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No power-supply sensors are created without power-supply support."""

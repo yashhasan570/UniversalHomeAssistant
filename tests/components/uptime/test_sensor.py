@@ -5,14 +5,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.uptime.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.freeze_time("2022-03-01 00:00:00+00:00")
 async def test_uptime_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,

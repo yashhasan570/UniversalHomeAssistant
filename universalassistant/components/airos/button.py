@@ -1,4 +1,4 @@
-"""AirOS button component for Universal Universal Home Assistant."""
+"""AirOS button component for __HA_KEEP__."""
 
 from typing import override
 
@@ -9,8 +9,8 @@ from universalassistant.components.button import (
     ButtonEntity,
     ButtonEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -27,7 +27,7 @@ REBOOT_BUTTON = ButtonEntityDescription(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AirOSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -61,13 +61,13 @@ class AirOSRebootButton(AirOSEntity, ButtonEntity):
             result = await self.coordinator.airos_device.reboot()
 
         except AirOSException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
             ) from err
 
         if not result:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="reboot_failed",
             ) from None

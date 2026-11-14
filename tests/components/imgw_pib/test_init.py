@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.components.imgw_pib.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
 
 
 async def test_config_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test for setup failure if the connection to the service fails."""
@@ -29,7 +29,7 @@ async def test_config_not_ready(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imgw_pib_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -47,7 +47,7 @@ async def test_unload_entry(
 
 
 async def test_remove_binary_sensor_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imgw_pib_client: AsyncMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

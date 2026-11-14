@@ -9,7 +9,7 @@ from modbus_connection import ModbusError
 from propcache.api import cached_property
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -39,7 +39,7 @@ class E3dcDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: E3dcConfigEntry,
         device: E3dcPowerStation,
     ) -> None:

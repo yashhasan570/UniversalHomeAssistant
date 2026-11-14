@@ -7,7 +7,7 @@ from typing import Any, Concatenate
 from pyblu import Player, SyncStatus
 from pyblu.errors import PlayerError, PlayerUnreachableError
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import (
     CONNECTION_NETWORK_MAC,
@@ -24,7 +24,7 @@ from .utils import format_unique_id
 def bluesound_exception_handler[_BluesoundEntityT: BluesoundEntity, **_P](
     func: Callable[Concatenate[_BluesoundEntityT, _P], Coroutine[Any, Any, None]],
 ) -> Callable[Concatenate[_BluesoundEntityT, _P], Coroutine[Any, Any, None]]:
-    """Decorate Bluesound actions to raise player errors as UniversalAssistantError."""
+    """Decorate Bluesound actions to raise player errors as __HAC_KEEP__Error."""
 
     @wraps(func)
     async def handler(
@@ -33,13 +33,13 @@ def bluesound_exception_handler[_BluesoundEntityT: BluesoundEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except PlayerUnreachableError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="player_unreachable",
                 translation_placeholders={"error": str(error)},
             ) from error
         except PlayerError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="unexpected_response",
                 translation_placeholders={"error": str(error)},

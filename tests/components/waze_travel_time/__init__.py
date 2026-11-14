@@ -5,11 +5,11 @@ from universalassistant.components.waze_travel_time.const import (
     DEFAULT_OPTIONS,
 )
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def get_default_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> dict[str, str | bool | list[str] | dict[str, int] | dict[str, float]]:
     """Return the default options for Waze Travel Time."""
     return {

@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import (
     micromodule_dimmer_device,
@@ -50,7 +50,7 @@ ENTER_DURATION_COMPACT_ENTITY_ID = (
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_micromodule_impulse_relay_impulse_length_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The impulse length is reported, converted from tenths of a second."""
@@ -68,7 +68,7 @@ async def test_micromodule_impulse_relay_impulse_length_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_micromodule_impulse_relay_impulse_length_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_micromodule_impulse_relay_impulse_length_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_micromodule_impulse_relay_no_impulse_length_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No number entity is created for a relay without impulse-length support."""
@@ -117,7 +117,7 @@ async def test_micromodule_impulse_relay_no_impulse_length_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_micromodule_impulse_relay_impulse_length_partial_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The entity is still created if the initial poll omits the field."""
@@ -135,7 +135,7 @@ async def test_micromodule_impulse_relay_impulse_length_partial_poll(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_shutter_contact2_bypass_timeout_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The bypass timeout is reported in minutes."""
@@ -153,7 +153,7 @@ async def test_shutter_contact2_bypass_timeout_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_shutter_contact2_bypass_timeout_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_shutter_contact2_bypass_timeout_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_power_threshold_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The power threshold is reported for both smart plug variants."""
@@ -218,7 +218,7 @@ async def test_smart_plug_power_threshold_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_power_threshold_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_smart_plug_power_threshold_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_no_power_threshold_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No entity is created without energy-saving or a power threshold."""
@@ -284,7 +284,7 @@ async def test_smart_plug_no_power_threshold_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_enter_duration_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The enter duration is reported for both smart plug variants."""
@@ -313,7 +313,7 @@ async def test_smart_plug_enter_duration_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_enter_duration_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -349,7 +349,7 @@ async def test_smart_plug_enter_duration_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_no_enter_duration_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No entity is created without energy-saving or an enter duration."""
@@ -366,7 +366,7 @@ async def test_smart_plug_no_enter_duration_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_offset_value_and_bounds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The offset and the bounds reported by the device are exposed."""
@@ -390,7 +390,7 @@ async def test_thermostat_offset_value_and_bounds(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_offset_non_positive_step_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A non-positive device step size falls back to 0.5."""
@@ -408,7 +408,7 @@ async def test_thermostat_offset_non_positive_step_fallback(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_offset_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -435,7 +435,7 @@ async def test_thermostat_offset_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_offset_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No number is created without temperature offset support."""
@@ -468,7 +468,7 @@ async def test_thermostat_offset_unsupported(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_other_thermostat_families_offset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_id: str,
 ) -> None:
@@ -492,7 +492,7 @@ async def test_other_thermostat_families_offset(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_led_brightness_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The LED brightness of both plug types is exposed."""
@@ -513,7 +513,7 @@ async def test_smart_plug_led_brightness_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_led_brightness_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -540,7 +540,7 @@ async def test_smart_plug_led_brightness_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smart_plug_no_led_brightness_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """No entity is created without LED brightness support."""
@@ -566,7 +566,7 @@ async def test_smart_plug_no_led_brightness_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_gen2_display_numbers_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The display brightness and on time are exposed."""
@@ -600,7 +600,7 @@ async def test_thermostat_gen2_display_numbers_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_room_thermostat2_display_numbers_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -669,7 +669,7 @@ async def test_room_thermostat2_display_numbers_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_thermostat_gen2_display_numbers_partial_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     brightness_present: bool,
     on_time_present: bool,
@@ -698,7 +698,7 @@ async def test_thermostat_gen2_display_numbers_partial_support(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_dimmer_dimming_speed_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """The dimming speed is reported."""
@@ -721,7 +721,7 @@ async def test_dimmer_dimming_speed_value(
     indirect=True,
 )
 async def test_dimmer_dimming_speed_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -748,7 +748,7 @@ async def test_dimmer_dimming_speed_set_value(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_dimmer_without_configuration_has_no_speed_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A dimmer without calibration support gets no dimming speed number."""

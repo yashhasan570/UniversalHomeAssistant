@@ -4,7 +4,7 @@ from typing import Any, override
 
 import probatio
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import (
     MULTI_FACTOR_AUTH_MODULE_SCHEMA,
@@ -31,7 +31,7 @@ class InsecureExampleModule(MultiFactorAuthModule):
 
     DEFAULT_TITLE = "Insecure Personal Identify Number"
 
-    def __init__(self, hass: UniversalAssistant, config: dict[str, Any]) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
         """Initialize the user data store."""
         super().__init__(hass, config)
         self._data = config["data"]

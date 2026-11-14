@@ -16,8 +16,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import async_add_model
 
@@ -48,7 +48,7 @@ async def fixture_single_platform():
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     model: Model,
     entity_id: str,
     address: int,
@@ -75,7 +75,7 @@ async def test_update(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_date_coils_not_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     address: int,
     entity_id: str,
     coils: dict[int, Any],
@@ -101,7 +101,7 @@ async def test_date_coils_not_created(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: AsyncMock,
     model: Model,
     entity_id: str,
@@ -160,7 +160,7 @@ async def test_set_value(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_value_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: AsyncMock,
     exception: Exception,
     translation_key: str,
@@ -183,7 +183,7 @@ async def test_set_value_fail(
     mock_connection.write_coil.side_effect = exception
 
     # Write value
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -200,7 +200,7 @@ async def test_set_value_fail(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_set_value_same(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_connection: AsyncMock,
     coils: dict[int, Any],
     snapshot: SnapshotAssertion,

@@ -14,8 +14,8 @@ from aiocomelit.exceptions import (
 from aiohttp import ClientSession, CookieJar
 
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     aiohttp_client,
     device_registry as dr,
@@ -27,7 +27,7 @@ from .coordinator import ComelitBaseCoordinator, ComelitConfigEntry
 from .entity import ComelitBridgeBaseEntity
 
 
-async def async_client_session(hass: UniversalAssistant) -> ClientSession:
+async def async_client_session(hass: __HAC_KEEP__) -> ClientSession:
     """Return a new aiohttp session."""
     return aiohttp_client.async_create_clientsession(
         hass, verify_ssl=False, cookie_jar=CookieJar(unsafe=True)
@@ -50,7 +50,7 @@ def load_api_data(
 
 
 async def cleanup_stale_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ComelitConfigEntry,
     entry_unique_id: str,
     device: ComelitDeviceObject,
@@ -72,7 +72,7 @@ async def cleanup_stale_entity(
 
 
 def _async_remove_stale_devices(
-    hass: UniversalAssistant, identifiers: list[str], config_entry: ComelitConfigEntry
+    hass: __HAC_KEEP__, identifiers: list[str], config_entry: ComelitConfigEntry
 ) -> None:
     """Remove stale devices."""
 
@@ -98,21 +98,21 @@ def bridge_api_call[_T: ComelitBridgeBaseEntity, **_P](
             await func(self, *args, **kwargs)
         except CannotConnect as err:
             self.coordinator.last_update_success = False
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
                 translation_placeholders={"error": repr(err)},
             ) from err
         except CannotRetrieveData as err:
             self.coordinator.last_update_success = False
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cannot_retrieve_data",
                 translation_placeholders={"error": repr(err)},
             ) from err
         except DeviceStorageFailureError as err:
             self.coordinator.last_update_success = False
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_storage_failure",
             ) from err

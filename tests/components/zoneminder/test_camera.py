@@ -8,14 +8,14 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.camera import CameraState
 from universalassistant.components.zoneminder.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .conftest import create_mock_monitor, create_mock_zm_client
 
 
 async def _setup_zm_with_cameras(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     config: dict,
     monitors: list,
@@ -42,7 +42,7 @@ async def _setup_zm_with_cameras(
 
 
 async def test_one_camera_per_monitor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     two_monitors: list,
@@ -58,7 +58,7 @@ async def test_one_camera_per_monitor(
 
 
 async def test_camera_entity_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -75,7 +75,7 @@ async def test_camera_entity_name(
 
 
 async def test_camera_recording_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -94,7 +94,7 @@ async def test_camera_recording_state(
 
 
 async def test_camera_idle_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -113,7 +113,7 @@ async def test_camera_idle_state(
 
 
 async def test_camera_unavailable_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,
@@ -130,7 +130,7 @@ async def test_camera_unavailable_state(
 
 
 async def test_no_monitors_raises_platform_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_no_monitors_raises_platform_not_ready(
 
 
 async def test_multi_server_camera_creation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     multi_server_config: dict,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -188,7 +188,7 @@ async def test_multi_server_camera_creation(
 
 
 async def test_filter_urllib3_logging_called(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_zoneminder_client: MagicMock,
     single_server_config: dict,
     freezer: FrozenDateTimeFactory,

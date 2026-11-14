@@ -5,7 +5,7 @@ from unittest.mock import patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.kraken.const import CONF_TRACKED_ASSET_PAIRS, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -15,7 +15,7 @@ from .const import (
 )
 
 
-async def test_config_flow(hass: UniversalAssistant) -> None:
+async def test_config_flow(hass: __HAC_KEEP__) -> None:
     """Test we can finish a config flow."""
     with patch(
         "universalassistant.components.kraken.async_setup_entry",
@@ -34,7 +34,7 @@ async def test_config_flow(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_already_configured(hass: UniversalAssistant) -> None:
+async def test_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we cannot add a second config flow."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
 
@@ -45,7 +45,7 @@ async def test_already_configured(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_options(hass: UniversalAssistant) -> None:
+async def test_options(hass: __HAC_KEEP__) -> None:
     """Test options for Kraken."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -95,7 +95,7 @@ async def test_options(hass: UniversalAssistant) -> None:
         assert hass.states.get("sensor.xbt_usd_ask") is None
 
 
-async def test_deselect_removed_pair(hass: UniversalAssistant) -> None:
+async def test_deselect_removed_pair(hass: __HAC_KEEP__) -> None:
     """Test options for Kraken."""
     entry = MockConfigEntry(
         domain=DOMAIN,

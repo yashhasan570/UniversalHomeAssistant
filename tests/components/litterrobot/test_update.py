@@ -22,8 +22,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .conftest import setup_integration
 
@@ -33,7 +33,7 @@ NEW_FIRMWARE = "ESP: 1.1.51 / PIC: 10512.2560.2.53 / TOF: 4.0.65.4"
 
 
 async def test_robot_with_no_update(
-    hass: UniversalAssistant, mock_account_with_litterrobot_4: MagicMock
+    hass: __HAC_KEEP__, mock_account_with_litterrobot_4: MagicMock
 ) -> None:
     """Tests the update entity was set up."""
     robot: LitterRobot4 = mock_account_with_litterrobot_4.robots[0]
@@ -57,7 +57,7 @@ async def test_robot_with_no_update(
 
 
 async def test_robot_with_update(
-    hass: UniversalAssistant, mock_account_with_litterrobot_4: MagicMock
+    hass: __HAC_KEEP__, mock_account_with_litterrobot_4: MagicMock
 ) -> None:
     """Tests the update entity was set up."""
     robot: LitterRobot4 = mock_account_with_litterrobot_4.robots[0]
@@ -76,7 +76,7 @@ async def test_robot_with_update(
 
     robot.update_firmware = AsyncMock(return_value=False)
 
-    with pytest.raises(UniversalAssistantError, match="Unable to start firmware update"):
+    with pytest.raises(__HAC_KEEP__Error, match="Unable to start firmware update"):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -98,7 +98,7 @@ async def test_robot_with_update(
 
 
 async def test_robot_with_update_already_in_progress(
-    hass: UniversalAssistant, mock_account_with_litterrobot_4: MagicMock
+    hass: __HAC_KEEP__, mock_account_with_litterrobot_4: MagicMock
 ) -> None:
     """Tests the update entity was set up."""
     robot: LitterRobot4 = mock_account_with_litterrobot_4.robots[0]
@@ -121,9 +121,9 @@ async def test_robot_with_update_already_in_progress(
 
 
 async def test_update_command_exception(
-    hass: UniversalAssistant, mock_account_with_litterrobot_4: MagicMock
+    hass: __HAC_KEEP__, mock_account_with_litterrobot_4: MagicMock
 ) -> None:
-    """Test that LitterRobotException is wrapped in UniversalAssistantError."""
+    """Test that LitterRobotException is wrapped in __HAC_KEEP__Error."""
     robot: LitterRobot4 = mock_account_with_litterrobot_4.robots[0]
     robot.has_firmware_update = AsyncMock(return_value=True)
     robot.get_latest_firmware = AsyncMock(return_value=NEW_FIRMWARE)
@@ -134,7 +134,7 @@ async def test_update_command_exception(
         side_effect=InvalidCommandException("Invalid command: oops")
     )
 
-    with pytest.raises(UniversalAssistantError, match="Invalid command: oops"):
+    with pytest.raises(__HAC_KEEP__Error, match="Invalid command: oops"):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,

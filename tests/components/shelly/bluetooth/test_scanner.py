@@ -9,13 +9,13 @@ import pytest
 from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothScanningMode
 from universalassistant.components.shelly.const import CONF_BLE_SCANNER_MODE, BLEScannerMode
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .. import init_integration, inject_rpc_device_event
 
 
 async def test_scanner_v1(
-    hass: UniversalAssistant, mock_rpc_device, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_rpc_device, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test injecting data into the scanner v1."""
     await init_integration(
@@ -55,7 +55,7 @@ async def test_scanner_v1(
 
 
 async def test_scanner_v2(
-    hass: UniversalAssistant, mock_rpc_device, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_rpc_device, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test injecting data into the scanner v2."""
     await init_integration(
@@ -99,7 +99,7 @@ async def test_scanner_v2(
 
 
 async def test_scanner_ignores_non_ble_events(
-    hass: UniversalAssistant, mock_rpc_device, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_rpc_device, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test injecting non ble data into the scanner."""
     await init_integration(
@@ -125,7 +125,7 @@ async def test_scanner_ignores_non_ble_events(
 
 
 async def test_scanner_ignores_wrong_version_and_logs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -161,7 +161,7 @@ async def test_scanner_ignores_wrong_version_and_logs(
 
 
 async def test_scanner_warns_on_corrupt_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device,
     monkeypatch: pytest.MonkeyPatch,
     caplog: pytest.LogCaptureFixture,
@@ -193,7 +193,7 @@ async def test_scanner_warns_on_corrupt_event(
 
 
 async def test_scanner_auto_mode_starts_passive_and_binds_provider(
-    hass: UniversalAssistant, mock_rpc_device: Mock
+    hass: __HAC_KEEP__, mock_rpc_device: Mock
 ) -> None:
     """AUTO runs the radio passive; the scanner is pinned AUTO so the worker spawns."""
     with patch.object(

@@ -15,7 +15,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
     filter_supported_color_modes,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -30,7 +30,7 @@ _NONE_SCENE = "none"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: GoveeLocalConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

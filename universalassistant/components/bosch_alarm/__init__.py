@@ -5,7 +5,7 @@ from ssl import SSLError
 from bosch_alarm_mode2 import Panel
 
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_PASSWORD, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
@@ -25,13 +25,13 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up bosch alarm services."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BoschAlarmConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BoschAlarmConfigEntry) -> None:
     """Set up Bosch Alarm from a config entry."""
 
     panel = Panel(
@@ -74,7 +74,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BoschAlarmConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BoschAlarmConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BoschAlarmConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.disconnect()

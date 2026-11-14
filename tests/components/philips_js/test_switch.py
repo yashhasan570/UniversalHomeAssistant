@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.philips_js.const import TV_STATE_OFF
 from universalassistant.const import STATE_OFF
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -27,7 +27,7 @@ from universalassistant.core import UniversalAssistant
     ],
 )
 async def test_available_without_powerstate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tv: PhilipsTV,
     mock_config_entry: MockConfigEntry,
     entity_id: str,

@@ -20,7 +20,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.adguard.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 STATISTICS_INTERVAL = timedelta(minutes=5)
@@ -34,7 +34,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -45,7 +45,7 @@ async def test_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensors_share_one_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_sensors_share_one_request(
     ],
 )
 async def test_sensors_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     freezer: FrozenDateTimeFactory,
     error: Exception,
@@ -98,7 +98,7 @@ async def test_sensors_unavailable(
 
 
 async def test_sensors_authentication_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_adguard: AsyncMock,
     init_integration: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

@@ -10,7 +10,7 @@ from weheat.abstractions.discovery import HeatPumpDiscovery
 
 from universalassistant.components.weheat import UnauthorizedException
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -19,7 +19,7 @@ from . import setup_integration
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_weheat_discover: AsyncMock,
     mock_weheat_heat_pump: AsyncMock,
     mock_heat_pump_info: HeatPumpDiscovery.HeatPumpInfo,
@@ -47,7 +47,7 @@ async def test_setup(
     ],
 )
 async def test_setup_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_weheat_discover: AsyncMock,
     mock_weheat_heat_pump: AsyncMock,
     mock_heat_pump_info: HeatPumpDiscovery.HeatPumpInfo,
@@ -70,7 +70,7 @@ async def test_setup_fail(
 
 
 async def test_setup_fail_discover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_weheat_discover: AsyncMock,
     mock_weheat_heat_pump: AsyncMock,
     mock_heat_pump_info: HeatPumpDiscovery.HeatPumpInfo,
@@ -85,7 +85,7 @@ async def test_setup_fail_discover(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

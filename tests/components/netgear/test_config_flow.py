@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_MODEL_NUMBER,
@@ -82,7 +82,7 @@ def mock_controller_service():
         yield service_mock
 
 
-async def test_user(hass: UniversalAssistant, service) -> None:
+async def test_user(hass: __HAC_KEEP__, service) -> None:
     """Test user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -109,7 +109,7 @@ async def test_user(hass: UniversalAssistant, service) -> None:
     assert result["data"][CONF_PASSWORD] == PASSWORD
 
 
-async def test_user_connect_error(hass: UniversalAssistant, service: Mock) -> None:
+async def test_user_connect_error(hass: __HAC_KEEP__, service: Mock) -> None:
     """Test user step with connection failure."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -160,7 +160,7 @@ async def test_user_connect_error(hass: UniversalAssistant, service: Mock) -> No
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_incomplete_info(hass: UniversalAssistant, service) -> None:
+async def test_user_incomplete_info(hass: __HAC_KEEP__, service) -> None:
     """Test user step with incomplete device info."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -191,7 +191,7 @@ async def test_user_incomplete_info(hass: UniversalAssistant, service) -> None:
     assert result["data"][CONF_PASSWORD] == PASSWORD
 
 
-async def test_abort_if_already_setup(hass: UniversalAssistant, service) -> None:
+async def test_abort_if_already_setup(hass: __HAC_KEEP__, service) -> None:
     """Test we abort if the router is already setup."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -214,7 +214,7 @@ async def test_abort_if_already_setup(hass: UniversalAssistant, service) -> None
     assert result["reason"] == "already_configured"
 
 
-async def test_ssdp_already_configured(hass: UniversalAssistant) -> None:
+async def test_ssdp_already_configured(hass: __HAC_KEEP__) -> None:
     """Test ssdp abort when the router is already configured."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -240,7 +240,7 @@ async def test_ssdp_already_configured(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_ssdp_no_serial(hass: UniversalAssistant) -> None:
+async def test_ssdp_no_serial(hass: __HAC_KEEP__) -> None:
     """Test ssdp abort when the ssdp info does not include a serial number."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -259,7 +259,7 @@ async def test_ssdp_no_serial(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_serial"
 
 
-async def test_ssdp_ipv6(hass: UniversalAssistant) -> None:
+async def test_ssdp_ipv6(hass: __HAC_KEEP__) -> None:
     """Test ssdp abort when using a ipv6 address."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -285,7 +285,7 @@ async def test_ssdp_ipv6(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_ipv4_address"
 
 
-async def test_ssdp(hass: UniversalAssistant, service) -> None:
+async def test_ssdp(hass: __HAC_KEEP__, service) -> None:
     """Test ssdp step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -317,7 +317,7 @@ async def test_ssdp(hass: UniversalAssistant, service) -> None:
     assert result["data"][CONF_PASSWORD] == PASSWORD
 
 
-async def test_ssdp_port_5555(hass: UniversalAssistant, service) -> None:
+async def test_ssdp_port_5555(hass: __HAC_KEEP__, service) -> None:
     """Test ssdp step with port 5555."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -352,7 +352,7 @@ async def test_ssdp_port_5555(hass: UniversalAssistant, service) -> None:
     assert result["data"][CONF_PASSWORD] == PASSWORD
 
 
-async def test_options_flow(hass: UniversalAssistant, service) -> None:
+async def test_options_flow(hass: __HAC_KEEP__, service) -> None:
     """Test specifying non default settings using options flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

@@ -7,14 +7,14 @@ from syrupy.assertion import SnapshotAssertion
 from tesla_fleet_api.exceptions import VehicleOffline
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, setup_platform
 
 
 async def test_device_tracker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -26,7 +26,7 @@ async def test_device_tracker(
 
 
 async def test_device_tracker_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
 ) -> None:

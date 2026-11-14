@@ -10,14 +10,14 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.alexa import DOMAIN, smart_home
 from universalassistant.const import CONTENT_TYPE_JSON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .test_common import get_new_request
 
 
 async def do_http_discovery(
-    config: dict[str, Any], hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    config: dict[str, Any], hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> ClientResponse:
     """Submit a request to the Smart Home HTTP API."""
     await async_setup_component(hass, DOMAIN, config)
@@ -46,7 +46,7 @@ async def do_http_discovery(
     ],
 )
 async def test_http_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     hass_client: ClientSessionGenerator,
     config: dict[str, Any],
@@ -62,7 +62,7 @@ async def test_http_api(
 
 
 async def test_http_api_disabled(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Without `smart_home:`, the HTTP API is disabled."""
     config = {"alexa": {}}
@@ -78,7 +78,7 @@ async def test_http_api_disabled(
     ],
 )
 async def test_http_api_logs_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     hass_client: ClientSessionGenerator,
     endpoint_id: str | int,

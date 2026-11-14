@@ -33,7 +33,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import AbortFlow, SectionConfig, section
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device_registry import format_mac
@@ -472,7 +472,7 @@ class UnifiOptionsFlowHandler(OptionsFlow):
         )
 
 
-async def _async_discover_unifi(hass: UniversalAssistant) -> str | None:
+async def _async_discover_unifi(hass: __HAC_KEEP__) -> str | None:
     """Discover UniFi Network address."""
     try:
         return await hass.async_add_executor_job(socket.gethostbyname, "unifi")

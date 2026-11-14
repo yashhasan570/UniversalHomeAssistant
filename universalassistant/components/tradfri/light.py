@@ -14,7 +14,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
     filter_supported_color_modes,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import color as color_util
 
@@ -24,7 +24,7 @@ from .entity import TradfriBaseEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TradfriConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -44,7 +44,7 @@ async def async_setup_entry(
 
 
 class TradfriLight(TradfriBaseEntity, LightEntity):
-    """The platform class required by Universal Universal Home Assistant."""
+    """The platform class required by __HA_KEEP__."""
 
     _attr_name = None
     _attr_supported_features = LightEntityFeature.TRANSITION

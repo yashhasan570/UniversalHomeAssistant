@@ -6,7 +6,7 @@ from typing import Any, override
 from omnilogic import OmniLogicException
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import check_guard
@@ -18,7 +18,7 @@ OMNILOGIC_SWITCH_OFF = 7
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OmniLogicConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

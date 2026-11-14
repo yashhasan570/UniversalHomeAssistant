@@ -10,7 +10,7 @@ from pyuptimerobot import (
     UptimeRobotMonitor,
 )
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DOMAIN
 from .coordinator import UptimeRobotDataUpdateCoordinator
@@ -31,7 +31,7 @@ def uptimerobot_api_call[_T: UptimeRobotEntity, **_P](
             self.coordinator.config_entry.async_start_reauth(self.hass)
             return
         except UptimeRobotException as exception:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_switch_exception",
                 translation_placeholders={"error": "Generic UptimeRobot exception"},

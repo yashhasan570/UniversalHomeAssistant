@@ -15,7 +15,7 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import ATTR_TEMPERATURE, STATE_OFF, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.unit_conversion import TemperatureConverter
 
@@ -34,7 +34,7 @@ HA_TO_OPERATION_MAP = {v: k for k, v in OPERATION_MAP_TO_HA.items()}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

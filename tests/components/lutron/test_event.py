@@ -12,7 +12,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -24,7 +24,7 @@ def setup_platforms():
 
 
 async def test_event_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -40,7 +40,7 @@ async def test_event_setup(
 
 
 async def test_event_single_press(
-    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test single press event."""
     mock_config_entry.add_to_hass(hass)
@@ -66,7 +66,7 @@ async def test_event_single_press(
 
 @pytest.mark.parametrize("button_type", ["MasterRaiseLower", "SingleSceneRaiseLower"])
 async def test_event_press_release(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lutron: MagicMock,
     mock_config_entry: MockConfigEntry,
     button_type: str,
@@ -104,7 +104,7 @@ async def test_event_press_release(
 
 
 async def test_event_release_only_button(
-    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """A button that only ever reports a release still fires a single press."""
     mock_config_entry.add_to_hass(hass)
@@ -125,7 +125,7 @@ async def test_event_release_only_button(
 
 
 async def test_event_press_and_release_button(
-    hass: UniversalAssistant, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_lutron: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """A button that reports both a press and a release fires once per tap."""
     mock_config_entry.add_to_hass(hass)

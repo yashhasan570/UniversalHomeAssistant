@@ -12,15 +12,15 @@ from pygeosphere_warnings import (
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import LocationSelector, LocationSelectorConfig
 
 from .const import DOMAIN, LOGGER
 
 
-def _build_schema(hass: UniversalAssistant) -> probatio.Schema:
-    """Return the user step schema defaulting to the Universal Universal Home Assistant location."""
+def _build_schema(hass: __HAC_KEEP__) -> probatio.Schema:
+    """Return the user step schema defaulting to the __HA_KEEP__ location."""
     return probatio.Schema(
         {
             probatio.Required(

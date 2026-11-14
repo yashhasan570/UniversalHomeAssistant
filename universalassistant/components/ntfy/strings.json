@@ -38,7 +38,7 @@
           "token": "Enter a new or existing access token. To create a new access token navigate to Account → Access tokens and select 'Create access token'",
           "username": "[%key:component::ntfy::config::step::user::sections::auth::data_description::username%]"
         },
-        "description": "You can either log in with your **ntfy** username and password, and Universal Universal Home Assistant will automatically create an access token to authenticate with **ntfy**, or you can provide an access token directly",
+        "description": "You can either log in with your **ntfy** username and password, and __HA_KEEP__ will automatically create an access token to authenticate with **ntfy**, or you can provide an access token directly",
         "title": "Configuration for {name}"
       },
       "reconfigure_user": {
@@ -50,7 +50,7 @@
           "password": "[%key:component::ntfy::config::step::reauth_confirm::data_description::password%]",
           "token": "[%key:component::ntfy::config::step::reconfigure::data_description::token%]"
         },
-        "description": "Enter the password for **{username}** below. Universal Universal Home Assistant will automatically create a new access token to authenticate with **ntfy**. You can also directly provide a valid access token",
+        "description": "Enter the password for **{username}** below. __HA_KEEP__ will automatically create a new access token to authenticate with **ntfy**. You can also directly provide a valid access token",
         "title": "[%key:component::ntfy::config::step::reconfigure::title%]"
       },
       "user": {
@@ -73,7 +73,7 @@
               "password": "Enter the password corresponding to the provided username for authentication",
               "username": "Enter the username required to authenticate with protected ntfy topics"
             },
-            "description": "Depending on whether the server is configured to support access control, some topics may be read/write protected so that only users with the correct credentials can subscribe or publish to them. To publish/subscribe to protected topics, you can provide a username and password. Universal Universal Home Assistant will automatically generate an access token to authenticate with ntfy.",
+            "description": "Depending on whether the server is configured to support access control, some topics may be read/write protected so that only users with the correct credentials can subscribe or publish to them. To publish/subscribe to protected topics, you can provide a username and password. __HA_KEEP__ will automatically generate an access token to authenticate with ntfy.",
             "name": "Authentication"
           }
         }
@@ -120,7 +120,7 @@
                 "filter_tags": "Only include messages that have all selected tags",
                 "filter_title": "Include messages with a title that exactly matches the specified text"
               },
-              "description": "Apply filters to narrow down the messages received when Universal Universal Home Assistant subscribes to the topic. Filters apply only to the event entity.",
+              "description": "Apply filters to narrow down the messages received when __HA_KEEP__ subscribes to the topic. Filters apply only to the event entity.",
               "name": "Message filters (optional)"
             }
           },
@@ -288,7 +288,7 @@
       "message": "The selected ntfy entity could not be found."
     },
     "entry_not_loaded": {
-      "message": "The selected ntfy service is currently not loaded or disabled in Universal Universal Home Assistant."
+      "message": "The selected ntfy service is currently not loaded or disabled in __HA_KEEP__."
     },
     "media_source_not_supported": {
       "message": "Media source currently not supported"
@@ -314,7 +314,7 @@
       "fix_flow": {
         "step": {
           "confirm": {
-            "description": "The topic **{topic}** on **{name}** is protected and requires authentication to subscribe.\n\nTo resolve this issue, you have two options:\n\n1. **Reconfigure the ntfy integration**\nAdd a username and password that has permission to access this topic.\n\n2. **Deactivate the event entity**\nThis will stop Universal Universal Home Assistant from subscribing to the topic.\nSelect **Submit** to deactivate the entity.",
+            "description": "The topic **{topic}** on **{name}** is protected and requires authentication to subscribe.\n\nTo resolve this issue, you have two options:\n\n1. **Reconfigure the ntfy integration**\nAdd a username and password that has permission to access this topic.\n\n2. **Deactivate the event entity**\nThis will stop __HA_KEEP__ from subscribing to the topic.\nSelect **Submit** to deactivate the entity.",
             "title": "Topic {topic} on {name} is protected"
           }
         }

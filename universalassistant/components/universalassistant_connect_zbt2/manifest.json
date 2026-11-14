@@ -1,6 +1,6 @@
 {
   "domain": "universalassistant_connect_zbt2",
-  "name": "Universal Universal Home Assistant Connect ZBT-2",
+  "name": "__HA_KEEP__ Connect ZBT-2",
   "categories": ["hubs_protocols.wireless_protocols"],
   "codeowners": ["@universal-assistant/core"],
   "config_flow": true,

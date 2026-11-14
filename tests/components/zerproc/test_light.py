@@ -29,7 +29,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -40,7 +40,7 @@ async def mock_entry() -> MockConfigEntry:
 
 
 @pytest.fixture
-async def mock_light(hass: UniversalAssistant, mock_entry: MockConfigEntry) -> MagicMock:
+async def mock_light(hass: __HAC_KEEP__, mock_entry: MockConfigEntry) -> MagicMock:
     """Create a mock light entity."""
 
     mock_entry.add_to_hass(hass)
@@ -68,7 +68,7 @@ async def mock_light(hass: UniversalAssistant, mock_entry: MockConfigEntry) -> M
     return light
 
 
-async def test_init(hass: UniversalAssistant, mock_entry) -> None:
+async def test_init(hass: __HAC_KEEP__, mock_entry) -> None:
     """Test platform setup."""
 
     mock_entry.add_to_hass(hass)
@@ -131,7 +131,7 @@ async def test_init(hass: UniversalAssistant, mock_entry) -> None:
     assert hass.data[DOMAIN]["addresses"] == {"AA:BB:CC:DD:EE:FF", "11:22:33:44:55:66"}
 
 
-async def test_discovery_exception(hass: UniversalAssistant, mock_entry) -> None:
+async def test_discovery_exception(hass: __HAC_KEEP__, mock_entry) -> None:
     """Test platform setup."""
 
     mock_entry.add_to_hass(hass)
@@ -147,7 +147,7 @@ async def test_discovery_exception(hass: UniversalAssistant, mock_entry) -> None
     assert len(hass.data[DOMAIN]["addresses"]) == 0
 
 
-async def test_remove_entry(hass: UniversalAssistant, mock_light, mock_entry) -> None:
+async def test_remove_entry(hass: __HAC_KEEP__, mock_light, mock_entry) -> None:
     """Test platform setup."""
     assert hass.data[DOMAIN][DATA_ADDRESSES] == {"AA:BB:CC:DD:EE:FF"}
     assert DATA_DISCOVERY_SUBSCRIPTION in hass.data[DOMAIN]
@@ -160,7 +160,7 @@ async def test_remove_entry(hass: UniversalAssistant, mock_light, mock_entry) ->
 
 
 async def test_remove_entry_exceptions_caught(
-    hass: UniversalAssistant, mock_light, mock_entry
+    hass: __HAC_KEEP__, mock_light, mock_entry
 ) -> None:
     """Assert that disconnect exceptions are caught."""
     with patch.object(
@@ -171,7 +171,7 @@ async def test_remove_entry_exceptions_caught(
     assert mock_disconnect.called
 
 
-async def test_light_turn_on(hass: UniversalAssistant, mock_light) -> None:
+async def test_light_turn_on(hass: __HAC_KEEP__, mock_light) -> None:
     """Test ZerprocLight turn_on."""
     utcnow = dt_util.utcnow()
     with patch.object(mock_light, "turn_on") as mock_turn_on:
@@ -263,7 +263,7 @@ async def test_light_turn_on(hass: UniversalAssistant, mock_light) -> None:
         mock_set_color.assert_called_with(163, 200, 50)
 
 
-async def test_light_turn_off(hass: UniversalAssistant, mock_light) -> None:
+async def test_light_turn_off(hass: __HAC_KEEP__, mock_light) -> None:
     """Test ZerprocLight turn_on."""
     with patch.object(mock_light, "turn_off") as mock_turn_off:
         await hass.services.async_call(
@@ -276,7 +276,7 @@ async def test_light_turn_off(hass: UniversalAssistant, mock_light) -> None:
     mock_turn_off.assert_called()
 
 
-async def test_light_update(hass: UniversalAssistant, mock_light) -> None:
+async def test_light_update(hass: __HAC_KEEP__, mock_light) -> None:
     """Test ZerprocLight update."""
     utcnow = dt_util.utcnow()
 

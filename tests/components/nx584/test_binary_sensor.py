@@ -13,7 +13,7 @@ from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_
 from universalassistant.components.nx584 import binary_sensor as nx584
 from universalassistant.components.nx584.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .conftest import TEST_HOST, TEST_PORT
@@ -25,7 +25,7 @@ class StopMe(Exception):
     """Stop helper."""
 
 
-async def _async_setup_entry(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def _async_setup_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Set up the config entry."""
     entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(entry.entry_id)
@@ -34,7 +34,7 @@ async def _async_setup_entry(hass: UniversalAssistant, entry: MockConfigEntry) -
 
 @pytest.mark.usefixtures("mock_client")
 async def test_nx584_sensor_setup_defaults(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -52,7 +52,7 @@ async def test_nx584_sensor_setup_defaults(
 
 @pytest.mark.usefixtures("mock_client")
 async def test_nx584_sensor_setup_zone_options(
-    hass: UniversalAssistant, mock_watcher: MagicMock
+    hass: __HAC_KEEP__, mock_watcher: MagicMock
 ) -> None:
     """Test the zone options apply with the string keys a stored entry has."""
     entry = MockConfigEntry(
@@ -83,7 +83,7 @@ async def test_nx584_sensor_setup_zone_options(
     ],
 )
 async def test_nx584_sensor_setup_bad_config(
-    hass: UniversalAssistant, config: dict[str, Any]
+    hass: __HAC_KEEP__, config: dict[str, Any]
 ) -> None:
     """Test an invalid YAML configuration is not imported."""
     assert await async_setup_component(
@@ -98,7 +98,7 @@ async def test_nx584_sensor_setup_bad_config(
 
 
 async def test_nx584_sensor_setup_version_too_old(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     mock_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -112,7 +112,7 @@ async def test_nx584_sensor_setup_version_too_old(
 
 
 async def test_nx584_sensor_setup_no_zones(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     mock_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,

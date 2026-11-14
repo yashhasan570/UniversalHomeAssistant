@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.huawei_lte.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CONF_URL, STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import magic_client
@@ -16,7 +16,7 @@ SWITCH_WIFI_GUEST_NETWORK = "switch.test_router_wi_fi_guest_network"
 
 
 async def test_huawei_lte_wifi_guest_network_config_entry_when_network_is_not_present(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test switch wifi guest network config entry when network is not present."""
     huawei_lte = MockConfigEntry(domain=DOMAIN, data={CONF_URL: "http://huawei-lte"})
@@ -34,7 +34,7 @@ async def test_huawei_lte_wifi_guest_network_config_entry_when_network_is_not_pr
 
 
 async def test_huawei_lte_wifi_guest_network_config_entry_when_network_is_present(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test switch wifi guest network config entry when network is present."""
     huawei_lte = MockConfigEntry(domain=DOMAIN, data={CONF_URL: "http://huawei-lte"})
@@ -53,7 +53,7 @@ async def test_huawei_lte_wifi_guest_network_config_entry_when_network_is_presen
     assert entity_registry.async_is_registered(SWITCH_WIFI_GUEST_NETWORK)
 
 
-async def test_turn_on_switch_wifi_guest_network(hass: UniversalAssistant) -> None:
+async def test_turn_on_switch_wifi_guest_network(hass: __HAC_KEEP__) -> None:
     """Test switch wifi guest network turn on method."""
     huawei_lte = MockConfigEntry(domain=DOMAIN, data={CONF_URL: "http://huawei-lte"})
     huawei_lte.add_to_hass(hass)
@@ -79,7 +79,7 @@ async def test_turn_on_switch_wifi_guest_network(hass: UniversalAssistant) -> No
     client.wlan.wifi_guest_network_switch.assert_called_once_with(True)
 
 
-async def test_turn_off_switch_wifi_guest_network(hass: UniversalAssistant) -> None:
+async def test_turn_off_switch_wifi_guest_network(hass: __HAC_KEEP__) -> None:
     """Test switch wifi guest network turn off method."""
     huawei_lte = MockConfigEntry(domain=DOMAIN, data={CONF_URL: "http://huawei-lte"})
     huawei_lte.add_to_hass(hass)
@@ -106,7 +106,7 @@ async def test_turn_off_switch_wifi_guest_network(hass: UniversalAssistant) -> N
 
 
 async def test_huawei_lte_wifi_guest_network_config_entry_when_ssid_is_str(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test switch wifi guest network config entry when ssid is a str.
 
@@ -127,7 +127,7 @@ async def test_huawei_lte_wifi_guest_network_config_entry_when_ssid_is_str(
 
 
 async def test_huawei_lte_wifi_guest_network_config_entry_when_ssid_is_none(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test switch wifi guest network config entry when ssid is a None.
 

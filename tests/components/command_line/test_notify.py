@@ -12,8 +12,8 @@ from universalassistant import setup
 from universalassistant.components.command_line import DOMAIN
 from universalassistant.components.command_line.notify import CommandLineNotificationService
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import issue_registry as ir
 
 
@@ -33,13 +33,13 @@ from universalassistant.helpers import issue_registry as ir
     ],
 )
 async def test_setup_integration_yaml(
-    hass: UniversalAssistant, load_yaml_integration: None
+    hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test sensor setup."""
     assert hass.services.has_service(NOTIFY_DOMAIN, "test2")
 
 
-async def test_bad_config(hass: UniversalAssistant) -> None:
+async def test_bad_config(hass: __HAC_KEEP__) -> None:
     """Test set up the platform with bad/missing configuration."""
     assert await setup.async_setup_component(
         hass,
@@ -54,7 +54,7 @@ async def test_bad_config(hass: UniversalAssistant) -> None:
     assert not hass.services.has_service(NOTIFY_DOMAIN, "test")
 
 
-async def test_command_line_output(hass: UniversalAssistant) -> None:
+async def test_command_line_output(hass: __HAC_KEEP__) -> None:
     """Test the command line output."""
     with tempfile.TemporaryDirectory() as tempdirname:
         filename = os.path.join(tempdirname, "message.txt")
@@ -84,7 +84,7 @@ async def test_command_line_output(hass: UniversalAssistant) -> None:
 
 
 async def test_command_line_output_single_command(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the command line output."""
 
@@ -113,7 +113,7 @@ async def test_command_line_output_single_command(
     assert "Running with message: test message" in caplog.text
 
 
-async def test_command_template(hass: UniversalAssistant) -> None:
+async def test_command_template(hass: __HAC_KEEP__) -> None:
     """Test the command line output using template as command."""
 
     with tempfile.TemporaryDirectory() as tempdirname:
@@ -145,7 +145,7 @@ async def test_command_template(hass: UniversalAssistant) -> None:
 
 
 async def test_command_incorrect_template(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the command line output using template as command which isn't working."""
 
@@ -194,7 +194,7 @@ async def test_command_incorrect_template(
     ],
 )
 async def test_error_for_none_zero_exit_code(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, load_yaml_integration: None
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test if an error is logged for non zero exit codes."""
 
@@ -222,10 +222,10 @@ async def test_error_for_none_zero_exit_code(
     ],
 )
 async def test_timeout(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, load_yaml_integration: None
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test blocking is not forever."""
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             NOTIFY_DOMAIN, "test5", {"message": "error"}, blocking=True
         )
@@ -258,14 +258,14 @@ async def test_timeout(
     ],
 )
 @pytest.mark.usefixtures("load_yaml_integration")
-async def test_timeout_with_unflushed_stdin(hass: UniversalAssistant, message: str) -> None:
+async def test_timeout_with_unflushed_stdin(hass: __HAC_KEEP__, message: str) -> None:
     """Test a timeout is raised when the command never drains stdin.
 
     A message larger than the pipe buffer leaves data queued in the stdin
     transport when the timeout cancels communicate(). The outer timeout keeps a
     regression from hanging the test run instead of failing it.
     """
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         async with asyncio.timeout(3):
             await hass.services.async_call(
                 NOTIFY_DOMAIN, "test7", {"message": message}, blocking=True
@@ -290,7 +290,7 @@ async def test_timeout_with_unflushed_stdin(hass: UniversalAssistant, message: s
     ],
 )
 async def test_spawn_error(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, load_yaml_integration: None
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test that a failure to spawn the command is handled correctly."""
 
@@ -299,7 +299,7 @@ async def test_spawn_error(
             "universalassistant.components.command_line.utils.asyncio.create_subprocess_shell",
             side_effect=OSError("exec failed"),
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             NOTIFY_DOMAIN, "test6", {"message": "error"}, blocking=True
@@ -338,7 +338,7 @@ async def test_spawn_error(
 @pytest.mark.usefixtures("load_yaml_integration")
 async def test_timeout_cleanup(
     caplog: pytest.LogCaptureFixture,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     is_closing: bool,
     write_buffer_size: int,
     expected_abort: bool,
@@ -360,7 +360,7 @@ async def test_timeout_cleanup(
             "universalassistant.components.command_line.utils.asyncio.create_subprocess_shell",
             return_value=mock_proc,
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             NOTIFY_DOMAIN, "test6", {"message": "error"}, blocking=True
@@ -382,7 +382,7 @@ async def test_timeout_cleanup(
     ],
 )
 async def test_cancelled_kills_process(
-    hass: UniversalAssistant, kill_side_effect: type[Exception] | None
+    hass: __HAC_KEEP__, kill_side_effect: type[Exception] | None
 ) -> None:
     """Test the subprocess is killed and the cancellation is re-raised.
 
@@ -410,7 +410,7 @@ async def test_cancelled_kills_process(
 
 
 async def test_command_template_without_shell_features_uses_exec(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Notify template without shell metacharacters sends via exec, no repair issue."""
@@ -446,7 +446,7 @@ async def test_command_template_without_shell_features_uses_exec(
 
 
 async def test_command_template_with_shell_features_creates_repair_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Notify template with shell metacharacters creates a repair issue."""

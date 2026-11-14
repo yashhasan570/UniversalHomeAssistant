@@ -8,7 +8,7 @@ from aioengiebelgium import EpexGranularity, MonthlyPeaks, Peak, bare_ean
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .const import CONF_REFRESH_TOKEN
@@ -154,7 +154,7 @@ def _epex_diagnostics(epex: EngieBeEpexCoordinator) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: EngieBeConfigEntry
+    hass: __HAC_KEEP__, entry: EngieBeConfigEntry
 ) -> dict[str, Any]:
     """Return the diagnostics of a config entry."""
     if (runtime_data := getattr(entry, "runtime_data", None)) is None:

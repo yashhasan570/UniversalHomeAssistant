@@ -37,7 +37,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -111,7 +111,7 @@ from . import setup_integration
     ],
 )
 async def test_setup_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -168,7 +168,7 @@ async def test_setup_exceptions(
     ],
 )
 async def test_migration_v1_to_v3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
@@ -300,7 +300,7 @@ async def test_migration_v1_to_v3(
     ],
 )
 async def test_migration_v2_to_v3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     expected_auth_method: str,
     expected_realm: str,
@@ -320,7 +320,7 @@ async def test_migration_v2_to_v3(
 
 
 async def test_offline_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -344,7 +344,7 @@ async def test_offline_node(
 
 
 async def test_new_vm_creates_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -378,7 +378,7 @@ async def test_new_vm_creates_entity(
 
 
 async def test_new_container_creates_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -417,7 +417,7 @@ async def test_new_container_creates_entity(
 )
 @pytest.mark.usefixtures("mock_proxmox_client")
 async def test_child_devices_link_to_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     child_identifier: str,
@@ -440,7 +440,7 @@ async def test_child_devices_link_to_node(
 
 
 async def test_new_node_registers_device_before_children(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -514,7 +514,7 @@ async def test_new_node_registers_device_before_children(
 
 
 async def test_stale_devices_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_proxmox_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

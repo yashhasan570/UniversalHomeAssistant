@@ -17,7 +17,7 @@ from universalassistant.components.icloud.const import (
     DOMAIN,
 )
 from universalassistant.const import ATTR_LATITUDE, ATTR_LONGITUDE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -28,7 +28,7 @@ TRACKER_UNIQUE_ID = "device1"
 
 
 async def test_tracker_keeps_the_device_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     icloud_service: MagicMock,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -72,7 +72,7 @@ def mock_status(icloud_service: MagicMock) -> dict:
     return status
 
 
-async def next_fetch(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+async def next_fetch(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     """Let the account poll iCloud again."""
     freezer.tick(timedelta(minutes=MAX_INTERVAL + 1))
     async_fire_time_changed(hass)
@@ -81,7 +81,7 @@ async def next_fetch(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -
 
 @pytest.mark.usefixtures("status")
 async def test_location_reported(
-    hass: UniversalAssistant, setup_entry: Callable[[Platform], Awaitable[None]]
+    hass: __HAC_KEEP__, setup_entry: Callable[[Platform], Awaitable[None]]
 ) -> None:
     """Test that a fresh fix is reported."""
     await setup_entry(Platform.DEVICE_TRACKER)
@@ -92,7 +92,7 @@ async def test_location_reported(
 
 
 async def test_devices_appearing_in_one_poll_all_get_their_trackers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     icloud_service: MagicMock,
     status: dict,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -130,7 +130,7 @@ async def test_devices_appearing_in_one_poll_all_get_their_trackers(
     ],
 )
 async def test_a_coordinate_of_zero_is_a_valid_location(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     status: dict,
     setup_entry: Callable[[Platform], Awaitable[None]],
     freezer: FrozenDateTimeFactory,
@@ -155,7 +155,7 @@ async def test_a_coordinate_of_zero_is_a_valid_location(
 
 
 async def test_stale_location_cleared(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     status: dict,
     setup_entry: Callable[[Platform], Awaitable[None]],
     freezer: FrozenDateTimeFactory,
@@ -177,7 +177,7 @@ async def test_stale_location_cleared(
 
 
 async def test_recent_cached_location_kept(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     status: dict,
     setup_entry: Callable[[Platform], Awaitable[None]],
     freezer: FrozenDateTimeFactory,
@@ -196,7 +196,7 @@ async def test_recent_cached_location_kept(
 
 
 async def test_old_uncached_location_kept(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     status: dict,
     setup_entry: Callable[[Platform], Awaitable[None]],
     freezer: FrozenDateTimeFactory,
@@ -215,7 +215,7 @@ async def test_old_uncached_location_kept(
 
 
 async def test_cached_location_without_a_timestamp_is_kept(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     status: dict,
     setup_entry: Callable[[Platform], Awaitable[None]],
     freezer: FrozenDateTimeFactory,
@@ -244,7 +244,7 @@ async def test_cached_location_without_a_timestamp_is_kept(
 
 
 async def test_tracker_is_created_once_a_stale_first_fix_is_replaced(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     status: dict,
     setup_entry: Callable[[Platform], Awaitable[None]],
     freezer: FrozenDateTimeFactory,
@@ -278,7 +278,7 @@ async def test_tracker_is_created_once_a_stale_first_fix_is_replaced(
     ],
 )
 async def test_cached_location_with_an_unusable_timestamp_is_kept(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     status: dict,
     setup_entry: Callable[[Platform], Awaitable[None]],
     freezer: FrozenDateTimeFactory,

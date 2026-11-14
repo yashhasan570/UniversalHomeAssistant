@@ -12,8 +12,8 @@ from universalassistant.components.infrared import (
     InfraredReceivedSignal,
     InfraredReceiverEntity,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -24,7 +24,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -64,7 +64,7 @@ class SmInfraredEntity(SmEntity, InfraredEmitterEntity):
                 IRPayload.from_raw_timings(timings, freq=freq),
             )
         except (SmlightError, ValueError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="send_ir_code_failed",
                 translation_placeholders={"error": str(err)},

@@ -15,8 +15,8 @@ from universalassistant.components.device_automation import (
 from universalassistant.components.nut import DOMAIN
 from universalassistant.components.nut.const import INTEGRATION_SUPPORTED_COMMANDS
 from universalassistant.const import CONF_DEVICE_ID, CONF_TYPE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -24,7 +24,7 @@ from .util import async_init_integration
 
 
 async def test_get_all_actions_for_specified_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test we get all the expected actions from a nut if user is specified."""
@@ -57,7 +57,7 @@ async def test_get_all_actions_for_specified_user(
 
 
 async def test_no_actions_for_anonymous_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test we get no actions if user is not specified."""
@@ -79,7 +79,7 @@ async def test_no_actions_for_anonymous_user(
 
 
 async def test_no_actions_device_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we get no actions for a device that cannot be found."""
     list_commands_return_value = {"beeper.enable": None}
@@ -99,7 +99,7 @@ async def test_no_actions_device_not_found(
 
 
 async def test_no_actions_device_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test we get no actions for a device that is invalid."""
@@ -123,7 +123,7 @@ async def test_no_actions_device_invalid(
 
 
 async def test_list_commands_exception(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test there are no actions if list_commands raises exception."""
     await async_init_integration(
@@ -138,7 +138,7 @@ async def test_list_commands_exception(
 
 
 async def test_unsupported_command(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test unsupported command is excluded."""
 
@@ -158,7 +158,7 @@ async def test_unsupported_command(
     assert len(actions) == 1
 
 
-async def test_action(hass: UniversalAssistant, device_registry: dr.DeviceRegistry) -> None:
+async def test_action(hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry) -> None:
     """Test actions are executed."""
 
     list_commands_return_value = {
@@ -216,7 +216,7 @@ async def test_action(hass: UniversalAssistant, device_registry: dr.DeviceRegist
 
 
 async def test_run_command_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test if run command raises exception with translation."""
@@ -238,7 +238,7 @@ async def test_run_command_exception(
     )
 
     error_message = f"Error running command {command_name}, {nut_error_message}"
-    with pytest.raises(UniversalAssistantError, match=error_message):
+    with pytest.raises(__HAC_KEEP__Error, match=error_message):
         await platform.async_call_action_from_config(
             hass,
             {
@@ -250,7 +250,7 @@ async def test_run_command_exception(
         )
 
 
-async def test_action_exception_device_not_found(hass: UniversalAssistant) -> None:
+async def test_action_exception_device_not_found(hass: __HAC_KEEP__) -> None:
     """Test raises exception if device not found."""
     list_commands_return_value = {"beeper.enable": None}
     await async_init_integration(
@@ -275,7 +275,7 @@ async def test_action_exception_device_not_found(hass: UniversalAssistant) -> No
 
 
 async def test_action_exception_invalid_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test raises exception if no NUT config entry found."""
@@ -304,7 +304,7 @@ async def test_action_exception_invalid_config(
 
 
 async def test_action_exception_device_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test raises exception if config entry for device is invalid."""

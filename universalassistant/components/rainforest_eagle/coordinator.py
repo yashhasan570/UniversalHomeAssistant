@@ -10,7 +10,7 @@ from eagle100 import Eagle as Eagle100Reader
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -54,7 +54,7 @@ class EagleDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     eagle200_meter: aioeagle.ElectricMeter | None = None
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: RainforestEagleConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: RainforestEagleConfigEntry
     ) -> None:
         """Initialize the data object."""
         if config_entry.data[CONF_TYPE] == TYPE_EAGLE_100:

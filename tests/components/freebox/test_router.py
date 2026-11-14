@@ -14,7 +14,7 @@ from universalassistant.components.freebox.router import (
     is_invalid_token_error,
     is_json,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.storage import Store
 from universalassistant.util import slugify
 
@@ -132,7 +132,7 @@ def test_is_invalid_token_error(error: AuthorizationError, expected: bool) -> No
     assert is_invalid_token_error(error) is expected
 
 
-async def test_async_forget_registration(hass: UniversalAssistant) -> None:
+async def test_async_forget_registration(hass: __HAC_KEEP__) -> None:
     """async_forget_registration must remove the stored app token, if any."""
     token_file = (
         Path(Store(hass, STORAGE_VERSION, STORAGE_KEY).path)

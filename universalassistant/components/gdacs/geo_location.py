@@ -9,7 +9,7 @@ from aio_georss_gdacs.feed_entry import GdacsFeedEntry
 
 from universalassistant.components.geo_location import GeolocationEvent
 from universalassistant.const import UnitOfLength
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -49,7 +49,7 @@ SOURCE = "gdacs"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GdacsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

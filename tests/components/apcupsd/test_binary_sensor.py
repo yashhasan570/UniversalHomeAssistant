@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.apcupsd.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util import slugify
 
@@ -26,7 +26,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -55,7 +55,7 @@ async def test_binary_sensor(
     indirect=True,
 )
 async def test_no_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_request_status: AsyncMock,
 ) -> None:
     """Test binary sensor when STATFLAG is not available."""
@@ -73,7 +73,7 @@ async def test_no_binary_sensor(
     indirect=["mock_request_status"],
 )
 async def test_statflag(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_request_status: AsyncMock,
     expected: str,
 ) -> None:

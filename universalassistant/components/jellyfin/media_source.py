@@ -15,7 +15,7 @@ from universalassistant.components.media_source import (
     MediaSourceItem,
     PlayMedia,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     COLLECTION_TYPE_MOVIES,
@@ -50,7 +50,7 @@ from .coordinator import JellyfinConfigEntry
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_get_media_source(hass: UniversalAssistant) -> MediaSource:
+async def async_get_media_source(hass: __HAC_KEEP__) -> MediaSource:
     """Set up Jellyfin media source."""
     return JellyfinSource(hass)
 
@@ -60,7 +60,7 @@ class JellyfinSource(MediaSource):
 
     name: str = "Jellyfin"
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the Jellyfin media source."""
         super().__init__(DOMAIN)
         self.hass = hass

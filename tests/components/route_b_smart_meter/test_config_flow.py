@@ -10,7 +10,7 @@ from universalassistant.components.route_b_smart_meter.const import DOMAIN, ENTR
 from universalassistant.components.usb import SerialDevice, USBDevice
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_DEVICE, CONF_ID, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -41,7 +41,7 @@ def mock_serial_ports() -> Generator[AsyncMock]:
 
 
 async def test_step_user_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_serial_ports: AsyncMock,
     mock_momonga: Mock,
@@ -82,7 +82,7 @@ async def test_step_user_form(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_user_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     error: Exception,
     message: str,
     mock_serial_ports: AsyncMock,

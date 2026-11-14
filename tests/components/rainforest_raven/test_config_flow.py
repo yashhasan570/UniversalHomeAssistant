@@ -11,7 +11,7 @@ from universalassistant.components.rainforest_raven.const import DOMAIN
 from universalassistant.components.usb import USBDevice
 from universalassistant.config_entries import SOURCE_USB, SOURCE_USER
 from universalassistant.const import CONF_DEVICE, CONF_MAC, CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import create_mock_device
@@ -74,7 +74,7 @@ def mock_comports() -> Generator[list[USBDevice]]:
         yield comports
 
 
-async def _async_finish_flow(hass: UniversalAssistant, flow_id: str) -> None:
+async def _async_finish_flow(hass: __HAC_KEEP__, flow_id: str) -> None:
     """Finish the user flow by selecting the device and the first meter."""
     with patch(
         "universalassistant.components.rainforest_raven.async_setup_entry",
@@ -93,7 +93,7 @@ async def _async_finish_flow(hass: UniversalAssistant, flow_id: str) -> None:
 
 
 @pytest.mark.usefixtures("mock_comports", "mock_device")
-async def test_flow_usb(hass: UniversalAssistant) -> None:
+async def test_flow_usb(hass: __HAC_KEEP__) -> None:
     """Test usb flow connection."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USB}, data=DISCOVERY_INFO
@@ -113,7 +113,7 @@ async def test_flow_usb(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_comports", "mock_device_no_open")
-async def test_flow_usb_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_flow_usb_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test usb flow connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USB}, data=DISCOVERY_INFO
@@ -124,7 +124,7 @@ async def test_flow_usb_cannot_connect(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_comports", "mock_device_timeout")
-async def test_flow_usb_timeout_connect(hass: UniversalAssistant) -> None:
+async def test_flow_usb_timeout_connect(hass: __HAC_KEEP__) -> None:
     """Test usb flow connection timeout."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USB}, data=DISCOVERY_INFO
@@ -135,7 +135,7 @@ async def test_flow_usb_timeout_connect(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_comports", "mock_device_comm_error")
-async def test_flow_usb_comm_error(hass: UniversalAssistant) -> None:
+async def test_flow_usb_comm_error(hass: __HAC_KEEP__) -> None:
     """Test usb flow connection failure to communicate."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_USB}, data=DISCOVERY_INFO
@@ -146,7 +146,7 @@ async def test_flow_usb_comm_error(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_comports", "mock_device")
-async def test_flow_user(hass: UniversalAssistant) -> None:
+async def test_flow_user(hass: __HAC_KEEP__) -> None:
     """Test user flow connection."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -179,7 +179,7 @@ async def test_flow_user(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_comports")
-async def test_flow_user_no_available_devices(hass: UniversalAssistant) -> None:
+async def test_flow_user_no_available_devices(hass: __HAC_KEEP__) -> None:
     """Test user flow with no available devices."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -196,7 +196,7 @@ async def test_flow_user_no_available_devices(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_comports")
-async def test_flow_user_in_progress(hass: UniversalAssistant) -> None:
+async def test_flow_user_in_progress(hass: __HAC_KEEP__) -> None:
     """Test user flow with no available devices."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -219,7 +219,7 @@ async def test_flow_user_in_progress(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_comports")
 async def test_flow_user_cannot_connect(
-    hass: UniversalAssistant, mock_device_no_open: AsyncMock
+    hass: __HAC_KEEP__, mock_device_no_open: AsyncMock
 ) -> None:
     """Test user flow connection failure to communicate."""
     result = await hass.config_entries.flow.async_init(
@@ -240,7 +240,7 @@ async def test_flow_user_cannot_connect(
 
 @pytest.mark.usefixtures("mock_comports")
 async def test_flow_user_timeout_connect(
-    hass: UniversalAssistant, mock_device_timeout: AsyncMock
+    hass: __HAC_KEEP__, mock_device_timeout: AsyncMock
 ) -> None:
     """Test user flow connection failure to communicate."""
     result = await hass.config_entries.flow.async_init(
@@ -262,7 +262,7 @@ async def test_flow_user_timeout_connect(
 
 @pytest.mark.usefixtures("mock_comports")
 async def test_flow_user_comm_error(
-    hass: UniversalAssistant, mock_device_comm_error: AsyncMock
+    hass: __HAC_KEEP__, mock_device_comm_error: AsyncMock
 ) -> None:
     """Test user flow connection failure to communicate."""
     result = await hass.config_entries.flow.async_init(

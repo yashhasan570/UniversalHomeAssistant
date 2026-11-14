@@ -19,7 +19,7 @@ from universalassistant.components.mitsubishi_comfort.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -51,7 +51,7 @@ def _second_device_info() -> DeviceInfo:
     )
 
 
-async def _setup_addressless_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def _setup_addressless_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Set up an entry whose device has no LAN address, raising the issue."""
     assert await async_setup_component(hass, "repairs", {})
     entry = MockConfigEntry(
@@ -74,7 +74,7 @@ async def _setup_addressless_entry(hass: UniversalAssistant) -> MockConfigEntry:
     ],
 )
 async def test_fix_flow_sets_missing_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     invalid_value: str,
@@ -123,7 +123,7 @@ async def test_fix_flow_sets_missing_address(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_blank_field_keeps_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_fix_flow_blank_field_keeps_issue(
     ],
 )
 async def test_fix_flow_failed_reload_restores_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     submission: dict[str, str],
@@ -194,7 +194,7 @@ async def test_fix_flow_failed_reload_restores_issue(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_retry_on_wedged_entry_keeps_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_fix_flow_retry_on_wedged_entry_keeps_issue(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_failed_reload_ignores_partial_records(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
@@ -281,7 +281,7 @@ async def test_fix_flow_failed_reload_ignores_partial_records(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_lists_only_addressless_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
     mock_device_info: DeviceInfo,
@@ -318,7 +318,7 @@ async def test_fix_flow_lists_only_addressless_devices(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_offers_cached_devices_before_first_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
@@ -377,7 +377,7 @@ async def test_fix_flow_offers_cached_devices_before_first_discovery(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_suggests_cached_ip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test the form pre-fills an IP the DHCP cache saw after setup."""
@@ -403,7 +403,7 @@ async def test_fix_flow_suggests_cached_ip(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_keeps_address_discovered_during_probe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
     mock_device_info: DeviceInfo,
@@ -449,7 +449,7 @@ async def test_fix_flow_keeps_address_discovered_during_probe(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_rejects_unreachable_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test an address whose device fails the authenticated probe is rejected.
@@ -480,7 +480,7 @@ async def test_fix_flow_rejects_unreachable_address(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_flags_each_unreachable_field(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
     mock_device_info: DeviceInfo,
@@ -528,7 +528,7 @@ async def test_fix_flow_flags_each_unreachable_field(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_concurrent_lease_wins_over_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test a lease DHCP stored during the probe beats the form entry.
@@ -566,7 +566,7 @@ async def test_fix_flow_concurrent_lease_wins_over_entry(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_omits_devices_without_secrets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
     mock_device_info: DeviceInfo,
@@ -604,7 +604,7 @@ async def test_fix_flow_omits_devices_without_secrets(
 
 @pytest.mark.parametrize("ignore_missing_translations", [IGNORE_FORM_TRANSLATIONS])
 async def test_fix_flow_omits_devices_no_longer_on_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -631,7 +631,7 @@ async def test_fix_flow_omits_devices_no_longer_on_account(
 
 
 async def test_fix_flow_without_entry_falls_back_to_confirm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     issue_registry: ir.IssueRegistry,
 ) -> None:

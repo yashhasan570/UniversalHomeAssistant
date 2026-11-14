@@ -3,14 +3,14 @@
 from pytest_universalassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 import universalassistant.helpers.device_registry as dr
 
 from . import setup_integration
 
 
 async def test_device_registry_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nsapi,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

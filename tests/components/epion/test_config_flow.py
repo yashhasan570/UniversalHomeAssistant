@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.epion.const import DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 API_KEY = "test-key-123"
@@ -17,7 +17,7 @@ NEW_API_KEY = "new-key-456"
 ACCOUNT_ID = "account-dupe-123"
 
 
-async def test_user_flow(hass: UniversalAssistant, mock_epion: MagicMock) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, mock_epion: MagicMock) -> None:
     """Test we can handle a regular successflow setup flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -51,7 +51,7 @@ async def test_user_flow(hass: UniversalAssistant, mock_epion: MagicMock) -> Non
     ],
 )
 async def test_form_exceptions(
-    hass: UniversalAssistant, exception: Exception, error: str, mock_epion: MagicMock
+    hass: __HAC_KEEP__, exception: Exception, error: str, mock_epion: MagicMock
 ) -> None:
     """Test we can handle Form exceptions."""
 
@@ -88,7 +88,7 @@ async def test_form_exceptions(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_duplicate_entry(hass: UniversalAssistant, mock_epion: MagicMock) -> None:
+async def test_duplicate_entry(hass: __HAC_KEEP__, mock_epion: MagicMock) -> None:
     """Test duplicate setup handling."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -113,7 +113,7 @@ async def test_duplicate_entry(hass: UniversalAssistant, mock_epion: MagicMock) 
     assert result["reason"] == "already_configured"
 
 
-async def test_reauth_flow(hass: UniversalAssistant, mock_epion: MagicMock) -> None:
+async def test_reauth_flow(hass: __HAC_KEEP__, mock_epion: MagicMock) -> None:
     """Test reauthentication updates the API key."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -153,7 +153,7 @@ async def test_reauth_flow(hass: UniversalAssistant, mock_epion: MagicMock) -> N
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant, exception: Exception, error: str, mock_epion: MagicMock
+    hass: __HAC_KEEP__, exception: Exception, error: str, mock_epion: MagicMock
 ) -> None:
     """Test reauthentication errors and recovery."""
     entry = MockConfigEntry(
@@ -193,7 +193,7 @@ async def test_reauth_flow_errors(
 
 
 async def test_reauth_flow_wrong_account(
-    hass: UniversalAssistant, mock_epion: MagicMock
+    hass: __HAC_KEEP__, mock_epion: MagicMock
 ) -> None:
     """Test reauthentication with an API key of a different account."""
     entry = MockConfigEntry(

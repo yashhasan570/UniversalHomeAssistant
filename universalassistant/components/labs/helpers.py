@@ -1,10 +1,10 @@
-"""Helper functions for the Universal Universal Home Assistant Labs integration."""
+"""Helper functions for the __HA_KEEP__ Labs integration."""
 
 from collections.abc import Callable, Coroutine
 from typing import Any
 
 from universalassistant.const import EVENT_LABS_UPDATED
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers.frame import report_usage
 
 from .const import LABS_DATA
@@ -13,12 +13,12 @@ from .models import EventLabsUpdatedData
 
 @callback
 def async_is_preview_feature_enabled(
-    hass: UniversalAssistant, domain: str, preview_feature: str
+    hass: __HAC_KEEP__, domain: str, preview_feature: str
 ) -> bool:
     """Check if a lab preview feature is enabled.
 
     Args:
-        hass: UniversalAssistant instance
+        hass: __HAC_KEEP__ instance
         domain: Integration domain
         preview_feature: Preview feature name
 
@@ -34,7 +34,7 @@ def async_is_preview_feature_enabled(
 
 @callback
 def async_subscribe_preview_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     preview_feature: str,
     listener: Callable[[EventLabsUpdatedData], Coroutine[Any, Any, None]],
@@ -42,7 +42,7 @@ def async_subscribe_preview_feature(
     """Listen for changes to a specific preview feature.
 
     Args:
-        hass: UniversalAssistant instance
+        hass: __HAC_KEEP__ instance
         domain: Integration domain
         preview_feature: Preview feature name
         listener: Coroutine function to invoke when the preview feature
@@ -71,7 +71,7 @@ def async_subscribe_preview_feature(
 
 @callback
 def async_listen(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     preview_feature: str,
     listener: Callable[[], None],
@@ -81,7 +81,7 @@ def async_listen(
     Deprecated: use async_subscribe_preview_feature instead.
 
     Args:
-        hass: UniversalAssistant instance
+        hass: __HAC_KEEP__ instance
         domain: Integration domain
         preview_feature: Preview feature name
         listener: Callback to invoke when the preview feature is toggled
@@ -102,7 +102,7 @@ def async_listen(
 
 
 async def async_update_preview_feature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     preview_feature: str,
     enabled: bool,

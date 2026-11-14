@@ -4,8 +4,8 @@ from typing import NoReturn, override
 
 from lifx import mac_candidates_for_serial
 
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import EntityDescription
@@ -17,7 +17,7 @@ from .coordinator import LIFXConfigEntry, LIFXState, LIFXUpdateCoordinator
 
 @callback
 def async_repair_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LIFXConfigEntry,
     state: LIFXState,
 ) -> None:
@@ -104,7 +104,7 @@ class LIFXEntity(CoordinatorEntity[LIFXUpdateCoordinator]):
         ):
             # The coordinator keeps the state it last read, which is what the
             # write would be merged over and would then be written back
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="cannot_read_state"
             )
 

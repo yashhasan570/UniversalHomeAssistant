@@ -1,4 +1,4 @@
-"""Hanna Instruments data coordinator for Universal Universal Home Assistant.
+"""Hanna Instruments data coordinator for __HA_KEEP__.
 
 This module provides the data coordinator for fetching and managing Hanna Instruments
 sensor data.
@@ -12,7 +12,7 @@ from hanna_cloud import HannaCloudClient
 from requests.exceptions import RequestException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -27,7 +27,7 @@ class HannaDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: HannaConfigEntry,
         device: dict[str, Any],
         api_client: HannaCloudClient,

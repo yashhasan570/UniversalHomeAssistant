@@ -8,7 +8,7 @@ from prayer_times_calculator_offline import PrayerTimesCalculator
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.event import async_track_point_in_time
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util import dt as dt_util
@@ -36,7 +36,7 @@ class IslamicPrayerDataUpdateCoordinator(DataUpdateCoordinator[dict[str, datetim
     config_entry: IslamicPrayerTimesConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: IslamicPrayerTimesConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: IslamicPrayerTimesConfigEntry
     ) -> None:
         """Initialize the Islamic Prayer client."""
         super().__init__(

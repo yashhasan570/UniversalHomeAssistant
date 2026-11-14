@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.altruist.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -28,7 +28,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_user_step_success(
-    hass: UniversalAssistant, mock_altruist_client: AsyncMock
+    hass: __HAC_KEEP__, mock_altruist_client: AsyncMock
 ) -> None:
     """Test user step shows form and succeeds with valid input."""
     result = await hass.config_entries.flow.async_init(
@@ -51,7 +51,7 @@ async def test_form_user_step_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_user_step_cannot_connect_then_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_altruist_client: AsyncMock,
     mock_altruist_client_fails_once: None,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_form_user_step_cannot_connect_then_recovers(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_user_step_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_altruist_client: AsyncMock,
 ) -> None:
@@ -107,7 +107,7 @@ async def test_form_user_step_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_discovery(
-    hass: UniversalAssistant, mock_altruist_client: AsyncMock
+    hass: __HAC_KEEP__, mock_altruist_client: AsyncMock
 ) -> None:
     """Test zeroconf discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -133,7 +133,7 @@ async def test_zeroconf_discovery(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_discovery_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_altruist_client: AsyncMock,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_zeroconf_discovery_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_discovery_cant_create_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_altruist_client_fails_once: AsyncMock,
 ) -> None:

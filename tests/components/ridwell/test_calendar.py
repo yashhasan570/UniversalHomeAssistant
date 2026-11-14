@@ -15,7 +15,7 @@ from universalassistant.components.ridwell.const import (
     CALENDAR_TITLE_STATUS,
     CONF_CALENDAR_TITLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 START_DATE = date(2025, 10, 4)
 END_DATE = date(2025, 10, 5)
@@ -78,7 +78,7 @@ END_DATE = date(2025, 10, 5)
     ],
 )
 async def test_calendar_event_varied_states_and_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry,
     pickup_name: str,
     event_state: EventState,
@@ -124,7 +124,7 @@ async def test_calendar_event_varied_states_and_types(
 
 
 async def test_calendar_event_with_no_pickups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry,
 ) -> None:
     """Test empty pickups."""

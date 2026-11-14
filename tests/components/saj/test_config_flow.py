@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.saj.const import CONNECTION_TYPES, DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_TYPE, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_SERIAL_NUMBER, MOCK_USER_INPUT_ETHERNET, MOCK_USER_INPUT_WIFI
@@ -28,7 +28,7 @@ IMPORT_DATA_WIFI = {
 
 
 async def test_form_ethernet(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_aiosaj_saj: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_aiosaj_saj: MagicMock
 ) -> None:
     """Test we get the form for ethernet connection."""
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_form_ethernet(
 
 
 async def test_form_wifi_open_network(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_aiosaj_saj: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_aiosaj_saj: MagicMock
 ) -> None:
     """Test WiFi without credentials when the device allows open access."""
     result = await hass.config_entries.flow.async_init(
@@ -89,7 +89,7 @@ async def test_form_wifi_open_network(
 
 
 async def test_form_wifi_requires_credentials(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_aiosaj_saj: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_aiosaj_saj: MagicMock
 ) -> None:
     """Test WiFi flow when the first probe requires authentication."""
     result = await hass.config_entries.flow.async_init(
@@ -134,7 +134,7 @@ async def test_form_wifi_requires_credentials(
 
 
 async def test_form_missing_serial_number(
-    hass: UniversalAssistant, mock_aiosaj_saj: MagicMock
+    hass: __HAC_KEEP__, mock_aiosaj_saj: MagicMock
 ) -> None:
     """Test we reject devices that respond but do not expose a serial number."""
     result = await hass.config_entries.flow.async_init(
@@ -161,7 +161,7 @@ async def test_form_missing_serial_number(
 
 
 async def test_form_wifi_probe_fails_shows_user_error(
-    hass: UniversalAssistant, mock_aiosaj_saj: MagicMock
+    hass: __HAC_KEEP__, mock_aiosaj_saj: MagicMock
 ) -> None:
     """Test WiFi: failed probe (not SAJ / wrong host) keeps the user on host step."""
     result = await hass.config_entries.flow.async_init(
@@ -202,7 +202,7 @@ async def test_form_wifi_probe_fails_shows_user_error(
     ],
 )
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     error: str,
     mock_aiosaj_saj: MagicMock,
@@ -231,7 +231,7 @@ async def test_form_exceptions(
 
 
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_aiosaj_saj: MagicMock,
@@ -255,7 +255,7 @@ async def test_form_already_configured(
 
 
 async def test_import_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_aiosaj_saj: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_aiosaj_saj: MagicMock
 ) -> None:
     """Test YAML import creates a config entry."""
     data = {
@@ -309,7 +309,7 @@ async def test_import_success(
     ],
 )
 async def test_import_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aiosaj_saj: MagicMock,
     import_data: dict[str, str],
     exception: Exception,
@@ -327,7 +327,7 @@ async def test_import_aborts(
 
 
 async def test_import_aborts_read_failed(
-    hass: UniversalAssistant, mock_aiosaj_saj: MagicMock
+    hass: __HAC_KEEP__, mock_aiosaj_saj: MagicMock
 ) -> None:
     """Test YAML import aborts when the inverter read returns false."""
     mock_aiosaj_saj.read.return_value = False
@@ -341,7 +341,7 @@ async def test_import_aborts_read_failed(
 
 
 async def test_import_aborts_missing_serial(
-    hass: UniversalAssistant, mock_aiosaj_saj: MagicMock
+    hass: __HAC_KEEP__, mock_aiosaj_saj: MagicMock
 ) -> None:
     """Test YAML import aborts when the device does not return a serial number."""
     mock_aiosaj_saj.serialnumber = aiosaj.UNKNOWN_SERIAL
@@ -355,7 +355,7 @@ async def test_import_aborts_missing_serial(
 
 
 async def test_import_already_configured_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aiosaj_saj: MagicMock,
 ) -> None:
@@ -374,7 +374,7 @@ async def test_import_already_configured_aborts(
 @pytest.mark.parametrize("connection_method", ["wifi"], indirect=True)
 @pytest.mark.usefixtures("mock_setup_entry", "mock_aiosaj_saj")
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reauthentication updates the password."""
@@ -414,7 +414,7 @@ async def test_reauth(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aiosaj_saj: MagicMock,
     exception: Exception,
@@ -446,7 +446,7 @@ async def test_reauth_errors(
 @pytest.mark.parametrize("connection_method", ["wifi"], indirect=True)
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aiosaj_saj: MagicMock,
 ) -> None:

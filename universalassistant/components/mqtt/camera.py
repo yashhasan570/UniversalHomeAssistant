@@ -10,7 +10,7 @@ from universalassistant.components import camera
 from universalassistant.components.camera import Camera, CameraEntityStateAttribute
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -56,7 +56,7 @@ DISCOVERY_SCHEMA = PLATFORM_SCHEMA_BASE.extend({}, extra=probatio.REMOVE_EXTRA)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -82,7 +82,7 @@ class MqttCamera(MqttEntity, Camera):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         config_entry: ConfigEntry,
         discovery_data: DiscoveryInfoType | None,

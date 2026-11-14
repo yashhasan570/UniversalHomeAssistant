@@ -10,12 +10,12 @@ from requests.exceptions import ConnectionError as RequestsConnectionError, Time
 from universalassistant.components.hanna.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_hanna_client: MagicMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_hanna_client: MagicMock) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -59,7 +59,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_hanna_client: MagicMock)
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_error_scenarios(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hanna_client: MagicMock,
     exception: Exception,
     expected_error: str,
@@ -98,7 +98,7 @@ async def test_error_scenarios(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hanna_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

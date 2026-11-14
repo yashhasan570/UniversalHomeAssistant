@@ -4,7 +4,7 @@ from functools import partial
 
 import pytest
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
     async_dispatcher_send,
@@ -12,7 +12,7 @@ from universalassistant.helpers.dispatcher import (
 from universalassistant.util.signal_type import SignalType, SignalTypeFormat
 
 
-async def test_simple_function(hass: UniversalAssistant) -> None:
+async def test_simple_function(hass: __HAC_KEEP__) -> None:
     """Test simple function (executor)."""
     calls = []
 
@@ -32,7 +32,7 @@ async def test_simple_function(hass: UniversalAssistant) -> None:
     assert calls == [3, "bla"]
 
 
-async def test_signal_type(hass: UniversalAssistant) -> None:
+async def test_signal_type(hass: __HAC_KEEP__) -> None:
     """Test dispatcher with SignalType."""
     signal: SignalType[str, int] = SignalType("test")
     calls: list[tuple[str, int]] = []
@@ -58,7 +58,7 @@ async def test_signal_type(hass: UniversalAssistant) -> None:
     assert calls == [("Hello", 2), ("World", 3), ("x", 4)]
 
 
-async def test_signal_type_format(hass: UniversalAssistant) -> None:
+async def test_signal_type_format(hass: __HAC_KEEP__) -> None:
     """Test dispatcher with SignalType and format."""
     signal: SignalTypeFormat[str, int] = SignalTypeFormat("test-{}")
     calls: list[tuple[str, int]] = []
@@ -79,7 +79,7 @@ async def test_signal_type_format(hass: UniversalAssistant) -> None:
     assert calls == [("Hello", 2), ("x", 4)]
 
 
-async def test_simple_function_unsub(hass: UniversalAssistant) -> None:
+async def test_simple_function_unsub(hass: __HAC_KEEP__) -> None:
     """Test simple function (executor) and unsub."""
     calls1 = []
     calls2 = []
@@ -121,7 +121,7 @@ async def test_simple_function_unsub(hass: UniversalAssistant) -> None:
     assert calls2 == [4]
 
 
-async def test_simple_callback(hass: UniversalAssistant) -> None:
+async def test_simple_callback(hass: __HAC_KEEP__) -> None:
     """Test simple callback (async)."""
     calls = []
 
@@ -142,7 +142,7 @@ async def test_simple_callback(hass: UniversalAssistant) -> None:
     assert calls == [3, "bla"]
 
 
-async def test_simple_coro(hass: UniversalAssistant) -> None:
+async def test_simple_coro(hass: __HAC_KEEP__) -> None:
     """Test simple coro (async)."""
     calls = []
 
@@ -162,7 +162,7 @@ async def test_simple_coro(hass: UniversalAssistant) -> None:
     assert calls == [3, "bla"]
 
 
-async def test_simple_function_multiargs(hass: UniversalAssistant) -> None:
+async def test_simple_function_multiargs(hass: __HAC_KEEP__) -> None:
     """Test simple function (executor)."""
     calls = []
 
@@ -181,7 +181,7 @@ async def test_simple_function_multiargs(hass: UniversalAssistant) -> None:
 
 @pytest.mark.no_fail_on_log_exception
 async def test_callback_exception_gets_logged(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test exception raised by signal handler."""
 
@@ -202,7 +202,7 @@ async def test_callback_exception_gets_logged(
 
 @pytest.mark.no_fail_on_log_exception
 async def test_coro_exception_gets_logged(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test exception raised by signal handler."""
 
@@ -219,7 +219,7 @@ async def test_coro_exception_gets_logged(
     assert "when dispatching 'test': ('bad',)" in caplog.text
 
 
-async def test_dispatcher_add_dispatcher(hass: UniversalAssistant) -> None:
+async def test_dispatcher_add_dispatcher(hass: __HAC_KEEP__) -> None:
     """Test adding a dispatcher from a dispatcher."""
     calls = []
 
@@ -241,7 +241,7 @@ async def test_dispatcher_add_dispatcher(hass: UniversalAssistant) -> None:
     assert calls == [3, 4, 4, 5, 5]
 
 
-async def test_thread_safety_checks(hass: UniversalAssistant) -> None:
+async def test_thread_safety_checks(hass: __HAC_KEEP__) -> None:
     """Test dispatcher thread safety checks."""
     calls = []
 

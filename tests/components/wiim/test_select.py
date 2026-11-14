@@ -24,8 +24,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import MockConfigEntry, fire_general_update, setup_integration
@@ -60,7 +60,7 @@ def mock_audio_output(mock_wiim_device: AsyncMock) -> None:
     ],
 )
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -84,7 +84,7 @@ async def test_setup(
 
 
 async def test_no_http_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_no_http_api(
     ],
 )
 async def test_initial_read_failure_recovers_from_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
     error: Exception,
@@ -127,7 +127,7 @@ async def test_initial_read_failure_recovers_from_event(
 
 
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
 ) -> None:
@@ -149,7 +149,7 @@ async def test_select_option(
 
 
 async def test_non_selectable_output_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_non_selectable_output_rejected(
 
 
 async def test_select_cycle_and_last(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_select_cycle_and_last(
     ],
 )
 async def test_select_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
     error: Exception,
@@ -217,7 +217,7 @@ async def test_select_failure(
     """Report command failures without changing the selected output."""
     await setup_integration(hass, mock_config_entry)
     mock_wiim_device.async_set_output_mode.side_effect = error
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -247,7 +247,7 @@ async def test_select_failure(
     ],
 )
 async def test_output_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
     options: list[str],
@@ -269,7 +269,7 @@ async def test_output_event(
 
 
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
 ) -> None:
@@ -284,7 +284,7 @@ async def test_availability(
 
 
 async def test_updates_without_media_player(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: AsyncMock,
     entity_registry: er.EntityRegistry,

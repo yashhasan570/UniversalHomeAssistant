@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import dynalite
 from universalassistant.const import ATTR_SERVICE, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 ATTR_METHOD = "method"
 ATTR_ARGS = "args"
@@ -23,14 +23,14 @@ def create_mock_device(platform, spec):
     return device
 
 
-async def get_entry_id_from_hass(hass: UniversalAssistant) -> str:
+async def get_entry_id_from_hass(hass: __HAC_KEEP__) -> str:
     """Get the config entry id from hass."""
     conf_entries = hass.config_entries.async_entries(dynalite.DOMAIN)
     assert len(conf_entries) == 1
     return conf_entries[0].entry_id
 
 
-async def create_entity_from_device(hass: UniversalAssistant, device: DynaliteBaseDevice):
+async def create_entity_from_device(hass: __HAC_KEEP__, device: DynaliteBaseDevice):
     """Set up the component and platform and create a light based on the device."""
     host = "1.2.3.4"
     entry = MockConfigEntry(domain=dynalite.DOMAIN, data={CONF_HOST: host})
@@ -47,7 +47,7 @@ async def create_entity_from_device(hass: UniversalAssistant, device: DynaliteBa
     return mock_dyn_dev.mock_calls[1][2]["update_device_func"]
 
 
-async def run_service_tests(hass: UniversalAssistant, device, domain, services):
+async def run_service_tests(hass: __HAC_KEEP__, device, domain, services):
     """Run a series of service calls and check entity and device behave correctly."""
     for cur_item in services:
         service = cur_item[ATTR_SERVICE]

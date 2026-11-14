@@ -6,7 +6,7 @@ from urllib.parse import quote, urlencode
 from universalassistant.components.camera import CameraEntityFeature
 from universalassistant.components.mjpeg import MjpegCamera, filter_urllib3_logging
 from universalassistant.const import HTTP_BASIC_AUTHENTICATION, HTTP_DIGEST_AUTHENTICATION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -17,7 +17,7 @@ from .hub import AxisHub
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AxisConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

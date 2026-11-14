@@ -35,7 +35,7 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TARGET,
 )
-from universalassistant.core import Context, UniversalAssistant, callback
+from universalassistant.core import Context, __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er, label_registry as lr
 from universalassistant.helpers.trigger import (
     async_initialize_triggers,
@@ -46,7 +46,7 @@ from universalassistant.util import dt as dt_util
 
 
 @pytest.fixture
-async def target_timers(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_timers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple timer entities associated with different targets."""
     return await target_entities(hass, DOMAIN)
 
@@ -73,7 +73,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_timer_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -152,7 +152,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_timer_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_timers: dict[str, list[str]],
     trigger_target_config: dict[str, Any],
     entity_id: str,
@@ -232,7 +232,7 @@ async def test_timer_trigger_behavior_each(
     ],
 )
 async def test_timer_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_timers: dict[str, list[str]],
     trigger_target_config: dict[str, Any],
     entity_id: str,
@@ -312,7 +312,7 @@ async def test_timer_trigger_behavior_first(
     ],
 )
 async def test_timer_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_timers: dict[str, list[str]],
     trigger_target_config: dict[str, Any],
     entity_id: str,
@@ -338,7 +338,7 @@ async def test_timer_trigger_behavior_all(
 
 
 async def _arm_time_remaining_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     remaining: dict[str, int],
     calls: list[dict[str, Any]],
@@ -376,7 +376,7 @@ async def _arm_time_remaining_trigger(
     )
 
 
-async def test_time_remaining_trigger_validation(hass: UniversalAssistant) -> None:
+async def test_time_remaining_trigger_validation(hass: __HAC_KEEP__) -> None:
     """Test time_remaining trigger config validation."""
     # Valid config
     await async_validate_trigger_config(
@@ -405,7 +405,7 @@ async def test_time_remaining_trigger_validation(hass: UniversalAssistant) -> No
 
 
 async def test_time_remaining_trigger_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test time_remaining trigger fires at the right time."""
@@ -448,7 +448,7 @@ async def test_time_remaining_trigger_fires(
 
 
 async def test_time_remaining_trigger_paused_before_threshold(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test time_remaining trigger does not fire when timer is paused."""
@@ -491,7 +491,7 @@ async def test_time_remaining_trigger_paused_before_threshold(
 
 
 async def test_time_remaining_trigger_cancelled_before_threshold(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test time_remaining trigger does not fire when timer is cancelled."""
@@ -534,7 +534,7 @@ async def test_time_remaining_trigger_cancelled_before_threshold(
 
 
 async def test_time_remaining_trigger_restarted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test time_remaining trigger reschedules when timer is restarted."""
@@ -588,7 +588,7 @@ async def test_time_remaining_trigger_restarted(
 
 
 async def test_time_remaining_trigger_short_timer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test time_remaining trigger skips when duration < threshold."""
@@ -623,7 +623,7 @@ async def test_time_remaining_trigger_short_timer(
 
 
 async def test_time_remaining_trigger_already_active_at_attach(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test trigger schedules for timers already active when the trigger attaches."""
@@ -663,7 +663,7 @@ async def test_time_remaining_trigger_already_active_at_attach(
 
 
 async def test_time_remaining_trigger_already_active_past_threshold_at_attach(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test trigger ignores timers already past the fire point at attach."""
@@ -692,7 +692,7 @@ async def test_time_remaining_trigger_already_active_past_threshold_at_attach(
 
 
 async def test_time_remaining_trigger_idle_at_attach(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test trigger does not schedule for non-active timers at attach time."""
@@ -714,7 +714,7 @@ async def test_time_remaining_trigger_idle_at_attach(
 
 
 async def test_time_remaining_trigger_active_on_first_state_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test trigger schedules when first observed state event has no from_state.
@@ -751,7 +751,7 @@ async def test_time_remaining_trigger_active_on_first_state_event(
 
 
 async def test_time_remaining_trigger_entity_removed_from_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
@@ -805,7 +805,7 @@ async def test_time_remaining_trigger_entity_removed_from_target(
 
 
 async def test_time_remaining_trigger_entity_added_to_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,

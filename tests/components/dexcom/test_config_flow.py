@@ -12,7 +12,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.dexcom.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import CONFIG
@@ -28,7 +28,7 @@ def _patch_success() -> Generator[None]:
         yield
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_account_error(hass: UniversalAssistant) -> None:
+async def test_form_account_error(hass: __HAC_KEEP__) -> None:
     """Test we handle account error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -85,7 +85,7 @@ async def test_form_account_error(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_session_error(hass: UniversalAssistant) -> None:
+async def test_form_session_error(hass: __HAC_KEEP__) -> None:
     """Test we handle session error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -113,7 +113,7 @@ async def test_form_session_error(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_unknown_error(hass: UniversalAssistant) -> None:
+async def test_form_unknown_error(hass: __HAC_KEEP__) -> None:
     """Test we handle unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -141,7 +141,7 @@ async def test_form_unknown_error(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth(hass: UniversalAssistant) -> None:
+async def test_reauth(hass: __HAC_KEEP__) -> None:
     """Test reauth updates the password."""
     entry = MockConfigEntry(domain=DOMAIN, data=CONFIG, unique_id=CONFIG[CONF_USERNAME])
     entry.add_to_hass(hass)
@@ -176,7 +176,7 @@ async def test_reauth(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reauth_errors(
-    hass: UniversalAssistant, side_effect: type[Exception], error: str
+    hass: __HAC_KEEP__, side_effect: type[Exception], error: str
 ) -> None:
     """Test reauth handles errors and can recover."""
     entry = MockConfigEntry(domain=DOMAIN, data=CONFIG, unique_id=CONFIG[CONF_USERNAME])

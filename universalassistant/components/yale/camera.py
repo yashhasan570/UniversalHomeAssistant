@@ -9,7 +9,7 @@ from yalexs.doorbell import Doorbell
 from yalexs.util import update_doorbell_image_from_activity
 
 from universalassistant.components.camera import Camera
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: YaleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

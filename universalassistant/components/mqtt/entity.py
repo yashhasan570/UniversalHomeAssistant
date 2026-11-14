@@ -24,7 +24,7 @@ from universalassistant.const import (
     EntityCapabilityAttribute,
     EntityStateAttribute,
 )
-from universalassistant.core import Event, HassJobType, UniversalAssistant, callback
+from universalassistant.core import Event, HassJobType, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import (
     ChildDeviceInfo,
@@ -179,7 +179,7 @@ def _log_device_info_error(err: dr.DeviceInfoError) -> None:
 
 
 def _handle_discovery_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_payload: MQTTDiscoveryPayload,
 ) -> None:
     """Handle discovery failure."""
@@ -190,7 +190,7 @@ def _handle_discovery_failure(
 
 @callback
 def _async_is_unique_id_of_other_disabled_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     config: DiscoveryInfoType,
     discovery_payload: MQTTDiscoveryPayload,
@@ -235,7 +235,7 @@ def _async_is_unique_id_of_other_disabled_entity(
 
 
 def _verify_mqtt_config_entry_enabled_for_discovery(
-    hass: UniversalAssistant, domain: str, discovery_payload: MQTTDiscoveryPayload
+    hass: __HAC_KEEP__, domain: str, discovery_payload: MQTTDiscoveryPayload
 ) -> bool:
     """Verify MQTT config entry is enabled or log warning."""
     if not mqtt_config_entry_enabled(hass):
@@ -261,7 +261,7 @@ class _SetupNonEntityHelperCallbackProtocol(Protocol):  # pragma: no cover
 
 @callback
 def async_setup_non_entity_entry_helper(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     async_setup: _SetupNonEntityHelperCallbackProtocol,
     discovery_schema: probatio.Schema,
@@ -301,7 +301,7 @@ def async_setup_non_entity_entry_helper(
 
 @callback
 def async_setup_entity_entry_helper(  # noqa: C901
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     entity_class: type[MqttEntity] | None,
     domain: str,
@@ -603,7 +603,7 @@ class MqttAttributesMixin(Entity):
                 _LOGGER.info(
                     "Group member update received for entity %s, "
                     "but this entity was not initialized with the `group` option. "
-                    "Reload the MQTT integration or restart Universal Universal Home Assistant to activate",
+                    "Reload the MQTT integration or restart __HA_KEEP__ to activate",
                     self.entity_id,
                 )
 
@@ -833,14 +833,14 @@ def get_discovery_hash(discovery_data: DiscoveryInfoType) -> tuple[str, str]:
     return discovery_hash
 
 
-def send_discovery_done(hass: UniversalAssistant, discovery_data: DiscoveryInfoType) -> None:
+def send_discovery_done(hass: __HAC_KEEP__, discovery_data: DiscoveryInfoType) -> None:
     """Acknowledge a discovery message has been handled."""
     discovery_hash = get_discovery_hash(discovery_data)
     async_dispatcher_send(hass, MQTT_DISCOVERY_DONE.format(*discovery_hash), None)
 
 
 def stop_discovery_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_data: DiscoveryInfoType,
     remove_discovery_updated: Callable[[], None] | None = None,
 ) -> None:
@@ -853,19 +853,19 @@ def stop_discovery_updates(
 
 
 async def async_remove_discovery_payload(
-    hass: UniversalAssistant, discovery_data: DiscoveryInfoType
+    hass: __HAC_KEEP__, discovery_data: DiscoveryInfoType
 ) -> None:
     """Clear retained discovery payload.
 
     Remove discovery topic in broker to avoid rediscovery
-    after a restart of Universal Universal Home Assistant.
+    after a restart of __HA_KEEP__.
     """
     discovery_topic = discovery_data[ATTR_DISCOVERY_TOPIC]
     await async_publish(hass, discovery_topic, None, retain=True)
 
 
 async def async_remove_entity_discovery_payload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     discovery_data: DiscoveryInfoType,
     registry_entry: er.RegistryEntry | None,
@@ -895,7 +895,7 @@ async def async_remove_entity_discovery_payload(
     ):
         application: str = discovery_payload[CONF_ORIGIN][CONF_NAME]
         _LOGGER.warning(
-            "Although entity %s was removed from Universal Universal Home Assistant, it will be added "
+            "Although entity %s was removed from __HA_KEEP__, it will be added "
             "again when a new MQTT discovery config is received from %s on topic "
             "%s. To prevent this, disable the entity instead, or configure %s to "
             "no longer send this entity",
@@ -930,7 +930,7 @@ async def async_remove_entity_discovery_payload(
 
 
 async def async_clear_discovery_topic_if_entity_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_data: DiscoveryInfoType,
     registry_entry: er.RegistryEntry,
     main_device_id: str | None,
@@ -953,7 +953,7 @@ class MqttDiscoveryDeviceUpdateMixin(ABC):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         discovery_data: DiscoveryInfoType,
         device_id: str | None,
         config_entry: ConfigEntry,
@@ -1194,7 +1194,7 @@ class MqttDiscoveryUpdateMixin(Entity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         discovery_data: DiscoveryInfoType | None,
         discovery_update: Callable[[MQTTDiscoveryPayload], Coroutine[Any, Any, None]]
         | None = None,
@@ -1546,7 +1546,7 @@ def _via_device_identifier(
 
 @callback
 def ensure_via_device_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     specifications: dict[str, Any] | None,
     config_entry: ConfigEntry,
 ) -> None:
@@ -1580,7 +1580,7 @@ def ensure_via_device_exists(
 
 @callback
 def _resolve_via_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     specifications: dict[str, Any] | None,
     config_entry: ConfigEntry,
 ) -> str | None:
@@ -1800,7 +1800,7 @@ class MqttEntity(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         config_entry: ConfigEntry,
         discovery_data: DiscoveryInfoType | None,
@@ -2199,7 +2199,7 @@ class MqttEntity(
 
 
 def update_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     config: ConfigType,
 ) -> str | None:

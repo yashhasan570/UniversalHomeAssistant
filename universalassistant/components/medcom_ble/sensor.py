@@ -8,7 +8,7 @@ from universalassistant.components.sensor import (
     SensorEntityDescription,
     SensorStateClass,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -29,7 +29,7 @@ SENSORS_MAPPING_TEMPLATE: dict[str, SensorEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MedcomBleConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

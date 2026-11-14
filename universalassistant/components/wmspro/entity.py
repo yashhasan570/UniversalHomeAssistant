@@ -4,7 +4,7 @@ from typing import override
 
 from wmspro.destination import Destination
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -19,7 +19,7 @@ class WebControlProGenericEntity(Entity):
     _attr_has_entity_name = True
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry_id: str, dest: Destination
+        self, hass: __HAC_KEEP__, config_entry_id: str, dest: Destination
     ) -> None:
         """Initialize the entity with destination channel."""
         dest_id_str = str(dest.id)

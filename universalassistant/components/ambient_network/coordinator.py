@@ -8,7 +8,7 @@ from aioambient.errors import RequestError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
 
@@ -28,7 +28,7 @@ class AmbientNetworkDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]])
     last_measured: datetime | None = None
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: AmbientNetworkConfigEntry, api: OpenAPI
+        self, hass: __HAC_KEEP__, config_entry: AmbientNetworkConfigEntry, api: OpenAPI
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(
@@ -59,7 +59,7 @@ class AmbientNetworkDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]])
             )
 
         # Some stations do not report a "created_at" or "dateutc".
-        # See https://github.com/yashhasan570/UniversalUniversalAssistant/issues/116917
+        # See https://github.com/yashhasan570/__HAC_KEEP__/issues/116917
         if (ts := last_data.get("created_at")) is not None or (
             ts := last_data.get("dateutc")
         ) is not None:

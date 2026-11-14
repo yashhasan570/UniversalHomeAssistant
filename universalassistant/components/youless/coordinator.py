@@ -7,7 +7,7 @@ from typing import override
 from youless_api import YoulessAPI
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -21,7 +21,7 @@ class YouLessCoordinator(DataUpdateCoordinator[None]):
     config_entry: YouLessConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: YouLessConfigEntry, device: YoulessAPI
+        self, hass: __HAC_KEEP__, config_entry: YouLessConfigEntry, device: YoulessAPI
     ) -> None:
         """Initialize global YouLess data provider."""
         super().__init__(

@@ -14,8 +14,8 @@ from universalassistant.components.switch import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import entity_unique_ids, fire_hub_update
@@ -32,7 +32,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -51,7 +51,7 @@ async def test_switch_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_updates_zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
     service: str,
     expected_override_allowed: str,
@@ -71,13 +71,13 @@ async def test_switch_updates_zone(
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_wraps_library_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
     service: str,
 ) -> None:
-    """Library errors during toggling are raised as UniversalAssistantError."""
+    """Library errors during toggling are raised as __HAC_KEEP__Error."""
     mock_nobo_hub.async_update_zone.side_effect = PynoboError("boom")
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,
@@ -90,7 +90,7 @@ async def test_switch_wraps_library_error(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_push_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """Pushed hub updates refresh the switch state."""
@@ -103,7 +103,7 @@ async def test_switch_push_update(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_zone_removed_removes_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
 ) -> None:
     """Removing a zone via the Nobø app removes its switch."""
@@ -114,7 +114,7 @@ async def test_zone_removed_removes_switch(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_new_zone_adds_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -139,7 +139,7 @@ async def test_new_zone_adds_switch(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_readded_zone_reappears_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nobo_hub: MagicMock,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

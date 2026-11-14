@@ -17,7 +17,7 @@ from universalassistant.const import (
     Platform,
     UnitOfEnergy,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import FixtureDevice, MockOverkizClient, SetupOverkizIntegration
@@ -99,7 +99,7 @@ def fixture_platforms() -> Generator[None]:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -112,7 +112,7 @@ async def test_sensor_entities_snapshot(
 
 
 async def test_sensor_temperature_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -147,7 +147,7 @@ async def test_sensor_temperature_state_update(
 
 
 async def test_sensor_battery_level_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -220,7 +220,7 @@ async def test_sensor_battery_level_state_update(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_falsy_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -257,7 +257,7 @@ async def test_sensor_falsy_state_update(
 
 
 async def test_sensor_dynamic_unit_with_zero_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -305,7 +305,7 @@ async def test_sensor_dynamic_unit_with_zero_value(
 
 
 async def test_sensor_error_code_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,
@@ -341,7 +341,7 @@ async def test_sensor_error_code_state_update(
 
 
 async def test_sensor_unavailability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     mock_client: MockOverkizClient,
     freezer: FrozenDateTimeFactory,

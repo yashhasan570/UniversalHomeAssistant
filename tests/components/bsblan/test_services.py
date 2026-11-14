@@ -23,8 +23,8 @@ from universalassistant.components.bsblan.services import (
     SERVICE_SET_HEATING_SCHEDULE_SCHEMA,
     SERVICE_SET_HOT_WATER_SCHEDULE_SCHEMA,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import dt as dt_util
 
@@ -45,7 +45,7 @@ def test_set_schedule_requires_a_day(service_schema: probatio.Schema) -> None:
 
 @pytest.fixture
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -156,7 +156,7 @@ def water_heater_device_entry(
     ],
 )
 async def test_set_hot_water_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     water_heater_device_entry: dr.DeviceEntry,
     service_data: dict[str, Any],
@@ -186,7 +186,7 @@ async def test_set_hot_water_schedule(
 
 
 async def test_set_hot_water_schedule_refreshes_coordinator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     water_heater_device_entry: dr.DeviceEntry,
@@ -220,7 +220,7 @@ async def test_set_hot_water_schedule_refreshes_coordinator(
 
 
 async def test_overlapping_schedule_writes_preserve_latest_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     water_heater_device_entry: dr.DeviceEntry,
@@ -271,7 +271,7 @@ async def test_overlapping_schedule_writes_preserve_latest_refresh(
 
 
 async def test_set_hot_water_schedule_retries_failed_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     water_heater_device_entry: dr.DeviceEntry,
@@ -306,7 +306,7 @@ async def test_set_hot_water_schedule_retries_failed_refresh(
 
 
 async def test_set_hot_water_schedule_does_not_retry_unsupported_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     water_heater_device_entry: dr.DeviceEntry,
     freezer: FrozenDateTimeFactory,
@@ -336,7 +336,7 @@ async def test_set_hot_water_schedule_does_not_retry_unsupported_refresh(
 
 
 async def test_invalid_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -374,7 +374,7 @@ async def test_invalid_device_id(
     ids=["set_hot_water_schedule", "sync_time"],
 )
 async def test_no_config_entry_for_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_name: str,
     service_data: dict[str, Any],
@@ -403,7 +403,7 @@ async def test_no_config_entry_for_device(
 
 
 async def test_config_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     water_heater_device_entry: dr.DeviceEntry,
 ) -> None:
@@ -428,7 +428,7 @@ async def test_config_entry_not_loaded(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     water_heater_device_entry: dr.DeviceEntry,
 ) -> None:
@@ -436,7 +436,7 @@ async def test_api_error(
     mock_bsblan.hot_water_schedule.reset_mock()
     mock_bsblan.set_hot_water_schedule.side_effect = BSBLANError("API Error")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             "set_hot_water_schedule",
@@ -455,7 +455,7 @@ async def test_api_error(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_hot_water_schedule_rejects_main_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_entry: dr.DeviceEntry,
 ) -> None:
     """Test that picking the main device for hot water schedule is rejected."""
@@ -488,7 +488,7 @@ async def test_set_hot_water_schedule_rejects_main_device(
     ],
 )
 async def test_time_validation_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     water_heater_device_entry: dr.DeviceEntry,
     start_time: time | str,
     end_time: time | str,
@@ -513,7 +513,7 @@ async def test_time_validation_errors(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_unprovided_days_are_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     water_heater_device_entry: dr.DeviceEntry,
 ) -> None:
@@ -557,7 +557,7 @@ async def test_unprovided_days_are_none(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_string_time_formats(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     water_heater_device_entry: dr.DeviceEntry,
 ) -> None:
@@ -594,7 +594,7 @@ async def test_string_time_formats(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_non_standard_time_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     water_heater_device_entry: dr.DeviceEntry,
 ) -> None:
     """Test service with non-standard time types raises error."""
@@ -615,7 +615,7 @@ async def test_non_standard_time_types(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_too_many_slots_per_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     water_heater_device_entry: dr.DeviceEntry,
 ) -> None:
     """Test that more than three slots for a day is rejected by the schema."""
@@ -638,7 +638,7 @@ async def test_too_many_slots_per_day(
 
 
 async def test_async_setup_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -656,7 +656,7 @@ async def test_async_setup_services(
 
 
 async def test_sync_time_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -697,7 +697,7 @@ async def test_sync_time_service(
 
 
 async def test_sync_time_service_no_update_when_same(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -739,7 +739,7 @@ async def test_sync_time_service_no_update_when_same(
 
 
 async def test_sync_time_service_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -758,8 +758,8 @@ async def test_sync_time_service_error_handling(
     # Mock time() to raise an error
     mock_bsblan.time.side_effect = BSBLANError("Connection failed")
 
-    # Call the service - should raise UniversalAssistantError
-    with pytest.raises(UniversalAssistantError) as exc:
+    # Call the service - should raise __HAC_KEEP__Error
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "sync_time",
@@ -775,7 +775,7 @@ async def test_sync_time_service_error_handling(
 
 
 async def test_sync_time_service_set_time_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -802,8 +802,8 @@ async def test_sync_time_service_set_time_error(
     # Mock set_time() to raise an error
     mock_bsblan.set_time.side_effect = BSBLANError("Write failed")
 
-    # Call the service - should raise UniversalAssistantError
-    with pytest.raises(UniversalAssistantError) as exc:
+    # Call the service - should raise __HAC_KEEP__Error
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "sync_time",
@@ -819,7 +819,7 @@ async def test_sync_time_service_set_time_error(
 
 
 async def test_sync_time_service_entry_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
 ) -> None:
@@ -840,7 +840,7 @@ async def test_sync_time_service_entry_not_found(
 
 
 async def test_sync_time_service_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -880,7 +880,7 @@ async def test_sync_time_service_entry_not_loaded(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_heating_schedule(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -927,7 +927,7 @@ async def test_set_heating_schedule(
 
 
 async def test_set_heating_schedule_circuit_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bsblan: MagicMock,
     mock_config_entry_dual_circuit: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -960,7 +960,7 @@ async def test_set_heating_schedule_circuit_2(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_overlapping_heating_schedule_writes_preserve_latest_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -1018,7 +1018,7 @@ async def test_overlapping_heating_schedule_writes_preserve_latest_refresh(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_heating_schedule_retries_malformed_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -1064,7 +1064,7 @@ async def test_set_heating_schedule_retries_malformed_refresh(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_heating_schedule_rejects_main_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_entry: dr.DeviceEntry,
 ) -> None:
     """Test that picking the main device for heating schedule is rejected."""
@@ -1086,7 +1086,7 @@ async def test_set_heating_schedule_rejects_main_device(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_heating_schedule_rejects_zero_circuit_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1115,7 +1115,7 @@ async def test_set_heating_schedule_rejects_zero_circuit_device(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_heating_schedule_rejects_unavailable_circuit_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -1146,7 +1146,7 @@ async def test_set_heating_schedule_rejects_unavailable_circuit_device(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_heating_schedule_time_validation_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1174,7 +1174,7 @@ async def test_set_heating_schedule_time_validation_error(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_set_heating_schedule_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_bsblan: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -1187,7 +1187,7 @@ async def test_set_heating_schedule_api_error(
     mock_bsblan.heating_schedule.reset_mock()
     mock_bsblan.set_heating_schedule.side_effect = BSBLANError("API Error")
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             "set_heating_schedule",

@@ -28,7 +28,7 @@ from universalassistant.components.vacuum import (
     VacuumEntityFeature,
 )
 from universalassistant.components.vacuum.services import _async_clean_area
-from universalassistant.core import Context, UniversalAssistant, ServiceCall
+from universalassistant.core import Context, __HAC_KEEP__, ServiceCall
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
@@ -51,7 +51,7 @@ from . import (
     ],
 )
 async def test_state_services(
-    hass: UniversalAssistant, config_flow_fixture: None, service: str, expected_state: str
+    hass: __HAC_KEEP__, config_flow_fixture: None, service: str, expected_state: str
 ) -> None:
     """Test get vacuum service that affect state."""
     mock_vacuum = MockVacuum(
@@ -83,7 +83,7 @@ async def test_state_services(
     assert activity.state == expected_state
 
 
-async def test_fan_speed(hass: UniversalAssistant, config_flow_fixture: None) -> None:
+async def test_fan_speed(hass: __HAC_KEEP__, config_flow_fixture: None) -> None:
     """Test set vacuum fan speed."""
     mock_vacuum = MockVacuum(
         name="Testing",
@@ -116,7 +116,7 @@ async def test_fan_speed(hass: UniversalAssistant, config_flow_fixture: None) ->
     assert mock_vacuum.fan_speed == "high"
 
 
-async def test_locate(hass: UniversalAssistant, config_flow_fixture: None) -> None:
+async def test_locate(hass: __HAC_KEEP__, config_flow_fixture: None) -> None:
     """Test vacuum locate."""
 
     calls = []
@@ -159,7 +159,7 @@ async def test_locate(hass: UniversalAssistant, config_flow_fixture: None) -> No
     assert "locate" in calls
 
 
-async def test_send_command(hass: UniversalAssistant, config_flow_fixture: None) -> None:
+async def test_send_command(hass: __HAC_KEEP__, config_flow_fixture: None) -> None:
     """Test Vacuum send command."""
 
     strings = []
@@ -229,7 +229,7 @@ async def test_send_command(hass: UniversalAssistant, config_flow_fixture: None)
     ],
 )
 async def test_clean_area_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     area_mapping: dict[str, list[str]],
     targeted_areas: list[str],
@@ -274,7 +274,7 @@ async def test_clean_area_service(
 
 
 @pytest.mark.usefixtures("config_flow_fixture")
-async def test_clean_area_not_configured(hass: UniversalAssistant) -> None:
+async def test_clean_area_not_configured(hass: __HAC_KEEP__) -> None:
     """Test clean_area raises when area mapping is not configured."""
     mock_vacuum = MockVacuumWithCleanArea(name="Testing", entity_id="vacuum.testing")
 
@@ -318,7 +318,7 @@ async def test_clean_area_not_configured(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_clean_area_no_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     area_mapping: dict[str, list[str]],
     targeted_areas: list[str],
@@ -392,7 +392,7 @@ async def test_clean_area_no_segments(
 
 
 @pytest.mark.usefixtures("config_flow_fixture")
-async def test_clean_area_methods_not_implemented(hass: UniversalAssistant) -> None:
+async def test_clean_area_methods_not_implemented(hass: __HAC_KEEP__) -> None:
     """Test async_get_segments and async_clean_segments raise NotImplementedError."""
 
     class MockVacuumNoImpl(MockEntity, StateVacuumEntity):
@@ -427,7 +427,7 @@ async def test_clean_area_methods_not_implemented(hass: UniversalAssistant) -> N
         await mock_vacuum.async_clean_segments(["seg_1"])
 
 
-async def test_clean_area_no_registry_entry(hass: UniversalAssistant) -> None:
+async def test_clean_area_no_registry_entry(hass: __HAC_KEEP__) -> None:
     """Test error handling when registry entry is not set."""
     mock_vacuum = MockVacuumWithCleanArea(name="Testing", entity_id="vacuum.testing")
 
@@ -460,7 +460,7 @@ async def test_clean_area_no_registry_entry(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("config_flow_fixture")
 async def test_last_seen_segments(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test last_seen_segments property."""
     mock_vacuum = MockVacuumWithCleanArea(name="Testing", entity_id="vacuum.testing")
@@ -496,7 +496,7 @@ async def test_last_seen_segments(
 
 @pytest.mark.usefixtures("config_flow_fixture")
 async def test_segments_changed_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:

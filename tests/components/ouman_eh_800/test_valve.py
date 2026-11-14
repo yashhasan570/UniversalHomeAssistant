@@ -20,8 +20,8 @@ from universalassistant.components.valve import (
     SERVICE_SET_VALVE_POSITION,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -32,7 +32,7 @@ from universalassistant.helpers import entity_registry as er
 @pytest.mark.parametrize("init_integration", [Platform.VALVE], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_entities(
     ],
 )
 async def test_async_set_valve_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     service: str,
     service_data: dict[str, int],
@@ -106,15 +106,15 @@ async def test_async_set_valve_position(
     ],
 )
 async def test_async_set_valve_position_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     client_error: Exception,
     expected_message: str,
 ) -> None:
-    """Test that client errors are mapped to UniversalAssistantError."""
+    """Test that client errors are mapped to __HAC_KEEP__Error."""
     mock_ouman_client.set_endpoint_value.side_effect = client_error
 
-    with pytest.raises(UniversalAssistantError, match=expected_message):
+    with pytest.raises(__HAC_KEEP__Error, match=expected_message):
         await hass.services.async_call(
             VALVE_DOMAIN,
             SERVICE_SET_VALVE_POSITION,

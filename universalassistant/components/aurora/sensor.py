@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.sensor import SensorEntity, SensorStateClass
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AuroraConfigEntry
@@ -12,7 +12,7 @@ from .entity import AuroraEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AuroraConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

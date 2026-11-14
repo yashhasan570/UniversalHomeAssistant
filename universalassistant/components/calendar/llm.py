@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.components.universalassistant import async_should_expose
 from universalassistant.components.llm import LLMTools
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er, intent
 from universalassistant.helpers.llm import (
     LLM_API_ASSIST,
@@ -49,7 +49,7 @@ class CalendarGetEventsTool(Tool):
 
     @override
     async def async_call(
-        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Query a calendar."""
         data = self.parameters(tool_input.tool_args)
@@ -97,7 +97,7 @@ class CalendarGetEventsTool(Tool):
 
 @callback
 def async_get_tools(
-    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
+    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
     """Return the calendar LLM tools when a calendar is exposed."""
     if api_id != LLM_API_ASSIST:

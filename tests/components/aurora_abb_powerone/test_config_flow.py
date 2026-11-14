@@ -13,13 +13,13 @@ from universalassistant.components.aurora_abb_powerone.const import (
 )
 from universalassistant.components.usb import SerialDevice
 from universalassistant.const import CONF_ADDRESS, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_DATA = {"device": "/dev/ttyUSB7", "address": 3, "name": "MyAuroraPV"}
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     await setup.async_setup_component(hass, "persistent_notification", {})
 
@@ -89,7 +89,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_no_comports(hass: UniversalAssistant) -> None:
+async def test_form_no_comports(hass: __HAC_KEEP__) -> None:
     """Test we display correct info when there are no com ports.."""
 
     fakecomports = []
@@ -104,7 +104,7 @@ async def test_form_no_comports(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_serial_ports"
 
 
-async def test_form_invalid_com_ports(hass: UniversalAssistant) -> None:
+async def test_form_invalid_com_ports(hass: __HAC_KEEP__) -> None:
     """Test we display correct info when the comport is invalid.."""
 
     fakecomports = []

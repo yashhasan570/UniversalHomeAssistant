@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.light import ATTR_BRIGHTNESS, ColorMode, LightEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SystemNexa2ConfigEntry, SystemNexa2DataUpdateCoordinator
@@ -13,7 +13,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SystemNexa2ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -48,7 +48,7 @@ class SystemNexa2Light(SystemNexa2Entity, LightEntity):
         # Check if we're setting brightness
         if ATTR_BRIGHTNESS in kwargs:
             brightness = kwargs[ATTR_BRIGHTNESS]
-            # Convert UniversalAssistant brightness (0-255) to device brightness (0-1.0)
+            # Convert __HAC_KEEP__ brightness (0-255) to device brightness (0-1.0)
             value = brightness / 255
             await self.coordinator.async_set_brightness(value)
         else:
@@ -74,5 +74,5 @@ class SystemNexa2Light(SystemNexa2Entity, LightEntity):
         """Return the brightness of the light (0-255)."""
         if self.coordinator.data.state is None:
             return None
-        # Convert device brightness (0-1.0) to UniversalAssistant brightness (0-255)
+        # Convert device brightness (0-1.0) to __HAC_KEEP__ brightness (0-255)
         return max(0, min(255, round(self.coordinator.data.state * 255)))

@@ -6,13 +6,13 @@ import pytest
 import pyvera as pv
 
 from universalassistant.components.climate import FAN_AUTO, FAN_ON, HVACAction, HVACMode
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import ComponentFactory, new_simple_controller_config
 
 
 async def test_climate(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     vera_device: pv.VeraThermostat = MagicMock(spec=pv.VeraThermostat)
@@ -138,7 +138,7 @@ async def test_climate(
     ],
 )
 async def test_hvac_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vera_component_factory: ComponentFactory,
     vera_hvac_state: str,
     expected_hvac_action: HVACAction | None,
@@ -167,7 +167,7 @@ async def test_hvac_action(
 
 
 async def test_climate_f(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     vera_device: pv.VeraThermostat = MagicMock(spec=pv.VeraThermostat)

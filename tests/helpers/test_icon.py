@@ -1,11 +1,11 @@
-"""Test Universal Universal Home Assistant icon util methods."""
+"""Test __HA_KEEP__ icon util methods."""
 
 import pathlib
 from unittest.mock import Mock, patch
 
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import icon
 from universalassistant.loader import IntegrationNotFound
 from universalassistant.setup import async_setup_component
@@ -60,7 +60,7 @@ def test_signal_icon() -> None:
     assert icon.icon_for_signal_level(100) == "mdi:signal-cellular-3"
 
 
-def test_load_icons_files(hass: UniversalAssistant) -> None:
+def test_load_icons_files(hass: __HAC_KEEP__) -> None:
     """Test the load icons files function."""
     file1 = hass.config.path("custom_components", "test", "icons.json")
     file2 = hass.config.path("custom_components", "test", "invalid.json")
@@ -79,7 +79,7 @@ def test_load_icons_files(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_get_icons(hass: UniversalAssistant) -> None:
+async def test_get_icons(hass: __HAC_KEEP__) -> None:
     """Test the get icon helper."""
     icons = await icon.async_get_icons(hass, "entity")
     assert icons == {}
@@ -144,7 +144,7 @@ async def test_get_icons(hass: UniversalAssistant) -> None:
         await icon.async_get_icons(hass, "entity", ["non_existing"])
 
 
-async def test_get_icons_while_loading_components(hass: UniversalAssistant) -> None:
+async def test_get_icons_while_loading_components(hass: __HAC_KEEP__) -> None:
     """Test the get icons helper loads icons."""
     integration = Mock(file_path=pathlib.Path(__file__))
     integration.name = "Component 1"
@@ -177,7 +177,7 @@ async def test_get_icons_while_loading_components(hass: UniversalAssistant) -> N
     assert load_count == 1
 
 
-async def test_caching(hass: UniversalAssistant) -> None:
+async def test_caching(hass: __HAC_KEEP__) -> None:
     """Test we cache data."""
     hass.config.components.add("binary_sensor")
     hass.config.components.add("switch")

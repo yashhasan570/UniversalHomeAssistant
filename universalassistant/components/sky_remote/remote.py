@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant integration to control a sky box using the remote platform."""
+"""__HA_KEEP__ integration to control a sky box using the remote platform."""
 
 from collections.abc import Iterable
 import logging
@@ -7,8 +7,8 @@ from typing import Any, override
 from skyboxremote import VALID_KEYS, RemoteControl
 
 from universalassistant.components.remote import RemoteEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: SkyRemoteConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -68,7 +68,7 @@ class SkyRemote(RemoteEntity):
         try:
             self._remote.send_keys(command)
         except ValueError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="invalid_command",
                 translation_placeholders={"command": ", ".join(command)},

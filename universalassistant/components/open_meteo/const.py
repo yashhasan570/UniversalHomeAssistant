@@ -21,7 +21,7 @@ LOGGER = logging.getLogger(__package__)
 SCAN_INTERVAL = timedelta(minutes=30)
 
 # World Meteorological Organization Weather Code
-# mapped to Universal Universal Home Assistant weather conditions.
+# mapped to __HA_KEEP__ weather conditions.
 # https://www.weather.gov/tg/wmo
 WMO_TO_HA_CONDITION_MAP: dict[int | None, str] = {
     0: ATTR_CONDITION_SUNNY,  # Clear sky

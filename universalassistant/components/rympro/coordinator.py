@@ -7,7 +7,7 @@ from typing import override
 from pyrympro import CannotConnectError, OperationError, RymPro, UnauthorizedError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -25,7 +25,7 @@ class RymProDataUpdateCoordinator(DataUpdateCoordinator[dict[int, dict]]):
     config_entry: RymProConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: RymProConfigEntry, rympro: RymPro
+        self, hass: __HAC_KEEP__, config_entry: RymProConfigEntry, rympro: RymPro
     ) -> None:
         """Initialize global RymPro data updater."""
         self.rympro = rympro

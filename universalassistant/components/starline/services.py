@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.const import CONF_SCAN_INTERVAL
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 
 from .const import CONF_SCAN_OBD_INTERVAL, DOMAIN
 
@@ -68,7 +68,7 @@ async def _async_set_scan_obd_interval(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register StarLine services."""
 
     hass.services.async_register(DOMAIN, StarlineService.UPDATE_STATE, _async_update)

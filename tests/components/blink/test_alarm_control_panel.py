@@ -14,7 +14,7 @@ from universalassistant.const import (
     SERVICE_ALARM_ARM_AWAY,
     SERVICE_ALARM_DISARM,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 ENTITY_ID = "alarm_control_panel.blink_sync_module"
 
@@ -39,7 +39,7 @@ ENTITY_ID = "alarm_control_panel.blink_sync_module"
     ],
 )
 async def test_arm_state_updates_when_refresh_is_skipped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_blink_api: MagicMock,
     mock_blink_auth_api: MagicMock,
     mock_config_entry: MockConfigEntry,

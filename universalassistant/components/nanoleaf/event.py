@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.event import EventEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -13,7 +13,7 @@ from .entity import NanoleafEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NanoleafConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

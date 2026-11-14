@@ -34,7 +34,7 @@ from universalassistant.components.device_automation.helpers import (
 from universalassistant.components.websocket_api import TYPE_RESULT
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -54,26 +54,26 @@ class MockDeviceEntry(dr.DeviceEntry):
 
 
 @pytest.fixture
-def fake_integration(hass: UniversalAssistant) -> None:
+def fake_integration(hass: __HAC_KEEP__) -> None:
     """Set up a mock integration with device automation support."""
     FAKE_DOMAIN = "fake_integration"
 
     hass.config.components.add(FAKE_DOMAIN)
 
     async def _async_get_actions(
-        hass: UniversalAssistant, device_id: str
+        hass: __HAC_KEEP__, device_id: str
     ) -> list[dict[str, str]]:
         """List device actions."""
         return await toggle_entity.async_get_actions(hass, device_id, FAKE_DOMAIN)
 
     async def _async_get_conditions(
-        hass: UniversalAssistant, device_id: str
+        hass: __HAC_KEEP__, device_id: str
     ) -> list[dict[str, str]]:
         """List device conditions."""
         return await toggle_entity.async_get_conditions(hass, device_id, FAKE_DOMAIN)
 
     async def _async_get_triggers(
-        hass: UniversalAssistant, device_id: str
+        hass: __HAC_KEEP__, device_id: str
     ) -> list[dict[str, str]]:
         """List device triggers."""
         return await toggle_entity.async_get_triggers(hass, device_id, FAKE_DOMAIN)
@@ -120,7 +120,7 @@ def fake_integration(hass: UniversalAssistant) -> None:
 
 
 async def test_websocket_get_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -175,7 +175,7 @@ async def test_websocket_get_actions(
 
 
 async def test_websocket_get_conditions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -229,7 +229,7 @@ async def test_websocket_get_conditions(
 
 
 async def test_websocket_get_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -291,7 +291,7 @@ async def test_websocket_get_triggers(
 
 
 async def test_websocket_get_action_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -319,7 +319,7 @@ async def test_websocket_get_action_capabilities(
     }
 
     async def _async_get_action_capabilities(
-        hass: UniversalAssistant, config: ConfigType
+        hass: __HAC_KEEP__, config: ConfigType
     ) -> dict[str, probatio.Schema]:
         """List action capabilities."""
         if config["type"] == "turn_on":
@@ -361,7 +361,7 @@ async def test_websocket_get_action_capabilities(
 
 
 async def test_websocket_get_action_capabilities_unknown_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -387,7 +387,7 @@ async def test_websocket_get_action_capabilities_unknown_domain(
 
 
 async def test_websocket_get_action_capabilities_no_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -418,7 +418,7 @@ async def test_websocket_get_action_capabilities_no_capabilities(
 
 
 async def test_websocket_get_action_capabilities_bad_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -452,7 +452,7 @@ async def test_websocket_get_action_capabilities_bad_action(
 
 
 async def test_websocket_get_condition_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -481,7 +481,7 @@ async def test_websocket_get_condition_capabilities(
     }
 
     async def _async_get_condition_capabilities(
-        hass: UniversalAssistant, config: ConfigType
+        hass: __HAC_KEEP__, config: ConfigType
     ) -> dict[str, probatio.Schema]:
         """List condition capabilities."""
         return await toggle_entity.async_get_condition_capabilities(hass, config)
@@ -525,7 +525,7 @@ async def test_websocket_get_condition_capabilities(
 
 
 async def test_websocket_get_condition_capabilities_unknown_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -551,7 +551,7 @@ async def test_websocket_get_condition_capabilities_unknown_domain(
 
 
 async def test_websocket_get_condition_capabilities_no_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -586,7 +586,7 @@ async def test_websocket_get_condition_capabilities_no_capabilities(
 
 
 async def test_websocket_get_condition_capabilities_bad_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -624,7 +624,7 @@ async def test_websocket_get_condition_capabilities_bad_condition(
 
 
 async def test_async_get_device_automations_single_device_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -647,7 +647,7 @@ async def test_async_get_device_automations_single_device_trigger(
 
 
 async def test_async_get_device_automations_all_devices_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -670,7 +670,7 @@ async def test_async_get_device_automations_all_devices_trigger(
 
 
 async def test_async_get_device_automations_all_devices_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -693,7 +693,7 @@ async def test_async_get_device_automations_all_devices_condition(
 
 
 async def test_async_get_device_automations_all_devices_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -716,7 +716,7 @@ async def test_async_get_device_automations_all_devices_action(
 
 
 async def test_async_get_device_automations_all_devices_action_exception_throw(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -749,7 +749,7 @@ async def test_async_get_device_automations_all_devices_action_exception_throw(
     ["trigger", "platform"],
 )
 async def test_websocket_get_trigger_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -779,7 +779,7 @@ async def test_websocket_get_trigger_capabilities(
     }
 
     async def _async_get_trigger_capabilities(
-        hass: UniversalAssistant, config: ConfigType
+        hass: __HAC_KEEP__, config: ConfigType
     ) -> dict[str, probatio.Schema]:
         """List trigger capabilities."""
         return await toggle_entity.async_get_trigger_capabilities(hass, config)
@@ -824,7 +824,7 @@ async def test_websocket_get_trigger_capabilities(
 
 
 async def test_websocket_get_trigger_capabilities_unknown_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -850,7 +850,7 @@ async def test_websocket_get_trigger_capabilities_unknown_domain(
 
 
 async def test_websocket_get_trigger_capabilities_no_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -885,7 +885,7 @@ async def test_websocket_get_trigger_capabilities_no_capabilities(
 
 
 async def test_websocket_get_trigger_capabilities_bad_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -923,7 +923,7 @@ async def test_websocket_get_trigger_capabilities_bad_trigger(
 
 
 async def test_automation_with_non_existing_integration(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test device automation trigger with non existing integration."""
     assert await async_setup_component(
@@ -946,7 +946,7 @@ async def test_automation_with_non_existing_integration(
 
 
 async def test_automation_with_device_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -994,7 +994,7 @@ async def test_automation_with_device_action(
 
 
 async def test_automation_with_dynamically_validated_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     fake_integration,
@@ -1029,7 +1029,7 @@ async def test_automation_with_dynamically_validated_action(
 
 
 async def test_automation_with_integration_without_device_action(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test device automation action with integration without device action support."""
     mock_integration(hass, MockModule(domain="test"))
@@ -1051,7 +1051,7 @@ async def test_automation_with_integration_without_device_action(
 
 
 async def test_automation_with_device_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1096,7 +1096,7 @@ async def test_automation_with_device_condition(
 
 
 async def test_automation_with_dynamically_validated_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     fake_integration,
@@ -1136,7 +1136,7 @@ async def test_automation_with_dynamically_validated_condition(
 
 
 async def test_automation_with_integration_without_device_condition(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test device condition with integration without device condition support."""
     mock_integration(hass, MockModule(domain="test"))
@@ -1164,7 +1164,7 @@ async def test_automation_with_integration_without_device_condition(
 
 
 async def test_automation_with_device_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1208,7 +1208,7 @@ async def test_automation_with_device_trigger(
 
 
 async def test_automation_with_dynamically_validated_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1254,7 +1254,7 @@ async def test_automation_with_dynamically_validated_trigger(
 
 @pytest.mark.usefixtures("fake_integration")
 async def test_automation_with_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test device automation targeting a child device of the domain's config entry."""
@@ -1297,7 +1297,7 @@ async def test_automation_with_child_device(
 
 
 async def test_automation_with_integration_without_device_trigger(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test device trigger with integration without device trigger support."""
     mock_integration(hass, MockModule(domain="test"))
@@ -1402,7 +1402,7 @@ BAD_TRIGGERS = [
 @patch("universalassistant.helpers.device_registry.DeviceEntry", MockDeviceEntry)
 @pytest.mark.parametrize(("action", "expected_error"), BAD_AUTOMATIONS)
 async def test_automation_with_bad_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1439,7 +1439,7 @@ async def test_automation_with_bad_action(
 @patch("universalassistant.helpers.device_registry.DeviceEntry", MockDeviceEntry)
 @pytest.mark.parametrize(("condition", "expected_error"), BAD_CONDITIONS)
 async def test_automation_with_bad_condition_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1476,7 +1476,7 @@ async def test_automation_with_bad_condition_action(
 @patch("universalassistant.helpers.device_registry.DeviceEntry", MockDeviceEntry)
 @pytest.mark.parametrize(("condition", "expected_error"), BAD_CONDITIONS)
 async def test_automation_with_bad_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     condition: dict[str, str],
@@ -1511,7 +1511,7 @@ async def test_automation_with_bad_condition(
 
 
 async def test_automation_with_sub_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -1642,7 +1642,7 @@ async def test_automation_with_sub_condition(
 @patch("universalassistant.helpers.device_registry.DeviceEntry", MockDeviceEntry)
 @pytest.mark.parametrize(("condition", "expected_error"), BAD_CONDITIONS)
 async def test_automation_with_bad_sub_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     condition: dict[str, str],
@@ -1681,7 +1681,7 @@ async def test_automation_with_bad_sub_condition(
 @patch("universalassistant.helpers.device_registry.DeviceEntry", MockDeviceEntry)
 @pytest.mark.parametrize(("trigger", "expected_error"), BAD_TRIGGERS)
 async def test_automation_with_bad_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     trigger: dict[str, str],
@@ -1715,7 +1715,7 @@ async def test_automation_with_bad_trigger(
 
 
 async def test_websocket_device_not_found(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test calling command with unknown device."""
     await async_setup_component(hass, DOMAIN, {})
@@ -1731,7 +1731,7 @@ async def test_websocket_device_not_found(
 
 
 async def test_automation_with_unknown_device(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, fake_integration
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, fake_integration
 ) -> None:
     """Test device automation with a trigger with an unknown device."""
 
@@ -1763,7 +1763,7 @@ async def test_automation_with_unknown_device(
 
 
 async def test_automation_with_device_wrong_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     fake_integration,
@@ -1805,7 +1805,7 @@ async def test_automation_with_device_wrong_domain(
 
 
 async def test_automation_with_device_component_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
     fake_integration,
@@ -1851,7 +1851,7 @@ async def test_automation_with_device_component_not_loaded(
     ],
 )
 async def test_async_get_device_automations_platform_reraises_exceptions(
-    hass: UniversalAssistant, exc: Exception
+    hass: __HAC_KEEP__, exc: Exception
 ) -> None:
     """Test InvalidDeviceAutomationConfig is raised when get_integration fails."""
     await async_setup_component(hass, DOMAIN, {})
@@ -1872,7 +1872,7 @@ COMPOSITE_ID = "composite0000000000000000000000"
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_device_automation_resolves_legacy_id(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """A device automation legacy id resolves to the split owning its domain's entry.
 
@@ -1954,7 +1954,7 @@ async def test_device_automation_resolves_legacy_id(
 
 
 async def test_validate_config_rewrites_composite_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     fake_integration: None,
@@ -2034,8 +2034,8 @@ async def test_validate_config_rewrites_composite_device_id(
     ],
 )
 async def test_validate_config_empty_device_id_or_domain(
-    hass: UniversalAssistant,
-    validator: Callable[[UniversalAssistant, ConfigType], Awaitable[ConfigType]],
+    hass: __HAC_KEEP__,
+    validator: Callable[[__HAC_KEEP__, ConfigType], Awaitable[ConfigType]],
     base_config: ConfigType,
     config: ConfigType,
     path: list[str],
@@ -2049,11 +2049,11 @@ async def test_validate_config_empty_device_id_or_domain(
     assert excinfo.value.code == "required"
 
 
-def _mock_device_trigger_platform(hass: UniversalAssistant, domain: str) -> None:
+def _mock_device_trigger_platform(hass: __HAC_KEEP__, domain: str) -> None:
     """Mock a device_trigger platform returning one trigger for the queried device."""
 
     async def _async_get_triggers(
-        hass: UniversalAssistant, device_id: str
+        hass: __HAC_KEEP__, device_id: str
     ) -> list[dict[str, str]]:
         """List device triggers."""
         return [
@@ -2073,7 +2073,7 @@ def _mock_device_trigger_platform(hass: UniversalAssistant, domain: str) -> None
 
 
 async def test_async_get_device_automations_composite_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a composite id is queried for the domains of all its splits' config entries.
 

@@ -1,7 +1,7 @@
 """Application credentials platform for the Yoto integration."""
 
 from universalassistant.components.application_credentials import ClientCredential
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     LocalOAuth2ImplementationWithPkce,
 )
@@ -11,7 +11,7 @@ TOKEN_URL = "https://login.yotoplay.com/oauth/token"
 
 
 async def async_get_auth_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     auth_domain: str,
     credential: ClientCredential,
 ) -> LocalOAuth2ImplementationWithPkce:

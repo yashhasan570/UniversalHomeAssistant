@@ -7,7 +7,7 @@ from aiowaqi import WAQIClient
 
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -23,14 +23,14 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up WAQI."""
 
     await async_migrate_integration(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: WAQIConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: WAQIConfigEntry) -> None:
     """Set up World Air Quality Index (WAQI) from a config entry."""
 
     client = WAQIClient(session=async_get_clientsession(hass))
@@ -49,17 +49,17 @@ async def async_setup_entry(hass: UniversalAssistant, entry: WAQIConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_update_entry(hass: UniversalAssistant, entry: WAQIConfigEntry) -> None:
+async def async_update_entry(hass: __HAC_KEEP__, entry: WAQIConfigEntry) -> None:
     """Update entry."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: WAQIConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: WAQIConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_integration(hass: UniversalAssistant) -> None:
+async def async_migrate_integration(hass: __HAC_KEEP__) -> None:
     """Migrate integration entry structure to subentries."""
 
     # Make sure we get enabled config entries first

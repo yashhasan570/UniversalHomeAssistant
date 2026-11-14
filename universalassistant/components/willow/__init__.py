@@ -3,7 +3,7 @@
 from pywillow import WillowClient
 
 from universalassistant.const import CONF_ACCESS_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 from universalassistant.helpers.config_entry_oauth2_flow import (
@@ -19,7 +19,7 @@ _PLATFORMS: list[Platform] = [Platform.SENSOR]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: WillowConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: WillowConfigEntry) -> None:
     """Set up Willow from a config entry."""
     try:
         implementation = await async_get_config_entry_implementation(hass, entry)
@@ -47,6 +47,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: WillowConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: WillowConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: WillowConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

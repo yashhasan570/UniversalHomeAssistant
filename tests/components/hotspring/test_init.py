@@ -15,12 +15,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.hotspring.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_async_setup_entry(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test a successful setup entry and unload."""
     assert init_integration.state is ConfigEntryState.LOADED
@@ -31,7 +31,7 @@ async def test_async_setup_entry(
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -65,7 +65,7 @@ async def test_device_info(
     ],
 )
 async def test_async_setup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hotspring: MagicMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception | type[Exception],
@@ -88,7 +88,7 @@ async def test_async_setup_error(
     ],
 )
 async def test_async_setup_mac_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hotspring: MagicMock,
     mock_config_entry: MockConfigEntry,
     device_fixture: Spa,

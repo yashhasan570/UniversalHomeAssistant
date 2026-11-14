@@ -46,7 +46,7 @@
   },
   "issues": {
     "cannot_connect": {
-      "description": "Universal Universal Home Assistant could not connect to the Autoskope API at {host}. Please check the connection details and ensure the API endpoint is reachable.\n\nError: {error}",
+      "description": "__HA_KEEP__ could not connect to the Autoskope API at {host}. Please check the connection details and ensure the API endpoint is reachable.\n\nError: {error}",
       "title": "Failed to connect to Autoskope"
     },
     "invalid_auth": {

@@ -20,7 +20,7 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.qbus.climate import STATE_REQUEST_DELAY
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import EntityPlatform
 from universalassistant.util import dt as dt_util
@@ -63,7 +63,7 @@ _CLIMATE_ENTITY_ID = "climate.living_living_th"
 
 
 async def test_climate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     setup_integration: None,
 ) -> None:
@@ -173,7 +173,7 @@ async def test_climate(
 
 
 async def test_climate_when_invalid_state_received(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     setup_integration: None,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_climate_when_invalid_state_received(
 
 
 async def test_climate_with_fast_subsequent_changes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     setup_integration: None,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_climate_with_fast_subsequent_changes(
 
 
 async def test_climate_with_unknown_preset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     setup_integration: None,
 ) -> None:
@@ -236,7 +236,7 @@ async def test_climate_with_unknown_preset(
 
 
 def _wait_and_assert_state_request(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     mqtt_mock.reset_mock()
     async_fire_time_changed(hass, dt_util.utcnow() + timedelta(STATE_REQUEST_DELAY))

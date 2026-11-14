@@ -8,7 +8,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     TextSelector,
@@ -37,7 +37,7 @@ DATA_SCHEMA = probatio.Schema(
 
 
 async def validate_api(
-    hass: UniversalAssistant, user_input: dict[str, str]
+    hass: __HAC_KEEP__, user_input: dict[str, str]
 ) -> tuple[str | None, str | None, dict[str, str]]:
     """Validate the API connection."""
     errors: dict[str, str] = {}

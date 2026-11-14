@@ -20,7 +20,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components import conversation
 from universalassistant.const import Platform
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, intent
 from universalassistant.helpers.llm import ToolInput, ToolResult
 
@@ -39,7 +39,7 @@ def freeze_the_time():
 
 @pytest.mark.parametrize("enable_assist", [True, False], ids=["assist", "no_assist"])
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -56,7 +56,7 @@ async def test_all_entities(
 
 
 async def test_default_prompt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     mock_openai_client: AsyncMock,
@@ -79,7 +79,7 @@ async def test_default_prompt(
     assert call["extra_body"] == {"provider": {"require_parameters": True}}
     assert call["extra_headers"] == {
         "HTTP-Referer": "https://www.universalassistant.io/integrations/open_router",
-        "X-Title": "Universal Universal Home Assistant",
+        "X-Title": "__HA_KEEP__",
     }
 
 
@@ -93,7 +93,7 @@ async def test_default_prompt(
     ],
 )
 async def test_reasoning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -126,7 +126,7 @@ async def test_reasoning(
     ids=["web_search_plugin_enabled", "web_search_enabled", "web_search_disabled"],
 )
 async def test_web_search(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -154,7 +154,7 @@ async def test_web_search(
     [("tool", True)],
 )
 async def test_web_search_with_assist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -186,12 +186,12 @@ async def test_web_search_with_assist(
 
 
 async def test_empty_api_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
 ) -> None:
-    """Test that an empty choices response raises UniversalAssistantError."""
+    """Test that an empty choices response raises __HAC_KEEP__Error."""
     await setup_integration(hass, mock_config_entry)
 
     mock_openai_client.chat.completions.create = AsyncMock(
@@ -225,7 +225,7 @@ async def test_empty_api_response(
 
 @pytest.mark.parametrize("enable_assist", [True])
 async def test_function_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -454,7 +454,7 @@ async def test_function_call(
 
 @pytest.mark.parametrize("enable_assist", [True])
 async def test_function_call_repeated_finish_reason(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
@@ -562,7 +562,7 @@ async def test_function_call_repeated_finish_reason(
 
 
 async def test_streaming_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811

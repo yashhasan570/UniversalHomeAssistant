@@ -21,14 +21,14 @@ from universalassistant.components.media_source import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DOMAIN, SIGNED_MEDIA_URL_MIN_VERSION
 from .coordinator import SystemBridgeConfigEntry
 
 
 def _get_loaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_id: str,
     error: type[BrowseError | Unresolvable],
 ) -> SystemBridgeConfigEntry:
@@ -49,7 +49,7 @@ def _get_loaded_entry(
     return entry
 
 
-async def async_get_media_source(hass: UniversalAssistant) -> MediaSource:
+async def async_get_media_source(hass: __HAC_KEEP__) -> MediaSource:
     """Set up SystemBridge media source."""
     return SystemBridgeSource(hass)
 
@@ -59,12 +59,12 @@ class SystemBridgeSource(MediaSource):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> None:
         """Initialize source."""
         super().__init__(DOMAIN)
         self.name = "System Bridge"
-        self.hass: UniversalAssistant = hass
+        self.hass: __HAC_KEEP__ = hass
 
     @override
     async def async_resolve_media(

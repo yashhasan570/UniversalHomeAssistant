@@ -38,7 +38,7 @@
         "data_description": {
           "host": "The IP address or hostname of your Homevolt battery on your local network."
         },
-        "description": "Connect Universal Universal Home Assistant to your Homevolt battery over the local network."
+        "description": "Connect __HA_KEEP__ to your Homevolt battery over the local network."
       },
       "zeroconf_confirm": {
         "data": {

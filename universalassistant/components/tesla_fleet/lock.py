@@ -5,7 +5,7 @@ from typing import Any, override
 from tesla_fleet_api.const import Scope
 
 from universalassistant.components.lock import LockEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -21,7 +21,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TeslaFleetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

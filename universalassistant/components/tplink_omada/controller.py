@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from tplink_omada_client import OmadaClient, OmadaSiteClient
 from tplink_omada_client.devices import OmadaListDevice, OmadaSwitch
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .coordinator import (
     OmadaClientsCoordinator,
@@ -31,7 +31,7 @@ class OmadaSiteController:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: OmadaConfigEntry,
         controller_client: OmadaClient,
         omada_client: OmadaSiteClient,

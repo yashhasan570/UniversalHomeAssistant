@@ -39,8 +39,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -60,7 +60,7 @@ def platforms() -> Generator[None]:
 
 @pytest.fixture
 async def mock_lyric(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_credentials: None,
     mock_config_entry: MockConfigEntry,
     mock_lyric_thermostats: MagicMock,
@@ -78,7 +78,7 @@ def set_changeable_values(lyric: MagicMock, mac_id: str, **values: Any) -> None:
 
 @pytest.mark.usefixtures("mock_lyric")
 async def test_climate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -88,7 +88,7 @@ async def test_climate(
 
 
 async def test_hvac_action_idle(
-    hass: UniversalAssistant, mock_lyric: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_lyric: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the action is idle when the equipment is off but the mode is not."""
     lyric_device = mock_lyric.locations[0].devices_dict[LCC_MAC_ID]
@@ -110,7 +110,7 @@ async def test_hvac_action_idle(
     ],
 )
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lyric: MagicMock,
     mode: str,
     expected: dict[str, Any],
@@ -146,7 +146,7 @@ async def test_set_temperature(
     ],
 )
 async def test_set_temperature_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lyric: MagicMock,
     entity_id: str,
     mac_id: str,
@@ -170,12 +170,12 @@ async def test_set_temperature_range(
 
 
 async def test_set_temperature_range_missing(
-    hass: UniversalAssistant, mock_lyric: MagicMock
+    hass: __HAC_KEEP__, mock_lyric: MagicMock
 ) -> None:
     """Test auto mode needs both ends of the temperature range."""
     set_changeable_values(mock_lyric, LCC_MAC_ID, mode="Auto")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -186,7 +186,7 @@ async def test_set_temperature_range_missing(
     mock_lyric.update_thermostat.assert_not_awaited()
 
 
-async def test_set_temperature_off(hass: UniversalAssistant, mock_lyric: MagicMock) -> None:
+async def test_set_temperature_off(hass: __HAC_KEEP__, mock_lyric: MagicMock) -> None:
     """Test setting the temperature does nothing while the thermostat is off."""
     await hass.services.async_call(
         CLIMATE_DOMAIN,
@@ -214,7 +214,7 @@ async def test_set_temperature_off(hass: UniversalAssistant, mock_lyric: MagicMo
     ],
 )
 async def test_set_hvac_mode_lcc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lyric: MagicMock,
     hvac_mode: HVACMode,
     expected: dict[str, Any],
@@ -230,7 +230,7 @@ async def test_set_hvac_mode_lcc(
     mock_lyric.update_thermostat.assert_awaited_once_with(ANY, ANY, **expected)
 
 
-async def test_set_hvac_mode_tcc(hass: UniversalAssistant, mock_lyric: MagicMock) -> None:
+async def test_set_hvac_mode_tcc(hass: __HAC_KEEP__, mock_lyric: MagicMock) -> None:
     """Test setting the HVAC mode on a TCC thermostat."""
     await hass.services.async_call(
         CLIMATE_DOMAIN,
@@ -245,7 +245,7 @@ async def test_set_hvac_mode_tcc(hass: UniversalAssistant, mock_lyric: MagicMock
 
 
 async def test_set_hvac_mode_tcc_heat_cool(
-    hass: UniversalAssistant, mock_lyric: MagicMock
+    hass: __HAC_KEEP__, mock_lyric: MagicMock
 ) -> None:
     """Test switching a TCC thermostat to auto while it is already running."""
     set_changeable_values(mock_lyric, TCC_MAC_ID, mode="Heat")
@@ -263,7 +263,7 @@ async def test_set_hvac_mode_tcc_heat_cool(
 
 
 async def test_set_hvac_mode_tcc_heat_cool_from_off(
-    hass: UniversalAssistant, mock_lyric: MagicMock
+    hass: __HAC_KEEP__, mock_lyric: MagicMock
 ) -> None:
     """Test a TCC thermostat that is off is switched to heat before auto."""
     with patch("universalassistant.components.lyric.climate.asyncio.sleep") as mock_sleep:
@@ -281,7 +281,7 @@ async def test_set_hvac_mode_tcc_heat_cool_from_off(
     ]
 
 
-async def test_set_preset_mode(hass: UniversalAssistant, mock_lyric: MagicMock) -> None:
+async def test_set_preset_mode(hass: __HAC_KEEP__, mock_lyric: MagicMock) -> None:
     """Test setting the preset mode."""
     await hass.services.async_call(
         CLIMATE_DOMAIN,
@@ -295,7 +295,7 @@ async def test_set_preset_mode(hass: UniversalAssistant, mock_lyric: MagicMock) 
     )
 
 
-async def test_set_fan_mode(hass: UniversalAssistant, mock_lyric: MagicMock) -> None:
+async def test_set_fan_mode(hass: __HAC_KEEP__, mock_lyric: MagicMock) -> None:
     """Test setting the fan mode."""
     await hass.services.async_call(
         CLIMATE_DOMAIN,
@@ -307,7 +307,7 @@ async def test_set_fan_mode(hass: UniversalAssistant, mock_lyric: MagicMock) -> 
     mock_lyric.update_fan.assert_awaited_once_with(ANY, ANY, mode="Circulate")
 
 
-async def test_set_hold_time(hass: UniversalAssistant, mock_lyric: MagicMock) -> None:
+async def test_set_hold_time(hass: __HAC_KEEP__, mock_lyric: MagicMock) -> None:
     """Test the set hold time action."""
     await hass.services.async_call(
         DOMAIN,
@@ -362,7 +362,7 @@ async def test_set_hold_time(hass: UniversalAssistant, mock_lyric: MagicMock) ->
     ],
 )
 async def test_action_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lyric: MagicMock,
     domain: str,
     service: str,
@@ -374,7 +374,7 @@ async def test_action_error(
     mock_lyric.update_fan.side_effect = LyricException("error")
     mock_lyric.get_locations.reset_mock()
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             domain,
             service,

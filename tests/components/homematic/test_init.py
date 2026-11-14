@@ -19,7 +19,7 @@ from universalassistant.components.homematic.const import (
 )
 from universalassistant.components.homematic.entity import HMHub
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_NAME
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.exceptions import Unauthorized
 from universalassistant.setup import async_setup_component
 
@@ -28,7 +28,7 @@ BASE_CONFIG = {DOMAIN: {"hosts": {"ccu2": {"host": "127.0.0.1"}}}}
 
 
 @pytest.fixture
-async def setup_homematic(hass: UniversalAssistant) -> None:
+async def setup_homematic(hass: __HAC_KEEP__) -> None:
     """Set up the homematic component."""
     with patch(
         "universalassistant.components.homematic.HMConnection",
@@ -39,7 +39,7 @@ async def setup_homematic(hass: UniversalAssistant) -> None:
 
 
 async def test_set_install_mode_admin_allowed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_homematic: None,
     hass_admin_user: MockUser,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_set_install_mode_admin_allowed(
 
 
 async def test_set_install_mode_non_admin_rejected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_homematic: None,
     hass_read_only_user: MockUser,
 ) -> None:
@@ -73,14 +73,14 @@ async def test_set_install_mode_non_admin_rejected(
 
 
 @pytest.mark.usefixtures("setup_homematic")
-async def test_reconnect(hass: UniversalAssistant) -> None:
+async def test_reconnect(hass: __HAC_KEEP__) -> None:
     """Test the reconnect action."""
     await hass.services.async_call(DOMAIN, HomematicService.RECONNECT, blocking=True)
     hass.data[DATA_HOMEMATIC].reconnect.assert_called_once_with()
 
 
 @pytest.mark.usefixtures("setup_homematic")
-async def test_put_paramset(hass: UniversalAssistant) -> None:
+async def test_put_paramset(hass: __HAC_KEEP__) -> None:
     """Test the put_paramset action."""
     await hass.services.async_call(
         DOMAIN,
@@ -99,7 +99,7 @@ async def test_put_paramset(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture
-def hm_device(hass: UniversalAssistant, setup_homematic: None) -> MagicMock:
+def hm_device(hass: __HAC_KEEP__, setup_homematic: None) -> MagicMock:
     """Add a device to the mocked homematic connection."""
     device = MagicMock(ACTIONNODE={"PRESS_SHORT": [1]})
     hass.data[DATA_HOMEMATIC].devices = {"ccu2": {"ABC123": device}}
@@ -114,7 +114,7 @@ def hm_device(hass: UniversalAssistant, setup_homematic: None) -> MagicMock:
     ],
 )
 async def test_virtualkey(
-    hass: UniversalAssistant, hm_device: MagicMock, extra_data: dict[str, str]
+    hass: __HAC_KEEP__, hm_device: MagicMock, extra_data: dict[str, str]
 ) -> None:
     """Test the virtualkey action."""
     await hass.services.async_call(
@@ -139,7 +139,7 @@ async def test_virtualkey(
     ],
 )
 async def test_virtualkey_mixed_case_address(
-    hass: UniversalAssistant, hm_device: MagicMock, address: str, device_address: str
+    hass: __HAC_KEEP__, hm_device: MagicMock, address: str, device_address: str
 ) -> None:
     """Test the virtualkey action restores the case of the central addresses."""
     hass.data[DATA_HOMEMATIC].devices = {"ccu2": {device_address: hm_device}}
@@ -168,7 +168,7 @@ async def test_virtualkey_mixed_case_address(
     ],
 )
 async def test_virtualkey_invalid_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     hm_device: MagicMock,
     address: str,
@@ -203,7 +203,7 @@ async def test_virtualkey_invalid_target(
     ],
 )
 async def test_set_device_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hm_device: MagicMock,
     value: Any,
     value_type: str,
@@ -226,7 +226,7 @@ async def test_set_device_value(
 
 
 async def test_set_device_value_unknown_device(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, hm_device: MagicMock
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, hm_device: MagicMock
 ) -> None:
     """Test the set_device_value action logs an error for an unknown device."""
     await hass.services.async_call(
@@ -248,7 +248,7 @@ async def test_set_device_value_unknown_device(
 )
 @pytest.mark.usefixtures("setup_homematic")
 async def test_set_variable_value(
-    hass: UniversalAssistant, extra_data: dict[str, str]
+    hass: __HAC_KEEP__, extra_data: dict[str, str]
 ) -> None:
     """Test the set_variable_value action."""
     with patch.object(HMHub, "hm_set_variable") as mock_set_variable:
@@ -263,7 +263,7 @@ async def test_set_variable_value(
 
 @pytest.mark.usefixtures("setup_homematic")
 async def test_set_variable_value_unknown_hub(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the set_variable_value action logs an error without a matching hub."""
     with patch.object(HMHub, "hm_set_variable") as mock_set_variable:

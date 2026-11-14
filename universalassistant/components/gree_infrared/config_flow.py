@@ -11,7 +11,7 @@ from universalassistant.components.infrared import (
     async_get_receivers,
 )
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.selector import (
     EntitySelector,
@@ -39,7 +39,7 @@ _HVAC_MODE_OPTIONS = [
 
 
 @callback
-def _ac_schema(hass: UniversalAssistant) -> probatio.Schema:
+def _ac_schema(hass: __HAC_KEEP__) -> probatio.Schema:
     """Return the emitter/receiver/mode selection schema."""
     return probatio.Schema(
         {

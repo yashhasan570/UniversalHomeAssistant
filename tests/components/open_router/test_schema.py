@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.open_router.entity import _format_structured_output
 from universalassistant.components.open_router.schema import adjust_schema
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
 @pytest.mark.parametrize(
@@ -245,7 +245,7 @@ def test_invalid_reference(reference: str, translation_key: str) -> None:
     }
     original = deepcopy(schema)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         adjust_schema(schema)
 
     assert exc_info.value.translation_key == translation_key

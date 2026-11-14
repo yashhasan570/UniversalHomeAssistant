@@ -24,8 +24,8 @@ from universalassistant.components.select import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = [
@@ -35,7 +35,7 @@ pytestmark = [
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -58,7 +58,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
 ) -> None:
     """Test the Peblar EV charger selects."""
@@ -106,7 +106,7 @@ async def test_select_option(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_select_option_communication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
     error: Exception,
@@ -119,7 +119,7 @@ async def test_select_option_communication_error(
     mock_peblar.smart_charging.side_effect = error
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=error_match,
     ) as excinfo:
         await hass.services.async_call(
@@ -138,7 +138,7 @@ async def test_select_option_communication_error(
 
 
 async def test_select_option_authentication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_select_option_authentication_error(
     mock_peblar.login.side_effect = PeblarAuthenticationError("Authentication error")
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             r"An authentication failure occurred while communicating "
             r"with the Peblar EV charger"
@@ -206,7 +206,7 @@ async def test_select_option_authentication_error(
     ],
 )
 async def test_select_hardware_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     entity_id: str,
     method_name: str,
@@ -238,7 +238,7 @@ async def test_select_hardware_entity(
     indirect=["mock_peblar"],
 )
 async def test_hw_entity_absent_when_hw_flag_false(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     entity_key: str,
@@ -280,7 +280,7 @@ async def test_hw_entity_absent_when_hw_flag_false(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_smart_charging_options_follow_the_charger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_options: list[str],
 ) -> None:
     """Only offer the smart charging modes the charger accepts.
@@ -297,7 +297,7 @@ async def test_smart_charging_options_follow_the_charger(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_selecting_custom_solar(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
 ) -> None:
     """Test the mode firmware 1.10 added reaches the charger."""

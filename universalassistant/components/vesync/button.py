@@ -11,8 +11,8 @@ from pyvesync.utils.errors import VeSyncError
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -44,7 +44,7 @@ BUTTON_DESCRIPTIONS: Final[tuple[VeSyncButtonEntityDescription, ...]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VesyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -92,11 +92,11 @@ class VeSyncButtonEntity(ButtonEntity, VeSyncBaseEntity[VeSyncPurifier]):
         try:
             success = await self.entity_description.press_fn(self.device)
         except VeSyncError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="api_response_error"
             ) from err
         if not success:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="api_response_error"
             )
         # The filter life sensor reads the new value from the next poll.

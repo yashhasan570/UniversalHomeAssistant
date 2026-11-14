@@ -29,7 +29,7 @@ from universalassistant.const import (
     CONF_TIMEOUT,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -38,7 +38,7 @@ from .conftest import USER_INPUT
 
 @pytest.mark.usefixtures("smtp")
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     aiosmtplib: AsyncMock,
     client_context: MagicMock,
@@ -63,7 +63,7 @@ async def test_form(
     await hass.async_block_till_done()
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == "Universal Universal Home Assistant"
+    assert result["title"] == "__HA_KEEP__"
     assert result["data"] == USER_INPUT
     assert result["options"] == {
         CONF_REPLY_TO: "replyto@example.com",
@@ -98,7 +98,7 @@ async def test_form(
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort when entry is already configured."""
@@ -135,7 +135,7 @@ async def test_form_already_configured(
 )
 @pytest.mark.usefixtures("smtp")
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     aiosmtplib: MagicMock,
     exception: Exception,
@@ -171,7 +171,7 @@ async def test_form_errors(
     await hass.async_block_till_done()
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == "Universal Universal Home Assistant"
+    assert result["title"] == "__HA_KEEP__"
     assert result["data"] == USER_INPUT
     assert result["options"] == {CONF_TIMEOUT: 60}
     assert len(mock_setup_entry.mock_calls) == 1
@@ -179,7 +179,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_form_recipient_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort when subentry is already configured."""
@@ -209,7 +209,7 @@ async def test_form_recipient_already_configured(
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test options flow."""
@@ -240,7 +240,7 @@ async def test_options_flow(
 
 @pytest.mark.usefixtures("smtp")
 async def test_form_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     client_context: MagicMock,
@@ -290,13 +290,13 @@ async def test_form_reconfigure(
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_form_reconfigure_already_configured(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow already configured."""
 
     MockConfigEntry(
         domain=DOMAIN,
-        title="Universal Universal Home Assistant",
+        title="__HA_KEEP__",
         data={
             **USER_INPUT,
             CONF_SENDER: "already_configured@example.com",
@@ -337,7 +337,7 @@ async def test_form_reconfigure_already_configured(
 )
 @pytest.mark.usefixtures("smtp")
 async def test_form_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     exception: Exception,
@@ -393,7 +393,7 @@ async def test_form_reconfigure_errors(
 
 @pytest.mark.usefixtures("smtp")
 async def test_form_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     client_context: MagicMock,
@@ -449,7 +449,7 @@ async def test_form_reauth(
 )
 @pytest.mark.usefixtures("smtp")
 async def test_form_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     aiosmtplib: AsyncMock,
     exception: Exception,
@@ -500,7 +500,7 @@ async def test_form_reauth_errors(
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_form_subentry_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -541,12 +541,12 @@ async def test_form_subentry_reconfigure(
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_form_subentry_reconfigure_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we abort subentry reconfigure flow when already configured."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
-        title="Universal Universal Home Assistant",
+        title="__HA_KEEP__",
         data=USER_INPUT,
         options={
             CONF_TIMEOUT: 5,
@@ -588,12 +588,12 @@ async def test_form_subentry_reconfigure_already_configured(
 
 @pytest.mark.usefixtures("smtp", "aiosmtplib")
 async def test_form_subentry_reconfigure_updates_title(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test subentry reconfigure flow updates subentry title if it matches email."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
-        title="Universal Universal Home Assistant",
+        title="__HA_KEEP__",
         data=USER_INPUT,
         options={
             CONF_TIMEOUT: 5,

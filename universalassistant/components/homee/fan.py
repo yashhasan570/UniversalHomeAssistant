@@ -7,7 +7,7 @@ from pyHomee.const import AttributeType, NodeProfile
 from pyHomee.model import HomeeAttribute, HomeeNode
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
@@ -25,7 +25,7 @@ PARALLEL_UPDATES = 0
 
 
 async def add_fan_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
     nodes: list[HomeeNode],
@@ -39,7 +39,7 @@ async def add_fan_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HomeeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -58,7 +58,7 @@ class HomeeFan(HomeeNodeEntity, FanEntity):
     _attr_speed_count = int_states_in_range(speed_range)
 
     def __init__(
-        self, hass: UniversalAssistant, node: HomeeNode, entry: HomeeConfigEntry
+        self, hass: __HAC_KEEP__, node: HomeeNode, entry: HomeeConfigEntry
     ) -> None:
         """Initialize a Homee fan entity."""
         super().__init__(hass, node, entry)

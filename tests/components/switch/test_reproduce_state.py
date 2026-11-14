@@ -4,12 +4,12 @@ import pytest
 from pytest_universalassistant.common import async_mock_service
 
 from universalassistant.components.switch import DOMAIN
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.state import async_reproduce_state
 
 
 async def test_reproducing_states(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Switch states."""
     hass.states.async_set("switch.entity_off", "off", {})

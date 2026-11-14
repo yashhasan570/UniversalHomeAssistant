@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry, get_fixture_path
 
 from universalassistant.components.file import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
 async def test_migration_to_version_2(
-    hass: UniversalAssistant, mock_is_allowed_path: MagicMock
+    hass: __HAC_KEEP__, mock_is_allowed_path: MagicMock
 ) -> None:
     """Test the File sensor with JSON entries."""
     data = {
@@ -46,7 +46,7 @@ async def test_migration_to_version_2(
 @patch("os.path.isfile", Mock(return_value=True))
 @patch("os.access", Mock(return_value=True))
 async def test_migration_from_future_version(
-    hass: UniversalAssistant, mock_is_allowed_path: MagicMock
+    hass: __HAC_KEEP__, mock_is_allowed_path: MagicMock
 ) -> None:
     """Test the File sensor with JSON entries."""
     data = {

@@ -12,7 +12,7 @@ from urllib.parse import ParseResult, urljoin, urlparse, urlsplit
 import aiohttp
 import aiohttp.client_exceptions
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.network import is_local
 
 _LOGGER = logging.getLogger(__name__)
@@ -24,7 +24,7 @@ DEFAULT_PORTS = {"http": 80, "https": 443}
 
 
 async def verify_redirect_uri(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client_id: str,
     redirect_uri: str,
     *,
@@ -183,7 +183,7 @@ def _is_valid_metadata_redirect_uri(redirect_uri: str) -> bool:
     return bool(parts.scheme) and "#" not in redirect_uri
 
 
-async def fetch_redirect_uris(hass: UniversalAssistant, url: str) -> list[str]:
+async def fetch_redirect_uris(hass: __HAC_KEEP__, url: str) -> list[str]:
     """Find the redirect_uri values that a client_id advertises.
 
     We support two formats, checked in this order:

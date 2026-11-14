@@ -20,7 +20,7 @@ from universalassistant.components.water_heater import (
     STATE_PERFORMANCE,
 )
 from universalassistant.const import ATTR_TEMPERATURE, STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import FixtureDevice, MockOverkizClient, SetupOverkizIntegration
@@ -71,7 +71,7 @@ def fixture_platforms() -> Generator[None]:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_water_heater_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -84,7 +84,7 @@ async def test_water_heater_entities_snapshot(
 
 
 async def test_target_temperature_uses_water_target_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
     """Test target_temperature reads core:WaterTargetTemperatureState."""
@@ -97,7 +97,7 @@ async def test_target_temperature_uses_water_target_state(
 
 # --- CE_FLAT_C2 (io:AtlanticDomesticHotWaterProductionV2_CE_FLAT_C2_IOComponent) ---
 async def test_turn_away_mode_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
@@ -153,7 +153,7 @@ async def test_turn_away_mode_on(
 
 
 async def test_turn_away_mode_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_turn_away_mode_off(
 
 
 async def test_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_set_temperature(
 
 
 async def test_set_operation_mode_auto(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
@@ -224,7 +224,7 @@ async def test_set_operation_mode_auto(
 
 
 async def test_set_operation_mode_performance_turns_boost_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_set_operation_mode_performance_turns_boost_on(
 
 
 async def test_current_operation_reports_performance_when_boost_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
@@ -337,7 +337,7 @@ async def test_current_operation_reports_performance_when_boost_on(
     ],
 )
 async def test_set_operation_mode_sends_one_execution(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
@@ -369,7 +369,7 @@ async def test_set_operation_mode_sends_one_execution(
 
 # --- Hitachi Yutaki DHW (modbus:YutakiV2DHWTComponent) ---
 async def test_hitachi_turn_on_uses_run(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
@@ -394,7 +394,7 @@ async def test_hitachi_turn_on_uses_run(
 
 
 async def test_hitachi_turn_off_uses_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
@@ -418,7 +418,7 @@ async def test_hitachi_turn_off_uses_stop(
 
 # --- DHWP V1 (io:AtlanticDomesticHotWaterProductionIOComponent) ---
 async def test_atlantic_io_temperature_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
     """Test the setpoint falls back to 50-62 °C with a 4 °C step.
@@ -443,7 +443,7 @@ async def test_atlantic_io_temperature_range(
     ],
 )
 async def test_atlantic_io_set_operation_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
     operation_mode: str,
@@ -472,7 +472,7 @@ async def test_atlantic_io_set_operation_mode(
 
 
 async def test_atlantic_io_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
@@ -497,7 +497,7 @@ async def test_atlantic_io_set_temperature(
 
 
 async def test_atlantic_io_set_operation_mode_performance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
@@ -529,7 +529,7 @@ async def test_atlantic_io_set_operation_mode_performance(
 
 
 async def test_atlantic_io_turn_away_mode_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:
@@ -557,7 +557,7 @@ async def test_atlantic_io_turn_away_mode_on(
 
 
 async def test_atlantic_io_turn_away_mode_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MockOverkizClient,
     setup_overkiz_integration: SetupOverkizIntegration,
 ) -> None:

@@ -15,7 +15,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.google_drive.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
 )
@@ -25,7 +25,7 @@ type ComponentSetup = Callable[[], Awaitable[None]]
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> Callable[[], Coroutine[Any, Any, None]]:
     """Fixture for setting up the component."""
@@ -39,7 +39,7 @@ async def mock_setup_integration(
 
 
 async def test_setup_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     mock_api: MagicMock,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_setup_success(
 
 
 async def test_create_folder_if_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     mock_api: MagicMock,
 ) -> None:
@@ -67,7 +67,7 @@ async def test_create_folder_if_missing(
     # and creates it if missing
     mock_api.list_files = AsyncMock(return_value={"files": []})
     mock_api.create_file = AsyncMock(
-        return_value={"id": "new folder id", "name": "Universal Universal Home Assistant"}
+        return_value={"id": "new folder id", "name": "__HA_KEEP__"}
     )
 
     await setup_integration()
@@ -81,7 +81,7 @@ async def test_create_folder_if_missing(
 
 
 async def test_setup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     mock_api: MagicMock,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_setup_error(
 
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 async def test_expired_token_refresh_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     mock_api: MagicMock,
@@ -140,7 +140,7 @@ async def test_expired_token_refresh_success(
     ids=["failure_requires_reauth", "transient_failure"],
 )
 async def test_expired_token_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     status: http.HTTPStatus,
@@ -161,7 +161,7 @@ async def test_expired_token_refresh_failure(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -186,7 +186,7 @@ async def test_oauth_implementation_not_available(
     ids=["transient_error", "auth_error"],
 )
 async def test_runtime_token_refresh_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,

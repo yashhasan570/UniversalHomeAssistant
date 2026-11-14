@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.downloader.const import CONF_DOWNLOAD_DIR, DOMAIN
 from universalassistant.components.downloader.services import DownloaderService
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -20,7 +20,7 @@ def download_dir(tmp_path: Path, request: pytest.FixtureRequest) -> Path:
 
 
 async def test_config_entry_setup(
-    hass: UniversalAssistant, setup_integration: MockConfigEntry
+    hass: __HAC_KEEP__, setup_integration: MockConfigEntry
 ) -> None:
     """Test config entry setup."""
     config_entry = setup_integration
@@ -30,7 +30,7 @@ async def test_config_entry_setup(
 
 
 async def test_config_entry_setup_relative_directory(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test config entry setup with a relative download directory."""
     relative_directory = "downloads"
@@ -57,7 +57,7 @@ async def test_config_entry_setup_relative_directory(
     indirect=True,
 )
 async def test_config_entry_setup_not_existing_directory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     download_dir: Path,
 ) -> None:

@@ -7,7 +7,7 @@ from rf_protocols.commands.kaku import KakuCommand
 from universalassistant.components.radio_frequency import async_send_command
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import CONF_DEVICE_ID, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -21,7 +21,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: KlikAanKlikUitConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

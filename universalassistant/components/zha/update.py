@@ -17,8 +17,8 @@ from universalassistant.components.update import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import (
@@ -51,7 +51,7 @@ OTA_MESSAGE_RELIABILITY = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -81,7 +81,7 @@ class ZHAFirmwareUpdateCoordinator(DataUpdateCoordinator[None]):  # pylint: disa
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         controller_application: ControllerApplication,
     ) -> None:
@@ -218,7 +218,7 @@ class ZHAFirmwareUpdateEntity(
         try:
             await self.entity_data.entity.async_install(version=version)
         except ZHAException as exc:
-            raise UniversalAssistantError(exc) from exc
+            raise __HAC_KEEP__Error(exc) from exc
         finally:
             self.async_write_ha_state()
 

@@ -8,7 +8,7 @@ from airtouch4pyapi import AirTouch
 from airtouch4pyapi.airtouch import AirTouchStatus
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
@@ -26,7 +26,7 @@ class AirtouchDataUpdateCoordinator(
     """Class to manage fetching Airtouch data."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: AirTouch4ConfigEntry, airtouch: AirTouch
+        self, hass: __HAC_KEEP__, entry: AirTouch4ConfigEntry, airtouch: AirTouch
     ) -> None:
         """Initialize global Airtouch data updater."""
         self.airtouch = airtouch

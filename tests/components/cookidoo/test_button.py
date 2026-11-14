@@ -10,8 +10,8 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -19,7 +19,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_all_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_pressing_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:
@@ -60,7 +60,7 @@ async def test_pressing_button(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_pressing_button_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cookidoo_client: AsyncMock,
     cookidoo_config_entry: MockConfigEntry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_pressing_button_exception(
 
     mock_cookidoo_client.clear_shopping_list.side_effect = CookidooRequestException
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Failed to clear all items from the Cookidoo shopping list",
     ):
         await hass.services.async_call(

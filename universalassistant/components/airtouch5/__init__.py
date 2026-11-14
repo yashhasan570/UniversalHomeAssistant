@@ -4,7 +4,7 @@ from airtouch5py.airtouch5_simple_client import Airtouch5SimpleClient
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 PLATFORMS: list[Platform] = [Platform.CLIMATE, Platform.COVER]
@@ -12,7 +12,7 @@ PLATFORMS: list[Platform] = [Platform.CLIMATE, Platform.COVER]
 type Airtouch5ConfigEntry = ConfigEntry[Airtouch5SimpleClient]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: Airtouch5ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: Airtouch5ConfigEntry) -> None:
     """Set up Airtouch 5 from a config entry."""
 
     # Create API instance
@@ -31,7 +31,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: Airtouch5ConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: Airtouch5ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: Airtouch5ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     client = entry.runtime_data

@@ -7,7 +7,7 @@ from typing import override
 
 from asyncpysupla import SuplaAPI
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ class SuplaCoordinator(DataUpdateCoordinator[dict[int, dict]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         server: SuplaAPI,
         server_name: str,
     ) -> None:

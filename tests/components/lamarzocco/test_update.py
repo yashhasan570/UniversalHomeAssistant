@@ -13,8 +13,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import async_init_integration
@@ -31,7 +31,7 @@ def mock_sleep() -> Generator[AsyncMock]:
 
 
 async def test_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -43,7 +43,7 @@ async def test_update(
 
 
 async def test_update_process(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
@@ -108,7 +108,7 @@ async def test_update_process(
     ],
 )
 async def test_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception | type[Exception],
@@ -122,7 +122,7 @@ async def test_update_error(
 
     mock_lamarzocco.update_firmware.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -137,7 +137,7 @@ async def test_update_error(
 
 
 async def test_update_times_out(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_update_times_out(
 
     with (
         patch("universalassistant.components.lamarzocco.update.MAX_UPDATE_WAIT", 0),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             UPDATE_DOMAIN,

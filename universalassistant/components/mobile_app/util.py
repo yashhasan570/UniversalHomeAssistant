@@ -15,7 +15,7 @@ from universalassistant.config_entries import (
     OperationNotAllowed,
 )
 from universalassistant.const import ATTR_DEVICE_ID, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 
 from .const import (
@@ -44,7 +44,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def webhook_id_from_device_id(hass: UniversalAssistant, device_id: str) -> str | None:
+def webhook_id_from_device_id(hass: __HAC_KEEP__, device_id: str) -> str | None:
     """Get webhook ID from device ID."""
     if DOMAIN not in hass.data:
         return None
@@ -57,7 +57,7 @@ def webhook_id_from_device_id(hass: UniversalAssistant, device_id: str) -> str |
 
 
 @callback
-def supports_push(hass: UniversalAssistant, webhook_id: str) -> bool:
+def supports_push(hass: __HAC_KEEP__, webhook_id: str) -> bool:
     """Return if push notifications is supported."""
     config_entry = hass.data[DOMAIN][DATA_CONFIG_ENTRIES][webhook_id]
     app_data = config_entry.data[ATTR_APP_DATA]
@@ -67,7 +67,7 @@ def supports_push(hass: UniversalAssistant, webhook_id: str) -> bool:
 
 
 @callback
-def get_notify_service(hass: UniversalAssistant, webhook_id: str) -> str | None:
+def get_notify_service(hass: __HAC_KEEP__, webhook_id: str) -> str | None:
     """Return the notify service for this webhook ID."""
     notify_service: MobileAppNotificationService = hass.data[DOMAIN][DATA_NOTIFY]
 
@@ -82,7 +82,7 @@ _CLOUD_HOOK_LOCK = asyncio.Lock()
 
 
 async def async_create_cloud_hook(
-    hass: UniversalAssistant, webhook_id: str, entry: ConfigEntry | None
+    hass: __HAC_KEEP__, webhook_id: str, entry: ConfigEntry | None
 ) -> str:
     """Create a cloud hook."""
     async with _CLOUD_HOOK_LOCK:
@@ -101,7 +101,7 @@ async def async_create_cloud_hook(
 
 
 async def async_retire_webhook(
-    hass: UniversalAssistant, registration: Mapping[str, Any]
+    hass: __HAC_KEEP__, registration: Mapping[str, Any]
 ) -> None:
     """Retire the webhook of a registration and delete its cloudhook."""
     webhook_id = registration[CONF_WEBHOOK_ID]
@@ -113,7 +113,7 @@ async def async_retire_webhook(
 
 
 async def async_delete_registration_cloudhook(
-    hass: UniversalAssistant, registration: Mapping[str, Any]
+    hass: __HAC_KEEP__, registration: Mapping[str, Any]
 ) -> None:
     """Delete the cloudhook of a registration, if it has one."""
     if CONF_CLOUDHOOK_URL in registration:
@@ -123,7 +123,7 @@ async def async_delete_registration_cloudhook(
 
 @callback
 def _async_move_sensors(
-    hass: UniversalAssistant, entry: ConfigEntry, from_webhook_id: str, to_webhook_id: str
+    hass: __HAC_KEEP__, entry: ConfigEntry, from_webhook_id: str, to_webhook_id: str
 ) -> None:
     """Move the sensors of an entry to another webhook ID."""
     entity_registry = er.async_get(hass)
@@ -148,7 +148,7 @@ def _async_move_sensors(
 
 
 async def async_update_registration(
-    hass: UniversalAssistant, entry: ConfigEntry, registration: dict[str, Any]
+    hass: __HAC_KEEP__, entry: ConfigEntry, registration: dict[str, Any]
 ) -> bool:
     """Update the entry of an app which registers again.
 

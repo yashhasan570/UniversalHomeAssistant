@@ -14,7 +14,7 @@ from universalassistant.components.mcp_server.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
@@ -40,7 +40,7 @@ class MockLLMAPI(llm.API):
 
 
 @pytest.fixture(autouse=True)
-async def ensure_universalassistant_loaded(hass: UniversalAssistant) -> None:
+async def ensure_universalassistant_loaded(hass: __HAC_KEEP__) -> None:
     """Ensure universalassistant component is loaded."""
     assert await async_setup_component(hass, "universalassistant", {})
 
@@ -80,7 +80,7 @@ def read_only_fixture() -> bool:
 
 @pytest.fixture(name="config_entry")
 def mock_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     llm_hass_api: str | list[str],
     all_llm_apis: bool,
     require_admin: bool,

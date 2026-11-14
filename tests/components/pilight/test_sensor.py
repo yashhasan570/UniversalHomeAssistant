@@ -7,18 +7,18 @@ import pytest
 from pytest_universalassistant.common import assert_setup_component, mock_component
 
 from universalassistant.components import pilight, sensor
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-def setup_comp(hass: UniversalAssistant) -> None:
+def setup_comp(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     mock_component(hass, "pilight")
 
 
 def fire_pilight_message(
-    hass: UniversalAssistant, protocol: str, data: dict[str, Any]
+    hass: __HAC_KEEP__, protocol: str, data: dict[str, Any]
 ) -> None:
     """Fire the fake Pilight message."""
     message = {pilight.CONF_PROTOCOL: protocol}
@@ -27,7 +27,7 @@ def fire_pilight_message(
     hass.bus.async_fire(pilight.EVENT, message)
 
 
-async def test_sensor_value_from_code(hass: UniversalAssistant) -> None:
+async def test_sensor_value_from_code(hass: __HAC_KEEP__) -> None:
     """Test the setting of value via pilight."""
     with assert_setup_component(1):
         assert await async_setup_component(
@@ -58,7 +58,7 @@ async def test_sensor_value_from_code(hass: UniversalAssistant) -> None:
         assert state.state == "42"
 
 
-async def test_disregard_wrong_payload(hass: UniversalAssistant) -> None:
+async def test_disregard_wrong_payload(hass: __HAC_KEEP__) -> None:
     """Test omitting setting of value with wrong payload."""
     with assert_setup_component(1):
         assert await async_setup_component(
@@ -103,7 +103,7 @@ async def test_disregard_wrong_payload(hass: UniversalAssistant) -> None:
 
 
 async def test_variable_missing(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Check if error message when variable missing."""
     caplog.set_level(logging.ERROR)

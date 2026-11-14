@@ -3,11 +3,11 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.accuweather.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the AccuWeather integration in Universal Universal Home Assistant."""
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the AccuWeather integration in __HA_KEEP__."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         title="Home",

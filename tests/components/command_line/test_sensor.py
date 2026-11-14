@@ -18,7 +18,7 @@ from universalassistant.components.universalassistant import (
     SERVICE_UPDATE_ENTITY,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
 from . import mock_asyncio_subprocess_exec, mock_asyncio_subprocess_run
@@ -41,7 +41,7 @@ from . import mock_asyncio_subprocess_exec, mock_asyncio_subprocess_run
     ],
 )
 async def test_setup_integration_yaml(
-    hass: UniversalAssistant, load_yaml_integration: None
+    hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test sensor setup."""
 
@@ -70,7 +70,7 @@ async def test_setup_integration_yaml(
         }
     ],
 )
-async def test_template(hass: UniversalAssistant, load_yaml_integration: None) -> None:
+async def test_template(hass: __HAC_KEEP__, load_yaml_integration: None) -> None:
     """Test command sensor with template."""
 
     entity_state = hass.states.get("sensor.test")
@@ -95,7 +95,7 @@ async def test_template(hass: UniversalAssistant, load_yaml_integration: None) -
     ],
 )
 async def test_template_render(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_yaml_integration: None,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -113,7 +113,7 @@ async def test_template_render(
 
 
 async def test_template_render_with_quote(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Ensure command with templates and quotes uses exec for security."""
     hass.states.async_set("sensor.input_sensor", "sensor_value")
@@ -169,7 +169,7 @@ async def test_template_render_with_quote(
     ],
 )
 async def test_bad_template_render(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, get_config: dict[str, Any]
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, get_config: dict[str, Any]
 ) -> None:
     """Test rendering a broken template."""
     await setup.async_setup_component(
@@ -197,7 +197,7 @@ async def test_bad_template_render(
         }
     ],
 )
-async def test_bad_command(hass: UniversalAssistant, get_config: dict[str, Any]) -> None:
+async def test_bad_command(hass: __HAC_KEEP__, get_config: dict[str, Any]) -> None:
     """Test bad command."""
     await setup.async_setup_component(
         hass,
@@ -227,7 +227,7 @@ async def test_bad_command(hass: UniversalAssistant, get_config: dict[str, Any])
     ],
 )
 async def test_return_code(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, get_config: dict[str, Any]
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, get_config: dict[str, Any]
 ) -> None:
     """Test that an error return code is logged."""
     await setup.async_setup_component(
@@ -264,7 +264,7 @@ async def test_return_code(
     ],
 )
 async def test_update_with_json_attrs(
-    hass: UniversalAssistant, load_yaml_integration: None
+    hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test attributes get extracted from a JSON result."""
     entity_state = hass.states.get("sensor.test")
@@ -300,7 +300,7 @@ async def test_update_with_json_attrs(
     ],
 )
 async def test_update_with_json_attrs_and_value_template(
-    hass: UniversalAssistant, load_yaml_integration: None
+    hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test json_attributes can be used together with value_template."""
     entity_state = hass.states.get("sensor.test")
@@ -328,7 +328,7 @@ async def test_update_with_json_attrs_and_value_template(
     ],
 )
 async def test_update_with_json_attrs_no_data(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, get_config: dict[str, Any]
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, get_config: dict[str, Any]
 ) -> None:
     """Test attributes when no JSON result fetched."""
     await setup.async_setup_component(
@@ -361,7 +361,7 @@ async def test_update_with_json_attrs_no_data(
     ],
 )
 async def test_update_with_json_attrs_not_dict(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, get_config: dict[str, Any]
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, get_config: dict[str, Any]
 ) -> None:
     """Test attributes when the return value not a dict."""
     await setup.async_setup_component(
@@ -394,7 +394,7 @@ async def test_update_with_json_attrs_not_dict(
     ],
 )
 async def test_update_with_json_attrs_bad_json(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, get_config: dict[str, Any]
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, get_config: dict[str, Any]
 ) -> None:
     """Test attributes when the return value is invalid JSON."""
     await setup.async_setup_component(
@@ -439,7 +439,7 @@ async def test_update_with_json_attrs_bad_json(
     ],
 )
 async def test_update_with_missing_json_attrs(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, load_yaml_integration: None
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test attributes when an expected key is missing."""
 
@@ -475,7 +475,7 @@ async def test_update_with_missing_json_attrs(
     ],
 )
 async def test_update_with_unnecessary_json_attrs(
-    caplog: pytest.LogCaptureFixture, hass: UniversalAssistant, load_yaml_integration: None
+    caplog: pytest.LogCaptureFixture, hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test attributes when an expected key is missing."""
 
@@ -513,7 +513,7 @@ async def test_update_with_unnecessary_json_attrs(
     ],
 )
 async def test_update_with_json_attrs_with_json_attrs_path(
-    hass: UniversalAssistant, load_yaml_integration: None
+    hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test json_attributes_path selects a different root."""
 
@@ -557,7 +557,7 @@ async def test_update_with_json_attrs_with_json_attrs_path(
     ],
 )
 async def test_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, load_yaml_integration: None
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, load_yaml_integration: None
 ) -> None:
     """Test unique_id option and if it only creates one sensor per id."""
 
@@ -571,7 +571,7 @@ async def test_unique_id(
 
 
 async def test_updating_to_often(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -638,7 +638,7 @@ async def test_updating_to_often(
 
 
 async def test_updating_manually(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test handling manual updating using universalassistant udate_entity service."""
     await setup.async_setup_component(hass, HA_DOMAIN, {})
@@ -702,7 +702,7 @@ async def test_updating_manually(
     ],
 )
 async def test_scrape_sensor_device_timestamp(
-    hass: UniversalAssistant, load_yaml_integration: None
+    hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test Command Line sensor with a device of type TIMESTAMP."""
     entity_state = hass.states.get("sensor.test")
@@ -730,7 +730,7 @@ async def test_scrape_sensor_device_timestamp(
     ],
 )
 async def test_scrape_sensor_device_date(
-    hass: UniversalAssistant, load_yaml_integration: None
+    hass: __HAC_KEEP__, load_yaml_integration: None
 ) -> None:
     """Test Command Line sensor with a device of type DATE."""
     entity_state = hass.states.get("sensor.test")
@@ -739,7 +739,7 @@ async def test_scrape_sensor_device_date(
 
 
 async def test_template_not_error_when_data_is_none(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test command sensor with template not logging error when data is None."""
 
@@ -793,7 +793,7 @@ async def test_template_not_error_when_data_is_none(
     ],
 )
 async def test_availability_json_attributes_without_value_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_yaml_integration: None,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -872,7 +872,7 @@ async def test_availability_json_attributes_without_value_template(
     ],
 )
 async def test_availability_with_value_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_yaml_integration: None,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -902,7 +902,7 @@ async def test_availability_with_value_template(
 
 
 async def test_template_render_with_availability_syntax_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -962,7 +962,7 @@ async def test_template_render_with_availability_syntax_error(
     ],
 )
 async def test_command_template_render_with_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_yaml_integration: None,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1008,7 +1008,7 @@ async def test_command_template_render_with_availability(
     ],
 )
 async def test_availability_blocks_value_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_yaml_integration: None,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -1037,7 +1037,7 @@ async def test_availability_blocks_value_template(
 
 
 async def test_template_without_shell_features_uses_exec(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1078,7 +1078,7 @@ async def test_template_without_shell_features_uses_exec(
 
 
 async def test_template_with_shell_features_uses_shell_and_creates_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1127,7 +1127,7 @@ async def test_template_with_shell_features_uses_shell_and_creates_issue(
 
 
 async def test_static_command_with_shell_features_no_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1160,7 +1160,7 @@ async def test_static_command_with_shell_features_no_issue(
 
 
 async def test_template_shell_feature_issue_cleared_when_metachar_gone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1207,7 +1207,7 @@ async def test_template_shell_feature_issue_cleared_when_metachar_gone(
 
 
 async def test_template_render_unbalanced_quote_logs_and_skips(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1248,7 +1248,7 @@ async def test_template_render_unbalanced_quote_logs_and_skips(
     ],
 )
 async def test_template_non_shell_metachar_uses_exec(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     state_value: str,
     freezer: FrozenDateTimeFactory,
@@ -1315,7 +1315,7 @@ async def test_template_non_shell_metachar_uses_exec(
     ],
 )
 async def test_template_quoted_shell_metachar_uses_exec(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     command: str,
     expected_args: list[str],
@@ -1375,7 +1375,7 @@ async def test_template_quoted_shell_metachar_uses_exec(
     ],
 )
 async def test_template_unquoted_shell_feature_keeps_shell(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     command: str,
     freezer: FrozenDateTimeFactory,
@@ -1425,7 +1425,7 @@ async def test_template_unquoted_shell_feature_keeps_shell(
     ],
 )
 async def test_template_shell_feature_in_executable_keeps_shell(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     command: str,
     assembled: str,
@@ -1458,7 +1458,7 @@ async def test_template_shell_feature_in_executable_keeps_shell(
 
 
 async def test_template_quoted_executable_uses_exec(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1508,7 +1508,7 @@ async def test_template_quoted_executable_uses_exec(
     ],
 )
 async def test_template_issue_id_stable_across_command_edits(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     edited_command: str,
 ) -> None:
@@ -1524,7 +1524,7 @@ async def test_template_issue_id_stable_across_command_edits(
 
 
 async def test_template_issue_id_distinct_for_slugify_collision(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Names that slugify identically get distinct issue ids."""

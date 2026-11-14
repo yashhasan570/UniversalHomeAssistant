@@ -16,15 +16,15 @@ from universalassistant.components.media_player import (
     SERVICE_PLAY_MEDIA,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 CANCEL_ANNOUNCEMENT_BUTTON = "button.zone_a_cancel_announcement"
 
 pytestmark = pytest.mark.usefixtures("entity_registry_enabled_by_default")
 
 
-async def _announce_clip(hass: UniversalAssistant, content_id: str) -> None:
+async def _announce_clip(hass: __HAC_KEEP__, content_id: str) -> None:
     """Play an announcement clip to set the active clip id."""
     await hass.services.async_call(
         MP_DOMAIN,
@@ -40,7 +40,7 @@ async def _announce_clip(hass: UniversalAssistant, content_id: str) -> None:
 
 
 async def test_cancel_announcement_no_prior(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_autosetup_sonos,
 ) -> None:
     """Test cancelling when no announcement has been played."""
@@ -56,7 +56,7 @@ async def test_cancel_announcement_no_prior(
 
 
 async def test_cancel_announcement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_autosetup_sonos,
     sonos_websocket,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_cancel_announcement(
 
 
 async def test_cancel_announcement_no_clip_id_from_announce_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_autosetup_sonos,
     sonos_websocket,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_cancel_announcement_no_clip_id_from_announce_response(
     ],
 )
 async def test_cancel_announcement_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_autosetup_sonos,
     sonos_websocket,
     cancel_clip_side_effect: SonosWebsocketError | None,
@@ -136,7 +136,7 @@ async def test_cancel_announcement_errors(
         side_effect=cancel_clip_side_effect,
         return_value=cancel_clip_return,
     )
-    with pytest.raises(UniversalAssistantError, match=error_match):
+    with pytest.raises(__HAC_KEEP__Error, match=error_match):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

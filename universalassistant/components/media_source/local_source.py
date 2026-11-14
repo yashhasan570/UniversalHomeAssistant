@@ -20,8 +20,8 @@ from universalassistant.components.media_player import (
     SearchMedia,
     SearchMediaQuery,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import raise_if_invalid_filename, raise_if_invalid_path
 
 from .const import (
@@ -39,11 +39,11 @@ MAX_SEARCH_RESULTS = 100
 LOGGER = logging.getLogger(__name__)
 
 
-class PathNotSupportedError(UniversalAssistantError):
+class PathNotSupportedError(__HAC_KEEP__Error):
     """Error to indicate a path is not supported."""
 
 
-class InvalidFileNameError(UniversalAssistantError):
+class InvalidFileNameError(__HAC_KEEP__Error):
     """Error to indicate an invalid file name."""
 
 
@@ -55,7 +55,7 @@ class UploadedFile(Protocol):
     content_type: str
 
 
-async def async_get_media_source(hass: UniversalAssistant) -> LocalSource:
+async def async_get_media_source(hass: __HAC_KEEP__) -> LocalSource:
     """Set up local media source."""
     return LocalSource(hass, DOMAIN, "My media", hass.config.media_dirs, "/media")
 
@@ -65,7 +65,7 @@ class LocalSource(MediaSource):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         domain: str,
         name: str,
         media_dirs: dict[str, str],
@@ -382,7 +382,7 @@ def _async_media_headers(mime_type: str) -> dict[str, str]:
     return {}
 
 
-class LocalMediaView(http.UniversalAssistantView):
+class LocalMediaView(http.__HAC_KEEP__View):
     """Local Media Finder View.
 
     Returns media files in config/media.
@@ -390,7 +390,7 @@ class LocalMediaView(http.UniversalAssistantView):
 
     name = "media"
 
-    def __init__(self, hass: UniversalAssistant, source: LocalSource) -> None:
+    def __init__(self, hass: __HAC_KEEP__, source: LocalSource) -> None:
         """Initialize the media view."""
         self.hass = hass
         self.source = source
@@ -445,7 +445,7 @@ class LocalMediaView(http.UniversalAssistantView):
         return web.FileResponse(media_path, headers=_async_media_headers(mime_type))
 
 
-class UploadMediaView(http.UniversalAssistantView):
+class UploadMediaView(http.__HAC_KEEP__View):
     """View to upload images."""
 
     url = "/api/media_source/local_source/upload"
@@ -512,7 +512,7 @@ class UploadMediaView(http.UniversalAssistantView):
 @websocket_api.require_admin
 @websocket_api.async_response
 async def websocket_remove_media(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Remove media."""
     try:

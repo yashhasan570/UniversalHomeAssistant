@@ -73,7 +73,7 @@ from universalassistant.const import (
     UnitOfLength,
     UnitOfTime,
 )
-from universalassistant.core import CoreState, UniversalAssistant, State
+from universalassistant.core import CoreState, __HAC_KEEP__, State
 from universalassistant.setup import async_setup_component
 
 from .conftest import RESPONSE, TRANSIT_RESPONSE
@@ -122,7 +122,7 @@ from .const import (
 )
 @pytest.mark.usefixtures("valid_response")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mode,
     icon,
     traffic_mode,
@@ -188,7 +188,7 @@ async def test_sensor(
 
 @pytest.mark.usefixtures("valid_response")
 async def test_circular_ref(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that a circular ref is handled."""
     hass.states.async_set(
@@ -222,7 +222,7 @@ async def test_circular_ref(
 
 
 @pytest.mark.usefixtures("valid_response")
-async def test_public_transport(hass: UniversalAssistant) -> None:
+async def test_public_transport(hass: __HAC_KEEP__) -> None:
     """Test that public transport mode is handled."""
     hass.set_state(CoreState.not_running)
     entry = MockConfigEntry(
@@ -262,7 +262,7 @@ async def test_public_transport(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("no_attribution_response")
-async def test_no_attribution_response(hass: UniversalAssistant) -> None:
+async def test_no_attribution_response(hass: __HAC_KEEP__) -> None:
     """Test that no_attribution is handled."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -292,7 +292,7 @@ async def test_no_attribution_response(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_entity_ids(hass: UniversalAssistant, valid_response: MagicMock) -> None:
+async def test_entity_ids(hass: __HAC_KEEP__, valid_response: MagicMock) -> None:
     """Test that origin/destination supplied by entities works."""
     hass.set_state(CoreState.not_running)
     zone_config = {
@@ -353,7 +353,7 @@ async def test_entity_ids(hass: UniversalAssistant, valid_response: MagicMock) -
 
 @pytest.mark.usefixtures("valid_response")
 async def test_destination_entity_not_found(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that a not existing destination_entity_id is caught."""
     entry = MockConfigEntry(
@@ -383,7 +383,7 @@ async def test_destination_entity_not_found(
 
 @pytest.mark.usefixtures("valid_response")
 async def test_origin_entity_not_found(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that a not existing origin_entity_id is caught."""
     entry = MockConfigEntry(
@@ -413,7 +413,7 @@ async def test_origin_entity_not_found(
 
 @pytest.mark.usefixtures("valid_response")
 async def test_invalid_destination_entity_state(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that an invalid state of the destination_entity_id is caught."""
     hass.states.async_set(
@@ -449,7 +449,7 @@ async def test_invalid_destination_entity_state(
 
 @pytest.mark.usefixtures("valid_response")
 async def test_invalid_origin_entity_state(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that an invalid state of the origin_entity_id is caught."""
     hass.states.async_set(
@@ -484,7 +484,7 @@ async def test_invalid_origin_entity_state(
 
 
 async def test_route_not_found(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that route not found error is correctly handled."""
     with patch(
@@ -519,7 +519,7 @@ async def test_route_not_found(
 
 
 @pytest.mark.usefixtures("valid_response")
-async def test_restore_state(hass: UniversalAssistant) -> None:
+async def test_restore_state(hass: __HAC_KEEP__) -> None:
     """Test sensor restore state."""
     # Universal assistant is not running yet
     hass.set_state(CoreState.not_running)
@@ -673,7 +673,7 @@ async def test_restore_state(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_transit_errors(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, exception, expected_message
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, exception, expected_message
 ) -> None:
     """Test that transit errors are correctly handled."""
     hass.set_state(CoreState.not_running)
@@ -707,7 +707,7 @@ async def test_transit_errors(
 
 
 async def test_routing_rate_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -759,7 +759,7 @@ async def test_routing_rate_limit(
 
 
 async def test_transit_rate_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -819,7 +819,7 @@ async def test_transit_rate_limit(
 
 @pytest.mark.usefixtures("bike_response")
 async def test_multiple_sections(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that multiple sections are handled correctly."""
     hass.set_state(CoreState.not_running)

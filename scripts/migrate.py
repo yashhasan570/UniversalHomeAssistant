@@ -10,6 +10,8 @@ def newpath(s):
     return s
 
 def sweep():
+    protects = [('Universal Home Assistant', '__HA_KEEP__'), ('UniversalAssistant', '__HAC_KEEP__')]
+    restores = [('__HA_KEEP__', 'Universal Home Assistant'), ('__HAC_KEEP__', 'UniversalAssistant')]
     pairs = [
         ('https://github.com/home-assistant/core', 'https://github.com/yashhasan570/UniversalHomeAssistant'),
         ('home-assistant.io', 'universalassistant.io'),
@@ -32,6 +34,7 @@ def sweep():
             try: t = p.read_text(encoding='utf-8')
             except Exception: continue
             orig = t
+            for old, new in protects: t = t.replace(old, new)
             for old, new in pairs:
                 t = t.replace(old, new)
             if t != orig: p.write_text(t)

@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import FakeListener
 
@@ -14,7 +14,7 @@ pytestmark = pytest.mark.usefixtures("patch_shared_listener")
 
 
 async def test_setup_oserror_results_in_setup_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_shared_listener: FakeListener,
 ) -> None:
@@ -29,7 +29,7 @@ async def test_setup_oserror_results_in_setup_retry(
 
 
 async def test_setup_runtime_error_results_in_setup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_shared_listener: FakeListener,
 ) -> None:

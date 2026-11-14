@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
@@ -33,7 +33,7 @@ YAML_IMPORT = {
 }
 
 
-async def test_flow_user(hass: UniversalAssistant, mock_api: requests_mock.Mocker) -> None:
+async def test_flow_user(hass: __HAC_KEEP__, mock_api: requests_mock.Mocker) -> None:
     """Test the user flow."""
     # Open flow as USER with no input
     result = await hass.config_entries.flow.async_init(
@@ -92,7 +92,7 @@ async def test_flow_user(hass: UniversalAssistant, mock_api: requests_mock.Mocke
     }
 
 
-async def test_flow_user_already_configured(hass: UniversalAssistant) -> None:
+async def test_flow_user_already_configured(hass: __HAC_KEEP__) -> None:
     """Test user initialized flow with duplicate server."""
     entry = MockConfigEntry(domain=DOMAIN, data=USER_INPUT)
     entry.add_to_hass(hass)

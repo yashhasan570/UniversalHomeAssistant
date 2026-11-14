@@ -11,7 +11,7 @@ from universalassistant.components.tado.const import (
     WATER_HEATER_FALLBACK_REPAIR,
 )
 from universalassistant.components.tado.repairs import manage_water_heater_fallback_issue
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 
@@ -28,7 +28,7 @@ def _issue_id(entry: MockConfigEntry) -> str:
     ],
 )
 async def test_manage_water_heater_fallback_issue_not_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     has_water_heaters: bool,
@@ -49,7 +49,7 @@ async def test_manage_water_heater_fallback_issue_not_created(
     "integration_overlay_fallback", [CONST_OVERLAY_TADO_DEFAULT, CONST_OVERLAY_MANUAL]
 )
 async def test_manage_water_heater_fallback_issue_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     integration_overlay_fallback: str,
@@ -76,7 +76,7 @@ async def test_manage_water_heater_fallback_issue_created(
     ],
 )
 async def test_manage_water_heater_fallback_issue_deleted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,
     has_water_heaters: bool,
@@ -102,7 +102,7 @@ async def test_manage_water_heater_fallback_issue_deleted(
 
 
 async def test_manage_water_heater_fallback_issue_per_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test each config entry gets and clears its own issue."""

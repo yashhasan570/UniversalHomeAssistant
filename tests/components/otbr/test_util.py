@@ -6,8 +6,8 @@ import pytest
 import python_otbr_api
 
 from universalassistant.components import otbr
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 OTBR_MULTIPAN_URL = "http://core-silabs-multiprotocol:8081"
 OTBR_NON_MULTIPAN_URL = "/dev/ttyAMA1"
@@ -19,7 +19,7 @@ def mock_supervisor_client(supervisor_client: AsyncMock) -> None:
 
 
 async def test_get_allowed_channel(
-    hass: UniversalAssistant, multiprotocol_addon_manager_mock
+    hass: __HAC_KEEP__, multiprotocol_addon_manager_mock
 ) -> None:
     """Test get_allowed_channel."""
 
@@ -37,7 +37,7 @@ async def test_get_allowed_channel(
 
 
 async def test_factory_reset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     otbr_config_entry_multipan: str,
     get_border_agent_id: AsyncMock,
 ) -> None:
@@ -63,7 +63,7 @@ async def test_factory_reset(
 
 
 async def test_factory_reset_not_supported(
-    hass: UniversalAssistant, otbr_config_entry_multipan: str
+    hass: __HAC_KEEP__, otbr_config_entry_multipan: str
 ) -> None:
     """Test factory_reset."""
     config_entry = hass.config_entries.async_get_entry(otbr_config_entry_multipan)
@@ -83,7 +83,7 @@ async def test_factory_reset_not_supported(
 
 
 async def test_factory_reset_error_1(
-    hass: UniversalAssistant, otbr_config_entry_multipan: str
+    hass: __HAC_KEEP__, otbr_config_entry_multipan: str
 ) -> None:
     """Test factory_reset."""
     config_entry = hass.config_entries.async_get_entry(otbr_config_entry_multipan)
@@ -96,7 +96,7 @@ async def test_factory_reset_error_1(
             "python_otbr_api.OTBR.delete_active_dataset"
         ) as delete_active_dataset_mock,
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
     ):
         await config_entry.runtime_data.factory_reset(hass)
@@ -106,7 +106,7 @@ async def test_factory_reset_error_1(
 
 
 async def test_factory_reset_error_2(
-    hass: UniversalAssistant, otbr_config_entry_multipan: str
+    hass: __HAC_KEEP__, otbr_config_entry_multipan: str
 ) -> None:
     """Test factory_reset."""
     config_entry = hass.config_entries.async_get_entry(otbr_config_entry_multipan)
@@ -120,7 +120,7 @@ async def test_factory_reset_error_2(
             side_effect=python_otbr_api.OTBRError,
         ) as delete_active_dataset_mock,
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
     ):
         await config_entry.runtime_data.factory_reset(hass)

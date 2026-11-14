@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant hardware firmware update coordinator."""
+"""__HA_KEEP__ hardware firmware update coordinator."""
 
 from datetime import timedelta
 import logging
@@ -12,7 +12,7 @@ from ha_silabs_firmware_client import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 _LOGGER = logging.getLogger(__name__)
@@ -26,7 +26,7 @@ class FirmwareUpdateCoordinator(DataUpdateCoordinator[FirmwareManifest]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         session: ClientSession,
         url: str,

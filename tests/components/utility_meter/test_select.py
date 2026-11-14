@@ -3,13 +3,13 @@
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.utility_meter.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_select_entity_name_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test for Utility Meter select platform."""
 
@@ -45,7 +45,7 @@ async def test_select_entity_name_config_entry(
 
 
 async def test_select_entity_name_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test for Utility Meter select platform."""
 
@@ -70,7 +70,7 @@ async def test_select_entity_name_yaml(
 
 
 async def test_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

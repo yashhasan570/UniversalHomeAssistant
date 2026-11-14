@@ -15,7 +15,7 @@ from universalassistant.components.event import (
 )
 from universalassistant.components.input_button import DOMAIN as INPUT_BUTTON_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, CONF_OPTIONS
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, State, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, State, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.event import async_call_later
@@ -124,7 +124,7 @@ class ButtonHeldTrigger(StatelessEntityTriggerBase):
     _domain_specs = {EVENT_DOMAIN: DomainSpec(device_class=EventDeviceClass.BUTTON)}
     _schema = HELD_TRIGGER_SCHEMA
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the held trigger."""
         super().__init__(hass, config)
         self._interval: timedelta | None = self._options.get(CONF_INTERVAL)
@@ -339,6 +339,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for buttons."""
     return TRIGGERS

@@ -10,7 +10,7 @@ from universalassistant.components.webhook import (
     async_register as webhook_register,
     async_unregister as webhook_unregister,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.network import get_url
 
 from .const import DOMAIN, WEBHOOK_URL
@@ -36,7 +36,7 @@ class NASwebData:
         """Return whether this instance can be deinitialized."""
         return not self.notify_coordinator.has_coordinators()
 
-    def initialize(self, hass: UniversalAssistant) -> None:
+    def initialize(self, hass: __HAC_KEEP__) -> None:
         """Initialize NASwebData instance."""
         if self.is_initialized():
             return
@@ -52,13 +52,13 @@ class NASwebData:
         self.webhook_id = new_webhook_id
         _LOGGER.debug("Registered webhook: %s", self.webhook_id)
 
-    def deinitialize(self, hass: UniversalAssistant) -> None:
+    def deinitialize(self, hass: __HAC_KEEP__) -> None:
         """Deinitialize NASwebData instance."""
         if not self.is_initialized():
             return
         webhook_unregister(hass, self.webhook_id)
 
-    def get_webhook_url(self, hass: UniversalAssistant) -> str:
+    def get_webhook_url(self, hass: __HAC_KEEP__) -> str:
         """Return webhook url for Push API."""
         hass_url = get_url(hass, allow_external=False)
         return WEBHOOK_URL.format(internal_url=hass_url, webhook_id=self.webhook_id)

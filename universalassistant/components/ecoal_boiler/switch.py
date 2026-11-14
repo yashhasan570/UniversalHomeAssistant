@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -11,7 +11,7 @@ from . import AVAILABLE_PUMPS, DATA_ECOAL_BOILER
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -48,7 +48,7 @@ class EcoalSwitch(SwitchEntity):
     def update(self) -> None:
         """Fetch new state data for the sensor.
 
-        This is the only method that should fetch new data for Universal Universal Home Assistant.
+        This is the only method that should fetch new data for __HA_KEEP__.
         """
         status = self._ecoal_contr.get_cached_status()
         self._attr_is_on = getattr(status, self._state_attr)

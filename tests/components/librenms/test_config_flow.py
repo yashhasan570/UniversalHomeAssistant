@@ -17,14 +17,14 @@ from universalassistant.const import (
     CONF_URL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import MOCK_CONFIG_ENTRY_DATA, MOCK_USER_DATA
 
 
 async def test_step_user(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_librenms: Mock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_librenms: Mock
 ) -> None:
     """Test a user initiated config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_step_user(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_user_error_handling(
-    hass: UniversalAssistant, mock_librenms: Mock, exception: Exception, error: str
+    hass: __HAC_KEEP__, mock_librenms: Mock, exception: Exception, error: str
 ) -> None:
     """Test a user initiated config flow with errors."""
     result = await hass.config_entries.flow.async_init(
@@ -92,7 +92,7 @@ async def test_step_user_error_handling(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_user_invalid_url(
-    hass: UniversalAssistant, mock_librenms: Mock, invalid_url: str
+    hass: __HAC_KEEP__, mock_librenms: Mock, invalid_url: str
 ) -> None:
     """Test a user initiated config flow with errors."""
     result = await hass.config_entries.flow.async_init(
@@ -118,7 +118,7 @@ async def test_step_user_invalid_url(
 
 
 async def test_user_already_configured(
-    hass: UniversalAssistant, mock_librenms: Mock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_librenms: Mock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test starting a flow by user when already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -139,7 +139,7 @@ async def test_user_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant, mock_librenms: Mock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_librenms: Mock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication flow."""
     mock_config_entry.add_to_hass(hass)
@@ -171,7 +171,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_librenms: Mock,
     mock_config_entry: MockConfigEntry,
@@ -213,7 +213,7 @@ async def test_reauth_flow_error_handling(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, mock_librenms: Mock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_librenms: Mock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -247,7 +247,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reconfigure_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_librenms: Mock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -281,7 +281,7 @@ async def test_step_reconfigure_error_handling(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reconfigure_invalid_url(
-    hass: UniversalAssistant, mock_librenms: Mock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_librenms: Mock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a user initiated config flow with errors."""
     mock_config_entry.add_to_hass(hass)
@@ -306,7 +306,7 @@ async def test_step_reconfigure_invalid_url(
 
 
 async def test_reconfigure_already_configured(
-    hass: UniversalAssistant, mock_librenms: Mock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_librenms: Mock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test duplicate-reconfiguration guard."""
     mock_config_entry2 = MockConfigEntry(

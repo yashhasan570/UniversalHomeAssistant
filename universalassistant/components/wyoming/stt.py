@@ -11,7 +11,7 @@ from wyoming.client import AsyncTcpClient
 from wyoming.error import Error
 
 from universalassistant.components import stt
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import SAMPLE_CHANNELS, SAMPLE_RATE, SAMPLE_WIDTH
@@ -72,7 +72,7 @@ async def _async_receive_result(client: AsyncTcpClient) -> stt.SpeechResult:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WyomingConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

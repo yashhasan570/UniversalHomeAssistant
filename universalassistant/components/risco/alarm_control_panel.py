@@ -14,7 +14,7 @@ from universalassistant.components.alarm_control_panel import (
     CodeFormat,
 )
 from universalassistant.const import CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -46,7 +46,7 @@ STATES_TO_SUPPORTED_FEATURES = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RiscoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

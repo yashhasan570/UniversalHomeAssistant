@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.ouman_eh_800.const import DEFAULT_SCAN_INTERVAL_SECONDS
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import SCENARIOS
@@ -25,7 +25,7 @@ from .conftest import SCENARIOS
 @pytest.mark.parametrize("init_integration", [Platform.BINARY_SENSOR], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_entities(
 @pytest.mark.parametrize("init_integration", [Platform.BINARY_SENSOR], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_summer_function_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_summer_function_state(
     indirect=["scenario"],
 )
 async def test_relay_state_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
     entity_id: str,

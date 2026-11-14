@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.blue_current import EVSE_ID, PLUG_AND_CHARGE
 from universalassistant.components.blue_current.const import PUBLIC_CHARGING, UID
 from universalassistant.const import CONF_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 DEFAULT_CHARGE_POINT_OPTIONS = {
     PLUG_AND_CHARGE: {"value": False, "permission": "write"},
@@ -35,7 +35,7 @@ class FutureContainer:
 
 
 def create_client_mock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     future_container: FutureContainer,
     started_loop: Event,
     charge_point: dict,
@@ -115,14 +115,14 @@ def create_client_mock(
 
 
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     platform: str | None = None,
     charge_point: dict | None = None,
     status: dict | None = None,
     grid: dict | None = None,
 ) -> tuple[MagicMock, Event, FutureContainer]:
-    """Set up the Blue Current integration in Universal Universal Home Assistant."""
+    """Set up the Blue Current integration in __HA_KEEP__."""
 
     if charge_point is None:
         charge_point = DEFAULT_CHARGE_POINT

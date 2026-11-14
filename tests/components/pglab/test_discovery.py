@@ -3,14 +3,14 @@
 from pytest_universalassistant.typing import MqttMockHAClient
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .test_common import get_device_discovery_payload, send_discovery_message
 
 
 async def test_device_discover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_reg,
     entity_reg,
@@ -39,7 +39,7 @@ async def test_device_discover(
 
 
 async def test_device_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_reg,
     entity_reg,
@@ -78,7 +78,7 @@ async def test_device_update(
 
 
 async def test_device_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_reg,
     entity_reg,

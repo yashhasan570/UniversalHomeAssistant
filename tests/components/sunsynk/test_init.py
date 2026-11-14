@@ -8,7 +8,7 @@ from sunsynk.exceptions import SunsynkAuthenticationError, SunsynkConnectionErro
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -16,7 +16,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_sunsynk_client")
 async def test_load_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the config entry loads and unloads."""
     await setup_integration(hass, mock_config_entry)
@@ -45,7 +45,7 @@ async def test_load_unload_entry(
     ],
 )
 async def test_setup_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_sunsynk_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     method: str,
@@ -60,7 +60,7 @@ async def test_setup_connection_error(
 
 @pytest.mark.usefixtures("mock_sunsynk_client")
 async def test_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,

@@ -9,7 +9,7 @@ from pynuki.device import NukiDevice
 from requests.exceptions import RequestException
 
 from universalassistant.components.lock import LockEntity, LockEntityFeature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ERROR_STATES
@@ -19,7 +19,7 @@ from .helpers import CannotConnect
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NukiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

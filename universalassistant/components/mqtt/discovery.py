@@ -18,7 +18,7 @@ from universalassistant.config_entries import (
     signal_discovered_config_entry_removed,
 )
 from universalassistant.const import CONF_DEVICE, CONF_PLATFORM
-from universalassistant.core import HassJobType, UniversalAssistant, callback
+from universalassistant.core import HassJobType, __HAC_KEEP__, callback
 from universalassistant.helpers import discovery_flow, entity_registry as er
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -139,12 +139,12 @@ def _async_process_discovery_migration(payload: MQTTDiscoveryPayload) -> bool:
     return False
 
 
-def clear_discovery_hash(hass: UniversalAssistant, discovery_hash: tuple[str, str]) -> None:
+def clear_discovery_hash(hass: __HAC_KEEP__, discovery_hash: tuple[str, str]) -> None:
     """Clear entry from already discovered list."""
     hass.data[DATA_MQTT].discovery_already_discovered.discard(discovery_hash)
 
 
-def set_discovery_hash(hass: UniversalAssistant, discovery_hash: tuple[str, str]) -> None:
+def set_discovery_hash(hass: __HAC_KEEP__, discovery_hash: tuple[str, str]) -> None:
     """Add entry to already discovered list."""
     hass.data[DATA_MQTT].discovery_already_discovered.add(discovery_hash)
 
@@ -288,7 +288,7 @@ def _replace_topic_base(discovery_payload: MQTTDiscoveryPayload) -> None:
 
 @callback
 def _generate_device_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     object_id: str,
     node_id: str | None,
     migrate_discovery: bool = False,
@@ -327,7 +327,7 @@ def _generate_device_config(
 
 @callback
 def _parse_device_payload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     payload: ReceivePayloadType,
     topic: str,
     object_id: str,
@@ -419,7 +419,7 @@ def _merge_common_device_options(
 
 @callback
 def _async_is_conflicting_disabled_entity(
-    hass: UniversalAssistant, discovery_hash: tuple[str, str], payload: MQTTDiscoveryPayload
+    hass: __HAC_KEEP__, discovery_hash: tuple[str, str], payload: MQTTDiscoveryPayload
 ) -> bool:
     """Return True if a payload conflicts with a discovered disabled entity.
 
@@ -463,7 +463,7 @@ def _async_is_conflicting_disabled_entity(
 
 @callback
 def _async_untrack_disabled_entity_on_migration(
-    hass: UniversalAssistant, discovery_hash: tuple[str, str], payload: MQTTDiscoveryPayload
+    hass: __HAC_KEEP__, discovery_hash: tuple[str, str], payload: MQTTDiscoveryPayload
 ) -> None:
     """Stop tracking a disabled entity when a discovery migration request is received.
 
@@ -485,7 +485,7 @@ def _async_untrack_disabled_entity_on_migration(
 
 @callback
 def _async_cleanup_disabled_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_hash: tuple[str, str],
     disabled_entity: DiscoveredDisabledEntity,
     payload: MQTTDiscoveryPayload,
@@ -553,7 +553,7 @@ def _async_cleanup_disabled_entity(
 
 
 async def async_start(  # noqa: C901
-    hass: UniversalAssistant, discovery_topic: str, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, discovery_topic: str, config_entry: ConfigEntry
 ) -> None:
     """Start MQTT Discovery."""
     mqtt_data = hass.data[DATA_MQTT]
@@ -946,7 +946,7 @@ async def async_start(  # noqa: C901
     )
 
 
-async def async_stop(hass: UniversalAssistant) -> None:
+async def async_stop(hass: __HAC_KEEP__) -> None:
     """Stop MQTT Discovery."""
     mqtt_data = hass.data[DATA_MQTT]
     for unsub in mqtt_data.discovery_unsubscribe:

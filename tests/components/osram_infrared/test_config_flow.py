@@ -15,7 +15,7 @@ from universalassistant.components.osram_infrared.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import entity_registry as er
 
@@ -24,7 +24,7 @@ from universalassistant.helpers import entity_registry as er
     "mock_infrared_emitter_entity",
     "mock_infrared_receiver_entity",
 )
-async def test_user_flow_success(hass: UniversalAssistant) -> None:
+async def test_user_flow_success(hass: __HAC_KEEP__) -> None:
     """Test successful user config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -52,7 +52,7 @@ async def test_user_flow_success(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test user flow aborts when the emitter is already configured."""
@@ -77,7 +77,7 @@ async def test_user_flow_already_configured(
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_user_flow_no_emitters(hass: UniversalAssistant) -> None:
+async def test_user_flow_no_emitters(hass: __HAC_KEEP__) -> None:
     """Test user flow aborts when no infrared emitter exists."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -97,7 +97,7 @@ async def test_user_flow_no_emitters(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_user_flow_title_from_entity_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entity_name: str | None,
     expected_title: str,
@@ -125,7 +125,7 @@ async def test_user_flow_title_from_entity_name(
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
-async def test_user_flow_without_receiver(hass: UniversalAssistant) -> None:
+async def test_user_flow_without_receiver(hass: __HAC_KEEP__) -> None:
     """Test successful setup without an infrared receiver."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -149,7 +149,7 @@ async def test_user_flow_without_receiver(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_user_flow_stale_emitter_selection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test user flow recovers when an emitter disappears before submit."""
     result = await hass.config_entries.flow.async_init(
@@ -198,7 +198,7 @@ async def test_user_flow_stale_emitter_selection(
     "mock_infrared_receiver_entity",
 )
 async def test_user_flow_stale_receiver_selection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test user flow recovers when a receiver disappears before submit."""
     result = await hass.config_entries.flow.async_init(
@@ -245,7 +245,7 @@ async def test_user_flow_stale_receiver_selection(
 
 
 async def test_user_flow_uses_entity_id_as_title_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test user flow uses the emitter entity ID when it is missing from registry."""
     emitter_entity_id = "infrared.missing_registry_emitter"

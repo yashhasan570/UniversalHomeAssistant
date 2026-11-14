@@ -13,7 +13,7 @@ from universalassistant.const import (
     SUN_EVENT_SUNRISE,
     SUN_EVENT_SUNSET,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
 from universalassistant.helpers import event
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.entity import Entity
@@ -44,7 +44,7 @@ ENTITY_ID = "sun.sun"
 # The algorithm used here is somewhat complicated. It aims to cut down
 # the number of sensor updates over the day. It's documented best in
 # the PR for the change, see the Discussion section of:
-# https://github.com/yashhasan570/UniversalUniversalAssistant/pull/23832
+# https://github.com/yashhasan570/__HAC_KEEP__/pull/23832
 
 
 # As documented in wikipedia: https://en.wikipedia.org/wiki/Twilight
@@ -110,7 +110,7 @@ class Sun(Entity):
     rising: bool
     _next_change: datetime
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the sun."""
         self.hass = hass
         self.phase: str | None = None

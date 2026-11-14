@@ -22,7 +22,7 @@ from universalassistant.const import (
     SERVICE_ALARM_DISARM,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType, WebsocketDataType
@@ -93,7 +93,7 @@ from .conftest import ConfigEntryFactoryType, WebsocketDataType
     ],
 )
 async def test_alarm_control_panel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
     config_entry_factory: ConfigEntryFactoryType,

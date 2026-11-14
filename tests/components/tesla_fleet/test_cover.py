@@ -15,7 +15,7 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, setup_platform
@@ -24,7 +24,7 @@ from .const import COMMAND_OK, VEHICLE_DATA_ALT
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     normal_config_entry: MockConfigEntry,
@@ -37,7 +37,7 @@ async def test_cover(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover_alt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -52,7 +52,7 @@ async def test_cover_alt(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover_readonly(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     readonly_config_entry: MockConfigEntry,
@@ -64,7 +64,7 @@ async def test_cover_readonly(
 
 
 async def test_cover_offline(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vehicle_data: AsyncMock,
     normal_config_entry: MockConfigEntry,
 ) -> None:
@@ -78,7 +78,7 @@ async def test_cover_offline(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cover_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     normal_config_entry: MockConfigEntry,
 ) -> None:
     """Tests that the cover entities are correct."""

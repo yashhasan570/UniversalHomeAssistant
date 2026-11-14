@@ -14,7 +14,7 @@ from universalassistant.components.switch import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     config_entry_oauth2_flow,
     device_registry as dr,
@@ -29,7 +29,7 @@ async def check_command_ok(
     initial_status: str,
     final_status: str,
     command: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_status,
@@ -65,7 +65,7 @@ async def check_command_ok(
 
 
 async def test_turn_on_light_ok(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twolightswitches,
@@ -90,7 +90,7 @@ async def test_turn_on_light_ok(
 
 
 async def test_turn_on_outlet_ok(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_two_outlets,
@@ -115,7 +115,7 @@ async def test_turn_on_outlet_ok(
 
 
 async def test_turn_off_light_ok(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twolightswitches,
@@ -140,7 +140,7 @@ async def test_turn_off_light_ok(
 
 
 async def test_turn_off_outlet_ok(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_two_outlets,
@@ -165,7 +165,7 @@ async def test_turn_off_outlet_ok(
 
 
 async def test_setup_entry_ok_nodevices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_status_filled,
@@ -187,7 +187,7 @@ async def test_setup_entry_ok_nodevices(
 
 
 async def test_devices_creaction_ok(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -223,7 +223,7 @@ async def test_devices_creaction_ok(
 
 
 async def test_devices_deletion_ok(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twolightswitches,
@@ -257,7 +257,7 @@ async def test_devices_deletion_ok(
 
 
 async def test_devices_insertion_ok(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twolightswitches,
@@ -291,7 +291,7 @@ async def test_devices_insertion_ok(
 
 
 async def test_outlet_insertion_ok(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_two_outlets,
@@ -325,7 +325,7 @@ async def test_outlet_insertion_ok(
 
 
 async def test_api_not_ok_entities_stay_the_same_as_before(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twolightswitches,
@@ -360,7 +360,7 @@ async def test_api_not_ok_entities_stay_the_same_as_before(
 
 
 async def test_api_throws_response_entities_stay_the_same_as_before(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: ClientSession,
     mock_get_devices_twolightswitches,

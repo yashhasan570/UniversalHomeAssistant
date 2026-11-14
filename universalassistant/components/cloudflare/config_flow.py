@@ -9,8 +9,8 @@ import pycfdns
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_API_TOKEN, CONF_ZONE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -51,7 +51,7 @@ def _records_schema(
 
 
 async def _validate_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     data: dict[str, Any],
 ) -> dict[str, Any]:
     """Validate the user input allows us to connect.
@@ -190,9 +190,9 @@ class CloudflareConfigFlow(ConfigFlow, domain=DOMAIN):
         return info, errors
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

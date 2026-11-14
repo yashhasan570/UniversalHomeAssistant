@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.schlage.const import DOMAIN, UPDATE_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceRegistry
 
@@ -24,7 +24,7 @@ from . import MockSchlageConfigEntry
     side_effect=WarrantException,
 )
 async def test_auth_failed(
-    mock_auth: Mock, hass: UniversalAssistant, mock_config_entry: MockSchlageConfigEntry
+    mock_auth: Mock, hass: __HAC_KEEP__, mock_config_entry: MockSchlageConfigEntry
 ) -> None:
     """Test failed auth on setup."""
     mock_config_entry.add_to_hass(hass)
@@ -36,7 +36,7 @@ async def test_auth_failed(
 
 
 async def test_update_data_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockSchlageConfigEntry,
     mock_pyschlage_auth: Mock,
     mock_schlage: Mock,
@@ -52,7 +52,7 @@ async def test_update_data_fails(
 
 
 async def test_update_data_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockSchlageConfigEntry,
     mock_pyschlage_auth: Mock,
     mock_schlage: Mock,
@@ -68,7 +68,7 @@ async def test_update_data_auth_error(
 
 
 async def test_update_data_get_logs_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockSchlageConfigEntry,
     mock_pyschlage_auth: Mock,
     mock_schlage: Mock,
@@ -87,7 +87,7 @@ async def test_update_data_get_logs_auth_error(
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockSchlageConfigEntry,
     mock_pyschlage_auth: Mock,
     mock_schlage: Mock,
@@ -105,7 +105,7 @@ async def test_load_unload_config_entry(
 
 
 async def test_lock_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_added_config_entry: MockSchlageConfigEntry,
     snapshot: SnapshotAssertion,
@@ -118,7 +118,7 @@ async def test_lock_device_registry(
 
 
 async def test_auto_add_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_added_config_entry: MockSchlageConfigEntry,
     mock_schlage: Mock,
@@ -158,7 +158,7 @@ async def test_auto_add_device(
 
 
 async def test_auto_remove_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     mock_added_config_entry: MockSchlageConfigEntry,
     mock_schlage: Mock,

@@ -17,8 +17,8 @@ from universalassistant.const import (
     CONF_TIMEOUT,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -34,7 +34,7 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 
-async def validate_http(hass: UniversalAssistant, data):
+async def validate_http(hass: __HAC_KEEP__, data):
     """Validate the user input allows us to connect over HTTP."""
 
     host = data[CONF_HOST]
@@ -57,7 +57,7 @@ async def validate_http(hass: UniversalAssistant, data):
         raise InvalidAuth from error
 
 
-async def validate_ws(hass: UniversalAssistant, data):
+async def validate_ws(hass: __HAC_KEEP__, data):
     """Validate the user input allows us to connect over WS."""
     if not (ws_port := data.get(CONF_WS_PORT)):
         return
@@ -358,13 +358,13 @@ class KodiConfigFlow(ConfigFlow, domain=DOMAIN):
         }
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""
 
 
-class WSCannotConnect(UniversalAssistantError):
+class WSCannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect to websocket."""

@@ -15,8 +15,8 @@ from universalassistant.components.google_generative_ai_conversation.const impor
     CONF_THINKING_LEVEL,
     RECOMMENDED_IMAGE_MODEL,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, selector
 
 from tests.components.conversation import (
@@ -27,7 +27,7 @@ from tests.components.conversation import (
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_send_message_stream: AsyncMock,
@@ -144,7 +144,7 @@ async def test_generate_data(
             ],
         ),
         pytest.raises(
-            UniversalAssistantError, match="Only local attachments are currently supported"
+            __HAC_KEEP__Error, match="Only local attachments are currently supported"
         ),
     ):
         result = await ai_task.async_generate_data(
@@ -214,7 +214,7 @@ async def test_generate_data(
             ),
         ],
     ]
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         result = await ai_task.async_generate_data(
             hass,
             task_name="Test Task",
@@ -227,7 +227,7 @@ async def test_generate_data(
 @pytest.mark.usefixtures("mock_init_component")
 @pytest.mark.freeze_time("2025-06-14 22:59:00")
 async def test_generate_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_generate_content: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -294,7 +294,7 @@ async def test_generate_image(
 @pytest.mark.usefixtures("mock_init_component")
 @pytest.mark.parametrize("structured", [False, True])
 async def test_data_wire_parameters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_genai_transport: AsyncMock,
     structured: bool,
@@ -356,7 +356,7 @@ async def test_data_wire_parameters(
     ],
 )
 async def test_image_support_without_recommended_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     model: str,
     expected_image_support: bool,
@@ -382,7 +382,7 @@ async def test_image_support_without_recommended_settings(
     "model", ["models/gemini-2.5-flash-image", "gemini-nano-banana-2.1"]
 )
 async def test_image_wire_parameters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_genai_transport: AsyncMock,
     model: str,

@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, service
 
@@ -53,7 +53,7 @@ async def _async_cancel_service_handler(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Pushover integration."""
 
     hass.services.async_register(

@@ -34,8 +34,8 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_START,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event as HassEvent, UniversalAssistant, ServiceCall
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import Event as HassEvent, __HAC_KEEP__, ServiceCall
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.json import save_json
 from universalassistant.helpers.typing import ConfigType
@@ -128,7 +128,7 @@ def _read_image_size(image_path: str) -> tuple[int, int]:
         return image.size
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Matrix bot component."""
     config = config[DOMAIN]
 
@@ -155,7 +155,7 @@ class MatrixBot:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_file: str,
         homeserver: str,
         verify_ssl: bool,
@@ -186,14 +186,14 @@ class MatrixBot:
         self._unparsed_commands = commands
 
         async def stop_client(event: HassEvent) -> None:
-            """Run once when Universal Universal Home Assistant stops."""
+            """Run once when __HA_KEEP__ stops."""
             if self._client is not None:
                 await self._client.close()
 
         self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_client)
 
         async def handle_startup(event: HassEvent) -> None:
-            """Run once when Universal Universal Home Assistant finished startup."""
+            """Run once when __HA_KEEP__ finished startup."""
             self._access_tokens = await self._get_auth_tokens()
             await self._login()
             await self._resolve_room_aliases(listening_rooms)
@@ -391,7 +391,7 @@ class MatrixBot:
             return await self.hass.async_add_executor_job(
                 load_json_object, self._session_filepath
             )
-        except UniversalAssistantError as ex:
+        except __HAC_KEEP__Error as ex:
             _LOGGER.warning(
                 "Loading authentication tokens from file '%s' failed: %s",
                 self._session_filepath,

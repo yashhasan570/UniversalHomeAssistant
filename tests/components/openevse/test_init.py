@@ -10,11 +10,11 @@ from universalassistant.components.openevse.const import DOMAIN
 from universalassistant.components.openevse.coordinator import SCAN_INTERVAL
 from universalassistant.components.openevse.services import OpenEVSEService
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_setup_entry_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
 ) -> None:
@@ -29,7 +29,7 @@ async def test_setup_entry_timeout(
 
 
 async def test_setup_entry_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_setup_entry_auth_error_starts_reauth(
 
 
 async def test_coordinator_update_auth_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
@@ -73,7 +73,7 @@ async def test_coordinator_update_auth_error_starts_reauth(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_unload_entry(
 
 
 async def test_setup_entry_missing_serial(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_setup_entry_missing_serial(
 
 
 async def test_services_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_charger: MagicMock,
 ) -> None:

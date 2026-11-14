@@ -11,8 +11,8 @@ from universalassistant.components.light import (
     ColorMode,
     LightEntity,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     percentage_to_ranged_value,
@@ -28,7 +28,7 @@ BRIGHTNESS_RANGE = (1, 255)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ModernFormsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -159,7 +159,7 @@ class ModernFormsLightEntity(ModernFormsDeviceEntity, LightEntity):
     ) -> None:
         """Set a Modern Forms light sleep timer."""
         if not self.coordinator.data.has_sleep_timer():
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="sleep_timer_not_supported",
             )
@@ -171,7 +171,7 @@ class ModernFormsLightEntity(ModernFormsDeviceEntity, LightEntity):
     ) -> None:
         """Clear a Modern Forms light sleep timer."""
         if not self.coordinator.data.has_sleep_timer():
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="sleep_timer_not_supported",
             )

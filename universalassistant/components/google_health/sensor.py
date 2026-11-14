@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfTime,
     UnitOfVolume,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import (
     CONNECTION_NETWORK_MAC,
@@ -357,7 +357,7 @@ DEVICE_SENSORS: list[GoogleHealthDeviceSensorEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GoogleHealthConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -27,13 +27,13 @@ from universalassistant.components.waze_travel_time.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_REGION
-from universalassistant.core import UniversalAssistant, ServiceResponse
+from universalassistant.core import __HAC_KEEP__, ServiceResponse
 
 from .const import MOCK_CONFIG
 
 
 async def call_service_get_travel_times(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     origin: str,
     destination: str,
     vehicle_type: str,
@@ -86,7 +86,7 @@ async def call_service_get_travel_times(
 )
 @pytest.mark.usefixtures("mock_update", "mock_config")
 async def test_service_get_travel_times(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_update,
     time_delta: dict[str, int],
     expected_time_delta: int,
@@ -125,7 +125,7 @@ async def test_service_get_travel_times(
 )
 @pytest.mark.usefixtures("mock_update", "mock_config")
 async def test_service_get_travel_times_empty_response(
-    hass: UniversalAssistant, mock_update
+    hass: __HAC_KEEP__, mock_update
 ) -> None:
     """Test service get_travel_times."""
     mock_update.return_value = []
@@ -147,7 +147,7 @@ async def test_service_get_travel_times_empty_response(
 
 
 @pytest.mark.usefixtures("mock_update")
-async def test_migrate_entry_v1_to_v2_3(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_v1_to_v2_3(hass: __HAC_KEEP__) -> None:
     """Test successful migration of entry data from v1 to v2.3."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -215,7 +215,7 @@ async def test_migrate_entry_v1_to_v2_3(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_update")
-async def test_migrate_entry_v2_1_to_v2_3(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_v2_1_to_v2_3(hass: __HAC_KEEP__) -> None:
     """Test successful migration of entry from version 2.1 to 2.3."""
     mock_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -282,7 +282,7 @@ async def test_migrate_entry_v2_1_to_v2_3(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_update")
 async def test_migrate_entry_v2_2_to_v2_3_adds_region_base_coordinates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     region: str,
     expected_base_coordinates: dict[str, float],
 ) -> None:
@@ -319,7 +319,7 @@ async def test_migrate_entry_v2_2_to_v2_3_adds_region_base_coordinates(
 
 @pytest.mark.usefixtures("mock_update")
 async def test_migrate_entry_v2_2_to_v2_3_preserves_existing_base_coordinates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test migration preserves configured base coordinates."""
     mock_entry = MockConfigEntry(

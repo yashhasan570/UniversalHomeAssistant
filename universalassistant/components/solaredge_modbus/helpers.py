@@ -7,7 +7,7 @@ from modbus_connection import ModbusSerialParams, ModbusTcpParams
 from solaredged import SolarEdgeConnectionError, SolarEdgeError
 
 from universalassistant.const import CONF_DEVICE, CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import CONF_BAUDRATE, DOMAIN, TYPE_SERIAL
 from .entity import SolarEdgeModbusEntity
@@ -43,14 +43,14 @@ def solaredge_exception_handler[_EntityT: SolarEdgeModbusEntity, **_P](
             self.coordinator.async_update_listeners()
 
         except SolarEdgeConnectionError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
                 translation_placeholders={"error": str(error)},
             ) from error
 
         except SolarEdgeError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="rejected_value",
                 translation_placeholders={"error": str(error)},

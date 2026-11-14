@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 from universalassistant.components.file import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
@@ -26,7 +26,7 @@ def is_allowed() -> bool:
 
 
 @pytest.fixture
-def mock_is_allowed_path(hass: UniversalAssistant, is_allowed: bool) -> Generator[MagicMock]:
+def mock_is_allowed_path(hass: __HAC_KEEP__, is_allowed: bool) -> Generator[MagicMock]:
     """Mock is_allowed_path method."""
     with patch.object(
         hass.config, "is_allowed_path", return_value=is_allowed
@@ -35,8 +35,8 @@ def mock_is_allowed_path(hass: UniversalAssistant, is_allowed: bool) -> Generato
 
 
 @pytest.fixture
-async def setup_ha_file_integration(hass: UniversalAssistant):
-    """Set up Universal Universal Home Assistant and load File integration."""
+async def setup_ha_file_integration(hass: __HAC_KEEP__):
+    """Set up __HA_KEEP__ and load File integration."""
     await async_setup_component(
         hass,
         DOMAIN,

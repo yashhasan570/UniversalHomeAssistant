@@ -9,7 +9,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.supla import DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 ENTITY_ID = "switch.living_room_light"
@@ -26,7 +26,7 @@ CHANNELS = [
 
 
 async def test_unavailable_on_update_failure(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the switch is unavailable while the coordinator update fails."""
     with patch("universalassistant.components.supla.SuplaAPI") as mock_api_class:

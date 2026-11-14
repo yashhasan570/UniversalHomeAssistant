@@ -17,7 +17,7 @@ from universalassistant.const import (
     STATE_HOME,
     STATE_NOT_HOME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
@@ -122,7 +122,7 @@ def mock_dev_track(mock_device_tracker_conf: list[Device]) -> None:
 
 @pytest.fixture
 async def geofency_client(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> TestClient:
     """Geofency mock client (unauthenticated)."""
 
@@ -136,7 +136,7 @@ async def geofency_client(
 
 
 @pytest.fixture(autouse=True)
-async def setup_zones(hass: UniversalAssistant) -> None:
+async def setup_zones(hass: __HAC_KEEP__) -> None:
     """Set up Zone config in HA."""
     assert await async_setup_component(
         hass,
@@ -154,7 +154,7 @@ async def setup_zones(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture
-async def webhook_id(hass: UniversalAssistant) -> str:
+async def webhook_id(hass: __HAC_KEEP__) -> str:
     """Initialize the Geofency component and get the webhook_id."""
     await async_process_ha_core_config(
         hass,
@@ -191,7 +191,7 @@ async def test_data_validation(geofency_client: TestClient, webhook_id: str) -> 
 
 
 async def test_gps_enter_and_exit_home(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     geofency_client: TestClient,
@@ -239,7 +239,7 @@ async def test_gps_enter_and_exit_home(
 
 
 async def test_beacon_enter_and_exit_home(
-    hass: UniversalAssistant, geofency_client: TestClient, webhook_id: str
+    hass: __HAC_KEEP__, geofency_client: TestClient, webhook_id: str
 ) -> None:
     """Test iBeacon based zone enter and exit - a.k.a stationary iBeacon."""
     url = f"/api/webhook/{webhook_id}"
@@ -262,7 +262,7 @@ async def test_beacon_enter_and_exit_home(
 
 
 async def test_beacon_enter_and_exit_car(
-    hass: UniversalAssistant, geofency_client: TestClient, webhook_id: str
+    hass: __HAC_KEEP__, geofency_client: TestClient, webhook_id: str
 ) -> None:
     """Test use of mobile iBeacon."""
     url = f"/api/webhook/{webhook_id}"
@@ -304,7 +304,7 @@ async def test_beacon_enter_and_exit_car(
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant, geofency_client: TestClient, webhook_id: str
+    hass: __HAC_KEEP__, geofency_client: TestClient, webhook_id: str
 ) -> None:
     """Test that the appropriate dispatch signals are added and removed."""
     url = f"/api/webhook/{webhook_id}"

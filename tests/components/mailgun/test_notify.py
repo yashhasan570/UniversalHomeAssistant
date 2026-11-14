@@ -18,8 +18,8 @@ from universalassistant.const import (
     CONF_RECIPIENT,
     CONF_SENDER,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.setup import async_setup_component
 
 SERVICE_NAME = "mailgun"
@@ -41,7 +41,7 @@ def mock_client(mock_client_class: MagicMock) -> MagicMock:
     return mock_client_class.return_value
 
 
-async def setup_notify_platform(hass: UniversalAssistant) -> None:
+async def setup_notify_platform(hass: __HAC_KEEP__) -> None:
     """Set up the Mailgun component and the legacy notify platform."""
     assert await async_setup_component(
         hass,
@@ -77,7 +77,7 @@ async def setup_notify_platform(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     service_data: dict[str, Any],
     expected_subject: str,
@@ -134,7 +134,7 @@ def test_send_message_initializes_client(mock_client: MagicMock) -> None:
     ],
 )
 async def test_send_message_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     side_effect: type[MailgunError],
 ) -> None:
@@ -143,7 +143,7 @@ async def test_send_message_error(
     assert hass.services.has_service(NOTIFY_DOMAIN, SERVICE_NAME)
     mock_client.send_mail.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             SERVICE_NAME,
@@ -163,7 +163,7 @@ async def test_send_message_error(
     ],
 )
 async def test_setup_with_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client_class: MagicMock,
     side_effect: type[MailgunError],
 ) -> None:

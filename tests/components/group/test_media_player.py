@@ -46,7 +46,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_platform, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -62,7 +62,7 @@ def media_player_media_seek_fixture():
 
 
 async def test_default_state(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test media group default state."""
     hass.states.async_set("media_player.player_1", "on")
@@ -96,7 +96,7 @@ async def test_default_state(
     assert entry.unique_id == "unique_identifier"
 
 
-async def test_state_reporting(hass: UniversalAssistant) -> None:
+async def test_state_reporting(hass: __HAC_KEEP__) -> None:
     """Test the state reporting.
 
     The group state is unavailable if all group members are unavailable.
@@ -189,7 +189,7 @@ async def test_state_reporting(hass: UniversalAssistant) -> None:
     assert hass.states.get("media_player.media_group").state == STATE_UNAVAILABLE
 
 
-async def test_supported_features(hass: UniversalAssistant) -> None:
+async def test_supported_features(hass: __HAC_KEEP__) -> None:
     """Test supported features reporting."""
     pause_play_stop = (
         MediaPlayerEntityFeature.PAUSE
@@ -257,7 +257,7 @@ async def test_supported_features(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_SUPPORTED_FEATURES] == pause_play_stop | play_media
 
 
-async def test_service_calls(hass: UniversalAssistant, mock_media_seek: Mock) -> None:
+async def test_service_calls(hass: __HAC_KEEP__, mock_media_seek: Mock) -> None:
     """Test service calls."""
     await async_setup_component(
         hass,
@@ -549,7 +549,7 @@ async def test_service_calls(hass: UniversalAssistant, mock_media_seek: Mock) ->
     assert hass.states.get("media_player.living_room").state == STATE_OFF
 
 
-async def test_nested_group(hass: UniversalAssistant) -> None:
+async def test_nested_group(hass: __HAC_KEEP__) -> None:
     """Test nested media group."""
     await async_setup_component(
         hass,
@@ -603,7 +603,7 @@ async def test_nested_group(hass: UniversalAssistant) -> None:
     assert hass.states.get("media_player.nested_group").state == STATE_OFF
 
 
-async def test_service_play_media_kwargs(hass: UniversalAssistant) -> None:
+async def test_service_play_media_kwargs(hass: __HAC_KEEP__) -> None:
     """Test that kwargs get passed through on play_media service call."""
     await async_setup_component(
         hass,
@@ -659,7 +659,7 @@ async def test_service_play_media_kwargs(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_state_listener_removed_with_entity(hass: UniversalAssistant) -> None:
+async def test_state_listener_removed_with_entity(hass: __HAC_KEEP__) -> None:
     """Test the member state listener is removed when the group is removed."""
     await async_setup_component(
         hass,

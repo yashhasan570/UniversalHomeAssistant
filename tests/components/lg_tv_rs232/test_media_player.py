@@ -40,8 +40,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.json import load_json
 
@@ -56,7 +56,7 @@ async def auto_init_components(init_components: None) -> None:
 
 
 async def test_entities_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lgtv: MockLGTV,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -68,7 +68,7 @@ async def test_entities_created(
 
 
 async def test_polling_updates_state(
-    hass: UniversalAssistant, mock_lgtv: MockLGTV, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_lgtv: MockLGTV, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test the entity polls the TV on the scan interval and reflects changes."""
     assert hass.states.get(ENTITY_ID).state == STATE_ON
@@ -85,7 +85,7 @@ async def test_polling_updates_state(
     assert hass.states.get(ENTITY_ID).state == STATE_OFF
 
 
-async def test_state_updates(hass: UniversalAssistant, mock_lgtv: MockLGTV) -> None:
+async def test_state_updates(hass: __HAC_KEEP__, mock_lgtv: MockLGTV) -> None:
     """Test the entity updates from TV pushes and disconnects."""
     assert hass.states.get(ENTITY_ID).state == STATE_ON
 
@@ -103,7 +103,7 @@ async def test_state_updates(hass: UniversalAssistant, mock_lgtv: MockLGTV) -> N
 
 
 async def test_state_unknown_when_not_queried(
-    hass: UniversalAssistant, mock_lgtv: MockLGTV
+    hass: __HAC_KEEP__, mock_lgtv: MockLGTV
 ) -> None:
     """Test attributes are cleared when the TV reports no state."""
     mock_lgtv.mock_state(TVState())
@@ -114,7 +114,7 @@ async def test_state_unknown_when_not_queried(
     assert state.attributes.get(ATTR_MEDIA_VOLUME_LEVEL) is None
 
 
-async def test_power_controls(hass: UniversalAssistant, mock_lgtv: MockLGTV) -> None:
+async def test_power_controls(hass: __HAC_KEEP__, mock_lgtv: MockLGTV) -> None:
     """Test power services call the right methods."""
     await hass.services.async_call(
         MP_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True
@@ -127,7 +127,7 @@ async def test_power_controls(hass: UniversalAssistant, mock_lgtv: MockLGTV) -> 
     mock_lgtv.power_off.assert_awaited_once()
 
 
-async def test_volume_controls(hass: UniversalAssistant, mock_lgtv: MockLGTV) -> None:
+async def test_volume_controls(hass: __HAC_KEEP__, mock_lgtv: MockLGTV) -> None:
     """Test volume state and controls."""
     assert hass.states.get(ENTITY_ID).attributes[ATTR_MEDIA_VOLUME_LEVEL] == 0.2
 
@@ -151,7 +151,7 @@ async def test_volume_controls(hass: UniversalAssistant, mock_lgtv: MockLGTV) ->
     assert mock_lgtv.set_volume.await_args == call(10)
 
 
-async def test_mute_controls(hass: UniversalAssistant, mock_lgtv: MockLGTV) -> None:
+async def test_mute_controls(hass: __HAC_KEEP__, mock_lgtv: MockLGTV) -> None:
     """Test mute state and controls."""
     assert hass.states.get(ENTITY_ID).attributes[ATTR_MEDIA_VOLUME_MUTED] is False
 
@@ -173,7 +173,7 @@ async def test_mute_controls(hass: UniversalAssistant, mock_lgtv: MockLGTV) -> N
 
 
 async def test_volume_features_depend_on_speaker_output(
-    hass: UniversalAssistant, mock_lgtv: MockLGTV
+    hass: __HAC_KEEP__, mock_lgtv: MockLGTV
 ) -> None:
     """Test volume features are dropped when the TV speaker is not the output.
 
@@ -203,7 +203,7 @@ async def test_volume_features_depend_on_speaker_output(
 
 
 async def test_source_state_and_controls(
-    hass: UniversalAssistant, mock_lgtv: MockLGTV
+    hass: __HAC_KEEP__, mock_lgtv: MockLGTV
 ) -> None:
     """Test source state and selection."""
     entity_state = hass.states.get(ENTITY_ID)
@@ -235,12 +235,12 @@ async def test_source_state_and_controls(
     [CommandRejected("a", "02"), ConnectionError("connection lost"), TimeoutError],
 )
 async def test_command_error_raises(
-    hass: UniversalAssistant, mock_lgtv: MockLGTV, exception: Exception
+    hass: __HAC_KEEP__, mock_lgtv: MockLGTV, exception: Exception
 ) -> None:
-    """Test library errors raised during an action surface as UniversalAssistantError."""
+    """Test library errors raised during an action surface as __HAC_KEEP__Error."""
     mock_lgtv.power_on.side_effect = exception
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             MP_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True
         )

@@ -8,7 +8,7 @@ from typing import Any, override
 from ProgettiHWSW.relay import Relay
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import (
     CoordinatorEntity,
@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ProgettiHWSWConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -11,7 +11,7 @@ import probatio
 from universalassistant.components import websocket_api
 from universalassistant.components.websocket_api import ActiveConnection
 from universalassistant.const import ATTR_NAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import (
@@ -59,7 +59,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
 @callback
-def async_load_websocket_api(hass: UniversalAssistant) -> None:
+def async_load_websocket_api(hass: __HAC_KEEP__) -> None:
     """Set up the websocket API."""
     websocket_api.async_register_command(hass, websocket_supervisor_event)
     websocket_api.async_register_command(hass, websocket_supervisor_api)
@@ -77,7 +77,7 @@ def async_load_websocket_api(hass: UniversalAssistant) -> None:
 @websocket_api.require_admin
 @websocket_api.websocket_command({probatio.Required(WS_TYPE): WS_TYPE_SUBSCRIBE})
 def websocket_subscribe(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Subscribe to supervisor events."""
 
@@ -101,7 +101,7 @@ def websocket_subscribe(
     }
 )
 def websocket_supervisor_event(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Publish events from the Supervisor."""
     connection.send_result(msg[WS_ID])
@@ -121,7 +121,7 @@ def websocket_supervisor_event(
 )
 @websocket_api.async_response
 async def websocket_supervisor_api(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Websocket handler to call Supervisor API."""
     supervisor = get_supervisor_passthrough_client(hass)
@@ -156,7 +156,7 @@ async def websocket_supervisor_api(
 
 
 async def _async_check_ingress_access(
-    hass: UniversalAssistant, connection: ActiveConnection, slug: str
+    hass: __HAC_KEEP__, connection: ActiveConnection, slug: str
 ) -> None:
     """Raise Unauthorized if the user may not open the add-on's ingress panel."""
     if connection.user.is_admin:
@@ -174,7 +174,7 @@ async def _async_check_ingress_access(
 )
 @websocket_api.async_response
 async def websocket_ingress_info(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Return the add-on details the ingress panel needs."""
     slug = msg[ATTR_SLUG]
@@ -206,7 +206,7 @@ async def websocket_ingress_info(
 )
 @websocket_api.async_response
 async def websocket_ingress_session(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Create an ingress session for the add-on."""
     client = get_supervisor_client(hass)
@@ -233,7 +233,7 @@ async def websocket_ingress_session(
 )
 @websocket_api.async_response
 async def websocket_ingress_validate_session(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Validate and extend an ingress session."""
     try:
@@ -256,7 +256,7 @@ async def websocket_ingress_validate_session(
 )
 @websocket_api.async_response
 async def websocket_update_addon(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Websocket handler to update an addon."""
     addon_name: str | None = None
@@ -293,9 +293,9 @@ async def websocket_update_addon(
 )
 @websocket_api.async_response
 async def websocket_update_core(
-    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: ActiveConnection, msg: dict[str, Any]
 ) -> None:
-    """Websocket handler to update Universal Universal Home Assistant Core."""
+    """Websocket handler to update __HA_KEEP__ Core."""
     await update_core(hass, None, msg["backup"])
     connection.send_result(msg[WS_ID])
 
@@ -306,7 +306,7 @@ async def websocket_update_core(
     {probatio.Required("type"): "hassio/update/config/info"}
 )
 def websocket_update_config_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -327,7 +327,7 @@ def websocket_update_config_info(
     }
 )
 def websocket_update_config_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

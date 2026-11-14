@@ -15,7 +15,7 @@ from universalassistant.components.matter import DOMAIN
 from universalassistant.components.matter.discovery import async_discover_entities
 from universalassistant.components.matter.models import MatterEntityInfo
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import (
     setup_integration_with_node_fixture,
@@ -65,7 +65,7 @@ async def matter_client_fixture() -> AsyncGenerator[MagicMock]:
 
 @pytest.fixture(name="integration")
 async def integration_fixture(
-    hass: UniversalAssistant, matter_client: MagicMock
+    hass: __HAC_KEEP__, matter_client: MagicMock
 ) -> MockConfigEntry:
     """Set up the Matter integration."""
     entry = MockConfigEntry(domain=DOMAIN, data={"url": "ws://localhost:5580/ws"})
@@ -78,7 +78,7 @@ async def integration_fixture(
 
 @pytest.fixture
 async def matter_devices(
-    hass: UniversalAssistant, matter_client: MagicMock, platform: Platform
+    hass: __HAC_KEEP__, matter_client: MagicMock, platform: Platform
 ) -> AsyncGenerator[None]:
     """Fixture for all Matter devices, with only the entities of one platform."""
 
@@ -112,7 +112,7 @@ def attributes() -> dict[str, Any]:
 
 @pytest.fixture
 async def matter_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     matter_client: MagicMock,
     node_fixture: str,
     attributes: dict[str, Any],

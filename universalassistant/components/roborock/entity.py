@@ -6,7 +6,7 @@ from roborock.devices.traits.v1.command import CommandTrait
 from roborock.exceptions import RoborockException
 from roborock.roborock_typing import RoborockCommand
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -58,7 +58,7 @@ class RoborockEntityV1(RoborockEntity):
                 command_name = command.name
             else:
                 command_name = command
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={

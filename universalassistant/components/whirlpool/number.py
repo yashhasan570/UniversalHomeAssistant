@@ -6,7 +6,7 @@ from whirlpool.oven import Cavity as OvenCavity, CookMode, Oven
 
 from universalassistant.components.number import NumberDeviceClass, NumberEntity
 from universalassistant.const import UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -18,14 +18,14 @@ PARALLEL_UPDATES = 1
 
 # Oven target temperatures are handled in Celsius. The appliance accepts
 # tenth-of-a-degree values, so a 1-degree step gives fine manual control while
-# automations can still set any value Universal Universal Home Assistant passes through.
+# automations can still set any value __HA_KEEP__ passes through.
 OVEN_MIN_TEMP = 30
 OVEN_MAX_TEMP = 290
 OVEN_TEMP_STEP = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: WhirlpoolConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

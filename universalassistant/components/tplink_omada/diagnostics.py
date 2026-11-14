@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import format_mac
 
 from . import OmadaConfigEntry
@@ -78,7 +78,7 @@ def _redact_runtime_record(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: OmadaConfigEntry
+    hass: __HAC_KEEP__, entry: OmadaConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     controller = entry.runtime_data

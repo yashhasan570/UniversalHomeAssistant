@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.ring import DOMAIN
 from universalassistant.components.ring.const import CONF_LISTEN_CREDENTIALS
 from universalassistant.const import CONF_DEVICE_ID, CONF_PASSWORD, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -19,7 +19,7 @@ from .conftest import MOCK_HARDWARE_ID
 
 
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_ring_client: Mock,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_form(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_auth: Mock,
     error_type: type[Exception],
     errors_msg: str,
@@ -87,7 +87,7 @@ async def test_form_error(
 
 
 async def test_form_2fa(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_ring_auth: Mock,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_form_2fa(
 
 
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_ring_auth: Mock,
@@ -200,7 +200,7 @@ async def test_reauth(
     ids=["invalid-auth", "unknown-error"],
 )
 async def test_reauth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_ring_auth: Mock,
@@ -256,7 +256,7 @@ async def test_reauth_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_account_configured(
-    hass: UniversalAssistant, mock_added_config_entry: Mock
+    hass: __HAC_KEEP__, mock_added_config_entry: Mock
 ) -> None:
     """Test that user cannot configure the same account twice."""
 
@@ -277,7 +277,7 @@ async def test_account_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery(
-    hass: UniversalAssistant, mock_ring_client: Mock, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, mock_ring_client: Mock, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test discovery by dhcp."""
     mac_address = "1234567890abcd"
@@ -328,7 +328,7 @@ async def test_dhcp_discovery(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client: Mock,
     mock_added_config_entry: MockConfigEntry,
 ) -> None:
@@ -372,7 +372,7 @@ async def test_reconfigure(
     ids=["invalid-auth", "unknown-error"],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_ring_auth: Mock,

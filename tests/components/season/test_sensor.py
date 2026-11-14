@@ -20,7 +20,7 @@ from universalassistant.components.season.sensor import (
 )
 from universalassistant.components.sensor import ATTR_OPTIONS, SensorDeviceClass
 from universalassistant.const import ATTR_DEVICE_CLASS, CONF_TYPE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.util.dt import UTC
@@ -77,7 +77,7 @@ def idfn(val):
 
 @pytest.mark.parametrize(("type", "day", "expected"), NORTHERN_PARAMETERS, ids=idfn)
 async def test_season_northern_hemisphere(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     type: str,
@@ -109,7 +109,7 @@ async def test_season_northern_hemisphere(
 
 @pytest.mark.parametrize(("type", "day", "expected"), SOUTHERN_PARAMETERS, ids=idfn)
 async def test_season_southern_hemisphere(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -148,7 +148,7 @@ async def test_season_southern_hemisphere(
 
 
 async def test_season_equator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_season_equator(
 
 
 async def test_season_local_midnight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:

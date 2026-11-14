@@ -15,8 +15,8 @@ from universalassistant.components.number import (
     RestoreNumber,
 )
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -61,7 +61,7 @@ POSITION_DESCRIPTIONS: tuple[FlicTwistNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FlicButtonConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -158,7 +158,7 @@ class FlicTwistNumberEntity(FlicButtonEntity, RestoreNumber):
 
         try:
             await self._async_send_position(value)
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             _LOGGER.debug("Could not restore %s: %s", self.entity_id, err)
 
     @callback
@@ -184,7 +184,7 @@ class FlicTwistNumberEntity(FlicButtonEntity, RestoreNumber):
                 self.entity_description.mode_index, value
             )
         except (TimeoutError, BleakError, FlicProtocolError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_position_failed",
                 translation_placeholders={"address": self._client.address},

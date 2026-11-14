@@ -45,8 +45,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 _FAN_SPEED_PERCENTAGE_KEY = (
@@ -84,7 +84,7 @@ def get_available_program_fixture(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.AIR_CONDITIONER], indirect=True)
 async def test_paired_depaired_devices_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -142,7 +142,7 @@ async def test_paired_depaired_devices_flow(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.AIR_CONDITIONER], indirect=True)
 async def test_connected_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -210,7 +210,7 @@ async def test_connected_devices(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.AIR_CONDITIONER], indirect=True)
 async def test_fan_entity_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -280,7 +280,7 @@ async def test_fan_entity_availability(
     ],
 )
 async def test_speed_percentage_functionality(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -329,17 +329,17 @@ async def test_speed_percentage_functionality(
 
 
 async def test_set_speed_raises_universal_assistant_error_on_api_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
 ) -> None:
-    """Test that setting a fan mode raises UniversalAssistantError on API errors."""
+    """Test that setting a fan mode raises __HAC_KEEP__Error on API errors."""
     assert await integration_setup(client)
     assert config_entry.state is ConfigEntryState.LOADED
 
     client.set_active_program_option.side_effect = HomeConnectError("Test error")
-    with pytest.raises(UniversalAssistantError, match="Test error"):
+    with pytest.raises(__HAC_KEEP__Error, match="Test error"):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_SET_PERCENTAGE,
@@ -401,7 +401,7 @@ async def test_set_speed_raises_universal_assistant_error_on_api_errors(
     ],
 )
 async def test_preset_mode_functionality(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -476,17 +476,17 @@ async def test_preset_mode_functionality(
 
 
 async def test_set_preset_mode_raises_universal_assistant_error_on_api_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
 ) -> None:
-    """Test that setting a fan mode raises UniversalAssistantError on API errors."""
+    """Test that setting a fan mode raises __HAC_KEEP__Error on API errors."""
     assert await integration_setup(client)
     assert config_entry.state is ConfigEntryState.LOADED
 
     client.set_active_program_option.side_effect = HomeConnectError("Test error")
-    with pytest.raises(UniversalAssistantError, match="Test error"):
+    with pytest.raises(__HAC_KEEP__Error, match="Test error"):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_SET_PRESET_MODE,
@@ -513,7 +513,7 @@ async def test_set_preset_mode_raises_universal_assistant_error_on_api_errors(
     ],
 )
 async def test_supported_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -615,7 +615,7 @@ async def test_supported_features(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.AIR_CONDITIONER], indirect=True)
 async def test_added_entity_automatically(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],

@@ -62,7 +62,7 @@ from universalassistant.components.knx.const import (
     KNX_TELEGRAM_LOAD_HOURS_DEFAULT,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 FIXTURE_KNXKEYS_PASSWORD = "test"
@@ -92,7 +92,7 @@ def _assert_mock_entry_data(
 
 
 @pytest.fixture(name="knx_setup")
-async def fixture_knx_setup(hass: UniversalAssistant):
+async def fixture_knx_setup(hass: __HAC_KEEP__):
     """Mock KNX entry setup."""
     with (
         patch("universalassistant.components.knx.async_setup", return_value=True),
@@ -190,7 +190,7 @@ class GatewayScannerMock:
             yield gateway
 
 
-async def test_user_single_instance(hass: UniversalAssistant) -> None:
+async def test_user_single_instance(hass: __HAC_KEEP__) -> None:
     """Test we only allow a single config flow."""
     MockConfigEntry(domain=DOMAIN).add_to_hass(hass)
 
@@ -206,7 +206,7 @@ async def test_user_single_instance(hass: UniversalAssistant) -> None:
     return_value=GatewayScannerMock(),
 )
 async def test_routing_setup(
-    gateway_scanner_mock, hass: UniversalAssistant, knx_setup
+    gateway_scanner_mock, hass: __HAC_KEEP__, knx_setup
 ) -> None:
     """Test routing setup."""
     result = await hass.config_entries.flow.async_init(
@@ -256,7 +256,7 @@ async def test_routing_setup(
     return_value=GatewayScannerMock(),
 )
 async def test_routing_setup_with_local_ip(
-    gateway_scanner_mock, hass: UniversalAssistant, knx_setup
+    gateway_scanner_mock, hass: __HAC_KEEP__, knx_setup
 ) -> None:
     """Test routing setup where user specifies a local IP."""
     result = await hass.config_entries.flow.async_init(
@@ -332,7 +332,7 @@ async def test_routing_setup_with_local_ip(
     return_value=GatewayScannerMock(),
 )
 async def test_routing_secure_manual_setup(
-    gateway_scanner_mock, hass: UniversalAssistant, knx_setup
+    gateway_scanner_mock, hass: __HAC_KEEP__, knx_setup
 ) -> None:
     """Test routing secure setup with manual key config."""
     result = await hass.config_entries.flow.async_init(
@@ -423,7 +423,7 @@ async def test_routing_secure_manual_setup(
     return_value=GatewayScannerMock(),
 )
 async def test_routing_secure_keyfile(
-    gateway_scanner_mock, hass: UniversalAssistant, knx_setup
+    gateway_scanner_mock, hass: __HAC_KEEP__, knx_setup
 ) -> None:
     """Test routing secure setup with keyfile."""
     result = await hass.config_entries.flow.async_init(
@@ -566,7 +566,7 @@ async def test_routing_secure_keyfile(
 )
 async def test_tunneling_setup_manual(
     gateway_scanner_mock: MagicMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx_setup,
     user_input,
     title,
@@ -616,7 +616,7 @@ async def test_tunneling_setup_manual(
 )
 async def test_tunneling_setup_manual_request_description_error(
     gateway_scanner_mock: MagicMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx_setup,
 ) -> None:
     """Test tunneling if no gateway was found found (or `manual` option was chosen)."""
@@ -759,7 +759,7 @@ async def test_tunneling_setup_manual_request_description_error(
 async def test_tunneling_setup_for_local_ip(
     request_description_mock: MagicMock,
     gateway_scanner_mock: MagicMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx_setup,
 ) -> None:
     """Test tunneling if only one gateway is found."""
@@ -847,7 +847,7 @@ async def test_tunneling_setup_for_local_ip(
 
 
 async def test_tunneling_setup_for_multiple_found_gateways(
-    hass: UniversalAssistant, knx_setup
+    hass: __HAC_KEEP__, knx_setup
 ) -> None:
     """Test tunneling if multiple gateways are found."""
     gateway_udp = _gateway_descriptor("192.168.0.1", 3675)
@@ -896,7 +896,7 @@ async def test_tunneling_setup_for_multiple_found_gateways(
 
 
 async def test_tunneling_setup_tcp_endpoint_select_skip(
-    hass: UniversalAssistant, knx_setup
+    hass: __HAC_KEEP__, knx_setup
 ) -> None:
     """Test tunneling TCP endpoint selection skipped if no slot info found."""
     gateway_udp = _gateway_descriptor("192.168.0.1", 3675)
@@ -945,7 +945,7 @@ async def test_tunneling_setup_tcp_endpoint_select_skip(
 
 
 async def test_tunneling_setup_tcp_endpoint_select(
-    hass: UniversalAssistant, knx_setup
+    hass: __HAC_KEEP__, knx_setup
 ) -> None:
     """Test tunneling TCP endpoint selection."""
     gateway_tcp = _gateway_descriptor("192.168.1.100", 3675, True)
@@ -1012,7 +1012,7 @@ async def test_tunneling_setup_tcp_endpoint_select(
     ],
 )
 async def test_manual_tunnel_step_with_found_gateway(
-    hass: UniversalAssistant, gateway
+    hass: __HAC_KEEP__, gateway
 ) -> None:
     """Test manual tunnel if gateway was found and tunneling is selected."""
     with patch(
@@ -1047,7 +1047,7 @@ async def test_manual_tunnel_step_with_found_gateway(
 
 
 async def test_form_with_automatic_connection_handling(
-    hass: UniversalAssistant, knx_setup
+    hass: __HAC_KEEP__, knx_setup
 ) -> None:
     """Test we get the form."""
     with patch(
@@ -1091,7 +1091,7 @@ async def test_form_with_automatic_connection_handling(
 
 
 async def _get_menu_step_secure_tunnel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> config_entries.ConfigFlowResult:
     """Return flow in secure_tunnel menu step."""
     gateway = _gateway_descriptor(
@@ -1140,7 +1140,7 @@ async def _get_menu_step_secure_tunnel(
 )
 async def test_get_secure_menu_step_manual_tunnelling(
     request_description_mock: MagicMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test flow reaches secure_tunnelling menu from manual config."""
     gateway = _gateway_descriptor(
@@ -1188,7 +1188,7 @@ async def test_get_secure_menu_step_manual_tunnelling(
     assert result["step_id"] == "secure_key_source_menu_tunnel"
 
 
-async def test_configure_secure_tunnel_manual(hass: UniversalAssistant, knx_setup) -> None:
+async def test_configure_secure_tunnel_manual(hass: __HAC_KEEP__, knx_setup) -> None:
     """Test configure tunneling secure keys manually."""
     menu_step = await _get_menu_step_secure_tunnel(hass)
 
@@ -1226,7 +1226,7 @@ async def test_configure_secure_tunnel_manual(hass: UniversalAssistant, knx_setu
     knx_setup.assert_called_once()
 
 
-async def test_configure_secure_knxkeys(hass: UniversalAssistant, knx_setup) -> None:
+async def test_configure_secure_knxkeys(hass: __HAC_KEEP__, knx_setup) -> None:
     """Test configure secure knxkeys."""
     menu_step = await _get_menu_step_secure_tunnel(hass)
 
@@ -1277,7 +1277,7 @@ async def test_configure_secure_knxkeys(hass: UniversalAssistant, knx_setup) -> 
 
 
 @pytest.mark.usefixtures("knx_setup")
-async def test_configure_secure_knxkeys_invalid_signature(hass: UniversalAssistant) -> None:
+async def test_configure_secure_knxkeys_invalid_signature(hass: __HAC_KEEP__) -> None:
     """Test configure secure knxkeys but file was not found."""
     menu_step = await _get_menu_step_secure_tunnel(hass)
 
@@ -1323,7 +1323,7 @@ async def test_configure_secure_knxkeys_invalid_signature(hass: UniversalAssista
 
 
 @pytest.mark.usefixtures("knx_setup")
-async def test_configure_secure_knxkeys_no_tunnel_for_host(hass: UniversalAssistant) -> None:
+async def test_configure_secure_knxkeys_no_tunnel_for_host(hass: __HAC_KEEP__) -> None:
     """Test configure secure knxkeys but file was not found."""
     menu_step = await _get_menu_step_secure_tunnel(hass)
 
@@ -1356,7 +1356,7 @@ async def test_configure_secure_knxkeys_no_tunnel_for_host(hass: UniversalAssist
 
 
 async def test_reconfigure_flow_connection_type(
-    hass: UniversalAssistant, knx, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, knx, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow changing interface."""
     # run one flow test with a set up integration (knx fixture)
@@ -1414,7 +1414,7 @@ async def test_reconfigure_flow_connection_type(
 
 
 async def test_reconfigure_flow_secure_manual_to_keyfile(
-    hass: UniversalAssistant, knx_setup
+    hass: __HAC_KEEP__, knx_setup
 ) -> None:
     """Test reconfigure flow changing secure credential source."""
     mock_config_entry = MockConfigEntry(
@@ -1525,7 +1525,7 @@ async def test_reconfigure_flow_secure_manual_to_keyfile(
     knx_setup.assert_called_once()
 
 
-async def test_reconfigure_flow_routing(hass: UniversalAssistant, knx_setup) -> None:
+async def test_reconfigure_flow_routing(hass: __HAC_KEEP__, knx_setup) -> None:
     """Test reconfigure flow changing routing settings."""
     mock_config_entry = MockConfigEntry(
         title="KNX",
@@ -1590,7 +1590,7 @@ async def test_reconfigure_flow_routing(hass: UniversalAssistant, knx_setup) -> 
     knx_setup.assert_called_once()
 
 
-async def test_reconfigure_update_keyfile(hass: UniversalAssistant, knx_setup) -> None:
+async def test_reconfigure_update_keyfile(hass: __HAC_KEEP__, knx_setup) -> None:
     """Test reconfigure flow updating keyfile when tunnel is configured."""
     start_data = {
         **DEFAULT_ENTRY_DATA,
@@ -1648,7 +1648,7 @@ async def test_reconfigure_update_keyfile(hass: UniversalAssistant, knx_setup) -
     knx_setup.assert_called_once()
 
 
-async def test_reconfigure_keyfile_upload(hass: UniversalAssistant, knx_setup) -> None:
+async def test_reconfigure_keyfile_upload(hass: __HAC_KEEP__, knx_setup) -> None:
     """Test reconfigure flow uploading a keyfile for the first time."""
     start_data = {
         **DEFAULT_ENTRY_DATA,
@@ -1716,7 +1716,7 @@ async def test_reconfigure_keyfile_upload(hass: UniversalAssistant, knx_setup) -
 
 
 async def test_options_communication_settings(
-    hass: UniversalAssistant, knx_setup, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, knx_setup, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test options flow changing communication settings."""
     initial_data = dict(mock_config_entry.data)
@@ -1759,7 +1759,7 @@ async def test_options_communication_settings(
 
 
 async def _advance_to_postgres_step(
-    hass: UniversalAssistant, flow_id: str, *, retention_days: int = 14
+    hass: __HAC_KEEP__, flow_id: str, *, retention_days: int = 14
 ) -> config_entries.ConfigFlowResult:
     """Select the PostgreSQL backend and land on its connection step."""
     result = await hass.config_entries.options.async_configure(
@@ -1781,7 +1781,7 @@ async def _advance_to_postgres_step(
 
 
 async def test_options_telegram_store_postgres(
-    hass: UniversalAssistant, knx_setup: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, knx_setup: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test options flow selecting the PostgreSQL telegram store backend."""
     mock_config_entry.add_to_hass(hass)
@@ -1818,7 +1818,7 @@ async def test_options_telegram_store_postgres(
 
 
 async def test_options_telegram_store_postgres_reuses_password(
-    hass: UniversalAssistant, knx_setup: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, knx_setup: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the PostgreSQL store reuses the stored password when left blank."""
     existing_dsn = "postgresql://olduser:oldpass@old.host:6543/olddb?sslmode=require"
@@ -1873,7 +1873,7 @@ async def test_options_telegram_store_postgres_reuses_password(
 )
 @pytest.mark.usefixtures("knx_setup")
 async def test_options_telegram_store_postgres_connection_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     error_kind: ConnectionErrorKind,
     expected_error: str,
@@ -1920,7 +1920,7 @@ async def test_options_telegram_store_postgres_connection_failure(
 
 @pytest.mark.usefixtures("knx_setup")
 async def test_options_telegram_store_postgres_timeout(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test options flow surfaces a timeout when the connection check hangs."""
 
@@ -1971,7 +1971,7 @@ async def test_options_telegram_store_postgres_timeout(
 
 @pytest.mark.usefixtures("knx_setup")
 async def test_options_telegram_store_postgres_malformed_dsn(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the PostgreSQL step maps a DSN the driver rejects to a form error."""
     mock_config_entry.add_to_hass(hass)

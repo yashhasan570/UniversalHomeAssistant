@@ -18,7 +18,7 @@ from ritualsgenie import (
 from universalassistant.components.rituals_perfume_genie.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 ROOM_SIZES = {15: "1", 30: "2", 60: "3", 100: "4"}
 SENSOR_FIELDS = {
@@ -223,7 +223,7 @@ def mock_client(diffusers: list[MockDiffuser]) -> AsyncMock:
 
 
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_diffusers: list[MockDiffuser],
 ) -> AsyncMock:

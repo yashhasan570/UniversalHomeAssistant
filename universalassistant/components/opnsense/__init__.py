@@ -14,7 +14,7 @@ from aiopnsense import (
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -29,7 +29,7 @@ PLATFORMS = [Platform.DEVICE_TRACKER]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: OPNsenseConfigEntry
+    hass: __HAC_KEEP__, config_entry: OPNsenseConfigEntry
 ) -> None:
     """Set up the OPNsense component from a config entry."""
     url = config_entry.data[CONF_URL]
@@ -122,14 +122,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: OPNsenseConfigEntry
+    hass: __HAC_KEEP__, config_entry: OPNsenseConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: OPNsenseConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:

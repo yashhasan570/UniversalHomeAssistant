@@ -4,7 +4,7 @@ import asyncio
 from contextlib import suppress
 import logging
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_entry_flow
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 
@@ -19,7 +19,7 @@ from .discovery import async_start_discovery_service, async_stop_discovery_servi
 _LOGGER = logging.getLogger(__name__)
 
 
-async def _async_has_devices(hass: UniversalAssistant) -> bool:
+async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
     controller_ready = asyncio.Event()
 
     @callback

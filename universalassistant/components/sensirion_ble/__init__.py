@@ -10,7 +10,7 @@ from universalassistant.components.bluetooth.passive_update_processor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
@@ -20,7 +20,7 @@ type SensirionBluetoothConfigEntry = ConfigEntry[PassiveBluetoothProcessorCoordi
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: SensirionBluetoothConfigEntry
+    hass: __HAC_KEEP__, entry: SensirionBluetoothConfigEntry
 ) -> None:
     """Set up Sensirion BLE device from a config entry."""
     address = entry.unique_id
@@ -40,7 +40,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: SensirionBluetoothConfigEntry
+    hass: __HAC_KEEP__, entry: SensirionBluetoothConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

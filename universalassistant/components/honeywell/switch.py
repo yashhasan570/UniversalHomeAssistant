@@ -10,8 +10,8 @@ from universalassistant.components.switch import (
     SwitchEntity,
     SwitchEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -30,7 +30,7 @@ SWITCH_TYPES: tuple[SwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HoneywellConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -72,7 +72,7 @@ class HoneywellSwitch(SwitchEntity):
         try:
             await self._device.set_system_mode("emheat")
         except SomeComfortError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="switch_failed_on"
             ) from err
 
@@ -84,7 +84,7 @@ class HoneywellSwitch(SwitchEntity):
                 await self._device.set_system_mode("off")
 
             except SomeComfortError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN, translation_key="switch_failed_off"
                 ) from err
 

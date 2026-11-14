@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.e3dc import PLATFORMS
 from universalassistant.components.e3dc.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_ENTRY_DATA, MOCK_SERIAL, MOCK_TITLE, seed_power_station
 
@@ -71,7 +71,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_get_unit: MagicMock,
     platforms: list[Platform],

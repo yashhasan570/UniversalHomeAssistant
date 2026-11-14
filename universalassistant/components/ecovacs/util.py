@@ -7,7 +7,7 @@ import string
 from typing import TYPE_CHECKING, Any, cast
 
 from universalassistant.const import CONF_DEVICE_ID
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.util import slugify
 
 from .entity import (
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 
 def get_client_device_id(
-    hass: UniversalAssistant, self_hosted: bool, config: Mapping[str, Any]
+    hass: __HAC_KEEP__, self_hosted: bool, config: Mapping[str, Any]
 ) -> str:
     """Get client device id."""
     if device_id := config.get(CONF_DEVICE_ID):

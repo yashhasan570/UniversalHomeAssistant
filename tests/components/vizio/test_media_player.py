@@ -58,8 +58,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -106,7 +106,7 @@ def media_player_only() -> Generator[None]:
 )
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_media_player_entity_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry_fixture: str,
@@ -140,7 +140,7 @@ def _assert_sources_and_volume(
 
 
 def _get_attr_and_assert_base_attr(
-    hass: UniversalAssistant, device_class: str, power_state: str
+    hass: __HAC_KEEP__, device_class: str, power_state: str
 ) -> dict[str, Any]:
     """Return entity attributes  after asserting name, device class, and power state."""
     attr = hass.states.get(ENTITY_ID).attributes
@@ -188,7 +188,7 @@ async def _cm_for_test_setup_without_apps(
 
 
 async def _test_setup_tv(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, vizio_power_state: bool
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, vizio_power_state: bool
 ) -> None:
     """Test Vizio TV entity setup."""
     ha_power_state = _get_ha_power_state(vizio_power_state)
@@ -212,7 +212,7 @@ async def _test_setup_tv(
 
 
 async def _test_setup_speaker(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, vizio_power_state: bool
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, vizio_power_state: bool
 ) -> None:
     """Test Vizio Speaker entity setup."""
     ha_power_state = _get_ha_power_state(vizio_power_state)
@@ -239,7 +239,7 @@ async def _test_setup_speaker(
 
 @asynccontextmanager
 async def _cm_for_test_setup_tv_with_apps(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, app_config: AppConfig | None
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, app_config: AppConfig | None
 ) -> AsyncIterator[None]:
     """Context manager to setup test for Vizio TV with support for apps."""
     async with _cm_for_test_setup_without_apps(
@@ -274,7 +274,7 @@ def _assert_source_list_with_apps(
 
 
 async def _test_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     vizio_func_name: str,
     ha_service_name: str,
@@ -304,7 +304,7 @@ async def _test_service(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_tv_without_volume_in_audio_settings(
-    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test a TV that exposes volume and mute nowhere at all.
 
@@ -325,7 +325,7 @@ async def test_tv_without_volume_in_audio_settings(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_tv_volume_and_mute_read_individually(
-    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test a TV whose audio settings omit volume and mute.
 
@@ -361,7 +361,7 @@ async def test_tv_volume_and_mute_read_individually(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_tv_volume_and_mute_not_read_when_present(
-    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test that the individual reads are skipped when not needed.
 
@@ -392,7 +392,7 @@ async def test_tv_volume_and_mute_not_read_when_present(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_speaker_on(
-    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test Vizio Speaker entity setup when on."""
     await _test_setup_speaker(hass, mock_speaker_config_entry, True)
@@ -400,7 +400,7 @@ async def test_speaker_on(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_speaker_off(
-    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test Vizio Speaker entity setup when off."""
     await _test_setup_speaker(hass, mock_speaker_config_entry, False)
@@ -408,7 +408,7 @@ async def test_speaker_off(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_init_tv_on(
-    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test Vizio TV entity setup when on."""
     await _test_setup_tv(hass, mock_tv_config_entry, True)
@@ -416,7 +416,7 @@ async def test_init_tv_on(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_init_tv_off(
-    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test Vizio TV entity setup when off."""
     await _test_setup_tv(hass, mock_tv_config_entry, False)
@@ -424,7 +424,7 @@ async def test_init_tv_off(
 
 @pytest.mark.usefixtures("vizio_cant_connect")
 async def test_setup_unavailable_speaker(
-    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test speaker config entry retries setup when device is unavailable."""
     mock_speaker_config_entry.add_to_hass(hass)
@@ -435,7 +435,7 @@ async def test_setup_unavailable_speaker(
 
 @pytest.mark.usefixtures("vizio_cant_connect")
 async def test_setup_unavailable_tv(
-    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test TV config entry retries setup when device is unavailable."""
     mock_tv_config_entry.add_to_hass(hass)
@@ -446,7 +446,7 @@ async def test_setup_unavailable_tv(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_services(
-    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test all Vizio media player entity services."""
     await _test_setup_tv(hass, mock_tv_config_entry, True)
@@ -563,7 +563,7 @@ async def test_services(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_options_update(
-    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test when config entry update event fires."""
     await _test_setup_speaker(hass, mock_speaker_config_entry, True)
@@ -582,7 +582,7 @@ async def test_options_update(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_update_available_to_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_speaker_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -602,7 +602,7 @@ async def test_update_available_to_unavailable(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_update_unavailable_to_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_speaker_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -632,7 +632,7 @@ async def test_update_unavailable_to_available(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update_with_apps")
 async def test_setup_with_apps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tv_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -659,7 +659,7 @@ async def test_setup_with_apps(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update_with_apps")
 async def test_setup_with_apps_include(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test device setup with apps and apps["include"] in options."""
@@ -682,7 +682,7 @@ async def test_setup_with_apps_include(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update_with_apps")
 async def test_setup_with_apps_exclude(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test device setup with apps and apps["exclude"] in options."""
@@ -705,7 +705,7 @@ async def test_setup_with_apps_exclude(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update_with_apps")
 async def test_setup_with_apps_additional_apps_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test device setup with apps and apps["additional_configs"] in config."""
@@ -775,7 +775,7 @@ async def test_setup_with_apps_additional_apps_config(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update_with_apps")
 async def test_setup_with_unknown_app_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tv_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -792,7 +792,7 @@ async def test_setup_with_unknown_app_config(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update_with_apps")
 async def test_setup_with_no_running_app(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tv_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -807,7 +807,7 @@ async def test_setup_with_no_running_app(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_setup_tv_without_mute(
-    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test Vizio TV entity setup when mute property isn't returned by Vizio API."""
     async with _cm_for_test_setup_without_apps(
@@ -824,7 +824,7 @@ async def test_setup_tv_without_mute(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update_with_apps")
 async def test_apps_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tv_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -875,7 +875,7 @@ async def test_apps_update(
 )
 @pytest.mark.usefixtures("vizio_connect", "vizio_update_with_apps_on_input")
 async def test_vizio_update_with_apps_on_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_data: dict[str, Any],
     app_config: AppConfig,
     expected_app_name: str | None,
@@ -900,7 +900,7 @@ async def test_vizio_update_with_apps_on_input(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_coordinator_update_on_to_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_speaker_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -930,7 +930,7 @@ async def test_coordinator_update_on_to_off(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_coordinator_update_off_to_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_speaker_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -951,7 +951,7 @@ async def test_coordinator_update_off_to_on(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_sound_mode_feature_toggling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_speaker_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -995,7 +995,7 @@ async def test_sound_mode_feature_toggling(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_sound_mode_list_cached(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_speaker_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1026,7 +1026,7 @@ async def test_sound_mode_list_cached(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_select_invalid_sound_mode(
-    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
     """Test selecting an invalid sound mode raises."""
     await _test_setup_speaker(hass, mock_speaker_config_entry, True)
@@ -1048,9 +1048,9 @@ async def test_select_invalid_sound_mode(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_command_error_raises(
-    hass: UniversalAssistant, mock_speaker_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_speaker_config_entry: MockConfigEntry
 ) -> None:
-    """Test a device command failure raises UniversalAssistantError."""
+    """Test a device command failure raises __HAC_KEEP__Error."""
     await _test_setup_speaker(hass, mock_speaker_config_entry, True)
 
     with (
@@ -1058,7 +1058,7 @@ async def test_command_error_raises(
             "universalassistant.components.vizio.Vizio.power_on",
             side_effect=VizioConnectionError("cannot connect"),
         ),
-        pytest.raises(UniversalAssistantError, match="Failed to send command"),
+        pytest.raises(__HAC_KEEP__Error, match="Failed to send command"),
     ):
         await hass.services.async_call(
             MP_DOMAIN,
@@ -1070,7 +1070,7 @@ async def test_command_error_raises(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_send_text(
-    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
 ) -> None:
     """Test the send_text service types text on the device."""
     await setup_integration(hass, mock_tv_config_entry)
@@ -1087,9 +1087,9 @@ async def test_send_text(
 
 @pytest.mark.usefixtures("vizio_connect", "vizio_update")
 async def test_send_text_device_error(
-    hass: UniversalAssistant, mock_tv_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_tv_config_entry: MockConfigEntry
 ) -> None:
-    """Test send_text surfaces device errors as UniversalAssistantError."""
+    """Test send_text surfaces device errors as __HAC_KEEP__Error."""
     await setup_integration(hass, mock_tv_config_entry)
 
     with (
@@ -1097,7 +1097,7 @@ async def test_send_text_device_error(
             "universalassistant.components.vizio.Vizio.send_text",
             side_effect=VizioConnectionError("cannot connect"),
         ),
-        pytest.raises(UniversalAssistantError, match="Failed to send command"),
+        pytest.raises(__HAC_KEEP__Error, match="Failed to send command"),
     ):
         await hass.services.async_call(
             DOMAIN,

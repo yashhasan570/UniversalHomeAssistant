@@ -11,13 +11,13 @@ from universalassistant.components.weather import (
     ATTR_CONDITION_WINDY,
 )
 from universalassistant.const import CONF_NAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import KnxEntityGenerator
 from .conftest import KNXTestKit
 
 
-async def test_weather(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_weather(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX weather."""
 
     await knx.setup_integration(
@@ -106,7 +106,7 @@ async def test_weather(hass: UniversalAssistant, knx: KNXTestKit) -> None:
 
 
 async def test_weather_ui_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_weather_ui_create(
     ],
 )
 async def test_weather_ui_invert_day_night(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
     invert_day_night: bool,

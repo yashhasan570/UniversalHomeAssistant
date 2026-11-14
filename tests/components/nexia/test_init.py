@@ -13,7 +13,7 @@ from universalassistant.components.nexia.config_flow import NexiaConfigFlow
 from universalassistant.components.nexia.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import slugify
@@ -22,7 +22,7 @@ from .conftest import setup_integration
 
 
 async def test_setup_retry_client_os_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_nexia_home: NonCallableMock[NexiaHome],
 ) -> None:
     """Verify we retry setup on aiohttp.ClientOSError."""
@@ -33,7 +33,7 @@ async def test_setup_retry_client_os_error(
 
 
 async def test_setup_invalid_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_nexia_home: NonCallableMock[NexiaHome],
 ) -> None:
     """Verify setup fails and starts reauth on invalid credentials."""
@@ -53,7 +53,7 @@ async def test_setup_invalid_credentials(
 
 
 async def test_device_remove_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_nexia_home: NexiaHome,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
@@ -87,7 +87,7 @@ async def test_device_remove_devices(
     assert response["success"]
 
 
-async def test_migrate_entry_minor_version_1_2(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_minor_version_1_2(hass: __HAC_KEEP__) -> None:
     """Test migrating a 1.1 config entry."""
     with patch("universalassistant.components.nexia.async_setup_entry", return_value=None):
         entry = MockConfigEntry(
@@ -107,7 +107,7 @@ async def test_migrate_entry_minor_version_1_2(hass: UniversalAssistant) -> None
 
 @pytest.mark.usefixtures("patch_nexia_home")
 async def test_migrate_entity_identifiers(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test migrating config entity identifiers to string."""
     entry = MockConfigEntry(
@@ -147,7 +147,7 @@ async def test_migrate_entity_identifiers(
 
 @pytest.mark.usefixtures("patch_nexia_home")
 async def test_migrate_device_identifiers(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test migrating config device identifiers to string."""
     entry = MockConfigEntry(
@@ -189,7 +189,7 @@ async def test_migrate_device_identifiers(
 @patch("universalassistant.components.nexia.async_migrate_entry")
 async def test_string_identifiers(
     mock_migrate_entry: AsyncMock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_nexia_home: NexiaHome,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -216,7 +216,7 @@ async def test_string_identifiers(
 
 
 async def test_device_preregistration(
-    hass: UniversalAssistant, mock_nexia_home: NexiaHome, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, mock_nexia_home: NexiaHome, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test all thermostat and zone devices are preregistered."""
     entry = MockConfigEntry(domain=DOMAIN)
@@ -247,7 +247,7 @@ async def test_device_preregistration(
 
 
 async def test_device_via_device_links(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_nexia_home: NexiaHome,
     device_registry: dr.DeviceRegistry,
 ) -> None:

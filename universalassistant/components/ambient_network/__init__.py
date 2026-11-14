@@ -3,7 +3,7 @@
 from aioambient.open_api import OpenAPI
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import AmbientNetworkConfigEntry, AmbientNetworkDataUpdateCoordinator
 
@@ -11,7 +11,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: AmbientNetworkConfigEntry
+    hass: __HAC_KEEP__, entry: AmbientNetworkConfigEntry
 ) -> None:
     """Set up the Ambient Weather Network from a config entry."""
 
@@ -23,7 +23,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: AmbientNetworkConfigEntry
+    hass: __HAC_KEEP__, entry: AmbientNetworkConfigEntry
 ) -> None:
     """Unload a config entry."""
 

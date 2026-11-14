@@ -27,8 +27,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -95,7 +95,7 @@ IPS_ENGINE_ENTITY_ID = "update.gateway_ips_engine"
     ],
 )
 async def test_entity_and_device_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     snapshot: SnapshotAssertion,
@@ -109,7 +109,7 @@ async def test_entity_and_device_data(
 @pytest.mark.parametrize("device_payload", [[DEVICE_1]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_device_updates(
-    hass: UniversalAssistant, mock_websocket_message: WebsocketMessageMock
+    hass: __HAC_KEEP__, mock_websocket_message: WebsocketMessageMock
 ) -> None:
     """Test the update_items function with some devices."""
     device_1_state = hass.states.get("update.device_1_firmware")
@@ -145,7 +145,7 @@ async def test_device_updates(
 
 @pytest.mark.parametrize("device_payload", [[DEVICE_1]])
 async def test_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
 ) -> None:
@@ -180,7 +180,7 @@ async def test_install(
 @pytest.mark.parametrize("device_payload", [[DEVICE_1]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_hub_state_change(
-    hass: UniversalAssistant, mock_websocket_state: WebsocketStateManager
+    hass: __HAC_KEEP__, mock_websocket_state: WebsocketStateManager
 ) -> None:
     """Verify entities state reflect on hub becoming unavailable."""
     assert hass.states.get("update.device_1_firmware").state == STATE_ON
@@ -196,17 +196,17 @@ async def test_hub_state_change(
 
 @pytest.mark.parametrize("device_payload", [[DEVICE_1]])
 async def test_install_request_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
 ) -> None:
-    """Verify UniversalAssistantError is raised when install API request fails."""
+    """Verify __HAC_KEEP__Error is raised when install API request fails."""
     with (
         patch.object(
             config_entry_setup.runtime_data.api,
             "request",
             side_effect=aiounifi.AiounifiException,
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             UPDATE_DOMAIN,
@@ -221,7 +221,7 @@ async def test_install_request_failed(
 @pytest.mark.parametrize("device_payload", [[GATEWAY_IPS]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_ips_engine_disabled_by_default(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the IPS engine entity is disabled by default."""
     assert hass.states.get(IPS_ENGINE_ENTITY_ID) is None
@@ -232,7 +232,7 @@ async def test_ips_engine_disabled_by_default(
 @pytest.mark.parametrize("device_payload", [[GATEWAY_IPS]])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "config_entry_setup")
 async def test_ips_engine_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_websocket_message: WebsocketMessageMock,
 ) -> None:

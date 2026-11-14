@@ -6,10 +6,10 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.epson.const import CONF_CONNECTION_TYPE, DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_migrate_entry(hass: UniversalAssistant) -> None:
+async def test_migrate_entry(hass: __HAC_KEEP__) -> None:
     """Test successful migration of entry data from version 1 to 1.2."""
 
     mock_entry = MockConfigEntry(

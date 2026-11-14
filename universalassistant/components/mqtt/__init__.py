@@ -18,7 +18,7 @@ from universalassistant.const import (
     SERVICE_RELOAD,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import Unauthorized
 from universalassistant.helpers import (
     config_validation as cv,
@@ -235,7 +235,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def _async_config_entry_updated(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def _async_config_entry_updated(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Handle signals of config entry being updated.
 
     Causes for this is config entry options changing.
@@ -243,7 +243,7 @@ async def _async_config_entry_updated(hass: UniversalAssistant, entry: ConfigEnt
     hass.config_entries.async_schedule_reload(entry.entry_id)
 
 
-def _platforms_in_use(hass: UniversalAssistant, entry: ConfigEntry) -> set[str | Platform]:
+def _platforms_in_use(hass: __HAC_KEEP__, entry: ConfigEntry) -> set[str | Platform]:
     """Return a set of platforms in use."""
     domains: set[str | Platform] = {
         entry.domain
@@ -258,7 +258,7 @@ def _platforms_in_use(hass: UniversalAssistant, entry: ConfigEntry) -> set[str |
     return domains
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the actions and websocket API for the MQTT component."""
 
     if config.get(DOMAIN) and not mqtt_config_entry_enabled(hass):
@@ -282,7 +282,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Migrate the config entry to the latest version."""
     _LOGGER.debug("Migrating from version %s.%s", entry.version, entry.minor_version)
     data: dict[str, Any] = dict(entry.data)
@@ -313,7 +313,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: ConfigEntry) -> N
     )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Load a config entry."""
     mqtt_data: MqttData
 
@@ -433,7 +433,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
 )
 @callback
 def websocket_mqtt_info(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Get MQTT debug info for device."""
     device_id = msg["device_id"]
@@ -451,7 +451,7 @@ def websocket_mqtt_info(
 )
 @websocket_api.async_response
 async def websocket_subscribe(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Subscribe to a MQTT topic."""
     if not connection.user.is_admin:
@@ -494,7 +494,7 @@ type ConnectionStatusCallback = Callable[[bool], None]
 
 @callback
 def async_subscribe_connection_status(
-    hass: UniversalAssistant, connection_status_callback: ConnectionStatusCallback
+    hass: __HAC_KEEP__, connection_status_callback: ConnectionStatusCallback
 ) -> Callable[[], None]:
     """Subscribe to MQTT connection changes."""
     return async_dispatcher_connect(
@@ -502,14 +502,14 @@ def async_subscribe_connection_status(
     )
 
 
-def is_connected(hass: UniversalAssistant) -> bool:
+def is_connected(hass: __HAC_KEEP__) -> bool:
     """Return if MQTT client is connected."""
     mqtt_data = hass.data[DATA_MQTT]
     return mqtt_data.client.connected
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, config_entry: ConfigEntry, device_entry: AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, device_entry: AnyDeviceEntry
 ) -> bool:
     """Remove MQTT config entry from a device."""
     from . import device_automation  # noqa: PLC0415
@@ -518,7 +518,7 @@ async def async_remove_config_entry_device(
     return True
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload MQTT dump and publish service when the config entry is unloaded."""
     mqtt_data = hass.data[DATA_MQTT]
     mqtt_client = mqtt_data.client

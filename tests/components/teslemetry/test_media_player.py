@@ -21,8 +21,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_entities, assert_entities_alt, reload_platform, setup_platform
@@ -30,7 +30,7 @@ from .const import COMMAND_ERRORS, COMMAND_OK, METADATA_NOSCOPE, VEHICLE_DATA_AL
 
 
 async def test_media_player(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_legacy: AsyncMock,
@@ -42,7 +42,7 @@ async def test_media_player(
 
 
 async def test_media_player_alt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_vehicle_data: AsyncMock,
@@ -56,7 +56,7 @@ async def test_media_player_alt(
 
 
 async def test_media_player_noscope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_metadata: AsyncMock,
@@ -69,7 +69,7 @@ async def test_media_player_noscope(
 
 
 async def test_media_player_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_legacy: AsyncMock,
 ) -> None:
@@ -151,8 +151,8 @@ async def test_media_player_services(
 
 @pytest.mark.usefixtures("mock_legacy")
 @pytest.mark.parametrize("response", COMMAND_ERRORS)
-async def test_media_player_command_errors(hass: UniversalAssistant, response: dict) -> None:
-    """Tests that vehicle command failures raise UniversalAssistantError."""
+async def test_media_player_command_errors(hass: __HAC_KEEP__, response: dict) -> None:
+    """Tests that vehicle command failures raise __HAC_KEEP__Error."""
 
     await setup_platform(hass, [Platform.MEDIA_PLAYER])
 
@@ -161,7 +161,7 @@ async def test_media_player_command_errors(hass: UniversalAssistant, response: d
             "tesla_fleet_api.teslemetry.Vehicle.adjust_volume",
             return_value=response,
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
@@ -175,8 +175,8 @@ async def test_media_player_command_errors(hass: UniversalAssistant, response: d
 
 
 @pytest.mark.usefixtures("mock_legacy")
-async def test_media_player_command_exception(hass: UniversalAssistant) -> None:
-    """Tests that a command SDK exception raises UniversalAssistantError."""
+async def test_media_player_command_exception(hass: __HAC_KEEP__) -> None:
+    """Tests that a command SDK exception raises __HAC_KEEP__Error."""
 
     await setup_platform(hass, [Platform.MEDIA_PLAYER])
 
@@ -185,7 +185,7 @@ async def test_media_player_command_exception(hass: UniversalAssistant) -> None:
             "tesla_fleet_api.teslemetry.Vehicle.adjust_volume",
             side_effect=InvalidCommand,
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
@@ -200,7 +200,7 @@ async def test_media_player_command_exception(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_update_streaming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_vehicle_data: AsyncMock,
     mock_add_listener: AsyncMock,
@@ -303,7 +303,7 @@ async def test_update_streaming(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_streaming_center_display(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_listener: AsyncMock,
     updates: list[tuple[dict[Signal, str], str]],
 ) -> None:
@@ -324,7 +324,7 @@ async def test_streaming_center_display(
 
 
 async def test_update_streaming_restore_then_display_off(
-    hass: UniversalAssistant, mock_add_listener: AsyncMock
+    hass: __HAC_KEEP__, mock_add_listener: AsyncMock
 ) -> None:
     """Test a restored playing state stays off when the car is asleep."""
 
@@ -349,7 +349,7 @@ async def test_update_streaming_restore_then_display_off(
 
 
 async def test_update_streaming_restore_off_then_playing(
-    hass: UniversalAssistant, mock_add_listener: AsyncMock
+    hass: __HAC_KEEP__, mock_add_listener: AsyncMock
 ) -> None:
     """Test a restored off state stays off until the display turns on."""
 
@@ -374,7 +374,7 @@ async def test_update_streaming_restore_off_then_playing(
         assert hass.states.get(entity_id).state == expected
 
 
-async def test_update_streaming_restore_channel(hass: UniversalAssistant) -> None:
+async def test_update_streaming_restore_channel(hass: __HAC_KEEP__) -> None:
     """Test the streaming media player restores the station, not a playlist."""
 
     entity_id = "media_player.test_media_player"
@@ -401,7 +401,7 @@ async def test_update_streaming_restore_channel(hass: UniversalAssistant) -> Non
 
 
 async def test_streaming_play_while_display_off(
-    hass: UniversalAssistant, mock_add_listener: AsyncMock
+    hass: __HAC_KEEP__, mock_add_listener: AsyncMock
 ) -> None:
     """Test a play command does not turn a display-off entity on."""
 
@@ -453,7 +453,7 @@ async def test_streaming_play_while_display_off(
     ],
 )
 async def test_streaming_center_display_keeps_restored_playback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_listener: AsyncMock,
     restored: MediaPlayerState,
     expected: MediaPlayerState,
@@ -495,7 +495,7 @@ async def test_streaming_center_display_keeps_restored_playback(
     ],
 )
 async def test_streaming_center_display_keeps_commanded_playback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_listener: AsyncMock,
     restored: MediaPlayerState,
     service: str,
@@ -539,7 +539,7 @@ async def test_streaming_center_display_keeps_commanded_playback(
     ],
 )
 async def test_streaming_commands_while_display_off_and_playing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_listener: AsyncMock,
     service: str,
     calls: int,

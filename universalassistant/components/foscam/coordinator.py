@@ -8,7 +8,7 @@ from typing import override
 from libpyfoscamcgi import FoscamCamera
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN, LOGGER
@@ -56,7 +56,7 @@ class FoscamCoordinator(DataUpdateCoordinator[FoscamDeviceInfo]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: FoscamConfigEntry,
         session: FoscamCamera,
     ) -> None:

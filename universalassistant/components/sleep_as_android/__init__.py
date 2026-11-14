@@ -8,7 +8,7 @@ import probatio
 from universalassistant.components import webhook
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_WEBHOOK_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import ATTR_EVENT, ATTR_VALUE1, ATTR_VALUE2, ATTR_VALUE3, DOMAIN
@@ -28,7 +28,7 @@ WEBHOOK_SCHEMA = probatio.Schema(
 
 
 async def handle_webhook(
-    hass: UniversalAssistant, webhook_id: str, request: Request
+    hass: __HAC_KEEP__, webhook_id: str, request: Request
 ) -> Response:
     """Handle incoming Sleep as Android webhook request."""
 
@@ -44,7 +44,7 @@ async def handle_webhook(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: SleepAsAndroidConfigEntry
+    hass: __HAC_KEEP__, entry: SleepAsAndroidConfigEntry
 ) -> None:
     """Set up Sleep as Android from a config entry."""
 
@@ -55,7 +55,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: SleepAsAndroidConfigEntry
+    hass: __HAC_KEEP__, entry: SleepAsAndroidConfigEntry
 ) -> None:
     """Unload a config entry."""
     webhook.async_unregister(hass, entry.data[CONF_WEBHOOK_ID])

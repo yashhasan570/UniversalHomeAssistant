@@ -79,7 +79,7 @@ def test_main_writes_artifact(
     assert payload["head_sha"] == _SHA
     assert payload["packages"][0]["name"] == "pkg"
     assert (
-        f"https://github.com/yashhasan570/UniversalUniversalAssistant/commit/{_SHA}"
+        f"https://github.com/yashhasan570/UniversalAssistant/commit/{_SHA}"
         in payload["rendered_comment"]
     )
     assert "check_requirements: 1 package change(s)" in capsys.readouterr().err

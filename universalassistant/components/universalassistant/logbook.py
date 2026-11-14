@@ -9,7 +9,7 @@ from universalassistant.components.logbook import (
     LOGBOOK_ENTRY_NAME,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers.typing import NoEventData
 from universalassistant.util.event_type import EventType
 
@@ -23,7 +23,7 @@ EVENT_TO_NAME: dict[EventType[Any] | str, str] = {
 
 @callback
 def async_describe_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_describe_event: Callable[
         [str, EventType[NoEventData] | str, Callable[[Event], dict[str, str]]], None
     ],
@@ -34,7 +34,7 @@ def async_describe_events(
     def async_describe_hass_event(event: Event[NoEventData]) -> dict[str, str]:
         """Describe universalassistant logbook event."""
         return {
-            LOGBOOK_ENTRY_NAME: "Universal Universal Home Assistant",
+            LOGBOOK_ENTRY_NAME: "__HA_KEEP__",
             LOGBOOK_ENTRY_MESSAGE: EVENT_TO_NAME[event.event_type],
             LOGBOOK_ENTRY_ICON: "mdi:universal-assistant",
         }

@@ -16,7 +16,7 @@ from universalassistant.components.remote import (
     RemoteEntity,
     RemoteEntityFeature,
 )
-from universalassistant.core import HassJob, UniversalAssistant, callback
+from universalassistant.core import HassJob, __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
@@ -42,7 +42,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HarmonyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -25,8 +25,8 @@ from zwave_js_server.model.node import Node
 from universalassistant.components.zwave_js.const import DOMAIN
 from universalassistant.components.zwave_js.helpers import get_device_id
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, Unauthorized
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -116,7 +116,7 @@ def _lock_entity_id(
 
 
 async def test_set_user_new_user_auto_find(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -163,7 +163,7 @@ async def test_set_user_new_user_auto_find(
 
 
 async def test_set_user_existing_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -207,7 +207,7 @@ async def test_set_user_existing_user(
 
 
 async def test_set_user_no_slots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -225,7 +225,7 @@ async def test_set_user_no_slots(
     user2.user_id = 2
     api.get_users_cached.return_value = [user1, user2]
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_user",
@@ -250,7 +250,7 @@ async def test_set_user_no_slots(
 
 
 async def test_set_user_new_user_with_credential(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -303,7 +303,7 @@ async def test_set_user_new_user_with_credential(
 
 
 async def test_set_user_rolls_back_on_credential_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -318,7 +318,7 @@ async def test_set_user_rolls_back_on_credential_failure(
         credential=SetCredentialResult.ERROR_DUPLICATE_CREDENTIAL,
     )
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_user",
@@ -345,7 +345,7 @@ async def test_set_user_rolls_back_on_credential_failure(
 
 
 async def test_set_user_rollback_failure_still_raises_credential_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -360,7 +360,7 @@ async def test_set_user_rollback_failure_still_raises_credential_error(
     )
     api.delete_user.side_effect = FailedZWaveCommand("boom", 1, "boom")
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_user",
@@ -396,7 +396,7 @@ async def test_set_user_rollback_failure_still_raises_credential_error(
     ],
 )
 async def test_set_user_new_user_credential_slot_allocation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -470,7 +470,7 @@ async def test_set_user_new_user_credential_slot_allocation(
     ],
 )
 async def test_set_user_existing_user_with_credential(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -529,7 +529,7 @@ async def test_set_user_existing_user_with_credential(
 
 
 async def test_set_user_existing_user_explicit_credential_slot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -577,7 +577,7 @@ async def test_set_user_existing_user_explicit_credential_slot(
 
 
 async def test_set_user_invalid_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -587,7 +587,7 @@ async def test_set_user_invalid_pin(
     """set_user validates the credential before creating the user."""
     api = _mock_access_control(lock_schlage_be469)
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_user",
@@ -611,7 +611,7 @@ async def test_set_user_invalid_pin(
 
 
 async def test_set_user_requires_credential_on_user_code_cc(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -623,7 +623,7 @@ async def test_set_user_requires_credential_on_user_code_cc(
         lock_schlage_be469, supports_users_without_credentials=False
     )
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_user",
@@ -648,7 +648,7 @@ async def test_set_user_requires_credential_on_user_code_cc(
 
 
 async def test_delete_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -678,7 +678,7 @@ async def test_delete_user(
 
 
 async def test_delete_all_users(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -707,7 +707,7 @@ async def test_delete_all_users(
 
 
 async def test_get_credential_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -758,7 +758,7 @@ async def test_get_credential_capabilities(
 
 
 async def test_get_credential_capabilities_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -769,7 +769,7 @@ async def test_get_credential_capabilities_not_supported(
     api = _mock_access_control(lock_schlage_be469)
     api.is_supported.return_value = False
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "get_credential_capabilities",
@@ -795,7 +795,7 @@ async def test_get_credential_capabilities_not_supported(
 
 
 async def test_get_users(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -856,7 +856,7 @@ async def test_get_users(
 
 
 async def test_set_credential_auto_slot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -894,7 +894,7 @@ async def test_set_credential_auto_slot(
 
 
 async def test_set_credential_explicit_slot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -933,7 +933,7 @@ async def test_set_credential_explicit_slot(
 
 
 async def test_set_credential_multi_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -995,7 +995,7 @@ async def test_set_credential_multi_target(
     ],
 )
 async def test_set_user_rejection_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1008,7 +1008,7 @@ async def test_set_user_rejection_raises(
     api = _mock_access_control(lock_schlage_be469)
     api.set_user.return_value = set_user_result
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_user",
@@ -1072,7 +1072,7 @@ async def test_set_user_rejection_raises(
     ],
 )
 async def test_set_credential_rejection_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1085,7 +1085,7 @@ async def test_set_credential_rejection_raises(
     api = _mock_access_control(lock_schlage_be469)
     api.set_credential.return_value = set_credential_result
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_credential",
@@ -1113,7 +1113,7 @@ async def test_set_credential_rejection_raises(
 
 
 async def test_set_credential_requires_user_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1148,7 +1148,7 @@ async def test_set_credential_requires_user_id(
 
 
 async def test_set_credential_type_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1161,7 +1161,7 @@ async def test_set_credential_type_not_supported(
     cred_caps = api.get_credential_capabilities_cached.return_value
     cred_caps.supported_credential_types = {}
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_credential",
@@ -1189,7 +1189,7 @@ async def test_set_credential_type_not_supported(
 
 
 async def test_set_credential_no_available_slots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1213,7 +1213,7 @@ async def test_set_credential_no_available_slots(
     cred2.slot = 2
     api.get_credentials_by_type_cached.return_value = [cred1, cred2]
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_credential",
@@ -1249,7 +1249,7 @@ async def test_set_credential_no_available_slots(
     ],
 )
 async def test_set_credential_pin_not_digits(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1260,7 +1260,7 @@ async def test_set_credential_pin_not_digits(
     """PIN credential data must be ASCII 0-9, rejected locally otherwise."""
     api = _mock_access_control(lock_schlage_be469)
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_credential",
@@ -1288,7 +1288,7 @@ async def test_set_credential_pin_not_digits(
 
 
 async def test_set_credential_password_allows_non_digits(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1327,7 +1327,7 @@ async def test_set_credential_password_allows_non_digits(
 
 @pytest.mark.parametrize("credential_data", ["12", "12345678901"])
 async def test_set_credential_length_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1338,7 +1338,7 @@ async def test_set_credential_length_validation(
     """Credential data outside the device-reported length range is rejected locally."""
     api = _mock_access_control(lock_schlage_be469)
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "set_credential",
@@ -1372,7 +1372,7 @@ async def test_set_credential_length_validation(
 
 
 async def test_delete_credential(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1404,7 +1404,7 @@ async def test_delete_credential(
 
 
 async def test_delete_all_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1446,7 +1446,7 @@ async def test_delete_all_credentials(
 @pytest.mark.parametrize("field", ["user_id", "credential_slot"])
 @pytest.mark.parametrize("value", [0, 65536, 100000])
 async def test_set_credential_id_range_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1487,7 +1487,7 @@ async def test_set_credential_id_range_validation(
 
 
 async def test_delete_user_rejects_oversize_user_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1520,7 +1520,7 @@ async def test_delete_user_rejects_oversize_user_id(
 
 
 async def test_mutation_supports_multi_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1562,7 +1562,7 @@ async def test_mutation_supports_multi_target(
 
 
 async def test_get_users_supports_multi_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1713,7 +1713,7 @@ async def test_get_users_supports_multi_target(
     ],
 )
 async def test_server_error_wrapped_with_translation_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1738,7 +1738,7 @@ async def test_server_error_wrapped_with_translation_key(
         integration.entry_id,
     )
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             service,
@@ -1757,7 +1757,7 @@ async def test_server_error_wrapped_with_translation_key(
 
 
 async def test_delete_all_credentials_failure_wrapped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1773,7 +1773,7 @@ async def test_delete_all_credentials_failure_wrapped(
     api.get_credentials_cached.return_value = [cred]
     api.delete_credential.side_effect = FailedZWaveCommand("boom", 1, "boom")
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "delete_all_credentials",
@@ -1798,7 +1798,7 @@ async def test_delete_all_credentials_failure_wrapped(
 
 
 async def test_delete_all_credentials_partial_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1825,7 +1825,7 @@ async def test_delete_all_credentials_partial_failure(
         SetCredentialResult.ERROR_DUPLICATE_CREDENTIAL,
     ]
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "delete_all_credentials",
@@ -1852,7 +1852,7 @@ async def test_delete_all_credentials_partial_failure(
 
 
 async def test_delete_all_credentials_single_failure_unwrapped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1874,7 +1874,7 @@ async def test_delete_all_credentials_single_failure_unwrapped(
         SetCredentialResult.ERROR_UNKNOWN,
     ]
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             "delete_all_credentials",
@@ -1919,7 +1919,7 @@ async def test_delete_all_credentials_single_failure_unwrapped(
     ],
 )
 async def test_service_access_control_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,
@@ -1940,7 +1940,7 @@ async def test_service_access_control_not_supported(
         integration.entry_id,
     )
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             service,
@@ -1979,7 +1979,7 @@ async def test_service_access_control_not_supported(
     ],
 )
 async def test_service_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     client: MagicMock,

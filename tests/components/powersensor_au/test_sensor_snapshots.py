@@ -18,7 +18,7 @@ from universalassistant.components.powersensor_au.const import (
     ROLE_SOLAR,
     ROLE_WATER,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 PLUG_MAC = "aabbccddeeff"
@@ -42,7 +42,7 @@ async def _discover_sensor(fire: Fire, mac: str, role: str) -> None:
     await fire({"event": "radio_signal_quality", "mac": mac, "average_rssi": -72})
 
 
-async def _discover_installation(hass: UniversalAssistant, fire: Fire) -> None:
+async def _discover_installation(hass: __HAC_KEEP__, fire: Fire) -> None:
     """Discover a plug and a sensor of each role, with a reading for each entity."""
     await fire({"event": "device_found", "mac": PLUG_MAC, "device_type": "plug"})
     for mac, role in (
@@ -146,7 +146,7 @@ async def _discover_installation(hass: UniversalAssistant, fire: Fire) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Fire,
     entity_registry: er.EntityRegistry,
@@ -160,7 +160,7 @@ async def test_entities(
 
 
 async def test_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Fire,
     device_registry: dr.DeviceRegistry,
@@ -177,7 +177,7 @@ async def test_devices(
 
 
 async def test_sensor_device_registry_renames_on_role(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Fire,
     snapshot: SnapshotAssertion,

@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_SOURCE,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -95,7 +95,7 @@ TEST_DISCOVERY_ADAM = ZeroconfServiceInfo(
 
 
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_smile_config_flow: MagicMock,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_form(
     ],
 )
 async def test_zeroconf_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_smile_config_flow: MagicMock,
     discovery: ZeroconfServiceInfo,
@@ -178,7 +178,7 @@ async def test_zeroconf_flow(
 
 
 async def test_zeroconf_flow_stretch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_smile_config_flow: MagicMock,
 ) -> None:
@@ -215,7 +215,7 @@ async def test_zeroconf_flow_stretch(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zercoconf_discovery_update_configuration(
-    hass: UniversalAssistant, mock_smile_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_smile_config_flow: MagicMock
 ) -> None:
     """Test if a discovered device is configured and updated with new host."""
     entry = MockConfigEntry(
@@ -267,7 +267,7 @@ async def test_zercoconf_discovery_update_configuration(
     ],
 )
 async def test_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_smile_config_flow: MagicMock,
     side_effect: Exception,
@@ -318,7 +318,7 @@ async def test_flow_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_abort_existing_anna(
-    hass: UniversalAssistant, mock_smile_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_smile_config_flow: MagicMock
 ) -> None:
     """Test the full user configuration flow."""
     entry = MockConfigEntry(
@@ -352,7 +352,7 @@ async def test_user_abort_existing_anna(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_abort_existing_anna(
-    hass: UniversalAssistant, mock_smile_config_flow: MagicMock
+    hass: __HAC_KEEP__, mock_smile_config_flow: MagicMock
 ) -> None:
     """Test the full user configuration flow."""
     entry = MockConfigEntry(
@@ -378,7 +378,7 @@ async def test_zeroconf_abort_existing_anna(
 
 
 async def test_zeroconf_abort_anna_with_existing_config_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smile_adam: MagicMock,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -392,7 +392,7 @@ async def test_zeroconf_abort_anna_with_existing_config_entries(
     assert result.get("reason") == "anna_with_adam"
 
 
-async def test_zeroconf_abort_anna_with_adam(hass: UniversalAssistant) -> None:
+async def test_zeroconf_abort_anna_with_adam(hass: __HAC_KEEP__) -> None:
     """Test we abort Anna discovery when an Adam is also discovered."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -436,7 +436,7 @@ async def test_zeroconf_abort_anna_with_adam(hass: UniversalAssistant) -> None:
 
 
 async def _start_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     host_ip: str,
 ) -> ConfigFlowResult:
@@ -455,7 +455,7 @@ async def _start_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, mock_smile_adam: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_smile_adam: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow."""
     result = await _start_reconfigure_flow(hass, mock_config_entry, TEST_HOST)
@@ -468,7 +468,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_smile_mismatch(
-    hass: UniversalAssistant, mock_smile_adam: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_smile_adam: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow aborts on other Smile ID."""
     mock_smile_adam.smile.hostname = TEST_SMILE_HOST
@@ -491,7 +491,7 @@ async def test_reconfigure_flow_smile_mismatch(
     ],
 )
 async def test_reconfigure_flow_connect_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_smile_adam: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,

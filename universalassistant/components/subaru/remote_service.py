@@ -5,7 +5,7 @@ import logging
 from subarulink.exceptions import SubaruException
 
 from universalassistant.const import SERVICE_UNLOCK
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import SERVICE_REMOTE_START, VEHICLE_NAME, VEHICLE_VIN
 
@@ -32,4 +32,4 @@ async def async_call_remote_service(controller, cmd, vehicle_info, arg=None):
         _LOGGER.debug("%s command successfully completed for %s", cmd, car_name)
         return
 
-    raise UniversalAssistantError(f"Service {cmd} failed for {car_name}: {err_msg}")
+    raise __HAC_KEEP__Error(f"Service {cmd} failed for {car_name}: {err_msg}")

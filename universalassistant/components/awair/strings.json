@@ -41,7 +41,7 @@
         "description": "Please re-enter your Awair developer access token."
       },
       "user": {
-        "description": "Pick local for the best experience. Only use cloud if the device is not connected to the same network as Universal Universal Home Assistant, or if you have a legacy device.",
+        "description": "Pick local for the best experience. Only use cloud if the device is not connected to the same network as __HA_KEEP__, or if you have a legacy device.",
         "menu_options": {
           "cloud": "Connect via the cloud",
           "local": "Connect locally (preferred)"

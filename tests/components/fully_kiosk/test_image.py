@@ -7,12 +7,12 @@ from fullykiosk import FullyKioskError
 from pytest_universalassistant.common import MockConfigEntry
 from pytest_universalassistant.typing import ClientSessionGenerator
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_client: ClientSessionGenerator,
     mock_fully_kiosk: MagicMock,

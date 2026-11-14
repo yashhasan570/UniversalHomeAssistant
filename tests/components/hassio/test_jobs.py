@@ -22,7 +22,7 @@ from universalassistant.components.hassio.coordinator import (
     JobSubscription,
     SupervisorJobsCoordinator,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -37,7 +37,7 @@ def fixture_supervisor_environ() -> Generator[None]:
 
 
 @pytest.mark.usefixtures("all_setup_requests")
-async def test_job_manager_setup(hass: UniversalAssistant, jobs_info: AsyncMock) -> None:
+async def test_job_manager_setup(hass: __HAC_KEEP__, jobs_info: AsyncMock) -> None:
     """Test setup of job manager."""
     jobs_info.return_value = JobsInfo(
         ignore_conditions=[],
@@ -82,7 +82,7 @@ async def test_job_manager_setup(hass: UniversalAssistant, jobs_info: AsyncMock)
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_disconnect_on_config_entry_reload(
-    hass: UniversalAssistant, jobs_info: AsyncMock
+    hass: __HAC_KEEP__, jobs_info: AsyncMock
 ) -> None:
     """Test dispatcher subscription disconnects on config entry reload."""
     result = await async_setup_component(hass, DOMAIN, {})
@@ -98,7 +98,7 @@ async def test_disconnect_on_config_entry_reload(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_job_manager_ws_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     jobs_info: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -288,7 +288,7 @@ async def test_job_manager_ws_updates(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_job_manager_reload_on_supervisor_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     jobs_info: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -366,7 +366,7 @@ async def test_job_manager_reload_on_supervisor_restart(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_subscribe_returns_unsubscribe_when_job_already_matches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     jobs_info: AsyncMock,
     hass_supervisor_ws_client: WebSocketGenerator,
 ) -> None:
@@ -441,7 +441,7 @@ async def test_subscribe_returns_unsubscribe_when_job_already_matches(
 
 @pytest.mark.usefixtures("all_setup_requests")
 async def test_job_manager_periodic_refresh(
-    hass: UniversalAssistant, jobs_info: AsyncMock
+    hass: __HAC_KEEP__, jobs_info: AsyncMock
 ) -> None:
     """Test job manager performs periodic refresh as backstop for dropped WS events."""
     jobs_info.return_value = JobsInfo(

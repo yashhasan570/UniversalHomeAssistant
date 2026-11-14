@@ -7,7 +7,7 @@ from typing import override
 from feedparser import FeedParserDict
 
 from universalassistant.components.event import EventEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -27,7 +27,7 @@ ATTR_TITLE = "title"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FeedReaderConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

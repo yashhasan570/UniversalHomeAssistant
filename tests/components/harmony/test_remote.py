@@ -33,7 +33,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import utcnow
 
 from .conftest import ACTIVITIES_TO_IDS, TV_DEVICE_ID, TV_DEVICE_NAME
@@ -46,7 +46,7 @@ STOP_COMMAND = "Stop"
 async def test_connection_state_changes(
     harmony_client,
     mock_hc,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_write_config,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_connection_state_changes(
 
 
 async def test_remote_toggles(
-    mock_hc, hass: UniversalAssistant, mock_write_config, mock_config_entry: MockConfigEntry
+    mock_hc, hass: __HAC_KEEP__, mock_write_config, mock_config_entry: MockConfigEntry
 ) -> None:
     """Ensure calls to the remote also updates the switches."""
 
@@ -154,7 +154,7 @@ async def test_remote_toggles(
 async def test_async_send_command(
     mock_hc,
     harmony_client,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_write_config,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -289,7 +289,7 @@ async def test_async_send_command(
 async def test_async_send_command_custom_delay(
     mock_hc,
     harmony_client,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_write_config,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -336,7 +336,7 @@ async def test_async_send_command_custom_delay(
 async def test_change_channel(
     mock_hc,
     harmony_client,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_write_config,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -367,7 +367,7 @@ async def test_sync(
     mock_hc,
     harmony_client,
     mock_write_config,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the sync command."""
@@ -392,7 +392,7 @@ async def test_sync(
 
 
 async def _send_commands_and_wait(
-    hass: UniversalAssistant, service_data: dict[str, Any]
+    hass: __HAC_KEEP__, service_data: dict[str, Any]
 ) -> None:
     await hass.services.async_call(
         REMOTE_DOMAIN,

@@ -23,8 +23,8 @@ from universalassistant.components.tado import DOMAIN
 from universalassistant.components.tado.const import TYPE_HEATING
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -41,7 +41,7 @@ def setup_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test creation of select entities."""
 
@@ -55,7 +55,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_option(
-    hass: UniversalAssistant, option: str, expected: int | None
+    hass: __HAC_KEEP__, option: str, expected: int | None
 ) -> None:
     """Test selecting an option sends the circuit number to Tado."""
     with patch(
@@ -76,14 +76,14 @@ async def test_select_option(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_select_option_error(hass: UniversalAssistant) -> None:
+async def test_select_option_error(hass: __HAC_KEEP__) -> None:
     """Test a failing assignment is reported to the user."""
     with (
         patch(
             "PyTado.interface.api.my_tado.Tado.set_zone_heating_circuit",
             side_effect=RequestException("Boom"),
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,
@@ -98,7 +98,7 @@ async def test_select_option_error(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_configuration_is_read_once(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a refresh does not read the heating circuit configuration again."""
     coordinator = hass.config_entries.async_entries(DOMAIN)[0].runtime_data
@@ -119,7 +119,7 @@ async def test_configuration_is_read_once(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_failed_read_retries_the_setup(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a failing heating circuit read makes the config entry retry."""
     with patch(
@@ -133,7 +133,7 @@ async def test_failed_read_retries_the_setup(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_no_circuits_read_without_heating_zones(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test homes without a heating zone do not read the circuits at all."""
     zones = [
@@ -155,7 +155,7 @@ async def test_no_circuits_read_without_heating_zones(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_unknown_when_circuit_is_not_listed(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the state is unknown when the assigned circuit is not in the list."""
     await hass.config_entries.async_remove(

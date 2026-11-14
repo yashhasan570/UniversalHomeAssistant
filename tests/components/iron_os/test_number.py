@@ -26,7 +26,7 @@ from universalassistant.components.number import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -45,7 +45,7 @@ async def number_only() -> AsyncGenerator[None]:
     "entity_registry_enabled_by_default", "mock_pynecil", "ble_device"
 )
 async def test_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -76,7 +76,7 @@ async def test_state(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "ble_device")
 async def test_state_fahrenheit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     mock_pynecil: AsyncMock,
@@ -197,7 +197,7 @@ async def test_state_fahrenheit(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "ble_device")
 async def test_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
     entity_id: str,
@@ -226,7 +226,7 @@ async def test_set_value(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "ble_device")
 async def test_set_value_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
 ) -> None:
@@ -255,7 +255,7 @@ async def test_set_value_exception(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "ble_device")
 async def test_boost_temp_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pynecil: AsyncMock,
     freezer: FrozenDateTimeFactory,

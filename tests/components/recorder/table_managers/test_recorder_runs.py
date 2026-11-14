@@ -9,12 +9,12 @@ from pytest_universalassistant.typing import RecorderInstanceGenerator
 from universalassistant.components import recorder
 from universalassistant.components.recorder.db_schema import RecorderRuns
 from universalassistant.components.recorder.models import process_timestamp
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
 @pytest.mark.usefixtures("recorder_mock")
-async def test_run_history(hass: UniversalAssistant) -> None:
+async def test_run_history(hass: __HAC_KEEP__) -> None:
     """Test the run history gives the correct run."""
     instance = recorder.get_instance(hass)
     now = dt_util.utcnow()
@@ -41,7 +41,7 @@ async def test_run_history(hass: UniversalAssistant) -> None:
 
 async def test_run_history_while_recorder_is_not_yet_started(
     async_setup_recorder_instance: RecorderInstanceGenerator,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     recorder_db_url: str,
 ) -> None:
     """Test the run history while recorder is not yet started.

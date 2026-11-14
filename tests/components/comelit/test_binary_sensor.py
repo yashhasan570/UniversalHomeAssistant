@@ -9,14 +9,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.comelit.const import SCAN_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_binary_sensor_entities_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -40,7 +40,7 @@ async def test_binary_sensor_entities_created(
 
 
 async def test_binary_sensor_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,

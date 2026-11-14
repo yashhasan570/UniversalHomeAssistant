@@ -5,7 +5,7 @@ import logging
 from typing import Any, cast, override
 
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.util import Throttle, dt as dt_util
@@ -25,7 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

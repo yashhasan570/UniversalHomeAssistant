@@ -9,7 +9,7 @@ from pytrydan.models.trydan import ChargeMode
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import V2CConfigEntry, V2CUpdateCoordinator
@@ -49,7 +49,7 @@ TRYDAN_SELECTS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: V2CConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

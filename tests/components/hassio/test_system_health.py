@@ -39,7 +39,7 @@ from universalassistant.components.hassio.const import (
     DATA_OS_INFO,
     DATA_SUPERVISOR_INFO,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers.http import current_request
 from universalassistant.setup import async_setup_component
@@ -51,7 +51,7 @@ from .test_init import MOCK_ENVIRON
     "supervisor_root_info", "host_info", "os_info", "supervisor_info"
 )
 async def test_hassio_system_health(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test hassio system health."""
@@ -95,7 +95,7 @@ async def test_hassio_system_health(
         hostname=None,
         llmnr_hostname=None,
         kernel="4.19.0",
-        operating_system="Universal Universal Home Assistant OS 5.9",
+        operating_system="__HA_KEEP__ OS 5.9",
         timezone=None,
         dt_utc=None,
         dt_synchronized=True,
@@ -227,7 +227,7 @@ async def test_hassio_system_health(
         "healthy": True,
         "host_connectivity": True,
         "supervisor_connectivity": True,
-        "host_os": "Universal Universal Home Assistant OS 5.9",
+        "host_os": "__HA_KEEP__ OS 5.9",
         "installed_addons": "Awesome Addon (1.0.0)",
         "ntp_synchronized": True,
         "nameservers": "1.1.1.1",
@@ -244,7 +244,7 @@ async def test_hassio_system_health(
     "supervisor_root_info", "host_info", "os_info", "supervisor_info"
 )
 async def test_hassio_system_health_with_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test hassio system health."""
@@ -363,7 +363,7 @@ async def test_hassio_system_health_with_issues(
 
 @pytest.mark.usefixtures("hassio_unix_socket_env")
 async def test_hassio_system_health_unix_socket(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     supervisor_unix_socket: tuple[Path, list[web.Request]],
 ) -> None:
@@ -430,7 +430,7 @@ def _mock_request(host: str, url_host: str) -> Mock:
     ],
 )
 async def test_hassio_system_health_observer_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     current: Mock | None,
     expected: dict[str, str],

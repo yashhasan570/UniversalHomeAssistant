@@ -9,11 +9,11 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.nexblue.const import CONF_REFRESH_TOKEN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -25,7 +25,7 @@ async def test_setup_entry(
 
 
 async def test_setup_entry_recovers_from_invalid_refresh_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -41,7 +41,7 @@ async def test_setup_entry_recovers_from_invalid_refresh_token(
 
 
 async def test_setup_entry_persists_rotated_refresh_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_setup_entry_persists_rotated_refresh_token(
     ],
 )
 async def test_setup_entry_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     refresh_error: type[Exception],
@@ -95,7 +95,7 @@ async def test_setup_entry_failure(
 
 
 async def test_setup_entry_fails_when_fallback_login_has_no_refresh_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_setup_entry_fails_when_fallback_login_has_no_refresh_token(
 
 
 async def test_setup_entry_retries_when_charger_status_request_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
 ) -> None:

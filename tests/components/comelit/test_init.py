@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.comelit.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -47,7 +47,7 @@ from . import setup_integration
     ],
 )
 async def test_migrate_sensor_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
     device_identifier_type: str,
@@ -99,7 +99,7 @@ async def test_migrate_sensor_unique_id(
 
 
 async def test_migrate_future_version_returns_false(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vedo_config_entry: MockConfigEntry,
 ) -> None:
     """Test migration failure for downgraded future config entry version."""

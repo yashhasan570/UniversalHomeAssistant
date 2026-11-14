@@ -36,7 +36,7 @@ from universalassistant.const import (
     CONF_WEBHOOK_ID,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
@@ -51,7 +51,7 @@ from .common import (
 
 
 async def test_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     netatmo_auth: AsyncMock,
     snapshot: SnapshotAssertion,
@@ -68,7 +68,7 @@ async def test_entity(
 
 
 async def test_schedule_update_webhook_event(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test schedule update webhook event without schedule_id."""
 
@@ -97,7 +97,7 @@ async def test_schedule_update_webhook_event(
 
 
 async def test_webhook_event_handling_thermostats(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service and webhook event handling with thermostats."""
     with selected_platforms([Platform.CLIMATE]):
@@ -271,7 +271,7 @@ async def test_webhook_event_handling_thermostats(
 
 
 async def test_service_preset_mode_frost_guard_thermostat(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service with frost guard preset for thermostats."""
     with selected_platforms([Platform.CLIMATE]):
@@ -344,7 +344,7 @@ async def test_service_preset_mode_frost_guard_thermostat(
 
 
 async def test_service_preset_modes_thermostat(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service with preset modes for thermostats."""
     with selected_platforms([Platform.CLIMATE]):
@@ -424,7 +424,7 @@ async def test_service_preset_modes_thermostat(
 
 
 async def test_service_set_temperature_with_end_datetime(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service setting temperature with an end datetime."""
     with selected_platforms([Platform.CLIMATE]):
@@ -482,7 +482,7 @@ async def test_service_set_temperature_with_end_datetime(
 
 
 async def test_service_set_temperature_with_time_period(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service setting temperature with an end datetime."""
     with selected_platforms([Platform.CLIMATE]):
@@ -540,7 +540,7 @@ async def test_service_set_temperature_with_time_period(
 
 
 async def test_service_clear_temperature_setting(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service clearing temperature setting."""
     with selected_platforms([Platform.CLIMATE]):
@@ -621,7 +621,7 @@ async def test_service_clear_temperature_setting(
 
 
 async def test_webhook_event_handling_no_data(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service and webhook event handling with erroneous data."""
     with selected_platforms([Platform.CLIMATE]):
@@ -672,7 +672,7 @@ async def test_webhook_event_handling_no_data(
 
 
 async def test_service_schedule_thermostats(
-    hass: UniversalAssistant, config_entry, caplog: pytest.LogCaptureFixture, netatmo_auth
+    hass: __HAC_KEEP__, config_entry, caplog: pytest.LogCaptureFixture, netatmo_auth
 ) -> None:
     """Test service for selecting Netatmo schedule with thermostats."""
     with selected_platforms([Platform.CLIMATE]):
@@ -744,7 +744,7 @@ async def test_service_schedule_thermostats(
 
 
 async def test_service_preset_mode_with_end_time_thermostats(
-    hass: UniversalAssistant, config_entry, caplog: pytest.LogCaptureFixture, netatmo_auth
+    hass: __HAC_KEEP__, config_entry, caplog: pytest.LogCaptureFixture, netatmo_auth
 ) -> None:
     """Test service for set preset mode with end datetime for Netatmo thermostats."""
     with selected_platforms([Platform.CLIMATE]):
@@ -816,7 +816,7 @@ async def test_service_preset_mode_with_end_time_thermostats(
 
 
 async def test_service_preset_mode_already_boost_valves(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service with boost preset for valves when already in boost mode."""
     with selected_platforms([Platform.CLIMATE]):
@@ -896,7 +896,7 @@ async def test_service_preset_mode_already_boost_valves(
 
 
 async def test_service_preset_mode_boost_valves(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service with boost preset for valves."""
     with selected_platforms([Platform.CLIMATE]):
@@ -948,7 +948,7 @@ async def test_service_preset_mode_boost_valves(
 
 
 async def test_service_preset_mode_invalid(
-    hass: UniversalAssistant, config_entry, caplog: pytest.LogCaptureFixture, netatmo_auth
+    hass: __HAC_KEEP__, config_entry, caplog: pytest.LogCaptureFixture, netatmo_auth
 ) -> None:
     """Test service with invalid preset."""
     with selected_platforms([Platform.CLIMATE]):
@@ -966,7 +966,7 @@ async def test_service_preset_mode_invalid(
 
 
 async def test_valves_service_turn_off(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service turn off for valves."""
     with selected_platforms([Platform.CLIMATE]):
@@ -1018,7 +1018,7 @@ async def test_valves_service_turn_off(
 
 
 async def test_valves_service_turn_on(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service turn on for valves."""
     with selected_platforms([Platform.CLIMATE]):
@@ -1065,7 +1065,7 @@ async def test_valves_service_turn_on(
 
 
 async def test_webhook_home_id_mismatch(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service turn on for valves."""
     with selected_platforms([Platform.CLIMATE]):
@@ -1105,7 +1105,7 @@ async def test_webhook_home_id_mismatch(
 
 
 async def test_thermostat_update_with_none_therm_setpoint_mode(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test thermostat setup when Netatmo returns no therm setpoint mode."""
 
@@ -1154,7 +1154,7 @@ async def test_thermostat_update_with_none_therm_setpoint_mode(
     ],
 )
 async def test_thermostat_hvac_action_boiler_and_cooler_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     boiler_status: bool,
     cooler_status: bool,
@@ -1199,7 +1199,7 @@ async def test_thermostat_hvac_action_boiler_and_cooler_status(
 
 
 async def test_webhook_set_point(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, netatmo_auth: AsyncMock
 ) -> None:
     """Test service turn on for valves."""
     with selected_platforms([Platform.CLIMATE]):

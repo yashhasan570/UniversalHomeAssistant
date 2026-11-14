@@ -42,7 +42,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     CoreState,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
 from universalassistant.data_entry_flow import (
@@ -55,7 +55,7 @@ from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
     ConfigEntryNotReady,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     OAuth2TokenRequestReauthError,
 )
 from universalassistant.helpers import (
@@ -138,7 +138,7 @@ def mock_handlers() -> Generator[None]:
 
 
 @pytest.fixture
-async def manager(hass: UniversalAssistant) -> config_entries.ConfigEntries:
+async def manager(hass: __HAC_KEEP__) -> config_entries.ConfigEntries:
     """Fixture of a loaded config manager."""
     manager = config_entries.ConfigEntries(hass, {})
     await manager.async_initialize()
@@ -146,19 +146,19 @@ async def manager(hass: UniversalAssistant) -> config_entries.ConfigEntries:
     return manager
 
 
-async def test_setup_race_only_setup_once(hass: UniversalAssistant) -> None:
+async def test_setup_race_only_setup_once(hass: __HAC_KEEP__) -> None:
     """Test ensure that config entries are only setup once."""
     attempts = 0
     slow_config_entry_setup_future = hass.loop.create_future()
     fast_config_entry_setup_future = hass.loop.create_future()
     slow_setup_future = hass.loop.create_future()
 
-    async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         await slow_setup_future
         return True
 
-    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setup entry."""
         slow = entry.data["slow"]
         if slow:
@@ -170,7 +170,7 @@ async def test_setup_race_only_setup_once(hass: UniversalAssistant) -> None:
             raise ConfigEntryNotReady
         await fast_config_entry_setup_future
 
-    async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock unload entry."""
 
     mock_integration(
@@ -227,7 +227,7 @@ async def test_setup_race_only_setup_once(hass: UniversalAssistant) -> None:
     assert entry2.state is config_entries.ConfigEntryState.LOADED
 
 
-async def test_call_setup_entry(hass: UniversalAssistant) -> None:
+async def test_call_setup_entry(hass: __HAC_KEEP__) -> None:
     """Test we call <component>.setup_entry."""
     entry = MockConfigEntry(domain="comp")
     entry.add_to_hass(hass)
@@ -256,7 +256,7 @@ async def test_call_setup_entry(hass: UniversalAssistant) -> None:
     assert entry.supports_unload
 
 
-async def test_call_setup_entry_without_reload_support(hass: UniversalAssistant) -> None:
+async def test_call_setup_entry_without_reload_support(hass: __HAC_KEEP__) -> None:
     """Test setup_entry when the component does not support unloading."""
     entry = MockConfigEntry(domain="comp")
     entry.add_to_hass(hass)
@@ -287,7 +287,7 @@ async def test_call_setup_entry_without_reload_support(hass: UniversalAssistant)
 
 @pytest.mark.parametrize(("major_version", "minor_version"), [(2, 1), (1, 2), (2, 2)])
 async def test_call_async_migrate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     major_version: int,
     minor_version: int,
 ) -> None:
@@ -338,7 +338,7 @@ async def test_call_async_migrate_entry(
 @pytest.mark.parametrize("migrate_result", [False, "foo"])
 @pytest.mark.parametrize(("major_version", "minor_version"), [(2, 1), (1, 2), (2, 2)])
 async def test_call_async_migrate_entry_failure(
-    hass: UniversalAssistant, major_version: int, minor_version: int, migrate_result: Any
+    hass: __HAC_KEEP__, major_version: int, minor_version: int, migrate_result: Any
 ) -> None:
     """Test migration fails if it returns False or a non-boolean."""
     entry = MockConfigEntry(
@@ -381,7 +381,7 @@ async def test_call_async_migrate_entry_failure(
 
 @pytest.mark.parametrize(("major_version", "minor_version"), [(2, 1), (1, 2), (2, 2)])
 async def test_call_async_migrate_entry_failure_exception(
-    hass: UniversalAssistant, major_version: int, minor_version: int
+    hass: __HAC_KEEP__, major_version: int, minor_version: int
 ) -> None:
     """Test migration fails if exception raised."""
     entry = MockConfigEntry(
@@ -423,7 +423,7 @@ async def test_call_async_migrate_entry_failure_exception(
 
 
 async def test_migrate_from_higher_version_not_supported(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test migration fails when downgrading (higher version to lower version)."""
     entry = MockConfigEntry(domain="comp", version=2, minor_version=1)
@@ -545,7 +545,7 @@ async def test_migrate_from_higher_version_not_supported(
     ],
 )
 async def test_migrate_handle_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_migrate_entry: AsyncMock,
     state: config_entries.ConfigEntryState,
@@ -594,7 +594,7 @@ async def test_migrate_handle_exceptions(
 
 
 async def test_migrate_raise_configentrynotready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -649,7 +649,7 @@ async def test_migrate_raise_configentrynotready(
 
 @pytest.mark.parametrize(("major_version", "minor_version"), [(2, 1), (2, 2)])
 async def test_call_async_migrate_entry_failure_not_supported(
-    hass: UniversalAssistant, major_version: int, minor_version: int
+    hass: __HAC_KEEP__, major_version: int, minor_version: int
 ) -> None:
     """Test migration fails if async_migrate_entry not implemented."""
     entry = MockConfigEntry(
@@ -672,7 +672,7 @@ async def test_call_async_migrate_entry_failure_not_supported(
 
 @pytest.mark.parametrize(("major_version", "minor_version"), [(1, 2)])
 async def test_call_async_migrate_entry_not_supported_minor_version(
-    hass: UniversalAssistant, major_version: int, minor_version: int
+    hass: __HAC_KEEP__, major_version: int, minor_version: int
 ) -> None:
     """Test migration without async_migrate_entry and minor version changed."""
     entry = MockConfigEntry(
@@ -694,20 +694,20 @@ async def test_call_async_migrate_entry_not_supported_minor_version(
 
 
 async def test_remove_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test that we can remove an entry."""
 
     async def mock_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock setting up entry."""
         await hass.config_entries.async_forward_entry_setups(entry, ["light"])
 
     async def mock_unload_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock unloading an entry."""
         await hass.config_entries.async_unload_platforms_or_raise(entry, ["light"])
@@ -715,7 +715,7 @@ async def test_remove_entry(
     remove_entry_calls = []
 
     async def mock_remove_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock removing an entry."""
         # Check that the entry is no longer in the config entries
@@ -725,7 +725,7 @@ async def test_remove_entry(
     entity = MockEntity(unique_id="1234", name="Test Entity")
 
     async def mock_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: config_entries.ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -795,7 +795,7 @@ async def test_remove_entry(
 
 
 async def test_remove_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -804,7 +804,7 @@ async def test_remove_subentry(
     update_listener_calls = []
 
     async def mock_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock setting up entry."""
         await hass.config_entries.async_forward_entry_setups(entry, ["light"])
@@ -815,7 +815,7 @@ async def test_remove_subentry(
     subentry_entity = MockEntity(unique_id="0002", name="Test Subentry Entity")
 
     async def mock_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: config_entries.ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -849,7 +849,7 @@ async def test_remove_subentry(
     )
 
     async def update_listener(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Test function."""
         assert entry.subentries == {}
@@ -906,7 +906,7 @@ async def test_remove_subentry(
 
 
 async def test_remove_entry_non_unique_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -941,7 +941,7 @@ async def test_remove_entry_non_unique_unique_id(
 
 
 async def test_remove_entry_cancels_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -973,7 +973,7 @@ async def test_remove_entry_cancels_reauth(
 
 
 async def test_reload_entry_cancels_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1007,7 +1007,7 @@ async def test_reload_entry_cancels_reauth(
 
 
 async def test_remove_entry_handles_callback_error(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that exceptions in the remove callback are handled."""
     mock_setup_entry = AsyncMock(return_value=None)
@@ -1042,11 +1042,11 @@ async def test_remove_entry_handles_callback_error(
 
 
 async def test_remove_entry_raises(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test if a component raises while removing entry."""
 
-    async def mock_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def mock_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock unload entry function."""
         raise Exception("BROKEN")  # noqa: TRY002
 
@@ -1071,7 +1071,7 @@ async def test_remove_entry_raises(
 
 
 async def test_remove_entry_if_not_loaded(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can remove an entry that is not loaded."""
     mock_unload_entry = AsyncMock(return_value=None)
@@ -1097,7 +1097,7 @@ async def test_remove_entry_if_not_loaded(
 
 
 async def test_remove_entry_if_integration_deleted(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can remove an entry when the integration is deleted."""
     mock_unload_entry = AsyncMock(return_value=None)
@@ -1121,7 +1121,7 @@ async def test_remove_entry_if_integration_deleted(
 
 
 async def test_add_entry_calls_setup_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test we call setup_config_entry."""
     mock_setup_entry = AsyncMock(return_value=None)
@@ -1310,7 +1310,7 @@ async def test_entries_excludes_ignore_and_disabled(
 
 
 async def test_saving_and_loading(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, hass_storage: dict[str, Any]
 ) -> None:
     """Test that we're saving and loading correctly."""
     mock_integration(
@@ -1564,7 +1564,7 @@ async def test_as_dict(snapshot: SnapshotAssertion) -> None:
     assert dict_repr == snapshot
 
 
-async def test_forward_entry_sets_up_component(hass: UniversalAssistant) -> None:
+async def test_forward_entry_sets_up_component(hass: __HAC_KEEP__) -> None:
     """Test we setup the component entry is forwarded to."""
     entry = MockConfigEntry(
         domain="original", state=config_entries.ConfigEntryState.LOADED
@@ -1589,7 +1589,7 @@ async def test_forward_entry_sets_up_component(hass: UniversalAssistant) -> None
 
 
 async def test_forward_entry_does_not_setup_entry_if_setup_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we do not set up entry if component setup fails."""
     entry = MockConfigEntry(
@@ -1617,7 +1617,7 @@ async def test_forward_entry_does_not_setup_entry_if_setup_fails(
 
 
 async def test_reauth_issue_flow_returns_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1633,7 +1633,7 @@ async def test_reauth_issue_flow_returns_abort(
 
 
 async def test_reauth_issue_flow_aborted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1648,7 +1648,7 @@ async def test_reauth_issue_flow_aborted(
 
 
 async def test_reauth_issue_removed_with_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1660,7 +1660,7 @@ async def test_reauth_issue_removed_with_entry(
 
 
 async def _async_ignored_reauth_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
     module: MockModule,
@@ -1684,7 +1684,7 @@ async def _async_ignored_reauth_issue(
 
 
 async def test_reauth_issue_ignore_kept_on_reload_with_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1734,7 +1734,7 @@ async def test_reauth_issue_ignore_kept_on_reload_with_auth_failed(
     ],
 )
 async def test_reauth_issue_deleted_on_reload_without_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
     setup_side_effect: Exception | None,
@@ -1760,7 +1760,7 @@ async def test_reauth_issue_deleted_on_reload_without_reauth(
 
 
 async def test_reauth_issue_kept_on_reload_with_reauth_started_during_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1775,7 +1775,7 @@ async def test_reauth_issue_kept_on_reload_with_reauth_started_during_reload(
     entry = manager.async_get_known_entry(issue.config_entry_id)
 
     async def mock_setup_entry_start_reauth(
-        hass: UniversalAssistant, entry: ConfigEntry
+        hass: __HAC_KEEP__, entry: ConfigEntry
     ) -> None:
         # Like a coordinator starting a reauth without failing the setup
         entry.async_start_reauth(hass)
@@ -1793,7 +1793,7 @@ async def test_reauth_issue_kept_on_reload_with_reauth_started_during_reload(
 
 
 async def test_reauth_issue_kept_on_reload_with_reauth_starting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1832,7 +1832,7 @@ async def test_reauth_issue_kept_on_reload_with_reauth_starting(
 
 
 async def test_reauth_issue_ignore_kept_on_disable_and_enable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1867,7 +1867,7 @@ async def test_reauth_issue_ignore_kept_on_disable_and_enable(
 
 
 async def test_ignored_reauth_issue_removed_with_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1890,7 +1890,7 @@ async def test_ignored_reauth_issue_removed_with_entry(
 
 
 async def _test_reauth_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> ir.IssueEntry:
@@ -1934,7 +1934,7 @@ async def _test_reauth_issue(
     return issue
 
 
-async def test_loading_default_config(hass: UniversalAssistant) -> None:
+async def test_loading_default_config(hass: __HAC_KEEP__) -> None:
     """Test loading the default config."""
     manager = config_entries.ConfigEntries(hass, {})
 
@@ -2009,14 +2009,14 @@ async def test_updating_entry_system_options(
 
 
 async def test_update_entry_options_and_trigger_listener(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can update entry options and trigger listener."""
     entry = MockConfigEntry(domain="test", options={"first": True})
     entry.add_to_manager(manager)
     update_listener_calls = []
 
-    async def update_listener(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def update_listener(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Test function."""
         assert entry.options == {"second": True}
         update_listener_calls.append(None)
@@ -2088,7 +2088,7 @@ async def test_updating_subentry_data(
 
 
 async def test_update_subentry_and_trigger_listener(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can update subentry and trigger listener."""
     entry = MockConfigEntry(domain="test", options={"first": True})
@@ -2103,7 +2103,7 @@ async def test_update_subentry_and_trigger_listener(
     )
 
     async def update_listener(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Test function."""
         assert entry.subentries == expected_subentries
@@ -2142,7 +2142,7 @@ async def test_update_subentry_and_trigger_listener(
 
 
 async def test_setup_raise_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2191,7 +2191,7 @@ async def test_setup_raise_not_ready(
     ids=["error", "auth_failed", "not_ready"],
 )
 async def test_setup_error_foreign_translation_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     exc: type[Exception],
     expected_state: config_entries.ConfigEntryState,
@@ -2226,7 +2226,7 @@ async def test_setup_error_foreign_translation_domain(
 
 
 async def test_setup_not_ready_exponential_backoff(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -2236,7 +2236,7 @@ async def test_setup_not_ready_exponential_backoff(
 
     attempts = 0
 
-    async def _mock_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def _mock_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         nonlocal attempts
         attempts += 1
         raise ConfigEntryNotReady
@@ -2273,7 +2273,7 @@ async def test_setup_not_ready_exponential_backoff(
     ],
 )
 async def test_setup_not_ready_retry_after(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     retry_after: float,
     expected_wait: int,
@@ -2296,7 +2296,7 @@ async def test_setup_not_ready_retry_after(
 
 
 async def test_setup_raise_not_ready_from_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2304,7 +2304,7 @@ async def test_setup_raise_not_ready_from_exception(
     entry = MockConfigEntry(title="test_title", domain="test")
     entry.add_to_hass(hass)
 
-    original_exception = UniversalAssistantError("The device dropped the connection")
+    original_exception = __HAC_KEEP__Error("The device dropped the connection")
     config_entry_exception = ConfigEntryNotReady()
     config_entry_exception.__cause__ = original_exception
 
@@ -2323,7 +2323,7 @@ async def test_setup_raise_not_ready_from_exception(
 
 
 async def test_setup_retrying_during_unload(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test if we unload an entry that is in retry mode."""
     entry = MockConfigEntry(domain="test")
@@ -2346,7 +2346,7 @@ async def test_setup_retrying_during_unload(
 
 
 async def test_setup_retrying_during_unload_before_started(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test if we unload an entry that is in retry mode before started."""
     entry = MockConfigEntry(domain="test")
@@ -2376,7 +2376,7 @@ async def test_setup_retrying_during_unload_before_started(
 
 
 async def test_setup_does_not_retry_during_shutdown(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test we do not retry when HASS is shutting down."""
     entry = MockConfigEntry(domain="test")
@@ -2399,14 +2399,14 @@ async def test_setup_does_not_retry_during_shutdown(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_reload_during_setup_retrying_waits(hass: UniversalAssistant) -> None:
+async def test_reload_during_setup_retrying_waits(hass: __HAC_KEEP__) -> None:
     """Test reloading during setup retry waits."""
     entry = MockConfigEntry(domain="test")
     entry.add_to_hass(hass)
     load_attempts = []
     sleep_duration = 0
 
-    async def _mock_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def _mock_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setup entry."""
         nonlocal sleep_duration
         await asyncio.sleep(sleep_duration)
@@ -2447,11 +2447,11 @@ async def test_reload_during_setup_retrying_waits(hass: UniversalAssistant) -> N
 
 
 async def test_create_entry_next_flow(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test next_flow parameter for create entry."""
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         return True
 
@@ -2553,19 +2553,19 @@ async def test_create_entry_next_flow(
 @pytest.mark.parametrize(
     ("invalid_next_flow", "error"),
     [
-        (("invalid_flow_type", "invalid_flow_id"), UniversalAssistantError),
+        (("invalid_flow_type", "invalid_flow_id"), __HAC_KEEP__Error),
         ((config_entries.FlowType.CONFIG_FLOW, "invalid_flow_id"), UnknownFlow),
     ],
 )
 async def test_create_entry_next_flow_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     invalid_next_flow: tuple[str, str],
     error: type[Exception],
 ) -> None:
     """Test next_flow invalid parameter for create entry."""
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         return True
 
@@ -2618,11 +2618,11 @@ async def test_create_entry_next_flow_invalid(
 
 
 async def test_create_entry_options(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test a config entry being created with options."""
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         hass.async_create_task(
             hass.config_entries.flow.async_init(
@@ -2670,11 +2670,11 @@ async def test_create_entry_options(
 
 
 async def test_on_create_entry_with_subentry_flow(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test use async_on_create_entry with creating a subentry flow."""
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         return True
 
@@ -2794,11 +2794,11 @@ async def test_on_create_entry_with_subentry_flow(
 
 
 async def test_on_create_entry_with_options_flow(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test use async_on_create_entry with creating an options flow."""
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         return True
 
@@ -2917,22 +2917,22 @@ async def test_on_create_entry_with_options_flow(
 @pytest.mark.parametrize(
     ("invalid_next_flow", "error"),
     [
-        ((config_entries.FlowType.OPTIONS_FLOW, "invalid_flow_id"), UniversalAssistantError),
+        ((config_entries.FlowType.OPTIONS_FLOW, "invalid_flow_id"), __HAC_KEEP__Error),
         (
             (config_entries.FlowType.CONFIG_SUBENTRIES_FLOW, "invalid_flow_id"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
         ),
     ],
 )
 async def test_next_flow_with_unsupported_flow_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     invalid_next_flow: tuple[str, str],
     error: type[Exception],
 ) -> None:
     """Test use next_flow parameter with unsupported flow types."""
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         return True
 
@@ -2980,7 +2980,7 @@ async def test_next_flow_with_unsupported_flow_type(
 @pytest.mark.parametrize(
     ("invalid_next_flow", "error"),
     [
-        (("invalid_flow_type", "invalid_flow_id"), UniversalAssistantError),
+        (("invalid_flow_type", "invalid_flow_id"), __HAC_KEEP__Error),
         ((config_entries.FlowType.CONFIG_FLOW, "invalid_flow_id"), UnknownFlow),
         ((config_entries.FlowType.OPTIONS_FLOW, "invalid_flow_id"), UnknownFlow),
         (
@@ -2990,14 +2990,14 @@ async def test_next_flow_with_unsupported_flow_type(
     ],
 )
 async def test_invalid_on_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     invalid_next_flow: tuple[str, str],
     error: type[Exception],
 ) -> None:
     """Test use invalid flows in async_on_create_entry."""
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         return True
 
@@ -3062,7 +3062,7 @@ async def test_invalid_on_create_entry(
 
 
 async def test_entry_options(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can set options on an entry."""
     mock_integration(hass, MockModule("test"))
@@ -3104,7 +3104,7 @@ async def test_entry_options(
 
 
 async def test_entry_options_abort(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can abort options flow."""
     mock_integration(hass, MockModule("test"))
@@ -3138,7 +3138,7 @@ async def test_entry_options_abort(
 
 
 async def test_entry_options_unknown_config_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can abort options flow."""
     mock_integration(hass, MockModule("test"))
@@ -3151,7 +3151,7 @@ async def test_entry_options_unknown_config_entry(
 
 
 async def test_create_entry_subentries(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test a config entry being created with subentries."""
 
@@ -3162,7 +3162,7 @@ async def test_create_entry_subentries(
         unique_id="test",
     )
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         hass.async_create_task(
             hass.config_entries.flow.async_init(
@@ -3219,7 +3219,7 @@ async def test_create_entry_subentries(
 
 
 async def test_entry_subentry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can add a subentry to an entry."""
     mock_integration(hass, MockModule("test"))
@@ -3275,7 +3275,7 @@ async def test_entry_subentry(
 
 
 async def test_subentry_flow(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can execute a subentry flow."""
     mock_integration(hass, MockModule("test"))
@@ -3327,7 +3327,7 @@ async def test_subentry_flow(
 
 
 async def test_entry_subentry_non_string(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test adding an invalid subentry to an entry."""
     mock_integration(hass, MockModule("test"))
@@ -3355,7 +3355,7 @@ async def test_entry_subentry_non_string(
 
         flow.handler = (entry.entry_id, "test")  # Set to keep reference to config entry
 
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await manager.subentries.async_finish_flow(
                 flow,
                 {
@@ -3369,7 +3369,7 @@ async def test_entry_subentry_non_string(
 
 @pytest.mark.parametrize("context", [None, {}, {"bla": "bleh"}])
 async def test_entry_subentry_no_context(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries, context: dict | None
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries, context: dict | None
 ) -> None:
     """Test starting a subentry flow without "source" in context."""
     mock_integration(hass, MockModule("test"))
@@ -3401,7 +3401,7 @@ async def test_entry_subentry_no_context(
     [(None, does_not_raise()), ("test", pytest.raises(data_entry_flow.AbortFlow))],
 )
 async def test_entry_subentry_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     unique_id: str | None,
     expected_result: AbstractContextManager,
@@ -3457,7 +3457,7 @@ async def test_entry_subentry_duplicate(
 
 
 async def test_entry_subentry_abort(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can abort subentry flow."""
     mock_integration(hass, MockModule("test"))
@@ -3491,7 +3491,7 @@ async def test_entry_subentry_abort(
 
 
 async def test_entry_subentry_unknown_config_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test attempting to start a subentry flow for an unknown config entry."""
     mock_integration(hass, MockModule("test"))
@@ -3504,7 +3504,7 @@ async def test_entry_subentry_unknown_config_entry(
 
 
 async def test_entry_subentry_deleted_config_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test attempting to finish a subentry flow for a deleted config entry."""
     mock_integration(hass, MockModule("test"))
@@ -3547,7 +3547,7 @@ async def test_entry_subentry_deleted_config_entry(
 
 
 async def test_entry_subentry_unsupported_subentry_type(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test attempting to start a subentry flow for a config entry without support."""
     mock_integration(hass, MockModule("test"))
@@ -3583,7 +3583,7 @@ async def test_entry_subentry_unsupported_subentry_type(
 
 
 async def test_entry_subentry_unsupported(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test attempting to start a subentry flow for a config entry without support."""
     mock_integration(hass, MockModule("test"))
@@ -3604,7 +3604,7 @@ async def test_entry_subentry_unsupported(
 
 
 async def test_entry_setup_succeed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test that we can setup an entry."""
@@ -3695,7 +3695,7 @@ async def test_entry_setup_succeed(
     ],
 )
 async def test_entry_setup_return_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
     built_in: bool,
@@ -3796,7 +3796,7 @@ async def test_entry_setup_return_value(
     ],
 )
 async def test_entry_unload_return_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
     built_in: bool,
@@ -3898,7 +3898,7 @@ async def test_entry_unload_return_value(
     ],
 )
 async def test_entry_migrate_return_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
     built_in: bool,
@@ -3953,7 +3953,7 @@ async def test_entry_migrate_return_value(
     ],
 )
 async def test_entry_setup_invalid_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     state: config_entries.ConfigEntryState,
 ) -> None:
@@ -3990,7 +3990,7 @@ async def test_entry_setup_invalid_state(
     ],
 )
 async def test_entry_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     unload_error: ConfigEntryError | None,
     expected_result: bool,
@@ -4006,7 +4006,7 @@ async def test_entry_unload(
         assert entry.runtime_data == 2
 
     async def async_unload_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock unload entry."""
         unload_entry_calls.append(None)
@@ -4056,7 +4056,7 @@ async def test_entry_unload(
     ],
 )
 async def test_entry_unload_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
     exc: Exception,
@@ -4091,7 +4091,7 @@ async def test_entry_unload_raises(
     ],
 )
 async def test_entry_unload_failed_to_load(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     state: config_entries.ConfigEntryState,
 ) -> None:
@@ -4116,7 +4116,7 @@ async def test_entry_unload_failed_to_load(
     ],
 )
 async def test_entry_unload_invalid_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     state: config_entries.ConfigEntryState,
 ) -> None:
@@ -4136,7 +4136,7 @@ async def test_entry_unload_invalid_state(
 
 
 async def test_entry_reload_succeed(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can reload an entry."""
     entry = MockConfigEntry(
@@ -4173,7 +4173,7 @@ async def test_entry_reload_succeed(
     ],
 )
 async def test_entry_cannot_be_loaded_twice(
-    hass: UniversalAssistant, state: config_entries.ConfigEntryState
+    hass: __HAC_KEEP__, state: config_entries.ConfigEntryState
 ) -> None:
     """Test that a config entry cannot be loaded twice."""
     entry = MockConfigEntry(domain="comp", state=state)
@@ -4201,7 +4201,7 @@ async def test_entry_cannot_be_loaded_twice(
     assert entry.state is state
 
 
-async def test_entry_setup_without_lock_raises(hass: UniversalAssistant) -> None:
+async def test_entry_setup_without_lock_raises(hass: __HAC_KEEP__) -> None:
     """Test trying to setup a config entry without the lock."""
     entry = MockConfigEntry(
         domain="comp", state=config_entries.ConfigEntryState.NOT_LOADED
@@ -4233,7 +4233,7 @@ async def test_entry_setup_without_lock_raises(hass: UniversalAssistant) -> None
     assert entry.state is config_entries.ConfigEntryState.NOT_LOADED
 
 
-async def test_entry_unload_without_lock_raises(hass: UniversalAssistant) -> None:
+async def test_entry_unload_without_lock_raises(hass: __HAC_KEEP__) -> None:
     """Test trying to unload a config entry without the lock."""
     entry = MockConfigEntry(domain="comp", state=config_entries.ConfigEntryState.LOADED)
     entry.add_to_hass(hass)
@@ -4263,7 +4263,7 @@ async def test_entry_unload_without_lock_raises(hass: UniversalAssistant) -> Non
     assert entry.state is config_entries.ConfigEntryState.LOADED
 
 
-async def test_entry_remove_without_lock_raises(hass: UniversalAssistant) -> None:
+async def test_entry_remove_without_lock_raises(hass: __HAC_KEEP__) -> None:
     """Test trying to remove a config entry without the lock."""
     entry = MockConfigEntry(domain="comp", state=config_entries.ConfigEntryState.LOADED)
     entry.add_to_hass(hass)
@@ -4302,7 +4302,7 @@ async def test_entry_remove_without_lock_raises(hass: UniversalAssistant) -> Non
     ],
 )
 async def test_entry_reload_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     state: config_entries.ConfigEntryState,
 ) -> None:
@@ -4333,7 +4333,7 @@ async def test_entry_reload_not_loaded(
 
 
 async def test_async_retry_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test that we can recover from a migration error."""
@@ -4408,7 +4408,7 @@ async def test_async_retry_migration(
     ],
 )
 async def test_async_retry_migration_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     state: config_entries.ConfigEntryState,
 ) -> None:
@@ -4426,7 +4426,7 @@ async def test_async_retry_migration_fails(
 
 
 async def test_async_retry_migration_on_disabled_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test we can't use async_retry_migration.
@@ -4506,7 +4506,7 @@ async def test_async_retry_migration_on_disabled_entry(
     ],
 )
 async def test_entry_reload_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     state: config_entries.ConfigEntryState,
 ) -> None:
@@ -4541,7 +4541,7 @@ async def test_entry_reload_error(
 
 
 async def test_entry_disable_succeed(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can disable an entry."""
     entry = MockConfigEntry(domain="comp", state=config_entries.ConfigEntryState.LOADED)
@@ -4583,7 +4583,7 @@ async def test_entry_disable_succeed(
 
 
 async def test_entry_disable_hides_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -4595,7 +4595,7 @@ async def test_entry_disable_hides_issues(
     events = async_capture_events(hass, ir.EVENT_REPAIRS_ISSUE_REGISTRY_UPDATED)
     events_on_unload: list[int] = []
 
-    async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         events_on_unload.append(len(events))
 
     mock_integration(
@@ -4652,26 +4652,26 @@ async def test_entry_disable_hides_issues(
 
 
 async def test_entry_disable_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test entity state is removed while an entry is disabled."""
 
     async def mock_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock setting up entry."""
         await hass.config_entries.async_forward_entry_setups(entry, ["light"])
 
     async def mock_unload_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock unloading an entry."""
         await hass.config_entries.async_unload_platforms_or_raise(entry, ["light"])
 
     async def mock_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: config_entries.ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -4722,7 +4722,7 @@ async def test_entry_disable_entity_state(
 
 
 async def test_entry_disable_without_reload_support(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can disable an entry without reload support."""
     entry = MockConfigEntry(domain="comp", state=config_entries.ConfigEntryState.LOADED)
@@ -4762,7 +4762,7 @@ async def test_entry_disable_without_reload_support(
 
 
 async def test_entry_enable_without_reload_support(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can disable an entry without reload support."""
     entry = MockConfigEntry(
@@ -4798,7 +4798,7 @@ async def test_entry_enable_without_reload_support(
     assert entry.state is config_entries.ConfigEntryState.FAILED_UNLOAD
 
 
-async def test_init_custom_integration(hass: UniversalAssistant) -> None:
+async def test_init_custom_integration(hass: __HAC_KEEP__) -> None:
     """Test initializing flow for custom integration."""
     integration = loader.Integration(
         hass,
@@ -4817,7 +4817,7 @@ async def test_init_custom_integration(hass: UniversalAssistant) -> None:
 
 
 async def test_init_custom_integration_with_missing_handler(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test initializing flow for custom integration with a missing handler."""
     integration = loader.Integration(
@@ -4841,14 +4841,14 @@ async def test_init_custom_integration_with_missing_handler(
         await hass.config_entries.flow.async_init("bla", context={"source": "user"})
 
 
-async def test_support_entry_unload(hass: UniversalAssistant) -> None:
+async def test_support_entry_unload(hass: __HAC_KEEP__) -> None:
     """Test unloading entry."""
     assert await config_entries.support_entry_unload(hass, "light")
     assert not await config_entries.support_entry_unload(hass, "auth")
 
 
 async def test_reload_entry_entity_registry_ignores_no_entry(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test reloading entry in entity registry skips if no config entry linked."""
     handler = config_entries.EntityRegistryDisabledHandler(hass)
@@ -4864,7 +4864,7 @@ async def test_reload_entry_entity_registry_ignores_no_entry(
 
 
 async def test_reload_entry_entity_registry_works(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test we schedule an entry to be reloaded if disabled_by is updated."""
     handler = config_entries.EntityRegistryDisabledHandler(hass)
@@ -4921,7 +4921,7 @@ async def test_reload_entry_entity_registry_works(
 
 
 async def test_reload_entry_entity_registry_removed_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -5013,7 +5013,7 @@ async def test_reload_entry_entity_registry_removed_entry(
 
 
 async def test_unique_id_persisted(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that a unique ID is stored in the config entry."""
     mock_setup_entry = AsyncMock(return_value=None)
@@ -5044,7 +5044,7 @@ async def test_unique_id_persisted(
 
 
 async def test_unique_id_existing_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we remove an entry if there already is an entry with unique ID."""
     hass.config.components.add("comp")
@@ -5099,7 +5099,7 @@ async def test_unique_id_existing_entry(
 
 
 async def test_entry_id_existing_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we throw when the entry id collides."""
     collide_entry_id = "collide"
@@ -5127,7 +5127,7 @@ async def test_entry_id_existing_entry(
             return self.async_create_entry(title="mock-title", data={"via": "flow"})
 
     with (
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
         mock_config_flow("comp", TestFlow),
         patch(
             "universalassistant.config_entries.ulid_util.ulid_now",
@@ -5140,7 +5140,7 @@ async def test_entry_id_existing_entry(
 
 
 async def test_unique_id_update_existing_entry_without_reload(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we update an entry if there already is an entry with unique ID."""
     hass.config.components.add("comp")
@@ -5192,7 +5192,7 @@ async def test_unique_id_update_existing_entry_without_reload(
 
 
 async def test_unique_id_update_existing_entry_with_reload(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test we update an entry with existing unique ID and reload."""
     hass.config.components.add("comp")
@@ -5266,7 +5266,7 @@ async def test_unique_id_update_existing_entry_with_reload(
 
 
 async def test_unique_id_from_discovery_in_setup_retry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we reload when in a setup retry state from discovery."""
     hass.config.components.add("comp")
@@ -5341,7 +5341,7 @@ async def test_unique_id_from_discovery_in_setup_retry(
 
 
 async def test_unique_id_not_update_existing_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we do not update an entry if existing entry has the data."""
     hass.config.components.add("comp")
@@ -5418,7 +5418,7 @@ ABORT_IN_PROGRESS = {
     ],
 )
 async def test_unique_id_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     existing_flow_source: str,
     expected_result: dict,
@@ -5483,7 +5483,7 @@ async def test_unique_id_in_progress(
 
 
 async def test_finish_flow_aborts_progress(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test finishing a flow aborts other in-progress flows."""
     mock_integration(
@@ -5540,7 +5540,7 @@ async def test_finish_flow_aborts_progress(
     ],
 )
 async def test_unique_id_ignore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     extra_context: dict,
     expected_entry_discovery_keys: dict,
@@ -5612,7 +5612,7 @@ async def test_unique_id_ignore(
     ],
 )
 async def test_ignore_flow_does_not_set_up_component(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     source: str,
     data: dict[str, str] | None,
@@ -5658,7 +5658,7 @@ async def test_ignore_flow_does_not_set_up_component(
 
 
 async def test_manual_add_overrides_ignored_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can ignore manually add entry, overriding ignored entry."""
     hass.config.components.add("comp")
@@ -5711,7 +5711,7 @@ async def test_manual_add_overrides_ignored_entry(
 
 
 async def test_manual_add_overrides_ignored_entry_singleton(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can ignore manually add entry, overriding ignored entry."""
     hass.config.components.add("comp")
@@ -5857,7 +5857,7 @@ async def test_manual_add_overrides_ignored_entry_singleton(
     ],
 )
 async def test_update_discovery_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     discovery_keys: tuple,
     entry_source: str,
@@ -5940,7 +5940,7 @@ async def test_update_discovery_keys(
     ],
 )
 async def test_update_discovery_keys_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     discovery_keys: tuple,
     entry_source: str,
@@ -6000,7 +6000,7 @@ async def test_update_discovery_keys_2(
 
 
 async def test_async_current_entries_does_not_skip_ignore_non_user(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test _async_current_entries does not skip ignore for non user."""
     hass.config.components.add("comp")
@@ -6037,7 +6037,7 @@ async def test_async_current_entries_does_not_skip_ignore_non_user(
 
 
 async def test_async_current_entries_explicit_skip_ignore(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that _async_current_entries can explicitly include ignore."""
     hass.config.components.add("comp")
@@ -6078,7 +6078,7 @@ async def test_async_current_entries_explicit_skip_ignore(
 
 
 async def test_async_current_entries_explicit_include_ignore(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that _async_current_entries can explicitly include ignore."""
     hass.config.components.add("comp")
@@ -6115,7 +6115,7 @@ async def test_async_current_entries_explicit_include_ignore(
 
 
 async def test_partial_flows_hidden(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test flows without cur_step that haven't finished init."""
     async_setup_entry = AsyncMock(return_value=None)
@@ -6173,11 +6173,11 @@ async def test_partial_flows_hidden(
 
 
 async def test_async_setup_init_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test a config entry being initialized during integration setup."""
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         hass.async_create_task(
             hass.config_entries.flow.async_init(
@@ -6219,12 +6219,12 @@ async def test_async_setup_init_entry(
 
 
 async def test_async_setup_init_entry_completes_before_loaded_event_fires(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test config entry init during setup before loaded event."""
     load_events = async_capture_events(hass, EVENT_COMPONENT_LOADED)
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         hass.async_create_task(
             hass.config_entries.flow.async_init(
@@ -6277,12 +6277,12 @@ async def test_async_setup_init_entry_completes_before_loaded_event_fires(
         assert entries[0].state is config_entries.ConfigEntryState.LOADED
 
 
-async def test_async_setup_update_entry(hass: UniversalAssistant) -> None:
+async def test_async_setup_update_entry(hass: __HAC_KEEP__) -> None:
     """Test a config entry being updated during integration setup."""
     entry = MockConfigEntry(domain="comp", data={"value": "initial"})
     entry.add_to_hass(hass)
 
-    async def mock_async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    async def mock_async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
         """Mock setup."""
         hass.async_create_task(
             hass.config_entries.flow.async_init(
@@ -6293,7 +6293,7 @@ async def test_async_setup_update_entry(hass: UniversalAssistant) -> None:
         )
         return True
 
-    async def mock_async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def mock_async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setting up an entry."""
         assert entry.data["value"] == "updated"
 
@@ -6348,7 +6348,7 @@ async def test_async_setup_update_entry(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_flow_with_default_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     discovery_source: tuple[str, dict | BaseServiceInfo],
 ) -> None:
@@ -6400,7 +6400,7 @@ async def test_flow_with_default_discovery(
 
 
 async def test_flow_with_default_discovery_with_unique_id(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test discovery flow is ignored when unique ID is set."""
     mock_integration(hass, MockModule("comp"))
@@ -6433,7 +6433,7 @@ async def test_flow_with_default_discovery_with_unique_id(
 
 
 async def test_default_discovery_abort_existing_entries(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test a flow without discovery aborts when entry exists."""
     hass.config.components.add("comp")
@@ -6457,7 +6457,7 @@ async def test_default_discovery_abort_existing_entries(
 
 
 async def test_default_discovery_in_progress(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that a flow using default discovery can only be triggered once."""
     mock_integration(hass, MockModule("comp"))
@@ -6499,7 +6499,7 @@ async def test_default_discovery_in_progress(
 
 
 async def test_default_discovery_abort_on_new_unique_flow(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test default discovery flow aborted on second unique ID flow."""
     mock_integration(hass, MockModule("comp"))
@@ -6541,7 +6541,7 @@ async def test_default_discovery_abort_on_new_unique_flow(
 
 
 async def test_default_discovery_abort_on_user_flow_complete(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test default discovery flow aborted on second flow done."""
     mock_integration(hass, MockModule("comp"))
@@ -6595,7 +6595,7 @@ async def test_default_discovery_abort_on_user_flow_complete(
 
 
 async def test_flow_same_device_multiple_sources(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test discovery of the same devices from multiple discovery sources."""
     mock_integration(
@@ -6705,7 +6705,7 @@ async def test_updating_entry_with_and_without_changes(
 
 
 async def test_entry_reload_calls_on_unload_listeners(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test reload calls the on unload listeners."""
     entry = MockConfigEntry(domain="comp", state=config_entries.ConfigEntryState.LOADED)
@@ -6770,7 +6770,7 @@ async def test_entry_reload_calls_on_unload_listeners(
     ],
 )
 async def test_entry_state_change_calls_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     source_state: config_entries.ConfigEntryState,
     target_state: config_entries.ConfigEntryState,
@@ -6827,7 +6827,7 @@ async def test_entry_state_change_calls_listener(
     ],
 )
 async def test_entry_state_change_wrapped_in_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     source_state: config_entries.ConfigEntryState,
     target_state: config_entries.ConfigEntryState,
@@ -6866,7 +6866,7 @@ async def test_entry_state_change_wrapped_in_on_unload(
 
 
 async def test_entry_state_change_listener_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test state_change listener can be removed."""
@@ -6905,7 +6905,7 @@ async def test_entry_state_change_listener_removed(
 
 
 async def test_entry_state_change_error_does_not_block_transition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -6939,7 +6939,7 @@ async def test_entry_state_change_error_does_not_block_transition(
 
 
 async def test_setup_raise_entry_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -6965,7 +6965,7 @@ async def test_setup_raise_entry_error(
 
 
 async def test_setup_raise_entry_error_from_first_coordinator_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -6973,7 +6973,7 @@ async def test_setup_raise_entry_error_from_first_coordinator_update(
     entry = MockConfigEntry(title="test_title", domain="test")
     entry.add_to_hass(hass)
 
-    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setup entry with a simple coordinator."""
 
         async def _async_update_data():
@@ -7005,7 +7005,7 @@ async def test_setup_raise_entry_error_from_first_coordinator_update(
 
 
 async def test_setup_not_raise_entry_error_from_future_coordinator_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -7013,7 +7013,7 @@ async def test_setup_not_raise_entry_error_from_future_coordinator_update(
     entry = MockConfigEntry(title="test_title", domain="test")
     entry.add_to_hass(hass)
 
-    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setup entry with a simple coordinator."""
 
         async def _async_update_data():
@@ -7044,7 +7044,7 @@ async def test_setup_not_raise_entry_error_from_future_coordinator_update(
 
 
 async def test_setup_raise_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -7084,7 +7084,7 @@ async def test_setup_raise_auth_failed(
 
 
 async def test_setup_raise_auth_failed_from_first_coordinator_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -7092,7 +7092,7 @@ async def test_setup_raise_auth_failed_from_first_coordinator_update(
     entry = MockConfigEntry(title="test_title", domain="test")
     entry.add_to_hass(hass)
 
-    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setup entry with a simple coordinator."""
 
         async def _async_update_data():
@@ -7136,7 +7136,7 @@ async def test_setup_raise_auth_failed_from_first_coordinator_update(
 
 
 async def test_setup_raise_auth_failed_from_future_coordinator_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -7144,7 +7144,7 @@ async def test_setup_raise_auth_failed_from_future_coordinator_update(
     entry = MockConfigEntry(title="test_title", domain="test")
     entry.add_to_hass(hass)
 
-    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setup entry with a simple coordinator."""
 
         async def _async_update_data():
@@ -7190,7 +7190,7 @@ async def test_setup_raise_auth_failed_from_future_coordinator_update(
 
 
 async def test_setup_raise_auth_failed_without_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -7219,7 +7219,7 @@ async def test_setup_raise_auth_failed_without_reauth_flow(
     assert len(hass.config_entries.flow.async_progress()) == 0
 
 
-async def test_initialize_and_shutdown(hass: UniversalAssistant) -> None:
+async def test_initialize_and_shutdown(hass: __HAC_KEEP__) -> None:
     """Test we call the shutdown function at stop."""
     manager = config_entries.ConfigEntries(hass, {})
 
@@ -7232,7 +7232,7 @@ async def test_initialize_and_shutdown(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_retrying_during_shutdown(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test if we shutdown an entry that is in retry mode."""
     entry = MockConfigEntry(domain="test")
@@ -7263,7 +7263,7 @@ async def test_setup_retrying_during_shutdown(
 
 
 async def test_scheduling_reload_cancels_setup_retry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test scheduling a reload cancels setup retry."""
     entry = MockConfigEntry(domain="test")
@@ -7291,7 +7291,7 @@ async def test_scheduling_reload_cancels_setup_retry(
     assert entry.state is config_entries.ConfigEntryState.LOADED
 
 
-async def test_scheduling_reload_unknown_entry(hass: UniversalAssistant) -> None:
+async def test_scheduling_reload_unknown_entry(hass: __HAC_KEEP__) -> None:
     """Test scheduling a reload raises with an unknown entry."""
     with pytest.raises(config_entries.UnknownEntry):
         hass.config_entries.async_schedule_reload("non-existing")
@@ -7324,7 +7324,7 @@ async def test_scheduling_reload_unknown_entry(hass: UniversalAssistant) -> None
     ],
 )
 async def test_async_abort_entries_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     matchers: dict[str, str],
     reason: str,
@@ -7400,7 +7400,7 @@ async def test_async_abort_entries_match(
     ],
 )
 async def test_async_abort_entries_match_context(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     matchers: dict[str, str],
     reason: str,
@@ -7466,7 +7466,7 @@ async def test_async_abort_entries_match_context(
     ],
 )
 async def test_async_abort_entries_match_options_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     matchers: dict[str, str],
     reason: str,
@@ -7534,7 +7534,7 @@ async def test_async_abort_entries_match_options_flow(
 
 
 async def test_loading_old_data(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test automatically migrating old data."""
     hass_storage[config_entries.STORAGE_KEY] = {
@@ -7568,7 +7568,7 @@ async def test_loading_old_data(
 
 
 async def test_async_initialize_sets_event_with_empty_store(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """The initialized event is set when there is no stored data to load.
 
@@ -7586,7 +7586,7 @@ async def test_async_initialize_sets_event_with_empty_store(
 
 
 async def test_async_initialize_sets_event_with_existing_store(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """The initialized event is set when loading an existing store.
 
@@ -7627,7 +7627,7 @@ async def test_deprecated_disabled_by_str_ctor() -> None:
 
 
 async def test_deprecated_disabled_by_str_set(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test deprecated str set disabled_by enumizes and logs a warning."""
@@ -7643,7 +7643,7 @@ async def test_deprecated_disabled_by_str_set(
 
 
 async def test_entry_reload_concurrency(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test multiple reload calls do not cause a reload race."""
     entry = MockConfigEntry(domain="comp", state=config_entries.ConfigEntryState.LOADED)
@@ -7686,7 +7686,7 @@ async def test_entry_reload_concurrency(
 
 
 async def test_entry_reload_concurrency_not_setup_setup(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test multiple reload calls do not cause a reload race."""
     entry = MockConfigEntry(
@@ -7730,15 +7730,15 @@ async def test_entry_reload_concurrency_not_setup_setup(
 
 
 async def test_unique_id_update_while_setup_in_progress(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test config entry updated while setup is in progress."""
 
-    async def mock_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def mock_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setting up entry."""
         await asyncio.sleep(0.1)
 
-    async def mock_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def mock_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock unloading an entry."""
 
     hass.config.components.add("comp")
@@ -7801,7 +7801,7 @@ async def test_unique_id_update_while_setup_in_progress(
 
 
 async def test_disallow_entry_reload_with_setup_in_progress(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test we do not allow reload while the config entry is still setting up."""
     entry = MockConfigEntry(
@@ -7819,7 +7819,7 @@ async def test_disallow_entry_reload_with_setup_in_progress(
 
 
 async def test_reauth(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test the async_reauth_helper."""
     entry = MockConfigEntry(title="test_title", domain="test")
@@ -7888,7 +7888,7 @@ async def test_reauth(
     "source", [config_entries.SOURCE_REAUTH, config_entries.SOURCE_RECONFIGURE]
 )
 async def test_reauth_reconfigure_missing_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     source: str,
     caplog: pytest.LogCaptureFixture,
@@ -7905,7 +7905,7 @@ async def test_reauth_reconfigure_missing_entry(
     await hass.async_block_till_done()
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f"Cannot initialize a {source} flow without a link to the config entry",
     ):
         await manager.flow.async_init("test", context={"source": source})
@@ -7920,7 +7920,7 @@ async def test_reauth_reconfigure_missing_entry(
     "source", [config_entries.SOURCE_REAUTH, config_entries.SOURCE_RECONFIGURE]
 )
 async def test_reauth_reconfigure_missing_entry_component(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     source: str,
 ) -> None:
@@ -7938,7 +7938,7 @@ async def test_reauth_reconfigure_missing_entry_component(
     with (
         patch.object(frame, "_REPORTED_INTEGRATIONS", set()),
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             match=(
                 f"Cannot initialize a {source} flow without a link to the config entry"
             ),
@@ -7952,7 +7952,7 @@ async def test_reauth_reconfigure_missing_entry_component(
 
 
 async def test_reconfigure(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test the async_reconfigure_helper."""
     entry = MockConfigEntry(title="test_title", domain="test")
@@ -8045,7 +8045,7 @@ async def test_reconfigure(
 
 
 async def test_get_active_flows(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test the async_get_active_flows helper."""
     entry = MockConfigEntry(title="test_title", domain="test")
@@ -8079,7 +8079,7 @@ async def test_get_active_flows(
     assert active_user_flow is None
 
 
-async def test_async_wait_component_dynamic(hass: UniversalAssistant) -> None:
+async def test_async_wait_component_dynamic(hass: __HAC_KEEP__) -> None:
     """Test async_wait_component for a config entry which is dynamically loaded."""
     entry = MockConfigEntry(title="test_title", domain="test")
 
@@ -8099,14 +8099,14 @@ async def test_async_wait_component_dynamic(hass: UniversalAssistant) -> None:
     assert await hass.config_entries.async_wait_component(entry) is True
 
 
-async def test_async_wait_component_startup(hass: UniversalAssistant) -> None:
+async def test_async_wait_component_startup(hass: __HAC_KEEP__) -> None:
     """Test async_wait_component for a config entry which is loaded at startup."""
     entry = MockConfigEntry(title="test_title", domain="test")
 
     setup_stall = asyncio.Event()
     setup_started = asyncio.Event()
 
-    async def mock_setup(hass: UniversalAssistant, _) -> bool:
+    async def mock_setup(hass: __HAC_KEEP__, _) -> bool:
         setup_started.set()
         await setup_stall.wait()
         return True
@@ -8164,7 +8164,7 @@ async def test_options_flow_with_config_entry_core() -> None:
 @pytest.mark.parametrize("integration_frame_path", ["custom_components/my_integration"])
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_options_flow_with_config_entry(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test that OptionsFlowWithConfigEntry doesn't mutate entry options."""
     entry = MockConfigEntry(
@@ -8195,7 +8195,7 @@ async def test_options_flow_with_config_entry(
 
 
 async def test_initializing_flows_canceled_on_shutdown(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that initializing flows are canceled on shutdown."""
 
@@ -8226,7 +8226,7 @@ async def test_initializing_flows_canceled_on_shutdown(
             await task
 
 
-async def test_task_tracking(hass: UniversalAssistant) -> None:
+async def test_task_tracking(hass: __HAC_KEEP__) -> None:
     """Test task tracking for a config entry."""
     entry = MockConfigEntry(title="test_title", domain="test")
 
@@ -8265,7 +8265,7 @@ async def test_task_tracking(hass: UniversalAssistant) -> None:
 
 
 async def test_preview_supported(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test preview support."""
 
@@ -8288,7 +8288,7 @@ async def test_preview_supported(
             raise NotImplementedError
 
         @staticmethod
-        async def async_setup_preview(hass: UniversalAssistant) -> None:
+        async def async_setup_preview(hass: __HAC_KEEP__) -> None:
             """Set up preview."""
             preview_calls.append(None)
 
@@ -8312,7 +8312,7 @@ async def test_preview_supported(
 
 
 async def test_preview_not_supported(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test preview support."""
 
@@ -8342,7 +8342,7 @@ async def test_preview_not_supported(
 
 
 def test_raise_trying_to_add_same_config_entry_twice(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we log an error if trying to add same config entry twice."""
     entry = MockConfigEntry(domain="test")
@@ -8490,7 +8490,7 @@ def test_raise_trying_to_add_same_config_entry_twice(
     ],
 )
 async def test_update_entry_and_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: str,
     reason: str,
     translation_domain: str | None,
@@ -8606,7 +8606,7 @@ class _ListenerReloadFlow(config_entries.ConfigFlow):
 
 
 async def _setup_entry_with_update_listener(
-    hass: UniversalAssistant, built_in: bool
+    hass: __HAC_KEEP__, built_in: bool
 ) -> tuple[MockConfigEntry, AsyncMock]:
     """Set up a loaded entry with an update listener."""
     entry = MockConfigEntry(
@@ -8640,7 +8640,7 @@ async def _setup_entry_with_update_listener(
     "source", [config_entries.SOURCE_REAUTH, config_entries.SOURCE_RECONFIGURE]
 )
 async def test_update_entry_and_reload_with_listener_core_integration(
-    hass: UniversalAssistant, source: str
+    hass: __HAC_KEEP__, source: str
 ) -> None:
     """Test updating and reloading an entry with update listener raises for core."""
     entry, _ = await _setup_entry_with_update_listener(hass, built_in=True)
@@ -8665,7 +8665,7 @@ async def test_update_entry_and_reload_with_listener_core_integration(
     ],
 )
 async def test_update_entry_and_reload_with_listener_custom_integration(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, source: str, reason: str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, source: str, reason: str
 ) -> None:
     """Test updating and reloading an entry with update listener logs for custom."""
     entry, mock_setup_entry = await _setup_entry_with_update_listener(
@@ -8706,7 +8706,7 @@ async def test_update_entry_and_reload_with_listener_custom_integration(
     ],
 )
 async def test_update_entry_without_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: str,
     reason: str,
     translation_domain: str | None,
@@ -8792,7 +8792,7 @@ async def test_update_entry_without_reload(
     ],
 )
 async def test_update_entry_and_abort_with_custom_reason(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     helper: str,
     start_flow: str,
 ) -> None:
@@ -8915,7 +8915,7 @@ async def test_update_entry_and_abort_with_custom_reason(
     ],
 )
 async def test_update_subentry_and_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_title: str,
     expected_unique_id: str,
     expected_data: dict[str, Any],
@@ -8988,7 +8988,7 @@ async def test_update_subentry_and_abort(
     ["async_update_and_abort", "async_update_reload_and_abort"],
 )
 async def test_update_subentry_custom_reason_stays_local(
-    hass: UniversalAssistant, update_and_abort: str
+    hass: __HAC_KEEP__, update_and_abort: str
 ) -> None:
     """Test a caller supplied reason resolves against the integration itself."""
     subentry_id = "blabla"
@@ -9181,7 +9181,7 @@ async def test_update_subentry_custom_reason_stays_local(
     ],
 )
 async def test_update_subentry_reload_and_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_title: str,
     expected_unique_id: str,
     expected_data: dict[str, Any],
@@ -9254,7 +9254,7 @@ async def test_update_subentry_reload_and_abort(
         assert result[k] == v
 
 
-async def test_update_subentry_reload_with_listener(hass: UniversalAssistant) -> None:
+async def test_update_subentry_reload_with_listener(hass: __HAC_KEEP__) -> None:
     """Test updating an entry and reloading fails with update listener."""
     subentry_id = "blabla"
     entry = MockConfigEntry(
@@ -9313,7 +9313,7 @@ async def test_update_subentry_reload_with_listener(hass: UniversalAssistant) ->
         await entry.start_subentry_reconfigure_flow(hass, subentry_id)
 
 
-async def test_reconfigure_subentry_create_subentry(hass: UniversalAssistant) -> None:
+async def test_reconfigure_subentry_create_subentry(hass: __HAC_KEEP__) -> None:
     """Test it's not allowed to create a subentry from a subentry reconfigure flow."""
     subentry_id = "blabla"
     entry = MockConfigEntry(
@@ -9370,7 +9370,7 @@ async def test_reconfigure_subentry_create_subentry(hass: UniversalAssistant) ->
 
 @pytest.mark.parametrize("unique_id", [["blah", "bleh"], {"key": "value"}])
 async def test_unhashable_unique_id_fails(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, unique_id: Any
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, unique_id: Any
 ) -> None:
     """Test the ConfigEntryItems user dict fails unhashable unique_id."""
     entries = config_entries.ConfigEntryItems(hass)
@@ -9390,7 +9390,7 @@ async def test_unhashable_unique_id_fails(
 
     unique_id_string = re.escape(str(unique_id))
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f"The entry unique id {unique_id_string} is not a string.",
     ):
         entries[entry.entry_id] = entry
@@ -9398,7 +9398,7 @@ async def test_unhashable_unique_id_fails(
     assert entry.entry_id not in entries
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f"The entry unique id {unique_id_string} is not a string.",
     ):
         entries.get_entry_by_domain_and_unique_id("test", unique_id)
@@ -9406,7 +9406,7 @@ async def test_unhashable_unique_id_fails(
 
 @pytest.mark.parametrize("unique_id", [["blah", "bleh"], {"key": "value"}])
 async def test_unhashable_unique_id_fails_on_update(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, unique_id: Any
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, unique_id: Any
 ) -> None:
     """Test the ConfigEntryItems user dict fails non-hashable unique_id on update."""
     entries = config_entries.ConfigEntryItems(hass)
@@ -9429,14 +9429,14 @@ async def test_unhashable_unique_id_fails_on_update(
 
     unique_id_string = re.escape(str(unique_id))
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f"The entry unique id {unique_id_string} is not a string.",
     ):
         entries.update_unique_id(entry, unique_id)
 
 
 async def test_string_unique_id_no_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test the ConfigEntryItems user dict string unique id doesn't log warning."""
@@ -9477,7 +9477,7 @@ async def test_string_unique_id_no_warning(
     ],
 )
 async def test_hashable_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     unique_id: Any,
     type_name: str,
@@ -9514,7 +9514,7 @@ async def test_hashable_unique_id(
 
 
 async def test_no_unique_id_no_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test the ConfigEntryItems user dict don't log warning with no unique id."""
@@ -9573,7 +9573,7 @@ async def test_no_unique_id_no_warning(
     ],
 )
 async def test_starting_config_flow_on_single_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     context: dict[str, Any],
     user_input: dict,
@@ -9663,7 +9663,7 @@ async def test_starting_config_flow_on_single_config_entry(
     ],
 )
 async def test_starting_config_flow_on_single_config_entry_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     context: dict[str, Any],
     user_input: dict,
@@ -9711,7 +9711,7 @@ async def test_starting_config_flow_on_single_config_entry_2(
 
 
 async def test_avoid_adding_second_config_entry_on_single_config_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we cannot add a second entry for a single config entry integration."""
 
@@ -9784,7 +9784,7 @@ async def test_avoid_adding_second_config_entry_on_single_config_entry(
     ],
 )
 async def test_in_progress_get_canceled_when_entry_is_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     flow_1_unique_id: str | None,
     flow_2_unique_id: str | None,
@@ -9855,7 +9855,7 @@ async def test_in_progress_get_canceled_when_entry_is_created(
 
 
 async def test_directly_mutating_blocked(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test directly mutating a ConfigEntry is blocked."""
     entry = MockConfigEntry(domain="test")
@@ -9893,7 +9893,7 @@ async def test_directly_mutating_blocked(
     ],
 )
 async def test_report_direct_mutation_of_config_entry(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, field: str
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, field: str
 ) -> None:
     """Test directly mutating a ConfigEntry is reported."""
     entry = MockConfigEntry(domain="test")
@@ -9903,7 +9903,7 @@ async def test_report_direct_mutation_of_config_entry(
         setattr(entry, field, "new_value")
 
 
-async def test_updating_non_added_entry_raises(hass: UniversalAssistant) -> None:
+async def test_updating_non_added_entry_raises(hass: __HAC_KEEP__) -> None:
     """Test updating a non added entry raises UnknownEntry."""
     entry = MockConfigEntry(domain="test")
 
@@ -9911,7 +9911,7 @@ async def test_updating_non_added_entry_raises(hass: UniversalAssistant) -> None
         hass.config_entries.async_update_entry(entry, unique_id="new_id")
 
 
-async def test_updating_non_added_subentry_raises(hass: UniversalAssistant) -> None:
+async def test_updating_non_added_subentry_raises(hass: __HAC_KEEP__) -> None:
     """Test updating a non added entry raises UnknownEntry."""
     entry = MockConfigEntry(domain="test")
     subentry = config_entries.ConfigSubentry(
@@ -9928,7 +9928,7 @@ async def test_updating_non_added_subentry_raises(hass: UniversalAssistant) -> N
         hass.config_entries.async_update_subentry(entry, subentry, unique_id="new_id")
 
 
-async def test_get_subentries_of_type(hass: UniversalAssistant) -> None:
+async def test_get_subentries_of_type(hass: __HAC_KEEP__) -> None:
     """Test getting subentries by type."""
     entry = MockConfigEntry(
         domain="test",
@@ -9973,7 +9973,7 @@ async def test_get_subentries_of_type(hass: UniversalAssistant) -> None:
     assert entry.get_subentries_of_type("unknown") == []
 
 
-async def test_reload_during_setup(hass: UniversalAssistant) -> None:
+async def test_reload_during_setup(hass: __HAC_KEEP__) -> None:
     """Test reload during setup waits."""
     entry = MockConfigEntry(domain="comp", data={"value": "initial"})
     entry.add_to_hass(hass)
@@ -9983,7 +9983,7 @@ async def test_reload_during_setup(hass: UniversalAssistant) -> None:
     in_setup = False
     setup_calls = 0
 
-    async def mock_async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def mock_async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setting up an entry."""
         nonlocal in_setup
         nonlocal setup_calls
@@ -10026,7 +10026,7 @@ async def test_reload_during_setup(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_raise_wrong_exception_in_forwarded_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     exc: Exception,
     caplog: pytest.LogCaptureFixture,
@@ -10034,13 +10034,13 @@ async def test_raise_wrong_exception_in_forwarded_platform(
     """Test that we can remove an entry."""
 
     async def mock_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock setting up entry."""
         await hass.config_entries.async_forward_entry_setups(entry, ["light"])
 
     async def mock_unload_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock unloading an entry."""
         await hass.config_entries.async_unload_platforms_or_raise(entry, ["light"])
@@ -10048,7 +10048,7 @@ async def test_raise_wrong_exception_in_forwarded_platform(
     mock_remove_entry = AsyncMock(return_value=None)
 
     async def mock_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: config_entries.ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -10088,7 +10088,7 @@ async def test_raise_wrong_exception_in_forwarded_platform(
 
 
 async def test_config_entry_unloaded_during_platform_setups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -10096,7 +10096,7 @@ async def test_config_entry_unloaded_during_platform_setups(
     task = None
 
     async def mock_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock setting up entry."""
 
@@ -10111,7 +10111,7 @@ async def test_config_entry_unloaded_during_platform_setups(
         hass.loop.call_soon(_late_setup)
 
     async def mock_unload_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock unloading an entry."""
         await hass.config_entries.async_unload_platforms_or_raise(entry, ["light"])
@@ -10119,7 +10119,7 @@ async def test_config_entry_unloaded_during_platform_setups(
     mock_remove_entry = AsyncMock(return_value=None)
 
     async def mock_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: config_entries.ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -10160,7 +10160,7 @@ async def test_config_entry_unloaded_during_platform_setups(
 
 
 async def test_non_awaited_async_forward_entry_setups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -10169,7 +10169,7 @@ async def test_non_awaited_async_forward_entry_setups(
     task: asyncio.Task | None = None
 
     async def mock_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock setting up entry."""
         # Call async_forward_entry_setups without awaiting it
@@ -10180,7 +10180,7 @@ async def test_non_awaited_async_forward_entry_setups(
         )
 
     async def mock_unload_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock unloading an entry."""
         await hass.config_entries.async_unload_platforms_or_raise(entry, ["light"])
@@ -10188,7 +10188,7 @@ async def test_non_awaited_async_forward_entry_setups(
     mock_remove_entry = AsyncMock(return_value=None)
 
     async def mock_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: config_entries.ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -10224,19 +10224,19 @@ async def test_non_awaited_async_forward_entry_setups(
         "awaiting async_forward_entry_setups, which can cause the setup lock "
         "to be released before the setup is done"
     )
-    with pytest.raises(UniversalAssistantError, match=message):
+    with pytest.raises(__HAC_KEEP__Error, match=message):
         await task
 
 
 async def test_concurrent_async_forward_entry_setups_after_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test concurrent async_forward_entry_setups calls after setup."""
     forward_event = asyncio.Event()
 
     async def mock_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: config_entries.ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -10276,7 +10276,7 @@ async def test_concurrent_async_forward_entry_setups_after_setup(
 
 
 async def test_config_entry_unloaded_during_platform_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -10284,7 +10284,7 @@ async def test_config_entry_unloaded_during_platform_setup(
     task = None
 
     async def mock_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock setting up entry."""
 
@@ -10299,7 +10299,7 @@ async def test_config_entry_unloaded_during_platform_setup(
         hass.loop.call_soon(_late_setup)
 
     async def mock_unload_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock unloading an entry."""
         await hass.config_entries.async_unload_platforms_or_raise(entry, ["light"])
@@ -10307,7 +10307,7 @@ async def test_config_entry_unloaded_during_platform_setup(
     mock_remove_entry = AsyncMock(return_value=None)
 
     async def mock_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: config_entries.ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -10348,7 +10348,7 @@ async def test_config_entry_unloaded_during_platform_setup(
 
 
 async def test_config_entry_late_platform_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -10356,7 +10356,7 @@ async def test_config_entry_late_platform_setup(
     task = None
 
     async def mock_setup_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock setting up entry."""
 
@@ -10371,7 +10371,7 @@ async def test_config_entry_late_platform_setup(
         hass.loop.call_soon(_late_setup)
 
     async def mock_unload_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock unloading an entry."""
         await hass.config_entries.async_unload_platforms_or_raise(entry, ["light"])
@@ -10379,7 +10379,7 @@ async def test_config_entry_late_platform_setup(
     mock_remove_entry = AsyncMock(return_value=None)
 
     async def mock_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: config_entries.ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -10419,7 +10419,7 @@ async def test_config_entry_late_platform_setup(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migration_from_1_2(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> None:
     """Test migration from version 1.2."""
     hass_storage[config_entries.STORAGE_KEY] = {
@@ -10485,7 +10485,7 @@ async def test_migration_from_1_2(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_migrated_custom_integration_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -10540,7 +10540,7 @@ async def test_migrated_custom_integration_domain(
 @pytest.mark.parametrize("load_registries", [False])
 @pytest.mark.parametrize("mode", ["recovery_mode", "safe_mode"])
 async def test_migrated_custom_integration_domain_recovery_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
     mode: str,
@@ -10583,7 +10583,7 @@ async def test_migrated_custom_integration_domain_recovery_mode(
 
 @pytest.mark.parametrize("load_registries", [False])
 async def test_domain_not_migrated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -10623,7 +10623,7 @@ async def test_domain_not_migrated(
 
 
 async def test_async_loaded_entries(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test that we can get loaded config entries."""
     entry1 = MockConfigEntry(domain="comp")
@@ -10664,7 +10664,7 @@ async def test_async_loaded_entries(
 
 
 async def test_async_has_matching_discovery_flow(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test we can check for matching discovery flows."""
     assert (
@@ -10746,7 +10746,7 @@ async def test_async_has_matching_discovery_flow(
 
 
 async def test_async_has_matching_flow(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test check for matching flows when there is no active flow."""
     mock_integration(hass, MockModule("test"))
@@ -10791,7 +10791,7 @@ async def test_async_has_matching_flow(
 
 
 async def test_async_has_matching_flow_no_flows(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test check for matching flows when there is no active flow."""
     mock_integration(hass, MockModule("test"))
@@ -10824,7 +10824,7 @@ async def test_async_has_matching_flow_no_flows(
 
 
 async def test_async_has_matching_flow_not_implemented(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test check for matching flows when there is no active flow."""
     mock_integration(hass, MockModule("test"))
@@ -10865,7 +10865,7 @@ async def test_async_has_matching_flow_not_implemented(
 
 
 async def test_get_reauth_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test _get_context_entry behavior."""
     entry = MockConfigEntry(
@@ -10937,7 +10937,7 @@ async def test_get_reauth_entry(
 
 
 async def test_get_reconfigure_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test _get_reconfigure_entry behavior."""
     entry = MockConfigEntry(
@@ -11015,7 +11015,7 @@ async def test_get_reconfigure_entry(
 
 
 async def test_subentry_get_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test subentry _get_entry and _get_reconfigure_subentry behavior.
 
@@ -11116,7 +11116,7 @@ async def test_subentry_get_entry(
 
 
 async def test_reauth_helper_alignment(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -11189,7 +11189,7 @@ async def test_reauth_helper_alignment(
     [config_entries.SOURCE_REAUTH, config_entries.SOURCE_RECONFIGURE],
 )
 async def test_abort_if_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: str,
     original_unique_id: str | None,
     new_unique_id: str | None,
@@ -11252,7 +11252,7 @@ def test_state_not_stored_in_storage() -> None:
         assert key not in loaded
 
 
-def test_storage_cache_is_cleared_on_entry_update(hass: UniversalAssistant) -> None:
+def test_storage_cache_is_cleared_on_entry_update(hass: __HAC_KEEP__) -> None:
     """Test that the storage cache is cleared when an entry is updated."""
     entry = MockConfigEntry(domain="test")
     entry.add_to_hass(hass)
@@ -11262,7 +11262,7 @@ def test_storage_cache_is_cleared_on_entry_update(hass: UniversalAssistant) -> N
     assert "new" in loaded["data"]
 
 
-async def test_storage_cache_is_cleared_on_entry_disable(hass: UniversalAssistant) -> None:
+async def test_storage_cache_is_cleared_on_entry_disable(hass: __HAC_KEEP__) -> None:
     """Test that the storage cache is cleared when an entry is disabled."""
     entry = MockConfigEntry(domain="test")
     entry.add_to_hass(hass)
@@ -11274,7 +11274,7 @@ async def test_storage_cache_is_cleared_on_entry_disable(hass: UniversalAssistan
     assert loaded["disabled_by"] == "user"
 
 
-async def test_state_cache_is_cleared_on_entry_disable(hass: UniversalAssistant) -> None:
+async def test_state_cache_is_cleared_on_entry_disable(hass: __HAC_KEEP__) -> None:
     """Test that the state cache is cleared when an entry is disabled."""
     entry = MockConfigEntry(domain="test")
     entry.add_to_hass(hass)
@@ -11300,7 +11300,7 @@ async def test_state_cache_is_cleared_on_entry_disable(hass: UniversalAssistant)
     [config_entries.SOURCE_REAUTH, config_entries.SOURCE_RECONFIGURE],
 )
 async def test_create_entry_reauth_reconfigure_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: str,
     original_unique_id: str | None,
     new_unique_id: str | None,
@@ -11349,13 +11349,13 @@ async def test_create_entry_reauth_reconfigure_fails(
 
     with (
         mock_config_flow("test", TestFlow),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await getattr(entry, f"start_{source}_flow")(hass)
 
 
 async def test_async_update_entry_unique_id_collision(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
@@ -11393,7 +11393,7 @@ async def test_async_update_entry_unique_id_collision(
 
 
 async def test_unique_id_collision_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
     issue_registry: ir.IssueRegistry,
@@ -11479,7 +11479,7 @@ async def test_unique_id_collision_issues(
 
 
 async def test_unique_id_collision_issue_keeps_ignore(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -11511,7 +11511,7 @@ async def test_unique_id_collision_issue_keeps_ignore(
     assert not issue_registry.issues
 
 
-async def test_context_no_leak(hass: UniversalAssistant) -> None:
+async def test_context_no_leak(hass: __HAC_KEEP__) -> None:
     """Test ensure that config entry context does not leak.
 
     Unlikely to happen in real world, but occurs often in tests.
@@ -11520,7 +11520,7 @@ async def test_context_no_leak(hass: UniversalAssistant) -> None:
     connected_future = asyncio.Future()
     bg_tasks = []
 
-    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setup entry."""
 
         async def _async_set_runtime_data():
@@ -11530,7 +11530,7 @@ async def test_context_no_leak(hass: UniversalAssistant) -> None:
 
         bg_tasks.append(hass.loop.create_task(_async_set_runtime_data()))
 
-    async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock unload entry."""
 
     mock_integration(
@@ -11578,7 +11578,7 @@ async def test_context_no_leak(hass: UniversalAssistant) -> None:
 
 
 async def test_options_flow_config_entry(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Test _config_entry_id and config_entry properties in options flow."""
     original_entry = MockConfigEntry(domain="test", data={})
@@ -11699,7 +11699,7 @@ async def test_options_flow_config_entry(
     ],
 )
 async def test_options_flow_automatic_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     option_flow_base_class: type[config_entries.OptionsFlow],
     number_of_update_listeners: int,
@@ -11712,7 +11712,7 @@ async def test_options_flow_automatic_reload(
     )
     original_entry.add_to_hass(hass)
 
-    async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Mock setup entry."""
         for _ in range(number_of_update_listeners):
             entry.add_update_listener(Mock())
@@ -11767,7 +11767,7 @@ async def test_options_flow_automatic_reload(
 @pytest.mark.parametrize("integration_frame_path", ["custom_components/my_integration"])
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_options_flow_set_config_entry_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -11828,7 +11828,7 @@ async def test_options_flow_set_config_entry_fails(
 
 
 async def test_add_description_placeholder_automatically(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test entry title is added to reauth flow placeholders."""
@@ -11852,7 +11852,7 @@ async def test_add_description_placeholder_automatically(
 
 
 async def test_add_description_placeholder_automatically_not_overwrites(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test entry title not added to reauth when custom name exist."""
@@ -11883,7 +11883,7 @@ async def test_add_description_placeholder_automatically_not_overwrites(
     ],
 )
 async def test_create_entry_existing_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     source: str,
     expected_log: bool,
@@ -11932,7 +11932,7 @@ async def test_create_entry_existing_unique_id(
     log_text = (
         f"Detected that integration '{domain}' creates a config entry "
         "when another entry with the same unique ID exists. This will stop "
-        "working in Universal Universal Home Assistant 2026.3, please create a bug report at https:"
+        "working in __HA_KEEP__ 2026.3, please create a bug report at https:"
     )
     assert (log_text in caplog.text) == expected_log
 
@@ -11948,7 +11948,7 @@ class _ConfirmOnlyFlow(config_entries.ConfigFlow):
         return self.async_show_form(step_id="user")
 
 
-async def test_set_confirm_only_core_integration(hass: UniversalAssistant) -> None:
+async def test_set_confirm_only_core_integration(hass: __HAC_KEEP__) -> None:
     """Test _set_confirm_only raises for core integrations."""
     mock_integration(hass, MockModule("comp"))
     mock_platform(hass, "comp.config_flow", None)
@@ -11966,7 +11966,7 @@ async def test_set_confirm_only_core_integration(hass: UniversalAssistant) -> No
 
 
 async def test_set_confirm_only_custom_integration(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test _set_confirm_only is a silent no-op for custom integrations."""
     mock_integration(hass, MockModule("comp"), built_in=False)
@@ -11983,7 +11983,7 @@ async def test_set_confirm_only_custom_integration(
     assert "_set_confirm_only" not in caplog.text
 
 
-async def test_async_update_title_placeholders(hass: UniversalAssistant) -> None:
+async def test_async_update_title_placeholders(hass: __HAC_KEEP__) -> None:
     """Test async_update_title_placeholders updates context and notifies listeners."""
 
     class TestFlow(config_entries.ConfigFlow):
@@ -12054,7 +12054,7 @@ async def test_async_update_title_placeholders(hass: UniversalAssistant) -> None
         assert len(events) == 2
 
 
-async def test_config_flow_abort_with_next_flow(hass: UniversalAssistant) -> None:
+async def test_config_flow_abort_with_next_flow(hass: __HAC_KEEP__) -> None:
     """Test that ConfigFlow.async_abort() can include next_flow parameter."""
 
     class TargetFlow(config_entries.ConfigFlow):
@@ -12106,7 +12106,7 @@ async def test_config_flow_abort_with_next_flow(hass: UniversalAssistant) -> Non
 
 
 async def test_config_flow_abort_with_invalid_next_flow_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that ConfigFlow.async_abort() raises error for invalid flow type."""
 
@@ -12128,7 +12128,7 @@ async def test_config_flow_abort_with_invalid_next_flow_type(
     with (
         mock_config_flow("test", TestFlow),
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             match=(
                 "next_flow only supports FlowType.CONFIG_FLOW;"
                 " use async_on_create_entry for options or subentry flows"
@@ -12141,7 +12141,7 @@ async def test_config_flow_abort_with_invalid_next_flow_type(
 
 
 async def test_config_flow_abort_with_nonexistent_next_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that ConfigFlow.async_abort() raises error for nonexistent flow."""
 
@@ -12169,7 +12169,7 @@ async def test_config_flow_abort_with_nonexistent_next_flow(
         )
 
 
-async def test_config_flow_create_entry_with_next_flow(hass: UniversalAssistant) -> None:
+async def test_config_flow_create_entry_with_next_flow(hass: __HAC_KEEP__) -> None:
     """Test that ConfigFlow.async_create_entry() can include next_flow parameter."""
 
     class TargetFlow(config_entries.ConfigFlow):
@@ -12224,14 +12224,14 @@ async def test_config_flow_create_entry_with_next_flow(hass: UniversalAssistant)
 
 
 async def test_canceled_exceptions_are_propagated(
-    hass: UniversalAssistant, manager: config_entries.ConfigEntries
+    hass: __HAC_KEEP__, manager: config_entries.ConfigEntries
 ) -> None:
     """Tests that base exceptions like cancellations are not swallowed."""
     entry = MockConfigEntry(title="test_title", domain="test")
     start = asyncio.Event()
     abort = asyncio.Event()
 
-    async def _setup(_: UniversalAssistant, __: ConfigEntry) -> None:
+    async def _setup(_: __HAC_KEEP__, __: ConfigEntry) -> None:
         start.set()
         await abort.wait()
 
@@ -12251,7 +12251,7 @@ async def test_canceled_exceptions_are_propagated(
 
 
 async def test_discovery_flow_dismiss_protected_on_configure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test that discovery flows are marked dismiss protected when user configures."""
@@ -12313,7 +12313,7 @@ async def test_discovery_flow_dismiss_protected_on_configure(
 
 
 async def test_async_dismiss_discovery_flows(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test dismissing discovery flows skips the ones the user is working through."""
@@ -12380,7 +12380,7 @@ async def test_async_dismiss_discovery_flows(
 
 
 async def test_user_flow_not_dismiss_protected_on_configure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
 ) -> None:
     """Test that user flows are not marked dismiss protected when configured."""
@@ -12425,7 +12425,7 @@ async def test_user_flow_not_dismiss_protected_on_configure(
 
 
 async def test_orphaned_ignored_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -12436,7 +12436,7 @@ async def test_orphaned_ignored_entries(
     )
     entry.add_to_hass(hass)
 
-    async def _raise(hass_param: UniversalAssistant, domain: str) -> None:
+    async def _raise(hass_param: __HAC_KEEP__, domain: str) -> None:
         raise loader.IntegrationNotFound(domain)
 
     with patch(
@@ -12473,7 +12473,7 @@ async def test_orphaned_ignored_entries(
 
 
 async def test_orphaned_ignored_entries_existing_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -12508,7 +12508,7 @@ async def test_orphaned_ignored_entries_existing_integration(
     ],
 )
 async def test_orphaned_ignored_entries_safe_recovery_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     issue_registry: ir.IssueRegistry,
     safe_mode: bool,
@@ -12548,7 +12548,7 @@ async def test_orphaned_ignored_entries_safe_recovery_mode(
         },
     }
 
-    async def _raise(_: UniversalAssistant, domain: str) -> None:
+    async def _raise(_: __HAC_KEEP__, domain: str) -> None:
         raise loader.IntegrationNotFound(domain)
 
     with patch(
@@ -12583,7 +12583,7 @@ async def test_orphaned_ignored_entries_safe_recovery_mode(
     ],
 )
 async def test_unload_platforms_or_raise(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     manager: config_entries.ConfigEntries,
     unload_result: bool,
     state: config_entries.ConfigEntryState,
@@ -12593,7 +12593,7 @@ async def test_unload_platforms_or_raise(
     """Test async_unload_platforms_or_raise sets the unload state."""
 
     async def mock_unload_entry(
-        hass: UniversalAssistant, entry: config_entries.ConfigEntry
+        hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
     ) -> None:
         """Mock unloading an entry."""
         await hass.config_entries.async_unload_platforms_or_raise(entry, ["light"])
@@ -12625,7 +12625,7 @@ async def test_unload_platforms_or_raise(
 
 
 async def test_remove_subentry_cleans_registries_before_update_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -12658,7 +12658,7 @@ async def test_remove_subentry_cleans_registries_before_update_listener(
     )
     observed: list[tuple[bool, bool, bool]] = []
 
-    async def listener(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    async def listener(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
         """Capture registry state before the listener yields."""
         observed.append(
             (

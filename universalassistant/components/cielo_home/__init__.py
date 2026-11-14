@@ -1,12 +1,12 @@
 """Integration for Cielo Home."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import PLATFORMS
 from .coordinator import CieloDataUpdateCoordinator, CieloHomeConfigEntry
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: CieloHomeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: CieloHomeConfigEntry) -> None:
     """Set up Cielo Home from a config entry."""
     coordinator = CieloDataUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -16,7 +16,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: CieloHomeConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: CieloHomeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: CieloHomeConfigEntry) -> None:
     """Unload a config entry."""
     coordinator = entry.runtime_data
     await coordinator.async_shutdown()

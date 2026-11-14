@@ -13,7 +13,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ class ChaconDioData:
 type ChaconDioConfigEntry = ConfigEntry[ChaconDioData]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ChaconDioConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ChaconDioConfigEntry) -> None:
     """Set up chacon_dio from a config entry."""
 
     config = entry.data
@@ -69,7 +69,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ChaconDioConfigEntr
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ChaconDioConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ChaconDioConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

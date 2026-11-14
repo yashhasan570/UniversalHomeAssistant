@@ -9,7 +9,7 @@ import pytest
 
 from universalassistant.components import sun
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -17,7 +17,7 @@ from universalassistant.util import dt as dt_util
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setting_rising(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:

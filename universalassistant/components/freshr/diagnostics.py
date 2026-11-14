@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import FreshrConfigEntry
 
@@ -13,7 +13,7 @@ TO_REDACT = {CONF_PASSWORD}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: FreshrConfigEntry
+    hass: __HAC_KEEP__, entry: FreshrConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     runtime_data = entry.runtime_data

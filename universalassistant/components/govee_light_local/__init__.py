@@ -9,7 +9,7 @@ from govee_local_api.controller import LISTENING_PORT
 
 from universalassistant.components import network
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers.event import async_track_time_interval
 
@@ -27,7 +27,7 @@ TRANSIENT_BIND_ERRNOS = frozenset(
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: GoveeLocalConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: GoveeLocalConfigEntry) -> None:
     """Set up Govee light local from a config entry."""
 
     listening_addresses = await async_get_listening_addresses(hass)
@@ -98,12 +98,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GoveeLocalConfigEnt
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: GoveeLocalConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: GoveeLocalConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_get_listening_addresses(hass: UniversalAssistant) -> list[str]:
+async def async_get_listening_addresses(hass: __HAC_KEEP__) -> list[str]:
     """Get the enabled IPv4 source addresses, with network mask, for Govee local."""
     adapters = await network.async_get_adapters(hass)
     for adapter in adapters:

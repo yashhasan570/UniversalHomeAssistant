@@ -10,7 +10,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 pytestmark = [
     pytest.mark.parametrize("init_integration", [Platform.SENSOR], indirect=True),
@@ -33,7 +33,7 @@ def _async_report(mock_peblar: MagicMock, state: SessionState) -> None:
 
 
 async def test_a_session_change_pulls_the_polls_forward(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
 ) -> None:
     """Test an event asks the polls to catch up rather than waiting them out."""
@@ -49,7 +49,7 @@ async def test_a_session_change_pulls_the_polls_forward(
 
 
 async def test_a_session_saying_the_same_thing_is_let_be(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_a_session_saying_the_same_thing_is_let_be(
 
 
 async def test_the_wait_backs_off_and_settles_once_the_charger_answers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_the_wait_backs_off_and_settles_once_the_charger_answers(
 
 
 async def test_a_subscription_that_never_lands_keeps_backing_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -160,7 +160,7 @@ async def test_a_subscription_that_never_lands_keeps_backing_off(
 
 
 async def test_the_stream_is_closed_when_the_entry_unloads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

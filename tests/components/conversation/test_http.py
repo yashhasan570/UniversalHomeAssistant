@@ -28,7 +28,7 @@ from universalassistant.components.conversation.models import ConversationResult
 from universalassistant.components.universalassistant.exposed_entities import async_expose_entity
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.const import ATTR_FRIENDLY_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     chat_session,
@@ -64,7 +64,7 @@ class OrderBeerIntentHandler(intent.IntentHandler):
 
 @pytest.mark.parametrize("agent_id", AGENT_ID_OPTIONS)
 async def test_http_processing_intent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_client: ClientSessionGenerator,
     agent_id,
@@ -94,7 +94,7 @@ async def test_http_processing_intent(
 
 
 async def test_http_api_no_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
@@ -114,7 +114,7 @@ async def test_http_api_no_match(
 
 
 async def test_http_api_handle_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
@@ -142,7 +142,7 @@ async def test_http_api_handle_failure(
 
 
 async def test_http_api_unexpected_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
@@ -170,7 +170,7 @@ async def test_http_api_unexpected_failure(
 
 
 async def test_http_api_wrong_data(
-    hass: UniversalAssistant, init_components, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, init_components, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the HTTP conversation API."""
     client = await hass_client()
@@ -183,7 +183,7 @@ async def test_http_api_wrong_data(
 
 
 async def test_http_processing_intent_with_device_satellite_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -242,7 +242,7 @@ async def test_http_processing_intent_with_device_satellite_ids(
     ],
 )
 async def test_ws_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
     payload,
@@ -261,7 +261,7 @@ async def test_ws_api(
 
 
 async def test_ws_api_with_device_satellite_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -294,7 +294,7 @@ async def test_ws_api_with_device_satellite_ids(
 
 @pytest.mark.parametrize("agent_id", AGENT_ID_OPTIONS)
 async def test_ws_prepare(
-    hass: UniversalAssistant, init_components, hass_ws_client: WebSocketGenerator, agent_id
+    hass: __HAC_KEEP__, init_components, hass_ws_client: WebSocketGenerator, agent_id
 ) -> None:
     """Test the Websocket prepare conversation API."""
     agent = async_get_agent(hass)
@@ -318,7 +318,7 @@ async def test_ws_prepare(
 
 
 async def test_get_agent_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     mock_conversation_agent: MockAgent,
     mock_agent_support_all: MockAgent,
@@ -376,7 +376,7 @@ async def test_get_agent_list(
 
 
 async def test_ws_hass_agent_debug(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
     area_registry: ar.AreaRegistry,
@@ -428,7 +428,7 @@ async def test_ws_hass_agent_debug(
 
 
 async def test_ws_hass_agent_debug_null_result(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
@@ -463,7 +463,7 @@ async def test_ws_hass_agent_debug_null_result(
 
 
 async def test_ws_hass_agent_debug_floor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
     area_registry: ar.AreaRegistry,
@@ -514,7 +514,7 @@ async def test_ws_hass_agent_debug_floor(
 
 
 async def test_ws_hass_agent_debug_unexposed_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
     area_registry: ar.AreaRegistry,
@@ -553,7 +553,7 @@ async def test_ws_hass_agent_debug_unexposed_entity(
 
 
 async def test_ws_hass_agent_debug_preferred_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
     area_registry: ar.AreaRegistry,
@@ -605,7 +605,7 @@ async def test_ws_hass_agent_debug_preferred_area(
 
 
 async def test_ws_hass_agent_debug_out_of_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
@@ -665,7 +665,7 @@ async def test_ws_hass_agent_debug_out_of_range(
 
 
 async def test_ws_hass_agent_debug_custom_sentence(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
@@ -700,7 +700,7 @@ async def test_ws_hass_agent_debug_custom_sentence(
 
 
 async def test_ws_hass_agent_debug_sentence_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
     snapshot: SnapshotAssertion,
@@ -764,7 +764,7 @@ async def test_ws_hass_agent_debug_sentence_trigger(
 
 
 async def test_ws_hass_language_scores(
-    hass: UniversalAssistant, init_components, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, init_components, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting language support scores."""
     client = await hass_ws_client(hass)
@@ -786,7 +786,7 @@ async def test_ws_hass_language_scores(
 
 
 async def test_ws_hass_language_scores_with_filter(
-    hass: UniversalAssistant, init_components, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, init_components, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test getting language support scores with language/country filter."""
     client = await hass_ws_client(hass)
@@ -821,7 +821,7 @@ async def test_ws_hass_language_scores_with_filter(
 
 
 async def test_ws_chat_log_index_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     mock_conversation_input: ConversationInput,
     hass_ws_client: WebSocketGenerator,
@@ -921,7 +921,7 @@ async def test_ws_chat_log_index_subscription(
 
 
 async def test_ws_chat_log_index_subscription_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     hass_ws_client: WebSocketGenerator,
     hass_admin_user: MockUser,
@@ -943,7 +943,7 @@ async def test_ws_chat_log_index_subscription_requires_admin(
 
 
 async def test_ws_chat_log_subscription_during_turn(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     mock_conversation_input: ConversationInput,
     hass_ws_client: WebSocketGenerator,
@@ -987,7 +987,7 @@ async def test_ws_chat_log_subscription_during_turn(
 
 
 async def test_ws_chat_log_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components,
     mock_conversation_input: ConversationInput,
     hass_ws_client: WebSocketGenerator,

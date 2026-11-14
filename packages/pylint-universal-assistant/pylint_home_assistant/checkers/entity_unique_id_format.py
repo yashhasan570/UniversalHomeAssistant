@@ -34,7 +34,7 @@ when the value used for the entity's unique id either:
 
 ``W7427`` (``universal-assistant-entity-unique-id-redundant-platform``)
 ------------------------------------------------------------------
-The ``domain`` field of the registry key (in Universal Universal Home Assistant
+The ``domain`` field of the registry key (in __HA_KEEP__
 user-facing vocabulary: the *platform*, e.g. ``sensor``, ``light``,
 ``binary_sensor``) is already known from the module the entity lives
 in. Repeating that name as a delimited segment of the entity's unique

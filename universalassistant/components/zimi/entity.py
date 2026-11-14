@@ -6,7 +6,7 @@ from typing import override
 from zcc import ControlPoint
 from zcc.device import ControlPointDevice
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -24,7 +24,7 @@ class ZimiEntity(Entity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: ControlPointDevice,
         api: ControlPoint,
         config_entry_id: str,

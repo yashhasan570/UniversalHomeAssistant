@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.vitesy.coordinator import UPDATE_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ def _set_charging(device: VitesyDevice, value: object) -> None:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -53,7 +53,7 @@ async def test_all_entities(
     ],
 )
 async def test_battery_charging_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],
@@ -74,7 +74,7 @@ async def test_battery_charging_update(
 
 
 async def test_battery_charging_not_created_when_not_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_devices: dict[str, VitesyDevice],

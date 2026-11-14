@@ -5,8 +5,8 @@ from typing import override
 from universalassistant.components.notify import NotifyEntity, NotifyEntityFeature
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_RECIPIENT
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -24,7 +24,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ThreemaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -69,22 +69,22 @@ class ThreemaNotifyEntity(NotifyEntity):
             await self._client.send_text_message(self._recipient_id, text)
         except ThreemaAuthError as err:
             self._entry.async_start_reauth(self.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="invalid_auth",
             ) from err
         except ThreemaNoCreditsError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="no_credits",
             ) from err
         except ThreemaRateLimitError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="rate_limited",
             ) from err
         except (ThreemaSendError, ThreemaConnectionError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="send_error",
                 translation_placeholders={"error": str(err)},

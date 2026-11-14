@@ -23,11 +23,11 @@
   },
   "issues": {
     "yaml_import_cannot_connect": {
-      "description": "The YAML configuration for OpenWrt (ubus) at `{host}` could not be imported because the connection failed.\n\nPlease check that `{host}` is reachable, update your `configuration.yaml` if needed, and restart Universal Universal Home Assistant.",
+      "description": "The YAML configuration for OpenWrt (ubus) at `{host}` could not be imported because the connection failed.\n\nPlease check that `{host}` is reachable, update your `configuration.yaml` if needed, and restart __HA_KEEP__.",
       "title": "YAML import failed: cannot connect"
     },
     "yaml_import_invalid_auth": {
-      "description": "The YAML configuration for OpenWrt (ubus) at `{host}` could not be imported because the credentials were rejected.\n\nPlease check the username and password in your `configuration.yaml`, then restart Universal Universal Home Assistant.",
+      "description": "The YAML configuration for OpenWrt (ubus) at `{host}` could not be imported because the credentials were rejected.\n\nPlease check the username and password in your `configuration.yaml`, then restart __HA_KEEP__.",
       "title": "YAML import failed: invalid authentication"
     }
   },

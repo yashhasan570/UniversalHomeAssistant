@@ -5,13 +5,13 @@ from typing import override
 
 from universalassistant.components.calendar import CalendarEntity, CalendarEvent
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -63,7 +63,7 @@ class DemoCalendar(CalendarEntity):
     @override
     async def async_get_events(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         start_date: dt.datetime,
         end_date: dt.datetime,
     ) -> list[CalendarEvent]:

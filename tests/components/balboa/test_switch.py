@@ -6,7 +6,7 @@ from pytest_universalassistant.common import snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -17,7 +17,7 @@ ENTITY_SWITCH = "switch.fakespa_filter_cycle_2_enabled"
 
 
 async def test_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -29,7 +29,7 @@ async def test_switches(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_switch(hass: UniversalAssistant, client: MagicMock) -> None:
+async def test_switch(hass: __HAC_KEEP__, client: MagicMock) -> None:
     """Test spa filter cycle enabled switch."""
     await init_integration(hass)
 

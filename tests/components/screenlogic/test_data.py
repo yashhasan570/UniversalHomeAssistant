@@ -7,7 +7,7 @@ from screenlogicpy import ScreenLogicGateway
 
 from universalassistant.components.screenlogic import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -20,7 +20,7 @@ from . import (
 
 
 async def test_async_cleanup_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,

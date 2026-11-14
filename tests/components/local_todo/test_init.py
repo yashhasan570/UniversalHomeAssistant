@@ -6,13 +6,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import TEST_ENTITY
 
 
 async def test_load_unload(
-    hass: UniversalAssistant, setup_integration: None, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, setup_integration: None, config_entry: MockConfigEntry
 ) -> None:
     """Test loading and unloading a config entry."""
 
@@ -32,7 +32,7 @@ async def test_load_unload(
 
 
 async def test_remove_config_entry(
-    hass: UniversalAssistant, setup_integration: None, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, setup_integration: None, config_entry: MockConfigEntry
 ) -> None:
     """Test removing a config entry."""
 
@@ -49,7 +49,7 @@ async def test_remove_config_entry(
     ],
 )
 async def test_load_failure(
-    hass: UniversalAssistant, setup_integration: None, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, setup_integration: None, config_entry: MockConfigEntry
 ) -> None:
     """Test failures loading the todo store."""
 

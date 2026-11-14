@@ -9,13 +9,13 @@ from requests.exceptions import RequestException
 
 from universalassistant.components.tado.const import DOMAIN
 from universalassistant.components.tado.services import TadoService, TadoServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_has_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the existence of the Tado Service."""
 
@@ -24,7 +24,7 @@ async def test_has_services(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_add_meter_readings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the add_meter_readings service."""
 
@@ -48,7 +48,7 @@ async def test_add_meter_readings(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_add_meter_readings_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the add_meter_readings service with a RequestException."""
 
@@ -58,7 +58,7 @@ async def test_add_meter_readings_exception(
             "PyTado.interface.api.Tado.set_eiq_meter_readings",
             side_effect=RequestException("Error"),
         ),
-        pytest.raises(UniversalAssistantError) as exc,
+        pytest.raises(__HAC_KEEP__Error) as exc,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -75,7 +75,7 @@ async def test_add_meter_readings_exception(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_add_meter_readings_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the add_meter_readings service with an invalid_meter_reading response."""
 
@@ -88,7 +88,7 @@ async def test_add_meter_readings_invalid(
             "PyTado.interface.api.Tado.set_eiq_meter_readings",
             return_value=json.loads(fixture),
         ),
-        pytest.raises(UniversalAssistantError) as exc,
+        pytest.raises(__HAC_KEEP__Error) as exc,
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -105,7 +105,7 @@ async def test_add_meter_readings_invalid(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_add_meter_readings_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the add_meter_readings service with a duplicated_meter_reading response."""
 
@@ -118,7 +118,7 @@ async def test_add_meter_readings_duplicate(
             "PyTado.interface.api.Tado.set_eiq_meter_readings",
             return_value=json.loads(fixture),
         ),
-        pytest.raises(UniversalAssistantError) as exc,
+        pytest.raises(__HAC_KEEP__Error) as exc,
     ):
         await hass.services.async_call(
             DOMAIN,

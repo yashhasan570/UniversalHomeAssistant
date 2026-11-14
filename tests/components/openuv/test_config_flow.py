@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_LOCATION,
     CONF_LONGITUDE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_API_KEY, TEST_ELEVATION, TEST_LATITUDE, TEST_LONGITUDE
@@ -28,7 +28,7 @@ from .conftest import TEST_API_KEY, TEST_ELEVATION, TEST_LATITUDE, TEST_LONGITUD
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_create_entry(hass: UniversalAssistant, client, config, mock_pyopenuv) -> None:
+async def test_create_entry(hass: __HAC_KEEP__, client, config, mock_pyopenuv) -> None:
     """Test creating an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -62,7 +62,7 @@ async def test_create_entry(hass: UniversalAssistant, client, config, mock_pyope
 
 
 async def test_duplicate_error(
-    hass: UniversalAssistant, config, config_entry, setup_config_entry
+    hass: __HAC_KEEP__, config, config_entry, setup_config_entry
 ) -> None:
     """Test that errors are shown when duplicates are added."""
     result = await hass.config_entries.flow.async_init(
@@ -80,7 +80,7 @@ async def test_duplicate_error(
 
 
 async def test_options_flow(
-    hass: UniversalAssistant, config_entry, setup_config_entry
+    hass: __HAC_KEEP__, config_entry, setup_config_entry
 ) -> None:
     """Test config flow options."""
     result = await hass.config_entries.options.async_init(config_entry.entry_id)
@@ -120,7 +120,7 @@ async def test_options_flow(
 
 
 async def test_step_reauth(
-    hass: UniversalAssistant, config, config_entry: MockConfigEntry, setup_config_entry
+    hass: __HAC_KEEP__, config, config_entry: MockConfigEntry, setup_config_entry
 ) -> None:
     """Test that the reauth step works."""
     result = await config_entry.start_reauth_flow(hass)

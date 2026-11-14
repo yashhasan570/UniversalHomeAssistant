@@ -15,7 +15,7 @@ from pypaperless.exceptions import (
 from pypaperless.models import Statistic, Status
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -42,7 +42,7 @@ class PaperlessCoordinator[DataT](DataUpdateCoordinator[DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: PaperlessConfigEntry,
         api: Paperless,
         name: str,
@@ -95,7 +95,7 @@ class PaperlessStatisticCoordinator(PaperlessCoordinator[Statistic]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: PaperlessConfigEntry,
         api: Paperless,
     ) -> None:
@@ -119,7 +119,7 @@ class PaperlessStatusCoordinator(PaperlessCoordinator[Status]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: PaperlessConfigEntry,
         api: Paperless,
     ) -> None:

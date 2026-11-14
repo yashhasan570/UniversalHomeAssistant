@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -78,7 +78,7 @@ def mock_fully_kiosk() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_fully_kiosk: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_fully_kiosk: MagicMock
 ) -> MockConfigEntry:
     """Set up the Fully Kiosk Browser integration for testing."""
     mock_config_entry.add_to_hass(hass)

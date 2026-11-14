@@ -4,12 +4,12 @@ from pytest_universalassistant.typing import MqttMockHAClient
 
 from universalassistant import config_entries
 from universalassistant.components.drop_connect.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.mqtt import MqttServiceInfo
 
 
-async def test_mqtt_setup(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_mqtt_setup(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test we can finish a config flow through MQTT with custom prefix."""
     discovery_info = MqttServiceInfo(
         topic="drop_connect/discovery/DROP-1_C0FFEE/255",
@@ -47,7 +47,7 @@ async def test_mqtt_setup(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient)
     assert result["result"].unique_id == "DROP-1_C0FFEE_255"
 
 
-async def test_duplicate(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_duplicate(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test we can finish a config flow through MQTT with custom prefix."""
     discovery_info = MqttServiceInfo(
         topic="drop_connect/discovery/DROP-1_C0FFEE/255",
@@ -86,7 +86,7 @@ async def test_duplicate(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) 
 
 
 async def test_mqtt_setup_incomplete_payload(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test we can finish a config flow through MQTT with custom prefix."""
     discovery_info = MqttServiceInfo(
@@ -108,7 +108,7 @@ async def test_mqtt_setup_incomplete_payload(
 
 
 async def test_mqtt_setup_bad_json(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test we can finish a config flow through MQTT with custom prefix."""
     discovery_info = MqttServiceInfo(
@@ -130,7 +130,7 @@ async def test_mqtt_setup_bad_json(
 
 
 async def test_mqtt_setup_bad_topic(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test we can finish a config flow through MQTT with custom prefix."""
     discovery_info = MqttServiceInfo(
@@ -152,7 +152,7 @@ async def test_mqtt_setup_bad_topic(
 
 
 async def test_mqtt_setup_no_payload(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test we can finish a config flow through MQTT with custom prefix."""
     discovery_info = MqttServiceInfo(
@@ -173,7 +173,7 @@ async def test_mqtt_setup_no_payload(
     assert result["reason"] == "invalid_discovery_info"
 
 
-async def test_user_setup(hass: UniversalAssistant) -> None:
+async def test_user_setup(hass: __HAC_KEEP__) -> None:
     """Test user setup."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

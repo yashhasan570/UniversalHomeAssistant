@@ -11,13 +11,13 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN, UPLOAD_SCOPE
@@ -50,26 +50,26 @@ CONTENT_SIZE_LIMIT = 20 * 1024 * 1024
 
 
 def _read_file_contents(
-    hass: UniversalAssistant, filenames: list[str]
+    hass: __HAC_KEEP__, filenames: list[str]
 ) -> list[tuple[str, bytes]]:
     """Return the mime types and file contents for each file."""
     results = []
     for filename in filenames:
         if not hass.config.is_allowed_path(filename):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="no_access_to_path",
                 translation_placeholders={"filename": filename},
             )
         filename_path = Path(filename)
         if not filename_path.exists():
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="filename_does_not_exist",
                 translation_placeholders={"filename": filename},
             )
         if filename_path.stat().st_size > CONTENT_SIZE_LIMIT:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="file_too_large",
                 translation_placeholders={
@@ -80,7 +80,7 @@ def _read_file_contents(
             )
         mime_type, _ = mimetypes.guess_type(filename)
         if mime_type is None or not (mime_type.startswith(("image", "video"))):
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="filename_is_not_image",
                 translation_placeholders={"filename": filename},
@@ -97,7 +97,7 @@ async def _async_handle_upload(call: ServiceCall) -> ServiceResponse:
 
     scopes = config_entry.data["token"]["scope"].split(" ")
     if UPLOAD_SCOPE not in scopes:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="missing_upload_permission",
         )
@@ -112,7 +112,7 @@ async def _async_handle_upload(call: ServiceCall) -> ServiceResponse:
     try:
         album_id = await coordinator.get_or_create_album(album)
     except GooglePhotosApiError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="create_album_error",
             translation_placeholders={"message": str(err)},
@@ -123,7 +123,7 @@ async def _async_handle_upload(call: ServiceCall) -> ServiceResponse:
     try:
         upload_results = await asyncio.gather(*upload_tasks)
     except GooglePhotosApiError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="upload_error",
             translation_placeholders={"message": str(err)},
@@ -137,7 +137,7 @@ async def _async_handle_upload(call: ServiceCall) -> ServiceResponse:
             album_id=album_id,
         )
     except GooglePhotosApiError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="api_error",
             translation_placeholders={"message": str(err)},
@@ -155,7 +155,7 @@ async def _async_handle_upload(call: ServiceCall) -> ServiceResponse:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register Google Photos services."""
 
     hass.services.async_register(

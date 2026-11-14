@@ -14,7 +14,7 @@ import requests_mock
 
 from universalassistant.components.metoffice.const import ATTRIBUTION, DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .const import (
@@ -31,7 +31,7 @@ from .const import (
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_one_sensor_site_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     requests_mock: requests_mock.Mocker,
@@ -79,7 +79,7 @@ async def test_one_sensor_site_running(
 @pytest.mark.freeze_time(dt.datetime(2024, 11, 23, 12, tzinfo=dt.UTC))
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_two_sensor_sites_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     requests_mock: requests_mock.Mocker,
@@ -168,7 +168,7 @@ async def test_two_sensor_sites_running(
     ],
 )
 async def test_legacy_entities_are_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     requests_mock: requests_mock.Mocker,
     old_unique_id: str,

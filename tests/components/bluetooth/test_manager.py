@@ -60,8 +60,8 @@ from universalassistant.components.bluetooth.const import (
     SOURCE_LOCAL,
     UNAVAILABLE_TRACK_SECONDS,
 )
-from universalassistant.components.bluetooth.manager import UniversalAssistantBluetoothManager
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.components.bluetooth.manager import __HAC_KEEP__BluetoothManager
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.discovery_flow import DiscoveryKey
 from universalassistant.setup import async_setup_component
@@ -71,7 +71,7 @@ from universalassistant.util.dt import utcnow
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_advertisements_do_not_switch_adapters_for_no_reason(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_advertisements_do_not_switch_adapters_for_no_reason(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_switching_adapters_based_on_rssi(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_switching_adapters_based_on_rssi(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_switching_adapters_based_on_zero_rssi(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
 ) -> None:
@@ -262,7 +262,7 @@ async def test_switching_adapters_based_on_zero_rssi(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_switching_adapters_based_on_stale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
 ) -> None:
@@ -329,7 +329,7 @@ async def test_switching_adapters_based_on_stale(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_switching_adapters_based_on_stale_with_discovered_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
 ) -> None:
@@ -429,7 +429,7 @@ async def test_switching_adapters_based_on_stale_with_discovered_interval(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_restore_history_from_dbus(
-    hass: UniversalAssistant, disable_new_discovery_flows
+    hass: __HAC_KEEP__, disable_new_discovery_flows
 ) -> None:
     """Test we can restore history from dbus."""
     address = "AA:BB:CC:CC:CC:FF"
@@ -457,7 +457,7 @@ async def test_restore_history_from_dbus(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_restore_history_from_dbus_and_remote_adapters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     disable_new_discovery_flows,
 ) -> None:
@@ -501,7 +501,7 @@ async def test_restore_history_from_dbus_and_remote_adapters(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_restore_history_from_dbus_and_corrupted_remote_adapters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     disable_new_discovery_flows,
 ) -> None:
@@ -543,7 +543,7 @@ async def test_restore_history_from_dbus_and_corrupted_remote_adapters(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_switching_adapters_based_on_rssi_connectable_to_non_connectable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
 ) -> None:
@@ -636,7 +636,7 @@ async def test_switching_adapters_based_on_rssi_connectable_to_non_connectable(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_connectable_adv_retrieved_when_best_path_is_non_connectable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
 ) -> None:
@@ -692,7 +692,7 @@ async def test_connectable_adv_retrieved_when_best_path_is_non_connectable(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_switching_adapters_when_one_goes_away(
-    hass: UniversalAssistant, register_hci0_scanner: None
+    hass: __HAC_KEEP__, register_hci0_scanner: None
 ) -> None:
     """Test switching adapters when one goes away."""
     cancel_hci2 = bluetooth.async_register_scanner(hass, FakeScanner("hci2", "hci2"))
@@ -748,7 +748,7 @@ async def test_switching_adapters_when_one_goes_away(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_switching_adapters_when_one_stop_scanning(
-    hass: UniversalAssistant, register_hci0_scanner: None
+    hass: __HAC_KEEP__, register_hci0_scanner: None
 ) -> None:
     """Test switching adapters when stops scanning."""
     hci2_scanner = FakeScanner("hci2", "hci2")
@@ -807,7 +807,7 @@ async def test_switching_adapters_when_one_stop_scanning(
 
 @pytest.mark.usefixtures("mock_bluetooth_adapters")
 async def test_goes_unavailable_connectable_only_and_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test connectable scanners go unavailable and recover.
 
@@ -972,7 +972,7 @@ async def test_goes_unavailable_connectable_only_and_recovers(
 
 @pytest.mark.usefixtures("mock_bluetooth_adapters")
 async def test_goes_unavailable_dismisses_discovery_and_makes_discoverable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test unavailable dismisses discoveries and re-enables them."""
     mock_bt = [
@@ -1154,7 +1154,7 @@ async def test_goes_unavailable_dismisses_discovery_and_makes_discoverable(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_debug_logging(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
     caplog: pytest.LogCaptureFixture,
@@ -1203,7 +1203,7 @@ async def test_debug_logging(
 
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
-async def test_set_fallback_interval_small(hass: UniversalAssistant) -> None:
+async def test_set_fallback_interval_small(hass: __HAC_KEEP__) -> None:
     """Test we can set the fallback advertisement interval."""
     assert async_get_fallback_availability_interval(hass, "44:44:33:11:23:12") is None
 
@@ -1257,7 +1257,7 @@ async def test_set_fallback_interval_small(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
-async def test_set_fallback_interval_big(hass: UniversalAssistant) -> None:
+async def test_set_fallback_interval_big(hass: __HAC_KEEP__) -> None:
     """Test we can set the fallback advertisement interval."""
     assert async_get_fallback_availability_interval(hass, "44:44:33:11:23:12") is None
 
@@ -1385,7 +1385,7 @@ async def test_set_fallback_interval_big(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_bluetooth_rediscover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_domain: str,
     entry_discovery_keys: dict[str, tuple[DiscoveryKey, ...]],
     entry_source: str,
@@ -1560,7 +1560,7 @@ async def test_bluetooth_rediscover(
     ],
 )
 async def test_bluetooth_rediscover_no_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry_domain: str,
     entry_discovery_keys: dict[str, tuple[DiscoveryKey, ...]],
     entry_source: str,
@@ -1699,7 +1699,7 @@ async def test_bluetooth_rediscover_no_match(
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_async_register_disappeared_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_hci0_scanner: None,
     register_hci1_scanner: None,
 ) -> None:
@@ -1727,7 +1727,7 @@ async def test_async_register_disappeared_callback(
         """Ok callback."""
         ok_disappeared.append(_address)
 
-    manager: UniversalAssistantBluetoothManager = _get_manager()
+    manager: __HAC_KEEP__BluetoothManager = _get_manager()
     cancel1 = manager.async_register_disappeared_callback(_failing_callback)
     # Make sure the second callback still works if the first one fails and
     # raises an exception
@@ -1765,7 +1765,7 @@ async def test_async_register_disappeared_callback(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_repair_issue_created_for_degraded_scanner_in_docker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test repair issue is created when scanner is in degraded mode in Docker."""
@@ -1822,7 +1822,7 @@ async def test_repair_issue_created_for_degraded_scanner_in_docker(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_repair_issue_deleted_when_scanner_not_degraded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test repair issue is deleted when scanner is not in degraded mode."""
@@ -1880,7 +1880,7 @@ async def test_repair_issue_deleted_when_scanner_not_degraded(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_no_repair_issue_when_not_docker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test no repair issue is created when not running in Docker."""
@@ -1911,7 +1911,7 @@ async def test_no_repair_issue_when_not_docker(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_no_repair_issue_for_remote_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test no repair issue is created for remote scanners."""
@@ -1943,7 +1943,7 @@ async def test_no_repair_issue_for_remote_scanner(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_repair_issue_created_for_passive_mode_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test repair issue is created when scanner falls back to passive mode."""
@@ -1987,7 +1987,7 @@ async def test_repair_issue_created_for_passive_mode_fallback(
 
 
 async def test_repair_issue_created_for_passive_mode_fallback_uart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test repair issue is created with UART-specific message for UART adapters."""
@@ -2038,7 +2038,7 @@ async def test_repair_issue_created_for_passive_mode_fallback_uart(
 
 @pytest.mark.usefixtures("one_adapter")
 async def test_repair_issue_deleted_when_passive_mode_resolved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test repair issue is deleted when scanner no longer in passive mode."""
@@ -2079,7 +2079,7 @@ async def test_repair_issue_deleted_when_passive_mode_resolved(
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_async_register_advertisement_callback(hass: UniversalAssistant) -> None:
+async def test_async_register_advertisement_callback(hass: __HAC_KEEP__) -> None:
     """Advertisement callbacks fire for every packet, even when unchanged."""
     address = "44:44:33:11:23:45"
     device = generate_ble_device(address, "wohand")
@@ -2104,7 +2104,7 @@ async def test_async_register_advertisement_callback(hass: UniversalAssistant) -
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_address_disappeared_keeps_dismiss_protected_flows(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Flows the user is interacting with survive the device disappearing."""
     with (

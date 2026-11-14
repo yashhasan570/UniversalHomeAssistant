@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import service
 
 from .const import DOMAIN, UNLOCK_VALID_DOORS
@@ -24,7 +24,7 @@ class SubaruServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the Subaru services."""
     service.async_register_platform_entity_service(
         hass,

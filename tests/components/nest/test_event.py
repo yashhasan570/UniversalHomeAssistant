@@ -10,7 +10,7 @@ from google_nest_sdm.traits import TraitType
 import pytest
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util.dt import utcnow
 
 from .common import DEVICE_ID, TEST_CLIP_URL, CreateDevice, create_nest_event
@@ -148,7 +148,7 @@ def create_event_messages(
     ],
 )
 async def test_receive_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subscriber: AsyncMock,
     setup_platform: PlatformSetup,
     create_device: CreateDevice,
@@ -188,7 +188,7 @@ async def test_receive_events(
 
 @pytest.mark.parametrize(("trait_type"), [(TraitType.DOORBELL_CHIME)])
 async def test_ignore_unrelated_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subscriber: AsyncMock,
     setup_platform: PlatformSetup,
     create_device: CreateDevice,
@@ -218,7 +218,7 @@ async def test_ignore_unrelated_event(
 
 @pytest.mark.freeze_time("2024-08-24T12:00:00Z")
 async def test_event_threads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subscriber: AsyncMock,
     setup_platform: PlatformSetup,
     create_device: CreateDevice,

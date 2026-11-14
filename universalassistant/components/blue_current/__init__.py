@@ -14,7 +14,7 @@ from bluecurrent_api.exceptions import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -46,7 +46,7 @@ VALUE_TYPES = [CHARGEPOINT_STATUS, CHARGEPOINT_SETTINGS]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Blue Current."""
 
     async_setup_services(hass)
@@ -54,7 +54,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: BlueCurrentConfigEntry
+    hass: __HAC_KEEP__, config_entry: BlueCurrentConfigEntry
 ) -> None:
     """Set up Blue Current as a config entry."""
     client = Client()
@@ -77,7 +77,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: BlueCurrentConfigEntry
+    hass: __HAC_KEEP__, config_entry: BlueCurrentConfigEntry
 ) -> None:
     """Unload the Blue Current config entry."""
 
@@ -88,7 +88,7 @@ class Connector:
     """Define a class that connects to the Blue Current websocket API."""
 
     def __init__(
-        self, hass: UniversalAssistant, config: BlueCurrentConfigEntry, client: Client
+        self, hass: __HAC_KEEP__, config: BlueCurrentConfigEntry, client: Client
     ) -> None:
         """Initialize."""
         self.config = config

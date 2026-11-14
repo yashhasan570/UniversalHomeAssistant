@@ -10,7 +10,7 @@ from uasiren.client import Client
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_REGION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import AIR_ALERT_LEVELS, ALERT_TYPE_AIR, ALERT_TYPES, DOMAIN
@@ -29,7 +29,7 @@ class UkraineAlarmDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: UkraineAlarmConfigEntry,
         session: ClientSession,
     ) -> None:

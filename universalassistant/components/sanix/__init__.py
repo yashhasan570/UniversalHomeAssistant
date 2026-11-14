@@ -3,7 +3,7 @@
 from sanix import Sanix
 
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_SERIAL_NUMBER
 from .coordinator import SanixConfigEntry, SanixCoordinator
@@ -11,7 +11,7 @@ from .coordinator import SanixConfigEntry, SanixCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SanixConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SanixConfigEntry) -> None:
     """Set up Sanix from a config entry."""
 
     serial_no = entry.data[CONF_SERIAL_NUMBER]
@@ -26,6 +26,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SanixConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SanixConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SanixConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

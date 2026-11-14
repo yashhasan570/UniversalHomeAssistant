@@ -18,13 +18,13 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_default_state(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test switch group default state."""
     hass.states.async_set("switch.tv", "on")
@@ -55,7 +55,7 @@ async def test_default_state(
     assert entry.unique_id == "unique_identifier"
 
 
-async def test_state_reporting(hass: UniversalAssistant) -> None:
+async def test_state_reporting(hass: __HAC_KEEP__) -> None:
     """Test the state reporting in 'any' mode.
 
     The group state is unavailable if all group members are unavailable.
@@ -143,7 +143,7 @@ async def test_state_reporting(hass: UniversalAssistant) -> None:
     assert hass.states.get("switch.switch_group").state == STATE_UNAVAILABLE
 
 
-async def test_state_reporting_all(hass: UniversalAssistant) -> None:
+async def test_state_reporting_all(hass: __HAC_KEEP__) -> None:
     """Test the state reporting in 'all' mode.
 
     The group state is unavailable if all group members are
@@ -234,7 +234,7 @@ async def test_state_reporting_all(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_custom_integrations")
-async def test_service_calls(hass: UniversalAssistant) -> None:
+async def test_service_calls(hass: __HAC_KEEP__) -> None:
     """Test service calls."""
     await async_setup_component(
         hass,
@@ -288,7 +288,7 @@ async def test_service_calls(hass: UniversalAssistant) -> None:
     assert hass.states.get("switch.decorative_lights").state == STATE_OFF
 
 
-async def test_reload(hass: UniversalAssistant) -> None:
+async def test_reload(hass: __HAC_KEEP__) -> None:
     """Test the ability to reload switches."""
     await async_setup_component(
         hass,
@@ -330,7 +330,7 @@ async def test_reload(hass: UniversalAssistant) -> None:
     assert hass.states.get("switch.outside_switches_g") is not None
 
 
-async def test_reload_with_platform_not_setup(hass: UniversalAssistant) -> None:
+async def test_reload_with_platform_not_setup(hass: __HAC_KEEP__) -> None:
     """Test the ability to reload switches."""
     hass.states.async_set("switch.something", STATE_ON)
     await async_setup_component(
@@ -369,7 +369,7 @@ async def test_reload_with_platform_not_setup(hass: UniversalAssistant) -> None:
 
 
 async def test_reload_with_base_integration_platform_not_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the ability to reload switches."""
     assert await async_setup_component(
@@ -405,7 +405,7 @@ async def test_reload_with_base_integration_platform_not_setup(
     assert hass.states.get("switch.outside_switches_g").state == STATE_OFF
 
 
-async def test_nested_group(hass: UniversalAssistant) -> None:
+async def test_nested_group(hass: __HAC_KEEP__) -> None:
     """Test nested switch group."""
     await async_setup_component(
         hass,
@@ -459,7 +459,7 @@ async def test_nested_group(hass: UniversalAssistant) -> None:
     assert hass.states.get("switch.nested_group").state == STATE_OFF
 
 
-async def test_assumed_state(hass: UniversalAssistant) -> None:
+async def test_assumed_state(hass: __HAC_KEEP__) -> None:
     """Test assumed_state attribute behavior."""
     await async_setup_component(
         hass,

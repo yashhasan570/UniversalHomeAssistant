@@ -44,7 +44,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import (
     device_registry as dr,
@@ -135,7 +135,7 @@ async def test_wait(*args, **key_args) -> None:
     ],
 )
 async def test_failures_parametrized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     attr: str,
@@ -171,7 +171,7 @@ async def test_failures_parametrized(
     ],
 )
 async def test_setup_auth_failed_reason(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
     attr: str,
@@ -189,7 +189,7 @@ async def test_setup_auth_failed_reason(
 
 
 async def test_setup_no_mac_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -221,7 +221,7 @@ async def test_setup_no_mac_address(
     ],
 )
 async def test_update_failed_translation_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
@@ -248,7 +248,7 @@ async def test_update_failed_translation_key(
 
 
 async def test_firmware_error_twice(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
@@ -276,7 +276,7 @@ async def test_firmware_error_twice(
 
 
 async def test_credential_error_three(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
@@ -327,7 +327,7 @@ async def test_credential_error_three(
     ],
 )
 async def test_removing_disconnected_cams(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -392,7 +392,7 @@ async def test_removing_disconnected_cams(
     ],
 )
 async def test_removing_chime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -447,7 +447,7 @@ async def test_removing_chime(
 
 
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -500,7 +500,7 @@ async def test_remove_config_entry_device_rejects_child_device(
     ],
 )
 async def test_via_device_id_chain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     reolink_chime: MagicMock,
@@ -618,7 +618,7 @@ async def test_via_device_id_chain(
     ],
 )
 async def test_migrate_entity_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -696,7 +696,7 @@ async def test_migrate_entity_ids(
 
 
 async def test_migrate_entity_id_zoom(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -764,7 +764,7 @@ async def test_migrate_entity_id_zoom(
 
 
 async def test_migrate_with_already_existing_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -828,7 +828,7 @@ async def test_migrate_with_already_existing_device(
     ],
 )
 async def test_migrate_with_already_existing_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -889,7 +889,7 @@ async def test_migrate_with_already_existing_entity(
 
 
 async def test_cleanup_mac_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -940,7 +940,7 @@ async def test_cleanup_mac_connection(
 
 
 async def test_cleanup_combined_with_NVR(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1004,7 +1004,7 @@ async def test_cleanup_combined_with_NVR(
 
 
 async def test_cleanup_hub_and_direct_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -1059,7 +1059,7 @@ async def test_cleanup_hub_and_direct_connection(
 
 
 async def test_no_repair_issue(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test no repairs issue is raised when http local url is used."""
     await async_process_ha_core_config(
@@ -1082,7 +1082,7 @@ async def test_no_repair_issue(
 
 
 async def test_https_repair_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -1114,7 +1114,7 @@ async def test_https_repair_issue(
 
 
 async def test_ssl_repair_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -1148,7 +1148,7 @@ async def test_ssl_repair_issue(
 
 @pytest.mark.parametrize("protocol", ["rtsp", "rtmp"])
 async def test_port_repair_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     protocol: str,
@@ -1171,7 +1171,7 @@ async def test_port_repair_issue(
 
 
 async def test_webhook_repair_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -1198,7 +1198,7 @@ async def test_webhook_repair_issue(
 
 
 async def test_firmware_repair_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     issue_registry: ir.IssueRegistry,
@@ -1216,7 +1216,7 @@ async def test_firmware_repair_issue(
 
 
 async def test_firmware_repair_issue_per_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host_class: MagicMock,
     reolink_host: MagicMock,
@@ -1261,7 +1261,7 @@ async def test_firmware_repair_issue_per_entry(
 
 
 async def test_password_too_long_repair_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1298,7 +1298,7 @@ async def test_password_too_long_repair_issue(
 
 
 async def test_new_device_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
@@ -1319,7 +1319,7 @@ async def test_new_device_discovered(
 
 
 async def test_port_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -1334,7 +1334,7 @@ async def test_port_changed(
 
 
 async def test_baichuan_port_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -1349,7 +1349,7 @@ async def test_baichuan_port_changed(
 
 
 async def test_uid_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
 ) -> None:
     """Test the addition of the UID to the config entry when not initially present."""
@@ -1382,7 +1382,7 @@ async def test_uid_changed(
 
 
 async def test_uid_changed_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -1397,7 +1397,7 @@ async def test_uid_changed_error(
 
 
 async def test_privacy_mode_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
@@ -1414,7 +1414,7 @@ async def test_privacy_mode_on(
 
 
 async def test_LoginPrivacyModeError(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
@@ -1438,7 +1438,7 @@ async def test_LoginPrivacyModeError(
 
 
 async def test_privacy_mode_change_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -1504,7 +1504,7 @@ async def test_privacy_mode_change_callback(
 
 
 async def test_camera_wake_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -1574,7 +1574,7 @@ async def test_camera_wake_callback(
 
 @pytest.mark.parametrize(("seconds", "call_count"), [(10, 1), (3600, 0)])
 async def test_firmware_update_delay(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     reolink_host: MagicMock,
     seconds: int,
@@ -1620,7 +1620,7 @@ async def test_firmware_update_delay(
 
 
 async def test_baichaun_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -1633,7 +1633,7 @@ async def test_baichaun_only(
 
 
 async def test_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     config_entry: MockConfigEntry,
 ) -> None:

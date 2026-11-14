@@ -6,14 +6,14 @@ from jwt import encode
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 TOKEN_SIGNING_KEY = "envoy-test-signing-key-0123456789"
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     expected_state: ConfigEntryState = ConfigEntryState.LOADED,
 ) -> None:

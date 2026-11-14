@@ -1,6 +1,6 @@
 {
   "domain": "frontend",
-  "name": "Universal Universal Home Assistant frontend",
+  "name": "__HA_KEEP__ frontend",
   "codeowners": ["@universal-assistant/frontend"],
   "dependencies": [
     "api",

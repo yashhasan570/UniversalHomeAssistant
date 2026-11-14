@@ -14,14 +14,14 @@ from pytest_universalassistant.common import (
 from pytest_universalassistant.plugins import MockConfigEntry, SnapshotAssertion
 
 from universalassistant.components.fing.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import init_integration
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     mocked_fing_agent: AsyncMock,
@@ -34,7 +34,7 @@ async def test_all_entities(
 
 
 async def test_new_device_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mocked_fing_agent: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -83,7 +83,7 @@ async def test_new_device_found(
 
 
 async def test_device_modified(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mocked_fing_agent: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -147,7 +147,7 @@ async def test_device_modified(
     ],
 )
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mocked_fing_agent: AsyncMock,
     device_registry: dr.DeviceRegistry,

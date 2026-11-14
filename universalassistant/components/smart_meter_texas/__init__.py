@@ -4,7 +4,7 @@ from smart_meter_texas import Account
 from smart_meter_texas.exceptions import SmartMeterTexasAuthError
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .const import DOMAIN
@@ -18,7 +18,7 @@ PLATFORMS = [Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: SmartMeterTexasConfigEntry
+    hass: __HAC_KEEP__, entry: SmartMeterTexasConfigEntry
 ) -> None:
     """Set up Smart Meter Texas from a config entry."""
 
@@ -42,7 +42,7 @@ async def async_setup_entry(
 
     # Use a DataUpdateCoordinator to manage the updates. This is due to the
     # Smart Meter Texas API which takes around 30 seconds to read a meter.
-    # This avoids Universal Universal Home Assistant from complaining about the component taking
+    # This avoids __HA_KEEP__ from complaining about the component taking
     # too long to update.
     coordinator = SmartMeterTexasCoordinator(hass, entry, smart_meter_texas_data)
 
@@ -56,7 +56,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: SmartMeterTexasConfigEntry
+    hass: __HAC_KEEP__, entry: SmartMeterTexasConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

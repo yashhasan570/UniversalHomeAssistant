@@ -11,7 +11,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import (
@@ -25,7 +25,7 @@ from .common import (
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_diffuser_v1_battery_cartridge(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the creation and values of the Rituals Perfume Genie sensors."""
     config_entry = mock_config_entry(unique_id="id_123_sensor_test_diffuser_v1")
@@ -75,7 +75,7 @@ async def test_sensors_diffuser_v1_battery_cartridge(
 
 
 async def test_sensors_diffuser_v3_no_fill(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that a Genie 3.0 without fill sensor data does not create a fill entity."""
     config_entry = mock_config_entry(unique_id="id_123_sensor_test_diffuser_v3")
@@ -90,7 +90,7 @@ async def test_sensors_diffuser_v3_no_fill(
     assert state.state == diffuser.perfume
 
 
-async def test_sensors_no_cartridge(hass: UniversalAssistant) -> None:
+async def test_sensors_no_cartridge(hass: __HAC_KEEP__) -> None:
     """Test the perfume and fill are unknown without a cartridge."""
     config_entry = mock_config_entry(unique_id="id_123_sensor_test_no_cartridge")
     await init_integration(

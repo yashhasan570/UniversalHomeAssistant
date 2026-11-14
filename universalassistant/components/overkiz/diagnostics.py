@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 from pyoverkiz.enums import APIType
 from pyoverkiz.obfuscate import obfuscate_id
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import AnyDeviceEntry, DeviceEntry
 
 from . import OverkizDataConfigEntry
@@ -13,7 +13,7 @@ from .const import CONF_API_TYPE, CONF_HUB
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: OverkizDataConfigEntry
+    hass: __HAC_KEEP__, entry: OverkizDataConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     client = entry.runtime_data.coordinator.client
@@ -35,7 +35,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, entry: OverkizDataConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: OverkizDataConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device entry."""
     if TYPE_CHECKING:

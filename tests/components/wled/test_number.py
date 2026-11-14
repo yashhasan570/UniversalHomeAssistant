@@ -21,8 +21,8 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.wled.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
@@ -36,7 +36,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_snapshots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -53,7 +53,7 @@ async def test_snapshots(
     ],
 )
 async def test_numbers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -89,7 +89,7 @@ async def test_numbers(
 
     # Test with WLED error
     mock_wled.segment.side_effect = WLEDError
-    with pytest.raises(UniversalAssistantError, match="Invalid response from WLED API"):
+    with pytest.raises(__HAC_KEEP__Error, match="Invalid response from WLED API"):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -107,7 +107,7 @@ async def test_numbers(
 
     # Test when a connection error occurs
     mock_wled.segment.side_effect = WLEDConnectionError
-    with pytest.raises(UniversalAssistantError, match="Error communicating with WLED API"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error communicating with WLED API"):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -143,7 +143,7 @@ async def test_numbers(
     ],
 )
 async def test_speed_dynamically_handle_segments(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_wled: MagicMock,
     entity_id_segment0: str,

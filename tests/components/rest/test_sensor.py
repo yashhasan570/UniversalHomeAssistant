@@ -37,13 +37,13 @@ from universalassistant.const import (
     UnitOfInformation,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.ssl import SSLCipherList
 
 
-async def test_setup_missing_config(hass: UniversalAssistant) -> None:
+async def test_setup_missing_config(hass: __HAC_KEEP__) -> None:
     """Test setup with configuration missing required entries."""
     assert await async_setup_component(
         hass, SENSOR_DOMAIN, {SENSOR_DOMAIN: {"platform": DOMAIN}}
@@ -52,7 +52,7 @@ async def test_setup_missing_config(hass: UniversalAssistant) -> None:
     assert len(hass.states.async_all(SENSOR_DOMAIN)) == 0
 
 
-async def test_setup_missing_schema(hass: UniversalAssistant) -> None:
+async def test_setup_missing_schema(hass: __HAC_KEEP__) -> None:
     """Test setup with resource missing schema."""
     assert await async_setup_component(
         hass,
@@ -64,7 +64,7 @@ async def test_setup_missing_schema(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_failed_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -87,7 +87,7 @@ async def test_setup_failed_connect(
 
 
 async def test_setup_fail_on_ssl_erros(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_setup_fail_on_ssl_erros(
 
 
 async def test_setup_timeout(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup when connection timeout occurs."""
     aioclient_mock.get("http://localhost", exc=TimeoutError())
@@ -124,7 +124,7 @@ async def test_setup_timeout(
 
 
 async def test_setup_minimum(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with minimum configuration."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK)
@@ -173,7 +173,7 @@ async def test_setup_minimum(
     ],
 )
 async def test_setup_with_encoding_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     content_text: str,
     content_encoding: str,
@@ -206,7 +206,7 @@ async def test_setup_with_encoding_config(
 
 
 async def test_setup_with_charset_from_header(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with encoding auto-detected from Content-Type header."""
     # Test with ISO-8859-1 charset in Content-Type header
@@ -243,7 +243,7 @@ async def test_setup_with_charset_from_header(
     ],
 )
 async def test_setup_ssl_ciphers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ssl_cipher_list: str,
     ssl_cipher_list_expected: SSLCipherList,
     aioclient_mock: AiohttpClientMocker,
@@ -274,7 +274,7 @@ async def test_setup_ssl_ciphers(
 
 
 async def test_manual_update(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with minimum configuration."""
     await async_setup_component(hass, "universalassistant", {})
@@ -310,7 +310,7 @@ async def test_manual_update(
 
 
 async def test_setup_minimum_resource_template(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with minimum configuration (resource_template)."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK)
@@ -329,7 +329,7 @@ async def test_setup_minimum_resource_template(
 
 
 async def test_setup_duplicate_resource_template(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with duplicate resources."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK)
@@ -349,7 +349,7 @@ async def test_setup_duplicate_resource_template(
 
 
 async def test_setup_get(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid configuration."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK, json={"key": "123"})
@@ -396,7 +396,7 @@ async def test_setup_get(
 
 
 async def test_setup_timestamp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -462,7 +462,7 @@ async def test_setup_timestamp(
 
 
 async def test_setup_get_templated_headers_params(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid configuration."""
     aioclient_mock.get("http://localhost", status=200, json={})
@@ -497,7 +497,7 @@ async def test_setup_get_templated_headers_params(
 
 
 async def test_setup_get_digest_auth(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid configuration."""
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK, json={"key": "123"})
@@ -527,7 +527,7 @@ async def test_setup_get_digest_auth(
 
 
 async def test_setup_post(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid configuration."""
     aioclient_mock.post("http://localhost", status=HTTPStatus.OK, json={"key": "123"})
@@ -557,7 +557,7 @@ async def test_setup_post(
 
 
 async def test_setup_get_xml(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with valid xml configuration."""
     aioclient_mock.get(
@@ -591,7 +591,7 @@ async def test_setup_get_xml(
 
 
 async def test_setup_query_params(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup with query params."""
     aioclient_mock.get("http://localhost?search=something", status=HTTPStatus.OK)
@@ -612,7 +612,7 @@ async def test_setup_query_params(
 
 
 async def test_update_with_json_attrs(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test attributes get extracted from a JSON result."""
 
@@ -647,7 +647,7 @@ async def test_update_with_json_attrs(
 
 
 async def test_update_with_no_template(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test update when there is no value template."""
 
@@ -680,7 +680,7 @@ async def test_update_with_no_template(
 
 
 async def test_update_with_json_attrs_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -720,7 +720,7 @@ async def test_update_with_json_attrs_no_data(
 
 
 async def test_update_with_json_attrs_not_dict(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -758,7 +758,7 @@ async def test_update_with_json_attrs_not_dict(
 
 
 async def test_update_with_json_attrs_bad_JSON(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -798,7 +798,7 @@ async def test_update_with_json_attrs_bad_JSON(
 
 
 async def test_update_with_json_attrs_with_json_attrs_path(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test attributes extracted from JSON with a path template."""
 
@@ -844,7 +844,7 @@ async def test_update_with_json_attrs_with_json_attrs_path(
 
 
 async def test_update_with_xml_convert_json_attrs_with_json_attrs_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test attributes extracted from XML-to-JSON with a path."""
@@ -883,7 +883,7 @@ async def test_update_with_xml_convert_json_attrs_with_json_attrs_path(
 
 
 async def test_update_with_xml_convert_json_attrs_with_jsonattr_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test attributes get extracted from a JSON result that was converted from XML."""
@@ -937,7 +937,7 @@ async def test_update_with_xml_convert_json_attrs_with_jsonattr_template(
 
 
 async def test_update_with_application_xml_convert_json_attrs_with_jsonattr_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test attributes extracted from XML with application/xml type."""
@@ -983,7 +983,7 @@ async def test_update_with_application_xml_convert_json_attrs_with_jsonattr_temp
     ],
 )
 async def test_update_with_xml_convert_bad_xml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     content: str,
     error_message: str,
@@ -1024,7 +1024,7 @@ async def test_update_with_xml_convert_bad_xml(
 
 
 async def test_update_with_failed_get(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1063,7 +1063,7 @@ async def test_update_with_failed_get(
 
 
 async def test_query_param_dict_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1131,7 +1131,7 @@ async def test_query_param_dict_value(
 
 
 async def test_query_param_json_string_preserved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test JSON strings in query params are preserved."""
@@ -1180,7 +1180,7 @@ async def test_query_param_json_string_preserved(
     assert url.query["normal"] == "value"
 
 
-async def test_reload(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_reload(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
     """Verify we can reload reset sensors."""
 
     aioclient_mock.get("http://localhost", status=HTTPStatus.OK)
@@ -1220,7 +1220,7 @@ async def test_reload(hass: UniversalAssistant, aioclient_mock: AiohttpClientMoc
 
 
 async def test_entity_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1262,7 +1262,7 @@ async def test_entity_config(
 
 
 async def test_availability_in_config(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test entity configuration."""
     aioclient_mock.get(
@@ -1338,7 +1338,7 @@ async def test_availability_in_config(
 
 
 async def test_json_response_with_availability_syntax_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -1387,7 +1387,7 @@ async def test_json_response_with_availability_syntax_error(
 
 
 async def test_json_response_with_availability(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test availability with complex json."""
 
@@ -1451,7 +1451,7 @@ async def test_json_response_with_availability(
 
 
 async def test_availability_blocks_value_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

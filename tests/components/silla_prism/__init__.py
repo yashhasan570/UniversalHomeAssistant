@@ -6,13 +6,13 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_mqtt_me
 
 from universalassistant.components.silla_prism.const import PLATFORMS
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import RETAINED_BURST
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     platforms: list[Platform] | None = None,
 ) -> None:
@@ -24,7 +24,7 @@ async def setup_integration(
         await hass.async_block_till_done()
 
 
-async def fire_burst(hass: UniversalAssistant) -> None:
+async def fire_burst(hass: __HAC_KEEP__) -> None:
     """Publish the retained status burst captured from a real Prism."""
     for topic, payload in RETAINED_BURST:
         async_fire_mqtt_message(hass, topic, payload)

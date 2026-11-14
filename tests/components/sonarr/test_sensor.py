@@ -14,7 +14,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfInformation,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -23,7 +23,7 @@ UPCOMING_ENTITY_ID = f"{SENSOR_DOMAIN}.sonarr_upcoming"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_sonarr: MagicMock,
@@ -88,7 +88,7 @@ async def test_sensors(
     ],
 )
 async def test_disabled_by_default_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     entity_id: str,
@@ -104,7 +104,7 @@ async def test_disabled_by_default_sensors(
 
 
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_sonarr: MagicMock,

@@ -6,7 +6,7 @@ from universalassistant.components.script import DOMAIN as SCRIPT_DOMAIN
 from universalassistant.components.script.config import async_validate_config_item  # pylint: disable=universal-assistant-component-root-import
 from universalassistant.config import SCRIPT_CONFIG_PATH
 from universalassistant.const import SERVICE_RELOAD
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 
 from .const import ACTION_DELETE
@@ -14,7 +14,7 @@ from .view import EditKeyBasedConfigView
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> bool:
+def async_setup(hass: __HAC_KEEP__) -> bool:
     """Set up the script config API."""
 
     async def hook(action: str, config_key: str) -> None:
@@ -53,7 +53,7 @@ class EditScriptConfigView(EditKeyBasedConfigView):
     @override
     def _write_value(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         data: dict[str, dict[str, Any]],
         config_key: str,
         new_value: dict[str, Any],

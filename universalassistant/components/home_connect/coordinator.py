@@ -32,7 +32,7 @@ from aiohomeconnect.model.error import (
 from aiohomeconnect.model.program import EnumerateProgram, ProgramDefinitionOption
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
@@ -115,7 +115,7 @@ class HomeConnectRuntimeData:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: HomeConnectConfigEntry,
         client: HomeConnectClient,
     ) -> None:
@@ -278,7 +278,7 @@ class HomeConnectApplianceCoordinator(DataUpdateCoordinator[HomeConnectAppliance
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: HomeConnectConfigEntry,
         client: HomeConnectClient,
         global_listeners: dict[

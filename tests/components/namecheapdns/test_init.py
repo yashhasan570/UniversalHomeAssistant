@@ -10,14 +10,14 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.namecheapdns.const import UPDATE_URL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import TEST_USER_INPUT
 
 
 @pytest.mark.freeze_time
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -44,7 +44,7 @@ async def test_setup(
 
 @pytest.mark.freeze_time
 async def test_setup_fails_if_update_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

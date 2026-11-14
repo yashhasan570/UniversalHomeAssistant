@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import (
     CONF_SPLIT_PHASE,
@@ -17,7 +17,7 @@ WIFI_STATUS_EXCLUDE = {"wifi_ssid", "wifi_infra_ip", "wifi_mac"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: WallConnectorConfigEntry
+    hass: __HAC_KEEP__, entry: WallConnectorConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     runtime_data = entry.runtime_data

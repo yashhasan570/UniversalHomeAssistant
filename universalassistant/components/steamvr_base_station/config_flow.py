@@ -13,7 +13,7 @@ from universalassistant.components.bluetooth import (
 )
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DOMAIN
 
@@ -25,7 +25,7 @@ def _is_v2_station(info: BluetoothServiceInfoBleak) -> bool:
     return advertisement is not None and advertisement.version is Version.V2
 
 
-async def _test_connection(hass: UniversalAssistant, address: str) -> str | None:
+async def _test_connection(hass: __HAC_KEEP__, address: str) -> str | None:
     """Read the station's device information; return an error key on failure."""
     ble_device = async_ble_device_from_address(hass, address, connectable=True)
     if ble_device is None:

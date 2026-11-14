@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, override
 from refoss_ha.controller.device import BaseDevice
 from refoss_ha.exceptions import DeviceTimeoutError
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN, LOGGER, MAX_ERRORS
@@ -22,7 +22,7 @@ class RefossDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: RefossConfigEntry,
         device: BaseDevice,
     ) -> None:

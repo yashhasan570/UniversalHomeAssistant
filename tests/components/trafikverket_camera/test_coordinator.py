@@ -15,7 +15,7 @@ from pytrafikverket import (
 
 from universalassistant.components.trafikverket_camera.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
@@ -23,7 +23,7 @@ from . import ENTRY_CONFIG
 
 
 async def test_coordinator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     get_camera: CameraInfoModel,
 ) -> None:
@@ -81,7 +81,7 @@ async def test_coordinator(
     ],
 )
 async def test_coordinator_failed_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     get_camera: CameraInfoModel,
     sideeffect: str,
@@ -118,7 +118,7 @@ async def test_coordinator_failed_update(
 
 
 async def test_coordinator_failed_get_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     get_camera: CameraInfoModel,
 ) -> None:

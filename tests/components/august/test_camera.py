@@ -8,13 +8,13 @@ from yalexs.const import Brand
 from yalexs.doorbell import ContentTokenExpired
 
 from universalassistant.components.camera import CameraState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .mocks import _create_august_with_devices, _mock_doorbell_from_fixture
 
 
 async def test_create_doorbell(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test creation of a doorbell."""
     doorbell_one = await _mock_doorbell_from_fixture(hass, "get_doorbell.json")
@@ -39,7 +39,7 @@ async def test_create_doorbell(
 
 
 async def test_doorbell_refresh_content_token_fail(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test camera image content token expired."""
     doorbell_two = await _mock_doorbell_from_fixture(hass, "get_doorbell.json")

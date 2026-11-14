@@ -14,14 +14,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.fuelprices_dk.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import client_error, setup_integration
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -35,7 +35,7 @@ async def test_sensors(
 
 
 async def test_sensor_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -57,7 +57,7 @@ async def test_sensor_updates(
 
 
 async def test_sensor_becomes_unavailable_when_product_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -77,7 +77,7 @@ async def test_sensor_becomes_unavailable_when_product_missing(
 
 
 async def test_sensor_ignores_non_numeric_price(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -96,7 +96,7 @@ async def test_sensor_ignores_non_numeric_price(
 
 @pytest.mark.parametrize("mock_config_entry", [2], indirect=True)
 async def test_bulk_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -133,7 +133,7 @@ async def test_bulk_updates(
 
 @pytest.mark.parametrize("mock_config_entry", [2], indirect=True)
 async def test_missing_station_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -171,7 +171,7 @@ async def test_missing_station_recovers(
 
 @pytest.mark.parametrize("mock_config_entry", [2], indirect=True)
 async def test_station_missing_at_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -193,7 +193,7 @@ async def test_station_missing_at_setup(
 @pytest.mark.parametrize("mock_config_entry", [2], indirect=True)
 @pytest.mark.parametrize("status", [500, 429])
 async def test_failed_update_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -224,7 +224,7 @@ async def test_failed_update_recovers(
 
 @pytest.mark.parametrize("mock_config_entry", [2], indirect=True)
 async def test_invalid_api_key_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_braendstofpriser: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

@@ -22,7 +22,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
@@ -39,7 +39,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_airly_client")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -66,7 +66,7 @@ async def test_sensor(
     ],
 )
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
     exception: Exception,
@@ -103,7 +103,7 @@ async def test_availability(
 
 
 async def test_manual_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
 ) -> None:
@@ -131,7 +131,7 @@ async def test_manual_update_entity(
     ],
 )
 async def test_missing_measurement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
     mock_airly_measurements: Measurement,
@@ -175,7 +175,7 @@ async def test_missing_measurement(
 
 
 async def test_zero_value_creates_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
     mock_airly_measurements: Measurement,
@@ -194,7 +194,7 @@ async def test_zero_value_creates_entity(
 
 
 async def test_missing_standard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_airly_client: MagicMock,
     mock_airly_measurements: Measurement,

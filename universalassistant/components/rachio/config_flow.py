@@ -11,8 +11,8 @@ from requests.exceptions import ConnectTimeout
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.service_info.zeroconf import (
     ATTR_PROPERTIES_ID,
     ZeroconfServiceInfo,
@@ -36,7 +36,7 @@ DATA_SCHEMA = probatio.Schema(
 REAUTH_SCHEMA = probatio.Schema({probatio.Required(probatio.Secret(CONF_API_KEY)): str})
 
 
-async def validate_input(hass: UniversalAssistant, data):
+async def validate_input(hass: __HAC_KEEP__, data):
     """Validate the user input allows us to connect.
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
@@ -187,9 +187,9 @@ class OptionsFlowHandler(OptionsFlow):
         return self.async_show_form(step_id="init", data_schema=data_schema)
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

@@ -6,7 +6,7 @@ from aemet_opendata.const import AOD_DATETIME, AOD_IMG_BYTES, AOD_IMG_TYPE, AOD_
 from aemet_opendata.helpers import dict_nested_value
 
 from universalassistant.components.image import Image, ImageEntity, ImageEntityDescription
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AemetConfigEntry, WeatherUpdateCoordinator
@@ -21,7 +21,7 @@ AEMET_IMAGES: Final[tuple[ImageEntityDescription, ...]] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AemetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -73,7 +73,7 @@ class AemetImage(AemetEntity, ImageEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         name: str,
         coordinator: WeatherUpdateCoordinator,
         description: ImageEntityDescription,

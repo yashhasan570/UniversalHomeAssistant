@@ -9,7 +9,7 @@ from motionblindsble.device import MotionDevice
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MotionConfigEntry
@@ -51,7 +51,7 @@ BUTTON_TYPES: list[MotionblindsBLEButtonEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MotionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

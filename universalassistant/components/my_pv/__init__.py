@@ -1,10 +1,10 @@
-"""The my-PV integration for Universal Universal Home Assistant."""
+"""The my-PV integration for __HA_KEEP__."""
 
 from my_pv import MyPVLocalDevice
 from my_pv.exceptions import MyPVAuthenticationError, MyPVDeviceNotSupportedError
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -27,7 +27,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MyPVConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MyPVConfigEntry) -> None:
     """Set up my-PV from a config entry."""
 
     device = MyPVLocalDevice(
@@ -66,7 +66,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: MyPVConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MyPVConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MyPVConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.async_disconnect()

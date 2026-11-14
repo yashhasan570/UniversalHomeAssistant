@@ -45,7 +45,7 @@
           'type': 'ephemeral',
         }),
         'text': '''
-          You are a Universal Universal Home Assistant expert and help users with their tasks.
+          You are a __HA_KEEP__ expert and help users with their tasks.
           Current time is 04:00:00. Today's date is 2026-01-01.
         ''',
         'type': 'text',

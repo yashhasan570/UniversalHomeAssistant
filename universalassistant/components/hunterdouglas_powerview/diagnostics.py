@@ -9,7 +9,7 @@ from universalassistant.components.diagnostics import (
     entity_entry_as_dict,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import AnyDeviceEntry
 
@@ -25,7 +25,7 @@ REDACT_CONFIG = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: PowerviewConfigEntry
+    hass: __HAC_KEEP__, entry: PowerviewConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = _async_get_diagnostics(hass, entry)
@@ -42,7 +42,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, entry: PowerviewConfigEntry, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: PowerviewConfigEntry, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device entry."""
     data = _async_get_diagnostics(hass, entry)
@@ -59,7 +59,7 @@ async def async_get_device_diagnostics(
 
 @callback
 def _async_get_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PowerviewConfigEntry,
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
@@ -71,11 +71,11 @@ def _async_get_diagnostics(
 
 @callback
 def _async_device_as_dict(
-    hass: UniversalAssistant, device: AnyDeviceEntry
+    hass: __HAC_KEEP__, device: AnyDeviceEntry
 ) -> dict[str, Any]:
     """Represent a Powerview device as a dictionary."""
 
-    # Gather information how this device is represented in Universal Universal Home Assistant
+    # Gather information how this device is represented in __HA_KEEP__
     entity_registry = er.async_get(hass)
 
     data = async_redact_data(device_entry_as_dict(device), REDACT_CONFIG)

@@ -5,7 +5,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from victron_vrm.exceptions import AuthenticationError, VictronVRMError
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -24,7 +24,7 @@ from universalassistant.core import UniversalAssistant
     ],
 )
 async def test_setup_auth_or_connection_error_starts_retry_or_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vrm_client,
     side_effect: Exception | None,

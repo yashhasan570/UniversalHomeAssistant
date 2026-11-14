@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.fibaro.const import CONF_IMPORT_PLUGINS, DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_SERIALNUMBER = "HC2-111111"
 TEST_NAME = "my_fibaro_home_center"
@@ -566,7 +566,7 @@ def mock_multilevel_sensor() -> Mock:
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return the default mocked config entry."""
     mock_config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -609,7 +609,7 @@ def mock_fibaro_client() -> Generator[Mock]:
 
 
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Set up the fibaro integration for testing."""
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)

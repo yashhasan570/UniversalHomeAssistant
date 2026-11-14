@@ -7,7 +7,7 @@ from aioswitcher.api import SwitcherApi
 from aioswitcher.api.messages import SwitcherBaseResponse
 
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -57,13 +57,13 @@ class SwitcherEntity(CoordinatorEntity[SwitcherDataUpdateCoordinator]):
             ) as swapi:
                 response = await getattr(swapi, api)(*args, **kwargs)
         except (TimeoutError, OSError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
                 translation_placeholders={"entity": str(self.name)},
             ) from err
         except RuntimeError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"entity": str(self.name)},
@@ -71,7 +71,7 @@ class SwitcherEntity(CoordinatorEntity[SwitcherDataUpdateCoordinator]):
 
         if not response or not response.successful:
             _LOGGER.debug("Unsuccessful response from %s: %s", self.name, response)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"entity": str(self.name)},

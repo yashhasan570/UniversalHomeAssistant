@@ -94,13 +94,13 @@ from universalassistant.const import (
 )
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
-    UniversalAssistant,
+    __HAC_KEEP__,
     async_get_hass,
     async_get_hass_or_none,
     split_entity_id,
     valid_entity_id,
 )
-from universalassistant.exceptions import UniversalAssistantError, TemplateError
+from universalassistant.exceptions import __HAC_KEEP__Error, TemplateError
 from universalassistant.generated import currencies
 from universalassistant.generated.countries import COUNTRIES
 from universalassistant.generated.languages import LANGUAGES
@@ -118,22 +118,22 @@ from .typing import VolDictType, VolSchemaType
 TIME_PERIOD_ERROR = "offset {} should be format 'HH:MM', 'HH:MM:SS' or 'HH:MM:SS.F'"
 
 
-class MustValidateInExecutor(UniversalAssistantError):
+class MustValidateInExecutor(__HAC_KEEP__Error):
     """Raised when validation must happen in an executor thread."""
 
 
 class _Hass(threading.local):
-    """Container which makes a UniversalAssistant instance available to validators."""
+    """Container which makes a __HAC_KEEP__ instance available to validators."""
 
-    hass: UniversalAssistant | None = None
+    hass: __HAC_KEEP__ | None = None
 
 
 _hass = _Hass()
 """Set when doing async friendly schema validation."""
 
 
-def _async_get_hass_or_none() -> UniversalAssistant | None:
-    """Return the UniversalAssistant instance or None.
+def _async_get_hass_or_none() -> __HAC_KEEP__ | None:
+    """Return the __HAC_KEEP__ instance or None.
 
     First tries core.async_get_hass_or_none, then _hass which is
     set when doing async friendly schema validation.
@@ -178,7 +178,7 @@ CONFIGURATION_URL_PROTOCOL_SCHEMA_LIST = frozenset(
     {UrlProtocolSchema.HOMEASSISTANT, UrlProtocolSchema.HTTP, UrlProtocolSchema.HTTPS}
 )
 
-# Universal Universal Home Assistant types
+# __HA_KEEP__ types
 byte = probatio.All(probatio.Coerce(int), probatio.Byte())
 small_float = probatio.All(probatio.Coerce(float), probatio.SmallFloat())
 positive_int = probatio.All(probatio.Coerce(int), probatio.NonNegative())
@@ -988,7 +988,7 @@ def _deprecated_or_removed(
                 option_status = "is deprecated"
                 if breaks_in_ha_version:
                     option_status += (
-                        f" and will be removed in Universal Universal Home Assistant {breaks_in_ha_version}"
+                        f" and will be removed in __HA_KEEP__ {breaks_in_ha_version}"
                     )
 
             try:
@@ -1255,8 +1255,8 @@ def _no_yaml_config_schema(
     def raise_issue() -> None:
         from .issue_registry import IssueSeverity, async_create_issue  # noqa: PLC0415
 
-        # UniversalAssistantError is raised if called from the wrong thread
-        with contextlib.suppress(UniversalAssistantError):
+        # __HAC_KEEP__Error is raised if called from the wrong thread
+        with contextlib.suppress(__HAC_KEEP__Error):
             hass = async_get_hass()
             async_create_issue(
                 hass,
@@ -2201,7 +2201,7 @@ language = probatio.In(LANGUAGES, msg="invalid RFC 5646 formatted language")
 
 
 async def async_validate(
-    hass: UniversalAssistant, validator: Callable[[Any], Any], value: Any
+    hass: __HAC_KEEP__, validator: Callable[[Any], Any], value: Any
 ) -> Any:
     """Async friendly schema validation.
 
@@ -2220,7 +2220,7 @@ async def async_validate(
 
 
 def _validate_in_executor(
-    hass: UniversalAssistant, validator: Callable[[Any], Any], value: Any
+    hass: __HAC_KEEP__, validator: Callable[[Any], Any], value: Any
 ) -> Any:
     _hass.hass = hass
     try:

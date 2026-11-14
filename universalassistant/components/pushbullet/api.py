@@ -4,7 +4,7 @@ from typing import Any
 
 from pushbullet import Listener, PushBullet
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.dispatcher import dispatcher_send
 
 from .const import DATA_UPDATED
@@ -13,7 +13,7 @@ from .const import DATA_UPDATED
 class PushBulletNotificationProvider(Listener):  # type: ignore[misc]
     """Provider for an account, leading to one or more sensors."""
 
-    def __init__(self, hass: UniversalAssistant, pushbullet: PushBullet) -> None:
+    def __init__(self, hass: __HAC_KEEP__, pushbullet: PushBullet) -> None:
         """Start to retrieve pushes from the given Pushbullet instance."""
         self.hass = hass
         self.pushbullet = pushbullet

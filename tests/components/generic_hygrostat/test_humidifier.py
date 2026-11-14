@@ -40,7 +40,7 @@ from universalassistant.const import (
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
     CoreState,
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     State,
     callback,
@@ -60,7 +60,7 @@ MAX_HUMIDITY = 65
 TARGET_HUMIDITY = 42
 
 
-async def test_setup_missing_conf(hass: UniversalAssistant) -> None:
+async def test_setup_missing_conf(hass: __HAC_KEEP__) -> None:
     """Test set up humidity_control with missing config values."""
     config = {
         "platform": "generic_hygrostat",
@@ -72,7 +72,7 @@ async def test_setup_missing_conf(hass: UniversalAssistant) -> None:
         await hass.async_block_till_done()
 
 
-async def test_valid_conf(hass: UniversalAssistant) -> None:
+async def test_valid_conf(hass: __HAC_KEEP__) -> None:
     """Test set up generic_hygrostat with valid config values."""
     assert await async_setup_component(
         hass,
@@ -90,14 +90,14 @@ async def test_valid_conf(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture
-async def setup_comp_1(hass: UniversalAssistant) -> None:
+async def setup_comp_1(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     assert await async_setup_component(hass, "universalassistant", {})
     await hass.async_block_till_done()
 
 
 @pytest.mark.usefixtures("setup_comp_1")
-async def test_humidifier_input_boolean(hass: UniversalAssistant) -> None:
+async def test_humidifier_input_boolean(hass: __HAC_KEEP__) -> None:
     """Test humidifier switching input_boolean."""
     humidifier_switch = "input_boolean.test"
     assert await async_setup_component(
@@ -138,7 +138,7 @@ async def test_humidifier_input_boolean(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_comp_1")
 async def test_humidifier_switch(
-    hass: UniversalAssistant, mock_switch_entities: list[MockSwitch]
+    hass: __HAC_KEEP__, mock_switch_entities: list[MockSwitch]
 ) -> None:
     """Test humidifier switching test switch."""
     setup_test_component_platform(hass, switch.DOMAIN, mock_switch_entities)
@@ -183,7 +183,7 @@ async def test_humidifier_switch(
 
 @pytest.mark.usefixtures("setup_comp_1")
 async def test_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test setting a unique ID."""
     unique_id = "some_unique_id"
@@ -209,13 +209,13 @@ async def test_unique_id(
     assert entry.unique_id == unique_id
 
 
-def _setup_sensor(hass: UniversalAssistant, humidity: StateType) -> None:
+def _setup_sensor(hass: __HAC_KEEP__, humidity: StateType) -> None:
     """Set up the test sensor."""
     hass.states.async_set(ENT_SENSOR, humidity)
 
 
 @pytest.fixture
-async def setup_comp_0(hass: UniversalAssistant) -> None:
+async def setup_comp_0(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     _setup_sensor(hass, 45)
     hass.states.async_set(ENT_SWITCH, STATE_OFF)
@@ -241,7 +241,7 @@ async def setup_comp_0(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture
-async def setup_comp_2(hass: UniversalAssistant) -> None:
+async def setup_comp_2(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     _setup_sensor(hass, 45)
     hass.states.async_set(ENT_SWITCH, STATE_OFF)
@@ -265,7 +265,7 @@ async def setup_comp_2(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_unavailable_state(hass: UniversalAssistant) -> None:
+async def test_unavailable_state(hass: __HAC_KEEP__) -> None:
     """Test the setting of defaults to unknown."""
     await async_setup_component(
         hass,
@@ -292,7 +292,7 @@ async def test_unavailable_state(hass: UniversalAssistant) -> None:
     assert hass.states.get(ENTITY).state == STATE_OFF
 
 
-async def test_setup_defaults_to_unknown(hass: UniversalAssistant) -> None:
+async def test_setup_defaults_to_unknown(hass: __HAC_KEEP__) -> None:
     """Test the setting of defaults to unknown."""
     await async_setup_component(
         hass,
@@ -314,7 +314,7 @@ async def test_setup_defaults_to_unknown(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_default_setup_params(hass: UniversalAssistant) -> None:
+async def test_default_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the setup with default parameters."""
     state = hass.states.get(ENTITY)
     assert state.attributes.get("min_humidity") == 0
@@ -324,7 +324,7 @@ async def test_default_setup_params(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_0")
-async def test_default_setup_params_dehumidifier(hass: UniversalAssistant) -> None:
+async def test_default_setup_params_dehumidifier(hass: __HAC_KEEP__) -> None:
     """Test the setup with default parameters for dehumidifier."""
     state = hass.states.get(ENTITY)
     assert state.attributes.get("min_humidity") == 0
@@ -334,7 +334,7 @@ async def test_default_setup_params_dehumidifier(hass: UniversalAssistant) -> No
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_get_modes(hass: UniversalAssistant) -> None:
+async def test_get_modes(hass: __HAC_KEEP__) -> None:
     """Test that the attributes returns the correct modes."""
     state = hass.states.get(ENTITY)
     modes = state.attributes.get("available_modes")
@@ -342,7 +342,7 @@ async def test_get_modes(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_target_humidity(hass: UniversalAssistant) -> None:
+async def test_set_target_humidity(hass: __HAC_KEEP__) -> None:
     """Test the setting of the target humidity."""
     await hass.services.async_call(
         HUMIDIFIER_DOMAIN,
@@ -366,7 +366,7 @@ async def test_set_target_humidity(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_away_mode(hass: UniversalAssistant) -> None:
+async def test_set_away_mode(hass: __HAC_KEEP__) -> None:
     """Test the setting away mode."""
     await hass.services.async_call(
         HUMIDIFIER_DOMAIN,
@@ -387,7 +387,7 @@ async def test_set_away_mode(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_away_mode_and_restore_prev_humidity(hass: UniversalAssistant) -> None:
+async def test_set_away_mode_and_restore_prev_humidity(hass: __HAC_KEEP__) -> None:
     """Test the setting and removing away mode.
 
     Verify original humidity is restored.
@@ -421,7 +421,7 @@ async def test_set_away_mode_and_restore_prev_humidity(hass: UniversalAssistant)
 
 @pytest.mark.usefixtures("setup_comp_2")
 async def test_set_away_mode_twice_and_restore_prev_humidity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the setting away mode twice in a row.
 
@@ -462,7 +462,7 @@ async def test_set_away_mode_twice_and_restore_prev_humidity(
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_sensor_affects_attribute(hass: UniversalAssistant) -> None:
+async def test_sensor_affects_attribute(hass: __HAC_KEEP__) -> None:
     """Test that the sensor changes are reflected in the current_humidity attribute."""
     state = hass.states.get(ENTITY)
     assert state.attributes.get("current_humidity") == 45
@@ -475,7 +475,7 @@ async def test_sensor_affects_attribute(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_sensor_bad_value(hass: UniversalAssistant) -> None:
+async def test_sensor_bad_value(hass: __HAC_KEEP__) -> None:
     """Test sensor that have None as state."""
     assert hass.states.get(ENTITY).state == STATE_ON
 
@@ -487,7 +487,7 @@ async def test_sensor_bad_value(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_comp_2")
 async def test_sensor_bad_value_twice(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test sensor that the second bad value is not logged as warning."""
     assert hass.states.get(ENTITY).state == STATE_ON
@@ -516,7 +516,7 @@ async def test_sensor_bad_value_twice(
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_target_humidity_humidifier_on(hass: UniversalAssistant) -> None:
+async def test_set_target_humidity_humidifier_on(hass: __HAC_KEEP__) -> None:
     """Test if target humidity turn humidifier on."""
     calls = await _setup_switch(hass, False)
     _setup_sensor(hass, 36)
@@ -537,7 +537,7 @@ async def test_set_target_humidity_humidifier_on(hass: UniversalAssistant) -> No
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_target_humidity_humidifier_off(hass: UniversalAssistant) -> None:
+async def test_set_target_humidity_humidifier_off(hass: __HAC_KEEP__) -> None:
     """Test if target humidity turn humidifier off."""
     calls = await _setup_switch(hass, True)
     _setup_sensor(hass, 45)
@@ -559,7 +559,7 @@ async def test_set_target_humidity_humidifier_off(hass: UniversalAssistant) -> N
 
 @pytest.mark.usefixtures("setup_comp_2")
 async def test_humidity_change_humidifier_on_within_tolerance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change doesn't turn on within tolerance."""
     calls = await _setup_switch(hass, False)
@@ -577,7 +577,7 @@ async def test_humidity_change_humidifier_on_within_tolerance(
 
 @pytest.mark.usefixtures("setup_comp_2")
 async def test_humidity_change_humidifier_on_outside_tolerance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change turn humidifier on outside dry tolerance."""
     calls = await _setup_switch(hass, False)
@@ -599,7 +599,7 @@ async def test_humidity_change_humidifier_on_outside_tolerance(
 
 @pytest.mark.usefixtures("setup_comp_2")
 async def test_humidity_change_humidifier_off_within_tolerance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change doesn't turn off within tolerance."""
     calls = await _setup_switch(hass, True)
@@ -617,7 +617,7 @@ async def test_humidity_change_humidifier_off_within_tolerance(
 
 @pytest.mark.usefixtures("setup_comp_2")
 async def test_humidity_change_humidifier_off_outside_tolerance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change turn humidifier off outside wet tolerance."""
     calls = await _setup_switch(hass, True)
@@ -638,7 +638,7 @@ async def test_humidity_change_humidifier_off_outside_tolerance(
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_operation_mode_humidify(hass: UniversalAssistant) -> None:
+async def test_operation_mode_humidify(hass: __HAC_KEEP__) -> None:
     """Test change mode from OFF to HUMIDIFY.
 
     Switch turns on when humidity below setpoint and mode changes.
@@ -674,7 +674,7 @@ async def test_operation_mode_humidify(hass: UniversalAssistant) -> None:
     assert call.data["entity_id"] == ENT_SWITCH
 
 
-async def _setup_switch(hass: UniversalAssistant, is_on: bool) -> list[ServiceCall]:
+async def _setup_switch(hass: __HAC_KEEP__, is_on: bool) -> list[ServiceCall]:
     """Set up the test switch."""
     hass.states.async_set(ENT_SWITCH, STATE_ON if is_on else STATE_OFF)
     calls = []
@@ -692,7 +692,7 @@ async def _setup_switch(hass: UniversalAssistant, is_on: bool) -> list[ServiceCa
 
 
 @pytest.fixture
-async def setup_comp_3(hass: UniversalAssistant) -> None:
+async def setup_comp_3(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     assert await async_setup_component(
         hass,
@@ -716,7 +716,7 @@ async def setup_comp_3(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_set_target_humidity_dry_off(hass: UniversalAssistant) -> None:
+async def test_set_target_humidity_dry_off(hass: __HAC_KEEP__) -> None:
     """Test if target humidity turn dry off."""
     calls = await _setup_switch(hass, True)
     _setup_sensor(hass, 50)
@@ -737,7 +737,7 @@ async def test_set_target_humidity_dry_off(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_turn_away_mode_on_drying(hass: UniversalAssistant) -> None:
+async def test_turn_away_mode_on_drying(hass: __HAC_KEEP__) -> None:
     """Test the setting away mode when drying."""
     await _setup_switch(hass, True)
     _setup_sensor(hass, 50)
@@ -761,7 +761,7 @@ async def test_turn_away_mode_on_drying(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_operation_mode_dry(hass: UniversalAssistant) -> None:
+async def test_operation_mode_dry(hass: __HAC_KEEP__) -> None:
     """Test change mode from OFF to DRY.
 
     Switch turns on when humidity below setpoint and state changes.
@@ -795,7 +795,7 @@ async def test_operation_mode_dry(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_set_target_humidity_dry_on(hass: UniversalAssistant) -> None:
+async def test_set_target_humidity_dry_on(hass: __HAC_KEEP__) -> None:
     """Test if target humidity turn dry on."""
     calls = await _setup_switch(hass, False)
     _setup_sensor(hass, 45)
@@ -808,7 +808,7 @@ async def test_set_target_humidity_dry_on(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_init_ignores_tolerance(hass: UniversalAssistant) -> None:
+async def test_init_ignores_tolerance(hass: __HAC_KEEP__) -> None:
     """Test if tolerance is ignored on initialization."""
     calls = await _setup_switch(hass, True)
     _setup_sensor(hass, 39)
@@ -821,7 +821,7 @@ async def test_init_ignores_tolerance(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_humidity_change_dry_off_within_tolerance(hass: UniversalAssistant) -> None:
+async def test_humidity_change_dry_off_within_tolerance(hass: __HAC_KEEP__) -> None:
     """Test if humidity change doesn't turn dry off within tolerance."""
     calls = await _setup_switch(hass, True)
     _setup_sensor(hass, 45)
@@ -832,7 +832,7 @@ async def test_humidity_change_dry_off_within_tolerance(hass: UniversalAssistant
 
 @pytest.mark.usefixtures("setup_comp_3")
 async def test_set_humidity_change_dry_off_outside_tolerance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change turn dry off."""
     calls = await _setup_switch(hass, True)
@@ -846,7 +846,7 @@ async def test_set_humidity_change_dry_off_outside_tolerance(
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_humidity_change_dry_on_within_tolerance(hass: UniversalAssistant) -> None:
+async def test_humidity_change_dry_on_within_tolerance(hass: __HAC_KEEP__) -> None:
     """Test if humidity change doesn't turn dry on within tolerance."""
     calls = await _setup_switch(hass, False)
     _setup_sensor(hass, 37)
@@ -856,7 +856,7 @@ async def test_humidity_change_dry_on_within_tolerance(hass: UniversalAssistant)
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_humidity_change_dry_on_outside_tolerance(hass: UniversalAssistant) -> None:
+async def test_humidity_change_dry_on_outside_tolerance(hass: __HAC_KEEP__) -> None:
     """Test if humidity change turn dry on."""
     calls = await _setup_switch(hass, False)
     _setup_sensor(hass, 45)
@@ -869,7 +869,7 @@ async def test_humidity_change_dry_on_outside_tolerance(hass: UniversalAssistant
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_running_when_operating_mode_is_off_2(hass: UniversalAssistant) -> None:
+async def test_running_when_operating_mode_is_off_2(hass: __HAC_KEEP__) -> None:
     """Test that the switch turns off when enabled is set False."""
     calls = await _setup_switch(hass, True)
     _setup_sensor(hass, 45)
@@ -890,7 +890,7 @@ async def test_running_when_operating_mode_is_off_2(hass: UniversalAssistant) ->
 
 
 @pytest.mark.usefixtures("setup_comp_3")
-async def test_no_state_change_when_operation_mode_off_2(hass: UniversalAssistant) -> None:
+async def test_no_state_change_when_operation_mode_off_2(hass: __HAC_KEEP__) -> None:
     """Test that the switch doesn't turn on when enabled is False."""
     calls = await _setup_switch(hass, False)
     _setup_sensor(hass, 30)
@@ -909,7 +909,7 @@ async def test_no_state_change_when_operation_mode_off_2(hass: UniversalAssistan
 
 
 @pytest.fixture
-async def setup_comp_4(hass: UniversalAssistant) -> None:
+async def setup_comp_4(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     assert await async_setup_component(
         hass,
@@ -934,7 +934,7 @@ async def setup_comp_4(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_comp_4")
 async def test_humidity_change_dry_trigger_on_not_long_enough(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change turn dry on."""
     calls = await _setup_switch(hass, False)
@@ -948,7 +948,7 @@ async def test_humidity_change_dry_trigger_on_not_long_enough(
 
 
 @pytest.mark.usefixtures("setup_comp_4")
-async def test_humidity_change_dry_trigger_on_long_enough(hass: UniversalAssistant) -> None:
+async def test_humidity_change_dry_trigger_on_long_enough(hass: __HAC_KEEP__) -> None:
     """Test if humidity change turn dry on."""
     fake_changed = dt.datetime(1970, 11, 11, 11, 11, 11, tzinfo=dt.UTC)
     with freeze_time(fake_changed):
@@ -968,7 +968,7 @@ async def test_humidity_change_dry_trigger_on_long_enough(hass: UniversalAssista
 
 @pytest.mark.usefixtures("setup_comp_4")
 async def test_humidity_change_dry_trigger_off_not_long_enough(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change turn dry on."""
     calls = await _setup_switch(hass, True)
@@ -982,7 +982,7 @@ async def test_humidity_change_dry_trigger_off_not_long_enough(
 
 
 @pytest.mark.usefixtures("setup_comp_4")
-async def test_humidity_change_dry_trigger_off_long_enough(hass: UniversalAssistant) -> None:
+async def test_humidity_change_dry_trigger_off_long_enough(hass: __HAC_KEEP__) -> None:
     """Test if humidity change turn dry on."""
     fake_changed = dt.datetime(1970, 11, 11, 11, 11, 11, tzinfo=dt.UTC)
     with freeze_time(fake_changed):
@@ -1001,7 +1001,7 @@ async def test_humidity_change_dry_trigger_off_long_enough(hass: UniversalAssist
 
 
 @pytest.mark.usefixtures("setup_comp_4")
-async def test_mode_change_dry_trigger_off_not_long_enough(hass: UniversalAssistant) -> None:
+async def test_mode_change_dry_trigger_off_not_long_enough(hass: __HAC_KEEP__) -> None:
     """Test if mode change turns dry off despite minimum cycle."""
     calls = await _setup_switch(hass, True)
     _setup_sensor(hass, 45)
@@ -1022,7 +1022,7 @@ async def test_mode_change_dry_trigger_off_not_long_enough(hass: UniversalAssist
 
 
 @pytest.mark.usefixtures("setup_comp_4")
-async def test_mode_change_dry_trigger_on_not_long_enough(hass: UniversalAssistant) -> None:
+async def test_mode_change_dry_trigger_on_not_long_enough(hass: __HAC_KEEP__) -> None:
     """Test if mode change turns dry on despite minimum cycle."""
     calls = await _setup_switch(hass, False)
     _setup_sensor(hass, 35)
@@ -1052,7 +1052,7 @@ async def test_mode_change_dry_trigger_on_not_long_enough(hass: UniversalAssista
 
 
 @pytest.fixture
-async def setup_comp_6(hass: UniversalAssistant) -> None:
+async def setup_comp_6(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     assert await async_setup_component(
         hass,
@@ -1076,7 +1076,7 @@ async def setup_comp_6(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_comp_6")
 async def test_humidity_change_humidifier_trigger_off_not_long_enough(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change doesn't turn humidifier off because of time."""
     calls = await _setup_switch(hass, True)
@@ -1091,7 +1091,7 @@ async def test_humidity_change_humidifier_trigger_off_not_long_enough(
 
 @pytest.mark.usefixtures("setup_comp_6")
 async def test_humidity_change_humidifier_trigger_on_not_long_enough(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change doesn't turn humidifier on because of time."""
     calls = await _setup_switch(hass, False)
@@ -1106,7 +1106,7 @@ async def test_humidity_change_humidifier_trigger_on_not_long_enough(
 
 @pytest.mark.usefixtures("setup_comp_6")
 async def test_humidity_change_humidifier_trigger_on_long_enough(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change turn humidifier on after min cycle."""
     fake_changed = dt.datetime(1970, 11, 11, 11, 11, 11, tzinfo=dt.UTC)
@@ -1127,7 +1127,7 @@ async def test_humidity_change_humidifier_trigger_on_long_enough(
 
 @pytest.mark.usefixtures("setup_comp_6")
 async def test_humidity_change_humidifier_trigger_off_long_enough(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if humidity change turn humidifier off after min cycle."""
     fake_changed = dt.datetime(1970, 11, 11, 11, 11, 11, tzinfo=dt.UTC)
@@ -1148,7 +1148,7 @@ async def test_humidity_change_humidifier_trigger_off_long_enough(
 
 @pytest.mark.usefixtures("setup_comp_6")
 async def test_mode_change_humidifier_trigger_off_not_long_enough(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if mode change turns humidifier off despite minimum cycle."""
     calls = await _setup_switch(hass, True)
@@ -1172,7 +1172,7 @@ async def test_mode_change_humidifier_trigger_off_not_long_enough(
 
 @pytest.mark.usefixtures("setup_comp_6")
 async def test_mode_change_humidifier_trigger_on_not_long_enough(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if mode change turns humidifier on despite minimum cycle."""
     calls = await _setup_switch(hass, False)
@@ -1208,7 +1208,7 @@ async def test_mode_change_humidifier_trigger_on_not_long_enough(
 
 
 @pytest.fixture
-async def setup_comp_7(hass: UniversalAssistant) -> None:
+async def setup_comp_7(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     assert await async_setup_component(
         hass,
@@ -1234,7 +1234,7 @@ async def setup_comp_7(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_comp_7")
 async def test_humidity_change_dry_trigger_on_long_enough_3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if turn on signal is sent at keep-alive intervals."""
     calls = await _setup_switch(hass, True)
@@ -1255,7 +1255,7 @@ async def test_humidity_change_dry_trigger_on_long_enough_3(
 
 @pytest.mark.usefixtures("setup_comp_7")
 async def test_humidity_change_dry_trigger_off_long_enough_3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if turn on signal is sent at keep-alive intervals."""
     calls = await _setup_switch(hass, False)
@@ -1276,7 +1276,7 @@ async def test_humidity_change_dry_trigger_off_long_enough_3(
 
 @pytest.mark.usefixtures("setup_comp_7")
 async def test_humidity_change_dry_trigger_off_not_long_enough_keep_alive(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a keep-alive interval does not bypass the minimum cycle duration."""
     calls = await _setup_switch(hass, True)
@@ -1297,7 +1297,7 @@ async def test_humidity_change_dry_trigger_off_not_long_enough_keep_alive(
 
 @pytest.mark.usefixtures("setup_comp_7")
 async def test_humidity_change_dry_trigger_on_not_long_enough_keep_alive(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a keep-alive interval does not bypass the minimum cycle duration."""
     calls = await _setup_switch(hass, False)
@@ -1317,7 +1317,7 @@ async def test_humidity_change_dry_trigger_on_not_long_enough_keep_alive(
 
 
 @pytest.fixture
-async def setup_comp_8(hass: UniversalAssistant) -> None:
+async def setup_comp_8(hass: __HAC_KEEP__) -> None:
     """Initialize components."""
     assert await async_setup_component(
         hass,
@@ -1342,7 +1342,7 @@ async def setup_comp_8(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_comp_8")
 async def test_humidity_change_humidifier_trigger_on_long_enough_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if turn on signal is sent at keep-alive intervals."""
     calls = await _setup_switch(hass, True)
@@ -1363,7 +1363,7 @@ async def test_humidity_change_humidifier_trigger_on_long_enough_2(
 
 @pytest.mark.usefixtures("setup_comp_8")
 async def test_humidity_change_humidifier_trigger_off_long_enough_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if turn on signal is sent at keep-alive intervals."""
     calls = await _setup_switch(hass, False)
@@ -1382,7 +1382,7 @@ async def test_humidity_change_humidifier_trigger_off_long_enough_2(
     assert call.data["entity_id"] == ENT_SWITCH
 
 
-async def test_float_tolerance_values(hass: UniversalAssistant) -> None:
+async def test_float_tolerance_values(hass: __HAC_KEEP__) -> None:
     """Test if dehumidifier does not turn on within floating point tolerance."""
     assert await async_setup_component(
         hass,
@@ -1408,7 +1408,7 @@ async def test_float_tolerance_values(hass: UniversalAssistant) -> None:
     assert len(calls) == 0
 
 
-async def test_float_tolerance_values_2(hass: UniversalAssistant) -> None:
+async def test_float_tolerance_values_2(hass: __HAC_KEEP__) -> None:
     """Test dehumidifier turns off outside of floating point tolerance."""
     assert await async_setup_component(
         hass,
@@ -1437,7 +1437,7 @@ async def test_float_tolerance_values_2(hass: UniversalAssistant) -> None:
     assert call.data["entity_id"] == ENT_SWITCH
 
 
-async def test_custom_setup_params(hass: UniversalAssistant) -> None:
+async def test_custom_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the setup with custom parameters."""
     _setup_sensor(hass, 45)
     await hass.async_block_till_done()
@@ -1464,7 +1464,7 @@ async def test_custom_setup_params(hass: UniversalAssistant) -> None:
     assert state.attributes.get("humidity") == TARGET_HUMIDITY
 
 
-async def test_restore_state(hass: UniversalAssistant) -> None:
+async def test_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure states are restored on startup."""
     _setup_sensor(hass, 45)
     await hass.async_block_till_done()
@@ -1502,7 +1502,7 @@ async def test_restore_state(hass: UniversalAssistant) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_restore_state_target_humidity(hass: UniversalAssistant) -> None:
+async def test_restore_state_target_humidity(hass: __HAC_KEEP__) -> None:
     """Ensure restore target humidity if available."""
     _setup_sensor(hass, 45)
     await hass.async_block_till_done()
@@ -1540,7 +1540,7 @@ async def test_restore_state_target_humidity(hass: UniversalAssistant) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_restore_state_and_return_to_normal(hass: UniversalAssistant) -> None:
+async def test_restore_state_and_return_to_normal(hass: __HAC_KEEP__) -> None:
     """Ensure retain of target humidity for normal mode."""
     _setup_sensor(hass, 55)
     await hass.async_block_till_done()
@@ -1597,7 +1597,7 @@ async def test_restore_state_and_return_to_normal(hass: UniversalAssistant) -> N
     assert state.state == STATE_OFF
 
 
-async def test_no_restore_state(hass: UniversalAssistant) -> None:
+async def test_no_restore_state(hass: __HAC_KEEP__) -> None:
     """Ensure states are restored on startup if they exist.
 
     Allows for graceful reboot.
@@ -1638,7 +1638,7 @@ async def test_no_restore_state(hass: UniversalAssistant) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_restore_state_uncoherence_case(hass: UniversalAssistant) -> None:
+async def test_restore_state_uncoherence_case(hass: __HAC_KEEP__) -> None:
     """Test restore from a strange state.
 
     - Turn the generic hygrostat off
@@ -1662,7 +1662,7 @@ async def test_restore_state_uncoherence_case(hass: UniversalAssistant) -> None:
     assert state.state == STATE_OFF
 
 
-async def _setup_humidifier(hass: UniversalAssistant) -> None:
+async def _setup_humidifier(hass: __HAC_KEEP__) -> None:
     assert await async_setup_component(
         hass,
         HUMIDIFIER_DOMAIN,
@@ -1683,7 +1683,7 @@ async def _setup_humidifier(hass: UniversalAssistant) -> None:
 
 
 def _mock_restore_cache(
-    hass: UniversalAssistant, humidity: int = 40, state: str = STATE_OFF
+    hass: __HAC_KEEP__, humidity: int = 40, state: str = STATE_OFF
 ) -> None:
     mock_restore_cache(
         hass,
@@ -1701,7 +1701,7 @@ def _mock_restore_cache(
     )
 
 
-async def test_away_fixed_humidity_mode(hass: UniversalAssistant) -> None:
+async def test_away_fixed_humidity_mode(hass: __HAC_KEEP__) -> None:
     """Ensure retain of target humidity for normal mode."""
     _setup_sensor(hass, 45)
     await hass.async_block_till_done()
@@ -1778,7 +1778,7 @@ async def test_away_fixed_humidity_mode(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("setup_comp_1")
 async def test_sensor_stale_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1879,7 +1879,7 @@ async def test_sensor_stale_duration(
 
 
 async def test_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1926,7 +1926,7 @@ async def test_device_id(
 
 
 async def test_device_id_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,

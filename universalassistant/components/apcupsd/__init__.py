@@ -3,7 +3,7 @@
 from typing import Final
 
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import APCUPSdConfigEntry, APCUPSdCoordinator
 
@@ -11,7 +11,7 @@ PLATFORMS: Final = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: APCUPSdConfigEntry
+    hass: __HAC_KEEP__, config_entry: APCUPSdConfigEntry
 ) -> None:
     """Use config values to set up a function enabling status retrieval."""
     host, port = config_entry.data[CONF_HOST], config_entry.data[CONF_PORT]
@@ -26,6 +26,6 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: APCUPSdConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: APCUPSdConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

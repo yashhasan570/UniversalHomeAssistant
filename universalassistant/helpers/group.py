@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, override
 from propcache.api import cached_property
 
 from universalassistant.const import ATTR_ENTITY_ID, ENTITY_MATCH_ALL, ENTITY_MATCH_NONE
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 
 from . import entity_registry as er
 from .singleton import singleton
@@ -156,7 +156,7 @@ class IntegrationSpecificGroup(Group):
 
 @callback
 @singleton(DATA_GROUP_ENTITIES)
-def get_group_entities(hass: UniversalAssistant) -> dict[str, Entity]:
+def get_group_entities(hass: __HAC_KEEP__) -> dict[str, Entity]:
     """Get the group entities.
 
     Items are added to this dict by Group.async_added_to_hass and
@@ -166,7 +166,7 @@ def get_group_entities(hass: UniversalAssistant) -> dict[str, Entity]:
 
 
 def expand_entity_ids(
-    hass: UniversalAssistant, entity_ids: Iterable[Any], *, include_groups: bool = False
+    hass: __HAC_KEEP__, entity_ids: Iterable[Any], *, include_groups: bool = False
 ) -> list[str]:
     """Return entity_ids with group entity ids replaced by their members.
 
@@ -226,7 +226,7 @@ def expand_entity_ids(
 
 
 def get_entity_ids(
-    hass: UniversalAssistant, entity_id: str, domain_filter: str | None = None
+    hass: __HAC_KEEP__, entity_id: str, domain_filter: str | None = None
 ) -> list[str]:
     """Get members of this group.
 

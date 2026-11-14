@@ -11,7 +11,7 @@ import pytest
 from universalassistant.components.ecobee.switch import DATE_FORMAT
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import GENERIC_THERMOSTAT_INFO_WITH_HEATPUMP
@@ -32,7 +32,7 @@ def data_fixture():
     return data
 
 
-async def test_ventilator_20min_attributes(hass: UniversalAssistant) -> None:
+async def test_ventilator_20min_attributes(hass: __HAC_KEEP__) -> None:
     """Test the ventilator switch on home attributes are correct."""
     await setup_platform(hass, SWITCH_DOMAIN)
 
@@ -40,7 +40,7 @@ async def test_ventilator_20min_attributes(hass: UniversalAssistant) -> None:
     assert state.state == "off"
 
 
-async def test_ventilator_20min_when_on(hass: UniversalAssistant, data) -> None:
+async def test_ventilator_20min_when_on(hass: __HAC_KEEP__, data) -> None:
     """Test the ventilator switch goes on."""
 
     data.return_value["settings"]["ventilatorOffDateTime"] = (
@@ -55,7 +55,7 @@ async def test_ventilator_20min_when_on(hass: UniversalAssistant, data) -> None:
     data.reset_mock()
 
 
-async def test_ventilator_20min_when_off(hass: UniversalAssistant, data) -> None:
+async def test_ventilator_20min_when_off(hass: __HAC_KEEP__, data) -> None:
     """Test the ventilator switch goes on."""
 
     data.return_value["settings"]["ventilatorOffDateTime"] = (
@@ -70,7 +70,7 @@ async def test_ventilator_20min_when_off(hass: UniversalAssistant, data) -> None
     data.reset_mock()
 
 
-async def test_ventilator_20min_when_empty(hass: UniversalAssistant, data) -> None:
+async def test_ventilator_20min_when_empty(hass: __HAC_KEEP__, data) -> None:
     """Test the ventilator switch goes on."""
 
     data.return_value["settings"]["ventilatorOffDateTime"] = ""
@@ -83,7 +83,7 @@ async def test_ventilator_20min_when_empty(hass: UniversalAssistant, data) -> No
     data.reset_mock()
 
 
-async def test_turn_on_20min_ventilator(hass: UniversalAssistant) -> None:
+async def test_turn_on_20min_ventilator(hass: __HAC_KEEP__) -> None:
     """Test the switch 20 min timer (On)."""
 
     with patch(
@@ -101,7 +101,7 @@ async def test_turn_on_20min_ventilator(hass: UniversalAssistant) -> None:
         mock_set_20min_ventilator.assert_called_once_with(THERMOSTAT_ID, True)
 
 
-async def test_turn_off_20min_ventilator(hass: UniversalAssistant) -> None:
+async def test_turn_off_20min_ventilator(hass: __HAC_KEEP__) -> None:
     """Test the switch 20 min timer (off)."""
 
     with patch(
@@ -122,7 +122,7 @@ async def test_turn_off_20min_ventilator(hass: UniversalAssistant) -> None:
 DEVICE_ID = "switch.ecobee2_auxiliary_heat_only"
 
 
-async def test_aux_heat_only_turn_on(hass: UniversalAssistant) -> None:
+async def test_aux_heat_only_turn_on(hass: __HAC_KEEP__) -> None:
     """Test the switch can be turned on."""
     with patch("pyecobee.Ecobee.set_hvac_mode") as mock_turn_on:
         await setup_platform(hass, SWITCH_DOMAIN)
@@ -136,7 +136,7 @@ async def test_aux_heat_only_turn_on(hass: UniversalAssistant) -> None:
         mock_turn_on.assert_called_once_with(1, "auxHeatOnly")
 
 
-async def test_aux_heat_only_turn_off(hass: UniversalAssistant) -> None:
+async def test_aux_heat_only_turn_off(hass: __HAC_KEEP__) -> None:
     """Test the switch can be turned off."""
     with patch("pyecobee.Ecobee.set_hvac_mode") as mock_turn_off:
         await setup_platform(hass, SWITCH_DOMAIN)

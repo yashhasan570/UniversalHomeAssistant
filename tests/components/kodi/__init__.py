@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .util import MockConnection
 
@@ -39,8 +39,8 @@ OTHER_PLAYER_ITEM: dict[str, Any] = {"id": 5, "type": "song", "label": "Other pl
 ITEM_BASE_FIELDS = ("id", "label", "type")
 
 
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the Kodi integration in Universal Universal Home Assistant."""
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the Kodi integration in __HA_KEEP__."""
     entry_data = {
         CONF_NAME: "name",
         CONF_HOST: "1.1.1.1",
@@ -70,7 +70,7 @@ async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
     return entry
 
 
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Set up the Kodi integration using the connection and client fixtures."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -78,7 +78,7 @@ async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEn
 
 
 async def set_playing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_kodi: MagicMock,
     item: dict[str, Any] | None = None,
     players: list[dict[str, Any]] | None = None,

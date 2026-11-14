@@ -19,7 +19,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MockHDMIDevice, assert_cec_command
 from .conftest import CecEntityCreator, HDMINetworkCreator
@@ -27,7 +27,7 @@ from .conftest import CecEntityCreator, HDMINetworkCreator
 
 @pytest.mark.parametrize("config", [{}, {"platform": "switch"}])
 async def test_load_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     config,
@@ -45,7 +45,7 @@ async def test_load_platform(
 
 
 async def test_load_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_load_types(
 
 
 async def test_service_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_service_on(
 
 
 async def test_service_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
 ) -> None:
@@ -140,7 +140,7 @@ async def test_service_off(
     ],
 )
 async def test_device_status_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     power_status,
@@ -173,7 +173,7 @@ async def test_device_status_change(
     ],
 )
 async def test_friendly_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     device_values,
@@ -232,7 +232,7 @@ async def test_friendly_name(
     ],
 )
 async def test_extra_state_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     device_values,
@@ -264,7 +264,7 @@ async def test_extra_state_attributes(
     ],
 )
 async def test_icon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
     device_type,
@@ -280,7 +280,7 @@ async def test_icon(
 
 
 async def test_unavailable_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     create_hdmi_network: HDMINetworkCreator,
     create_cec_entity: CecEntityCreator,
 ) -> None:

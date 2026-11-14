@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_VALUE_TEMPLATE,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import TemplateError
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.typing import ConfigType
@@ -31,7 +31,7 @@ _LOGGER: Final = logging.getLogger(__name__)
 class TcpEntity(Entity):
     """Base entity class for TCP platform."""
 
-    def __init__(self, hass: UniversalAssistant, config: ConfigType) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: ConfigType) -> None:
         """Set all the config values if they exist and get initial state."""
 
         self._hass = hass

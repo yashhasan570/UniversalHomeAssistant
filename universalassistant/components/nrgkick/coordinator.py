@@ -17,7 +17,7 @@ from nrgkick_api import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryError
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -45,7 +45,7 @@ class NRGkickDataUpdateCoordinator(DataUpdateCoordinator[NRGkickData]):
     config_entry: NRGkickConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, api: NRGkickAPI, entry: NRGkickConfigEntry
+        self, hass: __HAC_KEEP__, api: NRGkickAPI, entry: NRGkickConfigEntry
     ) -> None:
         """Initialize."""
         self.api = api

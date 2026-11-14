@@ -17,8 +17,8 @@ from universalassistant.components.reolink.coordinator import DEVICE_UPDATE_INTE
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN, SelectService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -27,7 +27,7 @@ from .conftest import TEST_CAM_NAME, TEST_NVR_NAME
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "reolink_host")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -42,7 +42,7 @@ async def test_all_entities(
 
 
 async def test_floodlight_mode_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -66,7 +66,7 @@ async def test_floodlight_mode_select(
     reolink_host.set_whiteled.assert_called_once()
 
     reolink_host.set_whiteled.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -92,7 +92,7 @@ async def test_floodlight_mode_select(
 
 
 async def test_play_quick_reply_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -117,7 +117,7 @@ async def test_play_quick_reply_message(
 
 
 async def test_host_scene_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -140,7 +140,7 @@ async def test_host_scene_select(
     reolink_host.baichuan.set_scene.assert_called_once()
 
     reolink_host.baichuan.set_scene.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -167,7 +167,7 @@ async def test_host_scene_select(
 
 @pytest.mark.parametrize("channel", [0, None])
 async def test_chime_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     config_entry: MockConfigEntry,
     reolink_host: MagicMock,
@@ -198,7 +198,7 @@ async def test_chime_select(
     reolink_chime.set_tone.assert_called_once()
 
     reolink_chime.set_tone.side_effect = ReolinkError("Test error")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

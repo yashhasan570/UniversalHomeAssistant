@@ -17,15 +17,15 @@ from universalassistant.components.tonewinner.media_player import (
     SOUND_MODES,
     TonewinnerMediaPlayer,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 ENTITY_ID = "media_player.at_500"
 
 
 async def _setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -44,7 +44,7 @@ def _state_callback(mock_receiver: MagicMock) -> Callable[[object], None]:
 
 
 async def _call_media_player_service(
-    hass: UniversalAssistant, service: str, **service_data: object
+    hass: __HAC_KEEP__, service: str, **service_data: object
 ) -> None:
     """Call a media player service on the test entity."""
     await hass.services.async_call(
@@ -56,7 +56,7 @@ async def _call_media_player_service(
 
 
 async def test_media_player_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -76,7 +76,7 @@ async def test_media_player_setup(
 
 
 async def test_media_player_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -95,7 +95,7 @@ async def test_media_player_device_info(
 
 
 async def test_media_player_supported_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_media_player_supported_features(
 
 
 async def test_media_player_source_and_sound_mode_lists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_media_player_source_and_sound_mode_lists(
     ids=["half", "max", "zero", "off_grid_snapped"],
 )
 async def test_media_player_set_volume_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     volume: float,
@@ -166,7 +166,7 @@ async def test_media_player_set_volume_level(
     ids=["up", "down"],
 )
 async def test_media_player_volume_step(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     service: str,
@@ -187,7 +187,7 @@ async def test_media_player_volume_step(
     ids=["on", "off"],
 )
 async def test_media_player_mute_volume(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     mute: bool,
@@ -203,7 +203,7 @@ async def test_media_player_mute_volume(
 
 
 async def test_media_player_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_media_player_turn_on(
 
 
 async def test_media_player_turn_off_clears_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_media_player_turn_off_clears_source(
 
 
 async def test_media_player_select_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_media_player_select_source(
 
 
 async def test_media_player_select_sound_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -277,7 +277,7 @@ async def test_media_player_select_sound_mode(
     ids=["unknown_source", "raw_source_code", "unknown_sound_mode"],
 )
 async def test_media_player_invalid_selections(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     service: str,
@@ -287,7 +287,7 @@ async def test_media_player_invalid_selections(
     mock_config_entry.add_to_hass(hass)
     await _setup_integration(hass, mock_config_entry, mock_receiver)
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _call_media_player_service(hass, service, **payload)
 
     mock_receiver.select_source.assert_not_called()
@@ -317,7 +317,7 @@ async def test_media_player_invalid_selections(
     ids=["volume", "mute", "source", "sound_mode"],
 )
 async def test_media_player_state_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     state_updates: dict[str, object],
@@ -339,7 +339,7 @@ async def test_media_player_state_updates(
 
 
 async def test_media_player_power_off_from_callback_clears_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -374,7 +374,7 @@ async def test_media_player_power_off_from_callback_clears_source(
 
 
 async def test_media_player_already_disconnected_at_load(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
 ) -> None:
@@ -394,7 +394,7 @@ async def test_media_player_already_disconnected_at_load(
 
 
 async def test_media_player_unavailable_on_disconnect_and_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -451,20 +451,20 @@ async def test_media_player_unavailable_on_disconnect_and_recovery(
     ],
 )
 async def test_media_player_command_failure_raises_ha_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_receiver: MagicMock,
     service: str,
     method: str,
     payload: dict[str, float | bool | str],
 ) -> None:
-    """Test receiver I/O failures surface as Universal Universal Home Assistant errors."""
+    """Test receiver I/O failures surface as __HA_KEEP__ errors."""
     mock_config_entry.add_to_hass(hass)
     await _setup_integration(hass, mock_config_entry, mock_receiver)
 
     getattr(mock_receiver, method).side_effect = ConnectionError("link down")
 
-    with pytest.raises(UniversalAssistantError, match="link down"):
+    with pytest.raises(__HAC_KEEP__Error, match="link down"):
         await _call_media_player_service(hass, service, **payload)
 
 

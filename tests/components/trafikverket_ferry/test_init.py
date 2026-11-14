@@ -7,13 +7,13 @@ from pytrafikverket.models import FerryStopModel
 
 from universalassistant.components.trafikverket_ferry.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import ENTRY_CONFIG
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant, get_ferries: list[FerryStopModel]
+    hass: __HAC_KEEP__, get_ferries: list[FerryStopModel]
 ) -> None:
     """Test setup entry."""
     entry = MockConfigEntry(
@@ -37,7 +37,7 @@ async def test_setup_entry(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, get_ferries: list[FerryStopModel]
+    hass: __HAC_KEEP__, get_ferries: list[FerryStopModel]
 ) -> None:
     """Test unload an entry."""
     entry = MockConfigEntry(

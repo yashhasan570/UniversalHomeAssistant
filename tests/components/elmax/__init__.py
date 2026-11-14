@@ -13,7 +13,7 @@ from universalassistant.components.elmax.const import (
     CONF_ELMAX_PANEL_PIN,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_USER_JWT = (
     "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
@@ -38,7 +38,7 @@ MOCK_DIRECT_CERT = load_fixture("direct/cert.pem", "elmax")
 MOCK_DIRECT_FOLLOW_MDNS = True
 
 
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Mock integration setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -14,8 +14,8 @@ from universalassistant.components.number import (
     NumberEntityDescription,
     NumberMode,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -66,7 +66,7 @@ NUMBER_DESCRIPTIONS: list[VeSyncNumberEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VesyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -144,6 +144,6 @@ class VeSyncNumberEntity(VeSyncBaseEntity[VeSyncHumidifier], NumberEntity):
         """Set new value."""
         if not await self.entity_description.set_value_fn(self.device, value):
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Failed to set value.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Failed to set value.")
         self.async_write_ha_state()

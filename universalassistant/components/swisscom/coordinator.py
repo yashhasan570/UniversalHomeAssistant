@@ -13,7 +13,7 @@ from swisscom_internet_box import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -32,7 +32,7 @@ class SwisscomDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Device]]):
 
     config_entry: SwisscomConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: SwisscomConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: SwisscomConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

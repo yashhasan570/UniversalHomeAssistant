@@ -4,12 +4,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.version.const import CONF_BOARD, DEFAULT_CONFIGURATION
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import MOCK_VERSION_CONFIG_ENTRY_DATA
 
 
-async def test_setup_invalid_board(hass: UniversalAssistant) -> None:
+async def test_setup_invalid_board(hass: __HAC_KEEP__) -> None:
     """Test setup fails when the configured board is no longer valid."""
     entry = MockConfigEntry(
         **{

@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant location util methods."""
+"""Test __HA_KEEP__ location util methods."""
 
 from unittest.mock import Mock, patch
 
@@ -7,7 +7,7 @@ import pytest
 from pytest_universalassistant.common import async_load_fixture
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.util import location as location_util
 
@@ -28,7 +28,7 @@ DISTANCE_MILES = 3632.78
 
 
 @pytest.fixture
-async def session(hass: UniversalAssistant) -> aiohttp.ClientSession:
+async def session(hass: __HAC_KEEP__) -> aiohttp.ClientSession:
     """Return aioclient session."""
     return async_get_clientsession(hass)
 
@@ -76,7 +76,7 @@ def test_get_miles() -> None:
 
 
 async def test_detect_location_info_whoami(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     session: aiohttp.ClientSession,
 ) -> None:
@@ -104,7 +104,7 @@ async def test_detect_location_info_whoami(
 
 
 async def test_dev_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     session: aiohttp.ClientSession,
 ) -> None:

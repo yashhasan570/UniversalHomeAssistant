@@ -34,8 +34,8 @@ from universalassistant.components.update import (
 )
 from universalassistant.config_entries import SOURCE_SYSTEM
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -53,7 +53,7 @@ from .const import REPOSITORY_INTEGRATION, REPOSITORY_INTEGRATION_ID
 
 @pytest.fixture
 async def installed_repository(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     category_test_data: CategoryTestData,
 ) -> Repository:
@@ -78,7 +78,7 @@ async def installed_repository(
 
 @pytest.fixture
 async def integration_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     marketplace: MarketplaceManager,
     entity_registry: er.EntityRegistry,
 ) -> str:
@@ -101,7 +101,7 @@ async def integration_update_entity(
 
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     installed_repository: Repository,
     category_test_data: CategoryTestData,
@@ -134,7 +134,7 @@ def _info_about(caplog: pytest.LogCaptureFixture, subject: str) -> list[str]:
     ],
 )
 async def test_update_entity_follows_its_catalog(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_update_entity: str,
     caplog: pytest.LogCaptureFixture,
     answer: Exception | dict[str, Any],
@@ -172,7 +172,7 @@ async def test_update_entity_follows_its_catalog(
 
 
 async def test_update_entity_follows_its_repository_on_github(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_update_entity: str,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_update_entity_follows_its_repository_on_github(
 
 
 async def test_update_entity_follows_the_repository_page(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     response_mocker: MarketplaceResponses,
     integration_update_entity: str,
@@ -256,7 +256,7 @@ async def test_update_entity_follows_the_repository_page(
 
 @pytest.mark.usefixtures("stored_repositories")
 async def test_update_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -273,7 +273,7 @@ async def test_update_device_info(
 
 
 async def test_update_entity_becomes_unavailable(
-    hass: UniversalAssistant, marketplace: MarketplaceManager, integration_update_entity: str
+    hass: __HAC_KEEP__, marketplace: MarketplaceManager, integration_update_entity: str
 ) -> None:
     """Test that removing a repository makes its update entity unavailable."""
     assert hass.states.get(integration_update_entity).state == "off"
@@ -290,7 +290,7 @@ async def test_update_entity_becomes_unavailable(
 
 
 async def test_update_entity_picture(
-    hass: UniversalAssistant, integration_update_entity: str
+    hass: __HAC_KEEP__, integration_update_entity: str
 ) -> None:
     """Test that an integration is pictured by its brand icon."""
     state = hass.states.get(integration_update_entity)
@@ -306,7 +306,7 @@ async def test_update_entity_picture(
 )
 @pytest.mark.usefixtures("installed_repository")
 async def test_update_entity_picture_for_other_categories(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     category_test_data: CategoryTestData,
 ) -> None:
@@ -319,7 +319,7 @@ async def test_update_entity_picture_for_other_categories(
 
 
 async def test_update_entity_release_summary(
-    hass: UniversalAssistant, marketplace: MarketplaceManager, integration_update_entity: str
+    hass: __HAC_KEEP__, marketplace: MarketplaceManager, integration_update_entity: str
 ) -> None:
     """Test a pending restart is left to the translated repair issue."""
     repository = get_marketplace(hass).repositories.get_by_id(REPOSITORY_INTEGRATION_ID)
@@ -336,7 +336,7 @@ async def test_update_entity_release_summary(
 
 
 async def test_update_entity_install_progress(
-    hass: UniversalAssistant, integration_update_entity: str
+    hass: __HAC_KEEP__, integration_update_entity: str
 ) -> None:
     """Test that an install reports its progress on the update entity."""
     assert hass.states.get(integration_update_entity).attributes["in_progress"] is False
@@ -365,7 +365,7 @@ async def test_update_entity_install_progress(
 
 
 async def test_update_entity_ignores_other_repositories(
-    hass: UniversalAssistant, integration_update_entity: str
+    hass: __HAC_KEEP__, integration_update_entity: str
 ) -> None:
     """Test that the progress of another install is ignored."""
     async_dispatcher_send(
@@ -380,7 +380,7 @@ async def test_update_entity_ignores_other_repositories(
 
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_install(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_storage: dict[str, Any],
     entity_registry: er.EntityRegistry,
     installed_repository: Repository,
@@ -414,7 +414,7 @@ async def test_install(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_install_update_from_the_catalog(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     installed_repository: Repository,
     aioclient_mock: AiohttpClientMocker,
@@ -452,7 +452,7 @@ async def test_install_update_from_the_catalog(
     category_test_data_parametrized(categories=[RepositoryCategory.INTEGRATION]),
 )
 async def test_install_newest_commit_of_a_custom_repository(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     installed_repository: Repository,
     aioclient_mock: AiohttpClientMocker,
@@ -507,7 +507,7 @@ async def test_install_newest_commit_of_a_custom_repository(
 @pytest.mark.parametrize("github_token", [None])
 @pytest.mark.parametrize("category_test_data", category_test_data_parametrized())
 async def test_install_update_of_a_custom_repository(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     installed_repository: Repository,
     aioclient_mock: AiohttpClientMocker,
@@ -544,7 +544,7 @@ async def test_install_update_of_a_custom_repository(
     category_test_data_parametrized(categories=[RepositoryCategory.TEMPLATE]),
 )
 async def test_template_update_writes_only_the_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     installed_repository: Repository,
     category_test_data: CategoryTestData,
@@ -573,11 +573,11 @@ async def test_template_update_writes_only_the_template(
 
 
 async def test_install_already_installed_version(
-    hass: UniversalAssistant, integration_update_entity: str
+    hass: __HAC_KEEP__, integration_update_entity: str
 ) -> None:
     """Test installing the version that is already there."""
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=re.escape(
             f"Version 1.0.0 of {REPOSITORY_INTEGRATION} is already installed"
         ),
@@ -594,7 +594,7 @@ async def test_install_already_installed_version(
 
 
 async def test_install_refuses_a_version_that_is_a_path(
-    hass: UniversalAssistant, integration_update_entity: str
+    hass: __HAC_KEEP__, integration_update_entity: str
 ) -> None:
     """Test the version of an install can not point at another repository."""
     with pytest.raises(ServiceValidationError, match="not a version"):
@@ -610,11 +610,11 @@ async def test_install_refuses_a_version_that_is_a_path(
 
 
 async def test_install_without_an_update(
-    hass: UniversalAssistant, integration_update_entity: str
+    hass: __HAC_KEEP__, integration_update_entity: str
 ) -> None:
     """Test installing when the installed version is the latest one."""
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f"No update available for {integration_update_entity}",
     ):
         await hass.services.async_call(
@@ -626,7 +626,7 @@ async def test_install_without_an_update(
 
 
 async def test_install_failure_without_its_own_message(
-    hass: UniversalAssistant, integration_update_entity: str
+    hass: __HAC_KEEP__, integration_update_entity: str
 ) -> None:
     """Test an error that says nothing translated is named as a failed install."""
     repository = get_marketplace(hass).repositories.get_by_id(REPOSITORY_INTEGRATION_ID)
@@ -637,7 +637,7 @@ async def test_install_failure_without_its_own_message(
             "async_install_repository",
             side_effect=MarketplaceError("the disk made a noise"),
         ),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             UPDATE_DOMAIN,
@@ -657,7 +657,7 @@ async def test_install_failure_without_its_own_message(
 
 
 async def test_install_version_without_a_manifest(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_update_entity: str,
     response_mocker: MarketplaceResponses,
 ) -> None:
@@ -667,7 +667,7 @@ async def test_install_version_without_a_manifest(
         url, mocked_response(url, status=HTTPStatus.NOT_FOUND), keep=True
     )
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -682,11 +682,11 @@ async def test_install_version_without_a_manifest(
 
 
 async def test_install_version_requiring_a_newer_core(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_update_entity: str,
     response_mocker: MarketplaceResponses,
 ) -> None:
-    """Test installing a version that needs a newer Universal Universal Home Assistant."""
+    """Test installing a version that needs a newer __HA_KEEP__."""
     url = f"https://raw.githubusercontent.com/{REPOSITORY_INTEGRATION}/3.0.0/hacs.json"
     response_mocker.add(
         url,
@@ -696,7 +696,7 @@ async def test_install_version_requiring_a_newer_core(
         keep=True,
     )
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -712,7 +712,7 @@ async def test_install_version_requiring_a_newer_core(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_catalog_update_requiring_a_newer_core(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_update_entity: str,
     response_mocker: MarketplaceResponses,
 ) -> None:
@@ -730,7 +730,7 @@ async def test_install_catalog_update_requiring_a_newer_core(
         keep=True,
     )
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -743,7 +743,7 @@ async def test_install_catalog_update_requiring_a_newer_core(
 
 
 async def test_install_download_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_update_entity: str,
     response_mocker: MarketplaceResponses,
 ) -> None:
@@ -761,7 +761,7 @@ async def test_install_download_failure(
             keep=True,
         )
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -776,7 +776,7 @@ async def test_install_download_failure(
 
 
 async def test_release_notes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     integration_update_entity: str,
     snapshot: SnapshotAssertion,
@@ -797,7 +797,7 @@ async def test_release_notes(
 
 
 async def test_release_notes_while_pending_restart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     integration_update_entity: str,
 ) -> None:
@@ -818,7 +818,7 @@ async def test_release_notes_while_pending_restart(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_without_github(
-    hass: UniversalAssistant, integration_update_entity: str
+    hass: __HAC_KEEP__, integration_update_entity: str
 ) -> None:
     """Test installing an update works without a GitHub connection."""
     marketplace = get_marketplace(hass)
@@ -841,7 +841,7 @@ async def test_install_without_github(
 @pytest.mark.parametrize("config_entry_source", [SOURCE_SYSTEM])
 @pytest.mark.parametrize("warning_accepted", [None])
 async def test_install_needs_accepted_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     integration_update_entity: str,
 ) -> None:
@@ -850,7 +850,7 @@ async def test_install_needs_accepted_warning(
     assert CONF_WARNING_ACCEPTED not in marketplace.configuration.config_entry.data
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Open the Marketplace and read the warning first",
     ):
         await hass.services.async_call(
@@ -884,7 +884,7 @@ async def test_install_needs_accepted_warning(
 
 
 async def test_install_needs_warning_accepted_by_caller(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_admin_user: MockUser,
     second_admin_user: User,
     integration_update_entity: str,
@@ -894,7 +894,7 @@ async def test_install_needs_warning_accepted_by_caller(
     repository = marketplace.repositories.get_by_id(REPOSITORY_INTEGRATION_ID)
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Open the Marketplace and read the warning first",
     ):
         await hass.services.async_call(
@@ -933,7 +933,7 @@ async def test_install_needs_warning_accepted_by_caller(
 )
 @pytest.mark.parametrize("github_token", [None])
 async def test_install_rate_limited_without_github(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_update_entity: str,
     response_mocker: MarketplaceResponses,
     status: HTTPStatus,
@@ -952,7 +952,7 @@ async def test_install_rate_limited_without_github(
     )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             "GitHub limits how often the Marketplace can reach it without a "
             "GitHub connection"
@@ -977,7 +977,7 @@ async def test_install_rate_limited_without_github(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_latest_version_without_github(
-    hass: UniversalAssistant, integration_update_entity: str
+    hass: __HAC_KEEP__, integration_update_entity: str
 ) -> None:
     """Test the latest version comes from the catalog without an account."""
     state = hass.states.get(integration_update_entity)
@@ -988,7 +988,7 @@ async def test_latest_version_without_github(
 
 @pytest.mark.parametrize("github_token", [None])
 async def test_release_notes_rate_limited_without_github(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     integration_update_entity: str,
     response_mocker: MarketplaceResponses,
@@ -1020,7 +1020,7 @@ async def test_release_notes_rate_limited_without_github(
 
 
 async def test_release_notes_stop_at_the_version_on_offer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     integration_update_entity: str,
     response_mocker: MarketplaceResponses,

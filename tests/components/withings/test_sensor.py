@@ -24,7 +24,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -46,7 +46,7 @@ BMR_ENTITY_ID = "sensor.henk_basal_metabolic_rate"
 @pytest.mark.freeze_time("2023-10-21 12:00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
@@ -71,7 +71,7 @@ async def test_all_entities(
     ],
 )
 async def test_basal_metabolic_rate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     value: int,
@@ -97,7 +97,7 @@ async def test_basal_metabolic_rate(
 
 
 async def test_basal_metabolic_rate_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -117,7 +117,7 @@ async def test_basal_metabolic_rate_disabled_by_default(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_basal_metabolic_rate_added_and_updated_on_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -160,7 +160,7 @@ async def test_basal_metabolic_rate_added_and_updated_on_refresh(
 
 
 async def test_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -179,7 +179,7 @@ async def test_update_failed(
 
 
 async def test_update_updates_incrementally(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -222,7 +222,7 @@ async def test_update_updates_incrementally(
 
 
 async def test_workout_sensor_keeps_latest_workout_after_webhook_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     webhook_config_entry: MockConfigEntry,
     hass_client_no_auth: ClientSessionGenerator,
@@ -283,7 +283,7 @@ async def test_workout_sensor_keeps_latest_workout_after_webhook_updates(
 
 
 async def test_update_new_measurement_creates_new_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -306,7 +306,7 @@ async def test_update_new_measurement_creates_new_sensor(
 
 
 async def test_update_new_goals_creates_new_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -330,7 +330,7 @@ async def test_update_new_goals_creates_new_sensor(
 
 
 async def test_activity_sensors_unknown_next_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -351,7 +351,7 @@ async def test_activity_sensors_unknown_next_day(
 
 
 async def test_activity_sensors_same_result_same_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -372,7 +372,7 @@ async def test_activity_sensors_same_result_same_day(
 
 
 async def test_activity_sensors_created_when_existed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -393,7 +393,7 @@ async def test_activity_sensors_created_when_existed(
 
 
 async def test_activity_sensors_created_when_receive_activity_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -421,7 +421,7 @@ async def test_activity_sensors_created_when_receive_activity_data(
 
 
 async def test_activity_sensors_respect_timezone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -438,7 +438,7 @@ async def test_activity_sensors_respect_timezone(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sleep_sensors_created_when_existed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -458,7 +458,7 @@ async def test_sleep_sensors_created_when_existed(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sleep_sensors_created_when_receive_sleep_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -485,7 +485,7 @@ async def test_sleep_sensors_created_when_receive_sleep_data(
 
 
 async def test_workout_sensors_created_when_existed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
 ) -> None:
@@ -504,7 +504,7 @@ async def test_workout_sensors_created_when_existed(
 
 
 async def test_workout_sensors_created_when_receive_workout_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -531,7 +531,7 @@ async def test_workout_sensors_created_when_receive_workout_data(
 
 
 async def test_warning_if_no_entities_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -548,7 +548,7 @@ async def test_warning_if_no_entities_created(
 
 
 async def test_device_sensors_created_when_device_data_received(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -592,7 +592,7 @@ async def test_device_sensors_created_when_device_data_received(
 
 
 async def test_device_two_config_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     second_polling_config_entry: MockConfigEntry,
@@ -630,7 +630,7 @@ async def test_device_two_config_entries(
 
 
 async def test_old_device_removal_only_removes_own_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
     second_polling_config_entry: MockConfigEntry,

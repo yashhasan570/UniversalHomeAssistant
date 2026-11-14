@@ -10,8 +10,8 @@ from universalassistant.components.device_automation import (
 from universalassistant.components.universalassistant.triggers import event as event_trigger
 from universalassistant.components.universalassistant.triggers.event import EventTriggerArgument
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
 
@@ -27,7 +27,7 @@ TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(
 )
 
 
-def _get_device_trigger_data(hass: UniversalAssistant, device_id: str) -> tuple[str, dict]:
+def _get_device_trigger_data(hass: __HAC_KEEP__, device_id: str) -> tuple[str, dict]:
     """Get device trigger data for a device, falling back to the cache if possible."""
 
     # First, try checking to see if the device itself is accessible
@@ -43,7 +43,7 @@ def _get_device_trigger_data(hass: UniversalAssistant, device_id: str) -> tuple[
 
 
 async def async_validate_trigger_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     config = TRIGGER_SCHEMA(config)
@@ -59,7 +59,7 @@ async def async_validate_trigger_config(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,
@@ -69,14 +69,14 @@ async def async_attach_trigger(
     try:
         ieee, triggers = _get_device_trigger_data(hass, config[CONF_DEVICE_ID])
     except KeyError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Unable to get zha device {config[CONF_DEVICE_ID]}"
         ) from err
 
     trigger_key: tuple[str, str] = (config[CONF_TYPE], config[CONF_SUBTYPE])
 
     if trigger_key not in triggers:
-        raise UniversalAssistantError(f"Unable to find trigger {trigger_key}")
+        raise __HAC_KEEP__Error(f"Unable to find trigger {trigger_key}")
 
     event_config = event_trigger.TRIGGER_SCHEMA(
         {
@@ -94,7 +94,7 @@ async def async_attach_trigger(
 
 
 async def async_get_triggers(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, str]]:
     """List device triggers.
 

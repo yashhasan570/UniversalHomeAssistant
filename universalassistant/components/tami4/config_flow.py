@@ -8,7 +8,7 @@ import probatio
 from Tami4EdgeAPI import Tami4EdgeAPI, exceptions
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 
 from .const import CONF_PHONE, CONF_REFRESH_TOKEN, DOMAIN
@@ -96,5 +96,5 @@ class Tami4ConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class InvalidPhoneNumber(UniversalAssistantError):
+class InvalidPhoneNumber(__HAC_KEEP__Error):
     """Error to indicate that the phone number is invalid."""

@@ -33,8 +33,8 @@ from roborock.roborock_typing import RoborockCommand
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -259,7 +259,7 @@ A01_SELECT_DESCRIPTIONS: list[RoborockSelectDescriptionA01] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RoborockConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -346,7 +346,7 @@ class RoborockB01SelectEntity(RoborockCoordinatedEntityB01Q7, SelectEntity):
         try:
             await self.entity_description.api_fn(self.coordinator.api, option)
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -432,7 +432,7 @@ class RoborockCleaningModeSelectEntity(RoborockCoordinatedEntityV1, SelectEntity
         try:
             await self._status_trait.set_cleaning_mode(option)
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"command": "cleaning_mode"},
@@ -474,7 +474,7 @@ class RoborockCurrentMapSelectEntity(RoborockCoordinatedEntityV1, SelectEntity):
                 try:
                     await self._maps_trait.set_current_map(map_id)
                 except RoborockException as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="command_failed",
                         translation_placeholders={
@@ -487,7 +487,7 @@ class RoborockCurrentMapSelectEntity(RoborockCoordinatedEntityV1, SelectEntity):
                 try:
                     await self._home_trait.refresh()
                 except RoborockException as err:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         translation_domain=DOMAIN,
                         translation_key="update_data_fail",
                     ) from err
@@ -543,7 +543,7 @@ class RoborockSelectEntityA01(RoborockCoordinatedEntityA01, SelectEntity):
                 value,
             )
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -624,7 +624,7 @@ class RoborockQ10CleanModeSelectEntity(RoborockCoordinatedEntityB01Q10, SelectEn
         try:
             await self.coordinator.api.vacuum.set_clean_mode(mode)
         except RoborockException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={"command": "cleaning_mode"},

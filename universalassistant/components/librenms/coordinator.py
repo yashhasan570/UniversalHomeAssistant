@@ -14,7 +14,7 @@ from yarl import URL
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -42,7 +42,7 @@ class LibrenmsBaseDataUpdateCoordinator[T](DataUpdateCoordinator[T]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LibrenmsConfigEntry,
         api: Librenms,
         update_interval: timedelta,
@@ -71,7 +71,7 @@ class LibrenmsCentralDataUpdateCoordinator(
     """Coordinator to fetch librenms system data and monitored devices meta data."""
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: LibrenmsConfigEntry, api: Librenms
+        self, hass: __HAC_KEEP__, config_entry: LibrenmsConfigEntry, api: Librenms
     ) -> None:
         """Initialize the data update coordinator."""
         super().__init__(

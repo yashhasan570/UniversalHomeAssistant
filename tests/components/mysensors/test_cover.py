@@ -23,11 +23,11 @@ from universalassistant.components.cover import (
     CoverState,
 )
 from universalassistant.const import ATTR_BATTERY_LEVEL, ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_cover_node_percentage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cover_node_percentage: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,
@@ -172,7 +172,7 @@ async def test_cover_node_percentage(
 
 
 async def test_cover_node_binary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cover_node_binary: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,
@@ -286,7 +286,7 @@ async def test_cover_node_binary(
 
 @pytest.mark.parametrize("config_entry", ["2.4"], indirect=True)
 async def test_cover_node_tilt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cover_node_tilt: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,

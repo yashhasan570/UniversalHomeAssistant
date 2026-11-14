@@ -12,8 +12,8 @@ from pyprusalink.types import InvalidAuth, VersionInfo
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.httpx_client import get_async_client
 
 from .const import DOMAIN
@@ -54,7 +54,7 @@ def ensure_printer_is_supported(version: VersionInfo) -> None:
     raise NotSupported
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, str]) -> dict[str, str]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, str]) -> dict[str, str]:
     """Validate the user input allows us to connect.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
@@ -125,9 +125,9 @@ class PrusaLinkConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class NotSupported(UniversalAssistantError):
+class NotSupported(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

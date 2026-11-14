@@ -5,10 +5,10 @@ from unittest.mock import MagicMock, patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def _setup_entry(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def _setup_entry(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Set up the config entry with the webhook helpers patched."""
     config_entry.add_to_hass(hass)
     with (
@@ -23,7 +23,7 @@ async def _setup_entry(hass: UniversalAssistant, config_entry: MockConfigEntry) 
 
 
 async def test_setup_authentication_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_rachio: MagicMock,
 ) -> None:
@@ -41,7 +41,7 @@ async def test_setup_authentication_failed(
 
 
 async def test_setup_no_devices_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_rachio: MagicMock,
 ) -> None:

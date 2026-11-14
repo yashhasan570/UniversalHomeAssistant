@@ -8,12 +8,12 @@ from pytrydan.exceptions import TrydanError
 from universalassistant.components.v2c.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_flow(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_v2c_client: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_v2c_client: AsyncMock
 ) -> None:
     """Test we can finish a config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -44,7 +44,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_cannot_connect(
-    hass: UniversalAssistant, side_effect: Exception, error: str, mock_v2c_client: AsyncMock
+    hass: __HAC_KEEP__, side_effect: Exception, error: str, mock_v2c_client: AsyncMock
 ) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(

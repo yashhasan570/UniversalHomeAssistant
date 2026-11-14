@@ -26,14 +26,14 @@ from universalassistant.components.soundtouch.media_player import (
 from universalassistant.components.soundtouch.services import SoundTouchService
 from universalassistant.config_entries import RELOAD_AFTER_UPDATE_DELAY
 from universalassistant.const import STATE_OFF, STATE_PAUSED, STATE_PLAYING
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 from .conftest import DEVICE_1_ENTITY_ID, DEVICE_2_ENTITY_ID
 
 
-async def setup_soundtouch(hass: UniversalAssistant, *mock_entries: MockConfigEntry):
+async def setup_soundtouch(hass: __HAC_KEEP__, *mock_entries: MockConfigEntry):
     """Initialize media_player for tests."""
     assert await async_setup_component(hass, MEDIA_PLAYER_DOMAIN, {})
 
@@ -44,7 +44,7 @@ async def setup_soundtouch(hass: UniversalAssistant, *mock_entries: MockConfigEn
 
 
 async def _test_key_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requests_mock_key,
     service: str,
     service_data: dict[str, Any],
@@ -58,7 +58,7 @@ async def _test_key_service(
 
 
 async def test_playing_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_playing_media(
 
 
 async def test_playing_radio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_radio,
 ) -> None:
@@ -88,7 +88,7 @@ async def test_playing_radio(
 
 
 async def test_playing_aux(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_aux,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_playing_aux(
 
 
 async def test_playing_bluetooth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_bluetooth,
 ) -> None:
@@ -117,7 +117,7 @@ async def test_playing_bluetooth(
 
 
 async def test_get_volume_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_get_volume_level(
 
 
 async def test_get_state_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_standby,
 ) -> None:
@@ -141,7 +141,7 @@ async def test_get_state_off(
 
 
 async def test_get_state_pause(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp_paused,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_get_state_pause(
 
 
 async def test_is_muted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
     device1_volume_muted: str,
@@ -169,7 +169,7 @@ async def test_is_muted(
 
 
 async def test_should_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
     device1_requests_mock_key,
@@ -186,7 +186,7 @@ async def test_should_turn_off(
 
 
 async def test_should_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_standby,
     device1_requests_mock_key,
@@ -203,7 +203,7 @@ async def test_should_turn_on(
 
 
 async def test_volume_up(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
     device1_requests_mock_key,
@@ -220,7 +220,7 @@ async def test_volume_up(
 
 
 async def test_volume_down(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
     device1_requests_mock_key,
@@ -237,7 +237,7 @@ async def test_volume_down(
 
 
 async def test_set_volume_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
     device1_requests_mock_volume,
@@ -257,7 +257,7 @@ async def test_set_volume_level(
 
 
 async def test_mute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
     device1_requests_mock_key,
@@ -274,7 +274,7 @@ async def test_mute(
 
 
 async def test_play(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp_paused,
     device1_requests_mock_key,
@@ -291,7 +291,7 @@ async def test_play(
 
 
 async def test_pause(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
     device1_requests_mock_key,
@@ -308,7 +308,7 @@ async def test_pause(
 
 
 async def test_play_pause(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
     device1_requests_mock_key,
@@ -325,7 +325,7 @@ async def test_play_pause(
 
 
 async def test_next_previous_track(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_upnp,
     device1_requests_mock_key,
@@ -350,7 +350,7 @@ async def test_next_previous_track(
 
 
 async def test_play_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_standby,
     device1_requests_mock_select,
@@ -390,7 +390,7 @@ async def test_play_media(
 
 
 async def test_play_media_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_standby,
     device1_requests_mock_dlna,
@@ -414,7 +414,7 @@ async def test_play_media_url(
 
 
 async def test_select_source_aux(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_standby,
     device1_requests_mock_select,
@@ -434,7 +434,7 @@ async def test_select_source_aux(
 
 
 async def test_select_source_bluetooth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_standby,
     device1_requests_mock_select,
@@ -454,7 +454,7 @@ async def test_select_source_bluetooth(
 
 
 async def test_select_source_invalid_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device1_requests_mock_standby,
     device1_requests_mock_select,
@@ -476,7 +476,7 @@ async def test_select_source_invalid_source(
 
 
 async def test_play_everywhere(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device2_config: MockConfigEntry,
     device1_requests_mock_standby,
@@ -517,7 +517,7 @@ async def test_play_everywhere(
 
 
 async def test_create_zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device2_config: MockConfigEntry,
     device1_requests_mock_standby,
@@ -561,7 +561,7 @@ async def test_create_zone(
 
 
 async def test_remove_zone_slave(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device2_config: MockConfigEntry,
     device1_requests_mock_standby,
@@ -603,7 +603,7 @@ async def test_remove_zone_slave(
 
 
 async def test_add_zone_slave(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device2_config: MockConfigEntry,
     device1_requests_mock_standby,
@@ -645,7 +645,7 @@ async def test_add_zone_slave(
 
 
 async def test_zone_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device1_config: MockConfigEntry,
     device2_config: MockConfigEntry,
     device1_requests_mock_standby,

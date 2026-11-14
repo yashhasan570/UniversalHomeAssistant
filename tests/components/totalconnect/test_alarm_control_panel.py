@@ -29,8 +29,8 @@ from universalassistant.const import (
     SERVICE_ALARM_DISARM,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -45,7 +45,7 @@ ARMING_HELPER = "universalassistant.components.totalconnect.alarm_control_panel.
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -71,7 +71,7 @@ async def test_entities(
     ],
 )
 async def test_arming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     mock_partition: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -107,7 +107,7 @@ async def test_arming(
     ],
 )
 async def test_arming_invalid_usercode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     mock_partition: AsyncMock,
     mock_location: AsyncMock,
@@ -137,7 +137,7 @@ async def test_arming_invalid_usercode(
 
 @pytest.mark.parametrize("code_required", [False, True])
 async def test_disarming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     mock_partition: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -163,7 +163,7 @@ async def test_disarming(
 
 @pytest.mark.parametrize("code_required", [True])
 async def test_disarming_invalid_usercode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     mock_partition: AsyncMock,
     mock_location: AsyncMock,
@@ -197,7 +197,7 @@ async def test_disarming_invalid_usercode(
     ],
 )
 async def test_instant_arming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     mock_partition: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -236,7 +236,7 @@ async def test_instant_arming(
     ],
 )
 async def test_arming_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     mock_partition: AsyncMock,
     mock_location: AsyncMock,
@@ -258,7 +258,7 @@ async def test_arming_exceptions(
 
     mock_partition.arming_state = ArmingState.ARMING
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             ALARM_CONTROL_PANEL_DOMAIN,
             service,
@@ -287,7 +287,7 @@ async def test_arming_exceptions(
     ],
 )
 async def test_instant_arming_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     mock_partition: AsyncMock,
     mock_location: AsyncMock,
@@ -309,7 +309,7 @@ async def test_instant_arming_exceptions(
 
     mock_partition.arming_state = ArmingState.ARMING
 
-    with pytest.raises(UniversalAssistantError) as exc:
+    with pytest.raises(__HAC_KEEP__Error) as exc:
         await hass.services.async_call(
             DOMAIN,
             service,
@@ -368,7 +368,7 @@ async def test_instant_arming_exceptions(
     ],
 )
 async def test_arming_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: AsyncMock,
     mock_partition: AsyncMock,
     mock_location: AsyncMock,

@@ -11,14 +11,14 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.fibaro.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import TEST_SERIALNUMBER, init_integration
 
 
 async def test_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -41,7 +41,7 @@ async def test_config_entry_diagnostics(
 
 
 async def test_device_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -69,7 +69,7 @@ async def test_device_diagnostics(
 
 
 async def test_device_diagnostics_for_hub(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,

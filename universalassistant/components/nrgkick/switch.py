@@ -5,7 +5,7 @@ from typing import Any, override
 from nrgkick_api.const import CONTROL_KEY_CHARGE_PAUSE
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import NRGkickConfigEntry, NRGkickData, NRGkickDataUpdateCoordinator
@@ -22,7 +22,7 @@ def _is_charging_enabled(data: NRGkickData) -> bool:
 
 
 async def async_setup_entry(
-    _hass: UniversalAssistant,
+    _hass: __HAC_KEEP__,
     entry: NRGkickConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

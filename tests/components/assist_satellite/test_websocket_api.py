@@ -14,14 +14,14 @@ from universalassistant.components.assist_satellite.websocket_api import (
     CONNECTION_TEST_TIMEOUT,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import ENTITY_ID
 from .conftest import MockAssistSatellite
 
 
 async def test_intercept_wake_word(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -55,7 +55,7 @@ async def test_intercept_wake_word(
 
 
 async def test_intercept_wake_word_requires_on_device_wake_word(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -78,7 +78,7 @@ async def test_intercept_wake_word_requires_on_device_wake_word(
 
     await entity.async_accept_pipeline_from_satellite(
         object(),  # type: ignore[arg-type]
-        # Emulate wake word processing in Universal Universal Home Assistant
+        # Emulate wake word processing in __HA_KEEP__
         start_stage=PipelineStage.WAKE_WORD,
     )
 
@@ -93,7 +93,7 @@ async def test_intercept_wake_word_requires_on_device_wake_word(
 
 
 async def test_intercept_wake_word_requires_wake_word_phrase(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -131,7 +131,7 @@ async def test_intercept_wake_word_requires_wake_word_phrase(
 
 
 async def test_intercept_wake_word_require_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -160,7 +160,7 @@ async def test_intercept_wake_word_require_admin(
 
 
 async def test_intercept_wake_word_invalid_satellite(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -185,7 +185,7 @@ async def test_intercept_wake_word_invalid_satellite(
 
 
 async def test_intercept_wake_word_twice(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -234,7 +234,7 @@ async def test_intercept_wake_word_twice(
 
 
 async def test_intercept_wake_word_unsubscribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -280,7 +280,7 @@ async def test_intercept_wake_word_unsubscribe(
 
 
 async def test_get_configuration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -313,7 +313,7 @@ async def test_get_configuration(
 
 
 async def test_get_configuration_not_implemented(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -344,7 +344,7 @@ async def test_get_configuration_not_implemented(
 
 
 async def test_set_wake_words(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -375,7 +375,7 @@ async def test_set_wake_words(
 
 
 async def test_set_wake_words_exceed_maximum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -399,7 +399,7 @@ async def test_set_wake_words_exceed_maximum(
 
 
 async def test_set_wake_words_bad_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -423,7 +423,7 @@ async def test_set_wake_words_bad_id(
 
 
 async def test_connection_test_require_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -450,7 +450,7 @@ async def test_connection_test_require_admin(
 
 
 async def test_connection_test(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -489,7 +489,7 @@ async def test_connection_test(
 
 
 async def test_connection_test_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -526,7 +526,7 @@ async def test_connection_test_timeout(
 
 
 async def test_connection_test_invalid_satellite(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,
@@ -550,7 +550,7 @@ async def test_connection_test_invalid_satellite(
 
 
 async def test_connection_test_timeout_announcement_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_components: ConfigEntry,
     entity: MockAssistSatellite,
     hass_ws_client: WebSocketGenerator,

@@ -25,7 +25,7 @@ from universalassistant.components.camera import (
 from universalassistant.components.tplink.camera import TPLinkCameraEntity
 from universalassistant.components.websocket_api import TYPE_RESULT
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import _mocked_device, setup_platform_for_device, snapshot_platform
@@ -33,7 +33,7 @@ from .const import DEVICE_ID, IP_ADDRESS3, MAC_ADDRESS3, SMALLEST_VALID_JPEG_BYT
 
 
 async def test_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -65,7 +65,7 @@ async def test_states(
 
 
 async def test_camera_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -93,7 +93,7 @@ async def test_camera_unique_id(
 
 
 async def test_handle_mjpeg_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
 ) -> None:
     """Test handle_async_mjpeg_stream."""
@@ -119,7 +119,7 @@ async def test_handle_mjpeg_stream(
 
 
 async def test_handle_mjpeg_stream_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
 ) -> None:
     """Test no stream if stream_rtsp_url is None after creation."""
@@ -145,7 +145,7 @@ async def test_handle_mjpeg_stream_not_supported(
 
 
 async def test_camera_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -206,7 +206,7 @@ async def test_camera_image(
 
 
 async def test_no_camera_image_when_streaming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_no_camera_image_when_streaming(
 
 
 async def test_no_concurrent_camera_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
 ) -> None:
     """Test async_get_image doesn't make concurrent requests."""
@@ -309,7 +309,7 @@ async def test_no_concurrent_camera_image(
 
 
 async def test_camera_image_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
     mock_connect: AsyncMock,
     mock_discovery: AsyncMock,
@@ -343,7 +343,7 @@ async def test_camera_image_auth_error(
                 error_code=stream.StreamClientError.Unauthorized,
             ),
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await async_get_image(hass, "camera.my_camera_live_view")
     await hass.async_block_till_done()
@@ -356,7 +356,7 @@ async def test_camera_image_auth_error(
 
 
 async def test_camera_stream_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -392,7 +392,7 @@ async def test_camera_stream_source(
 
 
 async def test_camera_stream_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
 ) -> None:
     """Test stream attributes."""
@@ -417,7 +417,7 @@ async def test_camera_stream_attributes(
 
 
 async def test_camera_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_camera_config_entry: MockConfigEntry,
 ) -> None:
     """Test camera turn on and off."""

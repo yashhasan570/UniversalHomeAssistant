@@ -20,11 +20,11 @@ from pytest_universalassistant.components.common import (
 from universalassistant.components.cover import ATTR_IS_CLOSED, CoverState
 from universalassistant.components.gate.condition import CONDITIONS
 from universalassistant.const import ATTR_DEVICE_CLASS, CONF_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_covers(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_covers(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple cover entities associated with different targets."""
     return await target_entities(hass, "cover")
 
@@ -43,7 +43,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_gate_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -100,7 +100,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_gate_cover_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_covers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -158,7 +158,7 @@ async def test_gate_cover_condition_behavior_any(
     ],
 )
 async def test_gate_cover_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_covers: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -209,7 +209,7 @@ async def test_gate_cover_condition_behavior_all(
     ],
 )
 async def test_gate_condition_excludes_non_gate_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     cover_matching: str,
     cover_matching_is_closed: bool,

@@ -132,7 +132,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.json import json_loads
 
@@ -250,7 +250,7 @@ class JsonValidator:
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_simple_on_off_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -314,7 +314,7 @@ async def test_fail_setup_if_color_modes_invalid(
 
 @pytest.mark.parametrize("hass_config", [COLOR_MODES_CONFIG])
 async def test_turn_on_with_unknown_color_mode_optimistic(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setup and turn with unknown color_mode in optimistic mode."""
     await mqtt_mock_entry()
@@ -353,7 +353,7 @@ async def test_turn_on_with_unknown_color_mode_optimistic(
     ],
 )
 async def test_controlling_state_with_unknown_color_mode(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setup and turn with unknown color_mode in optimistic mode."""
     await mqtt_mock_entry()
@@ -403,7 +403,7 @@ async def test_controlling_state_with_unknown_color_mode(
     ],
 )
 async def test_no_color_brightness_color_temp_if_no_topics(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test for no RGB, brightness, color temp, effector XY."""
     await mqtt_mock_entry()
@@ -471,7 +471,7 @@ async def test_no_color_brightness_color_temp_if_no_topics(
     ],
 )
 async def test_brightness_only(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test brightness only light.
 
@@ -542,7 +542,7 @@ async def test_brightness_only(
     ],
 )
 async def test_single_color_mode_turn_on(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test turning on a single color mode light does not raise.
 
@@ -592,7 +592,7 @@ async def test_single_color_mode_turn_on(
     ],
 )
 async def test_restore_state_with_none_color_mode(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test restoring state with a None color_mode does not break turn_on.
 
@@ -640,7 +640,7 @@ async def test_restore_state_with_none_color_mode(
     ],
 )
 async def test_color_temp_only(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test a light that only support color_temp as supported color mode."""
     await mqtt_mock_entry()
@@ -703,7 +703,7 @@ async def test_color_temp_only(
     ],
 )
 async def test_controlling_state_color_temp_kelvin(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the controlling of the state via topic in Kelvin mode."""
     await mqtt_mock_entry()
@@ -859,7 +859,7 @@ async def test_controlling_state_color_temp_kelvin(
     ],
 )
 async def test_flash_and_transition_feature_flags(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     expected_features: light.LightEntityFeature,
 ) -> None:
@@ -880,7 +880,7 @@ async def test_flash_and_transition_feature_flags(
     ],
 )
 async def test_controlling_state_via_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1070,7 +1070,7 @@ async def test_controlling_state_via_topic(
     ],
 )
 async def test_sending_mqtt_commands_and_optimistic(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test optimistic mode commands for a color mode light."""
     supported_color_modes = ["color_temp", "hs", "rgb", "rgbw", "rgbww", "white", "xy"]
@@ -1308,7 +1308,7 @@ async def test_sending_mqtt_commands_and_optimistic(
     ],
 )
 async def test_sending_hs_color(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test light.turn_on with hs color sends hs color parameters."""
     mqtt_mock = await mqtt_mock_entry()
@@ -1373,7 +1373,7 @@ async def test_sending_hs_color(
     ],
 )
 async def test_sending_rgb_color_no_brightness(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test light.turn_on with hs color sends rgb color parameters."""
     await hass.async_block_till_done()
@@ -1434,7 +1434,7 @@ async def test_sending_rgb_color_no_brightness(
     ],
 )
 async def test_sending_rgb_color_no_brightness2(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test light.turn_on with hs color sends rgb color parameters."""
     mqtt_mock = await mqtt_mock_entry()
@@ -1520,7 +1520,7 @@ async def test_sending_rgb_color_no_brightness2(
     ],
 )
 async def test_sending_rgb_color_with_brightness(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test light.turn_on with hs color sends rgb color parameters."""
     mqtt_mock = await mqtt_mock_entry()
@@ -1593,7 +1593,7 @@ async def test_sending_rgb_color_with_brightness(
     ],
 )
 async def test_sending_rgb_color_with_scaled_brightness(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test light.turn_on with hs color sends rgb color parameters."""
     await hass.async_block_till_done()
@@ -1667,7 +1667,7 @@ async def test_sending_rgb_color_with_scaled_brightness(
     ],
 )
 async def test_sending_scaled_white(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test light.turn_on with scaled white."""
     mqtt_mock = await mqtt_mock_entry()
@@ -1722,7 +1722,7 @@ async def test_sending_scaled_white(
     ],
 )
 async def test_sending_xy_color(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test light.turn_on with hs color sends xy color parameters."""
     mqtt_mock = await mqtt_mock_entry()
@@ -1787,7 +1787,7 @@ async def test_sending_xy_color(
     ],
 )
 async def test_effect(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test for effect being sent when included."""
     mqtt_mock = await mqtt_mock_entry()
@@ -1862,7 +1862,7 @@ async def test_effect(
     ],
 )
 async def test_flash_short_and_long(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test for flash length being sent when included."""
     mqtt_mock = await mqtt_mock_entry()
@@ -1943,7 +1943,7 @@ async def test_flash_short_and_long(
     ],
 )
 async def test_transition(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test for transition time being sent when included."""
     mqtt_mock = await mqtt_mock_entry()
@@ -1999,7 +1999,7 @@ async def test_transition(
     ],
 )
 async def test_brightness_scale(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test for brightness scaling."""
     await mqtt_mock_entry()
@@ -2064,7 +2064,7 @@ async def test_brightness_scale(
     ],
 )
 async def test_white_scale(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test for white scaling."""
     await mqtt_mock_entry()
@@ -2105,7 +2105,7 @@ async def test_white_scale(
 
 
 async def test_light_group_discovery_members_before_group(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the discovery of a light group and linked entity IDs.
 
@@ -2155,7 +2155,7 @@ async def test_light_group_discovery_members_before_group(
 
 
 async def test_light_group_discovery_group_before_members(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -2213,7 +2213,7 @@ async def test_light_group_discovery_group_before_members(
 
 
 async def test_update_discovery_with_members_without_init(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2261,7 +2261,7 @@ async def test_update_discovery_with_members_without_init(
     ],
 )
 async def test_invalid_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2387,7 +2387,7 @@ async def test_invalid_values(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_availability_when_connection_lost(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability after MQTT disconnection."""
     await help_test_availability_when_connection_lost(
@@ -2397,7 +2397,7 @@ async def test_availability_when_connection_lost(
 
 @pytest.mark.parametrize("hass_config", [DEFAULT_CONFIG])
 async def test_availability_without_topic(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability without defined availability topic."""
     await help_test_availability_without_topic(
@@ -2406,7 +2406,7 @@ async def test_availability_without_topic(
 
 
 async def test_default_availability_payload(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability by default payload with defined topic."""
     await help_test_default_availability_payload(
@@ -2415,7 +2415,7 @@ async def test_default_availability_payload(
 
 
 async def test_custom_availability_payload(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test availability by custom payload with defined topic."""
     await help_test_custom_availability_payload(
@@ -2424,7 +2424,7 @@ async def test_custom_availability_payload(
 
 
 async def test_setting_attribute_via_mqtt_json_message_single_light(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await help_test_setting_attribute_via_mqtt_json_message(
@@ -2465,7 +2465,7 @@ async def test_setting_attribute_via_mqtt_json_message_single_light(
     ],
 )
 async def test_setting_attribute_via_mqtt_json_message_light_group(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await mqtt_mock_entry()
@@ -2481,7 +2481,7 @@ async def test_setting_attribute_via_mqtt_json_message_light_group(
 
 
 async def test_setting_blocked_attribute_via_mqtt_json_message(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await help_test_setting_blocked_attribute_via_mqtt_json_message(
@@ -2494,7 +2494,7 @@ async def test_setting_blocked_attribute_via_mqtt_json_message(
 
 
 async def test_setting_attribute_with_template(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test the setting of attribute via MQTT with JSON payload."""
     await help_test_setting_attribute_with_template(
@@ -2503,7 +2503,7 @@ async def test_setting_attribute_with_template(
 
 
 async def test_update_with_json_attrs_not_dict(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2514,7 +2514,7 @@ async def test_update_with_json_attrs_not_dict(
 
 
 async def test_update_with_json_attrs_bad_json(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -2525,7 +2525,7 @@ async def test_update_with_json_attrs_bad_json(
 
 
 async def test_discovery_update_attr(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test update of discovered MQTTAttributes."""
     await help_test_discovery_update_attr(
@@ -2559,14 +2559,14 @@ async def test_discovery_update_attr(
     ],
 )
 async def test_unique_id(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test unique id option only creates one light per unique_id."""
     await help_test_unique_id(hass, mqtt_mock_entry, light.DOMAIN)
 
 
 async def test_discovery_removal(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test removal of discovered mqtt_json lights."""
     data = '{ "name": "test", "schema": "json", "command_topic": "test_topic" }'
@@ -2574,7 +2574,7 @@ async def test_discovery_removal(
 
 
 async def test_discovery_update_light(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test update of discovered light."""
     config1 = {
@@ -2595,7 +2595,7 @@ async def test_discovery_update_light(
 
 
 async def test_discovery_update_unchanged_light(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test update of discovered light."""
     data1 = (
@@ -2614,7 +2614,7 @@ async def test_discovery_update_unchanged_light(
 
 @pytest.mark.no_fail_on_log_exception
 async def test_discovery_broken(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test handling of bad discovery message."""
     data1 = '{ "name": "Beer" }'
@@ -2628,7 +2628,7 @@ async def test_discovery_broken(
 
 
 async def test_entity_device_info_with_connection(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT light device registry integration."""
     await help_test_entity_device_info_with_connection(
@@ -2640,7 +2640,7 @@ async def test_entity_device_info_with_connection(
 
 
 async def test_entity_device_info_with_identifier(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT light device registry integration."""
     await help_test_entity_device_info_with_identifier(
@@ -2652,7 +2652,7 @@ async def test_entity_device_info_with_identifier(
 
 
 async def test_entity_device_info_update(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test device registry update."""
     await help_test_entity_device_info_update(
@@ -2664,7 +2664,7 @@ async def test_entity_device_info_update(
 
 
 async def test_entity_device_info_remove(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test device registry remove."""
     await help_test_entity_device_info_remove(
@@ -2676,7 +2676,7 @@ async def test_entity_device_info_remove(
 
 
 async def test_entity_id_update_subscriptions(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT subscriptions are managed when entity_id is updated."""
     await help_test_entity_id_update_subscriptions(
@@ -2685,7 +2685,7 @@ async def test_entity_id_update_subscriptions(
 
 
 async def test_entity_id_update_discovery_update(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT discovery update when entity_id is updated."""
     await help_test_entity_id_update_discovery_update(
@@ -2694,7 +2694,7 @@ async def test_entity_id_update_discovery_update(
 
 
 async def test_entity_debug_info_message(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test MQTT debug info."""
     await help_test_entity_debug_info_message(
@@ -2774,7 +2774,7 @@ async def test_entity_debug_info_message(
     ],
 )
 async def test_min_max_kelvin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     min_kelvin: int,
     max_kelvin: int,
@@ -2811,7 +2811,7 @@ async def test_min_max_kelvin(
     ],
 )
 async def test_publishing_with_custom_encoding(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
     service: str,
@@ -2845,7 +2845,7 @@ async def test_publishing_with_custom_encoding(
 
 
 async def test_reloadable(
-    hass: UniversalAssistant, mqtt_client_mock: MqttMockPahoClient
+    hass: __HAC_KEEP__, mqtt_client_mock: MqttMockPahoClient
 ) -> None:
     """Test reloading the MQTT platform."""
     domain = light.DOMAIN
@@ -2869,7 +2869,7 @@ async def test_reloadable(
     ],
 )
 async def test_encoding_subscribable_topics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     topic: str,
     value: str,
@@ -2908,7 +2908,7 @@ async def test_encoding_subscribable_topics(
     ids=["platform_key", "listed"],
 )
 async def test_setup_manual_entity_from_yaml(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator
 ) -> None:
     """Test setup manual configured MQTT entity."""
     await mqtt_mock_entry()
@@ -3017,7 +3017,7 @@ async def test_setup_manual_entity_from_yaml(
     ],
 )
 async def test_skipped_async_ha_write_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     topic: str,
     payload1: str,

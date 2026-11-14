@@ -37,7 +37,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Context, UniversalAssistant, callback
+from universalassistant.core import Context, __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er, label_registry as lr
 from universalassistant.helpers.trigger import (
     NotTriggeredInfo,
@@ -112,7 +112,7 @@ def _button_event_states(
 
 @pytest.fixture
 async def target_entities_indirect(
-    request: pytest.FixtureRequest, hass: UniversalAssistant
+    request: pytest.FixtureRequest, hass: __HAC_KEEP__
 ) -> dict[str, list[str]]:
     """Create multiple entities associated with different targets."""
     return await target_entities(hass, request.param)
@@ -134,7 +134,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_button_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -165,7 +165,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_button_held_trigger_interval_valid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     interval: dict[str, float] | str | int,
     expected: timedelta,
 ) -> None:
@@ -196,7 +196,7 @@ async def test_button_held_trigger_interval_valid(
     ],
 )
 async def test_button_held_trigger_interval_invalid(
-    hass: UniversalAssistant, interval: dict[str, int] | str | int | None
+    hass: __HAC_KEEP__, interval: dict[str, int] | str | int | None
 ) -> None:
     """Test the held trigger rejects an interval that cannot repeat."""
     with pytest.raises(probatio.Invalid):
@@ -345,7 +345,7 @@ async def test_button_held_trigger_interval_invalid(
     ],
 )
 async def test_button_state_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_entities_indirect: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -664,7 +664,7 @@ async def test_button_state_trigger(
     ],
 )
 async def test_button_event_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_entities_indirect: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -807,7 +807,7 @@ async def test_button_event_trigger(
     ],
 )
 async def test_button_event_trigger_not_triggered_reports(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger: str,
     event_types: list[str],
     event_type: str,
@@ -874,7 +874,7 @@ async def test_button_event_trigger_not_triggered_reports(
 )
 @pytest.mark.parametrize("entity_id", ["button.test_button", "input_button.test"])
 async def test_button_hold_triggers_ignore_buttons(
-    hass: UniversalAssistant, trigger: str, event_type: str, entity_id: str
+    hass: __HAC_KEEP__, trigger: str, event_type: str, entity_id: str
 ) -> None:
     """Test the hold triggers do not fire for button and input_button entities."""
     calls: list[str] = []
@@ -898,7 +898,7 @@ async def test_button_hold_triggers_ignore_buttons(
     assert calls == []
 
 
-type _TimelineStep = Callable[[UniversalAssistant, FrozenDateTimeFactory, int], None]
+type _TimelineStep = Callable[[__HAC_KEEP__, FrozenDateTimeFactory, int], None]
 
 
 def _make_event_step(
@@ -906,7 +906,7 @@ def _make_event_step(
 ) -> _TimelineStep:
     """Return a step reporting a button event."""
 
-    def step(hass: UniversalAssistant, freezer: FrozenDateTimeFactory, index: int) -> None:
+    def step(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, index: int) -> None:
         set_or_remove_state(
             hass,
             _EVENT_ENTITY_ID,
@@ -923,7 +923,7 @@ def _make_event_step(
 def _make_set_state_step(state: str | None) -> _TimelineStep:
     """Return a step setting the button state, or removing it if None."""
 
-    def step(hass: UniversalAssistant, freezer: FrozenDateTimeFactory, index: int) -> None:
+    def step(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, index: int) -> None:
         set_or_remove_state(
             hass,
             _EVENT_ENTITY_ID,
@@ -942,7 +942,7 @@ def _make_set_state_step(state: str | None) -> _TimelineStep:
 def _make_attribute_update_step() -> _TimelineStep:
     """Return a step changing an attribute without reporting a new event."""
 
-    def step(hass: UniversalAssistant, freezer: FrozenDateTimeFactory, index: int) -> None:
+    def step(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, index: int) -> None:
         state = hass.states.get(_EVENT_ENTITY_ID)
         assert state is not None
         hass.states.async_set(
@@ -957,7 +957,7 @@ def _make_attribute_update_step() -> _TimelineStep:
 def _make_wait_step(**kwargs: float) -> _TimelineStep:
     """Return a step advancing the time."""
 
-    def step(hass: UniversalAssistant, freezer: FrozenDateTimeFactory, index: int) -> None:
+    def step(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, index: int) -> None:
         freezer.tick(timedelta(**kwargs))
         async_fire_time_changed_exact(hass)
 
@@ -974,7 +974,7 @@ def _noop() -> None:
 
 
 async def _arm_held_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target: dict[str, Any],
     options: dict[str, Any],
     calls: list[dict[str, Any]],
@@ -1158,7 +1158,7 @@ _INTERVAL_500MS = {"interval": {"milliseconds": 500}}
     ],
 )
 async def test_button_held_trigger_repeat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     options: dict[str, Any],
     steps: list[tuple[_TimelineStep, list[int]]],
@@ -1186,7 +1186,7 @@ async def test_button_held_trigger_repeat(
 
 
 async def test_button_held_trigger_repeats_per_entity(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test each held entity repeats on its own interval."""
     calls: list[dict[str, Any]] = []
@@ -1257,7 +1257,7 @@ async def test_button_held_trigger_repeats_per_entity(
 
 
 async def test_button_held_trigger_trigger_data(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test repeats carry the state of the event that started the hold."""
     trigger_data: list[dict[str, Any]] = []
@@ -1315,7 +1315,7 @@ async def test_button_held_trigger_trigger_data(
 
 
 async def test_button_held_trigger_entity_removed_from_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
@@ -1360,7 +1360,7 @@ async def test_button_held_trigger_entity_removed_from_target(
 
 
 async def test_button_held_trigger_unsubscribe_stops_repeating(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test removing the trigger stops repeating."""
     calls: list[dict[str, Any]] = []
@@ -1394,7 +1394,7 @@ async def test_button_held_trigger_unsubscribe_stops_repeating(
 
 
 async def _hold_until_run_ends_it(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     ending_run: int,
     hold_ending_action: Callable[[Callable[[], None]], None],
@@ -1445,7 +1445,7 @@ async def _hold_until_run_ends_it(
     [pytest.param(0, id="hold_start_run"), pytest.param(1, id="repeat_run")],
 )
 async def test_button_held_trigger_run_reports_release(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, ending_run: int
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, ending_run: int
 ) -> None:
     """Test repeating stops when a run reports the release of the button."""
 
@@ -1470,7 +1470,7 @@ async def test_button_held_trigger_run_reports_release(
     [pytest.param(0, id="hold_start_run"), pytest.param(1, id="repeat_run")],
 )
 async def test_button_held_trigger_run_removes_trigger(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, ending_run: int
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, ending_run: int
 ) -> None:
     """Test repeating stops when a run removes the trigger."""
 
@@ -1483,7 +1483,7 @@ async def test_button_held_trigger_run_removes_trigger(
 
 
 async def _assert_trigger_fires(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_entities: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,

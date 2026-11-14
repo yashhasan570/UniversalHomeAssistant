@@ -18,7 +18,7 @@ from pytest_universalassistant.common import (
 from universalassistant.components.smlight import PLATFORMS
 from universalassistant.components.smlight.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_DEVICE_NAME = "slzb-06"
 MOCK_HOST = "192.168.1.161"
@@ -172,7 +172,7 @@ def mock_ultima_client(mock_smlight_client: MagicMock) -> MagicMock:
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     *,
     wait_for_background: bool = True,

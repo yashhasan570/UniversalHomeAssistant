@@ -20,7 +20,7 @@ class HassEnforceConfigFlowNoConnectionClassChecker(BaseChecker):
             "Config flow should not set CONNECTION_CLASS",
             "universal-assistant-config-flow-connection-class",
             "Used when a config flow class sets CONNECTION_CLASS. The attribute "
-            "is no longer used by Universal Universal Home Assistant and should not be set.",
+            "is no longer used by __HA_KEEP__ and should not be set.",
         ),
     }
     options = ()

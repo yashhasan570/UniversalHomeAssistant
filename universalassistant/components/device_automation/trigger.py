@@ -5,7 +5,7 @@ from typing import Any, Protocol
 import probatio
 
 from universalassistant.const import CONF_DOMAIN
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
 
@@ -28,13 +28,13 @@ class DeviceAutomationTriggerProtocol(Protocol):
     TRIGGER_SCHEMA: probatio.Schema
 
     async def async_validate_trigger_config(
-        self, hass: UniversalAssistant, config: ConfigType
+        self, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
 
     async def async_attach_trigger(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         action: TriggerActionType,
         trigger_info: TriggerInfo,
@@ -42,18 +42,18 @@ class DeviceAutomationTriggerProtocol(Protocol):
         """Attach a trigger."""
 
     async def async_get_trigger_capabilities(
-        self, hass: UniversalAssistant, config: ConfigType
+        self, hass: __HAC_KEEP__, config: ConfigType
     ) -> dict[str, probatio.Schema]:
         """List trigger capabilities."""
 
     async def async_get_triggers(
-        self, hass: UniversalAssistant, device_id: str
+        self, hass: __HAC_KEEP__, device_id: str
     ) -> list[dict[str, Any]]:
         """List triggers."""
 
 
 async def async_validate_trigger_config(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> ConfigType:
     """Validate config."""
     return await async_validate_device_automation_config(
@@ -62,7 +62,7 @@ async def async_validate_trigger_config(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

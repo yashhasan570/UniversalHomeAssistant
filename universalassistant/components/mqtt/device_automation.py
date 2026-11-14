@@ -5,7 +5,7 @@ import functools
 import probatio
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from . import device_trigger
@@ -24,7 +24,7 @@ DISCOVERY_SCHEMA = MQTT_BASE_SCHEMA.extend(
 
 
 async def async_setup_mqtt_device_automation_entry(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Set up MQTT device automation dynamically through MQTT discovery."""
 
@@ -35,7 +35,7 @@ async def async_setup_mqtt_device_automation_entry(
 
 
 async def _async_setup_automation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     config_entry: ConfigEntry,
     discovery_data: DiscoveryInfoType,
@@ -47,6 +47,6 @@ async def _async_setup_automation(
         )
 
 
-async def async_removed_from_device(hass: UniversalAssistant, device_id: str) -> None:
+async def async_removed_from_device(hass: __HAC_KEEP__, device_id: str) -> None:
     """Handle Mqtt removed from a device."""
     await device_trigger.async_removed_from_device(hass, device_id)

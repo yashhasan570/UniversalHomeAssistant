@@ -7,7 +7,7 @@ from systembridgeconnector.models.notification import NotificationEvent
 
 from universalassistant.components.event import EventEntity
 from universalassistant.const import CONF_PORT
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -23,7 +23,7 @@ EVENT_SENT = "sent"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SystemBridgeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -15,8 +15,8 @@ from qbittorrentapi import (
 from qbittorrentapi.torrents import TorrentStatusesT
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN
@@ -32,7 +32,7 @@ class QBittorrentDataCoordinator(DataUpdateCoordinator[SyncMainDataDictionary]):
     config_entry: QBittorrentConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: QBittorrentConfigEntry, client: Client
+        self, hass: __HAC_KEEP__, config_entry: QBittorrentConfigEntry, client: Client
     ) -> None:
         """Initialize coordinator."""
         self.client = client
@@ -60,11 +60,11 @@ class QBittorrentDataCoordinator(DataUpdateCoordinator[SyncMainDataDictionary]):
                 self._fetch_data
             )
         except (LoginFailed, Forbidden403Error) as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="login_error"
             ) from exc
         except APIConnectionError as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="cannot_connect"
             ) from exc
         self._is_alternative_mode_enabled = speed_limits_mode == "1"
@@ -96,11 +96,11 @@ class QBittorrentDataCoordinator(DataUpdateCoordinator[SyncMainDataDictionary]):
                 lambda: self.client.torrents_info(torrent_filter)
             )
         except (LoginFailed, Forbidden403Error) as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="login_error"
             ) from exc
         except APIConnectionError as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="cannot_connect"
             ) from exc
 

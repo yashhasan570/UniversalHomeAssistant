@@ -1,7 +1,7 @@
 """Helper functions for Samsung TV."""
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntry
 
@@ -12,7 +12,7 @@ from .coordinator import SamsungTVConfigEntry
 
 @callback
 def async_get_device_entry_by_device_id(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> DeviceEntry:
     """Get Device Entry from Device Registry by device ID.
 
@@ -26,7 +26,7 @@ def async_get_device_entry_by_device_id(
 
 
 @callback
-def async_get_device_id_from_entity_id(hass: UniversalAssistant, entity_id: str) -> str:
+def async_get_device_id_from_entity_id(hass: __HAC_KEEP__, entity_id: str) -> str:
     """Get device ID from an entity ID.
 
     Raises ValueError if entity or device ID is invalid.
@@ -46,7 +46,7 @@ def async_get_device_id_from_entity_id(hass: UniversalAssistant, entity_id: str)
 
 @callback
 def async_get_client_by_device_entry(
-    hass: UniversalAssistant, device: DeviceEntry
+    hass: __HAC_KEEP__, device: DeviceEntry
 ) -> SamsungTVBridge:
     """Get SamsungTVBridge from Device Registry by device entry.
 

@@ -13,9 +13,9 @@ from python_qube_heatpump import QubeDeviceInfo
 from universalassistant.components.hr_energy_qube.const import DOMAIN, MDNS_LOOKUP_TIMEOUT
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 from . import DEVICE_INFO, async_shared_connections, setup_integration
@@ -45,7 +45,7 @@ def patch_answering_hosts(*hosts: str):
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_device_info: AsyncMock,
     mock_async_zeroconf: MagicMock,
@@ -84,7 +84,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     connected: bool,
     error: str,
@@ -118,14 +118,14 @@ async def test_flow_errors(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_qube_client")
-async def test_flow_link_settings_in_use(hass: UniversalAssistant) -> None:
+async def test_flow_link_settings_in_use(hass: __HAC_KEEP__) -> None:
     """Test the flow reports the device in use over other link settings."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
     )
     with patch(
         "universalassistant.components.hr_energy_qube.config_flow.async_get_temporary_unit",
-        side_effect=UniversalAssistantError,
+        side_effect=__HAC_KEEP__Error,
     ):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"], {CONF_HOST: "1.2.3.4"}
@@ -143,7 +143,7 @@ async def test_flow_link_settings_in_use(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: UniversalAssistant, mock_qube_client: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_qube_client: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort when device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -163,7 +163,7 @@ async def test_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured_by_unique_id(
-    hass: UniversalAssistant, mock_device_info: AsyncMock
+    hass: __HAC_KEEP__, mock_device_info: AsyncMock
 ) -> None:
     """Test re-adding a controller that moved to a new host updates the entry."""
     entry = MockConfigEntry(
@@ -190,7 +190,7 @@ async def test_already_configured_by_unique_id(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_second_qube_with_the_same_uuid(
-    hass: UniversalAssistant, mock_device_info: AsyncMock
+    hass: __HAC_KEEP__, mock_device_info: AsyncMock
 ) -> None:
     """Test a second Qube reporting a configured uuid is added without it."""
     entry = MockConfigEntry(
@@ -217,7 +217,7 @@ async def test_second_qube_with_the_same_uuid(
 
 
 async def test_validation_reuses_the_entry_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_qube_client_cls: MagicMock,
     mock_qube_client: MagicMock,
@@ -285,7 +285,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_zeroconf_flow(hass: UniversalAssistant, mock_qube_client: MagicMock) -> None:
+async def test_zeroconf_flow(hass: __HAC_KEEP__, mock_qube_client: MagicMock) -> None:
     """Test a discovered Qube is set up after confirmation."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_ZEROCONF}, data=ZEROCONF_DISCOVERY
@@ -311,7 +311,7 @@ async def test_zeroconf_flow(hass: UniversalAssistant, mock_qube_client: MagicMo
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_confirm_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     connected: bool,
     error: str,
@@ -336,7 +336,7 @@ async def test_zeroconf_confirm_errors(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zeroconf_updates_host(hass: UniversalAssistant) -> None:
+async def test_zeroconf_updates_host(hass: __HAC_KEEP__) -> None:
     """Test rediscovery of a configured Qube updates its host."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -363,7 +363,7 @@ async def test_zeroconf_updates_host(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_zeroconf_other_qube_with_the_same_uuid(
-    hass: UniversalAssistant, other_host: str | None, answering: tuple[str, ...]
+    hass: __HAC_KEEP__, other_host: str | None, answering: tuple[str, ...]
 ) -> None:
     """Test an announcement from another Qube with the same uuid moves nothing."""
     entry = MockConfigEntry(
@@ -398,7 +398,7 @@ async def test_zeroconf_other_qube_with_the_same_uuid(
     ],
 )
 async def test_zeroconf_sets_unique_id_on_existing_entry(
-    hass: UniversalAssistant, host: str
+    hass: __HAC_KEEP__, host: str
 ) -> None:
     """Test an entry created without mDNS adopts the discovered uuid."""
     entry = MockConfigEntry(domain=DOMAIN, data={CONF_HOST: host, CONF_PORT: 502})
@@ -419,7 +419,7 @@ async def test_zeroconf_sets_unique_id_on_existing_entry(
 
 
 async def test_zeroconf_other_entry_without_unique_id(
-    hass: UniversalAssistant, mock_qube_client: MagicMock
+    hass: __HAC_KEEP__, mock_qube_client: MagicMock
 ) -> None:
     """Test an entry for another host is left alone and discovery continues."""
     entry = MockConfigEntry(
@@ -436,7 +436,7 @@ async def test_zeroconf_other_entry_without_unique_id(
     assert entry.unique_id is None
 
 
-async def test_zeroconf_not_qube(hass: UniversalAssistant) -> None:
+async def test_zeroconf_not_qube(hass: __HAC_KEEP__) -> None:
     """Test a record without a Carel vendor or uuid is rejected."""
     discovery = replace(
         ZEROCONF_DISCOVERY, properties={"Vendor": "000A5C", "ProjectName": "X"}
@@ -459,7 +459,7 @@ async def test_zeroconf_not_qube(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_device_info: AsyncMock,
     unique_id: str | None,
@@ -489,7 +489,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_other_controller(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     mock_device_info: AsyncMock,
 ) -> None:
@@ -513,7 +513,7 @@ async def test_reconfigure_other_controller(
 
 
 async def test_reconfigure_host_of_other_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
 ) -> None:
     """Test reconfiguring to the host of another entry is refused."""
@@ -544,7 +544,7 @@ async def test_reconfigure_host_of_other_entry(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_qube_client: MagicMock,
     connected: bool,
     error: str,

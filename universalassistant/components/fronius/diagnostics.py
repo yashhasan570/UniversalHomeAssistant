@@ -4,7 +4,7 @@ from dataclasses import asdict
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import FroniusCoordinatorBase
 from .solar_net import FroniusConfigEntry
@@ -25,7 +25,7 @@ def _coordinator_data(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: FroniusConfigEntry
+    hass: __HAC_KEEP__, config_entry: FroniusConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     diag: dict[str, Any] = {}

@@ -16,7 +16,7 @@ from pytest_universalassistant.common import (
 
 from universalassistant.components.econet.const import DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -57,7 +57,7 @@ def mock_equipment(equipment_data: dict, mock_api: MagicMock) -> Equipment:
 
 @pytest.fixture
 def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
     mock_equipment: Equipment,
@@ -83,7 +83,7 @@ def setup_integration(
 
 @pytest.fixture
 async def energy_usage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request: pytest.FixtureRequest,
     mock_api: MagicMock,
     mock_equipment: Equipment,

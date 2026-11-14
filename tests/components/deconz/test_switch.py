@@ -9,7 +9,7 @@ from universalassistant.components.deconz.const import DOMAIN
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType, WebsocketDataType
@@ -48,7 +48,7 @@ from .conftest import ConfigEntryFactoryType, WebsocketDataType
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_power_plugs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
     light_ws_data: WebsocketDataType,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_power_plugs(
     ],
 )
 async def test_remove_legacy_on_off_output_as_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
 ) -> None:

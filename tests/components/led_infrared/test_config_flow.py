@@ -20,9 +20,9 @@ from universalassistant.components.led_infrared.const import (
 )
 from universalassistant.components.led_infrared.entity import CODES
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
 @pytest.fixture(autouse=True)
@@ -46,7 +46,7 @@ def mock_toggle_gap() -> Generator[None]:
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     device_type: LEDIrDeviceType,
     device_name: str,
@@ -93,7 +93,7 @@ async def test_form(
     "mock_infrared_emitter_entity", "mock_infrared_receiver_entity"
 )
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     user_input: dict[str, str],
 ) -> None:
@@ -120,7 +120,7 @@ async def test_form_already_configured(
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity", "mock_setup_entry")
 async def test_user_flow_requires_emitter_or_receiver(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test user flow requires an infrared emitter or receiver."""
     result = await hass.config_entries.flow.async_init(
@@ -146,7 +146,7 @@ async def test_user_flow_requires_emitter_or_receiver(
 
 
 @pytest.mark.usefixtures("init_infrared")
-async def test_user_flow_no_emitters_receivers(hass: UniversalAssistant) -> None:
+async def test_user_flow_no_emitters_receivers(hass: __HAC_KEEP__) -> None:
     """Test user flow aborts when no infrared emitters or receivers exist."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -157,7 +157,7 @@ async def test_user_flow_no_emitters_receivers(hass: UniversalAssistant) -> None
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
-async def test_flow_reconfigure(hass: UniversalAssistant) -> None:
+async def test_flow_reconfigure(hass: __HAC_KEEP__) -> None:
     """Test reconfigure flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -189,7 +189,7 @@ async def test_flow_reconfigure(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_reconfigure_flow_requires_emitter(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow requires an infrared emitter."""
     config_entry.add_to_hass(hass)
@@ -228,7 +228,7 @@ async def test_reconfigure_flow_requires_emitter(
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_flow_reconfigure_already_configured(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, user_input: dict[str, str]
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, user_input: dict[str, str]
 ) -> None:
     """Test reconfigure flow."""
     config_entry_2 = MockConfigEntry(
@@ -255,7 +255,7 @@ async def test_flow_reconfigure_already_configured(
 
 @pytest.mark.usefixtures("init_infrared")
 async def test_reconfigure_flow_no_emitters(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test reconfigure flow aborts when no infrared emitters exist."""
     config_entry.add_to_hass(hass)
@@ -275,7 +275,7 @@ async def test_reconfigure_flow_no_emitters(
 )
 @pytest.mark.usefixtures("mock_infrared_receiver_entity")
 async def test_form_10_key_test_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     next_variant_presses: int,
@@ -339,14 +339,14 @@ async def test_form_10_key_test_device(
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity", "mock_setup_entry")
-async def test_form_10_key_test_device_send_failed(hass: UniversalAssistant) -> None:
+async def test_form_10_key_test_device_send_failed(hass: __HAC_KEEP__) -> None:
     """Test the 10-key remote flow recovers when sending the test fails."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
     )
     with patch(
         "universalassistant.components.led_infrared.config_flow.async_send_command",
-        side_effect=UniversalAssistantError,
+        side_effect=__HAC_KEEP__Error,
     ):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
@@ -375,7 +375,7 @@ async def test_form_10_key_test_device_send_failed(hass: UniversalAssistant) -> 
 
 
 @pytest.mark.usefixtures("mock_infrared_receiver_entity", "mock_setup_entry")
-async def test_form_10_key_receiver_only(hass: UniversalAssistant) -> None:
+async def test_form_10_key_receiver_only(hass: __HAC_KEEP__) -> None:
     """Test the 10-key remote flow skips the test without an emitter."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -396,7 +396,7 @@ async def test_form_10_key_receiver_only(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
-async def test_form_10_key_already_configured(hass: UniversalAssistant) -> None:
+async def test_form_10_key_already_configured(hass: __HAC_KEEP__) -> None:
     """Test the 10-key remote flow aborts when the tested code set is configured."""
     MockConfigEntry(
         domain=DOMAIN,

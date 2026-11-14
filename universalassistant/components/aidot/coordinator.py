@@ -16,7 +16,7 @@ from aidot.device_client import DeviceClient, DeviceStatusData
 from aidot.exceptions import AidotAuthFailed, AidotUserOrPassIncorrect
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -35,7 +35,7 @@ class AidotDeviceUpdateCoordinator(DataUpdateCoordinator[DeviceStatusData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AidotConfigEntry,
         device_client: DeviceClient,
     ) -> None:
@@ -71,7 +71,7 @@ class AidotDeviceManagerCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AidotConfigEntry,
     ) -> None:
         """Initialize coordinator."""

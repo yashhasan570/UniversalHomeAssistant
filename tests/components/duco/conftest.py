@@ -34,7 +34,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_array_fi
 
 from universalassistant.components.duco.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -354,7 +354,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_duco_client: AsyncMock,
 ) -> MockConfigEntry:

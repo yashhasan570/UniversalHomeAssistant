@@ -10,7 +10,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import (
     TEST_DATA_FILTER,
@@ -32,7 +32,7 @@ from .common import (
 )
 
 
-async def test_switches_hub(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_switches_hub(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test DROP switches for hubs."""
     entry = config_entry_hub()
     entry.add_to_hass(hass)
@@ -115,7 +115,7 @@ async def test_switches_hub(hass: UniversalAssistant, mqtt_mock: MqttMockHAClien
 
 
 async def test_switches_protection_valve(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test DROP switches for protection valves."""
     entry = config_entry_protection_valve()
@@ -173,7 +173,7 @@ async def test_switches_protection_valve(
 
 
 async def test_switches_softener(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test DROP switches for softeners."""
     entry = config_entry_softener()
@@ -223,7 +223,7 @@ async def test_switches_softener(
 
 
 async def test_switches_filter(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient
 ) -> None:
     """Test DROP switches for filters."""
     entry = config_entry_filter()

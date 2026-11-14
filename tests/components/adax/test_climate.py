@@ -27,7 +27,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -43,7 +43,7 @@ def override_platforms() -> Generator[None]:
 
 
 async def test_all_entities_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_cloud_config_entry: MockConfigEntry,
     mock_adax_cloud: AsyncMock,
@@ -59,7 +59,7 @@ async def test_all_entities_cloud(
 
 
 async def test_all_entities_local(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_local_config_entry: MockConfigEntry,
     mock_adax_local: AsyncMock,
@@ -75,7 +75,7 @@ async def test_all_entities_local(
 
 
 async def test_climate_cloud(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_cloud_config_entry: MockConfigEntry,
     mock_adax_cloud: AsyncMock,
@@ -97,7 +97,7 @@ async def test_climate_cloud(
 
 
 async def test_climate_local(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_local_config_entry: MockConfigEntry,
     mock_adax_local: AsyncMock,
@@ -127,7 +127,7 @@ async def test_climate_local(
 
 
 async def test_climate_local_initial_state_off_from_first_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_local_config_entry: MockConfigEntry,
     mock_adax_local: AsyncMock,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_climate_local_initial_state_off_from_first_refresh(
 
 
 async def test_climate_local_set_hvac_mode_updates_state_immediately(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_local_config_entry: MockConfigEntry,
     mock_adax_local: AsyncMock,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_climate_local_set_hvac_mode_updates_state_immediately(
 
 
 async def test_climate_local_set_temperature_when_off_does_not_change_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_local_config_entry: MockConfigEntry,
     mock_adax_local: AsyncMock,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_climate_local_set_temperature_when_off_does_not_change_hvac_mode(
 
 
 async def test_climate_local_set_temperature_when_heat_calls_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_local_config_entry: MockConfigEntry,
     mock_adax_local: AsyncMock,
 ) -> None:

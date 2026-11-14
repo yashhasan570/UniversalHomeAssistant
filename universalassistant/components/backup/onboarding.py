@@ -16,8 +16,8 @@ from universalassistant.components.onboarding import (
     BaseOnboardingView,
     NoAuthBaseOnboardingView,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import async_get_manager, http as backup_http
 from .manager import BackupManager, IncorrectPasswordError
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from universalassistant.components.onboarding import OnboardingStoreData
 
 
-async def async_setup_views(hass: UniversalAssistant, data: OnboardingStoreData) -> None:
+async def async_setup_views(hass: __HAC_KEEP__, data: OnboardingStoreData) -> None:
     """Set up the backup views."""
 
     hass.http.register_view(BackupInfoView(data))
@@ -41,7 +41,7 @@ def with_backup_manager[_ViewT: BaseOnboardingView, **_P](
         Coroutine[Any, Any, web.Response],
     ],
 ) -> Callable[Concatenate[_ViewT, web.Request, _P], Coroutine[Any, Any, web.Response]]:
-    """Universal Universal Home Assistant API decorator to check onboarding and inject manager."""
+    """__HA_KEEP__ API decorator to check onboarding and inject manager."""
 
     @wraps(func)
     async def with_backup(
@@ -117,7 +117,7 @@ class RestoreBackupView(NoAuthBaseOnboardingView):
             return self.json(
                 {"code": "incorrect_password"}, status_code=HTTPStatus.BAD_REQUEST
             )
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             return self.json(
                 {"code": "restore_failed", "message": str(err)},
                 status_code=HTTPStatus.BAD_REQUEST,

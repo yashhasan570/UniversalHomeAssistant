@@ -11,8 +11,8 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -24,7 +24,7 @@ ATTR_NUMBER = "number"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LiteJetConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -52,7 +52,7 @@ class LiteJetLight(LightEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: LiteJetConfigEntry,
         system: LiteJet,
         index: int,
@@ -108,10 +108,10 @@ class LiteJetLight(LightEntity):
             try:
                 await self._lj.activate_load(self._index)
             except LiteJetError as exc:
-                raise UniversalAssistantError from exc
+                raise __HAC_KEEP__Error from exc
             return
 
-        # If either attribute is specified then Universal Universal Home Assistant must
+        # If either attribute is specified then __HA_KEEP__ must
         # control both values.
         default_transition = self._config_entry.options.get(CONF_DEFAULT_TRANSITION, 0)
         transition = kwargs.get(ATTR_TRANSITION, default_transition)
@@ -120,7 +120,7 @@ class LiteJetLight(LightEntity):
         try:
             await self._lj.activate_load_at(self._index, brightness, int(transition))
         except LiteJetError as exc:
-            raise UniversalAssistantError from exc
+            raise __HAC_KEEP__Error from exc
 
     @override
     async def async_turn_off(self, **kwargs: Any) -> None:
@@ -129,7 +129,7 @@ class LiteJetLight(LightEntity):
             try:
                 await self._lj.activate_load_at(self._index, 0, kwargs[ATTR_TRANSITION])
             except LiteJetError as exc:
-                raise UniversalAssistantError from exc
+                raise __HAC_KEEP__Error from exc
             return
 
         # If transition attribute is not specified then the simple
@@ -138,7 +138,7 @@ class LiteJetLight(LightEntity):
         try:
             await self._lj.deactivate_load(self._index)
         except LiteJetError as exc:
-            raise UniversalAssistantError from exc
+            raise __HAC_KEEP__Error from exc
 
     async def async_update(self) -> None:
         """Retrieve the light's brightness from the LiteJet system."""

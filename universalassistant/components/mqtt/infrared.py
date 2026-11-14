@@ -16,7 +16,7 @@ from universalassistant.components.infrared import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME, CONF_VALUE_TEMPLATE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.service_info.mqtt import ReceivePayloadType
@@ -94,7 +94,7 @@ DISCOVERY_SCHEMA = probatio.TaggedUnion(CONF_SCHEMA, DISCOVERY_SCHEMA_MAPPING)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

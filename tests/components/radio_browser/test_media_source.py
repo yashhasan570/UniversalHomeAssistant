@@ -12,20 +12,20 @@ from universalassistant.components.media_player import BrowseError, SearchMediaQ
 from universalassistant.components.media_source import MediaSourceItem
 from universalassistant.components.radio_browser.media_source import async_get_media_source
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 DOMAIN = "radio_browser"
 
 
 @pytest.fixture(autouse=True)
-async def setup_media_source(hass: UniversalAssistant) -> None:
+async def setup_media_source(hass: __HAC_KEEP__) -> None:
     """Set up media source."""
     assert await async_setup_component(hass, "media_source", {})
 
 
 async def test_browsing_local(
-    hass: UniversalAssistant, init_integration: AsyncMock, patch_radios
+    hass: __HAC_KEEP__, init_integration: AsyncMock, patch_radios
 ) -> None:
     """Test browsing local stations."""
 
@@ -84,7 +84,7 @@ async def test_browsing_local(
     [RadioBrowserConnectionError, RadioBrowserError],
 )
 async def test_browsing_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_browsing_exceptions(
 
 
 async def test_browsing_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test browsing config entry not ready."""
@@ -135,7 +135,7 @@ async def test_browsing_not_ready(
 
 
 async def test_search_media(
-    hass: UniversalAssistant, init_integration: AsyncMock, patch_radios
+    hass: __HAC_KEEP__, init_integration: AsyncMock, patch_radios
 ) -> None:
     """Test searching stations."""
 
@@ -162,7 +162,7 @@ async def test_search_media(
     [RadioBrowserConnectionError, RadioBrowserError],
 )
 async def test_search_media_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: AsyncMock,
     patch_radios,
     exception: Exception,
@@ -182,7 +182,7 @@ async def test_search_media_exceptions(
 
 
 async def test_search_media_not_ready(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, patch_radios
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, patch_radios
 ) -> None:
     """Test search config entry not ready."""
 
@@ -214,7 +214,7 @@ async def test_search_media_not_ready(
     [RadioBrowserConnectionError, RadioBrowserError],
 )
 async def test_resolve_media_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
 ) -> None:
@@ -240,7 +240,7 @@ async def test_resolve_media_exceptions(
 
 
 async def test_resolve_media_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test resolving media config entry not ready."""
@@ -265,7 +265,7 @@ async def test_resolve_media_not_ready(
 
 
 async def test_resolve_media_station_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test resolving a station that no longer exists."""
@@ -288,7 +288,7 @@ async def test_resolve_media_station_not_found(
 
 
 async def test_resolve_media_unknown_stream_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test resolving a station whose stream type cannot be determined."""
@@ -321,7 +321,7 @@ async def test_resolve_media_unknown_stream_type(
     ],
 )
 async def test_browsing_stations_by_category(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: AsyncMock,
     patch_radios,
     identifier: str,
@@ -349,7 +349,7 @@ async def test_browsing_stations_by_category(
 
 
 async def test_browsing_languages(
-    hass: UniversalAssistant, init_integration: AsyncMock, patch_radios
+    hass: __HAC_KEEP__, init_integration: AsyncMock, patch_radios
 ) -> None:
     """Test browsing the list of languages."""
     source = await async_get_media_source(hass)
@@ -369,7 +369,7 @@ async def test_browsing_languages(
 
 
 async def test_browsing_tags(
-    hass: UniversalAssistant, init_integration: AsyncMock, patch_radios
+    hass: __HAC_KEEP__, init_integration: AsyncMock, patch_radios
 ) -> None:
     """Test browsing the most used tags, sorted by name."""
     source = await async_get_media_source(hass)
@@ -393,7 +393,7 @@ async def test_browsing_tags(
 
 
 async def test_browsing_popular_skips_unplayable_stations(
-    hass: UniversalAssistant, init_integration: AsyncMock, patch_radios
+    hass: __HAC_KEEP__, init_integration: AsyncMock, patch_radios
 ) -> None:
     """Test browsing popular stations leaves out the ones that cannot be played."""
     source = await async_get_media_source(hass)
@@ -428,7 +428,7 @@ async def test_browsing_popular_skips_unplayable_stations(
 
 
 async def test_resolve_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test resolving a station to its stream, registering the click."""

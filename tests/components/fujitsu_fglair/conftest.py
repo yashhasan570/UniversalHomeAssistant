@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.fujitsu_fglair.const import DOMAIN, REGION_DEFAULT
 from universalassistant.const import CONF_PASSWORD, CONF_REGION, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_DEVICE_NAME = "Test device"
 TEST_DEVICE_SERIAL = "testserial"
@@ -82,7 +82,7 @@ def mock_config_entry(request: pytest.FixtureRequest) -> MockConfigEntry:
 
 @pytest.fixture(name="integration_setup")
 async def mock_integration_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platforms: list[Platform],
     mock_config_entry: MockConfigEntry,
 ) -> Callable[[], Awaitable[bool]]:

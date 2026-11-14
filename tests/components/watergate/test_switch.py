@@ -29,8 +29,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -39,7 +39,7 @@ ENTITY_ID = "switch.sonic_auto_shut_off"
 
 
 async def test_auto_shut_off_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_auto_shut_off_switch(
 
 @pytest.mark.usefixtures("mock_watergate_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_entry: MockConfigEntry,
@@ -88,7 +88,7 @@ async def test_all_entities(
 
 
 async def test_switch_reflects_polled_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -110,19 +110,19 @@ async def test_switch_reflects_polled_state(
 
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_switch_raises_on_client_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
     service: str,
 ) -> None:
-    """Client failure while toggling surfaces as a UniversalAssistantError."""
+    """Client failure while toggling surfaces as a __HAC_KEEP__Error."""
     await init_integration(hass, mock_entry)
 
     mock_watergate_client.async_update_auto_shut_off.side_effect = (
         WatergateApiException("boom")
     )
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             service,

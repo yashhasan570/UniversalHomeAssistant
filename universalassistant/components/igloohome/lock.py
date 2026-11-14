@@ -14,8 +14,8 @@ from igloohome_api import (
 )
 
 from universalassistant.components.lock import LockEntity, LockEntityFeature
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import IgloohomeConfigEntry
@@ -27,7 +27,7 @@ SCAN_INTERVAL = timedelta(hours=1)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IgloohomeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -72,7 +72,7 @@ class IgloohomeLockEntity(IgloohomeBaseEntity, LockEntity):
                 self.api_device_info.deviceId, self.bridge_id, BRIDGE_JOB_LOCK
             )
         except (ApiException, ClientError) as err:
-            raise UniversalAssistantError from err
+            raise __HAC_KEEP__Error from err
 
     @override
     async def async_unlock(self, **kwargs: Any) -> None:
@@ -82,7 +82,7 @@ class IgloohomeLockEntity(IgloohomeBaseEntity, LockEntity):
                 self.api_device_info.deviceId, self.bridge_id, BRIDGE_JOB_UNLOCK
             )
         except (ApiException, ClientError) as err:
-            raise UniversalAssistantError from err
+            raise __HAC_KEEP__Error from err
 
     @override
     async def async_open(self, **kwargs: Any) -> None:
@@ -92,4 +92,4 @@ class IgloohomeLockEntity(IgloohomeBaseEntity, LockEntity):
                 self.api_device_info.deviceId, self.bridge_id, BRIDGE_JOB_UNLOCK
             )
         except (ApiException, ClientError) as err:
-            raise UniversalAssistantError from err
+            raise __HAC_KEEP__Error from err

@@ -14,7 +14,7 @@ import pytest
 from pytest_universalassistant.common import extract_stack_to_frame
 
 from universalassistant import block_async_io
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
@@ -336,7 +336,7 @@ async def test_protect_open_path(path: Any, caplog: pytest.LogCaptureFixture) ->
 
 
 async def test_protect_loop_glob(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test glob calls in the loop are logged."""
     with patch.object(block_async_io, "_IN_TESTS", False):
@@ -349,7 +349,7 @@ async def test_protect_loop_glob(
 
 
 async def test_protect_loop_iglob(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test iglob calls in the loop are logged."""
     with patch.object(block_async_io, "_IN_TESTS", False):
@@ -362,7 +362,7 @@ async def test_protect_loop_iglob(
 
 
 async def test_protect_loop_scandir(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test glob calls in the loop are logged."""
     with patch.object(block_async_io, "_IN_TESTS", False):
@@ -377,7 +377,7 @@ async def test_protect_loop_scandir(
 
 
 async def test_protect_loop_listdir(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test listdir calls in the loop are logged."""
     with patch.object(block_async_io, "_IN_TESTS", False):
@@ -392,7 +392,7 @@ async def test_protect_loop_listdir(
 
 
 async def test_protect_loop_walk(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test os.walk calls in the loop are logged."""
     with patch.object(block_async_io, "_IN_TESTS", False):
@@ -407,7 +407,7 @@ async def test_protect_loop_walk(
 
 
 async def test_protect_loop_load_default_certs(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test SSLContext.load_default_certs calls in the loop are logged."""
     with patch.object(block_async_io, "_IN_TESTS", False):
@@ -418,7 +418,7 @@ async def test_protect_loop_load_default_certs(
 
 
 async def test_protect_loop_load_verify_locations(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test SSLContext.load_verify_locations calls in the loop are logged."""
     with patch.object(block_async_io, "_IN_TESTS", False):
@@ -436,7 +436,7 @@ async def test_protect_loop_load_verify_locations(
 
 
 async def test_protect_loop_load_cert_chain(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test SSLContext.load_cert_chain calls in the loop are logged."""
     with patch.object(block_async_io, "_IN_TESTS", False):
@@ -461,7 +461,7 @@ async def test_open_calls_ignored_in_tests(caplog: pytest.LogCaptureFixture) -> 
 
 
 async def test_protect_loop_set_default_verify_paths(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test SSLContext.set_default_verify_paths calls in the loop are logged."""
     with patch.object(block_async_io, "_IN_TESTS", False):

@@ -11,14 +11,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.binary_sensor import BinarySensorDeviceClass
 from universalassistant.components.schlage.const import UPDATE_INTERVAL
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import MockSchlageConfigEntry
 
 
 async def test_binary_sensor_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_config_entry: Callable[[], Awaitable[MockSchlageConfigEntry]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -30,7 +30,7 @@ async def test_binary_sensor_attributes(
 
 
 async def test_keypad_disabled_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_add_config_entry: Callable[[], Awaitable[MockSchlageConfigEntry]],
 ) -> None:
@@ -48,7 +48,7 @@ async def test_keypad_disabled_binary_sensor(
 
 
 async def test_keypad_disabled_binary_sensor_logs_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_add_config_entry: Callable[[], Awaitable[MockSchlageConfigEntry]],
 ) -> None:
@@ -67,7 +67,7 @@ async def test_keypad_disabled_binary_sensor_logs_failure(
 
 
 async def test_keypad_disabled_uses_previous_logs_on_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_add_config_entry: Callable[[], Awaitable[MockSchlageConfigEntry]],
     freezer: FrozenDateTimeFactory,

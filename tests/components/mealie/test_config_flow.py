@@ -14,7 +14,7 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_API_TOKEN, CONF_HOST, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
 
@@ -22,7 +22,7 @@ from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_mealie_client: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_mealie_client: AsyncMock) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -55,7 +55,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_mealie_client: AsyncMock
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_errors(
-    hass: UniversalAssistant, mock_mealie_client: AsyncMock, exception: Exception, error: str
+    hass: __HAC_KEEP__, mock_mealie_client: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test flow errors."""
     mock_mealie_client.get_user_info.side_effect = exception
@@ -85,7 +85,7 @@ async def test_flow_errors(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_ingress_host(hass: UniversalAssistant, mock_mealie_client: AsyncMock) -> None:
+async def test_ingress_host(hass: __HAC_KEEP__, mock_mealie_client: AsyncMock) -> None:
     """Test disallow ingress host."""
 
     result = await hass.config_entries.flow.async_init(
@@ -127,7 +127,7 @@ async def test_ingress_host(hass: UniversalAssistant, mock_mealie_client: AsyncM
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_version_error(
-    hass: UniversalAssistant, mock_mealie_client: AsyncMock, version: str
+    hass: __HAC_KEEP__, mock_mealie_client: AsyncMock, version: str
 ) -> None:
     """Test flow version error."""
     mock_mealie_client.get_about.return_value = About(version=version)
@@ -158,7 +158,7 @@ async def test_flow_version_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_duplicate(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_reauth_flow(
 
 
 async def test_reauth_flow_after_setup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -230,7 +230,7 @@ async def test_reauth_flow_after_setup_error(
 
 
 async def test_reauth_flow_unchanged_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -250,7 +250,7 @@ async def test_reauth_flow_unchanged_token(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -282,7 +282,7 @@ async def test_reauth_flow_wrong_account(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -317,7 +317,7 @@ async def test_reauth_flow_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -346,7 +346,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -378,7 +378,7 @@ async def test_reconfigure_flow_wrong_account(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -413,7 +413,7 @@ async def test_reconfigure_flow_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_hassio_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_mealie_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -449,7 +449,7 @@ async def test_hassio_success(
 
 
 async def test_hassio_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we only allow a single config flow."""
     mock_config_entry.add_to_hass(hass)
@@ -473,7 +473,7 @@ async def test_hassio_already_configured(
     assert result["reason"] == "already_configured"
 
 
-async def test_hassio_ignored(hass: UniversalAssistant) -> None:
+async def test_hassio_ignored(hass: __HAC_KEEP__) -> None:
     """Test the supervisor discovered instance can be ignored."""
     MockConfigEntry(domain=DOMAIN, source=SOURCE_IGNORE).add_to_hass(hass)
 
@@ -506,7 +506,7 @@ async def test_hassio_ignored(hass: UniversalAssistant) -> None:
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_hassio_connection_error(
-    hass: UniversalAssistant, mock_mealie_client: AsyncMock, exception: Exception, error: str
+    hass: __HAC_KEEP__, mock_mealie_client: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test flow errors."""
     mock_mealie_client.get_user_info.side_effect = exception
@@ -543,7 +543,7 @@ async def test_hassio_connection_error(
 
 
 async def test_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test updating options."""

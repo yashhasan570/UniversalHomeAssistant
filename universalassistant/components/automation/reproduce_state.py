@@ -12,7 +12,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import Context, UniversalAssistant, State
+from universalassistant.core import Context, __HAC_KEEP__, State
 
 from .const import DOMAIN
 
@@ -22,7 +22,7 @@ VALID_STATES = {STATE_ON, STATE_OFF}
 
 
 async def _async_reproduce_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state: State,
     *,
     context: Context | None = None,
@@ -56,7 +56,7 @@ async def _async_reproduce_state(
 
 
 async def async_reproduce_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     states: Iterable[State],
     *,
     context: Context | None = None,

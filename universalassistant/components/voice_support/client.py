@@ -11,7 +11,7 @@ import aiohttp
 import probatio
 from yarl import URL
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 API_VERSION = 1
@@ -64,7 +64,7 @@ CLIENT_ERRORS = (aiohttp.ClientError, TimeoutError, InvalidResponseError)
 
 
 class UnsupportedVersionError(Exception):
-    """The app speaks a protocol version this Universal Universal Home Assistant does not."""
+    """The app speaks a protocol version this __HA_KEEP__ does not."""
 
     def __init__(self, info: AppInfo) -> None:
         """Initialize the error."""
@@ -143,7 +143,7 @@ class AudioRun:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         websocket: aiohttp.ClientWebSocketResponse,
         audio: AsyncIterable[bytes],
         verifies_wake_word: bool,
@@ -294,7 +294,7 @@ class AudioRun:
 class VoiceSupportClient:
     """The Voice app at one address and its capabilities."""
 
-    def __init__(self, hass: UniversalAssistant, host: str, port: int) -> None:
+    def __init__(self, hass: __HAC_KEEP__, host: str, port: int) -> None:
         """Set up a client for the app at this address."""
         self.hass = hass
         self.url = URL.build(scheme="http", host=host, port=port)

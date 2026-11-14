@@ -8,8 +8,8 @@ from aiohasupervisor import SupervisorError
 
 from universalassistant.components.llm import LLMTools
 from universalassistant.components.system_log.llm import SystemLogGetLogsTool  # pylint: disable=universal-assistant-component-root-import
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.llm import (
     LLM_API_UNIVERSAL_ASSISTANT,
     LLMContext,
@@ -31,7 +31,7 @@ APP_SOURCE_PREFIX = "app:"
 # Core and Supervisor lines start with their own timestamp and level
 _PLAIN_SOURCES = ["core", "supervisor"]
 _SYSTEM_SOURCES = {
-    "core": "Universal Universal Home Assistant",
+    "core": "__HA_KEEP__",
     "supervisor": "the Supervisor",
     "host": "the operating system, records have no level",
     "dns": "the DNS plugin, records have no level",
@@ -58,7 +58,7 @@ class SupervisorGetAppsTool(Tool):
     name = "hassio__get_apps"
     title = "Get installed apps"
     description = (
-        "List installed Universal Universal Home Assistant apps (formerly add-ons), including their "
+        "List installed __HA_KEEP__ apps (formerly add-ons), including their "
         "names, slugs, installed and latest available versions, update availability, "
         "and running state. Use this to check which version of an app is installed "
         "or whether it is running. To read an app's logs, use hassio__get_logs "
@@ -71,14 +71,14 @@ class SupervisorGetAppsTool(Tool):
 
     @override
     async def async_call(
-        self, hass: UniversalAssistant, tool_input: ToolInput, llm_context: LLMContext
+        self, hass: __HAC_KEEP__, tool_input: ToolInput, llm_context: LLMContext
     ) -> ToolResult:
         """Return the currently installed apps and their versions."""
         supervisor = get_supervisor_client(hass)
         try:
             apps = await supervisor.addons.list()
         except SupervisorError as err:
-            raise UniversalAssistantError("Could not list installed apps") from err
+            raise __HAC_KEEP__Error("Could not list installed apps") from err
 
         return ToolResult(
             data={
@@ -123,7 +123,7 @@ class SupervisorGetLogsTool(SystemLogGetLogsTool):
     @override
     async def async_read_source(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         source: str,
         start_time: datetime,
         end_time: datetime,
@@ -154,15 +154,15 @@ class SupervisorGetLogsTool(SystemLogGetLogsTool):
                 ),
             )
         except HassioAPIError as err:
-            raise UniversalAssistantError(f"Could not read the {source} log") from err
+            raise __HAC_KEEP__Error(f"Could not read the {source} log") from err
         return text.splitlines()
 
 
 @callback
 def async_get_tools(
-    hass: UniversalAssistant, llm_context: LLMContext, api_id: str
+    hass: __HAC_KEEP__, llm_context: LLMContext, api_id: str
 ) -> LLMTools | None:
-    """Return the Hass.io LLM tools for the Universal Universal Home Assistant API."""
+    """Return the Hass.io LLM tools for the __HA_KEEP__ API."""
     if api_id != LLM_API_UNIVERSAL_ASSISTANT:
         return None
 

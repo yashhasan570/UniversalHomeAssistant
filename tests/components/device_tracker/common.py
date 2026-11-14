@@ -21,13 +21,13 @@ from universalassistant.components.device_tracker import (
     SourceType,
 )
 from universalassistant.const import ATTR_GPS_ACCURACY
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.typing import ConfigType, GPSType
 
 
 @callback
 def async_see(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mac: str | None = None,
     dev_id: str | None = None,
     host_name: str | None = None,
@@ -137,12 +137,12 @@ class MockScanner(DeviceScanner):
 
 
 def mock_legacy_device_tracker_setup(
-    hass: UniversalAssistant, legacy_device_scanner: MockScanner
+    hass: __HAC_KEEP__, legacy_device_scanner: MockScanner
 ) -> None:
     """Mock legacy device tracker platform setup."""
 
     async def _async_get_scanner(
-        hass: UniversalAssistant, config: ConfigType
+        hass: __HAC_KEEP__, config: ConfigType
     ) -> MockScanner:
         """Return the test scanner."""
         return legacy_device_scanner

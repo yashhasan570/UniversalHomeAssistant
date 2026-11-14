@@ -19,7 +19,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, PRECISION_HALVES, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import TessieConfigEntry
@@ -34,7 +34,7 @@ COP_MODES = {"Off": HVACMode.OFF, "On": HVACMode.COOL}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TessieConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

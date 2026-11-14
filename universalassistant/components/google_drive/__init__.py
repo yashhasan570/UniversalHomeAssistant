@@ -5,7 +5,7 @@ from collections.abc import Callable
 from google_drive_api.exceptions import GoogleDriveApiError
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import instance_id
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -26,7 +26,7 @@ DATA_BACKUP_AGENT_LISTENERS: HassKey[list[Callable[[], None]]] = HassKey(
 _PLATFORMS = (Platform.SENSOR,)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: GoogleDriveConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: GoogleDriveConfigEntry) -> None:
     """Set up Google Drive from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
 
@@ -48,7 +48,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GoogleDriveConfigEn
         raise ConfigEntryNotReady(
             translation_domain=DOMAIN,
             translation_key="failed_to_get_folder",
-            translation_placeholders={"folder": "Universal Universal Home Assistant"},
+            translation_placeholders={"folder": "__HA_KEEP__"},
         ) from err
 
     def async_notify_backup_listeners() -> None:
@@ -66,7 +66,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GoogleDriveConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: GoogleDriveConfigEntry
+    hass: __HAC_KEEP__, entry: GoogleDriveConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

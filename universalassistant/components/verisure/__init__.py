@@ -6,7 +6,7 @@ from pathlib import Path
 
 from universalassistant.components.lock import CONF_DEFAULT_CODE, DOMAIN as LOCK_DOMAIN
 from universalassistant.const import CONF_EMAIL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import (
     config_validation as cv,
@@ -33,13 +33,13 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Verisure integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: VerisureConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: VerisureConfigEntry) -> None:
     """Set up Verisure from a config entry."""
     await hass.async_add_executor_job(migrate_cookie_files, hass, entry)
 
@@ -70,25 +70,25 @@ async def async_setup_entry(hass: UniversalAssistant, entry: VerisureConfigEntry
     entry.async_on_unload(entry.add_update_listener(update_listener))
 
 
-async def update_listener(hass: UniversalAssistant, entry: VerisureConfigEntry) -> None:
+async def update_listener(hass: __HAC_KEEP__, entry: VerisureConfigEntry) -> None:
     """Handle options update."""
     # Propagate configuration change.
     entry.runtime_data.async_update_listeners()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: VerisureConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: VerisureConfigEntry) -> None:
     """Unload Verisure config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: VerisureConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: VerisureConfigEntry) -> None:
     """Erase session cookie when the config entry is deleted."""
     cookie_file = hass.config.path(STORAGE_DIR, f"verisure_{entry.data[CONF_EMAIL]}")
     with suppress(FileNotFoundError):
         await hass.async_add_executor_job(os.unlink, cookie_file)
 
 
-def migrate_cookie_files(hass: UniversalAssistant, entry: VerisureConfigEntry) -> None:
+def migrate_cookie_files(hass: __HAC_KEEP__, entry: VerisureConfigEntry) -> None:
     """Migrate old cookie file to new location."""
     cookie_file = Path(hass.config.path(STORAGE_DIR, f"verisure_{entry.unique_id}"))
     if cookie_file.exists():
@@ -97,7 +97,7 @@ def migrate_cookie_files(hass: UniversalAssistant, entry: VerisureConfigEntry) -
         )
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: VerisureConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: VerisureConfigEntry) -> None:
     """Migrate old entry."""
     LOGGER.debug("Migrating from version %s", entry.version)
 

@@ -11,10 +11,10 @@ from aiohttp.web import Request, Response
 import jwt
 
 from universalassistant.components import webhook
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant, callback, split_entity_id
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback, split_entity_id
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er, start
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.reload import async_integration_yaml_config
@@ -65,7 +65,7 @@ def _get_homegraph_jwt(time, iss, key):
 
 
 async def _get_homegraph_token(
-    hass: UniversalAssistant, jwt_signed: str
+    hass: __HAC_KEEP__, jwt_signed: str
 ) -> dict[str, Any] | list[Any] | Any:
     headers = {
         "Authorization": f"Bearer {jwt_signed}",
@@ -109,7 +109,7 @@ class GoogleConfig(AbstractConfig):
 
         self.async_enable_local_sdk()
 
-    async def _async_migrate_entity_settings(self, _: UniversalAssistant) -> None:
+    async def _async_migrate_entity_settings(self, _: __HAC_KEEP__) -> None:
         """Migrate the entity settings to the current version."""
         # v2: preserve the pre-migration name of exposed entities as an alias
         for entity in async_get_entities(self.hass, self):
@@ -173,7 +173,7 @@ class GoogleConfig(AbstractConfig):
 
     @override
     def get_local_user_id(self, webhook_id):
-        """Map webhook ID to a Universal Universal Home Assistant user ID.
+        """Map webhook ID to a __HA_KEEP__ user ID.
 
         Any action initiated by Google Assistant via the local SDK will be attributed
         to the returned user ID.
@@ -181,7 +181,7 @@ class GoogleConfig(AbstractConfig):
         Return None if no user id is found for the webhook_id.
         """
         # Note: The manually setup Google Assistant currently returns the Google agent
-        # user ID instead of a valid Universal Universal Home Assistant user ID
+        # user ID instead of a valid __HA_KEEP__ user ID
         found_agent_user_id = None
         for agent_user_id, agent_user_data in self._store.agent_user_ids.items():
             if agent_user_data[STORE_GOOGLE_LOCAL_WEBHOOK_ID] == webhook_id:
@@ -363,7 +363,7 @@ class GoogleConfigStore:
     _STORAGE_KEY = DOMAIN
     _data: dict[str, Any]
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize a configuration store."""
         self._hass = hass
         self._store: Store[dict[str, Any]] = Store(
@@ -433,7 +433,7 @@ class GoogleConfigStore:
             self._store.async_delay_save(lambda: self._data, 1.0)
 
 
-class GoogleAssistantView(UniversalAssistantView):
+class GoogleAssistantView(__HAC_KEEP__View):
     """Handle Google Assistant requests."""
 
     url = GOOGLE_ASSISTANT_API_ENDPOINT
@@ -458,7 +458,7 @@ class GoogleAssistantView(UniversalAssistantView):
         return self.json(result)
 
 
-async def async_get_users(hass: UniversalAssistant) -> list[str]:
+async def async_get_users(hass: __HAC_KEEP__) -> list[str]:
     """Return stored users.
 
     This is called by the cloud integration to import from the previously shared store.
@@ -466,7 +466,7 @@ async def async_get_users(hass: UniversalAssistant) -> list[str]:
     path = hass.config.path(STORAGE_DIR, GoogleConfigStore._STORAGE_KEY)  # noqa: SLF001
     try:
         store_data = await hass.async_add_executor_job(json_util.load_json, path)
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         return []
 
     if (

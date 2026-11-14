@@ -14,7 +14,7 @@ import random
 
 from fnv_hash_fast import fnv1a_32
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.storage import Store
 
@@ -65,7 +65,7 @@ class AccessoryAidStorage:
     persist over reboots.
     """
 
-    def __init__(self, hass: UniversalAssistant, entry_id: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry_id: str) -> None:
         """Create a new entity map store."""
         self.hass = hass
         self.allocations: dict[str, int] = {}

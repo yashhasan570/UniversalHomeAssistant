@@ -20,7 +20,7 @@ import probatio
 
 from universalassistant import exceptions
 from universalassistant.const import CONTENT_TYPE_JSON
-from universalassistant.core import Context, UniversalAssistant, is_callback
+from universalassistant.core import Context, __HAC_KEEP__, is_callback
 from universalassistant.util.json import JSON_ENCODE_EXCEPTIONS, format_unserializable_data
 
 from .json import find_paths_unserializable_data, json_bytes, json_dumps
@@ -36,7 +36,7 @@ type AllowCorsType = Callable[[AbstractRoute | AbstractResource], None]
 KEY_AUTHENTICATED: Final = "ha_authenticated"
 KEY_ALLOW_ALL_CORS = AppKey[AllowCorsType]("allow_all_cors")
 KEY_ALLOW_CONFIGURED_CORS = AppKey[AllowCorsType]("allow_configured_cors")
-KEY_HASS: AppKey[UniversalAssistant] = AppKey("hass")
+KEY_HASS: AppKey[__HAC_KEEP__] = AppKey("hass")
 
 current_request: ContextVar[Request | None] = ContextVar(
     "current_request", default=None
@@ -44,7 +44,7 @@ current_request: ContextVar[Request | None] = ContextVar(
 
 
 def request_handler_factory(
-    hass: UniversalAssistant, view: UniversalAssistantView, handler: Callable
+    hass: __HAC_KEEP__, view: __HAC_KEEP__View, handler: Callable
 ) -> Callable[[web.Request], Awaitable[web.StreamResponse]]:
     """Wrap the handler classes."""
     is_coroutinefunction = inspect.iscoroutinefunction(handler)
@@ -127,7 +127,7 @@ def request_handler_factory(
     return handle
 
 
-class UniversalAssistantView:
+class __HAC_KEEP__View:
     """Base view for all views."""
 
     url: str | None = None
@@ -188,7 +188,7 @@ class UniversalAssistantView:
         return self.json(data, status_code, headers=headers)
 
     def register(
-        self, hass: UniversalAssistant, app: web.Application, router: web.UrlDispatcher
+        self, hass: __HAC_KEEP__, app: web.Application, router: web.UrlDispatcher
     ) -> None:
         """Register the view with a router."""
         assert self.url is not None, "No url set for view"

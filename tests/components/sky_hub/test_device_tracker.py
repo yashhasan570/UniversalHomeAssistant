@@ -11,7 +11,7 @@ from universalassistant.components.sky_hub.const import DEFAULT_HOST, DOMAIN
 from universalassistant.components.sky_hub.device_tracker import async_setup_scanner
 from universalassistant.config_entries import SOURCE_IMPORT
 from universalassistant.const import CONF_HOST, STATE_HOME, STATE_NOT_HOME, STATE_UNAVAILABLE
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -29,7 +29,7 @@ def _yaml_import_issue_id(host: str) -> str:
 
 @pytest.mark.usefixtures("mock_router")
 async def test_legacy_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test YAML setup imports a config entry and reports deprecation."""
@@ -55,7 +55,7 @@ async def test_legacy_setup(
 
 
 async def test_legacy_setup_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_router: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_legacy_setup_cannot_connect(
 
 
 async def test_legacy_setup_clears_connection_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_router: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_legacy_setup_clears_connection_issue(
 
 
 async def test_legacy_setup_connection_issues_are_host_specific(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_router: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -126,7 +126,7 @@ async def test_legacy_setup_connection_issues_are_host_specific(
 
 
 async def test_legacy_setup_success_only_clears_matching_host_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_router: MagicMock,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_legacy_setup_success_only_clears_matching_host_issue(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_router")
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_setup_entry(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_tracker_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -209,7 +209,7 @@ async def test_tracker_device(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_new_device_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -235,7 +235,7 @@ async def test_new_device_discovered(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -257,7 +257,7 @@ async def test_device_disconnected(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_scan_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -285,7 +285,7 @@ async def test_scan_failure(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_device_name_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -320,7 +320,7 @@ async def test_device_name_updated(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_reload_without_name_keeps_device_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -349,7 +349,7 @@ async def test_reload_without_name_keeps_device_name(
     ],
 )
 async def test_disabled_tracker_device_renamed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_router: MagicMock,
     freezer: FrozenDateTimeFactory,

@@ -6,8 +6,8 @@ from typing import Any, override
 from pyrainbird.exceptions import RainbirdApiException, RainbirdDeviceBusyException
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: RainbirdConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -97,11 +97,11 @@ class RainBirdSwitch(CoordinatorEntity[RainbirdUpdateCoordinator], SwitchEntity)
                 ),
             )
         except RainbirdDeviceBusyException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Rain Bird device is busy; Wait and try again"
             ) from err
         except RainbirdApiException as err:
-            raise UniversalAssistantError("Rain Bird device failure") from err
+            raise __HAC_KEEP__Error("Rain Bird device failure") from err
 
         # The device reflects the old state for a few moments. Update the
         # state manually and trigger a refresh after a short debounced delay.
@@ -115,11 +115,11 @@ class RainBirdSwitch(CoordinatorEntity[RainbirdUpdateCoordinator], SwitchEntity)
         try:
             await self.coordinator.controller.stop_irrigation()
         except RainbirdDeviceBusyException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Rain Bird device is busy; Wait and try again"
             ) from err
         except RainbirdApiException as err:
-            raise UniversalAssistantError("Rain Bird device failure") from err
+            raise __HAC_KEEP__Error("Rain Bird device failure") from err
 
         # The device reflects the old state for a few moments. Update the
         # state manually and trigger a refresh after a short debounced delay.

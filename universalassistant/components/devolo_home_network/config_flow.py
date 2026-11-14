@@ -11,7 +11,7 @@ import probatio
 from universalassistant.components import zeroconf
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_IP_ADDRESS, CONF_NAME, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -31,7 +31,7 @@ STEP_REAUTH_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, str]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, str]:
     """Validate the user input allows us to connect.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.

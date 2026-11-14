@@ -9,13 +9,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.fujitsu_fglair.const import DOMAIN, REGION_DEFAULT
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_REGION, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 
 from .conftest import TEST_PASSWORD, TEST_PASSWORD2, TEST_USERNAME
 
 
-async def _initial_step(hass: UniversalAssistant) -> FlowResult:
+async def _initial_step(hass: __HAC_KEEP__) -> FlowResult:
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
     )
@@ -33,7 +33,7 @@ async def _initial_step(hass: UniversalAssistant) -> FlowResult:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_ayla_api: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_ayla_api: AsyncMock) -> None:
     """Test full config flow."""
     result = await _initial_step(hass)
     mock_ayla_api.async_sign_in.assert_called_once()
@@ -50,7 +50,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_ayla_api: AsyncMock) -> 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_duplicate_entry(
-    hass: UniversalAssistant, mock_ayla_api: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_ayla_api: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that re-adding the same account fails."""
     mock_config_entry.add_to_hass(hass)
@@ -71,7 +71,7 @@ async def test_duplicate_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_exceptions(
-    hass: UniversalAssistant, mock_ayla_api: AsyncMock, exception: Exception, err_msg: str
+    hass: __HAC_KEEP__, mock_ayla_api: AsyncMock, exception: Exception, err_msg: str
 ) -> None:
     """Test we handle exceptions."""
 
@@ -103,7 +103,7 @@ async def test_form_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_success(
-    hass: UniversalAssistant, mock_ayla_api: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_ayla_api: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauth flow."""
     mock_config_entry.add_to_hass(hass)
@@ -134,7 +134,7 @@ async def test_reauth_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     err_msg: str,
     mock_ayla_api: AsyncMock,

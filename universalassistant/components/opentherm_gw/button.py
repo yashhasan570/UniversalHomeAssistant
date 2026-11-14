@@ -13,7 +13,7 @@ from universalassistant.components.button import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ID, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import OpenThermGatewayHub
@@ -60,7 +60,7 @@ BUTTON_DESCRIPTIONS: tuple[OpenThermButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

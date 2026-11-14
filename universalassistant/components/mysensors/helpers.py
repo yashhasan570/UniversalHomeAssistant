@@ -11,7 +11,7 @@ from mysensors.sensor import ChildSensor
 import probatio
 
 from universalassistant.const import CONF_NAME, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.util.decorator import Registry
@@ -41,7 +41,7 @@ SCHEMAS: Registry[
 
 @callback
 def discover_mysensors_platform(
-    hass: UniversalAssistant, gateway_id: GatewayId, platform: str, new_devices: list[DevId]
+    hass: __HAC_KEEP__, gateway_id: GatewayId, platform: str, new_devices: list[DevId]
 ) -> None:
     """Discover a MySensors platform."""
     _LOGGER.debug("Discovering platform %s with devIds: %s", platform, new_devices)
@@ -58,7 +58,7 @@ def discover_mysensors_platform(
 
 @callback
 def discover_mysensors_node(
-    hass: UniversalAssistant, entry: MySensorsConfigEntry, node_id: int
+    hass: __HAC_KEEP__, entry: MySensorsConfigEntry, node_id: int
 ) -> None:
     """Discover a MySensors node."""
     discovered_nodes = entry.runtime_data.discovered_nodes

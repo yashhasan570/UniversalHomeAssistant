@@ -5,7 +5,7 @@ from typing import override
 from odp_amsterdam import Garage, ODPAmsterdam, VehicleType
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DOMAIN, LOGGER, SCAN_INTERVAL
@@ -20,7 +20,7 @@ class GaragesAmsterdamDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Gara
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: GaragesAmsterdamConfigEntry,
         client: ODPAmsterdam,
     ) -> None:

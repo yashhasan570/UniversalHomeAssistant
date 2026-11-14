@@ -14,8 +14,8 @@ from aiohasupervisor.models import (
     AddonState,
     CIFSMountResponse,
     DiskMountResponse,
-    UniversalAssistantInfo,
-    UniversalAssistantStats,
+    __HAC_KEEP__Info,
+    __HAC_KEEP__Stats,
     HostInfo,
     IngressPanel,
     InstalledAddon,
@@ -38,7 +38,7 @@ from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import ATTR_NAME, ATTR_STATE
 from universalassistant.core import (
     CALLBACK_TYPE,
-    UniversalAssistant,
+    __HAC_KEEP__,
     async_noop,
     callback,
     is_callback_check_partial,
@@ -199,7 +199,7 @@ class SupervisorIssuesData:
 
 @callback
 def presentable_issue_suggestions(
-    hass: UniversalAssistant, issue: Issue
+    hass: __HAC_KEEP__, issue: Issue
 ) -> list[Suggestion]:
     """Return the issue's suggestions the repair fix flow can present.
 
@@ -242,7 +242,7 @@ class SupervisorIssuesCoordinator(DataUpdateCoordinator[SupervisorIssuesData]):
 
     config_entry: ConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
         """Initialize supervisor issues coordinator."""
         super().__init__(
             hass,
@@ -665,7 +665,7 @@ class SupervisorJobsCoordinator(DataUpdateCoordinator[dict[UUID, Job]]):
 
     config_entry: ConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
         """Initialize object."""
         super().__init__(
             hass,
@@ -827,7 +827,7 @@ class SupervisorJobsCoordinator(DataUpdateCoordinator[dict[UUID, Job]]):
 class HassioMainData:
     """Data class for HassioMainDataUpdateCoordinator."""
 
-    core: UniversalAssistantInfo
+    core: __HAC_KEEP__Info
     supervisor: SupervisorInfo
     host: HostInfo
     mounts: dict[str, CIFSMountResponse | DiskMountResponse | NFSMountResponse]
@@ -879,7 +879,7 @@ class HassioAddonData:
 class HassioStatsData:
     """Data class for HassioStatsDataUpdateCoordinator."""
 
-    core: UniversalAssistantStats | None
+    core: __HAC_KEEP__Stats | None
     supervisor: SupervisorStats | None
     addons: dict[str, AddonsStats | None]
 
@@ -926,7 +926,7 @@ def _installed_addon_from_complete(info: InstalledAddonComplete) -> InstalledAdd
 
 
 @callback
-def get_info(hass: UniversalAssistant) -> dict[str, Any]:
+def get_info(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Return generic information from Supervisor.
 
     Async friendly.
@@ -938,7 +938,7 @@ def get_info(hass: UniversalAssistant) -> dict[str, Any]:
 
 
 @callback
-def get_host_info(hass: UniversalAssistant) -> dict[str, Any]:
+def get_host_info(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Return generic host information.
 
     Async friendly.
@@ -950,7 +950,7 @@ def get_host_info(hass: UniversalAssistant) -> dict[str, Any]:
 
 
 @callback
-def get_store(hass: UniversalAssistant) -> dict[str, Any]:
+def get_store(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Return store information.
 
     Async friendly.
@@ -962,7 +962,7 @@ def get_store(hass: UniversalAssistant) -> dict[str, Any]:
 
 
 @callback
-def get_supervisor_info(hass: UniversalAssistant) -> dict[str, Any]:
+def get_supervisor_info(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Return Supervisor information.
 
     Async friendly.
@@ -981,7 +981,7 @@ def get_supervisor_info(hass: UniversalAssistant) -> dict[str, Any]:
 
 
 @callback
-def get_network_info(hass: UniversalAssistant) -> dict[str, Any]:
+def get_network_info(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Return Host Network information.
 
     Async friendly.
@@ -993,7 +993,7 @@ def get_network_info(hass: UniversalAssistant) -> dict[str, Any]:
 
 
 @callback
-def get_addons_info(hass: UniversalAssistant) -> dict[str, dict[str, Any] | None]:
+def get_addons_info(hass: __HAC_KEEP__) -> dict[str, dict[str, Any] | None]:
     """Return Addons info.
 
     Async friendly.
@@ -1027,7 +1027,7 @@ def get_addons_info(hass: UniversalAssistant) -> dict[str, dict[str, Any] | None
 
 
 @callback
-def get_addons_list(hass: UniversalAssistant) -> list[dict[str, Any]]:
+def get_addons_list(hass: __HAC_KEEP__) -> list[dict[str, Any]]:
     """Return list of installed addons and subset of details for each.
 
     Async friendly.
@@ -1039,7 +1039,7 @@ def get_addons_list(hass: UniversalAssistant) -> list[dict[str, Any]]:
 
 
 @callback
-def get_addons_stats(hass: UniversalAssistant) -> dict[str, dict[str, Any] | None]:
+def get_addons_stats(hass: __HAC_KEEP__) -> dict[str, dict[str, Any] | None]:
     """Return Addons stats.
 
     Async friendly.
@@ -1052,7 +1052,7 @@ def get_addons_stats(hass: UniversalAssistant) -> dict[str, dict[str, Any] | Non
 
 
 @callback
-def get_core_stats(hass: UniversalAssistant) -> dict[str, Any]:
+def get_core_stats(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Return core stats.
 
     Async friendly.
@@ -1062,7 +1062,7 @@ def get_core_stats(hass: UniversalAssistant) -> dict[str, Any]:
 
 
 @callback
-def get_supervisor_stats(hass: UniversalAssistant) -> dict[str, Any]:
+def get_supervisor_stats(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Return supervisor stats.
 
     Async friendly.
@@ -1072,7 +1072,7 @@ def get_supervisor_stats(hass: UniversalAssistant) -> dict[str, Any]:
 
 
 @callback
-def get_os_info(hass: UniversalAssistant) -> dict[str, Any]:
+def get_os_info(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Return OS information.
 
     Async friendly.
@@ -1084,8 +1084,8 @@ def get_os_info(hass: UniversalAssistant) -> dict[str, Any]:
 
 
 @callback
-def get_core_info(hass: UniversalAssistant) -> dict[str, Any]:
-    """Return Universal Universal Home Assistant Core information from Supervisor.
+def get_core_info(hass: __HAC_KEEP__) -> dict[str, Any]:
+    """Return __HA_KEEP__ Core information from Supervisor.
 
     Async friendly.
     """
@@ -1096,7 +1096,7 @@ def get_core_info(hass: UniversalAssistant) -> dict[str, Any]:
 
 
 @callback
-def get_issues_info(hass: UniversalAssistant) -> SupervisorIssuesCoordinator | None:
+def get_issues_info(hass: __HAC_KEEP__) -> SupervisorIssuesCoordinator | None:
     """Return Supervisor issues info.
 
     Async friendly.
@@ -1136,7 +1136,7 @@ def async_register_mounts_in_dev_reg(
     for mount in mounts:
         params = DeviceInfo(
             identifiers={(DOMAIN, f"mount_{mount.name}")},
-            manufacturer="Universal Universal Home Assistant",
+            manufacturer="__HA_KEEP__",
             model=SupervisorEntityModel.MOUNT,
             model_id=f"{mount.usage}/{mount.type}",
             name=mount.name,
@@ -1154,10 +1154,10 @@ def async_register_os_in_dev_reg(
     """Register OS in the device registry."""
     params = DeviceInfo(
         identifiers={(DOMAIN, "OS")},
-        manufacturer="Universal Universal Home Assistant",
+        manufacturer="__HA_KEEP__",
         model=SupervisorEntityModel.OS,
         sw_version=os_info.version,
-        name="Universal Universal Home Assistant Operating System",
+        name="__HA_KEEP__ Operating System",
         entry_type=dr.DeviceEntryType.SERVICE,
     )
     dev_reg.async_get_or_create_from_info(config_entry_id=entry_id, device_info=params)
@@ -1171,9 +1171,9 @@ def async_register_host_in_dev_reg(
     """Register host in the device registry."""
     params = DeviceInfo(
         identifiers={(DOMAIN, "host")},
-        manufacturer="Universal Universal Home Assistant",
+        manufacturer="__HA_KEEP__",
         model=SupervisorEntityModel.HOST,
-        name="Universal Universal Home Assistant Host",
+        name="__HA_KEEP__ Host",
         entry_type=dr.DeviceEntryType.SERVICE,
     )
     dev_reg.async_get_or_create_from_info(config_entry_id=entry_id, device_info=params)
@@ -1183,15 +1183,15 @@ def async_register_host_in_dev_reg(
 def async_register_core_in_dev_reg(
     entry_id: str,
     dev_reg: dr.DeviceRegistry,
-    core_info: UniversalAssistantInfo,
+    core_info: __HAC_KEEP__Info,
 ) -> None:
     """Register core in the device registry."""
     params = DeviceInfo(
         identifiers={(DOMAIN, "core")},
-        manufacturer="Universal Universal Home Assistant",
+        manufacturer="__HA_KEEP__",
         model=SupervisorEntityModel.CORE,
         sw_version=core_info.version,
-        name="Universal Universal Home Assistant Core",
+        name="__HA_KEEP__ Core",
         entry_type=dr.DeviceEntryType.SERVICE,
     )
     dev_reg.async_get_or_create_from_info(config_entry_id=entry_id, device_info=params)
@@ -1206,10 +1206,10 @@ def async_register_supervisor_in_dev_reg(
     """Register supervisor in the device registry."""
     params = DeviceInfo(
         identifiers={(DOMAIN, "supervisor")},
-        manufacturer="Universal Universal Home Assistant",
+        manufacturer="__HA_KEEP__",
         model=SupervisorEntityModel.SUPERVISOR,
         sw_version=supervisor_info.version,
-        name="Universal Universal Home Assistant Supervisor",
+        name="__HA_KEEP__ Supervisor",
         entry_type=dr.DeviceEntryType.SERVICE,
     )
     dev_reg.async_get_or_create_from_info(config_entry_id=entry_id, device_info=params)
@@ -1230,7 +1230,7 @@ class HassioStatsDataUpdateCoordinator(DataUpdateCoordinator[HassioStatsData]):
 
     config_entry: ConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
         """Initialize coordinator."""
         super().__init__(
             hass,
@@ -1344,7 +1344,7 @@ class HassioAddOnDataUpdateCoordinator(DataUpdateCoordinator[HassioAddonData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         dev_reg: dr.DeviceRegistry,
     ) -> None:
@@ -1633,7 +1633,7 @@ class HassioMainDataUpdateCoordinator(DataUpdateCoordinator[HassioMainData]):
     config_entry: ConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: ConfigEntry, dev_reg: dr.DeviceRegistry
+        self, hass: __HAC_KEEP__, config_entry: ConfigEntry, dev_reg: dr.DeviceRegistry
     ) -> None:
         """Initialize coordinator."""
         super().__init__(
@@ -1707,7 +1707,7 @@ class HassioMainDataUpdateCoordinator(DataUpdateCoordinator[HassioMainData]):
             ) = cast(
                 tuple[
                     RootInfo,
-                    UniversalAssistantInfo,
+                    __HAC_KEEP__Info,
                     SupervisorInfo,
                     OSInfo,
                     HostInfo,

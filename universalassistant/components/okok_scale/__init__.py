@@ -14,8 +14,8 @@ from universalassistant.components.bluetooth.active_update_processor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import CoreState, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CoreState, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DOMAIN
 
@@ -26,7 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 type OKOKScaleConfigEntry = ConfigEntry[ActiveBluetoothProcessorCoordinator]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OKOKScaleConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OKOKScaleConfigEntry) -> None:
     """Set up OKOK Scale device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -62,7 +62,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OKOKScaleConfigEntr
         else:
             # We have no bluetooth controller that is in range of
             # the device to poll it
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="no_connectable_device",
                 translation_placeholders={"address": service_info.device.address},
@@ -90,6 +90,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OKOKScaleConfigEntr
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: OKOKScaleConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: OKOKScaleConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

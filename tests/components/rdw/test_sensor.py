@@ -10,12 +10,12 @@ from universalassistant.const import (
     ATTR_ICON,
     ATTR_UNIT_OF_MEASUREMENT,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_vehicle_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,

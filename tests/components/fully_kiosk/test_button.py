@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components import button
 from universalassistant.components.fully_kiosk.const import DOMAIN
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_buttons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_fully_kiosk: MagicMock,

@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_TOKEN,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -34,7 +34,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form(hass: UniversalAssistant, mock_envoy: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_envoy: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -65,7 +65,7 @@ async def test_form(hass: UniversalAssistant, mock_envoy: AsyncMock) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_no_serial_number(
-    hass: UniversalAssistant, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, mock_envoy: AsyncMock
 ) -> None:
     """Test user setup without a serial number."""
     mock_envoy.serial_number = None
@@ -108,7 +108,7 @@ async def test_user_no_serial_number(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors(
-    hass: UniversalAssistant, mock_envoy: AsyncMock, exception: Exception, error: str
+    hass: __HAC_KEEP__, mock_envoy: AsyncMock, exception: Exception, error: str
 ) -> None:
     """Test we handle form errors."""
     mock_envoy.setup.side_effect = exception
@@ -158,7 +158,7 @@ def _get_schema_default(schema, key_name):
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf(
-    hass: UniversalAssistant, mock_envoy: AsyncMock, version: str, schema_username: str
+    hass: __HAC_KEEP__, mock_envoy: AsyncMock, version: str, schema_username: str
 ) -> None:
     """Test we can setup from zeroconf."""
     result = await hass.config_entries.flow.async_init(
@@ -204,7 +204,7 @@ async def test_zeroconf(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_host_already_exists(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test changing credentials for existing host."""
     config_entry.add_to_hass(hass)
@@ -263,7 +263,7 @@ async def test_form_host_already_exists(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_serial_already_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     caplog: pytest.LogCaptureFixture,
@@ -293,7 +293,7 @@ async def test_zeroconf_serial_already_exists(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_serial_already_exists_ignores_ipv6(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test serial number already exists from zeroconf but the discovery is ipv6."""
     await setup_integration(hass, config_entry)
@@ -319,7 +319,7 @@ async def test_zeroconf_serial_already_exists_ignores_ipv6(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_host_already_exists(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test hosts already exists from zeroconf."""
     mock_envoy.serial_number = None
@@ -346,7 +346,7 @@ async def test_zeroconf_host_already_exists(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zero_conf_while_form(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test zeroconf while form is active."""
     await setup_integration(hass, config_entry)
@@ -377,7 +377,7 @@ async def test_zero_conf_while_form(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zero_conf_second_envoy_while_form(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test zeroconf while form is active."""
     await setup_integration(hass, config_entry)
@@ -429,7 +429,7 @@ async def test_zero_conf_second_envoy_while_form(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zero_conf_old_blank_entry(
-    hass: UniversalAssistant, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, mock_envoy: AsyncMock
 ) -> None:
     """Test reusing old blank entry."""
     entry = MockConfigEntry(
@@ -467,7 +467,7 @@ async def test_zero_conf_old_blank_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zero_conf_old_blank_entry_standard_title(
-    hass: UniversalAssistant, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, mock_envoy: AsyncMock
 ) -> None:
     """Test reusing old blank entry was Envoy as title."""
     entry = MockConfigEntry(
@@ -507,7 +507,7 @@ async def test_zero_conf_old_blank_entry_standard_title(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zero_conf_old_blank_entry_user_title(
-    hass: UniversalAssistant, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, mock_envoy: AsyncMock
 ) -> None:
     """Test reusing old blank entry with user title."""
     entry = MockConfigEntry(
@@ -547,7 +547,7 @@ async def test_zero_conf_old_blank_entry_user_title(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test we reauth auth."""
     await setup_integration(hass, config_entry)
@@ -567,7 +567,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_default(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test we can configure options."""
     await setup_integration(hass, config_entry)
@@ -589,7 +589,7 @@ async def test_options_default(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_set(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test we can configure options."""
     await setup_integration(hass, config_entry)
@@ -613,7 +613,7 @@ async def test_options_set(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test we can reconfiger the entry."""
     await setup_integration(hass, config_entry)
@@ -647,7 +647,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_nochange(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test we get the reconfigure form and apply nochange."""
     await setup_integration(hass, config_entry)
@@ -681,7 +681,7 @@ async def test_reconfigure_nochange(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_otherenvoy(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test entering ip of other envoy and prevent changing it based on serial."""
     await setup_integration(hass, config_entry)
@@ -721,7 +721,7 @@ async def test_reconfigure_otherenvoy(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     exception: Exception,
@@ -774,7 +774,7 @@ async def test_reconfigure_auth_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_change_ip_to_existing(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, mock_envoy: AsyncMock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, mock_envoy: AsyncMock
 ) -> None:
     """Test reconfiguration to existing entry with same ip."""
     await setup_integration(hass, config_entry)
@@ -830,7 +830,7 @@ async def test_reconfigure_change_ip_to_existing(
 
 
 async def test_form_configure_manual_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_envoy: AsyncMock,
 ) -> None:
@@ -891,7 +891,7 @@ async def test_form_configure_manual_token(
 
 
 async def test_form_switch_between_token_modes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_envoy: AsyncMock,
 ) -> None:
@@ -954,7 +954,7 @@ async def test_form_switch_between_token_modes(
 
 
 async def test_reauth_switch_to_manual_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_envoy: AsyncMock,
@@ -1004,7 +1004,7 @@ async def test_reauth_switch_to_manual_token(
     indirect=True,
 )
 async def test_reauth_manual_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
@@ -1054,7 +1054,7 @@ async def test_reauth_manual_token(
     indirect=True,
 )
 async def test_reconfigure_switch_to_manual_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_envoy: AsyncMock,
@@ -1102,7 +1102,7 @@ async def test_reconfigure_switch_to_manual_token(
     indirect=True,
 )
 async def test_reconfigure_manual_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
@@ -1154,7 +1154,7 @@ async def test_reconfigure_manual_token(
     indirect=True,
 )
 async def test_reconfigure_switch_from_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,

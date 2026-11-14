@@ -7,11 +7,11 @@ import pytest
 from universalassistant import config_entries
 from universalassistant.components.prusalink.config_flow import InvalidAuth
 from universalassistant.components.prusalink.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 
 
-async def _async_configure_valid(hass: UniversalAssistant, flow_id: str) -> FlowResult:
+async def _async_configure_valid(hass: __HAC_KEEP__, flow_id: str) -> FlowResult:
     """Configure the flow with valid input."""
     with patch(
         "universalassistant.components.prusalink.async_setup_entry",
@@ -27,7 +27,7 @@ async def _async_configure_valid(hass: UniversalAssistant, flow_id: str) -> Flow
         )
 
 
-async def test_form(hass: UniversalAssistant, mock_version_api) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_version_api) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -59,7 +59,7 @@ async def test_form(hass: UniversalAssistant, mock_version_api) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_mk3(hass: UniversalAssistant, mock_version_api) -> None:
+async def test_form_mk3(hass: __HAC_KEEP__, mock_version_api) -> None:
     """Test it works for MK2/MK3."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -88,7 +88,7 @@ async def test_form_mk3(hass: UniversalAssistant, mock_version_api) -> None:
 
 
 @pytest.mark.usefixtures("mock_version_api")
-async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_form_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test we handle invalid auth."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -115,7 +115,7 @@ async def test_form_invalid_auth(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_version_api")
-async def test_form_unknown(hass: UniversalAssistant) -> None:
+async def test_form_unknown(hass: __HAC_KEEP__) -> None:
     """Test we handle unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -142,7 +142,7 @@ async def test_form_unknown(hass: UniversalAssistant) -> None:
 
 
 async def test_form_too_low_version(
-    hass: UniversalAssistant, mock_version_api: dict[str, str]
+    hass: __HAC_KEEP__, mock_version_api: dict[str, str]
 ) -> None:
     """Test we handle too low API version."""
     result = await hass.config_entries.flow.async_init(
@@ -169,7 +169,7 @@ async def test_form_too_low_version(
 
 
 async def test_form_invalid_version_2(
-    hass: UniversalAssistant, mock_version_api: dict[str, str]
+    hass: __HAC_KEEP__, mock_version_api: dict[str, str]
 ) -> None:
     """Test we handle invalid version."""
     result = await hass.config_entries.flow.async_init(
@@ -196,7 +196,7 @@ async def test_form_invalid_version_2(
 
 
 async def test_form_invalid_mk3_server_version(
-    hass: UniversalAssistant, mock_version_api: dict[str, str]
+    hass: __HAC_KEEP__, mock_version_api: dict[str, str]
 ) -> None:
     """Test we handle invalid version for MK2/MK3."""
     result = await hass.config_entries.flow.async_init(
@@ -225,7 +225,7 @@ async def test_form_invalid_mk3_server_version(
 
 
 @pytest.mark.usefixtures("mock_version_api")
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

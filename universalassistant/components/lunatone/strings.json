@@ -31,7 +31,7 @@
         "data_description": {
           "url": "The URL of the Lunatone device to connect to."
         },
-        "description": "Enter the URL of your Lunatone device.\nUniversal Universal Home Assistant will use this address to connect to the device API."
+        "description": "Enter the URL of your Lunatone device.\n__HA_KEEP__ will use this address to connect to the device API."
       }
     }
   },

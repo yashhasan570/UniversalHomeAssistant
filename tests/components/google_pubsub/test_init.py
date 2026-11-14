@@ -11,7 +11,7 @@ import pytest
 
 from universalassistant.components import google_pubsub
 from universalassistant.components.google_pubsub import DateTimeJSONEncoder as victim
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 GOOGLE_PUBSUB_PATH = "universalassistant.components.google_pubsub"
@@ -65,7 +65,7 @@ def mock_json(monkeypatch: pytest.MonkeyPatch) -> None:
     )
 
 
-async def test_minimal_config(hass: UniversalAssistant, mock_client) -> None:
+async def test_minimal_config(hass: __HAC_KEEP__, mock_client) -> None:
     """Test the minimal config and defaults of component."""
     config = {
         google_pubsub.DOMAIN: {
@@ -83,7 +83,7 @@ async def test_minimal_config(hass: UniversalAssistant, mock_client) -> None:
     )
 
 
-async def test_full_config(hass: UniversalAssistant, mock_client) -> None:
+async def test_full_config(hass: __HAC_KEEP__, mock_client) -> None:
     """Test the full config of the component."""
     config = {
         google_pubsub.DOMAIN: {
@@ -108,7 +108,7 @@ async def test_full_config(hass: UniversalAssistant, mock_client) -> None:
     )
 
 
-async def _setup(hass: UniversalAssistant, filter_config: dict[str, Any]) -> None:
+async def _setup(hass: __HAC_KEEP__, filter_config: dict[str, Any]) -> None:
     """Shared set up for filtering tests."""
     config = {
         google_pubsub.DOMAIN: {
@@ -122,7 +122,7 @@ async def _setup(hass: UniversalAssistant, filter_config: dict[str, Any]) -> Non
     await hass.async_block_till_done()
 
 
-async def test_allowlist(hass: UniversalAssistant, mock_client) -> None:
+async def test_allowlist(hass: __HAC_KEEP__, mock_client) -> None:
     """Test an allowlist only config."""
     await _setup(
         hass,
@@ -152,7 +152,7 @@ async def test_allowlist(hass: UniversalAssistant, mock_client) -> None:
         publish_client.publish.reset_mock()
 
 
-async def test_denylist(hass: UniversalAssistant, mock_client) -> None:
+async def test_denylist(hass: __HAC_KEEP__, mock_client) -> None:
     """Test a denylist only config."""
     await _setup(
         hass,
@@ -182,7 +182,7 @@ async def test_denylist(hass: UniversalAssistant, mock_client) -> None:
         publish_client.publish.reset_mock()
 
 
-async def test_filtered_allowlist(hass: UniversalAssistant, mock_client) -> None:
+async def test_filtered_allowlist(hass: __HAC_KEEP__, mock_client) -> None:
     """Test an allowlist config with a filtering denylist."""
     await _setup(
         hass,
@@ -213,7 +213,7 @@ async def test_filtered_allowlist(hass: UniversalAssistant, mock_client) -> None
         publish_client.publish.reset_mock()
 
 
-async def test_filtered_denylist(hass: UniversalAssistant, mock_client) -> None:
+async def test_filtered_denylist(hass: __HAC_KEEP__, mock_client) -> None:
     """Test a denylist config with a filtering allowlist."""
     await _setup(
         hass,

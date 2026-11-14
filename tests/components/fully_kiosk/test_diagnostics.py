@@ -12,12 +12,12 @@ from universalassistant.components.fully_kiosk.diagnostics import (
     DEVICE_INFO_TO_REDACT,
     SETTINGS_TO_REDACT,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     hass_client: ClientSessionGenerator,
     mock_fully_kiosk: MagicMock,

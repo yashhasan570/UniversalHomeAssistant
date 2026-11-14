@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Any, Concatenate, override
 
 import pychromecast.config
 import pychromecast.const
-from pychromecast.controllers.universalassistant import UniversalAssistantController
+from pychromecast.controllers.universalassistant import __HAC_KEEP__Controller
 import pychromecast.controllers.media
 from pychromecast.controllers.media import (
     MEDIA_PLAYER_ERROR_CODES,
@@ -46,8 +46,8 @@ from universalassistant.const import (
     CONF_UUID,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -61,7 +61,7 @@ from .const import (
     SIGNAL_CAST_DISCOVERED,
     SIGNAL_CAST_REMOVED,
     SIGNAL_HASS_CAST_SHOW_VIEW,
-    UniversalAssistantControllerData,
+    __HAC_KEEP__ControllerData,
 )
 from .discovery import setup_internal_discovery
 from .helpers import (
@@ -88,7 +88,7 @@ type _FuncType[_T, **_P, _R] = Callable[Concatenate[_T, _P], _R]
 def api_error[_CastDeviceT: CastDevice, **_P, _R](
     func: _FuncType[_CastDeviceT, _P, _R],
 ) -> _FuncType[_CastDeviceT, _P, _R]:
-    """Handle PyChromecastError and reraise a UniversalAssistantError."""
+    """Handle PyChromecastError and reraise a __HAC_KEEP__Error."""
 
     @wraps(func)
     def wrapper(self: _CastDeviceT, *args: _P.args, **kwargs: _P.kwargs) -> _R:
@@ -96,7 +96,7 @@ def api_error[_CastDeviceT: CastDevice, **_P, _R](
         try:
             return_value = func(self, *args, **kwargs)
         except PyChromecastError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"{self.__class__.__name__}.{func.__name__} Failed: {err}"
             ) from err
 
@@ -107,7 +107,7 @@ def api_error[_CastDeviceT: CastDevice, **_P, _R](
 
 @callback
 def _async_create_cast_device(
-    hass: UniversalAssistant, config_entry: CastConfigEntry, info: ChromecastInfo
+    hass: __HAC_KEEP__, config_entry: CastConfigEntry, info: ChromecastInfo
 ):
     """Create a CastDevice entity or dynamic group from the chromecast object.
 
@@ -137,7 +137,7 @@ def _async_create_cast_device(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: CastConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -177,13 +177,13 @@ class CastDevice:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: CastConfigEntry,
         cast_info: ChromecastInfo,
     ) -> None:
         """Initialize the cast device."""
 
-        self.hass: UniversalAssistant = hass
+        self.hass: __HAC_KEEP__ = hass
         self._config_entry = config_entry
         self._cast_info = cast_info
         self._chromecast: pychromecast.Chromecast | None = None
@@ -292,13 +292,13 @@ class CastDevice:
         """Handle removal of Chromecast."""
 
     async def _async_stop(self, event: Event) -> None:
-        """Disconnect socket on Universal Universal Home Assistant stop."""
+        """Disconnect socket on __HA_KEEP__ stop."""
         await self._async_disconnect()
 
     def _get_chromecast(self) -> pychromecast.Chromecast:
         """Ensure chromecast is available, to facilitate type checking."""
         if self._chromecast is None:
-            raise UniversalAssistantError("Chromecast is not available.")
+            raise __HAC_KEEP__Error("Chromecast is not available.")
         return self._chromecast
 
 
@@ -313,7 +313,7 @@ class CastMediaPlayerEntity(CastDevice, MediaPlayerEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: CastConfigEntry,
         cast_info: ChromecastInfo,
     ) -> None:
@@ -327,7 +327,7 @@ class CastMediaPlayerEntity(CastDevice, MediaPlayerEntity):
         self.mz_media_status: dict[str, pychromecast.controllers.media.MediaStatus] = {}
         self.mz_media_status_received: dict[str, datetime] = {}
         self._attr_available = False
-        self._hass_cast_controller: UniversalAssistantController | None = None
+        self._hass_cast_controller: __HAC_KEEP__Controller | None = None
 
         self._cast_view_remove_handler: CALLBACK_TYPE | None = None
         self._attr_unique_id = str(cast_info.uuid)
@@ -759,7 +759,7 @@ class CastMediaPlayerEntity(CastDevice, MediaPlayerEntity):
                     self._quick_play, app_name, app_data
                 )
             except NotImplementedError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="app_not_supported",
                     translation_placeholders={"app_name": app_name},
@@ -1094,7 +1094,7 @@ class CastMediaPlayerEntity(CastDevice, MediaPlayerEntity):
 
     def _handle_signal_show_view(
         self,
-        controller_data: UniversalAssistantControllerData,
+        controller_data: __HAC_KEEP__ControllerData,
         entity_id: str,
         view_path: str,
         url_path: str | None,
@@ -1110,7 +1110,7 @@ class CastMediaPlayerEntity(CastDevice, MediaPlayerEntity):
                 if not self._hass_cast_controller or not self._chromecast:
                     return
                 _LOGGER.debug(
-                    "[%s %s] Unregistering UniversalAssistantController",
+                    "[%s %s] Unregistering __HAC_KEEP__Controller",
                     self.entity_id,
                     self._cast_info.friendly_name,
                 )
@@ -1118,7 +1118,7 @@ class CastMediaPlayerEntity(CastDevice, MediaPlayerEntity):
                 self._chromecast.unregister_handler(self._hass_cast_controller)
                 self._hass_cast_controller = None
 
-            controller = UniversalAssistantController(
+            controller = __HAC_KEEP__Controller(
                 **controller_data, unregister=unregister
             )
             self._hass_cast_controller = controller

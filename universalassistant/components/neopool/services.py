@@ -10,13 +10,13 @@ import probatio
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import (
     async_extract_config_entry_ids,
@@ -46,7 +46,7 @@ SERVICE_DEVICE_TIME_SCHEMA = probatio.Schema(
 
 
 async def _get_coordinator(
-    hass: UniversalAssistant, call: ServiceCall
+    hass: __HAC_KEEP__, call: ServiceCall
 ) -> NeoPoolCoordinator:
     """Resolve the coordinator for a service call.
 
@@ -91,7 +91,7 @@ async def _get_coordinator(
 
 
 async def _async_get_device_time(call: ServiceCall) -> ServiceResponse:
-    """Return the device RTC wall-clock and its drift from Universal Universal Home Assistant.
+    """Return the device RTC wall-clock and its drift from __HA_KEEP__.
 
     Reads only the two clock registers directly from the controller at call
     time, so the drift is accurate regardless of the polling interval and
@@ -102,14 +102,14 @@ async def _async_get_device_time(call: ServiceCall) -> ServiceResponse:
     try:
         regs = await coordinator.client.async_read_register(DEVICE_TIME_REGISTER, 2)
     except (NeoPoolError, OSError, ValueError) as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_time_read_failed",
             translation_placeholders={"error": str(err)},
         ) from err
 
     if len(regs) < 2:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_time_read_failed",
             translation_placeholders={"error": f"short read ({len(regs)} words)"},
@@ -118,7 +118,7 @@ async def _async_get_device_time(call: ServiceCall) -> ServiceResponse:
     tz = dt_util.get_time_zone(call.hass.config.time_zone) or dt_util.UTC
     device_dt = decode_device_time(combine_u32(regs[0], regs[1]), tz)
     if device_dt is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_time_read_failed",
             translation_placeholders={"error": "invalid clock value"},
@@ -134,21 +134,21 @@ async def _async_get_device_time(call: ServiceCall) -> ServiceResponse:
 
 
 async def _async_set_device_time(call: ServiceCall) -> None:
-    """Write the current Universal Universal Home Assistant time to the device RTC."""
+    """Write the current __HA_KEEP__ time to the device RTC."""
     coordinator = await _get_coordinator(call.hass, call)
     timestamp = prepare_device_time(call.hass)
 
     try:
         result = await coordinator.client.async_sync_device_time(timestamp)
     except (NeoPoolError, OSError) as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_time_write_failed",
             translation_placeholders={"error": str(err)},
         ) from err
 
     if result is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_time_write_failed",
             translation_placeholders={"error": "no response"},
@@ -159,7 +159,7 @@ async def _async_set_device_time(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the NeoPool services."""
     hass.services.async_register(
         DOMAIN,

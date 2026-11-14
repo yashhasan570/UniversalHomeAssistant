@@ -14,8 +14,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -42,7 +42,7 @@ def _parse_thermostat_mode(mode: str) -> ThermostatMode:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WattsVisionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -160,7 +160,7 @@ class WattsVisionClimate(WattsVisionEntity[ThermostatDevice], ClimateEntity):
         try:
             await self.coordinator.client.set_thermostat_mode(self.device_id, mode)
         except (ValueError, RuntimeError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_preset_mode_error",
             ) from err
@@ -188,7 +188,7 @@ class WattsVisionClimate(WattsVisionEntity[ThermostatDevice], ClimateEntity):
                 self.device_id, temperature
             )
         except RuntimeError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_temperature_error",
             ) from err
@@ -227,7 +227,7 @@ class WattsVisionClimate(WattsVisionEntity[ThermostatDevice], ClimateEntity):
                 self.device_id, temperature, duration_minutes
             )
         except (WattsVisionError, ValueError, RuntimeError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="activate_timer_mode_error",
             ) from err
@@ -252,7 +252,7 @@ class WattsVisionClimate(WattsVisionEntity[ThermostatDevice], ClimateEntity):
         try:
             await self.coordinator.client.set_thermostat_mode(self.device_id, mode)
         except (ValueError, RuntimeError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_hvac_mode_error",
             ) from err

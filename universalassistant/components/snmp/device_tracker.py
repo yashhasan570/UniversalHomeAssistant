@@ -21,7 +21,7 @@ from universalassistant.components.device_tracker import (
     DeviceScanner,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -54,7 +54,7 @@ PLATFORM_SCHEMA = DEVICE_TRACKER_PLATFORM_SCHEMA.extend(
 
 
 async def async_get_scanner(
-    hass: UniversalAssistant, config: ConfigType
+    hass: __HAC_KEEP__, config: ConfigType
 ) -> SnmpScanner | None:
     """Validate the configuration and return an SNMP scanner."""
     scanner = await SnmpScanner.create(config[DEVICE_TRACKER_DOMAIN])
@@ -124,7 +124,7 @@ class SnmpScanner(DeviceScanner):
 
         return instance
 
-    async def async_init(self, hass: UniversalAssistant) -> None:
+    async def async_init(self, hass: __HAC_KEEP__) -> None:
         """Check if the target device is reachable and readable."""
         self.request_args = await async_create_request_cmd_args(
             hass,

@@ -14,10 +14,10 @@ from universalassistant.components.webhook import (
     async_unregister,
 )
 from universalassistant.const import CONF_WEBHOOK_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
-from universalassistant.helpers.http import UniversalAssistantView
+from universalassistant.helpers.http import __HAC_KEEP__View
 from universalassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN, EVENT_KEY, JSON_PAYLOAD, LOGGER, REGISTERED_NOTIFICATIONS
@@ -30,13 +30,13 @@ CONF_CLOUDHOOK_URL = "cloudhook_url"
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Overseerr component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OverseerrConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OverseerrConfigEntry) -> None:
     """Set up Overseerr from a config entry."""
 
     coordinator = OverseerrCoordinator(hass, entry)
@@ -57,12 +57,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OverseerrConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: OverseerrConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: OverseerrConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_remove_entry(hass: UniversalAssistant, entry: OverseerrConfigEntry) -> None:
+async def async_remove_entry(hass: __HAC_KEEP__, entry: OverseerrConfigEntry) -> None:
     """Cleanup when entry is removed."""
     if cloud.async_active_subscription(hass):
         try:
@@ -77,7 +77,7 @@ async def async_remove_entry(hass: UniversalAssistant, entry: OverseerrConfigEnt
 class OverseerrWebhookManager:
     """Overseerr webhook manager."""
 
-    def __init__(self, hass: UniversalAssistant, entry: OverseerrConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: OverseerrConfigEntry) -> None:
         """Initialize Overseerr webhook manager."""
         self.hass = hass
         self.entry = entry
@@ -149,7 +149,7 @@ class OverseerrWebhookManager:
         return False
 
     async def handle_webhook(
-        self, hass: UniversalAssistant, webhook_id: str, request: Request
+        self, hass: __HAC_KEEP__, webhook_id: str, request: Request
     ) -> Response:
         """Handle webhook."""
         data = await request.json()
@@ -158,7 +158,7 @@ class OverseerrWebhookManager:
         if notification_type.startswith(("REQUEST_", "ISSUE_", "MEDIA_")):
             await self.entry.runtime_data.async_refresh()
         async_dispatcher_send(hass, EVENT_KEY, data)
-        return UniversalAssistantView.json({"message": "ok"})
+        return __HAC_KEEP__View.json({"message": "ok"})
 
     async def unregister_webhook(self) -> None:
         """Unregister webhook."""
@@ -166,7 +166,7 @@ class OverseerrWebhookManager:
 
 
 async def _async_cloudhook_generate_url(
-    hass: UniversalAssistant, entry: OverseerrConfigEntry
+    hass: __HAC_KEEP__, entry: OverseerrConfigEntry
 ) -> str:
     """Generate the full URL for a webhook_id."""
     if CONF_CLOUDHOOK_URL not in entry.data:

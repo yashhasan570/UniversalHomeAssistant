@@ -23,7 +23,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -68,13 +68,13 @@ class AbodeSystem:
 type AbodeConfigEntry = ConfigEntry[AbodeSystem]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Abode component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AbodeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AbodeConfigEntry) -> None:
     """Set up Abode integration from a config entry."""
     username = entry.data[CONF_USERNAME]
     password = entry.data[CONF_PASSWORD]
@@ -114,7 +114,7 @@ def _shutdown_client(abode: Abode) -> None:
     abode.logout()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AbodeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AbodeConfigEntry) -> None:
     """Unload a config entry."""
     try:
         await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -125,8 +125,8 @@ async def async_unload_entry(hass: UniversalAssistant, entry: AbodeConfigEntry) 
             logout_listener()
 
 
-async def setup_hass_events(hass: UniversalAssistant, entry: AbodeConfigEntry) -> None:
-    """Universal Universal Home Assistant start and stop callbacks."""
+async def setup_hass_events(hass: __HAC_KEEP__, entry: AbodeConfigEntry) -> None:
+    """__HA_KEEP__ start and stop callbacks."""
 
     def logout(event: Event) -> None:
         """Logout of Abode."""
@@ -144,7 +144,7 @@ async def setup_hass_events(hass: UniversalAssistant, entry: AbodeConfigEntry) -
     )
 
 
-def setup_abode_events(hass: UniversalAssistant, entry: AbodeConfigEntry) -> None:
+def setup_abode_events(hass: __HAC_KEEP__, entry: AbodeConfigEntry) -> None:
     """Event callbacks."""
 
     def event_callback(event: str, event_json: dict[str, str]) -> None:

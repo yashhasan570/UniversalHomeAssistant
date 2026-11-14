@@ -10,7 +10,7 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CONF_ENTITY_ID, CONF_NAME
-from universalassistant.core import UniversalAssistant, split_entity_id
+from universalassistant.core import __HAC_KEEP__, split_entity_id
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -46,7 +46,7 @@ PLATFORM_SCHEMA = probatio.All(
 
 
 async def async_get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> TTSNotificationService:

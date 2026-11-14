@@ -8,7 +8,7 @@ from typing import Final, cast
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.core import (
     DOMAIN as HOMEASSISTANT_DOMAIN,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
 )
@@ -89,7 +89,7 @@ __all__ = [
 # mypy: disallow-any-generics
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Track states and offer events for sensors."""
     component = hass.data[DATA_COMPONENT] = EntityComponent[SensorEntity](
         _LOGGER, DOMAIN, hass, SCAN_INTERVAL
@@ -100,7 +100,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up a config entry."""
     if not await hass.data[DATA_COMPONENT].async_setup_entry(entry):
         raise ConfigEntryError(
@@ -110,13 +110,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.data[DATA_COMPONENT].async_unload_entry(entry)
 
 
 @callback
-def async_update_suggested_units(hass: UniversalAssistant) -> None:
+def async_update_suggested_units(hass: __HAC_KEEP__) -> None:
     """Update the suggested_unit_of_measurement according to the unit system."""
     registry = er.async_get(hass)
 
@@ -133,7 +133,7 @@ def async_update_suggested_units(hass: UniversalAssistant) -> None:
         )
 
 
-def _display_precision(hass: UniversalAssistant, entity_id: str) -> int | None:
+def _display_precision(hass: __HAC_KEEP__, entity_id: str) -> int | None:
     """Return the display precision."""
     if not (entry := er.async_get(hass).async_get(entity_id)) or not (
         sensor_options := entry.options.get(DOMAIN)
@@ -145,7 +145,7 @@ def _display_precision(hass: UniversalAssistant, entity_id: str) -> int | None:
 
 
 @callback
-def async_rounded_state(hass: UniversalAssistant, entity_id: str, state: State) -> str:
+def async_rounded_state(hass: __HAC_KEEP__, entity_id: str, state: State) -> str:
     """Return the state rounded for presentation."""
     value = state.state
     if (precision := _display_precision(hass, entity_id)) is None:

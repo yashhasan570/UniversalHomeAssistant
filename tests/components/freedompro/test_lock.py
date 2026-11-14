@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.util.dt import utcnow
@@ -21,7 +21,7 @@ uid = (
 
 
 async def test_lock_get_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     init_integration: MockConfigEntry,
@@ -68,7 +68,7 @@ async def test_lock_get_state(
 
 
 async def test_lock_set_unlock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_lock_set_unlock(
 
 
 async def test_lock_set_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:

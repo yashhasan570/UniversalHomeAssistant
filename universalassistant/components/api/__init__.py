@@ -1,4 +1,4 @@
-"""Rest API for Universal Universal Home Assistant."""
+"""Rest API for __HA_KEEP__."""
 
 import asyncio
 from asyncio import shield, timeout
@@ -17,7 +17,7 @@ from universalassistant.auth.permissions.const import POLICY_READ
 from universalassistant.components.http import (
     KEY_HASS,
     KEY_HASS_USER,
-    UniversalAssistantView,
+    __HAC_KEEP__View,
     require_admin,
 )
 from universalassistant.const import (
@@ -37,9 +37,9 @@ from universalassistant.const import (
     URL_API_STREAM,
     URL_API_TEMPLATE,
 )
-from universalassistant.core import Event, EventStateChangedData, UniversalAssistant
+from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__
 from universalassistant.exceptions import (
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     InvalidEntityFormatError,
     InvalidStateError,
     ServiceNotFound,
@@ -72,7 +72,7 @@ STREAM_PING_INTERVAL = 50  # seconds
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Register the API with the HTTP interface."""
     hass.http.register_view(APIStatusView)
     hass.http.register_view(APICoreStateView)
@@ -93,7 +93,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-class APIStatusView(UniversalAssistantView):
+class APIStatusView(__HAC_KEEP__View):
     """View to handle Status requests."""
 
     url = URL_API
@@ -105,7 +105,7 @@ class APIStatusView(UniversalAssistantView):
         return self.json_message("API running.")
 
 
-class APICoreStateView(UniversalAssistantView):
+class APICoreStateView(__HAC_KEEP__View):
     """View to handle core state requests."""
 
     url = URL_API_CORE_STATE
@@ -116,8 +116,8 @@ class APICoreStateView(UniversalAssistantView):
         """Retrieve the current core state.
 
         This API is intended to be a fast and lightweight way to check if the
-        Universal Universal Home Assistant core is running. Its primary use case is for supervisor
-        to check if Universal Universal Home Assistant is running.
+        __HA_KEEP__ core is running. Its primary use case is for supervisor
+        to check if __HA_KEEP__ is running.
         """
         hass = request.app[KEY_HASS]
         migration = recorder.async_migration_in_progress(hass)
@@ -126,7 +126,7 @@ class APICoreStateView(UniversalAssistantView):
         return self.json({"state": hass.state.value, "recorder_state": recorder_state})
 
 
-class APIEventStream(UniversalAssistantView):
+class APIEventStream(__HAC_KEEP__View):
     """View to handle EventStream requests."""
 
     url = URL_API_STREAM
@@ -193,7 +193,7 @@ class APIEventStream(UniversalAssistantView):
         return response
 
 
-class APIConfigView(UniversalAssistantView):
+class APIConfigView(__HAC_KEEP__View):
     """View to handle Configuration requests."""
 
     url = URL_API_CONFIG
@@ -205,7 +205,7 @@ class APIConfigView(UniversalAssistantView):
         return self.json(request.app[KEY_HASS].config.as_dict())
 
 
-class APIStatesView(UniversalAssistantView):
+class APIStatesView(__HAC_KEEP__View):
     """View to handle States requests."""
 
     url = URL_API_STATES
@@ -236,7 +236,7 @@ class APIStatesView(UniversalAssistantView):
         return response
 
 
-class APIEntityStateView(UniversalAssistantView):
+class APIEntityStateView(__HAC_KEEP__View):
     """View to handle EntityState requests."""
 
     url = "/api/states/{entity_id}"
@@ -318,7 +318,7 @@ class APIEntityStateView(UniversalAssistantView):
         return self.json_message("Entity not found.", HTTPStatus.NOT_FOUND)
 
 
-class APIEventListenersView(UniversalAssistantView):
+class APIEventListenersView(__HAC_KEEP__View):
     """View to handle EventListeners requests."""
 
     url = URL_API_EVENTS
@@ -330,7 +330,7 @@ class APIEventListenersView(UniversalAssistantView):
         return self.json(async_events_json(request.app[KEY_HASS]))
 
 
-class APIEventView(UniversalAssistantView):
+class APIEventView(__HAC_KEEP__View):
     """View to handle Event requests."""
 
     url = "/api/events/{event_type}"
@@ -368,7 +368,7 @@ class APIEventView(UniversalAssistantView):
         return self.json_message(f"Event {event_type} fired.")
 
 
-class APIServicesView(UniversalAssistantView):
+class APIServicesView(__HAC_KEEP__View):
     """View to handle Services requests."""
 
     url = URL_API_SERVICES
@@ -380,7 +380,7 @@ class APIServicesView(UniversalAssistantView):
         return self.json(services)
 
 
-class APIDomainServicesView(UniversalAssistantView):
+class APIDomainServicesView(__HAC_KEEP__View):
     """View to handle DomainServices requests."""
 
     url = "/api/services/{domain}/{service}"
@@ -462,7 +462,7 @@ class APIDomainServicesView(UniversalAssistantView):
         except Unauthorized:
             # Handled by the view wrapper, which maps it to 401
             raise
-        except UniversalAssistantError as ex:
+        except __HAC_KEEP__Error as ex:
             _LOGGER.error("Error during service call to %s.%s: %s", domain, service, ex)
             return self.json_message(str(ex), HTTPStatus.INTERNAL_SERVER_ERROR)
         finally:
@@ -476,7 +476,7 @@ class APIDomainServicesView(UniversalAssistantView):
         return self.json(changed_states)
 
 
-class APIComponentsView(UniversalAssistantView):
+class APIComponentsView(__HAC_KEEP__View):
     """View to handle Components requests."""
 
     url = URL_API_COMPONENTS
@@ -489,12 +489,12 @@ class APIComponentsView(UniversalAssistantView):
 
 
 @lru_cache
-def _cached_template(template_str: str, hass: UniversalAssistant) -> template.Template:
+def _cached_template(template_str: str, hass: __HAC_KEEP__) -> template.Template:
     """Return a cached template."""
     return template.Template(template_str, hass)
 
 
-class APITemplateView(UniversalAssistantView):
+class APITemplateView(__HAC_KEEP__View):
     """View to handle Template requests."""
 
     url = URL_API_TEMPLATE
@@ -523,7 +523,7 @@ class APITemplateView(UniversalAssistantView):
             )
 
 
-class APIErrorLog(UniversalAssistantView):
+class APIErrorLog(__HAC_KEEP__View):
     """View to fetch the API error log."""
 
     url = URL_API_ERROR_LOG
@@ -538,14 +538,14 @@ class APIErrorLog(UniversalAssistantView):
         return response
 
 
-async def async_services_json(hass: UniversalAssistant) -> list[dict[str, Any]]:
+async def async_services_json(hass: __HAC_KEEP__) -> list[dict[str, Any]]:
     """Generate services data to JSONify."""
     descriptions = await async_get_all_descriptions(hass)
     return [{"domain": key, "services": value} for key, value in descriptions.items()]
 
 
 @ha.callback
-def async_events_json(hass: UniversalAssistant) -> list[dict[str, Any]]:
+def async_events_json(hass: __HAC_KEEP__) -> list[dict[str, Any]]:
     """Generate event data to JSONify."""
     return [
         {"event": key, "listener_count": value}

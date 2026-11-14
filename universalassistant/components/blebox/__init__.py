@@ -11,7 +11,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -34,7 +34,7 @@ PLATFORMS = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BleBoxConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BleBoxConfigEntry) -> None:
     """Set up BleBox devices from a config entry."""
     host = entry.data[CONF_HOST]
     port = entry.data[CONF_PORT]
@@ -68,6 +68,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BleBoxConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BleBoxConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BleBoxConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

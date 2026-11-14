@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import UnitOfInformation
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import BYTE_SIZES
@@ -113,7 +113,7 @@ SENSOR_TYPES: dict[str, LidarrSensorEntityDescription[Any]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LidarrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

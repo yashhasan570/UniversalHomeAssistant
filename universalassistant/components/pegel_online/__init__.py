@@ -6,7 +6,7 @@ from aiopegelonline import PegelOnline
 from aiopegelonline.const import CONNECT_ERRORS
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -18,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PegelOnlineConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PegelOnlineConfigEntry) -> None:
     """Set up PEGELONLINE entry."""
     station_uuid = entry.data[CONF_STATION]
 
@@ -44,7 +44,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PegelOnlineConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: PegelOnlineConfigEntry
+    hass: __HAC_KEEP__, entry: PegelOnlineConfigEntry
 ) -> None:
     """Unload PEGELONLINE entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.peblar.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 pytestmark = [
     pytest.mark.parametrize("init_integration", [Platform.SENSOR], indirect=True),
@@ -39,7 +39,7 @@ pytestmark = [
     ],
 )
 async def test_coordinator_error_handler(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -79,7 +79,7 @@ async def test_coordinator_error_handler(
 
 
 async def test_coordinator_error_handler_authentication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_peblar: MagicMock,
     freezer: FrozenDateTimeFactory,

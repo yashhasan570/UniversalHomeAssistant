@@ -7,7 +7,7 @@ from aiovodafone.const import WIFI_DATA
 
 from universalassistant.components.image import ImageEntity, ImageEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 from universalassistant.util import dt as dt_util
@@ -32,7 +32,7 @@ IMAGE_TYPES: Final = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VodafoneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -63,7 +63,7 @@ class VodafoneGuestWifiQRImage(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: VodafoneStationRouter,
         description: ImageEntityDescription,
     ) -> None:

@@ -12,14 +12,14 @@ from universalassistant.components.media_source import (
     async_resolve_media,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import CONF_MEDIA, DOMAIN
 
 
 async def _async_browse_source(
-    hass: UniversalAssistant, media_content_id: str
+    hass: __HAC_KEEP__, media_content_id: str
 ) -> dict[str, Any]:
     """Browse a configured media source and describe its contents."""
     try:
@@ -51,7 +51,7 @@ async def _async_browse_source(
 
 
 async def _async_resolve_image(
-    hass: UniversalAssistant, media_content_id: str, entity_id: str
+    hass: __HAC_KEEP__, media_content_id: str, entity_id: str
 ) -> dict[str, Any]:
     """Resolve the current image and describe the result."""
     try:
@@ -68,7 +68,7 @@ async def _async_resolve_image(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: ConfigEntry
+    hass: __HAC_KEEP__, entry: ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     media = entry.data[CONF_MEDIA]

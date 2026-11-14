@@ -27,7 +27,7 @@ from universalassistant.const import (
     CONF_UUID,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 
@@ -40,7 +40,7 @@ from . import (
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_show_user_form(hass: UniversalAssistant) -> None:
+async def test_show_user_form(hass: __HAC_KEEP__) -> None:
     """Test that the user set up form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -52,7 +52,7 @@ async def test_show_user_form(hass: UniversalAssistant) -> None:
 
 
 async def test_show_zeroconf_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test that the zeroconf confirmation form is served."""
@@ -69,7 +69,7 @@ async def test_show_zeroconf_form(
 
 
 async def test_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we show user form on IPP connection error."""
@@ -96,7 +96,7 @@ async def test_connection_error(
 
 
 async def test_zeroconf_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we abort zeroconf flow on IPP connection error."""
@@ -114,7 +114,7 @@ async def test_zeroconf_connection_error(
 
 
 async def test_zeroconf_confirm_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we abort zeroconf flow on IPP connection error."""
@@ -130,7 +130,7 @@ async def test_zeroconf_confirm_connection_error(
 
 
 async def test_user_connection_upgrade_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we show the user form if connection upgrade required by server."""
@@ -157,7 +157,7 @@ async def test_user_connection_upgrade_required(
 
 
 async def test_zeroconf_connection_upgrade_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we abort zeroconf flow on IPP connection error."""
@@ -175,7 +175,7 @@ async def test_zeroconf_connection_upgrade_required(
 
 
 async def test_user_parse_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we abort user flow on IPP parse error."""
@@ -195,7 +195,7 @@ async def test_user_parse_error(
 
 
 async def test_zeroconf_parse_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we abort zeroconf flow on IPP parse error."""
@@ -213,7 +213,7 @@ async def test_zeroconf_parse_error(
 
 
 async def test_user_ipp_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we abort the user flow on IPP error."""
@@ -233,7 +233,7 @@ async def test_user_ipp_error(
 
 
 async def test_zeroconf_ipp_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we abort zeroconf flow on IPP error."""
@@ -251,7 +251,7 @@ async def test_zeroconf_ipp_error(
 
 
 async def test_user_ipp_version_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we abort user flow on IPP version not supported error."""
@@ -271,7 +271,7 @@ async def test_user_ipp_version_error(
 
 
 async def test_zeroconf_ipp_version_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test we abort zeroconf flow on IPP version not supported error."""
@@ -289,7 +289,7 @@ async def test_zeroconf_ipp_version_error(
 
 
 async def test_user_device_exists_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
@@ -310,7 +310,7 @@ async def test_user_device_exists_abort(
 
 
 async def test_zeroconf_device_exists_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
@@ -329,7 +329,7 @@ async def test_zeroconf_device_exists_abort(
 
 
 async def test_zeroconf_with_uuid_device_exists_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
@@ -353,7 +353,7 @@ async def test_zeroconf_with_uuid_device_exists_abort(
 
 
 async def test_zeroconf_with_uuid_device_exists_abort_new_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
@@ -380,7 +380,7 @@ async def test_zeroconf_with_uuid_device_exists_abort_new_host(
 
 
 async def test_zeroconf_empty_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test zeroconf flow if printer lacks (empty) unique identification."""
@@ -417,7 +417,7 @@ async def test_zeroconf_empty_unique_id(
 
 
 async def test_zeroconf_no_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test zeroconf flow if printer lacks unique identification."""
@@ -450,7 +450,7 @@ async def test_zeroconf_no_unique_id(
 
 
 async def test_full_user_flow_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test the full manual user flow from start to finish."""
@@ -479,7 +479,7 @@ async def test_full_user_flow_implementation(
 
 
 async def test_full_zeroconf_flow_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test the full manual user flow from start to finish."""
@@ -511,7 +511,7 @@ async def test_full_zeroconf_flow_implementation(
 
 
 async def test_full_zeroconf_tls_flow_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ipp_config_flow: MagicMock,
 ) -> None:
     """Test the full manual user flow from start to finish."""
@@ -543,7 +543,7 @@ async def test_full_zeroconf_tls_flow_implementation(
     assert result["result"].unique_id == "cfe92100-67c4-11d4-a45f-f8d027761251"
 
 
-async def test_zeroconf_empty_unique_id_uses_serial(hass: UniversalAssistant) -> None:
+async def test_zeroconf_empty_unique_id_uses_serial(hass: __HAC_KEEP__) -> None:
     """Test zeroconf flow with empty unique ID uses serial fallback."""
     fixture = await hass.async_add_executor_job(
         load_fixture, "ipp/printer_without_uuid.json"
@@ -596,7 +596,7 @@ RECONFIGURE_INPUT = {
 
 @pytest.mark.usefixtures("mock_ipp_config_flow")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the reconfigure flow."""
     mock_config_entry.add_to_hass(hass)
@@ -623,7 +623,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_ipp_config_flow")
 async def test_reconfigure_different_device(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring to a different printer aborts."""
     mock_config_entry.add_to_hass(hass)
@@ -643,7 +643,7 @@ async def test_reconfigure_different_device(
 )
 @pytest.mark.usefixtures("mock_ipp_config_flow")
 async def test_reconfigure_zeroconf_uuid_matching_device_serial(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -681,7 +681,7 @@ async def test_reconfigure_zeroconf_uuid_matching_device_serial(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ipp_config_flow: MagicMock,
     side_effect: type[Exception],

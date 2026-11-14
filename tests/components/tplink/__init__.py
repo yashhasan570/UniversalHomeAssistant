@@ -27,7 +27,7 @@ from universalassistant.components.automation import DOMAIN as AUTOMATION_DOMAIN
 from universalassistant.components.tplink.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.translation import async_get_translations
 from universalassistant.helpers.typing import Undefined
@@ -63,7 +63,7 @@ FIXTURE_ENUM_TYPES = {"CleanErrorCode": ErrorCode, "CleanAreaUnit": AreaUnit}
 
 
 async def setup_platform_for_device(
-    hass: UniversalAssistant, config_entry: ConfigEntry, platform: Platform, device: Device
+    hass: __HAC_KEEP__, config_entry: ConfigEntry, platform: Platform, device: Device
 ):
     """Set up a single tplink platform with a device."""
     config_entry.add_to_hass(hass)
@@ -79,7 +79,7 @@ async def setup_platform_for_device(
 
 
 async def snapshot_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -127,7 +127,7 @@ async def snapshot_platform(
             )
 
 
-async def setup_automation(hass: UniversalAssistant, alias: str, entity_id: str) -> None:
+async def setup_automation(hass: __HAC_KEEP__, alias: str, entity_id: str) -> None:
     """Set up an automation for tests."""
     assert await async_setup_component(
         hass,
@@ -586,7 +586,7 @@ def _patch_connect(device=None, no_device=False):
 
 
 async def initialize_config_entry_for_device(
-    hass: UniversalAssistant, dev: Device
+    hass: __HAC_KEEP__, dev: Device
 ) -> MockConfigEntry:
     """Create a mocked configuration entry for the given device.
 

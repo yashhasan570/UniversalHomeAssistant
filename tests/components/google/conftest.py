@@ -21,7 +21,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.google import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -155,7 +155,7 @@ def calendars_config(calendars_config_entity: dict[str, Any]) -> list[dict[str, 
 
 @pytest.fixture
 def mock_calendars_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     calendars_config: list[dict[str, Any]],
 ) -> Generator[Mock]:
     """Fixture that prepares the google_calendars.yaml mocks."""
@@ -335,7 +335,7 @@ def mock_insert_event(
 
 
 @pytest.fixture(autouse=True)
-async def set_time_zone(hass: UniversalAssistant) -> None:
+async def set_time_zone(hass: __HAC_KEEP__) -> None:
     """Set the time zone for the tests."""
     # Set our timezone to CST/Regina so we can check calculations
     # This keeps UTC-6 all year round
@@ -344,7 +344,7 @@ async def set_time_zone(hass: UniversalAssistant) -> None:
 
 @pytest.fixture
 def component_setup(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> ComponentSetup:
     """Fixture for setting up the integration."""
 

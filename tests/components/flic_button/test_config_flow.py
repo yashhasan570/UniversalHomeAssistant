@@ -25,7 +25,7 @@ from universalassistant.components.flic_button.const import (
 )
 from universalassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType, UnknownFlow
 
 from . import (
@@ -61,7 +61,7 @@ def mock_discovered_service_info(
         yield mock
 
 
-async def _init_bt_flow(hass: UniversalAssistant, device_type: DeviceType) -> dict:
+async def _init_bt_flow(hass: __HAC_KEEP__, device_type: DeviceType) -> dict:
     """Start a bluetooth flow and advance past the discovery confirmation."""
     service_info = service_info_for_device_type(device_type)
     result = await hass.config_entries.flow.async_init(
@@ -76,7 +76,7 @@ async def _init_bt_flow(hass: UniversalAssistant, device_type: DeviceType) -> di
     )
 
 
-async def test_user_flow_shows_discovery_progress(hass: UniversalAssistant) -> None:
+async def test_user_flow_shows_discovery_progress(hass: __HAC_KEEP__) -> None:
     """Test user-initiated flow starts discovery and stops it on abort."""
     started = asyncio.Event()
     cancelled = asyncio.Event()
@@ -112,7 +112,7 @@ async def test_user_flow_shows_discovery_progress(hass: UniversalAssistant) -> N
     assert not hass.config_entries.flow.async_progress(include_uninitialized=True)
 
 
-async def test_user_flow_discovery_timeout(hass: UniversalAssistant) -> None:
+async def test_user_flow_discovery_timeout(hass: __HAC_KEEP__) -> None:
     """Test user-initiated flow aborts when no device is found."""
     with patch(
         "universalassistant.components.flic_button.config_flow.async_process_advertisements",
@@ -141,7 +141,7 @@ async def test_user_flow_discovery_timeout(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_pairing_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     mock_setup_entry: AsyncMock,
     device_type: DeviceType,
@@ -180,7 +180,7 @@ async def test_pairing_success(
 
 @pytest.mark.usefixtures("mock_discovered_service_info")
 async def test_bluetooth_discovery_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test Bluetooth discovery when device is already configured."""
@@ -209,7 +209,7 @@ async def test_bluetooth_discovery_already_configured(
     ],
 )
 async def test_pairing_errors_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     mock_setup_entry: AsyncMock,
     connect_side_effect: Exception | None,
@@ -245,7 +245,7 @@ async def test_pairing_errors_recover(
 
 @pytest.mark.parametrize("device_type", [DeviceType.TWIST])
 async def test_options_flow_twist_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test options flow for Flic Twist device."""
@@ -266,7 +266,7 @@ async def test_options_flow_twist_device(
 
 
 async def test_options_flow_not_supported_for_non_twist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test options flow is not supported for non-Twist devices."""
@@ -275,7 +275,7 @@ async def test_options_flow_not_supported_for_non_twist(
 
 
 async def test_bluetooth_confirm_device_no_longer_advertising(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test Bluetooth confirmation falls back to scanner when the device disappears."""
     service_info = create_flic2_service_info()
@@ -308,7 +308,7 @@ async def test_bluetooth_confirm_device_no_longer_advertising(
 @pytest.mark.usefixtures("mock_setup_entry")
 @pytest.mark.parametrize("device_type", [DeviceType.FLIC2, DeviceType.TWIST])
 async def test_user_flow_pairs_discovered_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     device_type: DeviceType,
 ) -> None:
@@ -336,7 +336,7 @@ async def test_user_flow_pairs_discovered_device(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_bluetooth_fallback_only_pairs_confirmed_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
 ) -> None:
     """Test the scanner fallback ignores devices other than the confirmed one."""
@@ -376,7 +376,7 @@ async def test_bluetooth_fallback_only_pairs_confirmed_device(
     [BleakError("Disconnect failed"), RuntimeError("Unexpected error")],
 )
 async def test_pairing_disconnect_error_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     disconnect_side_effect: Exception,
 ) -> None:
@@ -402,7 +402,7 @@ async def test_pairing_disconnect_error_ignored(
     ],
 )
 async def test_pairing_duplicate_submission_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     inputs_while_pairing: list[dict[str, Any] | None],
 ) -> None:
@@ -449,7 +449,7 @@ async def test_pairing_duplicate_submission_ignored(
     ],
 )
 async def test_pairing_submission_during_entry_setup_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     mock_setup_entry: AsyncMock,
     inputs_while_setting_up: list[dict[str, Any] | None],
@@ -494,7 +494,7 @@ async def test_pairing_submission_during_entry_setup_ignored(
 
 @pytest.mark.usefixtures("mock_discovered_service_info")
 async def test_abort_while_connecting_skips_pairing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flic_client: MagicMock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

@@ -9,12 +9,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.pvoutput.const import CONF_SYSTEM_ID, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pvoutput: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_full_user_flow(
     ],
 )
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pvoutput: MagicMock,
     mock_setup_entry: AsyncMock,
     side_effect: type[Exception],
@@ -101,7 +101,7 @@ async def test_user_flow_errors(
 
 
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pvoutput: MagicMock,
 ) -> None:
@@ -125,7 +125,7 @@ async def test_already_configured(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pvoutput: MagicMock,
     mock_setup_entry: AsyncMock,
@@ -162,7 +162,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pvoutput: MagicMock,
     mock_setup_entry: AsyncMock,
@@ -205,7 +205,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_pvoutput")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfiguring an existing PVOutput entry."""
@@ -234,7 +234,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_pvoutput: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],

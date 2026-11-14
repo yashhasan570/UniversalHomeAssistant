@@ -1,11 +1,11 @@
-"""Repairs for Universal Universal Home Assistant."""
+"""Repairs for __HA_KEEP__."""
 
 from universalassistant.components.repairs import (
     ConfirmRepairFlow,
     RepairsFlow,
     RepairsFlowResult,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 from .const import DOMAIN
@@ -90,7 +90,7 @@ class OrphanedConfigEntryFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant, issue_id: str, data: dict[str, str] | None
+    hass: __HAC_KEEP__, issue_id: str, data: dict[str, str] | None
 ) -> RepairsFlow:
     """Create flow."""
 

@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.google_drive.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -26,7 +26,7 @@ TITLE = "Google Drive"
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_api: MagicMock,
@@ -102,7 +102,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_create_folder_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_api: MagicMock,
@@ -168,7 +168,7 @@ async def test_create_folder_error(
     ids=["api_not_enabled", "general_exception"],
 )
 async def test_get_email_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_api: MagicMock,
@@ -240,7 +240,7 @@ async def test_get_email_error(
     ids=["reauth_successful", "wrong_account"],
 )
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
@@ -331,7 +331,7 @@ async def test_reauth(
     ids=["reconfigure_successful", "wrong_account"],
 )
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
@@ -399,7 +399,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,

@@ -8,13 +8,13 @@ from google_maps_routing_api import ComputeRoutesResponse, GoogleMapsRoutingApiA
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.service import async_get_config_entry
 
 from .const import (
@@ -71,24 +71,24 @@ def _build_routes_response(
 
 
 def _raise_service_error(
-    hass: UniversalAssistant, entry: ConfigEntry, exc: Exception
+    hass: __HAC_KEEP__, entry: ConfigEntry, exc: Exception
 ) -> None:
-    """Raise a UniversalAssistantError based on the exception."""
-    if isinstance(exc, UniversalAssistantError):
+    """Raise a __HAC_KEEP__Error based on the exception."""
+    if isinstance(exc, __HAC_KEEP__Error):
         raise exc
     if isinstance(exc, GoogleMapsRoutingApiAuthError) and is_routes_api_disabled(exc):
         create_routes_api_disabled_issue(hass, entry)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="permission_denied",
         ) from exc
     if isinstance(exc, TimeoutError):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="timeout",
         ) from exc
     # Wrap any other error too, so that continue_on_error works for all failures
-    raise UniversalAssistantError(
+    raise __HAC_KEEP__Error(
         translation_domain=DOMAIN,
         translation_key="api_error",
         translation_placeholders={"error": str(exc) or type(exc).__name__},
@@ -96,7 +96,7 @@ def _raise_service_error(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up services for the Google Travel Time integration."""
 
     async def async_get_travel_times_service(service: ServiceCall) -> ServiceResponse:

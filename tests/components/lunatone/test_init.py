@@ -16,7 +16,7 @@ from universalassistant.components.lunatone.coordinator import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import (
@@ -31,7 +31,7 @@ from . import (
 
 
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -79,7 +79,7 @@ async def test_load_unload_config_entry(
     ids=["basic", "emergency", "plus", "plus+emergency"],
 )
 async def test_load_config_entry_sensor_capability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -107,7 +107,7 @@ async def test_load_config_entry_sensor_capability(
 
 
 async def test_reload_without_sensor_capability_removes_dali_sensor_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -140,7 +140,7 @@ async def test_reload_without_sensor_capability_removes_dali_sensor_device(
 
 
 async def test_config_entry_not_ready_info_api_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -165,7 +165,7 @@ async def test_config_entry_not_ready_info_api_fail(
 
 
 async def test_config_entry_not_ready_devices_api_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -192,7 +192,7 @@ async def test_config_entry_not_ready_devices_api_fail(
 
 
 async def test_config_entry_not_ready_sensors_api_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -221,7 +221,7 @@ async def test_config_entry_not_ready_sensors_api_fail(
 
 
 async def test_config_entry_not_ready_scan_api_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_scan: AsyncMock,
@@ -251,7 +251,7 @@ async def test_config_entry_not_ready_scan_api_fail(
 
 
 async def test_config_entry_not_ready_no_info_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -266,7 +266,7 @@ async def test_config_entry_not_ready_no_info_data(
 
 
 async def test_config_entry_setup_error_no_info_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -284,7 +284,7 @@ async def test_config_entry_setup_error_no_info_data(
 
 
 async def test_config_entry_unique_id_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -342,7 +342,7 @@ async def test_config_entry_unique_id_update(
 
 
 async def test_info_coordinator_removes_stale_line_and_reload_survives_orphaned_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -390,7 +390,7 @@ async def test_info_coordinator_removes_stale_line_and_reload_survives_orphaned_
 
 
 async def test_devices_coordinator_removes_stale_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -418,7 +418,7 @@ async def test_devices_coordinator_removes_stale_device(
 
 
 async def test_sensors_coordinator_removes_stale_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,

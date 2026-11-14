@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.components.devolo_home_control.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import configure_integration
@@ -20,7 +20,7 @@ from .mocks import (
 
 
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -73,7 +73,7 @@ async def test_binary_sensor(
 
 
 async def test_remote_control(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test setup and state change of a remote control device."""
     entry = configure_integration(hass)
@@ -117,7 +117,7 @@ async def test_remote_control(
     )
 
 
-async def test_disabled(hass: UniversalAssistant) -> None:
+async def test_disabled(hass: __HAC_KEEP__) -> None:
     """Test setup of a disabled device."""
     entry = configure_integration(hass)
     with patch(
@@ -130,7 +130,7 @@ async def test_disabled(hass: UniversalAssistant) -> None:
     assert hass.states.get(f"{BINARY_SENSOR_DOMAIN}.test_test_door") is None
 
 
-async def test_remove_from_hass(hass: UniversalAssistant) -> None:
+async def test_remove_from_hass(hass: __HAC_KEEP__) -> None:
     """Test removing entity."""
     entry = configure_integration(hass)
     test_gateway = HomeControlMockBinarySensor()

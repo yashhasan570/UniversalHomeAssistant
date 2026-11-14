@@ -6,13 +6,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.lametric.helpers import async_get_coordinator_by_device_id
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 
 async def test_get_coordinator_by_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
     mock_lametric: MagicMock,

@@ -19,8 +19,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.parametrize("platforms", [(Platform.FAN,)])
@@ -30,7 +30,7 @@ ENTITY_ID = "fan.hood_fan"
 
 @pytest.mark.parametrize("load_device_file", ["fan_devices.json"])
 async def test_fan_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -43,7 +43,7 @@ async def test_fan_states(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_fan_states_api_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -64,7 +64,7 @@ async def test_fan_states_api_push(
     ],
 )
 async def test_fan_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
     service: str,
@@ -92,7 +92,7 @@ async def test_fan_control(
     ],
 )
 async def test_fan_set_speed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
     service: str,
@@ -113,7 +113,7 @@ async def test_fan_set_speed(
 
 
 async def test_fan_set_percentage_no_op_when_already_at_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
 ) -> None:
@@ -139,7 +139,7 @@ async def test_fan_set_percentage_no_op_when_already_at_target(
 
 
 async def test_fan_turn_on_w_percentage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: None,
 ) -> None:
@@ -164,7 +164,7 @@ async def test_fan_turn_on_w_percentage(
     ],
 )
 async def test_api_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: MockConfigEntry,
     service: str,
@@ -172,7 +172,7 @@ async def test_api_failure(
     """Test handling of exception from API."""
     mock_miele_client.send_action.side_effect = ClientResponseError(Mock(), Mock())
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             FAN_DOMAIN, service, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True
         )
@@ -180,7 +180,7 @@ async def test_api_failure(
 
 
 async def test_set_percentage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_miele_client: MagicMock,
     setup_platform: None,
 ) -> None:
@@ -188,7 +188,7 @@ async def test_set_percentage(
     mock_miele_client.send_action.side_effect = ClientResponseError(Mock(), Mock())
 
     with pytest.raises(
-        UniversalAssistantError, match=f"Failed to set state for {ENTITY_ID}"
+        __HAC_KEEP__Error, match=f"Failed to set state for {ENTITY_ID}"
     ):
         await hass.services.async_call(
             FAN_DOMAIN,

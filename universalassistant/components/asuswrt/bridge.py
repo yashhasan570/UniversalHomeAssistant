@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.update_coordinator import UpdateFailed
@@ -121,7 +121,7 @@ class AsusWrtBridge(ABC):
 
     @staticmethod
     def get_bridge(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         conf: dict[str, str | int],
         options: dict[str, str | bool | int] | None = None,
     ) -> AsusWrtBridge:
@@ -418,7 +418,7 @@ class AsusWrtHttpBridge(AsusWrtBridge):
         """Get data from the device.
 
         This is a generic method which automatically converts to
-        the Universal Universal Home Assistant-compatible format.
+        the __HA_KEEP__-compatible format.
         """
         try:
             raw = await self._api.async_get_data(datatype, force=force)
@@ -430,7 +430,7 @@ class AsusWrtHttpBridge(AsusWrtBridge):
         """Get the available sensors.
 
         This is a generic method which automatically converts to
-        the Universal Universal Home Assistant-compatible format.
+        the __HA_KEEP__-compatible format.
         """
         sensors = []
         try:

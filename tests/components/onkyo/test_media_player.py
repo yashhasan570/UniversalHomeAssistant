@@ -46,7 +46,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -59,7 +59,7 @@ ENTITY_ID_ZONE_3 = "media_player.tx_nr7100_zone_3"
 
 @pytest.fixture(autouse=True)
 async def auto_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_receiver: AsyncMock,
@@ -79,7 +79,7 @@ async def auto_setup_integration(
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -88,7 +88,7 @@ async def test_entities(
     await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
 
 
-async def test_availability(hass: UniversalAssistant, read_queue: asyncio.Queue) -> None:
+async def test_availability(hass: __HAC_KEEP__, read_queue: asyncio.Queue) -> None:
     """Test entity availability on disconnect and reconnect."""
     assert (state := hass.states.get(ENTITY_ID)) is not None
     assert state.state != STATE_UNAVAILABLE
@@ -135,7 +135,7 @@ async def test_availability(hass: UniversalAssistant, read_queue: asyncio.Queue)
     ],
 )
 async def test_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     writes: list[Instruction],
     action: str,
     action_data: dict,
@@ -151,7 +151,7 @@ async def test_actions(
     assert writes[0] == message
 
 
-async def test_select_source(hass: UniversalAssistant, writes: list[Instruction]) -> None:
+async def test_select_source(hass: __HAC_KEEP__, writes: list[Instruction]) -> None:
     """Test select source."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -173,7 +173,7 @@ async def test_select_source(hass: UniversalAssistant, writes: list[Instruction]
 
 
 async def test_select_sound_mode(
-    hass: UniversalAssistant, writes: list[Instruction]
+    hass: __HAC_KEEP__, writes: list[Instruction]
 ) -> None:
     """Test select sound mode."""
     await hass.services.async_call(
@@ -197,7 +197,7 @@ async def test_select_sound_mode(
     assert not writes
 
 
-async def test_play_media(hass: UniversalAssistant, writes: list[Instruction]) -> None:
+async def test_play_media(hass: __HAC_KEEP__, writes: list[Instruction]) -> None:
     """Test play media (radio preset)."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -252,7 +252,7 @@ async def test_play_media(hass: UniversalAssistant, writes: list[Instruction]) -
 
 
 async def test_select_hdmi_output(
-    hass: UniversalAssistant, writes: list[Instruction]
+    hass: __HAC_KEEP__, writes: list[Instruction]
 ) -> None:
     """Test select hdmi output."""
     await hass.services.async_call(
@@ -265,7 +265,7 @@ async def test_select_hdmi_output(
 
 
 async def test_query_state_delayed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     read_queue: asyncio.Queue,
     writes: list[Instruction],
@@ -303,7 +303,7 @@ async def test_query_state_delayed(
 
 
 async def test_query_av_info_delayed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     read_queue: asyncio.Queue,
     writes: list[Instruction],

@@ -1,4 +1,4 @@
-"""Repairs for the Universal Universal Home Assistant Yellow integration."""
+"""Repairs for the __HA_KEEP__ Yellow integration."""
 
 from typing import cast, override
 
@@ -11,22 +11,22 @@ from universalassistant.components.repairs import (
     RepairsFlow,
     RepairsFlowResult,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
-from . import UniversalAssistantYellowConfigEntry
-from .config_flow import UniversalAssistantYellowMultiPanOptionsFlowHandler
+from . import __HAC_KEEP__YellowConfigEntry
+from .config_flow import __HAC_KEEP__YellowMultiPanOptionsFlowHandler
 
 
 class YellowMultiPanMigrationRepairFlow(
-    MultiPanMigrationRepairFlow, UniversalAssistantYellowMultiPanOptionsFlowHandler
+    MultiPanMigrationRepairFlow, __HAC_KEEP__YellowMultiPanOptionsFlowHandler
 ):
-    """Multi-PAN migration repair flow for Universal Universal Home Assistant Yellow."""
+    """Multi-PAN migration repair flow for __HA_KEEP__ Yellow."""
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: UniversalAssistantYellowConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: __HAC_KEEP__YellowConfigEntry
     ) -> None:
         """Initialize the repair flow."""
-        UniversalAssistantYellowMultiPanOptionsFlowHandler.__init__(self, hass, config_entry)
+        __HAC_KEEP__YellowMultiPanOptionsFlowHandler.__init__(self, hass, config_entry)
         self._repair_config_entry = config_entry
 
     @override
@@ -38,7 +38,7 @@ class YellowMultiPanMigrationRepairFlow(
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     data: dict[str, str | int | float | None] | None,
 ) -> RepairsFlow:

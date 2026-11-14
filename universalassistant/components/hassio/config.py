@@ -5,7 +5,7 @@ Deprecated in 2026.8; keep only for one-way migration into config entries.
 
 from typing import Required, TypedDict
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.storage import Store
 
 from .const import DOMAIN
@@ -33,7 +33,7 @@ class StoredHassioConfig(TypedDict, total=False):
 class HassioConfigStore:
     """Load/remove the legacy hassio store (deprecated in 2026.8)."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the legacy hassio config store."""
         self._store: Store[StoredHassioConfig] = Store(
             hass,

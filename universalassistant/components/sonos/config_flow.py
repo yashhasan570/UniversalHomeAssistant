@@ -5,7 +5,7 @@ from typing import override
 
 from universalassistant.components import ssdp
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_flow import DiscoveryFlowHandler
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -13,7 +13,7 @@ from .const import DATA_SONOS_DISCOVERY_MANAGER, DOMAIN, UPNP_ST
 from .helpers import hostname_to_uid
 
 
-async def _async_has_devices(hass: UniversalAssistant) -> bool:
+async def _async_has_devices(hass: __HAC_KEEP__) -> bool:
     """Return if Sonos devices have been seen recently with SSDP."""
     return bool(await ssdp.async_get_discovery_info_by_st(hass, UPNP_ST))
 

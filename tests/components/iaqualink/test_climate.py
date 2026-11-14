@@ -32,8 +32,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -46,7 +46,7 @@ from .conftest import (
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     entity_registry: er.EntityRegistry,
@@ -59,7 +59,7 @@ async def test_setup(
 
 
 async def _setup_thermostat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     *,
@@ -133,7 +133,7 @@ async def _setup_thermostat(
     ],
 )
 async def test_thermostat_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     heater_state: str,
@@ -155,7 +155,7 @@ async def test_thermostat_properties(
 
 
 async def test_thermostat_current_temperature_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
@@ -182,14 +182,14 @@ async def test_thermostat_current_temperature_none(
     ],
 )
 async def test_thermostat_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     hvac_mode: HVACMode,
     initial_state: str,
     expected_state: HVACMode,
 ) -> None:
-    """Test thermostat HVAC mode service updates Universal Universal Home Assistant state."""
+    """Test thermostat HVAC mode service updates __HA_KEEP__ state."""
     system, heater, _, _, entity_id, _ = await _setup_thermostat(
         hass,
         config_entry,
@@ -219,11 +219,11 @@ async def test_thermostat_set_hvac_mode(
 
 
 async def test_thermostat_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
 ) -> None:
-    """Test thermostat target temperature service updates Universal Universal Home Assistant state."""
+    """Test thermostat target temperature service updates __HA_KEEP__ state."""
     system, _, _, thermostat, entity_id, _ = await _setup_thermostat(
         hass,
         config_entry,
@@ -269,19 +269,19 @@ async def test_thermostat_set_temperature(
     [
         pytest.param(
             AqualinkServiceException,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Aqualink error: AqualinkServiceException",
             id="service",
         ),
         pytest.param(
             TimeoutError(),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Aqualink error: TimeoutError",
             id="timeout",
         ),
         pytest.param(
             httpx2.HTTPError("boom"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Aqualink error: boom",
             id="http",
         ),
@@ -294,7 +294,7 @@ async def test_thermostat_set_temperature(
     ],
 )
 async def test_climate_action_errors_leave_state_unchanged(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     service: str,
@@ -328,7 +328,7 @@ async def test_climate_action_errors_leave_state_unchanged(
 
 
 async def test_thermostat_set_unknown_hvac_mode_logs_warning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     caplog: pytest.LogCaptureFixture,

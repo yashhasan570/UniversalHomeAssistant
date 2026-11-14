@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.roon.const import CONF_ROON_ID, DOMAIN
 from universalassistant.components.roon.event import RoonEventEntity
 from universalassistant.const import CONF_API_KEY, CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -34,7 +34,7 @@ def mock_roon_api() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def setup_roon_event(
-    hass: UniversalAssistant, mock_roon_api: MagicMock
+    hass: __HAC_KEEP__, mock_roon_api: MagicMock
 ) -> AsyncGenerator[None]:
     """Set up roon with only the event platform and add one player."""
     entry = MockConfigEntry(
@@ -57,7 +57,7 @@ async def setup_roon_event(
 
 @pytest.mark.usefixtures("setup_roon_event")
 async def test_event_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_roon_api: MagicMock,
 ) -> None:

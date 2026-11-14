@@ -27,8 +27,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import FIXTURE_REQUEST_ID
@@ -49,7 +49,7 @@ def switch_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -60,7 +60,7 @@ async def test_switch_platform(
 
 @pytest.mark.usefixtures("mock_version")
 async def test_display_power_added_later(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_websocket_client: MagicMock,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_display_power_added_later(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_display_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
     service: str,
     power_state: DisplayPowerState,
@@ -124,7 +124,7 @@ async def test_display_power(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_input_mute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
     service: str,
     muted: bool,
@@ -144,7 +144,7 @@ async def test_input_mute(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_display_power_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
 ) -> None:
     """Test an error from System Bridge raises."""
@@ -156,7 +156,7 @@ async def test_display_power_error(
     )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Failed to control display abc123: Failed to set display power state",
     ):
         await hass.services.async_call(
@@ -176,7 +176,7 @@ async def test_display_power_error(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_keep_awake(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_websocket_client: MagicMock,
     service: str,
     enabled: bool,
@@ -196,7 +196,7 @@ async def test_keep_awake(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_keep_awake_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test keep awake is unavailable once the system stops reporting it."""

@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
 
@@ -40,7 +40,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 
 
 async def _async_validate_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     host: str,
     port: int,

@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.setup import async_setup_component
 
@@ -33,7 +33,7 @@ NOTIFICATION = b"<notification/>"
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return an ONVIF config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -74,7 +74,7 @@ def mock_onvif_camera(notification_manager: MagicMock) -> Generator[MagicMock]:
         yield mock_onvif_camera
 
 
-async def _async_setup(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def _async_setup(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Set up the webhook component and the ONVIF config entry."""
     assert await async_setup_component(hass, "webhook", {})
     await async_process_ha_core_config(hass, {"internal_url": INTERNAL_URL})
@@ -97,7 +97,7 @@ def _subscribed_url(mock_onvif_camera: MagicMock) -> URL:
     ],
 )
 async def test_webhook_notification(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_onvif_camera: MagicMock,
@@ -127,7 +127,7 @@ async def test_webhook_notification(
 
 @pytest.mark.usefixtures("mock_onvif_camera")
 async def test_mac_based_webhook_not_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     notification_manager: MagicMock,
@@ -144,7 +144,7 @@ async def test_mac_based_webhook_not_registered(
 
 
 async def test_webhook_id_changes_on_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_onvif_camera: MagicMock,
@@ -187,7 +187,7 @@ async def test_webhook_id_changes_on_reload(
     ],
 )
 async def test_webhook_unregistered_when_subscription_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_onvif_camera: MagicMock,
@@ -208,7 +208,7 @@ async def test_webhook_unregistered_when_subscription_fails(
 
 
 async def test_webhook_unregistered_when_subscription_cancelled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_onvif_camera: MagicMock,
@@ -232,7 +232,7 @@ async def test_webhook_unregistered_when_subscription_cancelled(
 
 
 async def test_webhook_used_when_pullpoint_transport_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     mock_onvif_camera: MagicMock,
@@ -254,13 +254,13 @@ async def test_webhook_used_when_pullpoint_transport_error(
 
 
 async def test_webhook_external_url_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_onvif_camera: MagicMock,
 ) -> None:
     """Test the external URL is used when no internal URL is available."""
     assert await async_setup_component(hass, "webhook", {})
-    # Universal Universal Home Assistant serving TLS itself disables the local IP fallback URL.
+    # __HA_KEEP__ serving TLS itself disables the local IP fallback URL.
     hass.config.api.use_ssl = True
     await async_process_ha_core_config(hass, {"external_url": "https://example.com"})
     assert await hass.config_entries.async_setup(config_entry.entry_id)
@@ -272,13 +272,13 @@ async def test_webhook_external_url_fallback(
 
 
 async def test_webhook_not_subscribed_without_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_onvif_camera: MagicMock,
 ) -> None:
     """Test no webhook subscription is created when no URL is available."""
     assert await async_setup_component(hass, "webhook", {})
-    # Universal Universal Home Assistant serving TLS itself disables the local IP fallback URL.
+    # __HA_KEEP__ serving TLS itself disables the local IP fallback URL.
     hass.config.api.use_ssl = True
     assert await hass.config_entries.async_setup(config_entry.entry_id)
     await hass.async_block_till_done()

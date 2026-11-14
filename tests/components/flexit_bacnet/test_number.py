@@ -19,8 +19,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -30,7 +30,7 @@ ENTITY_ID = "number.device_name_fireplace_supply_fan_setpoint"
 
 
 async def test_numbers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_flexit_bacnet: AsyncMock,
@@ -44,7 +44,7 @@ async def test_numbers(
 
 
 async def test_numbers_implementation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_flexit_bacnet: AsyncMock,
@@ -89,7 +89,7 @@ async def test_numbers_implementation(
     # Error recovery, when setting the value
     mock_flexit_bacnet.set_fan_setpoint_supply_air_fire.side_effect = DecodingError
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -140,7 +140,7 @@ async def test_numbers_implementation(
     ],
 )
 async def test_missing_number_property(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flexit_bacnet: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

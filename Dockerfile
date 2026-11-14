@@ -7,11 +7,11 @@ FROM ${BUILD_FROM}
 
 LABEL \
     io.hass.type="core" \
-    org.opencontainers.image.authors="The Universal Universal Home Assistant Authors" \
+    org.opencontainers.image.authors="The __HA_KEEP__ Authors" \
     org.opencontainers.image.description="Open-source home automation platform running on Python 3" \
     org.opencontainers.image.documentation="https://www.universalassistant.io/docs/" \
     org.opencontainers.image.licenses="Apache-2.0" \
-    org.opencontainers.image.title="Universal Universal Home Assistant" \
+    org.opencontainers.image.title="__HA_KEEP__" \
     org.opencontainers.image.url="https://www.universalassistant.io/"
 
 # Synchronize with universalassistant/core.py:async_stop
@@ -22,13 +22,13 @@ ENV \
 
 WORKDIR /usr/src
 
-# Universal Universal Home Assistant S6-Overlay
+# __HA_KEEP__ S6-Overlay
 COPY rootfs /
 
 # Add go2rtc binary
 COPY --from=ghcr.io/alexxit/go2rtc:1.9.15@sha256:e098de5c2f8040dc3d4784ed2d5cfdac3b0979f9349afe587ef6a670a14b9f4d /usr/local/bin/go2rtc /bin/go2rtc
 
-## Setup Universal Universal Home Assistant Core dependencies
+## Setup __HA_KEEP__ Core dependencies
 COPY --parents requirements.txt universalassistant/package_constraints.txt universalassistant/
 RUN \
     # Verify go2rtc can be executed
@@ -48,7 +48,7 @@ RUN \
         --no-build \
         -r universalassistant/requirements_all.txt
 
-## Setup Universal Universal Home Assistant Core
+## Setup __HA_KEEP__ Core
 COPY --parents LICENSE* README* universalassistant/ pyproject.toml universalassistant/
 RUN \
     uv pip install \

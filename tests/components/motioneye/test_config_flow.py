@@ -25,7 +25,7 @@ from universalassistant.components.motioneye.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_URL, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
 
@@ -90,7 +90,7 @@ def _patch_client_and_setup(mock_client: AsyncMock) -> Generator[None]:
     ],
 )
 async def test_user_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_input: dict[str, str],
     expected_data: dict[str, str],
 ) -> None:
@@ -126,7 +126,7 @@ async def test_user_success(
     assert mock_client.async_client_close.called
 
 
-async def test_hassio_success(hass: UniversalAssistant) -> None:
+async def test_hassio_success(hass: __HAC_KEEP__) -> None:
     """Test successful Supervisor flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -184,7 +184,7 @@ async def test_hassio_success(hass: UniversalAssistant) -> None:
     assert mock_client.async_client_close.called
 
 
-async def test_user_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_user_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test invalid auth is handled correctly."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -225,7 +225,7 @@ async def test_user_invalid_auth(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_invalid_url(hass: UniversalAssistant) -> None:
+async def test_user_invalid_url(hass: __HAC_KEEP__) -> None:
     """Test invalid url is handled correctly."""
 
     result = await hass.config_entries.flow.async_init(
@@ -261,7 +261,7 @@ async def test_user_invalid_url(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_user_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test connection failure is handled correctly."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -302,7 +302,7 @@ async def test_user_cannot_connect(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_request_error(hass: UniversalAssistant) -> None:
+async def test_user_request_error(hass: __HAC_KEEP__) -> None:
     """Test a request error is handled correctly."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -341,7 +341,7 @@ async def test_user_request_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth(hass: UniversalAssistant) -> None:
+async def test_reauth(hass: __HAC_KEEP__) -> None:
     """Test a reauth."""
     config_data = {
         CONF_URL: TEST_URL,
@@ -388,7 +388,7 @@ async def test_reauth(hass: UniversalAssistant) -> None:
     assert mock_client.async_client_close.called
 
 
-async def test_duplicate(hass: UniversalAssistant) -> None:
+async def test_duplicate(hass: __HAC_KEEP__) -> None:
     """Test that a duplicate entry (same URL) is rejected."""
     config_data = {
         CONF_URL: TEST_URL,
@@ -435,7 +435,7 @@ async def test_duplicate(hass: UniversalAssistant) -> None:
     assert mock_client.async_client_close.called
 
 
-async def test_hassio_already_configured(hass: UniversalAssistant) -> None:
+async def test_hassio_already_configured(hass: __HAC_KEEP__) -> None:
     """Test we don't discover when already configured."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -456,7 +456,7 @@ async def test_hassio_already_configured(hass: UniversalAssistant) -> None:
     assert result.get("reason") == "already_configured"
 
 
-async def test_hassio_ignored(hass: UniversalAssistant) -> None:
+async def test_hassio_ignored(hass: __HAC_KEEP__) -> None:
     """Test Supervisor discovered instance can be ignored."""
     MockConfigEntry(domain=DOMAIN, source=config_entries.SOURCE_IGNORE).add_to_hass(
         hass
@@ -476,7 +476,7 @@ async def test_hassio_ignored(hass: UniversalAssistant) -> None:
     assert result.get("reason") == "already_configured"
 
 
-async def test_hassio_abort_if_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_hassio_abort_if_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test Supervisor discovered flow aborts if user flow in progress."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -497,7 +497,7 @@ async def test_hassio_abort_if_already_in_progress(hass: UniversalAssistant) -> 
     assert result2.get("reason") == "already_in_progress"
 
 
-async def test_hassio_clean_up_on_user_flow(hass: UniversalAssistant) -> None:
+async def test_hassio_clean_up_on_user_flow(hass: __HAC_KEEP__) -> None:
     """Test Supervisor discovered flow is clean up when doing user flow."""
 
     result = await hass.config_entries.flow.async_init(
@@ -548,7 +548,7 @@ async def test_hassio_clean_up_on_user_flow(hass: UniversalAssistant) -> None:
     assert len(flows) == 0
 
 
-async def test_options(hass: UniversalAssistant) -> None:
+async def test_options(hass: __HAC_KEEP__) -> None:
     """Check an options flow."""
 
     config_entry = create_mock_motioneye_config_entry(hass)
@@ -585,7 +585,7 @@ async def test_options(hass: UniversalAssistant) -> None:
         assert CONF_STREAM_URL_TEMPLATE not in result["data"]
 
 
-async def test_more_options(hass: UniversalAssistant) -> None:
+async def test_more_options(hass: __HAC_KEEP__) -> None:
     """Check an options flow with the more options section."""
 
     config_entry = create_mock_motioneye_config_entry(hass)

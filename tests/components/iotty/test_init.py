@@ -18,7 +18,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.iotty.const import DOMAIN
 from universalassistant.components.iotty.coordinator import UPDATE_INTERVAL
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.config_entry_oauth2_flow import (
     ImplementationUnavailableError,
@@ -26,7 +26,7 @@ from universalassistant.helpers.config_entry_oauth2_flow import (
 
 
 async def test_load_unload_coordinator_called(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_coordinator: MagicMock,
     local_oauth_impl,
@@ -57,7 +57,7 @@ async def test_load_unload_coordinator_called(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -74,7 +74,7 @@ async def test_oauth_implementation_not_available(
 
 
 async def test_load_unload_iottyproxy_called(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_iotty: MagicMock,
     local_oauth_impl,
@@ -105,7 +105,7 @@ async def test_load_unload_iottyproxy_called(
     assert mock_config_entry.state is ConfigEntryState.NOT_LOADED
 
 
-def _assert_reauth_started(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+def _assert_reauth_started(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Assert a single reauth flow was started for the entry."""
     flows = hass.config_entries.flow.async_progress()
     assert len(flows) == 1
@@ -114,7 +114,7 @@ def _assert_reauth_started(hass: UniversalAssistant, entry: MockConfigEntry) -> 
 
 
 async def test_setup_token_refresh_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
@@ -134,7 +134,7 @@ async def test_setup_token_refresh_auth_failed(
 
 
 async def test_setup_token_refresh_transient_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     aioclient_mock: AiohttpClientMocker,
@@ -154,7 +154,7 @@ async def test_setup_token_refresh_transient_error(
 
 
 async def test_setup_api_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     mock_get_devices_nodevices: AsyncMock,
@@ -183,7 +183,7 @@ async def test_setup_api_auth_failed(
     ],
 )
 async def test_setup_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,
     mock_get_devices_nodevices: AsyncMock,
@@ -205,7 +205,7 @@ async def test_setup_api_error(
 
 @pytest.mark.usefixtures("mock_get_status_filled")
 async def test_update_api_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     local_oauth_impl: config_entry_oauth2_flow.LocalOAuth2Implementation,

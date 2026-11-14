@@ -9,7 +9,7 @@ from universalassistant.components.siren import (
     ATTR_VOLUME_LEVEL,
 )
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 SIREN_ENTITY = "siren.indoor_siren_6_play_tone_2"
 
@@ -72,7 +72,7 @@ def platforms() -> list[str]:
 
 
 async def test_siren(
-    hass: UniversalAssistant, client, aeotec_zw164_siren, integration
+    hass: __HAC_KEEP__, client, aeotec_zw164_siren, integration
 ) -> None:
     """Test the siren entity."""
     node = aeotec_zw164_siren

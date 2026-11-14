@@ -17,7 +17,7 @@ from ouman_eh_800_api import (
 )
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import OumanDevice
@@ -77,7 +77,7 @@ SELECT_DESCRIPTIONS: dict[
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: OumanEh800ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

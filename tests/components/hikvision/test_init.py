@@ -10,14 +10,14 @@ import requests
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_SSL, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 
 from . import setup_integration
 from .conftest import TEST_HOST, TEST_PASSWORD, TEST_PORT, TEST_USERNAME
 
 
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_setup_and_unload_entry(
 
 
 async def test_stream_stopped_on_shutdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -54,7 +54,7 @@ async def test_stream_stopped_on_shutdown(
 
 
 async def test_stream_stopped_when_shutdown_starts_during_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_stream_stopped_when_shutdown_starts_during_setup(
 
 
 async def test_setup_entry_with_ssl(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_setup_entry_with_ssl(
 
 
 async def test_setup_entry_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_setup_entry_connection_error(
 
 
 async def test_setup_entry_no_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hikcamera: MagicMock,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_setup_entry_no_device_id(
 
 
 async def test_setup_entry_nvr_fetches_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hik_nvr: MagicMock,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_setup_entry_nvr_fetches_events(
 
 
 async def test_setup_entry_nvr_skips_videoloss(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hik_nvr: MagicMock,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_setup_entry_nvr_skips_videoloss(
 
 
 async def test_setup_entry_nvr_skips_unmapped_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hik_nvr: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -174,7 +174,7 @@ async def test_setup_entry_nvr_skips_unmapped_events(
 
 
 async def test_setup_entry_nvr_skips_all_unknown_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hik_nvr: MagicMock,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_setup_entry_nvr_skips_all_unknown_events(
 
 
 async def test_setup_entry_nvr_event_fetch_request_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hik_nvr: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -210,7 +210,7 @@ async def test_setup_entry_nvr_event_fetch_request_error(
 
 
 async def test_setup_entry_nvr_event_fetch_parse_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hik_nvr: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -227,7 +227,7 @@ async def test_setup_entry_nvr_event_fetch_parse_error(
 
 
 async def test_setup_entry_nvr_no_events_returned(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hik_nvr: MagicMock,
 ) -> None:
@@ -242,7 +242,7 @@ async def test_setup_entry_nvr_no_events_returned(
 
 
 async def test_setup_entry_nvr_empty_events_returned(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hik_nvr: MagicMock,
 ) -> None:

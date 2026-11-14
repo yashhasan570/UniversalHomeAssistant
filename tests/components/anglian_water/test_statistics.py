@@ -14,7 +14,7 @@ from universalassistant.components.recorder.statistics import (
     get_last_statistics,
     statistics_during_period,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .const import ACCOUNT_NUMBER
@@ -70,7 +70,7 @@ from .const import ACCOUNT_NUMBER
 )
 @pytest.mark.usefixtures("recorder_mock", "mock_anglian_water_client")
 async def test_statistics_subsequent_run(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smart_meter: SmartMeter,
     readings: list[dict[str, str | int]],
@@ -146,7 +146,7 @@ async def test_statistics_subsequent_run(
 )
 @pytest.mark.usefixtures("recorder_mock", "mock_anglian_water_client")
 async def test_statistics_invalid_readings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smart_meter: SmartMeter,
     readings: list[dict[str, str | int]],
@@ -185,7 +185,7 @@ async def test_statistics_invalid_readings(
 
 @pytest.mark.usefixtures("recorder_mock", "mock_anglian_water_client")
 async def test_statistics_missing_recorder_lookup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smart_meter: SmartMeter,
     freezer: FrozenDateTimeFactory,
@@ -248,7 +248,7 @@ async def test_statistics_missing_recorder_lookup(
 
 @pytest.mark.usefixtures("recorder_mock", "mock_anglian_water_client")
 async def test_period_statistics_without_sum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smart_meter: SmartMeter,
     freezer: FrozenDateTimeFactory,

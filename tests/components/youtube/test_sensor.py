@@ -10,7 +10,7 @@ from youtubeaio.types import UnauthorizedError, YouTubeBackendError
 
 from universalassistant import config_entries
 from universalassistant.components.youtube.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import MockYouTube
@@ -18,7 +18,7 @@ from .conftest import ComponentSetup
 
 
 async def test_sensor(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, setup_integration: ComponentSetup
 ) -> None:
     """Test sensor."""
     await setup_integration()
@@ -43,7 +43,7 @@ async def test_sensor(
 
 
 async def test_sensor_without_uploaded_video(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, setup_integration: ComponentSetup
 ) -> None:
     """Test sensor when there is no video on the channel."""
     await setup_integration()
@@ -72,7 +72,7 @@ async def test_sensor_without_uploaded_video(
 
 
 async def test_sensor_with_short(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, setup_integration: ComponentSetup
 ) -> None:
     """Test sensors when the channel has a Short upload."""
     with patch(
@@ -89,7 +89,7 @@ async def test_sensor_with_short(
 
 
 async def test_sensor_updating(
-    hass: UniversalAssistant, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup
 ) -> None:
     """Test updating sensor."""
     await setup_integration()
@@ -123,7 +123,7 @@ async def test_sensor_updating(
 
 
 async def test_sensor_reauth_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     setup_integration: ComponentSetup,
 ) -> None:
@@ -159,7 +159,7 @@ async def test_sensor_reauth_trigger(
 
 
 async def test_sensor_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     setup_integration: ComponentSetup,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_sensor_unavailable(
     ],
 )
 async def test_sensor_playlist_iteration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     short_video_ids: set[str],
     expected_yielded: int,
@@ -244,7 +244,7 @@ async def test_sensor_playlist_iteration(
 
 
 async def test_sensor_shorts_detection_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     setup_integration: ComponentSetup,
 ) -> None:

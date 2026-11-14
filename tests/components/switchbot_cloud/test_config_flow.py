@@ -16,7 +16,7 @@ from universalassistant.components.switchbot_cloud.const import (
     ENTRY_TITLE,
 )
 from universalassistant.const import CONF_API_KEY, CONF_API_TOKEN, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 OLD_CREDENTIALS = {CONF_API_TOKEN: "old-token", CONF_API_KEY: "old-secret-key"}
@@ -24,7 +24,7 @@ NEW_CREDENTIALS = {CONF_API_TOKEN: "new-token", CONF_API_KEY: "new-secret-key"}
 
 
 async def _fill_out_form_and_assert_entry_created(
-    hass: UniversalAssistant, flow_id: str, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, flow_id: str, mock_setup_entry: AsyncMock
 ) -> None:
     """Util function to fill out a form and assert that a config entry is created."""
     with patch(
@@ -49,7 +49,7 @@ async def _fill_out_form_and_assert_entry_created(
         mock_setup_entry.assert_called_once()
 
 
-async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result_init = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -71,7 +71,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> No
     ],
 )
 async def test_form_fails(
-    hass: UniversalAssistant, error: Exception, message: str, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, error: Exception, message: str, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we handle error cases."""
     result_init = await hass.config_entries.flow.async_init(
@@ -99,7 +99,7 @@ async def test_form_fails(
     )
 
 
-async def test_reauth(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_reauth(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test reauth updates the credentials and unique ID and keeps webhook data."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -144,7 +144,7 @@ async def test_reauth(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> 
     ],
 )
 async def test_reauth_fails(
-    hass: UniversalAssistant, error: Exception, message: str, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, error: Exception, message: str, mock_setup_entry: AsyncMock
 ) -> None:
     """Test reauth handles errors and can recover."""
     entry = MockConfigEntry(domain=DOMAIN, data=OLD_CREDENTIALS, unique_id="old-token")
@@ -179,7 +179,7 @@ async def test_reauth_fails(
 
 
 async def test_reauth_token_used_by_other_entry(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test reauth aborts when the new token belongs to another entry."""
     entry = MockConfigEntry(domain=DOMAIN, data=OLD_CREDENTIALS, unique_id="old-token")

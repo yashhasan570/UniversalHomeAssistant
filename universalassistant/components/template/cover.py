@@ -20,7 +20,7 @@ from universalassistant.components.cover import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_CLASS, CONF_NAME, CONF_STATE, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -125,7 +125,7 @@ COVER_CONFIG_ENTRY_SCHEMA = probatio.All(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -144,7 +144,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -162,7 +162,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_cover(
-    hass: UniversalAssistant, name: str, config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
 ) -> StateCoverEntity:
     """Create a preview."""
     return async_setup_template_preview(
@@ -404,7 +404,7 @@ class StateCoverEntity(TemplateEntity, AbstractTemplateCover):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: dict[str, Any],
         unique_id,
     ) -> None:
@@ -424,7 +424,7 @@ class TriggerCoverEntity(TriggerEntity, AbstractTemplateCover):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: TriggerUpdateCoordinator,
         config: ConfigType,
     ) -> None:

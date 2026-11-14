@@ -33,7 +33,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.typing import ConfigType
@@ -90,7 +90,7 @@ def _attribute_template(attribute: str) -> str:
     return f"{{{{ state_attr('{TEST_STATE_ENTITY_ID}', '{attribute}') }}}}"
 
 
-async def _async_call_media_player(hass: UniversalAssistant, service: str) -> None:
+async def _async_call_media_player(hass: __HAC_KEEP__, service: str) -> None:
     await hass.services.async_call(
         media_player.DOMAIN,
         service,
@@ -118,7 +118,7 @@ async def _async_call_media_player(hass: UniversalAssistant, service: str) -> No
     ],
 )
 async def test_state_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     rendered: str,
     expected: str,
@@ -133,7 +133,7 @@ async def test_state_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_deprecated_standby_state_logs_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -189,7 +189,7 @@ async def test_deprecated_standby_state_logs_error(
     ],
 )
 async def test_attribute_templates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     option: str,
     extra_config: ConfigType,
@@ -215,7 +215,7 @@ async def test_attribute_templates(
 )
 @pytest.mark.parametrize("option", ["media_title", "volume_level"])
 async def test_attribute_template_error(
-    hass: UniversalAssistant, style: ConfigurationStyle, option: str
+    hass: __HAC_KEEP__, style: ConfigurationStyle, option: str
 ) -> None:
     """Test an attribute template error clears the attribute only."""
     await setup_entity(
@@ -241,7 +241,7 @@ async def test_attribute_template_error(
     ],
 )
 async def test_list_templates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     option: str,
     action: str,
@@ -264,7 +264,7 @@ async def test_list_templates(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_media_position_updated_at(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -310,7 +310,7 @@ async def test_media_position_updated_at(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_media_position_updated_at_state_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -339,7 +339,7 @@ async def test_media_position_updated_at_state_change(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_media_position_reset_on_media_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -386,7 +386,7 @@ async def test_media_position_reset_on_media_change(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_media_position_updated_at_optimistic_play(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -436,7 +436,7 @@ async def test_media_position_updated_at_optimistic_play(
     ],
 )
 async def test_media_position_optimistic_play_pause_play(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     freezer: FrozenDateTimeFactory,
     elapsed: int,
@@ -498,7 +498,7 @@ async def test_media_position_optimistic_play_pause_play(
     ],
 )
 async def test_media_position_sample_on_pause(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     freezer: FrozenDateTimeFactory,
     sampled_position: int,
@@ -529,7 +529,7 @@ async def test_media_position_sample_on_pause(
 @pytest.mark.parametrize(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
-async def test_entity_picture(hass: UniversalAssistant, style: ConfigurationStyle) -> None:
+async def test_entity_picture(hass: __HAC_KEEP__, style: ConfigurationStyle) -> None:
     """Test the media image is proxied and the picture is used as a fallback."""
     await setup_entity(
         hass,
@@ -562,12 +562,12 @@ async def test_entity_picture(hass: UniversalAssistant, style: ConfigurationStyl
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_media_image_relative_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
-    """Test a relative media image url is fetched from Universal Universal Home Assistant."""
+    """Test a relative media image url is fetched from __HA_KEEP__."""
     await async_process_ha_core_config(
         hass, {"internal_url": "http://example.local:8123"}
     )
@@ -623,7 +623,7 @@ async def test_media_image_relative_url(
     ],
 )
 async def test_supported_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     config: ConfigType,
     expected_features: MediaPlayerEntityFeature,
@@ -744,7 +744,7 @@ async def test_supported_features(
     ],
 )
 async def test_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     calls: list[ServiceCall],
     action: str,
@@ -785,7 +785,7 @@ async def test_actions(
     ],
 )
 async def test_volume_step_falls_back_to_volume_set(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     calls: list[ServiceCall],
     service: str,
@@ -829,7 +829,7 @@ async def test_volume_step_falls_back_to_volume_set(
     ],
 )
 async def test_optimistic_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     calls: list[ServiceCall],
     service: str,
@@ -856,7 +856,7 @@ async def test_optimistic_state(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_state_template_is_not_optimistic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     calls: list[ServiceCall],
 ) -> None:
@@ -940,7 +940,7 @@ async def test_state_template_is_not_optimistic(
     ],
 )
 async def test_optimistic_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     calls: list[ServiceCall],
     action: str,
@@ -1036,7 +1036,7 @@ async def test_optimistic_attributes(
     ],
 )
 async def test_templated_attributes_are_not_optimistic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     calls: list[ServiceCall],
     action: str,
@@ -1084,7 +1084,7 @@ async def test_templated_attributes_are_not_optimistic(
     ],
 )
 async def test_option_requires_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     config: ConfigType,
 ) -> None:
@@ -1104,7 +1104,7 @@ async def test_option_requires_option(
     ],
 )
 async def test_selection_revalidated_on_list_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     option: str,
     list_option: str,
@@ -1142,7 +1142,7 @@ async def test_selection_revalidated_on_list_change(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_availability_template(
-    hass: UniversalAssistant, style: ConfigurationStyle
+    hass: __HAC_KEEP__, style: ConfigurationStyle
 ) -> None:
     """Test the availability template."""
     await setup_entity(
@@ -1161,7 +1161,7 @@ async def test_availability_template(
 
 
 async def test_invalid_availability_template_keeps_component_available(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test an invalid availability template keeps the media player available."""
     await setup_entity(
@@ -1179,7 +1179,7 @@ async def test_invalid_availability_template_keeps_component_available(
 @pytest.mark.parametrize(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
-async def test_device_class(hass: UniversalAssistant, style: ConfigurationStyle) -> None:
+async def test_device_class(hass: __HAC_KEEP__, style: ConfigurationStyle) -> None:
     """Test the device class."""
     await setup_entity(
         hass, TEST_MEDIA_PLAYER, style, 1, {"device_class": "tv"}, STATE_TEMPLATE
@@ -1258,7 +1258,7 @@ async def test_device_class(hass: UniversalAssistant, style: ConfigurationStyle)
     ],
 )
 async def test_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     saved_state: str,
     saved_extra_data: ConfigType | None,
@@ -1298,7 +1298,7 @@ async def test_restore_state(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_restore_state_is_saved(
-    hass: UniversalAssistant, style: ConfigurationStyle
+    hass: __HAC_KEEP__, style: ConfigurationStyle
 ) -> None:
     """Test the optimistic state and attributes are saved for restoring."""
     await setup_entity(
@@ -1344,7 +1344,7 @@ async def test_restore_state_is_saved(
 
 
 async def test_media_position_sample_after_template_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a repeated position sample is applied after a template error cleared it."""
     await setup_entity(
@@ -1374,7 +1374,7 @@ async def test_media_position_sample_after_template_error(
 
 
 async def test_restored_media_position_cleared_by_empty_sample(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the first empty position sample clears a restored position."""
     setup_mock_template_entity_restore_state(
@@ -1416,7 +1416,7 @@ async def test_restored_media_position_cleared_by_empty_sample(
     )
 
 
-async def test_restore_media_metadata_trigger(hass: UniversalAssistant) -> None:
+async def test_restore_media_metadata_trigger(hass: __HAC_KEEP__) -> None:
     """Test media metadata is restored before a trigger entity renders."""
     saved_media = {
         **NO_MEDIA_DATA["media"],
@@ -1487,7 +1487,7 @@ async def test_restore_media_metadata_trigger(hass: UniversalAssistant) -> None:
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_restore_media_metadata_is_saved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -1526,7 +1526,7 @@ async def test_restore_media_metadata_is_saved(
 @pytest.mark.parametrize(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
-async def test_unique_id(hass: UniversalAssistant, style: ConfigurationStyle) -> None:
+async def test_unique_id(hass: __HAC_KEEP__, style: ConfigurationStyle) -> None:
     """Test unique_id option only creates one media player per id."""
     await setup_and_test_unique_id(hass, TEST_MEDIA_PLAYER, style, ON_OFF_ACTIONS)
 
@@ -1535,7 +1535,7 @@ async def test_unique_id(hass: UniversalAssistant, style: ConfigurationStyle) ->
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_nested_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -1550,7 +1550,7 @@ async def test_nested_unique_id(
 )
 @pytest.mark.parametrize("action", ["turn_on", "media_play", "volume_set"])
 async def test_invalid_yaml_actions_do_not_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     action: str,
     caplog: pytest.LogCaptureFixture,
@@ -1571,7 +1571,7 @@ async def test_invalid_yaml_actions_do_not_create_entities(
     ],
 )
 async def test_invalid_config_entry_actions_do_not_create_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     action: str,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -1586,7 +1586,7 @@ async def test_invalid_config_entry_actions_do_not_create_entities(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_extra_template_attributes(
-    hass: UniversalAssistant, style: ConfigurationStyle
+    hass: __HAC_KEEP__, style: ConfigurationStyle
 ) -> None:
     """Test extra attributes."""
     await assert_extra_template_attributes(
@@ -1598,7 +1598,7 @@ async def test_extra_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -1619,7 +1619,7 @@ async def test_attributes_template(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_blocked_template_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     attribute: StrEnum | str,
     caplog: pytest.LogCaptureFixture,
@@ -1651,7 +1651,7 @@ async def test_blocked_template_attributes(
     "style", [ConfigurationStyle.MODERN, ConfigurationStyle.TRIGGER]
 )
 async def test_attributes_template_with_blocked_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     style: ConfigurationStyle,
     attribute: StrEnum | str,
     caplog: pytest.LogCaptureFixture,
@@ -1677,7 +1677,7 @@ async def test_attributes_template_with_blocked_attributes(
 
 
 async def test_setup_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test creating a media player from a config entry."""
@@ -1713,7 +1713,7 @@ async def test_setup_config_entry(
 
 
 async def test_flow_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test the config flow preview."""

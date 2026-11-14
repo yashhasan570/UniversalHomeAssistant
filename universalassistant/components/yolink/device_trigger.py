@@ -9,7 +9,7 @@ from universalassistant.components.device_automation import DEVICE_TRIGGER_BASE_
 from universalassistant.components.universalassistant.triggers import event as event_trigger
 from universalassistant.components.universalassistant.triggers.event import EventTriggerArgument
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.trigger import TriggerActionType, TriggerInfo
 from universalassistant.helpers.typing import ConfigType
@@ -70,7 +70,7 @@ TRIGGER_MAPPINGS: dict[str, set[str]] = {
 
 
 async def async_get_triggers(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> list[dict[str, Any]]:
     """List device triggers for YoLink devices."""
     device_registry = dr.async_get(hass)
@@ -94,7 +94,7 @@ async def async_get_triggers(
 
 
 async def async_attach_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     action: TriggerActionType,
     trigger_info: TriggerInfo,

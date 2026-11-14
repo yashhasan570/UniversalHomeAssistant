@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType, RtspEventMock
@@ -115,7 +115,7 @@ from .conftest import ConfigEntryFactoryType, RtspEventMock
     ],
 )
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     config_entry_factory: ConfigEntryFactoryType,
@@ -166,7 +166,7 @@ async def test_binary_sensors(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_unsupported_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rtsp_event: RtspEventMock,
     event: dict[str, str],
 ) -> None:

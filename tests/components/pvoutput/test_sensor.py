@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.pvoutput.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 OPTIONAL_SENSOR_KEYS = (
@@ -39,7 +39,7 @@ def _unique_ids(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -57,7 +57,7 @@ async def test_sensors(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_sensors_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entity_id: str,
 ) -> None:
@@ -69,11 +69,11 @@ async def test_sensors_disabled_by_default(
 
 
 async def test_last_reported_uses_universal_assistant_time_zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pvoutput: MagicMock,
 ) -> None:
-    """Test the last reported time is read in the Universal Universal Home Assistant time zone."""
+    """Test the last reported time is read in the __HA_KEEP__ time zone."""
     await hass.config.async_set_time_zone("Europe/Amsterdam")
 
     mock_config_entry.add_to_hass(hass)
@@ -111,7 +111,7 @@ async def test_device(
 @pytest.mark.parametrize("key", OPTIONAL_SENSOR_KEYS)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_optional_sensor_added_once_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
@@ -164,7 +164,7 @@ async def test_optional_sensor_added_once_reported(
 
 
 async def test_optional_sensors_kept_when_registered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pvoutput: MagicMock,

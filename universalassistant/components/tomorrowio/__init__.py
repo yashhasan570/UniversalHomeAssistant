@@ -13,7 +13,7 @@ from universalassistant.const import (
     CONF_NAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -35,13 +35,13 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 PLATFORMS = [Platform.SENSOR, Platform.WEATHER]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Tomorrow.io integration."""
     await async_migrate_integration(hass)
     return True
 
 
-async def async_migrate_integration(hass: UniversalAssistant) -> None:
+async def async_migrate_integration(hass: __HAC_KEEP__) -> None:
     """Migrate to one config entry per API key with location subentries."""
     entries = hass.config_entries.async_entries(DOMAIN)
     if not any(entry.version == 1 for entry in entries):
@@ -89,7 +89,7 @@ async def async_migrate_integration(hass: UniversalAssistant) -> None:
 
 @callback
 def _async_get_or_create_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     parent_entry: TomorrowioConfigEntry,
     entry: TomorrowioConfigEntry,
 ) -> ConfigSubentry:
@@ -186,7 +186,7 @@ def _async_move_registry_rows(
         )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TomorrowioConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TomorrowioConfigEntry) -> None:
     """Set up Tomorrow.io API from a config entry."""
     session = async_get_clientsession(hass)
     # we will not use the class's lat and long so we can pass in garbage
@@ -204,12 +204,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TomorrowioConfigEnt
 
 
 async def _async_update_listener(
-    hass: UniversalAssistant, entry: TomorrowioConfigEntry
+    hass: __HAC_KEEP__, entry: TomorrowioConfigEntry
 ) -> None:
     """Reload the config entry when subentries change."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TomorrowioConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TomorrowioConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -9,7 +9,7 @@ from pynintendoparental.device import Device
 from pynintendoparental.enum import DeviceTimerMode
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import NintendoParentalControlsConfigEntry, NintendoUpdateCoordinator
@@ -45,7 +45,7 @@ SELECT_DESCRIPTIONS: tuple[NintendoParentalControlsSelectEntityDescription, ...]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: NintendoParentalControlsConfigEntry,
     async_add_devices: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -32,7 +32,7 @@ from universalassistant.components.repairs import DOMAIN as REPAIRS_DOMAIN
 from universalassistant.components.xbox.binary_sensor import XboxBinarySensor
 from universalassistant.components.xbox.const import DOMAIN, OAUTH2_TOKEN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     OAuth2TokenRequestReauthError,
     OAuth2TokenRequestTransientError,
@@ -50,7 +50,7 @@ from universalassistant.setup import async_setup_component
 
 @pytest.mark.usefixtures("xbox_live_client")
 async def test_entry_setup_unload(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test integration setup and unload."""
 
@@ -74,7 +74,7 @@ async def test_entry_setup_unload(
     ],
 )
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     xbox_live_client: AsyncMock,
     exception: Exception,
@@ -91,7 +91,7 @@ async def test_config_entry_not_ready(
 
 @pytest.mark.usefixtures("xbox_live_client")
 async def test_config_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test implementation not available."""
@@ -126,7 +126,7 @@ async def test_config_implementation_not_available(
 )
 @respx.mock
 async def test_oauth_session_refresh_failure_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     state: ConfigEntryState,
     exception: Exception | type[Exception],
@@ -159,7 +159,7 @@ async def test_oauth_session_refresh_failure_exceptions(
 )
 @respx.mock
 async def test_oauth_session_refresh_user_and_xsts_token_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     state: ConfigEntryState,
     exception: Exception | type[Exception],
@@ -195,7 +195,7 @@ async def test_oauth_session_refresh_user_and_xsts_token_exceptions(
     ],
 )
 async def test_coordinator_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     xbox_live_client: AsyncMock,
     exception: Exception,
@@ -216,7 +216,7 @@ async def test_coordinator_update_failed(
 
 @pytest.mark.freeze_time
 async def test_dynamic_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     xbox_live_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -303,7 +303,7 @@ async def test_dynamic_devices(
     ],
 )
 async def test_binary_sensor_deprecation_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
     entity_registry: er.EntityRegistry,
@@ -416,7 +416,7 @@ async def test_binary_sensor_deprecation_issue(
 
 @pytest.mark.usefixtures("xbox_live_client", "entity_registry_enabled_by_default")
 async def test_binary_sensor_deprecation_remove_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -448,14 +448,14 @@ async def test_binary_sensor_deprecation_remove_disabled(
 
 
 async def _remove_friend_subentry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, subentry_id: str
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, subentry_id: str
 ) -> None:
     """Remove the friend subentry."""
     assert hass.config_entries.async_remove_subentry(config_entry, subentry_id)
 
 
 async def _remove_config_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, subentry_id: str
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, subentry_id: str
 ) -> None:
     """Remove the config entry."""
     await hass.config_entries.async_remove(config_entry.entry_id)
@@ -470,12 +470,12 @@ async def _remove_config_entry(
     ],
 )
 async def test_binary_sensor_deprecation_issue_removed_with_owner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
     entity_registry: er.EntityRegistry,
     remove_owner: Callable[
-        [UniversalAssistant, MockConfigEntry, str], Coroutine[Any, Any, None]
+        [__HAC_KEEP__, MockConfigEntry, str], Coroutine[Any, Any, None]
     ],
     expected_remaining: set[str],
 ) -> None:

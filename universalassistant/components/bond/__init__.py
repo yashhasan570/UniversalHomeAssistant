@@ -13,7 +13,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -38,13 +38,13 @@ _API_TIMEOUT = SLOW_UPDATE_WARNING - 1
 type BondConfigEntry = ConfigEntry[BondData]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BondConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BondConfigEntry) -> None:
     """Set up Bond from a config entry."""
     host = entry.data[CONF_HOST]
     token = entry.data[CONF_ACCESS_TOKEN]
@@ -106,7 +106,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BondConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BondConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BondConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -125,7 +125,7 @@ def _async_remove_old_device_identifiers(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, config_entry: BondConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: BondConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove bond config entry from a device."""
     data = config_entry.runtime_data

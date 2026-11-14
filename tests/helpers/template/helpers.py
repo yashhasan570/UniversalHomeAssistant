@@ -3,13 +3,13 @@
 from collections.abc import Iterable
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import template
 from universalassistant.helpers.typing import TemplateVarsType
 
 
 def render(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     template_str: str,
     variables: TemplateVarsType | None = None,
     **render_kwargs: Any,
@@ -21,14 +21,14 @@ def render(
 
 
 def render_to_info(
-    hass: UniversalAssistant, template_str: str, variables: TemplateVarsType | None = None
+    hass: __HAC_KEEP__, template_str: str, variables: TemplateVarsType | None = None
 ) -> template.RenderInfo:
     """Create render info from template."""
     return template.Template(template_str, hass).async_render_to_info(variables)
 
 
 def extract_entities(
-    hass: UniversalAssistant, template_str: str, variables: TemplateVarsType | None = None
+    hass: __HAC_KEEP__, template_str: str, variables: TemplateVarsType | None = None
 ) -> set[str]:
     """Extract entities from a template."""
     return render_to_info(hass, template_str, variables).entities

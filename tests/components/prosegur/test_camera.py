@@ -9,11 +9,11 @@ from universalassistant.components import camera
 from universalassistant.components.camera import Image
 from universalassistant.components.prosegur.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 
-async def test_camera(hass: UniversalAssistant, init_integration) -> None:
+async def test_camera(hass: __HAC_KEEP__, init_integration) -> None:
     """Test prosegur get_image."""
 
     image = await camera.async_get_image(hass, "camera.contract_1234abcd_test_cam")
@@ -22,19 +22,19 @@ async def test_camera(hass: UniversalAssistant, init_integration) -> None:
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_camera_fail(hass: UniversalAssistant, mock_install: MagicMock) -> None:
+async def test_camera_fail(hass: __HAC_KEEP__, mock_install: MagicMock) -> None:
     """Test prosegur get_image fails."""
 
     mock_install.get_image = AsyncMock(side_effect=ProsegurException())
 
     with pytest.raises(
-        UniversalAssistantError, match="Unable to get image from camera test_cam"
+        __HAC_KEEP__Error, match="Unable to get image from camera test_cam"
     ):
         await camera.async_get_image(hass, "camera.contract_1234abcd_test_cam")
 
 
 async def test_request_image(
-    hass: UniversalAssistant, init_integration, mock_install
+    hass: __HAC_KEEP__, init_integration, mock_install
 ) -> None:
     """Test the camera request image service."""
 
@@ -49,13 +49,13 @@ async def test_request_image(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_request_image_fail(hass: UniversalAssistant, mock_install: MagicMock) -> None:
+async def test_request_image_fail(hass: __HAC_KEEP__, mock_install: MagicMock) -> None:
     """Test the camera request image service fails."""
 
     mock_install.request_image = AsyncMock(side_effect=ProsegurException())
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Unable to request a new image from camera test_cam",
     ):
         await hass.services.async_call(

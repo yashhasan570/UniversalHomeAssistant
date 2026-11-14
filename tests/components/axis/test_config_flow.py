@@ -38,7 +38,7 @@ from universalassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import BaseServiceInfo, FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -64,7 +64,7 @@ DHCP_FORMATTED_MAC = dr.format_mac(MAC).replace(":", "")
 @pytest.mark.parametrize("username", ["root", "user2"])
 @respx.mock
 async def test_credentials_update_camera_authentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     source: str,
     username: str,
@@ -135,7 +135,7 @@ async def test_credentials_update_camera_authentication(
 
 @pytest.mark.parametrize(("protocol", "port"), [("https", 80), ("http", 8080)])
 async def test_reconfigure_connection_settings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     protocol: str,
     port: int,
@@ -160,7 +160,7 @@ async def test_reconfigure_connection_settings(
 
 
 @pytest.mark.usefixtures("mock_default_requests")
-async def test_flow_manual_configuration(hass: UniversalAssistant) -> None:
+async def test_flow_manual_configuration(hass: __HAC_KEEP__) -> None:
     """Test that config flow works."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -210,7 +210,7 @@ async def test_flow_manual_configuration(hass: UniversalAssistant) -> None:
     ],
 )
 @pytest.mark.usefixtures("mock_default_requests")
-async def test_flow_companion_device(hass: UniversalAssistant) -> None:
+async def test_flow_companion_device(hass: __HAC_KEEP__) -> None:
     """Test that config flow stores that the device is a Companion device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -234,7 +234,7 @@ async def test_flow_companion_device(hass: UniversalAssistant) -> None:
 
 
 async def test_manual_configuration_duplicate_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     mock_requests: Callable[[str], None],
 ) -> None:
@@ -275,7 +275,7 @@ async def test_manual_configuration_duplicate_fails(
 )
 @pytest.mark.usefixtures("mock_default_requests")
 async def test_flow_fails_on_api(
-    hass: UniversalAssistant, exc: type[Exception], error: str
+    hass: __HAC_KEEP__, exc: type[Exception], error: str
 ) -> None:
     """Test that config flow fails on faulty credentials."""
     result = await hass.config_entries.flow.async_init(
@@ -317,7 +317,7 @@ async def test_flow_fails_on_api(
 
 @pytest.mark.usefixtures("mock_default_requests")
 @pytest.mark.parametrize("param_properties_status_code", [404])
-async def test_flow_aborts_if_no_serial_number(hass: UniversalAssistant) -> None:
+async def test_flow_aborts_if_no_serial_number(hass: __HAC_KEEP__) -> None:
     """Test that config flow aborts if property_handler is not initialized and no serial is found."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -344,7 +344,7 @@ async def test_flow_aborts_if_no_serial_number(hass: UniversalAssistant) -> None
 @pytest.mark.usefixtures("mock_default_requests")
 @pytest.mark.parametrize("api_discovery_items", [API_DISCOVERY_BASIC_DEVICE_INFO])
 async def test_flow_succeeds_with_basic_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that config flow succeeds when basic device info is present (positive path)."""
     result = await hass.config_entries.flow.async_init(
@@ -375,7 +375,7 @@ async def test_flow_succeeds_with_basic_device_info(
 
 @pytest.mark.usefixtures("mock_default_requests")
 async def test_flow_create_entry_multiple_existing_entries_of_same_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that create entry can generate a name with other entries."""
     entry = MockConfigEntry(
@@ -425,7 +425,7 @@ async def test_flow_create_entry_multiple_existing_entries_of_same_model(
 
 
 async def test_reauth_flow_update_configuration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     mock_requests: Callable[[str], None],
 ) -> None:
@@ -461,7 +461,7 @@ async def test_reauth_flow_update_configuration(
 
 
 async def test_reconfiguration_flow_update_configuration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     mock_requests: Callable[[str], None],
 ) -> None:
@@ -566,7 +566,7 @@ async def test_reconfiguration_flow_update_configuration(
 )
 @pytest.mark.usefixtures("mock_default_requests")
 async def test_discovery_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source: str,
     discovery_info: BaseServiceInfo,
     expected_title: str,
@@ -649,7 +649,7 @@ async def test_discovery_flow(
     ],
 )
 async def test_discovered_device_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     source: str,
     discovery_info: BaseServiceInfo,
@@ -707,7 +707,7 @@ async def test_discovered_device_already_configured(
     ],
 )
 async def test_discovery_flow_updated_configuration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_setup: MockConfigEntry,
     mock_requests: Callable[[str], None],
     source: str,
@@ -748,7 +748,7 @@ async def test_discovery_flow_updated_configuration(
     "axis_oui",
     ["00408C", "ACCC8E", "B8A44F", "E82725"],
 )
-async def test_discovery_flow_allowed_oui(hass: UniversalAssistant, axis_oui: str) -> None:
+async def test_discovery_flow_allowed_oui(hass: __HAC_KEEP__, axis_oui: str) -> None:
     """Test that discovery flow accepts Axis OUI."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -806,7 +806,7 @@ async def test_discovery_flow_allowed_oui(hass: UniversalAssistant, axis_oui: st
     ],
 )
 async def test_discovery_flow_ignore_non_axis_device(
-    hass: UniversalAssistant, source: str, discovery_info: BaseServiceInfo
+    hass: __HAC_KEEP__, source: str, discovery_info: BaseServiceInfo
 ) -> None:
     """Test that discovery flow ignores devices with non Axis OUI."""
     result = await hass.config_entries.flow.async_init(
@@ -855,7 +855,7 @@ async def test_discovery_flow_ignore_non_axis_device(
     ],
 )
 async def test_discovery_flow_ignore_link_local_address(
-    hass: UniversalAssistant, source: str, discovery_info: BaseServiceInfo
+    hass: __HAC_KEEP__, source: str, discovery_info: BaseServiceInfo
 ) -> None:
     """Test that discovery flow ignores devices with link local addresses."""
     result = await hass.config_entries.flow.async_init(
@@ -867,7 +867,7 @@ async def test_discovery_flow_ignore_link_local_address(
 
 
 async def test_option_flow(
-    hass: UniversalAssistant, config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_setup: MockConfigEntry
 ) -> None:
     """Test config flow options."""
     assert CONF_STREAM_PROFILE not in config_entry_setup.options

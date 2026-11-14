@@ -24,8 +24,8 @@ from universalassistant.components.humidifier import (
 )
 from universalassistant.components.midea.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_MODE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -34,7 +34,7 @@ from .const import TEST_DEVICE_ID
 
 
 async def _assert_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     service: str,
     service_data: dict,
@@ -89,7 +89,7 @@ def _fd_device() -> DummyDevice:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_humidifier_state_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -111,7 +111,7 @@ async def test_humidifier_state_snapshot(
     ],
 )
 async def test_humidifier_device_info_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     device: DummyDevice,
@@ -131,7 +131,7 @@ async def test_humidifier_device_info_model(
 
 
 async def test_a1_humidifier_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test A1 humidifier service calls reach the device."""
@@ -184,7 +184,7 @@ async def test_a1_humidifier_services(
 
 
 async def test_humidifier_not_created_for_other_device_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test no humidifier entity is created for a device type without one."""
@@ -205,7 +205,7 @@ async def test_humidifier_not_created_for_other_device_type(
 
 
 async def test_humidifier_unknown_mode_and_power_return_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test mode and is_on gracefully report unknown when attributes are unset."""
@@ -232,10 +232,10 @@ async def test_humidifier_unknown_mode_and_power_return_none(
 
 
 async def test_humidifier_turn_on_raises_on_device_communication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
-    """Test a device communication failure surfaces as a UniversalAssistantError."""
+    """Test a device communication failure surfaces as a __HAC_KEEP__Error."""
     device = _fd_device()
     config_entry = mock_config_entry(device)
     with patch("universalassistant.components.midea._PLATFORMS", [Platform.HUMIDIFIER]):
@@ -245,7 +245,7 @@ async def test_humidifier_turn_on_raises_on_device_communication_error(
 
     with (
         patch.object(device, "set_attribute", side_effect=SocketException("offline")),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             HUMIDIFIER_DOMAIN,

@@ -79,7 +79,7 @@ def get_config(available: list[str]) -> Config:
         not parsed.integration_path
         and not (parsed.core_path / "requirements_all.txt").is_file()
     ):
-        raise RuntimeError("Run from Universal Universal Home Assistant root")
+        raise RuntimeError("Run from __HA_KEEP__ root")
 
     if parsed.skip_plugins:
         parsed.plugins = set(parsed.plugins) - set(parsed.skip_plugins)

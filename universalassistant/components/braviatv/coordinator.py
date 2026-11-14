@@ -19,10 +19,10 @@ from pybravia import (
 from universalassistant.components.media_player import MediaType
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_CLIENT_ID, CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceValidationError,
 )
 from universalassistant.helpers.debounce import Debouncer
@@ -60,7 +60,7 @@ def catch_braviatv_errors[_BraviaTVCoordinatorT: BraviaTVCoordinator, **_P](
         try:
             await func(self, *args, **kwargs)
         except BraviaNotFound as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_error_not_found",
                 translation_placeholders={
@@ -68,7 +68,7 @@ def catch_braviatv_errors[_BraviaTVCoordinatorT: BraviaTVCoordinator, **_P](
                 },
             ) from err
         except (BraviaConnectionError, BraviaConnectionTimeout, BraviaTurnedOff) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_error_offline",
                 translation_placeholders={
@@ -76,7 +76,7 @@ def catch_braviatv_errors[_BraviaTVCoordinatorT: BraviaTVCoordinator, **_P](
                 },
             ) from err
         except BraviaError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_error",
                 translation_placeholders={
@@ -96,7 +96,7 @@ class BraviaTVCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: BraviaTVConfigEntry,
         client: BraviaClient,
     ) -> None:

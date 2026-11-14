@@ -15,7 +15,7 @@ from universalassistant.components.growatt_server.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_PASSWORD, CONF_TOKEN, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -429,7 +429,7 @@ def mock_config_entry_classic_default_plant() -> MockConfigEntry:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_growatt_v1_api
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_growatt_v1_api
 ) -> MockConfigEntry:
     """Set up the Growatt Server integration for testing (V1 API).
 

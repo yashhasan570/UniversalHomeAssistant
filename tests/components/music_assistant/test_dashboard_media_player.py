@@ -33,7 +33,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -65,7 +65,7 @@ def _mock_provider_icon(
 
 
 async def _get_party_thumbnail_url(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, entity_id: str
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, entity_id: str
 ) -> str:
     """Return the party icon's proxy url from the root browse listing."""
     client = await hass_ws_client(hass)
@@ -99,7 +99,7 @@ def _sessions_event_data(music_assistant_client: MagicMock) -> list[dict]:
 
 
 async def _play_media(
-    hass: UniversalAssistant, entity_id: str, media_content_id: str
+    hass: __HAC_KEEP__, entity_id: str, media_content_id: str
 ) -> None:
     """Call media_player.play_media with the dashboard content type."""
     await hass.services.async_call(
@@ -115,7 +115,7 @@ async def _play_media(
 
 
 async def test_dashboard_player_entities_from_cache(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     music_assistant_client: MagicMock,
@@ -172,7 +172,7 @@ async def test_dashboard_player_entities_from_cache(
 
 
 async def test_dashboard_play_media_party(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test play_media with the party dashboard type."""
     setup_dashboards(music_assistant_client)
@@ -190,7 +190,7 @@ async def test_dashboard_play_media_party(
 
 
 async def test_dashboard_play_media_music_quiz(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test play_media with the music_quiz dashboard type."""
     setup_dashboards(music_assistant_client)
@@ -208,7 +208,7 @@ async def test_dashboard_play_media_music_quiz(
 
 
 async def test_dashboard_play_media_now_playing(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test play_media with a now_playing dashboard and player id."""
     setup_dashboards(music_assistant_client)
@@ -226,7 +226,7 @@ async def test_dashboard_play_media_now_playing(
 
 
 async def test_dashboard_play_media_wrong_content_type(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test play_media rejects any media_content_type but dashboard."""
     setup_dashboards(music_assistant_client)
@@ -252,7 +252,7 @@ async def test_dashboard_play_media_wrong_content_type(
 
 
 async def test_dashboard_play_media_unknown_type(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test play_media rejects an unknown dashboard type."""
     setup_dashboards(music_assistant_client)
@@ -265,7 +265,7 @@ async def test_dashboard_play_media_unknown_type(
 
 
 async def test_dashboard_play_media_unsupported_type(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test play_media rejects a type not in the display's supported_types."""
     setup_dashboards(music_assistant_client)
@@ -284,7 +284,7 @@ async def test_dashboard_play_media_unsupported_type(
 
 
 async def test_dashboard_play_media_now_playing_missing_player(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test play_media rejects now_playing without a player segment."""
     setup_dashboards(music_assistant_client)
@@ -297,7 +297,7 @@ async def test_dashboard_play_media_now_playing_missing_player(
 
 
 async def test_dashboard_play_media_now_playing_unknown_player(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test play_media rejects an unknown player id."""
     setup_dashboards(music_assistant_client)
@@ -311,7 +311,7 @@ async def test_dashboard_play_media_now_playing_unknown_player(
 
 
 async def test_dashboard_play_media_now_playing_unexposed_player(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test play_media rejects a player that is not exposed to HA."""
     setup_dashboards(music_assistant_client)
@@ -333,7 +333,7 @@ async def test_dashboard_play_media_now_playing_unexposed_player(
 
 
 async def test_dashboard_turn_off(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test turn_off hides the dashboard."""
     setup_dashboards(music_assistant_client)
@@ -354,7 +354,7 @@ async def test_dashboard_turn_off(
 
 
 async def test_dashboard_browse_media_root(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -420,7 +420,7 @@ async def test_dashboard_browse_media_root(
 
 
 async def test_dashboard_browse_media_now_playing_folder(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -483,7 +483,7 @@ async def test_dashboard_browse_media_now_playing_folder(
 
 
 async def test_dashboard_browse_image(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
     hass_client: ClientSessionGenerator,
@@ -509,7 +509,7 @@ async def test_dashboard_browse_image(
 
 
 async def test_dashboard_browse_image_no_icon_cached(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
     hass_client: ClientSessionGenerator,
@@ -529,7 +529,7 @@ async def test_dashboard_browse_image_no_icon_cached(
 
 
 async def test_dashboard_browse_image_error_not_cached(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
     hass_client: ClientSessionGenerator,
@@ -559,7 +559,7 @@ async def test_dashboard_browse_image_error_not_cached(
     "media_content_id", ["not_a_real_id", "now_playing/00:00:00:00:00:01"]
 )
 async def test_dashboard_browse_image_rejects_unknown_content_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
     hass_client: ClientSessionGenerator,
@@ -586,7 +586,7 @@ async def test_dashboard_browse_image_rejects_unknown_content_id(
 
 
 async def test_dashboard_dynamic_add_and_unavailable(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test entities appear for a newly registered endpoint, and go unavailable."""
     setup_dashboards(music_assistant_client)
@@ -630,7 +630,7 @@ async def test_dashboard_dynamic_add_and_unavailable(
 
 
 async def test_dashboard_session_mirroring(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test the entity mirrors a session starting, changing and ending."""
     setup_dashboards(music_assistant_client)
@@ -691,7 +691,7 @@ async def test_dashboard_session_mirroring(
 
 
 async def test_dashboard_session_media_image_party_and_music_quiz(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -754,7 +754,7 @@ async def test_dashboard_session_media_image_party_and_music_quiz(
 
 
 async def test_dashboard_now_playing_session_media_image(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test a now_playing session mirrors its player's artwork, refreshed on QUEUE_UPDATED."""
     setup_dashboards(music_assistant_client)
@@ -779,7 +779,7 @@ async def test_dashboard_now_playing_session_media_image(
 
 
 async def test_dashboard_now_playing_session_media_image_ma_hosted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     aioclient_mock: AiohttpClientMocker,
     hass_client: ClientSessionGenerator,
@@ -819,7 +819,7 @@ async def test_dashboard_now_playing_session_media_image_ma_hosted(
 
 
 async def test_dashboard_now_playing_session_media_image_player_updated(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test a now_playing session's artwork also refreshes on PLAYER_UPDATED."""
     setup_dashboards(music_assistant_client)
@@ -841,7 +841,7 @@ async def test_dashboard_now_playing_session_media_image_player_updated(
 
 
 async def test_dashboard_now_playing_session_media_image_active_group_match(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test QUEUE_UPDATED for the session player's active_group also refreshes artwork.
 
@@ -868,7 +868,7 @@ async def test_dashboard_now_playing_session_media_image_active_group_match(
 
 
 async def test_dashboard_now_playing_session_title_on_player_rename(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test now_playing session title refreshes when the player is renamed."""
     setup_dashboards(music_assistant_client)
@@ -893,7 +893,7 @@ async def test_dashboard_now_playing_session_title_on_player_rename(
 
 
 async def test_dashboard_session_transition_now_playing_remote_to_party(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test switching from a now_playing session with remote art to a party session.
 
@@ -935,7 +935,7 @@ async def test_dashboard_session_transition_now_playing_remote_to_party(
 
 
 async def test_dashboard_browse_media_unknown_content_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -960,7 +960,7 @@ async def test_dashboard_browse_media_unknown_content_id(
 
 
 async def test_dashboard_browse_media_display_gone_from_cache(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -993,7 +993,7 @@ async def test_dashboard_browse_media_display_gone_from_cache(
 
 
 async def test_dashboard_browse_media_now_playing_folder_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -1025,7 +1025,7 @@ async def test_dashboard_browse_media_now_playing_folder_unsupported(
 
 
 async def test_dashboard_media_player_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     music_assistant_client: MagicMock,
@@ -1043,7 +1043,7 @@ async def test_dashboard_media_player_snapshot(
 
 
 async def test_platform_entity_service_rejects_display(
-    hass: UniversalAssistant, music_assistant_client: MagicMock
+    hass: __HAC_KEEP__, music_assistant_client: MagicMock
 ) -> None:
     """Test a player-only platform entity service fails cleanly on a display.
 
@@ -1068,7 +1068,7 @@ async def test_platform_entity_service_rejects_display(
 
 
 async def test_platform_entity_service_skips_display_indirect_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     music_assistant_client: MagicMock,
 ) -> None:

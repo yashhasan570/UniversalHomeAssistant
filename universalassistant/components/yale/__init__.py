@@ -12,7 +12,7 @@ from yalexs.manager.gateway import Config as YaleXSConfig
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryNotReady,
@@ -32,7 +32,7 @@ from .util import async_create_yale_clientsession
 type YaleConfigEntry = ConfigEntry[YaleData]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: YaleConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: YaleConfigEntry) -> None:
     """Set up Yale from a config entry."""
     session = async_create_yale_clientsession(hass)
     implementation = await async_get_config_entry_implementation(hass, entry)
@@ -55,13 +55,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: YaleConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: YaleConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: YaleConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_setup_yale(
-    hass: UniversalAssistant, entry: YaleConfigEntry, yale_gateway: YaleGateway
+    hass: __HAC_KEEP__, entry: YaleConfigEntry, yale_gateway: YaleGateway
 ) -> None:
     """Set up the yale component."""
     config = cast(YaleXSConfig, entry.data)
@@ -77,7 +77,7 @@ async def async_setup_yale(
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant, config_entry: YaleConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, config_entry: YaleConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> bool:
     """Remove yale config entry from a device if its no longer present."""
     return not any(

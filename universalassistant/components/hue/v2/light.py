@@ -24,7 +24,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
     filter_supported_color_modes,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.group import IntegrationSpecificGroup
 from universalassistant.util import color as color_util
@@ -61,7 +61,7 @@ def gradient_point_color(resource: Light, index: int) -> tuple[float, float]:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HueConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -296,7 +296,7 @@ class HueLight(HueBaseEntity, LightEntity):
             # ignore effect if set to "off" and we have no effect active
             # the special effect "off" is only used to stop an active effect
             # but sending it while no effect is active can actually result in issues
-            # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/122165
+            # https://github.com/yashhasan570/__HAC_KEEP__/issues/122165
             effect = None if self.effect == EFFECT_OFF else EffectStatus.NO_EFFECT
         elif effect_str is not None:
             # work out if we got a regular effect or timed effect

@@ -7,7 +7,7 @@ from yeelight import BulbException
 from yeelight.aio import KEY_CONNECTED, AsyncBulb
 
 from universalassistant.const import CONF_ID, CONF_NAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_call_later
 
@@ -62,7 +62,7 @@ class YeelightDevice:
     """Represents single Yeelight device."""
 
     def __init__(
-        self, hass: UniversalAssistant, host: str, config: dict[str, Any], bulb: AsyncBulb
+        self, hass: __HAC_KEEP__, host: str, config: dict[str, Any], bulb: AsyncBulb
     ) -> None:
         """Initialize device."""
         self._hass = hass

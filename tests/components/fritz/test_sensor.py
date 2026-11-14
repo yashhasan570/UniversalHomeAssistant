@@ -18,7 +18,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.fritz.const import DOMAIN, SCAN_INTERVAL
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import MOCK_FB_SERVICES, MOCK_USER_DATA
@@ -27,7 +27,7 @@ from .const import MOCK_FB_SERVICES, MOCK_USER_DATA
 @pytest.mark.freeze_time(datetime(2024, 9, 1, 20, tzinfo=UTC))
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     fc_class_mock,
     fh_class_mock,
@@ -47,7 +47,7 @@ async def test_sensor_setup(
 
 
 async def test_sensor_update_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     fc_class_mock,
@@ -77,7 +77,7 @@ async def test_sensor_update_fail(
 
 @pytest.mark.freeze_time("2026-02-14T09:30:00+00:00")
 async def test_sensor_uptime_spike(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
     fc_class_mock,
@@ -129,7 +129,7 @@ async def test_sensor_uptime_spike(
     ],
 )
 async def test_sensor_cpu_temp_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     side_effect,
     return_values,
@@ -162,7 +162,7 @@ async def test_sensor_cpu_temp_not_supported(
 
 @pytest.mark.freeze_time(datetime(2024, 9, 1, 20, tzinfo=UTC))
 async def test_sensor_cpu_temp_unknown_on_request_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     fc_class_mock,
     fh_class_mock,
@@ -205,7 +205,7 @@ async def test_sensor_cpu_temp_unknown_on_request_error(
 )
 @pytest.mark.usefixtures("fc_class_mock", "fh_class_mock", "fs_class_mock")
 async def test_sensor_addon_infos_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:

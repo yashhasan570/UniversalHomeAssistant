@@ -8,7 +8,7 @@ from aioemonitor.monitor import EmonitorStatus
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -21,7 +21,7 @@ DEFAULT_UPDATE_RATE = 60
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: EmonitorConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: EmonitorConfigEntry) -> None:
     """Set up SiteSage Emonitor from a config entry."""
     session = aiohttp_client.async_get_clientsession(hass)
     emonitor = Emonitor(entry.data[CONF_HOST], session)
@@ -42,7 +42,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: EmonitorConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: EmonitorConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: EmonitorConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 

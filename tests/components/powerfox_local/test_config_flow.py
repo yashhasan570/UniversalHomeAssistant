@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.powerfox_local.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_API_KEY, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -28,7 +28,7 @@ MOCK_ZEROCONF_DISCOVERY_INFO = ZeroconfServiceInfo(
 
 
 async def test_full_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -58,7 +58,7 @@ async def test_full_user_flow(
 
 
 async def test_zeroconf_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_zeroconf_discovery(
     ],
 )
 async def test_zeroconf_discovery_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     exception: Exception,
 ) -> None:
@@ -112,7 +112,7 @@ async def test_zeroconf_discovery_errors(
 
 
 async def test_zeroconf_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -129,7 +129,7 @@ async def test_zeroconf_already_configured(
 
 
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -159,7 +159,7 @@ async def test_duplicate_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -188,7 +188,7 @@ async def test_user_flow_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -219,7 +219,7 @@ async def test_step_reauth(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reauth_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -255,7 +255,7 @@ async def test_step_reauth_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -287,7 +287,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -325,7 +325,7 @@ async def test_reconfigure_flow_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_powerfox_local_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

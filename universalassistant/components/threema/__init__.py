@@ -4,7 +4,7 @@ import logging
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .client import ThreemaAPIClient, ThreemaAuthError, ThreemaConnectionError
@@ -17,7 +17,7 @@ PLATFORMS: list[Platform] = [Platform.NOTIFY]
 type ThreemaConfigEntry = ConfigEntry[ThreemaAPIClient]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ThreemaConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ThreemaConfigEntry) -> None:
     """Set up Threema Gateway from a config entry."""
     client = ThreemaAPIClient(
         hass,
@@ -46,12 +46,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ThreemaConfigEntry)
 
 
 async def _async_update_listener(
-    hass: UniversalAssistant, entry: ThreemaConfigEntry
+    hass: __HAC_KEEP__, entry: ThreemaConfigEntry
 ) -> None:
     """Reload entry when config is updated (e.g. subentry added/removed)."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ThreemaConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ThreemaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

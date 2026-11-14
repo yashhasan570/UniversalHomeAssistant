@@ -6,7 +6,7 @@ from typing import Any
 from homematicip.base.helpers import handle_config
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .hap import HomematicIPConfigEntry
 
@@ -14,7 +14,7 @@ TO_REDACT_CONFIG = {"city", "latitude", "longitude", "refreshToken"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: HomematicIPConfigEntry
+    hass: __HAC_KEEP__, config_entry: HomematicIPConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     hap = config_entry.runtime_data

@@ -25,7 +25,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_ADDRESSES
@@ -158,7 +158,7 @@ SENSORS: tuple[KacoSensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: KacoRs485ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

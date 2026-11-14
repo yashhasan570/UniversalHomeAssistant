@@ -17,7 +17,7 @@ from universalassistant.config_entries import (
     SubentryFlowResult,
 )
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import (
     SelectOptionDict,
@@ -34,7 +34,7 @@ AUTH_SCHEMA = probatio.Schema({probatio.Required(probatio.Secret(CONF_API_KEY)):
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_init_nextdns(hass: UniversalAssistant, api_key: str) -> NextDns:
+async def async_init_nextdns(hass: __HAC_KEEP__, api_key: str) -> NextDns:
     """Check if credentials are valid."""
     websession = async_get_clientsession(hass)
 
@@ -42,7 +42,7 @@ async def async_init_nextdns(hass: UniversalAssistant, api_key: str) -> NextDns:
 
 
 async def async_validate_new_api_key(
-    hass: UniversalAssistant, user_input: dict[str, Any], profile_ids: list[str]
+    hass: __HAC_KEEP__, user_input: dict[str, Any], profile_ids: list[str]
 ) -> dict[str, str]:
     """Validate the new API key during reconfiguration or reauth."""
     errors: dict[str, str] = {}

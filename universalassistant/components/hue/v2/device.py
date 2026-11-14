@@ -1,4 +1,4 @@
-"""Handles Hue resource of type `device` mapping to Universal Universal Home Assistant device."""
+"""Handles Hue resource of type `device` mapping to __HA_KEEP__ device."""
 
 from typing import TYPE_CHECKING
 

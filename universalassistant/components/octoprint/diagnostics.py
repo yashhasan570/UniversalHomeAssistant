@@ -5,7 +5,7 @@ from typing import Any
 from pyoctoprintapi import OctoprintJobInfo, OctoprintPrinterInfo
 
 from universalassistant.const import CONF_PATH, CONF_PORT, CONF_SSL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import OctoprintConfigEntry
 
@@ -65,7 +65,7 @@ def _printer_to_dict(printer: OctoprintPrinterInfo) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: OctoprintConfigEntry
+    hass: __HAC_KEEP__, entry: OctoprintConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

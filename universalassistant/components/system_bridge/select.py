@@ -7,7 +7,7 @@ from systembridgeconnector.models.system_control import PowerProfileRequest
 
 from universalassistant.components.select import SelectEntity
 from universalassistant.const import CONF_PORT
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SystemBridgeConfigEntry, SystemBridgeDataUpdateCoordinator
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SystemBridgeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

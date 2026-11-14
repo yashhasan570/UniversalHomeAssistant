@@ -52,7 +52,7 @@ from universalassistant.components.anthropic.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_NAME, CONF_PROMPT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType, InvalidData
 
 from . import model_list
@@ -80,7 +80,7 @@ def mock_model_catalogue(mock_model_list: AsyncMock) -> list[ModelInfo]:
 
 
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test we get the form."""
@@ -124,7 +124,7 @@ async def test_form(
 
 
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test we abort on duplicate config entry."""
@@ -151,7 +151,7 @@ async def test_duplicate_entry(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_creating_conversation_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating a conversation subentry."""
@@ -187,7 +187,7 @@ async def test_creating_conversation_subentry(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_recommended_settings_hide_advanced_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     subentry_type: str,
 ) -> None:
@@ -221,7 +221,7 @@ async def test_recommended_settings_hide_advanced_options(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_creating_conversation_subentry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating a conversation subentry when entry is not loaded."""
@@ -301,7 +301,7 @@ async def test_creating_conversation_subentry_not_loaded(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: APIError,
     error: str,
 ) -> None:
@@ -344,7 +344,7 @@ async def test_api_error(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_subentry_options_thinking_budget_more_than_max(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test error about thinking budget being more than max tokens."""
@@ -416,7 +416,7 @@ async def test_subentry_options_thinking_budget_more_than_max(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_creating_subentry_with_required_thinking(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     model: str,
     subentry_type: str,
@@ -477,7 +477,7 @@ async def test_creating_subentry_with_required_thinking(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_subentry_with_optional_thinking(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     model: str,
     subentry_type: str,
@@ -556,7 +556,7 @@ async def test_subentry_with_optional_thinking(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_reconfigure_subentry_with_required_thinking(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     model: str,
     subentry_type: str,
@@ -666,7 +666,7 @@ async def test_reconfigure_subentry_with_required_thinking(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_reconfigure_subentry_thinking_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     subentry_type: str,
     model: str,
@@ -764,7 +764,7 @@ async def test_reconfigure_subentry_thinking_options(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_reconfigure_subentry_server_tools(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_catalogue: list[ModelInfo],
     subentry_type: str,
@@ -854,7 +854,7 @@ async def test_reconfigure_subentry_server_tools(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_subentry_web_search_user_location(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test fetching user location."""
@@ -945,7 +945,7 @@ async def test_subentry_web_search_user_location(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_model_list_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     mock_model_catalogue: list[ModelInfo],
@@ -993,7 +993,7 @@ async def test_model_list_refresh(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_model_list_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_list: AsyncMock,
     subentry_type: str,
@@ -1025,7 +1025,7 @@ async def test_model_list_refresh_failure(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_model_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_catalogue: list[ModelInfo],
     snapshot: SnapshotAssertion,
@@ -1059,7 +1059,7 @@ async def test_model_list(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_model_list_structured_outputs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_catalogue: list[ModelInfo],
     subentry_type: str,
@@ -1127,7 +1127,7 @@ async def test_model_list_structured_outputs(
     ],
 )
 async def test_model_list_sdk_lifecycle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_catalogue: list[ModelInfo],
     sdk_dates: dict[str, str],
@@ -1160,7 +1160,7 @@ async def test_model_list_sdk_lifecycle(
 @pytest.mark.usefixtures("mock_init_component")
 @pytest.mark.parametrize("cached_model_count", [0, 1], ids=["retrieved", "cached"])
 async def test_retired_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_catalogue: list[ModelInfo],
     cached_model_count: int,
@@ -1217,7 +1217,7 @@ async def test_retired_model(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_invalid_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test exceptions during fetching model info."""
@@ -1564,7 +1564,7 @@ async def test_invalid_model(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_subentry_options_switching(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     current_options: dict[str, str | int | bool | list[str]],
     new_options: tuple[dict[str, str | int | bool | list[str]], ...],
@@ -1613,7 +1613,7 @@ async def test_subentry_options_switching(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_creating_ai_task_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating an AI task subentry."""
@@ -1655,7 +1655,7 @@ async def test_creating_ai_task_subentry(
 
 
 async def test_ai_task_subentry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating an AI task subentry when entry is not loaded."""
@@ -1671,7 +1671,7 @@ async def test_ai_task_subentry_not_loaded(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_creating_ai_task_subentry_additional(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test creating an AI task subentry with additional settings."""
@@ -1722,7 +1722,7 @@ async def test_creating_ai_task_subentry_additional(
 
 @pytest.fixture
 async def setup_api_key_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     initial_state: config_entries.ConfigEntryState,
 ) -> None:
@@ -1766,7 +1766,7 @@ async def setup_api_key_entry(
 )
 @pytest.mark.usefixtures("setup_api_key_entry")
 async def test_update_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     source: str,
     step_id: str,
@@ -1847,7 +1847,7 @@ async def test_update_api_key(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_update_api_key_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     source: str,
     step_id: str,
@@ -1889,7 +1889,7 @@ async def test_update_api_key_error(
     ],
 )
 async def test_update_api_key_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     source: str,
 ) -> None:
@@ -1939,7 +1939,7 @@ async def test_update_api_key_duplicate(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_reconfigure_conversation_subentry_llm_api_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     current_llm_apis: str | list[str],
     suggested_llm_apis: list[str],
@@ -2080,7 +2080,7 @@ async def test_reconfigure_conversation_subentry_llm_api_schema(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_model_thinking_and_effort_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_catalogue: list[ModelInfo],
     thinking_supported: bool,
@@ -2147,7 +2147,7 @@ async def test_model_thinking_and_effort_capabilities(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_reconfigure_legacy_thinking_budget(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     thinking_budget: int,
     expected_thinking_type: str,
@@ -2199,7 +2199,7 @@ async def test_reconfigure_legacy_thinking_budget(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_hidden_model_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     thinking_type: str,
     thinking_budget: int | str,
@@ -2283,7 +2283,7 @@ async def test_hidden_model_options(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_visible_model_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     user_input: dict[str, str | bool | int],
     subentry_type: str,
@@ -2323,7 +2323,7 @@ async def test_visible_model_options_validation(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_reconfigure_preserves_hidden_model_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     thinking_type: str,
     subentry_type: str,
@@ -2386,7 +2386,7 @@ async def test_reconfigure_preserves_hidden_model_options(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_required_enabled_thinking_budget(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_catalogue: list[ModelInfo],
     subentry_type: str,
@@ -2471,7 +2471,7 @@ async def test_required_enabled_thinking_budget(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_effort_requires_thinking(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_catalogue: list[ModelInfo],
     source_model_id: str,
@@ -2548,7 +2548,7 @@ async def test_effort_requires_thinking(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_effort_without_thinking(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     model: str,
     thinking_type: str,
@@ -2575,7 +2575,7 @@ async def test_effort_without_thinking(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_missing_effort_level_capability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_model_catalogue: list[ModelInfo],
 ) -> None:
@@ -2621,7 +2621,7 @@ async def test_missing_effort_level_capability(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_reconfigure_model_token_limits(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     subentry_type: str,
 ) -> None:

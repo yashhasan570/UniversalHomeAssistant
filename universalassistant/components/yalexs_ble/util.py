@@ -13,7 +13,7 @@ from universalassistant.components.bluetooth.match import (
     LOCAL_NAME,
     BluetoothCallbackMatcher,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 
 def bluetooth_callback_matcher(
@@ -33,7 +33,7 @@ def bluetooth_callback_matcher(
 
 @callback
 def async_find_existing_service_info(
-    hass: UniversalAssistant, local_name: str, address: str
+    hass: __HAC_KEEP__, local_name: str, address: str
 ) -> BluetoothServiceInfoBleak | None:
     """Return the service info for the given local_name and address."""
     has_unique_local_name = local_name_is_unique(local_name)

@@ -15,7 +15,7 @@ from sense_energy import (
 from universalassistant import config_entries
 from universalassistant.components.sense.const import DOMAIN
 from universalassistant.const import CONF_CODE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import MOCK_CONFIG
@@ -39,7 +39,7 @@ def mock_flow_sense_fixture() -> Iterator[MagicMock]:
 
 @pytest.mark.usefixtures("mock_flow_sense")
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test we get the form."""
@@ -73,7 +73,7 @@ async def test_form(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flow_sense: MagicMock,
     exception: Exception,
     error: str,
@@ -105,7 +105,7 @@ async def test_form_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_mfa_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flow_sense: MagicMock,
 ) -> None:
     """Test we handle the MFA flow."""
@@ -144,7 +144,7 @@ async def test_form_mfa_required(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_mfa_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flow_sense: MagicMock,
     exception: Exception,
     error: str,
@@ -188,7 +188,7 @@ async def test_form_mfa_exceptions(
 
 @pytest.mark.usefixtures("mock_flow_sense")
 async def test_reauth_no_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test reauth where no form needed."""
@@ -207,7 +207,7 @@ async def test_reauth_no_form(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_flow_sense: MagicMock,
 ) -> None:
     """Test reauth form."""

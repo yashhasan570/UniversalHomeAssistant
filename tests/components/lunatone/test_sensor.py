@@ -11,14 +11,14 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -49,7 +49,7 @@ async def test_setup(
     ids=["temperature", "air_humidity", "dali_temperature", "cpu_temperature"],
 )
 async def test_sensor_value_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,
@@ -84,7 +84,7 @@ async def test_sensor_value_update(
 
 
 async def test_dali_line_status_value_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lunatone_info: AsyncMock,
     mock_lunatone_devices: AsyncMock,
     mock_lunatone_sensors: AsyncMock,

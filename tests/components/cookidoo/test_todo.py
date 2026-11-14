@@ -25,8 +25,8 @@ from universalassistant.components.todo import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, CONF_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -45,7 +45,7 @@ def todo_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_cookidoo_client")
 async def test_todo(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -63,7 +63,7 @@ async def test_todo(
 
 
 async def test_update_ingredient(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_update_ingredient(
 
 
 async def test_update_ingredient_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_update_ingredient_exception(
         CookidooRequestException
     )
     with pytest.raises(
-        UniversalAssistantError, match="Failed to update Mehl in Cookidoo shopping list"
+        __HAC_KEEP__Error, match="Failed to update Mehl in Cookidoo shopping list"
     ):
         await hass.services.async_call(
             TODO_DOMAIN,
@@ -126,7 +126,7 @@ async def test_update_ingredient_exception(
 
 
 async def test_add_additional_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
 ) -> None:
@@ -150,7 +150,7 @@ async def test_add_additional_item(
 
 
 async def test_add_additional_item_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_add_additional_item_exception(
 
     mock_cookidoo_client.add_additional_items.side_effect = CookidooRequestException
     with pytest.raises(
-        UniversalAssistantError, match="Failed to save Äpfel to Cookidoo shopping list"
+        __HAC_KEEP__Error, match="Failed to save Äpfel to Cookidoo shopping list"
     ):
         await hass.services.async_call(
             TODO_DOMAIN,
@@ -174,7 +174,7 @@ async def test_add_additional_item_exception(
 
 
 async def test_update_additional_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
 ) -> None:
@@ -217,7 +217,7 @@ async def test_update_additional_item(
 
 
 async def test_update_additional_item_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
 ) -> None:
@@ -232,7 +232,7 @@ async def test_update_additional_item_exception(
     )
     mock_cookidoo_client.edit_additional_items.side_effect = CookidooRequestException
     with pytest.raises(
-        UniversalAssistantError, match="Failed to update Peperoni in Cookidoo shopping list"
+        __HAC_KEEP__Error, match="Failed to update Peperoni in Cookidoo shopping list"
     ):
         await hass.services.async_call(
             TODO_DOMAIN,
@@ -248,7 +248,7 @@ async def test_update_additional_item_exception(
 
 
 async def test_delete_additional_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_delete_additional_items(
 
 
 async def test_delete_additional_items_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
 ) -> None:
@@ -283,7 +283,7 @@ async def test_delete_additional_items_exception(
     assert cookidoo_config_entry.state is ConfigEntryState.LOADED
     mock_cookidoo_client.remove_additional_items.side_effect = CookidooRequestException
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=re.escape("Failed to delete 1 item(s) from Cookidoo shopping list"),
     ):
         await hass.services.async_call(
@@ -296,7 +296,7 @@ async def test_delete_additional_items_exception(
 
 
 async def test_failed_action_persists_rotated_tokens(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cookidoo_config_entry_with_token: MockConfigEntry,
     mock_cookidoo_client: AsyncMock,
     notify_auth_data_update: Callable[[CookidooAuthData], None],
@@ -311,7 +311,7 @@ async def test_failed_action_persists_rotated_tokens(
 
     mock_cookidoo_client.remove_additional_items.side_effect = _rotate_then_fail
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,

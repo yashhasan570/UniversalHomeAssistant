@@ -1,4 +1,4 @@
-"""Integration to integrate Keymitt BLE devices with Universal Universal Home Assistant."""
+"""Integration to integrate Keymitt BLE devices with __HA_KEEP__."""
 
 import logging
 from typing import TYPE_CHECKING, Any, override
@@ -10,7 +10,7 @@ from universalassistant.components.bluetooth.passive_update_coordinator import (
     PassiveBluetoothDataUpdateCoordinator,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 if TYPE_CHECKING:
     from bleak.backends.device import BLEDevice
@@ -25,7 +25,7 @@ class MicroBotDataUpdateCoordinator(PassiveBluetoothDataUpdateCoordinator):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         client: MicroBotApiClient,
         ble_device: BLEDevice,
     ) -> None:

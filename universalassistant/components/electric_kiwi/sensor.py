@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import CURRENCY_DOLLAR, PERCENTAGE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 from universalassistant.util import dt as dt_util
@@ -129,7 +129,7 @@ HOP_SENSOR_TYPES: tuple[ElectricKiwiHOPSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ElectricKiwiConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

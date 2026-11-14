@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.emoncms.const import DOMAIN, FEED_ID, FEED_NAME
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_URL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
 from . import setup_integration
@@ -15,7 +15,7 @@ from .conftest import EMONCMS_FAILURE, FEEDS, UNIQUE_ID
 
 
 async def test_load_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     emoncms_client: AsyncMock,
 ) -> None:
@@ -31,7 +31,7 @@ async def test_load_unload_entry(
 
 
 async def test_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     emoncms_client: AsyncMock,
 ) -> None:
@@ -42,7 +42,7 @@ async def test_failure(
 
 
 async def test_migrate_uuid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     emoncms_client: AsyncMock,
@@ -75,7 +75,7 @@ async def test_migrate_uuid(
 
 
 async def test_no_uuid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
     emoncms_client: AsyncMock,
@@ -111,7 +111,7 @@ async def test_no_uuid(
 
 
 async def test_uuid_available_deletes_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     issue_registry: ir.IssueRegistry,
     emoncms_client: AsyncMock,

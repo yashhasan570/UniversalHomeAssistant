@@ -1,16 +1,16 @@
-"""Test type casting functions for Universal Universal Home Assistant templates."""
+"""Test type casting functions for __HA_KEEP__ templates."""
 
 import math
 
 import pytest
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import TemplateError
 
 from tests.helpers.template.helpers import render
 
 
-def test_float_function(hass: UniversalAssistant) -> None:
+def test_float_function(hass: __HAC_KEEP__) -> None:
     """Test float function."""
     hass.states.async_set("sensor.temperature", "12")
 
@@ -28,7 +28,7 @@ def test_float_function(hass: UniversalAssistant) -> None:
     assert render(hass, "{{ float(value, default=1) }}", {"value": 10**400}) == 1
 
 
-def test_float_filter(hass: UniversalAssistant) -> None:
+def test_float_filter(hass: __HAC_KEEP__) -> None:
     """Test float filter."""
     hass.states.async_set("sensor.temperature", "12")
 
@@ -44,7 +44,7 @@ def test_float_filter(hass: UniversalAssistant) -> None:
     assert render(hass, "{{ 'bad' | float(default=1) }}") == 1
 
 
-def test_int_filter(hass: UniversalAssistant) -> None:
+def test_int_filter(hass: __HAC_KEEP__) -> None:
     """Test int filter."""
     hass.states.async_set("sensor.temperature", "12.2")
     assert render(hass, "{{ states.sensor.temperature.state | int }}") == 12
@@ -62,7 +62,7 @@ def test_int_filter(hass: UniversalAssistant) -> None:
     assert render(hass, "{{ 'bad' | int(default=1) }}") == 1
 
 
-def test_int_function(hass: UniversalAssistant) -> None:
+def test_int_function(hass: __HAC_KEEP__) -> None:
     """Test int filter."""
     hass.states.async_set("sensor.temperature", "12.2")
     assert render(hass, "{{ int(states.sensor.temperature.state) }}") == 12
@@ -87,7 +87,7 @@ def test_int_function(hass: UniversalAssistant) -> None:
         pytest.param(-math.inf, id="negative_inf"),
     ],
 )
-def test_int_infinite_float_returns_default(hass: UniversalAssistant, value: float) -> None:
+def test_int_infinite_float_returns_default(hass: __HAC_KEEP__, value: float) -> None:
     """Test int returns the default for an infinite float."""
     assert render(hass, "{{ int(value, default=1) }}", {"value": value}) == 1
     assert render(hass, "{{ value | int(default=1) }}", {"value": value}) == 1
@@ -95,7 +95,7 @@ def test_int_infinite_float_returns_default(hass: UniversalAssistant, value: flo
         render(hass, "{{ int(value) }}", {"value": value})
 
 
-def test_bool_function(hass: UniversalAssistant) -> None:
+def test_bool_function(hass: __HAC_KEEP__) -> None:
     """Test bool function."""
     assert render(hass, "{{ bool(true) }}") is True
     assert render(hass, "{{ bool(false) }}") is False
@@ -109,7 +109,7 @@ def test_bool_function(hass: UniversalAssistant) -> None:
     assert render(hass, "{{ bool('unavailable', default=none) }}") is None
 
 
-def test_bool_filter(hass: UniversalAssistant) -> None:
+def test_bool_filter(hass: __HAC_KEEP__) -> None:
     """Test bool filter."""
     assert render(hass, "{{ true | bool }}") is True
     assert render(hass, "{{ false | bool }}") is False
@@ -145,7 +145,7 @@ def test_bool_filter(hass: UniversalAssistant) -> None:
         pytest.param(10**400, False, id="int_out_of_float_range"),
     ],
 )
-def test_isnumber(hass: UniversalAssistant, value: object, expected: bool) -> None:
+def test_isnumber(hass: __HAC_KEEP__, value: object, expected: bool) -> None:
     """Test is_number."""
     assert render(hass, "{{ is_number(value) }}", {"value": value}) == expected
     assert render(hass, "{{ value | is_number }}", {"value": value}) == expected
@@ -163,6 +163,6 @@ def test_isnumber(hass: UniversalAssistant, value: object, expected: bool) -> No
         (None, False),
     ],
 )
-def test_string_like(hass: UniversalAssistant, value: object, expected: bool) -> None:
+def test_string_like(hass: __HAC_KEEP__, value: object, expected: bool) -> None:
     """Test string_like."""
     assert render(hass, "{{ value is string_like }}", {"value": value}) == expected

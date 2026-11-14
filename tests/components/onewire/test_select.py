@@ -20,8 +20,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_owproxy_mock_devices
@@ -37,7 +37,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_selects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -53,7 +53,7 @@ async def test_selects(
 @pytest.mark.parametrize("device_id", ["28.111111111111"])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_selects_delayed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_id: str,
@@ -80,7 +80,7 @@ async def test_selects_delayed(
 @pytest.mark.parametrize("device_id", ["28.111111111111"])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_selection_option_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_id: str,
@@ -106,7 +106,7 @@ async def test_selection_option_service(
 @pytest.mark.parametrize("device_id", ["28.111111111111"])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_selection_option_write_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_id: str,
@@ -116,7 +116,7 @@ async def test_selection_option_write_failure(
     await hass.config_entries.async_setup(config_entry.entry_id)
 
     owproxy.return_value.write.side_effect = OWServerConnectionError
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,

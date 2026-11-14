@@ -8,7 +8,7 @@ from pyyardian import NetworkException, NotAuthorizedException
 
 from universalassistant.components.yardian.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -24,7 +24,7 @@ from . import setup_integration
     ],
 )
 async def test_setup_unauthorized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_yardian_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,
@@ -40,7 +40,7 @@ async def test_setup_unauthorized(
 
 @pytest.mark.usefixtures("mock_yardian_client", "switch_platform_only")
 async def test_zone_device_via_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:

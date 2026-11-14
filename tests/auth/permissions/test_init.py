@@ -4,10 +4,10 @@ from pytest_universalassistant.common import MockUser
 
 from universalassistant.auth.permissions import filter_entity_ids_by_permission
 from universalassistant.auth.permissions.const import POLICY_READ
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_filter_entity_ids_by_permission_admin(hass: UniversalAssistant) -> None:
+async def test_filter_entity_ids_by_permission_admin(hass: __HAC_KEEP__) -> None:
     """Test admins receive the input entity IDs unchanged."""
     user = MockUser(is_owner=True)
     user.mock_policy({"entities": {"entity_ids": {"light.allowed": True}}})
@@ -18,7 +18,7 @@ async def test_filter_entity_ids_by_permission_admin(hass: UniversalAssistant) -
     ) == ["light.allowed", "light.forbidden"]
 
 
-async def test_filter_entity_ids_by_permission_access_all(hass: UniversalAssistant) -> None:
+async def test_filter_entity_ids_by_permission_access_all(hass: __HAC_KEEP__) -> None:
     """Test users with access_all_entities receive the input unchanged."""
     user = MockUser()
     user.mock_policy({"entities": {"all": True}})
@@ -29,7 +29,7 @@ async def test_filter_entity_ids_by_permission_access_all(hass: UniversalAssista
     ) == ["light.a", "light.b"]
 
 
-async def test_filter_entity_ids_by_permission_filtered(hass: UniversalAssistant) -> None:
+async def test_filter_entity_ids_by_permission_filtered(hass: __HAC_KEEP__) -> None:
     """Test users without full access have entity IDs filtered."""
     user = MockUser()
     user.mock_policy({"entities": {"entity_ids": {"light.allowed": True}}})
@@ -40,7 +40,7 @@ async def test_filter_entity_ids_by_permission_filtered(hass: UniversalAssistant
     ) == ["light.allowed"]
 
 
-async def test_filter_entity_ids_by_permission_empty(hass: UniversalAssistant) -> None:
+async def test_filter_entity_ids_by_permission_empty(hass: __HAC_KEEP__) -> None:
     """Test users with no permitted entities receive an empty list."""
     user = MockUser()
     user.mock_policy({})

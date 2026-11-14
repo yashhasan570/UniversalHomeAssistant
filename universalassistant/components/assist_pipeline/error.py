@@ -2,13 +2,13 @@
 
 from typing import TYPE_CHECKING
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 if TYPE_CHECKING:
     from .models import PipelineStage
 
 
-class PipelineError(UniversalAssistantError):
+class PipelineError(__HAC_KEEP__Error):
     """Base class for pipeline errors."""
 
     def __init__(self, code: str, message: str) -> None:

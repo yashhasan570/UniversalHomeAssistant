@@ -1,4 +1,4 @@
-"""Compatibility imports for the Universal Universal Home Assistant pytest helpers."""
+"""Compatibility imports for the __HA_KEEP__ pytest helpers."""
 
 import pytest
 

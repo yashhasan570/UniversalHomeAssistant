@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .model import OWDeviceDescription
@@ -23,7 +23,7 @@ def _device_diagnostics(device_details: OWDeviceDescription) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: OneWireConfigEntry
+    hass: __HAC_KEEP__, entry: OneWireConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     onewire_hub = entry.runtime_data
@@ -42,7 +42,7 @@ async def async_get_config_entry_diagnostics(
 
 
 async def async_get_device_diagnostics(
-    hass: UniversalAssistant, entry: OneWireConfigEntry, device_entry: dr.AnyDeviceEntry
+    hass: __HAC_KEEP__, entry: OneWireConfigEntry, device_entry: dr.AnyDeviceEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a device."""
     if TYPE_CHECKING:

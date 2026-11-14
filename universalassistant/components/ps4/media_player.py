@@ -24,7 +24,7 @@ from universalassistant.const import (
     CONF_REGION,
     CONF_TOKEN,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -46,7 +46,7 @@ DEFAULT_RETRIES = 2
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -385,7 +385,7 @@ class PS4Device(MediaPlayerEntity):
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """Remove Entity from Universal Universal Home Assistant."""
+        """Remove Entity from __HA_KEEP__."""
         # Close TCP Transport.
         if self._ps4.connected:
             await self._ps4.close()

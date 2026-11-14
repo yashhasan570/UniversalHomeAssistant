@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.device_tracker import TrackerEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ATTR_CATEGORY, ATTR_TRACCAR_ID, ATTR_TRACKER, DOMAIN
@@ -12,7 +12,7 @@ from .entity import TraccarServerEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TraccarServerConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

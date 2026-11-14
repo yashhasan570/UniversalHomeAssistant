@@ -2,13 +2,13 @@
 
 from aiohttp import web
 
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView, require_admin
-from universalassistant.core import UniversalAssistant
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View, require_admin
+from universalassistant.core import __HAC_KEEP__
 
 from .analytics import async_devices_payload
 
 
-class AnalyticsDevicesView(UniversalAssistantView):
+class AnalyticsDevicesView(__HAC_KEEP__View):
     """View to handle analytics devices payload download requests."""
 
     url = "/api/analytics/devices"
@@ -17,7 +17,7 @@ class AnalyticsDevicesView(UniversalAssistantView):
     @require_admin
     async def get(self, request: web.Request) -> web.Response:
         """Return analytics devices payload as JSON."""
-        hass: UniversalAssistant = request.app[KEY_HASS]
+        hass: __HAC_KEEP__ = request.app[KEY_HASS]
         payload = await async_devices_payload(hass)
         return self.json(
             payload,

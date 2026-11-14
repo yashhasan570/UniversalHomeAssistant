@@ -13,8 +13,8 @@ from universalassistant.components.switch import (
     SwitchEntity,
     SwitchEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -50,7 +50,7 @@ SWITCHES: tuple[FlexitSwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FlexitConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -97,7 +97,7 @@ class FlexitSwitch(FlexitEntity, SwitchEntity):
         try:
             await self.entity_description.turn_on_fn(self.coordinator.data)
         except (asyncio.exceptions.TimeoutError, ConnectionError, DecodingError) as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="switch_turn",
                 translation_placeholders={
@@ -113,7 +113,7 @@ class FlexitSwitch(FlexitEntity, SwitchEntity):
         try:
             await self.entity_description.turn_off_fn(self.coordinator.data)
         except (asyncio.exceptions.TimeoutError, ConnectionError, DecodingError) as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="switch_turn",
                 translation_placeholders={

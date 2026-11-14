@@ -8,7 +8,7 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 
 from universalassistant.components.gardena_bluetooth.const import CONF_PRODUCT_TYPE, DOMAIN
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.service_info.bluetooth import BluetoothServiceInfo
 
 WATER_TIMER_SERVICE_INFO = BluetoothServiceInfo(
@@ -115,7 +115,7 @@ def get_config_entry(service_info: BluetoothServiceInfo) -> MockConfigEntry:
 
 
 async def setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry: MockConfigEntry | None = None,
     platforms: list[Platform] | None = None,
     service_info: BluetoothServiceInfo = WATER_TIMER_SERVICE_INFO,

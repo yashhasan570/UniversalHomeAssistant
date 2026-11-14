@@ -16,8 +16,8 @@ from universalassistant.components.deconz.services import (
     DeconzServiceArgument,
 )
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .test_hub import BRIDGE_ID
@@ -25,7 +25,7 @@ from .test_hub import BRIDGE_ID
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_configure_service_with_field(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
 ) -> None:
     """Test that service invokes pydeconz with the correct path and data."""
@@ -56,7 +56,7 @@ async def test_configure_service_with_field(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_configure_service_with_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
 ) -> None:
     """Test that service invokes pydeconz with the correct path and data."""
@@ -85,7 +85,7 @@ async def test_configure_service_with_entity(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_configure_service_with_entity_and_field(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
 ) -> None:
     """Test that service invokes pydeconz with the correct path and data."""
@@ -104,7 +104,7 @@ async def test_configure_service_with_entity_and_field(
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_configure_service_with_faulty_bridgeid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test that service fails on a bad bridge id."""
@@ -116,7 +116,7 @@ async def test_configure_service_with_faulty_bridgeid(
         DeconzServiceArgument.DATA: {"on": True},
     }
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             DeconzService.CONFIGURE,
@@ -129,7 +129,7 @@ async def test_configure_service_with_faulty_bridgeid(
 
 
 @pytest.mark.usefixtures("config_entry_setup")
-async def test_configure_service_with_faulty_field(hass: UniversalAssistant) -> None:
+async def test_configure_service_with_faulty_field(hass: __HAC_KEEP__) -> None:
     """Test that service fails on a bad field."""
     data = {DeconzServiceArgument.FIELD: "light/2", DeconzServiceArgument.DATA: {}}
 
@@ -141,7 +141,7 @@ async def test_configure_service_with_faulty_field(hass: UniversalAssistant) -> 
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_configure_service_with_faulty_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test that service fails on a non-existing entity."""
@@ -152,7 +152,7 @@ async def test_configure_service_with_faulty_entity(
         DeconzServiceArgument.DATA: {},
     }
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             DeconzService.CONFIGURE,
@@ -177,7 +177,7 @@ async def test_configure_service_with_faulty_entity(
     ],
 )
 async def test_configure_service_with_renamed_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_setup: MockConfigEntry,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],
@@ -199,7 +199,7 @@ async def test_configure_service_with_renamed_entity(
     )
     assert aioclient_mock.mock_calls[1][2] == {"on": True}
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             DeconzService.CONFIGURE,
@@ -226,7 +226,7 @@ async def test_configure_service_with_renamed_entity(
 @pytest.mark.parametrize("config_entry_options", [{CONF_MASTER_GATEWAY: False}])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_calling_service_with_no_master_gateway_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test that service call fails when no master gateway exist."""
@@ -237,7 +237,7 @@ async def test_calling_service_with_no_master_gateway_fails(
         DeconzServiceArgument.DATA: {"on": True},
     }
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             DeconzService.CONFIGURE,
@@ -251,7 +251,7 @@ async def test_calling_service_with_no_master_gateway_fails(
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_service_refresh_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     deconz_payload: dict[str, Any],
     mock_requests: Callable[[], None],
@@ -317,7 +317,7 @@ async def test_service_refresh_devices(
 )
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_service_refresh_devices_trigger_no_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     deconz_payload: dict[str, Any],
     mock_requests,
@@ -396,7 +396,7 @@ async def test_service_refresh_devices_trigger_no_state_update(
     ],
 )
 async def test_remove_orphaned_entries_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     config_entry_setup: MockConfigEntry,
@@ -471,7 +471,7 @@ async def test_remove_orphaned_entries_service(
 
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_configure_service_request_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_put_request: Callable[..., AiohttpClientMocker],
 ) -> None:
     """Test configure service handles API request errors."""
@@ -487,7 +487,7 @@ async def test_configure_service_request_error(
         exc=RequestError("Request failed"),
     )
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             DeconzService.CONFIGURE,
@@ -499,7 +499,7 @@ async def test_configure_service_request_error(
 
 
 async def test_service_refresh_devices_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     config_entry_setup: MockConfigEntry,
     mock_requests: Callable[..., None],
@@ -511,7 +511,7 @@ async def test_service_refresh_devices_failure(
 
     hub = config_entry_setup.runtime_data
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             DeconzService.DEVICE_REFRESH,

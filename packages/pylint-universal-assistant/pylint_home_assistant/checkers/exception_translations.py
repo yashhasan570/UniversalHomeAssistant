@@ -1,6 +1,6 @@
-"""Checker for UniversalAssistantError translation usage.
+"""Checker for __HAC_KEEP__Error translation usage.
 
-Ensures that ``UniversalAssistantError`` and its subclasses use the translation
+Ensures that ``__HAC_KEEP__Error`` and its subclasses use the translation
 system (``translation_domain``, ``translation_key``) instead of hardcoded
 English strings. Also verifies that referenced translation keys exist in
 the integration's ``strings.json`` and that placeholders match.
@@ -29,7 +29,7 @@ from pylint_universal_assistant.helpers.translations import (
     get_message_placeholders,
 )
 
-_HA_ERROR_QNAME = "universalassistant.exceptions.UniversalAssistantError"
+_HA_ERROR_QNAME = "universalassistant.exceptions.__HAC_KEEP__Error"
 
 
 def _accepts_translation_key(class_node: nodes.ClassDef) -> bool:
@@ -49,12 +49,12 @@ def _accepts_translation_key(class_node: nodes.ClassDef) -> bool:
             arg.name == "translation_key"
             for arg in method.args.args + method.args.kwonlyargs
         )
-    # No __init__ override, inherits from parent (UniversalAssistantError accepts it)
+    # No __init__ override, inherits from parent (__HAC_KEEP__Error accepts it)
     return True
 
 
 def _is_ha_exception(call: nodes.Call) -> str | None:
-    """Check if a call constructs a UniversalAssistantError subclass that supports translations.
+    """Check if a call constructs a __HAC_KEEP__Error subclass that supports translations.
 
     Returns the class name if it is, None otherwise.
     """
@@ -93,7 +93,7 @@ def _extract_const_string(node: nodes.NodeNG | None) -> str | None:
 
 
 class ExceptionTranslationsChecker(BaseChecker):
-    """Checker for UniversalAssistantError translation usage."""
+    """Checker for __HAC_KEEP__Error translation usage."""
 
     name = "universal_assistant_exception_translations"
     priority = -1
@@ -101,20 +101,20 @@ class ExceptionTranslationsChecker(BaseChecker):
         "W7417": (
             "%s should use translation_domain and translation_key",
             "universal-assistant-exception-not-translated",
-            "Used when a UniversalAssistantError subclass is raised without "
+            "Used when a __HAC_KEEP__Error subclass is raised without "
             "using the translation system.",
         ),
         "E7406": (
             "Translation key '%s' not found in exceptions section of "
             "strings.json for domain '%s'",
             "universal-assistant-exception-translation-key-missing",
-            "Used when a UniversalAssistantError references a translation_key "
+            "Used when a __HAC_KEEP__Error references a translation_key "
             "that does not exist in the integration's strings.json.",
         ),
         "W7419": (
             "%s should not pass positional arguments when translation_key is set",
             "universal-assistant-exception-message-with-translation",
-            "Used when a UniversalAssistantError subclass passes both "
+            "Used when a __HAC_KEEP__Error subclass passes both "
             "positional arguments and a translation_key. The translation "
             "system generates the message from the key.",
         ),
@@ -122,7 +122,7 @@ class ExceptionTranslationsChecker(BaseChecker):
             "%s must set both translation_key and translation_domain, "
             "but only one is provided",
             "universal-assistant-exception-translation-key-domain-mismatch",
-            "Used when a UniversalAssistantError subclass sets translation_key "
+            "Used when a __HAC_KEEP__Error subclass sets translation_key "
             "without translation_domain or vice versa. Both are required "
             "for the translation system to generate the exception message.",
         ),
@@ -156,7 +156,7 @@ class ExceptionTranslationsChecker(BaseChecker):
         )
 
     def visit_call(self, node: nodes.Call) -> None:
-        """Check UniversalAssistantError raises for translation usage."""
+        """Check __HAC_KEEP__Error raises for translation usage."""
         if not self._in_integration or self._module_node is None:
             return
 

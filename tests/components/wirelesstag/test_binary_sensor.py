@@ -6,7 +6,7 @@ import pytest
 
 from universalassistant.components.wirelesstag.const import SIGNAL_BINARY_EVENT_UPDATE
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.setup import async_setup_component
@@ -53,7 +53,7 @@ def _mock_tag() -> MagicMock:
 
 @pytest.mark.parametrize("event_type", ["motion", "dry", "wet"])
 async def test_binary_sensor_receives_push_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     event_type: str,
     entity_registry: er.EntityRegistry,
 ) -> None:

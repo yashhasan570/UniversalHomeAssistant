@@ -21,7 +21,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -135,7 +135,7 @@ def mock_site_info_invalid_price(mock_site_info) -> Generator[AsyncMock]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -152,11 +152,11 @@ async def test_calendar(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar_site_time_zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
 ) -> None:
-    """Test the tariff is evaluated in the site timezone, not the Universal Universal Home Assistant one."""
+    """Test the tariff is evaluated in the site timezone, not the __HA_KEEP__ one."""
     await hass.config.async_set_time_zone("US/Pacific")
     # 17:00 at the Australia/Brisbane site, inside ON_PEAK 16-21
     freezer.move_to("2024-01-01T07:00:00Z")
@@ -185,7 +185,7 @@ async def test_calendar_site_time_zone(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -232,7 +232,7 @@ async def test_calendar_events(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar_week_crossing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_site_info_week_crossing: AsyncMock,
@@ -255,7 +255,7 @@ async def test_calendar_week_crossing(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar_week_crossing_excluded_day(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_site_info_week_crossing: AsyncMock,
@@ -289,7 +289,7 @@ async def test_calendar_week_crossing_excluded_day(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar_multi_season(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_site_info_multi_season: AsyncMock,
@@ -313,7 +313,7 @@ async def test_calendar_multi_season(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar_no_tariff_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_site_info_no_tariff: AsyncMock,
@@ -332,7 +332,7 @@ async def test_calendar_no_tariff_data(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar_invalid_season_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_site_info_invalid_season: AsyncMock,
@@ -365,7 +365,7 @@ async def test_calendar_invalid_season_data(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar_week_crossing_get_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_site_info_week_crossing: AsyncMock,
@@ -400,7 +400,7 @@ async def test_calendar_week_crossing_get_events(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar_midnight_crossing_local_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
 ) -> None:
@@ -451,7 +451,7 @@ async def test_calendar_midnight_crossing_local_start(
     indirect=True,
 )
 async def test_calendar_end_of_day_period(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_site_info_end_of_day: AsyncMock,
@@ -488,7 +488,7 @@ async def test_calendar_end_of_day_period(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_calendar_invalid_price(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_site_info_invalid_price: AsyncMock,
@@ -515,7 +515,7 @@ async def test_calendar_invalid_price(
     ],
 )
 async def test_energy_stream_site_info_and_tariff_compose(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_energy_info_stream: MagicMock,
@@ -557,7 +557,7 @@ async def test_energy_stream_site_info_and_tariff_compose(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_energy_stream_tariff_removal_clears_calendar(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_energy_tariff_stream: MagicMock,
@@ -578,7 +578,7 @@ async def test_energy_stream_tariff_removal_clears_calendar(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_energy_stream_slim_site_info_drops_removed_field(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_legacy: AsyncMock,
     mock_energy_info_stream: MagicMock,

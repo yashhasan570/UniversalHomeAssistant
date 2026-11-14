@@ -9,7 +9,7 @@ from rf_protocols.commands.ook import OOKCommand
 from universalassistant.components.kitchen_sink import DOMAIN
 from universalassistant.components.radio_frequency import async_send_command
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -27,14 +27,14 @@ async def radio_frequency_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: UniversalAssistant, radio_frequency_only: None) -> None:
+async def setup_comp(hass: __HAC_KEEP__, radio_frequency_only: None) -> None:
     """Set up demo component."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
 
 
 async def test_send_command(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test sending a radio frequency command."""
     state = hass.states.get(ENTITY_RF_TRANSMITTER)

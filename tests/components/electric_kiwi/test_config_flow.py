@@ -16,7 +16,7 @@ from universalassistant.components.electric_kiwi.const import (
     SCOPE_VALUES,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -25,7 +25,7 @@ from .conftest import CLIENT_ID, REDIRECT_URI
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_setup_entry: AsyncMock,
@@ -76,7 +76,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_flow_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     electrickiwi_api: AsyncMock,
@@ -130,7 +130,7 @@ async def test_flow_failure(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_existing_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     migrated_config_entry: MockConfigEntry,
@@ -174,7 +174,7 @@ async def test_existing_entry(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauthentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_setup_entry: AsyncMock,

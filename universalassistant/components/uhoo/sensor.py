@@ -18,7 +18,7 @@ from universalassistant.const import (
     UnitOfRatio,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -140,7 +140,7 @@ SENSOR_TYPES: tuple[UhooSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: UhooConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

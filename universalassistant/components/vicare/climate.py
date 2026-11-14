@@ -24,7 +24,7 @@ from universalassistant.const import (
     PRECISION_WHOLE,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -90,7 +90,7 @@ def _build_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ViCareConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

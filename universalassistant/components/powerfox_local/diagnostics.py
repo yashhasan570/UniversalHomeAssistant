@@ -2,13 +2,13 @@
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import PowerfoxLocalConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: PowerfoxLocalConfigEntry
+    hass: __HAC_KEEP__, entry: PowerfoxLocalConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for Powerfox Local config entry."""
     coordinator = entry.runtime_data

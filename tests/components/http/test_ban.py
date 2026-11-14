@@ -1,4 +1,4 @@
-"""The tests for the Universal Universal Home Assistant HTTP component."""
+"""The tests for the __HA_KEEP__ HTTP component."""
 
 from http import HTTPStatus
 from ipaddress import ip_address
@@ -26,8 +26,8 @@ from universalassistant.components.http.ban import (
     setup_bans,
 )
 from universalassistant.components.http.view import request_handler_factory
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.http import KEY_AUTHENTICATED, KEY_HASS
 from universalassistant.setup import async_setup_component
 
@@ -59,7 +59,7 @@ def gethostbyaddr_mock():
 
 
 async def test_access_from_banned_ip(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test accessing to server from banned IP. Both trusted and not."""
     app = web.Application()
@@ -82,7 +82,7 @@ async def test_access_from_banned_ip(
 
 
 async def test_access_from_banned_ip_with_partially_broken_yaml_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_access_from_banned_ip_with_partially_broken_yaml_file(
 
 
 async def test_access_from_banned_ip_with_invalid_ip_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_access_from_banned_ip_with_invalid_ip_entry(
 
 
 async def test_no_ip_bans_file(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test no ip bans file."""
     app = web.Application()
@@ -196,7 +196,7 @@ async def test_no_ip_bans_file(
 
 
 async def test_failure_loading_ip_bans_file(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test failure loading ip bans file."""
     app = web.Application()
@@ -206,7 +206,7 @@ async def test_failure_loading_ip_bans_file(
 
     with patch(
         "universalassistant.components.http.ban.load_yaml_config_file",
-        side_effect=UniversalAssistantError,
+        side_effect=__HAC_KEEP__Error,
     ):
         client = await aiohttp_client(app)
 
@@ -216,7 +216,7 @@ async def test_failure_loading_ip_bans_file(
 
 
 async def test_ip_ban_manager_never_started(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_access_from_supervisor_ip(
     remote_addr,
     bans,
     status,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
 ) -> None:
     """Test accessing to server from supervisor IP."""
@@ -314,7 +314,7 @@ async def test_access_from_supervisor_ip(
         assert len(manager.ip_bans_lookup) == bans
 
 
-async def test_ban_middleware_not_loaded_by_config(hass: UniversalAssistant) -> None:
+async def test_ban_middleware_not_loaded_by_config(hass: __HAC_KEEP__) -> None:
     """Test accessing to server from banned IP when feature is off."""
     with patch("universalassistant.components.http.server.setup_bans") as mock_setup:
         await async_setup_component(
@@ -324,7 +324,7 @@ async def test_ban_middleware_not_loaded_by_config(hass: UniversalAssistant) -> 
     assert len(mock_setup.mock_calls) == 0
 
 
-async def test_ban_middleware_loaded_by_default(hass: UniversalAssistant) -> None:
+async def test_ban_middleware_loaded_by_default(hass: __HAC_KEEP__) -> None:
     """Test accessing to server from banned IP when feature is off."""
     with patch("universalassistant.components.http.server.setup_bans") as mock_setup:
         await async_setup_component(hass, DOMAIN, {"http": {}})
@@ -333,7 +333,7 @@ async def test_ban_middleware_loaded_by_default(hass: UniversalAssistant) -> Non
 
 
 async def test_ip_bans_file_creation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -394,7 +394,7 @@ async def test_ip_bans_file_creation(
 
 
 async def test_failed_login_attempts_counter(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Testing if failed login attempts counter increased."""
     app = web.Application()
@@ -485,7 +485,7 @@ async def test_failed_login_attempts_counter(
     ],
 )
 async def test_failed_login_reverse_dns_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     lookup_error: Exception | None,
@@ -543,7 +543,7 @@ async def test_failed_login_reverse_dns_failure(
 
 
 async def test_failed_login_attempts_counter_reverse_dns_unicode_decode_error(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test a wrong login still gets a 401 if the reverse DNS lookup fails to decode."""
     app = web.Application()
@@ -570,7 +570,7 @@ async def test_failed_login_attempts_counter_reverse_dns_unicode_decode_error(
 
 
 async def test_wrong_login_is_counted_before_the_reverse_dns_lookup(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test a wrong login is counted and banned before the slow host lookup."""
     app = web.Application()
@@ -608,7 +608,7 @@ async def test_wrong_login_is_counted_before_the_reverse_dns_lookup(
 
 
 async def test_ban_applies_when_the_ban_file_cannot_be_written(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aiohttp_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -645,7 +645,7 @@ async def test_ban_applies_when_the_ban_file_cannot_be_written(
 
 
 async def test_single_ban_file_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that only one item is added to ban file."""
     app = web.Application()
@@ -671,7 +671,7 @@ async def test_single_ban_file_entry(
 
 
 async def test_unix_socket_skips_ban_check(
-    hass: UniversalAssistant, aiohttp_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, aiohttp_client: ClientSessionGenerator
 ) -> None:
     """Test that Unix socket requests bypass ban middleware."""
     app = web.Application()

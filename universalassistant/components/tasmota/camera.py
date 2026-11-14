@@ -12,8 +12,8 @@ from hatasmota.models import DiscoveryHashType
 from universalassistant.components import camera
 from universalassistant.components.camera import Camera
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import (
     async_aiohttp_proxy_web,
     async_get_clientsession,
@@ -31,7 +31,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -87,14 +87,14 @@ class TasmotaCamera(
                 return await response.read()
 
         except TimeoutError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="camera_image_timeout",
                 translation_placeholders={"entity_id": self.entity_id},
             ) from err
 
         except aiohttp.ClientError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="camera_image_error",
                 translation_placeholders={"entity_id": self.entity_id},

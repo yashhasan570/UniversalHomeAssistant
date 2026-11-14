@@ -7,7 +7,7 @@ from aiorecollect.client import Client, PickupEvent
 from aiorecollect.errors import RecollectError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util import dt as dt_util
@@ -25,7 +25,7 @@ class ReCollectWasteDataUpdateCoordinator(DataUpdateCoordinator[list[PickupEvent
     config_entry: RecollectWasteConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: RecollectWasteConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: RecollectWasteConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

@@ -1,12 +1,12 @@
 """Services for the Switch integration."""
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import DATA_COMPONENT, SwitchService
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the switch services."""
     component = hass.data[DATA_COMPONENT]
 

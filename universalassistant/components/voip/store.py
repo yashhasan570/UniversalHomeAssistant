@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 import logging
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.storage import Store
 
 from .const import STORAGE_VER
@@ -25,7 +25,7 @@ class DeviceContacts(dict[str, DeviceContact]):
 class VoipStore(Store):
     """Store for VOIP device contact information."""
 
-    def __init__(self, hass: UniversalAssistant, storage_key: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, storage_key: str) -> None:
         """Initialize the VOIP Storage."""
         super().__init__(hass, STORAGE_VER, f"voip-{storage_key}")
 

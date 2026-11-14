@@ -7,7 +7,7 @@ from zcc.device import ControlPointDevice
 
 from universalassistant.components.zimi.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 DEVICE_INFO = {
@@ -62,7 +62,7 @@ def mock_api_device(
 
 
 async def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: Platform,
 ) -> MockConfigEntry:
     """Set up the specified Zimi platform."""

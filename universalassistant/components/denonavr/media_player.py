@@ -36,7 +36,7 @@ from universalassistant.components.media_player import (
     MediaType,
 )
 from universalassistant.const import CONF_HOST, CONF_MODEL, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -103,7 +103,7 @@ DENON_STATE_MAPPING = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DenonavrConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

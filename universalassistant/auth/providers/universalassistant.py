@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant auth provider."""
+"""__HA_KEEP__ auth provider."""
 
 import asyncio
 import base64
@@ -9,8 +9,8 @@ import bcrypt
 import probatio
 
 from universalassistant.const import CONF_ID
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.storage import Store
 
 from ..models import AuthFlowContext, AuthFlowResult, Credentials, User, UserMeta
@@ -38,7 +38,7 @@ CONFIG_SCHEMA = probatio.All(AUTH_PROVIDER_SCHEMA, _disallow_id)
 
 
 @callback
-def async_get_provider(hass: UniversalAssistant) -> HassAuthProvider:
+def async_get_provider(hass: __HAC_KEEP__) -> HassAuthProvider:
     """Get the provider."""
     for prv in hass.auth.auth_providers:
         if prv.type == "universalassistant":
@@ -47,11 +47,11 @@ def async_get_provider(hass: UniversalAssistant) -> HassAuthProvider:
     raise RuntimeError("Provider not found")
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Raised when we encounter invalid authentication."""
 
 
-class InvalidUser(UniversalAssistantError):
+class InvalidUser(__HAC_KEEP__Error):
     """Raised when invalid user is specified.
 
     Will not be raised when validating authentication.
@@ -82,7 +82,7 @@ class InvalidUsername(InvalidUser):
 class Data:
     """Hold the user data."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the user data store."""
         self.hass = hass
         self._store = Store[dict[str, list[dict[str, str]]]](
@@ -239,12 +239,12 @@ class Data:
 
 @AUTH_PROVIDERS.register("universalassistant")
 class HassAuthProvider(AuthProvider):
-    """Auth provider based on a local storage of users in Universal Universal Home Assistant config dir."""
+    """Auth provider based on a local storage of users in __HA_KEEP__ config dir."""
 
-    DEFAULT_TITLE = "Universal Universal Home Assistant Local"
+    DEFAULT_TITLE = "__HA_KEEP__ Local"
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initialize an Universal Universal Home Assistant auth provider."""
+        """Initialize an __HA_KEEP__ auth provider."""
         super().__init__(*args, **kwargs)
         self.data: Data | None = None
         self._init_lock = asyncio.Lock()

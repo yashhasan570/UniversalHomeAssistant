@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.discogs.const import DOMAIN
 from universalassistant.const import CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_TOKEN, MOCK_USER_ID, MOCK_USERNAME
 
@@ -87,7 +87,7 @@ def mock_discogs_client(mock_identity: MagicMock) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_discogs_client: MagicMock,
 ) -> MockConfigEntry:

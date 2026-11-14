@@ -10,7 +10,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import PARAM_DOOR_CONTACT_STATUS, imou_device_identifier
@@ -40,7 +40,7 @@ def _iter_binary_sensors(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ImouConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

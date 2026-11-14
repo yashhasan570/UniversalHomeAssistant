@@ -27,8 +27,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -38,7 +38,7 @@ pytestmark = pytest.mark.usefixtures("entity_registry_enabled_by_default")
 
 @pytest.mark.usefixtures("mock_my_pv_client")
 async def test_water_heater(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -51,7 +51,7 @@ async def test_water_heater(
 
 
 async def test_water_heater_no_temp_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_water_heater_no_temp_sensor(
 
 
 async def test_water_heater_unavailable_not_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_water_heater_unavailable_not_connected(
 
 
 async def test_water_heater_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -106,7 +106,7 @@ async def test_water_heater_turn_off(
 
 
 async def test_water_heater_turn_off_false(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -118,7 +118,7 @@ async def test_water_heater_turn_off_false(
 
     mock_my_pv_client.turn_off.return_value = False
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
             SERVICE_TURN_OFF,
@@ -134,7 +134,7 @@ async def test_water_heater_turn_off_false(
 
 
 async def test_water_heater_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -163,7 +163,7 @@ async def test_water_heater_turn_on(
 
 
 async def test_water_heater_turn_on_false(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -177,7 +177,7 @@ async def test_water_heater_turn_on_false(
 
     mock_my_pv_client.turn_on.return_value = False
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
             SERVICE_TURN_ON,
@@ -193,7 +193,7 @@ async def test_water_heater_turn_on_false(
 
 
 async def test_water_heater_set_operation_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -221,7 +221,7 @@ async def test_water_heater_set_operation_off(
 
 
 async def test_water_heater_set_operation_electric(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -251,7 +251,7 @@ async def test_water_heater_set_operation_electric(
 
 
 async def test_water_heater_set_temp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -279,7 +279,7 @@ async def test_water_heater_set_temp(
 
 
 async def test_water_heater_set_temp_false(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
 ) -> None:
@@ -288,7 +288,7 @@ async def test_water_heater_set_temp_false(
 
     mock_my_pv_client.set_target_temperature.return_value = False
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             WATER_HEATER_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -307,17 +307,17 @@ async def test_water_heater_set_temp_false(
 @pytest.mark.parametrize(
     ("error", "expected_ha_error"),
     [
-        (MyPVConnectionError(), UniversalAssistantError),
+        (MyPVConnectionError(), __HAC_KEEP__Error),
         (MyPVAuthenticationError(), ConfigEntryAuthFailed),
-        (MyPVTooManyRequestsError(), UniversalAssistantError),
+        (MyPVTooManyRequestsError(), __HAC_KEEP__Error),
     ],
 )
 async def test_water_heater_set_temp_raises_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_my_pv_client: AsyncMock,
     error: MyPVConnectionError | MyPVAuthenticationError,
-    expected_ha_error: type[UniversalAssistantError],
+    expected_ha_error: type[__HAC_KEEP__Error],
 ) -> None:
     """Test setting the target temperature raises an error."""
     await setup_integration(hass, mock_config_entry)

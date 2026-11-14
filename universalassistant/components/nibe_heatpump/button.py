@@ -7,7 +7,7 @@ from nibe.exceptions import CoilNotFoundException
 
 from universalassistant.components.button import ButtonEntity
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -16,7 +16,7 @@ from .coordinator import CoilCoordinator, NibeHeatpumpConfigEntry
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: NibeHeatpumpConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

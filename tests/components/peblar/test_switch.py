@@ -15,8 +15,8 @@ from universalassistant.components.switch import (
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = [
@@ -26,7 +26,7 @@ pytestmark = [
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -78,7 +78,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     service: str,
     entity_id: str,
@@ -127,7 +127,7 @@ async def test_switch(
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switch_communication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     error: Exception,
     error_match: str,
@@ -139,7 +139,7 @@ async def test_switch_communication_error(
     entity_id = "switch.peblar_ev_charger_force_single_phase"
     mock_peblar.rest_api.return_value.ev_interface.side_effect = error
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=error_match,
     ) as excinfo:
         await hass.services.async_call(
@@ -156,7 +156,7 @@ async def test_switch_communication_error(
 
 @pytest.mark.parametrize("service", [SERVICE_TURN_ON, SERVICE_TURN_OFF])
 async def test_switch_authentication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -169,7 +169,7 @@ async def test_switch_authentication_error(
     mock_peblar.login.side_effect = PeblarAuthenticationError("Authentication error")
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             r"An authentication failure occurred while communicating "
             r"with the Peblar EV charger"
@@ -209,7 +209,7 @@ async def test_switch_authentication_error(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_keep_socket_locked(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     service: str,
     locked: bool,
@@ -234,7 +234,7 @@ async def test_keep_socket_locked(
 
 @pytest.mark.parametrize("mock_peblar", [{"HwHasSocket": False}], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_keep_socket_locked_absent_without_socket(hass: UniversalAssistant) -> None:
+async def test_keep_socket_locked_absent_without_socket(hass: __HAC_KEEP__) -> None:
     """A charger with a fixed cable has no socket to keep locked."""
     assert hass.states.get("switch.peblar_ev_charger_keep_socket_locked") is None
 
@@ -245,7 +245,7 @@ async def test_keep_socket_locked_absent_without_socket(hass: UniversalAssistant
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_custom_solar_always_charge(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_peblar: MagicMock,
     service: str,
     always_charge: bool,
@@ -281,7 +281,7 @@ async def test_custom_solar_always_charge(
     indirect=True,
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
-async def test_custom_solar_always_charge_absent(hass: UniversalAssistant) -> None:
+async def test_custom_solar_always_charge_absent(hass: __HAC_KEEP__) -> None:
     """Test a charger that cannot do custom solar is not offered the switch."""
     assert (
         hass.states.get("switch.peblar_ev_charger_custom_solar_always_charge") is None

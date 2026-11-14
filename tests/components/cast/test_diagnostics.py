@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.cast.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 SERVICE = pychromecast.discovery.MDNSServiceInfo("the-service")
 CHROMECAST_UUID = UUID("57355bce-9364-4aa6-ac1e-eb849dccf9e2")
@@ -21,7 +21,7 @@ DYNAMIC_GROUP_UUID = UUID("57355bce-9364-4aa6-ac1e-eb849dccf9e5")
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     get_cast_type_mock: MagicMock,
     get_multizone_status_mock: MagicMock,

@@ -24,7 +24,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import DEGREE, PERCENTAGE, EntityCategory, UnitOfTime
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import GardenaBluetoothConfigEntry, GardenaBluetoothCoordinator
@@ -149,7 +149,7 @@ DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: GardenaBluetoothConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

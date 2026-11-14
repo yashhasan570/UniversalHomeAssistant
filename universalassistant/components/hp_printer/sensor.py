@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import PERCENTAGE, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -49,7 +49,7 @@ SENSORS: tuple[HpPrinterSensorEntityDescription, ...] = (
         key="status",
         translation_key="status",
         device_class=SensorDeviceClass.ENUM,
-        # The printer's own "unknown" status maps to Universal Universal Home Assistant's unknown state.
+        # The printer's own "unknown" status maps to __HA_KEEP__'s unknown state.
         options=[
             status.value
             for status in HpDeviceStatus
@@ -339,7 +339,7 @@ CONSUMABLE_SENSORS: tuple[HpPrinterConsumableSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HpPrinterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -14,8 +14,8 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.alexa_devices.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
@@ -54,7 +54,7 @@ ENTITY_ID = "switch.echo_test_do_not_disturb"
     ],
 )
 async def test_alexa_api_call_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -71,7 +71,7 @@ async def test_alexa_api_call_exceptions(
     mock_amazon_devices_client.set_do_not_disturb.side_effect = side_effect
 
     # Call API
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -85,7 +85,7 @@ async def test_alexa_api_call_exceptions(
 
 
 async def test_alexa_unique_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -123,7 +123,7 @@ async def test_alexa_unique_id_migration(
 
 
 async def test_alexa_dnd_group_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -162,7 +162,7 @@ async def test_alexa_dnd_group_removal(
 
 
 async def test_alexa_unsupported_notification_sensor_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

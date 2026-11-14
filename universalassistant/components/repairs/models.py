@@ -10,7 +10,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
     SubentryFlowResult,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.frame import report_usage
 from universalassistant.helpers.integration_platform import LazyIntegrationPlatforms
 
@@ -158,7 +158,7 @@ class RepairsProtocol(Protocol):
 
     async def async_create_fix_flow(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         issue_id: str,
         data: dict[str, str | int | float | None] | None,
     ) -> RepairsFlow:

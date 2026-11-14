@@ -31,8 +31,8 @@
         "title": "Choose how to authenticate with the MCP server"
       },
       "hassio_confirm": {
-        "description": "Do you want to configure Universal Universal Home Assistant to connect to the Model Context Protocol server provided by the app {addon}?",
-        "title": "Model Context Protocol server via Universal Universal Home Assistant app"
+        "description": "Do you want to configure __HA_KEEP__ to connect to the Model Context Protocol server provided by the app {addon}?",
+        "title": "Model Context Protocol server via __HA_KEEP__ app"
       },
       "pick_implementation": {
         "data": {

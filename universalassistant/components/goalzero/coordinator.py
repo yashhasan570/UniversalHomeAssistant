@@ -6,7 +6,7 @@ from typing import override
 from goalzero import Yeti, exceptions
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, LOGGER
@@ -20,7 +20,7 @@ class GoalZeroDataUpdateCoordinator(DataUpdateCoordinator[None]):
     config_entry: GoalZeroConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: GoalZeroConfigEntry, api: Yeti
+        self, hass: __HAC_KEEP__, config_entry: GoalZeroConfigEntry, api: Yeti
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

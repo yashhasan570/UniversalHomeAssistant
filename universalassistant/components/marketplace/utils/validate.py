@@ -51,7 +51,7 @@ def is_valid_ref(value: Any) -> bool:
 
 
 def valid_version(value: Any) -> str:
-    """Validate a Universal Universal Home Assistant version a repository needs."""
+    """Validate a __HA_KEEP__ version a repository needs."""
     if not isinstance(value, str) or not AwesomeVersion(value).valid:
         raise probatio.Invalid(f"'{value}' is not a version")
     return value

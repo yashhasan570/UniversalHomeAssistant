@@ -17,7 +17,7 @@ from pytest_universalassistant.common import MockConfigEntry, get_fixture_path, 
 
 from universalassistant.components.elgato.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from tests.components.light.conftest import mock_light_profiles  # noqa: F401
 
@@ -59,7 +59,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
 
 @pytest.fixture
 def mock_onboarding() -> Generator[MagicMock]:
-    """Mock that Universal Universal Home Assistant is currently onboarding."""
+    """Mock that __HA_KEEP__ is currently onboarding."""
     with patch(
         "universalassistant.components.onboarding.async_is_onboarded",
         return_value=False,
@@ -127,7 +127,7 @@ def mock_firmware_catalog() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_elgato: MagicMock,
 ) -> MockConfigEntry:

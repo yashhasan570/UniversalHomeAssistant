@@ -23,7 +23,7 @@ from weatherflow4py.models.ws.websocket_response import (
 from weatherflow4py.ws import WeatherFlowWebsocketAPI
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -49,7 +49,7 @@ class BaseWeatherFlowCoordinator[T](DataUpdateCoordinator[dict[int, T]], ABC):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WeatherFlowCloudConfigEntry,
         rest_api: WeatherFlowRestAPI,
         stations: StationsResponseREST,
@@ -84,7 +84,7 @@ class WeatherFlowCloudUpdateCoordinatorREST(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WeatherFlowCloudConfigEntry,
         rest_api: WeatherFlowRestAPI,
         stations: StationsResponseREST,
@@ -127,7 +127,7 @@ class BaseWebsocketCoordinator[T](BaseWeatherFlowCoordinator[dict[int, T | None]
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WeatherFlowCloudConfigEntry,
         rest_api: WeatherFlowRestAPI,
         websocket_api: WeatherFlowWebsocketAPI,

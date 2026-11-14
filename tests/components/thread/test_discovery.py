@@ -7,7 +7,7 @@ from zeroconf.asyncio import AsyncServiceInfo
 
 from universalassistant.components.thread import discovery
 from universalassistant.components.thread.const import DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.setup import async_setup_component
 
 from . import (
@@ -25,7 +25,7 @@ from . import (
 
 
 async def test_discover_routers(
-    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
+    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test discovering thread routers."""
     mock_async_zeroconf.async_add_service_listener = AsyncMock()
@@ -74,7 +74,7 @@ async def test_discover_routers(
     assert discovered[-1] == (
         "aeeb2f594b570bbf",
         discovery.ThreadRouterDiscoveryData(
-            instance_name="UniversalAssistant OpenThreadBorderRouter #0BBF",
+            instance_name="__HAC_KEEP__ OpenThreadBorderRouter #0BBF",
             addresses=["192.168.0.115"],
             border_agent_id="230c6a1ac57f6f4be262acf32e5ef52c",
             brand="universalassistant",
@@ -85,7 +85,7 @@ async def test_discover_routers(
             server="core-silabs-multiprotocol.local.",
             thread_version="1.3.0",
             unconfigured=None,
-            vendor_name="UniversalAssistant",
+            vendor_name="__HAC_KEEP__",
         ),
     )
 
@@ -155,7 +155,7 @@ async def test_discover_routers(
     ],
 )
 async def test_discover_routers_unconfigured(
-    hass: UniversalAssistant, mock_async_zeroconf: MagicMock, data, unconfigured
+    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock, data, unconfigured
 ) -> None:
     """Test discovering thread routers and setting the unconfigured flag."""
     mock_async_zeroconf.async_add_service_listener = AsyncMock()
@@ -182,7 +182,7 @@ async def test_discover_routers_unconfigured(
     router_discovered_removed.assert_called_once_with(
         "aeeb2f594b570bbf",
         discovery.ThreadRouterDiscoveryData(
-            instance_name="UniversalAssistant OpenThreadBorderRouter #0BBF",
+            instance_name="__HAC_KEEP__ OpenThreadBorderRouter #0BBF",
             addresses=["192.168.0.115"],
             border_agent_id="230c6a1ac57f6f4be262acf32e5ef52c",
             brand="universalassistant",
@@ -193,7 +193,7 @@ async def test_discover_routers_unconfigured(
             server="core-silabs-multiprotocol.local.",
             thread_version="1.3.0",
             unconfigured=unconfigured,
-            vendor_name="UniversalAssistant",
+            vendor_name="__HAC_KEEP__",
         ),
     )
 
@@ -202,7 +202,7 @@ async def test_discover_routers_unconfigured(
     "data", [ROUTER_DISCOVERY_HASS_BAD_DATA, ROUTER_DISCOVERY_HASS_MISSING_DATA]
 )
 async def test_discover_routers_bad_or_missing_optional_data(
-    hass: UniversalAssistant, mock_async_zeroconf: MagicMock, data
+    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock, data
 ) -> None:
     """Test discovering thread routers with bad or missing vendor mDNS data."""
     mock_async_zeroconf.async_add_service_listener = AsyncMock()
@@ -229,7 +229,7 @@ async def test_discover_routers_bad_or_missing_optional_data(
     router_discovered_removed.assert_called_once_with(
         "aeeb2f594b570bbf",
         discovery.ThreadRouterDiscoveryData(
-            instance_name="UniversalAssistant OpenThreadBorderRouter #0BBF",
+            instance_name="__HAC_KEEP__ OpenThreadBorderRouter #0BBF",
             addresses=["192.168.0.115"],
             border_agent_id="230c6a1ac57f6f4be262acf32e5ef52c",
             brand=None,
@@ -254,7 +254,7 @@ async def test_discover_routers_bad_or_missing_optional_data(
     ),
 )
 async def test_discover_routers_known_vendor_names(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_async_zeroconf: MagicMock,
     vendor_name: str,
     expected_brand: str,
@@ -289,7 +289,7 @@ async def test_discover_routers_known_vendor_names(
     router_discovered_removed.assert_called_once_with(
         "aeeb2f594b570bbf",
         discovery.ThreadRouterDiscoveryData(
-            instance_name="UniversalAssistant OpenThreadBorderRouter #0BBF",
+            instance_name="__HAC_KEEP__ OpenThreadBorderRouter #0BBF",
             addresses=["192.168.0.115"],
             border_agent_id="230c6a1ac57f6f4be262acf32e5ef52c",
             brand=expected_brand,
@@ -313,7 +313,7 @@ async def test_discover_routers_known_vendor_names(
     ],
 )
 async def test_discover_routers_bad_or_missing_mandatory_data(
-    hass: UniversalAssistant, mock_async_zeroconf: MagicMock, service
+    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock, service
 ) -> None:
     """Test discovering thread routers with missing mandatory mDNS data."""
     mock_async_zeroconf.async_add_service_listener = AsyncMock()
@@ -347,7 +347,7 @@ async def test_discover_routers_bad_or_missing_mandatory_data(
 
 
 async def test_discover_routers_get_service_info_fails(
-    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
+    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test discovering thread routers with invalid mDNS data."""
     mock_async_zeroconf.async_add_service_listener = AsyncMock()
@@ -377,7 +377,7 @@ async def test_discover_routers_get_service_info_fails(
 
 
 async def test_discover_routers_update_unchanged(
-    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
+    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test discovering thread routers with identical mDNS data in update."""
     mock_async_zeroconf.async_add_service_listener = AsyncMock()
@@ -419,7 +419,7 @@ async def test_discover_routers_update_unchanged(
 
 
 async def test_discover_routers_stop_twice(
-    hass: UniversalAssistant, mock_async_zeroconf: MagicMock
+    hass: __HAC_KEEP__, mock_async_zeroconf: MagicMock
 ) -> None:
     """Test discovering thread routers stopping discovery twice."""
     mock_async_zeroconf.async_add_service_listener = AsyncMock()

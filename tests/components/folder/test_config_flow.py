@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.folder.const import CONF_FILTER, CONF_FOLDER_PATHS, DOMAIN
 from universalassistant.config_entries import SOURCE_IMPORT, SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form(hass: UniversalAssistant, folder_path: str) -> None:
+async def test_form(hass: __HAC_KEEP__, folder_path: str) -> None:
     """Test the user flow creates an entry."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -32,7 +32,7 @@ async def test_form(hass: UniversalAssistant, folder_path: str) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_default_filter(hass: UniversalAssistant, folder_path: str) -> None:
+async def test_form_default_filter(hass: __HAC_KEEP__, folder_path: str) -> None:
     """Test the filter defaults to matching all files."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -59,7 +59,7 @@ async def test_form_default_filter(hass: UniversalAssistant, folder_path: str) -
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     folder_path: str,
     tmp_path: Path,
     path_name: str,
@@ -93,7 +93,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, folder_path: str
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, folder_path: str
 ) -> None:
     """Test the same folder and filter can't be added twice."""
     mock_config_entry.add_to_hass(hass)
@@ -110,7 +110,7 @@ async def test_form_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_same_folder_other_filter(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, folder_path: str
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, folder_path: str
 ) -> None:
     """Test the same folder can be added again with another filter."""
     mock_config_entry.add_to_hass(hass)
@@ -126,7 +126,7 @@ async def test_form_same_folder_other_filter(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, folder_path: str
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, folder_path: str
 ) -> None:
     """Test the filter can't be changed to one another entry uses for the folder."""
     mock_config_entry.add_to_hass(hass)
@@ -148,7 +148,7 @@ async def test_options_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow_keep_filter(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test saving the entry's own filter again is not a duplicate."""
     mock_config_entry.add_to_hass(hass)
@@ -162,7 +162,7 @@ async def test_options_flow_keep_filter(
 
 
 async def test_options_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, folder_path: str
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, folder_path: str
 ) -> None:
     """Test the filter can be changed in the options flow."""
     mock_config_entry.add_to_hass(hass)
@@ -188,7 +188,7 @@ async def test_options_flow(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_import(hass: UniversalAssistant, folder_path: str) -> None:
+async def test_import(hass: __HAC_KEEP__, folder_path: str) -> None:
     """Test a YAML configuration is imported."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -202,7 +202,7 @@ async def test_import(hass: UniversalAssistant, folder_path: str) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_import_not_allowed(hass: UniversalAssistant, folder_path: str) -> None:
+async def test_import_not_allowed(hass: __HAC_KEEP__, folder_path: str) -> None:
     """Test a YAML configuration with a folder outside the allowlist is aborted."""
     hass.config.allowlist_external_dirs = set()
     result = await hass.config_entries.flow.async_init(

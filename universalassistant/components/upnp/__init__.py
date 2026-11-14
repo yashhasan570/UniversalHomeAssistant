@@ -7,7 +7,7 @@ from async_upnp_client.exceptions import UpnpConnectionError
 
 from universalassistant.components import ssdp
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
@@ -34,7 +34,7 @@ NOTIFICATION_TITLE = "UPnP/IGD Setup"
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: UpnpConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: UpnpConfigEntry) -> None:
     """Set up UPnP/IGD device from a config entry."""
     LOGGER.debug("Setting up config entry: %s", entry.entry_id)
 
@@ -191,7 +191,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: UpnpConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: UpnpConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: UpnpConfigEntry) -> None:
     """Unload a UPnP/IGD device from a config entry."""
     LOGGER.debug("Unloading config entry: %s", entry.entry_id)
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

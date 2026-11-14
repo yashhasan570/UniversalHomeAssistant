@@ -14,7 +14,7 @@
       "password_incompatible": "Password contains incompatible special character or is too long, maximum 31 characters and only these characters are allowed: a-z, A-Z, 0-9 or {special_chars}. The streaming protocols necessitate these additional password restrictions.",
       "unknown": "[%key:common::config_flow::error::unknown%]",
       "update_needed": "Failed to log in because of outdated firmware, please update the firmware to version {needed_firmware} using the Reolink Download Center: {download_center_url}, currently version {current_firmware} is installed",
-      "webhook_exception": "Universal Universal Home Assistant URL is not available, go to Settings > System > Network > Universal Universal Home Assistant URL and correct the URLs, see {more_info}"
+      "webhook_exception": "__HA_KEEP__ URL is not available, go to Settings > System > Network > __HA_KEEP__ URL and correct the URLs, see {more_info}"
     },
     "flow_title": "{hostname} ({ip_address})",
     "step": {
@@ -1028,7 +1028,7 @@
       "message": "User \"{username}\" has authorization level \"{userlevel}\", only admin users can change camera settings"
     },
     "webhook_no_url": {
-      "message": "Error registering URL for webhook {event_id}: Universal Universal Home Assistant URL is not available"
+      "message": "Error registering URL for webhook {event_id}: __HA_KEEP__ URL is not available"
     }
   },
   "issues": {
@@ -1037,11 +1037,11 @@
       "title": "Reolink port not enabled"
     },
     "firmware_update": {
-      "description": "\"{name}\" with model \"{model}\" and hardware version \"{hw_version}\" is running an old firmware version \"{current_firmware}\", while at least firmware version \"{required_firmware}\" is required for proper operation of the Reolink integration. The firmware can be updated by pressing \"install\" in the more info dialog of the update entity of \"{name}\" from within Universal Universal Home Assistant. Alternatively, the latest firmware can be downloaded from the [Reolink download center]({download_link}).",
+      "description": "\"{name}\" with model \"{model}\" and hardware version \"{hw_version}\" is running an old firmware version \"{current_firmware}\", while at least firmware version \"{required_firmware}\" is required for proper operation of the Reolink integration. The firmware can be updated by pressing \"install\" in the more info dialog of the update entity of \"{name}\" from within __HA_KEEP__. Alternatively, the latest firmware can be downloaded from the [Reolink download center]({download_link}).",
       "title": "Reolink firmware update required"
     },
     "https_webhook": {
-      "description": "Reolink products, such as {name}, cannot push motion events to an HTTPS address (SSL), please configure a (local) HTTP address under \"Universal Universal Home Assistant URL\" in the [network settings]({network_link}). The current (local) address is: `{base_url}`, a valid address could, for example, be `{example_url}` where `{example_ip}` is the IP of the Universal Universal Home Assistant device",
+      "description": "Reolink products, such as {name}, cannot push motion events to an HTTPS address (SSL), please configure a (local) HTTP address under \"__HA_KEEP__ URL\" in the [network settings]({network_link}). The current (local) address is: `{base_url}`, a valid address could, for example, be `{example_url}` where `{example_ip}` is the IP of the __HA_KEEP__ device",
       "title": "Reolink webhook URL uses HTTPS (SSL)"
     },
     "password_too_long": {
@@ -1049,11 +1049,11 @@
       "title": "Reolink password too long"
     },
     "ssl": {
-      "description": "Global SSL certificate configured in the [configuration.yaml under http]({ssl_link}) while a local HTTP address `{base_url}` is configured under \"Universal Universal Home Assistant URL\" in the [network settings]({network_link}). Therefore, the Reolink device {name} cannot reach Universal Universal Home Assistant to push its motion/AI events. Please make sure the local HTTP address is not covered by the SSL certificate by, for instance, using the [NGINX app for Universal Universal Home Assistant]({nginx_link}) instead of a globally enforced SSL certificate.",
+      "description": "Global SSL certificate configured in the [configuration.yaml under http]({ssl_link}) while a local HTTP address `{base_url}` is configured under \"__HA_KEEP__ URL\" in the [network settings]({network_link}). Therefore, the Reolink device {name} cannot reach __HA_KEEP__ to push its motion/AI events. Please make sure the local HTTP address is not covered by the SSL certificate by, for instance, using the [NGINX app for __HA_KEEP__]({nginx_link}) instead of a globally enforced SSL certificate.",
       "title": "Reolink incompatible with global SSL certificate"
     },
     "webhook_url": {
-      "description": "Did not receive initial ONVIF state from {name}. Most likely, the Reolink camera cannot reach the current (local) Universal Universal Home Assistant URL `{base_url}`, please configure a (local) HTTP address under \"Universal Universal Home Assistant URL\" in the [network settings]({network_link}) that points to Universal Universal Home Assistant. For example `{example_url}` where `{example_ip}` is the IP of the Universal Universal Home Assistant device. Also, make sure the Reolink camera can reach that URL. Using fast motion/AI state polling until the first ONVIF push is received.",
+      "description": "Did not receive initial ONVIF state from {name}. Most likely, the Reolink camera cannot reach the current (local) __HA_KEEP__ URL `{base_url}`, please configure a (local) HTTP address under \"__HA_KEEP__ URL\" in the [network settings]({network_link}) that points to __HA_KEEP__. For example `{example_url}` where `{example_ip}` is the IP of the __HA_KEEP__ device. Also, make sure the Reolink camera can reach that URL. Using fast motion/AI state polling until the first ONVIF push is received.",
       "title": "Reolink webhook URL unreachable"
     }
   },
@@ -1118,7 +1118,7 @@
           "name": "Filename"
         },
         "timestamp": {
-          "description": "Moment in time to take the snapshot from, in the local time of Universal Universal Home Assistant.",
+          "description": "Moment in time to take the snapshot from, in the local time of __HA_KEEP__.",
           "name": "Timestamp"
         }
       },

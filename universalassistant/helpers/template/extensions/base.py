@@ -1,4 +1,4 @@
-"""Base extension class for Universal Universal Home Assistant template extensions."""
+"""Base extension class for __HA_KEEP__ template extensions."""
 
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -13,7 +13,7 @@ from jinja2.parser import Parser
 from universalassistant.exceptions import TemplateError
 
 if TYPE_CHECKING:
-    from universalassistant.core import UniversalAssistant
+    from universalassistant.core import __HAC_KEEP__
     from universalassistant.helpers.template import TemplateEnvironment
 
 
@@ -58,7 +58,7 @@ def _pass_context[**_P, _R](
 
 
 class BaseTemplateExtension(Extension):
-    """Base class for Universal Universal Home Assistant template extensions."""
+    """Base class for __HA_KEEP__ template extensions."""
 
     environment: TemplateEnvironment
 
@@ -118,8 +118,8 @@ class BaseTemplateExtension(Extension):
         return unsupported
 
     @property
-    def hass(self) -> UniversalAssistant:
-        """Return the Universal Universal Home Assistant instance.
+    def hass(self) -> __HAC_KEEP__:
+        """Return the __HA_KEEP__ instance.
 
         This property should only be used in extensions that have functions
         marked with requires_hass=True, as it assumes hass is not None.
@@ -129,7 +129,7 @@ class BaseTemplateExtension(Extension):
         """
         if self.environment.hass is None:
             raise RuntimeError(
-                "Universal Universal Home Assistant instance is not available. "
+                "__HA_KEEP__ instance is not available. "
                 "This property should only be used in extensions with "
                 "functions marked requires_hass=True."
             )

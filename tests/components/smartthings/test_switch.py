@@ -23,7 +23,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
@@ -38,7 +38,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -59,7 +59,7 @@ async def test_all_entities(
     ],
 )
 async def test_switch_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -88,7 +88,7 @@ async def test_switch_turn_on_off(
     ],
 )
 async def test_command_switch_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -121,7 +121,7 @@ async def test_command_switch_turn_on_off(
     ],
 )
 async def test_dishwasher_washing_option_switch_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -160,7 +160,7 @@ async def test_dishwasher_washing_option_switch_turn_on_off(
     ],
 )
 async def test_custom_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -192,7 +192,7 @@ async def test_custom_commands(
     ],
 )
 async def test_ac_purify_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -218,7 +218,7 @@ async def test_ac_purify_switch(
 
 @pytest.mark.parametrize("device_fixture", ["c2c_arlo_pro_3_switch"])
 async def test_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -299,7 +299,7 @@ async def test_state_update(
     ],
 )
 async def test_create_issue_with_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -464,7 +464,7 @@ async def test_create_issue_with_items(
     ],
 )
 async def test_create_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -516,7 +516,7 @@ async def test_create_issue(
 
 @pytest.mark.parametrize("device_fixture", ["c2c_arlo_pro_3_switch"])
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -542,7 +542,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["c2c_arlo_pro_3_switch"])
 async def test_availability_at_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -555,7 +555,7 @@ async def test_availability_at_start(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_dw_01011"])
 async def test_turn_on_without_remote_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -583,7 +583,7 @@ async def test_turn_on_without_remote_control(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_dw_01011"])
 async def test_turn_on_with_wrong_dishwasher_machine_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -617,7 +617,7 @@ async def test_turn_on_with_wrong_dishwasher_machine_state(
 
 @pytest.mark.parametrize("device_fixture", ["da_wm_dw_01011"])
 async def test_turn_on_with_wrong_dishwasher_cycle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

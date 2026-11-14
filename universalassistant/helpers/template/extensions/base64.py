@@ -1,4 +1,4 @@
-"""Base64 encoding and decoding functions for Universal Universal Home Assistant templates."""
+"""Base64 encoding and decoding functions for __HA_KEEP__ templates."""
 
 import base64
 from typing import TYPE_CHECKING

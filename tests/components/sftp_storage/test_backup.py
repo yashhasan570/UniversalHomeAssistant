@@ -22,7 +22,7 @@ from universalassistant.components.sftp_storage.const import (
     DATA_BACKUP_AGENT_LISTENERS,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .asyncssh_mock import SFTPOpenMock, SSHClientConnectionMock, async_context_manager
 from .conftest import (
@@ -77,7 +77,7 @@ def generate_result(metadata: dict) -> dict:
 
 
 async def test_agents_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
     """Test backup agent info following config entry unload and setup."""
@@ -109,7 +109,7 @@ async def test_agents_info(
 
 
 async def test_agents_list_backups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_ssh_connection: SSHClientConnectionMock,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_agents_list_backups(
 
 
 async def test_agents_list_backups_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_ssh_connection: SSHClientConnectionMock,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_agents_list_backups_fail(
 
 
 async def test_agents_list_backups_include_bad_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_ssh_connection: SSHClientConnectionMock,
     caplog: pytest.LogCaptureFixture,
@@ -185,7 +185,7 @@ async def test_agents_list_backups_include_bad_metadata(
     ids=["found", "not_found"],
 )
 async def test_agents_get_backup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     backup_id: str,
     expected_result: dict[str, Any] | None,
@@ -203,7 +203,7 @@ async def test_agents_get_backup(
 
 
 async def test_agents_download(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_ssh_connection: SSHClientConnectionMock,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_agents_download(
 
 
 async def test_agents_download_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_ssh_connection: SSHClientConnectionMock,
 ) -> None:
@@ -248,7 +248,7 @@ async def test_agents_download_fail(
 
 
 async def test_agents_download_metadata_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_ssh_connection: SSHClientConnectionMock,
 ) -> None:
@@ -266,7 +266,7 @@ async def test_agents_download_metadata_not_found(
 
 
 async def test_agents_upload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     mock_ssh_connection: SSHClientConnectionMock,
@@ -309,7 +309,7 @@ async def test_agents_upload(
 
 
 async def test_agents_upload_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_ssh_connection: SSHClientConnectionMock,
     freezer: FrozenDateTimeFactory,
@@ -332,7 +332,7 @@ async def test_agents_upload_progress(
 
 
 async def test_agents_upload_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     mock_ssh_connection: SSHClientConnectionMock,
@@ -362,7 +362,7 @@ async def test_agents_upload_fail(
 
 
 async def test_agents_delete(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_ssh_connection: SSHClientConnectionMock,
 ) -> None:
@@ -408,7 +408,7 @@ async def test_agents_delete(
     ids=["file_not_found_exc", "sftp_error_exc"],
 )
 async def test_agents_delete_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_ssh_connection: SSHClientConnectionMock,
     exists_side_effect: bool | Exception,
@@ -432,7 +432,7 @@ async def test_agents_delete_fail(
 
 
 async def test_agents_delete_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_ssh_connection: SSHClientConnectionMock,
 ) -> None:
@@ -454,7 +454,7 @@ async def test_agents_delete_not_found(
     assert response["result"] == {"agent_error_translations": {}, "agent_errors": {}}
 
 
-async def test_listeners_get_cleaned_up(hass: UniversalAssistant) -> None:
+async def test_listeners_get_cleaned_up(hass: __HAC_KEEP__) -> None:
     """Test listener gets cleaned up."""
     listener = MagicMock()
     remove_listener = async_register_backup_agents_listener(hass, listener=listener)
@@ -529,7 +529,7 @@ def downloaded_files(
     ],
 )
 async def test_can_decrypt_on_download_closes_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     ssh_connections: list[SSHClientConnectionMock],
     downloaded_files: list[SFTPOpenMock],
@@ -643,7 +643,7 @@ async def test_agents_download_closes_connection_on_open_error(
 
 
 async def test_agents_download_closed_while_connecting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ssh_connection: SSHClientConnectionMock,
     ssh_connections: list[SSHClientConnectionMock],
     downloaded_files: list[SFTPOpenMock],
@@ -690,7 +690,7 @@ async def test_agents_download_closed_while_connecting(
 
 
 async def test_agents_download_aclosed_while_connecting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ssh_connections: list[SSHClientConnectionMock],
     downloaded_files: list[SFTPOpenMock],
 ) -> None:
@@ -724,7 +724,7 @@ async def test_agents_download_aclosed_while_connecting(
 
 
 async def test_client_sftp_not_open(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test the SFTP client is not available before the connection is open."""
     client = sftp_client.BackupAgentClient(config_entry, hass)

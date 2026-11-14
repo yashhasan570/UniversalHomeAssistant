@@ -30,7 +30,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfTime,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BoschConfigEntry
@@ -229,7 +229,7 @@ NUMBER_TYPES: dict[str, SHCNumberEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BoschConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -398,7 +398,7 @@ class SHCNumber[_DeviceT: SHCDevice](SHCEntity, NumberEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: _DeviceT,
         parent_id: str,
         entry_id: str,

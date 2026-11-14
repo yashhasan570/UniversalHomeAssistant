@@ -36,8 +36,8 @@ from universalassistant.const import (
     HTTP_DIGEST_AUTHENTICATION,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import get_camera_from_cameras, is_acceptable_camera, listen_for_new_cameras
@@ -55,7 +55,7 @@ PLATFORMS = [Platform.CAMERA]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MotionEyeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -227,7 +227,7 @@ class MotionEyeMjpegCamera(MotionEyeEntity, MjpegCamera):
                 self._camera_id
             )
         except MotionEyeClientError as err:
-            raise UniversalAssistantError("Unable to get camera snapshot") from err
+            raise __HAC_KEEP__Error("Unable to get camera snapshot") from err
 
     async def async_set_text_overlay(
         self,

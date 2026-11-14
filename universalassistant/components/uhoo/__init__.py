@@ -6,7 +6,7 @@ from uhooapi import Client
 from uhooapi.errors import ForbiddenError, UhooError, UnauthorizedError
 
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -14,7 +14,7 @@ from .const import PLATFORMS
 from .coordinator import UhooConfigEntry, UhooDataUpdateCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, config_entry: UhooConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, config_entry: UhooConfigEntry) -> None:
     """Set up uHoo integration from a config entry."""
 
     # get api key and session from configuration
@@ -39,7 +39,7 @@ async def async_setup_entry(hass: UniversalAssistant, config_entry: UhooConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: UhooConfigEntry
+    hass: __HAC_KEEP__, config_entry: UhooConfigEntry
 ) -> None:
     """Handle removal of an entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

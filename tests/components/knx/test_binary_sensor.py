@@ -32,7 +32,7 @@ from universalassistant.const import (
     EntityCategory,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import entity_registry as er
 
 from . import KnxEntityGenerator
@@ -40,7 +40,7 @@ from .conftest import KNXTestKit
 
 
 async def test_binary_sensor_entity_category(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, knx: KNXTestKit
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, knx: KNXTestKit
 ) -> None:
     """Test KNX binary sensor entity category."""
     await knx.setup_integration(
@@ -62,7 +62,7 @@ async def test_binary_sensor_entity_category(
     assert entity.entity_category is EntityCategory.DIAGNOSTIC
 
 
-async def test_binary_sensor(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_binary_sensor(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX binary sensor and inverted binary_sensor."""
     await knx.setup_integration(
         {
@@ -113,7 +113,7 @@ async def test_binary_sensor(hass: UniversalAssistant, knx: KNXTestKit) -> None:
 
 
 async def test_last_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -147,7 +147,7 @@ async def test_last_reported(
 
 
 async def test_binary_sensor_ignore_internal_state(
-    hass: UniversalAssistant, knx: KNXTestKit
+    hass: __HAC_KEEP__, knx: KNXTestKit
 ) -> None:
     """Test KNX binary_sensor with ignore_internal_state."""
     await knx.setup_integration(
@@ -192,7 +192,7 @@ async def test_binary_sensor_ignore_internal_state(
 
 
 async def test_binary_sensor_counter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -260,7 +260,7 @@ async def test_binary_sensor_counter(
 
 
 async def test_binary_sensor_reset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -290,7 +290,7 @@ async def test_binary_sensor_reset(
     assert state.state is STATE_OFF
 
 
-async def test_binary_sensor_restore(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_binary_sensor_restore(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test restoring KNX binary sensor state."""
     _ADDRESS = "2/2/2"
     fake_state = State("binary_sensor.test", STATE_ON)
@@ -319,7 +319,7 @@ async def test_binary_sensor_restore(hass: UniversalAssistant, knx: KNXTestKit) 
 
 
 async def test_binary_sensor_restore_invert(
-    hass: UniversalAssistant, knx: KNXTestKit
+    hass: __HAC_KEEP__, knx: KNXTestKit
 ) -> None:
     """Test restoring KNX binary sensor state with invert."""
     _ADDRESS = "2/2/2"
@@ -365,7 +365,7 @@ async def test_binary_sensor_restore_invert(
     ],
 )
 async def test_binary_sensor_ui_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
     knx_data: dict[str, Any],
@@ -449,7 +449,7 @@ def load_knxproj_dpt1(
     ],
 )
 async def test_binary_sensor_device_class_from_project(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_config: dict[str, Any],
     device_class: BinarySensorDeviceClass | None,
@@ -468,7 +468,7 @@ async def test_binary_sensor_device_class_from_project(
 
 @pytest.mark.usefixtures("load_knxproj_dpt1")
 async def test_binary_sensor_ui_device_class_from_project(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:

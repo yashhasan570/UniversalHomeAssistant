@@ -18,7 +18,7 @@ from universalassistant.const import (
     STATE_OPENING,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .test_common import get_device_discovery_payload, send_discovery_message
 
@@ -29,7 +29,7 @@ COVER_FEATURES = (
 )
 
 
-async def call_service(hass: UniversalAssistant, entity_id, service, **kwargs):
+async def call_service(hass: __HAC_KEEP__, entity_id, service, **kwargs):
     """Call a service."""
     await hass.services.async_call(
         COVER_DOMAIN,
@@ -40,7 +40,7 @@ async def call_service(hass: UniversalAssistant, entity_id, service, **kwargs):
 
 
 async def test_cover_features(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_pglab
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_pglab
 ) -> None:
     """Test cover features."""
 
@@ -60,7 +60,7 @@ async def test_cover_features(
 
 
 async def test_cover_availability(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_pglab
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_pglab
 ) -> None:
     """Check if covers are properly created."""
 
@@ -84,7 +84,7 @@ async def test_cover_availability(
 
 
 async def test_cover_change_state_via_mqtt(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_pglab
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_pglab
 ) -> None:
     """Test state update via MQTT."""
     payload = get_device_discovery_payload(
@@ -125,7 +125,7 @@ async def test_cover_change_state_via_mqtt(
 
 
 async def test_cover_mqtt_state_by_calling_service(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_pglab
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_pglab
 ) -> None:
     """Calling service to OPEN/CLOSE cover and check mqtt state."""
 

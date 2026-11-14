@@ -29,7 +29,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.device_registry import format_mac
@@ -97,7 +97,7 @@ def get_androidtv_mac(dev_props: dict[str, Any]) -> str | None:
 
 
 def _setup_androidtv(
-    hass: UniversalAssistant, config: Mapping[str, Any]
+    hass: __HAC_KEEP__, config: Mapping[str, Any]
 ) -> tuple[str, PythonRSASigner | None, str]:
     """Generate an ADB key (if needed) and load it."""
     adbkey: str = config.get(
@@ -125,7 +125,7 @@ def _setup_androidtv(
 
 
 async def async_connect_androidtv(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: Mapping[str, Any],
     *,
     state_detection_rules: dict[str, Any] | None = None,
@@ -167,7 +167,7 @@ async def async_connect_androidtv(
 
 
 def _connection_error(
-    hass: UniversalAssistant, config: Mapping[str, Any]
+    hass: __HAC_KEEP__, config: Mapping[str, Any]
 ) -> ConfigEntryNotReady:
     """Return the error for a device that can't be connected."""
     address = f"{config[CONF_HOST]}:{config[CONF_PORT]}"
@@ -194,7 +194,7 @@ def _connection_error(
     )
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: AndroidTVConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: AndroidTVConfigEntry) -> None:
     """Migrate old entry."""
     _LOGGER.debug(
         "Migrating configuration from version %s.%s", entry.version, entry.minor_version
@@ -218,13 +218,13 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: AndroidTVConfigEn
     )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Android TV / Fire TV integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AndroidTVConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AndroidTVConfigEntry) -> None:
     """Set up Android Debug Bridge platform."""
 
     state_det_rules = entry.options.get(CONF_STATE_DETECTION_RULES)
@@ -257,14 +257,14 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AndroidTVConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AndroidTVConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AndroidTVConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     aftv = entry.runtime_data.aftv
     await aftv.adb_close()
 
 
-async def update_listener(hass: UniversalAssistant, entry: AndroidTVConfigEntry) -> None:
+async def update_listener(hass: __HAC_KEEP__, entry: AndroidTVConfigEntry) -> None:
     """Update when config_entry options update."""
     reload_opt = False
     old_options = entry.runtime_data.dev_opt

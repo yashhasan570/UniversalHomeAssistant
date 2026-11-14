@@ -21,7 +21,7 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -33,7 +33,7 @@ from . import (
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -47,7 +47,7 @@ async def test_all_entities(
 
 @pytest.mark.parametrize("device_fixture", ["contact_sensor"])
 async def test_installing_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_installing_update(
 
 @pytest.mark.parametrize("device_fixture", ["contact_sensor"])
 async def test_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_state_update(
 
 @pytest.mark.parametrize("device_fixture", ["contact_sensor"])
 async def test_state_progress_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_state_progress_update(
 
 @pytest.mark.parametrize("device_fixture", ["centralite"])
 async def test_state_update_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_state_update_available(
 
 @pytest.mark.parametrize("device_fixture", ["centralite"])
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_availability(
 
 @pytest.mark.parametrize("device_fixture", ["centralite"])
 async def test_availability_at_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unavailable_device: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

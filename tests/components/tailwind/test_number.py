@@ -10,15 +10,15 @@ from universalassistant.components import number
 from universalassistant.components.number import ATTR_VALUE, SERVICE_SET_VALUE
 from universalassistant.components.tailwind.const import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 pytestmark = pytest.mark.usefixtures("init_integration")
 
 
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     mock_tailwind: MagicMock,
@@ -52,7 +52,7 @@ async def test_number_entities(
     # Test error handling
     mock_tailwind.status_led.side_effect = TailwindError("Some error")
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             number.DOMAIN,
             SERVICE_SET_VALUE,

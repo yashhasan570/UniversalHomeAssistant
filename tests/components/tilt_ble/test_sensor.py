@@ -6,12 +6,12 @@ from pytest_universalassistant.components.bluetooth import inject_bluetooth_serv
 from universalassistant.components.sensor import ATTR_STATE_CLASS, async_rounded_state
 from universalassistant.components.tilt_ble.const import DOMAIN
 from universalassistant.const import ATTR_FRIENDLY_NAME, ATTR_UNIT_OF_MEASUREMENT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import TILT_GREEN_SERVICE_INFO
 
 
-async def test_sensors(hass: UniversalAssistant) -> None:
+async def test_sensors(hass: __HAC_KEEP__) -> None:
     """Test setting up creates the sensors."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -24,11 +24,11 @@ from universalassistant.components.bluetooth import (
     BaseHaScanner,
     HaBluetoothConnector,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_wrapped_bleak_scanner(hass: UniversalAssistant) -> None:
+async def test_wrapped_bleak_scanner(hass: __HAC_KEEP__) -> None:
     """Test wrapped bleak scanner dispatches calls as expected."""
     scanner = HaBleakScannerWrapper()
     switchbot_device = generate_ble_device("44:44:33:11:23:45", "wohand")
@@ -41,7 +41,7 @@ async def test_wrapped_bleak_scanner(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("enable_bluetooth")
-async def test_wrapped_bleak_client_raises_device_missing(hass: UniversalAssistant) -> None:
+async def test_wrapped_bleak_client_raises_device_missing(hass: __HAC_KEEP__) -> None:
     """Test wrapped bleak client dispatches calls as expected."""
     switchbot_device = generate_ble_device("44:44:33:11:23:45", "wohand")
     client = HaBleakClientWrapper(switchbot_device)
@@ -55,7 +55,7 @@ async def test_wrapped_bleak_client_raises_device_missing(hass: UniversalAssista
 
 @pytest.mark.usefixtures("enable_bluetooth")
 async def test_wrapped_bleak_client_set_disconnected_callback_before_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test wrapped bleak client can set a disconnected callback before connected."""
     switchbot_device = generate_ble_device("44:44:33:11:23:45", "wohand")
@@ -64,7 +64,7 @@ async def test_wrapped_bleak_client_set_disconnected_callback_before_connected(
 
 
 @pytest.mark.usefixtures("enable_bluetooth", "one_adapter")
-async def test_wrapped_bleak_client_local_adapter_only(hass: UniversalAssistant) -> None:
+async def test_wrapped_bleak_client_local_adapter_only(hass: __HAC_KEEP__) -> None:
     """Test wrapped bleak client with only a local adapter."""
     manager = _get_manager()
 
@@ -131,7 +131,7 @@ async def test_wrapped_bleak_client_local_adapter_only(hass: UniversalAssistant)
 
 @pytest.mark.usefixtures("enable_bluetooth", "one_adapter")
 async def test_wrapped_bleak_client_set_disconnected_callback_after_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test wrapped bleak client can set a disconnected callback after connected."""
     manager = _get_manager()
@@ -221,7 +221,7 @@ async def test_wrapped_bleak_client_set_disconnected_callback_after_connected(
 
 @pytest.mark.usefixtures("enable_bluetooth", "one_adapter")
 async def test_ble_device_with_proxy_client_out_of_connections_no_scanners(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test switching proxy when out of connections, no scanners."""
     manager = _get_manager()
@@ -259,7 +259,7 @@ async def test_ble_device_with_proxy_client_out_of_connections_no_scanners(
 
 @pytest.mark.usefixtures("enable_bluetooth", "one_adapter")
 async def test_ble_device_with_proxy_client_out_of_connections(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test handling all scanners are out of connection slots."""
     manager = _get_manager()
@@ -324,7 +324,7 @@ async def test_ble_device_with_proxy_client_out_of_connections(
 
 
 @pytest.mark.usefixtures("enable_bluetooth", "one_adapter")
-async def test_ble_device_with_proxy_clear_cache(hass: UniversalAssistant) -> None:
+async def test_ble_device_with_proxy_clear_cache(hass: __HAC_KEEP__) -> None:
     """Test we can clear cache on the proxy."""
     manager = _get_manager()
 
@@ -385,7 +385,7 @@ async def test_ble_device_with_proxy_clear_cache(hass: UniversalAssistant) -> No
 
 @pytest.mark.usefixtures("enable_bluetooth", "one_adapter")
 async def test_ble_device_with_proxy_client_out_of_connections_uses_best_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test we switch to the next available proxy when one runs out of connections."""
     manager = _get_manager()
@@ -492,7 +492,7 @@ async def test_ble_device_with_proxy_client_out_of_connections_uses_best_availab
 
 @pytest.mark.usefixtures("enable_bluetooth", "macos_adapter")
 async def test_ble_device_proxy_client_out_of_connections_best_available_macos(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test switching proxy when out of connections on MacOS."""
     manager = _get_manager()

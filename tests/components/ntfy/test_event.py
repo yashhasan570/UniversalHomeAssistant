@@ -42,7 +42,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -80,7 +80,7 @@ def other_config_entry() -> MockConfigEntry:
 
 
 async def _setup_protected_topic_on_two_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     other_config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
@@ -113,7 +113,7 @@ async def event_only() -> AsyncGenerator[None]:
 @pytest.mark.usefixtures("mock_aiontfy")
 @pytest.mark.freeze_time("2025-09-03T22:00:00.000Z")
 async def test_event_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -131,7 +131,7 @@ async def test_event_platform(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test ntfy events."""
@@ -210,7 +210,7 @@ async def test_event(
     ],
 )
 async def test_event_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -242,7 +242,7 @@ async def test_event_exceptions(
     ],
 )
 async def test_event_topic_protected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -297,7 +297,7 @@ async def test_event_topic_protected(
 
 
 async def test_event_topic_protected_per_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     other_config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
@@ -332,7 +332,7 @@ async def test_event_topic_protected_per_config_entry(
 
 
 async def test_event_topic_protected_fix_flow_per_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     other_config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
@@ -369,7 +369,7 @@ async def test_event_topic_protected_fix_flow_per_config_entry(
 
 @pytest.mark.usefixtures("mock_aiontfy")
 async def test_event_topic_protected_issue_deleted_on_subscribe(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     issue_registry: ir.IssueRegistry,
@@ -399,7 +399,7 @@ async def test_event_topic_protected_issue_deleted_on_subscribe(
 
 
 async def test_event_topic_protected_issue_deleted_on_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -426,7 +426,7 @@ async def test_event_topic_protected_issue_deleted_on_remove(
 
 
 async def test_event_topic_protected_issue_deleted_on_remove_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -453,14 +453,14 @@ async def test_event_topic_protected_issue_deleted_on_remove_not_loaded(
     assert not issue_registry.async_get_issue(DOMAIN, TOPIC_PROTECTED_ISSUE_ID)
 
 
-async def _disable_entity(hass: UniversalAssistant) -> None:
+async def _disable_entity(hass: __HAC_KEEP__) -> None:
     """Disable the event entity."""
     er.async_get(hass).async_update_entity(
         "event.mytopic", disabled_by=er.RegistryEntryDisabler.USER
     )
 
 
-async def _disable_device(hass: UniversalAssistant) -> None:
+async def _disable_device(hass: __HAC_KEEP__) -> None:
     """Disable the device of the event entity."""
     assert (entity := er.async_get(hass).async_get("event.mytopic"))
     assert entity.device_id
@@ -469,7 +469,7 @@ async def _disable_device(hass: UniversalAssistant) -> None:
     )
 
 
-async def _remove_entity(hass: UniversalAssistant) -> None:
+async def _remove_entity(hass: __HAC_KEEP__) -> None:
     """Remove the event entity from the entity registry."""
     er.async_get(hass).async_remove("event.mytopic")
 
@@ -483,12 +483,12 @@ async def _remove_entity(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_event_topic_protected_issue_deleted_on_entity_disable_or_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     freezer: FrozenDateTimeFactory,
     issue_registry: ir.IssueRegistry,
-    remove_entity: Callable[[UniversalAssistant], Coroutine[None, None, None]],
+    remove_entity: Callable[[__HAC_KEEP__], Coroutine[None, None, None]],
 ) -> None:
     """Test the issue is deleted when the entity is disabled or removed."""
     mock_aiontfy.subscribe.side_effect = NtfyForbiddenError(403, 403, "forbidden")
@@ -511,13 +511,13 @@ async def test_event_topic_protected_issue_deleted_on_entity_disable_or_remove(
     assert not issue_registry.async_get_issue(DOMAIN, TOPIC_PROTECTED_ISSUE_ID)
 
 
-async def _reload_entry(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def _reload_entry(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Reload the config entry."""
     assert await hass.config_entries.async_reload(config_entry.entry_id)
 
 
 async def _disable_and_enable_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Disable and re-enable the config entry."""
     assert await hass.config_entries.async_set_disabled_by(
@@ -540,13 +540,13 @@ async def _disable_and_enable_entry(
     ],
 )
 async def test_event_topic_protected_issue_ignore_kept_on_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     freezer: FrozenDateTimeFactory,
     issue_registry: ir.IssueRegistry,
     reload_entry: Callable[
-        [UniversalAssistant, MockConfigEntry], Coroutine[None, None, None]
+        [__HAC_KEEP__, MockConfigEntry], Coroutine[None, None, None]
     ],
 ) -> None:
     """Test an ignored protected topic issue stays ignored when the entry reloads."""
@@ -585,12 +585,12 @@ async def test_event_topic_protected_issue_ignore_kept_on_reload(
     ],
 )
 async def test_event_topic_protected_issue_deleted_on_disable_while_entry_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_aiontfy: AsyncMock,
     freezer: FrozenDateTimeFactory,
     issue_registry: ir.IssueRegistry,
-    disable_entity: Callable[[UniversalAssistant], Coroutine[None, None, None]],
+    disable_entity: Callable[[__HAC_KEEP__], Coroutine[None, None, None]],
 ) -> None:
     """Test the issue is deleted if the entity is disabled while the entry is."""
     mock_aiontfy.subscribe.side_effect = NtfyForbiddenError(403, 403, "forbidden")

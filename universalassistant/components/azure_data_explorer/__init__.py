@@ -12,7 +12,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import MATCH_ALL
-from universalassistant.core import Event, UniversalAssistant, State
+from universalassistant.core import Event, __HAC_KEEP__, State
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers.entityfilter import FILTER_SCHEMA, EntityFilter
 from universalassistant.helpers.event import async_call_later
@@ -55,7 +55,7 @@ class FilterTest:
     expect_called: bool
 
 
-async def async_setup(hass: UniversalAssistant, yaml_config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, yaml_config: ConfigType) -> bool:
     """Activate ADX component from yaml.
 
     Adds an empty filter to hass data.
@@ -69,7 +69,7 @@ async def async_setup(hass: UniversalAssistant, yaml_config: ConfigType) -> bool
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Do the setup based on the config entry and the filter from yaml."""
     adx = AzureDataExplorer(hass, entry)
     try:
@@ -88,7 +88,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
     await adx.async_start()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
 
 
@@ -97,7 +97,7 @@ class AzureDataExplorer:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ConfigEntry,
     ) -> None:
         """Initialize the listener."""

@@ -1,7 +1,7 @@
 """Models for SQLAlchemy.
 
 This file contains the model definitions for schema version 23
-used by Universal Universal Home Assistant Core 2021.11.0, which adds the name column
+used by __HA_KEEP__ Core 2021.11.0, which adds the name column
 to statistics_meta.
 
 The v23 schema as been slightly modified to add the EventData table to

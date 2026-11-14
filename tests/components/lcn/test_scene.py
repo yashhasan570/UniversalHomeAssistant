@@ -8,14 +8,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MockConfigEntry, MockDeviceConnection, init_integration
 
 
 async def test_setup_lcn_scene(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -28,7 +28,7 @@ async def test_setup_lcn_scene(
 
 
 async def test_scene_activate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
 ) -> None:
     """Test the scene is activated."""
@@ -49,7 +49,7 @@ async def test_scene_activate(
     )
 
 
-async def test_unload_config_entry(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_unload_config_entry(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the scene is removed when the config entry is unloaded."""
     await init_integration(hass, entry)
 

@@ -25,7 +25,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.alexa_devices.coordinator import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import assert_device_removed_and_readded, setup_integration
@@ -47,7 +47,7 @@ from .const import (
     ],
 )
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -72,7 +72,7 @@ async def test_all_entities(
     ],
 )
 async def test_coordinator_data_update_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -98,7 +98,7 @@ async def test_coordinator_data_update_fails(
 
 
 async def test_offline_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -129,7 +129,7 @@ async def test_offline_device(
 
 
 async def test_sensor_push_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_sensor_push_event(
 
 
 async def test_device_removed_and_readded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -206,7 +206,7 @@ def _sensor_feature(key: str) -> dict[str, dict[str, AmazonDeviceFeature]]:
     ],
 )
 async def test_unit_of_measurement(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -267,7 +267,7 @@ async def test_unit_of_measurement(
     ],
 )
 async def test_sensor_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_amazon_devices_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

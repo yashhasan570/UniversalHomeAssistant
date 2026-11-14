@@ -23,7 +23,7 @@ from universalassistant.components.plugwise.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 HA_PLUGWISE_SMILE_ASYNC_UPDATE = (
@@ -68,7 +68,7 @@ TOM = {
 @pytest.mark.parametrize("chosen_env", ["anna_heatpump_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_load_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smile_anna: MagicMock,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_load_unload_config_entry(
     ],
 )
 async def test_gateway_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smile_anna: MagicMock,
     side_effect: Exception,
@@ -123,7 +123,7 @@ async def test_gateway_config_entry_not_ready(
     "gateway_id", ["a455b61e52394b2db5081ce025a430f3"], indirect=True
 )
 async def test_device_in_dr(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smile_p1: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -151,7 +151,7 @@ async def test_device_in_dr(
 @pytest.mark.parametrize("chosen_env", ["m_adam_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 async def test_device_via_device_links(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smile_adam_heat_cool: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -190,7 +190,7 @@ async def test_device_via_device_links(
     ],
 )
 async def test_migrate_unique_id_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     entitydata: dict,
@@ -242,7 +242,7 @@ async def test_migrate_unique_id_temperature(
     ],
 )
 async def test_migrate_unique_id_relay(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     entitydata: dict,
@@ -268,7 +268,7 @@ async def test_migrate_unique_id_relay(
 @pytest.mark.parametrize("chosen_env", ["m_adam_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_update_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smile_adam_heat_cool: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -370,7 +370,7 @@ async def test_update_device(
 @pytest.mark.parametrize("chosen_env", ["m_adam_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 async def test_delete_removed_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smile_adam_heat_cool: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -400,7 +400,7 @@ async def test_delete_removed_device(
 @pytest.mark.parametrize("chosen_env", ["m_adam_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 async def test_update_device_firmware(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smile_adam_heat_cool: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -432,7 +432,7 @@ async def test_update_device_firmware(
 @pytest.mark.parametrize("chosen_env", ["m_adam_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [False], indirect=True)
 async def test_update_interval_adam(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smile_adam_heat_cool: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -457,7 +457,7 @@ async def test_update_interval_adam(
     "gateway_id", ["a455b61e52394b2db5081ce025a430f3"], indirect=True
 )
 async def test_update_interval_p1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_smile_p1: MagicMock,
     freezer: FrozenDateTimeFactory,

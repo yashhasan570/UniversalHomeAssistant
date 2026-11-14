@@ -5,13 +5,13 @@ import re
 from aiohttp import web
 import probatio
 
-from universalassistant.components.http import UniversalAssistantView
+from universalassistant.components.http import __HAC_KEEP__View
 from universalassistant.components.sensor import (
     PLATFORM_SCHEMA as SENSOR_PLATFORM_SCHEMA,
     SensorEntity,
 )
 from universalassistant.const import CONF_EMAIL, CONF_NAME, DEGREE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -46,7 +46,7 @@ def convert_pid(value):
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -61,7 +61,7 @@ async def async_setup_platform(
     )
 
 
-class TorqueReceiveDataView(UniversalAssistantView):
+class TorqueReceiveDataView(__HAC_KEEP__View):
     """Handle data from Torque requests."""
 
     url = API_PATH

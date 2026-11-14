@@ -23,7 +23,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.midea.sensor import SENSOR_ENTITIES
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -264,7 +264,7 @@ from .const import TEST_DEVICE_ID
     ],
 )
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     device: DummyDevice,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
@@ -281,7 +281,7 @@ async def test_all_entities(
 
 
 async def test_sensor_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_device_attribute: SetDeviceAttribute,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
@@ -338,7 +338,7 @@ async def test_sensor_state_update(
 
 
 async def test_db_sensor_with_invalid_dehydration_speed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_device_attribute: SetDeviceAttribute,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
@@ -371,7 +371,7 @@ async def test_db_sensor_with_invalid_dehydration_speed(
 
 
 async def test_time_remaining_sensor_as_timestamp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     set_device_attribute: SetDeviceAttribute,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],

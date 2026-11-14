@@ -7,11 +7,11 @@ import pytest
 
 from universalassistant import config_entries
 from universalassistant.components.mutesync.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_form_error(
-    side_effect: Exception, error: str, hass: UniversalAssistant
+    side_effect: Exception, error: str, hass: __HAC_KEEP__
 ) -> None:
     """Test we handle error situations."""
     result = await hass.config_entries.flow.async_init(

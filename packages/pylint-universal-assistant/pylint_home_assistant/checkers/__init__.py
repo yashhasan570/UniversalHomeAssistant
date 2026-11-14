@@ -1,1 +1,1 @@
-"""Universal Universal Home Assistant pylint checkers."""
+"""__HA_KEEP__ pylint checkers."""

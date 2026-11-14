@@ -1,4 +1,4 @@
-"""API for nVent RAYCHEM SENZ bound to Universal Universal Home Assistant OAuth."""
+"""API for nVent RAYCHEM SENZ bound to __HA_KEEP__ OAuth."""
 
 from typing import cast, override
 

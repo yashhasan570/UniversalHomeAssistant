@@ -8,7 +8,7 @@ from pybotvac import Account
 from urllib3.response import HTTPResponse
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import Throttle
 
 type NeatoConfigEntry = ConfigEntry[NeatoHub]
@@ -19,7 +19,7 @@ _LOGGER = logging.getLogger(__name__)
 class NeatoHub:
     """A My Neato hub wrapper class."""
 
-    def __init__(self, hass: UniversalAssistant, neato: Account) -> None:
+    def __init__(self, hass: __HAC_KEEP__, neato: Account) -> None:
         """Initialize the Neato hub."""
         self._hass = hass
         self.my_neato: Account = neato

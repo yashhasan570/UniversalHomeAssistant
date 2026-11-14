@@ -16,7 +16,7 @@ from universalassistant.components.camera import (
 )
 from universalassistant.components.vivotek.const import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -24,7 +24,7 @@ from . import setup_integration
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_vivotek_camera: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_all_entities(
 
 
 async def test_camera_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vivotek_camera: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -67,7 +67,7 @@ async def test_camera_device_info(
 
 
 async def test_camera_device_info_with_metadata_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vivotek_camera: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -91,7 +91,7 @@ async def test_camera_device_info_with_metadata_errors(
 
 
 async def test_camera_available_when_update_succeeds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vivotek_camera: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -108,7 +108,7 @@ async def test_camera_available_when_update_succeeds(
 
 
 async def test_camera_unavailable_when_update_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vivotek_camera: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -127,7 +127,7 @@ async def test_camera_unavailable_when_update_fails(
 
 
 async def test_camera_stream_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vivotek_camera: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -140,7 +140,7 @@ async def test_camera_stream_source(
 
 
 async def test_camera_motion_detection_methods(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vivotek_camera: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_camera_motion_detection_methods(
 
 
 async def test_camera_image_returns_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vivotek_camera: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

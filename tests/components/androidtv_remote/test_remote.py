@@ -8,14 +8,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 REMOTE_ENTITY = "remote.my_android_tv"
 
 
 async def test_remote_receives_push_updates(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote receives push updates and state is updated."""
     new_options = {"apps": {"com.google.android.youtube.tv": {"app_name": "YouTube"}}}
@@ -48,7 +48,7 @@ async def test_remote_receives_push_updates(
 
 
 async def test_remote_toggles(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote toggles."""
     new_options = {"apps": {"com.google.android.youtube.tv": {"app_name": "YouTube"}}}
@@ -102,7 +102,7 @@ async def test_remote_toggles(
 
 
 async def test_remote_send_command(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test remote.send_command service."""
     mock_config_entry.add_to_hass(hass)
@@ -125,7 +125,7 @@ async def test_remote_send_command(
 
 
 async def test_remote_send_command_multiple(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test remote.send_command service with multiple commands."""
     mock_config_entry.add_to_hass(hass)
@@ -149,7 +149,7 @@ async def test_remote_send_command_multiple(
 
 
 async def test_remote_send_command_with_hold_secs(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test remote.send_command service with hold_secs."""
     mock_config_entry.add_to_hass(hass)
@@ -184,7 +184,7 @@ async def test_remote_send_command_with_hold_secs(
     ids=["start", "end", "short", "uppercase_prefix"],
 )
 async def test_remote_send_command_with_direction_prefix(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
     command: str,
@@ -219,7 +219,7 @@ async def test_remote_send_command_with_direction_prefix(
     ids=["text_prefix", "unknown_prefix", "embedded_colon", "leading_colon"],
 )
 async def test_remote_send_command_unknown_prefix_passes_through(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
     command: str,
@@ -249,7 +249,7 @@ async def test_remote_send_command_unknown_prefix_passes_through(
 
 
 async def test_remote_send_command_direction_prefix_pair(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test that a press-down/release-up pair produces exactly two events.
 
@@ -288,7 +288,7 @@ async def test_remote_send_command_direction_prefix_pair(
 
 
 async def test_remote_send_command_direction_prefix_with_hold_secs_raises(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test that combining a direction prefix with hold_secs raises."""
     mock_config_entry.add_to_hass(hass)
@@ -314,7 +314,7 @@ async def test_remote_send_command_direction_prefix_with_hold_secs_raises(
 
 
 async def test_remote_send_command_empty_key_code_raises(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test that a direction prefix without a key code raises."""
     mock_config_entry.add_to_hass(hass)
@@ -339,16 +339,16 @@ async def test_remote_send_command_empty_key_code_raises(
 
 
 async def test_remote_connection_closed(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
-    """Test commands raise UniversalAssistantError if ConnectionClosed."""
+    """Test commands raise __HAC_KEEP__Error if ConnectionClosed."""
     mock_config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
     assert mock_config_entry.state is ConfigEntryState.LOADED
 
     mock_api.send_key_command.side_effect = ConnectionClosed()
     with pytest.raises(
-        UniversalAssistantError, match="Connection to the Android TV device is closed"
+        __HAC_KEEP__Error, match="Connection to the Android TV device is closed"
     ):
         await hass.services.async_call(
             "remote",
@@ -364,7 +364,7 @@ async def test_remote_connection_closed(
 
     mock_api.send_launch_app_command.side_effect = ConnectionClosed()
     with pytest.raises(
-        UniversalAssistantError, match="Connection to the Android TV device is closed"
+        __HAC_KEEP__Error, match="Connection to the Android TV device is closed"
     ):
         await hass.services.async_call(
             "remote",

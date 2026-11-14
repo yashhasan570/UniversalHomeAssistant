@@ -9,13 +9,13 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.nina.const import DOMAIN
 from universalassistant.components.nina.services import NinaService
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_platform, setup_single_platform
 
 
 async def test_service_registration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_nina_class: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_nina_class: AsyncMock
 ) -> None:
     """Test the NINA services be registered."""
     await setup_single_platform(hass, mock_config_entry, None, mock_nina_class, [])
@@ -27,7 +27,7 @@ async def test_service_registration(
 
 
 async def test_service_get_details(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nina_class: AsyncMock,
     nina_warnings: list[Warning],
@@ -49,7 +49,7 @@ async def test_service_get_details(
 
 
 async def test_service_get_details_no_warning(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_nina_class: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_nina_class: AsyncMock
 ) -> None:
     """Test the get details service when no warning is present."""
     await setup_platform(hass, mock_config_entry, mock_nina_class, [])

@@ -1,8 +1,8 @@
-"""Constants for the Universal Universal Home Assistant Yellow integration."""
+"""Constants for the __HA_KEEP__ Yellow integration."""
 
 DOMAIN = "universalassistant_yellow"
 
-MODEL = "Universal Universal Home Assistant Yellow"
+MODEL = "__HA_KEEP__ Yellow"
 MANUFACTURER = "Nabu Casa"
 
 RADIO_DEVICE = "/dev/ttyAMA1"

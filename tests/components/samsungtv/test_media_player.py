@@ -83,8 +83,8 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceNotSupported
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceNotSupported
 from universalassistant.setup import async_setup_component
 
 from . import setup_samsungtv_entry
@@ -108,7 +108,7 @@ MOCK_CALLS_WS = {
     CONF_PORT: 8001,
     CONF_TOKEN: "123456789",
     CONF_TIMEOUT: TIMEOUT_WEBSOCKET,
-    CONF_NAME: "UniversalAssistant",
+    CONF_NAME: "__HAC_KEEP__",
 }
 
 MOCK_ENTRY_WS = {
@@ -122,14 +122,14 @@ MOCK_ENTRY_WS = {
 
 
 @pytest.mark.usefixtures("remote_legacy")
-async def test_setup(hass: UniversalAssistant) -> None:
+async def test_setup(hass: __HAC_KEEP__) -> None:
     """Test setup of platform."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     assert hass.states.get(ENTITY_ID)
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
-async def test_setup_websocket(hass: UniversalAssistant) -> None:
+async def test_setup_websocket(hass: __HAC_KEEP__) -> None:
     """Test setup of platform."""
     with patch(
         "universalassistant.components.samsungtv.bridge.SamsungTVWSAsyncRemote"
@@ -155,7 +155,7 @@ async def test_setup_websocket(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("rest_api")
 async def test_setup_websocket_2(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test setup of platform from config entry."""
     entry = MockConfigEntry(
@@ -192,7 +192,7 @@ async def test_setup_websocket_2(
 
 @pytest.mark.usefixtures("rest_api")
 async def test_setup_encrypted_websocket(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test setup of platform from config entry."""
     with patch(
@@ -215,7 +215,7 @@ async def test_setup_encrypted_websocket(
 
 
 @pytest.mark.usefixtures("remote_legacy")
-async def test_update_on(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+async def test_update_on(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     """Testing update tv on."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
 
@@ -228,7 +228,7 @@ async def test_update_on(hass: UniversalAssistant, freezer: FrozenDateTimeFactor
 
 
 async def test_update_off(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, remote_legacy: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, remote_legacy: Mock
 ) -> None:
     """Testing update tv off."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
@@ -245,7 +245,7 @@ async def test_update_off(
 
 
 async def test_update_off_ws_no_power_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     remote_websocket: Mock,
     rest_api: Mock,
@@ -273,7 +273,7 @@ async def test_update_off_ws_no_power_state(
 
 @pytest.mark.usefixtures("remote_websocket")
 async def test_update_off_ws_with_power_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     remote_websocket: Mock,
     rest_api: Mock,
@@ -350,7 +350,7 @@ async def test_update_off_ws_with_power_state(
     ],
 )
 async def test_setup_ws_with_power_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     remote_websocket: Mock,
     rest_api: Mock,
     power_state: str,
@@ -372,7 +372,7 @@ async def test_setup_ws_with_power_state(
 
 
 async def test_update_off_encryptedws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     remote_encrypted_websocket: Mock,
     rest_api: Mock,
@@ -400,7 +400,7 @@ async def test_update_off_encryptedws(
 
 
 async def test_update_access_denied(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, remote_legacy: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, remote_legacy: Mock
 ) -> None:
     """Testing update tv access denied exception."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
@@ -425,7 +425,7 @@ async def test_update_access_denied(
 
 @pytest.mark.usefixtures("rest_api")
 async def test_update_ws_connection_failure_channel_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     remote_websocket: Mock,
     caplog: pytest.LogCaptureFixture,
@@ -472,7 +472,7 @@ async def test_update_ws_connection_failure_channel_timeout(
 )
 @pytest.mark.usefixtures("rest_api")
 async def test_update_ws_connection_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     remote_websocket: Mock,
     caplog: pytest.LogCaptureFixture,
@@ -508,7 +508,7 @@ async def test_update_ws_connection_failure(
 
 @pytest.mark.usefixtures("rest_api")
 async def test_update_ws_unauthorized_error(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, remote_websocket: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, remote_websocket: Mock
 ) -> None:
     """Testing update tv unauthorized failure exception."""
     await setup_samsungtv_entry(hass, MOCK_CONFIGWS)
@@ -533,7 +533,7 @@ async def test_update_ws_unauthorized_error(
 
 
 async def test_update_unhandled_response(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, remote_legacy: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, remote_legacy: Mock
 ) -> None:
     """Testing update tv unhandled response exception."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
@@ -550,7 +550,7 @@ async def test_update_unhandled_response(
 
 
 async def test_connection_closed_during_update_can_recover(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, remote_legacy: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, remote_legacy: Mock
 ) -> None:
     """Testing update tv connection closed exception can recover."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
@@ -573,7 +573,7 @@ async def test_connection_closed_during_update_can_recover(
         assert state.state == STATE_ON
 
 
-async def test_send_key(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_send_key(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for send key."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     await hass.services.async_call(
@@ -587,12 +587,12 @@ async def test_send_key(hass: UniversalAssistant, remote_legacy: Mock) -> None:
 
 
 async def test_send_key_connection_failure(
-    hass: UniversalAssistant, remote_legacy: Mock
+    hass: __HAC_KEEP__, remote_legacy: Mock
 ) -> None:
     """Testing connection failure exception."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     remote_legacy.control.side_effect = ConnectionFailure("Boom")
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             MP_DOMAIN, SERVICE_VOLUME_UP, {ATTR_ENTITY_ID: ENTITY_ID}, True
         )
@@ -603,7 +603,7 @@ async def test_send_key_connection_failure(
 
 
 async def test_send_key_connection_closed_retry_succeed(
-    hass: UniversalAssistant, remote_legacy: Mock
+    hass: __HAC_KEEP__, remote_legacy: Mock
 ) -> None:
     """Test retry on connection closed."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
@@ -633,12 +633,12 @@ async def test_send_key_connection_closed_retry_succeed(
     ],
 )
 async def test_send_key_error_response(
-    hass: UniversalAssistant, remote_legacy: Mock, error: Exception
+    hass: __HAC_KEEP__, remote_legacy: Mock, error: Exception
 ) -> None:
     """Testing error responses to a key are raised."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     remote_legacy.control.side_effect = error
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             MP_DOMAIN, SERVICE_VOLUME_UP, {ATTR_ENTITY_ID: ENTITY_ID}, True
         )
@@ -656,7 +656,7 @@ async def test_send_key_error_response(
 )
 @pytest.mark.usefixtures("rest_api")
 async def test_send_key_failure_ws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     remote_websocket: Mock,
     error: Exception,
     call_count: int,
@@ -664,7 +664,7 @@ async def test_send_key_failure_ws(
     """Testing send key failure on websocket."""
     await setup_samsungtv_entry(hass, MOCK_CONFIGWS)
     remote_websocket.send_commands = Mock(side_effect=error)
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             MP_DOMAIN, SERVICE_VOLUME_UP, {ATTR_ENTITY_ID: ENTITY_ID}, True
         )
@@ -683,7 +683,7 @@ async def test_send_key_failure_ws(
 )
 @pytest.mark.usefixtures("rest_api")
 async def test_send_key_failure_ws_encrypted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     remote_encrypted_websocket: Mock,
     error: Exception,
     call_count: int,
@@ -691,7 +691,7 @@ async def test_send_key_failure_ws_encrypted(
     """Testing send key failure on encrypted websocket."""
     await setup_samsungtv_entry(hass, ENTRYDATA_ENCRYPTED_WEBSOCKET)
     remote_encrypted_websocket.send_commands = Mock(side_effect=error)
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             MP_DOMAIN, SERVICE_VOLUME_UP, {ATTR_ENTITY_ID: ENTITY_ID}, True
         )
@@ -702,7 +702,7 @@ async def test_send_key_failure_ws_encrypted(
 
 
 @pytest.mark.usefixtures("remote_legacy")
-async def test_name(hass: UniversalAssistant) -> None:
+async def test_name(hass: __HAC_KEEP__) -> None:
     """Test for name property."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     state = hass.states.get(ENTITY_ID)
@@ -710,7 +710,7 @@ async def test_name(hass: UniversalAssistant) -> None:
 
 
 async def test_state(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, remote_legacy: Mock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, remote_legacy: Mock
 ) -> None:
     """Test for state property."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
@@ -737,7 +737,7 @@ async def test_state(
 
 
 @pytest.mark.usefixtures("remote_legacy")
-async def test_supported_features(hass: UniversalAssistant) -> None:
+async def test_supported_features(hass: __HAC_KEEP__) -> None:
     """Test for supported_features property."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     state = hass.states.get(ENTITY_ID)
@@ -745,7 +745,7 @@ async def test_supported_features(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("remote_legacy")
-async def test_device_class(hass: UniversalAssistant) -> None:
+async def test_device_class(hass: __HAC_KEEP__) -> None:
     """Test for device_class property."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     state = hass.states.get(ENTITY_ID)
@@ -754,7 +754,7 @@ async def test_device_class(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("rest_api")
 async def test_turn_off_websocket(
-    hass: UniversalAssistant, remote_websocket: Mock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, remote_websocket: Mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test for turn_off."""
     remote_websocket.app_list_data = await async_load_json_object_fixture(
@@ -795,7 +795,7 @@ async def test_turn_off_websocket(
 
 
 async def test_turn_off_websocket_frame(
-    hass: UniversalAssistant, remote_websocket: Mock, rest_api: Mock
+    hass: __HAC_KEEP__, remote_websocket: Mock, rest_api: Mock
 ) -> None:
     """Test for turn_off."""
     rest_api.rest_device_info.return_value = await async_load_json_object_fixture(
@@ -827,7 +827,7 @@ async def test_turn_off_websocket_frame(
 
 
 async def test_turn_off_encrypted_websocket(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     remote_encrypted_websocket: Mock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -866,7 +866,7 @@ async def test_turn_off_encrypted_websocket(
     [("UE50H6400", "KEY_POWEROFF"), ("UN75JU641D", "KEY_POWER")],
 )
 async def test_turn_off_encrypted_websocket_key_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     remote_encrypted_websocket: Mock,
     caplog: pytest.LogCaptureFixture,
     model: str,
@@ -892,7 +892,7 @@ async def test_turn_off_encrypted_websocket_key_type(
     assert "Unknown power_off command for" not in caplog.text
 
 
-async def test_turn_off_legacy(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_turn_off_legacy(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for turn_off."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     await hass.services.async_call(
@@ -905,7 +905,7 @@ async def test_turn_off_legacy(hass: UniversalAssistant, remote_legacy: Mock) ->
 
 @pytest.mark.usefixtures("rest_api")
 async def test_turn_off_ws_os_error(
-    hass: UniversalAssistant, remote_websocket: Mock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, remote_websocket: Mock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test for turn_off with OSError."""
     await setup_samsungtv_entry(hass, MOCK_CONFIGWS)
@@ -918,7 +918,7 @@ async def test_turn_off_ws_os_error(
 
 @pytest.mark.usefixtures("rest_api")
 async def test_turn_off_encryptedws_os_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     remote_encrypted_websocket: Mock,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -931,7 +931,7 @@ async def test_turn_off_encryptedws_os_error(
     assert "Error closing connection" in caplog.text
 
 
-async def test_volume_up(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_volume_up(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for volume_up."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     await hass.services.async_call(
@@ -942,7 +942,7 @@ async def test_volume_up(hass: UniversalAssistant, remote_legacy: Mock) -> None:
     assert remote_legacy.control.call_args_list == [call("KEY_VOLUP")]
 
 
-async def test_volume_down(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_volume_down(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for volume_down."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     await hass.services.async_call(
@@ -953,7 +953,7 @@ async def test_volume_down(hass: UniversalAssistant, remote_legacy: Mock) -> Non
     assert remote_legacy.control.call_args_list == [call("KEY_VOLDOWN")]
 
 
-async def test_mute_volume(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_mute_volume(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for mute_volume."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     await hass.services.async_call(
@@ -967,7 +967,7 @@ async def test_mute_volume(hass: UniversalAssistant, remote_legacy: Mock) -> Non
     assert remote_legacy.control.call_args_list == [call("KEY_MUTE")]
 
 
-async def test_media_play(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_media_play(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for media_play."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     await hass.services.async_call(
@@ -985,7 +985,7 @@ async def test_media_play(hass: UniversalAssistant, remote_legacy: Mock) -> None
     assert remote_legacy.control.call_args_list == [call("KEY_PLAY"), call("KEY_PAUSE")]
 
 
-async def test_media_pause(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_media_pause(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for media_pause."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     await hass.services.async_call(
@@ -1003,7 +1003,7 @@ async def test_media_pause(hass: UniversalAssistant, remote_legacy: Mock) -> Non
     assert remote_legacy.control.call_args_list == [call("KEY_PAUSE"), call("KEY_PLAY")]
 
 
-async def test_media_next_track(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_media_next_track(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for media_next_track."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     await hass.services.async_call(
@@ -1014,7 +1014,7 @@ async def test_media_next_track(hass: UniversalAssistant, remote_legacy: Mock) -
     assert remote_legacy.control.call_args_list == [call("KEY_CHUP")]
 
 
-async def test_media_previous_track(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_media_previous_track(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for media_previous_track."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     await hass.services.async_call(
@@ -1026,7 +1026,7 @@ async def test_media_previous_track(hass: UniversalAssistant, remote_legacy: Moc
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
-async def test_turn_on_without_turnon_with_mac(hass: UniversalAssistant) -> None:
+async def test_turn_on_without_turnon_with_mac(hass: __HAC_KEEP__) -> None:
     """Test turn on is not supported even when a MAC address is configured."""
     await async_setup_component(hass, "universalassistant", {})
     entry = MockConfigEntry(
@@ -1043,7 +1043,7 @@ async def test_turn_on_without_turnon_with_mac(hass: UniversalAssistant) -> None
         )
 
 
-async def test_turn_on_without_turnon(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_turn_on_without_turnon(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test turn on."""
     await async_setup_component(hass, "universalassistant", {})
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
@@ -1055,7 +1055,7 @@ async def test_turn_on_without_turnon(hass: UniversalAssistant, remote_legacy: M
     assert remote_legacy.control.call_count == 0
 
 
-async def test_play_media(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_play_media(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for play_media."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     with patch("universalassistant.components.samsungtv.bridge.asyncio.sleep") as sleep:
@@ -1080,7 +1080,7 @@ async def test_play_media(hass: UniversalAssistant, remote_legacy: Mock) -> None
     assert sleep.call_count == 3
 
 
-async def test_play_media_invalid_type(hass: UniversalAssistant) -> None:
+async def test_play_media_invalid_type(hass: __HAC_KEEP__) -> None:
     """Test for play_media with invalid media type."""
     with patch(
         "universalassistant.components.samsungtv.bridge.SamsungTVLegacyAsyncRemote",
@@ -1111,7 +1111,7 @@ async def test_play_media_invalid_type(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_play_media_content_invalid_id(
-    hass: UniversalAssistant, content_id: str
+    hass: __HAC_KEEP__, content_id: str
 ) -> None:
     """Test for play_media with invalid channel as string."""
     with patch(
@@ -1120,7 +1120,7 @@ async def test_play_media_content_invalid_id(
     ) as remote:
         await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
         remote.reset_mock()
-        with pytest.raises(UniversalAssistantError) as err:
+        with pytest.raises(__HAC_KEEP__Error) as err:
             await hass.services.async_call(
                 MP_DOMAIN,
                 SERVICE_PLAY_MEDIA,
@@ -1137,7 +1137,7 @@ async def test_play_media_content_invalid_id(
         assert err.value.translation_key == "media_id_invalid"
 
 
-async def test_select_source(hass: UniversalAssistant, remote_legacy: Mock) -> None:
+async def test_select_source(hass: __HAC_KEEP__, remote_legacy: Mock) -> None:
     """Test for select_source."""
     await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
     await hass.services.async_call(
@@ -1151,7 +1151,7 @@ async def test_select_source(hass: UniversalAssistant, remote_legacy: Mock) -> N
     assert remote_legacy.control.call_args_list == [call("KEY_HDMI")]
 
 
-async def test_select_source_invalid_source(hass: UniversalAssistant) -> None:
+async def test_select_source_invalid_source(hass: __HAC_KEEP__) -> None:
     """Test for select_source with invalid source."""
 
     source = "INVALID"
@@ -1162,7 +1162,7 @@ async def test_select_source_invalid_source(hass: UniversalAssistant) -> None:
     ) as remote:
         await setup_samsungtv_entry(hass, ENTRYDATA_LEGACY)
         remote.reset_mock()
-        with pytest.raises(UniversalAssistantError) as exc_info:
+        with pytest.raises(__HAC_KEEP__Error) as exc_info:
             await hass.services.async_call(
                 MP_DOMAIN,
                 SERVICE_SELECT_SOURCE,
@@ -1180,7 +1180,7 @@ async def test_select_source_invalid_source(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("rest_api")
-async def test_play_media_app(hass: UniversalAssistant, remote_websocket: Mock) -> None:
+async def test_play_media_app(hass: __HAC_KEEP__, remote_websocket: Mock) -> None:
     """Test for play_media."""
     await setup_samsungtv_entry(hass, MOCK_CONFIGWS)
     remote_websocket.send_commands.reset_mock()
@@ -1203,7 +1203,7 @@ async def test_play_media_app(hass: UniversalAssistant, remote_websocket: Mock) 
 
 
 @pytest.mark.usefixtures("rest_api")
-async def test_select_source_app(hass: UniversalAssistant, remote_websocket: Mock) -> None:
+async def test_select_source_app(hass: __HAC_KEEP__, remote_websocket: Mock) -> None:
     """Test for select_source."""
     remote_websocket.app_list_data = await async_load_json_object_fixture(
         hass, "ws_installed_app_event.json", DOMAIN
@@ -1226,7 +1226,7 @@ async def test_select_source_app(hass: UniversalAssistant, remote_websocket: Moc
 
 @pytest.mark.usefixtures("rest_api")
 async def test_websocket_unsupported_remote_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     remote_websocket: Mock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -1282,7 +1282,7 @@ async def test_websocket_unsupported_remote_control(
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api", "upnp_notify_server")
-async def test_volume_control_upnp(hass: UniversalAssistant, dmr_device: Mock) -> None:
+async def test_volume_control_upnp(hass: __HAC_KEEP__, dmr_device: Mock) -> None:
     """Test for Upnp volume control."""
     await setup_samsungtv_entry(hass, MOCK_ENTRY_WS)
 
@@ -1304,7 +1304,7 @@ async def test_volume_control_upnp(hass: UniversalAssistant, dmr_device: Mock) -
     dmr_device.async_set_volume_level.side_effect = UpnpActionResponseError(
         status=500, error_code=501, error_desc="Action Failed"
     )
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             MP_DOMAIN,
             SERVICE_VOLUME_SET,
@@ -1317,14 +1317,14 @@ async def test_volume_control_upnp(hass: UniversalAssistant, dmr_device: Mock) -
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
 async def test_upnp_not_available(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test for volume control when Upnp is not available."""
     await setup_samsungtv_entry(hass, MOCK_ENTRY_WS)
     assert "Unable to create Upnp DMR device" in caplog.text
 
     # Upnp action fails
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             MP_DOMAIN,
             SERVICE_VOLUME_SET,
@@ -1335,12 +1335,12 @@ async def test_upnp_not_available(
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
-async def test_upnp_missing_service(hass: UniversalAssistant) -> None:
+async def test_upnp_missing_service(hass: __HAC_KEEP__) -> None:
     """Test for volume control when the TV has no Upnp rendering control."""
     await setup_samsungtv_entry(hass, MOCK_CONFIGWS)
 
     # Upnp action fails
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             MP_DOMAIN,
             SERVICE_VOLUME_SET,
@@ -1352,7 +1352,7 @@ async def test_upnp_missing_service(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
 async def test_upnp_shutdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dmr_device: Mock,
     upnp_notify_server: Mock,
 ) -> None:
@@ -1372,7 +1372,7 @@ async def test_upnp_shutdown(
 
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api", "upnp_notify_server")
-async def test_upnp_subscribe_events(hass: UniversalAssistant, dmr_device: Mock) -> None:
+async def test_upnp_subscribe_events(hass: __HAC_KEEP__, dmr_device: Mock) -> None:
     """Test for Upnp event feedback."""
     await setup_samsungtv_entry(hass, MOCK_ENTRY_WS)
 
@@ -1393,7 +1393,7 @@ async def test_upnp_subscribe_events(hass: UniversalAssistant, dmr_device: Mock)
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
 async def test_upnp_subscribe_events_upnperror(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dmr_device: Mock,
     upnp_notify_server: Mock,
     caplog: pytest.LogCaptureFixture,
@@ -1408,7 +1408,7 @@ async def test_upnp_subscribe_events_upnperror(
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api")
 async def test_upnp_subscribe_events_upnpresponseerror(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     dmr_device: Mock,
     upnp_notify_server: Mock,
     caplog: pytest.LogCaptureFixture,
@@ -1427,7 +1427,7 @@ async def test_upnp_subscribe_events_upnpresponseerror(
 
 @pytest.mark.usefixtures("remote_websocket", "rest_api", "upnp_notify_server")
 async def test_upnp_keeps_existing_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     dmr_device: Mock,
 ) -> None:
@@ -1445,7 +1445,7 @@ async def test_upnp_keeps_existing_subscription(
 
 @pytest.mark.usefixtures("rest_api", "upnp_notify_server")
 async def test_upnp_re_subscribe_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     remote_websocket: Mock,
     dmr_device: Mock,
@@ -1489,7 +1489,7 @@ async def test_upnp_re_subscribe_events(
     {UpnpConnectionError(), UpnpCommunicationError(), UpnpResponseError(status=400)},
 )
 async def test_upnp_failed_re_subscribe_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     remote_websocket: Mock,
     dmr_device: Mock,

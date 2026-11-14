@@ -27,7 +27,7 @@ from universalassistant.components.backup.util import (
     suggested_filename,
     validate_password,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def _deterministic_init_push(
@@ -341,7 +341,7 @@ def test_validate_password_no_universalassistant(caplog: pytest.LogCaptureFixtur
     ],
 )
 async def test_decrypted_backup_streamer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addons: list[AddonInfo],
     padding_size: int,
     encrypted_backup: str,
@@ -390,7 +390,7 @@ async def test_decrypted_backup_streamer(
 
 
 async def test_decrypted_backup_streamer_interrupt_stuck_reader(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the decrypted backup streamer."""
     encrypted_backup_path = get_fixture_path("test_backups/c0cb53bd.tar", DOMAIN)
@@ -433,7 +433,7 @@ async def test_decrypted_backup_streamer_interrupt_stuck_reader(
 
 
 async def test_decrypted_backup_streamer_interrupt_stuck_writer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the decrypted backup streamer."""
     encrypted_backup_path = get_fixture_path("test_backups/c0cb53bd.tar", DOMAIN)
@@ -480,7 +480,7 @@ async def test_decrypted_backup_streamer_interrupt_stuck_writer(
     ],
 )
 async def test_backup_streamer_wait_joins_worker(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     streamer_class: type[DecryptedBackupStreamer | EncryptedBackupStreamer],
 ) -> None:
     """Test wait does not return before a worker which reported done has exited."""
@@ -542,7 +542,7 @@ async def test_backup_streamer_wait_joins_worker(
     assert not worker.is_alive()
 
 
-async def test_decrypted_backup_streamer_wrong_password(hass: UniversalAssistant) -> None:
+async def test_decrypted_backup_streamer_wrong_password(hass: __HAC_KEEP__) -> None:
     """Test the decrypted backup streamer with wrong password."""
     encrypted_backup_path = get_fixture_path("test_backups/c0cb53bd.tar", DOMAIN)
     backup = AgentBackup(
@@ -612,7 +612,7 @@ async def test_decrypted_backup_streamer_wrong_password(hass: UniversalAssistant
     ],
 )
 async def test_encrypted_backup_streamer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     addons: list[AddonInfo],
     padding_size: int,
     decrypted_backup: str,
@@ -674,7 +674,7 @@ async def test_encrypted_backup_streamer(
 
 
 async def test_encrypted_backup_streamer_interrupt_stuck_reader(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the encrypted backup streamer."""
     decrypted_backup_path = get_fixture_path(
@@ -719,7 +719,7 @@ async def test_encrypted_backup_streamer_interrupt_stuck_reader(
 
 
 async def test_encrypted_backup_streamer_interrupt_stuck_writer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the encrypted backup streamer."""
     decrypted_backup_path = get_fixture_path(
@@ -760,7 +760,7 @@ async def test_encrypted_backup_streamer_interrupt_stuck_writer(
     assert inspect.getasyncgenstate(streams[0]) == inspect.AGEN_CLOSED
 
 
-async def test_encrypted_backup_streamer_random_nonce(hass: UniversalAssistant) -> None:
+async def test_encrypted_backup_streamer_random_nonce(hass: __HAC_KEEP__) -> None:
     """Test the encrypted backup streamer."""
     decrypted_backup_path = get_fixture_path(
         "test_backups/c0cb53bd.tar.decrypted", DOMAIN
@@ -827,7 +827,7 @@ async def test_encrypted_backup_streamer_random_nonce(hass: UniversalAssistant) 
     assert encrypted_output1[: len(encrypted_backup_data)] != encrypted_backup_data
 
 
-async def test_encrypted_backup_streamer_error(hass: UniversalAssistant) -> None:
+async def test_encrypted_backup_streamer_error(hass: __HAC_KEEP__) -> None:
     """Test the encrypted backup streamer."""
     decrypted_backup_path = get_fixture_path(
         "test_backups/c0cb53bd.tar.decrypted", DOMAIN
@@ -929,7 +929,7 @@ async def _stream_chunks(
     ],
 )
 async def test_receive_file(
-    hass: UniversalAssistant, tmp_path: Path, chunks: list[bytes]
+    hass: __HAC_KEEP__, tmp_path: Path, chunks: list[bytes]
 ) -> None:
     """Test receiving a stream and writing it to a file."""
     path = tmp_path / "received.bin"
@@ -938,7 +938,7 @@ async def test_receive_file(
     assert path.read_bytes() == b"".join(chunks)
 
 
-async def test_receive_file_writer_error(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_receive_file_writer_error(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test an OSError from the file writer propagates without deadlocking."""
     # The parent directory does not exist, so opening the file for writing fails.
     path = tmp_path / "missing" / "received.bin"
@@ -947,7 +947,7 @@ async def test_receive_file_writer_error(hass: UniversalAssistant, tmp_path: Pat
             await receive_file(hass, _stream_chunks([b"data"] * 10), path)
 
 
-async def test_receive_file_stream_error(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_receive_file_stream_error(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test a stream error propagates and the consumer still terminates."""
     path = tmp_path / "received.bin"
     stream = _stream_chunks(
@@ -961,7 +961,7 @@ async def test_receive_file_stream_error(hass: UniversalAssistant, tmp_path: Pat
     assert path.read_bytes() == b"chunk1chunk2"
 
 
-async def test_receive_file_cancelled(hass: UniversalAssistant, tmp_path: Path) -> None:
+async def test_receive_file_cancelled(hass: __HAC_KEEP__, tmp_path: Path) -> None:
     """Test cancelling mid-transfer propagates CancelledError without deadlocking."""
     path = tmp_path / "received.bin"
     first_chunk_sent = asyncio.Event()

@@ -6,13 +6,13 @@ from homevolt import DeviceMetadata
 
 from universalassistant.components.homevolt.const import DOMAIN, MANUFACTURER
 from universalassistant.components.homevolt.switch import HomevoltLocalModeSwitch
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import DEVICE_IDENTIFIER
 
 
 async def test_homevolt_entity_device_info_with_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HomevoltEntity device info when device_metadata is present."""
     coordinator = MagicMock()
@@ -34,7 +34,7 @@ async def test_homevolt_entity_device_info_with_metadata(
 
 
 async def test_homevolt_entity_device_info_without_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HomevoltEntity device info when device_metadata has no entry for device."""
     coordinator = MagicMock()

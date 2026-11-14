@@ -4,7 +4,7 @@ from typing import Any
 
 from meteofrance_api.model import Forecast, Rain
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import MeteoFranceConfigEntry
 
@@ -23,7 +23,7 @@ def _without_location(data: Forecast | Rain) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: MeteoFranceConfigEntry
+    hass: __HAC_KEEP__, entry: MeteoFranceConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     data = entry.runtime_data

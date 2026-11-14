@@ -40,7 +40,7 @@ class BasePrivateDeviceEntity(Entity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Configure entity when it is added to Universal Universal Home Assistant."""
+        """Configure entity when it is added to __HA_KEEP__."""
         coordinator = async_get_coordinator(self.hass)
         self.async_on_remove(
             coordinator.async_track_service_info(

@@ -10,7 +10,7 @@ from typing import Any
 
 from universalassistant.auth import EVENT_USER_REMOVED
 from universalassistant.components.websocket_api import ActiveConnection
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.helpers.storage import Store
 from universalassistant.util import dt as dt_util
 from universalassistant.util.hass_dict import HassKey
@@ -41,7 +41,7 @@ DATA_WARNING_ACCEPTANCES: HassKey[WarningAcceptances] = HassKey(
 )
 
 
-async def async_setup_safeguards(hass: UniversalAssistant) -> None:
+async def async_setup_safeguards(hass: __HAC_KEEP__) -> None:
     """Load who accepted the warning, and forget users once they are removed.
 
     Also users removed while the debug console was not loaded.
@@ -67,13 +67,13 @@ async def async_setup_safeguards(hass: UniversalAssistant) -> None:
 
 
 @callback
-def async_warning_required(hass: UniversalAssistant, user_id: str) -> bool:
+def async_warning_required(hass: __HAC_KEEP__, user_id: str) -> bool:
     """Return if a user still has to accept the warning before using the console."""
     acceptance = hass.data[DATA_WARNING_ACCEPTANCES].accepted.get(user_id)
     return acceptance is None or acceptance["version"] < WARNING_VERSION
 
 
-async def async_accept_warning(hass: UniversalAssistant, user_id: str) -> None:
+async def async_accept_warning(hass: __HAC_KEEP__, user_id: str) -> None:
     """Store that a user accepted the current version of the warning."""
     acceptances = hass.data[DATA_WARNING_ACCEPTANCES]
     acceptances.accepted[user_id] = {

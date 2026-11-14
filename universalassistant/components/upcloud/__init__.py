@@ -4,7 +4,7 @@ import requests.exceptions
 import upcloud_api
 
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 
 from .const import DOMAIN
@@ -13,7 +13,7 @@ from .coordinator import UpCloudConfigEntry, UpCloudDataUpdateCoordinator
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SWITCH]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: UpCloudConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: UpCloudConfigEntry) -> None:
     """Set up the UpCloud config entry."""
 
     manager = upcloud_api.CloudManager(
@@ -48,6 +48,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: UpCloudConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: UpCloudConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: UpCloudConfigEntry) -> None:
     """Unload the config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

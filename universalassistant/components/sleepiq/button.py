@@ -7,7 +7,7 @@ from typing import Any, override
 from asyncsleepiq import SleepIQBed
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SleepIQConfigEntry
@@ -38,7 +38,7 @@ ENTITY_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SleepIQConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -17,7 +17,7 @@ from aioseafile import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TOKEN, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import (
@@ -48,7 +48,7 @@ class SeafileDataUpdateCoordinator(DataUpdateCoordinator[SeafileData]):
 
     config_entry: SeafileConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: SeafileConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: SeafileConfigEntry) -> None:
         """Initialize the coordinator."""
         super().__init__(
             hass,

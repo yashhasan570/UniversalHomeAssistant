@@ -45,7 +45,7 @@ rules:
     status: todo
     comment: >-
       Turning a climate entity on or off is an action, so the exemption does not
-      apply. Failures need to raise UniversalAssistantError.
+      apply. Failures need to raise __HAC_KEEP__Error.
   config-entry-unloading: done
   docs-configuration-parameters:
     status: exempt

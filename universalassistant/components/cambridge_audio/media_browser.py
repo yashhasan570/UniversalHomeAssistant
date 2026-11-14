@@ -4,11 +4,11 @@ from aiostreammagic import StreamMagicClient
 from aiostreammagic.models import Preset
 
 from universalassistant.components.media_player import BrowseMedia, MediaClass
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def async_browse_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: StreamMagicClient,
     media_content_id: str | None,
     media_content_type: str | None,
@@ -25,7 +25,7 @@ async def async_browse_media(
 
 
 async def _root_payload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: StreamMagicClient,
 ) -> BrowseMedia:
     """Return root payload for Cambridge Audio."""

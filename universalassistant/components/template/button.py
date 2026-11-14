@@ -13,7 +13,7 @@ from universalassistant.components.button import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_CLASS, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -59,7 +59,7 @@ BUTTON_CONFIG_ENTRY_SCHEMA = probatio.Schema(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -78,7 +78,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -102,7 +102,7 @@ class StateButtonEntity(TemplateEntity, ButtonEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config,
         unique_id: str | None,
     ) -> None:

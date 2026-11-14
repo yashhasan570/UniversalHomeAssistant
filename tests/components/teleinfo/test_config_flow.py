@@ -8,7 +8,7 @@ import serial
 
 from universalassistant.components.teleinfo.const import CONF_SERIAL_PORT, DOMAIN
 from universalassistant.config_entries import SOURCE_USB, SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.usb import UsbServiceInfo
 
@@ -19,7 +19,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 @pytest.mark.usefixtures("mock_teleinfo")
 async def test_user_flow_success(
-    hass: UniversalAssistant, mock_serial_port: MagicMock
+    hass: __HAC_KEEP__, mock_serial_port: MagicMock
 ) -> None:
     """Test the full happy path: serial port opens, frame is read and decoded."""
     result = await hass.config_entries.flow.async_init(
@@ -57,7 +57,7 @@ async def test_user_flow_success(
 )
 @pytest.mark.usefixtures("mock_teleinfo")
 async def test_user_flow_error_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_port: MagicMock,
     side_effect: Exception,
     expected_error: str,
@@ -88,7 +88,7 @@ async def test_user_flow_error_recovery(
 
 @pytest.mark.usefixtures("mock_teleinfo")
 async def test_user_flow_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_serial_port: MagicMock,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_user_flow_duplicate(
 
 
 async def test_user_flow_decode_error(
-    hass: UniversalAssistant, mock_teleinfo: MagicMock, mock_serial_port: MagicMock
+    hass: __HAC_KEEP__, mock_teleinfo: MagicMock, mock_serial_port: MagicMock
 ) -> None:
     """Test we handle decode errors from pyteleinfo."""
     result = await hass.config_entries.flow.async_init(
@@ -136,7 +136,7 @@ async def test_user_flow_decode_error(
 
 @pytest.mark.usefixtures("mock_teleinfo")
 async def test_usb_discovery_success(
-    hass: UniversalAssistant, mock_serial_port: MagicMock
+    hass: __HAC_KEEP__, mock_serial_port: MagicMock
 ) -> None:
     """Test USB discovery happy path: detect → validate → confirm → create entry."""
     result = await hass.config_entries.flow.async_init(
@@ -158,7 +158,7 @@ async def test_usb_discovery_success(
 
 @pytest.mark.usefixtures("mock_teleinfo")
 async def test_usb_discovery_not_teleinfo(
-    hass: UniversalAssistant, mock_serial_port: MagicMock
+    hass: __HAC_KEEP__, mock_serial_port: MagicMock
 ) -> None:
     """Test USB discovery aborts when frame read times out (not a Teleinfo device)."""
     mock_serial_port.side_effect = TimeoutError("No data received")
@@ -180,7 +180,7 @@ async def test_usb_discovery_not_teleinfo(
 
 @pytest.mark.usefixtures("mock_teleinfo")
 async def test_usb_discovery_already_configured_updates_path(
-    hass: UniversalAssistant, mock_serial_port: MagicMock
+    hass: __HAC_KEEP__, mock_serial_port: MagicMock
 ) -> None:
     """Test USB discovery updates device path when dongle is re-plugged."""
 
@@ -219,7 +219,7 @@ async def test_usb_discovery_already_configured_updates_path(
 
 @pytest.mark.usefixtures("mock_teleinfo")
 async def test_usb_discovery_manual_entry_duplicate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_serial_port: MagicMock,
 ) -> None:
@@ -244,7 +244,7 @@ async def test_usb_discovery_manual_entry_duplicate(
 
 
 async def test_usb_discovery_decode_error_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_teleinfo: MagicMock,
     mock_serial_port: MagicMock,
 ) -> None:

@@ -32,8 +32,8 @@ import probatio
 
 from universalassistant.components import conversation
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, llm
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.json import json_dumps
@@ -147,7 +147,7 @@ def _decode_tool_arguments(arguments: str) -> Any:
     try:
         return json.loads(arguments)
     except json.JSONDecodeError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="json_parse_error",
             translation_placeholders={"message": str(err)},
@@ -414,7 +414,7 @@ class LlamaCppBaseLLMEntity(Entity):
 
 
 async def async_prepare_files_for_prompt(
-    hass: UniversalAssistant, files: list[Path]
+    hass: __HAC_KEEP__, files: list[Path]
 ) -> list[ChatCompletionContentPartParam]:
     """Prepare files for OpenAI-compatible API.
 
@@ -430,7 +430,7 @@ async def async_prepare_files_for_prompt(
 
         for file_path in files:
             if not file_path.exists():
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="file_not_found",
                     translation_placeholders={"file_path": str(file_path)},
@@ -439,7 +439,7 @@ async def async_prepare_files_for_prompt(
             mime_type, _ = guess_file_type(file_path)
 
             if not mime_type or not mime_type.startswith(("image/", "application/pdf")):
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="unsupported_file_type",
                     translation_placeholders={"file_path": str(file_path)},

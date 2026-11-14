@@ -15,7 +15,7 @@ from universalassistant.components.calendar import (
     SERVICE_GET_EVENTS,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -29,7 +29,7 @@ ATTR_START = "start"
     "time_zone", ["Asia/Tokyo", "Europe/Berlin", "America/Chicago", "US/Hawaii"]
 )
 async def test_holiday_calendar_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     time_zone: str,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_holiday_calendar_entity(
 
 
 async def test_no_update_when_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,

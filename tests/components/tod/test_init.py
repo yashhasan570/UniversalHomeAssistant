@@ -5,13 +5,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.tod.binary_sensor import TodEntityStateAttribute
 from universalassistant.components.tod.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.freeze_time("2022-03-16 17:37:00", tz_offset=-7)
 async def test_setup_and_remove_config_entry(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test setting up and removing a config entry."""
     tod_entity_id = "binary_sensor.my_tod"

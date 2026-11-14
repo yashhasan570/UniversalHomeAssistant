@@ -7,7 +7,7 @@ from zeroconf.asyncio import AsyncServiceInfo
 
 from universalassistant.components.thread import dataset_store, discovery
 from universalassistant.components.thread.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import (
@@ -21,7 +21,7 @@ from . import (
 
 
 async def test_add_dataset(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can add a dataset."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -44,7 +44,7 @@ async def test_add_dataset(
 
 
 async def test_add_dataset_discarded(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test a dataset the store discards is reported as discarded, not stored.
 
@@ -70,7 +70,7 @@ async def test_add_dataset_discarded(
 
 
 async def test_add_invalid_dataset(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test adding an invalid dataset."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -90,7 +90,7 @@ async def test_add_invalid_dataset(
 
 
 async def test_delete_dataset(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we can delete a dataset."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -157,7 +157,7 @@ async def test_delete_dataset(
 
 
 async def test_list_get_dataset(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test list and get datasets."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -212,7 +212,7 @@ async def test_list_get_dataset(
                 "created": dataset_2.created.isoformat(),
                 "dataset_id": dataset_2.id,
                 "extended_pan_id": "1111111122222233",
-                "network_name": "UniversalAssistant!",
+                "network_name": "__HAC_KEEP__!",
                 "pan_id": "1234",
                 "preferred": False,
                 "preferred_border_agent_id": None,
@@ -250,7 +250,7 @@ async def test_list_get_dataset(
 
 
 async def test_set_preferred_border_agent(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test setting the preferred border agent ID."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -294,7 +294,7 @@ async def test_set_preferred_border_agent(
 
 
 async def test_set_preferred_dataset(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we set a dataset as default."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -328,7 +328,7 @@ async def test_set_preferred_dataset(
 
 
 async def test_set_preferred_dataset_wrong_id(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test we set a dataset as default."""
     assert await async_setup_component(hass, DOMAIN, {})
@@ -344,7 +344,7 @@ async def test_set_preferred_dataset_wrong_id(
 
 
 async def test_discover_routers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_async_zeroconf: MagicMock,
 ) -> None:
@@ -382,7 +382,7 @@ async def test_discover_routers(
     assert msg == {
         "event": {
             "data": {
-                "instance_name": "UniversalAssistant OpenThreadBorderRouter #0BBF",
+                "instance_name": "__HAC_KEEP__ OpenThreadBorderRouter #0BBF",
                 "addresses": ["192.168.0.115"],
                 "border_agent_id": "230c6a1ac57f6f4be262acf32e5ef52c",
                 "brand": "universalassistant",
@@ -393,7 +393,7 @@ async def test_discover_routers(
                 "server": "core-silabs-multiprotocol.local.",
                 "thread_version": "1.3.0",
                 "unconfigured": None,
-                "vendor_name": "UniversalAssistant",
+                "vendor_name": "__HAC_KEEP__",
             },
             "key": "aeeb2f594b570bbf",
             "type": "router_discovered",

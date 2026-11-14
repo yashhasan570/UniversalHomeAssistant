@@ -16,8 +16,8 @@ from universalassistant.components.notify import (
     DOMAIN as NOTIFY_DOMAIN,
 )
 from universalassistant.const import CONF_RECIPIENT, CONF_URL
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import magic_client
 
@@ -43,7 +43,7 @@ pytestmark = pytest.mark.parametrize(
 
 
 async def setup_notify_service(
-    hass: UniversalAssistant, options: dict[str, list[str]]
+    hass: __HAC_KEEP__, options: dict[str, list[str]]
 ) -> MagicMock:
     """Set up the integration and return the mocked router client."""
     entry = MockConfigEntry(
@@ -62,7 +62,7 @@ async def setup_notify_service(
 
 
 async def test_send_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     options: dict[str, list[str]],
     service_data: dict[str, list[str]],
     expected_targets: list[str],
@@ -83,7 +83,7 @@ async def test_send_message(
 
 
 async def test_send_message_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     options: dict[str, list[str]],
     service_data: dict[str, list[str]],
     expected_targets: list[str],
@@ -92,7 +92,7 @@ async def test_send_message_error(
     client = await setup_notify_service(hass, options)
     client.sms.send_sms.side_effect = ResponseErrorException("Send failed", 100)
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             NOTIFY_DOMAIN,
             DEFAULT_NOTIFY_SERVICE_NAME,

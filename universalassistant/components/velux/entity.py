@@ -7,8 +7,8 @@ from typing import Any, override
 
 from pyvlx import Node, PyVLXException
 
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity
@@ -24,7 +24,7 @@ def velux_unique_id(node: Node, config_entry_id: str) -> str:
 
 
 def velux_device_info(
-    hass: UniversalAssistant, node: Node, config_entry_id: str
+    hass: __HAC_KEEP__, node: Node, config_entry_id: str
 ) -> DeviceInfo:
     """Build DeviceInfo for a Velux node."""
     unique_id = velux_unique_id(node, config_entry_id)
@@ -45,7 +45,7 @@ def wrap_pyvlx_call_exceptions[**P](
 ) -> Callable[P, Coroutine[Any, Any, None]]:
     """Decorate pyvlx calls to handle exceptions.
 
-    Catches OSError and PyVLXException and wraps them into UniversalAssistantError
+    Catches OSError and PyVLXException and wraps them into __HAC_KEEP__Error
     with translation support.
     """
 
@@ -55,7 +55,7 @@ def wrap_pyvlx_call_exceptions[**P](
         try:
             await func(*args, **kwargs)
         except (OSError, PyVLXException) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_communication_error",
                 translation_placeholders={"error": str(err)},
@@ -73,7 +73,7 @@ class VeluxEntity(Entity):
     _attr_available = True
     _unavailable_logged = False
 
-    def __init__(self, hass: UniversalAssistant, node: Node, config_entry_id: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, node: Node, config_entry_id: str) -> None:
         """Initialize the Velux device."""
         self.node = node
         self._attr_unique_id = velux_unique_id(node, config_entry_id)

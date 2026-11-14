@@ -29,8 +29,8 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import (
@@ -55,7 +55,7 @@ INITIAL_PARAMS = {
 @pytest.mark.parametrize("bulb_type", [FAKE_DIMMABLE_FAN, FAKE_DIMMABLE_FAN_2])
 @patch("universalassistant.components.wiz.PLATFORMS", [Platform.FAN])
 async def test_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     bulb_type: BulbType,
@@ -84,20 +84,20 @@ def _update_params(
     return params
 
 
-async def test_command_fails(hass: UniversalAssistant) -> None:
-    """Test a fan command raises UniversalAssistantError when the device does not answer."""
+async def test_command_fails(hass: __HAC_KEEP__) -> None:
+    """Test a fan command raises __HAC_KEEP__Error when the device does not answer."""
     device, _ = await async_setup_integration(hass, bulb_type=FAKE_DIMMABLE_FAN)
 
     device.fan_turn_on.side_effect = WizLightConnectionError("Network is unreachable")
     with pytest.raises(
-        UniversalAssistantError, match="Error while communicating with the WiZ device"
+        __HAC_KEEP__Error, match="Error while communicating with the WiZ device"
     ):
         await hass.services.async_call(
             FAN_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ENTITY_ID}, blocking=True
         )
 
 
-async def test_turn_on_off(hass: UniversalAssistant) -> None:
+async def test_turn_on_off(hass: __HAC_KEEP__) -> None:
     """Test turning the fan on and off."""
     device, _ = await async_setup_integration(hass, bulb_type=FAKE_DIMMABLE_FAN)
 
@@ -159,7 +159,7 @@ async def test_turn_on_off(hass: UniversalAssistant) -> None:
     assert state.state == STATE_OFF
 
 
-async def test_fan_set_preset_mode(hass: UniversalAssistant) -> None:
+async def test_fan_set_preset_mode(hass: __HAC_KEEP__) -> None:
     """Test setting the fan preset mode."""
     device, _ = await async_setup_integration(hass, bulb_type=FAKE_DIMMABLE_FAN)
 
@@ -182,7 +182,7 @@ async def test_fan_set_preset_mode(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_PRESET_MODE] == PRESET_MODE_BREEZE
 
 
-async def test_fan_set_percentage(hass: UniversalAssistant) -> None:
+async def test_fan_set_percentage(hass: __HAC_KEEP__) -> None:
     """Test setting the fan percentage."""
     device, _ = await async_setup_integration(hass, bulb_type=FAKE_DIMMABLE_FAN)
 
@@ -219,7 +219,7 @@ async def test_fan_set_percentage(hass: UniversalAssistant) -> None:
     assert state.attributes[ATTR_PERCENTAGE] == 50
 
 
-async def test_fan_set_direction(hass: UniversalAssistant) -> None:
+async def test_fan_set_direction(hass: __HAC_KEEP__) -> None:
     """Test setting the fan direction."""
     device, _ = await async_setup_integration(hass, bulb_type=FAKE_DIMMABLE_FAN)
 

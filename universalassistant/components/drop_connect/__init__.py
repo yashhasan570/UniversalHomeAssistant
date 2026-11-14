@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from universalassistant.components import mqtt
 from universalassistant.components.mqtt import ReceiveMessage
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError
 
 from .const import CONF_DATA_TOPIC, CONF_DEVICE_TYPE, DOMAIN
@@ -22,7 +22,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, config_entry: DROPConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, config_entry: DROPConfigEntry) -> None:
     """Set up DROP from a config entry."""
 
     # Make sure MQTT integration is enabled and the client is available.
@@ -61,7 +61,7 @@ async def async_setup_entry(hass: UniversalAssistant, config_entry: DROPConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: DROPConfigEntry
+    hass: __HAC_KEEP__, config_entry: DROPConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

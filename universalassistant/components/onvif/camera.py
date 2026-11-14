@@ -16,7 +16,7 @@ from universalassistant.components.stream import (
     RTSP_TRANSPORTS,
 )
 from universalassistant.const import HTTP_BASIC_AUTHENTICATION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_aiohttp_proxy_stream
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -27,7 +27,7 @@ from .models import Profile
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ONVIFConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

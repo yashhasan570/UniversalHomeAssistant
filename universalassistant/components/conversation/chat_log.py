@@ -12,8 +12,8 @@ from typing import Any, Literal, TypedDict, cast
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, TemplateError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, TemplateError
 from universalassistant.helpers import chat_session, frame, intent, llm, template
 from universalassistant.util.dt import utcnow
 from universalassistant.util.hass_dict import HassKey
@@ -36,7 +36,7 @@ current_chat_log: ContextVar[ChatLog | None] = ContextVar(
 
 @callback
 def async_subscribe_chat_logs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     callback_func: Callable[[str, ChatLogEventType, dict[str, Any]], None],
 ) -> Callable[[], None]:
     """Subscribe to all chat logs."""
@@ -57,7 +57,7 @@ def async_subscribe_chat_logs(
 
 @callback
 def _async_notify_subscribers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     conversation_id: str,
     event_type: ChatLogEventType,
     data: dict[str, Any],
@@ -70,7 +70,7 @@ def _async_notify_subscribers(
 
 @contextmanager
 def async_get_chat_log(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     session: chat_session.ChatSession,
     user_input: ConversationInput | None = None,
     *,
@@ -184,7 +184,7 @@ def async_get_chat_log(
             session.async_on_cleanup(do_cleanup)
 
 
-class ConverseError(UniversalAssistantError):
+class ConverseError(__HAC_KEEP__Error):
     """Error during initialization of conversation.
 
     The chat log stores the underlying error.
@@ -206,7 +206,7 @@ class ConverseError(UniversalAssistantError):
         )
 
 
-class ConversationBusyError(UniversalAssistantError):
+class ConversationBusyError(__HAC_KEEP__Error):
     """Error when another turn of the conversation is in progress."""
 
     def __init__(self, conversation_id: str) -> None:
@@ -375,7 +375,7 @@ class ToolResultContentDeltaDict(TypedDict, total=False):
 class ChatLog:
     """Class holding the chat history of a specific conversation."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     conversation_id: str
     content: list[Content] = field(default_factory=lambda: [SystemContent(content="")])
     extra_system_prompt: str | None = None
@@ -549,7 +549,7 @@ class ChatLog:
 
             try:
                 tool_result = await tool_call_tasks[tool_input.id]
-            except (UniversalAssistantError, probatio.Invalid) as e:
+            except (__HAC_KEEP__Error, probatio.Invalid) as e:
                 error_data: JsonObjectType = {"error": type(e).__name__}
                 if str(e):
                     error_data["error_text"] = str(e)
@@ -826,7 +826,7 @@ class ChatLog:
                     user_llm_hass_api,
                     llm_context,
                 )
-            except UniversalAssistantError as err:
+            except __HAC_KEEP__Error as err:
                 LOGGER.error(
                     "Error getting LLM API %s for %s: %s",
                     user_llm_hass_api,

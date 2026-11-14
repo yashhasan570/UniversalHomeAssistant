@@ -3,7 +3,7 @@
 from poolsense import PoolSense
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import aiohttp_client
 
@@ -13,7 +13,7 @@ from .coordinator import PoolSenseConfigEntry, PoolSenseDataUpdateCoordinator
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PoolSenseConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PoolSenseConfigEntry) -> None:
     """Set up PoolSense from a config entry."""
 
     poolsense = PoolSense(
@@ -39,6 +39,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PoolSenseConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: PoolSenseConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: PoolSenseConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

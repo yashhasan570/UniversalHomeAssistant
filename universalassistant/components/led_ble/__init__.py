@@ -8,7 +8,7 @@ from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothReachabilityIntent
 from universalassistant.components.bluetooth.match import ADDRESS, BluetoothCallbackMatcher
 from universalassistant.const import CONF_ADDRESS, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import DEVICE_TIMEOUT, DOMAIN
@@ -17,7 +17,7 @@ from .coordinator import LEDBLEConfigEntry, LEDBLECoordinator, LEDBLEData
 PLATFORMS: list[Platform] = [Platform.LIGHT]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: LEDBLEConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: LEDBLEConfigEntry) -> None:
     """Set up LED BLE from a config entry."""
     address: str = entry.data[CONF_ADDRESS]
     ble_device = bluetooth.async_ble_device_from_address(hass, address.upper(), True)
@@ -91,13 +91,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: LEDBLEConfigEntry) 
     )
 
 
-async def _async_update_listener(hass: UniversalAssistant, entry: LEDBLEConfigEntry) -> None:
+async def _async_update_listener(hass: __HAC_KEEP__, entry: LEDBLEConfigEntry) -> None:
     """Handle options update."""
     if entry.title != entry.runtime_data.title:
         await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: LEDBLEConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: LEDBLEConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.device.stop()

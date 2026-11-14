@@ -23,20 +23,20 @@ from universalassistant.const import (
     CONF_OPTIONS,
     CONF_TARGET,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.condition import (
     async_from_config as async_condition_from_config,
 )
 
 
 @pytest.fixture
-async def target_texts(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_texts(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple text entities associated with different targets."""
     return await target_entities(hass, "text")
 
 
 @pytest.fixture
-async def target_input_texts(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_input_texts(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple input_text entities associated with different targets."""
     return await target_entities(hass, "input_text")
 
@@ -53,7 +53,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_text_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -101,7 +101,7 @@ CONDITION_STATES_ALL = [
     ("condition", "condition_options", "states"), CONDITION_STATES_ANY
 )
 async def test_text_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_texts: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -131,7 +131,7 @@ async def test_text_condition_behavior_any(
     ("condition", "condition_options", "states"), CONDITION_STATES_ANY
 )
 async def test_input_text_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_input_texts: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -161,7 +161,7 @@ async def test_input_text_condition_behavior_any(
     ("condition", "condition_options", "states"), CONDITION_STATES_ALL
 )
 async def test_text_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_texts: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -191,7 +191,7 @@ async def test_text_condition_behavior_all(
     ("condition", "condition_options", "states"), CONDITION_STATES_ALL
 )
 async def test_input_text_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_input_texts: dict[str, list[str]],
     condition_target_config: dict,
     entity_id: str,
@@ -217,7 +217,7 @@ async def test_input_text_condition_behavior_all(
 
 
 async def test_text_condition_fires_for_both_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that the text condition works for both text and input_text entities."""
     entity_id_text = "text.test_text"

@@ -15,7 +15,7 @@ from universalassistant.components.denonavr.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_HOST, CONF_MODEL, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import (
     TEST_MANUFACTURER,
@@ -26,7 +26,7 @@ from .conftest import (
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     client: MagicMock,
     snapshot: SnapshotAssertion,

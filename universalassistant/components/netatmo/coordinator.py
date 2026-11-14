@@ -18,7 +18,7 @@ from pyatmo.schedule import Schedule
 
 from universalassistant.components import cloud
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.device_registry import EventDeviceRegistryUpdatedData
 from universalassistant.helpers.dispatcher import (
@@ -106,7 +106,7 @@ MAX_ERROR_BACKOFF = 3600
 type NetatmoConfigEntry = ConfigEntry[NetatmoDataHandler]
 
 
-def async_get_loaded_entry(hass: UniversalAssistant) -> NetatmoConfigEntry | None:
+def async_get_loaded_entry(hass: __HAC_KEEP__) -> NetatmoConfigEntry | None:
     """Return the single loaded Netatmo config entry, if any."""
     entries = hass.config_entries.async_loaded_entries(DOMAIN)
     return entries[0] if entries else None
@@ -167,7 +167,7 @@ class NetatmoDataHandler:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: NetatmoConfigEntry,
         auth: pyatmo.AbstractAsyncAuth,
     ) -> None:

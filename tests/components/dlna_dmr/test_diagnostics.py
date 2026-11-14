@@ -17,7 +17,7 @@ from universalassistant.components.dlna_dmr.const import (
     DOMAIN,
 )
 from universalassistant.components.media_player import DOMAIN as MEDIA_PLAYER_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import EVENT_CALLBACK_URL, MOCK_DEVICE_UDN
@@ -65,7 +65,7 @@ def connected_device(dmr_device_mock: Mock) -> Mock:
 
 @pytest.mark.usefixtures("domain_data_mock", "connected_device")
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry_mock: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -91,7 +91,7 @@ async def test_diagnostics(
 
 @pytest.mark.usefixtures("dmr_device_mock")
 async def test_diagnostics_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     domain_data_mock: Mock,
     config_entry_mock: MockConfigEntry,
@@ -111,7 +111,7 @@ async def test_diagnostics_disconnected(
 
 @pytest.mark.usefixtures("domain_data_mock", "connected_device")
 async def test_diagnostics_entity_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
     config_entry_mock: MockConfigEntry,

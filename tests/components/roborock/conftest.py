@@ -78,7 +78,7 @@ from universalassistant.components.roborock.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .mock_data import (
     BASE_URL,
@@ -712,7 +712,7 @@ def config_entry_data_fixture() -> dict[str, Any]:
 
 @pytest.fixture
 def mock_roborock_entry(
-    hass: UniversalAssistant, config_entry_data: dict[str, Any]
+    hass: __HAC_KEEP__, config_entry_data: dict[str, Any]
 ) -> MockConfigEntry:
     """Create a Roborock Entry that has not been setup."""
     mock_entry = MockConfigEntry(
@@ -735,7 +735,7 @@ def mock_platforms() -> list[Platform]:
 
 @pytest.fixture(autouse=True)
 async def mock_patforms_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platforms: list[Platform],
 ) -> Generator[None]:
     """Set up the Roborock platform."""
@@ -745,7 +745,7 @@ async def mock_patforms_fixture(
 
 @pytest.fixture
 async def setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_roborock_entry: MockConfigEntry,
 ) -> Generator[MockConfigEntry]:
     """Set up the Roborock platform."""
@@ -756,12 +756,12 @@ async def setup_entry(
 
 @pytest.fixture(autouse=True, name="storage_path")
 async def storage_path_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> Generator[pathlib.Path]:
     """Test cleanup, remove any map storage persisted during the test."""
     with tempfile.TemporaryDirectory() as tmp_path:
 
-        def get_storage_path(_: UniversalAssistant, entry_id: str) -> pathlib.Path:
+        def get_storage_path(_: __HAC_KEEP__, entry_id: str) -> pathlib.Path:
             return pathlib.Path(tmp_path) / entry_id
 
         with patch(

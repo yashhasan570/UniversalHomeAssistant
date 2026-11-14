@@ -7,11 +7,11 @@ import pytest
 
 from universalassistant.components.template import DOMAIN, entity as abstract_entity
 from universalassistant.components.template.const import TemplateService
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_template_entity_not_implemented(hass: UniversalAssistant) -> None:
+async def test_template_entity_not_implemented(hass: __HAC_KEEP__) -> None:
     """Test abstract template entity raises not implemented error."""
 
     with pytest.raises(TypeError):
@@ -52,7 +52,7 @@ async def test_template_entity_not_implemented(hass: UniversalAssistant) -> None
     ids=["state_based", "trigger_based"],
 )
 async def test_reload_stops_entity_action_scripts(
-    hass: UniversalAssistant, config: dict
+    hass: __HAC_KEEP__, config: dict
 ) -> None:
     """Test that reloading stops template entity action scripts."""
     assert await async_setup_component(hass, DOMAIN, config)

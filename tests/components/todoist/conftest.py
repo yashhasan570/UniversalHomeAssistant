@@ -13,7 +13,7 @@ from todoist_api_python.models import Collaborator, Due, Label, Project, Section
 
 from universalassistant.components.todoist.const import DOMAIN
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 PROJECT_ID = "project-id-1"
@@ -205,7 +205,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platforms: list[Platform],
     api: AsyncMock,
     todoist_config_entry: MockConfigEntry | None,

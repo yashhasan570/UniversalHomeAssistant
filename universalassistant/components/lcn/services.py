@@ -9,7 +9,7 @@ from pypck.device import DeviceConnection
 
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -85,7 +85,7 @@ class LcnServiceCall:
     )
     supports_response = SupportsResponse.NONE
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize service call."""
         self.hass = hass
 
@@ -500,7 +500,7 @@ SERVICES = (
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register services for LCN."""
     for service_name, service in SERVICES:
         hass.services.async_register(

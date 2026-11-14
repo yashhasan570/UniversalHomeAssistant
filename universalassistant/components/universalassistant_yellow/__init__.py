@@ -1,4 +1,4 @@
-"""The Universal Universal Home Assistant Yellow integration."""
+"""The __HA_KEEP__ Yellow integration."""
 
 from dataclasses import dataclass
 import logging
@@ -25,11 +25,11 @@ from universalassistant.components.usb import (
     async_register_serial_port_scanner,
 )
 from universalassistant.config_entries import SOURCE_HARDWARE, ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryError,
     ConfigEntryNotReady,
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
 )
 from universalassistant.helpers import discovery_flow
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -47,7 +47,7 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
-type UniversalAssistantYellowConfigEntry = ConfigEntry[UniversalAssistantYellowData]
+type __HAC_KEEP__YellowConfigEntry = ConfigEntry[__HAC_KEEP__YellowData]
 
 __all__ = [
     "DOMAIN",
@@ -56,7 +56,7 @@ __all__ = [
 
 
 @dataclass
-class UniversalAssistantYellowData:
+class __HAC_KEEP__YellowData:
     """Runtime data definition."""
 
     coordinator: (
@@ -65,11 +65,11 @@ class UniversalAssistantYellowData:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: UniversalAssistantYellowConfigEntry
+    hass: __HAC_KEEP__, entry: __HAC_KEEP__YellowConfigEntry
 ) -> None:
-    """Set up a Universal Universal Home Assistant Yellow config entry."""
+    """Set up a __HA_KEEP__ Yellow config entry."""
     if not is_hassio(hass):
-        # Not running under supervisor, Universal Universal Home Assistant may have been migrated
+        # Not running under supervisor, __HA_KEEP__ may have been migrated
         hass.async_create_task(hass.config_entries.async_remove(entry.entry_id))
         raise ConfigEntryError(
             translation_domain=DOMAIN,
@@ -82,7 +82,7 @@ async def async_setup_entry(
         raise ConfigEntryNotReady from err
 
     if os_info.get("board") != "yellow":
-        # Not running on a Universal Universal Home Assistant Yellow, Universal Universal Home Assistant may have been migrated
+        # Not running on a __HA_KEEP__ Yellow, __HA_KEEP__ may have been migrated
         hass.async_create_task(hass.config_entries.async_remove(entry.entry_id))
         raise ConfigEntryError(
             translation_domain=DOMAIN,
@@ -96,12 +96,12 @@ async def async_setup_entry(
     if firmware is ApplicationType.CPC:
         try:
             await check_multi_pan_addon(hass)
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             raise ConfigEntryNotReady from err
 
     try:
         multipan_using_device = await multi_pan_addon_using_device(hass, RADIO_DEVICE)
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         raise ConfigEntryNotReady from err
 
     if multipan_using_device:
@@ -118,7 +118,7 @@ async def async_setup_entry(
         )
 
     @callback
-    def _scan_serial_ports(hass: UniversalAssistant) -> list[USBDevice | SerialDevice]:
+    def _scan_serial_ports(hass: __HAC_KEEP__) -> list[USBDevice | SerialDevice]:
         """Contribute the Yellow's built-in Zigbee radio port."""
         return [
             SerialDevice(
@@ -139,13 +139,13 @@ async def async_setup_entry(
         session,
         NABU_CASA_FIRMWARE_RELEASES_URL,
     )
-    entry.runtime_data = UniversalAssistantYellowData(coordinator)
+    entry.runtime_data = __HAC_KEEP__YellowData(coordinator)
 
     await hass.config_entries.async_forward_entry_setups(entry, ["switch", "update"])
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: UniversalAssistantYellowConfigEntry
+    hass: __HAC_KEEP__, entry: __HAC_KEEP__YellowConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
@@ -154,7 +154,7 @@ async def async_unload_entry(
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: UniversalAssistantYellowConfigEntry
+    hass: __HAC_KEEP__, config_entry: __HAC_KEEP__YellowConfigEntry
 ) -> None:
     """Migrate old entry."""
 

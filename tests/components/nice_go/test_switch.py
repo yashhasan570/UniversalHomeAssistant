@@ -14,14 +14,14 @@ from universalassistant.components.switch import (
     SwitchService,
 )
 from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import setup_integration
 
 
 async def test_turn_on(
-    hass: UniversalAssistant, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test turn on switch."""
     await setup_integration(hass, mock_config_entry, [Platform.SWITCH])
@@ -35,7 +35,7 @@ async def test_turn_on(
 
 
 async def test_turn_off(
-    hass: UniversalAssistant, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_nice_go: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test turn off switch."""
     await setup_integration(hass, mock_config_entry, [Platform.SWITCH])
@@ -66,7 +66,7 @@ async def test_turn_off(
     ],
 )
 async def test_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
     action: str,
@@ -81,7 +81,7 @@ async def test_error(
     mock_nice_go.vacation_mode_on.side_effect = error
     mock_nice_go.vacation_mode_off.side_effect = error
 
-    with pytest.raises(UniversalAssistantError, match=expected_error):
+    with pytest.raises(__HAC_KEEP__Error, match=expected_error):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             action,
@@ -91,7 +91,7 @@ async def test_error(
 
 
 async def test_auth_failed_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nice_go: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -116,7 +116,7 @@ async def test_auth_failed_error(
     mock_nice_go.vacation_mode_on.side_effect = _on_side_effect
     mock_nice_go.vacation_mode_off.side_effect = _off_side_effect
 
-    with pytest.raises(UniversalAssistantError, match="Error while turning on the switch"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while turning on the switch"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -127,7 +127,7 @@ async def test_auth_failed_error(
     assert mock_nice_go.authenticate.call_count == 1
     assert mock_nice_go.vacation_mode_on.call_count == 2
 
-    with pytest.raises(UniversalAssistantError, match="Error while turning off the switch"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while turning off the switch"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -152,7 +152,7 @@ async def test_auth_failed_error(
 
     # One more time but with an ApiError instead of AuthFailed
 
-    with pytest.raises(UniversalAssistantError, match="Error while turning on the switch"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while turning on the switch"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -160,7 +160,7 @@ async def test_auth_failed_error(
             blocking=True,
         )
 
-    with pytest.raises(UniversalAssistantError, match="Error while turning off the switch"):
+    with pytest.raises(__HAC_KEEP__Error, match="Error while turning off the switch"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,

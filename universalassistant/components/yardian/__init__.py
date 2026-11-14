@@ -3,7 +3,7 @@
 from pyyardian import AsyncYardianClient
 
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.typing import ConfigType
@@ -23,13 +23,13 @@ PLATFORMS: list[Platform] = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Yardian integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: YardianConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: YardianConfigEntry) -> None:
     """Set up Yardian from a config entry."""
 
     host = entry.data[CONF_HOST]
@@ -56,6 +56,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: YardianConfigEntry)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: YardianConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: YardianConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

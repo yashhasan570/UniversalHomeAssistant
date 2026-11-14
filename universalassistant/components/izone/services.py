@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir, service
 from universalassistant.helpers.typing import VolDictType
 
@@ -37,7 +37,7 @@ IZONE_SERVICE_AIRFLOW_SCHEMA: VolDictType = {
 
 @callback
 def async_create_deprecated_airflow_issue(
-    hass: UniversalAssistant, service_name: str
+    hass: __HAC_KEEP__, service_name: str
 ) -> None:
     """Point users of a deprecated airflow action at the damper number entities."""
     ir.async_create_issue(
@@ -53,7 +53,7 @@ def async_create_deprecated_airflow_issue(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the iZone integration."""
 
     service.async_register_platform_entity_service(

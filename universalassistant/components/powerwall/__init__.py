@@ -16,7 +16,7 @@ from yarl import URL
 
 from universalassistant.components import persistent_notification
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -65,7 +65,7 @@ class PowerwallDataManager:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         power_wall: Powerwall,
         cookie_jar: CookieJar,
         entry: PowerwallConfigEntry,
@@ -156,7 +156,7 @@ class PowerwallDataManager:
                 break
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: PowerwallConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: PowerwallConfigEntry) -> None:
     """Set up Tesla Powerwall from a config entry."""
     ip_address: str = entry.data[CONF_IP_ADDRESS]
 
@@ -271,7 +271,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: PowerwallConfigEntr
 
 
 async def async_migrate_entity_unique_ids(
-    hass: UniversalAssistant, entry: PowerwallConfigEntry, base_info: PowerwallBaseInfo
+    hass: __HAC_KEEP__, entry: PowerwallConfigEntry, base_info: PowerwallBaseInfo
 ) -> None:
     """Migrate old entity unique ids to use gateway_din."""
     if not base_info.serial_numbers:
@@ -444,7 +444,7 @@ async def _fetch_powerwall_data(
 
 @callback
 def async_last_update_was_successful(
-    hass: UniversalAssistant, entry: PowerwallConfigEntry
+    hass: __HAC_KEEP__, entry: PowerwallConfigEntry
 ) -> bool:
     """Return True if the last update was successful."""
     return bool(
@@ -455,6 +455,6 @@ def async_last_update_was_successful(
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: PowerwallConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: PowerwallConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import async_mock_service
 
 from universalassistant.components.alexa import config, smart_home
 from universalassistant.components.alexa.const import CONF_ENDPOINT, CONF_FILTER, CONF_LOCALE
-from universalassistant.core import Context, UniversalAssistant, ServiceCall, callback
+from universalassistant.core import Context, __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import entityfilter
 
 TEST_URL = "https://api.amazonalexa.com/v3/events"
@@ -28,7 +28,7 @@ class MockConfig(smart_home.AlexaConfig):
         "camera.test": {"display_categories": "CAMERA"},
     }
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Mock Alexa config."""
         super().__init__(
             hass,
@@ -62,7 +62,7 @@ class MockConfig(smart_home.AlexaConfig):
         """Accept a grant."""
 
 
-def get_default_config(hass: UniversalAssistant) -> MockConfig:
+def get_default_config(hass: __HAC_KEEP__) -> MockConfig:
     """Return a MockConfig instance."""
     return MockConfig(hass)
 
@@ -97,7 +97,7 @@ async def assert_request_calls_service(
     name: str,
     endpoint: str,
     service: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     response_type="Response",
     payload: dict[str, Any] | None = None,
     instance: str | None = None,
@@ -133,7 +133,7 @@ async def assert_request_fails(
     name: str,
     endpoint: str,
     service_not_called: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     payload: dict[str, Any] | None = None,
     instance: str | None = None,
 ) -> None:
@@ -161,7 +161,7 @@ async def assert_power_controller_works(
     endpoint: str,
     on_service: str,
     off_service: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     timestamp: str,
 ) -> None:
     """Assert PowerController API requests work."""
@@ -182,7 +182,7 @@ async def assert_scene_controller_works(
     endpoint: str,
     activate_service: str,
     deactivate_service: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     timestamp: str,
 ) -> None:
     """Assert SceneController API requests work."""
@@ -211,7 +211,7 @@ async def assert_scene_controller_works(
 
 
 async def reported_properties(
-    hass: UniversalAssistant, endpoint: str, return_full_response: bool = False
+    hass: __HAC_KEEP__, endpoint: str, return_full_response: bool = False
 ) -> ReportedProperties:
     """Use ReportState to get properties and return them.
 

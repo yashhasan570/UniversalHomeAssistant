@@ -17,7 +17,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     async_noop,
     callback,
@@ -49,7 +49,7 @@ class _StateDependentChecker:
     entity_ids: set[str]
     needs_polling: bool
 
-    def __call__(self, hass: UniversalAssistant, variables: TemplateVarsType = None) -> bool:
+    def __call__(self, hass: __HAC_KEEP__, variables: TemplateVarsType = None) -> bool:
         """Check the condition."""
         return self.checker(hass, variables)
 
@@ -57,7 +57,7 @@ class _StateDependentChecker:
 class LegacyConditionChecker(ConditionChecker):
     """Condition checker wrapping a legacy condition factory function."""
 
-    def __init__(self, hass: UniversalAssistant, checker: ConditionCheckerType) -> None:
+    def __init__(self, hass: __HAC_KEEP__, checker: ConditionCheckerType) -> None:
         """Initialize condition checker."""
         super().__init__(hass)
         self._checker = checker
@@ -104,7 +104,7 @@ class DisabledConditionChecker(ConditionChecker):
 class CompoundConditionChecker(ConditionChecker):
     """Base class for compound condition checkers (and/or/not)."""
 
-    def __init__(self, hass: UniversalAssistant, conditions: list[ConditionChecker]) -> None:
+    def __init__(self, hass: __HAC_KEEP__, conditions: list[ConditionChecker]) -> None:
         """Initialize condition checker."""
         super().__init__(hass)
         self._conditions = conditions
@@ -217,7 +217,7 @@ class OrConditionChecker(CompoundConditionChecker):
 
 
 def state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity: str | State | None,
     req_state: Any,
     for_period: timedelta | None = None,
@@ -291,7 +291,7 @@ def state(
 
 
 def numeric_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity: str | State | None,
     below: float | str | None = None,
     above: float | str | None = None,
@@ -312,7 +312,7 @@ def numeric_state(
 
 
 def async_numeric_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity: str | State | None,
     below: float | str | None = None,
     above: float | str | None = None,
@@ -438,7 +438,7 @@ def async_numeric_state(
 
 
 def template(
-    hass: UniversalAssistant, value_template: Template, variables: TemplateVarsType = None
+    hass: __HAC_KEEP__, value_template: Template, variables: TemplateVarsType = None
 ) -> bool:
     """Test if template condition matches."""
     return run_callback_threadsafe(
@@ -447,7 +447,7 @@ def template(
 
 
 def async_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     value_template: Template,
     variables: TemplateVarsType = None,
     trace_result: bool = True,
@@ -466,7 +466,7 @@ def async_template(
 
 
 def time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     before: dt_time | str | None = None,
     after: dt_time | str | None = None,
     weekday: str | Container[str] | None = None,

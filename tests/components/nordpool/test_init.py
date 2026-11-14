@@ -18,7 +18,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant.components.nordpool.const import CONF_AREAS, DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
 from universalassistant.const import CONF_CURRENCY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -26,7 +26,7 @@ from . import ENTRY_CONFIG
 
 
 @pytest.mark.freeze_time("2025-10-01T10:00:00+00:00")
-async def test_unload_entry(hass: UniversalAssistant, get_client: NordPoolClient) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__, get_client: NordPoolClient) -> None:
     """Test load and unload an entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -57,7 +57,7 @@ async def test_unload_entry(hass: UniversalAssistant, get_client: NordPoolClient
     ],
 )
 async def test_initial_startup_fails(
-    hass: UniversalAssistant, get_client: NordPoolClient, error: Exception
+    hass: __HAC_KEEP__, get_client: NordPoolClient, error: Exception
 ) -> None:
     """Test load and unload an entry."""
     entry = MockConfigEntry(
@@ -81,7 +81,7 @@ async def test_initial_startup_fails(
 
 @pytest.mark.freeze_time("2025-10-01T10:00:00+00:00")
 async def test_reconfigure_cleans_up_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     get_client: NordPoolClient,
     device_registry: dr.DeviceRegistry,

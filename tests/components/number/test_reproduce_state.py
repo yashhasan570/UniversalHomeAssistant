@@ -9,7 +9,7 @@ from universalassistant.components.number.const import (
     DOMAIN,
     SERVICE_SET_VALUE,
 )
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.state import async_reproduce_state
 
 VALID_NUMBER1 = "19.0"
@@ -17,7 +17,7 @@ VALID_NUMBER2 = "99.9"
 
 
 async def test_reproducing_states(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test reproducing Number states."""
 

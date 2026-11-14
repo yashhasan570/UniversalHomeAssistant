@@ -22,8 +22,8 @@ from universalassistant.components.device_tracker import (
     DOMAIN as DEVICE_TRACKER_DOMAIN,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryNotReady, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryNotReady, __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 from universalassistant.helpers.dispatcher import async_dispatcher_send
@@ -141,7 +141,7 @@ class FritzBoxTools(DataUpdateCoordinator[UpdateCoordinatorDataType]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: FritzConfigEntry,
         password: str,
         port: int,
@@ -549,7 +549,7 @@ class FritzBoxTools(DataUpdateCoordinator[UpdateCoordinatorDataType]):
                     ),
                 )
         except Exception as ex:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="error_refresh_hosts_info",
             ) from ex

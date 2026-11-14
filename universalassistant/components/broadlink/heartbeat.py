@@ -6,7 +6,7 @@ import logging
 import broadlink_async as blk
 
 from universalassistant.const import CONF_HOST
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 from universalassistant.helpers import event
 from universalassistant.util import dt as dt_util
 
@@ -24,7 +24,7 @@ class BroadlinkHeartbeat:
 
     HEARTBEAT_INTERVAL = dt.timedelta(minutes=2)
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the heartbeat."""
         self._hass = hass
         self._unsubscribe: CALLBACK_TYPE | None = None

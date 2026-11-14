@@ -45,7 +45,7 @@ from universalassistant.components.webhook import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_DEVICE_ID, ATTR_NAME, CONF_URL, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -125,7 +125,7 @@ def is_acceptable_camera(camera: dict[str, Any] | None) -> bool:
 
 @callback
 def listen_for_new_cameras(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MotionEyeConfigEntry,
     add_func: Callable,
 ) -> None:
@@ -142,14 +142,14 @@ def listen_for_new_cameras(
 
 @callback
 def async_generate_motioneye_webhook(
-    hass: UniversalAssistant, webhook_id: str
+    hass: __HAC_KEEP__, webhook_id: str
 ) -> str | None:
     """Generate the full local URL for a webhook_id."""
     try:
         return f"{get_url(hass, allow_cloud=False)}{async_generate_path(webhook_id)}"
     except NoURLAvailableError:
         _LOGGER.warning(
-            "Unable to get Universal Universal Home Assistant URL. Have you set the internal and/or "
+            "Unable to get __HA_KEEP__ URL. Have you set the internal and/or "
             "external URLs in Settings -> System -> Network?"
         )
         return None
@@ -157,7 +157,7 @@ def async_generate_motioneye_webhook(
 
 @callback
 def _add_camera(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     client: MotionEyeClient,
     entry: MotionEyeConfigEntry,
@@ -266,14 +266,14 @@ def _add_camera(
     )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the motionEye integration."""
     hass.http.register_view(MotionEyeMediaProxyView(hass))
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MotionEyeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MotionEyeConfigEntry) -> None:
     """Set up motionEye from a config entry."""
 
     client = create_motioneye_client(
@@ -358,7 +358,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: MotionEyeConfigEntr
     await coordinator.async_refresh()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MotionEyeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MotionEyeConfigEntry) -> None:
     """Unload a config entry."""
     webhook_unregister(hass, entry.data[CONF_WEBHOOK_ID])
 
@@ -367,7 +367,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: MotionEyeConfigEnt
 
 
 async def handle_webhook(
-    hass: UniversalAssistant, webhook_id: str, request: Request
+    hass: __HAC_KEEP__, webhook_id: str, request: Request
 ) -> Response | None:
     """Handle webhook callback."""
 
@@ -426,7 +426,7 @@ async def handle_webhook(
 
 
 def _get_media_event_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device: dr.DeviceEntry,
     event_file_path: str,
     event_file_type: int,

@@ -8,7 +8,7 @@ from inelsmqtt.devices import Device
 from inelsmqtt.utils.common import Bit, Relay, SimpleRelay
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -55,7 +55,7 @@ SWITCH_TYPES = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: InelsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -80,7 +80,7 @@ async def async_setup_entry(
 
 
 class InelsSwitch(InelsBaseEntity, SwitchEntity):
-    """The platform class required by Universal Universal Home Assistant."""
+    """The platform class required by __HA_KEEP__."""
 
     entity_description: InelsSwitchEntityDescription
 

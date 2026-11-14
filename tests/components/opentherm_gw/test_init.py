@@ -10,7 +10,7 @@ from universalassistant.components.opentherm_gw.const import (
     DOMAIN,
     OpenThermDeviceIdentifier,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import MOCK_GATEWAY_ID, VERSION_TEST
@@ -20,7 +20,7 @@ MINIMAL_STATUS_UPD = {OTGW: {OTGW_ABOUT: f"OpenTherm Gateway {VERSION_NEW}"}}
 
 
 async def test_device_registry_insert(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pyotgw: MagicMock,
@@ -40,7 +40,7 @@ async def test_device_registry_insert(
 
 
 async def test_device_registry_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pyotgw: MagicMock,
@@ -73,7 +73,7 @@ async def test_device_registry_update(
 
 
 async def test_device_registry_report_numeric_fields(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     mock_pyotgw: MagicMock,

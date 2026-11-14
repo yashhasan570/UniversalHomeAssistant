@@ -8,13 +8,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import spot_price_fetcher
 
 
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,
 ) -> None:
@@ -36,7 +36,7 @@ async def test_setup_and_unload_entry(
 @pytest.mark.usefixtures("hass_madrid")
 @pytest.mark.freeze_time("2024-01-15T12:01:00Z")
 async def test_coordinator_unavailability_logging(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_pyomie: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -82,7 +82,7 @@ async def test_coordinator_unavailability_logging(
 
 @pytest.mark.freeze_time("2025-11-11T10:17:32.153544Z")
 async def test_update_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_pyomie: MagicMock,

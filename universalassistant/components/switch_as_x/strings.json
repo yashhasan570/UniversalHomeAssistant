@@ -10,7 +10,7 @@
         "data_description": {
           "invert": "Invert state, only supported for cover, lock and valve."
         },
-        "description": "Pick a switch that you want to show up in Universal Universal Home Assistant as a light, cover or anything else. The original switch will be hidden."
+        "description": "Pick a switch that you want to show up in __HA_KEEP__ as a light, cover or anything else. The original switch will be hidden."
       }
     }
   },

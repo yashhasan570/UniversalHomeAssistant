@@ -12,7 +12,7 @@ from universalassistant.components.ghost.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import API_KEY, API_URL, SITE_UUID
@@ -22,7 +22,7 @@ NEW_API_URL = "https://new.ghost.io"
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_user(hass: UniversalAssistant, mock_ghost_api: AsyncMock) -> None:
+async def test_form_user(hass: __HAC_KEEP__, mock_ghost_api: AsyncMock) -> None:
     """Test the user config flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -49,7 +49,7 @@ async def test_form_user(hass: UniversalAssistant, mock_ghost_api: AsyncMock) ->
 
 
 @pytest.mark.usefixtures("mock_ghost_api", "mock_setup_entry")
-async def test_form_invalid_api_key_format(hass: UniversalAssistant) -> None:
+async def test_form_invalid_api_key_format(hass: __HAC_KEEP__) -> None:
     """Test error on invalid API key format."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -79,7 +79,7 @@ async def test_form_invalid_api_key_format(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_already_configured(
-    hass: UniversalAssistant, mock_config_entry, mock_ghost_api: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry, mock_ghost_api: AsyncMock
 ) -> None:
     """Test error when already configured."""
     # Add existing entry to hass
@@ -113,7 +113,7 @@ async def test_form_already_configured(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors_can_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ghost_api: AsyncMock,
     side_effect: Exception,
     error_key: str,
@@ -157,7 +157,7 @@ async def test_form_errors_can_recover(
 
 @pytest.mark.usefixtures("mock_ghost_api", "mock_setup_entry")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth flow."""
@@ -188,7 +188,7 @@ async def test_reauth_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_errors_can_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ghost_api: AsyncMock,
     side_effect: Exception,
@@ -224,7 +224,7 @@ async def test_reauth_flow_errors_can_recover(
 
 @pytest.mark.usefixtures("mock_ghost_api", "mock_setup_entry")
 async def test_reauth_flow_invalid_api_key_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reauth flow with invalid API key format."""
@@ -251,7 +251,7 @@ async def test_reauth_flow_invalid_api_key_format(
 
 @pytest.mark.usefixtures("mock_ghost_api", "mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow."""
@@ -285,7 +285,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors_can_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ghost_api: AsyncMock,
     side_effect: Exception,
@@ -327,7 +327,7 @@ async def test_reconfigure_flow_errors_can_recover(
 
 @pytest.mark.usefixtures("mock_ghost_api", "mock_setup_entry")
 async def test_reconfigure_flow_invalid_api_key_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test reconfigure flow with invalid API key format."""
@@ -362,7 +362,7 @@ async def test_reconfigure_flow_invalid_api_key_format(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ghost_api: AsyncMock,
 ) -> None:

@@ -1,6 +1,6 @@
 """Repair implementations."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 from .const import (
@@ -13,7 +13,7 @@ from .coordinator import TadoConfigEntry
 
 
 def manage_water_heater_fallback_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TadoConfigEntry,
     has_water_heaters: bool,
     integration_overlay_fallback: str | None,

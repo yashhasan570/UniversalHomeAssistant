@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.template.const import DOMAIN
 from universalassistant.const import CONF_DEVICE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import (
     device_registry as dr,
@@ -35,7 +35,7 @@ EXPECTED_DATA_SCHEMA = [
 
 @pytest.fixture
 def split_devices(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> tuple[dr.DeviceEntry, dr.DeviceEntry]:
     """Create two devices which are splits of a pre-migration composite device."""
     entry_1 = MockConfigEntry(domain="itg1")
@@ -62,7 +62,7 @@ def split_devices(
 
 
 async def _setup_template_entry(
-    hass: UniversalAssistant, device_id: str | None
+    hass: __HAC_KEEP__, device_id: str | None
 ) -> MockConfigEntry:
     """Set up a sensor template config entry linked to a device."""
     options = {
@@ -86,7 +86,7 @@ async def _setup_template_entry(
 
 @pytest.mark.usefixtures("split_devices")
 async def test_composite_device_id_creates_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_composite_device_id_creates_issue(
 
 
 async def test_live_device_id_no_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     split_devices: tuple[dr.DeviceEntry, dr.DeviceEntry],
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -124,7 +124,7 @@ async def test_live_device_id_no_issue(
 
 @pytest.mark.usefixtures("split_devices")
 async def test_no_device_id_no_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
 ) -> None:
     """Test a config entry without a device id creates no issue."""
@@ -143,7 +143,7 @@ async def test_no_device_id_no_issue(
     ],
 )
 async def test_composite_device_id_repair_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     split_devices: tuple[dr.DeviceEntry, dr.DeviceEntry],
     entity_registry: er.EntityRegistry,
@@ -184,7 +184,7 @@ async def test_composite_device_id_repair_flow(
 
 @pytest.mark.usefixtures("split_devices")
 async def test_composite_device_id_repair_flow_links_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -230,7 +230,7 @@ async def test_composite_device_id_repair_flow_links_child_device(
 
 
 async def test_composite_device_id_repair_flow_ambiguity_not_resolved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     split_devices: tuple[dr.DeviceEntry, dr.DeviceEntry],
     issue_registry: ir.IssueRegistry,
@@ -271,7 +271,7 @@ async def test_composite_device_id_repair_flow_ambiguity_not_resolved(
 
 @pytest.mark.usefixtures("split_devices")
 async def test_composite_device_id_repair_flow_entry_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test the flow aborts if the config entry is removed while the flow is open."""
@@ -295,7 +295,7 @@ async def test_composite_device_id_repair_flow_entry_removed(
 
 @pytest.mark.usefixtures("split_devices")
 async def test_issue_deleted_when_device_fixed_in_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     issue_registry: ir.IssueRegistry,
 ) -> None:

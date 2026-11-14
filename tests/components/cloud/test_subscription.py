@@ -12,12 +12,12 @@ from universalassistant.components.cloud.subscription import (
     async_migrate_paypal_agreement,
     async_subscription_info,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 
 @pytest.fixture(name="mocked_cloud")
-async def mocked_cloud_object(hass: UniversalAssistant) -> Cloud:
+async def mocked_cloud_object(hass: __HAC_KEEP__) -> Cloud:
     """Mock cloud object."""
     return Mock(
         auth=Mock(async_check_token=AsyncMock()),

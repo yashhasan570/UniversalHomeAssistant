@@ -18,7 +18,7 @@ from universalassistant.const import (
     UnitOfEnergy,
     UnitOfPower,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import EgaugeConfigEntry, EgaugeData, EgaugeDataCoordinator
@@ -76,7 +76,7 @@ SENSORS: tuple[EgaugeSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: EgaugeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

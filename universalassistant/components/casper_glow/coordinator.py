@@ -16,7 +16,7 @@ from universalassistant.components.bluetooth.active_update_coordinator import (
     ActiveBluetoothDataUpdateCoordinator,
 )
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import SORTED_BRIGHTNESS_LEVELS, STATE_POLL_INTERVAL
 
@@ -30,7 +30,7 @@ class CasperGlowCoordinator(ActiveBluetoothDataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: CasperGlow,
         title: str,
     ) -> None:

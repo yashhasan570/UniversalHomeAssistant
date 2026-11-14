@@ -10,7 +10,7 @@ from xknx.telegram import IndividualAddress
 
 from universalassistant.components.knx.sensor import SCAN_INTERVAL
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -18,7 +18,7 @@ from .conftest import KNXTestKit
 
 
 async def test_diagnostic_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     freezer: FrozenDateTimeFactory,
@@ -98,7 +98,7 @@ async def test_diagnostic_entities(
 
 
 async def test_removed_entity(
-    hass: UniversalAssistant, knx: KNXTestKit, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, knx: KNXTestKit, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unregister callback when entity is removed."""
     with patch(
@@ -114,7 +114,7 @@ async def test_removed_entity(
 
 
 async def test_remove_interface_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,

@@ -23,7 +23,7 @@ from universalassistant.components.imap.errors import InvalidAuth, InvalidFolder
 from universalassistant.components.sensor import SensorStateClass
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.util.dt import utcnow
 
@@ -69,7 +69,7 @@ from .test_config_flow import MOCK_CONFIG
 )
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 async def test_entry_startup_and_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
     cipher_list: str | None,
     verify_ssl: bool | None,
@@ -100,7 +100,7 @@ async def test_entry_startup_and_unload(
     ],
 )
 async def test_entry_startup_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
     effect: Exception,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_entry_startup_fails(
     ],
 )
 async def test_entry_startup_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
     exc: Exception,
 ) -> None:
@@ -234,7 +234,7 @@ async def test_entry_startup_connection_error(
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 @pytest.mark.parametrize("charset", ["utf-8", "us-ascii"], ids=["utf-8", "us-ascii"])
 async def test_receiving_message_successfully(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
     valid_date: bool,
     charset: str,
@@ -287,7 +287,7 @@ async def test_receiving_message_successfully(
 )
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 async def test_receiving_message_with_invalid_encoding(
-    hass: UniversalAssistant, mock_imap_protocol: MagicMock
+    hass: __HAC_KEEP__, mock_imap_protocol: MagicMock
 ) -> None:
     """Test receiving a message successfully."""
     event_called = async_capture_events(hass, "imap_content")
@@ -322,7 +322,7 @@ async def test_receiving_message_with_invalid_encoding(
 @pytest.mark.parametrize("imap_fetch", [TEST_FETCH_RESPONSE_NO_SUBJECT_TO_FROM])
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 async def test_receiving_message_no_subject_to_from(
-    hass: UniversalAssistant, mock_imap_protocol: MagicMock
+    hass: __HAC_KEEP__, mock_imap_protocol: MagicMock
 ) -> None:
     """Test receiving a message successfully without subject, to and from in body."""
     event_called = async_capture_events(hass, "imap_content")
@@ -362,7 +362,7 @@ async def test_receiving_message_no_subject_to_from(
     ("imap_login_state", "success"), [(AUTH, True), (NONAUTH, False)]
 )
 async def test_initial_authentication_error(
-    hass: UniversalAssistant, mock_imap_protocol: MagicMock, success: bool
+    hass: __HAC_KEEP__, mock_imap_protocol: MagicMock, success: bool
 ) -> None:
     """Test authentication error when starting the entry."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG)
@@ -379,7 +379,7 @@ async def test_initial_authentication_error(
     ("imap_select_state", "success"), [(AUTH, False), (SELECTED, True)]
 )
 async def test_initial_invalid_folder_error(
-    hass: UniversalAssistant, mock_imap_protocol: MagicMock, success: bool
+    hass: __HAC_KEEP__, mock_imap_protocol: MagicMock, success: bool
 ) -> None:
     """Test invalid folder error when starting the entry."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG)
@@ -394,7 +394,7 @@ async def test_initial_invalid_folder_error(
 @patch("universalassistant.components.imap.coordinator.MAX_ERRORS", 1)
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 async def test_late_authentication_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_imap_protocol: MagicMock,
 ) -> None:
@@ -435,7 +435,7 @@ async def test_late_authentication_retry(
 @patch("universalassistant.components.imap.coordinator.MAX_ERRORS", 0)
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 async def test_late_authentication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_imap_protocol: MagicMock,
 ) -> None:
@@ -475,7 +475,7 @@ async def test_late_authentication_error(
 
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 async def test_late_folder_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_imap_protocol: MagicMock,
 ) -> None:
@@ -527,7 +527,7 @@ async def test_late_folder_error(
     ids=["AioImapException", "TimeoutError"],
 )
 async def test_handle_cleanup_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_imap_protocol: MagicMock,
     imap_close: Exception,
@@ -570,7 +570,7 @@ async def test_handle_cleanup_exception(
     ids=["AioImapException", "TimeoutError"],
 )
 async def test_lost_connection_with_imap_push(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_imap_protocol: MagicMock,
     imap_wait_server_push_exception: AioImapException | TimeoutError,
@@ -602,7 +602,7 @@ async def test_lost_connection_with_imap_push(
     ids=["ConnectionRefusedError", "gaierror", "SSLError"],
 )
 async def test_reconnect_after_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_imap_protocol: MagicMock,
     exc: Exception,
@@ -654,7 +654,7 @@ async def test_reconnect_after_connection_error(
 
 @pytest.mark.parametrize("imap_has_capability", [True], ids=["push"])
 async def test_fetch_number_of_messages(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     mock_imap_protocol: MagicMock,
 ) -> None:
@@ -689,7 +689,7 @@ async def test_fetch_number_of_messages(
 )
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 async def test_reset_last_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
     valid_date: bool,
     empty_search_reponse: tuple[str, list[bytes]],
@@ -789,7 +789,7 @@ async def test_reset_last_message(
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 @patch("universalassistant.components.imap.coordinator.MAX_EVENT_DATA_BYTES", 500)
 async def test_event_skipped_message_too_large(
-    hass: UniversalAssistant, mock_imap_protocol: MagicMock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_imap_protocol: MagicMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test skipping event when message is to large."""
     event_called = async_capture_events(hass, "imap_content")
@@ -815,7 +815,7 @@ async def test_event_skipped_message_too_large(
 )
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 async def test_message_is_truncated(
-    hass: UniversalAssistant, mock_imap_protocol: MagicMock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_imap_protocol: MagicMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test truncating message text in event data."""
     event_called = async_capture_events(hass, "imap_content")
@@ -848,7 +848,7 @@ async def test_message_is_truncated(
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 @pytest.mark.parametrize("event_message_data", [[], ["text"], ["text", "headers"]])
 async def test_message_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
     caplog: pytest.LogCaptureFixture,
     event_message_data: list,
@@ -893,7 +893,7 @@ async def test_message_data(
     ids=["subject_test", "sender_filter", "body_filter", "template_error"],
 )
 async def test_custom_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
     caplog: pytest.LogCaptureFixture,
     custom_template: str,
@@ -946,7 +946,7 @@ async def test_custom_template(
     ids=["enforce_poll", "poll", "auto_push", "auto_poll"],
 )
 async def test_enforce_polling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
     enable_push: bool,
     should_poll: True,
@@ -1012,7 +1012,7 @@ async def test_enforce_polling(
 )
 @pytest.mark.parametrize("imap_has_capability", [True, False], ids=["push", "poll"])
 async def test_services(
-    hass: UniversalAssistant, mock_imap_protocol: MagicMock, message_parts: dict[str, Any]
+    hass: __HAC_KEEP__, mock_imap_protocol: MagicMock, message_parts: dict[str, Any]
 ) -> None:
     """Test receiving a message successfully."""
     event_called = async_capture_events(hass, "imap_content")
@@ -1219,7 +1219,7 @@ async def test_services(
     ],
 )
 async def test_services_invalid_characters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
     service: str,
     data: dict[str, str],
@@ -1248,7 +1248,7 @@ async def test_services_invalid_characters(
     ],
 )
 async def test_service_fetch_missing_date(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imap_protocol: MagicMock,
 ) -> None:
     """Test fetching a message that has no or an invalid date successfully."""

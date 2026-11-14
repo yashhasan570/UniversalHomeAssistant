@@ -1,4 +1,4 @@
-"""Config flow for Universal Universal Home Assistant Supervisor integration."""
+"""Config flow for __HA_KEEP__ Supervisor integration."""
 
 from typing import Any
 
@@ -10,7 +10,7 @@ from .const import DEFAULT_UPDATE_OPTIONS, DOMAIN, ENTRY_DATA_USER
 
 
 class HassIoConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Universal Universal Home Assistant Supervisor."""
+    """Handle a config flow for __HA_KEEP__ Supervisor."""
 
     VERSION = 1
 

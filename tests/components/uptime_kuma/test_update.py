@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -27,7 +27,7 @@ async def update_only() -> AsyncGenerator[None]:
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -57,7 +57,7 @@ async def test_update(
 
 @pytest.mark.usefixtures("mock_pythonkuma")
 async def test_update_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_update_checker: AsyncMock,
 ) -> None:

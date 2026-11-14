@@ -6,7 +6,7 @@ from aio_wattwaechter import Wattwaechter, WattwaechterConnectionError
 
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.const import CONF_DEVICE_ID, CONF_HOST, CONF_TOKEN, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -20,7 +20,7 @@ PLATFORMS = [Platform.SENSOR, Platform.UPDATE]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: WattwaechterConfigEntry
+    hass: __HAC_KEEP__, entry: WattwaechterConfigEntry
 ) -> None:
     """Set up WattWächter from a config entry."""
     host = entry.data[CONF_HOST]
@@ -47,14 +47,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: WattwaechterConfigEntry
+    hass: __HAC_KEEP__, entry: WattwaechterConfigEntry
 ) -> None:
     """Unload a WattWächter config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: WattwaechterConfigEntry
+    hass: __HAC_KEEP__, entry: WattwaechterConfigEntry
 ) -> None:
     """Migrate an old config entry."""
     if entry.minor_version < 2:

@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.meteo_lt.const import CONF_PLACE_CODE, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_user_flow_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test user flow shows form and completes successfully."""
     result = await hass.config_entries.flow.async_init(
@@ -35,7 +35,7 @@ async def test_user_flow_success(
 
 
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_duplicate_entry(
 
 
 async def test_api_connection_error(
-    hass: UniversalAssistant, mock_meteo_lt_api: AsyncMock
+    hass: __HAC_KEEP__, mock_meteo_lt_api: AsyncMock
 ) -> None:
     """Test API connection error during place fetching."""
     mock_meteo_lt_api.places = []
@@ -73,7 +73,7 @@ async def test_api_connection_error(
 
 
 async def test_api_timeout_error(
-    hass: UniversalAssistant, mock_meteo_lt_api: AsyncMock
+    hass: __HAC_KEEP__, mock_meteo_lt_api: AsyncMock
 ) -> None:
     """Test API timeout error during place fetching."""
     mock_meteo_lt_api.places = []
@@ -88,7 +88,7 @@ async def test_api_timeout_error(
 
 
 async def test_no_places_found(
-    hass: UniversalAssistant, mock_meteo_lt_api: AsyncMock
+    hass: __HAC_KEEP__, mock_meteo_lt_api: AsyncMock
 ) -> None:
     """Test when API returns no places."""
     mock_meteo_lt_api.places = []

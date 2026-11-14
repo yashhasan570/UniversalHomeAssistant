@@ -5,7 +5,7 @@ from pycasperglow import CasperGlow
 from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth import BluetoothReachabilityIntent
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import DOMAIN
@@ -20,7 +20,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: CasperGlowConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: CasperGlowConfigEntry) -> None:
     """Set up Casper Glow from a config entry."""
     address: str = entry.data[CONF_ADDRESS]
     ble_device = bluetooth.async_ble_device_from_address(hass, address.upper(), True)
@@ -45,6 +45,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: CasperGlowConfigEnt
     entry.async_on_unload(coordinator.async_start())
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: CasperGlowConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: CasperGlowConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

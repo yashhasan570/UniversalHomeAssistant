@@ -12,7 +12,7 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import CONF_MODEL, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -116,7 +116,7 @@ MODEL_TO_BUTTON_MAP: dict[str, tuple[str, ...]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: XiaomiMiioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

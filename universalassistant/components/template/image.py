@@ -13,7 +13,7 @@ from universalassistant.components.image import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_URL, CONF_VERIFY_SSL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -65,7 +65,7 @@ IMAGE_CONFIG_ENTRY_SCHEMA = probatio.Schema(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -83,7 +83,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -109,7 +109,7 @@ class AbstractTemplateImage(AbstractTemplateEntity, ImageEntity):
     # AbstractTemplateEntity.__init__. This ensures that
     # the __init__ on AbstractTemplateEntity is not
     # called twice.
-    def __init__(self, hass: UniversalAssistant, config: dict[str, Any]) -> None:  # pylint: disable=super-init-not-called
+    def __init__(self, hass: __HAC_KEEP__, config: dict[str, Any]) -> None:  # pylint: disable=super-init-not-called
         """Initialize the features."""
         ImageEntity.__init__(self, hass, config[CONF_VERIFY_SSL])
         self._has_picture_template = CONF_PICTURE in config
@@ -133,7 +133,7 @@ class StateImageEntity(TemplateEntity, AbstractTemplateImage):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: dict[str, Any],
         unique_id: str | None,
     ) -> None:
@@ -158,7 +158,7 @@ class TriggerImageEntity(TriggerEntity, AbstractTemplateImage):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: TriggerUpdateCoordinator,
         config: dict,
     ) -> None:

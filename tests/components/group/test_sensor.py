@@ -34,7 +34,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -65,7 +65,7 @@ PRODUCT_VALUE = prod(VALUES)
 
 
 def set_or_remove_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     state: str | None,
 ) -> None:
@@ -96,7 +96,7 @@ def set_or_remove_state(
     ],
 )
 async def test_sensors2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     sensor_type: str,
     result: str,
@@ -145,7 +145,7 @@ async def test_sensors2(
     assert entity.unique_id == "very_unique_id"
 
 
-async def test_sensors_attributes_defined(hass: UniversalAssistant) -> None:
+async def test_sensors_attributes_defined(hass: __HAC_KEEP__) -> None:
     """Test the sensors."""
     config = {
         SENSOR_DOMAIN: {
@@ -187,7 +187,7 @@ async def test_sensors_attributes_defined(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_UNIT_OF_MEASUREMENT) == "m³"
 
 
-async def test_not_enough_sensor_value(hass: UniversalAssistant) -> None:
+async def test_not_enough_sensor_value(hass: __HAC_KEEP__) -> None:
     """Test that there is nothing done if not enough values available."""
     config = {
         SENSOR_DOMAIN: {
@@ -237,7 +237,7 @@ async def test_not_enough_sensor_value(hass: UniversalAssistant) -> None:
 
 
 async def test_stdev_not_enough_sensor_values(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the standard deviation is unknown with a single numeric value."""
     config = {
@@ -275,7 +275,7 @@ async def test_stdev_not_enough_sensor_values(
     assert "Error while dispatching event" not in caplog.text
 
 
-async def test_stdev_single_member(hass: UniversalAssistant) -> None:
+async def test_stdev_single_member(hass: __HAC_KEEP__) -> None:
     """Test a standard deviation group with a single member sets up as unknown."""
     hass.states.async_set("sensor.test_1", str(VALUES[0]))
     config = {
@@ -297,7 +297,7 @@ async def test_stdev_single_member(hass: UniversalAssistant) -> None:
     "sensor_type",
     ["min", "max", "mean", "median", "last", "range", "stdev", "sum", "product"],
 )
-async def test_no_members(hass: UniversalAssistant, sensor_type: str) -> None:
+async def test_no_members(hass: __HAC_KEEP__, sensor_type: str) -> None:
     """Test a group without members does not try to calculate a value."""
     config_entry = MockConfigEntry(
         data={},
@@ -320,7 +320,7 @@ async def test_no_members(hass: UniversalAssistant, sensor_type: str) -> None:
     assert state.state == STATE_UNAVAILABLE
 
 
-async def test_reload(hass: UniversalAssistant) -> None:
+async def test_reload(hass: __HAC_KEEP__) -> None:
     """Verify we can reload sensors."""
     hass.states.async_set("sensor.test_1", "12345")
     hass.states.async_set("sensor.test_2", "45678")
@@ -379,7 +379,7 @@ async def test_reload(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_sensor_incorrect_state_with_ignore_non_numeric(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     states_list: list[str | None],
     expected_group_state: str,
@@ -440,7 +440,7 @@ async def test_sensor_incorrect_state_with_ignore_non_numeric(
     ],
 )
 async def test_sensor_incorrect_state_with_not_ignore_non_numeric(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     states_list: list[str | None],
     expected_group_state: str,
@@ -503,7 +503,7 @@ async def test_sensor_incorrect_state_with_not_ignore_non_numeric(
     ],
 )
 async def test_sensor_require_all_states(
-    hass: UniversalAssistant, states_list: list[str | None], expected_group_state: str
+    hass: __HAC_KEEP__, states_list: list[str | None], expected_group_state: str
 ) -> None:
     """Test the sum sensor with missing state require all."""
     config = {
@@ -532,7 +532,7 @@ async def test_sensor_require_all_states(
     assert state.state == expected_group_state
 
 
-async def test_sensor_calculated_properties(hass: UniversalAssistant) -> None:
+async def test_sensor_calculated_properties(hass: __HAC_KEEP__) -> None:
     """Test the sensor calculating device_class, state_class and unit of measurement."""
     config = {
         SENSOR_DOMAIN: {
@@ -602,7 +602,7 @@ async def test_sensor_calculated_properties(hass: UniversalAssistant) -> None:
 
 
 async def test_sensor_with_uoms_but_no_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -704,7 +704,7 @@ async def test_sensor_with_uoms_but_no_device_class(
 
 
 async def test_sensor_calculated_properties_not_same(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test sensor calculating properties when not all the same."""
     config = {
@@ -810,7 +810,7 @@ async def test_sensor_calculated_properties_not_same(
     ],
 )
 async def test_sensor_issue_deleted_when_members_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     issue_kind: str,
     member_attributes: list[dict[str, str]],
@@ -841,7 +841,7 @@ async def test_sensor_issue_deleted_when_members_match(
 
 
 async def test_config_entry_issues_linked_to_entry(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test issues of a config entry sensor group are removed with the entry."""
     hass.states.async_set(
@@ -895,7 +895,7 @@ async def test_config_entry_issues_linked_to_entry(
         assert issue_registry.async_get_issue(DOMAIN, issue_id) is None
 
 
-async def test_sensor_calculated_result_fails_on_uom(hass: UniversalAssistant) -> None:
+async def test_sensor_calculated_result_fails_on_uom(hass: __HAC_KEEP__) -> None:
     """Test the sensor calculating fails as UoM not part of device class."""
     config = {
         SENSOR_DOMAIN: {
@@ -966,7 +966,7 @@ async def test_sensor_calculated_result_fails_on_uom(hass: UniversalAssistant) -
 
 
 async def test_sensor_calculated_properties_not_convertible_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test sensor with non-convertible device class."""
@@ -1049,7 +1049,7 @@ async def test_sensor_calculated_properties_not_convertible_device_class(
     ) in caplog.text
 
 
-async def test_last_sensor(hass: UniversalAssistant) -> None:
+async def test_last_sensor(hass: __HAC_KEEP__) -> None:
     """Test the last sensor."""
     config = {
         SENSOR_DOMAIN: {
@@ -1080,7 +1080,7 @@ async def test_last_sensor(hass: UniversalAssistant) -> None:
         assert state.attributes.get("last_entity_id") == entity_id
 
 
-async def test_first_available_sensor(hass: UniversalAssistant) -> None:
+async def test_first_available_sensor(hass: __HAC_KEEP__) -> None:
     """Test the first available sensor."""
     config = {
         SENSOR_DOMAIN: {
@@ -1137,7 +1137,7 @@ async def test_first_available_sensor(hass: UniversalAssistant) -> None:
 
 
 async def test_sensors_attributes_added_when_entity_info_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test sensor calculates attributes once all entities are available."""
     config = {
@@ -1186,7 +1186,7 @@ async def test_sensors_attributes_added_when_entity_info_available(
 
 
 async def test_sensor_state_class_no_uom_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test when input sensors drops unit of measurement."""
@@ -1254,7 +1254,7 @@ async def test_sensor_state_class_no_uom_not_available(
 
 
 async def test_sensor_different_attributes_ignore_non_numeric(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test the sensor handles calculating attributes when using ignore_non_numeric."""

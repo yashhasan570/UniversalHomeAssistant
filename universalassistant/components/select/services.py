@@ -2,14 +2,14 @@
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 
 from .const import DATA_COMPONENT, SelectService, SelectServiceArgument
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the select services."""
     component = hass.data[DATA_COMPONENT]
 

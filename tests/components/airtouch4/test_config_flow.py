@@ -6,11 +6,11 @@ from airtouch4pyapi.airtouch import AirTouch, AirTouchAc, AirTouchGroup, AirTouc
 
 from universalassistant import config_entries
 from universalassistant.components.airtouch4.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -48,7 +48,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_timeout(hass: UniversalAssistant) -> None:
+async def test_form_timeout(hass: __HAC_KEEP__) -> None:
     """Test we handle a connection timeout."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -81,7 +81,7 @@ async def test_form_timeout(hass: UniversalAssistant) -> None:
         assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_library_error_message(hass: UniversalAssistant) -> None:
+async def test_form_library_error_message(hass: __HAC_KEEP__) -> None:
     """Test we handle an unknown error message from the library."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -114,7 +114,7 @@ async def test_form_library_error_message(hass: UniversalAssistant) -> None:
         assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_connection_refused(hass: UniversalAssistant) -> None:
+async def test_form_connection_refused(hass: __HAC_KEEP__) -> None:
     """Test we handle a connection error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -147,7 +147,7 @@ async def test_form_connection_refused(hass: UniversalAssistant) -> None:
         assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_no_units(hass: UniversalAssistant) -> None:
+async def test_form_no_units(hass: __HAC_KEEP__) -> None:
     """Test we handle no units found."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

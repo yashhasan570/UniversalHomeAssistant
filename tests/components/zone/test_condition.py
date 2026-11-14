@@ -22,12 +22,12 @@ from pytest_universalassistant.components.common import (
 from universalassistant.components.zone import condition as zone_condition
 from universalassistant.components.zone.condition import CONDITIONS
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConditionError
 from universalassistant.helpers import condition, config_validation as cv
 
 
-async def test_zone_raises(hass: UniversalAssistant) -> None:
+async def test_zone_raises(hass: __HAC_KEEP__) -> None:
     """Test that zone raises ConditionError on errors."""
     config = {
         "condition": "zone",
@@ -114,7 +114,7 @@ async def test_zone_raises(hass: UniversalAssistant) -> None:
     assert test.async_check()
 
 
-async def test_zone_multiple_entities(hass: UniversalAssistant) -> None:
+async def test_zone_multiple_entities(hass: __HAC_KEEP__) -> None:
     """Test with multiple entities in condition."""
     config = {
         "condition": "and",
@@ -176,7 +176,7 @@ async def test_zone_multiple_entities(hass: UniversalAssistant) -> None:
     assert not test.async_check()
 
 
-async def test_multiple_zones(hass: UniversalAssistant) -> None:
+async def test_multiple_zones(hass: __HAC_KEEP__) -> None:
     """Test with multiple entities in condition."""
     config = {
         "condition": "and",
@@ -229,7 +229,7 @@ async def test_multiple_zones(hass: UniversalAssistant) -> None:
 
 @pytest.mark.parametrize("entity_id", ["device_tracker.cat", "person.bob"])
 async def test_zone_condition_prefers_in_zones_over_coordinates(
-    hass: UniversalAssistant, entity_id: str
+    hass: __HAC_KEEP__, entity_id: str
 ) -> None:
     """Test the legacy zone condition prefers in_zones over coordinates.
 
@@ -268,7 +268,7 @@ async def test_zone_condition_prefers_in_zones_over_coordinates(
 
 
 async def test_zone_condition_ignores_in_zones_for_other_domains(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test in_zones is only honored for device_tracker and person entities.
 
@@ -298,7 +298,7 @@ async def test_zone_condition_ignores_in_zones_for_other_domains(
     assert zone_condition.zone(hass, "zone.home", "sensor.tracker") is True
 
 
-async def test_zone_condition_falls_back_to_coordinates(hass: UniversalAssistant) -> None:
+async def test_zone_condition_falls_back_to_coordinates(hass: __HAC_KEEP__) -> None:
     """Test the legacy zone condition uses coordinates without an in_zones attr.
 
     Coordinate-only entities (e.g. geo_location) report no ``in_zones``.
@@ -361,7 +361,7 @@ _CONDITION_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_zone_condition_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -406,7 +406,7 @@ def test_condition_target_support() -> None:
     ],
 )
 async def test_zone_condition_rejects_non_zone_entity_id(
-    hass: UniversalAssistant, condition_key: str, config: dict[str, Any]
+    hass: __HAC_KEEP__, condition_key: str, config: dict[str, Any]
 ) -> None:
     """Test that the zone option must reference entities in the zone domain."""
     with pytest.raises(probatio.Invalid):
@@ -418,7 +418,7 @@ async def test_zone_condition_rejects_non_zone_entity_id(
 
 @pytest.fixture
 async def target_zone_entities(
-    hass: UniversalAssistant, domain: str
+    hass: __HAC_KEEP__, domain: str
 ) -> dict[str, list[str]]:
     """Create multiple zone-trackable entities associated with different targets."""
     return await target_entities(hass, domain, domain_excluded="sensor")
@@ -500,7 +500,7 @@ def _parametrize_zone_target_entities() -> list[tuple[dict[str, Any], str, int, 
     _ZONE_CONDITION_STATES_ANY,
 )
 async def test_zone_condition_behavior_any(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_zone_entities: dict[str, list[str]],
     condition_target_config: dict[str, Any],
     entity_id: str,
@@ -531,7 +531,7 @@ async def test_zone_condition_behavior_any(
     _ZONE_CONDITION_STATES_ALL,
 )
 async def test_zone_condition_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_zone_entities: dict[str, list[str]],
     condition_target_config: dict[str, Any],
     entity_id: str,
@@ -554,7 +554,7 @@ async def test_zone_condition_behavior_all(
 
 
 async def test_in_zone_condition_for_attribute_only_change(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test `for:` anchors to in_zones updates, not state.state changes.
 
@@ -644,7 +644,7 @@ async def test_in_zone_condition_for_attribute_only_change(
     ],
 )
 async def test_zone_occupancy_condition_evaluates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     condition_key: str,
     zone_state: str,
     expected: bool,

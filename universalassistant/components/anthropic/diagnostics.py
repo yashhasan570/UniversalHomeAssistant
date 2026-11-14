@@ -16,7 +16,7 @@ from .const import (
 )
 
 if TYPE_CHECKING:
-    from universalassistant.core import UniversalAssistant
+    from universalassistant.core import __HAC_KEEP__
 
     from .coordinator import AnthropicConfigEntry
 
@@ -32,7 +32,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: AnthropicConfigEntry
+    hass: __HAC_KEEP__, entry: AnthropicConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
 

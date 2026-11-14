@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -25,7 +25,7 @@ from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 pytestmark = pytest.mark.usefixtures("mock_gds_api")
 
 
-def _assert_created_entry(hass: UniversalAssistant, result: ConfigFlowResult) -> None:
+def _assert_created_entry(hass: __HAC_KEEP__, result: ConfigFlowResult) -> None:
     """Assert the flow created the expected config entry from the mocked device."""
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert result["title"] == "GDS 00:0B:82:12:34:56"
@@ -43,7 +43,7 @@ def _assert_created_entry(hass: UniversalAssistant, result: ConfigFlowResult) ->
     assert entry.unique_id == format_mac("00:0B:82:12:34:56")
 
 
-async def test_full_user_flow(hass: UniversalAssistant) -> None:
+async def test_full_user_flow(hass: __HAC_KEEP__) -> None:
     """Test the full user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -72,7 +72,7 @@ async def test_full_user_flow(hass: UniversalAssistant) -> None:
     _assert_created_entry(hass, result)
 
 
-async def test_user_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_user_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test user flow when connection fails."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -114,7 +114,7 @@ async def test_user_cannot_connect(hass: UniversalAssistant) -> None:
     _assert_created_entry(hass, result)
 
 
-async def test_user_invalid_auth(hass: UniversalAssistant) -> None:
+async def test_user_invalid_auth(hass: __HAC_KEEP__) -> None:
     """Test user flow when auth is invalid."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -156,7 +156,7 @@ async def test_user_invalid_auth(hass: UniversalAssistant) -> None:
     _assert_created_entry(hass, result)
 
 
-async def test_full_zeroconf_flow(hass: UniversalAssistant) -> None:
+async def test_full_zeroconf_flow(hass: __HAC_KEEP__) -> None:
     """Test the zeroconf flow from discovery to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -201,7 +201,7 @@ async def test_full_zeroconf_flow(hass: UniversalAssistant) -> None:
 
 
 async def test_zeroconf_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf aborts when device already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -236,7 +236,7 @@ async def test_zeroconf_already_configured(
     ],
 )
 async def test_user_device_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     login_return: tuple,
     expected_error: str,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_user_device_error(
     _assert_created_entry(hass, result)
 
 
-async def test_zeroconf_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_zeroconf_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test zeroconf aborts when same flow already in progress."""
     zeroconf_info = ZeroconfServiceInfo(
         ip_address=ip_address("192.168.1.100"),
@@ -308,7 +308,7 @@ async def test_zeroconf_already_in_progress(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "already_in_progress"
 
 
-async def test_zeroconf_gsc_device(hass: UniversalAssistant) -> None:
+async def test_zeroconf_gsc_device(hass: __HAC_KEEP__) -> None:
     """Test zeroconf flow with a GSC device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -385,7 +385,7 @@ async def test_zeroconf_gsc_device(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_zeroconf_edge_cases(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     name: str,
     hostname: str,
     properties: dict | None,
@@ -436,7 +436,7 @@ async def test_zeroconf_edge_cases(
 
 
 async def test_user_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gds_api: MagicMock,
 ) -> None:
     """Test user flow aborts when device already configured by MAC."""
@@ -479,7 +479,7 @@ async def test_user_already_configured(
 
 
 async def test_user_no_mac_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gds_api: MagicMock,
 ) -> None:
     """Test user flow aborts when no MAC and same host+port already configured."""
@@ -523,7 +523,7 @@ async def test_user_no_mac_already_configured(
 
 
 async def test_user_no_mac_new_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gds_api: MagicMock,
 ) -> None:
     """Test user flow creates entry without unique_id when no MAC is known."""
@@ -553,7 +553,7 @@ async def test_user_no_mac_new_device(
 
 
 async def test_user_empty_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test user flow shows error and returns to user step when host is empty."""
     result = await hass.config_entries.flow.async_init(
@@ -590,7 +590,7 @@ async def test_user_empty_host(
 
 
 async def test_user_offline_device_reports_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gds_api: MagicMock,
 ) -> None:
     """An unreachable device whose login error is swallowed shows cannot_connect."""

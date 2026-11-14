@@ -6,7 +6,7 @@ from pytest_universalassistant.typing import RecorderInstanceContextManager
 from universalassistant.components import history
 from universalassistant.components.recorder import Recorder
 from universalassistant.const import CONF_DOMAINS, CONF_ENTITIES, CONF_EXCLUDE, CONF_INCLUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
@@ -18,8 +18,8 @@ async def mock_recorder_before_hass(
 
 
 @pytest.fixture
-async def hass_history(hass: UniversalAssistant, recorder_mock: Recorder) -> None:
-    """Universal Universal Home Assistant fixture with history."""
+async def hass_history(hass: __HAC_KEEP__, recorder_mock: Recorder) -> None:
+    """__HA_KEEP__ fixture with history."""
     config = history.CONFIG_SCHEMA(
         {
             history.DOMAIN: {

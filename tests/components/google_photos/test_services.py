@@ -23,8 +23,8 @@ from universalassistant.components.google_photos.services import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 TEST_FILENAME = "doorbell_snapshot.jpg"
 ALBUM_TITLE = "Album title"
@@ -48,7 +48,7 @@ def upload_file_fixture() -> None:
 
 @pytest.fixture(autouse=True)
 def mock_upload_file(
-    hass: UniversalAssistant, upload_file: MockUploadFile
+    hass: __HAC_KEEP__, upload_file: MockUploadFile
 ) -> Generator[None]:
     """Fixture that mocks out the file calls using the FakeFile fixture."""
     with (
@@ -109,7 +109,7 @@ def mock_upload_file(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_upload_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_api: Mock,
     media_items_result: CreateMediaItemsResult,
@@ -140,7 +140,7 @@ async def test_upload_service(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_upload_service_config_entry_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a config entry that does not exist."""
@@ -161,7 +161,7 @@ async def test_upload_service_config_entry_not_found(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_config_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a config entry that is not loaded."""
@@ -188,12 +188,12 @@ async def test_config_entry_not_loaded(
 @pytest.mark.usefixtures("setup_integration")
 @pytest.mark.parametrize("upload_file", [MockUploadFile(is_allowed_path=False)])
 async def test_path_is_not_allowed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a filename path that is not allowed."""
     with (
-        pytest.raises(UniversalAssistantError, match="no access to path"),
+        pytest.raises(__HAC_KEEP__Error, match="no access to path"),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -211,11 +211,11 @@ async def test_path_is_not_allowed(
 @pytest.mark.usefixtures("setup_integration")
 @pytest.mark.parametrize("upload_file", [MockUploadFile(exists=False)])
 async def test_filename_does_not_exist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a filename path that does not exist."""
-    with pytest.raises(UniversalAssistantError, match="does not exist"):
+    with pytest.raises(__HAC_KEEP__Error, match="does not exist"):
         await hass.services.async_call(
             DOMAIN,
             GooglePhotosService.UPLOAD,
@@ -231,7 +231,7 @@ async def test_filename_does_not_exist(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_upload_service_upload_content_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_api: Mock,
 ) -> None:
@@ -239,7 +239,7 @@ async def test_upload_service_upload_content_failure(
 
     mock_api.upload_content.side_effect = GooglePhotosApiError()
 
-    with pytest.raises(UniversalAssistantError, match="Failed to upload content"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to upload content"):
         await hass.services.async_call(
             DOMAIN,
             GooglePhotosService.UPLOAD,
@@ -255,7 +255,7 @@ async def test_upload_service_upload_content_failure(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_upload_service_fails_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_api: Mock,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_upload_service_fails_create(
     mock_api.create_media_items.side_effect = GooglePhotosApiError()
 
     with pytest.raises(
-        UniversalAssistantError, match="Google Photos API responded with error"
+        __HAC_KEEP__Error, match="Google Photos API responded with error"
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -287,12 +287,12 @@ async def test_upload_service_fails_create(
     ],
 )
 async def test_upload_service_no_scope(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test service call to upload content but the config entry is read-only."""
 
-    with pytest.raises(UniversalAssistantError, match="not granted permission"):
+    with pytest.raises(__HAC_KEEP__Error, match="not granted permission"):
         await hass.services.async_call(
             DOMAIN,
             GooglePhotosService.UPLOAD,
@@ -309,12 +309,12 @@ async def test_upload_service_no_scope(
 @pytest.mark.usefixtures("setup_integration")
 @pytest.mark.parametrize("upload_file", [MockUploadFile(size=26 * 1024 * 1024)])
 async def test_upload_size_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test upload service call with a filename path that does not exist."""
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=re.escape(f"`{TEST_FILENAME}` is too large (27262976 > 20971520)"),
     ):
         await hass.services.async_call(
@@ -332,7 +332,7 @@ async def test_upload_size_limit(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_upload_to_new_album(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_api: Mock,
 ) -> None:
@@ -403,7 +403,7 @@ async def test_upload_to_new_album(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_create_album_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_api: Mock,
 ) -> None:
@@ -412,7 +412,7 @@ async def test_create_album_failed(
 
     mock_api.create_album.side_effect = GooglePhotosApiError()
 
-    with pytest.raises(UniversalAssistantError, match="Failed to create album"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to create album"):
         await hass.services.async_call(
             DOMAIN,
             GooglePhotosService.UPLOAD,

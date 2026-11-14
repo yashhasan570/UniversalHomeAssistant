@@ -4,13 +4,13 @@ from collections.abc import Awaitable
 from typing import Any, override
 
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.config_entry_flow import DiscoveryFlowHandler
 
 from .const import DOMAIN
 
 
-async def _async_has_devices(_: UniversalAssistant) -> bool:
+async def _async_has_devices(_: __HAC_KEEP__) -> bool:
     """MQTT is set as dependency, so that should be sufficient."""
     return True
 

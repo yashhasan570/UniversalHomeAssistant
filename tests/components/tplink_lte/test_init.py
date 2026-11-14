@@ -1,13 +1,13 @@
 """Tests for the TP-Link LTE integration."""
 
 from universalassistant.components.tplink_lte import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
 
 async def test_tplink_lte_repair_issue(
-    hass: UniversalAssistant, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test the TP-Link LTE repair issue is created on setup."""
     assert await async_setup_component(

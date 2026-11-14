@@ -12,14 +12,14 @@ from universalassistant.components.radarr.services import (
     RadarrService,
     RadarrServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from . import create_entry, setup_integration
 
 
 async def test_get_queue_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -42,7 +42,7 @@ async def test_get_queue_service(
 
 
 async def test_get_movies_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -72,7 +72,7 @@ async def test_get_movies_service(
     ],
 )
 async def test_services_api_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     service: str,
     method: str,
@@ -85,7 +85,7 @@ async def test_services_api_connection_error(
             f"universalassistant.components.radarr.coordinator.RadarrClient.{method}",
             side_effect=ArrConnectionException(None, "Connection failed"),
         ),
-        pytest.raises(UniversalAssistantError, match="Failed to connect to Radarr"),
+        pytest.raises(__HAC_KEEP__Error, match="Failed to connect to Radarr"),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -104,7 +104,7 @@ async def test_services_api_connection_error(
     ],
 )
 async def test_get_movies_service_api_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     service: str,
     method: str,
@@ -117,7 +117,7 @@ async def test_get_movies_service_api_auth_error(
             f"universalassistant.components.radarr.coordinator.RadarrClient.{method}",
             side_effect=ArrAuthenticationException(None, "Authentication failed"),
         ),
-        pytest.raises(UniversalAssistantError, match="Authentication failed for Radarr"),
+        pytest.raises(__HAC_KEEP__Error, match="Authentication failed for Radarr"),
     ):
         await hass.services.async_call(
             DOMAIN,
@@ -133,7 +133,7 @@ async def test_get_movies_service_api_auth_error(
     [RadarrService.GET_QUEUE, RadarrService.GET_MOVIES],
 )
 async def test_services_invalid_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     service: str,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_services_invalid_entry(
     [RadarrService.GET_QUEUE, RadarrService.GET_MOVIES],
 )
 async def test_services_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     service: str,
 ) -> None:

@@ -4,14 +4,14 @@ from http import HTTPStatus
 
 from aiohttp import web
 
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import API_URL, DOMAIN
 from .util import get_door_station_by_token
 
 
-class DoorBirdRequestView(UniversalAssistantView):
+class DoorBirdRequestView(__HAC_KEEP__View):
     """Provide a page for the device to call."""
 
     requires_auth = False

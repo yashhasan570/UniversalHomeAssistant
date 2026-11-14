@@ -3,7 +3,7 @@
 import asyncio
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import DOMAIN as DOMAIN, SUBENTRY_TYPE_BUS, SUBENTRY_TYPE_SUBWAY
 from .coordinator import MTAConfigEntry, MTADataUpdateCoordinator
@@ -11,7 +11,7 @@ from .coordinator import MTAConfigEntry, MTADataUpdateCoordinator
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MTAConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MTAConfigEntry) -> None:
     """Set up MTA from a config entry."""
     coordinators: dict[str, MTADataUpdateCoordinator] = {}
 
@@ -36,11 +36,11 @@ async def async_setup_entry(hass: UniversalAssistant, entry: MTAConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_update_entry(hass: UniversalAssistant, entry: MTAConfigEntry) -> None:
+async def async_update_entry(hass: __HAC_KEEP__, entry: MTAConfigEntry) -> None:
     """Handle config entry update (e.g., subentry changes)."""
     await hass.config_entries.async_reload(entry.entry_id)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MTAConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MTAConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

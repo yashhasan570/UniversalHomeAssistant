@@ -2,13 +2,13 @@
 
 from universalassistant.components import automation
 from universalassistant.components.automation import DOMAIN
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from tests.components.logbook.common import MockRow, mock_humanify
 
 
-async def test_humanify_automation_trigger_event(hass: UniversalAssistant) -> None:
+async def test_humanify_automation_trigger_event(hass: __HAC_KEEP__) -> None:
     """Test humanifying Shelly click event."""
     hass.config.components.add("recorder")
     assert await async_setup_component(hass, DOMAIN, {})

@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.nobo_hub import PLATFORMS
 from universalassistant.components.nobo_hub.const import CONF_SERIAL, DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 SERIAL = "102000013098"
 STORED_IP = "192.168.1.122"
@@ -155,7 +155,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nobo_class: MagicMock,
     platforms: list[Platform],

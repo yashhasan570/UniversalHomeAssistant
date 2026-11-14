@@ -1,4 +1,4 @@
-"""Test fixtures for the Universal Universal Home Assistant SkyConnect integration."""
+"""Test fixtures for the __HA_KEEP__ SkyConnect integration."""
 
 from collections.abc import Generator
 from unittest.mock import AsyncMock, MagicMock, patch

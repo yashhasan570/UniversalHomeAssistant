@@ -14,7 +14,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import DEGREE, EntityCategory, UnitOfSpeed
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -66,7 +66,7 @@ SENSORS: tuple[ScorpionTrackSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ScorpionTrackConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

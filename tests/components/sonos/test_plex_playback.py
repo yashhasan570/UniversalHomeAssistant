@@ -17,14 +17,14 @@ from universalassistant.components.media_player import (
 from universalassistant.components.plex import DOMAIN as PLEX_DOMAIN, PLEX_URI_SCHEME
 from universalassistant.components.sonos.media_player import LONG_SERVICE_TIMEOUT
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .conftest import MockSoCo
 
 
 async def test_plex_play_media(
-    hass: UniversalAssistant, soco: MockSoCo, async_autosetup_sonos
+    hass: __HAC_KEEP__, soco: MockSoCo, async_autosetup_sonos
 ) -> None:
     """Test playing media via the Plex integration."""
     mock_plex_server = Mock()
@@ -93,10 +93,10 @@ async def test_plex_play_media(
 
         # Test failed Plex service call
         mock_lookup.reset_mock()
-        mock_lookup.side_effect = UniversalAssistantError
+        mock_lookup.side_effect = __HAC_KEEP__Error
         mock_add_to_queue.reset_mock()
 
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 MP_DOMAIN,
                 SERVICE_PLAY_MEDIA,

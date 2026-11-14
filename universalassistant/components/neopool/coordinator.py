@@ -17,7 +17,7 @@ from neopool_modbus.registers import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -62,7 +62,7 @@ class NeoPoolCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         client: NeoPoolModbusClient,
         entry: NeoPoolConfigEntry,
     ) -> None:

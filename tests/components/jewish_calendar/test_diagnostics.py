@@ -8,7 +8,7 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -17,7 +17,7 @@ from universalassistant.core import UniversalAssistant
 @pytest.mark.parametrize("test_time", [dt.datetime(2025, 5, 19)], indirect=True)
 @pytest.mark.usefixtures("setup_at_time")
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,

@@ -43,7 +43,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.entity_registry import EntityRegistry
 
@@ -70,7 +70,7 @@ def fixture_platforms():
 
 
 async def test_block_device_rgbw_bulb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -151,7 +151,7 @@ async def test_block_device_rgbw_bulb(
 
 
 async def test_block_device_rgb_bulb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
     entity_registry: EntityRegistry,
@@ -257,7 +257,7 @@ async def test_block_device_rgb_bulb(
 
 
 async def test_block_device_white_bulb(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -333,7 +333,7 @@ async def test_block_device_white_bulb(
     ],
 )
 async def test_block_device_support_transition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
     model: str,
@@ -387,7 +387,7 @@ async def test_block_device_support_transition(
 
 
 async def test_block_device_relay_app_type_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_block_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -451,7 +451,7 @@ async def test_block_device_relay_app_type_light(
 
 
 async def test_block_device_no_light_blocks(
-    hass: UniversalAssistant, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
+    hass: __HAC_KEEP__, mock_block_device: Mock, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     """Test block device without light blocks."""
     monkeypatch.setattr(mock_block_device.blocks[LIGHT_BLOCK_ID], "type", "roller")
@@ -461,7 +461,7 @@ async def test_block_device_no_light_blocks(
 
 
 async def test_rpc_device_switch_type_lights_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -501,7 +501,7 @@ async def test_rpc_device_switch_type_lights_mode(
 
 
 async def test_rpc_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -606,7 +606,7 @@ async def test_rpc_light(
 
 
 async def test_rpc_device_rgb_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -650,7 +650,7 @@ async def test_rpc_device_rgb_profile(
 
 
 async def test_rpc_device_rgbw_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -697,7 +697,7 @@ async def test_rpc_device_rgbw_profile(
 
 
 async def test_rpc_rgbw_device_light_mode_remove_others(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -757,7 +757,7 @@ async def test_rpc_rgbw_device_light_mode_remove_others(
     ],
 )
 async def test_rpc_rgbw_device_rgb_w_modes_remove_others(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     device_registry: DeviceRegistry,
@@ -816,7 +816,7 @@ async def test_rpc_rgbw_device_rgb_w_modes_remove_others(
 
 
 async def test_rpc_cct_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -914,7 +914,7 @@ async def test_rpc_cct_light(
 
 
 async def test_rpc_remove_cct_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     device_registry: DeviceRegistry,
 ) -> None:
@@ -942,7 +942,7 @@ async def test_rpc_remove_cct_light(
 
 
 async def test_rpc_cct_light_without_ct_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -968,7 +968,7 @@ async def test_rpc_cct_light_without_ct_range(
 
 
 async def test_rpc_rgbcct_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rpc_device: Mock,
     entity_registry: EntityRegistry,
     monkeypatch: pytest.MonkeyPatch,
@@ -1100,7 +1100,7 @@ async def test_rpc_rgbcct_light(
 
 
 async def test_rpc_ledstrip_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ledstrip_rpc_device: Mock,
     entity_registry: EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -1225,7 +1225,7 @@ async def test_rpc_ledstrip_light(
 
 
 async def test_rpc_ledstrip_light_device_not_initialized(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ledstrip_rpc_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

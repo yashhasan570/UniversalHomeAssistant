@@ -16,7 +16,7 @@ from universalassistant.components.weather import (
     WeatherEntityStateAttribute,
 )
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.condition import Condition, EntityNumericalConditionBase
 
@@ -62,6 +62,6 @@ CONDITIONS: dict[str, type[Condition]] = {
 }
 
 
-async def async_get_conditions(hass: UniversalAssistant) -> dict[str, type[Condition]]:
+async def async_get_conditions(hass: __HAC_KEEP__) -> dict[str, type[Condition]]:
     """Return the conditions for humidity."""
     return CONDITIONS

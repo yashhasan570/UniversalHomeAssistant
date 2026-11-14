@@ -5,7 +5,7 @@ import logging
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -41,13 +41,13 @@ class OnkyoData:
 type OnkyoConfigEntry = ConfigEntry[OnkyoData]
 
 
-async def async_setup(hass: UniversalAssistant, _: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, _: ConfigType) -> bool:
     """Set up Onkyo component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OnkyoConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OnkyoConfigEntry) -> None:
     """Set up the Onkyo config entry."""
     host = entry.data[CONF_HOST]
 
@@ -93,7 +93,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OnkyoConfigEntry) -
             ) from exc
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: OnkyoConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: OnkyoConfigEntry) -> None:
     """Unload Onkyo config entry."""
     entry.runtime_data.manager.start_unloading()
 

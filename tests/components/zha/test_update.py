@@ -51,8 +51,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -76,7 +76,7 @@ def update_platform_only():
 
 
 async def setup_test_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zigpy_device_mock: Callable[..., ZigbeeDevice],
     skip_attribute_plugs=False,
     file_not_found=False,
@@ -166,7 +166,7 @@ async def setup_test_data(
 
 
 async def test_firmware_update_notification_from_zigpy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -209,7 +209,7 @@ async def test_firmware_update_notification_from_zigpy(
 
 
 async def test_firmware_update_notification_from_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -270,7 +270,7 @@ async def test_firmware_update_notification_from_service_call(
 
 
 async def test_firmware_update_poll_after_reload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     config_entry: MockConfigEntry,
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -334,7 +334,7 @@ def make_packet(zigpy_device, cluster, cmd_name: str, **kwargs):
 
 @patch("zigpy.device.AFTER_OTA_ATTR_READ_DELAY", 0.01)
 async def test_firmware_update_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -546,7 +546,7 @@ async def test_firmware_update_success(
 
 
 async def test_firmware_update_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -616,7 +616,7 @@ async def test_firmware_update_raises(
                 raise DeliveryError("failed to deliver")
 
     ota_cluster.endpoint.reply = AsyncMock(side_effect=endpoint_reply)
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             UPDATE_DOMAIN,
             UpdateService.INSTALL,
@@ -631,7 +631,7 @@ async def test_firmware_update_raises(
             "zigpy.device.ZigbeeDevice.update_firmware",
             AsyncMock(side_effect=DeliveryError("failed to deliver")),
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             UPDATE_DOMAIN,
@@ -644,7 +644,7 @@ async def test_firmware_update_raises(
 
 
 async def test_update_release_notes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -707,12 +707,12 @@ async def test_update_release_notes(
 
 
 async def test_update_version_sync_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
     device_registry: dr.DeviceRegistry,
 ) -> None:
-    """Test firmware version syncing between the ZHA device and Universal Universal Home Assistant."""
+    """Test firmware version syncing between the ZHA device and __HA_KEEP__."""
     await setup_zha()
     zha_device, _, _, _ = await setup_test_data(hass, zigpy_device_mock)
 

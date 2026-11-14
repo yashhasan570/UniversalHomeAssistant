@@ -4,7 +4,7 @@ from samsung_exlink import MODELS, SamsungTV, SamsungTVError, TVState
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_DEVICE, CONF_MODEL, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 
 from .const import DOMAIN, LOGGER, SamsungExLinkConfigEntry
@@ -13,7 +13,7 @@ PLATFORMS = [Platform.MEDIA_PLAYER]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: SamsungExLinkConfigEntry
+    hass: __HAC_KEEP__, entry: SamsungExLinkConfigEntry
 ) -> None:
     """Set up Samsung ExLink from a config entry."""
     port = entry.data[CONF_DEVICE]
@@ -48,7 +48,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: SamsungExLinkConfigEntry
+    hass: __HAC_KEEP__, entry: SamsungExLinkConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

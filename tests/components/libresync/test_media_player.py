@@ -37,8 +37,8 @@ from universalassistant.components.media_player import (
     MediaPlayerState,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -49,14 +49,14 @@ ENTITY_ID = "media_player.stereo"
 
 @pytest.fixture(autouse=True)
 async def setup(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_client: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_client: MagicMock
 ) -> None:
     """Set up the integration."""
     await setup_integration(hass, mock_config_entry)
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -77,7 +77,7 @@ async def test_entities(
     ],
 )
 async def test_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     play_state: PlayState,
     audio_state: PlayState,
@@ -89,7 +89,7 @@ async def test_state(
     assert hass.states.get(ENTITY_ID).state == expected
 
 
-async def test_unavailable(hass: UniversalAssistant, mock_client: MagicMock) -> None:
+async def test_unavailable(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
     """Test the entity follows the connection, not the hub's power."""
     push(mock_client, STATE.evolve(power=False))
     await hass.async_block_till_done()
@@ -100,7 +100,7 @@ async def test_unavailable(hass: UniversalAssistant, mock_client: MagicMock) -> 
     assert hass.states.get(ENTITY_ID).state == STATE_UNAVAILABLE
 
 
-async def test_select_source(hass: UniversalAssistant, mock_client: MagicMock) -> None:
+async def test_select_source(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
     """Test a source is selected by the hub's index, not its list position."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -111,7 +111,7 @@ async def test_select_source(hass: UniversalAssistant, mock_client: MagicMock) -
     mock_client.async_select_source.assert_awaited_once_with(6)
 
 
-async def test_source_without_key(hass: UniversalAssistant, mock_client: MagicMock) -> None:
+async def test_source_without_key(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
     """Test a source with no translation key is shown and selected by its name."""
     push(
         mock_client,
@@ -138,7 +138,7 @@ async def test_source_without_key(hass: UniversalAssistant, mock_client: MagicMo
 
 
 async def test_select_unknown_source(
-    hass: UniversalAssistant, mock_client: MagicMock
+    hass: __HAC_KEEP__, mock_client: MagicMock
 ) -> None:
     """Test a source the hub does not report is refused."""
     with pytest.raises(ServiceValidationError) as raised:
@@ -152,7 +152,7 @@ async def test_select_unknown_source(
     mock_client.async_select_source.assert_not_awaited()
 
 
-async def test_set_volume(hass: UniversalAssistant, mock_client: MagicMock) -> None:
+async def test_set_volume(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
     """Test the volume is sent in whole percent."""
     await hass.services.async_call(
         MEDIA_PLAYER_DOMAIN,
@@ -174,7 +174,7 @@ async def test_set_volume(hass: UniversalAssistant, mock_client: MagicMock) -> N
     ],
 )
 async def test_transport(
-    hass: UniversalAssistant, mock_client: MagicMock, service: str, method: str
+    hass: __HAC_KEEP__, mock_client: MagicMock, service: str, method: str
 ) -> None:
     """Test the transport actions reach the hub."""
     await hass.services.async_call(
@@ -191,11 +191,11 @@ async def test_transport(
     ],
 )
 async def test_command_errors(
-    hass: UniversalAssistant, mock_client: MagicMock, error: Exception, key: str
+    hass: __HAC_KEEP__, mock_client: MagicMock, error: Exception, key: str
 ) -> None:
     """Test a failed command raises a translated error."""
     mock_client.async_media_pause.side_effect = error
-    with pytest.raises(UniversalAssistantError) as raised:
+    with pytest.raises(__HAC_KEEP__Error) as raised:
         await hass.services.async_call(
             MEDIA_PLAYER_DOMAIN,
             SERVICE_MEDIA_PAUSE,
@@ -205,7 +205,7 @@ async def test_command_errors(
     assert raised.value.translation_key == key
 
 
-async def test_now_playing(hass: UniversalAssistant, mock_client: MagicMock) -> None:
+async def test_now_playing(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
     """Test the track metadata, with the position and duration in seconds."""
     push(
         mock_client,
@@ -232,7 +232,7 @@ async def test_now_playing(hass: UniversalAssistant, mock_client: MagicMock) -> 
 
 
 async def test_position_is_extrapolated(
-    hass: UniversalAssistant, mock_client: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_client: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a position that moves as expected is not written every second."""
     playing = STATE.evolve(
@@ -260,7 +260,7 @@ async def test_position_is_extrapolated(
 
 
 async def test_position_while_paused(
-    hass: UniversalAssistant, mock_client: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_client: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a position that moves while paused is written."""
     paused = STATE.evolve(position_ms=10000)
@@ -274,7 +274,7 @@ async def test_position_while_paused(
 
 
 async def test_position_time_kept_on_other_writes(
-    hass: UniversalAssistant, mock_client: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_client: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a write for another reason keeps the time the position was read."""
     playing = STATE.evolve(
@@ -303,7 +303,7 @@ async def test_position_time_kept_on_other_writes(
 
 
 async def test_position_time_restamped_on_seek_back(
-    hass: UniversalAssistant, mock_client: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_client: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a seek back to the written position is written with a new time."""
     playing = STATE.evolve(
@@ -328,7 +328,7 @@ async def test_position_time_restamped_on_seek_back(
 
 
 async def test_position_time_restamped_on_resume(
-    hass: UniversalAssistant, mock_client: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_client: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test resuming at the same position does not reuse the time of the pause."""
     playing = STATE.evolve(

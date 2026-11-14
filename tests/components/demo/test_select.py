@@ -11,7 +11,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
@@ -29,7 +29,7 @@ async def select_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_demo_select(hass: UniversalAssistant, select_only) -> None:
+async def setup_demo_select(hass: __HAC_KEEP__, select_only) -> None:
     """Initialize setup demo select entity."""
     assert await async_setup_component(
         hass, SELECT_DOMAIN, {"select": {"platform": "demo"}}
@@ -37,7 +37,7 @@ async def setup_demo_select(hass: UniversalAssistant, select_only) -> None:
     await hass.async_block_till_done()
 
 
-def test_setup_params(hass: UniversalAssistant) -> None:
+def test_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the initial parameters."""
     state = hass.states.get(ENTITY_SPEED)
     assert state
@@ -49,7 +49,7 @@ def test_setup_params(hass: UniversalAssistant) -> None:
     ]
 
 
-async def test_select_option_bad_attr(hass: UniversalAssistant) -> None:
+async def test_select_option_bad_attr(hass: __HAC_KEEP__) -> None:
     """Test selecting a different option with invalid option value."""
     state = hass.states.get(ENTITY_SPEED)
     assert state
@@ -72,7 +72,7 @@ async def test_select_option_bad_attr(hass: UniversalAssistant) -> None:
     assert state.state == "ridiculous_speed"
 
 
-async def test_select_option(hass: UniversalAssistant) -> None:
+async def test_select_option(hass: __HAC_KEEP__) -> None:
     """Test selecting of a option."""
     state = hass.states.get(ENTITY_SPEED)
     assert state

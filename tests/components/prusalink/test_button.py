@@ -8,8 +8,8 @@ import pytest
 
 from universalassistant.components.prusalink import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.setup import async_setup_component
 
 
@@ -22,13 +22,13 @@ def setup_button_platform_only():
 
 @pytest.fixture
 def press_button_and_verify(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> Callable[[str, str], Awaitable[None]]:
     """Return a helper that asserts the press path for a PrusaLink button.
 
     The helper verifies the entity is in the `unknown` state, that pressing it
     invokes the matching pyprusalink method once, and that a `Conflict` from
-    the API surfaces as `UniversalAssistantError`.
+    the API surfaces as `__HAC_KEEP__Error`.
     """
 
     async def _press_and_verify(entity_id: str, method: str) -> None:
@@ -46,7 +46,7 @@ def press_button_and_verify(
         mock_meth.assert_awaited_once()
 
         with (
-            pytest.raises(UniversalAssistantError),
+            pytest.raises(__HAC_KEEP__Error),
             patch(f"pyprusalink.PrusaLink.{method}", side_effect=Conflict),
         ):
             await hass.services.async_call(
@@ -67,7 +67,7 @@ def press_button_and_verify(
     ],
 )
 async def test_button_pause_cancel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry,
     mock_api,
     mock_job_api_printing,
@@ -89,7 +89,7 @@ async def test_button_pause_cancel(
     ],
 )
 async def test_button_resume_cancel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry,
     mock_api,
     mock_job_api_paused,
@@ -103,7 +103,7 @@ async def test_button_resume_cancel(
 
 
 async def test_button_continue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry,
     mock_api,
     mock_job_api_attention,
@@ -117,7 +117,7 @@ async def test_button_continue(
 
 
 async def test_button_continue_unavailable_when_printing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry,
     mock_api,
     mock_job_api_printing,

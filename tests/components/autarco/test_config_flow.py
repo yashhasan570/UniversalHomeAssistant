@@ -9,12 +9,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.autarco.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_autarco_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -43,7 +43,7 @@ async def test_full_user_flow(
 
 
 async def test_duplicate_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_autarco_client: AsyncMock,
 ) -> None:
@@ -74,7 +74,7 @@ async def test_duplicate_entry(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_autarco_client: AsyncMock,
     exception: Exception,
     error: str,
@@ -103,7 +103,7 @@ async def test_exceptions(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reauth(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauth flow."""
     mock_config_entry.add_to_hass(hass)
@@ -134,7 +134,7 @@ async def test_step_reauth(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reauth_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_autarco_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: Exception,

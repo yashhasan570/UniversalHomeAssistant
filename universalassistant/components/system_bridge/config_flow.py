@@ -21,8 +21,8 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -50,7 +50,7 @@ STEP_RECONFIGURE_DATA_SCHEMA = probatio.Schema(
 
 
 async def _validate_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     data: dict[str, Any],
 ) -> dict[str, str]:
     """Validate the user input allows us to connect.
@@ -102,7 +102,7 @@ async def _validate_input(
 
 
 async def _async_get_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     user_input: dict[str, Any],
 ) -> tuple[dict[str, str], dict[str, str] | None]:
     errors = {}
@@ -269,9 +269,9 @@ class SystemBridgeConfigFlow(
         return await self.async_step_authenticate()
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

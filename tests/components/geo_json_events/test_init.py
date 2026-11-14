@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.geo_location import DOMAIN as GEO_LOCATION_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import _generate_mock_feed_entry
 
 
 async def test_component_unload_config_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test that loading and unloading of a config entry works."""
     config_entry.add_to_hass(hass)
@@ -32,7 +32,7 @@ async def test_component_unload_config_entry(
 
 
 async def test_remove_orphaned_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
 ) -> None:

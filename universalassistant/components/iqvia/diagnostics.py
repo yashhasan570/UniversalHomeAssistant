@@ -4,7 +4,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_ZIP_CODE
 from .coordinator import IqviaConfigEntry
@@ -30,7 +30,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: IqviaConfigEntry
+    hass: __HAC_KEEP__, entry: IqviaConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {

@@ -7,7 +7,7 @@ from universalassistant.components.automation import DOMAIN as AUTOMATION_DOMAIN
 from universalassistant.components.automation.config import async_validate_config_item  # pylint: disable=universal-assistant-component-root-import
 from universalassistant.config import AUTOMATION_CONFIG_PATH
 from universalassistant.const import CONF_ID, SERVICE_RELOAD
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 
 from .const import ACTION_DELETE
@@ -15,7 +15,7 @@ from .view import EditIdBasedConfigView
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> bool:
+def async_setup(hass: __HAC_KEEP__) -> bool:
     """Set up the Automation config API."""
 
     async def hook(action: str, config_key: str) -> None:
@@ -56,7 +56,7 @@ class EditAutomationConfigView(EditIdBasedConfigView):
     @override
     def _write_value(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         data: list[dict[str, Any]],
         config_key: str,
         new_value: dict[str, Any],

@@ -18,7 +18,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.hp_printer.const import DOMAIN, SECTION_ADVANCED_SETTINGS
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -40,7 +40,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 
 
 @pytest.mark.usefixtures("mock_hp_printer")
-async def test_user_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_user_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test the full user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -63,7 +63,7 @@ async def test_user_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_title_falls_back_to_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_device: HpPrinterDevice,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_user_flow_title_falls_back_to_host(
 @pytest.mark.parametrize("endpoint", ["device", "status"])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     exception: HpPrinterError,
     endpoint: str,
@@ -122,7 +122,7 @@ async def test_user_flow_cannot_connect(
 
 
 async def test_user_flow_missing_serial_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_device: HpPrinterDevice,
 ) -> None:
@@ -142,7 +142,7 @@ async def test_user_flow_missing_serial_number(
 
 @pytest.mark.usefixtures("mock_hp_printer")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test the flow aborts when the printer is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -160,7 +160,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_ssl_and_port(
-    hass: UniversalAssistant, mock_hp_printer: AsyncMock
+    hass: __HAC_KEEP__, mock_hp_printer: AsyncMock
 ) -> None:
     """Test the flow stores the advanced connection settings."""
     result = await hass.config_entries.flow.async_init(
@@ -180,7 +180,7 @@ async def test_user_flow_ssl_and_port(
 
 
 @pytest.mark.usefixtures("mock_hp_printer")
-async def test_zeroconf_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_zeroconf_flow(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test a printer discovered via zeroconf is added after confirmation."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_ZEROCONF}, data=ZEROCONF_DISCOVERY
@@ -199,7 +199,7 @@ async def test_zeroconf_flow(hass: UniversalAssistant, mock_setup_entry: AsyncMo
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_zeroconf_flow_title_falls_back_to_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_device: HpPrinterDevice,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_zeroconf_flow_title_falls_back_to_host(
     ],
 )
 async def test_zeroconf_flow_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_device: HpPrinterDevice,
     device_changes: dict[str, str | None],
@@ -248,7 +248,7 @@ async def test_zeroconf_flow_abort(
 
 
 async def test_zeroconf_flow_updates_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -265,7 +265,7 @@ async def test_zeroconf_flow_updates_host(
 
 
 async def test_zeroconf_flow_known_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -300,7 +300,7 @@ async def test_zeroconf_flow_known_host(
 )
 @pytest.mark.usefixtures("mock_hp_printer", "mock_setup_entry")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     advanced_settings: dict[str, bool | int],
     expected_data: dict[str, str | bool | int],
@@ -324,7 +324,7 @@ async def test_reconfigure_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -361,7 +361,7 @@ async def test_reconfigure_flow_cannot_connect(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_other_printer(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hp_printer: AsyncMock,
     mock_device: HpPrinterDevice,
     mock_config_entry: MockConfigEntry,

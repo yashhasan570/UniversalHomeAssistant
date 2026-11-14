@@ -4,13 +4,13 @@ from universalassistant.components import notify
 from universalassistant.components.knx.const import KNX_ADDRESS
 from universalassistant.components.knx.schema import NotifySchema
 from universalassistant.const import CONF_NAME, CONF_TYPE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import KnxEntityGenerator
 from .conftest import KNXTestKit
 
 
-async def test_notify_simple(hass: UniversalAssistant, knx: KNXTestKit) -> None:
+async def test_notify_simple(hass: __HAC_KEEP__, knx: KNXTestKit) -> None:
     """Test KNX notify can send to one device."""
     await knx.setup_integration(
         {
@@ -50,7 +50,7 @@ async def test_notify_simple(hass: UniversalAssistant, knx: KNXTestKit) -> None:
 
 
 async def test_notify_multiple_sends_with_different_encodings(
-    hass: UniversalAssistant, knx: KNXTestKit
+    hass: __HAC_KEEP__, knx: KNXTestKit
 ) -> None:
     """Test KNX notify `type` configuration."""
     await knx.setup_integration(
@@ -100,7 +100,7 @@ async def test_notify_multiple_sends_with_different_encodings(
 
 
 async def test_notify_ui_create(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     create_ui_entity: KnxEntityGenerator,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_notify_ui_create(
     await hass.services.async_call(
         notify.DOMAIN,
         notify.SERVICE_SEND_MESSAGE,
-        {"entity_id": "notify.test", notify.ATTR_MESSAGE: "Universal Universal Home Assistant"},
+        {"entity_id": "notify.test", notify.ATTR_MESSAGE: "__HA_KEEP__"},
         blocking=True,
     )
     await knx.assert_write(
@@ -124,7 +124,7 @@ async def test_notify_ui_create(
 
 
 async def test_notify_ui_load(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
 ) -> None:
     """Test loading a notify entity from storage."""
@@ -135,7 +135,7 @@ async def test_notify_ui_load(
     await hass.services.async_call(
         notify.DOMAIN,
         notify.SERVICE_SEND_MESSAGE,
-        {"entity_id": "notify.test", notify.ATTR_MESSAGE: "Universal Universal Home Assistant"},
+        {"entity_id": "notify.test", notify.ATTR_MESSAGE: "__HA_KEEP__"},
         blocking=True,
     )
     await knx.assert_write(

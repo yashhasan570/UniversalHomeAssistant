@@ -13,7 +13,7 @@ from solyx_energy_api.exceptions import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -39,7 +39,7 @@ type SolyxEnergyConfigEntry = ConfigEntry[SolyxEnergyCoordinator]
 
 @dataclass(frozen=True)
 class SolyxEnergyData:
-    """Hold a snapshot of the values of a single Nymo device exposed to Universal Universal Home Assistant."""
+    """Hold a snapshot of the values of a single Nymo device exposed to __HA_KEEP__."""
 
     boiler_current: float | None
     boiler_power: float | None
@@ -57,7 +57,7 @@ class SolyxEnergyCoordinator(DataUpdateCoordinator[dict[str, SolyxEnergyData]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         api_client: SolyxEnergyApiClient,
         config_entry: SolyxEnergyConfigEntry,
     ) -> None:

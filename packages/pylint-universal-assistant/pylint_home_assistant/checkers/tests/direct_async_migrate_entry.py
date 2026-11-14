@@ -1,7 +1,7 @@
 """Checker for direct calls to ``async_migrate_entry`` from tests.
 
 Tests should not invoke an integration's ``async_migrate_entry``
-directly. Instead, tests should let Universal Universal Home Assistant trigger the
+directly. Instead, tests should let __HA_KEEP__ trigger the
 migration as part of the normal setup pipeline via
 ``await hass.config_entries.async_setup(entry.entry_id)`` so that the
 real migration flow (version updates, reloads, etc.) is exercised.
@@ -70,7 +70,7 @@ class DirectAsyncMigrateEntry(BaseChecker):
             "`await hass.config_entries.async_setup(entry.entry_id)` instead",
             "universal-assistant-tests-direct-async-migrate-entry",
             "Used when a test module calls an integration's "
-            "`async_migrate_entry` directly. Tests should let Universal Universal Home Assistant "
+            "`async_migrate_entry` directly. Tests should let __HA_KEEP__ "
             "drive the setup so the migration flow is exercised through the "
             "normal pipeline.",
         ),

@@ -5,7 +5,7 @@ import logging
 from pyrympro import CannotConnectError, OperationError, RymPro, UnauthorizedError
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -15,7 +15,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: RymProConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: RymProConfigEntry) -> None:
     """Set up Read Your Meter Pro from a config entry."""
     data = entry.data
     rympro = RymPro(async_get_clientsession(hass))
@@ -44,6 +44,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: RymProConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: RymProConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: RymProConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

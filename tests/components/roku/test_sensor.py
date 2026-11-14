@@ -12,7 +12,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -23,7 +23,7 @@ from . import UPNP_SERIAL
 
 
 async def test_roku_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
@@ -68,7 +68,7 @@ async def test_roku_sensors(
 
 @pytest.mark.parametrize("mock_device", ["roku/rokutv-7820x.json"], indirect=True)
 async def test_rokutv_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

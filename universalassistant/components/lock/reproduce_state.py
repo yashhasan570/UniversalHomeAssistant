@@ -6,7 +6,7 @@ import logging
 from typing import Any
 
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import Context, UniversalAssistant, State
+from universalassistant.core import Context, __HAC_KEEP__, State
 
 from . import LockState
 from .const import DOMAIN, LockService
@@ -24,7 +24,7 @@ VALID_STATES = {
 
 
 async def _async_reproduce_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state: State,
     *,
     context: Context | None = None,
@@ -60,7 +60,7 @@ async def _async_reproduce_state(
 
 
 async def async_reproduce_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     states: Iterable[State],
     *,
     context: Context | None = None,

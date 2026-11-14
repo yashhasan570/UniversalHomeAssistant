@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 from weheat.abstractions.discovery import HeatPumpDiscovery
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -16,7 +16,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_weheat_discover: AsyncMock,
     mock_weheat_heat_pump: AsyncMock,
@@ -33,7 +33,7 @@ async def test_binary_entities(
 
 
 async def test_create_binary_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_weheat_discover: AsyncMock,
     mock_weheat_heat_pump: AsyncMock,
     mock_heat_pump_info: HeatPumpDiscovery.HeatPumpInfo,

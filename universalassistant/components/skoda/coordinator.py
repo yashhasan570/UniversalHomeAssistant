@@ -12,7 +12,7 @@ from skoda_public_api.api_layer.exceptions import (
 from skoda_public_api.api_layer.open_api_client import OpenAPIClient
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -41,7 +41,7 @@ class SkodaUpdateCoordinator(DataUpdateCoordinator[SkodaState]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: SkodaConfigEntry,
         client: OpenAPIClient,
         vin: str,

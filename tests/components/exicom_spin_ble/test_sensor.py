@@ -10,7 +10,7 @@ from spinev_ble import ChargerState
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -26,7 +26,7 @@ def platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_charger")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -38,7 +38,7 @@ async def test_sensors(
 
 
 async def test_out_of_service_is_a_state_not_unavailability(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_charger: AsyncMock
 ) -> None:
     """A charger that reports itself unavailable still answers, so its readings stay."""
     mock_charger.async_get_status.return_value = replace(

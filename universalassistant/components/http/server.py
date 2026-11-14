@@ -1,4 +1,4 @@
-"""HTTP server implementation for the Universal Universal Home Assistant HTTP integration."""
+"""HTTP server implementation for the __HA_KEEP__ HTTP integration."""
 
 import asyncio
 from collections.abc import Collection
@@ -28,12 +28,12 @@ from cryptography.x509.oid import NameOID
 from yarl import URL
 
 from universalassistant.const import SERVER_PORT
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.http import (
     KEY_ALLOW_CONFIGURED_CORS,
     KEY_HASS,
-    UniversalAssistantView,
+    __HAC_KEEP__View,
     current_request,
 )
 from universalassistant.helpers.network import NoURLAvailableError, get_url
@@ -62,7 +62,7 @@ from .headers import setup_headers
 from .request_context import setup_request_context
 from .security_filter import setup_security_filter
 from .static import CACHE_HEADERS, CachingStaticResource
-from .web_runner import UniversalAssistantUnixSite
+from .web_runner import __HAC_KEEP__UnixSite
 
 _LOGGER: Final = logging.getLogger(__name__)
 
@@ -102,12 +102,12 @@ def _comparable_config(conf: ConfData) -> ConfData:
 
 
 def make_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     conf: ConfData,
     supervisor_unix_socket_path: Path | None = None,
-) -> UniversalAssistantHTTP:
+) -> __HAC_KEEP__HTTP:
     """Create a server instance for the given config."""
-    return UniversalAssistantHTTP(
+    return __HAC_KEEP__HTTP(
         hass,
         server_host=conf.get(CONF_SERVER_HOST, DEFAULT_BIND),
         server_port=conf[CONF_SERVER_PORT],
@@ -145,14 +145,14 @@ def _resolve_hosts(hosts: list[str]) -> list[tuple[str, int, tuple[Any, ...]]]:
                 flags=socket.AI_PASSIVE,
             )
         except (OSError, UnicodeError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Cannot resolve listen address {host!r}: {err}"
             ) from err
         resolved.extend((host, family, sockaddr) for family, _, _, _, sockaddr in infos)
     return resolved
 
 
-async def async_verify_hosts_distinct(hass: UniversalAssistant, hosts: list[str]) -> None:
+async def async_verify_hosts_distinct(hass: __HAC_KEEP__, hosts: list[str]) -> None:
     """Verify the configured hosts can all listen on the same port.
 
     Sockets of one address family conflict on a port when one of them is
@@ -162,7 +162,7 @@ async def async_verify_hosts_distinct(hass: UniversalAssistant, hosts: list[str]
     server starts serving. Checking the resolved addresses catches it up
     front and without touching the configured port.
 
-    Raises ``UniversalAssistantError`` naming the conflicting hosts, or if a host
+    Raises ``__HAC_KEEP__Error`` naming the conflicting hosts, or if a host
     cannot be resolved.
     """
     resolved = await hass.async_add_executor_job(_resolve_hosts, hosts)
@@ -179,14 +179,14 @@ async def async_verify_hosts_distinct(hass: UniversalAssistant, hosts: list[str]
             or any(seen_addr[0] in _WILDCARD_ADDRESSES for seen_addr in family_seen)
         ):
             conflicting = next(iter(family_seen.values()))
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Listen addresses {conflicting!r} and {host!r} overlap:"
                 " both cannot listen on the same port"
             )
         family_seen[sockaddr] = host
 
 
-async def async_verify_can_bind(hass: UniversalAssistant, conf: ConfData) -> None:
+async def async_verify_can_bind(hass: __HAC_KEEP__, conf: ConfData) -> None:
     """Verify a server for ``conf`` can be created and its address bound.
 
     Used to validate a new user-supplied config before it is stored and
@@ -194,7 +194,7 @@ async def async_verify_can_bind(hass: UniversalAssistant, conf: ConfData) -> Non
     the address can still be taken by another process before the restart, so
     the setup fallback chain remains the safety net.
 
-    Raises ``UniversalAssistantError`` if the SSL configuration is unusable or the
+    Raises ``__HAC_KEEP__Error`` if the SSL configuration is unusable or the
     configured address cannot be bound.
     """
     await async_verify_hosts_distinct(hass, conf.get(CONF_SERVER_HOST, DEFAULT_BIND))
@@ -202,15 +202,15 @@ async def async_verify_can_bind(hass: UniversalAssistant, conf: ConfData) -> Non
     try:
         await server.async_bind()
     except OSError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Failed to create HTTP server at port {conf[CONF_SERVER_PORT]}: {err}"
         ) from err
     finally:
         await server.stop()
 
 
-class UniversalAssistantRequest(web.Request):
-    """Universal Universal Home Assistant request object."""
+class __HAC_KEEP__Request(web.Request):
+    """__HA_KEEP__ request object."""
 
     @override
     async def json(self, *, loads: JSONDecoder = json_loads) -> Any:
@@ -220,8 +220,8 @@ class UniversalAssistantRequest(web.Request):
         return json_loads(await self.read())
 
 
-class UniversalAssistantApplication(web.Application):
-    """Universal Universal Home Assistant application."""
+class __HAC_KEEP__Application(web.Application):
+    """__HA_KEEP__ application."""
 
     @override
     def _make_request(
@@ -231,7 +231,7 @@ class UniversalAssistantApplication(web.Application):
         protocol: RequestHandler,
         writer: AbstractStreamWriter,
         task: asyncio.Task[None],
-        _cls: type[web.Request] = UniversalAssistantRequest,
+        _cls: type[web.Request] = __HAC_KEEP__Request,
     ) -> web.Request:
         """Create request instance."""
         return _cls(
@@ -256,12 +256,12 @@ async def _serve_file(path: str, request: web.Request) -> web.FileResponse:
     return web.FileResponse(path)
 
 
-class UniversalAssistantHTTP:
-    """HTTP server for Universal Universal Home Assistant."""
+class __HAC_KEEP__HTTP:
+    """HTTP server for __HA_KEEP__."""
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         ssl_certificate: str | None,
         ssl_peer_certificate: str | None,
         ssl_key: str | None,
@@ -272,8 +272,8 @@ class UniversalAssistantHTTP:
         supervisor_unix_socket_path: Path | None = None,
         port_transition: bool = False,
     ) -> None:
-        """Initialize the HTTP Universal Universal Home Assistant server."""
-        self.app = UniversalAssistantApplication(
+        """Initialize the HTTP __HA_KEEP__ server."""
+        self.app = __HAC_KEEP__Application(
             middlewares=[],
             client_max_size=MAX_CLIENT_SIZE,
             handler_args={
@@ -291,7 +291,7 @@ class UniversalAssistantHTTP:
         self.ssl_profile = ssl_profile
         self.supervisor_unix_socket_path = supervisor_unix_socket_path
         self.runner: web.AppRunner | None = None
-        self.supervisor_site: UniversalAssistantUnixSite | None = None
+        self.supervisor_site: __HAC_KEEP__UnixSite | None = None
         self.context: ssl.SSLContext | None = None
         self._server: asyncio.Server | None = None
         # Redirect the previous default port to the active one, bound to
@@ -306,7 +306,7 @@ class UniversalAssistantHTTP:
 
         Called during setup so that an unusable configuration surfaces before
         it is applied; serving starts later in ``start()``. Raises
-        ``UniversalAssistantError`` if the SSL configuration is unusable and
+        ``__HAC_KEEP__Error`` if the SSL configuration is unusable and
         ``OSError`` if the configured address cannot be bound.
         """
         if self.ssl_certificate:
@@ -372,10 +372,10 @@ class UniversalAssistantHTTP:
         setup_headers(self.app, use_x_frame_options)
         setup_cors(self.app, cors_origins)
 
-    def register_view(self, view: UniversalAssistantView | type[UniversalAssistantView]) -> None:
+    def register_view(self, view: __HAC_KEEP__View | type[__HAC_KEEP__View]) -> None:
         """Register a view with the WSGI server.
 
-        The view argument must be a class that inherits from UniversalAssistantView.
+        The view argument must be a class that inherits from __HAC_KEEP__View.
         It is optional to instantiate it before registering; this method will
         handle it either way.
         """
@@ -471,7 +471,7 @@ class UniversalAssistantHTTP:
             context.load_cert_chain(self.ssl_certificate, self.ssl_key)
         except OSError as error:
             if not self.hass.config.recovery_mode:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     f"Could not use SSL certificate from {self.ssl_certificate}:"
                     f" {error}"
                 ) from error
@@ -492,14 +492,14 @@ class UniversalAssistantHTTP:
                 # Fall through: a configured peer certificate must still be
                 # enforced on the emergency context.
                 _LOGGER.critical(
-                    "Universal Universal Home Assistant is running in recovery mode with an emergency self"
+                    "__HA_KEEP__ is running in recovery mode with an emergency self"
                     " signed ssl certificate because the configured SSL certificate was"
                     " not usable"
                 )
 
         if self.ssl_peer_certificate:
             if context is None:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     "Failed to create ssl context, no fallback available because a peer"
                     " certificate is required."
                 )
@@ -508,9 +508,9 @@ class UniversalAssistantHTTP:
             try:
                 context.load_verify_locations(self.ssl_peer_certificate)
             except OSError as error:
-                # Raise UniversalAssistantError so the caller can tell an unusable
+                # Raise __HAC_KEEP__Error so the caller can tell an unusable
                 # SSL configuration apart from a socket bind failure (OSError).
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     f"Could not use SSL peer certificate from"
                     f" {self.ssl_peer_certificate}: {error}"
                 ) from error
@@ -532,7 +532,7 @@ class UniversalAssistantHTTP:
         subject = issuer = x509.Name(
             [
                 x509.NameAttribute(
-                    NameOID.ORGANIZATION_NAME, "Universal Universal Home Assistant Emergency Certificate"
+                    NameOID.ORGANIZATION_NAME, "__HA_KEEP__ Emergency Certificate"
                 ),
                 x509.NameAttribute(NameOID.COMMON_NAME, host),
             ]
@@ -576,7 +576,7 @@ class UniversalAssistantHTTP:
         """
         if self.supervisor_unix_socket_path is None or self.runner is None:
             return
-        self.supervisor_site = UniversalAssistantUnixSite(
+        self.supervisor_site = __HAC_KEEP__UnixSite(
             self.runner, self.supervisor_unix_socket_path
         )
         try:
@@ -596,7 +596,7 @@ class UniversalAssistantHTTP:
     async def start(self) -> None:
         """Start the aiohttp server."""
         # Aiohttp freezes apps after start so that no changes can be made.
-        # However in Universal Universal Home Assistant components can be discovered after boot.
+        # However in __HA_KEEP__ components can be discovered after boot.
         # This will now raise a RunTimeError.
         # To work around this we now prevent the router from getting frozen
         self.app._router.freeze = lambda: None  # type: ignore[method-assign]  # noqa: SLF001
@@ -622,7 +622,7 @@ class UniversalAssistantHTTP:
             )
 
     async def _async_manage_port_transition(
-        self, hass: UniversalAssistant, _component: str
+        self, hass: __HAC_KEEP__, _component: str
     ) -> None:
         """Start the legacy-port redirect until onboarding completes."""
         from universalassistant.components import onboarding  # noqa: PLC0415
@@ -717,7 +717,7 @@ class UniversalAssistantHTTP:
             await self.runner.cleanup()
 
 
-class HassioHTTPConfigView(UniversalAssistantView):
+class HassioHTTPConfigView(__HAC_KEEP__View):
     """Expose the HTTP server configuration to Supervisor.
 
     Only reachable over the Supervisor Unix socket. It lets Supervisor pull its
@@ -734,7 +734,7 @@ class HassioHTTPConfigView(UniversalAssistantView):
         """Return the HTTP server configuration."""
         if not is_supervisor_unix_socket_request(request):
             raise web.HTTPNotFound
-        server: UniversalAssistantHTTP = request.app[KEY_HASS].http
+        server: __HAC_KEEP__HTTP = request.app[KEY_HASS].http
         return self.json(
             {
                 "port": server.server_port,

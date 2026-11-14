@@ -22,15 +22,15 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .helper import HomeFactory, get_and_check_entity_basics
 
 
 async def _async_manipulate_security_zones(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     home: AsyncHome,
     internal_active: bool = False,
     external_active: bool = False,
@@ -56,7 +56,7 @@ async def _async_manipulate_security_zones(
 
 
 async def test_hmip_alarm_control_panel(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test HomematicipAlarmControlPanel."""
     entity_id = "alarm_control_panel.hmip_alarm_control_panel"
@@ -120,7 +120,7 @@ async def test_hmip_alarm_control_panel(
 
 
 async def test_hmip_alarm_control_panel_activation_blocked(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that a refused activation names the blocking devices."""
     entity_id = "alarm_control_panel.hmip_alarm_control_panel"
@@ -138,7 +138,7 @@ async def test_hmip_alarm_control_panel_activation_blocked(
         },
     )
 
-    with pytest.raises(UniversalAssistantError, match="Fenster, Wohnzimmer"):
+    with pytest.raises(__HAC_KEEP__Error, match="Fenster, Wohnzimmer"):
         await hass.services.async_call(
             "alarm_control_panel",
             "alarm_arm_away",
@@ -150,7 +150,7 @@ async def test_hmip_alarm_control_panel_activation_blocked(
 
 
 async def test_hmip_alarm_control_panel_activation_failed(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test a refusal that does not name any device."""
     entity_id = "alarm_control_panel.hmip_alarm_control_panel"
@@ -160,7 +160,7 @@ async def test_hmip_alarm_control_panel_activation_failed(
     home = mock_hap.home
     home.set_security_zones_activation_async.return_value = Mock(success=False, json={})
 
-    with pytest.raises(UniversalAssistantError, match="did not accept"):
+    with pytest.raises(__HAC_KEEP__Error, match="did not accept"):
         await hass.services.async_call(
             "alarm_control_panel",
             "alarm_arm_home",
@@ -189,10 +189,10 @@ def _blocked(*channels: str) -> Mock:
     )
 
 
-async def _async_refuse_arming(hass: UniversalAssistant, home: Mock, blocked: Mock) -> None:
+async def _async_refuse_arming(hass: __HAC_KEEP__, home: Mock, blocked: Mock) -> None:
     """Run the refused arming attempt the user bases the decision on."""
     home.set_security_zones_activation_async.return_value = blocked
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "alarm_control_panel",
             "alarm_arm_away",
@@ -201,7 +201,7 @@ async def _async_refuse_arming(hass: UniversalAssistant, home: Mock, blocked: Mo
         )
 
 
-async def _async_arm_anyway(hass: UniversalAssistant, mode: str = "away") -> None:
+async def _async_arm_anyway(hass: __HAC_KEEP__, mode: str = "away") -> None:
     """Call the arm anyway action."""
     await hass.services.async_call(
         DOMAIN,
@@ -219,7 +219,7 @@ async def _async_arm_anyway(hass: UniversalAssistant, mode: str = "away") -> Non
     [("away", True), ("home", False)],
 )
 async def test_hmip_alarm_control_panel_arm_anyway(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     default_mock_hap_factory: HomeFactory,
     mode: str,
     expected_internal: bool,
@@ -251,7 +251,7 @@ async def test_hmip_alarm_control_panel_arm_anyway(
 
 
 async def test_hmip_alarm_control_panel_arm_anyway_waits_for_disarm(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that a disarm sent during arm anyway runs after it, not in between."""
     mock_hap = await default_mock_hap_factory.async_get_mock_hap(
@@ -303,7 +303,7 @@ async def test_hmip_alarm_control_panel_arm_anyway_waits_for_disarm(
 
 
 async def test_hmip_alarm_control_panel_arm_anyway_rechecks(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that a device blocking since the decision stops the arming."""
     mock_hap = await default_mock_hap_factory.async_get_mock_hap(
@@ -319,7 +319,7 @@ async def test_hmip_alarm_control_panel_arm_anyway_rechecks(
     home.set_security_zones_activation_async.return_value = _blocked(
         "3014F7110000000000000001", "3014F7110000000000000005"
     )
-    with pytest.raises(UniversalAssistantError, match="more sensors.*Fenster, Wohnzimmer"):
+    with pytest.raises(__HAC_KEEP__Error, match="more sensors.*Fenster, Wohnzimmer"):
         await _async_arm_anyway(hass)
 
     home.set_security_zones_activation_with_ignore_list_async.assert_not_awaited()
@@ -332,7 +332,7 @@ async def test_hmip_alarm_control_panel_arm_anyway_rechecks(
 
 
 async def test_hmip_alarm_control_panel_arm_anyway_rechecks_per_channel(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that a second channel of an approved device still stops the arming."""
     mock_hap = await default_mock_hap_factory.async_get_mock_hap(
@@ -345,14 +345,14 @@ async def test_hmip_alarm_control_panel_arm_anyway_rechecks_per_channel(
     home.set_security_zones_activation_async.return_value = _blocked(
         "3014F7110000000000000001:1", "3014F7110000000000000001:3"
     )
-    with pytest.raises(UniversalAssistantError, match="more sensors"):
+    with pytest.raises(__HAC_KEEP__Error, match="more sensors"):
         await _async_arm_anyway(hass)
 
     home.set_security_zones_activation_with_ignore_list_async.assert_not_awaited()
 
 
 async def test_hmip_alarm_control_panel_arm_anyway_without_refusal(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that arm anyway needs a refusal the user has seen first."""
     mock_hap = await default_mock_hap_factory.async_get_mock_hap(
@@ -363,14 +363,14 @@ async def test_hmip_alarm_control_panel_arm_anyway_without_refusal(
         "3014F7110000000000000001"
     )
 
-    with pytest.raises(UniversalAssistantError, match="more sensors"):
+    with pytest.raises(__HAC_KEEP__Error, match="more sensors"):
         await _async_arm_anyway(hass)
 
     home.set_security_zones_activation_with_ignore_list_async.assert_not_awaited()
 
 
 async def test_hmip_alarm_control_panel_arm_anyway_after_success(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that a command going through drops the devices of an older refusal."""
     mock_hap = await default_mock_hap_factory.async_get_mock_hap(
@@ -390,14 +390,14 @@ async def test_hmip_alarm_control_panel_arm_anyway_after_success(
     home.set_security_zones_activation_async.return_value = _blocked(
         "3014F7110000000000000001"
     )
-    with pytest.raises(UniversalAssistantError, match="more sensors"):
+    with pytest.raises(__HAC_KEEP__Error, match="more sensors"):
         await _async_arm_anyway(hass)
 
     home.set_security_zones_activation_with_ignore_list_async.assert_not_awaited()
 
 
 async def test_hmip_alarm_control_panel_arm_anyway_no_longer_blocked(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that a window closed since the decision leads to a normal arming."""
     mock_hap = await default_mock_hap_factory.async_get_mock_hap(
@@ -414,7 +414,7 @@ async def test_hmip_alarm_control_panel_arm_anyway_no_longer_blocked(
 
 
 async def test_hmip_alarm_control_panel_arm_anyway_failed(
-    hass: UniversalAssistant, default_mock_hap_factory: HomeFactory
+    hass: __HAC_KEEP__, default_mock_hap_factory: HomeFactory
 ) -> None:
     """Test that a refused arm anyway is reported."""
     mock_hap = await default_mock_hap_factory.async_get_mock_hap(
@@ -426,12 +426,12 @@ async def test_hmip_alarm_control_panel_arm_anyway_failed(
         success=False, json={}
     )
 
-    with pytest.raises(UniversalAssistantError, match="did not accept"):
+    with pytest.raises(__HAC_KEEP__Error, match="did not accept"):
         await _async_arm_anyway(hass)
 
 
 async def test_hmip_alarm_control_panel_removal_removes_home_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
 ) -> None:
@@ -465,7 +465,7 @@ async def test_hmip_alarm_control_panel_removal_removes_home_callback(
 
 
 async def test_hmip_alarm_control_panel_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     default_mock_hap_factory: HomeFactory,
 ) -> None:

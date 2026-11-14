@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from . import setup_integration
@@ -18,11 +18,11 @@ ENTITY_ID = "media_player.friendly_name"
 
 
 async def test_device_uses_shared_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_device_class: MagicMock,
 ) -> None:
-    """Test the device is given Universal Universal Home Assistant's shared aiohttp session."""
+    """Test the device is given __HA_KEEP__'s shared aiohttp session."""
     await setup_integration(hass, mock_config_entry)
 
     assert mock_config_entry.state is ConfigEntryState.LOADED
@@ -32,7 +32,7 @@ async def test_device_uses_shared_session(
 
 
 async def test_setup_retries_when_device_unreachable(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_device: MagicMock
 ) -> None:
     """Test setup is retried when the device cannot be reached."""
     mock_device.init.side_effect = OpenhomeConnectionError("device unreachable")
@@ -45,7 +45,7 @@ async def test_setup_retries_when_device_unreachable(
 @pytest.mark.parametrize("platforms", [[Platform.MEDIA_PLAYER]])
 @pytest.mark.usefixtures("mock_device")
 async def test_unload_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test unloading the config entry also unloads its platforms."""
     await setup_integration(hass, mock_config_entry)

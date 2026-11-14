@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.vitesy.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import EMAIL, USER_ID
@@ -18,7 +18,7 @@ USER_INPUT = {CONF_EMAIL: EMAIL, CONF_PASSWORD: "hunter2"}
 
 
 async def test_full_flow(
-    hass: UniversalAssistant, mock_vitesy_client: AsyncMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_vitesy_client: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the happy path creates an entry keyed on the account id."""
     result = await hass.config_entries.flow.async_init(
@@ -47,7 +47,7 @@ async def test_full_flow(
     ],
 )
 async def test_form_errors_then_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_setup_entry: AsyncMock,
     side_effect: type[Exception],
@@ -73,7 +73,7 @@ async def test_form_errors_then_recovers(
 
 
 async def test_form_invalid_user_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -97,7 +97,7 @@ async def test_form_invalid_user_id(
 
 
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -114,7 +114,7 @@ async def test_already_configured(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -143,7 +143,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_errors_then_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -169,7 +169,7 @@ async def test_reauth_errors_then_recovers(
 
 
 async def test_reauth_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -187,7 +187,7 @@ async def test_reauth_unique_id_mismatch(
 
 
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -220,7 +220,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_errors_then_recovers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -246,7 +246,7 @@ async def test_reconfigure_errors_then_recovers(
 
 
 async def test_reconfigure_account_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vitesy_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

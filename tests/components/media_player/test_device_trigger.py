@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_PLAYING,
     EntityCategory,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.entity_registry import RegistryEntryHider
 from universalassistant.setup import async_setup_component
@@ -31,7 +31,7 @@ from universalassistant.util import dt as dt_util
 
 
 async def test_get_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_get_triggers(
     ],
 )
 async def test_get_triggers_hidden_auxiliary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hidden_by,
@@ -130,7 +130,7 @@ async def test_get_triggers_hidden_auxiliary(
 
 
 async def test_get_trigger_capabilities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_get_trigger_capabilities(
 
 
 async def test_get_trigger_capabilities_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -203,7 +203,7 @@ async def test_get_trigger_capabilities_legacy(
 
 
 async def test_if_fires_on_state_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -315,7 +315,7 @@ async def test_if_fires_on_state_change(
 
 
 async def test_if_fires_on_state_change_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],
@@ -374,7 +374,7 @@ async def test_if_fires_on_state_change_legacy(
 
 
 async def test_if_fires_on_state_change_with_for(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     service_calls: list[ServiceCall],

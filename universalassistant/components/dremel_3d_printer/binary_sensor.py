@@ -11,7 +11,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import DremelConfigEntry
@@ -40,7 +40,7 @@ BINARY_SENSOR_TYPES: tuple[Dremel3DPrinterBinarySensorEntityDescription, ...] = 
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DremelConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

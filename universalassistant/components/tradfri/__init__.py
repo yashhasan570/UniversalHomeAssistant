@@ -8,7 +8,7 @@ from pytradfri.command import Command
 from pytradfri.device import Device
 
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import (
@@ -36,7 +36,7 @@ TIMEOUT_API = 30
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TradfriConfigEntry,
 ) -> None:
     """Create a gateway."""
@@ -119,7 +119,7 @@ async def async_setup_entry(
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TradfriConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TradfriConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     await entry.runtime_data.factory.shutdown()
@@ -127,7 +127,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: TradfriConfigEntry
 
 @callback
 def remove_stale_devices(
-    hass: UniversalAssistant, config_entry: TradfriConfigEntry, devices: list[Device]
+    hass: __HAC_KEEP__, config_entry: TradfriConfigEntry, devices: list[Device]
 ) -> None:
     """Remove stale devices from device registry."""
     device_registry = dr.async_get(hass)
@@ -167,7 +167,7 @@ def remove_stale_devices(
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: TradfriConfigEntry
+    hass: __HAC_KEEP__, config_entry: TradfriConfigEntry
 ) -> None:
     """Migrate old entry."""
     LOGGER.debug(
@@ -190,7 +190,7 @@ async def async_migrate_entry(
 
 
 def migrate_config_entry_and_identifiers(
-    hass: UniversalAssistant, config_entry: TradfriConfigEntry
+    hass: __HAC_KEEP__, config_entry: TradfriConfigEntry
 ) -> None:
     """Migrate old non-unique identifiers to new unique identifiers."""
 

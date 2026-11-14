@@ -18,7 +18,7 @@ from tplink_omada_client.exceptions import (
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import selector
 from universalassistant.helpers.aiohttp_client import (
     async_create_clientsession,
@@ -42,7 +42,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 
 
 async def create_omada_client(
-    hass: UniversalAssistant, data: Mapping[str, Any]
+    hass: __HAC_KEEP__, data: Mapping[str, Any]
 ) -> OmadaClient:
     """Create a TP-Link Omada client API for the given config entry."""
 
@@ -79,7 +79,7 @@ class HubInfo(NamedTuple):
     sites: list[OmadaSite]
 
 
-async def _validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> HubInfo:
+async def _validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> HubInfo:
     """Validate the user input allows us to connect."""
 
     client = await create_omada_client(hass, data)

@@ -28,8 +28,8 @@ from universalassistant.const import (
     PRECISION_TENTHS,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, ServiceResponse
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceResponse
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -107,7 +107,7 @@ def _build_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ViCareConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -235,13 +235,13 @@ class ViCareWater(ViCareEntity, WaterHeaterEntity):
         try:
             self._api.setDomesticHotWaterCirculationSchedule(new_schedule)
         except PyViCareCommandError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="circulation_schedule_not_set",
                 translation_placeholders={"error": err.message},
             ) from err
         except VICARE_API_ERRORS as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_error",
             ) from err
@@ -260,7 +260,7 @@ class ViCareWater(ViCareEntity, WaterHeaterEntity):
                 translation_key="circulation_schedule_not_supported",
             ) from err
         except VICARE_API_ERRORS as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="api_error",
             ) from err

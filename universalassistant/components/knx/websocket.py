@@ -22,7 +22,7 @@ from universalassistant.components import panel_custom, websocket_api
 from universalassistant.components.frontend import async_panel_exists
 from universalassistant.components.http import StaticPathConfig
 from universalassistant.const import CONF_ENTITY_ID, CONF_PLATFORM, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.typing import Undefined
@@ -66,7 +66,7 @@ if TYPE_CHECKING:
 URL_BASE: Final = "/knx_static"
 
 
-async def register_panel(hass: UniversalAssistant) -> None:
+async def register_panel(hass: __HAC_KEEP__) -> None:
     """Register the KNX Panel and Websocket API."""
     websocket_api.async_register_command(hass, ws_get_base_data)
     websocket_api.async_register_command(hass, ws_project_file_process)
@@ -115,10 +115,10 @@ async def register_panel(hass: UniversalAssistant) -> None:
 
 
 type KnxWebSocketCommandHandler = Callable[
-    [UniversalAssistant, KNXModule, websocket_api.ActiveConnection, dict[str, Any]], None
+    [__HAC_KEEP__, KNXModule, websocket_api.ActiveConnection, dict[str, Any]], None
 ]
 type KnxAsyncWebSocketCommandHandler = Callable[
-    [UniversalAssistant, KNXModule, websocket_api.ActiveConnection, dict[str, Any]],
+    [__HAC_KEEP__, KNXModule, websocket_api.ActiveConnection, dict[str, Any]],
     Awaitable[None],
 ]
 
@@ -154,7 +154,7 @@ def provide_knx(
 
         @wraps(func)
         async def with_knx(
-            hass: UniversalAssistant,
+            hass: __HAC_KEEP__,
             connection: websocket_api.ActiveConnection,
             msg: dict[str, Any],
         ) -> None:
@@ -170,7 +170,7 @@ def provide_knx(
 
         @wraps(func)
         def with_knx(
-            hass: UniversalAssistant,
+            hass: __HAC_KEEP__,
             connection: websocket_api.ActiveConnection,
             msg: dict[str, Any],
         ) -> None:
@@ -194,7 +194,7 @@ def provide_knx(
 @provide_knx
 @callback
 def ws_get_base_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -247,7 +247,7 @@ def ws_get_base_data(
 @websocket_api.async_response
 @provide_knx
 async def ws_get_knx_project(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -272,7 +272,7 @@ async def ws_get_knx_project(
 @websocket_api.async_response
 @provide_knx
 async def ws_get_entity_suggestions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -301,7 +301,7 @@ async def ws_get_entity_suggestions(
 @websocket_api.async_response
 @provide_knx
 async def ws_project_file_process(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -332,7 +332,7 @@ async def ws_project_file_process(
 @websocket_api.async_response
 @provide_knx
 async def ws_project_file_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -351,7 +351,7 @@ async def ws_project_file_remove(
 @websocket_api.async_response
 @provide_knx
 async def ws_group_monitor_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -410,7 +410,7 @@ async def ws_group_monitor_info(
 @provide_knx
 @callback
 def ws_group_telegrams(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -451,7 +451,7 @@ def ws_group_telegrams(
 @websocket_api.async_response
 @provide_knx
 async def ws_query_telegrams(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -519,7 +519,7 @@ async def ws_query_telegrams(
 )
 @callback
 def ws_subscribe_telegram(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict,
 ) -> None:
@@ -562,7 +562,7 @@ def ws_subscribe_telegram(
 )
 @callback
 def ws_validate_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict,
 ) -> None:
@@ -586,7 +586,7 @@ def ws_validate_entity(
 )
 @websocket_api.async_response
 async def ws_get_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict,
 ) -> None:
@@ -609,7 +609,7 @@ async def ws_get_schema(
 @websocket_api.async_response
 @provide_knx
 async def ws_create_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -646,7 +646,7 @@ async def ws_create_entity(
 @websocket_api.async_response
 @provide_knx
 async def ws_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -683,7 +683,7 @@ async def ws_update_entity(
 @websocket_api.async_response
 @provide_knx
 async def ws_delete_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -708,7 +708,7 @@ async def ws_delete_entity(
 @provide_knx
 @callback
 def ws_get_entities_by_group(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -727,7 +727,7 @@ def ws_get_entities_by_group(
 @provide_knx
 @callback
 def ws_get_entity_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -754,7 +754,7 @@ def ws_get_entity_config(
 @provide_knx
 @callback
 def ws_create_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -790,7 +790,7 @@ def ws_create_device(
 @provide_knx
 @callback
 def ws_get_expose_groups(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -809,7 +809,7 @@ def ws_get_expose_groups(
 @provide_knx
 @callback
 def ws_get_expose_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -831,7 +831,7 @@ def ws_get_expose_config(
 @websocket_api.async_response
 @provide_knx
 async def ws_update_expose(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -866,7 +866,7 @@ async def ws_update_expose(
 @websocket_api.async_response
 @provide_knx
 async def ws_delete_expose(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -892,7 +892,7 @@ async def ws_delete_expose(
 )
 @callback
 def ws_validate_expose(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict,
 ) -> None:
@@ -921,7 +921,7 @@ def ws_validate_expose(
 @provide_knx
 @callback
 def ws_get_time_server_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,
@@ -941,7 +941,7 @@ def ws_get_time_server_config(
 @websocket_api.async_response
 @provide_knx
 async def ws_update_time_server_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXModule,
     connection: websocket_api.ActiveConnection,
     msg: dict,

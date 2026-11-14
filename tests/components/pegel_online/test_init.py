@@ -13,7 +13,7 @@ from universalassistant.components.pegel_online.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import utcnow
 
 from . import PegelOnlineMock
@@ -25,7 +25,7 @@ from .const import (
 
 
 async def test_setup_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Tests error during config entry setup."""
     entry = MockConfigEntry(
@@ -46,7 +46,7 @@ async def test_setup_error(
 
 
 async def test_update_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Tests error during update entity."""
     entry = MockConfigEntry(

@@ -3,7 +3,7 @@
 from datetime import timedelta
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 
 from .const import DOMAIN
@@ -18,7 +18,7 @@ MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=60)
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR, Platform.SWITCH]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FireServiceConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FireServiceConfigEntry) -> None:
     """Set up FireServiceRota from a config entry."""
 
     client = FireServiceRotaClient(hass, entry)
@@ -41,7 +41,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FireServiceConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: FireServiceConfigEntry
+    hass: __HAC_KEEP__, entry: FireServiceConfigEntry
 ) -> None:
     """Unload FireServiceRota config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

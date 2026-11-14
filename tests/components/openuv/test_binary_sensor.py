@@ -17,13 +17,13 @@ from universalassistant.components.universalassistant import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_pyopenuv: None,
     snapshot: SnapshotAssertion,
@@ -38,7 +38,7 @@ async def test_binary_sensors(
 
 
 async def test_protection_window_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_time_zone,
     config,
     client,
@@ -69,7 +69,7 @@ async def test_protection_window_update(
     [{"result": {"from_time": None, "from_uv": 0, "to_time": None, "to_uv": 0}}],
 )
 async def test_protection_window_null_value_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_time_zone,
     config,
     client,
@@ -99,7 +99,7 @@ async def test_protection_window_null_value_response(
     [{"result": {"error": "missing expected keys"}}],
 )
 async def test_protection_window_invalid_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_time_zone,
     config,
     client,
@@ -114,7 +114,7 @@ async def test_protection_window_invalid_response(
 
 
 async def test_protection_window_recalculation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config,
     config_entry,
     snapshot: SnapshotAssertion,

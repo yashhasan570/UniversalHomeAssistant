@@ -12,14 +12,14 @@ import yarl
 
 from universalassistant.components.indi_allsky.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 
 from . import setup_integration
 
 
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -40,7 +40,7 @@ async def test_setup_and_unload_entry(
     ["fetch_image", "connect"],
 )
 async def test_setup_failure_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     method_name: str,
@@ -56,7 +56,7 @@ async def test_setup_failure_retry(
 
 
 async def test_setup_failure_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_setup_failure_auth(
 
 
 async def test_setup_with_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
     """Test that configured credentials are forwarded to IndiAllSkyClient."""
@@ -99,7 +99,7 @@ async def test_setup_with_credentials(
 
 
 async def test_entry_session_accepts_ip_cookies(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -122,7 +122,7 @@ async def test_entry_session_accepts_ip_cookies(
 
 
 async def test_background_sensor_fetch_auth_failure_triggers_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -146,7 +146,7 @@ async def test_background_sensor_fetch_auth_failure_triggers_reauth(
 
 
 async def test_background_sensor_fetch_generic_error_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

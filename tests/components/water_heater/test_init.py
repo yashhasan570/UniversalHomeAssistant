@@ -38,7 +38,7 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -50,7 +50,7 @@ from universalassistant.util.unit_system import (
 
 
 async def test_set_temp_schema_no_req(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the set temperature schema with missing required data."""
     domain = "climate"
@@ -67,7 +67,7 @@ async def test_set_temp_schema_no_req(
 
 
 async def test_set_temp_schema(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the set temperature schema with ok required data."""
     domain = "water_heater"
@@ -98,7 +98,7 @@ class MockWaterHeaterEntity(WaterHeaterEntity):
     set_operation_mode: MagicMock = MagicMock()
 
 
-async def test_sync_turn_on(hass: UniversalAssistant) -> None:
+async def test_sync_turn_on(hass: __HAC_KEEP__) -> None:
     """Test if async turn_on calls sync turn_on."""
     water_heater = MockWaterHeaterEntity()
     water_heater.hass = hass
@@ -116,7 +116,7 @@ async def test_sync_turn_on(hass: UniversalAssistant) -> None:
     assert water_heater.async_turn_on.call_count == 1
 
 
-async def test_sync_turn_off(hass: UniversalAssistant) -> None:
+async def test_sync_turn_off(hass: __HAC_KEEP__) -> None:
     """Test if async turn_off calls sync turn_off."""
     water_heater = MockWaterHeaterEntity()
     water_heater.hass = hass
@@ -135,7 +135,7 @@ async def test_sync_turn_off(hass: UniversalAssistant) -> None:
 
 
 async def test_operation_mode_validation(
-    hass: UniversalAssistant, config_flow_fixture: None
+    hass: __HAC_KEEP__, config_flow_fixture: None
 ) -> None:
     """Test operation mode validation."""
     water_heater_entity = MockWaterHeaterEntity()
@@ -149,7 +149,7 @@ async def test_operation_mode_validation(
     water_heater_entity._attr_operation_list = None
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -157,7 +157,7 @@ async def test_operation_mode_validation(
         )
 
     async def async_setup_entry_water_heater_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -318,11 +318,11 @@ def _replacement(name: str) -> str:
 
 DECLARED_WARNING = (
     f"{__name__}::{{cls}} provides the deprecated {{name}}, this will stop working "
-    "in Universal Universal Home Assistant 2027.11, use {replacement} instead"
+    "in __HA_KEEP__ 2027.11, use {replacement} instead"
 )
 USED_WARNING = (
     "Detected code that {action} the deprecated {cls}.{name}, use {replacement} "
-    "instead. This will stop working in Universal Universal Home Assistant 2027.11"
+    "instead. This will stop working in __HA_KEEP__ 2027.11"
 )
 
 
@@ -460,7 +460,7 @@ DEPRECATED_SHAPES = [
     ],
 )
 async def test_native_temperature_unit_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     register_test_integration: MockConfigEntry,
     unit_system: UnitSystem,
     native_unit: UnitOfTemperature,
@@ -497,7 +497,7 @@ async def test_native_temperature_unit_conversion(
     )
 
 
-async def test_native_temperature_unit_property(hass: UniversalAssistant) -> None:
+async def test_native_temperature_unit_property(hass: __HAC_KEEP__) -> None:
     """Test an entity may provide the native unit through a property."""
 
     class NativePropertyWaterHeaterEntity(MockWaterHeaterEntity):
@@ -533,7 +533,7 @@ async def test_native_temperature_unit_property(hass: UniversalAssistant) -> Non
     ],
 )
 async def test_native_attribute_invalidates_cache(
-    hass: UniversalAssistant, member: str, value: Any
+    hass: __HAC_KEEP__, member: str, value: Any
 ) -> None:
     """Test writing a native _attr_ invalidates its cached property."""
     entity = MockShimWaterHeaterEntity()
@@ -595,7 +595,7 @@ async def test_native_attribute_invalidates_cache(
     ],
 )
 async def test_default_min_max_temp_use_native_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unit_system: UnitSystem,
     native_unit: UnitOfTemperature,
     expected_min_temp: float,
@@ -657,7 +657,7 @@ async def test_default_min_max_temp_use_native_unit(
     ],
 )
 async def test_set_temperature_service_converts_to_native_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unit_system: UnitSystem,
     native_unit: UnitOfTemperature,
     service_temperature: float,
@@ -694,7 +694,7 @@ async def test_set_temperature_service_converts_to_native_unit(
     DEPRECATED_SHAPES,
 )
 async def test_deprecated_temperature_member(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     entity_factory: Callable[[str, Any], type[MockShimWaterHeaterEntity]],
     warning_template: str,
@@ -727,7 +727,7 @@ async def test_deprecated_temperature_member(
 
 
 async def test_deprecated_temperature_unit_drives_conversion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the deprecated temperature_unit is used to convert for display."""
     entity = _legacy_property("temperature_unit", UnitOfTemperature.FAHRENHEIT)()
@@ -746,7 +746,7 @@ async def test_deprecated_temperature_unit_drives_conversion(
     ("member", "first_value", "second_value"), DEPRECATED_MEMBER_WRITES
 )
 async def test_deprecated_temperature_member_setter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     member: str,
     first_value: Any,
@@ -782,7 +782,7 @@ async def test_deprecated_temperature_member_setter(
     [pytest.param({}, id="plain"), pytest.param({"_attr_{member}": None}, id="attr")],
 )
 async def test_deprecated_temperature_member_public_write_raises(
-    hass: UniversalAssistant, declarations: dict[str, Any], member: str, native_value: Any
+    hass: __HAC_KEEP__, declarations: dict[str, Any], member: str, native_value: Any
 ) -> None:
     """Test a deprecated public member cannot be written.
 
@@ -805,7 +805,7 @@ async def test_deprecated_temperature_member_public_write_raises(
 
 @pytest.mark.parametrize(("member", "native_value"), DEPRECATED_MEMBER_VALUES)
 async def test_deprecated_temperature_member_setter_reported_once_per_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     member: str,
     native_value: Any,
@@ -866,7 +866,7 @@ async def test_deprecated_temperature_member_setter_reported_once_per_class(
 @pytest.mark.parametrize(("member", "native_value"), DEPRECATED_MEMBER_VALUES)
 @pytest.mark.parametrize("prefix", ["", "_attr_"], ids=["property", "attribute"])
 async def test_deprecated_temperature_member_read(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     prefix: str,
     member: str,
@@ -910,7 +910,7 @@ async def test_deprecated_temperature_member_read(
 
 @pytest.mark.parametrize(("member", "native_value"), DEPRECATED_MEMBER_VALUES)
 async def test_deprecated_temperature_member_write_not_reported_as_read(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     member: str,
     native_value: Any,
@@ -949,7 +949,7 @@ async def test_deprecated_temperature_member_write_not_reported_as_read(
     ],
 )
 async def test_deprecated_temperature_member_declaration_not_reported_as_read(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     entity_factory: Callable[[str, Any], type[MockShimWaterHeaterEntity]],
     name_template: str,
@@ -993,7 +993,7 @@ def _migrated_entity(class_name: str) -> MockShimWaterHeaterEntity:
 @pytest.mark.parametrize("integration_frame_path", ["custom_components/my_integration"])
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_deprecated_temperature_member_read_reports_the_reader(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a read is reported once per call site, against the code reading."""
     first = _migrated_entity("MigratedWaterHeaterEntity")
@@ -1039,7 +1039,7 @@ async def test_deprecated_temperature_member_core_declaration_raises(
 @pytest.mark.parametrize("integration_frame_path", ["universalassistant/components/hue"])
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_deprecated_temperature_member_core_read_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a core integration reading a deprecated member raises."""
     entity = _migrated_entity("MigratedWaterHeaterEntity")
@@ -1085,7 +1085,7 @@ async def test_deprecated_temperature_member_read_without_frame_helper(
     ("member", "first_value", "second_value"), DEPRECATED_MEMBER_WRITES
 )
 async def test_deprecated_temperature_member_does_not_win_over_native(
-    hass: UniversalAssistant, member: str, first_value: Any, second_value: Any
+    hass: __HAC_KEEP__, member: str, first_value: Any, second_value: Any
 ) -> None:
     """Test a subclass providing both members keeps the native one."""
     entity = type(
@@ -1107,7 +1107,7 @@ async def test_deprecated_temperature_member_does_not_win_over_native(
     DEPRECATED_MEMBERS,
 )
 async def test_deprecated_temperature_member_reads_native_override(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     member: str,
     native_value: Any,
@@ -1144,7 +1144,7 @@ async def test_deprecated_temperature_member_reads_native_override(
 
 
 async def test_deprecated_temperature_member_not_reported(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test no deprecation is reported for an entity using the native members."""
 
@@ -1174,7 +1174,7 @@ async def test_deprecated_temperature_member_not_reported(
     DEPRECATED_MEMBERS,
 )
 async def test_deprecated_temperature_member_on_mixin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     member: str,
     native_value: Any,
@@ -1212,7 +1212,7 @@ async def test_deprecated_temperature_member_on_mixin(
     ids=["deprecated-parent", "migrated-parent"],
 )
 async def test_deprecated_temperature_member_super_delegation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     parent_member_template: str,
     member: str,
     native_value: Any,
@@ -1294,7 +1294,7 @@ CUSTOM_OVER_MIGRATED_SHAPES = [
 )
 @pytest.mark.parametrize("entity_factory", CUSTOM_OVER_MIGRATED_SHAPES)
 async def test_deprecated_temperature_member_wins_over_migrated_parent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_factory: Callable[[type, str, Any, Any], type[MockShimWaterHeaterEntity]],
     member: str,
     native_value: Any,
@@ -1334,7 +1334,7 @@ async def test_deprecated_temperature_member_wins_over_migrated_parent(
     ],
 )
 async def test_deprecated_temperature_member_override_not_cached(
-    hass: UniversalAssistant, member: str
+    hass: __HAC_KEEP__, member: str
 ) -> None:
     """Test a deprecated override is read again on every native property read."""
 
@@ -1359,7 +1359,7 @@ async def test_deprecated_temperature_member_override_not_cached(
 )
 @pytest.mark.parametrize("depth", [1, 2], ids=["child", "grandchild"])
 async def test_migrated_child_wins_over_deprecated_parent_attribute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     depth: int,
     member: str,
     native_value: Any,
@@ -1396,7 +1396,7 @@ async def test_migrated_child_wins_over_deprecated_parent_attribute(
 @pytest.mark.parametrize("member", [p.values[0] for p in DEPRECATED_MEMBER_VALUES])
 @pytest.mark.parametrize("depth", [1, 2], ids=["child", "grandchild"])
 async def test_migrated_grandparent_property_wins_over_descendant_attributes(
-    hass: UniversalAssistant, depth: int, member: str
+    hass: __HAC_KEEP__, depth: int, member: str
 ) -> None:
     """Test a native property authored above deprecated and native _attr_ wins.
 
@@ -1431,7 +1431,7 @@ async def test_migrated_grandparent_property_wins_over_descendant_attributes(
 
 
 async def test_temperature_unit_when_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     register_test_integration: MockConfigEntry,
 ) -> None:

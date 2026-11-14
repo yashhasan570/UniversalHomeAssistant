@@ -10,7 +10,7 @@ from universalassistant.components.media_player import (
     SearchMedia,
     SearchMediaQuery,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.translation import async_get_cached_translations
 
 from .const import (
@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
-async def _async_get_media_sources(hass: UniversalAssistant) -> dict[str, MediaSource]:
+async def _async_get_media_sources(hass: __HAC_KEEP__) -> dict[str, MediaSource]:
     """Return all media sources, loading integration platforms on demand."""
     sources: dict[str, MediaSource] = {DOMAIN: hass.data[DATA_LOCAL_SOURCE]}
     sources.update(await hass.data[DATA_MEDIA_SOURCE_PLATFORMS].async_get_platforms())
@@ -33,7 +33,7 @@ async def _async_get_media_sources(hass: UniversalAssistant) -> dict[str, MediaS
 
 
 async def _async_get_media_source(
-    hass: UniversalAssistant, domain: str
+    hass: __HAC_KEEP__, domain: str
 ) -> MediaSource | None:
     """Return the media source for a domain, loading it on demand."""
     if domain == DOMAIN:
@@ -88,7 +88,7 @@ class RootBrowseMediaSource(BrowseMedia):
 class MediaSourceItem:
     """A parsed media item."""
 
-    hass: UniversalAssistant
+    hass: __HAC_KEEP__
     domain: str | None
     identifier: str
     target_media_player: str | None
@@ -171,7 +171,7 @@ class MediaSourceItem:
 
     @classmethod
     def from_uri(
-        cls, hass: UniversalAssistant, uri: str, target_media_player: str | None
+        cls, hass: __HAC_KEEP__, uri: str, target_media_player: str | None
     ) -> MediaSourceItem:
         """Create an item from a uri."""
         if not (match := URI_SCHEME_REGEX.match(uri)):

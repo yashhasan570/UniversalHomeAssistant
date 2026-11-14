@@ -40,8 +40,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 TEST_HC_APP = ApplianceType.HOOD
@@ -55,7 +55,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.parametrize("appliance", [ApplianceType.HOOD], indirect=True)
 async def test_paired_depaired_devices_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -122,7 +122,7 @@ async def test_paired_depaired_devices_flow(
     indirect=["appliance"],
 )
 async def test_connected_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     client: MagicMock,
@@ -182,7 +182,7 @@ async def test_connected_devices(
 
 @pytest.mark.parametrize("appliance", [ApplianceType.HOOD], indirect=True)
 async def test_light_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -350,7 +350,7 @@ async def test_light_availability(
     indirect=["appliance"],
 )
 async def test_light_functionality(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -406,7 +406,7 @@ async def test_light_functionality(
     indirect=["appliance"],
 )
 async def test_light_color_different_than_custom(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -573,7 +573,7 @@ async def test_light_color_different_than_custom(
     ],
 )
 async def test_light_exception_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client_with_exception: MagicMock,
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
@@ -607,7 +607,7 @@ async def test_light_exception_handling(
         await client_with_exception.set_setting()
 
     service_data[ATTR_ENTITY_ID] = entity_id
-    with pytest.raises(UniversalAssistantError, match=exception_match):
+    with pytest.raises(__HAC_KEEP__Error, match=exception_match):
         await hass.services.async_call(
             LIGHT_DOMAIN, service, service_data, blocking=True
         )

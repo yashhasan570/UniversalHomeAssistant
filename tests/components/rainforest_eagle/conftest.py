@@ -15,14 +15,14 @@ from universalassistant.components.rainforest_eagle.const import (
     TYPE_EAGLE_200,
 )
 from universalassistant.const import CONF_HOST, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import MOCK_200_RESPONSE_WITHOUT_PRICE, MOCK_CLOUD_ID
 
 
 @pytest.fixture
-def config_entry_200(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry_200(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -40,7 +40,7 @@ def config_entry_200(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture
 async def setup_rainforest_200(
-    hass: UniversalAssistant, config_entry_200: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_200: MockConfigEntry
 ) -> AsyncGenerator[Mock]:
     """Set up rainforest."""
     with patch(
@@ -56,7 +56,7 @@ async def setup_rainforest_200(
 
 
 @pytest.fixture
-async def setup_rainforest_100(hass: UniversalAssistant) -> AsyncGenerator[MagicMock]:
+async def setup_rainforest_100(hass: __HAC_KEEP__) -> AsyncGenerator[MagicMock]:
     """Set up rainforest."""
     MockConfigEntry(
         domain=DOMAIN,

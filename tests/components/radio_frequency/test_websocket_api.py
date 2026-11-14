@@ -11,12 +11,12 @@ from pytest_universalassistant.components.radio_frequency.common import (
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.radio_frequency import DATA_COMPONENT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("mock_rf_entity", "mock_rf_receiver_entity")
 async def test_list_entities(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test listing radio frequency transmitters and receivers."""
     client = await hass_ws_client(hass)
@@ -48,7 +48,7 @@ async def test_list_entities(
 
 @pytest.mark.usefixtures("init_radio_frequency")
 async def test_list_entities_empty(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test listing entities when none are registered."""
     client = await hass_ws_client(hass)
@@ -61,7 +61,7 @@ async def test_list_entities_empty(
 
 @pytest.mark.usefixtures("init_radio_frequency")
 async def test_list_multiple_transmitters_with_ranges(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """Test listing transmitters reports each one's supported frequency ranges."""
     component = hass.data[DATA_COMPONENT]
@@ -97,7 +97,7 @@ async def test_list_multiple_transmitters_with_ranges(
 
 @pytest.mark.usefixtures("mock_rf_entity")
 async def test_list_entities_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     hass_read_only_access_token: str,
 ) -> None:

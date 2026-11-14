@@ -24,7 +24,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     EntityStateAttribute,
 )
-from universalassistant.core import UniversalAssistant, State, callback
+from universalassistant.core import __HAC_KEEP__, State, callback
 from universalassistant.helpers import config_validation as cv, entity_registry as er
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -55,7 +55,7 @@ PLATFORM_SCHEMA = VALVE_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -71,7 +71,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -88,7 +88,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_valve(
-    hass: UniversalAssistant, name: str, validated_config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, validated_config: dict[str, Any]
 ) -> ValveGroup:
     """Create a preview valve."""
     return ValveGroup(

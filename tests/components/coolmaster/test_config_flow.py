@@ -11,7 +11,7 @@ from universalassistant.components.climate import HVACMode
 from universalassistant.components.coolmaster.config_flow import AVAILABLE_MODES
 from universalassistant.components.coolmaster.const import DOMAIN
 from universalassistant.config_entries import ConfigFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
@@ -39,7 +39,7 @@ def _suggested_values(result: ConfigFlowResult) -> dict[str, Any]:
 
 
 @pytest.mark.parametrize("send_wakeup_prompt", [True, False])
-async def test_form(hass: UniversalAssistant, send_wakeup_prompt: bool) -> None:
+async def test_form(hass: __HAC_KEEP__, send_wakeup_prompt: bool) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -83,7 +83,7 @@ async def test_form(hass: UniversalAssistant, send_wakeup_prompt: bool) -> None:
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception | None,
     return_value: dict | None,
     error: str,
@@ -123,7 +123,7 @@ async def test_form_errors(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_duplicate_host(hass: UniversalAssistant) -> None:
+async def test_form_duplicate_host(hass: __HAC_KEEP__) -> None:
     """Test we abort when a bridge on this host is already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -154,7 +154,7 @@ async def test_form_duplicate_host(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reconfigure(
-    hass: UniversalAssistant, load_int: MockConfigEntry, new_host: str
+    hass: __HAC_KEEP__, load_int: MockConfigEntry, new_host: str
 ) -> None:
     """Test reconfiguring an existing entry updates the supported modes."""
     result = await load_int.start_reconfigure_flow(hass)
@@ -213,7 +213,7 @@ async def test_reconfigure(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: MockConfigEntry,
     side_effect: Exception | None,
     return_value: dict | None,
@@ -260,7 +260,7 @@ async def test_reconfigure_errors(
 
 
 async def test_reconfigure_uses_stored_port(
-    hass: UniversalAssistant, load_int: MockConfigEntry
+    hass: __HAC_KEEP__, load_int: MockConfigEntry
 ) -> None:
     """Test reconfigure validates against the port stored on the entry."""
     result = await load_int.start_reconfigure_flow(hass)
@@ -289,7 +289,7 @@ async def test_reconfigure_uses_stored_port(
 
 
 async def test_reconfigure_duplicate_host(
-    hass: UniversalAssistant, load_int: MockConfigEntry
+    hass: __HAC_KEEP__, load_int: MockConfigEntry
 ) -> None:
     """Test reconfigure aborts when another entry already uses the host."""
     other_entry = MockConfigEntry(
@@ -320,7 +320,7 @@ async def test_reconfigure_duplicate_host(
     ],
 )
 async def test_reconfigure_toggles_swing_support(
-    hass: UniversalAssistant, initial: bool, updated: bool
+    hass: __HAC_KEEP__, initial: bool, updated: bool
 ) -> None:
     """Test the swing support flag round-trips through the reconfigure form."""
     entry = MockConfigEntry(

@@ -14,7 +14,7 @@ from universalassistant.components.cover import (
     CoverState,
     intent as cover_intent,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import intent
 from universalassistant.setup import async_setup_component
 
@@ -26,7 +26,7 @@ from universalassistant.setup import async_setup_component
         ({"device_class": {"value": "garage"}}),
     ],
 )
-async def test_open_cover_intent(hass: UniversalAssistant, slots: dict[str, Any]) -> None:
+async def test_open_cover_intent(hass: __HAC_KEEP__, slots: dict[str, Any]) -> None:
     """Test HassOpenCover intent."""
     await cover_intent.async_setup_intents(hass)
 
@@ -57,7 +57,7 @@ async def test_open_cover_intent(hass: UniversalAssistant, slots: dict[str, Any]
         ({"device_class": {"value": "garage"}}),
     ],
 )
-async def test_close_cover_intent(hass: UniversalAssistant, slots: dict[str, Any]) -> None:
+async def test_close_cover_intent(hass: __HAC_KEEP__, slots: dict[str, Any]) -> None:
     """Test HassCloseCover intent."""
     await cover_intent.async_setup_intents(hass)
 
@@ -90,7 +90,7 @@ async def test_close_cover_intent(hass: UniversalAssistant, slots: dict[str, Any
     ],
 )
 async def test_cover_intent_does_not_match_other_domains(
-    hass: UniversalAssistant, intent_type: str, initial_state: str
+    hass: __HAC_KEEP__, intent_type: str, initial_state: str
 ) -> None:
     """Test HassOpenCover/HassCloseCover do not match an entity of another domain."""
     await cover_intent.async_setup_intents(hass)
@@ -115,7 +115,7 @@ async def test_cover_intent_does_not_match_other_domains(
         ({"device_class": {"value": "shade"}, "position": {"value": 50}}),
     ],
 )
-async def test_set_cover_position(hass: UniversalAssistant, slots: dict[str, Any]) -> None:
+async def test_set_cover_position(hass: __HAC_KEEP__, slots: dict[str, Any]) -> None:
     """Test HassSetPosition intent for covers."""
     assert await async_setup_component(hass, "intent", {})
 

@@ -8,7 +8,7 @@ from universalassistant.components.infrared import InfraredEmitterConsumerEntity
 from universalassistant.components.select import SelectEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.restore_state import RestoreEntity
 
@@ -29,7 +29,7 @@ _ENERGY_LIMIT_TO_CODE: dict[str, LGACCode] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

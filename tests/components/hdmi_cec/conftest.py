@@ -8,7 +8,7 @@ import pytest
 
 from universalassistant.components.hdmi_cec import DOMAIN
 from universalassistant.const import EVENT_HOMEASSISTANT_START
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 type CecEntityCreator = Callable[..., Coroutine[Any, Any, None]]
@@ -38,7 +38,7 @@ def mock_hdmi_network_fixture() -> Generator[MagicMock]:
 
 @pytest.fixture
 def create_hdmi_network(
-    hass: UniversalAssistant, mock_hdmi_network: MagicMock
+    hass: __HAC_KEEP__, mock_hdmi_network: MagicMock
 ) -> HDMINetworkCreator:
     """Create an initialized mock hdmi_network."""
 
@@ -57,7 +57,7 @@ def create_hdmi_network(
 
 
 @pytest.fixture
-def create_cec_entity(hass: UniversalAssistant) -> CecEntityCreator:
+def create_cec_entity(hass: __HAC_KEEP__) -> CecEntityCreator:
     """Create a CecEntity."""
 
     async def cec_entity(hdmi_network, device):

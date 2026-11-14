@@ -20,13 +20,13 @@ from universalassistant.components.schedule.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_ICON, CONF_ID, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
 def schedule_setup(
-    hass: UniversalAssistant, hass_storage: dict[str, Any]
+    hass: __HAC_KEEP__, hass_storage: dict[str, Any]
 ) -> Callable[..., Coroutine[Any, Any, bool]]:
     """Schedule setup."""
 

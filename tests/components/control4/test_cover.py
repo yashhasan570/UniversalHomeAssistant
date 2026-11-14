@@ -30,7 +30,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import mock_director_variables, setup_integration
@@ -93,7 +93,7 @@ def mock_c4_blind() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Set up the Control4 integration for testing."""
     await setup_integration(hass, mock_config_entry)
@@ -107,7 +107,7 @@ async def init_integration(
     "init_integration",
 )
 async def test_cover_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -158,7 +158,7 @@ async def test_cover_entities(
     "init_integration",
 )
 async def test_cover_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_state: str,
     expected_position: int,
 ) -> None:
@@ -176,7 +176,7 @@ async def test_cover_states(
     "init_integration",
 )
 async def test_open_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_c4_blind: MagicMock,
 ) -> None:
     """Test opening the cover dispatches to pyControl4."""
@@ -196,7 +196,7 @@ async def test_open_cover(
     "init_integration",
 )
 async def test_close_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_c4_blind: MagicMock,
 ) -> None:
     """Test closing the cover dispatches to pyControl4."""
@@ -216,7 +216,7 @@ async def test_close_cover(
     "init_integration",
 )
 async def test_stop_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_c4_blind: MagicMock,
 ) -> None:
     """Test stopping the cover dispatches to pyControl4."""
@@ -236,7 +236,7 @@ async def test_stop_cover(
     "init_integration",
 )
 async def test_set_cover_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_c4_blind: MagicMock,
 ) -> None:
     """Test setting cover position calls set_level_target with the requested value."""
@@ -257,7 +257,7 @@ async def test_set_cover_position(
     "init_integration",
 )
 async def test_cover_not_created_when_no_initial_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test cover entity is not created when coordinator has no initial data."""
     state = hass.states.get(ENTITY_ID)
@@ -294,7 +294,7 @@ async def test_cover_not_created_when_no_initial_data(
     "init_integration",
 )
 async def test_cover_partial_variables(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_position: int | None,
     expected_state: str,
 ) -> None:
@@ -312,7 +312,7 @@ async def test_cover_partial_variables(
     "init_integration",
 )
 async def test_cover_unavailable_when_data_disappears(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_cover_variables: dict,
 ) -> None:

@@ -15,7 +15,7 @@ from universalassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -51,7 +51,7 @@ CONF_EFFECT_LIST = "effect_list"
 # As we want to preserve brightness control for effects (e.g. to reduce the
 # brightness), we need to persist the effect that is in flight, so
 # subsequent calls to turn_on will know to keep the effect enabled.
-# Unfortunately the Universal Universal Home Assistant UI does not easily expose a way to remove a
+# Unfortunately the __HA_KEEP__ UI does not easily expose a way to remove a
 # selected effect (there is no 'No Effect' option by default). Instead, we
 # create a new fake effect ("Solid") that is always selected by default for
 # showing a solid color. This is the same method used by WLED.
@@ -70,7 +70,7 @@ ICON_EFFECT = "mdi:lava-lamp"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HyperionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

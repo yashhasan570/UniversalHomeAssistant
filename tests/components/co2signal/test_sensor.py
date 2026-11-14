@@ -14,7 +14,7 @@ import pytest
 from pytest_universalassistant.common import async_fire_time_changed
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -27,7 +27,7 @@ from universalassistant.helpers import entity_registry as er
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entity_name: str,
     snapshot: SnapshotAssertion,
@@ -51,7 +51,7 @@ async def test_sensor(
 )
 @pytest.mark.usefixtures("setup_integration")
 async def test_sensor_update_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     electricity_maps: AsyncMock,
     error: Exception,
@@ -85,7 +85,7 @@ async def test_sensor_update_fail(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_sensor_reauth_triggered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     electricity_maps: AsyncMock,
 ) -> None:

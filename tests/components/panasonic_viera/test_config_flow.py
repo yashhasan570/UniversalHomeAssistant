@@ -17,7 +17,7 @@ from universalassistant.components.panasonic_viera.const import (
     ERROR_INVALID_PIN_CODE,
 )
 from universalassistant.const import CONF_NAME, CONF_PIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -40,7 +40,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield mock_setup
 
 
-async def test_flow_non_encrypted(hass: UniversalAssistant) -> None:
+async def test_flow_non_encrypted(hass: __HAC_KEEP__) -> None:
     """Test flow without encryption."""
 
     result = await hass.config_entries.flow.async_init(
@@ -67,7 +67,7 @@ async def test_flow_non_encrypted(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == MOCK_DEVICE_INFO[ATTR_UDN]
 
 
-async def test_flow_name_from_tv(hass: UniversalAssistant) -> None:
+async def test_flow_name_from_tv(hass: __HAC_KEEP__) -> None:
     """Test the entry is named after the friendly name reported by the TV."""
     device_info = {**MOCK_DEVICE_INFO, ATTR_FRIENDLY_NAME: "Living_room_TV"}
 
@@ -94,7 +94,7 @@ async def test_flow_name_from_tv(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == MOCK_DEVICE_INFO[ATTR_UDN]
 
 
-async def test_flow_not_connected_error(hass: UniversalAssistant) -> None:
+async def test_flow_not_connected_error(hass: __HAC_KEEP__) -> None:
     """Test flow with connection error."""
 
     result = await hass.config_entries.flow.async_init(
@@ -129,7 +129,7 @@ async def test_flow_not_connected_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_unknown_abort(hass: UniversalAssistant) -> None:
+async def test_flow_unknown_abort(hass: __HAC_KEEP__) -> None:
     """Test flow with unknown error abortion."""
 
     result = await hass.config_entries.flow.async_init(
@@ -153,7 +153,7 @@ async def test_flow_unknown_abort(hass: UniversalAssistant) -> None:
 
 
 async def test_flow_encrypted_not_connected_pin_code_request(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test encrypted flow with PIN request connection error."""
 
@@ -179,7 +179,7 @@ async def test_flow_encrypted_not_connected_pin_code_request(
     assert result["reason"] == "cannot_connect"
 
 
-async def test_flow_encrypted_unknown_pin_code_request(hass: UniversalAssistant) -> None:
+async def test_flow_encrypted_unknown_pin_code_request(hass: __HAC_KEEP__) -> None:
     """Test encrypted flow with PIN request unknown error."""
 
     result = await hass.config_entries.flow.async_init(
@@ -204,7 +204,7 @@ async def test_flow_encrypted_unknown_pin_code_request(hass: UniversalAssistant)
     assert result["reason"] == "unknown"
 
 
-async def test_flow_encrypted_valid_pin_code(hass: UniversalAssistant) -> None:
+async def test_flow_encrypted_valid_pin_code(hass: __HAC_KEEP__) -> None:
     """Test flow with encryption and valid PIN code."""
 
     result = await hass.config_entries.flow.async_init(
@@ -247,7 +247,7 @@ async def test_flow_encrypted_valid_pin_code(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == MOCK_DEVICE_INFO[ATTR_UDN]
 
 
-async def test_flow_encrypted_invalid_pin_code_error(hass: UniversalAssistant) -> None:
+async def test_flow_encrypted_invalid_pin_code_error(hass: __HAC_KEEP__) -> None:
     """Test flow with encryption and invalid PIN code error during pairing step."""
 
     result = await hass.config_entries.flow.async_init(
@@ -292,7 +292,7 @@ async def test_flow_encrypted_invalid_pin_code_error(hass: UniversalAssistant) -
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_encrypted_not_connected_abort(hass: UniversalAssistant) -> None:
+async def test_flow_encrypted_not_connected_abort(hass: __HAC_KEEP__) -> None:
     """Test encrypted flow with PIN connection error during pairing."""
 
     result = await hass.config_entries.flow.async_init(
@@ -325,7 +325,7 @@ async def test_flow_encrypted_not_connected_abort(hass: UniversalAssistant) -> N
     assert result["reason"] == "cannot_connect"
 
 
-async def test_flow_encrypted_unknown_abort(hass: UniversalAssistant) -> None:
+async def test_flow_encrypted_unknown_abort(hass: __HAC_KEEP__) -> None:
     """Test encrypted flow with PIN unknown error during pairing."""
 
     result = await hass.config_entries.flow.async_init(
@@ -358,7 +358,7 @@ async def test_flow_encrypted_unknown_abort(hass: UniversalAssistant) -> None:
     assert result["reason"] == "unknown"
 
 
-async def test_flow_non_encrypted_already_configured_abort(hass: UniversalAssistant) -> None:
+async def test_flow_non_encrypted_already_configured_abort(hass: __HAC_KEEP__) -> None:
     """Test flow without encryption and existing config entry abortion."""
 
     MockConfigEntry(
@@ -383,7 +383,7 @@ async def test_flow_non_encrypted_already_configured_abort(hass: UniversalAssist
     assert result["reason"] == "already_configured"
 
 
-async def test_flow_encrypted_already_configured_abort(hass: UniversalAssistant) -> None:
+async def test_flow_encrypted_already_configured_abort(hass: __HAC_KEEP__) -> None:
     """Test flow with encryption and existing config entry abortion."""
 
     MockConfigEntry(
@@ -408,7 +408,7 @@ async def test_flow_encrypted_already_configured_abort(hass: UniversalAssistant)
     assert result["reason"] == "already_configured"
 
 
-async def test_imported_flow_non_encrypted(hass: UniversalAssistant) -> None:
+async def test_imported_flow_non_encrypted(hass: __HAC_KEEP__) -> None:
     """Test imported flow without encryption."""
 
     mock_remote = get_mock_remote(encrypted=False)
@@ -429,7 +429,7 @@ async def test_imported_flow_non_encrypted(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == MOCK_DEVICE_INFO[ATTR_UDN]
 
 
-async def test_imported_flow_encrypted_valid_pin_code(hass: UniversalAssistant) -> None:
+async def test_imported_flow_encrypted_valid_pin_code(hass: __HAC_KEEP__) -> None:
     """Test imported flow with encryption and valid PIN code."""
 
     mock_remote = get_mock_remote(
@@ -467,7 +467,7 @@ async def test_imported_flow_encrypted_valid_pin_code(hass: UniversalAssistant) 
 
 
 async def test_imported_flow_encrypted_invalid_pin_code_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test imported encrypted flow with invalid PIN error."""
 
@@ -507,7 +507,7 @@ async def test_imported_flow_encrypted_invalid_pin_code_error(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_imported_flow_encrypted_not_connected_abort(hass: UniversalAssistant) -> None:
+async def test_imported_flow_encrypted_not_connected_abort(hass: __HAC_KEEP__) -> None:
     """Test imported encrypted flow with PIN connection error."""
 
     mock_remote = get_mock_remote(encrypted=True, authorize_error=TimeoutError)
@@ -534,7 +534,7 @@ async def test_imported_flow_encrypted_not_connected_abort(hass: UniversalAssist
     assert result["reason"] == "cannot_connect"
 
 
-async def test_imported_flow_encrypted_unknown_abort(hass: UniversalAssistant) -> None:
+async def test_imported_flow_encrypted_unknown_abort(hass: __HAC_KEEP__) -> None:
     """Test imported encrypted flow with PIN unknown error."""
 
     mock_remote = get_mock_remote(encrypted=True, authorize_error=Exception)
@@ -561,7 +561,7 @@ async def test_imported_flow_encrypted_unknown_abort(hass: UniversalAssistant) -
     assert result["reason"] == "unknown"
 
 
-async def test_imported_flow_not_connected_error(hass: UniversalAssistant) -> None:
+async def test_imported_flow_not_connected_error(hass: __HAC_KEEP__) -> None:
     """Test imported flow with connection error abortion."""
 
     with patch(
@@ -590,7 +590,7 @@ async def test_imported_flow_not_connected_error(hass: UniversalAssistant) -> No
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_imported_flow_unknown_abort(hass: UniversalAssistant) -> None:
+async def test_imported_flow_unknown_abort(hass: __HAC_KEEP__) -> None:
     """Test imported flow with unknown error abortion."""
 
     with patch(
@@ -608,7 +608,7 @@ async def test_imported_flow_unknown_abort(hass: UniversalAssistant) -> None:
 
 
 async def test_imported_flow_non_encrypted_already_configured_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test imported flow without encryption and existing config entry abortion."""
 
@@ -629,7 +629,7 @@ async def test_imported_flow_non_encrypted_already_configured_abort(
 
 
 async def test_imported_flow_encrypted_already_configured_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test imported flow with encryption and existing config entry abortion."""
 

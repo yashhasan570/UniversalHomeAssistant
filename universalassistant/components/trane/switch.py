@@ -5,7 +5,7 @@ from typing import Any, override
 from steamloop import HoldType, ThermostatConnection
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import TraneZoneEntity
@@ -15,7 +15,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TraneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -34,7 +34,7 @@ class TraneHoldSwitch(TraneZoneEntity, SwitchEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         conn: ThermostatConnection,
         entry_id: str,
         zone_id: str,

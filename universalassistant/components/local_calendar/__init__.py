@@ -4,7 +4,7 @@ from pathlib import Path
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.util import slugify
 
@@ -17,7 +17,7 @@ type LocalCalendarConfigEntry = ConfigEntry[LocalCalendarStore]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: LocalCalendarConfigEntry
+    hass: __HAC_KEEP__, entry: LocalCalendarConfigEntry
 ) -> None:
     """Set up Local Calendar from a config entry."""
     if CONF_STORAGE_KEY not in entry.data:
@@ -46,14 +46,14 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: LocalCalendarConfigEntry
+    hass: __HAC_KEEP__, entry: LocalCalendarConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_entry(
-    hass: UniversalAssistant, entry: LocalCalendarConfigEntry
+    hass: __HAC_KEEP__, entry: LocalCalendarConfigEntry
 ) -> None:
     """Handle removal of an entry."""
     key = slugify(entry.data[CONF_CALENDAR_NAME])

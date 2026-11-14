@@ -7,7 +7,7 @@ from typing import override
 import probatio
 
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from ..models import AuthFlowContext, AuthFlowResult, Credentials, UserMeta
 from . import AUTH_PROVIDER_SCHEMA, AUTH_PROVIDERS, AuthProvider, MfaLoginFlow
@@ -26,7 +26,7 @@ CONFIG_SCHEMA = AUTH_PROVIDER_SCHEMA.extend(
 )
 
 
-class InvalidAuthError(UniversalAssistantError):
+class InvalidAuthError(__HAC_KEEP__Error):
     """Raised when submitting invalid authentication."""
 
 

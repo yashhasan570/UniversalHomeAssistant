@@ -6,14 +6,14 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 @pytest.mark.usefixtures("mock_iseo_client", "mock_derive_private_key")
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ble_device: None,
 ) -> None:
@@ -30,7 +30,7 @@ async def test_setup_and_unload_entry(
 
 @pytest.mark.usefixtures("mock_iseo_client", "mock_derive_private_key")
 async def test_setup_retries_when_device_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test setup is retried while the lock is not advertising."""

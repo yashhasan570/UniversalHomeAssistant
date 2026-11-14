@@ -26,9 +26,9 @@ from universalassistant.components.google_sheets.services import (
     GoogleSheetsServiceArgument,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     OAuth2TokenRequestReauthError,
     OAuth2TokenRequestTransientError,
     ServiceValidationError,
@@ -75,7 +75,7 @@ def mock_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntry:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> Callable[[], Coroutine[Any, Any, None]]:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
@@ -96,7 +96,7 @@ async def mock_setup_integration(
 
 
 async def test_setup_success(
-    hass: UniversalAssistant, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup
 ) -> None:
     """Test successful setup and unload."""
     await setup_integration()
@@ -124,7 +124,7 @@ async def test_setup_success(
     ids=["no_scope", "required_scope_prefix", "other_scope"],
 )
 async def test_missing_required_scopes_requires_reauth(
-    hass: UniversalAssistant, setup_integration: ComponentSetup
+    hass: __HAC_KEEP__, setup_integration: ComponentSetup
 ) -> None:
     """Test that reauth is invoked when required scopes are not present."""
     await setup_integration()
@@ -140,7 +140,7 @@ async def test_missing_required_scopes_requires_reauth(
 
 @pytest.mark.parametrize("expires_at", [time.time() - 3600], ids=["expired"])
 async def test_expired_token_refresh_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_expired_token_refresh_success(
     ids=["failure_requires_reauth", "transient_failure"],
 )
 async def test_expired_token_refresh_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     aioclient_mock: AiohttpClientMocker,
     status: http.HTTPStatus,
@@ -203,7 +203,7 @@ async def test_expired_token_refresh_failure(
 
 
 async def test_setup_oauth_reauth_error(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test a token refresh reauth error puts the config entry in setup error state."""
     config_entry.add_to_hass(hass)
@@ -231,7 +231,7 @@ async def test_setup_oauth_reauth_error(
 
 
 async def test_setup_oauth_transient_error(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test a token refresh transient error sets the config entry to retry setup."""
     config_entry.add_to_hass(hass)
@@ -271,7 +271,7 @@ async def test_setup_oauth_transient_error(
 )
 @freeze_time("2024-01-15 04:30:45.123456-08:00")
 async def test_append_sheet(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     add_created_column_param: dict[str, bool],
@@ -315,7 +315,7 @@ async def test_append_sheet(
     ],
 )
 async def test_append_sheet_grows_grid_for_new_columns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     header: list[str],
@@ -359,13 +359,13 @@ async def test_append_sheet_grows_grid_for_new_columns(
 
 @freeze_time("2024-01-15 12:30:45.123456")
 async def test_append_sheet_created_column_uses_configured_time_zone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
 ) -> None:
-    """Test the created column follows the time zone configured in Universal Universal Home Assistant.
+    """Test the created column follows the time zone configured in __HA_KEEP__.
 
-    Universal Universal Home Assistant never changes the process time zone, so the machine the
+    __HA_KEEP__ never changes the process time zone, so the machine the
     installation happens to run on must not decide what is written here.
     """
     await hass.config.async_set_time_zone("Australia/Sydney")
@@ -395,7 +395,7 @@ async def test_append_sheet_created_column_uses_configured_time_zone(
 
 
 async def test_get_sheet(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -430,7 +430,7 @@ async def test_get_sheet(
 
 
 async def test_append_sheet_multiple_rows(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -457,7 +457,7 @@ async def test_append_sheet_multiple_rows(
 
 
 async def test_append_sheet_defaults_to_first_worksheet(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -499,7 +499,7 @@ async def test_append_sheet_defaults_to_first_worksheet(
     ],
 )
 async def test_refresh_error_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     service: str,
@@ -542,12 +542,12 @@ async def test_refresh_error_starts_reauth(
     ],
 )
 async def test_append_sheet_api_error_while_writing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     failing_call: str,
 ) -> None:
-    """Test append to sheet reports a failing write as a UniversalAssistantError."""
+    """Test append to sheet reports a failing write as a __HAC_KEEP__Error."""
     await setup_integration()
 
     response = Response()
@@ -561,7 +561,7 @@ async def test_append_sheet_api_error_while_writing(
         mock_worksheet.col_count = 26
         setattr(mock_worksheet, failing_call, Mock(side_effect=APIError(response)))
 
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 DOMAIN,
                 GoogleSheetsService.APPEND_SHEET,
@@ -578,11 +578,11 @@ async def test_append_sheet_api_error_while_writing(
 
 
 async def test_get_sheet_api_error_while_reading(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
 ) -> None:
-    """Test get sheet reports a failing read as a UniversalAssistantError."""
+    """Test get sheet reports a failing read as a __HAC_KEEP__Error."""
     await setup_integration()
 
     response = Response()
@@ -594,7 +594,7 @@ async def test_get_sheet_api_error_while_reading(
         )
         mock_worksheet.get_values.side_effect = APIError(response)
 
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 DOMAIN,
                 GoogleSheetsService.GET_SHEET,
@@ -609,7 +609,7 @@ async def test_get_sheet_api_error_while_reading(
 
 
 async def test_append_sheet_permission_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -621,7 +621,7 @@ async def test_append_sheet_permission_error(
     assert entries[0].state is ConfigEntryState.LOADED
 
     with (
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
         patch(
             "universalassistant.components.google_sheets.services.Client.open_by_key",
             side_effect=PermissionError,
@@ -640,7 +640,7 @@ async def test_append_sheet_permission_error(
 
 
 async def test_append_sheet_invalid_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     expires_at: int,
@@ -701,7 +701,7 @@ async def test_append_sheet_invalid_config_entry(
 
 
 async def test_get_sheet_invalid_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     expires_at: int,
@@ -750,7 +750,7 @@ async def test_get_sheet_invalid_config_entry(
 
 
 async def test_get_sheet_invalid_worksheet(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: ComponentSetup,
     config_entry: MockConfigEntry,
     expires_at: int,
@@ -782,7 +782,7 @@ async def test_get_sheet_invalid_worksheet(
         mock_client.return_value.open_by_key.return_value.worksheet.side_effect = (
             APIError(Response())
         )
-        with pytest.raises(UniversalAssistantError):
+        with pytest.raises(__HAC_KEEP__Error):
             await hass.services.async_call(
                 DOMAIN,
                 GoogleSheetsService.GET_SHEET,
@@ -797,7 +797,7 @@ async def test_get_sheet_invalid_worksheet(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""

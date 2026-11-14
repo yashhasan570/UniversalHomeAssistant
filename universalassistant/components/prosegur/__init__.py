@@ -4,7 +4,7 @@ from pyprosegur.auth import Auth
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_COUNTRY, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 from universalassistant.helpers.typing import ConfigType
@@ -20,13 +20,13 @@ type ProsegurConfigEntry = ConfigEntry[Auth]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Prosegur Alarm integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ProsegurConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ProsegurConfigEntry) -> None:
     """Set up Prosegur Alarm from a config entry."""
     try:
         session = aiohttp_client.async_get_clientsession(hass)
@@ -53,6 +53,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ProsegurConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ProsegurConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ProsegurConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

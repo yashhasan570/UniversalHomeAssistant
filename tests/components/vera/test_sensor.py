@@ -8,14 +8,14 @@ import pyvera as pv
 
 from universalassistant.components.sensor import async_rounded_state
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, LIGHT_LUX, PERCENTAGE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import ComponentFactory, new_simple_controller_config
 
 
 async def run_sensor_test(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vera_component_factory: ComponentFactory,
     category: int,
     class_property: str,
@@ -54,7 +54,7 @@ async def run_sensor_test(
 
 
 async def test_temperature_sensor_f(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
 
@@ -72,7 +72,7 @@ async def test_temperature_sensor_f(
 
 
 async def test_temperature_sensor_c(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     await run_sensor_test(
@@ -85,7 +85,7 @@ async def test_temperature_sensor_c(
 
 
 async def test_light_sensor(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     await run_sensor_test(
@@ -99,7 +99,7 @@ async def test_light_sensor(
 
 
 async def test_uv_sensor(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     await run_sensor_test(
@@ -113,7 +113,7 @@ async def test_uv_sensor(
 
 
 async def test_humidity_sensor(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     await run_sensor_test(
@@ -127,7 +127,7 @@ async def test_humidity_sensor(
 
 
 async def test_power_meter_sensor(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     await run_sensor_test(
@@ -141,7 +141,7 @@ async def test_power_meter_sensor(
 
 
 async def test_trippable_sensor(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
 
@@ -159,7 +159,7 @@ async def test_trippable_sensor(
 
 
 async def test_unknown_sensor(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
 
@@ -177,7 +177,7 @@ async def test_unknown_sensor(
 
 
 async def test_scene_controller_sensor(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     vera_device: pv.VeraSensor = MagicMock(spec=pv.VeraSensor)
@@ -203,7 +203,7 @@ async def test_scene_controller_sensor(
 
 
 async def test_switch_power_and_energy_sensors_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vera_component_factory: ComponentFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -255,7 +255,7 @@ async def test_switch_power_and_energy_sensors_created(
 
 
 async def test_switch_without_metering_does_not_create_power_energy_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vera_component_factory: ComponentFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:

@@ -13,8 +13,8 @@ from universalassistant.components.openai_conversation.entity import (
     _format_structured_output,
     async_prepare_files_for_prompt,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import llm, selector
 from universalassistant.util.json import JsonObjectType
 
@@ -171,7 +171,7 @@ async def test_format_structured_output() -> None:
     ],
 )
 async def test_prepare_files_for_prompt_infers_mime_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     filename: str,
     expected_content: dict[str, str],
 ) -> None:
@@ -213,7 +213,7 @@ async def test_prepare_files_for_prompt_infers_mime_type(
     ],
 )
 async def test_prepare_files_for_prompt_invalid_file(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     filename: str,
     exists: bool,
     mime_type: str | None,
@@ -222,6 +222,6 @@ async def test_prepare_files_for_prompt_invalid_file(
     """Test missing files and unsupported attachment types."""
     with (
         patch("pathlib.Path.exists", return_value=exists),
-        pytest.raises(UniversalAssistantError, match=error),
+        pytest.raises(__HAC_KEEP__Error, match=error),
     ):
         await async_prepare_files_for_prompt(hass, [(Path(filename), mime_type)])

@@ -8,7 +8,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING, Any, Literal, TypedDict, override
 
 from universalassistant.const import EntityStateAttribute
-from universalassistant.core import Event, UniversalAssistant, callback, verify_event_loop_thread
+from universalassistant.core import Event, __HAC_KEEP__, callback, verify_event_loop_thread
 from universalassistant.util.dt import utc_from_timestamp, utcnow
 from universalassistant.util.event_type import EventType
 from universalassistant.util.hass_dict import HassKey
@@ -226,7 +226,7 @@ class AreaRegistry(BaseRegistry[AreasRegistryStoreData]):
     areas: AreaRegistryItems
     _area_data: dict[str, AreaEntry]
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the area registry."""
         self.hass = hass
         self._store = AreaRegistryStore(
@@ -597,12 +597,12 @@ class AreaRegistry(BaseRegistry[AreasRegistryStoreData]):
 
 @callback
 @singleton(DATA_REGISTRY)
-def async_get(hass: UniversalAssistant) -> AreaRegistry:
+def async_get(hass: __HAC_KEEP__) -> AreaRegistry:
     """Get area registry."""
     return AreaRegistry(hass)
 
 
-async def async_load(hass: UniversalAssistant, *, load_empty: bool = False) -> None:
+async def async_load(hass: __HAC_KEEP__, *, load_empty: bool = False) -> None:
     """Load area registry."""
     assert DATA_REGISTRY not in hass.data
     await async_get(hass).async_load(load_empty=load_empty)
@@ -620,7 +620,7 @@ def async_entries_for_label(registry: AreaRegistry, label_id: str) -> list[AreaE
     return registry.areas.get_areas_for_label(label_id)
 
 
-def _validate_temperature_entity(hass: UniversalAssistant, entity_id: str) -> None:
+def _validate_temperature_entity(hass: __HAC_KEEP__, entity_id: str) -> None:
     """Validate temperature entity."""
     from universalassistant.components.sensor import SensorDeviceClass  # noqa: PLC0415
 
@@ -635,7 +635,7 @@ def _validate_temperature_entity(hass: UniversalAssistant, entity_id: str) -> No
         raise ValueError(f"Entity {entity_id} is not a temperature sensor")
 
 
-def _validate_humidity_entity(hass: UniversalAssistant, entity_id: str) -> None:
+def _validate_humidity_entity(hass: __HAC_KEEP__, entity_id: str) -> None:
     """Validate humidity entity."""
     from universalassistant.components.sensor import SensorDeviceClass  # noqa: PLC0415
 

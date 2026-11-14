@@ -3,7 +3,7 @@
 from pysyncthru import SyncThruAPINotSupported
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 
 from .const import DOMAIN
@@ -12,7 +12,7 @@ from .coordinator import SyncThruConfigEntry, SyncthruCoordinator
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SyncThruConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SyncThruConfigEntry) -> None:
     """Set up config entry."""
 
     coordinator = SyncthruCoordinator(hass, entry)
@@ -29,6 +29,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SyncThruConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SyncThruConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SyncThruConfigEntry) -> None:
     """Unload the config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

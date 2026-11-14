@@ -15,7 +15,7 @@ from universalassistant.components.envisalink.sensor import (
     async_setup_platform as sensor_setup_platform,
 )
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -29,13 +29,13 @@ from .conftest import (
 )
 
 type SetupPlatform = Callable[
-    [UniversalAssistant, ConfigType, AddEntitiesCallback, DiscoveryInfoType | None],
+    [__HAC_KEEP__, ConfigType, AddEntitiesCallback, DiscoveryInfoType | None],
     Awaitable[None],
 ]
 
 
 async def test_setup_creates_entities(
-    hass: UniversalAssistant, mock_controller: MagicMock
+    hass: __HAC_KEEP__, mock_controller: MagicMock
 ) -> None:
     """Test setup creates the alarm, keypad and zone entities."""
     assert await setup_envisalink(hass)
@@ -46,7 +46,7 @@ async def test_setup_creates_entities(
 
 
 async def test_setup_fails_on_login_failure(
-    hass: UniversalAssistant, mock_controller: MagicMock
+    hass: __HAC_KEEP__, mock_controller: MagicMock
 ) -> None:
     """Test setup returns False when the Envisalink rejects the login."""
     mock_controller.start.side_effect = lambda: mock_controller.callback_login_failure(
@@ -58,7 +58,7 @@ async def test_setup_fails_on_login_failure(
 
 
 async def test_setup_succeeds_on_connection_timeout(
-    hass: UniversalAssistant, mock_controller: MagicMock
+    hass: __HAC_KEEP__, mock_controller: MagicMock
 ) -> None:
     """Test setup proceeds (retry mode) when the first connection times out."""
     mock_controller.start.side_effect = lambda: mock_controller.callback_login_timeout(
@@ -70,9 +70,9 @@ async def test_setup_succeeds_on_connection_timeout(
 
 
 async def test_controller_stopped_on_shutdown(
-    hass: UniversalAssistant, mock_controller: MagicMock
+    hass: __HAC_KEEP__, mock_controller: MagicMock
 ) -> None:
-    """Test the controller connection is stopped on Universal Universal Home Assistant shutdown."""
+    """Test the controller connection is stopped on __HA_KEEP__ shutdown."""
     assert await setup_envisalink(hass)
 
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -90,7 +90,7 @@ async def test_controller_stopped_on_shutdown(
     ],
 )
 async def test_platform_setup_without_discovery_is_noop(
-    hass: UniversalAssistant, setup_platform: SetupPlatform
+    hass: __HAC_KEEP__, setup_platform: SetupPlatform
 ) -> None:
     """Test a platform set up directly (no discovery info) adds no entities."""
     add_entities = MagicMock()
@@ -99,7 +99,7 @@ async def test_platform_setup_without_discovery_is_noop(
 
 
 async def test_invoke_custom_function_service(
-    hass: UniversalAssistant, mock_controller: MagicMock
+    hass: __HAC_KEEP__, mock_controller: MagicMock
 ) -> None:
     """Test the PGM service forwards the code, partition and function."""
     assert await setup_envisalink(hass)

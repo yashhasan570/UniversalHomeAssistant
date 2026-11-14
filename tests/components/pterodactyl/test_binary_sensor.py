@@ -20,7 +20,7 @@ from yarl import URL
 
 from universalassistant.config_entries import SOURCE_REAUTH
 from universalassistant.const import STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -29,7 +29,7 @@ from .const import SERVER_1_IDENTIFIER, TEST_URL
 
 @pytest.mark.usefixtures("mock_pterodactyl")
 async def test_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -48,7 +48,7 @@ async def test_binary_sensor(
 
 @pytest.mark.usefixtures("mock_pterodactyl")
 async def test_binary_sensor_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_binary_sensor_update(
 
 @pytest.mark.usefixtures("mock_pterodactyl")
 async def test_binary_sensor_suspended_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: Generator[AsyncMock],
 ) -> None:
@@ -116,7 +116,7 @@ async def test_binary_sensor_suspended_server(
 
 @pytest.mark.usefixtures("mock_pterodactyl")
 async def test_binary_sensor_suspended_server_transition_runtime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: Generator[AsyncMock],
     freezer: FrozenDateTimeFactory,
@@ -229,7 +229,7 @@ async def test_binary_sensor_suspended_server_transition_runtime(
     ],
 )
 async def test_binary_sensor_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: Generator[AsyncMock],
     freezer: FrozenDateTimeFactory,
@@ -267,7 +267,7 @@ async def test_binary_sensor_update_error(
 
 
 async def test_binary_sensor_recovery_after_update_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pterodactyl: Generator[AsyncMock],
     freezer: FrozenDateTimeFactory,

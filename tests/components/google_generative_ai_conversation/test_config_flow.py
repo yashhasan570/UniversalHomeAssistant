@@ -49,7 +49,7 @@ from universalassistant.components.google_generative_ai_conversation.entity impo
 )
 from universalassistant.components.tts import TextToSpeechCommonOption
 from universalassistant.const import CONF_API_KEY, CONF_LLM_HASS_API, CONF_NAME, CONF_PROMPT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import API_ERROR_500, CLIENT_ERROR_API_KEY_INVALID
@@ -118,7 +118,7 @@ def get_prefix_collision_models_pager():
     return models_pager()
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     # Pretend we already set up a config entry.
     hass.config.components.add("google_generative_ai_conversation")
@@ -184,7 +184,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_duplicate_entry(hass: UniversalAssistant) -> None:
+async def test_duplicate_entry(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -218,7 +218,7 @@ async def test_duplicate_entry(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_creating_subentry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_init_component: None,
     mock_config_entry: MockConfigEntry,
     subentry_type: str,
@@ -340,7 +340,7 @@ async def test_creating_subentry(
     ],
 )
 async def test_creating_subentry_custom_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_init_component: None,
     mock_config_entry: MockConfigEntry,
     subentry_type: str,
@@ -401,7 +401,7 @@ async def test_creating_subentry_custom_options(
 
 
 async def test_creating_conversation_subentry_google_search_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_init_component: None,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -450,7 +450,7 @@ async def test_creating_conversation_subentry_google_search_error(
 
 
 async def test_creating_conversation_subentry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_init_component: None,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -671,7 +671,7 @@ async def test_creating_conversation_subentry_not_loaded(
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_subentry_options_switching(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     current_options,
     new_options,
@@ -731,7 +731,7 @@ async def test_subentry_options_switching(
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant, side_effect: Exception | type[Exception], error: str
+    hass: __HAC_KEEP__, side_effect: Exception | type[Exception], error: str
 ) -> None:
     """Test we handle errors."""
     result = await hass.config_entries.flow.async_init(
@@ -767,7 +767,7 @@ async def test_form_errors(
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reauth_flow(hass: UniversalAssistant) -> None:
+async def test_reauth_flow(hass: __HAC_KEEP__) -> None:
     """Test the reauth flow."""
     hass.config.components.add("google_generative_ai_conversation")
     mock_config_entry = MockConfigEntry(
@@ -835,7 +835,7 @@ async def test_reauth_flow(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reconfigure_conversation_subentry_llm_api_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
     current_llm_apis: str | list[str],
@@ -875,7 +875,7 @@ async def test_reconfigure_conversation_subentry_llm_api_schema(
 
 
 async def test_subentry_chat_model_labels_keep_the_full_model_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_init_component,
 ) -> None:
@@ -906,7 +906,7 @@ async def test_subentry_chat_model_labels_keep_the_full_model_id(
     "subentry_id", ["ulid-conversation", "ulid-ai-task", "ulid-stt"]
 )
 async def test_sampling_options_model_switch_and_reset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_genai_transport: AsyncMock,
     subentry_id: str,
@@ -1018,7 +1018,7 @@ async def test_sampling_options_model_switch_and_reset(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tts_sampling_options_model_switch_and_reset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_genai_transport: AsyncMock,
 ) -> None:

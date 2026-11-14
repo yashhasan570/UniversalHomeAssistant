@@ -9,8 +9,8 @@ from universalassistant.components.cover import (
     CoverEntity,
     CoverEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import IdasenDeskConfigEntry, IdasenDeskCoordinator
@@ -18,7 +18,7 @@ from .entity import IdasenDeskEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IdasenDeskConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -55,7 +55,7 @@ class IdasenDeskCover(IdasenDeskEntity, CoverEntity):
         try:
             await self._desk.move_down()
         except BleakError as err:
-            raise UniversalAssistantError("Failed to move down: Bluetooth error") from err
+            raise __HAC_KEEP__Error("Failed to move down: Bluetooth error") from err
 
     @override
     async def async_open_cover(self, **kwargs: Any) -> None:
@@ -63,7 +63,7 @@ class IdasenDeskCover(IdasenDeskEntity, CoverEntity):
         try:
             await self._desk.move_up()
         except BleakError as err:
-            raise UniversalAssistantError("Failed to move up: Bluetooth error") from err
+            raise __HAC_KEEP__Error("Failed to move up: Bluetooth error") from err
 
     @override
     async def async_stop_cover(self, **kwargs: Any) -> None:
@@ -71,7 +71,7 @@ class IdasenDeskCover(IdasenDeskEntity, CoverEntity):
         try:
             await self._desk.stop()
         except BleakError as err:
-            raise UniversalAssistantError("Failed to stop moving: Bluetooth error") from err
+            raise __HAC_KEEP__Error("Failed to stop moving: Bluetooth error") from err
 
     @override
     async def async_set_cover_position(self, **kwargs: Any) -> None:
@@ -79,7 +79,7 @@ class IdasenDeskCover(IdasenDeskEntity, CoverEntity):
         try:
             await self._desk.move_to(int(kwargs[ATTR_POSITION]))
         except BleakError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 "Failed to move to specified position: Bluetooth error"
             ) from err
 

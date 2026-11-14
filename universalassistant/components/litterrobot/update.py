@@ -11,8 +11,8 @@ from universalassistant.components.update import (
     UpdateEntityDescription,
     UpdateEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -31,7 +31,7 @@ RELEASE_URL = "https://www.litter-robot.com/releases.html"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LitterRobotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -107,7 +107,7 @@ class RobotUpdateEntity(LitterRobotEntity[LitterRobot4], UpdateEntity):
         """Install an update."""
         if await self.robot.has_firmware_update(True):
             if not await self.robot.update_firmware():
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="firmware_update_failed",
                     translation_placeholders={"name": self.robot.name},

@@ -31,7 +31,7 @@ class ONVIFBaseEntity(Entity):
         we cannot guarantee serial number either.  Due to this, we have
         adopted an either/or approach in the config entry setup, and can
         guarantee that one or the other will be populated.
-        See: https://github.com/yashhasan570/UniversalUniversalAssistant/issues/35883
+        See: https://github.com/yashhasan570/__HAC_KEEP__/issues/35883
         """
         return (
             self.device.info.mac or self.device.info.serial_number  # type:ignore[return-value]

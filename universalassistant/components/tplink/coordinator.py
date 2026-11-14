@@ -10,7 +10,7 @@ from kasa.iot import IotStrip
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.debounce import Debouncer
@@ -42,7 +42,7 @@ class TPLinkDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: Device,
         update_interval: timedelta,
         config_entry: TPLinkConfigEntry,

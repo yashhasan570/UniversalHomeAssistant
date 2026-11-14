@@ -14,8 +14,8 @@ from watergate_local_api import WatergateApiException, WatergateIndeterminateErr
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -25,7 +25,7 @@ ENTITY_ID = "button.sonic_reboot"
 
 @pytest.mark.usefixtures("mock_watergate_client")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_entry: MockConfigEntry,
@@ -38,7 +38,7 @@ async def test_entities(
 
 
 async def test_reboot_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_reboot_press(
 
 
 async def test_reboot_outcome_unknown_is_not_an_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
 ) -> None:
@@ -77,15 +77,15 @@ async def test_reboot_outcome_unknown_is_not_an_error(
 
 
 async def test_reboot_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_watergate_client: Generator[AsyncMock],
     mock_entry: MockConfigEntry,
 ) -> None:
-    """A definite API failure surfaces as UniversalAssistantError."""
+    """A definite API failure surfaces as __HAC_KEEP__Error."""
     await init_integration(hass, mock_entry)
     mock_watergate_client.async_reboot.side_effect = WatergateApiException("boom")
 
-    with pytest.raises(UniversalAssistantError, match="Failed to reboot the device"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to reboot the device"):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

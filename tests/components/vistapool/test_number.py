@@ -15,8 +15,8 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -28,7 +28,7 @@ def _only_number_platform() -> Generator[None]:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -46,7 +46,7 @@ async def test_all_entities(
 
 
 async def test_number_scales_ph_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -64,7 +64,7 @@ async def test_number_scales_ph_value(
 
 
 async def test_number_scales_electrolysis_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -92,7 +92,7 @@ async def test_number_scales_electrolysis_value(
     ],
 )
 async def test_number_electrolysis_max_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     hidro_data: dict[str, Any],
@@ -134,7 +134,7 @@ async def test_number_electrolysis_max_fallback(
     ],
 )
 async def test_number_unknown_when_unparsable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     entity_id: str,
@@ -151,7 +151,7 @@ async def test_number_unknown_when_unparsable(
 
 
 async def test_number_hydrolysis_setpoint_branch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_number_hydrolysis_setpoint_branch(
 
 
 async def test_number_heating_requires_has_heat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_number_heating_requires_has_heat(
 
 
 async def test_number_smart_requires_has_smart(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_number_smart_requires_has_smart(
     ],
 )
 async def test_number_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -277,12 +277,12 @@ async def test_number_set_value(
 
 
 async def test_number_set_value_raises_on_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
 ) -> None:
-    """Test set_value re-raises as UniversalAssistantError when the library fails."""
+    """Test set_value re-raises as __HAC_KEEP__Error when the library fails."""
     mock_vistapool_client.fetch_pool_data.return_value = mock_pool_data
     mock_vistapool_client.set_value.side_effect = AquariteError("boom")
     mock_config_entry.add_to_hass(hass)
@@ -290,7 +290,7 @@ async def test_number_set_value_raises_on_api_error(
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.climate import HVACMode
 from universalassistant.components.touchline_sl import DOMAIN
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import make_mock_module, make_mock_zone
@@ -17,7 +17,7 @@ ENTITY_ID = "climate.zone_1_zone_1"
 
 
 async def test_climate_zone_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_touchlinesl_client: MagicMock,
 ) -> None:
@@ -37,7 +37,7 @@ async def test_climate_zone_available(
 
 @pytest.mark.parametrize("alarm", ["no_communication", "sensor_damaged"])
 async def test_climate_zone_unavailable_on_alarm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_touchlinesl_client: MagicMock,
     alarm: str,
@@ -57,7 +57,7 @@ async def test_climate_zone_unavailable_on_alarm(
 
 
 async def test_zones_with_same_id_across_modules_get_distinct_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_touchlinesl_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -90,7 +90,7 @@ async def test_zones_with_same_id_across_modules_get_distinct_devices(
 
 
 async def test_migrate_device_identifiers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_touchlinesl_client: MagicMock,
     device_registry: dr.DeviceRegistry,

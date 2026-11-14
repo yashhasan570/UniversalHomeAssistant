@@ -22,7 +22,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity import Entity, ToggleEntity
 from universalassistant.helpers.event import async_call_later
@@ -74,7 +74,7 @@ class ModbusBaseEntity(Entity):
     _attr_unit_of_measurement = None
 
     def __init__(
-        self, hass: UniversalAssistant, hub: ModbusHub, entry: dict[str, Any]
+        self, hass: __HAC_KEEP__, hub: ModbusHub, entry: dict[str, Any]
     ) -> None:
         """Initialize the Modbus binary sensor."""
 
@@ -185,7 +185,7 @@ class ModbusBaseEntity(Entity):
 class ModbusStructEntity(ModbusBaseEntity, RestoreEntity):
     """Base class representing a sensor/climate."""
 
-    def __init__(self, hass: UniversalAssistant, hub: ModbusHub, config: dict) -> None:
+    def __init__(self, hass: __HAC_KEEP__, hub: ModbusHub, config: dict) -> None:
         """Initialize the switch."""
         super().__init__(hass, hub, config)
         self._swap = config[CONF_SWAP]
@@ -295,7 +295,7 @@ class ModbusStructEntity(ModbusBaseEntity, RestoreEntity):
 class ModbusToggleEntity(ModbusBaseEntity, ToggleEntity, RestoreEntity):
     """Base class representing a Modbus switch."""
 
-    def __init__(self, hass: UniversalAssistant, hub: ModbusHub, config: dict) -> None:
+    def __init__(self, hass: __HAC_KEEP__, hub: ModbusHub, config: dict) -> None:
         """Initialize the switch."""
         config[CONF_INPUT_TYPE] = ""
         super().__init__(hass, hub, config)

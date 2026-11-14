@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.rympro.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_TOKEN, CONF_UNIQUE_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 TEST_DATA = {
     CONF_EMAIL: "test-email",
@@ -20,7 +20,7 @@ TEST_DATA = {
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create a mock config entry."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -33,7 +33,7 @@ def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.mark.parametrize("exception", [CannotConnectError, OperationError])
 async def test_account_info_error_retries_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     exception: type[Exception],
 ) -> None:
@@ -49,7 +49,7 @@ async def test_account_info_error_retries_setup(
 
 
 async def test_relogin_cannot_connect_error_retries_setup(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test that a connection error while re-authenticating retries setup."""
     with (

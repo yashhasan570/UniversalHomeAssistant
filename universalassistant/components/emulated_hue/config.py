@@ -17,7 +17,7 @@ from universalassistant.const import CONF_ENTITIES, CONF_TYPE
 from universalassistant.core import (
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
     split_entity_id,
@@ -87,7 +87,7 @@ _LOGGER = logging.getLogger(__name__)
 class Config:
     """Hold configuration variables for the emulated hue bridge."""
 
-    def __init__(self, hass: UniversalAssistant, conf: ConfigType, local_ip: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, conf: ConfigType, local_ip: str) -> None:
         """Initialize the instance."""
         self.hass = hass
         self.type = conf.get(CONF_TYPE)

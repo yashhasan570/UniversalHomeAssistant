@@ -17,7 +17,7 @@ from universalassistant.components.silvercrest_infrared.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -31,7 +31,7 @@ from universalassistant.helpers import entity_registry as er
 )
 @pytest.mark.usefixtures("mock_infrared_emitter_entity")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -70,7 +70,7 @@ _BUTTON_PRESSES: dict[
 @pytest.mark.parametrize("device_type", list(_BUTTON_PRESSES))
 @pytest.mark.usefixtures("infrared_codes")
 async def test_button_press(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     entity_registry: er.EntityRegistry,
     device_type: SilverCrestIrDeviceType,

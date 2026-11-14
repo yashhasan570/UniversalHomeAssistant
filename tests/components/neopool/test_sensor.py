@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.sensor import ATTR_OPTIONS
 from universalassistant.const import ATTR_UNIT_OF_MEASUREMENT, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 
@@ -24,7 +24,7 @@ from .conftest import MOCK_POOL_DATA
 
 
 async def test_measurement_sensors_suppressed_when_filtration_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -49,7 +49,7 @@ async def test_measurement_sensors_suppressed_when_filtration_off(
 
 
 async def test_production_sensors_zero_when_filtration_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -84,7 +84,7 @@ async def test_production_sensors_zero_when_filtration_off(
     ],
 )
 async def test_filt_mode_native_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -115,7 +115,7 @@ async def test_filt_mode_native_value(
     ],
 )
 async def test_ph_pump_status_options_per_relay_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -137,7 +137,7 @@ async def test_ph_pump_status_options_per_relay_config(
 
 
 async def test_hidro_current_g_per_hour_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -177,7 +177,7 @@ _CELL_RUNTIME_ENTITY_IDS: dict[str, str] = {
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_neopool_client")
 async def test_cell_runtime_duration_sensor_reads_combined_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     key: str,
     expected_seconds: int,
@@ -199,7 +199,7 @@ async def test_cell_runtime_duration_sensor_reads_combined_register(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_neopool_client")
 async def test_cell_runtime_pol_changes_sensor_reads_combined_register(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """CELL_RUNTIME_POL_CHANGES reads the combined u32 key as a raw counter.
@@ -218,7 +218,7 @@ async def test_cell_runtime_pol_changes_sensor_reads_combined_register(
 @pytest.mark.freeze_time("2026-07-03T12:00:00Z")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mock_neopool_client")
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -232,7 +232,7 @@ async def test_all_entities(
 @pytest.mark.freeze_time("2026-07-03T12:00:00Z")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_setup_when_modules_absent(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -248,7 +248,7 @@ async def test_setup_when_modules_absent(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_filtration_remaining_aggregates_timer_countdowns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -293,7 +293,7 @@ async def test_filtration_remaining_aggregates_timer_countdowns(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_filtration_remaining_unknown_when_not_counting_down(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -328,7 +328,7 @@ async def test_filtration_remaining_unknown_when_not_counting_down(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_filtration_remaining_holds_steady_within_variance(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -384,7 +384,7 @@ async def test_filtration_remaining_holds_steady_within_variance(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_filtration_remaining_resets_after_countdown_stops(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -441,7 +441,7 @@ async def test_filtration_remaining_resets_after_countdown_stops(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_filtration_remaining_takes_new_end_when_held_one_expired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -491,7 +491,7 @@ async def test_filtration_remaining_takes_new_end_when_held_one_expired(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_filtration_remaining_polls_filtration_blocks_when_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -565,7 +565,7 @@ def _capture_force_read(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_filtration_remaining_force_reads_blocks_while_pump_runs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -589,7 +589,7 @@ async def test_filtration_remaining_force_reads_blocks_while_pump_runs(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_filtration_remaining_force_reads_after_pump_off_with_countdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -624,7 +624,7 @@ async def test_filtration_remaining_force_reads_after_pump_off_with_countdown(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_filtration_remaining_no_force_read_when_idle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -645,7 +645,7 @@ async def test_filtration_remaining_no_force_read_when_idle(
 
 
 async def test_filtration_remaining_disabled_keeps_cached_reads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_neopool_client: MagicMock,
     freezer: FrozenDateTimeFactory,

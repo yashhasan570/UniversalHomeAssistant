@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import MOCK_UID, mock_responses, setup_fronius_integration
@@ -24,7 +24,7 @@ from . import MOCK_UID, mock_responses, setup_fronius_integration
     ],
 )
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -42,7 +42,7 @@ async def test_binary_sensors(
 
 
 async def test_no_binary_sensors_without_backup_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
     """Test that no binary sensors are created when the API omits the keys."""

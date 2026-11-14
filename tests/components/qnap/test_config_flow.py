@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_HOST, TEST_PASSWORD, TEST_SERIAL, TEST_USERNAME
@@ -40,7 +40,7 @@ ENTRY_DATA = {
 pytestmark = pytest.mark.usefixtures("mock_setup_entry", "qnap_connect")
 
 
-async def test_config_flow(hass: UniversalAssistant, qnap_connect: MagicMock) -> None:
+async def test_config_flow(hass: __HAC_KEEP__, qnap_connect: MagicMock) -> None:
     """Config flow manually initialized by the user."""
     result = await hass.config_entries.flow.async_init(
         const.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -91,7 +91,7 @@ async def test_config_flow(hass: UniversalAssistant, qnap_connect: MagicMock) ->
     assert result["data"] == ENTRY_DATA
 
 
-async def test_reconfigure_flow(hass: UniversalAssistant, qnap_connect: MagicMock) -> None:
+async def test_reconfigure_flow(hass: __HAC_KEEP__, qnap_connect: MagicMock) -> None:
     """Test reconfigure flow updates the config entry."""
     entry = MockConfigEntry(
         domain=const.DOMAIN,
@@ -123,7 +123,7 @@ async def test_reconfigure_flow(hass: UniversalAssistant, qnap_connect: MagicMoc
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     qnap_connect: MagicMock,
     side_effect: Exception,
     error: str,
@@ -159,7 +159,7 @@ async def test_reconfigure_errors(
 
 
 async def test_reconfigure_unique_id_mismatch(
-    hass: UniversalAssistant, qnap_connect: MagicMock
+    hass: __HAC_KEEP__, qnap_connect: MagicMock
 ) -> None:
     """Test reconfigure aborts when serial number doesn't match."""
     entry = MockConfigEntry(

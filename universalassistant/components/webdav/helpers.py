@@ -12,7 +12,7 @@ from aiowebdav2.exceptions import (
     ResponseErrorCodeError,
 )
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 _LOGGER = logging.getLogger(__name__)
@@ -21,7 +21,7 @@ _LOGGER = logging.getLogger(__name__)
 @callback
 def async_create_client(
     *,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     url: str,
     username: str,
     password: str,

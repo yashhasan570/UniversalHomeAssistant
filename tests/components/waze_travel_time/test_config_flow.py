@@ -26,7 +26,7 @@ from universalassistant.components.waze_travel_time.const import (
     IMPERIAL_UNITS,
 )
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_NAME, CONF_REGION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import get_default_options
@@ -34,7 +34,7 @@ from .const import CONFIG_FLOW_USER_INPUT, MOCK_CONFIG
 
 
 @pytest.mark.usefixtures("validate_config_entry")
-async def test_minimum_fields(hass: UniversalAssistant) -> None:
+async def test_minimum_fields(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -59,7 +59,7 @@ async def test_minimum_fields(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_update")
-async def test_reconfigure(hass: UniversalAssistant) -> None:
+async def test_reconfigure(hass: __HAC_KEEP__) -> None:
     """Test reconfigure flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -99,7 +99,7 @@ async def test_reconfigure(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_update")
-async def test_options(hass: UniversalAssistant) -> None:
+async def test_options(hass: __HAC_KEEP__) -> None:
     """Test options flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -171,7 +171,7 @@ async def test_options(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("validate_config_entry")
-async def test_dupe(hass: UniversalAssistant) -> None:
+async def test_dupe(hass: __HAC_KEEP__) -> None:
     """Test setting up the same entry data twice is OK."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -204,7 +204,7 @@ async def test_dupe(hass: UniversalAssistant) -> None:
 
 
 async def test_invalid_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     invalidate_config_entry: MagicMock,
 ) -> None:
@@ -236,7 +236,7 @@ async def test_invalid_config_entry(
 
 
 @pytest.mark.usefixtures("mock_update")
-async def test_reset_filters(hass: UniversalAssistant) -> None:
+async def test_reset_filters(hass: __HAC_KEEP__) -> None:
     """Test resetting inclusive and exclusive filters to empty string."""
     options = {**DEFAULT_OPTIONS}
     options[CONF_INCL_FILTER] = ["test"]
@@ -283,7 +283,7 @@ async def test_reset_filters(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_update")
-async def test_reset_base_coordinates(hass: UniversalAssistant) -> None:
+async def test_reset_base_coordinates(hass: __HAC_KEEP__) -> None:
     """Test clearing base coordinates in the options flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,

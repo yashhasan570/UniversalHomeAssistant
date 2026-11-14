@@ -7,11 +7,11 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.diagnostics import REDACTED
 from universalassistant.components.generic.diagnostics import redact_url
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     setup_entry: MockConfigEntry,
 ) -> None:

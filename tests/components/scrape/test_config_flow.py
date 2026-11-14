@@ -29,15 +29,15 @@ from universalassistant.const import (
     CONF_VALUE_TEMPLATE,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import MockRestData
 
 
 async def test_entry_and_subentry(
-    hass: UniversalAssistant, get_data: MockRestData, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, get_data: MockRestData, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form."""
 
@@ -104,7 +104,7 @@ async def test_entry_and_subentry(
 
 
 async def test_form_with_post(
-    hass: UniversalAssistant, get_data: MockRestData, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, get_data: MockRestData, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form using POST method."""
 
@@ -151,7 +151,7 @@ async def test_form_with_post(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_flow_fails(hass: UniversalAssistant, get_data: MockRestData) -> None:
+async def test_flow_fails(hass: __HAC_KEEP__, get_data: MockRestData) -> None:
     """Test config flow error."""
 
     result = await hass.config_entries.flow.async_init(
@@ -163,7 +163,7 @@ async def test_flow_fails(hass: UniversalAssistant, get_data: MockRestData) -> N
 
     with patch(
         "universalassistant.components.rest.util.RestData",
-        side_effect=UniversalAssistantError,
+        side_effect=__HAC_KEEP__Error,
     ):
         result = await hass.config_entries.flow.async_configure(
             result["flow_id"],
@@ -231,7 +231,7 @@ async def test_flow_fails(hass: UniversalAssistant, get_data: MockRestData) -> N
 
 
 async def test_options_resource_flow(
-    hass: UniversalAssistant, loaded_entry: MockConfigEntry
+    hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
 ) -> None:
     """Test options flow for a resource."""
 
@@ -289,7 +289,7 @@ async def test_options_resource_flow(
 
 
 async def test_reconfigure_sensor_subentry(
-    hass: UniversalAssistant, loaded_entry: MockConfigEntry, get_data: MockRestData
+    hass: __HAC_KEEP__, loaded_entry: MockConfigEntry, get_data: MockRestData
 ) -> None:
     """Test reconfiguring a sensor subentry."""
 

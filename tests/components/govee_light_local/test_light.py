@@ -41,7 +41,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .conftest import (
@@ -54,7 +54,7 @@ from .conftest import (
 
 
 async def test_light_known_device(
-    hass: UniversalAssistant, mock_govee_api: AsyncMock
+    hass: __HAC_KEEP__, mock_govee_api: AsyncMock
 ) -> None:
     """Test adding a known device."""
     entry, _ = await setup_light(hass, mock_govee_api)
@@ -74,7 +74,7 @@ async def test_light_known_device(
 
 
 async def test_light_unknown_device(
-    hass: UniversalAssistant, mock_govee_api: AsyncMock
+    hass: __HAC_KEEP__, mock_govee_api: AsyncMock
 ) -> None:
     """Test adding an unknown device."""
     await setup_light(
@@ -102,7 +102,7 @@ async def test_light_unknown_device(
     ],
 )
 async def test_light_color_temperature_range(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_govee_api: AsyncMock,
     temperature_range: tuple[int, int] | None,
     expected_min: int,
@@ -123,7 +123,7 @@ async def test_light_color_temperature_range(
     assert light.attributes[ATTR_MAX_COLOR_TEMP_KELVIN] == expected_max
 
 
-async def test_light_remove(hass: UniversalAssistant, mock_govee_api: AsyncMock) -> None:
+async def test_light_remove(hass: __HAC_KEEP__, mock_govee_api: AsyncMock) -> None:
     """Test remove device."""
     entry, _ = await setup_light(hass, mock_govee_api, fingerprint="asdawdqwdqwd1")
 
@@ -136,7 +136,7 @@ async def test_light_remove(hass: UniversalAssistant, mock_govee_api: AsyncMock)
 
 
 async def test_light_setup_retry(
-    hass: UniversalAssistant, mock_govee_api: AsyncMock
+    hass: __HAC_KEEP__, mock_govee_api: AsyncMock
 ) -> None:
     """Test setup retry."""
 
@@ -172,7 +172,7 @@ async def test_light_setup_retry(
     ],
 )
 async def test_light_setup_retry_when_no_address_binds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_govee_api: AsyncMock,
     bind_errno: int,
     expected_error: str,
@@ -214,7 +214,7 @@ async def test_light_setup_retry_when_no_address_binds(
     ],
 )
 async def test_light_setup_error_when_bind_fails_permanently(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_govee_api: AsyncMock,
     bind_errno: int,
     expected_error: str,
@@ -231,7 +231,7 @@ async def test_light_setup_error_when_bind_fails_permanently(
     assert entry.reason == expected_error
 
 
-async def test_light_on_off(hass: UniversalAssistant, mock_govee_api: AsyncMock) -> None:
+async def test_light_on_off(hass: __HAC_KEEP__, mock_govee_api: AsyncMock) -> None:
     """Test light on and then off."""
     _, device = await setup_light(hass, mock_govee_api)
 
@@ -290,7 +290,7 @@ async def test_light_on_off(hass: UniversalAssistant, mock_govee_api: AsyncMock)
     ],
 )
 async def test_turn_on_call_order(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_govee_api: AsyncMock,
     attribute: str,
     value: str | int | list[int],
@@ -324,7 +324,7 @@ async def test_turn_on_call_order(
     )
 
 
-async def test_light_brightness(hass: UniversalAssistant, mock_govee_api: AsyncMock) -> None:
+async def test_light_brightness(hass: __HAC_KEEP__, mock_govee_api: AsyncMock) -> None:
     """Test changing brightness."""
     _, device = await setup_light(hass, mock_govee_api)
 
@@ -377,7 +377,7 @@ async def test_light_brightness(hass: UniversalAssistant, mock_govee_api: AsyncM
     mock_govee_api.set_brightness.assert_awaited_with(device, 100)
 
 
-async def test_light_color(hass: UniversalAssistant, mock_govee_api: AsyncMock) -> None:
+async def test_light_color(hass: __HAC_KEEP__, mock_govee_api: AsyncMock) -> None:
     """Test changing color."""
     _, device = await setup_light(hass, mock_govee_api)
 
@@ -422,7 +422,7 @@ async def test_light_color(hass: UniversalAssistant, mock_govee_api: AsyncMock) 
     mock_govee_api.set_color.assert_awaited_with(device, rgb=None, temperature=4400)
 
 
-async def test_scene_on(hass: UniversalAssistant, mock_govee_api: AsyncMock) -> None:
+async def test_scene_on(hass: __HAC_KEEP__, mock_govee_api: AsyncMock) -> None:
     """Test turning on scene."""
     _, device = await setup_light(hass, mock_govee_api, SCENE_CAPABILITIES)
 
@@ -448,7 +448,7 @@ async def test_scene_on(hass: UniversalAssistant, mock_govee_api: AsyncMock) -> 
 
 
 async def test_scene_restore_rgb(
-    hass: UniversalAssistant, mock_govee_api: AsyncMock
+    hass: __HAC_KEEP__, mock_govee_api: AsyncMock
 ) -> None:
     """Test restore rgb color."""
     _, device = await setup_light(hass, mock_govee_api, SCENE_CAPABILITIES)
@@ -516,7 +516,7 @@ async def test_scene_restore_rgb(
 
 
 async def test_scene_restore_temperature(
-    hass: UniversalAssistant, mock_govee_api: AsyncMock
+    hass: __HAC_KEEP__, mock_govee_api: AsyncMock
 ) -> None:
     """Test restore color temperature."""
     _, device = await setup_light(hass, mock_govee_api, SCENE_CAPABILITIES)
@@ -575,7 +575,7 @@ async def test_scene_restore_temperature(
 
 
 async def test_update_callback_registered_and_triggers_state_update(
-    hass: UniversalAssistant, mock_govee_api: AsyncMock
+    hass: __HAC_KEEP__, mock_govee_api: AsyncMock
 ) -> None:
     """Test that update callback is registered and triggers state update."""
     _, device = await setup_light(hass, mock_govee_api)
@@ -597,7 +597,7 @@ async def test_update_callback_registered_and_triggers_state_update(
 
 
 async def test_update_callback_cleared_on_remove(
-    hass: UniversalAssistant, mock_govee_api: AsyncMock
+    hass: __HAC_KEEP__, mock_govee_api: AsyncMock
 ) -> None:
     """Test that update callback is cleared when entity is removed."""
     entry, device = await setup_light(hass, mock_govee_api)
@@ -610,7 +610,7 @@ async def test_update_callback_cleared_on_remove(
     assert device.update_callback is None
 
 
-async def test_scene_none(hass: UniversalAssistant, mock_govee_api: AsyncMock) -> None:
+async def test_scene_none(hass: __HAC_KEEP__, mock_govee_api: AsyncMock) -> None:
     """Test turn on 'none' scene."""
     _, device = await setup_light(hass, mock_govee_api, SCENE_CAPABILITIES)
 
@@ -685,7 +685,7 @@ def _status_response(
 
 
 async def test_device_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_govee_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -731,7 +731,7 @@ async def test_device_availability(
 
 
 async def test_one_silent_device_does_not_affect_others(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_govee_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -777,7 +777,7 @@ async def test_one_silent_device_does_not_affect_others(
 
 @pytest.mark.usefixtures("mock_network_adapters")
 async def test_single_controller_for_all_adapters(
-    hass: UniversalAssistant, mock_govee_api: AsyncMock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_govee_api: AsyncMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test a single controller listens on every enabled adapter address."""
 
@@ -803,7 +803,7 @@ async def test_single_controller_for_all_adapters(
 
 @pytest.mark.usefixtures("mock_network_adapters")
 async def test_setup_with_partial_bind(
-    hass: UniversalAssistant, mock_govee_api: AsyncMock, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mock_govee_api: AsyncMock, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup succeeds when only some of the adapter addresses bind."""
 
@@ -828,7 +828,7 @@ async def test_setup_with_partial_bind(
 
 @pytest.mark.usefixtures("mock_network_adapters")
 async def test_partial_bind_is_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_govee_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -901,7 +901,7 @@ async def test_partial_bind_is_retried(
 
 
 async def test_full_bind_is_never_retried(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_govee_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -918,7 +918,7 @@ async def test_full_bind_is_never_retried(
 
 @pytest.mark.usefixtures("mock_network_adapters")
 async def test_unload_waits_for_in_flight_rebind(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_govee_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -973,7 +973,7 @@ async def test_unload_waits_for_in_flight_rebind(
     ],
 )
 async def test_reload_when_all_endpoints_lost(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_govee_api: AsyncMock,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
@@ -1005,7 +1005,7 @@ async def test_reload_when_all_endpoints_lost(
 
 
 async def test_light_setup_retry_without_listening_addresses(
-    hass: UniversalAssistant, mock_govee_api: AsyncMock
+    hass: __HAC_KEEP__, mock_govee_api: AsyncMock
 ) -> None:
     """Test setup is retried when no enabled adapter has an IPv4 address."""
 

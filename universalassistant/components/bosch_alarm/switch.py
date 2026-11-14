@@ -8,8 +8,8 @@ from bosch_alarm_mode2 import Panel
 from bosch_alarm_mode2.panel import Door
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN
@@ -52,7 +52,7 @@ DOOR_SWITCH_TYPES: list[BoschAlarmSwitchEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BoschAlarmConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -91,7 +91,7 @@ class PanelDoorEntity(BoschAlarmDoorEntity, SwitchEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         panel: Panel,
         door_id: int,
         unique_id: str,
@@ -115,7 +115,7 @@ class PanelDoorEntity(BoschAlarmDoorEntity, SwitchEntity):
         # If the door is currently cycling, we can't send it
         # any other commands until it is done
         if self._door.is_cycling():
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="incorrect_door_state"
             )
         await self.entity_description.on_fn(self.panel, self._door_id)
@@ -126,7 +126,7 @@ class PanelDoorEntity(BoschAlarmDoorEntity, SwitchEntity):
         # If the door is currently cycling, we can't send it
         # any other commands until it is done
         if self._door.is_cycling():
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="incorrect_door_state"
             )
         await self.entity_description.off_fn(self.panel, self._door_id)
@@ -139,7 +139,7 @@ class PanelOutputEntity(BoschAlarmOutputEntity, SwitchEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         panel: Panel,
         output_id: int,
         unique_id: str,

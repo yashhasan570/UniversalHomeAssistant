@@ -10,8 +10,8 @@ from besen.client import BesenClient
 from besen.exceptions import CommandFailed
 from besen.models import BesenData
 
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util import dt as dt_util
 
@@ -30,7 +30,7 @@ class BesenCoordinator(DataUpdateCoordinator[BesenData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: BesenConfigEntry,
         client: BesenClient,
     ) -> None:
@@ -127,7 +127,7 @@ class BesenCoordinator(DataUpdateCoordinator[BesenData]):
             await command
         except CommandFailed as err:
             self.async_set_updated_data(self.client.state)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
             ) from err

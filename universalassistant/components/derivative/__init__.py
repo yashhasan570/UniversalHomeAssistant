@@ -4,7 +4,7 @@ import logging
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_SOURCE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device import async_entity_id_to_device_id
 from universalassistant.helpers.helper_integration import (
     async_handle_source_entity_changes,
@@ -20,7 +20,7 @@ __all__ = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up Derivative from a config entry."""
 
     def set_source_entity_id_or_uuid(source_entity_id: str) -> None:
@@ -44,12 +44,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> Non
     await hass.config_entries.async_forward_entry_setups(entry, (Platform.SENSOR,))
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, (Platform.SENSOR,))
 
 
-async def async_migrate_entry(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
     """Migrate old entry."""
 
     _LOGGER.debug(

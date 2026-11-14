@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.button import ButtonEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import MicroBeesConfigEntry
@@ -14,7 +14,7 @@ BUTTON_TRANSLATIONS = {51: "button_gate", 91: "button_panic"}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MicroBeesConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

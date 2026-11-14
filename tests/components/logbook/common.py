@@ -20,7 +20,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.json import JSONEncoder
 from universalassistant.util import dt as dt_util
@@ -72,7 +72,7 @@ class MockRow:
         return process_timestamp_to_utc_isoformat(self.time_fired)
 
 
-def setup_thermostat_context_test_entities(hass_: UniversalAssistant) -> None:
+def setup_thermostat_context_test_entities(hass_: __HAC_KEEP__) -> None:
     """Set up initial states for the thermostat context chain test entities."""
     hass_.states.async_set(
         "climate.living_room",
@@ -83,7 +83,7 @@ def setup_thermostat_context_test_entities(hass_: UniversalAssistant) -> None:
 
 
 def simulate_thermostat_context_chain(
-    hass_: UniversalAssistant,
+    hass_: __HAC_KEEP__,
     user_id: str = "b400facee45711eaa9308bfd3d19e474",
 ) -> tuple[Context, Context]:
     """Simulate the generic_thermostat context chain.

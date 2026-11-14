@@ -8,7 +8,7 @@ from aprslib import IS
 import pytest
 
 from universalassistant.components.aprs import device_tracker
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 DEFAULT_PORT = 14580
 
@@ -341,7 +341,7 @@ def test_aprs_listener_rx_msg_object(mock_ais: MagicMock) -> None:
     )
 
 
-async def test_setup_scanner(hass: UniversalAssistant) -> None:
+async def test_setup_scanner(hass: __HAC_KEEP__) -> None:
     """Test setup_scanner."""
     with patch(
         "universalassistant.components.aprs.device_tracker.AprsListenerThread"
@@ -365,7 +365,7 @@ async def test_setup_scanner(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_setup_scanner_timeout(hass: UniversalAssistant) -> None:
+async def test_setup_scanner_timeout(hass: __HAC_KEEP__) -> None:
     """Test setup_scanner failure from timeout."""
     with patch.object(IS, "connect", side_effect=TimeoutError):
         config = {

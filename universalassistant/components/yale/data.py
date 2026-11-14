@@ -5,8 +5,8 @@ from yalexs.manager.data import YaleXSData
 from yalexs_ble import YaleXSBLEDiscovery
 
 from universalassistant.config_entries import SOURCE_INTEGRATION_DISCOVERY
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import discovery_flow
 
 from .gateway import YaleGateway
@@ -16,7 +16,7 @@ YALEXS_BLE_DOMAIN = "yalexs_ble"
 
 @callback
 def _async_trigger_ble_lock_discovery(
-    hass: UniversalAssistant, locks_with_offline_keys: list[LockDetail]
+    hass: __HAC_KEEP__, locks_with_offline_keys: list[LockDetail]
 ) -> None:
     """Update keys for the yalexs-ble integration if available."""
     for lock_detail in locks_with_offline_keys:
@@ -39,10 +39,10 @@ def _async_trigger_ble_lock_discovery(
 class YaleData(YaleXSData):
     """yale data object."""
 
-    def __init__(self, hass: UniversalAssistant, yale_gateway: YaleGateway) -> None:
+    def __init__(self, hass: __HAC_KEEP__, yale_gateway: YaleGateway) -> None:
         """Init yale data object."""
         self._hass = hass
-        super().__init__(yale_gateway, UniversalAssistantError)
+        super().__init__(yale_gateway, __HAC_KEEP__Error)
 
     @callback
     def async_offline_key_discovered(self, detail: LockDetail) -> None:

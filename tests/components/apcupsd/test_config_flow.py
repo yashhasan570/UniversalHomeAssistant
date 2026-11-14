@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.apcupsd.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import CONF_DATA, MOCK_MINIMAL_STATUS, MOCK_STATUS
@@ -21,7 +21,7 @@ from . import CONF_DATA, MOCK_MINIMAL_STATUS, MOCK_STATUS
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     mock_request_status: AsyncMock,
 ) -> None:
@@ -53,7 +53,7 @@ async def test_config_flow_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_duplicate_host_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_request_status: AsyncMock,
 ) -> None:
@@ -101,7 +101,7 @@ async def test_config_flow_duplicate_host_port(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_duplicate_serial_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_request_status: AsyncMock,
 ) -> None:
@@ -148,7 +148,7 @@ async def test_config_flow_duplicate_serial_number(
 
 
 async def test_flow_works(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_request_status: AsyncMock,
 ) -> None:
@@ -185,7 +185,7 @@ async def test_flow_works(
     indirect=["mock_request_status"],
 )
 async def test_flow_minimal_status(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     expected_title: str,
     expected_unique_id: str | None,
     mock_setup_entry: AsyncMock,
@@ -218,7 +218,7 @@ async def test_flow_minimal_status(
 
 
 async def test_reconfigure_flow_works(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_request_status: AsyncMock,
@@ -249,7 +249,7 @@ async def test_reconfigure_flow_works(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_request_status: AsyncMock,
 ) -> None:
@@ -290,7 +290,7 @@ async def test_reconfigure_flow_cannot_connect(
     ],
 )
 async def test_reconfigure_flow_wrong_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unique_id_before: str | None,
     unique_id_after: str,
     mock_config_entry: MockConfigEntry,

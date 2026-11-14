@@ -25,8 +25,8 @@ from universalassistant.const import (
     STATE_ON,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -38,7 +38,7 @@ from .conftest import (
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     entity_registry: er.EntityRegistry,
@@ -51,7 +51,7 @@ async def test_setup(
 
 
 async def _setup_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     *,
@@ -94,7 +94,7 @@ async def _setup_switch(
     ],
 )
 async def test_switch_icons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     label: str,
@@ -121,14 +121,14 @@ async def test_switch_icons(
     ],
 )
 async def test_switch_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     service: str,
     initial_state: str,
     expected_state: str,
 ) -> None:
-    """Test switch services update Universal Universal Home Assistant state."""
+    """Test switch services update __HA_KEEP__ state."""
     system, switch, entity_id, _ = await _setup_switch(
         hass,
         config_entry,
@@ -159,19 +159,19 @@ async def test_switch_actions(
     [
         pytest.param(
             AqualinkServiceException,
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Aqualink error: AqualinkServiceException",
             id="service",
         ),
         pytest.param(
             TimeoutError(),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Aqualink error: TimeoutError",
             id="timeout",
         ),
         pytest.param(
             httpx2.HTTPError("boom"),
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             "Aqualink error: boom",
             id="http",
         ),
@@ -184,7 +184,7 @@ async def test_switch_actions(
     ],
 )
 async def test_switch_turn_off_errors_leave_state_unchanged(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     client: AqualinkClient,
     raised_exception: Exception | type[Exception],

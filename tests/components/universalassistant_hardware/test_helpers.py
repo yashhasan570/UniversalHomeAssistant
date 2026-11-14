@@ -24,7 +24,7 @@ from universalassistant.components.universalassistant_hardware.util import (
 )
 from universalassistant.components.usb import DOMAIN as USB_DOMAIN, USBDevice
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -45,7 +45,7 @@ FIRMWARE_INFO_SPINEL = FirmwareInfo(
 )
 
 
-async def test_dispatcher_registration(hass: UniversalAssistant) -> None:
+async def test_dispatcher_registration(hass: __HAC_KEEP__) -> None:
     """Test HardwareInfoDispatcher registration."""
 
     await async_setup_component(hass, DOMAIN, {})
@@ -120,7 +120,7 @@ async def test_dispatcher_registration(hass: UniversalAssistant) -> None:
 
 
 async def test_dispatcher_iter_error_handling(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test HardwareInfoDispatcher ignoring errors from firmware info providers."""
 
@@ -160,7 +160,7 @@ async def test_dispatcher_iter_error_handling(
 
 
 async def test_dispatcher_callback_error_handling(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test HardwareInfoDispatcher ignoring errors from firmware info callbacks."""
 
@@ -192,7 +192,7 @@ async def test_dispatcher_callback_error_handling(
     assert callback2.mock_calls == [call(FIRMWARE_INFO_EZSP)]
 
 
-async def test_firmware_update_tracking(hass: UniversalAssistant) -> None:
+async def test_firmware_update_tracking(hass: __HAC_KEEP__) -> None:
     """Test firmware update tracking API."""
     await async_setup_component(hass, DOMAIN, {})
 
@@ -224,7 +224,7 @@ async def test_firmware_update_tracking(hass: UniversalAssistant) -> None:
     assert not async_is_firmware_update_in_progress(hass, device_path)
 
 
-async def test_firmware_update_context_manager(hass: UniversalAssistant) -> None:
+async def test_firmware_update_context_manager(hass: __HAC_KEEP__) -> None:
     """Test firmware update progress context manager."""
     await async_setup_component(hass, DOMAIN, {})
 
@@ -262,7 +262,7 @@ async def test_firmware_update_context_manager(hass: UniversalAssistant) -> None
     assert not async_is_firmware_update_in_progress(hass, device_path)
 
 
-async def test_dispatcher_callback_self_unregister(hass: UniversalAssistant) -> None:
+async def test_dispatcher_callback_self_unregister(hass: __HAC_KEEP__) -> None:
     """Test callbacks can unregister themselves during notification."""
     await async_setup_component(hass, DOMAIN, {})
 
@@ -302,7 +302,7 @@ async def test_dispatcher_callback_self_unregister(hass: UniversalAssistant) -> 
 
 
 async def test_firmware_callback_no_usb_device(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test firmware notification when usb_device_from_path returns None."""
     await async_setup_component(hass, DOMAIN, {})
@@ -333,7 +333,7 @@ async def test_firmware_callback_no_usb_device(
 
 
 async def test_firmware_callback_no_hardware_domain(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test firmware notification when no hardware domain is found for device."""
     await async_setup_component(hass, DOMAIN, {})
@@ -383,14 +383,14 @@ async def test_firmware_callback_no_hardware_domain(
     ],
 )
 async def test_get_serial_port_via_device_id_none(
-    hass: UniversalAssistant, device: str
+    hass: __HAC_KEEP__, device: str
 ) -> None:
     """Test serial ports without a known device they are connected through."""
     assert async_get_serial_port_via_device_id(hass, device) is None
 
 
 async def test_get_serial_port_via_device_id_esphome(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test an ESPHome serial proxy port is connected through the ESPHome device."""
     esphome_entry = MockConfigEntry(domain="esphome", unique_id="11:22:33:44:55:66")

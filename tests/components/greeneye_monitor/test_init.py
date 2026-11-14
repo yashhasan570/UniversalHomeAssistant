@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock
 import pytest
 
 from universalassistant.components.greeneye_monitor import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from .common import (
@@ -28,7 +28,7 @@ from .conftest import (
 
 
 async def test_setup_fails_if_no_sensors_defined(
-    hass: UniversalAssistant, monitors: AsyncMock
+    hass: __HAC_KEEP__, monitors: AsyncMock
 ) -> None:
     """Test that component setup fails if there are no sensors defined in the YAML."""
     success = await setup_greeneye_monitor_component_with_config(
@@ -39,14 +39,14 @@ async def test_setup_fails_if_no_sensors_defined(
 
 @pytest.mark.xfail(reason="Currently failing. Will fix in subsequent PR.")
 async def test_setup_succeeds_no_config(
-    hass: UniversalAssistant, monitors: AsyncMock
+    hass: __HAC_KEEP__, monitors: AsyncMock
 ) -> None:
     """Test that component setup succeeds if there is no config present in the YAML."""
     assert await async_setup_component(hass, DOMAIN, {})
 
 
 async def test_setup_creates_temperature_entities(
-    hass: UniversalAssistant, monitors: AsyncMock
+    hass: __HAC_KEEP__, monitors: AsyncMock
 ) -> None:
     """Test that component setup registers temperature sensors properly."""
     assert await setup_greeneye_monitor_component_with_config(
@@ -80,7 +80,7 @@ async def test_setup_creates_temperature_entities(
 
 
 async def test_setup_creates_pulse_counter_entities(
-    hass: UniversalAssistant, monitors: AsyncMock
+    hass: __HAC_KEEP__, monitors: AsyncMock
 ) -> None:
     """Test that component setup registers pulse counters properly."""
     assert await setup_greeneye_monitor_component_with_config(
@@ -117,7 +117,7 @@ async def test_setup_creates_pulse_counter_entities(
 
 
 async def test_setup_creates_power_sensor_entities(
-    hass: UniversalAssistant, monitors: AsyncMock
+    hass: __HAC_KEEP__, monitors: AsyncMock
 ) -> None:
     """Test that component setup registers power sensors correctly."""
     assert await setup_greeneye_monitor_component_with_config(
@@ -129,7 +129,7 @@ async def test_setup_creates_power_sensor_entities(
 
 
 async def test_setup_creates_voltage_sensor_entities(
-    hass: UniversalAssistant, monitors: AsyncMock
+    hass: __HAC_KEEP__, monitors: AsyncMock
 ) -> None:
     """Test that component setup registers voltage sensors properly."""
     assert await setup_greeneye_monitor_component_with_config(
@@ -139,7 +139,7 @@ async def test_setup_creates_voltage_sensor_entities(
     assert_voltage_sensor_registered(hass, SINGLE_MONITOR_SERIAL_NUMBER, 1, "voltage 1")
 
 
-async def test_multi_monitor_config(hass: UniversalAssistant, monitors: AsyncMock) -> None:
+async def test_multi_monitor_config(hass: __HAC_KEEP__, monitors: AsyncMock) -> None:
     """Test that component setup registers entities from multiple monitors correctly."""
     assert await setup_greeneye_monitor_component_with_config(
         hass,
@@ -155,7 +155,7 @@ async def test_multi_monitor_config(hass: UniversalAssistant, monitors: AsyncMoc
     assert_temperature_sensor_registered(hass, 3, 1, "unit_3_temp_1")
 
 
-async def test_setup_and_shutdown(hass: UniversalAssistant, monitors: AsyncMock) -> None:
+async def test_setup_and_shutdown(hass: __HAC_KEEP__, monitors: AsyncMock) -> None:
     """Test the component can set up and shut down cleanly."""
     monitors.start_server = AsyncMock(return_value=None)
     monitors.close = AsyncMock(return_value=None)

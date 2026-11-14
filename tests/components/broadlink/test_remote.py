@@ -34,8 +34,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import BroadlinkDevice, MockSetup, get_device
@@ -60,7 +60,7 @@ def no_learning_delay() -> Generator[None]:
 
 
 async def _async_setup_remote(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device: BroadlinkDevice,
 ) -> tuple[MockSetup, str]:
@@ -73,7 +73,7 @@ async def _async_setup_remote(
     return mock_setup, remote.entity_id
 
 
-async def _async_reload_remote(hass: UniversalAssistant, mock_setup: MockSetup) -> None:
+async def _async_reload_remote(hass: __HAC_KEEP__, mock_setup: MockSetup) -> None:
     """Reload the config entry, so the remote reads its codes back from storage."""
     with patch(
         "universalassistant.components.broadlink.device.blk.gendevice",
@@ -84,7 +84,7 @@ async def _async_reload_remote(hass: UniversalAssistant, mock_setup: MockSetup) 
 
 
 async def _async_call_remote(
-    hass: UniversalAssistant, service: str, entity_id: str, **data: Any
+    hass: __HAC_KEEP__, service: str, entity_id: str, **data: Any
 ) -> None:
     """Call a remote action for the subdevice."""
     await hass.services.async_call(
@@ -96,7 +96,7 @@ async def _async_call_remote(
 
 
 async def test_remote_setup_works(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_remote_setup_works(
 
 
 async def test_remote_send_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -161,7 +161,7 @@ async def test_remote_send_command(
     ],
 )
 async def test_remote_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -204,7 +204,7 @@ async def test_remote_availability(
 
 
 async def test_remote_turn_off_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -263,7 +263,7 @@ async def test_remote_turn_off_turn_on(
     ],
 )
 async def test_remote_send_command_error_stops_sending(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     error: Exception,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_remote_send_command_error_stops_sending(
     mock_setup, entity_id = await _async_setup_remote(hass, entity_registry, device)
     mock_setup.api.send_data.side_effect = [None, error]
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             REMOTE_DOMAIN,
             SERVICE_SEND_COMMAND,
@@ -291,7 +291,7 @@ async def test_remote_send_command_error_stops_sending(
 
 @pytest.mark.usefixtures("no_learning_delay")
 async def test_remote_send_command_error_stores_toggle_flags(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -307,7 +307,7 @@ async def test_remote_send_command_error_stores_toggle_flags(
     )
     mock_setup.api.send_data.side_effect = [None, BroadlinkException("boom")]
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await _async_call_remote(
             hass,
             SERVICE_SEND_COMMAND,
@@ -329,7 +329,7 @@ async def test_remote_send_command_error_stores_toggle_flags(
 
 @pytest.mark.usefixtures("no_learning_delay")
 async def test_remote_learn_command_error_stops_learning(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test a fatal learning error stops learning but stores what was learned."""
@@ -338,7 +338,7 @@ async def test_remote_learn_command_error_stops_learning(
     mock_setup.api.check_data.return_value = b64decode(IR_PACKET)
     mock_setup.api.enter_learning.side_effect = [None, NetworkTimeoutError("boom")]
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await _async_call_remote(
             hass,
             SERVICE_LEARN_COMMAND,
@@ -375,7 +375,7 @@ async def test_remote_learn_command_error_stops_learning(
 )
 @pytest.mark.usefixtures("no_learning_delay")
 async def test_remote_learn_command_skips_failed_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     side_effect: list[Exception | None],
     translation_key: str,
@@ -387,7 +387,7 @@ async def test_remote_learn_command_skips_failed_commands(
     mock_setup.api.check_data.return_value = b64decode(IR_PACKET)
     mock_setup.api.enter_learning.side_effect = side_effect
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await _async_call_remote(
             hass,
             SERVICE_LEARN_COMMAND,
@@ -410,7 +410,7 @@ async def test_remote_learn_command_skips_failed_commands(
 
 @pytest.mark.usefixtures("no_learning_delay")
 async def test_remote_delete_command_reports_unknown_commands(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -463,7 +463,7 @@ async def test_remote_delete_command_reports_unknown_commands(
 )
 @pytest.mark.usefixtures("no_learning_delay")
 async def test_remote_delete_command_reports_invalid_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     commands: list[str],
     subdevice: str,
@@ -504,7 +504,7 @@ def mock_sleep() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_sleep")
 async def test_remote_learn_rf_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -574,7 +574,7 @@ async def test_remote_learn_rf_command(
 )
 @pytest.mark.usefixtures("mock_sleep")
 async def test_remote_learn_rf_command_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
     api_method: str,
@@ -594,7 +594,7 @@ async def test_remote_learn_rf_command_failure(
             "universalassistant.components.broadlink.remote.LEARNING_TIMEOUT",
             learning_timeout,
         ),
-        pytest.raises(UniversalAssistantError, match="Failed to learn command 'light'"),
+        pytest.raises(__HAC_KEEP__Error, match="Failed to learn command 'light'"),
     ):
         await _async_call_remote(
             hass, SERVICE_LEARN_COMMAND, entity_id, command="light", command_type="rf"
@@ -607,7 +607,7 @@ async def test_remote_learn_rf_command_failure(
 
 @pytest.mark.usefixtures("mock_sleep")
 async def test_remote_learn_rf_command_cancelled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test cancelling RF learning while polling the frequency ends the sweep."""
@@ -649,7 +649,7 @@ async def test_remote_learn_rf_command_cancelled(
     ],
 )
 async def test_remote_rf_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     service: str,
     service_data: dict[str, Any],

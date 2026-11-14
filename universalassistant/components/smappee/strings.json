@@ -14,7 +14,7 @@
         "data": {
           "environment": "Environment"
         },
-        "description": "Set up your Smappee to integrate with Universal Universal Home Assistant."
+        "description": "Set up your Smappee to integrate with __HA_KEEP__."
       },
       "local": {
         "data": {
@@ -36,7 +36,7 @@
         "title": "[%key:common::config_flow::title::reauth%]"
       },
       "zeroconf_confirm": {
-        "description": "Do you want to add the Smappee device with serial number `{serialnumber}` to Universal Universal Home Assistant?",
+        "description": "Do you want to add the Smappee device with serial number `{serialnumber}` to __HA_KEEP__?",
         "title": "Discovered Smappee device"
       }
     }

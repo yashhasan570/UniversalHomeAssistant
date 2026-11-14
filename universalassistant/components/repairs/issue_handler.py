@@ -5,8 +5,8 @@ from typing import Any, override
 import probatio
 
 from universalassistant import data_entry_flow
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.frame import ReportBehavior, report_usage
 from universalassistant.helpers.integration_platform import LazyIntegrationPlatforms
@@ -125,7 +125,7 @@ class RepairsFlowManager(
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Initialize repairs."""
     hass.data[DATA_REPAIRS] = RepairsData(
         RepairsFlowManager(hass),
@@ -135,9 +135,9 @@ def async_setup(hass: UniversalAssistant) -> None:
 
 @callback
 def _process_repairs_platform(
-    hass: UniversalAssistant, integration_domain: str, platform: RepairsProtocol
+    hass: __HAC_KEEP__, integration_domain: str, platform: RepairsProtocol
 ) -> RepairsProtocol:
     """Process a repairs platform."""
     if not hasattr(platform, "async_create_fix_flow"):
-        raise UniversalAssistantError(f"Invalid repairs platform {platform}")
+        raise __HAC_KEEP__Error(f"Invalid repairs platform {platform}")
     return platform

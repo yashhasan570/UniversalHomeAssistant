@@ -3,7 +3,7 @@
 from typing import override
 
 from universalassistant.components.binary_sensor import BinarySensorEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -13,7 +13,7 @@ from .entity import ModernFormsDeviceEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ModernFormsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

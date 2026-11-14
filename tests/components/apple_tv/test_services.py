@@ -13,14 +13,14 @@ from universalassistant.components.apple_tv.services import (
     AppleTVServiceArgument,
 )
 from universalassistant.const import ATTR_CONFIG_ENTRY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 pytestmark = pytest.mark.usefixtures("init_integration")
 
 
 async def test_set_keyboard_text(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atv: AsyncMock,
 ) -> None:
@@ -38,7 +38,7 @@ async def test_set_keyboard_text(
 
 
 async def test_append_keyboard_text(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atv: AsyncMock,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_append_keyboard_text(
 
 
 async def test_clear_keyboard_text(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atv: AsyncMock,
 ) -> None:
@@ -71,13 +71,13 @@ async def test_clear_keyboard_text(
 
 
 async def test_set_keyboard_text_not_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atv: AsyncMock,
 ) -> None:
     """Test error when device is not connected."""
     mock_config_entry.runtime_data.atv = None
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             AppleTVService.SET_KEYBOARD_TEXT,
@@ -90,7 +90,7 @@ async def test_set_keyboard_text_not_connected(
 
 
 async def test_set_keyboard_text_not_focused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atv: AsyncMock,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_set_keyboard_text_not_focused(
 
 
 async def test_set_keyboard_text_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atv: AsyncMock,
 ) -> None:
@@ -136,13 +136,13 @@ async def test_set_keyboard_text_not_supported(
 
 
 async def test_set_keyboard_text_protocol_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_atv: AsyncMock,
 ) -> None:
     """Test error when text_set raises a protocol error."""
     mock_atv.keyboard.text_set.side_effect = ProtocolError("send failed")
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             AppleTVService.SET_KEYBOARD_TEXT,

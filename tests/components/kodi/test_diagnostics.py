@@ -9,13 +9,13 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import VIDEO_PLAYER, setup_integration
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_kodi: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -33,7 +33,7 @@ async def test_diagnostics(
 
 @pytest.mark.usefixtures("mock_kodi")
 async def test_diagnostics_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_connection: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -65,7 +65,7 @@ async def test_diagnostics_disconnected(
     ],
 )
 async def test_diagnostics_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_kodi: MagicMock,
     mock_config_entry: MockConfigEntry,

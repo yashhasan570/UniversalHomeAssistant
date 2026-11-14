@@ -7,7 +7,7 @@ from nextcloudmonitor import NextcloudMonitor, NextcloudMonitorError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DEFAULT_SCAN_INTERVAL
@@ -23,7 +23,7 @@ class NextcloudDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: NextcloudConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, ncm: NextcloudMonitor, entry: NextcloudConfigEntry
+        self, hass: __HAC_KEEP__, ncm: NextcloudMonitor, entry: NextcloudConfigEntry
     ) -> None:
         """Initialize the Nextcloud coordinator."""
         self.ncm = ncm

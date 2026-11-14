@@ -20,7 +20,7 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Context, UniversalAssistant, ServiceCall
+from universalassistant.core import Context, __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import (
     condition,
     config_validation as cv,
@@ -53,7 +53,7 @@ class TestEntity(trigger_entity.TriggerEntity):
         return self._rendered.get(self._state_option)
 
 
-async def test_reference_blueprints_is_none(hass: UniversalAssistant) -> None:
+async def test_reference_blueprints_is_none(hass: __HAC_KEEP__) -> None:
     """Test template entity requires hass to be set before accepting templates."""
     coordinator = TriggerUpdateCoordinator(hass, {})
     entity = trigger_entity.TriggerEntity(hass, coordinator, {})
@@ -61,7 +61,7 @@ async def test_reference_blueprints_is_none(hass: UniversalAssistant) -> None:
     assert entity.referenced_blueprint is None
 
 
-async def test_template_state(hass: UniversalAssistant) -> None:
+async def test_template_state(hass: __HAC_KEEP__) -> None:
     """Test manual trigger template entity with a state."""
     config = {
         CONF_NAME: template.Template("test_entity", hass),
@@ -92,7 +92,7 @@ async def test_template_state(hass: UniversalAssistant) -> None:
 
 
 async def test_validator_error_recovery(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Invalid results clear the attribute without preventing later updates."""
     config = {
@@ -121,7 +121,7 @@ async def test_validator_error_recovery(
     assert hass.states.get("test.entity").state == "third"
 
 
-async def test_validator_error_callback(hass: UniversalAssistant) -> None:
+async def test_validator_error_callback(hass: __HAC_KEEP__) -> None:
     """Pass None to the update callback on validation failure and recover."""
     config = {
         CONF_ICON: template.Template("{{ icon }}", hass),
@@ -143,7 +143,7 @@ async def test_validator_error_callback(hass: UniversalAssistant) -> None:
     on_update.assert_called_once_with("mdi:home")
 
 
-async def test_bad_template_state(hass: UniversalAssistant) -> None:
+async def test_bad_template_state(hass: __HAC_KEEP__) -> None:
     """Test manual trigger template entity with a state."""
     config = {
         CONF_NAME: template.Template("test_entity", hass),
@@ -175,7 +175,7 @@ async def test_bad_template_state(hass: UniversalAssistant) -> None:
 
 
 async def test_template_state_syntax_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test manual trigger template entity when state render fails."""
     config = {
@@ -201,7 +201,7 @@ async def test_template_state_syntax_error(
 
 
 async def test_script_variables_from_coordinator(
-    hass: UniversalAssistant, calls: list[ServiceCall], caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, calls: list[ServiceCall], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test script variables."""
     await async_trigger(hass, "sensor.start", "1")
@@ -255,7 +255,7 @@ async def test_script_variables_from_coordinator(
 
 
 async def test_trigger_variables(
-    hass: UniversalAssistant, calls: list[ServiceCall], caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, calls: list[ServiceCall], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test trigger variables are available to triggers, actions and entities."""
     with assert_setup_component(1, DOMAIN):
@@ -311,7 +311,7 @@ async def test_trigger_variables(
 
 
 async def test_no_update_when_actions_already_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -365,7 +365,7 @@ async def test_no_update_when_actions_already_running(
     ],
 )
 async def test_variables_error_logs_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
     actions: dict,
@@ -420,7 +420,7 @@ async def test_variables_error_logs_entities(
     ],
 )
 async def test_variables_error_logs_config_without_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     block_config: dict[str, str],
@@ -461,7 +461,7 @@ async def test_variables_error_logs_config_without_entities(
 
 
 async def test_variables_error_logs_without_entity_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test variables errors are logged for a trigger block without entities."""
@@ -487,7 +487,7 @@ async def test_variables_error_logs_without_entity_config(
 
 
 async def test_variables_error_logs_entities_after_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -516,7 +516,7 @@ async def test_variables_error_logs_entities_after_entity_id_change(
 
 
 async def test_trigger_variables_passed_to_entity_actions(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test trigger variables are passed to entity action scripts."""
     with assert_setup_component(1, DOMAIN):
@@ -560,7 +560,7 @@ async def test_trigger_variables_passed_to_entity_actions(
 
 
 async def test_entity_action_variables_override_trigger_variables(
-    hass: UniversalAssistant, calls: list[ServiceCall]
+    hass: __HAC_KEEP__, calls: list[ServiceCall]
 ) -> None:
     """Test variables passed to an entity action override trigger variables."""
     with assert_setup_component(1, DOMAIN):
@@ -621,7 +621,7 @@ async def test_entity_action_variables_override_trigger_variables(
     ],
 )
 async def test_variables_cannot_shadow_trigger_data(
-    hass: UniversalAssistant, trigger_variables: dict
+    hass: __HAC_KEEP__, trigger_variables: dict
 ) -> None:
     """Test variables that collide with trigger data do not affect later variables."""
     with assert_setup_component(1, DOMAIN):
@@ -668,7 +668,7 @@ async def test_variables_cannot_shadow_trigger_data(
     ],
 )
 async def test_variables_reference_trigger_variables(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     variables: dict,
     expected: str,
     caplog: pytest.LogCaptureFixture,
@@ -696,7 +696,7 @@ async def test_variables_reference_trigger_variables(
     assert "TemplateError" not in caplog.text
 
 
-async def test_trigger_variables_rendered_on_reload(hass: UniversalAssistant) -> None:
+async def test_trigger_variables_rendered_on_reload(hass: __HAC_KEEP__) -> None:
     """Test trigger variables are rendered when the configuration is reloaded."""
 
     def _config(event_prefix: str) -> dict:
@@ -736,7 +736,7 @@ async def test_trigger_variables_rendered_on_reload(hass: UniversalAssistant) ->
 
 
 async def test_bad_trigger_variables(
-    hass: UniversalAssistant, calls: list[ServiceCall], caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, calls: list[ServiceCall], caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test trigger variables accessing hass are rejected."""
     with assert_setup_component(1, DOMAIN):
@@ -766,21 +766,21 @@ async def test_bad_trigger_variables(
     assert state.state == STATE_UNKNOWN
 
 
-async def test_default_entity_id(hass: UniversalAssistant) -> None:
+async def test_default_entity_id(hass: __HAC_KEEP__) -> None:
     """Test template entity creates suggested entity_id from the default_entity_id."""
     coordinator = TriggerUpdateCoordinator(hass, {})
     entity = TestEntity(hass, coordinator, {"default_entity_id": "test.test"})
     assert entity.entity_id == "test.test"
 
 
-async def test_bad_default_entity_id(hass: UniversalAssistant) -> None:
+async def test_bad_default_entity_id(hass: __HAC_KEEP__) -> None:
     """Test template entity creates suggested entity_id from the default_entity_id."""
     coordinator = TriggerUpdateCoordinator(hass, {})
     entity = TestEntity(hass, coordinator, {"default_entity_id": "bad.test"})
     assert entity.entity_id == "test.test"
 
 
-async def test_multiple_template_validators(hass: UniversalAssistant) -> None:
+async def test_multiple_template_validators(hass: __HAC_KEEP__) -> None:
     """Tests multiple templates execute validators."""
     await async_trigger(hass, "sensor.state", "opening")
     await async_trigger(hass, "sensor.position", "50")
@@ -818,7 +818,7 @@ async def test_multiple_template_validators(hass: UniversalAssistant) -> None:
 
 
 async def test_coordinator_shutdown_unloads_script_and_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that coordinator shutdown stops and unloads script and condition."""
     coordinator = TriggerUpdateCoordinator(hass, {})
@@ -835,7 +835,7 @@ async def test_coordinator_shutdown_unloads_script_and_condition(
 
 
 async def test_shutdown_stops_script_and_keeps_triggers_subscribed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test HA shutdown stops coordinator scripts without unsubscribing."""
     assert await async_setup_component(
@@ -888,7 +888,7 @@ async def test_shutdown_stops_script_and_keeps_triggers_subscribed(
 
 
 async def test_reload_stops_script_and_unsubscribes_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that reloading stops coordinator scripts and unsubscribes old triggers."""
     assert await async_setup_component(
@@ -945,7 +945,7 @@ async def test_reload_stops_script_and_unsubscribes_triggers(
     assert listeners.get("test_event", 0) == 0
 
 
-async def test_entity_conditions_with_multiple_entities(hass: UniversalAssistant) -> None:
+async def test_entity_conditions_with_multiple_entities(hass: __HAC_KEEP__) -> None:
     """Test entity conditions with multiple entities."""
     with assert_setup_component(1, DOMAIN):
         assert await async_setup_component(
@@ -1013,7 +1013,7 @@ async def test_entity_conditions_with_multiple_entities(hass: UniversalAssistant
     assert state.state == "0"
 
 
-async def test_entity_conditions_variables(hass: UniversalAssistant) -> None:
+async def test_entity_conditions_variables(hass: __HAC_KEEP__) -> None:
     """Test entity conditions variables."""
     await async_trigger(hass, "sensor.start", "0")
     with assert_setup_component(1, DOMAIN):
@@ -1081,7 +1081,7 @@ async def test_entity_conditions_variables(hass: UniversalAssistant) -> None:
 
 
 async def test_entity_remove_unloads_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that removing the entity unloads the condition."""
     coordinator = TriggerUpdateCoordinator(hass, {})
@@ -1096,7 +1096,7 @@ async def test_entity_remove_unloads_condition(
 
 
 async def test_trigger_without_context_does_not_inherit_context(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test a trigger without a context does not reuse the previous trigger's one."""
     freezer.move_to("2026-01-01 00:00:00+00:00")

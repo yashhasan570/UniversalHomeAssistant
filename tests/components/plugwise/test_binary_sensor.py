@@ -6,7 +6,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import async_update_entity
 
@@ -15,7 +15,7 @@ from universalassistant.helpers.entity_component import async_update_entity
 @pytest.mark.parametrize("platforms", [(BINARY_SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_adam_binary_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -30,7 +30,7 @@ async def test_adam_binary_sensor_snapshot(
 @pytest.mark.parametrize("platforms", [(BINARY_SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_anna_binary_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,
@@ -43,7 +43,7 @@ async def test_anna_binary_sensor_snapshot(
 @pytest.mark.parametrize("chosen_env", ["anna_heatpump_heating"], indirect=True)
 @pytest.mark.parametrize("cooling_present", [True], indirect=True)
 async def test_anna_climate_binary_sensor_change(
-    hass: UniversalAssistant, init_integration: MockConfigEntry
+    hass: __HAC_KEEP__, init_integration: MockConfigEntry
 ) -> None:
     """Test change of climate related binary_sensor entities."""
     hass.states.async_set("binary_sensor.opentherm_dhw_state", STATE_ON, {})
@@ -67,7 +67,7 @@ async def test_anna_climate_binary_sensor_change(
 @pytest.mark.parametrize("platforms", [(BINARY_SENSOR_DOMAIN,)])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_p1_v4_binary_sensor_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     setup_platform: MockConfigEntry,

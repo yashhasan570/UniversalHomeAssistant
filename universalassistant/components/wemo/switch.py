@@ -8,7 +8,7 @@ from pywemo import CoffeeMaker, Insight, Maker, StandbyState, Switch
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_STANDBY, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import async_wemo_dispatcher_connect
@@ -32,7 +32,7 @@ MAKER_SWITCH_TOGGLE = "toggle"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     _config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

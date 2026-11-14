@@ -10,12 +10,12 @@ from pytest_universalassistant.common import MockConfigEntry, async_load_json_ob
 from universalassistant.components.aqvify.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_flow(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_aqvify_client: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_aqvify_client: MagicMock
 ) -> None:
     """Test full flow."""
     result = await hass.config_entries.flow.async_init(
@@ -41,7 +41,7 @@ async def test_full_flow(
 
 
 async def test_missing_username(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_aqvify_client: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_aqvify_client: MagicMock
 ) -> None:
     """Test full flow with missing name in account."""
     result = await hass.config_entries.flow.async_init(
@@ -82,7 +82,7 @@ async def test_missing_username(
     ],
 )
 async def test_form_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_aqvify_client: MagicMock,
     side_effect: Exception,
@@ -125,7 +125,7 @@ async def test_form_invalid(
 
 
 async def test_same_account_setup(
-    hass: UniversalAssistant, mock_config_entry: AsyncMock, mock_aqvify_client: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: AsyncMock, mock_aqvify_client: MagicMock
 ) -> None:
     """Test setup same account twice."""
 
@@ -159,7 +159,7 @@ async def test_same_account_setup(
     ids=["same_account", "different_account"],
 )
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aqvify_client: MagicMock,
     return_value: str,
@@ -195,7 +195,7 @@ async def test_reauth_flow(
     ids=["invalid_auth", "cannot_connect"],
 )
 async def test_reauth_flow_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aqvify_client: MagicMock,
     side_effect: Exception,
@@ -236,7 +236,7 @@ async def test_reauth_flow_error(
     ids=["same_account", "different_account"],
 )
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_aqvify_client: MagicMock,
     return_value: str,

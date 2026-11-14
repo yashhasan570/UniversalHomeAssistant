@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant unit conversion utility functions."""
+"""Test __HA_KEEP__ unit conversion utility functions."""
 
 import inspect
 
@@ -32,7 +32,7 @@ from universalassistant.const import (
     UnitOfVolumeFlowRate,
     UnitOfVolumetricFlux,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import unit_conversion
 from universalassistant.util.unit_conversion import (
     ApparentPowerConverter,
@@ -1299,10 +1299,10 @@ def test_convert_same_unit(converter: type[BaseUnitConverter]) -> None:
 def test_convert_invalid_unit(converter: type[BaseUnitConverter]) -> None:
     """Test exception is thrown for invalid units."""
     for valid_unit in _ALL_CONVERTERS[converter]:
-        with pytest.raises(UniversalAssistantError, match="is not a recognized .* unit"):
+        with pytest.raises(__HAC_KEEP__Error, match="is not a recognized .* unit"):
             converter.convert(5, INVALID_SYMBOL, valid_unit)
 
-        with pytest.raises(UniversalAssistantError, match="is not a recognized .* unit"):
+        with pytest.raises(__HAC_KEEP__Error, match="is not a recognized .* unit"):
             converter.convert(5, valid_unit, INVALID_SYMBOL)
 
 

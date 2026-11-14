@@ -39,7 +39,7 @@ from universalassistant.const import (
     CONF_XY,
     Platform,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -160,7 +160,7 @@ LIGHT_CONFIG_ENTRY_SCHEMA = probatio.All(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -179,7 +179,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -197,7 +197,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_light(
-    hass: UniversalAssistant, name: str, config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
 ) -> StateLightEntity:
     """Create a preview."""
     return async_setup_template_preview(
@@ -892,7 +892,7 @@ class StateLightEntity(TemplateEntity, AbstractTemplateLight):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: dict[str, Any],
         unique_id: str | None,
     ) -> None:
@@ -911,7 +911,7 @@ class TriggerLightEntity(TriggerEntity, AbstractTemplateLight):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: TriggerUpdateCoordinator,
         config: ConfigType,
     ) -> None:

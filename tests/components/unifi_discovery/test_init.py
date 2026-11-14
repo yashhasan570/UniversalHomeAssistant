@@ -11,7 +11,7 @@ from universalassistant.components.unifi_discovery.discovery import (
     _announced_ips,
     _device_to_dict,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 from . import (
@@ -21,7 +21,7 @@ from . import (
 )
 
 
-async def test_setup_starts_discovery(hass: UniversalAssistant) -> None:
+async def test_setup_starts_discovery(hass: __HAC_KEEP__) -> None:
     """Test that async_setup starts discovery and dispatches flows."""
     with _patch_discovery():
         assert await async_setup_component(hass, DOMAIN, {})
@@ -33,7 +33,7 @@ async def test_setup_starts_discovery(hass: UniversalAssistant) -> None:
     assert flows[0]["context"]["source"] == config_entries.SOURCE_INTEGRATION_DISCOVERY
 
 
-async def test_setup_no_devices(hass: UniversalAssistant) -> None:
+async def test_setup_no_devices(hass: __HAC_KEEP__) -> None:
     """Test setup with no devices found."""
     with _patch_discovery(no_device=True):
         assert await async_setup_component(hass, DOMAIN, {})
@@ -43,7 +43,7 @@ async def test_setup_no_devices(hass: UniversalAssistant) -> None:
     assert len(flows) == 0
 
 
-async def test_setup_device_without_mac(hass: UniversalAssistant) -> None:
+async def test_setup_device_without_mac(hass: __HAC_KEEP__) -> None:
     """Test that devices without hw_addr are skipped."""
     with _patch_discovery(device=UNIFI_DISCOVERY_NO_MAC):
         assert await async_setup_component(hass, DOMAIN, {})
@@ -54,7 +54,7 @@ async def test_setup_device_without_mac(hass: UniversalAssistant) -> None:
 
 
 async def test_dependency_loads_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that loading unifiprotect triggers unifi_discovery as dependency."""
     with _patch_discovery():
@@ -67,7 +67,7 @@ async def test_dependency_loads_discovery(
     assert flows[0]["context"]["source"] == config_entries.SOURCE_INTEGRATION_DISCOVERY
 
 
-async def test_discovery_does_not_deepcopy_device(hass: UniversalAssistant) -> None:
+async def test_discovery_does_not_deepcopy_device(hass: __HAC_KEEP__) -> None:
     """Test discovery works without deepcopy.
 
     In production asdict() deep-copies Enum keys in the services dict which

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.volumio.config_flow import CannotConnectError
 from universalassistant.components.volumio.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -39,7 +39,7 @@ TEST_DISCOVERY_RESULT = {
 }
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -71,7 +71,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_updates_unique_id(hass: UniversalAssistant) -> None:
+async def test_form_updates_unique_id(hass: __HAC_KEEP__) -> None:
     """Test a duplicate id aborts and updates existing entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -111,7 +111,7 @@ async def test_form_updates_unique_id(hass: UniversalAssistant) -> None:
     assert entry.data == {**TEST_SYSTEM_INFO, **TEST_CONNECTION}
 
 
-async def test_empty_system_info(hass: UniversalAssistant) -> None:
+async def test_empty_system_info(hass: __HAC_KEEP__) -> None:
     """Test old volumio versions with empty system info."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -148,7 +148,7 @@ async def test_empty_system_info(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -185,7 +185,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_exception(hass: UniversalAssistant) -> None:
+async def test_form_exception(hass: __HAC_KEEP__) -> None:
     """Test we handle generic error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -222,7 +222,7 @@ async def test_form_exception(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_discovery(hass: UniversalAssistant) -> None:
+async def test_discovery(hass: __HAC_KEEP__) -> None:
     """Test discovery flow works."""
 
     result = await hass.config_entries.flow.async_init(
@@ -255,7 +255,7 @@ async def test_discovery(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_discovery_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_discovery_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test discovery aborts if cannot connect."""
 
     result = await hass.config_entries.flow.async_init(
@@ -275,7 +275,7 @@ async def test_discovery_cannot_connect(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "cannot_connect"
 
 
-async def test_discovery_duplicate_data(hass: UniversalAssistant) -> None:
+async def test_discovery_duplicate_data(hass: __HAC_KEEP__) -> None:
     """Test discovery aborts if same mDNS packet arrives."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_ZEROCONF}, data=TEST_DISCOVERY
@@ -290,7 +290,7 @@ async def test_discovery_duplicate_data(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_in_progress"
 
 
-async def test_discovery_updates_unique_id(hass: UniversalAssistant) -> None:
+async def test_discovery_updates_unique_id(hass: __HAC_KEEP__) -> None:
     """Test a duplicate discovery id aborts and updates existing entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -1,4 +1,4 @@
-"""API for homelink bound to Universal Universal Home Assistant OAuth."""
+"""API for homelink bound to __HA_KEEP__ OAuth."""
 
 from typing import cast, override
 
@@ -6,7 +6,7 @@ from aiohttp import ClientSession
 from homelink.auth.abstract_auth import AbstractAuth
 from homelink.settings import COGNITO_CLIENT_ID
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 
 from .const import OAUTH2_AUTHORIZE_URL, OAUTH2_TOKEN_URL
@@ -17,7 +17,7 @@ class HomeLinkOAuth2Implementation(
 ):
     """HomeLink OAuth2 implementation."""
 
-    def __init__(self, hass: UniversalAssistant, domain: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, domain: str) -> None:
         """Initialize the HomeLink OAuth2 implementation."""
         super().__init__(
             hass,

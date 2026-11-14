@@ -28,7 +28,7 @@ from uiprotect.websocket import WebsocketState
 
 from universalassistant.components.unifiprotect.const import ATTR_EVENT_ID
 from universalassistant.const import ATTR_ATTRIBUTION, STATE_UNAVAILABLE
-from universalassistant.core import Event as HAEvent, UniversalAssistant, callback
+from universalassistant.core import Event as HAEvent, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import async_track_state_change_event
 
@@ -134,7 +134,7 @@ def _button_event(
 
 
 async def test_fob_not_created_without_public_bootstrap(
-    hass: UniversalAssistant, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, ufp: MockUFPFixture
 ) -> None:
     """No fob entities are created when the public bootstrap is unavailable."""
     ufp.api.has_public_bootstrap = False
@@ -145,7 +145,7 @@ async def test_fob_not_created_without_public_bootstrap(
 
 
 async def test_fob_entities_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
@@ -186,7 +186,7 @@ async def test_fob_entities_created(
 
 
 async def test_fob_with_type_uses_it_as_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_fob_with_type_uses_it_as_model(
     ],
 )
 async def test_unnamed_fob_name_falls_back_to_model_and_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
     device_type: str | None,
@@ -240,7 +240,7 @@ async def test_unnamed_fob_name_falls_back_to_model_and_mac(
     ],
 )
 async def test_fob_available_regardless_of_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     state: DeviceState,
 ) -> None:
@@ -256,7 +256,7 @@ async def test_fob_available_regardless_of_state(
 
 
 async def test_fob_battery_low_updates_from_public_ws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
 ) -> None:
     """The battery binary sensor follows a low battery from the websocket."""
@@ -276,7 +276,7 @@ async def test_fob_battery_low_updates_from_public_ws(
 
 
 async def test_fob_reads_replaced_object_after_resync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
 ) -> None:
     """A resync that replaces the fob object is picked up from the bootstrap."""
@@ -297,7 +297,7 @@ async def test_fob_reads_replaced_object_after_resync(
 
 
 async def test_fob_button_event_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -328,7 +328,7 @@ async def test_fob_button_event_types(
     ],
 )
 async def test_fob_button_press_fires_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
     button: EventButtonType,
     expected_event_type: str,
@@ -363,7 +363,7 @@ async def test_fob_button_press_fires_event(
     ],
 )
 async def test_fob_button_press_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
     button: EventButtonType | None,
 ) -> None:
@@ -387,7 +387,7 @@ async def test_fob_button_press_ignored(
 
 
 async def test_fob_battery_updates_from_public_ws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
 ) -> None:
     """A public devices WS update for the fob refreshes the battery sensor."""
@@ -413,7 +413,7 @@ async def test_fob_battery_updates_from_public_ws(
 
 
 async def test_fob_unavailable_on_public_ws_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
 ) -> None:
     """Fob entities go unavailable when the public websocket disconnects."""
@@ -430,7 +430,7 @@ async def test_fob_unavailable_on_public_ws_disconnect(
 
 
 async def test_fob_present_at_startup_not_added_twice(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     caplog: pytest.LogCaptureFixture,
@@ -471,7 +471,7 @@ async def test_fob_present_at_startup_not_added_twice(
 
 
 async def test_fob_button_dedup_across_dispatches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
 ) -> None:
     """A press fires once even though every change to its event is dispatched."""
@@ -502,7 +502,7 @@ async def test_fob_button_dedup_across_dispatches(
 
 
 async def test_fob_button_unavailable_on_events_ws_disconnect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
 ) -> None:
     """Only the button entity follows the events websocket.
@@ -530,7 +530,7 @@ async def test_fob_button_unavailable_on_events_ws_disconnect(
 
 
 async def test_fob_battery_none_is_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
 ) -> None:
     """A freshly-paired fob reporting null battery yields an unknown state."""
@@ -553,7 +553,7 @@ async def test_fob_battery_none_is_unknown(
     ],
 )
 async def test_fob_signal_sensor_when_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
     entity_id: str,
     expected: str,
@@ -570,7 +570,7 @@ async def test_fob_signal_sensor_when_enabled(
 
 
 async def test_fob_event_entity_created_with_empty_feature_flags(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
 ) -> None:
     """A fob with empty feature_flags (real hardware) still gets an event entity."""
@@ -586,7 +586,7 @@ async def test_fob_event_entity_created_with_empty_feature_flags(
 
 
 async def test_fob_status_reflects_away_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
 ) -> None:
     """The status sensor reflects a lost fob's away state."""
@@ -602,7 +602,7 @@ async def test_fob_status_reflects_away_state(
 
 
 async def test_fob_unknown_away_state_is_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
 ) -> None:
     """An unrecognized away state maps to an unknown status, not a ValueError."""
@@ -618,7 +618,7 @@ async def test_fob_unknown_away_state_is_unknown(
 
 
 async def test_fob_unavailable_when_removed_from_bootstrap(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
 ) -> None:
     """A fob deleted from the public bootstrap marks its entities unavailable."""
@@ -672,7 +672,7 @@ def _readopt_during_outage(ufp: MockUFPFixture, fob: Mock, readopted: Mock) -> N
     ],
 )
 async def test_fob_readopted_with_new_id_fires_button_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
     readopt: Callable[[MockUFPFixture, Mock, Mock], None],
 ) -> None:
@@ -704,7 +704,7 @@ async def test_fob_readopted_with_new_id_fires_button_events(
 
 
 async def test_fob_without_wireless_data_is_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
 ) -> None:
     """A freshly-paired fob with no battery/signal reported reads as unknown."""
@@ -728,7 +728,7 @@ async def test_fob_without_wireless_data_is_unknown(
 
 
 async def test_fob_unavailable_when_public_bootstrap_lost(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
 ) -> None:
     """Losing the public bootstrap marks fob entities unavailable."""
@@ -753,7 +753,7 @@ async def test_fob_unavailable_when_public_bootstrap_lost(
 
 
 async def test_fob_entity_counts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp_with_fob: tuple[MockUFPFixture, Mock],
 ) -> None:
@@ -773,7 +773,7 @@ async def test_fob_entity_counts(
 
 
 async def test_fob_added_at_runtime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     caplog: pytest.LogCaptureFixture,
@@ -821,7 +821,7 @@ async def test_fob_added_at_runtime(
 
 
 async def test_fob_added_after_setup_in_hybrid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     caplog: pytest.LogCaptureFixture,

@@ -5,7 +5,7 @@ from melnor_bluetooth.device import Device
 from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth.match import BluetoothCallbackMatcher
 from universalassistant.const import CONF_ADDRESS, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH
@@ -21,7 +21,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: MelnorConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: MelnorConfigEntry) -> None:
     """Set up melnor from a config entry."""
     ble_device = bluetooth.async_ble_device_from_address(hass, entry.data[CONF_ADDRESS])
 
@@ -72,7 +72,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: MelnorConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: MelnorConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: MelnorConfigEntry) -> None:
     """Unload a config entry."""
     await entry.runtime_data.data.disconnect()
 

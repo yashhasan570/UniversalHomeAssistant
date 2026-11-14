@@ -23,7 +23,7 @@ from universalassistant.components.light import (
     filter_supported_color_modes,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -413,7 +413,7 @@ LIGHTS: dict[DeviceCategory, tuple[TuyaLightEntityDescription, ...]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TuyaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.feedreader.const import CONF_MAX_ENTRIES, DOMAIN
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def create_mock_entry(
@@ -22,7 +22,7 @@ def create_mock_entry(
 
 
 async def async_setup_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     data: dict[str, Any],
     return_value: bytes | None = None,
     side_effect: bytes | None = None,

@@ -16,7 +16,7 @@ from aio_wattwaechter.models import MeterData, OtaData, SystemInfo
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_DEVICE_ID, CONF_HOST, CONF_MAC, CONF_MODEL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -50,7 +50,7 @@ class WattwaechterCoordinator(DataUpdateCoordinator[WattwaechterData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WattwaechterConfigEntry,
         client: Wattwaechter,
     ) -> None:

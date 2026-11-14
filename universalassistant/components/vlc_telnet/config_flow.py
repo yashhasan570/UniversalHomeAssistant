@@ -10,8 +10,8 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_NAME, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.service_info.hassio import HassioServiceInfo
 
 from .const import DEFAULT_PORT, DOMAIN
@@ -47,7 +47,7 @@ async def vlc_connect(vlc: Client) -> None:
     await vlc.disconnect()
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> dict[str, str]:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> dict[str, str]:
     """Validate the user input allows us to connect."""
     vlc = Client(
         password=data[CONF_PASSWORD],
@@ -179,9 +179,9 @@ class VLCTelnetConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_create_entry(title=info["title"], data=self.hassio_discovery)
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

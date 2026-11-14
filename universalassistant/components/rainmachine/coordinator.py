@@ -4,7 +4,7 @@ from collections.abc import Callable, Coroutine
 from datetime import timedelta
 from typing import TYPE_CHECKING, Any
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
     async_dispatcher_send,
@@ -27,7 +27,7 @@ class RainMachineDataUpdateCoordinator(DataUpdateCoordinator[dict]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         *,
         entry: RainMachineConfigEntry,
         name: str,

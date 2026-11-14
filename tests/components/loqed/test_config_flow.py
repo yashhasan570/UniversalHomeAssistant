@@ -15,7 +15,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 from universalassistant import config_entries
 from universalassistant.components.loqed.const import DOMAIN
 from universalassistant.const import CONF_API_TOKEN, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -34,7 +34,7 @@ zeroconf_data = ZeroconfServiceInfo(
 )
 
 
-async def _async_init_zeroconf_flow(hass: UniversalAssistant) -> dict[str, Any]:
+async def _async_init_zeroconf_flow(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Initialize a zeroconf flow and return the form result."""
     lock_result = await async_load_json_object_fixture(hass, "status_ok.json", DOMAIN)
 
@@ -49,7 +49,7 @@ async def _async_init_zeroconf_flow(hass: UniversalAssistant) -> dict[str, Any]:
         )
 
 
-async def _async_init_user_flow(hass: UniversalAssistant) -> dict[str, Any]:
+async def _async_init_user_flow(hass: __HAC_KEEP__) -> dict[str, Any]:
     """Initialize a user flow and return the form result."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -62,7 +62,7 @@ async def _async_init_user_flow(hass: UniversalAssistant) -> dict[str, Any]:
 
 
 async def test_create_entry_zeroconf(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
 ) -> None:
     """Test we get can create a lock via zeroconf."""
@@ -115,7 +115,7 @@ async def test_create_entry_zeroconf(
 
 
 async def test_create_entry_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
 ) -> None:
@@ -154,7 +154,7 @@ async def test_create_entry_user(
 
 
 async def test_create_entry_user_with_pick_lock(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
 ) -> None:
@@ -211,7 +211,7 @@ async def test_create_entry_user_with_pick_lock(
     ],
 )
 async def test_zeroconf_cannot_connect(
-    hass: UniversalAssistant, exception: type[Exception]
+    hass: __HAC_KEEP__, exception: type[Exception]
 ) -> None:
     """Test zeroconf discovery aborts when the bridge cannot be reached."""
     with patch("loqedAPI.loqed.LoqedAPI.async_get_lock_details", side_effect=exception):
@@ -226,7 +226,7 @@ async def test_zeroconf_cannot_connect(
 
 
 async def test_zeroconf_already_configured_updates_bridge_ip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test zeroconf aborts when the bridge is configured and updates its IP."""
     entry = MockConfigEntry(
@@ -244,7 +244,7 @@ async def test_zeroconf_already_configured_updates_bridge_ip(
 
 
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
 ) -> None:
@@ -270,7 +270,7 @@ async def test_user_flow_already_configured(
 
 
 async def test_zeroconf_aborts_for_entry_created_by_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
 ) -> None:
     """Test zeroconf recognises a lock that was set up manually."""
@@ -325,7 +325,7 @@ CLIENT_ERRORS = [
 
 
 async def _async_complete_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
     flow_id: str,
 ) -> None:
@@ -354,7 +354,7 @@ async def _async_complete_flow(
     ],
 )
 async def test_user_flow_recovers_from_cloud_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
     patch_kwargs: dict[str, Any],
     error: str,
@@ -375,7 +375,7 @@ async def test_user_flow_recovers_from_cloud_error(
 
 @pytest.mark.parametrize(("patch_kwargs", "error"), CLIENT_ERRORS)
 async def test_user_flow_recovers_from_bridge_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
     patch_kwargs: dict[str, Any],
     error: str,
@@ -404,7 +404,7 @@ async def test_user_flow_recovers_from_bridge_error(
 
 
 async def test_pick_lock_flow_recovers_from_bridge_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
 ) -> None:
     """Test the flow recovers from a bridge error after a lock was picked."""
@@ -464,7 +464,7 @@ async def test_pick_lock_flow_recovers_from_bridge_error(
     ],
 )
 async def test_zeroconf_flow_recovers_from_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
     patch_kwargs: dict[str, Any],
     error: str,
@@ -487,7 +487,7 @@ async def test_zeroconf_flow_recovers_from_error(
 
 
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
 ) -> None:
@@ -525,7 +525,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_recovers_from_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     patch_lock_creation_flow: Callable[[dict[str, Any], loqed.Lock, str], Any],
     patch_kwargs: dict[str, Any],

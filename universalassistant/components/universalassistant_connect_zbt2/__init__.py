@@ -1,4 +1,4 @@
-"""The Universal Universal Home Assistant Connect ZBT-2 integration."""
+"""The __HA_KEEP__ Connect ZBT-2 integration."""
 
 from dataclasses import dataclass
 import logging
@@ -15,7 +15,7 @@ from universalassistant.components.usb import (
     async_register_port_event_callback,
 )
 from universalassistant.config_entries import SOURCE_IGNORE, ConfigEntry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -25,11 +25,11 @@ from .const import DEVICE, DOMAIN, NABU_CASA_FIRMWARE_RELEASES_URL, SERIAL_NUMBE
 
 _LOGGER = logging.getLogger(__name__)
 
-type UniversalAssistantConnectZBT2ConfigEntry = ConfigEntry[UniversalAssistantConnectZBT2Data]
+type __HAC_KEEP__ConnectZBT2ConfigEntry = ConfigEntry[__HAC_KEEP__ConnectZBT2Data]
 
 
 @dataclass
-class UniversalAssistantConnectZBT2Data:
+class __HAC_KEEP__ConnectZBT2Data:
     """Runtime data definition."""
 
     coordinator: FirmwareUpdateCoordinator
@@ -39,8 +39,8 @@ class UniversalAssistantConnectZBT2Data:
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
-    """Set up the Universal Universal Home Assistant Connect ZBT-2 integration."""
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
+    """Set up the __HA_KEEP__ Connect ZBT-2 integration."""
 
     @callback
     def async_port_event_callback(
@@ -70,9 +70,9 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: UniversalAssistantConnectZBT2ConfigEntry
+    hass: __HAC_KEEP__, entry: __HAC_KEEP__ConnectZBT2ConfigEntry
 ) -> None:
-    """Set up a Universal Universal Home Assistant Connect ZBT-2 config entry."""
+    """Set up a __HA_KEEP__ Connect ZBT-2 config entry."""
 
     # Postpone loading the config entry if the device is missing
     device_path = entry.data[DEVICE]
@@ -90,7 +90,7 @@ async def async_setup_entry(
         session,
         NABU_CASA_FIRMWARE_RELEASES_URL,
     )
-    entry.runtime_data = UniversalAssistantConnectZBT2Data(
+    entry.runtime_data = __HAC_KEEP__ConnectZBT2Data(
         coordinator=coordinator,
         via_device_id=async_get_serial_port_via_device_id(hass, device_path),
     )
@@ -99,7 +99,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: UniversalAssistantConnectZBT2ConfigEntry
+    hass: __HAC_KEEP__, entry: __HAC_KEEP__ConnectZBT2ConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(
@@ -108,7 +108,7 @@ async def async_unload_entry(
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: UniversalAssistantConnectZBT2ConfigEntry
+    hass: __HAC_KEEP__, config_entry: __HAC_KEEP__ConnectZBT2ConfigEntry
 ) -> None:
     """Migrate old entry."""
 

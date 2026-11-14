@@ -11,7 +11,7 @@ from uuid import UUID
 
 from pyhap.util import uuid_to_hap_type
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.storage import Store
 
 from .util import get_iid_storage_filename_for_entry_id
@@ -67,7 +67,7 @@ class AccessoryIIDStorage:
     persist over reboots.
     """
 
-    def __init__(self, hass: UniversalAssistant, entry_id: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry_id: str) -> None:
         """Create a new iid store."""
         self.hass = hass
         self.allocations: dict[str, dict[str, int]] = {}

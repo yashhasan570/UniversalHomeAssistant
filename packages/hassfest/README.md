@@ -1,6 +1,6 @@
 # Hassfest
 
-Hassfest validates Universal Universal Home Assistant integrations.
+Hassfest validates __HA_KEEP__ integrations.
 
 This package is under development and is not ready for external consumption or
 publication yet. Use the

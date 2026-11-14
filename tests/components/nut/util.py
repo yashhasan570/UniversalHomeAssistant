@@ -13,7 +13,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -39,7 +39,7 @@ def _get_mock_nutclient(
 
 
 async def async_init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ups_fixture: str | None = None,
     host: str = "mock",
     port: int = 1234,
@@ -52,7 +52,7 @@ async def async_init_integration(
     list_commands_side_effect=None,
     run_command: MagicMock | None = None,
 ) -> MockConfigEntry:
-    """Set up the nut integration in Universal Universal Home Assistant."""
+    """Set up the nut integration in __HA_KEEP__."""
 
     if list_ups is None:
         list_ups = {"ups1": "UPS 1"}
@@ -101,7 +101,7 @@ async def async_init_integration(
 
 
 def _test_sensor_and_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     unique_id: str,
     device_id: str,

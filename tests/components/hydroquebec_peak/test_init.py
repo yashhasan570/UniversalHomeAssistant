@@ -6,13 +6,13 @@ from hydropeak_opendata import OpenDataConnectionError
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_setup_and_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -26,7 +26,7 @@ async def test_setup_and_unload(
 
 
 async def test_setup_retry_on_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

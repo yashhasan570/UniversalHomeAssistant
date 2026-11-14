@@ -15,7 +15,7 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import PRECISION_WHOLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import ElkEntity, create_elk_entities
@@ -53,7 +53,7 @@ ELK_TO_HASS_FAN_MODES = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ElkM1ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

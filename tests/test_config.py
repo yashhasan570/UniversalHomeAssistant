@@ -24,8 +24,8 @@ import yaml
 
 from universalassistant import config as config_util, loader
 from universalassistant.const import CONF_PACKAGES, __version__
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
-from universalassistant.exceptions import ConfigValidationError, UniversalAssistantError
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
+from universalassistant.exceptions import ConfigValidationError, __HAC_KEEP__Error
 from universalassistant.helpers import check_config, config_validation as cv
 from universalassistant.helpers.redact import REDACTED
 from universalassistant.helpers.typing import ConfigType
@@ -86,7 +86,7 @@ IOT_DOMAIN_PLATFORM_SCHEMA = cv.PLATFORM_SCHEMA.extend({probatio.Remove("old"): 
 
 
 @pytest.fixture
-async def mock_iot_domain_integration(hass: UniversalAssistant) -> Integration:
+async def mock_iot_domain_integration(hass: __HAC_KEEP__) -> Integration:
     """Mock an integration which provides an IoT domain."""
     comp_platform_schema = cv.PLATFORM_SCHEMA.extend({probatio.Remove("old"): str})
     comp_platform_schema_base = comp_platform_schema.extend(
@@ -104,7 +104,7 @@ async def mock_iot_domain_integration(hass: UniversalAssistant) -> Integration:
 
 
 @pytest.fixture
-async def mock_iot_domain_integration_with_docs(hass: UniversalAssistant) -> Integration:
+async def mock_iot_domain_integration_with_docs(hass: __HAC_KEEP__) -> Integration:
     """Mock an integration which provides an IoT domain."""
     comp_platform_schema = cv.PLATFORM_SCHEMA.extend({probatio.Remove("old"): str})
     comp_platform_schema_base = comp_platform_schema.extend(
@@ -125,7 +125,7 @@ async def mock_iot_domain_integration_with_docs(hass: UniversalAssistant) -> Int
 
 
 @pytest.fixture
-async def mock_non_adr_0007_integration(hass: UniversalAssistant) -> None:
+async def mock_non_adr_0007_integration(hass: __HAC_KEEP__) -> None:
     """Mock a non-ADR-0007 compliant integration with iot_domain platform.
 
     The integration allows setting up iot_domain entities under the iot_domain's
@@ -143,7 +143,7 @@ async def mock_non_adr_0007_integration(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture
-async def mock_non_adr_0007_integration_with_docs(hass: UniversalAssistant) -> None:
+async def mock_non_adr_0007_integration_with_docs(hass: __HAC_KEEP__) -> None:
     """Mock a non-ADR-0007 compliant integration with iot_domain platform.
 
     The integration allows setting up iot_domain entities under the iot_domain's
@@ -170,7 +170,7 @@ async def mock_non_adr_0007_integration_with_docs(hass: UniversalAssistant) -> N
 
 
 @pytest.fixture
-async def mock_adr_0007_integrations(hass: UniversalAssistant) -> list[Integration]:
+async def mock_adr_0007_integrations(hass: __HAC_KEEP__) -> list[Integration]:
     """Mock ADR-0007 compliant integrations."""
     integrations = []
     for domain in (
@@ -202,7 +202,7 @@ async def mock_adr_0007_integrations(hass: UniversalAssistant) -> list[Integrati
 
 @pytest.fixture
 async def mock_adr_0007_integrations_with_docs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> list[Integration]:
     """Mock ADR-0007 compliant integrations."""
     integrations = []
@@ -240,7 +240,7 @@ async def mock_adr_0007_integrations_with_docs(
 
 
 @pytest.fixture
-async def mock_custom_validator_integrations(hass: UniversalAssistant) -> list[Integration]:
+async def mock_custom_validator_integrations(hass: __HAC_KEEP__) -> list[Integration]:
     """Mock integrations with custom validator."""
     integrations = []
 
@@ -260,7 +260,7 @@ async def mock_custom_validator_integrations(hass: UniversalAssistant) -> list[I
             )
 
             async def async_validate_config(
-                hass: UniversalAssistant, config: ConfigType
+                hass: __HAC_KEEP__, config: ConfigType
             ) -> ConfigType:
                 """Validate config."""
                 return schema(config)
@@ -275,7 +275,7 @@ async def mock_custom_validator_integrations(hass: UniversalAssistant) -> list[I
         )
 
     for domain, exception in (
-        ("custom_validator_bad_1", UniversalAssistantError("broken")),
+        ("custom_validator_bad_1", __HAC_KEEP__Error("broken")),
         ("custom_validator_bad_2", ValueError("broken")),
     ):
         integrations.append(mock_integration(hass, MockModule(domain)))
@@ -288,7 +288,7 @@ async def mock_custom_validator_integrations(hass: UniversalAssistant) -> list[I
 
 @pytest.fixture
 async def mock_custom_validator_integrations_with_docs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> list[Integration]:
     """Mock integrations with custom validator."""
     integrations = []
@@ -309,7 +309,7 @@ async def mock_custom_validator_integrations_with_docs(
             )
 
             async def async_validate_config(
-                hass: UniversalAssistant, config: ConfigType
+                hass: __HAC_KEEP__, config: ConfigType
             ) -> ConfigType:
                 """Validate config."""
                 return schema(config)
@@ -334,7 +334,7 @@ async def mock_custom_validator_integrations_with_docs(
         )
 
     for domain, exception in (
-        ("custom_validator_bad_1", UniversalAssistantError("broken")),
+        ("custom_validator_bad_1", __HAC_KEEP__Error("broken")),
         ("custom_validator_bad_2", ValueError("broken")),
     ):
         integrations.append(
@@ -355,7 +355,7 @@ async def mock_custom_validator_integrations_with_docs(
         )
 
 
-async def test_create_default_config(hass: UniversalAssistant) -> None:
+async def test_create_default_config(hass: __HAC_KEEP__) -> None:
     """Test creation of default config."""
     assert not os.path.isfile(YAML_PATH)
     assert not os.path.isfile(SECRET_PATH)
@@ -370,7 +370,7 @@ async def test_create_default_config(hass: UniversalAssistant) -> None:
     assert os.path.isfile(AUTOMATIONS_PATH)
 
 
-async def test_ensure_config_exists_creates_config(hass: UniversalAssistant) -> None:
+async def test_ensure_config_exists_creates_config(hass: __HAC_KEEP__) -> None:
     """Test that calling ensure_config_exists.
 
     If not creates a new config file.
@@ -383,7 +383,7 @@ async def test_ensure_config_exists_creates_config(hass: UniversalAssistant) -> 
     assert mock_print.called
 
 
-async def test_ensure_config_exists_uses_existing_config(hass: UniversalAssistant) -> None:
+async def test_ensure_config_exists_uses_existing_config(hass: __HAC_KEEP__) -> None:
     """Test that calling ensure_config_exists uses existing config."""
     await hass.async_add_executor_job(create_file, YAML_PATH)
     await config_util.async_ensure_config_exists(hass)
@@ -394,7 +394,7 @@ async def test_ensure_config_exists_uses_existing_config(hass: UniversalAssistan
     assert content == ""
 
 
-async def test_ensure_existing_files_is_not_overwritten(hass: UniversalAssistant) -> None:
+async def test_ensure_existing_files_is_not_overwritten(hass: __HAC_KEEP__) -> None:
     """Test async_create_default_config does not overwrite files."""
     await hass.async_add_executor_job(create_file, SECRET_PATH)
 
@@ -418,7 +418,7 @@ def test_load_yaml_config_raises_error_if_not_dict() -> None:
     with open(YAML_PATH, "w", encoding="utf8") as fp:
         fp.write("5")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         config_util.load_yaml_config_file(YAML_PATH)
 
 
@@ -427,7 +427,7 @@ def test_load_yaml_config_raises_error_if_malformed_yaml() -> None:
     with open(YAML_PATH, "w", encoding="utf8") as fp:
         fp.write(":-")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         config_util.load_yaml_config_file(YAML_PATH)
 
 
@@ -438,7 +438,7 @@ def test_load_yaml_config_raises_error_if_unsafe_yaml() -> None:
 
     with (
         patch.object(os, "system") as system_mock,
-        contextlib.suppress(UniversalAssistantError),
+        contextlib.suppress(__HAC_KEEP__Error),
     ):
         config_util.load_yaml_config_file(YAML_PATH)
 
@@ -468,7 +468,7 @@ def test_load_yaml_config_preserves_key_order() -> None:
 
 
 async def test_create_default_config_returns_none_if_write_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test the writing of a default configuration.
 
@@ -480,7 +480,7 @@ async def test_create_default_config_returns_none_if_write_error(
     assert mock_print.called
 
 
-def test_process_config_upgrade(hass: UniversalAssistant) -> None:
+def test_process_config_upgrade(hass: __HAC_KEEP__) -> None:
     """Test update of version on upgrade."""
     ha_version = "0.92.0"
 
@@ -498,7 +498,7 @@ def test_process_config_upgrade(hass: UniversalAssistant) -> None:
         assert opened_file.write.call_args == mock.call("0.91.0")
 
 
-def test_config_upgrade_same_version(hass: UniversalAssistant) -> None:
+def test_config_upgrade_same_version(hass: __HAC_KEEP__) -> None:
     """Test no update of version on no upgrade."""
     ha_version = __version__
 
@@ -512,7 +512,7 @@ def test_config_upgrade_same_version(hass: UniversalAssistant) -> None:
         assert opened_file.write.call_count == 0
 
 
-def test_config_upgrade_no_file(hass: UniversalAssistant) -> None:
+def test_config_upgrade_no_file(hass: __HAC_KEEP__) -> None:
     """Test update of version on upgrade, with no version file."""
     mock_open = mock.mock_open()
     mock_open.side_effect = [FileNotFoundError(), mock.DEFAULT, mock.DEFAULT]
@@ -524,16 +524,16 @@ def test_config_upgrade_no_file(hass: UniversalAssistant) -> None:
 
 
 @patch("universalassistant.helpers.check_config.async_check_ha_config_file")
-async def test_check_ha_config_file_correct(mock_check, hass: UniversalAssistant) -> None:
+async def test_check_ha_config_file_correct(mock_check, hass: __HAC_KEEP__) -> None:
     """Check that restart propagates to stop."""
-    mock_check.return_value = check_config.UniversalAssistantConfig()
+    mock_check.return_value = check_config.__HAC_KEEP__Config()
     assert await config_util.async_check_ha_config_file(hass) is None
 
 
 @patch("universalassistant.helpers.check_config.async_check_ha_config_file")
-async def test_check_ha_config_file_wrong(mock_check, hass: UniversalAssistant) -> None:
+async def test_check_ha_config_file_wrong(mock_check, hass: __HAC_KEEP__) -> None:
     """Check that restart with a bad config doesn't propagate to stop."""
-    mock_check.return_value = check_config.UniversalAssistantConfig()
+    mock_check.return_value = check_config.__HAC_KEEP__Config()
     mock_check.return_value.add_error("bad")
 
     assert await config_util.async_check_ha_config_file(hass) == "bad"
@@ -553,7 +553,7 @@ async def test_check_ha_config_file_wrong(mock_check, hass: UniversalAssistant) 
 )
 @pytest.mark.usefixtures("mock_hass_config")
 async def test_async_hass_config_yaml_merge(
-    merge_log_err: MagicMock, hass: UniversalAssistant
+    merge_log_err: MagicMock, hass: __HAC_KEEP__
 ) -> None:
     """Test merge during async config reload."""
     conf = await config_util.async_hass_config_yaml(hass)
@@ -572,7 +572,7 @@ def merge_log_err() -> Generator[MagicMock]:
         yield logerr
 
 
-async def test_merge(merge_log_err: MagicMock, hass: UniversalAssistant) -> None:
+async def test_merge(merge_log_err: MagicMock, hass: __HAC_KEEP__) -> None:
     """Test if we can merge packages."""
     packages = {
         "pack_dict": {"input_boolean": {"ib1": None}},
@@ -607,7 +607,7 @@ async def test_merge(merge_log_err: MagicMock, hass: UniversalAssistant) -> None
     assert isinstance(config["wake_on_lan"], OrderedDict)
 
 
-async def test_merge_try_falsy(merge_log_err: MagicMock, hass: UniversalAssistant) -> None:
+async def test_merge_try_falsy(merge_log_err: MagicMock, hass: __HAC_KEEP__) -> None:
     """Ensure we don't add falsy items like empty OrderedDict() to list."""
     packages = {
         "pack_falsy_to_lst": {"automation": OrderedDict()},
@@ -626,7 +626,7 @@ async def test_merge_try_falsy(merge_log_err: MagicMock, hass: UniversalAssistan
     assert len(config["light"]) == 1
 
 
-async def test_merge_new(merge_log_err: MagicMock, hass: UniversalAssistant) -> None:
+async def test_merge_new(merge_log_err: MagicMock, hass: __HAC_KEEP__) -> None:
     """Test adding new components to outer scope."""
     packages = {
         "pack_1": {"light": [{"platform": "one"}]},
@@ -648,7 +648,7 @@ async def test_merge_new(merge_log_err: MagicMock, hass: UniversalAssistant) -> 
 
 
 async def test_merge_type_mismatch(
-    merge_log_err: MagicMock, hass: UniversalAssistant
+    merge_log_err: MagicMock, hass: __HAC_KEEP__
 ) -> None:
     """Test if we have a type mismatch for packages."""
     packages = {
@@ -671,7 +671,7 @@ async def test_merge_type_mismatch(
 
 
 async def test_merge_once_only_keys(
-    merge_log_err: MagicMock, hass: UniversalAssistant
+    merge_log_err: MagicMock, hass: __HAC_KEEP__
 ) -> None:
     """Test if we have a merge for a comp that may occur only once. Keys."""
     packages = {"pack_2": {"api": None}}
@@ -697,7 +697,7 @@ async def test_merge_once_only_keys(
     assert merge_log_err.call_count == 1
 
 
-async def test_merge_once_only_lists(hass: UniversalAssistant) -> None:
+async def test_merge_once_only_lists(hass: __HAC_KEEP__) -> None:
     """Test if we have a merge for a comp that may occur only once. Lists."""
     packages = {
         "pack_2": {
@@ -716,7 +716,7 @@ async def test_merge_once_only_lists(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_merge_once_only_dictionaries(hass: UniversalAssistant) -> None:
+async def test_merge_once_only_dictionaries(hass: __HAC_KEEP__) -> None:
     """Test if we have a merge for a comp that may occur only once. Dicts."""
     packages = {
         "pack_2": {
@@ -742,7 +742,7 @@ async def test_merge_once_only_dictionaries(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_merge_id_schema(hass: UniversalAssistant) -> None:
+async def test_merge_id_schema(hass: __HAC_KEEP__) -> None:
     """Test if we identify the config schemas correctly."""
     types = {
         "panel_custom": "list",
@@ -759,7 +759,7 @@ async def test_merge_id_schema(hass: UniversalAssistant) -> None:
 
 
 async def test_merge_duplicate_keys(
-    merge_log_err: MagicMock, hass: UniversalAssistant
+    merge_log_err: MagicMock, hass: __HAC_KEEP__
 ) -> None:
     """Test if keys in dicts are duplicates."""
     packages = {"pack_1": {"input_select": {"ib1": None}}}
@@ -774,7 +774,7 @@ async def test_merge_duplicate_keys(
     assert len(config["input_select"]) == 1
 
 
-async def test_merge_split_component_definition(hass: UniversalAssistant) -> None:
+async def test_merge_split_component_definition(hass: __HAC_KEEP__) -> None:
     """Test components with trailing description in packages are merged."""
     packages = {
         "pack_1": {"light one": {"l1": None}},
@@ -790,7 +790,7 @@ async def test_merge_split_component_definition(hass: UniversalAssistant) -> Non
 
 
 async def test_component_config_exceptions(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test unexpected exceptions validating component config.
 
@@ -825,7 +825,7 @@ async def test_component_config_exceptions(
     assert "ValueError: broken" in caplog.text
     assert "Unknown error calling test_domain config validator" in caplog.text
     caplog.clear()
-    with pytest.raises(UniversalAssistantError) as ex:
+    with pytest.raises(__HAC_KEEP__Error) as ex:
         await config_util.async_process_component_and_handle_errors(
             hass, test_config, integration=test_integration, raise_on_failure=True
         )
@@ -839,7 +839,7 @@ async def test_component_config_exceptions(
         async_get_platform=AsyncMock(
             return_value=Mock(
                 async_validate_config=AsyncMock(
-                    side_effect=UniversalAssistantError("broken")
+                    side_effect=__HAC_KEEP__Error("broken")
                 )
             )
         ),
@@ -856,7 +856,7 @@ async def test_component_config_exceptions(
         "Invalid config for 'test_domain' at configuration.yaml, "
         "line 5: broken, please check the docs at" in caplog.text
     )
-    with pytest.raises(UniversalAssistantError) as ex:
+    with pytest.raises(__HAC_KEEP__Error) as ex:
         await config_util.async_process_component_and_handle_errors(
             hass, test_config, integration=test_integration, raise_on_failure=True
         )
@@ -885,7 +885,7 @@ async def test_component_config_exceptions(
     )
     assert "Unknown error calling test_domain CONFIG_SCHEMA" in caplog.text
     caplog.clear()
-    with pytest.raises(UniversalAssistantError) as ex:
+    with pytest.raises(__HAC_KEEP__Error) as ex:
         await config_util.async_process_component_and_handle_errors(
             hass,
             test_config,
@@ -918,7 +918,7 @@ async def test_component_config_exceptions(
         "from integration test_platform - broken"
     ) in caplog.text
     caplog.clear()
-    with pytest.raises(UniversalAssistantError) as ex:
+    with pytest.raises(__HAC_KEEP__Error) as ex:
         await config_util.async_process_component_and_handle_errors(
             hass,
             test_platform_config,
@@ -963,7 +963,7 @@ async def test_component_config_exceptions(
             "from integration test_platform - broken"
         ) in caplog.text
         caplog.clear()
-        with pytest.raises(UniversalAssistantError) as ex:
+        with pytest.raises(__HAC_KEEP__Error) as ex:
             assert await config_util.async_process_component_and_handle_errors(
                 hass,
                 test_platform_config,
@@ -992,7 +992,7 @@ async def test_component_config_exceptions(
             "from integration test_platform - broken"
         ) in caplog.text
         caplog.clear()
-        with pytest.raises(UniversalAssistantError) as ex:
+        with pytest.raises(__HAC_KEEP__Error) as ex:
             assert await config_util.async_process_component_and_handle_errors(
                 hass,
                 test_multi_platform_config,
@@ -1042,7 +1042,7 @@ async def test_component_config_exceptions(
             "'not_installed_something'" in caplog.text
         )
         caplog.clear()
-        with pytest.raises(UniversalAssistantError) as ex:
+        with pytest.raises(__HAC_KEEP__Error) as ex:
             assert await config_util.async_process_component_and_handle_errors(
                 hass,
                 test_platform_config,
@@ -1088,7 +1088,7 @@ async def test_component_config_exceptions(
         "Error importing config platform test_domain: ModuleNotFoundError: "
         "No module named 'not_installed_something'" in caplog.text
     )
-    with pytest.raises(UniversalAssistantError) as ex:
+    with pytest.raises(__HAC_KEEP__Error) as ex:
         await config_util.async_process_component_and_handle_errors(
             hass,
             test_config,
@@ -1123,7 +1123,7 @@ async def test_component_config_exceptions(
         is None
     )
     assert "Unable to import test_domain: No such file or directory" in caplog.text
-    with pytest.raises(UniversalAssistantError) as ex:
+    with pytest.raises(__HAC_KEEP__Error) as ex:
         await config_util.async_process_component_and_handle_errors(
             hass,
             test_config,
@@ -1155,7 +1155,7 @@ async def test_component_config_exceptions(
         (
             [
                 config_util.ConfigExceptionInfo(
-                    UniversalAssistantError("bla"),
+                    __HAC_KEEP__Error("bla"),
                     "config_validation_err",
                     "test_domain",
                     ERROR_PROCESSING_CONFIG,
@@ -1230,7 +1230,7 @@ async def test_component_config_exceptions(
     ],
 )
 async def test_component_config_error_processing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     exception_info_list: list[config_util.ConfigExceptionInfo],
     snapshot: SnapshotAssertion,
@@ -1339,7 +1339,7 @@ def test_identify_config_schema(domain, schema, expected) -> None:
     )
 
 
-async def test_safe_mode(hass: UniversalAssistant) -> None:
+async def test_safe_mode(hass: __HAC_KEEP__) -> None:
     """Test safe mode."""
     assert config_util.safe_mode_enabled(hass.config.config_dir) is False
     assert config_util.safe_mode_enabled(hass.config.config_dir) is False
@@ -1360,7 +1360,7 @@ async def test_safe_mode(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_component_config_validation_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config_dir: str,
     mock_iot_domain_integration: Integration,
@@ -1405,7 +1405,7 @@ async def test_component_config_validation_error(
     ],
 )
 async def test_component_config_validation_error_with_docs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config_dir: str,
     mock_iot_domain_integration_with_docs: Integration,
@@ -1464,7 +1464,7 @@ async def test_component_config_validation_error_with_docs(
     ],
 )
 async def test_stringify_invalid_suggests_close_keys(
-    hass: UniversalAssistant, key: str, expected: str
+    hass: __HAC_KEEP__, key: str, expected: str
 ) -> None:
     """Test an unknown option reports the close matches probatio found."""
     schema = probatio.Schema(
@@ -1496,7 +1496,7 @@ async def test_stringify_invalid_suggests_close_keys(
     ],
 )
 async def test_stringify_invalid_redacts_a_secret(
-    hass: UniversalAssistant, key: probatio.Marker, expected_value: str
+    hass: __HAC_KEEP__, key: probatio.Marker, expected_value: str
 ) -> None:
     """Test a key marked secret reports the reason without its value."""
     schema = probatio.Schema({key: probatio.All(str, probatio.Length(min=12))})
@@ -1518,7 +1518,7 @@ async def test_stringify_invalid_redacts_a_secret(
     ["packages", "packages_include_dir_named"],
 )
 async def test_package_merge_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config_dir: str,
     mock_iot_domain_integration: Integration,
@@ -1556,7 +1556,7 @@ async def test_package_merge_error(
     ["packages", "packages_include_dir_named"],
 )
 async def test_package_merge_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config_dir: str,
     error: Exception,
@@ -1592,7 +1592,7 @@ async def test_package_merge_exception(
     ],
 )
 async def test_yaml_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config_dir: str,
     mock_iot_domain_integration: Integration,
@@ -1606,7 +1606,7 @@ async def test_yaml_error(
     hass.config.config_dir = os.path.join(
         base_path, "fixtures", "core", "config", "yaml_errors", config_dir
     )
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await config_util.async_hass_config_yaml(hass)
     assert str(exc_info.value).replace(base_path, "<BASE_PATH>") == snapshot
 
@@ -1628,7 +1628,7 @@ async def test_yaml_error(
     ],
 )
 async def test_individual_packages_schema_validation_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config_dir: str,
     mock_iot_domain_integration: Integration,
@@ -1662,7 +1662,7 @@ async def test_individual_packages_schema_validation_errors(
     ],
 )
 async def test_packages_schema_validation_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config_dir: str,
     snapshot: SnapshotAssertion,
@@ -1757,7 +1757,7 @@ def test_extract_platform_integrations() -> None:
 
 
 @pytest.mark.parametrize("load_registries", [False])
-async def test_loading_platforms_gathers(hass: UniversalAssistant) -> None:
+async def test_loading_platforms_gathers(hass: __HAC_KEEP__) -> None:
     """Test loading platform integrations gathers."""
 
     mock_integration(

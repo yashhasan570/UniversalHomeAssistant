@@ -213,7 +213,7 @@ class ZHAEntity(LogMixin, RestoreEntity, Entity):
 
     @callback
     def restore_external_state_attributes(self, state: State) -> None:
-        """Restore ephemeral external state from Universal Universal Home Assistant back into ZHA."""
+        """Restore ephemeral external state from __HA_KEEP__ back into ZHA."""
 
         # Some operations rely on extra state that is not maintained in the ZCL
         # attribute cache. Until ZHA is able to maintain its own persistent state (or

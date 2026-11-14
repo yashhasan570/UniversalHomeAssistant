@@ -9,7 +9,7 @@ from typing import Any, Concatenate
 from aiohttp import web
 import probatio
 
-from universalassistant.helpers.http import UniversalAssistantView
+from universalassistant.helpers.http import __HAC_KEEP__View
 from universalassistant.helpers.typing import VolDictType
 
 _LOGGER = logging.getLogger(__name__)
@@ -34,7 +34,7 @@ class RequestDataValidator:
         self._schema = schema
         self._allow_empty = allow_empty
 
-    def __call__[_HassViewT: UniversalAssistantView, **_P](
+    def __call__[_HassViewT: __HAC_KEEP__View, **_P](
         self,
         method: Callable[
             Concatenate[_HassViewT, web.Request, dict[str, Any], _P],

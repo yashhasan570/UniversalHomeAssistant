@@ -8,7 +8,7 @@ from pysmarlaapi.connection.exceptions import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .const import HOST, PLATFORMS
@@ -16,7 +16,7 @@ from .const import HOST, PLATFORMS
 type FederwiegeConfigEntry = ConfigEntry[Federwiege]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FederwiegeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FederwiegeConfigEntry) -> None:
     """Set up this integration using UI."""
     connection = Connection(HOST, token_b64=entry.data[CONF_ACCESS_TOKEN])
 
@@ -44,7 +44,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FederwiegeConfigEnt
     federwiege.connect()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FederwiegeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FederwiegeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     entry.runtime_data.disconnect()

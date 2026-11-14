@@ -26,8 +26,8 @@ from universalassistant.components.climate import (
     HVACMode,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -37,7 +37,7 @@ from universalassistant.helpers import entity_registry as er
 @pytest.mark.parametrize("init_integration", [Platform.CLIMATE], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_entities(
 @pytest.mark.parametrize("init_integration", [Platform.CLIMATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_no_climate_when_no_room_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_no_climate_when_no_room_sensors(
 @pytest.mark.parametrize("init_integration", [Platform.CLIMATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_async_set_temperature(
-    hass: UniversalAssistant, mock_ouman_client: AsyncMock
+    hass: __HAC_KEEP__, mock_ouman_client: AsyncMock
 ) -> None:
     """Test that setting the target temperature writes to the device and updates state."""
     entity_id = "climate.ouman_eh_800_heating_circuit_1_patterilammitys"
@@ -87,7 +87,7 @@ async def test_async_set_temperature(
 @pytest.mark.parametrize("init_integration", [Platform.CLIMATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_async_set_temperature_with_hvac_mode(
-    hass: UniversalAssistant, mock_ouman_client: AsyncMock
+    hass: __HAC_KEEP__, mock_ouman_client: AsyncMock
 ) -> None:
     """Test that set_temperature with hvac_mode writes both mode and setpoint."""
     await hass.services.async_call(
@@ -125,7 +125,7 @@ async def test_async_set_temperature_with_hvac_mode(
     ],
 )
 async def test_hvac_mode_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     operation_mode: OperationMode,
     expected_hvac_mode: HVACMode,
@@ -166,7 +166,7 @@ async def test_hvac_mode_mapping(
     ],
 )
 async def test_hvac_action_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     operation_mode: OperationMode,
     valve_position: float,
@@ -195,7 +195,7 @@ async def test_hvac_action_mapping(
     ],
 )
 async def test_async_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     hvac_mode: HVACMode,
     expected_operation_mode: OperationMode,
@@ -233,7 +233,7 @@ async def test_async_set_hvac_mode(
     ],
 )
 async def test_async_set_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     preset_mode: str,
     expected_operation_mode: OperationMode,
@@ -257,7 +257,7 @@ async def test_async_set_preset_mode(
 @pytest.mark.parametrize("init_integration", [Platform.CLIMATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_async_set_preset_mode_invalid(
-    hass: UniversalAssistant, mock_ouman_client: AsyncMock
+    hass: __HAC_KEEP__, mock_ouman_client: AsyncMock
 ) -> None:
     """Test that an unknown preset is rejected by the service validation."""
     with pytest.raises(ServiceValidationError):
@@ -277,7 +277,7 @@ async def test_async_set_preset_mode_invalid(
 @pytest.mark.parametrize("init_integration", [Platform.CLIMATE], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_async_set_temperature_out_of_range(
-    hass: UniversalAssistant, mock_ouman_client: AsyncMock
+    hass: __HAC_KEEP__, mock_ouman_client: AsyncMock
 ) -> None:
     """Test that setting a target temperature outside the device range is rejected."""
     with pytest.raises(ServiceValidationError):
@@ -317,15 +317,15 @@ async def test_async_set_temperature_out_of_range(
     ],
 )
 async def test_async_set_temperature_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ouman_client: AsyncMock,
     client_error: Exception,
     expected_message: str,
 ) -> None:
-    """Test that client errors are mapped to UniversalAssistantError."""
+    """Test that client errors are mapped to __HAC_KEEP__Error."""
     mock_ouman_client.set_endpoint_value.side_effect = client_error
 
-    with pytest.raises(UniversalAssistantError, match=expected_message):
+    with pytest.raises(__HAC_KEEP__Error, match=expected_message):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,

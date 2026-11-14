@@ -15,12 +15,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.dsmr.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
 async def test_migrate_gas_to_mbus(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock],
@@ -131,7 +131,7 @@ async def test_migrate_gas_to_mbus(
 
 
 async def test_migrate_hourly_gas_to_mbus(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock],
@@ -242,7 +242,7 @@ async def test_migrate_hourly_gas_to_mbus(
 
 
 async def test_migrate_gas_with_devid_to_mbus(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock],
@@ -349,7 +349,7 @@ async def test_migrate_gas_with_devid_to_mbus(
 
 
 async def test_migrate_gas_to_mbus_exists(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock],

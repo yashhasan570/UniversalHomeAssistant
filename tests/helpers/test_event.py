@@ -23,7 +23,7 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     EventStateReportedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
 from universalassistant.exceptions import TemplateError
@@ -61,7 +61,7 @@ from universalassistant.util import dt as dt_util
 DEFAULT_TIME_ZONE = dt_util.get_default_time_zone()
 
 
-async def test_track_point_in_time(hass: UniversalAssistant) -> None:
+async def test_track_point_in_time(hass: __HAC_KEEP__) -> None:
     """Test track point in time."""
     before_birthday = datetime(1985, 7, 9, 12, 0, 0, tzinfo=dt_util.UTC)
     birthday_paulus = datetime(1986, 7, 9, 12, 0, 0, tzinfo=dt_util.UTC)
@@ -113,7 +113,7 @@ async def test_track_point_in_time(hass: UniversalAssistant) -> None:
     assert len(runs) == 2
 
 
-async def test_track_point_in_time_drift_rearm(hass: UniversalAssistant) -> None:
+async def test_track_point_in_time_drift_rearm(hass: __HAC_KEEP__) -> None:
     """Test tasks with the time rolling backwards."""
     specific_runs = []
 
@@ -146,7 +146,7 @@ async def test_track_point_in_time_drift_rearm(hass: UniversalAssistant) -> None
     assert len(specific_runs) == 1
 
 
-async def test_async_track_state_change_filtered(hass: UniversalAssistant) -> None:
+async def test_async_track_state_change_filtered(hass: __HAC_KEEP__) -> None:
     """Test async_track_state_change_filtered."""
     single_entity_id_tracker = []
     multiple_entity_id_tracker = []
@@ -282,7 +282,7 @@ async def test_async_track_state_change_filtered(hass: UniversalAssistant) -> No
     track_throws.async_remove()
 
 
-async def test_async_track_state_change_event(hass: UniversalAssistant) -> None:
+async def test_async_track_state_change_event(hass: __HAC_KEEP__) -> None:
     """Test async_track_state_change_event."""
     single_entity_id_tracker = []
     multiple_entity_id_tracker = []
@@ -376,7 +376,7 @@ async def test_async_track_state_change_event(hass: UniversalAssistant) -> None:
 
 
 async def test_async_track_state_change_event_with_empty_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_track_state_change_event passing an empty list of entities."""
     unsub_single = async_track_state_change_event(
@@ -390,7 +390,7 @@ async def test_async_track_state_change_event_with_empty_list(
     unsub_single()
 
 
-async def test_async_track_state_added_domain(hass: UniversalAssistant) -> None:
+async def test_async_track_state_added_domain(hass: __HAC_KEEP__) -> None:
     """Test async_track_state_added_domain."""
     single_entity_id_tracker = []
     multiple_entity_id_tracker = []
@@ -475,7 +475,7 @@ async def test_async_track_state_added_domain(hass: UniversalAssistant) -> None:
 
 
 async def test_async_track_state_added_domain_with_empty_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_track_state_added_domain passing an empty list of domains."""
     unsub_single = async_track_state_added_domain(
@@ -490,7 +490,7 @@ async def test_async_track_state_added_domain_with_empty_list(
 
 
 async def test_async_track_state_removed_domain_with_empty_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_track_state_removed_domain passing an empty list of domains."""
     unsub_single = async_track_state_removed_domain(
@@ -504,7 +504,7 @@ async def test_async_track_state_removed_domain_with_empty_list(
     unsub_single()
 
 
-async def test_async_track_state_removed_domain(hass: UniversalAssistant) -> None:
+async def test_async_track_state_removed_domain(hass: __HAC_KEEP__) -> None:
     """Test async_track_state_removed_domain."""
     single_entity_id_tracker = []
     multiple_entity_id_tracker = []
@@ -588,7 +588,7 @@ async def test_async_track_state_removed_domain(hass: UniversalAssistant) -> Non
     unsub_throws()
 
 
-async def test_async_track_state_removed_domain_match_all(hass: UniversalAssistant) -> None:
+async def test_async_track_state_removed_domain_match_all(hass: __HAC_KEEP__) -> None:
     """Test async_track_state_removed_domain with a match_all."""
     single_entity_id_tracker = []
     match_all_entity_id_tracker = []
@@ -632,7 +632,7 @@ async def test_async_track_state_removed_domain_match_all(hass: UniversalAssista
     assert len(match_all_entity_id_tracker) == 2
 
 
-async def test_track_template(hass: UniversalAssistant) -> None:
+async def test_track_template(hass: __HAC_KEEP__) -> None:
     """Test tracking template."""
     specific_runs = []
     wildcard_runs = []
@@ -718,7 +718,7 @@ async def test_track_template(hass: UniversalAssistant) -> None:
 
 
 async def test_track_template_error(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test tracking template with error."""
     template_error = Template("{{ (states.switch | lunch) > 0 }}", hass)
@@ -751,7 +751,7 @@ async def test_track_template_error(
 
 
 async def test_track_template_error_can_recover(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test tracking template with error."""
     hass.states.async_set("switch.data_system", "cow", {"opmode": 0})
@@ -780,7 +780,7 @@ async def test_track_template_error_can_recover(
 
 
 async def test_track_template_time_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -810,7 +810,7 @@ async def test_track_template_time_change(
     unsub()
 
 
-async def test_track_template_result(hass: UniversalAssistant) -> None:
+async def test_track_template_result(hass: __HAC_KEEP__) -> None:
     """Test tracking template."""
     specific_runs = []
     wildcard_runs = []
@@ -905,7 +905,7 @@ async def test_track_template_result(hass: UniversalAssistant) -> None:
     assert len(wildercard_runs) == 4
 
 
-async def test_track_template_result_none(hass: UniversalAssistant) -> None:
+async def test_track_template_result_none(hass: __HAC_KEEP__) -> None:
     """Test tracking template."""
     specific_runs = []
     wildcard_runs = []
@@ -981,7 +981,7 @@ async def test_track_template_result_none(hass: UniversalAssistant) -> None:
     assert wildercard_runs == [(None, 5), (5, 10)]
 
 
-async def test_track_template_result_super_template(hass: UniversalAssistant) -> None:
+async def test_track_template_result_super_template(hass: __HAC_KEEP__) -> None:
     """Test tracking template with super template listening to same entity."""
     specific_runs = []
     specific_runs_availability = []
@@ -1135,7 +1135,7 @@ async def test_track_template_result_super_template(hass: UniversalAssistant) ->
 
 
 async def test_track_template_result_super_template_initially_false(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test tracking template with super template listening to same entity."""
     specific_runs = []
@@ -1321,7 +1321,7 @@ async def test_track_template_result_super_template_initially_false(
     ],
 )
 async def test_track_template_result_super_template_2(
-    hass: UniversalAssistant, availability_template: str
+    hass: __HAC_KEEP__, availability_template: str
 ) -> None:
     """Test tracking template with super template listening to different entities."""
     specific_runs = []
@@ -1490,7 +1490,7 @@ async def test_track_template_result_super_template_2(
     ],
 )
 async def test_track_template_result_super_template_2_initially_false(
-    hass: UniversalAssistant, availability_template: str
+    hass: __HAC_KEEP__, availability_template: str
 ) -> None:
     """Test tracking template with super template listening to different entities."""
     specific_runs = []
@@ -1628,7 +1628,7 @@ async def test_track_template_result_super_template_2_initially_false(
     info3.async_remove()
 
 
-async def test_track_template_result_complex(hass: UniversalAssistant) -> None:
+async def test_track_template_result_complex(hass: __HAC_KEEP__) -> None:
     """Test tracking template."""
     specific_runs = []
     template_complex_str = """
@@ -1787,7 +1787,7 @@ async def test_track_template_result_complex(hass: UniversalAssistant) -> None:
     }
 
 
-async def test_track_template_result_with_wildcard(hass: UniversalAssistant) -> None:
+async def test_track_template_result_with_wildcard(hass: __HAC_KEEP__) -> None:
     """Test tracking template with a wildcard."""
     specific_runs = []
     template_complex_str = r"""
@@ -1831,7 +1831,7 @@ async def test_track_template_result_with_wildcard(hass: UniversalAssistant) -> 
     assert "cover.office_skylight=open" in specific_runs[0]
 
 
-async def test_track_template_result_with_group(hass: UniversalAssistant) -> None:
+async def test_track_template_result_with_group(hass: __HAC_KEEP__) -> None:
     """Test tracking template with a group."""
     hass.states.async_set("sensor.power_1", 0)
     hass.states.async_set("sensor.power_2", 200.2)
@@ -1912,7 +1912,7 @@ async def test_track_template_result_with_group(hass: UniversalAssistant) -> Non
     assert specific_runs[-1] == 100.1 + 200.2 + 0 + 800.8
 
 
-async def test_track_template_result_and_conditional(hass: UniversalAssistant) -> None:
+async def test_track_template_result_and_conditional(hass: __HAC_KEEP__) -> None:
     """Test tracking template with an and conditional."""
     specific_runs = []
     hass.states.async_set("light.a", "off")
@@ -1983,7 +1983,7 @@ async def test_track_template_result_and_conditional(hass: UniversalAssistant) -
 
 
 async def test_track_template_result_and_conditional_upper_case(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test tracking template with an and conditional with an upper case template."""
     specific_runs = []
@@ -2054,7 +2054,7 @@ async def test_track_template_result_and_conditional_upper_case(
     assert specific_runs[2] == "on"
 
 
-async def test_track_template_result_iterator(hass: UniversalAssistant) -> None:
+async def test_track_template_result_iterator(hass: __HAC_KEEP__) -> None:
     """Test tracking template."""
     iterator_runs = []
 
@@ -2137,7 +2137,7 @@ async def test_track_template_result_iterator(hass: UniversalAssistant) -> None:
 
 
 async def test_track_template_result_errors(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test tracking template with errors in the template."""
     template_syntax_error = Template("{{states.switch", hass)
@@ -2228,7 +2228,7 @@ async def test_track_template_result_errors(
 
 
 async def test_track_template_result_transient_errors(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test tracking template with transient errors in the template."""
     hass.states.async_set("sensor.error", "unknown")
@@ -2280,7 +2280,7 @@ async def test_track_template_result_transient_errors(
     assert "ValueError" not in repr(info)
 
 
-async def test_static_string(hass: UniversalAssistant) -> None:
+async def test_static_string(hass: __HAC_KEEP__) -> None:
     """Test a static string."""
     template_refresh = Template("{{ 'static' }}", hass)
 
@@ -2303,7 +2303,7 @@ async def test_static_string(hass: UniversalAssistant) -> None:
     assert refresh_runs == ["static"]
 
 
-async def test_track_template_rate_limit(hass: UniversalAssistant) -> None:
+async def test_track_template_rate_limit(hass: __HAC_KEEP__) -> None:
     """Test template rate limit."""
     template_refresh = Template("{{ states | count }}", hass)
 
@@ -2361,7 +2361,7 @@ async def test_track_template_rate_limit(hass: UniversalAssistant) -> None:
     info.async_remove()
 
 
-async def test_track_template_rate_limit_super(hass: UniversalAssistant) -> None:
+async def test_track_template_rate_limit_super(hass: __HAC_KEEP__) -> None:
     """Test template rate limit with super template."""
     template_availability = Template(
         "{{ states('sensor.one') != 'unavailable' }}", hass
@@ -2438,7 +2438,7 @@ async def test_track_template_rate_limit_super(hass: UniversalAssistant) -> None
     info.async_remove()
 
 
-async def test_track_template_rate_limit_super_2(hass: UniversalAssistant) -> None:
+async def test_track_template_rate_limit_super_2(hass: __HAC_KEEP__) -> None:
     """Test template rate limit with rate limited super template."""
     # Somewhat forced example of a rate limited template
     template_availability = Template("{{ states | count % 2 == 1 }}", hass)
@@ -2510,7 +2510,7 @@ async def test_track_template_rate_limit_super_2(hass: UniversalAssistant) -> No
     info.async_remove()
 
 
-async def test_track_template_rate_limit_super_3(hass: UniversalAssistant) -> None:
+async def test_track_template_rate_limit_super_3(hass: __HAC_KEEP__) -> None:
     """Test template with rate limited super template."""
     # Somewhat forced example of a rate limited template
     template_availability = Template("{{ states | count % 2 == 1 }}", hass)
@@ -2587,7 +2587,7 @@ async def test_track_template_rate_limit_super_3(hass: UniversalAssistant) -> No
     info.async_remove()
 
 
-async def test_track_template_rate_limit_suppress_listener(hass: UniversalAssistant) -> None:
+async def test_track_template_rate_limit_suppress_listener(hass: __HAC_KEEP__) -> None:
     """Test template rate limit will suppress the listener during the rate limit."""
     template_refresh = Template("{{ states | count }}", hass)
 
@@ -2687,7 +2687,7 @@ async def test_track_template_rate_limit_suppress_listener(hass: UniversalAssist
     info.async_remove()
 
 
-async def test_track_template_rate_limit_five(hass: UniversalAssistant) -> None:
+async def test_track_template_rate_limit_five(hass: __HAC_KEEP__) -> None:
     """Test template rate limit of 5 seconds."""
     template_refresh = Template("{{ states | count }}", hass)
 
@@ -2725,7 +2725,7 @@ async def test_track_template_rate_limit_five(hass: UniversalAssistant) -> None:
     info.async_remove()
 
 
-async def test_track_template_has_default_rate_limit(hass: UniversalAssistant) -> None:
+async def test_track_template_has_default_rate_limit(hass: __HAC_KEEP__) -> None:
     """Test template has a rate limit by default."""
     hass.states.async_set("sensor.zero", "any")
     template_refresh = Template("{{ states | list | count }}", hass)
@@ -2765,7 +2765,7 @@ async def test_track_template_has_default_rate_limit(hass: UniversalAssistant) -
 
 
 async def test_track_template_unavailable_states_has_default_rate_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test template watching for unavailable states has a rate limit by default."""
     hass.states.async_set("sensor.zero", "unknown")
@@ -2813,7 +2813,7 @@ async def test_track_template_unavailable_states_has_default_rate_limit(
 
 
 async def test_specifically_referenced_entity_is_not_rate_limited(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test template rate limit of 5 seconds."""
     hass.states.async_set("sensor.one", "none")
@@ -2857,7 +2857,7 @@ async def test_specifically_referenced_entity_is_not_rate_limited(
 
 
 async def test_track_two_templates_with_different_rate_limits(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test two templates with different rate limits."""
     template_one = Template("{{ (states | count) + 0 }}", hass)
@@ -2926,7 +2926,7 @@ async def test_track_two_templates_with_different_rate_limits(
     info.async_remove()
 
 
-async def test_string(hass: UniversalAssistant) -> None:
+async def test_string(hass: __HAC_KEEP__) -> None:
     """Test a string."""
     template_refresh = Template("no_template", hass)
 
@@ -2949,7 +2949,7 @@ async def test_string(hass: UniversalAssistant) -> None:
     assert refresh_runs == ["no_template"]
 
 
-async def test_track_template_result_refresh_cancel(hass: UniversalAssistant) -> None:
+async def test_track_template_result_refresh_cancel(hass: __HAC_KEEP__) -> None:
     """Test cancelling and refreshing result."""
     template_refresh = Template("{{states.switch.test.state == 'on' and now() }}", hass)
 
@@ -3007,7 +3007,7 @@ async def test_track_template_result_refresh_cancel(hass: UniversalAssistant) ->
 
 
 async def test_async_track_template_result_multiple_templates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test tracking multiple templates."""
 
@@ -3071,7 +3071,7 @@ async def test_async_track_template_result_multiple_templates(
 
 
 async def test_async_track_template_result_multiple_templates_mixing_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test tracking multiple templates when tracking entities and an entire domain."""
 
@@ -3147,7 +3147,7 @@ async def test_async_track_template_result_multiple_templates_mixing_domain(
     ]
 
 
-async def test_track_template_with_time(hass: UniversalAssistant) -> None:
+async def test_track_template_with_time(hass: __HAC_KEEP__) -> None:
     """Test tracking template with time."""
 
     hass.states.async_set("switch.test", "on")
@@ -3181,7 +3181,7 @@ async def test_track_template_with_time(hass: UniversalAssistant) -> None:
     info.async_remove()
 
 
-async def test_track_template_with_time_default(hass: UniversalAssistant) -> None:
+async def test_track_template_with_time_default(hass: __HAC_KEEP__) -> None:
     """Test tracking template with time."""
 
     specific_runs = []
@@ -3221,7 +3221,7 @@ async def test_track_template_with_time_default(hass: UniversalAssistant) -> Non
 
 
 async def test_track_template_with_time_that_leaves_scope(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test tracking template with time."""
     now = dt_util.utcnow()
@@ -3302,7 +3302,7 @@ async def test_track_template_with_time_that_leaves_scope(
 
 
 async def test_async_track_template_result_multiple_templates_mixing_listeners(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test tracking multiple templates with mixing listener types."""
 
@@ -3374,7 +3374,7 @@ async def test_async_track_template_result_multiple_templates_mixing_listeners(
     info.async_remove()
 
 
-async def test_track_same_state_simple_no_trigger(hass: UniversalAssistant) -> None:
+async def test_track_same_state_simple_no_trigger(hass: __HAC_KEEP__) -> None:
     """Test track_same_change with no trigger."""
     callback_runs = []
     period = timedelta(minutes=1)
@@ -3408,7 +3408,7 @@ async def test_track_same_state_simple_no_trigger(hass: UniversalAssistant) -> N
     assert len(callback_runs) == 0
 
 
-async def test_track_same_state_simple_trigger_check_funct(hass: UniversalAssistant) -> None:
+async def test_track_same_state_simple_trigger_check_funct(hass: __HAC_KEEP__) -> None:
     """Test track_same_change with trigger and check funct."""
     callback_runs = []
     check_func = []
@@ -3446,7 +3446,7 @@ async def test_track_same_state_simple_trigger_check_funct(hass: UniversalAssist
     assert len(callback_runs) == 1
 
 
-async def test_track_time_interval(hass: UniversalAssistant) -> None:
+async def test_track_time_interval(hass: __HAC_KEEP__) -> None:
     """Test tracking time interval."""
     specific_runs = []
 
@@ -3477,7 +3477,7 @@ async def test_track_time_interval(hass: UniversalAssistant) -> None:
     assert len(specific_runs) == 2
 
 
-async def test_track_time_interval_name(hass: UniversalAssistant) -> None:
+async def test_track_time_interval_name(hass: __HAC_KEEP__) -> None:
     """Test tracking time interval name.
 
     This test is to ensure that when a name is passed to async_track_time_interval,
@@ -3500,7 +3500,7 @@ async def test_track_time_interval_name(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_track_sunrise(hass: UniversalAssistant) -> None:
+async def test_track_sunrise(hass: __HAC_KEEP__) -> None:
     """Test track the sunrise."""
     latitude = 32.87336
     longitude = 117.22743
@@ -3567,7 +3567,7 @@ async def test_track_sunrise(hass: UniversalAssistant) -> None:
         assert len(offset_runs) == 1
 
 
-async def test_track_sunrise_update_location(hass: UniversalAssistant) -> None:
+async def test_track_sunrise_update_location(hass: __HAC_KEEP__) -> None:
     """Test track the sunrise."""
     # Setup sun component
     hass.config.latitude = 32.87336
@@ -3637,7 +3637,7 @@ async def test_track_sunrise_update_location(hass: UniversalAssistant) -> None:
     unsub()
 
 
-async def test_track_sunset(hass: UniversalAssistant) -> None:
+async def test_track_sunset(hass: __HAC_KEEP__) -> None:
     """Test track the sunset."""
     latitude = 32.87336
     longitude = 117.22743
@@ -3703,7 +3703,7 @@ async def test_track_sunset(hass: UniversalAssistant) -> None:
 
 
 async def test_async_track_time_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test tracking time change."""
@@ -3776,7 +3776,7 @@ async def test_async_track_time_change(
 
 
 async def test_periodic_task_minute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test periodic tasks per minute."""
@@ -3825,7 +3825,7 @@ async def test_periodic_task_minute(
 
 
 async def test_periodic_task_hour(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test periodic tasks per hour."""
@@ -3886,7 +3886,7 @@ async def test_periodic_task_hour(
     assert len(specific_runs) == 3
 
 
-async def test_periodic_task_wrong_input(hass: UniversalAssistant) -> None:
+async def test_periodic_task_wrong_input(hass: __HAC_KEEP__) -> None:
     """Test periodic tasks with wrong input."""
     specific_runs = []
 
@@ -3908,7 +3908,7 @@ async def test_periodic_task_wrong_input(hass: UniversalAssistant) -> None:
 
 
 async def test_periodic_task_clock_rollback(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test periodic tasks with the time rolling backwards."""
     specific_runs = []
@@ -3976,7 +3976,7 @@ async def test_periodic_task_clock_rollback(
 
 
 async def test_periodic_task_duplicate_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test periodic tasks not triggering on duplicate time."""
@@ -4022,7 +4022,7 @@ async def test_periodic_task_duplicate_time(
 # DST starts early morning March 28th 2021
 @pytest.mark.freeze_time("2021-03-28 01:28:00+01:00")
 async def test_periodic_task_entering_dst(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test periodic task behavior when entering dst."""
     await hass.config.async_set_time_zone("Europe/Vienna")
@@ -4071,7 +4071,7 @@ async def test_periodic_task_entering_dst(
 # DST starts early morning March 28th 2021
 @pytest.mark.freeze_time("2021-03-28 01:59:59+01:00")
 async def test_periodic_task_entering_dst_2(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test periodic task behavior when entering dst.
 
@@ -4125,7 +4125,7 @@ async def test_periodic_task_entering_dst_2(
 # DST ends early morning October 31st 2021
 @pytest.mark.freeze_time("2021-10-31 02:28:00+02:00")
 async def test_periodic_task_leaving_dst(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test periodic task behavior when leaving dst."""
     await hass.config.async_set_time_zone("Europe/Vienna")
@@ -4202,7 +4202,7 @@ async def test_periodic_task_leaving_dst(
 # DST ends early morning October 31st 2021
 @pytest.mark.freeze_time("2021-10-31 02:28:00+02:00")
 async def test_periodic_task_leaving_dst_2(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test periodic task behavior when leaving dst."""
     await hass.config.async_set_time_zone("Europe/Vienna")
@@ -4267,7 +4267,7 @@ async def test_periodic_task_leaving_dst_2(
     unsub()
 
 
-async def test_call_later(hass: UniversalAssistant) -> None:
+async def test_call_later(hass: __HAC_KEEP__) -> None:
     """Test calling an action later."""
     future = asyncio.get_running_loop().create_future()
     delay = 5
@@ -4287,7 +4287,7 @@ async def test_call_later(hass: UniversalAssistant) -> None:
         assert await future, "callback was called but the delay was wrong"
 
 
-async def test_async_call_later(hass: UniversalAssistant) -> None:
+async def test_async_call_later(hass: __HAC_KEEP__) -> None:
     """Test calling an action later."""
     future = asyncio.get_running_loop().create_future()
     delay = 5
@@ -4309,7 +4309,7 @@ async def test_async_call_later(hass: UniversalAssistant) -> None:
     remove()
 
 
-async def test_async_call_later_timedelta(hass: UniversalAssistant) -> None:
+async def test_async_call_later_timedelta(hass: __HAC_KEEP__) -> None:
     """Test calling an action later with a timedelta."""
     future = asyncio.get_running_loop().create_future()
     delay = 5
@@ -4331,7 +4331,7 @@ async def test_async_call_later_timedelta(hass: UniversalAssistant) -> None:
     remove()
 
 
-async def test_async_call_later_cancel(hass: UniversalAssistant) -> None:
+async def test_async_call_later_cancel(hass: __HAC_KEEP__) -> None:
     """Test canceling a call_later action."""
     future = asyncio.get_running_loop().create_future()
     delay = 0.25
@@ -4357,7 +4357,7 @@ async def test_async_call_later_cancel(hass: UniversalAssistant) -> None:
 
 
 async def test_track_state_change_event_chain_multple_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test adding a new state tracker inside a tracker doesn't fire right away."""
     tracker_called = []
@@ -4411,7 +4411,7 @@ async def test_track_state_change_event_chain_multple_entity(
 
 
 async def test_track_state_change_event_chain_single_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test adding a new state tracker inside a tracker doesn't fire right away."""
     tracker_called = []
@@ -4461,7 +4461,7 @@ async def test_track_state_change_event_chain_single_entity(
     assert len(chained_tracker_unsub) == 2
 
 
-async def test_track_point_in_utc_time_cancel(hass: UniversalAssistant) -> None:
+async def test_track_point_in_utc_time_cancel(hass: __HAC_KEEP__) -> None:
     """Test cancel of async track point in time."""
 
     times = []
@@ -4493,7 +4493,7 @@ async def test_track_point_in_utc_time_cancel(hass: UniversalAssistant) -> None:
     assert times[0].tzinfo == dt_util.UTC
 
 
-async def test_async_track_point_in_time_cancel(hass: UniversalAssistant) -> None:
+async def test_async_track_point_in_time_cancel(hass: __HAC_KEEP__) -> None:
     """Test cancel of async track point in time."""
 
     times = []
@@ -4522,7 +4522,7 @@ async def test_async_track_point_in_time_cancel(hass: UniversalAssistant) -> Non
 
 
 async def test_async_track_point_in_time_cancel_in_job(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test cancel of async track point in time during job execution."""
 
@@ -4555,7 +4555,7 @@ async def test_async_track_point_in_time_cancel_in_job(
     assert len(times) == 1
 
 
-async def test_async_track_entity_registry_updated_event(hass: UniversalAssistant) -> None:
+async def test_async_track_entity_registry_updated_event(hass: __HAC_KEEP__) -> None:
     """Test tracking entity registry updates for an entity_id."""
 
     entity_id = "switch.puppy_feeder"
@@ -4627,7 +4627,7 @@ async def test_async_track_entity_registry_updated_event(hass: UniversalAssistan
 
 
 async def test_async_track_entity_registry_updated_event_with_a_callback_that_throws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test tracking entity registry updates when one callback throws."""
 
@@ -4660,7 +4660,7 @@ async def test_async_track_entity_registry_updated_event_with_a_callback_that_th
 
 
 async def test_async_track_entity_registry_updated_event_with_empty_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_track_entity_registry_updated_event with empty entity list."""
     unsub_single = async_track_entity_registry_updated_event(
@@ -4674,7 +4674,7 @@ async def test_async_track_entity_registry_updated_event_with_empty_list(
     unsub_single()
 
 
-async def test_async_track_device_registry_updated_event(hass: UniversalAssistant) -> None:
+async def test_async_track_device_registry_updated_event(hass: __HAC_KEEP__) -> None:
     """Test tracking device registry updates for an device_id."""
 
     device_id = "b92c0f06fbc911edacc9eea8ae14f866"
@@ -4732,7 +4732,7 @@ async def test_async_track_device_registry_updated_event(hass: UniversalAssistan
 
 
 async def test_async_track_device_registry_updated_event_with_empty_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test async_track_device_registry_updated_event with empty device list."""
     unsub_single = async_track_device_registry_updated_event(
@@ -4747,7 +4747,7 @@ async def test_async_track_device_registry_updated_event_with_empty_list(
 
 
 async def test_async_track_device_registry_updated_event_with_a_callback_that_throws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test tracking device registry updates for an device when one callback throws."""
 
@@ -4778,7 +4778,7 @@ async def test_async_track_device_registry_updated_event_with_a_callback_that_th
 
 
 async def test_track_point_in_time_repr(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test track point in time."""
 
@@ -4795,7 +4795,7 @@ async def test_track_point_in_time_repr(
     await hass.async_block_till_done(wait_background_tasks=True)
 
 
-async def test_async_track_state_report_event(hass: UniversalAssistant) -> None:
+async def test_async_track_state_report_event(hass: __HAC_KEEP__) -> None:
     """Test async_track_state_report_event."""
     tracker_called: list[ha.State] = []
 
@@ -4818,7 +4818,7 @@ async def test_async_track_state_report_event(hass: UniversalAssistant) -> None:
     unsub()
 
 
-async def test_async_track_state_report_change_event(hass: UniversalAssistant) -> None:
+async def test_async_track_state_report_change_event(hass: __HAC_KEEP__) -> None:
     """Test listen for both state change and state report events."""
     tracker_called: dict[str, list[str]] = {"light.bowl": [], "light.top": []}
 

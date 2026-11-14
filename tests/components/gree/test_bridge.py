@@ -10,7 +10,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 
 from universalassistant.components.climate import DOMAIN as CLIMATE_DOMAIN, HVACMode
 from universalassistant.components.gree.const import UPDATE_INTERVAL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .common import async_setup_gree, build_device_mock
@@ -26,7 +26,7 @@ def mock_now():
 
 
 async def test_discovery_after_setup(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, discovery, device, mock_now
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, discovery, device, mock_now
 ) -> None:
     """Test gree devices don't change after multiple discoveries."""
     mock_device_1 = build_device_mock(
@@ -73,7 +73,7 @@ async def test_discovery_after_setup(
 
 
 async def test_coordinator_updates(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, device: MagicMock
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, device: MagicMock
 ) -> None:
     """Test gree devices update their state."""
     await async_setup_gree(hass)

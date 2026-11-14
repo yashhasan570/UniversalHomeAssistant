@@ -2487,7 +2487,7 @@
         "data": {
           "path": "[%key:component::zha::config::step::choose_serial_port::data::path%]"
         },
-        "description": "Select the serial port of the Zigbee adapter Universal Universal Home Assistant should use. When migrating, this is your new adapter.",
+        "description": "Select the serial port of the Zigbee adapter __HA_KEEP__ should use. When migrating, this is your new adapter.",
         "title": "[%key:component::zha::config::step::choose_serial_port::title%]"
       },
       "confirm_ezsp_ieee_overwrite": {

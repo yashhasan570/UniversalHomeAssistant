@@ -45,7 +45,7 @@
           "name": "[%key:common::config_flow::data::name%]"
         },
         "data_description": {
-          "db_url": "Leave empty to use Universal Universal Home Assistant Recorder database",
+          "db_url": "Leave empty to use __HA_KEEP__ Recorder database",
           "name": "Name that will be used for config entry and also the sensor"
         }
       }
@@ -112,7 +112,7 @@
       "description": "Executes a SQL query and returns the result.",
       "fields": {
         "db_url": {
-          "description": "The URL of the database to connect to. If not provided, the default Universal Universal Home Assistant recorder database will be used.",
+          "description": "The URL of the database to connect to. If not provided, the default __HA_KEEP__ recorder database will be used.",
           "name": "Database URL"
         },
         "query": {

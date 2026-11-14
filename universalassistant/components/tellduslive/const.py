@@ -2,7 +2,7 @@
 
 from datetime import timedelta
 
-APPLICATION_NAME = "Universal Universal Home Assistant"
+APPLICATION_NAME = "__HA_KEEP__"
 
 DOMAIN = "tellduslive"
 

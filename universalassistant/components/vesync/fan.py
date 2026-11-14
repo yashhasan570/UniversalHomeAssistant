@@ -7,8 +7,8 @@ from pyvesync.base_devices import VeSyncFanBase, VeSyncPurifier
 from pyvesync.devices.vesyncpurifier import VeSyncAirBaseV2
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
@@ -49,7 +49,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VesyncConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -252,11 +252,11 @@ class VeSyncFanHA(VeSyncBaseEntity[VeSyncFanBase | VeSyncPurifier], FanEntity):
             # Turning off is a special case: do not set speed or mode
             if not await self.device.turn_off():
                 if self.device.last_response:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         "An error occurred while turning off: "
                         + self.device.last_response.message
                     )
-                raise UniversalAssistantError("Failed to turn off fan, no response found.")
+                raise __HAC_KEEP__Error("Failed to turn off fan, no response found.")
             self.async_write_ha_state()
             return
 
@@ -264,21 +264,21 @@ class VeSyncFanHA(VeSyncBaseEntity[VeSyncFanBase | VeSyncPurifier], FanEntity):
         if not self.device.is_on:
             if not await self.device.turn_on():
                 if self.device.last_response:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         "An error occurred while turning on: "
                         + self.device.last_response.message
                     )
-                raise UniversalAssistantError("Failed to turn on fan, no response found.")
+                raise __HAC_KEEP__Error("Failed to turn on fan, no response found.")
 
         # Switch to manual mode if not already set
         if self.device.state.mode not in (VS_FAN_MODE_MANUAL, VS_FAN_MODE_NORMAL):
             if not await self.device.set_manual_mode():
                 if self.device.last_response:
-                    raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(
                         "An error occurred while setting manual mode."
                         + self.device.last_response.message
                     )
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     "Failed to set manual mode, no response found."
                 )
 
@@ -287,11 +287,11 @@ class VeSyncFanHA(VeSyncBaseEntity[VeSyncFanBase | VeSyncPurifier], FanEntity):
             percentage_to_ordered_list_item(self.device.fan_levels, percentage)
         ):
             if self.device.last_response:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     "An error occurred while changing fan speed: "
                     + self.device.last_response.message
                 )
-            raise UniversalAssistantError("Failed to set fan speed, no response found.")
+            raise __HAC_KEEP__Error("Failed to set fan speed, no response found.")
 
         self.async_write_ha_state()
 
@@ -326,8 +326,8 @@ class VeSyncFanHA(VeSyncBaseEntity[VeSyncFanBase | VeSyncPurifier], FanEntity):
 
         if not success:
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Failed to set preset mode, no response found.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Failed to set preset mode, no response found.")
 
         self.async_write_ha_state()
 
@@ -346,8 +346,8 @@ class VeSyncFanHA(VeSyncBaseEntity[VeSyncFanBase | VeSyncPurifier], FanEntity):
             success = await self.device.turn_on()
             if not success:
                 if self.device.last_response:
-                    raise UniversalAssistantError(self.device.last_response.message)
-                raise UniversalAssistantError("Failed to turn on fan, no response found.")
+                    raise __HAC_KEEP__Error(self.device.last_response.message)
+                raise __HAC_KEEP__Error("Failed to turn on fan, no response found.")
             self.async_write_ha_state()
         else:
             await self.async_set_percentage(percentage)
@@ -358,8 +358,8 @@ class VeSyncFanHA(VeSyncBaseEntity[VeSyncFanBase | VeSyncPurifier], FanEntity):
         success = await self.device.turn_off()
         if not success:
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Failed to turn off fan, no response found.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Failed to turn off fan, no response found.")
         self.async_write_ha_state()
 
     @override
@@ -376,17 +376,17 @@ class VeSyncFanHA(VeSyncBaseEntity[VeSyncFanBase | VeSyncPurifier], FanEntity):
             horizontal_ok = await device.toggle_horizontal_oscillation(oscillating)
             if not vertical_ok or not horizontal_ok:
                 if self.device.last_response:
-                    raise UniversalAssistantError(self.device.last_response.message)
-                raise UniversalAssistantError(
+                    raise __HAC_KEEP__Error(self.device.last_response.message)
+                raise __HAC_KEEP__Error(
                     "Failed to set oscillation, no response found."
                 )
             self.async_write_ha_state()
             return
         if not hasattr(self.device, "toggle_oscillation"):
-            raise UniversalAssistantError("Oscillation not supported by this device.")
+            raise __HAC_KEEP__Error("Oscillation not supported by this device.")
         success = await self.device.toggle_oscillation(oscillating)
         if not success:
             if self.device.last_response:
-                raise UniversalAssistantError(self.device.last_response.message)
-            raise UniversalAssistantError("Failed to set oscillation, no response found.")
+                raise __HAC_KEEP__Error(self.device.last_response.message)
+            raise __HAC_KEEP__Error("Failed to set oscillation, no response found.")
         self.async_write_ha_state()

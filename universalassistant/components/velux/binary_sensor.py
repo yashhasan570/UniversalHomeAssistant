@@ -8,7 +8,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -20,7 +20,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: VeluxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -59,7 +59,7 @@ class VeluxRainSensor(
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Called when the entity is added to Universal Universal Home Assistant."""
+        """Called when the entity is added to __HA_KEEP__."""
         await super().async_added_to_hass()
         # Get initial state as we didn't do it on coordinator initialization to avoid doing it for disabled entities
         if self.coordinator.data is None:

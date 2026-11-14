@@ -22,7 +22,7 @@ from universalassistant.components.media_player import (
     SERVICE_VOLUME_UP,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
@@ -37,7 +37,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -75,7 +75,7 @@ async def test_entities(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_action_sends_correct_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     service: str,
     service_data: dict[str, bool],
@@ -105,7 +105,7 @@ async def test_media_player_action_sends_correct_code(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_select_source_sends_correct_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
     source: str,
     expected_code: SamsungTVCode,
@@ -128,7 +128,7 @@ async def test_media_player_select_source_sends_correct_code(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_media_player_select_source_invalid_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_infrared_emitter_entity: MockInfraredEmitterEntity,
 ) -> None:
     """Test selecting an invalid source raises a validation error."""

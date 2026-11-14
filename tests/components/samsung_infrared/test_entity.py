@@ -6,12 +6,12 @@ from pytest_universalassistant.components.infrared import (
 )
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entity_availability_follows_ir_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test entity becomes unavailable when IR entity is unavailable."""
     entity_id = "media_player.samsung_tv"

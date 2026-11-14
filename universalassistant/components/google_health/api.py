@@ -1,4 +1,4 @@
-"""API for Google Health bound to Universal Universal Home Assistant OAuth."""
+"""API for Google Health bound to __HA_KEEP__ OAuth."""
 
 from typing import cast, override
 

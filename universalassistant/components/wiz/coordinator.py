@@ -8,7 +8,7 @@ from typing import override
 from pywizlight import wizlight
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -38,7 +38,7 @@ class WizCoordinator(DataUpdateCoordinator[float | None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: WizConfigEntry,
         bulb: wizlight,
     ) -> None:

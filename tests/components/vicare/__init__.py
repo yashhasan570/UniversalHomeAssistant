@@ -5,7 +5,7 @@ from typing import Final
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.const import CONF_CLIENT_ID, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MODULE = "universalassistant.components.vicare"
 
@@ -18,7 +18,7 @@ ENTRY_CONFIG: Final[dict[str, str]] = {
 MOCK_MAC = "B874241B7B9"
 
 
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)
 

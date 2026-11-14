@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -63,7 +63,7 @@ from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
     ],
 )
 async def test_form_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_indi_allsky_client: AsyncMock,
     host: str,
@@ -110,7 +110,7 @@ async def test_form_success(
     ],
 )
 async def test_form_failures_and_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_indi_allsky_client: AsyncMock,
     side_effect: Exception,
@@ -165,7 +165,7 @@ async def test_form_failures_and_recovery(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_validation_session_is_detached(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     fetch_image_side_effect: Exception | None,
 ) -> None:
@@ -202,7 +202,7 @@ async def test_validation_session_is_detached(
 
 
 async def test_form_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test duplicate host and port configuration aborts."""
@@ -234,7 +234,7 @@ async def test_form_already_configured(
     ],
 )
 async def test_form_already_configured_ipv6(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     duplicate_host: str,
 ) -> None:
     """Test duplicate IPv6 configurations abort regardless of formatting variation."""
@@ -377,7 +377,7 @@ def test_get_ssl_context() -> None:
     ],
 )
 async def test_zeroconf_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_indi_allsky_client: AsyncMock,
     discovery_info: ZeroconfServiceInfo,
@@ -414,7 +414,7 @@ async def test_zeroconf_discovery(
 
 
 async def test_zeroconf_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
     """Test Zeroconf discovery aborts if server connection check fails."""
@@ -443,7 +443,7 @@ async def test_zeroconf_cannot_connect(
 
 
 async def test_zeroconf_unverified_ssl_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -484,7 +484,7 @@ async def test_zeroconf_unverified_ssl_fallback(
 
 
 async def test_zeroconf_requires_auth_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -536,7 +536,7 @@ async def test_zeroconf_requires_auth_success(
 
 
 async def test_zeroconf_credentials_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -627,7 +627,7 @@ async def test_zeroconf_credentials_errors(
 
 
 async def test_zeroconf_cannot_connect_non_ssl(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
     """Test Zeroconf discovery aborts immediately if non-SSL connection fails."""
@@ -656,7 +656,7 @@ async def test_zeroconf_cannot_connect_non_ssl(
 
 
 async def test_zeroconf_unverified_ssl_fallback_requires_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -711,7 +711,7 @@ async def test_zeroconf_unverified_ssl_fallback_requires_auth(
 
 
 async def test_zeroconf_adopts_existing_unlinked_manual_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test Zeroconf assigns unique_id to an existing manual entry matching host and port."""
     entry = MockConfigEntry(
@@ -749,7 +749,7 @@ async def test_zeroconf_adopts_existing_unlinked_manual_entry(
 
 
 async def test_zeroconf_adopts_existing_unlinked_manual_entry_by_hostname(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test Zeroconf assigns unique_id to an existing manual entry matching hostname and port."""
     entry = MockConfigEntry(
@@ -788,7 +788,7 @@ async def test_zeroconf_adopts_existing_unlinked_manual_entry_by_hostname(
 
 
 async def test_zeroconf_already_configured_with_mac_updates_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test Zeroconf discovery updates entry host/port if unique_id is already configured."""
     entry = MockConfigEntry(
@@ -827,7 +827,7 @@ async def test_zeroconf_already_configured_with_mac_updates_info(
 
 
 async def test_zeroconf_preserves_configured_hostname(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test Zeroconf preserves a configured domain hostname when updating an entry."""
     entry = MockConfigEntry(
@@ -866,7 +866,7 @@ async def test_zeroconf_preserves_configured_hostname(
 
 
 async def test_zeroconf_already_configured_without_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test Zeroconf discovery aborts if host/port match an existing entry when mac is absent."""
     entry = MockConfigEntry(
@@ -902,7 +902,7 @@ async def test_zeroconf_already_configured_without_mac(
 
 
 async def test_zeroconf_already_configured_without_mac_by_hostname(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test Zeroconf discovery aborts if hostname/port match an existing entry when mac is absent."""
     entry = MockConfigEntry(
@@ -938,7 +938,7 @@ async def test_zeroconf_already_configured_without_mac_by_hostname(
 
 
 async def test_zeroconf_confirmation_collision_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
     """Test discovery confirmation aborts if endpoint was configured while discovery was pending."""
@@ -983,7 +983,7 @@ async def test_zeroconf_confirmation_collision_aborts(
 
 
 async def test_zeroconf_rejects_protocol_downgrade(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test Zeroconf discovery aborts without changing protocol if SSL settings differ."""
     entry = MockConfigEntry(
@@ -1022,7 +1022,7 @@ async def test_zeroconf_rejects_protocol_downgrade(
 
 
 async def test_form_with_credentials_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_indi_allsky_client: AsyncMock,
 ) -> None:
@@ -1072,7 +1072,7 @@ async def test_form_with_credentials_success(
     ],
 )
 async def test_form_missing_credentials_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     credentials_input: dict[str, str],
 ) -> None:
@@ -1119,7 +1119,7 @@ async def test_form_missing_credentials_failure(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -1162,7 +1162,7 @@ async def test_reauth_successful(
     ],
 )
 async def test_reauth_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -1213,7 +1213,7 @@ async def test_reauth_failures(
     ],
 )
 async def test_reauth_missing_credentials_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indi_allsky_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     credentials_input: dict[str, str],

@@ -24,7 +24,7 @@ from universalassistant.components.satel_integra.const import (
 )
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_CODE, CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_CODE = "1234"
 MOCK_CONFIG_DATA = {
@@ -99,7 +99,7 @@ MOCK_SWITCHABLE_OUTPUT_SUBENTRY = ConfigSubentry(
 
 
 @pytest.mark.usefixtures("patch_debounce")
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry):
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry):
     """Set up the component."""
     config_entry.add_to_hass(hass)
 
@@ -148,7 +148,7 @@ def get_system_status_callback(mock_satel: AsyncMock) -> Callable[[], None]:
 
 
 async def trigger_connection_status_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_satel: AsyncMock,
     status: bool,
 ) -> None:

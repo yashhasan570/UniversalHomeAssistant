@@ -13,7 +13,7 @@ from universalassistant.components.bitvis.const import DEFAULT_NAME, DEFAULT_POR
 from universalassistant.components.bitvis.coordinator import async_get_listener_registry
 from universalassistant.config_entries import SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -70,7 +70,7 @@ def _invalid_mac_datagram() -> bytes:
     ],
 )
 async def test_user_form_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     input_host: str,
     resolved_ip: str,
     expected_host: str,
@@ -117,7 +117,7 @@ async def test_user_form_create_entry(
     ],
 )
 async def test_user_form_error_and_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connectivity_kwargs: dict[str, object],
     error_key: str,
 ) -> None:
@@ -162,7 +162,7 @@ async def test_user_form_error_and_recovery(
     ],
 )
 async def test_user_form_duplicate_mac(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, input_host: str
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, input_host: str
 ) -> None:
     """Test duplicate detection is based on MAC address, not host."""
     mock_config_entry.add_to_hass(hass)
@@ -184,7 +184,7 @@ async def test_user_form_duplicate_mac(
 
 
 async def test_user_form_reused_ip_new_device(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test a new device can be added at an IP already stored on another entry."""
     mock_config_entry.add_to_hass(hass)
@@ -226,7 +226,7 @@ async def test_user_form_reused_ip_new_device(
     ],
 )
 async def test_zeroconf_abort(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connectivity_kwargs: dict[str, object],
     reason: str,
 ) -> None:
@@ -243,7 +243,7 @@ async def test_zeroconf_abort(
 
 
 async def test_zeroconf_duplicate(
-    hass: UniversalAssistant, mock_zeroconf_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_zeroconf_config_entry: MockConfigEntry
 ) -> None:
     """Test that a duplicate zeroconf discovery is aborted by MAC address."""
     mock_zeroconf_config_entry.add_to_hass(hass)
@@ -260,7 +260,7 @@ async def test_zeroconf_duplicate(
 
 
 async def test_zeroconf_reused_ip_new_device(
-    hass: UniversalAssistant, mock_zeroconf_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_zeroconf_config_entry: MockConfigEntry
 ) -> None:
     """Test zeroconf can add a new device at an IP already stored on another entry."""
     mock_zeroconf_config_entry.add_to_hass(hass)
@@ -315,7 +315,7 @@ async def test_zeroconf_reused_ip_new_device(
     ],
 )
 async def test_zeroconf_create_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     name: str,
     port: int | None,
     expected_title: str,
@@ -347,7 +347,7 @@ async def test_zeroconf_create_entry(
 
 
 async def test_zeroconf_updates_host_on_new_ip(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test rediscovery on a new IP updates the stored host and aborts."""
     mock_config_entry.add_to_hass(hass)
@@ -366,7 +366,7 @@ async def test_zeroconf_updates_host_on_new_ip(
 
 
 async def test_aborted_flow_removes_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_shared_listener: FakeListener,
 ) -> None:
     """Test listener is stopped after a failed attempt and the flow recovers."""
@@ -403,7 +403,7 @@ async def test_aborted_flow_removes_listener(
 
 
 async def test_invalid_mac_from_other_host_is_ignored(
-    hass: UniversalAssistant, mock_shared_listener: FakeListener
+    hass: __HAC_KEEP__, mock_shared_listener: FakeListener
 ) -> None:
     """Test an invalid-MAC datagram from another host does not fail the flow."""
     with patch_config_flow_connectivity(
@@ -434,7 +434,7 @@ async def test_invalid_mac_from_other_host_is_ignored(
 
 
 async def test_invalid_mac_does_not_fail_other_flow(
-    hass: UniversalAssistant, mock_shared_listener: FakeListener
+    hass: __HAC_KEEP__, mock_shared_listener: FakeListener
 ) -> None:
     """Test an invalid-MAC datagram only fails the flow waiting for that host."""
 
@@ -505,7 +505,7 @@ async def test_invalid_mac_does_not_fail_other_flow(
     assert second_result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_concurrent_flow_same_host_aborts(hass: UniversalAssistant) -> None:
+async def test_concurrent_flow_same_host_aborts(hass: __HAC_KEEP__) -> None:
     """Test concurrent flows for the same host abort with already_in_progress."""
     with patch_config_flow_connectivity(USER_HOST, deliver_mac=False):
         first_result = await hass.config_entries.flow.async_init(
@@ -539,7 +539,7 @@ async def test_concurrent_flow_same_host_aborts(hass: UniversalAssistant) -> Non
     assert second_result["reason"] == "already_in_progress"
 
 
-async def test_discovery_register_runtime_error_aborts(hass: UniversalAssistant) -> None:
+async def test_discovery_register_runtime_error_aborts(hass: __HAC_KEEP__) -> None:
     """Test discovery aborts when filter registration raises RuntimeError."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -561,7 +561,7 @@ async def test_discovery_register_runtime_error_aborts(hass: UniversalAssistant)
     assert result["reason"] == "already_in_progress"
 
 
-async def test_zeroconf_concurrent_flow_same_host_aborts(hass: UniversalAssistant) -> None:
+async def test_zeroconf_concurrent_flow_same_host_aborts(hass: __HAC_KEEP__) -> None:
     """Test concurrent zeroconf flows for the same host abort."""
     with patch_config_flow_connectivity(ZEROCONF_HOST, deliver_mac=False):
         first_task = asyncio.create_task(
@@ -595,7 +595,7 @@ async def test_zeroconf_concurrent_flow_same_host_aborts(hass: UniversalAssistan
     ],
 )
 async def test_user_form_port_bind_check(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_shared_listener: FakeListener,
     listener_already_running: bool,
     expected_awaits: int,

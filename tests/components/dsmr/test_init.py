@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.dsmr.const import DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -83,7 +83,7 @@ from universalassistant.helpers import entity_registry as er
     ],
 )
 async def test_migrate_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     dsmr_connection_fixture: tuple[MagicMock, MagicMock, MagicMock],
     dsmr_version: str,

@@ -3,7 +3,7 @@
 from ohme import ApiException, AuthException, OhmeApiClient
 
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -21,14 +21,14 @@ from .services import async_setup_services
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Ohme integration."""
     async_setup_services(hass)
 
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OhmeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OhmeConfigEntry) -> None:
     """Set up Ohme from a config entry."""
 
     client = OhmeApiClient(
@@ -66,7 +66,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OhmeConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: OhmeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: OhmeConfigEntry) -> None:
     """Unload a config entry."""
 
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

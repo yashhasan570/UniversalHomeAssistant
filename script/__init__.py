@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant scripts."""
+"""__HA_KEEP__ scripts."""
 
 import contextlib
 

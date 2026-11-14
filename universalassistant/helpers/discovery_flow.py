@@ -5,7 +5,7 @@ import dataclasses
 from typing import TYPE_CHECKING, Any, NamedTuple, Self
 
 from universalassistant.const import EVENT_HOMEASSISTANT_STARTED
-from universalassistant.core import CoreState, Event, UniversalAssistant, callback
+from universalassistant.core import CoreState, Event, __HAC_KEEP__, callback
 from universalassistant.util.async_ import gather_with_limited_concurrency
 from universalassistant.util.hass_dict import HassKey
 
@@ -36,7 +36,7 @@ class DiscoveryKey:
 
 @callback
 def async_create_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     context: ConfigFlowContext,
     data: Any,
@@ -66,7 +66,7 @@ def async_create_flow(
 
 @callback
 def _async_init_flow(
-    hass: UniversalAssistant, domain: str, context: ConfigFlowContext, data: Any
+    hass: __HAC_KEEP__, domain: str, context: ConfigFlowContext, data: Any
 ) -> Coroutine[None, None, ConfigFlowResult] | None:
     """Create a discovery flow."""
     # Avoid spawning flows that have the same initial discovery data
@@ -101,7 +101,7 @@ class PendingFlowValue(NamedTuple):
 class FlowDispatcher:
     """Dispatch discovery flows."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Init the discovery dispatcher."""
         self.hass = hass
         self.started = False

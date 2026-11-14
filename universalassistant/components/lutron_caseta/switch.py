@@ -3,7 +3,7 @@
 from typing import Any, override
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -13,7 +13,7 @@ from .models import LutronCasetaConfigEntry, LutronCasetaData
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: LutronCasetaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -39,7 +39,7 @@ class LutronCasetaLight(LutronCasetaUpdatableEntity, SwitchEntity):
     """Representation of a Lutron Caseta switch."""
 
     def __init__(
-        self, hass: UniversalAssistant, device: dict[str, Any], data: LutronCasetaData
+        self, hass: __HAC_KEEP__, device: dict[str, Any], data: LutronCasetaData
     ) -> None:
         """Init a button entity."""
 
@@ -79,7 +79,7 @@ class LutronCasetaLight(LutronCasetaUpdatableEntity, SwitchEntity):
 class LutronCasetaSmartAwaySwitch(LutronCasetaEntity, SwitchEntity):
     """Representation of Lutron Caseta Smart Away."""
 
-    def __init__(self, hass: UniversalAssistant, data: LutronCasetaData) -> None:
+    def __init__(self, hass: __HAC_KEEP__, data: LutronCasetaData) -> None:
         """Init a switch entity."""
         device = {
             "device_id": "smart_away",

@@ -14,10 +14,10 @@ from universalassistant.core import (
     Context,
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity import Entity
 from universalassistant.helpers.event import async_track_state_change_event
@@ -33,7 +33,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_send_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id_or_uuid: str,
     command: RadioFrequencyCommand,
     context: Context | None = None,
@@ -43,12 +43,12 @@ async def async_send_command(
     Raises:
         probatio.Invalid: If `entity_id_or_uuid` is not a valid entity ID or known entity
             registry UUID.
-        UniversalAssistantError: If the radio_frequency component is not loaded or the
+        __HAC_KEEP__Error: If the radio_frequency component is not loaded or the
             resolved entity is not found.
     """
     component = hass.data.get(DATA_COMPONENT)
     if component is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="component_not_loaded",
         )
@@ -57,14 +57,14 @@ async def async_send_command(
     entity_id = er.async_validate_entity_id(ent_reg, entity_id_or_uuid)
     entity = component.get_entity(entity_id)
     if entity is None or not isinstance(entity, RadioFrequencyTransmitterEntity):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="entity_not_found",
             translation_placeholders={"entity_id": entity_id},
         )
 
     if not entity.supports_frequency(command.frequency):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="unsupported_frequency",
             translation_placeholders={
@@ -74,7 +74,7 @@ async def async_send_command(
         )
 
     if not entity.supports_modulation(command.modulation):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="unsupported_modulation",
             translation_placeholders={
@@ -91,18 +91,18 @@ async def async_send_command(
 
 @callback
 def async_subscribe_receiver(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id_or_uuid: str,
     signal_callback: Callable[[RadioFrequencyReceivedSignal], None],
 ) -> CALLBACK_TYPE:
     """Subscribe to RF signals from a specific receiver entity.
 
     Raises:
-        UniversalAssistantError: If the receiver entity is not found.
+        __HAC_KEEP__Error: If the receiver entity is not found.
     """
     component = hass.data.get(DATA_COMPONENT)
     if component is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="component_not_loaded",
         )
@@ -111,7 +111,7 @@ def async_subscribe_receiver(
     try:
         entity_id = er.async_validate_entity_id(ent_reg, entity_id_or_uuid)
     except probatio.Invalid as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="receiver_not_found",
             translation_placeholders={"entity_id": entity_id_or_uuid},
@@ -119,7 +119,7 @@ def async_subscribe_receiver(
 
     entity = component.get_entity(entity_id)
     if entity is None or not isinstance(entity, RadioFrequencyReceiverEntity):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="receiver_not_found",
             translation_placeholders={"entity_id": entity_id},

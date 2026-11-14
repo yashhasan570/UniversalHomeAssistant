@@ -7,7 +7,7 @@ from elmax_api.model.command import CoverCommand
 from elmax_api.model.cover_status import CoverStatus
 
 from universalassistant.components.cover import CoverEntity, CoverEntityFeature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import ElmaxConfigEntry
@@ -23,7 +23,7 @@ _COMMAND_BY_MOTION_STATUS = {  # Maps the stop command for each cover motion sta
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ElmaxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -12,8 +12,8 @@ from universalassistant.components.siren import (
     SirenEntityDescription,
     SirenEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -31,7 +31,7 @@ VALID_DURATIONS: tuple[int, ...] = tuple(d.value for d in SirenDuration)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: UFPConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -96,7 +96,7 @@ class ProtectSiren(ProtectDeviceEntity, SirenEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Activate the siren, optionally for a given duration and/or volume."""
         if (siren := self._siren) is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="siren_not_available",
             )
@@ -138,7 +138,7 @@ class ProtectSiren(ProtectDeviceEntity, SirenEntity):
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Stop the siren."""
         if (siren := self._siren) is None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="siren_not_available",
             )

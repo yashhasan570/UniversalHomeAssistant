@@ -19,7 +19,7 @@ from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.mqtt.const import DOMAIN
 from universalassistant.components.mqtt.models import DATA_MQTT
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -65,7 +65,7 @@ def _get_device_for_config_entry(
 
 @pytest.mark.no_fail_on_log_exception
 async def test_discover_bad_tag(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock: AsyncMock,
@@ -99,7 +99,7 @@ async def test_discover_bad_tag(
 
 
 async def test_if_fires_on_mqtt_message_with_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock: AsyncMock,
@@ -121,7 +121,7 @@ async def test_if_fires_on_mqtt_message_with_device(
 
 
 async def test_if_fires_on_mqtt_message_without_device(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator, tag_mock: AsyncMock
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator, tag_mock: AsyncMock
 ) -> None:
     """Test tag scanning, without device."""
     await mqtt_mock_entry()
@@ -137,7 +137,7 @@ async def test_if_fires_on_mqtt_message_without_device(
 
 
 async def test_if_fires_on_mqtt_message_with_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock: AsyncMock,
@@ -159,7 +159,7 @@ async def test_if_fires_on_mqtt_message_with_template(
 
 
 async def test_strip_tag_id(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator, tag_mock: AsyncMock
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator, tag_mock: AsyncMock
 ) -> None:
     """Test strip whitespace from tag_id."""
     await mqtt_mock_entry()
@@ -175,7 +175,7 @@ async def test_strip_tag_id(
 
 
 async def test_if_fires_on_mqtt_message_after_update_with_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock: AsyncMock,
@@ -227,7 +227,7 @@ async def test_if_fires_on_mqtt_message_after_update_with_device(
 
 
 async def test_invalid_update_keeps_current_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock: AsyncMock,
@@ -264,7 +264,7 @@ async def test_invalid_update_keeps_current_config(
 
 
 async def test_update_device_registration_error_keeps_current_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock: AsyncMock,
@@ -309,7 +309,7 @@ async def test_update_device_registration_error_keeps_current_config(
 
 
 async def test_if_fires_on_mqtt_message_after_update_without_device(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator, tag_mock: AsyncMock
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator, tag_mock: AsyncMock
 ) -> None:
     """Test tag scanning after update."""
     await mqtt_mock_entry()
@@ -353,7 +353,7 @@ async def test_if_fires_on_mqtt_message_after_update_without_device(
 
 
 async def test_if_fires_on_mqtt_message_after_update_with_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock: AsyncMock,
@@ -407,7 +407,7 @@ async def test_if_fires_on_mqtt_message_after_update_with_template(
 
 
 async def test_no_resubscribe_same_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -428,7 +428,7 @@ async def test_no_resubscribe_same_topic(
 
 
 async def test_not_fires_on_mqtt_message_after_remove_by_mqtt_with_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock: AsyncMock,
@@ -467,7 +467,7 @@ async def test_not_fires_on_mqtt_message_after_remove_by_mqtt_with_device(
 
 
 async def test_not_fires_on_mqtt_message_after_remove_by_mqtt_without_device(
-    hass: UniversalAssistant, mqtt_mock_entry: MqttMockHAClientGenerator, tag_mock: AsyncMock
+    hass: __HAC_KEEP__, mqtt_mock_entry: MqttMockHAClientGenerator, tag_mock: AsyncMock
 ) -> None:
     """Test tag scanning not firing after removal."""
     await mqtt_mock_entry()
@@ -500,7 +500,7 @@ async def test_not_fires_on_mqtt_message_after_remove_by_mqtt_without_device(
 
 
 async def test_not_fires_on_mqtt_message_after_remove_from_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
@@ -536,7 +536,7 @@ async def test_not_fires_on_mqtt_message_after_remove_from_registry(
 
 
 async def test_entity_device_info_with_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -575,7 +575,7 @@ async def test_entity_device_info_with_connection(
 
 
 async def test_entity_device_info_with_identifier(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -613,7 +613,7 @@ async def test_entity_device_info_with_identifier(
 
 
 async def test_entity_device_info_with_via_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -644,7 +644,7 @@ async def test_entity_device_info_with_via_device(
 
 
 async def test_entity_device_info_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -687,7 +687,7 @@ async def test_entity_device_info_update(
 
 
 async def test_cleanup_tag(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
@@ -793,7 +793,7 @@ async def test_cleanup_tag(
 
 
 async def test_cleanup_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -828,7 +828,7 @@ async def test_cleanup_device(
 
 
 async def test_cleanup_device_several_tags(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     tag_mock,
@@ -885,7 +885,7 @@ async def test_cleanup_device_several_tags(
 
 
 async def test_cleanup_device_with_entity_and_trigger_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -961,7 +961,7 @@ async def test_cleanup_device_with_entity_and_trigger_1(
 
 
 async def test_cleanup_device_with_entity2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mqtt_mock_entry: MqttMockHAClientGenerator,
 ) -> None:
@@ -1037,7 +1037,7 @@ async def test_cleanup_device_with_entity2(
 
 
 async def test_update_with_bad_config_not_breaks_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock_entry: MqttMockHAClientGenerator,
     caplog: pytest.LogCaptureFixture,
     tag_mock: AsyncMock,
@@ -1083,7 +1083,7 @@ async def test_update_with_bad_config_not_breaks_discovery(
 
 @pytest.mark.usefixtures("mqtt_mock")
 async def test_unload_entry(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, tag_mock: AsyncMock
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, tag_mock: AsyncMock
 ) -> None:
     """Test unloading the MQTT entry."""
 
@@ -1117,7 +1117,7 @@ async def test_unload_entry(
 @patch("universalassistant.components.mqtt.client.SUBSCRIBE_COOLDOWN", 0.0)
 @patch("universalassistant.components.mqtt.client.UNSUBSCRIBE_COOLDOWN", 0.0)
 async def test_fires_once_after_entry_reload(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, tag_mock: AsyncMock
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, tag_mock: AsyncMock
 ) -> None:
     """Test a tag scanner fires once per message after the MQTT entry reloads."""
     # Uses a real MQTT client, so subscriptions are restored on reload
@@ -1155,7 +1155,7 @@ async def test_fires_once_after_entry_reload(
 
 @pytest.mark.usefixtures("mqtt_mock", "tag_mock")
 async def test_value_template_fails(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the rendering of MQTT value template fails."""
     config = copy.deepcopy(DEFAULT_CONFIG_DEVICE)

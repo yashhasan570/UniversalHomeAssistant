@@ -3,8 +3,8 @@
 from typing import override
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -16,7 +16,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: OpenRGBConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -92,7 +92,7 @@ class OpenRGBProfileSelect(CoordinatorEntity[OpenRGBCoordinator], SelectEntity):
                     self.coordinator.client.load_profile, option
                 )
             except CONNECTION_ERRORS as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="communication_error",
                     translation_placeholders={
@@ -101,7 +101,7 @@ class OpenRGBProfileSelect(CoordinatorEntity[OpenRGBCoordinator], SelectEntity):
                     },
                 ) from err
             except ValueError as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="openrgb_error",
                     translation_placeholders={

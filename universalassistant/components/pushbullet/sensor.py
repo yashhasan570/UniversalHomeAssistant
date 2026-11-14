@@ -4,7 +4,7 @@ from typing import override
 
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
 from universalassistant.const import MAX_LENGTH_STATE_STATE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -68,7 +68,7 @@ SENSOR_KEYS: list[str] = [desc.key for desc in SENSOR_TYPES]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: PushbulletConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

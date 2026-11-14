@@ -18,9 +18,9 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
 )
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.exceptions import (
-    UniversalAssistantError,
+    __HAC_KEEP__Error,
     ServiceValidationError,
     Unauthorized,
     UnknownUser,
@@ -54,7 +54,7 @@ def mock_dsm() -> MagicMock:
 
 
 @pytest.fixture
-async def setup_dsm(hass: UniversalAssistant, mock_dsm: MagicMock) -> MockConfigEntry:
+async def setup_dsm(hass: __HAC_KEEP__, mock_dsm: MagicMock) -> MockConfigEntry:
     """Set up a Synology DSM config entry."""
     with (
         patch(
@@ -87,7 +87,7 @@ async def setup_dsm(hass: UniversalAssistant, mock_dsm: MagicMock) -> MockConfig
 )
 @pytest.mark.usefixtures("setup_dsm")
 async def test_service_without_user_context(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dsm: MagicMock,
     service: str,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_service_without_user_context(
 )
 @pytest.mark.usefixtures("setup_dsm")
 async def test_service_as_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dsm: MagicMock,
     hass_admin_user: MockUser,
     service: str,
@@ -124,7 +124,7 @@ async def test_service_as_admin(
 )
 @pytest.mark.usefixtures("setup_dsm")
 async def test_service_as_non_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dsm: MagicMock,
     hass_read_only_user: MockUser,
     service: str,
@@ -147,7 +147,7 @@ async def test_service_as_non_admin(
 )
 @pytest.mark.usefixtures("setup_dsm")
 async def test_service_as_unknown_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dsm: MagicMock,
     service: str,
 ) -> None:
@@ -169,7 +169,7 @@ async def test_service_as_unknown_user(
 )
 @pytest.mark.usefixtures("setup_dsm")
 async def test_service_with_serial(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dsm: MagicMock,
     hass_admin_user: MockUser,
     service: str,
@@ -190,7 +190,7 @@ async def test_service_with_serial(
     "service", [SynologyDSMService.REBOOT, SynologyDSMService.SHUTDOWN]
 )
 async def test_service_with_serial_of_unloaded_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dsm: MagicMock,
     setup_dsm: MockConfigEntry,
     hass_admin_user: MockUser,
@@ -218,13 +218,13 @@ async def test_service_with_serial_of_unloaded_entry(
 )
 @pytest.mark.usefixtures("setup_dsm")
 async def test_service_with_unknown_serial(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dsm: MagicMock,
     hass_admin_user: MockUser,
     service: str,
 ) -> None:
     """Test the action rejects a serial that is not configured."""
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             DOMAIN,
             service,
@@ -242,7 +242,7 @@ async def test_service_with_unknown_serial(
 )
 @pytest.mark.usefixtures("setup_dsm")
 async def test_deprecated_action_still_works_and_raises_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     mock_dsm: MagicMock,
     service: str,

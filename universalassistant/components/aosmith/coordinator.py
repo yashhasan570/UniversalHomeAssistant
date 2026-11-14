@@ -12,7 +12,7 @@ from py_aosmith import (
 from py_aosmith.models import Device as AOSmithDevice
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -39,7 +39,7 @@ class AOSmithStatusCoordinator(DataUpdateCoordinator[dict[str, AOSmithDevice]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AOSmithConfigEntry,
         client: AOSmithAPIClient,
     ) -> None:
@@ -83,7 +83,7 @@ class AOSmithEnergyCoordinator(DataUpdateCoordinator[dict[str, float]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AOSmithConfigEntry,
         client: AOSmithAPIClient,
         junction_ids: list[str],

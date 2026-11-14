@@ -1,4 +1,4 @@
-"""Pluggable auth modules for Universal Universal Home Assistant."""
+"""Pluggable auth modules for __HA_KEEP__."""
 
 import logging
 import types
@@ -9,9 +9,9 @@ from probatio.humanize import humanize_error
 
 from universalassistant import data_entry_flow, requirements
 from universalassistant.const import CONF_ID, CONF_NAME, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResult
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.importlib import async_import_module
 from universalassistant.util.decorator import Registry
 from universalassistant.util.hass_dict import HassKey
@@ -39,7 +39,7 @@ class MultiFactorAuthModule:
     DEFAULT_TITLE = "Unnamed auth module"
     MAX_RETRY_TIME = 3
 
-    def __init__(self, hass: UniversalAssistant, config: dict[str, Any]) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
         """Initialize an auth module."""
         self.hass = hass
         self.config = config
@@ -129,7 +129,7 @@ class SetupFlow[_MultiFactorAuthModuleT: MultiFactorAuthModule = MultiFactorAuth
 
 
 async def auth_mfa_module_from_config(
-    hass: UniversalAssistant, config: dict[str, Any]
+    hass: __HAC_KEEP__, config: dict[str, Any]
 ) -> MultiFactorAuthModule:
     """Initialize an auth module from a config."""
     module_name: str = config[CONF_TYPE]
@@ -148,7 +148,7 @@ async def auth_mfa_module_from_config(
     return MULTI_FACTOR_AUTH_MODULES[module_name](hass, config)
 
 
-async def _load_mfa_module(hass: UniversalAssistant, module_name: str) -> types.ModuleType:
+async def _load_mfa_module(hass: __HAC_KEEP__, module_name: str) -> types.ModuleType:
     """Load an mfa auth module."""
     module_path = f"universalassistant.auth.mfa_modules.{module_name}"
 
@@ -156,7 +156,7 @@ async def _load_mfa_module(hass: UniversalAssistant, module_name: str) -> types.
         module = await async_import_module(hass, module_path)
     except ImportError as err:
         _LOGGER.error("Unable to load mfa module %s: %s", module_name, err)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"Unable to load mfa module {module_name}: {err}"
         ) from err
 

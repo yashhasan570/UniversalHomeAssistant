@@ -6,7 +6,7 @@ from typing import override
 from ttls.client import TWINKLY_MODES
 
 from universalassistant.components.select import SelectEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import TwinklyConfigEntry, TwinklyCoordinator
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TwinklyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -25,14 +25,14 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import MOCK_ENTRY_DATA, MOCK_MODEL, MOCK_SERIAL, seed_pv_inverter
 
 
 async def _setup_pv(
-    hass: UniversalAssistant, *, remote_on: bool = False
+    hass: __HAC_KEEP__, *, remote_on: bool = False
 ) -> tuple[MockConfigEntry, MockModbusConnection]:
     """Set up a PV-only inverter with only the switch platform loaded."""
     connection = MockModbusConnection()
@@ -59,7 +59,7 @@ async def _setup_pv(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_pv_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -81,7 +81,7 @@ async def test_pv_entities(
     ],
 )
 async def test_remote_switch_toggle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     remote_on: bool,
     service: str,
@@ -108,7 +108,7 @@ async def test_remote_switch_toggle(
 
 
 async def test_turn_on_modbus_error(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test a write failure propagates as-is."""
     _, connection = await _setup_pv(hass)

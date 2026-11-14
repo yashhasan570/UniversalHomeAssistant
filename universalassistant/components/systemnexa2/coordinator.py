@@ -18,8 +18,8 @@ from sn2.device import Setting, UpdateEvent
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryNotReady, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryNotReady, __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -72,7 +72,7 @@ class SystemNexa2DataUpdateCoordinator(DataUpdateCoordinator[SystemNexa2Data]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SystemNexa2ConfigEntry,
     ) -> None:
         """Initialize the coordinator."""
@@ -135,7 +135,7 @@ class SystemNexa2DataUpdateCoordinator(DataUpdateCoordinator[SystemNexa2Data]):
         try:
             await coro
         except (TimeoutError, NotConnectedError, aiohttp.ClientError) as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="device_communication_error",
             ) from err

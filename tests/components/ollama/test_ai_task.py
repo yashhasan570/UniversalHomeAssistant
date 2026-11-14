@@ -12,14 +12,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components import ai_task, media_source
 from universalassistant.components.ollama import CONF_KEEP_ALIVE
 from universalassistant.components.ollama.const import KEEP_ALIVE_FOREVER
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, selector
 
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -64,7 +64,7 @@ async def test_generate_data(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_run_task_with_streaming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_run_task_with_streaming(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_run_task_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_run_task_connection_error(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_run_task_empty_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -152,7 +152,7 @@ async def test_run_task_empty_response(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_structured_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_generate_structured_data(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_invalid_structured_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_generate_invalid_structured_data(
             "ollama.AsyncClient.chat",
             return_value=mock_chat_response(),
         ),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await ai_task.async_generate_data(
             hass,
@@ -252,7 +252,7 @@ async def test_generate_invalid_structured_data(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_data_with_attachment(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -313,7 +313,7 @@ async def test_generate_data_with_attachment(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_generate_data_with_unsupported_file_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -350,7 +350,7 @@ async def test_generate_data_with_unsupported_file_format(
             return_value=mock_chat_response(),
         ),
         pytest.raises(
-            UniversalAssistantError,
+            __HAC_KEEP__Error,
             match="Ollama only supports image attachments in user content",
         ),
     ):
@@ -368,7 +368,7 @@ async def test_generate_data_with_unsupported_file_format(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_keep_alive_forever_passed_as_int(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -414,7 +414,7 @@ async def test_keep_alive_forever_passed_as_int(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_keep_alive_duration_passed_as_string(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -457,7 +457,7 @@ async def test_keep_alive_duration_passed_as_string(
 
 @pytest.mark.usefixtures("mock_init_component")
 async def test_keep_alive_default_is_forever(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

@@ -35,7 +35,7 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     EventStateReportedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
 )
@@ -78,7 +78,7 @@ PLATFORM_SCHEMA = HUMIDIFIER_PLATFORM_SCHEMA.extend(HYGROSTAT_SCHEMA.schema)
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -92,7 +92,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -114,7 +114,7 @@ def _time_period_or_none(value: Any) -> timedelta | None:
 
 
 async def _async_setup_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: Mapping[str, Any],
     unique_id: str | None,
     async_add_entities: AddEntitiesCallback | AddConfigEntryEntitiesCallback,

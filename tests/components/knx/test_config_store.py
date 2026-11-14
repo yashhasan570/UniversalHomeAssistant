@@ -50,7 +50,7 @@ from universalassistant.components.knx.storage.expose_controller import validate
 from universalassistant.components.knx.storage.serialize import get_serialized_schema
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import CONF_PLATFORM, EntityCategory, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 from universalassistant.helpers.translation import async_get_translations
 
@@ -59,7 +59,7 @@ from .conftest import KNXTestKit
 
 
 async def test_create_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -109,7 +109,7 @@ async def test_create_entity(
 
 
 async def test_create_entity_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_create_entity_error(
     ],
 )
 async def test_create_entity_unsupported_entity_category(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -222,7 +222,7 @@ async def test_create_entity_unsupported_entity_category(
 
 
 async def test_update_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -271,7 +271,7 @@ async def test_update_entity(
 
 
 async def test_update_entity_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     create_ui_entity: KnxEntityGenerator,
@@ -345,7 +345,7 @@ async def test_update_entity_error(
 
 
 async def test_delete_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -378,7 +378,7 @@ async def test_delete_entity(
 
 
 async def test_disabled_ui_entity_at_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -421,7 +421,7 @@ async def test_disabled_ui_entity_at_setup(
 
 
 async def test_update_disabled_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -482,7 +482,7 @@ async def test_update_disabled_entity(
 
 
 async def test_delete_disabled_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -519,7 +519,7 @@ async def test_delete_disabled_entity(
 
 
 async def test_delete_entity_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -557,7 +557,7 @@ async def test_delete_entity_error(
 
 
 async def test_get_entity_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     create_ui_entity: KnxEntityGenerator,
@@ -602,7 +602,7 @@ async def test_get_entity_config(
     ],
 )
 async def test_get_entity_config_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     test_entity_id: str,
@@ -625,7 +625,7 @@ async def test_get_entity_config_error(
 
 
 async def test_validate_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -735,7 +735,7 @@ async def test_validate_entity(
 
 
 async def test_update_expose_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -759,7 +759,7 @@ async def test_update_expose_error(
 
 
 async def test_validate_expose(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -792,7 +792,7 @@ async def test_validate_expose(
 
 
 async def test_delete_expose(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
     hass_storage: dict[str, Any],
@@ -828,7 +828,7 @@ async def test_delete_expose(
 
 
 async def test_delete_expose_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -860,7 +860,7 @@ LIGHT_UID = "knx_es_01J85ZKTFHSZNG4X9DYBE592TF"
 
 
 async def test_load_skips_invalid_entity_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
@@ -899,7 +899,7 @@ async def test_load_skips_invalid_entity_config(
 
 
 async def test_load_skips_invalid_expose_and_time_server_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -952,7 +952,7 @@ async def test_load_skips_invalid_expose_and_time_server_config(
 
 
 async def test_get_entity_configs_wrong_type(
-    hass: UniversalAssistant, knx: KNXTestKit
+    hass: __HAC_KEEP__, knx: KNXTestKit
 ) -> None:
     """Test requesting a config type the platform schema doesn't yield fails."""
     await knx.setup_integration(
@@ -966,7 +966,7 @@ async def test_get_entity_configs_wrong_type(
 
 
 async def test_load_applies_schema_defaults_and_coercion(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -994,7 +994,7 @@ async def test_load_applies_schema_defaults_and_coercion(
 
 
 async def test_load_valid_store_creates_no_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     issue_registry: ir.IssueRegistry,
 ) -> None:
@@ -1015,7 +1015,7 @@ async def test_load_valid_store_creates_no_issue(
 
 
 async def test_migration_1_to_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1030,7 +1030,7 @@ async def test_migration_1_to_2(
 
 
 async def test_migration_2_1_to_2_5(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1046,7 +1046,7 @@ async def test_migration_2_1_to_2_5(
 
 
 async def test_migration_2_4_to_2_5(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     knx: KNXTestKit,
     hass_storage: dict[str, Any],
 ) -> None:
@@ -1915,7 +1915,7 @@ VALIDATION_ERROR_CASES = [
     ("platform", "entity", "knx_data", "translation_key"), VALIDATION_ERROR_CASES
 )
 async def test_validation_errors_are_translated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: str,
     entity: dict[str, Any],
     knx_data: Any,
@@ -1942,7 +1942,7 @@ async def test_validation_errors_are_translated(
     ],
 )
 async def test_expose_validation_errors_are_translated(
-    hass: UniversalAssistant, option_data: dict[str, Any], translation_key: str
+    hass: __HAC_KEEP__, option_data: dict[str, Any], translation_key: str
 ) -> None:
     """Test expose validation errors carry a translation with matching placeholders."""
     option = {"ga": {"write": "1/2/3", "dpt": "5.001"}, **option_data}
@@ -1954,7 +1954,7 @@ async def test_expose_validation_errors_are_translated(
 
 
 async def _assert_errors_translated(
-    hass: UniversalAssistant, errors: list[dict[str, Any]], translation_key: str
+    hass: __HAC_KEEP__, errors: list[dict[str, Any]], translation_key: str
 ) -> None:
     """Assert the expected key is raised and every error has a usable translation."""
     translations = await async_get_translations(hass, "en", "config_panel", [DOMAIN])

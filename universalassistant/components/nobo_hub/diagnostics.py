@@ -6,7 +6,7 @@ from pynobo import ComponentInfo, nobo
 
 from universalassistant.components.diagnostics import REDACTED, async_redact_data
 from universalassistant.const import CONF_IP_ADDRESS, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import NoboHubConfigEntry
 from .const import ATTR_SERIAL, CONF_SERIAL
@@ -36,7 +36,7 @@ def _component_to_dict(component: ComponentInfo) -> dict[str, Any]:
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: NoboHubConfigEntry
+    hass: __HAC_KEEP__, entry: NoboHubConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     hub = entry.runtime_data

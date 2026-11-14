@@ -1,4 +1,4 @@
-"""Deprecation helpers for Universal Universal Home Assistant."""
+"""Deprecation helpers for __HA_KEEP__."""
 
 from annotationlib import Format, get_annotations
 from collections.abc import Callable
@@ -89,7 +89,7 @@ def get_deprecated(
         else:
             # If Python is unable to access the sources files, the call stack frame
             # will be missing information, so let's guard.
-            # https://github.com/yashhasan570/UniversalUniversalAssistant/issues/24982
+            # https://github.com/yashhasan570/__HAC_KEEP__/issues/24982
             module_name = __name__
 
         logger = logging.getLogger(module_name)
@@ -181,10 +181,10 @@ def deprecated_hass_argument[**_P, _T](
     def _decorator(func: Callable[_P, _T]) -> Callable[_P, _T]:
         @functools.wraps(func)
         def _inner(*args: _P.args, **kwargs: _P.kwargs) -> _T:
-            from universalassistant.core import UniversalAssistant  # noqa: PLC0415
+            from universalassistant.core import __HAC_KEEP__  # noqa: PLC0415
 
-            in_arg = len(args) > 0 and isinstance(args[0], UniversalAssistant)
-            in_kwarg = "hass" in kwargs and isinstance(kwargs["hass"], UniversalAssistant)
+            in_arg = len(args) > 0 and isinstance(args[0], __HAC_KEEP__)
+            in_kwarg = "hass" in kwargs and isinstance(kwargs["hass"], __HAC_KEEP__)
 
             if in_arg or in_kwarg:
                 _print_deprecation_warning_internal(
@@ -600,7 +600,7 @@ class _DeprecatedEntityMember[_T]:
                 )
                 return
         logging.getLogger(cls.__module__).warning(
-            "Detected code that %s. This will stop working in Universal Universal Home Assistant %s",
+            "Detected code that %s. This will stop working in __HA_KEEP__ %s",
             what,
             self.breaks_in_ha_version,
         )
@@ -699,7 +699,7 @@ def migrate_deprecated_entity_members(cls: type, base: type) -> None:
             continue
         message = (
             f"{cls.__module__}::{cls.__qualname__} provides the deprecated {name}, "
-            f"this will stop working in Universal Universal Home Assistant {alias.breaks_in_ha_version}, "
+            f"this will stop working in __HA_KEEP__ {alias.breaks_in_ha_version}, "
             f"use {alias.replacement} instead"
         )
         if behavior is ReportBehavior.ERROR:

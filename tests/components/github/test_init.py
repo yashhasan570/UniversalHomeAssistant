@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.github import CONF_REPOSITORY
 from universalassistant.components.github.const import CONF_REPOSITORIES, DOMAIN
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er, icon
 
 from . import setup_integration
@@ -15,7 +15,7 @@ from .const import MOCK_ACCESS_TOKEN
 
 
 async def test_device_registry_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_config_entry: MockConfigEntry,
     github_client: AsyncMock,
@@ -46,7 +46,7 @@ async def test_device_registry_cleanup(
 
 
 async def test_subscription_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     github_client: AsyncMock,
 ) -> None:
@@ -57,7 +57,7 @@ async def test_subscription_setup(
 
 
 async def test_subscription_setup_polling_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     github_client: AsyncMock,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_subscription_setup_polling_disabled(
 
 
 async def test_sensor_icons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     github_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -95,7 +95,7 @@ async def test_sensor_icons(
 
 
 async def test_minor_v1_v2_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     github_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
 ) -> None:

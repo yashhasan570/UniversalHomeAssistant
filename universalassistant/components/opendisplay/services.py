@@ -32,8 +32,8 @@ from universalassistant.components.media_source import (
     async_resolve_media,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, service
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.network import get_url
@@ -122,7 +122,7 @@ def _load_image_from_bytes(data: bytes) -> PILImage.Image:
     return ImageOps.exif_transpose(image)
 
 
-async def _async_download_image(hass: UniversalAssistant, url: str) -> PILImage.Image:
+async def _async_download_image(hass: __HAC_KEEP__, url: str) -> PILImage.Image:
     """Download an image from a URL and return a PIL Image."""
     if not url.startswith(("http://", "https://")):
         url = get_url(hass) + async_sign_path(
@@ -134,7 +134,7 @@ async def _async_download_image(hass: UniversalAssistant, url: str) -> PILImage.
             resp.raise_for_status()
             data = await resp.read()
     except aiohttp.ClientError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="media_download_error",
             translation_placeholders={"error": str(err)},
@@ -144,7 +144,7 @@ async def _async_download_image(hass: UniversalAssistant, url: str) -> PILImage.
 
 
 async def _async_get_pil_image(
-    hass: UniversalAssistant, image_data: dict[str, Any]
+    hass: __HAC_KEEP__, image_data: dict[str, Any]
 ) -> PILImage.Image:
     """Return a PIL Image for the selected media."""
     media_content_id: str = image_data["media_content_id"]
@@ -180,7 +180,7 @@ async def _async_upload_image(call: ServiceCall) -> None:
 
     ble_device = async_ble_device_from_address(call.hass, address, connectable=True)
     if ble_device is None:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_not_found",
             translation_placeholders={
@@ -205,14 +205,14 @@ async def _async_upload_image(call: ServiceCall) -> None:
         raw_key = entry.data.get(CONF_ENCRYPTION_KEY)
         if raw_key is not None and len(raw_key) != 32:
             entry.async_start_reauth(call.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="authentication_error"
             )
         try:
             encryption_key = bytes.fromhex(raw_key) if raw_key is not None else None
         except ValueError as err:
             entry.async_start_reauth(call.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN, translation_key="authentication_error"
             ) from err
 
@@ -234,11 +234,11 @@ async def _async_upload_image(call: ServiceCall) -> None:
         return
     except (AuthenticationFailedError, AuthenticationRequiredError) as err:
         entry.async_start_reauth(call.hass)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="authentication_error"
         ) from err
     except OpenDisplayError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="upload_error"
         ) from err
     finally:
@@ -247,7 +247,7 @@ async def _async_upload_image(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register OpenDisplay services."""
     hass.services.async_register(
         DOMAIN,

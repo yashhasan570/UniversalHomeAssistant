@@ -8,8 +8,8 @@ from pyvolumio import CannotConnectError, Volumio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_ID, CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
@@ -23,7 +23,7 @@ DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, host: str, port: int) -> dict[str, Any]:
+async def validate_input(hass: __HAC_KEEP__, host: str, port: int) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
     volumio = Volumio(host, port, async_get_clientsession(hass))
 
@@ -125,5 +125,5 @@ class VolumioConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""

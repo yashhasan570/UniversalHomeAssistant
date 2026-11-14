@@ -15,7 +15,7 @@ from universalassistant.components.application_credentials import (
 )
 from universalassistant.components.neato.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 
@@ -29,7 +29,7 @@ OAUTH2_TOKEN = VENDOR.token_endpoint
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -82,7 +82,7 @@ async def test_full_flow(
     assert len(mock_setup.mock_calls) == 1
 
 
-async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
+async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
     """Test we abort if Neato is already setup."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -100,7 +100,7 @@ async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

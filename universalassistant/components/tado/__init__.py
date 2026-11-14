@@ -14,7 +14,7 @@ from universalassistant.const import (
     Platform,
     __version__ as HA_VERSION,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -54,14 +54,14 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Tado."""
 
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: TadoConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: TadoConfigEntry) -> None:
     """Set up Tado from a config entry."""
     if CONF_REFRESH_TOKEN not in entry.data:
         raise ConfigEntryAuthFailed
@@ -118,7 +118,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: TadoConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: TadoConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: TadoConfigEntry) -> None:
     """Migrate old entry."""
 
     if entry.version < 2:
@@ -132,7 +132,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: TadoConfigEntry) 
 
 @callback
 def _async_import_options_from_data_if_missing(
-    hass: UniversalAssistant, entry: TadoConfigEntry
+    hass: __HAC_KEEP__, entry: TadoConfigEntry
 ):
     options = dict(entry.options)
     if CONF_FALLBACK not in options:
@@ -149,6 +149,6 @@ def _async_import_options_from_data_if_missing(
         hass.config_entries.async_update_entry(entry, options=options)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: TadoConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: TadoConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

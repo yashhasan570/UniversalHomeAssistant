@@ -10,7 +10,7 @@ from pytest_universalassistant.typing import MqttMockHAClient, WebSocketGenerato
 
 from universalassistant.components.tasmota.const import DEFAULT_PREFIX
 from universalassistant.components.tasmota.discovery import ALREADY_DISCOVERED
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -39,7 +39,7 @@ def _get_device_for_config_entry(
 
 
 async def test_subscribing_config_topic(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, setup_tasmota
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, setup_tasmota
 ) -> None:
     """Test setting up discovery."""
     discovery_topic = DEFAULT_PREFIX
@@ -51,7 +51,7 @@ async def test_subscribing_config_topic(
 
 
 async def test_future_discovery_message(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test we handle backwards compatible discovery messages."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -72,7 +72,7 @@ async def test_future_discovery_message(
 
 
 async def test_valid_discovery_message(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test discovery callback called."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -90,7 +90,7 @@ async def test_valid_discovery_message(
         assert mock_tasmota_get_device_config.called
 
 
-async def test_invalid_topic(hass: UniversalAssistant, mqtt_mock: MqttMockHAClient) -> None:
+async def test_invalid_topic(hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient) -> None:
     """Test receiving discovery message on wrong topic."""
     with patch(
         "universalassistant.components.tasmota.discovery.tasmota_get_device_config"
@@ -103,7 +103,7 @@ async def test_invalid_topic(hass: UniversalAssistant, mqtt_mock: MqttMockHAClie
 
 
 async def test_invalid_message(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test receiving an invalid message."""
     with patch(
@@ -118,7 +118,7 @@ async def test_invalid_message(
 
 
 async def test_invalid_mac(
-    hass: UniversalAssistant, mqtt_mock: MqttMockHAClient, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, mqtt_mock: MqttMockHAClient, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test topic is not matching device MAC."""
     config = copy.deepcopy(DEFAULT_CONFIG)
@@ -137,7 +137,7 @@ async def test_invalid_mac(
 
 
 async def test_correct_config_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -172,7 +172,7 @@ async def test_correct_config_discovery(
 
 
 async def test_device_discover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
     setup_tasmota,
@@ -202,7 +202,7 @@ async def test_device_discover(
 
 
 async def test_device_discover_deprecated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
     setup_tasmota,
@@ -231,7 +231,7 @@ async def test_device_discover_deprecated(
 
 
 async def test_device_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
     setup_tasmota,
@@ -281,7 +281,7 @@ async def test_device_update(
 
 
 async def test_device_remove(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
     setup_tasmota,
@@ -320,7 +320,7 @@ async def test_device_remove(
 
 
 async def test_device_remove_multiple_config_entries_1(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
     setup_tasmota,
@@ -388,7 +388,7 @@ async def test_device_remove_multiple_config_entries_1(
 
 
 async def test_device_remove_multiple_config_entries_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
     setup_tasmota,
@@ -456,7 +456,7 @@ async def test_device_remove_multiple_config_entries_2(
 
 
 async def test_device_remove_stale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
@@ -493,7 +493,7 @@ async def test_device_remove_stale(
 
 
 async def test_device_rediscover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
     setup_tasmota,
@@ -547,7 +547,7 @@ async def test_device_rediscover(
 
 
 async def test_entity_duplicate_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     caplog: pytest.LogCaptureFixture,
     setup_tasmota,
@@ -582,7 +582,7 @@ async def test_entity_duplicate_discovery(
 
 
 async def test_entity_duplicate_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     caplog: pytest.LogCaptureFixture,
     setup_tasmota,
@@ -611,7 +611,7 @@ async def test_entity_duplicate_removal(
 
 @pytest.mark.usefixtures("mqtt_mock", "setup_tasmota")
 async def test_discovery_hash_cleared_on_add_abort(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the discovery hash is cleared when adding the entity is aborted.
 
@@ -655,7 +655,7 @@ async def test_discovery_hash_cleared_on_add_abort(
 
 
 @pytest.mark.usefixtures("mqtt_mock", "setup_tasmota")
-async def test_discovery_hash_cleared_on_removal(hass: UniversalAssistant) -> None:
+async def test_discovery_hash_cleared_on_removal(hass: __HAC_KEEP__) -> None:
     """Test the discovery hash is cleared when the entity is removed.
 
     If it leaks, a later discovery message is treated as an update for a
@@ -690,7 +690,7 @@ async def test_discovery_hash_cleared_on_removal(hass: UniversalAssistant) -> No
 
 @pytest.mark.usefixtures("mqtt_mock", "setup_tasmota")
 async def test_discovery_hash_cleared_on_remove_after_rename(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test the discovery hash is cleared when the entity is removed after a rename.
 
@@ -725,7 +725,7 @@ async def test_discovery_hash_cleared_on_remove_after_rename(
 
 
 async def test_same_topic(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -859,7 +859,7 @@ async def test_same_topic(
 
 
 async def test_topic_no_prefix(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

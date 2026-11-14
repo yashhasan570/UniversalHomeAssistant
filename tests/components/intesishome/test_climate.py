@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import PLATFORM_NOT_READY_BASE_WAIT_TIME
 from universalassistant.setup import async_setup_component
@@ -59,7 +59,7 @@ def mock_controller() -> Generator[MagicMock]:
         yield controller
 
 
-async def setup_platform(hass: UniversalAssistant) -> None:
+async def setup_platform(hass: __HAC_KEEP__) -> None:
     """Set up the IntesisHome climate platform."""
     assert await async_setup_component(
         hass,
@@ -76,7 +76,7 @@ async def setup_platform(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_platform_registers_callback(
-    hass: UniversalAssistant, mock_controller: MagicMock
+    hass: __HAC_KEEP__, mock_controller: MagicMock
 ) -> None:
     """Test registering the synchronous library update callback during setup."""
     await setup_platform(hass)
@@ -88,7 +88,7 @@ async def test_setup_platform_registers_callback(
 
 
 async def test_availability_follows_controller(
-    hass: UniversalAssistant, mock_controller: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_controller: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test polling picks up availability changes with no library callback."""
     await setup_platform(hass)
@@ -113,7 +113,7 @@ async def test_availability_follows_controller(
 
 
 async def test_setup_platform_retries_on_connection_error(
-    hass: UniversalAssistant, mock_controller: MagicMock, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, mock_controller: MagicMock, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test an unreachable API leaves the platform to be set up again later."""
     mock_controller.connect.side_effect = IHConnectionError
@@ -130,7 +130,7 @@ async def test_setup_platform_retries_on_connection_error(
 
 
 async def test_removing_one_entity_keeps_controller_running(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_controller: MagicMock,
     entity_registry: er.EntityRegistry,
 ) -> None:

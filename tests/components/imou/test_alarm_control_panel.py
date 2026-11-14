@@ -22,8 +22,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .const import create_online_device
@@ -94,7 +94,7 @@ def alarm_panel_unknown_mode_devices() -> list[ImouHaDevice]:
 @pytest.mark.parametrize("imou_mock_devices", [alarm_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_alarm_control_panel_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -107,7 +107,7 @@ async def test_alarm_control_panel_snapshot(
 @pytest.mark.parametrize("imou_mock_devices", [alarm_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_arm_home_via_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
     """Arming home calls the vendor library."""
@@ -128,7 +128,7 @@ async def test_arm_home_via_service(
 @pytest.mark.parametrize("imou_mock_devices", [alarm_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_arm_away_via_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
     """Arming away calls the vendor library."""
@@ -149,7 +149,7 @@ async def test_arm_away_via_service(
 @pytest.mark.parametrize("imou_mock_devices", [alarm_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_disarm_via_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
     """Disarm calls the vendor library."""
@@ -170,14 +170,14 @@ async def test_disarm_via_service(
 @pytest.mark.parametrize("imou_mock_devices", [alarm_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_arm_home_propagates_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
     """An API error while arming raises a translated error."""
     mock_imou_ha_device_manager.async_set_alarm_mode.side_effect = ImouException("fail")
     entity_id = hass.states.async_all(ALARM_DOMAIN)[0].entity_id
 
-    with pytest.raises(UniversalAssistantError, match="Imou rejected the arming change"):
+    with pytest.raises(__HAC_KEEP__Error, match="Imou rejected the arming change"):
         await hass.services.async_call(
             ALARM_DOMAIN,
             SERVICE_ALARM_ARM_HOME,
@@ -190,7 +190,7 @@ async def test_arm_home_propagates_api_error(
 @pytest.mark.parametrize("imou_mock_devices", [alarm_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_arm_home_invalid_auth_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_arm_home_invalid_auth_starts_reauth(
     entity_id = hass.states.async_all(ALARM_DOMAIN)[0].entity_id
 
     with pytest.raises(
-        UniversalAssistantError, match="Imou rejected the App ID and App secret"
+        __HAC_KEEP__Error, match="Imou rejected the App ID and App secret"
     ):
         await hass.services.async_call(
             ALARM_DOMAIN,
@@ -219,7 +219,7 @@ async def test_arm_home_invalid_auth_starts_reauth(
 @pytest.mark.parametrize("imou_mock_devices", [alarm_mock_devices], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_alarm_state_from_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Alarm state reflects the device panel mode."""
     entity_id = hass.states.async_all(ALARM_DOMAIN)[0].entity_id
@@ -239,7 +239,7 @@ async def test_alarm_state_from_device(
     indirect=True,
 )
 @pytest.mark.usefixtures("init_integration")
-async def test_skips_incomplete_alarm_panel(hass: UniversalAssistant) -> None:
+async def test_skips_incomplete_alarm_panel(hass: __HAC_KEEP__) -> None:
     """Devices without disarm and an arm mode do not get an arming entity."""
     assert not hass.states.async_all(ALARM_DOMAIN)
 
@@ -251,7 +251,7 @@ async def test_skips_incomplete_alarm_panel(hass: UniversalAssistant) -> None:
     indirect=True,
 )
 @pytest.mark.usefixtures("init_integration")
-async def test_unreadable_alarm_mode_is_unknown(hass: UniversalAssistant) -> None:
+async def test_unreadable_alarm_mode_is_unknown(hass: __HAC_KEEP__) -> None:
     """A missing or unmapped mode does not invent an arming state."""
     entity_id = hass.states.async_all(ALARM_DOMAIN)[0].entity_id
     assert hass.states.get(entity_id).state == STATE_UNKNOWN

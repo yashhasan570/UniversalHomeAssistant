@@ -16,15 +16,15 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import BASE_TOKEN_FILENAME, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 # If flume ever implements a login page for oauth
-# we can use the oauth2 support built into Universal Universal Home Assistant.
+# we can use the oauth2 support built into __HA_KEEP__.
 #
 # Currently they only implement the token endpoint
 #
@@ -39,7 +39,7 @@ DATA_SCHEMA = probatio.Schema(
 
 
 def _validate_input(
-    hass: UniversalAssistant, data: dict[str, Any], clear_token_file: bool
+    hass: __HAC_KEEP__, data: dict[str, Any], clear_token_file: bool
 ) -> FlumeDeviceList:
     """Validate in the executor."""
     flume_token_full_path = hass.config.path(
@@ -60,7 +60,7 @@ def _validate_input(
 
 
 async def validate_input(
-    hass: UniversalAssistant, data: dict[str, Any], clear_token_file: bool = False
+    hass: __HAC_KEEP__, data: dict[str, Any], clear_token_file: bool = False
 ) -> dict[str, Any]:
     """Validate the user input allows us to connect.
 
@@ -160,9 +160,9 @@ class FlumeConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(UniversalAssistantError):
+class CannotConnect(__HAC_KEEP__Error):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(UniversalAssistantError):
+class InvalidAuth(__HAC_KEEP__Error):
     """Error to indicate there is invalid auth."""

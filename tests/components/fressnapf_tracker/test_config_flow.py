@@ -22,7 +22,7 @@ from universalassistant.components.fressnapf_tracker.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -38,7 +38,7 @@ EMAIL_CREDENTIALS = {CONF_EMAIL: MOCK_EMAIL, CONF_PASSWORD: MOCK_PASSWORD}
 
 
 async def _start_user_flow(
-    hass: UniversalAssistant, auth_method: str
+    hass: __HAC_KEEP__, auth_method: str
 ) -> config_entries.ConfigFlowResult:
     """Start a user flow and select an authentication method."""
     result = await hass.config_entries.flow.async_init(
@@ -50,7 +50,7 @@ async def _start_user_flow(
 
 
 async def _start_reconfigure_flow(
-    hass: UniversalAssistant, entry: MockConfigEntry, auth_method: str
+    hass: __HAC_KEEP__, entry: MockConfigEntry, auth_method: str
 ) -> config_entries.ConfigFlowResult:
     """Start a reconfigure flow and select an authentication method."""
     result = await entry.start_reconfigure_flow(hass)
@@ -63,7 +63,7 @@ async def _start_reconfigure_flow(
 
 
 async def _complete_progress_flow(
-    hass: UniversalAssistant, result: config_entries.ConfigFlowResult
+    hass: __HAC_KEEP__, result: config_entries.ConfigFlowResult
 ) -> config_entries.ConfigFlowResult:
     """Wait for and continue a progress flow."""
     assert result["type"] is FlowResultType.SHOW_PROGRESS
@@ -71,7 +71,7 @@ async def _complete_progress_flow(
     return await hass.config_entries.flow.async_configure(result["flow_id"])
 
 
-async def test_user_flow_menu(hass: UniversalAssistant) -> None:
+async def test_user_flow_menu(hass: __HAC_KEEP__) -> None:
     """Test the authentication method menu."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -84,7 +84,7 @@ async def test_user_flow_menu(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_auth_client")
 async def test_user_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
 ) -> None:
     """Test the full user flow."""
@@ -127,7 +127,7 @@ async def test_user_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_request_sms_code_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     side_effect: Exception,
     error: str,
@@ -174,7 +174,7 @@ async def test_user_flow_request_sms_code_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_verify_phone_number_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     side_effect: Exception,
     error: str,
@@ -211,7 +211,7 @@ async def test_user_flow_verify_phone_number_errors(
 
 @pytest.mark.usefixtures("mock_auth_client")
 async def test_user_flow_duplicate_user_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test user flow aborts on duplicate user_id."""
@@ -229,7 +229,7 @@ async def test_user_flow_duplicate_user_id(
 
 @pytest.mark.usefixtures("mock_auth_client")
 async def test_user_flow_duplicate_phone_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test user flow aborts on duplicate phone number."""
@@ -246,7 +246,7 @@ async def test_user_flow_duplicate_phone_number(
 
 
 async def test_email_user_flow_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -319,7 +319,7 @@ async def test_email_user_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_email_user_flow_request_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     side_effect: Exception,
     error: str,
@@ -346,7 +346,7 @@ async def test_email_user_flow_request_errors(
 
 
 async def test_email_user_flow_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -407,7 +407,7 @@ async def test_email_user_flow_timeout(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_email_user_flow_completion_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     method: str,
     side_effect: Exception,
@@ -442,7 +442,7 @@ async def test_email_user_flow_completion_errors(
 
 
 async def test_email_user_flow_duplicate_email(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     mock_email_config_entry: MockConfigEntry,
 ) -> None:
@@ -460,7 +460,7 @@ async def test_email_user_flow_duplicate_email(
 
 
 async def test_email_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     mock_email_config_entry: MockConfigEntry,
 ) -> None:
@@ -489,7 +489,7 @@ async def test_email_reauth_flow(
 
 
 async def test_reconfigure_sms_to_email(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -516,7 +516,7 @@ async def test_reconfigure_sms_to_email(
 
 
 async def test_email_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     mock_email_config_entry: MockConfigEntry,
 ) -> None:
@@ -549,7 +549,7 @@ async def test_email_reconfigure_flow(
     ],
 )
 async def test_email_account_change_not_allowed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     mock_email_config_entry: MockConfigEntry,
     flow_starter: Callable,
@@ -596,7 +596,7 @@ async def test_email_account_change_not_allowed(
     "mock_api_client_init", "mock_api_client_coordinator", "mock_auth_client"
 )
 async def test_reauth_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     flow_starter: Callable,
     expected_step_id: str,
@@ -650,7 +650,7 @@ async def test_reauth_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_api_client_init", "mock_api_client_coordinator")
 async def test_reauth_reconfigure_flow_invalid_phone_number(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     flow_starter: Callable,
@@ -713,7 +713,7 @@ async def test_reauth_reconfigure_flow_invalid_phone_number(
 )
 @pytest.mark.usefixtures("mock_api_client_init", "mock_api_client_coordinator")
 async def test_reauth_reconfigure_flow_invalid_sms_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     flow_starter: Callable,
@@ -769,7 +769,7 @@ async def test_reauth_reconfigure_flow_invalid_sms_code(
 )
 @pytest.mark.usefixtures("mock_api_client_init", "mock_api_client_coordinator")
 async def test_reauth_reconfigure_flow_invalid_user_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     flow_starter: Callable,

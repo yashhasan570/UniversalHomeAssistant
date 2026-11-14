@@ -31,7 +31,7 @@
         "data_description": {
           "host": "The new hostname or IP address of this LIFX device."
         },
-        "description": "Update where Universal Universal Home Assistant reaches this LIFX device. The serial number is not changed, so this has to be the same device."
+        "description": "Update where __HA_KEEP__ reaches this LIFX device. The serial number is not changed, so this has to be the same device."
       },
       "user": {
         "data": {
@@ -135,7 +135,7 @@
       "fix_flow": {
         "step": {
           "confirm": {
-            "description": "Universal Universal Home Assistant cannot migrate the LIFX entry \"{title}\" because its stored identifier \"{unique_id}\" is not a valid LIFX serial number.\n\nSelect **Submit** to delete the entry then either wait for it to be rediscovered automatically or add it manually.",
+            "description": "__HA_KEEP__ cannot migrate the LIFX entry \"{title}\" because its stored identifier \"{unique_id}\" is not a valid LIFX serial number.\n\nSelect **Submit** to delete the entry then either wait for it to be rediscovered automatically or add it manually.",
             "title": "[%key:component::lifx::issues::invalid_serial::title%]"
           }
         }

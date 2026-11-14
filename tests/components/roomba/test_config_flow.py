@@ -18,7 +18,7 @@ from universalassistant.config_entries import (
     SOURCE_ZEROCONF,
 )
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -150,7 +150,7 @@ def _mocked_failed_getpassword(roomba_ip: str, *, tls_context: SSLContext) -> Ma
     return roomba_password
 
 
-async def test_form_user_discovery_and_password_fetch(hass: UniversalAssistant) -> None:
+async def test_form_user_discovery_and_password_fetch(hass: __HAC_KEEP__) -> None:
     """Test we can discovery and fetch the password."""
 
     mocked_roomba = _create_mocked_roomba(
@@ -210,7 +210,7 @@ async def test_form_user_discovery_and_password_fetch(hass: UniversalAssistant) 
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_user_discovery_skips_known(hass: UniversalAssistant) -> None:
+async def test_form_user_discovery_skips_known(hass: __HAC_KEEP__) -> None:
     """Test discovery proceeds to manual if all discovered are already known."""
 
     entry = MockConfigEntry(domain=DOMAIN, data=VALID_CONFIG, unique_id="BLID")
@@ -230,7 +230,7 @@ async def test_form_user_discovery_skips_known(hass: UniversalAssistant) -> None
 
 
 async def test_form_user_no_devices_found_discovery_aborts_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if we manually configure an existing host we abort."""
 
@@ -260,7 +260,7 @@ async def test_form_user_no_devices_found_discovery_aborts_already_configured(
 
 
 async def test_form_user_discovery_manual_and_auto_password_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery skipped and we can auto fetch the password."""
 
@@ -334,7 +334,7 @@ async def test_form_user_discovery_manual_and_auto_password_fetch(
 
 
 async def test_form_user_discover_fails_aborts_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test abort on failed discovery for already-configured host."""
 
@@ -363,7 +363,7 @@ async def test_form_user_discover_fails_aborts_already_configured(
     assert result2["reason"] == "already_configured"
 
 
-async def test_form_user_manual_host_cannot_be_resolved(hass: UniversalAssistant) -> None:
+async def test_form_user_manual_host_cannot_be_resolved(hass: __HAC_KEEP__) -> None:
     """Test a host that does not resolve aborts the flow instead of failing it."""
     discovery = MagicMock()
     discovery.get_all = AsyncMock(return_value=set())
@@ -395,7 +395,7 @@ async def test_form_user_manual_host_cannot_be_resolved(hass: UniversalAssistant
 
 
 async def test_form_user_discovery_manual_and_auto_password_fetch_but_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test auto password fetch then connect failure."""
 
@@ -435,7 +435,7 @@ async def test_form_user_discovery_manual_and_auto_password_fetch_but_cannot_con
 
 
 async def test_form_user_discovery_no_devices_found_and_auto_password_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery finds no devices and we can auto fetch the password."""
 
@@ -500,7 +500,7 @@ async def test_form_user_discovery_no_devices_found_and_auto_password_fetch(
 
 
 async def test_form_user_discovery_no_devices_found_and_password_fetch_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test discovery finds no devices and password fetch fails."""
 
@@ -571,7 +571,7 @@ async def test_form_user_discovery_no_devices_found_and_password_fetch_fails(
 
 
 async def test_form_user_no_devices_password_fetch_fails_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test no devices found with password fetch failure."""
 
@@ -657,7 +657,7 @@ async def test_form_user_no_devices_password_fetch_fails_cannot_connect(
 
 @pytest.mark.parametrize("discovery_data", DISCOVERY_DEVICES)
 async def test_dhcp_discovery_and_roomba_discovery_finds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovery_data: tuple[str, DhcpServiceInfo | ZeroconfServiceInfo],
 ) -> None:
     """Test dhcp discovery when roomba discovery matches device."""
@@ -716,7 +716,7 @@ async def test_dhcp_discovery_and_roomba_discovery_finds(
 
 @pytest.mark.parametrize("discovery_data", DHCP_DISCOVERY_DEVICES_WITHOUT_MATCHING_IP)
 async def test_dhcp_discovery_falls_back_to_manual(
-    hass: UniversalAssistant, discovery_data
+    hass: __HAC_KEEP__, discovery_data
 ) -> None:
     """Test dhcp discovery falls back to manual setup."""
 
@@ -792,7 +792,7 @@ async def test_dhcp_discovery_falls_back_to_manual(
 
 @pytest.mark.parametrize("discovery_data", DHCP_DISCOVERY_DEVICES_WITHOUT_MATCHING_IP)
 async def test_dhcp_discovery_no_devices_falls_back_to_manual(
-    hass: UniversalAssistant, discovery_data
+    hass: __HAC_KEEP__, discovery_data
 ) -> None:
     """Test dhcp discovery with no devices falls back to manual."""
 
@@ -858,7 +858,7 @@ async def test_dhcp_discovery_no_devices_falls_back_to_manual(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_dhcp_discovery_with_ignored(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_with_ignored(hass: __HAC_KEEP__) -> None:
     """Test ignored entries do not break checking for existing entries."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data={}, source=SOURCE_IGNORE)
@@ -881,7 +881,7 @@ async def test_dhcp_discovery_with_ignored(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.FORM
 
 
-async def test_dhcp_discovery_already_configured_host(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_already_configured_host(hass: __HAC_KEEP__) -> None:
     """Test we abort if the host is already configured."""
 
     config_entry = MockConfigEntry(domain=DOMAIN, data={CONF_HOST: MOCK_IP})
@@ -905,7 +905,7 @@ async def test_dhcp_discovery_already_configured_host(hass: UniversalAssistant) 
     assert result["reason"] == "already_configured"
 
 
-async def test_dhcp_discovery_already_configured_blid(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_already_configured_blid(hass: __HAC_KEEP__) -> None:
     """Test we abort if the blid is already configured."""
 
     config_entry = MockConfigEntry(
@@ -931,7 +931,7 @@ async def test_dhcp_discovery_already_configured_blid(hass: UniversalAssistant) 
     assert result["reason"] == "already_configured"
 
 
-async def test_dhcp_discovery_not_irobot(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_not_irobot(hass: __HAC_KEEP__) -> None:
     """Test we abort if the discovered device is not an irobot device."""
 
     config_entry = MockConfigEntry(
@@ -958,7 +958,7 @@ async def test_dhcp_discovery_not_irobot(hass: UniversalAssistant) -> None:
     assert result["reason"] == "not_irobot_device"
 
 
-async def test_dhcp_discovery_partial_hostname(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_partial_hostname(hass: __HAC_KEEP__) -> None:
     """Test we abort flows when we have a partial hostname."""
 
     blid = "blid"
@@ -1027,7 +1027,7 @@ async def test_dhcp_discovery_partial_hostname(hass: UniversalAssistant) -> None
     assert current_flows[0]["flow_id"] == result2["flow_id"]
 
 
-async def test_dhcp_discovery_when_user_flow_in_progress(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_when_user_flow_in_progress(hass: __HAC_KEEP__) -> None:
     """Test discovery flow when user flow is in progress."""
 
     # Start a DHCP flow
@@ -1065,7 +1065,7 @@ async def test_dhcp_discovery_when_user_flow_in_progress(hass: UniversalAssistan
 
 
 async def test_form_user_missing_name_falls_back_to_default_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test pairing succeeds with default name when telemetry omits name."""
     mocked_roomba = _create_mocked_roomba(
@@ -1130,7 +1130,7 @@ async def test_form_user_missing_name_falls_back_to_default_name(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_roomba")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reconfiguring the host."""
     mock_config_entry.add_to_hass(hass)
@@ -1161,7 +1161,7 @@ async def test_reconfigure_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_roomba: AsyncMock,
     side_effect: type[Exception],

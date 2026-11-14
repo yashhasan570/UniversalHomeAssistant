@@ -40,7 +40,7 @@ from universalassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -69,7 +69,7 @@ pytestmark = pytest.mark.usefixtures("reolink_host")
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_config_flow_manual_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_manual_success(hass: __HAC_KEEP__) -> None:
     """Successful flow manually initialized by the user."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -110,7 +110,7 @@ async def test_config_flow_manual_success(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_privacy_success(
-    hass: UniversalAssistant, reolink_host: MagicMock
+    hass: __HAC_KEEP__, reolink_host: MagicMock
 ) -> None:
     """Successful flow when privacy mode is turned on."""
     reolink_host.baichuan.privacy_mode.return_value = True
@@ -167,7 +167,7 @@ async def test_config_flow_privacy_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_config_flow_baichuan_only(
-    hass: UniversalAssistant, reolink_host: MagicMock
+    hass: __HAC_KEEP__, reolink_host: MagicMock
 ) -> None:
     """Successful flow manually initialized by the user for baichuan only device."""
     reolink_host.baichuan_only = True
@@ -210,7 +210,7 @@ async def test_config_flow_baichuan_only(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_config_flow_errors(hass: UniversalAssistant, reolink_host: MagicMock) -> None:
+async def test_config_flow_errors(hass: __HAC_KEEP__, reolink_host: MagicMock) -> None:
     """Successful flow manually initialized by the user after some errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -404,7 +404,7 @@ async def test_config_flow_errors(hass: UniversalAssistant, reolink_host: MagicM
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test specifying non default settings using options flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -447,7 +447,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reauth(hass: UniversalAssistant) -> None:
+async def test_reauth(hass: __HAC_KEEP__) -> None:
     """Test a reauth flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -495,7 +495,7 @@ async def test_reauth(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_dhcp_flow(hass: UniversalAssistant) -> None:
+async def test_dhcp_flow(hass: __HAC_KEEP__) -> None:
     """Successful flow from DHCP discovery."""
     dhcp_data = DhcpServiceInfo(
         ip=TEST_HOST,
@@ -540,7 +540,7 @@ async def test_dhcp_flow(hass: UniversalAssistant) -> None:
 
 
 async def test_dhcp_ip_update_aborted_if_wrong_mac(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     reolink_host_class: MagicMock,
     reolink_host: MagicMock,
@@ -619,7 +619,7 @@ async def test_dhcp_ip_update_aborted_if_wrong_mac(
     assert config_entry.data[CONF_HOST] == TEST_HOST
 
 
-async def test_dhcp_ip_update_aborted_if_no_host(hass: UniversalAssistant) -> None:
+async def test_dhcp_ip_update_aborted_if_no_host(hass: __HAC_KEEP__) -> None:
     """Test dhcp discovery does not update the IP if the config entry has no host."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -664,7 +664,7 @@ async def test_dhcp_ip_update_aborted_if_no_host(hass: UniversalAssistant) -> No
     ],
 )
 async def test_dhcp_ip_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     reolink_host_class: MagicMock,
     reolink_host: MagicMock,
@@ -748,7 +748,7 @@ async def test_dhcp_ip_update(
 
 
 async def test_dhcp_ip_update_ingnored_if_still_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     reolink_host_class: MagicMock,
     reolink_host: MagicMock,
@@ -818,7 +818,7 @@ async def test_dhcp_ip_update_ingnored_if_still_connected(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_reconfig(hass: UniversalAssistant) -> None:
+async def test_reconfig(hass: __HAC_KEEP__) -> None:
     """Test a reconfiguration flow."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -922,7 +922,7 @@ async def test_reconfig(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reauth_reconfig_mac_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reolink_host: MagicMock,
     source: str,
     user_input: dict[str, str],

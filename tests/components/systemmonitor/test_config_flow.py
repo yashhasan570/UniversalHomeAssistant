@@ -7,12 +7,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant import config_entries
 from universalassistant.components.systemmonitor.const import CONF_PROCESS, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
-async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -34,7 +34,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> No
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_already_configured(hass: UniversalAssistant) -> None:
+async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
     """Test abort when already configured."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -52,7 +52,7 @@ async def test_form_already_configured(hass: UniversalAssistant) -> None:
 
 
 async def test_add_and_remove_processes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:

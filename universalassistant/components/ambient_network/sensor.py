@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolumetricFlux,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -268,7 +268,7 @@ SENSOR_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AmbientNetworkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

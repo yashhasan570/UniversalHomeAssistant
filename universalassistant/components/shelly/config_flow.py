@@ -58,7 +58,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import AbortFlow
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
@@ -152,7 +152,7 @@ class DiscoveredDeviceBluetooth:
 
 
 async def validate_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     host: str,
     port: int,
     info: dict[str, Any],

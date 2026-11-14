@@ -8,13 +8,13 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.islamic_prayer_times.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import NOW, PRAYER_TIMES, PRAYER_TIMES_TOMORROW, PRAYER_TIMES_YESTERDAY
 
 
 @pytest.fixture(autouse=True)
-async def set_utc(hass: UniversalAssistant) -> None:
+async def set_utc(hass: __HAC_KEEP__) -> None:
     """Set timezone to UTC."""
     await hass.config.async_set_time_zone("UTC")
 
@@ -49,7 +49,7 @@ async def set_utc(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_islamic_prayer_times_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     key: str,
     sensor_name: str,
     offset: timedelta,

@@ -16,7 +16,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry, async_capture_events
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.util.dt import utcnow
 
@@ -162,7 +162,7 @@ def create_events(events, device_id=DEVICE_ID, timestamp=None):
     ],
 )
 async def test_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     auth,
@@ -207,7 +207,7 @@ async def test_event(
 
 
 async def test_event_before_setup_completes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
     setup_platform: PlatformSetup,
@@ -249,7 +249,7 @@ async def test_event_before_setup_completes(
     ],
 )
 async def test_camera_multiple_event(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, subscriber, setup_platform
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, subscriber, setup_platform
 ) -> None:
     """Test a pubsub message for a camera person event."""
     events = async_capture_events(hass, NEST_EVENT)
@@ -291,7 +291,7 @@ async def test_camera_multiple_event(
     [(["sdm.devices.traits.CameraMotion"])],
 )
 async def test_media_not_supported(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, subscriber, setup_platform
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, subscriber, setup_platform
 ) -> None:
     """Test a pubsub message for a camera person event."""
     events = async_capture_events(hass, NEST_EVENT)
@@ -321,7 +321,7 @@ async def test_media_not_supported(
     assert "attachment" not in events[0].data
 
 
-async def test_unknown_event(hass: UniversalAssistant, subscriber, setup_platform) -> None:
+async def test_unknown_event(hass: __HAC_KEEP__, subscriber, setup_platform) -> None:
     """Test a pubsub message for an unknown event type."""
     events = async_capture_events(hass, NEST_EVENT)
     await setup_platform()
@@ -332,7 +332,7 @@ async def test_unknown_event(hass: UniversalAssistant, subscriber, setup_platfor
 
 
 async def test_unknown_device_id(
-    hass: UniversalAssistant, subscriber, setup_platform
+    hass: __HAC_KEEP__, subscriber, setup_platform
 ) -> None:
     """Test a pubsub message for an unknown event type."""
     events = async_capture_events(hass, NEST_EVENT)
@@ -346,7 +346,7 @@ async def test_unknown_device_id(
 
 
 async def test_event_message_without_device_event(
-    hass: UniversalAssistant, subscriber, setup_platform
+    hass: __HAC_KEEP__, subscriber, setup_platform
 ) -> None:
     """Test a pubsub message for an unknown event type."""
     events = async_capture_events(hass, NEST_EVENT)
@@ -371,7 +371,7 @@ async def test_event_message_without_device_event(
     ],
 )
 async def test_doorbell_event_thread(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, subscriber, setup_platform
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, subscriber, setup_platform
 ) -> None:
     """Test a series of pubsub messages in the same thread."""
     events = async_capture_events(hass, NEST_EVENT)
@@ -443,7 +443,7 @@ async def test_doorbell_event_thread(
     ],
 )
 async def test_doorbell_event_session_update(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, subscriber, setup_platform
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, subscriber, setup_platform
 ) -> None:
     """Test a pubsub message with updates to an existing session."""
     events = async_capture_events(hass, NEST_EVENT)
@@ -506,7 +506,7 @@ async def test_doorbell_event_session_update(
 
 
 async def test_structure_update_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     subscriber: AsyncMock,
     setup_platform: PlatformSetup,
@@ -566,7 +566,7 @@ async def test_structure_update_event(
     ],
 )
 async def test_event_zones(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, subscriber, setup_platform
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, subscriber, setup_platform
 ) -> None:
     """Test events published with zone information."""
     events = async_capture_events(hass, NEST_EVENT)

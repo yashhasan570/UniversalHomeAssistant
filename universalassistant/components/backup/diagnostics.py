@@ -1,16 +1,16 @@
-"""Diagnostics support for Universal Universal Home Assistant Backup integration."""
+"""Diagnostics support for __HA_KEEP__ Backup integration."""
 
 from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import BackupConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: BackupConfigEntry
+    hass: __HAC_KEEP__, entry: BackupConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

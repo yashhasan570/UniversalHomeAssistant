@@ -10,7 +10,7 @@ from romy import RomyRobot
 from universalassistant import config_entries
 from universalassistant.components.romy.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.zeroconf import (
     ATTR_PROPERTIES_ID,
@@ -55,7 +55,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield mock_setup_entry
 
 
-async def test_show_user_form_robot_is_offline_and_locked(hass: UniversalAssistant) -> None:
+async def test_show_user_form_robot_is_offline_and_locked(hass: __HAC_KEEP__) -> None:
     """Test that the user set up form with config."""
 
     # Robot not reachable
@@ -103,7 +103,7 @@ async def test_show_user_form_robot_is_offline_and_locked(hass: UniversalAssista
         assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_show_user_form_robot_unlock_with_password(hass: UniversalAssistant) -> None:
+async def test_show_user_form_robot_unlock_with_password(hass: __HAC_KEEP__) -> None:
     """Test that the user set up form with config."""
 
     with patch(
@@ -157,7 +157,7 @@ async def test_show_user_form_robot_unlock_with_password(hass: UniversalAssistan
         assert result4["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_show_user_form_robot_reachable_again(hass: UniversalAssistant) -> None:
+async def test_show_user_form_robot_reachable_again(hass: __HAC_KEEP__) -> None:
     """Test that the user set up form with config."""
 
     # Robot not reachable
@@ -204,7 +204,7 @@ DISCOVERY_INFO = ZeroconfServiceInfo(
 )
 
 
-async def test_zero_conf_locked_interface_robot(hass: UniversalAssistant) -> None:
+async def test_zero_conf_locked_interface_robot(hass: __HAC_KEEP__) -> None:
     """Test zerconf which discovered locked robot."""
 
     with patch(
@@ -233,7 +233,7 @@ async def test_zero_conf_locked_interface_robot(hass: UniversalAssistant) -> Non
         assert result2["result"].unique_id == "aicu-aicgsbksisfapcjqmqjq"
 
 
-async def test_zero_conf_uninitialized_robot(hass: UniversalAssistant) -> None:
+async def test_zero_conf_uninitialized_robot(hass: __HAC_KEEP__) -> None:
     """Test zerconf which discovered locked robot."""
 
     with patch(
@@ -250,7 +250,7 @@ async def test_zero_conf_uninitialized_robot(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.ABORT
 
 
-async def test_zero_conf_unlocked_interface_robot(hass: UniversalAssistant) -> None:
+async def test_zero_conf_unlocked_interface_robot(hass: __HAC_KEEP__) -> None:
     """Test zerconf which discovered already unlocked robot."""
 
     with patch(

@@ -34,8 +34,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import _make_device_status
@@ -45,7 +45,7 @@ ENTITY_ID = "climate.living_room"
 
 @pytest.fixture
 async def setup_climate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_integration: tuple[AsyncMock, MagicMock],
 ) -> MagicMock:
@@ -57,7 +57,7 @@ async def setup_climate(
     return mock_device
 
 
-async def _refresh(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+async def _refresh(hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory) -> None:
     """Advance time past the scan interval to trigger a coordinator refresh."""
     freezer.tick(DEFAULT_SCAN_INTERVAL)
     async_fire_time_changed(hass)
@@ -68,7 +68,7 @@ async def _refresh(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> 
 
 
 async def test_climate_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -94,7 +94,7 @@ async def test_climate_entity(
     ],
 )
 async def test_hvac_mode_mappings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
     device_mode: str,
@@ -108,7 +108,7 @@ async def test_hvac_mode_mappings(
 
 
 async def test_hvac_mode_unknown_when_no_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_hvac_mode_unknown_when_no_mode(
     ],
 )
 async def test_hvac_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
     device_mode: str,
@@ -148,7 +148,7 @@ async def test_hvac_action(
 
 
 async def test_hvac_action_unknown_when_no_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_hvac_action_unknown_when_no_mode(
     ],
 )
 async def test_target_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
     device_mode: str,
@@ -182,7 +182,7 @@ async def test_target_temperature(
 
 
 async def test_target_temperature_none_in_dry_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -194,7 +194,7 @@ async def test_target_temperature_none_in_dry_mode(
 
 
 async def test_target_temperature_high_low_auto(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_target_temperature_high_low_auto(
     ],
 )
 async def test_min_max_temp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
     device_mode: str,
@@ -235,7 +235,7 @@ async def test_min_max_temp(
 
 
 async def test_min_max_temp_fallback_when_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_min_max_temp_fallback_when_none(
 
 
 async def test_min_max_temp_heat_falls_back_to_cool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -275,7 +275,7 @@ async def test_min_max_temp_heat_falls_back_to_cool(
 
 
 async def test_supported_features_no_auto(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -289,7 +289,7 @@ async def test_supported_features_no_auto(
 
 
 async def test_supported_features_no_vane(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -305,7 +305,7 @@ async def test_supported_features_no_vane(
 
 
 async def test_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test setting HVAC mode via service call updates device and state."""
@@ -324,14 +324,14 @@ async def test_set_hvac_mode(
 
 
 async def test_set_hvac_mode_failed_raises_and_keeps_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test a failed set_hvac_mode raises and keeps state."""
     device = setup_climate
     device.set_mode = AsyncMock(return_value=CommandResult(success=False))
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             "climate",
             "set_hvac_mode",
@@ -344,7 +344,7 @@ async def test_set_hvac_mode_failed_raises_and_keeps_state(
 
 
 async def test_set_hvac_mode_unmapped_returns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test setting an unmapped HVACMode does not call the device."""
@@ -366,7 +366,7 @@ async def test_set_hvac_mode_unmapped_returns(
 
 
 async def test_set_temperature_cool_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test setting temperature in cool mode updates the cool setpoint."""
@@ -387,7 +387,7 @@ async def test_set_temperature_cool_mode(
 
 
 async def test_set_temperature_heat_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -411,7 +411,7 @@ async def test_set_temperature_heat_mode(
 
 
 async def test_set_temperature_high_low(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -452,7 +452,7 @@ async def test_set_temperature_high_low(
     ],
 )
 async def test_set_temperature_failed_raises_and_keeps_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
     device_mode: str,
@@ -465,7 +465,7 @@ async def test_set_temperature_failed_raises_and_keeps_state(
     await _refresh(hass, freezer)
     setattr(device, fail_method, AsyncMock(return_value=CommandResult(success=False)))
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             "climate",
             "set_temperature",
@@ -478,7 +478,7 @@ async def test_set_temperature_failed_raises_and_keeps_state(
 
 
 async def test_set_temperature_range_failed_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -489,7 +489,7 @@ async def test_set_temperature_range_failed_raises(
     device.set_cool_setpoint = AsyncMock(return_value=CommandResult(success=False))
     device.set_heat_setpoint = AsyncMock(return_value=CommandResult(success=False))
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             "climate",
             "set_temperature",
@@ -505,7 +505,7 @@ async def test_set_temperature_range_failed_raises(
 
 
 async def test_set_temperature_no_applicable_setpoint(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
     caplog: pytest.LogCaptureFixture,
@@ -538,7 +538,7 @@ async def test_set_temperature_no_applicable_setpoint(
     ],
 )
 async def test_set_temperature_in_auto_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
     device_mode: str,
@@ -565,7 +565,7 @@ async def test_set_temperature_in_auto_mode(
 
 
 async def test_set_fan_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test setting fan mode via service call updates device and state."""
@@ -586,7 +586,7 @@ async def test_set_fan_mode(
 
 
 async def test_set_fan_mode_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test setting an unknown fan mode raises ServiceValidationError."""
@@ -600,7 +600,7 @@ async def test_set_fan_mode_unknown(
 
 
 async def test_set_fan_mode_unmapped_returns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test a supported fan mode missing from the speed map does not call the device."""
@@ -622,14 +622,14 @@ async def test_set_fan_mode_unmapped_returns(
 
 
 async def test_set_fan_mode_failed_raises_and_keeps_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test a failed set_fan_mode raises and keeps the reported fan mode."""
     device = setup_climate
     device.set_fan_speed = AsyncMock(return_value=CommandResult(success=False))
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             "climate",
             "set_fan_mode",
@@ -642,7 +642,7 @@ async def test_set_fan_mode_failed_raises_and_keeps_state(
 
 
 async def test_set_swing_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test setting swing mode via service call updates device and state."""
@@ -663,7 +663,7 @@ async def test_set_swing_mode(
 
 
 async def test_set_swing_mode_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test setting an unknown swing mode raises ServiceValidationError."""
@@ -677,7 +677,7 @@ async def test_set_swing_mode_unknown(
 
 
 async def test_set_swing_mode_unmapped_returns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test a supported swing mode missing from the direction map does not call the device."""
@@ -699,14 +699,14 @@ async def test_set_swing_mode_unmapped_returns(
 
 
 async def test_set_swing_mode_failed_raises_and_keeps_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test a failed set_swing_mode raises and keeps the reported swing mode."""
     device = setup_climate
     device.set_vane_direction = AsyncMock(return_value=CommandResult(success=False))
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             "climate",
             "set_swing_mode",
@@ -719,7 +719,7 @@ async def test_set_swing_mode_failed_raises_and_keeps_state(
 
 
 async def test_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test turning off the entity via service call."""
@@ -738,14 +738,14 @@ async def test_turn_off(
 
 
 async def test_turn_off_failed_raises(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_climate: MagicMock,
 ) -> None:
     """Test a failed turn_off (which routes through set_hvac_mode) raises."""
     device = setup_climate
     device.set_mode = AsyncMock(return_value=CommandResult(success=False))
 
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             "climate",
             "turn_off",
@@ -760,7 +760,7 @@ async def test_turn_off_failed_raises(
 
 
 async def test_optimistic_mode_cleared_on_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -781,7 +781,7 @@ async def test_optimistic_mode_cleared_on_refresh(
 
 
 async def test_optimistic_setpoint_cleared_on_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -804,7 +804,7 @@ async def test_optimistic_setpoint_cleared_on_refresh(
 
 
 async def test_optimistic_fan_speed_cleared_on_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -827,7 +827,7 @@ async def test_optimistic_fan_speed_cleared_on_refresh(
 
 
 async def test_optimistic_swing_cleared_on_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -850,7 +850,7 @@ async def test_optimistic_swing_cleared_on_refresh(
 
 
 async def test_optimistic_temp_high_low_in_auto(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -885,7 +885,7 @@ async def test_optimistic_temp_high_low_in_auto(
 
 
 async def test_coordinator_update_failure_makes_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -897,7 +897,7 @@ async def test_coordinator_update_failure_makes_unavailable(
 
 
 async def test_coordinator_update_exception_makes_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:
@@ -909,7 +909,7 @@ async def test_coordinator_update_exception_makes_unavailable(
 
 
 async def test_coordinator_recovery_restores_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     setup_climate: MagicMock,
 ) -> None:

@@ -23,11 +23,11 @@ from universalassistant.components.alarm_control_panel import (
 )
 from universalassistant.components.alarm_control_panel.trigger import TRIGGERS
 from universalassistant.const import ATTR_SUPPORTED_FEATURES
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_alarm_control_panels(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_alarm_control_panels(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create alarm control panel entities for different targets."""
     return await target_entities(hass, "alarm_control_panel")
 
@@ -56,7 +56,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_alarm_control_panel_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -150,7 +150,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_alarm_control_panel_state_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_alarm_control_panels: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -249,7 +249,7 @@ async def test_alarm_control_panel_state_trigger_behavior_each(
     ],
 )
 async def test_alarm_control_panel_state_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_alarm_control_panels: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -348,7 +348,7 @@ async def test_alarm_control_panel_state_trigger_behavior_first(
     ],
 )
 async def test_alarm_control_panel_state_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_alarm_control_panels: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,

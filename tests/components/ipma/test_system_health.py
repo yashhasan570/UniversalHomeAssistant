@@ -6,12 +6,12 @@ from pytest_universalassistant.common import get_system_health_info
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.ipma.system_health import IPMA_API_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 async def test_ipma_system_health(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test ipma system health."""
     aioclient_mock.get(IPMA_API_URL, json={"result": "ok", "data": {}})

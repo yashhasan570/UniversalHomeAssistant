@@ -26,7 +26,7 @@ from universalassistant.const import (
     ENTITY_MATCH_ALL,
     CommonServiceArgument,
 )
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import (
@@ -73,7 +73,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def _async_check_loaded(hass: UniversalAssistant) -> None:
+def _async_check_loaded(hass: __HAC_KEEP__) -> None:
     """Raise if the Insteon config entry is not loaded."""
     if not hass.config_entries.async_loaded_entries(DOMAIN):
         raise ServiceValidationError(
@@ -82,7 +82,7 @@ def _async_check_loaded(hass: UniversalAssistant) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:  # noqa: C901
+def async_setup_services(hass: __HAC_KEEP__) -> None:  # noqa: C901
     """Register services used by insteon component."""
 
     save_lock = asyncio.Lock()

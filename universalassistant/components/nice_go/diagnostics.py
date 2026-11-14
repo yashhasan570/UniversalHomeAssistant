@@ -5,7 +5,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_REFRESH_TOKEN
 from .coordinator import NiceGOConfigEntry
@@ -14,7 +14,7 @@ TO_REDACT = {CONF_PASSWORD, CONF_EMAIL, CONF_REFRESH_TOKEN, "title", "unique_id"
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: NiceGOConfigEntry
+    hass: __HAC_KEEP__, entry: NiceGOConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data

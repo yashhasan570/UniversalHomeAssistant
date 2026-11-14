@@ -38,11 +38,11 @@ from universalassistant.core import (
     Event,
     EventStateChangedData,
     HassJobType,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.event import (
     async_call_later,
     async_track_state_change_event,
@@ -298,7 +298,7 @@ class Camera(HomeDoorbellAccessory, PyhapCamera):  # type: ignore[misc]
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         driver: HomeDriver,
         name: str,
         entity_id: str,
@@ -428,7 +428,7 @@ class Camera(HomeDoorbellAccessory, PyhapCamera):  # type: ignore[misc]
     def run(self) -> None:
         """Handle accessory driver started event.
 
-        Run inside the Universal Universal Home Assistant event loop.
+        Run inside the __HA_KEEP__ event loop.
         """
         if self._char_motion_detected:
             assert self.linked_motion_sensor
@@ -968,7 +968,7 @@ class Camera(HomeDoorbellAccessory, PyhapCamera):  # type: ignore[misc]
 
     def _raise_if_camera_off(self) -> None:
         if not self.homekit_camera_active:
-            raise UniversalAssistantError("Camera is off in the Home app")
+            raise __HAC_KEEP__Error("Camera is off in the Home app")
 
     async def async_get_snapshot(self, image_size: dict[str, int]) -> bytes:
         """Return a jpeg of a snapshot from the camera."""

@@ -95,7 +95,7 @@
   },
   "issues": {
     "deprecated_yaml_import_issue_cannot_connect": {
-      "description": "Configuring {integration_title} using YAML is being removed.\n\nWhile importing your YAML configuration, Universal Universal Home Assistant could not reach blockchain.com. Check your internet connection and restart Universal Universal Home Assistant to try again, or remove the `{domain}` sensor platform from your `configuration.yaml` file and set the integration up from the UI.",
+      "description": "Configuring {integration_title} using YAML is being removed.\n\nWhile importing your YAML configuration, __HA_KEEP__ could not reach blockchain.com. Check your internet connection and restart __HA_KEEP__ to try again, or remove the `{domain}` sensor platform from your `configuration.yaml` file and set the integration up from the UI.",
       "title": "The {integration_title} YAML configuration import failed"
     },
     "deprecated_yaml_import_issue_dropped_currency": {
@@ -103,7 +103,7 @@
       "title": "[%key:component::bitcoin::issues::deprecated_yaml_import_issue_cannot_connect::title%]"
     },
     "deprecated_yaml_import_issue_unknown_currency": {
-      "description": "Configuring {integration_title} using YAML is being removed.\n\nWhile importing your YAML configuration, Universal Universal Home Assistant found that blockchain.com does not quote Bitcoin in `{currency}`. Correct the currency in your `configuration.yaml` file and restart Universal Universal Home Assistant to try again, or remove the `{domain}` sensor platform and set the integration up from the UI.",
+      "description": "Configuring {integration_title} using YAML is being removed.\n\nWhile importing your YAML configuration, __HA_KEEP__ found that blockchain.com does not quote Bitcoin in `{currency}`. Correct the currency in your `configuration.yaml` file and restart __HA_KEEP__ to try again, or remove the `{domain}` sensor platform and set the integration up from the UI.",
       "title": "[%key:component::bitcoin::issues::deprecated_yaml_import_issue_cannot_connect::title%]"
     }
   }

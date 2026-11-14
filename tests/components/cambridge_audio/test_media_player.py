@@ -47,15 +47,15 @@ from universalassistant.const import (
     STATE_PAUSED,
     STATE_PLAYING,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from . import mock_state_update, setup_integration
 from .const import ENTITY_ID
 
 
 async def test_entity_supported_features(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stream_magic_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_entity_supported_features(
 
 
 async def test_entity_supported_features_with_control_bus(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stream_magic_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -167,7 +167,7 @@ async def test_entity_supported_features_with_control_bus(
     ],
 )
 async def test_entity_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stream_magic_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     power_state: bool,
@@ -186,7 +186,7 @@ async def test_entity_state(
 
 
 async def test_media_play_pause_stop(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -222,7 +222,7 @@ async def test_media_play_pause_stop(
 
 
 async def test_media_next_previous_track(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -241,7 +241,7 @@ async def test_media_next_previous_track(
 
 
 async def test_shuffle_repeat_set(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -289,7 +289,7 @@ async def test_shuffle_repeat_set(
 
 
 async def test_shuffle_repeat_get(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -319,7 +319,7 @@ async def test_shuffle_repeat_get(
 
 
 async def test_power_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -338,7 +338,7 @@ async def test_power_service(
 
 
 async def test_media_seek(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -359,7 +359,7 @@ async def test_media_seek(
 
 
 async def test_media_volume(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -396,7 +396,7 @@ async def test_media_volume(
 
 
 async def test_play_media_preset_item_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -444,7 +444,7 @@ async def test_play_media_preset_item_id(
 
 
 async def test_play_media_airable_radio_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -468,7 +468,7 @@ async def test_play_media_airable_radio_id(
 
 
 async def test_play_media_internet_radio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -492,7 +492,7 @@ async def test_play_media_internet_radio(
 
 
 async def test_play_media_unknown_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_stream_magic_client: AsyncMock,
 ) -> None:
@@ -500,7 +500,7 @@ async def test_play_media_unknown_type(
     await setup_integration(hass, mock_config_entry)
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             "Unsupported media type for Cambridge Audio"
             " device: unsupported_content_type"
@@ -530,7 +530,7 @@ async def test_play_media_unknown_type(
     ],
 )
 async def test_media_artist(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stream_magic_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     source_id: str,

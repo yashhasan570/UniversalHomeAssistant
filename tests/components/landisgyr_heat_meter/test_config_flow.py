@@ -9,7 +9,7 @@ import serialx
 
 from universalassistant import config_entries
 from universalassistant.components.landisgyr_heat_meter import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 API_HEAT_METER_SERVICE = (
@@ -29,7 +29,7 @@ class MockUltraheatRead:
 
 
 @patch(API_HEAT_METER_SERVICE)
-async def test_user_flow_success(mock_heat_meter, hass: UniversalAssistant) -> None:
+async def test_user_flow_success(mock_heat_meter, hass: __HAC_KEEP__) -> None:
     """Test successful user flow."""
 
     mock_heat_meter().read.return_value = MockUltraheatRead("LUGCUH50", "123456789")
@@ -57,7 +57,7 @@ async def test_user_flow_success(mock_heat_meter, hass: UniversalAssistant) -> N
 
 @patch(API_HEAT_METER_SERVICE)
 async def test_user_flow_cannot_connect_oserror(
-    mock_heat_meter: MagicMock, hass: UniversalAssistant
+    mock_heat_meter: MagicMock, hass: __HAC_KEEP__
 ) -> None:
     """Test connection failure due to OSError."""
 
@@ -88,7 +88,7 @@ async def test_user_flow_cannot_connect_oserror(
 
 @patch(API_HEAT_METER_SERVICE)
 async def test_user_flow_cannot_connect_serial_exception(
-    mock_heat_meter: MagicMock, hass: UniversalAssistant
+    mock_heat_meter: MagicMock, hass: __HAC_KEEP__
 ) -> None:
     """Test connection failure due to serialx.SerialException."""
 
@@ -118,7 +118,7 @@ async def test_user_flow_cannot_connect_serial_exception(
 
 
 @patch(API_HEAT_METER_SERVICE)
-async def test_already_configured(mock_heat_meter, hass: UniversalAssistant) -> None:
+async def test_already_configured(mock_heat_meter, hass: __HAC_KEEP__) -> None:
     """Test we abort if the Heat Meter is already configured."""
 
     entry_data = {

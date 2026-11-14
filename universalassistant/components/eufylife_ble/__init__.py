@@ -5,14 +5,14 @@ from eufylife_ble_client import EufyLifeBLEDevice
 from universalassistant.components import bluetooth
 from universalassistant.components.bluetooth.match import ADDRESS, BluetoothCallbackMatcher
 from universalassistant.const import CONF_MODEL, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 
 from .models import EufyLifeConfigEntry, EufyLifeData
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: EufyLifeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: EufyLifeConfigEntry) -> None:
     """Set up EufyLife device from a config entry."""
     address = entry.unique_id
     assert address is not None
@@ -54,6 +54,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: EufyLifeConfigEntry
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: EufyLifeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: EufyLifeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

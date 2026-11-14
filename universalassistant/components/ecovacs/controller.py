@@ -30,7 +30,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client, device_registry as dr
 from universalassistant.util.ssl import get_default_no_verify_context
@@ -49,7 +49,7 @@ _LOGGER = logging.getLogger(__name__)
 class EcovacsController:
     """Ecovacs controller."""
 
-    def __init__(self, hass: UniversalAssistant, entry: EcovacsConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: EcovacsConfigEntry) -> None:
         """Initialize controller."""
         self._hass = hass
         self._entry = entry

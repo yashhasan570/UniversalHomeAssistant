@@ -10,7 +10,7 @@ from yalexs.pubnub_async import AugustPubNub
 
 from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService
 from universalassistant.const import ATTR_ENTITY_ID, STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util import dt as dt_util
 
@@ -24,7 +24,7 @@ from .mocks import (
 )
 
 
-async def test_doorsense(hass: UniversalAssistant) -> None:
+async def test_doorsense(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge."""
     lock_one = await _mock_lock_from_fixture(
         hass, "get_lock.online_with_doorsense.json"
@@ -61,7 +61,7 @@ async def test_doorsense(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_lock_bridge_offline(hass: UniversalAssistant) -> None:
+async def test_lock_bridge_offline(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge that goes offline."""
     lock_one = await _mock_lock_from_fixture(
         hass, "get_lock.online_with_doorsense.json"
@@ -79,7 +79,7 @@ async def test_lock_bridge_offline(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_create_doorbell(hass: UniversalAssistant) -> None:
+async def test_create_doorbell(hass: __HAC_KEEP__) -> None:
     """Test creation of a doorbell."""
     doorbell_one = await _mock_doorbell_from_fixture(hass, "get_doorbell.json")
     await _create_august_with_devices(hass, [doorbell_one])
@@ -119,7 +119,7 @@ async def test_create_doorbell(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_create_doorbell_offline(hass: UniversalAssistant) -> None:
+async def test_create_doorbell_offline(hass: __HAC_KEEP__) -> None:
     """Test creation of a doorbell that is offline."""
     doorbell_one = await _mock_doorbell_from_fixture(hass, "get_doorbell.offline.json")
     await _create_august_with_devices(hass, [doorbell_one])
@@ -140,7 +140,7 @@ async def test_create_doorbell_offline(hass: UniversalAssistant) -> None:
 
 
 async def test_create_doorbell_with_motion(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test creation of a doorbell."""
     doorbell_one = await _mock_doorbell_from_fixture(hass, "get_doorbell.json")
@@ -176,7 +176,7 @@ async def test_create_doorbell_with_motion(
 
 
 async def test_doorbell_update_via_pubnub(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test creation of a doorbell that can be updated via pubnub."""
     doorbell_one = await _mock_doorbell_from_fixture(hass, "get_doorbell.json")
@@ -310,7 +310,7 @@ async def test_doorbell_update_via_pubnub(
 
 
 async def test_doorbell_device_registry(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test creation of a lock with doorsense and bridge ands up in the registry."""
     doorbell_one = await _mock_doorbell_from_fixture(hass, "get_doorbell.offline.json")
@@ -322,7 +322,7 @@ async def test_doorbell_device_registry(
     assert reg_device == snapshot
 
 
-async def test_door_sense_update_via_pubnub(hass: UniversalAssistant) -> None:
+async def test_door_sense_update_via_pubnub(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with doorsense and bridge."""
     lock_one = await _mock_doorsense_enabled_august_lock_detail(hass)
     assert lock_one.pubsub_channel == "pubsub"
@@ -433,7 +433,7 @@ async def test_door_sense_update_via_pubnub(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_create_lock_with_doorbell(hass: UniversalAssistant) -> None:
+async def test_create_lock_with_doorbell(hass: __HAC_KEEP__) -> None:
     """Test creation of a lock with a doorbell."""
     lock_one = await _mock_lock_from_fixture(hass, "lock_with_doorbell.online.json")
     await _create_august_with_devices(hass, [lock_one])

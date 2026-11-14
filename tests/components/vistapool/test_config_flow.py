@@ -1,6 +1,6 @@
 """Tests for the Vistapool config flow.
 
-These tests run in the Universal Universal Home Assistant Core test environment.
+These tests run in the __HA_KEEP__ Core test environment.
 Run with: pytest tests/components/vistapool/test_config_flow.py
 """
 
@@ -17,7 +17,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.vistapool.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -39,7 +39,7 @@ def mock_setup_entry() -> Generator[AsyncMock]:
         yield mock
 
 
-async def _submit(hass: UniversalAssistant, flow_id: str) -> dict:
+async def _submit(hass: __HAC_KEEP__, flow_id: str) -> dict:
     """Submit the user step with the standard credentials."""
     return await hass.config_entries.flow.async_configure(
         flow_id,
@@ -47,7 +47,7 @@ async def _submit(hass: UniversalAssistant, flow_id: str) -> dict:
     )
 
 
-async def _configure(hass: UniversalAssistant) -> dict:
+async def _configure(hass: __HAC_KEEP__) -> dict:
     """Run the user step from start to finish with the standard credentials."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -59,7 +59,7 @@ async def _configure(hass: UniversalAssistant) -> dict:
 
 
 async def test_user_step(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_user_step(
 
 
 async def test_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
     mock_vistapool_auth: MagicMock,
@@ -110,7 +110,7 @@ async def test_invalid_auth(
 
 
 async def test_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
     mock_vistapool_auth: MagicMock,
@@ -134,7 +134,7 @@ async def test_cannot_connect(
 
 
 async def test_cannot_connect_during_pool_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_cannot_connect_during_pool_fetch(
 
 
 async def test_unknown_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
     mock_vistapool_auth: MagicMock,
@@ -181,7 +181,7 @@ async def test_unknown_exception(
 
 
 async def test_unknown_exception_during_pool_fetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_unknown_exception_during_pool_fetch(
 
 
 async def test_no_pools(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -228,7 +228,7 @@ async def test_no_pools(
 
 
 async def test_duplicate_account_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -245,7 +245,7 @@ async def test_duplicate_account_aborts(
 
 
 async def test_dhcp_discovery_starts_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -267,7 +267,7 @@ async def test_dhcp_discovery_starts_user_flow(
 
 
 async def test_dhcp_discovery_aborts_when_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -285,7 +285,7 @@ async def test_dhcp_discovery_aborts_when_configured(
 
 
 async def test_dhcp_discovery_aborts_when_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -327,7 +327,7 @@ _FLOW_PARAMS = [
 
 @pytest.mark.parametrize(("flow_starter", "step_id", "success_reason"), _FLOW_PARAMS)
 async def test_credential_update_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
@@ -354,7 +354,7 @@ async def test_credential_update_flow(
 
 @pytest.mark.parametrize(("flow_starter", "step_id", "success_reason"), _FLOW_PARAMS)
 async def test_credential_update_invalid_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
@@ -388,7 +388,7 @@ async def test_credential_update_invalid_auth(
 
 @pytest.mark.parametrize(("flow_starter", "step_id", "success_reason"), _FLOW_PARAMS)
 async def test_credential_update_account_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
@@ -420,7 +420,7 @@ async def test_credential_update_account_mismatch(
     ],
 )
 async def test_credential_update_error_paths(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     mock_vistapool_client: AsyncMock,
@@ -464,7 +464,7 @@ async def test_credential_update_error_paths(
 )
 @pytest.mark.usefixtures("mock_setup_entry", "mock_vistapool_client")
 async def test_user_step_closes_firestore_clients(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vistapool_auth: MagicMock,
     authenticate_error: type[Exception] | None,
 ) -> None:
@@ -479,7 +479,7 @@ async def test_user_step_closes_firestore_clients(
 @pytest.mark.parametrize(("flow_starter", "step_id", "success_reason"), _FLOW_PARAMS)
 @pytest.mark.usefixtures("mock_setup_entry", "mock_vistapool_client")
 async def test_credential_update_closes_firestore_clients(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_auth: MagicMock,
     flow_starter: Any,

@@ -1,4 +1,4 @@
-"""Test the Universal Universal Home Assistant hardware firmware config flow."""
+"""Test the __HA_KEEP__ hardware firmware config flow."""
 
 import asyncio
 from collections.abc import AsyncGenerator, Awaitable, Callable, Iterator
@@ -47,9 +47,9 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
     OptionsFlow,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import FlowResultType
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -197,7 +197,7 @@ class FakeFirmwareOptionsFlowHandler(BaseFirmwareOptionsFlow):
 
 @pytest.fixture(autouse=True)
 async def mock_test_firmware_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> AsyncGenerator[None]:
     """Fixture for a test config flow."""
     mock_module = MockModule(
@@ -303,7 +303,7 @@ def mock_firmware_info(
         )
 
     async def mock_flash_firmware(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: str,
         fw_data: bytes,
         flasher_cls: type[DeviceSpecificFlasher],
@@ -318,7 +318,7 @@ def mock_firmware_info(
         progress_callback(100, 100)
 
         if flashed_firmware_info is None:
-            raise UniversalAssistantError("Failed to probe the firmware after flashing")
+            raise __HAC_KEEP__Error("Failed to probe the firmware after flashing")
 
         return flashed_firmware_info
 
@@ -352,7 +352,7 @@ def mock_firmware_info(
 
 
 async def consume_progress_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     flow_id: str,
     valid_step_ids: tuple[str, ...],
 ) -> ConfigFlowResult:
@@ -373,7 +373,7 @@ async def consume_progress_flow(
 
 
 @pytest.mark.usefixtures("addon_store_info", "addon_info")
-async def test_config_flow_zigbee_recommended(hass: UniversalAssistant) -> None:
+async def test_config_flow_zigbee_recommended(hass: __HAC_KEEP__) -> None:
     """Test flow with recommended Zigbee installation type."""
     init_result = await hass.config_entries.flow.async_init(
         TEST_DOMAIN, context={"source": "hardware"}
@@ -448,7 +448,7 @@ async def test_config_flow_zigbee_recommended(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("addon_store_info", "addon_info")
-async def test_config_flow_zigbee_custom_zha(hass: UniversalAssistant) -> None:
+async def test_config_flow_zigbee_custom_zha(hass: __HAC_KEEP__) -> None:
     """Test flow with custom Zigbee installation type and ZHA selected."""
     init_result = await hass.config_entries.flow.async_init(
         TEST_DOMAIN, context={"source": "hardware"}
@@ -540,7 +540,7 @@ async def test_config_flow_zigbee_custom_zha(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("addon_store_info", "addon_info")
-async def test_config_flow_zigbee_custom_other(hass: UniversalAssistant) -> None:
+async def test_config_flow_zigbee_custom_other(hass: __HAC_KEEP__) -> None:
     """Test flow with custom Zigbee installation type and Other selected."""
     init_result = await hass.config_entries.flow.async_init(
         TEST_DOMAIN, context={"source": "hardware"}
@@ -614,7 +614,7 @@ async def test_config_flow_zigbee_custom_other(hass: UniversalAssistant) -> None
 
 @pytest.mark.usefixtures("addon_store_info", "addon_info")
 async def test_config_flow_firmware_index_download_fails_but_not_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test flow continues if index download fails but install is not required."""
     init_result = await hass.config_entries.flow.async_init(
@@ -660,7 +660,7 @@ async def test_config_flow_firmware_index_download_fails_but_not_required(
 
 @pytest.mark.usefixtures("addon_store_info", "addon_info")
 async def test_config_flow_firmware_download_fails_but_not_required(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test flow continues if firmware download fails but install is not required."""
     init_result = await hass.config_entries.flow.async_init(
@@ -705,7 +705,7 @@ async def test_config_flow_firmware_download_fails_but_not_required(
 
 @pytest.mark.usefixtures("addon_store_info", "addon_info")
 async def test_config_flow_doesnt_downgrade(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test flow exits early, without downgrading firmware."""
     init_result = await hass.config_entries.flow.async_init(
@@ -752,7 +752,7 @@ async def test_config_flow_doesnt_downgrade(
 
 
 @pytest.mark.usefixtures("addon_store_info", "addon_info")
-async def test_config_flow_zigbee_skip_step_if_installed(hass: UniversalAssistant) -> None:
+async def test_config_flow_zigbee_skip_step_if_installed(hass: __HAC_KEEP__) -> None:
     """Test skip installing the firmware if not needed."""
     result = await hass.config_entries.flow.async_init(
         TEST_DOMAIN, context={"source": "hardware"}
@@ -787,7 +787,7 @@ async def test_config_flow_zigbee_skip_step_if_installed(hass: UniversalAssistan
         assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_config_flow_auto_confirm_if_running(hass: UniversalAssistant) -> None:
+async def test_config_flow_auto_confirm_if_running(hass: __HAC_KEEP__) -> None:
     """Test the config flow skips the confirmation step the hardware is already used."""
     with patch(
         "universalassistant.components.universalassistant_hardware.firmware_config_flow.guess_firmware_info",
@@ -815,7 +815,7 @@ async def test_config_flow_auto_confirm_if_running(hass: UniversalAssistant) -> 
 
 @pytest.mark.usefixtures("addon_installed")
 async def test_config_flow_thread(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
 ) -> None:
@@ -887,7 +887,7 @@ async def test_config_flow_thread(
 
 
 async def test_config_flow_thread_not_supported_over_serial_proxy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Picking Thread for an adapter behind an ESPHome device explains and returns."""
     init_result = await hass.config_entries.flow.async_init(
@@ -916,7 +916,7 @@ async def test_config_flow_thread_not_supported_over_serial_proxy(
 
 
 async def test_options_flow_thread_not_supported_over_serial_proxy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """The same holds when changing the firmware of a configured adapter."""
     config_entry = MockConfigEntry(
@@ -951,7 +951,7 @@ async def test_options_flow_thread_not_supported_over_serial_proxy(
 
 @pytest.mark.usefixtures("addon_installed")
 async def test_config_flow_thread_addon_already_installed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
 ) -> None:
@@ -1004,7 +1004,7 @@ async def test_config_flow_thread_addon_already_installed(
 
 
 async def test_options_flow_zigbee_to_thread(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     install_addon: AsyncMock,
     set_addon_options: AsyncMock,
     start_addon: AsyncMock,
@@ -1089,7 +1089,7 @@ async def test_options_flow_zigbee_to_thread(
 
 
 @pytest.mark.usefixtures("addon_store_info")
-async def test_options_flow_thread_to_zigbee(hass: UniversalAssistant) -> None:
+async def test_options_flow_thread_to_zigbee(hass: __HAC_KEEP__) -> None:
     """Test the options flow, migrating Thread to Zigbee."""
     config_entry = MockConfigEntry(
         domain=TEST_DOMAIN,
@@ -1151,7 +1151,7 @@ async def test_options_flow_thread_to_zigbee(hass: UniversalAssistant) -> None:
 
 
 async def test_config_flow_pick_firmware_shows_migrate_options_with_existing_zha(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that migrate options are shown when ZHA entries exist."""
     # Create a ZHA config entry
@@ -1177,7 +1177,7 @@ async def test_config_flow_pick_firmware_shows_migrate_options_with_existing_zha
 
 
 async def test_config_flow_pick_firmware_shows_migrate_options_with_existing_otbr(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that migrate options are shown when OTBR entries exist."""
     # Create an OTBR config entry
@@ -1203,7 +1203,7 @@ async def test_config_flow_pick_firmware_shows_migrate_options_with_existing_otb
 
 
 async def test_config_flow_pick_firmware_shows_migrate_options_with_both_existing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that migrate options are shown when both ZHA and OTBR entries exist."""
     # Create both ZHA and OTBR config entries
@@ -1235,7 +1235,7 @@ async def test_config_flow_pick_firmware_shows_migrate_options_with_both_existin
 
 
 async def test_config_flow_pick_firmware_shows_normal_options_without_existing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that normal options are shown when no ZHA or OTBR entries exist."""
     init_result = await hass.config_entries.flow.async_init(
@@ -1253,7 +1253,7 @@ async def test_config_flow_pick_firmware_shows_normal_options_without_existing(
     assert "pick_firmware_thread_migrate" not in menu_options
 
 
-async def test_config_flow_zigbee_migrate_handler(hass: UniversalAssistant) -> None:
+async def test_config_flow_zigbee_migrate_handler(hass: __HAC_KEEP__) -> None:
     """Test that the Zigbee migrate handler works correctly."""
     # Ensure Zigbee migrate option is available by adding a ZHA entry
     zha_entry = MockConfigEntry(
@@ -1283,7 +1283,7 @@ async def test_config_flow_zigbee_migrate_handler(hass: UniversalAssistant) -> N
 
 
 @pytest.mark.usefixtures("addon_installed")
-async def test_config_flow_thread_migrate_handler(hass: UniversalAssistant) -> None:
+async def test_config_flow_thread_migrate_handler(hass: __HAC_KEEP__) -> None:
     """Test that the Thread migrate handler works correctly."""
     # Ensure Thread migrate option is available by adding an OTBR entry
     otbr_entry = MockConfigEntry(
@@ -1342,7 +1342,7 @@ async def test_config_flow_thread_migrate_handler(hass: UniversalAssistant) -> N
     ],
 )
 async def test_config_flow_pick_firmware_with_ignored_entries(
-    hass: UniversalAssistant, zha_source: str, otbr_source: str, expected_menu: str
+    hass: __HAC_KEEP__, zha_source: str, otbr_source: str, expected_menu: str
 ) -> None:
     """Test that ignored entries are properly excluded from migration menu options."""
     zha_entry = MockConfigEntry(

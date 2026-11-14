@@ -15,7 +15,7 @@ from flux_led.protocol import PowerRestoreState, RemoteConfig
 
 from universalassistant.components.select import SelectEntity
 from universalassistant.const import CONF_NAME, EntityCategory
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_WHITE_CHANNEL_TYPE
@@ -28,14 +28,14 @@ NAME_TO_POWER_RESTORE_STATE = {
 }
 
 
-async def _async_delayed_reload(hass: UniversalAssistant, entry: FluxLedConfigEntry) -> None:
+async def _async_delayed_reload(hass: __HAC_KEEP__, entry: FluxLedConfigEntry) -> None:
     """Reload after making a change that will effect the operation of the device."""
     await asyncio.sleep(STATE_CHANGE_LATENCY)
     hass.async_create_task(hass.config_entries.async_reload(entry.entry_id))
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: FluxLedConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

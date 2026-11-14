@@ -38,8 +38,8 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -59,7 +59,7 @@ def platforms() -> Generator[None]:
     ["vehicle_electric.json", "vehicle_hybrid.json", "vehicle_combustion.json"],
 )
 async def test_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -71,7 +71,7 @@ async def test_switches(
 
 
 async def test_no_switch_without_operation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -92,7 +92,7 @@ async def test_no_switch_without_operation(
 
 @pytest.mark.parametrize("vehicle_fixture", ["vehicle_incomplete.json"])
 async def test_switch_when_operations_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
 ) -> None:
@@ -137,7 +137,7 @@ async def test_switch_when_operations_unavailable(
     ],
 )
 async def test_switch_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     entity_id: str,
@@ -168,7 +168,7 @@ async def test_switch_actions(
     ],
 )
 async def test_switch_action_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     error: OpenApiError,
@@ -178,7 +178,7 @@ async def test_switch_action_error(
     await setup_integration(hass, mock_config_entry)
     mock_skoda_client.stop_charging.side_effect = error
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_OFF,
@@ -200,7 +200,7 @@ async def test_switch_action_error(
 )
 @pytest.mark.parametrize("vehicle_fixture", ["vehicle_hybrid.json"])
 async def test_switch_updates_from_vehicle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -232,7 +232,7 @@ async def test_switch_updates_from_vehicle(
 )
 @pytest.mark.parametrize("vehicle_fixture", ["vehicle_combustion.json"])
 async def test_active_ventilation_updates_from_vehicle(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -262,7 +262,7 @@ async def test_active_ventilation_updates_from_vehicle(
     ],
 )
 async def test_switch_unknown_when_data_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_skoda_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

@@ -16,7 +16,7 @@ from pytest_universalassistant.common import (
 from universalassistant.components.vacuum import DOMAIN, VacuumEntityFeature
 from universalassistant.config_entries import ConfigEntry, ConfigFlow
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, frame
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -30,7 +30,7 @@ class MockFlow(ConfigFlow):
 
 
 @pytest.fixture
-def config_flow_fixture(hass: UniversalAssistant) -> Generator[None]:
+def config_flow_fixture(hass: __HAC_KEEP__) -> Generator[None]:
     """Mock config flow."""
     mock_platform(hass, f"{TEST_DOMAIN}.config_flow")
 
@@ -55,7 +55,7 @@ async def vacuum_supported_features() -> VacuumEntityFeature:
 
 @pytest.fixture(name="mock_vacuum_entity")
 async def setup_vacuum_platform_test_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_flow_fixture: None,
     entity_registry: er.EntityRegistry,
     supported_features: VacuumEntityFeature,
@@ -63,7 +63,7 @@ async def setup_vacuum_platform_test_entity(
     """Set up vacuum entity using an entity platform."""
 
     async def async_setup_entry_init(
-        hass: UniversalAssistant, config_entry: ConfigEntry
+        hass: __HAC_KEEP__, config_entry: ConfigEntry
     ) -> None:
         """Set up test config entry."""
         await hass.config_entries.async_forward_entry_setups(
@@ -83,7 +83,7 @@ async def setup_vacuum_platform_test_entity(
     )
 
     async def async_setup_entry_platform(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
@@ -108,7 +108,7 @@ async def setup_vacuum_platform_test_entity(
 
 
 @pytest.fixture(name="mock_as_custom_component")
-async def mock_frame(hass: UniversalAssistant) -> AsyncGenerator[None]:
+async def mock_frame(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
     """Mock frame."""
     with patch(
         "universalassistant.helpers.frame.get_integration_frame",

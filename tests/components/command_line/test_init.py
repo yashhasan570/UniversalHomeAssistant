@@ -28,7 +28,7 @@ from universalassistant.components.notify import (
     BaseNotificationService,
 )
 from universalassistant.const import STATE_ON, STATE_OPEN, __version__ as HA_VERSION
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 from . import mock_asyncio_subprocess_run
@@ -45,7 +45,7 @@ from . import mock_asyncio_subprocess_run
     ],
 )
 async def test_platform_config_creates_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_domain: str,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -61,7 +61,7 @@ async def test_platform_config_creates_issue(
 
 
 async def test_setup_config(
-    hass: UniversalAssistant, load_yaml_integration: None, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, load_yaml_integration: None, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test setup from yaml."""
 
@@ -81,7 +81,7 @@ async def test_setup_config(
 
 
 async def test_reload_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_yaml_integration: None,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,
@@ -137,7 +137,7 @@ async def test_reload_service(
 
 
 async def test_reload_prunes_stale_template_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_reload_prunes_stale_template_issue(
 
 
 async def test_reload_keeps_valid_template_issue_and_ignore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -236,7 +236,7 @@ async def test_reload_keeps_valid_template_issue_and_ignore_state(
 
 
 async def test_reload_keeps_issues_of_entities_set_up_again(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     tmp_path: Path,
     freezer: FrozenDateTimeFactory,

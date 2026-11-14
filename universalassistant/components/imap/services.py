@@ -12,7 +12,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -80,7 +80,7 @@ SERVICE_FETCH_PART_SCHEMA = _SERVICE_UID_SCHEMA.extend(
 
 
 @asynccontextmanager
-async def async_get_imap_client(hass: UniversalAssistant, entry_id: str) -> IMAP4_SSL:
+async def async_get_imap_client(hass: __HAC_KEEP__, entry_id: str) -> IMAP4_SSL:
     """Get IMAP client and connect, as managed context."""
     if (entry := hass.config_entries.async_get_entry(entry_id)) is None or (
         entry.state is not ConfigEntryState.LOADED
@@ -299,7 +299,7 @@ async def _async_fetch_part(call: ServiceCall) -> ServiceResponse:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the imap services."""
     hass.services.async_register(
         DOMAIN, ImapService.SEEN, _async_seen, SERVICE_SEEN_SCHEMA

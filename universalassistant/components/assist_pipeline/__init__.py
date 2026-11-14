@@ -6,7 +6,7 @@ from typing import Any
 import probatio
 
 from universalassistant.components import stt
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import chat_session
 from universalassistant.helpers.typing import ConfigType
 
@@ -84,7 +84,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Assist pipeline integration."""
     hass.data[DATA_CONFIG] = config.get(DOMAIN, {})
 
@@ -98,7 +98,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_pipeline_from_audio_stream(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     *,
     context: Context,
     event_callback: PipelineEventCallback,

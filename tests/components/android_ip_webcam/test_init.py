@@ -8,7 +8,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.android_ip_webcam.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 MOCK_CONFIG_DATA = {
     "name": "IP Webcam",
@@ -20,7 +20,7 @@ MOCK_CONFIG_DATA = {
 
 
 async def test_successful_config_entry(
-    hass: UniversalAssistant, aioclient_mock_fixture
+    hass: __HAC_KEEP__, aioclient_mock_fixture
 ) -> None:
     """Test settings up integration from config entry."""
 
@@ -33,7 +33,7 @@ async def test_successful_config_entry(
 
 
 async def test_setup_failed_connection_error(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test integration failed due to connection error."""
 
@@ -50,7 +50,7 @@ async def test_setup_failed_connection_error(
 
 
 async def test_setup_failed_invalid_auth(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test integration failed due to invalid auth."""
 
@@ -66,7 +66,7 @@ async def test_setup_failed_invalid_auth(
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_unload_entry(hass: UniversalAssistant, aioclient_mock_fixture) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__, aioclient_mock_fixture) -> None:
     """Test removing integration."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG_DATA)
     entry.add_to_hass(hass)

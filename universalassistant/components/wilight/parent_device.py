@@ -9,7 +9,7 @@ import requests
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
 _LOGGER = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ type WiLightConfigEntry = ConfigEntry[WiLightParent]
 class WiLightParent:
     """Manages a single WiLight Parent Device."""
 
-    def __init__(self, hass: UniversalAssistant, config_entry: WiLightConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: WiLightConfigEntry) -> None:
         """Initialize the system."""
         self._host: str = config_entry.data[CONF_HOST]
         self._hass = hass

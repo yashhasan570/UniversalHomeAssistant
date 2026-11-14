@@ -10,7 +10,7 @@ from typing import Any, override
 from bleak import BleakError
 from bluetooth_data_tools import monotonic_time_coarse
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.debounce import Debouncer
 
 from . import BluetoothChange, BluetoothScanningMode, BluetoothServiceInfoBleak
@@ -56,7 +56,7 @@ class ActiveBluetoothDataUpdateCoordinator[_T](PassiveBluetoothDataUpdateCoordin
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         logger: logging.Logger,
         *,
         address: str,

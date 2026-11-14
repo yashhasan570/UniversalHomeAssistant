@@ -14,7 +14,7 @@ from systembridgeconnector.models.response import Response
 
 from universalassistant.const import CONF_HOST
 from universalassistant.core import callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -63,7 +63,7 @@ class SystemBridgeEntity(CoordinatorEntity[SystemBridgeDataUpdateCoordinator]):
         try:
             response = await request
         except ConnectionClosedException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_failed",
                 translation_placeholders={
@@ -72,7 +72,7 @@ class SystemBridgeEntity(CoordinatorEntity[SystemBridgeDataUpdateCoordinator]):
                 },
             ) from e
         if response.type == EventType.ERROR:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="system_control_failed",
                 translation_placeholders={"error": response.message or ""},
@@ -127,7 +127,7 @@ class SystemBridgeDisplayEntity(SystemBridgeEntity):
                 )
             )
         except ConnectionClosedException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_failed",
                 translation_placeholders={
@@ -136,7 +136,7 @@ class SystemBridgeDisplayEntity(SystemBridgeEntity):
                 },
             ) from e
         if response.type == EventType.ERROR:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="display_control_failed",
                 translation_placeholders={
@@ -173,7 +173,7 @@ class SystemBridgeAudioEntity(SystemBridgeEntity):
                 AudioControl(id=device.id, volume=volume, muted=muted, default=default)
             )
         except ConnectionClosedException as e:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="connection_failed",
                 translation_placeholders={
@@ -182,7 +182,7 @@ class SystemBridgeAudioEntity(SystemBridgeEntity):
                 },
             ) from e
         if response.type == EventType.ERROR:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="audio_control_failed",
                 translation_placeholders={

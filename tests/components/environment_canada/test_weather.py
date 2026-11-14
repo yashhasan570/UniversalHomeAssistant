@@ -10,13 +10,13 @@ from universalassistant.components.environment_canada.services import (
     EnvironmentCanadaService,
 )
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN, WeatherService
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import init_integration
 
 
 async def test_forecast_daily(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, ec_data: dict[str, Any]
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, ec_data: dict[str, Any]
 ) -> None:
     """Test basic forecast."""
 
@@ -40,7 +40,7 @@ async def test_forecast_daily(
 
 
 async def test_forecast_daily_with_some_previous_days_data(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, ec_data: dict[str, Any]
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, ec_data: dict[str, Any]
 ) -> None:
     """Test forecast with half day at start."""
 
@@ -60,7 +60,7 @@ async def test_forecast_daily_with_some_previous_days_data(
 
 
 async def test_get_environment_canada_raw_forecast_data(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion, ec_data: dict[str, Any]
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion, ec_data: dict[str, Any]
 ) -> None:
     """Test forecast with half day at start."""
 

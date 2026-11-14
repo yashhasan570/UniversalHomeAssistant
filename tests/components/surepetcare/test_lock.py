@@ -4,7 +4,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 from surepy.exceptions import SurePetcareError
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import HOUSEHOLD_ID, MOCK_CAT_FLAP, MOCK_PET_FLAP
@@ -20,7 +20,7 @@ EXPECTED_ENTITY_IDS = {
 
 
 async def test_locks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     surepetcare,
     mock_config_entry_setup: MockConfigEntry,
@@ -80,7 +80,7 @@ async def test_locks(
 
 
 async def test_lock_failing(
-    hass: UniversalAssistant, surepetcare, mock_config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, surepetcare, mock_config_entry_setup: MockConfigEntry
 ) -> None:
     """Test handling of lock failing."""
     surepetcare.lock_in.side_effect = SurePetcareError
@@ -97,7 +97,7 @@ async def test_lock_failing(
 
 
 async def test_unlock_failing(
-    hass: UniversalAssistant, surepetcare, mock_config_entry_setup: MockConfigEntry
+    hass: __HAC_KEEP__, surepetcare, mock_config_entry_setup: MockConfigEntry
 ) -> None:
     """Test handling of unlock failing."""
     entity_id = list(EXPECTED_ENTITY_IDS)[0]

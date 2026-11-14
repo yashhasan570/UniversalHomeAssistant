@@ -10,11 +10,11 @@ import pytest
 
 from universalassistant.components.emoncms_history import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_URL, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
-async def test_setup_valid_config(hass: UniversalAssistant) -> None:
+async def test_setup_valid_config(hass: __HAC_KEEP__) -> None:
     """Test setting up the emoncms_history component with valid configuration."""
     config = {
         "emoncms_history": {
@@ -32,7 +32,7 @@ async def test_setup_valid_config(hass: UniversalAssistant) -> None:
     await hass.async_block_till_done()
 
 
-async def test_setup_missing_config(hass: UniversalAssistant) -> None:
+async def test_setup_missing_config(hass: __HAC_KEEP__) -> None:
     """Test setting up the emoncms_history component with missing configuration."""
     config = {"emoncms_history": {"api_key": "dummy"}}
     success = await async_setup_component(hass, DOMAIN, config)
@@ -51,7 +51,7 @@ async def emoncms_client() -> AsyncGenerator[AsyncMock]:
 
 
 async def test_emoncms_send_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     emoncms_client: AsyncMock,
     caplog: pytest.LogCaptureFixture,
     freezer: FrozenDateTimeFactory,

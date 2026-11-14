@@ -12,7 +12,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 from .test_init import _mock_camera_data
@@ -41,7 +41,7 @@ def _mock_battery_camera_data(work_mode: object) -> dict[str, object]:
     ],
 )
 async def test_battery_work_mode_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
     work_mode: object,
@@ -60,7 +60,7 @@ async def test_battery_work_mode_state(
 
 
 async def test_battery_work_mode_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_ezviz_client: AsyncMock,
 ) -> None:

@@ -46,7 +46,7 @@ from universalassistant.const import (
     ATTR_SUPPORTED_FEATURES,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -142,7 +142,7 @@ class MockShark(SharkIqVacuum):
 
 @pytest.fixture(autouse=True)
 @patch("sharkiq.ayla_api.AylaApi", MockAyla)
-async def setup_integration(hass: UniversalAssistant) -> None:
+async def setup_integration(hass: __HAC_KEEP__) -> None:
     """Build the mock integration."""
     entry = MockConfigEntry(
         domain=DOMAIN, unique_id=TEST_USERNAME, data=CONFIG, entry_id=ENTRY_ID
@@ -153,7 +153,7 @@ async def setup_integration(hass: UniversalAssistant) -> None:
 
 
 async def test_simple_properties(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that simple properties work as intended."""
     state = hass.states.get(VAC_ENTITY_ID)
@@ -179,7 +179,7 @@ async def test_simple_properties(
     ],
 )
 async def test_initial_attributes(
-    hass: UniversalAssistant, attribute: str, target_value: Any
+    hass: __HAC_KEEP__, attribute: str, target_value: Any
 ) -> None:
     """Test initial config attributes."""
     state = hass.states.get(VAC_ENTITY_ID)
@@ -196,7 +196,7 @@ async def test_initial_attributes(
     ],
 )
 async def test_cleaning_states(
-    hass: UniversalAssistant, service: str, target_state: str
+    hass: __HAC_KEEP__, service: str, target_state: str
 ) -> None:
     """Test cleaning states."""
     service_data = {ATTR_ENTITY_ID: VAC_ENTITY_ID}
@@ -206,7 +206,7 @@ async def test_cleaning_states(
 
 
 @pytest.mark.parametrize("fan_speed", list(FAN_SPEEDS_MAP))
-async def test_fan_speed(hass: UniversalAssistant, fan_speed: str) -> None:
+async def test_fan_speed(hass: __HAC_KEEP__, fan_speed: str) -> None:
     """Test setting fan speeds."""
     service_data = {ATTR_ENTITY_ID: VAC_ENTITY_ID, ATTR_FAN_SPEED: fan_speed}
     await hass.services.async_call(
@@ -226,7 +226,7 @@ async def test_fan_speed(hass: UniversalAssistant, fan_speed: str) -> None:
     ],
 )
 async def test_device_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     device_property: str,
     target_value: str,
@@ -247,7 +247,7 @@ async def test_device_properties(
     ],
 )
 async def test_clean_room_error(
-    hass: UniversalAssistant, room_list: list, exception: Exception
+    hass: __HAC_KEEP__, room_list: list, exception: Exception
 ) -> None:
     """Test clean_room errors."""
     data = {ATTR_ENTITY_ID: VAC_ENTITY_ID, SharkIqServiceArgument.ROOMS: room_list}
@@ -258,7 +258,7 @@ async def test_clean_room_error(
         )
 
 
-async def test_locate(hass: UniversalAssistant) -> None:
+async def test_locate(hass: __HAC_KEEP__) -> None:
     """Test that the locate command works."""
     with patch.object(SharkIqVacuum, "async_find_device") as mock_locate:
         data = {ATTR_ENTITY_ID: VAC_ENTITY_ID}
@@ -270,7 +270,7 @@ async def test_locate(hass: UniversalAssistant) -> None:
     ("room_list"),
     [(ROOM_LIST), (["Kitchen"])],
 )
-async def test_clean_room(hass: UniversalAssistant, room_list: list) -> None:
+async def test_clean_room(hass: __HAC_KEEP__, room_list: list) -> None:
     """Test that the clean_room command works."""
     with patch.object(SharkIqVacuum, "async_clean_rooms") as mock_clean_room:
         data = {ATTR_ENTITY_ID: VAC_ENTITY_ID, SharkIqServiceArgument.ROOMS: room_list}
@@ -291,7 +291,7 @@ async def test_clean_room(hass: UniversalAssistant, room_list: list) -> None:
 )
 @patch("sharkiq.ayla_api.AylaApi", MockAyla)
 async def test_coordinator_updates(
-    hass: UniversalAssistant, side_effect: Exception | None, success: bool
+    hass: __HAC_KEEP__, side_effect: Exception | None, success: bool
 ) -> None:
     """Test the update coordinator update functions."""
     entry = hass.config_entries.async_get_entry(ENTRY_ID)

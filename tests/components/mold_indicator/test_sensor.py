@@ -14,13 +14,13 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-def init_sensors_fixture(hass: UniversalAssistant) -> None:
+def init_sensors_fixture(hass: __HAC_KEEP__) -> None:
     """Set up things to be run when tests are started."""
     hass.states.async_set(
         "test.indoortemp", "20", {ATTR_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS}
@@ -33,7 +33,7 @@ def init_sensors_fixture(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_setup(hass: UniversalAssistant) -> None:
+async def test_setup(hass: __HAC_KEEP__) -> None:
     """Test the mold indicator sensor setup."""
     assert await async_setup_component(
         hass,
@@ -55,7 +55,7 @@ async def test_setup(hass: UniversalAssistant) -> None:
 
 
 async def test_device_id_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -100,7 +100,7 @@ async def test_device_id_yaml(
 
 
 async def test_setup_from_config_entry(
-    hass: UniversalAssistant, loaded_entry: MockConfigEntry
+    hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
 ) -> None:
     """Test the mold indicator sensor setup from a config entry."""
 
@@ -109,7 +109,7 @@ async def test_setup_from_config_entry(
     assert moldind.attributes.get("unit_of_measurement") == PERCENTAGE
 
 
-async def test_invalidcalib(hass: UniversalAssistant) -> None:
+async def test_invalidcalib(hass: __HAC_KEEP__) -> None:
     """Test invalid sensor values."""
     hass.states.async_set(
         "test.indoortemp", "10", {ATTR_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS}
@@ -146,7 +146,7 @@ async def test_invalidcalib(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_invalidhum(hass: UniversalAssistant) -> None:
+async def test_invalidhum(hass: __HAC_KEEP__) -> None:
     """Test invalid sensor values."""
     hass.states.async_set(
         "test.indoortemp", "10", {ATTR_UNIT_OF_MEASUREMENT: UnitOfTemperature.CELSIUS}
@@ -210,7 +210,7 @@ async def test_invalidhum(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_calculation(hass: UniversalAssistant) -> None:
+async def test_calculation(hass: __HAC_KEEP__) -> None:
     """Test the mold indicator internal calculations."""
     assert await async_setup_component(
         hass,
@@ -249,7 +249,7 @@ async def test_calculation(hass: UniversalAssistant) -> None:
     assert state == "68"
 
 
-async def test_unknown_sensor(hass: UniversalAssistant) -> None:
+async def test_unknown_sensor(hass: __HAC_KEEP__) -> None:
     """Test the sensor_changed function."""
     assert await async_setup_component(
         hass,
@@ -334,7 +334,7 @@ async def test_unknown_sensor(hass: UniversalAssistant) -> None:
     assert esttemp == 27.5
 
 
-async def test_sensor_changed(hass: UniversalAssistant) -> None:
+async def test_sensor_changed(hass: __HAC_KEEP__) -> None:
     """Test the sensor_changed function."""
     assert await async_setup_component(
         hass,
@@ -373,7 +373,7 @@ async def test_sensor_changed(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.parametrize("new_state", [STATE_UNAVAILABLE, STATE_UNKNOWN])
-async def test_unavailable_sensor_recovery(hass: UniversalAssistant, new_state: str) -> None:
+async def test_unavailable_sensor_recovery(hass: __HAC_KEEP__, new_state: str) -> None:
     """Test recovery when sensor becomes unavailable then available."""
     assert await async_setup_component(
         hass,
@@ -429,7 +429,7 @@ async def test_unavailable_sensor_recovery(hass: UniversalAssistant, new_state: 
     )
 
 
-async def test_all_sensors_unavailable_recovery(hass: UniversalAssistant) -> None:
+async def test_all_sensors_unavailable_recovery(hass: __HAC_KEEP__) -> None:
     """Test recovery when all sensors become unavailable and then available again."""
     assert await async_setup_component(
         hass,

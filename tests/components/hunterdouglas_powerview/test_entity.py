@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.hunterdouglas_powerview.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import MOCK_MAC
@@ -15,7 +15,7 @@ from .const import MOCK_MAC
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [3])
 async def test_unknown_shade_type_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: dr.DeviceRegistry,
 ) -> None:

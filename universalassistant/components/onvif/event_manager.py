@@ -22,7 +22,7 @@ from zeep.exceptions import Fault, TransportError, ValidationError, XMLParseErro
 
 from universalassistant.components import webhook
 from universalassistant.const import EntityCategory
-from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
 from universalassistant.helpers.event import async_call_later
 from universalassistant.helpers.network import NoURLAvailableError, get_url
 from universalassistant.util import dt as dt_util
@@ -108,7 +108,7 @@ class EventManager:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         device: ONVIFCamera,
         config_entry: ONVIFConfigEntry,
         name: str,
@@ -421,7 +421,7 @@ class PullPointManager:
                 )
             else:
                 LOGGER.debug(
-                    "%s: PullPoint skipped because Universal Universal Home Assistant is not running yet",
+                    "%s: PullPoint skipped because __HA_KEEP__ is not running yet",
                     self._name,
                 )
         except aiohttp.ServerDisconnectedError as err:
@@ -669,7 +669,7 @@ class WebHookManager:
         self._webhook_url = None
 
     async def _async_handle_webhook(
-        self, hass: UniversalAssistant, webhook_id: str, request: Request
+        self, hass: __HAC_KEEP__, webhook_id: str, request: Request
     ) -> None:
         """Handle incoming webhook."""
         content: bytes | None = None
@@ -688,7 +688,7 @@ class WebHookManager:
             )
 
     async def _async_process_webhook(
-        self, hass: UniversalAssistant, webhook_id: str, content: bytes | None
+        self, hass: __HAC_KEEP__, webhook_id: str, content: bytes | None
     ) -> None:
         """Process incoming webhook data in the background."""
         event_manager = self._event_manager

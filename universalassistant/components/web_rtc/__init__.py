@@ -8,7 +8,7 @@ from webrtc_models import RTCIceServer
 
 from universalassistant.components import websocket_api
 from universalassistant.const import CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.core_config import (
     CONF_CREDENTIAL,
     CONF_ICE_SERVERS,
@@ -59,7 +59,7 @@ DATA_ICE_SERVERS: HassKey[list[Callable[[], Iterable[RTCIceServer]]]] = HassKey(
 )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the WebRTC integration."""
     servers = [
         RTCIceServer(
@@ -79,7 +79,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 @callback
 def async_register_ice_servers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_ice_server_fn: Callable[[], Iterable[RTCIceServer]],
 ) -> Callable[[], None]:
     """Register an ICE server.
@@ -96,7 +96,7 @@ def async_register_ice_servers(
 
 
 @callback
-def async_get_ice_servers(hass: UniversalAssistant) -> list[RTCIceServer]:
+def async_get_ice_servers(hass: __HAC_KEEP__) -> list[RTCIceServer]:
     """Return all registered ICE servers."""
     servers: list[RTCIceServer] = []
 
@@ -129,7 +129,7 @@ def async_get_ice_servers(hass: UniversalAssistant) -> list[RTCIceServer]:
 )
 @callback
 def ws_ice_servers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

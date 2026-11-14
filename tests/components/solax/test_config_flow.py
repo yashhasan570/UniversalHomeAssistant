@@ -10,7 +10,7 @@ from solax.inverters import X1Boost, X1MiniV34
 from universalassistant import config_entries
 from universalassistant.components.solax.const import DOMAIN
 from universalassistant.const import CONF_IP_ADDRESS, CONF_MODEL, CONF_PASSWORD, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 CONNECTION_INPUT: dict[str, str | int] = {
@@ -56,7 +56,7 @@ def __mock_get_data() -> InverterResponse:
     ],
 )
 async def test_form_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovered_inverter_classes: set[type[Inverter]],
     steps: list[dict[str, str | int]],
     expected_model: str,
@@ -105,7 +105,7 @@ async def test_form_success(
     ],
 )
 async def test_form_discover_error(
-    hass: UniversalAssistant, side_effect: type[Exception], expected_error: str
+    hass: __HAC_KEEP__, side_effect: type[Exception], expected_error: str
 ) -> None:
     """Test discovery failures redisplay the user step with an error."""
     flow = await hass.config_entries.flow.async_init(
@@ -164,7 +164,7 @@ async def test_form_discover_error(
     ],
 )
 async def test_form_finalize_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     discovered_inverter_classes: set[type[Inverter]],
     steps: list[dict[str, str | int]],
     expected_step_id: str,
@@ -212,7 +212,7 @@ async def test_form_finalize_error(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_select_model_step_options(hass: UniversalAssistant) -> None:
+async def test_form_select_model_step_options(hass: __HAC_KEEP__) -> None:
     """Test the select_model step only lists the discovered inverter models."""
     flow = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}

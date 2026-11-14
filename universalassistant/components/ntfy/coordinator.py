@@ -19,7 +19,7 @@ from yarl import URL
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -46,7 +46,7 @@ class BaseDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
     update_interval: timedelta
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: NtfyConfigEntry, ntfy: Ntfy
+        self, hass: __HAC_KEEP__, config_entry: NtfyConfigEntry, ntfy: Ntfy
     ) -> None:
         """Initialize the ntfy data update coordinator."""
         super().__init__(
@@ -137,7 +137,7 @@ class NtfyVersionDataUpdateCoordinator(BaseDataUpdateCoordinator[Version | None]
 class NtfyLatestReleaseUpdateCoordinator(DataUpdateCoordinator[LatestRelease]):
     """Ntfy latest release update coordinator."""
 
-    def __init__(self, hass: UniversalAssistant, update_checker: UpdateChecker) -> None:
+    def __init__(self, hass: __HAC_KEEP__, update_checker: UpdateChecker) -> None:
         """Initialize coordinator."""
         super().__init__(
             hass,

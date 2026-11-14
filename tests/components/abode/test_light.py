@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .common import setup_platform
@@ -16,7 +16,7 @@ DEVICE_ID = "light.living_room_lamp"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -26,7 +26,7 @@ async def test_all_entities(
     await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
 
 
-async def test_switch_off(hass: UniversalAssistant) -> None:
+async def test_switch_off(hass: __HAC_KEEP__) -> None:
     """Test the light can be turned off."""
     await setup_platform(hass, LIGHT_DOMAIN)
 
@@ -38,7 +38,7 @@ async def test_switch_off(hass: UniversalAssistant) -> None:
         mock_switch_off.assert_called_once()
 
 
-async def test_switch_on(hass: UniversalAssistant) -> None:
+async def test_switch_on(hass: __HAC_KEEP__) -> None:
     """Test the light can be turned on."""
     await setup_platform(hass, LIGHT_DOMAIN)
 
@@ -50,7 +50,7 @@ async def test_switch_on(hass: UniversalAssistant) -> None:
         mock_switch_on.assert_called_once()
 
 
-async def test_set_brightness(hass: UniversalAssistant) -> None:
+async def test_set_brightness(hass: __HAC_KEEP__) -> None:
     """Test the brightness can be set."""
     await setup_platform(hass, LIGHT_DOMAIN)
 
@@ -66,7 +66,7 @@ async def test_set_brightness(hass: UniversalAssistant) -> None:
         mock_set_level.assert_called_once_with(39)
 
 
-async def test_set_color(hass: UniversalAssistant) -> None:
+async def test_set_color(hass: __HAC_KEEP__) -> None:
     """Test the color can be set."""
     await setup_platform(hass, LIGHT_DOMAIN)
 
@@ -81,7 +81,7 @@ async def test_set_color(hass: UniversalAssistant) -> None:
         mock_set_color.assert_called_once_with((240.0, 100.0))
 
 
-async def test_set_color_temp(hass: UniversalAssistant) -> None:
+async def test_set_color_temp(hass: __HAC_KEEP__) -> None:
     """Test the color temp can be set."""
     await setup_platform(hass, LIGHT_DOMAIN)
 

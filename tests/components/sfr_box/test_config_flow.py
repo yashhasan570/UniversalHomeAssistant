@@ -11,14 +11,14 @@ from universalassistant import config_entries
 from universalassistant.components.sfr_box.const import DOMAIN
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_config_flow_skip_auth(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test user flow (no authentication)."""
     result = await hass.config_entries.flow.async_init(
@@ -61,7 +61,7 @@ async def test_config_flow_skip_auth(
 
 
 async def test_config_flow_skip_auth_failure(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test user flow (no authentication) with failure and recovery."""
     result = await hass.config_entries.flow.async_init(
@@ -118,7 +118,7 @@ async def test_config_flow_skip_auth_failure(
 
 
 async def test_config_flow_with_auth(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test user flow (with authentication)."""
     result = await hass.config_entries.flow.async_init(
@@ -181,7 +181,7 @@ async def test_config_flow_with_auth(
     ],
 )
 async def test_config_flow_with_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     side_effect: type[Exception],
     error: str,
@@ -256,7 +256,7 @@ async def test_config_flow_with_auth_failure(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_config_flow_duplicate_host(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test abort if unique_id configured."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -292,7 +292,7 @@ async def test_config_flow_duplicate_host(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_config_flow_duplicate_mac(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test abort if unique_id configured."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -324,7 +324,7 @@ async def test_config_flow_duplicate_mac(
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_reauth(hass: UniversalAssistant, config_entry_with_auth: ConfigEntry) -> None:
+async def test_reauth(hass: __HAC_KEEP__, config_entry_with_auth: ConfigEntry) -> None:
     """Test the start of the config flow."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
@@ -363,7 +363,7 @@ async def test_reauth(hass: UniversalAssistant, config_entry_with_auth: ConfigEn
     assert result.get("reason") == "reauth_successful"
 
 
-async def test_reconfigure_host(hass: UniversalAssistant, config_entry: ConfigEntry) -> None:
+async def test_reconfigure_host(hass: __HAC_KEEP__, config_entry: ConfigEntry) -> None:
     """Test reconfigure host on a simple (no-auth) entry."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
@@ -405,7 +405,7 @@ async def test_reconfigure_host(hass: UniversalAssistant, config_entry: ConfigEn
 
 
 async def test_reconfigure_add_auth(
-    hass: UniversalAssistant, config_entry: ConfigEntry
+    hass: __HAC_KEEP__, config_entry: ConfigEntry
 ) -> None:
     """Test reconfigure able to add authentication on a simple (no-auth) entry."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -461,7 +461,7 @@ async def test_reconfigure_add_auth(
 
 
 async def test_reconfigure_clear_auth(
-    hass: UniversalAssistant, config_entry_with_auth: ConfigEntry
+    hass: __HAC_KEEP__, config_entry_with_auth: ConfigEntry
 ) -> None:
     """Test reconfigure clears authentication on an entry with auth."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -505,7 +505,7 @@ async def test_reconfigure_clear_auth(
 
 
 async def test_reconfigure_mismatch(
-    hass: UniversalAssistant, config_entry_with_auth: ConfigEntry
+    hass: __HAC_KEEP__, config_entry_with_auth: ConfigEntry
 ) -> None:
     """Test reconfigure fails if the unique ID (=MAC) does not match."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1

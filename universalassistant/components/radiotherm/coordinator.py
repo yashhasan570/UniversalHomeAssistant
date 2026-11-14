@@ -8,7 +8,7 @@ from urllib.error import URLError
 from radiotherm.validate import RadiothermTstatError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .data import RadioThermInitData, RadioThermUpdate, async_get_data
@@ -27,7 +27,7 @@ class RadioThermUpdateCoordinator(DataUpdateCoordinator[RadioThermUpdate]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: RadioThermConfigEntry,
         init_data: RadioThermInitData,
     ) -> None:

@@ -21,13 +21,13 @@ from universalassistant.components.dnsip.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_NAME, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import RetrieveDNS
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
 
     result = await hass.config_entries.flow.async_init(
@@ -70,7 +70,7 @@ async def test_form(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_with_additional_options(hass: UniversalAssistant) -> None:
+async def test_form_with_additional_options(hass: __HAC_KEEP__) -> None:
     """Test we can submit the form with custom resolver and port options."""
 
     result = await hass.config_entries.flow.async_init(
@@ -121,7 +121,7 @@ async def test_form_with_additional_options(hass: UniversalAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_error(hass: UniversalAssistant) -> None:
+async def test_form_error(hass: __HAC_KEEP__) -> None:
     """Test validate url fails."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -166,7 +166,7 @@ async def test_form_error(hass: UniversalAssistant) -> None:
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_flow_already_exist(hass: UniversalAssistant) -> None:
+async def test_flow_already_exist(hass: __HAC_KEEP__) -> None:
     """Test flow when unique id already exist."""
 
     MockConfigEntry(
@@ -214,7 +214,7 @@ async def test_flow_already_exist(hass: UniversalAssistant) -> None:
     assert result2["reason"] == "already_configured"
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test options config flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -272,7 +272,7 @@ async def test_options_flow(hass: UniversalAssistant) -> None:
     assert entry.state is ConfigEntryState.LOADED
 
 
-async def test_options_flow_empty_return(hass: UniversalAssistant) -> None:
+async def test_options_flow_empty_return(hass: __HAC_KEEP__) -> None:
     """Test options config flow with empty return from user."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -362,7 +362,7 @@ async def test_options_flow_empty_return(hass: UniversalAssistant) -> None:
         },
     ],
 )
-async def test_options_error(hass: UniversalAssistant, p_input: dict[str, str]) -> None:
+async def test_options_error(hass: __HAC_KEEP__, p_input: dict[str, str]) -> None:
     """Test validate url fails in options."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -426,7 +426,7 @@ async def test_options_error(hass: UniversalAssistant, p_input: dict[str, str]) 
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_cannot_configure_options_for_myip(hass: UniversalAssistant) -> None:
+async def test_cannot_configure_options_for_myip(hass: __HAC_KEEP__) -> None:
     """Test options config flow aborts for default myip hostname."""
     entry = MockConfigEntry(
         domain=DOMAIN,

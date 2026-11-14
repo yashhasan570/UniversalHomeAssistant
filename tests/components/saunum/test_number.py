@@ -20,8 +20,8 @@ from universalassistant.components.number import (
 )
 from universalassistant.components.saunum.const import DEFAULT_SCAN_INTERVAL
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 
@@ -33,7 +33,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_sauna_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client: MagicMock,
 ) -> None:
     """Test setting sauna duration."""
@@ -69,7 +69,7 @@ async def test_set_sauna_duration(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_fan_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client: MagicMock,
 ) -> None:
     """Test setting fan duration."""
@@ -94,7 +94,7 @@ async def test_set_fan_duration(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_value_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client: MagicMock,
 ) -> None:
     """Test error handling when setting value fails."""
@@ -105,8 +105,8 @@ async def test_set_value_failure(
         "Write error"
     )
 
-    # Attempt to set value should raise UniversalAssistantError
-    with pytest.raises(UniversalAssistantError):
+    # Attempt to set value should raise __HAC_KEEP__Error
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             NUMBER_DOMAIN,
             NumberService.SET_VALUE,
@@ -120,7 +120,7 @@ async def test_set_value_failure(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_set_value_while_session_active(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_saunum_client: MagicMock,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -155,7 +155,7 @@ async def test_set_value_while_session_active(
 
 
 async def test_number_with_default_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client: MagicMock,
 ) -> None:
@@ -183,7 +183,7 @@ async def test_number_with_default_duration(
 
 
 async def test_number_with_valid_duration_from_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_saunum_client: MagicMock,
 ) -> None:

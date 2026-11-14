@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.fibaro.config_flow import _normalize_url
 from universalassistant.components.fibaro.const import CONF_IMPORT_PLUGINS, DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_URL, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResult, FlowResultType
 
 from .conftest import TEST_NAME, TEST_PASSWORD, TEST_URL, TEST_USERNAME
@@ -19,7 +19,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry", "mock_fibaro_client")
 
 
 async def _recovery_after_failure_works(
-    hass: UniversalAssistant, mock_fibaro_client: Mock, result: FlowResult
+    hass: __HAC_KEEP__, mock_fibaro_client: Mock, result: FlowResult
 ) -> None:
     mock_fibaro_client.connect_with_credentials.side_effect = None
     mock_fibaro_client.connect_with_credentials.return_value = (
@@ -46,7 +46,7 @@ async def _recovery_after_failure_works(
 
 
 async def _recovery_after_reauth_failure_works(
-    hass: UniversalAssistant, mock_fibaro_client: Mock, result: FlowResult
+    hass: __HAC_KEEP__, mock_fibaro_client: Mock, result: FlowResult
 ) -> None:
     mock_fibaro_client.connect_with_credentials.side_effect = None
     mock_fibaro_client.connect_with_credentials.return_value = (
@@ -62,7 +62,7 @@ async def _recovery_after_reauth_failure_works(
     assert result["reason"] == "reauth_successful"
 
 
-async def test_config_flow_user_initiated_success(hass: UniversalAssistant) -> None:
+async def test_config_flow_user_initiated_success(hass: __HAC_KEEP__) -> None:
     """Successful flow manually initialized by the user."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -93,7 +93,7 @@ async def test_config_flow_user_initiated_success(hass: UniversalAssistant) -> N
 
 
 async def test_config_flow_user_initiated_auth_failure(
-    hass: UniversalAssistant, mock_fibaro_client: Mock
+    hass: __HAC_KEEP__, mock_fibaro_client: Mock
 ) -> None:
     """Authentication failure in flow manually initialized by the user."""
     result = await hass.config_entries.flow.async_init(
@@ -125,7 +125,7 @@ async def test_config_flow_user_initiated_auth_failure(
 
 
 async def test_config_flow_user_initiated_connect_failure(
-    hass: UniversalAssistant, mock_fibaro_client: Mock
+    hass: __HAC_KEEP__, mock_fibaro_client: Mock
 ) -> None:
     """Unknown failure in flow manually initialized by the user."""
     result = await hass.config_entries.flow.async_init(
@@ -155,7 +155,7 @@ async def test_config_flow_user_initiated_connect_failure(
 
 
 async def test_reauth_success(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Successful reauth flow initialized by the user."""
     result = await mock_config_entry.start_reauth_flow(hass)
@@ -173,7 +173,7 @@ async def test_reauth_success(
 
 
 async def test_reauth_connect_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_fibaro_client: Mock,
 ) -> None:
@@ -198,7 +198,7 @@ async def test_reauth_connect_failure(
 
 
 async def test_reauth_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_fibaro_client: Mock,
 ) -> None:

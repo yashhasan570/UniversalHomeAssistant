@@ -26,7 +26,7 @@ UPDATE_INTERVAL_SECONDS = 30
 FAST_POLLING_INTERVAL_SECONDS = 5
 DISCOVERY_INTERVAL_SECONDS = 15 * 60
 
-# Mapping from Watts Vision+ modes to Universal Universal Home Assistant HVAC modes
+# Mapping from Watts Vision+ modes to __HA_KEEP__ HVAC modes
 THERMOSTAT_MODE_TO_HVAC: dict[ThermostatMode, HVACMode] = {
     ThermostatMode.PROGRAM: HVACMode.AUTO,
     ThermostatMode.ECO: HVACMode.HEAT,
@@ -36,7 +36,7 @@ THERMOSTAT_MODE_TO_HVAC: dict[ThermostatMode, HVACMode] = {
     ThermostatMode.OFF: HVACMode.OFF,
 }
 
-# Mapping from Universal Universal Home Assistant HVAC modes to Watts Vision+ modes
+# Mapping from __HA_KEEP__ HVAC modes to Watts Vision+ modes
 HVAC_MODE_TO_THERMOSTAT: dict[HVACMode, ThermostatMode] = {
     HVACMode.HEAT: ThermostatMode.COMFORT,
     HVACMode.OFF: ThermostatMode.OFF,
@@ -59,7 +59,7 @@ PRESET_MODE_TO_THERMOSTAT: dict[str, ThermostatMode] = {
     v: k for k, v in THERMOSTAT_MODE_TO_PRESET.items()
 }
 
-# Mapping from Watts Vision+ HVAC actions to Universal Universal Home Assistant HVACAction
+# Mapping from Watts Vision+ HVAC actions to __HA_KEEP__ HVACAction
 HVAC_ACTION_TO_HA: dict[str, HVACAction] = {
     "Heating": HVACAction.HEATING,
     "Cooling": HVACAction.COOLING,

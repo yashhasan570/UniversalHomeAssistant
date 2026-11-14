@@ -12,7 +12,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -23,7 +23,7 @@ from universalassistant.helpers import entity_registry as er
     [[Platform.BINARY_SENSOR]],
 )
 async def test_binary_sensor_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -40,7 +40,7 @@ async def test_binary_sensor_on(
     [[Platform.BINARY_SENSOR]],
 )
 async def test_binary_sensor_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     load_int: ConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,

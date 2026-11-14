@@ -10,7 +10,7 @@ from energyzero import EnergyPrices, EnergyZeroNoDataError, Interval, PriceType
 import probatio
 
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
@@ -227,7 +227,7 @@ async def __get_prices(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up EnergyZero services."""
 
     hass.services.async_register(

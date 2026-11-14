@@ -20,7 +20,7 @@ from universalassistant.components.shelly.const import (
     EVENT_SHELLY_CLICK,
 )
 from universalassistant.const import CONF_DEVICE_ID, CONF_DOMAIN, CONF_PLATFORM, CONF_TYPE
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -37,7 +37,7 @@ from . import init_integration
     ],
 )
 async def test_get_triggers_block_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -78,7 +78,7 @@ async def test_get_triggers_block_device(
 
 
 async def test_get_triggers_rpc_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, mock_rpc_device: Mock
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, mock_rpc_device: Mock
 ) -> None:
     """Test we get the expected triggers from a shelly RPC device."""
     entry = await init_integration(hass, 2)
@@ -111,7 +111,7 @@ async def test_get_triggers_rpc_device(
 
 
 async def test_get_triggers_button(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, mock_block_device: Mock
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, mock_block_device: Mock
 ) -> None:
     """Test we get the expected triggers from a shelly button."""
     entry = await init_integration(hass, 1, model=MODEL_BUTTON1)
@@ -137,7 +137,7 @@ async def test_get_triggers_button(
 
 
 async def test_get_triggers_non_initialized_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_block_device: Mock,
     monkeypatch: pytest.MonkeyPatch,
@@ -157,7 +157,7 @@ async def test_get_triggers_non_initialized_devices(
 
 
 async def test_get_triggers_for_invalid_device_id(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, mock_block_device: Mock
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, mock_block_device: Mock
 ) -> None:
     """Test error raised for invalid shelly device_id."""
     await init_integration(hass, 1)
@@ -179,7 +179,7 @@ async def test_get_triggers_for_invalid_device_id(
 
 
 async def test_if_fires_on_click_event_block_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mock_block_device: Mock,
@@ -223,7 +223,7 @@ async def test_if_fires_on_click_event_block_device(
 
 
 async def test_if_fires_on_click_event_rpc_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mock_rpc_device: Mock,
@@ -267,7 +267,7 @@ async def test_if_fires_on_click_event_rpc_device(
 
 
 async def test_validate_trigger_block_device_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mock_block_device: Mock,
@@ -312,7 +312,7 @@ async def test_validate_trigger_block_device_not_ready(
 
 
 async def test_validate_trigger_rpc_device_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mock_rpc_device: Mock,
@@ -357,7 +357,7 @@ async def test_validate_trigger_rpc_device_not_ready(
 
 
 async def test_validate_trigger_invalid_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_block_device: Mock,
     caplog: pytest.LogCaptureFixture,
@@ -395,7 +395,7 @@ async def test_validate_trigger_invalid_triggers(
 
 
 async def test_rpc_no_runtime_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mock_rpc_device: Mock,
@@ -445,7 +445,7 @@ async def test_rpc_no_runtime_data(
 
 
 async def test_block_no_runtime_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
     mock_block_device: Mock,

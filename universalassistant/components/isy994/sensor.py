@@ -33,7 +33,7 @@ from universalassistant.const import (
     UnitOfTemperature,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -173,7 +173,7 @@ def _check_volume_flow_rate_uom(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IsyConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -285,7 +285,7 @@ class ISYSensorEntity(ISYNodeEntity, SensorEntity):
         if value is None:
             return None
 
-        # Convert temperatures to Universal Universal Home Assistant's unit
+        # Convert temperatures to __HA_KEEP__'s unit
         if uom in (UnitOfTemperature.CELSIUS, UnitOfTemperature.FAHRENHEIT):
             value = self.hass.config.units.temperature(value, uom)
 
@@ -295,7 +295,7 @@ class ISYSensorEntity(ISYNodeEntity, SensorEntity):
     @property
     @override
     def native_unit_of_measurement(self) -> str | None:
-        """Get the Universal Universal Home Assistant unit of measurement for the device."""
+        """Get the __HA_KEEP__ unit of measurement for the device."""
         raw_units = self.raw_unit_of_measurement
         # Check if this is a known index pair UOM
         if isinstance(raw_units, dict) or raw_units in (UOM_ON_OFF, UOM_INDEX):

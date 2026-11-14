@@ -13,7 +13,7 @@ from pytest_unordered import unordered
 from universalassistant.components import automation
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.rfxtrx import DOMAIN, device_trigger
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -49,7 +49,7 @@ EVENT_X10SECURITY_MOTION_TAMPER = "0820004dd3dc548489"
 EVENT_X10SECURITY_MOTION = "0820004dd3dc540489"
 
 
-async def setup_entry(hass: UniversalAssistant, devices: dict[str, Any]) -> MockConfigEntry:
+async def setup_entry(hass: __HAC_KEEP__, devices: dict[str, Any]) -> MockConfigEntry:
     """Construct a config setup."""
     mock_entry = create_rfx_test_entry(devices=devices)
     mock_entry.add_to_hass(hass)
@@ -83,7 +83,7 @@ async def setup_entry(hass: UniversalAssistant, devices: dict[str, Any]) -> Mock
     ],
 )
 async def test_get_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     event: EventTestData,
     expected,
@@ -124,7 +124,7 @@ async def test_get_triggers(
     ],
 )
 async def test_firing_event(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, rfxtrx, event
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, rfxtrx, event
 ) -> None:
     """Test for turn_on and turn_off triggers firing."""
 
@@ -168,7 +168,7 @@ async def test_firing_event(
 
 
 async def test_get_triggers_missing_identifier(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test getting triggers for a device without a rfxtrx identifier fails."""
     mock_entry = await setup_entry(hass, {})
@@ -183,7 +183,7 @@ async def test_get_triggers_missing_identifier(
 
 
 async def test_get_triggers_missing_subentry(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test getting triggers for a device pointing at a removed subentry fails."""
     mock_entry = await setup_entry(hass, {})
@@ -198,7 +198,7 @@ async def test_get_triggers_missing_subentry(
 
 
 async def test_get_triggers_invalid_event_code(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test getting triggers for a device with an invalid event code fails."""
     mock_entry = await setup_entry(hass, {"invalid": {}})
@@ -232,7 +232,7 @@ async def test_get_triggers_invalid_event_code(
     ],
 )
 async def test_firing_security1_status_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     rfxtrx,
     trigger_subtype: str,
@@ -303,7 +303,7 @@ async def test_firing_security1_status_trigger(
     ],
 )
 async def test_invalid_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
     event: EventTestData,

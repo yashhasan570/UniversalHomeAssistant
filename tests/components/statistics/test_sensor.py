@@ -48,7 +48,7 @@ from universalassistant.const import (
     UnitOfEnergy,
     UnitOfTemperature,
 )
-from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.event import async_track_state_change_event
 from universalassistant.setup import async_setup_component
@@ -63,7 +63,7 @@ A2 = {"attr": "value2"}
 
 
 async def test_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test configuration defined unique_id."""
     assert await async_setup_component(
@@ -90,7 +90,7 @@ async def test_unique_id(
     assert entity_id == "sensor.test"
 
 
-async def test_sensor_defaults_numeric(hass: UniversalAssistant) -> None:
+async def test_sensor_defaults_numeric(hass: __HAC_KEEP__) -> None:
     """Test the general behavior of the sensor, with numeric source sensor."""
     assert await async_setup_component(
         hass,
@@ -226,7 +226,7 @@ async def test_sensor_defaults_numeric(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_sensor_loaded_from_config_entry(
-    hass: UniversalAssistant, loaded_entry: MockConfigEntry
+    hass: __HAC_KEEP__, loaded_entry: MockConfigEntry
 ) -> None:
     """Test the sensor loaded from a config entry."""
 
@@ -244,7 +244,7 @@ async def test_sensor_loaded_from_config_entry(
     assert StatisticsEntityStateAttribute.AGE_COVERAGE_RATIO not in state.attributes
 
 
-async def test_sensor_defaults_binary(hass: UniversalAssistant) -> None:
+async def test_sensor_defaults_binary(hass: __HAC_KEEP__) -> None:
     """Test the general behavior of the sensor, with binary source sensor."""
     assert await async_setup_component(
         hass,
@@ -296,7 +296,7 @@ async def test_sensor_defaults_binary(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_sensor_state_updated_reported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     values: list[float],
     attributes: list[dict[str, Any]],
     force_update: bool,
@@ -344,7 +344,7 @@ async def test_sensor_state_updated_reported(
     ) == round(9 / 20, 2)
 
 
-async def test_sampling_boundaries_given(hass: UniversalAssistant) -> None:
+async def test_sampling_boundaries_given(hass: __HAC_KEEP__) -> None:
     """Test if either sampling_size or max_age are given."""
     assert await async_setup_component(
         hass,
@@ -401,7 +401,7 @@ async def test_sampling_boundaries_given(hass: UniversalAssistant) -> None:
     assert state is not None
 
 
-async def test_keep_last_value_given(hass: UniversalAssistant) -> None:
+async def test_keep_last_value_given(hass: __HAC_KEEP__) -> None:
     """Test if either sampling_size or max_age are given."""
     assert await async_setup_component(
         hass,
@@ -462,7 +462,7 @@ async def test_keep_last_value_given(hass: UniversalAssistant) -> None:
     assert state is not None
 
 
-async def test_sampling_size_reduced(hass: UniversalAssistant) -> None:
+async def test_sampling_size_reduced(hass: __HAC_KEEP__) -> None:
     """Test limited buffer size."""
     assert await async_setup_component(
         hass,
@@ -498,7 +498,7 @@ async def test_sampling_size_reduced(hass: UniversalAssistant) -> None:
     ) == round(5 / 5, 2)
 
 
-async def test_sampling_size_1(hass: UniversalAssistant) -> None:
+async def test_sampling_size_1(hass: __HAC_KEEP__) -> None:
     """Test validity of stats requiring only one sample."""
     assert await async_setup_component(
         hass,
@@ -534,7 +534,7 @@ async def test_sampling_size_1(hass: UniversalAssistant) -> None:
     ) == round(1 / 1, 2)
 
 
-async def test_scheduled_update_cancelled_on_remove(hass: UniversalAssistant) -> None:
+async def test_scheduled_update_cancelled_on_remove(hass: __HAC_KEEP__) -> None:
     """Test the scheduled purge update is cancelled when the sensor is removed."""
     assert await async_setup_component(
         hass,
@@ -565,7 +565,7 @@ async def test_scheduled_update_cancelled_on_remove(hass: UniversalAssistant) ->
     mock_purge.assert_not_called()
 
 
-async def test_age_limit_expiry(hass: UniversalAssistant) -> None:
+async def test_age_limit_expiry(hass: __HAC_KEEP__) -> None:
     """Test that values are removed with given max age."""
     now = dt_util.utcnow()
     current_time = datetime(now.year + 1, 8, 2, 12, 23, tzinfo=dt_util.UTC)
@@ -669,7 +669,7 @@ async def test_age_limit_expiry(hass: UniversalAssistant) -> None:
         )
 
 
-async def test_age_limit_expiry_with_keep_last_sample(hass: UniversalAssistant) -> None:
+async def test_age_limit_expiry_with_keep_last_sample(hass: __HAC_KEEP__) -> None:
     """Test that values are removed with given max age."""
     now = dt_util.utcnow()
     current_time = datetime(now.year + 1, 8, 2, 12, 23, tzinfo=dt_util.UTC)
@@ -813,7 +813,7 @@ async def test_age_limit_expiry_with_keep_last_sample(hass: UniversalAssistant) 
         )
 
 
-async def test_precision(hass: UniversalAssistant) -> None:
+async def test_precision(hass: __HAC_KEEP__) -> None:
     """Test correct results with precision set."""
     assert await async_setup_component(
         hass,
@@ -858,7 +858,7 @@ async def test_precision(hass: UniversalAssistant) -> None:
     assert state.state == str(round(mean, 3))
 
 
-async def test_percentile(hass: UniversalAssistant) -> None:
+async def test_percentile(hass: __HAC_KEEP__) -> None:
     """Test correct results for percentile characteristic."""
     assert await async_setup_component(
         hass,
@@ -912,7 +912,7 @@ async def test_percentile(hass: UniversalAssistant) -> None:
     assert state.state == str(2.72)
 
 
-async def test_device_class(hass: UniversalAssistant) -> None:
+async def test_device_class(hass: __HAC_KEEP__) -> None:
     """Test device class, which depends on the source entity."""
     assert await async_setup_component(
         hass,
@@ -994,7 +994,7 @@ async def test_device_class(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_DEVICE_CLASS) is None
 
 
-async def test_state_class(hass: UniversalAssistant) -> None:
+async def test_state_class(hass: __HAC_KEEP__) -> None:
     """Test state class, which depends on the characteristic configured."""
     assert await async_setup_component(
         hass,
@@ -1061,7 +1061,7 @@ async def test_state_class(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_STATE_CLASS) is SensorStateClass.MEASUREMENT
 
 
-async def test_unitless_source_sensor(hass: UniversalAssistant) -> None:
+async def test_unitless_source_sensor(hass: __HAC_KEEP__) -> None:
     """Statistics for a unitless source sensor should never have a unit."""
     assert await async_setup_component(
         hass,
@@ -1132,7 +1132,7 @@ async def test_unitless_source_sensor(hass: UniversalAssistant) -> None:
     assert state and state.attributes.get(ATTR_UNIT_OF_MEASUREMENT) == "%"
 
 
-async def test_state_characteristics(hass: UniversalAssistant) -> None:
+async def test_state_characteristics(hass: __HAC_KEEP__) -> None:
     """Test configured state characteristic for value and unit."""
     now = dt_util.utcnow()
     current_time = datetime(now.year + 1, 8, 2, 12, 23, 42, tzinfo=dt_util.UTC)
@@ -1567,7 +1567,7 @@ async def test_state_characteristics(hass: UniversalAssistant) -> None:
             )
 
 
-async def test_state_characteristic_mean_circular(hass: UniversalAssistant) -> None:
+async def test_state_characteristic_mean_circular(hass: __HAC_KEEP__) -> None:
     """Test the mean_circular state characteristic using angle data."""
     values_angular = [0, 10, 90.5, 180, 269.5, 350]
 
@@ -1604,7 +1604,7 @@ async def test_state_characteristic_mean_circular(hass: UniversalAssistant) -> N
     )
 
 
-async def test_invalid_state_characteristic(hass: UniversalAssistant) -> None:
+async def test_invalid_state_characteristic(hass: __HAC_KEEP__) -> None:
     """Test the detection of wrong state_characteristics selected."""
     assert await async_setup_component(
         hass,
@@ -1648,7 +1648,7 @@ async def test_invalid_state_characteristic(hass: UniversalAssistant) -> None:
     [pytest.param(100, id="all_samples"), pytest.param(3, id="latest_samples")],
 )
 async def test_initialize_from_database(
-    recorder_mock: Recorder, hass: UniversalAssistant, sampling_size: int
+    recorder_mock: Recorder, hass: __HAC_KEEP__, sampling_size: int
 ) -> None:
     """Test initializing the statistics from the recorder database."""
     # enable and pre-fill the recorder
@@ -1705,7 +1705,7 @@ async def test_initialize_from_database(
 )
 async def test_initialize_from_database_with_maxage(
     recorder_mock: Recorder,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sampling_size: int,
     age_coverage_ratio: float,
 ) -> None:
@@ -1768,7 +1768,7 @@ async def test_initialize_from_database_with_maxage(
     ) + timedelta(hours=1)
 
 
-async def test_reload(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_reload(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Verify we can reload statistics sensors."""
 
     await async_setup_component(
@@ -1811,7 +1811,7 @@ async def test_reload(recorder_mock: Recorder, hass: UniversalAssistant) -> None
 
 
 async def test_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -1858,7 +1858,7 @@ async def test_device_id(
 
 
 async def test_device_id_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -1902,7 +1902,7 @@ async def test_device_id_yaml(
     assert "attempts to attach a device to an entity" not in caplog.text
 
 
-async def test_update_before_load(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_update_before_load(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Verify updates before reloading from database are handled."""
 
     current_time = dt_util.utcnow()
@@ -2003,7 +2003,7 @@ async def test_update_before_load(recorder_mock: Recorder, hass: UniversalAssist
     ],
 )
 async def test_average_linear_unevenly_timed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     force_update: bool,
     values_attributes_and_times: list[tuple[float, dict[str, Any], float]],
     expected_states: list[str],
@@ -2087,7 +2087,7 @@ async def test_average_linear_unevenly_timed(
     ],
 )
 async def test_time_weighted_average_samples_with_same_timestamp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     source_entity_id: str,
     source_values: list[str],
     state_characteristic: str,
@@ -2125,7 +2125,7 @@ async def test_time_weighted_average_samples_with_same_timestamp(
     assert state.state == expected_state
 
 
-async def test_sensor_unit_gets_removed(hass: UniversalAssistant) -> None:
+async def test_sensor_unit_gets_removed(hass: __HAC_KEEP__) -> None:
     """Test when input lose its unit of measurement."""
     assert await async_setup_component(
         hass,
@@ -2199,7 +2199,7 @@ async def test_sensor_unit_gets_removed(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_STATE_CLASS) == SensorStateClass.MEASUREMENT
 
 
-async def test_sensor_device_class_gets_removed(hass: UniversalAssistant) -> None:
+async def test_sensor_device_class_gets_removed(hass: __HAC_KEEP__) -> None:
     """Test when device class gets removed."""
     assert await async_setup_component(
         hass,
@@ -2272,7 +2272,7 @@ async def test_sensor_device_class_gets_removed(hass: UniversalAssistant) -> Non
     assert state.attributes.get(ATTR_STATE_CLASS) == SensorStateClass.MEASUREMENT
 
 
-async def test_not_valid_device_class(hass: UniversalAssistant) -> None:
+async def test_not_valid_device_class(hass: __HAC_KEEP__) -> None:
     """Test when not valid device class."""
     assert await async_setup_component(
         hass,
@@ -2325,7 +2325,7 @@ async def test_not_valid_device_class(hass: UniversalAssistant) -> None:
     assert state.attributes.get(ATTR_STATE_CLASS) == SensorStateClass.MEASUREMENT
 
 
-async def test_attributes_remains(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_attributes_remains(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test attributes are always present."""
     for value in VALUES_NUMERIC:
         hass.states.async_set(
@@ -2383,7 +2383,7 @@ async def test_attributes_remains(recorder_mock: Recorder, hass: UniversalAssist
         }
 
 
-async def test_max_age_purge_coalesces_burst(hass: UniversalAssistant) -> None:
+async def test_max_age_purge_coalesces_burst(hass: __HAC_KEEP__) -> None:
     """Test that samples expiring close together are purged in one update."""
     now = dt_util.utcnow()
     current_time = datetime(now.year + 1, 8, 2, 12, 23, tzinfo=dt_util.UTC)
@@ -2445,7 +2445,7 @@ async def test_max_age_purge_coalesces_burst(hass: UniversalAssistant) -> None:
         assert writes == ["100.0", STATE_UNKNOWN]
 
 
-async def test_max_age_purge_coalesce_window_boundary(hass: UniversalAssistant) -> None:
+async def test_max_age_purge_coalesce_window_boundary(hass: __HAC_KEEP__) -> None:
     """Test that only samples within the coalesce window are purged together."""
     now = dt_util.utcnow()
     current_time = datetime(now.year + 1, 8, 2, 12, 23, tzinfo=dt_util.UTC)
@@ -2507,7 +2507,7 @@ async def test_max_age_purge_coalesce_window_boundary(hass: UniversalAssistant) 
     ],
 )
 async def test_initialize_from_database_equal_timestamps(
-    recorder_mock: Recorder, hass: UniversalAssistant, sampling_size: int, expected: str
+    recorder_mock: Recorder, hass: __HAC_KEEP__, sampling_size: int, expected: str
 ) -> None:
     """Test initializing the statistics from the recorder database."""
     # enable and pre-fill the recorder

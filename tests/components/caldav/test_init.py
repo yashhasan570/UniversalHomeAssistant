@@ -9,17 +9,17 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture(autouse=True)
-async def mock_add_to_hass(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def mock_add_to_hass(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Fixture to add the ConfigEntry."""
     config_entry.add_to_hass(hass)
 
 
 async def test_load_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
 ) -> None:
     """Test loading and unloading of the config entry."""
@@ -65,7 +65,7 @@ async def test_load_unload(
     ],
 )
 async def test_client_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     side_effect: Exception,
     expected_state: ConfigEntryState,

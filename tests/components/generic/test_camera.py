@@ -36,12 +36,12 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 async def help_setup_mock_config_entry(
-    hass: UniversalAssistant, options: dict[str, Any], unique_id: Any | None = None
+    hass: __HAC_KEEP__, options: dict[str, Any], unique_id: Any | None = None
 ) -> MockConfigEntry:
     """Help setting up a generic camera config entry."""
     entry_options = {
@@ -70,7 +70,7 @@ async def help_setup_mock_config_entry(
 
 @respx.mock
 async def test_fetching_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     fakeimgbytes_png: bytes,
@@ -129,7 +129,7 @@ async def test_fetching_url(
 
 @respx.mock
 async def test_image_caching(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     fakeimgbytes_png: bytes,
@@ -197,7 +197,7 @@ async def test_image_caching(
 
 @respx.mock
 async def test_fetching_without_verify_ssl(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, fakeimgbytes_png: bytes
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, fakeimgbytes_png: bytes
 ) -> None:
     """Test that it fetches the given url when ssl verify is off."""
     respx.get("https://example.com").respond(stream=fakeimgbytes_png)
@@ -221,7 +221,7 @@ async def test_fetching_without_verify_ssl(
 
 @respx.mock
 async def test_fetching_url_with_verify_ssl(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator, fakeimgbytes_png: bytes
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator, fakeimgbytes_png: bytes
 ) -> None:
     """Test that it fetches the given url when ssl verify is explicitly on."""
     respx.get("https://example.com").respond(stream=fakeimgbytes_png)
@@ -245,7 +245,7 @@ async def test_fetching_url_with_verify_ssl(
 
 @respx.mock
 async def test_limit_refetch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     fakeimgbytes_png: bytes,
     fakeimgbytes_jpg: bytes,
@@ -318,7 +318,7 @@ async def test_limit_refetch(
 
 @respx.mock
 async def test_stream_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     fakeimgbytes_png: bytes,
@@ -383,7 +383,7 @@ async def test_stream_source(
 
 @respx.mock
 async def test_stream_source_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     fakeimgbytes_png: bytes,
@@ -431,7 +431,7 @@ async def test_stream_source_error(
 
 @respx.mock
 async def test_setup_alternative_options(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, fakeimgbytes_png: bytes
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, fakeimgbytes_png: bytes
 ) -> None:
     """Test that the stream source is setup with different config options."""
     respx.get("https://example.com").respond(stream=fakeimgbytes_png)
@@ -452,7 +452,7 @@ async def test_setup_alternative_options(
 
 @respx.mock
 async def test_no_stream_source(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     fakeimgbytes_png: bytes,
@@ -496,7 +496,7 @@ async def test_no_stream_source(
 
 @respx.mock
 async def test_camera_content_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     fakeimgbytes_svg: bytes,
     fakeimgbytes_jpg: bytes,
@@ -546,7 +546,7 @@ async def test_camera_content_type(
 
 @respx.mock
 async def test_timeout(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     fakeimgbytes_png: bytes,
@@ -598,7 +598,7 @@ async def test_timeout(
         assert await resp.read() == fakeimgbytes_png
 
 
-async def test_frame_interval_property(hass: UniversalAssistant) -> None:
+async def test_frame_interval_property(hass: __HAC_KEEP__) -> None:
     """Test that the frame interval is calculated and returned correctly."""
 
     options = {

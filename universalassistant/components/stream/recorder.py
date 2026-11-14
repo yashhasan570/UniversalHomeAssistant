@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, override
 import av
 import av.container
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from .const import (
     RECORDER_CONTAINER_FORMAT,
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @callback
-def async_setup_recorder(hass: UniversalAssistant) -> None:
+def async_setup_recorder(hass: __HAC_KEEP__) -> None:
     """Only here so Provider Registry works."""
 
 
@@ -37,7 +37,7 @@ class RecorderOutput(StreamOutput):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         idle_timer: IdleTimer,
         stream_settings: StreamSettings,
         dynamic_stream_settings: DynamicStreamSettings,

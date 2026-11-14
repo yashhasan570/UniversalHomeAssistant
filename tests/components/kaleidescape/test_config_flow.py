@@ -8,14 +8,14 @@ import pytest
 from universalassistant.components.kaleidescape.const import DOMAIN
 from universalassistant.config_entries import SOURCE_SSDP, SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import MOCK_HOST, MOCK_SERIAL, MOCK_SSDP_DISCOVERY_INFO
 
 
 @pytest.mark.usefixtures("mock_device")
-async def test_user_config_flow_success(hass: UniversalAssistant) -> None:
+async def test_user_config_flow_success(hass: __HAC_KEEP__) -> None:
     """Test user config flow success."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -35,7 +35,7 @@ async def test_user_config_flow_success(hass: UniversalAssistant) -> None:
 
 
 async def test_user_config_flow_bad_connect_errors(
-    hass: UniversalAssistant, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_device: MagicMock
 ) -> None:
     """Test errors when connection error occurs."""
     mock_device.connect.side_effect = ConnectionError
@@ -67,7 +67,7 @@ async def test_user_config_flow_bad_connect_errors(
 
 
 async def test_user_config_flow_unsupported_device_errors(
-    hass: UniversalAssistant, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_device: MagicMock
 ) -> None:
     """Test errors when connecting to unsupported device."""
     mock_device.is_server_only = True
@@ -99,7 +99,7 @@ async def test_user_config_flow_unsupported_device_errors(
 
 
 @pytest.mark.usefixtures("mock_device", "mock_integration")
-async def test_user_config_flow_device_exists_abort(hass: UniversalAssistant) -> None:
+async def test_user_config_flow_device_exists_abort(hass: __HAC_KEEP__) -> None:
     """Test flow aborts when device already configured."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -117,7 +117,7 @@ async def test_user_config_flow_device_exists_abort(hass: UniversalAssistant) ->
 
 
 @pytest.mark.usefixtures("mock_device")
-async def test_ssdp_config_flow_success(hass: UniversalAssistant) -> None:
+async def test_ssdp_config_flow_success(hass: __HAC_KEEP__) -> None:
     """Test ssdp config flow success."""
     discovery_info = dataclasses.replace(MOCK_SSDP_DISCOVERY_INFO)
     result = await hass.config_entries.flow.async_init(
@@ -138,7 +138,7 @@ async def test_ssdp_config_flow_success(hass: UniversalAssistant) -> None:
 
 
 async def test_ssdp_config_flow_bad_connect_aborts(
-    hass: UniversalAssistant, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_device: MagicMock
 ) -> None:
     """Test abort when connection error occurs."""
     mock_device.connect.side_effect = ConnectionError
@@ -153,7 +153,7 @@ async def test_ssdp_config_flow_bad_connect_aborts(
 
 
 async def test_ssdp_config_flow_unsupported_device_aborts(
-    hass: UniversalAssistant, mock_device: MagicMock
+    hass: __HAC_KEEP__, mock_device: MagicMock
 ) -> None:
     """Test abort when connecting to unsupported device."""
     mock_device.is_server_only = True

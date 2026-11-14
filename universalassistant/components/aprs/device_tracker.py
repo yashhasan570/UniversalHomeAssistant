@@ -21,7 +21,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from universalassistant.util import slugify
@@ -90,7 +90,7 @@ def gps_accuracy(gps: tuple[float, float], posambiguity: int) -> int:
 
 
 def setup_scanner(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     see: SeeCallback,
     discovery_info: DiscoveryInfoType | None = None,

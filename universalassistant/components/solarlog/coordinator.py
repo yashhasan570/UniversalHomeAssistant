@@ -15,7 +15,7 @@ from solarlog_cli.solarlog_models import EnergyData, InverterData, SolarlogData
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_TIMEOUT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -36,7 +36,7 @@ class SolarLogBasicDataCoordinator(DataUpdateCoordinator[SolarlogData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SolarlogConfigEntry,
         api: SolarLogConnector,
     ) -> None:
@@ -127,7 +127,7 @@ class SolarLogDeviceDataCoordinator(DataUpdateCoordinator[dict[int, InverterData
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SolarlogConfigEntry,
         api: SolarLogConnector,
     ) -> None:
@@ -219,7 +219,7 @@ class SolarLogLongtimeDataCoordinator(DataUpdateCoordinator[EnergyData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SolarlogConfigEntry,
         api: SolarLogConnector,
         timeout: float,

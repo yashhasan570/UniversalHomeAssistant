@@ -18,14 +18,14 @@ from universalassistant.config_entries import (
     ConfigEntryState,
 )
 from universalassistant.const import CONF_API_KEY, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import init_integration
 
 
 async def test_async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
 ) -> None:
@@ -42,7 +42,7 @@ async def test_async_setup_entry(
     "exc", [ApiError("API Error"), RetryError("Retry Error"), TimeoutError]
 )
 async def test_config_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns: AsyncMock,
     exc: Exception,
@@ -56,7 +56,7 @@ async def test_config_not_ready(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
     mock_nextdns: AsyncMock,
@@ -74,7 +74,7 @@ async def test_unload_entry(
 
 
 async def test_config_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_nextdns: AsyncMock,
 ) -> None:
@@ -98,7 +98,7 @@ async def test_config_auth_failed(
 
 
 async def test_migrate_entry_v1_to_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_v1: MockConfigEntry,
     mock_nextdns_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -159,7 +159,7 @@ async def test_migrate_entry_v1_to_v2(
 
 
 async def test_migrate_entry_v1_to_v2_merge_same_api_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nextdns_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -261,7 +261,7 @@ async def test_migrate_entry_v1_to_v2_merge_same_api_key(
 
 
 async def test_migrate_entry_v1_to_v2_disabled_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_nextdns_client: AsyncMock,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,

@@ -1,14 +1,14 @@
-"""Provides diagnostics for the Universal Universal Home Assistant Connect ZBT-2 integration."""
+"""Provides diagnostics for the __HA_KEEP__ Connect ZBT-2 integration."""
 
 from typing import Any
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
-from . import UniversalAssistantConnectZBT2ConfigEntry
+from . import __HAC_KEEP__ConnectZBT2ConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: UniversalAssistantConnectZBT2ConfigEntry
+    hass: __HAC_KEEP__, config_entry: __HAC_KEEP__ConnectZBT2ConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return {"config_entry": config_entry.as_dict()}

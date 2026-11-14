@@ -3,7 +3,7 @@
 import logging
 from typing import TypedDict
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.json import JSONEncoder
 from universalassistant.helpers.singleton import singleton
 from universalassistant.helpers.storage import Store
@@ -29,7 +29,7 @@ KEY_ENCRYPTION_STORAGE: HassKey[ESPHomeEncryptionKeyStorage] = HassKey(
 class ESPHomeEncryptionKeyStorage:
     """Storage for ESPHome encryption keys."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the encryption key storage."""
         self.hass = hass
         self._store = Store[EncryptionKeyData](
@@ -84,7 +84,7 @@ class ESPHomeEncryptionKeyStorage:
 
 @singleton(KEY_ENCRYPTION_STORAGE, async_=True)
 async def async_get_encryption_key_storage(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> ESPHomeEncryptionKeyStorage:
     """Get the encryption key storage instance."""
     storage = ESPHomeEncryptionKeyStorage(hass)

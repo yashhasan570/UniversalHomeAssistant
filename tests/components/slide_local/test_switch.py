@@ -19,15 +19,15 @@ from universalassistant.components.switch import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_platform
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_slide_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -48,7 +48,7 @@ async def test_all_entities(
     ],
 )
 async def test_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service: str,
     mock_slide_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -77,7 +77,7 @@ async def test_services(
     ],
 )
 async def test_service_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     service: str,
     mock_slide_api: AsyncMock,
@@ -89,7 +89,7 @@ async def test_service_exception(
     mock_slide_api.slide_set_touchgo.side_effect = exception
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=(
             "Error while sending the request setting Touch&Go"
             f" to {service[5:]} to the device"

@@ -12,7 +12,7 @@ from universalassistant.components.hunterdouglas_powerview.const import DOMAIN
 from universalassistant.components.hunterdouglas_powerview.util import async_connect_hub
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import MOCK_SERIAL
@@ -30,7 +30,7 @@ def _get_hub_device(
 
 
 async def test_setup_not_primary_hub(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup fails when the hub is not the primary hub."""
     mock_config_entry.add_to_hass(hass)
@@ -54,7 +54,7 @@ async def test_setup_not_primary_hub(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_setup_retry_when_hub_unreachable(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup retries when the hub cannot be reached."""
     mock_config_entry.add_to_hass(hass)
@@ -72,7 +72,7 @@ async def test_setup_retry_when_hub_unreachable(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_setup_retry_when_room_data_fails(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup retries when fetching rooms fails after connecting."""
     mock_config_entry.add_to_hass(hass)
@@ -90,7 +90,7 @@ async def test_setup_retry_when_room_data_fails(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_setup_retry_without_device_info(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test setup retries when the hub returns no device info."""
     mock_config_entry.add_to_hass(hass)
@@ -112,7 +112,7 @@ async def test_setup_retry_without_device_info(
 
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
-async def test_setup_sets_missing_unique_id(hass: UniversalAssistant) -> None:
+async def test_setup_sets_missing_unique_id(hass: __HAC_KEEP__) -> None:
     """Test setup fills in a missing unique id on an up-to-date entry."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={"host": "1.2.3.4"}, version=1, minor_version=2
@@ -127,7 +127,7 @@ async def test_setup_sets_missing_unique_id(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
-async def test_migrate_entry_without_unique_id(hass: UniversalAssistant) -> None:
+async def test_migrate_entry_without_unique_id(hass: __HAC_KEEP__) -> None:
     """Test migrating a version 1.1 entry that has no unique id."""
     entry = MockConfigEntry(
         domain=DOMAIN, data={"host": "1.2.3.4"}, version=1, minor_version=1
@@ -144,7 +144,7 @@ async def test_migrate_entry_without_unique_id(hass: UniversalAssistant) -> None
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_stale_shade_devices_removed_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -178,7 +178,7 @@ async def test_stale_shade_devices_removed_on_setup(
     ids=["maintenance", "hub_error", "no_data"],
 )
 async def test_refresh_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     get_shades_kwargs: dict,
@@ -204,7 +204,7 @@ async def test_refresh_failures(
 @pytest.mark.usefixtures("mock_hunterdouglas_hub")
 @pytest.mark.parametrize("api_version", [1, 2, 3])
 async def test_stale_shade_devices_removed_on_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     freezer: FrozenDateTimeFactory,

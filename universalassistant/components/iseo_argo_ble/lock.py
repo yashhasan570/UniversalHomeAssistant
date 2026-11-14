@@ -10,8 +10,8 @@ from iseo_argo_ble import IseoAuthError, IseoClient, IseoConnectionError, LockSt
 from universalassistant.components.bluetooth import async_ble_device_from_address
 from universalassistant.components.lock import LockEntity
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_BLUETOOTH, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -36,7 +36,7 @@ _POLL_INTERVAL = timedelta(seconds=30)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IseoConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -176,7 +176,7 @@ class IseoLockEntity(LockEntity):
                 # Rejected credentials do not recover on their own: the gateway
                 # identity has to be enrolled on the lock again.
                 _LOGGER.warning(
-                    "Lock rejected the Universal Universal Home Assistant identity (%s), delete the "
+                    "Lock rejected the __HA_KEEP__ identity (%s), delete the "
                     "integration and set it up again to enroll it anew",
                     exc,
                 )
@@ -251,7 +251,7 @@ class IseoLockEntity(LockEntity):
     @override
     async def async_lock(self, **kwargs: Any) -> None:
         """Lock the door (not supported)."""
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="lock_not_supported",
         )
@@ -271,7 +271,7 @@ class IseoLockEntity(LockEntity):
             )
         ):
             self._set_locked(available=False)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
             )
@@ -279,16 +279,16 @@ class IseoLockEntity(LockEntity):
         try:
             async with self._ble_lock:
                 self.client.update_ble_device(ble_device)
-                await self.client.gw_open(remote_user_name="Universal Universal Home Assistant")
+                await self.client.gw_open(remote_user_name="__HA_KEEP__")
         except IseoAuthError as exc:
             self._set_locked()
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="lock_rejected_identity",
             ) from exc
         except (TimeoutError, IseoConnectionError, OSError) as exc:
             self._set_locked(available=False)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
             ) from exc

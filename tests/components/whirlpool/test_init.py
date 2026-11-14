@@ -17,14 +17,14 @@ from universalassistant.const import (
     CONF_USERNAME,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration, init_integration_with_entry, trigger_attr_callback
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_backend_selector_api: MagicMock,
     region,
     brand,
@@ -37,7 +37,7 @@ async def test_setup(
 
 
 async def test_setup_region_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_backend_selector_api: MagicMock,
 ) -> None:
     """Test setup when no region is available on the ConfigEntry.
@@ -60,7 +60,7 @@ async def test_setup_region_fallback(
 
 
 async def test_setup_brand_fallback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     region,
     mock_backend_selector_api: MagicMock,
 ) -> None:
@@ -85,7 +85,7 @@ async def test_setup_brand_fallback(
 
 
 async def test_setup_no_appliances(
-    hass: UniversalAssistant, mock_appliances_manager_api: MagicMock
+    hass: __HAC_KEEP__, mock_appliances_manager_api: MagicMock
 ) -> None:
     """Test setup when there are no appliances available."""
     mock_appliances_manager_api.return_value.aircons = []
@@ -106,7 +106,7 @@ async def test_setup_no_appliances(
     ],
 )
 async def test_setup_auth_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_api: MagicMock,
     exception: Exception,
     expected_entry_state: ConfigEntryState,
@@ -119,7 +119,7 @@ async def test_setup_auth_exception(
 
 
 async def test_setup_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_auth_api: MagicMock,
 ) -> None:
     """Test setup with failed auth."""
@@ -131,7 +131,7 @@ async def test_setup_auth_failed(
 
 
 async def test_setup_connect_failed(
-    hass: UniversalAssistant, mock_appliances_manager_api: MagicMock
+    hass: __HAC_KEEP__, mock_appliances_manager_api: MagicMock
 ) -> None:
     """Test setup with failed connect call."""
     mock_appliances_manager_api.return_value.connect = AsyncMock(return_value=False)
@@ -140,7 +140,7 @@ async def test_setup_connect_failed(
     assert entry.state is ConfigEntryState.SETUP_RETRY
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test successful unload of entry."""
     entry = await init_integration(hass)
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -155,7 +155,7 @@ async def test_unload_entry(hass: UniversalAssistant) -> None:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_availability_logs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     entity_registry: er.EntityRegistry,
     mock_appliances_manager_api: MagicMock,

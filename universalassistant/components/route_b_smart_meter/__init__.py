@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import BRouteConfigEntry, BRouteUpdateCoordinator
 
@@ -11,7 +11,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: BRouteConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: BRouteConfigEntry) -> None:
     """Set up Smart Meter B Route from a config entry."""
 
     coordinator = BRouteUpdateCoordinator(hass, entry)
@@ -20,7 +20,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: BRouteConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: BRouteConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: BRouteConfigEntry) -> None:
     """Unload a config entry."""
     await hass.async_add_executor_job(entry.runtime_data.api.close)
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

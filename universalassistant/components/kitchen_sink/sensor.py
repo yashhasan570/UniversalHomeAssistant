@@ -7,7 +7,7 @@ from universalassistant.components.sensor import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import DEGREE, UnitOfPower
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import ChildDeviceInfo, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -18,7 +18,7 @@ from .device import async_create_device
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

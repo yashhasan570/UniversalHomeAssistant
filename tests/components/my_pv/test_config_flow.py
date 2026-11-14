@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.my_pv.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import BaseServiceInfo, FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -36,7 +36,7 @@ ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
 
 @pytest.mark.usefixtures("mock_my_pv_client", "mock_setup_entry")
 async def test_step_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test if we get the local setup form."""
     result = await hass.config_entries.flow.async_init(
@@ -64,7 +64,7 @@ async def test_step_user(
 
 @pytest.mark.usefixtures("mock_my_pv_client")
 async def test_step_user_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test for user configuration that is already configured."""
@@ -90,7 +90,7 @@ async def test_step_user_already_configured(
 
 
 async def test_step_user_unsupported_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
 ) -> None:
     """Test if we get the local setup form with error if the device is not supported."""
@@ -116,7 +116,7 @@ async def test_step_user_unsupported_device(
 
 
 async def test_step_user_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
 ) -> None:
     """Test if we get the local setup form with error if we can not connect to device."""
@@ -160,7 +160,7 @@ async def test_step_user_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
 ) -> None:
     """Test we get the authentication form."""
@@ -204,7 +204,7 @@ async def test_step_auth(
 
 
 async def test_step_auth_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
 ) -> None:
     """Test we get the authentication form with error if we can not connect to device."""
@@ -263,7 +263,7 @@ async def test_step_auth_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_my_pv_client")
 async def test_step_dhcp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test for DHCP discovery that does not require a password."""
 
@@ -304,7 +304,7 @@ async def test_step_dhcp(
 )
 @pytest.mark.usefixtures("mock_my_pv_client")
 async def test_step_discovery_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     source: str,
     data: BaseServiceInfo,
@@ -338,7 +338,7 @@ async def test_step_discovery_already_configured(
     ],
 )
 async def test_step_discovery_unsupported_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
     source: str,
     data: BaseServiceInfo,
@@ -372,7 +372,7 @@ async def test_step_discovery_unsupported_device(
     ],
 )
 async def test_step_discovery_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
     source: str,
     data: BaseServiceInfo,
@@ -408,7 +408,7 @@ async def test_step_discovery_cannot_connect(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_discovery_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
     source: str,
     data: BaseServiceInfo,
@@ -458,7 +458,7 @@ async def test_step_discovery_auth(
     ],
 )
 async def test_step_discovery_auth_wrong_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
     source: str,
     data: BaseServiceInfo,
@@ -505,7 +505,7 @@ async def test_step_discovery_auth_wrong_password(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -531,7 +531,7 @@ async def test_step_reauth(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reauth_wrong_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -570,7 +570,7 @@ async def test_step_reauth_wrong_password(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_step_reauth_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_my_pv_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

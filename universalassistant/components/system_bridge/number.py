@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, override
 
 from universalassistant.components.number import NumberEntity, NumberMode
 from universalassistant.const import CONF_PORT, PERCENTAGE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import AUDIO_INPUT
@@ -19,7 +19,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SystemBridgeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

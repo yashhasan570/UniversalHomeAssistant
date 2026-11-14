@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant component for accessing the Wallbox Portal API sensors."""
+"""__HA_KEEP__ component for accessing the Wallbox Portal API sensors."""
 
 from dataclasses import dataclass
 from typing import cast, override
@@ -16,7 +16,7 @@ from universalassistant.const import (
     UnitOfLength,
     UnitOfPower,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
 
@@ -165,7 +165,7 @@ SENSOR_TYPES: dict[str, WallboxSensorEntityDescription] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WallboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

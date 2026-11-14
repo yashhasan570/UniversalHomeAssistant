@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_TIMEOUT,
     CONF_TYPE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.issue_registry import IssueSeverity, async_create_issue
 
 from .const import (
@@ -112,7 +112,7 @@ DEFAULT_STRUCT_FORMAT = {
 
 
 def modbus_create_issue(
-    hass: UniversalAssistant, key: str, subs: list[str], err: str
+    hass: __HAC_KEEP__, key: str, subs: list[str], err: str
 ) -> None:
     """Create issue modbus style."""
     async_create_issue(
@@ -341,7 +341,7 @@ def register_int_list_validator(value: Any) -> Any:
 
 
 def validate_modbus(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hosts: set[str],
     hub_names: set[str],
     hub: dict,
@@ -387,7 +387,7 @@ def validate_modbus(
 
 
 def validate_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hub_name: str,
     component: str,
     entity: dict,
@@ -401,7 +401,7 @@ def validate_entity(
     if 0 < scan_interval < 5:
         err = (
             f"{hub_name} {name} scan_interval is lower than 5 seconds, "
-            "which may cause Universal Universal Home Assistant stability issues"
+            "which may cause __HA_KEEP__ stability issues"
         )
         _LOGGER.warning(err)
     entity[CONF_SCAN_INTERVAL] = scan_interval
@@ -422,7 +422,7 @@ def validate_entity(
     return True
 
 
-def check_config(hass: UniversalAssistant, config: dict) -> dict:
+def check_config(hass: __HAC_KEEP__, config: dict) -> dict:
     """Do final config check."""
     hosts: set[str] = set()
     hub_names: set[str] = set()

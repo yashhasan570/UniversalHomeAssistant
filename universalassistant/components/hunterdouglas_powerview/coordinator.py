@@ -10,7 +10,7 @@ from aiopvapi.hub import Hub
 from aiopvapi.resources.shade_data import PowerviewShadeData
 from aiopvapi.shades import Shades
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -30,7 +30,7 @@ class PowerviewShadeUpdateCoordinator(DataUpdateCoordinator[PowerviewShadeData])
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: PowerviewConfigEntry,
         shades: Shades,
         hub: Hub,

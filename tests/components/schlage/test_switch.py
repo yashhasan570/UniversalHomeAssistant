@@ -8,14 +8,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import MockSchlageConfigEntry
 
 
 async def test_switch_attributes(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_add_config_entry: Callable[[], Awaitable[MockSchlageConfigEntry]],
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -27,7 +27,7 @@ async def test_switch_attributes(
 
 
 async def test_beeper_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_beeper_services(
 
 
 async def test_lock_and_leave_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lock: Mock,
     mock_added_config_entry: MockSchlageConfigEntry,
 ) -> None:

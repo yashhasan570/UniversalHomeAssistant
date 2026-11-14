@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.scrape.const import DEFAULT_SCAN_INTERVAL, DOMAIN
 from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState, ConfigSubentry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -23,7 +23,7 @@ from universalassistant.util import dt as dt_util
 from . import MockRestData, return_integration_config
 
 
-async def test_setup_config(hass: UniversalAssistant) -> None:
+async def test_setup_config(hass: __HAC_KEEP__) -> None:
     """Test setup from yaml."""
     config = {
         DOMAIN: [
@@ -48,7 +48,7 @@ async def test_setup_config(hass: UniversalAssistant) -> None:
 
 
 async def test_setup_no_data_fails_with_recovery(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup entry no data fails and recovers."""
     config = {
@@ -81,7 +81,7 @@ async def test_setup_no_data_fails_with_recovery(
 
 
 async def test_setup_config_no_configuration(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test setup from yaml missing configuration options."""
     config = {DOMAIN: None}
@@ -93,7 +93,7 @@ async def test_setup_config_no_configuration(
 
 
 async def test_setup_config_no_sensors(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup from yaml with no configured sensors finalize properly."""
     config = {
@@ -119,13 +119,13 @@ async def test_setup_config_no_sensors(
         await hass.async_block_till_done()
 
 
-async def test_setup_entry(hass: UniversalAssistant, loaded_entry: MockConfigEntry) -> None:
+async def test_setup_entry(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -> None:
     """Test setup entry."""
 
     assert loaded_entry.state is ConfigEntryState.LOADED
 
 
-async def test_unload_entry(hass: UniversalAssistant, loaded_entry: MockConfigEntry) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__, loaded_entry: MockConfigEntry) -> None:
     """Test unload an entry."""
 
     assert loaded_entry.state is ConfigEntryState.LOADED
@@ -135,7 +135,7 @@ async def test_unload_entry(hass: UniversalAssistant, loaded_entry: MockConfigEn
 
 
 async def test_device_remove_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     loaded_entry: MockConfigEntry,
@@ -159,7 +159,7 @@ async def test_device_remove_devices(
 
 
 async def test_resource_template(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     freezer: FrozenDateTimeFactory,
 ) -> None:
@@ -197,7 +197,7 @@ async def test_resource_template(
 
 
 async def test_migrate_from_future(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_resource_config: dict[str, Any],
     get_sensor_config: tuple[dict[str, Any], ...],
     get_data: MockRestData,
@@ -225,7 +225,7 @@ async def test_migrate_from_future(
 
 
 async def test_migrate_from_version_1_to_2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_data: MockRestData,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -327,7 +327,7 @@ async def test_migrate_from_version_1_to_2(
 
 
 async def test_migrate_from_version_2_to_3(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_data: MockRestData,
 ) -> None:
     """Test migration renaming the "advanced" section to "additional"."""

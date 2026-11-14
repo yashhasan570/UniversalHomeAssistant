@@ -21,7 +21,7 @@ from universalassistant.components.heos.const import DOMAIN
 from universalassistant.components.media_player import DOMAIN as MEDIA_PLAYER_DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -29,7 +29,7 @@ from . import MockHeos
 
 
 async def test_async_setup_entry_loads_platforms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     controller: MockHeos,
 ) -> None:
@@ -46,7 +46,7 @@ async def test_async_setup_entry_loads_platforms(
 
 
 async def test_async_setup_entry_with_options_loads_platforms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_options: MockConfigEntry,
     controller: MockHeos,
     new_mock: Mock,
@@ -70,7 +70,7 @@ async def test_async_setup_entry_with_options_loads_platforms(
 
 
 async def test_async_setup_entry_auth_failure_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_options: MockConfigEntry,
     controller: MockHeos,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_async_setup_entry_auth_failure_starts_reauth(
 
 
 async def test_async_setup_entry_not_signed_in_loads_platforms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     controller: MockHeos,
     caplog: pytest.LogCaptureFixture,
@@ -121,7 +121,7 @@ async def test_async_setup_entry_not_signed_in_loads_platforms(
 
 
 async def test_async_setup_entry_connect_failure(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Connection failure raises ConfigEntryNotReady."""
     config_entry.add_to_hass(hass)
@@ -133,7 +133,7 @@ async def test_async_setup_entry_connect_failure(
 
 
 async def test_async_setup_entry_player_failure(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Failure to retrieve players raises ConfigEntryNotReady."""
     config_entry.add_to_hass(hass)
@@ -145,7 +145,7 @@ async def test_async_setup_entry_player_failure(
 
 
 async def test_async_setup_entry_favorites_failure(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Failure to retrieve favorites loads."""
     config_entry.add_to_hass(hass)
@@ -155,7 +155,7 @@ async def test_async_setup_entry_favorites_failure(
 
 
 async def test_async_setup_entry_inputs_failure(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Failure to retrieve inputs loads."""
     config_entry.add_to_hass(hass)
@@ -165,7 +165,7 @@ async def test_async_setup_entry_inputs_failure(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test entries are unloaded correctly."""
     config_entry.add_to_hass(hass)
@@ -175,7 +175,7 @@ async def test_unload_entry(
 
 
 async def test_device_info(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -200,7 +200,7 @@ async def test_device_info(
 
 
 async def test_remove_config_entry_device_rejects_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
@@ -232,7 +232,7 @@ async def test_remove_config_entry_device_rejects_child_device(
 
 
 async def test_device_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_device_id_migration(
 
 
 async def test_device_id_migration_both_present(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -315,7 +315,7 @@ async def test_device_id_migration_both_present(
     ids=("Present device", "Stale device"),
 )
 async def test_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -337,7 +337,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_reconnected_new_entities_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
     controller: MockHeos,
@@ -367,7 +367,7 @@ async def test_reconnected_new_entities_created(
 
 
 async def test_reconnected_failover_updates_host(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, controller: MockHeos
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, controller: MockHeos
 ) -> None:
     """Test the config entry host is updated after failover."""
     config_entry.add_to_hass(hass)
@@ -386,7 +386,7 @@ async def test_reconnected_failover_updates_host(
 
 
 async def test_players_changed_new_entities_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,
     controller: MockHeos,

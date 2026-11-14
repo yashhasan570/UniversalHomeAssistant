@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 IDENTIFY = "button.lhb_747a9bc5_identify"
@@ -23,7 +23,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_button_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -33,7 +33,7 @@ async def test_button_entities(
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_identify(hass: UniversalAssistant, mock_identify: AsyncMock) -> None:
+async def test_identify(hass: __HAC_KEEP__, mock_identify: AsyncMock) -> None:
     """Test pressing the button blinks the LED."""
     await hass.services.async_call(
         BUTTON_DOMAIN,
@@ -45,10 +45,10 @@ async def test_identify(hass: UniversalAssistant, mock_identify: AsyncMock) -> N
 
 
 @pytest.mark.usefixtures("init_integration")
-async def test_identify_error(hass: UniversalAssistant, mock_identify: AsyncMock) -> None:
+async def test_identify_error(hass: __HAC_KEEP__, mock_identify: AsyncMock) -> None:
     """Test a failed identify raises a translated error."""
     mock_identify.side_effect = LighthouseConnectionError("gone")
-    with pytest.raises(UniversalAssistantError) as raised:
+    with pytest.raises(__HAC_KEEP__Error) as raised:
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

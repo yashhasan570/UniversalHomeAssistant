@@ -1,4 +1,4 @@
-"""Helper class to convert between Universal Universal Home Assistant and ESPHome enum values."""
+"""Helper class to convert between __HA_KEEP__ and ESPHome enum values."""
 
 from typing import overload
 

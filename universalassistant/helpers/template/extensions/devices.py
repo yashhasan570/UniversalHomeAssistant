@@ -1,4 +1,4 @@
-"""Device functions for Universal Universal Home Assistant templates."""
+"""Device functions for __HA_KEEP__ templates."""
 
 from collections.abc import Callable, Iterable
 from itertools import chain
@@ -166,7 +166,7 @@ class DeviceExtension(BaseTemplateExtension):
                 warned.add(attr_name)
                 _LOGGER.warning(
                     "A template reads device attribute '%s', which is deprecated "
-                    "and will stop working in Universal Universal Home Assistant 2027.10; use %s "
+                    "and will stop working in __HA_KEEP__ 2027.10; use %s "
                     "instead",
                     attr_name,
                     replacement,

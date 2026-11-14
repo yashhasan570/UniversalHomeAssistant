@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import ArveConfigEntry, ArveCoordinator
 
@@ -12,7 +12,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: ArveConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: ArveConfigEntry) -> None:
     """Migrate entry."""
     _LOGGER.debug("Migrating from version %s.%s", entry.version, entry.minor_version)
 
@@ -27,7 +27,7 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: ArveConfigEntry) 
     _LOGGER.debug("Migration successful")
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ArveConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ArveConfigEntry) -> None:
     """Set up Arve from a config entry."""
 
     coordinator = ArveCoordinator(hass, entry)
@@ -39,6 +39,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: ArveConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: ArveConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: ArveConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

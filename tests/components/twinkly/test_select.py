@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_OPTION, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -22,7 +22,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_twinkly_client")
 async def test_select_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -35,7 +35,7 @@ async def test_select_entities(
 
 
 async def test_select_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_select_mode(
 
 
 async def test_mode_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_twinkly_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

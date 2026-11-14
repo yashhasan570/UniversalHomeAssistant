@@ -7,7 +7,7 @@ from freebox_api.exceptions import HttpRequestError
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import (
@@ -39,7 +39,7 @@ def mock_path():
 
 @pytest.fixture
 def mock_device_registry_devices(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ):
     """Create device registry devices so the device tracker entities are enabled."""
     config_entry = MockConfigEntry(domain="something_else")

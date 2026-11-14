@@ -19,7 +19,7 @@ from universalassistant.components.light import (
     LightEntity,
 )
 from universalassistant.const import CONF_NAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
     async_get_current_platform,
@@ -48,7 +48,7 @@ from .storage.knx_selector import GroupAddressConfig, state_and_passive, write_a
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: config_entries.ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

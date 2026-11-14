@@ -9,14 +9,14 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 MEDIA_PLAYER_ENTITY = "media_player.my_android_tv"
 
 
 async def test_media_player_receives_push_updates(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote media player push updates.
 
@@ -74,7 +74,7 @@ async def test_media_player_receives_push_updates(
 
 
 async def test_media_player_toggles(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote media player toggles."""
     mock_config_entry.add_to_hass(hass)
@@ -103,7 +103,7 @@ async def test_media_player_toggles(
 
 
 async def test_media_player_volume(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote media player up/down/mute volume."""
     mock_config_entry.add_to_hass(hass)
@@ -152,7 +152,7 @@ async def test_media_player_volume(
 
 
 async def test_media_player_controls(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote media player play/pause/stop/next/prev."""
     mock_config_entry.add_to_hass(hass)
@@ -215,7 +215,7 @@ async def test_media_player_controls(
 
 
 async def test_media_player_play_media(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
     """Test the Android TV Remote media player play_media."""
     mock_config_entry.add_to_hass(hass)
@@ -293,7 +293,7 @@ async def test_media_player_play_media(
     )
     mock_api.send_launch_app_command.assert_called_with("tv.twitch.android.app")
 
-    with pytest.raises(UniversalAssistantError, match="Channel must be numeric: abc"):
+    with pytest.raises(__HAC_KEEP__Error, match="Channel must be numeric: abc"):
         await hass.services.async_call(
             "media_player",
             "play_media",
@@ -305,7 +305,7 @@ async def test_media_player_play_media(
             blocking=True,
         )
 
-    with pytest.raises(UniversalAssistantError, match="Invalid media type: music"):
+    with pytest.raises(__HAC_KEEP__Error, match="Invalid media type: music"):
         await hass.services.async_call(
             "media_player",
             "play_media",
@@ -319,7 +319,7 @@ async def test_media_player_play_media(
 
 
 async def test_browse_media(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     mock_config_entry: MockConfigEntry,
     mock_api: MagicMock,
@@ -391,16 +391,16 @@ async def test_browse_media(
 
 
 async def test_media_player_connection_closed(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_api: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_api: MagicMock
 ) -> None:
-    """Test media_player raise UniversalAssistantError if ConnectionClosed."""
+    """Test media_player raise __HAC_KEEP__Error if ConnectionClosed."""
     mock_config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
     assert mock_config_entry.state is ConfigEntryState.LOADED
 
     mock_api.send_key_command.side_effect = ConnectionClosed()
     with pytest.raises(
-        UniversalAssistantError, match="Connection to the Android TV device is closed"
+        __HAC_KEEP__Error, match="Connection to the Android TV device is closed"
     ):
         await hass.services.async_call(
             "media_player",
@@ -411,7 +411,7 @@ async def test_media_player_connection_closed(
 
     mock_api.send_launch_app_command.side_effect = ConnectionClosed()
     with pytest.raises(
-        UniversalAssistantError, match="Connection to the Android TV device is closed"
+        __HAC_KEEP__Error, match="Connection to the Android TV device is closed"
     ):
         await hass.services.async_call(
             "media_player",

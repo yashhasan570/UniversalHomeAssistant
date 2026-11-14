@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_RADIUS,
     UnitOfLength,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_track_time_interval
@@ -31,7 +31,7 @@ type GdacsConfigEntry = ConfigEntry[GdacsFeedEntityManager]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: GdacsConfigEntry
+    hass: __HAC_KEEP__, config_entry: GdacsConfigEntry
 ) -> None:
     """Set up the GDACS component as config entry."""
 
@@ -42,7 +42,7 @@ async def async_setup_entry(
     await manager.async_init()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: GdacsConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: GdacsConfigEntry) -> None:
     """Unload an GDACS component config entry."""
     await entry.runtime_data.async_stop()
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
@@ -51,7 +51,7 @@ async def async_unload_entry(hass: UniversalAssistant, entry: GdacsConfigEntry) 
 class GdacsFeedEntityManager:
     """Feed Entity Manager for GDACS feed."""
 
-    def __init__(self, hass: UniversalAssistant, config_entry: GdacsConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: GdacsConfigEntry) -> None:
         """Initialize the Feed Entity Manager."""
         self._hass = hass
         self._config_entry = config_entry
@@ -146,7 +146,7 @@ class GdacsFeedEntityManager:
         async_dispatcher_send(self._hass, f"gdacs_status_{self._config_entry_id}")
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: GdacsConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: GdacsConfigEntry) -> None:
     """Migrate entry."""
 
     if entry.version < 2:

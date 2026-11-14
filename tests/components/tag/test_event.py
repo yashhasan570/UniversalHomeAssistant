@@ -8,7 +8,7 @@ from pytest_universalassistant.common import async_capture_events
 from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.tag import DOMAIN, EVENT_TAG_SCANNED, async_scan_tag
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -18,7 +18,7 @@ from . import TEST_DEVICE_ID, TEST_TAG_ID, TEST_TAG_NAME
 
 @pytest.fixture
 def storage_setup_named_tag(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     hass_storage: dict[str, Any],
 ):
@@ -50,7 +50,7 @@ def storage_setup_named_tag(
 
 
 async def test_named_tag_scanned_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     storage_setup_named_tag,
@@ -77,7 +77,7 @@ async def test_named_tag_scanned_event(
 
 
 @pytest.fixture
-def storage_setup_unnamed_tag(hass: UniversalAssistant, hass_storage: dict[str, Any]):
+def storage_setup_unnamed_tag(hass: __HAC_KEEP__, hass_storage: dict[str, Any]):
     """Storage setup for test case of unnamed tags."""
 
     async def _storage(items=None):
@@ -97,7 +97,7 @@ def storage_setup_unnamed_tag(hass: UniversalAssistant, hass_storage: dict[str, 
 
 
 async def test_unnamed_tag_scanned_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     freezer: FrozenDateTimeFactory,
     storage_setup_unnamed_tag,

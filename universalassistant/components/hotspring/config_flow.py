@@ -18,7 +18,7 @@ from universalassistant.config_entries import (
     ConfigFlowResult,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.selector import TextSelector
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -32,7 +32,7 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_input(hass: UniversalAssistant, data: dict[str, Any]) -> Spa:
+async def validate_input(hass: __HAC_KEEP__, data: dict[str, Any]) -> Spa:
     """Validate the user input allows us to connect."""
     api = HotSpring(data[CONF_HOST], session=async_get_clientsession(hass))
     spa = await api.update()

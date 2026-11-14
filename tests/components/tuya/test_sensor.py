@@ -13,7 +13,7 @@ from tuya_sharing import CustomerDevice, Manager
 from universalassistant.components.sensor import SensorStateClass
 from universalassistant.components.tuya.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er, json
 from universalassistant.util import json as json_util
 from universalassistant.util.unit_system import (
@@ -34,7 +34,7 @@ def platform_autouse():
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "no_quirk")
 async def test_platform_setup_and_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_devices: list[CustomerDevice],
@@ -50,7 +50,7 @@ async def test_platform_setup_and_discovery(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("mock_device_code", ["cz_dhto3y4uachr1wll"])
 async def test_meter_channel_child_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -67,7 +67,7 @@ async def test_meter_channel_child_devices(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.parametrize("mock_device_code", ["sp_8zrzjldq07tlxnlv"])
 async def test_camera_pet_feeder(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -89,7 +89,7 @@ async def test_camera_pet_feeder(
     ],
 )
 async def test_indexed_phase_child_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -140,7 +140,7 @@ async def test_indexed_phase_child_devices(
 )
 @pytest.mark.freeze_time("2024-01-01")
 async def test_selective_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -168,7 +168,7 @@ async def test_selective_state_update(
 
 @pytest.mark.parametrize("mock_device_code", ["cz_guitoc9iylae4axs"])
 async def test_delta_report_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -264,7 +264,7 @@ async def test_delta_report_sensor(
 @pytest.mark.parametrize("mock_device_code", ["mjj_sbcafqr6tykxq4bm"])
 @pytest.mark.freeze_time("2024-01-01T12:00:00+00:00")
 async def test_countdown_end_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -364,7 +364,7 @@ async def test_countdown_end_sensor(
     ],
 )
 async def test_invalid_uom(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -416,7 +416,7 @@ async def test_invalid_uom(
     ],
 )
 async def test_temp_unit_convert_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -436,7 +436,7 @@ async def test_temp_unit_convert_sensor(
 
 @pytest.mark.parametrize("mock_device_code", ["znrb_gpzittzfnzhduquz"])
 async def test_temp_unit_convert_sensor_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,
@@ -458,7 +458,7 @@ async def test_temp_unit_convert_sensor_invalid(
 
 @pytest.mark.parametrize("mock_device_code", ["hwsb_ircs2n82vgrozoew"])
 async def test_hwsb_sensors_with_quirk(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_manager: Manager,
     mock_config_entry: MockConfigEntry,
     mock_device: CustomerDevice,

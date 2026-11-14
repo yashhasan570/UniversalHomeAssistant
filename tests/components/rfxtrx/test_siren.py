@@ -2,12 +2,12 @@
 
 from unittest.mock import call
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import create_rfx_test_entry
 
 
-async def test_one_chime(hass: UniversalAssistant, rfxtrx, timestep) -> None:
+async def test_one_chime(hass: __HAC_KEEP__, rfxtrx, timestep) -> None:
     """Test with 1 entity."""
     mock_entry = create_rfx_test_entry(
         devices={"0a16000000000000000000": {"off_delay": 2.0}}
@@ -61,7 +61,7 @@ async def test_one_chime(hass: UniversalAssistant, rfxtrx, timestep) -> None:
     ]
 
 
-async def test_one_security1(hass: UniversalAssistant, rfxtrx, timestep) -> None:
+async def test_one_security1(hass: __HAC_KEEP__, rfxtrx, timestep) -> None:
     """Test with 1 entity."""
     mock_entry = create_rfx_test_entry(
         devices={"08200300a109000670": {"off_delay": 2.0}}
@@ -116,7 +116,7 @@ async def test_one_security1(hass: UniversalAssistant, rfxtrx, timestep) -> None
     ]
 
 
-async def test_discover_siren(hass: UniversalAssistant, rfxtrx_automatic) -> None:
+async def test_discover_siren(hass: __HAC_KEEP__, rfxtrx_automatic) -> None:
     """Test with discovery."""
     rfxtrx = rfxtrx_automatic
 

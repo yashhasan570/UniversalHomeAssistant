@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.wiim.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -14,7 +14,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_wiim_controller")
 async def test_device_info_uses_http_api_url(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_wiim_device: MagicMock,
     device_registry: dr.DeviceRegistry,

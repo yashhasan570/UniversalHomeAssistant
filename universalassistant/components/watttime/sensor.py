@@ -16,7 +16,7 @@ from universalassistant.const import (
     EntityStateAttribute,
     UnitOfMass,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.typing import StateType
@@ -48,7 +48,7 @@ REALTIME_EMISSIONS_SENSOR_DESCRIPTIONS = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WattTimeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

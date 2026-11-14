@@ -18,7 +18,7 @@ from universalassistant.components.cync.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_ACCESS_TOKEN, CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.selector import TextSelector
 
@@ -38,7 +38,7 @@ def auth_class() -> Generator[MagicMock]:
 
 
 async def test_form_auth_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test that an auth flow without two factor succeeds."""
     result = await hass.config_entries.flow.async_init(
@@ -75,7 +75,7 @@ async def test_form_auth_success(
 
 
 async def test_form_two_factor_success(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, auth_client: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, auth_client: MagicMock
 ) -> None:
     """Test we handle a request for a two factor code."""
     result = await hass.config_entries.flow.async_init(
@@ -118,7 +118,7 @@ async def test_form_two_factor_success(
 
 
 async def test_form_reauth_success(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     auth_client: MagicMock,
@@ -168,7 +168,7 @@ async def test_form_reauth_success(
 
 
 async def test_form_reauth_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     auth_client: MagicMock,
 ) -> None:
@@ -191,7 +191,7 @@ async def test_form_reauth_unique_id_mismatch(
 
 
 async def test_form_unique_id_already_exists(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test that setting up a config with a unique ID that already exists fails."""
     mock_config_entry.add_to_hass(hass)
@@ -223,7 +223,7 @@ async def test_form_unique_id_already_exists(
     ],
 )
 async def test_form_two_factor_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     auth_client: MagicMock,
     error_type: Exception,
@@ -303,7 +303,7 @@ async def test_form_two_factor_errors(
     ],
 )
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     auth_client: MagicMock,
     error_type: Exception,
@@ -361,7 +361,7 @@ async def test_form_errors(
     ],
 )
 async def test_form_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     auth_client: MagicMock,
@@ -418,7 +418,7 @@ async def test_form_reauth_errors(
     ],
 )
 async def test_form_reauth_two_factor_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     auth_client: MagicMock,
@@ -491,7 +491,7 @@ async def test_form_reauth_two_factor_errors(
 
 
 async def test_form_reauth_retry_with_new_password(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
     auth_class: MagicMock,
@@ -567,7 +567,7 @@ async def test_form_reauth_retry_with_new_password(
 
 
 async def test_form_retry_with_new_password(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, auth_class: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, auth_class: MagicMock
 ) -> None:
     """Test setup uses the corrected password after a failed two factor attempt."""
     result = await hass.config_entries.flow.async_init(

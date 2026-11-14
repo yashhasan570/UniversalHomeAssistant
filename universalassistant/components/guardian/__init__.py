@@ -7,7 +7,7 @@ from aioguardian import Client
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_IP_ADDRESS, CONF_PORT, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.typing import ConfigType
@@ -51,13 +51,13 @@ class GuardianData:
     paired_sensor_manager: PairedSensorManager
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Elexa Guardian component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: GuardianConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: GuardianConfigEntry) -> None:
     """Set up Elexa Guardian from a config entry."""
     client = Client(entry.data[CONF_IP_ADDRESS], port=entry.data[CONF_PORT])
 
@@ -132,7 +132,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: GuardianConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: GuardianConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: GuardianConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
@@ -142,7 +142,7 @@ class PairedSensorManager:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: GuardianConfigEntry,
         client: Client,
         api_lock: asyncio.Lock,

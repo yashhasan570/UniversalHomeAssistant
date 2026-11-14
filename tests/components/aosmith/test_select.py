@@ -14,7 +14,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -30,7 +30,7 @@ async def platforms() -> AsyncGenerator[None]:
     [True],
 )
 async def test_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -53,7 +53,7 @@ async def test_state(
     ],
 )
 async def test_set_hot_water_plus_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     init_integration: MockConfigEntry,
     hass_level: str,

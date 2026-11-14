@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.balboa.const import CONF_SYNC_TIME, DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -21,7 +21,7 @@ TEST_DHCP_SERVICE_INFO = DhcpServiceInfo(
 )
 
 
-async def test_form(hass: UniversalAssistant, client: MagicMock) -> None:
+async def test_form(hass: __HAC_KEEP__, client: MagicMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -51,7 +51,7 @@ async def test_form(hass: UniversalAssistant, client: MagicMock) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant, client: MagicMock) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__, client: MagicMock) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -88,7 +88,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant, client: MagicMock) 
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_form_spa_not_configured(hass: UniversalAssistant, client: MagicMock) -> None:
+async def test_form_spa_not_configured(hass: __HAC_KEEP__, client: MagicMock) -> None:
     """Test we handle spa not configured error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -126,7 +126,7 @@ async def test_form_spa_not_configured(hass: UniversalAssistant, client: MagicMo
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_unknown_error(hass: UniversalAssistant, client: MagicMock) -> None:
+async def test_unknown_error(hass: __HAC_KEEP__, client: MagicMock) -> None:
     """Test we handle unknown error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -164,7 +164,7 @@ async def test_unknown_error(hass: UniversalAssistant, client: MagicMock) -> Non
     assert result3["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_already_configured(hass: UniversalAssistant, client: MagicMock) -> None:
+async def test_already_configured(hass: __HAC_KEEP__, client: MagicMock) -> None:
     """Test when provided credentials are already configured."""
     MockConfigEntry(domain=DOMAIN, data=TEST_DATA, unique_id=TEST_MAC).add_to_hass(hass)
 
@@ -195,7 +195,7 @@ async def test_already_configured(hass: UniversalAssistant, client: MagicMock) -
     assert result2["reason"] == "already_configured"
 
 
-async def test_options_flow(hass: UniversalAssistant, client: MagicMock) -> None:
+async def test_options_flow(hass: __HAC_KEEP__, client: MagicMock) -> None:
     """Test specifying non default settings using options flow."""
     config_entry = MockConfigEntry(domain=DOMAIN, data=TEST_DATA, unique_id=TEST_MAC)
     config_entry.add_to_hass(hass)
@@ -222,7 +222,7 @@ async def test_options_flow(hass: UniversalAssistant, client: MagicMock) -> None
     assert dict(config_entry.options) == {CONF_SYNC_TIME: True}
 
 
-async def test_dhcp_discovery(hass: UniversalAssistant, client: MagicMock) -> None:
+async def test_dhcp_discovery(hass: __HAC_KEEP__, client: MagicMock) -> None:
     """Test we can process the discovery from dhcp."""
     with patch(
         "universalassistant.components.balboa.config_flow.SpaClient.__aenter__",
@@ -253,7 +253,7 @@ async def test_dhcp_discovery(hass: UniversalAssistant, client: MagicMock) -> No
 
 
 async def test_dhcp_discovery_updates_host(
-    hass: UniversalAssistant, client: MagicMock
+    hass: __HAC_KEEP__, client: MagicMock
 ) -> None:
     """Test dhcp discovery updates host and aborts."""
     entry = MockConfigEntry(domain=DOMAIN, data=TEST_DATA, unique_id=TEST_MAC)
@@ -281,7 +281,7 @@ async def test_dhcp_discovery_updates_host(
     ],
 )
 async def test_dhcp_discovery_failed(
-    hass: UniversalAssistant, client: MagicMock, side_effect: Exception, reason: str
+    hass: __HAC_KEEP__, client: MagicMock, side_effect: Exception, reason: str
 ) -> None:
     """Test failed setup from dhcp."""
     with patch(
@@ -299,7 +299,7 @@ async def test_dhcp_discovery_failed(
 
 
 async def test_dhcp_discovery_manual_user_setup(
-    hass: UniversalAssistant, client: MagicMock
+    hass: __HAC_KEEP__, client: MagicMock
 ) -> None:
     """Test dhcp discovery with manual user setup."""
     with patch(

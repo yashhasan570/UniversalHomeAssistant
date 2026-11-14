@@ -13,7 +13,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_GROUP
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 type SMAConfigEntry = ConfigEntry[SMADataUpdateCoordinator]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SMAConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SMAConfigEntry) -> None:
     """Set up sma from a config entry."""
 
     protocol = "https" if entry.data[CONF_SSL] else "http"
@@ -49,7 +49,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SMAConfigEntry) -> 
     entry.runtime_data = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
-    # Ensure the SMA session closes when Universal Universal Home Assistant stops
+    # Ensure the SMA session closes when __HA_KEEP__ stops
     async def _async_handle_shutdown(event: Event) -> None:
         await coordinator.async_close_sma_session()
 
@@ -58,12 +58,12 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SMAConfigEntry) -> 
     )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SMAConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SMAConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: SMAConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: SMAConfigEntry) -> None:
     """Migrate entry."""
 
     _LOGGER.debug("Migrating from version %s", entry.version)

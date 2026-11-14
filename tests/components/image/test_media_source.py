@@ -3,17 +3,17 @@
 import pytest
 
 from universalassistant.components import media_source
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture(autouse=True)
-async def setup_media_source(hass: UniversalAssistant) -> None:
+async def setup_media_source(hass: __HAC_KEEP__) -> None:
     """Set up media source."""
     assert await async_setup_component(hass, "media_source", {})
 
 
-async def test_browsing(hass: UniversalAssistant, mock_image_platform) -> None:
+async def test_browsing(hass: __HAC_KEEP__, mock_image_platform) -> None:
     """Test browsing image media source."""
     item = await media_source.async_browse_media(hass, "media-source://image")
     assert item is not None
@@ -22,7 +22,7 @@ async def test_browsing(hass: UniversalAssistant, mock_image_platform) -> None:
     assert item.children[0].media_content_type == "image/jpeg"
 
 
-async def test_resolving(hass: UniversalAssistant, mock_image_platform) -> None:
+async def test_resolving(hass: __HAC_KEEP__, mock_image_platform) -> None:
     """Test resolving."""
     item = await media_source.async_resolve_media(
         hass, "media-source://image/image.test", None
@@ -33,7 +33,7 @@ async def test_resolving(hass: UniversalAssistant, mock_image_platform) -> None:
 
 
 async def test_resolving_non_existing_camera(
-    hass: UniversalAssistant, mock_image_platform
+    hass: __HAC_KEEP__, mock_image_platform
 ) -> None:
     """Test resolving."""
     with pytest.raises(
@@ -46,7 +46,7 @@ async def test_resolving_non_existing_camera(
 
 
 @pytest.mark.usefixtures("mock_image_platform")
-async def test_get_media_image(hass: UniversalAssistant) -> None:
+async def test_get_media_image(hass: __HAC_KEEP__) -> None:
     """Test getting the image of an image entity."""
     assert await media_source.async_get_media_image(
         hass, "media-source://image/image.test"
@@ -54,7 +54,7 @@ async def test_get_media_image(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_image_platform")
-async def test_get_media_image_non_existing_image(hass: UniversalAssistant) -> None:
+async def test_get_media_image_non_existing_image(hass: __HAC_KEEP__) -> None:
     """Test getting the image of a non existing image entity."""
     with pytest.raises(
         media_source.Unresolvable,

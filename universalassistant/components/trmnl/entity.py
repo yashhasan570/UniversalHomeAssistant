@@ -6,7 +6,7 @@ from typing import Any, Concatenate, override
 from trmnl.exceptions import TRMNLError
 from trmnl.models import Device
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, DeviceInfo
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -55,7 +55,7 @@ def exception_handler[_EntityT: TRMNLEntity, **_P](
         try:
             await func(self, *args, **kwargs)
         except TRMNLError as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="action_error",
                 translation_placeholders={"error": str(error)},

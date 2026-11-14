@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.device_tracker import CONF_CONSIDER_HOME
 from universalassistant.components.ping import CONF_PING_COUNT, DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -38,7 +38,7 @@ async def patch_ping():
 
 
 @pytest.fixture(name="config_entry")
-async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+async def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Return a MockConfigEntry for testing."""
     return MockConfigEntry(
         domain=DOMAIN,
@@ -54,7 +54,7 @@ async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, patch_ping
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, patch_ping
 ) -> None:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)

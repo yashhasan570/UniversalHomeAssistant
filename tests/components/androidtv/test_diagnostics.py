@@ -7,14 +7,14 @@ from universalassistant.components.androidtv.diagnostics import TO_REDACT
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import patchers
 from .common import CONFIG_ANDROID_DEFAULT, SHELL_RESPONSE_OFF, setup_mock_entry
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test diagnostics."""

@@ -19,8 +19,8 @@ from modbus_connection.tmodbus import ModbusConnection
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util.hass_dict import HassKey
 
 from .const import DOMAIN
@@ -85,8 +85,8 @@ class ModbusConnectionInfo:
     """The unit ids each config entry holds, keyed by entry id."""
 
 
-async def _async_close_all(hass: UniversalAssistant, event: Event) -> None:
-    """Close every shared connection when Universal Universal Home Assistant stops."""
+async def _async_close_all(hass: __HAC_KEEP__, event: Event) -> None:
+    """Close every shared connection when __HA_KEEP__ stops."""
     connections = hass.data.get(DATA_MODBUS_CONNECTIONS, {})
     shared_connections = list(connections.values())
     # Drop them first, so a hold released later does not close one twice.
@@ -106,7 +106,7 @@ async def _async_close_all(hass: UniversalAssistant, event: Event) -> None:
 
 @callback
 def _async_acquire(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     params: ModbusParams,
     entry_id: str | None,
     unit_id: int,
@@ -117,7 +117,7 @@ def _async_acquire(
     connection up without belonging to anything that could be shown as using
     it.
 
-    Raises `UniversalAssistantError` if the device is already in use over different
+    Raises `__HAC_KEEP__Error` if the device is already in use over different
     link settings, which cannot both be honoured on one connection.
     """
     params = _canonical(params)
@@ -132,7 +132,7 @@ def _async_acquire(
             params, ModbusConnection(params)
         )
     elif shared.params != params:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="device_in_use",
             translation_placeholders={
@@ -166,7 +166,7 @@ def _async_acquire(
 
 @callback
 def async_get_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     params: ModbusParams,
     unit_id: int,
@@ -177,7 +177,7 @@ def async_get_unit(
     behind its lock. It is closed when the last config entry holding a unit on
     it unloads.
 
-    Raises `UniversalAssistantError` if the device is already in use over different
+    Raises `__HAC_KEEP__Error` if the device is already in use over different
     link settings, which cannot both be honoured on one connection.
     """
     connection, release = _async_acquire(hass, params, entry.entry_id, unit_id)
@@ -187,7 +187,7 @@ def async_get_unit(
 
 @asynccontextmanager
 async def async_get_temporary_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     params: ModbusParams,
     unit_id: int,
 ) -> AsyncIterator[ModbusUnit]:
@@ -197,7 +197,7 @@ async def async_get_temporary_unit(
     connection already held by a config entry is shared and stays up; one
     opened here is closed on exit.
 
-    Raises `UniversalAssistantError` if the device is already in use over different
+    Raises `__HAC_KEEP__Error` if the device is already in use over different
     link settings, which cannot both be honoured on one connection.
     """
     connection, release = _async_acquire(hass, params, None, unit_id)
@@ -208,7 +208,7 @@ async def async_get_temporary_unit(
 
 
 @callback
-def async_get_connection_info(hass: UniversalAssistant) -> list[ModbusConnectionInfo]:
+def async_get_connection_info(hass: __HAC_KEEP__) -> list[ModbusConnectionInfo]:
     """Return the connections the integration is keeping open.
 
     One entry per physical device, naming the config entries holding units on

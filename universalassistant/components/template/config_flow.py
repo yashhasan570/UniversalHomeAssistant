@@ -56,9 +56,9 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.data_entry_flow import section
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, selector
 from universalassistant.helpers.schema_config_entry_flow import (
     SchemaCommonFlowHandler,
@@ -930,7 +930,7 @@ OPTIONS_FLOW = {
 
 CREATE_PREVIEW_ENTITY: dict[
     str,
-    Callable[[UniversalAssistant, str, dict[str, Any]], TemplateEntity],
+    Callable[[__HAC_KEEP__, str, dict[str, Any]], TemplateEntity],
 ] = {
     Platform.ALARM_CONTROL_PANEL: async_create_preview_alarm_control_panel,
     Platform.BINARY_SENSOR: async_create_preview_binary_sensor,
@@ -970,7 +970,7 @@ class TemplateConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
 
     @staticmethod
     @override
-    async def async_setup_preview(hass: UniversalAssistant) -> None:
+    async def async_setup_preview(hass: __HAC_KEEP__) -> None:
         """Set up preview WS API."""
         websocket_api.async_register_command(hass, ws_start_preview)
 
@@ -985,7 +985,7 @@ class TemplateConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
 )
 @callback
 def ws_start_preview(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -1034,7 +1034,7 @@ def ws_start_preview(
         flow_status = hass.config_entries.options.async_get(msg["flow_id"])
         config_entry = hass.config_entries.async_get_entry(flow_status["handler"])
         if not config_entry:
-            raise UniversalAssistantError
+            raise __HAC_KEEP__Error
         template_type = config_entry.options["template_type"]
         name = config_entry.options["name"]
         schema = cast(probatio.Schema, OPTIONS_FLOW[template_type].schema)

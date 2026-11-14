@@ -12,7 +12,7 @@ from universalassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .entity import BoschAlarmAreaEntity, BoschAlarmEntity, BoschAlarmPointEntity
@@ -110,7 +110,7 @@ FAULT_TYPES = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BoschAlarmConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -184,7 +184,7 @@ class AreaReadyToArmSensor(BoschAlarmAreaEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         panel: Panel,
         area_id: int,
         unique_id: str,
@@ -218,7 +218,7 @@ class PointSensor(BoschAlarmPointEntity, BinarySensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         panel: Panel,
         point_id: int,
         unique_id: str,

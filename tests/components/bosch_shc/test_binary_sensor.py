@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 
 from universalassistant.components.bosch_shc.binary_sensor import RETRY_DELAY
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .conftest import (
@@ -44,7 +44,7 @@ def platforms() -> Generator[None]:
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_shutter_contact_closed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A closed Shutter Contact is reported as off."""
@@ -68,7 +68,7 @@ async def test_shutter_contact_closed(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_shutter_contact_open(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """An open Shutter Contact is reported as on."""
@@ -86,7 +86,7 @@ async def test_shutter_contact_open(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_shutter_contact_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A Shutter Contact's device_class maps to the binary_sensor device class."""
@@ -122,7 +122,7 @@ def _fire_alarm_update(mock_session: MagicMock) -> None:
     indirect=True,
 )
 async def test_twinguard_smoke_idle(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_session: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_session: MagicMock
 ) -> None:
     """No alarm: the sensor is off and the controller is not asked."""
     await setup_integration(hass, mock_config_entry)
@@ -139,7 +139,7 @@ async def test_twinguard_smoke_idle(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_twinguard_smoke_triggered(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """A Twinguard named as the alarm trigger is on."""
     await setup_integration(hass, mock_config_entry)
@@ -154,7 +154,7 @@ async def test_twinguard_smoke_triggered(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_twinguard_smoke_other_device(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """An alarm triggered by another device keeps this sensor off."""
     await setup_integration(hass, mock_config_entry)
@@ -168,7 +168,7 @@ async def test_twinguard_smoke_other_device(
     indirect=True,
 )
 async def test_twinguard_smoke_clears_and_unsubscribes(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_session: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_session: MagicMock
 ) -> None:
     """Alarm off clears the sensor; unloading removes the callback."""
     await setup_integration(hass, mock_config_entry)
@@ -191,7 +191,7 @@ async def test_twinguard_smoke_clears_and_unsubscribes(
     indirect=True,
 )
 async def test_twinguard_smoke_fetch_fails_then_retries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_session: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -228,7 +228,7 @@ async def test_twinguard_smoke_fetch_fails_then_retries(
     indirect=True,
 )
 async def test_twinguard_smoke_looks_up_once(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_session: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_session: MagicMock
 ) -> None:
     """All Twinguards share a single lookup per alarm update."""
     await setup_integration(hass, mock_config_entry)
@@ -264,7 +264,7 @@ async def test_twinguard_smoke_looks_up_once(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_climate_control_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

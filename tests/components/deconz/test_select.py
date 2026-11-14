@@ -20,7 +20,7 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType
@@ -160,7 +160,7 @@ TEST_DATA = [
 
 @pytest.mark.parametrize(("sensor_payload", "expected"), TEST_DATA)
 async def test_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_put_request: Callable[[str, str], AiohttpClientMocker],

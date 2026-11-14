@@ -18,13 +18,13 @@ from universalassistant.components.media_player import (
 )
 from universalassistant.const import CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     SupportsResponse,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 
 from .const import DEFAULT_STREAM_QUERY, DOMAIN
@@ -61,7 +61,7 @@ class MediaExtractor:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         call_data: dict[str, Any],
     ) -> None:
         """Initialize media extractor."""
@@ -225,7 +225,7 @@ async def _extract_media_url(call: ServiceCall) -> ServiceResponse:
         if entries:
             selected_media = entries[0]
         else:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="playlist_empty",
             )
@@ -248,7 +248,7 @@ def _play_media(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Media extractor integration."""
 
     hass.services.async_register(

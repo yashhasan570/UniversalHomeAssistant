@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 EXTERNAL_PRODUCTION_ENTITY = "switch.solaredge_se10000h_external_production"
@@ -21,7 +21,7 @@ NEGATIVE_SITE_LIMIT_ENTITY = "switch.solaredge_se10000h_negative_site_limit"
 EXPORT_MODE_REGISTER = 57344
 
 
-async def _setup_switch_platform(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def _setup_switch_platform(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     with patch(
         "universalassistant.components.solaredge_modbus.PLATFORMS", [Platform.SWITCH]
     ):
@@ -32,7 +32,7 @@ async def _setup_switch_platform(hass: UniversalAssistant, entry: MockConfigEntr
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -44,7 +44,7 @@ async def test_switches(
 
 
 async def test_switches_disabled_by_default(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -62,7 +62,7 @@ async def test_switches_disabled_by_default(
 
 
 async def test_no_switches_without_export_control(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -89,7 +89,7 @@ async def test_no_switches_without_export_control(
     ],
 )
 async def test_turn_on_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
     entity_id: str,

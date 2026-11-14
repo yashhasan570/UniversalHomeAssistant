@@ -5,7 +5,7 @@ from enum import StrEnum
 import probatio
 
 from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN
-from universalassistant.core import UniversalAssistant, SupportsResponse, callback
+from universalassistant.core import __HAC_KEEP__, SupportsResponse, callback
 from universalassistant.helpers import service
 
 from .const import DOMAIN
@@ -24,7 +24,7 @@ class NWSServiceArgument(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the National Weather Service (NWS) integration."""
 
     service.async_register_platform_entity_service(

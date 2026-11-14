@@ -5,10 +5,10 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.local_ip.const import DOMAIN
 from universalassistant.components.network import MDNS_TARGET_IP, async_get_source_ip
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_basic_setup(hass: UniversalAssistant) -> None:
+async def test_basic_setup(hass: __HAC_KEEP__) -> None:
     """Test component setup creates entry from config."""
     entry = MockConfigEntry(domain=DOMAIN, data={})
     entry.add_to_hass(hass)

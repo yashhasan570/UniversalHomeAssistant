@@ -10,7 +10,7 @@ from pytest_universalassistant.components.bluetooth import (
 
 from universalassistant.components.bluetooth import BluetoothServiceInfoBleak
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 DOMAIN = "switchbot"
 
@@ -39,8 +39,8 @@ def patch_async_setup_entry(return_value=None):
     )
 
 
-async def init_integration(hass: UniversalAssistant) -> MockConfigEntry:
-    """Set up the Switchbot integration in Universal Universal Home Assistant."""
+async def init_integration(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Set up the Switchbot integration in __HA_KEEP__."""
     entry = MockConfigEntry(domain=DOMAIN, data=ENTRY_CONFIG)
     entry.add_to_hass(hass)
 

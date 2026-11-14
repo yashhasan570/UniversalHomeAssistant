@@ -17,7 +17,7 @@ from universalassistant.config_entries import (
     ConfigFlow,
     ConfigFlowResult,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_SHARE_TOKEN, DEFAULT_NAME, DOMAIN
@@ -26,7 +26,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def _async_validate_input(
-    hass: UniversalAssistant, user_input: dict[str, Any]
+    hass: __HAC_KEEP__, user_input: dict[str, Any]
 ) -> ScorpionTrackShare:
     """Validate the provided share token or share URL."""
     try:

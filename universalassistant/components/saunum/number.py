@@ -22,8 +22,8 @@ from universalassistant.components.number import (
     NumberEntityDescription,
 )
 from universalassistant.const import UnitOfTime
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import LeilSaunaConfigEntry
@@ -79,7 +79,7 @@ NUMBERS: tuple[LeilSaunaNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LeilSaunaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -129,7 +129,7 @@ class LeilSaunaNumber(LeilSaunaEntity, NumberEntity):
         try:
             await self.entity_description.set_value_fn(self.coordinator.client, value)
         except SaunumException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key=f"set_{self.entity_description.key}_failed",
             ) from err

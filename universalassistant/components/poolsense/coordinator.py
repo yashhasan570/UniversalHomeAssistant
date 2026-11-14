@@ -10,7 +10,7 @@ from poolsense.exceptions import PoolSenseError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.typing import StateType
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -28,7 +28,7 @@ class PoolSenseDataUpdateCoordinator(DataUpdateCoordinator[dict[str, StateType]]
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: PoolSenseConfigEntry,
         poolsense: PoolSense,
     ) -> None:

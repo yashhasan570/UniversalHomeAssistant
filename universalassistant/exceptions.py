@@ -1,4 +1,4 @@
-"""The exceptions used by Universal Universal Home Assistant."""
+"""The exceptions used by __HA_KEEP__."""
 
 from collections.abc import Callable, Generator, Sequence
 from typing import TYPE_CHECKING, Any, override
@@ -30,8 +30,8 @@ def import_async_get_exception_message() -> Callable[
     return async_get_exception_message_import
 
 
-class UniversalAssistantError(Exception):
-    """General Universal Universal Home Assistant exception occurred."""
+class __HAC_KEEP__Error(Exception):
+    """General __HA_KEEP__ exception occurred."""
 
     _message: str | None = None
     generate_message: bool = False
@@ -87,7 +87,7 @@ class UniversalAssistantError(Exception):
         return self._message
 
 
-class ConfigValidationError(UniversalAssistantError, ExceptionGroup[Exception]):
+class ConfigValidationError(__HAC_KEEP__Error, ExceptionGroup[Exception]):
     """A validation exception occurred when validating the configuration."""
 
     def __init__(
@@ -107,19 +107,19 @@ class ConfigValidationError(UniversalAssistantError, ExceptionGroup[Exception]):
         self.generate_message = True
 
 
-class ServiceValidationError(UniversalAssistantError):
+class ServiceValidationError(__HAC_KEEP__Error):
     """A validation exception occurred when calling a service."""
 
 
-class InvalidEntityFormatError(UniversalAssistantError):
+class InvalidEntityFormatError(__HAC_KEEP__Error):
     """When an invalid formatted entity is encountered."""
 
 
-class NoEntitySpecifiedError(UniversalAssistantError):
+class NoEntitySpecifiedError(__HAC_KEEP__Error):
     """When no entity is specified."""
 
 
-class TemplateError(UniversalAssistantError):
+class TemplateError(__HAC_KEEP__Error):
     """Error during template rendering."""
 
     def __init__(self, exception: Exception | str) -> None:
@@ -130,7 +130,7 @@ class TemplateError(UniversalAssistantError):
             super().__init__(f"{exception.__class__.__name__}: {exception}")
 
 
-class ConditionError(UniversalAssistantError):
+class ConditionError(__HAC_KEEP__Error):
     """Error during condition evaluation."""
 
     def __init__(self, type: str) -> None:
@@ -228,7 +228,7 @@ class ConditionErrorContainer(ConditionError):
             yield from item.output(indent)
 
 
-class IntegrationError(UniversalAssistantError):
+class IntegrationError(__HAC_KEEP__Error):
     """Base class for platform and config entry exceptions."""
 
     @override
@@ -388,11 +388,11 @@ class UnknownImplementationError(ConfigEntryAuthFailed, ValueError):
         )
 
 
-class InvalidStateError(UniversalAssistantError):
+class InvalidStateError(__HAC_KEEP__Error):
     """When an invalid state is encountered."""
 
 
-class Unauthorized(UniversalAssistantError):
+class Unauthorized(__HAC_KEEP__Error):
     """When an action is unauthorized."""
 
     def __init__(
@@ -458,7 +458,7 @@ class ServiceNotSupported(ServiceValidationError):
         self.generate_message = True
 
 
-class MaxLengthExceeded(UniversalAssistantError):
+class MaxLengthExceeded(__HAC_KEEP__Error):
     """Raised when a property value has exceeded the max character length."""
 
     def __init__(
@@ -482,7 +482,7 @@ class MaxLengthExceeded(UniversalAssistantError):
         self.generate_message = True
 
 
-class DependencyError(UniversalAssistantError):
+class DependencyError(__HAC_KEEP__Error):
     """Raised when dependencies cannot be setup."""
 
     def __init__(self, failed_dependencies: list[str]) -> None:
@@ -493,7 +493,7 @@ class DependencyError(UniversalAssistantError):
         self.failed_dependencies = failed_dependencies
 
 
-class UnsupportedStorageVersionError(UniversalAssistantError):
+class UnsupportedStorageVersionError(__HAC_KEEP__Error):
     """Raised when a storage file has a newer major version than expected."""
 
     def __init__(
@@ -503,7 +503,7 @@ class UnsupportedStorageVersionError(UniversalAssistantError):
         super().__init__(
             f"Storage file {storage_key} has version {found_version}"
             f" which is newer than the max supported version {max_supported_version};"
-            " upgrade Universal Universal Home Assistant or restore from a backup",
+            " upgrade __HA_KEEP__ or restore from a backup",
         )
         self.storage_key = storage_key
         self.found_version = found_version

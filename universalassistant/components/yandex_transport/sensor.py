@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorEntity,
 )
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
@@ -23,7 +23,7 @@ from universalassistant.util import dt as dt_util
 _LOGGER = logging.getLogger(__name__)
 
 STOP_NAME = "stop_name"
-USER_AGENT = "Universal Universal Home Assistant"
+USER_AGENT = "__HA_KEEP__"
 
 CONF_STOP_ID = "stop_id"
 CONF_ROUTE = "routes"
@@ -45,7 +45,7 @@ PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,

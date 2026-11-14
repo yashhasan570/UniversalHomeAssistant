@@ -10,7 +10,7 @@ from universalassistant import config_entries
 from universalassistant.components.melnor.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IGNORE
 from universalassistant.const import CONF_ADDRESS, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import (
@@ -22,7 +22,7 @@ from .conftest import (
 
 
 async def test_user_step_no_devices(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we handle no devices found."""
     with patch_async_discovered_service_info([]):
@@ -38,7 +38,7 @@ async def test_user_step_no_devices(
 
 
 async def test_user_step_discovered_devices(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we properly handle device picking."""
 
@@ -68,7 +68,7 @@ async def test_user_step_discovered_devices(
 
 
 async def test_user_step_with_existing_device(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we properly handle device picking."""
 
@@ -108,7 +108,7 @@ async def test_user_step_with_existing_device(
 
 
 async def test_bluetooth_discovered(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we short circuit to config entry creation."""
 
@@ -126,7 +126,7 @@ async def test_bluetooth_discovered(
 
 
 async def test_bluetooth_confirm(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we short circuit to config entry creation."""
 
@@ -155,7 +155,7 @@ async def test_bluetooth_confirm(
 
 
 async def test_user_setup_replaces_ignored_device(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test the user initiated form can replace an ignored device."""
     entry = MockConfigEntry(

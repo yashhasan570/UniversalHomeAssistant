@@ -16,8 +16,8 @@ from universalassistant.components.time import (
     TimeServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -29,7 +29,7 @@ def _only_time_platform() -> Generator[None]:
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -47,7 +47,7 @@ async def test_all_entities(
 
 
 async def test_time_decodes_seconds_since_midnight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -76,7 +76,7 @@ async def test_time_decodes_seconds_since_midnight(
     ],
 )
 async def test_time_native_value_unknown_when_unparsable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     raw_value: Any,
@@ -123,7 +123,7 @@ async def test_time_native_value_unknown_when_unparsable(
     ],
 )
 async def test_time_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -155,12 +155,12 @@ async def test_time_set_value(
 
 
 async def test_time_set_value_raises_on_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
 ) -> None:
-    """Test set_value re-raises as UniversalAssistantError when the library fails."""
+    """Test set_value re-raises as __HAC_KEEP__Error when the library fails."""
     mock_vistapool_client.fetch_pool_data.return_value = mock_pool_data
     mock_vistapool_client.set_value.side_effect = AquariteError("boom")
     mock_config_entry.add_to_hass(hass)
@@ -168,7 +168,7 @@ async def test_time_set_value_raises_on_api_error(
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
 
-    with pytest.raises(UniversalAssistantError) as excinfo:
+    with pytest.raises(__HAC_KEEP__Error) as excinfo:
         await hass.services.async_call(
             TIME_DOMAIN,
             TimeService.SET_VALUE,
@@ -188,7 +188,7 @@ _LIGHT_SCHEDULE_DATA = {
 
 
 async def test_light_schedule_times_not_created_without_scheduling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
     mock_pool_data: dict[str, Any],
@@ -205,7 +205,7 @@ async def test_light_schedule_times_not_created_without_scheduling(
 
 
 async def test_light_schedule_times_decode_seconds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -222,7 +222,7 @@ async def test_light_schedule_times_decode_seconds(
 
 
 async def test_light_schedule_time_set_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:
@@ -249,7 +249,7 @@ async def test_light_schedule_time_set_value(
 
 
 async def test_light_schedule_time_created_for_midnight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_vistapool_client: AsyncMock,
 ) -> None:

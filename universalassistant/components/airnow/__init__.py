@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_RADIUS,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -20,7 +20,7 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AirNowConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AirNowConfigEntry) -> None:
     """Set up AirNow from a config entry."""
     api_key = entry.data[CONF_API_KEY]
     latitude = entry.data[CONF_LATITUDE]
@@ -58,7 +58,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AirNowConfigEntry) 
             device_registry.async_remove_device(dev.id)
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: AirNowConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: AirNowConfigEntry) -> None:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s", entry.version)
 
@@ -76,6 +76,6 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: AirNowConfigEntry
     _LOGGER.info("Migration to version %s successful", entry.version)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AirNowConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AirNowConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -18,7 +18,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.onewire.onewirehub import _DEVICE_SCAN_INTERVAL
 from universalassistant.components.onewire.sensor import SCAN_INTERVAL
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_owproxy_mock_devices
@@ -34,7 +34,7 @@ def override_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -50,7 +50,7 @@ async def test_sensors(
 @pytest.mark.parametrize("device_id", ["12.111111111111"])
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors_delayed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_id: str,
@@ -76,7 +76,7 @@ async def test_sensors_delayed(
 
 @pytest.mark.parametrize("device_id", ["12.111111111111"])
 async def test_tai8570_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_id: str,
@@ -111,7 +111,7 @@ async def test_tai8570_sensors(
 
 @pytest.mark.parametrize("device_id", ["10.111111111111"])
 async def test_sensor_unavailable_on_read_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     owproxy: MagicMock,
     device_id: str,

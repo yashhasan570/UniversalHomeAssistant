@@ -9,7 +9,7 @@ from typing import cast, override
 from aiohttp import web
 
 from universalassistant import core
-from universalassistant.components.http import UniversalAssistantView
+from universalassistant.components.http import __HAC_KEEP__View
 
 from .config import Config
 from .const import HUE_SERIAL_NUMBER, HUE_UUID
@@ -20,7 +20,7 @@ BROADCAST_PORT = 1900
 BROADCAST_ADDR = "239.255.255.250"
 
 
-class DescriptionXmlView(UniversalAssistantView):
+class DescriptionXmlView(__HAC_KEEP__View):
     """Handles requests for the description.xml file."""
 
     url = "/description.xml"
@@ -43,7 +43,7 @@ class DescriptionXmlView(UniversalAssistantView):
 <URLBase>http://{self.config.advertise_ip}:{self.config.advertise_port}/</URLBase>
 <device>
 <deviceType>urn:schemas-upnp-org:device:Basic:1</deviceType>
-<friendlyName>Universal Universal Home Assistant Bridge ({self.config.advertise_ip})</friendlyName>
+<friendlyName>__HA_KEEP__ Bridge ({self.config.advertise_ip})</friendlyName>
 <manufacturer>Royal Philips Electronics</manufacturer>
 <manufacturerURL>http://www.philips.com</manufacturerURL>
 <modelDescription>Philips hue Personal Wireless Lighting</modelDescription>

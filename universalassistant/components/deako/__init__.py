@@ -5,7 +5,7 @@ from pydeako import Deako, DeakoDiscoverer, FindDevicesError
 from universalassistant.components import zeroconf
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 
 PLATFORMS: list[Platform] = [Platform.LIGHT]
@@ -13,7 +13,7 @@ PLATFORMS: list[Platform] = [Platform.LIGHT]
 type DeakoConfigEntry = ConfigEntry[Deako]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: DeakoConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: DeakoConfigEntry) -> None:
     """Set up deako."""
     _zc = await zeroconf.async_get_instance(hass)
     discoverer = DeakoDiscoverer(_zc)
@@ -39,7 +39,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: DeakoConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: DeakoConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: DeakoConfigEntry) -> None:
     """Unload a config entry."""
     await entry.runtime_data.disconnect()
 

@@ -5,7 +5,7 @@ from enum import StrEnum
 from universalassistant.components.alarm_control_panel import (
     DOMAIN as ALARM_CONTROL_PANEL_DOMAIN,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import service
 
 from .const import DOMAIN
@@ -19,7 +19,7 @@ class TotalConnectService(StrEnum):
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the services for the Total Connect integration."""
 
     service.async_register_platform_entity_service(

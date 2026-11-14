@@ -24,7 +24,7 @@ from universalassistant.components.powersensor_au.const import (
     ROLE_WATER,
 )
 from universalassistant.config_entries import ConfigEntryState, ConfigFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -54,7 +54,7 @@ def _zc_info(mac: str, ip: str = "192.168.0.33") -> ZeroconfServiceInfo:
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_user_flow_creates_entry(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """User-initiated flow reaches the confirm form then creates an entry."""
     result = await hass.config_entries.flow.async_init(
@@ -74,7 +74,7 @@ async def test_user_flow_creates_entry(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_async_zeroconf")
-async def test_user_flow_aborts_when_already_configured(hass: UniversalAssistant) -> None:
+async def test_user_flow_aborts_when_already_configured(hass: __HAC_KEEP__) -> None:
     """A second user flow aborts with single_instance_allowed once an entry exists."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -89,7 +89,7 @@ async def test_user_flow_aborts_when_already_configured(hass: UniversalAssistant
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_async_zeroconf")
-async def test_user_flow_aborts_when_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_user_flow_aborts_when_already_in_progress(hass: __HAC_KEEP__) -> None:
     """A second user flow aborts if the first is still on the confirm form."""
     result1 = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -105,7 +105,7 @@ async def test_user_flow_aborts_when_already_in_progress(hass: UniversalAssistan
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_zeroconf_flow_creates_entry(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Zeroconf discovery reaches confirm form then creates an entry."""
     result = await hass.config_entries.flow.async_init(
@@ -127,7 +127,7 @@ async def test_zeroconf_flow_creates_entry(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_async_zeroconf")
-async def test_zeroconf_second_plug_aborts_when_configured(hass: UniversalAssistant) -> None:
+async def test_zeroconf_second_plug_aborts_when_configured(hass: __HAC_KEEP__) -> None:
     """A second plug discovery aborts once the entry exists."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -147,7 +147,7 @@ async def test_zeroconf_second_plug_aborts_when_configured(hass: UniversalAssist
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_async_zeroconf")
 async def test_zeroconf_discovery_can_be_ignored(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator
 ) -> None:
     """A discovered installation can be ignored, which needs the flow's unique ID."""
     result = await hass.config_entries.flow.async_init(
@@ -175,7 +175,7 @@ async def test_zeroconf_discovery_can_be_ignored(
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
 async def test_zeroconf_simultaneous_discoveries_deduplicate(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Two simultaneous discoveries only produce one flow; the second aborts."""
     result1 = await hass.config_entries.flow.async_init(
@@ -203,7 +203,7 @@ async def test_zeroconf_simultaneous_discoveries_deduplicate(
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_async_zeroconf")
-async def test_zeroconf_missing_id_aborts(hass: UniversalAssistant) -> None:
+async def test_zeroconf_missing_id_aborts(hass: __HAC_KEEP__) -> None:
     """Discovery aborts when the plug advertises without an 'id' property."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -224,7 +224,7 @@ async def test_zeroconf_missing_id_aborts(hass: UniversalAssistant) -> None:
 
 @pytest.fixture
 async def reconfigure_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
 ) -> MockConfigEntry:
@@ -252,7 +252,7 @@ async def reconfigure_entry(
     return config_entry
 
 
-async def _start_reconfigure(hass: UniversalAssistant, entry: MockConfigEntry) -> str:
+async def _start_reconfigure(hass: __HAC_KEEP__, entry: MockConfigEntry) -> str:
     """Start the reconfigure flow and return its flow id."""
     result = await entry.start_reconfigure_flow(hass)
     assert result["type"] is FlowResultType.FORM
@@ -261,7 +261,7 @@ async def _start_reconfigure(hass: UniversalAssistant, entry: MockConfigEntry) -
 
 
 async def test_reconfigure_persists_every_sensor_role_and_reloads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reconfigure_entry: MockConfigEntry,
     mock_devices: MagicMock,
 ) -> None:
@@ -304,7 +304,7 @@ def _suggested_values(result: ConfigFlowResult) -> list[Any]:
 
 
 async def test_reconfigure_uses_roles_saved_while_it_is_open(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reconfigure_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
 ) -> None:
@@ -356,7 +356,7 @@ async def test_reconfigure_uses_roles_saved_while_it_is_open(
 
 
 async def test_reconfigure_steps_show_current_role_and_device_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     reconfigure_entry: MockConfigEntry,
 ) -> None:
     """Each step suggests the sensor's current role and names it as the device registry does."""
@@ -396,7 +396,7 @@ async def test_reconfigure_steps_show_current_role_and_device_name(
     ],
 )
 async def test_reconfigure_step_names_sensor_from_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     device_registry: dr.DeviceRegistry,
@@ -419,7 +419,7 @@ async def test_reconfigure_step_names_sensor_from_device_registry(
 
 
 async def test_reconfigure_suggests_unknown_for_unrecognised_role(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
 ) -> None:
@@ -443,7 +443,7 @@ async def test_reconfigure_suggests_unknown_for_unrecognised_role(
 
 
 @pytest.mark.usefixtures("mock_async_zeroconf")
-async def test_reconfigure_aborts_when_entry_not_loaded(hass: UniversalAssistant) -> None:
+async def test_reconfigure_aborts_when_entry_not_loaded(hass: __HAC_KEEP__) -> None:
     """Reconfigure aborts when the entry is not loaded, as sensors are only known at runtime."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -480,7 +480,7 @@ async def test_reconfigure_aborts_when_entry_not_loaded(hass: UniversalAssistant
     ],
 )
 async def test_reconfigure_aborts_when_no_sensors_discovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     events: list[dict[str, Any]],

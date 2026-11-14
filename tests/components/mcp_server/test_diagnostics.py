@@ -6,7 +6,7 @@ from pytest_universalassistant.components.diagnostics import get_diagnostics_for
 from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import llm
 
 from .conftest import TEST_LLM_API_ID, MockLLMAPI
@@ -22,7 +22,7 @@ class _StubTool(llm.Tool):
 
     async def async_call(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         tool_input: llm.ToolInput,
         llm_context: llm.LLMContext,
     ) -> dict:
@@ -37,7 +37,7 @@ class _StubTool(llm.Tool):
     [pytest.param(False, id="all_tools"), pytest.param(True, id="read_only")],
 )
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -66,7 +66,7 @@ async def test_diagnostics(
 
 @pytest.mark.parametrize("llm_hass_api", [["missing-api"]])
 async def test_diagnostics_missing_llm_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -82,7 +82,7 @@ async def test_diagnostics_missing_llm_api(
 
 @pytest.mark.parametrize("llm_hass_api", [[TEST_LLM_API_ID, "other-api"]])
 async def test_diagnostics_tool_name_collision(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

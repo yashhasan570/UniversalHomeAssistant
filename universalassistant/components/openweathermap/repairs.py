@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, cast
 
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
 from universalassistant.const import CONF_API_KEY, CONF_MODE
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 
 from .const import DOMAIN, OWM_MODE_V30
@@ -51,7 +51,7 @@ class DeprecatedV25RepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     data: dict[str, str | int | float | None],
 ) -> RepairsFlow:
@@ -67,7 +67,7 @@ def _get_issue_id(entry_id: str) -> str:
 
 
 @callback
-def async_create_issue(hass: UniversalAssistant, entry_id: str) -> None:
+def async_create_issue(hass: __HAC_KEEP__, entry_id: str) -> None:
     """Create issue for V2.5 deprecation."""
     ir.async_create_issue(
         hass=hass,
@@ -84,6 +84,6 @@ def async_create_issue(hass: UniversalAssistant, entry_id: str) -> None:
 
 
 @callback
-def async_delete_issue(hass: UniversalAssistant, entry_id: str) -> None:
+def async_delete_issue(hass: __HAC_KEEP__, entry_id: str) -> None:
     """Remove issue for V2.5 deprecation."""
     ir.async_delete_issue(hass=hass, domain=DOMAIN, issue_id=_get_issue_id(entry_id))

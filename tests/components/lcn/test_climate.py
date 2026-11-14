@@ -28,7 +28,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
@@ -38,7 +38,7 @@ CLIMATE_CLIMATE1 = "climate.testmodule_climate1"
 
 
 async def test_setup_lcn_climate(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -50,7 +50,7 @@ async def test_setup_lcn_climate(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_set_hvac_mode_heat(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_set_hvac_mode_heat(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the hvac mode is set to heat."""
     await init_integration(hass, entry)
 
@@ -105,7 +105,7 @@ async def test_set_hvac_mode_heat(hass: UniversalAssistant, entry: MockConfigEnt
         assert state.state == HVACMode.HEAT
 
 
-async def test_set_hvac_mode_off(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_set_hvac_mode_off(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the hvac mode is set off."""
     await init_integration(hass, entry)
 
@@ -153,7 +153,7 @@ async def test_set_hvac_mode_off(hass: UniversalAssistant, entry: MockConfigEntr
         assert state.state == HVACMode.OFF
 
 
-async def test_set_temperature(hass: UniversalAssistant, entry: MockConfigEntry) -> None:
+async def test_set_temperature(hass: __HAC_KEEP__, entry: MockConfigEntry) -> None:
     """Test the temperature is set."""
     await init_integration(hass, entry)
 
@@ -214,7 +214,7 @@ async def test_set_temperature(hass: UniversalAssistant, entry: MockConfigEntry)
 
 
 async def test_pushed_current_temperature_status_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
 ) -> None:
     """Test the climate changes its current temperature on status received."""
@@ -237,7 +237,7 @@ async def test_pushed_current_temperature_status_change(
 
 
 async def test_pushed_setpoint_status_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
 ) -> None:
     """Test the climate changes its setpoint on status received."""
@@ -260,7 +260,7 @@ async def test_pushed_setpoint_status_change(
 
 
 async def test_pushed_lock_status_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
 ) -> None:
     """Test the climate changes its setpoint on status received."""
@@ -283,7 +283,7 @@ async def test_pushed_lock_status_change(
 
 
 async def test_pushed_wrong_input(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
 ) -> None:
     """Test the climate handles wrong input correctly."""
@@ -300,7 +300,7 @@ async def test_pushed_wrong_input(
 
 
 async def test_availability(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, entry: MockConfigEntry
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, entry: MockConfigEntry
 ) -> None:
     """Test the availability of climate entity."""
     await init_integration(hass, entry)
@@ -339,7 +339,7 @@ async def test_availability(
 
 
 async def test_unload_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
 ) -> None:
     """Test the climate is removed when the config entry is unloaded."""

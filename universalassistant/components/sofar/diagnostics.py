@@ -6,7 +6,7 @@ from typing import Any
 from modbus_connection import ModbusError
 
 from universalassistant.components.diagnostics import async_redact_data
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import SofarConfigEntry
 
@@ -14,7 +14,7 @@ TO_REDACT = {"serial_number"}
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: SofarConfigEntry
+    hass: __HAC_KEEP__, entry: SofarConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     device = entry.runtime_data.readings.device

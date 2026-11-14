@@ -23,14 +23,14 @@ from universalassistant.components.lock import LockState
 from universalassistant.components.loqed.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers.network import get_url
 from universalassistant.setup import async_setup_component
 
 
 async def test_webhook_accepts_valid_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     integration: MockConfigEntry,
     lock: loqed.Lock,
@@ -62,7 +62,7 @@ async def test_webhook_accepts_valid_message(
     ],
 )
 async def test_webhook_rejects_missing_signature_headers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     integration: MockConfigEntry,
     lock: loqed.Lock,
@@ -84,7 +84,7 @@ async def test_webhook_rejects_missing_signature_headers(
 
 
 async def test_webhook_ignores_rejected_message(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     integration: MockConfigEntry,
     lock: loqed.Lock,
@@ -109,7 +109,7 @@ async def test_webhook_ignores_rejected_message(
 
 
 async def test_setup_webhook_in_bridge(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, lock: loqed.Lock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test webhook setup in loqed bridge."""
     config: dict[str, Any] = {DOMAIN: {}}
@@ -134,7 +134,7 @@ async def test_setup_webhook_in_bridge(
 
 
 async def test_webhook_prefers_internal_url(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, lock: loqed.Lock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test webhook actually prefers internal url."""
     await hass.config.async_update(
@@ -168,7 +168,7 @@ async def test_webhook_prefers_internal_url(
 
 
 async def test_ensure_webhooks_removes_stale_webhooks(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, lock: loqed.Lock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test that stale webhooks with the same ID but different URL are removed."""
     await hass.config.async_update(
@@ -216,7 +216,7 @@ async def test_ensure_webhooks_removes_stale_webhooks(
 
 
 async def test_ensure_webhooks_handles_bridge_error_on_cleanup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     lock: loqed.Lock,
     caplog: pytest.LogCaptureFixture,
@@ -260,7 +260,7 @@ async def test_ensure_webhooks_handles_bridge_error_on_cleanup(
 
 @pytest.mark.parametrize("error", [aiohttp.ClientError, TimeoutError])
 async def test_cannot_connect_to_bridge_will_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     lock: loqed.Lock,
     error: type[Exception],
@@ -282,7 +282,7 @@ async def test_cannot_connect_to_bridge_will_retry(
 @pytest.mark.parametrize("error", [aiohttp.ClientError, TimeoutError])
 @pytest.mark.parametrize("failing_call", ["getWebhooks", "registerWebhook"])
 async def test_setup_retries_when_bridge_webhook_setup_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     lock: loqed.Lock,
     failing_call: str,
@@ -313,7 +313,7 @@ async def test_setup_retries_when_bridge_webhook_setup_fails(
 
 
 async def test_setup_retry_after_bridge_webhook_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     lock: loqed.Lock,
     freezer: FrozenDateTimeFactory,
@@ -353,7 +353,7 @@ async def test_setup_retry_after_bridge_webhook_failure(
 
 
 async def test_setup_cloudhook_in_bridge(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, lock: loqed.Lock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test webhook setup in loqed bridge."""
     config: dict[str, Any] = {DOMAIN: {}}
@@ -386,7 +386,7 @@ async def test_setup_cloudhook_in_bridge(
 
 
 async def test_setup_retries_when_cloudhook_unavailable(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, lock: loqed.Lock
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test setup retries when Nabu Casa reports a subscription but is disconnected."""
     config: dict[str, Any] = {DOMAIN: {}}
@@ -412,11 +412,11 @@ async def test_setup_retries_when_cloudhook_unavailable(
         await hass.async_block_till_done()
 
     assert config_entry.state is ConfigEntryState.SETUP_RETRY
-    assert config_entry.reason == "Unable to create Universal Universal Home Assistant Cloud webhook"
+    assert config_entry.reason == "Unable to create __HA_KEEP__ Cloud webhook"
 
 
 async def test_setup_cloudhook_from_entry_in_bridge(
-    hass: UniversalAssistant, cloud_config_entry: MockConfigEntry, lock: loqed.Lock
+    hass: __HAC_KEEP__, cloud_config_entry: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test webhook setup in loqed bridge."""
     webhooks_fixture = await async_load_json_array_fixture(
@@ -451,7 +451,7 @@ async def test_setup_cloudhook_from_entry_in_bridge(
 
 
 async def test_unload_entry(
-    hass: UniversalAssistant, integration: MockConfigEntry, lock: loqed.Lock
+    hass: __HAC_KEEP__, integration: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test successful unload of entry."""
 
@@ -464,7 +464,7 @@ async def test_unload_entry(
 
 
 async def test_unload_entry_removes_cloudhook_from_bridge(
-    hass: UniversalAssistant, cloud_config_entry: MockConfigEntry, lock: loqed.Lock
+    hass: __HAC_KEEP__, cloud_config_entry: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test unload removes the webhook registered with the stored cloudhook URL."""
     cloud_config_entry.add_to_hass(hass)
@@ -493,7 +493,7 @@ async def test_unload_entry_removes_cloudhook_from_bridge(
 
 
 async def test_unload_entry_fails(
-    hass: UniversalAssistant, integration: MockConfigEntry, lock: loqed.Lock
+    hass: __HAC_KEEP__, integration: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test unsuccessful unload of entry."""
     lock.deleteWebhook = AsyncMock(side_effect=Exception)
@@ -502,7 +502,7 @@ async def test_unload_entry_fails(
 
 
 async def test_unload_entry_keeps_webhook_when_platforms_fail_to_unload(
-    hass: UniversalAssistant, integration: MockConfigEntry, lock: loqed.Lock
+    hass: __HAC_KEEP__, integration: MockConfigEntry, lock: loqed.Lock
 ) -> None:
     """Test the bridge webhook stays registered when the entry stays loaded."""
     with patch(
@@ -517,7 +517,7 @@ async def test_unload_entry_keeps_webhook_when_platforms_fail_to_unload(
 
 @pytest.mark.parametrize("error", [aiohttp.ClientError, TimeoutError])
 async def test_unload_entry_with_unreachable_bridge(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration: MockConfigEntry,
     lock: loqed.Lock,
     error: type[Exception],
@@ -544,7 +544,7 @@ def _response_error(status: HTTPStatus) -> aiohttp.ClientResponseError:
     "failing_call", ["async_get_lock", "getWebhooks", "async_get_lock_details"]
 )
 async def test_setup_starts_reauth_when_bridge_rejects_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     lock: loqed.Lock,
     failing_call: str,
@@ -583,7 +583,7 @@ async def test_setup_starts_reauth_when_bridge_rejects_credentials(
     ],
 )
 async def test_first_refresh_failure_will_retry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     lock: loqed.Lock,
     error: type[Exception] | Exception,

@@ -6,7 +6,7 @@ from typing import Any, override
 from aio_ownet.exceptions import OWServerError
 from aio_ownet.proxy import OWServerStatelessProxy
 
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity import Entity, EntityDescription
 
@@ -49,7 +49,7 @@ class OneWireEntity(Entity):
         try:
             await self._owproxy.write(self._device_file, value)
         except OWServerError as exc:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="write_failed",
                 translation_placeholders={"device_file": self._device_file},

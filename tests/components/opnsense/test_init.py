@@ -26,7 +26,7 @@ from universalassistant.components.opnsense.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -47,7 +47,7 @@ from .const import ARP
     ],
 )
 async def test_setup_entry_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_opnsense_client: mock.AsyncMock,
     exc: type[Exception],
@@ -68,7 +68,7 @@ async def test_setup_entry_exceptions(
 
 
 async def test_setup_entry_tracker_interface_not_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_opnsense_client: mock.AsyncMock,
 ) -> None:
     """Test async_setup_entry rejects unknown tracker interfaces."""
@@ -107,7 +107,7 @@ STALE_MAC = "aa:bb:cc:dd:ee:ff"
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     hass_ws_client: WebSocketGenerator,
@@ -142,7 +142,7 @@ async def test_remove_config_entry_device(
 
 
 async def test_remove_config_entry_device_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_opnsense_client: mock.AsyncMock,
     device_registry: dr.DeviceRegistry,
@@ -167,7 +167,7 @@ async def test_remove_config_entry_device_not_loaded(
 
 
 async def test_remove_departed_client_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_opnsense_client: mock.AsyncMock,
     device_registry: dr.DeviceRegistry,

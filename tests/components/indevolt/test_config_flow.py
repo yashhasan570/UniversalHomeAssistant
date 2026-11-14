@@ -15,7 +15,7 @@ from universalassistant.components.indevolt.const import (
 )
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_MODEL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -41,7 +41,7 @@ ZEROCONF_DISCOVERY_ALT_IP = _make_zeroconf_discovery(TEST_HOST_ALT)
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_user_flow_success(hass: UniversalAssistant, mock_indevolt: AsyncMock) -> None:
+async def test_user_flow_success(hass: __HAC_KEEP__, mock_indevolt: AsyncMock) -> None:
     """Test successful user-initiated config flow."""
 
     # Initiate user flow
@@ -81,7 +81,7 @@ async def test_user_flow_success(hass: UniversalAssistant, mock_indevolt: AsyncM
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     exception: Exception,
     expected_error: str,
@@ -115,7 +115,7 @@ async def test_user_flow_error(
 
 
 async def test_user_flow_duplicate_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
 ) -> None:
     """Test duplicate entry aborts the flow."""
     mock_config_entry.add_to_hass(hass)
@@ -137,7 +137,7 @@ async def test_user_flow_duplicate_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_success(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
 ) -> None:
     """Test successful reconfiguration flow."""
     mock_config_entry.add_to_hass(hass)
@@ -176,7 +176,7 @@ async def test_reconfigure_flow_success(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_indevolt: AsyncMock,
     exception: Exception,
@@ -214,7 +214,7 @@ async def test_reconfigure_flow_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_different_device(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
 ) -> None:
     """Test reconfigure aborts when connecting to a different device."""
     mock_config_entry.add_to_hass(hass)
@@ -246,7 +246,7 @@ async def test_reconfigure_flow_different_device(
 
 
 async def test_zeroconf_flow_success(
-    hass: UniversalAssistant, mock_indevolt: AsyncMock, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_indevolt: AsyncMock, mock_setup_entry: AsyncMock
 ) -> None:
     """Test successful zeroconf discovery flow."""
     result = await hass.config_entries.flow.async_init(
@@ -277,7 +277,7 @@ async def test_zeroconf_flow_success(
 
 
 async def test_zeroconf_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
 ) -> None:
     """Test zeroconf discovery aborts if already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -293,7 +293,7 @@ async def test_zeroconf_already_configured(
 
 
 async def test_zeroconf_ip_change(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
 ) -> None:
     """Test zeroconf discovery updates config entry host if the device moved to a new IP."""
     mock_config_entry.add_to_hass(hass)
@@ -311,7 +311,7 @@ async def test_zeroconf_ip_change(
 
 
 async def test_zeroconf_ip_reuse_by_different_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     alt_mock_config_entry: MockConfigEntry,
     mock_indevolt: AsyncMock,
     mock_setup_entry: AsyncMock,
@@ -338,7 +338,7 @@ async def test_zeroconf_ip_reuse_by_different_device(
     ],
 )
 async def test_zeroconf_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_indevolt: AsyncMock,
     exception: type[Exception],
     reason: str,
@@ -357,7 +357,7 @@ async def test_zeroconf_cannot_connect(
 
 
 async def test_zeroconf_unexpected_hostname(
-    hass: UniversalAssistant, mock_indevolt: AsyncMock
+    hass: __HAC_KEEP__, mock_indevolt: AsyncMock
 ) -> None:
     """Test zeroconf discovery aborts without probing when hostname is not in {sn}.local. form."""
     result = await hass.config_entries.flow.async_init(
@@ -372,7 +372,7 @@ async def test_zeroconf_unexpected_hostname(
 
 
 async def test_dhcp_registered_device_ip_change(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_indevolt: AsyncMock
 ) -> None:
     """Test DHCP discovery updates config entry host for a registered device at a new IP."""
     mock_config_entry.add_to_hass(hass)

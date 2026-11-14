@@ -3,7 +3,7 @@
 from opower import select_utility
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError
 from universalassistant.helpers import issue_registry as ir
 
@@ -13,7 +13,7 @@ from .coordinator import OpowerConfigEntry, OpowerCoordinator
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: OpowerConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: OpowerConfigEntry) -> None:
     """Set up Opower from a config entry."""
     utility_name = entry.data[CONF_UTILITY]
     try:
@@ -47,6 +47,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: OpowerConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: OpowerConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: OpowerConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

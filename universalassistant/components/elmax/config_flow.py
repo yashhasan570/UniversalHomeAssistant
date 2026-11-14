@@ -11,7 +11,7 @@ import httpx2
 import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
 
 from .common import (
@@ -572,5 +572,5 @@ class ElmaxConfigFlow(ConfigFlow, domain=DOMAIN):
         return client
 
 
-class NoOnlinePanelsError(UniversalAssistantError):
+class NoOnlinePanelsError(__HAC_KEEP__Error):
     """Error occurring when no online panel was found."""

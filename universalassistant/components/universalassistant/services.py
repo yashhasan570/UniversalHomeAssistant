@@ -1,4 +1,4 @@
-"""Services for the Universal Universal Home Assistant integration."""
+"""Services for the __HA_KEEP__ integration."""
 
 import asyncio
 from collections.abc import Callable, Coroutine
@@ -14,13 +14,13 @@ from universalassistant.components import persistent_notification
 from universalassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from universalassistant.const import CONF_EXCLUDE, SERVICE_RELOAD, CommonServiceArgument
 from universalassistant.core import (
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     ServiceResponse,
     callback,
     split_entity_id,
 )
-from universalassistant.exceptions import UniversalAssistantError, Unauthorized, UnknownUser
+from universalassistant.exceptions import __HAC_KEEP__Error, Unauthorized, UnknownUser
 from universalassistant.helpers import config_validation as cv, recorder, restore_state
 from universalassistant.helpers.entity_component import async_update_entity
 from universalassistant.helpers.service import (
@@ -36,8 +36,8 @@ from universalassistant.helpers.template import async_load_custom_templates
 from .const import (
     DATA_STOP_HANDLER,
     DOMAIN,
-    UniversalAssistantService,
-    UniversalAssistantServiceArgument,
+    __HAC_KEEP__Service,
+    __HAC_KEEP__ServiceArgument,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -46,17 +46,17 @@ SCHEMA_UPDATE_ENTITY = probatio.Schema({CommonServiceArgument.ENTITY_ID: cv.enti
 SCHEMA_RELOAD_CONFIG_ENTRY = probatio.All(
     probatio.Schema(
         {
-            probatio.Optional(UniversalAssistantServiceArgument.ENTRY_ID): str,
+            probatio.Optional(__HAC_KEEP__ServiceArgument.ENTRY_ID): str,
             **cv.ENTITY_SERVICE_FIELDS,
         },
     ),
-    probatio.AtLeastOne(UniversalAssistantServiceArgument.ENTRY_ID, *cv.TARGET_ID_KEYS),
+    probatio.AtLeastOne(__HAC_KEEP__ServiceArgument.ENTRY_ID, *cv.TARGET_ID_KEYS),
 )
 SCHEMA_RESTART = probatio.Schema(
-    {probatio.Optional(UniversalAssistantServiceArgument.SAFE_MODE, default=False): bool}
+    {probatio.Optional(__HAC_KEEP__ServiceArgument.SAFE_MODE, default=False): bool}
 )
 
-SHUTDOWN_SERVICES = (UniversalAssistantService.STOP, UniversalAssistantService.RESTART)
+SHUTDOWN_SERVICES = (__HAC_KEEP__Service.STOP, __HAC_KEEP__Service.RESTART)
 
 
 async def _async_save_persistent_states(service: ServiceCall) -> None:
@@ -133,14 +133,14 @@ async def _async_handle_turn_service(service: ServiceCall) -> None:
 async def _async_handle_core_service(call: ServiceCall) -> None:
     """Service handler for handling core services."""
     hass = call.hass
-    stop_handler: Callable[[UniversalAssistant, bool], Coroutine[Any, Any, None]]
+    stop_handler: Callable[[__HAC_KEEP__, bool], Coroutine[Any, Any, None]]
 
     if call.service in SHUTDOWN_SERVICES and recorder.async_migration_in_progress(hass):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"The system cannot {call.service} while a database upgrade is in progress."
         )
 
-    if call.service == UniversalAssistantService.STOP:
+    if call.service == __HAC_KEEP__Service.STOP:
         stop_handler = hass.data[DATA_STOP_HANDLER]
         await stop_handler(hass, False)
         return
@@ -160,13 +160,13 @@ async def _async_handle_core_service(call: ServiceCall) -> None:
             "Config validating",
             f"{DOMAIN}.check_config",
         )
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             f"The system cannot {call.service} "
             f"because the configuration is not valid: {errors}"
         )
 
-    if call.service == UniversalAssistantService.RESTART:
-        if call.data[UniversalAssistantServiceArgument.SAFE_MODE]:
+    if call.service == __HAC_KEEP__Service.RESTART:
+        if call.data[__HAC_KEEP__ServiceArgument.SAFE_MODE]:
             await conf_util.async_enable_safe_mode(hass)
         stop_handler = hass.data[DATA_STOP_HANDLER]
         await stop_handler(hass, True)
@@ -208,8 +208,8 @@ async def _async_handle_reload_config(call: ServiceCall) -> None:
     hass = call.hass
     try:
         conf = await conf_util.async_hass_config_yaml(hass)
-    except (UniversalAssistantError, FileNotFoundError) as err:
-        raise UniversalAssistantError(
+    except (__HAC_KEEP__Error, FileNotFoundError) as err:
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="core_config_reload_failed",
             translation_placeholders={"error": str(err)},
@@ -223,11 +223,11 @@ async def _async_set_location(call: ServiceCall) -> None:
     """Service handler to set location."""
     hass = call.hass
     service_data = {
-        "latitude": call.data[UniversalAssistantServiceArgument.LATITUDE],
-        "longitude": call.data[UniversalAssistantServiceArgument.LONGITUDE],
+        "latitude": call.data[__HAC_KEEP__ServiceArgument.LATITUDE],
+        "longitude": call.data[__HAC_KEEP__ServiceArgument.LONGITUDE],
     }
 
-    if (elevation := call.data.get(UniversalAssistantServiceArgument.ELEVATION)) is not None:
+    if (elevation := call.data.get(__HAC_KEEP__ServiceArgument.ELEVATION)) is not None:
         service_data["elevation"] = elevation
 
     await hass.config.async_update(**service_data)
@@ -243,12 +243,12 @@ async def _async_handle_reload_config_entry(call: ServiceCall) -> None:
     """Service handler for reloading a config entry."""
     hass = call.hass
     reload_entries: set[str] = set()
-    if UniversalAssistantServiceArgument.ENTRY_ID in call.data:
-        reload_entries.add(call.data[UniversalAssistantServiceArgument.ENTRY_ID])
+    if __HAC_KEEP__ServiceArgument.ENTRY_ID in call.data:
+        reload_entries.add(call.data[__HAC_KEEP__ServiceArgument.ENTRY_ID])
     if TargetSelection(call.data).has_any_target:
         _LOGGER.warning(
             "Reloading a config entry by target is deprecated and will stop "
-            "working in Universal Universal Home Assistant 2027.4, please specify the config entry "
+            "working in __HA_KEEP__ 2027.4, please specify the config entry "
             "to reload in the 'entry_id' parameter instead"
         )
     reload_entries.update(await async_extract_config_entry_ids(call))
@@ -279,7 +279,7 @@ async def _async_handle_reload_all(call: ServiceCall) -> None:
     hass = call.hass
 
     if errors := await conf_util.async_check_ha_config_file(hass):
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             "Cannot quick reload all YAML configurations because the "
             f"configuration is not valid: {errors}"
         )
@@ -294,9 +294,9 @@ async def _async_handle_reload_all(call: ServiceCall) -> None:
     ] + [
         hass.services.async_call(domain, service, context=call.context, blocking=True)
         for domain, service in (
-            (DOMAIN, UniversalAssistantService.RELOAD_CORE_CONFIG),
+            (DOMAIN, __HAC_KEEP__Service.RELOAD_CORE_CONFIG),
             ("frontend", "reload_themes"),
-            (DOMAIN, UniversalAssistantService.RELOAD_CUSTOM_TEMPLATES),
+            (DOMAIN, __HAC_KEEP__Service.RELOAD_CUSTOM_TEMPLATES),
         )
     ]
 
@@ -304,11 +304,11 @@ async def _async_handle_reload_all(call: ServiceCall) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
-    """Set up the services for the Universal Universal Home Assistant integration."""
+def async_setup_services(hass: __HAC_KEEP__) -> None:
+    """Set up the services for the __HA_KEEP__ integration."""
     hass.services.async_register(
         DOMAIN,
-        UniversalAssistantService.SAVE_PERSISTENT_STATES,
+        __HAC_KEEP__Service.SAVE_PERSISTENT_STATES,
         _async_save_persistent_states,
     )
 
@@ -322,39 +322,39 @@ def async_setup_services(hass: UniversalAssistant) -> None:
 
     hass.services.async_register(
         DOMAIN,
-        UniversalAssistantService.TURN_OFF,
+        __HAC_KEEP__Service.TURN_OFF,
         _async_handle_turn_service,
         schema=service_schema,
     )
     hass.services.async_register(
         DOMAIN,
-        UniversalAssistantService.TURN_ON,
+        __HAC_KEEP__Service.TURN_ON,
         _async_handle_turn_service,
         schema=service_schema,
     )
     hass.services.async_register(
         DOMAIN,
-        UniversalAssistantService.TOGGLE,
+        __HAC_KEEP__Service.TOGGLE,
         _async_handle_turn_service,
         schema=service_schema,
     )
 
     async_register_admin_service(
-        hass, DOMAIN, UniversalAssistantService.STOP, _async_handle_core_service
+        hass, DOMAIN, __HAC_KEEP__Service.STOP, _async_handle_core_service
     )
     async_register_admin_service(
         hass,
         DOMAIN,
-        UniversalAssistantService.RESTART,
+        __HAC_KEEP__Service.RESTART,
         _async_handle_core_service,
         SCHEMA_RESTART,
     )
     async_register_admin_service(
-        hass, DOMAIN, UniversalAssistantService.CHECK_CONFIG, _async_handle_core_service
+        hass, DOMAIN, __HAC_KEEP__Service.CHECK_CONFIG, _async_handle_core_service
     )
     hass.services.async_register(
         DOMAIN,
-        UniversalAssistantService.UPDATE_ENTITY,
+        __HAC_KEEP__Service.UPDATE_ENTITY,
         _async_handle_update_service,
         schema=SCHEMA_UPDATE_ENTITY,
     )
@@ -362,21 +362,21 @@ def async_setup_services(hass: UniversalAssistant) -> None:
     async_register_admin_service(
         hass,
         DOMAIN,
-        UniversalAssistantService.RELOAD_CORE_CONFIG,
+        __HAC_KEEP__Service.RELOAD_CORE_CONFIG,
         _async_handle_reload_config,
     )
 
     async_register_admin_service(
         hass,
         DOMAIN,
-        UniversalAssistantService.SET_LOCATION,
+        __HAC_KEEP__Service.SET_LOCATION,
         _async_set_location,
         probatio.Schema(
             {
-                probatio.Required(UniversalAssistantServiceArgument.LATITUDE): cv.latitude,
-                probatio.Required(UniversalAssistantServiceArgument.LONGITUDE): cv.longitude,
+                probatio.Required(__HAC_KEEP__ServiceArgument.LATITUDE): cv.latitude,
+                probatio.Required(__HAC_KEEP__ServiceArgument.LONGITUDE): cv.longitude,
                 probatio.Optional(
-                    UniversalAssistantServiceArgument.ELEVATION
+                    __HAC_KEEP__ServiceArgument.ELEVATION
                 ): probatio.Coerce(int),
             }
         ),
@@ -385,18 +385,18 @@ def async_setup_services(hass: UniversalAssistant) -> None:
     async_register_admin_service(
         hass,
         DOMAIN,
-        UniversalAssistantService.RELOAD_CUSTOM_TEMPLATES,
+        __HAC_KEEP__Service.RELOAD_CUSTOM_TEMPLATES,
         _async_handle_reload_templates,
     )
 
     async_register_admin_service(
         hass,
         DOMAIN,
-        UniversalAssistantService.RELOAD_CONFIG_ENTRY,
+        __HAC_KEEP__Service.RELOAD_CONFIG_ENTRY,
         _async_handle_reload_config_entry,
         schema=SCHEMA_RELOAD_CONFIG_ENTRY,
     )
 
     async_register_admin_service(
-        hass, DOMAIN, UniversalAssistantService.RELOAD_ALL, _async_handle_reload_all
+        hass, DOMAIN, __HAC_KEEP__Service.RELOAD_ALL, _async_handle_reload_all
     )

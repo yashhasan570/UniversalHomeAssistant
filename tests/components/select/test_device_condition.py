@@ -12,7 +12,7 @@ from universalassistant.components.select.device_condition import (
     async_get_condition_capabilities,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -22,7 +22,7 @@ from universalassistant.setup import async_setup_component
 
 
 async def test_get_conditions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -62,7 +62,7 @@ async def test_get_conditions(
     ],
 )
 async def test_get_conditions_hidden_auxiliary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     hidden_by,
@@ -101,7 +101,7 @@ async def test_get_conditions_hidden_auxiliary(
 
 
 async def test_if_selected_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -196,7 +196,7 @@ async def test_if_selected_option(
 
 
 async def test_if_selected_option_legacy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -253,7 +253,7 @@ async def test_if_selected_option_legacy(
 
 
 async def test_get_condition_capabilities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test we get the expected capabilities from a select condition."""
     entry = entity_registry.async_get_or_create(DOMAIN, "test", "5678")
@@ -315,7 +315,7 @@ async def test_get_condition_capabilities(
 
 
 async def test_get_condition_capabilities_legacy(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test we get the expected capabilities from a select condition."""
     entry = entity_registry.async_get_or_create(DOMAIN, "test", "5678")

@@ -35,7 +35,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -82,7 +82,7 @@ COMPONENT_FORWARDED_EFFECTS = {
 
 @callback
 def _async_setup_component_sync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LIFXConfigEntry,
     main_unique_id: str,
     unique_ids: set[str],
@@ -151,7 +151,7 @@ def _async_setup_component_sync(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LIFXConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -821,7 +821,7 @@ class LIFXComponentLight[
         if restored is None or all(color.brightness == 0 for color in restored):
             return None
         current = self.entity_description.colors_fn(self._state)
-        # A color changed while Universal Universal Home Assistant was down no longer matches. The
+        # A color changed while __HA_KEEP__ was down no longer matches. The
         # zone count is fixed in hardware and the data belongs to this serial
         if any(
             now.replace(brightness=then.brightness) != then

@@ -5,7 +5,7 @@ from pytest_universalassistant.common import async_fire_time_changed
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components import freedns
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
 
@@ -16,7 +16,7 @@ UPDATE_URL = freedns.UPDATE_URL
 
 @pytest.fixture
 async def setup_freedns(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Fixture that sets up FreeDNS."""
     params = {}
@@ -37,7 +37,7 @@ async def setup_freedns(
     )
 
 
-async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker) -> None:
+async def test_setup(hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker) -> None:
     """Test setup works if update passes."""
     params = {}
     params[ACCESS_TOKEN] = ""
@@ -64,7 +64,7 @@ async def test_setup(hass: UniversalAssistant, aioclient_mock: AiohttpClientMock
 
 
 async def test_setup_fails_if_wrong_token(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test setup fails if first update fails through wrong token."""
     params = {}

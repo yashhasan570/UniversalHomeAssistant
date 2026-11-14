@@ -7,7 +7,7 @@ It should have 2 entities - the actual switch and a sensor for power usage.
 
 from universalassistant.components.sensor import SensorStateClass
 from universalassistant.const import UnitOfPower
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from ..common import (
     HUB_TEST_ACCESSORY_ID,
@@ -19,7 +19,7 @@ from ..common import (
 )
 
 
-async def test_koogeek_sw2_setup(hass: UniversalAssistant) -> None:
+async def test_koogeek_sw2_setup(hass: __HAC_KEEP__) -> None:
     """Test that a Koogeek LS1 can be correctly setup in HA."""
     accessories = await setup_accessories_from_file(hass, "koogeek_sw2.json")
     config_entry, _ = await setup_test_accessories(hass, accessories)

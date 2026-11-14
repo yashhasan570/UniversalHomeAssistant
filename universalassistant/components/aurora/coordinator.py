@@ -9,7 +9,7 @@ from auroranoaa import AuroraForecast
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -25,7 +25,7 @@ class AuroraDataUpdateCoordinator(DataUpdateCoordinator[int]):
 
     config_entry: AuroraConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, config_entry: AuroraConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: AuroraConfigEntry) -> None:
         """Initialize the data updater."""
 
         super().__init__(

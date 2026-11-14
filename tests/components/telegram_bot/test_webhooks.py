@@ -11,11 +11,11 @@ from universalassistant.components.telegram_bot.bot import ALLOWED_UPDATES
 from universalassistant.components.telegram_bot.const import DOMAIN
 from universalassistant.components.telegram_bot.webhooks import TELEGRAM_WEBHOOK_URL
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_set_webhooks_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_webhooks_config_entry: MockConfigEntry,
     mock_external_calls: None,
     mock_register_webhook: None,
@@ -67,7 +67,7 @@ async def test_set_webhooks_failed(
 
 
 async def test_set_webhooks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_webhooks_config_entry: MockConfigEntry,
     mock_external_calls: None,
     mock_register_webhook: None,
@@ -88,7 +88,7 @@ async def test_set_webhooks(
 
 
 async def test_set_webhooks_allowed_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_webhooks_config_entry: MockConfigEntry,
     mock_external_calls: None,
     mock_register_webhook: None,
@@ -119,7 +119,7 @@ async def test_set_webhooks_allowed_updates(
 
 
 async def test_webhooks_update_invalid_json(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot,
     hass_client: ClientSessionGenerator,
     mock_generate_secret_token,
@@ -137,7 +137,7 @@ async def test_webhooks_update_invalid_json(
 
 
 async def test_webhooks_unauthorized_network(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot,
     mock_generate_secret_token,
     hass_client: ClientSessionGenerator,
@@ -162,7 +162,7 @@ async def test_webhooks_unauthorized_network(
 
 
 async def test_webhooks_deregister_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     webhook_bot,
 ) -> None:
     """Test deregister webhooks."""

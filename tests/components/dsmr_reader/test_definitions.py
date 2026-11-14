@@ -9,7 +9,7 @@ from universalassistant.components.dsmr_reader.definitions import (
     tariff_transform,
 )
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -37,7 +37,7 @@ async def test_tariff_transform(input, expected) -> None:
 
 
 @pytest.mark.usefixtures("mqtt_mock")
-async def test_entity_tariff(hass: UniversalAssistant) -> None:
+async def test_entity_tariff(hass: __HAC_KEEP__) -> None:
     """Test DSMRReaderSensorEntityDescription with a tariff transform."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -69,7 +69,7 @@ async def test_entity_tariff(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "mqtt_mock")
-async def test_entity_dsmr_transform(hass: UniversalAssistant) -> None:
+async def test_entity_dsmr_transform(hass: __HAC_KEEP__) -> None:
     """Test DSMRReaderSensorEntityDescription state when a dsmr transform is needed."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

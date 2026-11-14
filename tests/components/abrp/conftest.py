@@ -30,7 +30,7 @@ from universalassistant.components.application_credentials import (
     ClientCredential,
     async_import_client_credential,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.setup import async_setup_component
 
@@ -77,7 +77,7 @@ def build_metric_value(value: float | ChargingState | Location) -> MetricValue:
 
 
 async def complete_oauth_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     flow_id: str,
 ) -> None:
@@ -107,7 +107,7 @@ def build_id_token(
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Set up application credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(

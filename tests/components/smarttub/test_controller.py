@@ -12,7 +12,7 @@ from universalassistant.components.climate import ATTR_TEMPERATURE
 from universalassistant.components.smarttub.const import MAX_STALE_POLLS
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 
 from . import trigger_update
 
@@ -22,14 +22,14 @@ FAILURES = [
 ]
 
 
-def _thermostat(hass: UniversalAssistant, spa: smarttub.Spa) -> State:
+def _thermostat(hass: __HAC_KEEP__, spa: smarttub.Spa) -> State:
     """Return the state object of the spa's thermostat."""
     state = hass.states.get(f"climate.{spa.brand}_{spa.model}_thermostat")
     assert state is not None
     return state
 
 
-def _thermostat_state(hass: UniversalAssistant, spa: smarttub.Spa) -> str:
+def _thermostat_state(hass: __HAC_KEEP__, spa: smarttub.Spa) -> str:
     """Return the state of the spa's thermostat."""
     return _thermostat(hass, spa).state
 
@@ -50,7 +50,7 @@ async def test_errors_not_fetched_without_error_code(spa: smarttub.Spa) -> None:
 
 
 async def test_errors_fetched_with_error_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     spa: smarttub.Spa,
     spa_state: smarttub.SpaStateFull,
@@ -67,7 +67,7 @@ async def test_errors_fetched_with_error_code(
 
 @pytest.mark.parametrize("failure", FAILURES)
 async def test_failed_poll_keeps_last_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     spa: smarttub.Spa,
     setup_entry: None,
     failure: type[Exception],
@@ -82,7 +82,7 @@ async def test_failed_poll_keeps_last_data(
 
 @pytest.mark.parametrize("failure", FAILURES)
 async def test_entities_unavailable_after_repeated_failures(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     spa: smarttub.Spa,
     setup_entry: None,
     failure: type[Exception],
@@ -97,7 +97,7 @@ async def test_entities_unavailable_after_repeated_failures(
 
 
 async def test_successful_poll_resets_failure_count(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     spa: smarttub.Spa,
     spa_state: smarttub.SpaStateFull,
     setup_entry: None,
@@ -114,7 +114,7 @@ async def test_successful_poll_resets_failure_count(
 
 @pytest.mark.parametrize("failure", FAILURES)
 async def test_entities_unavailable_when_first_poll_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     spa: smarttub.Spa,
     failure: type[Exception],
@@ -159,7 +159,7 @@ def mock_two_spa_account(
 
 @pytest.mark.usefixtures("two_spa_account")
 async def test_spas_are_polled_concurrently(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     spa: smarttub.Spa,
     second_spa: smarttub.Spa,
@@ -190,7 +190,7 @@ async def test_spas_are_polled_concurrently(
 
 @pytest.mark.usefixtures("two_spa_account")
 async def test_failed_spa_does_not_discard_other_spas(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     spa: smarttub.Spa,
     second_spa: smarttub.Spa,
@@ -213,7 +213,7 @@ async def test_failed_spa_does_not_discard_other_spas(
 
 @pytest.mark.usefixtures("two_spa_account")
 async def test_last_data_is_kept_for_each_spa_through_an_aggregate_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     spa: smarttub.Spa,
     second_spa: smarttub.Spa,

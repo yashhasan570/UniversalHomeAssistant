@@ -48,7 +48,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 TEST_NOTIFIER_NAME = "matrix_notify"
@@ -301,7 +301,7 @@ def mock_allowed_path():
 
 @pytest.fixture
 async def matrix_bot(
-    hass: UniversalAssistant, mock_client, mock_save_json, mock_allowed_path
+    hass: __HAC_KEEP__, mock_client, mock_save_json, mock_allowed_path
 ) -> MatrixBot:
     """Set up Matrix and Notify component.
 
@@ -322,13 +322,13 @@ async def matrix_bot(
 
 
 @pytest.fixture
-def matrix_events(hass: UniversalAssistant) -> list[Event]:
+def matrix_events(hass: __HAC_KEEP__) -> list[Event]:
     """Track event calls."""
     return async_capture_events(hass, DOMAIN)
 
 
 @pytest.fixture
-def command_events(hass: UniversalAssistant) -> list[Event]:
+def command_events(hass: __HAC_KEEP__) -> list[Event]:
     """Track event calls."""
     return async_capture_events(hass, EVENT_MATRIX_COMMAND)
 

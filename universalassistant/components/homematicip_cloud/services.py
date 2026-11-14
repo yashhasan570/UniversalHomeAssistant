@@ -14,8 +14,8 @@ from universalassistant.components.alarm_control_panel import (
     DOMAIN as ALARM_CONTROL_PANEL_DOMAIN,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.config_validation import comp_entity_ids
 from universalassistant.helpers.service import (
@@ -157,7 +157,7 @@ SCHEMA_PULL_LATCH = probatio.Schema(
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Set up the HomematicIP Cloud services."""
 
     @verify_domain_control(DOMAIN)
@@ -432,7 +432,7 @@ async def _async_pull_latch(service: ServiceCall) -> None:
             )
         result = await channel.async_pull_latch(pin)
         if (error_code := get_error_code(result)) is not None:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="pull_latch_failed",
                 translation_placeholders={
@@ -443,7 +443,7 @@ async def _async_pull_latch(service: ServiceCall) -> None:
 
 
 def _get_device(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry, device_id: str
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry, device_id: str
 ) -> Device:
     """Return the HmIP device for a device registry entry."""
     if device_entry := device_registry.async_get(device_id):
@@ -464,7 +464,7 @@ def _get_device(
     )
 
 
-def _get_home(hass: UniversalAssistant, hapid: str) -> AsyncHome | None:
+def _get_home(hass: __HAC_KEEP__, hapid: str) -> AsyncHome | None:
     """Return a HmIP home."""
     entry: HomematicIPConfigEntry
     for entry in hass.config_entries.async_loaded_entries(DOMAIN):

@@ -7,13 +7,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.syncthru.coordinator import SyncthruCoordinator
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
 
 async def test_setup_api_not_supported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_syncthru: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

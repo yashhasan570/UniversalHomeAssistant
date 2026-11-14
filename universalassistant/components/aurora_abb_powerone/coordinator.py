@@ -8,7 +8,7 @@ from aurorapy.client import AuroraError, AuroraSerialClient, AuroraTimeoutError
 from serial import SerialException
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN, SCAN_INTERVAL
@@ -26,7 +26,7 @@ class AuroraAbbDataUpdateCoordinator(DataUpdateCoordinator[dict[str, float]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AuroraAbbConfigEntry,
         comport: str,
         address: int,
@@ -46,7 +46,7 @@ class AuroraAbbDataUpdateCoordinator(DataUpdateCoordinator[dict[str, float]]):
     def _update_data(self) -> dict[str, float]:
         """Fetch new state data for the sensors.
 
-        This is the only function that should fetch new data for Universal Universal Home Assistant.
+        This is the only function that should fetch new data for __HA_KEEP__.
         """
         data: dict[str, float] = {}
         self.available_prev = self.available

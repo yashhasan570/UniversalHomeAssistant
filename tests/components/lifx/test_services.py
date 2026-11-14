@@ -10,7 +10,7 @@ from universalassistant.components.lifx import DOMAIN
 from universalassistant.components.lifx.const import CONF_SERIAL, LIFXService
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.setup import async_setup_component
 
@@ -30,7 +30,7 @@ SERVICES = (
 
 
 @pytest.mark.usefixtures("mock_discovery")
-async def test_services_registered_without_entry(hass: UniversalAssistant) -> None:
+async def test_services_registered_without_entry(hass: __HAC_KEEP__) -> None:
     """Test all actions are registered during component setup."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
@@ -40,7 +40,7 @@ async def test_services_registered_without_entry(hass: UniversalAssistant) -> No
 
 
 @pytest.mark.usefixtures("mock_discovery")
-async def test_service_without_loaded_entry_raises(hass: UniversalAssistant) -> None:
+async def test_service_without_loaded_entry_raises(hass: __HAC_KEEP__) -> None:
     """Test the effect actions raise when no config entry is loaded."""
     assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
     await hass.async_block_till_done()
@@ -62,7 +62,7 @@ async def test_service_without_loaded_entry_raises(hass: UniversalAssistant) -> 
 @pytest.mark.parametrize("service", ["set_state", "set_hev_cycle_state"])
 @pytest.mark.usefixtures("mock_discovery")
 async def test_entity_action_does_not_control_device_after_failed_setup(
-    hass: UniversalAssistant, service: str
+    hass: __HAC_KEEP__, service: str
 ) -> None:
     """Test registered entity actions cannot command a device that failed setup."""
     entry = MockConfigEntry(

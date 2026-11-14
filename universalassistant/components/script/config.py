@@ -24,8 +24,8 @@ from universalassistant.const import (
     CONF_SEQUENCE,
     CONF_VARIABLES,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.script import (
     SCRIPT_MODE_SINGLE,
@@ -101,7 +101,7 @@ SCRIPT_ENTITY_SCHEMA = make_script_schema(
 
 
 async def _async_validate_config_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     object_id: str,
     config: ConfigType,
     raise_on_errors: bool,
@@ -203,7 +203,7 @@ async def _async_validate_config_item(
                     err,
                 )
             if raise_on_errors:
-                raise UniversalAssistantError(err) from err
+                raise __HAC_KEEP__Error(err) from err
             return _minimal_config(ValidationStatus.FAILED_BLUEPRINT, err, config)
 
     script_name = f"Script with object id '{object_id}'"
@@ -234,7 +234,7 @@ async def _async_validate_config_item(
         )
     except (
         probatio.Invalid,
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
     ) as err:
         if isinstance(err, probatio.Invalid):
             err.prepend([CONF_SEQUENCE])
@@ -270,19 +270,19 @@ class ScriptConfig(dict):
 
 
 async def _try_async_validate_config_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     object_id: str,
     config: ConfigType,
 ) -> ScriptConfig | None:
     """Validate config item."""
     try:
         return await _async_validate_config_item(hass, object_id, config, False, True)
-    except probatio.Invalid, UniversalAssistantError:
+    except probatio.Invalid, __HAC_KEEP__Error:
         return None
 
 
 async def async_validate_config_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     object_id: str,
     config: dict[str, Any],
 ) -> ScriptConfig | None:
@@ -290,7 +290,7 @@ async def async_validate_config_item(
     return await _async_validate_config_item(hass, object_id, config, True, False)
 
 
-async def async_validate_config(hass: UniversalAssistant, config: ConfigType) -> ConfigType:
+async def async_validate_config(hass: __HAC_KEEP__, config: ConfigType) -> ConfigType:
     """Validate config."""
     scripts = {}
     for _, p_config in config_per_platform(config, DOMAIN):

@@ -36,8 +36,8 @@ from universalassistant.components.media_player import (
     RepeatMode,
     async_process_play_media_url,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -117,7 +117,7 @@ def media_player_exception_wrap[
             result = await func(self, *args, **kwargs)
         except (WiimDeviceException, WiimRequestException, WiimException) as err:
             await self._async_handle_critical_error(err)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -126,7 +126,7 @@ def media_player_exception_wrap[
                 },
             ) from err
         except RuntimeError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_failed",
                 translation_placeholders={
@@ -155,7 +155,7 @@ def browse_media_exception_wrap[
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WiimConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -254,7 +254,7 @@ class WiimMediaPlayerEntity(WiimBaseEntity, MediaPlayerEntity):
         artist: str | None,
         album: str | None,
     ) -> None:
-        """Set a cache-busting media image hash for Universal Universal Home Assistant.
+        """Set a cache-busting media image hash for __HA_KEEP__.
 
         Some WiiM sources reuse the same artwork URL across tracks, so the
         default HA URL-based hash is not sufficient to invalidate the image cache.
@@ -653,7 +653,7 @@ class WiimMediaPlayerEntity(WiimBaseEntity, MediaPlayerEntity):
 
     @override
     async def async_added_to_hass(self) -> None:
-        """Run when entity is added to Universal Universal Home Assistant."""
+        """Run when entity is added to __HA_KEEP__."""
         await super().async_added_to_hass()
         self._wiim_data.entity_id_to_udn_map[self.entity_id] = self._device.udn
         self.async_on_remove(
@@ -704,7 +704,7 @@ class WiimMediaPlayerEntity(WiimBaseEntity, MediaPlayerEntity):
 
     @override
     async def async_will_remove_from_hass(self) -> None:
-        """Run when entity will be removed from Universal Universal Home Assistant."""
+        """Run when entity will be removed from __HA_KEEP__."""
         # Unregister SDK callbacks
         self._device.av_transport_event_callback = None
         self._device.play_queue_event_callback = None

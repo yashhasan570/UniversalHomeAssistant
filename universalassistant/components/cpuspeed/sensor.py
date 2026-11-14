@@ -5,7 +5,7 @@ from cpuinfo import cpuinfo
 from universalassistant.components.sensor import SensorDeviceClass, SensorEntity
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import UnitOfFrequency
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -20,7 +20,7 @@ HZ_ADVERTISED = "hz_advertised"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

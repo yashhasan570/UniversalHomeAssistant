@@ -7,14 +7,14 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.hypontech.const import CONF_OEM, DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import setup_integration
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hyponcloud: AsyncMock,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -28,7 +28,7 @@ async def test_sensors(
 
 
 async def test_device_manufacturer_uses_oem(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     mock_hyponcloud: AsyncMock,
 ) -> None:

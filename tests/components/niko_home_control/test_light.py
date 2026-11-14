@@ -16,14 +16,14 @@ from universalassistant.const import (
     STATE_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import find_update_callback, setup_integration
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_entities(
     ],
 )
 async def test_turning_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
     light_id: int,
@@ -79,7 +79,7 @@ async def test_turning_on(
     ],
 )
 async def test_turning_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
     light_id: int,
@@ -100,7 +100,7 @@ async def test_turning_off(
 
 
 async def test_updating(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_niko_home_control_connection: AsyncMock,
     mock_config_entry: MockConfigEntry,
     light: AsyncMock,

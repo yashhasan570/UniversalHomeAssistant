@@ -7,11 +7,11 @@ from lorawan_connection.backend.tts import TTSConnection
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-def connection_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def connection_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create a configured connection entry."""
     entry = MockConfigEntry(
         domain="thethingsnetwork_lorawan",

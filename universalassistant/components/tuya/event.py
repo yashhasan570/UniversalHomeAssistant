@@ -20,7 +20,7 @@ from universalassistant.components.event import (
     EventEntity,
     EventEntityDescription,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -114,7 +114,7 @@ EVENTS: dict[DeviceCategory, tuple[TuyaEventEntityDescription, ...]] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: TuyaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -172,7 +172,7 @@ class TuyaEventEntity(TuyaEntity, EventEntity):
     ) -> bool:
         """Called when Tuya device sends an update with updated properties.
 
-        Returns True if the Universal Universal Home Assistant state should be written,
+        Returns True if the __HA_KEEP__ state should be written,
         or False if the state write should be skipped.
         """
         if self._dpcode_wrapper.skip_update(

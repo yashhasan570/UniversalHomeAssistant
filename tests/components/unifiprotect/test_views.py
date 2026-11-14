@@ -18,13 +18,13 @@ from universalassistant.components.unifiprotect.views import (
     async_generate_snapshot_url,
     async_generate_thumbnail_url,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .utils import MockUFPFixture, init_entry
 
 
 async def test_thumbnail_bad_nvr_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -45,7 +45,7 @@ async def test_thumbnail_bad_nvr_id(
 
 @pytest.mark.parametrize(("width", "height"), [("test", None), (None, "test")])
 async def test_thumbnail_bad_params(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -69,7 +69,7 @@ async def test_thumbnail_bad_params(
 
 
 async def test_thumbnail_bad_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -89,7 +89,7 @@ async def test_thumbnail_bad_event(
 
 
 async def test_thumbnail_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -109,7 +109,7 @@ async def test_thumbnail_no_data(
 
 
 async def test_thumbnail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -131,7 +131,7 @@ async def test_thumbnail(
 
 
 async def test_thumbnail_entry_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -153,7 +153,7 @@ async def test_thumbnail_entry_id(
 
 
 async def test_thumbnail_invalid_entry_entry_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -172,7 +172,7 @@ async def test_thumbnail_invalid_entry_entry_id(
 
 
 async def test_snapshot_bad_nvr_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -194,7 +194,7 @@ async def test_snapshot_bad_nvr_id(
 
 
 async def test_snapshot_bad_camera_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -216,7 +216,7 @@ async def test_snapshot_bad_camera_id(
 
 
 async def test_snapshot_bad_camera_perms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -240,7 +240,7 @@ async def test_snapshot_bad_camera_perms(
 
 
 async def test_snapshot_bad_timestamp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -262,7 +262,7 @@ async def test_snapshot_bad_timestamp(
 
 
 async def test_snapshot_client_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -285,7 +285,7 @@ async def test_snapshot_client_error(
 
 
 async def test_snapshot_notfound(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -309,7 +309,7 @@ async def test_snapshot_notfound(
 
 @pytest.mark.parametrize(("width", "height"), [("test", None), (None, "test")])
 async def test_snapshot_bad_params(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -334,7 +334,7 @@ async def test_snapshot_bad_params(
 
 
 async def test_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -365,7 +365,7 @@ async def test_snapshot(
 
 @pytest.mark.parametrize(("width", "height"), [(123, None), (None, 456), (123, 456)])
 async def test_snapshot_with_dimensions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -397,7 +397,7 @@ async def test_snapshot_with_dimensions(
 
 
 async def test_video_bad_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     camera: Camera,
     fixed_now: datetime,
@@ -424,7 +424,7 @@ async def test_video_bad_event(
 
 
 async def test_video_bad_event_ongoing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     camera: Camera,
     fixed_now: datetime,
@@ -451,7 +451,7 @@ async def test_video_bad_event_ongoing(
 
 
 async def test_video_bad_perms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp: MockUFPFixture,
     camera: Camera,
     fixed_now: datetime,
@@ -479,7 +479,7 @@ async def test_video_bad_perms(
 
 
 async def test_video_bad_nvr_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -514,7 +514,7 @@ async def test_video_bad_nvr_id(
 
 
 async def test_video_bad_camera_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -549,7 +549,7 @@ async def test_video_bad_camera_id(
 
 
 async def test_video_bad_camera_perms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -587,7 +587,7 @@ async def test_video_bad_camera_perms(
 
 @pytest.mark.parametrize(("start", "end"), [("test", None), (None, "test")])
 async def test_video_bad_params(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -627,7 +627,7 @@ async def test_video_bad_params(
 
 
 async def test_video_bad_video(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -662,7 +662,7 @@ async def test_video_bad_video(
 
 
 async def test_video(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -707,7 +707,7 @@ async def test_video(
 
 
 async def test_video_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -753,7 +753,7 @@ async def test_video_entity_id(
 
 
 async def test_video_event_bad_nvr_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     camera: Camera,
     ufp: MockUFPFixture,
@@ -773,7 +773,7 @@ async def test_video_event_bad_nvr_id(
 
 
 async def test_video_event_bad_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -791,7 +791,7 @@ async def test_video_event_bad_event(
 
 
 async def test_video_event_bad_camera(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -809,7 +809,7 @@ async def test_video_event_bad_camera(
 
 
 async def test_video_event_bad_camera_perms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -850,7 +850,7 @@ async def test_video_event_bad_camera_perms(
 
 
 async def test_video_event_ongoing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -887,7 +887,7 @@ async def test_video_event_ongoing(
 
 
 async def test_event_video_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -923,7 +923,7 @@ async def test_event_video_no_data(
 
 
 async def test_event_video(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     ufp: MockUFPFixture,
     camera: Camera,
@@ -986,7 +986,7 @@ async def test_public_only_entry_id_lookup_404(
 
 
 async def test_public_only_entry_skipped_by_nvr_id_lookup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_public_only: Callable[[], Coroutine[Any, Any, None]],
 ) -> None:
     """The nvr-id lookup (thumbnail/video views) skips a public-only entry.

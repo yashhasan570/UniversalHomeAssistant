@@ -9,8 +9,8 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -21,7 +21,7 @@ RESUME_ENTITY_ID = "button.jar_resume_dimming"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -41,7 +41,7 @@ async def test_entities(
     ],
 )
 async def test_button_press_calls_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     entity_id: str,
@@ -66,16 +66,16 @@ async def test_button_press_calls_device(
     ],
 )
 async def test_button_raises_universalassistant_error_on_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     entity_id: str,
     method: str,
 ) -> None:
-    """Test that a CasperGlowError is converted to UniversalAssistantError."""
+    """Test that a CasperGlowError is converted to __HAC_KEEP__Error."""
     getattr(mock_casper_glow, method).side_effect = CasperGlowError("connection lost")
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             BUTTON_DOMAIN,
             ButtonService.PRESS,

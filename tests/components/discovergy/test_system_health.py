@@ -8,13 +8,13 @@ from pytest_universalassistant.common import get_system_health_info
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.discovergy.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.loader import async_get_integration
 from universalassistant.setup import async_setup_component
 
 
 async def test_discovergy_system_health(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test Discovergy system health."""
     aioclient_mock.get(API_BASE, text="")
@@ -34,7 +34,7 @@ async def test_discovergy_system_health(
 
 
 async def test_discovergy_system_health_fail(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test Discovergy system health."""
     aioclient_mock.get(API_BASE, exc=ClientError)

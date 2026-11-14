@@ -7,7 +7,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import init_integration
@@ -30,7 +30,7 @@ UPDATE_DATA = {
 
 
 async def test_sensor_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     hass_client_no_auth: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,

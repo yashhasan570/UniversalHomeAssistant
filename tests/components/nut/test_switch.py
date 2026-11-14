@@ -8,7 +8,7 @@ from pytest_universalassistant.common import async_load_json_object_fixture
 from universalassistant.components.nut.const import DOMAIN, INTEGRATION_SUPPORTED_COMMANDS
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_ON, STATE_UNKNOWN, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .util import async_init_integration
@@ -27,7 +27,7 @@ from .util import async_init_integration
     ],
 )
 async def test_switch_ups(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, model: str
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, model: str
 ) -> None:
     """Tests that there are no standard switches."""
 
@@ -56,7 +56,7 @@ async def test_switch_ups(
     ],
 )
 async def test_switch_pdu_dynamic_outlets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     model: str,
     unique_id_base: str,
@@ -122,7 +122,7 @@ async def test_switch_pdu_dynamic_outlets(
 
 
 async def test_switch_pdu_dynamic_outlets_state_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test switch entity with missing status is reported as unknown."""
@@ -152,7 +152,7 @@ async def test_switch_pdu_dynamic_outlets_state_unknown(
 
 
 async def test_switch_outlets_without_outlet_count(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test outlet switches are created when outlet.count is missing.
@@ -239,7 +239,7 @@ async def test_switch_outlets_without_outlet_count(
     ],
 )
 async def test_switch_outlet_not_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     list_vars: dict[str, str],
     list_commands_return_value: dict[str, None],
 ) -> None:
@@ -260,7 +260,7 @@ async def test_switch_outlet_not_created(
 
 
 async def test_switch_invalid_outlet_count_falls_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test a non-numeric outlet.count falls back to status-key discovery."""

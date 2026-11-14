@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.aurora.const import CONF_THRESHOLD, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -23,7 +23,7 @@ USER_INPUT = {CONF_LOCATION: DATA}
 
 
 async def test_full_flow(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_aurora_client: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_aurora_client: AsyncMock
 ) -> None:
     """Test full flow."""
 
@@ -54,7 +54,7 @@ async def test_full_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aurora_client: AsyncMock,
     side_effect: Exception,
     error: str,
@@ -87,7 +87,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_option_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_aurora_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

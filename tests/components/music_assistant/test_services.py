@@ -21,7 +21,7 @@ from universalassistant.components.music_assistant.services import (
     MusicAssistantServiceArgument,
 )
 from universalassistant.const import ATTR_CONFIG_ENTRY_ID
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 
 from .common import create_library_albums_from_fixture, setup_integration_from_fixtures
@@ -30,7 +30,7 @@ MOCK_USER_ID = "abc123"
 
 
 async def test_search_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_search_action(
 
 
 async def test_search_action_with_username(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test music assistant search action."""
@@ -116,7 +116,7 @@ async def test_search_action_with_username(
     ],
 )
 async def test_search_action_acts_as_calling_user(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     user_id: str | None,
     extra_data: dict[str, str],
@@ -143,7 +143,7 @@ async def test_search_action_acts_as_calling_user(
 
 
 async def test_search_action_with_unknown_username(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that a username the server does not know raises a translated error."""
@@ -191,7 +191,7 @@ async def test_search_action_with_unknown_username(
     ],
 )
 async def test_search_action_invalid_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     other_entry_domain: str,
     config_entry_id: str,
@@ -229,7 +229,7 @@ async def test_search_action_invalid_config_entry(
     ],
 )
 async def test_get_library_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     media_type: str,
     snapshot: SnapshotAssertion,
@@ -254,7 +254,7 @@ async def test_get_library_action(
     [(True, True), (False, False), (None, None)],
 )
 async def test_get_library_action_favorite_filter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     favorite: bool | None,
     expected: bool | None,
@@ -292,7 +292,7 @@ async def test_get_library_action_favorite_filter(
     ],
 )
 async def test_get_library_action_with_username(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
     media_type: str,
 ) -> None:
@@ -316,7 +316,7 @@ async def test_get_library_action_with_username(
 
 
 async def test_get_library_action_with_unknown_username(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     music_assistant_client: MagicMock,
 ) -> None:
     """Test that a username the server does not know raises a translated error."""

@@ -19,11 +19,11 @@ from pytest_universalassistant.components.common import (
 from universalassistant.components.remote import DOMAIN
 from universalassistant.components.remote.trigger import TRIGGERS
 from universalassistant.const import STATE_OFF, STATE_ON
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
-async def target_remotes(hass: UniversalAssistant) -> dict[str, list[str]]:
+async def target_remotes(hass: __HAC_KEEP__) -> dict[str, list[str]]:
     """Create multiple remotes entities associated with different targets."""
     return await target_entities(hass, DOMAIN)
 
@@ -42,7 +42,7 @@ _TRIGGER_TARGET_SUPPORT: dict[str, TargetSupport] = {
     ],
 )
 async def test_remote_trigger_options_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_key: str,
     base_options: dict[str, Any] | None,
     supports_behavior: bool,
@@ -83,7 +83,7 @@ def test_trigger_target_support() -> None:
     ],
 )
 async def test_remote_state_trigger_behavior_each(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_remotes: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -125,7 +125,7 @@ async def test_remote_state_trigger_behavior_each(
     ],
 )
 async def test_remote_state_trigger_behavior_first(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_remotes: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,
@@ -167,7 +167,7 @@ async def test_remote_state_trigger_behavior_first(
     ],
 )
 async def test_remote_state_trigger_behavior_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     target_remotes: dict[str, list[str]],
     trigger_target_config: dict,
     entity_id: str,

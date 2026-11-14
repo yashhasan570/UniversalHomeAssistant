@@ -26,8 +26,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     STATE_UNAVAILABLE,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
 from .conftest import setup_evohome
@@ -37,7 +37,7 @@ from .const import TEST_INSTALLS
 @pytest.mark.parametrize("install", ["minimal"])
 @pytest.mark.usefixtures("evohome")
 async def test_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
 ) -> None:
     """Test entities and their states after setup of evohome."""
@@ -84,7 +84,7 @@ async def test_setup_platform(
 )
 @pytest.mark.usefixtures("evohome")
 async def test_high_precision_temps(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     tcs: ControlSystem,
     zone_id: str,
@@ -118,7 +118,7 @@ async def test_high_precision_temps(
 @pytest.mark.parametrize("install", TEST_INSTALLS)
 @pytest.mark.usefixtures("evohome")
 async def test_schedules_fetched_only_when_stale(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     tcs: ControlSystem,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_schedules_fetched_only_when_stale(
 )
 @pytest.mark.usefixtures("evohome")
 async def test_action_api_call_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request: pytest.FixtureRequest,
     domain: str,
     service: str,
@@ -192,13 +192,13 @@ async def test_action_api_call_failed(
     entity_fixture: str,
     client_api: str,
 ) -> None:
-    """Test an action raises UniversalAssistantError if the vendor's API call fails."""
+    """Test an action raises __HAC_KEEP__Error if the vendor's API call fails."""
 
     entity_id: str = request.getfixturevalue(entity_fixture)
 
     with (
         patch(client_api, side_effect=evo_exc.ApiCallFailedError("API call failed")),
-        pytest.raises(UniversalAssistantError) as exc_info,
+        pytest.raises(__HAC_KEEP__Error) as exc_info,
     ):
         await hass.services.async_call(
             domain,
@@ -211,7 +211,7 @@ async def test_action_api_call_failed(
 
 
 async def test_no_schedule_fetch_at_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, str],
 ) -> None:
     """Test no schedule is fetched during setup (only config & status are)."""
@@ -231,7 +231,7 @@ async def test_no_schedule_fetch_at_setup(
 @pytest.mark.parametrize("install", ["default"])
 @pytest.mark.usefixtures("evohome")
 async def test_failed_schedule_poll_keeps_entities_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     zone_id: str,
     caplog: pytest.LogCaptureFixture,

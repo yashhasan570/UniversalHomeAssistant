@@ -8,7 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.const import STATE_OFF, STATE_ON, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ MOCK_SWITCH_DEVICE = {
 
 
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -44,7 +44,7 @@ async def test_entities(
 
 
 async def test_switch_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -77,7 +77,7 @@ async def test_switch_actions(
 
 
 async def test_switch_callbacks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -113,7 +113,7 @@ async def test_switch_callbacks(
 
 
 async def test_no_switch_found(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dio_chacon_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

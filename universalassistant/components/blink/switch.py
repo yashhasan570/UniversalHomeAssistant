@@ -9,8 +9,8 @@ from universalassistant.components.switch import (
     SwitchEntity,
     SwitchEntityDescription,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -28,7 +28,7 @@ SWITCH_TYPES: tuple[SwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: BlinkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -74,7 +74,7 @@ class BlinkSwitch(CoordinatorEntity[BlinkUpdateCoordinator], SwitchEntity):
             await self._camera.async_arm(True)
 
         except TimeoutError as er:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_arm_motion",
             ) from er
@@ -92,7 +92,7 @@ class BlinkSwitch(CoordinatorEntity[BlinkUpdateCoordinator], SwitchEntity):
             await self._camera.async_arm(False)
 
         except TimeoutError as er:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="failed_disarm_motion",
             ) from er

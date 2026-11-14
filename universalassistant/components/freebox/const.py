@@ -9,7 +9,7 @@ DOMAIN = "freebox"
 
 APP_DESC = {
     "app_id": "hass",
-    "app_name": "Universal Universal Home Assistant",
+    "app_name": "__HA_KEEP__",
     "app_version": "0.106",
     "device_name": socket.gethostname(),
 }

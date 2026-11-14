@@ -12,14 +12,14 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CONF_URL, CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import magic_client
 
 SELECT_NETWORK_MODE = "select.test_router_preferred_network_mode"
 
 
-async def test_set_net_mode(hass: UniversalAssistant) -> None:
+async def test_set_net_mode(hass: __HAC_KEEP__) -> None:
     """Test setting network mode."""
     huawei_lte = MockConfigEntry(
         domain=DOMAIN, data={CONF_URL: "http://huawei-lte.example.com"}

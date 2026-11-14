@@ -5,10 +5,10 @@ from unittest.mock import patch
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.brottsplatskartan.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_load_unload_entry(hass: UniversalAssistant) -> None:
+async def test_load_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test load and unload entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,

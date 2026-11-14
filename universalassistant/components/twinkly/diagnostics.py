@@ -5,7 +5,7 @@ from typing import Any
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from universalassistant.const import CONF_HOST, CONF_IP_ADDRESS, CONF_MAC
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import DOMAIN
@@ -15,7 +15,7 @@ TO_REDACT = [CONF_HOST, CONF_IP_ADDRESS, CONF_MAC]
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: TwinklyConfigEntry
+    hass: __HAC_KEEP__, entry: TwinklyConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a Twinkly config entry."""
     attributes = None

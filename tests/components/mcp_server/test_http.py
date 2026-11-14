@@ -38,7 +38,7 @@ from universalassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
@@ -59,7 +59,7 @@ TEST_ENTITY = "light.kitchen"
 DEVICE_ID_META_KEY = "io.universal-assistant/device_id"
 SNAPSHOT_RESOURCE_URI = "universalassistant://assist/context-snapshot"
 type MCPClientFactory = Callable[
-    [UniversalAssistant, str, str],
+    [__HAC_KEEP__, str, str],
     AbstractAsyncContextManager[mcp.client.session.ClientSession],
 ]
 INITIALIZE_MESSAGE = {
@@ -96,7 +96,7 @@ class _StubTool(llm.Tool):
 
     async def async_call(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         tool_input: llm.ToolInput,
         llm_context: llm.LLMContext,
     ) -> JsonObjectType:
@@ -105,7 +105,7 @@ class _StubTool(llm.Tool):
 
 
 @pytest.fixture
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Set up the config entry."""
     await hass.config_entries.async_setup(config_entry.entry_id)
     assert config_entry.state is ConfigEntryState.LOADED
@@ -113,7 +113,7 @@ async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEn
 
 @pytest.fixture(autouse=True)
 async def mock_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
@@ -163,7 +163,7 @@ async def sse_response_reader(
 
 
 async def test_http_sse(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_http_sse(
 
 
 async def test_http_messages_missing_session_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -209,7 +209,7 @@ async def test_http_messages_missing_session_id(
 
 
 async def test_http_messages_invalid_message_format(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -229,7 +229,7 @@ async def test_http_messages_invalid_message_format(
 
 
 async def test_http_sse_multiple_config_entries(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -255,7 +255,7 @@ async def test_http_sse_multiple_config_entries(
 
 
 async def test_http_sse_no_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -275,7 +275,7 @@ async def test_http_sse_no_config_entry(
 
 
 async def test_http_messages_no_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -306,7 +306,7 @@ async def test_http_messages_no_config_entry(
 
 
 async def test_options_flow_closes_sessions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     config_entry: MockConfigEntry,
     hass_client: ClientSessionGenerator,
@@ -353,7 +353,7 @@ async def test_options_flow_closes_sessions(
     ],
 )
 async def test_http_requires_authentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client_no_auth: ClientSessionGenerator,
     method: str,
@@ -386,7 +386,7 @@ async def mcp_url(mcp_protocol: str, hass_client: ClientSessionGenerator) -> str
 
 @asynccontextmanager
 async def mcp_sse_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mcp_url: str,
     hass_supervisor_access_token: str,
 ) -> AsyncGenerator[mcp.client.session.ClientSession]:
@@ -405,7 +405,7 @@ async def mcp_sse_session(
 
 @asynccontextmanager
 async def mcp_streamable_session(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mcp_url: str,
     hass_supervisor_access_token: str,
 ) -> AsyncGenerator[mcp.client.session.ClientSession]:
@@ -434,7 +434,7 @@ def mcp_client_fixture(mcp_protocol: str) -> Any:
 
 
 async def test_server_icons(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mcp_protocol: str,
     mcp_client: MCPClientFactory,
@@ -517,7 +517,7 @@ async def test_server_icons(
     ],
 )
 async def test_request_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mcp_url: str,
     mcp_client: MCPClientFactory,
     hass_supervisor_access_token: str,
@@ -560,7 +560,7 @@ async def test_request_device_id(
     ],
 )
 async def test_request_metadata_without_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mcp_url: str,
     mcp_client: MCPClientFactory,
     hass_supervisor_access_token: str,
@@ -589,7 +589,7 @@ async def test_request_metadata_without_device_id(
     ],
 )
 async def test_request_invalid_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mcp_url: str,
     mcp_client: MCPClientFactory,
     hass_supervisor_access_token: str,
@@ -608,7 +608,7 @@ async def test_request_invalid_device_id(
 
 
 async def test_tool_call_invalid_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mcp_url: str,
     mcp_client: MCPClientFactory,
     hass_supervisor_access_token: str,
@@ -628,7 +628,7 @@ async def test_tool_call_invalid_device_id(
 
 
 async def test_request_device_id_enables_timer_tools(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mcp_url: str,
     mcp_client: MCPClientFactory,
     hass_supervisor_access_token: str,
@@ -654,7 +654,7 @@ async def test_request_device_id_enables_timer_tools(
 
 @pytest.mark.parametrize("llm_hass_api", [llm.LLM_API_ASSIST, STATELESS_LLM_API])
 async def test_mcp_tools_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -703,7 +703,7 @@ async def test_mcp_tools_list(
     ],
 )
 async def test_mcp_tools_list_required_parameters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: MCPClientFactory,
@@ -733,7 +733,7 @@ async def test_mcp_tools_list_required_parameters(
 
 @pytest.mark.parametrize(("all_llm_apis", "llm_hass_api"), [(True, [])])
 async def test_mcp_tools_list_all_llm_apis(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: MCPClientFactory,
@@ -763,7 +763,7 @@ async def test_mcp_tools_list_all_llm_apis(
 
 @pytest.mark.parametrize("llm_hass_api", [[llm.LLM_API_ASSIST, TEST_LLM_API_ID]])
 async def test_mcp_merged_live_context(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: MCPClientFactory,
@@ -786,7 +786,7 @@ async def test_mcp_merged_live_context(
 @pytest.mark.parametrize("llm_hass_api", [[llm.LLM_API_ASSIST, TEST_LLM_API_ID]])
 @pytest.mark.parametrize("read_only", [True])
 async def test_mcp_merged_read_only_blocks_write_tools(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: MCPClientFactory,
@@ -828,7 +828,7 @@ async def test_mcp_merged_read_only_blocks_write_tools(
     ],
 )
 async def test_mcp_tools_list_json_schema(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mcp_url: str,
     mcp_client: MCPClientFactory,
     hass_supervisor_access_token: str,
@@ -855,7 +855,7 @@ async def test_mcp_tools_list_json_schema(
 
 @pytest.mark.parametrize("llm_hass_api", [TEST_LLM_API_ID])
 async def test_mcp_tools_list_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: MCPClientFactory,
@@ -896,7 +896,7 @@ async def test_mcp_tools_list_metadata(
 
 @pytest.mark.parametrize("llm_hass_api", [llm.LLM_API_ASSIST, STATELESS_LLM_API])
 async def test_mcp_tool_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -930,7 +930,7 @@ async def test_mcp_tool_call(
 
 @pytest.mark.parametrize("read_only", [True])
 async def test_mcp_read_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: MCPClientFactory,
@@ -957,7 +957,7 @@ async def test_mcp_read_only(
 
 
 async def test_mcp_tool_call_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -979,7 +979,7 @@ async def test_mcp_tool_call_failed(
 
 @pytest.mark.parametrize("llm_hass_api", [llm.LLM_API_ASSIST, STATELESS_LLM_API])
 async def test_prompt_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -993,12 +993,12 @@ async def test_prompt_list(
     assert len(result.prompts) == 1
     prompt = result.prompts[0]
     assert prompt.name == "Device control"
-    assert prompt.description == "Default prompt for Universal Universal Home Assistant Device control API"
+    assert prompt.description == "Default prompt for __HA_KEEP__ Device control API"
 
 
 @pytest.mark.parametrize("llm_hass_api", [llm.LLM_API_ASSIST, STATELESS_LLM_API])
 async def test_prompt_get(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -1009,16 +1009,16 @@ async def test_prompt_get(
     async with mcp_client(hass, mcp_url, hass_supervisor_access_token) as session:
         result = await session.get_prompt(name="Device control")
 
-    assert result.description == "Default prompt for Universal Universal Home Assistant Device control API"
+    assert result.description == "Default prompt for __HA_KEEP__ Device control API"
     assert len(result.messages) == 1
     assert result.messages[0].role == "assistant"
     assert result.messages[0].content.type == "text"
-    assert "When controlling Universal Universal Home Assistant" in result.messages[0].content.text
+    assert "When controlling __HA_KEEP__" in result.messages[0].content.text
     assert EXPECTED_PROMPT_ENTITY_DEFINITION in result.messages[0].content.text
 
 
 async def test_get_unknown_prompt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -1033,7 +1033,7 @@ async def test_get_unknown_prompt(
 
 @pytest.mark.parametrize("llm_hass_api", [llm.LLM_API_ASSIST, STATELESS_LLM_API])
 async def test_mcp_resources_list(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -1055,7 +1055,7 @@ async def test_mcp_resources_list(
 
 @pytest.mark.parametrize("llm_hass_api", [llm.LLM_API_ASSIST, STATELESS_LLM_API])
 async def test_mcp_resource_read(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -1083,7 +1083,7 @@ async def test_mcp_resource_read(
 
 @pytest.mark.parametrize("llm_hass_api", [llm.LLM_API_ASSIST, STATELESS_LLM_API])
 async def test_mcp_resource_read_unknown_resource(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -1103,7 +1103,7 @@ async def test_mcp_resource_read_unknown_resource(
 
 @pytest.mark.parametrize("llm_hass_api", [TEST_LLM_API_ID])
 async def test_mcp_resources_unavailable_without_live_context_tool(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -1131,7 +1131,7 @@ async def test_mcp_resources_unavailable_without_live_context_tool(
 
 @pytest.mark.parametrize("llm_hass_api", [llm.LLM_API_ASSIST])
 async def test_mcp_tool_call_unicode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -1181,7 +1181,7 @@ async def test_mcp_tool_call_unicode(
     ],
 )
 async def test_mcp_tool_call_error_flag(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     mcp_url: str,
     mcp_client: Any,
@@ -1208,7 +1208,7 @@ async def test_mcp_tool_call_error_flag(
 
 
 async def test_streamable_api_id_exposes_registered_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
     hass_supervisor_access_token: str,
@@ -1232,7 +1232,7 @@ async def test_streamable_api_id_exposes_registered_api(
 
 @pytest.mark.parametrize("read_only", [True])
 async def test_streamable_api_id_ignores_read_only(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
     hass_supervisor_access_token: str,
@@ -1259,7 +1259,7 @@ async def test_streamable_api_id_ignores_read_only(
 
 
 async def test_streamable_api_id_requires_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
     hass_read_only_access_token: str,
@@ -1279,7 +1279,7 @@ async def test_streamable_api_id_requires_admin(
 
 
 async def test_streamable_api_id_assist_allows_non_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
     hass_read_only_access_token: str,
@@ -1295,7 +1295,7 @@ async def test_streamable_api_id_assist_allows_non_admin(
 
 
 async def test_streamable_api_id_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -1318,7 +1318,7 @@ async def test_streamable_api_id_unknown(
     ],
 )
 async def test_require_admin_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
     hass_read_only_access_token: str,
@@ -1337,7 +1337,7 @@ async def test_require_admin_option(
 
 @pytest.mark.parametrize("require_admin", [True])
 async def test_require_admin_blocks_sse_endpoints(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
     hass_read_only_access_token: str,
@@ -1354,7 +1354,7 @@ async def test_require_admin_blocks_sse_endpoints(
 
 @pytest.mark.parametrize("require_admin", [True])
 async def test_require_admin_allows_admin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_integration: None,
     hass_client: ClientSessionGenerator,
 ) -> None:

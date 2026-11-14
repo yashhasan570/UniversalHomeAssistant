@@ -18,7 +18,7 @@ from universalassistant.components.elevenlabs.const import (
     DOMAIN,
 )
 from universalassistant.const import CONF_API_KEY, CONF_MODEL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import MOCK_MODELS, MOCK_VOICES
 
@@ -190,7 +190,7 @@ def mock_async_client_connect_error() -> Generator[AsyncMock]:
 
 
 async def mock_config_entry_setup(
-    hass: UniversalAssistant, config_data: dict[str, Any], config_options: dict[str, Any]
+    hass: __HAC_KEEP__, config_data: dict[str, Any], config_options: dict[str, Any]
 ) -> None:
     """Mock config entry setup."""
     default_config_data = {
@@ -224,7 +224,7 @@ async def mock_config_entry_setup(
 
 @pytest.fixture(name="setup")
 async def setup_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_data: dict[str, Any],
     config_options: dict[str, Any],
     mock_async_client: AsyncMock,

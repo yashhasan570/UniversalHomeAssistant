@@ -1,4 +1,4 @@
-"""Functional utility functions for Universal Universal Home Assistant templates."""
+"""Functional utility functions for __HA_KEEP__ templates."""
 
 from collections.abc import Callable
 from copy import deepcopy

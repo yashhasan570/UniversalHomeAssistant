@@ -24,8 +24,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -34,7 +34,7 @@ from .const import TEST_DEVICE_ID
 
 
 async def _assert_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     option: str,
     expected_calls: list[tuple],
@@ -163,7 +163,7 @@ ALL_SELECT_DEVICES = [
 @pytest.mark.parametrize("device", ALL_SELECT_DEVICES)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_select_state_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -178,7 +178,7 @@ async def test_select_state_snapshot(
 
 
 async def test_x40_direction_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test X40's direction select reflects state and can be changed."""
@@ -202,7 +202,7 @@ async def test_x40_direction_select(
 
 
 async def test_ac_angle_and_rate_selects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test AC's wind angle and rate selects."""
@@ -241,7 +241,7 @@ async def test_ac_angle_and_rate_selects(
     ],
 )
 async def test_ac_selects_unavailable_when_power_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     set_device_attribute: SetDeviceAttribute,
     unique_id: str,
@@ -272,7 +272,7 @@ async def test_ac_selects_unavailable_when_power_off(
 
 
 async def test_fa_selects_do_not_overlap_fan_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test FA exposes oscillation_mode/angle and tilting_angle selects."""
@@ -296,7 +296,7 @@ async def test_fa_selects_do_not_overlap_fan_platform(
 
 
 async def test_fc_selects(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test FC exposes detect_mode, mode, fan_speed and screen_display selects."""
@@ -321,7 +321,7 @@ async def test_fc_selects(
 
 
 async def test_select_unknown_when_attribute_becomes_non_str(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test current_option gracefully reports unknown if a later update clears it."""
@@ -343,7 +343,7 @@ async def test_select_unknown_when_attribute_becomes_non_str(
 
 
 async def test_select_not_created_when_attribute_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test no select entity is created when the device does not report the attribute."""
@@ -357,7 +357,7 @@ async def test_select_not_created_when_attribute_missing(
 
 
 async def test_select_not_created_for_other_device_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test no select entity is created for a device type without one (e.g. CC)."""
@@ -377,10 +377,10 @@ async def test_select_not_created_for_other_device_type(
 
 
 async def test_select_option_raises_on_device_communication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
-    """Test a device communication failure surfaces as a UniversalAssistantError."""
+    """Test a device communication failure surfaces as a __HAC_KEEP__Error."""
     device = _x40_device()
     config_entry = mock_config_entry(device)
     with patch("universalassistant.components.midea._PLATFORMS", [Platform.SELECT]):
@@ -390,7 +390,7 @@ async def test_select_option_raises_on_device_communication_error(
 
     with (
         patch.object(device, "set_attribute", side_effect=SocketException("offline")),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             SELECT_DOMAIN,

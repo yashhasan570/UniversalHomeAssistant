@@ -3,7 +3,7 @@
 import pytest
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -27,7 +27,7 @@ def platform() -> Platform:
     ],
 )
 @pytest.mark.usefixtures("init_integration")
-async def test_camera(hass: UniversalAssistant, entity_registry: er.EntityRegistry) -> None:
+async def test_camera(hass: __HAC_KEEP__, entity_registry: er.EntityRegistry) -> None:
     """Test the underlying camera."""
     entry = entity_registry.async_get("camera.octoprint_camera")
     assert entry is not None
@@ -49,7 +49,7 @@ async def test_camera(hass: UniversalAssistant, entity_registry: er.EntityRegist
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_camera_disabled(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that the camera does not load if there is not one configured."""
     entry = entity_registry.async_get("camera.octoprint_camera")
@@ -58,7 +58,7 @@ async def test_camera_disabled(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_no_supported_camera(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test that the camera does not load if there is not one configured."""
     entry = entity_registry.async_get("camera.octoprint_camera")

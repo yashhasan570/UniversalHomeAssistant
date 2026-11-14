@@ -1,1 +1,1 @@
-"""Packages related to Universal Universal Home Assistant."""
+"""Packages related to __HA_KEEP__."""

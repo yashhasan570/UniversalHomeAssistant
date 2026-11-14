@@ -34,7 +34,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.hotspring.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -185,7 +185,7 @@ def mock_hotspring(device_fixture: Spa) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hotspring: MagicMock,
 ) -> MockConfigEntry:

@@ -10,12 +10,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components import folder_watcher
 from universalassistant.components.folder_watcher.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 
 
 async def test_invalid_path_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     tmp_path: Path,
     freezer: FrozenDateTimeFactory,
     issue_registry: ir.IssueRegistry,
@@ -49,7 +49,7 @@ async def test_invalid_path_setup(
 
 
 async def test_valid_path_setup(
-    hass: UniversalAssistant, tmp_path: Path, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, tmp_path: Path, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that a valid path is setup."""
     freezer.move_to("2022-04-19 10:31:02+00:00")
@@ -73,7 +73,7 @@ async def test_valid_path_setup(
 
 
 def test_event() -> None:
-    """Check that Universal Universal Home Assistant events are fired correctly on watchdog event."""
+    """Check that __HA_KEEP__ events are fired correctly on watchdog event."""
 
     class MockPatternMatchingEventHandler:
         """Mock base class for the pattern matcher event handler."""
@@ -103,7 +103,7 @@ def test_event() -> None:
 
 
 def test_move_event() -> None:
-    """Check that Universal Universal Home Assistant events are fired correctly on watchdog event."""
+    """Check that __HA_KEEP__ events are fired correctly on watchdog event."""
 
     class MockPatternMatchingEventHandler:
         """Mock base class for the pattern matcher event handler."""

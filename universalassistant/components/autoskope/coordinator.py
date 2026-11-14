@@ -7,7 +7,7 @@ from autoskope_client.api import AutoskopeApi
 from autoskope_client.models import CannotConnect, InvalidAuth, Vehicle
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -25,7 +25,7 @@ class AutoskopeDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Vehicle]]):
     config_entry: AutoskopeConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, api: AutoskopeApi, entry: AutoskopeConfigEntry
+        self, hass: __HAC_KEEP__, api: AutoskopeApi, entry: AutoskopeConfigEntry
     ) -> None:
         """Initialize the coordinator."""
         super().__init__(

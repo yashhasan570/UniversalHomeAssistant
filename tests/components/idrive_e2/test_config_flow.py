@@ -18,7 +18,7 @@ from universalassistant.components.idrive_e2.const import (
     DOMAIN,
 )
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.selector import SelectSelector
 
@@ -39,7 +39,7 @@ def mock_idrive_client() -> Generator[AsyncMock]:
 
 
 async def test_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_idrive_client: AsyncMock,
     mock_client: AsyncMock,
 ) -> None:
@@ -99,7 +99,7 @@ async def test_flow(
     ],
 )
 async def test_flow_list_buckets_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_idrive_client: AsyncMock,
     mock_client: AsyncMock,
     exception: Exception,
@@ -149,7 +149,7 @@ async def test_flow_list_buckets_errors(
 
 
 async def test_flow_no_buckets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_idrive_client: AsyncMock,
     mock_client: AsyncMock,
 ) -> None:
@@ -199,7 +199,7 @@ async def test_flow_no_buckets(
 
 
 async def test_flow_bucket_step_options_from_s3_list_buckets(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_idrive_client: AsyncMock,
     mock_client: AsyncMock,
 ) -> None:
@@ -256,7 +256,7 @@ async def test_flow_bucket_step_options_from_s3_list_buckets(
     ],
 )
 async def test_flow_get_region_endpoint_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_idrive_client: AsyncMock,
     mock_client: AsyncMock,
     exception: Exception,
@@ -306,7 +306,7 @@ async def test_flow_get_region_endpoint_error(
 
 
 async def test_abort_if_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_idrive_client: AsyncMock,
     mock_client: AsyncMock,

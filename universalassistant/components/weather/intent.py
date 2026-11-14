@@ -4,13 +4,13 @@ from typing import override
 
 import probatio
 
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import intent
 
 from . import DOMAIN, INTENT_GET_WEATHER
 
 
-async def async_setup_intents(hass: UniversalAssistant) -> None:
+async def async_setup_intents(hass: __HAC_KEEP__) -> None:
     """Set up the weather intents."""
     intent.async_register(hass, GetWeatherIntent())
 

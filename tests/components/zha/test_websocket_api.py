@@ -78,7 +78,7 @@ from universalassistant.components.zha.websocket_api import (
     async_load_api,
 )
 from universalassistant.const import ATTR_AREA_ID, ATTR_NAME, Platform
-from universalassistant.core import Context, UniversalAssistant
+from universalassistant.core import Context, __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import FIXTURE_GRP_ID, FIXTURE_GRP_NAME
@@ -125,7 +125,7 @@ def speed_up_radio_mgr():
 
 @pytest.fixture
 async def zha_client(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -176,7 +176,7 @@ async def zha_client(
     return await hass_ws_client(hass)
 
 
-async def test_device_clusters(hass: UniversalAssistant, zha_client) -> None:
+async def test_device_clusters(hass: __HAC_KEEP__, zha_client) -> None:
     """Test getting device cluster info."""
     await zha_client.send_json(
         {ID: 5, TYPE: "zha/devices/clusters", ATTR_IEEE: IEEE_SWITCH_DEVICE}
@@ -281,7 +281,7 @@ async def test_list_devices(zha_client) -> None:
 
 
 async def test_device_info_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_device_mock: Callable[..., ZigbeeDevice],
@@ -331,7 +331,7 @@ async def test_get_zha_config(zha_client) -> None:
 
 
 async def test_get_zha_config_with_alarm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zha_client,
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:
@@ -377,7 +377,7 @@ async def test_get_zha_config_with_alarm(
 
 
 async def test_update_zha_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     zha_client,
     app_controller: ControllerApplication,
@@ -461,7 +461,7 @@ async def test_get_group_not_found(zha_client) -> None:
 
 
 async def test_list_groupable_devices(
-    hass: UniversalAssistant, zha_client, zigpy_app_controller
+    hass: __HAC_KEEP__, zha_client, zigpy_app_controller
 ) -> None:
     """Test getting ZHA devices that have a group cluster."""
     # Ensure the coordinator doesn't have a group cluster
@@ -516,7 +516,7 @@ async def test_list_groupable_devices(
 
 
 async def _async_add_green_power_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> ZigpyGreenPowerDevice:
     """Join a Green Power device."""
     gateway = get_zha_gateway(hass)
@@ -533,7 +533,7 @@ async def _async_add_green_power_device(
     return zigpy_gpd
 
 
-async def test_green_power_device_listings(hass: UniversalAssistant, zha_client) -> None:
+async def test_green_power_device_listings(hass: __HAC_KEEP__, zha_client) -> None:
     """Test that a Green Power device does not break device-wide listings."""
     zigpy_gpd = await _async_add_green_power_device(hass)
 
@@ -604,7 +604,7 @@ async def test_green_power_device_listings(hass: UniversalAssistant, zha_client)
     ],
 )
 async def test_green_power_device_clusters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zha_client: MockHAClientWebSocket,
     command: dict[str, Any],
 ) -> None:
@@ -626,7 +626,7 @@ async def test_green_power_device_clusters(
     ],
 )
 async def test_read_zigbee_cluster_attribute(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zha_client: MockHAClientWebSocket,
     ieee: str,
     read_calls: int,
@@ -662,7 +662,7 @@ async def test_read_zigbee_cluster_attribute(
 
 
 async def test_get_zha_config_with_green_power_device(
-    hass: UniversalAssistant, zha_client: MockHAClientWebSocket
+    hass: __HAC_KEEP__, zha_client: MockHAClientWebSocket
 ) -> None:
     """Test a Green Power device is skipped when looking for alarm clusters."""
     await _async_add_green_power_device(hass)
@@ -673,7 +673,7 @@ async def test_get_zha_config_with_green_power_device(
     assert msg["result"] == BASE_CUSTOM_CONFIGURATION
 
 
-async def test_add_group(hass: UniversalAssistant, zha_client) -> None:
+async def test_add_group(hass: __HAC_KEEP__, zha_client) -> None:
     """Test adding and getting a new ZHA zigbee group."""
     await zha_client.send_json(
         {
@@ -764,7 +764,7 @@ async def test_remove_group(zha_client) -> None:
     assert len(groups) == 0
 
 
-async def test_add_group_member(hass: UniversalAssistant, zha_client) -> None:
+async def test_add_group_member(hass: __HAC_KEEP__, zha_client) -> None:
     """Test adding a ZHA zigbee group member."""
     await zha_client.send_json(
         {
@@ -802,7 +802,7 @@ async def test_add_group_member(hass: UniversalAssistant, zha_client) -> None:
     assert added_group["members"][0]["device"]["ieee"] == IEEE_GROUPABLE_DEVICE
 
 
-async def test_remove_group_member(hass: UniversalAssistant, zha_client) -> None:
+async def test_remove_group_member(hass: __HAC_KEEP__, zha_client) -> None:
     """Test removing a ZHA zigbee group member."""
     await zha_client.send_json(
         {
@@ -842,7 +842,7 @@ async def test_remove_group_member(hass: UniversalAssistant, zha_client) -> None
 
 @pytest.fixture
 async def app_controller(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     zigpy_app_controller: ControllerApplication,
 ) -> ControllerApplication:
@@ -870,7 +870,7 @@ async def app_controller(
     ],
 )
 async def test_permit_ha12(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     app_controller: ControllerApplication,
     hass_admin_user: MockUser,
     params,
@@ -914,7 +914,7 @@ IC_TEST_PARAMS = (
 
 @pytest.mark.parametrize(("params", "src_ieee", "code"), IC_TEST_PARAMS)
 async def test_permit_with_install_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     app_controller: ControllerApplication,
     hass_admin_user: MockUser,
     params,
@@ -970,7 +970,7 @@ IC_FAIL_PARAMS = (
 
 @pytest.mark.parametrize("params", IC_FAIL_PARAMS)
 async def test_permit_with_install_code_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     app_controller: ControllerApplication,
     hass_admin_user: MockUser,
     params,
@@ -1030,7 +1030,7 @@ IC_QR_CODE_TEST_PARAMS = (
 
 @pytest.mark.parametrize(("params", "src_ieee", "code"), IC_QR_CODE_TEST_PARAMS)
 async def test_permit_with_qr_code(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     app_controller: ControllerApplication,
     hass_admin_user: MockUser,
     params,
@@ -1387,7 +1387,7 @@ async def test_websocket_bind_unbind_devices(
 async def test_websocket_bind_unbind_group(
     command_type: str,
     method: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     app_controller: ControllerApplication,
     zha_client,
 ) -> None:
@@ -1433,7 +1433,7 @@ async def test_websocket_bind_unbind_group_invalid_source(
     command_type: str,
     source_ieee: str,
     error_code: str,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zha_client,
 ) -> None:
     """Test binding a group fails for a missing or Green Power source device."""
@@ -1464,7 +1464,7 @@ async def test_websocket_bind_unbind_group_invalid_source(
 
 
 async def test_websocket_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zha_client: MockHAClientWebSocket,
     zigpy_device_mock: Callable[..., ZigbeeDevice],
 ) -> None:

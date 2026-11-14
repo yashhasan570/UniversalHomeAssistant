@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.tailwind.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER, SOURCE_ZEROCONF
 from universalassistant.const import CONF_HOST, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -24,7 +24,7 @@ pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 @pytest.mark.usefixtures("mock_tailwind")
-async def test_user_flow(hass: UniversalAssistant) -> None:
+async def test_user_flow(hass: __HAC_KEEP__) -> None:
     """Test the full happy path user flow from start to finish."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -62,7 +62,7 @@ async def test_user_flow(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tailwind: MagicMock,
     side_effect: Exception,
     expected_error: dict[str, str],
@@ -109,7 +109,7 @@ async def test_user_flow_errors(
 
 
 async def test_user_flow_unsupported_firmware_version(
-    hass: UniversalAssistant, mock_tailwind: MagicMock
+    hass: __HAC_KEEP__, mock_tailwind: MagicMock
 ) -> None:
     """Test configuration flow aborts when the firmware version is not supported."""
     mock_tailwind.status.side_effect = TailwindUnsupportedFirmwareVersionError
@@ -134,7 +134,7 @@ async def test_user_flow_unsupported_firmware_version(
 
 @pytest.mark.usefixtures("mock_tailwind")
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test configuration flow aborts when the device is already configured.
 
@@ -166,7 +166,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_tailwind")
 async def test_zeroconf_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the zeroconf happy flow from start to finish."""
@@ -219,7 +219,7 @@ async def test_zeroconf_flow(
     ],
 )
 async def test_zeroconf_flow_abort_incompatible_properties(
-    hass: UniversalAssistant, properties: dict[str, str], expected_reason: str
+    hass: __HAC_KEEP__, properties: dict[str, str], expected_reason: str
 ) -> None:
     """Test the zeroconf aborts when it advertises incompatible data."""
     result = await hass.config_entries.flow.async_init(
@@ -249,7 +249,7 @@ async def test_zeroconf_flow_abort_incompatible_properties(
     ],
 )
 async def test_zeroconf_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tailwind: MagicMock,
     side_effect: Exception,
     expected_error: dict[str, str],
@@ -307,7 +307,7 @@ async def test_zeroconf_flow_errors(
 
 @pytest.mark.usefixtures("mock_tailwind")
 async def test_zeroconf_flow_not_discovered_again(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the zeroconf doesn't re-discover an existing device.
@@ -343,7 +343,7 @@ async def test_zeroconf_flow_not_discovered_again(
 
 @pytest.mark.usefixtures("mock_tailwind")
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reauthentication configuration flow."""
@@ -375,7 +375,7 @@ async def test_reauth_flow(
     ],
 )
 async def test_reauth_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tailwind: MagicMock,
     side_effect: Exception,
@@ -412,7 +412,7 @@ async def test_reauth_flow_errors(
 
 @pytest.mark.usefixtures("mock_tailwind")
 async def test_reconfigure_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test the reconfiguration flow updates an existing entry."""
@@ -447,7 +447,7 @@ async def test_reconfigure_flow(
     ],
 )
 async def test_reconfigure_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tailwind: MagicMock,
     side_effect: Exception,
@@ -487,7 +487,7 @@ async def test_reconfigure_flow_errors(
 
 
 async def test_reconfigure_flow_different_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tailwind: MagicMock,
 ) -> None:
@@ -513,7 +513,7 @@ async def test_reconfigure_flow_different_device(
 
 
 async def test_dhcp_discovery_updates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test DHCP discovery updates config entries."""
@@ -535,7 +535,7 @@ async def test_dhcp_discovery_updates_entry(
     assert mock_config_entry.data[CONF_HOST] == "127.0.0.1"
 
 
-async def test_dhcp_discovery_ignores_unknown(hass: UniversalAssistant) -> None:
+async def test_dhcp_discovery_ignores_unknown(hass: __HAC_KEEP__) -> None:
     """Test DHCP discovery is only used for updates.
 
     Anything else will just abort the flow.

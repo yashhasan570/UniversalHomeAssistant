@@ -17,13 +17,13 @@ from universalassistant.components.homematicip_cloud.const import (
 from universalassistant.components.homematicip_cloud.hap import HomematicipHAP
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
 
 async def test_config_with_accesspoint_passed_to_config_entry(
-    hass: UniversalAssistant, mock_connection, simple_mock_home
+    hass: __HAC_KEEP__, mock_connection, simple_mock_home
 ) -> None:
     """Test that config for a accesspoint are loaded via config entry."""
 
@@ -53,7 +53,7 @@ async def test_config_with_accesspoint_passed_to_config_entry(
 
 
 async def test_config_already_registered_not_passed_to_config_entry(
-    hass: UniversalAssistant, simple_mock_home
+    hass: __HAC_KEEP__, simple_mock_home
 ) -> None:
     """Test that an already registered accesspoint does not get imported."""
 
@@ -95,7 +95,7 @@ async def test_config_already_registered_not_passed_to_config_entry(
 
 
 async def test_load_entry_fails_due_to_connection_error(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry, mock_connection_init
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry, mock_connection_init
 ) -> None:
     """Test load entry fails due to connection error."""
     hmip_config_entry.add_to_hass(hass)
@@ -116,7 +116,7 @@ async def test_load_entry_fails_due_to_connection_error(
 
 
 async def test_load_entry_fails_due_to_generic_exception(
-    hass: UniversalAssistant, hmip_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, hmip_config_entry: MockConfigEntry
 ) -> None:
     """Test load entry fails due to generic exception."""
     hmip_config_entry.add_to_hass(hass)
@@ -137,7 +137,7 @@ async def test_load_entry_fails_due_to_generic_exception(
     assert hmip_config_entry.reason == "Error connecting with HomematicIP Cloud"
 
 
-async def test_unload_entry(hass: UniversalAssistant) -> None:
+async def test_unload_entry(hass: __HAC_KEEP__) -> None:
     """Test being able to unload an entry."""
     mock_config = {HMIPC_AUTHTOKEN: "123", HMIPC_HAPID: "ABC123", HMIPC_NAME: "name"}
     MockConfigEntry(domain=DOMAIN, data=mock_config).add_to_hass(hass)
@@ -165,7 +165,7 @@ async def test_unload_entry(hass: UniversalAssistant) -> None:
 
 
 async def test_hmip_dump_hap_config_services(
-    hass: UniversalAssistant, mock_hap_with_service
+    hass: __HAC_KEEP__, mock_hap_with_service
 ) -> None:
     """Test dump configuration services."""
 
@@ -179,7 +179,7 @@ async def test_hmip_dump_hap_config_services(
         assert write_mock.mock_calls
 
 
-async def test_setup_services(hass: UniversalAssistant) -> None:
+async def test_setup_services(hass: __HAC_KEEP__) -> None:
     """Test setup services."""
     mock_config = {HMIPC_AUTHTOKEN: "123", HMIPC_HAPID: "ABC123", HMIPC_NAME: "name"}
     MockConfigEntry(domain=DOMAIN, data=mock_config).add_to_hass(hass)
@@ -210,7 +210,7 @@ async def test_setup_services(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture
-def mock_config_entry_v1(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry_v1(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create a v1 config entry for migration testing."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -244,7 +244,7 @@ def mock_config_entry_v1(hass: UniversalAssistant) -> MockConfigEntry:
     ids=["single_channel", "multi_channel", "notification_light", "group"],
 )
 async def test_migrate_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_v1: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     platform: str,
@@ -277,7 +277,7 @@ async def test_migrate_unique_id(
 
 
 async def test_migrate_stable_unique_id_skipped(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_v1: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -314,7 +314,7 @@ async def test_migrate_stable_unique_id_skipped(
 
 
 async def test_migrate_battery_and_obsolete_access_point(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_v1: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -383,7 +383,7 @@ async def test_migrate_battery_and_obsolete_access_point(
     ids=["notification_light_v1_v2", "switch_vs_measuring"],
 )
 async def test_migrate_unique_id_collision(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_v1: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -429,7 +429,7 @@ async def test_migrate_unique_id_collision(
 
 
 async def test_migrate_unique_id_partial_prior_run(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_v1: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -482,7 +482,7 @@ async def test_migrate_unique_id_partial_prior_run(
 
 
 async def test_migrate_unique_id_three_way_collision(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_v1: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

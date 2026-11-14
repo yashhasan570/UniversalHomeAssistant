@@ -10,7 +10,7 @@ from universalassistant.const import (
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
@@ -28,7 +28,7 @@ ATTR_AIR_QUALITY: Final = "air_quality"
 # Define variables to store the device names, as referred to by the Canary API.
 # Note: If Canary change the name of any of their devices (which they have done),
 # then these variables will need updating, otherwise the sensors will stop working
-# and disappear in Universal Universal Home Assistant.
+# and disappear in __HA_KEEP__.
 CANARY_PRO: Final = "Canary Pro"
 CANARY_FLEX: Final = "Canary Flex"
 
@@ -60,7 +60,7 @@ STATE_AIR_QUALITY_VERY_ABNORMAL: Final = "very_abnormal"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: CanaryConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

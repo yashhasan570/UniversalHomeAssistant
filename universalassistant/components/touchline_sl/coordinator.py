@@ -10,7 +10,7 @@ from pytouchlinesl.client import RothAPIError
 from pytouchlinesl.client.models import GlobalScheduleModel
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -35,7 +35,7 @@ class TouchlineSLModuleCoordinator(DataUpdateCoordinator[TouchlineSLModuleData])
     config_entry: TouchlineSLConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: TouchlineSLConfigEntry, module: Module
+        self, hass: __HAC_KEEP__, config_entry: TouchlineSLConfigEntry, module: Module
     ) -> None:
         """Initialize coordinator."""
         super().__init__(

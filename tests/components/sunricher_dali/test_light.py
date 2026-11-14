@@ -18,7 +18,7 @@ from universalassistant.components.light import (
     SERVICE_TURN_ON,
 )
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import find_device_listener, trigger_availability_callback
@@ -46,7 +46,7 @@ def platforms() -> list[Platform]:
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -68,7 +68,7 @@ async def test_entities(
 
 
 async def test_turn_on_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_devices: list[MagicMock],
 ) -> None:
@@ -84,7 +84,7 @@ async def test_turn_on_light(
 
 
 async def test_turn_off_light(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_devices: list[MagicMock],
 ) -> None:
@@ -100,7 +100,7 @@ async def test_turn_off_light(
 
 
 async def test_turn_on_with_brightness(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_devices: list[MagicMock],
 ) -> None:
@@ -121,7 +121,7 @@ async def test_turn_on_with_brightness(
 
 
 async def test_callback_registration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_devices: list[MagicMock],
 ) -> None:
@@ -152,7 +152,7 @@ async def test_callback_registration(
     ids=["cct_color_temp", "hs_color", "rgbw_color", "rgbw_white_level"],
 )
 async def test_status_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_devices: list[MagicMock],
     device_id: str,
@@ -165,7 +165,7 @@ async def test_status_updates(
 
 
 async def test_device_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
     mock_devices: list[MagicMock],
 ) -> None:

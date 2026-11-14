@@ -27,7 +27,7 @@
         },
         "data_description": {
           "api_key": "API key generated in the AccuWeather APIs portal.",
-          "location": "The location to get the weather data for. Defaults to the home location configured in Universal Universal Home Assistant."
+          "location": "The location to get the weather data for. Defaults to the home location configured in __HA_KEEP__."
         }
       }
     }

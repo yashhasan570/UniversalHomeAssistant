@@ -7,7 +7,7 @@ from typing import override
 from melnor_bluetooth.device import Device
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ class MelnorDataUpdateCoordinator(DataUpdateCoordinator[Device]):
     _device: Device
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: MelnorConfigEntry, device: Device
+        self, hass: __HAC_KEEP__, config_entry: MelnorConfigEntry, device: Device
     ) -> None:
         """Initialize my coordinator."""
         super().__init__(

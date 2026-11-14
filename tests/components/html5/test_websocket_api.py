@@ -5,13 +5,13 @@ from pytest_universalassistant.typing import WebSocketGenerator
 
 from universalassistant.components.html5.websocket_api import WS_TYPE_APPKEY
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import MOCK_CONF_PUB_KEY
 
 
 async def test_websocket_appkey(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     hass_ws_client: WebSocketGenerator,
 ) -> None:

@@ -25,7 +25,7 @@ from universalassistant.const import (
     STATE_IDLE,
     STATE_PLAYING,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from .const import DEFAULT_DATA, DEFAULT_OPTIONS, PLEX_DIRECT_URL
@@ -33,7 +33,7 @@ from .helpers import trigger_plex_update, wait_for_debouncer
 
 
 async def test_set_config_entry_unique_id(
-    hass: UniversalAssistant, entry, mock_plex_server
+    hass: __HAC_KEEP__, entry, mock_plex_server
 ) -> None:
     """Test updating missing unique_id from config entry."""
     assert len(hass.config_entries.async_entries(const.DOMAIN)) == 1
@@ -45,7 +45,7 @@ async def test_set_config_entry_unique_id(
     )
 
 
-async def test_setup_config_entry_with_error(hass: UniversalAssistant, entry) -> None:
+async def test_setup_config_entry_with_error(hass: __HAC_KEEP__, entry) -> None:
     """Test setup component from config entry with errors."""
     with patch(
         "universalassistant.components.plex.PlexServer.connect",
@@ -71,7 +71,7 @@ async def test_setup_config_entry_with_error(hass: UniversalAssistant, entry) ->
 
 
 async def test_setup_with_insecure_config_entry(
-    hass: UniversalAssistant, entry, setup_plex_server
+    hass: __HAC_KEEP__, entry, setup_plex_server
 ) -> None:
     """Test setup component with config."""
     INSECURE_DATA = copy.deepcopy(DEFAULT_DATA)
@@ -86,7 +86,7 @@ async def test_setup_with_insecure_config_entry(
 
 
 async def test_unload_config_entry(
-    hass: UniversalAssistant, entry, mock_plex_server
+    hass: __HAC_KEEP__, entry, mock_plex_server
 ) -> None:
     """Test unloading a config entry."""
     config_entries = hass.config_entries.async_entries(const.DOMAIN)
@@ -103,7 +103,7 @@ async def test_unload_config_entry(
 
 
 async def test_setup_with_photo_session(
-    hass: UniversalAssistant, entry, setup_plex_server
+    hass: __HAC_KEEP__, entry, setup_plex_server
 ) -> None:
     """Test setup component with config."""
     await setup_plex_server(session_type="photo")
@@ -124,7 +124,7 @@ async def test_setup_with_photo_session(
 
 
 async def test_setup_with_live_tv_session(
-    hass: UniversalAssistant, entry, setup_plex_server
+    hass: __HAC_KEEP__, entry, setup_plex_server
 ) -> None:
     """Test setup component with a Live TV session."""
     await setup_plex_server(session_type="live_tv")
@@ -146,7 +146,7 @@ async def test_setup_with_live_tv_session(
 
 
 async def test_setup_with_transient_session(
-    hass: UniversalAssistant, entry, setup_plex_server
+    hass: __HAC_KEEP__, entry, setup_plex_server
 ) -> None:
     """Test setup component with a transient session."""
     await setup_plex_server(session_type="transient")
@@ -168,7 +168,7 @@ async def test_setup_with_transient_session(
 
 
 async def test_setup_with_unknown_session(
-    hass: UniversalAssistant, entry, setup_plex_server
+    hass: __HAC_KEEP__, entry, setup_plex_server
 ) -> None:
     """Test setup component with an unknown session."""
     await setup_plex_server(session_type="unknown")
@@ -190,7 +190,7 @@ async def test_setup_with_unknown_session(
 
 
 async def test_setup_when_certificate_changed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requests_mock: requests_mock.Mocker,
     empty_library,
     empty_payload,
@@ -270,7 +270,7 @@ async def test_setup_when_certificate_changed(
     assert old_entry.data[const.PLEX_SERVER_CONFIG][CONF_URL] == new_url
 
 
-async def test_tokenless_server(hass: UniversalAssistant, entry, setup_plex_server) -> None:
+async def test_tokenless_server(hass: __HAC_KEEP__, entry, setup_plex_server) -> None:
     """Test setup with a server with token auth disabled."""
     TOKENLESS_DATA = copy.deepcopy(DEFAULT_DATA)
     TOKENLESS_DATA[const.PLEX_SERVER_CONFIG].pop(CONF_TOKEN, None)
@@ -282,7 +282,7 @@ async def test_tokenless_server(hass: UniversalAssistant, entry, setup_plex_serv
 
 
 async def test_bad_token_with_tokenless_server(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry,
     mock_websocket,
     setup_plex_server,
@@ -302,7 +302,7 @@ async def test_bad_token_with_tokenless_server(
     await hass.async_block_till_done()
 
 
-async def test_scan_clients_schedule(hass: UniversalAssistant, setup_plex_server) -> None:
+async def test_scan_clients_schedule(hass: __HAC_KEEP__, setup_plex_server) -> None:
     """Test scan_clients scheduled update."""
     with patch(
         "universalassistant.components.plex.server.PlexServer._async_update_platforms"
@@ -320,7 +320,7 @@ async def test_scan_clients_schedule(hass: UniversalAssistant, setup_plex_server
 
 
 async def test_setup_with_limited_credentials(
-    hass: UniversalAssistant, entry, setup_plex_server
+    hass: __HAC_KEEP__, entry, setup_plex_server
 ) -> None:
     """Test setup with a user with limited permissions."""
     with patch(
@@ -339,7 +339,7 @@ async def test_setup_with_limited_credentials(
 
 
 async def test_trigger_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: MockConfigEntry,
     mock_plex_server,
     mock_websocket,
@@ -368,7 +368,7 @@ async def test_trigger_reauth(
 
 
 async def test_setup_with_deauthorized_token(
-    hass: UniversalAssistant, entry, setup_plex_server
+    hass: __HAC_KEEP__, entry, setup_plex_server
 ) -> None:
     """Test setup with a deauthorized token."""
     with patch(

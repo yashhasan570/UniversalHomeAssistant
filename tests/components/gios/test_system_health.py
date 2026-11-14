@@ -7,13 +7,13 @@ from pytest_universalassistant.common import get_system_health_info
 from pytest_universalassistant.test_util.aiohttp import AiohttpClientMocker
 
 from universalassistant.components.gios.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.loader import async_get_integration
 from universalassistant.setup import async_setup_component
 
 
 async def test_gios_system_health(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test GIOS system health."""
     aioclient_mock.get("http://api.gios.gov.pl/", text="")
@@ -33,7 +33,7 @@ async def test_gios_system_health(
 
 
 async def test_gios_system_health_fail(
-    hass: UniversalAssistant, aioclient_mock: AiohttpClientMocker
+    hass: __HAC_KEEP__, aioclient_mock: AiohttpClientMocker
 ) -> None:
     """Test GIOS system health."""
     aioclient_mock.get("http://api.gios.gov.pl/", exc=ClientError)

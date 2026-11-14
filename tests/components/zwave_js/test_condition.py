@@ -13,7 +13,7 @@ from zwave_js_server.model.node import Node
 from universalassistant.components.zwave_js import DOMAIN
 from universalassistant.components.zwave_js.condition import CONDITIONS
 from universalassistant.components.zwave_js.helpers import get_device_id
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     condition,
     config_validation as cv,
@@ -25,7 +25,7 @@ from .common import COMMAND_CLASS_MARKERS
 
 
 async def _checker(
-    hass: UniversalAssistant, config: dict[str, Any]
+    hass: __HAC_KEEP__, config: dict[str, Any]
 ) -> condition.ConditionChecker:
     """Validate a condition config and build its checker."""
     validated = await condition.async_validate_condition_config(
@@ -82,7 +82,7 @@ def _device_id(
     ],
 )
 async def test_condition_by_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     integration: MockConfigEntry,
@@ -146,7 +146,7 @@ async def test_condition_by_device(
     ],
 )
 async def test_condition_value_state_labels(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     iblinds_v3: Node,
     gdc_zw062: Node,
@@ -183,7 +183,7 @@ async def test_condition_value_state_labels(
     ],
 )
 async def test_node_status_behavior(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     multisensor_6: Node,
@@ -217,7 +217,7 @@ async def test_node_status_behavior(
 
 
 async def test_node_status_follows_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     integration: MockConfigEntry,
@@ -251,7 +251,7 @@ async def test_node_status_follows_events(
 
 
 async def test_node_status_all_two_nodes_match(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     multisensor_6: Node,
@@ -290,7 +290,7 @@ async def test_node_status_all_two_nodes_match(
 
 
 async def test_value_missing_on_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     multisensor_6: Node,
@@ -326,7 +326,7 @@ async def test_value_missing_on_node(
 
 
 async def test_value_property_key_zero(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     bulb_6_multi_color: Node,
     integration: MockConfigEntry,
@@ -352,7 +352,7 @@ async def test_value_property_key_zero(
 
 
 async def test_no_nodes_resolved(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
 ) -> None:
@@ -371,7 +371,7 @@ async def test_no_nodes_resolved(
 
 
 async def test_validation_bypassed_when_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     integration: MockConfigEntry,
@@ -398,7 +398,7 @@ async def test_validation_bypassed_when_not_loaded(
 
 
 async def test_config_parameter_with_bitmask(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     multisensor_6: Node,
     integration: MockConfigEntry,
@@ -427,7 +427,7 @@ async def test_config_parameter_with_bitmask(
     [("any", False), ("all", True)],
 )
 async def test_check_when_nodes_disappear(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     integration: MockConfigEntry,
@@ -456,7 +456,7 @@ async def test_check_when_nodes_disappear(
 
 @pytest.mark.parametrize("behavior", ["any", "all"])
 async def test_partially_unresolved_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     multisensor_6: Node,
@@ -485,7 +485,7 @@ async def test_partially_unresolved_target(
 
 
 async def test_config_parameter_missing_on_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     integration: MockConfigEntry,
@@ -510,7 +510,7 @@ async def test_config_parameter_missing_on_node(
 @pytest.mark.parametrize("condition_type", list(CONDITIONS), ids=list(CONDITIONS))
 @pytest.mark.usefixtures("integration")
 async def test_condition_description_fields_match_schema(
-    hass: UniversalAssistant, condition_type: str
+    hass: __HAC_KEEP__, condition_type: str
 ) -> None:
     """Test the described fields and required flags match the options schema."""
     schema = next(iter(CONDITIONS[condition_type]._schema.schema.values()))
@@ -528,7 +528,7 @@ async def test_condition_description_fields_match_schema(
 @pytest.mark.parametrize("condition_type", list(CONDITIONS), ids=list(CONDITIONS))
 @pytest.mark.usefixtures("integration")
 async def test_condition_device_selector(
-    hass: UniversalAssistant, condition_type: str
+    hass: __HAC_KEEP__, condition_type: str
 ) -> None:
     """Test every condition picks nodes with a multiple zwave_js device selector."""
     descriptions = await condition.async_get_all_descriptions(hass)
@@ -540,7 +540,7 @@ async def test_condition_device_selector(
 
 
 @pytest.mark.usefixtures("integration")
-async def test_value_command_class_options(hass: UniversalAssistant) -> None:
+async def test_value_command_class_options(hass: __HAC_KEEP__) -> None:
     """Test the value condition's command class options match the CommandClass enum."""
     expected = {str(cc.value) for cc in CommandClass if cc not in COMMAND_CLASS_MARKERS}
     descriptions = await condition.async_get_all_descriptions(hass)
@@ -552,7 +552,7 @@ async def test_value_command_class_options(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("integration")
-async def test_node_status_selector_translations(hass: UniversalAssistant) -> None:
+async def test_node_status_selector_translations(hass: __HAC_KEEP__) -> None:
     """Test the node status selector options are translated."""
     translations = await async_get_translations(hass, "en", "selector", {DOMAIN})
     prefix = f"component.{DOMAIN}.selector.node_status.options."
@@ -563,7 +563,7 @@ async def test_node_status_selector_translations(hass: UniversalAssistant) -> No
 
 @pytest.mark.parametrize("behavior", ["any", "all"])
 async def test_non_zwave_device_is_ignored(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     integration: MockConfigEntry,
@@ -595,7 +595,7 @@ async def test_non_zwave_device_is_ignored(
 
 
 async def test_value_empty_property_key(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     client: MagicMock,
     lock_schlage_be469: Node,
     integration: MockConfigEntry,

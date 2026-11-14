@@ -4,7 +4,7 @@ from pykoplenti import SettingsData
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = [
@@ -13,7 +13,7 @@ pytestmark = [
 
 
 async def test_select_battery_charging_usage_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_get_settings: dict[str, list[SettingsData]],
@@ -59,7 +59,7 @@ async def test_select_battery_charging_usage_available(
 
 
 async def test_select_battery_charging_usage_excess_energy_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_get_settings: dict[str, list[SettingsData]],
@@ -106,7 +106,7 @@ async def test_select_battery_charging_usage_excess_energy_available(
 
 
 async def test_select_battery_charging_usage_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
 ) -> None:

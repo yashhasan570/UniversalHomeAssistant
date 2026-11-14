@@ -19,8 +19,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 pytest.mark.usefixtures("init_integration")
@@ -29,7 +29,7 @@ pytest.mark.usefixtures("init_integration")
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("device_fixture", [ModelName.LINEA_MICRA])
 async def test_steam_boiler_level(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lamarzocco: MagicMock,
     snapshot: SnapshotAssertion,
@@ -68,7 +68,7 @@ async def test_steam_boiler_level(
     [ModelName.GS3_AV, ModelName.GS3_MP, ModelName.LINEA_MINI],
 )
 async def test_steam_boiler_level_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
 ) -> None:
     """Ensure the La Marzocco Steam Level Select is not created for non-Micra models."""
@@ -84,7 +84,7 @@ async def test_steam_boiler_level_none(
     [ModelName.LINEA_MICRA, ModelName.GS3_AV, ModelName.LINEA_MINI],
 )
 async def test_pre_brew_infusion_select(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lamarzocco: MagicMock,
     snapshot: SnapshotAssertion,
@@ -124,7 +124,7 @@ async def test_pre_brew_infusion_select(
     [ModelName.GS3_MP],
 )
 async def test_pre_brew_infusion_select_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
 ) -> None:
     """Ensure GS3 MP has no prebrew models."""
@@ -136,7 +136,7 @@ async def test_pre_brew_infusion_select_none(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_smart_standby_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lamarzocco: MagicMock,
     snapshot: SnapshotAssertion,
@@ -179,7 +179,7 @@ async def test_smart_standby_mode(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_select_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lamarzocco: MagicMock,
     side_effect: Exception | type[Exception],
 ) -> None:
@@ -192,7 +192,7 @@ async def test_select_errors(
     mock_lamarzocco.set_pre_extraction_mode.side_effect = side_effect
 
     # Test setting invalid option
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -208,7 +208,7 @@ async def test_select_errors(
 @pytest.mark.usefixtures("init_integration")
 @pytest.mark.parametrize("device_fixture", [ModelName.LINEA_MINI])
 async def test_bbw_dose_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lamarzocco: MagicMock,
     snapshot: SnapshotAssertion,

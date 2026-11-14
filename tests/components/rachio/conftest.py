@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.rachio.const import DOMAIN
 from universalassistant.const import CONF_API_KEY, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 BASE_STATION_ID = "base123"
 BASE_STATION_SERIAL = "SN123456"
@@ -85,7 +85,7 @@ def mock_rachio(request: pytest.FixtureRequest) -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_rachio: MagicMock,
     request: pytest.FixtureRequest,

@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.lojack.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import TEST_PASSWORD, TEST_USER_ID, TEST_USERNAME
@@ -17,7 +17,7 @@ from .const import TEST_PASSWORD, TEST_USER_ID, TEST_USERNAME
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_user_flow(
-    hass: UniversalAssistant, mock_lojack_client: MagicMock
+    hass: __HAC_KEEP__, mock_lojack_client: MagicMock
 ) -> None:
     """Test the full user configuration flow."""
     result = await hass.config_entries.flow.async_init(
@@ -53,7 +53,7 @@ async def test_full_user_flow(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lojack_client: MagicMock,
     side_effect: Exception,
     expected_error: str,
@@ -92,7 +92,7 @@ async def test_user_flow_errors(
 
 
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lojack_client: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

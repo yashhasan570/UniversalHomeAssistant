@@ -7,7 +7,7 @@ from aioswitcher.api.remotes import SwitcherBreezeRemoteManager
 from aioswitcher.bridge import SwitcherBridge
 from aioswitcher.device import SwitcherBase
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import singleton
 
 from .const import DISCOVERY_TIME_SEC
@@ -38,6 +38,6 @@ async def async_discover_devices() -> dict[str, SwitcherBase]:
 
 
 @singleton.singleton("switcher_breeze_remote_manager")
-def get_breeze_remote_manager(hass: UniversalAssistant) -> SwitcherBreezeRemoteManager:
+def get_breeze_remote_manager(hass: __HAC_KEEP__) -> SwitcherBreezeRemoteManager:
     """Get Switcher Breeze remote manager."""
     return SwitcherBreezeRemoteManager()

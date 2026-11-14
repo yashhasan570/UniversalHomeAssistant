@@ -8,7 +8,7 @@ from pyinsteon.constants import ReadWriteMode
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_PLATFORM, EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv, device_registry as dr
 from universalassistant.helpers.typing import ConfigType
@@ -73,13 +73,13 @@ async def close_insteon_connection(*args):
     await async_close()
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Insteon component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: ConfigEntry) -> None:
     """Set up an Insteon entry."""
 
     api.async_load_api(hass)

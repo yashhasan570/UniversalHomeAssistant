@@ -14,14 +14,14 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_switches(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_transmission_client: AsyncMock,
@@ -42,7 +42,7 @@ async def test_switches(
     ],
 )
 async def test_on_off_switch_without_torrents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_torrent,
@@ -75,7 +75,7 @@ async def test_on_off_switch_without_torrents(
     ],
 )
 async def test_on_off_switch_with_torrents(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     mock_torrent,
@@ -108,7 +108,7 @@ async def test_on_off_switch_with_torrents(
     ],
 )
 async def test_turtle_mode_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,

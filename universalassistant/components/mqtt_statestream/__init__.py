@@ -8,7 +8,7 @@ import probatio
 from universalassistant.components import mqtt
 from universalassistant.components.mqtt import valid_publish_topic
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, EVENT_STATE_CHANGED
-from universalassistant.core import Event, EventStateChangedData, UniversalAssistant, callback
+from universalassistant.core import Event, EventStateChangedData, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entityfilter import (
     INCLUDE_EXCLUDE_BASE_FILTER_SCHEMA,
@@ -40,7 +40,7 @@ CONFIG_SCHEMA = probatio.Schema(
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the MQTT state feed."""
     # Make sure MQTT integration is enabled and the client is available
     if not await mqtt.async_wait_for_mqtt_client(hass):
@@ -87,7 +87,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
                 await mqtt.async_publish(hass, mybase + key, encoded_val, 1, True)
 
     @callback
-    def _ha_started(hass: UniversalAssistant) -> None:
+    def _ha_started(hass: __HAC_KEEP__) -> None:
         @callback
         def _event_filter(event_data: EventStateChangedData) -> bool:
             entity_id = event_data["entity_id"]

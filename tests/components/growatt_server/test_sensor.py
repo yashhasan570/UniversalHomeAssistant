@@ -14,7 +14,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -23,7 +23,7 @@ from . import setup_integration
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.freeze_time("2024-01-15 12:30:00")
 async def test_sph_sensors_v1_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
@@ -41,7 +41,7 @@ async def test_sph_sensors_v1_api(
 
 
 async def test_sph_sensor_unavailable_on_coordinator_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -75,7 +75,7 @@ async def test_sph_sensor_unavailable_on_coordinator_error(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_min_sensors_v1_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
@@ -106,7 +106,7 @@ async def test_min_sensors_v1_api(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 @pytest.mark.freeze_time("2023-10-21")
 async def test_sensors_classic_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
@@ -132,7 +132,7 @@ async def test_sensors_classic_api(
 
 @pytest.mark.freeze_time("2023-10-21")
 async def test_mix_empty_chart_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,
 ) -> None:
@@ -154,7 +154,7 @@ async def test_mix_empty_chart_data(
 
 
 async def test_sensor_coordinator_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -231,7 +231,7 @@ async def test_sensor_coordinator_updates(
 )
 @pytest.mark.freeze_time("2026-07-14 17:00:00+00:00")
 async def test_v1_total_output_power_uses_recent_plant_power(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_growatt_v1_api: MagicMock,
     mock_config_entry: MockConfigEntry,
     powers: list[dict[str, str | float | None]],
@@ -257,7 +257,7 @@ async def test_v1_total_output_power_uses_recent_plant_power(
 
 @pytest.mark.freeze_time("2026-07-14 17:00:00+00:00")
 async def test_v1_total_output_power_falls_back_on_power_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_growatt_v1_api: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -279,7 +279,7 @@ async def test_v1_total_output_power_falls_back_on_power_api_error(
 
 
 async def test_sensor_unavailable_on_coordinator_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -312,7 +312,7 @@ async def test_sensor_unavailable_on_coordinator_error(
 
 
 async def test_midnight_bounce_suppression(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -391,7 +391,7 @@ async def test_midnight_bounce_suppression(
 
 
 async def test_normal_reset_no_bounce(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -460,7 +460,7 @@ async def test_normal_reset_no_bounce(
 
 
 async def test_midnight_bounce_repeated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -557,7 +557,7 @@ async def test_midnight_bounce_repeated(
 
 
 async def test_non_total_increasing_sensor_unaffected_by_bounce_suppression(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_growatt_v1_api,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -608,7 +608,7 @@ async def test_non_total_increasing_sensor_unaffected_by_bounce_suppression(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_total_sensors_classic_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_growatt_classic_api,
     mock_config_entry_classic: MockConfigEntry,

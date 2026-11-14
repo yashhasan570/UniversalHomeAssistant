@@ -169,7 +169,7 @@ class HAFakeDatetime(freezegun.api.FakeDatetime, metaclass=HAFakeDatetimeMeta): 
 # Needed by Mashumaro
 dt.HAFakeDatetime = HAFakeDatetime
 
-# Do not add any Universal Universal Home Assistant import here
+# Do not add any __HA_KEEP__ import here
 
 
 def _utcnow() -> dt.datetime:
@@ -182,7 +182,7 @@ def _monotonic() -> float:
     return time.monotonic()
 
 
-# Before importing any other Universal Universal Home Assistant functionality, import and replace
+# Before importing any other __HA_KEEP__ functionality, import and replace
 # partial dt_util.utcnow with a regular function which can be found by freezegun
 from universalassistant import util  # noqa: E402
 from universalassistant.util import dt as dt_util  # noqa: E402
@@ -191,7 +191,7 @@ dt_util.utcnow = _utcnow  # type: ignore[assignment]
 util.utcnow = _utcnow  # type: ignore[assignment]
 
 
-# Import other Universal Universal Home Assistant functionality which we need to patch
+# Import other __HA_KEEP__ functionality which we need to patch
 from universalassistant import runner  # noqa: E402
 from universalassistant.helpers import event as event_helper  # noqa: E402
 

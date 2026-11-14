@@ -41,7 +41,7 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     UnitOfTemperature,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
@@ -52,7 +52,7 @@ from universalassistant.core import Event, UniversalAssistant
     ],
 )
 async def test_fan_auto_manual(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hk_driver,
     events: list[Event],
     auto_preset: str,
@@ -161,7 +161,7 @@ async def test_fan_auto_manual(
 
 
 async def test_presets_no_auto(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hk_driver,
     events: list[Event],
 ) -> None:
@@ -221,7 +221,7 @@ async def test_presets_no_auto(
 
 
 async def test_air_purifier_single_preset_mode(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test air purifier with a single preset mode."""
     entity_id = "fan.demo"
@@ -308,7 +308,7 @@ async def test_air_purifier_single_preset_mode(
 
 
 async def test_expose_linked_sensors(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test that linked sensors are exposed."""
     entity_id = "fan.demo"
@@ -530,7 +530,7 @@ async def test_expose_linked_sensors(
 
 
 async def test_filter_maintenance_linked_sensors(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test that a linked filter level and filter change indicator are exposed."""
     entity_id = "fan.demo"
@@ -627,7 +627,7 @@ async def test_filter_maintenance_linked_sensors(
 
 
 async def test_filter_maintenance_only_change_indicator_sensor(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test that a linked filter change indicator is exposed."""
     entity_id = "fan.demo"
@@ -670,7 +670,7 @@ async def test_filter_maintenance_only_change_indicator_sensor(
 
 
 async def test_filter_life_level_linked_sensors(
-    hass: UniversalAssistant, hk_driver, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, events: list[Event]
 ) -> None:
     """Test that a linked filter life level sensor exposed."""
     entity_id = "fan.demo"

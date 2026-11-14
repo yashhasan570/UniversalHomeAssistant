@@ -11,7 +11,7 @@ from eq3btsmart.const import EQ3_DEFAULT_AWAY_TEMP, Eq3OperationMode
 from eq3btsmart.models import Status
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 import universalassistant.util.dt as dt_util
 
@@ -66,7 +66,7 @@ SWITCH_ENTITY_DESCRIPTIONS = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: Eq3ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

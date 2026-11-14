@@ -38,8 +38,8 @@ from yarl import URL
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_URL
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import ConfigEntryAuthFailed, UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import ConfigEntryAuthFailed, __HAC_KEEP__Error
 import universalassistant.helpers.device_registry as dr
 from universalassistant.helpers.device_registry import DeviceEntryType
 from universalassistant.helpers.update_coordinator import (
@@ -128,7 +128,7 @@ class PortainerBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: PortainerConfigEntry,
         portainer: Portainer,
     ) -> None:
@@ -220,22 +220,22 @@ class PortainerBaseCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
             ) from err
 
     async def async_call_portainer(self, coroutine: Awaitable[Any]) -> None:
-        """Await a Portainer call, mapping library errors to UniversalAssistantError."""
+        """Await a Portainer call, mapping library errors to __HAC_KEEP__Error."""
         try:
             await coroutine
         except PortainerAuthenticationError as err:
             self.config_entry.async_start_reauth(self.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="invalid_auth",
             ) from err
         except PortainerConnectionError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cannot_connect",
             ) from err
         except PortainerTimeoutError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="timeout_connect",
             ) from err
@@ -254,7 +254,7 @@ class PortainerCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: PortainerConfigEntry,
         portainer: Portainer,
     ) -> None:
@@ -825,7 +825,7 @@ class PortainerDockerDiskSpaceCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: PortainerConfigEntry,
         portainer: Portainer,
     ) -> None:

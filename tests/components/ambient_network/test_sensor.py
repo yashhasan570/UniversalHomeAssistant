@@ -11,7 +11,7 @@ from pytest_universalassistant.common import async_fire_time_changed, snapshot_p
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_platform
@@ -25,7 +25,7 @@ from .conftest import setup_platform
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     open_api: OpenAPI,
     aioambient: AsyncMock,
     config_entry: ConfigEntry,
@@ -39,7 +39,7 @@ async def test_sensors(
 
 @pytest.mark.parametrize("config_entry", ["BB:BB:BB:BB:BB:BB"], indirect=True)
 async def test_sensors_with_no_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     open_api: OpenAPI,
     aioambient: AsyncMock,
     config_entry: ConfigEntry,
@@ -55,7 +55,7 @@ async def test_sensors_with_no_data(
 @pytest.mark.parametrize("config_entry", ["AA:AA:AA:AA:AA:AA"], indirect=True)
 @pytest.mark.freeze_time("2023-11-8")
 async def test_sensors_disappearing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     open_api: OpenAPI,
     aioambient: AsyncMock,
     config_entry: ConfigEntry,

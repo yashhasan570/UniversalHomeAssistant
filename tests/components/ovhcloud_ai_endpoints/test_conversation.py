@@ -23,8 +23,8 @@ from universalassistant.components.ovhcloud_ai_endpoints.entity import (
     _decode_tool_arguments,
 )
 from universalassistant.const import CONF_LLM_HASS_API, MATCH_ALL
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er, intent, llm
 from universalassistant.helpers.llm import ToolInput
 
@@ -42,7 +42,7 @@ def freeze_the_time():
 
 @pytest.mark.parametrize("enable_assist", [True, False], ids=["assist", "no_assist"])
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_openai_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -55,7 +55,7 @@ async def test_all_entities(
 
 
 async def test_default_prompt(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     mock_openai_client: AsyncMock,
@@ -81,7 +81,7 @@ async def test_default_prompt(
 
 
 async def test_thinking_tags_extracted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -130,7 +130,7 @@ async def test_thinking_tags_extracted(
 
 
 async def test_thinking_only_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -203,7 +203,7 @@ def _completion_with_extras(content: str | None, **extras: str) -> ChatCompletio
 
 
 async def test_reasoning_field_extracted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -232,7 +232,7 @@ async def test_reasoning_field_extracted(
 
 
 async def test_reasoning_content_field_extracted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -261,7 +261,7 @@ async def test_reasoning_content_field_extracted(
 
 
 async def test_reasoning_priority_over_think_tags(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -292,7 +292,7 @@ async def test_reasoning_priority_over_think_tags(
 
 
 async def test_empty_api_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -325,7 +325,7 @@ async def test_empty_api_response(
 
 @pytest.mark.parametrize("enable_assist", [True])
 async def test_function_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_chat_log: MockChatLog,  # noqa: F811
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -448,7 +448,7 @@ async def test_function_call(
 
 
 async def test_openai_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
     mock_chat_log: MockChatLog,  # noqa: F811
@@ -470,7 +470,7 @@ async def test_openai_error(
 
 
 async def test_supported_languages(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
@@ -485,7 +485,7 @@ async def test_supported_languages(
 
 
 async def test_converse_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_openai_client: AsyncMock,
 ) -> None:
@@ -512,8 +512,8 @@ async def test_converse_error(
 
 
 def test_decode_tool_arguments_invalid_json() -> None:
-    """Malformed tool-call JSON arguments raise UniversalAssistantError."""
-    with pytest.raises(UniversalAssistantError, match="Unexpected tool argument response"):
+    """Malformed tool-call JSON arguments raise __HAC_KEEP__Error."""
+    with pytest.raises(__HAC_KEEP__Error, match="Unexpected tool argument response"):
         _decode_tool_arguments("{not-json")
 
 

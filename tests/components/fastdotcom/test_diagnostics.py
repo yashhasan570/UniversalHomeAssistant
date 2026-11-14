@@ -9,13 +9,13 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.fastdotcom.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import MOCK_DATA
 
 
 async def test_get_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
 ) -> None:

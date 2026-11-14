@@ -5,7 +5,7 @@ from collections.abc import Callable, Hashable
 import logging
 import time
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ class KeyedRateLimit:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> None:
         """Initialize ratelimit tracker."""
         self.hass = hass

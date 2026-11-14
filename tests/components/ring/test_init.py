@@ -21,7 +21,7 @@ from universalassistant.components.ring.const import (
 from universalassistant.components.ring.coordinator import RingConfigEntry, RingEventListener
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import CONF_DEVICE_ID, CONF_TOKEN, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -29,13 +29,13 @@ from .conftest import MOCK_HARDWARE_ID
 from .device_mocks import FRONT_DOOR_DEVICE_ID
 
 
-async def test_setup(hass: UniversalAssistant, mock_ring_client) -> None:
+async def test_setup(hass: __HAC_KEEP__, mock_ring_client) -> None:
     """Test the setup."""
     await async_setup_component(hass, ring.DOMAIN, {})
 
 
 async def test_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_added_config_entry: MockConfigEntry,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_setup_entry(
 
 
 async def test_device_registry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     snapshot: SnapshotAssertion,
@@ -58,7 +58,7 @@ async def test_device_registry(
 
 
 async def test_setup_entry_device_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_ring_devices,
     freezer: FrozenDateTimeFactory,
@@ -75,7 +75,7 @@ async def test_setup_entry_device_update(
 
 
 async def test_auth_failed_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_auth_failed_on_setup(
     ids=["timeout-error", "other-error"],
 )
 async def test_error_on_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -127,7 +127,7 @@ async def test_error_on_setup(
 
 
 async def test_auth_failure_on_global_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -151,7 +151,7 @@ async def test_auth_failure_on_global_update(
 
 
 async def test_auth_failure_on_device_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_ring_devices,
     mock_config_entry: MockConfigEntry,
@@ -191,7 +191,7 @@ async def test_auth_failure_on_device_update(
     ids=["timeout-error", "other-error"],
 )
 async def test_error_on_global_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_config_entry: RingConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -250,7 +250,7 @@ async def test_error_on_global_update(
     ids=["timeout-error", "other-error"],
 )
 async def test_error_on_device_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_ring_client,
     mock_ring_devices,
     mock_config_entry: RingConfigEntry,
@@ -309,7 +309,7 @@ async def test_error_on_device_update(
     ],
 )
 async def test_update_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     mock_ring_client,
@@ -348,7 +348,7 @@ async def test_update_unique_id(
 
 
 async def test_update_unique_id_existing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     mock_ring_client,
@@ -398,7 +398,7 @@ async def test_update_unique_id_existing(
 
 
 async def test_update_unique_id_camera_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,
     mock_ring_client,
@@ -436,7 +436,7 @@ async def test_update_unique_id_camera_update(
 
 
 async def test_token_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_ring_client,
@@ -463,7 +463,7 @@ async def test_token_updated(
 
 
 async def test_listen_token_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_ring_client,
@@ -488,7 +488,7 @@ async def test_listen_token_updated(
 
 
 async def test_no_listen_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     entity_registry: er.EntityRegistry,
     mock_ring_event_listener_class: type[RingEventListener],
@@ -524,7 +524,7 @@ async def test_no_listen_start(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_migrate_create_device_id(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test migration creates new device id created."""
     entry = MockConfigEntry(

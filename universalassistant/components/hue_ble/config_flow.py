@@ -15,8 +15,8 @@ from universalassistant.components.bluetooth.api import (
 )
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_MAC
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN, URL_FACTORY_RESET, URL_PAIRING_MODE
@@ -36,7 +36,7 @@ def device_filter(advertisement_data: AdvertisementData) -> bool:
     )
 
 
-async def validate_input(hass: UniversalAssistant, address: str) -> Error | None:
+async def validate_input(hass: __HAC_KEEP__, address: str) -> Error | None:
     """Return error if cannot connect and validate."""
 
     ble_device = async_ble_device_from_address(hass, address.upper(), connectable=True)
@@ -65,7 +65,7 @@ async def validate_input(hass: UniversalAssistant, address: str) -> Error | None
     except HueBleError:
         _LOGGER.exception("Unexpected error validating light connection")
         return Error.UNKNOWN
-    except UniversalAssistantError:
+    except __HAC_KEEP__Error:
         return Error.NOT_SUPPORTED
     else:
         return None

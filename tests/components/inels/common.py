@@ -4,7 +4,7 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import inels
 from universalassistant.components.inels.const import DOMAIN
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 __all__ = [
@@ -33,7 +33,7 @@ def get_entity_id(entity_config: dict, index: int) -> str:
 
 
 def get_entity_state(
-    hass: UniversalAssistant, entity_config: dict, index: int
+    hass: __HAC_KEEP__, entity_config: dict, index: int
 ) -> State | None:
     """Return the state of the entity from the state machine."""
     entity_id = get_entity_id(entity_config, index)
@@ -68,7 +68,7 @@ def set_mock_mqtt(
 
 
 async def old_entity_and_device_removal(
-    hass: UniversalAssistant, mock_mqtt, platform, entity_config, value_key, index
+    hass: __HAC_KEEP__, mock_mqtt, platform, entity_config, value_key, index
 ):
     """Test old entities are identified and removed across platforms."""
 

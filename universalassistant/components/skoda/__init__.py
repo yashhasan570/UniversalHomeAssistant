@@ -3,7 +3,7 @@
 from skoda_public_api.api_layer.open_api_client import OpenAPIClient
 
 from universalassistant.const import CONF_API_KEY, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_VIN
@@ -18,7 +18,7 @@ _PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SkodaConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SkodaConfigEntry) -> None:
     """Set up Škoda from a config entry."""
     vin: str = entry.data[CONF_VIN]
     api_key: str = entry.data[CONF_API_KEY]
@@ -44,6 +44,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SkodaConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SkodaConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SkodaConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

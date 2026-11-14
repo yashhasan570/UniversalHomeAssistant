@@ -13,7 +13,7 @@ from igloohome_api import (
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_CLIENT_ID, CONF_CLIENT_SECRET, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryError, ConfigEntryNotReady
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -31,7 +31,7 @@ class IgloohomeRuntimeData:
 type IgloohomeConfigEntry = ConfigEntry[IgloohomeRuntimeData]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: IgloohomeConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: IgloohomeConfigEntry) -> None:
     """Set up igloohome from a config entry."""
     authentication = IgloohomeAuth(
         session=async_get_clientsession(hass),
@@ -51,6 +51,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: IgloohomeConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: IgloohomeConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: IgloohomeConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

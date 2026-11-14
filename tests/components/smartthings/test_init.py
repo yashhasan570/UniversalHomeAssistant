@@ -44,7 +44,7 @@ from universalassistant.components.smartthings.const import (
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import (
     OAuth2TokenRequestReauthError,
     OAuth2TokenRequestTransientError,
@@ -82,7 +82,7 @@ async def test_fixtures() -> None:
 
 
 async def test_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -104,7 +104,7 @@ async def test_devices(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_device_not_resetting_area(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -141,7 +141,7 @@ async def test_device_not_resetting_area(
 
 @pytest.mark.parametrize("device_fixture", ["button"])
 async def test_button_event(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -170,7 +170,7 @@ async def test_button_event(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_create_subscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -204,7 +204,7 @@ async def test_create_subscription(
     ],
 )
 async def test_create_subscription_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -236,7 +236,7 @@ async def test_create_subscription_error(
     ],
 )
 async def test_initial_fetch_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     call: str,
@@ -254,7 +254,7 @@ async def test_initial_fetch_connection_error(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_initial_fetch_authentication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_initial_fetch_authentication_error(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_update_subscription_identifier(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -293,7 +293,7 @@ async def test_update_subscription_identifier(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_stale_subscription_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -317,7 +317,7 @@ async def test_stale_subscription_id(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_delete_stale_subscription_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -341,7 +341,7 @@ async def test_delete_stale_subscription_error(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_remove_subscription_identifier(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -362,7 +362,7 @@ async def test_remove_subscription_identifier(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_max_connections_handling(
-    hass: UniversalAssistant, devices: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, devices: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test handling reaching max connections."""
     await setup_integration(hass, mock_config_entry)
@@ -383,7 +383,7 @@ async def test_max_connections_handling(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_unloading(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -403,11 +403,11 @@ async def test_unloading(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_shutdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
-    """Test shutting down Universal Universal Home Assistant."""
+    """Test shutting down __HA_KEEP__."""
     await setup_integration(hass, mock_config_entry)
 
     hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
@@ -423,7 +423,7 @@ async def test_shutdown(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_removing_stale_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -445,7 +445,7 @@ async def test_removing_stale_devices(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_refreshing_expired_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -465,7 +465,7 @@ async def test_refreshing_expired_token(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_error_refreshing_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -484,7 +484,7 @@ async def test_error_refreshing_token(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_refreshing_token_while_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
@@ -515,7 +515,7 @@ async def test_refreshing_token_while_loaded(
     [({"status": 500}, 0), ({"status": 400}, 1), ({"exc": TimeoutError}, 0)],
 )
 async def test_error_refreshing_token_while_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
@@ -544,7 +544,7 @@ async def test_error_refreshing_token_while_loaded(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_warning_after_token_refresh_recovered(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
     aioclient_mock: AiohttpClientMocker,
@@ -576,7 +576,7 @@ async def test_warning_after_token_refresh_recovered(
 
 
 async def test_missing_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test starting reauth when the config entry has no token."""
@@ -599,7 +599,7 @@ async def test_missing_token(
 
 
 async def test_hub_via_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -629,7 +629,7 @@ async def test_hub_via_device(
 
 
 async def test_via_device_nested_hierarchy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
     mock_smartthings: AsyncMock,
@@ -674,7 +674,7 @@ async def test_via_device_nested_hierarchy(
 
 @pytest.mark.parametrize("device_fixture", ["da_ac_rac_000001"])
 async def test_deleted_device_runtime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -766,7 +766,7 @@ async def test_deleted_device_runtime(
     ],
 )
 async def test_entity_unique_id_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     expires_at: int,
     entity_registry: er.EntityRegistry,
@@ -954,7 +954,7 @@ async def test_entity_unique_id_migration(
     ],
 )
 async def test_entity_unique_id_migration_machine_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     devices: AsyncMock,
     expires_at: int,
     entity_registry: er.EntityRegistry,
@@ -1010,7 +1010,7 @@ async def test_entity_unique_id_migration_machine_state(
 
 
 async def test_oauth_implementation_not_available(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test that unavailable OAuth implementation raises ConfigEntryNotReady."""
@@ -1028,7 +1028,7 @@ async def test_oauth_implementation_not_available(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_3_3_migration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_migrated_config_entry: MockConfigEntry,
     mock_smartthings: AsyncMock,
 ) -> None:
@@ -1058,7 +1058,7 @@ async def test_3_3_migration(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_3_3_migration_fail(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_migrated_config_entry: MockConfigEntry,
     mock_smartthings: AsyncMock,
 ) -> None:
@@ -1085,7 +1085,7 @@ async def test_3_3_migration_fail(
 @pytest.mark.parametrize("old_data", [({})])
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_3_3_migration_no_old_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_migrated_config_entry: MockConfigEntry,
     mock_smartthings: AsyncMock,
 ) -> None:

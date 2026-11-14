@@ -16,7 +16,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
@@ -34,7 +34,7 @@ AUTH_SCHEMA = probatio.Schema(
 
 
 async def async_get_nam(
-    hass: UniversalAssistant, host: str, data: Mapping[str, Any]
+    hass: __HAC_KEEP__, host: str, data: Mapping[str, Any]
 ) -> NettigoAirMonitor:
     """Get NAM client."""
     websession = async_get_clientsession(hass)

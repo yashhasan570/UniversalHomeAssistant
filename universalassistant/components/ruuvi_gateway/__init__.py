@@ -4,7 +4,7 @@ import logging
 
 from universalassistant.components.bluetooth import async_remove_scanner
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .bluetooth import async_connect_scanner
 from .const import DOMAIN
@@ -17,7 +17,7 @@ type RuuviGatewayConfigEntry = ConfigEntry[RuuviGatewayRuntimeData]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, entry: RuuviGatewayConfigEntry
+    hass: __HAC_KEEP__, entry: RuuviGatewayConfigEntry
 ) -> None:
     """Set up Ruuvi Gateway from a config entry."""
     coordinator = RuuviGatewayUpdateCoordinator(hass, entry, _LOGGER)
@@ -30,13 +30,13 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: RuuviGatewayConfigEntry
+    hass: __HAC_KEEP__, entry: RuuviGatewayConfigEntry
 ) -> None:
     """Unload a config entry."""
 
 
 async def async_remove_entry(
-    hass: UniversalAssistant, entry: RuuviGatewayConfigEntry
+    hass: __HAC_KEEP__, entry: RuuviGatewayConfigEntry
 ) -> None:
     """Remove a config entry."""
     if mac_address := entry.unique_id:

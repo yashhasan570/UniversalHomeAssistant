@@ -6,14 +6,14 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.sensor import SensorDeviceClass
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import init_integration
 
 
 async def test_power_sensor_detected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_power_sensor_detected(
 
 
 async def test_voltage_sensor_detected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_fibaro_client: Mock,
     mock_config_entry: MockConfigEntry,

@@ -3,7 +3,7 @@
 import logging
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_COUNTER_ID
 from .coordinator import SuezWaterConfigEntry, SuezWaterCoordinator
@@ -13,7 +13,7 @@ PLATFORMS: list[Platform] = [Platform.SENSOR]
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: SuezWaterConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: SuezWaterConfigEntry) -> None:
     """Set up Suez Water from a config entry."""
 
     coordinator = SuezWaterCoordinator(hass, entry)
@@ -24,13 +24,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: SuezWaterConfigEntr
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: SuezWaterConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: SuezWaterConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: SuezWaterConfigEntry
+    hass: __HAC_KEEP__, config_entry: SuezWaterConfigEntry
 ) -> None:
     """Migrate old suez water config entry."""
     _LOGGER.debug(

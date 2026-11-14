@@ -7,12 +7,12 @@ import pytest
 from universalassistant.components.stookwijzer.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stookwijzer: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -42,7 +42,7 @@ async def test_full_user_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_stookwijzer: MagicMock,
 ) -> None:
     """Test user configuration flow while connection fails."""

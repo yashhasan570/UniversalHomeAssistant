@@ -20,7 +20,7 @@ from universalassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.httpx_client import get_async_client
 from universalassistant.helpers.update_coordinator import UpdateFailed
 
@@ -39,7 +39,7 @@ class StateData(NamedTuple):
 
 
 def create_data_update_coordinator(
-    hass: UniversalAssistant, config_entry: GogoGateConfigEntry
+    hass: __HAC_KEEP__, config_entry: GogoGateConfigEntry
 ) -> DeviceDataUpdateCoordinator:
     """Get an update coordinator."""
     api = get_api(hass, config_entry.data)
@@ -77,7 +77,7 @@ def sensor_unique_id(
     return f"{config_entry.unique_id}_{door.door_id}_{sensor_type}"
 
 
-def get_api(hass: UniversalAssistant, config_data: Mapping[str, Any]) -> AbstractGateApi:
+def get_api(hass: __HAC_KEEP__, config_data: Mapping[str, Any]) -> AbstractGateApi:
     """Get an api object for config data."""
     gate_class = GogoGate2Api
 

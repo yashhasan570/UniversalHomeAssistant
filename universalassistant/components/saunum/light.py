@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING, Any, override
 from pysaunum import SaunumException
 
 from universalassistant.components.light import ColorMode, LightEntity
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import LeilSaunaConfigEntry
@@ -20,7 +20,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: LeilSaunaConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -55,7 +55,7 @@ class LeilSaunaLight(LeilSaunaEntity, LightEntity):
         try:
             await self.coordinator.client.async_set_light_control(True)
         except SaunumException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_light_on_failed",
             ) from err
@@ -68,7 +68,7 @@ class LeilSaunaLight(LeilSaunaEntity, LightEntity):
         try:
             await self.coordinator.client.async_set_light_control(False)
         except SaunumException as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="set_light_off_failed",
             ) from err

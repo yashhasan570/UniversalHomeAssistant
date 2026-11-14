@@ -17,8 +17,8 @@ from universalassistant.components.fan import (
     FanEntity,
     FanEntityFeature,
 )
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
@@ -40,7 +40,7 @@ ATTR_FAN_STATE = "fan_state"
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ZwaveJSConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -117,7 +117,7 @@ class ZwaveFan(ZWaveBaseEntity, FanEntity):
             await self.async_set_preset_mode(preset_mode)
         else:
             if self.info.primary_value.command_class != CommandClass.SWITCH_MULTILEVEL:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     "`percentage` or `preset_mode` must be provided"
                 )
             # If this is a Multilevel Switch CC value, we do an optimistic state update
@@ -338,14 +338,14 @@ class ZwaveThermostatFan(ZWaveBaseEntity, FanEntity):
     ) -> None:
         """Turn the device on."""
         if not self._fan_off:
-            raise UniversalAssistantError("Unhandled action turn_on")
+            raise __HAC_KEEP__Error("Unhandled action turn_on")
         await self._async_set_value(self._fan_off, False)
 
     @override
     async def async_turn_off(self, **kwargs: Any) -> None:
         """Turn the device off."""
         if not self._fan_off:
-            raise UniversalAssistantError("Unhandled action turn_off")
+            raise __HAC_KEEP__Error("Unhandled action turn_off")
         await self._async_set_value(self._fan_off, True)
 
     @property

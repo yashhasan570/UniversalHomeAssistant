@@ -23,14 +23,14 @@ from universalassistant.components.bluetooth import (
     MONOTONIC_TIME,
     BaseHaRemoteScanner,
     HaBluetoothConnector,
-    UniversalAssistantBluetoothManager,
+    __HAC_KEEP__BluetoothManager,
 )
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__
 
 
 @contextmanager
-def mock_shutdown(manager: UniversalAssistantBluetoothManager) -> Iterator[None]:
-    """Mock shutdown of the UniversalAssistantBluetoothManager."""
+def mock_shutdown(manager: __HAC_KEEP__BluetoothManager) -> Iterator[None]:
+    """Mock shutdown of the __HAC_KEEP__BluetoothManager."""
     manager.shutdown = True
     yield
     manager.shutdown = False
@@ -156,7 +156,7 @@ def mock_platform_client_that_raises_on_connect_fixture():
 
 
 def _generate_scanners_with_fake_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> tuple[
     dict[str, tuple[BLEDevice, AdvertisementData]], CALLBACK_TYPE, CALLBACK_TYPE
 ]:
@@ -192,7 +192,7 @@ def _generate_scanners_with_fake_devices(
 
 @pytest.mark.usefixtures("enable_bluetooth", "two_adapters")
 async def test_test_switch_adapters_when_out_of_slots(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     install_bleak_catcher,
     mock_platform_client,
 ) -> None:
@@ -253,7 +253,7 @@ async def test_test_switch_adapters_when_out_of_slots(
 
 @pytest.mark.usefixtures("enable_bluetooth", "two_adapters")
 async def test_release_slot_on_connect_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     install_bleak_catcher,
     mock_platform_client_that_raises_on_connect,
 ) -> None:
@@ -283,7 +283,7 @@ async def test_release_slot_on_connect_failure(
 
 @pytest.mark.usefixtures("enable_bluetooth", "two_adapters")
 async def test_release_slot_on_connect_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     install_bleak_catcher,
     mock_platform_client_that_raises_on_connect,
 ) -> None:
@@ -313,7 +313,7 @@ async def test_release_slot_on_connect_exception(
 
 @pytest.mark.usefixtures("enable_bluetooth", "two_adapters")
 async def test_passing_subclassed_str_as_address(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     install_bleak_catcher,
 ) -> None:
     """Ensure the client wrapper can handle a subclassed str as the address."""
@@ -349,7 +349,7 @@ async def test_passing_subclassed_str_as_address(
 
 @pytest.mark.usefixtures("enable_bluetooth", "two_adapters")
 async def test_raise_after_shutdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     install_bleak_catcher,
     mock_platform_client_that_raises_on_connect,
 ) -> None:

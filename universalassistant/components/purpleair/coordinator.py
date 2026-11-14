@@ -9,7 +9,7 @@ from aiopurpleair.models.sensors import GetSensorsResponse
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers import aiohttp_client
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -53,7 +53,7 @@ class PurpleAirDataUpdateCoordinator(DataUpdateCoordinator[GetSensorsResponse]):
 
     config_entry: PurpleAirConfigEntry
 
-    def __init__(self, hass: UniversalAssistant, entry: PurpleAirConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, entry: PurpleAirConfigEntry) -> None:
         """Initialize."""
         self._api = API(
             entry.data[CONF_API_KEY],

@@ -5,7 +5,7 @@ from typing import override
 import probatio
 
 from universalassistant.const import CONF_OPTIONS, STATE_OFF, UnitOfTemperature
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.helpers.automation import DomainSpec
 from universalassistant.helpers.trigger import (
     ENTITY_STATE_TRIGGER_SCHEMA_WITH_BEHAVIOR,
@@ -43,7 +43,7 @@ class WaterHeaterOperationModeChangedTrigger(EntityTargetStateTriggerBase):
     _domain_specs = {DOMAIN: DomainSpec()}
     _schema = _OPERATION_MODE_CHANGED_TRIGGER_SCHEMA
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the operation mode changed trigger."""
         super().__init__(hass, config)
         self._to_states = set(self._options[CONF_OPERATION_MODE])
@@ -100,6 +100,6 @@ TRIGGERS: dict[str, type[Trigger]] = {
 }
 
 
-async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
     """Return the triggers for water heaters."""
     return TRIGGERS

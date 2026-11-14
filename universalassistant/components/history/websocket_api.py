@@ -24,7 +24,7 @@ from universalassistant.core import (
     CALLBACK_TYPE,
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     State,
     async_noop,
     callback,
@@ -57,14 +57,14 @@ class HistoryLiveStream:
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> None:
+def async_setup(hass: __HAC_KEEP__) -> None:
     """Set up the history websocket API."""
     websocket_api.async_register_command(hass, ws_get_history_during_period)
     websocket_api.async_register_command(hass, ws_stream)
 
 
 def _ws_get_significant_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     msg_id: int,
     start_time: dt,
     end_time: dt | None,
@@ -108,7 +108,7 @@ def _ws_get_significant_states(
 )
 @websocket_api.async_response
 async def ws_get_history_during_period(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle history during period websocket command."""
     start_time_str = msg["start_time"]
@@ -224,7 +224,7 @@ def _generate_websocket_response(
 
 
 def _generate_historical_response(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     msg_id: int,
     start_time: dt,
     end_time: dt,
@@ -278,7 +278,7 @@ def _generate_historical_response(
 
 
 async def _async_send_historical_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: ActiveConnection,
     msg_id: int,
     start_time: dt,
@@ -373,7 +373,7 @@ async def _async_events_consumer(
 
 @callback
 def _async_subscribe_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     subscriptions: list[CALLBACK_TYPE],
     target: Callable[[Event[Any]], None],
     entity_ids: list[str],
@@ -421,7 +421,7 @@ def _async_subscribe_events(
 )
 @websocket_api.async_response
 async def ws_stream(
-    hass: UniversalAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
+    hass: __HAC_KEEP__, connection: websocket_api.ActiveConnection, msg: dict[str, Any]
 ) -> None:
     """Handle history stream websocket command."""
     start_time_str = msg["start_time"]

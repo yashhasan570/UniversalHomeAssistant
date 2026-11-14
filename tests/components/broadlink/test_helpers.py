@@ -4,17 +4,17 @@ import probatio
 import pytest
 
 from universalassistant.components.broadlink.helpers import data_packet, mac_address
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def test_padding(hass: UniversalAssistant) -> None:
+async def test_padding(hass: __HAC_KEEP__) -> None:
     """Verify that non padding strings are allowed."""
     assert data_packet("Jg") == b"&"
     assert data_packet("Jg=") == b"&"
     assert data_packet("Jg==") == b"&"
 
 
-async def test_valid_mac_address(hass: UniversalAssistant) -> None:
+async def test_valid_mac_address(hass: __HAC_KEEP__) -> None:
     """Test we convert a valid MAC address to bytes."""
     valid = [
         "A1B2C3D4E5F6",
@@ -32,7 +32,7 @@ async def test_valid_mac_address(hass: UniversalAssistant) -> None:
         assert mac_address(mac) == b"\xa1\xb2\xc3\xd4\xe5\xf6"
 
 
-async def test_invalid_mac_address(hass: UniversalAssistant) -> None:
+async def test_invalid_mac_address(hass: __HAC_KEEP__) -> None:
     """Test we do not accept an invalid MAC address."""
     invalid = [
         None,

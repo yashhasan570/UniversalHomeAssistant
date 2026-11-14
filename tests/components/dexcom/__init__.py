@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.dexcom.const import CONF_SERVER, DOMAIN, SERVER_US
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 CONFIG = {
     CONF_USERNAME: "test_username",
@@ -22,9 +22,9 @@ TEST_SESSION_ID = "55555555-5555-5555-5555-555555555555"
 
 
 async def init_integration(
-    hass: UniversalAssistant, options: dict[str, Any] | None = None
+    hass: __HAC_KEEP__, options: dict[str, Any] | None = None
 ) -> MockConfigEntry:
-    """Set up the Dexcom integration in Universal Universal Home Assistant."""
+    """Set up the Dexcom integration in __HA_KEEP__."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         title="test_username",

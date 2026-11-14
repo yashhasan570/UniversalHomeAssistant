@@ -8,7 +8,7 @@ from greeclimate.discovery import Listener
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.gree.const import DISCOVERY_TIMEOUT, DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 _LOGGER = logging.getLogger(__name__)
@@ -94,7 +94,7 @@ def build_device_mock(name="fake-device-1", ipAddress="1.1.1.1", mac="aabbcc1122
     return mock
 
 
-async def async_setup_gree(hass: UniversalAssistant) -> MockConfigEntry:
+async def async_setup_gree(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Set up the gree platform."""
     entry = MockConfigEntry(domain=DOMAIN)
     entry.add_to_hass(hass)

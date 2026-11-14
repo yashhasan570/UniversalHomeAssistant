@@ -3,13 +3,13 @@
 from pytest_universalassistant.common import MockConfigEntry, load_fixture_bytes
 from pyweatherflowudp.aioudp import LocalEndpoint
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 HUB_ADDRESS = ("192.0.2.1", 50222)
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     endpoint: LocalEndpoint,
     packets: tuple[str, ...] = ("device.json", "obs_st.json"),

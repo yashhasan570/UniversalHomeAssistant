@@ -15,8 +15,8 @@ from universalassistant.components.vacuum import (
     SERVICE_STOP,
 )
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 ENTITY_ID = "vacuum.mock_robot"
 
@@ -44,7 +44,7 @@ ENTITY_ID = "vacuum.mock_robot"
     ],
 )
 async def test_vacuum_action_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_robot: MagicMock,
     service: str,
     robot_method: str,
@@ -53,7 +53,7 @@ async def test_vacuum_action_failed(
     """Test a failed vacuum action raises."""
     getattr(mock_robot, robot_method).side_effect = NeatoRobotException
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             VACUUM_DOMAIN,
             service,

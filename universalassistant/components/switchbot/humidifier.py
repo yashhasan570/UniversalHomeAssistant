@@ -14,7 +14,7 @@ from universalassistant.components.humidifier import (
     HumidifierEntity,
     HumidifierEntityFeature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import SwitchbotConfigEntry
@@ -30,7 +30,7 @@ EVAPORATIVE_HUMIDIFIER_ACTION_MAP: dict[int, HumidifierAction] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SwitchbotConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -27,12 +27,12 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
 
-async def test_lock_unlock(hass: UniversalAssistant, hk_driver, events: list[Event]) -> None:
+async def test_lock_unlock(hass: __HAC_KEEP__, hk_driver, events: list[Event]) -> None:
     """Test if accessory and HA are updated accordingly."""
     code = "1234"
     config = {ATTR_CODE: code}
@@ -131,7 +131,7 @@ async def test_lock_unlock(hass: UniversalAssistant, hk_driver, events: list[Eve
 
 @pytest.mark.parametrize("config", [{}, {ATTR_CODE: None}])
 async def test_no_code(
-    hass: UniversalAssistant, hk_driver, config, events: list[Event]
+    hass: __HAC_KEEP__, hk_driver, config, events: list[Event]
 ) -> None:
     """Test accessory if lock doesn't require a code."""
     entity_id = "lock.kitchen_door"
@@ -153,7 +153,7 @@ async def test_no_code(
     assert events[-1].data[ATTR_VALUE] is None
 
 
-async def test_lock_with_linked_doorbell_sensor(hass: UniversalAssistant, hk_driver) -> None:
+async def test_lock_with_linked_doorbell_sensor(hass: __HAC_KEEP__, hk_driver) -> None:
     """Test a lock with a linked doorbell sensor can update."""
     code = "1234"
     await async_setup_component(hass, lock.DOMAIN, {lock.DOMAIN: {"platform": "demo"}})
@@ -262,7 +262,7 @@ async def test_lock_with_linked_doorbell_sensor(hass: UniversalAssistant, hk_dri
     assert char2.value is None
 
 
-async def test_lock_with_linked_doorbell_event(hass: UniversalAssistant, hk_driver) -> None:
+async def test_lock_with_linked_doorbell_event(hass: __HAC_KEEP__, hk_driver) -> None:
     """Test a lock with a linked doorbell event can update."""
     await async_setup_component(hass, lock.DOMAIN, {lock.DOMAIN: {"platform": "demo"}})
     await hass.async_block_till_done()
@@ -402,7 +402,7 @@ async def test_lock_with_linked_doorbell_event(hass: UniversalAssistant, hk_driv
 
 
 async def test_lock_with_a_missing_linked_doorbell_sensor(
-    hass: UniversalAssistant, hk_driver
+    hass: __HAC_KEEP__, hk_driver
 ) -> None:
     """Test a lock with a configured linked doorbell sensor that is missing."""
     await async_setup_component(hass, lock.DOMAIN, {lock.DOMAIN: {"platform": "demo"}})

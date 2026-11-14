@@ -11,7 +11,7 @@ from universalassistant.components import steamist
 from universalassistant.components.steamist.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 from universalassistant.util.dt import utcnow
@@ -40,7 +40,7 @@ def mock_single_broadcast_address():
 
 
 @pytest.mark.usefixtures("mock_aio_discovery")
-async def test_config_entry_reload(hass: UniversalAssistant) -> None:
+async def test_config_entry_reload(hass: __HAC_KEEP__) -> None:
     """Test that a config entry can be reloaded."""
     _, config_entry = await _async_setup_entry_with_status(
         hass, MOCK_ASYNC_GET_STATUS_ACTIVE
@@ -51,7 +51,7 @@ async def test_config_entry_reload(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_aio_discovery")
-async def test_config_entry_retry_later(hass: UniversalAssistant) -> None:
+async def test_config_entry_retry_later(hass: __HAC_KEEP__) -> None:
     """Test that a config entry retry on connection error."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -68,7 +68,7 @@ async def test_config_entry_retry_later(hass: UniversalAssistant) -> None:
 
 
 async def test_config_entry_fills_unique_id_with_directed_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test unique id is added if missing via directed discovery."""
@@ -117,7 +117,7 @@ async def test_config_entry_fills_unique_id_with_directed_discovery(
 
 @pytest.mark.usefixtures("mock_single_broadcast_address")
 async def test_discovery_happens_at_interval(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test that discovery happens at interval."""
     config_entry = MockConfigEntry(

@@ -724,7 +724,7 @@ class EnergySiteSubentryFlowHandler(ConfigSubentryFlow):
             LOGGER.info("Powerwall key setup: id=%s", cloud_site.energy_site_id)
             await cloud_site.add_authorized_client(
                 self._public_key_der,
-                description="Universal Universal Home Assistant",
+                description="__HA_KEEP__",
                 key_type=AuthorizedClientKeyType.RSA,
                 authorized_client_type=AuthorizedClientType.CUSTOMER_MOBILE_APP,
             )

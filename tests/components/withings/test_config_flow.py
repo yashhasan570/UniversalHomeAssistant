@@ -9,7 +9,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 
 from universalassistant.components.withings.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -20,7 +20,7 @@ from .conftest import CLIENT_ID, USER_ID, WEBHOOK_ID
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -83,7 +83,7 @@ async def test_full_flow(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_config_non_unique_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     withings: AsyncMock,
     polling_config_entry: MockConfigEntry,
@@ -136,7 +136,7 @@ async def test_config_non_unique_profile(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_config_reauth_profile(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     polling_config_entry: MockConfigEntry,
@@ -191,7 +191,7 @@ async def test_config_reauth_profile(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_config_reauth_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     polling_config_entry: MockConfigEntry,
@@ -257,7 +257,7 @@ async def test_config_reauth_wrong_account(
     ],
 )
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     polling_config_entry: MockConfigEntry,
@@ -311,7 +311,7 @@ async def test_reconfigure(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_config_flow_with_invalid_credentials(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     polling_config_entry: MockConfigEntry,
@@ -362,7 +362,7 @@ async def test_config_flow_with_invalid_credentials(
 
 @pytest.mark.usefixtures("current_request_with_host")
 async def test_dhcp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:

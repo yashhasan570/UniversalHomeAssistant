@@ -107,7 +107,7 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     UnitOfTemperature,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, State
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, State
 from universalassistant.setup import async_setup_component
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -285,7 +285,7 @@ ENTITY_ID = f"{CLIMATE_DOMAIN}.{TEST_ENTITY_NAME}".replace(" ", "_")
         },
     ],
 )
-async def test_config_climate(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_config_climate(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configuration test for climate."""
     assert CLIMATE_DOMAIN in hass.config.components
 
@@ -316,7 +316,7 @@ async def test_config_climate(hass: UniversalAssistant, mock_modbus) -> None:
         },
     ],
 )
-async def test_config_hvac_mode_register(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_config_hvac_mode_register(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configuration test for HVAC mode register."""
     state = hass.states.get(ENTITY_ID)
     assert HVACMode.OFF in state.attributes[ATTR_HVAC_MODES]
@@ -353,7 +353,7 @@ async def test_config_hvac_mode_register(hass: UniversalAssistant, mock_modbus) 
         },
     ],
 )
-async def test_config_fan_mode_register(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_config_fan_mode_register(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configuration test for Fan mode register."""
     state = hass.states.get(ENTITY_ID)
     assert FAN_ON in state.attributes[ATTR_FAN_MODES]
@@ -393,7 +393,7 @@ async def test_config_fan_mode_register(hass: UniversalAssistant, mock_modbus) -
         },
     ],
 )
-async def test_config_swing_mode_register(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_config_swing_mode_register(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configuration test for Fan mode register."""
     state = hass.states.get(ENTITY_ID)
     assert SWING_ON in state.attributes[ATTR_SWING_MODES]
@@ -419,7 +419,7 @@ async def test_config_swing_mode_register(hass: UniversalAssistant, mock_modbus)
         },
     ],
 )
-async def test_config_hvac_onoff_register(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_config_hvac_onoff_register(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configuration test for On/Off register."""
     state = hass.states.get(ENTITY_ID)
     assert HVACMode.OFF in state.attributes[ATTR_HVAC_MODES]
@@ -442,7 +442,7 @@ async def test_config_hvac_onoff_register(hass: UniversalAssistant, mock_modbus)
         },
     ],
 )
-async def test_config_hvac_onoff_coil(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_config_hvac_onoff_coil(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configuration test for On/Off coil."""
     state = hass.states.get(ENTITY_ID)
     assert HVACMode.OFF in state.attributes[ATTR_HVAC_MODES]
@@ -467,7 +467,7 @@ async def test_config_hvac_onoff_coil(hass: UniversalAssistant, mock_modbus) -> 
         },
     ],
 )
-async def test_hvac_onoff_values(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_hvac_onoff_values(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configuration test for On/Off register values."""
     await hass.services.async_call(
         CLIMATE_DOMAIN,
@@ -506,7 +506,7 @@ async def test_hvac_onoff_values(hass: UniversalAssistant, mock_modbus) -> None:
         },
     ],
 )
-async def test_hvac_onoff_coil(hass: UniversalAssistant, mock_modbus) -> None:
+async def test_hvac_onoff_coil(hass: __HAC_KEEP__, mock_modbus) -> None:
     """Run configuration test for On/Off coil values."""
     await hass.services.async_call(
         CLIMATE_DOMAIN,
@@ -555,7 +555,7 @@ async def test_hvac_onoff_coil(hass: UniversalAssistant, mock_modbus) -> None:
     ],
 )
 async def test_temperature_climate(
-    hass: UniversalAssistant, expected, mock_do_cycle
+    hass: __HAC_KEEP__, expected, mock_do_cycle
 ) -> None:
     """Run test for given config."""
     assert hass.states.get(ENTITY_ID).state == expected
@@ -586,7 +586,7 @@ async def test_temperature_climate(
         ),
     ],
 )
-async def test_temperature_error(hass: UniversalAssistant, expected, mock_do_cycle) -> None:
+async def test_temperature_error(hass: __HAC_KEEP__, expected, mock_do_cycle) -> None:
     """Run test for given config."""
     assert hass.states.get(ENTITY_ID).state == expected
 
@@ -670,7 +670,7 @@ async def test_temperature_error(hass: UniversalAssistant, expected, mock_do_cyc
     ],
 )
 async def test_service_climate_update(
-    hass: UniversalAssistant, mock_modbus_ha, result, register_words
+    hass: __HAC_KEEP__, mock_modbus_ha, result, register_words
 ) -> None:
     """Run test for service universalassistant.update_entity."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(register_words)
@@ -786,7 +786,7 @@ async def test_service_climate_update(
     ],
 )
 async def test_hvac_onoff_coil_update(
-    hass: UniversalAssistant, mock_modbus_ha, result, register_words, coil_value
+    hass: __HAC_KEEP__, mock_modbus_ha, result, register_words, coil_value
 ) -> None:
     """Test climate update based on On/Off coil values."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(register_words)
@@ -834,7 +834,7 @@ async def test_hvac_onoff_coil_update(
     ],
 )
 async def test_hvac_onoff_coil_transition_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_modbus_ha,
     result_before,
     coil_value_before,
@@ -899,7 +899,7 @@ async def test_hvac_onoff_coil_transition_update(
     ],
 )
 async def test_hvac_onoff_register_transition_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_modbus_ha,
     result_before,
     register_value_before,
@@ -1013,7 +1013,7 @@ async def test_hvac_onoff_register_transition_update(
     ],
 )
 async def test_service_climate_action_update(
-    hass: UniversalAssistant, mock_modbus_ha, result, register_words
+    hass: __HAC_KEEP__, mock_modbus_ha, result, register_words
 ) -> None:
     """Test HVAC action updates."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(register_words)
@@ -1131,7 +1131,7 @@ async def test_service_climate_action_update(
     ],
 )
 async def test_service_climate_fan_update(
-    hass: UniversalAssistant, mock_modbus_ha, result, register_words
+    hass: __HAC_KEEP__, mock_modbus_ha, result, register_words
 ) -> None:
     """Run test for service universalassistant.update_entity."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(register_words)
@@ -1274,7 +1274,7 @@ async def test_service_climate_fan_update(
     ],
 )
 async def test_service_climate_swing_update(
-    hass: UniversalAssistant, mock_modbus_ha, result, register_words
+    hass: __HAC_KEEP__, mock_modbus_ha, result, register_words
 ) -> None:
     """Run test for service universalassistant.update_entity."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(register_words)
@@ -1370,7 +1370,7 @@ async def test_service_climate_swing_update(
     ],
 )
 async def test_service_climate_set_temperature(
-    hass: UniversalAssistant, temperature, result, mock_modbus_ha
+    hass: __HAC_KEEP__, temperature, result, mock_modbus_ha
 ) -> None:
     """Test set_temperature."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(result)
@@ -1480,7 +1480,7 @@ async def test_service_climate_set_temperature(
     ],
 )
 async def test_service_set_hvac_mode(
-    hass: UniversalAssistant, hvac_mode, result, mock_modbus_ha
+    hass: __HAC_KEEP__, hvac_mode, result, mock_modbus_ha
 ) -> None:
     """Test set HVAC mode."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(result)
@@ -1544,7 +1544,7 @@ async def test_service_set_hvac_mode(
     ],
 )
 async def test_service_set_fan_mode(
-    hass: UniversalAssistant, fan_mode, result, mock_modbus_ha
+    hass: __HAC_KEEP__, fan_mode, result, mock_modbus_ha
 ) -> None:
     """Test set Fan mode."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(result)
@@ -1607,7 +1607,7 @@ async def test_service_set_fan_mode(
     ],
 )
 async def test_service_set_swing_mode(
-    hass: UniversalAssistant, swing_mode, result, mock_modbus_ha
+    hass: __HAC_KEEP__, swing_mode, result, mock_modbus_ha
 ) -> None:
     """Test set Swing mode."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(result)
@@ -1652,7 +1652,7 @@ test_value.attributes = {ATTR_TEMPERATURE: 37}
     ],
 )
 async def test_restore_state_climate(
-    hass: UniversalAssistant, mock_test_state, mock_modbus
+    hass: __HAC_KEEP__, mock_test_state, mock_modbus
 ) -> None:
     """Run test for sensor restore state."""
     state = hass.states.get(ENTITY_ID)
@@ -1787,7 +1787,7 @@ async def test_restore_state_climate(
     indirect=["mock_test_state"],
 )
 @pytest.mark.usefixtures("mock_test_state", "mock_modbus_to_test_errors_config")
-async def test_restore_temperature_unit(hass: UniversalAssistant) -> None:
+async def test_restore_temperature_unit(hass: __HAC_KEEP__) -> None:
     """Test restoration uses the saved unit, falling back to the configured unit."""
     # The fixture does not poll, so the restored target temperature is kept.
     state = hass.states.get(ENTITY_ID)
@@ -1795,7 +1795,7 @@ async def test_restore_temperature_unit(hass: UniversalAssistant) -> None:
 
 
 @pytest.fixture(name="stored_climate_data")
-def stored_climate_data_fixture(hass: UniversalAssistant) -> None:
+def stored_climate_data_fixture(hass: __HAC_KEEP__) -> None:
     """Mock a last state with climate extra data on a Fahrenheit system."""
     hass.config.units = US_CUSTOMARY_SYSTEM
     mock_restore_cache_with_extra_data(
@@ -1838,7 +1838,7 @@ def stored_climate_data_fixture(hass: UniversalAssistant) -> None:
     ],
 )
 @pytest.mark.usefixtures("stored_climate_data", "mock_modbus_to_test_errors_config")
-async def test_restore_temperature_from_extra_data(hass: UniversalAssistant) -> None:
+async def test_restore_temperature_from_extra_data(hass: __HAC_KEEP__) -> None:
     """Test the target temperature is restored from the stored native value."""
     state = hass.states.get(ENTITY_ID)
     assert state.attributes[ATTR_TEMPERATURE] == 77
@@ -1876,13 +1876,13 @@ async def test_restore_temperature_from_extra_data(hass: UniversalAssistant) -> 
         ),
     ],
 )
-async def test_wrong_unpack_climate(hass: UniversalAssistant, mock_do_cycle) -> None:
+async def test_wrong_unpack_climate(hass: __HAC_KEEP__, mock_do_cycle) -> None:
     """Run test for sensor."""
     assert hass.states.get(ENTITY_ID).state == STATE_UNAVAILABLE
 
 
 async def test_no_discovery_info_climate(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test setup without discovery info."""
     assert CLIMATE_DOMAIN not in hass.config.components
@@ -1967,7 +1967,7 @@ async def test_no_discovery_info_climate(
     ],
 )
 async def test_update_current_temp_scale_and_offset(
-    hass: UniversalAssistant, mock_modbus_ha, result, register_words
+    hass: __HAC_KEEP__, mock_modbus_ha, result, register_words
 ) -> None:
     """Test current temperature scaling/offset configurations."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(register_words)
@@ -2073,7 +2073,7 @@ async def test_update_current_temp_scale_and_offset(
     ],
 )
 async def test_update_target_temp_scale_and_offset(
-    hass: UniversalAssistant, mock_modbus_ha, result, register_words
+    hass: __HAC_KEEP__, mock_modbus_ha, result, register_words
 ) -> None:
     """Test target temperature scaling/offset configurations."""
     mock_modbus_ha.read_holding_registers.return_value = ReadResult(register_words)
@@ -2109,7 +2109,7 @@ async def test_update_target_temp_scale_and_offset(
     ],
 )
 async def test_err_config_climate(
-    hass: UniversalAssistant, mock_modbus_to_test_errors_config
+    hass: __HAC_KEEP__, mock_modbus_to_test_errors_config
 ) -> None:
     """Run a wrong configuration test for climate."""
     assert CLIMATE_DOMAIN not in hass.config.components

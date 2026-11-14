@@ -6,8 +6,8 @@ from roborock.exceptions import RoborockTimeout
 
 from universalassistant.components.number import NumberService, NumberServiceArgument
 from universalassistant.const import STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_component import async_update_entity
 
 from .conftest import FakeDevice
@@ -20,7 +20,7 @@ def platforms() -> list[Platform]:
 
 
 async def test_update_sound_volume(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -50,7 +50,7 @@ async def test_update_sound_volume(
 
 
 async def test_q10_update_sound_volume(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -79,7 +79,7 @@ async def test_q10_update_sound_volume(
 
 
 async def test_q10_volume_unknown_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_q10_volume_unknown_value(
 
 
 async def test_q10_volume_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_q10_vacuum: FakeDevice,
 ) -> None:
@@ -105,7 +105,7 @@ async def test_q10_volume_update_failed(
 
     assert hass.states.get("number.roborock_q10_s5_volume") is not None
 
-    with pytest.raises(UniversalAssistantError, match="Failed to update Roborock options"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to update Roborock options"):
         await hass.services.async_call(
             "number",
             NumberService.SET_VALUE,
@@ -118,7 +118,7 @@ async def test_q10_volume_update_failed(
 
 
 async def test_volume_unknown_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -134,7 +134,7 @@ async def test_volume_unknown_value(
 
 
 async def test_volume_update_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_entry: MockConfigEntry,
     fake_vacuum: FakeDevice,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_volume_update_failed(
     # Ensure that the entity exist, as these test can pass even if there is no entity.
     assert hass.states.get("number.roborock_s7_maxv_volume") is not None
 
-    with pytest.raises(UniversalAssistantError, match="Failed to update Roborock options"):
+    with pytest.raises(__HAC_KEEP__Error, match="Failed to update Roborock options"):
         await hass.services.async_call(
             "number",
             NumberService.SET_VALUE,

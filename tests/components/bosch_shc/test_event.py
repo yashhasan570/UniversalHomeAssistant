@@ -6,7 +6,7 @@ from boschshcpy import AlarmService
 import pytest
 from pytest_universalassistant.common import MockConfigEntry
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import (
     motion_detector2_device,
@@ -23,7 +23,7 @@ from .conftest import (
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_motion_detector_no_motion_yet(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A Motion Detector's event entity exists but has no state before a motion event fires."""
@@ -40,7 +40,7 @@ async def test_motion_detector_no_motion_yet(
     indirect=True,
 )
 async def test_motion_detector_fires_on_new_timestamp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -66,7 +66,7 @@ async def test_motion_detector_fires_on_new_timestamp(
     indirect=True,
 )
 async def test_motion_detector_dedup_guard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -100,7 +100,7 @@ async def test_motion_detector_dedup_guard(
     indirect=True,
 )
 async def test_motion_detector_no_replay_on_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_motion_detector_no_replay_on_startup(
     indirect=True,
 )
 async def test_motion_detector_unregisters_callback_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -145,7 +145,7 @@ async def test_motion_detector_unregisters_callback_on_unload(
     indirect=True,
 )
 async def test_motion_detector_unregisters_callback_on_failed_add(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -168,7 +168,7 @@ async def test_motion_detector_unregisters_callback_on_failed_add(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_motion_detector2_no_motion_yet(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A gen2 Motion Detector's event entity exists but has no state before a motion event fires."""
@@ -185,7 +185,7 @@ async def test_motion_detector2_no_motion_yet(
     indirect=True,
 )
 async def test_motion_detector2_fires_on_new_timestamp(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -212,7 +212,7 @@ async def test_motion_detector2_fires_on_new_timestamp(
 )
 @pytest.mark.usefixtures("mock_session")
 async def test_smoke_detector_no_alarm_yet(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """A Smoke Detector's event entity exists but has no state before an Alarm push."""
@@ -229,7 +229,7 @@ async def test_smoke_detector_no_alarm_yet(
     indirect=True,
 )
 async def test_smoke_detector_fires_on_alarm(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -254,7 +254,7 @@ async def test_smoke_detector_fires_on_alarm(
     indirect=True,
 )
 async def test_smoke_detector_dedup_guard(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -288,7 +288,7 @@ async def test_smoke_detector_dedup_guard(
     indirect=True,
 )
 async def test_smoke_detector_no_replay_on_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -311,7 +311,7 @@ async def test_smoke_detector_no_replay_on_startup(
     indirect=True,
 )
 async def test_smoke_detector_unregisters_callback_on_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_session: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

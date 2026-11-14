@@ -17,7 +17,7 @@ from universalassistant.components.voip.assist_satellite import VoipAssistSatell
 from universalassistant.components.voip.devices import VoIPDevice, VoIPDevices
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.setup import async_setup_component
@@ -26,7 +26,7 @@ from tests.components.tts.conftest import mock_tts_cache_dir_fixture_autouse  # 
 
 
 @pytest.fixture(autouse=True)
-async def load_universalassistant(hass: UniversalAssistant) -> None:
+async def load_universalassistant(hass: __HAC_KEEP__) -> None:
     """Load the universalassistant integration."""
     assert await async_setup_component(hass, "universalassistant", {})
 
@@ -66,7 +66,7 @@ def silent_tones() -> Generator[None]:
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Create a config entry."""
     entry = MockConfigEntry(domain=DOMAIN, data={})
     entry.add_to_hass(hass)
@@ -74,7 +74,7 @@ def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 
 @pytest.fixture
-async def setup_voip(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_voip(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Set up VoIP integration."""
     with patch(
         "universalassistant.components.voip._create_sip_server",
@@ -88,7 +88,7 @@ async def setup_voip(hass: UniversalAssistant, config_entry: MockConfigEntry) ->
 
 @pytest.fixture
 async def voip_devices(
-    hass: UniversalAssistant, config_entry: MockConfigEntry, setup_voip: None
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry, setup_voip: None
 ) -> VoIPDevices:
     """Get VoIP devices object from a configured instance."""
     return config_entry.runtime_data.domain_data.devices
@@ -123,7 +123,7 @@ def call_info() -> CallInfo:
 
 @pytest.fixture
 async def voip_device(
-    hass: UniversalAssistant, voip_devices: VoIPDevices, call_info: CallInfo
+    hass: __HAC_KEEP__, voip_devices: VoIPDevices, call_info: CallInfo
 ) -> VoIPDevice:
     """Get a VoIP device fixture."""
     device = voip_devices.async_get_or_create(call_info)
@@ -134,7 +134,7 @@ async def voip_device(
 
 @pytest.fixture
 async def satellite(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     voip_device: VoIPDevice,
 ):
     """Create VoipAssistSatellite for use in tests."""
@@ -157,7 +157,7 @@ async def satellite(
 
 
 def async_get_satellite_entity(
-    hass: UniversalAssistant, domain: str, unique_id_prefix: str
+    hass: __HAC_KEEP__, domain: str, unique_id_prefix: str
 ) -> AssistSatelliteEntity | None:
     """Get Assist satellite entity."""
     ent_reg = er.async_get(hass)

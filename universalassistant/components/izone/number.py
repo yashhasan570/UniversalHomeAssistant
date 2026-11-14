@@ -9,7 +9,7 @@ from pizone import Controller, Zone
 
 from universalassistant.components.number import NumberEntity, NumberEntityDescription
 from universalassistant.const import PERCENTAGE, EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -61,7 +61,7 @@ ZONE_NUMBER_DESCRIPTIONS: tuple[IZoneZoneNumberEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IZoneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

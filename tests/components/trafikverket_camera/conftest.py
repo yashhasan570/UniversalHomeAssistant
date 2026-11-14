@@ -10,7 +10,7 @@ from pytrafikverket import CameraInfoModel
 
 from universalassistant.components.trafikverket_camera.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 from . import ENTRY_CONFIG
@@ -18,11 +18,11 @@ from . import ENTRY_CONFIG
 
 @pytest.fixture(name="load_int")
 async def load_integration_from_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     get_camera: CameraInfoModel,
 ) -> MockConfigEntry:
-    """Set up the Trafikverket Camera integration in Universal Universal Home Assistant."""
+    """Set up the Trafikverket Camera integration in __HA_KEEP__."""
     aioclient_mock.get("https://www.testurl.com/test_photo.jpg", content=b"0123456789")
     aioclient_mock.get(
         "https://www.testurl.com/test_photo_fullsize.jpg", content=b"0123456789"

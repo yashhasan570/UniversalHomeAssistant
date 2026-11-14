@@ -19,7 +19,7 @@ from universalassistant.components.bang_olufsen.const import (
     DOMAIN,
     WebsocketNotification,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import DeviceRegistry
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
 from universalassistant.helpers.entity_registry import EntityRegistry
@@ -34,7 +34,7 @@ from .util import get_balance_entity_ids, get_remote_entity_ids
 
 
 async def test_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -62,7 +62,7 @@ async def test_connection(
 
 
 async def test_connection_lost(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -87,7 +87,7 @@ async def test_connection_lost(
 
 
 async def test_on_software_update_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     integration: None,
     mock_mozart_client: AsyncMock,
@@ -113,7 +113,7 @@ async def test_on_software_update_state(
 
 
 async def test_on_remote_control_already_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -162,7 +162,7 @@ async def test_on_remote_control_already_added(
 
 
 async def test_on_remote_control_paired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,
@@ -248,7 +248,7 @@ async def test_on_remote_control_paired(
 
 
 async def test_on_remote_control_unpaired(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: DeviceRegistry,
     entity_registry: EntityRegistry,
@@ -310,7 +310,7 @@ async def test_on_remote_control_unpaired(
 
 
 # async def test_setup_entry_remote_unpaired(
-#     hass: UniversalAssistant,
+#     hass: __HAC_KEEP__,
 #     device_registry: DeviceRegistry,
 #     entity_registry: EntityRegistry,
 #     mock_config_entry: MockConfigEntry,
@@ -348,7 +348,7 @@ async def test_on_remote_control_unpaired(
 
 
 async def test_on_all_notifications_raw(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     device_registry: DeviceRegistry,
     integration: None,

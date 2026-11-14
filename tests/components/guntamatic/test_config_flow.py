@@ -10,7 +10,7 @@ import requests
 from universalassistant.components.guntamatic.const import DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -18,7 +18,7 @@ from .conftest import MOCK_DATA, MOCK_PARSE_DATA
 
 
 async def test_form(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     mock_heater: MagicMock,
 ) -> None:
@@ -51,7 +51,7 @@ async def test_form(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     expected_error: str,
     mock_heater: MagicMock,
@@ -81,7 +81,7 @@ async def test_form_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_already_configured(
-    hass: UniversalAssistant, mock_heater: MagicMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_heater: MagicMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test we abort if already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -98,7 +98,7 @@ async def test_form_already_configured(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_dhcp_discovery(hass: UniversalAssistant, mock_heater: MagicMock) -> None:
+async def test_dhcp_discovery(hass: __HAC_KEEP__, mock_heater: MagicMock) -> None:
     """Test DHCP discovery shows confirmation form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -131,7 +131,7 @@ async def test_dhcp_discovery(hass: UniversalAssistant, mock_heater: MagicMock) 
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     side_effect: Exception,
     expected_error: str,
     mock_heater: MagicMock,
@@ -153,7 +153,7 @@ async def test_dhcp_discovery_errors(
 
 
 async def test_dhcp_updates_ip(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_heater: MagicMock,
 ) -> None:

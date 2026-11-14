@@ -12,14 +12,14 @@ from syrupy.assertion import SnapshotAssertion
 from tiltpi import TiltColor, TiltPiConnectionError
 
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_all_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tiltpi_client: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -39,7 +39,7 @@ async def test_all_sensors(
 
 
 async def test_availability(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tiltpi_client: AsyncMock,
     freezer: FrozenDateTimeFactory,

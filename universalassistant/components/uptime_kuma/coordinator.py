@@ -16,7 +16,7 @@ from pythonkuma.update import LatestRelease, UpdateChecker
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_API_KEY, CONF_URL, CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryError
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -39,7 +39,7 @@ class UptimeKumaDataUpdateCoordinator(
     config_entry: UptimeKumaConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: UptimeKumaConfigEntry
+        self, hass: __HAC_KEEP__, config_entry: UptimeKumaConfigEntry
     ) -> None:
         """Initialize the coordinator."""
 
@@ -91,7 +91,7 @@ class UptimeKumaDataUpdateCoordinator(
 class UptimeKumaSoftwareUpdateCoordinator(DataUpdateCoordinator[LatestRelease]):
     """Uptime Kuma coordinator for retrieving update information."""
 
-    def __init__(self, hass: UniversalAssistant, update_checker: UpdateChecker) -> None:
+    def __init__(self, hass: __HAC_KEEP__, update_checker: UpdateChecker) -> None:
         """Initialize coordinator."""
         super().__init__(
             hass,

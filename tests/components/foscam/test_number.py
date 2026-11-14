@@ -12,7 +12,7 @@ from universalassistant.components.number import (
     NumberServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import setup_mock_foscam_camera
@@ -20,7 +20,7 @@ from .const import ENTRY_ID, VALID_CONFIG
 
 
 async def test_number_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -39,7 +39,7 @@ async def test_number_entities(
     await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
 
 
-async def test_setting_number(hass: UniversalAssistant) -> None:
+async def test_setting_number(hass: __HAC_KEEP__) -> None:
     """Test setting a number entity calls the correct method on the camera."""
     entry = MockConfigEntry(domain=DOMAIN, data=VALID_CONFIG, entry_id=ENTRY_ID)
     entry.add_to_hass(hass)

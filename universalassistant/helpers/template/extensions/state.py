@@ -1,4 +1,4 @@
-"""State functions for Universal Universal Home Assistant templates."""
+"""State functions for __HA_KEEP__ templates."""
 
 from collections.abc import Iterable
 import logging

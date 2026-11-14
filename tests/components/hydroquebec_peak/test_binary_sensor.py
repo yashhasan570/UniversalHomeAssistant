@@ -12,7 +12,7 @@ from pytest_universalassistant.common import (
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import STATE_OFF, STATE_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -32,7 +32,7 @@ TOMORROW_AM = "binary_sensor.cpc_d_peak_event_tomorrow_am"
     ],
 )
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -52,7 +52,7 @@ async def test_binary_sensors(
 
 
 async def test_peak_active_flips_at_boundary(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -76,7 +76,7 @@ async def test_peak_active_flips_at_boundary(
 
 
 async def test_day_flags_roll_over_at_midnight(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,

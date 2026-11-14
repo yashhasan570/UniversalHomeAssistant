@@ -23,7 +23,7 @@ from universalassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
 )
-from universalassistant.core import CALLBACK_TYPE, HassJob, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, HassJob, __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.device_registry import format_mac
@@ -72,13 +72,13 @@ class ReolinkHost:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: Mapping[str, Any],
         options: Mapping[str, Any],
         config_entry: ReolinkConfigEntry | None = None,
     ) -> None:
         """Initialize Reolink Host. Could be either NVR, or Camera."""
-        self._hass: UniversalAssistant = hass
+        self._hass: __HAC_KEEP__ = hass
         self._config_entry = config_entry
         self._config = config
         self._unique_id: str = ""
@@ -877,7 +877,7 @@ class ReolinkHost:
         self._signal_write_ha_state()
 
     async def handle_webhook(
-        self, hass: UniversalAssistant, webhook_id: str, request: Request
+        self, hass: __HAC_KEEP__, webhook_id: str, request: Request
     ) -> None:
         """Read the incoming webhook from Reolink and schedule processing."""
         _LOGGER.debug("Webhook '%s' called", webhook_id)

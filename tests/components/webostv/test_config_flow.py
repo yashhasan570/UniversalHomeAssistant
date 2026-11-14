@@ -12,7 +12,7 @@ from universalassistant.components.webostv.const import (
 )
 from universalassistant.config_entries import SOURCE_SSDP
 from universalassistant.const import CONF_CLIENT_SECRET, CONF_HOST, CONF_SOURCE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import (
     ATTR_UPNP_FRIENDLY_NAME,
@@ -46,7 +46,7 @@ MOCK_DISCOVERY_INFO = SsdpServiceInfo(
 )
 
 
-async def test_form(hass: UniversalAssistant, client) -> None:
+async def test_form(hass: __HAC_KEEP__, client) -> None:
     """Test successful user flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -68,7 +68,7 @@ async def test_form(hass: UniversalAssistant, client) -> None:
     assert config_entry.unique_id == FAKE_UUID
 
 
-async def test_form_no_model_name(hass: UniversalAssistant, client) -> None:
+async def test_form_no_model_name(hass: __HAC_KEEP__, client) -> None:
     """Test successful user flow without model name."""
     client.tv_info.system = {}
     result = await hass.config_entries.flow.async_init(
@@ -109,7 +109,7 @@ async def test_form_no_model_name(hass: UniversalAssistant, client) -> None:
     ],
 )
 async def test_options_flow_live_tv_in_apps(
-    hass: UniversalAssistant, client, apps, inputs
+    hass: __HAC_KEEP__, client, apps, inputs
 ) -> None:
     """Test options config flow Live TV found in apps."""
     client.tv_state.apps = apps
@@ -139,7 +139,7 @@ async def test_options_flow_live_tv_in_apps(
     ],
 )
 async def test_options_flow_errors(
-    hass: UniversalAssistant, client, side_effect, error
+    hass: __HAC_KEEP__, client, side_effect, error
 ) -> None:
     """Test options config flow errors."""
     entry = await setup_webostv(hass)
@@ -170,7 +170,7 @@ async def test_options_flow_errors(
     assert result3["data"][CONF_SOURCES] == ["Input01", "Input02"]
 
 
-async def test_form_cannot_connect(hass: UniversalAssistant, client) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__, client) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -196,7 +196,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant, client) -> None:
     assert result["title"] == TV_NAME
 
 
-async def test_form_pairexception(hass: UniversalAssistant, client) -> None:
+async def test_form_pairexception(hass: __HAC_KEEP__, client) -> None:
     """Test pairing exception."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -222,7 +222,7 @@ async def test_form_pairexception(hass: UniversalAssistant, client) -> None:
     assert result["title"] == TV_NAME
 
 
-async def test_entry_already_configured(hass: UniversalAssistant, client) -> None:
+async def test_entry_already_configured(hass: __HAC_KEEP__, client) -> None:
     """Test entry already configured."""
     await setup_webostv(hass)
 
@@ -236,7 +236,7 @@ async def test_entry_already_configured(hass: UniversalAssistant, client) -> Non
     assert result["reason"] == "already_configured"
 
 
-async def test_form_ssdp(hass: UniversalAssistant, client) -> None:
+async def test_form_ssdp(hass: __HAC_KEEP__, client) -> None:
     """Test that the ssdp confirmation form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={CONF_SOURCE: SOURCE_SSDP}, data=MOCK_DISCOVERY_INFO
@@ -256,7 +256,7 @@ async def test_form_ssdp(hass: UniversalAssistant, client) -> None:
     assert config_entry.unique_id == FAKE_UUID
 
 
-async def test_ssdp_in_progress(hass: UniversalAssistant, client) -> None:
+async def test_ssdp_in_progress(hass: __HAC_KEEP__, client) -> None:
     """Test abort if ssdp paring is already in progress."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -278,7 +278,7 @@ async def test_ssdp_in_progress(hass: UniversalAssistant, client) -> None:
     assert result["reason"] == "already_in_progress"
 
 
-async def test_form_abort_uuid_configured(hass: UniversalAssistant, client) -> None:
+async def test_form_abort_uuid_configured(hass: __HAC_KEEP__, client) -> None:
     """Test abort if uuid is already configured, verify host update."""
     entry = await setup_webostv(hass, MOCK_DISCOVERY_INFO.upnp[ATTR_UPNP_UDN][5:])
     assert entry.unique_id == MOCK_DISCOVERY_INFO.upnp[ATTR_UPNP_UDN][5:]
@@ -315,7 +315,7 @@ async def test_form_abort_uuid_configured(hass: UniversalAssistant, client) -> N
     assert entry.data[CONF_HOST] == "new_host"
 
 
-async def test_reauth_successful(hass: UniversalAssistant, client) -> None:
+async def test_reauth_successful(hass: __HAC_KEEP__, client) -> None:
     """Test that the reauthorization is successful."""
     entry = await setup_webostv(hass)
 
@@ -345,7 +345,7 @@ async def test_reauth_successful(hass: UniversalAssistant, client) -> None:
         (ConnectionResetError, "cannot_connect"),
     ],
 )
-async def test_reauth_errors(hass: UniversalAssistant, client, side_effect, error) -> None:
+async def test_reauth_errors(hass: __HAC_KEEP__, client, side_effect, error) -> None:
     """Test reauthorization errors."""
     entry = await setup_webostv(hass)
 
@@ -374,7 +374,7 @@ async def test_reauth_errors(hass: UniversalAssistant, client, side_effect, erro
     assert result["reason"] == "reauth_successful"
 
 
-async def test_reconfigure_successful(hass: UniversalAssistant, client) -> None:
+async def test_reconfigure_successful(hass: __HAC_KEEP__, client) -> None:
     """Test that the reconfigure is successful."""
     entry = await setup_webostv(hass)
 
@@ -401,7 +401,7 @@ async def test_reconfigure_successful(hass: UniversalAssistant, client) -> None:
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant, client, side_effect, error
+    hass: __HAC_KEEP__, client, side_effect, error
 ) -> None:
     """Test reconfigure errors."""
     entry = await setup_webostv(hass)
@@ -430,7 +430,7 @@ async def test_reconfigure_errors(
     assert result["reason"] == "reconfigure_successful"
 
 
-async def test_reconfigure_wrong_device(hass: UniversalAssistant, client) -> None:
+async def test_reconfigure_wrong_device(hass: __HAC_KEEP__, client) -> None:
     """Test abort if reconfigure host is wrong webOS TV device."""
     entry = await setup_webostv(hass)
 

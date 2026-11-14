@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.geniushub.const import DOMAIN
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -17,7 +17,7 @@ from . import setup_integration
 
 @pytest.mark.usefixtures("mock_geniushub_cloud")
 async def test_cloud_all_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -48,7 +48,7 @@ async def test_cloud_all_sensors(
     ],
 )
 async def test_turn_on_override_duration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cloud_config_entry: MockConfigEntry,
     domain: str,
     service: str,

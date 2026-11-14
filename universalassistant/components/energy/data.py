@@ -8,7 +8,7 @@ from typing import Any, Literal, NotRequired, TypedDict, override
 import probatio
 
 from universalassistant.const import Platform
-from universalassistant.core import Event, UniversalAssistant, callback, valid_entity_id
+from universalassistant.core import Event, __HAC_KEEP__, callback, valid_entity_id
 from universalassistant.helpers import entity_registry as er, singleton, storage
 
 from .const import DOMAIN
@@ -19,7 +19,7 @@ STORAGE_KEY = DOMAIN
 
 
 @singleton.singleton(f"{DOMAIN}_manager")
-async def async_get_manager(hass: UniversalAssistant) -> EnergyManager:
+async def async_get_manager(hass: __HAC_KEEP__) -> EnergyManager:
     """Return an initialized data manager."""
     manager = EnergyManager(hass)
     await manager.async_initialize()
@@ -784,7 +784,7 @@ class _EnergyPreferencesStore(storage.Store[EnergyPreferences]):
 class EnergyManager:
     """Manage the instance energy prefs."""
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize energy manager."""
         self._hass = hass
         self._store = _EnergyPreferencesStore(

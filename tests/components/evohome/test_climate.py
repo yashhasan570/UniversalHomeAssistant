@@ -27,8 +27,8 @@ from universalassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 from .conftest import setup_evohome
 from .const import TEST_INSTALLS
@@ -36,7 +36,7 @@ from .const import TEST_INSTALLS
 
 @pytest.mark.parametrize("install", [*TEST_INSTALLS, "botched"])
 async def test_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, str],
     install: str,
     snapshot: SnapshotAssertion,
@@ -60,7 +60,7 @@ async def test_setup_platform(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_entities_update_over_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, str],
     install: str,
     snapshot: SnapshotAssertion,
@@ -90,7 +90,7 @@ async def test_entities_update_over_time(
 
 @pytest.mark.parametrize("install", TEST_INSTALLS)
 async def test_ctl_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -141,13 +141,13 @@ async def test_ctl_set_hvac_mode(
 
 @pytest.mark.parametrize("install", TEST_INSTALLS)
 async def test_ctl_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
 ) -> None:
     """Test SERVICE_SET_TEMPERATURE of an evohome controller."""
 
     # Entity climate.xxx does not support this service
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -161,7 +161,7 @@ async def test_ctl_set_temperature(
 
 @pytest.mark.parametrize("install", TEST_INSTALLS)
 async def test_ctl_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_ctl_turn_off(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_ctl_invalid_system_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
 ) -> None:
     """Test translated exception when the requested system mode is invalid."""
@@ -218,7 +218,7 @@ async def test_ctl_invalid_system_mode(
 
 @pytest.mark.parametrize("install", ["default"])
 async def test_ctl_authentication_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
 ) -> None:
     """Test an authentication failure is raised, rather than only logged."""
@@ -243,7 +243,7 @@ async def test_ctl_authentication_failed(
 
 @pytest.mark.parametrize("install", TEST_INSTALLS)
 async def test_ctl_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ctl_id: str,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -274,7 +274,7 @@ async def test_ctl_turn_on(
 
 @pytest.mark.parametrize("install", TEST_INSTALLS)
 async def test_zone_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_id: str,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -321,7 +321,7 @@ async def test_zone_set_hvac_mode(
 
 @pytest.mark.parametrize("install", TEST_INSTALLS)
 async def test_zone_set_preset_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_id: str,
     freezer: FrozenDateTimeFactory,
     snapshot: SnapshotAssertion,
@@ -391,7 +391,7 @@ async def test_zone_set_preset_mode(
 
 @pytest.mark.parametrize("install", TEST_INSTALLS)
 async def test_zone_set_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_id: str,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -424,7 +424,7 @@ async def test_zone_set_temperature(
 
 @pytest.mark.parametrize("install", TEST_INSTALLS)
 async def test_zone_turn_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_id: str,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -456,7 +456,7 @@ async def test_zone_turn_off(
 
 @pytest.mark.parametrize("install", TEST_INSTALLS)
 async def test_zone_turn_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     zone_id: str,
 ) -> None:
     """Test SERVICE_TURN_ON of an evohome heating zone."""

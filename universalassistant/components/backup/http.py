@@ -10,9 +10,9 @@ from aiohttp.hdrs import CONTENT_DISPOSITION, CONTENT_TYPE
 from aiohttp.web import FileResponse, Request, Response, StreamResponse
 from multidict import istr
 
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView, require_admin
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View, require_admin
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util import slugify
 from universalassistant.util.async_iterator import (
     AsyncIteratorReader,
@@ -28,13 +28,13 @@ from .models import AgentBackup, BackupNotFound, InvalidBackupFilename
 
 
 @callback
-def async_register_http_views(hass: UniversalAssistant) -> None:
+def async_register_http_views(hass: __HAC_KEEP__) -> None:
     """Register the http views."""
     hass.http.register_view(DownloadBackupView)
     hass.http.register_view(UploadBackupView)
 
 
-class DownloadBackupView(UniversalAssistantView):
+class DownloadBackupView(__HAC_KEEP__View):
     """Generate backup view."""
 
     url = "/api/backup/download/{backup_id}"
@@ -119,7 +119,7 @@ class DownloadBackupView(UniversalAssistantView):
 
     async def _send_backup_with_password(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         backup: AgentBackup,
         request: Request,
         headers: dict[istr, str],
@@ -174,7 +174,7 @@ class DownloadBackupView(UniversalAssistantView):
                     reader.close()
 
 
-class UploadBackupView(UniversalAssistantView):
+class UploadBackupView(__HAC_KEEP__View):
     """Upload backup view."""
 
     url = "/api/backup/upload"
@@ -209,7 +209,7 @@ class UploadBackupView(UniversalAssistantView):
                 body=f"Can't write backup file: {err}",
                 status=HTTPStatus.INTERNAL_SERVER_ERROR,
             )
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             return Response(
                 body=f"Can't upload backup file: {err}",
                 status=HTTPStatus.INTERNAL_SERVER_ERROR,

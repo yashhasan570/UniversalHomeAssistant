@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_UNIQUE_ID,
     CONF_USERNAME,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_BALANCING_AUTHORITY, CONF_BALANCING_AUTHORITY_ABBREV
 from .coordinator import WattTimeConfigEntry
@@ -31,7 +31,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: WattTimeConfigEntry
+    hass: __HAC_KEEP__, entry: WattTimeConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     return async_redact_data(

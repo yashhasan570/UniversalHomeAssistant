@@ -8,7 +8,7 @@ from pyecotrend_ista import KeycloakError, LoginError, PyEcotrendIsta, ServerErr
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_EMAIL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -26,7 +26,7 @@ class IstaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     details: dict[str, Any]
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: IstaConfigEntry, ista: PyEcotrendIsta
+        self, hass: __HAC_KEEP__, config_entry: IstaConfigEntry, ista: PyEcotrendIsta
     ) -> None:
         """Initialize ista EcoTrend data update coordinator."""
         super().__init__(

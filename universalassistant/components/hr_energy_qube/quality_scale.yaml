@@ -72,7 +72,7 @@ rules:
   repair-issues:
     status: exempt
     comment: |
-      The integration has no conditions the user can fix from Universal Universal Home Assistant.
+      The integration has no conditions the user can fix from __HA_KEEP__.
       Connection problems make the entities unavailable and are logged once;
       the heat pump has no authentication and its settings are managed on its panel.
   stale-devices:

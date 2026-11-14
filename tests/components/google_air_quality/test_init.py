@@ -6,11 +6,11 @@ from google_air_quality_api.exceptions import GoogleAirQualityApiError
 from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -26,7 +26,7 @@ async def test_setup(
 
 
 async def test_setup_with_custom_laqi(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry_with_custom_laqi: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:
@@ -42,7 +42,7 @@ async def test_setup_with_custom_laqi(
 
 
 async def test_config_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_api: AsyncMock,
 ) -> None:

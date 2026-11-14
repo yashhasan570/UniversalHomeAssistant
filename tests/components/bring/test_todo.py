@@ -22,8 +22,8 @@ from universalassistant.components.todo import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 
@@ -39,7 +39,7 @@ def todo_only() -> Generator[None]:
 
 @pytest.mark.usefixtures("mock_bring_client")
 async def test_todo(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -67,7 +67,7 @@ async def test_todo(
 
 @pytest.mark.usefixtures("mock_uuid")
 async def test_add_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -96,7 +96,7 @@ async def test_add_item(
 
 
 async def test_add_item_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -109,7 +109,7 @@ async def test_add_item_exception(
     assert bring_config_entry.state is ConfigEntryState.LOADED
 
     mock_bring_client.save_item.side_effect = BringRequestException
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.ADD_ITEM,
@@ -123,7 +123,7 @@ async def test_add_item_exception(
 
 @pytest.mark.usefixtures("mock_uuid")
 async def test_update_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -159,7 +159,7 @@ async def test_update_item(
 
 
 async def test_update_item_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -172,7 +172,7 @@ async def test_update_item_exception(
     assert bring_config_entry.state is ConfigEntryState.LOADED
 
     mock_bring_client.batch_update_list.side_effect = BringRequestException
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.UPDATE_ITEM,
@@ -190,7 +190,7 @@ async def test_update_item_exception(
 
 @pytest.mark.usefixtures("mock_uuid")
 async def test_rename_item(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -234,7 +234,7 @@ async def test_rename_item(
 
 
 async def test_rename_item_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -247,7 +247,7 @@ async def test_rename_item_exception(
     assert bring_config_entry.state is ConfigEntryState.LOADED
 
     mock_bring_client.batch_update_list.side_effect = BringRequestException
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.UPDATE_ITEM,
@@ -265,7 +265,7 @@ async def test_rename_item_exception(
 
 @pytest.mark.usefixtures("mock_uuid")
 async def test_delete_items(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -299,7 +299,7 @@ async def test_delete_items(
 
 
 async def test_delete_items_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     bring_config_entry: MockConfigEntry,
     mock_bring_client: AsyncMock,
 ) -> None:
@@ -311,7 +311,7 @@ async def test_delete_items_exception(
 
     assert bring_config_entry.state is ConfigEntryState.LOADED
     mock_bring_client.batch_update_list.side_effect = BringRequestException
-    with pytest.raises(UniversalAssistantError) as err:
+    with pytest.raises(__HAC_KEEP__Error) as err:
         await hass.services.async_call(
             TODO_DOMAIN,
             TodoServices.REMOVE_ITEM,

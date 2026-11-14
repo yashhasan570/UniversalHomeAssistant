@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant extension for Syrupy."""
+"""__HA_KEEP__ extension for Syrupy."""
 
 from contextlib import suppress
 import dataclasses
@@ -66,7 +66,7 @@ class _SubentryReference:
         )
 
 
-__all__ = ["UniversalAssistantSnapshotExtension"]
+__all__ = ["__HAC_KEEP__SnapshotExtension"]
 
 # DeviceEntry attributes that are internal bookkeeping and should not appear in snapshots.
 # Underscore attributes (_cache, _suggested_area and the transient _pending_move /
@@ -108,10 +108,10 @@ class StateSnapshot(dict):
     """Tiny wrapper to represent an entity state in snapshots."""
 
 
-class UniversalAssistantSnapshotSerializer(AmberDataSerializer):
-    """Universal Universal Home Assistant snapshot serializer for Syrupy.
+class __HAC_KEEP__SnapshotSerializer(AmberDataSerializer):
+    """__HA_KEEP__ snapshot serializer for Syrupy.
 
-    Handles special cases for Universal Universal Home Assistant data structures.
+    Handles special cases for __HA_KEEP__ data structures.
     """
 
     @classmethod
@@ -128,7 +128,7 @@ class UniversalAssistantSnapshotSerializer(AmberDataSerializer):
     ) -> str:
         """Pre-process data before serializing.
 
-        This allows us to handle specific cases for Universal Universal Home Assistant data structures.
+        This allows us to handle specific cases for __HA_KEEP__ data structures.
         """
         if isinstance(data, State):
             serializable_data = cls._serializable_state(data)
@@ -178,7 +178,7 @@ class UniversalAssistantSnapshotSerializer(AmberDataSerializer):
 
     @classmethod
     def _serializable_area_registry_entry(cls, data: ar.AreaEntry) -> SerializableData:
-        """Prepare a Universal Universal Home Assistant area registry entry for serialization."""
+        """Prepare a __HA_KEEP__ area registry entry for serialization."""
         serialized = AreaRegistryEntrySnapshot(dataclasses.asdict(data) | {"id": ANY})
         serialized.pop("_json_repr")
         serialized.pop("_cache")
@@ -186,7 +186,7 @@ class UniversalAssistantSnapshotSerializer(AmberDataSerializer):
 
     @classmethod
     def _serializable_config_entry(cls, data: ConfigEntry) -> SerializableData:
-        """Prepare a Universal Universal Home Assistant config entry for serialization."""
+        """Prepare a __HA_KEEP__ config entry for serialization."""
         entry = ConfigEntrySnapshot(data.as_dict() | {"entry_id": ANY})
         return cls._remove_created_and_modified_at(entry)
 
@@ -194,7 +194,7 @@ class UniversalAssistantSnapshotSerializer(AmberDataSerializer):
     def _serializable_device_registry_entry(
         cls, data: dr.DeviceEntry
     ) -> SerializableData:
-        """Prepare a Universal Universal Home Assistant device registry entry for serialization."""
+        """Prepare a __HA_KEEP__ device registry entry for serialization."""
         # Exclude internal attributes (caches, transient move state, and the
         # composite-device migration bookkeeping) from the snapshot
         serialized = DeviceRegistryEntrySnapshot(
@@ -221,7 +221,7 @@ class UniversalAssistantSnapshotSerializer(AmberDataSerializer):
     def _serializable_child_device_registry_entry(
         cls, data: dr.ChildDeviceEntry
     ) -> SerializableData:
-        """Prepare a Universal Universal Home Assistant child device registry entry for serialization."""
+        """Prepare a __HA_KEEP__ child device registry entry for serialization."""
         serialized = DeviceRegistryEntrySnapshot(
             attr.asdict(
                 data,
@@ -253,7 +253,7 @@ class UniversalAssistantSnapshotSerializer(AmberDataSerializer):
     def _serializable_entity_registry_entry(
         cls, data: er.RegistryEntry
     ) -> SerializableData:
-        """Prepare a Universal Universal Home Assistant entity registry entry for serialization."""
+        """Prepare a __HA_KEEP__ entity registry entry for serialization."""
         serialized = EntityRegistryEntrySnapshot(
             attrs.asdict(data)
             | {
@@ -304,24 +304,24 @@ class UniversalAssistantSnapshotSerializer(AmberDataSerializer):
 
     @classmethod
     def _serializable_flow_result(cls, data: FlowResult) -> SerializableData:
-        """Prepare a Universal Universal Home Assistant flow result for serialization."""
+        """Prepare a __HA_KEEP__ flow result for serialization."""
         return FlowResultSnapshot(data | {"flow_id": ANY})
 
     @classmethod
     def _serializable_conversation_result(cls, data: dict) -> SerializableData:
-        """Prepare a Universal Universal Home Assistant conversation result for serialization."""
+        """Prepare a __HA_KEEP__ conversation result for serialization."""
         return data | {"conversation_id": ANY}
 
     @classmethod
     def _serializable_issue_registry_entry(
         cls, data: ir.IssueEntry
     ) -> SerializableData:
-        """Prepare a Universal Universal Home Assistant issue registry entry for serialization."""
+        """Prepare a __HA_KEEP__ issue registry entry for serialization."""
         return IssueRegistryItemSnapshot(dataclasses.asdict(data) | {"created": ANY})
 
     @classmethod
     def _serializable_state(cls, data: State) -> SerializableData:
-        """Prepare a Universal Universal Home Assistant State for serialization."""
+        """Prepare a __HA_KEEP__ State for serialization."""
         return StateSnapshot(
             data.as_dict()
             | {
@@ -346,23 +346,23 @@ class _IntFlagWrapper:
         return f"<{self._flag.__class__.__name__}: {self._flag.value}>"
 
 
-class UniversalAssistantSnapshotExtension(AmberSnapshotExtension):
-    """Universal Universal Home Assistant extension for Syrupy."""
+class __HAC_KEEP__SnapshotExtension(AmberSnapshotExtension):
+    """__HA_KEEP__ extension for Syrupy."""
 
     VERSION = "1"
     """Current version of serialization format.
 
-    Need to be bumped when we change the UniversalAssistantSnapshotSerializer.
+    Need to be bumped when we change the __HAC_KEEP__SnapshotSerializer.
     """
 
-    serializer_class: type[AmberDataSerializer] = UniversalAssistantSnapshotSerializer
+    serializer_class: type[AmberDataSerializer] = __HAC_KEEP__SnapshotSerializer
 
     @classmethod
     def dirname(cls, *, test_location: PyTestLocation) -> str:
         """Return the directory for the snapshot files.
 
         Syrupy, by default, uses the `__snapshosts__` directory in the same
-        folder as the test file. For Universal Universal Home Assistant, this is changed to just
+        folder as the test file. For __HA_KEEP__, this is changed to just
         `snapshots` in the same folder as the test file, to match our `fixtures`
         folder structure.
         """

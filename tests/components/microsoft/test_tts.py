@@ -11,7 +11,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from universalassistant.components import tts
 from universalassistant.components.media_player import ATTR_MEDIA_CONTENT_ID
 from universalassistant.components.microsoft.tts import SUPPORTED_LANGUAGES
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.exceptions import ServiceNotFound
 from universalassistant.setup import async_setup_component
@@ -25,7 +25,7 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_internal_url(hass: UniversalAssistant):
+async def setup_internal_url(hass: __HAC_KEEP__):
     """Set up internal url."""
     await async_process_ha_core_config(
         hass, {"internal_url": "http://example.local:8123"}
@@ -43,7 +43,7 @@ def mock_tts():
 
 
 async def test_service_say(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_tts,
     service_calls: list[ServiceCall],
@@ -89,7 +89,7 @@ async def test_service_say(
 
 
 async def test_service_say_en_gb_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_tts,
     service_calls: list[ServiceCall],
@@ -143,7 +143,7 @@ async def test_service_say_en_gb_config(
 
 
 async def test_service_say_en_gb_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_tts,
     service_calls: list[ServiceCall],
@@ -192,7 +192,7 @@ async def test_service_say_en_gb_service(
 
 
 async def test_service_say_fa_ir_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_tts,
     service_calls: list[ServiceCall],
@@ -246,7 +246,7 @@ async def test_service_say_fa_ir_config(
 
 
 async def test_service_say_fa_ir_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_tts,
     service_calls: list[ServiceCall],
@@ -315,7 +315,7 @@ def test_supported_languages() -> None:
     assert len(SUPPORTED_LANGUAGES) > 100
 
 
-async def test_invalid_language(hass: UniversalAssistant, mock_tts) -> None:
+async def test_invalid_language(hass: __HAC_KEEP__, mock_tts) -> None:
     """Test setup component with invalid language."""
     await async_setup_component(
         hass,
@@ -339,7 +339,7 @@ async def test_invalid_language(hass: UniversalAssistant, mock_tts) -> None:
 
 
 async def test_service_say_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_tts,
     service_calls: list[ServiceCall],

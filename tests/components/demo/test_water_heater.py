@@ -7,7 +7,7 @@ import pytest
 
 from universalassistant.components import water_heater
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 
@@ -28,7 +28,7 @@ async def water_heater_only() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_comp(hass: UniversalAssistant, water_heater_only: None):
+async def setup_comp(hass: __HAC_KEEP__, water_heater_only: None):
     """Set up demo component."""
     hass.config.units = US_CUSTOMARY_SYSTEM
     assert await async_setup_component(
@@ -37,7 +37,7 @@ async def setup_comp(hass: UniversalAssistant, water_heater_only: None):
     await hass.async_block_till_done()
 
 
-async def test_setup_params(hass: UniversalAssistant) -> None:
+async def test_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the initial parameters."""
     state = hass.states.get(ENTITY_WATER_HEATER)
     assert state.attributes.get("temperature") == 119
@@ -46,14 +46,14 @@ async def test_setup_params(hass: UniversalAssistant) -> None:
     assert state.attributes.get("target_temp_step") == 1
 
 
-async def test_default_setup_params(hass: UniversalAssistant) -> None:
+async def test_default_setup_params(hass: __HAC_KEEP__) -> None:
     """Test the setup with default parameters."""
     state = hass.states.get(ENTITY_WATER_HEATER)
     assert state.attributes.get("min_temp") == 110
     assert state.attributes.get("max_temp") == 140
 
 
-async def test_set_only_target_temp_bad_attr(hass: UniversalAssistant) -> None:
+async def test_set_only_target_temp_bad_attr(hass: __HAC_KEEP__) -> None:
     """Test setting the target temperature without required attribute."""
     state = hass.states.get(ENTITY_WATER_HEATER)
     assert state.attributes.get("temperature") == 119
@@ -62,7 +62,7 @@ async def test_set_only_target_temp_bad_attr(hass: UniversalAssistant) -> None:
     assert state.attributes.get("temperature") == 119
 
 
-async def test_set_only_target_temp(hass: UniversalAssistant) -> None:
+async def test_set_only_target_temp(hass: __HAC_KEEP__) -> None:
     """Test the setting of the target temperature."""
     state = hass.states.get(ENTITY_WATER_HEATER)
     assert state.attributes.get("temperature") == 119
@@ -71,7 +71,7 @@ async def test_set_only_target_temp(hass: UniversalAssistant) -> None:
     assert state.attributes.get("temperature") == 110
 
 
-async def test_set_operation_bad_attr_and_state(hass: UniversalAssistant) -> None:
+async def test_set_operation_bad_attr_and_state(hass: __HAC_KEEP__) -> None:
     """Test setting operation mode without required attribute.
 
     Also check the state.
@@ -86,7 +86,7 @@ async def test_set_operation_bad_attr_and_state(hass: UniversalAssistant) -> Non
     assert state.state == "eco"
 
 
-async def test_set_operation(hass: UniversalAssistant) -> None:
+async def test_set_operation(hass: __HAC_KEEP__) -> None:
     """Test setting of new operation mode."""
     state = hass.states.get(ENTITY_WATER_HEATER)
     assert state.attributes.get("operation_mode") == "eco"
@@ -97,7 +97,7 @@ async def test_set_operation(hass: UniversalAssistant) -> None:
     assert state.state == "electric"
 
 
-async def test_set_away_mode_bad_attr(hass: UniversalAssistant) -> None:
+async def test_set_away_mode_bad_attr(hass: __HAC_KEEP__) -> None:
     """Test setting the away mode without required attribute."""
     state = hass.states.get(ENTITY_WATER_HEATER)
     assert state.attributes.get("away_mode") == "off"
@@ -106,21 +106,21 @@ async def test_set_away_mode_bad_attr(hass: UniversalAssistant) -> None:
     assert state.attributes.get("away_mode") == "off"
 
 
-async def test_set_away_mode_on(hass: UniversalAssistant) -> None:
+async def test_set_away_mode_on(hass: __HAC_KEEP__) -> None:
     """Test setting the away mode on/true."""
     await common.async_set_away_mode(hass, True, ENTITY_WATER_HEATER)
     state = hass.states.get(ENTITY_WATER_HEATER)
     assert state.attributes.get("away_mode") == "on"
 
 
-async def test_set_away_mode_off(hass: UniversalAssistant) -> None:
+async def test_set_away_mode_off(hass: __HAC_KEEP__) -> None:
     """Test setting the away mode off/false."""
     await common.async_set_away_mode(hass, False, ENTITY_WATER_HEATER_CELSIUS)
     state = hass.states.get(ENTITY_WATER_HEATER_CELSIUS)
     assert state.attributes.get("away_mode") == "off"
 
 
-async def test_set_only_target_temp_with_convert(hass: UniversalAssistant) -> None:
+async def test_set_only_target_temp_with_convert(hass: __HAC_KEEP__) -> None:
     """Test the setting of the target temperature."""
     state = hass.states.get(ENTITY_WATER_HEATER_CELSIUS)
     assert state.attributes.get("temperature") == 113
@@ -129,7 +129,7 @@ async def test_set_only_target_temp_with_convert(hass: UniversalAssistant) -> No
     assert state.attributes.get("temperature") == 114
 
 
-async def test_turn_on_off(hass: UniversalAssistant) -> None:
+async def test_turn_on_off(hass: __HAC_KEEP__) -> None:
     """Test turn on and off."""
     state = hass.states.get(ENTITY_WATER_HEATER)
     assert state.attributes.get("temperature") == 119

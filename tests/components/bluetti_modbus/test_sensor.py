@@ -13,7 +13,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.bluetti_modbus.const import SCAN_INTERVAL
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -25,7 +25,7 @@ PV_1_TYPE_ENTITY = "sensor.balco_260_pv_1_input_type"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -37,7 +37,7 @@ async def test_sensors(
 
 
 async def test_inverter_power_is_signed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
 ) -> None:
@@ -56,7 +56,7 @@ async def test_inverter_power_is_signed(
 
 
 async def test_pv_ac_energy_zero_is_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
@@ -94,7 +94,7 @@ async def test_pv_ac_energy_zero_is_unknown(
     ],
 )
 async def test_pv_input_type_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_modbus_unit: MockModbusUnit,
     raw: int,

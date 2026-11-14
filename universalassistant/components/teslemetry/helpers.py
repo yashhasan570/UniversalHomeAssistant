@@ -18,8 +18,8 @@ from tesla_fleet_api.tesla.powerwall import (
 from tesla_fleet_api.teslemetry import EnergySite, Vehicle
 from tesla_fleet_api.teslemetry.energysite import TeslemetryEnergySite
 
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -58,7 +58,7 @@ def cloud_energy_site(api: EnergySite | EnergySiteRouter) -> TeslemetryEnergySit
 
 
 def create_powerwall_client(
-    hass: UniversalAssistant, host: str, password: str, key_pem: bytes
+    hass: __HAC_KEEP__, host: str, password: str, key_pem: bytes
 ) -> PowerwallClient:
     """Return a local Powerwall gateway client on the shared HTTP session."""
     return PowerwallClient(
@@ -70,7 +70,7 @@ def create_powerwall_client(
 
 
 async def async_verify_local_gateway(
-    hass: UniversalAssistant, host: str, password: str, key_pem: bytes
+    hass: __HAC_KEEP__, host: str, password: str, key_pem: bytes
 ) -> None:
     """Prove the LAN connection and the RSA key against the gateway."""
     async with create_powerwall_client(hass, host, password, key_pem) as client:
@@ -82,7 +82,7 @@ async def async_verify_local_gateway(
             raise PowerwallKeyRejectedError from err
 
 
-async def async_get_ble_parent(hass: UniversalAssistant) -> TeslaBluetooth:
+async def async_get_ble_parent(hass: __HAC_KEEP__) -> TeslaBluetooth:
     """Return a shared TeslaBluetooth parent with the private key loaded."""
     lock: asyncio.Lock = hass.data.setdefault(BLE_PARENT_LOCK_KEY, asyncio.Lock())
     async with lock:
@@ -125,13 +125,13 @@ async def handle_command(command: Awaitable[dict[str, Any]]) -> dict[str, Any]:
             if (error := e.data.get("error")) == e.key:
                 error = None
             message = e.data.get("error_description") or error or message
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="command_exception",
             translation_placeholders={"message": message},
         ) from e
     except (ClientError, TimeoutError) as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="command_connection_error",
         ) from e
@@ -146,7 +146,7 @@ async def handle_energy_site_command(
     try:
         return await handle_command(command)
     except PowerwallNotSupportedError as e:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="local_command_not_supported",
         ) from e
@@ -154,18 +154,18 @@ async def handle_energy_site_command(
         # pylint: disable-next=universal-assistant-log-and-raise
         LOGGER.error("Local Powerwall gateway command failed: %s", e)
         if e.code == GATEWAY_OUT_OF_RANGE:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="local_command_out_of_range",
             ) from e
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="local_command_failed",
         ) from e
     except PowerwallError as e:
         # pylint: disable-next=universal-assistant-log-and-raise
         LOGGER.error("Local Powerwall gateway command failed: %s", e)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="local_command_failed",
         ) from e
@@ -177,13 +177,13 @@ async def handle_vehicle_command(command: Awaitable[dict[str, Any]]) -> Any:
     if (response := result.get("response")) is None:
         if error := result.get("error"):
             # No response with error
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_error",
                 translation_placeholders={"error": error},
             )
         # No response without error (unexpected)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="command_no_response"
         )
     if (result := response.get("result")) is not True:
@@ -192,13 +192,13 @@ async def handle_vehicle_command(command: Awaitable[dict[str, Any]]) -> Any:
                 # Reason is acceptable
                 return result
             # Result of false with reason
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="command_reason",
                 translation_placeholders={"reason": reason},
             )
         # Result of false without reason (unexpected)
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN, translation_key="command_no_result"
         )
     # Response with result of true
@@ -231,7 +231,7 @@ async def async_set_charge_on_solar(
 
 @callback
 def async_remove_stale_vehicle_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry_id: str,
     domain: str,
     vins: set[str],
@@ -250,7 +250,7 @@ def async_remove_stale_vehicle_entities(
 
 @callback
 def async_update_device_sw_version(
-    hass: UniversalAssistant, identifier: str, config_entry_id: str, sw_version: str
+    hass: __HAC_KEEP__, identifier: str, config_entry_id: str, sw_version: str
 ) -> None:
     """Update the software version in the device registry."""
     dev_reg = dr.async_get(hass)

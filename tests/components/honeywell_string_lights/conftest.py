@@ -10,7 +10,7 @@ from universalassistant.components.honeywell_string_lights.const import (
     CONF_TRANSMITTER,
     DOMAIN,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 TRANSMITTER_ENTITY_ID = "radio_frequency.test_rf_transmitter"
@@ -18,7 +18,7 @@ TRANSMITTER_ENTITY_ID = "radio_frequency.test_rf_transmitter"
 
 @pytest.fixture
 def mock_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rf_entity: MockRadioFrequencyEntity,
 ) -> MockConfigEntry:
     """Return a mock config entry for Honeywell String Lights."""
@@ -35,7 +35,7 @@ def mock_config_entry(
 
 @pytest.fixture
 async def init_string_lights(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Set up the Honeywell String Lights integration."""
     mock_config_entry.add_to_hass(hass)

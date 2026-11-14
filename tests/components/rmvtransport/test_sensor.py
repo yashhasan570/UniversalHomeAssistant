@@ -3,7 +3,7 @@
 import datetime as dt
 from unittest.mock import patch
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 VALID_CONFIG_MINIMAL = {
@@ -188,7 +188,7 @@ def get_no_departures_mock():
     }
 
 
-async def test_rmvtransport_min_config(hass: UniversalAssistant) -> None:
+async def test_rmvtransport_min_config(hass: __HAC_KEEP__) -> None:
     """Test minimal rmvtransport configuration."""
     with patch(
         "RMVtransport.RMVtransport.get_departures",
@@ -209,7 +209,7 @@ async def test_rmvtransport_min_config(hass: UniversalAssistant) -> None:
     assert state.attributes["friendly_name"] == "Frankfurt (Main) Hauptbahnhof"
 
 
-async def test_rmvtransport_name_config(hass: UniversalAssistant) -> None:
+async def test_rmvtransport_name_config(hass: __HAC_KEEP__) -> None:
     """Test custom name configuration."""
     with patch(
         "RMVtransport.RMVtransport.get_departures",
@@ -222,7 +222,7 @@ async def test_rmvtransport_name_config(hass: UniversalAssistant) -> None:
     assert state.attributes["friendly_name"] == "My Station"
 
 
-async def test_rmvtransport_misc_config(hass: UniversalAssistant) -> None:
+async def test_rmvtransport_misc_config(hass: __HAC_KEEP__) -> None:
     """Test misc configuration."""
     with patch(
         "RMVtransport.RMVtransport.get_departures",
@@ -236,7 +236,7 @@ async def test_rmvtransport_misc_config(hass: UniversalAssistant) -> None:
     assert state.attributes["line"] == 21
 
 
-async def test_rmvtransport_dest_config(hass: UniversalAssistant) -> None:
+async def test_rmvtransport_dest_config(hass: __HAC_KEEP__) -> None:
     """Test destination configuration."""
     with patch(
         "RMVtransport.RMVtransport.get_departures",
@@ -256,7 +256,7 @@ async def test_rmvtransport_dest_config(hass: UniversalAssistant) -> None:
     assert state.attributes["departure_time"] == dt.datetime(2018, 8, 6, 14, 30)
 
 
-async def test_rmvtransport_dest_only_config(hass: UniversalAssistant) -> None:
+async def test_rmvtransport_dest_only_config(hass: __HAC_KEEP__) -> None:
     """Test destination configuration."""
     with patch(
         "RMVtransport.RMVtransport.get_departures",
@@ -275,7 +275,7 @@ async def test_rmvtransport_dest_only_config(hass: UniversalAssistant) -> None:
     assert state.attributes["departure_time"] == dt.datetime(2018, 8, 6, 14, 25)
 
 
-async def test_rmvtransport_no_departures(hass: UniversalAssistant) -> None:
+async def test_rmvtransport_no_departures(hass: __HAC_KEEP__) -> None:
     """Test for no departures."""
     with patch(
         "RMVtransport.RMVtransport.get_departures",

@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from refoss_ha.discovery import Listener
 
 from universalassistant.components.refoss.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -99,7 +99,7 @@ def build_base_device_mock(name="r10", ip="1.1.1.1", mac="aabbcc112233"):
     return mock
 
 
-async def async_setup_refoss(hass: UniversalAssistant) -> MockConfigEntry:
+async def async_setup_refoss(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Set up the refoss platform."""
     entry = MockConfigEntry(domain=DOMAIN)
     await hass.config_entries.async_setup(entry.entry_id)

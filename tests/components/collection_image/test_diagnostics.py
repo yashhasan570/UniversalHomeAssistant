@@ -11,7 +11,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.collection_image.const import DOMAIN
 from universalassistant.components.image import DOMAIN as IMAGE_DOMAIN
 from universalassistant.components.media_source import PlayMedia, Unresolvable
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MediaSourceState
@@ -53,7 +53,7 @@ from .helpers import config_entry_from_uri
     ],
 )
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     media_source_state: MediaSourceState,
@@ -76,7 +76,7 @@ async def test_diagnostics(
 
 @pytest.mark.usefixtures("mock_media_source")
 async def test_diagnostics_entity_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_diagnostics_entity_disabled(
 
 @pytest.mark.usefixtures("mock_media_source")
 async def test_diagnostics_unresolvable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     media_source_state: MediaSourceState,
 ) -> None:

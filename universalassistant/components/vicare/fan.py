@@ -10,7 +10,7 @@ from PyViCare.PyViCareDeviceConfig import PyViCareDeviceConfig
 from PyViCare.PyViCareUtils import PyViCareNotSupportedFeatureError
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.percentage import (
     ordered_list_item_to_percentage,
@@ -48,7 +48,7 @@ class VentilationMode(enum.StrEnum):
 
     @staticmethod
     def to_vicare_mode(mode: str | None) -> str | None:
-        """Return the mapped ViCare ventilation mode for the Universal Universal Home Assistant mode."""
+        """Return the mapped ViCare ventilation mode for the __HA_KEEP__ mode."""
         if mode:
             try:
                 ventilation_mode = VentilationMode(mode)
@@ -60,7 +60,7 @@ class VentilationMode(enum.StrEnum):
 
     @staticmethod
     def from_vicare_mode(vicare_mode: str | None) -> str | None:
-        """Return the mapped Universal Universal Home Assistant mode for the ViCare ventilation mode."""
+        """Return the mapped __HA_KEEP__ mode for the ViCare ventilation mode."""
         for mode in VentilationMode:
             if HA_TO_VICARE_MODE_VENTILATION.get(VentilationMode(mode)) == vicare_mode:
                 return mode
@@ -102,7 +102,7 @@ def _build_entities(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ViCareConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

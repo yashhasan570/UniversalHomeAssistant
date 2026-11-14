@@ -11,7 +11,7 @@ from universalassistant.components.button import (
     ButtonEntityDescription,
 )
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_platform
 
 from . import HuaweiLteConfigEntry
@@ -21,7 +21,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HuaweiLteConfigEntry,
     async_add_entities: entity_platform.AddConfigEntryEntitiesCallback,
 ) -> None:

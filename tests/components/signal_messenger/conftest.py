@@ -9,7 +9,7 @@ import pytest
 from requests_mock.mocker import Mocker
 
 from universalassistant.components.signal_messenger.notify import SignalNotificationService
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 SIGNAL_SEND_PATH_SUFIX = "/v2/send"
 MESSAGE = "Testing Signal Messenger platform :)"
@@ -22,7 +22,7 @@ URL_ATTACHMENT = f"{SIGNAL_BASE_URL}/image.jpg"
 
 @pytest.fixture
 def signal_notification_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> Generator[SignalNotificationService]:
     """Set up signal notification service."""
     hass.config.allowlist_external_urls.add(URL_ATTACHMENT)

@@ -1,4 +1,4 @@
-"""Test Universal Universal Home Assistant Cast."""
+"""Test __HA_KEEP__ Cast."""
 
 from unittest.mock import MagicMock, patch
 
@@ -9,13 +9,13 @@ from universalassistant.components.cast import DOMAIN, CastRuntimeData, universa
 from universalassistant.components.cast.const import SIGNAL_HASS_CAST_SHOW_VIEW
 from universalassistant.components.cast.services import async_setup_services
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 
 
-async def _async_setup_ha_cast(hass: UniversalAssistant) -> None:
-    """Set up Universal Universal Home Assistant Cast on a loaded config entry."""
+async def _async_setup_ha_cast(hass: __HAC_KEEP__) -> None:
+    """Set up __HA_KEEP__ Cast on a loaded config entry."""
     entry = MockConfigEntry(domain=DOMAIN)
     entry.add_to_hass(hass)
     entry.runtime_data = CastRuntimeData(
@@ -27,13 +27,13 @@ async def _async_setup_ha_cast(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_service_show_view(hass: UniversalAssistant) -> None:
+async def test_service_show_view(hass: __HAC_KEEP__) -> None:
     """Test showing a view."""
     await _async_setup_ha_cast(hass)
     calls = async_mock_signal(hass, SIGNAL_HASS_CAST_SHOW_VIEW)
 
     # No valid URL
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             DOMAIN,
             "show_lovelace_view",
@@ -65,7 +65,7 @@ async def test_service_show_view(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_service_show_view_dashboard(hass: UniversalAssistant) -> None:
+async def test_service_show_view_dashboard(hass: __HAC_KEEP__) -> None:
     """Test casting a specific dashboard."""
     await async_process_ha_core_config(
         hass,
@@ -93,7 +93,7 @@ async def test_service_show_view_dashboard(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_use_cloud_url(hass: UniversalAssistant) -> None:
+async def test_use_cloud_url(hass: __HAC_KEEP__) -> None:
     """Test that we fall back to cloud url."""
     await async_process_ha_core_config(
         hass,
@@ -121,7 +121,7 @@ async def test_use_cloud_url(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_zeroconf")
-async def test_remove_entry(hass: UniversalAssistant) -> None:
+async def test_remove_entry(hass: __HAC_KEEP__) -> None:
     """Test removing config entry removes user."""
     entry = MockConfigEntry(
         data={},
@@ -146,7 +146,7 @@ async def test_remove_entry(hass: UniversalAssistant) -> None:
     assert not await hass.auth.async_get_user(user_id)
 
 
-async def test_service_show_view_not_loaded(hass: UniversalAssistant) -> None:
+async def test_service_show_view_not_loaded(hass: __HAC_KEEP__) -> None:
     """Test showing a view without a loaded config entry."""
     async_setup_services(hass)
 

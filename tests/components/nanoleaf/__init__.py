@@ -4,10 +4,10 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.nanoleaf.const import DOMAIN
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
-async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_integration(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Set up the component."""
     config_entry.add_to_hass(hass)
 
@@ -16,7 +16,7 @@ async def setup_integration(hass: UniversalAssistant, config_entry: MockConfigEn
 
 
 def get_reauth_flows(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> list[ConfigFlowResult]:
     """Return the reauth flows in progress for the config entry."""
     return [

@@ -7,7 +7,7 @@ from google_maps_routing_api import LatLng, Location, Waypoint
 import pytest
 
 from universalassistant.components.google_travel_time import helpers
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -31,7 +31,7 @@ from universalassistant.util import dt as dt_util
     ],
 )
 def test_convert_to_waypoint_coordinates(
-    hass: UniversalAssistant, location: str, expected_result: Waypoint
+    hass: __HAC_KEEP__, location: str, expected_result: Waypoint
 ) -> None:
     """Test convert_to_waypoint returns correct Waypoint for coordinates or address."""
     waypoint = helpers.convert_to_waypoint(hass, location)

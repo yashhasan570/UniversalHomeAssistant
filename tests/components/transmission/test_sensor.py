@@ -13,14 +13,14 @@ from universalassistant.components.transmission.const import (
 )
 from universalassistant.components.transmission.sensor import _compute_ratio, get_state
 from universalassistant.const import STATE_IDLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
 
 
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
     mock_transmission_client: AsyncMock,
@@ -34,7 +34,7 @@ async def test_sensors(
 
 
 async def test_stats_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_transmission_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

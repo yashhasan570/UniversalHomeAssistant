@@ -25,7 +25,7 @@ from renault_api.renault_session import RenaultSession
 from universalassistant import config_entries
 from universalassistant.components.renault.const import DOMAIN, RenaultConfigurationKeys
 from universalassistant.const import CONF_CODE, CONF_EMAIL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import aiohttp_client
 
@@ -51,7 +51,7 @@ def _mock_login(session: RenaultSession, login_id: str, password: str) -> None:
     ],
 )
 async def test_config_flow_single_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     exception: Exception,
     error: str,
@@ -140,7 +140,7 @@ async def test_config_flow_single_account(
 
 
 async def test_config_flow_no_account(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -177,7 +177,7 @@ async def test_config_flow_no_account(
 
 
 async def test_config_flow_missing_vehicle_details(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test vehicle details missing from the vehicle list are requested separately."""
     result = await hass.config_entries.flow.async_init(
@@ -225,7 +225,7 @@ async def test_config_flow_missing_vehicle_details(
 
 
 async def test_config_flow_multiple_accounts(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test what happens if multiple Kamereon accounts are available."""
     result = await hass.config_entries.flow.async_init(
@@ -295,7 +295,7 @@ async def test_config_flow_multiple_accounts(
 
 @pytest.mark.usefixtures("config_entry")
 async def test_config_flow_duplicate(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test abort if unique_id configured."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
@@ -344,7 +344,7 @@ async def test_config_flow_duplicate(
     assert len(mock_setup_entry.mock_calls) == 0
 
 
-async def test_reauth(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def test_reauth(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Test the start of the config flow."""
     assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
@@ -405,7 +405,7 @@ async def test_reauth(hass: UniversalAssistant, config_entry: MockConfigEntry) -
     ],
 )
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     config_entry: MockConfigEntry,
     exception: Exception,
@@ -493,7 +493,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -615,7 +615,7 @@ def two_factor_emails() -> list[GigyaTfaEmail]:
 
 
 @pytest.fixture
-async def mock_get_api_accounts(hass: UniversalAssistant) -> AsyncGenerator[None]:
+async def mock_get_api_accounts(hass: __HAC_KEEP__) -> AsyncGenerator[None]:
     """Mock a single Kamereon account with a vehicle."""
     renault_account = RenaultAccount(
         "account_id_1",
@@ -638,7 +638,7 @@ async def mock_get_api_accounts(hass: UniversalAssistant) -> AsyncGenerator[None
 
 @pytest.mark.usefixtures("mock_get_api_accounts")
 async def test_config_flow_two_factor_auth(
-    hass: UniversalAssistant, mock_two_factor_auth: AsyncMock
+    hass: __HAC_KEEP__, mock_two_factor_auth: AsyncMock
 ) -> None:
     """Test the config flow with two-factor authentication."""
     result = await hass.config_entries.flow.async_init(
@@ -683,7 +683,7 @@ async def test_config_flow_two_factor_auth(
     ],
 )
 async def test_config_flow_two_factor_auth_multiple_emails(
-    hass: UniversalAssistant, mock_two_factor_auth: AsyncMock
+    hass: __HAC_KEEP__, mock_two_factor_auth: AsyncMock
 ) -> None:
     """Test the user selects the email address for two-factor authentication."""
     result = await hass.config_entries.flow.async_init(
@@ -721,7 +721,7 @@ async def test_config_flow_two_factor_auth_multiple_emails(
 
 
 @pytest.mark.usefixtures("mock_get_api_accounts", "mock_two_factor_auth")
-async def test_config_flow_two_factor_invalid_code(hass: UniversalAssistant) -> None:
+async def test_config_flow_two_factor_invalid_code(hass: __HAC_KEEP__) -> None:
     """Test a wrong two-factor authentication code can be corrected."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -768,7 +768,7 @@ async def test_config_flow_two_factor_invalid_code(hass: UniversalAssistant) -> 
     ],
 )
 async def test_config_flow_two_factor_code_abort(
-    hass: UniversalAssistant, exception: Exception, reason: str
+    hass: __HAC_KEEP__, exception: Exception, reason: str
 ) -> None:
     """Test the flow aborts on errors other than a wrong code."""
     result = await hass.config_entries.flow.async_init(
@@ -838,7 +838,7 @@ async def test_config_flow_two_factor_code_abort(
 )
 @pytest.mark.usefixtures("mock_two_factor_auth")
 async def test_config_flow_two_factor_auth_abort(
-    hass: UniversalAssistant, target: str, kwargs: dict[str, Any], reason: str
+    hass: __HAC_KEEP__, target: str, kwargs: dict[str, Any], reason: str
 ) -> None:
     """Test the flow aborts when the two-factor authentication code can't be sent."""
     result = await hass.config_entries.flow.async_init(
@@ -867,7 +867,7 @@ async def test_config_flow_two_factor_auth_abort(
     ],
 )
 async def test_reauth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     exception: Exception,
     error: str,
@@ -903,7 +903,7 @@ async def test_reauth_error(
 
 @pytest.mark.usefixtures("mock_two_factor_auth")
 async def test_reauth_two_factor_auth(
-    hass: UniversalAssistant, mock_pending_login: AsyncMock
+    hass: __HAC_KEEP__, mock_pending_login: AsyncMock
 ) -> None:
     """Test reauth with two-factor authentication restores the device ids first."""
     config_entry = MockConfigEntry(
@@ -951,7 +951,7 @@ async def test_reauth_two_factor_auth(
 
 @pytest.mark.usefixtures("mock_get_api_accounts", "mock_two_factor_auth")
 async def test_reconfigure_two_factor_auth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_setup_entry: AsyncMock,
     config_entry: MockConfigEntry,
     mock_pending_login: AsyncMock,

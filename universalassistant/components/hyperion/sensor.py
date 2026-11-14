@@ -17,7 +17,7 @@ from hyperion.const import (
 )
 
 from universalassistant.components.sensor import SensorEntity, SensorEntityDescription
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.dispatcher import (
     async_dispatcher_connect,
@@ -58,7 +58,7 @@ def _sensor_unique_id(server_id: str, instance_num: int, suffix: str) -> str:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HyperionConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

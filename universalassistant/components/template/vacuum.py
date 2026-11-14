@@ -25,7 +25,7 @@ from universalassistant.components.vacuum import (
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_NAME, CONF_STATE, CONF_UNIQUE_ID, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.entity_platform import (
     AddConfigEntryEntitiesCallback,
@@ -119,7 +119,7 @@ VACUUM_CONFIG_ENTRY_SCHEMA = VACUUM_COMMON_SCHEMA.extend(
 
 
 async def async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     async_add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -138,7 +138,7 @@ async def async_setup_platform(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -155,7 +155,7 @@ async def async_setup_entry(
 
 @callback
 def async_create_preview_vacuum(
-    hass: UniversalAssistant, name: str, config: dict[str, Any]
+    hass: __HAC_KEEP__, name: str, config: dict[str, Any]
 ) -> TemplateStateVacuumEntity:
     """Create a preview."""
     return async_setup_template_preview(
@@ -430,7 +430,7 @@ class TemplateStateVacuumEntity(TemplateEntity, AbstractTemplateVacuum):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config: ConfigType,
         unique_id,
     ) -> None:
@@ -449,7 +449,7 @@ class TriggerVacuumEntity(TriggerEntity, AbstractTemplateVacuum):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: TriggerUpdateCoordinator,
         config: ConfigType,
     ) -> None:

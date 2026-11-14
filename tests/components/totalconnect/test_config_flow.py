@@ -14,7 +14,7 @@ from universalassistant.components.totalconnect.const import (
 )
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_LOCATION, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -22,7 +22,7 @@ from .const import LOCATION_ID, PASSWORD, USERNAME
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_client: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_client: AsyncMock) -> None:
     """Test user step."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -53,7 +53,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_client: AsyncMock) -> No
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_login_errors(hass: UniversalAssistant, mock_client: AsyncMock) -> None:
+async def test_login_errors(hass: __HAC_KEEP__, mock_client: AsyncMock) -> None:
     """Test login errors."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -90,7 +90,7 @@ async def test_login_errors(hass: UniversalAssistant, mock_client: AsyncMock) ->
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_usercode_errors(
-    hass: UniversalAssistant, mock_client: AsyncMock, mock_location: AsyncMock
+    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_location: AsyncMock
 ) -> None:
     """Test user step with usercode errors."""
     result = await hass.config_entries.flow.async_init(
@@ -127,7 +127,7 @@ async def test_usercode_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_no_locations(
-    hass: UniversalAssistant, mock_client: AsyncMock, mock_location: AsyncMock
+    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_location: AsyncMock
 ) -> None:
     """Test no locations found."""
 
@@ -148,7 +148,7 @@ async def test_no_locations(
 
 
 async def test_abort_if_already_setup(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test abort if the account is already setup."""
     mock_config_entry.add_to_hass(hass)
@@ -170,7 +170,7 @@ async def test_abort_if_already_setup(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth(
-    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test login errors."""
     mock_config_entry.add_to_hass(hass)
@@ -191,7 +191,7 @@ async def test_reauth(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_errors(
-    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test login errors."""
     mock_config_entry.add_to_hass(hass)
@@ -223,7 +223,7 @@ async def test_reauth_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_options_flow(
-    hass: UniversalAssistant, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_client: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test config flow options."""
     await setup_integration(hass, mock_config_entry)

@@ -1,9 +1,9 @@
-"""The Universal Universal Home Assistant Connect ZBT-2 hardware platform."""
+"""The __HA_KEEP__ Connect ZBT-2 hardware platform."""
 
 from universalassistant.components.hardware import HardwareInfo, USBInfo
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
-from .config_flow import UniversalAssistantConnectZBT2ConfigFlow
+from .config_flow import __HAC_KEEP__ConnectZBT2ConfigFlow
 from .const import DOMAIN, HARDWARE_NAME, MANUFACTURER, PID, PRODUCT, SERIAL_NUMBER, VID
 
 DOCUMENTATION_URL = (
@@ -11,13 +11,13 @@ DOCUMENTATION_URL = (
     "24734620813469-Universal-Assistant-Connect-ZBT-1"
 )
 EXPECTED_ENTRY_VERSION = (
-    UniversalAssistantConnectZBT2ConfigFlow.VERSION,
-    UniversalAssistantConnectZBT2ConfigFlow.MINOR_VERSION,
+    __HAC_KEEP__ConnectZBT2ConfigFlow.VERSION,
+    __HAC_KEEP__ConnectZBT2ConfigFlow.MINOR_VERSION,
 )
 
 
 @callback
-def async_info(hass: UniversalAssistant) -> list[HardwareInfo]:
+def async_info(hass: __HAC_KEEP__) -> list[HardwareInfo]:
     """Return board info."""
     entries = hass.config_entries.async_entries(
         DOMAIN, include_ignore=False, include_disabled=False

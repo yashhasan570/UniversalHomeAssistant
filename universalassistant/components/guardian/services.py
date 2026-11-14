@@ -8,8 +8,8 @@ from aioguardian.errors import GuardianError
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv, service
 
 from .const import DOMAIN
@@ -76,7 +76,7 @@ def call_with_data(
             async with data.client:
                 await func(call, data)
         except GuardianError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Error while executing {func.__name__}: {err}"
             ) from err
 
@@ -110,7 +110,7 @@ async def async_upgrade_firmware(call: ServiceCall, data: GuardianData) -> None:
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register the guardian services."""
     for service_name, schema, method in (
         (

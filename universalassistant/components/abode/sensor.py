@@ -13,7 +13,7 @@ from universalassistant.components.sensor import (
     SensorStateClass,
 )
 from universalassistant.const import LIGHT_LUX, PERCENTAGE, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import AbodeConfigEntry, AbodeSystem
@@ -61,7 +61,7 @@ SENSOR_TYPES: tuple[AbodeSensorDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AbodeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

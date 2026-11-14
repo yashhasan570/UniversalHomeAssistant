@@ -17,7 +17,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.octoprint import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import DEFAULT_JOB, DEFAULT_PRINTER
 
@@ -42,13 +42,13 @@ def webcam() -> dict[str, Any] | None:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: Platform,
     printer: dict[str, Any] | None,
     job: dict[str, Any],
     webcam: dict[str, Any] | None,
 ) -> AsyncGenerator[MockConfigEntry]:
-    """Set up the octoprint integration in Universal Universal Home Assistant."""
+    """Set up the octoprint integration in __HA_KEEP__."""
     printer_info: OctoprintPrinterInfo | None = None
     if printer is not None:
         printer_info = OctoprintPrinterInfo(printer)

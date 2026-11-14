@@ -10,7 +10,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import VENSTAR_TIMEOUT
 from .coordinator import VenstarConfigEntry, VenstarDataUpdateCoordinator
@@ -19,7 +19,7 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.CLIMATE, Platform.SENSOR]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: VenstarConfigEntry
+    hass: __HAC_KEEP__, config_entry: VenstarConfigEntry
 ) -> None:
     """Set up the Venstar thermostat."""
     username = config_entry.data.get(CONF_USERNAME)
@@ -50,7 +50,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: VenstarConfigEntry
+    hass: __HAC_KEEP__, config_entry: VenstarConfigEntry
 ) -> None:
     """Unload the config and platforms."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

@@ -3,7 +3,7 @@
 from collections.abc import Callable
 
 from universalassistant.components.logbook import LOGBOOK_ENTRY_MESSAGE, LOGBOOK_ENTRY_NAME
-from universalassistant.core import Event, UniversalAssistant, callback
+from universalassistant.core import Event, __HAC_KEEP__, callback
 
 from .const import (
     ATTR_KEY,
@@ -17,7 +17,7 @@ from .const import (
 
 @callback
 def async_describe_events(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     async_describe_event: Callable[[str, str, Callable[[Event], dict[str, str]]], None],
 ) -> None:
     """Describe logbook events."""

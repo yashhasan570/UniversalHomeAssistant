@@ -8,7 +8,7 @@ from universalassistant.components.repairs import (
     RepairsFlow,
     RepairsFlowResult,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import DOMAIN
@@ -54,7 +54,7 @@ class TopicProtectedRepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_id: str,
     data: dict[str, str],
 ) -> RepairsFlow:

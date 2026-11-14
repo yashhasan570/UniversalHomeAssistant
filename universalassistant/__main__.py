@@ -1,4 +1,4 @@
-"""Start Universal Universal Home Assistant."""
+"""Start __HA_KEEP__."""
 
 import argparse
 from contextlib import suppress
@@ -15,20 +15,20 @@ FAULT_LOG_FILENAME = "universal-assistant.log.fault"
 
 
 def validate_environment() -> None:
-    """Validate that Universal Universal Home Assistant is started from a container or a venv."""
+    """Validate that __HA_KEEP__ is started from a container or a venv."""
     if not is_virtual_env() and not is_docker_env():
         print(
-            "Universal Universal Home Assistant must be run in a Python virtual environment or a container.",
+            "__HA_KEEP__ must be run in a Python virtual environment or a container.",
             file=sys.stderr,
         )
         sys.exit(1)
 
 
 def validate_os() -> None:
-    """Validate that Universal Universal Home Assistant is running in a supported operating system."""
+    """Validate that __HA_KEEP__ is running in a supported operating system."""
     if not sys.platform.startswith(("darwin", "linux")):
         print(
-            "Universal Universal Home Assistant only supports Linux, OSX and Windows using WSL",
+            "__HA_KEEP__ only supports Linux, OSX and Windows using WSL",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -38,7 +38,7 @@ def validate_python() -> None:
     """Validate that the right Python version is running."""
     if sys.version_info[:3] < REQUIRED_PYTHON_VER:
         print(
-            "Universal Universal Home Assistant requires at least Python "
+            "__HA_KEEP__ requires at least Python "
             f"{REQUIRED_PYTHON_VER[0]}.{REQUIRED_PYTHON_VER[1]}.{REQUIRED_PYTHON_VER[2]}",
             file=sys.stderr,
         )
@@ -78,7 +78,7 @@ def get_arguments() -> argparse.Namespace:
     from . import config as config_util  # noqa: PLC0415
 
     parser = argparse.ArgumentParser(
-        description="Universal Universal Home Assistant: Observe, Control, Automate.",
+        description="__HA_KEEP__: Observe, Control, Automate.",
         epilog=f"If restart is requested, exits with code {RESTART_EXIT_CODE}",
     )
     parser.add_argument("--version", action="version", version=__version__)
@@ -87,15 +87,15 @@ def get_arguments() -> argparse.Namespace:
         "--config",
         metavar="path_to_config_dir",
         default=config_util.get_default_config_dir(),
-        help="Directory that contains the Universal Universal Home Assistant configuration",
+        help="Directory that contains the __HA_KEEP__ configuration",
     )
     parser.add_argument(
         "--recovery-mode",
         action="store_true",
-        help="Start Universal Universal Home Assistant in recovery mode",
+        help="Start __HA_KEEP__ in recovery mode",
     )
     parser.add_argument(
-        "--debug", action="store_true", help="Start Universal Universal Home Assistant in debug mode"
+        "--debug", action="store_true", help="Start __HA_KEEP__ in debug mode"
     )
     parser.add_argument(
         "--open-ui", action="store_true", help="Open the webinterface in a browser"
@@ -162,7 +162,7 @@ def check_threads() -> None:
 
 
 def main() -> int:
-    """Start Universal Universal Home Assistant."""
+    """Start __HA_KEEP__."""
     validate_python()
     validate_environment()
 

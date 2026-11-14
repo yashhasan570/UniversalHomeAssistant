@@ -10,7 +10,7 @@ from sensoterra.customerapi import InvalidAuth as StInvalidAuth, Timeout as StTi
 from universalassistant.components.sensoterra.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import API_EMAIL, API_PASSWORD, API_TOKEN, HASS_UUID
@@ -18,7 +18,7 @@ from .const import API_EMAIL, API_PASSWORD, API_TOKEN, HASS_UUID
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_full_flow(
-    hass: UniversalAssistant, mock_customer_api_client: AsyncMock
+    hass: __HAC_KEEP__, mock_customer_api_client: AsyncMock
 ) -> None:
     """Test we can finish a config flow."""
     result = await hass.config_entries.flow.async_init(
@@ -47,7 +47,7 @@ async def test_full_flow(
 
 
 async def test_form_unique_id(
-    hass: UniversalAssistant, mock_customer_api_client: AsyncMock
+    hass: __HAC_KEEP__, mock_customer_api_client: AsyncMock
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -81,7 +81,7 @@ async def test_form_unique_id(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_form_exceptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_customer_api_client: AsyncMock,
     exception: Exception,
     error: str,

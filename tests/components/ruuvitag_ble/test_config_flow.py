@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.ruuvitag_ble.const import DOMAIN
 from universalassistant.config_entries import SOURCE_IGNORE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .fixtures import CONFIGURED_NAME, NOT_RUUVITAG_SERVICE_INFO, RUUVI_V5_SERVICE_INFO
@@ -19,7 +19,7 @@ def mock_bluetooth(enable_bluetooth: None) -> None:
     """Mock bluetooth for all tests in this module."""
 
 
-async def test_async_step_bluetooth_valid_device(hass: UniversalAssistant) -> None:
+async def test_async_step_bluetooth_valid_device(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -39,7 +39,7 @@ async def test_async_step_bluetooth_valid_device(hass: UniversalAssistant) -> No
     assert result2["result"].unique_id == RUUVI_V5_SERVICE_INFO.address
 
 
-async def test_async_step_bluetooth_not_ruuvitag(hass: UniversalAssistant) -> None:
+async def test_async_step_bluetooth_not_ruuvitag(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth not ruuvitag."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -50,7 +50,7 @@ async def test_async_step_bluetooth_not_ruuvitag(hass: UniversalAssistant) -> No
     assert result["reason"] == "not_supported"
 
 
-async def test_async_step_user_no_devices_found(hass: UniversalAssistant) -> None:
+async def test_async_step_user_no_devices_found(hass: __HAC_KEEP__) -> None:
     """Test setup from service info cache with no devices found."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -60,7 +60,7 @@ async def test_async_step_user_no_devices_found(hass: UniversalAssistant) -> Non
     assert result["reason"] == "no_devices_found"
 
 
-async def test_async_step_user_with_found_devices(hass: UniversalAssistant) -> None:
+async def test_async_step_user_with_found_devices(hass: __HAC_KEEP__) -> None:
     """Test setup from service info cache with devices found."""
     with (
         patch(
@@ -90,7 +90,7 @@ async def test_async_step_user_with_found_devices(hass: UniversalAssistant) -> N
     assert result2["result"].unique_id == RUUVI_V5_SERVICE_INFO.address
 
 
-async def test_async_step_user_device_added_between_steps(hass: UniversalAssistant) -> None:
+async def test_async_step_user_device_added_between_steps(hass: __HAC_KEEP__) -> None:
     """Test the device gets added via another flow between steps."""
     with patch(
         "universalassistant.components.ruuvitag_ble.config_flow.async_discovered_service_info",
@@ -121,7 +121,7 @@ async def test_async_step_user_device_added_between_steps(hass: UniversalAssista
 
 
 async def test_async_step_user_with_found_devices_already_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test setup from service info cache with devices found."""
     entry = MockConfigEntry(
@@ -142,7 +142,7 @@ async def test_async_step_user_with_found_devices_already_setup(
     assert result["reason"] == "no_devices_found"
 
 
-async def test_async_step_bluetooth_devices_already_setup(hass: UniversalAssistant) -> None:
+async def test_async_step_bluetooth_devices_already_setup(hass: __HAC_KEEP__) -> None:
     """Test we can't start a flow if there is already a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -159,7 +159,7 @@ async def test_async_step_bluetooth_devices_already_setup(hass: UniversalAssista
     assert result["reason"] == "already_configured"
 
 
-async def test_async_step_bluetooth_already_in_progress(hass: UniversalAssistant) -> None:
+async def test_async_step_bluetooth_already_in_progress(hass: __HAC_KEEP__) -> None:
     """Test we can't start a flow for the same device twice."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -179,7 +179,7 @@ async def test_async_step_bluetooth_already_in_progress(hass: UniversalAssistant
 
 
 async def test_async_step_user_takes_precedence_over_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test manual setup takes precedence over discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -213,7 +213,7 @@ async def test_async_step_user_takes_precedence_over_discovery(
     assert result2["result"].unique_id == RUUVI_V5_SERVICE_INFO.address
 
 
-async def test_user_setup_replaces_ignored_device(hass: UniversalAssistant) -> None:
+async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
     """Test the user initiated form can replace an ignored device."""
     entry = MockConfigEntry(
         domain=DOMAIN,

@@ -1,4 +1,4 @@
-"""All methods needed to bootstrap a Universal Universal Home Assistant instance."""
+"""All methods needed to bootstrap a __HA_KEEP__ instance."""
 
 import asyncio
 from collections import defaultdict
@@ -23,10 +23,10 @@ from .core import (
     CALLBACK_TYPE,
     DOMAIN as HOMEASSISTANT_DOMAIN,
     Event,
-    UniversalAssistant,
+    __HAC_KEEP__,
     callback,
 )
-from .exceptions import DependencyError, UniversalAssistantError
+from .exceptions import DependencyError, __HAC_KEEP__Error
 from .helpers import issue_registry as ir, singleton, translation
 from .helpers.issue_registry import IssueSeverity, async_create_issue
 from .helpers.typing import ConfigType
@@ -93,7 +93,7 @@ class EventComponentLoaded(TypedDict):
 
 @callback
 def async_notify_setup_error(
-    hass: UniversalAssistant, component: str, display_link: str | None = None
+    hass: __HAC_KEEP__, component: str, display_link: str | None = None
 ) -> None:
     """Print a persistent notification.
 
@@ -121,7 +121,7 @@ def async_notify_setup_error(
 
 
 @core.callback
-def async_set_domains_to_be_loaded(hass: core.UniversalAssistant, domains: set[str]) -> None:
+def async_set_domains_to_be_loaded(hass: core.__HAC_KEEP__, domains: set[str]) -> None:
     """Set domains that are going to be loaded from the config.
 
     This allow us to:
@@ -138,7 +138,7 @@ def async_set_domains_to_be_loaded(hass: core.UniversalAssistant, domains: set[s
     )
 
 
-def setup_component(hass: core.UniversalAssistant, domain: str, config: ConfigType) -> bool:
+def setup_component(hass: core.__HAC_KEEP__, domain: str, config: ConfigType) -> bool:
     """Set up a component and all its dependencies."""
     return asyncio.run_coroutine_threadsafe(
         async_setup_component(hass, domain, config), hass.loop
@@ -146,7 +146,7 @@ def setup_component(hass: core.UniversalAssistant, domain: str, config: ConfigTy
 
 
 async def async_setup_component(
-    hass: core.UniversalAssistant, domain: str, config: ConfigType
+    hass: core.__HAC_KEEP__, domain: str, config: ConfigType
 ) -> bool:
     """Set up a component and all its dependencies.
 
@@ -175,7 +175,7 @@ async def async_setup_component(
             futures.append(setup_done_future)
         for future in futures:
             # If the setup call is cancelled it likely means
-            # Universal Universal Home Assistant is shutting down so the future might
+            # __HA_KEEP__ is shutting down so the future might
             # already be done which will cause this to raise
             # an InvalidStateError which is appropriate because
             # the component setup was cancelled and is in an
@@ -191,7 +191,7 @@ async def async_setup_component(
 
 
 async def _async_process_dependencies(
-    hass: core.UniversalAssistant, config: ConfigType, integration: loader.Integration
+    hass: core.__HAC_KEEP__, config: ConfigType, integration: loader.Integration
 ) -> list[str]:
     """Ensure all dependencies are set up.
 
@@ -270,7 +270,7 @@ async def _async_process_dependencies(
 
 
 def _log_error_setup_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain: str,
     integration: loader.Integration | None,
     msg: str,
@@ -288,9 +288,9 @@ def _log_error_setup_error(
 
 
 async def _async_setup_component(
-    hass: core.UniversalAssistant, domain: str, config: ConfigType
+    hass: core.__HAC_KEEP__, domain: str, config: ConfigType
 ) -> bool:
-    """Set up a component for Universal Universal Home Assistant.
+    """Set up a component for __HA_KEEP__.
 
     This method is a coroutine.
     """
@@ -341,7 +341,7 @@ async def _async_setup_component(
     # without requiring imports to be in functions.
     try:
         await async_process_deps_reqs(hass, config, integration)
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         log_error(str(err))
         return False
 
@@ -502,7 +502,7 @@ async def _async_setup_component(
 
 
 async def async_prepare_setup_platform(
-    hass: core.UniversalAssistant, hass_config: ConfigType, domain: str, platform_name: str
+    hass: core.__HAC_KEEP__, hass_config: ConfigType, domain: str, platform_name: str
 ) -> ModuleType | None:
     """Load a platform and makes sure dependencies are setup.
 
@@ -537,7 +537,7 @@ async def async_prepare_setup_platform(
         # async_setup_component if it is.
         try:
             await async_process_deps_reqs(hass, hass_config, integration)
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             log_error(str(err))
             return None
 
@@ -576,7 +576,7 @@ async def async_prepare_setup_platform(
 
 
 async def async_process_deps_reqs(
-    hass: core.UniversalAssistant, config: ConfigType, integration: loader.Integration
+    hass: core.__HAC_KEEP__, config: ConfigType, integration: loader.Integration
 ) -> None:
     """Process all dependencies and requirements for a module.
 
@@ -600,9 +600,9 @@ async def async_process_deps_reqs(
 
 @core.callback
 def async_when_setup(
-    hass: core.UniversalAssistant,
+    hass: core.__HAC_KEEP__,
     component: str,
-    when_setup_cb: Callable[[core.UniversalAssistant, str], Awaitable[None]],
+    when_setup_cb: Callable[[core.__HAC_KEEP__, str], Awaitable[None]],
 ) -> None:
     """Call a method when a component is setup."""
     _async_when_setup(hass, component, when_setup_cb, False)
@@ -610,9 +610,9 @@ def async_when_setup(
 
 @core.callback
 def async_when_setup_or_start(
-    hass: core.UniversalAssistant,
+    hass: core.__HAC_KEEP__,
     component: str,
-    when_setup_cb: Callable[[core.UniversalAssistant, str], Awaitable[None]],
+    when_setup_cb: Callable[[core.__HAC_KEEP__, str], Awaitable[None]],
 ) -> None:
     """Call a method when a component is setup or state is fired."""
     _async_when_setup(hass, component, when_setup_cb, True)
@@ -620,9 +620,9 @@ def async_when_setup_or_start(
 
 @core.callback
 def _async_when_setup(
-    hass: core.UniversalAssistant,
+    hass: core.__HAC_KEEP__,
     component: str,
-    when_setup_cb: Callable[[core.UniversalAssistant, str], Awaitable[None]],
+    when_setup_cb: Callable[[core.__HAC_KEEP__, str], Awaitable[None]],
     start_event: bool,
 ) -> None:
     """Call a method when a component is setup or the start event fires."""
@@ -667,7 +667,7 @@ def _async_when_setup(
 
 
 @core.callback
-def async_get_loaded_integrations(hass: core.UniversalAssistant) -> set[str]:
+def async_get_loaded_integrations(hass: core.__HAC_KEEP__) -> set[str]:
     """Return the complete list of loaded integrations."""
     return hass.config.all_components
 
@@ -700,14 +700,14 @@ class SetupPhases(StrEnum):
 
 @singleton.singleton(_DATA_SETUP_STARTED)
 def _setup_started(
-    hass: core.UniversalAssistant,
+    hass: core.__HAC_KEEP__,
 ) -> dict[tuple[str, str | None], float]:
     """Return the setup started dict."""
     return {}
 
 
 @contextlib.contextmanager
-def async_pause_setup(hass: core.UniversalAssistant, phase: SetupPhases) -> Generator[None]:
+def async_pause_setup(hass: core.__HAC_KEEP__, phase: SetupPhases) -> Generator[None]:
     """Keep track of time we are blocked waiting for other operations.
 
     We want to count the time we wait for importing and
@@ -743,7 +743,7 @@ def async_pause_setup(hass: core.UniversalAssistant, phase: SetupPhases) -> Gene
 
 @singleton.singleton(_DATA_SETUP_TIME)
 def _setup_times(
-    hass: core.UniversalAssistant,
+    hass: core.__HAC_KEEP__,
 ) -> defaultdict[str, defaultdict[str | None, defaultdict[SetupPhases, float]]]:
     """Return the setup timings default dict."""
     return defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
@@ -751,14 +751,14 @@ def _setup_times(
 
 @contextlib.contextmanager
 def async_start_setup(
-    hass: core.UniversalAssistant,
+    hass: core.__HAC_KEEP__,
     integration: str,
     phase: SetupPhases,
     group: str | None = None,
 ) -> Generator[None]:
     """Keep track of when setup starts and finishes.
 
-    :param hass: Universal Universal Home Assistant instance
+    :param hass: __HA_KEEP__ instance
     :param integration: The integration that is being setup
     :param phase: The phase of setup
     :param group: The group (config entry/platform instance) that is being setup
@@ -814,7 +814,7 @@ def async_start_setup(
 
 
 @callback
-def async_get_setup_timings(hass: core.UniversalAssistant) -> dict[str, float]:
+def async_get_setup_timings(hass: core.__HAC_KEEP__) -> dict[str, float]:
     """Return timing data for each integration."""
     setup_time = _setup_times(hass)
     domain_timings: dict[str, float] = {}
@@ -837,13 +837,13 @@ def async_get_setup_timings(hass: core.UniversalAssistant) -> dict[str, float]:
 
 @callback
 def async_get_domain_setup_times(
-    hass: core.UniversalAssistant, domain: str
+    hass: core.__HAC_KEEP__, domain: str
 ) -> Mapping[str | None, dict[SetupPhases, float]]:
     """Return timing data for each integration."""
     return _setup_times(hass).get(domain, {})
 
 
-async def async_wait_component(hass: UniversalAssistant, domain: str) -> bool:
+async def async_wait_component(hass: __HAC_KEEP__, domain: str) -> bool:
     """Wait until a component is set up if pending, then return if it is set up."""
     setup_done = hass.data.get(_DATA_SETUP_DONE, {})
     if setup_future := setup_done.get(domain):

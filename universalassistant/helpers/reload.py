@@ -7,8 +7,8 @@ from typing import Any, Literal, overload
 
 from universalassistant import config as conf_util
 from universalassistant.const import SERVICE_RELOAD, Platform
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.loader import async_get_integration
 from universalassistant.setup import async_setup_component
 
@@ -24,7 +24,7 @@ PLATFORM_RESET_LOCK = "lock_async_reset_platform_{}"
 
 
 async def async_reload_integration_platforms(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_domain: str,
     platform_domains: Iterable[Platform],
 ) -> None:
@@ -33,13 +33,13 @@ async def async_reload_integration_platforms(
     The platform must support being re-setup.
 
     This functionality is only intended to be used for integrations that process
-    Universal Universal Home Assistant data and make this available to other integrations.
+    __HA_KEEP__ data and make this available to other integrations.
 
     Examples are template, stats, derivative, utility meter.
     """
     try:
         unprocessed_conf = await conf_util.async_hass_config_yaml(hass)
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         _LOGGER.error(err)
         return
 
@@ -52,7 +52,7 @@ async def async_reload_integration_platforms(
 
 
 async def _resetup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_domain: str,
     platform_domain: Platform,
     unprocessed_config: ConfigType,
@@ -107,7 +107,7 @@ async def _resetup_platform(
 
 
 async def _async_setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_domain: str,
     platform_domain: Platform,
     platform_configs: list[dict[str, Any]],
@@ -140,13 +140,13 @@ async def _async_reconfig_platform(
 # https://github.com/python/mypy/issues/7333
 @overload
 async def async_integration_yaml_config(
-    hass: UniversalAssistant, integration_name: str
+    hass: __HAC_KEEP__, integration_name: str
 ) -> ConfigType | None: ...
 
 
 @overload
 async def async_integration_yaml_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_name: str,
     *,
     raise_on_failure: Literal[True],
@@ -155,7 +155,7 @@ async def async_integration_yaml_config(
 
 @overload
 async def async_integration_yaml_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     integration_name: str,
     *,
     raise_on_failure: Literal[False],
@@ -163,7 +163,7 @@ async def async_integration_yaml_config(
 
 
 async def async_integration_yaml_config(
-    hass: UniversalAssistant, integration_name: str, *, raise_on_failure: bool = False
+    hass: __HAC_KEEP__, integration_name: str, *, raise_on_failure: bool = False
 ) -> ConfigType | None:
     """Fetch the latest yaml configuration for an integration."""
     integration = await async_get_integration(hass, integration_name)
@@ -175,7 +175,7 @@ async def async_integration_yaml_config(
 
 @callback
 def async_get_platform_without_config_entry(
-    hass: UniversalAssistant, integration_name: str, integration_platform_name: Platform
+    hass: __HAC_KEEP__, integration_name: str, integration_platform_name: Platform
 ) -> EntityPlatform | None:
     """Find an existing platform that is not a config entry."""
     for integration_platform in async_get_platforms(hass, integration_name):
@@ -189,7 +189,7 @@ def async_get_platform_without_config_entry(
 
 
 async def async_setup_reload_service(
-    hass: UniversalAssistant, domain: str, platforms: Iterable[Platform]
+    hass: __HAC_KEEP__, domain: str, platforms: Iterable[Platform]
 ) -> None:
     """Create the reload service for the domain."""
     if hass.services.has_service(domain, SERVICE_RELOAD):
@@ -204,7 +204,7 @@ async def async_setup_reload_service(
 
 
 def setup_reload_service(
-    hass: UniversalAssistant, domain: str, platforms: Iterable[Platform]
+    hass: __HAC_KEEP__, domain: str, platforms: Iterable[Platform]
 ) -> None:
     """Sync version of async_setup_reload_service."""
     asyncio.run_coroutine_threadsafe(

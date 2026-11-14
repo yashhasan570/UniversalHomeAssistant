@@ -12,7 +12,7 @@ from universalassistant.components.motionblinds_ble.const import (
     ATTR_FAVORITE,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import setup_integration
 
@@ -27,7 +27,7 @@ from . import setup_integration
     ],
 )
 async def test_button(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_motion_device: Mock,
     name: str,

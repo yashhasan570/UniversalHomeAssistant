@@ -13,7 +13,7 @@ def renormalize(
 
 
 def convert_to_matter_hs(hass_hs: tuple[float, float]) -> tuple[float, float]:
-    """Convert Universal Universal Home Assistant HS to Matter HS."""
+    """Convert __HA_KEEP__ HS to Matter HS."""
 
     return (
         hass_hs[0] / 360 * 254,
@@ -22,7 +22,7 @@ def convert_to_matter_hs(hass_hs: tuple[float, float]) -> tuple[float, float]:
 
 
 def convert_to_hass_hs(matter_hs: tuple[float, float]) -> tuple[float, float]:
-    """Convert Matter HS to Universal Universal Home Assistant HS."""
+    """Convert Matter HS to __HA_KEEP__ HS."""
 
     return (
         matter_hs[0] * 360 / 254,
@@ -31,12 +31,12 @@ def convert_to_hass_hs(matter_hs: tuple[float, float]) -> tuple[float, float]:
 
 
 def convert_to_matter_xy(hass_xy: tuple[float, float]) -> tuple[float, float]:
-    """Convert Universal Universal Home Assistant XY to Matter XY."""
+    """Convert __HA_KEEP__ XY to Matter XY."""
 
     return (hass_xy[0] * XY_COLOR_FACTOR, hass_xy[1] * XY_COLOR_FACTOR)
 
 
 def convert_to_hass_xy(matter_xy: tuple[float, float]) -> tuple[float, float]:
-    """Convert Matter XY to Universal Universal Home Assistant XY."""
+    """Convert Matter XY to __HA_KEEP__ XY."""
 
     return (matter_xy[0] / XY_COLOR_FACTOR, matter_xy[1] / XY_COLOR_FACTOR)

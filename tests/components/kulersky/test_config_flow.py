@@ -18,7 +18,7 @@ from universalassistant.config_entries import (
     SOURCE_USER,
 )
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 KULERSKY_SERVICE_INFO = BluetoothServiceInfoBleak(
@@ -42,7 +42,7 @@ KULERSKY_SERVICE_INFO = BluetoothServiceInfoBleak(
 )
 
 
-async def test_bluetooth_discovery(hass: UniversalAssistant) -> None:
+async def test_bluetooth_discovery(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -67,7 +67,7 @@ async def test_bluetooth_discovery(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "AA:BB:CC:DD:EE:FF"
 
 
-async def test_integration_discovery(hass: UniversalAssistant) -> None:
+async def test_integration_discovery(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth with a valid device."""
     with patch(
         "universalassistant.components.kulersky.config_flow.async_last_service_info",
@@ -87,7 +87,7 @@ async def test_integration_discovery(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "AA:BB:CC:DD:EE:FF"
 
 
-async def test_integration_discovery_no_last_service_info(hass: UniversalAssistant) -> None:
+async def test_integration_discovery_no_last_service_info(hass: __HAC_KEEP__) -> None:
     """Test discovery via bluetooth with a valid device."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -103,7 +103,7 @@ async def test_integration_discovery_no_last_service_info(hass: UniversalAssista
     assert result["result"].unique_id == "AA:BB:CC:DD:EE:FF"
 
 
-async def test_user_setup(hass: UniversalAssistant) -> None:
+async def test_user_setup(hass: __HAC_KEEP__) -> None:
     """Test the user manually setting up the integration."""
     with patch(
         "universalassistant.components.kulersky.config_flow.async_discovered_service_info",
@@ -134,7 +134,7 @@ async def test_user_setup(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == "AA:BB:CC:DD:EE:FF"
 
 
-async def test_user_setup_no_devices(hass: UniversalAssistant) -> None:
+async def test_user_setup_no_devices(hass: __HAC_KEEP__) -> None:
     """Test the user manually setting up the integration."""
     with patch(
         "universalassistant.components.kulersky.config_flow.async_discovered_service_info",
@@ -148,7 +148,7 @@ async def test_user_setup_no_devices(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_connection_error(hass: UniversalAssistant) -> None:
+async def test_connection_error(hass: __HAC_KEEP__) -> None:
     """Test a connection error trying to set up."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -178,7 +178,7 @@ async def test_connection_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_unexpected_error(hass: UniversalAssistant) -> None:
+async def test_unexpected_error(hass: __HAC_KEEP__) -> None:
     """Test an unexpected error trying to set up."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -208,7 +208,7 @@ async def test_unexpected_error(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_user_setup_replaces_ignored_device(hass: UniversalAssistant) -> None:
+async def test_user_setup_replaces_ignored_device(hass: __HAC_KEEP__) -> None:
     """Test the user flow can replace an ignored device."""
     entry = MockConfigEntry(
         domain=DOMAIN,

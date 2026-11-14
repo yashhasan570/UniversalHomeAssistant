@@ -16,7 +16,7 @@ from universalassistant.const import (
     CONF_UNIT_OF_MEASUREMENT,
     SERVICE_RELOAD,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import collection, config_validation as cv
 from universalassistant.helpers.entity_component import EntityComponent
 from universalassistant.helpers.storage import Store
@@ -153,7 +153,7 @@ class InputNumberData:
     yaml_collection: collection.YamlCollection
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up an input slider."""
     component = EntityComponent[InputNumber](_LOGGER, DOMAIN, hass)
 

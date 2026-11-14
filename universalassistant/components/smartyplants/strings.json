@@ -6,7 +6,7 @@
     },
     "error": {
       "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
-      "forbidden": "SmartyPlants refused the request. If this API key is restricted to particular IP addresses, check that it allows the address this Universal Universal Home Assistant connects from.",
+      "forbidden": "SmartyPlants refused the request. If this API key is restricted to particular IP addresses, check that it allows the address this __HA_KEEP__ connects from.",
       "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]"
     },
     "step": {
@@ -24,7 +24,7 @@
           "api_key": "[%key:common::config_flow::data::api_key%]"
         },
         "data_description": {
-          "api_key": "Create this in the SmartyPlants app, under Settings. It identifies your account to Universal Universal Home Assistant."
+          "api_key": "Create this in the SmartyPlants app, under Settings. It identifies your account to __HA_KEEP__."
         },
         "description": "Enter the API key from the SmartyPlants app, under Settings.",
         "title": "Connect SmartyPlants"

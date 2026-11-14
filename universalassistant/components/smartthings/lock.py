@@ -5,7 +5,7 @@ from typing import Any, override
 from pysmartthings import Attribute, Capability, Command
 
 from universalassistant.components.lock import LockEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SmartThingsConfigEntry
@@ -24,7 +24,7 @@ ST_LOCK_ATTR_MAP = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SmartThingsConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

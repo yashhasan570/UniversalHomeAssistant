@@ -8,7 +8,7 @@ from pysqueezebox.player import Alarm
 
 from universalassistant.components.switch import SwitchEntity
 from universalassistant.const import EntityCategory, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.dispatcher import async_dispatcher_connect
@@ -26,7 +26,7 @@ PARALLEL_UPDATES = 0
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: SqueezeboxConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

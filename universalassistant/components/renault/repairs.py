@@ -9,7 +9,7 @@ from renault_api.gigya.exceptions import GigyaException
 from renault_api.kamereon.exceptions import KamereonResponseException
 
 from universalassistant.components.repairs import RepairsFlow, RepairsFlowResult
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN, RenaultConfigurationKeys
@@ -102,7 +102,7 @@ class AccountNotFoundRepairFlow(RepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant, issue_id: str, data: dict[str, Any] | None
+    hass: __HAC_KEEP__, issue_id: str, data: dict[str, Any] | None
 ) -> RepairsFlow:
     """Create the repair flow for a Kamereon account that no longer exists."""
     assert data

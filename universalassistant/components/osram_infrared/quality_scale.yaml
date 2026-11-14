@@ -128,7 +128,7 @@ rules:
   exception-translations:
     status: todo
     comment: |
-      Ensure any user-facing UniversalAssistantError exceptions use translation
+      Ensure any user-facing __HAC_KEEP__Error exceptions use translation
       keys instead of hard-coded messages.
   icon-translations:
     status: exempt

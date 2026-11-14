@@ -4,14 +4,14 @@ from typing import Any
 
 from universalassistant.components.media_player import DOMAIN as MP_DOMAIN
 from universalassistant.const import CONF_VERIFY_SSL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONF_MONITORED_USERS, PLEX_SERVER_CONFIG
 from .helpers import PlexConfigEntry
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: PlexConfigEntry
+    hass: __HAC_KEEP__, entry: PlexConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     plex_server = entry.runtime_data.server

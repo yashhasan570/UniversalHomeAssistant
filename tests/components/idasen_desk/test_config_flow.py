@@ -10,13 +10,13 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.idasen_desk.const import DOMAIN
 from universalassistant.const import CONF_ADDRESS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import IDASEN_DISCOVERY_INFO, NOT_IDASEN_DISCOVERY_INFO
 
 
-async def test_user_step_success(hass: UniversalAssistant, mock_desk_api: MagicMock) -> None:
+async def test_user_step_success(hass: __HAC_KEEP__, mock_desk_api: MagicMock) -> None:
     """Test user step success path."""
     with (
         patch(
@@ -56,7 +56,7 @@ async def test_user_step_success(hass: UniversalAssistant, mock_desk_api: MagicM
 
 
 async def test_user_step_replaces_ignored_device(
-    hass: UniversalAssistant, mock_desk_api: MagicMock
+    hass: __HAC_KEEP__, mock_desk_api: MagicMock
 ) -> None:
     """Test user step replaces ignored devices."""
     entry = MockConfigEntry(
@@ -98,7 +98,7 @@ async def test_user_step_replaces_ignored_device(
     assert len(mock_setup_entry.mock_calls) == 1
 
 
-async def test_user_step_no_devices_found(hass: UniversalAssistant) -> None:
+async def test_user_step_no_devices_found(hass: __HAC_KEEP__) -> None:
     """Test user step with no devices found."""
     with patch(
         "universalassistant.components.idasen_desk.config_flow.async_discovered_service_info",
@@ -111,7 +111,7 @@ async def test_user_step_no_devices_found(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_devices_found"
 
 
-async def test_user_step_no_new_devices_found(hass: UniversalAssistant) -> None:
+async def test_user_step_no_new_devices_found(hass: __HAC_KEEP__) -> None:
     """Test user step with only existing devices found."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -142,7 +142,7 @@ async def test_user_step_no_new_devices_found(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_user_step_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_desk_api: MagicMock,
     exception: Exception,
     expected_error: str,
@@ -197,7 +197,7 @@ async def test_user_step_cannot_connect(
 
 
 async def test_bluetooth_step_success(
-    hass: UniversalAssistant, mock_desk_api: MagicMock
+    hass: __HAC_KEEP__, mock_desk_api: MagicMock
 ) -> None:
     """Test bluetooth step success path."""
     result = await hass.config_entries.flow.async_init(

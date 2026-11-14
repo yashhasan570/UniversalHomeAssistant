@@ -17,7 +17,7 @@ from universalassistant.components.hue.const import (
     DOMAIN,
 )
 from universalassistant.components.hue.v2.device import async_setup_devices
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.util.json import JsonArrayType
@@ -28,7 +28,7 @@ from .test_light_v1 import LIGHT_RESPONSE
 
 
 async def test_bridge_setup_v1(
-    hass: UniversalAssistant, mock_api_v1: Mock, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, mock_api_v1: Mock, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a successful setup for V1 bridge."""
     config_entry = MockConfigEntry(
@@ -67,7 +67,7 @@ async def test_bridge_setup_v1(
 
 
 async def test_bridge_device_v1(
-    hass: UniversalAssistant, mock_api_v1: Mock, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, mock_api_v1: Mock, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the bridge device after a full v1 setup."""
     config_entry = MockConfigEntry(
@@ -112,7 +112,7 @@ async def test_bridge_device_v1(
 
 
 async def test_bridge_device_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     device_registry: dr.DeviceRegistry,
@@ -173,7 +173,7 @@ SHARED_MAC = "00:17:88:01:09:aa:bb:65"
     ],
 )
 async def test_devices_sharing_a_mac_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     device_registry: dr.DeviceRegistry,
@@ -227,7 +227,7 @@ async def test_devices_sharing_a_mac_v2(
 
 
 async def test_device_sharing_a_mac_added_v2(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v2: Mock,
     v2_resources_test_data: JsonArrayType,
     device_registry: dr.DeviceRegistry,
@@ -256,7 +256,7 @@ async def test_device_sharing_a_mac_added_v2(
     assert added_device.connections == set()
 
 
-async def test_bridge_setup_v2(hass: UniversalAssistant, mock_api_v2: Mock) -> None:
+async def test_bridge_setup_v2(hass: __HAC_KEEP__, mock_api_v2: Mock) -> None:
     """Test a successful setup for V2 bridge."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,
@@ -286,7 +286,7 @@ async def test_bridge_setup_v2(hass: UniversalAssistant, mock_api_v2: Mock) -> N
     }
 
 
-async def test_bridge_setup_invalid_api_key(hass: UniversalAssistant) -> None:
+async def test_bridge_setup_invalid_api_key(hass: __HAC_KEEP__) -> None:
     """Test we start config flow if username is no longer whitelisted."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -305,7 +305,7 @@ async def test_bridge_setup_invalid_api_key(hass: UniversalAssistant) -> None:
     assert mock_init.mock_calls[0][2]["data"] == {"host": "1.2.3.4"}
 
 
-async def test_bridge_setup_timeout(hass: UniversalAssistant) -> None:
+async def test_bridge_setup_timeout(hass: __HAC_KEEP__) -> None:
     """Test we retry to connect if we cannot connect."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -326,7 +326,7 @@ async def test_bridge_setup_timeout(hass: UniversalAssistant) -> None:
 
 
 async def test_reset_unloads_entry_if_setup(
-    hass: UniversalAssistant, mock_api_v1: Mock
+    hass: __HAC_KEEP__, mock_api_v1: Mock
 ) -> None:
     """Test calling reset while the entry has been setup."""
     config_entry = MockConfigEntry(
@@ -357,7 +357,7 @@ async def test_reset_unloads_entry_if_setup(
     assert len(hass.services.async_services()) == 0
 
 
-async def test_handle_unauthorized(hass: UniversalAssistant, mock_api_v1: Mock) -> None:
+async def test_handle_unauthorized(hass: __HAC_KEEP__, mock_api_v1: Mock) -> None:
     """Test handling an unauthorized error on update."""
     config_entry = MockConfigEntry(
         domain=DOMAIN,

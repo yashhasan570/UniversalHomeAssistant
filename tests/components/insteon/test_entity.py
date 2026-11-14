@@ -19,7 +19,7 @@ from universalassistant.components.insteon import (
 )
 from universalassistant.components.insteon.entity import InsteonEntity
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .const import MOCK_USER_INPUT_PLM
@@ -88,7 +88,7 @@ async def mock_connection(*args: Any, **kwargs: Any) -> bool:
     "service", ["load_all_link_database", "print_all_link_database"]
 )
 async def test_aldb_services_after_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     platform: Platform,
     address: str,

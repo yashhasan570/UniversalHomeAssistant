@@ -10,14 +10,14 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.sensibo.const import DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
 async def test_basic_setup(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock, mock_client: MagicMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock, mock_client: MagicMock
 ) -> None:
     """Test we get and complete the form."""
 
@@ -54,7 +54,7 @@ async def test_basic_setup(
     ],
 )
 async def test_flow_fails(
-    hass: UniversalAssistant, mock_client: MagicMock, error_message: Exception, p_error: str
+    hass: __HAC_KEEP__, mock_client: MagicMock, error_message: Exception, p_error: str
 ) -> None:
     """Test config flow errors."""
 
@@ -93,7 +93,7 @@ async def test_flow_fails(
 
 
 async def test_flow_get_no_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     get_data: tuple[SensiboData, dict[str, Any], dict[str, Any]],
 ) -> None:
@@ -134,7 +134,7 @@ async def test_flow_get_no_devices(
 
 
 async def test_flow_get_no_username(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     get_data: tuple[SensiboData, dict[str, Any], dict[str, Any]],
 ) -> None:
@@ -174,7 +174,7 @@ async def test_flow_get_no_username(
     }
 
 
-async def test_reauth_flow(hass: UniversalAssistant, mock_client: MagicMock) -> None:
+async def test_reauth_flow(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
     """Test a reauthentication flow."""
     entry = MockConfigEntry(
         version=2,
@@ -207,7 +207,7 @@ async def test_reauth_flow(hass: UniversalAssistant, mock_client: MagicMock) -> 
     ],
 )
 async def test_reauth_flow_error(
-    hass: UniversalAssistant, sideeffect: Exception, p_error: str, mock_client: MagicMock
+    hass: __HAC_KEEP__, sideeffect: Exception, p_error: str, mock_client: MagicMock
 ) -> None:
     """Test a reauthentication flow with error."""
     entry = MockConfigEntry(
@@ -264,7 +264,7 @@ async def test_reauth_flow_error(
     ],
 )
 async def test_flow_reauth_no_username_or_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_devices: dict[str, Any],
     get_me: dict[str, Any],
     p_error: str,
@@ -312,7 +312,7 @@ async def test_flow_reauth_no_username_or_device(
     assert entry.data == {CONF_API_KEY: "1234567890"}
 
 
-async def test_reconfigure_flow(hass: UniversalAssistant, mock_client: MagicMock) -> None:
+async def test_reconfigure_flow(hass: __HAC_KEEP__, mock_client: MagicMock) -> None:
     """Test a reconfigure flow."""
     entry = MockConfigEntry(
         version=2,
@@ -345,7 +345,7 @@ async def test_reconfigure_flow(hass: UniversalAssistant, mock_client: MagicMock
     ],
 )
 async def test_reconfigure_flow_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sideeffect: Exception,
     p_error: str,
     mock_client: MagicMock,
@@ -405,7 +405,7 @@ async def test_reconfigure_flow_error(
     ],
 )
 async def test_flow_reconfigure_no_username_or_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     get_devices: dict[str, Any],
     get_me: dict[str, Any],
     p_error: str,

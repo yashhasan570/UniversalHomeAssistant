@@ -8,7 +8,7 @@ from besen.models import BesenData
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BesenConfigEntry
@@ -27,7 +27,7 @@ TEMPERATURE_UNIT_VALUES: Final = {
 
 
 def _option_value(value: str | None, options: Mapping[str, str]) -> str | None:
-    """Return a Universal Universal Home Assistant option for a charger value."""
+    """Return a __HA_KEEP__ option for a charger value."""
 
     return options.get(value) if value is not None else None
 
@@ -59,7 +59,7 @@ SELECT_DESCRIPTIONS: tuple[BesenSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BesenConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

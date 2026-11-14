@@ -45,7 +45,7 @@ from universalassistant.components.media_source import (
     PlayMedia,
     Unresolvable,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.event import async_track_time_interval
 from universalassistant.helpers.storage import Store
@@ -81,7 +81,7 @@ ORPHANED_MEDIA_AGE_CUTOFF = dt.timedelta(days=7)
 
 
 async def async_get_media_event_store(
-    hass: UniversalAssistant, config_entry: NestConfigEntry, subscriber: GoogleNestSubscriber
+    hass: __HAC_KEEP__, config_entry: NestConfigEntry, subscriber: GoogleNestSubscriber
 ) -> EventMediaStore:
     """Create the disk backed EventMediaStore."""
     media_path = pathlib.Path(hass.config.cache_path(DOMAIN, MEDIA_CACHE_PATH))
@@ -114,7 +114,7 @@ def _prepare_media_cache_dir(
     media_path.mkdir(parents=True, exist_ok=True)
 
 
-async def async_get_transcoder(hass: UniversalAssistant) -> Transcoder:
+async def async_get_transcoder(hass: __HAC_KEEP__) -> Transcoder:
     """Get a nest clip transcoder."""
     media_path = hass.config.cache_path(DOMAIN, MEDIA_CACHE_PATH)
     ffmpeg_manager = get_ffmpeg_manager(hass)
@@ -138,7 +138,7 @@ class NestEventMediaStore(EventMediaStore):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: NestConfigEntry,
         subscriber: GoogleNestSubscriber,
         store: Store[dict[str, Any]],
@@ -358,13 +358,13 @@ class NestEventMediaStore(EventMediaStore):
         return valid_device_timestamps
 
 
-async def async_get_media_source(hass: UniversalAssistant) -> MediaSource:
+async def async_get_media_source(hass: __HAC_KEEP__) -> MediaSource:
     """Set up Nest media source."""
     return NestMediaSource(hass)
 
 
 @callback
-def async_get_media_source_devices(hass: UniversalAssistant) -> Mapping[str, Device]:
+def async_get_media_source_devices(hass: __HAC_KEEP__) -> Mapping[str, Device]:
     """Return a mapping of device id to eligible Nest event media devices."""
     devices = async_nest_devices_by_device_id(hass)
     return {
@@ -417,7 +417,7 @@ class NestMediaSource(MediaSource):
 
     name: str = MEDIA_SOURCE_TITLE
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize NestMediaSource."""
         super().__init__(DOMAIN)
         self.hass = hass

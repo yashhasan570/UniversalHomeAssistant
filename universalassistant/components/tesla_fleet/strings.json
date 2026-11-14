@@ -42,7 +42,7 @@
         "title": "[%key:common::config_flow::title::oauth2_pick_implementation%]"
       },
       "reauth_confirm": {
-        "description": "The {name} integration needs to re-authenticate your account. Reauthentication refreshes the Tesla API permissions granted to Universal Universal Home Assistant, including any newly enabled scopes.",
+        "description": "The {name} integration needs to re-authenticate your account. Reauthentication refreshes the Tesla API permissions granted to __HA_KEEP__, including any newly enabled scopes.",
         "title": "[%key:common::config_flow::title::reauth%]"
       },
       "region": {

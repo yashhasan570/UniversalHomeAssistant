@@ -1,7 +1,7 @@
 """The Fully Kiosk Browser integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -24,7 +24,7 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Fully Kiosk Browser."""
 
     async_setup_services(hass)
@@ -32,7 +32,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: FullyKioskConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: FullyKioskConfigEntry) -> None:
     """Set up Fully Kiosk Browser from a config entry."""
 
     coordinator = FullyKioskDataUpdateCoordinator(hass, entry)
@@ -44,6 +44,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: FullyKioskConfigEnt
     coordinator.async_update_listeners()
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: FullyKioskConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: FullyKioskConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

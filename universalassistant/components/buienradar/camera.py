@@ -10,7 +10,7 @@ import probatio
 
 from universalassistant.components.camera import Camera
 from universalassistant.const import CONF_COUNTRY_CODE, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
@@ -28,7 +28,7 @@ SUPPORTED_COUNTRY_CODES = ["NL", "BE"]
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BuienRadarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -144,7 +144,7 @@ class BuienradarCam(Camera):
 
         Uses asyncio conditions to make sure only one task enters the critical
         section at the same time. Otherwise, two http requests would start
-        when two tabs with Universal Universal Home Assistant are open.
+        when two tabs with __HA_KEEP__ are open.
 
         The condition is entered in two sections because otherwise the lock
         would be held while doing the http request.

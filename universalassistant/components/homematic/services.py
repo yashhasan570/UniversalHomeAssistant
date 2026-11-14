@@ -7,7 +7,7 @@ from typing import Any
 import probatio
 
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.service import async_register_admin_service
 from universalassistant.util.async_ import run_callback_threadsafe
@@ -90,7 +90,7 @@ SCHEMA_SERVICE_PUT_PARAMSET = probatio.Schema(
 )
 
 
-def _device_from_servicecall(hass: UniversalAssistant, service: ServiceCall) -> Any:
+def _device_from_servicecall(hass: __HAC_KEEP__, service: ServiceCall) -> Any:
     """Extract HomeMatic device from service call."""
     address = service.data.get(HomematicServiceArgument.ADDRESS)
     interface = service.data.get(HomematicServiceArgument.INTERFACE)
@@ -227,7 +227,7 @@ def _service_put_paramset(service: ServiceCall) -> None:
     )
 
 
-def setup_services(hass: UniversalAssistant) -> None:
+def setup_services(hass: __HAC_KEEP__) -> None:
     """Register the Homematic services."""
     hass.services.register(
         DOMAIN,

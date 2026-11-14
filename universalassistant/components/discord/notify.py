@@ -18,8 +18,8 @@ from universalassistant.components.notify import (
 )
 from universalassistant.config_entries import ConfigSubentry
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -48,7 +48,7 @@ MAX_ALLOWED_DOWNLOAD_SIZE_BYTES = 8000000
 
 
 async def async_get_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> DiscordNotificationService | None:
@@ -61,7 +61,7 @@ async def async_get_service(
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: DiscordConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -79,7 +79,7 @@ async def async_setup_entry(
 class DiscordNotificationService(BaseNotificationService):
     """Implement the notification service for Discord."""
 
-    def __init__(self, hass: UniversalAssistant, token: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, token: str) -> None:
         """Initialize the service."""
         self.token = token
         self.hass = hass
@@ -222,7 +222,7 @@ class DiscordNotificationService(BaseNotificationService):
                         continue
                 await channel.send(message, files=files, embeds=embeds)
         except (nextcord.HTTPException, nextcord.NotFound) as error:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="communication_error",
             ) from error
@@ -270,13 +270,13 @@ class DiscordNotifyEntity(NotifyEntity):
                     channel = await discord_bot.fetch_user(target)
                 await channel.send(message)
             except nextcord.NotFound as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="target_not_found",
                     translation_placeholders={"target": self._target_id},
                 ) from err
             except (aiohttp.ClientConnectorError, nextcord.DiscordException) as err:
-                raise UniversalAssistantError(
+                raise __HAC_KEEP__Error(
                     translation_domain=DOMAIN,
                     translation_key="communication_error",
                 ) from err

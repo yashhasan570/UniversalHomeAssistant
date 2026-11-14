@@ -12,7 +12,7 @@ from hyperion import client, const as hyperion_const
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TOKEN, Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.dispatcher import (
@@ -102,7 +102,7 @@ async def async_create_connect_hyperion_client(
 
 @callback
 def listen_for_instance_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: HyperionConfigEntry,
     add_func: Callable[[int, str], None],
     remove_func: Callable[[int], None],
@@ -125,7 +125,7 @@ def listen_for_instance_updates(
     )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HyperionConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HyperionConfigEntry) -> None:
     """Set up Hyperion from a config entry."""
     host = entry.data[CONF_HOST]
     port = entry.data[CONF_PORT]
@@ -268,7 +268,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HyperionConfigEntry
         await async_instances_to_clients_raw(hyperion_client.instances)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: HyperionConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: HyperionConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     # Disconnect the shared instance clients.

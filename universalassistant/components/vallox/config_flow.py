@@ -8,8 +8,8 @@ from vallox_websocket_api import Vallox, ValloxApiException
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult
 from universalassistant.const import CONF_HOST, CONF_NAME
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.util.network import is_ip_address
 
 from .const import DEFAULT_NAME, DOMAIN
@@ -23,7 +23,7 @@ CONFIG_SCHEMA = probatio.Schema(
 )
 
 
-async def validate_host(hass: UniversalAssistant, host: str) -> None:
+async def validate_host(hass: __HAC_KEEP__, host: str) -> None:
     """Validate that the user input allows us to connect."""
 
     if not is_ip_address(host):
@@ -124,5 +124,5 @@ class ValloxConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
 
-class InvalidHost(UniversalAssistantError):
+class InvalidHost(__HAC_KEEP__Error):
     """Error to indicate an invalid host was input."""

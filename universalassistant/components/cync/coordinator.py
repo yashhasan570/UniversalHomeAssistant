@@ -10,7 +10,7 @@ from pycync.exceptions import AuthFailedError
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_ACCESS_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -27,7 +27,7 @@ class CyncCoordinator(DataUpdateCoordinator[dict[str, CyncDevice]]):
     config_entry: CyncConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, config_entry: CyncConfigEntry, cync: Cync
+        self, hass: __HAC_KEEP__, config_entry: CyncConfigEntry, cync: Cync
     ) -> None:
         """Initialize the Cync coordinator."""
         super().__init__(

@@ -8,7 +8,7 @@ from fullykiosk import FullyKiosk
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from universalassistant.const import EntityCategory
-from universalassistant.core import CALLBACK_TYPE, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import FullyKioskConfigEntry, FullyKioskDataUpdateCoordinator
@@ -79,7 +79,7 @@ SWITCHES: tuple[FullySwitchEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FullyKioskConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

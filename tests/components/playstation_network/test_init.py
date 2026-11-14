@@ -19,14 +19,14 @@ from universalassistant.components.playstation_network.coordinator import (
     PlaystationNetworkRuntimeData,
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.mark.parametrize(
     "exception", [PSNAWPNotFoundError, PSNAWPServerError, PSNAWPClientError]
 )
 async def test_config_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     exception: Exception,
@@ -42,7 +42,7 @@ async def test_config_entry_not_ready(
 
 
 async def test_config_entry_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
 ) -> None:
@@ -71,7 +71,7 @@ async def test_config_entry_auth_failed(
     "exception", [PSNAWPNotFoundError, PSNAWPServerError, PSNAWPClientError]
 )
 async def test_coordinator_update_data_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     exception: Exception,
@@ -87,7 +87,7 @@ async def test_coordinator_update_data_failed(
 
 
 async def test_coordinator_update_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
 ) -> None:
@@ -115,7 +115,7 @@ async def test_coordinator_update_auth_failed(
 
 
 async def test_trophy_title_coordinator(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -137,7 +137,7 @@ async def test_trophy_title_coordinator(
 
 
 async def test_trophy_title_coordinator_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -175,7 +175,7 @@ async def test_trophy_title_coordinator_auth_failed(
     "exception", [PSNAWPNotFoundError, PSNAWPServerError, PSNAWPClientError]
 )
 async def test_trophy_title_coordinator_update_data_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     exception: Exception,
@@ -201,7 +201,7 @@ async def test_trophy_title_coordinator_update_data_failed(
 
 
 async def test_trophy_title_coordinator_doesnt_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -230,7 +230,7 @@ async def test_trophy_title_coordinator_doesnt_update(
 
 
 async def test_trophy_title_coordinator_play_new_game(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     freezer: FrozenDateTimeFactory,
@@ -279,7 +279,7 @@ async def test_trophy_title_coordinator_play_new_game(
     [PSNAWPNotFoundError, PSNAWPServerError, PSNAWPClientError, PSNAWPForbiddenError],
 )
 async def test_friends_coordinator_update_data_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     exception: Exception,
@@ -306,7 +306,7 @@ async def test_friends_coordinator_update_data_failed(
     ],
 )
 async def test_friends_coordinator_setup_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
     exception: Exception,
@@ -324,7 +324,7 @@ async def test_friends_coordinator_setup_failed(
 
 
 async def test_friends_coordinator_auth_failed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_psnawpapi: MagicMock,
 ) -> None:

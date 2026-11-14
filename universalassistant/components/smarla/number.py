@@ -11,7 +11,7 @@ from universalassistant.components.number import (
     NumberMode,
 )
 from universalassistant.const import PERCENTAGE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import FederwiegeConfigEntry
@@ -41,7 +41,7 @@ NUMBERS: list[SmarlaNumberEntityDescription] = [
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: FederwiegeConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -10,7 +10,7 @@ from intellifire4py.model import IntelliFirePollData
 from intellifire4py.read import IntelliFireDataProvider
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -27,7 +27,7 @@ class IntellifireDataUpdateCoordinator(DataUpdateCoordinator[IntelliFirePollData
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: IntellifireConfigEntry,
         fireplace: UnifiedFireplace,
     ) -> None:

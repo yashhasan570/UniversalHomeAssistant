@@ -31,7 +31,7 @@ from universalassistant.components.zha.helpers import (
     get_zha_gateway,
     get_zha_gateway_proxy,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import (
     area_registry as ar,
     config_validation as cv,
@@ -57,7 +57,7 @@ from .conftest import (
 _LOGGER = logging.getLogger(__name__)
 
 
-async def test_zcl_schema_conversions(hass: UniversalAssistant) -> None:
+async def test_zcl_schema_conversions(hass: __HAC_KEEP__) -> None:
     """Test ZHA ZCL schema conversion helpers."""
     command_schema = lighting.Color.ServerCommandDefs.color_loop_set.schema
     expected_schema = [
@@ -220,7 +220,7 @@ def test_exclude_none_values(
 
 
 async def test_create_zha_config_remove_unused(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_zigpy_connect: ControllerApplication,
 ) -> None:
@@ -252,7 +252,7 @@ async def test_create_zha_config_remove_unused(
 
 
 async def test_debug_mode_log_filter(
-    hass: UniversalAssistant, setup_zha: Callable[..., Coroutine[None]]
+    hass: __HAC_KEEP__, setup_zha: Callable[..., Coroutine[None]]
 ) -> None:
     """Test a debug mode session filters relayed logs only until it ends."""
     await setup_zha()
@@ -382,7 +382,7 @@ def test_zha_group_proxy_device_info() -> None:
 
 
 async def test_zha_group_proxy_device_id_property(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test ZHAGroupProxy device_id property getter, setter and registry lookup."""
@@ -406,7 +406,7 @@ async def test_zha_group_proxy_device_id_property(
 
 
 async def test_zha_group_proxy_no_device_for_group_without_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
 ) -> None:
     """Test that no device is created for groups without entities."""
@@ -423,7 +423,7 @@ async def test_zha_group_proxy_no_device_for_group_without_entities(
 
 
 async def test_zha_group_device_creation_with_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     device_registry: dr.DeviceRegistry,
@@ -458,7 +458,7 @@ async def test_zha_group_device_creation_with_entities(
 
 
 async def test_zha_group_cleanup_on_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     device_registry: dr.DeviceRegistry,
@@ -497,7 +497,7 @@ async def test_zha_group_cleanup_on_removal(
 
 
 async def test_zha_group_device_created_when_entities_appear(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_switches: ControllerApplication,
     device_registry: dr.DeviceRegistry,
@@ -539,7 +539,7 @@ async def test_zha_group_device_created_when_entities_appear(
 
 
 async def test_zha_group_cleanup_legacy_coordinator_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
@@ -584,7 +584,7 @@ async def test_zha_group_cleanup_legacy_coordinator_entities(
 
 
 async def test_zha_group_device_removed_when_group_shrinks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     area_registry: ar.AreaRegistry,
@@ -652,7 +652,7 @@ def _shrink_group_while_stopped(app_controller: ControllerApplication) -> None:
     ],
 )
 async def test_zha_group_device_reconciled_on_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     config_entry: MockConfigEntry,
@@ -694,7 +694,7 @@ async def test_zha_group_device_reconciled_on_startup(
 
 
 async def test_zha_group_stale_entity_removed_on_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     config_entry: MockConfigEntry,
@@ -730,7 +730,7 @@ async def test_zha_group_stale_entity_removed_on_startup(
 
 
 async def test_zha_group_entity_registry_disable_propagates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     entity_registry: er.EntityRegistry,
@@ -758,7 +758,7 @@ async def test_zha_group_entity_registry_disable_propagates(
 
 
 async def test_zha_group_regrown_with_disabled_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     device_registry: dr.DeviceRegistry,
@@ -848,7 +848,7 @@ def _add_legacy_group_entity(
     ],
 )
 async def test_zha_group_entity_migrated_from_coordinator_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     config_entry: MockConfigEntry,
@@ -917,7 +917,7 @@ async def test_zha_group_entity_migrated_from_coordinator_device(
     "custom_name", [pytest.param(None, id="no_name"), pytest.param("Lights", id="name")]
 )
 async def test_zha_group_entity_area_migrated_to_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     config_entry: MockConfigEntry,
@@ -959,7 +959,7 @@ async def test_zha_group_entity_area_migrated_to_device(
 
 
 async def test_zha_group_entity_name_migrated_only_once(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     config_entry: MockConfigEntry,
@@ -1037,7 +1037,7 @@ def _add_light_members(
     ],
 )
 async def test_zha_group_entity_areas_migrated_with_several_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     zigpy_device_mock: Callable[..., zigpy.device.ZigbeeDevice],
@@ -1106,7 +1106,7 @@ async def test_zha_group_entity_areas_migrated_with_several_entities(
 
 
 async def test_zha_group_entity_name_not_migrated_with_several_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     zigpy_device_mock: Callable[..., zigpy.device.ZigbeeDevice],
@@ -1152,7 +1152,7 @@ async def test_zha_group_entity_name_not_migrated_with_several_entities(
     ],
 )
 async def test_zha_group_stale_legacy_entity_removed_on_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     config_entry: MockConfigEntry,
@@ -1195,7 +1195,7 @@ async def test_zha_group_stale_legacy_entity_removed_on_startup(
 
 
 async def test_zha_group_proxy_associated_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     entity_registry: er.EntityRegistry,
@@ -1224,7 +1224,7 @@ async def test_zha_group_proxy_associated_entities(
 
 
 async def test_zha_group_entity_reference_follows_entity_id_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     entity_registry: er.EntityRegistry,
@@ -1248,7 +1248,7 @@ async def test_zha_group_entity_reference_follows_entity_id_change(
 
 
 async def test_zha_group_cleanup_leaves_other_integrations_alone(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[Any, Any, None]],
     zigpy_app_controller_with_group: ControllerApplication,
     zigpy_device_mock: Callable[..., zigpy.device.ZigbeeDevice],
@@ -1311,7 +1311,7 @@ async def test_zha_group_cleanup_leaves_other_integrations_alone(
 
 
 async def test_entity_registry_update_for_device_without_proxy(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_zha: Callable[..., Coroutine[None]],
     config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

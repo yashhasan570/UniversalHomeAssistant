@@ -100,7 +100,7 @@ class CoverEntity(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_):
 
         if closed:
             # A closed cover can only open next. Reset the toggle direction,
-            # so a cover then opened outside Universal Universal Home Assistant, without reporting
+            # so a cover then opened outside __HA_KEEP__, without reporting
             # opening, closes on the next toggle.
             self._cover_is_last_toggle_direction_open = True
             return CoverState.CLOSED

@@ -22,7 +22,7 @@ from universalassistant.components.solaredge_modbus.const import (
     TYPE_TCP,
 )
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_TYPE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 HOST = "1.2.3.4"
 PORT = 1502
@@ -80,7 +80,7 @@ def tcp_data(unit_id: int = UNIT_ID) -> dict[str, Any]:
 
 
 async def async_seed_unit(
-    hass: UniversalAssistant, unit: MockModbusUnit, serial_registers: list[int] | None = None
+    hass: __HAC_KEEP__, unit: MockModbusUnit, serial_registers: list[int] | None = None
 ) -> None:
     """Seed a mock unit with the captured SE10000H register dump.
 
@@ -156,7 +156,7 @@ def add_storage_capacity(unit: MockModbusUnit, state_of_charge: int) -> None:
 
 @pytest.fixture
 async def mock_modbus_unit(
-    hass: UniversalAssistant, mock_modbus_connection: MockModbusConnection
+    hass: __HAC_KEEP__, mock_modbus_connection: MockModbusConnection
 ) -> MockModbusUnit:
     """A seeded SolarEdge inverter on unit ``UNIT_ID``.
 
@@ -176,7 +176,7 @@ def mock_shared_connection(
 
     @asynccontextmanager
     async def async_temporary_unit(
-        hass: UniversalAssistant, params: Any, unit_id: int
+        hass: __HAC_KEEP__, params: Any, unit_id: int
     ) -> AsyncIterator[ModbusUnit]:
         yield mock_modbus_connection.for_unit(unit_id)
 

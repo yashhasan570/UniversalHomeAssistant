@@ -12,8 +12,8 @@ from universalassistant.const import (
     CONF_SWITCHES,
     DEVICE_DEFAULT_NAME,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddEntitiesCallback
 from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -23,7 +23,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def setup_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: ConfigType,
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
@@ -89,7 +89,7 @@ class NumatoGpioSwitch(SwitchEntity):
             self._attr_is_on = True
             self.schedule_update_ha_state()
         except NumatoGpioError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_on_failed",
                 translation_placeholders={
@@ -108,7 +108,7 @@ class NumatoGpioSwitch(SwitchEntity):
             self._attr_is_on = False
             self.schedule_update_ha_state()
         except NumatoGpioError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="turn_off_failed",
                 translation_placeholders={

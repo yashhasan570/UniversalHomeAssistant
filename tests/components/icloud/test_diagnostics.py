@@ -14,14 +14,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.diagnostics import REDACTED
 from universalassistant.components.icloud.const import DOMAIN
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .const import DEVICE, LOCATION
 
 
 async def test_config_entry_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     icloud_service: MagicMock,
     devices_config_entry: MockConfigEntry,
     setup_entry: Callable[[Platform], Awaitable[None]],
@@ -40,7 +40,7 @@ async def test_config_entry_diagnostics(
 
 
 async def test_device_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     icloud_service: MagicMock,
     devices_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -67,7 +67,7 @@ async def test_device_diagnostics(
 
 
 async def test_diagnostics_redacts_sensitive_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     icloud_service: MagicMock,
     devices_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -137,7 +137,7 @@ async def test_diagnostics_redacts_sensitive_data(
     ],
 )
 async def test_device_diagnostics_without_device_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     icloud_service: MagicMock,
     devices_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,

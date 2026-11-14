@@ -53,7 +53,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import BuienRadarConfigEntry
@@ -95,7 +95,7 @@ CONDITION_MAP = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BuienRadarConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -106,7 +106,7 @@ async def async_setup_entry(
     longitude = config.get(CONF_LONGITUDE, hass.config.longitude)
 
     if None in (latitude, longitude):
-        _LOGGER.error("Latitude or longitude not set in Universal Universal Home Assistant config")
+        _LOGGER.error("Latitude or longitude not set in __HA_KEEP__ config")
         return
 
     coordinates = {CONF_LATITUDE: float(latitude), CONF_LONGITUDE: float(longitude)}

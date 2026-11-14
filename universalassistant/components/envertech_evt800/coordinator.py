@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, override
 
 import pyenvertechevt800
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN
@@ -24,7 +24,7 @@ class EnvertechEVT800Coordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         client: pyenvertechevt800.EnvertechEVT800,
         config_entry: EnvertechEVT800ConfigEntry,
     ) -> None:

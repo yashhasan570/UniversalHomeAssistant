@@ -9,7 +9,7 @@ import smarttub
 
 from universalassistant.components.smarttub.const import DOMAIN
 from universalassistant.const import CONF_EMAIL, CONF_PASSWORD
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 
@@ -31,7 +31,7 @@ def config_entry(config_data: dict[str, Any], account) -> MockConfigEntry:
 
 
 @pytest.fixture
-async def setup_component(hass: UniversalAssistant) -> None:
+async def setup_component(hass: __HAC_KEEP__) -> None:
     """Set up the component."""
     assert await async_setup_component(hass, DOMAIN, {}) is True
 
@@ -175,7 +175,7 @@ def mock_api(account, spa):
 
 
 @pytest.fixture
-async def setup_entry(hass: UniversalAssistant, config_entry: MockConfigEntry) -> None:
+async def setup_entry(hass: __HAC_KEEP__, config_entry: MockConfigEntry) -> None:
     """Initialize the config entry."""
     config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(config_entry.entry_id)

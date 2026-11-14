@@ -19,8 +19,8 @@ from universalassistant.const import (
     STATE_ON,
     STATE_UNKNOWN,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from . import (
     LOCK_LITE_SERVICE_INFO,
@@ -52,7 +52,7 @@ from . import (
     [(SERVICE_UNLOCK, "unlock"), (SERVICE_LOCK, "lock")],
 )
 async def test_lock_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     sensor_type: str,
     service: str,
@@ -104,7 +104,7 @@ async def test_lock_services(
     [(SERVICE_UNLOCK, "unlock_without_unlatch"), (SERVICE_OPEN, "unlock")],
 )
 async def test_lock_services_with_night_latch_enabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     sensor_type: str,
     service: str,
@@ -140,7 +140,7 @@ async def test_lock_services_with_night_latch_enabled(
 
 
 async def test_lock_ultra_max_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test Lock Ultra Max creates lock, door, and battery entities."""
@@ -179,7 +179,7 @@ async def test_lock_ultra_max_entities(
     ],
 )
 async def test_exception_handling_lock_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     service: str,
     mock_method: str,
@@ -202,7 +202,7 @@ async def test_exception_handling_lock_service(
         assert await hass.config_entries.async_setup(entry.entry_id)
         await hass.async_block_till_done(wait_background_tasks=True)
 
-        with pytest.raises(UniversalAssistantError, match=error_message):
+        with pytest.raises(__HAC_KEEP__Error, match=error_message):
             await hass.services.async_call(
                 LOCK_DOMAIN,
                 service,
@@ -212,7 +212,7 @@ async def test_exception_handling_lock_service(
 
 
 async def test_lock_ultra_half_lock_state_shows_locked(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test that Lock Ultra in HALF_LOCKED state shows as locked in HA UI."""
@@ -242,7 +242,7 @@ async def test_lock_ultra_half_lock_state_shows_locked(
     ],
 )
 async def test_lock_ultra_half_locked_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     lock_status: LockStatus,
     expected_state: str,
@@ -267,7 +267,7 @@ async def test_lock_ultra_half_locked_binary_sensor(
 
 
 async def test_non_lock_ultra_no_half_locked_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test half_locked binary sensor is absent for non-Lock-Ultra devices."""
@@ -287,7 +287,7 @@ async def test_non_lock_ultra_no_half_locked_binary_sensor(
 
 
 async def test_lock_ultra_half_locked_binary_sensor_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
 ) -> None:
     """Test half_locked binary sensor is unknown when lock status is unavailable."""
@@ -317,7 +317,7 @@ async def test_lock_ultra_half_locked_binary_sensor_unknown(
     ],
 )
 async def test_lock_ultra_uses_lock_ultra_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_entry_encrypted_factory: Callable[[str], MockConfigEntry],
     sensor_type: str,
     service_info: BluetoothServiceInfoBleak,

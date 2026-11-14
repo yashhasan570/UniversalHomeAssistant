@@ -30,8 +30,8 @@ from universalassistant.const import (
     SERVICE_TURN_ON,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -40,7 +40,7 @@ from .const import TEST_DEVICE_ID
 
 
 async def _assert_service_call(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_id: str,
     service: str,
     service_data: dict,
@@ -121,7 +121,7 @@ def _x40_device() -> DummyDevice:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_fan_state_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -143,7 +143,7 @@ async def test_fan_state_snapshot(
     ],
 )
 async def test_fa_fan_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     mode: str,
     expected_preset_mode: str | None,
@@ -233,7 +233,7 @@ async def test_fa_fan_services(
 
 
 async def test_ce_fan_turn_on_applies_percentage_and_preset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test CE turn_on powers on and also applies percentage and preset_mode."""
@@ -267,7 +267,7 @@ async def test_ce_fan_turn_on_applies_percentage_and_preset(
 
 
 async def test_x40_fan_on_off_and_speed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test X40 derives is_on from fan_speed and has no power/mode attribute."""
@@ -334,7 +334,7 @@ async def test_x40_fan_on_off_and_speed(
 
 
 async def test_fa_fan_unknown_when_attributes_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test power/oscillate gracefully report unknown before the device reports them."""
@@ -352,7 +352,7 @@ async def test_fa_fan_unknown_when_attributes_missing(
 
 
 async def test_x40_fan_unknown_when_fan_speed_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test is_on gracefully reports unknown before the device reports fan_speed."""
@@ -369,7 +369,7 @@ async def test_x40_fan_unknown_when_fan_speed_missing(
 
 
 async def test_fan_not_created_for_other_device_type(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test no fan entity is created for a device type without one."""
@@ -390,10 +390,10 @@ async def test_fan_not_created_for_other_device_type(
 
 
 async def test_fan_turn_on_raises_on_device_communication_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
-    """Test a device communication failure surfaces as a UniversalAssistantError."""
+    """Test a device communication failure surfaces as a __HAC_KEEP__Error."""
     device = _fa_device()
     config_entry = mock_config_entry(device)
     with patch("universalassistant.components.midea._PLATFORMS", [Platform.FAN]):
@@ -403,7 +403,7 @@ async def test_fan_turn_on_raises_on_device_communication_error(
 
     with (
         patch.object(device, "turn_on", side_effect=SocketException("offline")),
-        pytest.raises(UniversalAssistantError),
+        pytest.raises(__HAC_KEEP__Error),
     ):
         await hass.services.async_call(
             FAN_DOMAIN,

@@ -12,7 +12,7 @@ from universalassistant.components.water_heater import (
     WaterHeaterEntityFeature,
 )
 from universalassistant.const import ATTR_TEMPERATURE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.device_registry import format_mac
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -36,7 +36,7 @@ HA_TO_BSBLAN_OPERATION_MODE: dict[str, int] = {
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: BSBLanConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

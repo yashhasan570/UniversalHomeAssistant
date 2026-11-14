@@ -19,7 +19,7 @@ from universalassistant.components.nx584.const import (
 )
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import CONF_ENTITY_NAMESPACE, CONF_HOST, CONF_NAME, CONF_PORT
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
@@ -59,7 +59,7 @@ NAMESPACED_YAML = {
 
 
 async def _async_setup_yaml(
-    hass: UniversalAssistant, hass_config: ConfigType, *domains: str
+    hass: __HAC_KEEP__, hass_config: ConfigType, *domains: str
 ) -> None:
     """Set up the YAML domains one at a time, in the given order."""
     for domain in domains:
@@ -68,7 +68,7 @@ async def _async_setup_yaml(
 
 
 async def test_setup_and_unload_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     mock_watcher: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -96,7 +96,7 @@ async def test_setup_and_unload_entry(
 
 @pytest.mark.usefixtures("mock_watcher")
 async def test_setup_entry_ipv6_host(
-    hass: UniversalAssistant, mock_client: MagicMock
+    hass: __HAC_KEEP__, mock_client: MagicMock
 ) -> None:
     """Test an IPv6 host is bracketed in the server URL."""
     entry = MockConfigEntry(
@@ -121,7 +121,7 @@ async def test_setup_entry_ipv6_host(
     ],
 )
 async def test_setup_entry_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -144,7 +144,7 @@ async def test_setup_entry_not_ready(
 )
 @pytest.mark.usefixtures("mock_watcher")
 async def test_setup_entry_zone_fetch_not_ready(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     side_effect: type[Exception],
@@ -169,7 +169,7 @@ async def test_setup_entry_zone_fetch_not_ready(
 @pytest.mark.usefixtures("mock_client", "mock_watcher", "mock_hass_config")
 @pytest.mark.parametrize("hass_config", [ALARM_YAML])
 async def test_import_alarm_only(
-    hass: UniversalAssistant, hass_config: ConfigType, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, hass_config: ConfigType, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test a YAML alarm panel alone imports and sets up both platforms."""
     await _async_setup_yaml(hass, hass_config, ALARM_CONTROL_PANEL_DOMAIN)
@@ -195,7 +195,7 @@ async def test_import_alarm_only(
     "hass_config", [{ALARM_CONTROL_PANEL_DOMAIN: {"platform": DOMAIN}}]
 )
 async def test_import_alarm_default_name(
-    hass: UniversalAssistant, hass_config: ConfigType
+    hass: __HAC_KEEP__, hass_config: ConfigType
 ) -> None:
     """Test a YAML alarm panel without a name keeps the default entity ID."""
     await _async_setup_yaml(hass, hass_config, ALARM_CONTROL_PANEL_DOMAIN)
@@ -209,7 +209,7 @@ async def test_import_alarm_default_name(
 @pytest.mark.usefixtures("mock_client", "mock_watcher", "mock_hass_config")
 @pytest.mark.parametrize("hass_config", [BINARY_SENSOR_YAML])
 async def test_import_binary_sensor_only(
-    hass: UniversalAssistant, hass_config: ConfigType, issue_registry: ir.IssueRegistry
+    hass: __HAC_KEEP__, hass_config: ConfigType, issue_registry: ir.IssueRegistry
 ) -> None:
     """Test YAML zone sensors alone import with their zone settings and an alarm."""
     await _async_setup_yaml(hass, hass_config, BINARY_SENSOR_DOMAIN)
@@ -253,7 +253,7 @@ async def test_import_binary_sensor_only(
     ],
 )
 async def test_import_both_platforms(
-    hass: UniversalAssistant, hass_config: ConfigType, domains: tuple[str, str]
+    hass: __HAC_KEEP__, hass_config: ConfigType, domains: tuple[str, str]
 ) -> None:
     """Test both YAML platforms of one server merge into a single entry."""
     await _async_setup_yaml(hass, hass_config, *domains)
@@ -282,7 +282,7 @@ async def test_import_both_platforms(
 @pytest.mark.usefixtures("mock_client", "mock_watcher", "mock_hass_config")
 @pytest.mark.parametrize("hass_config", [BOTH_YAML])
 async def test_import_both_platforms_at_once(
-    hass: UniversalAssistant, hass_config: ConfigType
+    hass: __HAC_KEEP__, hass_config: ConfigType
 ) -> None:
     """Test both YAML platforms set up concurrently still merge into one entry."""
     assert all(
@@ -302,7 +302,7 @@ async def test_import_both_platforms_at_once(
 @pytest.mark.usefixtures("mock_client", "mock_watcher", "mock_hass_config")
 @pytest.mark.parametrize("hass_config", [NAMESPACED_YAML])
 async def test_import_ignores_entity_namespace(
-    hass: UniversalAssistant, hass_config: ConfigType
+    hass: __HAC_KEEP__, hass_config: ConfigType
 ) -> None:
     """Test a YAML entity namespace is accepted and ignored."""
     await _async_setup_yaml(
@@ -325,7 +325,7 @@ async def test_import_ignores_entity_namespace(
 @pytest.mark.usefixtures("mock_watcher", "mock_hass_config")
 @pytest.mark.parametrize("hass_config", [BOTH_YAML])
 async def test_import_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_config: ConfigType,
     mock_client: MagicMock,
     issue_registry: ir.IssueRegistry,

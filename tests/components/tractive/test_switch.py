@@ -16,15 +16,15 @@ from universalassistant.const import (
     CommonServiceArgument,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from . import init_integration
 
 
 async def test_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_tractive_client: AsyncMock,
@@ -42,7 +42,7 @@ async def test_switch(
 
 
 async def test_switch_on(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_switch_on(
 
 
 async def test_switch_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -111,7 +111,7 @@ async def test_switch_off(
 
 
 async def test_live_tracking_switch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -151,7 +151,7 @@ async def test_live_tracking_switch(
 
 
 async def test_switch_on_with_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -170,7 +170,7 @@ async def test_switch_on_with_exception(
     mock_tractive_client.tracker.return_value.set_led_active.side_effect = TractiveError
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f"An error occurred while trying to turn on {entity_id}",
     ):
         await hass.services.async_call(
@@ -187,7 +187,7 @@ async def test_switch_on_with_exception(
 
 
 async def test_switch_off_with_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -208,7 +208,7 @@ async def test_switch_off_with_exception(
     )
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match=f"An error occurred while trying to turn off {entity_id}",
     ):
         await hass.services.async_call(
@@ -225,7 +225,7 @@ async def test_switch_off_with_exception(
 
 
 async def test_switch_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -257,7 +257,7 @@ async def test_switch_unavailable(
 
 
 async def test_switch_unavailable_at_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tractive_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -272,7 +272,7 @@ async def test_switch_unavailable_at_startup(
 
 
 async def test_switch_device_assignment(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_tractive_client: AsyncMock,

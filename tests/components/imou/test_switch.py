@@ -19,8 +19,8 @@ from universalassistant.components.imou.coordinator import SCAN_INTERVAL
 from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from .const import DEFAULT_SWITCHES, UNKNOWN_SWITCH_KEY, create_online_device
@@ -47,7 +47,7 @@ SWITCH_MOCK_DEVICES = [
 @pytest.mark.parametrize("imou_mock_devices", [SWITCH_MOCK_DEVICES], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_switch_entities_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_config_entry: MockConfigEntry,
@@ -75,7 +75,7 @@ async def test_switch_entities_snapshot(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_setup_ignores_unknown_switch_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -91,7 +91,7 @@ async def test_setup_ignores_unknown_switch_types(
 @pytest.mark.parametrize("imou_mock_devices", [SWITCH_MOCK_DEVICES], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_via_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -126,7 +126,7 @@ async def test_turn_on_via_service(
 @pytest.mark.parametrize("imou_mock_devices", [SWITCH_MOCK_DEVICES], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_off_via_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
@@ -161,7 +161,7 @@ async def test_turn_off_via_service(
 @pytest.mark.parametrize("imou_mock_devices", [SWITCH_MOCK_DEVICES], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_service_propagates_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
     """Imou API errors from async_switch_operation surface to the service call."""
@@ -171,7 +171,7 @@ async def test_turn_on_service_propagates_api_error(
 
     entity_id = hass.states.async_all("switch")[0].entity_id
 
-    with pytest.raises(UniversalAssistantError, match="Imou rejected the switch change"):
+    with pytest.raises(__HAC_KEEP__Error, match="Imou rejected the switch change"):
         await hass.services.async_call(
             SWITCH_DOMAIN,
             SwitchService.TURN_ON,
@@ -183,7 +183,7 @@ async def test_turn_on_service_propagates_api_error(
 @pytest.mark.parametrize("imou_mock_devices", [SWITCH_MOCK_DEVICES], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_on_invalid_auth_starts_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,
 ) -> None:
@@ -195,7 +195,7 @@ async def test_turn_on_invalid_auth_starts_reauth(
     entity_id = hass.states.async_all("switch")[0].entity_id
 
     with pytest.raises(
-        UniversalAssistantError, match="Imou rejected the App ID and App secret"
+        __HAC_KEEP__Error, match="Imou rejected the App ID and App secret"
     ):
         await hass.services.async_call(
             SWITCH_DOMAIN,
@@ -225,7 +225,7 @@ async def test_turn_on_invalid_auth_starts_reauth(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_turn_off_unavailable_offline_device_via_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
@@ -266,7 +266,7 @@ async def test_turn_off_unavailable_offline_device_via_service(
 @pytest.mark.parametrize("imou_mock_devices", [SWITCH_MOCK_DEVICES], indirect=True)
 @pytest.mark.usefixtures("init_integration")
 async def test_entities_removed_when_device_leaves_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_imou_ha_device_manager: MagicMock,

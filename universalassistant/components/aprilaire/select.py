@@ -7,7 +7,7 @@ from typing import cast, override
 from pyaprilaire.const import Attribute
 
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import AprilaireConfigEntry, AprilaireCoordinator
@@ -20,7 +20,7 @@ FRESH_AIR_MODE_MAP = {0: "off", 1: "automatic"}
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: AprilaireConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

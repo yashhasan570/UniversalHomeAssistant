@@ -27,7 +27,7 @@ from universalassistant.const import (
     STATE_PLAYING,
     STATE_UNKNOWN,
 )
-from universalassistant.core import Context, UniversalAssistant, callback
+from universalassistant.core import Context, __HAC_KEEP__, callback
 from universalassistant.helpers import entity_registry as er
 from universalassistant.helpers.entity import EntityPlatformState
 from universalassistant.helpers.event import async_track_state_change_event
@@ -62,7 +62,7 @@ def validate_config(config):
 class MockMediaPlayer(media_player.MediaPlayerEntity):
     """Mock media player for testing."""
 
-    def __init__(self, hass: UniversalAssistant, name: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, name: str) -> None:
         """Initialize the media player."""
         self.hass = hass
         self._name = name
@@ -228,7 +228,7 @@ class MockMediaPlayer(media_player.MediaPlayerEntity):
 
 
 @pytest.fixture
-async def mock_states(hass: UniversalAssistant) -> Mock:
+async def mock_states(hass: __HAC_KEEP__) -> Mock:
     """Set mock states used in tests."""
     result = Mock()
 
@@ -299,7 +299,7 @@ def config_children_and_attr(mock_states):
     }
 
 
-async def test_config_children_only(hass: UniversalAssistant) -> None:
+async def test_config_children_only(hass: __HAC_KEEP__) -> None:
     """Check config with only children."""
     config_start = copy(CONFIG_CHILDREN_ONLY)
     del config_start["platform"]
@@ -311,7 +311,7 @@ async def test_config_children_only(hass: UniversalAssistant) -> None:
 
 
 async def test_config_children_and_attr(
-    hass: UniversalAssistant, config_children_and_attr
+    hass: __HAC_KEEP__, config_children_and_attr
 ) -> None:
     """Check config with children and attributes."""
     config_start = copy(config_children_and_attr)
@@ -322,7 +322,7 @@ async def test_config_children_and_attr(
     assert config_start == config
 
 
-async def test_config_no_name(hass: UniversalAssistant) -> None:
+async def test_config_no_name(hass: __HAC_KEEP__) -> None:
     """Check config with no Name entry."""
     response = True
     try:
@@ -332,7 +332,7 @@ async def test_config_no_name(hass: UniversalAssistant) -> None:
     assert not response
 
 
-async def test_config_bad_children(hass: UniversalAssistant) -> None:
+async def test_config_bad_children(hass: __HAC_KEEP__) -> None:
     """Check config with bad children entry."""
     config_no_children = {"name": "test", "platform": "universal"}
     config_bad_children = {"name": "test", "children": {}, "platform": "universal"}
@@ -344,7 +344,7 @@ async def test_config_bad_children(hass: UniversalAssistant) -> None:
     assert config_bad_children["children"] == []
 
 
-async def test_config_bad_commands(hass: UniversalAssistant) -> None:
+async def test_config_bad_commands(hass: __HAC_KEEP__) -> None:
     """Check config with bad commands entry."""
     config = {"name": "test", "platform": "universal"}
 
@@ -352,7 +352,7 @@ async def test_config_bad_commands(hass: UniversalAssistant) -> None:
     assert config["commands"] == {}
 
 
-async def test_config_bad_attributes(hass: UniversalAssistant) -> None:
+async def test_config_bad_attributes(hass: __HAC_KEEP__) -> None:
     """Check config with bad attributes."""
     config = {"name": "test", "platform": "universal"}
 
@@ -360,7 +360,7 @@ async def test_config_bad_attributes(hass: UniversalAssistant) -> None:
     assert config["attributes"] == {}
 
 
-async def test_config_bad_key(hass: UniversalAssistant) -> None:
+async def test_config_bad_key(hass: __HAC_KEEP__) -> None:
     """Check config with bad key."""
     config = {"name": "test", "asdf": 5, "platform": "universal"}
 
@@ -368,7 +368,7 @@ async def test_config_bad_key(hass: UniversalAssistant) -> None:
     assert "asdf" not in config
 
 
-async def test_platform_setup(hass: UniversalAssistant) -> None:
+async def test_platform_setup(hass: __HAC_KEEP__) -> None:
     """Test platform setup."""
     config = {"name": "test", "platform": "universal"}
     assert await async_setup_component(hass, "media_player", {"media_player": config})
@@ -377,7 +377,7 @@ async def test_platform_setup(hass: UniversalAssistant) -> None:
     assert hass.states.get("media_player.test") is not None
 
 
-async def test_master_state(hass: UniversalAssistant) -> None:
+async def test_master_state(hass: __HAC_KEEP__) -> None:
     """Test master state property."""
     config = validate_config(CONFIG_CHILDREN_ONLY)
 
@@ -387,7 +387,7 @@ async def test_master_state(hass: UniversalAssistant) -> None:
 
 
 async def test_master_state_with_attrs(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test master state property."""
     config = validate_config(config_children_and_attr)
@@ -400,7 +400,7 @@ async def test_master_state_with_attrs(
 
 
 async def test_master_state_with_bad_attrs(
-    hass: UniversalAssistant, config_children_and_attr
+    hass: __HAC_KEEP__, config_children_and_attr
 ) -> None:
     """Test master state property."""
     config = copy(config_children_and_attr)
@@ -412,7 +412,7 @@ async def test_master_state_with_bad_attrs(
     assert ump.master_state == STATE_OFF
 
 
-async def test_active_child_state(hass: UniversalAssistant, mock_states) -> None:
+async def test_active_child_state(hass: __HAC_KEEP__, mock_states) -> None:
     """Test active child state property."""
     config = validate_config(CONFIG_CHILDREN_ONLY)
 
@@ -453,7 +453,7 @@ async def test_active_child_state(hass: UniversalAssistant, mock_states) -> None
     assert mock_states.mock_mp_2.entity_id == ump._child_state.entity_id
 
 
-async def test_name(hass: UniversalAssistant) -> None:
+async def test_name(hass: __HAC_KEEP__) -> None:
     """Test name property."""
     assert await async_setup_component(
         hass, "media_player", {"media_player": CONFIG_CHILDREN_ONLY}
@@ -462,7 +462,7 @@ async def test_name(hass: UniversalAssistant) -> None:
     assert hass.states.get("media_player.test") is not None
 
 
-async def test_polling(hass: UniversalAssistant) -> None:
+async def test_polling(hass: __HAC_KEEP__) -> None:
     """Test should_poll property."""
     config = validate_config(CONFIG_CHILDREN_ONLY)
 
@@ -471,7 +471,7 @@ async def test_polling(hass: UniversalAssistant) -> None:
     assert ump.should_poll is False
 
 
-async def test_state_children_only(hass: UniversalAssistant, mock_states) -> None:
+async def test_state_children_only(hass: __HAC_KEEP__, mock_states) -> None:
     """Test media player state with only children."""
     config = validate_config(CONFIG_CHILDREN_ONLY)
 
@@ -496,7 +496,7 @@ async def test_state_children_only(hass: UniversalAssistant, mock_states) -> Non
 
 
 async def test_state_with_children_and_attrs(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test media player with children and master state."""
     config = validate_config(config_children_and_attr)
@@ -522,7 +522,7 @@ async def test_state_with_children_and_attrs(
     assert ump.state == STATE_OFF
 
 
-async def test_volume_level(hass: UniversalAssistant, mock_states) -> None:
+async def test_volume_level(hass: __HAC_KEEP__, mock_states) -> None:
     """Test volume level property."""
     config = validate_config(CONFIG_CHILDREN_ONLY)
 
@@ -545,7 +545,7 @@ async def test_volume_level(hass: UniversalAssistant, mock_states) -> None:
     assert ump.volume_level == 1
 
 
-async def test_media_image_url(hass: UniversalAssistant, mock_states) -> None:
+async def test_media_image_url(hass: __HAC_KEEP__, mock_states) -> None:
     """Test media_image_url property."""
     test_url = "test_url"
     config = validate_config(CONFIG_CHILDREN_ONLY)
@@ -566,7 +566,7 @@ async def test_media_image_url(hass: UniversalAssistant, mock_states) -> None:
     assert mock_states.mock_mp_1.entity_picture == ump.entity_picture
 
 
-async def test_is_volume_muted_children_only(hass: UniversalAssistant, mock_states) -> None:
+async def test_is_volume_muted_children_only(hass: __HAC_KEEP__, mock_states) -> None:
     """Test is volume muted property w/ children only."""
     config = validate_config(CONFIG_CHILDREN_ONLY)
 
@@ -590,7 +590,7 @@ async def test_is_volume_muted_children_only(hass: UniversalAssistant, mock_stat
 
 
 async def test_sound_mode_list_children_and_attr(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test sound mode list property w/ children and attrs."""
     config = validate_config(config_children_and_attr)
@@ -606,7 +606,7 @@ async def test_sound_mode_list_children_and_attr(
 
 
 async def test_entity_picture_children_and_attr(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test entity picture property w/ children and attrs."""
     config = validate_config(config_children_and_attr)
@@ -622,7 +622,7 @@ async def test_entity_picture_children_and_attr(
 
 
 async def test_source_list_children_and_attr(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test source list property w/ children and attrs."""
     config = validate_config(config_children_and_attr)
@@ -636,7 +636,7 @@ async def test_source_list_children_and_attr(
 
 
 async def test_sound_mode_children_and_attr(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test sound modeproperty w/ children and attrs."""
     config = validate_config(config_children_and_attr)
@@ -650,7 +650,7 @@ async def test_sound_mode_children_and_attr(
 
 
 async def test_source_children_and_attr(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test source property w/ children and attrs."""
     config = validate_config(config_children_and_attr)
@@ -664,7 +664,7 @@ async def test_source_children_and_attr(
 
 
 async def test_volume_level_children_and_attr(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test volume level property w/ children and attrs."""
     config = validate_config(config_children_and_attr)
@@ -678,7 +678,7 @@ async def test_volume_level_children_and_attr(
 
 
 async def test_is_volume_muted_children_and_attr(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test is volume muted property w/ children and attrs."""
     config = validate_config(config_children_and_attr)
@@ -692,7 +692,7 @@ async def test_is_volume_muted_children_and_attr(
 
 
 async def test_supported_features_children_only(
-    hass: UniversalAssistant, mock_states
+    hass: __HAC_KEEP__, mock_states
 ) -> None:
     """Test supported media commands with only children."""
     config = validate_config(CONFIG_CHILDREN_ONLY)
@@ -712,7 +712,7 @@ async def test_supported_features_children_only(
 
 
 async def test_supported_features_children_and_cmds(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test supported media commands with children and attrs."""
     config = copy(config_children_and_attr)
@@ -772,7 +772,7 @@ async def test_supported_features_children_and_cmds(
     assert check_flags == ump.supported_features
 
 
-async def test_overrides(hass: UniversalAssistant, config_children_and_attr) -> None:
+async def test_overrides(hass: __HAC_KEEP__, config_children_and_attr) -> None:
     """Test overrides."""
     config = copy(config_children_and_attr)
     excmd = {"service": "test.override", "data": {}}
@@ -949,7 +949,7 @@ async def test_overrides(hass: UniversalAssistant, config_children_and_attr) -> 
 
 
 async def test_supported_features_play_pause(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test supported media commands with play_pause function."""
     config = copy(config_children_and_attr)
@@ -972,7 +972,7 @@ async def test_supported_features_play_pause(
 
 
 async def test_service_call_no_active_child(
-    hass: UniversalAssistant, config_children_and_attr, mock_states
+    hass: __HAC_KEEP__, config_children_and_attr, mock_states
 ) -> None:
     """Test a service call to children with no active child."""
     config = validate_config(config_children_and_attr)
@@ -993,7 +993,7 @@ async def test_service_call_no_active_child(
     assert len(mock_states.mock_mp_2.service_calls["turn_off"]) == 0
 
 
-async def test_service_call_to_child(hass: UniversalAssistant, mock_states) -> None:
+async def test_service_call_to_child(hass: __HAC_KEEP__, mock_states) -> None:
     """Test service calls that should be routed to a child."""
     config = validate_config(CONFIG_CHILDREN_ONLY)
 
@@ -1068,7 +1068,7 @@ async def test_service_call_to_child(hass: UniversalAssistant, mock_states) -> N
     assert len(mock_states.mock_mp_2.service_calls["turn_off"]) == 2
 
 
-async def test_service_call_to_command(hass: UniversalAssistant, mock_states) -> None:
+async def test_service_call_to_command(hass: __HAC_KEEP__, mock_states) -> None:
     """Test service call to command."""
     config = copy(CONFIG_CHILDREN_ONLY)
     config["commands"] = {"turn_off": {"service": "test.turn_off", "data": {}}}
@@ -1089,7 +1089,7 @@ async def test_service_call_to_command(hass: UniversalAssistant, mock_states) ->
     assert len(service) == 1
 
 
-async def test_state_template(hass: UniversalAssistant) -> None:
+async def test_state_template(hass: __HAC_KEEP__) -> None:
     """Test with a simple valid state template."""
     hass.states.async_set("sensor.test_sensor", STATE_ON)
 
@@ -1115,7 +1115,7 @@ async def test_state_template(hass: UniversalAssistant) -> None:
     assert hass.states.get("media_player.tv").state == STATE_OFF
 
 
-async def test_browse_media(hass: UniversalAssistant) -> None:
+async def test_browse_media(hass: __HAC_KEEP__) -> None:
     """Test browse media."""
     await async_setup_component(hass, "universalassistant", {})
     await async_setup_component(
@@ -1149,7 +1149,7 @@ async def test_browse_media(hass: UniversalAssistant) -> None:
         assert result == MOCK_BROWSE_MEDIA
 
 
-async def test_browse_media_override(hass: UniversalAssistant) -> None:
+async def test_browse_media_override(hass: __HAC_KEEP__) -> None:
     """Test browse media override."""
     await async_setup_component(hass, "universalassistant", {})
     await async_setup_component(
@@ -1184,7 +1184,7 @@ async def test_browse_media_override(hass: UniversalAssistant) -> None:
         assert result == MOCK_BROWSE_MEDIA
 
 
-async def test_device_class(hass: UniversalAssistant) -> None:
+async def test_device_class(hass: __HAC_KEEP__) -> None:
     """Test device_class property."""
     hass.states.async_set("sensor.test_sensor", "on")
 
@@ -1204,7 +1204,7 @@ async def test_device_class(hass: UniversalAssistant) -> None:
 
 
 async def test_unique_id(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test unique_id property."""
     hass.states.async_set("sensor.test_sensor", "on")
@@ -1227,7 +1227,7 @@ async def test_unique_id(
     )
 
 
-async def test_invalid_state_template(hass: UniversalAssistant) -> None:
+async def test_invalid_state_template(hass: __HAC_KEEP__) -> None:
     """Test invalid state template sets state to None."""
     hass.states.async_set("sensor.test_sensor", "on")
 
@@ -1253,7 +1253,7 @@ async def test_invalid_state_template(hass: UniversalAssistant) -> None:
     assert hass.states.get("media_player.tv").state == STATE_UNKNOWN
 
 
-async def test_master_state_with_template(hass: UniversalAssistant) -> None:
+async def test_master_state_with_template(hass: __HAC_KEEP__) -> None:
     """Test the state_template option."""
     hass.states.async_set("input_boolean.test", STATE_OFF)
     hass.states.async_set("media_player.mock1", STATE_OFF)
@@ -1300,7 +1300,7 @@ async def test_master_state_with_template(hass: UniversalAssistant) -> None:
     assert events[0].context == context
 
 
-async def test_invalid_active_child_template(hass: UniversalAssistant) -> None:
+async def test_invalid_active_child_template(hass: __HAC_KEEP__) -> None:
     """Test invalid active child template."""
     hass.states.async_set("media_player.mock1", STATE_PLAYING)
     hass.states.async_set("media_player.mock2", STATE_PAUSED)
@@ -1324,7 +1324,7 @@ async def test_invalid_active_child_template(hass: UniversalAssistant) -> None:
     assert hass.states.get("media_player.tv").state == STATE_PLAYING
 
 
-async def test_active_child_template(hass: UniversalAssistant) -> None:
+async def test_active_child_template(hass: __HAC_KEEP__) -> None:
     """Test override active child with template."""
     hass.states.async_set("media_player.mock1", STATE_PLAYING)
     hass.states.async_set("media_player.mock2", STATE_PAUSED)
@@ -1350,7 +1350,7 @@ async def test_active_child_template(hass: UniversalAssistant) -> None:
     assert hass.states.get("media_player.tv").state == STATE_ON
 
 
-async def test_reload(hass: UniversalAssistant) -> None:
+async def test_reload(hass: __HAC_KEEP__) -> None:
     """Test reloading the media player from yaml."""
     hass.states.async_set("input_boolean.test", STATE_OFF)
     hass.states.async_set("media_player.mock1", STATE_OFF)

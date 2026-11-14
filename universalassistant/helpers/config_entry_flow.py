@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, cast, override
 
 from universalassistant import config_entries
 from universalassistant.components import onboarding
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__
 
 from .typing import DiscoveryInfoType
 
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from .service_info.ssdp import SsdpServiceInfo
     from .service_info.zeroconf import ZeroconfServiceInfo
 
-type DiscoveryFunctionType[_R] = Callable[[UniversalAssistant], _R]
+type DiscoveryFunctionType[_R] = Callable[[__HAC_KEEP__], _R]
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -347,7 +347,7 @@ def register_webhook_flow(
 
 
 async def webhook_async_remove_entry(
-    hass: UniversalAssistant, entry: config_entries.ConfigEntry
+    hass: __HAC_KEEP__, entry: config_entries.ConfigEntry
 ) -> None:
     """Remove a webhook config entry."""
     if not entry.data.get("cloudhook") or "cloud" not in hass.config.components:

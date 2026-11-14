@@ -16,7 +16,7 @@ from universalassistant.components.systemmonitor.coordinator import VirtualMemor
 from universalassistant.components.systemmonitor.sensor import get_cpu_icon
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import MockProcess
@@ -24,7 +24,7 @@ from .conftest import MockProcess
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_ip_addresses_missing_during_initial_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     mock_config_entry: MockConfigEntry,
@@ -51,7 +51,7 @@ async def test_ip_addresses_missing_during_initial_setup(
 @pytest.mark.freeze_time("2024-02-24 15:00:00", tz_offset=0)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     entity_registry: er.EntityRegistry,
@@ -149,7 +149,7 @@ async def test_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_process_sensor_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     entity_registry: er.EntityRegistry,
@@ -181,7 +181,7 @@ async def test_process_sensor_not_loaded(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_not_loading_veth_networks(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: ConfigEntry,
 ) -> None:
     """Test the sensor."""
@@ -196,7 +196,7 @@ async def test_sensor_not_loading_veth_networks(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_icon(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     mock_config_entry: MockConfigEntry,
@@ -214,7 +214,7 @@ async def test_sensor_icon(
 
 
 async def test_sensor_updating(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     freezer: FrozenDateTimeFactory,
@@ -272,7 +272,7 @@ async def test_sensor_updating(
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_network_sensors(
     freezer: FrozenDateTimeFactory,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_added_config_entry: ConfigEntry,
     mock_psutil: Mock,
 ) -> None:
@@ -347,7 +347,7 @@ async def test_sensor_network_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_missing_cpu_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     mock_config_entry: MockConfigEntry,
@@ -371,7 +371,7 @@ async def test_missing_cpu_temperature(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_processor_temperature(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     mock_config_entry: MockConfigEntry,
@@ -408,7 +408,7 @@ async def test_processor_temperature(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_exception_handling_disk_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_added_config_entry: ConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -469,7 +469,7 @@ async def test_exception_handling_disk_sensor(
 @pytest.mark.freeze_time("2024-02-24 15:00:00", tz_offset=0)
 @pytest.mark.parametrize("exception_class", [FileNotFoundError, PermissionError])
 async def test_exception_handling_battery_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     freezer: FrozenDateTimeFactory,
@@ -505,7 +505,7 @@ async def test_exception_handling_battery_sensor(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_cpu_percentage_is_zero_returns_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_added_config_entry: ConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -539,7 +539,7 @@ async def test_cpu_percentage_is_zero_returns_unknown(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_python3_num_fds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     entity_registry: er.EntityRegistry,
@@ -593,7 +593,7 @@ async def test_python3_num_fds(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_python3_num_fds_os_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     freezer: FrozenDateTimeFactory,
@@ -639,7 +639,7 @@ async def test_python3_num_fds_os_error(
 
 
 async def test_remove_obsolete_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_added_config_entry: ConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -715,7 +715,7 @@ async def test_remove_obsolete_entities(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_no_duplicate_disk_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     caplog: pytest.LogCaptureFixture,
@@ -770,7 +770,7 @@ async def test_no_duplicate_disk_entities(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_with_param_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_psutil: Mock,
     psutil_attr: str,
@@ -803,7 +803,7 @@ async def test_sensor_with_param_exception(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_without_param_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_psutil: Mock,
     psutil_attr: str,
@@ -822,7 +822,7 @@ async def test_sensor_without_param_exception(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_psi_sensor_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_psutil: Mock,
     mock_os: Mock,
     entity_registry: er.EntityRegistry,

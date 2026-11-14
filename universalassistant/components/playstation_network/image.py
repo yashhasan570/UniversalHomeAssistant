@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, override
 
 from universalassistant.components.image import ImageEntity, ImageEntityDescription
 from universalassistant.config_entries import ConfigSubentry
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util import dt as dt_util
 
@@ -74,7 +74,7 @@ IMAGE_DESCRIPTIONS_ALL: tuple[PlaystationNetworkImageEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: PlaystationNetworkConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -115,7 +115,7 @@ class PlaystationNetworkImageBaseEntity(PlaystationNetworkServiceEntity, ImageEn
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         coordinator: PlayStationNetworkBaseCoordinator,
         entity_description: PlaystationNetworkImageEntityDescription,
         subentry: ConfigSubentry | None = None,

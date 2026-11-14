@@ -31,7 +31,7 @@ from universalassistant.const import (
     UnitOfSpeed,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.util.unit_conversion import DistanceConverter, SpeedConverter
 from universalassistant.util.unit_system import US_CUSTOMARY_SYSTEM
@@ -324,7 +324,7 @@ SENSOR_TYPES = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: TomorrowioConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -360,7 +360,7 @@ class BaseTomorrowioSensorEntity(TomorrowioEntity, SensorEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: TomorrowioConfigEntry,
         subentry: ConfigSubentry,
         coordinator: TomorrowioDataUpdateCoordinator,

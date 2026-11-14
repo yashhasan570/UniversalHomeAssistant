@@ -10,7 +10,7 @@ from universalassistant.components.sonos.const import (
     SCAN_INTERVAL,
     SUB_FAIL_ISSUE_ID,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.util import dt as dt_util
 
@@ -18,7 +18,7 @@ from .conftest import SonosMockEvent, SonosMockSubscribe
 
 
 async def test_subscription_repair_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     soco: SoCo,
     zgs_discovery,
@@ -53,7 +53,7 @@ async def test_subscription_repair_issues(
 
 
 async def test_subscription_failure_after_unload_creates_no_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     soco: SoCo,
     issue_registry: ir.IssueRegistry,

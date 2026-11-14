@@ -10,7 +10,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.cert_expiry.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import HOST, PORT
@@ -18,7 +18,7 @@ from .const import HOST, PORT
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_user(hass: UniversalAssistant) -> None:
+async def test_user(hass: __HAC_KEEP__) -> None:
     """Test user config."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -39,7 +39,7 @@ async def test_user(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == f"{HOST}:{PORT}"
 
 
-async def test_user_with_bad_cert(hass: UniversalAssistant) -> None:
+async def test_user_with_bad_cert(hass: __HAC_KEEP__) -> None:
     """Test user config with bad certificate."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -62,7 +62,7 @@ async def test_user_with_bad_cert(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == f"{HOST}:{PORT}"
 
 
-async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
+async def test_abort_if_already_setup(hass: __HAC_KEEP__) -> None:
     """Test we abort if the cert is already setup."""
     MockConfigEntry(
         domain=DOMAIN,
@@ -83,7 +83,7 @@ async def test_abort_if_already_setup(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_abort_on_socket_failed(hass: UniversalAssistant) -> None:
+async def test_abort_on_socket_failed(hass: __HAC_KEEP__) -> None:
     """Test we abort of we have errors during socket creation."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -138,7 +138,7 @@ async def test_abort_on_socket_failed(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_reconfigure_successful(hass: UniversalAssistant) -> None:
+async def test_reconfigure_successful(hass: __HAC_KEEP__) -> None:
     """Test reconfiguration of an existing entry updates its data and unique_id."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -177,7 +177,7 @@ async def test_reconfigure_successful(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_reconfigure_validation_failure_recovers(
-    hass: UniversalAssistant, side_effect: Exception, error_key: str
+    hass: __HAC_KEEP__, side_effect: Exception, error_key: str
 ) -> None:
     """Test the reconfigure form re-shows on failure then recovers on retry."""
     entry = MockConfigEntry(
@@ -224,7 +224,7 @@ async def test_reconfigure_validation_failure_recovers(
     assert entry.unique_id == f"{new_host}:{new_port}"
 
 
-async def test_reconfigure_already_exists(hass: UniversalAssistant) -> None:
+async def test_reconfigure_already_exists(hass: __HAC_KEEP__) -> None:
     """Test reconfiguration aborts when target host:port matches another entry."""
     other_host = "other.example.com"
     other_port = 8443

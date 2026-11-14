@@ -25,13 +25,13 @@ from universalassistant.components.google_generative_ai_conversation.const impor
 )
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_LLM_HASS_API
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import llm
 from universalassistant.setup import async_setup_component
 
 
 @pytest.fixture
-def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+def mock_config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
     """Mock a config entry."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -79,7 +79,7 @@ def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
 
 @pytest.fixture
 async def mock_config_entry_with_assist(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Mock a config entry with assist."""
     with patch("google.genai.models.AsyncModels.get"):
@@ -94,7 +94,7 @@ async def mock_config_entry_with_assist(
 
 @pytest.fixture
 async def mock_config_entry_with_google_search(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> MockConfigEntry:
     """Mock a config entry with assist."""
     with patch("google.genai.models.AsyncModels.get"):
@@ -112,7 +112,7 @@ async def mock_config_entry_with_google_search(
 
 @pytest.fixture
 async def mock_init_component(
-    hass: UniversalAssistant, mock_config_entry: ConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: ConfigEntry
 ) -> AsyncGenerator[None]:
     """Initialize integration."""
     with patch("google.genai.models.AsyncModels.get"):
@@ -122,8 +122,8 @@ async def mock_init_component(
 
 
 @pytest.fixture(autouse=True)
-async def setup_ha(hass: UniversalAssistant) -> None:
-    """Set up Universal Universal Home Assistant."""
+async def setup_ha(hass: __HAC_KEEP__) -> None:
+    """Set up __HA_KEEP__."""
     assert await async_setup_component(hass, "universalassistant", {})
 
 

@@ -6,7 +6,7 @@ from uhooapi import Client, Device
 from uhooapi.errors import ForbiddenError, UhooError, UnauthorizedError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -19,7 +19,7 @@ class UhooDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Device]]):
     """Class to manage fetching data from the uHoo API."""
 
     def __init__(
-        self, hass: UniversalAssistant, client: Client, entry: UhooConfigEntry
+        self, hass: __HAC_KEEP__, client: Client, entry: UhooConfigEntry
     ) -> None:
         """Initialize DataUpdateCoordinator."""
         self.client = client

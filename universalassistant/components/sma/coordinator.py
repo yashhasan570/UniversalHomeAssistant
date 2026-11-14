@@ -14,7 +14,7 @@ from pysma import (
 from pysma.helpers import DeviceInfo
 from pysma.sensor import Sensors
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
@@ -45,7 +45,7 @@ class SMADataUpdateCoordinator(DataUpdateCoordinator[SMACoordinatorData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SMAConfigEntry,
         sma: SMAWebConnect,
     ) -> None:

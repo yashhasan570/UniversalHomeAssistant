@@ -18,7 +18,7 @@ from universalassistant.components.greencell.const import (
     GREENCELL_OTHER_DEVICE,
 )
 from universalassistant.components.mqtt import ReceiveMessage
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .conftest import TEST_SERIAL_NUMBER, TEST_SERIAL_NUMBER_2
@@ -47,7 +47,7 @@ def fast_discovery():
 
 
 async def _init_flow_and_fire_discovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     payloads: list[str],
 ) -> config_entries.ConfigFlowResult:
     """Initialize user flow and fire discovery messages synchronously."""
@@ -80,7 +80,7 @@ async def _init_flow_and_fire_discovery(
 
 
 async def test_user_setup_single_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test user setup with single device creates entry."""
@@ -96,7 +96,7 @@ async def test_user_setup_single_device(
 
 
 async def test_user_setup_multiple_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test user setup with multiple devices triggers selection."""
@@ -124,7 +124,7 @@ async def test_user_setup_multiple_devices(
 
 
 async def test_user_setup_no_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test user setup aborts when no devices respond."""
@@ -137,7 +137,7 @@ async def test_user_setup_no_devices(
     assert result["reason"] == "no_discovery_data"
 
 
-async def test_user_setup_mqtt_not_configured(hass: UniversalAssistant) -> None:
+async def test_user_setup_mqtt_not_configured(hass: __HAC_KEEP__) -> None:
     """Test user setup aborts when MQTT is not configured."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -148,7 +148,7 @@ async def test_user_setup_mqtt_not_configured(hass: UniversalAssistant) -> None:
 
 
 async def test_user_setup_mqtt_not_connected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test user setup aborts when MQTT is not connected."""
@@ -165,7 +165,7 @@ async def test_user_setup_mqtt_not_connected(
 
 
 async def test_duplicate_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_duplicate_device(
     ],
 )
 async def test_invalid_discovery_payload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     payload: str,
 ) -> None:
@@ -232,7 +232,7 @@ async def test_invalid_discovery_payload(
     ],
 )
 async def test_device_naming(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     serial: str,
     expected_name: str,
@@ -249,7 +249,7 @@ async def test_device_naming(
 
 
 async def test_broadcast_message_published(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test that discovery broadcast is published on flow init."""
@@ -265,7 +265,7 @@ async def test_broadcast_message_published(
 
 
 async def test_select_step_shows_all_discovered_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test select step displays all discovered devices."""
@@ -287,7 +287,7 @@ async def test_select_step_shows_all_discovered_devices(
 
 
 async def test_mqtt_discovery_confirm_creates_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mqtt_service_info,
 ) -> None:
@@ -312,7 +312,7 @@ async def test_mqtt_discovery_confirm_creates_entry(
 
 
 async def test_mqtt_discovery_other_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mqtt_service_info,
 ) -> None:
@@ -335,7 +335,7 @@ async def test_mqtt_discovery_other_device(
 
 
 async def test_mqtt_discovery_duplicate_aborts(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mock_config_entry: MockConfigEntry,
     mqtt_service_info,
@@ -371,7 +371,7 @@ async def test_mqtt_discovery_duplicate_aborts(
     ],
 )
 async def test_mqtt_discovery_invalid_payload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mqtt_service_info,
     payload: str,
@@ -388,7 +388,7 @@ async def test_mqtt_discovery_invalid_payload(
 
 
 async def test_mqtt_discovery_attribute_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mqtt_service_info,
 ) -> None:
@@ -408,7 +408,7 @@ async def test_mqtt_discovery_attribute_error(
 
 
 async def test_user_setup_mqtt_subscription_value_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
 ) -> None:
     """Test user setup aborts when MQTT subscription raises ValueError."""
@@ -426,7 +426,7 @@ async def test_user_setup_mqtt_subscription_value_error(
 
 
 async def test_mqtt_discovery_already_in_progress(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mqtt_mock: MqttMockHAClient,
     mqtt_service_info,
 ) -> None:

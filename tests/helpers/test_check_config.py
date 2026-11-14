@@ -14,12 +14,12 @@ from pytest_universalassistant.common import (
 )
 
 from universalassistant.config import YAML_CONFIG_FILE
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.check_config import (
     CheckConfigError,
-    UniversalAssistantConfig,
+    __HAC_KEEP__Config,
     async_check_ha_config_file,
 )
 from universalassistant.helpers.condition import CONDITIONS
@@ -52,7 +52,7 @@ def log_ha_config(conf):
 
 
 def _assert_warnings_errors(
-    res: UniversalAssistantConfig,
+    res: __HAC_KEEP__Config,
     expected_warnings: list[CheckConfigError],
     expected_errors: list[CheckConfigError],
 ) -> None:
@@ -73,7 +73,7 @@ def _assert_warnings_errors(
     assert res.error_str == expected_error_str
 
 
-async def test_bad_core_config(hass: UniversalAssistant) -> None:
+async def test_bad_core_config(hass: __HAC_KEEP__) -> None:
     """Test a bad core config setup."""
     files = {YAML_CONFIG_FILE: BAD_CORE_CONFIG}
     with patch("os.path.isfile", return_value=True), patch_yaml_files(files):
@@ -92,7 +92,7 @@ async def test_bad_core_config(hass: UniversalAssistant) -> None:
         _assert_warnings_errors(res, [], [error])
 
 
-async def test_config_platform_valid(hass: UniversalAssistant) -> None:
+async def test_config_platform_valid(hass: __HAC_KEEP__) -> None:
     """Test a valid platform setup."""
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "light:\n  platform: demo"}
     with patch("os.path.isfile", return_value=True), patch_yaml_files(files):
@@ -104,7 +104,7 @@ async def test_config_platform_valid(hass: UniversalAssistant) -> None:
         _assert_warnings_errors(res, [], [])
 
 
-async def test_integration_not_found(hass: UniversalAssistant) -> None:
+async def test_integration_not_found(hass: __HAC_KEEP__) -> None:
     """Test errors if integration not found."""
     # Make sure they don't exist
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "beer:"}
@@ -119,7 +119,7 @@ async def test_integration_not_found(hass: UniversalAssistant) -> None:
         _assert_warnings_errors(res, [warning], [])
 
 
-async def test_integrationt_requirement_not_found(hass: UniversalAssistant) -> None:
+async def test_integrationt_requirement_not_found(hass: __HAC_KEEP__) -> None:
     """Test errors if integration with a requirement not found not found."""
     # Make sure they don't exist
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "test_custom_component:"}
@@ -146,7 +146,7 @@ async def test_integrationt_requirement_not_found(hass: UniversalAssistant) -> N
         _assert_warnings_errors(res, [warning], [])
 
 
-async def test_integration_not_found_recovery_mode(hass: UniversalAssistant) -> None:
+async def test_integration_not_found_recovery_mode(hass: __HAC_KEEP__) -> None:
     """Test no errors if integration not found in recovery mode."""
     # Make sure they don't exist
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "beer:"}
@@ -159,7 +159,7 @@ async def test_integration_not_found_recovery_mode(hass: UniversalAssistant) -> 
         _assert_warnings_errors(res, [], [])
 
 
-async def test_integration_not_found_safe_mode(hass: UniversalAssistant) -> None:
+async def test_integration_not_found_safe_mode(hass: __HAC_KEEP__) -> None:
     """Test no errors if integration not found in safe mode."""
     # Make sure they don't exist
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "beer:"}
@@ -172,7 +172,7 @@ async def test_integration_not_found_safe_mode(hass: UniversalAssistant) -> None
         _assert_warnings_errors(res, [], [])
 
 
-async def test_integration_import_error(hass: UniversalAssistant) -> None:
+async def test_integration_import_error(hass: __HAC_KEEP__) -> None:
     """Test errors if integration with a requirement not found not found."""
     # Make sure they don't exist
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "light:"}
@@ -205,7 +205,7 @@ async def test_integration_import_error(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_integration_schema_error(
-    hass: UniversalAssistant, integration: str, errors: int, warnings: int, message: str
+    hass: __HAC_KEEP__, integration: str, errors: int, warnings: int, message: str
 ) -> None:
     """Test schema error in integration."""
     # Make sure they don't exist
@@ -224,7 +224,7 @@ async def test_integration_schema_error(
             assert message in warn.message
 
 
-async def test_platform_not_found(hass: UniversalAssistant) -> None:
+async def test_platform_not_found(hass: __HAC_KEEP__) -> None:
     """Test errors if platform not found."""
     # Make sure they don't exist
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "light:\n  platform: beer"}
@@ -246,7 +246,7 @@ async def test_platform_not_found(hass: UniversalAssistant) -> None:
         _assert_warnings_errors(res, [warning], [])
 
 
-async def test_platform_not_found_recovery_mode(hass: UniversalAssistant) -> None:
+async def test_platform_not_found_recovery_mode(hass: __HAC_KEEP__) -> None:
     """Test no errors if platform not found in recovery mode."""
     # Make sure they don't exist
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "light:\n  platform: beer"}
@@ -261,7 +261,7 @@ async def test_platform_not_found_recovery_mode(hass: UniversalAssistant) -> Non
         _assert_warnings_errors(res, [], [])
 
 
-async def test_platform_not_found_safe_mode(hass: UniversalAssistant) -> None:
+async def test_platform_not_found_safe_mode(hass: __HAC_KEEP__) -> None:
     """Test no errors if platform not found in safe mode."""
     # Make sure they don't exist
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "light:\n  platform: beer"}
@@ -308,7 +308,7 @@ async def test_platform_not_found_safe_mode(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_platform_schema_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     extra_config: str,
     warnings: int,
     message: str | None,
@@ -344,7 +344,7 @@ async def test_platform_schema_error(
             assert warn.config == config
 
 
-async def test_config_platform_import_error(hass: UniversalAssistant) -> None:
+async def test_config_platform_import_error(hass: __HAC_KEEP__) -> None:
     """Test errors if config platform fails to import."""
     # Make sure they don't exist
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "light:\n  platform: beer"}
@@ -369,7 +369,7 @@ async def test_config_platform_import_error(hass: UniversalAssistant) -> None:
         _assert_warnings_errors(res, [], [error])
 
 
-async def test_platform_import_error(hass: UniversalAssistant) -> None:
+async def test_platform_import_error(hass: __HAC_KEEP__) -> None:
     """Test errors if platform not found."""
     # Make sure they don't exist
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "light:\n  platform: demo"}
@@ -394,7 +394,7 @@ async def test_platform_import_error(hass: UniversalAssistant) -> None:
         _assert_warnings_errors(res, [warning], [])
 
 
-async def test_package_invalid(hass: UniversalAssistant) -> None:
+async def test_package_invalid(hass: __HAC_KEEP__) -> None:
     """Test a platform setup with an invalid package config."""
     files = {YAML_CONFIG_FILE: BASE_CONFIG + '  packages:\n    p1:\n      group: ["a"]'}
     with patch("os.path.isfile", return_value=True), patch_yaml_files(files):
@@ -414,7 +414,7 @@ async def test_package_invalid(hass: UniversalAssistant) -> None:
         _assert_warnings_errors(res, [warning], [])
 
 
-async def test_package_definition_invalid_slug_keys(hass: UniversalAssistant) -> None:
+async def test_package_definition_invalid_slug_keys(hass: __HAC_KEEP__) -> None:
     """Test a platform setup with a broken package: keys must be slugs."""
     files = {
         YAML_CONFIG_FILE: BASE_CONFIG
@@ -439,7 +439,7 @@ async def test_package_definition_invalid_slug_keys(hass: UniversalAssistant) ->
         _assert_warnings_errors(res, [warning], [])
 
 
-async def test_package_definition_invalid_dict(hass: UniversalAssistant) -> None:
+async def test_package_definition_invalid_dict(hass: __HAC_KEEP__) -> None:
     """Test a platform setup with a broken package: packages must be dicts."""
     files = {
         YAML_CONFIG_FILE: BASE_CONFIG
@@ -463,7 +463,7 @@ async def test_package_definition_invalid_dict(hass: UniversalAssistant) -> None
         _assert_warnings_errors(res, [warning], [])
 
 
-async def test_package_schema_invalid(hass: UniversalAssistant) -> None:
+async def test_package_schema_invalid(hass: __HAC_KEEP__) -> None:
     """Test an invalid platform config because of severely broken packages section."""
     files = {
         YAML_CONFIG_FILE: (
@@ -489,7 +489,7 @@ async def test_package_schema_invalid(hass: UniversalAssistant) -> None:
         _assert_warnings_errors(res, [], [error])
 
 
-async def test_missing_included_file(hass: UniversalAssistant) -> None:
+async def test_missing_included_file(hass: __HAC_KEEP__) -> None:
     """Test missing included file."""
     files = {YAML_CONFIG_FILE: BASE_CONFIG + "automation: !include no.yaml"}
     with patch("os.path.isfile", return_value=True), patch_yaml_files(files):
@@ -504,7 +504,7 @@ async def test_missing_included_file(hass: UniversalAssistant) -> None:
         assert res.errors[0].config is None
 
 
-async def test_automation_config_platform(hass: UniversalAssistant) -> None:
+async def test_automation_config_platform(hass: __HAC_KEEP__) -> None:
     """Test automation async config."""
     # Remove keys pre-populated by the test fixture to simulate
     # the check_config script which doesn't run bootstrap.
@@ -557,7 +557,7 @@ action:
             "Unexpected error calling config validator: Broken",
         ),
         (
-            UniversalAssistantError("Broken"),
+            __HAC_KEEP__Error("Broken"),
             0,
             1,
             "Invalid config for 'bla' at configuration.yaml, line 11: Broken",
@@ -565,7 +565,7 @@ action:
     ],
 )
 async def test_config_platform_raise(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     exception: Exception,
     errors: int,
     warnings: int,
@@ -594,7 +594,7 @@ bla:
         _assert_warnings_errors(res, [error] * warnings, [error] * errors)
 
 
-async def test_removed_yaml_support(hass: UniversalAssistant) -> None:
+async def test_removed_yaml_support(hass: __HAC_KEEP__) -> None:
     """Test config check with removed CONFIG_SCHEMA without raise if present."""
     mock_integration(
         hass,

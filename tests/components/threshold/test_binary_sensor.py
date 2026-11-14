@@ -30,7 +30,7 @@ from universalassistant.const import (
     Platform,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -48,7 +48,7 @@ from universalassistant.setup import async_setup_component
     ],
 )
 async def test_sensor_upper(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vals: list[float | str | None],
     expected_position: str,
     expected_state: str,
@@ -97,7 +97,7 @@ async def test_sensor_upper(
     ],
 )
 async def test_sensor_lower(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vals: list[float | str | None],
     expected_position: str,
     expected_state: str,
@@ -161,7 +161,7 @@ async def test_sensor_lower(
     ],
 )
 async def test_sensor_upper_hysteresis(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vals: list[float | str | None],
     expected_position: str,
     expected_state: str,
@@ -226,7 +226,7 @@ async def test_sensor_upper_hysteresis(
     ],
 )
 async def test_sensor_lower_hysteresis(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vals: list[float | str | None],
     expected_position: str,
     expected_state: str,
@@ -291,7 +291,7 @@ async def test_sensor_lower_hysteresis(
     ],
 )
 async def test_sensor_in_range_no_hysteresis(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vals: list[float | str | None],
     expected_position: str,
     expected_state: str,
@@ -386,7 +386,7 @@ async def test_sensor_in_range_no_hysteresis(
     ],
 )
 async def test_sensor_in_range_with_hysteresis(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     vals: list[float | str | None],
     expected_position: str,
     expected_state: str,
@@ -428,7 +428,7 @@ async def test_sensor_in_range_with_hysteresis(
 
 
 async def test_sensor_in_range_unknown_state(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if source is within the range."""
     config = {
@@ -483,7 +483,7 @@ async def test_sensor_in_range_unknown_state(
     assert "State is not numerical" not in caplog.text
 
 
-async def test_sensor_lower_zero_threshold(hass: UniversalAssistant) -> None:
+async def test_sensor_lower_zero_threshold(hass: __HAC_KEEP__) -> None:
     """Test if a lower threshold of zero is set."""
     config = {
         Platform.BINARY_SENSOR: {
@@ -511,7 +511,7 @@ async def test_sensor_lower_zero_threshold(hass: UniversalAssistant) -> None:
     assert state.state == STATE_ON
 
 
-async def test_sensor_upper_zero_threshold(hass: UniversalAssistant) -> None:
+async def test_sensor_upper_zero_threshold(hass: __HAC_KEEP__) -> None:
     """Test if an upper threshold of zero is set."""
     config = {
         Platform.BINARY_SENSOR: {
@@ -540,7 +540,7 @@ async def test_sensor_upper_zero_threshold(hass: UniversalAssistant) -> None:
 
 
 async def test_sensor_no_lower_upper(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test if no lower or upper has been provided."""
     config = {
@@ -557,7 +557,7 @@ async def test_sensor_no_lower_upper(
 
 
 async def test_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -605,7 +605,7 @@ async def test_device_id(
 
 
 async def test_device_id_yaml(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     caplog: pytest.LogCaptureFixture,

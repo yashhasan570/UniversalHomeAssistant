@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.devolo_home_control.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from .const import (
@@ -17,7 +17,7 @@ from .const import (
 )
 
 
-async def test_form(hass: UniversalAssistant) -> None:
+async def test_form(hass: __HAC_KEEP__) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -40,7 +40,7 @@ async def test_form(hass: UniversalAssistant) -> None:
 
 
 async def test_form_invalid_credentials_user(
-    hass: UniversalAssistant, mydevolo: MagicMock
+    hass: __HAC_KEEP__, mydevolo: MagicMock
 ) -> None:
     """Test if we get the error message on invalid credentials."""
     mydevolo.credentials_valid.return_value = False
@@ -67,7 +67,7 @@ async def test_form_invalid_credentials_user(
     }
 
 
-async def test_form_already_configured(hass: UniversalAssistant) -> None:
+async def test_form_already_configured(hass: __HAC_KEEP__) -> None:
     """Test if we get the error message on already configured."""
     MockConfigEntry(domain=DOMAIN, unique_id="123456", data={}).add_to_hass(hass)
     result = await hass.config_entries.flow.async_init(
@@ -85,7 +85,7 @@ async def test_form_already_configured(hass: UniversalAssistant) -> None:
     assert result["reason"] == "already_configured"
 
 
-async def test_form_zeroconf(hass: UniversalAssistant) -> None:
+async def test_form_zeroconf(hass: __HAC_KEEP__) -> None:
     """Test that the zeroconf confirmation form is served."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -109,7 +109,7 @@ async def test_form_zeroconf(hass: UniversalAssistant) -> None:
 
 
 async def test_form_invalid_credentials_zeroconf(
-    hass: UniversalAssistant, mydevolo: MagicMock
+    hass: __HAC_KEEP__, mydevolo: MagicMock
 ) -> None:
     """Test if we get the error message on invalid credentials."""
     mydevolo.credentials_valid.return_value = False
@@ -134,7 +134,7 @@ async def test_form_invalid_credentials_zeroconf(
     assert result["type"] is FlowResultType.CREATE_ENTRY
 
 
-async def test_zeroconf_wrong_device(hass: UniversalAssistant) -> None:
+async def test_zeroconf_wrong_device(hass: __HAC_KEEP__) -> None:
     """Test that the zeroconf ignores wrong devices."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -154,7 +154,7 @@ async def test_zeroconf_wrong_device(hass: UniversalAssistant) -> None:
     assert result["type"] is FlowResultType.ABORT
 
 
-async def test_form_reauth(hass: UniversalAssistant) -> None:
+async def test_form_reauth(hass: __HAC_KEEP__) -> None:
     """Test that the reauth confirmation form is served."""
     mock_config = MockConfigEntry(
         domain=DOMAIN,
@@ -178,7 +178,7 @@ async def test_form_reauth(hass: UniversalAssistant) -> None:
 
 
 async def test_form_invalid_credentials_reauth(
-    hass: UniversalAssistant, mydevolo: MagicMock
+    hass: __HAC_KEEP__, mydevolo: MagicMock
 ) -> None:
     """Test if we get the error message on invalid credentials."""
     mydevolo.credentials_valid.return_value = False
@@ -210,7 +210,7 @@ async def test_form_invalid_credentials_reauth(
 
 
 async def test_form_uuid_change_reauth(
-    hass: UniversalAssistant, mydevolo: MagicMock
+    hass: __HAC_KEEP__, mydevolo: MagicMock
 ) -> None:
     """Test that the reauth confirmation form is served."""
     mock_config = MockConfigEntry(

@@ -17,7 +17,7 @@ from universalassistant.const import (
     CONF_NAME,
     CONF_TYPE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .conftest import MockConfigEntry, init_integration
 
@@ -55,7 +55,7 @@ ENTITIES_DELETE_PAYLOAD = {
 
 
 async def test_lcn_devices_command(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
 ) -> None:
     """Test lcn/devices command."""
     await init_integration(hass, entry)
@@ -81,7 +81,7 @@ async def test_lcn_devices_command(
     ],
 )
 async def test_lcn_entities_command(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entry: MockConfigEntry,
     payload,
@@ -112,7 +112,7 @@ async def test_lcn_entities_command(
 
 
 async def test_lcn_devices_scan_command(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
 ) -> None:
     """Test lcn/devices/scan command."""
     # add new module which is not stored in config_entry
@@ -135,7 +135,7 @@ async def test_lcn_devices_scan_command(
 
 
 async def test_lcn_devices_add_command(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
 ) -> None:
     """Test lcn/devices/add command."""
     await init_integration(hass, entry)
@@ -152,7 +152,7 @@ async def test_lcn_devices_add_command(
 
 
 async def test_lcn_devices_delete_command(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
 ) -> None:
     """Test lcn/devices/delete command."""
     await init_integration(hass, entry)
@@ -170,7 +170,7 @@ async def test_lcn_devices_delete_command(
 
 
 async def test_lcn_entities_add_command(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
 ) -> None:
     """Test lcn/entities/add command."""
     await init_integration(hass, entry)
@@ -203,7 +203,7 @@ async def test_lcn_entities_add_command(
 
 
 async def test_lcn_entities_delete_command(
-    hass: UniversalAssistant, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
+    hass: __HAC_KEEP__, hass_ws_client: WebSocketGenerator, entry: MockConfigEntry
 ) -> None:
     """Test lcn/entities/delete command."""
     await init_integration(hass, entry)
@@ -259,7 +259,7 @@ async def test_lcn_entities_delete_command(
     ],
 )
 async def test_lcn_command_host_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entry: MockConfigEntry,
     payload: dict[str, str],
@@ -287,7 +287,7 @@ async def test_lcn_command_host_error(
     ],
 )
 async def test_lcn_command_address_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entry: MockConfigEntry,
     payload: dict[str, Any],
@@ -308,7 +308,7 @@ async def test_lcn_command_address_error(
 
 
 async def test_lcn_entities_add_existing_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     entry: MockConfigEntry,
 ) -> None:

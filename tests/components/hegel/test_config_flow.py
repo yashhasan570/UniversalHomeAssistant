@@ -8,7 +8,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.hegel.const import DOMAIN
 from universalassistant.config_entries import SOURCE_SSDP, SOURCE_USER
 from universalassistant.const import CONF_HOST, CONF_MODEL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.ssdp import SsdpServiceInfo
 
@@ -20,7 +20,7 @@ TEST_SSDP_LOCATION = f"http://{TEST_HOST}:8080/description.xml"
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_success(
-    hass: UniversalAssistant, mock_hegel_client: MagicMock
+    hass: __HAC_KEEP__, mock_hegel_client: MagicMock
 ) -> None:
     """Test successful user flow."""
     result = await hass.config_entries.flow.async_init(
@@ -49,7 +49,7 @@ async def test_user_flow_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_exception(
-    hass: UniversalAssistant, mock_hegel_client: MagicMock
+    hass: __HAC_KEEP__, mock_hegel_client: MagicMock
 ) -> None:
     """Test user flow when connection fails."""
     result = await hass.config_entries.flow.async_init(
@@ -86,7 +86,7 @@ async def test_user_flow_exception(
 
 
 async def test_user_flow_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test user flow aborts when device is already configured."""
@@ -110,7 +110,7 @@ async def test_user_flow_already_configured(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_ssdp_discovery_success(
-    hass: UniversalAssistant, mock_hegel_client: MagicMock
+    hass: __HAC_KEEP__, mock_hegel_client: MagicMock
 ) -> None:
     """Test successful SSDP discovery."""
     result = await hass.config_entries.flow.async_init(
@@ -144,7 +144,7 @@ async def test_ssdp_discovery_success(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_ssdp_discovery_from_ssdp_location(
-    hass: UniversalAssistant, mock_hegel_client: MagicMock
+    hass: __HAC_KEEP__, mock_hegel_client: MagicMock
 ) -> None:
     """Test SSDP discovery extracts host from ssdp_location when no presentationURL."""
     result = await hass.config_entries.flow.async_init(
@@ -172,7 +172,7 @@ async def test_ssdp_discovery_from_ssdp_location(
     assert result["result"].unique_id == TEST_UDN
 
 
-async def test_ssdp_discovery_no_host(hass: UniversalAssistant) -> None:
+async def test_ssdp_discovery_no_host(hass: __HAC_KEEP__) -> None:
     """Test SSDP discovery aborts when no host can be determined."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -190,7 +190,7 @@ async def test_ssdp_discovery_no_host(hass: UniversalAssistant) -> None:
     assert result["reason"] == "no_host_found"
 
 
-async def test_ssdp_discovery_no_udn(hass: UniversalAssistant) -> None:
+async def test_ssdp_discovery_no_udn(hass: __HAC_KEEP__) -> None:
     """Test SSDP discovery aborts when no UDN is available."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -211,7 +211,7 @@ async def test_ssdp_discovery_no_udn(hass: UniversalAssistant) -> None:
 
 
 async def test_ssdp_discovery_already_configured(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test SSDP discovery aborts when device is already configured."""
     mock_config_entry.add_to_hass(hass)
@@ -237,7 +237,7 @@ async def test_ssdp_discovery_already_configured(
 
 
 async def test_ssdp_discovery_already_configured_updates_host(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_hegel_client: MagicMock,
 ) -> None:
@@ -270,7 +270,7 @@ async def test_ssdp_discovery_already_configured_updates_host(
 
 
 async def test_ssdp_discovery_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hegel_client: MagicMock,
 ) -> None:
     """Test SSDP discovery aborts when connection fails."""
@@ -297,7 +297,7 @@ async def test_ssdp_discovery_cannot_connect(
 
 
 async def test_ssdp_discovery_unknown_model(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hegel_client: MagicMock,
 ) -> None:
     """Test SSDP discovery with unknown model falls back to first model in list."""
@@ -322,7 +322,7 @@ async def test_ssdp_discovery_unknown_model(
 
 
 async def test_ssdp_discovery_multiple_services_same_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_hegel_client: MagicMock,
 ) -> None:
     """Test that multiple SSDP discoveries from same device result in single discovery.

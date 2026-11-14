@@ -15,7 +15,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_CLOSE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import (
     ConfigEntryAuthFailed,
     ConfigEntryError,
@@ -52,7 +52,7 @@ PLATFORMS = [
 
 
 def _async_register_clientsession_shutdown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: RainbirdConfigEntry,
     clientsession: aiohttp.ClientSession,
 ) -> None:
@@ -69,13 +69,13 @@ def _async_register_clientsession_shutdown(
     entry.async_on_unload(_async_close_websession)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: RainbirdConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: RainbirdConfigEntry) -> None:
     """Set up the config entry for Rain Bird."""
 
     clientsession = async_create_clientsession()
@@ -153,7 +153,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: RainbirdConfigEntry
 
 
 async def _async_fix_unique_id(
-    hass: UniversalAssistant, controller: AsyncRainbirdController, entry: RainbirdConfigEntry
+    hass: __HAC_KEEP__, controller: AsyncRainbirdController, entry: RainbirdConfigEntry
 ) -> bool:
     """Update the config entry with a unique id based on the mac address."""
     _LOGGER.debug("Checking for migration of config entry (%s)", entry.unique_id)
@@ -287,13 +287,13 @@ def _async_fix_device_id(
         )
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: RainbirdConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: RainbirdConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_update_listener(
-    hass: UniversalAssistant, entry: RainbirdConfigEntry
+    hass: __HAC_KEEP__, entry: RainbirdConfigEntry
 ) -> None:
     """Handle options update."""
     await hass.config_entries.async_reload(entry.entry_id)

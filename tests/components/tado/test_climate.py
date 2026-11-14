@@ -17,7 +17,7 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.tado import DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
@@ -30,7 +30,7 @@ def setup_platforms() -> Generator[None]:
 
 @pytest.mark.usefixtures("init_integration")
 async def test_entities(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, snapshot: SnapshotAssertion
 ) -> None:
     """Test creation of climate entities."""
 
@@ -41,7 +41,7 @@ async def test_entities(
 
 @pytest.mark.usefixtures("init_integration")
 async def test_heater_set_temperature(
-    hass: UniversalAssistant, snapshot: SnapshotAssertion
+    hass: __HAC_KEEP__, snapshot: SnapshotAssertion
 ) -> None:
     """Test the set temperature of the heater."""
 
@@ -76,7 +76,7 @@ async def test_heater_set_temperature(
 )
 @pytest.mark.usefixtures("init_integration")
 async def test_aircon_set_hvac_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     hvac_mode: HVACMode,
     set_hvac_mode: str,

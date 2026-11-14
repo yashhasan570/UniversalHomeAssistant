@@ -22,7 +22,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import MelCloudConfigEntry, MelCloudDeviceUpdateCoordinator
@@ -277,7 +277,7 @@ ATW_ZONE_SENSORS: tuple[MelcloudSensorEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    _hass: UniversalAssistant,
+    _hass: __HAC_KEEP__,
     entry: MelCloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -199,7 +199,7 @@ class EventEntity(RestoreEntity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_)
                 _LOGGER.warning(
                     "Entity %s is a doorbell event entity but does not support "
                     "the '%s' event type. This will stop working in "
-                    "Universal Universal Home Assistant 2027.4, please %s",
+                    "__HA_KEEP__ 2027.4, please %s",
                     self.entity_id,
                     DoorbellEventType.RING,
                     report_issue,

@@ -6,16 +6,16 @@ from aiohttp import web
 import probatio
 
 from universalassistant.components import websocket_api
-from universalassistant.components.http import KEY_HASS, UniversalAssistantView, require_admin
+from universalassistant.components.http import KEY_HASS, __HAC_KEEP__View, require_admin
 from universalassistant.components.sensor import async_update_suggested_units
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import check_config, config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.util import location as location_util, unit_system
 
 
 @callback
-def async_setup(hass: UniversalAssistant) -> bool:
+def async_setup(hass: __HAC_KEEP__) -> bool:
     """Set up the Hassbian config."""
     hass.http.register_view(CheckConfigView)
     websocket_api.async_register_command(hass, websocket_update_config)
@@ -23,7 +23,7 @@ def async_setup(hass: UniversalAssistant) -> bool:
     return True
 
 
-class CheckConfigView(UniversalAssistantView):
+class CheckConfigView(__HAC_KEEP__View):
     """Hassbian packages endpoint."""
 
     url = "/api/config/core/check_config"
@@ -69,7 +69,7 @@ class CheckConfigView(UniversalAssistantView):
 )
 @websocket_api.async_response
 async def websocket_update_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -93,7 +93,7 @@ async def websocket_update_config(
 @websocket_api.websocket_command({"type": "config/core/detect"})
 @websocket_api.async_response
 async def websocket_detect_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:

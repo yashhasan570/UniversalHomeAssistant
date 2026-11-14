@@ -11,7 +11,7 @@ from infrared_protocols.codes.persang.speaker import PersangSpeakerCode
 
 from universalassistant.components.button import ButtonEntity, ButtonEntityDescription
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import CONF_INFRARED_EMITTER_ENTITY_ID
@@ -60,7 +60,7 @@ BUTTON_DESCRIPTIONS: tuple[PersangIrButtonEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

@@ -18,7 +18,7 @@ from pyvlx import (
 
 from universalassistant.components.velux import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_MAC, CONF_PASSWORD, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 # Fixtures for the config flow tests
@@ -272,7 +272,7 @@ def mock_scene() -> AsyncMock:
 # to be defined in each test file
 @pytest.fixture
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_pyvlx: AsyncMock,
     platform: Platform,

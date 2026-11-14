@@ -53,12 +53,12 @@ from universalassistant.core import (
     Context,
     Event,
     EventStateChangedData,
-    UniversalAssistant,
+    __HAC_KEEP__,
     ServiceCall,
     State,
     callback,
 )
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -120,7 +120,7 @@ def _reported_reasons(
 
 
 async def _arm_numerical_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_cls: type[Trigger],
     options: dict[str, Any],
     calls: list[dict[str, Any]],
@@ -133,7 +133,7 @@ async def _arm_numerical_trigger(
     did_not_trigger diagnostics in addition to whether it fired.
     """
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {"numerical": trigger_cls}
 
     mock_integration(hass, MockModule("test"))
@@ -189,7 +189,7 @@ async def _call_in_order(funcs: list[Callable[[], Any]], *, reverse: bool) -> li
     return results
 
 
-async def test_bad_trigger_platform(hass: UniversalAssistant) -> None:
+async def test_bad_trigger_platform(hass: __HAC_KEEP__) -> None:
     """Test bad trigger platform."""
     with pytest.raises(probatio.Invalid) as ex:
         await async_validate_trigger_config(hass, [{"platform": "not_a_platform"}])
@@ -240,7 +240,7 @@ async def test_bad_trigger_platform(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_validate_trigger_config_error_path(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_config: list[ConfigType],
     expected_exception: type[probatio.Invalid],
     expected_error: str,
@@ -258,9 +258,9 @@ async def test_validate_trigger_config_error_path(
 
 
 async def test_validate_trigger_config_universalassistant_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
-    """Test a UniversalAssistantError keeps its type and message."""
+    """Test a __HAC_KEEP__Error keeps its type and message."""
     config = cv.TRIGGER_SCHEMA(
         [
             {"platform": "event", "event_type": "test_event"},
@@ -268,14 +268,14 @@ async def test_validate_trigger_config_universalassistant_error(
         ]
     )
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await async_validate_trigger_config(hass, config)
 
     assert type(exc_info.value) is InvalidDeviceAutomationConfig
     assert str(exc_info.value) == "Unknown device 'abc'"
 
 
-async def test_trigger_subtype(hass: UniversalAssistant) -> None:
+async def test_trigger_subtype(hass: __HAC_KEEP__) -> None:
     """Test trigger subtypes."""
     with patch(
         "universalassistant.helpers.trigger.async_get_integration",
@@ -297,12 +297,12 @@ class _MockTrigger(Trigger):
 
     @classmethod
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return config
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize the mock trigger."""
         super().__init__(hass, config)
         self._options = config.options or {}
@@ -509,7 +509,7 @@ _MOCK_EXPECTED = {
     ],
 )
 async def test_trigger_variables(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     automation_extra: dict[str, Any],
     data_template: dict[str, Any],
@@ -518,7 +518,7 @@ async def test_trigger_variables(
     """Test trigger variables and their precedence over other variable sources."""
     hass.states.async_set("event.foo", STATE_UNKNOWN, {"event_type": "button_press"})
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {"_": _MockTrigger}
 
     mock_integration(hass, MockModule("mock_templated_trigger"))
@@ -559,7 +559,7 @@ async def test_trigger_variables(
 
 
 async def test_if_disabled_trigger_not_firing(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test disabled triggers don't fire."""
     assert await async_setup_component(
@@ -595,7 +595,7 @@ async def test_if_disabled_trigger_not_firing(
 
 
 async def test_trigger_enabled_templates(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test triggers enabled by template."""
     assert await async_setup_component(
@@ -651,7 +651,7 @@ async def test_trigger_enabled_templates(
 
 
 async def test_nested_trigger_list(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test triggers within nested list."""
 
@@ -715,7 +715,7 @@ async def test_nested_trigger_list(
 
 
 async def test_trigger_enabled_template_limited(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -747,7 +747,7 @@ async def test_trigger_enabled_template_limited(
 
 
 async def test_trigger_alias(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -783,7 +783,7 @@ async def test_trigger_alias(
 
 
 async def test_async_initialize_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -844,7 +844,7 @@ async def test_async_initialize_triggers(
 
 
 async def test_pluggable_action(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test normal behavior of pluggable actions."""
     update_1 = MagicMock()
@@ -945,7 +945,7 @@ class TriggerActionFunctionTypeHelper:
 
 @pytest.mark.parametrize("action_method", ["cb_action", "sync_action", "async_action"])
 async def test_platform_multiple_triggers(
-    hass: UniversalAssistant, action_method: str
+    hass: __HAC_KEEP__, action_method: str
 ) -> None:
     """Test a trigger platform with multiple trigger."""
 
@@ -954,7 +954,7 @@ async def test_platform_multiple_triggers(
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: ConfigType
+            cls, hass: __HAC_KEEP__, config: ConfigType
         ) -> ConfigType:
             """Validate config."""
             return config
@@ -981,7 +981,7 @@ async def test_platform_multiple_triggers(
             """Attach a trigger."""
             run_action({"extra": "test_trigger_2"}, "trigger 2 desc")
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {
             "_": MockTrigger1,
             "trig_2": MockTrigger2,
@@ -1041,7 +1041,7 @@ async def test_platform_multiple_triggers(
         )
 
 
-async def test_platform_legacy_and_new_style_triggers(hass: UniversalAssistant) -> None:
+async def test_platform_legacy_and_new_style_triggers(hass: __HAC_KEEP__) -> None:
     """Test a platform providing a legacy trigger next to new-style triggers."""
 
     class MockTrigger(Trigger):
@@ -1049,7 +1049,7 @@ async def test_platform_legacy_and_new_style_triggers(hass: UniversalAssistant) 
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: ConfigType
+            cls, hass: __HAC_KEEP__, config: ConfigType
         ) -> ConfigType:
             """Validate config."""
             return config
@@ -1070,7 +1070,7 @@ async def test_platform_legacy_and_new_style_triggers(hass: UniversalAssistant) 
 
         @staticmethod
         async def async_attach_trigger(
-            hass: UniversalAssistant,
+            hass: __HAC_KEEP__,
             config: ConfigType,
             action: TriggerActionType,
             trigger_info: TriggerInfo,
@@ -1081,7 +1081,7 @@ async def test_platform_legacy_and_new_style_triggers(hass: UniversalAssistant) 
 
         @staticmethod
         async def async_get_triggers(
-            hass: UniversalAssistant,
+            hass: __HAC_KEEP__,
         ) -> dict[str, type[Trigger]]:
             """Return the new-style triggers."""
             return {"new_style": MockTrigger}
@@ -1111,7 +1111,7 @@ async def test_platform_legacy_and_new_style_triggers(hass: UniversalAssistant) 
     assert action_calls == ["legacy", "new_style"]
 
 
-async def test_platform_migrate_trigger(hass: UniversalAssistant) -> None:
+async def test_platform_migrate_trigger(hass: __HAC_KEEP__) -> None:
     """Test a trigger platform with a migration."""
 
     OPTIONS_SCHEMA_DICT = {
@@ -1124,7 +1124,7 @@ async def test_platform_migrate_trigger(hass: UniversalAssistant) -> None:
 
         @classmethod
         async def async_validate_complete_config(
-            cls, hass: UniversalAssistant, complete_config: ConfigType
+            cls, hass: __HAC_KEEP__, complete_config: ConfigType
         ) -> ConfigType:
             """Validate complete config."""
             complete_config = move_top_level_schema_fields_to_options(
@@ -1134,12 +1134,12 @@ async def test_platform_migrate_trigger(hass: UniversalAssistant) -> None:
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: ConfigType
+            cls, hass: __HAC_KEEP__, config: ConfigType
         ) -> ConfigType:
             """Validate config."""
             return config
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {
             "_": MockTrigger,
         }
@@ -1159,7 +1159,7 @@ async def test_platform_migrate_trigger(hass: UniversalAssistant) -> None:
 
 
 async def test_platform_backwards_compatibility_for_new_style_configs(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test backwards compatibility for old-style triggers with new-style configs."""
 
@@ -1188,7 +1188,7 @@ async def test_platform_backwards_compatibility_for_new_style_configs(
 
 
 async def test_get_trigger_platform_registers_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test _async_get_trigger_platform registers triggers and notifies subscribers."""
 
@@ -1203,7 +1203,7 @@ async def test_get_trigger_platform_registers_triggers(
             return lambda: None
 
     async def async_get_triggers(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Trigger]]:
         return {"trig_a": MockTrigger, "trig_b": MockTrigger}
 
@@ -1291,7 +1291,7 @@ _MODERN_SUN_TRIGGERS = (
     ],
 )
 async def test_async_get_all_descriptions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     sun_trigger_descriptions: str,
 ) -> None:
     """Test async_get_all_descriptions."""
@@ -1444,13 +1444,13 @@ async def test_async_get_all_descriptions(
             "Unable to find triggers.yaml for the sun integration",
         ),
         (
-            UniversalAssistantError("Test error"),
+            __HAC_KEEP__Error("Test error"),
             "Unable to parse triggers.yaml for the sun integration: Test error",
         ),
     ],
 )
 async def test_async_get_all_descriptions_with_yaml_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     yaml_error: Exception,
     expected_message: str,
@@ -1479,7 +1479,7 @@ async def test_async_get_all_descriptions_with_yaml_error(
 
 
 async def test_async_get_all_descriptions_with_bad_description(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test async_get_all_descriptions."""
@@ -1515,7 +1515,7 @@ async def test_async_get_all_descriptions_with_bad_description(
 
 
 async def test_invalid_trigger_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test invalid trigger platform."""
@@ -1532,7 +1532,7 @@ async def test_invalid_trigger_platform(
 async def test_subscribe_triggers(
     mock_has_triggers: Mock,
     mock_load_yaml: Mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test trigger.async_subscribe_platform_events."""
@@ -1579,7 +1579,7 @@ async def test_subscribe_triggers(
 async def test_subscribe_triggers_no_triggers(
     mock_has_triggers: Mock,
     mock_load_yaml: Mock,
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test async_subscribe_platform_events skips platforms without triggers."""
@@ -1714,13 +1714,13 @@ async def test_subscribe_triggers_no_triggers(
     ],
 )
 async def test_numerical_state_attribute_changed_trigger_config_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_options: dict[str, Any],
     expected_result: AbstractContextManager,
 ) -> None:
     """Test numerical state attribute change trigger config validation."""
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {
             "test_trigger": make_entity_numerical_state_changed_trigger(
                 {"test": DomainSpec(value_source="test_attribute")}
@@ -1920,14 +1920,14 @@ def _make_with_unit_changed_trigger_class() -> type[
     ],
 )
 async def test_numerical_state_attribute_changed_with_unit_trigger_config_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_options: dict[str, Any],
     expected_result: AbstractContextManager,
 ) -> None:
     """Test numerical state attribute change with unit trigger config validation."""
     trigger_cls = _make_with_unit_changed_trigger_class()
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {"test_trigger": trigger_cls}
 
     mock_integration(hass, MockModule("test"))
@@ -1947,7 +1947,7 @@ async def test_numerical_state_attribute_changed_with_unit_trigger_config_valida
 
 
 async def test_numerical_state_attribute_changed_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical state attribute change error handling."""
     trigger_cls = make_entity_numerical_state_changed_trigger(
@@ -2224,7 +2224,7 @@ async def test_numerical_state_attribute_changed_error_handling(
     ],
 )
 async def test_numerical_state_attribute_changed_trigger_thresholds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     trigger_options: dict[str, Any],
     new_value: float,
@@ -2236,7 +2236,7 @@ async def test_numerical_state_attribute_changed_trigger_thresholds(
     exactly equal to a limit is treated as "not inside" the range.
     """
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {
             "attribute_changed": make_entity_numerical_state_changed_trigger(
                 {"test": DomainSpec(value_source="test_attribute")}
@@ -2284,7 +2284,7 @@ async def test_numerical_state_attribute_changed_trigger_thresholds(
     ],
 )
 async def test_numerical_state_trigger_threshold_entity_same_loop_iteration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     adversary_first: bool,
     expected_calls: int,
@@ -2300,7 +2300,7 @@ async def test_numerical_state_trigger_threshold_entity_same_loop_iteration(
     misses the crossing.
     """
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {
             "attribute_changed": make_entity_numerical_state_changed_trigger(
                 {"test": DomainSpec(value_source="test_attribute")}
@@ -2356,11 +2356,11 @@ async def test_numerical_state_trigger_threshold_entity_same_loop_iteration(
 
 
 async def test_numerical_state_attribute_changed_entity_limit_unit_validation(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test that entity limits with wrong unit are rejected."""
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {
             "attribute_changed": make_entity_numerical_state_changed_trigger(
                 {"test": DomainSpec(value_source="test_attribute")},
@@ -2454,7 +2454,7 @@ async def test_numerical_state_attribute_changed_entity_limit_unit_validation(
 
 
 async def test_numerical_state_attribute_changed_with_unit_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical state attribute change with unit conversion error handling."""
     trigger_cls = _make_with_unit_changed_trigger_class()
@@ -2926,7 +2926,7 @@ _TEMPERATURE_CHANGED_TRIGGER = make_entity_numerical_state_changed_with_unit_tri
     ],
 )
 async def test_numerical_trigger_reports_invalid_tracked_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_cls: type[Trigger],
     good_unit: str,
     bad_state: str,
@@ -3014,7 +3014,7 @@ async def test_numerical_trigger_reports_invalid_tracked_value(
     ],
 )
 async def test_numerical_trigger_reports_invalid_threshold_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_cls: type[Trigger],
     good_unit: str,
     threshold_state: str,
@@ -3057,7 +3057,7 @@ async def test_numerical_trigger_reports_invalid_threshold_entity(
 
 
 async def test_numerical_trigger_reports_single_reason_for_between(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Two invalid between-thresholds yield a single diagnostic for the lower one."""
     calls: list[dict[str, Any]] = []
@@ -3304,13 +3304,13 @@ async def test_numerical_trigger_reports_single_reason_for_between(
     ],
 )
 async def test_numerical_state_attribute_crossed_threshold_trigger_config_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_options: dict[str, Any],
     expected_result: AbstractContextManager,
 ) -> None:
     """Test numerical state attribute change trigger config validation."""
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {
             "test_trigger": make_entity_numerical_state_crossed_threshold_trigger(
                 {"test": DomainSpec(value_source="test_attribute")}
@@ -3461,14 +3461,14 @@ def _make_with_unit_crossed_threshold_trigger_class() -> type[
     ],
 )
 async def test_numerical_state_attr_crossed_threshold_unit_trigger_config_validation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_options: dict[str, Any],
     expected_result: AbstractContextManager,
 ) -> None:
     """Test numerical state attribute crossed threshold with unit trigger validation."""
     trigger_cls = _make_with_unit_crossed_threshold_trigger_class()
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {"test_trigger": trigger_cls}
 
     mock_integration(hass, MockModule("test"))
@@ -3488,7 +3488,7 @@ async def test_numerical_state_attr_crossed_threshold_unit_trigger_config_valida
 
 
 async def test_numerical_state_attribute_crossed_threshold_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical state attribute crossed threshold error handling."""
     trigger_cls = make_entity_numerical_state_crossed_threshold_trigger(
@@ -3772,7 +3772,7 @@ async def test_numerical_state_attribute_crossed_threshold_error_handling(
     ],
 )
 async def test_numerical_state_attribute_crossed_threshold_trigger_thresholds(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     trigger_options: dict[str, Any],
     new_value: float,
@@ -3786,7 +3786,7 @@ async def test_numerical_state_attribute_crossed_threshold_trigger_thresholds(
     outside and therefore do cause the trigger to fire.
     """
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {
             "crossed_threshold": make_entity_numerical_state_crossed_threshold_trigger(
                 {"test": DomainSpec(value_source="test_attribute")}
@@ -3834,11 +3834,11 @@ async def test_numerical_state_attribute_crossed_threshold_trigger_thresholds(
 
 
 async def test_numerical_state_attribute_crossed_threshold_entity_limit_unit_validation(
-    hass: UniversalAssistant, service_calls: list[ServiceCall]
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall]
 ) -> None:
     """Test that entity limits with wrong unit are rejected for crossed threshold."""
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {
             "crossed_threshold": make_entity_numerical_state_crossed_threshold_trigger(
                 {"test": DomainSpec(value_source="test_attribute")},
@@ -3932,7 +3932,7 @@ async def test_numerical_state_attribute_crossed_threshold_entity_limit_unit_val
 
 
 async def test_numerical_state_attribute_crossed_threshold_with_unit_error_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test numerical state attribute crossed threshold with unit conversion."""
     trigger_cls = _make_with_unit_crossed_threshold_trigger_class()
@@ -4042,7 +4042,7 @@ async def test_numerical_state_attribute_crossed_threshold_with_unit_error_handl
 
 
 def _make_trigger(
-    hass: UniversalAssistant, domain_specs: Mapping[str, DomainSpec]
+    hass: __HAC_KEEP__, domain_specs: Mapping[str, DomainSpec]
 ) -> EntityTriggerBase:
     """Create a minimal EntityTriggerBase subclass with the given domain specs."""
 
@@ -4067,7 +4067,7 @@ def _make_trigger(
     return _SimpleTrigger(hass, config)
 
 
-async def test_entity_filter_by_domain_only(hass: UniversalAssistant) -> None:
+async def test_entity_filter_by_domain_only(hass: __HAC_KEEP__) -> None:
     """Test entity_filter includes entities matching domain, excludes others."""
     trig = _make_trigger(hass, {"sensor": DomainSpec(), "switch": DomainSpec()})
 
@@ -4082,7 +4082,7 @@ async def test_entity_filter_by_domain_only(hass: UniversalAssistant) -> None:
     assert result == {"sensor.temp", "sensor.humidity", "switch.light"}
 
 
-async def test_entity_filter_by_device_class(hass: UniversalAssistant) -> None:
+async def test_entity_filter_by_device_class(hass: __HAC_KEEP__) -> None:
     """Test entity_filter filters by device_class when specified."""
     trig = _make_trigger(hass, {"sensor": DomainSpec(device_class="humidity")})
 
@@ -4101,7 +4101,7 @@ async def test_entity_filter_by_device_class(hass: UniversalAssistant) -> None:
 
 
 async def test_entity_filter_device_class_unknown_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test entity_filter excludes entities not in state machine or registry."""
     trig = _make_trigger(hass, {"sensor": DomainSpec(device_class="humidity")})
@@ -4113,7 +4113,7 @@ async def test_entity_filter_device_class_unknown_entity(
 
 
 async def test_entity_filter_multiple_domains_with_device_class(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test entity_filter with multiple domains, some with device_class filtering."""
     trig = _make_trigger(
@@ -4149,7 +4149,7 @@ async def test_entity_filter_multiple_domains_with_device_class(
 
 
 async def test_entity_filter_no_device_class_means_match_all_in_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test that DomainSpec without device_class matches all entities in the domain."""
     trig = _make_trigger(hass, {"cover": DomainSpec()})
@@ -4197,7 +4197,7 @@ async def test_entity_filter_no_device_class_means_match_all_in_domain(
     ],
 )
 async def test_make_entity_target_state_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain_specs: Mapping[str, DomainSpec] | str,
     to_states: set[str],
     from_state: State,
@@ -4255,7 +4255,7 @@ async def test_make_entity_target_state_trigger(
     ],
 )
 async def test_make_entity_transition_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain_specs: Mapping[str, DomainSpec],
     from_states: set[str],
     to_states: set[str],
@@ -4310,7 +4310,7 @@ async def test_make_entity_transition_trigger(
     ],
 )
 async def test_make_entity_origin_state_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     domain_specs: Mapping[str, DomainSpec],
     origin: str,
     from_state: State,
@@ -4346,14 +4346,14 @@ class _ActivatedTrigger(StatelessEntityTriggerBase):
 
 
 async def _arm_activated_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_ids: list[str],
     calls: list[dict[str, Any]],
 ) -> CALLBACK_TYPE:
     """Set up _ActivatedTrigger via async_initialize_triggers."""
 
     async def async_get_triggers(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Trigger]]:
         return {"activated": _ActivatedTrigger}
 
@@ -4393,7 +4393,7 @@ async def _arm_activated_trigger(
     ],
 )
 async def test_stateless_entity_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     initial_state: str,
     sequence: list[str],
     expected_calls: int,
@@ -4442,7 +4442,7 @@ class _OffToOnTrigger(EntityTriggerBase):
 
 
 async def _arm_off_to_on_trigger(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_ids: list[str],
     behavior: str,
     calls: list[dict[str, Any]],
@@ -4456,7 +4456,7 @@ async def _arm_off_to_on_trigger(
     """
 
     async def async_get_triggers(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Trigger]]:
         return {"off_to_on": _OffToOnTrigger}
 
@@ -4492,7 +4492,7 @@ async def _arm_off_to_on_trigger(
 
 @pytest.mark.usefixtures("mock_integration_frame")
 async def test_async_initialize_triggers_universal_assistant_start_deprecated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test passing the deprecated universal_assistant_start parameter is reported."""
@@ -4517,12 +4517,12 @@ async def test_async_initialize_triggers_universal_assistant_start_deprecated(
     )
     assert (
         "passes `universal_assistant_start` to `async_initialize_triggers`, which is "
-        "deprecated and will be removed in Universal Universal Home Assistant 2027.8" in caplog.text
+        "deprecated and will be removed in __HA_KEEP__ 2027.8" in caplog.text
     )
 
 
 def _set_or_remove_state(
-    hass: UniversalAssistant, entity_id: str, state: str | None
+    hass: __HAC_KEEP__, entity_id: str, state: str | None
 ) -> None:
     """Set or remove state based on whether state is None."""
     if state is None:
@@ -4533,7 +4533,7 @@ def _set_or_remove_state(
 
 @pytest.mark.parametrize("behavior", [BEHAVIOR_EACH, BEHAVIOR_FIRST, BEHAVIOR_ALL])
 async def test_entity_trigger_fires_on_valid_transition(
-    hass: UniversalAssistant, behavior: str
+    hass: __HAC_KEEP__, behavior: str
 ) -> None:
     """Test EntityTriggerBase fires on a valid transition without duration."""
     entity_id = "test.entity_1"
@@ -4571,7 +4571,7 @@ async def test_entity_trigger_fires_on_valid_transition(
     ids=["unavailable", "unknown", "no_state"],
 )
 async def test_entity_trigger_from_invalid_initial_state(
-    hass: UniversalAssistant, behavior: str, initial_state: str | None
+    hass: __HAC_KEEP__, behavior: str, initial_state: str | None
 ) -> None:
     """Test trigger does not fire from unavailable, unknown, or no state."""
     entity_id = "test.entity_1"
@@ -4601,7 +4601,7 @@ async def test_entity_trigger_from_invalid_initial_state(
 
 
 async def test_entity_trigger_all_requires_all(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test behavior all: trigger fires only when ALL entities are on."""
     entity_a = "test.entity_a"
@@ -4629,7 +4629,7 @@ async def test_entity_trigger_all_requires_all(
 
 
 async def test_entity_trigger_first_same_loop_iteration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test behavior first when two entities change in the same loop iteration.
 
@@ -4662,7 +4662,7 @@ async def test_entity_trigger_first_same_loop_iteration(
 
 
 async def test_entity_trigger_first_no_fire_on_swap_same_loop_iteration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test behavior first when entities swap states in the same loop iteration.
 
@@ -4702,7 +4702,7 @@ async def test_entity_trigger_first_no_fire_on_swap_same_loop_iteration(
 
 
 async def test_entity_trigger_all_same_loop_iteration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test behavior all when two entities change in the same loop iteration.
 
@@ -4735,7 +4735,7 @@ async def test_entity_trigger_all_same_loop_iteration(
 
 
 async def test_entity_trigger_first_resubscribe_same_loop_iteration(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry
 ) -> None:
     """Test behavior first when a registry update causes resubscription.
 
@@ -4775,7 +4775,7 @@ async def test_entity_trigger_first_resubscribe_same_loop_iteration(
 
 
 async def test_entity_trigger_first_requires_exactly_one(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test behavior first: trigger fires only when exactly one entity matches."""
     entity_a = "test.entity_a"
@@ -4808,7 +4808,7 @@ async def test_entity_trigger_first_requires_exactly_one(
     ids=["unavailable", "unknown"],
 )
 async def test_entity_trigger_all_ignores_unavailable_and_unknown_entity(
-    hass: UniversalAssistant, invalid_state: str
+    hass: __HAC_KEEP__, invalid_state: str
 ) -> None:
     """Test behavior all: unavailable/unknown excluded from all-match.
 
@@ -4861,7 +4861,7 @@ async def test_entity_trigger_all_ignores_unavailable_and_unknown_entity(
     ids=["unavailable", "unknown"],
 )
 async def test_entity_trigger_first_ignores_unavailable_and_unknown_entity(
-    hass: UniversalAssistant, invalid_state: str
+    hass: __HAC_KEEP__, invalid_state: str
 ) -> None:
     """Test behavior first: unavailable/unknown excluded from check_one_match.
 
@@ -4898,7 +4898,7 @@ async def test_entity_trigger_first_ignores_unavailable_and_unknown_entity(
 
 @pytest.mark.parametrize("behavior", [BEHAVIOR_EACH, BEHAVIOR_FIRST, BEHAVIOR_ALL])
 async def test_entity_trigger_with_duration(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, behavior: str
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, behavior: str
 ) -> None:
     """Test EntityTriggerBase waits for duration before firing."""
     entity_id = "test.entity_1"
@@ -4930,7 +4930,7 @@ async def test_entity_trigger_with_duration(
 
 @pytest.mark.parametrize("behavior", [BEHAVIOR_EACH, BEHAVIOR_FIRST, BEHAVIOR_ALL])
 async def test_entity_trigger_duration_cancelled_on_state_change(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, behavior: str
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, behavior: str
 ) -> None:
     """Test that the duration timer is cancelled if state changes back."""
     entity_id = "test.entity_1"
@@ -4963,7 +4963,7 @@ async def test_entity_trigger_duration_cancelled_on_state_change(
 
 
 async def test_entity_trigger_duration_each_independent(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior each tracks per-entity durations independently."""
     entity_a = "test.entity_a"
@@ -5007,7 +5007,7 @@ async def test_entity_trigger_duration_each_independent(
 
 
 async def test_entity_trigger_duration_each_entity_off_cancels_only_that_entity(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior each: turning off one entity doesn't cancel the other's timer."""
     entity_a = "test.entity_a"
@@ -5044,7 +5044,7 @@ async def test_entity_trigger_duration_each_entity_off_cancels_only_that_entity(
 
 @pytest.mark.parametrize("behavior", [BEHAVIOR_FIRST, BEHAVIOR_ALL])
 async def test_entity_trigger_blip_same_loop_iteration(
-    hass: UniversalAssistant, behavior: str
+    hass: __HAC_KEEP__, behavior: str
 ) -> None:
     """Test a same-iteration blip (off→on→off) without a duration.
 
@@ -5075,7 +5075,7 @@ async def test_entity_trigger_blip_same_loop_iteration(
 
 @pytest.mark.parametrize("behavior", [BEHAVIOR_FIRST, BEHAVIOR_ALL])
 async def test_entity_trigger_blip_same_loop_iteration_with_duration(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, behavior: str
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, behavior: str
 ) -> None:
     """Test a same-iteration blip (off→on→off) with a duration.
 
@@ -5107,7 +5107,7 @@ async def test_entity_trigger_blip_same_loop_iteration_with_duration(
 
 @pytest.mark.parametrize("behavior", [BEHAVIOR_EACH, BEHAVIOR_FIRST, BEHAVIOR_ALL])
 async def test_entity_trigger_duration_cancelled_by_dip_same_loop_iteration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     behavior: str,
 ) -> None:
@@ -5149,7 +5149,7 @@ async def test_entity_trigger_duration_cancelled_by_dip_same_loop_iteration(
 
 
 async def test_entity_trigger_duration_cancelled_after_resubscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5195,7 +5195,7 @@ async def test_entity_trigger_duration_cancelled_after_resubscription(
 
 
 async def test_entity_trigger_duration_first_match_handover_after_resubscription(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5251,7 +5251,7 @@ async def test_entity_trigger_duration_first_match_handover_after_resubscription
 
 @pytest.mark.parametrize("behavior", [BEHAVIOR_EACH, BEHAVIOR_FIRST, BEHAVIOR_ALL])
 async def test_entity_trigger_duration_not_cancelled_by_attribute_change(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, behavior: str
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, behavior: str
 ) -> None:
     """Test an attribute-only change mid-wait does not cancel the timer.
 
@@ -5290,7 +5290,7 @@ async def test_entity_trigger_duration_not_cancelled_by_attribute_change(
 
 
 async def test_entity_trigger_duration_each_cancelled_when_entity_leaves_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5336,7 +5336,7 @@ async def test_entity_trigger_duration_each_cancelled_when_entity_leaves_target(
     unsub()
 
 
-async def test_trigger_target_exclude_only_invalid(hass: UniversalAssistant) -> None:
+async def test_trigger_target_exclude_only_invalid(hass: __HAC_KEEP__) -> None:
     """Test a trigger target consisting of only an exclude block is rejected."""
 
     class MockTrigger(Trigger):
@@ -5344,12 +5344,12 @@ async def test_trigger_target_exclude_only_invalid(hass: UniversalAssistant) -> 
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: ConfigType
+            cls, hass: __HAC_KEEP__, config: ConfigType
         ) -> ConfigType:
             """Validate config."""
             return config
 
-    async def async_get_triggers(hass: UniversalAssistant) -> dict[str, type[Trigger]]:
+    async def async_get_triggers(hass: __HAC_KEEP__) -> dict[str, type[Trigger]]:
         return {"_": MockTrigger}
 
     mock_integration(hass, MockModule("test"))
@@ -5375,7 +5375,7 @@ _EXCLUDED_ENTITY_ID = "test.excluded"
 
 @pytest.mark.parametrize("behavior", [BEHAVIOR_EACH, BEHAVIOR_FIRST, BEHAVIOR_ALL])
 async def test_entity_trigger_target_exclude(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
     behavior: str,
@@ -5419,7 +5419,7 @@ async def test_entity_trigger_target_exclude(
 
 
 async def test_entity_trigger_target_exclude_registry_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
 ) -> None:
@@ -5470,7 +5470,7 @@ async def test_entity_trigger_target_exclude_registry_update(
 
 
 async def test_entity_trigger_duration_each_cancelled_when_entity_excluded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     label_registry: lr.LabelRegistry,
@@ -5517,7 +5517,7 @@ async def test_entity_trigger_duration_each_cancelled_when_entity_excluded(
 
 
 async def test_entity_trigger_duration_each_cancelled_on_entity_rename(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5572,7 +5572,7 @@ async def test_entity_trigger_duration_each_cancelled_on_entity_rename(
 
 
 async def test_entity_trigger_duration_all_survives_entity_leaving_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5636,7 +5636,7 @@ async def test_entity_trigger_duration_all_survives_entity_leaving_target(
     ],
 )
 async def test_entity_trigger_duration_all_revalidated_when_entity_joins_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
     added_entity_state: str,
@@ -5693,7 +5693,7 @@ async def test_entity_trigger_duration_all_revalidated_when_entity_joins_target(
 
 
 async def test_entity_trigger_duration_first_cancelled_when_match_leaves_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5743,7 +5743,7 @@ async def test_entity_trigger_duration_first_cancelled_when_match_leaves_target(
 
 
 async def test_entity_trigger_duration_first_survives_entity_joining_target(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -5793,7 +5793,7 @@ async def test_entity_trigger_duration_first_survives_entity_joining_target(
 
 
 async def test_entity_trigger_first_nested_state_revert(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test a synchronous bus listener reverting a state change.
 
@@ -5850,7 +5850,7 @@ async def test_entity_trigger_first_nested_state_revert(
 
 
 async def test_entity_trigger_duration_all_requires_all(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior all: trigger fires only when ALL entities are on for duration."""
     entity_a = "test.entity_a"
@@ -5886,7 +5886,7 @@ async def test_entity_trigger_duration_all_requires_all(
 
 
 async def test_entity_trigger_duration_all_cancelled_when_all_entities_filtered(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior all with for: timer cancelled when all entities filtered.
 
@@ -5931,7 +5931,7 @@ async def test_entity_trigger_duration_all_cancelled_when_all_entities_filtered(
 
 
 async def test_entity_trigger_duration_all_cancelled_when_one_turns_off(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior all: timer is cancelled when one entity turns off."""
     entity_a = "test.entity_a"
@@ -5966,7 +5966,7 @@ async def test_entity_trigger_duration_all_cancelled_when_one_turns_off(
 
 
 async def test_entity_trigger_duration_all_timer_reset(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior all: timer resets when combined state goes off and back on."""
     entity_a = "test.entity_a"
@@ -6014,7 +6014,7 @@ async def test_entity_trigger_duration_all_timer_reset(
 
 
 async def test_entity_trigger_duration_first_fires_when_any_on(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior first: trigger fires when first entity turns on for duration."""
     entity_a = "test.entity_a"
@@ -6043,7 +6043,7 @@ async def test_entity_trigger_duration_first_fires_when_any_on(
 
 
 async def test_entity_trigger_duration_first_not_cancelled_by_second(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior first: second entity turning on doesn't restart timer."""
     entity_a = "test.entity_a"
@@ -6079,7 +6079,7 @@ async def test_entity_trigger_duration_first_not_cancelled_by_second(
 
 
 async def test_entity_trigger_duration_first_not_cancelled_by_partial_off(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior first: one entity off doesn't cancel if another is still on."""
     entity_a = "test.entity_a"
@@ -6115,7 +6115,7 @@ async def test_entity_trigger_duration_first_not_cancelled_by_partial_off(
 
 
 async def test_entity_trigger_duration_first_cancelled_when_all_off(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior first: timer cancelled when ALL entities turn off."""
     entity_a = "test.entity_a"
@@ -6151,7 +6151,7 @@ async def test_entity_trigger_duration_first_cancelled_when_all_off(
 
 
 async def test_entity_trigger_duration_each_retrigger_resets_timer(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory
 ) -> None:
     """Test behavior each: turning an entity off and on resets its timer."""
     entity_id = "test.entity_1"
@@ -6200,7 +6200,7 @@ async def test_entity_trigger_duration_each_retrigger_resets_timer(
     ids=["unavailable", "unknown", "removed"],
 )
 async def test_entity_trigger_duration_cancelled_on_invalid_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     behavior: str,
     expected_calls: int,
@@ -6244,7 +6244,7 @@ async def test_entity_trigger_duration_cancelled_on_invalid_state(
 
 
 @pytest.fixture
-def mock_test_modern_trigger(hass: UniversalAssistant) -> None:
+def mock_test_modern_trigger(hass: __HAC_KEEP__) -> None:
     """Register a mock 'test' integration and trigger platform exposing 'test.modern'."""
 
     class MockModernTrigger(Trigger):
@@ -6252,7 +6252,7 @@ def mock_test_modern_trigger(hass: UniversalAssistant) -> None:
 
         @classmethod
         async def async_validate_config(
-            cls, hass: UniversalAssistant, config: ConfigType
+            cls, hass: __HAC_KEEP__, config: ConfigType
         ) -> ConfigType:
             return config
 
@@ -6262,7 +6262,7 @@ def mock_test_modern_trigger(hass: UniversalAssistant) -> None:
             return lambda: None
 
     async def async_get_triggers(
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
     ) -> dict[str, type[Trigger]]:
         return {"modern": MockModernTrigger}
 
@@ -6404,7 +6404,7 @@ def mock_test_modern_trigger(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_async_extract_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     trigger_conf: dict[str, Any],
     expected: list[str],
 ) -> None:
@@ -6465,7 +6465,7 @@ _MOCK_DEVICE_ID = "_mock_device_id_"
 
 
 @pytest.fixture
-async def mock_device_automation(hass: UniversalAssistant) -> str:
+async def mock_device_automation(hass: __HAC_KEEP__) -> str:
     """Register a mock 'test' integration, device_trigger platform, and device.
 
     Returns the device id, which tests substitute for _MOCK_DEVICE_ID in their
@@ -6560,7 +6560,7 @@ def _substitute(obj: Any, placeholder: str, value: str) -> Any:
     ],
 )
 async def test_async_extract_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_test_modern_trigger: None,
     mock_device_automation: str,
     trigger_conf: dict[str, Any],

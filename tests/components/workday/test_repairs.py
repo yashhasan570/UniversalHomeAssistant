@@ -12,7 +12,7 @@ from pytest_universalassistant.typing import ClientSessionGenerator, WebSocketGe
 
 from universalassistant.components.workday.const import CONF_REMOVE_HOLIDAYS, DOMAIN
 from universalassistant.const import CONF_COUNTRY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import issue_registry as ir
 from universalassistant.setup import async_setup_component
 
@@ -27,7 +27,7 @@ from . import (
 
 
 async def test_bad_country(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -80,7 +80,7 @@ async def test_bad_country(
 
 
 async def test_bad_country_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_bad_country_none(
 
 
 async def test_bad_country_no_province(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -184,7 +184,7 @@ async def test_bad_country_no_province(
 
 
 async def test_bad_province(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_bad_province(
 
 
 async def test_bad_province_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -292,7 +292,7 @@ async def test_bad_province_none(
 
 
 async def test_bad_named_holiday(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     issue_registry: ir.IssueRegistry,
@@ -365,7 +365,7 @@ async def test_bad_named_holiday(
 
 
 async def test_bad_date_holiday(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
     issue_registry: ir.IssueRegistry,
@@ -437,7 +437,7 @@ async def test_bad_date_holiday(
     ["component.workday.issues.issue_1.title"],
 )
 async def test_other_fixable_issues(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     hass_ws_client: WebSocketGenerator,
 ) -> None:
@@ -513,7 +513,7 @@ async def test_other_fixable_issues(
     ],
 )
 async def test_bad_country_province_issue_per_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     config: dict[str, Any],
     issue_prefix: str,
@@ -545,7 +545,7 @@ async def test_bad_country_province_issue_per_entry(
     ],
 )
 async def test_bad_country_province_issue_deleted_when_fixed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     config: dict[str, Any],
     issue_prefix: str,

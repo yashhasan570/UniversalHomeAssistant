@@ -50,7 +50,7 @@ from universalassistant.const import (
     STATE_OPENING,
     EntityStateAttribute,
 )
-from universalassistant.core import UniversalAssistant, State, callback, split_entity_id
+from universalassistant.core import __HAC_KEEP__, State, callback, split_entity_id
 from universalassistant.helpers.event import async_call_later
 from universalassistant.util import dt as dt_util
 
@@ -414,7 +414,7 @@ class ValveBase(HomeAccessory):
         )
 
     def get_duration(self) -> int:
-        """Get the default duration from Universal Universal Home Assistant."""
+        """Get the default duration from __HA_KEEP__."""
         duration_state = self._get_entity_state(self.linked_duration_entity)
         if duration_state is None:
             _LOGGER.debug(
@@ -430,7 +430,7 @@ class ValveBase(HomeAccessory):
             return 0
 
     def get_remaining_duration(self) -> int:
-        """Calculate the remaining duration based on end time in Universal Universal Home Assistant."""
+        """Calculate the remaining duration based on end time in __HA_KEEP__."""
         end_time_state = self._get_entity_state(self.linked_end_time_entity)
         if end_time_state is None:
             _LOGGER.debug(
@@ -472,11 +472,11 @@ class ValveBase(HomeAccessory):
 
 @TYPES.register("ValveSwitch")
 class ValveSwitch(ValveBase):
-    """Generate a Valve accessory from a UniversalAssistant switch."""
+    """Generate a Valve accessory from a __HAC_KEEP__ switch."""
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         driver: HomeDriver,
         name: str,
         entity_id: str,
@@ -502,11 +502,11 @@ class ValveSwitch(ValveBase):
 
 @TYPES.register("Valve")
 class Valve(ValveBase):
-    """Generate a Valve accessory from a UniversalAssistant valve."""
+    """Generate a Valve accessory from a __HAC_KEEP__ valve."""
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         driver: HomeDriver,
         name: str,
         entity_id: str,

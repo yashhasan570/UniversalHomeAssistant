@@ -9,7 +9,7 @@ from aioairzone.exceptions import AirzoneError
 from aioairzone.localapi import AirzoneLocalApi
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import AIOAIRZONE_DEVICE_TIMEOUT_SEC, DOMAIN
@@ -28,7 +28,7 @@ class AirzoneUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: AirzoneConfigEntry,
         airzone: AirzoneLocalApi,
     ) -> None:

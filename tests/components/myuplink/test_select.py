@@ -15,8 +15,8 @@ from universalassistant.components.select import (
     SelectServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 pytestmark = pytest.mark.parametrize("platforms", [(Platform.SELECT,)])
@@ -28,7 +28,7 @@ DEVICE_ID = "robin-r-1234-20240201-123456-aa-bb-cc-dd-ee-ff"
 
 
 async def test_selecting(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_myuplink_client: MagicMock,
     setup_platform: None,
 ) -> None:
@@ -49,7 +49,7 @@ async def test_selecting(
     # Test handling of exception from API.
 
     mock_myuplink_client.async_set_device_points.side_effect = ClientError
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -67,7 +67,7 @@ async def test_selecting(
     ["device_points_nibe_smo20.json"],
 )
 async def test_entity_registry_smo20(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_myuplink_client: MagicMock,
     setup_platform: None,
@@ -83,7 +83,7 @@ async def test_entity_registry_smo20(
     ["device_points_ctc_i555.json"],
 )
 async def test_decimal_enum_values(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_myuplink_client: MagicMock,
     setup_platform: None,
@@ -118,7 +118,7 @@ async def test_decimal_enum_values(
 
 
 async def test_select_states(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_myuplink_client: MagicMock,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,

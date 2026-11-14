@@ -8,12 +8,12 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.ccm15.const import DOMAIN
 from universalassistant.const import CONF_HOST, CONF_PORT
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.httpx_client import get_async_client
 
 
-async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> None:
+async def test_form(hass: __HAC_KEEP__, mock_setup_entry: AsyncMock) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -43,7 +43,7 @@ async def test_form(hass: UniversalAssistant, mock_setup_entry: AsyncMock) -> No
 
 
 async def test_form_invalid_host(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """Test we get the form."""
     result = await hass.config_entries.flow.async_init(
@@ -82,7 +82,7 @@ async def test_form_invalid_host(
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
+async def test_form_cannot_connect(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -115,7 +115,7 @@ async def test_form_cannot_connect(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_form_unexpected_error(hass: UniversalAssistant) -> None:
+async def test_form_unexpected_error(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -149,7 +149,7 @@ async def test_form_unexpected_error(hass: UniversalAssistant) -> None:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_duplicate_host(hass: UniversalAssistant) -> None:
+async def test_duplicate_host(hass: __HAC_KEEP__) -> None:
     """Test we handle cannot connect error."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -178,7 +178,7 @@ async def test_duplicate_host(hass: UniversalAssistant) -> None:
 
 
 async def test_form_uses_shared_httpx_client(
-    hass: UniversalAssistant, mock_setup_entry: AsyncMock
+    hass: __HAC_KEEP__, mock_setup_entry: AsyncMock
 ) -> None:
     """The config flow passes HA's shared httpx client to the library.
 

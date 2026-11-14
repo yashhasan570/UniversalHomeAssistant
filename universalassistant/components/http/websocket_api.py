@@ -9,8 +9,8 @@ from universalassistant.components.universalassistant import (
     DOMAIN as HASS_DOMAIN,
     SERVICE_HOMEASSISTANT_RESTART,
 )
-from universalassistant.core import CoreState, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import CoreState, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .config import HTTP_STORAGE_SCHEMA, ConfData, async_get_and_load_store
 from .const import (
@@ -42,7 +42,7 @@ def _validate_trusted_proxies(config: ConfData) -> ConfData:
 
 
 @callback
-def async_register_websocket_commands(hass: UniversalAssistant) -> None:
+def async_register_websocket_commands(hass: __HAC_KEEP__) -> None:
     """Register the HTTP config websocket commands."""
     websocket_api.async_register_command(hass, websocket_get_config)
     websocket_api.async_register_command(hass, websocket_set_config)
@@ -53,7 +53,7 @@ def async_register_websocket_commands(hass: UniversalAssistant) -> None:
 @websocket_api.websocket_command({probatio.Required("type"): "http/config"})
 @websocket_api.async_response
 async def websocket_get_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
@@ -92,13 +92,13 @@ async def websocket_get_config(
 )
 @websocket_api.async_response
 async def websocket_set_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
     """Store a new pending HTTP configuration and restart to apply it.
 
-    Only allowed while Universal Universal Home Assistant is running: applying a config means
+    Only allowed while __HA_KEEP__ is running: applying a config means
     restarting, and restarting a start that has not finished yet leaves
     integrations that are still setting up in an undefined state.
 
@@ -117,7 +117,7 @@ async def websocket_set_config(
         connection.send_error(
             msg["id"],
             ERR_NOT_RUNNING,
-            "The HTTP configuration can only be changed while Universal Universal Home Assistant "
+            "The HTTP configuration can only be changed while __HA_KEEP__ "
             f"is running, current state: {hass.state.value}",
         )
         return
@@ -133,7 +133,7 @@ async def websocket_set_config(
                 # checked; a conflict on the port itself is caught when the
                 # restarted server binds and falls back to the stable config.
                 await async_verify_hosts_distinct(hass, hosts)
-        except UniversalAssistantError as err:
+        except __HAC_KEEP__Error as err:
             connection.send_error(msg["id"], ERR_BIND_FAILED, str(err))
             return
 
@@ -151,20 +151,20 @@ async def websocket_set_config(
 @websocket_api.websocket_command({probatio.Required("type"): "http/config/promote"})
 @websocket_api.async_response
 async def websocket_promote_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     connection: websocket_api.ActiveConnection,
     msg: dict[str, Any],
 ) -> None:
     """Promote the pending HTTP config to stable.
 
-    Called by the user after they have verified Universal Universal Home Assistant is
+    Called by the user after they have verified __HA_KEEP__ is
     working correctly with the pending config. The stable config is
     the one used by recovery mode, so promotion must be explicit.
     """
     store = await async_get_and_load_store(hass)
     try:
         await store.async_promote_pending()
-    except UniversalAssistantError as err:
+    except __HAC_KEEP__Error as err:
         connection.send_error(
             msg["id"],
             websocket_api.const.ERR_NOT_ALLOWED,

@@ -12,7 +12,7 @@ from universalassistant.components.recorder import Recorder
 from universalassistant.components.recorder.history import get_significant_states
 from universalassistant.components.text import ATTR_MAX, ATTR_MIN, ATTR_MODE, ATTR_PATTERN
 from universalassistant.const import ATTR_FRIENDLY_NAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
 
@@ -27,7 +27,7 @@ async def text_only() -> None:
         yield
 
 
-async def test_exclude_attributes(recorder_mock: Recorder, hass: UniversalAssistant) -> None:
+async def test_exclude_attributes(recorder_mock: Recorder, hass: __HAC_KEEP__) -> None:
     """Test siren registered attributes to be excluded."""
     now = dt_util.utcnow()
     assert await async_setup_component(hass, "universalassistant", {})

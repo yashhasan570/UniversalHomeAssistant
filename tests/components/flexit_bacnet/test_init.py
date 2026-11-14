@@ -11,7 +11,7 @@ from pytest_universalassistant.common import MockConfigEntry, async_fire_time_ch
 from universalassistant.components.flexit_bacnet.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNAVAILABLE, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import UpdateFailed
 from universalassistant.util.dt import utcnow
 
@@ -19,7 +19,7 @@ from . import setup_with_selected_platforms
 
 
 async def test_loading_and_unloading_config_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_flexit_bacnet: AsyncMock,
 ) -> None:
@@ -44,7 +44,7 @@ async def test_loading_and_unloading_config_entry(
     ],
 )
 async def test_failed_initialization(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_flexit_bacnet: AsyncMock,
     error: type[Exception],
@@ -65,7 +65,7 @@ async def test_failed_initialization(
     ],
 )
 async def test_update_failure_and_recovery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_flexit_bacnet: AsyncMock,
     caplog: pytest.LogCaptureFixture,

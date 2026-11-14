@@ -5,7 +5,7 @@ from typing import Any, override
 from starline import StarlineDevice
 
 from universalassistant.components.lock import LockEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .account import StarlineAccount, StarlineConfigEntry
@@ -13,7 +13,7 @@ from .entity import StarlineEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: StarlineConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

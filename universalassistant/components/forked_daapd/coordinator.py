@@ -8,7 +8,7 @@ from typing import Any
 from pyforked_daapd import ForkedDaapdAPI
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 
@@ -32,7 +32,7 @@ WEBSOCKET_RECONNECT_TIME = 30  # seconds
 class ForkedDaapdUpdater:
     """Manage updates for the forked-daapd device."""
 
-    def __init__(self, hass: UniversalAssistant, api: ForkedDaapdAPI, entry_id: str) -> None:
+    def __init__(self, hass: __HAC_KEEP__, api: ForkedDaapdAPI, entry_id: str) -> None:
         """Initialize."""
         self.hass = hass
         self._api = api

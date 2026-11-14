@@ -5,7 +5,7 @@ import logging
 from flow_it_api.client import FlowItVMCMachine
 
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.httpx_client import get_async_client
 
 from .coordinator import AriaQConfigEntry, AriaQCoordinator, AriaQData
@@ -21,7 +21,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AriaQConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AriaQConfigEntry) -> None:
     """Set up AriaQ from a config entry."""
 
     vmc = FlowItVMCMachine(
@@ -43,7 +43,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AriaQConfigEntry) -
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AriaQConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AriaQConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
     vmc = entry.runtime_data.vmc

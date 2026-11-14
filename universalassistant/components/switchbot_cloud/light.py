@@ -14,7 +14,7 @@ from switchbot_api import (
 )
 
 from universalassistant.components.light import ColorMode, LightEntity
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from . import SwitchbotCloudConfigEntry
@@ -34,7 +34,7 @@ def brightness_map_value(value: int) -> int:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: SwitchbotCloudConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

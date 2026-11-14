@@ -7,7 +7,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.scene import DOMAIN as SCENE_DOMAIN, SceneService
 from universalassistant.components.velux import DOMAIN
 from universalassistant.const import CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 
@@ -19,7 +19,7 @@ def platform() -> Platform:
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_scene_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -50,7 +50,7 @@ async def test_scene_snapshot(
 
 @pytest.mark.usefixtures("setup_integration")
 async def test_scene_activation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_scene: AsyncMock,
 ) -> None:
     """Test successful scene activation."""

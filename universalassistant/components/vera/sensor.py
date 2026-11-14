@@ -18,7 +18,7 @@ from universalassistant.const import (
     UnitOfPower,
     UnitOfTemperature,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .common import ControllerData, VeraConfigEntry
@@ -28,7 +28,7 @@ SCAN_INTERVAL = timedelta(seconds=5)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VeraConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

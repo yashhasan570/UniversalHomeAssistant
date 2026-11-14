@@ -5,13 +5,13 @@ from unittest.mock import MagicMock
 import pyvera as pv
 
 from universalassistant.components.lock import LockState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .common import ComponentFactory, new_simple_controller_config
 
 
 async def test_lock(
-    hass: UniversalAssistant, vera_component_factory: ComponentFactory
+    hass: __HAC_KEEP__, vera_component_factory: ComponentFactory
 ) -> None:
     """Test function."""
     vera_device: pv.VeraLock = MagicMock(spec=pv.VeraLock)

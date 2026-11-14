@@ -12,12 +12,12 @@ from universalassistant.components.text import (
     SERVICE_SET_VALUE,
 )
 from universalassistant.const import ATTR_BATTERY_LEVEL, ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ServiceValidationError
 
 
 async def test_text_node(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     text_node: Sensor,
     receive_message: Callable[[str], None],
     transport_write: MagicMock,

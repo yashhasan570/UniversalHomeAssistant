@@ -23,7 +23,7 @@ from universalassistant.const import (
     STATE_OFF,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import ConfigEntryFactoryType, RtspEventMock
@@ -111,7 +111,7 @@ def light_control_fixture(
 @pytest.mark.parametrize("light_control_items", [[]])
 @pytest.mark.usefixtures("config_entry_setup")
 async def test_no_light_entity_without_light_control_representation(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_rtsp_event: RtspEventMock,
 ) -> None:
     """Verify no lights entities get created without light control representation."""
@@ -129,7 +129,7 @@ async def test_no_light_entity_without_light_control_representation(
 
 @pytest.mark.parametrize("api_discovery_items", [API_DISCOVERY_LIGHT_CONTROL])
 async def test_lights(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     config_entry_factory: ConfigEntryFactoryType,
     mock_rtsp_event: RtspEventMock,

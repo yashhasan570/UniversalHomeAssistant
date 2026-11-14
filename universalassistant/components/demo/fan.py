@@ -4,7 +4,7 @@ from typing import Any, override
 
 from universalassistant.components.fan import FanEntity, FanEntityFeature
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 PRESET_MODE_AUTO = "auto"
@@ -25,7 +25,7 @@ LIMITED_SUPPORT = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -101,7 +101,7 @@ class BaseDemoFan(FanEntity):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         unique_id: str,
         name: str,
         supported_features: FanEntityFeature,

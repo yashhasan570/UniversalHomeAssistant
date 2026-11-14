@@ -8,7 +8,7 @@ from aiohomeconnect.model import EventKey
 import jwt
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import (
     config_validation as cv,
     device_registry as dr,
@@ -43,13 +43,13 @@ PLATFORMS = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up Home Connect component."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HomeConnectConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HomeConnectConfigEntry) -> None:
     """Set up Home Connect from a config entry."""
     implementation = await async_get_config_entry_implementation(hass, entry)
 
@@ -101,7 +101,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HomeConnectConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: HomeConnectConfigEntry
+    hass: __HAC_KEEP__, entry: HomeConnectConfigEntry
 ) -> None:
     """Unload a config entry."""
     issue_registry = ir.async_get(hass)
@@ -123,7 +123,7 @@ async def async_unload_entry(
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, entry: HomeConnectConfigEntry
+    hass: __HAC_KEEP__, entry: HomeConnectConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s.%s", entry.version, entry.minor_version)

@@ -17,7 +17,7 @@ from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -131,7 +131,7 @@ def _dc_device() -> DummyDevice:
     ],
 )
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
@@ -146,7 +146,7 @@ async def test_all_entities(
 
 
 async def test_binary_sensor_state_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
     set_device_attribute: SetDeviceAttribute,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_binary_sensor_state_update(
 
 
 async def test_binary_sensor_unknown_for_non_bool_value(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: Callable[[DummyDevice], MockConfigEntry],
 ) -> None:
     """Test binary_sensor is unknown when the device reports a non-bool value."""

@@ -1,12 +1,12 @@
 """The Huum integration."""
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import PLATFORMS
 from .coordinator import HuumConfigEntry, HuumDataUpdateCoordinator
 
 
-async def async_setup_entry(hass: UniversalAssistant, config_entry: HuumConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, config_entry: HuumConfigEntry) -> None:
     """Set up Huum from a config entry."""
     coordinator = HuumDataUpdateCoordinator(
         hass=hass,
@@ -20,7 +20,7 @@ async def async_setup_entry(hass: UniversalAssistant, config_entry: HuumConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: HuumConfigEntry
+    hass: __HAC_KEEP__, config_entry: HuumConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)

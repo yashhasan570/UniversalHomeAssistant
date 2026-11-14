@@ -6,7 +6,7 @@ from pywizlight import PilotBuilder
 from pywizlight.bulblibrary import BulbClass
 
 from universalassistant.components.switch import SwitchEntity
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import WizConfigEntry, WizData
@@ -14,7 +14,7 @@ from .entity import WizToggleEntity, wiz_exception_handler
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: WizConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

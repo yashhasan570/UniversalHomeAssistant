@@ -6,7 +6,7 @@ import pytest
 from pytest_universalassistant.common import async_mock_service
 
 from universalassistant.components import automation
-from universalassistant.core import CoreState, UniversalAssistant
+from universalassistant.core import CoreState, __HAC_KEEP__
 from universalassistant.helpers.typing import ConfigType
 from universalassistant.setup import async_setup_component
 
@@ -28,11 +28,11 @@ from universalassistant.setup import async_setup_component
 )
 @pytest.mark.usefixtures("mock_hass_config")
 async def test_if_fires_on_hass_start(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_config: ConfigType,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Test the firing when Universal Universal Home Assistant starts."""
+    """Test the firing when __HA_KEEP__ starts."""
     calls = async_mock_service(hass, "test", "automation")
     hass.set_state(CoreState.not_running)
 
@@ -58,8 +58,8 @@ async def test_if_fires_on_hass_start(
     assert "Unable to remove unknown job listener" not in caplog.text
 
 
-async def test_if_not_fires_when_set_up_after_start(hass: UniversalAssistant) -> None:
-    """Test the start trigger stays silent when armed after Universal Universal Home Assistant started."""
+async def test_if_not_fires_when_set_up_after_start(hass: __HAC_KEEP__) -> None:
+    """Test the start trigger stays silent when armed after __HA_KEEP__ started."""
     calls = async_mock_service(hass, "test", "automation")
     assert hass.state is CoreState.running
 
@@ -81,8 +81,8 @@ async def test_if_not_fires_when_set_up_after_start(hass: UniversalAssistant) ->
     assert len(calls) == 0
 
 
-async def test_if_fires_on_hass_shutdown(hass: UniversalAssistant) -> None:
-    """Test the firing when Universal Universal Home Assistant shuts down."""
+async def test_if_fires_on_hass_shutdown(hass: __HAC_KEEP__) -> None:
+    """Test the firing when __HA_KEEP__ shuts down."""
     calls = async_mock_service(hass, "test", "automation")
     hass.set_state(CoreState.not_running)
 

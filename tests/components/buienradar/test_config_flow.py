@@ -6,7 +6,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.buienradar.const import DOMAIN
 from universalassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 TEST_LATITUDE = 51.5288504
@@ -15,7 +15,7 @@ TEST_LONGITUDE = 5.4002156
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
 
 
-async def test_config_flow_setup_(hass: UniversalAssistant) -> None:
+async def test_config_flow_setup_(hass: __HAC_KEEP__) -> None:
     """Test setup of camera."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -39,7 +39,7 @@ async def test_config_flow_setup_(hass: UniversalAssistant) -> None:
     assert result["result"].unique_id == f"{TEST_LATITUDE}-{TEST_LONGITUDE}"
 
 
-async def test_config_flow_already_configured_weather(hass: UniversalAssistant) -> None:
+async def test_config_flow_already_configured_weather(hass: __HAC_KEEP__) -> None:
     """Test already configured."""
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -70,7 +70,7 @@ async def test_config_flow_already_configured_weather(hass: UniversalAssistant) 
     assert result["reason"] == "already_configured"
 
 
-async def test_options_flow(hass: UniversalAssistant) -> None:
+async def test_options_flow(hass: __HAC_KEEP__) -> None:
     """Test options flow."""
     entry = MockConfigEntry(
         domain=DOMAIN,

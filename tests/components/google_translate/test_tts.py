@@ -17,7 +17,7 @@ from universalassistant.components.google_translate.const import CONF_TLD, DOMAI
 from universalassistant.components.media_player import ATTR_MEDIA_CONTENT_ID
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import ATTR_ENTITY_ID, CONF_PLATFORM
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
@@ -36,7 +36,7 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
 
 
 @pytest.fixture(autouse=True)
-async def setup_internal_url(hass: UniversalAssistant) -> None:
+async def setup_internal_url(hass: __HAC_KEEP__) -> None:
     """Set up internal url."""
     await async_process_ha_core_config(
         hass, {"internal_url": "http://example.local:8123"}
@@ -52,7 +52,7 @@ def mock_gtts() -> Generator[MagicMock]:
 
 @pytest.fixture(name="setup")
 async def setup_fixture(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict[str, Any],
     request: pytest.FixtureRequest,
 ) -> None:
@@ -73,14 +73,14 @@ def config_fixture() -> dict[str, Any]:
     return {}
 
 
-async def mock_setup(hass: UniversalAssistant, config: dict[str, Any]) -> None:
+async def mock_setup(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
     """Mock setup."""
     assert await async_setup_component(
         hass, tts.DOMAIN, {tts.DOMAIN: {CONF_PLATFORM: DOMAIN} | config}
     )
 
 
-async def mock_config_entry_setup(hass: UniversalAssistant, config: dict[str, Any]) -> None:
+async def mock_config_entry_setup(hass: __HAC_KEEP__, config: dict[str, Any]) -> None:
     """Mock config entry setup."""
     default_config = {tts.CONF_LANG: "en", CONF_TLD: "com"}
     config_entry = MockConfigEntry(domain=DOMAIN, data=default_config | config)
@@ -90,7 +90,7 @@ async def mock_config_entry_setup(hass: UniversalAssistant, config: dict[str, An
 
 
 async def test_platform(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -133,7 +133,7 @@ async def test_platform(
     indirect=["setup"],
 )
 async def test_tts_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gtts: MagicMock,
     hass_client: ClientSessionGenerator,
     service_calls: list[ServiceCall],
@@ -190,7 +190,7 @@ async def test_tts_service(
     indirect=["setup"],
 )
 async def test_service_say_german_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gtts: MagicMock,
     hass_client: ClientSessionGenerator,
     service_calls: list[ServiceCall],
@@ -247,7 +247,7 @@ async def test_service_say_german_config(
     indirect=["setup"],
 )
 async def test_service_say_german_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gtts: MagicMock,
     hass_client: ClientSessionGenerator,
     service_calls: list[ServiceCall],
@@ -303,7 +303,7 @@ async def test_service_say_german_service(
     indirect=["setup"],
 )
 async def test_service_say_en_uk_config(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gtts: MagicMock,
     hass_client: ClientSessionGenerator,
     service_calls: list[ServiceCall],
@@ -360,7 +360,7 @@ async def test_service_say_en_uk_config(
     indirect=["setup"],
 )
 async def test_service_say_en_uk_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gtts: MagicMock,
     hass_client: ClientSessionGenerator,
     service_calls: list[ServiceCall],
@@ -417,7 +417,7 @@ async def test_service_say_en_uk_service(
     indirect=["setup"],
 )
 async def test_service_say_en_couk(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gtts: MagicMock,
     hass_client: ClientSessionGenerator,
     service_calls: list[ServiceCall],
@@ -473,7 +473,7 @@ async def test_service_say_en_couk(
     indirect=["setup"],
 )
 async def test_service_say_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_gtts: MagicMock,
     hass_client: ClientSessionGenerator,
     service_calls: list[ServiceCall],

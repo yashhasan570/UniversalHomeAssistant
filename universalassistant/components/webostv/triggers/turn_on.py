@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_PLATFORM,
     CONF_TYPE,
 )
-from universalassistant.core import CALLBACK_TYPE, Context, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Context, __HAC_KEEP__, callback
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.automation import move_top_level_schema_fields_to_options
 from universalassistant.helpers.trigger import (
@@ -62,7 +62,7 @@ def async_get_turn_on_trigger(device_id: str) -> dict[str, str]:
 
 
 @callback
-def async_get_turn_on_description(hass: UniversalAssistant, device_id: str) -> str:
+def async_get_turn_on_description(hass: __HAC_KEEP__, device_id: str) -> str:
     """Return the trigger description for a device."""
     device = async_get_device_entry_by_device_id(hass, device_id)
     return f"webostv turn on trigger for {device.name_by_user or device.name}"
@@ -76,7 +76,7 @@ class TurnOnTrigger(Trigger):
     @classmethod
     @override
     async def async_validate_complete_config(
-        cls, hass: UniversalAssistant, complete_config: ConfigType
+        cls, hass: __HAC_KEEP__, complete_config: ConfigType
     ) -> ConfigType:
         """Validate complete config, moving legacy fields to options."""
         complete_config = move_top_level_schema_fields_to_options(
@@ -87,12 +87,12 @@ class TurnOnTrigger(Trigger):
     @classmethod
     @override
     async def async_validate_config(
-        cls, hass: UniversalAssistant, config: ConfigType
+        cls, hass: __HAC_KEEP__, config: ConfigType
     ) -> ConfigType:
         """Validate config."""
         return cast(ConfigType, _TRIGGER_SCHEMA(config))
 
-    def __init__(self, hass: UniversalAssistant, config: TriggerConfig) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config: TriggerConfig) -> None:
         """Initialize trigger."""
         super().__init__(hass, config)
 

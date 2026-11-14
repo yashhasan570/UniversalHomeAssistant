@@ -1,4 +1,4 @@
-"""Test the Livisi Universal Universal Home Assistant config flow."""
+"""Test the Livisi __HA_KEEP__ config flow."""
 
 from unittest.mock import patch
 
@@ -13,13 +13,13 @@ import pytest
 
 from universalassistant.components.livisi.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import VALID_CONFIG, mocked_livisi_connect, mocked_livisi_setup_entry
 
 
-async def test_create_entry(hass: UniversalAssistant) -> None:
+async def test_create_entry(hass: __HAC_KEEP__) -> None:
     """Test create LIVISI entity."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -39,7 +39,7 @@ async def test_create_entry(hass: UniversalAssistant) -> None:
         connect.return_value.close.assert_awaited_once_with()
 
 
-async def test_no_controller(hass: UniversalAssistant) -> None:
+async def test_no_controller(hass: __HAC_KEEP__) -> None:
     """Test a connection without controller data."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -74,7 +74,7 @@ async def test_no_controller(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_create_entity_after_login_error(
-    hass: UniversalAssistant, exception: LivisiException, expected_reason: str
+    hass: __HAC_KEEP__, exception: LivisiException, expected_reason: str
 ) -> None:
     """Test LIVISI can create an entity after user login errors."""
     with patch(

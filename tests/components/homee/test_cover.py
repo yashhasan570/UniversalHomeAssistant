@@ -34,8 +34,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -50,7 +50,7 @@ async def platforms() -> AsyncGenerator[None]:
 
 
 async def test_open_close_stop_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -87,7 +87,7 @@ async def test_open_close_stop_cover(
 
 
 async def test_open_close_reverse_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -121,7 +121,7 @@ async def test_open_close_reverse_cover(
 
 
 async def test_set_cover_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_set_cover_position(
 
 
 async def test_close_open_slats(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -201,7 +201,7 @@ async def test_close_open_slats(
 
 
 async def test_close_open_reversed_slats(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -242,7 +242,7 @@ async def test_close_open_reversed_slats(
 
 
 async def test_set_slat_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_set_slat_position(
 
 
 async def test_cover_positions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -351,7 +351,7 @@ async def test_cover_positions(
 
 
 async def test_reversed_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -379,7 +379,7 @@ async def test_reversed_cover(
 
 
 async def test_invalid_cover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     caplog: pytest.LogCaptureFixture,
@@ -392,7 +392,7 @@ async def test_invalid_cover(
 
 
 async def test_send_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -404,7 +404,7 @@ async def test_send_error(
     mock_homee.set_value.side_effect = ConnectionClosed(
         rcvd=frames.Close(1002, "Protocol Error"), sent=None
     )
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             COVER_DOMAIN,
             SERVICE_OPEN_COVER,
@@ -417,7 +417,7 @@ async def test_send_error(
 
 
 async def test_node_entity_connection_listener(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -443,7 +443,7 @@ async def test_node_entity_connection_listener(
 
 
 async def test_node_entity_update_action(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -464,7 +464,7 @@ async def test_node_entity_update_action(
 
 
 async def test_cover_snapshot(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_homee: MagicMock,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,

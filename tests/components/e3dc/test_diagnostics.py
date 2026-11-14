@@ -14,11 +14,11 @@ from pytest_universalassistant.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.e3dc.const import SCAN_INTERVAL
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
     snapshot: SnapshotAssertion,
@@ -30,7 +30,7 @@ async def test_diagnostics(
 
 
 async def test_diagnostics_drop_the_serial_number_registers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -59,7 +59,7 @@ async def test_diagnostics_drop_the_serial_number_registers(
     ],
 )
 async def test_diagnostics_after_failed_poll(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     freezer: FrozenDateTimeFactory,
     init_integration: MockConfigEntry,

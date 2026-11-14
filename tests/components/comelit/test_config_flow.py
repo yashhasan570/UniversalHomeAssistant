@@ -26,7 +26,7 @@ from universalassistant.const import (
     CONF_PORT,
     CONF_TYPE,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 from . import setup_integration
@@ -44,7 +44,7 @@ from .const import (
 
 
 async def test_flow_serial_bridge(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_flow_serial_bridge(
 
 
 async def test_flow_vedo(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
 ) -> None:
@@ -120,7 +120,7 @@ async def test_flow_vedo(
     ],
 )
 async def test_exception_connection(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
     side_effect,
@@ -173,7 +173,7 @@ async def test_exception_connection(
 
 
 async def test_reauth_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
 ) -> None:
@@ -205,7 +205,7 @@ async def test_reauth_successful(
     ],
 )
 async def test_reauth_not_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_vedo: AsyncMock,
     mock_vedo_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -244,7 +244,7 @@ async def test_reauth_not_successful(
 
 
 async def test_reconfigure_successful(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -278,7 +278,7 @@ async def test_reconfigure_successful(
 
 
 async def test_reconfigure_legacy_entry_without_port(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
 ) -> None:
     """Test reconfiguring an entry created before the port field existed."""
@@ -314,7 +314,7 @@ async def test_reconfigure_legacy_entry_without_port(
     ],
 )
 async def test_reconfigure_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
     side_effect: Exception,
@@ -364,7 +364,7 @@ async def test_reconfigure_fails(
 
 
 async def test_pin_format_serial_bridge(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -408,7 +408,7 @@ async def test_pin_format_serial_bridge(
 
 
 async def test_flow_serial_bridge_with_vedo_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -445,7 +445,7 @@ async def test_flow_serial_bridge_with_vedo_pin(
 
 
 async def test_flow_serial_bridge_with_invalid_vedo_pin(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -486,7 +486,7 @@ async def test_flow_serial_bridge_with_invalid_vedo_pin(
 
 
 async def test_flow_serial_bridge_with_vedo_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -529,7 +529,7 @@ async def test_flow_serial_bridge_with_vedo_auth_failure(
 
 
 async def test_options_flow_cover_travel_time(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -563,7 +563,7 @@ async def test_options_flow_cover_travel_time(
 
 
 async def test_options_flow_cover_travel_time_update_preserves_others(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:
@@ -603,7 +603,7 @@ async def test_options_flow_cover_travel_time_update_preserves_others(
 )
 @pytest.mark.usefixtures("mock_serial_bridge", "mock_vedo")
 async def test_options_flow_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     request: pytest.FixtureRequest,
     config_entry_fixture: str,
     supports_options: bool,
@@ -616,7 +616,7 @@ async def test_options_flow_support(
 
 
 async def test_options_flow_no_covers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_serial_bridge: AsyncMock,
     mock_serial_bridge_config_entry: MockConfigEntry,
 ) -> None:

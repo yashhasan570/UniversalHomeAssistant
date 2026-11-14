@@ -4,7 +4,7 @@ import logging
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EVENT_HOMEASSISTANT_STOP
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .const import CONF_COMPANION, PLATFORMS
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 type AxisConfigEntry = ConfigEntry[AxisHub]
 
 
-async def async_setup_entry(hass: UniversalAssistant, config_entry: AxisConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, config_entry: AxisConfigEntry) -> None:
     """Set up the Axis integration."""
     try:
         api = await get_axis_api(hass, config_entry.data)
@@ -48,20 +48,20 @@ async def async_setup_entry(hass: UniversalAssistant, config_entry: AxisConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, config_entry: AxisConfigEntry
+    hass: __HAC_KEEP__, config_entry: AxisConfigEntry
 ) -> None:
     """Unload Axis device config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(config_entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: AxisConfigEntry
+    hass: __HAC_KEEP__, config_entry: AxisConfigEntry
 ) -> None:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s", config_entry.version)
 
     if config_entry.version != 3:
-        # Universal Universal Home Assistant 2023.2
+        # __HA_KEEP__ 2023.2
         hass.config_entries.async_update_entry(config_entry, version=3)
 
     _LOGGER.debug("Migration to version %s successful", config_entry.version)

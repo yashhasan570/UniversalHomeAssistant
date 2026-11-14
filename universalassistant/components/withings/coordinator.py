@@ -20,7 +20,7 @@ from aiowithings import (
     aggregate_measurements,
 )
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 from universalassistant.util import dt as dt_util
@@ -44,7 +44,7 @@ class WithingsDataUpdateCoordinator[_DataT](DataUpdateCoordinator[_DataT]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WithingsConfigEntry,
         client: WithingsClient,
     ) -> None:
@@ -105,7 +105,7 @@ class WithingsMeasurementDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WithingsConfigEntry,
         client: WithingsClient,
     ) -> None:
@@ -150,7 +150,7 @@ class WithingsSleepDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WithingsConfigEntry,
         client: WithingsClient,
     ) -> None:
@@ -205,7 +205,7 @@ class WithingsBedPresenceDataUpdateCoordinator(WithingsDataUpdateCoordinator[Non
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WithingsConfigEntry,
         client: WithingsClient,
     ) -> None:
@@ -256,7 +256,7 @@ class WithingsActivityDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WithingsConfigEntry,
         client: WithingsClient,
     ) -> None:
@@ -301,7 +301,7 @@ class WithingsWorkoutDataUpdateCoordinator(
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: WithingsConfigEntry,
         client: WithingsClient,
     ) -> None:

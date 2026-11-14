@@ -27,7 +27,7 @@ from universalassistant.components.light import (
     LightEntityFeature,
     filter_supported_color_modes,
 )
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.exceptions import PlatformNotReady
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.debounce import Debouncer
@@ -133,7 +133,7 @@ def create_light(item_class, coordinator, bridge, is_group, rooms, api, item_id)
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: HueConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

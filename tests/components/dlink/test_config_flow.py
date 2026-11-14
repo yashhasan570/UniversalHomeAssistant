@@ -7,7 +7,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.dlink.const import DEFAULT_NAME, DOMAIN
 from universalassistant.config_entries import SOURCE_DHCP, SOURCE_USER
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
@@ -25,7 +25,7 @@ def _patch_setup_entry():
     return patch("universalassistant.components.dlink.async_setup_entry", return_value=None)
 
 
-async def test_flow_user(hass: UniversalAssistant, mocked_plug: MagicMock) -> None:
+async def test_flow_user(hass: __HAC_KEEP__, mocked_plug: MagicMock) -> None:
     """Test user initialized flow."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -43,7 +43,7 @@ async def test_flow_user(hass: UniversalAssistant, mocked_plug: MagicMock) -> No
 
 
 async def test_flow_user_already_configured(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test user initialized flow with duplicate server."""
     result = await hass.config_entries.flow.async_init(
@@ -63,7 +63,7 @@ async def test_flow_user_already_configured(
 
 
 async def test_flow_user_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mocked_plug_legacy: MagicMock,
     mocked_plug_legacy_no_auth: MagicMock,
 ) -> None:
@@ -95,7 +95,7 @@ async def test_flow_user_cannot_connect(
 
 
 async def test_flow_user_unknown_error(
-    hass: UniversalAssistant, mocked_plug: MagicMock
+    hass: __HAC_KEEP__, mocked_plug: MagicMock
 ) -> None:
     """Test user initialized flow with unreachable server."""
     with patch_config_flow(mocked_plug) as mock:
@@ -125,7 +125,7 @@ async def test_flow_user_unknown_error(
     assert result["data"] == CONF_DATA
 
 
-async def test_dhcp(hass: UniversalAssistant, mocked_plug: MagicMock) -> None:
+async def test_dhcp(hass: __HAC_KEEP__, mocked_plug: MagicMock) -> None:
     """Test we can process the discovery from dhcp."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_DHCP}, data=CONF_DHCP_FLOW
@@ -144,7 +144,7 @@ async def test_dhcp(hass: UniversalAssistant, mocked_plug: MagicMock) -> None:
 
 
 async def test_dhcp_failed_legacy_auth(
-    hass: UniversalAssistant, mocked_plug: MagicMock, mocked_plug_legacy_no_auth: MagicMock
+    hass: __HAC_KEEP__, mocked_plug: MagicMock, mocked_plug_legacy_no_auth: MagicMock
 ) -> None:
     """Test we can recover from failed legacy authentication during dhcp flow."""
     result = await hass.config_entries.flow.async_init(
@@ -171,7 +171,7 @@ async def test_dhcp_failed_legacy_auth(
 
 
 async def test_dhcp_already_configured(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> None:
     """Test dhcp initialized flow with duplicate server."""
     result = await hass.config_entries.flow.async_init(
@@ -184,7 +184,7 @@ async def test_dhcp_already_configured(
 
 
 async def test_dhcp_unique_id_assignment(
-    hass: UniversalAssistant, mocked_plug: MagicMock
+    hass: __HAC_KEEP__, mocked_plug: MagicMock
 ) -> None:
     """Test dhcp initialized flow with no unique id for matching entry."""
     dhcp_data = DhcpServiceInfo(
@@ -208,7 +208,7 @@ async def test_dhcp_unique_id_assignment(
 
 
 async def test_dhcp_changed_ip(
-    hass: UniversalAssistant, config_entry_with_uid: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry_with_uid: MockConfigEntry
 ) -> None:
     """Test that we successfully change IP address for device with known mac address."""
     result = await hass.config_entries.flow.async_init(

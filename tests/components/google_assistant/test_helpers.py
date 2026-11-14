@@ -21,7 +21,7 @@ from universalassistant.components.google_assistant.const import (
     STORE_GOOGLE_LOCAL_WEBHOOK_ID,
 )
 from universalassistant.components.matter import MatterDeviceInfo
-from universalassistant.core import UniversalAssistant, State
+from universalassistant.core import __HAC_KEEP__, State
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers import (
     area_registry as ar,
@@ -34,7 +34,7 @@ from universalassistant.util import dt as dt_util
 from . import MockConfig
 
 
-async def test_google_entity_sync_serialize_with_local_sdk(hass: UniversalAssistant) -> None:
+async def test_google_entity_sync_serialize_with_local_sdk(hass: __HAC_KEEP__) -> None:
     """Test sync serialize attributes of a GoogleEntity."""
     hass.states.async_set("light.ceiling_lights", "off")
     hass.config.api = Mock(port=1234, local_ip="192.168.123.123", use_ssl=False)
@@ -79,7 +79,7 @@ async def test_google_entity_sync_serialize_with_local_sdk(hass: UniversalAssist
 
 
 async def test_google_entity_sync_serialize_with_matter(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -130,7 +130,7 @@ async def test_google_entity_sync_serialize_with_matter(
 
 
 async def test_google_entity_sync_serialize_child_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     area_registry: ar.AreaRegistry,
@@ -184,7 +184,7 @@ async def test_google_entity_sync_serialize_child_device(
 
 
 async def test_config_local_sdk(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the local SDK."""
     command_events = async_capture_events(hass, EVENT_COMMAND_RECEIVED)
@@ -261,7 +261,7 @@ async def test_config_local_sdk(
 
 
 async def test_config_local_sdk_if_disabled(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the local SDK."""
     assert await async_setup_component(hass, "webhook", {})
@@ -302,7 +302,7 @@ async def test_config_local_sdk_if_disabled(
 
 
 async def test_config_local_sdk_if_ssl_enabled(
-    hass: UniversalAssistant, hass_client: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client: ClientSessionGenerator
 ) -> None:
     """Test the local SDK is not enabled when SSL is enabled."""
     assert await async_setup_component(hass, "webhook", {})
@@ -426,7 +426,7 @@ def test_request_data() -> None:
 
 
 async def test_config_local_sdk_allow_min_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -470,7 +470,7 @@ async def test_config_local_sdk_allow_min_version(
 
 @pytest.mark.parametrize("version", [None, "2.1.4"])
 async def test_config_local_sdk_warn_version(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     caplog: pytest.LogCaptureFixture,
     version,
@@ -516,7 +516,7 @@ async def test_config_local_sdk_warn_version(
     ) in caplog.text
 
 
-def test_async_get_entities_cached(hass: UniversalAssistant) -> None:
+def test_async_get_entities_cached(hass: __HAC_KEEP__) -> None:
     """Test async_get_entities is cached."""
     config = MockConfig()
 

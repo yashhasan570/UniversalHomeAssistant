@@ -7,7 +7,7 @@ import probatio
 
 from universalassistant.config_entries import ConfigFlow, ConfigFlowResult, OptionsFlow
 from universalassistant.const import CONF_HOST, CONF_PORT, CONF_PREFIX
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 from . import DatadogConfigEntry
 from .const import (
@@ -134,7 +134,7 @@ class DatadogOptionsFlowHandler(OptionsFlow):
 
 
 async def validate_datadog_connection(
-    hass: UniversalAssistant, user_input: dict[str, Any]
+    hass: __HAC_KEEP__, user_input: dict[str, Any]
 ) -> bool:
     """Attempt to send a test metric to the Datadog agent."""
     try:

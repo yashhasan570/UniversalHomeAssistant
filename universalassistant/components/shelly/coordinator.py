@@ -29,7 +29,7 @@ from universalassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from universalassistant.core import CALLBACK_TYPE, Event, UniversalAssistant, callback
+from universalassistant.core import CALLBACK_TYPE, Event, __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr, issue_registry as ir
 from universalassistant.helpers.debounce import Debouncer
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, format_mac
@@ -126,7 +126,7 @@ class ShellyCoordinatorBase[_DeviceT: BlockDevice | RpcDevice](
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: ShellyConfigEntry,
         device: _DeviceT,
         update_interval: float | None,
@@ -219,7 +219,7 @@ class ShellyCoordinatorBase[_DeviceT: BlockDevice | RpcDevice](
         await self.device.shutdown()
 
     async def _handle_ha_stop(self, _event: Event) -> None:
-        """Handle Universal Universal Home Assistant stopping."""
+        """Handle __HA_KEEP__ stopping."""
         LOGGER.debug("Stopping RPC device coordinator for %s", self.name)
         await self.shutdown()
 
@@ -293,7 +293,7 @@ class ShellyBlockCoordinator(ShellyCoordinatorBase[BlockDevice]):
     """Coordinator for a Shelly block based device."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: ShellyConfigEntry, device: BlockDevice
+        self, hass: __HAC_KEEP__, entry: ShellyConfigEntry, device: BlockDevice
     ) -> None:
         """Initialize the Shelly block device coordinator."""
         update_interval: float | None
@@ -498,7 +498,7 @@ class ShellyRestCoordinator(ShellyCoordinatorBase[BlockDevice]):
     """Coordinator for a Shelly REST device."""
 
     def __init__(
-        self, hass: UniversalAssistant, device: BlockDevice, entry: ShellyConfigEntry
+        self, hass: __HAC_KEEP__, device: BlockDevice, entry: ShellyConfigEntry
     ) -> None:
         """Initialize the Shelly REST device coordinator."""
         update_interval = REST_SENSORS_UPDATE_INTERVAL
@@ -543,7 +543,7 @@ class ShellyRpcCoordinator(ShellyCoordinatorBase[RpcDevice]):
     """Coordinator for a Shelly RPC based device."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: ShellyConfigEntry, device: RpcDevice
+        self, hass: __HAC_KEEP__, entry: ShellyConfigEntry, device: RpcDevice
     ) -> None:
         """Initialize the Shelly RPC device coordinator."""
         if sleep_period := entry.data.get(CONF_SLEEP_PERIOD, 0):
@@ -971,7 +971,7 @@ class ShellyRpcPollingCoordinator(ShellyCoordinatorBase[RpcDevice]):
     """Polling coordinator for a Shelly RPC based device."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: ShellyConfigEntry, device: RpcDevice
+        self, hass: __HAC_KEEP__, entry: ShellyConfigEntry, device: RpcDevice
     ) -> None:
         """Initialize the RPC polling coordinator."""
         super().__init__(hass, entry, device, RPC_SENSORS_POLLING_INTERVAL)
@@ -1004,7 +1004,7 @@ class ShellyBluTrvUpdateCoordinator(ShellyCoordinatorBase[RpcDevice]):
     """Coordinator checking the BLU TRV firmware repository for a newer version."""
 
     def __init__(
-        self, hass: UniversalAssistant, entry: ShellyConfigEntry, device: RpcDevice
+        self, hass: __HAC_KEEP__, entry: ShellyConfigEntry, device: RpcDevice
     ) -> None:
         """Initialize the BLU TRV firmware update coordinator."""
         super().__init__(hass, entry, device, BLU_TRV_UPDATE_CHECK_INTERVAL)
@@ -1035,7 +1035,7 @@ class ShellyBluTrvUpdateCoordinator(ShellyCoordinatorBase[RpcDevice]):
 
 
 def get_block_coordinator_by_device_id(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> ShellyBlockCoordinator | None:
     """Get a Shelly block device coordinator for the given device id."""
     _device, entry = dr.async_get_device_and_config_entry_for_domain(
@@ -1054,7 +1054,7 @@ def get_block_coordinator_by_device_id(
 
 
 def get_rpc_coordinator_by_device_id(
-    hass: UniversalAssistant, device_id: str
+    hass: __HAC_KEEP__, device_id: str
 ) -> ShellyRpcCoordinator | None:
     """Get a Shelly RPC device coordinator for the given device id."""
     _device, entry = dr.async_get_device_and_config_entry_for_domain(
@@ -1072,7 +1072,7 @@ def get_rpc_coordinator_by_device_id(
     return None
 
 
-async def async_reconnect_soon(hass: UniversalAssistant, entry: ShellyConfigEntry) -> None:
+async def async_reconnect_soon(hass: __HAC_KEEP__, entry: ShellyConfigEntry) -> None:
     """Try to reconnect soon."""
     if (
         not hass.is_stopping

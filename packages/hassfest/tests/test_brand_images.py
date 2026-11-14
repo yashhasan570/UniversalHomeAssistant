@@ -170,7 +170,7 @@ def test_no_brand_folder(tmp_path: Path, config: Config) -> None:
         ),
         pytest.param(
             {"icon.png": _png(256, 256), "icon.svg": b"<svg></svg>"},
-            "brand/icon.svg is not a brand image Universal Universal Home Assistant uses, allowed are:"
+            "brand/icon.svg is not a brand image __HA_KEEP__ uses, allowed are:"
             " dark_icon.png, dark_icon@2x.png, dark_logo.png, dark_logo@2x.png,"
             " icon.png, icon@2x.png, logo.png, logo@2x.png",
             id="unknown_file",

@@ -5,8 +5,8 @@ from typing import Any, override
 import aiohttp
 
 from universalassistant.components.cover import CoverDeviceClass, CoverEntity
-from universalassistant.core import UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import DOMAIN, SUPPORTED_FEATURES
@@ -17,7 +17,7 @@ PARALLEL_UPDATES = 1
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: AladdinConnectConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -58,7 +58,7 @@ class AladdinCoverEntity(AladdinConnectEntity, CoverEntity):
         try:
             await self.client.open_door(self._device_id, self._number)
         except aiohttp.ClientError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="open_door_failed",
             ) from err
@@ -69,7 +69,7 @@ class AladdinCoverEntity(AladdinConnectEntity, CoverEntity):
         try:
             await self.client.close_door(self._device_id, self._number)
         except aiohttp.ClientError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="close_door_failed",
             ) from err

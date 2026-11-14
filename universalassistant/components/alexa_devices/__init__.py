@@ -7,7 +7,7 @@ from pathlib import Path
 from aioamazondevices.api import SETTINGS_FILENAME
 
 from universalassistant.const import CONF_COUNTRY, EVENT_HOMEASSISTANT_STOP, Platform
-from universalassistant.core import Event, UniversalAssistant
+from universalassistant.core import Event, __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryNotReady
 from universalassistant.helpers import aiohttp_client, config_validation as cv, httpx_client
 from universalassistant.helpers.storage import STORAGE_DIR
@@ -34,7 +34,7 @@ PLATFORMS = [
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the Alexa Devices component."""
     async_setup_services(hass)
     return True
@@ -56,7 +56,7 @@ async def _async_initial_sync(sync_call: Callable[[], Awaitable[None]]) -> None:
         )
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AmazonConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AmazonConfigEntry) -> None:
     """Set up Alexa Devices platform."""
 
     session = aiohttp_client.async_create_clientsession(hass)
@@ -100,7 +100,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AmazonConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-def _move_legacy_settings(hass: UniversalAssistant) -> None:
+def _move_legacy_settings(hass: __HAC_KEEP__) -> None:
     """Move library settings from the config root into .storage."""
     old_dir = Path(hass.config.path(DOMAIN))
     old_file = old_dir / SETTINGS_FILENAME
@@ -119,7 +119,7 @@ def _move_legacy_settings(hass: UniversalAssistant) -> None:
         old_dir.rmdir()
 
 
-async def async_migrate_entry(hass: UniversalAssistant, entry: AmazonConfigEntry) -> None:
+async def async_migrate_entry(hass: __HAC_KEEP__, entry: AmazonConfigEntry) -> None:
     """Migrate old entry."""
 
     if entry.version == 1 and entry.minor_version < 3:
@@ -148,6 +148,6 @@ async def async_migrate_entry(hass: UniversalAssistant, entry: AmazonConfigEntry
         hass.config_entries.async_update_entry(entry, version=1, minor_version=4)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AmazonConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AmazonConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

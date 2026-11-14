@@ -16,14 +16,14 @@ from universalassistant.const import (
     CONF_SSL,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
 from universalassistant.helpers.service_info.mqtt import MqttServiceInfo
 
 
 async def test_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fully_kiosk_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_user_flow(
     ],
 )
 async def test_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fully_kiosk_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
     side_effect: Exception,
@@ -128,7 +128,7 @@ async def test_errors(
 
 
 async def test_duplicate_updates_existing_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fully_kiosk_config_flow: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -166,7 +166,7 @@ async def test_duplicate_updates_existing_entry(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_dhcp_discovery_updates_entry(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test DHCP discovery updates config entries."""
     mock_config_entry.add_to_hass(hass)
@@ -193,7 +193,7 @@ async def test_dhcp_discovery_updates_entry(
 
 
 async def test_dhcp_unknown_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
 ) -> None:
     """Test unknown DHCP discovery aborts flow."""
@@ -214,7 +214,7 @@ async def test_dhcp_unknown_device(
 
 
 async def test_mqtt_discovery_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fully_kiosk_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -264,7 +264,7 @@ async def test_mqtt_discovery_flow(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fully_kiosk_config_flow: MagicMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -294,7 +294,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fully_kiosk_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -337,7 +337,7 @@ async def test_reconfigure_unique_id_mismatch(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_fully_kiosk_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,

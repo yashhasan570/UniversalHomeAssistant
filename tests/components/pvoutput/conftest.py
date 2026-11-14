@@ -9,7 +9,7 @@ from pytest_universalassistant.common import MockConfigEntry, load_json_object_f
 
 from universalassistant.components.pvoutput.const import CONF_SYSTEM_ID, DOMAIN
 from universalassistant.const import CONF_API_KEY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 @pytest.fixture
@@ -55,7 +55,7 @@ def mock_pvoutput() -> Generator[MagicMock]:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry, mock_pvoutput: MagicMock
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry, mock_pvoutput: MagicMock
 ) -> MockConfigEntry:
     """Set up the PVOutput integration for testing."""
     mock_config_entry.add_to_hass(hass)

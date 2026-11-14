@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, override
 from aionut import NUTError, NUTLoginError
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -40,7 +40,7 @@ class NutCoordinator(DataUpdateCoordinator[dict[str, str]]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         data: PyNUTData,
         config_entry: NutConfigEntry,
     ) -> None:

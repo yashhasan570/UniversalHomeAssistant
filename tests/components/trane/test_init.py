@@ -8,14 +8,14 @@ from steamloop import AuthenticationError, SteamloopConnectionError
 
 from universalassistant.components.trane.const import DOMAIN
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 
 from .conftest import MOCK_ENTRY_ID
 
 
 async def test_load_unload(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     init_integration: MockConfigEntry,
 ) -> None:
     """Test loading and unloading the integration."""
@@ -46,7 +46,7 @@ async def test_zone_device_via_device_id(
 
 
 async def test_setup_connection_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
 ) -> None:
@@ -61,7 +61,7 @@ async def test_setup_connection_error(
 
 
 async def test_setup_auth_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
 ) -> None:
@@ -76,7 +76,7 @@ async def test_setup_auth_error(
 
 
 async def test_setup_timeout_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_connection: MagicMock,
 ) -> None:

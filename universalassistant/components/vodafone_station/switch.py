@@ -14,8 +14,8 @@ from aiovodafone.exceptions import (
 )
 
 from universalassistant.components.switch import SwitchEntity, SwitchEntityDescription
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from universalassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -62,7 +62,7 @@ SWITCHES: Final = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: VodafoneConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
@@ -105,7 +105,7 @@ class VodafoneSwitchEntity(CoordinatorEntity[VodafoneStationRouter], SwitchEntit
             await self.coordinator.async_request_refresh()
         except CannotAuthenticate as err:
             self.coordinator.config_entry.async_start_reauth(self.hass)
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cannot_authenticate",
                 translation_placeholders={"error": repr(err)},
@@ -118,7 +118,7 @@ class VodafoneSwitchEntity(CoordinatorEntity[VodafoneStationRouter], SwitchEntit
             JSONDecodeError,
         ) as err:
             self.coordinator.last_update_success = False
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="cannot_execute_action",
                 translation_placeholders={"error": repr(err)},

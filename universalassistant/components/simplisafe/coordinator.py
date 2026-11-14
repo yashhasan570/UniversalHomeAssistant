@@ -3,7 +3,7 @@
 from datetime import timedelta
 from typing import TYPE_CHECKING, override
 
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import LOGGER
@@ -21,7 +21,7 @@ class SimpliSafeDataUpdateCoordinator(DataUpdateCoordinator[None]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         config_entry: SimpliSafeConfigEntry,
         *,
         name: str,

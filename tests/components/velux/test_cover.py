@@ -43,8 +43,8 @@ from universalassistant.const import (
     STATE_UNKNOWN,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -65,7 +65,7 @@ def platform() -> Platform:
 
 @pytest.mark.parametrize("mock_pyvlx", ["mock_blind"], indirect=True)
 async def test_blind_entity_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -91,7 +91,7 @@ async def test_blind_entity_setup(
     indirect=True,
 )
 async def test_cover_entity_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
@@ -106,7 +106,7 @@ async def test_cover_entity_setup(
 
 
 async def test_cover_device_association(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
@@ -139,7 +139,7 @@ async def test_cover_device_association(
 
 
 async def test_cover_closed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_window: AsyncMock,
 ) -> None:
     """Test the cover closed state."""
@@ -169,7 +169,7 @@ async def test_cover_closed(
 
 
 async def test_window_open_close_stop_services_no_speed(
-    hass: UniversalAssistant, mock_window: AsyncMock
+    hass: __HAC_KEEP__, mock_window: AsyncMock
 ) -> None:
     """Verify open/close/stop services map to device calls with no wait."""
 
@@ -201,7 +201,7 @@ async def test_window_open_close_stop_services_no_speed(
     ],
 )
 async def test_window_services_with_speed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_window: AsyncMock,
     speed: str,
     velocity: Velocity | None,
@@ -245,7 +245,7 @@ async def test_window_services_with_speed(
 @pytest.mark.parametrize("speed", ["silent", "default"])
 @pytest.mark.usefixtures("mock_window")
 async def test_deprecated_speed_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     speed: str,
 ) -> None:
@@ -268,7 +268,7 @@ async def test_deprecated_speed_issue(
 @pytest.mark.parametrize("speed", ["slow", "fast"])
 @pytest.mark.usefixtures("mock_window")
 async def test_standard_speed_no_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     speed: str,
 ) -> None:
@@ -285,7 +285,7 @@ async def test_standard_speed_no_issue(
 
 
 async def test_window_set_cover_position_inversion(
-    hass: UniversalAssistant, mock_window: AsyncMock
+    hass: __HAC_KEEP__, mock_window: AsyncMock
 ) -> None:
     """HA position is inverted for device's Position."""
 
@@ -308,7 +308,7 @@ async def test_window_set_cover_position_inversion(
 
 
 async def test_window_current_position_and_opening_closing_states(
-    hass: UniversalAssistant, mock_window: AsyncMock
+    hass: __HAC_KEEP__, mock_window: AsyncMock
 ) -> None:
     """Validate current_position and opening/closing state transitions."""
 
@@ -340,7 +340,7 @@ async def test_window_current_position_and_opening_closing_states(
 
 
 async def test_window_current_position_while_moving(
-    hass: UniversalAssistant, mock_window: AsyncMock
+    hass: __HAC_KEEP__, mock_window: AsyncMock
 ) -> None:
     """While moving, current_position follows the position estimated by pyvlx."""
 
@@ -361,7 +361,7 @@ async def test_window_current_position_while_moving(
 
 
 async def test_window_unknown_position_while_moving(
-    hass: UniversalAssistant, mock_window: AsyncMock
+    hass: __HAC_KEEP__, mock_window: AsyncMock
 ) -> None:
     """An unknown reported position stays unknown while the cover moves."""
 
@@ -383,7 +383,7 @@ async def test_window_unknown_position_while_moving(
 
 # Dual roller shutter command tests
 async def test_dual_roller_shutter_open_close_services(
-    hass: UniversalAssistant, mock_dual_roller_shutter: AsyncMock
+    hass: __HAC_KEEP__, mock_dual_roller_shutter: AsyncMock
 ) -> None:
     """Verify open/close services map to device calls with correct part."""
 
@@ -441,7 +441,7 @@ async def test_dual_roller_shutter_open_close_services(
 
 
 async def test_dual_shutter_set_cover_position_inversion(
-    hass: UniversalAssistant, mock_dual_roller_shutter: AsyncMock
+    hass: __HAC_KEEP__, mock_dual_roller_shutter: AsyncMock
 ) -> None:
     """HA position is inverted for device's Position."""
 
@@ -495,7 +495,7 @@ async def test_dual_shutter_set_cover_position_inversion(
 
 
 async def test_dual_roller_shutter_position_tests(
-    hass: UniversalAssistant, mock_dual_roller_shutter: AsyncMock
+    hass: __HAC_KEEP__, mock_dual_roller_shutter: AsyncMock
 ) -> None:
     """Validate current_position and open/closed state."""
 
@@ -544,7 +544,7 @@ async def test_dual_roller_shutter_position_tests(
 
 
 async def test_blind_open_close_stop_tilt_services(
-    hass: UniversalAssistant, mock_blind: AsyncMock
+    hass: __HAC_KEEP__, mock_blind: AsyncMock
 ) -> None:
     """Verify tilt services map to orientation calls."""
 
@@ -576,7 +576,7 @@ async def test_blind_open_close_stop_tilt_services(
 
 
 async def test_blind_set_cover_tilt_position_inversion(
-    hass: UniversalAssistant, mock_blind: AsyncMock
+    hass: __HAC_KEEP__, mock_blind: AsyncMock
 ) -> None:
     """HA tilt position is inverted for device orientation."""
 
@@ -597,7 +597,7 @@ async def test_blind_set_cover_tilt_position_inversion(
 
 
 async def test_blind_current_tilt_position(
-    hass: UniversalAssistant, mock_blind: AsyncMock
+    hass: __HAC_KEEP__, mock_blind: AsyncMock
 ) -> None:
     """Validate current_tilt_position attribute reflects inverted orientation."""
 
@@ -610,7 +610,7 @@ async def test_blind_current_tilt_position(
 
 
 async def test_non_blind_has_no_tilt_position(
-    hass: UniversalAssistant, mock_window: AsyncMock
+    hass: __HAC_KEEP__, mock_window: AsyncMock
 ) -> None:
     """Non-blind covers should not expose current_tilt_position attribute."""
 
@@ -625,7 +625,7 @@ async def test_non_blind_has_no_tilt_position(
 
 
 async def test_window_unknown_position(
-    hass: UniversalAssistant, mock_window: AsyncMock
+    hass: __HAC_KEEP__, mock_window: AsyncMock
 ) -> None:
     """When the device position is not known, state and position must be unknown."""
 
@@ -649,7 +649,7 @@ async def test_window_unknown_position(
     ],
 )
 async def test_dual_roller_shutter_unknown_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_dual_roller_shutter: AsyncMock,
     unknown_attr: str,
     unknown_entity_id: str,
@@ -678,7 +678,7 @@ async def test_dual_roller_shutter_unknown_position(
 
 
 async def test_blind_unknown_tilt_position(
-    hass: UniversalAssistant, mock_blind: AsyncMock
+    hass: __HAC_KEEP__, mock_blind: AsyncMock
 ) -> None:
     """Tilt position must be None when the orientation is not known."""
 
@@ -700,11 +700,11 @@ async def test_blind_unknown_tilt_position(
     [PyVLXException("PyVLX error"), OSError("OS error")],
 )
 async def test_cover_command_exception_handling(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_window: AsyncMock,
     exception: Exception,
 ) -> None:
-    """Test that exceptions from node commands are wrapped in UniversalAssistantError."""
+    """Test that exceptions from node commands are wrapped in __HAC_KEEP__Error."""
 
     entity_id = "cover.test_window"
 
@@ -712,7 +712,7 @@ async def test_cover_command_exception_handling(
     mock_window.close.side_effect = exception
 
     with pytest.raises(
-        UniversalAssistantError,
+        __HAC_KEEP__Error,
         match="Failed to communicate with Velux device",
     ):
         await hass.services.async_call(

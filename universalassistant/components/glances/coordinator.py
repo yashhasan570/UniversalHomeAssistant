@@ -8,7 +8,7 @@ from glances_api import Glances, exceptions
 
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from universalassistant.util.dt import parse_duration, utcnow
@@ -26,7 +26,7 @@ class GlancesDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     config_entry: GlancesConfigEntry
 
     def __init__(
-        self, hass: UniversalAssistant, entry: GlancesConfigEntry, api: Glances
+        self, hass: __HAC_KEEP__, entry: GlancesConfigEntry, api: Glances
     ) -> None:
         """Initialize the Glances data."""
         self.host: str = entry.data[CONF_HOST]

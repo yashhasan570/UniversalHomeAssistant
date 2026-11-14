@@ -11,16 +11,16 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant import config_entries
 from universalassistant.components.actron_air.const import DOMAIN
 from universalassistant.const import CONF_API_TOKEN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 
 
 @pytest.mark.usefixtures("mock_setup_entry", "mock_actron_api")
 async def test_user_flow_uses_shared_session(
-    hass: UniversalAssistant, mock_actron_api_class: MagicMock
+    hass: __HAC_KEEP__, mock_actron_api_class: MagicMock
 ) -> None:
-    """Test the API is created with Universal Universal Home Assistant's shared client session."""
+    """Test the API is created with __HA_KEEP__'s shared client session."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
@@ -35,7 +35,7 @@ async def test_user_flow_uses_shared_session(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_oauth2_success(
-    hass: UniversalAssistant, mock_actron_api: AsyncMock
+    hass: __HAC_KEEP__, mock_actron_api: AsyncMock
 ) -> None:
     """Test successful OAuth2 device code flow."""
     # Start the config flow
@@ -66,7 +66,7 @@ async def test_user_flow_oauth2_success(
     assert result["result"].unique_id == "test_user_id"
 
 
-async def test_user_flow_oauth2_pending(hass: UniversalAssistant, mock_actron_api) -> None:
+async def test_user_flow_oauth2_pending(hass: __HAC_KEEP__, mock_actron_api) -> None:
     """Test OAuth2 flow when authorization is still pending."""
 
     # Make poll_for_token hang indefinitely to simulate pending state
@@ -92,7 +92,7 @@ async def test_user_flow_oauth2_pending(hass: UniversalAssistant, mock_actron_ap
     # In a real scenario, the user would wait for authorization on their device
 
 
-async def test_user_flow_oauth2_error(hass: UniversalAssistant, mock_actron_api) -> None:
+async def test_user_flow_oauth2_error(hass: __HAC_KEEP__, mock_actron_api) -> None:
     """Test OAuth2 flow with authentication error during device code request."""
     # Override the default mock to raise an error
     mock_actron_api.request_device_code = AsyncMock(
@@ -111,7 +111,7 @@ async def test_user_flow_oauth2_error(hass: UniversalAssistant, mock_actron_api)
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_token_polling_error(
-    hass: UniversalAssistant, mock_actron_api
+    hass: __HAC_KEEP__, mock_actron_api
 ) -> None:
     """Test OAuth2 flow with error during token polling."""
     # Override the default mock to raise an error during token polling
@@ -169,7 +169,7 @@ async def test_user_flow_token_polling_error(
 
 
 async def test_user_flow_duplicate_account(
-    hass: UniversalAssistant, mock_actron_api: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_actron_api: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test duplicate account handling.
 
@@ -204,7 +204,7 @@ async def test_user_flow_duplicate_account(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reauth_flow_success(
-    hass: UniversalAssistant, mock_actron_api: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_actron_api: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful reauthentication flow."""
     # Create an existing config entry
@@ -239,7 +239,7 @@ async def test_reauth_flow_success(
 
 
 async def test_reauth_flow_wrong_account(
-    hass: UniversalAssistant, mock_actron_api: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_actron_api: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test reauthentication flow with wrong account."""
     # Create an existing config entry
@@ -280,7 +280,7 @@ async def test_reauth_flow_wrong_account(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_user_flow_timeout(
-    hass: UniversalAssistant, mock_actron_api: AsyncMock
+    hass: __HAC_KEEP__, mock_actron_api: AsyncMock
 ) -> None:
     """Test OAuth2 flow when login task raises a non-CannotConnect exception."""
 
@@ -338,7 +338,7 @@ async def test_user_flow_timeout(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_finish_login_auth_error(
-    hass: UniversalAssistant, mock_actron_api: AsyncMock
+    hass: __HAC_KEEP__, mock_actron_api: AsyncMock
 ) -> None:
     """Test finish_login step when get_user_info raises ActronAirAuthError."""
     # Start the config flow
@@ -364,7 +364,7 @@ async def test_finish_login_auth_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_reconfigure_flow_success(
-    hass: UniversalAssistant, mock_actron_api: AsyncMock, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_actron_api: AsyncMock, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test successful reconfiguration flow."""
     mock_config_entry.add_to_hass(hass)
@@ -390,7 +390,7 @@ async def test_reconfigure_flow_success(
 
 
 async def test_reconfigure_flow_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_actron_api: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

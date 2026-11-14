@@ -8,7 +8,7 @@ from typing import override
 from grandstream_home_api import GDSPhoneAPI, fetch_gds_status
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import DeviceInfo
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -39,7 +39,7 @@ class GrandstreamCoordinator(DataUpdateCoordinator[str]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: GrandstreamConfigEntry,
         api: GDSPhoneAPI,
         discovery_version: str | None = None,

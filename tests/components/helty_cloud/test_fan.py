@@ -35,8 +35,8 @@ from universalassistant.const import (
     STATE_UNAVAILABLE,
     Platform,
 )
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -46,7 +46,7 @@ FAN_ENTITY = "fan.vmc_soggiorno"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -63,7 +63,7 @@ async def test_all_entities(
 
 
 async def test_preset_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -102,7 +102,7 @@ async def test_preset_state(
     ],
 )
 async def test_set_mode(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
     service: str,
@@ -127,7 +127,7 @@ async def test_set_mode(
 
 
 async def test_set_mode_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -135,7 +135,7 @@ async def test_set_mode_failure(
     await setup_integration(hass, mock_config_entry)
     mock_helty_cloud.set_mode_verified.side_effect = HeltyCloudError
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             FAN_DOMAIN,
             SERVICE_TURN_OFF,
@@ -145,7 +145,7 @@ async def test_set_mode_failure(
 
 
 async def test_silent_panel_is_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -157,7 +157,7 @@ async def test_silent_panel_is_unavailable(
 
 
 async def test_unavailable_when_the_poll_fails(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_helty_cloud: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

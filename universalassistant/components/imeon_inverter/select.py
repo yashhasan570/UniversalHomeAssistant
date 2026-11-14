@@ -10,7 +10,7 @@ from imeon_inverter_api.inverter import Inverter
 from universalassistant.components.select import SelectEntity, SelectEntityDescription
 from universalassistant.config_entries import ConfigEntry
 from universalassistant.const import EntityCategory
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import ATTR_INVERTER_MODE, INVERTER_MODE_OPTIONS
@@ -44,7 +44,7 @@ SELECT_DESCRIPTIONS: tuple[ImeonSelectEntityDescription, ...] = (
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: InverterConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

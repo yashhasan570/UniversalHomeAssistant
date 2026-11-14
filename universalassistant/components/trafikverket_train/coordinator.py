@@ -17,7 +17,7 @@ from pytrafikverket import (
 )
 
 from universalassistant.const import CONF_API_KEY, CONF_WEEKDAY
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -73,7 +73,7 @@ class TVDataUpdateCoordinator(DataUpdateCoordinator[TrainData]):
     from_station: StationInfoModel
     to_station: StationInfoModel
 
-    def __init__(self, hass: UniversalAssistant, config_entry: TVTrainConfigEntry) -> None:
+    def __init__(self, hass: __HAC_KEEP__, config_entry: TVTrainConfigEntry) -> None:
         """Initialize the Trafikverket coordinator."""
         super().__init__(
             hass,

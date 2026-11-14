@@ -3,7 +3,7 @@
 from nyt_games import NYTGamesClient
 
 from universalassistant.const import CONF_TOKEN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.aiohttp_client import async_create_clientsession
 
 from .coordinator import NYTGamesConfigEntry, NYTGamesCoordinator
@@ -13,7 +13,7 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NYTGamesConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NYTGamesConfigEntry) -> None:
     """Set up NYTGames from a config entry."""
 
     client = NYTGamesClient(
@@ -29,6 +29,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NYTGamesConfigEntry
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NYTGamesConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NYTGamesConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

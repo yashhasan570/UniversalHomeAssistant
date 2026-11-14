@@ -8,7 +8,7 @@ from universalassistant.components.number import (
     NumberEntityDescription,
     NumberMode,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import LOGGER
@@ -17,7 +17,7 @@ from .entity import IntellifireEntity
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: IntellifireConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:

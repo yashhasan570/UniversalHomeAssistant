@@ -5,7 +5,7 @@ from typing import final, override
 from propcache.api import cached_property
 
 from universalassistant.const import STATE_OFF, STATE_ON, EntityCategory
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers.entity import Entity, EntityDescription
 
 from .const import BinarySensorDeviceClass
@@ -36,7 +36,7 @@ class BinarySensorEntity(Entity, cached_properties=CACHED_PROPERTIES_WITH_ATTR_)
         """Call when the binary sensor entity is added to hass."""
         await super().async_internal_added_to_hass()
         if self.entity_category == EntityCategory.CONFIG:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 f"Entity {self.entity_id} cannot be added as"
                 " the entity category is set to config"
             )

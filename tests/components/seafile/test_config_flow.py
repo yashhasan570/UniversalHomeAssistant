@@ -35,7 +35,7 @@ from universalassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType, UnknownFlow
 
 from . import setup_integration
@@ -69,7 +69,7 @@ USER_INPUT = {
 }
 
 
-async def _start_flow(hass: UniversalAssistant) -> str:
+async def _start_flow(hass: __HAC_KEEP__) -> str:
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
     )
@@ -79,7 +79,7 @@ async def _start_flow(hass: UniversalAssistant) -> str:
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_full_flow(hass: UniversalAssistant, mock_seafile_client: AsyncMock) -> None:
+async def test_full_flow(hass: __HAC_KEEP__, mock_seafile_client: AsyncMock) -> None:
     """Test logging in and picking libraries creates the entry and its subentries."""
     flow_id = await _start_flow(hass)
 
@@ -102,7 +102,7 @@ async def test_full_flow(hass: UniversalAssistant, mock_seafile_client: AsyncMoc
             data={
                 CONF_LIBRARY_ID: LIBRARY_ID,
                 CONF_BACKUP: False,
-                CONF_BACKUP_PATH: "/Universal Universal Home Assistant backups",
+                CONF_BACKUP_PATH: "/__HA_KEEP__ backups",
             },
             subentry_type=SUBENTRY_TYPE_LIBRARY,
             title="Documents",
@@ -112,13 +112,13 @@ async def test_full_flow(hass: UniversalAssistant, mock_seafile_client: AsyncMoc
     # The password is only used to create a token registered as a device.
     kwargs = mock_seafile_client.get_auth_token.call_args.kwargs
     assert len(kwargs["device_id"]) == 40
-    assert kwargs["device_name"] == f"Universal Universal Home Assistant ({hass.config.location_name})"
+    assert kwargs["device_name"] == f"__HA_KEEP__ ({hass.config.location_name})"
     mock_seafile_client.logout_device.assert_not_awaited()
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_flow_without_libraries(
-    hass: UniversalAssistant, mock_seafile_client: AsyncMock
+    hass: __HAC_KEEP__, mock_seafile_client: AsyncMock
 ) -> None:
     """Test the entry can be created without picking a library."""
     flow_id = await _start_flow(hass)
@@ -132,7 +132,7 @@ async def test_flow_without_libraries(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_two_factor_authentication(
-    hass: UniversalAssistant, mock_seafile_client: AsyncMock
+    hass: __HAC_KEEP__, mock_seafile_client: AsyncMock
 ) -> None:
     """Test the code is asked when the account uses two-factor authentication."""
     mock_seafile_client.get_auth_token.side_effect = [
@@ -170,7 +170,7 @@ async def test_two_factor_authentication(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_two_factor_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     exception: type[Exception],
     error: str,
@@ -205,7 +205,7 @@ async def test_two_factor_errors(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_login_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     exception: type[Exception],
     error: str,
@@ -229,7 +229,7 @@ async def test_login_errors(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_token_revoked_after_connection_error(
-    hass: UniversalAssistant, mock_seafile_client: AsyncMock
+    hass: __HAC_KEEP__, mock_seafile_client: AsyncMock
 ) -> None:
     """Test a token created before a connection error is revoked."""
     mock_seafile_client.get_libraries.side_effect = SeafileConnectionError
@@ -250,7 +250,7 @@ async def test_token_revoked_after_connection_error(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_token_revoked_when_flow_cancelled(
-    hass: UniversalAssistant, mock_seafile_client: AsyncMock
+    hass: __HAC_KEEP__, mock_seafile_client: AsyncMock
 ) -> None:
     """Test the token is revoked when the flow is cancelled at the libraries step."""
     flow_id = await _start_flow(hass)
@@ -264,7 +264,7 @@ async def test_token_revoked_when_flow_cancelled(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_token_revoked_when_flow_cancelled_during_login(
-    hass: UniversalAssistant, mock_seafile_client: AsyncMock
+    hass: __HAC_KEEP__, mock_seafile_client: AsyncMock
 ) -> None:
     """Test a token that arrives after the flow was cancelled is revoked."""
     login_started = asyncio.Event()
@@ -302,7 +302,7 @@ async def test_token_revoked_when_flow_cancelled_during_login(
 )
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     logout_error: type[Exception] | None,
@@ -319,7 +319,7 @@ async def test_already_configured(
 
 
 async def test_add_library(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -367,7 +367,7 @@ async def test_add_library(
 
 
 async def test_add_library_cannot_connect(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -385,7 +385,7 @@ async def test_add_library_cannot_connect(
 
 @pytest.mark.usefixtures("mock_setup_entry")
 async def test_already_in_progress(
-    hass: UniversalAssistant, mock_seafile_client: AsyncMock
+    hass: __HAC_KEEP__, mock_seafile_client: AsyncMock
 ) -> None:
     """Test a second flow for the same account aborts and revokes its token."""
     first_flow_id = await _start_flow(hass)
@@ -401,7 +401,7 @@ async def test_already_in_progress(
 
 @pytest.mark.usefixtures("mock_seafile_client")
 async def test_add_library_none_left(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test adding a library aborts when all unencrypted libraries are added."""
     await setup_integration(hass, mock_config_entry)
@@ -418,7 +418,7 @@ async def test_add_library_none_left(
 
 
 async def test_add_library_entry_not_loaded(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test adding a library needs a loaded entry."""
     mock_config_entry.add_to_hass(hass)
@@ -433,7 +433,7 @@ async def test_add_library_entry_not_loaded(
 
 @pytest.mark.usefixtures("mock_seafile_client")
 async def test_reconfigure_library(
-    hass: UniversalAssistant, mock_config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, mock_config_entry: MockConfigEntry
 ) -> None:
     """Test turning backups off and changing the folder of a library."""
     await setup_integration(hass, mock_config_entry)
@@ -456,7 +456,7 @@ async def test_reconfigure_library(
 
 
 async def test_reauth(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -490,7 +490,7 @@ async def test_reauth(
 
 
 async def test_reauth_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -513,7 +513,7 @@ async def test_reauth_entry_not_loaded(
 
 
 async def test_reauth_two_factor_authentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -548,7 +548,7 @@ async def test_reauth_two_factor_authentication(
     ],
 )
 async def test_reauth_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -578,7 +578,7 @@ async def test_reauth_errors(
 
 
 async def test_reauth_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -602,7 +602,7 @@ async def test_reauth_wrong_account(
 
 
 async def test_reconfigure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -646,7 +646,7 @@ async def test_reconfigure(
 
 
 async def test_reconfigure_entry_not_loaded(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -669,7 +669,7 @@ async def test_reconfigure_entry_not_loaded(
 
 
 async def test_reconfigure_old_server_not_responding(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -697,7 +697,7 @@ async def test_reconfigure_old_server_not_responding(
 
 
 async def test_reconfigure_two_factor_authentication(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -733,7 +733,7 @@ async def test_reconfigure_two_factor_authentication(
     ],
 )
 async def test_reconfigure_errors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     exception: type[Exception],
@@ -763,7 +763,7 @@ async def test_reconfigure_errors(
 
 
 async def test_reconfigure_wrong_account(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_seafile_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:

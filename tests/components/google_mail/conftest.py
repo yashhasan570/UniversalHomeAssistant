@@ -16,7 +16,7 @@ from universalassistant.components.application_credentials import (
     async_import_client_credential,
 )
 from universalassistant.components.google_mail.const import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.setup import async_setup_component
 
 type ComponentSetup = Callable[[], Awaitable[None]]
@@ -45,7 +45,7 @@ def mock_scopes() -> list[str]:
 
 
 @pytest.fixture(autouse=True)
-async def setup_credentials(hass: UniversalAssistant) -> None:
+async def setup_credentials(hass: __HAC_KEEP__) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, APPLICATION_CREDENTIALS_DOMAIN, {})
     await async_import_client_credential(
@@ -64,7 +64,7 @@ def mock_expires_at() -> int:
 
 @pytest.fixture(name="config_entry")
 def mock_config_entry(expires_at: int, scopes: list[str]) -> MockConfigEntry:
-    """Create Google Mail entry in Universal Universal Home Assistant."""
+    """Create Google Mail entry in __HA_KEEP__."""
     return MockConfigEntry(
         domain=DOMAIN,
         title=TITLE,
@@ -97,7 +97,7 @@ def mock_connection(aioclient_mock: AiohttpClientMocker) -> None:
 
 @pytest.fixture(name="setup_integration")
 async def mock_setup_integration(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> Callable[[], Coroutine[Any, Any, None]]:
     """Fixture for setting up the component."""
     config_entry.add_to_hass(hass)

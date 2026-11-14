@@ -30,7 +30,7 @@ from universalassistant.components.tts import (
     get_engine_instance,
 )
 from universalassistant.const import ATTR_ENTITY_ID, STATE_UNAVAILABLE, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.core_config import async_process_ha_core_config
 from universalassistant.helpers.entity_registry import EntityRegistry
 from universalassistant.setup import async_setup_component
@@ -48,7 +48,7 @@ async def delay_save_fixture() -> AsyncGenerator[None]:
 
 
 @pytest.fixture(autouse=True)
-async def internal_url_mock(hass: UniversalAssistant) -> None:
+async def internal_url_mock(hass: __HAC_KEEP__) -> None:
     """Mock internal URL of the instance."""
     await async_process_ha_core_config(
         hass,
@@ -83,7 +83,7 @@ def test_default_voice_is_valid(language: str, voice: str) -> None:
     ],
 )
 async def test_prefs_default_voice(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     set_cloud_prefs: Callable[[dict[str, Any]], Coroutine[Any, Any, None]],
     engine_id: str,
@@ -116,7 +116,7 @@ async def test_prefs_default_voice(
 
 @pytest.mark.usefixtures("cloud")
 async def test_yaml_platform_config_not_supported(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test the cloud text-to-speech platform can't be configured in YAML."""
     assert await async_setup_component(hass, "universalassistant", {})
@@ -140,7 +140,7 @@ async def test_yaml_platform_config_not_supported(
     ],
 )
 async def test_provider_properties(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     engine_id: str,
 ) -> None:
@@ -179,7 +179,7 @@ async def test_provider_properties(
     ],
 )
 async def test_get_tts_audio(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     cloud: MagicMock,
     data: dict[str, Any],
@@ -252,7 +252,7 @@ async def test_get_tts_audio(
     ],
 )
 async def test_get_tts_audio_logged_out(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     cloud: MagicMock,
     data: dict[str, Any],
@@ -300,7 +300,7 @@ async def test_get_tts_audio_logged_out(
     ],
 )
 async def test_tts_entity(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     entity_registry: EntityRegistry,
     cloud: MagicMock,
@@ -363,7 +363,7 @@ async def test_tts_entity(
 
 
 async def test_migrating_pipelines(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     hass_storage: dict[str, Any],
@@ -414,7 +414,7 @@ async def test_migrating_pipelines(
     )
     assert hass_storage[STORAGE_KEY]["data"]["items"][0]["language"] == "language_1"
     assert (
-        hass_storage[STORAGE_KEY]["data"]["items"][0]["name"] == "Universal Universal Home Assistant Link"
+        hass_storage[STORAGE_KEY]["data"]["items"][0]["name"] == "__HA_KEEP__ Link"
     )
     assert hass_storage[STORAGE_KEY]["data"]["items"][0]["stt_language"] == "language_1"
     assert hass_storage[STORAGE_KEY]["data"]["items"][0]["tts_language"] == "language_1"
@@ -458,7 +458,7 @@ async def test_migrating_pipelines(
     ],
 )
 async def test_tts_services(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     cloud: MagicMock,
     hass_client: ClientSessionGenerator,
     service: str,

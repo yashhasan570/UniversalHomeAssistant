@@ -18,8 +18,8 @@ from universalassistant.components.casper_glow.const import (
 )
 from universalassistant.components.select import DOMAIN as SELECT_DOMAIN, SelectService
 from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
-from universalassistant.core import UniversalAssistant, State
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, State
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -29,7 +29,7 @@ ENTITY_ID = "select.jar_dimming_time"
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     entity_registry: er.EntityRegistry,
@@ -42,7 +42,7 @@ async def test_entities(
 
 
 async def test_select_state_from_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
 ) -> None:
@@ -61,7 +61,7 @@ async def test_select_state_from_callback(
 
 
 async def test_select_option(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -92,16 +92,16 @@ async def test_select_option(
 
 
 async def test_select_option_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
 ) -> None:
-    """Test that a set_brightness_and_dimming_time error raises UniversalAssistantError."""
+    """Test that a set_brightness_and_dimming_time error raises __HAC_KEEP__Error."""
     mock_casper_glow.set_brightness_and_dimming_time.side_effect = CasperGlowError(
         "Connection failed"
     )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -118,7 +118,7 @@ async def test_select_option_error(
 
 
 async def test_select_state_update_via_callback_after_command_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
@@ -128,7 +128,7 @@ async def test_select_state_update_via_callback_after_command_failure(
         "Connection failed"
     )
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             SELECT_DOMAIN,
             SelectService.SELECT_OPTION,
@@ -154,7 +154,7 @@ async def test_select_state_update_via_callback_after_command_failure(
 
 
 async def test_select_ignores_remaining_time_updates(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     fire_callbacks: Callable[[GlowState], Awaitable[None]],
 ) -> None:
@@ -167,7 +167,7 @@ async def test_select_ignores_remaining_time_updates(
 
 
 async def test_restore_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
 ) -> None:
@@ -190,7 +190,7 @@ async def test_restore_state(
     [STATE_UNKNOWN, "invalid", "999"],
 )
 async def test_restore_state_ignores_invalid(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_casper_glow: MagicMock,
     restored_state: str,

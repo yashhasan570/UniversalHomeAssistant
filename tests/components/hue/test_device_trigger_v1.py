@@ -14,7 +14,7 @@ from universalassistant.components import automation, hue
 from universalassistant.components.device_automation import DeviceAutomationType
 from universalassistant.components.hue.v1 import device_trigger, sensor_base
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.core import __HAC_KEEP__, ServiceCall
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.setup import async_setup_component
 
@@ -25,7 +25,7 @@ REMOTES_RESPONSE = {"7": HUE_TAP_REMOTE_1, "8": HUE_DIMMER_REMOTE_1}
 
 
 async def test_get_triggers(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_bridge_v1: Mock,
     device_registry: dr.DeviceRegistry,
@@ -98,7 +98,7 @@ async def test_get_triggers(
 
 
 async def test_if_fires_on_state_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v1: Mock,
     device_registry: dr.DeviceRegistry,
     service_calls: list[ServiceCall],
@@ -189,7 +189,7 @@ async def test_if_fires_on_state_change(
 
 
 async def test_error_when_remote_is_gone_after_config_entry_loads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_bridge_v1: Mock,
     device_registry: dr.DeviceRegistry,
     caplog: pytest.LogCaptureFixture,

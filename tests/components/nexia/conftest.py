@@ -14,7 +14,7 @@ from pytest_universalassistant.common import MockConfigEntry
 from universalassistant.components.nexia.config_flow import NexiaConfigFlow
 from universalassistant.components.nexia.const import DOMAIN
 from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 def create_mock_sensor(
@@ -404,7 +404,7 @@ def patch_nexia_home(
 
 
 async def setup_integration(
-    hass: UniversalAssistant, patch_nexia_home: NexiaHome, unique_id: str = "123456"
+    hass: __HAC_KEEP__, patch_nexia_home: NexiaHome, unique_id: str = "123456"
 ) -> MockConfigEntry:
     """Set up the nexia integration with a pre-configured mock NexiaHome."""
     entry = MockConfigEntry(

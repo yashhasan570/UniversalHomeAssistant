@@ -4,12 +4,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components import pi_hole
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from . import CONFIG_DATA_DEFAULTS, _create_mocked_hole, _patch_init_hole
 
 
-async def test_update(hass: UniversalAssistant) -> None:
+async def test_update(hass: __HAC_KEEP__) -> None:
     """Tests update entity."""
     mocked_hole = _create_mocked_hole(api_version=6)
     entry = MockConfigEntry(
@@ -52,7 +52,7 @@ async def test_update(hass: UniversalAssistant) -> None:
     )
 
 
-async def test_update_no_versions(hass: UniversalAssistant) -> None:
+async def test_update_no_versions(hass: __HAC_KEEP__) -> None:
     """Tests update entity when no version data available."""
     mocked_hole = _create_mocked_hole(has_versions=False, api_version=6)
     entry = MockConfigEntry(
@@ -86,7 +86,7 @@ async def test_update_no_versions(hass: UniversalAssistant) -> None:
     assert state.attributes["release_url"] is None
 
 
-async def test_update_no_updates(hass: UniversalAssistant) -> None:
+async def test_update_no_updates(hass: __HAC_KEEP__) -> None:
     """Tests update entity when no latest data available."""
     mocked_hole = _create_mocked_hole(
         has_versions=True, has_update=False, api_version=6

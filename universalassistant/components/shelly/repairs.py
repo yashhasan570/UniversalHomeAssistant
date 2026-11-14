@@ -20,7 +20,7 @@ from universalassistant.components.repairs import (
     RepairsFlowResult,
 )
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import issue_registry as ir
 
 from .const import (
@@ -53,7 +53,7 @@ if TYPE_CHECKING:
 
 @callback
 def _async_create_firmware_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ShellyConfigEntry,
     issue_id: str,
     translation_key: str,
@@ -80,7 +80,7 @@ def _async_create_firmware_issue(
 
 @callback
 def async_create_issue_unsupported_firmware(
-    hass: UniversalAssistant, entry: ShellyConfigEntry, is_fixable: bool = False
+    hass: __HAC_KEEP__, entry: ShellyConfigEntry, is_fixable: bool = False
 ) -> None:
     """Create a repair issue if the device runs an unsupported firmware."""
     _async_create_firmware_issue(
@@ -97,7 +97,7 @@ def async_create_issue_unsupported_firmware(
 
 @callback
 def async_manage_ble_scanner_firmware_unsupported_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ShellyConfigEntry,
 ) -> None:
     """Manage the BLE scanner firmware unsupported issue."""
@@ -132,7 +132,7 @@ def async_manage_ble_scanner_firmware_unsupported_issue(
 
 @callback
 def async_manage_deprecated_firmware_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ShellyConfigEntry,
 ) -> None:
     """Manage deprecated firmware issue."""
@@ -169,7 +169,7 @@ def async_manage_deprecated_firmware_issue(
 
 @callback
 def async_manage_outbound_websocket_incorrectly_enabled_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ShellyConfigEntry,
 ) -> None:
     """Manage the Outbound WebSocket incorrectly enabled issue."""
@@ -212,7 +212,7 @@ def async_manage_outbound_websocket_incorrectly_enabled_issue(
 
 @callback
 def async_manage_open_wifi_ap_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ShellyConfigEntry,
 ) -> None:
     """Manage the open WiFi AP issue."""
@@ -255,7 +255,7 @@ def async_manage_open_wifi_ap_issue(
 
 @callback
 def async_manage_rtsp_disabled_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ShellyConfigEntry,
 ) -> None:
     """Manage the RTSP disabled issue."""
@@ -303,7 +303,7 @@ def async_manage_rtsp_disabled_issue(
 
 @callback
 def async_manage_ir_raw_receive_disabled_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entry: ShellyConfigEntry,
 ) -> None:
     """Manage the infrared RAW receive disabled issue."""
@@ -579,7 +579,7 @@ class EnableIrRawReceiveFlow(ShellyRpcMenuRepairsFlow):
 
 
 async def async_create_fix_flow(
-    hass: UniversalAssistant, issue_id: str, data: dict[str, str] | None
+    hass: __HAC_KEEP__, issue_id: str, data: dict[str, str] | None
 ) -> RepairsFlow:
     """Create flow."""
     if TYPE_CHECKING:

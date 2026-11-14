@@ -1,7 +1,7 @@
 """The Adax integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .const import CONNECTION_TYPE, LOCAL
 from .coordinator import AdaxCloudCoordinator, AdaxConfigEntry, AdaxLocalCoordinator
@@ -9,7 +9,7 @@ from .coordinator import AdaxCloudCoordinator, AdaxConfigEntry, AdaxLocalCoordin
 PLATFORMS = [Platform.CLIMATE, Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: AdaxConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: AdaxConfigEntry) -> None:
     """Set up Adax from a config entry."""
     if entry.data.get(CONNECTION_TYPE) == LOCAL:
         local_coordinator = AdaxLocalCoordinator(hass, entry)
@@ -23,13 +23,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: AdaxConfigEntry) ->
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: AdaxConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: AdaxConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_migrate_entry(
-    hass: UniversalAssistant, config_entry: AdaxConfigEntry
+    hass: __HAC_KEEP__, config_entry: AdaxConfigEntry
 ) -> None:
     """Migrate old entry."""
     # convert title and unique_id to string

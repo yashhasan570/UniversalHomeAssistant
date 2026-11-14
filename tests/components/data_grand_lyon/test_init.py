@@ -14,11 +14,11 @@ from universalassistant.components.data_grand_lyon.const import (
     SUBENTRY_TYPE_STOP,
 )
 from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState, ConfigSubentry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 
 async def test_subentry_added_reloads(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
 ) -> None:
@@ -55,7 +55,7 @@ async def test_subentry_added_reloads(
     ],
 )
 async def test_setup_triggers_reauth_on_auth_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_tcl_client: AsyncMock,
     request: pytest.FixtureRequest,
     entry_fixture: str,
@@ -86,7 +86,7 @@ async def test_setup_triggers_reauth_on_auth_failure(
     ],
 )
 async def test_alerts_fetch_failure_retries_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_line_config_entry: MockConfigEntry,
     mock_tcl_client: AsyncMock,
     side_effect: Exception,

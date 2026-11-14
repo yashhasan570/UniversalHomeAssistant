@@ -7,8 +7,8 @@ from duco_connectivity.exceptions import DucoConnectionError, DucoError
 
 from universalassistant.components.diagnostics import async_redact_data
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 
 from .const import DOMAIN
 from .coordinator import DucoConfigEntry
@@ -36,7 +36,7 @@ TO_REDACT = {
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, entry: DucoConfigEntry
+    hass: __HAC_KEEP__, entry: DucoConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator = entry.runtime_data
@@ -56,12 +56,12 @@ async def async_get_config_entry_diagnostics(
         duco_diags = await coordinator.client.async_get_diagnostics()
         write_remaining = await coordinator.client.async_get_write_requests_remaining()
     except DucoConnectionError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="connection_error",
         ) from err
     except DucoError as err:
-        raise UniversalAssistantError(
+        raise __HAC_KEEP__Error(
             translation_domain=DOMAIN,
             translation_key="api_error",
         ) from err

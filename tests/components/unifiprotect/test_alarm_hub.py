@@ -11,7 +11,7 @@ from uiprotect.data import DeviceState, LinkStation, WSAction
 from uiprotect.websocket import WebsocketState
 
 from universalassistant.const import STATE_UNAVAILABLE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 
 from .utils import (
@@ -61,7 +61,7 @@ def _ufp_with_alarm_hub(ufp: MockUFPFixture, alarm_hub: LinkStation) -> MockUFPF
 
 
 async def test_sensors_not_created_without_public_bootstrap(
-    hass: UniversalAssistant, ufp: MockUFPFixture
+    hass: __HAC_KEEP__, ufp: MockUFPFixture
 ) -> None:
     """No alarm hub sensors when the public bootstrap is unavailable."""
     ufp.api.has_public_bootstrap = False
@@ -70,7 +70,7 @@ async def test_sensors_not_created_without_public_bootstrap(
 
 
 async def test_alarm_hub_battery_voltage_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp_with_alarm_hub: MockUFPFixture,
 ) -> None:
@@ -90,7 +90,7 @@ async def test_alarm_hub_battery_voltage_sensor(
 
 
 async def test_alarm_hub_last_event_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp_with_alarm_hub: MockUFPFixture,
 ) -> None:
@@ -108,7 +108,7 @@ async def test_alarm_hub_last_event_sensor(
 
 
 async def test_alarm_hub_tamper_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp_with_alarm_hub: MockUFPFixture,
 ) -> None:
@@ -127,7 +127,7 @@ async def test_alarm_hub_tamper_binary_sensor(
 
 
 async def test_alarm_hub_battery_binary_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp_with_alarm_hub: MockUFPFixture,
 ) -> None:
@@ -146,7 +146,7 @@ async def test_alarm_hub_battery_binary_sensor(
 
 
 async def test_alarm_hub_zone_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp_with_alarm_hub: MockUFPFixture,
 ) -> None:
@@ -177,7 +177,7 @@ async def test_alarm_hub_zone_binary_sensors(
 
 
 async def test_alarm_hub_zone_triggered_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
 ) -> None:
@@ -192,7 +192,7 @@ async def test_alarm_hub_zone_triggered_state(
 
 
 async def test_alarm_hub_zone_unknown_status_unavailable(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
 ) -> None:
@@ -206,7 +206,7 @@ async def test_alarm_hub_zone_unknown_status_unavailable(
 
 
 async def test_alarm_hub_disabled_zone_not_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
 ) -> None:
@@ -218,7 +218,7 @@ async def test_alarm_hub_disabled_zone_not_created(
 
 
 async def test_alarm_hub_in_diagnostics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     hass_client: ClientSessionGenerator,
 ) -> None:
@@ -238,7 +238,7 @@ async def test_alarm_hub_in_diagnostics(
 
 
 async def test_alarm_hub_device_and_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
     ufp_with_alarm_hub: MockUFPFixture,
@@ -265,7 +265,7 @@ async def test_alarm_hub_device_and_entities(
 
 
 async def test_alarm_hub_availability_follows_public_ws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
 ) -> None:
     """Availability tracks the public websocket health, not the private one."""
@@ -293,7 +293,7 @@ async def test_alarm_hub_availability_follows_public_ws(
 
 
 async def test_alarm_hub_state_updates_from_public_ws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
 ) -> None:
@@ -318,7 +318,7 @@ async def test_alarm_hub_state_updates_from_public_ws(
 
 
 async def test_alarm_hub_values_update_from_public_ws(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
 ) -> None:
@@ -338,7 +338,7 @@ async def test_alarm_hub_values_update_from_public_ws(
 
 
 async def test_alarm_hub_reads_replaced_object_after_resync(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
 ) -> None:
@@ -360,7 +360,7 @@ async def test_alarm_hub_reads_replaced_object_after_resync(
 
 
 async def test_alarm_hub_unavailable_while_disconnected(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
 ) -> None:
@@ -387,7 +387,7 @@ async def test_alarm_hub_unavailable_while_disconnected(
 
 
 async def test_alarm_hub_becomes_unavailable_when_removed(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
 ) -> None:
@@ -412,7 +412,7 @@ async def test_alarm_hub_becomes_unavailable_when_removed(
 
 
 async def test_alarm_hub_disconnected_battery(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
 ) -> None:
@@ -443,7 +443,7 @@ async def test_alarm_hub_disconnected_battery(
     [pytest.param(False, id="hybrid"), pytest.param(True, id="api_key_only")],
 )
 async def test_alarm_hub_added_at_runtime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     ufp: MockUFPFixture,
     alarm_hub: LinkStation,
@@ -476,7 +476,7 @@ async def test_alarm_hub_added_at_runtime(
 
 
 async def test_alarm_hub_known_at_setup_not_added_again(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
@@ -500,7 +500,7 @@ async def test_alarm_hub_known_at_setup_not_added_again(
     [pytest.param(False, id="hybrid"), pytest.param(True, id="api_key_only")],
 )
 async def test_plain_link_station_added_at_runtime(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
     alarm_hub: LinkStation,
@@ -538,7 +538,7 @@ async def test_plain_link_station_added_at_runtime(
     ],
 )
 async def test_alarm_hub_without_name(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     ufp: MockUFPFixture,
     alarm_hub: LinkStation,
@@ -567,7 +567,7 @@ async def test_alarm_hub_without_name(
 
 
 async def test_alarm_hub_unavailable_when_public_bootstrap_lost(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     ufp_with_alarm_hub: MockUFPFixture,
     alarm_hub: LinkStation,
 ) -> None:

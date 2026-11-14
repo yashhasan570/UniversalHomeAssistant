@@ -13,7 +13,7 @@ from universalassistant.components.template.config import (
     async_validate_config_section,
 )
 from universalassistant.components.template.const import PLATFORMS
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import (
     device_registry as dr,
     entity_registry as er,
@@ -42,7 +42,7 @@ from .conftest import (
     [platform for platform in PLATFORMS if platform != Platform.DEVICE_TRACKER],
 )
 async def test_platform_config_creates_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform_domain: str,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
@@ -58,7 +58,7 @@ async def test_platform_config_creates_issue(
 
 
 async def test_platform_device_tracker_creates_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     issue_registry: ir.IssueRegistry,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -154,13 +154,13 @@ async def test_platform_device_tracker_creates_issue(
         },
     ],
 )
-async def test_invalid_schema(hass: UniversalAssistant, config: dict) -> None:
+async def test_invalid_schema(hass: __HAC_KEEP__, config: dict) -> None:
     """Test invalid config schemas."""
     with pytest.raises(probatio.Invalid):
         CONFIG_SECTION_SCHEMA(config)
 
 
-async def test_valid_default_entity_id(hass: UniversalAssistant) -> None:
+async def test_valid_default_entity_id(hass: __HAC_KEEP__) -> None:
     """Test valid default_entity_id schemas."""
     config = {
         "button": {
@@ -191,7 +191,7 @@ async def test_valid_default_entity_id(hass: UniversalAssistant) -> None:
     ],
 )
 async def test_invalid_default_entity_id(
-    hass: UniversalAssistant, default_entity_id: dict
+    hass: __HAC_KEEP__, default_entity_id: dict
 ) -> None:
     """Test invalid default_entity_id schemas."""
     config = {
@@ -307,7 +307,7 @@ async def test_invalid_default_entity_id(
     ],
 )
 async def test_invalid_binary_sensor_schema_with_auto_off(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict,
     expected_error: str | None,
     caplog: pytest.LogCaptureFixture,
@@ -446,7 +446,7 @@ TRIGGER_PLATFORM_CONFIGURATIONS = [
 
 @pytest.mark.parametrize(("platform", "config"), TRIGGER_PLATFORM_CONFIGURATIONS)
 async def test_trigger_schema_with_conditions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: Platform,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -484,7 +484,7 @@ async def test_trigger_schema_with_conditions(
     ],
 )
 async def test_invalid_trigger_schema_with_conditions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: Platform,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -637,7 +637,7 @@ async def test_invalid_trigger_schema_with_conditions(
     ],
 )
 async def test_trigger_schema_with_invalid_condition(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: Platform,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -800,7 +800,7 @@ async def test_trigger_schema_with_invalid_condition(
     ],
 )
 async def test_invalid_schema_with_conditions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: Platform,
     config: ConfigType,
     caplog: pytest.LogCaptureFixture,
@@ -923,7 +923,7 @@ async def test_invalid_schema_with_conditions(
     ],
 )
 async def test_combined_state_variables(
-    hass: UniversalAssistant, config: dict, expected: dict
+    hass: __HAC_KEEP__, config: dict, expected: dict
 ) -> None:
     """Tests combining variables for state based template entities."""
     validated = await async_validate_config_section(hass, config)
@@ -932,7 +932,7 @@ async def test_combined_state_variables(
     assert variables.as_dict() == expected
 
 
-async def test_trigger_variables_schema(hass: UniversalAssistant) -> None:
+async def test_trigger_variables_schema(hass: __HAC_KEEP__) -> None:
     """Test trigger variables are validated as script variables."""
     validated = CONFIG_SECTION_SCHEMA(
         {
@@ -947,7 +947,7 @@ async def test_trigger_variables_schema(hass: UniversalAssistant) -> None:
 
 
 async def test_trigger_variables_requires_trigger(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test trigger variables without a trigger logs an error."""
     with assert_setup_component(0, DOMAIN):
@@ -1096,7 +1096,7 @@ async def test_trigger_variables_requires_trigger(
     ],
 )
 async def test_setup_component_bad_config_logs_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
     config: dict,
     expected_error: str,
@@ -1115,7 +1115,7 @@ async def test_setup_component_bad_config_logs_error(
     ],
 )
 async def test_trigger_schema_with_invalid_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: Platform,
     config: ConfigType,
     extra_section_config: ConfigType,
@@ -1158,7 +1158,7 @@ async def test_trigger_schema_with_invalid_actions(
 
 @pytest.mark.parametrize(("platform", "config"), TRIGGER_PLATFORM_CONFIGURATIONS)
 async def test_trigger_schema_with_valid_actions(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: Platform,
     config: ConfigType,
     device_registry: dr.DeviceRegistry,
@@ -1237,7 +1237,7 @@ async def test_trigger_schema_with_valid_actions(
     ],
 )
 async def test_combined_trigger_variables(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict,
     expected_root: dict,
     expected_entity: dict,
@@ -1252,7 +1252,7 @@ async def test_combined_trigger_variables(
 
 
 async def test_state_init_attribute_variables(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test state based template entity initializes attributes with variables."""
     source = "switch.foo"
@@ -1337,7 +1337,7 @@ async def test_state_init_attribute_variables(
     ],
 )
 async def test_invalid_schema_raises_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config: dict,
     expected_warning: str,
     issue_registry: ir.IssueRegistry,
@@ -1357,7 +1357,7 @@ async def test_invalid_schema_raises_issue(
 
 
 async def test_multiple_configuration_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
 ) -> None:
     """Test multiple configurations keys create entities."""
     await async_setup_component(

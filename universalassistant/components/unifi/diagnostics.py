@@ -6,7 +6,7 @@ from typing import Any
 
 from universalassistant.components.diagnostics import REDACTED, async_redact_data
 from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.device_registry import format_mac
 
 from . import UnifiConfigEntry
@@ -69,7 +69,7 @@ def async_replace_list_data(
 
 
 async def async_get_config_entry_diagnostics(
-    hass: UniversalAssistant, config_entry: UnifiConfigEntry
+    hass: __HAC_KEEP__, config_entry: UnifiConfigEntry
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     hub = config_entry.runtime_data

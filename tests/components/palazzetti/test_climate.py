@@ -18,8 +18,8 @@ from universalassistant.components.climate import (
 )
 from universalassistant.components.palazzetti.const import FAN_AUTO, FAN_HIGH
 from universalassistant.const import ATTR_ENTITY_ID, ATTR_TEMPERATURE, Platform
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import entity_registry as er
 
 from . import setup_integration
@@ -28,7 +28,7 @@ ENTITY_ID = "climate.stove"
 
 
 async def test_all_entities(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_palazzetti_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -42,7 +42,7 @@ async def test_all_entities(
 
 
 async def test_async_set_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_palazzetti_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -70,7 +70,7 @@ async def test_async_set_data(
 
     # Set HVAC Mode: Error
     mock_palazzetti_client.set_on.side_effect = CommunicationError()
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_HVAC_MODE,
@@ -99,7 +99,7 @@ async def test_async_set_data(
 
     # Set Temperature: Error
     mock_palazzetti_client.set_target_temperature.side_effect = CommunicationError()
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_TEMPERATURE,
@@ -146,7 +146,7 @@ async def test_async_set_data(
 
     # Set Fan Mode: Error
     mock_palazzetti_client.set_fan_speed.side_effect = CommunicationError()
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             CLIMATE_DOMAIN,
             SERVICE_SET_FAN_MODE,

@@ -97,7 +97,7 @@
         'type': 'integer',
       }),
       'source': dict({
-        'description': 'Logs to read (default: core). Available: core (Universal Universal Home Assistant), host (the operating system)',
+        'description': 'Logs to read (default: core). Available: core (__HA_KEEP__), host (the operating system)',
         'items': dict({
           'enum': list([
             'core',

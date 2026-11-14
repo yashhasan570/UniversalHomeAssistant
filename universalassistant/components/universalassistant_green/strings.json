@@ -1,10 +1,10 @@
 {
   "exceptions": {
     "not_hassio": {
-      "message": "Universal Universal Home Assistant is not running on Universal Universal Home Assistant OS, the Universal Universal Home Assistant Green entry will be removed"
+      "message": "__HA_KEEP__ is not running on __HA_KEEP__ OS, the __HA_KEEP__ Green entry will be removed"
     },
     "unsupported_board": {
-      "message": "Universal Universal Home Assistant is not running on a Universal Universal Home Assistant Green ({board}), the Universal Universal Home Assistant Green entry will be removed"
+      "message": "__HA_KEEP__ is not running on a __HA_KEEP__ Green ({board}), the __HA_KEEP__ Green entry will be removed"
     }
   },
   "options": {

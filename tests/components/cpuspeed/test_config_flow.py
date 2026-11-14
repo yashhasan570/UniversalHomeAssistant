@@ -6,12 +6,12 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.cpuspeed.const import DOMAIN
 from universalassistant.config_entries import SOURCE_USER
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 
 
 async def test_full_user_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cpuinfo_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:
@@ -38,7 +38,7 @@ async def test_full_user_flow(
 
 
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cpuinfo_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -58,7 +58,7 @@ async def test_already_configured(
 
 
 async def test_not_compatible(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_cpuinfo_config_flow: MagicMock,
     mock_setup_entry: AsyncMock,
 ) -> None:

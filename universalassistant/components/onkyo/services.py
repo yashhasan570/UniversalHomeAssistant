@@ -4,7 +4,7 @@ import probatio
 
 from universalassistant.components.media_player import DOMAIN as MEDIA_PLAYER_DOMAIN
 from universalassistant.const import ATTR_ENTITY_ID
-from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.core import __HAC_KEEP__, ServiceCall, callback
 from universalassistant.helpers import config_validation as cv
 
 from .const import LEGACY_REV_HDMI_OUTPUT_MAPPING
@@ -23,7 +23,7 @@ SERVICE_SELECT_HDMI_OUTPUT = "onkyo_select_hdmi_output"
 
 
 @callback
-def async_setup_services(hass: UniversalAssistant) -> None:
+def async_setup_services(hass: __HAC_KEEP__) -> None:
     """Register Onkyo services."""
 
     hass.data.setdefault(DATA_MP_ENTITIES, {})

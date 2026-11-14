@@ -8,8 +8,8 @@ from pytest_universalassistant.common import MockEntity, MockEntityPlatform
 from universalassistant.components import automation
 from universalassistant.components.webostv import DOMAIN
 from universalassistant.const import ATTR_DEVICE_ID, ATTR_ENTITY_ID, SERVICE_RELOAD
-from universalassistant.core import UniversalAssistant, ServiceCall
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import __HAC_KEEP__, ServiceCall
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
@@ -18,7 +18,7 @@ from .const import ENTITY_ID, FAKE_UUID
 
 
 async def test_webostv_turn_on_trigger_device_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     client,
@@ -68,7 +68,7 @@ async def test_webostv_turn_on_trigger_device_id(
 
     service_calls.clear()
 
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         await hass.services.async_call(
             "media_player",
             "turn_on",
@@ -80,7 +80,7 @@ async def test_webostv_turn_on_trigger_device_id(
 
 
 async def test_webostv_turn_on_trigger_entity_id(
-    hass: UniversalAssistant, service_calls: list[ServiceCall], client
+    hass: __HAC_KEEP__, service_calls: list[ServiceCall], client
 ) -> None:
     """Test for turn_on triggers by entity_id firing."""
     await setup_webostv(hass)
@@ -122,7 +122,7 @@ async def test_webostv_turn_on_trigger_entity_id(
 @pytest.mark.parametrize("option", [ATTR_DEVICE_ID, ATTR_ENTITY_ID])
 @pytest.mark.usefixtures("client")
 async def test_webostv_turn_on_trigger_options(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_calls: list[ServiceCall],
     device_registry: dr.DeviceRegistry,
     option: str,
@@ -166,7 +166,7 @@ async def test_webostv_turn_on_trigger_options(
 
 
 async def test_unknown_trigger_platform_type(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, client
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, client
 ) -> None:
     """Test unknown trigger platform type."""
     await setup_webostv(hass)
@@ -197,7 +197,7 @@ async def test_unknown_trigger_platform_type(
 
 
 async def test_trigger_invalid_entity_id(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture, client
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture, client
 ) -> None:
     """Test turn on trigger using invalid entity_id."""
     await setup_webostv(hass)

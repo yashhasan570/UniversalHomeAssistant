@@ -64,8 +64,8 @@ from universalassistant.components.recorder.table_managers.statistics_meta impor
 )
 from universalassistant.components.recorder.util import session_scope
 from universalassistant.components.sensor import UNIT_CONVERTERS
-from universalassistant.core import Context, UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Context, __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import entity_registry as er
 from universalassistant.setup import async_setup_component
 from universalassistant.util import dt as dt_util
@@ -109,7 +109,7 @@ def setup_recorder(recorder_mock: Recorder) -> None:
 
 
 async def _setup_mock_domain(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     platform: Any | None = None,  # There's no RecorderPlatform class yet
 ) -> None:
     """Set up a mock domain."""
@@ -133,7 +133,7 @@ def test_converters_align_with_sensor() -> None:
 
 
 async def test_compile_hourly_statistics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
 ) -> None:
     """Test compiling hourly statistics."""
@@ -467,7 +467,7 @@ def mock_from_stats():
 
 
 async def test_compile_periodic_statistics_exception(
-    hass: UniversalAssistant, setup_recorder: None, mock_sensor_statistics, mock_from_stats
+    hass: __HAC_KEEP__, setup_recorder: None, mock_sensor_statistics, mock_from_stats
 ) -> None:
     """Test exception handling when compiling periodic statistics."""
     await async_setup_component(hass, "sensor", {})
@@ -509,7 +509,7 @@ async def test_compile_periodic_statistics_exception(
 
 
 async def test_rename_entity(
-    hass: UniversalAssistant, entity_registry: er.EntityRegistry, setup_recorder: None
+    hass: __HAC_KEEP__, entity_registry: er.EntityRegistry, setup_recorder: None
 ) -> None:
     """Test statistics is migrated when entity_id is changed."""
     await async_setup_component(hass, "sensor", {})
@@ -586,7 +586,7 @@ async def test_rename_entity(
 
 
 async def test_statistics_during_period_set_back_compat(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
 ) -> None:
     """Test statistics_during_period can handle a list instead of a set."""
@@ -607,7 +607,7 @@ async def test_statistics_during_period_set_back_compat(
 
 
 async def test_rename_entity_collision(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
@@ -714,7 +714,7 @@ async def test_rename_entity_collision(
 
 
 async def test_rename_entity_collision_states_meta_check_disabled(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
@@ -828,7 +828,7 @@ async def test_rename_entity_collision_states_meta_check_disabled(
 
 
 async def test_statistics_duplicated(
-    hass: UniversalAssistant, setup_recorder: None, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, setup_recorder: None, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test statistics with same start time is not compiled."""
     await async_setup_component(hass, "sensor", {})
@@ -889,7 +889,7 @@ async def test_statistics_duplicated(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_import_statistics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_ws_client: WebSocketGenerator,
     caplog: pytest.LogCaptureFixture,
     external_metadata_extra: dict[str, str],
@@ -1142,7 +1142,7 @@ async def test_import_statistics(
 
 
 async def test_external_statistics_errors(
-    hass: UniversalAssistant, setup_recorder: None, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, setup_recorder: None, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test validation of external statistics."""
     await async_wait_recording_done(hass)
@@ -1176,7 +1176,7 @@ async def test_external_statistics_errors(
         "statistic_id": "sensor.total_energy_import",
     }
     external_statistics = {**_external_statistics}
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_add_external_statistics(hass, external_metadata, (external_statistics,))
     await async_wait_recording_done(hass)
     assert statistics_during_period(hass, zero, period="hour") == {}
@@ -1186,7 +1186,7 @@ async def test_external_statistics_errors(
     # Attempt to insert statistics for the wrong domain
     external_metadata = {**_external_metadata, "source": "other"}
     external_statistics = {**_external_statistics}
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_add_external_statistics(hass, external_metadata, (external_statistics,))
     await async_wait_recording_done(hass)
     assert statistics_during_period(hass, zero, period="hour") == {}
@@ -1199,7 +1199,7 @@ async def test_external_statistics_errors(
         **_external_statistics,
         "start": period1.replace(tzinfo=None),
     }
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_add_external_statistics(hass, external_metadata, (external_statistics,))
     await async_wait_recording_done(hass)
     assert statistics_during_period(hass, zero, period="hour") == {}
@@ -1209,7 +1209,7 @@ async def test_external_statistics_errors(
     # Attempt to insert statistics for an invalid starting time
     external_metadata = {**_external_metadata}
     external_statistics = {**_external_statistics, "start": period1.replace(minute=1)}
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_add_external_statistics(hass, external_metadata, (external_statistics,))
     await async_wait_recording_done(hass)
     assert statistics_during_period(hass, zero, period="hour") == {}
@@ -1222,7 +1222,7 @@ async def test_external_statistics_errors(
         **_external_statistics,
         "last_reset": last_reset.replace(tzinfo=None),
     }
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_add_external_statistics(hass, external_metadata, (external_statistics,))
     await async_wait_recording_done(hass)
     assert statistics_during_period(hass, zero, period="hour") == {}
@@ -1247,7 +1247,7 @@ async def test_external_statistics_errors(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_import_statistics_batch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     imported: list[dict[str, float]],
     expected: list[tuple[float, float, float, float]],
 ) -> None:
@@ -1278,7 +1278,7 @@ async def test_import_statistics_batch(
 
 
 async def test_import_statistics_errors(
-    hass: UniversalAssistant, setup_recorder: None, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, setup_recorder: None, caplog: pytest.LogCaptureFixture
 ) -> None:
     """Test validation of imported statistics."""
     await async_wait_recording_done(hass)
@@ -1312,7 +1312,7 @@ async def test_import_statistics_errors(
         "statistic_id": "test:total_energy_import",
     }
     external_statistics = {**_external_statistics}
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_import_statistics(hass, external_metadata, (external_statistics,))
     await async_wait_recording_done(hass)
     assert statistics_during_period(hass, zero, period="hour") == {}
@@ -1322,7 +1322,7 @@ async def test_import_statistics_errors(
     # Attempt to insert statistics for the wrong domain
     external_metadata = {**_external_metadata, "source": "sensor"}
     external_statistics = {**_external_statistics}
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_import_statistics(hass, external_metadata, (external_statistics,))
     await async_wait_recording_done(hass)
     assert statistics_during_period(hass, zero, period="hour") == {}
@@ -1335,7 +1335,7 @@ async def test_import_statistics_errors(
         **_external_statistics,
         "start": period1.replace(tzinfo=None),
     }
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_import_statistics(hass, external_metadata, (external_statistics,))
     await async_wait_recording_done(hass)
     assert statistics_during_period(hass, zero, period="hour") == {}
@@ -1345,7 +1345,7 @@ async def test_import_statistics_errors(
     # Attempt to insert statistics for an invalid starting time
     external_metadata = {**_external_metadata}
     external_statistics = {**_external_statistics, "start": period1.replace(minute=1)}
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_import_statistics(hass, external_metadata, (external_statistics,))
     await async_wait_recording_done(hass)
     assert statistics_during_period(hass, zero, period="hour") == {}
@@ -1358,7 +1358,7 @@ async def test_import_statistics_errors(
         **_external_statistics,
         "last_reset": last_reset.replace(tzinfo=None),
     }
-    with pytest.raises(UniversalAssistantError):
+    with pytest.raises(__HAC_KEEP__Error):
         async_import_statistics(hass, external_metadata, (external_statistics,))
     await async_wait_recording_done(hass)
     assert statistics_during_period(hass, zero, period="hour") == {}
@@ -1391,7 +1391,7 @@ async def test_import_statistics_errors(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_update_statistics_metadata(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requested_new_unit,
     update_statistics_extra,
     new_unit,
@@ -1491,7 +1491,7 @@ async def test_update_statistics_metadata(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_update_statistics_metadata_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     requested_new_unit,
     update_statistics_extra,
     error_message,
@@ -1529,7 +1529,7 @@ async def test_update_statistics_metadata_error(
         }
     ]
 
-    with pytest.raises(UniversalAssistantError, match=error_message):
+    with pytest.raises(__HAC_KEEP__Error, match=error_message):
         async_update_statistics_metadata(
             hass,
             "sensor.test",
@@ -1582,7 +1582,7 @@ async def test_update_statistics_metadata_error(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_statistics_during_period_display_inverse_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     state: int,
     converted_value: float | None,
 ) -> None:
@@ -1631,7 +1631,7 @@ async def test_statistics_during_period_display_inverse_unit(
 
 @pytest.mark.usefixtures("recorder_mock")
 async def test_statistics_during_period_stream_error_falls_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test statistics are read again without streaming when reading rows fails."""
@@ -1653,7 +1653,7 @@ async def test_statistics_during_period_stream_error_falls_back(
     sorted_statistics_to_dict = statistics._sorted_statistics_to_dict
 
     def _fail_streamed(
-        hass: UniversalAssistant, stats: Any, **kwargs: Any
+        hass: __HAC_KEEP__, stats: Any, **kwargs: Any
     ) -> dict[str, list[Any]]:
         # Only the streamed result is not a list
         if not isinstance(stats, list):
@@ -1715,7 +1715,7 @@ async def test_statistics_during_period_stream_error_falls_back(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_change_converted_without_offset(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     unit_class: str,
     unit: str,
     units: dict[str, str] | None,
@@ -1761,7 +1761,7 @@ async def test_change_converted_without_offset(
 
 @pytest.mark.freeze_time("2022-10-01 00:00:00+00:00")
 async def test_statistics_during_period_last_reset_not_converted(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
 ) -> None:
     """Test last_reset is not unit converted when converting statistics."""
@@ -1807,7 +1807,7 @@ async def test_statistics_during_period_last_reset_not_converted(
 @pytest.mark.parametrize("timezone", ["America/Regina", "Europe/Vienna", "UTC"])
 @pytest.mark.freeze_time("2022-10-01 00:00:00+00:00")
 async def test_daily_statistics_sum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     timezone,
@@ -1995,7 +1995,7 @@ async def test_daily_statistics_sum(
 )
 @pytest.mark.freeze_time("2022-11-15 00:00:00+00:00")
 async def test_statistics_period_containing_dst_fall_back(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     period: Literal["day", "week", "month"],
     period_start: str,
@@ -2049,7 +2049,7 @@ async def test_statistics_period_containing_dst_fall_back(
 @pytest.mark.parametrize("timezone", ["America/Regina", "Europe/Vienna", "UTC"])
 @pytest.mark.freeze_time("2022-10-01 00:00:00+00:00")
 async def test_multiple_daily_statistics_sum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     timezone,
@@ -2259,7 +2259,7 @@ async def test_multiple_daily_statistics_sum(
 @pytest.mark.parametrize("timezone", ["America/Regina", "Europe/Vienna", "UTC"])
 @pytest.mark.freeze_time("2022-10-01 00:00:00+00:00")
 async def test_weekly_statistics_mean(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     timezone,
@@ -2396,7 +2396,7 @@ async def test_weekly_statistics_mean(
 @pytest.mark.parametrize("timezone", ["America/Regina", "Europe/Vienna", "UTC"])
 @pytest.mark.freeze_time("2022-10-01 00:00:00+00:00")
 async def test_weekly_statistics_sum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     timezone,
@@ -2578,7 +2578,7 @@ async def test_weekly_statistics_sum(
 @pytest.mark.parametrize("timezone", ["America/Regina", "Europe/Vienna", "UTC"])
 @pytest.mark.freeze_time("2021-08-01 00:00:00+00:00")
 async def test_monthly_statistics_sum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     timezone,
@@ -2816,7 +2816,7 @@ async def test_monthly_statistics_sum(
 @pytest.mark.parametrize("timezone", ["America/Regina", "Europe/Vienna", "UTC"])
 @pytest.mark.freeze_time("2020-01-01 00:00:00+00:00")
 async def test_yearly_statistics_sum(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     timezone,
@@ -3160,7 +3160,7 @@ def test_cache_key_for_generate_statistics_at_time_stmt_dependent_sub_query() ->
 @pytest.mark.parametrize("timezone", ["America/Regina", "Europe/Vienna", "UTC"])
 @pytest.mark.freeze_time("2022-10-01 00:00:00+00:00")
 async def test_change(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     timezone,
@@ -3497,7 +3497,7 @@ async def test_change(
 @pytest.mark.parametrize("timezone", ["America/Regina", "Europe/Vienna", "UTC"])
 @pytest.mark.freeze_time("2022-10-01 00:00:00+00:00")
 async def test_change_multiple(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     timezone,
@@ -3884,7 +3884,7 @@ async def test_change_multiple(
 @pytest.mark.parametrize("timezone", ["America/Regina", "Europe/Vienna", "UTC"])
 @pytest.mark.freeze_time("2022-10-01 00:00:00+00:00")
 async def test_change_with_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     timezone,
@@ -4110,7 +4110,7 @@ async def test_change_with_none(
 
 
 async def test_recorder_platform_with_statistics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -4188,7 +4188,7 @@ async def test_recorder_platform_with_statistics(
 
 
 async def test_recorder_platform_without_statistics(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -4213,7 +4213,7 @@ async def test_recorder_platform_without_statistics(
     ],
 )
 async def test_recorder_platform_with_partial_statistics_support(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     supported_methods: tuple[str, ...],
@@ -4276,7 +4276,7 @@ async def test_recorder_platform_with_partial_statistics_support(
 
 
 async def test_recorder_platforms_with_custom_equivalent_units(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
 ) -> None:
     """Test recorder platforms providing custom equivalent units are joined."""
@@ -4388,7 +4388,7 @@ async def test_recorder_platforms_with_custom_equivalent_units(
 
 
 async def test_recorder_platforms_with_custom_equivalent_units_continues_on_exception(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
@@ -4482,7 +4482,7 @@ async def test_recorder_platforms_with_custom_equivalent_units_continues_on_exce
     ],
 )
 async def test_recorder_platforms_custom_equivalent_units_on_invalid_types(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     setup_recorder: None,
     caplog: pytest.LogCaptureFixture,
     invalid_custom_equivalent_units: Any,
@@ -4737,7 +4737,7 @@ async def test_recorder_platforms_custom_equivalent_units_on_invalid_types(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_get_statistics_service(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_read_only_user: MockUser,
     service_args: dict[str, Any],
     expected_result: dict[str, Any],
@@ -4870,7 +4870,7 @@ async def test_get_statistics_service(
 )
 @pytest.mark.usefixtures("recorder_mock")
 async def test_get_statistics_service_missing_mandatory_keys(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     service_args: dict[str, Any],
     missing_key: str,
 ) -> None:

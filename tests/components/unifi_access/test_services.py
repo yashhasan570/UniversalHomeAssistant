@@ -17,8 +17,8 @@ from universalassistant.components.unifi_access.services import (
     UnifiAccessServiceArgument,
 )
 from universalassistant.const import CommonServiceArgument
-from universalassistant.core import UniversalAssistant
-from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.core import __HAC_KEEP__
+from universalassistant.exceptions import __HAC_KEEP__Error, ServiceValidationError
 from universalassistant.helpers import device_registry as dr
 
 from . import setup_integration
@@ -38,7 +38,7 @@ def _device_id(
 
 
 async def test_set_lock_rule_service_calls_api(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -65,7 +65,7 @@ async def test_set_lock_rule_service_calls_api(
 
 
 async def test_set_lock_rule_service_defaults_interval(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -91,7 +91,7 @@ async def test_set_lock_rule_service_defaults_interval(
 
 
 async def test_set_lock_rule_service_updates_sensor_state(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -118,7 +118,7 @@ async def test_set_lock_rule_service_updates_sensor_state(
 
 
 async def test_set_lock_rule_service_raises_on_api_error(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     device_registry: dr.DeviceRegistry,
@@ -129,7 +129,7 @@ async def test_set_lock_rule_service_raises_on_api_error(
         side_effect=UnifiAccessError("API error")
     )
 
-    with pytest.raises(UniversalAssistantError) as exc_info:
+    with pytest.raises(__HAC_KEEP__Error) as exc_info:
         await hass.services.async_call(
             DOMAIN,
             UnifiAccessService.SET_LOCK_RULE,
@@ -147,7 +147,7 @@ async def test_set_lock_rule_service_raises_on_api_error(
 
 
 async def test_set_lock_rule_service_rejects_hub_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_client: MagicMock,
     device_registry: dr.DeviceRegistry,

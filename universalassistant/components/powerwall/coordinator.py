@@ -18,7 +18,7 @@ from tesla_powerwall import (
 )
 
 from universalassistant.config_entries import ConfigEntry
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import UPDATE_INTERVAL
@@ -78,7 +78,7 @@ class PowerwallUpdateCoordinator(DataUpdateCoordinator[PowerwallData]):
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         entry: PowerwallConfigEntry,
         manager: PowerwallDataManager,
     ) -> None:

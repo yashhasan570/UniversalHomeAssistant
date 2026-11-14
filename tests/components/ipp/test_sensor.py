@@ -15,14 +15,14 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.ipp.coordinator import SCAN_INTERVAL
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import STATE_UNKNOWN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 
 @pytest.mark.freeze_time("2019-11-11 09:10:32+00:00")
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     init_integration: MockConfigEntry,
@@ -32,7 +32,7 @@ async def test_sensors(
 
 
 async def test_disabled_by_default_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     init_integration: MockConfigEntry,
 ) -> None:
@@ -52,7 +52,7 @@ async def test_disabled_by_default_sensors(
 
 
 async def test_missing_entry_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_ipp: AsyncMock,
@@ -70,7 +70,7 @@ async def test_missing_entry_unique_id(
 
 
 async def test_no_page_count_sensors_when_unsupported(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_printer: Printer,
@@ -105,7 +105,7 @@ async def test_no_page_count_sensors_when_unsupported(
 
 
 async def test_page_count_sensors_with_partial_counters(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_config_entry: MockConfigEntry,
     mock_printer: Printer,
@@ -149,7 +149,7 @@ async def test_page_count_sensors_with_partial_counters(
 
 
 async def test_page_count_unknown_when_counter_missing(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     freezer: FrozenDateTimeFactory,
     init_integration: MockConfigEntry,
     mock_printer: Printer,

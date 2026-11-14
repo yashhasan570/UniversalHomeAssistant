@@ -11,7 +11,7 @@ from aiohttp import web
 from motioneye_client.client import MotionEyeClientError
 from motioneye_client.const import KEY_MEDIA_LIST, KEY_MIME_TYPE, KEY_PATH
 
-from universalassistant.components.http import UniversalAssistantView
+from universalassistant.components.http import __HAC_KEEP__View
 from universalassistant.components.http.auth import async_sign_path
 from universalassistant.components.media_player import MediaClass, MediaType
 from universalassistant.components.media_source import (
@@ -23,7 +23,7 @@ from universalassistant.components.media_source import (
     Unresolvable,
 )
 from universalassistant.config_entries import ConfigEntryState
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers import device_registry as dr
 
 from .const import DOMAIN
@@ -59,7 +59,7 @@ def split_motioneye_device_identifier(
 
 
 def _encode_media_path(path: str) -> str:
-    """Encode a motionEye media path for use in a Universal Universal Home Assistant proxy URL."""
+    """Encode a motionEye media path for use in a __HA_KEEP__ proxy URL."""
     return urlsafe_b64encode(path.encode("utf-8")).decode("ascii")
 
 
@@ -71,7 +71,7 @@ def _build_media_proxy_path(
     *,
     preview: bool,
 ) -> str:
-    """Build an authenticated Universal Universal Home Assistant proxy path for motionEye media."""
+    """Build an authenticated __HA_KEEP__ proxy path for motionEye media."""
     return MEDIA_PROXY_URL.format(
         config_id=config_id,
         camera_id=camera_id,
@@ -81,14 +81,14 @@ def _build_media_proxy_path(
     )
 
 
-class MotionEyeMediaProxyView(UniversalAssistantView):
-    """Proxy saved motionEye media through Universal Universal Home Assistant."""
+class MotionEyeMediaProxyView(__HAC_KEEP__View):
+    """Proxy saved motionEye media through __HA_KEEP__."""
 
     requires_auth = True
     url = MEDIA_PROXY_URL
     name = "api:motioneye_media"
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize the proxy."""
         self.hass = hass
 
@@ -177,7 +177,7 @@ class MotionEyeMediaProxyView(UniversalAssistantView):
 #     -> path hierarchy as configured on motionEye
 
 
-async def async_get_media_source(hass: UniversalAssistant) -> MotionEyeMediaSource:
+async def async_get_media_source(hass: __HAC_KEEP__) -> MotionEyeMediaSource:
     """Set up motionEye media source."""
     return MotionEyeMediaSource(hass)
 
@@ -187,7 +187,7 @@ class MotionEyeMediaSource(MediaSource):
 
     name: str = "motionEye Media"
 
-    def __init__(self, hass: UniversalAssistant) -> None:
+    def __init__(self, hass: __HAC_KEEP__) -> None:
         """Initialize MotionEyeMediaSource."""
         super().__init__(DOMAIN)
         self.hass = hass

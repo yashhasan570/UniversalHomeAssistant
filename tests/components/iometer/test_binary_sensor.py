@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from universalassistant.components.iometer.const import DOMAIN
 from universalassistant.const import STATE_OFF, STATE_ON, STATE_UNKNOWN, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import get_status_callback, setup_platform
@@ -22,7 +22,7 @@ from . import get_status_callback, setup_platform
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_binary_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_iometer_client: MagicMock,
     mock_config_entry: MockConfigEntry,
@@ -36,7 +36,7 @@ async def test_binary_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_connection_status_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_iometer_client: MagicMock,
 ) -> None:
@@ -65,7 +65,7 @@ async def test_connection_status_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_attachment_status_sensors(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_iometer_client: MagicMock,
 ) -> None:
@@ -94,7 +94,7 @@ async def test_attachment_status_sensors(
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_attachment_status_sensors_unknown(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_iometer_client: MagicMock,
 ) -> None:

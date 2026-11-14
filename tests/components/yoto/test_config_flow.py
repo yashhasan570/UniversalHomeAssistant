@@ -18,7 +18,7 @@ from universalassistant.config_entries import (
     SOURCE_USER,
     ConfigEntryState,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.data_entry_flow import FlowResultType
 from universalassistant.helpers import config_entry_oauth2_flow
 from universalassistant.helpers.service_info.dhcp import DhcpServiceInfo
@@ -29,7 +29,7 @@ REDIRECT_URI = "https://example.com/auth/external/callback"
 TOKEN_URL = "https://login.yotoplay.com/oauth/token"
 
 
-async def _initiate_user_flow(hass: UniversalAssistant) -> dict:
+async def _initiate_user_flow(hass: __HAC_KEEP__) -> dict:
     """Start the OAuth2 user flow and return the EXTERNAL_STEP result."""
     return await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
@@ -37,7 +37,7 @@ async def _initiate_user_flow(hass: UniversalAssistant) -> dict:
 
 
 async def _complete_callback(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     result: dict,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
@@ -67,7 +67,7 @@ async def _complete_callback(
     return result
 
 
-async def test_abort_if_no_credentials(hass: UniversalAssistant) -> None:
+async def test_abort_if_no_credentials(hass: __HAC_KEEP__) -> None:
     """The flow aborts when no application credentials are configured."""
     result = await _initiate_user_flow(hass)
     assert result["type"] is FlowResultType.ABORT
@@ -78,7 +78,7 @@ async def test_abort_if_no_credentials(hass: UniversalAssistant) -> None:
     "current_request_with_host", "setup_credentials", "mock_setup_entry"
 )
 async def test_full_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -110,7 +110,7 @@ async def test_full_flow(
     "current_request_with_host", "setup_credentials", "mock_setup_entry"
 )
 async def test_dhcp_discovery_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
 ) -> None:
@@ -138,7 +138,7 @@ async def test_dhcp_discovery_flow(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_credentials")
 async def test_already_configured(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -159,7 +159,7 @@ async def test_already_configured(
     "current_request_with_host", "setup_credentials", "mock_setup_entry"
 )
 async def test_reauth_flow(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -192,7 +192,7 @@ async def test_reauth_flow(
     "current_request_with_host", "setup_credentials", "mock_setup_entry"
 )
 async def test_reauth_unique_id_mismatch(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_config_entry: MockConfigEntry,
@@ -217,7 +217,7 @@ async def test_reauth_unique_id_mismatch(
 
 @pytest.mark.usefixtures("current_request_with_host", "setup_credentials")
 async def test_reauth_recovers_failed_entry(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     mock_yoto_client: MagicMock,
@@ -264,7 +264,7 @@ async def test_reauth_recovers_failed_entry(
 )
 @pytest.mark.usefixtures("current_request_with_host", "setup_credentials")
 async def test_invalid_access_token(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client_no_auth: ClientSessionGenerator,
     aioclient_mock: AiohttpClientMocker,
     access_token: str,

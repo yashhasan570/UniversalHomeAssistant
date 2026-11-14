@@ -4,13 +4,13 @@ from pytest_universalassistant.common import MockConfigEntry
 
 from universalassistant.components.analytics import async_devices_payload
 from universalassistant.components.wled import DOMAIN
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.setup import async_setup_component
 
 
 async def test_analytics(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test the analytics platform."""
     await async_setup_component(hass, "analytics", {})

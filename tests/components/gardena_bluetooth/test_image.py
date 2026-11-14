@@ -21,7 +21,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.gardena_bluetooth.coordinator import SEGMENTED_SCAN_COUNT
 from universalassistant.components.gardena_bluetooth.image import CONTOURS
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from . import AQUA_CONTOUR_SERVICE_INFO, setup_entry
@@ -103,7 +103,7 @@ def mock_contours(
 
 @pytest.mark.usefixtures("mock_contours")
 async def test_setup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
 ) -> None:
@@ -123,7 +123,7 @@ async def test_setup(
     ],
 )
 async def test_image_content(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     snapshot: SnapshotAssertion,
     entity_id: str,
@@ -142,7 +142,7 @@ async def test_image_content(
 
 @pytest.mark.usefixtures("mock_contours")
 async def test_image_without_contour(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
 ) -> None:
     """Test a contour slot that has no points has no image to serve."""
@@ -162,7 +162,7 @@ async def test_image_without_contour(
 
 @pytest.mark.usefixtures("mock_contours")
 async def test_contour_cleared_after_being_present(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_read_char_raw: dict[str, bytes | Exception],
     scan_step: Callable[[], Awaitable[None]],
@@ -195,7 +195,7 @@ async def test_contour_cleared_after_being_present(
 
 
 async def test_active_contour_follows_position(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_contours: dict[str, bytes | Exception],
     scan_step: Callable[[], Awaitable[None]],
@@ -227,7 +227,7 @@ async def test_active_contour_follows_position(
 
 @pytest.mark.usefixtures("mock_contours")
 async def test_active_contour_idle_drops_spray(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_read_char_raw: dict[str, bytes | Exception],
     scan_step: Callable[[], Awaitable[None]],
@@ -253,7 +253,7 @@ async def test_active_contour_idle_drops_spray(
 
 @pytest.mark.usefixtures("mock_contours")
 async def test_contour_refresh(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_client: Mock,
     scan_step: Callable[[], Awaitable[None]],
 ) -> None:
@@ -274,7 +274,7 @@ async def test_contour_refresh(
 
 
 async def test_contour_read_failure(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     hass_client: ClientSessionGenerator,
     mock_contours: dict[str, bytes | Exception],
 ) -> None:

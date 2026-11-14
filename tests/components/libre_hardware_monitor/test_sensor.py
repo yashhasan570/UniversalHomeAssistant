@@ -56,7 +56,7 @@ from universalassistant.const import (
     UnitOfTime,
     UnitOfVolumeFlowRate,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr, entity_registry as er
 from universalassistant.helpers.device_registry import DeviceEntry
 
@@ -130,7 +130,7 @@ def _get_entity_id(
 
 
 async def _async_poll(
-    hass: UniversalAssistant, freezer: FrozenDateTimeFactory, times: int = 1
+    hass: __HAC_KEEP__, freezer: FrozenDateTimeFactory, times: int = 1
 ) -> None:
     """Advance time by the given number of update intervals."""
     for _ in range(times):
@@ -140,7 +140,7 @@ async def _async_poll(
 
 
 async def _async_setup_and_remove_gpu(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     device_registry: dr.DeviceRegistry,
@@ -166,7 +166,7 @@ async def _async_setup_and_remove_gpu(
 
 
 async def test_sensors_are_created(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -301,7 +301,7 @@ async def test_sensors_are_created(
     ],
 )
 async def test_sensor_device_class_mapping(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -331,7 +331,7 @@ async def test_sensor_device_class_mapping(
 
 
 async def test_min_max_follow_selected_conductivity_unit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -376,7 +376,7 @@ async def test_min_max_follow_selected_conductivity_unit(
     ],
 )
 async def test_sensors_go_unavailable_on_error_and_recover(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -403,7 +403,7 @@ async def test_sensors_go_unavailable_on_error_and_recover(
 
 
 async def test_sensor_invalid_auth_after_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -419,7 +419,7 @@ async def test_sensor_invalid_auth_after_update(
 
 
 async def test_sensor_invalid_auth_during_startup(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
 ) -> None:
@@ -443,7 +443,7 @@ async def test_sensor_invalid_auth_during_startup(
     ],
 )
 async def test_sensors_are_updated(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -469,7 +469,7 @@ async def test_sensors_are_updated(
 
 
 async def test_integration_dynamically_adds_new_devices(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_lhm_client: AsyncMock,
@@ -506,7 +506,7 @@ async def test_integration_dynamically_adds_new_devices(
 
 
 async def test_new_sensor_of_known_device_is_added(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -534,7 +534,7 @@ async def test_new_sensor_of_known_device_is_added(
 
 
 async def test_missing_sensor_is_removed_after_grace_period(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -571,7 +571,7 @@ async def test_missing_sensor_is_removed_after_grace_period(
 
 
 async def test_sensor_returning_within_grace_period_is_kept(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -599,7 +599,7 @@ async def test_sensor_returning_within_grace_period_is_kept(
 
 
 async def test_failed_updates_do_not_count_towards_removal(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -632,7 +632,7 @@ async def test_failed_updates_do_not_count_towards_removal(
 
 
 async def test_stale_registry_entry_is_removed_after_grace_period(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -659,7 +659,7 @@ async def test_stale_registry_entry_is_removed_after_grace_period(
 
 
 async def test_missing_device_is_removed_after_grace_period(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -681,7 +681,7 @@ async def test_missing_device_is_removed_after_grace_period(
 
 
 async def test_device_returning_within_grace_period_is_kept(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -701,7 +701,7 @@ async def test_device_returning_within_grace_period_is_kept(
 
 
 async def test_sensors_are_added_again_when_removed_device_returns(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     device_registry: dr.DeviceRegistry,
     mock_lhm_client: AsyncMock,
@@ -726,7 +726,7 @@ async def test_sensors_are_added_again_when_removed_device_returns(
 
 
 async def test_stale_device_is_removed_after_grace_period(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
     device_registry: dr.DeviceRegistry,
@@ -758,7 +758,7 @@ async def test_stale_device_is_removed_after_grace_period(
 
 
 async def test_renamed_sensor_takes_over_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -800,7 +800,7 @@ async def test_renamed_sensor_takes_over_entity_id(
 
 
 async def test_sensor_renamed_while_ha_was_stopped_takes_over_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -837,7 +837,7 @@ async def test_sensor_renamed_while_ha_was_stopped_takes_over_entity_id(
 
 
 async def test_renamed_sensors_of_identical_devices_keep_their_entity_ids(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,
@@ -898,7 +898,7 @@ async def test_renamed_sensors_of_identical_devices_keep_their_entity_ids(
 
 
 async def test_new_identical_device_does_not_take_replaced_entity_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     mock_lhm_client: AsyncMock,
     mock_config_entry: MockConfigEntry,

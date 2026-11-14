@@ -21,7 +21,7 @@ from universalassistant.components.forecast_solar.const import (
 )
 from universalassistant.config_entries import ConfigSubentryData
 from universalassistant.const import CONF_API_KEY, CONF_LATITUDE, CONF_LONGITUDE
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.util import dt as dt_util
 
 
@@ -77,7 +77,7 @@ def mock_config_entry(api_key_present: bool) -> MockConfigEntry:
 
 
 @pytest.fixture
-def mock_forecast_solar_class(hass: UniversalAssistant) -> Generator[MagicMock]:
+def mock_forecast_solar_class(hass: __HAC_KEEP__) -> Generator[MagicMock]:
     """Return the mocked Forecast.Solar client class.
 
     hass fixture included because it sets the time zone.
@@ -140,7 +140,7 @@ def mock_forecast_solar(mock_forecast_solar_class: MagicMock) -> MagicMock:
 
 @pytest.fixture
 async def init_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_config_entry: MockConfigEntry,
     mock_forecast_solar: MagicMock,
 ) -> MockConfigEntry:

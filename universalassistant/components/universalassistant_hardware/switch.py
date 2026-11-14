@@ -1,4 +1,4 @@
-"""Universal Universal Home Assistant Hardware base beta firmware switch entity."""
+"""__HA_KEEP__ Hardware base beta firmware switch entity."""
 
 import logging
 from typing import Any, override

@@ -1,1 +1,1 @@
-"""Tests for Universal Universal Home Assistant template extensions."""
+"""Tests for __HA_KEEP__ template extensions."""

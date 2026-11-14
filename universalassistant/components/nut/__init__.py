@@ -16,8 +16,8 @@ from universalassistant.const import (
     CONF_USERNAME,
     EVENT_HOMEASSISTANT_STOP,
 )
-from universalassistant.core import Event, UniversalAssistant, callback
-from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.core import Event, __HAC_KEEP__, callback
+from universalassistant.exceptions import __HAC_KEEP__Error
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC, format_mac
 
@@ -57,7 +57,7 @@ def outlet_numbers_from_status(status: dict[str, str]) -> set[int]:
     return outlet_numbers
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: NutConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: NutConfigEntry) -> None:
     """Set up Network UPS Tools (NUT) from a config entry."""
 
     # strip out the stale options CONF_RESOURCES,
@@ -160,13 +160,13 @@ async def async_setup_entry(hass: UniversalAssistant, entry: NutConfigEntry) -> 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: NutConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: NutConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
 
 
 async def async_remove_config_entry_device(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: NutConfigEntry,
     device_entry: dr.AnyDeviceEntry,
 ) -> bool:
@@ -359,7 +359,7 @@ class PyNUTData:
         try:
             await self._client.run_command(self._alias, command_name)
         except NUTError as err:
-            raise UniversalAssistantError(
+            raise __HAC_KEEP__Error(
                 translation_domain=DOMAIN,
                 translation_key="nut_command_error",
                 translation_placeholders={

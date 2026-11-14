@@ -3,7 +3,7 @@
 import asyncio
 from collections.abc import Callable
 
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 from universalassistant.helpers.event import async_call_later
 from universalassistant.util.uuid import random_uuid_hex
 
@@ -15,7 +15,7 @@ class PushChannel:
 
     def __init__(
         self,
-        hass: UniversalAssistant,
+        hass: __HAC_KEEP__,
         webhook_id: str,
         support_confirm: bool,
         send_message: Callable[[dict], None],

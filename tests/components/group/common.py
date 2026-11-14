@@ -5,22 +5,22 @@ components. Instead call the service directly.
 """
 
 from universalassistant.components.group import DOMAIN, GroupService, GroupServiceArgument
-from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core import __HAC_KEEP__, callback
 
 
-def reload(hass: UniversalAssistant) -> None:
+def reload(hass: __HAC_KEEP__) -> None:
     """Reload the automation from config."""
     hass.add_job(async_reload, hass)
 
 
 @callback
-def async_reload(hass: UniversalAssistant) -> None:
+def async_reload(hass: __HAC_KEEP__) -> None:
     """Reload the automation from config."""
     hass.async_create_task(hass.services.async_call(DOMAIN, GroupService.RELOAD))
 
 
 def set_group(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     object_id: str,
     name: str | None = None,
     entity_ids: list[str] | None = None,
@@ -41,7 +41,7 @@ def set_group(
 
 @callback
 def async_set_group(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     object_id: str,
     name: str | None = None,
     entity_ids: list[str] | None = None,
@@ -65,7 +65,7 @@ def async_set_group(
 
 
 @callback
-def async_remove(hass: UniversalAssistant, object_id: str) -> None:
+def async_remove(hass: __HAC_KEEP__, object_id: str) -> None:
     """Remove a user group."""
     data = {GroupServiceArgument.OBJECT_ID: object_id}
     hass.async_create_task(hass.services.async_call(DOMAIN, GroupService.REMOVE, data))

@@ -9,7 +9,7 @@ from syrupy.assertion import SnapshotAssertion
 from universalassistant.components.v2c.const import DOMAIN
 from universalassistant.components.v2c.sensor import _METER_ERROR_OPTIONS
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er, issue_registry as ir
 
 from . import init_integration
@@ -17,7 +17,7 @@ from . import init_integration
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     snapshot: SnapshotAssertion,
     mock_v2c_client: AsyncMock,
@@ -69,7 +69,7 @@ async def test_sensor(
 
 @pytest.mark.usefixtures("mock_v2c_client")
 async def test_deprecated_voltage_sensor_issue(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     entity_registry: er.EntityRegistry,
     issue_registry: ir.IssueRegistry,
     mock_config_entry: MockConfigEntry,

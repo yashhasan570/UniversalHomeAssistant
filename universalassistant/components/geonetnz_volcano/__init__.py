@@ -15,7 +15,7 @@ from universalassistant.const import (
     CONF_UNIT_SYSTEM,
     UnitOfLength,
 )
-from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, UniversalAssistant, callback
+from universalassistant.core import DOMAIN as HOMEASSISTANT_DOMAIN, __HAC_KEEP__, callback
 from universalassistant.helpers import aiohttp_client, config_validation as cv
 from universalassistant.helpers.dispatcher import async_dispatcher_send
 from universalassistant.helpers.event import async_track_time_interval
@@ -55,7 +55,7 @@ CONFIG_SCHEMA = probatio.Schema(
 type GeonetnzVolcanoConfigEntry = ConfigEntry[GeonetnzVolcanoFeedEntityManager]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the GeoNet NZ Volcano component."""
     if DOMAIN not in config:
         return True
@@ -98,7 +98,7 @@ async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
 
 
 async def async_setup_entry(
-    hass: UniversalAssistant, config_entry: GeonetnzVolcanoConfigEntry
+    hass: __HAC_KEEP__, config_entry: GeonetnzVolcanoConfigEntry
 ) -> None:
     """Set up the GeoNet NZ Volcano component as config entry."""
     radius = config_entry.data[CONF_RADIUS]
@@ -115,7 +115,7 @@ async def async_setup_entry(
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: GeonetnzVolcanoConfigEntry
+    hass: __HAC_KEEP__, entry: GeonetnzVolcanoConfigEntry
 ) -> None:
     """Unload an GeoNet NZ Volcano component config entry."""
     await entry.runtime_data.async_stop()

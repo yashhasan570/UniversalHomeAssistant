@@ -5,7 +5,7 @@ import logging
 import probatio
 
 from universalassistant.components import frontend
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.typing import ConfigType
 
@@ -78,7 +78,7 @@ CONFIG_SCHEMA = probatio.Schema(
 
 
 async def async_register_panel(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     # The url to serve the panel
     frontend_url_path: str,
     # The webcomponent name that loads your panel
@@ -102,7 +102,7 @@ async def async_register_panel(
     # needs the domain of the integration
     config_panel_domain: str | None = None,
     # If your panel handles the safe area insets itself, opting out of the
-    # padding Universal Universal Home Assistant would otherwise add around it
+    # padding __HA_KEEP__ would otherwise add around it
     handle_safe_area: bool = DEFAULT_HANDLE_SAFE_AREA,
 ) -> None:
     """Register a new custom panel."""
@@ -144,7 +144,7 @@ async def async_register_panel(
     )
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Initialize custom panel."""
     if DOMAIN not in config:
         return True

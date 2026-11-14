@@ -14,7 +14,7 @@ from universalassistant.const import (
     CONF_VERIFY_SSL,
     CONTENT_TYPE_JSON,
 )
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 URL = "http://192.168.1.189:7887/test"
 API_KEY = "MOCK_API_KEY"
@@ -156,7 +156,7 @@ def mock_connection_server_error(
 
 
 async def setup_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     aioclient_mock: AiohttpClientMocker,
     url: str = URL,
     api_key: str = API_KEY,
@@ -168,7 +168,7 @@ async def setup_integration(
     single_return: bool = False,
     root_folder_fixture: str | None = None,
 ) -> MockConfigEntry:
-    """Set up the radarr integration in Universal Universal Home Assistant."""
+    """Set up the radarr integration in __HA_KEEP__."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         unique_id=unique_id,
@@ -210,8 +210,8 @@ def patch_async_setup_entry(return_value=None):
     )
 
 
-def create_entry(hass: UniversalAssistant) -> MockConfigEntry:
-    """Create Radarr entry in Universal Universal Home Assistant."""
+def create_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Create Radarr entry in __HA_KEEP__."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={

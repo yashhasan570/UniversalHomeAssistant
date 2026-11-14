@@ -36,7 +36,7 @@ from universalassistant.components.motioneye.const import (
 )
 from universalassistant.components.webhook import URL_WEBHOOK_PATH
 from universalassistant.const import ATTR_DEVICE_ID, CONF_URL, CONF_WEBHOOK_ID
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import device_registry as dr
 from universalassistant.helpers.network import NoURLAvailableError
 from universalassistant.setup import async_setup_component
@@ -71,7 +71,7 @@ WEB_HOOK_FILE_STORED_QUERY_STRING = (
 
 
 async def test_setup_camera_without_webhook(
-    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+    hass: __HAC_KEEP__, device_registry: dr.DeviceRegistry
 ) -> None:
     """Test a camera with no webhook."""
     client = create_mock_motioneye_client()
@@ -102,7 +102,7 @@ async def test_setup_camera_without_webhook(
 
 
 async def test_setup_camera_with_wrong_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Test camera with wrong web hook."""
@@ -158,7 +158,7 @@ async def test_setup_camera_with_wrong_webhook(
 
 
 async def test_setup_camera_with_old_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Verify that webhooks are overwritten if they are from this integration.
@@ -211,7 +211,7 @@ async def test_setup_camera_with_old_webhook(
 
 
 async def test_setup_camera_with_correct_webhook(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
 ) -> None:
     """Verify that webhooks are not overwritten if they are already correct."""
@@ -258,9 +258,9 @@ async def test_setup_camera_with_correct_webhook(
 
 
 async def test_setup_camera_with_no_universal_assistant_urls(
-    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+    hass: __HAC_KEEP__, caplog: pytest.LogCaptureFixture
 ) -> None:
-    """Verify setup works without Universal Universal Home Assistant internal/external URLs."""
+    """Verify setup works without __HA_KEEP__ internal/external URLs."""
 
     client = create_mock_motioneye_client()
     config_entry = create_mock_motioneye_config_entry(hass, data={CONF_URL: TEST_URL})
@@ -275,7 +275,7 @@ async def test_setup_camera_with_no_universal_assistant_urls(
         )
 
     # Should log a warning ...
-    assert "Unable to get Universal Universal Home Assistant URL" in caplog.text
+    assert "Unable to get __HA_KEEP__ URL" in caplog.text
 
     # ... should not set callbacks in the camera ...
     assert not client.async_set_camera.called
@@ -286,7 +286,7 @@ async def test_setup_camera_with_no_universal_assistant_urls(
 
 
 async def test_good_query(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -331,7 +331,7 @@ async def test_good_query(
 
 
 async def test_bad_query_missing_parameters(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test a query with missing parameters."""
     await async_setup_component(hass, "http", {"http": {}})
@@ -346,7 +346,7 @@ async def test_bad_query_missing_parameters(
 
 
 async def test_bad_query_no_such_device(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test a correct query with incorrect device."""
     await async_setup_component(hass, "http", {"http": {}})
@@ -365,7 +365,7 @@ async def test_bad_query_no_such_device(
 
 
 async def test_bad_query_cannot_decode(
-    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+    hass: __HAC_KEEP__, hass_client_no_auth: ClientSessionGenerator
 ) -> None:
     """Test a correct query with incorrect device."""
     await async_setup_component(hass, "http", {"http": {}})
@@ -386,7 +386,7 @@ async def test_bad_query_cannot_decode(
 
 
 async def test_event_media_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     device_registry: dr.DeviceRegistry,
     hass_client_no_auth: ClientSessionGenerator,
 ) -> None:
@@ -489,7 +489,7 @@ async def test_event_media_data(
         == f"media-source://motioneye/{TEST_CONFIG_ENTRY_ID}#{device.id}#images#/dir/two"
     )
 
-    # Test: No Universal Universal Home Assistant URL available.
+    # Test: No __HA_KEEP__ URL available.
     client.is_file_type_image = Mock(return_value=False)
     with patch(
         "universalassistant.components.motioneye.get_url", side_effect=NoURLAvailableError

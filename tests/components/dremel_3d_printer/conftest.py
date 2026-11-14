@@ -9,22 +9,22 @@ import requests_mock
 
 from universalassistant.components.dremel_3d_printer.const import DOMAIN
 from universalassistant.const import CONF_HOST
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 HOST = "1.2.3.4"
 CONF_DATA = {CONF_HOST: HOST}
 
 
-def create_entry(hass: UniversalAssistant) -> MockConfigEntry:
-    """Create fixture for adding config entry in Universal Universal Home Assistant."""
+def create_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Create fixture for adding config entry in __HA_KEEP__."""
     entry = MockConfigEntry(domain=DOMAIN, data=CONF_DATA, unique_id="123456789")
     entry.add_to_hass(hass)
     return entry
 
 
 @pytest.fixture
-def config_entry(hass: UniversalAssistant) -> MockConfigEntry:
-    """Add config entry in Universal Universal Home Assistant."""
+def config_entry(hass: __HAC_KEEP__) -> MockConfigEntry:
+    """Add config entry in __HA_KEEP__."""
     return create_entry(hass)
 
 

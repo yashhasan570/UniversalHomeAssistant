@@ -80,7 +80,7 @@
         },
         "data_description": {
           "custom_attributes": "Add any custom or calculated attributes here. These will be added to the device attributes",
-          "events": "Selected events will be fired in Universal Universal Home Assistant",
+          "events": "Selected events will be fired in __HA_KEEP__",
           "max_accuracy": "Any position reports with accuracy higher than this value will be ignored",
           "skip_accuracy_filter_for": "Attributes defined here will bypass the accuracy filter if they are present in the update"
         }

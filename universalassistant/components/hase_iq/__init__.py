@@ -1,14 +1,14 @@
 """The Hase iQ integration."""
 
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 
 from .coordinator import HaseIQConfigEntry, HaseIQCoordinator
 
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: HaseIQConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: HaseIQConfigEntry) -> None:
     """Set up Hase iQ from a config entry."""
     coordinator = HaseIQCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
@@ -18,6 +18,6 @@ async def async_setup_entry(hass: UniversalAssistant, entry: HaseIQConfigEntry) 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
 
-async def async_unload_entry(hass: UniversalAssistant, entry: HaseIQConfigEntry) -> None:
+async def async_unload_entry(hass: __HAC_KEEP__, entry: HaseIQConfigEntry) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

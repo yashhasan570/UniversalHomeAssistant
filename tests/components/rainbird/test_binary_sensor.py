@@ -8,7 +8,7 @@ from pytest_universalassistant.test_util.aiohttp import AiohttpClientMockRespons
 
 from universalassistant.config_entries import ConfigEntryState
 from universalassistant.const import Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 
 from .conftest import (
@@ -27,7 +27,7 @@ def platforms() -> list[Platform]:
 
 @pytest.fixture(autouse=True)
 async def setup_config_entry(
-    hass: UniversalAssistant, config_entry: MockConfigEntry
+    hass: __HAC_KEEP__, config_entry: MockConfigEntry
 ) -> list[Platform]:
     """Fixture to setup the config entry."""
     await hass.config_entries.async_setup(config_entry.entry_id)
@@ -39,7 +39,7 @@ async def setup_config_entry(
     [(RAIN_SENSOR_OFF, "off"), (RAIN_SENSOR_ON, "on")],
 )
 async def test_rainsensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     responses: list[AiohttpClientMockResponse],
     entity_registry: er.EntityRegistry,
     expected_state: bool,
@@ -61,7 +61,7 @@ async def test_rainsensor(
     ],
 )
 async def test_no_unique_id(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     responses: list[AiohttpClientMockResponse],
     entity_registry: er.EntityRegistry,
     config_entry: MockConfigEntry,

@@ -28,7 +28,7 @@ from universalassistant.components.enphase_envoy.coordinator import SCAN_INTERVA
 from universalassistant.components.enphase_envoy.sensor import aggregate_acb_sleep_state
 from universalassistant.components.sensor import SensorStateClass
 from universalassistant.const import STATE_UNKNOWN, UnitOfTemperature
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.helpers import entity_registry as er
 from universalassistant.util import dt as dt_util
 from universalassistant.util.unit_conversion import TemperatureConverter
@@ -52,7 +52,7 @@ from .conftest import _load_json_2_meter_data, _load_json_2_production_data
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     snapshot: SnapshotAssertion,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
@@ -87,7 +87,7 @@ PRODUCTION_NAMES: tuple[str, ...] = (
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_production_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -126,7 +126,7 @@ PRODUCTION_PHASE_NAMES: list[str] = [
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_production_phase_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -177,7 +177,7 @@ CONSUMPTION_NAMES: tuple[str, ...] = (
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_consumption_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -221,7 +221,7 @@ NET_CONSUMPTION_NAMES: tuple[str, ...] = (
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_net_consumption_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -259,7 +259,7 @@ CONSUMPTION_PHASE_NAMES: list[str] = [
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_consumption_phase_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -304,7 +304,7 @@ NET_CONSUMPTION_PHASE_NAMES: list[str] = [
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_net_consumption_phase_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -345,7 +345,7 @@ CT_PRODUCTION_NAMES_STR = ("metering_status_production_ct",)
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_production_ct_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
 ) -> None:
@@ -396,7 +396,7 @@ CT_PRODUCTION_NAMES_STR_PHASE = [
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_production_ct_phase_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -460,7 +460,7 @@ CT_CONSUMPTION_NAMES_STR: tuple[str, ...] = ("metering_status_net_consumption_ct
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_consumption_ct_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -518,7 +518,7 @@ CT_CONSUMPTION_NAMES_STR_PHASE = [
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_consumption_ct_phase_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -592,7 +592,7 @@ CT_STORAGE_NAMES_STR = ("metering_status_storage_ct",)
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_storage_ct_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -646,7 +646,7 @@ CT_STORAGE_NAMES_STR_PHASE = [
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_storage_ct_phase_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -723,7 +723,7 @@ CT_NAMES_STR = ("metering_status_<cttype>_ct",)
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_ct_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     cttype: CtType,
@@ -810,7 +810,7 @@ CT_NAMES_STR_PHASE = [
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_ct_phase_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     cttype: CtType,
@@ -885,7 +885,7 @@ async def test_sensor_ct_phase_data(
     indirect=["mock_envoy"],
 )
 async def test_sensor_all_phase_entities_disabled_by_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -919,7 +919,7 @@ async def test_sensor_all_phase_entities_disabled_by_integration(
     indirect=["mock_envoy"],
 )
 async def test_sensor_storage_phase_disabled_by_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
     mock_envoy: AsyncMock,
@@ -952,7 +952,7 @@ async def test_sensor_storage_phase_disabled_by_integration(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_inverter_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -980,7 +980,7 @@ async def test_sensor_inverter_data(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_inverter_detailed_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -1048,7 +1048,7 @@ async def test_sensor_inverter_detailed_data(
     indirect=["mock_envoy"],
 )
 async def test_sensor_inverter_disabled_by_integration(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     entity_registry: er.EntityRegistry,
@@ -1089,7 +1089,7 @@ async def test_sensor_inverter_disabled_by_integration(
     indirect=["mock_envoy"],
 )
 async def test_sensor_encharge_aggregate_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -1131,7 +1131,7 @@ async def test_sensor_encharge_aggregate_data(
     indirect=["mock_envoy"],
 )
 async def test_sensor_encharge_enpower_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
 ) -> None:
@@ -1187,7 +1187,7 @@ async def test_sensor_encharge_enpower_data(
     indirect=["mock_envoy"],
 )
 async def test_sensor_encharge_power_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
 ) -> None:
@@ -1273,7 +1273,7 @@ ACB_POWER_STR_NAMES: tuple[str, ...] = ("battery_state",)
     indirect=["mock_envoy"],
 )
 async def test_sensor_acb_power_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
 ) -> None:
@@ -1322,7 +1322,7 @@ AGGREGATED_ACB_BATTERY_NAMES: tuple[str, ...] = ("available_acb_battery_energy",
     indirect=["mock_envoy"],
 )
 async def test_sensor_aggegated_battery_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
 ) -> None:
@@ -1381,7 +1381,7 @@ def integration_disabled_entities(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_missing_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -1474,7 +1474,7 @@ def reference_fixture(fixture: str) -> EnvoyData:
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_load_none_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     ref_fixture: str,
@@ -1549,7 +1549,7 @@ async def test_sensor_load_none_data(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_none_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -1613,7 +1613,7 @@ async def test_sensor_none_data(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_phase_values_none_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -1667,7 +1667,7 @@ async def test_sensor_phase_values_none_data(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_phase_values_missing_data(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -1720,7 +1720,7 @@ async def test_sensor_phase_values_missing_data(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_fw_update(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -1759,7 +1759,7 @@ async def test_fw_update(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_no_state_class_warnings(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     entity_registry: er.EntityRegistry,
@@ -1829,7 +1829,7 @@ def test_aggregate_acb_sleep_state(
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_acb_battery_removed_from_inventory(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -1855,7 +1855,7 @@ async def test_acb_battery_removed_from_inventory(
 @pytest.mark.parametrize("mock_envoy", ["envoy_acb_batt"], indirect=True)
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_acb_inventory_becomes_none(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     config_entry: MockConfigEntry,
     mock_envoy: AsyncMock,
     freezer: FrozenDateTimeFactory,
@@ -1896,7 +1896,7 @@ async def test_acb_inventory_becomes_none(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_daily_production_consumption_upper_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,
@@ -1970,7 +1970,7 @@ async def test_sensor_daily_production_consumption_upper_limit(
 )
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")
 async def test_sensor_daily_production_consumption_phase_upper_limit(
-    hass: UniversalAssistant,
+    hass: __HAC_KEEP__,
     mock_envoy: AsyncMock,
     config_entry: MockConfigEntry,
     freezer: FrozenDateTimeFactory,

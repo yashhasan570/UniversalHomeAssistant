@@ -3,7 +3,7 @@
 from unifi_access_api import ApiAuthError, ApiConnectionError, UnifiAccessApiClient
 
 from universalassistant.const import CONF_API_TOKEN, CONF_HOST, CONF_VERIFY_SSL, Platform
-from universalassistant.core import UniversalAssistant
+from universalassistant.core import __HAC_KEEP__
 from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from universalassistant.helpers import config_validation as cv
 from universalassistant.helpers.aiohttp_client import async_get_clientsession
@@ -27,13 +27,13 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+async def async_setup(hass: __HAC_KEEP__, config: ConfigType) -> bool:
     """Set up the UniFi Access integration."""
     async_setup_services(hass)
     return True
 
 
-async def async_setup_entry(hass: UniversalAssistant, entry: UnifiAccessConfigEntry) -> None:
+async def async_setup_entry(hass: __HAC_KEEP__, entry: UnifiAccessConfigEntry) -> None:
     """Set up UniFi Access from a config entry."""
     session = async_get_clientsession(hass, verify_ssl=entry.data[CONF_VERIFY_SSL])
 
@@ -73,7 +73,7 @@ async def async_setup_entry(hass: UniversalAssistant, entry: UnifiAccessConfigEn
 
 
 async def async_unload_entry(
-    hass: UniversalAssistant, entry: UnifiAccessConfigEntry
+    hass: __HAC_KEEP__, entry: UnifiAccessConfigEntry
 ) -> None:
     """Unload a config entry."""
     await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
